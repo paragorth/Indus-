@@ -25,3 +25,23 @@ What's been found, and what each could contribute as an anchor. Sources are web-
 2. **Gulf seal catalogue.** List every Gulf-type seal with Indus signs (Laursen 2010; Kjærum's Failaka catalogue), with find-spot and date, and cross-check against Dilmunite names in cuneiform (Old Babylonian Ur and Dilmun texts; the CDLI dump already in hand).
 
 Both need hosts this environment blocks: `hatamti-elam.uliege.be`, `zenodo.org`, `www.academia.edu`, `onlinelibrary.wiley.com`, `www.tandfonline.com`, `archive.org`.
+
+## Objects not tagged Indus, in museum open data (Met Open Access, searched 25 Sept 2026)
+
+Method: all 10,854 Met objects dated 3300–1500 BC. Kept the Ancient Near Eastern and Asian departments, dropped anything labelled Indus or Harappan, and searched titles, object names and tags for Indus motifs. That left 64 matches (`data/derived/met-non-indus-motif-matches.json`). Titles are short, so this finds labelled motifs only.
+
+**Motifs specific to South Asia, on non-Indus objects:**
+| Met no. | object | date | place | why it matters |
+|---|---|---|---|---|
+| [2014.717](http://www.metmuseum.org/art/collection/search/329087) | Chlorite vessel with calcite inlay: **two zebu** | 2600–2350 BC | "probably Persian Gulf" | The humped zebu is South Asian. Chlorite with inlay is the Iranian "intercultural style" (Jiroft / Tepe Yahya). An Indus animal on a Gulf/Iranian object. |
+| [2015.789](http://www.metmuseum.org/art/collection/search/328186) | Copper-alloy plate: **reclining zebu** | late 3rd–early 2nd mill. BC | Eastern Iran | Zebu again, in the Helmand / Baluchistan corridor. |
+| [1989.281.43](http://www.metmuseum.org/art/collection/search/327430) | Steatite plaque with gold foil: **tiger** | late 3rd–early 2nd mill. BC | Bactria-Margiana (Oxus) | The tiger is an Indus animal (tiger-strangler seals, the "horned tiger"), not a Central Asian one. |
+| [1983.535.92](http://www.metmuseum.org/art/collection/search/326410) | Compartmented copper stamp seal | late 3rd–early 2nd mill. BC | Bactria-Margiana | The compartmented seal type spans Baluchistan, the Helmand, the Oxus and the Indus. |
+| [1996.353](http://www.metmuseum.org/art/collection/search/327527); [1989.281.2](http://www.metmuseum.org/art/collection/search/327391) | Human-headed **bison**; bison figure | c. 2080 BC; 3rd mill. BC | Mesopotamia / Syria | The gaur is the "short-horned bull" of the western-trade seals. |
+| [2015.505](http://www.metmuseum.org/art/collection/search/39126) | Bronze | 2000–1750 BC | Kausambi, India | Gangetic, late-/post-Harappan horizon. Catalogued as "India", not Indus. |
+
+**Shared but generic motifs** (Mesopotamia, Anatolia, Syria): bull-men and heroes grasping animals (master of animals, 11 objects), scorpions (4), bull processions and bull heads (about 30). These match the Indus tiger-strangler and horned-figure scenes in composition, but they are native Mesopotamian themes, so they carry no specific Indus signal.
+
+**Absent:** no unicorn, elephant, rhinoceros or gharial on any non-Indus Met object of the period. In the Met's holdings the most diagnostic Indus animals stay inside the Indus sphere, and only the zebu and the tiger travel. This fits the Gulf-seal pattern: abroad, the gaur/short-horned bull replaces the unicorn.
+
+**None of these objects carries writing**, so none can fix a sign value. Their use is mapping where Indus iconography went: the Gulf, eastern Iran and the Oxus. That is also where inscribed objects from the same workshops, the Gulf seals and the Linear Elamite sites, might carry names.
