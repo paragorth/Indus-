@@ -190,3 +190,15 @@ A person sign next to a number appears in 10 of 56 texts of this tradition vs 6 
 The tradition also has its own formulae, never seen at home (STRATEGIES S103): **415-803-1-…** opens a Gulf-type seal from Ur (415-803-1-328-4-2) and one attributed to Dilmun (415-803-1-717-354); "1-90" and "55-90" recur at two find-spots each.
 
 **Consequence for anchor-hunting.** The texts most likely to contain non-Harappan (Gulf, Dilmun, Mesopotamian) personal names are the ~42 round and cylinder seals, wherever they were found. They are the set to check against names of Dilmunites and Meluhhans attested in cuneiform, if a phonetic hypothesis ever becomes testable. Their residues are short (S53), which argues for word-signs rather than syllabic spelling.
+
+## 19. Where an outside anchor could still bite (after STRATEGIES S107–S121)
+
+Statistical key-fitting is ruled out: it cannot recover even a planted, known language here (S113–S121). Readings can only come sign by sign from outside. These are the places in the corpus where an outside fact could attach, ranked by how directly it could be checked:
+
+1. **Round (Gulf-type) seals abroad** (~20 texts; S46, S74, S98b–S104). They use the "1 + person" unit beside unique name-like strings (716-350, 255-368, 160-384-133, 328-4-2, 717-354) and the formula 415-803-1. If a Gulf-type seal with an Indus text is ever found together with a cuneiform tag or a Dilmun seal naming the same owner, this is where a name would pair with signs.
+2. **Sealed goods between cities** (S81, S82; identity directory). 817-2-48-740 is on 10 Lothal tags and a Mohenjo-daro seal. A Mesopotamian or Gulf find of the same impression would date and place the issuer.
+3. **Public inscriptions**: the Dholavira gate text (S80), whose first unit 820-611 recurs at Lothal and Harappa. A second gate or monumental text elsewhere would test whether it names a place.
+4. **Copper tablets and moulded captions** (S56, MYTHS §2). These are fixed text + image pairs, if a myth or deity name ever becomes independently attested.
+5. **Number-name compounds** (S23, S71): "7 + W585", "3 + arrow", "2 + fish", "3 + burden-carrier". Fixed numbers are the most culture-specific items (seven-groups, star-names). An outside list of numbered groups with dates or seasons could be tested against them.
+
+None of these can be pursued further with the data available here.
