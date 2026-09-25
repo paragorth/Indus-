@@ -357,3 +357,5 @@ fixed-key / verdict: z_fixed=8.3466, pass_fixed=True, fakefit_z_fixed=4.9163, fa
 
 **gap-over-fake = +3.53 SD -> PASS**
 
+## Strategy 8b: Sumerian cross-language baselines (2026-09-25 21:56:33Z)
+
