@@ -36,3 +36,14 @@ fixed-key / verdict: z_fixed=9.3935, pass_fixed=True, fakefit_z_fixed=6.6879, fa
 
 **gap-over-fake = +5.31 SD -> PASS**
 
+### 2026-09-25 00:08:36Z  `control-planted-tamil-full-80-noise0.4`  (control)
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 74s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1289 | 0.0066 | 0.1126 | 0.0782 | 0.0055 | 9.2427 | 0.1420 | 1647 | 1145 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=8.4025, pass_fixed=True, fakefit_z_fixed=7.0309, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +9.24 SD -> PASS**
+
