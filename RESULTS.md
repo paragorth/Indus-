@@ -102,3 +102,14 @@ fixed-key / verdict: z_fixed=9.7940, pass_fixed=True, fakefit_z_fixed=8.6955, fa
 
 **gap-over-fake = +6.11 SD -> PASS**
 
+### 2026-09-25 00:23:16Z  `control-planted-tamil-logo-150-noise0.2`  (control)
+method: logo key, tamil, top-150 signs, 20 real restarts + 30 fake-lexicon searches, 60000 SA iterations each, 37s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2019 | 0.0144 | 0.1487 | 0.2401 | 0.0229 | -1.6688 | 0.2204 | 1453 | 1672 | 20 | 30 |
+
+fixed-key / verdict: PASS=False
+
+**gap-over-fake = -1.67 SD -> fail**
+
