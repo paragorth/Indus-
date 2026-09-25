@@ -132,6 +132,7 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 | Finding | Rows | Strength | Replicated? |
 |---|---|---|---|
 | Statistical key-fitting cannot read a planted or real known language in this setting (wrong keys always beat the true key) | S107, S113–S123 | Decisive | 8 objective, data and vocabulary variants |
+| With a small 80-sign syllabary the true key becomes the optimum, so the barrier is Indus's ~400-sign inventory used in 4–5-sign texts | S124 | Strong (contrast control) | 3 runs |
 | No candidate language (Tamil, Sanskrit, Sumerian, Akkadian, Telugu, Malayalam, Pali, Santali) stands out | S8, S8b, S31, S55 | Solid null | 2 corpora |
 | Frame grammar (opener, marker, middle, closer, suffix) with non-local constraints beyond bigrams | S18, S36–S38, S50, S51, S67 | Strong | IM77 + Wells; out of sample (S44); earlier in-repo work agrees |
 | Slot classes absent in planted syllabic text and Ur III legends | S37, S87, S89, S90 | Strong | Both transcriptions |
