@@ -482,3 +482,5 @@ fixed-key / verdict: z_fixed=10.5549, pass_fixed=True, fakefit_z_fixed=6.0745, f
 
 **gap-over-fake = +3.04 SD -> PASS**
 
+## Strategy 55: Telugu, Malayalam, Pali, Santali lexicons (2026-09-25 22:14:49Z)
+

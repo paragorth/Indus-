@@ -215,9 +215,10 @@ def load_file_lexicon(name):
 
 
 def load_lexicon(lang):
-    if lang in ("sumerian", "akkadian"):
-        return load_file_lexicon(lang)
-    return {"tamil": load_tamil, "sanskrit": load_sanskrit, "english": load_english}[lang]()
+    builtin = {"tamil": load_tamil, "sanskrit": load_sanskrit, "english": load_english}
+    if lang in builtin:
+        return builtin[lang]()
+    return load_file_lexicon(lang)   # sumerian, akkadian, telugu, malayalam, pali, santali, ...
 
 
 # ---------------------------------------------------------------- forms
