@@ -1,0 +1,29 @@
+{
+ "registered": "2026-09-25",
+ "basis": "STRATEGIES.md, ANCHORS.md (sections 10-17), CLEANROOM.md; data-only findings from the Yajnadevam and Mahadevan transcriptions, Laursen 2010 Fig. 11, CDLI.",
+ "corpus_requirements": "Any Indus-sign inscriptions not in data/derived/merged-corpus-reading-order.json or data/im77/: new excavations, ICIT-only texts, newly published Gulf Type seals. Deduplicate identical (site, text). Reading order first-read-first.",
+ "predictions": [
+  {"id": "R1", "name": "Repetition avoidance",
+   "statement": "In new home (Indus-valley) texts of 4-6 signs, the share with any repeated sign is <= 0.35 of the chance rate computed from the new corpus's own sign frequencies.",
+   "falsifier": "Ratio >= 0.7 (the level of readable scripts) with >= 150 texts."},
+  {"id": "R2", "name": "Foreign texts are led by person signs",
+   "statement": "In new Indus-sign texts found outside the Indus valley (Gulf, Mesopotamia, Iran, Central Asia), >= 15% begin with a person or doubled-person sign (Wells 90/91; Mahadevan 1 and its doubled forms).",
+   "falsifier": "< 5% with >= 20 new foreign texts."},
+  {"id": "R3", "name": "Person + number block abroad",
+   "statement": "In the same new foreign texts, a person/doubled-person sign directly adjacent to a stroke group occurs in >= 10%, and the stroke count varies between texts while the figure stays fixed.",
+   "falsifier": "< 2% with >= 20 new foreign texts."},
+  {"id": "R4", "name": "No home opener abroad",
+   "statement": "New foreign texts begin with a home opener (Wells 817/861/820; Mahadevan 267/391) in <= 5%.",
+   "falsifier": ">= 15% with >= 20 new foreign texts."},
+  {"id": "R5", "name": "Regional fusion of fish + arrow",
+   "statement": "Among new texts containing either the stroked fish (Wells 226) or the sequence plain fish + arrow (Wells 220-520), the share of the fused form is higher at Mohenjo-daro than at Harappa.",
+   "falsifier": "Fused share at Harappa >= fused share at Mohenjo-daro with >= 15 cases at each site."},
+  {"id": "R6", "name": "Leaf counts are not binary weights",
+   "statement": "On new two-sided tablets with a tall-stroke + leaf face, value 3 is at least as common as value 2.",
+   "falsifier": "Value 3 < half of value 2 with >= 40 leaf faces."},
+  {"id": "R7", "name": "No local place-name signs",
+   "statement": "A new site with >= 50 deduplicated seals has at most 2 signs over-represented there after BH-FDR 5% (one-sided Fisher against all other sites).",
+   "falsifier": ">= 6 surviving site-specific signs at one new site."}
+ ],
+ "notes": "Frozen before any new data were seen. Harness: extend prereg/test_prereg.py."
+}
