@@ -142,6 +142,8 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
 5. **The round-seal tradition.** Round (Gulf-type) and cylinder seals lack the home owner frame, even when found in Indus cities (S46; robust at known sites, S46b).
    - Found abroad, they carry person + number texts with the person sign first (S47, S74). Square Indus seals and pots abroad keep the home grammar (S74).
    - Numbered persons occur in 10 of 56 texts of this tradition vs 6 of 3,194 home texts (S98b); at home persons are never counted (S98).
+   - It has its own formulae: 415-803-1-… at Ur and Dilmun, "1 + person" beside unique name-like strings (S99–S104). Its "1 + person" matches the Mesopotamian "1(diš) + name" way of listing individuals (S101).
+   - Round seals found at home instead carry W140/W592 (S106), so the round format at home and abroad is not one homogeneous group.
    - The tradition favours the short-horned bull emblem (S65, S65b).
    - This is the best-defined population for a future outside anchor (ANCHORS §18).
 5b. **Tablets as vouchers.** Two-sided Harappa tablets put a count on one face and a text on the other, almost never two counts (4 vs 34 expected, S94).
