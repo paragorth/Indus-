@@ -583,3 +583,14 @@ fixed-key / verdict: z_fixed=6.0954, pass_fixed=True, fakefit_z_fixed=4.0329, fa
 
 **gap-over-fake = +0.50 SD -> fail**
 
+### 2026-09-25 22:27:00Z  `s55-santali-power-planted-santali-full-80`  (control)
+method: full key, santali, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 65s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0532 | 0.0074 | 0.0291 | 0.0529 | 0.0089 | 0.0369 | 0.0637 | 825 | 836 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=8.5248, pass_fixed=True, fakefit_z_fixed=7.4464, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +0.04 SD -> fail**
+
