@@ -335,3 +335,14 @@ fixed-key / verdict: z_fixed=5.0759, pass_fixed=True, fakefit_z_fixed=5.1250, fa
 
 **gap-over-fake = +3.09 SD -> PASS**
 
+### 2026-09-25 21:52:09Z  `s8-akkadian-indus-full-80`  (control)
+method: full key, akkadian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 116s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1578 | 0.0258 | 0.0937 | 0.1099 | 0.0148 | 3.2303 | 0.2158 | 2461 | 1691 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=6.7966, pass_fixed=True, fakefit_z_fixed=9.1277, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +3.23 SD -> PASS**
+
