@@ -2,6 +2,8 @@
 
 Rule: data and symbols from anyone, no one's interpretations; every strategy gets a control; slim chances allowed.
 
+Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derived/merged-corpus-reading-order.json`), **M###** = Mahadevan IM77 numbers (`data/im77/`). Texts are in reading order, first-read-first. "Frame" = opener (W817/861/820 = M267/M391 + marker W2 = M99) … closer (X + jar W740 = M342, or arrow W520 = M211, tree W390 = M162/169, …) … suffix (W400 = M176 or person W90 = M1). Rows marked b/c are controls or corrections of the row with the same number.
+
 | # | strategy | result | verdict |
 |---|---|---|---|
 | 1 | Kober triplets / Ventris grid: stems recurring with alternating final signs | stems with alternating endings 191 vs 275 shuffled; triplets 57 vs 104. Alternating finals form one closed set of ~10 terminal signs (740, 400, 090, 151, 520, 565, 679, 621, 154, 156) plus allograph pairs 390/405/407, 220/226 | No inflection grid. One ending slot with about 10 values; no sign of a consonant × vowel structure (`strat_kober.py`) |
