@@ -9,7 +9,7 @@ This grammar is built only from sign sequences, find-spots and object types (IM7
    optional, seals (S18, S29)   middle-initial, optional (S24, S38)  unique      titles/offices, shared across cities (S17, S18)      optional, tablets (S24, S29)
 ```
 
-Reading order is right-to-left on the object, first-read-first here. Coverage: 61% of seal texts show at least an opener or a closer (S108).
+Reading order is right-to-left on the object, first-read-first here. Coverage: 59% of seal texts show at least an opener or a closer (S108).
 
 | Slot | Evidence | Behaviour |
 |---|---|---|
