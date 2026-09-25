@@ -125,7 +125,24 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 | 101 | A second, closer cuneiform parallel for "1 + person" (S99): how Ur III personnel lists write people | Ur III accounts list each individual as **"1(diš) + name"**, e.g. Girsu P112283: *1(diš) me-luh-ha dumu ur-{d}na-ru2-a* ("1: Meluhha, son of Ur-Narua"), and an Old Akkadian text counts *6(diš) guruš … ugula me-luh-ha* ("6 workers … overseer: Meluhha"). The Meluhhans who appear in cuneiform are recorded exactly this way (CDLI extract, ANCHORS) | **The foreign tradition's "1 + person" matches the Mesopotamian convention for recording individuals** ("one: PN"), the convention under which Meluhhans themselves were written in Girsu. This is a data-level parallel of format, not a reading of any sign. It strengthens the view that the round-seal/foreign Indus texts were composed by people working inside Mesopotamian/Gulf administrative habits. |
 | 102 | Does using the opener shorten the rest of the text (a length budget)? | Framed seal texts ending in X-jar: middle length with opener + marker 1.93 signs (137) vs 3.35 without (450) (Mann-Whitney p = 7e-16); total lengths about 5.9 vs 5.4 | **Yes: a length budget.** When the opener formula is present, the middle shrinks, and total text length stays roughly constant. Seal faces fit a text of about 5–6 signs, and the opener is paid for with a shorter middle. So the opener is a costly, deliberate choice, not filler. |
 
-## Summary (written 22:25 UTC; finalised at the end of the push)
+## Summary (finalised 23:10 UTC)
+
+### Scoreboard: strongest results of the push
+
+| Finding | Rows | Strength | Replicated? |
+|---|---|---|---|
+| Statistical key-fitting cannot read a planted or real known language in this setting (wrong keys always beat the true key) | S107, S113–S121 | Decisive | 6 objective and data variants |
+| No candidate language (Tamil, Sanskrit, Sumerian, Akkadian, Telugu, Malayalam, Pali, Santali) stands out | S8, S8b, S31, S55 | Solid null | 2 corpora |
+| Frame grammar (opener, marker, middle, closer, suffix) with non-local constraints beyond bigrams | S18, S36–S38, S50, S51, S67 | Strong | IM77 + Wells; out of sample (S44); earlier in-repo work agrees |
+| Slot classes absent in planted syllabic text and Ur III legends | S37, S87, S89, S90 | Strong | Both transcriptions |
+| Opener = seal-owning; suffix = tablets/sealings; mutually exclusive | S29, S29b, S66, S86 | Strong | Both transcriptions, within cities |
+| Closers are a closed class (~200) that clusters by house and quarter | S40, S54, S62, S63, S63b, S85 | Moderate | Mohenjo-daro specific; Harappa confounded |
+| Round (Gulf-type) seal tradition: no home frame; abroad, persons + numbers, "1 + person", own formulae (415-803-1) | S46, S46b, S74, S98b, S99–S104 | Strong (abroad), moderate (at home) | Robustness checks applied |
+| Tablets as vouchers: count on one face, text on the other; texts keep fixed counts | S93, S93b, S94 | Moderate–strong | Incised-only control |
+| Indus texts are formulae, not sentences (repetition 0.1–0.3 vs 0.7–0.8 for language) | S16, S88, S91b | Strong | Planted syllabic and logographic controls |
+| Typology: suffixing, modifier before head (excludes West Asian head-initial languages) | S33, S35, S43 | Moderate (depends on reading direction) | — |
+
+### Details
 
 **No dictionary, and the key search could never have produced one.**
 - Sumerian, Akkadian, Tamil and Sanskrit (on middles) all score on Indus inside the range they reach on other-language corpora; Telugu and Malayalam had no power (S8, S8b, S31, S55).
