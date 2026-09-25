@@ -23,6 +23,7 @@ Reading order is right-to-left on the object, first-read-first here.
 
 ## Other structure
 
+- **Two numeral systems (S70).** Short strokes (3–8) count trees, the crescent and the "Seven-X" signs. Tall strokes (1–4) count the arrow, the jar, W590, W240 and W384. The item classes are almost disjoint, like the commodity-specific numeral systems of proto-cuneiform and Proto-Elamite. Counted items sit mostly in the closing part of the text (S68).
 - **Numbers.** Some signs are genuinely counted (trees 3–8, smooth). Others take one fixed number as part of a name: "7" with W585/W575, then the jar ("Seven-X" closers); the fish with 3, 4 and 6 (S23, Q4).
 - **Animal image vs text.** They are independent: no sign, and hardly any aspect of form, depends on the animal (S15, S28).
 - **Line breaks.** They fall at weak junctions, so lines are units (S27).
