@@ -136,6 +136,9 @@ Shape descriptions come from the Wells/Yajnadevam sign list; Mahadevan numbers f
 ## Class totals (top 120 signs)
 Core/name element 60; opening element 14; counted item 10; numeral 10; closing element/title-end 7; title (before jar) 7; number-name (fixed number) 6; opener 3; closer (jar) 1; connective markers 2.
 
+## Validation
+Classes computed separately from Mohenjo-daro and from Harappa texts agree for 45 of 58 signs (78%; chance 21%). Most disagreements are between neighbouring classes (core vs opening element) (STRATEGIES S140).
+
 ## How to use this
 - A reading proposal must respect these functions. A sign classed as marker, opener, closer or title cannot be a syllable inside a name without explaining its fixed position.
 - The 60 "core/name elements" are where names would be written; they are the only candidates for phonetic (name-spelling) use.
