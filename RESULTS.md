@@ -113,3 +113,24 @@ fixed-key / verdict: PASS=False
 
 **gap-over-fake = -1.67 SD -> fail**
 
+### 2026-09-25 00:25:58Z  `tamil-full-80`
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 162s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2663 | 0.0063 | 0.1941 | 0.1705 | 0.0175 | 5.4703 | 0.2782 | 3161 | 2532 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=6.4052, pass_fixed=True, fakefit_z_fixed=4.9557, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +5.47 SD -> PASS**
+
+most stable assignments across real restarts (share of restarts, sign, value, share of fake runs giving that value, also modal under fakes?): 0.75 032->'tan' (0.07); 0.75 031->'tan' (0.07); 0.70 368->'tan' (0.03); 0.70 001->'tan' (0.17); 0.60 235->'kan' (0.10); 0.55 233->'kan' (0.17); 0.55 231->'kan' (0.13, fake-modal); 0.55 140->'tan' (0.00)
+
+**STOP: tamil-full-80 passed. See STOP.md. Halting.**
+
+## Run started 2026-09-25 00:26:16Z (IM77; queued before the STOP, aborted by hand at once so that break tests could run; no condition finished)
+
+corpus (im77): 2286 unique texts (1143 train / 1143 held-out), 340 signs in train; lexicons: Tamil 62868 forms, Sanskrit 163998 forms; MINLEN={'full': 5, 'skel': 3}; restarts=20, fakes=30, iterations=400*N
+
+## Break tests for `tamil-full-80` (2026-09-25 00:26:51Z)
+

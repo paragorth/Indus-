@@ -193,8 +193,23 @@ def load_sanskrit(path=None):
     return {w for w in words if 2 <= len(w) <= 15}
 
 
+_EN = {"f": "p", "w": "v", "q": "k", "x": "ks", "z": "s"}
+
+
+def load_english(path=None):
+    """English headwords (open-tamil's english_dictionary_words.txt), mapped into
+    the same reduced alphabet.  A control: a real language no one proposes."""
+    path = path or os.path.join(RAW, "english_dictionary_words.txt")
+    words = set()
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            w = "".join(_EN.get(ch, ch) for ch in line.strip().lower() if ch.isalpha() and ch.isascii())
+            words.add(w)
+    return {w for w in words if 2 <= len(w) <= 15}
+
+
 def load_lexicon(lang):
-    return load_tamil() if lang == "tamil" else load_sanskrit()
+    return {"tamil": load_tamil, "sanskrit": load_sanskrit, "english": load_english}[lang]()
 
 
 # ---------------------------------------------------------------- forms
