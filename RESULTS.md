@@ -618,3 +618,14 @@ fixed-key / verdict: z_fixed=14.3272, pass_fixed=True, fakefit_z_fixed=7.7936, f
 
 ## Strategy 107: Ur III seal legends as a known-language positive control, 3200 texts (2026-09-25 22:42:16Z)
 
+### 2026-09-25 22:52:40Z  `s107-ur3legends-searched-with-sumerian-full-80`  (control)
+method: full key, sumerian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 624s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2370 | 0.0130 | 0.1580 | 0.1619 | 0.0159 | 4.7144 | 0.2640 | 10236 | 7648 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=12.0461, pass_fixed=True, fakefit_z_fixed=4.8530, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +4.71 SD -> PASS**
+
