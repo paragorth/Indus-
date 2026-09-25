@@ -550,3 +550,14 @@ fixed-key / verdict: z_fixed=9.5171, pass_fixed=True, fakefit_z_fixed=5.9946, fa
 
 **gap-over-fake = +1.25 SD -> fail**
 
+### 2026-09-25 22:23:34Z  `s55-pali-power-planted-pali-full-80`  (control)
+method: full key, pali, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 85s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0826 | 0.0095 | 0.0495 | 0.0855 | 0.0110 | -0.2705 | 0.1105 | 1322 | 1335 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=5.1627, pass_fixed=True, fakefit_z_fixed=5.2056, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = -0.27 SD -> fail**
+
