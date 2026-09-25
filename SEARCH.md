@@ -47,3 +47,6 @@ The frozen predictions Q1–Q14 are tested by `prereg/test_prereg.py` (results: 
 No key survived. `tamil-full-80` passed the pre-set criteria (+5.47 SD) and halted the run, then failed the cross-language control: the Tamil lexicon scores the same on planted Sanskrit (+4.82) and planted English (+5.23). A fake-lexicon null alone cannot identify a language; any future criterion needs a cross-language baseline. Details: `RESULTS.md`, 'Final entry'. Scripts: `break_test.py`, `markov_test.py`, `cross_test.py`.
 
 Never read any output of this pipeline as a translation.
+
+---
+**Correction (25 Sept 2026):** the planted-language positive controls pass the gap test without recovering the planted key (2 of 80 signs correct for planted Tamil; 0 of 80 for planted Sumerian and for real Ur III seal legends). The window-hit objective scores degenerate keys above the true key (3,514 vs 1,313 hits on planted Tamil). See STRATEGIES.md S107, S113, S114 and the correction at the end of RESULTS.md.
