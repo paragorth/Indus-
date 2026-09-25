@@ -46,3 +46,11 @@ Against our frozen data (prereg Q4, `PREREG_RESULTS.md`): short-stroke numbers b
 ## Verdict
 
 Myth parallels give *hypotheses about meaning* (a lord of animals, an archer god, a tiger myth, star names). They give no sound values, so they can't pass the blind validator, and every proposed god is known only from sources centuries later. The one internal fact they fit is the fixed number + fish system (Q4), and it fits other readings equally well. The best new asset from this pass is the list of **fixed scene captions** (section 2). If an outside anchor ever gives the name of the archer god, the tiger myth or the serpent-flanked figure, these are the texts to check first.
+
+## 5. What Mesopotamian myths say about Meluhha (CDLI literary composites, primary texts)
+- *Curse of Agade* 48–49: "Meluhha, the people of the black land (*kur ge₆-ga*), brought up exotic goods of the foreign lands".
+- *Enki and the World Order* 124–129, 219–222: Enki decrees fates for "Meluhha, Magan, Dilmun". The *magilum* boats of Meluhha carry gold and silver. **"Black land: may your trees be great trees, your forests *mes*-trees of the mountains, may their chairs grace royal palaces."**
+- *Enki and Ninhursaga* 49c–e: "The land Meluhha: carnelian, desirable and precious; *mes*-wood of the plains, fine *ab-ba* wood; large boats" bring them to Dilmun. The same myth sets its paradise in Dilmun, where "the *dar*-bird does not utter its cry" (the *dar* bird is also a Meluhha import in Ur III accounts).
+- A lament (CDLI Literary 000771) describes a person as "dark, of Meluhha" (*gig₂-ga me-luh-ha*).
+
+In Mesopotamian myth, Meluhha is a far-off "black land" of great trees, carnelian, gold and boats. No Meluhhan god, hero or story is named. The myths describe the Meluhhans' goods, never their beliefs, so they give no name to set beside the Indus scene captions (section 2).

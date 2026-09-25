@@ -133,3 +133,8 @@ This key was never fitted to Indus texts, so a blind test is fair. Test, no dict
 - Pairs matching an attested Linear Elamite syllable pair: **real key 2; shuffled keys 4.1 ± 2.7; P = 0.83.** **Fails.**
 
 Shape similarity between Indus and Linear Elamite signs does not carry sound values. Fuls also notes **Susa "text O"** (Louvre Sb 9382), a red clay tablet with about 20 Indus-like graphemes. One corresponds to Indus 853, which is text-initial in 10 of 11 Indus texts, and it sits initial on text O as well. This is a mixed Indus / Linear Elamite / Sibri (Mehrgarh VIII) object of the early 2nd millennium, too eroded to read.
+
+## 12. Laursen 2016 (*AAE* 27: 2–18, PDF supplied by the user): Dilmun after the Indus script
+- From about 1950 BC Dilmun used a **symbol system** (palm branches, palm trees, altars) on pottery, tokens and seals, developing from single symbols to sequences forming "irregular logograms" and pseudo-script. It was exclusive to the royal house and temple (cult of Inzak), in a society Laursen calls illiterate. It is a **successor, not a script**: no sound values.
+- **Dilmun adopted the Indus weight standard about 2050 BC** (Babylonian mercantile texts, Indus cubical weights in Bahrain). CDLI has Ur III references to *na₄ dilmun* ("Dilmun stone", e.g. UET 3, 0672 *kišib₃ na₄ dilmun*), which can be a Dilmun-standard weight stone or seal stone. That is a numeric link (Indus weights ↔ Mesopotamian units), not a phonetic one.
+- The Indus script in Dilmun: the high frequency of the "twins" sign (section 10); the script itself "never gained a foothold".
