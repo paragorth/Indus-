@@ -460,3 +460,14 @@ fixed-key / verdict: z_fixed=6.5969, pass_fixed=True, fakefit_z_fixed=6.2830, fa
 
 **gap-over-fake = +2.96 SD -> fail**
 
+### 2026-09-25 22:11:43Z  `s31-sanskrit-indus-middles-full-80`  (control)
+method: full key, sanskrit, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 115s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1821 | 0.0146 | 0.1257 | 0.1432 | 0.0139 | 2.7959 | 0.2086 | 1514 | 1347 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=9.6909, pass_fixed=True, fakefit_z_fixed=5.4623, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +2.80 SD -> fail**
+
