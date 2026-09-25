@@ -178,7 +178,7 @@ The "foreign" grammar (person sign first, person + stroke blocks, no home opener
 
 | Group | Person sign | Home frame |
 |---|---|---|
-| Round/cylinder seals found in the Indus cities (23) | 26% | 13% |
+| Round/cylinder seals found in the Indus cities (23; 16 from known sites) | 26% (2 of 16 = 12.5% at known sites, n.s.) | 13% (2 of 16 at known sites, p = 0.01) |
 | Round/cylinder seals found abroad (19) | 12 of 19 | — |
 | Square seals and pots found abroad (12) | 0 | classic framed texts (Kish, Gonur, Ra's al-Jinz) |
 | Home square seals (1,557) | 5% | 45% |
