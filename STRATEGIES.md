@@ -103,6 +103,7 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
 4. **Two numeral usages.** Short and tall strokes pair with disjoint item classes (S70, S70b), but most are fixed number-compounds (S71); genuine counting shows mainly on trees (S23).
 5. **The round-seal tradition.** Round (Gulf-type) and cylinder seals lack the home owner frame, even when found in Indus cities (S46; robust at known sites, S46b).
    - Found abroad, they carry person + number texts with the person sign first (S47, S74). Square Indus seals and pots abroad keep the home grammar (S74).
+   - Numbered persons occur in 10 of 56 texts of this tradition vs 6 of 3,194 home texts (S98b); at home persons are never counted (S98).
    - The tradition favours the short-horned bull emblem (S65, S65b).
    - This is the best-defined population for a future outside anchor (ANCHORS §18).
 5b. **Tablets as vouchers.** Two-sided Harappa tablets put a count on one face and a text on the other, almost never two counts (4 vs 34 expected, S94).

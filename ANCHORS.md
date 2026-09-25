@@ -185,4 +185,6 @@ The "foreign" grammar (person sign first, person + stroke blocks, no home opener
 
 The round-seal tradition favours the short-horned bull emblem and is mostly late-urban (Period 3C) where dated.
 
+A person sign next to a number appears in 10 of 56 texts of this tradition vs 6 of 3,194 home texts (STRATEGIES S98b), a West Asian way of recording people.
+
 **Consequence for anchor-hunting.** The texts most likely to contain non-Harappan (Gulf, Dilmun, Mesopotamian) personal names are the ~42 round and cylinder seals, wherever they were found. They are the set to check against names of Dilmunites and Meluhhans attested in cuneiform, if a phonetic hypothesis ever becomes testable. Their residues are short (S53), which argues for word-signs rather than syllabic spelling.
