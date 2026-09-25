@@ -105,8 +105,17 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
    - Found abroad, they carry person + number texts with the person sign first (S47, S74). Square Indus seals and pots abroad keep the home grammar (S74).
    - The tradition favours the short-horned bull emblem (S65, S65b).
    - This is the best-defined population for a future outside anchor (ANCHORS §18).
+5b. **Tablets as vouchers.** Two-sided Harappa tablets put a count on one face and a text on the other, almost never two counts (4 vs 34 expected, S94).
+   - Texts keep a fixed count above chance, even on hand-incised tablets (S93, S93b).
+   - The main multi-value voucher formula sits in one area of Mound F (S96).
+   - The standard value may shift from 4 to 3 over time (S95, weakened by S95b).
 6. **Typology.** Markers follow their hosts and modifiers precede heads (S33, S35, S36). This excludes head-initial West Asian languages as the frame's language, but it cannot separate Dravidian, Indo-Aryan, Munda or Burushaski (S43).
 7. **Time.** The grammar is stable through Mohenjo-daro's sequence (S45). Tablet texts lengthen from Harappa 3A/B to 3C (S49), and the frame erodes at Dholavira stage 6 (S45).
+
+**Controls added late in the push:**
+- The paradigm finder finds no slot classes in planted syllabic text or Ur III legends, and only a few in Proto-Elamite (S87, S89, S90).
+- Language-like text, syllabic or logographic, repeats signs at 0.7–0.8 of chance vs Indus 0.1–0.3 (S88).
+- Long Indus texts are stacked formulae (S91, S91b).
 
 **Corrections made during the push:**
 - S9 was too strong; it is transcription-dependent (S16).
@@ -114,6 +123,7 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
 - S70's "metrological systems" are mostly fixed compounds (S71).
 - S63 at Harappa may be a phase effect (S63b).
 - S17's "short texts spread" part did not replicate (S76).
+- S46's person-sign enrichment at home was not robust (S46b); nor was S65's emblem at home (S65c).
 
 **Frozen for new data:** R1–R11 in `prereg/preregistration-3-frozen.json`.
 | 78 | The three openers W817, W861 (diamond forms, = M267) and W820 (wheel, = M391): regional or temporal choice? | Initial uses by site: Mohenjo-daro 88/86/95, Harappa 60/44/47, Lothal 14/14/10, Dholavira 9/9/9, Kalibangan 5/6/7 (χ² across 5 sites p = 0.89). Mohenjo-daro Intermediate 24/21/27 vs Late 14/22/12 (p = 0.15) | **Uniform everywhere.** The three openers occur in about equal proportions in every city and phase: a fixed three-way choice built into the system (three categories of seal holder?), not a local custom. |
