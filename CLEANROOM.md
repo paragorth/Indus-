@@ -26,3 +26,10 @@ Units and classes are fitted on the training half only. Held-out texts are segme
 - **Open slots (paradigms):** frames with ≥3 alternating fillers: 285 (Yajnadevam), 234 (IM77). The largest non-trivial slot in both is **[start] _ [the commonest final sign]** (Wells 740 = M342), with **59 and 39 different fillers**. The next is [start] _ [002] (44 fillers). These are one-slot positions filled from a large open set, which is how a name slot behaves in a labelling system.
 
 Summary without anyone's interpretation: the script has (a) a stable inventory of multi-sign units that replicates across halves and across two independent transcriptions, (b) a three-position grammar (initial units, a large open middle, a small set of final units) that predicts unseen texts at almost twice chance, and (c) a large open slot right before the commonest final sign. It fixes the *structure* of the texts. It says nothing about sound or language, and no amount of internal data will.
+
+## 5. What fills the open slot before the commonest final sign
+Texts ending in Wells 740 / M342: 884 (Yajnadevam) and 762 (IM77).
+- Filler length before that sign: 1 sign 12% / 9%. **2–5 signs about 75%**, up to 8.
+- Multi-sign fillers draw on the 50 most frequent signs at the corpus-wide rate (70% vs 68%; 72% vs 72%): they are built from the common inventory.
+- Single-sign fillers are mostly rare signs (63% / 60% outside the top 50).
+Consistent with a mixed system (rare word-signs for some slot values, combinations of common signs for others). It does not decide between spelling by sound and word-signs.
