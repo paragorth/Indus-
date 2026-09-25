@@ -68,7 +68,7 @@ Reading order is right-to-left on the object, first-read-first here. Coverage: 5
 
 The Indus seal text looks like an **owner legend**: an individual element (middle) set in a small inventory of shared titles/markers, like an Ur III seal legend (name, title, "son of"). There is one difference: no "son of" element is found (S12). The markers are mostly suffixed (S33).
 
-The frame gives **no sound values**, and statistical key-fitting cannot supply them: in controls it "passes" without recovering the planted readings (STRATEGIES S107, S113). It does tell a future decipherer where names should be (the middles) and which signs are grammatical (99, 123, 342, 176, and the closer set). Any proposed reading must treat those signs as markers or titles, not as syllables of words.
+The frame gives **no sound values**, and statistical key-fitting cannot supply them: in controls it "passes" without recovering the planted readings (STRATEGIES S107, S113–S126). It does tell a future decipherer where names should be (the middles) and which signs are grammatical (99, 123, 342, 176, and the closer set). Any proposed reading must treat those signs as markers or titles, not as syllables of words.
 
 ## What would test it
 
