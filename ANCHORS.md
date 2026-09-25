@@ -49,3 +49,17 @@ They are candidates for what Indus texts *could* contain. But none is tied to a 
 ## Verdict so far
 
 No anchor yet fixes a sign's sound or meaning. The strongest real lead is group 1: about 40 Indus texts written abroad that break the home grammar. If any of them was written for a person attested by name in cuneiform, that is the first anchor. That match can only come from excavation records (find-spot, level and date for each foreign seal), not from more computation on the texts.
+
+## 6. Linear Elamite (network opened, 25 Sept 2026)
+
+The full Hatamti-Linear Elamite Database (Liège; 45 inscriptions, readings by Desset et al.) is saved as `data/derived/linear-elamite-corpus-hled.json`.
+
+- **Seals naming owners in a readable script, from the Indus contact zone:**
+  - **LEI 22**: chlorite *Persian Gulf seal* (Ligabue Collection; early 2nd millennium BC; 3 signs, right to left) reads ***za-ši-ri₂*, "Zaširi"**, a personal name (CDLI P247651; Winkelmann 1999).
+  - **LEI 33**: *Central Asian gold seal* (early 2nd millennium BC; 6 signs) reads ***R~Haši-zana-niri***.
+  - LEI 45: a cylinder seal (12 signs), *Has-han miki lazp kela-h*.
+
+  Gulf and Central Asian seals of the Indus trade sphere wrote their owners' names in 3–6 signs, the same length as Indus seal texts. That supports the name-and-title reading of Indus seals, and specifically of the foreign-found Indus texts that break the Indus grammar (section 1). It is a strong structural analogy, but it doesn't identify any Indus sign.
+- **Konar Sandal tablets** (LEI 28–31, end of 3rd millennium) contain names (*Zulari*, *Pa(a)reri*). The Konar Sandal cylinder seal with Indus iconography comes from the same site.
+- **Claimed Linear Elamite–Indus sign matches.** The Zenodo preprint by Scott Dunn (2026, records 21611160 / 21632153) lists about 6 matches to Mahadevan signs (M87, M101, M202, M236, M303, M214/228). The sound values are the author's own, assuming Indo-Iranian, and the paper also rereads Puzur-Sušinak as Indo-Iranian. They are not Desset's values and not an independent key, so not testable as an external anchor. The peer-reviewed comparison (IJAS, usb.ac.ir) concludes the two scripts are "not directly related". That server refused connections from here.
+- **Verdict:** no shape-based Linear Elamite to Indus key exists that is independent of Indus-internal guesses. Similar shapes in neighbouring scripts don't carry sound values across, and Linear Elamite's own sign values were fixed from royal names in cuneiform bilinguals, which the Indus script lacks.
