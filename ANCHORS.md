@@ -123,3 +123,13 @@ Datable: no. 15 (Sargonic), no. 6 (Larsa), no. 16 (early). **None is securely Ur
 **What the data supports, with no one's reading:** Indus-sign texts found abroad (1) lack the home opener (section 1), (2) use unattested sign pairs, (3) are dominated by the person signs, often at the start and often doubled, and (4) sit on a seal type whose text slot demonstrably held a personal name (the Linear Elamite *Zaširi* seal). Together: **the western texts are names, written with a different content structure from home texts, led by a person or "twins" sign.** This is the closest thing yet to a functional anchor. Still no sound value: we know *what* these texts are, not how they were pronounced.
 
 **What would give sounds:** a Gulf Type seal in Indus signs whose owner is named in a cuneiform text from the same place and time (Bahrain, Failaka, Ur; about 2050–1900 BC). Next source: Kjærum 1983/1994 for all Gulf Type seals, cross-checked against Dilmunite names in Old Babylonian texts. CDLI has those, and I can search them.
+
+## 11. The only external key, tested blind: Linear Elamite look-alike signs (Fuls 2024, IJAS 14(1): 3–16, PDF supplied by the user)
+
+Fuls, Fig. 9: 17 Indus signs (Wells/ICIT numbers) with graphically similar Linear Elamite signs and Desset et al. 2022 values: 850 a · 502 li · 455 hi · 370/371 la · 012 na · 360 ši · 440 še · 323 ni · 400/402 ni · 684 š · 167 n · 899/900 pa · 335 po · 032 zu · 615 zo · 831 r · 482 re. Saved as `data/derived/fuls2024-le-indus-key.json`. Fuls himself labels several as "graphic universals" (simple shapes found in many scripts) and concludes the scripts are "not directly related".
+
+This key was never fitted to Indus texts, so a blind test is fair. Test, no dictionary needed: do Indus adjacent pairs of mapped signs reproduce syllable pairs attested in the Linear Elamite corpus (HLED, 2,127 syllables, 465 distinct bigrams), more than keys with the same values reshuffled among the signs (20,000)?
+- Indus pairs with both signs mapped: **only 25** of 9,283 (the key covers mostly rare signs).
+- Pairs matching an attested Linear Elamite syllable pair: **real key 2; shuffled keys 4.1 ± 2.7; P = 0.83.** **Fails.**
+
+Shape similarity between Indus and Linear Elamite signs does not carry sound values. Fuls also notes **Susa "text O"** (Louvre Sb 9382), a red clay tablet with about 20 Indus-like graphemes. One corresponds to Indus 853, which is text-initial in 10 of 11 Indus texts, and it sits initial on text O as well. This is a mixed Indus / Linear Elamite / Sibri (Mehrgarh VIII) object of the early 2nd millennium, too eroded to read.
