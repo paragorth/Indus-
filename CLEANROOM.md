@@ -18,3 +18,11 @@ For 353 units seen at least 5 times: distinct left contexts 4,460, right context
 - Right/left context variety: 0.97 (Yajnadevam 0.96, shuffled 1.00). Same result: no affix-side asymmetry.
 
 Rule for this file: data and symbols from anyone (Mahadevan, Wells, Yajnadevam), no one's interpretations (no readings, no language assumption, no functional labels).
+
+## 4. Data-derived grammar, validated on held-out texts (`cleanroom_grammar.py`)
+Units and classes are fitted on the training half only. Held-out texts are segmented with the same merges.
+- Each unit gets a position class from training (≥60% initial → I; ≥60% final or alone → F; else M). On held-out texts the class **predicts the unit's position correctly 63.1% (Yajnadevam) and 64.9% (IM77), against chance 34.4% and 34.9%**.
+- Classes: Yajnadevam 24 I / 149 M / 51 F; IM77 32 I / 110 M / 60 F.
+- **Open slots (paradigms):** frames with ≥3 alternating fillers: 285 (Yajnadevam), 234 (IM77). The largest non-trivial slot in both is **[start] _ [the commonest final sign]** (Wells 740 = M342), with **59 and 39 different fillers**. The next is [start] _ [002] (44 fillers). These are one-slot positions filled from a large open set, which is how a name slot behaves in a labelling system.
+
+Summary without anyone's interpretation: the script has (a) a stable inventory of multi-sign units that replicates across halves and across two independent transcriptions, (b) a three-position grammar (initial units, a large open middle, a small set of final units) that predicts unseen texts at almost twice chance, and (c) a large open slot right before the commonest final sign. It fixes the *structure* of the texts. It says nothing about sound or language, and no amount of internal data will.
