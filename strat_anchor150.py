@@ -1,10 +1,10 @@
 """Strategy 129: 150-sign planted Tamil syllabary, all signs decoded, right vocabulary, harder search,
 with the k commonest signs anchored to their true values (k = 40, 75): how much of the rest is recovered?"""
 import os, json, random, math
-os.environ['KSYLL']='150'; os.environ['NDEC']='150'
+os.environ.setdefault('KSYLL','150'); os.environ.setdefault('NDEC','150')
 import strat_syllsize_n as M
 def run(k,seed=0,iters=150000):
-    N,W,prob,hit,true=M.N,M.W,M.prob,M.hit,M.true
+    W,prob,hit,true=M.W,M.prob,M.hit,M.true; N=len(true)
     rng=random.Random(seed); fixed=set(true[:k]); pool=[u for u in M.allunits if u not in fixed]; rng.shuffle(pool)
     key=true[:k]+pool[:N-k]; spare=pool[N-k:]; free=list(range(k,N))
     hits=[hit(tuple(key[x] for x in w)) for w in W]; score=sum(hits); best,bk=score,key[:]
