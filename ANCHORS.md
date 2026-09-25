@@ -150,3 +150,11 @@ Structural reading, no language assumed: Bahrain seal texts are built as [double
 
 ## 14. BM 120573 photographed (British Museum reg. 1928,1009.56; photos supplied by the user, `data/images/`)
 Impression: **three cuneiform signs** in the upper register (from left: a wedge-headed sign, a box-shaped sign, an arrow-like sign), a **divider line** with faint traces below them (Gadd's possible fourth sign), and a **short-horned bull** with head lowered and a **band over its back**. **No Indus signs.** The reverse has the perforated ridge ("button") of Indus-type seals. The photo confirms Gadd's description. It does not allow a better reading than *sak/ka – ku/lu – ši(-…)*, which needs collation of the object by an Assyriologist.
+
+## 15. Person + stroke-group block in foreign texts (merged corpus, Wells IDs; shapes only)
+Person signs {90, 91}; stroke-shaped signs {1–5, 16–18 short; 31–34 tall}, identified by their drawn form alone. A text "has the block" if a person sign is directly adjacent to a stroke sign.
+- **Foreign 5/23 = 0.217; length-matched home 0.003; P < 0.0001** (20,000 draws).
+- Instances: Ur [90, 4] (person + four strokes), Ur [90, 1] (person + one stroke), Ur [350, 90, 4], Failaka [716, 350, 1, 90], Karzakan (Bahrain) [91, 31, 455, 220] (doubled figure + one tall stroke), Karzakan [91, 32, 1, 33] (doubled figure + two tall strokes + one + three tall strokes).
+- **The figure stays fixed and the stroke count varies (1, 4; I, II … III)**, as in Laursen's Fig. 11 drawings of Bahrain seals 7, 9, 10, 11 (section 13).
+
+This is the predicted signature of a numbered affiliation (lineage, rank or generation) on the owners' seals of the Gulf trade community. It is still a structure, not a sound. It becomes an anchor only if a cuneiform archive names Gulf traders with matching numbered affiliations (e.g. "fourth son of", "of the four"), which is the next thing to search in the CDLI Old Babylonian Ur and Dilmun-trade texts.
