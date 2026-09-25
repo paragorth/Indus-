@@ -145,3 +145,14 @@ fixed-key / verdict: z_fixed=17.0025, pass_fixed=True, fakefit_z_fixed=11.1638, 
 
 **gap-over-fake = +1.66 SD -> fail**
 
+### 2026-09-25 00:31:38Z  `break-iid-tamil-full-80`  (control)
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 131s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2403 | 0.0055 | 0.2456 | 0.1697 | 0.0370 | 1.9108 | 0.2501 | 2888 | 2616 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=3.7481, pass_fixed=False, fakefit_z_fixed=2.5435, fakefit_pass_fixed=False, PASS=False
+
+**gap-over-fake = +1.91 SD -> fail**
+
