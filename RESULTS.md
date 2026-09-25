@@ -202,3 +202,20 @@ fixed-key / verdict: z_fixed=4.1573, pass_fixed=True, fakefit_z_fixed=3.3962, fa
 
 **gap-over-fake = -1.03 SD -> fail**
 
+### 2026-09-25 01:09:33Z  `markov-tamil-full-80`
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 141s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2663 | 0.0063 | 0.1941 | 0.2856 | 0.0128 | -1.5133 | 0.2782 | 3161 | 3639 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=3.5220, pass_fixed=True, fakefit_z_fixed=3.0628, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = -1.51 SD -> fail**
+
+most stable assignments across real restarts (share of restarts, sign, value, share of fake runs giving that value, also modal under fakes?): 0.75 032->'tan' (0.13); 0.75 031->'tan' (0.13); 0.70 368->'tan' (0.17); 0.70 001->'tan' (0.17); 0.60 235->'kan' (0.67, fake-modal); 0.55 233->'kan' (0.57, fake-modal); 0.55 231->'kan' (0.43, fake-modal); 0.55 140->'tan' (0.10)
+
+(markov_test.py stopped by hand after markov-tamil-full-80: the planted-Tamil controls fail this null, so its remaining conditions could not be informative)
+
+## Cross-language controls (2026-09-25 01:09:54Z): planted language X, searched with lexicon Y (noise 0.2, letter-shuffle null)
+
