@@ -289,3 +289,5 @@ Best gap-over-fake reached per language and search type (Yajnadevam corpus, lett
 Not run after the STOP: N = 150/250 syllabic, mixed, logographic and skeleton conditions on the real corpus. The criterion they would be judged by is now known not to discriminate languages. The skeleton ("inherent vowel") and logographic searches have no power anyway: their planted controls fail (+0.66 and -1.67 SD). The Sanskrit search detects planted Sanskrit only without noise (+3.41 SD at 0% noise; fails at 20% and 40%).
 
 Published key: Yajnadevam's xlits.csv fails at the calibrated settings (Sanskrit full-string z 0.02, real below scrambled; Q14 value-shuffle criterion: rejected on all three corpora). At a 3-letter minimum it passes the fixed-key test (z 3.6), which says more about that test than about the key.
+## Strategy 8: new candidate languages via CDLI lexicons (2026-09-25 21:43:43Z)
+

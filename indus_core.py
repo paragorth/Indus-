@@ -208,7 +208,15 @@ def load_english(path=None):
     return {w for w in words if 2 <= len(w) <= 15}
 
 
+def load_file_lexicon(name):
+    """Word forms extracted from CDLI (data/derived/lex_<name>.txt), already reduced."""
+    with open(os.path.join(HERE, "data", "derived", f"lex_{name}.txt")) as f:
+        return {w.strip() for w in f if 2 <= len(w.strip()) <= 15}
+
+
 def load_lexicon(lang):
+    if lang in ("sumerian", "akkadian"):
+        return load_file_lexicon(lang)
     return {"tamil": load_tamil, "sanskrit": load_sanskrit, "english": load_english}[lang]()
 
 
