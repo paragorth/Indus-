@@ -2,7 +2,7 @@
 written with ONE word-sign each; all other words are spelt with syllable signs. Frame-like: texts are
 word streams with Indus lengths. Question: with 40 syllable anchors + right vocabulary, does a
 syllable-only key search still recover the rest, and does the presence of word-signs break it?"""
-import random, math, json, collections
+import random, math, json, collections, os
 import indus_core as C, synth, experiment as X, search as S
 lex=C.load_lexicon('tamil'); rng0=random.Random(7)
 allv=[s for s in (synth.syllabify(w) for w in sorted(lex)) if s and len(s)<=3]
@@ -23,11 +23,11 @@ for segs in base:
         t.append(out)
     texts.append(t)
 tr,he=C.split_texts(texts)
-import os
 MIXED=os.environ.get('MIXED')=='1'
 syl=[s for s,_ in C.sign_freq(tr).most_common() if MIXED or s.startswith('S')]; N=len(syl)
 W,_=X.index_texts(tr,syl); prob=S.Problem(W,N)
 small=set(''.join(v) for v in vocab); hit=S.string_hit_fn(small,5)
+if os.environ.get('BIGLEX')=='1': hit=S.string_hit_fn(C.forms(lex,'full'),5)
 true=[sec.get(s,'#') for s in syl]; allunits=sorted(top)+(['#']*70 if MIXED else [])   # word-signs have no syllable value: '#'-values never match
 share=sum(1 for t in tr for s in t for x in s if x.startswith('L'))/sum(len(s) for t in tr for s in t)
 def run(k,seed=0,iters=150000):
