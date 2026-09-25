@@ -191,3 +191,14 @@ fixed-key / verdict: z_fixed=5.7330, pass_fixed=True, fakefit_z_fixed=3.6632, fa
 
 **gap-over-fake = -1.01 SD -> fail**
 
+### 2026-09-25 01:07:13Z  `markov-planted-0.2-tamil-full-80`  (control)
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 92s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2001 | 0.0096 | 0.1593 | 0.2121 | 0.0116 | -1.0297 | 0.2153 | 2497 | 2916 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=4.1573, pass_fixed=True, fakefit_z_fixed=3.3962, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = -1.03 SD -> fail**
+
