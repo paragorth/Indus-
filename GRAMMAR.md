@@ -2,6 +2,27 @@
 
 This grammar is built only from sign sequences, find-spots and object types (IM77 and Wells/Yajnadevam transcriptions). No readings or published interpretations are used. Each claim cites the strategy in `STRATEGIES.md` that tests it against a null.
 
+## Relation to earlier work in this repository (read this first)
+
+Much of this frame was **already described** in `docs/INDUS-DECIPHERMENT-ATTEMPT.md` (23 Sept 2026, Wells corpus):
+- the three alternating openers + connective;
+- the open "core";
+- the two stroke uses (counts on trees and crescents vs fixed number-names such as 7-575, 7-585, III-arrow, II-fish);
+- the pre-ending title slot (100, 176, 760, 690, 923);
+- the ending paradigm, with the jar as default, the comb as a tablet sign and "…-jar-man" as a stack;
+- cross-city quantity formulae.
+
+This push re-derived those pieces without looking at that document. They were found again from the IM77 transcription and are *independent confirmations* (S18, S23, S24, S36–S38, S70–S72, S77).
+
+What is **new** here:
+- the controls: unsupervised paradigm finder vs planted syllabic text, Ur III legends and Proto-Elamite (S37, S87, S89, S90); non-local constraints beyond a bigram model (S50, S51, S67); out-of-sample sites (S44); repetition calibration (S16, S88);
+- opener vs suffix as seal vs impression/tablet sub-systems within each city (S29, S66, S86);
+- closers clustering by house and quarter (S62, S63, S63b);
+- slot inventory sizes (S85);
+- the round-seal tradition (S46, S74, S98b, S99–S104);
+- voucher behaviour of two-sided tablets (S93, S94; the README's "two-field reading of the tablets" may overlap);
+- line breaks (S27), doubling (S57, S58), copper tablets (S56), time trends (S45, S49), and the typological filter (S43).
+
 ## The template
 
 ```

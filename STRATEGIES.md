@@ -129,7 +129,7 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 
 **No dictionary.** Every language key failed its calibration. Sumerian, Akkadian, Tamil and Sanskrit on middles, Telugu and Malayalam (no power) each score on Indus inside the range they reach on corpora of other languages (S8, S8b, S31, S55). A phonetic key is also argued against by structure: repetition behaves like formulaic word-sign legends (S9, S16, S26), doubled signs change function rather than spell syllables (S57, S58), foreign residues are too short for syllabic names (S53), and sign variants do not track context (S22).
 
-**What was found instead: a grammar, from data only** (GRAMMAR.md):
+**What was found instead: a grammar, from data only** (GRAMMAR.md). Note: the opener / core / pre-ending / ending frame and the two stroke uses were already in `docs/INDUS-DECIPHERMENT-ATTEMPT.md`. This push re-derived them independently (from IM77) and added the controls and the new findings listed in GRAMMAR.md, "Relation to earlier work".
 
 1. **A seal-text frame.** Opener (267-99 / 391-99 / 293-123-343) + unique middle + closer (X + jar/211/15/12/162/169) + optional suffix (176/1) (S18, S24, S36–S38).
    - Found without supervision (S37) and replicated on the independent Wells transcription (S30, S66, S67).
