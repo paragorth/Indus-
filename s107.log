@@ -9,3 +9,13 @@ method: full key, sumerian, top-80 signs, 20 real restarts + 30 fake-lexicon sea
 fixed-key / verdict: z_fixed=12.0461, pass_fixed=True, fakefit_z_fixed=4.8530, fakefit_pass_fixed=True, PASS=True
 
 **gap-over-fake = +4.71 SD -> PASS**
+### 2026-09-25 23:07:21Z  `s107-ur3legends-searched-with-akkadian-full-80`  (control)
+method: full key, akkadian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 881s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1541 | 0.0233 | 0.0881 | 0.1159 | 0.0203 | 1.8760 | 0.1854 | 7243 | 6664 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=6.8540, pass_fixed=True, fakefit_z_fixed=4.9614, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +1.88 SD -> fail**
