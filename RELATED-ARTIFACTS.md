@@ -56,3 +56,10 @@ Method: all 10,854 Met objects dated 3300–1500 BC. Kept the Ancient Near Easte
   - **P302053 = ENES 1089 / NCBS 00876** (Yale, Newell Collection): a steatite button-handled stamp catalogued as Harappan, held in a *Babylonian* seal collection. Its Mesopotamian find context, if recorded, would make it one of the foreign-found Indus seals.
   - **CUSAS 40, 1354 and 1582** (Irisagrig, Šu-Suen 6, months 3 and 12): the other two ration texts for "men of Meluhha" (shepherds). They are catalogued but not transliterated in this dump, so any further Meluhhan names on them need the publication (George 2019, CUSAS 40).
 - **Met Oxus (BMAC) stamp seals:** about 150 stamp seals, mostly compartmented, almost all unprovenanced 1980s acquisitions. Titles carry no motif detail beyond a few (snake-holding figure, winged hero dominating snakes, **seated monkey**, boar, griffin). Checking them for Indus signs needs the images, which are hosted on metmuseum.org (blocked here). One **Dilmun** seal (1987.96.22: hunters and goats) is untagged as Indus and shows no listed Indus motif.
+
+## Checked on CDLI's live site (25 Sept 2026)
+- **P387604** (UCLA zebu tablet): photo inspected. A bovine drawn in outline on a round clay tablet, **no signs of any script**. Not an anchor.
+- **P302053** (Yale NCBS 00876, "Harappan" stamp): CDLI records "no linguistic content". **No Indus signs.** Drops out.
+- **CUSAS 40, 1354 and 1582** (Irisagrig, Šu-Suen 6, months 3 and 12): same three people as Nisaba 15, 0371, *na-na-sa₃*, *sa₆-ma-ar*, *a-li-a-hi dam-a-ni*, "men of Meluhha", bezoar shepherds. Three tablets across one year, **no further Meluhhan names**.
+
+Not reachable from this environment (site-side blocks, not the network setting): harappa.com and academia.edu (403 to scripts), Wiley and Taylor & Francis (paywalled), ijas.usb.ac.ir (resets), metmuseum.org pages (429 rate limit; the Met data API works). Kjærum 1983, Kjærum 1994 and Laursen & Steinkeller 2017 are printed books.
