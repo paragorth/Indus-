@@ -187,4 +187,6 @@ The round-seal tradition favours the short-horned bull emblem and is mostly late
 
 A person sign next to a number appears in 10 of 56 texts of this tradition vs 6 of 3,194 home texts (STRATEGIES S98b), a West Asian way of recording people.
 
+The tradition also has its own formulae, never seen at home (STRATEGIES S103): **415-803-1-…** opens a Gulf-type seal from Ur (415-803-1-328-4-2) and one attributed to Dilmun (415-803-1-717-354); "1-90" and "55-90" recur at two find-spots each.
+
 **Consequence for anchor-hunting.** The texts most likely to contain non-Harappan (Gulf, Dilmun, Mesopotamian) personal names are the ~42 round and cylinder seals, wherever they were found. They are the set to check against names of Dilmunites and Meluhhans attested in cuneiform, if a phonetic hypothesis ever becomes testable. Their residues are short (S53), which argues for word-signs rather than syllabic spelling.
