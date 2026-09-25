@@ -202,3 +202,5 @@ Statistical key-fitting is ruled out: it cannot recover even a planted, known la
 5. **Number-name compounds** (S23, S71): "7 + W585", "3 + arrow", "2 + fish", "3 + burden-carrier". Fixed numbers are the most culture-specific items (seven-groups, star-names). An outside list of numbered groups with dates or seasons could be tested against them.
 
 None of these can be pursued further with the data available here.
+
+**How many anchors would suffice?** In a planted 150-sign syllabary, anchoring the 40 commonest signs, with the right vocabulary, let the search recover 86% of the remaining signs (STRATEGIES S129). Without the anchors, or with a large generic lexicon, it recovered almost nothing (S118, S127). The practical target is a few dozen securely anchored common signs, plus a domain vocabulary (names, titles, commodities) in the right language.
