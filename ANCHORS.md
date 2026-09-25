@@ -171,3 +171,18 @@ Searched 413 Ur III / Old Akkadian / Lagash II / Old Babylonian tablets tied to 
 - *Ur Excavations IV: The Early Periods* (Woolley), p. 50: "a dozen or more seals found at Ur testify to the commerce… in some cases… obviously imports from India, e.g. those which bear inscriptions in the Indus script, but U.7863 [Gadd: U.7683] (No. 631) with an inscription in cuneiform must be a local imitation… It would appear that there were certain Indian traders resident at Ur to whom the true Indus seals belonged… the proportion is very small indeed." Catalogue: U.7027 (UE X 626, plundered grave), BM 122945 (UE X 624, surface), U.16220 cylinder (UE X 632, fill of the Shulgi mausoleum), UE X 625, 628, 631.
 - *Ur Excavations VII: The Old Babylonian Period*: the Tilmun trade is recorded in texts (UET V 292: a ship "from the expedition of Tilmun" bringing gold, copper, hardwood, ivory; the Ea-nasir archive), but "we have no longer any evidence of the representatives of Indian business-houses being established at Ur" in that period. Its catalogue of sealed tablets, envelopes, labels and sealings (U.4888, 6360, 6367, 6720, 6974, 6975, 7700, 7784, 7806, 8813, 16561–2 …) lists **no impression of an Indus or Gulf seal**. The Gulf seals it mentions (U.6020, 7027, 9265, 16181, 16397, 16747; Buchanan's "Tilmun group") are loose seals.
 - **Conclusion:** at Ur, the only site with both Indus-type seals and large archives, **no tablet or bulla bearing an Indus-seal impression has been published**. The bridge object does not exist in the published Ur record. It remains possible in the Bahrain and Failaka reports, which are print-only.
+
+## 18. Reinterpretation after STRATEGIES S46, S65 and S74 (25 Sept 2026)
+
+The "foreign" grammar (person sign first, person + stroke blocks, no home opener) is a property of **round (Gulf-type) and cylinder seals**, not of the find-spot:
+
+| Group | Person sign | Home frame |
+|---|---|---|
+| Round/cylinder seals found in the Indus cities (23) | 26% | 13% |
+| Round/cylinder seals found abroad (19) | 12 of 19 | — |
+| Square seals and pots found abroad (12) | 0 | classic framed texts (Kish, Gonur, Ra's al-Jinz) |
+| Home square seals (1,557) | 5% | 45% |
+
+The round-seal tradition favours the short-horned bull emblem and is mostly late-urban (Period 3C) where dated.
+
+**Consequence for anchor-hunting.** The texts most likely to contain non-Harappan (Gulf, Dilmun, Mesopotamian) personal names are the ~42 round and cylinder seals, wherever they were found. They are the set to check against names of Dilmunites and Meluhhans attested in cuneiform, if a phonetic hypothesis ever becomes testable. Their residues are short (S53), which argues for word-signs rather than syllabic spelling.
