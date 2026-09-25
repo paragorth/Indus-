@@ -167,3 +167,14 @@ fixed-key / verdict: z_fixed=7.0229, pass_fixed=True, fakefit_z_fixed=5.6488, fa
 
 **gap-over-fake = +5.49 SD -> PASS**
 
+### 2026-09-25 00:37:48Z  `break-sanskrit-full-80`  (control)
+method: full key, sanskrit, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 206s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1954 | 0.0122 | 0.1152 | 0.1548 | 0.0121 | 3.3589 | 0.2111 | 2449 | 2121 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=13.5405, pass_fixed=True, fakefit_z_fixed=6.0744, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +3.36 SD -> PASS**
+
