@@ -219,3 +219,14 @@ most stable assignments across real restarts (share of restarts, sign, value, sh
 
 ## Cross-language controls (2026-09-25 01:09:54Z): planted language X, searched with lexicon Y (noise 0.2, letter-shuffle null)
 
+### 2026-09-25 01:11:45Z  `cross-planted-sanskrit-searched-tamil-full-80`  (control)
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 109s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1941 | 0.0064 | 0.1588 | 0.1346 | 0.0123 | 4.8181 | 0.2033 | 2319 | 1825 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=8.8484, pass_fixed=True, fakefit_z_fixed=2.5720, fakefit_pass_fixed=False, PASS=True
+
+**gap-over-fake = +4.82 SD -> PASS**
+
