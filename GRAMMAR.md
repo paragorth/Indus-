@@ -31,6 +31,17 @@ Reading order is right-to-left on the object, first-read-first here.
 - **Abroad and on foreign-format seals.** The person sign moves from text-final (home) to text-initial (abroad), and foreign texts lack the home opener (S20, S42; ANCHORS.md). Round (Gulf-type) and cylinder seals *found at home* also lack the home frame (S46, robust at known sites, S46b). Their person-sign enrichment is shown only for round seals found abroad or of unknown provenance (S46b, S74). Square seals and pots abroad keep the home grammar (S74). That tradition favours the short-horned bull ("gaur") emblem (50% vs 5% of square seals, S65), but square gaur seals follow the home grammar (S65b). The format, not the animal, goes with the grammar.
 - **Time.** The grammar is stable through Mohenjo-daro's sequence and holds at post-1977 sites out of sample (S44). It erodes at Dholavira's late stage 6 (S45).
 
+## Controls that make this a grammar rather than an artefact
+
+- **Unsupervised paradigm finder** (S37, S87, S89, S90):
+  - finds slot classes in Indus (both transcriptions);
+  - finds none in a planted syllabic corpus with the same text shapes, and none in Ur III seal legends;
+  - finds a few in Proto-Elamite (one hub sign).
+- **Non-local constraints** (S50, S51, S67): marker exclusivity and suffix/opener exclusion hold beyond what a bigram model of the same corpus reproduces, in both transcriptions.
+- **Out of sample** (S44): the order predictions hold at 248 texts from sites excavated after 1977.
+- **Repetition** (S88): language-like text, whether syllabic or logographic, repeats signs at 0.7–0.8 of chance; Indus at 0.1–0.3, like Ur III seal legends. Long texts are stacked formulae (S91b).
+- **Inventory sizes** (S85): about 200 closers (Chao1) vs an effectively unbounded set of middles.
+
 ## What this means
 
 The Indus seal text looks like an **owner legend**: an individual element (middle) set in a small inventory of shared titles/markers, like an Ur III seal legend (name, title, "son of"). There is one difference: no "son of" element is found (S12). The markers are mostly suffixed (S33).
