@@ -116,3 +116,4 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
 - S17's "short texts spread" part did not replicate (S76).
 
 **Frozen for new data:** R1–R11 in `prereg/preregistration-3-frozen.json`.
+| 78 | The three openers W817, W861 (diamond forms, = M267) and W820 (wheel, = M391): regional or temporal choice? | Initial uses by site: Mohenjo-daro 88/86/95, Harappa 60/44/47, Lothal 14/14/10, Dholavira 9/9/9, Kalibangan 5/6/7 (χ² across 5 sites p = 0.89). Mohenjo-daro Intermediate 24/21/27 vs Late 14/22/12 (p ≈ 0.14) | **Uniform everywhere.** The three openers occur in about equal proportions in every city and phase: a fixed three-way choice built into the system (three categories of seal holder?), not a local custom. |
