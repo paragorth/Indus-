@@ -168,7 +168,7 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 | 140 | Cross-city validation of the functional dictionary: classes computed separately from Mohenjo-daro texts and from Harappa texts | 58 signs with 15+ uses in both cities: **same class for 45 (78%) vs 21% expected by chance**. Most disagreements are core ↔ opening element (6) and title ↔ core (2), i.e. neighbouring categories | **The functions are stable across the two largest cities.** The dictionary's classes are properties of the script, not of one site's scribes. Boundary cases between name elements and opening elements are the least certain entries. |
 | 141 | Are counted signs more often pictures of countable objects (iconic meaning anchors)? Shape descriptions classed as object (fish, tree, jar, arrow, leaf, person, …) vs geometric | Counted items and number-names: 6 object vs 3 geometric; core/name elements 15 vs 15; frame signs 10 vs 6 (Fisher counted vs core p = 0.46) | **Null.** Counted signs are not detectably more pictorial than name elements. Iconicity gives no systematic meaning anchor beyond individual cases (e.g. the tree counted 3–8). |
 
-## Summary (finalised 23:33 UTC, end of the 2-hour push: 130 strategies)
+## Summary (updated after the push: 141 strategies)
 
 ### Scoreboard: strongest results of the push
 
@@ -177,6 +177,9 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 | Statistical key-fitting as run here cannot read a planted or real known language: passing keys are wrong, and wrong keys beat the true key whenever only the common signs are decoded | S107, S113–S123 | Decisive | 8 objective, data and vocabulary variants |
 | Identifiability holds only for a small (80-sign) syllabary. At 150+ signs, wrong keys win even with every sign decoded and the exact vocabulary known | S124–S127 | Strong (contrast controls) | 3 inventory sizes, 2 search lengths |
 | Constructive: 40 outside anchors (of 150 signs) + right vocabulary → 86% of the remaining signs recovered | S129 | Strong (planted) | 2 anchor levels |
+| Anchor route at Indus scale: 40–60 anchors for a 400-sign syllabary; about 20 (domain vocabulary) or 40 (generic dictionary) for a logo-syllabic script; the anchors also pick the language | S133–S137 | Strong (planted) | noisy anchors and wrong lexicon tested |
+| The only published anchor set (Fuls 2024, 20 Linear Elamite values) gives no more Elamite words than chance, with a test shown to have power | S131, S132 | Solid null | 2 Elamite word lists |
+| Functional dictionary of the 120 commonest signs (function, not sound); classes agree across Mohenjo-daro and Harappa 78% vs 21% chance | S139, S140 | Strong | cross-city |
 | No candidate language (Tamil, Sanskrit, Sumerian, Akkadian, Telugu, Malayalam, Pali, Santali) stands out | S8, S8b, S31, S55 | Solid null | 2 corpora |
 | Frame grammar (opener, marker, middle, closer, suffix) with non-local constraints beyond bigrams | S18, S36–S38, S50, S51, S67 | Strong | IM77 + Wells; out of sample (S44); earlier in-repo work agrees |
 | Slot classes absent in planted syllabic text and Ur III legends | S37, S87, S89, S90 | Strong | Both transcriptions |
