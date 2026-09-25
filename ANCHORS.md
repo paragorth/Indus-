@@ -138,3 +138,12 @@ Shape similarity between Indus and Linear Elamite signs does not carry sound val
 - From about 1950 BC Dilmun used a **symbol system** (palm branches, palm trees, altars) on pottery, tokens and seals, developing from single symbols to sequences forming "irregular logograms" and pseudo-script. It was exclusive to the royal house and temple (cult of Inzak), in a society Laursen calls illiterate. It is a **successor, not a script**: no sound values.
 - **Dilmun adopted the Indus weight standard about 2050 BC** (Babylonian mercantile texts, Indus cubical weights in Bahrain). CDLI has Ur III references to *na₄ dilmun* ("Dilmun stone", e.g. UET 3, 0672 *kišib₃ na₄ dilmun*), which can be a Dilmun-standard weight stone or seal stone. That is a numeric link (Indus weights ↔ Mesopotamian units), not a phonetic one.
 - The Indus script in Dilmun: the high frequency of the "twins" sign (section 10); the script itself "never gained a foothold".
+
+## 13. Laursen 2010, Fig. 11: the Gulf Type inscriptions (read from the drawings, shapes only)
+Drawings "as seen on the impression". The rightmost sign is first in reading order.
+- **Person / doubled-person ("twins") sign in first position:** Bahrain 6, 7, 8, 11; Iran 15; Mesopotamia 18, 20 (person with dot), 25. It also appears inside sequences: Bahrain 9 (twice), 10; Mesopotamia 24 (doubled, mid-text), 26, 27; Failaka 12, 13; Iran 14.
+- **Recurring block, doubled figure + short-stroke cluster:** Bahrain 7 (`⋮⋮` + twins), 9 (`||||` … twins … person), 10 (`⋮⋮` twins `⋮⋮`), 11 (`| | \ \ | |` + twins). Four of the six Bahrain inscriptions share a "figure + number" block. It is absent from the home Indus-Valley Group 1 drawings (1, 3, 4, 5).
+- **Seal 28** (Iran group): the same layout with a 3-sign Linear Elamite text, *za-ši-ri* (section 10).
+- **Seal 11:** pseudo-script after an initial twins sign.
+
+Structural reading, no language assumed: Bahrain seal texts are built as [doubled figure] + [number-like stroke group] + [1–2 other signs]. A fixed lineage or affiliation marker plus a count plus an individual element is the shape of the "ordered family sequences" Vidale (2005) predicted. **Test to run next:** transcribe these ~29 texts into Wells IDs (they are partly in the merged corpus already: Failaka, Qala'at al-Bahrain, Ur, Kish, Susa, Karzakan) and check whether the stroke count after the figure varies between owners while the figure stays fixed. That is the signature of a family or rank numbering.
