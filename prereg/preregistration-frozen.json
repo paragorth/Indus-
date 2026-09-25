@@ -1,0 +1,70 @@
+{
+ "title": "Prospective predictions: functional sign classes in Indus seal inscriptions",
+ "frozen": "2026-07-22",
+ "author": "Parag Garg",
+ "corpus_requirements": {
+  "register": "stamp seals",
+  "region": "home (Indus zone)",
+  "min_texts": 200,
+  "min_length": 2,
+  "dedup": "exact sequence",
+  "orientation": "boundary-concentration comparison; archaeological evidence overrides",
+  "unclassed_threshold": "n<10",
+  "bootstrap_min": 500
+ },
+ "class_induction": {
+  "TERMINAL": "n>=10 & final_rate>=0.60",
+  "INITIAL": "n>=10 & initial_rate>=0.50 & not TERMINAL",
+  "PRE-TERMINAL": "residual & n>=10 & continuations>=8 & P(next in TERMINAL)>=0.60",
+  "CONNECTIVE": "n>=15 & residual & final_rate<=0.05 & initial_rate<=0.05"
+ },
+ "rules": {
+  "R1": "TERMINAL tokens only in terminal zone (final position, or immediately preceding a TERMINAL token in final position)",
+  "R2": "INITIAL only text-initial",
+  "R3": "CONNECTIVE never at an edge",
+  "R4": "non-final PRE-TERMINAL immediately followed by TERMINAL"
+ },
+ "predictions": {
+  "P1": {
+   "type": "re-derivation",
+   "statement": "modal ending sign takes 28-45% of endings and satisfies TERMINAL threshold",
+   "observed": "33% (29-37)"
+  },
+  "P2": {
+   "type": "re-derivation",
+   "statement": "terminal class joint ending share 50-75%",
+   "observed": "61% (58-65)"
+  },
+  "P3": {
+   "type": "both",
+   "falsifier": true,
+   "statement": "zero-violation compliance (terminal-zone R1) 65-82% and >=25 points above within-text shuffle; report applicability and conditional accuracy",
+   "observed": "76% vs 24%"
+  },
+  "P4": {
+   "type": "exploratory",
+   "statement": "pre-enumerated stroke taxonomy contains >=1 family: >=3 members, monotone frequencies, final-rate<5%"
+  },
+  "P5": {
+   "type": "transfer",
+   "statement": "double-terminal endings (distinct signs) 4-18% of eligible texts"
+  },
+  "P6": {
+   "type": "re-derivation",
+   "statement": "[initial-class]->[high-freq strictly-medial] bigram in corpus top10"
+  },
+  "P7": {
+   "type": "re-derivation",
+   "statement": "final-position entropy (Miller-Madow, min count 30) lower than initial by >=0.3 bits"
+  },
+  "P8": {
+   "type": "transfer",
+   "statement": "foreign texts: elevated mean per-text surprisal under home model; effect size primary; no significance for n<10"
+  },
+  "P9": {
+   "type": "equivalence",
+   "statement": "emblem-animal vs terminal-distribution weighted JSD < 0.10 bits (bias-corrected bootstrap CI below delta)"
+  }
+ },
+ "falsification": "P3 failure falsifies the induced structure; P1-P2 failure falsifies generality of terminal organisation"
+}

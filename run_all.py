@@ -117,14 +117,17 @@ def main():
     ap.add_argument("--only", default=None)
     ap.add_argument("--budget-min", type=float, default=235)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--corpus", choices=["yajnadevam", "im77"], default="yajnadevam")
+    ap.add_argument("--kinds", default=None, help="comma list of key kinds to run, e.g. full,mixed")
+    ap.add_argument("--no-published", action="store_true")
     a = ap.parse_args()
     T0 = time.time()
 
-    texts = C.unique_texts(C.load_corpus())
+    texts = C.unique_texts(C.load_corpus() if a.corpus == "yajnadevam" else C.load_im77_corpus())
     train, held = C.split_texts(texts)
     top = [s for s, _ in C.sign_freq(train).most_common()]
     tam, san = C.load_tamil(), C.load_sanskrit()
-    log(f"## Run started {now()}\n\ncorpus: {len(texts)} unique texts "
+    log(f"## Run started {now()}\n\ncorpus ({a.corpus}): {len(texts)} unique texts "
         f"({len(train)} train / {len(held)} held-out), {len(top)} signs in train; "
         f"lexicons: Tamil {len(tam)} forms, Sanskrit {len(san)} forms; MINLEN={C.MINLEN}; "
         f"restarts={a.restarts}, fakes={a.fakes}, iterations={a.iter_per_sign}*N")
@@ -165,11 +168,15 @@ def main():
 
     if a.only:
         conds = [c for c in conds if c[0] == a.only]
+    if a.kinds:
+        conds = [c for c in conds if c[2] in a.kinds.split(",")]
+    if a.corpus != "yajnadevam":
+        conds = [(f"{a.corpus}-{c[0]}",) + tuple(c[1:]) for c in conds]
 
     best = {}
     with Pool(a.workers) as pool:
         # published key first (fixed-key validator only: it was fitted in-sample)
-        if not a.only:
+        if not a.only and not a.no_published and a.corpus == "yajnadevam":
             pk = V.published_key()
             for lang, lex in (("sanskrit", san), ("tamil", tam)):
                 for mode in ("full", "skel"):

@@ -1,0 +1,92 @@
+{
+ "registered": "2026-09-24",
+ "supersedes": "preregistration-frozen.json (22 July 2026; P1-P9)",
+ "corpus_requirements": "Any Indus corpus not used in this project: ICIT texts absent from both the Mahadevan IDF-80 and Yajnadevam's inscriptions.csv, or new excavation finds. Glyphs mapped via bridge_extended.json / Mahadevan numbers. Reading order first-read-first. Deduplicate identical (site, text, emblem) before any test. Texts with >=2 signs unless stated.",
+ "predictions": [
+  {
+   "id": "Q1",
+   "name": "Stroke morphology of the jar",
+   "statement": "Plain jar (M342 / glyph 740) is text-final in >=60% of its tokens; jar with inner strokes (M343-345 / glyph 741) is text-final in <=15%.",
+   "falsifier": "Either bound violated with >=30 tokens of the marked jar."
+  },
+  {
+   "id": "Q2",
+   "name": "Four-stroke fish is an ending",
+   "statement": "Fish with four surrounding strokes (M65? / glyph 226) is text-final in >=40% of tokens; plain fish (M59 / 220) in <=15%.",
+   "falsifier": "Either bound violated with >=20 tokens of 226."
+  },
+  {
+   "id": "Q3",
+   "name": "Count paradigm starts at three",
+   "statement": "Among short-stroke numerals preceding the tree family (M161/162/169; glyphs 390/405/407), values 3-8 outnumber values 1-2 by at least 8:1.",
+   "falsifier": "Ratio below 4:1 with >=40 numeral-tree tokens."
+  },
+  {
+   "id": "Q4",
+   "name": "Fish takes numbers as fixed words",
+   "statement": "Before plain fish (220), value 5 is absent or <=5% of numeral tokens while values 3 and 6 together are >=60%.",
+   "falsifier": "Value 5 >=15% or 3+6 <40% with >=25 numeral-fish tokens."
+  },
+  {
+   "id": "Q5",
+   "name": "Fixed compounds recur",
+   "statement": "Seven+575 and seven+585 each account for >=70% of numeral tokens before 575/585; III+arrow (33+520) for >=70% of numeral tokens before the arrow.",
+   "falsifier": "Any of the three below 50% with >=10 tokens."
+  },
+  {
+   "id": "Q6",
+   "name": "Ending split by register",
+   "statement": "Comb (M176 / 400) occurs on tablets at >=3x its rate on seals; jar (740) rate on tablets within 0.7-1.4x its rate on seals; man (90), arrow (520), burden-carrier (151/156) on seals at >=1.5x their tablet rate.",
+   "falsifier": "Comb tablet/seal ratio <1.5, or jar ratio outside 0.5-2.0."
+  },
+  {
+   "id": "Q7",
+   "name": "Quantity records avoid the jar",
+   "statement": "Texts containing a count construction (3-8 + tree/crescent) end in the jar at <=60% of the rate of other texts.",
+   "falsifier": "Ratio >=0.9 with >=40 count texts."
+  },
+  {
+   "id": "Q8",
+   "name": "Two-field tablets",
+   "statement": "On two-sided tablets, one face is 'tall strokes (I-IIII) + leaf (M328 / 700)' in >=30% of objects; leaf is text-final on tablets at >=5x its seal rate; the count-face values 2, 3, 4 each exceed value 1 by >=5x.",
+   "falsifier": "Leaf face <15% of two-sided tablets, or value 1 the modal count."
+  },
+  {
+   "id": "Q9",
+   "name": "Denomination locked to type",
+   "statement": "Among name-face texts attested >=5 times with a leaf face, >=50% pair with a single denomination in >=80% of their attestations.",
+   "falsifier": "<25% of such names denomination-locked."
+  },
+  {
+   "id": "Q10",
+   "name": "Emblem independence",
+   "statement": "No sign-by-field-symbol pair survives BH-FDR 5% after deduplication, at any coding granularity, with >=500 inscribed seals.",
+   "falsifier": "Any pair surviving FDR whose enrichment is not attributable to duplicate impressions of one seal."
+  },
+  {
+   "id": "Q11",
+   "name": "Seals and sealings do not co-locate",
+   "statement": "Among sealings whose text matches a seal text of >=3 signs, the seal is found at a different site in >=80% of cases.",
+   "falsifier": "<50% with >=20 matches."
+  },
+  {
+   "id": "Q12",
+   "name": "Substitution structure",
+   "statement": ">=20% of distinct seal texts of >=3 signs have a one-substitution twin; the differing position is the sign before the ending more often than the first position.",
+   "falsifier": "<10% twins, or first position dominates by >=1.5x."
+  },
+  {
+   "id": "Q13",
+   "name": "Stability over time",
+   "statement": "Where texts are dated to excavation periods, jar-final and opener rates on seals differ between earliest and latest period by <=10 percentage points.",
+   "falsifier": "Either rate differs by >=20 points with >=100 seals per period."
+  },
+  {
+   "id": "Q14",
+   "name": "Blind validator for any proposed dictionary",
+   "statement": "Any sign-to-sound key that claims to read the script must produce dictionary words on unseen texts at a rate exceeding both (a) the same key applied to within-text scrambled sequences and (b) 95% of value-shuffled keys, by at least 2 standard deviations.",
+   "falsifier": "Not a falsifier of the script; a criterion for accepting a decipherment. Bonta (2023) and Yajnadevam (2024) fail it."
+  }
+ ],
+ "notes": "All numbers derive from the Mahadevan IDF-80 export, the GitHub database, and Yajnadevam's 5,680-object transcription, as documented in INDUS-DECIPHERMENT-ATTEMPT.md sections 1-20. Frozen before any ICIT-only or post-2024 excavation data were seen."
+}

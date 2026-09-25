@@ -57,6 +57,27 @@ def load_corpus(path=None):
     return out
 
 
+def load_im77_corpus(path=None):
+    """Mahadevan IM77 export: one row per line, signs already in reading order
+    (Mahadevan numbers, prefixed 'M' so they never collide with Wells codes).
+    Lines of one object are separate segments; sign 0 (damage) splits a segment."""
+    path = path or os.path.join(HERE, "data", "im77", "im77_corpus_lines.csv")
+    objs = {}
+    with open(path, newline="") as f:
+        for r in csv.DictReader(f):
+            cur, segs = [], objs.setdefault(r["text_no"], [])
+            for x in r["signs_clean"].split():
+                if x == "0":
+                    if cur:
+                        segs.append(cur)
+                    cur = []
+                else:
+                    cur.append("M" + x)
+            if cur:
+                segs.append(cur)
+    return [(k, v) for k, v in objs.items() if v]
+
+
 def unique_texts(corpus):
     """Deduplicate identical texts (same segment sequence); returns list of segment-lists."""
     seen, out = set(), []

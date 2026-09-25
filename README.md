@@ -1,43 +1,28 @@
-# Indus script: blind key search
+# Indus
 
-Can any simple sign-to-sound key read the Indus corpus as Tamil or Sanskrit,
-measured on held-out texts against controls that a fitted key can't game?
+Computational epigraphy of the Indus script: an audited corpus, a positional grammar, a stroke morphology, a two-field reading of the tablets, an identity directory with shipments, an offline seal reader, two frozen pre-registrations, and a blind validator that any proposed dictionary must pass. There is no dictionary here: the corpus does not contain one, and this repository records every attempt to find it and why each failed.
 
+**Start here:** `docs/INDUS-DECIPHERMENT-ATTEMPT.md` (the full record), then `docs/INDUS-CONTINUATION-PROMPT.md` (the state of the project in one paste).
+
+## Contents
+- `data/im77/` — Mahadevan's corpus, machine-readable: 2,906 texts, 14,153 tokens, with direction, field symbol, object type and excavation level.
+- `data/indus-repro-package.zip` — the Zenodo package (DOI 10.5281/zenodo.21497936): the open database, `run_all.py`, all reported numbers.
+- `data/derived/` — the extended sign bridge (143 signs → Mahadevan numbers), the merged 5,369-object corpus in reading order, the identity directory (386 recurring identities with sealing sites), affiliations, sign dossiers.
+- `code/` — `p3lib.py`, `p3_engine.py` (Part 3 engine), `read_texts.py` (template reader for the 1977 scan; needs the sign-list page images, not included), `validator.py` (the blind test for keys), `fetch_external.sh`.
+- `prereg/` — the two frozen prediction sets (July 2026: P1–P9; September 2026: Q1–Q14) with falsifiers.
+- `reader/indus-reader.html` — open it in any browser: CISI number or sign sequence → sign shapes, slots, document type, identity, shipments.
+- `papers/` — Paper A (the corpus is not one statistical population) and Paper B (functional sign classes with out-of-sample validation).
+
+## Reproduce
 ```
-./scripts/fetch_data.sh          # public data -> data/raw/ (not committed)
-python validator.py --published  # fixed-key test of Yajnadevam's published key
-python run_all.py                # everything; logs to RESULTS.md, keys to results/
-python prereg/test_prereg.py     # preregistered predictions vs new_data/*.csv
+pip install -r requirements.txt
+(cd code && ./fetch_external.sh)
+unzip data/indus-repro-package.zip -d data/repro
+python data/repro/repro/scripts/run_all.py
 ```
 
-## Data (all public)
+## Rules this project keeps
+Coherence is not evidence; every number is computed, never narrated. Sealings are deduplicated before any emblem or object test. Mohenjo-daro seals first; every other stratum is a transfer test. A dictionary counts only if it passes `code/validator.py` on unseen texts — two published decipherments do not.
 
-| role | source |
-|---|---|
-| corpus | Yajnadevam's `inscriptions.csv` (5,680 objects, Wells sign numbers), github.com/yajnadevam/lipi |
-| published key | the same repo's `xlits.csv` |
-| Tamil lexicon | TamilVU dictionary headwords (63,896), from open-tamil. **Stand-in for DEDR**, which is not reachable from this environment |
-| Sanskrit lexicon | Monier-Williams `<k1>` headwords, sanskrit-lexicon/csl-orig |
-
-The Mahadevan (IM77) corpus, the merged reading-order corpus, and
-`preregistration-2-frozen.json` weren't available. Bonta's map isn't implemented.
-
-## Method
-
-* Texts are deduplicated and reversed into reading order. Damage, spaces and line breaks
-  split segments. The split is 50/50 train / held-out by text.
-* Both languages go into one reduced alphabet (`indus_core.py`).
-* Keys are fitted by simulated annealing on the training half (`search.py`). Score = 2–5-sign
-  windows whose rendered string is a lexicon form.
-* **Two tests, both required** (`experiment.py`):
-  1. *Fixed-key* (`validator.py`, as specified): held-out rate vs scrambled order and vs 30
-     fake lexicons (letters shuffled within words, CV template kept, same size).
-  2. *Search-matched null*: the identical search re-run against each of 30 fake lexicons.
-     gap-over-fake = (mean real held-out − mean fake held-out) / sd(fake).
-  Test 1 alone is not enough. A key fitted to a *fake* lexicon passes it,
-  because held-out texts repeat the same formulae the key was fitted to.
-* **Positive controls** plant Tamil or Sanskrit under a secret key into a corpus with
-  the real length distribution, and run the same pipeline. A search type whose
-  control fails is reported as having no power, not as evidence either way.
-
-Never read any output of this pipeline as a translation.
+## Key search (September 2026)
+`SEARCH.md` describes a blind search for a sign-to-sound key: Tamil and Sanskrit, syllabic, logographic and mixed keys, simulated annealing with a search-matched fake-lexicon null and planted-language positive controls. Results log: `RESULTS.md`. Tests for Q1–Q14: `prereg/test_prereg.py` (`PREREG_RESULTS.md`).
