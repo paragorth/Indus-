@@ -25,6 +25,7 @@ Reading order is right-to-left on the object, first-read-first here.
 
 - **Two numeral systems (S70).** Short strokes (3–8) count trees, the crescent and the "Seven-X" signs. Tall strokes (1–4) count the arrow, the jar, W590, W240 and W384. The item classes are almost disjoint. But most tall-stroke uses have a fixed value per item (arrow = 3, jar = 2, fish = 2; S71), so they are lexicalised number-compounds rather than counts. Genuine counting shows mainly with short strokes on trees. Counted items sit mostly in the closing part of the text (S68).
 - **Numbers.** Some signs are genuinely counted (trees 3–8, smooth). Others take one fixed number as part of a name: "7" with W585/W575, then the jar ("Seven-X" closers); the fish with 3, 4 and 6 (S23, Q4).
+- **Tablets as vouchers (S93, S94).** Two-sided Harappa tablets put a count (N + leaf) on one face and a text on the other, almost never two counts (4 vs 34 expected). A given text tends to keep the same count, even on hand-incised tablets (P = 0.04).
 - **Animal image vs text.** They are independent: no sign, and hardly any aspect of form, depends on the animal (S15, S28).
 - **Line breaks.** They fall at weak junctions, so lines are units (S27).
 - **Repetition.** Indus avoids repeating a sign within a text, like formulaic legend systems (Ur III seal legends, proto-cuneiform) and unlike running text (S9, S16). This is transcription-sensitive: adjacent doubles must be handled the same way in every corpus.
