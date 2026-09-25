@@ -69,3 +69,14 @@ fixed-key / verdict: z_fixed=7.7945, pass_fixed=True, fakefit_z_fixed=6.5265, fa
 
 **gap-over-fake = +2.74 SD -> fail**
 
+### 2026-09-25 00:16:58Z  `control-planted-sanskrit-full-80-noise0.4`  (control)
+method: full key, sanskrit, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 114s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0854 | 0.0049 | 0.0643 | 0.0663 | 0.0078 | 2.4359 | 0.0928 | 1150 | 1021 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=5.6270, pass_fixed=True, fakefit_z_fixed=5.7226, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +2.44 SD -> fail**
+
