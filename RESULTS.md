@@ -346,3 +346,14 @@ fixed-key / verdict: z_fixed=6.7966, pass_fixed=True, fakefit_z_fixed=9.1277, fa
 
 **gap-over-fake = +3.23 SD -> PASS**
 
+### 2026-09-25 21:53:21Z  `s8-akkadian-cross-planted-tamil-full-80`  (control)
+method: full key, akkadian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 72s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1172 | 0.0128 | 0.0728 | 0.0846 | 0.0092 | 3.5341 | 0.1505 | 1757 | 1193 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=8.3466, pass_fixed=True, fakefit_z_fixed=4.9163, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +3.53 SD -> PASS**
+
