@@ -291,3 +291,14 @@ Not run after the STOP: N = 150/250 syllabic, mixed, logographic and skeleton co
 Published key: Yajnadevam's xlits.csv fails at the calibrated settings (Sanskrit full-string z 0.02, real below scrambled; Q14 value-shuffle criterion: rejected on all three corpora). At a 3-letter minimum it passes the fixed-key test (z 3.6), which says more about that test than about the key.
 ## Strategy 8: new candidate languages via CDLI lexicons (2026-09-25 21:43:43Z)
 
+### 2026-09-25 21:45:14Z  `s8-sumerian-power-planted-sumerian-full-80`  (control)
+method: full key, sumerian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 90s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2024 | 0.0070 | 0.1715 | 0.1254 | 0.0133 | 5.7913 | 0.2161 | 2476 | 1867 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=6.2782, pass_fixed=True, fakefit_z_fixed=5.4942, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +5.79 SD -> PASS**
+
