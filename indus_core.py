@@ -259,7 +259,61 @@ def fake_lexicon(lex, seed):
     return out
 
 
+FAKE_KIND = os.environ.get("FAKE_KIND", "shuffle")   # "shuffle" or "markov"
+
+
+def markov_forms(real, seed, order=2):
+    """Fake form set, same size and same length distribution as `real`, generated
+    by a character model with `order` letters of context trained on `real`
+    itself.  It keeps the phonotactics (nasal+stop clusters, common endings) and
+    drops the vocabulary.  Real words the model happens to regenerate are kept,
+    which can only make the fake harder to beat."""
+    rng = random.Random(seed)
+    B, E = "^", "$"
+    trans = {}
+    for w in real:
+        s = B * order + w + E
+        for i in range(order, len(s)):
+            trans.setdefault(s[i - order:i], Counter())[s[i]] += 1
+    table = {k: (list(c), list(c.values())) for k, c in trans.items()}
+    lens = Counter(len(w) for w in real)
+    out = set()
+    for L, n in sorted(lens.items()):
+        made, tries = 0, 0
+        while made < n and tries < n * 400:
+            tries += 1
+            ctx, w = B * order, []
+            while len(w) <= L:
+                chars, wts = table[ctx]
+                ch = rng.choices(chars, wts)[0]
+                if ch == E:
+                    break
+                w.append(ch)
+                ctx = (ctx + ch)[-order:]
+            if len(w) == L:
+                f = "".join(w)
+                if f not in out:
+                    out.add(f); made += 1
+    return out
+
+
 def fake_forms(lex, mode, seed, tries=30):
+    if FAKE_KIND == "markov":
+        real = sorted(forms(lex, mode))
+        cache = os.path.join(HERE, "data", "cache", f"markov-{len(real)}-{real[len(real) // 2]}-{mode}-{seed}.txt")
+        if os.path.exists(cache):
+            with open(cache) as f:
+                return set(f.read().split())
+        out = markov_forms(real, seed)
+        os.makedirs(os.path.dirname(cache), exist_ok=True)
+        with open(cache + ".tmp", "w") as f:
+            f.write("\n".join(sorted(out)))
+        os.replace(cache + ".tmp", cache)
+        return out
+    return shuffle_forms(lex, mode, seed, tries)
+
+
+def shuffle_forms(lex, mode, seed, tries=30):
     """Fake form set of exactly the same size as forms(lex, mode).
 
     full: letters shuffled within each word, consonants among consonant slots
