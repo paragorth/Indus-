@@ -230,3 +230,14 @@ fixed-key / verdict: z_fixed=8.8484, pass_fixed=True, fakefit_z_fixed=2.5720, fa
 
 **gap-over-fake = +4.82 SD -> PASS**
 
+### 2026-09-25 01:13:00Z  `cross-planted-english-searched-tamil-full-80`  (control)
+method: full key, tamil, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 74s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1300 | 0.0051 | 0.0937 | 0.0943 | 0.0068 | 5.2276 | 0.1368 | 1629 | 1268 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=7.1376, pass_fixed=True, fakefit_z_fixed=4.0571, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +5.23 SD -> PASS**
+
