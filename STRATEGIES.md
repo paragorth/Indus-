@@ -101,9 +101,9 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
    - Quantities sit in the closing part (S68); each frame slot has its own human-figure sign (S77, S72).
 3. **Two sub-systems in one grammar.** The opener goes with owned seals and the post-jar suffix with sealings, tablets and rods, within each city (S29, S29b, S66). They exclude each other inside a text (S51, S67).
 4. **Two numeral usages.** Short and tall strokes pair with disjoint item classes (S70, S70b), but most are fixed number-compounds (S71); genuine counting shows mainly on trees (S23).
-5. **The round-seal tradition.** Round (Gulf-type) and cylinder seals carry a different grammar (person sign first, persons + numbers, no opener), whether found at Mohenjo-daro or at Ur (S46, S47, S74).
-   - Square Indus seals and pots abroad keep the home grammar (S74).
-   - The tradition favours the short-horned bull emblem (S65, S65b) and is mostly late-urban.
+5. **The round-seal tradition.** Round (Gulf-type) and cylinder seals lack the home owner frame, even when found in Indus cities (S46; robust at known sites, S46b).
+   - Found abroad, they carry person + number texts with the person sign first (S47, S74). Square Indus seals and pots abroad keep the home grammar (S74).
+   - The tradition favours the short-horned bull emblem (S65, S65b).
    - This is the best-defined population for a future outside anchor (ANCHORS §18).
 6. **Typology.** Markers follow their hosts and modifiers precede heads (S33, S35, S36). This excludes head-initial West Asian languages as the frame's language, but it cannot separate Dravidian, Indo-Aryan, Munda or Burushaski (S43).
 7. **Time.** The grammar is stable through Mohenjo-daro's sequence (S45). Tablet texts lengthen from Harappa 3A/B to 3C (S49), and the frame erodes at Dholavira stage 6 (S45).
