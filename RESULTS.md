@@ -134,3 +134,14 @@ corpus (im77): 2286 unique texts (1143 train / 1143 held-out), 340 signs in trai
 
 ## Break tests for `tamil-full-80` (2026-09-25 00:26:51Z)
 
+### 2026-09-25 00:29:27Z  `break-english-full-80`  (control)
+method: full key, english, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 156s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1232 | 0.0120 | 0.0567 | 0.1062 | 0.0102 | 1.6570 | 0.1460 | 1688 | 1384 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=17.0025, pass_fixed=True, fakefit_z_fixed=11.1638, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +1.66 SD -> fail**
+
