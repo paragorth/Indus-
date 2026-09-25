@@ -204,3 +204,36 @@ Statistical key-fitting is ruled out: it cannot recover even a planted, known la
 None of these can be pursued further with the data available here.
 
 **How many anchors would suffice?** In a planted 150-sign syllabary, anchoring the 40 commonest signs, with the right vocabulary, let the search recover 86% of the remaining signs (STRATEGIES S129). Without the anchors, or with a large generic lexicon, it recovered almost nothing (S118, S127). The practical target is a few dozen securely anchored common signs, plus a domain vocabulary (names, titles, commodities) in the right language.
+
+## 20. Shopping list: the 25 signs most worth an outside anchor (STRATEGIES S142)
+
+Ranked by frequency, spread across sites and presence in foreign/round-seal texts (where outside records could exist), among signs whose function allows a lexical value (core/name elements, counted items, number-names, opening elements; FUNCTIONAL-DICTIONARY.md).
+
+| rank | sign | class | shape | texts | sites | in foreign/round-seal texts |
+|---|---|---|---|---|---|---|
+| 1 | W220 | counted item | Fish with no other decoration | 467 | 28 | 8 |
+| 2 | W390 | counted item | Simple tree with branches at the top | 271 | 25 | 8 |
+| 3 | W55 | core / name element | Four small vertical strokes above the same, above the s | 61 | 11 | 6 |
+| 4 | W700 | counted item |  | 561 | 10 | 3 |
+| 5 | W140 | opening element | Person with round breasts and one raised arm | 110 | 8 | 4 |
+| 6 | W415 | core / name element | Pitchfork with tines | 175 | 18 | 3 |
+| 7 | W405 | counted item | Simple tree with branches at the top | 116 | 13 | 3 |
+| 8 | W255 | core / name element | Unknown asymmetric animal? Perhaps a fish with asymmetr | 136 | 11 | 3 |
+| 9 | W590 | core / name element | Square at bottom with vertical bar coming off top middl | 226 | 17 | 2 |
+| 10 | W384 | counted item |  | 31 | 8 | 3 |
+| 11 | W705 | core / name element | U with a long vertical stroke inserted into the gap of | 216 | 13 | 2 |
+| 12 | W840 | core / name element | Two vertical leaves, slightly overlapping | 128 | 14 | 2 |
+| 13 | W803 | core / name element | Leaf with tree at bottom | 135 | 13 | 2 |
+| 14 | W368 | core / name element | Vertical stroke with a triangular wing attached near th | 118 | 11 | 2 |
+| 15 | W240 | core / name element | Fish with extra whiskers on cheeks | 354 | 13 | 1 |
+| 16 | W350 | core / name element | Horizontal line with multiple lines out the top, lines | 48 | 11 | 2 |
+| 17 | W741 | core / name element | Classic jar symbol with two horizontal handles at the t | 222 | 16 | 1 |
+| 18 | W416 | opening element | Pitckfork with two stacked heads | 55 | 9 | 2 |
+| 19 | W235 | core / name element | Fish with a caret shaped hat | 249 | 12 | 1 |
+| 20 | W832 | core / name element | Leaf with small dot inside | 44 | 6 | 2 |
+| 21 | W831 | opening element |  | 18 | 4 | 2 |
+| 22 | W125 | core / name element | Person with bow and arrow | 59 | 14 | 1 |
+| 23 | W520 | number-name (fixed number) | Isocolese triangle on top of vertical line (arrow? spea | 315 | 16 | 0 |
+| 24 | W900 | counted item | Right parenthesis (perhaps with a backward curve at the | 110 | 11 | 1 |
+| 25 | W892 | core / name element |  | 90 | 11 | 1 |
+Per S133–S136, securing about 20–40 of signs like these, plus the right language's vocabulary, is what would let the rest of the script be recovered.
