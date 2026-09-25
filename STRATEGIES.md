@@ -127,7 +127,11 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 
 ## Summary (written 22:25 UTC; finalised at the end of the push)
 
-**No dictionary.** Every language key failed its calibration. Sumerian, Akkadian, Tamil and Sanskrit on middles, Telugu and Malayalam (no power) each score on Indus inside the range they reach on corpora of other languages (S8, S8b, S31, S55). A phonetic key is also argued against by structure: repetition behaves like formulaic word-sign legends (S9, S16, S26), doubled signs change function rather than spell syllables (S57, S58), foreign residues are too short for syllabic names (S53), and sign variants do not track context (S22).
+**No dictionary, and the key search could never have produced one.**
+- Sumerian, Akkadian, Tamil and Sanskrit (on middles) all score on Indus inside the range they reach on other-language corpora; Telugu and Malayalam had no power (S8, S8b, S31, S55).
+- **More fundamentally, the audit (S107, S113) shows that passing keys recover almost none of the true readings, even in planted controls and in real Ur III seal legends** (0–3 of 80). The window-hit objective prefers degenerate keys: the true planted key scores 1,313 hits vs 3,514 for the found key.
+- So every earlier "PASS" or "power OK" detected language-derived text, not a correct key. An injective-key fix is being tested (S114).
+- Structure also argues against a phonetic key: repetition behaves like formulaic legends (S9, S16, S26, S88); doubled signs change function rather than spell syllables (S57, S58); foreign residues are too short for syllabic names (S53); sign variants do not track context (S22).
 
 **What was found instead: a grammar, from data only** (GRAMMAR.md). Note: the opener / core / pre-ending / ending frame and the two stroke uses were already in `docs/INDUS-DECIPHERMENT-ATTEMPT.md`. This push re-derived them independently (from IM77) and added the controls and the new findings listed in GRAMMAR.md, "Relation to earlier work".
 
