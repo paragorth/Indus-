@@ -616,3 +616,5 @@ fixed-key / verdict: z_fixed=14.3272, pass_fixed=True, fakefit_z_fixed=7.7936, f
 
 **gap-over-fake = -0.27 SD -> fail**
 
+## Strategy 107: Ur III seal legends as a known-language positive control, 3200 texts (2026-09-25 22:42:16Z)
+
