@@ -381,3 +381,14 @@ fixed-key / verdict: z_fixed=12.4380, pass_fixed=True, fakefit_z_fixed=5.3947, f
 
 **gap-over-fake = +11.50 SD -> PASS**
 
+### 2026-09-25 22:00:37Z  `s8b-sumerian-cross-planted-akkadian-full-80`  (control)
+method: full key, sumerian, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 104s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2389 | 0.0106 | 0.2021 | 0.1513 | 0.0217 | 4.0394 | 0.2599 | 2907 | 2441 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=9.7844, pass_fixed=True, fakefit_z_fixed=4.1296, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +4.04 SD -> PASS**
+
