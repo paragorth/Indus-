@@ -91,3 +91,14 @@ fixed-key / verdict: z_fixed=3.3322, pass_fixed=True, fakefit_z_fixed=3.4119, fa
 
 **gap-over-fake = +0.66 SD -> fail**
 
+### 2026-09-25 00:22:39Z  `control-planted-tamil-mixed-150-noise0.2`  (control)
+method: mixed key, tamil, top-150 signs, 20 real restarts + 30 fake-lexicon searches, 60000 SA iterations each, 188s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.2300 | 0.0133 | 0.1892 | 0.1428 | 0.0143 | 6.1120 | 0.2533 | 3019 | 2188 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=9.7940, pass_fixed=True, fakefit_z_fixed=8.6955, fakefit_pass_fixed=True, PASS=True
+
+**gap-over-fake = +6.11 SD -> PASS**
+
