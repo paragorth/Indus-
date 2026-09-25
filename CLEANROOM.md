@@ -10,3 +10,11 @@ Adjacent units are merged while the total description length (lexicon + corpus) 
 
 ## 2. Typology without a candidate language
 For 353 units seen at least 5 times: distinct left contexts 4,460, right contexts 4,273, **right/left = 0.96** (shuffled control 1.00). There is no suffix-side or prefix-side concentration of variation. Suffixing languages would show one, and every candidate usually proposed (Dravidian, Indo-Aryan, Elamite) is suffixing. The corpus behaves like a list of fixed labels (formula + name + title) more than like inflected sentences. That is a constraint on genre, not on language.
+
+## 3. Replication on Mahadevan's transcription (IM77, used as data only)
+- 2,827 segments, 11,008 signs. MDL units fitted per half: 85 and 75. **Shared: 51 real vs 7 shuffled.**
+- Most frequent units (Mahadevan numbers): 267-99 ×238, 89-328 ×84, 391-99 ×81, 347-342 ×77, 87-59 ×65, 336-89 ×62, 87-328 ×58, 342-1, 342-176, 150-123, 48-342, 245-245, 336-89-211 …
+- **Cross-transcription agreement:** of the 75 units from the Yajnadevam transcription whose signs map to Mahadevan numbers (via the bridge file, a symbol-to-symbol mapping only), **69 are also units in IM77**. Two independent transcriptions give the same word inventory.
+- Right/left context variety: 0.97 (Yajnadevam 0.96, shuffled 1.00). Same result: no affix-side asymmetry.
+
+Rule for this file: data and symbols from anyone (Mahadevan, Wells, Yajnadevam), no one's interpretations (no readings, no language assumption, no functional labels).
