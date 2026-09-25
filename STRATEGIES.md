@@ -159,7 +159,7 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 
 | Finding | Rows | Strength | Replicated? |
 |---|---|---|---|
-| Statistical key-fitting cannot read a planted or real known language in this setting (wrong keys always beat the true key) | S107, S113–S123 | Decisive | 8 objective, data and vocabulary variants |
+| Statistical key-fitting as run here cannot read a planted or real known language: passing keys are wrong, and wrong keys beat the true key whenever only the common signs are decoded | S107, S113–S123 | Decisive | 8 objective, data and vocabulary variants |
 | Identifiability returns when every sign is decoded with the right vocabulary (80, 150, 300-sign syllabaries). The barrier is the rare-sign tail in short texts, plus the unknown language | S124–S126 | Strong (contrast controls) | 3 inventory sizes |
 | No candidate language (Tamil, Sanskrit, Sumerian, Akkadian, Telugu, Malayalam, Pali, Santali) stands out | S8, S8b, S31, S55 | Solid null | 2 corpora |
 | Frame grammar (opener, marker, middle, closer, suffix) with non-local constraints beyond bigrams | S18, S36–S38, S50, S51, S67 | Strong | IM77 + Wells; out of sample (S44); earlier in-repo work agrees |
