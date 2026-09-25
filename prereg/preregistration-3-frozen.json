@@ -3,27 +3,72 @@
  "basis": "STRATEGIES.md, ANCHORS.md (sections 10-17), CLEANROOM.md; data-only findings from the Yajnadevam and Mahadevan transcriptions, Laursen 2010 Fig. 11, CDLI.",
  "corpus_requirements": "Any Indus-sign inscriptions not in data/derived/merged-corpus-reading-order.json or data/im77/: new excavations, ICIT-only texts, newly published Gulf Type seals. Deduplicate identical (site, text). Reading order first-read-first.",
  "predictions": [
-  {"id": "R1", "name": "Repetition avoidance",
+  {
+   "id": "R1",
+   "name": "Repetition avoidance",
    "statement": "In new home (Indus-valley) texts of 4-6 signs, the share with any repeated sign is <= 0.35 of the chance rate computed from the new corpus's own sign frequencies.",
-   "falsifier": "Ratio >= 0.7 (the level of readable scripts) with >= 150 texts."},
-  {"id": "R2", "name": "Foreign texts are led by person signs",
+   "falsifier": "Ratio >= 0.7 (the level of readable scripts) with >= 150 texts."
+  },
+  {
+   "id": "R2",
+   "name": "Foreign texts are led by person signs",
    "statement": "In new Indus-sign texts found outside the Indus valley (Gulf, Mesopotamia, Iran, Central Asia), >= 15% begin with a person or doubled-person sign (Wells 90/91; Mahadevan 1 and its doubled forms).",
-   "falsifier": "< 5% with >= 20 new foreign texts."},
-  {"id": "R3", "name": "Person + number block abroad",
+   "falsifier": "< 5% with >= 20 new foreign texts."
+  },
+  {
+   "id": "R3",
+   "name": "Person + number block abroad",
    "statement": "In the same new foreign texts, a person/doubled-person sign directly adjacent to a stroke group occurs in >= 10%, and the stroke count varies between texts while the figure stays fixed.",
-   "falsifier": "< 2% with >= 20 new foreign texts."},
-  {"id": "R4", "name": "No home opener abroad",
+   "falsifier": "< 2% with >= 20 new foreign texts."
+  },
+  {
+   "id": "R4",
+   "name": "No home opener abroad",
    "statement": "New foreign texts begin with a home opener (Wells 817/861/820; Mahadevan 267/391) in <= 5%.",
-   "falsifier": ">= 15% with >= 20 new foreign texts."},
-  {"id": "R5", "name": "Regional fusion of fish + arrow",
+   "falsifier": ">= 15% with >= 20 new foreign texts."
+  },
+  {
+   "id": "R5",
+   "name": "Regional fusion of fish + arrow",
    "statement": "Among new texts containing either the stroked fish (Wells 226) or the sequence plain fish + arrow (Wells 220-520), the share of the fused form is higher at Mohenjo-daro than at Harappa.",
-   "falsifier": "Fused share at Harappa >= fused share at Mohenjo-daro with >= 15 cases at each site."},
-  {"id": "R6", "name": "Leaf counts are not binary weights",
+   "falsifier": "Fused share at Harappa >= fused share at Mohenjo-daro with >= 15 cases at each site."
+  },
+  {
+   "id": "R6",
+   "name": "Leaf counts are not binary weights",
    "statement": "On new two-sided tablets with a tall-stroke + leaf face, value 3 is at least as common as value 2.",
-   "falsifier": "Value 3 < half of value 2 with >= 40 leaf faces."},
-  {"id": "R7", "name": "No local place-name signs",
+   "falsifier": "Value 3 < half of value 2 with >= 40 leaf faces."
+  },
+  {
+   "id": "R7",
+   "name": "No local place-name signs",
    "statement": "A new site with >= 50 deduplicated seals has at most 2 signs over-represented there after BH-FDR 5% (one-sided Fisher against all other sites).",
-   "falsifier": ">= 6 surviving site-specific signs at one new site."}
+   "falsifier": ">= 6 surviving site-specific signs at one new site."
+  },
+  {
+   "id": "R8",
+   "name": "Opener on owned seals, suffix on impressions/tablets",
+   "statement": "In new material, the opener 267-99 (W817/861-2) is at least 2x more frequent on seals than on sealings + moulded tablets, and the post-jar suffix (342-176 or 342-1; W740-400/W740-90) at least 2x more frequent on sealings + tablets than on seals.",
+   "falsifier": "Either ratio <= 1 with >= 150 seals and >= 50 sealings/tablets."
+  },
+  {
+   "id": "R9",
+   "name": "Foreign grammar follows seal format",
+   "statement": "New round (Gulf-type) or cylinder seals with Indus signs, wherever found, carry the home frame (opener or jar-final) in <= 25% of texts and a person sign (W90/91) in >= 15%.",
+   "falsifier": "Frame >= 45% or person sign <= 5% with >= 15 such seals."
+  },
+  {
+   "id": "R10",
+   "name": "Marker exclusivity",
+   "statement": "In new texts, M99 (W2 non-initial) and M123 (W60) co-occur in <= 1/3 of the number expected from a bigram model trained on the old corpus.",
+   "falsifier": "Co-occurrence >= the bigram expectation with >= 300 new texts."
+  },
+  {
+   "id": "R11",
+   "name": "Closed title slot",
+   "statement": "In new seals, the X in X-jar closers is drawn from a closed set: >= 60% of new closer pairs are already attested in the old corpus, vs <= 40% for new central (middle) bigrams.",
+   "falsifier": "New closer pairs attested at a rate no higher than new central bigrams, with >= 100 new seals."
+  }
  ],
- "notes": "Frozen before any new data were seen. Harness: extend prereg/test_prereg.py."
+ "notes": "Frozen before any new data were seen. Harness: extend prereg/test_prereg.py. R8-R11 added 25 Sept 2026 22:14Z from STRATEGIES S29, S46, S50/S51, S40, before any new data."
 }
