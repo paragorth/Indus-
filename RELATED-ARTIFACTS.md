@@ -83,3 +83,16 @@ Sources on archive.org: OIP 72 (Frankfort, *Stratified Cylinder Seals from the D
 
 ## Ur Excavations VII plates checked (PDF from archive.org, link supplied by the user)
 Plates 61–62 (about 40 cylinder-seal impressions from Old Babylonian Ur, and gem-engravers' trial pieces U.16927A–G, 16928, 16994A–B) were inspected page by page. All are standard Babylonian presentation, worship and contest scenes with cuneiform. **No stamp impression, no short-horned bull with a sign line, no Gulf-type round seal.** Plate 60 is sculpture. No unlabelled Indus or Gulf sealing is illustrated in UE VII.
+
+## Ur Excavations X (Legrain 1951), Plate 37 and catalogue p. 45: the Ur stamp seals (screenshots supplied by the user; archive.org borrow copy)
+Known Indus / "Indian" seals: nos. 624–633. **631** = U.7683 = BM 120573 ("Indus style", 28×25×12 mm, Diqdiqqah; cuneiform legend; this confirms U.7683, so UE IV's "U.7863" is a misprint). **632** = U.16220, BM 122947 (Gadd no. 6), white stone cylinder with humped bull, palm, scorpion, snakes, rayed figure, from a Larsa tomb cut into Amar-Suen's NW annex. **633** = U.18928, haematite square stamp with tubular handle, **Sargonic grave PJ 103**, ritual libation scene "of archaic style".
+
+The unlabelled stamp seals 634–653 were checked one by one, and **none carries a sign line or any writing.** Candidates of foreign manufacture or style:
+- **634** U.18249 (Dq): god standing on a lion, turban, "strange and scarcely in the Babylonian style"; dark steatite stamp/die.
+- **637** U.17011 (AH lower level II): red marble, four curving lines forming a cross with a square centre (compare Iranian / Bactrian compartmented seals).
+- **639** U.17340: god standing on an animal, holding a rope to its nose; grey limestone.
+- **649** U.16665 (birds, stars, crescents) and **650** CBS 35-1-20 (bull-man and winged dragon): steatite stamps with a **perforated ridged back**, the Indus and Gulf back-type.
+- 643–648: scorpions and lizards on small square steatite stamps with pyramidal backs (U.16618, 19579, 6066, 6866 Abu Kimba …).
+The rest are Babylonian or later (653: emblems of Adad, Marduk, Nabu).
+
+**Result:** the Ur seal corpus has no unrecognised Indus-inscribed seal. The foreign-style stamps (634, 637, 639, 649, 650) are uninscribed, so none can bridge Indus signs to a name.
