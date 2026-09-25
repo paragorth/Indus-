@@ -16,7 +16,7 @@ Reading order is right-to-left on the object, first-read-first here.
 | Middle-initial M65, M86 | S24, S38 | Deletable (17% and 13% of uses vs 4% baseline); they follow opener+marker (M65 after M99 41:1), so they open the middle rather than the text |
 | Opener 267-99 (also 391-99, 293-123-343) | S18, S29, S32, S33 | Starts 143 long seal texts. M99 and M123 are never initial and follow 81 and 29 different hosts respectively (post-positioned markers). Used on seals owned; almost absent from impressions and tablets |
 | Middle | S17, S19, S26, S32 | Unique to one object and one city. Texts of 6 or more signs never recur across cities. No productive name heads at the start; mild concentration at the end. Combines with any closer at chance rate |
-| Closer X + jar (or 162/169/15/254/12) | S17, S18, S25, S30 | Short 1–2 sign texts that appear on their own on seals in several cities, more often than chance; not city-specific. Replicated in the Wells transcription |
+| Closer X + jar (or 162/169/15/254/12) | S17, S18, S25, S30, S40, S62, S63 | Short 1–2 sign texts that appear on their own on seals in several cities, more often than chance; not city-specific, but clustered by quarter and house *within* cities (Mohenjo-daro P = 0.025, Harappa P = 0.011). A closed class. Replicated in the Wells transcription |
 | Suffix M176, M1 after the jar | S24, S29 | Deletable; 5× more frequent on sealings, moulded tablets and rods than on seals, within each city. Belongs to the tablet/token sub-system |
 
 **Order (S36–S38).** Pairwise order between slot classes holds 85–100%: opener → marker 99/123 → 65/86 → {162,169} / {8,347} → closer {342,211,15,12} → suffix {176,1}. Unsupervised complementary-distribution analysis recovers the same classes (S37).
