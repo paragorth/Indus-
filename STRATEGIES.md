@@ -157,7 +157,7 @@ Conventions: **W###** = Wells/Yajnadevam sign codes (merged corpus, `data/derive
 | 129 | **The constructive case:** 150-sign planted syllabary, all signs decoded, right vocabulary, **with the 40 (or 75) commonest signs anchored** to their true values (`strat_anchor150.py`) | **40 anchors → 95 of the other 110 signs recovered (86%)**; 75 anchors → 72 of 75 (96%); found scores 2,661 / 2,670 vs true 2,674 | **This is what decipherment would need.** Once about a quarter of the sign inventory is pinned by outside evidence *and* the right vocabulary is known, the search recovers most of the rest. Compare S118: with a large lexicon and only the top 80 signs decoded, 40 anchors gave 6 of 40. So the realistic route for Indus is (1) outside anchors for a few dozen common signs, (2) a restricted domain vocabulary (names, titles, commodities) in the right language, (3) a key over the whole inventory. Steps 1 and 2 need evidence that does not exist yet (ANCHORS §19). |
 | 130 | How few anchors suffice, and does it survive a big generic lexicon? (150-sign planted syllabary, all decoded; `strat_anchor_min.py`) | Right vocabulary: **10 anchors → 5 of 140 recovered; 20 anchors → 26 of 130 (20%)**; 40 anchors → 95 of 110 (S129). Full 62,868-word Tamil lexicon with 40 anchors → **62 of 110 (56%)** | **A threshold between about 20 and 40 anchors** (15–25% of the inventory). Above it, the rest largely falls into place, even with a generic large dictionary (56%). Below it, almost nothing is recovered. For a 400-sign script, this means on the order of 60–100 securely anchored signs. |
 
-## Summary (finalised 23:10 UTC)
+## Summary (finalised 23:33 UTC, end of the 2-hour push: 130 strategies)
 
 ### Scoreboard: strongest results of the push
 
