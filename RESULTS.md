@@ -252,3 +252,40 @@ fixed-key / verdict: z_fixed=8.0487, pass_fixed=True, fakefit_z_fixed=6.2930, fa
 
 **gap-over-fake = +3.55 SD -> PASS**
 
+### 2026-09-25 01:17:34Z  `cross-planted-tamil-searched-english-full-80`  (control)
+method: full key, english, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 109s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0945 | 0.0079 | 0.0474 | 0.0844 | 0.0054 | 1.8781 | 0.1077 | 1281 | 1167 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=7.9647, pass_fixed=True, fakefit_z_fixed=13.3662, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +1.88 SD -> fail**
+
+## Final entry (2026-09-25 01:18Z, about 1 h 20 min of compute)
+
+**No key survived.**
+
+`tamil-full-80` met every pre-set criterion (+5.47 SD gap over fake lexicons, fixed-key z 6.4, held-out > scrambled), and the run halted with STOP.md as instructed. The break tests then showed the criterion does not identify a language:
+
+| lexicon | gap on Indus corpus (SD) | gap on a planted corpus of a *different* language (SD) |
+|---|---|---|
+| Tamil | +5.47 (Mahadevan transcription: +5.49) | +4.82 on planted Sanskrit, +5.23 on planted English |
+| Sanskrit | +3.36 | +3.55 on planted Tamil |
+| English | +1.66 | +1.88 on planted Tamil |
+
+Each lexicon scores on the Indus corpus about what it scores on a corpus written in another language. So the pass measures "language-like, formulaic sequences" (plus Tamil's repetitive phonotactics: the best key maps 18/80 signs to `tan` and reads `tantan`, `natan`, `tantam` on the opener and jar formulae), not Tamil. Supporting results:
+- On a structure-free corpus (signs drawn i.i.d. from real frequencies), Tamil still beats its letter-shuffled fakes by 7.1 points, three-quarters of its 9.6-point margin on the real corpus.
+- A null that keeps phonotactics (Markov fake lexicons) makes everything fail, including planted Tamil (-1.0 SD), so it has no power either.
+
+Calibrated verdict: a language is supported only if its gap on the Indus corpus clearly exceeds its gap on corpora of other languages. None does.
+
+Best gap-over-fake reached per language and search type (Yajnadevam corpus, letter-shuffle null, top-80 syllabic keys):
+- Tamil / full syllabic: +5.47 SD, **not above the cross-language baseline (+4.8 to +5.2)**
+- Sanskrit / full syllabic: +3.36 SD, **not above the cross-language baseline (+3.55)**
+- English (control) / full syllabic: +1.66 SD
+
+Not run after the STOP: N = 150/250 syllabic, mixed, logographic and skeleton conditions on the real corpus. The criterion they would be judged by is now known not to discriminate languages. The skeleton ("inherent vowel") and logographic searches have no power anyway: their planted controls fail (+0.66 and -1.67 SD). The Sanskrit search detects planted Sanskrit only without noise (+3.41 SD at 0% noise; fails at 20% and 40%).
+
+Published key: Yajnadevam's xlits.csv fails at the calibrated settings (Sanskrit full-string z 0.02, real below scrambled; Q14 value-shuffle criterion: rejected on all three corpora). At a 3-letter minimum it passes the fixed-key test (z 3.6), which says more about that test than about the key.

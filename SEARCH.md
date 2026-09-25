@@ -42,4 +42,8 @@ The Mahadevan (IM77) corpus, the merged reading-order corpus, and
 
 The frozen predictions Q1–Q14 are tested by `prereg/test_prereg.py` (results: `PREREG_RESULTS.md`).
 
+## Outcome (25 Sept 2026)
+
+No key survived. `tamil-full-80` passed the pre-set criteria (+5.47 SD) and halted the run, then failed the cross-language control: the Tamil lexicon scores the same on planted Sanskrit (+4.82) and planted English (+5.23). A fake-lexicon null alone cannot identify a language; any future criterion needs a cross-language baseline. Details: `RESULTS.md`, 'Final entry'. Scripts: `break_test.py`, `markov_test.py`, `cross_test.py`.
+
 Never read any output of this pipeline as a translation.

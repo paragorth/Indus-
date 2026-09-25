@@ -1,4 +1,8 @@
-# STOP: `tamil-full-80` passed
+# STOP: `tamil-full-80` passed, then was broken
+
+**Retracted as evidence (2026-09-25 01:18Z).** The same pipeline gives the Tamil lexicon +4.82 SD on a corpus of planted *Sanskrit* and +5.23 SD on planted *English*, the same as its +5.47 SD on the Indus corpus. The pass measures language-like formulaic structure, not Tamil. See RESULTS.md, 'Final entry'. Nothing below is a reading.
+
+## Original record
 
 2026-09-25 00:25:58Z
 
