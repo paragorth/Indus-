@@ -45,3 +45,13 @@ Method: all 10,854 Met objects dated 3300–1500 BC. Kept the Ancient Near Easte
 **Absent:** no unicorn, elephant, rhinoceros or gharial on any non-Indus Met object of the period. In the Met's holdings the most diagnostic Indus animals stay inside the Indus sphere, and only the zebu and the tiger travel. This fits the Gulf-seal pattern: abroad, the gaur/short-horned bull replaces the unicorn.
 
 **None of these objects carries writing**, so none can fix a sign value. Their use is mapping where Indus iconography went: the Gulf, eastern Iran and the Oxus. That is also where inscribed objects from the same workshops, the Gulf seals and the Linear Elamite sites, might carry names.
+
+## Further sources searched (25 Sept 2026)
+
+- **Cleveland Museum of Art open access** (68,778 objects; full descriptions searched): only 305 objects fall in 3300–1500 BC, and none outside the Indus carries an Indus motif. Its three Indus seals (1964.104, 1973.160, 1973.161) and the Quetta ibex jar (2001.1) are already Indus-labelled.
+- **Smithsonian open access:** the GitHub repository only points to off-site storage (blocked here).
+- **CDLI catalogue, all fields** (for elephant, zebu, rhinoceros, gharial, unicorn, Indus, Harappan, Meluhha, bison): 8 hits.
+  - **P387604** (UCLA YRL SC 1826-Bx3-8, Old Babylonian, unprovenanced): a clay tablet with a **hand-drawn zebu**, the South Asian humped bull, on a Mesopotamian school or practice tablet. Unpublished. Worth an image check.
+  - **P500711 = BM 110450** (NABU 2017/033), catalogued "Harappan?": published by Proust 2017 as an ordinary Babylonian metrological scratch pad. The Harappan label looks like a catalogue error. Dead end.
+  - **P302053 = ENES 1089 / NCBS 00876** (Yale, Newell Collection): a steatite button-handled stamp catalogued as Harappan, held in a *Babylonian* seal collection. Its Mesopotamian find context, if recorded, would make it one of the foreign-found Indus seals.
+  - **CUSAS 40, 1354 and 1582** (Irisagrig, Šu-Suen 6, months 3 and 12): the other two ration texts for "men of Meluhha" (shepherds). They are catalogued but not transliterated in this dump, so any further Meluhhan names on them need the publication (George 2019, CUSAS 40).
