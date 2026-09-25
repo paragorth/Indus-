@@ -629,3 +629,7 @@ fixed-key / verdict: z_fixed=12.0461, pass_fixed=True, fakefit_z_fixed=4.8530, f
 
 **gap-over-fake = +4.71 SD -> PASS**
 
+
+---
+## Correction (25 Sept 2026, 22:55 UTC): the planted "power" controls never decoded anything
+Checked against the true planted mappings (STRATEGIES.md S107, S113), the best keys of the passing positive controls recover almost nothing: planted Tamil +6.39 SD PASS with 2 of 80 signs correct; planted Sumerian +5.79 PASS with 0 of 80; real Ur III seal legends searched with Sumerian +4.71 PASS with 0 of 80. The gap-over-fake statistic rewards degenerate keys that inflate lexicon hits. It detects "language-derived text" but is not evidence of a correct key. Every "PASS" and "power OK" above must be read that way; no result in this file is a decipherment, positive or negative, of language identity.
