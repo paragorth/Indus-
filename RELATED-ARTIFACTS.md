@@ -71,3 +71,12 @@ In the Indus corpus the zebu ("humped bull", IM77 field symbols 31/32) is on **5
 
 ## Met 1987.96.22, Dilmun stamp seal "hunters and goats, rectangular pen (?)" (photo supplied by the user)
 Round Dilmun Type seal, early 2nd millennium BC, with an impression. Rearing long-horned goats or ibexes, human figures (hunters) at left and top, a **central gridded rectangle** with a reclining long-horned animal, and short stroke fringes at the edges. **No Indus signs, no cuneiform**: a pictorial Dilmun seal from after the Indus-sign phase, not an anchor. Shape note only: the gridded rectangle resembles the Indus grid sign (Wells 615 / M249, which takes tall-stroke counts on tablets) and may be one of the Indus-derived symbols of the Dilmun system (Laursen 2016).
+
+## Unlabelled candidates: stamp seals and a stamp-seal impression at Tell Asmar (Eshnunna)
+Sources on archive.org: OIP 72 (Frankfort, *Stratified Cylinder Seals from the Diyala Region*) and OIP 88 (Delougaz, Hill & Lloyd, *Private Houses and Graves in the Diyala Region*).
+- OIP 72, pp. 45–46: the Indian cylinder (No. 642 = As. 31:22; elephant, rhinoceros, gharial), found in North Road, F 19:2. Frankfort: its Indus origin "is corroborated by a number of other objects—**beads, a stamp seal, inlays, fragments of pottery**—found in the same Akkadian layer".
+- OIP 88 locus lists (Tell Asmar, houses near North Road / East Street, G–J 18–20):
+  - **As. 32:996, "stamp seal impression"**, locus J 20:16 (with As. 32:993 indistinct cylinder-seal impressions, 995 clay tablet with incised male figure, 997 clay moulds). **Not described or illustrated.** A stamp impression on clay in the Indus-contact quarter is exactly the kind of object that could be an unrecognised Indus or Gulf sealing.
+  - As. 32:687 "stone (alabaster?) stamp seal", H 18 area (East Street); As. 32:221 "hematite stamp seal".
+  - Khafajah (Kh.): about 25 "stone stamp seal" entries (e.g. Kh. VII 21–22, 74; Kh. V 185; Kh. III 519; Kh. II 1383; Kh. IX 109; a "couchant-bull stamp seal"), all catalogued without motif.
+- **Where they are now:** the Diyala finds were divided between the Oriental Institute (ISAC, Chicago) and the Iraq Museum. The ISAC collection database should hold registration photos for As. 32:996 and As. 32:687. **Next:** look up As. 32:996 on the ISAC collections site; if it shows a bull with a sign line, or round Gulf form, it is a new Indus or Gulf sealing.
