@@ -71,3 +71,11 @@ The full Hatamti-Linear Elamite Database (Liège; 45 inscriptions, readings by D
 - CDLI check (135,254 texts): no exact match for any combination of SAG/SAK/KA × KU/LU × ŠI. The only string sharing a prefix is Akkadian *ka-lu-ši-na* "all of them", which is not a name. **This corrects section 5**: the *inim-ma-zi* reading needs a ZI, which Gadd rules out.
 - So the only Indus-type seal carrying a readable legend gives its owner a **non-Mesopotamian name**, /sakkuši/ or /kaluši/. With *Samar* and *Nanaza* (section 5) and the Gulf seal's *Zaširi* (section 6), this is a third name, and a probable fourth, from the Meluhha–Gulf sphere. All are sound shapes only. None of them is written in Indus signs, so none fixes a sign.
 - Gadd's catalogue also gives find-spots for the Ur Indus seals. No. 2 (BM 122187): round seal, short-horned bull, 5 Indus signs. No. 18 (BM 123059): bought via a Baghdad dealer, 5 signs including two "man" signs and a fish, above a unique mating-bull scene. These are the foreign-found texts that section 1 tests.
+
+## 8. Reduplication in foreign-found texts (weak, not replicated)
+
+Two of the attested Meluhhan names are reduplicated (*na-na-sa₃*). If Indus seals abroad spelled foreign names by sound, adjacent repeated signs should be commoner there. Share of texts with an adjacent repeated sign, against length-matched home texts (20,000 draws):
+- IM77: foreign 0.25 (4/16) vs home 0.073, p = 0.023.
+- Merged corpus: foreign 0.043 (1/23) vs home 0.014, p = 0.27.
+
+Suggestive in Mahadevan's transcription only. Not counted as a finding.
