@@ -63,3 +63,8 @@ Method: all 10,854 Met objects dated 3300–1500 BC. Kept the Ancient Near Easte
 - **CUSAS 40, 1354 and 1582** (Irisagrig, Šu-Suen 6, months 3 and 12): same three people as Nisaba 15, 0371, *na-na-sa₃*, *sa₆-ma-ar*, *a-li-a-hi dam-a-ni*, "men of Meluhha", bezoar shepherds. Three tablets across one year, **no further Meluhhan names**.
 
 Not reachable from this environment (site-side blocks, not the network setting): harappa.com and academia.edu (403 to scripts), Wiley and Taylor & Francis (paywalled), ijas.usb.ac.ir (resets), metmuseum.org pages (429 rate limit; the Met data API works). Kjærum 1983, Kjærum 1994 and Laursen & Steinkeller 2017 are printed books.
+
+## Met 2014.717, "Vessel with two zebu" (photo supplied by the user)
+Chlorite with drilled white-stone inlay, about 2600–2350 BC, "probably Persian Gulf region". A humped bull with long curving horns, **head frontal and body in profile** (the Iranian "intercultural style" of Jiroft / Tepe Yahya, not Indus), scale-pattern "mountains" above, wavy water lines. **No writing.** It is a South Asian animal carved by Iranian workshops for Gulf trade: evidence of contact, not an anchor.
+
+In the Indus corpus the zebu ("humped bull", IM77 field symbols 31/32) is on **54 objects** (51 seals, 3 sealings; 46 Mohenjo-daro, 6 Harappa, 2 Kalibangan), about 5% of the unicorn count. Its texts are structurally identical to unicorn texts (mean 4.4 vs 4.8 signs; jar-final 33% vs 36%; opener-initial 22% vs 21%). The emblem does not select a different text type (consistent with the null emblem–sign result, Q10).
