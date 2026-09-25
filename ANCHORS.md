@@ -79,3 +79,26 @@ Two of the attested Meluhhan names are reduplicated (*na-na-sa₃*). If Indus se
 - Merged corpus: foreign 0.043 (1/23) vs home 0.014, p = 0.27.
 
 Suggestive in Mahadevan's transcription only. Not counted as a finding.
+
+## 9. Gadd 1932 catalogue: find contexts of the 18 Indus-style seals from Babylonia
+
+| Gadd no. | museum / excavation no. | type | Indus signs? | context and date |
+|---|---|---|---|---|
+| 1 | BM 120573 / U.7683 | square button seal, short-horned bull | **cuneiform** *sak-ku-ši* | no context. Script "pre-Sargonic" |
+| 2 | BM 122187 | round, short-horned bull | 5 signs | bought at Ur 1928–9, no find-spot |
+| 3 | BM 122946 / U.17342 | button seal, half | yes | Ur 1930–1, no context |
+| 4 | BM 122188 | fragment | fish + 1 | Ur 1930–1, no context |
+| 5 | Penn / U.17341 | lower half | yes | Ur, Diqdiqqah area |
+| 6 | BM 122947 | cylinder: humped bull, palm, scorpion, snakes, rayed figure | — | **Larsa tomb** cut into Amar-Suen's (Bur-Sin) annex: after c. 2000 BC |
+| 7 | U.11958 | cylinder: unicorn bull, tree | cross-hatched fish (+2?) | Ur |
+| 8 | BM 118704 / U.6020 | round Gulf-type, Sumerian sacrifice scene | — | loose near surface |
+| 9–13 | BM 122945, 120576; Penn U.16397, U.16747; BM 122841 | round Gulf-type | no. 11 scorpion + "eye"; **no. 12 water-carrier drawn as a picture version of script signs** | no context (no. 12: "Kassite? level" rubbish) |
+| 14 | Penn CBS 16301 / U.7027 | round, Babylonian scene (bull-men, seated god) | — | Ur |
+| 15 | Penn / U.8685 | round, bull | crowded inscription with a unique first sign | **grave, probably Sargonic** (gold double-crescent earrings, carnelian): c. 2300 BC |
+| 16 | BM 123208 / U.17649 | round, bull, no manger | 4 well-known signs | **tomb-shaft fill, "Second Dynasty of Ur"** (Woolley) |
+| 17 | BM (unprovenanced, Babylonia) | round, short-horned bull with manger | 5 signs "in the best Indian style" | unknown |
+| 18 | BM 123059 | round, mating bull and cow | 5 signs: 2 "men", fish, + 2 | Baghdad dealer, presumed Babylonia |
+
+Datable: no. 15 (Sargonic), no. 6 (Larsa), no. 16 (early). **None is securely Ur III**, the period of Samar and Nanaza (who were at Irisagrig, not Ur). So no seal–person match is possible from these contexts.
+
+**Gadd no. 12** shows a water-carrier with yoke and two pots between "parenthesis" marks, and Gadd identifies each element with a script sign (Mahadevan pl. cxxix, ccclxxxvi ff.; clxxviii; cccxvii; xx). A scene drawn as the full picture of signs fixes the **pictorial referent** of those signs (the man with a yoke is a water or burden carrier, glyphs 151/156, M12/M15), but not their sound.
