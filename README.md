@@ -25,7 +25,7 @@ python data/repro/repro/scripts/run_all.py
 Coherence is not evidence; every number is computed, never narrated. Sealings are deduplicated before any emblem or object test. Mohenjo-daro seals first; every other stratum is a transfer test. A dictionary counts only if it passes `code/validator.py` on unseen texts — two published decipherments do not.
 
 ## Key search (September 2026)
-`SEARCH.md` describes a blind search for a sign-to-sound key: Tamil and Sanskrit, syllabic, logographic and mixed keys, simulated annealing with a search-matched fake-lexicon null and planted-language positive controls. Results log: `RESULTS.md`. Tests for Q1–Q14: `prereg/test_prereg.py` (`PREREG_RESULTS.md`).
+`SEARCH.md` describes a blind search for a sign-to-sound key: Tamil and Sanskrit, syllabic, logographic and mixed keys, simulated annealing with a search-matched fake-lexicon null and planted-language positive controls. Results log: `RESULTS.md`. **Correction (25 Sept):** passing keys do not recover planted readings, and with a ~400-sign inventory in 4–5-sign texts no statistical objective tested makes the true key optimal; with a small 80-sign syllabary it does (STRATEGIES.md S107, S113–S125). Tests for Q1–Q14: `prereg/test_prereg.py` (`PREREG_RESULTS.md`).
 
 ## Outside anchors and the two-hour strategy push (25 September 2026)
 - `ANCHORS.md`: foreign-found texts, cuneiform Meluhha attestations, Linear Elamite, the Gulf seals; §18 reinterprets the "foreign grammar" as the round-seal tradition.
