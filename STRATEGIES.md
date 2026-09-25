@@ -84,3 +84,35 @@ Rule: data and symbols from anyone, no one's interpretations; every strategy get
 | 75 | Did the round-seal tradition invent its own signs (for foreign names or words)? | 161 sign tokens on round and cylinder seals: 4 signs unseen elsewhere (W256, W340, W375, W725) vs 2.98 in length-matched square-seal texts (P = 0.35) | **No.** The round-seal tradition uses the ordinary sign inventory. It is the same script with a different grammar and vocabulary balance (persons, numbers; S47), not a separate sign set. |
 | 76 | Replication of S17 (duplicated seal texts by length and city) on the Wells corpus | Duplicate groups single-site, observed vs expected if the site were random: 1–2 signs 19 of 78 vs 21.1; **3–4 signs 21 of 36 vs 11.9**; 5–6 signs 2 of 4 vs 1.6; 7+ 1 of 1 | **Partial replication.** Longer duplicated texts again stay within one city far more than chance (3–4 signs: 21 vs 11.9). Short texts are spread across cities at about the chance rate, not above it as in IM77. The core claim (long texts are local and individual, short ones travel) holds; the "short texts deliberately spread" part is transcription-dependent. |
 | 77 | Human-figure signs and the frame slots | Wells corpus. **W140** (figure with breasts, one arm raised): text-initial 48 of 103, followed by W920 or W100. **W91** (paired figures): initial 14 of 18. **W100** (figure described as three-headed = M8): medial 97, and **directly before the jar in 94 of 116** (after W415 ×38). **W90** (plain person = M1): after the jar in 93 of 151, text-final 93 | **Each frame slot has its own human figure.** The female-looking W140 and paired W91 open texts, W100 fills the X of the X-jar closer, and the plain person W90 follows the jar. Human figures work as **role or title signs** in fixed positions, not as a general word "person". Descriptions of shapes come from the sign list; the positional facts are data. |
+
+## Summary (written 22:25 UTC; finalised at the end of the push)
+
+**No dictionary.** Every language key failed its calibration. Sumerian, Akkadian, Tamil and Sanskrit on middles, Telugu and Malayalam (no power) each score on Indus inside the range they reach on corpora of other languages (S8, S8b, S31, S55). A phonetic key is also argued against by structure: repetition behaves like formulaic word-sign legends (S9, S16, S26), doubled signs change function rather than spell syllables (S57, S58), foreign residues are too short for syllabic names (S53), and sign variants do not track context (S22).
+
+**What was found instead: a grammar, from data only** (GRAMMAR.md):
+
+1. **A seal-text frame.** Opener (267-99 / 391-99 / 293-123-343) + unique middle + closer (X + jar/211/15/12/162/169) + optional suffix (176/1) (S18, S24, S36–S38).
+   - Found without supervision (S37) and replicated on the independent Wells transcription (S30, S66, S67).
+   - Holds out of sample on post-1977 sites (S44).
+   - Its non-local constraints go beyond bigrams (S50, S51, S67).
+2. **Name-like middles and title-like closers.**
+   - Middles are unique and city-local (S17, S76) and combine freely with closers (S32); some are compounds (S34, S35).
+   - Closers are a closed class (S40, S54), shared across cities (S25) yet clustered by house and quarter within Mohenjo-daro (S62, S63, S63b).
+   - Quantities sit in the closing part (S68); each frame slot has its own human-figure sign (S77, S72).
+3. **Two sub-systems in one grammar.** The opener goes with owned seals and the post-jar suffix with sealings, tablets and rods, within each city (S29, S29b, S66). They exclude each other inside a text (S51, S67).
+4. **Two numeral usages.** Short and tall strokes pair with disjoint item classes (S70, S70b), but most are fixed number-compounds (S71); genuine counting shows mainly on trees (S23).
+5. **The round-seal tradition.** Round (Gulf-type) and cylinder seals carry a different grammar (person sign first, persons + numbers, no opener), whether found at Mohenjo-daro or at Ur (S46, S47, S74).
+   - Square Indus seals and pots abroad keep the home grammar (S74).
+   - The tradition favours the short-horned bull emblem (S65, S65b) and is mostly late-urban.
+   - This is the best-defined population for a future outside anchor (ANCHORS §18).
+6. **Typology.** Markers follow their hosts and modifiers precede heads (S33, S35, S36). This excludes head-initial West Asian languages as the frame's language, but it cannot separate Dravidian, Indo-Aryan, Munda or Burushaski (S43).
+7. **Time.** The grammar is stable through Mohenjo-daro's sequence (S45). Tablet texts lengthen from Harappa 3A/B to 3C (S49), and the frame erodes at Dholavira stage 6 (S45).
+
+**Corrections made during the push:**
+- S9 was too strong; it is transcription-dependent (S16).
+- S24's "prefixes" are middle-initial (S38).
+- S70's "metrological systems" are mostly fixed compounds (S71).
+- S63 at Harappa may be a phase effect (S63b).
+- S17's "short texts spread" part did not replicate (S76).
+
+**Frozen for new data:** R1–R11 in `prereg/preregistration-3-frozen.json`.
