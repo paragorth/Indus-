@@ -102,3 +102,24 @@ Suggestive in Mahadevan's transcription only. Not counted as a finding.
 Datable: no. 15 (Sargonic), no. 6 (Larsa), no. 16 (early). **None is securely Ur III**, the period of Samar and Nanaza (who were at Irisagrig, not Ur). So no seal–person match is possible from these contexts.
 
 **Gadd no. 12** shows a water-carrier with yoke and two pots between "parenthesis" marks, and Gadd identifies each element with a script sign (Mahadevan pl. cxxix, ccclxxxvi ff.; clxxviii; cccxvii; xx). A scene drawn as the full picture of signs fixes the **pictorial referent** of those signs (the man with a yoke is a water or burden carrier, glyphs 151/156, M12/M15), but not their sound.
+
+## 10. Gulf Type seals (Laursen 2010, *AAE* 21: 96–134; PDF supplied by the user) and the person sign
+
+**Facts from the paper (objects, not interpretations):**
+- **Table 1, no. 28** (Winkelmann 1999, abb. 2; the Linear Elamite database's LEI 22, Ligabue Collection) is a Gulf Type seal with the standard Indus layout, a bull in profile below a text band, **but the text band is in Linear Elamite**, read *za-ši-ri* (Linear Elamite database). On this seal type, the slot that elsewhere holds Indus text holds a personal name.
+- **Table 1, no. 11** (Bahrain National Museum, Karzakkan mound cemetery, excavated 1999/2005) carries **pseudo-script**: one clear "twins" sign (two standing figures) first, then random strokes imitating Indus writing. A cutter who could not write Indus still reproduced the first sign.
+- Laursen counts 27–29 Indus-inscribed Gulf Type seals. The "twins" sign occurs 8 times, and **more Bahrain texts begin with it (4) than all Indus Valley texts do**.
+- There are three morphological groups of Gulf Type seals by production area (Indus Valley, Iran, Mesopotamia/Bahrain). Inscribed seals are measurably larger (22.49 ± 0.77 mm, n = 54; Wilcoxon p = 2.8e-6).
+
+**Our test on the corpora (symbol identity only, length-matched home texts, 20,000 draws):**
+| measure | foreign | home | p | corpus |
+|---|---|---|---|---|
+| begins with a person sign (Wells 90 or 91) | **0.261** | 0.007 | <0.0001 | merged (Wells), n = 23 |
+| contains 90 or 91 | **0.435** | 0.040 | <0.0001 | merged |
+| begins with M1 (standing person) | 0.062 | 0.003 | 0.045 | IM77, n = 16 |
+| contains M1 | 0.188 | 0.045 | 0.032 | IM77 |
+| M1 doubled (1 1) | 0.062 | 0.002 | 0.030 | IM77 |
+
+**What the data supports, with no one's reading:** Indus-sign texts found abroad (1) lack the home opener (section 1), (2) use unattested sign pairs, (3) are dominated by the person signs, often at the start and often doubled, and (4) sit on a seal type whose text slot demonstrably held a personal name (the Linear Elamite *Zaširi* seal). Together: **the western texts are names, written with a different content structure from home texts, led by a person or "twins" sign.** This is the closest thing yet to a functional anchor. Still no sound value: we know *what* these texts are, not how they were pronounced.
+
+**What would give sounds:** a Gulf Type seal in Indus signs whose owner is named in a cuneiform text from the same place and time (Bahrain, Failaka, Ur; about 2050–1900 BC). Next source: Kjærum 1983/1994 for all Gulf Type seals, cross-checked against Dilmunite names in Old Babylonian texts. CDLI has those, and I can search them.
