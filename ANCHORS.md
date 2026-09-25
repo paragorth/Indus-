@@ -158,3 +158,11 @@ Person signs {90, 91}; stroke-shaped signs {1–5, 16–18 short; 31–34 tall},
 - **The figure stays fixed and the stroke count varies (1, 4; I, II … III)**, as in Laursen's Fig. 11 drawings of Bahrain seals 7, 9, 10, 11 (section 13).
 
 This is the predicted signature of a numbered affiliation (lineage, rank or generation) on the owners' seals of the Gulf trade community. It is still a structure, not a sound. It becomes an anchor only if a cuneiform archive names Gulf traders with matching numbered affiliations (e.g. "fourth son of", "of the four"), which is the next thing to search in the CDLI Old Babylonian Ur and Dilmun-trade texts.
+
+## 16. Do cuneiform archives name Gulf traders by number or by foreign name? (`cdli_gulfnames.py`)
+Searched 413 Ur III / Old Akkadian / Lagash II / Old Babylonian tablets tied to the Gulf trade (Dilmun/Tilmun, "seafaring merchants", ships of Dilmun, Meluhha). Name slots: after *ki*, *kišib*, *giri₃*, *dumu*, *dam-gar₃*, *ga-eš₈*. Each name was checked against its frequency across all 135,254 CDLI texts.
+- **Numbered affiliations** (n + man/son/worker + Dilmun/Meluhha): **none**.
+- **Names found nowhere else in CDLI:** 125, almost all Sumerian (*ur-*X, *lu₂-*X) or verb forms in literary texts. The only rare name tied to the sea: ***da-la-me*** in "son of Dalame … from the sea (*ki a-ab-ba-ta*)" (Umma, TCNU 703 = P135549). A weak foreign-name candidate.
+- Taken with section 5: the only securely foreign names of the Meluhha–Gulf community in cuneiform remain *na-na-sa₃*, *sa₆-ma-ar* (Irisagrig, ŠS 6), probably *sak-ku-ši* (BM 120573) and *Zaširi* (Linear Elamite Gulf seal), plus the weak *da-la-me*.
+
+**Verdict:** the cuneiform record names Gulf and Meluhha traders almost always under Mesopotamian names and never with numbered affiliations. The "figure + number" block on the Gulf seals (section 15) has no cuneiform counterpart, so it cannot be bridged from the Mesopotamian side with the texts now published. A bridge would have to come from a seal or sealing found **with** a cuneiform document naming its owner (a sealed tablet or bulla), in Bahrain, Failaka or Ur.
