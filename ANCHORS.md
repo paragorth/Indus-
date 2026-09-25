@@ -37,6 +37,15 @@ They are candidates for what Indus texts *could* contain. But none is tied to a 
 - **Weights.** The Indus binary-then-decimal weight standard (about 0.87 g base) against the counts on tablets (I–IIII + leaf, and the three-denomination series). This is a candidate numeric anchor for what the leaf unit is.
 - **Dated foreign contexts.** Assign each foreign-found text its excavation date where published, to see whether any overlaps Samar and Nanaza at Ur (2037–2029 BC).
 
+## 5. Primary cuneiform evidence (CDLI bulk dump, 135,254 texts, Aug 2022)
+
+`data/derived/cdli-meluhha-attestations.json` holds all 214 tablets mentioning Meluhha, with period, find-spot and context: 86 from the 3rd millennium, 48 Old Babylonian, 73 Neo-Assyrian.
+
+- **Samar and Nanaza, primary text.** CDLI P453801 = *Nisaba 15, 0371* (Irisagrig; Šu-Suen year 6, about 2032 BC): 1 sila oil *na-na-sa₃*; 1 sila *sa₆-ma-ar*; ½ sila *a-li-a-hi* his wife; "oil rations of the men of Meluhha"; reverse: "royal offering, shepherds of the bezoar goats". These are the only Meluhhan names in the record that are neither Sumerian nor Akkadian. Sound shapes: **/nanasa/ ~ /nanaza/, /samar/**.
+- **Other named Meluhhans**, all with Sumerian or Akkadian names, so no language evidence: Ur-Lamma son of Meluhha (Girsu, about 15 tablets), Ur-Igalim son of Meluhha (Girsu), Lu-sunzida man of Meluhha (CT 50, 076, Old Akkadian: pays 10 shekels for a broken tooth), Lu-marza son of Meluhha (CUSAS 26, 259, Ur, Old Akkadian), Ili-ahi man of Meluhha (CUSAS 35, 288, Adab). One man is simply named *Meluhha* (JESHO 20, 145 12). A second Irisagrig list, Nisaba 15, 0951, has a ration line for "men of Meluhha".
+- **Goods "of Meluhha"**: ab-ba wood (chairs, footstools), mes wood, esi (ebony), carnelian (*gug gi-rin*), gold, copper (*uruda me-luh-ha*, UET 3, 0368), ivory, the Meluhha bird (*dar-mušen*), the "speckled dog/leopard of Meluhha", goats and sheep, Meluhha ships (Sargon, Adab). These are Sumerian words for foreign goods. None is a Meluhhan word.
+- **The Indus seal with a cuneiform legend** (Ur, U.7683 = BM 120573; square, gaur). Gadd 1932 reads *sag-ku-zi*, which occurs **0 times** in the CDLI corpus. An equally possible reading, *inim-ma-zi*, is an attested Sumerian personal name (OIP 104, 014; TIMA 1, 045; NYPL 085). So the seal most likely names a Sumerian-named owner, and does not preserve a Meluhhan word.
+
 ## Verdict so far
 
 No anchor yet fixes a sign's sound or meaning. The strongest real lead is group 1: about 40 Indus texts written abroad that break the home grammar. If any of them was written for a person attested by name in cuneiform, that is the first anchor. That match can only come from excavation records (find-spot, level and date for each foreign seal), not from more computation on the texts.
