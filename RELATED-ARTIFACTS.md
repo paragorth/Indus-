@@ -80,3 +80,6 @@ Sources on archive.org: OIP 72 (Frankfort, *Stratified Cylinder Seals from the D
   - As. 32:687 "stone (alabaster?) stamp seal", H 18 area (East Street); As. 32:221 "hematite stamp seal".
   - Khafajah (Kh.): about 25 "stone stamp seal" entries (e.g. Kh. VII 21–22, 74; Kh. V 185; Kh. III 519; Kh. II 1383; Kh. IX 109; a "couchant-bull stamp seal"), all catalogued without motif.
 - **Where they are now:** the Diyala finds were divided between the Oriental Institute (ISAC, Chicago) and the Iraq Museum. The ISAC collection database should hold registration photos for As. 32:996 and As. 32:687. **Next:** look up As. 32:996 on the ISAC collections site; if it shows a bull with a sign line, or round Gulf form, it is a new Indus or Gulf sealing.
+
+## Ur Excavations VII plates checked (PDF from archive.org, link supplied by the user)
+Plates 61–62 (about 40 cylinder-seal impressions from Old Babylonian Ur, and gem-engravers' trial pieces U.16927A–G, 16928, 16994A–B) were inspected page by page. All are standard Babylonian presentation, worship and contest scenes with cuneiform. **No stamp impression, no short-horned bull with a sign line, no Gulf-type round seal.** Plate 60 is sculpture. No unlabelled Indus or Gulf sealing is illustrated in UE VII.
