@@ -27,7 +27,7 @@ Reading order is right-to-left on the object, first-read-first here.
 - **Animal image vs text.** They are independent: no sign, and hardly any aspect of form, depends on the animal (S15, S28).
 - **Line breaks.** They fall at weak junctions, so lines are units (S27).
 - **Repetition.** Indus avoids repeating a sign within a text, like formulaic legend systems (Ur III seal legends, proto-cuneiform) and unlike running text (S9, S16). This is transcription-sensitive: adjacent doubles must be handled the same way in every corpus.
-- **Abroad and on foreign-format seals.** The person sign moves from text-final (home) to text-initial (abroad), and foreign texts lack the home opener (S20, S42; ANCHORS.md). The same holds for round (Gulf-type) and cylinder seals *found at home* (S46): the grammar follows the seal format, i.e. a community of users, not the find-spot. That tradition also has its own emblem, the short-horned bull ("gaur") on 50% vs 5% of square seals (S65).
+- **Abroad and on foreign-format seals.** The person sign moves from text-final (home) to text-initial (abroad), and foreign texts lack the home opener (S20, S42; ANCHORS.md). The same holds for round (Gulf-type) and cylinder seals *found at home* (S46): the grammar follows the seal format, i.e. a community of users, not the find-spot. That tradition favours the short-horned bull ("gaur") emblem (50% vs 5% of square seals, S65), but square gaur seals follow the home grammar (S65b). The format, not the animal, goes with the grammar.
 - **Time.** The grammar is stable through Mohenjo-daro's sequence and holds at post-1977 sites out of sample (S44). It erodes at Dholavira's late stage 6 (S45).
 
 ## What this means
