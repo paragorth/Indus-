@@ -96,3 +96,9 @@ The unlabelled stamp seals 634–653 were checked one by one, and **none carries
 The rest are Babylonian or later (653: emblems of Adad, Marduk, Nabu).
 
 **Result:** the Ur seal corpus has no unrecognised Indus-inscribed seal. The foreign-style stamps (634, 637, 639, 649, 650) are uninscribed, so none can bridge Indus signs to a name.
+
+## Chicago ISAC collection, queried directly (Solr index behind isac-idb.uchicago.edu)
+- **OIP 88** (PDF, archive.org): Tell Asmar As. 32:996 "stamp seal impression" (locus J 20:16) has reference code **"M"**, the miscellaneous objects not illustrated in the volume. **It is not in the Chicago database**, so it probably went to the Iraq Museum in the division, like the original Indus cylinder As. 31:22 ("original seal in Baghdad").
+- Tell Asmar objects in Chicago with an Indus connection: **A8577 = As. 31:687, square stamp seal, perforated boss, concentric-squares design, "similar to stamp seals from the Indus Valley", Akkadian period: this is Frankfort's "stamp seal" found with the Indian cylinder. No signs.** A11411 = As. 32:473, plaque fragment with an Indus humped bull. Etched carnelian beads As. 30:27, 31:80, 31:576, 31:658, 31:705; heart-shaped inlays As. 31:540b, 32:540d. Casts of the cylinder As. 31:22 (C599, C5201).
+- Every Tell Asmar sealing in Chicago (As. 31:259, 31:609, 32:695, 32:740, 32:840, 32:1066, 32:1067, 32:1122, 32:1217, 33:302, 33:504, 35:T.96) is a cylinder impression with a Mesopotamian scene. **No Indus or Gulf stamp impression.**
+- A sweep of the whole collection (queries: Indus, Harappan, Mohenjo, humped bull, zebu, gaur, Meluhha, Dilmun, Persian Gulf, etched carnelian) found **no inscribed Indus or Gulf seal or sealing** outside the Indus. The rest is later (Sassanian and Iron Age zebu seals and figurines, Achaemenid bullae, Late Harappan Jhukar sherds from Chanhu-daro, a Neo-Babylonian receipt for "Dilmun dates").
