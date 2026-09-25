@@ -5,19 +5,21 @@ This grammar is built only from sign sequences, find-spots and object types (IM7
 ## The template
 
 ```
-[prefix M65|M86]  [opener 267-99 | 391-99 | 293-123-343]  MIDDLE  [closer X-342 | X-162 | X-169 | X-15 | X-254 | X-12]  [suffix M176 | M1]
-   optional, S24       optional, seals (S18, S29)        unique      titles/offices, shared across cities (S17, S18)      optional, tablets (S24, S29)
+[opener 267-99 | 391-99 | 293-123-343]  [M65|M86 ...] MIDDLE  [closer X-342 | X-162 | X-169 | X-15 | X-254 | X-12]  [suffix M176 | M1]
+   optional, seals (S18, S29)   middle-initial, optional (S24, S38)  unique      titles/offices, shared across cities (S17, S18)      optional, tablets (S24, S29)
 ```
 
 Reading order is right-to-left on the object, first-read-first here.
 
 | Slot | Evidence | Behaviour |
 |---|---|---|
-| Prefix M65, M86 | S24 | Deletable only at text start (17% and 13% of uses vs 4% baseline) |
+| Middle-initial M65, M86 | S24, S38 | Deletable (17% and 13% of uses vs 4% baseline); they follow opener+marker (M65 after M99 41:1), so they open the middle rather than the text |
 | Opener 267-99 (also 391-99, 293-123-343) | S18, S29, S32, S33 | Starts 143 long seal texts. M99 and M123 are never initial and follow 81 and 29 different hosts respectively (post-positioned markers). Used on seals owned; almost absent from impressions and tablets |
 | Middle | S17, S19, S26, S32 | Unique to one object and one city. Texts of 6 or more signs never recur across cities. No productive name heads at the start; mild concentration at the end. Combines with any closer at chance rate |
 | Closer X + jar (or 162/169/15/254/12) | S17, S18, S25, S30 | Short 1–2 sign texts that appear on their own on seals in several cities, more often than chance; not city-specific. Replicated in the Wells transcription |
 | Suffix M176, M1 after the jar | S24, S29 | Deletable; 5× more frequent on sealings, moulded tablets and rods than on seals, within each city. Belongs to the tablet/token sub-system |
+
+**Order (S36–S38).** Pairwise order between slot classes holds 85–100%: opener → marker 99/123 → 65/86 → {162,169} / {8,347} → closer {342,211,15,12} → suffix {176,1}. Unsupervised complementary-distribution analysis recovers the same classes (S37).
 
 ## Other structure
 
