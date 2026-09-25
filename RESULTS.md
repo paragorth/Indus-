@@ -517,3 +517,14 @@ fixed-key / verdict: z_fixed=6.8076, pass_fixed=True, fakefit_z_fixed=4.4078, fa
 
 **gap-over-fake = +0.61 SD -> fail**
 
+### 2026-09-25 22:19:42Z  `s55-malayalam-power-planted-malayalam-full-80`  (control)
+method: full key, malayalam, top-80 signs, 20 real restarts + 30 fake-lexicon searches, 32000 SA iterations each, 62s
+
+| real_held_mean | real_held_sd | real_scr_mean | fake_held_mean | fake_held_sd | gap_sd | best_real_held | best_real_train | best_fake_train | n_real | n_fake |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1028 | 0.0121 | 0.0611 | 0.0889 | 0.0089 | 1.5448 | 0.1267 | 1423 | 1246 | 20 | 30 |
+
+fixed-key / verdict: z_fixed=3.2597, pass_fixed=True, fakefit_z_fixed=5.9383, fakefit_pass_fixed=True, PASS=False
+
+**gap-over-fake = +1.54 SD -> fail**
+
