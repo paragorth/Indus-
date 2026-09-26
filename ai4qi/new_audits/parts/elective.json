@@ -1,0 +1,2081 @@
+[
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary elective hip or knee replacement without renal impairment, what proportion receive both intravenous and topical tranexamic acid, with a total dose of 3 g or less?",
+  "why": "NICE asks for IV plus topical TXA, but most units give IV only. The one arthroplasty audit in the corpus found combined use in 7% [1697]; hip replacement has not been audited.",
+  "standard": {
+   "source": "NICE NG157 rec 1.4.1 (2020)",
+   "wording": "For primary elective hip or knee replacement: Give intravenous tranexamic acid. If there is no renal impairment, also apply 1 g to 2 g of topical (intra-articular) tranexamic acid diluted in saline after the final wash-out and before wound closure. Ensure that the total combined dose of tranexamic acid does not exceed 3 g.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "No renal impairment: IV TXA given and 1–2 g topical TXA recorded, total 3 g or less. Mild or moderate renal impairment: reduced-dose IV TXA only.",
+  "population": "Include adults having primary elective THR, TKR or UKR. Exclude revisions, fractures and severe renal impairment (TXA contraindicated).",
+  "sample": "40 consecutive primary hip and knee replacements over the last 2–3 months",
+  "data_source": "Anaesthetic chart and theatre drug record (IV dose); operation note or scrub record (topical dose); pre-assessment eGFR from EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee_total",
+     "knee_partial"
+    ],
+    "note": ""
+   },
+   {
+    "field": "egfr_preop",
+    "type": "number",
+    "options": [],
+    "note": "mL/min/1.73m², most recent before surgery"
+   },
+   {
+    "field": "renal_impairment",
+    "type": "choice",
+    "options": [
+     "none",
+     "mild_moderate",
+     "severe"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_txa_dose_g",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topical_txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topical_txa_dose_g",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_dose_3g_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pre-filled TXA line to the arthroplasty anaesthetic chart and a 'topical TXA given? dose' tick box to the operation note template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 consecutive primary hips and knees, same template.",
+  "close_loop": "Present at the arthroplasty and anaesthetic audit meeting. If it works, lock the TXA fields into the op-note template and theatre drug pack.",
+  "evidence": [
+   "[1697] UK elective hub TKR: combined IV+topical 7.3% → 30.8%; any TXA 48.8% → 73.1% (emails, posters, meeting)",
+   "[1744] hip fracture TXA: two-cycle improvement shows TXA prompts can be embedded"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from anaesthetic chart and op note"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary elective shoulder replacement, what proportion receive intravenous tranexamic acid or have a recorded reason for not giving it?",
+  "why": "NICE covers shoulder TXA separately and it is easy to forget outside hip and knee lists. No shoulder TXA audit in corpus.",
+  "standard": {
+   "source": "NICE NG157 rec 1.4.1 (2020)",
+   "wording": "For primary elective shoulder replacement: Consider intravenous tranexamic acid. If there is no renal impairment, consider 1 g to 2 g of topical (intra-articular) tranexamic acid diluted in saline applied after the final wash-out and before wound closure. Ensure that the total combined dose of tranexamic acid does not exceed 3 g.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "IV TXA given at or before incision, or a reason for not giving it written on the anaesthetic chart or op note.",
+  "population": "Include adults having primary elective anatomic, reverse or hemi shoulder replacement. Exclude fractures and revisions.",
+  "sample": "All primary elective shoulder replacements over the last 6–12 months (usually 30–50 in a DGH)",
+  "data_source": "Theatre system list (OPCS W49–W51, W96–W98); anaesthetic chart; operation note; EPR eGFR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "implant_type",
+    "type": "choice",
+    "options": [
+     "anatomic_TSR",
+     "reverse",
+     "hemi_resurfacing"
+    ],
+    "note": ""
+   },
+   {
+    "field": "renal_impairment",
+    "type": "choice",
+    "options": [
+     "none",
+     "mild_moderate",
+     "severe"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_txa_dose_g",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topical_txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_dose_3g_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add shoulder replacement to the theatre TXA prompt in the WHO sign-in (\"TXA given?\") on the electronic checklist.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, all shoulder replacements in that period, same template.",
+  "close_loop": "Present at the upper limb and anaesthetic meetings. Keep the sign-in prompt if it works.",
+  "evidence": [
+   "[1697] knee TXA: 48.8% → 73.1% after education; system prompts expected to do better",
+   "[1744] hip fracture TXA: two-cycle improvement"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In primary elective hip, knee and shoulder replacements, what proportion have both implant 'stop moments' recorded: one before implantation and one before wound closure?",
+  "why": "Wrong implant is a never event. The corpus has one snapshot audit of the pre-implant check [1204]; nobody has measured the second stop before closure.",
+  "standard": {
+   "source": "NICE NG157 rec 1.6.1 (2020)",
+   "wording": "Use 2 intraoperative 'stop moments', 1 before implantation and 1 before wound closure, to check all implant details and ensure compatibility of each component.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "Both stop moments recorded (time or tick) on the theatre record, implant chart or op note.",
+  "population": "Include primary elective hip, knee and shoulder replacements. Exclude cases with no implants opened (abandoned).",
+  "sample": "40 consecutive primary joint replacements over the last 1–2 months",
+  "data_source": "Electronic theatre record (WHO checklist fields), implant record sheet with NJR stickers, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee",
+     "shoulder"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pre_implant_stop_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_closure_stop_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_recorded_it",
+    "type": "choice",
+    "options": [
+     "scrub_nurse",
+     "surgeon",
+     "both",
+     "not_stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "implant_sizes_compatible",
+    "type": "yes/no",
+    "options": [],
+    "note": "Check stickers against op note"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add two mandatory fields ('implant stop 1: before opening' and 'implant stop 2: before closure') to the electronic theatre record for arthroplasty cases.",
+  "target": "100%",
+  "reaudit": "Weeks 13–14, 40 consecutive cases, same template.",
+  "close_loop": "Present at the theatre safety / NatSSIPs group. Embed the mandatory fields in the theatre system.",
+  "evidence": [
+   "[1204] SWLEOC prosthetic pause: 8/14 → 13/16 compliant (laminated guidance, scrub team teaching)",
+   "[1688] labelling in sterile field improved with a theatre process change"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 cases from theatre system"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary elective knee replacement, what proportion have local infiltration analgesia recorded in the operation or anaesthetic record?",
+  "why": "LIA is the NICE default for knee replacement. Corpus audits look at ward opioid charts [1321][1529], not whether LIA was given.",
+  "standard": {
+   "source": "NICE NG157 rec 1.3.2 (2020)",
+   "wording": "Offer people having primary elective knee replacement a choice of: regional anaesthesia in combination with LIA or general anaesthesia in combination with LIA.Consider adding a nerve block that does not impair motor function to either of the options above, provided it does not delay surgery significantly.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "LIA recorded (drug, dose or volume) in the op note or anaesthetic chart, or a reason for not giving it.",
+  "population": "Include primary elective TKR and UKR. Exclude revisions.",
+  "sample": "40 consecutive primary knee replacements over the last 2 months",
+  "data_source": "Operation note, anaesthetic chart, theatre drug record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "knee_type",
+    "type": "choice",
+    "options": [
+     "total",
+     "partial"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic",
+    "type": "choice",
+    "options": [
+     "spinal",
+     "general",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lia_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lia_drug_and_dose_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "motor_sparing_block",
+    "type": "choice",
+    "options": [
+     "none",
+     "adductor_canal",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_no_lia_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an LIA line (drug, concentration, volume) to the knee replacement op-note template.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, 40 consecutive knees, same template.",
+  "close_loop": "Present at the arthroplasty meeting. Keep the op-note field.",
+  "evidence": [
+   "[1321] arthroplasty analgesia: 34% → 61% (EPR powerplan)",
+   "[1605] ropivacaine LIA protocol part of bundle: LOS 3.6 → 2.0–2.4 days"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults listed for primary total knee replacement, what proportion have patella resurfacing offered and recorded before surgery?",
+  "why": "NICE recommends offering patella resurfacing; practice varies by surgeon. The corpus has only a seed note on patella policy [712], no measured audit.",
+  "standard": {
+   "source": "NICE NG157 rec 1.7.2 (2020)",
+   "wording": "Offer resurfacing of the patella to people having primary elective total knee replacement.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "Clinic letter or consent form records that patella resurfacing was offered, and the decision. Also record whether it was done.",
+  "population": "Include primary elective TKR. Exclude UKR, patellofemoral replacement and revisions.",
+  "sample": "40 consecutive primary TKRs over the last 3 months",
+  "data_source": "Listing clinic letter, consent form, operation note (resurfaced yes/no), NJR record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_listing_clinic",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "resurfacing_discussed_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_decision_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patella_resurfaced",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgeon_pseudonym",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'patella resurfacing offered: yes/no, decision' to the TKR consent form (or procedure-specific consent template).",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 TKRs, same template.",
+  "close_loop": "Present at the knee unit meeting with the per-surgeon resurfacing rate. Keep the consent field.",
+  "evidence": [
+   "[1459] procedure-specific TKR consent form raised consent scores 57.6% → 81.6% (form change)",
+   "[1754] SDM documentation in hip/knee clinics 7–9% → 24–36% (digital leaflet)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from letters and consent"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults with isolated medial compartment knee osteoarthritis listed for knee replacement, what proportion have a choice of partial or total knee replacement recorded?",
+  "why": "Partial knee replacement is under-used in the UK. No audit of this choice in corpus.",
+  "standard": {
+   "source": "NICE NG157 rec 1.7.1 (2020)",
+   "wording": "Offer a choice of partial or total knee replacement to people with isolated medial compartmental osteoarthritis. Discuss the potential benefits and risks of each option with the person.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "Clinic letter or consent records that both partial and total replacement were discussed, with benefits and risks.",
+  "population": "Include adults listed for primary knee replacement whose radiograph report or letter describes isolated medial compartment OA. Exclude lateral or tricompartmental disease and inflammatory arthritis.",
+  "sample": "30–40 consecutive eligible patients listed over the last 6 months",
+  "data_source": "PACS radiograph report and listing letter; consent form; op note (procedure done).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_listing_clinic",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "isolated_medial_oa_on_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "partial_option_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_option_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risks_benefits_both_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_done",
+    "type": "choice",
+    "options": [
+     "UKR",
+     "TKR",
+     "not_yet"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'medial OA: UKR vs TKR discussed' prompt to the knee listing clinic letter template.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 30 eligible listings, same template.",
+  "close_loop": "Present at the knee unit meeting. Embed the prompt in the clinic letter template.",
+  "evidence": [
+   "[1754] SDM documentation improved with a structured leaflet/prompt (7–9% → 24–36%)",
+   "[1600] computerised proforma raised documentation score 50% → 92%"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary elective shoulder replacement, what proportion are seen by a physiotherapist or occupational therapist for rehabilitation within 24 hours of surgery?",
+  "why": "Early rehab audits cover hips and knees [1749][1167]. Shoulder replacement has only an enhanced-recovery report [1613], with no audit of the 24-hour standard.",
+  "standard": {
+   "source": "NICE NG157 rec 1.10.1 (2020)",
+   "wording": "A physiotherapist or occupational therapist should offer rehabilitation, on the day of surgery if possible and no more than 24 hours after surgery, to people who have had a primary elective hip, knee or shoulder replacement.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "First physio or OT rehab contact recorded within 24 hours of the end of surgery.",
+  "population": "Include primary elective shoulder replacements. Exclude patients in critical care for the first 24 hours.",
+  "sample": "All primary shoulder replacements over the last 6–12 months (30–50)",
+  "data_source": "Theatre system (end of surgery time); therapy notes in EPR (first contact time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "surgery_end_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_therapy_contact_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_first_contact",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adl_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "home_exercise_programme_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": "e.g. weekend, block still working, nausea"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Automatic therapy referral generated when the patient leaves theatre (theatre system to therapy task list), including weekend lists.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, all shoulder replacements in that period.",
+  "close_loop": "Present with the therapy lead. Keep the automatic referral if it works.",
+  "evidence": [
+   "[1749] TKR mobilisation within 24 h: 66% → 90.5%",
+   "[1167] hip arthroplasty mobilisation: 65% → 74% (education only)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults discharged after primary elective hip or knee replacement, what proportion have a named point of contact for rehabilitation advice recorded before they leave?",
+  "why": "Early discharge pathways move rehab home. No corpus audit checks self-directed rehab advice or contact details.",
+  "standard": {
+   "source": "NICE NG157 rec 1.10.4 (2020)",
+   "wording": "Ensure that people who are undertaking self-directed rehabilitation have: a clear understanding of their rehabilitation goals and the importance of doing the exercises prescribed to achieve these goals a point of contact for advice and support.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "Therapy notes or discharge summary record self-directed rehab advice, goals, and a named contact (phone number or service).",
+  "population": "Include primary elective THR, TKR, UKR discharged home. Exclude transfers to rehab units.",
+  "sample": "40 consecutive discharges over the last 2 months",
+  "data_source": "Therapy notes, discharge summary, discharge leaflet checklist in EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "self_directed_rehab_advice_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_goals_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "point_of_contact_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_type",
+    "type": "choice",
+    "options": [
+     "ward_phone",
+     "physio_team",
+     "arthroplasty_nurse",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'rehab goals + contact number given' tick box to the arthroplasty discharge summary template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, 40 discharges, same template.",
+  "close_loop": "Present at the arthroplasty MDT. Keep the discharge summary field.",
+  "evidence": [
+   "[2266] surgical discharge summary checklist improved several items (e.g. operation date 76% → 90%)",
+   "[1207] discharge letter proforma: VTE compliance 87% → 95%"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "Of hip and knee osteoarthritis referrals to orthopaedics that were rejected or returned, what proportion were rejected because of BMI or smoking alone?",
+  "why": "Some areas use BMI or smoking thresholds to block referral. NICE says not to. No audit in corpus.",
+  "standard": {
+   "source": "NICE NG226 rec 1.6.3 (2022)",
+   "wording": "Do not exclude people with osteoarthritis from referral for joint replacement because of: age sex or gender smoking comorbidities overweight or obesity, based on measurements such as body mass index (BMI).",
+   "url": "https://www.nice.org.uk/guidance/ng226/chapter/Recommendations"
+  },
+  "pass": "Referral not rejected or returned on BMI, smoking, age or comorbidity alone (fail if one of these is the only stated reason).",
+  "population": "Include e-Referral (e-RS) or MSK triage referrals for hip or knee OA that were rejected, returned or redirected. Exclude duplicates.",
+  "sample": "40 consecutive rejected or returned OA referrals over the last 6 months",
+  "data_source": "e-RS triage outcome and triage comment; MSK interface service records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_triage_decision",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee"
+    ],
+    "note": ""
+   },
+   {
+    "field": "triage_outcome",
+    "type": "choice",
+    "options": [
+     "rejected",
+     "returned_for_optimisation",
+     "redirected_msk"
+    ],
+    "note": ""
+   },
+   {
+    "field": "stated_reason",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_bmi_alone",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_smoking_alone",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_age_or_comorbidity_alone",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove BMI and smoking as rejection options from the triage proforma. Replace with 'referred to weight/smoking support in parallel'.",
+  "target": "100% (no rejections on these grounds alone)",
+  "reaudit": "After 3 months, next 40 rejected or returned referrals.",
+  "close_loop": "Present to the MSK interface service and the ICB elective lead. Update the triage proforma.",
+  "evidence": [
+   "[1273] weight-loss advice before surgery: only 20% lost >5% (shows thresholds delay care without benefit)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from e-RS"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults with knee osteoarthritis who had a knee arthroscopy, what proportion had a documented history of true mechanical locking?",
+  "why": "Arthroscopic washout for OA is a statutory Evidence-Based Interventions procedure. No knee arthroscopy appropriateness audit in corpus.",
+  "standard": {
+   "source": "AoMRC Evidence-Based Interventions: knee arthroscopy for patients with osteoarthritis (2019, reviewed 2024); NICE NG226 rec 1.7.1 (2022)",
+   "wording": "Referral for arthroscopic lavage and debridement should not be offered as part of treatment for osteoarthritis, unless the person has knee osteoarthritis with a clear history of mechanical locking. (EBI). NICE NG226 1.7.1: Do not offer arthroscopic lavage or debridement to people with osteoarthritis.",
+   "url": "https://ebi.aomrc.org.uk/interventions/knee-arthroscopy-for-patients-with-osteoarthritis/"
+  },
+  "pass": "Pre-operative letter documents a clear history of mechanical locking (or another non-OA indication such as a loose body or bucket-handle tear on MRI).",
+  "population": "Include adults aged 45+ having elective knee arthroscopy (OPCS W85.1, W85.2, W80.2) with OA (ICD-10 M17) on the listing letter, radiograph or op note. Exclude ACL reconstruction and septic arthritis.",
+  "sample": "40 consecutive eligible arthroscopies over the last 12 months",
+  "data_source": "Theatre system and coding (OPCS/ICD-10); listing clinic letter; PACS radiograph report; op note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oa_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "kellgren_lawrence_grade_if_reported",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "not_reported"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mechanical_locking_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "other_valid_indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "washout_debridement",
+     "meniscectomy",
+     "loose_body_removal",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an EBI criteria check box (mechanical locking yes/no) to the knee arthroscopy listing form, with a prior-approval step if not met.",
+  "target": "100%",
+  "reaudit": "After 6 months, all eligible arthroscopies in that period.",
+  "close_loop": "Present at the knee unit meeting and to the trust EBI lead. Keep the listing check box.",
+  "evidence": [
+   "[1657] knee arthroscopy proforma change fixed coding in 50% of cases (form change works)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from letters and PACS"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults aged 45 or over referred to orthopaedics with knee pain and osteoarthritis features, what proportion had a knee MRI requested without a prior weight-bearing radiograph?",
+  "why": "MRI for knee OA adds waiting time and cost. EBI says weight-bearing x-rays come first. No audit in corpus.",
+  "standard": {
+   "source": "AoMRC Evidence-Based Interventions: knee MRI when symptoms are suggestive of osteoarthritis (2020, reviewed 2024)",
+   "wording": "An initial diagnosis of OA can be made when clinical assessment is suggestive of this pathology. If imaging is required to confirm the diagnosis, then weight bearing radiographs are the first-line of investigation. Magnetic resonance imaging (MRI) for knees is not usually needed.",
+   "url": "https://ebi.aomrc.org.uk/interventions/knee-mri-when-symptoms-are-suggestive-of-osteoarthritis/"
+  },
+  "pass": "Weight-bearing knee radiograph done before any MRI; MRI only if atypical features or suspected other diagnosis recorded on the request.",
+  "population": "Include knee MRI requests from orthopaedic or MSK clinics for adults 45+ whose request or letter mentions OA or degenerative pain. Exclude acute injury, locked knee and suspected tumour or infection.",
+  "sample": "40 consecutive eligible MRI requests over the last 3 months",
+  "data_source": "Radiology information system (request text, requester); PACS (dates of radiograph and MRI).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_mri_request",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_bearing_xray_before_mri",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_xray",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "atypical_feature_on_request",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_changed_management",
+    "type": "yes/no",
+    "options": [],
+    "note": "From next clinic letter"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Radiology vetting rule: knee MRI requests for adults 45+ without a weight-bearing radiograph in the last 12 months are returned with a prompt.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 eligible requests.",
+  "close_loop": "Present jointly with radiology. Keep the vetting rule.",
+  "evidence": [
+   "[1714] Ottawa knee rule compliance improved with re-audit and request-form prompts"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 requests from RIS/PACS"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults listed for arthroscopic subacromial decompression, what proportion had at least 6 months of documented physiotherapy or other non-surgical treatment first?",
+  "why": "Sham-controlled trials cast doubt on decompression. The corpus has only a seed note [781], no measured audit.",
+  "standard": {
+   "source": "BESS Patient Care Pathway: Subacromial Pain (Shoulder & Elbow 2025;17(6)); AoMRC EBI arthroscopic shoulder decompression (reviewed 2024)",
+   "wording": "Physiotherapy or non-surgical treatment should be first line of management. If symptoms fail to resolve with non-surgical treatment by six months, then there is moderate evidence that surgical treatment could be considered and subacromial decompression may offer satisfactory long-term outcomes for patients with subacromial pain. In addition, patients should be made aware that there are studies which show no evidence of the benefit of surgery compared to sham surgery.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2026/03/Subacromial-Shoulder-Pain-2025.pdf"
+  },
+  "pass": "Letters record 6 months or more of physiotherapy or non-surgical treatment before listing. Secondary field: sham-surgery evidence discussed.",
+  "population": "Include adults having elective ASD (OPCS O29.1) as primary procedure. Exclude cuff repair, ACJ excision as the main procedure and calcific deposit removal.",
+  "sample": "All ASDs over the last 12 months (usually 30–50)",
+  "data_source": "Theatre system; GP referral and clinic letters; physiotherapy records; consent form.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_first_symptom_or_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_listing",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "physio_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "months_non_surgical_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_injection_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sham_evidence_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cuff_tear_excluded_on_imaging",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an ASD listing checklist (months of physio, injection, imaging, sham evidence discussed) to the shoulder clinic letter template.",
+  "target": "≥90%",
+  "reaudit": "After 6 months, all ASDs in that period.",
+  "close_loop": "Present at the upper limb meeting and to the trust EBI lead. Keep the checklist.",
+  "evidence": [
+   "[1600] computerised proforma: documentation 50% → 92%",
+   "[1459] procedure-specific consent forms: 57% → 81%"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having a subacromial steroid injection, what proportion had it done under image guidance?",
+  "why": "Guided subacromial injections cost more and do not work better. They are an EBI 'not recommended' item. No audit in corpus.",
+  "standard": {
+   "source": "AoMRC Evidence-Based Interventions: scans for shoulder pain and guided injections (2020, reviewed 2024)",
+   "wording": "Image guided subacromial injections are not recommended in primary, intermediate or secondary care. Evidence does not support the use of guided subacromial injections over unguided subacromial injections in the treatment of subacromial shoulder pain.",
+   "url": "https://ebi.aomrc.org.uk/interventions/scans-for-shoulder-pain-and-guided-injections-for-shoulder-pain/"
+  },
+  "pass": "Subacromial injection given without image guidance (landmark), unless a documented reason (e.g. failed landmark injection, body habitus) is recorded.",
+  "population": "Include adults with subacromial pain who had a subacromial steroid injection in radiology, orthopaedic clinic or MSK service. Exclude glenohumeral, ACJ and calcific barbotage injections.",
+  "sample": "40 consecutive subacromial injections over the last 3 months",
+  "data_source": "Radiology information system (US-guided injection codes, request text); clinic procedure records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_injection",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "radiology",
+     "ortho_clinic",
+     "msk_service",
+     "primary_care"
+    ],
+    "note": ""
+   },
+   {
+    "field": "image_guided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requester_type",
+    "type": "choice",
+    "options": [
+     "gp",
+     "msk_physio",
+     "orthopaedics",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_for_guidance",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_text",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Radiology vetting rule: US-guided subacromial injection requests are returned unless a reason is given. Offer a landmark injection clinic slot instead.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 subacromial injections.",
+  "close_loop": "Present with radiology and the MSK service. Keep the vetting rule and clinic slot.",
+  "evidence": [
+   "No closed-loop injection audit in corpus; radiology vetting rules worked for request appropriateness in [1714]"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 injections from RIS"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary shoulder replacement, what proportion have a pre-operative Oxford Shoulder Score (or other validated shoulder PROM) recorded?",
+  "why": "Shoulder replacement PROMs sit outside the national hip and knee PROMs programme, so they are easily missed. The corpus PROMs audits are hip and knee only [1631][1572].",
+  "standard": {
+   "source": "BESS/BOA Patient Care Pathway: Glenohumeral osteoarthritis (Shoulder & Elbow 2016;8(3))",
+   "wording": "Acceptable scores include the Disability of Arm, Shoulder and Hand, Constant Score and the Oxford Shoulder Score. Other measures such as EQ5D may be used for economic analysis. Scores should be captured pre-operatively and a minimum of 6 months following intervention, which allows longitudinal analysis to determine magnitude of treatment effect and consequences of any treatment-related adverse events.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2020/06/Glenohumeral-osteoarthritis.pdf"
+  },
+  "pass": "A validated shoulder PROM (OSS, DASH or Constant) recorded in the 3 months before surgery.",
+  "population": "Include primary elective shoulder replacements. Exclude fractures.",
+  "sample": "All primary shoulder replacements over the last 6–12 months (30–50)",
+  "data_source": "Pre-assessment or clinic records; NJR PROMs field; local PROMs database; 6-month clinic letter for post-op score.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_prom_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prom_type",
+    "type": "choice",
+    "options": [
+     "OSS",
+     "DASH",
+     "Constant",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_preop_prom",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "six_month_prom_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the Oxford Shoulder Score a required item on the shoulder pre-assessment form (paper or electronic), completed by the patient in the waiting area.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, all shoulder replacements in that period.",
+  "close_loop": "Present at the upper limb meeting. Keep the pre-assessment item.",
+  "evidence": [
+   "[1572] hip/knee PROMs participation 31% → 90% (fixed submission code: system change)",
+   "[1631] national PROMs survey: 69% still paper-based; variation outside incentivised programme"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults reviewed in clinic for a painful or problematic knee replacement, what proportion had CRP and ESR (or PV) checked at the first review?",
+  "why": "Missed infection is the key risk in the painful knee replacement. No audit of initial work-up in corpus; PJI audits start after diagnosis [1301].",
+  "standard": {
+   "source": "BOA Specialty Standard: Investigation and Management of Patients with Problematic Knee Replacements (August 2020), standard 2",
+   "wording": "Initial investigation should include: clinical examination, X-Ray imaging and serological screening tests for infection (e.g. CRP, ESR +/- PV).",
+   "url": "https://www.boa.ac.uk/asset/7DEFDD00%2D004A%2D45FA%2D870AC5A2DFE332CF/"
+  },
+  "pass": "CRP and ESR or PV requested within 2 weeks of the first clinic review for the problem, plus a radiograph.",
+  "population": "Include adults seen in orthopaedic clinic with pain, stiffness, instability or dissatisfaction after primary TKR or UKR. Exclude routine follow-up with no complaint and acute trauma.",
+  "sample": "40 consecutive patients over the last 6 months",
+  "data_source": "Clinic letters (search 'painful TKR', 'stiff knee'); pathology system; PACS.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_first_problem_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "months_since_replacement",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crp_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "esr_or_pv_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_bloods",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspiration_if_raised_markers",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a 'problematic knee replacement' order set in the EPR (CRP, ESR, AP/lateral, long-leg, skyline) linked to the clinic outcome form.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 patients.",
+  "close_loop": "Present at the arthroplasty meeting. Keep the order set.",
+  "evidence": [
+   "[1301] PJI management: CRP 100% once PJI suspected, but diagnostic criteria and sampling poor",
+   "[1321] EPR order set raised protocol adherence 34% → 61%"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults investigated for a painful or problematic knee replacement, what proportion had the full radiograph set: weight-bearing AP and lateral, long-leg alignment and patella skyline?",
+  "why": "Malalignment and patellar problems are missed without the full set. The corpus has one long-leg radiograph quality audit with no loop [1373].",
+  "standard": {
+   "source": "BOA Specialty Standard: Investigation and Management of Patients with Problematic Knee Replacements (August 2020), standard 4",
+   "wording": "Full weight bearing AP and lateral, long-leg alignment and patella skyline radiographs should be performed in all patients.",
+   "url": "https://www.boa.ac.uk/asset/7DEFDD00%2D004A%2D45FA%2D870AC5A2DFE332CF/"
+  },
+  "pass": "All four views (standing AP, lateral, long-leg, skyline) on PACS within 3 months of the first problem review.",
+  "population": "Include adults seen for a problematic TKR. For UKR, also record the Rosenberg or Schuss view. Exclude acute periprosthetic fracture.",
+  "sample": "40 consecutive patients over the last 6 months",
+  "data_source": "Clinic letters; PACS image list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_first_problem_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "standing_ap",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lateral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "long_leg_alignment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patella_skyline",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rosenberg_or_schuss_if_ukr",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not_applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Same EPR 'problematic knee replacement' order set that requests all four views in one click.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 patients.",
+  "close_loop": "Present with radiology. Keep the order set and the radiographer protocol.",
+  "evidence": [
+   "[1373] long-leg radiographs: 48% with patella forward; blocks never used (no loop)",
+   "[1633] arthroplasty radiograph adequacy 69% → 84%"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PACS"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults with suspected chronic knee replacement infection who had a joint aspiration or biopsy, what proportion had no antibiotics in the 2 weeks before sampling?",
+  "why": "Antibiotics before aspiration cause culture-negative infection. The corpus PJI audit did not measure this [1301].",
+  "standard": {
+   "source": "BOA Specialty Standard: Investigation and Management of Prosthetic Joint Infection in Knee Replacement (August 2020), standard 12",
+   "wording": "Antibiotics should not be administered for 2 weeks prior to aspiration +/- biopsy except in cases of acute infection in a systemically unwell (septic) patient.",
+   "url": "https://www.boa.ac.uk/asset/9BA3010B%2D8563%2D4517%2DA2869FD179A1F4B2/"
+  },
+  "pass": "No antibiotic in the 14 days before aspiration or biopsy (GP and hospital prescriptions checked), or patient septic.",
+  "population": "Include adults with a knee replacement who had diagnostic aspiration or biopsy for suspected PJI. Exclude septic patients needing emergency treatment.",
+  "sample": "All knee aspirations or biopsies for suspected PJI over the last 12–24 months (usually 30–40)",
+  "data_source": "Microbiology system (knee aspirate samples); EPR drug chart; GP summary care record for community antibiotics.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_aspiration",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_in_prior_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_source",
+    "type": "choice",
+    "options": [
+     "gp",
+     "hospital",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_last_antibiotic",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_septic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_result",
+    "type": "choice",
+    "options": [
+     "positive",
+     "negative"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a GP letter template ('suspected joint replacement infection: please do not start antibiotics before aspiration') sent from the first clinic, and an 'antibiotics in last 14 days?' field on the aspiration request.",
+  "target": "≥90%",
+  "reaudit": "After 6 months, all aspirations in that period.",
+  "close_loop": "Present at the bone infection MDT. Keep the GP letter and request field.",
+  "evidence": [
+   "[1301] PJI: microbiology discussion 100%, but poor compliance with diagnostic criteria and sampling (no re-audit)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having shoulder replacement under general anaesthesia for over 90 minutes, what proportion have a recorded VTE prophylaxis decision?",
+  "why": "VTE audits in corpus cover hip and knee [1708][1787]. Shoulder replacement is often long under GA and falls between protocols.",
+  "standard": {
+   "source": "NICE NG89 rec 1.11.16 (2018, updated 2019)",
+   "wording": "Consider VTE prophylaxis for people undergoing upper limb surgery if the person's total time under general anaesthetic is over 90 minutes or where their operation is likely to make it difficult for them to mobilise. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "VTE risk assessment done and a prophylaxis decision (given or reason not given) recorded within 24 hours of surgery.",
+  "population": "Include primary elective shoulder replacement with anaesthetic time over 90 minutes. Exclude patients already on therapeutic anticoagulation.",
+  "sample": "All eligible shoulder replacements over the last 12 months (30–50)",
+  "data_source": "Theatre system (anaesthetic start and end times); EPR VTE assessment; drug chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "anaesthetic_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_end_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ga_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_given",
+    "type": "choice",
+    "options": [
+     "LMWH",
+     "mechanical",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_none_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add shoulder replacement (GA over 90 min) to the orthopaedic VTE order set, with a default LMWH order that must be accepted or declined with a reason.",
+  "target": "≥95%",
+  "reaudit": "After 6 months, all eligible cases.",
+  "close_loop": "Present to the thrombosis committee. Keep the order set.",
+  "evidence": [
+   "[1718] non-arthroplasty knee VTE: 36% → 68% (education)",
+   "[1708] hip/knee VTE: 90% → 98% (discharge pack and nurse check)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults discharged on VTE prophylaxis after primary hip or knee replacement, what proportion have the drug and stop date stated in the GP discharge summary?",
+  "why": "Extended prophylaxis runs 14–38 days at home. GP notification is rarely checked; the corpus has a hip fracture proforma audit [1207] but none in elective arthroplasty.",
+  "standard": {
+   "source": "NICE NG89 rec 1.2.8 (2018, updated 2019)",
+   "wording": "Notify the person's GP if the person has been discharged with pharmacological and/or mechanical VTE prophylaxis to be used at home. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "Discharge summary sent to the GP names the VTE drug, dose and stop date (or total duration).",
+  "population": "Include primary elective THR, TKR, UKR discharged on pharmacological VTE prophylaxis.",
+  "sample": "40 consecutive discharges over the last 2 months",
+  "data_source": "Electronic discharge summary; TTO prescription.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vte_drug_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_date_or_duration_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_matches_ng89",
+    "type": "yes/no",
+    "options": [],
+    "note": "Hip 28–38 days; knee 14 days by regimen"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'VTE prophylaxis: drug, dose, stop date' a mandatory field in the arthroplasty discharge summary template.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, 40 discharges.",
+  "close_loop": "Present at the arthroplasty and pharmacy meetings. Keep the mandatory field.",
+  "evidence": [
+   "[1207] hip fracture discharge letter proforma: VTE compliance 87% → 95%",
+   "[1708] hip/knee VTE: 90% → 98%"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults transfused red cells after primary hip, knee or shoulder replacement (not actively bleeding), what proportion received a single unit followed by a haemoglobin check before any further unit?",
+  "why": "Two-unit transfusions persist after joint replacement. The national audit found 67% got two units [1454], with no loop.",
+  "standard": {
+   "source": "NICE NG24 recs 1.6.1 and 1.6.2 (2015)",
+   "wording": "Consider single‑unit red blood cell transfusions for adults (or equivalent volumes calculated based on body weight for children or adults with low body weight) who do not have active bleeding. After each single‑unit red blood cell transfusion (or equivalent volumes calculated based on body weight for children or adults with low body weight), clinically reassess and check haemoglobin levels, and give further transfusions if needed.",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "Each unit prescribed singly, with Hb rechecked and a clinical review recorded before the next unit. Pre-transfusion Hb 70 g/L or below (80 if acute coronary syndrome) or a reason recorded.",
+  "population": "Include adults transfused after primary elective joint replacement. Exclude major haemorrhage.",
+  "sample": "All transfused primary arthroplasty patients over the last 12 months (often 30–50)",
+  "data_source": "Blood bank / transfusion lab system (units issued); EPR prescription; pathology Hb results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb",
+    "type": "number",
+    "options": [],
+    "note": "g/L"
+   },
+   {
+    "field": "date_time_first_unit",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_unit_prescribing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hb_rechecked_between_units",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "threshold_met_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the EPR blood prescription so that red cells default to one unit, with a prompt to recheck Hb before the next.",
+  "target": "≥90%",
+  "reaudit": "After 6 months, all transfused arthroplasty patients.",
+  "close_loop": "Present to the hospital transfusion committee. Keep the default.",
+  "evidence": [
+   "[2539] general surgery: inappropriate back-to-back units 20.5% → 4.5% (teaching, posters)",
+   "[1418] arthroplasty transfusion protocol: transfused 66% → 24%"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults transfused after primary joint replacement, what proportion have a discharge summary that states the transfusion and that they can no longer donate blood?",
+  "why": "Patients and GPs are often not told about a transfusion. No audit of this in corpus.",
+  "standard": {
+   "source": "NICE NG24 rec 1.14.4 (2015)",
+   "wording": "Provide the person and their GP with copies of the discharge summary or other written communication that explains: the details of any transfusions they had the reasons for the transfusion any adverse events that they are no longer eligible to donate blood. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Patient-information"
+  },
+  "pass": "Discharge summary states units transfused, reason, any reaction, and 'no longer eligible to donate blood'.",
+  "population": "Include adults transfused red cells during an admission for primary elective joint replacement.",
+  "sample": "All transfused primary arthroplasty patients over the last 12 months (often 30–50)",
+  "data_source": "Transfusion lab system (who was transfused); electronic discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_transfusion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transfusion_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adverse_events_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "donation_ineligibility_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Transfusion lab issue triggers an auto-filled transfusion paragraph in the discharge summary (units, date, 'no longer eligible to donate').",
+  "target": "≥90%",
+  "reaudit": "After 6 months.",
+  "close_loop": "Present to the hospital transfusion committee. Embed the auto-fill trust-wide if it works.",
+  "evidence": [
+   "[2458] surgical transfusion documentation: most criteria >80% after cycle 2 (discussion with juniors)",
+   "[2266] discharge summary checklist improved content"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults found to have iron-deficiency anaemia at pre-assessment for primary hip or knee replacement, what proportion were offered iron before surgery?",
+  "why": "Preoperative anaemia predicts transfusion [1481]. Orthopaedic anaemia audits are few (3 in corpus) and mostly old.",
+  "standard": {
+   "source": "NICE NG24 recs 1.2.1 and 1.2.2 (2015); NICE NG180 rec 1.3.4 (2020)",
+   "wording": "Offer oral iron before and after surgery to people with iron‑deficiency anaemia. [2015] Consider intravenous iron before or after surgery for people who: have iron‑deficiency anaemia and cannot tolerate or absorb oral iron, or are unable to adhere to oral iron treatment are diagnosed with functional iron deficiency are diagnosed with iron‑deficiency anaemia, and the interval between the diagnosis of anaemia and surgery is predicted to be too short for oral iron to be effective. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Reducing-requirement-for-blood-transfusion-for-people-having-surgery"
+  },
+  "pass": "Oral or IV iron prescribed or recommended to the GP before the surgery date.",
+  "population": "Include adults with Hb below the local anaemia cut-off and ferritin low (or iron studies showing deficiency) at arthroplasty pre-assessment. Exclude anaemia of other cause.",
+  "sample": "30–40 consecutive anaemic pre-assessment patients over the last 6 months",
+  "data_source": "Pre-assessment records; pathology (Hb, ferritin, TSAT); EPR or GP letter for iron; day unit list for IV iron.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_preassessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_hb",
+    "type": "number",
+    "options": [],
+    "note": "g/L"
+   },
+   {
+    "field": "ferritin_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iron_deficiency_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iron_offered",
+    "type": "choice",
+    "options": [
+     "oral",
+     "iv",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hb_on_day_of_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Pre-assessment reflex rule: Hb below cut-off triggers automatic ferritin/TSAT and a nurse-led iron pathway (oral iron letter to GP or IV iron slot).",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 30 anaemic patients.",
+  "close_loop": "Present to the pre-assessment team and transfusion committee. Keep the reflex rule and pathway.",
+  "evidence": [
+   "[1481] UK arthroplasty patient blood management programme lowered transfusion (system change)",
+   "[2046] colorectal day-case IV iron pathway: anaemia management improved (pathway change)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults with diabetes having primary elective joint replacement, what proportion had an HbA1c result from the 3 months before surgery?",
+  "why": "Poor glycaemic control raises infection risk after arthroplasty. No arthroplasty HbA1c audit in corpus.",
+  "standard": {
+   "source": "NICE NG45 rec 1.6.2 (2016)",
+   "wording": "Offer HbA1c testing to people with diabetes having surgery if they have not been tested in the last 3 months.",
+   "url": "https://www.nice.org.uk/guidance/ng45/chapter/Recommendations"
+  },
+  "pass": "HbA1c result dated within 3 months before the operation date.",
+  "population": "Include adults with type 1 or type 2 diabetes having primary elective hip, knee or shoulder replacement.",
+  "sample": "40 consecutive patients with diabetes over the last 6 months",
+  "data_source": "Pre-assessment records; pathology system; GP summary care record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type_1",
+     "type_2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_latest_hba1c",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_value",
+    "type": "number",
+    "options": [],
+    "note": "mmol/mol"
+   },
+   {
+    "field": "within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "raised_hba1c_action_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. referral to diabetes team if above local threshold"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pre-assessment rule: diabetes flag triggers an HbA1c order if none in the last 3 months.",
+  "target": "≥95%",
+  "reaudit": "After 3 months, next 40 patients.",
+  "close_loop": "Present to pre-assessment. Keep the rule.",
+  "evidence": [
+   "[2479] vascular inpatients: HbA1c monitoring improved after intervention",
+   "[1623] direct endocrine pathway in elective hip/knee: faster referral 3.6 → 2.3 days"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults attending pre-assessment for primary elective joint replacement, what proportion had a routine urine dipstick without symptoms?",
+  "why": "Routine dipsticks lead to needless antibiotics and delays. One corpus arthroplasty QI stopped routine MSUs as part of a bundle [1605], but none measured it.",
+  "standard": {
+   "source": "NICE NG45 recs 1.7.1 and 1.7.2 (2016)",
+   "wording": "Do not routinely offer urine dipstick tests before surgery. Consider microscopy and culture of midstream urine sample before surgery if the presence of a urinary tract infection would influence the decision to operate.",
+   "url": "https://www.nice.org.uk/guidance/ng45/chapter/Recommendations"
+  },
+  "pass": "No urine dipstick or MSU done unless urinary symptoms or another reason recorded.",
+  "population": "Include adults at pre-assessment for primary hip, knee or shoulder replacement. Exclude patients with urinary symptoms or catheters.",
+  "sample": "40 consecutive pre-assessments over the last month",
+  "data_source": "Pre-assessment form; pathology system (MSU requests); drug chart or GP letter (antibiotics started).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_preassessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urinary_symptoms_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dipstick_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "msu_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotics_started_for_asymptomatic_bacteriuria",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_delayed_for_urine",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove 'urinalysis' from the default arthroplasty pre-assessment test panel; keep it as a symptom-triggered option.",
+  "target": "≥90% with no routine dipstick",
+  "reaudit": "After 3 months, 40 pre-assessments.",
+  "close_loop": "Present to pre-assessment and microbiology. Update the standard operating procedure.",
+  "evidence": [
+   "[1605] stopping routine MSU was part of a bundle: LOS 3.6 → 2.0–2.4 days",
+   "[2029] surgical unit urine testing appropriateness improved on re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults listed for primary hip or knee replacement, what proportion have prehabilitation advice on exercise, weight and smoking recorded before surgery?",
+  "why": "NICE asks for prehab advice for everyone, but it is rarely recorded. Corpus smoking and weight audits are in trauma [1336] or measured weight loss [1273], not advice at listing.",
+  "standard": {
+   "source": "NICE NG157 rec 1.2.1 (2020)",
+   "wording": "Give people having hip or knee replacement advice on preoperative rehabilitation. Include advice on: exercises to do before and after surgery that will aid recovery lifestyle, including weight management, diet and smoking cessation (see NICE's guidance on lifestyle and wellbeing) maximising functional independence and quality of life before and after surgery.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "Clinic letter, pre-assessment or joint school record shows advice on exercises and lifestyle (weight and, if a smoker, smoking) before surgery.",
+  "population": "Include adults having primary elective THR, TKR or UKR.",
+  "sample": "40 consecutive patients over the last 2 months",
+  "data_source": "Listing letter, pre-assessment form, joint school register.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only. Keep the key file separate."
+   },
+   {
+    "field": "date_of_listing",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exercise_advice_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bmi_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_advice_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoker",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_advice_or_referral_recorded",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not_applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "attended_joint_school",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 3-item prehab box (exercise sheet given, weight advice, smoking referral) to the pre-assessment form.",
+  "target": "≥90%",
+  "reaudit": "After 3 months, next 40 patients.",
+  "close_loop": "Present at the arthroplasty MDT. Keep the pre-assessment box.",
+  "evidence": [
+   "[1336] smoking status documentation undocumented 19.6% → 7.8% (education), but cessation offers did not improve",
+   "[1754] leaflet-based SDM prompts improved documentation"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ }
+]

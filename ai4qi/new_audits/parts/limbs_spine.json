@@ -1,0 +1,1700 @@
+[
+ {
+  "question": "In adults whose ankle fracture was reduced in ED, was the check X-ray reviewed and the reduction documented as adequate before they left ED?",
+  "why": "Poor ED reduction leads to skin compromise and repeat manipulations. Corpus: [1235] improved 'adequacy of reduction' by 25% with an ED algorithm, but no audit measured this single BOAST item on its own.",
+  "standard": {
+   "source": "BOAST The Management of Ankle Fractures (BOA, August 2016), Standards for Practice",
+   "wording": "Adequate reduction must be confirmed by review of repeat radiographs and documented before transfer from ED.",
+   "url": "https://www.boa.ac.uk/resource/boast-12-pdf.html"
+  },
+  "population": "Include: adults (skeletally mature) with a closed malleolar or syndesmotic ankle fracture reduced in ED. Exclude: pilon, open fractures, children, reductions done only in theatre.",
+  "sample": "40 consecutive eligible patients over the last 6 months (fewer in small units: take all).",
+  "data_source": "ED system (departure time, reduction note); PACS (post-reduction image time); orthopaedic clerking.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reduction_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_reduction_xray_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "PACS acquisition time"
+   },
+   {
+    "field": "ed_departure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_review_documented_before_departure",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reduction_judged",
+    "type": "choice",
+    "options": [
+     "adequate",
+     "not adequate",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_manipulation_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_reduction_neurovascular_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary: BOAST says must be repeated and documented"
+   }
+  ],
+  "change": "Add a mandatory 'post-reduction X-ray reviewed: adequate / not adequate, by whom' line to the ED ankle reduction procedure note (EPR template), which must be completed before the ED discharge/transfer step.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 consecutive reduced ankle fractures, same template.",
+  "close_loop": "Present at joint ED/T&O governance. If it works, make the template field mandatory in the ED procedure record and add it to the ED induction pack.",
+  "evidence": [
+   "[1235] Scunthorpe: adequacy of reduction improved by 25%, whole-leg films +60% (ED poster algorithm plus ortho attending after a failed reduction)",
+   "[1659] single centre UK: repeat neurovascular and skin documentation rose after education (documentation of ankle fractures, education only)",
+   "[1569] Aintree MTC: malreduction after fixation 33% → 2.4% (process change plus education)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients (ED record plus PACS timestamps)",
+  "pass": "A post-reduction radiograph exists on PACS with a time before the ED departure time, AND the notes contain an entry reviewing it (adequate / not adequate) timed before departure.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with an ankle fracture of uncertain stability treated in a cast or boot, was a repeat X-ray (weight-bearing if possible) done within 2 weeks of injury?",
+  "why": "Uncertain-stability fractures can displace unseen; late displacement changes treatment. Corpus ankle audits focus on documentation, fixation and syndesmosis ([1659], [1230]); none measured the 2-week check film.",
+  "standard": {
+   "source": "BOAST The Management of Ankle Fractures (BOA, August 2016); also NICE NG38 rec 1.4.1 (2016)",
+   "wording": "In fracture patterns where stability is uncertain, patients should be reviewed within 2 weeks with further radiographs (weight bearing if possible) to confirm the position remains acceptable.",
+   "url": "https://www.boa.ac.uk/resource/boast-12-pdf.html"
+  },
+  "population": "Include: adults with a closed ankle fracture treated non-operatively where the clinic or virtual fracture clinic (VFC) note says stability is uncertain (for example isolated Weber B with no medial clear-space widening on non-weight-bearing films). Exclude: fractures judged clearly stable or clearly unstable, and patients listed for surgery at first review.",
+  "sample": "40 consecutive eligible patients from VFC/fracture clinic lists over the last 4–6 months.",
+  "data_source": "VFC outcome notes; PACS dates and view labels (weight-bearing marker); fracture clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stability_recorded_as",
+    "type": "choice",
+    "options": [
+     "uncertain",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_xray_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_xray_within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_xray_weight_bearing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "displacement_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "converted_to_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a VFC outcome button 'Uncertain stability: weight-bearing mortise and lateral X-ray at 10–14 days' that books the X-ray and clinic slot automatically.",
+  "target": "≥90% within 14 days (≥70% weight-bearing)",
+  "reaudit": "Weeks 13–14, next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at T&O audit meeting and to VFC team; embed the booking button and the weight-bearing radiograph request code in the radiology order set.",
+  "evidence": [
+   "[1427] Blackburn fracture clinic: functional treatment of stable ankle fractures rarely followed → progressive improvement with fewer check films (departmental guideline)",
+   "[1538] DGH: 6% seen within 72 h → 100% (virtual fracture clinic, system change)",
+   "[1448] A&E: protocol completion 87% and 53% fewer inappropriate referrals (ankle injury protocol)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from VFC list plus PACS",
+  "pass": "A repeat ankle radiograph dated ≤14 days after injury. Record separately whether it was weight-bearing.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients with a suspected Achilles tendon rupture, was a definitive treatment plan (surgery or a named non-operative protocol) documented within 72 hours of first presentation?",
+  "why": "Delays to ultrasound and to a treatment decision are common: [1669] 34.5% had a plan within one week; [1626] 83% within two weeks. The February 2026 BOAST sets a new, tighter 72-hour standard that no corpus audit has measured.",
+  "standard": {
+   "source": "BOAST Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026)",
+   "wording": "A definitive treatment plan should be documented for all patients within 72 hours of first presentation and copied to the patient and their GP.",
+   "url": "https://www.boa.ac.uk/resource/boast-outpatient-and-on-call-services-for-people-with-fractures-or-musculoskeletal-injury.html"
+  },
+  "population": "Include: adults coded or referred to VFC/fracture clinic with suspected acute Achilles tendon rupture. Exclude: re-ruptures already under follow-up, injuries more than 2 weeks old at presentation.",
+  "sample": "40 consecutive patients over the last 6–9 months (all cases if fewer).",
+  "data_source": "ED system (arrival time); VFC/fracture clinic notes (plan time); radiology system (ultrasound request/scan dates if used).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "definitive_plan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "plan_type",
+    "type": "choice",
+    "options": [
+     "non-operative protocol",
+     "surgery",
+     "unclear"
+    ],
+    "note": ""
+   },
+   {
+    "field": "plan_copied_to_patient_and_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A single ED/VFC Achilles pathway sheet: equinus boot at ED, direct VFC referral flagged 'Achilles', and consultant plan at the next-day trauma meeting (no routine wait for ultrasound where clinical tests are clear).",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14 (extend to 3 months if case numbers are low), next 40 patients, same template.",
+  "close_loop": "Present at T&O and ED governance; if it works, make the Achilles pathway sheet part of the ED order set and VFC template.",
+  "evidence": [
+   "[1669] DGH VFC: plan within 1 week 34.5% → 74.2% (other professionals allowed to start investigations, system change)",
+   "[1730] Dorset: ultrasound within 14 days 43% → 59%, boot use 80% → 86% (posters plus a new 'Ultrasound Achilles' request code)",
+   "[1626] Portsmouth: 83% decision within 2 weeks; revised pathway written, not re-audited"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients",
+  "pass": "A documented definitive plan (operative, or non-operative with a named boot/wedge protocol) timed ≤72 hours after first ED/UTC arrival.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients discharged in a boot or cast for an Achilles tendon rupture, was a VTE risk assessment documented at first contact?",
+  "why": "Achilles ruptures are a high VTE risk group and immobilisation is long. Lower-limb cast VTE audits exist ([1228], [1358]) but none looked at Achilles ruptures alone against the new 2026 BOAST wording.",
+  "standard": {
+   "source": "BOAST Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026); links to NICE NG89 rec 1.11.1 (2018)",
+   "wording": "A documented risk assessment for venous thromboembolism (VTE) should be conducted for all patients with a lower limb injury. (NICE NG89)",
+   "url": "https://www.boa.ac.uk/resource/boast-outpatient-and-on-call-services-for-people-with-fractures-or-musculoskeletal-injury.html"
+  },
+  "population": "Include: adults with suspected or confirmed Achilles tendon rupture discharged in a boot or cast. Exclude: patients already on therapeutic anticoagulation, patients admitted.",
+  "sample": "40 consecutive patients over the last 6–9 months.",
+  "data_source": "ED record/VTE form; drug chart or discharge prescription (LMWH/DOAC); fracture clinic notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_presentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immobilisation",
+    "type": "choice",
+    "options": [
+     "boot with wedges",
+     "cast",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vte_assessment_documented_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_outcome",
+    "type": "choice",
+    "options": [
+     "prophylaxis indicated",
+     "not indicated",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_agent",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_event_within_90_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "From imaging/readmission"
+   }
+  ],
+  "change": "Build the lower-limb immobilisation VTE tool into the ED discharge step so the boot/cast discharge cannot be completed without it (hard stop).",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14 (or 3 months for numbers), next 40 patients, same template.",
+  "close_loop": "Present at ED and T&O governance and the trust thrombosis committee; if it works, extend the hard stop to all lower-limb casts.",
+  "evidence": [
+   "[1358] Stockport ED: documented VTE assessment 32% → 93.1% (pathway redesign with electronic discharge prompt/block)",
+   "[1228] Harrogate ED: 45% → 78% (VTE section added to VFC booking form, then posters and forms in boots)",
+   "[1730] Dorset Achilles pathway: VTE prophylaxis 80% → 80.5% (posters and email only, no change)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients",
+  "pass": "A completed VTE risk assessment (tool or free text weighing VTE against bleeding risk) in the ED/UTC or first fracture clinic record, dated the day of first presentation.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults whose dorsally displaced distal radius fracture was manipulated in ED, was the manipulation done under regional anaesthesia (for example Bier's block) rather than a haematoma block?",
+  "why": "Haematoma blocks give poorer analgesia and more failed reductions. Corpus has Bier's block documentation audits ([1245]) and analgesia audits ([1292]) but none measured the anaesthetic technique used against BOAST.",
+  "standard": {
+   "source": "BOAST The Management of Distal Radial Fractures (BOA, December 2017); also NICE NG38 rec 1.3.1 (2016)",
+   "wording": "If manipulation is indicated, it should be undertaken using regional anaesthesia, performed by a suitably qualified and trained practitioner (as opposed to local haematoma block).",
+   "url": "https://www.boa.ac.uk/resource/boast-16-pdf.html"
+  },
+  "population": "Include: adults (skeletally mature) with a dorsally displaced distal radius fracture manipulated in ED. Exclude: manipulation in theatre, children.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "ED procedure notes; ED drug chart (prilocaine / local anaesthetic); PACS (pre/post images).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_technique",
+    "type": "choice",
+    "options": [
+     "Bier's block",
+     "other regional block",
+     "haematoma block",
+     "sedation",
+     "gas and air only",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "regional_anaesthesia_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "operator_grade",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reduction_acceptable_on_check_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "re_manipulation_or_surgery_for_loss",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Stock a ready-made Bier's block pack in ED resus with a one-page procedure checklist, and put 'Bier's block' as the default option in the ED distal radius reduction template.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14, next 40 manipulations, same template.",
+  "close_loop": "Present at ED governance and T&O audit; if it works, add Bier's block sign-off to ED registrar competencies and keep the pack on the resus checklist.",
+  "evidence": [
+   "[1305] Oxford ED: operative reduction rate 24.1% → 17.3% (three ED training sessions on BOAST, finger traps and moulding)",
+   "[1245] ED/fracture clinic: neurovascular check before Bier's block 34% → 60.3% (intervention not described)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "pass": "The procedure note records intravenous regional anaesthesia (Bier's block) or another regional block (for example axillary/supraclavicular). Haematoma block, sedation only or gas and air alone = fail.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients aged 50 or over with a low-energy distal radius fracture, was a referral to the fracture liaison service (or a documented bone health and falls assessment) made?",
+  "why": "A wrist fracture is often the first fragility fracture. Bone protection audits in the corpus are mostly about hip fractures; the only wrist loop is old ([1414]: 0% → 81%).",
+  "standard": {
+   "source": "BOAST The Management of Distal Radial Fractures (BOA, December 2017)",
+   "wording": "Patients should be assessed for falls risks and bone health, and referred to the fracture liaison services and or falls service where appropriate.",
+   "url": "https://www.boa.ac.uk/resource/boast-16-pdf.html"
+  },
+  "population": "Include: patients aged ≥50 with a low-energy (standing height or less) distal radius fracture. Exclude: high-energy injury, already on FLS follow-up or bone treatment started in the last year.",
+  "sample": "50 consecutive patients over the last 3 months.",
+  "data_source": "VFC/fracture clinic letters; FLS referral log; GP letters; drug history.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "low_energy_mechanism",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fls_referral_or_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bone_treatment_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Automatic FLS feed: VFC coding of 'distal radius fracture, age ≥50' triggers an electronic referral to the FLS, with an opt-out box.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 50 consecutive patients, same template.",
+  "close_loop": "Present to T&O, FLS and falls teams; if it works, keep the automatic feed and report monthly FLS capture to the trust.",
+  "evidence": [
+   "[1414] Manchester: distal radius patients investigated/treated/referred 0% → 81% (practice change, not specified)",
+   "[1265] VFC: only 37% of stable distal radius fractures mobilised early (single cycle; shows VFC is the right place for a trigger)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients",
+  "pass": "An FLS referral, or a documented bone health and falls assessment with a stated outcome, within 12 weeks of injury.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a distal radius fracture treated in a cast, was an X-ray at cast removal avoided when there was no documented clinical concern?",
+  "why": "Routine out-of-cast films add radiation, time and clinic visits with no benefit. No audit in corpus measured this BOAST item.",
+  "standard": {
+   "source": "BOAST The Management of Distal Radial Fractures (BOA, December 2017)",
+   "wording": "A radiograph of the patient’s wrist at the time of removing immobilisation is not required unless there is clinical cause for concern.",
+   "url": "https://www.boa.ac.uk/resource/boast-16-pdf.html"
+  },
+  "population": "Include: adults with a distal radius fracture treated non-operatively in a cast. Exclude: operative fixation, children.",
+  "sample": "50 consecutive patients reaching cast removal over the last 3 months.",
+  "data_source": "Fracture clinic notes; PACS (X-ray on cast-removal date); clinic outcome.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cast_removal_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_at_cast_removal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_clinical_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_no_routine_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "further_clinic_visit_after_removal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "change_in_management_from_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Change the fracture clinic booking template so 'X-ray on arrival' is no longer the default for distal radius cast-removal visits; the clinician must request it with a reason.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 50 patients, same template.",
+  "close_loop": "Present at T&O audit and to radiology; if it works, remove the default request in the clinic template for good and report X-rays saved.",
+  "evidence": [
+   "[1427] Blackburn: fewer routine check radiographs without loss of safety (departmental guideline, stable ankle fractures)",
+   "[1765] DGH and MIU torus fractures: NG38 compliance 44% → 62% combined, fewer fracture clinic follow-ups (posters, email and teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinic list plus PACS",
+  "pass": "No wrist X-ray taken at the cast-removal visit, OR an X-ray taken with a documented clinical reason (for example tenderness, deformity, new symptoms).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a scaphoid fracture seen on plain X-ray, was a CT scan done to measure displacement?",
+  "why": "Plain films under-estimate displacement; >2 mm changes treatment to fixation. Corpus scaphoid audits focus on MRI for occult fractures ([1259], [1223], [1743]); none measured CT for visible fractures.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Scaphoid fractures, standard 8 (BSSH, 2024; revision due 2027)",
+   "wording": "If a scaphoid fracture is visible on plain radiographs, CT scan should be performed to measure displacement accurately.",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/Scaphoid%20standards.pdf"
+  },
+  "population": "Include: adults (over 16) with an acute scaphoid fracture visible on initial radiographs. Exclude: tuberosity avulsion fractures, presentation more than 4 weeks after injury.",
+  "sample": "30–40 consecutive patients over the last 6–12 months.",
+  "data_source": "PACS (radiographs, CT date); radiology reports; fracture/hand clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "presentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "waist",
+     "proximal pole",
+     "distal pole"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ct_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "displacement_mm_reported",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "displacement_over_2mm",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fixation_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add 'CT scaphoid (sagittal and coronal along scaphoid axis)' as an automatic request on the VFC scaphoid-fracture outcome, with the reconstruction protocol agreed with radiology.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 (or next 3 months for numbers), same template and sample size.",
+  "close_loop": "Present at hand/T&O audit and radiology; if it works, keep the VFC auto-request and the CT protocol.",
+  "evidence": [
+   "[1259] Dorset ED: patients with signs but normal films not sent for MRI 16% → 1% (scaphoid management protocol)",
+   "[1223] Southmead: MRI within 14 days 63% → 73% (limited-sequence MRI pathway)",
+   "[1743] Kings Mill DGH: clinic review within 7 days 68.5% (single cycle)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PACS",
+  "pass": "A wrist/scaphoid CT performed after diagnosis (within 14 days of presentation) with displacement reported or measured.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a scaphoid fracture treated non-operatively, was union confirmed on CT (or on X-ray at 6 months) before discharge from follow-up?",
+  "why": "Missed non-union leads to collapse and arthritis. Scaphoid follow-up imaging is only a seed idea in the corpus ([666]); no detailed audit.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Scaphoid fractures, standard 14 (BSSH, 2024; revision due 2027)",
+   "wording": "Patients should only be discharged once union is confirmed on CT (>50% of the fracture cross-sectional area) or by delayed radiographs at 6 months.",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/Scaphoid%20standards.pdf"
+  },
+  "population": "Include: adults with a confirmed scaphoid waist or distal pole fracture treated in a cast and discharged. Exclude: operative fixation, tuberosity avulsions, lost to follow-up.",
+  "sample": "30–40 consecutive discharged patients over the last 12 months.",
+  "data_source": "Clinic letters (discharge date); PACS/radiology reports (CT union, 6-month films).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_union_over_50pct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_at_6_months_showing_union",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "union_confirmed_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "non_union_risk_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary: standard 14 also requires this advice"
+   }
+  ],
+  "change": "A scaphoid discharge checklist in the clinic letter template: 'Union confirmed on: CT date __ / 6-month X-ray date __; non-union advice given'.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 (or 3 months), next 30–40 discharges, same template.",
+  "close_loop": "Present at hand/T&O audit; if it works, keep the checklist in the clinic letter template.",
+  "evidence": [
+   "[1259] Dorset: protocol cut time to MRI 37.6 → 11.4 days (system change; shows protocols work in scaphoid care)",
+   "[666] seed topic only: scaphoid follow-up imaging (not individually linked)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "pass": "Before the discharge date: a CT reporting union (>50% bridging), OR radiographs at ≥6 months after injury showing union.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients with a closed mallet finger injury, were they seen by a hand surgeon or hand therapist within 72 hours of presentation?",
+  "why": "Early correct splinting decides the outcome. Mallet care is a seed idea only in the corpus ([751]); no detailed audit.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Mallet injuries (BSSH, published 2020)",
+   "wording": "for closed injuries; green – next available clinic (real or virtual) within 72 hours",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/7%20Mallet%20Injuries.pdf"
+  },
+  "population": "Include: adults and children with a closed mallet injury (soft tissue or bony). Exclude: open injuries, injuries more than 4 weeks old.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "ED/MIU records; hand therapy and VFC appointment systems; clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "type",
+    "type": "choice",
+    "options": [
+     "soft tissue",
+     "bony <1/3",
+     "bony >1/3",
+     "subluxed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "splint_applied_at_first_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hand_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Direct booking from ED/MIU into hand therapy (a 'mallet' slot in the hand therapy diary) with a pre-made splint and leaflet in the minor injuries cupboard.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present to hand service, ED and MIU leads; if it works, keep the direct booking slot and leaflet.",
+  "evidence": [
+   "[1538] DGH: fracture clinic within 72 h 6% → 100% (virtual fracture clinic, system change)",
+   "[1242] Bradford: time-to-presentation standard for closed hand fractures 76% → 90.5% (intervention not reported)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "A hand surgeon or hand therapist review (real or virtual) documented ≤72 hours after first ED/UTC/MIU attendance.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients with a hand bite that broke the skin, were antibiotics started on the day of first attendance?",
+  "why": "Bite infection causes joint sepsis and long-term loss of function. Corpus: [2454] looked at time to surgery; no audit measured early antibiotics.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Human and animal bites to the hand (BSSH, 2021)",
+   "wording": "Antibiotics should be started as soon as possible after injury.",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/8%20Bites.pdf"
+  },
+  "population": "Include: human or animal bites to the hand or wrist with the dermis breached (including 'fight bites'). Exclude: superficial bites with no dermal breach.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "ED/MIU records (coding 'bite'); ED drug chart and discharge prescriptions; hand team notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bite_type",
+    "type": "choice",
+    "options": [
+     "human",
+     "dog",
+     "cat",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_started_first_attendance",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotic_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_choice_matches_local_guideline",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "theatre_washout_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a 'hand bite' order set to the ED system: first-dose co-amoxiclav (or local alternative) plus referral pathway, triggered by the bite presenting complaint.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at ED and hand/plastics governance; if it works, keep the order set and add it to MIU patient group directions.",
+  "evidence": [
+   "[2454] MTC: 86% of bites needing surgery operated within 24 h after guideline update (system change)",
+   "[1241] Exeter open hand fractures: all but 1 received antibiotic prophylaxis (single cycle)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "An antibiotic dose given or prescribed at the first ED/UTC/MIU attendance (drug chart or discharge prescription).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients with an open hand fracture, were antibiotics stopped by 72 hours or at definitive wound closure, whichever came first?",
+  "why": "Long antibiotic courses add harm and resistance without benefit. Corpus: [1241] found antibiotics stopped correctly in only 12% and did not re-audit.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Open fractures (BSSH, 2021)",
+   "wording": "Antibiotics should be stopped at 72 hours or after definitive closure whichever is the sooner, subject to clinical judgement.",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/2%20Open%20fractures%20Final.pdf"
+  },
+  "population": "Include: adults with an open fracture of the hand or digit (excluding tuft fractures) treated surgically. Exclude: established infection at presentation.",
+  "sample": "30–40 consecutive patients over the last 6 months.",
+  "data_source": "Drug chart (first and last dose times); discharge prescription; operation notes (closure date); clinic notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "definitive_closure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Include discharge TTO course end"
+   },
+   {
+    "field": "stopped_by_72h_or_closure",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "documented_reason_to_continue",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_within_30_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a 'stop date' field to the open hand fracture antibiotic prescription (EPMA default: 72 hours) and a line in the operation note: 'Antibiotics: stop now / stop at __ (reason)'.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14 (or 3 months for numbers), same template, next 30–40 patients.",
+  "close_loop": "Present to hand/plastics and antimicrobial stewardship; if it works, keep the EPMA default stop date.",
+  "evidence": [
+   "[1241] Exeter: antibiotics stopped at definitive closure in 12% (single cycle, not re-audited)",
+   "[1642] Sandwell ankle ORIF: operation-note VTE agent and duration 29% → 90% (written policy plus teaching; shows operation-note prompts work)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from drug charts",
+  "pass": "Last antibiotic dose (inpatient chart plus discharge prescription) given no later than 72 hours after the first dose, or no later than definitive closure if that came first; OR a documented clinical reason for continuing.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In patients listed for washout of a flexor sheath infection, did surgery start within 24 hours of the decision to operate?",
+  "why": "Delay risks tendon rupture, stiffness and amputation. No audit of flexor sheath infection in the corpus.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Flexor sheath infection (BSSH, 2021)",
+   "wording": "Urgent – as early as possible within safe working hours and within a maximum of 24 hours of decision to operate",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/10%20Flexor%20sheath%20infection.pdf"
+  },
+  "population": "Include: adults with clinically diagnosed pyogenic flexor tenosynovitis who had surgical washout. Exclude: patients treated with antibiotics alone.",
+  "sample": "All cases over the last 12–24 months (expect 30–40 in a unit with a hand service).",
+  "data_source": "Theatre system (knife-to-skin time); admission and decision notes; drug chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_to_operate_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_within_24h_of_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "iv_antibiotics_before_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operated_out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_washout",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Flag flexor sheath infection as 'priority 2' (within 24 hours) on the trauma list booking form so it is listed first on the next day list.",
+  "target": "≥90%",
+  "reaudit": "After 3 months of new cases (or weeks 13–14 if numbers allow), same template.",
+  "close_loop": "Present at hand/T&O audit and theatre users' group; if it works, keep the priority category on the booking form.",
+  "evidence": [
+   "[1216] Oxford: closed hand fracture timing 59% → 75% (education plus dedicated WALANT list)",
+   "[2518] Bradford: open hand wound compliance 74% → 72% (theatre efficiency recommendations only, no gain)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from theatre system",
+  "pass": "Knife-to-skin time ≤24 hours after the documented decision to operate.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with suspected cauda equina syndrome who could pass urine, were both pre-void and post-void bladder scan volumes documented?",
+  "why": "PVR is a key adjunct and the pathway asks for both volumes. Corpus CES audits focus on time to MRI and perianal sensation ([1621], [1704], [1660]); none measured bladder scan documentation.",
+  "standard": {
+   "source": "GIRFT National Suspected Cauda Equina Syndrome Pathway (February 2023, updated March 2026), Bladder scan",
+   "wording": "If a patient is able to void, carefully document the following: • pre-void volume; • post-void residual volume (PVR)",
+   "url": "https://gettingitrightfirsttime.co.uk/wp-content/uploads/2026/04/National-Suspected-Cauda-Equina-Pathway-March-2026.pdf"
+  },
+  "population": "Include: adults assessed in ED/SDEC for suspected CES who were able to void. Exclude: catheterised before assessment, unable to void (audit separately).",
+  "sample": "40 consecutive patients over the last 3 months.",
+  "data_source": "ED notes and CES proforma; nursing observation chart; radiology system (MRI time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_void_volume_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_void_volume_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_volumes_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pvr_over_200ml",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Put 'pre-void __ ml / post-void __ ml' boxes on the ED suspected-CES proforma and give ED nurses a triage standing order to bladder scan.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at ED and T&O/spinal governance; if it works, make the fields mandatory in the electronic CES proforma.",
+  "evidence": [
+   "[1621] non-specialist DGH: perianal sensation documented 72% → 97% (teaching, posters, pathway discussion)",
+   "[1643] Poole: arrival to action plan cut by 43.1% (reserved MRI slots, red-flag checklist and bladder scan in pathway)",
+   "[1565] regional spinal service: sexual function still poorly documented after presenting results (education only)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "Both a pre-void and a post-void bladder scan volume (in ml) documented before the MRI.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults discharged after an MRI showed no cauda equina compression, was safety-netting with the CES warning card or video documented?",
+  "why": "Patients sent home can still develop CES; they need to know when to come back. No corpus audit measured discharge safety-netting.",
+  "standard": {
+   "source": "GIRFT National Suspected Cauda Equina Syndrome Pathway (February 2023, updated March 2026), When to refer to the spinal surgical team",
+   "wording": "Safety net about progression of CES symptoms via video and card",
+   "url": "https://gettingitrightfirsttime.co.uk/wp-content/uploads/2026/04/National-Suspected-Cauda-Equina-Pathway-March-2026.pdf"
+  },
+  "population": "Include: adults discharged from ED/SDEC/ward after an emergency MRI for suspected CES showing no cauda equina compression. Exclude: patients admitted for another reason.",
+  "sample": "40 consecutive patients over the last 3 months.",
+  "data_source": "ED discharge summary; clinic/ward discharge letters; MRI report.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "mri_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_result",
+    "type": "choice",
+    "options": [
+     "no compression, radicular cause",
+     "no cause found"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "warning_card_or_video_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "msk_triage_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reattendance_within_30_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a tick box 'CES warning card given / video link sent' to the ED discharge template for the suspected-CES pathway, and stock cards at ED discharge desk.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at ED and spinal governance; if it works, keep the discharge tick box and add the card to the CES pathway pack.",
+  "evidence": [
+   "[1704] Medway DGH: unnecessary MRIs 38% fell after a locally adapted GIRFT SOP (three PDSA cycles)",
+   "[1660] Wythenshawe: same-day discharge 29% → 58% (T&O doctor in ED, system change): more discharges means more need for safety-netting"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "The discharge note or letter records that the CES warning card and/or MACP video link was given (a generic 'return if worse' does not pass).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with neurological symptoms or signs of metastatic spinal cord compression, was a 16 mg dexamethasone dose given within 4 hours of presentation?",
+  "why": "Corpus: [1999] found only 1 of 33 got the correct 16 mg loading dose, and the re-audit fixed weaning but not the loading dose.",
+  "standard": {
+   "source": "NICE NG234 rec 1.8.1 (2023)",
+   "wording": "Offer 16 mg of oral dexamethasone (or equivalent parenteral dose) as soon as possible.",
+   "url": "https://www.nice.org.uk/guidance/ng234/chapter/Recommendations"
+  },
+  "population": "Include: adults with a past or current cancer diagnosis and neurological symptoms or signs of MSCC (NG234 box 1), in ED or on any ward. Exclude: contraindication documented, already on ≥16 mg daily.",
+  "sample": "30–40 consecutive patients over the last 6–12 months (from MSCC coordinator log).",
+  "data_source": "MSCC coordinator log; ED record; drug chart (dose and time); MRI times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_16mg_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ppi_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glucose_monitoring_charted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "An 'MSCC' order set on EPMA: dexamethasone 16 mg stat plus PPI and capillary glucose monitoring, linked from the ED MSCC pathway.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 (or 3 months for numbers), same template.",
+  "close_loop": "Present to acute oncology, ED and T&O/spinal; if it works, keep the order set and add it to the MSCC coordinator script.",
+  "evidence": [
+   "[1999] Manchester tertiary spine: correct weaning 38% → 93%; correct 16 mg loading dose still almost never given",
+   "[1472] Waterford: 80% had corticosteroids before MRI; 50% MRI within 24 h (single cycle)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients",
+  "pass": "A first dose of 16 mg oral dexamethasone (or equivalent IV) given within 4 hours of ED arrival or of first ward suspicion (local operational definition of 'as soon as possible').",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with suspected metastatic spinal cord compression, was the spinal MRI done within 24 hours of the MSCC coordinator being contacted?",
+  "why": "Late MRI delays radiotherapy or surgery and costs mobility. Corpus: [1472] (Ireland) 50% within 24 hours, single cycle; no UK loop.",
+  "standard": {
+   "source": "NICE NG234 rec 1.5.2 (2023)",
+   "wording": "Offer an MRI scan to people with suspected MSCC (see recommendation 1.3.2), to be done: as soon as possible (and always within 24 hours)",
+   "url": "https://www.nice.org.uk/guidance/ng234/chapter/Recommendations"
+  },
+  "population": "Include: adults with past or current cancer referred as suspected MSCC. Exclude: MRI contraindicated (CT used; record separately).",
+  "sample": "40 consecutive referrals over the last 3–6 months from the MSCC coordinator log.",
+  "data_source": "MSCC coordinator log; radiology system (request, scan and report times); ED record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "coordinator_contact_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "whole_spine_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mscc_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A radiology SOP that treats suspected MSCC as a protected same-day slot with the MSCC referral code auto-vetted.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 referrals, same template.",
+  "close_loop": "Present at acute oncology and radiology governance; if it works, keep the protected slot and report monthly to the cancer alliance MSCC lead.",
+  "evidence": [
+   "[1472] Waterford: MRI within 24 h 50%, full spine MRI 60% (single cycle)",
+   "[1643] Poole CES pathway: reserved MRI slots cut arrival-to-MRI (system change)",
+   "[1660] Wythenshawe: mean wait for MRI 12.5 → 8 h (T&O doctor in ED)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients",
+  "pass": "MRI scan time ≤24 hours after the first recorded contact with the MSCC coordinator (or after presentation if coordinator time is missing, recorded separately).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a new spinal column fracture confirmed on imaging, was the rest of the spine imaged?",
+  "why": "Non-contiguous spinal fractures are common and easy to miss. No audit in corpus measured whole-spine imaging after a new fracture.",
+  "standard": {
+   "source": "NICE NG41 rec 1.5.11 (2016)",
+   "wording": "If a new spinal column fracture is confirmed, image the rest of the spinal column.",
+   "url": "https://www.nice.org.uk/guidance/ng41/chapter/Recommendations"
+  },
+  "population": "Include: adults (16 or over) with a new traumatic spinal column fracture. Exclude: pathological fractures from known metastases, patients who died before imaging.",
+  "sample": "40 consecutive patients over the last 3–6 months (radiology report search for 'fracture' with spine codes).",
+  "data_source": "Radiology system/PACS (regions imaged and times); ED and T&O notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_fracture_confirmed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_level",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism",
+    "type": "choice",
+    "options": [
+     "low energy",
+     "high energy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cervical_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thoracolumbar_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "whole_spine_imaged_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "second_fracture_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add an automatic radiology report line for any new spinal fracture: 'NICE NG41: image the rest of the spine – requested?', plus a one-click 'rest of spine' CT order in the ED order set.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at ED, T&O and radiology governance; if it works, keep the report line as a radiology template standard.",
+  "evidence": [
+   "[1494] South Wales trauma centres: MRC grade documented 24.5%, secondary survey after 2 h 54.6% (single cycle; spinal assessment gaps)",
+   "[1304] cervical clearance in head injury: compliance 23–37% → 53% (single CT brain plus C-spine request tab in ordering software)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS",
+  "pass": "Imaging (CT, MRI or radiographs) covering the cervical, thoracic and lumbosacral spine within 24 hours of the first fracture being confirmed (whole-body CT counts).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a spinal fracture managed non-operatively, did the notes state the fracture's stability and the brace or collar plan with its duration?",
+  "why": "Unclear plans cause wrong brace use and repeat referrals. New BOAST (April 2025); no audit in corpus.",
+  "standard": {
+   "source": "BOAST Assessment of the Spine in the Trauma Patient (BOA, April 2025)",
+   "wording": "If a fracture is to be treated non-operatively, the decision-making team should specify the degree of stability of the fracture and details of the planned non-operative management, such as use of collar/ brace, including duration, care and changing procedures.",
+   "url": "https://www.boa.ac.uk/resource/boast-assessment-of-the-spine-in-the-trauma-patient.html"
+  },
+  "population": "Include: adults with a traumatic cervical, thoracic or lumbar fracture treated non-operatively. Exclude: patients transferred for surgery.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "Spinal referral system advice (for example Referapatient); T&O and ward notes; discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "fracture_confirmed_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stability_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orthosis_type_or_none_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orthosis_duration_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "care_and_changing_instructions_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all four items"
+   },
+   {
+    "field": "plan_given_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A spinal fracture non-operative plan box in the T&O post-take note and discharge template (stability / orthosis / duration / care and changing / follow-up).",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at T&O audit and to the regional spinal service; if it works, keep the box in the discharge template.",
+  "evidence": [
+   "[1359] RNOH: clerking proforma for surgical spinal patients significantly improved documentation (no figures in abstract; proforma)",
+   "[1190] MTC older adults with cervical fractures: specialist follow-up arranged 74% → 100% (secretaries checked every discharge summary and booked appointments)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "pass": "Medical record (spinal advice or T&O note) states stability (stable/unstable) AND the orthosis plan: type or 'none', duration, and care/changing instructions.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with diabetes admitted under trauma and orthopaedics, was a documented foot examination (both feet) done within 24 hours of admission?",
+  "why": "Orthopaedic inpatients with diabetes are at high risk of heel ulcers in bed and casts. No orthopaedic audit of admission foot checks in the corpus.",
+  "standard": {
+   "source": "NICE NG19 rec 1.3.3 (2015, guideline updated 2019)",
+   "wording": "For adults with diabetes, assess their risk of developing a diabetic foot problem at the following times: ... On any admission to hospital, and if there is any change in their status while they are in hospital.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "population": "Include: adults with type 1 or type 2 diabetes admitted to a T&O ward (trauma or elective) staying ≥24 hours. Exclude: bilateral lower-limb amputees.",
+  "sample": "40 consecutive admissions over the last 1–2 months.",
+  "data_source": "Ward nursing admission bundle; medical clerking; diabetes team notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "foot_assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_feet_examined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_recorded",
+    "type": "choice",
+    "options": [
+     "low",
+     "moderate",
+     "high",
+     "active",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "foot_check_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "heel_offloading_if_moderate_or_high",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary: NG19 rec 1.3.12"
+   },
+   {
+    "field": "new_heel_ulcer_during_stay",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add the diabetic foot risk tool to the T&O nursing admission bundle, triggered by a diabetes flag on the EPR.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 admissions, same template.",
+  "close_loop": "Present at T&O governance and the inpatient diabetes team; if it works, keep the triggered tool and include the rate in ward quality dashboards.",
+  "evidence": [
+   "[730] seed topic only: Charcot foot recognition and offloading (not individually linked)",
+   "[2388] tertiary vascular centre: microbiology sent in diabetic foot infection 56.8% → 74.2% (podiatrist-led hot foot clinic, system change)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "A documented foot risk assessment of both feet (at least neuropathy, ischaemia and ulceration recorded, with a risk category) within 24 hours of admission.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a diabetic foot infection started on IV antibiotics, was the IV antibiotic reviewed within 48 hours?",
+  "why": "Unreviewed IV antibiotics prolong stays and line use. Corpus diabetic foot audits look at sampling ([2388], [2386]); none at the 48-hour IV review.",
+  "standard": {
+   "source": "NICE NG19 rec 1.6.11 (2019)",
+   "wording": "If intravenous antibiotics are given, review by 48 hours and consider switching to oral antibiotics if possible.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "population": "Include: adults admitted under T&O, vascular or medicine with a diabetic foot infection started on IV antibiotics. Exclude: death or transfer within 48 hours.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "EPMA/drug chart (first IV dose time, switch time); medical notes (review entry); microbiology results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "first_iv_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_outcome",
+    "type": "choice",
+    "options": [
+     "continue IV with reason",
+     "switch to oral",
+     "stop",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "deep_sample_before_antibiotics",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary: NG19 rec 1.6.1/1.6.6"
+   },
+   {
+    "field": "total_iv_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "EPMA 48-hour 'IV antibiotic review' alert with forced outcome (continue with reason / oral switch / stop) for diabetic foot infection prescriptions.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present to the diabetic foot MDT and antimicrobial stewardship; if it works, keep the alert and share the result at the trust antimicrobial group.",
+  "evidence": [
+   "[2386] Imperial: clinically clean bone samples 68% → 89% (teaching then an operation note proforma)",
+   "[2388] North East vascular centre: microbiology sent 56.8% → 74.2% (hot foot clinic)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPMA",
+  "pass": "A documented antibiotic review (continue IV with reason, switch to oral, or stop) within 48 hours of the first IV dose.",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "In adults with a diabetic foot ulcer seen by the orthopaedic or foot and ankle team, was ulcer severity recorded with SINBAD or the University of Texas system?",
+  "why": "Without a standard score, change over time and referral urgency are unclear. No audit in corpus measured ulcer scoring; NICE also advises against Wagner.",
+  "standard": {
+   "source": "NICE NG19 rec 1.5.2 (2015)",
+   "wording": "Use a standardised system to document the severity of the foot ulcer, such as the SINBAD (Site, Ischaemia, Neuropathy, Bacterial Infection, Area and Depth) or the University of Texas classification system.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "population": "Include: adults with diabetes and an active foot ulcer reviewed by T&O (ward referral, fracture clinic or foot and ankle clinic). Exclude: ulcers already scored by the MDT foot service at the same visit.",
+  "sample": "40 consecutive patients over the last 3–6 months.",
+  "data_source": "Orthopaedic referral and clinic notes; ward review notes; podiatry records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ward referral",
+     "clinic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "size_depth_position_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG19 rec 1.5.1"
+   },
+   {
+    "field": "score_system_used",
+    "type": "choice",
+    "options": [
+     "SINBAD",
+     "University of Texas",
+     "Wagner only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "validated_score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referred_to_mdt_foot_service",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A diabetic foot ulcer box with SINBAD scoring in the T&O ward-referral response and clinic templates.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14, next 40 patients, same template.",
+  "close_loop": "Present at T&O audit and the diabetic foot MDT; if it works, keep the SINBAD box in both templates.",
+  "evidence": [
+   "[2386] Imperial: online operation note proforma raised clean bone sampling 68% → 89% (proforma works in diabetic foot surgery)",
+   "[730] seed topic only: Charcot foot recognition and offloading"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "pass": "A SINBAD score or University of Texas grade recorded at the first orthopaedic/foot and ankle review (Wagner alone = fail).",
+  "area": "Foot and ankle, hand and wrist, spine",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ }
+]

@@ -1,0 +1,1820 @@
+[
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults who had an orthopaedic implant inserted, was a record of every implant (manufacturer, size and unique identifier or lot number) placed in the patient's notes?",
+  "why": "A missing implant record blocks recall, revision planning and registry returns. The corpus has one audit of the 'prosthetic pause' check [1204] but none of the implant record left in the notes.",
+  "standard": {
+   "source": "NatSSIPs 2 (CPOC 2023), Sequential Standard: Implant Verification, 'During the procedure'",
+   "wording": "A record of the implants used must be made in the patient's records. Appropriate details should be shared with the patient after the procedure. When a manufacturer's label is available, this should be placed in the notes. When it is not, for example with electronic patient records, the following should be recorded: Manufacturer; Style; Size; Manufacturer's unique identifier for the implant, or the serial number; Expiry date",
+   "url": "https://cpoc.org.uk/sites/cpoc/files/documents/2022-12/CPOC_NatSSIPs2_Implant_2023.pdf"
+  },
+  "pass": "Every implant used (including each screw set, plate, nail, prosthetic component and cement) appears in the notes or EPR, either as a label or with manufacturer, size and unique identifier or lot number.",
+  "population": "Include adults with any implant inserted in orthopaedic theatres (trauma and elective). Exclude temporary items meant for removal (K-wires removed in clinic, external fixator pins).",
+  "sample": "40 consecutive implant cases from the theatre system over the last 4 weeks (about 20 trauma, 20 elective).",
+  "data_source": "Theatre management system (implant list, procedure); scanned implant label sheet or EPR implant module; operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "list_type",
+    "type": "choice",
+    "options": [
+     "trauma",
+     "elective"
+    ],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_implant_items_per_theatre_record",
+    "type": "number",
+    "options": [],
+    "note": "From theatre system implant log"
+   },
+   {
+    "field": "number_of_items_with_label_or_full_details_in_notes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_implants_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "record_location",
+    "type": "choice",
+    "options": [
+     "label sheet in notes",
+     "EPR implant module",
+     "operation note only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "missing_item_type",
+    "type": "text",
+    "options": [],
+    "note": "e.g. screws, cement, locking bolts"
+   }
+  ],
+  "change": "Add a mandatory 'implant record complete' tick (with a scan of the labels) to the Sign Out step on the electronic theatre record.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14: same template, next 40 consecutive implant cases.",
+  "close_loop": "Present at theatre users' group and departmental governance. If it worked, keep the mandatory field and add implant record completeness to the monthly theatre dashboard.",
+  "evidence": [
+   "[1204] SWLEOC prosthetic pause: 8/14 → 13/16 compliant (laminated guidance and scrub team teaching)",
+   "[1207] hip fracture discharge: a template prompt raised compliance to 95% (form change works better than teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 cases from theatre system and scanned notes"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "Did each elective orthopaedic theatre session end with a recorded team debrief?",
+  "why": "The debrief is the step most often skipped. In one checklist audit only 2 of 8 lists had a debrief [3048]. No orthopaedic audit in the corpus measures it.",
+  "standard": {
+   "source": "NatSSIPs 2 (CPOC 2023), Sequential Standard: Debrief",
+   "wording": "All elective major procedure sessions should end with a Debrief. A Debrief is encouraged if feasible after emergency cases.",
+   "url": "https://cpoc.org.uk/sites/cpoc/files/documents/2022-12/CPOC_NatSSIPs2_Debrief_2023.pdf"
+  },
+  "pass": "A debrief is recorded for the session (theatre system field or debrief log), with at least one entry under problems/actions or 'none'.",
+  "population": "Include all elective orthopaedic operating sessions (all day and half day). Exclude sessions cancelled before the first patient.",
+  "sample": "40 consecutive elective orthopaedic sessions over the last 4–6 weeks.",
+  "data_source": "Theatre management system session record (debrief field and timestamps); paper debrief log or whiteboard photo log if used locally.",
+  "template": [
+   {
+    "field": "session_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Stands in for hospital_number_pseudonymised: the unit here is the session"
+   },
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Last patient on list, to link to the session"
+   },
+   {
+    "field": "session_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "theatre",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_patient_out_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "debrief_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "debrief_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "issues_logged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_owner_named",
+    "type": "yes/no",
+    "options": [],
+    "note": "NatSSIPs asks for a named lead for each action"
+   },
+   {
+    "field": "reason_no_debrief",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Make the debrief a required field that must be completed before the session can be closed on the theatre system, with a short 3-question prompt (went well / problems / actions and owner).",
+  "target": "≥90% of elective sessions",
+  "reaudit": "Week 13–14: next 40 consecutive elective sessions, same template.",
+  "close_loop": "Present at theatre users' group. If it worked, keep the required field and feed debrief actions into the monthly theatre governance meeting.",
+  "evidence": [
+   "[3048] anaesthesia WHO checklist audit: Debrief 2/8 lists, Sign Out 18/34 (no re-audit)",
+   "[1675] elective orthopaedic list: proforma plus IT change to the list input form improved list data (system change)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 sessions from the theatre system"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having orthopaedic surgery, was thromboprophylaxis prescribed, or a reason for omission recorded, before the patient left recovery?",
+  "why": "NatSSIPs 2 moved the VTE check into Sign Out. Gaps between theatre and the ward chart cause missed first doses. The corpus has many VTE assessment audits but none of this handover step.",
+  "standard": {
+   "source": "NatSSIPs 2 (CPOC 2023), Sequential Standard: Sign Out, safety checks",
+   "wording": "Confirmation that VTE risk assessment is completed and actioned",
+   "url": "https://cpoc.org.uk/sites/cpoc/files/documents/2022-12/CPOC_NatSSIPs2_Signout_2023.pdf"
+  },
+  "pass": "Post-operative pharmacological or mechanical prophylaxis prescribed on the drug chart, or a documented reason for none, timestamped before the recovery discharge time.",
+  "population": "Include adults having inpatient orthopaedic surgery (trauma and elective). Exclude day cases under local anaesthetic with no limitation of mobility.",
+  "sample": "40 consecutive inpatient orthopaedic operations over the last 3 weeks.",
+  "data_source": "Theatre system (recovery out time); e-prescribing (prescription timestamps); operation note (VTE instructions); electronic Sign Out record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recovery_discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_prophylaxis_prescription_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Earliest post-op chemical or mechanical prescription"
+   },
+   {
+    "field": "omission_reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescribed_or_reason_before_leaving_recovery",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "vte_confirmed_on_sign_out_record",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_given_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add 'VTE prophylaxis prescribed (drug/time) or reason' as a hard stop on the electronic Sign Out and recovery discharge checklist.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14: next 40 consecutive inpatient operations.",
+  "close_loop": "Present at orthopaedic and anaesthetic audit meetings and the thrombosis committee. If it worked, keep the hard stop and add it to the recovery discharge criteria.",
+  "evidence": [
+   "[1207] hip fracture discharge letter template: 87% → 95% appropriate VTE prophylaxis (form change)",
+   "[1206] VTE re-assessment within 24 and 72 h after admission: closed-loop audit (different step)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from theatre system and e-prescribing"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults on the orthopaedic trauma list, was the gap between their last clear drink and being sent for by theatre 2 hours or less?",
+  "why": "Trauma patients are often kept 'nil by mouth' for hours. In Chichester 49 of 50 fasted from clear fluids for more than 2 hours [1655]. In Ireland, gains were lost after education alone [1191].",
+  "standard": {
+   "source": "NICE NG180 rec 1.4.1 (2020), applied through the CPOC SipTilSend protocol",
+   "wording": "Tell people having surgery, including dental surgery, that: they may drink clear fluids until 2 hours before their operation; drinking clear fluids before the operation can help reduce headaches, nausea and vomiting afterwards; clear fluids are water, fruit juice without pulp, coffee or tea without milk and ice lollies. [CPOC SipTilSend: 'From 2 hours before surgery until the operating theatre team 'send for' the patient ... For adults: You may sip slowly on clear fluids ... Up to 170mls per hour (that's a standard NHS cup) until the operating team send for you']",
+   "url": "https://www.nice.org.uk/guidance/ng180/chapter/Recommendations"
+  },
+  "pass": "Documented last clear fluid time is 2 hours or less before the time theatre sent for the patient.",
+  "population": "Include adults on the emergency orthopaedic trauma list. Exclude patients with an anaesthetic reason to withhold fluids (e.g. bowel obstruction, documented aspiration risk).",
+  "sample": "40 consecutive trauma list patients over the last 2–3 weeks.",
+  "data_source": "Nursing pre-operative checklist and fluid chart (last drink time); theatre system (sent-for time, anaesthetic start); anaesthetic chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_food_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_clear_fluid_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sent_for_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clear_fluid_gap_hours",
+    "type": "number",
+    "options": [],
+    "note": "Sent-for minus last clear fluid"
+   },
+   {
+    "field": "gap_2h_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fasting_instruction_documented",
+    "type": "choice",
+    "options": [
+     "sip til send",
+     "clear fluids to a set time",
+     "nil by mouth from midnight",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_fluids_while_fasting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Replace 'NBM from midnight' on the trauma ward pre-op checklist with a SipTilSend hourly sip chart that must be signed each hour until the send-for call.",
+  "target": "≥80%",
+  "reaudit": "Week 13–14: next 40 consecutive trauma list patients.",
+  "close_loop": "Present at joint orthopaedic/anaesthetic audit. If it worked, adopt SipTilSend as the written trust fasting policy for trauma and add the sip chart to the e-observations.",
+  "evidence": [
+   "[1655] Chichester trauma list: 49/50 (98%) fasted >2 h from clear fluids, mean 10.5 h (no re-audit)",
+   "[1191] SipTilSend re-audit, Ireland: mean fluid fast rose from 3 h 45 min to 11.2 h after education only"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from nursing checklist and theatre system"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In women aged 12 to 55 having orthopaedic surgery, was the discussion about possible pregnancy documented on the day of surgery?",
+  "why": "Fluoroscopy and anaesthesia carry fetal risk. A Scottish general surgery audit found pregnancy status documented in only 52% [3051]. No orthopaedic audit in the corpus.",
+  "standard": {
+   "source": "NICE NG45 recs 1.3.1 and 1.3.3 (2016)",
+   "wording": "1.3.1 On the day of surgery, sensitively ask all women of childbearing potential whether there is any possibility they could be pregnant. ... 1.3.3 Document all discussions with women about whether or not to carry out a pregnancy test.",
+   "url": "https://www.nice.org.uk/guidance/ng45/chapter/Recommendations"
+  },
+  "pass": "A documented pregnancy status question or test result dated on the day of surgery (before anaesthesia).",
+  "population": "Include females aged 12–55 having any orthopaedic procedure (trauma or elective, including day cases). Exclude documented hysterectomy or menopause over 12 months.",
+  "sample": "40 consecutive eligible women from the theatre system over the last 4–6 weeks.",
+  "data_source": "Theatre system (age, sex, date); pre-op nursing checklist; WHO Sign In record; lab system (hCG result).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "list_type",
+    "type": "choice",
+    "options": [
+     "trauma",
+     "elective",
+     "day case"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_question_documented_day_of_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_test_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_result_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "status_documented_before_anaesthesia",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fluoroscopy_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a required pregnancy status field (asked / test result / not applicable with reason) to the Sign In section of the electronic WHO checklist.",
+  "target": "100%",
+  "reaudit": "Week 13–14: next 40 consecutive eligible women.",
+  "close_loop": "Present at theatre users' group and radiation protection committee. If it worked, keep the required field and publish the local pregnancy checking protocol (NG45 1.3.5).",
+  "evidence": [
+   "[3051] national general surgery audit, Scotland: pregnancy status documented 51.7% (elective 30.8%)",
+   "[2445] surgical prophylaxis QI: edited sign in/time out sheet improved overall compliance 23.7% → 39.8% (form change)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from checklist and lab system"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having orthopaedic surgery, was every pre-operative chest X-ray backed by a documented clinical indication?",
+  "why": "Pre-op chest films are still requested by habit for older trauma patients. The corpus has pre-op blood test audits [1203] but no orthopaedic audit of routine chest X-rays.",
+  "standard": {
+   "source": "NICE NG45 rec 1.8.1 (2016)",
+   "wording": "Do not routinely offer chest X‑rays before surgery.",
+   "url": "https://www.nice.org.uk/guidance/ng45/chapter/Recommendations"
+  },
+  "pass": "No pre-operative chest X-ray, or a chest X-ray with a documented clinical reason (e.g. new respiratory signs, suspected chest injury or metastases).",
+  "population": "Include adults having orthopaedic surgery (hip fracture, other trauma, elective). Exclude chest X-rays done as part of major trauma imaging or for chest injury.",
+  "sample": "40 consecutive operated adults over the last 4 weeks.",
+  "data_source": "PACS/RIS (chest X-ray date and request text); admission clerking; pre-op assessment record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pathway",
+    "type": "choice",
+    "options": [
+     "hip fracture",
+     "other trauma",
+     "elective"
+    ],
+    "note": ""
+   },
+   {
+    "field": "preop_chest_xray_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "request_indication_text",
+    "type": "text",
+    "options": [],
+    "note": "From RIS request"
+   },
+   {
+    "field": "clinical_indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "xray_changed_management",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Remove chest X-ray from the default orthopaedic admission order set; require a free-text clinical indication to request one.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 consecutive operated adults.",
+  "close_loop": "Present with radiology. If it worked, keep the order set change and report films avoided and cost saved.",
+  "evidence": [
+   "[1203] Brighton T&O pre-op venepuncture: ~1168 non-indicated tests a year, about £19,616 (no re-audit)",
+   "[2279] general surgery pre-op coagulation screening: appropriate requests 19% → 56%"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS and notes"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults with diabetes listed for elective hip or knee replacement, was an HbA1c from the last 3 months available before surgery?",
+  "why": "High HbA1c raises infection risk after joint replacement. The corpus has HbA1c audits in vascular surgery [2479] and a GIRFT diabetes audit [2782] but none in elective orthopaedics.",
+  "standard": {
+   "source": "NICE NG45 rec 1.6.2 (2016)",
+   "wording": "Offer HbA1c testing to people with diabetes having surgery if they have not been tested in the last 3 months.",
+   "url": "https://www.nice.org.uk/guidance/ng45/chapter/Recommendations"
+  },
+  "pass": "An HbA1c result dated within 3 months before the date of surgery.",
+  "population": "Include adults with type 1 or type 2 diabetes having elective primary or revision hip or knee replacement. Exclude emergency surgery.",
+  "sample": "40 consecutive eligible patients over the last 3–6 months.",
+  "data_source": "Theatre system or NJR extract (procedure, date); pre-op assessment record (diabetes status); lab system (HbA1c result and date).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "preop_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "latest_hba1c_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_value_mmol_mol",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hba1c_over_69_referred_for_optimisation",
+    "type": "yes/no",
+    "options": [],
+    "note": "Local threshold"
+   }
+  ],
+  "change": "Add an HbA1c auto-request to the pre-op assessment order set when diabetes is ticked, if no result within 3 months.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14: next 40 consecutive eligible patients.",
+  "close_loop": "Present to pre-op assessment and arthroplasty teams. If it worked, keep the auto-request and add HbA1c to the arthroplasty listing checklist.",
+  "evidence": [
+   "[2782] GIRFT perioperative diabetes audit: HbA1c and ketones checked 53% (re-audit planned)",
+   "[2479] vascular inpatients: double audit of HbA1c monitoring with intervention"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from lab system"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults after orthopaedic surgery, was a temperature of 36.0°C or above recorded before transfer from recovery to the ward?",
+  "why": "Hypothermia increases bleeding, infection and cardiac events. An orthopaedic trauma audit found temperature documentation gaps [1712]. The corpus has no orthopaedic closed loop on recovery temperature.",
+  "standard": {
+   "source": "NICE CG65 rec 1.4.1 (2008, updated 2016)",
+   "wording": "The patient's temperature should be measured and documented on admission to the recovery room and then every 15 minutes. Ward transfer should not be arranged unless the patient's temperature is 36.0°C or above.",
+   "url": "https://www.nice.org.uk/guidance/cg65/chapter/Recommendations"
+  },
+  "pass": "Last recorded recovery temperature before ward transfer is 36.0°C or above.",
+  "population": "Include adults having orthopaedic surgery under general or regional anaesthesia who pass through recovery. Exclude patients going directly to ICU.",
+  "sample": "40 consecutive orthopaedic patients over the last 2–3 weeks (mix of hip fracture, trauma and arthroplasty).",
+  "data_source": "Recovery chart (temperature readings and times); anaesthetic chart (warming used); theatre system (recovery in/out times).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recovery_admission_temperature_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recovery_admission_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_temperature_before_transfer_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recovery_discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temp_36_or_above_at_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "active_warming_intraop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temperature_site",
+    "type": "choice",
+    "options": [
+     "tympanic infrared",
+     "oesophageal",
+     "zero heat-flux",
+     "sublingual",
+     "axilla",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "change": "Add 'temperature ≥36.0°C' as a required field in the recovery discharge criteria on the electronic recovery chart.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14: next 40 consecutive patients.",
+  "close_loop": "Present at anaesthetic and recovery staff meetings. If it worked, keep the discharge criterion and report monthly hypothermia rate.",
+  "evidence": [
+   "[2325] emergency general surgery: >18% hypothermic at knife-to-skin → 100% normothermic with forced-air warming gowns (system change)",
+   "[1712] orthopaedic trauma prophylaxis and monitoring audit: temperature documentation gaps; EPR mandatory field planned"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from recovery charts"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having upper limb surgery under general anaesthetic for more than 90 minutes, was a VTE prophylaxis decision documented?",
+  "why": "Upper limb cases are often assumed to need no thromboprophylaxis. NICE names a clear trigger (GA over 90 minutes). The many VTE audits in the corpus cover lower limb, hip and spine, not this group.",
+  "standard": {
+   "source": "NICE NG89 rec 1.11.16 (2018, updated 2019)",
+   "wording": "Consider VTE prophylaxis for people undergoing upper limb surgery if the person's total time under general anaesthetic is over 90 minutes or where their operation is likely to make it difficult for them to mobilise.",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "Documented VTE decision after surgery: prophylaxis prescribed, or a recorded reason for none.",
+  "population": "Include adults having shoulder, elbow, forearm, wrist or hand surgery with general anaesthetic time over 90 minutes. Exclude regional-only anaesthesia.",
+  "sample": "30–40 consecutive eligible cases over the last 3–6 months.",
+  "data_source": "Theatre system (anaesthetic start/end times, anaesthetic type); operation note (VTE instructions); drug chart; discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_end_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ga_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_given",
+    "type": "choice",
+    "options": [
+     "LMWH",
+     "mechanical",
+     "both",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_none_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "Add an auto-prompt to the operation note template: 'GA >90 min: VTE prophylaxis yes/no and reason'.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 30–40 eligible cases.",
+  "close_loop": "Present at upper limb and trauma meetings and the thrombosis committee. If it worked, keep the op note prompt.",
+  "evidence": [
+   "[1718] non-arthroplasty knee surgery post-op VTE prophylaxis: closed-loop audit",
+   "[1207] discharge letter proforma: VTE compliance to 95% (form change)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from theatre system and op notes"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having elective primary hip or knee replacement, did antibiotic prophylaxis stop within 24 hours of the operation?",
+  "why": "Extra post-operative doses add C. difficile and resistance risk without benefit. Orthopaedic audits show 24% overuse [1712] and mixed dosing [1741], with no closed loop.",
+  "standard": {
+   "source": "UKHSA Start Smart Then Focus toolkit (updated 12 September 2023)",
+   "wording": "For surgical prophylaxis: Prescribe single dose antimicrobials where single dose antimicrobials have been shown to be effective – to minimise post-operative surgical site infection at an acceptable risk of harm from antimicrobial exposure. [Figure 2 caveat: 'In some cases, such as surgery involving implant replacement, 24 hours of antimicrobial prophylaxis may be required']",
+   "url": "https://www.gov.uk/government/publications/antimicrobial-stewardship-start-smart-then-focus/start-smart-then-focus-antimicrobial-stewardship-toolkit-for-inpatient-care-settings"
+  },
+  "pass": "No prophylactic antibiotic dose given more than 24 hours after knife-to-skin (treatment for a documented infection excluded).",
+  "population": "Include adults having elective primary total hip or knee replacement. Exclude revisions, known infection, and patients started on treatment antibiotics for a documented infection.",
+  "sample": "40 consecutive elective primary hip or knee replacements over the last 6 weeks.",
+  "data_source": "Theatre system (knife-to-skin time); e-prescribing administration record (all antibiotic doses and times).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "THR",
+     "TKR"
+    ],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylactic_agent",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_postop_doses",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_prophylactic_dose_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "stop_date_on_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Build an arthroplasty prophylaxis order set in e-prescribing with a fixed number of doses and an automatic 24-hour stop.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14: next 40 consecutive cases.",
+  "close_loop": "Present to the antimicrobial stewardship group and arthroplasty team. If it worked, keep the order set and add it to the trust antimicrobial dashboard.",
+  "evidence": [
+   "[1712] orthopaedic trauma: postoperative duration compliant 64.4%, overuse 24% (no re-audit)",
+   "[2445] general surgery: duration sticker on drug chart cut mean duration 70.4 h → 28.2 h",
+   "[1995] general surgery: electronic prescribing raised review/stop dates 17% → 100%"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In orthopaedic inpatients on treatment antibiotics, was a documented review decision made 48 to 72 hours after starting them?",
+  "why": "Wound infection, cellulitis and chest infections on orthopaedic wards are often left on open-ended IV antibiotics. The corpus has 48–72 h review audits in general surgery [2489] [1995] but none on orthopaedic wards.",
+  "standard": {
+   "source": "UKHSA Start Smart Then Focus toolkit (updated 12 September 2023); NICE NG15 rec 1.1.39",
+   "wording": "Review and revise the clinical diagnosis and the continuing need for antimicrobials by 48 to 72 hours and document a clear plan of action – the antimicrobial review outcome.",
+   "url": "https://www.gov.uk/government/publications/antimicrobial-stewardship-start-smart-then-focus/start-smart-then-focus-antimicrobial-stewardship-toolkit-for-inpatient-care-settings"
+  },
+  "pass": "A documented review between 48 and 72 hours after the first dose, with one outcome recorded (stop, switch to oral, change, continue with new review/stop date, or OPAT).",
+  "population": "Include adult orthopaedic inpatients started on treatment (not prophylactic) antibiotics. Exclude patients discharged or dead before 48 hours.",
+  "sample": "40 consecutive courses over the last 4–6 weeks.",
+  "data_source": "E-prescribing (start time, indication, review/stop date); ward round notes; microbiology results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "antibiotic_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_on_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_or_stop_date_on_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_48_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_outcome",
+    "type": "choice",
+    "options": [
+     "stop",
+     "IV to oral",
+     "change agent",
+     "continue with new date",
+     "OPAT",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cultures_sent_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Turn on a mandatory 72-hour antibiotic review task in e-prescribing that must be answered with one outcome before the next dose can be given.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 consecutive courses.",
+  "close_loop": "Present with the ward pharmacist at the stewardship group. If it worked, keep the review task and add orthopaedics to the weekly microbiology ward round.",
+  "evidence": [
+   "[2489] general surgery: stop/review date 56% → 61.1% (email and posters only)",
+   "[1995] general surgery: review/stop dates 17% → 100% with electronic prescribing and weekly micro round"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 courses from e-prescribing and notes"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In non-bleeding adults transfused after orthopaedic surgery, was each red cell unit followed by a haemoglobin check before the next unit?",
+  "why": "Two-unit transfusions are still common after hip fracture and joint surgery. General surgery audits found many back-to-back units [2539]. Orthopaedic transfusion audits focus on cross-matching, not dose.",
+  "standard": {
+   "source": "NICE NG24 recs 1.6.1 and 1.6.2 (2015)",
+   "wording": "1.6.1 Consider single‑unit red blood cell transfusions for adults (or equivalent volumes calculated based on body weight for children or adults with low body weight) who do not have active bleeding. 1.6.2 After each single‑unit red blood cell transfusion (or equivalent volumes calculated based on body weight for children or adults with low body weight), clinically reassess and check haemoglobin levels, and give further transfusions if needed.",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "Every unit given as a single unit, with a haemoglobin result between units and a pre-transfusion haemoglobin below the local threshold (70 g/L, or 80 g/L with acute coronary syndrome).",
+  "population": "Include adults transfused red cells within 7 days after orthopaedic surgery. Exclude major haemorrhage protocol activations and active bleeding.",
+  "sample": "40 consecutive transfusion episodes over the last 3 months.",
+  "data_source": "Blood bank / transfusion lab system (units issued and times); lab system (haemoglobin results); prescription and notes (indication).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb_g_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_prescribed_in_one_request",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unit_1_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hb_check_between_units",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unit_2_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_unit_then_reassess",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "acute_coronary_syndrome",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Change the electronic blood request so that one unit is the default for non-bleeding patients, with a required reason for requesting two.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 transfusion episodes.",
+  "close_loop": "Present with the hospital transfusion team. If it worked, keep the default and report units saved to the hospital transfusion committee.",
+  "evidence": [
+   "[2539] general surgery: back-to-back inappropriate units 20.5% → 4.5% (teaching and posters)",
+   "[1454] national comparative audit of blood use in primary THR (baseline only)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 episodes from transfusion and lab systems"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults transfused during an orthopaedic admission, did the discharge summary state the transfusion and that they can no longer donate blood?",
+  "why": "GPs and patients are often not told about a transfusion. No audit in the corpus measures this item.",
+  "standard": {
+   "source": "NICE NG24 rec 1.14.4 (2015)",
+   "wording": "Provide the person and their GP with copies of the discharge summary or other written communication that explains: the details of any transfusions they had; the reasons for the transfusion; any adverse events; that they are no longer eligible to donate blood.",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Patient-information"
+  },
+  "pass": "Discharge summary includes all four items: transfusion details, reason, adverse events (or 'none') and ineligibility to donate.",
+  "population": "Include adults given any blood component during an orthopaedic admission and discharged alive. Exclude deaths and inter-hospital transfers still in hospital.",
+  "sample": "40 consecutive transfused orthopaedic discharges over the last 3 months.",
+  "data_source": "Transfusion lab system (components issued); electronic discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "components_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "summary_states_transfusion_details",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "summary_states_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "summary_states_adverse_events",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "summary_states_cannot_donate",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_items_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "Add a transfusion section to the discharge summary template that auto-fills from the transfusion lab system and includes the 'no longer eligible to donate' line.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 transfused discharges.",
+  "close_loop": "Present with the transfusion practitioner. If it worked, roll the template section out to all surgical specialties.",
+  "evidence": [
+   "[1207] hip fracture discharge letter proforma: VTE prescription compliance to 95% (template works)",
+   "[1879] discharge letter completeness: auto-filled fields 100%, free-text items 27–49%"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having orthopaedic trauma surgery other than hip fracture, was tranexamic acid given at the start of surgery?",
+  "why": "NICE broadened its tranexamic acid advice in 2026 to any theatre surgery that breaches the skin with a bleeding risk. Existing audits cover arthroplasty [1697] and hip fracture [1744] only.",
+  "standard": {
+   "source": "NICE NG24 recs 1.3.1 and 1.3.3 (updated 2026)",
+   "wording": "1.3.1 Offer tranexamic acid to adults having surgery in an operating theatre if: there is any risk of bleeding and the procedure will breach the skin or mucous membranes. 1.3.3 When using tranexamic acid for adults having surgery, administer it just before the start of surgery. Typically give 1 g by slow intravenous injection.",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Reducing-requirement-for-blood-transfusion-for-people-having-surgery"
+  },
+  "pass": "IV tranexamic acid given before or at knife-to-skin, or a documented contraindication.",
+  "population": "Include adults having open orthopaedic trauma surgery (e.g. ankle, tibia, femoral shaft, humerus, forearm fixation). Exclude hip fracture, arthroplasty, and percutaneous K-wire-only procedures.",
+  "sample": "40 consecutive eligible trauma operations over the last 4 weeks.",
+  "data_source": "Anaesthetic chart / e-prescribing (TXA dose and time); theatre system (knife-to-skin time); pre-op notes (contraindications).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_dose_g",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "Add 'Tranexamic acid given / contraindicated' to the Time Out on the electronic WHO checklist for all trauma cases.",
+  "target": "≥85%",
+  "reaudit": "Week 13–14: next 40 eligible trauma operations.",
+  "close_loop": "Present at joint orthopaedic/anaesthetic audit and the transfusion committee. If it worked, keep the Time Out item and update the trauma anaesthetic guideline.",
+  "evidence": [
+   "[1697] primary TKR: TXA use 48.8% → 73.1% (emails, posters)",
+   "[1744] hip fracture: TXA 70% → 85.2%; contraindications documented 0% → 7.4% (protocol update plus teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from anaesthetic charts"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults aged 65 or over, or with an eGFR below 60, listed for elective hip or knee replacement, did the pre-operative assessment record their risk of acute kidney injury?",
+  "why": "Post-operative AKI after arthroplasty is common and often linked to NSAIDs and ACE inhibitors. The single orthopaedic AKI audit in the corpus looks at care after AKI [1180], not risk assessment before surgery.",
+  "standard": {
+   "source": "NICE NG148 rec 1.1.13 (2019, updated 2024)",
+   "wording": "Assess the risk of acute kidney injury in adults before surgery. Be aware that increased risk is associated with: emergency surgery, especially when the person has sepsis or hypovolaemia; intraperitoneal surgery; chronic kidney disease (adults with an eGFR less than 60 ml/min/1.73 m2 are at particular risk); diabetes; heart failure; age 65 years or over; liver disease; use of drugs that can cause or exacerbate kidney injury in the perioperative period (in particular, NSAIDs after surgery). Use the risk assessment to inform a clinical management plan.",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "Pre-op record documents AKI risk and a plan for ACE inhibitors/ARBs, diuretics and post-op NSAIDs (hold, continue or avoid).",
+  "population": "Include adults aged 65+ or with eGFR <60 listed for elective primary hip or knee replacement. Exclude patients on renal replacement therapy.",
+  "sample": "40 consecutive eligible patients over the last 2–3 months.",
+  "data_source": "Pre-op assessment record; lab system (eGFR); medication list; post-op drug chart (NSAID prescribed); post-op creatinine.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "preop_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_egfr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_acei_arb_or_diuretic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aki_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medicine_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aki_risk_and_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "postop_nsaid_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_aki_kdigo",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add an AKI risk box with a medicines plan (ACE inhibitor/ARB/diuretic/NSAID) to the pre-op assessment template, auto-shown when age ≥65 or eGFR <60.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 eligible patients.",
+  "close_loop": "Present to pre-op assessment nurses and arthroplasty team. If it worked, keep the template box and track post-op AKI rate.",
+  "evidence": [
+   "[1180] post-operative femur fracture AKI bundle: 20% → 100% (teaching, reminders and structured AKI proforma)",
+   "[1183] hip fracture: post-op proforma prompting holding ACE inhibitors raised appropriate holding 40% → 88%"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pre-op records and lab system"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults aged 65 or over admitted with an orthopaedic injury other than hip fracture, was a delirium screen documented within 24 hours of admission?",
+  "why": "Delirium screening is embedded for hip fracture but not for other older trauma (wrist, humerus, pelvis, ankle). Surgical 4AT audits show low completion [1153].",
+  "standard": {
+   "source": "NICE CG103 recs 1.2.1 and 1.3.1 (2010, updated 2023)",
+   "wording": "1.2.1 When people first present to hospital or long-term care, assess them for the following risk factors. If any of these risk factors are present, the person is at risk of delirium. Age 65 years or older. ... 1.3.1 At presentation, assess people at risk for recent (within hours or days) changes or fluctuations that may indicate delirium.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "A validated delirium screen (e.g. 4AT) documented within 24 hours of the admission time.",
+  "population": "Include adults aged 65+ admitted under orthopaedics with a non-hip-fracture injury. Exclude hip fractures (covered by NHFD) and patients intubated on arrival.",
+  "sample": "40 consecutive eligible admissions over the last 4–6 weeks.",
+  "data_source": "EPR admission time; clerking and nursing admission documents; e-observations or 4AT form.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_dementia",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delirium_screen_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screen_tool",
+    "type": "choice",
+    "options": [
+     "4AT",
+     "AMT only",
+     "CAM",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "screen_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "delirium_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "multicomponent_plan_if_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a 4AT field to the orthopaedic admission clerking proforma that is required for all patients aged 65 or over.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 eligible admissions.",
+  "close_loop": "Present with the orthogeriatric team. If it worked, keep the proforma field and extend orthogeriatric in-reach to non-hip trauma.",
+  "evidence": [
+   "[1153] surgical inpatients: pre-op 4AT 25% → 35% (education only)",
+   "[1846] surgical assessment unit: 4AT completion 40% → 64% (care-plan sections plus teaching)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from clerking and nursing notes"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In orthopaedic ward patients with suspected infection and a NEWS2 score of 7 or more, were IV antibiotics given within 1 hour of that score?",
+  "why": "Post-operative sepsis on orthopaedic wards is less common than in medicine and teams are less practised. The corpus has ward sepsis audits in medicine [2642] but none on orthopaedic wards.",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.3 (2025, updated 2026)",
+   "wording": "Give people aged 16 or over who are at high risk of severe illness or death from sepsis broad-spectrum intravenous antibiotic treatment, within 1 hour of calculating the person's NEWS2 score on initial assessment in the emergency department or on ward deterioration.",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "First IV antibiotic dose administered within 60 minutes of the first NEWS2 ≥7 recorded with suspected infection.",
+  "population": "Include adult orthopaedic inpatients with a NEWS2 of 7 or more and suspected or confirmed infection. Exclude patients on an end-of-life pathway and those already on IV antibiotics for that episode.",
+  "sample": "All eligible episodes over the last 6–12 months (expect 30–40), found from e-observations NEWS2 ≥7 reports.",
+  "data_source": "E-observations (NEWS2 time); medical notes (suspected infection, review time); e-prescribing administration record (antibiotic time); lab system (lactate, cultures).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "news2_7_or_more_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_source",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinician_review_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_prescribed_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_antibiotic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blood_cultures_before_antibiotic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lactate_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Set e-observations so a NEWS2 ≥7 on an orthopaedic ward pages the on-call doctor with a sepsis screen, and stock a sepsis grab bag with first-dose antibiotics on each orthopaedic ward.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14 onwards: all eligible episodes in the following 3 months, same template.",
+  "close_loop": "Present with the sepsis/deteriorating patient team. If it worked, keep the paging rule and grab bags and add orthopaedic wards to the trust sepsis dashboard.",
+  "evidence": [
+   "[2642] ward sepsis protocol audit: proforma used 13.9%, sepsis 6 bundle 55.5% (no re-audit)",
+   "[1995] general surgery: system changes (e-prescribing, weekly micro round) beat education for antibiotic standards"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 episodes from e-obs and prescribing"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults discharged with opioids after orthopaedic surgery, did the discharge letter state the opioid dose, amount supplied and planned duration?",
+  "why": "Unclear discharge opioid plans lead to repeat prescriptions and long-term use. Orthopaedic opioid audits in the corpus look at inpatient prescribing [1298], not the discharge letter.",
+  "standard": {
+   "source": "Faculty of Pain Medicine / RCoA 'Surgery and Opioids: Best Practice Guidelines 2021', Discharge Planning 3 and 4",
+   "wording": "The hospital discharge letter should be available in a timely way and provided to all healthcare professionals involved in caring for the patient, including community pharmacists, to avoid an acute prescription of opioids inadvertently becoming a repeat prescription. The hospital discharge letter must explicitly state the recommended opioid dose, amount supplied and planned duration of use. ... Usually 5 days and no more than 7 days of opioids (including Tramadol) should be prescribed.",
+   "url": "https://www.cpoc.org.uk/sites/cpoc/files/documents/2021-03/surgery-and-opioids-2021.pdf"
+  },
+  "pass": "Discharge letter states opioid dose, amount supplied and planned duration or stop date, and supply is 7 days or less.",
+  "population": "Include adults discharged on any opioid (including tramadol and codeine) after orthopaedic surgery. Exclude patients on opioids for over 3 months before admission (opioid tolerant) and palliative care.",
+  "sample": "40 consecutive eligible discharges over the last 4 weeks.",
+  "data_source": "Electronic discharge summary / TTO; pharmacy dispensing record (quantity supplied).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "amount_supplied_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_or_stop_date_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_supplied",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all three items stated and ≤7 days"
+   },
+   {
+    "field": "modified_release_opioid",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a required 'opioid plan' block (dose, quantity, stop date, GP not to add to repeats) to the discharge TTO template when any opioid is prescribed.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 eligible discharges.",
+  "close_loop": "Present with the acute pain team and pharmacy. If it worked, keep the TTO block and share it with the local GP prescribing group.",
+  "evidence": [
+   "[1298] primary THR: NG180 posters and teaching increased regular D0 oral opioid prescribing by 30% (inpatient step only)",
+   "[1207] hip fracture discharge letter proforma: compliance to 95% (template works)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In orthopaedic inpatients with Parkinson's disease, was every dose of their Parkinson's medicine given within 30 minutes of the prescribed time in the first 72 hours?",
+  "why": "Missed or late doses around surgery and fasting cause rigidity, falls and aspiration. Existing audits are in elderly care [1913] [1165]; the orthopaedic audit of pre-op medicines [1644] did not isolate Parkinson's drugs.",
+  "standard": {
+   "source": "NICE NG71 recs 1.3.2 and 1.3.4 (2017)",
+   "wording": "1.3.2 Antiparkinsonian medicines should not be withdrawn abruptly or allowed to fail suddenly due to poor absorption (for example, gastroenteritis, abdominal surgery) to avoid the potential for acute akinesia or neuroleptic malignant syndrome. 1.3.4 In view of the risks of sudden changes in antiparkinsonian medicines, people with Parkinson's disease who are admitted to hospital or care homes should have their medicines: given at the appropriate times, which in some cases may mean allowing self-medication; adjusted by, or adjusted only after discussion with, a specialist in the management of Parkinson's disease.",
+   "url": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations"
+  },
+  "pass": "All Parkinson's medicine doses due in the first 72 hours given within 30 minutes of the prescribed time (local definition of 'appropriate times'), including during nil-by-mouth periods.",
+  "population": "Include adult orthopaedic inpatients with Parkinson's disease on levodopa or dopamine agonists. Exclude patients on end-of-life care.",
+  "sample": "All eligible admissions over the last 12 months (expect 30–40), from pharmacy or e-prescribing search for Parkinson's drugs on orthopaedic wards.",
+  "data_source": "E-prescribing administration record (prescribed and given times); ED record; anaesthetic chart; notes (NBM plan).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_pd_dose_due_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_pd_dose_given_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_due_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_on_time_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_omitted_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_doses_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "nbm_alternative_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. dispersible or NG levodopa, rotigotine patch"
+   },
+   {
+    "field": "contraindicated_antiemetic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Flag Parkinson's drugs as time-critical in e-prescribing (exact-time dosing and alert when a dose is 30 minutes late) and add a Parkinson's NBM plan to the pre-op checklist.",
+  "target": "≥90% of patients with all doses on time",
+  "reaudit": "Week 13–14 onwards: next 3 months of eligible admissions.",
+  "close_loop": "Present with pharmacy and the Parkinson's nurse specialist. If it worked, keep the alerts and include orthopaedic wards in the trust time-critical medicines audit.",
+  "evidence": [
+   "[1913] older adults: 30% received all PD doses on time (education only; no re-audit)",
+   "[1644] pre-op trauma patients: correct medicines 39% → 61% (poster and meetings)",
+   "[1165] PD NBM guideline plus education; 75% missed at least one levodopa dose at baseline"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having elective primary hip or knee replacement, was a urinary catheter avoided unless a clinical indication was documented?",
+  "why": "Routine catheters add waste, infection and delay mobilisation. The Green Theatre Checklist lists catheterisation as an avoidable intervention. Orthopaedic catheter audits in the corpus are in hip fracture [1208], not elective arthroplasty.",
+  "standard": {
+   "source": "Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 8",
+   "wording": "Avoid clinically unnecessary interventions (e.g. antibiotics, urinary catheterisation, histology examinations)",
+   "url": "https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf"
+  },
+  "pass": "No urinary catheter inserted in theatre, or a catheter with a documented indication (e.g. retention history, long case, critical fluid balance).",
+  "population": "Include adults having elective primary total hip or knee replacement. Exclude simultaneous bilateral and revision cases.",
+  "sample": "40 consecutive elective primary hip or knee replacements over the last 6 weeks.",
+  "data_source": "Anaesthetic chart and theatre nursing record (catheter inserted and reason); ward notes (removal time, retention, CAUTI).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "THR",
+     "TKR"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_type",
+    "type": "choice",
+    "options": [
+     "spinal",
+     "GA",
+     "combined"
+    ],
+    "note": ""
+   },
+   {
+    "field": "catheter_inserted_in_theatre",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "catheter_removal_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_retention_needing_catheter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Remove catheter packs from the default arthroplasty pick list and add 'catheter: indication' to the Team Brief.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 consecutive cases.",
+  "close_loop": "Present at theatre users' group and the trust green team. If it worked, keep the pick list change and report catheters and waste avoided.",
+  "evidence": [
+   "[1892] ED older adults: catheter indication documented 36% (guideline created; no re-audit)",
+   "[1757] WaSTE multicentre arthroplasty audit: ~14 kg waste per case, mostly infectious stream (no re-audit)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from anaesthetic and nursing records"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "question": "In adults having hemiarthroplasty or total hip replacement for hip fracture, was the femoral head sent for histology only when a clinical indication was documented?",
+  "why": "Routine femoral head histology uses lab time, formalin and transport for little yield. The Green Theatre Checklist names histology as an avoidable intervention. No audit in the corpus.",
+  "standard": {
+   "source": "Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 8",
+   "wording": "Avoid clinically unnecessary interventions (e.g. antibiotics, urinary catheterisation, histology examinations)",
+   "url": "https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf"
+  },
+  "pass": "No femoral head histology, or histology with a documented indication (suspected pathological fracture, known malignancy, unusual appearance, or bone bank donation screening).",
+  "population": "Include adults having hemiarthroplasty or THR for hip fracture. Exclude known pathological fractures listed as such before surgery.",
+  "sample": "40 consecutive cases over the last 2–3 months.",
+  "data_source": "Theatre system / NHFD extract (procedure); pathology system (specimen received, request reason, result); operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "hemiarthroplasty",
+     "THR"
+    ],
+    "note": ""
+   },
+   {
+    "field": "histology_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "request_reason_text",
+    "type": "text",
+    "options": [],
+    "note": "From pathology request"
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "unexpected_pathology_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Agree a written indication list with pathology and add 'histology: indication or not required' to the Sign Out specimen check.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14: next 40 consecutive cases.",
+  "close_loop": "Present with pathology at theatre users' group and the trust green team. If it worked, keep the Sign Out prompt and report specimens avoided and cost saved.",
+  "evidence": [
+   "No audit in corpus on routine femoral head histology.",
+   "[2845] Green Theatre Checklist awareness audit in surgical staff (awareness only, no practice change measured)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from the pathology system"
+ }
+]

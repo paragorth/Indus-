@@ -1,0 +1,1774 @@
+[
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults admitted with a tibial fracture have a documented compartment syndrome check at least hourly for the first 24 hours?",
+  "why": "Missed compartment syndrome is a leading cause of limb loss and litigation. The 2025 BOAST asks for hourly documented checks. No audit of check frequency in corpus; neurovascular audits [1312][1270] measure one admission entry only.",
+  "standard": {
+   "source": "BOAST Diagnosis and Management of Compartment Syndrome of the Extremities (updated July 2025)",
+   "wording": "Patients at risk of ACS should be assessed hourly with documentation of findings (whether present or not), an interpretation of these findings and rationale for management.",
+   "url": "https://www.boa.ac.uk/resource/boast-10-pdf.html"
+  },
+  "pass": "In the first 24 hours after admission (or after fixation if sooner), no gap longer than 75 minutes between documented compartment checks, each recording pain and passive stretch findings.",
+  "population": "Adults (16+) admitted with a tibial shaft, tibial plateau or pilon fracture. Exclude transfers out within 6 hours and patients on palliative care.",
+  "sample": "40 consecutive eligible admissions over the last 4–6 months",
+  "data_source": "Nursing observation or compartment charts (paper or EPR flowsheet), admission clerking, theatre system for fixation time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "tibial shaft",
+     "tibial plateau",
+     "pilon"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fixation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not fixed in first 24 h"
+   },
+   {
+    "field": "structured_chart_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. RCN or local compartment chart"
+   },
+   {
+    "field": "number_of_checks_first_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "passive_stretch_recorded_each_check",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "regional_block_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Blocks mask pain; flag for subgroup"
+   },
+   {
+    "field": "pass_hourly_checks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Yes if longest gap ≤75 min and stretch recorded"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory hourly compartment chart to the EPR (or a printed RCN-style chart in the admission pack) triggered by any tibial fracture admission.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 40 new consecutive admissions, same template.",
+  "close_loop": "Present at trauma governance and nursing ward meeting. If it works, make the chart part of the tibial fracture admission order set.",
+  "evidence": [
+   "[1312] MTC long-bone fractures: complete NV documentation 29% → 86% (tick-box sticker)",
+   "[1270] Paediatric NV status: <40% → 70% (simple proforma)"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients (chart review is the slow part)"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults discharged within 48 hours of a tibial fracture (or its fixation) have documented advice on self-monitoring for compartment syndrome?",
+  "why": "Many tibial fractures now go home early, inside the 48-hour risk window. NICE asks for self-monitoring advice. No audit in corpus.",
+  "standard": {
+   "source": "NICE NG37 rec 1.2.7 (2016, guideline updated 2022)",
+   "wording": "In people with fractures of the tibia, maintain awareness of compartment syndrome for 48 hours after injury or fixation by: regularly assessing and recording clinical symptoms and signs in hospital; considering continuous compartment pressure monitoring in hospital when clinical symptoms and signs cannot be readily identified (for example, because the person is unconscious or has a nerve block); advising people how to self‑monitor for symptoms of compartment syndrome, when they leave hospital.",
+   "url": "https://www.nice.org.uk/guidance/ng37/chapter/Recommendations"
+  },
+  "pass": "Written or documented verbal advice naming compartment syndrome symptoms and where to go, recorded in ED notes, discharge summary or leaflet log.",
+  "population": "Adults (16+) with a tibial fracture discharged from ED, fracture clinic or ward within 48 hours of injury or fixation. Exclude transfers to another hospital.",
+  "sample": "40 consecutive eligible patients over the last 3 months",
+  "data_source": "ED record and discharge summary (EPR); fracture clinic letters; leaflet issue box if present.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fixation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if non-operative"
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "fracture clinic",
+     "ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cast_or_splint",
+    "type": "choice",
+    "options": [
+     "full cast",
+     "backslab",
+     "boot",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_names_key_symptoms",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pain out of proportion, pain on moving toes, numbness"
+   },
+   {
+    "field": "return_route_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Where and how to return"
+   },
+   {
+    "field": "pass_self_monitoring_advice",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a compartment syndrome warning paragraph to the EPR discharge template for tibial fractures, plus a one-page leaflet.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 40 eligible patients, same template.",
+  "close_loop": "Present at ED/orthopaedic joint governance. Embed the leaflet and template text if compliance holds.",
+  "evidence": [
+   "[1959] Death notification to GP: letter completed 13.3% → 83.6% (standard template)",
+   "[2030] Driving advice on discharge summaries: 62% → 66% (posters alone, weak)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults having tibial fracture fixation under a peripheral nerve block have a documented joint decision that mentions compartment syndrome monitoring?",
+  "why": "Blocks can mask compartment syndrome. The 2025 BOAST requires a documented joint decision and consent. No audit in corpus.",
+  "standard": {
+   "source": "BOAST Diagnosis and Management of Compartment Syndrome of the Extremities (updated July 2025)",
+   "wording": "The use of regional anaesthesia in extremity trauma: should follow joint decision making involving the patient (where able), anaesthetist and surgeon and include documented consent. should have an agreed policy that includes responsibility for post operative monitoring for compartment syndrome.",
+   "url": "https://www.boa.ac.uk/resource/boast-10-pdf.html"
+  },
+  "pass": "Anaesthetic or surgical record shows the surgeon and anaesthetist agreed the block, the patient consented, and compartment syndrome risk or monitoring plan is written down.",
+  "population": "Adults (16+) having fixation of tibial shaft, plateau or pilon fractures with any peripheral nerve block (sciatic, popliteal, femoral, adductor canal). Exclude neuraxial-only anaesthesia.",
+  "sample": "30–40 consecutive cases over the last 6 months",
+  "data_source": "Theatre system (procedure list), anaesthetic chart, consent form, operation note, post-op instructions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "tibial shaft",
+     "tibial plateau",
+     "pilon"
+    ],
+    "note": ""
+   },
+   {
+    "field": "block_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgeon_anaesthetist_agreement_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_consent_for_block_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "compartment_risk_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_op_monitoring_plan_named",
+    "type": "yes/no",
+    "options": [],
+    "note": "Who checks, how often"
+   },
+   {
+    "field": "pass_joint_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Yes if all three documentation items are present"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a tick box to the anaesthetic chart: 'Block agreed with surgeon; compartment syndrome risk discussed; monitoring plan: ___'.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 30 blocked tibial cases, same template.",
+  "close_loop": "Present at joint anaesthesia–orthopaedic governance. Adopt as trust regional anaesthesia policy if it works.",
+  "evidence": [
+   "[1664] Tourniquet documentation: skin status 37% → 69% (mandatory electronic op-note fields)",
+   "[1744] Hip fracture TXA: 70% → 85.2% (protocol update and targeted teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 cases"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of pelvic binders are centred at the level of the greater trochanters on the first trauma image?",
+  "why": "A binder placed over the iliac crests does not close the pelvis. BOAST asks for the correct position. No audit in corpus; binder topics absent apart from [1424] (2004).",
+  "standard": {
+   "source": "BOAST The Management of Patients with Pelvic Fractures (January 2018)",
+   "wording": "When there is a suspected active bleeding from a pelvic fracture, apply a pelvic binder in the correct position. This should be applied prehospital.",
+   "url": "https://www.boa.ac.uk/resource/boast-3-pdf.html"
+  },
+  "pass": "Binder buckle or band centred over the greater trochanters on the first pelvic radiograph or CT scanogram (operational definition of 'correct position').",
+  "population": "Adults (16+) arriving with a pelvic binder in place or applied in ED. Include cases with no fracture found.",
+  "sample": "All eligible cases over 12 months (expect 30–50 in a trauma unit; use national trauma registry list)",
+  "data_source": "PACS (first scanogram or AP pelvis), ED record, ambulance record, National Major Trauma Registry (TARN) extract.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "binder_applied_by",
+    "type": "choice",
+    "options": [
+     "prehospital",
+     "ED"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_image_type",
+    "type": "choice",
+    "options": [
+     "CT scanogram",
+     "AP pelvis X-ray"
+    ],
+    "note": ""
+   },
+   {
+    "field": "binder_level",
+    "type": "choice",
+    "options": [
+     "greater trochanters",
+     "above (iliac crest/abdomen)",
+     "below"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pelvic_fracture_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repositioned_in_ED",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_correct_position",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'binder level check on scanogram' line to the trauma CT reporting template and trauma team checklist, and share results with the ambulance service.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on all cases since the change (or extend to 6 months if numbers are small), same template.",
+  "close_loop": "Present at the trauma network governance meeting with ambulance colleagues. Embed the reporting line if it works.",
+  "evidence": [
+   "[1304] CT C-spine with CT head: 23–37% → 53% (single ICE request tab)",
+   "[1727] Templating marker ball correctly placed: 45% present → 78% (radiographer process change)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PACS"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of pelvic binders are removed within 24 hours of application?",
+  "why": "Binders left on cause pressure sores over the trochanters and sacrum. NICE sets a 24-hour limit. Only one old pelvic audit in corpus [1424], no closed loop on binder removal.",
+  "standard": {
+   "source": "NICE NG37 rec 1.2.17 (2016)",
+   "wording": "Remove all pelvic binders within 24 hours of application.",
+   "url": "https://www.nice.org.uk/guidance/ng37/chapter/Recommendations"
+  },
+  "pass": "Documented binder removal time within 24 hours of the documented application time.",
+  "population": "Adults (16+) with a pelvic binder applied prehospital or in ED. Exclude deaths within 24 hours.",
+  "sample": "All eligible cases over 12 months (30–50 expected)",
+  "data_source": "Ambulance record (application time), ED and ward notes, nursing skin charts, PACS (post-binder film), trauma registry extract.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "binder_application_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "binder_removal_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_in_binder",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_mechanically_unstable",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pelvic_surgeon_agreed_plan_before_removal",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG37 1.2.18"
+   },
+   {
+    "field": "pressure_damage_under_binder",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_removed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a binder start-time sticker and a 'binder review due' alert to the EPR at application.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on all binder cases since the change, same template.",
+  "close_loop": "Present at trauma governance and tissue viability. Keep the alert if removal times improve.",
+  "evidence": [
+   "[1424] UK pelvic and acetabular care: 56% did not meet standards → 57% (no change without a system fix)",
+   "[2875] Tertiary survey completion: 34% → 72% (coordinators enforcing a hard stop)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a high-energy pelvic ring fracture receive IV tranexamic acid within 1 hour of injury?",
+  "why": "Early TXA reduces death from bleeding. BOAST says all pelvic fracture patients need it within an hour. Corpus TXA audits are hip fracture and arthroplasty only [1744][1697].",
+  "standard": {
+   "source": "BOAST The Management of Patients with Pelvic Fractures (January 2018)",
+   "wording": "All patients require IV Tranexamic Acid as soon as possible and ideally within an hour of injury.",
+   "url": "https://www.boa.ac.uk/resource/boast-3-pdf.html"
+  },
+  "pass": "First TXA dose given (prehospital or hospital) within 60 minutes of the recorded injury time.",
+  "population": "Adults (16+) with a pelvic ring fracture from high-energy trauma. Exclude isolated low-energy pubic rami fractures and isolated acetabular fractures (BOAST exclusions).",
+  "sample": "All eligible cases over 12–18 months (30–40 expected), from trauma registry list",
+  "data_source": "Ambulance record, ED drug chart (EPMA), trauma registry extract.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_given_by",
+    "type": "choice",
+    "options": [
+     "prehospital",
+     "ED",
+     "theatre",
+     "not given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "minutes_injury_to_txa",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_txa_within_1h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add TXA as a default line in the ED trauma booklet or major trauma order set, prescribed on arrival unless ticked 'given prehospital' or contraindicated.",
+  "target": "≥90% within 1 hour; 100% within 3 hours",
+  "reaudit": "Wk 13–14 on all cases since the change, same template.",
+  "close_loop": "Present at ED/trauma governance. Keep the order-set default if it works.",
+  "evidence": [
+   "[1744] Hip fracture TXA: 70% → 85.2% (protocol update)",
+   "[1697] Arthroplasty TXA: 48.8% → 73.1% (emails and posters)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a high-energy pelvic ring fracture have a documented perineal, genital and rectal examination?",
+  "why": "Missed urethral and rectal injury turns a closed fracture into an open one. BOAST 14 makes the exam mandatory. [1494] found rectal examination in only 29% of spinal trauma; no pelvic audit in corpus.",
+  "standard": {
+   "source": "BOAST The Management of Urological Trauma Associated with Pelvic Fractures (August 2016)",
+   "wording": "All patients suffering high-energy trauma must have examination of the perineum and genitalia plus a rectal examination and the findings recorded in the medical records.",
+   "url": "https://www.boa.ac.uk/resource/boast-14-pdf.html"
+  },
+  "pass": "Findings of perineum, genitalia and rectal examination recorded (or a documented reason it was deferred and when it was done).",
+  "population": "Adults (16+) with a pelvic ring or acetabular fracture from high-energy trauma. Exclude deaths in ED.",
+  "sample": "All eligible cases over 12–18 months (30–40 expected)",
+  "data_source": "ED trauma booklet or EPR, secondary survey, ward clerking, trauma registry list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "perineum_examined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "genitalia_examined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rectal_examination_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_at_meatus_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "catheter_attempt_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urological_injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_full_exam_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a perineum/genitalia/rectal line to the secondary survey section of the trauma booklet.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on all cases since the change, same template.",
+  "close_loop": "Present at ED/orthopaedic/urology governance. Keep the booklet line if it works.",
+  "evidence": [
+   "[1494] Spinal trauma: rectal examination 29% (no re-audit)",
+   "[1997] Polytrauma secondary survey documented: 50% → 87.5% (ED trauma booklet)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of older adults with a displaced fragility pelvic ring fracture who cannot mobilise are discussed with the specialist pelvic centre?",
+  "why": "Fragility pelvic fractures are common in DGHs, and some patients stay bedbound for weeks when fixation could help. BOAST asks for a specialist discussion. No audit in corpus.",
+  "standard": {
+   "source": "BOAST The Management of Patients with Pelvic Fractures (January 2018)",
+   "wording": "Patients who suffer displaced low energy fragility fractures of the pelvic ring, who are unable to mobilise due to pain, should be discussed with the specialist centre for consideration of surgical stabilisation.",
+   "url": "https://www.boa.ac.uk/resource/boast-3-pdf.html"
+  },
+  "pass": "Documented discussion (referral system, phone note or letter) with the regional pelvic service during the admission.",
+  "population": "Adults 60+ admitted with a displaced low-energy pelvic ring fracture (for example sacral plus rami) not walking with physiotherapy by day 5 (local operational definition of 'unable to mobilise'). Exclude isolated undisplaced rami fractures and pathological fractures.",
+  "sample": "30–40 consecutive eligible admissions over the last 6–12 months (orthopaedic and medical wards)",
+  "data_source": "Coding list (S32 codes), PACS reports, physiotherapy notes, referral system (e.g. Orthopaedic referral portal), discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_pattern",
+    "type": "text",
+    "options": [],
+    "note": "e.g. sacral ala + superior ramus"
+   },
+   {
+    "field": "ct_pelvis_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "walking_by_day5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_centre_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a day-5 physiotherapy prompt: 'Not mobilising with pelvic ring fracture — refer to pelvic centre' on the trauma ward round checklist.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on eligible admissions since the change, same template.",
+  "close_loop": "Present to orthopaedics, orthogeriatrics and the pelvic centre. Embed the day-5 prompt if it works.",
+  "evidence": [
+   "[1190] Older adults with cervical fractures: specialist follow-up 74% → 100% (secretaries booked from every discharge summary)",
+   "[1522] Spinal trauma in non-specialist centres: stability documented 44% → 95% (proforma)"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients (coding list needs checking)"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a cervical spine fracture or subluxation have CT angiography of the neck vessels?",
+  "why": "Blunt vertebral artery injury causes stroke that is preventable with antiplatelets. The 2025 spine BOAST asks for CTA. No audit in corpus.",
+  "standard": {
+   "source": "BOAST Assessment of the Spine in the Trauma Patient (April 2025)",
+   "wording": "Fracture, subluxation or ligamentous injury of the cervical spine requires CT angiography to exclude blunt cerebrovascular injury (Denver criteria)",
+   "url": "https://www.boa.ac.uk/resource/boast-assessment-of-the-spine-in-the-trauma-patient.html"
+  },
+  "pass": "CT angiography of the neck performed during the index admission (or a documented senior reason not to).",
+  "population": "Adults (16+) with a new traumatic cervical fracture, subluxation or ligamentous injury on CT or MRI. Exclude isolated spinous process fractures only if local policy states so (record it).",
+  "sample": "40 consecutive cases over the last 12 months",
+  "data_source": "PACS/RIS search for cervical fracture reports, CTA requests, EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "ct_cspine_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_level",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_type",
+    "type": "choice",
+    "options": [
+     "fracture",
+     "subluxation",
+     "ligamentous"
+    ],
+    "note": ""
+   },
+   {
+    "field": "transverse_foramen_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cta_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cta_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vascular_injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_no_cta_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_cta_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an auto-prompt to the radiology report template: 'Cervical fracture: CTA recommended (BOAST 2025)', and add arterial phase to the trauma CT protocol when cervical injury is seen.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on cases since the change (extend window if fewer than 20), same template.",
+  "close_loop": "Present to radiology and trauma governance. Keep the report prompt if it works.",
+  "evidence": [
+   "[1304] CT C-spine with CT head: 23–37% → 53% (single request tab in ICE)",
+   "[1147] CT C-spine in over-65s: 16% → 38% (teaching and posters)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PACS"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a new traumatic spinal column fracture have imaging of the whole spine?",
+  "why": "Non-contiguous spinal fractures are common and easy to miss when only one region is scanned. No audit in corpus.",
+  "standard": {
+   "source": "NICE NG41 rec 1.5.11 (2016)",
+   "wording": "If a new spinal column fracture is confirmed, image the rest of the spinal column.",
+   "url": "https://www.nice.org.uk/guidance/ng41/chapter/Recommendations"
+  },
+  "pass": "Remaining spinal regions covered by CT, MRI or X-ray within the admission (whole-body CT counts if it includes the whole spine with reformats).",
+  "population": "Adults (16+) with a new traumatic spinal fracture on any imaging. Exclude known pathological fractures.",
+  "sample": "40 consecutive cases over the last 6 months",
+  "data_source": "PACS/RIS (report search for 'fracture' on spine imaging), EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "first_spine_imaging_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_region",
+    "type": "choice",
+    "options": [
+     "cervical",
+     "thoracic",
+     "lumbar",
+     "sacral",
+     "multiple"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_imaging_type",
+    "type": "choice",
+    "options": [
+     "X-ray",
+     "CT region",
+     "whole-body CT",
+     "MRI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "rest_of_spine_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rest_of_spine_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_fracture_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_whole_spine_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a standard line to spine CT and X-ray reports: 'New fracture — recommend imaging of the remaining spine (NICE NG41 1.5.11)'.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on new cases since the change, same template.",
+  "close_loop": "Present at radiology and orthopaedic governance. Keep the report line if it works.",
+  "evidence": [
+   "[1304] CT C-spine with CT head: 23–37% → 53% (request system change)",
+   "[1701] Moderate/severe vertebral fragility fractures reported: 26% → 32% (reporting-standard change)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PACS"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a spinal fracture treated non-operatively have a documented stability decision and orthosis plan?",
+  "why": "Unclear plans leave patients in collars too long or mobilised unsafely. [1522] (2013) found stability documented in 44%; no recent closed loop against the 2025 BOAST.",
+  "standard": {
+   "source": "BOAST Assessment of the Spine in the Trauma Patient (April 2025)",
+   "wording": "If a fracture is to be treated non-operatively, the decision-making team should specify the degree of stability of the fracture and details of the planned non-operative management, such as use of collar/ brace, including duration, care and changing procedures.",
+   "url": "https://www.boa.ac.uk/resource/boast-assessment-of-the-spine-in-the-trauma-patient.html"
+  },
+  "pass": "Notes record stability (stable/unstable), orthosis or no orthosis, duration, and care/changing instructions.",
+  "population": "Adults (16+) with a traumatic spinal fracture managed non-operatively, admitted or discharged from ED/fracture clinic. Exclude pathological fractures.",
+  "sample": "40 consecutive cases over the last 6 months",
+  "data_source": "EPR, spinal centre referral replies, discharge summaries, fracture clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_level",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stability_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orthosis_decision_documented",
+    "type": "choice",
+    "options": [
+     "collar",
+     "brace",
+     "none",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "orthosis_duration_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "care_changing_instructions_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_given_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_full_plan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Use a one-page 'non-operative spinal fracture plan' EPR form with the four fields, copied to patient and GP.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 40 cases, same template.",
+  "close_loop": "Present at orthopaedic governance and with the spinal centre. Embed the EPR form if it works.",
+  "evidence": [
+   "[1522] Non-specialist spinal trauma: stability 44% → 95% (proforma and ASIA chart on trust computers)",
+   "[1639] Admission notes: time of injury 72% → 100% (standard proforma)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with an ankle fracture of uncertain stability have a weight-bearing radiograph within 2 weeks of injury?",
+  "why": "Weight-bearing films separate stable from unstable Weber B fractures and avoid needless surgery or missed instability. Ankle documentation is overdone [1659][1617]; this step is not audited.",
+  "standard": {
+   "source": "BOAST The Management of Ankle Fractures (August 2016)",
+   "wording": "In fracture patterns where stability is uncertain, patients should be reviewed within 2 weeks with further radiographs (weight bearing if possible) to confirm the position remains acceptable.",
+   "url": "https://www.boa.ac.uk/resource/boast-12-pdf.html"
+  },
+  "pass": "Radiograph labelled weight-bearing (or documented reason it was not possible) taken within 14 days of injury.",
+  "population": "Adults (16+) with an isolated lateral malleolus (Weber B) or similar fracture of uncertain stability managed non-operatively at first review. Exclude open, pilon and bimalleolar fractures fixed early.",
+  "sample": "40 consecutive cases over the last 3 months",
+  "data_source": "Virtual fracture clinic records, PACS (projection labels), fracture clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_description",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_radiograph_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_radiograph_weight_bearing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_weight_bearing_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "converted_to_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_wb_film_within_14d",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pre-set radiology request 'Ankle AP/mortise/lateral WEIGHT-BEARING' to the virtual fracture clinic outcome menu for uncertain-stability ankle fractures.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14, next 40 cases, same template.",
+  "close_loop": "Present at fracture clinic/VFC meeting and to radiographers. Keep the pre-set request if it works.",
+  "evidence": [
+   "[1720] Syndesmosis stress test evidence saved: 55% → 82% (posters and teaching)",
+   "[1707] Ottawa ankle rule documentation: 74% → 87% (handout and teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults under 60 with an unstable ankle fracture listed for fixation have surgery on the day of injury or the next day?",
+  "why": "Delay risks swelling, cancelled lists and longer stays. [1225] found only 45% of under-60s fixed within 24 hours, with no re-audit; corpus ankle audits focus on documentation.",
+  "standard": {
+   "source": "BOAST The Management of Ankle Fractures (August 2016); NICE NG38 rec 1.4.2 (2016)",
+   "wording": "Early fixation (on the day or day after injury) is recommended in the majority of patients under 60 years when the ankle mortise is unstable.",
+   "url": "https://www.boa.ac.uk/resource/boast-12-pdf.html"
+  },
+  "pass": "Knife-to-skin on the calendar day of injury or the following day.",
+  "population": "Adults 16–59 with an unstable closed malleolar fracture fixed as the primary treatment. Exclude open fractures, pilon fractures, external fixation first, late presenters (>24 h after injury).",
+  "sample": "40 consecutive cases over the last 4 months",
+  "data_source": "Theatre system (start times), trauma list, EPR (injury date, reasons for delay).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "listed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "none",
+     "swelling",
+     "theatre capacity",
+     "medical",
+     "patient factor",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharged_to_return",
+    "type": "yes/no",
+    "options": [],
+    "note": "Ambulatory pathway"
+   },
+   {
+    "field": "pass_day0_or_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a protected 'first on the list' slot or ambulatory ankle slot on the next-day trauma list for under-60 unstable ankles.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14, next 40 cases, same template.",
+  "close_loop": "Present at trauma list planning meeting. Keep the protected slot if it works.",
+  "evidence": [
+   "[1225] DGH ankle fractures: 45% of under-60s fixed within 24 h (no re-audit)",
+   "[1224] Open fractures: missed 7-day cover 11% → 5% (extra orthoplastic list — capacity fix)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from theatre system"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a knee dislocation, tibial plateau or distal femoral fracture have timed pulse findings documented for both legs in ED?",
+  "why": "The June 2026 arterial BOAST says compare with the other limb and time every check. NV audits exist [1312][1300] but none measure bilateral, timed pulses in high-risk knee injuries.",
+  "standard": {
+   "source": "NICE NG37 rec 1.3.7 (2016); BOAST Diagnosis and management of arterial injuries associated with musculoskeletal trauma (June 2026)",
+   "wording": "When assessing neurovascular status in a person with a limb injury, document for both limbs: which nerves and nerve function have been assessed and when; the findings, including: sensibility; motor function using the Medical Research Council (MRC) grading system; which pulses have been assessed and when; how circulation has been assessed when pulses are not accessible. Document and time each repeated assessment.",
+   "url": "https://www.nice.org.uk/guidance/ng37/chapter/Recommendations"
+  },
+  "pass": "Dorsalis pedis and posterior tibial pulses documented for both legs with a time, at first ED assessment.",
+  "population": "Adults (16+) with knee dislocation, tibial plateau fracture or distal femoral fracture. Exclude periprosthetic fractures only if managed in another pathway (record).",
+  "sample": "40 consecutive cases over the last 6 months",
+  "data_source": "ED record, orthopaedic clerking (EPR), PACS for diagnosis list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_type",
+    "type": "choice",
+    "options": [
+     "knee dislocation",
+     "tibial plateau",
+     "distal femur"
+    ],
+    "note": ""
+   },
+   {
+    "field": "injured_leg_pulses_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "uninjured_leg_pulses_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "examination_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_after_reduction_or_splint",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cta_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_bilateral_timed_pulses",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a two-column (left/right) timed pulse box to the ED and orthopaedic clerking templates for lower limb injuries.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 40 cases, same template.",
+  "close_loop": "Present at ED and orthopaedic governance. Keep the template box if it works.",
+  "evidence": [
+   "[1312] Long-bone NV documentation: pulses 36% → 89% (tick-box sticker)",
+   "[1654] Supracondylar ED capillary refill: 65% → 95.5% (proforma)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults having humeral shaft or distal humerus fixation have a named-nerve examination documented by the operating team after surgery?",
+  "why": "Radial and ulnar nerve palsy after humeral surgery is a common claim. The BOAST asks the operating surgeon to examine and record after surgery. Corpus pre/post-op nerve audits are paediatric supracondylar only [1654].",
+  "standard": {
+   "source": "BOAST Peripheral Nerve Injury (December 2021), standard 1.1.4",
+   "wording": "post-operatively, by the operating surgeon following any procedure where nerve injury is a recognised risk",
+   "url": "https://www.boa.ac.uk/resource/boast-peripheral-nerve-injury.html"
+  },
+  "pass": "Radial, median and ulnar motor and sensory findings recorded by the operating team on the day of surgery (or first time the block wears off).",
+  "population": "Adults (16+) having fixation of humeral shaft or distal humerus fractures. Exclude patients who remain ventilated (record separately).",
+  "sample": "30–40 consecutive cases over the last 12 months",
+  "data_source": "Theatre system, operation note, post-op ward round entries (EPR).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "surgery_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "humeral shaft",
+     "distal humerus"
+    ],
+    "note": ""
+   },
+   {
+    "field": "preop_nerve_exam_by_operating_team",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_exam_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "radial_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "median_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ulnar_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_deficit_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_postop_named_nerve_exam",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'post-op nerve check (radial/median/ulnar)' field to the electronic post-op instructions for upper limb fracture surgery.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on cases since the change (extend window if under 20), same template.",
+  "close_loop": "Present at trauma governance. Embed the field if it works.",
+  "evidence": [
+   "[1654] Paediatric supracondylar post-op nerve function documented: 9.7% → 50% (BOAST-based proforma)",
+   "[1142] Supracondylar nerve documentation: 10–53% → 86–95% (electronic clerking proforma)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults having a native joint aspirated for suspected septic arthritis have a sample sent for crystal microscopy?",
+  "why": "Gout and pseudogout mimic septic arthritis; missing crystals leads to needless washouts or missed diagnoses. The 2025 soft tissue infection BOAST asks for crystals. [1329] audited cultures only; no crystal audit in corpus.",
+  "standard": {
+   "source": "BOAST Management of musculoskeletal soft tissue infections (July 2025)",
+   "wording": "Native joint infections should be treated according to standards outlined in the BOASt for the acute management of periprosthetic joint infection2, recognising the time critical nature of chondral injury. Aspirate should include samples for crystallography.",
+   "url": "https://www.boa.ac.uk/resource/management-of-musculoskeletal-soft-tissue-infections.html"
+  },
+  "pass": "Laboratory record shows crystal microscopy requested on the joint aspirate.",
+  "population": "Adults (16+) with a native joint aspirated in ED, ward or theatre for suspected septic arthritis. Exclude prosthetic joints.",
+  "sample": "40 consecutive aspirates over the last 6 months",
+  "data_source": "Laboratory system (all synovial fluid samples), EPR for indication.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "aspiration_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "knee",
+     "hip",
+     "shoulder",
+     "ankle",
+     "elbow",
+     "wrist",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "ward",
+     "theatre",
+     "clinic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "culture_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crystals_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotics_before_aspiration",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "final_diagnosis",
+    "type": "choice",
+    "options": [
+     "septic",
+     "crystal",
+     "both",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass_crystals_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a 'synovial fluid' order set in the lab system that requests MC&S and crystals together.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 on aspirates since the change, same template.",
+  "close_loop": "Present at orthopaedic, ED and microbiology governance. Keep the order set if it works.",
+  "evidence": [
+   "[1329] DGH septic arthritis: pre-antibiotic joint cultures in 2 of 7 confirmed cases (no re-audit)",
+   "[1304] Linked CT requests via one ICE tab: 23–37% → 53% (order-set style fix)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from lab system"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of systemically well adults with a suspected wound infection after fracture fixation are reviewed by a consultant before antibiotics start?",
+  "why": "Blind antibiotics mask deep infection and ruin later cultures. BOAST says review within 48 hours and no antibiotics before it. No FRI audit in corpus.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019)",
+   "wording": "A patient who is not systemically unwell should be reviewed by a consultant in a clinic within 48 hours. Antibiotic treatment should not be commenced before that review.",
+   "url": "https://www.boa.ac.uk/resource/boast-fracture-related-infections.html"
+  },
+  "pass": "Consultant review documented within 48 hours of first presentation, with no antibiotic started before that review.",
+  "population": "Adults (16+) presenting with a suspected early wound infection (wound not healed) after fracture fixation, not septic. Exclude patients meeting sepsis criteria.",
+  "sample": "30–40 consecutive cases over the last 12 months",
+  "data_source": "Fracture clinic and ED records, wound clinic list, EPMA/drug chart, GP letters for community antibiotics.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "fixation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presented_to",
+    "type": "choice",
+    "options": [
+     "GP",
+     "ED",
+     "fracture clinic",
+     "ward",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Include GP prescriptions"
+   },
+   {
+    "field": "deep_samples_taken_before_antibiotics",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_consultant_before_antibiotics",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up a 'leaky wound' pathway: patient and GP advice line to a next-day consultant slot, plus a 'do not start antibiotics unless septic' line on the discharge letter.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14 on cases since the change (extend to 6 months if needed), same template.",
+  "close_loop": "Present at orthopaedic and microbiology governance and to local GPs. Keep the pathway if it works.",
+  "evidence": [
+   "[1200] Open fracture STAT antibiotics: 15.4% → 51.7% (proforma and prompts)",
+   "[1190] Specialist review arranged: 74% → 100% (admin booking from every discharge)"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients (GP antibiotic history adds time)"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of discharge summaries after fracture fixation tell the patient and GP what to do if infection is suspected?",
+  "why": "BOAST asks for FRI advice in discharge documents so GPs refer rather than give blind antibiotics. Discharge safety-netting is poor in surgery [2884] (14%); no orthopaedic FRI audit in corpus.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019)",
+   "wording": "There should be readily available guidance for primary carers and patients on how to respond in the event of a suspected fracture related infection. This should be included in discharge documentation.",
+   "url": "https://www.boa.ac.uk/resource/boast-fracture-related-infections.html"
+  },
+  "pass": "Discharge summary names infection warning signs and a direct contact route to the orthopaedic team.",
+  "population": "Adults (16+) discharged after operative fixation of any fracture. Exclude hip fractures if they have a separate pathway letter (record).",
+  "sample": "50 consecutive discharges over the last 2 months",
+  "data_source": "EPR discharge summaries, patient leaflet log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_signs_listed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_route_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Named phone number or clinic"
+   },
+   {
+    "field": "gp_advice_on_antibiotics_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_fri_advice",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a fixed FRI advice paragraph and contact number to the orthopaedic EPR discharge template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 50 discharges, same template.",
+  "close_loop": "Present at trauma governance and GP liaison meeting. Keep the template text if it works.",
+  "evidence": [
+   "[2884] Surgical discharge summaries: safety-netting advice 14% (proforma introduced)",
+   "[2841] Hernia discharge information: safety-netting 45% → fewer GP/ED returns (standard leaflet)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with an open fracture have a wound photograph stored in the record before debridement?",
+  "why": "Photographs stop repeated dressing removal and help orthoplastic planning. Open fracture audits focus on antibiotics and timing [1601][1375]; photography is not measured.",
+  "standard": {
+   "source": "BOAST Open Fractures (December 2017); NICE NG37 recs 1.3.5–1.3.6 (2016)",
+   "wording": "Photographs of open fracture wounds should be taken when they are first exposed for clinical care, before debridement and at other key stages of management. These should be kept in the patient’s records.",
+   "url": "https://www.boa.ac.uk/resource/boast-4-pdf.html"
+  },
+  "pass": "At least one wound photograph, dated before the debridement start time, retrievable in the EPR or clinical photography system.",
+  "population": "Adults (16+) with an open fracture of any site (long bone, hindfoot, midfoot, hand, wrist, forefoot). Exclude deaths before surgery.",
+  "sample": "40 consecutive cases over the last 6–12 months",
+  "data_source": "Theatre system, EPR media tab or clinical photography app, ED notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "photo_in_record",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "photo_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "debridement_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dressing_saline_and_occlusive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_photo_before_debridement",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Enable the trust secure photo app on ED devices, with 'open fracture photo uploaded' as a required box on the ED trauma or referral form.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 on cases since the change, same template.",
+  "close_loop": "Present at ED/orthopaedic/plastics governance. Keep the required box if it works.",
+  "evidence": [
+   "[1200] Open fracture STAT antibiotic prescription: 15.4% → 51.7% (clerking proforma)",
+   "[1601] UK open lower limb fractures: documented orthoplastic plan 85.8% (single cycle)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adult trauma-team patients admitted under orthopaedics have a documented tertiary survey within 24 hours of admission?",
+  "why": "Missed injuries are found late when nobody re-examines head to toe. [2012] found 11% within 36 hours (no re-audit); [2875] is paediatric only.",
+  "standard": {
+   "source": "South-East Scotland Major Trauma Guidelines, Tertiary Survey (NHS Right Decision Service, v1.0, reviewed 04/01/2025); use your own network guideline if it differs",
+   "wording": "Within 24 hours of admission 'after the dust has settled'.",
+   "url": "https://rightdecisions.scot.nhs.uk/south-east-scotland-major-trauma-guidelines/ongoing-care/tertiary-survey/"
+  },
+  "pass": "A structured head-to-toe tertiary survey entry dated within 24 hours of admission (repeated when awake if conscious level was reduced).",
+  "population": "Adults (16+) seen by the trauma team and admitted under orthopaedics. Exclude ICU admissions with the survey done by ICU (record separately).",
+  "sample": "40 consecutive admissions over the last 4–6 months",
+  "data_source": "ED trauma call log or trauma registry list, EPR ward entries, tertiary survey proforma.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tertiary_survey_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tertiary_survey_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "structured_proforma_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_when_awake_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_tts_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put a tertiary survey proforma in the EPR and make 'tertiary survey done' a checklist item on the morning trauma meeting list.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, next 40 admissions, same template.",
+  "close_loop": "Present at trauma governance. Embed the proforma and trauma-meeting check if it works.",
+  "evidence": [
+   "[2875] Paediatric tertiary survey: 34% → 72% (coordinators enforce as a discharge prerequisite)",
+   "[1997] Polytrauma secondary survey: 50% → 87.5% (trauma booklet)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults admitted with a complex fracture have a written summary sent to their GP within 24 hours of admission?",
+  "why": "NICE asks for an early plain-English summary to the GP, not just a discharge letter. No audit of this in corpus.",
+  "standard": {
+   "source": "NICE NG37 rec 1.3.3 (2016)",
+   "wording": "Produce a written summary, which gives the diagnosis, management plan and expected outcome, and: is aimed at and sent to the patient's GP within 24 hours of admission; includes a summary written in plain English that is understandable by patients, family members and carers; is readily available in the patient's records.",
+   "url": "https://www.nice.org.uk/guidance/ng37/chapter/Recommendations"
+  },
+  "pass": "A letter or electronic summary with diagnosis, plan and expected outcome sent to the GP within 24 hours of admission.",
+  "population": "Adults (16+) admitted with a complex fracture (open fracture, pelvic/acetabular, pilon, or multiple fractures). Exclude hip fractures (separate NHFD pathway).",
+  "sample": "40 consecutive admissions over the last 6 months",
+  "data_source": "EPR correspondence log (sent timestamps), admission records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_category",
+    "type": "choice",
+    "options": [
+     "open fracture",
+     "pelvic/acetabular",
+     "pilon",
+     "multiple fractures"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gp_summary_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_summary_sent_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "includes_diagnosis_plan_outcome",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plain_english_section",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_gp_summary_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an EPR 'admission notification to GP' template auto-populated from the post-take ward round, sent by the trauma coordinator.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14, next 40 admissions, same template.",
+  "close_loop": "Present at trauma governance and GP liaison. Keep the template if it works.",
+  "evidence": [
+   "[1959] Death notification to GP: 13.3% → 83.6% (standard template)",
+   "[1190] Follow-up booking: 74% → 100% (admin staff owned the task)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPR"
+ }
+]

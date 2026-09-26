@@ -19,6 +19,15 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
   - `paper`: authors, journal, year, DOI/PMID/PMCID, abstract, licence, UK/Ireland flag, citation.
 - Topic cards: 3 seed cards (written by the user's team; authoritative) and 99 drafts with
   `"status": "Draft, needs consultant sign-off"` and `evidence_ids`.
+- `new_audits/`: 146 PROPOSED orthopaedic audits (ONA-001…), designed from current UK standards
+  (NICE, BOAST, NHFD, BSCOS, ROS, RCEM, GIRFT/NHS England, fetched 2026) and gaps in the corpus. Not run
+  anywhere yet: never cite them as evidence, only as ideas. Each has one plain question, the exact
+  standard wording + URL, pass definition, sample, timeline, change, re-audit and a ready template
+  `new_audits/templates/ONA-xxx.csv`. List: `new_audits/catalogue.md`. Search:
+  `python3 query.py "words" --proposed`. Rebuild after editing `new_audits/parts/*.json`:
+  `python3 new_audits/compile.py`.
+- `standards/standards.json`: exact standard wording with URLs, and which ONA audits use it. Quote
+  standards from here before quoting from memory.
 - `ai4qi-library.csv` (flat copy), `index.html` (browse/filter), `figures/` (CC BY/CC0 only).
 
 ## Answering a question
@@ -61,7 +70,8 @@ Exactly this order:
 **Re-audit:** when, same template, same sample size, target.
 **Close the loop:** what to present where, and what to embed if it worked.
 **Evidence:** 2–4 lines, each "[id] where: before → after (fix)". Mark draft cards as draft.
-Anything not from the corpus gets "(not corpus)".
+Anything not from the corpus gets "(not corpus)". If a proposed audit (ONA-xxx) fits, offer it with its
+template path and label it "proposed, not yet run".
 
 ## Using content on the public site
 

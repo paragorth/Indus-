@@ -108,6 +108,7 @@ def main():
     ap.add_argument("--closed", action="store_true", help="closed-loop audits only")
     ap.add_argument("-n", type=int, default=10)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--proposed", action="store_true", help="search the proposed (not yet run) audits instead")
     a = ap.parse_args()
     lib = load()
     audits, cards = lib["audits"], lib.get("topic_knowledge", [])
@@ -120,6 +121,17 @@ def main():
             return False
         return True
 
+    if a.proposed:
+        pa = json.load(open(os.path.join(HERE, "new_audits", "ortho_new_audits.json"), encoding="utf-8"))
+        q = toks(" ".join(a.q))
+        sc = sorted(((sum(t in toks(json.dumps(x)) for t in q), x) for x in pa), key=lambda z: -z[0])
+        res = [x for s, x in sc if s > 0][:a.n]
+        if a.json:
+            print(json.dumps(res, indent=1, ensure_ascii=False))
+        else:
+            for x in res:
+                print(f"{x['id']}  {x['question']}\n    standard: {x['standard'].get('source')} | change: {x['change']} | template: {x['template_file']}")
+        return
     if a.id:
         e = next((x for x in audits if x["id"] == a.id), None)
         out = e or {"error": "no such id"}

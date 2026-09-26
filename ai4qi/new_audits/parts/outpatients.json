@@ -1,0 +1,1975 @@
+[
+ {
+  "question": "What proportion of new fracture clinic referrals have a named consultant review documented within 24 hours of first presentation?",
+  "why": "The 2026 BOASt moved the consultant review target to 24 hours. Corpus audits measured the old 72-hour target only ([1538] 6% → 100%, [1593] closed loop); none has measured 24 hours.",
+  "standard": {
+   "source": "BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026), standard 2",
+   "wording": "Patients must have their case reviewed by a named consultant within 24 hours of first presentation. This can be performed in person or virtually in a trauma meeting. The outcome of this review should be documented and a copy sent to the patient and GP.",
+   "url": "https://www.boa.ac.uk/resource/boast-outpatient-and-on-call-services-for-people-with-fractures-or-musculoskeletal-injury.html"
+  },
+  "pass": "Documented review by a named consultant (in person, virtual fracture clinic or trauma meeting) with date and time no more than 24 hours after first presentation (ED or community arrival time).",
+  "population": "Include: patients of any age referred from ED, MIU or GP to the fracture clinic or virtual fracture clinic (VFC). Exclude: patients admitted from ED.",
+  "sample": "40 consecutive referrals from the VFC or fracture clinic referral list over the last 4 weeks.",
+  "data_source": "ED system (arrival time); VFC or trauma meeting list and EPR note (review time, consultant name).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "first_presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "ED/MIU arrival or GP referral receipt"
+   },
+   {
+    "field": "referral_source",
+    "type": "choice",
+    "options": [
+     "ED",
+     "MIU",
+     "GP",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_type",
+    "type": "choice",
+    "options": [
+     "VFC",
+     "trauma meeting",
+     "face-to-face clinic",
+     "none found"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_consultant_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_review",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "review_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "weekend_or_bank_holiday",
+    "type": "yes/no",
+    "options": [],
+    "note": "To explain delays"
+   }
+  ],
+  "change": "Add a mandatory 'reviewing consultant' and 'review time' field to the VFC outcome template, and add a weekend VFC or trauma-meeting review slot on the rota.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 consecutive referrals, same template.",
+  "close_loop": "Present at the T&O governance meeting; if it works, make the VFC template fields mandatory trust-wide and report monthly to the trauma lead.",
+  "evidence": [
+   "[1538] VFC introduction: 6% seen within 72 h → 100% (mean 1.3 days) (virtual fracture clinic)",
+   "[1593] consultant-level opinion before face-to-face: 96% → 99% (mandatory senior review rule)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ED system and EPR",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of patients reviewed in the virtual fracture clinic are sent a copy of the review outcome?",
+  "why": "The BOASt requires the consultant review outcome to go to the patient as well as the GP. Corpus VFC audits measured timing and discharge rates [1222], [1538], not whether the patient received the outcome.",
+  "standard": {
+   "source": "BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026), standard 2",
+   "wording": "The outcome of this review should be documented and a copy sent to the patient and GP.",
+   "url": "https://www.boa.ac.uk/resource/boast-outpatient-and-on-call-services-for-people-with-fractures-or-musculoskeletal-injury.html"
+  },
+  "pass": "A letter, text or portal message stating the VFC outcome is addressed or copied to the patient and dated within 7 days of the review.",
+  "population": "Include: all adults and children (letter to parent or carer) reviewed in the VFC. Exclude: patients admitted from the VFC.",
+  "sample": "40 consecutive VFC outcomes from the last 4 weeks.",
+  "data_source": "VFC list; EPR correspondence tab or letter system (recipients and send date).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "vfc_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "discharged",
+     "fracture clinic",
+     "physio",
+     "surgery",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "outcome_letter_exists",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_recipient",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: patient (or parent/carer) is addressee or cc"
+   },
+   {
+    "field": "gp_recipient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "letter_sent_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_review_to_letter",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sent_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Set the VFC letter template to add the patient as a recipient by default (opt-out, with a reason box).",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 consecutive VFC outcomes.",
+  "close_loop": "Present at the T&O and outpatient governance meetings; embed the default recipient in the letter system.",
+  "evidence": [
+   "No closed-loop audit of this item in corpus.",
+   "[1295] repatriation letter sent 0% → 94% (electronic letter template)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the letter system",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of new fracture clinic patients have a definitive treatment plan documented within 72 hours of first presentation?",
+  "why": "Corpus audits measured time to first review [1538], [1330]. None measured whether a definitive plan (not 'review in clinic') was written within 72 hours, which the 2026 BOASt requires.",
+  "standard": {
+   "source": "BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026), standard 4",
+   "wording": "A definitive treatment plan should be documented for all patients within 72 hours of first presentation and copied to the patient and their GP.",
+   "url": "https://www.boa.ac.uk/resource/boast-outpatient-and-on-call-services-for-people-with-fractures-or-musculoskeletal-injury.html"
+  },
+  "pass": "A documented plan stating the definitive treatment (for example non-operative with named immobilisation and duration, or surgery with a date or listing) within 72 hours of first presentation. 'See in clinic' alone fails.",
+  "population": "Include: all new referrals to the fracture clinic or VFC. Exclude: admissions from ED; soft-tissue injuries discharged at first contact.",
+  "sample": "40 consecutive new referrals over the last 4 weeks.",
+  "data_source": "ED system (arrival time); VFC/fracture clinic notes and letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "first_presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_plan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_type",
+    "type": "choice",
+    "options": [
+     "non-operative definitive",
+     "operative listed",
+     "further imaging only",
+     "review only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "definitive_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_definitive_plan",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "definitive_plan_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "plan_copied_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "change": "Replace free-text VFC outcomes with a structured field 'Definitive plan' with drop-down options, which cannot be left as 'review'.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 new referrals.",
+  "close_loop": "Present at the T&O governance meeting; embed the structured field in the VFC template.",
+  "evidence": [
+   "[1538] VFC introduction: 6% → 100% reviewed within 72 h (virtual clinic)",
+   "[1316] imaging request to scan 4.51 → 3.56 days (T&O–radiology priority slots)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of first fracture clinic letters for lower limb injuries record weightbearing status using the BOASt terms?",
+  "why": "Corpus weightbearing audits looked at operation notes ([1323] 7–14%, [1309] 6%). Nobody has audited non-operative lower limb injuries in fracture clinic.",
+  "standard": {
+   "source": "BOASt Mobilisation and weightbearing after orthopaedic surgery or musculoskeletal injury (BOA, August 2024), standards 3–5; also BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026)",
+   "wording": "3. A weightbearing status should be attributed to each affected limb. 4. The following specific terms should be used to define weightbearing status: a. Non Weightbearing b. Limited Weightbearing c. Unrestricted Weightbearing 5. Terms such as touch, partial, proportional, permissive, or progressive weightbearing should no longer be used.",
+   "url": "https://www.boa.ac.uk/resource/mobilisation-and-weightbearing-after-orthopaedic-surgery-musculoskeletal-injury-boast.html"
+  },
+  "pass": "The first fracture clinic or VFC letter states weightbearing for the injured limb using only 'non weightbearing', 'limited weightbearing' or 'unrestricted weightbearing'.",
+  "population": "Include: adults with a lower limb fracture or injury managed without surgery. Exclude: admitted patients; patients listed for surgery at the first contact.",
+  "sample": "40 consecutive adults with non-operative lower limb injuries from the last 4 weeks.",
+  "data_source": "Fracture clinic and VFC letters in EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_site",
+    "type": "choice",
+    "options": [
+     "ankle",
+     "foot",
+     "tibia/fibula",
+     "knee",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "wb_status_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wb_term_used",
+    "type": "choice",
+    "options": [
+     "NWB",
+     "LWB",
+     "UWB",
+     "outdated term",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "boast_term_only",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "justification_if_nwb_or_lwb",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   },
+   {
+    "field": "age_over_60_uwb_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": "BOASt outpatient: >60 default UWB"
+   }
+  ],
+  "change": "Add a weightbearing drop-down (NWB / LWB / UWB, with reason and duration boxes) to the fracture clinic letter template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients.",
+  "close_loop": "Present with physiotherapy at the T&O governance meeting; embed the drop-down and share with the plaster room.",
+  "evidence": [
+   "[1323] op-note compliance 7–14%, no re-audit (template change suggested)",
+   "[1309] 6% compliance, no re-audit (posters and template training)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 letters",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic patients aged 50 or over with a fragility fracture are identified by the fracture liaison service?",
+  "why": "Corpus shows fracture clinic under-referral ([1444] 5/38 → 23/43; [1637] 5% → 19% with an EPR alert), but few closed loops against the 2025 ROS standards.",
+  "standard": {
+   "source": "Royal Osteoporosis Society, Effective Secondary Prevention of Fragility Fractures: Clinical Standards for Fracture Liaison Services, version 3 (September 2025), standard 1.1; and BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026)",
+   "wording": "1.1. The FLS identifies people aged 50 years or older presenting with a new fragility fracture.",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "Patient appears on the FLS database or has a documented FLS referral or FLS contact within 12 weeks of fracture diagnosis.",
+  "population": "Include: patients aged 50+ attending fracture clinic or VFC with a low-trauma fracture (fall from standing height or less). Exclude: hip fractures (inpatient pathway), pathological fractures, patients who died.",
+  "sample": "40 consecutive eligible patients from fracture clinic lists 3–4 months ago (to allow 12 weeks).",
+  "data_source": "Fracture clinic lists; ED notes (mechanism); FLS database or FLS referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "fracture_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "wrist",
+     "humerus",
+     "ankle",
+     "vertebra",
+     "pelvis",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "low_trauma_mechanism",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fls_referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_fls_database",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "identified_by_fls_within_12w",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "Add an automatic weekly report of fracture clinic patients aged 50+ sent to the FLS, or a mandatory 'FLS referral: yes/no/why not' field in the VFC template.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14 onward, 40 patients seen after the change (allowing 12 weeks follow-up).",
+  "close_loop": "Present at T&O and FLS governance meetings; embed the automatic list or mandatory field.",
+  "evidence": [
+   "[1444] 5/38 → 23/43 referred (awareness and prompt)",
+   "[1637] 5% → 19% FLS referrals (EPR alert button)",
+   "[1414] distal radius 0% → 81% investigated, treated or referred"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients with FLS database access",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of patients identified by the fracture liaison service complete their FLS assessment within 12 weeks of fracture diagnosis?",
+  "why": "Corpus has DXA delay data [1162] and one FLS-DB-style audit, but no closed-loop local audit of the 12-week assessment criterion.",
+  "standard": {
+   "source": "Royal Osteoporosis Society, Effective Secondary Prevention of Fragility Fractures: Clinical Standards for Fracture Liaison Services, version 3 (September 2025), criterion 2.2",
+   "wording": "2.2. Assessment will be completed within 12 weeks of fracture diagnosis.",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "Documented FLS assessment (fracture risk assessment with FRAX or QFracture, with DXA where indicated) completed no more than 84 days after fracture diagnosis.",
+  "population": "Include: all non-hip fracture patients aged 50+ identified by the FLS. Exclude: those who declined or died before assessment (report separately).",
+  "sample": "40 consecutive patients identified by the FLS 4–6 months ago.",
+  "data_source": "FLS database or FLS-DB extract; DXA booking system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "fracture_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fls_identification_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_risk_tool_used",
+    "type": "choice",
+    "options": [
+     "FRAX",
+     "QFracture",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dxa_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dxa_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_completed_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_fracture_to_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_within_12w",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "Book DXA directly from the FLS at identification (protocol-based request) instead of asking the GP to request it.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14 onward, 40 patients identified after the change.",
+  "close_loop": "Present at the FLS and radiology governance meetings; embed FLS-direct DXA requesting in the protocol.",
+  "evidence": [
+   "[1162] 70.6% of DXAs left to the GP to order; 0.94% booked by FLS (no re-audit)",
+   "[1346] GP letter rewrite: bisphosphonate 40% → 51%, median 9 → 5 months"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from FLS database",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of FLS patients aged 65 or over have a documented falls risk assessment?",
+  "why": "Falls assessment after non-hip fractures is poor in the corpus ([1345] 12% full falls assessment, no re-audit).",
+  "standard": {
+   "source": "Royal Osteoporosis Society, Effective Secondary Prevention of Fragility Fractures: Clinical Standards for Fracture Liaison Services, version 3 (September 2025), criterion 2.1",
+   "wording": "2.1. The FLS offers people identified as being at increased risk of another fragility fracture, an assessment which will include: ... An assessment of falls risk in people aged 65 or over.",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "A falls risk assessment (screening questions, gait or balance test, or referral to a falls service) is documented in the FLS record.",
+  "population": "Include: FLS patients aged 65+ with a non-hip fragility fracture. Exclude: patients who declined FLS assessment.",
+  "sample": "40 consecutive FLS patients aged 65+ from the last 3 months.",
+  "data_source": "FLS database and FLS clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "fls_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_history_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gait_or_balance_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_risk_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "falls_service_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a mandatory three-question falls screen with an automatic falls service referral trigger to the FLS assessment template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 patients.",
+  "close_loop": "Present at FLS and falls steering group; embed the template.",
+  "evidence": [
+   "[1345] full falls assessment 12% (standardised EPR proforma planned; no re-audit)",
+   "[1177] Irish FLS-DB national falls data (no local loop)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of FLS patients recommended bone treatment are followed up by the FLS within 8 weeks of the recommendation?",
+  "why": "Many FLS letters recommend treatment but nobody checks it started ([1346] 40–51% prescribed; [1348] adherence letters). No corpus audit measures the ROS 4–8 week review.",
+  "standard": {
+   "source": "Royal Osteoporosis Society, Effective Secondary Prevention of Fragility Fractures: Clinical Standards for Fracture Liaison Services, version 3 (September 2025), criterion 4.4",
+   "wording": "4.4. The FLS reviews people who are recommended interventions to reduce risk of fracture 4-8 weeks after a treatment recommendation is made, and at 52 weeks to ensure that: lifestyle recommendations and treatment decisions are reassessed; where the decision has been taken to treat, it has been started and taken appropriately. referral to falls reduction programmes has been actioned if appropriate.",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "Documented FLS contact (phone, letter reply or clinic) no more than 8 weeks after the treatment recommendation, recording whether treatment has started.",
+  "population": "Include: FLS patients recommended an osteoporosis medicine. Exclude: patients who died or moved away within 8 weeks.",
+  "sample": "40 consecutive patients recommended treatment 3–5 months ago.",
+  "data_source": "FLS database; FLS letters; GP prescribing record if shared (for example summary care record).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "recommendation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_recommended",
+    "type": "choice",
+    "options": [
+     "oral bisphosphonate",
+     "zoledronate",
+     "denosumab",
+     "anabolic",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_contact_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_to_follow_up",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "followed_up_within_8w",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "treatment_started_at_follow_up",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_not_started",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Create a tracked follow-up task (EPR or FLS database reminder) at the time of each treatment recommendation.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14 onward, patients recommended treatment after the change.",
+  "close_loop": "Present at the FLS governance meeting; embed the automatic reminder.",
+  "evidence": [
+   "No audit of the 4–8 week FLS review in corpus.",
+   "[1346] rewritten GP letter: 40% → 51% prescribed"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of radiology reports describing vertebral body height loss call it a 'vertebral fracture'?",
+  "why": "National work shows low standard terminology and referral ([1583] 60.1% terminology, 2.6% onward referral; [1700]/[1701] improved after interventions). Local closed loops are rare.",
+  "standard": {
+   "source": "Royal Osteoporosis Society, Effective Secondary Prevention of Fragility Fractures: Clinical Standards for Fracture Liaison Services, version 3 (September 2025), Standard 1 (Identify), quoting ROS radiology reporting guidance",
+   "wording": "Guidance on identification and reporting of vertebral fractures is given by the ROS. This recommends that radiology: Review the spine in all images of the chest, abdomen and pelvis. Report vertebral fractures clearly using the term ‘vertebral fracture’. Recommend further assessment and management to reduce fracture risk.",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "Report uses the words 'vertebral fracture' (not only 'wedge', 'collapse', 'height loss' or 'compression'). Whether it also recommends a bone health assessment is recorded as a secondary measure.",
+  "population": "Include: CT or radiograph reports (chest, abdomen, pelvis, spine) in patients aged 50+ that mention wedge, compression, collapse, height loss or fracture of a vertebra. Exclude: acute high-energy trauma, known metastases.",
+  "sample": "40 consecutive matching reports from a RIS free-text search over the last 2 months.",
+  "data_source": "RIS text search; report text; FLS database for referral.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "modality",
+    "type": "choice",
+    "options": [
+     "CT",
+     "radiograph",
+     "MRI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "term_vertebral_fracture_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "alternative_term",
+    "type": "choice",
+    "options": [
+     "wedge",
+     "collapse",
+     "height loss",
+     "compression",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "recommends_bone_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   },
+   {
+    "field": "fls_contact_within_12w",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome"
+   }
+  ],
+  "change": "Add a reporting macro in RIS ('Vertebral fracture at Tx. Recommend fracture risk assessment / FLS referral') and send an automatic copy to the FLS.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14, next 40 matching reports.",
+  "close_loop": "Present jointly at radiology and FLS meetings; embed the macro and the automatic FLS copy.",
+  "evidence": [
+   "[1583] UK CT reports: recommended term 60.1%, onward referral 2.6%",
+   "[1701] moderate/severe VFF reported 26% → 32% (UK-wide interventions)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 reports",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic letters are addressed directly to the patient?",
+  "why": "The AoMRC 2026 update says the default letter should be addressed to the patient. No audit of letter addressee in orthopaedics is in the corpus.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges, Please write to me: guidance for writing directly to patients (April 2026 update), section 'Electronic Patient Records and Artificial Intelligence'",
+   "wording": "Templates for creating letters within the Electronic Patient Record (EPR) should be consistent with the sections listed above. The default format should be a letter addressed to the patient.",
+   "url": "https://www.aomrc.org.uk/wp-content/uploads/2026/06/Please_write_to_me_update_130426.pdf"
+  },
+  "pass": "The letter opens 'Dear [patient name]' (or parent/carer for a child) and is written in the second person, with the GP copied.",
+  "population": "Include: fracture clinic and VFC letters for adults and children. Exclude: letters written only to the GP at the patient's documented request; patients lacking capacity.",
+  "sample": "40 consecutive fracture clinic letters from the last 2 weeks, across at least 4 clinicians.",
+  "data_source": "EPR letter system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "letter_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "author_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "SHO/FY",
+     "ANP/physio"
+    ],
+    "note": ""
+   },
+   {
+    "field": "addressed_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "written_in_second_person",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_copied",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_gp_only",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "uses_template",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Change the fracture clinic letter template default to 'Dear [patient]' with GP as copy recipient.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14, next 40 letters.",
+  "close_loop": "Present at T&O governance and the outpatient transformation group; roll the template out to elective clinics if it works.",
+  "evidence": [
+   "No audit of writing to patients in orthopaedics in corpus.",
+   "[1295] letter template raised letters sent 0% → 94% (template change works)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 letters",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic letters give the patient a hospital phone number and email address for questions?",
+  "why": "AoMRC lists a contact number and email as a core letter item for follow-up questions and correcting errors. Not audited in corpus.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges, Please write to me: guidance for writing directly to patients (April 2026 update), 'Structure and content of outpatient letters'",
+   "wording": "An outpatient clinic letter should include: ... A hospital phone number and email address for follow-up questions and correcting errors.",
+   "url": "https://www.aomrc.org.uk/wp-content/uploads/2026/06/Please_write_to_me_update_130426.pdf"
+  },
+  "pass": "The letter contains both a direct hospital phone number (fracture clinic or team, not switchboard only) and an email address.",
+  "population": "Include: all fracture clinic and VFC letters. Exclude: none.",
+  "sample": "40 consecutive letters from the last 2 weeks.",
+  "data_source": "EPR letter system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "letter_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "letter_type",
+    "type": "choice",
+    "options": [
+     "VFC",
+     "new fracture clinic",
+     "follow-up",
+     "discharge"
+    ],
+    "note": ""
+   },
+   {
+    "field": "phone_number_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "phone_is_direct_line",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "email_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "phone_and_email_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "safety_net_advice_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "change": "Add a fixed footer with the fracture clinic direct line and team email to the letter template.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 letters.",
+  "close_loop": "Present at the T&O governance meeting; embed the footer in all T&O templates.",
+  "evidence": [
+   "No audit of this item in corpus."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 letters",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic letters to patients reach a Flesch reading ease score of 70 or more?",
+  "why": "AoMRC now sets a readability target. Orthopaedic letters are full of jargon; no readability audit is in the corpus.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges, Please write to me: guidance for writing directly to patients (April 2026 update), 'Making your writing easier to read and understand'",
+   "wording": "Avoid complex words and sentences. Measure the Flesch reading ease score and the UK reading age using the NHS Medical Document Readability Tool. Aim for a Flesch reading ease score of 70 or above and a UK reading age of 9–11 years.",
+   "url": "https://www.aomrc.org.uk/wp-content/uploads/2026/06/Please_write_to_me_update_130426.pdf"
+  },
+  "pass": "Patient-facing text of the letter (excluding address block and medication list) scores Flesch reading ease ≥70.",
+  "population": "Include: fracture clinic letters addressed or copied to patients. Exclude: letters written only to the GP.",
+  "sample": "40 consecutive letters over 2 weeks, at least 4 authors.",
+  "data_source": "EPR letter text pasted (de-identified) into the NHS Medical Document Readability Tool.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "letter_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "author_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "SHO/FY",
+     "ANP/physio"
+    ],
+    "note": ""
+   },
+   {
+    "field": "word_count",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "flesch_reading_ease",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "uk_reading_age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "flesch_70_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "unexplained_abbreviations",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Replace the template with plain-English section headings and a stock phrase bank (for example 'broken bone' for 'fracture', explained once).",
+  "target": "≥70% of letters",
+  "reaudit": "Weeks 13–14, next 40 letters.",
+  "close_loop": "Present at T&O governance with before/after letter examples; embed the phrase bank in the template.",
+  "evidence": [
+   "No readability audit in corpus."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 letters (tool is quick)",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic patients moved to patient-initiated follow-up are sent a letter confirming PIFU, copied to their GP?",
+  "why": "The only corpus fracture PIFU evaluation measured leaflet handout (90.15%) and use [1691]. None checked the confirming letter.",
+  "standard": {
+   "source": "NHS England, Guide to implementing PIFU in adult trauma and orthopaedic secondary care pathways (published 9 Feb 2023, updated 7 Oct 2025), section 'Shared decision-making'",
+   "wording": "Good practice includes writing to individuals to confirm they will be transferred to PIFU (to include a summary of what the process involves, the decision that has been made and the associated benefits and harms), with a copy of the letter sent to their GP.",
+   "url": "https://www.england.nhs.uk/long-read/guide-to-implementing-patient-initiated-follow-up-pifu-in-adult-trauma-and-orthopaedic-secondary-care-pathways/"
+  },
+  "pass": "Letter to the patient that says they are on PIFU, how to trigger an appointment, and the PIFU end date, with the GP copied.",
+  "population": "Include: adults moved to PIFU from fracture clinic or VFC. Exclude: patients discharged outright.",
+  "sample": "40 consecutive patients put on PIFU over the last 2 months (from the PAS PIFU list).",
+  "data_source": "PAS PIFU pathway list; EPR letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "pifu_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "letter_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "how_to_trigger_explained",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pifu_end_date_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_copied",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_pifu_letter_items_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "leaflet_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a PIFU paragraph (contact route, end date, what happens at the end) that auto-inserts when the PIFU outcome is chosen on the clinic outcome form.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 PIFU patients.",
+  "close_loop": "Present at the outpatient transformation group; embed the auto-text.",
+  "evidence": [
+   "[1691] fracture clinic PIFU: 90.15% received leaflet, 20.2% used PIFU (no re-audit)",
+   "[2912] rheumatology PIFU: 8/9 nurse call-back in 48 h (single cycle)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture clinic PIFU pathways past their end date are closed with discharge documented in the notes and on PAS?",
+  "why": "PIFU patients can be 'lost' if pathways never close. No corpus audit checks PIFU pathway closure.",
+  "standard": {
+   "source": "NHS England, Guide to implementing PIFU in adult trauma and orthopaedic secondary care pathways (published 9 Feb 2023, updated 7 Oct 2025), section 'Ending the PIFU pathway'",
+   "wording": "The trauma and orthopaedic team should agree how to end each patient’s pathway safely, to minimise the risk they get lost in the system. Concluded pathways should be documented in patient medical records and on the trust Patient Administration System.",
+   "url": "https://www.england.nhs.uk/long-read/guide-to-implementing-patient-initiated-follow-up-pifu-in-adult-trauma-and-orthopaedic-secondary-care-pathways/"
+  },
+  "pass": "Within 4 weeks after the PIFU end date, PAS shows the pathway closed (discharged) and the notes or a letter record the discharge.",
+  "population": "Include: fracture clinic PIFU pathways whose end date passed 1–3 months ago. Exclude: patients who triggered an appointment (report separately).",
+  "sample": "40 consecutive PIFU pathways by end date.",
+  "data_source": "PAS PIFU report; EPR letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "pifu_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pifu_end_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_triggered_appointment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pas_status",
+    "type": "choice",
+    "options": [
+     "closed/discharged",
+     "still open",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pas_closure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_documented_in_notes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "closed_within_4w_both",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "change": "A weekly automated PAS report of expired PIFU pathways sent to the trauma co-ordinator, with a standard discharge letter.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 expired pathways.",
+  "close_loop": "Present at outpatient and T&O governance; embed the weekly report in the co-ordinator's job plan.",
+  "evidence": [
+   "No audit of PIFU pathway closure in corpus.",
+   "[1691] fracture clinic PIFU evaluation (no loop)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from PAS",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of X-ray requests from fracture clinic state the clinical question the image should answer?",
+  "why": "Routine check films are often requested with no reason. IR(ME)R makes the referrer supply enough data for justification. The only request-quality audit in corpus was general surgery [2681].",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 10(5)",
+   "wording": "The referrer must supply the practitioner with sufficient medical data (such as previous diagnostic information or medical records) relevant to the exposure requested by the referrer to enable the practitioner to decide whether there is a sufficient net benefit as required by regulation 11(1)(b).",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/10"
+  },
+  "pass": "Request states the injury, time since injury or surgery, and the specific question (for example 'check position after 1 week', 'union?'). 'Check X-ray' or 'fracture clinic' alone fails.",
+  "population": "Include: plain radiograph requests made in fracture clinic. Exclude: new ED referrals imaged in ED.",
+  "sample": "40 consecutive fracture clinic X-ray requests over 1 week.",
+  "data_source": "RIS request text; clinic letters (to judge whether the image changed management).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "request_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "body_part",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_since_injury_or_surgery_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_question_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "request_sufficient",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "image_changed_management",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "unclear"
+    ],
+    "note": ""
+   }
+  ],
+  "change": "Add a mandatory 'clinical question' drop-down (position check / union / hardware / new symptom / other) to the fracture clinic order set.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 requests.",
+  "close_loop": "Present with the radiology IR(ME)R lead at the radiation protection committee; embed the order-set change.",
+  "evidence": [
+   "[2681] general surgery radiology request rejection audit (different specialty)",
+   "[1707] Ottawa rule compliance in ED (closed loop; different question)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 requests",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of trauma operations using fluoroscopy have the radiation dose recorded in the operation note or clinical evaluation?",
+  "why": "The one corpus loop improved image evaluation via a template [1253] but did not look at dose. IR(ME)R requires a recorded clinical evaluation including factors relevant to dose.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, Schedule 2 paragraph 1(j)",
+   "wording": "The employer’s written procedures for exposures must include procedures— ... (j) for the carrying out and recording of a clinical evaluation for each exposure including, where appropriate, factors relevant to patient dose;",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/schedule/2"
+  },
+  "pass": "Operation note (or linked evaluation) records dose-area product and/or screening time, plus a statement of what the images showed.",
+  "population": "Include: trauma operations where the image intensifier was used. Exclude: none.",
+  "sample": "40 consecutive trauma cases with fluoroscopy over 2–3 weeks.",
+  "data_source": "Theatre system (fluoroscopy use); radiographer record (DAP, time) for comparison; operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dap_recorded_in_note",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screening_time_recorded_in_note",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "image_findings_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: DAP or screening time"
+   },
+   {
+    "field": "dap_value_from_radiographer",
+    "type": "number",
+    "options": [],
+    "note": "cGy·cm²"
+   }
+  ],
+  "change": "Add a mandatory 'Imaging: DAP / screening time / findings' section to the trauma operation note template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 fluoroscopy cases.",
+  "close_loop": "Present at the T&O governance and radiation protection committee; embed the template section.",
+  "evidence": [
+   "[1253] op-note template: clear imaging description 60% → 100% with template (template)",
+   "[1793] radiation use in theatre (single cycle)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 cases",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of patients aged 12–55 of childbearing potential have a documented pregnancy enquiry before intraoperative fluoroscopy?",
+  "why": "Pregnancy status audits in corpus are from general surgery ([3051] 51.7%, [2089] 30.8%). None covers orthopaedic fluoroscopy.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 11(1)(f)",
+   "wording": "A person must not carry out an exposure unless— ... (f) in the case of an individual of childbearing potential, the person has enquired whether that individual is pregnant or breastfeeding, if relevant.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/11"
+  },
+  "pass": "A pregnancy enquiry (status or test result) is recorded on the day of surgery before the first exposure, on the checklist, anaesthetic chart or radiographer record.",
+  "population": "Include: people aged 12–55 of childbearing potential having orthopaedic surgery with fluoroscopy. Exclude: documented hysterectomy or other reason not of childbearing potential.",
+  "sample": "40 consecutive eligible patients over 3–4 weeks (trauma and elective).",
+  "data_source": "Theatre system; WHO checklist/preop checklist; radiographer exposure record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "emergency_or_elective",
+    "type": "choice",
+    "options": [
+     "emergency",
+     "elective"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_enquiry_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "where_documented",
+    "type": "choice",
+    "options": [
+     "checklist",
+     "anaesthetic chart",
+     "radiographer record",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_test_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "breastfeeding_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a hard-stop pregnancy/breastfeeding line to the radiographer exposure record and the theatre sign-in.",
+  "target": "100%",
+  "reaudit": "Weeks 13–14, next 40 eligible patients.",
+  "close_loop": "Present at theatre users' group and radiation protection committee; embed the hard stop.",
+  "evidence": [
+   "[3051] Scottish general surgery: pregnancy status documented 51.7% (no loop)",
+   "[2089] colorectal: 30.8% complete (poster; re-audit underway)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of systemically well patients with suspected early fracture-related infection are seen by a consultant within 48 hours?",
+  "why": "No corpus audit covers the early FRI pathway. Delayed or non-consultant review leads to blind antibiotics.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (BOA, September 2019; still the current BOAST), 'Suspected early or acute FRI'",
+   "wording": "A patient who is not systemically unwell should be reviewed by a consultant in a clinic within 48 hours. Antibiotic treatment should not be commenced before that review.",
+   "url": "https://www.boa.ac.uk/resource/boast-fracture-related-infections.html"
+  },
+  "pass": "Consultant review (clinic or ward) documented within 48 hours of the first report of suspected infection.",
+  "population": "Include: adults within 3 months of fracture fixation reporting wound redness, leakage or pain suggestive of infection, via fracture clinic, dressing clinic, ED or phone. Exclude: septic patients (managed as sepsis).",
+  "sample": "All eligible cases over the last 12 months, up to 40 (expect 20–40 in a DGH).",
+  "data_source": "Wound/dressing clinic list; SSI surveillance log; fracture clinic phone log; EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "fixation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_contact_route",
+    "type": "choice",
+    "options": [
+     "phone",
+     "ED",
+     "dressing clinic",
+     "fracture clinic",
+     "GP"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_consultant_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotics_before_review",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   },
+   {
+    "field": "wound_photo_in_record",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A 'leaky wound' pathway card: all suspected wound infections booked into a named consultant slot within 48 hours via the trauma co-ordinator.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 onward, cases after the change (prospective log).",
+  "close_loop": "Present at the T&O governance and infection committee; embed the pathway card in the fracture clinic and ED.",
+  "evidence": [
+   "No audit of FRI review timing in corpus.",
+   "[1404] infection policy fixes: deep infection 3.6% → 1.1% (hip fracture)"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 cases (finding cases is the slow part)",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of debridements or revision operations for suspected fracture-related infection send five separate deep microbiology samples?",
+  "why": "Sampling is poor ([1278] five samples 51.0%, separate instruments 9.8%, no re-audit). No closed loop in corpus.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (BOA, September 2019; still the current BOAST), 'Assessment of FRI' and 'Secondary fracture surgery'",
+   "wording": "When debridement is indicated 5 samples should be taken from around the fracture site for microbiological culture using separate sterile instruments and a no touch technique for each. In all chronic infections and when the diagnosis is in doubt in acute infections take 2 samples for histology.",
+   "url": "https://www.boa.ac.uk/resource/boast-fracture-related-infections.html"
+  },
+  "pass": "Five or more separate deep tissue samples received by microbiology from the operation, with separate instruments documented.",
+  "population": "Include: debridement for suspected FRI, and revision surgery for non-union or delayed union after fixation. Exclude: elective removal of metalwork from a soundly united fracture.",
+  "sample": "All eligible operations over the last 12–18 months, up to 40.",
+  "data_source": "Theatre system; microbiology laboratory system (sample count); histology system; operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "acute FRI",
+     "chronic FRI",
+     "non-union revision"
+    ],
+    "note": ""
+   },
+   {
+    "field": "micro_samples_received",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "five_or_more_samples",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "separate_instruments_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "histology_samples",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotics_within_2w_before",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A pre-packed 'bone infection sampling kit' (5 labelled pots, 5 sets of instruments, request forms) kept in trauma theatre, added to the WHO sign-in for these cases.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 onward, next consecutive eligible cases (prospective).",
+  "close_loop": "Present at the bone and joint infection MDT and theatre users' group; embed the kit.",
+  "evidence": [
+   "[1278] five samples 51.0%; separate-instrument technique 9.8% (no re-audit)",
+   "[1301] PJI: poor compliance with >5 samples (proforma recommended; no re-audit)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 cases from lab system",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of non-septic patients with suspected acute prosthetic joint infection receive no antibiotics before deep tissue samples are taken?",
+  "why": "Early blind antibiotics spoil cultures. The only corpus PJI audit [1301] was single-cycle and did not focus on this.",
+  "standard": {
+   "source": "BOAST Acute Management of Peri-Prosthetic Joint Infection (BOA, October 2023, updated April 2024), standard 4",
+   "wording": "A patient who is not septic should not be given antibiotics until appropriate deep tissue samples have been taken.",
+   "url": "https://www.boa.ac.uk/resource/boast-acute-management-of-peri-prosthetic-joint-infection.html"
+  },
+  "pass": "First antibiotic dose time is after the time of joint aspiration or surgical deep sampling (or no antibiotics before sampling).",
+  "population": "Include: adults presenting with suspected PJI of hip or knee replacement without sepsis. Exclude: patients meeting sepsis criteria on arrival.",
+  "sample": "All eligible cases over the last 12 months, up to 40.",
+  "data_source": "ED records; drug chart (antibiotic administration times); theatre or aspiration record; microbiology system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee",
+     "shoulder",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sepsis_criteria_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "deep_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "no_antibiotic_before_sampling",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "gp_antibiotics_before_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "An ED and orthopaedic electronic alert on 'suspected joint replacement infection': 'Not septic? Withhold antibiotics until aspiration – call orthopaedics'.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 onward, next consecutive eligible cases.",
+  "close_loop": "Present at the ED/T&O joint governance meeting and bone infection MDT; embed the alert.",
+  "evidence": [
+   "[1301] PJI audit n=17: poor guideline compliance on diagnosis and samples (no re-audit)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 cases",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of hip and knee replacement discharge summaries tell the patient who to contact if they suspect joint infection?",
+  "why": "Late recognition of PJI delays care. No corpus audit checks infection contact advice in arthroplasty discharge documents.",
+  "standard": {
+   "source": "BOAST Acute Management of Peri-Prosthetic Joint Infection (BOA, October 2023, updated April 2024), standard 1",
+   "wording": "Guidance on who to contact and how to respond to a patient with suspected PJI should be readily available to Primary Care providers and Emergency department practitioners, and be included in discharge documentation.",
+   "url": "https://www.boa.ac.uk/resource/boast-acute-management-of-peri-prosthetic-joint-infection.html"
+  },
+  "pass": "Discharge summary (or attached discharge leaflet, documented) names warning signs of infection and gives a specific contact (ward or arthroplasty phone number) plus the advice not to start antibiotics before orthopaedic review.",
+  "population": "Include: adults discharged after primary or revision hip or knee replacement. Exclude: deaths.",
+  "sample": "40 consecutive discharges over the last 4–6 weeks.",
+  "data_source": "Electronic discharge summaries; ward discharge checklist.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "primary THR",
+     "primary TKR",
+     "revision",
+     "hemiarthroplasty"
+    ],
+    "note": ""
+   },
+   {
+    "field": "infection_signs_listed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specific_contact_number",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_for_gp_on_antibiotics",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pji_contact_guidance_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "leaflet_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a fixed 'If you think your joint is infected' box with the arthroplasty hotline and GP advice to the arthroplasty discharge template.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 discharges.",
+  "close_loop": "Present at the arthroplasty and governance meeting; embed the box and share it with local GPs and ED.",
+  "evidence": [
+   "No audit of PJI discharge advice in corpus.",
+   "[1754] QR-code digital leaflet: leaflet documentation 7% → 24% (hip) (elective arthroplasty)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 discharges",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of fracture fixation patients are given written advice on how to recognise wound infection and who to contact?",
+  "why": "NICE NG125 and the FRI BOAST both ask for this at discharge. No corpus audit measures it in trauma.",
+  "standard": {
+   "source": "NICE NG125 Surgical site infections: prevention and treatment, rec 1.1.3 (2008, NG125 published 2019, updated 2020)",
+   "wording": "Offer patients and carers information and advice about how to recognise a surgical site infection and who to contact if they are concerned. Use an integrated care pathway for healthcare-associated infections to help communicate this information to both patients and all those involved in their care after discharge.",
+   "url": "https://www.nice.org.uk/guidance/ng125/chapter/Recommendations"
+  },
+  "pass": "Discharge summary or documented leaflet states signs of wound infection and a named contact route (ward, fracture clinic or dressing clinic number).",
+  "population": "Include: adults discharged after fracture fixation (inpatient or day case). Exclude: hip fractures discharged to rehabilitation wards (still inpatients).",
+  "sample": "40 consecutive discharges over the last 4 weeks.",
+  "data_source": "Electronic discharge summaries; nursing discharge checklist.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_signs_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_route_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "shower_advice_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG125 1.4.3, secondary"
+   },
+   {
+    "field": "wound_check_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a mandatory 'wound care and infection' section (signs, contact number, shower advice) to the trauma discharge summary template.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 discharges.",
+  "close_loop": "Present at the T&O governance and infection prevention committee; embed the template section.",
+  "evidence": [
+   "No audit of SSI discharge advice in trauma in corpus.",
+   "[2841] inguinal hernia discharge documentation (general surgery, different specialty)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 discharges",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of trauma patients are told in their discharge summary that they received antibiotics during their operation?",
+  "why": "NICE asks that patients are always told. Nobody has audited it in orthopaedics.",
+  "standard": {
+   "source": "NICE NG125 rec 1.1.4 (2008, NG125 published 2019, updated 2020)",
+   "wording": "Always inform patients after their operation if they have been given antibiotics.",
+   "url": "https://www.nice.org.uk/guidance/ng125/chapter/Recommendations"
+  },
+  "pass": "Discharge summary (patient section) states the antibiotic given at surgery, or the notes record that the patient was told.",
+  "population": "Include: adults having trauma surgery with antibiotic prophylaxis. Exclude: patients lacking capacity without a carer present (report separately).",
+  "sample": "40 consecutive trauma discharges over the last 4 weeks.",
+  "data_source": "Anaesthetic chart (antibiotic given); discharge summary; ward notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given_at_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_summary_states_antibiotic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes_record_patient_told",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_informed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "allergy_status_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Auto-pull theatre antibiotics into the discharge summary with a plain-English line ('During your operation you were given the antibiotic ...').",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14, next 40 discharges.",
+  "close_loop": "Present at T&O governance and the antimicrobial stewardship group; embed the auto-pull.",
+  "evidence": [
+   "No audit of this item in corpus."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of limb operations under tourniquet have prophylactic antibiotic given before tourniquet inflation?",
+  "why": "Tourniquet audits in corpus measured pressure and time ([1664], [1299]) and antibiotic audits measured choice and bundle ([1333]). None measured timing against inflation.",
+  "standard": {
+   "source": "NICE NG125 rec 1.2.15 (2008, NG125 published 2019, updated 2020)",
+   "wording": "Consider giving a single dose of antibiotic prophylaxis intravenously on starting anaesthesia. However, give prophylaxis earlier for operations in which a tourniquet is used.",
+   "url": "https://www.nice.org.uk/guidance/ng125/chapter/Recommendations"
+  },
+  "pass": "Antibiotic administration time is before the tourniquet inflation time (local policy may add a minimum gap, for example ≥5 minutes).",
+  "population": "Include: trauma and elective limb operations with a tourniquet where prophylaxis is indicated. Exclude: cases with no prophylaxis indicated.",
+  "sample": "40 consecutive tourniquet cases over 2–3 weeks.",
+  "data_source": "Anaesthetic chart (antibiotic time); theatre system or operation note (tourniquet inflation time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code only; keep the key separately"
+   },
+   {
+    "field": "operation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tourniquet_inflation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_antibiotic_before_inflation",
+    "type": "number",
+    "options": [],
+    "note": "Negative if after"
+   },
+   {
+    "field": "antibiotic_before_inflation",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tourniquet_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add 'antibiotic given – time' as a required item before the tourniquet inflation entry in the theatre system (WHO time-out prompt).",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, next 40 tourniquet cases.",
+  "close_loop": "Present at the theatre users' group and T&O governance; embed the prompt.",
+  "evidence": [
+   "[1664] tourniquet details mandatory in e-op note: pressure documented 71% → 94% (template)",
+   "[1333] full antibiotic bundle compliance 74.1% (no loop)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 cases",
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ }
+]
