@@ -31,7 +31,7 @@ def main(ingest):
     ext = pipeline.load("extractions.json", {})
     recs = pipeline.load("records.json", {})
     bad, good = {}, 0
-    for fn in sorted(glob.glob(f"{pipeline.WORK}/claude_out/batch_*.json")):
+    for fn in sorted(glob.glob(f"{pipeline.WORK}/claude_out/*.json")):
         data = json.load(open(fn, encoding="utf-8"))
         for k, v in data.items():
             e = check(v, SCHEMA)

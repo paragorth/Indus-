@@ -23,3 +23,5 @@ Rules:
 Output: write a single JSON file at the output path given in your task: an object mapping each paper's KEY (from the first line of the file, e.g. "PMID:12345678") to its extraction object. Write it with the Write tool. Then run
 `cd /home/user/Indus-/ai4qi && python3 -c "import json,validate_claude as v,extract;d=json.load(open('<output path>'));bad={k:v.check(x,extract.SCHEMA) for k,x in d.items()};print({k:e for k,e in bad.items() if e} or 'all valid', len(d))"`
 and fix any errors. Every paper in the manifest must appear. Reply with just: number written, number is_audit yes/no/unclear.
+
+Scratch files: if you draft in parts, put them only under a folder named after your batch (e.g. <scratchpad>/wave2_36/), never at the scratchpad root — other agents share it.
