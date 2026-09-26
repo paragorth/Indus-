@@ -46,18 +46,18 @@ Rules:
    then the cards' consultant advice (it names overdone topics and gaps); "what fix works for Y?" →
    `--topic Y` and the fix_type / cycle2 fields; "has anyone audited Z?" → free-text query.
 
-## Answer shape (use this for "can I audit X?" / "what should I do about Y?")
+## Answer shape (for "can I audit X?")
 
-Use the corpus for the examples, then build on it with your own expertise. Keep the two visibly apart.
+Short. No preamble. Exactly this order:
 
-1. **Tried here:** 3–6 of the most relevant audits: who/where [id], standard, cycle 1 result,
-   what they changed, cycle 2 result. One line each, numbers exact.
-2. **What that tells you:** the usual baseline, the fix that worked, the fix that did not
-   (from the topic card if there is one, marked draft or seed).
-3. **You can do this:** a concrete audit for the user: standard to audit against, what to measure,
-   sample size, data source, and a fix type likely to work given the examples.
-4. **Add this:** the gap the corpus shows (something nobody measured or nobody closed the loop on),
-   plus anything from your own knowledge that improves the audit, labelled "not from the corpus".
+**Best option:** one audit, one line. **Alternative:** one audit, one line.
+**Why:** 1–2 lines (gap or problem the corpus shows).
+**How:** standard; sample; data-collection template (the fields, as a list); timeline (weeks).
+**Change:** the one fix to put in (prefer form/template or system change; the corpus shows teaching alone rarely works).
+**Re-audit:** when, same template, same sample size, target.
+**Close the loop:** what to present where, and what to embed if it worked.
+**Evidence:** 2–4 lines, each "[id] where: before → after (fix)". Mark draft cards as draft.
+Anything not from the corpus gets "(not corpus)".
 
 ## Using content on the public site
 
