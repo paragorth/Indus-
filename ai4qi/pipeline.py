@@ -212,6 +212,23 @@ def _fulltext(r, epmc_up):
     return path
 
 
+def cmd_screen_crossref():
+    """Screen Crossref conference-abstract hits; each kept paper goes to the orthopaedic or
+    non-orthopaedic library by content (there is no query set to decide it)."""
+    hits, recs, scr = load("hits_crossref.json", {}), load("records.json", {}), load("screen.json", {})
+    kept = collections.Counter()
+    for k in hits:
+        r = recs.get(k)
+        if not r or (k in scr and scr[k].get("source") != "crossref"):
+            continue
+        keep, why, kind = classify.screen(r)
+        pas = "ortho" if classify.is_ortho(r) else "nonortho"
+        scr[k] = {"keep": keep, "reason": why, "audit_kind": kind, "pass": pas, "source": "crossref"}
+        kept[pas] += keep
+    save("screen.json", scr)
+    print(f"crossref screened {len(hits)}: kept {dict(kept)}")
+
+
 def cmd_rescreen(pas):
     """Re-apply the screening rules offline (cached metadata and full text only)."""
     hits, recs, scr = load(f"hits_{pas}.json", {}), load("records.json", {}), load("screen.json", {})
@@ -402,7 +419,7 @@ def cmd_merge():
         lib["topic_knowledge"] += [t for t in old.get("topic_knowledge", []) if t.get("generated_by") == "pipeline"]
     audits = lib["audits"]
     recs, scr = load("records.json", {}), load("screen.json", {})
-    hits = {**load("hits_nonortho.json", {}), **load("hits_ortho.json", {})}
+    hits = {**load("hits_crossref.json", {}), **load("hits_nonortho.json", {}), **load("hits_ortho.json", {})}
     ext, figs = load("extractions.json", {}), load("figures.json", {})
     by_id = {}
     for e in audits:
@@ -626,7 +643,7 @@ def cmd_report():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["search", "fetch", "rescreen", "figures", "extract", "merge", "topics", "output", "report"])
+    ap.add_argument("cmd", choices=["search", "fetch", "rescreen", "screen-crossref", "figures", "extract", "merge", "topics", "output", "report"])
     ap.add_argument("--pass", dest="pas", choices=["ortho", "nonortho"], default="ortho")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batch", action="store_true", help="use the Message Batches API (half price)")
@@ -635,6 +652,8 @@ def main():
         cmd_search(a.pas)
     elif a.cmd == "fetch":
         cmd_fetch(a.pas)
+    elif a.cmd == "screen-crossref":
+        cmd_screen_crossref()
     elif a.cmd == "rescreen":
         cmd_rescreen(a.pas)
     elif a.cmd == "figures":

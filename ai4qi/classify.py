@@ -78,7 +78,14 @@ def is_ortho(rec):
     if NOT_ORTHO_TITLE.search(rec.get("title", "")):
         return False
     text = f"{rec.get('title', '')}\n{rec.get('abstract', '')}\n{rec.get('journal', '')}".lower()
-    return any(a in text for a in ORTHO_ANCHORS)
+    return ORTHO_RX.search(text) is not None
+
+
+# whole-word anchors ("hip" must not match "relationship", "cast" not "forecast")
+ORTHO_RX = re.compile(r"\b(orthopaed\w*|orthoped\w*|fractures?|arthroplast\w*|trauma and orth\w*|t&o|"
+                      r"spinal surgery|spine surgery|joint replacements?|hips?|knees?|shoulders?|ankles?|"
+                      r"wrists?|elbows?|scaphoid|achilles|cauda equina|plaster|casts?|neck of femur|"
+                      r"hemiarthroplast\w*|fracture clinic)\b")
 
 
 def label(rec, areas, query_labels):
