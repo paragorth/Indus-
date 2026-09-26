@@ -1,7 +1,9 @@
 # Ai4Qi corpus — how to use it
 
-This folder is Claude's reference corpus for the Ai4Qi site: a library of real clinical audits and
-closed-loop QI projects, used to (1) build the site and (2) answer users' questions. The repository
+This folder is Claude's quick reference for anything about clinical audit and QI on the Ai4Qi site:
+a library of real audits and closed-loop QI projects. For audit and QI questions, look here FIRST,
+before using pre-trained knowledge or searching the web. Only if the corpus has nothing relevant,
+say so, and then (if still needed) fall back to general knowledge, clearly labelled as not from the corpus. The repository
 root CLAUDE.md is about a different project (the Indus script) and does not apply here.
 
 ## What is in it
