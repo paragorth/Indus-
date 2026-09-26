@@ -138,13 +138,18 @@ def main():
         tl = a.topic.lower()
         cs = [c for c in cards if c["topic"].lower() == tl]
         es = [brief(e) for e in audits if (e.get("topic") or "").lower() == tl and keep(e)]
+        es.sort(key=lambda b: b["country"] not in ("UK", "Ireland"))
         out = {"cards": cs, "audits": es}
     else:
         q = toks(" ".join(a.q))
         idx = Index(audits)
         scored = sorted(((idx.score(i, q) * quality_boost(e), e) for i, e in enumerate(audits) if keep(e)),
                         key=lambda x: -x[0])
-        hits = [brief(e) for s, e in scored[:a.n] if s > 0]
+        pool = [e for s, e in scored[:max(a.n * 4, 40)] if s > 0]
+        def uk(e):   # UK and Ireland audits always listed first, then the rest, each by relevance
+            d, p = e.get("detail") or {}, e.get("paper") or {}
+            return d.get("country") in ("UK", "Ireland") or bool(p.get("uk_ireland"))
+        hits = [brief(e) for e in ([e for e in pool if uk(e)] + [e for e in pool if not uk(e)])[:a.n]]
         topics = collections.Counter(h["topic"] for h in hits if h["topic"])
         cs = [c for c in cards if c["topic"] in topics]
         out = {"query": " ".join(a.q), "cards": cs, "audits": hits}

@@ -48,7 +48,11 @@ Rules:
 
 ## Answer shape (for "can I audit X?")
 
-Short. No preamble. Exactly this order:
+Short. No preamble. The corpus gives examples; you may also propose new audits nobody has done (say so).
+Each option is ONE plain, measurable question: who, what standard, what counts as a pass. No jargon
+in the title; define any term. One audit = one question (never "X and Y"). Cite the actual standard
+wording and do not overstate it (e.g. NICE says "regularly", not "daily"). UK/Ireland examples first.
+Exactly this order:
 
 **Best option:** one audit, one line. **Alternative:** one audit, one line.
 **Why:** 1–2 lines (gap or problem the corpus shows).
