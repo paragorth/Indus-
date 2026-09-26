@@ -512,7 +512,7 @@ def _fill(entry, key, r, s, hit, ext, fig):
         entry["finding"] = x.get("cycle1", {}).get("result", "not reported")
         entry["change"] = x.get("intervention", "not reported")
         entry["detail"] = {
-            "setting": x.get("setting"), "country": x.get("country"),
+            "setting": x.get("setting"), "country": norm_country(x.get("country")),
             "cycle1": {"period": x["cycle1"].get("dates"), "n": x["cycle1"].get("sample_size"),
                        "result": x["cycle1"].get("result")},
             "intervention": x.get("intervention"),
@@ -522,6 +522,15 @@ def _fill(entry, key, r, s, hit, ext, fig):
             "citation": paper["citation"], "fix_type": x.get("fix_type"),
             "fix_type_note": f"extracted by {ext.get('model')} from the {ext.get('input')}; check before use",
         }
+
+
+COUNTRY_ALIASES = {"united kingdom": "UK", "england": "UK", "scotland": "UK", "wales": "UK",
+                   "northern ireland": "UK", "great britain": "UK", "republic of ireland": "Ireland",
+                   "united states": "USA", "united states of america": "USA"}
+
+
+def norm_country(c):
+    return COUNTRY_ALIASES.get((c or "").strip().lower(), c)
 
 
 def _write_lib(lib):

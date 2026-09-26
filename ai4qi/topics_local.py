@@ -94,7 +94,7 @@ def cards():
             continue
         years = sorted(int(y) for e in es for y in [(e.get("paper") or {}).get("year", "")] if str(y).isdigit())
         card = {"topic": topic, "audits_in_library": len(es),
-                "countries": sorted({(e.get("detail") or {}).get("country") or "not reported" for e in es}),
+                "countries": sorted({pipeline.norm_country((e.get("detail") or {}).get("country")) or "not reported" for e in es}),
                 "years_seen": f"{years[0]}–{years[-1]}" if years else "not reported",
                 **{k: body[k] for k in FIELDS},
                 "evidence": "Detailed records in this library; judgement written by Claude from them",
