@@ -14,3 +14,4 @@ Using ONLY the audits in the file:
 Style (match the existing seed cards): plain British English, short sentences, numbers kept exactly, no hedging filler, no knowledge from outside the audits. Each field at most ~70 words.
 If "is_seed_topic" is true, an earlier card exists; write a fresh card from all the audits in the file.
 Do not modify any other files; do not commit. Reply with the list of files written.
+Keep scratch files only in a folder named after your batch (e.g. <scratchpad>/cards_3/).
