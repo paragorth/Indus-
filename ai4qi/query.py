@@ -148,7 +148,10 @@ def main():
         pool = [e for s, e in scored[:max(a.n * 4, 40)] if s > 0]
         def uk(e):   # UK and Ireland audits always listed first, then the rest, each by relevance
             d, p = e.get("detail") or {}, e.get("paper") or {}
-            return d.get("country") in ("UK", "Ireland") or bool(p.get("uk_ireland"))
+            c = d.get("country")
+            if c and c != "not reported":
+                return c in ("UK", "Ireland")
+            return bool(p.get("uk_ireland"))
         hits = [brief(e) for e in ([e for e in pool if uk(e)] + [e for e in pool if not uk(e)])[:a.n]]
         topics = collections.Counter(h["topic"] for h in hits if h["topic"])
         cs = [c for c in cards if c["topic"] in topics]

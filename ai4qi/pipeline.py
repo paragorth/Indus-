@@ -539,6 +539,9 @@ def _fill(entry, key, r, s, hit, ext, fig):
             "citation": paper["citation"], "fix_type": x.get("fix_type"),
             "fix_type_note": f"extracted by {ext.get('model')} from the {ext.get('input')}; check before use",
         }
+        c = entry["detail"]["country"]
+        if c and c != "not reported":        # the reader's country beats the affiliation regex
+            paper["uk_ireland"] = c in ("UK", "Ireland")
 
 
 COUNTRY_ALIASES = {"united kingdom": "UK", "england": "UK", "scotland": "UK", "wales": "UK",
