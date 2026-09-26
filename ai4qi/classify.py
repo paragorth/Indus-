@@ -13,11 +13,13 @@ CLOSED_LOOP = re.compile(
     r"closed[- ]loop|re-?audit|complete[d]? (?:the )?audit (?:cycle|loop)|full audit cycle|"
     r"second (?:audit )?cycle|two[- ]cycle|third cycle|cycle 2|cycle two|close[d]? the loop|"
     r"closing the loop|audit loop|completed loop|repeat audit", re.I)
-AUDIT = re.compile(r"\baudit", re.I)
+AUDIT = re.compile(r"\baudit(?!ory|ion|ive)", re.I)
 QI = re.compile(r"quality improvement|\bPDSA\b|plan[- ]do[- ]study[- ]act", re.I)
-EXCLUDE_TYPES = {"Review", "Systematic Review", "Meta-Analysis", "Editorial", "Comment",
-                 "Published Erratum", "Retracted Publication", "Retraction of Publication",
-                 "Letter", "News", "Guideline", "Practice Guideline", "Scoping Review"}
+EXCLUDE_TYPES = {"review", "systematic review", "meta-analysis", "editorial", "comment",
+                 "published erratum", "retracted publication", "retraction of publication",
+                 "letter", "news", "guideline", "practice guideline", "scoping review",
+                 "review-article", "systematic-review", "correction", "retraction", "case-report",
+                 "case reports", "book-review"}
 EXCLUDE_TITLE = re.compile(r"systematic review|scoping review|meta-analysis|study protocol|"
                            r"\bprotocol for\b|erratum|correction to|retracted", re.I)
 UK_IE = re.compile(
@@ -54,7 +56,7 @@ def screen(rec, fulltext=""):
     text = f"{title}\n{abst}"
     if EXCLUDE_TITLE.search(title):
         return False, "excluded: review/protocol/erratum by title", None
-    bad = EXCLUDE_TYPES.intersection(rec.get("pub_types") or [])
+    bad = EXCLUDE_TYPES.intersection(t.lower() for t in rec.get("pub_types") or [])
     if bad and not CLOSED_LOOP.search(title):
         return False, f"excluded: publication type {sorted(bad)[0]}", None
     if not AUDIT.search(text):
@@ -68,7 +70,13 @@ def screen(rec, fulltext=""):
     return False, "excluded: audit mentioned only in passing", None
 
 
+NOT_ORTHO_TITLE = re.compile(r"mandib|maxillofacial|facial|orbital|zygoma|nasal|dental|skull|"
+                             r"cranial|jaw|tooth|teeth|penile|rib fracture", re.I)
+
+
 def is_ortho(rec):
+    if NOT_ORTHO_TITLE.search(rec.get("title", "")):
+        return False
     text = f"{rec.get('title', '')}\n{rec.get('abstract', '')}\n{rec.get('journal', '')}".lower()
     return any(a in text for a in ORTHO_ANCHORS)
 

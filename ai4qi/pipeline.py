@@ -160,6 +160,8 @@ def cmd_fetch(pas):
     # 3. screen (open-access papers whose abstract lacks audit wording are re-screened on full text)
     scr = load("screen.json", {})
     for k in hits:
+        if pas == "nonortho" and scr.get(k, {}).get("pass") == "ortho" and scr[k]["keep"]:
+            continue            # already in the orthopaedic library
         if k in recs:
             keep, why, kind = classify.screen(recs[k])
             if not keep and why.startswith("excluded: no audit wording") and recs[k].get("pmcid") \
@@ -208,6 +210,27 @@ def _fulltext(r, epmc_up):
         f.write(xml)
     r["fulltext_source"] = src
     return path
+
+
+def cmd_rescreen(pas):
+    """Re-apply the screening rules offline (cached metadata and full text only)."""
+    hits, recs, scr = load(f"hits_{pas}.json", {}), load("records.json", {}), load("screen.json", {})
+    import extract
+    for k in hits:
+        r = recs.get(k)
+        if not r:
+            continue
+        keep, why, kind = classify.screen(r)
+        ft = os.path.join(FT_DIR, f"{r.get('pmcid')}.xml")
+        if not keep and why.startswith("excluded: no audit wording") and r.get("pmcid") and os.path.exists(ft):
+            keep, why, kind = classify.screen(r, extract.jats_text(ft))
+        if keep and pas == "ortho" and not classify.is_ortho(r):
+            keep, why = False, "excluded: no orthopaedic wording (ortho pass)"
+        if pas == "nonortho" and scr.get(k, {}).get("pass") == "ortho" and scr[k]["keep"]:
+            continue
+        scr[k] = {"keep": keep, "reason": why, "audit_kind": kind, "pass": pas}
+    save("screen.json", scr)
+    print(f"{pas}: rescreened; kept {sum(1 for v in scr.values() if v['pass'] == pas and v['keep'])}")
 
 
 # ------------------------------------------------------------------ FIGURES
@@ -568,7 +591,7 @@ def cmd_report():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["search", "fetch", "figures", "extract", "merge", "topics", "output", "report"])
+    ap.add_argument("cmd", choices=["search", "fetch", "rescreen", "figures", "extract", "merge", "topics", "output", "report"])
     ap.add_argument("--pass", dest="pas", choices=["ortho", "nonortho"], default="ortho")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batch", action="store_true", help="use the Message Batches API (half price)")
@@ -577,6 +600,8 @@ def main():
         cmd_search(a.pas)
     elif a.cmd == "fetch":
         cmd_fetch(a.pas)
+    elif a.cmd == "rescreen":
+        cmd_rescreen(a.pas)
     elif a.cmd == "figures":
         cmd_figures(a.pas)
     elif a.cmd == "extract":
