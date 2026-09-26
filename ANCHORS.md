@@ -237,3 +237,8 @@ Ranked by frequency, spread across sites and presence in foreign/round-seal text
 | 24 | W900 | counted item | Right parenthesis (perhaps with a backward curve at the | 110 | 11 | 1 |
 | 25 | W892 | core / name element |  | 90 | 11 | 1 |
 Per S133–S136, securing about 20–40 of signs like these, plus the right language's vocabulary, is what would let the rest of the script be recovered.
+
+## 21. Leads checked after the push (26 Sept 2026)
+- **YBC 5447 (CDLI P306518)**: the only dated cuneiform tablet sealed with a Gulf-type seal (Gungunum of Larsa, about 1923 BCE; Hallo & Buchanan 1965). The impression is pictorial (bucranium between two seated drinkers), **no Indus signs**. Not a bridge (STRATEGIES S146).
+- **Umma tag** (corpus: TAG:L, 127-705-2-4-390, unicorn): an Indus seal impression found in a Sumerian city. The descriptions available here mention no cuneiform on the tag (harappa.com and web.archive.org are blocked from this environment, so the original publication, Scheil 1925, was not checked).
+- **Hypothesis to test on new finds, not a reading:** the foreign-only formula **415-803(-1)** (Ur and Dilmun round seals, never at home; S103) behaves like an ethnic or place label used abroad, e.g. an Indus equivalent of cuneiform *lu₂ me-luh-ha* "man of Meluhha". Prediction: new Gulf-type seals will show 415-803 only outside the Indus valley, and never with the home opener. If a Gulf seal with 415-803 is ever found impressed on a tablet naming its owner "of Meluhha", 415-803 would become the first anchored sign pair.
