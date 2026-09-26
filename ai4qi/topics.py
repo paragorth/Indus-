@@ -51,6 +51,8 @@ def _call(c, system, user, schema, max_tokens=8000):
 def is_detailed(e):
     d = e.get("detail") or {}
     c1 = (d.get("cycle1") or {}).get("result") or ""
+    if e.get("status") == "published, audit status unclear":
+        return False
     return bool(d) and c1 and not re.match(r"not reported|see (paper|abstract|poster)", c1, re.I)
 
 

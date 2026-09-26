@@ -393,7 +393,13 @@ def base_library():
 
 
 def cmd_merge():
-    lib = base_library()
+    """Rebuild the library from the seed every time, so numbering of new entries stays
+    contiguous; pipeline-drafted topic cards are carried over from the current library."""
+    with open(SEED, encoding="utf-8") as f:
+        lib = json.load(f)
+    if os.path.exists(LIB):
+        old = json.load(open(LIB, encoding="utf-8"))
+        lib["topic_knowledge"] += [t for t in old.get("topic_knowledge", []) if t.get("generated_by") == "pipeline"]
     audits = lib["audits"]
     recs, scr = load("records.json", {}), load("screen.json", {})
     hits = {**load("hits_nonortho.json", {}), **load("hits_ortho.json", {})}
@@ -405,10 +411,20 @@ def cmd_merge():
     titles = {norm_title(e["title"]): e for e in audits if e.get("paper")}
     next_id = max(e["id"] for e in audits) + 1
     added = matched_seed = dup = 0
-    dedupe_log = []
+    dedupe_log, excluded = [], []
+    excl_ids, excl_titles = set(), set()
+    for k, v in ext.items():          # papers read and judged not to be audits
+        if (v.get("result") or {}).get("is_audit") == "no" and k in recs:
+            excl_ids |= rec_ids(recs[k])
+            excl_titles.add(norm_title(recs[k]["title"]))
     for k in sorted(scr, key=lambda k: (scr[k]["pass"] != "ortho", k)):
         s, r = scr[k], recs.get(k)
         if not (s["keep"] and r):
+            continue
+        x = (ext.get(k) or {}).get("result") or {}
+        twin = not x and (rec_ids(r) & excl_ids or norm_title(r["title"]) in excl_titles)
+        if x.get("is_audit") == "no" or twin:
+            excluded.append({"key": k, "title": r["title"], "reason": "not an audit on reading"})
             continue
         ids = rec_ids(r)
         hit = next((by_id[i] for i in ids if i in by_id), None)
@@ -437,12 +453,20 @@ def cmd_merge():
         for i in ids:
             by_id[i] = entry
         titles[norm_title(r["title"])] = entry
+    mp = os.path.join(WORK, "topics_out", "mapping.json")
+    if os.path.exists(mp):            # canonical topic names chosen in the topics step
+        mapping = json.load(open(mp, encoding="utf-8"))
+        for e in audits:
+            if e["id"] > 1145 and e.get("topic") in mapping:
+                e["topic_extracted"] = e["topic"]
+                e["topic"] = mapping[e["topic"]]
     lib["audits"] = audits
     lib.setdefault("pipeline", {})["last_merge"] = time.strftime("%Y-%m-%d %H:%M")
     _write_lib(lib)
     save("dedupe_log.json", dedupe_log)
+    save("excluded_on_reading.json", excluded)
     print(f"merge: {added} new entries, {matched_seed} seed entries enriched, {dup} duplicates folded; "
-          f"library now {len(audits)} entries")
+          f"{len(excluded)} excluded as not audits on reading; library now {len(audits)} entries")
 
 
 def _fill(entry, key, r, s, hit, ext, fig):
@@ -477,10 +501,12 @@ def _fill(entry, key, r, s, hit, ext, fig):
         entry["figure_link"] = fig.get("figure_link")
     if ext and ext.get("result"):
         x = ext["result"]
-        entry["status"] = "published, detailed" if x.get("is_audit") != "no" else "published, not an audit on reading"
+        entry["status"] = "published, detailed" if x.get("is_audit") == "yes" else "published, audit status unclear"
         if x.get("specialty") and x["specialty"] != "not reported":
-            entry["specialty"] = x["specialty"] if s["pass"] != "ortho" or x["specialty"].startswith("Orthopaedics") \
-                else "Orthopaedics – " + x["specialty"]
+            entry["specialty"] = x["specialty"]
+            # the reader's specialty decides the library: an obstetric audit found by an
+            # orthopaedic query belongs in the non-orthopaedic library
+            paper["library"] = "orthopaedic" if re.match(r"orthopaed", x["specialty"], re.I) else "non-orthopaedic"
         entry["topic"] = x.get("topic", "not reported")
         entry["standard"] = x.get("standard", "not reported")
         entry["finding"] = x.get("cycle1", {}).get("result", "not reported")
