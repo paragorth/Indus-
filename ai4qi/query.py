@@ -16,7 +16,10 @@ import json
 import math
 import os
 import re
+import signal
 import sys
+
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)   # quiet when piped into head
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LIB = os.path.join(HERE, "ai4qi-library.json")

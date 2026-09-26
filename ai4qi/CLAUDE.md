@@ -46,6 +46,19 @@ Rules:
    then the cards' consultant advice (it names overdone topics and gaps); "what fix works for Y?" →
    `--topic Y` and the fix_type / cycle2 fields; "has anyone audited Z?" → free-text query.
 
+## Answer shape (use this for "can I audit X?" / "what should I do about Y?")
+
+Use the corpus for the examples, then build on it with your own expertise. Keep the two visibly apart.
+
+1. **Tried here:** 3–6 of the most relevant audits: who/where [id], standard, cycle 1 result,
+   what they changed, cycle 2 result. One line each, numbers exact.
+2. **What that tells you:** the usual baseline, the fix that worked, the fix that did not
+   (from the topic card if there is one, marked draft or seed).
+3. **You can do this:** a concrete audit for the user: standard to audit against, what to measure,
+   sample size, data source, and a fix type likely to work given the examples.
+4. **Add this:** the gap the corpus shows (something nobody measured or nobody closed the loop on),
+   plus anything from your own knowledge that improves the audit, labelled "not from the corpus".
+
 ## Using content on the public site
 
 - Facts, numbers, standards and citations can be summarised in our own words with a link.
