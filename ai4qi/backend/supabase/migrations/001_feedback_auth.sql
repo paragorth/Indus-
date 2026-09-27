@@ -7,8 +7,6 @@
 -- fixed reasons, an optional free-text comment of up to 500 characters, a random per-device id
 -- and, only when the person is signed in, their auth user id.
 
-create extension if not exists pgcrypto with schema extensions;
-
 -- ---------------------------------------------------------------- tables
 
 create table if not exists public.feedback (
@@ -87,7 +85,7 @@ begin
      and f.created_at > now() - interval '24 hours';
   if recent >= 30 then
     raise exception 'feedback rate limit reached for this device'
-      using errcode = 'P0429', hint = 'Try again tomorrow.';
+      using errcode = 'PT429', hint = 'Try again tomorrow.';  -- PT429: the REST API answers HTTP 429
   end if;
   return new;
 end;
@@ -125,13 +123,12 @@ as $$
      group by l.audit_id
   ),
   reason_counts as (
-    select l.audit_id, jsonb_object_agg(r.reason, r.n) as reasons
-      from (select l2.audit_id, x.reason, count(*) as n
-              from latest l2, unnest(l2.reasons) as x(reason)
-             where l2.rating = 'down'
-             group by l2.audit_id, x.reason) r
-      join (select distinct audit_id from latest) l on l.audit_id = r.audit_id
-     group by l.audit_id
+    select r.audit_id, jsonb_object_agg(r.reason, r.n) as reasons
+      from (select l.audit_id, x.reason, count(*) as n
+              from latest l cross join lateral unnest(l.reasons) as x(reason)
+             where l.rating = 'down'
+             group by l.audit_id, x.reason) r
+     group by r.audit_id
   )
   select t.audit_id, t.up, t.down, coalesce(rc.reasons, '{}'::jsonb)
     from totals t
