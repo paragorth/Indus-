@@ -1,4 +1,4 @@
-# Proposed orthopaedic audits (149)
+# Proposed orthopaedic audits (151)
 
 Designed from current standards and gaps in the corpus. Each has a data template in `templates/`. Not yet run anywhere.
 
@@ -917,3 +917,19 @@ Designed from current standards and gaps in the corpus. Each has a data template
 - Template: `new_audits/templates/ONA-149.csv`
 - Pitfalls: The percentage rewards overrunning or under-booked lists → report late start, turnaround and early finish minutes alongside it; Session times in the system differ from real contracted times → confirm planned session length with the theatre manager before week 1; Surgeons dispute the data → share the raw list-by-list sheet with each team before presenting
 - Pearls: Break lost time into late start, turnarounds and early finish; the fix follows the biggest bar; Pair with the turnaround audit and share one data export; Report cases gained, not percentages, to managers
+
+**ONA-150. In elective hip and knee replacements, what percentage of theatre waste by weight goes into the orange (infectious) waste stream?** (under-audited)
+- Standard: Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 14: "RECYCLE/use lowest carbon appropriate waste streams: use recycling waste streams for packaging or, if not available, domestic waste stream (prior to patient entering the room); use non-infectious offensive waste streams (yellow/black tiger) unless clear risk of infection (orange); ensure only appropriate contents in sharps bins (sharps/drugs)" https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf
+- Pass: Per case: orange-stream waste as a percentage of total theatre waste weight. Local target: orange share halved from cycle 1.. Target: Orange share halved from cycle 1. Sample: 20 consecutive cases (about 10 hips, 10 knees).
+- Change: Place tiger (offensive) and recycling bins in every arthroplasty theatre; open packaging into recycling before the patient enters; keep the orange bin for items with a clear infection risk, as defined in writing with infection prevention.
+- Template: `new_audits/templates/ONA-150.csv`
+- Pitfalls: Infection prevention objects to moving waste out of orange → agree a written rule for what stays orange before week 1 and quote Green Theatre Checklist item 14; The waste contract has no offensive stream → involve the estates waste manager in week 1; the change date depends on the contract; No scales in theatre → borrow a hanging scale from estates or the waste contractor; weigh each bag before it is tied off; Gains fade after the launch [2576] → make the bins part of the fixed theatre layout, not a poster campaign; Total waste rises while the orange share falls [2692] → report total kg per case alongside the percentage
+- Pearls: Recruit the scrub lead and the estates waste manager as co-leads; Open all packaging into recycling before the patient enters, so nothing is contaminated; Photograph a typical orange bag at baseline; it persuades faster than numbers; Convert kg to cost and carbon using the contractor's price per tonne for each stream; Name a green champion for each theatre to keep the bins in place after rotation
+
+**ONA-151. On primary knee replacement instrument trays, what proportion of the instruments are used during the operation?** (new)
+- Standard: Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 9: "REVIEW AND RATIONALISE: clarify necessary kit for case and specify what should be available to open only if needed: “Just in time”; take the opportunity to review instrument sets and identify any targets for overage reduction" https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf
+- Pass: Per instrument: used in at least 10% of cases. Instruments used in under 10% of cases are candidates for removal to a separate 'open if needed' pack.. Target: ≥80% of tray instruments used per case. Sample: 20 consecutive cases.
+- Change: Remove instruments used in under 10% of cases from the main tray into a separate 'open if needed' pack, agreed with all knee surgeons and sterile services.
+- Template: `new_audits/templates/ONA-151.csv`
+- Pitfalls: Surgeons fear a missing instrument mid-case → keep every removed item in a sealed 'open if needed' pack in the theatre; Surgeons use different instruments → count per surgeon and remove only items unused by all; Sterile services cannot change tray lists quickly → involve the sterile services manager from week 1
+- Pearls: Have the scrub practitioner tick the tray list during closure, while it is fresh; Show surgeons the list of never-used instruments with their names on it; agreement follows quickly; Count 'open if needed' pack openings in the re-audit to prove safety
