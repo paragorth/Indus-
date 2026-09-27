@@ -12333,5 +12333,348 @@
   "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
   "id": "ONA-146",
   "template_file": "new_audits/templates/ONA-146.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "When a patient is cancelled from the trauma list, are they offered food or drink within 1 hour of the cancellation?",
+  "why": "Patients fasted for a trauma list are often cancelled and then left nil by mouth for hours or into the next day, risking dehydration, delirium and acute kidney injury. Cancellations [2193] and pre-operative fasting (ONA-107) are audited; what happens after cancellation is not.",
+  "standard": {
+   "source": "Local standard (no national standard identified)",
+   "wording": "Patients cancelled from a theatre list are offered food or drink within 60 minutes of the decision to cancel.",
+   "url": ""
+  },
+  "pass": "Documented offer of food or drink within 60 minutes of the recorded cancellation decision, in patients with no clinical reason to stay nil by mouth.",
+  "population": "Adults fasted for the trauma list and cancelled for that day. Exclude patients kept nil by mouth for a clinical reason (e.g. bowel obstruction, unsafe swallow) and those still possible for a later list the same day.",
+  "sample": "Every trauma list cancellation over 4 weeks (typically 20–40); extend until 30 cases.",
+  "data_source": "Theatre cancellation log; coordinator call time; ward nursing notes and fluid/food chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cancellation_decision_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Time the coordinator phones the ward"
+   },
+   {
+    "field": "later_list_still_possible_today",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, exclude"
+   },
+   {
+    "field": "food_or_drink_offered_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_offer",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: 60 minutes or less"
+   },
+   {
+    "field": "nil_by_mouth_again_next_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_fluids_running",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–4 collect; Wk 5 analyse/present; Wk 6 change; Wk 7–12 embed; Wk 13–16 re-audit",
+  "change": "Add a 'Cancelled: may eat and drink now?' step to the theatre coordinator's cancellation checklist; the coordinator phones the ward with a one-line script and records the time.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–16: same template, next 4 weeks of cancellations.",
+  "close_loop": "Present at the theatre users' group and trauma governance. If it worked, write the step into the trauma list standard operating procedure.",
+  "evidence": [
+   "[2193] same-day theatre list cancellations: cancellation counts only, not what happened to the patient afterwards",
+   "ONA-107 (proposed): time from last clear drink to being sent for, on the trauma list"
+  ],
+  "pitfalls": [
+   "No time is recorded when a case is cancelled → agree before week 1 that the coordinator's phone call time is the start time, and put it on the checklist",
+   "Staff keep patients fasted 'in case they go later' → record 'later list still possible today' and count only definite cancellations",
+   "Ward nurses feel blamed → present it as a theatre-to-ward communication gap; show results by day of week, never by named ward or nurse",
+   "The fix fades when the audit team rotates → build it into the coordinator checklist, not a poster"
+  ],
+  "pearls": [
+   "Recruit the trauma coordinator and one ward sister in week 1; they collect the data and run the fix",
+   "Use a one-line script: '[Patient] is cancelled today and may eat and drink now'",
+   "Record next-day nil-by-mouth time as well; it is often the larger harm",
+   "Pilot on one ward for 2 weeks before rolling out; name the theatre matron as owner afterwards",
+   "Bring one patient story (e.g. 30 hours without food) to governance alongside the percentages"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 5 cases from the cancellation log and ward charts",
+  "id": "ONA-147",
+  "template_file": "new_audits/templates/ONA-147.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "On elective orthopaedic lists, what proportion of turnarounds take 15 minutes or less?",
+  "why": "Turnaround is lost theatre time between cases. The only turnaround audit in the corpus is a baseline with a mean of 37.7 minutes against a 15-minute target [2792]; no closed-loop turnaround audit exists in orthopaedics.",
+  "standard": {
+   "source": "Local standard; 15-minute turnaround target as used in [2792]",
+   "wording": "Turnaround (patient leaves theatre to start of the next patient's anaesthetic) of 15 minutes or less.",
+   "url": ""
+  },
+  "pass": "Time from one patient leaving theatre to the start of the next patient's anaesthetic is 15 minutes or less.",
+  "population": "All turnarounds on elective orthopaedic lists. Exclude the last case of each list (no following case).",
+  "sample": "Every turnaround on elective orthopaedic lists over 4 weeks (typically 80–150), plus the previous 4 weeks from the theatre system as a baseline.",
+  "data_source": "Theatre management system timestamps; delay reason recorded by the theatre coordinator.",
+  "template": [
+   {
+    "field": "date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "theatre",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "SAS",
+     "registrar"
+    ],
+    "note": ""
+   },
+   {
+    "field": "case_number_on_list",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_patient_left_theatre_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_patient_sent_for_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_patient_in_anaesthetic_room_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_anaesthetic_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "turnaround_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: 15 minutes or less"
+   },
+   {
+    "field": "main_delay_reason",
+    "type": "choice",
+    "options": [
+     "porter",
+     "patient not ready",
+     "bed",
+     "cleaning",
+     "instrument trays",
+     "anaesthetist",
+     "surgeon",
+     "consent or site marking",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–4 collect; Wk 5 analyse/present; Wk 6 change; Wk 7–12 embed; Wk 13–16 re-audit",
+  "change": "Make 'send for next patient' a fixed step on the theatre checklist, triggered at the start of wound closure and time-logged by the coordinator. If the delay data point elsewhere, fix the leading delay reason instead.",
+  "target": "≥50% of turnarounds within 15 minutes and median reduced by 10 minutes",
+  "reaudit": "Weeks 13–16: same template, 4 weeks of lists.",
+  "close_loop": "Present the weekly median and top three delay reasons at the theatre users' group. If it worked, add turnaround to the monthly theatre dashboard owned by the theatre manager.",
+  "evidence": [
+   "[2792] Northern Ireland: mean turnaround 37.7 min against a 15-min target; cleaning 8.1 min, extubation 5.1 min (baseline only)",
+   "[2403] UK emergency theatre: turnover 39 → 11 min after a dedicated theatre registrar separate from on-call",
+   "[2390] UK golden patient policy: first-case start times 30 min earlier on average",
+   "[1236] UK elective orthopaedics: presenting at governance alone left team-brief start at 08:05 → 08:08"
+  ],
+  "pitfalls": [
+   "Theatre-system times are entered late or missing → spot-check 10 cases against a stopwatch before week 1; hand-collect week 1 if they differ",
+   "'Orthopaedic turnaround is longer because of laminar flow and big trays' → report median by procedure type (joints, hands, trauma), not one overall figure",
+   "Staff speed up only while watched → use 4 weeks of past theatre-system data as a hidden baseline",
+   "Nurses and ODPs hear 'work faster' → involve the theatre manager from day 1 and frame it as removing waits (porters, beds, trays)"
+  ],
+  "pearls": [
+   "Record a delay reason for every turnaround; it tells you which fix to use",
+   "Find the list that already turns around fastest and copy its routine",
+   "Convert minutes to cases: 20 min saved × 3 turnarounds ≈ one extra case a day",
+   "Book the porter for the send-for time, not 'when free'",
+   "Take one chart to governance: weekly median turnaround with a line where the change went in"
+  ],
+  "novelty": "under-audited",
+  "effort": "~2 hours to export and clean 4 weeks of theatre-system data",
+  "id": "ONA-148",
+  "template_file": "new_audits/templates/ONA-148.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "On elective orthopaedic lists, what percentage of the planned session time is touch time?",
+  "why": "Touch time utilisation is the national productivity measure, but a single percentage hides where time is lost; the corpus has no orthopaedic audit of it.",
+  "standard": {
+   "source": "GIRFT touchtime utilisation target, as reported in PMC11488670 (CC BY)",
+   "wording": "The Getting It Right First Time (GIRFT) programme has set targets to achieve 85% touchtime utilisation by 2024/25. Touchtime utilisation is a measure of theatre productivity, defined as the time from the start of anaesthesia to the time a patient leaves the theatre for all cases on a defined theatre list as a percentage of total available theatre time.",
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11488670/"
+  },
+  "pass": "List touch time (start of anaesthesia to leaving theatre, summed over all cases, within the planned session) is 85% or more of planned session time.",
+  "population": "All elective orthopaedic lists. Exclude lists cancelled in full.",
+  "sample": "All elective orthopaedic lists over 4 weeks (one row per list).",
+  "data_source": "Theatre management system session and case timestamps.",
+  "template": [
+   {
+    "field": "date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "theatre",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "planned_session_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_cases",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "touch_time_minutes_within_session",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "touch_time_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: 85% or more"
+   },
+   {
+    "field": "late_start_minutes",
+    "type": "number",
+    "options": [],
+    "note": "First anaesthetic start minus session start"
+   },
+   {
+    "field": "early_finish_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_turnaround_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "main_loss",
+    "type": "choice",
+    "options": [
+     "late start",
+     "turnarounds",
+     "early finish",
+     "on-the-day cancellation",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–4 collect; Wk 5 analyse/present; Wk 6 change; Wk 7–12 embed; Wk 13–16 re-audit",
+  "change": "Fix the largest single source of lost time found: usually the first-case start, using a golden patient (first case identified and prepared the day before).",
+  "target": "≥85% touch time",
+  "reaudit": "Weeks 13–16: same template, 4 weeks of lists.",
+  "close_loop": "Present lost minutes by cause at the theatre users' group; if it worked, embed the fix in list-planning procedure and track on the theatre dashboard.",
+  "evidence": [
+   "[2390] UK golden patient policy: start times 30 min earlier on average",
+   "[1236] UK elective orthopaedics: average team-brief start 08:05 → 08:08 after governance presentation only"
+  ],
+  "pitfalls": [
+   "The percentage rewards overrunning or under-booked lists → report late start, turnaround and early finish minutes alongside it",
+   "Session times in the system differ from real contracted times → confirm planned session length with the theatre manager before week 1",
+   "Surgeons dispute the data → share the raw list-by-list sheet with each team before presenting"
+  ],
+  "pearls": [
+   "Break lost time into late start, turnarounds and early finish; the fix follows the biggest bar",
+   "Pair with the turnaround audit and share one data export",
+   "Report cases gained, not percentages, to managers"
+  ],
+  "novelty": "new",
+  "effort": "~2 hours to export and clean 4 weeks of theatre-system data",
+  "id": "ONA-149",
+  "template_file": "new_audits/templates/ONA-149.csv"
  }
 ]

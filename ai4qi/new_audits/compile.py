@@ -26,7 +26,7 @@ DROP = [
     "In adults transfused after primary joint replacement, what proportion have a discharge summary",    # periop transfusion letter
     "In adults with diabetes listed for elective hip or knee replacement, was an HbA1c",                 # elective HbA1c
 ]
-ORDER = ["hip", "trauma", "paeds", "limbs_spine", "elective", "periop", "outpatients"]
+ORDER = ["hip", "trauma", "paeds", "limbs_spine", "elective", "periop", "outpatients", "generated"]  # generated = added from live answers; always last so earlier ids never shift
 
 
 def main():
@@ -75,6 +75,9 @@ def main():
                      f"- Standard: {s.get('source')}: \"{s.get('wording')}\" {s.get('url')}\n"
                      f"- Pass: {a['pass']}. Target: {a['target']}. Sample: {a['sample']}\n"
                      f"- Change: {a['change']}\n- Template: `{a['template_file']}`\n")
+            for k in ("pitfalls", "pearls"):
+                if a.get(k):
+                    fh.write(f"- {k.capitalize()}: " + "; ".join(a[k]) + "\n")
     std = {}
     for a in unique:
         s = a["standard"]

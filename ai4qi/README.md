@@ -56,3 +56,17 @@ Publisher websites are never contacted.
 Extraction uses `AI4QI_MODEL` (default `claude-opus-5`) with structured JSON output. Direct calls
 send `fallbacks: "default"`, so if the model refuses a request the API re-runs it on a fallback
 model. `--batch` uses the Message Batches API at half the price.
+
+## Moving it to another server or repository
+
+The `ai4qi/` folder is self-contained: no absolute paths, no database, no API keys.
+
+- **Read-only use (the site's reference):** copy `ai4qi-library.json`, `query.py`, `new_audits/`
+  (`ortho_new_audits.json`, `templates/`), `standards/`, `figures/`, `index.html`, `CLAUDE.md`.
+  Needs Python 3.8+ and nothing else. `index.html` opens in any browser offline.
+- **Rebuilding or growing it:** copy the whole folder (including `seed/` and `work/`), then
+  `pip install -r requirements.txt`. Files git ignores (`work/fulltext/`, `work/claude_in/`,
+  `work/claude_out/`, raw dumps) are caches; the pipeline re-downloads them if missing.
+- **Own GitHub repository with history:** from the repo root,
+  `git subtree split -P ai4qi -b ai4qi-only`, then push branch `ai4qi-only` to the new repository's `main`.
+- Tracked size is about 85 MB, of which about 30 MB is figures; all files are under GitHub's 100 MB per-file limit.

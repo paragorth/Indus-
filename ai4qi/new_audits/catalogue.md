@@ -1,4 +1,4 @@
-# Proposed orthopaedic audits (146)
+# Proposed orthopaedic audits (149)
 
 Designed from current standards and gaps in the corpus. Each has a data template in `templates/`. Not yet run anywhere.
 
@@ -891,3 +891,29 @@ Designed from current standards and gaps in the corpus. Each has a data template
 - Pass: Antibiotic administration time is before the tourniquet inflation time (local policy may add a minimum gap, for example ≥5 minutes).. Target: ≥95%. Sample: 40 consecutive tourniquet cases over 2–3 weeks.
 - Change: Add 'antibiotic given – time' as a required item before the tourniquet inflation entry in the theatre system (WHO time-out prompt).
 - Template: `new_audits/templates/ONA-146.csv`
+
+## Orthopaedic perioperative, theatre and ward care
+
+**ONA-147. When a patient is cancelled from the trauma list, are they offered food or drink within 1 hour of the cancellation?** (new)
+- Standard: Local standard (no national standard identified): "Patients cancelled from a theatre list are offered food or drink within 60 minutes of the decision to cancel." 
+- Pass: Documented offer of food or drink within 60 minutes of the recorded cancellation decision, in patients with no clinical reason to stay nil by mouth.. Target: ≥90%. Sample: Every trauma list cancellation over 4 weeks (typically 20–40); extend until 30 cases.
+- Change: Add a 'Cancelled: may eat and drink now?' step to the theatre coordinator's cancellation checklist; the coordinator phones the ward with a one-line script and records the time.
+- Template: `new_audits/templates/ONA-147.csv`
+- Pitfalls: No time is recorded when a case is cancelled → agree before week 1 that the coordinator's phone call time is the start time, and put it on the checklist; Staff keep patients fasted 'in case they go later' → record 'later list still possible today' and count only definite cancellations; Ward nurses feel blamed → present it as a theatre-to-ward communication gap; show results by day of week, never by named ward or nurse; The fix fades when the audit team rotates → build it into the coordinator checklist, not a poster
+- Pearls: Recruit the trauma coordinator and one ward sister in week 1; they collect the data and run the fix; Use a one-line script: '[Patient] is cancelled today and may eat and drink now'; Record next-day nil-by-mouth time as well; it is often the larger harm; Pilot on one ward for 2 weeks before rolling out; name the theatre matron as owner afterwards; Bring one patient story (e.g. 30 hours without food) to governance alongside the percentages
+
+**ONA-148. On elective orthopaedic lists, what proportion of turnarounds take 15 minutes or less?** (under-audited)
+- Standard: Local standard; 15-minute turnaround target as used in [2792]: "Turnaround (patient leaves theatre to start of the next patient's anaesthetic) of 15 minutes or less." 
+- Pass: Time from one patient leaving theatre to the start of the next patient's anaesthetic is 15 minutes or less.. Target: ≥50% of turnarounds within 15 minutes and median reduced by 10 minutes. Sample: Every turnaround on elective orthopaedic lists over 4 weeks (typically 80–150), plus the previous 4 weeks from the theatre system as a baseline.
+- Change: Make 'send for next patient' a fixed step on the theatre checklist, triggered at the start of wound closure and time-logged by the coordinator. If the delay data point elsewhere, fix the leading delay reason instead.
+- Template: `new_audits/templates/ONA-148.csv`
+- Pitfalls: Theatre-system times are entered late or missing → spot-check 10 cases against a stopwatch before week 1; hand-collect week 1 if they differ; 'Orthopaedic turnaround is longer because of laminar flow and big trays' → report median by procedure type (joints, hands, trauma), not one overall figure; Staff speed up only while watched → use 4 weeks of past theatre-system data as a hidden baseline; Nurses and ODPs hear 'work faster' → involve the theatre manager from day 1 and frame it as removing waits (porters, beds, trays)
+- Pearls: Record a delay reason for every turnaround; it tells you which fix to use; Find the list that already turns around fastest and copy its routine; Convert minutes to cases: 20 min saved × 3 turnarounds ≈ one extra case a day; Book the porter for the send-for time, not 'when free'; Take one chart to governance: weekly median turnaround with a line where the change went in
+
+**ONA-149. On elective orthopaedic lists, what percentage of the planned session time is touch time?** (new)
+- Standard: GIRFT touchtime utilisation target, as reported in PMC11488670 (CC BY): "The Getting It Right First Time (GIRFT) programme has set targets to achieve 85% touchtime utilisation by 2024/25. Touchtime utilisation is a measure of theatre productivity, defined as the time from the start of anaesthesia to the time a patient leaves the theatre for all cases on a defined theatre list as a percentage of total available theatre time." https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11488670/
+- Pass: List touch time (start of anaesthesia to leaving theatre, summed over all cases, within the planned session) is 85% or more of planned session time.. Target: ≥85% touch time. Sample: All elective orthopaedic lists over 4 weeks (one row per list).
+- Change: Fix the largest single source of lost time found: usually the first-case start, using a golden patient (first case identified and prepared the day before).
+- Template: `new_audits/templates/ONA-149.csv`
+- Pitfalls: The percentage rewards overrunning or under-booked lists → report late start, turnaround and early finish minutes alongside it; Session times in the system differ from real contracted times → confirm planned session length with the theatre manager before week 1; Surgeons dispute the data → share the raw list-by-list sheet with each team before presenting
+- Pearls: Break lost time into late start, turnarounds and early finish; the fix follows the biggest bar; Pair with the turnaround audit and share one data export; Report cases gained, not percentages, to managers

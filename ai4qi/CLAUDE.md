@@ -19,7 +19,7 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
   - `paper`: authors, journal, year, DOI/PMID/PMCID, abstract, licence, UK/Ireland flag, citation.
 - Topic cards: 3 seed cards (written by the user's team; authoritative) and 99 drafts with
   `"status": "Draft, needs consultant sign-off"` and `evidence_ids`.
-- `new_audits/`: 146 PROPOSED orthopaedic audits (ONA-001…), designed from current UK standards
+- `new_audits/`: 149 PROPOSED orthopaedic audits (ONA-001…), designed from current UK standards
   (NICE, BOAST, NHFD, BSCOS, ROS, RCEM, GIRFT/NHS England, fetched 2026) and gaps in the corpus. Not run
   anywhere yet: never cite them as evidence, only as ideas. Each has one plain question, the exact
   standard wording + URL, pass definition, sample, timeline, change, re-audit and a ready template
@@ -55,6 +55,26 @@ Rules:
    then the cards' consultant advice (it names overdone topics and gaps); "what fix works for Y?" →
    `--topic Y` and the fix_type / cycle2 fields; "has anyone audited Z?" → free-text query.
 
+## Output for the Ai4Qi application
+
+Answers go straight into the product, so write them as a finished professional document:
+- No working notes or process talk ("the corpus doesn't have it", "I searched", "I couldn't open",
+  "made up just now", "not corpus"). Provenance appears only as citations: library ids [1234],
+  proposed ids ONA-xxx, and linked standards.
+- Where there is no national standard, write "Local standard" in the Standard line; that is content,
+  not process. Never present a local target as national.
+- Evidence lines cite only real library entries; if none fit, write the closest related entries, or
+  omit the Evidence section instead of explaining its absence.
+- Process notes for the developer (blocked sites, uncertain wording) go in the commit message or
+  new_audits/NOTES.md, never in the answer.
+
+## Keep growing the proposed library
+
+Every new audit designed in a conversation is added to `new_audits/parts/generated.json` (same keys
+as the other parts, plus `pitfalls` and `pearls` lists), then run `python3 new_audits/compile.py`,
+commit and push. `generated` is compiled last, so existing ONA ids never change. Check for a near-duplicate
+with `python3 query.py "words" --proposed` first; if one exists, improve that entry instead.
+
 ## Answer shape (for "can I audit X?")
 
 Short. No preamble. The corpus gives examples; you may also propose new audits nobody has done (say so).
@@ -75,8 +95,7 @@ small numbers, moving the goalposts between cycles, staff pushback, the fix not 
 Use the topic card's fix_that_fails and failed cycle2 results in the corpus where they exist.
 **Pearls:** 3–4 short tips that make it succeed (who to recruit, what to lock down before cycle 1,
 how to keep the change alive after the audit team rotates).
-Anything not from the corpus gets "(not corpus)". If a proposed audit (ONA-xxx) fits, offer it with its
-template path and label it "proposed, not yet run".
+If a proposed audit (ONA-xxx) fits, offer it with its template path and label it "proposed, not yet run".
 
 ## Using content on the public site
 
