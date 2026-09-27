@@ -1,4 +1,4 @@
-# Proposed non-orthopaedic audits (244)
+# Proposed non-orthopaedic audits (245)
 
 Designed from current standards and gaps in the corpus. Each has a data template in `templates/`. Not yet run anywhere.
 
@@ -1975,3 +1975,11 @@ Designed from current standards and gaps in the corpus. Each has a data template
 - Template: `new_audits/templates/NNA-244.csv`
 - Pitfalls: Letters say 'uses painkillers frequently' without a number → count only a days-per-month figure as a pass; Consultants use personal templates → agree one shared template line at the department meeting before cycle 2; Referral letters lack the information → add the question to the GP referral form as well
 - Pearls: Ask patients to bring a headache diary to the first visit; the clinic letter invitation can request it; Recruit the headache specialist nurse to champion the template line; Report how many patients met the overuse threshold; it shows the value of asking
+
+**NNA-245. In adults with MS who agree to start a disease-modifying therapy, what proportion receive their first dose within 12 weeks of the treatment decision?** (new)
+- Standard: National Neurosciences Advisory Group, Optimal clinical care pathway for adults: Multiple Sclerosis (2024), Standards and metrics: "People with a confirmed diagnosis of MS who are eligible and want to start treatment start DMT within 12 weeks of shared treatment decision" https://www.mssociety.org.uk/sites/default/files/2024-12/NNAG%20MS%20optimal%20pathway%202024.pdf
+- Pass: First dose given 84 days or fewer after the documented shared treatment decision.. Target: ≥90% within 12 weeks. Sample: All disease-modifying therapy starts in the last 12 months (typically 30–60 in a regional MS service).
+- Change: A disease-modifying therapy start checklist in the clinic letter template, so screening bloods, vaccination review and the funding form are all requested at the same appointment as the decision, and a named coordinator tracks each start to first dose.
+- Template: `new_audits/templates/NNA-245.csv`
+- Pitfalls: The decision date is unclear in letters → agree before cycle 1 that it is the clinic date when the person agreed to start; Deferred starts inflate delays → record patient-chosen deferral separately and exclude it from the pass rate; Infusion-unit capacity sits outside the MS team → invite the day-unit manager to the results meeting; Small numbers per drug → report overall and by route, not by individual drug
+- Pearls: Recruit the MS nurse or treatment coordinator as co-lead; they hold most of the dates; Chart each step (bloods, funding, homecare, dose) to show where the weeks go; Request screening bloods at the diagnosis visit when treatment is likely; Share the result with the homecare provider; their set-up time is often the longest step

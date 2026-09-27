@@ -195,5 +195,124 @@
   ],
   "novelty": "new",
   "effort": "~10 min per 10 clinic letters"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "In adults with MS who agree to start a disease-modifying therapy, what proportion receive their first dose within 12 weeks of the treatment decision?",
+  "why": "Early treatment improves long-term outcomes in MS, but screening tests, high-cost drug approval and homecare or infusion set-up can each add weeks after the decision is made. No audit of time to disease-modifying therapy has been published in the library.",
+  "standard": {
+   "source": "National Neurosciences Advisory Group, Optimal clinical care pathway for adults: Multiple Sclerosis (2024), Standards and metrics",
+   "wording": "People with a confirmed diagnosis of MS who are eligible and want to start treatment start DMT within 12 weeks of shared treatment decision",
+   "url": "https://www.mssociety.org.uk/sites/default/files/2024-12/NNAG%20MS%20optimal%20pathway%202024.pdf"
+  },
+  "pass": "First dose given 84 days or fewer after the documented shared treatment decision.",
+  "population": "Adults with confirmed MS who agreed to start a first or switched disease-modifying therapy. Exclude people who chose to defer treatment (e.g. pregnancy planning), recorded separately.",
+  "sample": "All disease-modifying therapy starts in the last 12 months (typically 30–60 in a regional MS service).",
+  "data_source": "Clinic letters (decision date); pathology system (screening bloods); high-cost drug approval system (e.g. Blueteq); homecare or infusion unit records (first dose).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "decision_date",
+    "type": "date",
+    "options": [],
+    "note": "From clinic letter"
+   },
+   {
+    "field": "drug",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "route",
+    "type": "choice",
+    "options": [
+     "oral",
+     "injection",
+     "infusion"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_or_switch",
+    "type": "choice",
+    "options": [
+     "first",
+     "switch"
+    ],
+    "note": ""
+   },
+   {
+    "field": "screening_bloods_complete_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "funding_approval_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_decision_to_first_dose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: 84 days or fewer"
+   },
+   {
+    "field": "main_delay",
+    "type": "choice",
+    "options": [
+     "screening tests or vaccination",
+     "funding approval",
+     "homecare set-up",
+     "infusion capacity",
+     "patient choice",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–3 collect; Wk 4 analyse/present; Wk 5 change; Wk 6–20 embed; Wk 21–24 re-audit",
+  "change": "A disease-modifying therapy start checklist in the clinic letter template, so screening bloods, vaccination review and the funding form are all requested at the same appointment as the decision, and a named coordinator tracks each start to first dose.",
+  "target": "≥90% within 12 weeks",
+  "reaudit": "Weeks 21–24: same template, all starts since the change.",
+  "close_loop": "Present at the MS multidisciplinary meeting and neurology governance. If it worked, keep the checklist and report time to first dose quarterly.",
+  "evidence": [
+   "[2186] Guy's and St Thomas': a dedicated e-referral system cut waits to surgery from 98.2 to 47.7 weeks (system change; related topic)",
+   "[4668] UK MS service: treatment of relapses delayed while awaiting urine culture results (related MS pathway delay)"
+  ],
+  "pitfalls": [
+   "The decision date is unclear in letters → agree before cycle 1 that it is the clinic date when the person agreed to start",
+   "Deferred starts inflate delays → record patient-chosen deferral separately and exclude it from the pass rate",
+   "Infusion-unit capacity sits outside the MS team → invite the day-unit manager to the results meeting",
+   "Small numbers per drug → report overall and by route, not by individual drug"
+  ],
+  "pearls": [
+   "Recruit the MS nurse or treatment coordinator as co-lead; they hold most of the dates",
+   "Chart each step (bloods, funding, homecare, dose) to show where the weeks go",
+   "Request screening bloods at the diagnosis visit when treatment is likely",
+   "Share the result with the homecare provider; their set-up time is often the longest step"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients across letters, pathology and pharmacy systems"
  }
 ]
