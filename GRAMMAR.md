@@ -85,7 +85,7 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 - **Law of abbreviation (S164, S164c, S184c).** Frequent signs are graphically simpler: ρ ≈ −0.3 among well-attested signs, in the range of cuneiform measured the same way (−0.07 to −0.24). Consistent with a script shaped by use; not by itself proof of language.
 - **Negative results.** Seal size (CISI size groups) does not predict the opener or the choice of closer once text length is controlled (S179, S179b). The apparent "name-final elements" were the known closer and marker slots (S182c).
 
-## Added 27 Sept 2026 (later): two uses of stroke numerals (S197–S199)
+## Added 27 Sept 2026 (later): two uses of stroke numerals (S197–S199; replicated in IM77, S201)
 - **Fixed terms.** Some signs always take the same numeral before them: 3 + comb (W422–426), 17 + W585 and 17 + W575 (M197), 32 + W877 (M284), 33 + W923 (M296), 33 + W520 (M211). These pairs sit in the title slot, either just before the jar or text-final (33 + W520 is final in 44 of 49 cases). Read each pair as one term. The comb's tooth count is a sign variant, not a number.
 - **Counts** (glyphs: docs/counted-vs-fixed.png). A small set of signs take varying numerals: jar W740 (M342), W220 (M59), W700 (M328), W390 (M161–169), W900 (M287), W405. The numeral choice is the same on seals and tablets and in both big cities (S199, P = 0.92). Numeral + W700 occurs only off seals.
 - Caution: W2 (M99) is also the opener's marker, and W31 (M86) is a middle-initial marker; '2 + W235' is the frame sequence M99 → M65, not a numeral term. About half of the "2 + X" pairs sit right after an opener sign, so do not read them as counts.
