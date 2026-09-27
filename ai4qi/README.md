@@ -70,3 +70,23 @@ The `ai4qi/` folder is self-contained: no absolute paths, no database, no API ke
 - **Own GitHub repository with history:** from the repo root,
   `git subtree split -P ai4qi -b ai4qi-only`, then push branch `ai4qi-only` to the new repository's `main`.
 - Tracked size is about 85 MB, of which about 30 MB is figures; all files are under GitHub's 100 MB per-file limit.
+
+## Web app
+
+`app/` is a static single-page site (plain HTML, CSS and JavaScript; no build step) for searching the
+library, reading proposed audits as printable protocols, and browsing topic cards and standards.
+
+Rebuild its data after any change to the library, the proposed audits or the standards:
+
+```
+python3 build_app_data.py        # writes app/data/, app/templates/ and app/figures/ (standard library only)
+```
+
+Serve it locally:
+
+```
+cd app && python3 -m http.server 8000    # then open http://localhost:8000/
+```
+
+To publish, copy the whole `app/` folder to any static host (GitHub Pages, S3, nginx). It must be served
+over HTTP; opening `index.html` straight from disk will not load the data.

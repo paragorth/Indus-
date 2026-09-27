@@ -368,7 +368,7 @@
   function parseTimeline(t) {
     var segs = String(t || '').split(/;\s*/).map(function (s) {
       var m = s.trim().match(/^(?:wk|wks|week|weeks)\s*(\d+)(?:\s*[–\-]\s*(\d+))?\s*[:,]?\s*(.+)$/i);
-      return m ? { a: +m[1], b: +(m[2] || m[1]), label: m[3].trim() } : null;
+      return m ? { a: +m[1], b: +(m[2] || m[1]), label: cap(m[3].trim().toLowerCase()).replace(/\s*\/\s*/g, ' / ') } : null;
     });
     if (!segs.length || segs.some(function (s) { return !s; })) return null;
     return segs;
@@ -387,15 +387,22 @@
         return '<div class="tl-row" aria-hidden="true"><span class="tl-label">' + esc(s.label) + '</span>' +
           '<div class="tl-track" style="' + cols + ';--weeks:' + weeks + '"><div class="tl-bar' + (/embed/i.test(s.label) ? ' alt' : '') +
           '" style="grid-column:' + s.a + ' / ' + (s.b + 1) + '">' + esc(weeksTxt) + '</div></div></div>';
-      }).join('') + '</div><p class="print-only">' + esc(t) + '</p>';
+      }).join('') + '</div>';
   }
   function templateTable(p) {
     var rows = (p.template || []).map(function (f) {
-      return '<tr><td><code>' + esc(f.field) + '</code></td><td>' + esc(f.type) + '</td><td class="opts">' +
-        esc((f.options || []).join(' / ')) + '</td><td>' + esc(f.note || '') + '</td></tr>';
+      var opts = (f.options || []).join(' / ');
+      return '<tr><td data-label="Field"><code>' + esc(f.field).replace(/_/g, '_<wbr>') + '</code></td><td data-label="Type">' + esc(f.type) + '</td>' +
+        '<td class="opts' + (opts ? '' : ' empty-cell') + '" data-label="Options">' + esc(opts) + '</td>' +
+        '<td data-label="Note"' + (f.note ? '' : ' class="empty-cell"') + '>' + esc(f.note || '') + '</td></tr>';
     }).join('');
-    return '<div class="table-wrap"><table><caption class="visually-hidden">Data collection template for ' + esc(p.id) + '</caption>' +
+    return '<div class="table-wrap"><table class="tpl"><caption class="visually-hidden">Data collection template for ' + esc(p.id) + '</caption>' +
       '<thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Options</th><th scope="col">Note</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
+  function targetHtml(t) {
+    var m = String(t || '').match(/^\s*([≥≤<>]?\s*\d+(?:\.\d+)?\s*%)\s*(.*)$/);
+    if (!m) return '<p class="prose"><strong>Target:</strong> ' + linkify(t) + '</p>';
+    return '<p class="target-line"><span class="target">' + esc(m[1]) + '</span>' + (m[2] ? '<span>' + linkify(m[2]) + '</span>' : '') + '</p>';
   }
   function pitfallItem(t) {
     var i = t.indexOf('→');
@@ -428,7 +435,7 @@
       sec(++n, 'Why', '<p class="prose">' + linkify(p.why) + '</p>') +
       sec(++n, 'How', how) +
       sec(++n, 'Change', '<p class="prose">' + linkify(p.change) + '</p>') +
-      sec(++n, 'Re-audit and target', '<p><span class="target">' + esc(p.target) + '</span></p><p class="prose">' + linkify(p.reaudit) + '</p>') +
+      sec(++n, 'Re-audit and target', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>') +
       sec(++n, 'Close the loop', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       (p.pitfalls && p.pitfalls.length ? sec(++n, 'Pitfalls', '<ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul>') : '') +
@@ -482,6 +489,13 @@
       page('<h1>This audit could not be loaded</h1><p>Please check your connection and <a href="' + location.hash + '">try again</a>.</p>', 'Error', 'search');
     });
   }
+  function abstractHtml(t) {
+    var re = /\s(?=(?:Background|Introduction|Aims?|Objectives?|Methods?|Results?|Conclusions?|Discussion)\s+[A-Z0-9])/;
+    return String(t).split(re).map(function (para) {
+      var m = para.match(/^(Background|Introduction|Aims?|Objectives?|Methods?|Results?|Conclusions?|Discussion)\s+(.*)$/);
+      return m ? '<p><strong>' + esc(m[1]) + '</strong> ' + esc(m[2]) + '</p>' : '<p>' + esc(para) + '</p>';
+    }).join('');
+  }
   function cycleStep(title, c) {
     c = c || {};
     var n = c.sample_size != null ? c.sample_size : c.n;
@@ -517,7 +531,7 @@
     }
     if (has(f.next_audit)) body += sec(++n, 'Suggested next audit', '<p class="prose">' + esc(f.next_audit) + '</p>');
     if (p.abstract) {
-      body += sec(++n, 'Abstract', '<div class="abstract"><p>' + esc(p.abstract) + '</p></div>' +
+      body += sec(++n, 'Abstract', '<div class="abstract">' + abstractHtml(p.abstract) + '</div>' +
         '<p class="licence-note">Abstract reproduced verbatim under the article’s ' + esc(String(p.licence).toUpperCase()) + ' licence.</p>');
     }
     if (f.figures && f.figures.length) {
@@ -561,8 +575,8 @@
     var draft = !!c.draft;
     var facts = [c.audits_in_library != null ? c.audits_in_library + ' audits' : '', (c.countries || []).join(', '), c.years_seen].filter(Boolean).map(esc).join(' · ');
     return '<div class="card-panel ' + (draft ? 'draft' : 'seed') + '">' +
-      '<div class="badges">' + (draft ? DRAFT_BADGE : badge('Reviewed topic card', 'ok')) + '</div>' +
-      (draft ? '<p class="draft-banner"><span aria-hidden="true">⚠</span><span>Draft – needs consultant sign-off. This card summarises the audits below and has not yet been reviewed by a consultant.</span></p>' : '') +
+      '<div class="badges">' + (draft ? DRAFT_BADGE : badge('Clinical team card', 'ok')) + '</div>' +
+      (draft ? '<p class="draft-banner"><span aria-hidden="true">⚠</span><span>This card summarises the audits below and has not yet been reviewed by a consultant.</span></p>' : '') +
       (facts ? '<p class="muted">' + facts + '</p>' : '') +
       '<div class="card-grid">' +
       sub('Usual baseline', '<p>' + linkify(show(c.usual_baseline)) + '</p>') +
@@ -602,7 +616,7 @@
       '<div class="toolbar"><label class="visually-hidden" for="tf">Filter topics</label><input id="tf" type="search" placeholder="Filter topics" data-listfilter=".result"></div>' +
       '<ul class="result-list">' + list.map(function (x) {
         return '<li class="result" data-text="' + attr(x.t.toLowerCase()) + '"><h3><a href="' + topicHref(x.t) + '">' + esc(x.t) + '</a></h3>' +
-          '<div class="badges">' + badge(x.n + ' audits') + (x.draft ? DRAFT_BADGE : badge('Reviewed topic card', 'ok')) + '</div></li>';
+          '<div class="badges">' + badge(x.n + ' audits') + (x.draft ? DRAFT_BADGE : badge('Clinical team card', 'ok')) + '</div></li>';
       }).join('') + '</ul>', 'Topics', 'topics');
   }
 

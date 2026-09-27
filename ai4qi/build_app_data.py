@@ -30,6 +30,7 @@ WORDING = [
     (re.compile(r"\bThe corpus\b"), "The library"),
     (re.compile(r"\bthe corpus\b"), "the library"),
     (re.compile(r"\bcorpus\b"), "library"),
+    (re.compile(r"\bCorpus\b"), "Library"),
 ]
 
 
@@ -185,6 +186,7 @@ def build_cards(lib):
         card = {k: c.get(k) for k in ("topic", "audits_in_library", "countries", "years_seen", "usual_baseline",
                                       "fix_that_works", "fix_that_fails", "consultant_advice", "evidence_ids",
                                       "status", "revises_seed_card")}
+        card["countries"] = [x for x in card.get("countries") or [] if x and x != "not reported"]
         card["draft"] = 1 if c.get("status") else 0
         cards.append(clean(card))
     return cards
