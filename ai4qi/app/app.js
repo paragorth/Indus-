@@ -247,9 +247,20 @@
   }
 
   /* ---------- home ---------- */
+  /* A real closed loop from the library, shown on the home page as what "closing the loop" looks like. */
+  var SPECIMEN = { id: 2098, measure: 'PPE donning sequence correct', before: 52, after: 88, where: 'University Hospital Limerick', fix: 'results and guidelines emailed, plus teaching' };
+  function specimenHtml() {
+    var a = S.byId.get(SPECIMEN.id);
+    if (!a) return '';
+    function row(cls, label, v) {
+      return '<div class="sp-row ' + cls + '"><span>' + label + '</span><div class="sp-track"><div class="sp-fill" style="width:' + v + '%"></div></div><b>' + v + '%</b></div>';
+    }
+    return '<aside class="specimen" aria-label="Example of a closed audit loop from the library"><p class="sp-label">A closed loop from the library</p>' +
+      '<h2>' + esc(SPECIMEN.measure) + '</h2><div class="sp-bars">' + row('before', 'Cycle 1', SPECIMEN.before) + row('after', 'Re-audit', SPECIMEN.after) + '</div>' +
+      '<p class="sp-meta"><span>' + esc(SPECIMEN.where) + '</span><span>Fix: ' + esc(SPECIMEN.fix) + '</span><a href="#/audit/' + a.id + '">[' + a.id + ']</a></p></aside>';
+  }
   function renderHome() {
     var closed = S.lib.filter(function (a) { return a.lc; }).length;
-    var uk = S.lib.filter(function (a) { return a.uk; }).length;
     var topGroups = S.groups.slice().sort(function (a, b) { return b[1] - a[1]; }).slice(0, 18)
       .sort(function (a, b) { return a[0].localeCompare(b[0]); });
     var areas = new Map();
@@ -258,20 +269,25 @@
     var examples = ['reusable PPE in theatre', 'sepsis antibiotics within one hour', 'VTE risk assessment', 'delirium screening', 'operation note quality'];
 
     page(
-      '<div class="hero"><h1>Build a clinical audit on any topic</h1>' +
-      '<p class="lede">Type a theme and get a complete, ready-to-run protocol: one measurable question, the exact standard, a data template, timeline, change, re-audit and evidence from published audits.</p>' +
+      '<section class="hero" aria-labelledby="hero-h"><div class="hero-inner"><div>' +
+      '<h1 id="hero-h">Build a clinical audit on <em>any topic</em>.</h1>' +
+      '<p class="lede">One measurable question, the exact standard, a data template, timeline, change and re-audit, with evidence from audits that closed the loop.</p>' +
       buildForm('', true) +
-      '<p class="examples"><span>Try:</span>' + examples.map(function (e) { return '<a href="#/build?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('') + '</p>' +
-      '<p class="hero-alt">No topic in mind? <a href="#/suggest">See suggested audits</a> · or <a href="#/search">search ' + fmt(S.lib.length) + ' published audits</a></p></div>' +
-      '<ul class="stats" aria-label="Library at a glance">' +
-      stat(S.lib.length, 'audits in the library') + stat(closed, 'closed the loop') + stat(uk, 'from the UK and Ireland') +
-      stat(S.proposed.length, 'proposed audits ready to run') + stat(S.standards.length, 'standards quoted') + stat(S.cards.length, 'topic cards') +
-      '</ul>' +
-      '<div class="section-head"><h2>Browse by specialty</h2><a href="#/search">All published audits</a></div>' +
+      '<p class="examples"><span>Try</span>' + examples.map(function (e) { return '<a href="#/build?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('') + '</p>' +
+      '<p class="hero-alt">No topic yet? <a href="#/suggest">See suggested audits</a> or <a href="#/search">search the library</a>.</p></div>' +
+      specimenHtml() + '</div>' +
+      '<ul class="hero-stats" aria-label="Library at a glance">' +
+      '<li><b>' + fmt(S.lib.length) + '</b>published audits</li><li><b>' + fmt(closed) + '</b>closed the loop</li>' +
+      '<li><b>' + fmt(S.proposed.length) + '</b>ready-to-run protocols</li><li><b>' + fmt(S.standards.length) + '</b>standards quoted word for word</li></ul></section>' +
+      '<ol class="steps-how" aria-label="How it works">' +
+      '<li><h3>Type a theme</h3><p>Anything you want to improve, in your own words.</p></li>' +
+      '<li><h3>Get the protocol</h3><p>Question, standard, template and timeline, built on published audits.</p></li>' +
+      '<li><h3>Close the loop</h3><p>Collect, make the one change, re-audit with the same template.</p></li></ol>' +
+      '<div class="section-head"><h2>Published audits by specialty</h2><a href="#/search">Search all</a></div>' +
       '<ul class="chip-grid">' + topGroups.map(function (g) {
         return '<li><a class="chip-link" href="#/search?sp=' + encodeURIComponent(g[0]) + '"><span>' + esc(g[0]) + '</span><span class="count">' + fmt(g[1]) + '</span></a></li>';
       }).join('') + '</ul>' +
-      '<div class="section-head"><h2>Proposed audits by area</h2><a href="#/proposed">All proposed audits</a></div>' +
+      '<div class="section-head"><h2>Ready-to-run protocols by area</h2><a href="#/proposed">Browse all</a></div>' +
       '<ul class="chip-grid">' + areaList.map(function (g) {
         return '<li><a class="chip-link" href="#/proposed?area=' + encodeURIComponent(g[0]) + '"><span>' + esc(g[0]) + '</span><span class="count">' + fmt(g[1]) + '</span></a></li>';
       }).join('') + '</ul>',
