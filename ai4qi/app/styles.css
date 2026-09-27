@@ -421,9 +421,12 @@ h1[tabindex="-1"]:focus { outline: none; }
 .range-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 12px; margin: 12px 0 20px; }
 .range-form label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: 4px; }
 .range-form input { font: inherit; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); color: var(--text); color-scheme: light dark; }
-.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 0 0 8px; }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 0 0 8px; }
 .mini-chart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px 8px; margin: 0; min-width: 0; }
-.mini-chart figcaption { font-size: .92rem; margin-bottom: 6px; }
+.mini-chart figcaption { font-size: .88rem; margin-bottom: 6px; }
+.mini-chart figcaption strong { display: block; font-size: .95rem; }
+.adm-table td.wk { white-space: nowrap; }
+.adm-table td.wk .muted { display: block; font-size: .84rem; }
 .mini-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .mini-chart .bar { fill: var(--primary); }
 .mini-chart .hit { fill: transparent; }

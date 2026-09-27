@@ -982,7 +982,7 @@
     return h;
   }
   function loadSummary() {
-    if (!BE.url) return Promise.resolve(null);
+    if (!BE.url || !navigator.onLine) return Promise.resolve(null);
     if (BE.summary && Date.now() - BE.summaryAt < 5 * 60 * 1000) return BE.summary;
     BE.summaryAt = Date.now();
     BE.summary = fetch(BE.url + '/rest/v1/rpc/feedback_summary', {
@@ -1267,7 +1267,7 @@
     var cur = stepIndex(status);
     return '<ol class="steps" aria-label="Progress of ' + attr(id) + '">' + STEPS.map(function (s, i) {
       return '<li><button type="button" class="step' + (i <= cur ? ' is-done' : '') + '" data-track-step="' + s[0] + '" data-track-id="' + attr(id) + '" aria-pressed="' + (i === cur) + '">' +
-        '<span class="step-n" aria-hidden="true">' + (i < cur ? '✓' : i + 1) + '</span>' + esc(s[1]) + '</button></li>';
+        '<span class="step-n" aria-hidden="true">' + (i < cur || (i === cur && status === 'closed') ? '✓' : i + 1) + '</span>' + esc(s[1]) + '</button></li>';
     }).join('') + '</ol>';
   }
   function trackerHtml(id, row) {
@@ -1434,7 +1434,7 @@
       ? '<div class="table-wrap"><table class="adm-table"><caption class="visually-hidden">Weekly usage</caption><thead><tr><th scope="col">Week</th>' +
         STAT_COLS.map(function (c) { return '<th scope="col" class="num-col">' + esc(c[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         w.slice().reverse().map(function (r) {
-          return '<tr><td>' + esc(r.iso_week) + ' <span class="muted">(from ' + esc(dateGB(r.week_start)) + ')</span></td>' +
+          return '<tr><td class="wk">' + esc(r.iso_week) + '<span class="muted">from ' + esc(dateGB(r.week_start)) + '</span></td>' +
             STAT_COLS.map(function (c) { return '<td class="num-col">' + fmt(r[c[0]] || 0) + '</td>'; }).join('') + '</tr>';
         }).join('') + '</tbody></table></div>'
       : '<p class="empty">No activity in this period.</p>';
