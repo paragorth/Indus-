@@ -23,6 +23,9 @@ os.makedirs(os.path.join(OUT, "data", "audits"))
 for f in ("app.js", "styles.css", "config.json", "export.js"):
     if os.path.exists(os.path.join(APP, f)):
         shutil.copy(os.path.join(APP, f), OUT)
+os.makedirs(os.path.join(OUT, "vendor"), exist_ok=True)
+for f in ("exceljs.min.js", "jszip.min.js", "xlsx.mini.min.js"):
+    shutil.copy(os.path.join(APP, "vendor", f), os.path.join(OUT, "vendor"))
 for f in ("proposed.json", "cards.json", "standards.json", "version.json"):
     shutil.copy(os.path.join(APP, "data", f), os.path.join(OUT, "data"))
 lib = json.load(open(os.path.join(APP, "data", "library.json"), encoding="utf-8"))
@@ -52,6 +55,10 @@ json.dump(lib, open(os.path.join(OUT, "data", "library.json"), "w", encoding="ut
 html = open(os.path.join(APP, "index.html"), encoding="utf-8").read()
 html = re.sub(r"<!doctype html>\s*|</?html[^>]*>\s*|</?head>\s*|</?body>\s*", "", html, flags=re.I)
 html = re.sub(r'<meta charset[^>]*>\s*|<meta name="viewport"[^>]*>\s*|<link rel="(manifest|apple-touch-icon)"[^>]*>\s*', "", html)
+html = re.sub(r'<meta http-equiv="Content-Security-Policy"[^>]*>\s*', "", html)   # the artifact host sets its own CSP
+html = html.replace('<link rel="stylesheet" href="vendor/fonts/fonts.css">',
+                    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800'
+                    '&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">')
 html = html.replace('<script src="app.js"></script>', '<script>window.AI4QI_EMBED = true;</script>\n<script src="app.js"></script>')
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(html)
 n = sum(len(fs) for _, _, fs in os.walk(OUT))

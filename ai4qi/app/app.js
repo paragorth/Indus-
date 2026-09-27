@@ -927,7 +927,7 @@
   }
 
   function renderBuild(params) {
-    var q = (params.get('q') || '').trim();
+    var q = scrub((params.get('q') || '').trim(), { redacted: 0 }).slice(0, 300);
     if (!q) { location.hash = '#/proposed'; return; }
     if (!isThemed(q)) { location.hash = '#/suggest?q=' + encodeURIComponent(q); return; }
     var fresh = params.get('fresh') === '1', n = Math.max(1, Math.min(9, +params.get('n') || 1));
@@ -1048,7 +1048,7 @@
     var f = e.target.closest('[data-build]');
     if (!f) return;
     e.preventDefault();
-    var q = f.querySelector('input[name="q"]').value.trim();
+    var q = scrub(f.querySelector('input[name="q"]').value.trim(), { redacted: 0 });   // never let identifiers reach the builder
     location.hash = q && isThemed(q) ? '#/build?q=' + encodeURIComponent(q) : '#/suggest' + (q ? '?q=' + encodeURIComponent(q) : '');
   });
   document.addEventListener('click', function (e) {
@@ -1056,7 +1056,7 @@
   });
 
 
-  /* ---------- running an audit: dashboard, data, anonymisation, outputs ---------- */
+  /* ---------- running an audit: dashboard, data, de-identification, outputs ---------- */
   /* Audit data stays on the device (browser storage). Nothing entered here is sent anywhere.
      Signed-in users may opt in to reminders; then only the audit question, the next step, a due
      date and counts are sent, never data. */
@@ -1067,12 +1067,89 @@
   ];
   var STAGE_STATUS = ['started', 'started', 'cycle1', 'cycle1', 'change', 'reaudit', 'closed'];
   S.runs = new Map();
-  try { (JSON.parse(localStorage.getItem(RUNS_KEY) || '[]') || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); }); } catch (e) {}
-  function runsSave() {
-    try { localStorage.setItem(RUNS_KEY, JSON.stringify(Array.from(S.runs.values()))); return true; }
-    catch (e) { return false; }
+  /* Records are encrypted at rest with a key derived from the user's passcode (PBKDF2 → AES-GCM).
+     The key lives only in memory; after 15 idle minutes it is dropped and the audits lock.
+     "Shared computer" keeps everything in session storage, which the browser clears on close. */
+  var VAULT_META = 'ai4qi_vault_v1', VAULT_DATA = 'ai4qi_runs_enc_v1', PBKDF2_ITER = 310000, IDLE_MS = 15 * 60000;
+  var V = { key: null, store: null, meta: null, last: Date.now(), legacy: null };
+  function b64(buf) { var s2 = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i++) s2 += String.fromCharCode(a[i]); return btoa(s2); }
+  function unb64(t) { var s2 = atob(t), a = new Uint8Array(s2.length); for (var i = 0; i < s2.length; i++) a[i] = s2.charCodeAt(i); return a; }
+  function stGet(st, k) { try { return st.getItem(k); } catch (e) { return null; } }
+  (function initVault() {
+    var m = null;
+    try { m = JSON.parse(stGet(sessionStorage, VAULT_META) || 'null'); if (m) V.store = sessionStorage; } catch (e) {}
+    if (!m) { try { m = JSON.parse(stGet(localStorage, VAULT_META) || 'null'); if (m) V.store = localStorage; } catch (e) {} }
+    V.meta = m;
+    try { var old = JSON.parse(stGet(localStorage, RUNS_KEY) || 'null'); if (old && old.length) V.legacy = old; } catch (e) {}
+  })();
+  function vaultSet() { return !!V.meta; }
+  function vaultOpen() { return !!V.key; }
+  function deriveKey(pass, salt, iter) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']).then(function (base) {
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    });
   }
-  function runPut(r) { r.updated = new Date().toISOString(); S.runs.set(r.id, r); var ok = runsSave(); syncRun(r); return ok; }
+  function seal(key, text) {
+    var iv = crypto.getRandomValues(new Uint8Array(12));
+    return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(text)).then(function (ct) { return { iv: b64(iv), ct: b64(ct) }; });
+  }
+  function unseal(key, box) {
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(box.iv) }, key, unb64(box.ct)).then(function (pt) { return new TextDecoder().decode(pt); });
+  }
+  function vaultCreate(pass, shared) {
+    var salt = crypto.getRandomValues(new Uint8Array(16)), store = shared ? sessionStorage : localStorage;
+    return deriveKey(pass, salt, PBKDF2_ITER).then(function (key) {
+      return seal(key, 'ai4qi-ok').then(function (check) {
+        V.meta = { v: 1, salt: b64(salt), iter: PBKDF2_ITER, check: check, shared: !!shared };
+        V.store = store; V.key = key; V.last = Date.now();
+        store.setItem(VAULT_META, JSON.stringify(V.meta));
+        (V.legacy || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); });
+        return runsSave().then(function () { try { localStorage.removeItem(RUNS_KEY); } catch (e) {} V.legacy = null; });
+      });
+    });
+  }
+  function vaultUnlock(pass) {
+    var m = V.meta;
+    return deriveKey(pass, unb64(m.salt), m.iter || PBKDF2_ITER).then(function (key) {
+      return unseal(key, m.check).then(function (t) {
+        if (t !== 'ai4qi-ok') throw new Error('wrong');
+        var box = null; try { box = JSON.parse(stGet(V.store, VAULT_DATA) || 'null'); } catch (e) {}
+        return (box ? unseal(key, box) : Promise.resolve('[]')).then(function (json) {
+          S.runs = new Map(); (JSON.parse(json) || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); });
+          V.key = key; V.last = Date.now();
+        });
+      }, function () { throw new Error('wrong'); });
+    });
+  }
+  function vaultLock() { V.key = null; S.runs = new Map(); S.pendingImport = null; }
+  function vaultErase() {
+    [localStorage, sessionStorage].forEach(function (st) { try { st.removeItem(VAULT_META); st.removeItem(VAULT_DATA); st.removeItem(RUNS_KEY); } catch (e) {} });
+    V.meta = null; V.store = null; V.legacy = null; vaultLock();
+  }
+  var saveChain = Promise.resolve();
+  function runsSave() {
+    if (!V.key) return Promise.resolve(false);
+    var key = V.key, json = JSON.stringify(Array.from(S.runs.values())), store = V.store;
+    saveChain = saveChain.then(function () {
+      return seal(key, json).then(function (box) { store.setItem(VAULT_DATA, JSON.stringify(box)); return true; });
+    }).catch(function () { return false; });
+    return saveChain;
+  }
+  ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, function () { V.last = Date.now(); }, { passive: true }); });
+  setInterval(function () {
+    if (V.key && Date.now() - V.last > IDLE_MS) {
+      vaultLock();
+      var n = parseHash().parts[0];
+      if (n === 'run' || n === 'my-audits') route();
+    }
+  }, 20000);
+  function runPut(r) {
+    if (!V.key) return false;
+    r.updated = new Date().toISOString(); S.runs.set(r.id, r);
+    runsSave().then(function (ok) { if (!ok) { var o = main.querySelector('[data-out-status]') || main.querySelector('[data-det-status]'); if (o) o.textContent = 'Could not save: this browser has no space left. Download a backup.'; } });
+    syncRun(r); return true;
+  }
   function newRunId() {
     var a = new Uint8Array(8); (window.crypto || window.msCrypto).getRandomValues(a);
     return 'r-' + Array.prototype.map.call(a, function (b) { return ('0' + (b % 36).toString(36)).slice(-1); }).join('') + Date.now().toString(36).slice(-4);
@@ -1084,13 +1161,15 @@
   function sampleGuess(p) { var m = String(p.sample || '').match(/(\d{2,4})/); return m ? Math.min(+m[1], 500) : 30; }
 
   function chooseAudit(p) {
+    if (!V.key) { S.pendingChoose = p.id; location.hash = '#/my-audits'; return; }
     var existing = Array.from(S.runs.values()).filter(function (r) { return r.auditId === p.id && !r.closed; })[0];
     if (existing) { location.hash = '#/run/' + existing.id; return; }
     var proto = JSON.parse(JSON.stringify(p));
     delete proto.feedback;
     var r = { id: newRunId(), auditId: p.id, protocol: proto, created: new Date().toISOString(), stage: 'setup', closed: false,
       details: { title: p.question, site: '', department: '', lead: '', team: '', supervisor: '', startDate: todayIso(), sampleSize: sampleGuess(p) },
-      cycles: { c1: { rows: [] }, c2: { rows: [] } }, changeMade: { description: '', date: '' }, reminders: false };
+      cycles: { c1: { rows: [] }, c2: { rows: [] } }, changeMade: { description: '', date: '' }, reminders: false,
+      options: { monthOnly: false, noFreeText: false } };
     if (!runPut(r)) { window.alert && 0; }
     if (/^B-/.test(p.id)) { var b = builtGet(p.id); if (b) { b.chosen = true; builtSave(b); } }
     if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit chosen', { props: { kind: /^B-/.test(p.id) ? 'built' : 'proposed' } });
@@ -1176,7 +1255,7 @@
     return { text: map[key], due: sch[key], key: key };
   }
 
-  /* --- anonymisation: applied to every record before it is stored --- */
+  /* --- de-identification: applied to every record before it is stored --- */
   var ID_HEADER = /(^|_)(name|names|surname|forename|first_?name|last_?name|nhs|nhs_?(no|num|number)|chi|mrn|hospital_?(no|num|number)|patient_?(id|no|number)|unit_?(no|number)|dob|date_?of_?birth|birth|address|street|postcode|post_?code|zip|phone|mobile|telephone|email|e_?mail|next_?of_?kin|nok|gp_?name)(_|$)/i;
   var RX = [
     [/\b\d{3}[\s-]?\d{3}[\s-]?\d{4}\b/g, '[number removed]'],                       // NHS / 10-digit numbers
@@ -1201,6 +1280,7 @@
       return withTime ? d.toISOString().slice(0, 16).replace('T', ' ') : d.toISOString().slice(0, 10);
     }
     var s = String(v).trim(), m;
+    if ((m = s.match(/^(\d{4})-(\d{2})$/))) return m[1] + '-' + m[2] + '-01';
     if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/))) return m[1] + '-' + m[2] + '-' + m[3] + (withTime && m[4] ? ' ' + m[4] + ':' + m[5] : '');
     if ((m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?/))) {
       var y = m[3].length === 2 ? '20' + m[3] : m[3];
@@ -1209,8 +1289,9 @@
     return '';
   }
   /* Clean one record against the template. codes: Map of original identifier → audit code. */
-  function cleanRecord(p, raw, codes, rep) {
-    var out = {};
+  function isFreeText(f) { return !isCodeField(f) && !/yes|date|number/i.test(f.type) && !(f.type === 'choice' && (f.options || []).length); }
+  function cleanRecord(p, raw, codes, rep, opts) {
+    var out = {}; opts = opts || {};
     (p.template || []).forEach(function (f) {
       var v = raw[f.field];
       if (v == null || v === '') return;
@@ -1222,7 +1303,12 @@
         return;
       }
       if (/yes/i.test(f.type)) { var y = yn(v); if (y) out[f.field] = y; return; }
-      if (f.type === 'date' || f.type === 'datetime') { var d = normDate(v, f.type === 'datetime'); if (d) out[f.field] = d; else rep.badDates++; return; }
+      if (f.type === 'date' || f.type === 'datetime') {
+        var d = normDate(v, f.type === 'datetime' && !opts.monthOnly);
+        if (d) out[f.field] = opts.monthOnly ? d.slice(0, 7) : d; else rep.badDates++;
+        return;
+      }
+      if (opts.noFreeText && isFreeText(f)) { rep.freeDropped = (rep.freeDropped || 0) + 1; return; }
       if (f.type === 'number') { var n = parseFloat(String(v).replace(/[^\d.\-]/g, '')); if (!isNaN(n)) out[f.field] = n; return; }
       if (f.type === 'choice' && (f.options || []).length) {
         var hit = f.options.filter(function (o) { return o.toLowerCase() === String(v).trim().toLowerCase(); })[0];
@@ -1260,7 +1346,7 @@
     if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
     return rows.filter(function (r) { return r.some(function (x) { return String(x).trim() !== ''; }); });
   }
-  var SHEETJS = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js', sheetjsP = null;
+  var SHEETJS = 'vendor/xlsx.mini.min.js', sheetjsP = null;   // SheetJS 0.18.5, served from this site
   function loadScript(src, globalName) {
     return new Promise(function (res, rej) {
       if (window[globalName]) return res(window[globalName]);
@@ -1280,7 +1366,7 @@
     });
   }
   /* Find the header row, map columns, clean every record. Returns a preview for the user to confirm. */
-  function prepareImport(p, table, startCode) {
+  function prepareImport(p, table, startCode, opts) {
     var best = 0, bestHits = -1;
     for (var i = 0; i < Math.min(table.length, 12); i++) {
       var hits = mapHeaders(p, table[i]).filter(Boolean).length;
@@ -1294,7 +1380,7 @@
       else { dropped.push(String(h)); map[j] = null; }
     });
     var rows = table.slice(best + 1).map(function (r) {
-      var raw = {}; map.forEach(function (f, j) { if (f) raw[f] = r[j]; }); return cleanRecord(p, raw, codes, rep);
+      var raw = {}; map.forEach(function (f, j) { if (f) raw[f] = r[j]; }); return cleanRecord(p, raw, codes, rep, opts);
     }).filter(function (o) { return Object.keys(o).length; });
     return { rows: rows, kept: kept, dropped: dropped, rep: rep, nextCode: codes.next };
   }
@@ -1359,7 +1445,60 @@
       (target ? '<i class="sp-target" style="left:' + Math.min(target.value, 100) + '%" title="Target ' + attr(target.text) + '"></i>' : '') +
       '<div class="sp-fill" style="width:' + v + '%"></div></div><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b></div>';
   }
+  function vaultGate() {
+    if (V.key) return false;
+    var pending = S.pendingChoose && anyAudit(S.pendingChoose);
+    var intro = pending ? '<p class="notice notice-ok">You chose <strong>' + esc(trunc(pending.question, 120)) + '</strong>. ' + (vaultSet() ? 'Unlock' : 'Set a passcode') + ' to add it to My audits.</p>' : '';
+    var html;
+    if (!vaultSet()) {
+      html = '<article class="doc narrow vault"><h1>Protect your audit data</h1>' + intro +
+        '<p class="prose">Your audit records stay on this device. Set a passcode so they are stored encrypted and lock after 15 minutes without use. ' +
+        'Ai4Qi never sees the passcode, so it cannot be reset: if you forget it, you can only erase the audits on this device.</p>' +
+        (V.legacy ? '<p class="notice notice-warn">You have ' + V.legacy.length + ' audit(s) saved before passcodes were added. They will be encrypted with your new passcode.</p>' : '') +
+        '<form class="stack-form" data-vault-new><label for="vp1">New passcode (at least 8 characters)</label><input id="vp1" name="p1" type="password" minlength="8" autocomplete="new-password" required>' +
+        '<label for="vp2">Type it again</label><input id="vp2" name="p2" type="password" minlength="8" autocomplete="new-password" required>' +
+        '<label class="check"><input type="checkbox" name="shared"><span><strong>This is a shared computer.</strong> Keep audits only until the browser is closed, then delete them. Download a backup to keep your work.</span></label>' +
+        '<button class="btn" type="submit">Set passcode</button><p class="form-status" role="status" data-vault-status></p></form>' + privacyLink() + '</article>';
+    } else {
+      html = '<article class="doc narrow vault"><h1>My audits are locked</h1>' + intro +
+        '<p class="prose">Enter your passcode to open your audits on this device' + (V.meta.shared ? ' (shared-computer mode: they are deleted when the browser closes)' : '') + '.</p>' +
+        '<form class="stack-form" data-vault-open><label for="vpo">Passcode</label><input id="vpo" name="p" type="password" autocomplete="current-password" required>' +
+        '<button class="btn" type="submit">Unlock</button><p class="form-status" role="status" data-vault-status></p></form>' +
+        '<details class="rec-box"><summary>Forgotten your passcode?</summary><p class="prose">It cannot be recovered. You can erase all audits on this device and start again (restore from a backup file if you have one).</p>' +
+        '<button type="button" class="btn btn-secondary" data-vault-erase>Erase all audits on this device</button> <span data-vault-erase-confirm></span></details></article>';
+    }
+    page(html, 'My audits', 'my-audits');
+    return true;
+  }
+  function afterUnlock() {
+    var id = S.pendingChoose; S.pendingChoose = null;
+    var p = id && anyAudit(id);
+    if (p) chooseAudit(p); else route();
+  }
+  document.addEventListener('submit', function (e) {
+    var f = e.target, st = f.querySelector && f.querySelector('[data-vault-status]');
+    if (f.matches && f.matches('[data-vault-new]')) {
+      e.preventDefault();
+      var p1 = f.elements.p1.value, p2 = f.elements.p2.value;
+      if (p1.length < 8) { sayIn(st, 'Use at least 8 characters.'); return; }
+      if (p1 !== p2) { sayIn(st, 'The two passcodes do not match.'); return; }
+      sayIn(st, 'Setting up encryption…');
+      vaultCreate(p1, f.elements.shared.checked).then(afterUnlock, function () { sayIn(st, 'This browser cannot store encrypted data here. Try a different browser.'); });
+    } else if (f.matches && f.matches('[data-vault-open]')) {
+      e.preventDefault();
+      sayIn(st, 'Unlocking…');
+      vaultUnlock(f.elements.p.value).then(afterUnlock, function () { sayIn(st, 'That passcode is not right.'); f.elements.p.select(); });
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-vault-erase]')) {
+      main.querySelector('[data-vault-erase-confirm]').innerHTML = '<strong>Erase everything?</strong> <button type="button" class="btn btn-secondary" data-vault-erase-yes>Erase</button>';
+    } else if (e.target.closest('[data-vault-erase-yes]')) { vaultErase(); route(); }
+    else if (e.target.closest('[data-vault-lock]')) { vaultLock(); route(); }
+  });
+
   function renderRuns() {
+    if (vaultGate()) return;
     var list = Array.from(S.runs.values()).sort(function (a, b) { return (a.closed - b.closed) || String(b.updated).localeCompare(String(a.updated)); });
     var body = list.length ? '<ul class="run-list">' + list.map(function (r) {
       var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
@@ -1375,20 +1514,22 @@
       '<p><a class="btn" href="#/">Build an audit</a> <a class="btn btn-secondary" href="#/suggest">See suggested audits</a></p></div>';
     page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
-      '<span class="form-status" role="status" data-restore-status></span></div>', 'My audits', 'my-audits');
+      '<span class="form-status" role="status" data-restore-status></span><button type="button" class="link-btn" data-vault-lock>Lock now</button></div>', 'My audits', 'my-audits');
   }
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
 
   function recordForm(r, ck) {
-    var p = r.protocol;
-    return '<form class="rec-form" data-rec-form="' + attr(ck) + '"><div class="rec-grid">' + (p.template || []).map(function (f, i) {
+    var p = r.protocol, o = r.options || {};
+    return '<form class="rec-form" data-rec-form="' + attr(ck) + '"><div class="rec-grid">' + (p.template || []).filter(function (f) { return !(o.noFreeText && isFreeText(f)); }).map(function (f, i) {
       var id = 'rf-' + ck + '-' + i, lab = '<label for="' + id + '">' + esc(fieldLabel(f.field)) + (f.note ? ' <span class="muted">' + esc(f.note) + '</span>' : '') + '</label>', ctl;
       if (/yes/i.test(f.type)) ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option><option>Yes</option><option>No</option><option>N/A</option></select>';
       else if (f.type === 'choice') ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option>' + (f.options || []).map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '</select>';
+      else if ((f.type === 'date' || f.type === 'datetime') && o.monthOnly) ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="month">';
       else if (f.type === 'date') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="date">';
       else if (f.type === 'datetime') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="datetime-local">';
       else if (f.type === 'number') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="number" step="any" inputmode="decimal">';
-      else ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="text" maxlength="300" autocomplete="off"' + (isCodeField(f) ? ' placeholder="e.g. P001"' : '') + '>';
+      else ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="text" maxlength="300" autocomplete="off"' + (isCodeField(f) ? ' placeholder="e.g. P001"' : ' placeholder="No names or identifiers"') + '>' +
+        (isCodeField(f) ? '' : '<span class="ft-warn">Free text: never write names, numbers or anything that could identify a patient.</span>');
       return '<div class="rec-f">' + lab + ctl + '</div>';
     }).join('') + '</div><div class="rec-actions"><button class="btn" type="submit">Add record</button><span class="form-status" role="status" data-rec-status></span></div></form>';
   }
@@ -1418,6 +1559,7 @@
       rowsTable(r, ck) + '</div>';
   }
   function renderRun(id) {
+    if (vaultGate()) return;
     var r = S.runs.get(id);
     if (!r) return renderNotFound();
     var p = r.protocol, d = r.details, st = runStats(r), ns = nextStep(r), i = stageIdx(r), ck = S.view.runTab || (i >= 4 ? 'c2' : 'c1');
@@ -1429,6 +1571,9 @@
           return '<div class="rec-f"><label for="rd-' + x[0] + '">' + x[1] + '</label><input id="rd-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
             (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="200"') + ' value="' + attr(d[x[0]] == null ? '' : d[x[0]]) + '"></div>';
         }).join('') +
+      '<fieldset class="rec-wide opt-set"><legend>Extra data protection</legend>' +
+      '<label class="check"><input type="checkbox" name="monthOnly"' + ((r.options || {}).monthOnly ? ' checked' : '') + '><span>Store dates as month and year only (existing dates are shortened too)</span></label>' +
+      '<label class="check"><input type="checkbox" name="noFreeText"' + ((r.options || {}).noFreeText ? ' checked' : '') + '><span>Switch off free-text fields (existing free text is deleted)</span></label></fieldset>' +
       '<div class="rec-actions"><button class="btn" type="submit">Save details</button><span class="form-status" role="status" data-det-status></span></div></form>';
     var remind = BE.url ? (BE.user ?
       '<label class="check"><input type="checkbox" data-run-remind' + (r.reminders ? ' checked' : '') + '><span>Email me when a step is due. Only the audit question, the next step and its date are sent; never your data.</span></label>' :
@@ -1448,10 +1593,10 @@
     var dl = '<div class="out-grid">' +
       '<button class="out-btn" type="button" data-run-xlsx><b>Data sheet</b><span>Excel, with drop-downs</span></button>' +
       '<button class="out-btn" type="button" data-run-pptx><b>Results presentation</b><span>PowerPoint, ready for your meeting</span></button>' +
-      '<button class="out-btn" type="button" data-run-csv><b>Your records</b><span>CSV, anonymised</span></button>' +
+      '<button class="out-btn" type="button" data-run-csv><b>Your records</b><span>CSV, de-identified</span></button>' +
       '<button class="out-btn" type="button" data-run-backup><b>Backup</b><span>To move this audit to another device</span></button>' +
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
-      '</div><p class="form-status" role="status" data-out-status></p>';
+      '</div><p class="export-warn">These files hold de-identified patient records. Keep them on your organisation\'s systems and share them only inside it.</p><p class="form-status" role="status" data-out-status></p>';
     var stageBtn = r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
       '<button class="btn" type="button" data-run-stage="next">' + (i === RUN_STAGES.length - 1 ? 'Mark the loop closed' : 'Done – go to ' + esc(RUN_STAGES[i + 1][1].toLowerCase())) + '</button>' +
       (i > 0 ? '<button class="btn btn-secondary" type="button" data-run-stage="back">Back a stage</button>' : '');
@@ -1463,7 +1608,8 @@
       '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
       '<p class="nc-text">' + esc(ns.text) + '</p></div><div class="nc-actions">' + stageBtn + '</div></div>' +
       '<p class="privacy-note"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
-      'Your data stays on this device and is anonymised as it is entered. ' + privacyLink() + '</p></header>' +
+      'Stored encrypted on this device only; identifiers are removed as records are entered. ' + privacyLink() +
+      ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
       sec(1, 'Audit details', detailsForm + remind) +
       sec(2, 'Data', '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
         '<button type="button" role="tab" data-run-tab="c2" aria-selected="' + (ck === 'c2') + '">Re-audit <span class="count">' + st.cycles[1].n + '</span></button></div>' +
@@ -1477,14 +1623,18 @@
 
   function renderPrivacy() {
     page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
-      '<p class="prose"><strong>Your audit data stays on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are not sent to Ai4Qi, and we cannot see them. Clearing your browser data deletes them, so download a backup if you need one.</p>' +
-      '<p class="prose"><strong>Anonymised as it is entered.</strong> Before any record is stored, Ai4Qi:</p><ul class="prose">' +
+      '<p class="prose"><strong>Your audit records stay on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are never sent to Ai4Qi, and we cannot see them.</p>' +
+      '<p class="prose"><strong>Encrypted with your passcode.</strong> Records are stored encrypted (AES-256) with a key made from a passcode only you know. The audits lock after 15 minutes without use. On a shared computer, choose shared-computer mode and everything is deleted when the browser closes. We cannot reset a forgotten passcode.</p>' +
+      '<p class="prose"><strong>De-identified as they are entered.</strong> Before a record is stored, Ai4Qi:</p><ul class="prose">' +
       '<li>keeps only the columns that are part of the audit template and leaves out everything else (for example name, NHS number, date of birth or address columns);</li>' +
       '<li>replaces patient or hospital numbers with audit codes (P001, P002…);</li>' +
-      '<li>removes NHS numbers, other long numbers, postcodes, phone numbers, email addresses, dates of birth and names written with a title (Mr, Mrs, Dr…) from any text.</li></ul>' +
-      '<p class="prose"><strong>Please still check.</strong> Automatic checks cannot catch every way a person can be identified in free text. Do not type names or other identifiers, and follow your organisation\'s audit and information governance rules. Register the audit with your audit department before you start.</p>' +
-      '<p class="prose"><strong>Reminders.</strong> If you sign in and turn on email reminders for an audit, only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
-      '<p class="prose"><strong>Files you download</strong> (data sheet, presentation, backup) are made on your device.</p></article>', 'Privacy', '');
+      '<li>removes NHS numbers and other long numbers, postcodes, phone numbers, email addresses, dates of birth and names written with a title (Mr, Mrs, Dr…) from any text;</li>' +
+      '<li>can store dates as month and year only, and can switch free-text fields off, for each audit.</li></ul>' +
+      '<p class="prose"><strong>This is de-identified, not anonymous, data.</strong> Dates and details together can sometimes identify a person, so treat your records as patient data under your organisation\'s rules. Automatic checks cannot catch every identifier written in free text: never type names or numbers. Register the audit with your audit department before you start.</p>' +
+      '<p class="prose"><strong>Files you download</strong> (data sheet, presentation, records, backup) are made on your device. Records and backups contain de-identified patient data: keep them on your organisation\'s systems.</p>' +
+      '<p class="prose"><strong>Reminders.</strong> If you sign in and turn on email reminders, only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
+      '<p class="prose"><strong>No outside code.</strong> Every script this page runs is served by Ai4Qi itself' +
+      (window.AI4QI_EMBED ? '.' : ', fonts included, and the page blocks scripts and connections to anywhere else.') + '</p></article>', 'Privacy', '');
   }
 
   /* --- events --- */
@@ -1539,7 +1689,10 @@
       return;
     }
     if (e.target.closest('[data-run-backup]')) {
-      saveFile(name + '-ai4qi-backup.json', new Blob([JSON.stringify({ ai4qi_run: 1, run: r })], { type: 'application/json' }))
+      seal(V.key, JSON.stringify(r)).then(function (box) {
+        var file = { ai4qi_backup: 2, note: 'Encrypted Ai4Qi audit backup. Open it in Ai4Qi > My audits > Restore a backup, with the passcode used when it was made.', salt: V.meta.salt, iter: V.meta.iter || PBKDF2_ITER, box: box };
+        return saveFile(name + '-ai4qi-backup.json', new Blob([JSON.stringify(file)], { type: 'application/json' }));
+      })
         .then(function () { sayIn(out, 'Backup downloaded. Open it from My audits on another device to continue there.'); }, function (err) { sayIn(out, downloadError(err)); });
       return;
     }
@@ -1558,7 +1711,17 @@
     var f = e.target, fd = new FormData(f);
     if (f.matches('[data-run-details]')) {
       e.preventDefault();
-      fd.forEach(function (v, k) { r.details[k] = k === 'sampleSize' ? Math.max(1, Math.min(2000, +v || 30)) : String(v).slice(0, 200); });
+      fd.forEach(function (v, k) { if (k === 'monthOnly' || k === 'noFreeText') return; r.details[k] = k === 'sampleSize' ? Math.max(1, Math.min(2000, +v || 30)) : String(v).slice(0, 200); });
+      r.options = { monthOnly: fd.has('monthOnly'), noFreeText: fd.has('noFreeText') };
+      ['c1', 'c2'].forEach(function (c) {
+        r.cycles[c].rows.forEach(function (row) {
+          (r.protocol.template || []).forEach(function (tf) {
+            if (row[tf.field] == null) return;
+            if (r.options.monthOnly && /date/.test(tf.type)) row[tf.field] = String(row[tf.field]).slice(0, 7);
+            if (r.options.noFreeText && isFreeText(tf)) delete row[tf.field];
+          });
+        });
+      });
       if (r.stage === 'setup' && r.details.lead && r.details.site) r.stage = 'cycle1';
       var ok = runPut(r); renderRunKeep(r); sayIn(main.querySelector('[data-det-status]'), ok ? 'Saved.' : 'Could not save: this browser has no space left.');
       return;
@@ -1575,7 +1738,7 @@
       var ck = f.getAttribute('data-rec-form'), raw = {};
       fd.forEach(function (v, k) { raw[k] = String(v).replace('T', ' '); });
       var rep = { redacted: 0, coded: 0, badDates: 0 }, codes = { map: new Map(), next: r.codeSeq || 1 };
-      var rec = cleanRecord(r.protocol, raw, codes, rep);
+      var rec = cleanRecord(r.protocol, raw, codes, rep, r.options);
       r.codeSeq = codes.next;
       if (!Object.keys(rec).length) { sayIn(f.querySelector('[data-rec-status]'), 'Fill in at least one field.'); return; }
       r.cycles[ck].rows.push(rec);
@@ -1593,7 +1756,7 @@
     var ck = inp.getAttribute('data-import'), box = main.querySelector('[data-import-preview="' + ck + '"]'), file = inp.files[0];
     box.innerHTML = '<p class="muted">Reading ' + esc(file.name) + '…</p>';
     readTable(file).then(function (table) {
-      var prep = prepareImport(r.protocol, table, r.codeSeq || 1);
+      var prep = prepareImport(r.protocol, table, r.codeSeq || 1, r.options);
       S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode };
       box.innerHTML = '<div class="import-preview"><p><strong>' + prep.rows.length + ' records ready to add.</strong> Nothing has been stored yet.</p>' +
         '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
@@ -1618,15 +1781,37 @@
     var ok = runPut(r); renderRunKeep(r, '[data-run-tab="' + pi.ck + '"]');
     if (!ok) window.setTimeout(function () { var o = main.querySelector('[data-out-status]'); sayIn(o, 'This browser is out of space. Download a backup.'); }, 0);
   });
-  /* Restore a backup from My audits */
+  /* Restore a backup from My audits. Backups are encrypted with the passcode in use when they were made. */
+  function restoreRun(r) {
+    if (!r || !/^r-[a-z0-9]{6,24}$/.test(r.id) || !r.protocol || !r.cycles) throw new Error('bad');
+    if (!runPut(r)) throw new Error('locked');
+    location.hash = '#/run/' + r.id;
+  }
   document.addEventListener('change', function (e) {
     var inp = e.target.closest('[data-restore]');
     if (!inp || !inp.files || !inp.files[0]) return;
+    var st = main.querySelector('[data-restore-status]');
     inp.files[0].text().then(function (t) {
-      var o = JSON.parse(t), r = o && o.ai4qi_run && o.run;
-      if (!r || !/^r-[a-z0-9]{6,24}$/.test(r.id) || !r.protocol || !r.cycles) throw new Error('bad');
-      runPut(r); location.hash = '#/run/' + r.id;
-    }).catch(function () { var s = main.querySelector('[data-restore-status]'); sayIn(s, 'That file is not an Ai4Qi backup.'); });
+      var o = JSON.parse(t);
+      if (o && o.ai4qi_run && o.run) return restoreRun(o.run);           // older, unencrypted backups
+      if (!o || o.ai4qi_backup !== 2 || !o.box || !o.salt) throw new Error('bad');
+      S.pendingRestore = o;
+      st.innerHTML = '<form class="inline-form" data-restore-pass><label for="rsp">Passcode used when this backup was made</label>' +
+        '<input id="rsp" name="p" type="password" autocomplete="off" required><button class="btn" type="submit">Restore</button></form>';
+      st.querySelector('input').focus();
+    }).catch(function () { sayIn(st, 'That file is not an Ai4Qi backup.'); });
+    inp.value = '';
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f.matches || !f.matches('[data-restore-pass]')) return;
+    e.preventDefault();
+    var o = S.pendingRestore, st = main.querySelector('[data-restore-status]');
+    if (!o) return;
+    deriveKey(f.elements.p.value, unb64(o.salt), o.iter || PBKDF2_ITER)
+      .then(function (k) { return unseal(k, o.box); })
+      .then(function (json) { S.pendingRestore = null; restoreRun(JSON.parse(json)); })
+      .catch(function () { var m = f.querySelector('.form-status') || document.createElement('p'); m.className = 'form-status is-error'; m.textContent = 'That passcode does not open this backup.'; f.appendChild(m); });
   });
 
   /* ---------- events ---------- */
@@ -1732,7 +1917,7 @@
       chip.setAttribute('aria-pressed', on); chip.classList.toggle('is-on', on);
     } else if (send) {
       var reasons = Array.prototype.map.call(box.querySelectorAll('.fb-chip.is-on'), function (c) { return c.getAttribute('data-fb-reason'); });
-      recordFeedback(id, 'down', reasons, box.querySelector('.fb-comment').value.trim());
+      recordFeedback(id, 'down', reasons, scrub(box.querySelector('.fb-comment').value.trim(), { redacted: 0 }));
       more.hidden = true;
       doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – this helps us improve the audit library.</p>';
     }
@@ -1740,7 +1925,7 @@
   /* ---------- optional Supabase backend: shared feedback, sign-in, admin view ----------
      Switched on only when config.json has supabase_url and supabase_anon_key. Without them the
      app behaves exactly as before (feedback stays on the device or goes to feedback_url). */
-  var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  var SUPABASE_JS = 'vendor/supabase.js';   // supabase-js 2.117.2, served from this site
   var DEVICE_KEY = 'ai4qi_device_v1';
   var GRADES = ['Medical student', 'Foundation doctor (FY1–FY2)', 'Core or specialty trainee (CT/ST1–2)',
     'Specialty registrar (ST3+)', 'Specialty doctor or specialist (SAS)', 'Locally employed doctor', 'Consultant',
@@ -1969,6 +2154,23 @@
     page('<div class="doc narrow"><h1>' + esc(title) + '</h1><p>Sign-in is not available at the moment. Please check your connection and try again.</p></div>', title, nav);
     focusMain();
   }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-delete-account]')) {
+      main.querySelector('[data-delete-account-box]').innerHTML = ' <strong>Delete your account, profile, feedback links and reminders for good?</strong> ' +
+        '<button class="btn btn-secondary" type="button" data-delete-account-yes>Delete permanently</button>' +
+        '<span class="form-status" role="status" data-delete-account-status></span>';
+      return;
+    }
+    if (!e.target.closest('[data-delete-account-yes]')) return;
+    var st = main.querySelector('[data-delete-account-status]');
+    sayIn(st, ' Deleting…');
+    sbClient().then(function (c) {
+      return c.rpc('delete_my_account').then(function (res) { if (res.error) throw res.error; return c.auth.signOut(); });
+    }).then(function () {
+      BE.user = null; BE.tracker = null;
+      page('<article class="doc narrow"><h1>Your account has been deleted</h1><p class="prose">Your sign-in, profile, audit progress and reminders have been removed from our server. Audits stored on this device are not affected; delete them from My audits if you wish.</p></article>', 'Account deleted', 'account');
+    }).catch(function () { sayIn(st, ' Your account could not be deleted. Please try again, or email us.'); });
+  });
   function renderAccount() {
     page(loadingHtml('Loading your account…'), 'Account', 'account');
     sbClient().then(function (c) {
@@ -2032,7 +2234,8 @@
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
       '</form></section>' +
       (BE.admin ? '<section class="account-section" aria-labelledby="adm-h"><h2 id="adm-h">Administration</h2><ul><li><a href="#/admin/stats">Usage statistics</a></li><li><a href="#/admin/feedback">Feedback on proposed audits</a></li></ul></section>' : '') +
-      '<div class="account-actions"><button class="btn btn-secondary" type="button" data-signout>Sign out</button></div>' +
+      '<div class="account-actions"><button class="btn btn-secondary" type="button" data-signout>Sign out</button> ' +
+      '<button class="link-btn" type="button" data-delete-account>Delete my account</button><span data-delete-account-box></span></div>' +
       '</div>', 'Account', 'account', true);
   }
 

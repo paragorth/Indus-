@@ -29,6 +29,8 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
   rows, cannot change `last_sent_at`/`sends`, and can keep at most 50.
 - `supabase/functions/build-audit/`: the function that builds an audit on request with Claude.
 - `supabase/functions/send-reminders/`: the daily job that emails reminders through Resend.
+- `supabase/migrations/005_delete_account.sql`: `delete_my_account()`, so signed-in users can delete
+  their own account from the account page (cascades to their profile, progress and reminders).
 - `pull_feedback.py`: copies feedback from Supabase into `ai4qi/new_audits/feedback.json`.
 
 ## Owner steps: Supabase

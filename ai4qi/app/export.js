@@ -2,7 +2,7 @@
  * Ai4Qi export helpers: data-collection workbook (.xlsx), results deck (.pptx)
  * and calendar (.ics). Plain ES5 in an IIFE, no build step.
  *
- * Libraries are loaded lazily from cdnjs (the only script origin the CSP allows):
+ * Libraries are loaded lazily from this site's vendor/ folder (copies of the cdnjs builds):
  *   ExcelJS 4.4.0  https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js
  *   JSZip 3.10.1   https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
  * PptxGenJS is not hosted on cdnjs, so the deck is written directly as OOXML
@@ -15,8 +15,8 @@
   'use strict';
 
   var LIBS = {
-    ExcelJS: { url: 'https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js', name: 'the spreadsheet library (ExcelJS)' },
-    JSZip: { url: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', name: 'the zip library (JSZip)' }
+    ExcelJS: { url: 'vendor/exceljs.min.js', name: 'the spreadsheet library (ExcelJS)' },
+    JSZip: { url: 'vendor/jszip.min.js', name: 'the zip library (JSZip)' }
   };
   var loading = {};
 
@@ -47,7 +47,7 @@
         delete loading[key];
         if (s.parentNode) s.parentNode.removeChild(s);
         reject(new Error('Could not load ' + lib.name + ' because ' + why +
-          '. Check your internet connection (and that cdnjs.cloudflare.com is not blocked), then try again.'));
+          '. Check your internet connection, then try again.'));
       }
       s.onload = function () {
         clearTimeout(timer);

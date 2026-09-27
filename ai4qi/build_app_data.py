@@ -224,7 +224,7 @@ def stamp_version():
     """Hash everything the app serves and stamp it into sw.js so clients refresh their caches."""
     h = hashlib.sha256()
     files = [APP / n for n in SHELL] + [APP / "config.json"] + sorted((APP / "icons").glob("*.png"))
-    for sub in ("data", "templates", "figures"):
+    for sub in ("data", "templates", "figures", "vendor"):
         files += sorted(f for f in (APP / sub).rglob("*") if f.is_file() and f.name != "version.json")
     for f in files:
         if f.is_file():
