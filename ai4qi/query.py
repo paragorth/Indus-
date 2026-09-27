@@ -130,13 +130,18 @@ def main():
         if a.specialty:
             pa = [x for x in pa if a.specialty.lower() in (x.get("area") or "").lower()]
         q = toks(" ".join(a.q))
-        sc = sorted(((sum(t in toks(json.dumps(x)) for t in q), x) for x in pa), key=lambda z: -z[0])
+        def fbw(x):   # down-voted proposals sink, up-voted rise
+            f = x.get("feedback") or {}
+            return 1 + 0.2 * f.get("up", 0) - 0.5 * f.get("down", 0)
+        sc = sorted(((sum(t in toks(json.dumps(x)) for t in q) * fbw(x), x) for x in pa), key=lambda z: -z[0])
         res = [x for s, x in sc if s > 0][:a.n]
         if a.json:
             print(json.dumps(res, indent=1, ensure_ascii=False))
         else:
             for x in res:
-                print(f"{x['id']}  {x['question']}\n    standard: {x['standard'].get('source')} | change: {x['change']} | template: {x['template_file']}")
+                fb = x.get("feedback")
+                note = f"  [feedback: {fb['up']} up / {fb['down']} down {', '.join(fb['reasons'])}]" if fb else ""
+                print(f"{x['id']}  {x['question']}{note}\n    standard: {x['standard'].get('source')} | change: {x['change']} | template: {x['template_file']}")
         return
     if a.id:
         e = next((x for x in audits if x["id"] == a.id), None)

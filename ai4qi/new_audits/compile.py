@@ -85,6 +85,19 @@ def build(name, std):
         unique.append(a)
     for i, a in enumerate(unique, 1):
         a["id"] = f"{prefix}-{i:03d}"
+    fb_path = os.path.join(HERE, "feedback.json")      # thumbs up/down collected from the app and reviewers
+    fb = json.load(open(fb_path, encoding="utf-8")) if os.path.exists(fb_path) else []
+    for a in unique:
+        mine = [f for f in fb if f.get("id") == a["id"]]
+        if mine:
+            reasons = {}
+            for f in mine:
+                for r in f.get("reasons") or []:
+                    reasons[r] = reasons.get(r, 0) + 1
+            a["feedback"] = {"up": sum(f.get("rating") == "up" for f in mine),
+                             "down": sum(f.get("rating") == "down" for f in mine), "reasons": reasons}
+        else:
+            a.pop("feedback", None)
     os.makedirs(os.path.join(HERE, "templates"), exist_ok=True)
     for a in unique:
         path = os.path.join(HERE, "templates", f"{a['id']}.csv")

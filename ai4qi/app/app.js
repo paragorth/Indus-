@@ -442,7 +442,8 @@
       (p.pearls && p.pearls.length ? sec(++n, 'Pearls', '<ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       sec(++n, 'Status and effort', '<div class="status-box">' + PROPOSED_BADGE +
         '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' +
-        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>');
+        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>') +
+      feedbackBox(p.id);
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
@@ -706,6 +707,71 @@
       return;
     }
     if (e.target.closest('[data-print]')) window.print();
+  });
+
+  /* ---------- feedback (thumbs up / down) ---------- */
+  var FB_KEY = 'ai4qi_feedback_v1';
+  var FB_REASONS = ['Too generic', 'Too specific', 'Poor framing', 'Too complex',
+    'Not relevant to my specialty', 'Not an important topic to audit'];
+  var FB_URL = '';                       // set from config.json ("feedback_url") when a collector exists
+  getJSON('config.json').then(function (c) { FB_URL = (c && c.feedback_url) || ''; flushFeedback(); }).catch(function () {});
+  function fbAll() { try { return JSON.parse(localStorage.getItem(FB_KEY) || '[]'); } catch (e) { return []; } }
+  function fbSave(list) { try { localStorage.setItem(FB_KEY, JSON.stringify(list)); } catch (e) {} }
+  function fbFor(id) { return fbAll().filter(function (f) { return f.id === id; }).pop(); }
+  function flushFeedback() {
+    if (!FB_URL || !navigator.onLine) return;
+    var list = fbAll(), pending = list.filter(function (f) { return !f.sent; });
+    pending.forEach(function (f) {
+      fetch(FB_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
+        .then(function (r) { if (r.ok) { f.sent = true; fbSave(list); } }).catch(function () {});
+    });
+  }
+  window.addEventListener('online', flushFeedback);
+  function recordFeedback(id, rating, reasons, comment) {
+    var list = fbAll().filter(function (f) { return f.id !== id; });
+    list.push({ id: id, rating: rating, reasons: reasons || [], comment: comment || '', at: new Date().toISOString(), sent: false });
+    fbSave(list); flushFeedback();
+  }
+  function thumb(dir) {
+    var d = dir === 'up'
+      ? 'M7 10v10H4V10h3zm2 10h8.2a2 2 0 0 0 2-1.6l1.3-6.5A2 2 0 0 0 18.5 9.5H14l.8-3.9a1.6 1.6 0 0 0-2.9-1.2L9 9.3V20z'
+      : 'M7 14V4H4v10h3zm2-10h8.2a2 2 0 0 1 2 1.6l1.3 6.5a2 2 0 0 1-2 2.4H14l.8 3.9a1.6 1.6 0 0 1-2.9 1.2L9 14.7V4z';
+    return '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="currentColor"/></svg>';
+  }
+  function feedbackBox(id) {
+    var prev = fbFor(id);
+    var done = prev ? '<p class="fb-thanks" role="status">Thank you – your feedback has been recorded.</p>' : '';
+    return '<section class="fb no-print" data-fb="' + attr(id) + '" aria-label="Feedback on this audit">' +
+      '<div class="fb-row"><span class="fb-q">Was this audit idea useful?</span>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'up' ? ' is-on' : '') + '" data-fb-rate="up" aria-pressed="' + !!(prev && prev.rating === 'up') + '">' + thumb('up') + '<span class="sr-only">Yes, useful</span></button>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span class="sr-only">No, not useful</span></button></div>' +
+      '<div class="fb-more" hidden><p class="fb-sub">What was wrong? Choose any that apply.</p><div class="fb-chips">' +
+      FB_REASONS.map(function (r) { return '<button type="button" class="fb-chip" data-fb-reason="' + attr(r) + '" aria-pressed="false">' + esc(r) + '</button>'; }).join('') +
+      '</div><label class="fb-sub" for="fb-c-' + attr(id) + '">Anything else? (optional)</label>' +
+      '<textarea id="fb-c-' + attr(id) + '" class="fb-comment" rows="2" maxlength="500"></textarea>' +
+      '<button type="button" class="btn" data-fb-send>Send feedback</button></div>' +
+      '<div class="fb-done">' + done + '</div></section>';
+  }
+  document.addEventListener('click', function (e) {
+    var box = e.target.closest('[data-fb]');
+    if (!box) return;
+    var id = box.getAttribute('data-fb');
+    var rate = e.target.closest('[data-fb-rate]'), chip = e.target.closest('[data-fb-reason]'), send = e.target.closest('[data-fb-send]');
+    var more = box.querySelector('.fb-more'), doneEl = box.querySelector('.fb-done');
+    if (rate) {
+      var r = rate.getAttribute('data-fb-rate');
+      box.querySelectorAll('[data-fb-rate]').forEach(function (b) { var on = b === rate; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+      if (r === 'up') { more.hidden = true; recordFeedback(id, 'up'); doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – your feedback has been recorded.</p>'; }
+      else { more.hidden = false; doneEl.innerHTML = ''; var first = more.querySelector('.fb-chip'); if (first) first.focus(); }
+    } else if (chip) {
+      var on = chip.getAttribute('aria-pressed') !== 'true';
+      chip.setAttribute('aria-pressed', on); chip.classList.toggle('is-on', on);
+    } else if (send) {
+      var reasons = Array.prototype.map.call(box.querySelectorAll('.fb-chip.is-on'), function (c) { return c.getAttribute('data-fb-reason'); });
+      recordFeedback(id, 'down', reasons, box.querySelector('.fb-comment').value.trim());
+      more.hidden = true;
+      doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – this helps us improve the audit library.</p>';
+    }
   });
   window.addEventListener('hashchange', route);
 

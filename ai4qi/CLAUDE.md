@@ -79,6 +79,16 @@ as the other parts, plus `pitfalls` and `pearls` lists), then run `python3 new_a
 commit and push. `generated` is compiled last, so existing ONA ids never change. Check for a near-duplicate
 with `python3 query.py "words" --proposed` first; if one exists, improve that entry instead.
 
+## Feedback on proposed audits
+
+`new_audits/feedback.json` holds thumbs up/down with reasons (Too generic, Too specific, Poor framing,
+Too complex, Not relevant to my specialty, Not an important topic to audit), from the app and from
+reviewers. `compile.py` attaches the totals to each audit and `query.py --proposed` ranks down-voted
+ones lower. Before proposing a new audit, check the reasons given for similar down-voted ones and
+avoid repeating the problem (e.g. "Not an important topic" → pick higher-volume, higher-harm topics).
+The app collects feedback on the device and posts it to `feedback_url` in `app/config.json` once a
+collector is set; add received entries to `feedback.json`.
+
 ## Answer shape (for "can I audit X?")
 
 Short. No preamble. The corpus gives examples; you may also propose new audits nobody has done (say so).
