@@ -36,3 +36,31 @@ for _ in range(5000):
 print('sum majority share %.1f null %.1f P=%.4f'%(real,sum(null)/5000,sum(v>=real for v in null)/5000))
 mixed=[w for w,(s,t) in out.items() if min(s,t)/(s+t)>=0.2]
 print('signs taking both series (>=20% minority):',mixed)
+
+# S208: control for value. Permute series labels only among tokens of the same numeral value.
+byv=C.defaultdict(list)
+for i,(w,sr,v) in enumerate(tok): byv[v].append(i)
+null2=[]
+for _ in range(3000):
+    lab=[sr for w,sr,v in tok]
+    for v,ix in byv.items():
+        p=[lab[i] for i in ix]; random.shuffle(p)
+        for i,x in zip(ix,p): lab[i]=x
+    null2.append(stat([(w,l,v) for (w,_,v),l in zip(tok,lab)])[0])
+print('value-stratified: stat %.1f null %.1f P=%.4f'%(real,sum(null2)/3000,sum(x>=real for x in null2)/3000))
+for v in sorted(byv): print('value',v,C.Counter(tok[i][1] for i in byv[v]))
+
+# S208b: value 3 only (the one value drawn equally often in both forms)
+t3=[(w,sr,v) for w,sr,v in tok if v==3]
+g=C.defaultdict(C.Counter)
+for w,sr,v in t3: g[w][sr]+=1
+def s3(t):
+    g=C.defaultdict(C.Counter)
+    for w,sr,v in t: g[w][sr]+=1
+    return sum(max(c.values())/sum(c.values()) for c in g.values() if sum(c.values())>=5)
+r3=s3(t3); lab=[sr for w,sr,v in t3]; n3=[]
+for _ in range(5000):
+    random.shuffle(lab); n3.append(s3([(w,l,v) for (w,_,v),l in zip(t3,lab)]))
+print('value 3 only: stat %.2f null %.2f P=%.4f'%(r3,sum(n3)/5000,sum(x>=r3 for x in n3)/5000))
+for w,c in sorted(g.items(),key=lambda kv:-sum(kv[1].values())):
+    if sum(c.values())>=5: print(' W%s'%w,dict(c))
