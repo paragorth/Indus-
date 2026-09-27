@@ -1,6 +1,6 @@
 # Status: where the Indus work stands (27 Sept 2026)
 
-One page. The details are in STRATEGIES.md (216 logged strategies with controls), GRAMMAR.md and ANCHORS.md.
+One page. The details are in STRATEGIES.md (235 logged strategies with controls), GRAMMAR.md and ANCHORS.md.
 
 ## Not deciphered
 No sign has a known sound or meaning. Fitting a language key to the texts cannot work on its own: in planted-language controls, keys "pass" while getting nearly every sign wrong (S107, S113–S137). A reading needs about 20–40 outside anchors, such as a bilingual text or names known from outside records. None has been found in the sources we could reach (CDLI, the Ur and Umma material, Gulf seals, museum databases).
@@ -12,6 +12,7 @@ No sign has a known sound or meaning. Fitting a language key to the texts cannot
 4. **A late bar-seal genre.** Script-only bar seals keep the opener but drop the jar closer and the person sign. This holds at Harappa (Period 3C) and Dholavira (Stage VI, kaolinite) and in IM77 (S157, S175, S184).
 5. **Abroad, the rules change.** Round Gulf-type seals start with a person sign and skip the home opener. A Kalibangan seal owner's rare sign pair recurs on a Bahrain seal (S149).
 6. **The script behaves like a working script.** Frequent signs are simpler to draw, as in cuneiform (S164, S184c). Signs are rarely repeated within a text, as in formulaic seal legends. Texts read in a fixed direction (S161).
+7. **Numbers work two ways, in two notations.** A stroke numeral is either part of a fixed term (e.g. 3 + comb, 33 + W520) or a real count before a small set of countable signs (jar, fish, W390/405, W900, W700). Counts come in two drawn series, short strokes and tall strokes, and each countable sign takes mainly one series, like the separate number systems for different goods in proto-cuneiform (S197–S206). On pots numbers stand at the end like quantity labels. No binary weight-unit pattern (S207).
 
 ## Ruled out or not supported
 - An alphabet (S169); Vedic ritual texts (S168); theological discourse (S174).
