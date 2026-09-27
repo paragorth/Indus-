@@ -1,0 +1,2698 @@
+[
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults at high risk from sepsis (NEWS2 7 or more with suspected infection) receive IV antibiotics within 1 hour of their first ED NEWS2 score?",
+  "why": "NG253 (2025, updated 2026) fixes time zero as the first ED NEWS2 score. Library sepsis audits used older bundles and screening tools [3031][2642]; none measures the 1-hour limit from the NEWS2 time stamp.",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.3 (November 2025, updated September 2026)",
+   "wording": "Give people aged 16 or over who are at high risk of severe illness or death from sepsis broad-spectrum intravenous antibiotic treatment, within 1 hour of calculating the person's NEWS2 score on initial assessment in the emergency department or on ward deterioration. Only give antibiotics if they have not been given before for this episode of sepsis (see recommendations 1.7.7 and 1.7.8 on managing the condition while awaiting transfer).",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "First IV antibiotic dose recorded as given on the drug chart within 60 minutes of the first ED NEWS2 time; or pre-hospital antibiotics already given for this episode.",
+  "population": "Adults 16 or over with suspected or confirmed infection and a first ED NEWS2 of 7 or more. Exclude end-of-life care plans and patients who left before treatment.",
+  "sample": "40 consecutive eligible ED attendances over the last 2 months.",
+  "data_source": "ED system or e-observations for first NEWS2 time; EPMA or drug chart for antibiotic administration time; ambulance record for pre-hospital antibiotics.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_ed_news2_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_ed_news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prehospital_antibiotic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_administered_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Time given, not time prescribed"
+   },
+   {
+    "field": "minutes_news2_to_antibiotic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "choice",
+    "options": [
+     "no delay",
+     "not recognised as sepsis",
+     "no IV access",
+     "prescribing delay",
+     "awaiting senior review",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build an automatic ED alert on the e-observations system: a NEWS2 of 7 or more with an 'infection suspected' tick opens a sepsis order set with a pre-filled antibiotic and a 60-minute countdown on the tracking board.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 consecutive eligible attendances, same template.",
+  "close_loop": "Present at ED governance and the Trust deteriorating patient group. If it works, keep the alert in the e-observations build and report monthly to the sepsis lead.",
+  "evidence": [
+   "[3031] paediatric severe sepsis: antibiotics within 1 hour 42% at baseline (no standard met)",
+   "[1870] delirium: compulsory electronic screen raised completion 3% → 87% (system change beats teaching)",
+   "[1358] ED VTE assessment: electronic discharge prompt 32% → 93.1% (electronic prompt)"
+  ],
+  "pitfalls": [
+   "Time zero recorded differently between cycles → agree in advance that time zero is the first ED NEWS2 time stamp, not triage or doctor review.",
+   "Prescription time used instead of administration time → take only the 'given' time from EPMA.",
+   "Medium-risk patients with a 3-point single parameter caused by infection are missed → add a column and decide inclusion rules before cycle 1.",
+   "Nursing staff see the audit as blame → share results by shift pattern, not by name.",
+   "Gains fade after rotation → make the alert part of the system, not a poster."
+  ],
+  "pearls": [
+   "Recruit the ED sepsis nurse and the EPR analyst on day 1; they can pull NEWS2 time stamps in bulk.",
+   "Record the reason for each delay; the commonest cause tells you which fix to pick.",
+   "Use a run chart of weekly compliance, not a single percentage.",
+   "Hand the monthly report to a consultant owner before you rotate."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from e-observations and EPMA"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults at high risk from sepsis who receive IV fluid in the ED are given an initial bolus of 250 ml?",
+  "why": "NG253 (2025) cut the first sepsis bolus from 500 ml to 250 ml with reassessment after each bolus. Old habits and pre-printed sepsis stickers still say 500 ml. No audit of bolus volume is published in the library.",
+  "standard": {
+   "source": "NICE NG253 recs 1.8.6 and 1.8.8 (November 2025, updated September 2026)",
+   "wording": "1.8.6 Give an initial bolus of 250 ml. Ideally, give this over 10 to 15 minutes. [2025] ... 1.8.8 Reassess after each fluid bolus. [2025]",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "First resuscitation bolus prescribed and given as 250 ml of crystalloid, with a documented reassessment (observations or clinical note) before any further bolus.",
+  "population": "Adults 16 or over at high risk from sepsis (NEWS2 7 or more, or medium risk with hypoperfusion) given IV fluid resuscitation in the ED. Exclude patients in cardiac arrest.",
+  "sample": "40 consecutive eligible attendances over the last 2–3 months.",
+  "data_source": "EPMA or fluid chart for volume and time; e-observations and clinical notes for reassessment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_ed_news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_bolus_volume_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluid_type",
+    "type": "choice",
+    "options": [
+     "Hartmann's or other balanced",
+     "0.9% saline",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_bolus_250_ml",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "reassessment_before_next_bolus",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2; 'not applicable' if one bolus only"
+   },
+   {
+    "field": "total_fluid_first_hour_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "senior_advice_after_1000_ml",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if 1000 ml given"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the sepsis order set default from '500 ml bolus' to '250 ml over 10–15 minutes, reassess' and reprint the sepsis sticker with the same wording.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at ED and acute medicine governance. If it works, lock the new default into the order set and add it to the ED induction pack.",
+  "evidence": [
+   "[1529] arthroplasty analgesia: electronic order set raised full protocol compliance 0/27 → 58% (order set default)",
+   "[2495] ED renal colic: renal order set lifted NSAID use 54.5% → 71.9% (order set)",
+   "[2219] emergency surgery VTE doses: two checkboxes added to the drug chart, correct dosing 29/36 → 37/38 (chart redesign)"
+  ],
+  "pitfalls": [
+   "Old 500 ml bags or stickers left in resus → remove old stock labels and stickers on the change date.",
+   "Paramedic pre-alert fluids counted as the first bolus → record pre-hospital fluid separately.",
+   "Clinicians object that 250 ml is too little in shock → share the NG253 wording and stress repeat boluses up to 1,000 ml.",
+   "Reassessment not written down → accept a timed set of observations as reassessment."
+  ],
+  "pearls": [
+   "Agree definitions with the ED sepsis lead before cycle 1.",
+   "Ask pharmacy to change the order set default; it is quick and lasts beyond rotation.",
+   "Pair the audit with the antibiotic timing audit to share data collection.",
+   "Report total fluid in the first hour too, to show no one is under-resuscitated."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPMA and fluid chart"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults at medium risk from sepsis (NEWS2 5 or 6 with suspected infection) are reviewed by an FY2-level or more senior clinician, with the venous lactate result, within 1 hour?",
+  "why": "NG253 (2024, amended 2026) allows antibiotics to be deferred up to 3 hours for medium-risk patients only if a competent clinician reviews them and the lactate within 1 hour. No library audit covers the medium-risk group.",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.16 (November 2025, updated September 2026)",
+   "wording": "For people aged 16 or over with a medium risk of severe illness or death from sepsis: carry out a venous blood test, including for: blood gas, including glucose and lactate measurement ... arrange for a clinician with core competencies in the care of acutely ill patients (FY2 level or above) to review the person's condition and venous lactate results within 1 hour of the person being assessed as at medium risk. [2024, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "A timed clinical note by an FY2 or more senior clinician, mentioning the lactate result, within 60 minutes of the first NEWS2 of 5 or 6.",
+  "population": "Adults 16 or over with suspected infection and a first ED NEWS2 of 5 or 6. Exclude patients who became high risk before review.",
+  "sample": "40 consecutive eligible attendances over the last 2 months.",
+  "data_source": "E-observations for NEWS2 time; blood gas analyser or lab system for lactate time; ED notes for reviewer grade and time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_ed_news2_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_ed_news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "venous_lactate_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lactate_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer_grade",
+    "type": "choice",
+    "options": [
+     "FY1",
+     "FY2 or equivalent",
+     "CT/ST1-3 or ACP",
+     "registrar",
+     "consultant"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lactate_mentioned_in_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_60_min_by_fy2_plus",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotic_decision_documented",
+    "type": "choice",
+    "options": [
+     "given",
+     "deferred with plan",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'medium sepsis risk' flag to the ED tracking board that starts a 60-minute timer and prompts an automatic venous gas at triage.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients.",
+  "close_loop": "Present at ED governance. If it works, keep the flag and include medium-risk review in the monthly sepsis dashboard.",
+  "evidence": [
+   "[3031] paediatric sepsis: lactate done 89% but timed care standards all missed (timing is the gap)",
+   "[2197] ED frailty: mandatory field in ED software raised CFS recording 40% → 100% (system change)",
+   "[1804] delirium: stickers and emails peaked then fell to 1.3% by week 6 (paper prompts fade)"
+  ],
+  "pitfalls": [
+   "Grade of reviewer not recorded → use the rota or login name to confirm grade.",
+   "Lactate done on the arterial gas instead → accept any blood gas lactate.",
+   "Patients escalate to high risk and drop out → record them and analyse separately.",
+   "Night-time staffing skews results → report by time of day."
+  ],
+  "pearls": [
+   "Get the ED nurse in charge to agree triage-led venous gas before cycle 1.",
+   "Pull NEWS2 5–6 plus infection codes from the EPR to find cases fast.",
+   "Record the antibiotic decision to show safe deferral, not just speed.",
+   "Present results with the high-risk antibiotic audit as one sepsis story."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children under 16 with suspected sepsis who meet a NICE high risk criterion receive antibiotics within 1 hour of meeting that criterion in the ED?",
+  "why": "NG254 (2025) keeps the 1-hour antibiotic limit for high-risk children. The library shows antibiotics within 1 hour in only 42% [3031] and a local paperwork redesign without published figures [279].",
+  "standard": {
+   "source": "NICE NG254 rec 1.7.3 (November 2025)",
+   "wording": "Ensure urgent assessment mechanisms are in place to deliver antibiotics when any high risk criteria are met in a person under 16 in secondary care (within 1 hour of meeting a high risk criterion in an acute hospital setting). [2016]",
+   "url": "https://www.nice.org.uk/guidance/ng254/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "First antibiotic dose given (IV or IO) within 60 minutes of the first recorded high risk criterion.",
+  "population": "Children under 16 attending the ED with suspected sepsis and at least one NG254 high risk criterion. Exclude those given antibiotics before arrival.",
+  "sample": "30–40 consecutive eligible children over the last 3–6 months.",
+  "data_source": "Paediatric ED notes and PEWS charts for criterion time; EPMA or drug chart for antibiotic time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_criterion",
+    "type": "choice",
+    "options": [
+     "appearance/behaviour",
+     "respiratory",
+     "circulation/skin",
+     "temperature under 3 months",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "criterion_first_met_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "senior_decision_maker_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "choice",
+    "options": [
+     "no delay",
+     "access difficulty",
+     "not recognised",
+     "awaiting senior",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a paediatric sepsis 'grab box' with pre-drawn antibiotic doses by weight band and an IO needle, and a sepsis flag on the PEWS chart that starts a 60-minute timer.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 (or next 3 months if numbers are small), same template.",
+  "close_loop": "Present at the paediatric and ED joint governance meeting. If it works, include the box check in the daily resus checklist.",
+  "evidence": [
+   "[3031] paediatric severe sepsis: antibiotics within 1 hour 42%, fluids within 1 hour 42%",
+   "[279] children's ED sepsis: paperwork redesign after gaps found (form change)",
+   "[1997] ED trauma: dedicated booklet raised secondary survey documentation 50% → 87.5% (form)"
+  ],
+  "pitfalls": [
+   "Small numbers in a DGH → extend the look-back to 6 months or share with a neighbouring ED.",
+   "Criterion time hard to find → use the first PEWS chart entry showing the criterion.",
+   "Cannulation delays blamed → record access method and attempts.",
+   "Paediatric and ED teams dispute ownership → run it as a joint audit with named leads from each."
+  ],
+  "pearls": [
+   "Recruit a paediatric nurse champion to check the grab box daily.",
+   "Use the ED coding for 'sepsis' and 'fever' to find cases.",
+   "Agree what counts as the criterion time before cycle 1.",
+   "Give weight-band dosing cards to reduce prescribing delay."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 children"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of febrile infants under 3 months seen in the ED have all four NICE baseline tests (full blood count, blood culture, CRP and urine)?",
+  "why": "Infants under 3 months with fever are high risk. Missed urine samples and cultures are common. The library has only a local registered re-audit on infant fever sign-off [451]; no audit of the NICE test set.",
+  "standard": {
+   "source": "NICE NG143 rec 1.5.3 (2019, updated 2021)",
+   "wording": "Perform the following investigations in infants younger than 3 months with fever: full blood count; blood culture; C-reactive protein; urine testing for urinary tract infection (see the sections on urine collection, preservation and testing in the NICE guideline on urinary tract infection in under 16s)",
+   "url": "https://www.nice.org.uk/guidance/ng143/chapter/Recommendations"
+  },
+  "pass": "FBC, blood culture, CRP and a urine sample for UTI testing all sent during the ED or assessment unit stay.",
+  "population": "Infants under 3 months (corrected age) with a measured temperature of 38°C or higher. Exclude transfers already investigated elsewhere.",
+  "sample": "30–40 consecutive infants over the last 6 months.",
+  "data_source": "ED system for cases; lab system for tests sent; notes for temperature.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_temperature_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_culture_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crp_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urine_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_tests",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "parenteral_antibiotics_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_test_missing",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a 'febrile infant under 3 months' order set in the EPR that requests all four tests in one click, with a urine bag or clean-catch kit added to the ED triage pack.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14, then monthly until 30 infants re-audited.",
+  "close_loop": "Present at paediatric governance. If it works, keep the order set and add a urine check to the paediatric handover sheet.",
+  "evidence": [
+   "[451] local re-audit: consultant sign-off for fever in infants under one (registered)",
+   "[2495] ED renal colic: renal order set raised calcium requests 77.9% → 94.7% (order set)",
+   "[2994] paediatric antimicrobials: weekly feedback lifted guideline compliance 30% → 100% (feedback plus guideline)"
+  ],
+  "pitfalls": [
+   "Urine sent but not labelled as from the ED → search by date and hospital number.",
+   "Temperature of 38°C measured only at home → decide in advance whether to include parental reports.",
+   "Small numbers → extend look-back and run a monthly run chart.",
+   "Urine collection is slow and staff give up → add a clean-catch technique card."
+  ],
+  "pearls": [
+   "Recruit the paediatric registrar lead and a play specialist for urine collection tips.",
+   "Report each test separately so you know which one fails.",
+   "Link the order set to the NG254 parenteral antibiotic rule for under 1 month.",
+   "Keep a one-page summary for new starters."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 infants from lab system"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children under 5 with fever seen in the ED have temperature, heart rate, respiratory rate and capillary refill time all recorded at first assessment?",
+  "why": "The traffic light system depends on all four measures, and capillary refill time is the one most often left out. The library has no audit of NG143 routine assessment in the ED.",
+  "standard": {
+   "source": "NICE NG143 rec 1.2.8 (2019, updated 2021)",
+   "wording": "Measure and record temperature, heart rate, respiratory rate and capillary refill time as part of the routine assessment of a child with fever. [2007]",
+   "url": "https://www.nice.org.uk/guidance/ng143/chapter/Recommendations"
+  },
+  "pass": "All four values recorded in the triage or first clinician observations.",
+  "population": "Children aged 0–5 years attending the ED with fever as the presenting complaint. Exclude major trauma and cardiac arrest.",
+  "sample": "50 consecutive attendances over 2 weeks.",
+  "data_source": "ED system triage observations and PEWS chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temperature_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "heart_rate_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "respiratory_rate_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capillary_refill_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "traffic_light_category_documented",
+    "type": "choice",
+    "options": [
+     "green",
+     "amber",
+     "red",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make capillary refill time a mandatory field in the paediatric triage screen on the ED system (cannot save without it).",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 50 consecutive attendances.",
+  "close_loop": "Present to the ED nursing team and paediatric governance. If it works, keep the mandatory field and add CRT to the PEWS chart review.",
+  "evidence": [
+   "[2197] ED frailty: mandatory CFS field in ED software raised recording 40% → 100% (mandatory field)",
+   "[1870] delirium: obligatory electronic screen 3% → 87% (mandatory field)",
+   "[3031] paediatric sepsis: vital signs within 15 minutes 47% at baseline"
+  ],
+  "pitfalls": [
+   "Triage staff resist more mandatory fields → agree with the nurse lead and show baseline data first.",
+   "CRT entered as '<2' by default → check for copy-forward values.",
+   "Only initial observations audited → keep to first assessment to avoid mixed definitions.",
+   "Streamed children seen in UTC are missed → include UTC or state exclusion."
+  ],
+  "pearls": [
+   "Recruit a paediatric ED nurse to co-lead.",
+   "Collect traffic light category too; it adds value at no extra time.",
+   "Show missing CRT by time of day to target training.",
+   "A mandatory field keeps working after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 children from triage screen"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a head injury and a NICE 1-hour CT risk factor have their CT head scan within 1 hour of that risk factor being identified?",
+  "why": "NG232 (2023) sets a 1-hour limit for high-risk adults. The library head injury work measured neurosurgical advice time [2124] and c-spine imaging in older adults [1147]; none measures the 1-hour CT limit.",
+  "standard": {
+   "source": "NICE NG232 rec 1.5.8 (May 2023)",
+   "wording": "For people 16 and over who have sustained a head injury, do a CT head scan within 1 hour of any of these risk factors being identified: a GCS score of 12 or less on initial assessment in the emergency department; a GCS score of less than 15 at 2 hours after the injury on assessment in the emergency department; suspected open or depressed skull fracture; any sign of basal skull fracture (haemotympanum, 'panda' eyes, cerebrospinal fluid leakage from the ear or nose, Battle's sign); post-traumatic seizure; focal neurological deficit; more than 1 episode of vomiting. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "CT acquisition time within 60 minutes of the first documented risk factor time.",
+  "population": "Adults 16 or over with head injury and at least one rec 1.5.8 risk factor. Exclude patients already scanned elsewhere.",
+  "sample": "40 consecutive eligible patients over the last 2–3 months.",
+  "data_source": "ED notes for risk factor and time; PACS/RIS for request and scan times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor",
+    "type": "choice",
+    "options": [
+     "GCS 12 or less",
+     "GCS under 15 at 2 hours",
+     "open/depressed fracture",
+     "basal skull fracture signs",
+     "seizure",
+     "focal deficit",
+     "vomiting more than once"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_factor_identified_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "provisional_report_within_60_min_of_scan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a 'NICE 1-hour head CT' request option on the radiology system that flags as urgent on the CT worklist and alerts the radiographer by bleep.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients.",
+  "close_loop": "Present jointly at ED and radiology governance. If it works, keep the request category and report monthly on the CT dashboard.",
+  "evidence": [
+   "[2124] DGH head injury: proforma introduced; median time to neurosurgical advice 229 minutes",
+   "[2636] trauma calls: ED trauma lead each shift cut silver trauma imaging time 6 h 29 min → 3 h 21 min",
+   "[1147] older head injury: posters raised CT c-spine 16% → 38% but documentation stayed 16% (posters alone limited)"
+  ],
+  "pitfalls": [
+   "Risk factor time is not written → use the first note describing it and record how often it is missing.",
+   "Radiology feels blamed → run it jointly with a radiology lead.",
+   "Request made late, not scan late → record request time to split ED and radiology delay.",
+   "Changing inclusion between cycles → use the same list of 7 risk factors."
+  ],
+  "pearls": [
+   "Get CT acquisition times in bulk from RIS.",
+   "Split the timeline into identify → request → scan → report.",
+   "Recruit a CT superintendent radiographer early.",
+   "Show the worst delays as short case stories at governance."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from notes and RIS"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults on anticoagulants with a head injury and no other CT indication have a documented CT decision with a reason?",
+  "why": "NG232 (2023) changed anticoagulated head injury from 'scan all' to 'consider CT within 8 hours'. Many EDs still scan by habit or discharge without a recorded decision. No audit of this change is published in the library.",
+  "standard": {
+   "source": "NICE NG232 rec 1.5.13 (May 2023)",
+   "wording": "For people who have sustained a head injury and have no other indications for a CT head scan, but are on anticoagulant treatment (including vitamin K antagonists, direct-acting oral anticoagulants (DOACs), heparin and low molecular weight heparins) or antiplatelet treatment (excluding aspirin monotherapy), consider doing a CT head scan: within 8 hours of the injury (for example, if it is difficult to do a risk assessment or if the person might not return to the emergency department if they have signs of deterioration) or within the hour if they present more than 8 hours after the injury.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "Notes record a CT decision (scan or no scan) and a reason; if scanned, CT within 8 hours of injury (or within 1 hour if presenting after 8 hours).",
+  "population": "Adults 16 or over on anticoagulant or non-aspirin antiplatelet therapy with head injury and no rec 1.5.8 or 1.5.9 risk factors.",
+  "sample": "40 consecutive eligible patients over the last 2 months.",
+  "data_source": "ED notes and medication history; RIS for CT times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "agent",
+    "type": "choice",
+    "options": [
+     "warfarin",
+     "DOAC",
+     "LMWH/heparin",
+     "clopidogrel/ticagrelor/prasugrel",
+     "dual antiplatelet"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ct_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_within_time_limit",
+    "type": "yes/no",
+    "options": [],
+    "note": "Blank if no CT"
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_result",
+    "type": "choice",
+    "options": [
+     "normal",
+     "acute bleed",
+     "other",
+     "no CT"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'anticoagulated head injury' box to the ED head injury proforma asking: CT yes/no, reason (difficult assessment, unable to return, other) and time of injury.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients.",
+  "close_loop": "Present at ED governance with the scan yield. If it works, keep the proforma box and share the yield data with radiology.",
+  "evidence": [
+   "[1147] older head injury imaging: posters raised CT c-spine 16% → 38% (education alone limited)",
+   "[2116] hand trauma: electronic proforma improved 11/15 data points (proforma)",
+   "[2124] DGH head injury: head injury proforma plus elderly care input (proforma)"
+  ],
+  "pitfalls": [
+   "Patients with other risk factors slip in → screen each case against recs 1.5.8 and 1.5.9 first.",
+   "Aspirin alone included by mistake → exclude aspirin monotherapy.",
+   "Clinicians fear missing a bleed → present yield and the NICE rationale together.",
+   "Injury time missing → record 'unknown' and treat as presenting after 8 hours."
+  ],
+  "pearls": [
+   "Pull cases from the ED head injury code plus medication list.",
+   "Report the CT yield; it helps the department agree a local stance.",
+   "Get a consultant to sign off the proforma wording.",
+   "Keep the box short so it gets used."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children with a head injury and exactly one NICE risk factor are observed for at least 4 hours from the time of injury?",
+  "why": "NG232 (2023) asks for 4 hours of observation when a child has only one rec 1.5.11 risk factor. Early discharge is common in busy EDs. No library audit covers paediatric head injury observation.",
+  "standard": {
+   "source": "NICE NG232 rec 1.5.12 (May 2023)",
+   "wording": "Observe people under 16 who have sustained a head injury but have only 1 of the risk factors in recommendation 1.5.11 for a minimum of 4 hours from the time of injury. If, during observation, any of the following risk factors are identified, do a CT head scan within 1 hour: a GCS score of less than 15; further vomiting; a further episode of abnormal drowsiness. If none of these risk factors occur during observation, use clinical judgement to determine whether a longer period of observation is needed. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "Documented observations continue until at least 4 hours after the time of injury before discharge.",
+  "population": "Children under 16 with head injury and exactly one rec 1.5.11 risk factor and no rec 1.5.10 factor.",
+  "sample": "40 consecutive eligible children over the last 3 months.",
+  "data_source": "Paediatric head injury proforma, PEWS and neuro-observation chart, ED discharge time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_risk_factor",
+    "type": "choice",
+    "options": [
+     "LOC over 5 min",
+     "abnormal drowsiness",
+     "3+ vomits",
+     "dangerous mechanism",
+     "amnesia over 5 min",
+     "bleeding/clotting disorder"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_observation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observed_4h_from_injury",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "deterioration_during_observation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'discharge not before' time box to the paediatric head injury proforma, calculated as injury time plus 4 hours, and show it on the tracking board.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible children.",
+  "close_loop": "Present at paediatric and ED governance. If it works, keep the box and add it to the children's ED induction.",
+  "evidence": [
+   "[1997] ED trauma: dedicated booklet raised documentation 50% → 87.5% (form)",
+   "[2116] hand trauma: electronic proforma improved 11/15 data points (proforma)",
+   "[1804] delirium: sticker use fell from 57% to 0% by week 6 (stickers alone fade)"
+  ],
+  "pitfalls": [
+   "Injury time not recorded → make it a required field; record 'unknown' in cycle 1.",
+   "Children observed in a separate area with paper charts → check both paper and electronic records.",
+   "Breach pressure pushes early discharge → share with the site team that observation counts as care.",
+   "Multi-factor children included by mistake → screen for 1.5.10 and 1.5.11 factors first."
+  ],
+  "pearls": [
+   "Recruit a paediatric ED nurse to check the 'discharge not before' box.",
+   "Report deterioration during observation to show why the rule matters.",
+   "Use the tracking board so the time is visible to all.",
+   "Agree the proforma change with the paediatric lead before cycle 1."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 children"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children discharged from the ED after a head injury have a letter sent to their GP and to their health visitor or school nurse within 48 hours?",
+  "why": "NG232 asks for a GP letter within 48 hours shared with health visitors or school nurses. This is a safeguarding safety net. Only a local registered re-audit of GP letters for children exists in the library [449].",
+  "standard": {
+   "source": "NICE NG232 rec 1.10.12 (May 2023)",
+   "wording": "For anyone who has attended the emergency department with a head injury, write to their GP within 48 hours of discharge, giving details of clinical history and examination. Also share this letter with health visitors (for preschool children) and school nurses (for school-age children and young people). If appropriate, provide a copy of the letter for the person with a head injury, and their family or carers, custodial staff or social worker. [2014]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "GP letter sent within 48 hours of ED discharge and copied to the health visitor (under 5) or school nurse (school age).",
+  "population": "Children under 16 discharged home from the ED after a head injury.",
+  "sample": "50 consecutive discharges over 2–4 weeks.",
+  "data_source": "ED system discharge letter log (sent time and recipients); paediatric liaison records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_letter_sent_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_letter_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copied_to",
+    "type": "choice",
+    "options": [
+     "health visitor",
+     "school nurse",
+     "none",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "letter_includes_history_and_examination",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the ED system to auto-copy every paediatric head injury discharge letter to the paediatric liaison inbox, which forwards to the health visitor or school nurse.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 50 discharges.",
+  "close_loop": "Present to the safeguarding children group and ED governance. If it works, keep the auto-copy rule.",
+  "evidence": [
+   "[449] local re-audit: GP letters for discharged children (registered)",
+   "[2651] vascular discharge letters: unspecified interventions did not cut delay (14.6 → 19.4 days; vague fixes fail)",
+   "[3619] psychiatry driving status: a template field lifted screening 25% → 85% (template field)"
+  ],
+  "pitfalls": [
+   "Letters generated but not sent → check the sent log, not the draft.",
+   "Health visitor contact unknown → route via the paediatric liaison team.",
+   "IT change takes months → start with a manual liaison list while the build is done.",
+   "Adults included by mistake → restrict to under 16."
+  ],
+  "pearls": [
+   "Recruit the paediatric liaison health visitor as co-lead.",
+   "The safeguarding lead will back this; ask early.",
+   "Audit copy recipients, not just timing.",
+   "Keep a small weekly spot check after the change."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 children from the letter log"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults aged 65 or over discharged from the ED after a fall-related head injury are referred for a falls assessment?",
+  "why": "NG232 (2023) added referral to investigate the cause of the head injury, such as a falls assessment. Falls audits in the library focus on inpatient checks [1702][1610] and GEM units [1903]; none measures onward referral from the ED.",
+  "standard": {
+   "source": "NICE NG232 rec 1.10.13 (May 2023)",
+   "wording": "Refer people with a head injury to investigate its causes and manage contributing factors, if appropriate. This could include, for example, referral for a falls assessment or to safeguarding services. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "Documented referral to a falls service, frailty team or GP falls review, or a documented reason why not appropriate.",
+  "population": "Adults 65 or over with head injury after a fall, discharged from the ED or observation unit. Exclude admissions.",
+  "sample": "50 consecutive discharges over 2–4 weeks.",
+  "data_source": "ED notes and discharge letter; falls service referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism",
+    "type": "choice",
+    "options": [
+     "fall from standing",
+     "fall from height",
+     "unwitnessed/unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "falls_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_destination",
+    "type": "choice",
+    "options": [
+     "falls service",
+     "frailty team",
+     "GP falls review in letter",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_not_referred",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "clinical_frailty_scale",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a falls referral tick box to the ED discharge letter for patients 65 or over with a fall, which sends an electronic referral to the community falls service.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 50 discharges.",
+  "close_loop": "Present to ED and older persons' governance. If it works, keep the tick box and report referral numbers to the falls service quarterly.",
+  "evidence": [
+   "[1903] GEM falls: checklist lifted composite compliance 65% → 90%",
+   "[1702] falls: huddle reminders raised lying and standing BP 34% → 68%",
+   "[1358] ED: electronic discharge prompt raised assessment 32% → 93.1% (discharge prompt)"
+  ],
+  "pitfalls": [
+   "No falls service capacity → agree the referral route with the service before cycle 1.",
+   "GP letter wording counted as referral → define what counts before cycle 1.",
+   "Patients from care homes already known → record as 'already under falls team'.",
+   "Tick box ignored → make it a required field on discharge."
+  ],
+  "pearls": [
+   "Recruit the frailty or falls nurse lead early.",
+   "Report CFS alongside to show need.",
+   "Show the number of repeat attendances with falls to motivate staff.",
+   "Keep the referral one click."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults treated in the ED for suspected anaphylaxis have two correctly timed mast cell tryptase samples?",
+  "why": "NG258 (May 2026) repeats the timed tryptase rule. Missed or mistimed samples leave allergy clinics without a diagnosis. No anaphylaxis audit exists in the library.",
+  "standard": {
+   "source": "NICE NG258 rec 1.1.4 (May 2026)",
+   "wording": "After suspected anaphylaxis in an adult or young person aged 16 years or older, take timed blood samples for mast cell tryptase testing as follows: a sample as soon as possible after emergency treatment has started; a second sample ideally within 1 to 2 hours (but no later than 4 hours) from the onset of symptoms. [2011]",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Timing-of-blood-samples"
+  },
+  "pass": "First tryptase sample taken after treatment started, and a second sample taken no later than 4 hours from symptom onset, both with times recorded.",
+  "population": "Adults and young people 16 or over treated in the ED with IM adrenaline for suspected anaphylaxis.",
+  "sample": "30–40 consecutive cases over the last 6–12 months.",
+  "data_source": "ED coding and adrenaline administrations on EPMA for cases; lab system for tryptase sample times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "symptom_onset_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_adrenaline_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tryptase_1_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tryptase_2_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_sample_within_4h_of_onset",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_timed_samples",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "suspected_trigger",
+    "type": "choice",
+    "options": [
+     "food",
+     "drug",
+     "venom",
+     "unknown",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a timed tryptase order set ('0 h and 1–2 h') to the ED anaphylaxis pathway, which prints two labelled tubes and adds a 1-hour task on the tracking board.",
+  "target": "≥80%",
+  "reaudit": "After 3 months of new cases, same template.",
+  "close_loop": "Present at ED governance and to the allergy service. If it works, keep the order set and copy results automatically to allergy referrals.",
+  "evidence": [
+   "[2495] ED renal colic: order set raised calcium requests 77.9% → 94.7% (order set)",
+   "[1529] analgesia protocol: electronic order set 0/27 → 58% full compliance (order set)",
+   "[1690] VTE reassessment: timed EPMA prompt 0.13% → 74% (timed task)"
+  ],
+  "pitfalls": [
+   "Onset time unknown → use the ambulance call time and note it.",
+   "Allergic reactions without adrenaline included → restrict to IM adrenaline cases.",
+   "Small numbers → use 12 months look-back and report as counts.",
+   "Second sample forgotten at handover → put the task on the tracking board."
+  ],
+  "pearls": [
+   "Ask the lab to report sample collection time, not receipt time.",
+   "Recruit the local allergy consultant; they want this data.",
+   "Pair with the auto-injector and referral audit to share case finding.",
+   "Build the order set once; it outlasts rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from lab system"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of patients discharged from the ED after anaphylaxis leave with two in-date adrenaline auto-injectors?",
+  "why": "NG258 (2026 amendment) requires two in-date auto-injectors at discharge. Patients often leave with one or none. No anaphylaxis audit exists in the library.",
+  "standard": {
+   "source": "NICE NG258 rec 1.1.15 (May 2026)",
+   "wording": "At discharge following emergency treatment for suspected or known anaphylaxis, ensure the adult, young person or child has 2 in-date adrenaline auto-injectors (via a prescription, if needed) and knows when and how to use them, unless the anaphylaxis was due to a drug allergy and the drug can be easily avoided. [2011, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Discharge-from-AE-or-inpatient-care"
+  },
+  "pass": "Two auto-injectors supplied or prescribed (or two in-date devices confirmed), and training documented; or an easily avoided drug trigger documented.",
+  "population": "Adults and children discharged from the ED or observation unit after suspected anaphylaxis.",
+  "sample": "30–40 consecutive discharges over the last 6–12 months.",
+  "data_source": "ED discharge summary, TTO/EPMA, nursing notes for device training.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trigger",
+    "type": "choice",
+    "options": [
+     "food",
+     "drug easily avoided",
+     "drug other",
+     "venom",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "auto_injectors_supplied_or_confirmed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "training_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "allergy_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an ED anaphylaxis discharge bundle on EPMA: two auto-injectors as a default TTO, device training checkbox and an automatic allergy clinic referral.",
+  "target": "≥90%",
+  "reaudit": "After 3 months of new cases, same template.",
+  "close_loop": "Present at ED governance and to pharmacy. If it works, keep the bundle and stock trainer devices in the ED.",
+  "evidence": [
+   "[2538] day surgery: pre-populated EPR discharge medication order set, correct discharge medicines 25% → 83% (order set)",
+   "[2495] ED renal colic: order set and patient leaflet raised dietary advice 8.7% → 39.4%",
+   "[1358] ED: electronic discharge block raised compliance 32% → 93.1%"
+  ],
+  "pitfalls": [
+   "Patients already carrying devices not checked for expiry → add 'in date' to the checkbox.",
+   "Out-of-hours pharmacy cannot supply → keep two devices as ED pre-packs.",
+   "Drug-trigger exemptions overused → require the drug name.",
+   "Training not recorded → accept a nursing note naming the device brand."
+  ],
+  "pearls": [
+   "Recruit the ED pharmacist to build the default TTO.",
+   "Keep brand-specific trainer pens at the nurse station.",
+   "Record allergy referral in the same pass; NG258 rec 1.1.12 asks for it.",
+   "Share results with the allergy clinic to secure their support."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 cases"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults investigated in the ED for suspected pulmonary embolism have a 2-level PE Wells score documented before the D-dimer or CTPA request?",
+  "why": "The Wells score decides between D-dimer and CTPA. Without it, CTPA overuse and D-dimer misuse follow. The library has one DVT algorithm study [1501] and no ED PE work-up audit.",
+  "standard": {
+   "source": "NICE NG158 rec 1.1.17 (2020, updated 2023)",
+   "wording": "If PE is suspected, use the 2‑level PE Wells score (table 2) to estimate the clinical probability of PE. [2012]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "A PE Wells score (number or likely/unlikely) documented before the first D-dimer or CTPA request time.",
+  "population": "Adults 16 or over who had a D-dimer or CTPA requested from the ED for suspected PE. Exclude pregnancy and patients already on treatment for VTE.",
+  "sample": "50 consecutive patients over the last 4–6 weeks.",
+  "data_source": "ED notes for Wells score; lab and RIS for request times and results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wells_documented_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wells_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_test_requested",
+    "type": "choice",
+    "options": [
+     "D-dimer",
+     "CTPA",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_test_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wells_before_test",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pathway_followed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Likely → CTPA; unlikely → D-dimer first"
+   },
+   {
+    "field": "ctpa_result",
+    "type": "choice",
+    "options": [
+     "PE",
+     "no PE",
+     "not done"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the PE Wells score a required field on the CTPA and D-dimer request forms from the ED, with the result steering the order set.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 50 patients.",
+  "close_loop": "Present jointly at ED and radiology governance with CTPA yield. If it works, keep the request field.",
+  "evidence": [
+   "[1501] DVT: negative D-dimer plus low Wells safely excluded DVT and led to a revised algorithm",
+   "[1707] Ottawa rules: teaching lifted request compliance 43% → 57% only (education plateaus)",
+   "[1733] Ottawa knee: teaching 72.5% → 83.5%, not significant (request-form prompt suggested)"
+  ],
+  "pitfalls": [
+   "Wells written after the test → compare time stamps.",
+   "PERC used instead of Wells in low-risk patients → record PERC use as a separate field.",
+   "Radiology vetting already enforces it informally → check with radiology to avoid double work.",
+   "Required field filled with random numbers → spot check 10 scores for accuracy."
+  ],
+  "pearls": [
+   "Report CTPA positive rate; it is the outcome consultants care about.",
+   "Recruit a radiology registrar to share data pulls.",
+   "Include the age-adjusted D-dimer question as a secondary measure.",
+   "Agree the form change with the IT team before cycle 1."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a likely DVT Wells score seen in the ED get either an ultrasound result within 4 hours or interim therapeutic anticoagulation?",
+  "why": "Out-of-hours DVT presentations often wait overnight without anticoagulation. NG158 is clear about the 4-hour rule. The library has no audit of interim anticoagulation for suspected DVT.",
+  "standard": {
+   "source": "NICE NG158 recs 1.1.3 and 1.1.4 (2020, updated 2023)",
+   "wording": "1.1.3 Offer people with a likely DVT Wells score (2 points or more): a proximal leg vein ultrasound scan, with the result available within 4 hours if possible (if the scan result cannot be obtained within 4 hours follow recommendation 1.1.4) ... 1.1.4 If a proximal leg vein ultrasound scan result cannot be obtained within 4 hours, offer people with a DVT Wells score of 2 points or more: a D‑dimer test, then interim therapeutic anticoagulation (see the section on interim therapeutic anticoagulation for suspected DVT or PE) and a proximal leg vein ultrasound scan with the result available within 24 hours. [2012, amended 2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "Ultrasound result within 4 hours of assessment, or a therapeutic anticoagulant dose given before the patient leaves the ED; or a documented contraindication.",
+  "population": "Adults 16 or over with suspected DVT and a DVT Wells score of 2 or more in the ED or ambulatory DVT clinic. Exclude patients already anticoagulated.",
+  "sample": "40 consecutive patients over the last 2 months.",
+  "data_source": "ED notes or DVT pathway form; RIS for scan result time; EPMA for anticoagulant dose.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wells_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_result_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interim_anticoagulant_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "agent",
+    "type": "choice",
+    "options": [
+     "apixaban",
+     "rivaroxaban",
+     "LMWH",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "baseline_bloods_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pre-printed interim anticoagulation line (DOAC or LMWH by weight and renal function) to the ED DVT pathway, triggered when no scan slot is available within 4 hours.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 patients.",
+  "close_loop": "Present to ED, haematology and ambulatory care. If it works, keep the pathway line and review it yearly with the anticoagulation team.",
+  "evidence": [
+   "[1501] DVT: revised algorithm combining Wells and D-dimer adopted after audit",
+   "[2219] emergency surgery: drug chart checkboxes improved weight- and renal-adjusted anticoagulant dosing 29/36 → 37/38",
+   "[1358] ED immobilised limbs: pathway redesign with discharge prompt 32% → 93.1%"
+  ],
+  "pitfalls": [
+   "Wells not written → count as fail and report separately.",
+   "Ambulatory clinic records live on paper → include both sources.",
+   "Clinicians worry about bleeding → include contraindication as a pass route.",
+   "Weekend scan availability changes between cycles → record day of week."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation nurse specialist as co-lead.",
+   "Report time of day; out-of-hours is where it fails.",
+   "Check baseline bloods are sent (NG158 1.3.4).",
+   "Keep the pre-printed line simple, with a renal dose table on the back."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults discharged from the ED or ambulatory care with suspected or confirmed pulmonary embolism have a validated risk tool documented?",
+  "why": "Outpatient PE treatment is growing. NICE asks for a validated tool (such as PESI, sPESI or Hestia) before discharge. The library has no audit of ambulatory PE decisions.",
+  "standard": {
+   "source": "NICE NG158 rec 1.2.1 (2020, updated 2023)",
+   "wording": "Consider outpatient treatment for suspected or confirmed low-risk PE, using a validated risk stratification tool to determine the suitability of outpatient treatment. [2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "A named validated tool and its score recorded before the discharge decision.",
+  "population": "Adults 16 or over discharged home from the ED or same-day emergency care with suspected or confirmed PE on anticoagulation.",
+  "sample": "30–40 consecutive discharges over the last 3 months.",
+  "data_source": "ED or SDEC notes and ambulatory PE pathway form; discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pe_status",
+    "type": "choice",
+    "options": [
+     "suspected",
+     "confirmed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tool_documented",
+    "type": "choice",
+    "options": [
+     "PESI",
+     "sPESI",
+     "Hestia",
+     "other validated",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG158 1.2.4"
+   },
+   {
+    "field": "return_within_30_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a Hestia checklist (or sPESI score box) as a required section of the ambulatory PE discharge form.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 or next 30 discharges.",
+  "close_loop": "Present at ED, acute medicine and respiratory governance. If it works, keep the required section.",
+  "evidence": [
+   "[2116] hand trauma: electronic proforma uptake 95% and 11/15 items improved (proforma)",
+   "[3619] psychiatry: template field lifted driving screening 25% → 85% (template field)",
+   "[1997] ED trauma booklet: 50% → 87.5% (form)"
+  ],
+  "pitfalls": [
+   "Different tools used in different teams → accept any validated tool, but name it.",
+   "Discharge happens from SDEC not ED → agree which records count.",
+   "Return visits missed → check the ED system for 30 days.",
+   "Clinical gestalt defended → show the NICE wording and the audit's safety data."
+  ],
+  "pearls": [
+   "Recruit an acute medicine consultant who runs the ambulatory pathway.",
+   "Measure 30-day returns as a balancing measure.",
+   "Keep the checklist to one side of A4.",
+   "Share the form with the respiratory follow-up clinic."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults seen in the ED after self-harm have a discharge or referral decision made without a risk score or a low, medium or high risk rating?",
+  "why": "NG225 (2022) says risk tools and global low/medium/high ratings must not decide treatment or discharge. Many ED triage forms still carry SAD PERSONS or a risk rating. Library self-harm audits measured assessment times and completeness [3710][3424]; none checks use of banned risk scales.",
+  "standard": {
+   "source": "NICE NG225 recs 1.6.2 and 1.6.4 (September 2022)",
+   "wording": "1.6.2 Do not use risk assessment tools and scales to determine who should and should not be offered treatment or who should be discharged. ... 1.6.4 Do not use global risk stratification into low, medium or high risk to determine who should be offered treatment or who should be discharged.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "pass": "ED record shows no risk scale score (for example SAD PERSONS) and no low/medium/high rating used to decide discharge or referral.",
+  "population": "Adults 18 or over attending the ED after self-harm. Exclude those admitted to critical care.",
+  "sample": "50 consecutive attendances over 3–4 weeks.",
+  "data_source": "ED clerking and triage forms; liaison psychiatry notes; discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_tool_score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. SAD PERSONS, Manchester Self-Harm Rule"
+   },
+   {
+    "field": "global_risk_rating_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rating_used_for_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "liaison_referral_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG225 1.7.13"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "discharged",
+     "admitted",
+     "left before assessment"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove the risk score and low/medium/high boxes from the ED self-harm triage and clerking template and replace them with the NG225 1.7.12 needs-based questions.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 50 attendances.",
+  "close_loop": "Present jointly with liaison psychiatry at ED governance. If it works, lock the new template and share it with the mental health trust.",
+  "evidence": [
+   "[3424] ED self-harm: system changes lifted mental health triage 64% → 98% but risk assessment quality stayed 11% → 17%",
+   "[3710] deliberate overdose: risk assessment 0% and risk formulation gaps against NG225",
+   "[3619] psychiatry: changing the electronic template changed practice 25% → 85% (template change)"
+  ],
+  "pitfalls": [
+   "Liaison psychiatry notes still use ratings → include them and discuss with the mental health trust.",
+   "Staff feel the old score protects them → explain the NICE rationale and offer a needs-based alternative.",
+   "Template change takes months → start with a paper version.",
+   "Hard to judge 'used for decision' → count any rating as fail in both cycles."
+  ],
+  "pearls": [
+   "Co-lead with a liaison psychiatry nurse.",
+   "Use the RCEM mental health toolkit wording in the new template.",
+   "Also record whether liaison referral was offered.",
+   "Get the mental health trust to agree the change before cycle 1."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 attendances"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adolescents attending the ED with a mental health problem have an emergency clinician-initiated psychosocial assessment documented?",
+  "why": "RCEM's 2026 Adolescent Mental Health QIP sets this as standard 1. Library paediatric self-harm work looked at CAMHS assessment [3198][3427], not the ED clinician's own psychosocial assessment.",
+  "standard": {
+   "source": "RCEM Adolescent Mental Health QIP 2026, Standard 1 (published November 2025)",
+   "wording": "All adolescent patients attending the emergency department with mental health problems should have an emergency clinician initiated psychosocial assessment documented.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2026/01/AMH-QIP-pack-Analysis-plan-FINAL-15.12.25-v3.pdf"
+  },
+  "pass": "ED notes contain a structured psychosocial assessment (for example HEADSSS) by an ED clinician before referral or discharge.",
+  "population": "Young people aged 12–17 attending the ED with a mental health presentation, including self-harm.",
+  "sample": "40 consecutive attendances over the last 2 months.",
+  "data_source": "ED notes and paediatric ED documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presentation",
+    "type": "choice",
+    "options": [
+     "self-harm",
+     "suicidal ideation",
+     "behavioural crisis",
+     "eating disorder",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "psychosocial_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tool_used",
+    "type": "choice",
+    "options": [
+     "HEADSSS",
+     "other structured",
+     "free text",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mental_health_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mental_health_response_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Standard 2a secondary measure"
+   },
+   {
+    "field": "safeguarding_check_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a HEADSSS template to the ED system that opens automatically for 12–17-year-olds with a mental health presenting complaint.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 attendances.",
+  "close_loop": "Present at joint ED, paediatric and CAMHS governance. If it works, keep the auto-template and submit data to the RCEM QIP portal.",
+  "evidence": [
+   "[3198] paediatric psychosocial emergencies: comprehensive assessment 100% with a protocol and crisis liaison",
+   "[3424] ED self-harm: dedicated mental health triage 64% → 98% with system changes",
+   "[3547] liaison psychiatry: assessment template prompt raised driving status 5% → 50% (template prompt)"
+  ],
+  "pitfalls": [
+   "Adolescents seen in the adult ED are missed → search both areas.",
+   "CAMHS assessment counted as ED assessment → count only ED clinician notes.",
+   "ED doctors lack HEADSSS confidence → add a prompt card with questions.",
+   "Data entry doubles with the RCEM portal → use the same fields as the QIP."
+  ],
+  "pearls": [
+   "Register with the RCEM QIP to benchmark nationally.",
+   "Recruit the paediatric mental health lead nurse.",
+   "Record CAMHS response time as a secondary measure.",
+   "Share anonymised good examples with the team."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 attendances"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with suspected TIA seen in the ED receive aspirin 300 mg before leaving the department?",
+  "why": "Immediate aspirin cuts early stroke risk after TIA. ED patients are often discharged to a TIA clinic without a first dose. The library TIA work examined the pathway [1900], not aspirin timing.",
+  "standard": {
+   "source": "NICE NG128 rec 1.1.4 (2019, updated 2022)",
+   "wording": "Offer aspirin (300 mg daily), unless contraindicated, to people who have had a suspected TIA, to be started immediately. [2019]",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Aspirin 300 mg given in the ED (or already taken today), or a documented contraindication; referral to TIA clinic for review within 24 hours documented as a secondary measure.",
+  "population": "Adults with a diagnosis of suspected TIA discharged or referred from the ED. Exclude those with intracranial haemorrhage or already on anticoagulants.",
+  "sample": "40 consecutive patients over the last 2–3 months.",
+  "data_source": "ED notes and EPMA administrations; TIA clinic referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_onset_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_300_given_in_ed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tia_clinic_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abcd2_used_for_urgency",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG128 1.1.6 says do not"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an ED 'suspected TIA' order set that includes aspirin 300 mg stat plus supply for 14 days and an electronic TIA clinic referral.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 patients.",
+  "close_loop": "Present to ED and stroke governance. If it works, keep the order set and audit yearly with the stroke team.",
+  "evidence": [
+   "[1900] TIA pathway: ambulatory AMU route raised stroke specialist review 82.1% → 96.4%",
+   "[2495] ED renal colic: order set raised NSAID use 54.5% → 71.9%",
+   "[1529] order set introduction 0/27 → 58% full protocol compliance"
+  ],
+  "pitfalls": [
+   "Aspirin given by GP earlier the same day → count as pass if recorded.",
+   "Mimics included → use the ED diagnosis of suspected TIA at discharge.",
+   "ABCD2 still in the form → remove it at the same time.",
+   "Stroke team own the pathway → co-design with them."
+  ],
+  "pearls": [
+   "Recruit a stroke nurse specialist as co-lead.",
+   "Measure the time to TIA clinic too; it needs the same data.",
+   "Pharmacy can make aspirin TTO packs for the ED.",
+   "Share results with the ambulance service if many arrive by 999."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults discharged from the ED with atrial fibrillation have a CHA2DS2-VASc score documented?",
+  "why": "The ED is often where AF is first found. Without a stroke risk score, anticoagulation is delayed or never started. Library AF audits looked at inpatients and stroke units [1953][1824]; none looked at ED discharges.",
+  "standard": {
+   "source": "NICE NG196 rec 1.2.1 (2021)",
+   "wording": "Use the CHA2DS2-VASc stroke risk score to assess stroke risk in people with any of the following: symptomatic or asymptomatic paroxysmal, persistent or permanent atrial fibrillation; atrial flutter; a continuing risk of arrhythmia recurrence after cardioversion back to sinus rhythm or catheter ablation. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "CHA2DS2-VASc score documented in ED notes or discharge letter, with an anticoagulation plan (started, referred or reason not).",
+  "population": "Adults discharged from the ED with AF or flutter (new or known and not anticoagulated).",
+  "sample": "40 consecutive discharges over the last 2 months.",
+  "data_source": "ED notes, discharge letter, EPMA TTO.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "af_status",
+    "type": "choice",
+    "options": [
+     "new",
+     "known, not anticoagulated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2vasc_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2vasc_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orbit_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG196 1.2.2"
+   },
+   {
+    "field": "anticoagulation_plan",
+    "type": "choice",
+    "options": [
+     "started in ED",
+     "GP/clinic to decide",
+     "not indicated",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a CHA2DS2-VASc and ORBIT calculator to the ED AF discharge template, with a DOAC start option and a referral to the AF clinic.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 discharges.",
+  "close_loop": "Present at ED and cardiology governance. If it works, keep the template and include AF discharges in the monthly ED dashboard.",
+  "evidence": [
+   "[1953] AF after embolic stroke: 21% of DOAC doses incorrect, 93% of those under-dosed",
+   "[1824] AF in older inpatients: audit presentation only, correct warfarin decisions 18% → 32%",
+   "[2197] ED software mandatory field: CFS 40% → 100% (system field)"
+  ],
+  "pitfalls": [
+   "AF with rapid rate admitted → restrict to discharges only.",
+   "Known AF on anticoagulant included → exclude.",
+   "ED staff say it is the GP's job → the NICE wording covers any setting; share the stroke risk.",
+   "Score calculated but wrong → spot check 10 scores."
+  ],
+  "pearls": [
+   "Recruit a cardiology or AF nurse specialist.",
+   "Record the plan, not just the score.",
+   "Include ORBIT as a secondary measure.",
+   "Put the calculator in the template, not on a poster."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of infants with bronchiolitis seen in the ED receive none of the treatments NICE advises against?",
+  "why": "Salbutamol, nebulised adrenaline, steroids and antibiotics give no benefit in bronchiolitis but are still used, especially by adult-trained ED staff. No bronchiolitis audit exists in the library.",
+  "standard": {
+   "source": "NICE NG9 rec 1.4.3 (2015, updated 2021)",
+   "wording": "Do not use any of the following to treat bronchiolitis in babies or children: antibiotics; hypertonic saline; adrenaline (nebulised); salbutamol; montelukast; ipratropium bromide; systemic or inhaled corticosteroids; a combination of systemic corticosteroids and nebulised adrenaline. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng9/chapter/Recommendations"
+  },
+  "pass": "None of the listed drugs given or prescribed in the ED or at discharge.",
+  "population": "Children under 2 with an ED diagnosis of bronchiolitis. Exclude those with a separate bacterial infection documented.",
+  "sample": "50 consecutive attendances during the winter season (2–3 weeks).",
+  "data_source": "ED diagnosis codes; EPMA or drug chart; discharge TTO.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "salbutamol_or_ipratropium",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nebulised_adrenaline_or_hypertonic_saline",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "none_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "chest_xray_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG9 1.3.7 secondary measure"
+   },
+   {
+    "field": "seen_by",
+    "type": "choice",
+    "options": [
+     "ED doctor",
+     "paediatrician",
+     "ENP/ACP"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a bronchiolitis order set in the paediatric ED EPR that offers only supportive care (oxygen, suction, feeding plan) and pops up a 'not recommended' warning when salbutamol is prescribed with a bronchiolitis diagnosis.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14 or the same weeks the next season.",
+  "close_loop": "Present to paediatric and ED teaching before winter. If it works, keep the order set and warning.",
+  "evidence": [
+   "[2877] surgical antibiotics: posters then teaching cut inappropriate prescribing 52.9% → 9.1%",
+   "[1995] surgery: electronic prescribing lifted appropriate antibiotic selection 76% → 90%",
+   "[2994] paediatric antimicrobials: weekly feedback and guidelines 30% → 100%"
+  ],
+  "pitfalls": [
+   "Season ends before re-audit → plan re-audit for next winter or extend with viral wheeze exclusions.",
+   "Older children with viral wheeze coded as bronchiolitis → restrict to under 2.",
+   "A single 'trial' of salbutamol defended → count it as fail in both cycles.",
+   "The pop-up irritates staff → limit it to bronchiolitis diagnoses only."
+  ],
+  "pearls": [
+   "Recruit a paediatric registrar and the ED paediatric lead.",
+   "Report by staff group; locums often drive prescribing.",
+   "Collect chest X-ray use at the same time.",
+   "Give a pre-winter teaching slot with the baseline data."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 infants"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults discharged from the ED after transient loss of consciousness have driving advice documented?",
+  "why": "Patients discharged after blackouts are often not told whether they can drive. Library DVLA audits come only from psychiatry [3547][3619]; none from the ED.",
+  "standard": {
+   "source": "NICE CG109 recs 1.5.2.1 and 1.5.2.2 (2010, updated 2023)",
+   "wording": "1.5.2.1 Give advice about eligibility to drive when a person first presents with TLoC. Please refer to the Driver and Vehicle Licensing Agency (DVLA) guidance on neurological disorders: assessing fitness to drive. 1.5.2.2 Advise all people who have experienced TLoC that they must not drive while waiting for a specialist assessment. Following specialist assessment, the healthcare professional should advise the person of their obligations regarding reporting the TLoC event to the DVLA.",
+   "url": "https://www.nice.org.uk/guidance/cg109/chapter/Recommendations"
+  },
+  "pass": "Driving status asked and driving advice documented in the ED notes or discharge letter.",
+  "population": "Adults 17 or over discharged from the ED with syncope, collapse with loss of consciousness, or first seizure.",
+  "sample": "50 consecutive discharges over 2–3 weeks.",
+  "data_source": "ED notes and discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "vasovagal syncope",
+     "unexplained syncope",
+     "first seizure",
+     "other TLoC"
+    ],
+    "note": ""
+   },
+   {
+    "field": "driving_status_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "driving_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_in_discharge_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "twelve_lead_ecg_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "CG109 1.1.2.2 secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'driving status and advice given' line to the ED discharge template for syncope, collapse and seizure diagnoses, with a link to DVLA guidance.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 50 discharges.",
+  "close_loop": "Present at ED governance. If it works, keep the template line and add a DVLA leaflet to the ED leaflet stand.",
+  "evidence": [
+   "[3619] inpatient psychiatry: driving status field in the ward round template 25% → 85%",
+   "[3547] liaison psychiatry: template prompt raised driving status 5% → 50%, DVLA advice only 13.6%",
+   "[2030] post-operative driving advice: posters only, 62% → 66% (posters alone fail)"
+  ],
+  "pitfalls": [
+   "Advice given verbally but not written → only count written advice in both cycles.",
+   "Staff unsure of DVLA rules → include a one-page summary with the template.",
+   "Simple vasovagal faints have different rules → record diagnosis so advice can be checked.",
+   "Non-drivers counted as fails → record 'does not drive' as pass if asked."
+  ],
+  "pearls": [
+   "Pair with a 12-lead ECG check; same notes, extra value.",
+   "Recruit an ED consultant with an interest in syncope.",
+   "Link the template to the DVLA web page.",
+   "A required field keeps working after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a staggered or uncertain-time paracetamol overdose start acetylcysteine within 1 hour of ED arrival?",
+  "why": "MHRA advice is to give acetylcysteine without delay in staggered or uncertain-time overdoses, but staff often wait for the level. Only a local registered paracetamol re-audit exists in the library [450].",
+  "standard": {
+   "source": "MHRA Drug Safety Update, September 2012 (vol 6, issue 2: A1)",
+   "wording": "where there is doubt over the timing of paracetamol ingestion including when ingestion has occurred over a period of one hour or more – 'staggered overdose' – acetylcysteine should be given without delay (the nomogram should not be used).",
+   "url": "https://www.gov.uk/drug-safety-update/treating-paracetamol-overdose-with-intravenous-acetylcysteine-new-guidance"
+  },
+  "pass": "Acetylcysteine infusion started within 60 minutes of arrival, without waiting for the paracetamol level (local definition of 'without delay').",
+  "population": "Adults 16 or over with a staggered overdose or unknown ingestion time. Exclude single acute ingestions with a known time.",
+  "sample": "30–40 consecutive cases over the last 3–6 months.",
+  "data_source": "ED notes for overdose type; EPMA for acetylcysteine start time; lab for paracetamol level time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "overdose_type",
+    "type": "choice",
+    "options": [
+     "staggered",
+     "unknown time"
+    ],
+    "note": ""
+   },
+   {
+    "field": "paracetamol_level_result_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acetylcysteine_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_before_level_result",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "weight_based_dose_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'staggered or unknown-time overdose' route to the ED paracetamol pathway that prescribes acetylcysteine at triage by weight band.",
+  "target": "≥90%",
+  "reaudit": "After 3 months of new cases, same template.",
+  "close_loop": "Present at ED and pharmacy governance. If it works, keep the pathway route and include it in induction.",
+  "evidence": [
+   "[450] local re-audit: paracetamol overdose management (registered)",
+   "[2219] drug chart checkboxes improved weight- and renal-adjusted dosing 29/36 → 37/38",
+   "[1529] electronic order set 0/27 → 58% full protocol compliance"
+  ],
+  "pitfalls": [
+   "Overdose type not clear in notes → record 'unclear' and treat as unknown time.",
+   "Waiting for weight → use weight-band tables.",
+   "Pharmacy prescribing delays at night → keep weight-band bags in ED.",
+   "Small numbers → extend the look-back."
+  ],
+  "pearls": [
+   "Recruit the ED pharmacist.",
+   "Check dose accuracy at the same time.",
+   "Use TOXBASE wording in the pathway.",
+   "Share with liaison psychiatry to align the timing of assessment."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 cases"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of fluoroquinolone prescriptions issued from the ED have a documented reason why first-line antibiotics were inappropriate?",
+  "why": "Since January 2024 the MHRA limits systemic fluoroquinolones to cases where first-line options are inappropriate. ED discharge prescriptions of ciprofloxacin remain common. No fluoroquinolone audit exists in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, January 2024 (vol 17, issue 6: 2)",
+   "wording": "the UK indications for systemic fluoroquinolones have been updated so they must only be used in situations when other antibiotics, that are commonly recommended for the infection, are inappropriate; situations in which other antibiotics are considered to be inappropriate and where a fluoroquinolone may be indicated are where: there is resistance to other first-line antibiotics recommended for the infection; other first-line antibiotics are contraindicated in an individual patient; other first-line antibiotics have caused side effects in the patient requiring treatment to be stopped; treatment with other first-line antibiotics has failed",
+   "url": "https://www.gov.uk/drug-safety-update/fluoroquinolone-antibiotics-must-now-only-be-prescribed-when-other-commonly-recommended-antibiotics-are-inappropriate"
+  },
+  "pass": "One of the four MHRA reasons documented, and the patient given fluoroquinolone safety advice.",
+  "population": "All systemic fluoroquinolone (ciprofloxacin, levofloxacin, moxifloxacin, ofloxacin) prescriptions from the ED, in ED or at discharge.",
+  "sample": "40 consecutive prescriptions over the last 2–3 months.",
+  "data_source": "EPMA or pharmacy dispensing report; ED notes; microbiology results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "prescription_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug",
+    "type": "choice",
+    "options": [
+     "ciprofloxacin",
+     "levofloxacin",
+     "moxifloxacin",
+     "ofloxacin"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mhra_reason_documented",
+    "type": "choice",
+    "options": [
+     "resistance",
+     "contraindication",
+     "side effects",
+     "treatment failure",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "safety_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "age_over_60_or_steroid",
+    "type": "yes/no",
+    "options": [],
+    "note": "Higher tendon risk"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'reason first-line inappropriate' drop-down (the four MHRA reasons) to all fluoroquinolone prescriptions on EPMA in the ED.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 prescriptions.",
+  "close_loop": "Present to the antimicrobial stewardship committee and ED governance. If it works, keep the drop-down and add ED data to stewardship reports.",
+  "evidence": [
+   "[1995] surgery: electronic prescribing raised documented indications 78% → 96%",
+   "[2877] surgical antibiotics: posters and teaching cut inappropriate prescribing 52.9% → 9.1%",
+   "[1896] microbiology-led rounds and IT access lifted guideline compliance 53% → 83%"
+  ],
+  "pitfalls": [
+   "Paper FP10 prescriptions missed → include ED pharmacy TTO records.",
+   "Microbiology advice verbal → accept 'discussed with micro' plus reason.",
+   "Drop-down filled without thought → spot check 10 against the notes.",
+   "Pushback from urology or ENT pathways → agree exemptions with specialty leads."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist; they can pull a dispensing list in minutes.",
+   "Report by indication; UTI and prostatitis dominate.",
+   "Print the MHRA patient sheet into the discharge pack.",
+   "Share results with the stewardship committee for Trust-wide spread."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 prescriptions"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults given insulin-glucose for hyperkalaemia in the ED have blood glucose checked at every scheduled time point for the first 6 hours?",
+  "why": "Hypoglycaemia after insulin-glucose is common and often late. The UK Kidney Association sets a fixed monitoring schedule. No library audit covers hyperkalaemia treatment.",
+  "standard": {
+   "source": "UK Kidney Association (Renal Association) Clinical Practice Guideline: Treatment of Acute Hyperkalaemia in Adults, Guideline 17.2 (July 2022, v2)",
+   "wording": "We recommend that the blood glucose concentration is monitored at regular intervals (0, 15, 30, 60, 90, 120, 180, 240, 360, 480 and 720 minutes) up to 12 hours after administration of insulin-glucose infusion in all patients with hyperkalaemia. (1C)",
+   "url": "https://www.ukkidney.org/sites/default/files/RENAL%20ASSOCIATION%20HYPERKALAEMIA%20GUIDELINE%20-%20JULY%202022%20V2_0.pdf"
+  },
+  "pass": "Capillary or lab glucose recorded at 0, 15, 30, 60, 90, 120, 180, 240 and 360 minutes (±10 minutes) after the insulin-glucose infusion.",
+  "population": "Adults 16 or over given insulin-glucose for hyperkalaemia in the ED.",
+  "sample": "30–40 consecutive episodes over the last 3 months.",
+  "data_source": "EPMA for insulin-glucose time; glucose meter download or observation chart for readings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "insulin_glucose_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_treatment_glucose_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "readings_done_of_9",
+    "type": "number",
+    "options": [],
+    "note": "Count of the 9 scheduled checks in 6 hours"
+   },
+   {
+    "field": "all_9_checks_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hypoglycaemia_under_4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preemptive_10pc_glucose_if_baseline_under_7",
+    "type": "yes/no",
+    "options": [],
+    "note": "Guideline 16.3.3"
+   },
+   {
+    "field": "potassium_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an insulin-glucose order set that automatically creates glucose monitoring tasks at each scheduled time on the e-observations system, with a pre-emptive 10% glucose line if baseline is under 7 mmol/l.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 30 episodes.",
+  "close_loop": "Present at ED, renal and diabetes governance. If it works, keep the order set and share it with admitting wards.",
+  "evidence": [
+   "[1690] VTE: automated EPMA task prompt 0.13% → 74% (timed electronic task)",
+   "[1529] analgesia order set 0/27 → 58% (order set)",
+   "[2219] drug chart checkboxes improved dosing 29/36 → 37/38 (chart redesign)"
+  ],
+  "pitfalls": [
+   "Readings on meters not linked to the EPR → download meter data or use paper charts.",
+   "Patients move to the ward before 6 hours → count checks wherever done.",
+   "Strict schedule seems impractical → report both full compliance and number of checks.",
+   "Glucose-insulin given twice → take the first dose only."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist nurse and the ED pharmacist.",
+   "Report hypoglycaemia rate as the outcome.",
+   "Use the UKKA algorithm poster in resus.",
+   "Share the order set with acute medicine."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults having procedural sedation in the ED have continuous capnography documented?",
+  "why": "RCEM (2022) lists continuous capnography as standard monitoring for ED sedation. Its use is patchy and rarely recorded. No library audit measures sedation monitoring.",
+  "standard": {
+   "source": "RCEM Best Practice Guideline: Procedural Sedation in the Emergency Department, recommendation 11 (August 2022)",
+   "wording": "Monitoring during procedural sedation should include: 3 lead ECG, oxygen saturations, continuous capnography, non-invasive blood pressure.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2022/08/RCEM_BPC_Procedural_Sedation_Final_Aug_22.pdf"
+  },
+  "pass": "Sedation record documents continuous capnography plus 3-lead ECG, SpO2 and NIBP.",
+  "population": "Adults 16 or over having procedural sedation (propofol, ketamine, midazolam or combinations) in the ED.",
+  "sample": "40 consecutive sedations over the last 3 months.",
+  "data_source": "ED sedation proforma or electronic sedation record; resus observation chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "sedation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "joint reduction",
+     "cardioversion",
+     "abscess drainage",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "agents",
+    "type": "choice",
+    "options": [
+     "propofol",
+     "ketamine",
+     "midazolam",
+     "combination",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "capnography_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ecg_spo2_nibp_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sedation_proforma_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adverse_event",
+    "type": "choice",
+    "options": [
+     "none",
+     "desaturation",
+     "apnoea",
+     "hypotension",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a capnography line with a tick box and trace sticker space to the ED sedation proforma, and fit capnography modules to every resus monitor.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14 or next 40 sedations.",
+  "close_loop": "Present at ED governance with the sedation lead. If it works, keep the proforma and include capnography in the sedation competency sign-off.",
+  "evidence": [
+   "[1997] ED trauma booklet: documentation 50% → 87.5% (form)",
+   "[2116] electronic proforma improved 11/15 data points",
+   "[3032] ED intubation: audit, education and checklist raised first-pass success 88.5% → 94.6% (checklist)"
+  ],
+  "pitfalls": [
+   "Capnography modules missing → check equipment before cycle 1.",
+   "Proforma not used → count free-text notes too and report proforma use.",
+   "Sedation lead not involved → ask them to co-lead.",
+   "Paediatric sedation mixed in → keep to adults or audit separately."
+  ],
+  "pearls": [
+   "Ask the ED sedation lead to present the results and own the proforma.",
+   "Record adverse events as a balancing measure.",
+   "Keep capnography lines with each monitor.",
+   "Build it into sedation competency."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 sedations"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of patients with Parkinson's disease in the ED receive their time-critical medication within 30 minutes of their usual dose time?",
+  "why": "RCEM runs a national Time Critical Medications QIP because delays in the ED cause harm. Library Parkinson's audits are inpatient-based [1913][1165]; in one, 86% did not get appropriate medication in the ED [1165].",
+  "standard": {
+   "source": "RCEM Time Critical Medications QIP 2025 (Year 2) Information Pack, Standard 2 (January 2025)",
+   "wording": "A patient's TCM should be administered according to their usual regime whilst they are in the ED",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2025/01/TCM-QIP-2024-25-Information-Pack-Year-2-V4.pdf"
+  },
+  "pass": "Every Parkinson's dose due during the ED stay given (or self-administered and recorded) within 30 minutes of the usual time.",
+  "population": "Adults with Parkinson's disease on levodopa or other time-critical Parkinson's medication who stay in the ED over a scheduled dose time.",
+  "sample": "30–40 consecutive attendances over the last 3 months.",
+  "data_source": "ED system for arrival; medicines reconciliation; EPMA administration times; notes for self-administration.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tcm_identified_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Standard 1: within 30 minutes"
+   },
+   {
+    "field": "doses_due_in_ed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_given_within_30_min",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_missed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_doses_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "self_administered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nil_by_mouth_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'time-critical medication' question at triage that flags the patient on the tracking board and prompts self-administration or prescribing with usual times.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14 or next 30 attendances.",
+  "close_loop": "Present at ED and medicines safety governance and submit to the RCEM QIP. If it works, keep the triage question and add a stock of common Parkinson's drugs in the ED.",
+  "evidence": [
+   "[1165] Parkinson's inpatients: 86% did not receive appropriate medication in the ED",
+   "[1913] Parkinson's inpatients: 30% received all doses on time; education only",
+   "[2197] ED software mandatory field: 40% → 100% (triage system change)"
+  ],
+  "pitfalls": [
+   "Usual dose times not known → ask patient or carer and record at triage.",
+   "Self-administered doses not recorded → add a self-administration entry on EPMA.",
+   "Short ED stays with no dose due → exclude them.",
+   "Pharmacy stock gaps → agree an ED stock list with pharmacy."
+  ],
+  "pearls": [
+   "Register with the RCEM QIP to benchmark.",
+   "Recruit a Parkinson's nurse specialist.",
+   "Use Parkinson's UK 'Get it on time' materials.",
+   "Report missed doses as counts; they are powerful at governance."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 attendances"
+ }
+]

@@ -1,0 +1,2425 @@
+[
+ {
+  "question": "What proportion of adults admitted with suspected non-variceal upper GI bleeding do not receive a proton pump inhibitor before their endoscopy?",
+  "why": "PPI is still given almost routinely in upper GI bleeding; one unit recorded PPI in about 98% of bleeds [2768]. Existing audits count PPI use without separating timing [2307]; none has audited against the NICE advice not to give it before endoscopy.",
+  "standard": {
+   "source": "NICE CG141 rec 1.4.3 (2012, updated 2016)",
+   "wording": "Do not offer acid-suppression drugs (proton pump inhibitors or H2-receptor antagonists) before endoscopy to patients with suspected non-variceal upper gastrointestinal bleeding.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults (≥16) admitted with suspected upper GI bleeding who had inpatient endoscopy. Exclude suspected variceal bleeding (known cirrhosis or varices on scope) and patients who did not have endoscopy.",
+  "sample": "40 consecutive eligible admissions over the last 3 months.",
+  "data_source": "Endoscopy reporting system for the case list; ED and admission drug charts (EPMA) for PPI doses and times; endoscopy report for start time and findings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_variceal",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "regular_ppi_before_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_ppi_or_h2ra_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: must be no"
+   },
+   {
+    "field": "ppi_route",
+    "type": "choice",
+    "options": [
+     "none",
+     "oral",
+     "IV bolus",
+     "IV infusion"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prescriber_location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "surgical team",
+     "medical team",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "stigmata_of_recent_haemorrhage",
+    "type": "yes/no",
+    "options": [],
+    "note": "From endoscopy report"
+   },
+   {
+    "field": "ppi_started_after_endoscopy_if_stigmata",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE 1.4.4"
+   }
+  ],
+  "change": "Remove IV PPI from the ED and surgical admission order set for GI bleeding, and add a 'no PPI before endoscopy (NICE 1.4.3)' line to the GI bleed proforma.",
+  "target": "≥80% receive no new pre-endoscopy acid suppression",
+  "reaudit": "Weeks 13–14, next 40 consecutive admissions, same template.",
+  "close_loop": "Present at the joint surgical–gastroenterology audit meeting and to ED governance. If it works, lock the order-set change and add a PPI line to the GI bleed pathway.",
+  "evidence": [
+   "[2307] UGIB audit: Blatchford use 12.5% → 50% after education alone; endoscopy <24 h fell 91.4% → 53%",
+   "[2768] UGIB audit: PPI given in about 98% (timing not separated); no re-audit",
+   "[3042] UK national UGIB audit 2022: pre-endoscopy risk stratification missed in 42%"
+  ],
+  "pitfalls": [
+   "Gastroenterology or ED consultants may still favour pre-scope PPI → agree the standard with both leads before cycle 1 and cite NICE 1.4.3.",
+   "Patients on a regular PPI are counted as failures → record them separately and agree the rule in advance.",
+   "Variceal and non-variceal cases get mixed up → decide exclusion on the endoscopy findings and cirrhosis history.",
+   "The order set change is bypassed by free-text prescribing → check pharmacy intervention logs in cycle 2.",
+   "Gains fade when ED rotates → make the order set the default, not the teaching."
+  ],
+  "pearls": [
+   "Recruit the endoscopy lead early; they can pull the case list in minutes.",
+   "Pair the audit with PPI after endoscopy when stigmata are seen, so the message is 'later, not never'.",
+   "Ask pharmacy to flag new IV PPI in suspected bleeds for 4 weeks.",
+   "Show the cost of IV PPI infusions alongside the result."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and endoscopy system",
+  "area": "General and emergency surgery",
+  "pass": "No PPI or H2-receptor antagonist given (oral or IV) between arrival and the start of endoscopy, on the drug chart. Patients already on a regular oral PPI who simply continue it are recorded separately and do not fail.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of haemodynamically stable adults admitted with upper GI bleeding have endoscopy within 24 hours of admission?",
+  "why": "Delay to endoscopy lengthens stay and wastes beds. One UK unit fell from 91.4% to 53% after an education-only cycle [2307]; an Irish unit managed 63% [2768]. No closed loop with a system fix has been published in the library.",
+  "standard": {
+   "source": "NICE CG141 rec 1.3.2 (2012, updated 2016)",
+   "wording": "Offer endoscopy within 24 hours of admission to all other patients with upper gastrointestinal bleeding.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults (≥16) admitted with upper GI bleeding who were stable at presentation. Exclude those needing immediate endoscopy after resuscitation, those with a documented decision not to scope, and in-hospital bleeds.",
+  "sample": "40 consecutive eligible admissions over the last 3 months.",
+  "data_source": "Endoscopy system for the case list and procedure time; ED system for arrival and admission times; notes for reasons for delay.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glasgow_blatchford_score",
+    "type": "number",
+    "options": [],
+    "note": "Blank if not recorded"
+   },
+   {
+    "field": "endoscopy_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "admission_day",
+    "type": "choice",
+    "options": [
+     "weekday",
+     "Friday",
+     "weekend or bank holiday"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "choice",
+    "options": [
+     "no list slot",
+     "not requested",
+     "patient unfit",
+     "anticoagulation",
+     "patient declined",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A named daily 'bleed slot' on the endoscopy list, booked by the admitting team through an electronic request that timestamps the referral.",
+  "target": "≥85% within 24 hours",
+  "reaudit": "Weeks 13–14, next 40 consecutive admissions, same template.",
+  "close_loop": "Present at the endoscopy users group and divisional governance. If it works, keep the protected slot in the job plan and report the monthly rate on the endoscopy dashboard.",
+  "evidence": [
+   "[2307] UGIB audit: endoscopy <24 h 91.4% → 53% after education only",
+   "[2768] UGIB audit: 63% within 24 h, mean delay 42.8 h; no re-audit",
+   "[3042] UK national UGIB audit 2022: inpatient endoscopy 83%"
+  ],
+  "pitfalls": [
+   "Admission time is defined differently between cycles → fix one definition in writing before cycle 1.",
+   "Weekend admissions dominate breaches and small numbers skew the rate → report weekday and weekend rates separately.",
+   "Endoscopy managers object to 'unused' slots → release the slot to the waiting list at a fixed time if no bleed is booked.",
+   "Patients scoped late for good reasons are counted as failures → record the reason and report them separately."
+  ],
+  "pearls": [
+   "Recruit an endoscopy nurse manager as co-author.",
+   "Record the Blatchford score at the same time; low scores may suit outpatient scopes and free up slots.",
+   "Keep a live list of bleeds awaiting endoscopy on the ward handover sheet.",
+   "Show bed-days lost per delayed case to win management support."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from endoscopy and ED systems",
+  "area": "General and emergency surgery",
+  "pass": "Endoscopy start time is within 24 hours of the admission time (ED decision to admit or ward arrival, whichever is recorded first).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults treated for a perforated peptic ulcer are tested for H. pylori and, if positive, given eradication therapy?",
+  "why": "H. pylori eradication prevents recurrent ulcer and re-perforation, yet testing is easily forgotten after emergency repair. No audit of H. pylori testing after perforated ulcer exists in the library.",
+  "standard": {
+   "source": "NICE CG184 recs 1.7.1 and 1.9.1 (2014, updated 2019)",
+   "wording": "1.7.1 Offer H pylori eradication therapy to people who have tested positive for H pylori and who have peptic ulcer disease. ... 1.9.1 Test for H pylori using a carbon‑13 urea breath test or a stool antigen test, or laboratory-based serology where its performance has been locally validated.",
+   "url": "https://www.nice.org.uk/guidance/cg184/chapter/Recommendations"
+  },
+  "population": "Adults (≥18) with a perforated gastric or duodenal ulcer managed operatively or non-operatively. Exclude deaths before a test was possible.",
+  "sample": "All eligible cases over the last 18 months (expect 20–40 in a DGH); NELA extract helps identify operative cases.",
+  "data_source": "NELA extract and theatre system for the case list; pathology system for H. pylori tests and results; drug chart and discharge letter for eradication therapy.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ulcer_site",
+    "type": "choice",
+    "options": [
+     "duodenal",
+     "gastric",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "management",
+    "type": "choice",
+    "options": [
+     "laparoscopic repair",
+     "open repair",
+     "non-operative"
+    ],
+    "note": ""
+   },
+   {
+    "field": "h_pylori_test_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "test_type",
+    "type": "choice",
+    "options": [
+     "serology",
+     "breath test",
+     "stool antigen",
+     "biopsy",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "test_result",
+    "type": "choice",
+    "options": [
+     "positive",
+     "negative",
+     "pending",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "eradication_prescribed_if_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "plan_in_discharge_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gastric_ulcer_repeat_ogd_planned",
+    "type": "yes/no",
+    "options": [],
+    "note": "CG184 1.7.3, gastric only"
+   }
+  ],
+  "change": "Add 'H. pylori serology sent / eradication prescribed' to the emergency laparotomy postoperative order set and discharge template.",
+  "target": "≥90%",
+  "reaudit": "Re-audit all cases in the 12 weeks after the change plus the next consecutive cases to reach 15; same template.",
+  "close_loop": "Present at the upper GI MDT and emergency surgery governance. If it works, keep the order-set item and share it with NELA leads.",
+  "evidence": [
+   "[2293] Food bolus follow-up: OGD after bolus 20% → 45% (nearest follow-up audit)",
+   "[2650] Colorectal MMR testing 97% → 100% with a reporting standard",
+   "[2541] NELA frailty: CFS 0% → 92% after a proforma item"
+  ],
+  "pitfalls": [
+   "Breath and stool tests give false negatives on PPI → use locally validated serology during admission.",
+   "Small numbers make percentages jumpy → report counts and extend the window.",
+   "Results return after discharge and no one acts → name the consultant team as owner in the discharge letter.",
+   "Gastroenterology may own the result → agree who prescribes before cycle 1."
+  ],
+  "pearls": [
+   "Ask the lab to add H. pylori serology to a 'perforated ulcer' order panel.",
+   "Recruit the upper GI consultant who runs the follow-up clinic.",
+   "Check the GP record for eradication if the hospital record is blank.",
+   "Track gastric ulcers for a 6–8 week OGD at the same time."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from pathology and letters",
+  "area": "General and emergency surgery",
+  "pass": "An H. pylori test (serology, breath, stool antigen or biopsy) is sent during admission or planned in the discharge letter with a named owner, and, if positive, eradication therapy is prescribed.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults given intravenous antibiotics for acute diverticulitis have a documented review of the IV antibiotics within 48 hours or after their CT, whichever is sooner?",
+  "why": "IV antibiotics are often continued by default, keeping patients in hospital. Existing diverticulitis audits focus on starting antibiotics [2101][2442]; none has measured the 48-hour IV review in NG147.",
+  "standard": {
+   "source": "NICE NG147 rec 1.3.11 (2019)",
+   "wording": "Review intravenous antibiotics within 48 hours or after scanning if sooner (see recommendation 1.3.5) and consider stepping down to oral antibiotics where possible.",
+   "url": "https://www.nice.org.uk/guidance/ng147/chapter/Recommendations"
+  },
+  "population": "Adults (≥18) admitted with acute diverticulitis who received IV antibiotics. Exclude those who went to theatre within 48 hours.",
+  "sample": "40 consecutive eligible admissions over the last 4 months.",
+  "data_source": "Coding or surgical admissions list for cases; EPMA for antibiotic start and switch times; PACS for CT report time; ward round entries.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_iv_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hinchey_or_ct_grade",
+    "type": "choice",
+    "options": [
+     "uncomplicated",
+     "abscess <3 cm",
+     "abscess ≥3 cm",
+     "perforation",
+     "no CT"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none documented"
+   },
+   {
+    "field": "review_within_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "switch to oral",
+     "stop",
+     "continue IV with reason",
+     "continue IV no reason",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_to_oral_switch_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_iv_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a 48-hour 'IV antibiotic review: continue / oral / stop' box to the EPMA antibiotic order that must be completed on the surgical ward round.",
+  "target": "≥90% reviewed within the standard",
+  "reaudit": "Weeks 13–14, next 40 admissions, same template.",
+  "close_loop": "Present at the surgical audit meeting and antimicrobial stewardship committee. If it works, keep the EPMA prompt and add the rate to the stewardship dashboard.",
+  "evidence": [
+   "[3054] IV metronidazole despite oral suitability 81.4% → 34.2% after prescriber education",
+   "[2232] Oral metronidazole use 12.5% → 61% in an acute surgical unit",
+   "[2442] Diverticulitis antibiotics in ED: local guideline and teaching after 98% blanket prescribing"
+  ],
+  "pitfalls": [
+   "'Continue antibiotics' written without mention of route is counted inconsistently → define what counts as a review before cycle 1.",
+   "Weekend admissions skew the timing → report weekday and weekend separately.",
+   "Microbiology may object to earlier oral switch in abscesses → agree exceptions (abscess ≥3 cm, sepsis) with them first.",
+   "The EPMA prompt is clicked through → spot-check 10 cases for a real decision."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist; they can pull EPMA data fast.",
+   "Record length of stay to show the benefit.",
+   "Put the NG147 oral options table on the ward round checklist.",
+   "Hand the dashboard to the stewardship team so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from EPMA and notes",
+  "area": "General and emergency surgery",
+  "pass": "A dated entry in the notes or drug chart by a prescriber stating the IV antibiotic decision (continue with reason, switch to oral, or stop) within 48 hours of the first IV dose, or within 24 hours of the CT report if that is sooner.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults admitted with acute pancreatitis are allowed to eat, or have a documented reason for withholding food, within 24 hours of admission?",
+  "why": "Routine 'nil by mouth' in pancreatitis persists. One DGH found 91% made nil by mouth with a reason recorded in only 20% and did not re-audit [2471]. No closed-loop audit of feeding in pancreatitis appears in the library.",
+  "standard": {
+   "source": "NICE NG104 rec 1.2.5 (2018, updated 2020)",
+   "wording": "Ensure that people with acute pancreatitis are not made 'nil‑by‑mouth' and do not have food withheld unless there is a clear reason for this (for example, vomiting).",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults (≥18) admitted with a new diagnosis of acute pancreatitis. Exclude those admitted directly to critical care.",
+  "sample": "40 consecutive admissions over the last 3–4 months.",
+  "data_source": "Surgical admissions list or coding for cases; clerking and ward round notes; nursing food charts; dietetic referrals.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aetiology",
+    "type": "choice",
+    "options": [
+     "gallstone",
+     "alcohol",
+     "other",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "severity_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nbm_ordered_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_nbm_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diet_status_at_24h",
+    "type": "choice",
+    "options": [
+     "eating",
+     "free fluids",
+     "nil by mouth with reason",
+     "nil by mouth no reason"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard_at_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dietitian_referral_if_severe",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG104 1.2.6"
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Replace the default 'NBM' line in the pancreatitis clerking proforma with 'Diet: eat as tolerated unless vomiting / ileus / procedure (state reason)'.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14, next 40 admissions, same template.",
+  "close_loop": "Present at the surgical audit meeting and to ward nursing leads. If it works, keep the proforma wording and add it to the pancreatitis pathway.",
+  "evidence": [
+   "[2471] Pancreatitis DGH audit: nil by mouth 91%, reason recorded 20%; no re-audit",
+   "[2736] BISAP printed on the clerking proforma: 10% → 80% scored",
+   "[2548] Electronic tick box: severity scoring 44% → 84%"
+  ],
+  "pitfalls": [
+   "Nurses keep patients nil by mouth 'just in case' → brief the ward sisters before the change.",
+   "Cases waiting for ERCP or cholecystectomy are counted as failures → accept a documented planned procedure as a reason.",
+   "Food charts are incomplete → use the ward round entry as the primary source.",
+   "Seniors disagree about early feeding → share the NICE rationale at the audit meeting."
+  ],
+  "pearls": [
+   "Recruit a ward dietitian as co-lead.",
+   "Add a bedside sign option 'eat as tolerated'.",
+   "Measure length of stay as a balancing measure.",
+   "Get the consultant on-call rota to sign off the proforma change."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from notes and charts",
+  "area": "General and emergency surgery",
+  "pass": "By 24 hours after admission the patient is on oral diet or free fluids progressing to diet, or the notes record a clear reason for withholding food (for example vomiting, ileus, planned procedure).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults with acute pancreatitis not caused by gallstones or alcohol have serum calcium and triglycerides measured during the admission?",
+  "why": "Up to a third of cases are labelled idiopathic, and only 45% of these had a further screen in one DGH [2425]. Aetiology audits count 'cause identified' but none has measured the specific tests NICE lists.",
+  "standard": {
+   "source": "NICE NG104 rec 1.2.2 (2018, updated 2020)",
+   "wording": "If gallstones and alcohol have been excluded as potential causes of a person's acute pancreatitis, investigate other possible causes such as: metabolic causes (such as hypercalcaemia or hyperlipidaemia) prescription drugs microlithiasis hereditary causes autoimmune pancreatitis ampullary or pancreatic tumours anatomical anomalies (pancreas divisum).",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults (≥18) with acute pancreatitis where ultrasound shows no gallstones and alcohol is not the recorded cause.",
+  "sample": "30–40 consecutive eligible cases over the last 12 months.",
+  "data_source": "Coding or admissions list; ultrasound reports on PACS; pathology results; discharge letter for follow-up plan.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gallstones_on_ultrasound",
+    "type": "choice",
+    "options": [
+     "no",
+     "not scanned"
+    ],
+    "note": ""
+   },
+   {
+    "field": "alcohol_history_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calcium_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "triglycerides_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "drug_history_reviewed_for_causes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cross_sectional_imaging_planned",
+    "type": "yes/no",
+    "options": [],
+    "note": "CT, MRCP or EUS"
+   },
+   {
+    "field": "final_label",
+    "type": "choice",
+    "options": [
+     "idiopathic",
+     "metabolic",
+     "drug-induced",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_plan_in_discharge_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "An electronic 'pancreatitis cause' blood panel (calcium, triglycerides, IgG4) available from the admission order set.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14 onwards, next 30 eligible cases (may need 3 months), same template.",
+  "close_loop": "Present at the benign upper GI or HPB meeting. If it works, keep the order panel and add it to the pancreatitis pathway.",
+  "evidence": [
+   "[2425] Pancreatitis DGH audit: 45% of idiopathic cases had a further screen; no re-audit",
+   "[2881] Aetiology assessment 62% → 100% after teaching and MDT posters",
+   "[1991] Renal colic bloods: calcium 58.8% → 76% with a set panel"
+  ],
+  "pitfalls": [
+   "Triglycerides taken late are falsely low after fasting → take on admission and note timing.",
+   "Alcohol history is vague → define 'alcohol excluded' before cycle 1.",
+   "Numbers are small → extend the look-back window.",
+   "The lab rejects triglyceride requests without a reason → add the indication to the panel."
+  ],
+  "pearls": [
+   "Recruit a biochemist to create the panel.",
+   "Include IgG4 and drug review in the same prompt.",
+   "Check whether GPs were asked to repeat tests after discharge.",
+   "Flag idiopathic cases for HPB review at discharge."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from pathology and PACS",
+  "area": "General and emergency surgery",
+  "pass": "Both adjusted calcium and triglycerides are measured during the index admission.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults who had potentially curative surgery for colorectal cancer have CEA and CT chest, abdomen and pelvis at the planned intervals over the first 3 years?",
+  "why": "Follow-up gaps are greatest in year 3; one nurse-led service achieved only 46% for the 3-year CT in high-risk patients [2217]. No closed-loop audit of the NG151 follow-up schedule appears in the library.",
+  "standard": {
+   "source": "NICE NG151 rec 1.6.1 (2020, updated 2021)",
+   "wording": "For people who have had potentially curative surgical treatment for non-metastatic colorectal cancer, offer follow-up for detection of local recurrence and distant metastases for the first 3 years. Follow-up should include serum carcinoembryonic antigen (CEA) and CT scan of the chest, abdomen and pelvis.",
+   "url": "https://www.nice.org.uk/guidance/ng151/chapter/Recommendations"
+  },
+  "population": "Adults who had potentially curative resection for non-metastatic colorectal cancer 1–3 years ago. Exclude those who chose no follow-up, entered palliative care or died.",
+  "sample": "40 patients operated on 3 years ago (full schedule) from the cancer database.",
+  "data_source": "Colorectal cancer database or NBOCA list; pathology system for CEA dates; PACS for CT dates; clinic letters for the local schedule.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_group",
+    "type": "choice",
+    "options": [
+     "standard",
+     "high"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ceas_due",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ceas_done_on_time",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cts_due",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cts_done_on_time",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_tests_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "recurrence_detected",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_missed_test",
+    "type": "choice",
+    "options": [
+     "not requested",
+     "patient DNA",
+     "lost after clinic change",
+     "other",
+     "none"
+    ],
+    "note": ""
+   }
+  ],
+  "change": "Automatic surveillance tracking: each patient is loaded onto an electronic recall list at the end of treatment, with CEA and CT requests triggered by the cancer nurse team.",
+  "target": "≥90%",
+  "reaudit": "After 6 months, audit the next 40 patients using the same template, looking at tests due in the preceding 6 months.",
+  "close_loop": "Present at the colorectal MDT business meeting. If it works, make the recall list part of the Personalised Stratified Follow-Up protocol.",
+  "evidence": [
+   "[2217] Nurse-led CRC follow-up: 1-year CT 85–100%, 3-year CT in high-risk patients 46%; no re-audit",
+   "[2628] Gallbladder polyp recall: 41.6% lost to follow-up → 100% returned to surveillance",
+   "[3037] Colonoscopy surveillance: 73.5% adherent to intervals"
+  ],
+  "pitfalls": [
+   "Local schedules differ from NICE → state the local schedule and audit against it.",
+   "Scans done at another trust are missed → check image-sharing systems.",
+   "Patients who opt out are counted as failures → record choice as an exclusion.",
+   "Recall lists depend on one nurse → give a deputy access."
+  ],
+  "pearls": [
+   "Recruit the colorectal CNS team; they hold the follow-up list.",
+   "Audit the full 3-year cohort, not recent patients.",
+   "Report recurrences found by surveillance to show value.",
+   "Link to the Personalised Stratified Follow-Up system if the trust has one."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from PACS and pathology",
+  "area": "General and emergency surgery",
+  "pass": "Every CEA and CT due by the local schedule was done within 6 weeks of its due date up to the audit date (or 3 years after surgery).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults having sphincter-preserving rectal cancer surgery have documented pre-operative information about low anterior resection syndrome?",
+  "why": "Most patients get bowel dysfunction after anterior resection, and many say they were not warned. No audit of LARS information exists in the library.",
+  "standard": {
+   "source": "NICE NG151 rec 1.6.2 (2020, updated 2021)",
+   "wording": "Give information on low anterior resection syndrome (LARS) to people who will potentially have sphincter-preserving surgery. Advise them to seek help from primary care if they think they have symptoms of LARS, such as: increased frequency of stool urgency with or without incontinence of stool feeling of incomplete emptying of the bowels fragmentation of stool (passing small amounts little and often) difficulty in differentiating between gas and stool.",
+   "url": "https://www.nice.org.uk/guidance/ng151/chapter/Recommendations"
+  },
+  "population": "Adults having anterior resection or other sphincter-preserving rectal cancer surgery. Exclude abdominoperineal resection and Hartmann's without plan for reversal.",
+  "sample": "30–40 consecutive cases over the last 12 months.",
+  "data_source": "Colorectal cancer database or theatre system; surgeon and CNS clinic letters; consent form; stoma nurse notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operation",
+    "type": "choice",
+    "options": [
+     "high anterior resection",
+     "low anterior resection",
+     "ultra-low with coloanal",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "defunctioning_stoma",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lars_discussed_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "lars_leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lars_on_consent_form",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_documented",
+    "type": "choice",
+    "options": [
+     "surgeon",
+     "CNS",
+     "stoma nurse",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lars_score_after_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG151 1.6.3"
+   }
+  ],
+  "change": "Add 'LARS explained and leaflet given' to the colorectal CNS pre-operative checklist and to the anterior resection consent template.",
+  "target": "≥90%",
+  "reaudit": "Next 30 consecutive anterior resections (about 4–6 months), same template.",
+  "close_loop": "Present at the colorectal MDT and CNS team meeting. If it works, keep the checklist item and use the LARS score at follow-up.",
+  "evidence": [
+   "[2633] TURBT patient information leaflet: 30% → 80% after a pathway change",
+   "[2841] Hernia discharge documentation improved with a standard leaflet",
+   "[2414] Pancreatitis information: satisfaction 60% → 92% after written information"
+  ],
+  "pitfalls": [
+   "Discussion happens but is not written down → accept any written record and agree sources before cycle 1.",
+   "Surgeons see it as consent detail, not audit → frame it as a NICE quality item.",
+   "Small numbers → extend the window or pool with a neighbour unit.",
+   "Leaflet stock runs out → keep an electronic copy linked in the checklist."
+  ],
+  "pearls": [
+   "Recruit the colorectal CNS lead; they own the pre-operative visit.",
+   "Use the national LARS leaflet so no one has to write one.",
+   "Add the LARS score to the first follow-up clinic template.",
+   "Ask two patients to comment on the leaflet."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from letters",
+  "area": "General and emergency surgery",
+  "pass": "Clinic letter, CNS record or consent form documents that LARS was discussed or a LARS leaflet given before surgery.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of women under 50 with triple-negative breast cancer are offered BRCA1/2 genetic testing?",
+  "why": "Testing changes surgery, systemic therapy and family screening, and NICE applies it regardless of family history. No audit of BRCA testing in triple-negative disease exists in the library.",
+  "standard": {
+   "source": "NICE NG101 rec 1.3.6 (2018, updated 2025)",
+   "wording": "Offer genetic testing for BRCA1 and BRCA2 mutations to women under 50 years with triple-negative breast cancer, including those with no family history of breast or ovarian cancer (also see the recommendations on genetic testing in the NICE guideline on familial breast cancer).",
+   "url": "https://www.nice.org.uk/guidance/ng101/chapter/Recommendations"
+  },
+  "population": "Women under 50 with newly diagnosed invasive triple-negative breast cancer. Exclude those already known to carry a BRCA variant.",
+  "sample": "All eligible cases over the last 2 years (expect 20–40 in a DGH unit).",
+  "data_source": "Breast MDT database for receptor status and age; clinic letters; genetics referral log; genetics lab result.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_at_diagnosis",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_history_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "brca_test_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "route",
+    "type": "choice",
+    "options": [
+     "mainstream test by breast team",
+     "genetics referral",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_test_sent",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_available_before_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result",
+    "type": "choice",
+    "options": [
+     "pathogenic variant",
+     "no variant",
+     "pending",
+     "not done"
+    ],
+    "note": ""
+   }
+  ],
+  "change": "Add an automatic 'TNBC <50: BRCA test offered?' field to the breast MDT outcome form, completed at the diagnostic MDT.",
+  "target": "≥95%",
+  "reaudit": "All eligible cases in the 6 months after the change, same template.",
+  "close_loop": "Present at the breast MDT business meeting and to the regional genetics service. If it works, keep the MDT field and mainstream consent pack.",
+  "evidence": [
+   "[2728] Hereditary diffuse gastric cancer: CDH1 testing 58% → 87% with mainstream testing",
+   "[2650] Colorectal MMR testing 97% → 100% with a reporting standard",
+   "[2095] Lynch testing 79% in colorectal cancer; no re-audit"
+  ],
+  "pitfalls": [
+   "Some units route testing through genetics with long waits → record the date offered, not only the date tested.",
+   "Small numbers → use a 2-year window and report counts.",
+   "Oncology offers the test and it is missed in surgical records → check oncology letters too.",
+   "Eligibility criteria widen over time → state the NICE criterion used in both cycles."
+  ],
+  "pearls": [
+   "Recruit a breast CNS trained in mainstream consent.",
+   "Check the regional genetics criteria at the same time.",
+   "Report the proportion with results before surgery; it drives surgical choice.",
+   "Hand the MDT field to the MDT coordinator so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the MDT database",
+  "area": "General and emergency surgery",
+  "pass": "Clinic letter or MDT outcome records that BRCA testing was offered (mainstream test sent or genetics referral made), or that the patient declined.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of postmenopausal women with node-positive early invasive breast cancer are offered adjuvant bisphosphonates?",
+  "why": "Adjuvant bisphosphonates improve survival but uptake is patchy between units. Existing breast bone audits look only at DEXA scans [1530][1311]; none has audited adjuvant bisphosphonate use.",
+  "standard": {
+   "source": "NICE NG101 rec 1.12.1 (2018, updated 2025)",
+   "wording": "Offer bisphosphonates (zoledronic acid or sodium clodronate) as adjuvant therapy to postmenopausal women with node-positive invasive breast cancer.",
+   "url": "https://www.nice.org.uk/guidance/ng101/chapter/Recommendations"
+  },
+  "population": "Postmenopausal women with node-positive early invasive breast cancer treated with curative intent. Exclude metastatic disease.",
+  "sample": "40 consecutive eligible patients from the last 12 months.",
+  "data_source": "Breast MDT database for nodal status and menopausal status; oncology letters; chemotherapy prescribing system; dental check records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "menopausal_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nodal_status",
+    "type": "choice",
+    "options": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "bisphosphonate_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "agent",
+    "type": "choice",
+    "options": [
+     "zoledronic acid",
+     "sodium clodronate",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dental_review_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_within_standard_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Local target e.g. with chemotherapy or within 6 months of surgery"
+   }
+  ],
+  "change": "Add 'Adjuvant bisphosphonate: yes / no (reason)' to the postoperative MDT outcome template.",
+  "target": "≥90% offered",
+  "reaudit": "Next 40 eligible patients (about 6 months), same template.",
+  "close_loop": "Present at the breast MDT business meeting with oncology. If it works, keep the template field and a dental-check prompt.",
+  "evidence": [
+   "[1530] Baseline DEXA in breast cancer: 38% → 100% after a pathway change",
+   "[1311] Bone health on aromatase inhibitors: baseline DEXA 61%, calcium and vitamin D 52%",
+   "[2502] NABCOP fitness assessment: 0% → 88.2% after adding a template"
+  ],
+  "pitfalls": [
+   "Menopausal status is not recorded → agree a definition (age, periods, FSH) before cycle 1.",
+   "Oncologists may make the decision outside the MDT → include oncology letters.",
+   "Dental delays postpone starts → record the dental check as a separate step.",
+   "Off-label status worries prescribers → cite the NICE note on off-label use."
+  ],
+  "pearls": [
+   "Recruit a breast oncologist as co-lead.",
+   "Pair with the DEXA pathway so bone care is one conversation.",
+   "Use the MDT coordinator to pull node-positive cases.",
+   "Report both 'offered' and 'started'."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MDT records",
+  "area": "General and emergency surgery",
+  "pass": "MDT outcome or oncology letter records that adjuvant zoledronic acid or sodium clodronate was offered (started or declined), or a documented contraindication (for example dental work pending).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of pre-operative breast MRIs in newly diagnosed breast cancer have a NICE indication recorded on the request?",
+  "why": "Routine pre-operative MRI adds cost and delay and can lead to more mastectomies without better outcomes. No audit of breast MRI indications appears in the library.",
+  "standard": {
+   "source": "NICE NG101 recs 1.2.2 and 1.2.3 (2018, updated 2025)",
+   "wording": "1.2.2 Do not routinely use MRI of the breast as part of the preoperative assessment of people with biopsy-proven invasive breast cancer or ductal carcinoma in situ (DCIS). 1.2.3 Offer MRI of the breast as part of preoperative assessment to people with invasive breast cancer: if the extent of disease is not clear from clinical examination, mammography and ultrasound assessment for planning treatment if accurate mammographic assessment is difficult because of breast density to assess the tumour size if breast-conserving surgery is being considered for invasive lobular cancer.",
+   "url": "https://www.nice.org.uk/guidance/ng101/chapter/Recommendations"
+  },
+  "population": "Adults with newly diagnosed invasive breast cancer or DCIS who had a pre-operative breast MRI.",
+  "sample": "40 consecutive pre-operative breast MRIs over the last 4 months.",
+  "data_source": "Radiology information system for MRI requests; MDT outcomes; histology for tumour type.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_request_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "histology",
+    "type": "choice",
+    "options": [
+     "invasive ductal/NST",
+     "invasive lobular",
+     "DCIS",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication_recorded",
+    "type": "choice",
+    "options": [
+     "unclear extent",
+     "dense breasts",
+     "lobular for conservation",
+     "neoadjuvant therapy",
+     "occult primary",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication_meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "mri_changed_surgical_plan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_from_mri_request_to_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Make 'MRI indication' a mandatory drop-down on the breast MRI request, listing the NICE and agreed local indications.",
+  "target": "≥90% with a valid indication",
+  "reaudit": "Next 40 pre-operative breast MRIs, same template.",
+  "close_loop": "Present at the breast MDT and radiology governance. If it works, keep the mandatory field and review the indication list yearly.",
+  "evidence": [
+   "[2724] Pancreatitis CT with a local imaging policy: unnecessary scans 28% → 4.3%",
+   "[2263] Breast clinical biopsy indication: inappropriate biopsies 80% → 15.4%",
+   "[2681] Radiology request acceptance 73% → 89% after request quality work"
+  ],
+  "pitfalls": [
+   "Radiologists and surgeons disagree on local indications → agree the list at the MDT first.",
+   "Requests are made verbally at MDT → use the MDT outcome as a second source.",
+   "Neoadjuvant cases inflate MRI use → record them as an agreed indication.",
+   "The drop-down becomes a tick box → spot-check 10 cases against the MDT discussion."
+  ],
+  "pearls": [
+   "Recruit a breast radiologist as co-author.",
+   "Record whether MRI changed the plan; it answers the value question.",
+   "Track time from MRI request to surgery as a balancing measure.",
+   "Re-audit yearly via the radiology system."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from RIS and MDT records",
+  "area": "General and emergency surgery",
+  "pass": "The MRI request or MDT outcome states one NICE indication (unclear extent, dense breasts, lobular cancer for conservation) or another agreed local indication (for example neoadjuvant therapy, occult primary).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of people treated for breast cancer have their annual surveillance mammogram within 13 months of the previous one?",
+  "why": "Missed surveillance mammograms delay detection of recurrence and new primaries. Surveillance audits in the library cover B3 lesions [2891] but none has audited annual mammography after breast cancer.",
+  "standard": {
+   "source": "NICE NG101 rec 1.15.1 (2018, updated 2025)",
+   "wording": "Offer annual mammography for 5 years to all people who have had or are being treated for breast cancer, including DCIS. For women, continue annual mammography past 5 years until they enter the NHS Breast Screening Programme (NHSBSP) in England or the Breast Test Wales Screening Programme (BTWSP) in Wales.",
+   "url": "https://www.nice.org.uk/guidance/ng101/chapter/Recommendations"
+  },
+  "population": "Adults treated for breast cancer or DCIS 1–5 years ago with breast tissue remaining or a contralateral breast. Exclude bilateral mastectomy, metastatic disease and death.",
+  "sample": "50 patients diagnosed 2–4 years ago, randomly selected from the breast MDT database.",
+  "data_source": "Breast MDT database for the cohort; PACS or breast imaging system for mammogram dates; clinic letters for planned surveillance.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_type",
+    "type": "choice",
+    "options": [
+     "breast conservation",
+     "unilateral mastectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mammograms_due",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mammograms_on_time",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "longest_gap_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_gap",
+    "type": "choice",
+    "options": [
+     "not booked",
+     "patient DNA",
+     "moved area",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "new_cancer_detected",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add each patient to an electronic surveillance recall list in the breast imaging system at the end of treatment, with automatic invitations.",
+  "target": "≥95%",
+  "reaudit": "After 6 months, check mammograms due in that period for the same cohort plus 20 new patients.",
+  "close_loop": "Present at the breast MDT business meeting and to the breast imaging manager. If it works, keep the recall list and a monthly overdue report.",
+  "evidence": [
+   "[2628] Gallbladder polyp recall: 41.6% lost to follow-up → 100% returned to surveillance",
+   "[2891] B3 lesion surveillance: 64% referred for annual mammograms",
+   "[2804] Gallbladder polyp surveillance: 17% of pathways adherent"
+  ],
+  "pitfalls": [
+   "Patients discharged to GP-led follow-up are missed → include open-access follow-up patients.",
+   "Scans done at another site are not visible → check shared PACS.",
+   "DNAs are counted as failures → record them and check re-invitation.",
+   "Recall lists get switched off after IT upgrades → name an owner."
+  ],
+  "pearls": [
+   "Recruit the breast imaging superintendent.",
+   "Sample randomly across years to show where gaps happen.",
+   "Report any cancers found by surveillance.",
+   "Check that patients reaching 5 years are moved to screening."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS",
+  "area": "General and emergency surgery",
+  "pass": "Each surveillance mammogram due in the audit period was done within 13 months of the previous one (or of the end of surgery for the first).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults with an incidental abdominal aortic aneurysm of 3.0 cm or more on imaging are referred to the vascular service within the NICE time frame?",
+  "why": "Aneurysms found by chance on CT or ultrasound often go unreferred. No audit of incidental AAA referral exists in the library.",
+  "standard": {
+   "source": "NICE NG156 rec 1.1.5 (2020)",
+   "wording": "Refer people with an AAA that is 5.5 cm or larger to a regional vascular service, to be seen within 2 weeks of diagnosis. Refer people with an AAA that is 3.0 cm to 5.4 cm to a regional vascular service, to be seen within 12 weeks of diagnosis.",
+   "url": "https://www.nice.org.uk/guidance/ng156/chapter/Recommendations"
+  },
+  "population": "Adults with a new AAA ≥3.0 cm reported on CT or ultrasound done for another reason. Exclude those already known to vascular, those in the screening programme and those with documented palliative care decisions.",
+  "sample": "40 consecutive cases found by a radiology report text search ('aneurysm', 'aortic') over the last 6–12 months.",
+  "data_source": "Radiology information system text search; vascular referral log; clinic system; GP letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "scan_report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_type",
+    "type": "choice",
+    "options": [
+     "CT",
+     "ultrasound",
+     "MRI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "aaa_diameter_cm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_recommends_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_vascular_contact_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_within_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "requesting_team",
+    "type": "choice",
+    "options": [
+     "ED",
+     "surgery",
+     "medicine",
+     "GP",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_not_referred",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Radiology adds a coded 'AAA ≥3 cm' alert that automatically copies the report to the vascular service's referral inbox.",
+  "target": "≥90%",
+  "reaudit": "Next 40 cases after the alert goes live (about 3–6 months), same template.",
+  "close_loop": "Present at vascular network governance and radiology discrepancy meeting. If it works, keep the coded alert and audit it yearly.",
+  "evidence": [
+   "[2628] Primary care recall for radiology-found gallbladder polyps: 41.6% lost → 100% returned",
+   "[1700] Vertebral fracture reporting on CT improved after national audit and interventions",
+   "[2446] Vascular referral quality: median 2.5 → 9 of 10 criteria met"
+  ],
+  "pitfalls": [
+   "Text search misses reports with odd wording → search several terms and check a sample by hand.",
+   "Referrals go to the hub hospital and are hard to trace → get access to the hub clinic system.",
+   "Frail patients are appropriately not referred → accept a documented decision.",
+   "Radiology IT change takes months → start with a manual weekly list."
+  ],
+  "pearls": [
+   "Recruit a vascular nurse specialist from the hub.",
+   "Report sizes: the ≥5.5 cm group matters most.",
+   "Ask the radiology lead to add a standard sentence to reports.",
+   "Share the result with ED, whose CTs find many aneurysms."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from RIS and vascular log",
+  "area": "General and emergency surgery",
+  "pass": "Seen by the vascular service (or in the AAA surveillance programme) within 2 weeks for ≥5.5 cm or within 12 weeks for 3.0–5.4 cm, from the date of the report.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of aortic ultrasound reports state the inner-to-inner maximum anterior-posterior diameter?",
+  "why": "Different calipers give different diameters, which changes referral and surveillance decisions. No audit of aortic measurement reporting exists in the library.",
+  "standard": {
+   "source": "NICE NG156 rec 1.1.10 (2020)",
+   "wording": "When measuring aortic size with ultrasound, report the inner-to-inner maximum anterior-posterior aortic diameter, in accordance with the NHS AAA screening programme. Clearly document any additional measurements taken.",
+   "url": "https://www.nice.org.uk/guidance/ng156/chapter/Recommendations"
+  },
+  "population": "Adults having a diagnostic aortic ultrasound (not NHS AAA screening). Exclude incomplete scans due to bowel gas.",
+  "sample": "50 consecutive aortic ultrasound reports over the last 3 months.",
+  "data_source": "Radiology information system report text.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "scan_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operator",
+    "type": "choice",
+    "options": [
+     "sonographer",
+     "radiologist",
+     "vascular scientist"
+    ],
+    "note": ""
+   },
+   {
+    "field": "maximum_ap_diameter_reported",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inner_to_inner_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "other_measurements_labelled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aaa_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_advice_given_if_aaa",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A structured aortic ultrasound report template with 'Maximum AP diameter (inner-to-inner): __ cm' as a required field.",
+  "target": "≥95%",
+  "reaudit": "Next 50 reports, same template.",
+  "close_loop": "Present at the ultrasound users meeting. If it works, keep the template and add it to sonographer induction.",
+  "evidence": [
+   "[2245] Thyroid ultrasound: U classification 32.5% → 85.3% after reporting changes",
+   "[2703] Gallbladder ultrasound: neck assessment 7.1% → 77.8% after reporting changes",
+   "[1700] CT vertebral fracture reporting improved after interventions"
+  ],
+  "pitfalls": [
+   "Sonographers measure correctly but do not state the method → the template field fixes this.",
+   "Vascular lab scans use outer-to-outer by habit → agree one method with the vascular lab.",
+   "Reports from outsourced providers differ → include them and share results.",
+   "Staff see it as criticism → present it as aligning with the screening programme."
+  ],
+  "pearls": [
+   "Recruit the ultrasound lead sonographer.",
+   "Keep the audit to report text only; it is quick.",
+   "Pair with the incidental AAA referral audit.",
+   "Re-audit after 3 months to check the template holds."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 reports from RIS",
+  "area": "General and emergency surgery",
+  "pass": "The report gives a maximum anterior-posterior diameter and states it is inner-to-inner.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults newly diagnosed with intermittent claudication in vascular clinic are offered a supervised exercise programme?",
+  "why": "Supervised exercise is first-line treatment but access is uneven. Vascular audits in the library focus on drugs and smoking [2038][2465]; none has audited exercise programme referral.",
+  "standard": {
+   "source": "NICE CG147 rec 1.5.1 (2012, updated 2020)",
+   "wording": "Offer a supervised exercise programme to all people with intermittent claudication.",
+   "url": "https://www.nice.org.uk/guidance/cg147/chapter/Recommendations"
+  },
+  "population": "Adults seen in vascular clinic with a new diagnosis of intermittent claudication. Exclude chronic limb-threatening ischaemia.",
+  "sample": "40 consecutive new patients over the last 4 months.",
+  "data_source": "Vascular clinic letters; exercise programme referral log; ABPI results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abpi_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sep_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "sep_referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_offered",
+    "type": "choice",
+    "options": [
+     "not available locally",
+     "patient declined",
+     "unsuitable",
+     "not documented",
+     "n/a"
+    ],
+    "note": ""
+   },
+   {
+    "field": "home_exercise_advice_only",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_cessation_referral_if_smoker",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "attended_first_session",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add 'Supervised exercise programme: referred / declined / unsuitable (reason)' to the vascular new-patient clinic template, with a one-click referral.",
+  "target": "≥90% offered",
+  "reaudit": "Next 40 new claudicants, same template.",
+  "close_loop": "Present at the vascular network governance meeting. If it works, keep the template and report uptake to commissioners.",
+  "evidence": [
+   "[2038] Vascular secondary prevention: smoking cessation advice 19% → 100% after a template",
+   "[2465] PAD inpatient risk factor optimisation: smoking cessation 40.5%, antiplatelet 38.9%",
+   "[2303] PAD best medical therapy: 4 of 11 smokers given cessation advice"
+  ],
+  "pitfalls": [
+   "No programme exists locally → audit anyway; the result supports a business case.",
+   "Advice to 'walk more' is counted as a pass → define supervised programme before cycle 1.",
+   "Patients seen at spoke sites are missed → include all clinic sites.",
+   "Attendance is low even with referral → measure it as a secondary outcome."
+  ],
+  "pearls": [
+   "Recruit the vascular physiotherapist who runs the class.",
+   "Record distance to the nearest programme.",
+   "Use the audit to support a virtual or community option.",
+   "Share with GP leads to build referral routes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters",
+  "area": "General and emergency surgery",
+  "pass": "The clinic letter records a referral to a supervised exercise programme, or that it was offered and declined, or a documented reason it is unsuitable.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults having major abdominal surgery lasting longer than the half-life of the prophylactic antibiotic receive a timely repeat dose?",
+  "why": "Missed redosing in long operations raises surgical site infection risk. Antibiotic prophylaxis audits check choice and first-dose timing [2887][2272]; none has measured intraoperative redosing.",
+  "standard": {
+   "source": "NICE NG125 rec 1.2.16 (2019, updated 2020)",
+   "wording": "Before giving antibiotic prophylaxis, take into account the timing and pharmacokinetics (for example, the serum half-life) and necessary infusion time of the antibiotic. Give a repeat dose of antibiotic prophylaxis when the operation is longer than the half-life of the antibiotic given.",
+   "url": "https://www.nice.org.uk/guidance/ng125/chapter/Recommendations"
+  },
+  "population": "Adults having elective or emergency major abdominal surgery (colorectal, upper GI, HPB, laparotomy) where knife-to-skin to closure exceeded the local redosing interval.",
+  "sample": "40 consecutive eligible cases over the last 3 months.",
+  "data_source": "Theatre system for operation times; anaesthetic chart or e-record for antibiotic doses and times; local antibiotic guideline for intervals.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "closure_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "choice",
+    "options": [
+     "cefuroxime + metronidazole",
+     "co-amoxiclav",
+     "gentamicin + metronidazole",
+     "teicoplanin",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_dose_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "redose_due_time",
+    "type": "datetime",
+    "options": [],
+    "note": "From local guideline"
+   },
+   {
+    "field": "redose_given_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not given"
+   },
+   {
+    "field": "redose_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blood_loss_over_1500ml",
+    "type": "yes/no",
+    "options": [],
+    "note": "Also triggers redosing in many guidelines"
+   }
+  ],
+  "change": "Add a 'Redose antibiotic due at __:__' line to the WHO checklist time-out, completed by the anaesthetist, with the time shown on the theatre whiteboard.",
+  "target": "≥90%",
+  "reaudit": "Next 40 eligible cases, same template.",
+  "close_loop": "Present at the theatre users group and antimicrobial stewardship committee. If it works, keep the checklist line and whiteboard prompt.",
+  "evidence": [
+   "[2887] Surgical prophylaxis: correct choice 50.4%, timing 58.5%; improved after multidisciplinary process integration",
+   "[2272] Lap chole prophylaxis: correct 24.4% → 55%",
+   "[2883] Ventral hernia prophylaxis: compliance 27.1% → 80% after local guideline work"
+  ],
+  "pitfalls": [
+   "Paper anaesthetic charts are hard to read → pilot 5 charts first.",
+   "Guideline intervals differ between antibiotics → list them in the template.",
+   "Anaesthetists may see it as surgical audit → co-lead with an anaesthetic trainee.",
+   "Long cases are few → include all specialties using abdominal surgery lists."
+  ],
+  "pearls": [
+   "Recruit an anaesthetic trainee as co-lead.",
+   "Use the whiteboard time as a visible cue.",
+   "Report SSI rates from surveillance alongside.",
+   "Get the theatre manager to add the line to the checklist."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from anaesthetic records",
+  "area": "General and emergency surgery",
+  "pass": "A repeat dose is recorded on the anaesthetic chart within 30 minutes of the redosing interval in the local guideline (for example 4 hours for cefuroxime or co-amoxiclav).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults on the general surgical wards who are able to take oral medicines receive paracetamol orally rather than intravenously on the day after surgery?",
+  "why": "IV paracetamol is costly and is often continued after patients start eating and drinking. No audit of IV-to-oral paracetamol after surgery exists in the library.",
+  "standard": {
+   "source": "NICE NG180 rec 1.6.6 (2020)",
+   "wording": "Do not offer intravenous paracetamol unless the person cannot take oral medicine.",
+   "url": "https://www.nice.org.uk/guidance/ng180/chapter/Recommendations"
+  },
+  "population": "Adults on general surgical wards on postoperative day 1 who are documented as tolerating oral fluids. Exclude patients nil by mouth for a stated clinical reason.",
+  "sample": "40 consecutive postoperative patients over 2 weeks (point prevalence on ward rounds is acceptable).",
+  "data_source": "EPMA administration records; nursing fluid charts; ward round notes for oral intake status.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operation_category",
+    "type": "choice",
+    "options": [
+     "minor",
+     "intermediate",
+     "major"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tolerating_oral_on_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_paracetamol_doses_day1",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oral_paracetamol_doses_day1",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_doses_oral_if_able",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "iv_prescribed_as_regular",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_review_date_on_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Change the postoperative EPMA order set so oral paracetamol is the default and IV paracetamol needs a reason with a 24-hour auto-stop.",
+  "target": "≥90%",
+  "reaudit": "Next 40 postoperative patients, same template.",
+  "close_loop": "Present at the surgical audit meeting and drugs and therapeutics committee. If it works, keep the order set and share the cost saving.",
+  "evidence": [
+   "[3054] IV metronidazole despite oral suitability 81.4% → 34.2% after education",
+   "[2232] Oral metronidazole use 12.5% → 61% in an acute surgical unit",
+   "[1529] Electronic prescribing order set: analgesia protocol compliance 0% → 58%"
+  ],
+  "pitfalls": [
+   "Oral intake status is poorly recorded → use the fluid chart and ward round note together.",
+   "Anaesthetists prescribe IV paracetamol in recovery → involve them in the order set change.",
+   "Nausea is used as a blanket reason → accept only documented vomiting.",
+   "Gains fade after the pharmacist leaves → rely on the order set, not reminders."
+  ],
+  "pearls": [
+   "Recruit the surgical ward pharmacist.",
+   "Show the cost difference per day.",
+   "Collect data on two ward rounds a week for speed.",
+   "Pair with oral ibuprofen for a single analgesia message."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPMA",
+  "area": "General and emergency surgery",
+  "pass": "On postoperative day 1, every paracetamol dose given is oral (or rectal) in a patient documented as able to take oral fluids or medicines.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults after elective abdominal or hernia surgery are prescribed regular oral ibuprofen for the first 24 hours unless contraindicated?",
+  "why": "Multimodal analgesia reduces opioid use, yet NSAIDs are often left off without a reason. Postoperative analgesia audits in the library are mainly orthopaedic [1529][1321]; none has audited NSAID prescribing after general surgery against NG180.",
+  "standard": {
+   "source": "NICE NG180 rec 1.6.7 (2020)",
+   "wording": "Offer oral ibuprofen to manage immediate postoperative pain of all severities (including pain after dental surgery) unless the person has had surgery for hip fracture (see the recommendations on analgesia in the NICE guideline on hip fracture).",
+   "url": "https://www.nice.org.uk/guidance/ng180/chapter/Recommendations"
+  },
+  "population": "Adults having elective laparoscopic cholecystectomy, hernia repair or other elective abdominal surgery. Exclude hip fracture surgery.",
+  "sample": "40 consecutive elective cases over the last 4 weeks.",
+  "data_source": "Theatre system for the case list; EPMA for postoperative prescriptions; pre-operative assessment notes for contraindications.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "lap cholecystectomy",
+     "inguinal hernia",
+     "ventral hernia",
+     "colorectal resection",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nsaid_prescribed_regular_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_type",
+    "type": "choice",
+    "options": [
+     "renal",
+     "GI bleed or ulcer",
+     "allergy",
+     "asthma",
+     "surgeon request",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "oral_paracetamol_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid_doses_first_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add regular oral ibuprofen to the elective general surgery postoperative order set, with a contraindication checklist that removes it when ticked.",
+  "target": "≥85%",
+  "reaudit": "Next 40 elective cases, same template.",
+  "close_loop": "Present at the surgical and anaesthetic audit meeting. If it works, keep the order set and report opioid use as a balancing measure.",
+  "evidence": [
+   "[1529] Enhanced recovery order set: compliance 0% → 58%, ibuprofen 58%",
+   "[1321] Arthroplasty analgesia: protocol standard 34% → 61%, 87% of adherent cases used the powerplan",
+   "[2043] Analgesic ladder compliance 83.3% → 50.9% after teaching only"
+  ],
+  "pitfalls": [
+   "Surgeons worry about anastomotic leak → agree colorectal exceptions before cycle 1.",
+   "Renal function is not checked → build eGFR into the checklist.",
+   "Day-case patients are prescribed on discharge only → count TTO prescriptions too.",
+   "Opioid use goes up if NSAIDs are missed → record opioid doses as a balance."
+  ],
+  "pearls": [
+   "Recruit a pain team nurse.",
+   "Use EPMA reports to pull data quickly.",
+   "Start with day-case lists, where the change is least contested.",
+   "Report AKI rates to reassure colleagues."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPMA",
+  "area": "General and emergency surgery",
+  "pass": "Regular oral ibuprofen (or another oral NSAID) is prescribed for the first 24 hours after surgery, or a contraindication is documented (for example AKI, eGFR <30, active GI bleeding, NSAID allergy, surgeon request after anastomosis).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults referred on the suspected lower GI cancer pathway (excluding rectal or anal mass or anal ulceration) have a FIT result available at triage?",
+  "why": "FIT at ≥10 µg Hb/g is now the gateway to the colorectal suspected cancer pathway. One unit went from 7 of 74 to 18 of 18 FIT use [2103]; a large trust found 103 cancers referred without FIT [2777]. No closed loop against the 2023 NICE wording is in the library.",
+  "standard": {
+   "source": "NICE NG12 recs 1.3.1 and 1.3.2 (2015, updated 2026)",
+   "wording": "1.3.1 ... People with a rectal mass, an unexplained anal mass or unexplained anal ulceration do not need to be offered FIT before referral is considered. [2023] 1.3.2 Refer adults using a suspected cancer pathway referral for colorectal cancer if they have a FIT result of at least 10 micrograms of haemoglobin per gram of faeces. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "population": "Adults referred on the lower GI suspected cancer pathway. Exclude referrals for rectal mass, anal mass or anal ulceration.",
+  "sample": "50 consecutive referrals over the last 4 weeks.",
+  "data_source": "Cancer referral booking system; referral forms; pathology system for FIT result and date; triage notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_symptom",
+    "type": "choice",
+    "options": [
+     "change in bowel habit",
+     "iron deficiency anaemia",
+     "rectal bleeding",
+     "abdominal mass",
+     "weight loss",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fit_result_available_at_triage",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fit_value_ug_g",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triage_outcome",
+    "type": "choice",
+    "options": [
+     "straight to test",
+     "clinic",
+     "returned to GP",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "days_referral_to_first_test",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cancer_diagnosed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Make a FIT result a required field on the electronic lower GI referral form, with referral returned to the GP with a FIT kit if blank (safety-netted for strong clinical concern).",
+  "target": "≥90%",
+  "reaudit": "Next 50 referrals 3 months after the form change, same template.",
+  "close_loop": "Present to the cancer alliance and colorectal MDT. If it works, keep the form rule and monitor monthly with the cancer services manager.",
+  "evidence": [
+   "[2103] qFIT in 2WW referrals: 7/74 eligible → 18/18 after a closed loop",
+   "[2777] FIT-negative referrals: 103 of 1,037 cancers had no FIT",
+   "[3558] Memory clinic referral proforma: all blood tests 11.9% → 80% when proforma used"
+  ],
+  "pitfalls": [
+   "GPs object to returned referrals → agree the rule and safety-net with the primary care lead first.",
+   "FIT done after referral is counted as a pass → use 'available at triage' as the fixed time.",
+   "Patients who cannot return a sample are penalised → allow a documented exception.",
+   "Local form versions vary → check the form in use in both cycles."
+  ],
+  "pearls": [
+   "Recruit the colorectal cancer pathway navigator.",
+   "Pull data weekly from the referral system.",
+   "Report conversion rates by FIT band to show value.",
+   "Share results with the cancer alliance, which may fund changes."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 referrals from referral and pathology systems",
+  "area": "General and emergency surgery",
+  "pass": "A quantitative FIT result is on the referral or in the pathology system at the time of straight-to-test triage.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults needing immediate emergency laparotomy have their pre-operative CT reported by a senior radiologist within one hour of the scan?",
+  "why": "Delayed CT reports slow the path to theatre in peritonitis and ischaemia. Library audits cover time to CT [2612][2865] and CT discrepancies [2706], but none has audited report time and grade against the NELA standard.",
+  "standard": {
+   "source": "NELA Principal Standards (February 2025), CT scanning and reporting, citing RCS The High-Risk General Surgical Patient 2018",
+   "wording": "For patients requiring immediate surgery CT scanning should be undertaken immediately. CT results should be reported by a senior radiologist (ST3 and above) within one hour of being undertaken, regardless of urgency of request.",
+   "url": "https://www.nela.org.uk/s/NELAStandards_10Feb2025.pdf"
+  },
+  "population": "Adults in NELA who had immediate surgery (RCS definitions: peritonitis, perforation, ischaemia, haemorrhage, strangulation, tender obstruction or sepsis) and a pre-operative CT.",
+  "sample": "40 consecutive eligible NELA cases over the last 6 months.",
+  "data_source": "NELA data extract (Q2.7 CT time, report time, reporter grade); RIS for scan and report timestamps; outsourced reporting logs.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ct_scan_completed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reporter_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "ST3+ registrar",
+     "below ST3",
+     "outsourced consultant"
+    ],
+    "note": ""
+   },
+   {
+    "field": "report_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reporting_route",
+    "type": "choice",
+    "options": [
+     "in-house",
+     "outsourced",
+     "teleradiology"
+    ],
+    "note": ""
+   },
+   {
+    "field": "radiologist_surgeon_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_day",
+    "type": "choice",
+    "options": [
+     "08:00–17:00",
+     "17:00–22:00",
+     "22:00–08:00"
+    ],
+    "note": ""
+   },
+   {
+    "field": "arrival_in_theatre_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "A 'NELA urgent' flag on the CT request that sends the scan to the top of the reporting worklist and prompts a phone call to the surgical registrar.",
+  "target": "≥85% (NELA green)",
+  "reaudit": "Next 40 eligible NELA cases, same template.",
+  "close_loop": "Present at the joint surgical–radiology meeting and NELA local governance. If it works, keep the flag and review monthly with the NELA lead.",
+  "evidence": [
+   "[2612] NELA QI: time to CT 2 d 19 h → <4 h, 30-day mortality 11.1% → 2.4%",
+   "[2706] Emergency laparotomy CT discrepancy 27.2% → 5.8%; only 23% reported within 24 h in cycle 1",
+   "[2680] Acute abdomen pathway: imaging within timeframe 60% → 78%"
+  ],
+  "pitfalls": [
+   "NELA fields are incomplete → cross-check times on RIS.",
+   "Outsourced reports lack reporter grade → ask the provider for grade data.",
+   "Radiology feels blamed → co-present with a radiology trainee.",
+   "Night-time cases dominate breaches → report by time of day."
+  ],
+  "pearls": [
+   "Recruit the NELA lead and a radiology registrar.",
+   "Use the NELA extract to find cases in minutes.",
+   "Include surgeon–radiologist discussion as a second measure.",
+   "Show time from report to theatre alongside."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from NELA extract and RIS",
+  "area": "General and emergency surgery",
+  "pass": "CT report (preliminary or final) issued by a radiologist ST3 or above within 60 minutes of scan completion.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults having emergency laparotomy with suspected sepsis receive antibiotics within one hour of the first qualifying NEWS2 score?",
+  "why": "Delayed antibiotics in surgical sepsis raise mortality. One pathway audit fell from 80% to 50% in septic patients despite changes [2680]. No closed-loop audit against the NELA 2025 antibiotic standard is in the library.",
+  "standard": {
+   "source": "NELA Principal Standards (February 2025), infection management, citing AoMRC 2022 and RCS HRGSP 2018",
+   "wording": "Patients with a suspected “surgical” source of infection and NEWS2 of 5+, or >=3 in any one variable, should receive antimicrobials within 1 hour of recorded NEWS2 abnormality.",
+   "url": "https://www.nela.org.uk/s/NELAStandards_10Feb2025.pdf"
+  },
+  "population": "Adults in NELA with suspected sepsis at arrival or at decision to operate. Patients with NEWS2 1–4 are recorded separately against the 3-hour standard.",
+  "sample": "40 consecutive eligible NELA cases over the last 6 months.",
+  "data_source": "NELA extract (Q2.10, Q2.11); ED observations system for NEWS2 times; EPMA or ED drug chart for administration time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_news2_ge5_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "location_at_trigger",
+    "type": "choice",
+    "options": [
+     "ED",
+     "SAU",
+     "ward",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sepsis_screen_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "not prescribed",
+     "prescribed not given",
+     "awaiting cannula",
+     "awaiting surgical review",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "news2_1to4_within_3h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary standard"
+   }
+  ],
+  "change": "A 'surgical sepsis' PGD allowing ED and SAU nurses to give first-dose antibiotics from the trust guideline once NEWS2 ≥5 with suspected abdominal source.",
+  "target": "≥85% (NELA green), aiming for 90%",
+  "reaudit": "Next 40 eligible NELA cases, same template.",
+  "close_loop": "Present at the NELA governance meeting and to ED/SAU nursing leads. If it works, keep the PGD and report monthly via NELA.",
+  "evidence": [
+   "[2680] Acute abdomen pathway: antibiotics within 1 h for septic patients 80% → 50%",
+   "[1200] Open fracture antibiotics: mean time 271 → 233 min, STAT prescriptions 15.4% → 51.7%",
+   "[1328] Necrotising fasciitis: all confirmed cases had sepsis six within 1 h"
+  ],
+  "pitfalls": [
+   "Prescription time is used instead of administration time → use administration only.",
+   "NEWS2 is recorded late → use the first observations timestamp.",
+   "ED and surgery each think the other owns antibiotics → agree ownership in the pathway.",
+   "PGD approval takes time → start with a pre-printed stat prescription."
+  ],
+  "pearls": [
+   "Recruit an ED sepsis nurse.",
+   "Record where the patient was at the trigger point.",
+   "Present individual delayed cases anonymously.",
+   "Use NELA data so cycle 2 needs no extra collection."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from NELA and ED records",
+  "area": "General and emergency surgery",
+  "pass": "First antibiotic dose administered within 60 minutes of the first recorded NEWS2 ≥5 (or a single parameter scoring 3).",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults having emergency laparotomy have a mortality risk score documented at the end of surgery?",
+  "why": "The end-of-operation risk decides critical care admission, yet audits in the library measure only the pre-operative score [2427][2571][2061]. No audit of the postoperative risk reassessment is in the library.",
+  "standard": {
+   "source": "NELA Principal Standards (February 2025), risk assessment, citing RCS HRGSP 2018 p37",
+   "wording": "Patients should have their risk of in-hospital mortality reassessed and documented at the end of surgery, using risk prediction tools and clinical judgement. Patients with an end-of-operation risk of death of 5%+, by any measure, should be admitted directly to critical care.",
+   "url": "https://www.nela.org.uk/s/NELAStandards_10Feb2025.pdf"
+  },
+  "population": "Adults (≥18) included in NELA.",
+  "sample": "40 consecutive NELA cases over the last 3 months.",
+  "data_source": "NELA extract (Q6.1 postoperative risk); operation note; anaesthetic chart; critical care admission log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_risk_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "postop_risk_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "where_documented",
+    "type": "choice",
+    "options": [
+     "operation note",
+     "anaesthetic chart",
+     "postop plan",
+     "NELA only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "postop_risk_ge5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "direct_critical_care_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "Add a mandatory 'End-of-surgery NELA risk: __%' field to the emergency laparotomy operation note template, completed at sign-out.",
+  "target": "≥85% (NELA green)",
+  "reaudit": "Next 40 NELA cases, same template.",
+  "close_loop": "Present at NELA governance and the emergency theatre meeting. If it works, keep the op note field and link it to the critical care referral.",
+  "evidence": [
+   "[2541] NELA frailty: CFS recorded 0% → 92% after a proforma item",
+   "[2427] NELA score on CEPOD forms in about 21%; missing in up to 97% of files",
+   "[2553] High-risk patients admitted directly to critical care: 38 of 43"
+  ],
+  "pitfalls": [
+   "The score is entered in NELA later but not in notes → count only contemporaneous documentation.",
+   "Surgeons and anaesthetists each expect the other to do it → name the anaesthetist at sign-out.",
+   "Intraoperative data are missing → allow a documented clinical estimate.",
+   "Template fields become default values → spot-check against NELA calculations."
+  ],
+  "pearls": [
+   "Recruit the NELA anaesthetic lead.",
+   "Add the NELA calculator link to the op note.",
+   "Report the proportion of ≥5% cases reaching critical care alongside.",
+   "Build it into the WHO sign-out question."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from NELA and notes",
+  "area": "General and emergency surgery",
+  "pass": "A numerical mortality risk (NELA, P-POSSUM or similar) is written on the operation note, anaesthetic record or immediate postoperative plan.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ },
+ {
+  "question": "What proportion of adults with bowel perforation or ischaemia managed without surgery who die in hospital receive direct input from the palliative care team?",
+  "why": "NELA now audits patients who do not have a laparotomy (NoLap), and many of them die in hospital. No audit of palliative care input after a non-operative decision is in the library.",
+  "standard": {
+   "source": "NELA NoLap Standards of Care (from April 2024), end-of-life care, citing RCS Caring for Patients Nearing the End of Life",
+   "wording": "The surgeon should seek to discuss the patient’s case with relevant professionals to ascertain: • the appropriate treatment options at the end of life available to the patient • the patients’ wishes, preferences and beliefs to inform their best interests. A formal consultation with the palliative care team is particularly useful in this context.",
+   "url": "https://www.nela.org.uk/s/NELA-No-Lap_Standards_from-April-2024_V3-1-52mm.pdf"
+  },
+  "population": "Adults (≥18) with bowel perforation or ischaemia where surgery was indicated but not done, who died in hospital.",
+  "sample": "All eligible cases over the last 12 months (expect 20–40 in a DGH).",
+  "data_source": "NELA NoLap extract or ICD-10 case list; notes; palliative care team referral log; individualised end-of-life care plan.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "non_operative_decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_death",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "perforation",
+     "ischaemia"
+    ],
+    "note": ""
+   },
+   {
+    "field": "palliative_care_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "palliative_care_review",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "individualised_eol_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticipatory_medicines_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "change": "An automatic palliative care referral prompt in the NoLap proforma when the consultant records a non-operative decision.",
+  "target": "≥85% (NELA green)",
+  "reaudit": "All eligible cases over the 6 months after the change, same template.",
+  "close_loop": "Present at emergency surgery mortality and morbidity meeting and to the palliative care team. If it works, keep the prompt and report through NELA NoLap.",
+  "evidence": [
+   "[1938] Hospital deaths with dementia: palliative care involved in 40%",
+   "[1872] Advance care planning: treatment escalation plan 41% → 75% after an intervention",
+   "[1807] NACEL round two: individualised end-of-life plan in 71% of deaths"
+  ],
+  "pitfalls": [
+   "Patients die within hours, before referral is possible → record time from decision to death and analyse short survivors separately.",
+   "Palliative teams are small out of hours → accept telephone advice documented in notes.",
+   "Case finding misses non-operated patients → use the NoLap ICD-10 algorithm and M&M lists.",
+   "Surgeons feel judged about the decision → keep the audit on care, not the decision."
+  ],
+  "pearls": [
+   "Recruit a palliative care consultant as co-lead.",
+   "Use the NELA NoLap extract for case finding.",
+   "Include the end-of-life care plan as a second measure.",
+   "Share anonymised family feedback if available."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from notes",
+  "area": "General and emergency surgery",
+  "pass": "A palliative care team member reviewed the patient in person (or by documented direct consultation) before death.",
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit"
+ }
+]

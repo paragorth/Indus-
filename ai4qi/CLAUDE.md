@@ -26,6 +26,9 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
   `new_audits/templates/ONA-xxx.csv`. List: `new_audits/catalogue.md`. Search:
   `python3 query.py "words" --proposed`. Rebuild after editing `new_audits/parts/*.json`:
   `python3 new_audits/compile.py`.
+- `new_audits/nonortho_new_audits.json`: 242 PROPOSED non-orthopaedic audits (NNA-001…) across 10 areas,
+  same structure plus `pitfalls` and `pearls`; templates `new_audits/templates/NNA-xxx.csv`; list
+  `new_audits/catalogue_nonortho.md`. `query.py --proposed` searches both sets.
 - `standards/standards.json`: exact standard wording with URLs, and which ONA audits use it. Quote
   standards from here before quoting from memory.
 - `ai4qi-library.csv` (flat copy), `index.html` (browse/filter), `figures/` (CC BY/CC0 only).
@@ -70,7 +73,8 @@ Answers go straight into the product, so write them as a finished professional d
 
 ## Keep growing the proposed library
 
-Every new audit designed in a conversation is added to `new_audits/parts/generated.json` (same keys
+Every new audit designed in a conversation is added to `new_audits/parts/generated.json` (orthopaedic) or
+`new_audits/nonortho_parts/generated.json` (everything else) (same keys
 as the other parts, plus `pitfalls` and `pearls` lists), then run `python3 new_audits/compile.py`,
 commit and push. `generated` is compiled last, so existing ONA ids never change. Check for a near-duplicate
 with `python3 query.py "words" --proposed` first; if one exists, improve that entry instead.

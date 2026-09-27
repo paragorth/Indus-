@@ -1,0 +1,2523 @@
+[
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with a suspected TIA receive aspirin 300 mg at first contact in the emergency department or acute medical unit?",
+  "why": "TIA audits have measured imaging and time to specialist review [1900], [1945], but not whether aspirin is started at the first hospital contact. Delay before the TIA clinic leaves the highest-risk days untreated.",
+  "standard": {
+   "source": "NICE NG128 rec 1.1.4 (2019, updated 2022)",
+   "wording": "Offer aspirin (300 mg daily), unless contraindicated, to people who have had a suspected TIA, to be started immediately.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Aspirin 300 mg (or a documented alternative antiplatelet if allergic or intolerant) given before leaving ED/AMU or within 4 hours of first hospital assessment, or a contraindication documented.",
+  "population": "Adults (16+) with a working diagnosis of suspected TIA in ED or AMU. Exclude: symptoms still present at assessment (treated as stroke), already on an anticoagulant, intracranial bleed on imaging.",
+  "sample": "40 consecutive adults referred to the TIA clinic from ED/AMU over the last 3 months.",
+  "data_source": "TIA clinic referral list; ED/AMU clerking; electronic prescribing and administration record (EPMA) or drug chart for dose and time given.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_first_assessment",
+    "type": "datetime",
+    "options": [],
+    "note": "ED/AMU arrival or first clinician review"
+   },
+   {
+    "field": "already_on_antiplatelet",
+    "type": "choice",
+    "options": [
+     "none",
+     "aspirin 75 mg",
+     "clopidogrel",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. allergy, active bleeding"
+   },
+   {
+    "field": "aspirin_300mg_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Loading dose given, not just prescribed"
+   },
+   {
+    "field": "date_time_aspirin_given",
+    "type": "datetime",
+    "options": [],
+    "note": "From administration record"
+   },
+   {
+    "field": "given_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "alternative_antiplatelet",
+    "type": "text",
+    "options": [],
+    "note": "If aspirin allergy or intolerance"
+   },
+   {
+    "field": "time_to_tia_clinic_hours",
+    "type": "number",
+    "options": [],
+    "note": "Onset to specialist review"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'aspirin 300 mg given or contraindication' tick box to the electronic TIA clinic referral form, so the referral cannot be sent without it.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 consecutive referrals, same template.",
+  "close_loop": "Present at the stroke/TIA governance meeting and ED clinical meeting. If it works, keep the referral field permanently and add it to the ED TIA pathway card.",
+  "evidence": [
+   "[1900] Galway TIA pathway: patients managed within 24 hours 28.2% → 35.7% (new ambulatory pathway via AMU)",
+   "[1945] St Vincent's AMU: TIA investigations audited (CT 100%, carotid Doppler 89%); aspirin timing not measured (single cycle)",
+   "[1861] Beaumont stroke unit: antiplatelet duration on discharge letters 82% documented (single cycle, education recommended)"
+  ],
+  "pitfalls": [
+   "Patients referred straight from GP never pass through ED → limit the sample to ED/AMU referrals and state it.",
+   "'Prescribed' confused with 'given' → count only a signed administration entry.",
+   "Patients already on aspirin 75 mg are marked as passes → agree before cycle 1 that a 300 mg loading dose is still expected unless the specialist says otherwise.",
+   "Stroke mimic diagnosed later → keep them in; the standard applies to suspected TIA."
+  ],
+  "pearls": [
+   "Recruit the TIA clinic nurse; they already see every referral and can flag missing doses daily.",
+   "Agree the 4-hour window with the stroke lead before cycle 1 and keep it fixed.",
+   "Ask the EPR team for a report of TIA referrals with aspirin administration times to cut collection time.",
+   "Put the result on the ED safety huddle board for a month after the change."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and EPMA"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "How many adults with a suspected TIA have a CT brain scan without a documented suspicion of an alternative diagnosis?",
+  "why": "Most TIA audits report CT rates of 89–100% [1900], [1945], yet NICE advises against routine CT in suspected TIA. No closed-loop audit of unnecessary CT in TIA has been published in the library.",
+  "standard": {
+   "source": "NICE NG128 rec 1.2.1 (2019, updated 2022)",
+   "wording": "Do not offer CT brain scanning to people with a suspected TIA unless there is clinical suspicion of an alternative diagnosis that CT could detect.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Either no CT brain before specialist assessment, or a CT request that states a specific alternative diagnosis CT could detect (for example subdural haematoma, tumour, head injury).",
+  "population": "Adults (16+) with suspected TIA assessed in ED/AMU. Exclude: ongoing deficit (suspected stroke), anticoagulated patients with head injury, CT done for another indication (for example trauma).",
+  "sample": "40 consecutive adults with suspected TIA over the last 3 months.",
+  "data_source": "TIA clinic referral list; radiology information system (RIS) for CT requests and request wording; ED/AMU notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_first_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_brain_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Before specialist TIA review"
+   },
+   {
+    "field": "date_time_ct",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_request_reason",
+    "type": "text",
+    "options": [],
+    "note": "Copy the clinical indication from RIS"
+   },
+   {
+    "field": "alternative_diagnosis_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Specific diagnosis CT could detect"
+   },
+   {
+    "field": "ct_justified",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_result",
+    "type": "choice",
+    "options": [
+     "normal/old changes",
+     "acute finding changing management",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mri_same_day_after_clinic",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE rec 1.2.2"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'alternative diagnosis suspected' drop-down to the CT head request for suspected TIA in the radiology ordering system, with a note that routine CT is not needed.",
+  "target": "≥90% of CT scans justified",
+  "reaudit": "Weeks 13–14: next 40 consecutive suspected TIA patients, same template.",
+  "close_loop": "Present with radiology and ED at the imaging governance meeting. If it works, keep the request field and add the rule to the ED TIA pathway.",
+  "evidence": [
+   "[1900] Galway TIA pathway: CT 94.8% → 89.3%, MRI without prior CT 75% after pathway (system change)",
+   "[1945] St Vincent's AMU: 100% had CT brain on admission (single cycle)",
+   "[1147] Stoke Mandeville ED: imaging rules shared by posters and teaching; documented examination unchanged at 16% (education only)"
+  ],
+  "pitfalls": [
+   "ED doctors worry about missing a bleed → agree the list of valid alternative diagnoses with the stroke lead and radiology before cycle 1.",
+   "Vague request text ('?CVA') counted as justified → define in advance that a named alternative diagnosis is required.",
+   "Radiologists vet differently between cycles → keep the same vetting rules across both cycles.",
+   "Posters alone fade → rely on the ordering-system field."
+  ],
+  "pearls": [
+   "Recruit a radiology registrar; they can pull request text from RIS in one search.",
+   "Report the number of avoidable scans and radiation dose saved; managers respond to this.",
+   "Pair the change with fast-track MRI after clinic so staff feel imaging is not being withheld.",
+   "Add the rule to the junior doctor induction handbook for the next rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from RIS and EPR"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with a warfarin-related intracerebral haemorrhage receive both prothrombin complex concentrate and intravenous vitamin K?",
+  "why": "Anticoagulant reversal in ICH is reported only as a side finding in a mortality review [1858]; warfarin audits in older people focus on prescribing [1824]. No audit of reversal completeness in ICH is in the library.",
+  "standard": {
+   "source": "NICE NG128 rec 1.4.16 (2008, amended 2019)",
+   "wording": "Return clotting levels to normal as soon as possible in people with a primary intracerebral haemorrhage who were receiving warfarin before their stroke (and have elevated international normalised ratio). Do this by reversing the effects of the warfarin using a combination of prothrombin complex concentrate and intravenous vitamin K.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Both PCC and intravenous vitamin K given, with PCC given within 90 minutes of the diagnostic CT (local timing standard), unless a documented decision for palliation only.",
+  "population": "Adults with primary ICH on CT who were taking warfarin with INR above the therapeutic lower limit. Exclude: traumatic haemorrhage, DOAC users (audit separately), documented comfort-care-only decision before CT.",
+  "sample": "All eligible patients over the last 24 months (expect 15–30 in a district general hospital), or SSNAP extract of ICH on anticoagulants.",
+  "data_source": "SSNAP extract or stroke register (ICH on anticoagulant); PACS for CT time; laboratory system for INR; blood bank issue log for PCC; EPMA for vitamin K route and time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_ct_diagnosis",
+    "type": "datetime",
+    "options": [],
+    "note": "Time of first CT showing ICH"
+   },
+   {
+    "field": "inr_on_arrival",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pcc_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "From blood bank issue and administration record"
+   },
+   {
+    "field": "date_time_pcc",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_vitamin_k_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Oral or subcutaneous counts as no"
+   },
+   {
+    "field": "both_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_to_pcc_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Local 90-minute standard"
+   },
+   {
+    "field": "repeat_inr_after_reversal",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "palliation_only_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclusion if made before CT"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Store a pre-labelled 'ICH warfarin reversal pack' (PCC dosing chart, vitamin K 10 mg IV, INR request) in ED resus, triggered by the stroke CT result.",
+  "target": "100% receive both agents; ≥80% PCC within 90 minutes",
+  "reaudit": "At 6 months: all eligible cases since the change, same template (small numbers expected).",
+  "close_loop": "Present at the stroke and haematology/transfusion committee. If it works, embed the pack in the ED ICH protocol and review each case at stroke morbidity meetings.",
+  "evidence": [
+   "[1858] Waterford: one-year ICH deaths review; reversal of anticoagulated patients incomplete in 3 of 5 (single cycle)",
+   "[1824] Queens Medical Centre older people wards: warfarin correctly continued 18% → 32% (education only)",
+   "[1951] Mater Dublin: ICH blood pressure protocol introduced; protocol violations in 66.6% (system change)"
+  ],
+  "pitfalls": [
+   "Very small numbers → use a 24-month look-back and present counts, not percentages alone.",
+   "PCC given but not recorded in EPMA → cross-check the blood bank issue log.",
+   "Haematology and ED disagree on PCC dose → agree the dosing chart with haematology before the change.",
+   "Patients moved to a neurosurgical centre → collect data from the transfer letter and the receiving hospital."
+  ],
+  "pearls": [
+   "Ask the transfusion practitioner to join; they own the PCC issue log.",
+   "Agree the 90-minute local timing standard with the stroke lead before cycle 1.",
+   "Add the reversal pack check to the monthly ED resus trolley checklist.",
+   "Extend to DOAC reversal once the warfarin loop is closed."
+  ],
+  "novelty": "new",
+  "effort": "~40 min per 10 patients across four systems"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "In adults with acute intracerebral haemorrhage eligible for rapid blood pressure lowering, is systolic pressure brought to 140 mmHg or lower without a fall of more than 60 mmHg in the first hour?",
+  "why": "Only one closed loop exists, and it found protocol violations in two-thirds of cases after a protocol was introduced [1951]; a mortality review found target reached at 2 hours in 3 of 8 [1858]. The 2022 NICE update added a safety ceiling on the size of the drop.",
+  "standard": {
+   "source": "NICE NG128 rec 1.5.6 (2022)",
+   "wording": "When rapidly lowering blood pressure in people with acute intracerebral haemorrhage, aim to reach a systolic blood pressure of 140 mmHg or lower while ensuring that the magnitude drop does not exceed 60 mmHg within 1 hour of starting treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Systolic BP 140 mmHg or lower reached during the first 6 hours of treatment, with no reading in the first hour of treatment more than 60 mmHg below the pre-treatment systolic.",
+  "population": "Adults with spontaneous ICH presenting within 6 hours of onset with systolic 150–220 mmHg (NICE rec 1.5.4). Exclude the NICE rec 1.5.7 groups: structural cause, GCS below 6, early neurosurgery, massive haematoma with poor prognosis.",
+  "sample": "All eligible patients over the last 12 months (expect 30–40), or SSNAP extract.",
+  "data_source": "SSNAP extract for onset and arrival; ED and stroke unit observation charts or electronic observations for BP readings; EPMA for antihypertensive start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_onset",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_treatment_start",
+    "type": "datetime",
+    "options": [],
+    "note": "First dose of BP-lowering drug"
+   },
+   {
+    "field": "presenting_systolic",
+    "type": "number",
+    "options": [],
+    "note": "Last reading before treatment"
+   },
+   {
+    "field": "lowest_systolic_first_hour",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drop_over_60_first_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety criterion"
+   },
+   {
+    "field": "date_time_systolic_140_reached",
+    "type": "datetime",
+    "options": [],
+    "note": "First reading 140 or lower"
+   },
+   {
+    "field": "target_reached_within_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Target reached and no drop over 60 mmHg"
+   },
+   {
+    "field": "agent_used",
+    "type": "choice",
+    "options": [
+     "labetalol",
+     "GTN",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a one-page ICH BP chart with 15-minute BP boxes for the first hour, the 140 mmHg target and a 'stop if drop over 60 mmHg' line, filed with the ED stroke proforma.",
+  "target": "≥80%",
+  "reaudit": "At 6 months: all eligible cases since the change, same template.",
+  "close_loop": "Present at the regional stroke network or hospital stroke governance meeting. If it works, add the chart to the stroke unit order set and SSNAP data checks.",
+  "evidence": [
+   "[1951] Mater Dublin: after a BP protocol, median time to target 129 minutes and at least one protocol violation in 66.6% (system change)",
+   "[1858] Waterford: 3/8 (38%) with systolic 150–220 mmHg reached 140 mmHg or lower at 2 hours (single cycle)"
+  ],
+  "pitfalls": [
+   "Observations recorded hourly, not every 15 minutes → use the bespoke chart and accept only timed readings.",
+   "Eligibility argued case by case → agree the exclusion list (NICE rec 1.5.7) with the stroke consultant before cycle 1.",
+   "Small monthly numbers → use a 12-month look-back and report counts.",
+   "Nurses unsure about infusion titration → add a titration table to the chart, reviewed by pharmacy."
+  ],
+  "pearls": [
+   "Recruit a stroke specialist nurse to keep the chart stocked in ED resus.",
+   "Use SSNAP's onset and arrival times so both cycles use identical definitions.",
+   "Report both efficacy (target) and safety (drop) so critics of over-treatment are reassured.",
+   "Hand over the chart and a named owner to the next registrar at rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from observation charts"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults admitted with acute stroke receive supplemental oxygen only when their oxygen saturation is below 95%?",
+  "why": "Oxygen audits in the library concern prescription on surgical or COVID wards [2154], [1808]; none measures unnecessary oxygen after stroke, where NICE advises against routine use.",
+  "standard": {
+   "source": "NICE NG128 rec 1.5.1 (2008)",
+   "wording": "Give supplemental oxygen to people who have had a stroke only if their oxygen saturation drops below 95%. The routine use of supplemental oxygen is not recommended in people with acute stroke who are not hypoxic.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "In the first 72 hours, either no supplemental oxygen, or oxygen started only after a documented saturation below 95% and stopped once saturation is 95% or above on air (or at a documented alternative target for chronic lung disease).",
+  "population": "Adults admitted with acute stroke (ischaemic or haemorrhagic) to the stroke unit. Exclude: known type 2 respiratory failure with a documented lower target, palliative care from admission.",
+  "sample": "40 consecutive stroke admissions over the last 2 months.",
+  "data_source": "Stroke admissions list; electronic observations or NEWS2 charts for saturations and oxygen flags; EPMA for oxygen prescription.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_given_first_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "saturation_before_oxygen",
+    "type": "number",
+    "options": [],
+    "note": "Last reading on air before starting"
+   },
+   {
+    "field": "started_below_95",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_prescribed_with_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_on_oxygen_while_95_or_more_on_air",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Criteria above"
+   },
+   {
+    "field": "chronic_lung_disease_target",
+    "type": "text",
+    "options": [],
+    "note": "If alternative target documented"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a stroke-specific oxygen line to the stroke admission order set: 'Oxygen only if SpO2 below 95%; review every shift'.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 consecutive admissions, same template.",
+  "close_loop": "Present at the stroke unit nursing and medical meeting. If it works, keep the order set line and add oxygen to the daily stroke board round checklist.",
+  "evidence": [
+   "[2154] Birmingham surgical wards: oxygen prescribed 22% → 60% (poster, education only)",
+   "[1808] Whiston geriatric COVID ward: correct oxygen device and flow 100% after 4 PDSA cycles (education, posters, lanyard cards)"
+  ],
+  "pitfalls": [
+   "Oxygen given by paramedics continues by habit → record the start time and whether hospital staff reviewed it.",
+   "Pulse oximeter over-reads in dark skin (NICE note) → collect ethnicity where recorded and discuss with the team.",
+   "Unrecorded oxygen use → check both the observation chart and the prescription.",
+   "Staff fear under-treating → share the NICE wording at the start."
+  ],
+  "pearls": [
+   "Recruit a stroke nurse champion for the daily check.",
+   "Agree the handling of chronic lung disease targets before cycle 1.",
+   "Use the electronic observation system report to pull all oxygen flags in minutes.",
+   "Link the result to aspiration pneumonia and mobility, which the team already cares about."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from electronic observations"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with acute stroke have all capillary blood glucose readings between 4 and 11 mmol/L in the first 72 hours?",
+  "why": "Glucose control after stroke is not measured in any library audit; diabetes audits in older people concern frailty targets rather than acute stroke.",
+  "standard": {
+   "source": "NICE NG128 rec 1.5.2 (2008)",
+   "wording": "Maintain a blood glucose concentration between 4 and 11 mmol/litre in people with acute stroke.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "All recorded capillary or laboratory glucose values in the first 72 hours are 4–11 mmol/L, or every out-of-range value has a documented action within 1 hour.",
+  "population": "Adults with acute stroke admitted to the stroke unit. Exclude: end-of-life care started within 72 hours.",
+  "sample": "40 consecutive stroke admissions over the last 2 months (report diabetes and non-diabetes separately).",
+  "data_source": "Point-of-care glucose system download; laboratory results; EPMA for insulin or glucose; stroke unit notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_diabetes",
+    "type": "choice",
+    "options": [
+     "none",
+     "type 1",
+     "type 2",
+     "new diagnosis"
+    ],
+    "note": ""
+   },
+   {
+    "field": "number_glucose_readings_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_reading_above_11",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_reading_below_4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_within_1h_for_each",
+    "type": "yes/no",
+    "options": [],
+    "note": "Insulin, glucose or review documented"
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "All in range or all acted on"
+   },
+   {
+    "field": "variable_rate_insulin_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a stroke glucose protocol to the stroke admission order set: 4-hourly capillary glucose for 72 hours with a linked correction and hypoglycaemia plan.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 40 consecutive admissions, same template.",
+  "close_loop": "Present with the diabetes inpatient team at the stroke governance meeting. If it works, keep the order set and add glucose to the stroke ward safety cross.",
+  "evidence": [
+   "[2919] Rheumatology clinic: screening for steroid-induced hyperglycaemia audited against BSR guideline (related topic)",
+   "[1908] Limerick stroke unit: mood assessment 71.7% → 84.0% after MDT verification at the weekly meeting (process check embedded in MDT)"
+  ],
+  "pitfalls": [
+   "Non-diabetic patients have too few readings to judge → record the number of readings and report patients with fewer than 3 separately.",
+   "Point-of-care readings not linked to EPR → ask the POCT lead for a download.",
+   "Diabetes team pushback on insulin workload → agree the correction plan with them before the change.",
+   "Hypoglycaemia from over-correction → count readings below 4 as fails."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient specialist nurse early.",
+   "Fix the 72-hour window and 1-hour action rule before cycle 1.",
+   "Use the POCT system to identify out-of-range values quickly.",
+   "Keep a named nurse owner of the protocol on the stroke unit."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients with POCT download"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with acute stroke who cannot take adequate nutrition orally have a nasogastric tube placed within 24 hours of admission?",
+  "why": "Stroke swallow audits stop at the screen or specialist assessment [1948], [1853]; what happens next for patients who fail it is not measured in the library.",
+  "standard": {
+   "source": "NICE NG128 rec 1.6.4 (2008, amended 2019)",
+   "wording": "People with acute stroke who are unable to take adequate nutrition, fluids and medication orally should: receive tube feeding with a nasogastric tube within 24 hours of admission unless they have had thrombolysis",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Nasogastric tube placed and position confirmed within 24 hours of admission (or within 24 hours of thrombolysis where the local protocol delays it), or a documented decision not to tube feed (for example end-of-life care or patient refusal).",
+  "population": "Adults with acute stroke who fail the swallow screen and are nil by mouth or not meeting needs orally at 24 hours. Exclude: palliative care decision within 24 hours.",
+  "sample": "40 consecutive eligible stroke admissions over the last 4 months.",
+  "data_source": "SSNAP swallow screen and SALT fields; nursing notes and NG tube insertion record; chest X-ray time on PACS or pH record; dietetic notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thrombolysed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "swallow_screen_failed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_ng_placed",
+    "type": "datetime",
+    "options": [],
+    "note": "From insertion record"
+   },
+   {
+    "field": "position_confirmation_method",
+    "type": "choice",
+    "options": [
+     "pH aspirate",
+     "chest X-ray",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ng_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision_not_to_tube_feed_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oral_medicines_reviewed_for_route",
+    "type": "yes/no",
+    "options": [],
+    "note": "Same NICE rec, last bullet"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 24-hour 'NG decision due' prompt to the stroke admission proforma for any patient who fails the swallow screen, with the decision (tube or reason not) recorded on the board round sheet.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 40 eligible admissions, same template.",
+  "close_loop": "Present at stroke unit MDT and nutrition steering group. If it works, embed the prompt in the SSNAP-linked proforma.",
+  "evidence": [
+   "[1948] Navan: SALT assessment within 72 hours 14% → 40% (full-time SALT post, system change)",
+   "[1853] Drogheda: swallow screen within 4 hours of diagnosis audited (single cycle)",
+   "[2353] Nasogastric tube position documentation after X-ray: closed loop (related topic)"
+  ],
+  "pitfalls": [
+   "Patients who pass a modified-texture diet are counted → define 'unable to take adequate nutrition' before cycle 1.",
+   "Families decline tubes → count a documented decision as a pass.",
+   "Out-of-hours staff unable to place tubes → collect time of day and report weekend and night delays separately.",
+   "NG tube safety never events → never shortcut position checks to meet the target."
+  ],
+  "pearls": [
+   "Recruit the stroke dietitian and a nurse trained in NG placement.",
+   "Record weekend versus weekday separately; it usually explains most delays.",
+   "Add 'NG decision' as a fixed line on the stroke board round.",
+   "Share results with the nutrition steering group to keep support after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from SSNAP and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with acute stroke who were taking a statin before admission have it continued without a missed dose?",
+  "why": "The only library audit of statins after stroke is single-cycle and education-only [1869]; continuation during the acute phase, including in patients who are nil by mouth, has not been measured.",
+  "standard": {
+   "source": "NICE NG128 rec 1.4.22 (2008)",
+   "wording": "Continue statin treatment in people with acute stroke who are already receiving statins.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "pass": "Pre-admission statin prescribed within 24 hours of admission and no doses omitted in the first 7 days except for a documented clinical reason; for nil-by-mouth patients, given via enteral tube or a documented plan.",
+  "population": "Adults with acute ischaemic or haemorrhagic stroke on a statin before admission (from the medicines reconciliation). Exclude: end-of-life care within 24 hours, documented statin stop decision.",
+  "sample": "40 consecutive eligible stroke admissions over the last 3 months.",
+  "data_source": "Pharmacy medicines reconciliation; EPMA administration record (omission codes); stroke notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_admission_statin",
+    "type": "text",
+    "options": [],
+    "note": "Drug and dose"
+   },
+   {
+    "field": "date_time_statin_prescribed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescribed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_omitted_days_1_7",
+    "type": "number",
+    "options": [],
+    "note": "From omission codes"
+   },
+   {
+    "field": "omission_reason",
+    "type": "choice",
+    "options": [
+     "nil by mouth",
+     "patient refused",
+     "not available",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nbm_route_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Continued, no unjustified omissions"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add statin to the stroke admission order set 'continue if on pre-admission' section, with a crushable or liquid option linked for nil-by-mouth patients.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible admissions, same template.",
+  "close_loop": "Present at the stroke unit meeting with the ward pharmacist. If it works, keep the order set and add statin omission to the pharmacy omitted-doses report.",
+  "evidence": [
+   "[1869] Irish model 4 stroke ward: 95% prescribed statins, 76% had a change during admission (education only, single cycle)",
+   "[1926] Sunderland stroke ward: cholesterol-lowering therapy 83.3% at re-audit (closed loop)",
+   "[2862] London DGH: regular medications prescribed while nil by mouth 13.7% → 28.6% (education only)"
+  ],
+  "pitfalls": [
+   "Statins held deliberately for haemorrhage → count a documented reason as a pass.",
+   "Omission codes misused → cross-check with notes for 5 random cases.",
+   "Confusion with rec 1.4.21 (no immediate new start) → the audit covers only patients already on a statin.",
+   "Pharmacy reconciliation delayed → use the GP record where reconciliation is missing."
+  ],
+  "pearls": [
+   "Partner with the stroke ward pharmacist; they already review omissions.",
+   "Use the EPMA omitted-dose report to cut collection time.",
+   "Agree the handling of intensity changes (for example switch to atorvastatin 80 mg) before cycle 1.",
+   "Include the result in the monthly medicines safety report so it survives rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPMA"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Are adults seen in the emergency department after a first suspected seizure seen by a first-seizure specialist within 2 weeks?",
+  "why": "No audit of first-seizure pathways is in the library; the 2022 NICE epilepsy guideline set a 2-week urgent assessment standard.",
+  "standard": {
+   "source": "NICE NG217 rec 1.1.1 (2022, updated 2026)",
+   "wording": "Refer children, young people and adults urgently (for an appointment within 2 weeks) for an assessment after a first suspected seizure: For adults, refer to a clinician with expertise in assessing first seizures and diagnosing epilepsy.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/1-Diagnosis-and-assessment-of-epilepsy"
+  },
+  "pass": "Appointment with a first-seizure clinic or neurologist attended (or offered and declined) within 14 days of the ED attendance.",
+  "population": "Adults (16+) discharged from ED or AMU after a first suspected seizure. Exclude: provoked seizure with clear cause (for example hypoglycaemia, alcohol withdrawal) documented, known epilepsy, admitted under neurology.",
+  "sample": "40 consecutive adults over the last 3–4 months.",
+  "data_source": "ED coding for seizure/fit; ED notes; referral system (e-referral or internal); outpatient appointment system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_ed_attendance",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_seizure_confirmed_in_notes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_first_specialist_appointment",
+    "type": "date",
+    "options": [],
+    "note": "Attended or offered"
+   },
+   {
+    "field": "days_to_appointment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "driving_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "DVLA advice at ED discharge"
+   },
+   {
+    "field": "did_not_attend",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a single electronic 'first seizure' referral in the ED discharge system that books straight into ring-fenced first-seizure clinic slots.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 consecutive patients, same template.",
+  "close_loop": "Present at the neurology and ED governance meetings. If it works, keep ring-fenced slots in the neurology job plan and the referral in the ED discharge template.",
+  "evidence": [
+   "[2186] Guy's and St Thomas': dedicated e-referral system cut wait to cholecystectomy 98.2 → 47.7 weeks (system change; related topic)",
+   "[3677] North Leeds older people's CMHT: time from referral to consultation audited (related topic)"
+  ],
+  "pitfalls": [
+   "Coding misses seizures recorded as 'collapse' → search both codes and screen notes.",
+   "Neurology capacity is the real barrier → present the gap as slots needed per week, not blame.",
+   "Patients referred to GP instead → count as not referred.",
+   "Changing the definition of first seizure between cycles → fix the exclusion list before cycle 1."
+  ],
+  "pearls": [
+   "Recruit a neurologist or epilepsy nurse who runs the clinic.",
+   "Count slots needed per week from cycle 1 data and ask for exactly that.",
+   "Add DVLA advice as a second field; it is often missing and easy to fix together.",
+   "Make the ED discharge letter auto-copy the first-seizure clinic."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from ED and outpatient systems"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults attending hospital after a first suspected seizure have a 12-lead ECG recorded?",
+  "why": "Cardiac causes such as long QT or heart block can mimic seizures. No audit of ECG after first seizure is in the library.",
+  "standard": {
+   "source": "NICE NG217 rec 1.2.2 (2022, updated 2026)",
+   "wording": "Evaluate people after a first suspected seizure with a 12-lead ECG to help identify cardiac-related conditions that could mimic an epileptic seizure.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/1-Diagnosis-and-assessment-of-epilepsy"
+  },
+  "pass": "12-lead ECG recorded and reviewed (QTc or interpretation documented) during the ED or AMU attendance.",
+  "population": "Adults (16+) attending ED/AMU with a first suspected seizure. Exclude: known epilepsy, seizure clearly provoked by head injury in major trauma.",
+  "sample": "40 consecutive adults over the last 3 months.",
+  "data_source": "ED coding; ED notes; ECG management system (for example MUSE) for time and interpretation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_arrival",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_ecg",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_interpretation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Including QTc"
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Recorded and reviewed"
+   },
+   {
+    "field": "abnormal_finding",
+    "type": "choice",
+    "options": [
+     "none",
+     "QTc prolonged",
+     "conduction block",
+     "arrhythmia",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cardiology_referral_if_abnormal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add '12-lead ECG' as an auto-requested item in the ED 'seizure' triage order set so it is done at triage.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 consecutive patients, same template.",
+  "close_loop": "Present at the ED clinical governance meeting. If it works, keep the triage order set and add ECG to the first-seizure clinic referral checklist.",
+  "evidence": [
+   "[1714] Salford ED: documentation of Ottawa knee rule criteria 41% → 91% (posters and teaching; related topic)",
+   "[1147] Stoke Mandeville ED: imaging rules by posters; documented examination unchanged at 16% (education only)"
+  ],
+  "pitfalls": [
+   "ECG done but not reviewed → require a documented interpretation.",
+   "ECG stored only on paper → check the ECG system and scanned notes.",
+   "Triage nurses overloaded → agree with the nurse lead before adding to triage.",
+   "Small numbers of abnormal ECGs → report them as cases, not rates."
+  ],
+  "pearls": [
+   "Recruit the ED triage nurse lead.",
+   "Pull the ECG system's timestamp list to save time.",
+   "Combine with the first-seizure referral audit for one data collection.",
+   "Add the triage order set to the ED induction slides."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ED and ECG systems"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "How many adults with established epilepsy attending the emergency department after a typical seizure have a CT head without a documented other concern?",
+  "why": "CT head audits in the library focus on trauma and older people [1147], [1171]; no audit targets avoidable CT in known epilepsy.",
+  "standard": {
+   "source": "NICE NG217 rec 1.3.7 (2022, updated 2026)",
+   "wording": "Do not carry out a CT scan for people with established epilepsy presenting at an emergency department after a typical seizure, unless there are other concerns.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/1-Diagnosis-and-assessment-of-epilepsy"
+  },
+  "pass": "No CT head, or a CT request documenting a specific other concern (for example head injury meeting NICE head injury criteria, new focal deficit, atypical seizure, anticoagulation, prolonged post-ictal state).",
+  "population": "Adults with a diagnosis of epilepsy attending ED after a seizure described as typical for them. Exclude: status epilepticus needing critical care, major trauma.",
+  "sample": "40 consecutive attendances over the last 3 months.",
+  "data_source": "ED coding; ED notes; RIS for CT requests and indication text.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_attendance",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seizure_typical_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_head_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_request_reason",
+    "type": "text",
+    "options": [],
+    "note": "From RIS"
+   },
+   {
+    "field": "other_concern_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Specific concern named"
+   },
+   {
+    "field": "ct_justified",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_new_finding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'established epilepsy, typical seizure' option in the CT head request form that requires selection of a specific other concern to proceed.",
+  "target": "≥90% of CTs justified",
+  "reaudit": "Weeks 13–14: next 40 attendances, same template.",
+  "close_loop": "Present with radiology at the imaging governance meeting. If it works, keep the request logic and share the rule in the ED seizure guideline.",
+  "evidence": [
+   "[1171] St James's: post-fall CT brain 27%, 3/49 met criteria without CT (form planned)",
+   "[1147] Stoke Mandeville ED: CT indication posters; C-spine CT 16% → 38% (education only)",
+   "[2724] North-west NHS hospital: CT use in acute pancreatitis re-audited after local policy (closed loop)"
+  ],
+  "pitfalls": [
+   "'Typical' not documented → treat missing as not typical and report separately.",
+   "Head injury during seizure is common → use NICE head injury criteria as the agreed 'other concern'.",
+   "Radiology vetting changes between cycles → keep the same vetting rules.",
+   "Fear of litigation → present the zero-miss results from cycle 1 CT findings."
+  ],
+  "pearls": [
+   "Recruit the ED consultant who leads imaging governance.",
+   "Show the number of new findings in cycle 1; usually near zero.",
+   "Pair with an ED seizure proforma that records 'typical: yes/no'.",
+   "Keep a named radiology link for the second cycle."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from RIS and ED notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with epilepsy have a discussion of their risk of sudden unexpected death in epilepsy (SUDEP) documented in a clinic letter within 12 months?",
+  "why": "SUDEP counselling is not measured in any library audit; epilepsy audits cover rescue medication and aetiology in learning disability services [3154], [3274].",
+  "standard": {
+   "source": "NICE NG217 rec 10.1.4 (2022, updated 2026)",
+   "wording": "Discuss with people with epilepsy, and their families and carers if appropriate, their individual risk of epilepsy-related death, including SUDEP, from the time of diagnosis onwards.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/10-Reducing-the-risk-of-epilepsy-related-death-including-sudden-unexpected-death-in-epilepsy"
+  },
+  "pass": "A clinic letter within the last 12 months records a discussion of epilepsy-related death or SUDEP risk with the person (or carer), including at least one risk-reduction point.",
+  "population": "Adults with epilepsy seen in neurology or epilepsy nurse clinics. Exclude: diagnosis under review (possible non-epileptic attacks), first appointment not yet occurred.",
+  "sample": "40 consecutive adults seen in epilepsy clinics over the last 2 months (look back 12 months in their letters).",
+  "data_source": "Outpatient clinic lists; clinic letters in EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_clinic",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": "Year if exact date unknown"
+   },
+   {
+    "field": "seizure_type",
+    "type": "choice",
+    "options": [
+     "generalised tonic-clonic",
+     "focal to bilateral",
+     "focal only",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nocturnal_seizures",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sudep_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 12 months; pass criterion"
+   },
+   {
+    "field": "risk_reduction_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Adherence, night supervision etc."
+   },
+   {
+    "field": "carer_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'SUDEP/epilepsy-related death risk discussed: yes/no, advice given' line to the epilepsy clinic letter template.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 clinic attendances, same template.",
+  "close_loop": "Present at the neurology department meeting. If it works, keep the template line and add SUDEP to the epilepsy nurse annual review checklist.",
+  "evidence": [
+   "[1161] Parkinson's clinic: 'bone health' section added to clinic proforma, with treatment gaps identified in 50% (form or template)",
+   "[3154] Learning disability services: PRN buccal midazolam prescribing audited (related topic)"
+  ],
+  "pitfalls": [
+   "Discussion held but not written → the template line fixes documentation, not only practice.",
+   "Clinicians worry about distressing patients → share the NICE rationale and patient charity leaflets.",
+   "Letters from other hospitals not visible → use only local letters and state this.",
+   "Definition drift between cycles → fix the 12-month look-back."
+  ],
+  "pearls": [
+   "Recruit an epilepsy specialist nurse as co-lead.",
+   "Include a SUDEP leaflet link in the template.",
+   "Agree the template wording with all consultants before cycle 1.",
+   "Report by clinician privately to encourage uptake."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults admitted with convulsive status epilepticus leave hospital with an agreed individualised emergency management plan?",
+  "why": "Rescue medication audits in the library concern learning disability services only [3154]; no audit of emergency plans after status epilepticus in acute hospitals exists in the library.",
+  "standard": {
+   "source": "NICE NG217 rec 7.1.12 (2022, updated 2026)",
+   "wording": "After an episode of convulsive status epilepticus, agree an emergency management plan with the person if they do not already have one and there is concern that status epilepticus may recur.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/7-Treating-status-epilepticus-repeated-or-cluster-seizures-and-prolonged-seizures"
+  },
+  "pass": "Discharge letter or care plan contains an emergency management plan (what to give, dose, who can give it, when to call 999), or a documented existing plan reviewed, or a documented decision that recurrence is not a concern.",
+  "population": "Adults admitted with convulsive status epilepticus (seizure lasting 5 minutes or more). Exclude: died in hospital, acute symptomatic cause fully resolved and documented (for example hypoglycaemia).",
+  "sample": "All eligible admissions over the last 12 months (expect 30–40).",
+  "data_source": "Coding (status epilepticus); ED and admission notes; discharge letter; epilepsy nurse notes; EPMA for rescue medication on discharge.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "existing_plan_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recurrence_concern_documented",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no concern",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "plan_in_discharge_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_medication_prescribed",
+    "type": "choice",
+    "options": [
+     "buccal midazolam",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "carer_trained_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Criteria above"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Automatic referral to the epilepsy specialist nurse for every status epilepticus admission, with a standard emergency plan template attached to the discharge letter.",
+  "target": "≥85%",
+  "reaudit": "At 6 months: all eligible admissions since the change, same template.",
+  "close_loop": "Present at the neurology and acute medicine governance meetings. If it works, embed the auto-referral in the coding or admission system.",
+  "evidence": [
+   "[3154] Hertfordshire learning disability services: PRN buccal midazolam prescription and administration audited (single cycle)",
+   "[1959] North Middlesex: standard letter template raised completion 13.3% → 83.6% (form or template)"
+  ],
+  "pitfalls": [
+   "Coding misses status recorded as 'seizure' → also screen admissions with IV lorazepam given.",
+   "'Concern of recurrence' judged differently → agree the definition with neurology before cycle 1.",
+   "Epilepsy nurse capacity → estimate yearly numbers from cycle 1.",
+   "Plans written but not shared with carers → collect carer training as a separate field."
+  ],
+  "pearls": [
+   "Recruit the epilepsy nurse team as owners.",
+   "Use the pharmacy dispensing log for buccal midazolam to find cases.",
+   "Store the plan template on the intranet next to the discharge letter template.",
+   "Present to acute medicine, where most patients are discharged from."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from notes and letters"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults with Parkinson's disease on a dopamine agonist have a discussion about impulse control disorders documented at their most recent review?",
+  "why": "Parkinson's audits in the library focus on inpatient dose timing and bone health [1913], [1165], [1161]; impulse control disorder counselling is not measured, although a gambling service found dopamine agonist use among its patients [3419].",
+  "standard": {
+   "source": "NICE NG71 rec 1.4.4 (2017)",
+   "wording": "Discuss potential impulse control disorders at review appointments, particularly when modifying therapy, and record that the discussion has taken place.",
+   "url": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations"
+  },
+  "pass": "The most recent Parkinson's clinic letter records that impulse control disorders were asked about or discussed.",
+  "population": "Adults with Parkinson's disease taking a dopamine agonist (ropinirole, pramipexole, rotigotine) seen in movement disorder, care of older people or Parkinson's nurse clinics. Exclude: first diagnostic appointment.",
+  "sample": "40 consecutive eligible patients seen over the last 3 months.",
+  "data_source": "Parkinson's clinic lists; clinic letters; medication list in letter or GP record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dopamine_agonist",
+    "type": "choice",
+    "options": [
+     "ropinirole",
+     "pramipexole",
+     "rotigotine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "therapy_changed_at_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "icd_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "carer_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": "ICDs may be concealed"
+   },
+   {
+    "field": "icd_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_if_identified",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'impulse control disorders asked (patient and carer): yes/no' line to the Parkinson's clinic letter template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible reviews, same template.",
+  "close_loop": "Present at the Parkinson's MDT or care of older people department meeting. If it works, keep the template line and add ICD screening to the Parkinson's nurse telephone review script.",
+  "evidence": [
+   "[1161] Irish Parkinson's clinic: 'bone health' section added to clinic proforma, closing management gaps (form or template)",
+   "[3419] Northern Gambling Service: 17% of patients prescribed a dopamine agonist, full drug history in 53% (single cycle)",
+   "[1883] Irish national Parkinson's audit: domains of care variably assessed, e.g. bone density 18% (single cycle)"
+  ],
+  "pitfalls": [
+   "Discussion done but not recorded → the template line fixes this.",
+   "Letters written by different clinicians use different headings → agree the template with all clinicians.",
+   "Levodopa-only patients also at risk → optional second cohort, but keep cycle 1 and 2 identical.",
+   "Patients embarrassed → include carer questioning as a separate field."
+  ],
+  "pearls": [
+   "Recruit the Parkinson's specialist nurse.",
+   "Use the QUIP short questionnaire if clinicians want a tool, but only the discussion is audited.",
+   "Link to NICE rec 1.4.3 (information at start of agonist) for a second cycle.",
+   "Share a one-line script for asking about gambling, shopping, eating and sex."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "How many inpatients with Parkinson's disease are prescribed haloperidol or prochlorperazine?",
+  "why": "A multi-cycle Oxford audit in dying Parkinson's patients found antidopaminergic prescribing unchanged at around 50% after leaflets and guidance [1925]; the wider inpatient population has not been audited in the library.",
+  "standard": {
+   "source": "NICE NG71 rec 1.5.20 (2017)",
+   "wording": "Recognise that other antipsychotic medicines (such as phenothiazines and butyrophenones) can worsen the motor features of Parkinson's disease.",
+   "url": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations"
+  },
+  "pass": "No haloperidol, prochlorperazine or other phenothiazine or butyrophenone prescribed (regular or as required) during the admission, unless a Parkinson's specialist decision is documented.",
+  "population": "Adult inpatients with Parkinson's disease or Parkinsonism (including dementia with Lewy bodies) admitted to any ward. Exclude: none.",
+  "sample": "40 consecutive admissions over the last 2 months (EPMA report of Parkinson's medicines).",
+  "data_source": "EPMA report of levodopa and other Parkinson's drugs (to identify patients); EPMA prescriptions for antidopaminergic drugs; notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haloperidol_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Regular or PRN"
+   },
+   {
+    "field": "prochlorperazine_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "other_phenothiazine_or_butyrophenone",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_administered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Any dose given"
+   },
+   {
+    "field": "specialist_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "None prescribed or specialist decision"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an EPMA alert that fires when haloperidol, prochlorperazine or metoclopramide is prescribed to a patient with levodopa or a dopamine agonist on the chart, suggesting safer alternatives.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 admissions, same template.",
+  "close_loop": "Present at the drugs and therapeutics committee. If it works, keep the alert and add Parkinson's to the hospital antiemetic and delirium guidelines.",
+  "evidence": [
+   "[1925] Oxford: anti-dopaminergic prescribing in dying Parkinson's patients 47% → 50% (leaflet then guidance, mixed)",
+   "[1165] Waterford: 86% did not receive appropriate PD medication in ED; nil-by-mouth guideline introduced (mixed)",
+   "[1913] Beaumont: 30% received all Parkinson's doses on time (education only)"
+  ],
+  "pitfalls": [
+   "Prescribing from order sets (for example post-operative nausea) → review antiemetic order sets too.",
+   "Metoclopramide not named in the NICE wording → audit it as a separate field.",
+   "Alert fatigue → restrict the alert to the patients with Parkinson's drugs on the chart.",
+   "Delirium pathways recommend haloperidol → update the delirium guideline at the same time."
+  ],
+  "pearls": [
+   "Recruit an EPMA pharmacist to build the report and the alert.",
+   "Offer domperidone and ondansetron alternatives in the alert text.",
+   "Involve the Parkinson's nurse in the governance paper.",
+   "Re-run the EPMA report quarterly to keep gains."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPMA report"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do older adults diagnosed with delirium in hospital have delirium recorded in their discharge summary to the GP?",
+  "why": "Delirium audits in the library focus on screening [1870], [1899]; one surgical audit found only 5% coded [1846]. Communicating the diagnosis to primary care is not measured, and NICE links delirium to later dementia.",
+  "standard": {
+   "source": "NICE CG103 rec 1.6.4 (2010, updated 2023)",
+   "wording": "Ensure that the diagnosis of delirium is documented both in the person's record or notes, and in their primary care health record.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "Discharge summary lists delirium (current or resolved) as a diagnosis, with a recommendation for follow-up if unresolved.",
+  "population": "Adults aged 65+ with delirium diagnosed in the notes (positive 4AT or clinician diagnosis) and discharged alive. Exclude: discharged to hospice or died.",
+  "sample": "40 consecutive patients over the last 3 months.",
+  "data_source": "Frailty/elderly care ward discharges; 4AT records in EPR; medical notes; discharge summary; clinical coding.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_delirium_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "positive_4at_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delirium_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "delirium_resolved_at_discharge",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_advised_if_unresolved",
+    "type": "yes/no",
+    "options": [],
+    "note": "Memory assessment or GP review"
+   },
+   {
+    "field": "delirium_coded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Clinical coding"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Delirium during admission: yes/no/resolved' field to the electronic discharge summary for patients aged 65+.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 patients, same template.",
+  "close_loop": "Present at the care of older people governance meeting and share with local GPs. If it works, keep the field and use it to drive coding.",
+  "evidence": [
+   "[1846] UHNM surgical assessment unit: 5% coded as delirium though 36% 4AT-positive; 4AT completion 40% → 64% (mixed)",
+   "[1870] Royal Berkshire: explicit delirium diagnosis 10% → 32% after electronic notes and 4AT (mixed)",
+   "[1899] St George's frailty ward: delirium assessments 53% → 79% after proforma change (form or template)"
+  ],
+  "pitfalls": [
+   "Delirium present but never named in notes → include only patients with a documented diagnosis or positive 4AT.",
+   "Field ticked 'no' by default → make it an active choice without a default.",
+   "GPs may not read the field → ask one local GP to review sample summaries.",
+   "Short-stay patients discharged by juniors unaware → include the field in the discharge checklist."
+  ],
+  "pearls": [
+   "Recruit a frailty consultant and the clinical coding lead.",
+   "Show the coding income gain; managers often support it.",
+   "Add a single-line leaflet for families about delirium to the discharge pack.",
+   "Assign a named ward registrar to check the field weekly for 2 months."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do older inpatients given haloperidol for delirium have a baseline ECG before the first dose?",
+  "why": "Delirium audits in the library measure screening and diagnosis [1870], [1899]; no audit checks the MHRA 2021 safety advice on haloperidol in older people.",
+  "standard": {
+   "source": "MHRA Drug Safety Update: haloperidol in elderly patients with delirium (10 December 2021)",
+   "wording": "before initiating treatment, a baseline electrocardiogram (ECG) and correction of any electrolyte disturbances is recommended; cardiac and electrolyte monitoring should be repeated during treatment",
+   "url": "https://www.gov.uk/drug-safety-update/haloperidol-haldol-reminder-of-risks-when-used-in-elderly-patients-for-the-acute-treatment-of-delirium"
+  },
+  "pass": "12-lead ECG with QTc recorded before, or within 24 hours before, the first haloperidol dose (emergency use with a documented reason counts as a pass if an ECG follows within 24 hours).",
+  "population": "Inpatients aged 65+ given at least one dose of haloperidol for delirium or agitation. Exclude: palliative care in the last days of life, haloperidol only as an antiemetic.",
+  "sample": "40 consecutive patients over the last 3 months (EPMA administration report).",
+  "data_source": "EPMA haloperidol administration report; ECG management system; laboratory potassium and magnesium; notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_first_haloperidol",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "delirium",
+     "agitation in dementia",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_time_baseline_ecg",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qtc_ms",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "electrolytes_checked_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "parkinsons_or_lewy_body",
+    "type": "yes/no",
+    "options": [],
+    "note": "Contraindication in MHRA advice"
+   },
+   {
+    "field": "total_haloperidol_doses",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Link the haloperidol prescription in EPMA to a required field 'Baseline ECG QTc (ms) and date', with an override reason for emergencies.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 patients, same template.",
+  "close_loop": "Present at the drugs and therapeutics committee and older people's governance meeting. If it works, keep the EPMA field and add it to the delirium guideline.",
+  "evidence": [
+   "[1870] Royal Berkshire: electronic pop-ups and mandatory screen raised delirium screening 3% → 87% (mixed, system change)",
+   "[3437] Psychiatric wards: move to EPMA raised deprescribing standards compliance to 100% (system change)"
+  ],
+  "pitfalls": [
+   "Emergency doses given at night before an ECG is possible → allow a 24-hour catch-up with a documented reason.",
+   "Haloperidol used as antiemetic confuses the sample → filter by indication in notes.",
+   "ECG done but QTc not read → require the QTc value.",
+   "Pushback about delaying treatment → stress non-drug measures come first (NICE CG103 rec 1.7.3)."
+  ],
+  "pearls": [
+   "Recruit an EPMA pharmacist and a frailty consultant.",
+   "Also record Parkinson's or Lewy body disease; any use there is a separate safety finding.",
+   "Use the ECG system to confirm times, not the notes.",
+   "Present the result alongside the NICE delirium pathway to keep it in context."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPMA and ECG system"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do inpatients with dementia have their anticholinergic burden score recorded during their hospital medication review?",
+  "why": "Anticholinergic burden has been audited mostly in psychiatric services [3412], [3560]; one acute frailty unit closed the loop with an automated calculator but saw little change [1931]. Acute medical and elderly wards are under-audited.",
+  "standard": {
+   "source": "NICE NG97 rec 1.6.2 (2018)",
+   "wording": "Consider minimising the use of medicines associated with increased anticholinergic burden, and if possible look for alternatives: when assessing whether to refer a person with suspected dementia for diagnosis during medication reviews with people living with dementia.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "pass": "An anticholinergic burden score (any validated scale, for example ACB) documented during the admission, and, where the score is 3 or more, a documented decision on each contributing drug (stop, reduce, switch or continue with reason).",
+  "population": "Adults with a documented dementia diagnosis admitted to care of older people or acute medical wards for 72 hours or more. Exclude: end-of-life care.",
+  "sample": "40 consecutive eligible patients over the last 2 months.",
+  "data_source": "Dementia flag or 'This is Me' records; medicines reconciliation; EPMA; ward round and pharmacy notes; discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_regular_medicines",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acb_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acb_score_admission",
+    "type": "number",
+    "options": [],
+    "note": "Calculate if not documented"
+   },
+   {
+    "field": "acb_3_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_on_each_contributing_drug",
+    "type": "yes/no",
+    "options": [],
+    "note": "Required if score 3 or more"
+   },
+   {
+    "field": "acb_score_discharge",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Criteria above"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic ACB score to the pharmacy medicines reconciliation template in EPR for patients with a dementia flag, displayed on the ward round summary.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at the care of older people and pharmacy meetings. If it works, keep the automatic score and add the ACB to the discharge summary for GPs.",
+  "evidence": [
+   "[1931] Royal Liverpool frailty unit: ACB 3 or more at discharge 27% → 30% despite automated calculator (system change; shows need for a decision step)",
+   "[3412] Greater Manchester later-life psychiatry ward: patients scoring 0 at 4 weeks fell 50% → 13% when recommendations were not implemented",
+   "[1924] Lincoln older people's ward: structured medication review 80% → 100% (education only)"
+  ],
+  "pitfalls": [
+   "Score calculated but no action → audit the decision step as part of the pass.",
+   "Different ACB scales between cycles → fix one scale before cycle 1.",
+   "Psychiatric drugs started by others → document 'continue with reason' as a valid decision.",
+   "Short stays → limit to stays of 72 hours or more."
+  ],
+  "pearls": [
+   "Recruit the ward pharmacist as co-lead.",
+   "Print the top 10 local anticholinergic drugs with alternatives on the ward round sheet.",
+   "Send the score to the GP in the discharge summary so the change lasts.",
+   "Keep the report in the monthly pharmacy dashboard."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPMA and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "When an antipsychotic is started in hospital for a person with dementia, is a discussion of benefits and harms with the person or their family documented before the first regular dose?",
+  "why": "Antipsychotic audits in dementia come from community mental health services and focus on monitoring [3320], [3633], [3654]; starting antipsychotics on acute hospital wards, and the discussion NICE requires, is not measured in the library.",
+  "standard": {
+   "source": "NICE NG97 rec 1.7.5 (2018)",
+   "wording": "Before starting antipsychotics, discuss the benefits and harms with the person and their family members or carers (as appropriate). Consider using a decision aid to support this discussion.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "pass": "Notes record a discussion of benefits and harms with the person, their family, carer or attorney before or within 24 hours of the first regular antipsychotic dose, with the planned review date.",
+  "population": "Inpatients with dementia started on a new regular antipsychotic (risperidone, haloperidol, quetiapine, olanzapine, other) in an acute hospital. Exclude: antipsychotic continued from before admission, end-of-life sedation.",
+  "sample": "40 consecutive new starts over the last 6 months (EPMA report).",
+  "data_source": "EPMA new antipsychotic prescriptions filtered by dementia flag; medical and nursing notes; discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_first_regular_dose",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antipsychotic",
+    "type": "choice",
+    "options": [
+     "risperidone",
+     "haloperidol",
+     "quetiapine",
+     "olanzapine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "non_drug_measures_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE rec 1.7.2"
+   },
+   {
+    "field": "benefit_harm_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "who_discussed_with",
+    "type": "choice",
+    "options": [
+     "patient",
+     "family/carer",
+     "attorney",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_date_set",
+    "type": "yes/no",
+    "options": [],
+    "note": "6-weekly review (NICE rec 1.7.6)"
+   },
+   {
+    "field": "continued_at_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_or_review_plan_to_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a short 'Antipsychotic in dementia' checklist to the EPMA prescription (non-drug measures tried, discussion with person or family, review date) that must be completed for a regular prescription.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 new starts (extend look-back if fewer), same template.",
+  "close_loop": "Present at the dementia steering group and drugs and therapeutics committee. If it works, keep the EPMA checklist and share the NICE decision aid on wards.",
+  "evidence": [
+   "[1902] Connolly Hospital geriatric ward: dementia/delirium care bundle raised overall compliance 69% → 87% (mixed)",
+   "[3320] Harrogate community: antipsychotic prescribing for dementia symptoms audited (related topic)",
+   "[3654] Multi-centre: cardiovascular monitoring in dementia patients on antipsychotics audited (related topic)"
+  ],
+  "pitfalls": [
+   "Night-time PRN doses become regular without discussion → count the first regular dose as the trigger.",
+   "Family unreachable → accept a documented attempt with time and number called.",
+   "Psychiatry liaison starts drug → the standard still applies; include them in the change.",
+   "Checklist ticked without discussion → spot-check 5 notes for a free-text record."
+  ],
+  "pearls": [
+   "Recruit the dementia lead nurse and liaison psychiatry.",
+   "Print the NICE patient decision aid for ward packs.",
+   "Agree what counts as 'regular' with pharmacy before cycle 1.",
+   "Report antipsychotics continued at discharge as a secondary outcome for GPs."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from EPMA and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do inpatients who fall have a medical examination documented within 12 hours of the fall?",
+  "why": "National data show medical assessment within 30 minutes in only 52–60% after injurious falls [1169]; local post-fall review audits are single-cycle [1171]. NICE's quality measure also sets a 12-hour check for all falls.",
+  "standard": {
+   "source": "NICE QS86 statement 6 (2015, quality standard updated 2025)",
+   "wording": "People who fall during a hospital stay have a medical examination. [Quality measure a: Proportion of falls in people during a hospital stay where the person has a medical examination completed within 12 hours.]",
+   "url": "https://www.nice.org.uk/guidance/qs86/chapter/Quality-statement-6-Medical-examination-after-an-inpatient-fall"
+  },
+  "pass": "Documented medical examination (by a doctor or advanced practitioner) within 12 hours of the recorded fall time, covering injury check and a cause assessment.",
+  "population": "All inpatient falls in adults on medical and care of older people wards reported on the incident system. Exclude: falls in ED, assisted lowering to the floor without impact.",
+  "sample": "40 consecutive inpatient falls over the last 2 months.",
+  "data_source": "Incident reporting system (Datix or equivalent) for fall time; medical notes for review time; observations chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_fall",
+    "type": "datetime",
+    "options": [],
+    "note": "From incident report"
+   },
+   {
+    "field": "head_injury_or_anticoagulant",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_suspected",
+    "type": "yes/no",
+    "options": [],
+    "note": "Fast-track (30 min) subgroup"
+   },
+   {
+    "field": "date_time_medical_review",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_within_30min_if_injury",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure (b)"
+   },
+   {
+    "field": "cause_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "For example lying/standing BP, medicines, delirium"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a post-fall medical review sticker/electronic form triggered by the incident report, with fields for injury check, cause and CT decision.",
+  "target": "≥90% within 12 hours",
+  "reaudit": "Weeks 13–14: next 40 inpatient falls, same template.",
+  "close_loop": "Present at the falls steering group. If it works, embed the form in the EPR and add completion to the monthly falls dashboard.",
+  "evidence": [
+   "[1169] National Audit of Inpatient Falls: medical assessment within 30 minutes 52% → 60% over five years (continuous national audit)",
+   "[1171] St James's: post-fall reviews audited; pro forma and CT decision tool planned (single cycle)",
+   "[1817] Mater Dublin: medication review after inpatient falls 9.09% (single cycle)"
+  ],
+  "pitfalls": [
+   "Fall time missing on incident report → use the nursing entry time and flag it.",
+   "Reviews not documented at night → record night falls separately.",
+   "Incident system under-reports falls → cross-check with ward safety huddle records.",
+   "Doctors see it as extra work → keep the form short (6 fields)."
+  ],
+  "pearls": [
+   "Recruit the falls prevention nurse and ward sisters.",
+   "Use the incident system as the sampling frame so both cycles match.",
+   "Report the 30-minute injury subgroup separately (NAIF measure).",
+   "Include the form in junior doctor induction and bleep holder handbook."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 falls from incident system and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do older inpatients who fall in hospital have a documented review of fall-risk-increasing medicines within 72 hours?",
+  "why": "An Irish audit found medication review after inpatient falls in only 9% with no drugs changed [1817]; a primary care loop reached 94% with EPR prompts [1761]. The 2025 NICE falls guideline keeps medication review central.",
+  "standard": {
+   "source": "NICE NG249 rec 1.3.17 (2025)",
+   "wording": "As part of a structured medication review, consider making appropriate adjustments to the person's medicines to reduce the risk of falls. Also see the section on medication review in the NICE guideline on medicines optimisation and the section on reviewing medicines in the NICE guideline on medicines adherence.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "pass": "Within 72 hours of the fall, the notes record a review of fall-risk-increasing drugs (for example sedatives, antipsychotics, antihypertensives, opioids, anticholinergics) with a decision for each (stop, reduce, continue with reason).",
+  "population": "Inpatients aged 65+ who fall on medical or care of older people wards. Exclude: death within 72 hours, falls with no FRIDs prescribed (record the count).",
+  "sample": "40 consecutive falls over the last 2–3 months.",
+  "data_source": "Incident reporting system; EPMA medication list at time of fall and 72 hours later; medical and pharmacy notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_fall",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_frids",
+    "type": "number",
+    "options": [],
+    "note": "Fall-risk-increasing drugs at time of fall"
+   },
+   {
+    "field": "psychotropic_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE rec 1.3.3"
+   },
+   {
+    "field": "medication_review_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_review",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_on_each_frid",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "frids_stopped_or_reduced",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "changes_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a FRIDs checklist section to the post-fall medical review form, with an automatic referral to the ward pharmacist.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 falls, same template.",
+  "close_loop": "Present at the falls steering group and medicines safety committee. If it works, embed the checklist in the post-fall form and track FRIDs stopped per month.",
+  "evidence": [
+   "[1817] Mater Dublin: medication review after the fall 9.09%; no falls-risk medicines stopped (single cycle)",
+   "[1761] Essex GP surgery: documented review within 4 weeks 22% → 94% (EPR prompts, education and MDT reviews)",
+   "[1924] Lincoln older people's ward: structured medication review 80% → 100% (education only)"
+  ],
+  "pitfalls": [
+   "'Medications reviewed' written without detail → require a decision per FRID.",
+   "Disagreement on the FRID list → adopt a published list (for example STOPPFall) before cycle 1.",
+   "Pharmacist capacity → prioritise patients with 3 or more FRIDs.",
+   "Changes not passed to GP → include 'changes in discharge summary' as a field."
+  ],
+  "pearls": [
+   "Recruit the ward pharmacist as co-lead.",
+   "Print the FRID list on the post-fall form.",
+   "Combine data collection with the 12-hour medical examination audit.",
+   "Report the number of FRIDs stopped; it motivates teams."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 falls from EPMA and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do older people who have taken a bisphosphonate for 3 years or more have a documented discussion about stopping it?",
+  "why": "Bone health audits in the library address starting treatment [1346], [1161]; review after 3 years, as advised by NICE for people with multimorbidity, is not measured.",
+  "standard": {
+   "source": "NICE NG56 rec 1.6.16 (2016)",
+   "wording": "Discuss stopping bisphosphonate after 3 years and include patient choice, fracture risk and life expectancy in the discussion.",
+   "url": "https://www.nice.org.uk/guidance/ng56/chapter/Recommendations"
+  },
+  "pass": "Clinic letter, discharge summary or medication review note records a discussion of continuing or stopping the bisphosphonate that mentions fracture risk and the person's view.",
+  "population": "Adults aged 65+ on an oral bisphosphonate for 3 years or more, seen in care of older people clinics or discharged from elderly care wards. Exclude: bisphosphonate for Paget's disease or malignancy, start date unknown.",
+  "sample": "40 consecutive eligible patients over the last 3 months.",
+  "data_source": "EPMA or GP summary record for start date; clinic letters; discharge summaries; DXA and FRAX records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_encounter",
+    "type": "date",
+    "options": [],
+    "note": "Clinic or discharge"
+   },
+   {
+    "field": "bisphosphonate_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "years_on_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_fragility_fracture",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_continue_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fracture_risk_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": "FRAX, DXA or clinical"
+   },
+   {
+    "field": "patient_choice_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "continue",
+     "drug holiday",
+     "switch",
+     "not stated"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'bisphosphonate 3 years or more: reviewed, decision' line to the care of older people clinic letter and discharge summary templates, triggered by the medication list.",
+  "target": "≥75%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at the care of older people department and fracture liaison meeting. If it works, keep the template line and share a GP letter on drug holidays.",
+  "evidence": [
+   "[1346] North Staffordshire fracture liaison: bisphosphonate prescribing 40% → 51% after GP letter rewrite (form or template)",
+   "[1161] Irish Parkinson's clinic: bone health section in proforma found management gaps in 50% (form or template)"
+  ],
+  "pitfalls": [
+   "Start date unknown → use GP record; exclude if still unknown.",
+   "High-risk patients (previous vertebral fracture) should continue → a documented 'continue' decision is a pass.",
+   "Clinicians think it is the GP's job → present it as a shared review, copied to the GP.",
+   "Numbers too low in one clinic → include ward discharges."
+  ],
+  "pearls": [
+   "Recruit the fracture liaison nurse.",
+   "Provide a one-line FRAX link in the template.",
+   "Agree with local GPs who owns the decision after the letter.",
+   "Add the template line permanently so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from letters and GP record"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults recognised as dying in hospital have anticipatory medicines prescribed with an indication and dose range for each drug?",
+  "why": "End-of-life audits in the library measure documentation of recognition of dying and DNACPR [1852], [1894]; anticipatory prescribing quality is measured only in Parkinson's disease [1925].",
+  "standard": {
+   "source": "NICE NG31 rec 1.6.1 (2015)",
+   "wording": "Use an individualised approach to prescribing anticipatory medicines for people who are likely to need symptom control in the last days of life. Specify the indications for use and the dosage of any medicines prescribed.",
+   "url": "https://www.nice.org.uk/guidance/ng31/chapter/Recommendations"
+  },
+  "pass": "Within 24 hours of recognition of dying, as-required medicines are prescribed for pain, agitation, nausea and vomiting, breathlessness and respiratory secretions, each with an indication, dose, route and maximum 24-hour dose, adjusted for renal function where relevant.",
+  "population": "Adult inpatients who died after being recognised as dying (documented in notes) for 24 hours or more. Exclude: sudden unexpected deaths, deaths within 24 hours of admission.",
+  "sample": "40 consecutive deaths over the last 2–3 months (mortuary or bereavement office list).",
+  "data_source": "Bereavement office list; notes for recognition of dying time; EPMA as-required prescriptions; eGFR from laboratory system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_recognised_dying",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_death",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "five_symptom_classes_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pain, agitation, nausea, breathlessness, secretions"
+   },
+   {
+    "field": "indication_on_every_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_range_and_max_24h_on_every_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "renal_adjustment_if_egfr_below_30",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prescribed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "All criteria met"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build an end-of-life anticipatory medicines order set in EPMA with pre-filled indications, dose ranges, maximum doses and a renal-impairment version, agreed with the palliative care team.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible deaths, same template.",
+  "close_loop": "Present at the end-of-life care steering group (NACEL lead). If it works, keep the order set and include it in the trust NACEL action plan.",
+  "evidence": [
+   "[1925] Oxford: anti-dopaminergic prescribing in dying Parkinson's patients 47% → 50% after leaflet and EoL guidance (mixed)",
+   "[1852] Irish stroke and geriatric services: recognition of dying 92.9–94.1%; risk of dying communicated to family 75% (education only)",
+   "[1807] NACEL round two: 71% of category 1 deaths had an individualised end-of-life care plan (national audit)"
+  ],
+  "pitfalls": [
+   "Recognition of dying time unclear → use the first documented statement that the person is dying.",
+   "Order sets used blindly → keep 'individualise and review daily' wording and a palliative contact.",
+   "Palliative team concern about standardisation → co-design the order set with them.",
+   "Deaths spread over many wards → sample through the bereavement office list, not wards."
+  ],
+  "pearls": [
+   "Recruit the hospital palliative care nurse specialist and an EPMA pharmacist.",
+   "Link the audit to NACEL so the trust already has a governance route.",
+   "Include renal dosing; it is the most common error.",
+   "Add the order set to the end-of-life care plan document."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 deaths from EPMA and notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do adults in the last days of life in hospital have their hydration status assessed and documented every day?",
+  "why": "Hydration audits in the library concern general acute wards [1886]; end-of-life documentation audits do not measure daily hydration assessment [1852], [1894].",
+  "standard": {
+   "source": "NICE NG31 rec 1.4.4 (2015)",
+   "wording": "Assess, preferably daily, the dying person's hydration status, and review the possible need for starting clinically assisted hydration, respecting the person's wishes and preferences.",
+   "url": "https://www.nice.org.uk/guidance/ng31/chapter/Recommendations"
+  },
+  "pass": "A hydration assessment (for example oral intake, thirst, mouth, signs of dehydration or overload) and a decision about clinically assisted hydration are documented on every full day between recognition of dying and death.",
+  "population": "Adult inpatients who died after being recognised as dying for 48 hours or more. Exclude: sudden deaths, deaths within 48 hours of admission.",
+  "sample": "40 consecutive eligible deaths over the last 3 months.",
+  "data_source": "Bereavement office list; medical and nursing notes; end-of-life care plan; fluid charts; EPMA for subcutaneous or IV fluids.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_recognised_dying",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_death",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_full_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_with_hydration_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_assessment_every_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "assisted_hydration_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_with_family_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE rec 1.4.5"
+   },
+   {
+    "field": "mouth_care_in_care_plan",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE rec 1.4.2"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a daily 'Hydration and mouth care' box to the individualised end-of-life care plan, reviewed at the daily ward round.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 eligible deaths, same template.",
+  "close_loop": "Present at the end-of-life care steering group. If it works, keep the care plan box and include it in the trust NACEL action plan.",
+  "evidence": [
+   "[1886] St Michael's Dun Laoghaire: 38% of patients needed prompting to drink (single cycle)",
+   "[1852] Irish stroke and geriatric services: end-of-life documentation audited; education recommended (single cycle)",
+   "[1807] NACEL round two: individualised end-of-life care plan in 71% of category 1 deaths (national audit)"
+  ],
+  "pitfalls": [
+   "Nursing and medical notes in different systems → check both.",
+   "'Comfortable' entries counted as assessment → define what counts before cycle 1.",
+   "Families distressed by 'withholding fluids' → pair with the discussion field and leaflet.",
+   "Deaths with short dying phase → require 48 hours so every day can be judged."
+  ],
+  "pearls": [
+   "Recruit the palliative care nurse specialist and ward matrons.",
+   "Use NACEL case note review forms to align definitions.",
+   "Keep the care plan box short (three lines).",
+   "Share one anonymised good example at ward huddles."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 deaths from notes"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "Do older inpatients started on a strong opioid have a regular laxative prescribed at the same time?",
+  "why": "Opioid–laxative co-prescribing has been audited in surgical patients (34% co-prescribed) [2487]; in older and palliative inpatients only constipation care as a whole has been studied [1810].",
+  "standard": {
+   "source": "NICE CG140 rec 1.1.18 (2012, updated 2016)",
+   "wording": "Prescribe laxative treatment (to be taken regularly at an effective dose) for all patients starting strong opioids.",
+   "url": "https://www.nice.org.uk/guidance/cg140/chapter/Recommendations"
+  },
+  "pass": "A regular (not only as-required) laxative prescribed within 24 hours of the first strong opioid prescription, unless contraindicated (for example bowel obstruction, stoma with high output) and documented.",
+  "population": "Inpatients aged 65+ on care of older people, acute medical or palliative beds starting a strong opioid (morphine, oxycodone, fentanyl patch, buprenorphine patch, others). Exclude: already on a regular laxative, bowel obstruction, diarrhoea at start.",
+  "sample": "40 consecutive new strong opioid starts over the last 2 months (EPMA report).",
+  "data_source": "EPMA new strong opioid prescriptions; EPMA laxative prescriptions; bowel chart; notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_first_strong_opioid",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid",
+    "type": "choice",
+    "options": [
+     "morphine",
+     "oxycodone",
+     "fentanyl patch",
+     "buprenorphine patch",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "regular_laxative_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_laxative_prescribed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "laxative_type",
+    "type": "choice",
+    "options": [
+     "stimulant",
+     "softener",
+     "stimulant plus softener",
+     "osmotic",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bowels_opened_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "From bowel chart"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Link a regular laxative prompt to all strong opioid prescriptions in EPMA (opioid order set includes a laxative that must be accepted or declined with a reason).",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 new starts, same template.",
+  "close_loop": "Present at the medicines safety committee and palliative care group. If it works, keep the EPMA link and extend to all adult wards.",
+  "evidence": [
+   "[2487] Queen Elizabeth Birmingham general surgery: 34% of patients on opioids co-prescribed laxatives (education planned, single cycle)",
+   "[1810] Bournville Ward Birmingham: inpatient-developed constipation down 6% after teaching and weekly MDT review (mixed)",
+   "[1341] QEHB surgical departments: safe opioid prescribing audited (related topic)"
+  ],
+  "pitfalls": [
+   "As-required laxatives counted → count only regular prescriptions.",
+   "Weak opioids (codeine) included by mistake → list strong opioids before cycle 1.",
+   "Alert fatigue → only trigger the prompt when no regular laxative is on the chart.",
+   "Patients refuse laxatives → still a pass if prescribed; record refusals."
+  ],
+  "pearls": [
+   "Recruit the ward pharmacist; the EPMA report takes minutes.",
+   "Suggest a default stimulant laxative in the order set.",
+   "Record bowel outcome as a balancing measure.",
+   "Share results with surgery too; the same EPMA change helps them."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPMA report"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "When an adult in hospital is recognised as dying, are medicines that no longer give symptom benefit stopped within 24 hours?",
+  "why": "End-of-life audits in the library measure documentation and anticipatory prescribing in Parkinson's disease [1852], [1925]; stopping non-beneficial medicines at recognition of dying is not measured.",
+  "standard": {
+   "source": "NICE NG31 rec 1.5.1 (2015)",
+   "wording": "When it is recognised that a person may be entering the last days of life, review their current medicines and, after discussion and agreement with the dying person and those important to them (as appropriate), stop any previously prescribed medicines that are not providing symptomatic benefit or that may cause harm.",
+   "url": "https://www.nice.org.uk/guidance/ng31/chapter/Recommendations"
+  },
+  "pass": "Within 24 hours of recognition of dying, a documented medicines review, and statins, bisphosphonates, vitamin supplements, oral hypoglycaemics (unless symptomatic), routine VTE prophylaxis and other non-symptomatic medicines are stopped or have a documented reason to continue.",
+  "population": "Adult inpatients who died after being recognised as dying for 24 hours or more. Exclude: sudden deaths, deaths within 24 hours of admission.",
+  "sample": "40 consecutive eligible deaths over the last 2–3 months.",
+  "data_source": "Bereavement office list; notes for recognition of dying; EPMA active prescriptions at recognition and 24 hours later.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately"
+   },
+   {
+    "field": "date_time_recognised_dying",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_non_symptomatic_medicines_at_recognition",
+    "type": "number",
+    "options": [],
+    "note": "Statins, bisphosphonates, vitamins, VTE prophylaxis etc."
+   },
+   {
+    "field": "medicines_review_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_still_active_at_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented_for_each_continued",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_with_person_or_family",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "All stopped or justified within 24 hours"
+   },
+   {
+    "field": "doses_given_after_recognition",
+    "type": "number",
+    "options": [],
+    "note": "Non-symptomatic doses administered"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Medicines review at recognition of dying' checklist to the individualised end-of-life care plan, listing common medicines to stop.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 40 eligible deaths, same template.",
+  "close_loop": "Present at the end-of-life care steering group and medicines safety committee. If it works, keep the checklist and add it to the EPMA end-of-life order set.",
+  "evidence": [
+   "[1925] Oxford: prescribing for dying Parkinson's patients re-audited over multiple cycles; anti-dopaminergic prescribing 47% → 50% (mixed)",
+   "[1852] Irish stroke and geriatric services: recognition of dying documented in 92.9–94.1% (single cycle)",
+   "[3437] Psychiatric wards: EPMA transition raised safe deprescribing compliance from under 34% to 100% (system change)"
+  ],
+  "pitfalls": [
+   "Disagreement on what is 'non-symptomatic' → agree a list with palliative care before cycle 1.",
+   "Anticoagulants for AF debated → count a documented reason as a pass.",
+   "Families want medicines continued → the discussion field captures this.",
+   "Recognition of dying reversed → exclude patients who stabilised and were discharged."
+  ],
+  "pearls": [
+   "Recruit the palliative care consultant and ward pharmacist.",
+   "Run the EPMA 'active prescriptions' report at recognition time for quick data.",
+   "Count doses given after recognition; it is a striking figure.",
+   "Pair with the anticipatory medicines audit to share data collection."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 deaths from EPMA and notes"
+ }
+]

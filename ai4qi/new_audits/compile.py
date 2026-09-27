@@ -25,14 +25,48 @@ DROP = [
     "In adults having shoulder replacement under general anaesthesia for over 90 minutes",               # periop upper-limb VTE
     "In adults transfused after primary joint replacement, what proportion have a discharge summary",    # periop transfusion letter
     "In adults with diabetes listed for elective hip or knee replacement, was an HbA1c",                 # elective HbA1c
+    "What proportion of adults with suspected non-variceal upper GI bleedin",  # non-ortho near-duplicate
+    "What proportion of adults with a new melanoma diagnosis have a vitamin",  # non-ortho near-duplicate
+    "In non-bleeding adults in intensive care, what proportion of red cell ",  # non-ortho near-duplicate
+    "What proportion of adult medical inpatients at medium risk of sepsis (",  # non-ortho near-duplicate
+    "What proportion of adults with confirmed C. difficile infection have t",  # non-ortho near-duplicate
+    "What proportion of adults with suspected TIA seen in the ED receive as",  # non-ortho near-duplicate
+    "What proportion of infants with bronchiolitis seen in the ED receive n",  # non-ortho near-duplicate
+    "What proportion of febrile infants under 3 months seen in the ED have ",  # non-ortho near-duplicate
+    "What proportion of adults discharged from the ED or ambulatory care wi",  # non-ortho near-duplicate
+    "What proportion of adults given insulin-glucose for hyperkalaemia in t",  # non-ortho near-duplicate
 ]
 ORDER = ["hip", "trauma", "paeds", "limbs_spine", "elective", "periop", "outpatients", "generated"]  # generated = added from live answers; always last so earlier ids never shift
 
 
+# set name -> (parts folder, id prefix, output json, catalogue, title, area order)
+SETS = {
+    "ortho": ("parts", "ONA", "ortho_new_audits.json", "catalogue.md", "orthopaedic", None),
+    "nonortho": ("nonortho_parts", "NNA", "nonortho_new_audits.json", "catalogue_nonortho.md", "non-orthopaedic",
+                 ["surgery", "surgical_specialties", "anaesthesia_icu", "emergency", "medicine", "elderly_neuro_palliative",
+                  "psychiatry", "paediatrics", "obs_gynae_sexual", "diagnostics_prescribing", "generated"]),
+}
+
+
 def main():
+    std = {}
+    for name in SETS:
+        build(name, std)
+    os.makedirs(os.path.join(HERE, "..", "standards"), exist_ok=True)
+    json.dump(sorted(std.values(), key=lambda x: x["source"]),
+              open(os.path.join(HERE, "..", "standards", "standards.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+    print(f"{len(std)} standards in standards/standards.json")
+
+
+def build(name, std):
+    folder, prefix, out_json, catalogue, title, order = SETS[name]
+    order = order or ORDER
     audits, problems = [], []
-    files = sorted(glob.glob(os.path.join(HERE, "parts", "*.json")),
-                   key=lambda f: ORDER.index(os.path.basename(f)[:-5]) if os.path.basename(f)[:-5] in ORDER else 99)
+    files = sorted(glob.glob(os.path.join(HERE, folder, "*.json")),
+                   key=lambda f: order.index(os.path.basename(f)[:-5]) if os.path.basename(f)[:-5] in order else 99)
+    if not files:
+        return
     for f in files:
         for a in json.load(open(f, encoding="utf-8")):
             missing = [k for k in KEYS if k not in a]
@@ -50,7 +84,7 @@ def main():
         seen.add(k)
         unique.append(a)
     for i, a in enumerate(unique, 1):
-        a["id"] = f"ONA-{i:03d}"
+        a["id"] = f"{prefix}-{i:03d}"
     os.makedirs(os.path.join(HERE, "templates"), exist_ok=True)
     for a in unique:
         path = os.path.join(HERE, "templates", f"{a['id']}.csv")
@@ -60,10 +94,10 @@ def main():
             w.writerow([t["type"] + (": " + " / ".join(t.get("options") or []) if t.get("options") else "")
                         + (f" ({t['note']})" if t.get("note") else "") for t in a["template"]])
         a["template_file"] = f"new_audits/templates/{a['id']}.csv"
-    json.dump(unique, open(os.path.join(HERE, "ortho_new_audits.json"), "w", encoding="utf-8"),
+    json.dump(unique, open(os.path.join(HERE, out_json), "w", encoding="utf-8"),
               indent=1, ensure_ascii=False)
-    with open(os.path.join(HERE, "catalogue.md"), "w", encoding="utf-8") as fh:
-        fh.write(f"# Proposed orthopaedic audits ({len(unique)})\n\nDesigned from current standards and gaps in "
+    with open(os.path.join(HERE, catalogue), "w", encoding="utf-8") as fh:
+        fh.write(f"# Proposed {title} audits ({len(unique)})\n\nDesigned from current standards and gaps in "
                  "the corpus. Each has a data template in `templates/`. Not yet run anywhere.\n")
         area = None
         for a in unique:
@@ -78,20 +112,15 @@ def main():
             for k in ("pitfalls", "pearls"):
                 if a.get(k):
                     fh.write(f"- {k.capitalize()}: " + "; ".join(a[k]) + "\n")
-    std = {}
     for a in unique:
         s = a["standard"]
         k = (s.get("source") or "").strip()
         e = std.setdefault(k, {"source": k, "wording": s.get("wording"), "url": s.get("url"), "used_by": []})
         e["used_by"].append(a["id"])
-    os.makedirs(os.path.join(HERE, "..", "standards"), exist_ok=True)
-    json.dump(sorted(std.values(), key=lambda x: x["source"]),
-              open(os.path.join(HERE, "..", "standards", "standards.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
     by_area = {}
     for a in unique:
         by_area[a["area"]] = by_area.get(a["area"], 0) + 1
-    print(f"{len(unique)} audits ({len(audits) - len(unique) + len(dropped)} duplicates dropped); {len(std)} standards; by area {by_area}")
+    print(f"{name}: {len(unique)} audits ({len(audits) - len(unique) + len(dropped)} duplicates dropped); by area {by_area}")
     for p in problems:
         print("  skipped (missing keys):", p)
 

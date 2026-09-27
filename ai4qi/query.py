@@ -122,7 +122,13 @@ def main():
         return True
 
     if a.proposed:
-        pa = json.load(open(os.path.join(HERE, "new_audits", "ortho_new_audits.json"), encoding="utf-8"))
+        pa = []
+        for fn in ("ortho_new_audits.json", "nonortho_new_audits.json"):
+            p = os.path.join(HERE, "new_audits", fn)
+            if os.path.exists(p):
+                pa += json.load(open(p, encoding="utf-8"))
+        if a.specialty:
+            pa = [x for x in pa if a.specialty.lower() in (x.get("area") or "").lower()]
         q = toks(" ".join(a.q))
         sc = sorted(((sum(t in toks(json.dumps(x)) for t in q), x) for x in pa), key=lambda z: -z[0])
         res = [x for s, x in sc if s > 0][:a.n]

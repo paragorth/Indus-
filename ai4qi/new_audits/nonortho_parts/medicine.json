@@ -1,0 +1,2557 @@
+[
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with acute kidney injury have a urine dipstick result documented within 24 hours of the AKI being detected?",
+  "why": "Urinalysis is the cheapest test for intrinsic renal disease, yet the one closed-loop AKI audit in the library found dipstick interpretation in 18.5% and 15.3% after teaching [2848]. No medical-ward audit of this single step has been published in the library.",
+  "standard": {
+   "source": "NICE NG148 rec 1.4.2 (2019, updated 2024)",
+   "wording": "Perform urine dipstick testing for blood, protein, leucocytes, nitrites and glucose in all people as soon as acute kidney injury is suspected or detected. Document the results and ensure that appropriate action is taken when results are abnormal. [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "Dipstick result (all five analytes) documented in the notes or EPR within 24 hours of the first AKI alert, with a stated action if abnormal.",
+  "population": "Adults on medical wards with a laboratory AKI alert (stage 1–3). Exclude patients on dialysis, anuric patients and those on end-of-life care.",
+  "sample": "40 consecutive AKI alerts on medical wards over the last 4–6 weeks.",
+  "data_source": "Laboratory AKI e-alert list for cases; EPR/nursing observations or medical notes for dipstick result and time; results system for creatinine.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "aki_alert_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "From the laboratory alert"
+   },
+   {
+    "field": "aki_stage",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dipstick_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dipstick_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not done"
+   },
+   {
+    "field": "dipstick_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "all_five_analytes_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Blood, protein, leucocytes, nitrites, glucose"
+   },
+   {
+    "field": "abnormal_result",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_documented_if_abnormal",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. ACR/PCR sent, renal discussion, culture"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'urine dipstick result' field to the EPR AKI care bundle that opens with the AKI alert, and add dipstick to the nursing AKI checklist.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive AKI alerts on medical wards, same template.",
+  "close_loop": "Present at the medical directorate governance meeting with the AKI nurse or renal team. If it works, keep the bundle field and report dipstick completion on the monthly AKI dashboard.",
+  "evidence": [
+   "[2848] surgical AKI: urine dip interpretation 18.5% → 15.3% (teaching alone)",
+   "[1180] orthopaedic AKI: care bundle adherence 20% → 100% (structured AKI proforma, reminders and teaching)",
+   "[2495] renal colic: calcium requested 77.9% → 94.7% (renal order set)"
+  ],
+  "pitfalls": [
+   "Dipsticks done by nurses but not written anywhere → agree before cycle 1 where the result is recorded (observations chart or EPR) and search both.",
+   "Catheterised or anuric patients skew results → exclude anuric patients and record catheter status as a note.",
+   "Small numbers of stage 2–3 AKI → report all stages together and stage 2–3 separately.",
+   "The bundle field gets ticked without a real result → count a pass only if analyte values are recorded."
+  ],
+  "pearls": [
+   "Recruit the AKI specialist nurse or outreach team; they already review alerts daily.",
+   "Ask the ward managers to stock dipsticks and pots at the nurses' station on each medical ward.",
+   "Pair the change with a one-line rule on the AKI alert: 'Dip the urine now'.",
+   "Hand the dashboard to the renal link nurse so it survives the rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and observations"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with suspected non-variceal upper GI bleeding receive no proton pump inhibitor before endoscopy?",
+  "why": "NICE advises against acid suppression before endoscopy, but library audits scored pre-endoscopy PPI as good care: 74% → 77% [2307] and about 98% [2768]. No audit has measured avoidance of pre-endoscopy PPI.",
+  "standard": {
+   "source": "NICE CG141 rec 1.4.3 (2012, updated 2016)",
+   "wording": "Do not offer acid-suppression drugs (proton pump inhibitors or H2-receptor antagonists) before endoscopy to patients with suspected non-variceal upper gastrointestinal bleeding.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "pass": "No PPI or H2-receptor antagonist given (drug chart administration record) between arrival and endoscopy. Patients already on a regular oral PPI count as a pass if no new or IV dose was started.",
+  "population": "Adults admitted with suspected upper GI bleeding who had endoscopy. Exclude suspected variceal bleeding (known cirrhosis with varices, or terlipressin given) and patients under critical care.",
+  "sample": "40 consecutive emergency upper GI endoscopies for bleeding over the last 3 months.",
+  "data_source": "Endoscopy reporting system for cases and endoscopy time; e-prescribing or drug chart for PPI prescription and administration times; ED notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_variceal",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "regular_ppi_before_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_ppi_prescribed_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_route",
+    "type": "choice",
+    "options": [
+     "none",
+     "oral",
+     "IV bolus",
+     "IV infusion"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ppi_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "no_new_ppi_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "stigmata_of_recent_haemorrhage",
+    "type": "yes/no",
+    "options": [],
+    "note": "From endoscopy report; PPI after endoscopy is correct"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the IV PPI line in the ED/AMU upper GI bleed order set with a 'PPI only after endoscopy if stigmata found' prompt, agreed with the endoscopy lead.",
+  "target": "≥80% with no pre-endoscopy PPI",
+  "reaudit": "Wk 13–14: next 40 emergency upper GI bleed endoscopies, same template.",
+  "close_loop": "Present at the gastroenterology and acute medicine joint governance meeting. If it works, lock the order set change and add it to the upper GI bleed pathway document.",
+  "evidence": [
+   "[2307] UGIB audit: PPI for non-variceal bleeds counted as a pass, 74.4% → 77% (education)",
+   "[2768] UGIB: PPI given in about 98%; Blatchford rarely documented",
+   "[2538] day surgery: correct medicines 25% → 83% (pre-populated EPR order set)"
+  ],
+  "pitfalls": [
+   "Clinicians believe pre-endoscopy PPI is good care → share the NICE wording and agree the standard with the endoscopy lead before cycle 1.",
+   "Variceal bleeds wrongly included → apply the exclusion using terlipressin or known varices.",
+   "Patients on regular PPI inflate failure → count only new or IV doses.",
+   "Out-of-hours endoscopy delays tempt prescribers → the order set should state that PPI does not change outcomes before endoscopy."
+  ],
+  "pearls": [
+   "Recruit an endoscopy consultant as co-lead; the change needs their name on it.",
+   "Check with pharmacy who owns the ED order set before designing the change.",
+   "Report cost saving of avoided IV PPI infusions to managers.",
+   "Add the rule to junior doctor induction for acute medicine and ED."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from endoscopy system and e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with cirrhosis who present with upper GI bleeding receive intravenous antibiotics before endoscopy?",
+  "why": "Prophylactic antibiotics cut infection and death after variceal bleeding. Library audits found 83% [2768] and missed terlipressin in 19% [3036]; no closed-loop audit of antibiotic timing in cirrhotic bleeding is in the library.",
+  "standard": {
+   "source": "NICE NG50 rec 1.9.1 (2016, updated 2023); NICE CG141 rec 1.5.2",
+   "wording": "NG50 1.9.1: Offer prophylactic intravenous antibiotics for people with cirrhosis who have upper gastrointestinal bleeding. [2016] CG141 1.5.2: Offer prophylactic antibiotic therapy at presentation to patients with suspected or confirmed variceal bleeding.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "pass": "First IV antibiotic dose administered before the start of endoscopy (or within 6 hours of arrival if endoscopy was later).",
+  "population": "Adults with known or suspected cirrhosis admitted with upper GI bleeding. Exclude patients already on IV antibiotics for another reason at arrival.",
+  "sample": "30–40 consecutive patients over the last 6–12 months (cirrhotic bleeds are less common; use a longer window).",
+  "data_source": "Endoscopy reporting system and hepatology/coding lists for cases; e-prescribing for antibiotic times; endoscopy report for timing and findings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aetiology_of_cirrhosis",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_antibiotic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "terlipressin_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   },
+   {
+    "field": "variceal_source_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add IV antibiotic (per local microbiology choice) and terlipressin as pre-ticked items in a 'cirrhosis with GI bleed' EPR order set, triggered from the Blatchford/GI bleed pathway.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 onward: next 30 consecutive cirrhotic bleeds (may need a prospective 3-month window), same template.",
+  "close_loop": "Present at gastroenterology governance and the ED consultant meeting. If it works, keep the order set and add antibiotic timing to the liver admission bundle.",
+  "evidence": [
+   "[2768] UGIB: variceal bleeds received antibiotics in 83% and terlipressin in 50%",
+   "[3036] regional decompensated liver audit: 19% of variceal bleeds had no terlipressin",
+   "[325] liver admission bundle completed in 31% (posters and teaching)"
+  ],
+  "pitfalls": [
+   "Few cases → extend the retrospective window and consider a regional collaboration.",
+   "Antibiotic given but not charted in ED → check the ED drugs record and nursing notes.",
+   "Cirrhosis not known at arrival → record whether cirrhosis was known and report both groups.",
+   "Order set ignored at night → ask the ED lead to include it in the GI bleed triage card."
+  ],
+  "pearls": [
+   "Recruit the hepatology nurse specialist to identify cases.",
+   "Use the BSG decompensated cirrhosis bundle as the vehicle, since many trusts already have it.",
+   "Agree the antibiotic choice with microbiology first so the order set is unarguable.",
+   "Report infection rate alongside compliance."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and endoscopy reports"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with cirrhosis and ascites on long-term antibiotic prophylaxis for spontaneous bacterial peritonitis meet a NICE indication for it?",
+  "why": "NICE changed advice in 2023: SBP prophylaxis is no longer routine. No audit of prophylaxis appropriateness since that change is in the library; the nearest is a regional liver audit [3036].",
+  "standard": {
+   "source": "NICE NG50 recs 1.8.1–1.8.2 (2016, updated 2023)",
+   "wording": "1.8.1 Do not routinely offer antibiotics to prevent spontaneous bacterial peritonitis (SBP) in people with cirrhosis and ascites. [2023] 1.8.2 Consider antibiotics to prevent SBP only if: the person is at high risk of developing SBP because they have severe liver disease (for example, they have an ascitic protein of 15 g per litre or less, a Child–Pugh score of more than 9, or a MELD score of more than 16) or the consequences of an infection could seriously impact the person's care, for example, if it could affect their wait for a transplant or a transjugular intrahepatic portosystemic stent insertion (TIPS). [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "pass": "Patient on SBP prophylaxis has a documented qualifying reason (ascitic protein ≤15 g/L, Child–Pugh >9, MELD >16, transplant or TIPS work-up, or previous SBP as secondary prophylaxis).",
+  "population": "Adults with cirrhosis and ascites discharged from hospital or seen in hepatology clinic on antibiotic SBP prophylaxis. Exclude patients on treatment for active infection.",
+  "sample": "40 consecutive patients on SBP prophylaxis (discharge prescriptions or hepatology clinic lists) over the last 6 months.",
+  "data_source": "Pharmacy dispensing/discharge prescription data for cases; hepatology letters and EPR for indication; results system for ascitic protein, bilirubin, INR, albumin, creatinine (to calculate Child–Pugh and MELD).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_prophylaxis_started",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic",
+    "type": "choice",
+    "options": [
+     "ciprofloxacin",
+     "co-trimoxazole",
+     "rifaximin",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "previous_sbp",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary prophylaxis counts as indicated"
+   },
+   {
+    "field": "ascitic_protein_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": "Blank if not measured"
+   },
+   {
+    "field": "child_pugh_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meld_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transplant_or_tips_workup",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_nice_indication",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an indication field (drop-down of the NICE criteria plus 'secondary prophylaxis') to the SBP prophylaxis prescription in e-prescribing or the hepatology discharge template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new or continued prophylaxis prescriptions, same template.",
+  "close_loop": "Present at the hepatology MDT and the antimicrobial stewardship group. If it works, keep the indication field and review prophylaxis at every hepatology clinic visit.",
+  "evidence": [
+   "[3036] regional decompensated liver audit: diagnostic tap within 24 h in 62%",
+   "[2445] surgical prophylaxis: duration 70.4 h → 28.2 h (drug chart duration sticker and education)",
+   "[1896] older people: Microguide compliance 53% → 83% (microbiology ward rounds and IT access)"
+  ],
+  "pitfalls": [
+   "Previous SBP (secondary prophylaxis) wrongly failed → record it and count it as indicated.",
+   "Child–Pugh or MELD not calculable from records → collect raw values and calculate centrally.",
+   "Hepatologists disagree with the 2023 change → agree the standard at the MDT before cycle 1.",
+   "Stopping prophylaxis worries GPs → include a line in the clinic letter explaining the change."
+  ],
+  "pearls": [
+   "Recruit a hepatology pharmacist; they can pull all ciprofloxacin/co-trimoxazole repeat prescriptions for liver patients.",
+   "Report fluoroquinolone exposure avoided as a stewardship win.",
+   "Run the audit from clinic lists so you can act at the next appointment.",
+   "Add a stop date or review date to every prophylaxis prescription."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients (score calculation) from EPR and results"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults started on anticoagulation for atrial fibrillation in hospital have an ORBIT bleeding risk score documented?",
+  "why": "NICE replaced HAS-BLED with ORBIT in 2021. Library AF audits looked at DOAC dose [1953] and warfarin [1824]; none measured bleeding risk scoring with ORBIT.",
+  "standard": {
+   "source": "NICE NG196 rec 1.2.2 (2021, updated June 2021)",
+   "wording": "Assess the risk of bleeding when: considering starting anticoagulation in people with atrial fibrillation and reviewing people already taking anticoagulation. Use the ORBIT bleeding risk score because evidence shows that it has a higher accuracy in predicting absolute bleeding risk than other bleeding risk tools.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "ORBIT score (number or category) documented in the notes, EPR or discharge summary before or on the day anticoagulation was first prescribed.",
+  "population": "Adults with atrial fibrillation or flutter newly started on an oral anticoagulant during a medical admission. Exclude those already anticoagulated before admission.",
+  "sample": "40 consecutive new AF anticoagulation starts over the last 3 months.",
+  "data_source": "Pharmacy report of new DOAC/warfarin starts with AF indication, or coding; EPR and discharge summary for scores.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant",
+    "type": "choice",
+    "options": [
+     "apixaban",
+     "edoxaban",
+     "rivaroxaban",
+     "dabigatran",
+     "warfarin"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2_vasc_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orbit_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "other_bleeding_score_used",
+    "type": "choice",
+    "options": [
+     "none",
+     "HAS-BLED",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "modifiable_bleeding_risks_addressed",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. NSAID stopped, anaemia investigated"
+   },
+   {
+    "field": "discharge_summary_lists_scores",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an ORBIT calculator (auto-filling haemoglobin, age and eGFR) to the EPR AF/anticoagulation initiation template, replacing HAS-BLED.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 new AF anticoagulation starts, same template.",
+  "close_loop": "Present at the cardiology and acute medicine governance meeting and the anticoagulation committee. If it works, embed ORBIT in the anticoagulation counselling checklist used by pharmacists.",
+  "evidence": [
+   "[1953] stroke: DOACs correctly dosed in 79%; 93% of errors were under-dosing",
+   "[1824] older inpatients: warfarin correctly continued in 18%",
+   "[2219] emergency surgery: weight and renal dose prompts 29/36 → 37/38 correct (drug chart checkboxes)"
+  ],
+  "pitfalls": [
+   "HAS-BLED still embedded in local templates → replace, do not add, or both get skipped.",
+   "Scores done on apps but not written → count only documented scores; say so at teaching.",
+   "Clinicians fear ORBIT will deny anticoagulation → stress it guides risk discussion, not a cut-off.",
+   "Starts in clinics missed → limit to inpatient starts for cycle 1."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation pharmacist; they review every new start already.",
+   "Put CHA2DS2-VASc and ORBIT side by side on the same form.",
+   "Pre-fill ORBIT items from the lab to cut effort.",
+   "Ask the cardiology lead to email the change to all medical registrars."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with atrial fibrillation on the medical wards are prescribed aspirin alone for stroke prevention?",
+  "why": "Aspirin monotherapy for AF stroke prevention persists despite long-standing NICE advice. Library AF audits covered DOAC dosing [1953] and warfarin [1824, 1815], not inappropriate aspirin use.",
+  "standard": {
+   "source": "NICE NG196 rec 1.6.14 (2021, updated June 2021)",
+   "wording": "Do not offer aspirin monotherapy solely for stroke prevention to people with atrial fibrillation. [2014]",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "No aspirin monotherapy for AF stroke prevention at discharge. Aspirin for another documented indication (e.g. recent ACS, stent) counts as a pass.",
+  "population": "Adults with AF or flutter discharged from medical wards. Exclude patients on palliative care and those with a documented other indication for antiplatelets.",
+  "sample": "50 consecutive adults with AF discharged from medical wards over the last 4–6 weeks.",
+  "data_source": "Coding or discharge summaries for AF; discharge prescription for antithrombotics; EPR for indication and decision records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2_vasc",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_antithrombotic",
+    "type": "choice",
+    "options": [
+     "DOAC",
+     "warfarin",
+     "aspirin alone",
+     "clopidogrel alone",
+     "dual antiplatelet",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "other_antiplatelet_indication",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_monotherapy_for_af",
+    "type": "yes/no",
+    "options": [],
+    "note": "Fail if yes"
+   },
+   {
+    "field": "reason_documented_for_no_anticoagulant",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulation_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pharmacist discharge check: any AF patient on aspirin alone generates an 'indication?' query to the team via the EPR discharge medicines screen.",
+  "target": "0% aspirin monotherapy for AF (≥95% pass)",
+  "reaudit": "Wk 13–14: next 50 AF discharges, same template.",
+  "close_loop": "Present at medicines safety and cardiology governance. If it works, add aspirin-alone-in-AF to the pharmacy discharge screening standard operating procedure.",
+  "evidence": [
+   "[1824] older inpatients: warfarin correctly continued in 18% (presentation only)",
+   "[2040] surgical inpatients: incomplete medicines reconciliation 38% → 2.8% (pharmacist flagging and ward round)",
+   "[1952] older adults: pharmacist PPI review led to 42% dose reductions and 26% stopped"
+  ],
+  "pitfalls": [
+   "Aspirin started years ago in primary care → count it and give the GP a clear recommendation in the discharge letter.",
+   "Other antiplatelet indications missed → check cardiology history and stents before failing a case.",
+   "Frail patients' 'no anticoagulant' decisions labelled as fails → record documented decisions separately.",
+   "Pharmacist capacity → run the check only for AF discharges flagged by the EPR."
+  ],
+  "pearls": [
+   "Recruit a ward pharmacist as co-lead.",
+   "Use the EPR problem list to find AF patients quickly.",
+   "Give a one-line script for the discharge letter: 'Aspirin stopped; anticoagulation discussed'.",
+   "Report strokes avoided using simple CHA2DS2-VASc rates to engage managers."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge summaries"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults discharged after a heart failure admission with reduced ejection fraction are on all four NICE-recommended drug classes, or have a documented reason for any omission?",
+  "why": "NICE moved to four-drug therapy for HFrEF in 2025. Library audits found SGLT2 inhibitor use 45% and MRA 33% before teaching [1922] and MRA 47% after MI [3045]; none audited the 2025 four-drug standard at discharge.",
+  "standard": {
+   "source": "NICE NG106 rec 1.4.1 (2018, updated September 2025)",
+   "wording": "Offer an angiotensin-converting enzyme (ACE) inhibitor, a beta-blocker, a mineralocorticoid receptor antagonist (MRA) and a sodium-glucose cotransporter-2 (SGLT2) inhibitor to people with heart failure with reduced ejection fraction. [2025]",
+   "url": "https://www.nice.org.uk/guidance/ng106/chapter/Recommendations"
+  },
+  "pass": "Discharged on an ACE inhibitor (or ARNI/ARB per NG106 1.4.3–1.4.4), beta-blocker, MRA and SGLT2 inhibitor, with each missing class having a documented reason (e.g. hyperkalaemia, eGFR below licence, hypotension, intolerance).",
+  "population": "Adults admitted with heart failure and LVEF ≤40% on echo, discharged alive. Exclude patients discharged for end-of-life care.",
+  "sample": "40 consecutive HFrEF discharges over the last 3 months (use the NHFA case list).",
+  "data_source": "National Heart Failure Audit (NCAP) extract or heart failure nurse list for cases; echo report for LVEF; discharge prescription and summary for drugs and reasons.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lvef_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acei_arni_or_arb",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "beta_blocker",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mra",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sglt2_inhibitor",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented_for_each_omission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_or_reasoned",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "heart_failure_team_seen",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'four pillars' checklist with a mandatory reason box for each omitted class to the heart failure discharge template in the EPR.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 HFrEF discharges, same template.",
+  "close_loop": "Present at cardiology governance with the heart failure nurse team. If it works, keep the checklist and track four-drug rates in the monthly NHFA data review.",
+  "evidence": [
+   "[1922] acute heart failure in older adults: SGLT2i 45% → 79%, MRA 33% → 100% (teaching, board-round phenotype discussion, posters)",
+   "[3045] post-MI: 47% of MRA-eligible patients prescribed an MRA",
+   "[2394] cardiac surgery HFrEF: ACEi/ARNI 67%, beta-blocker 80%, MRA 67%"
+  ],
+  "pitfalls": [
+   "LVEF missing or old → use the most recent echo within 12 months and record the date.",
+   "Drugs held for acute kidney injury never restarted → count a documented 'restart plan' as a reason.",
+   "Cardiology and general medicine patients differ → report the two groups separately.",
+   "Checklist ticked without reasons → make the reason box mandatory for any 'no'."
+  ],
+  "pearls": [
+   "Recruit the heart failure specialist nurses; they hold the NHFA list.",
+   "Pre-fill the checklist from the discharge prescription so it takes seconds.",
+   "Ask the pharmacist to flag missing SGLT2 inhibitors on the discharge screen.",
+   "Add titration instructions for the GP to the same template."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from NHFA extract and discharge summaries"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults discharged after an NSTEMI have their left ventricular function result written in the discharge summary to the GP?",
+  "why": "LV function guides secondary prevention and device referral. Library ACS audits covered secondary prevention drugs and rehabilitation [3043, 147]; none audited LV assessment or its communication to primary care.",
+  "standard": {
+   "source": "NICE NG185 recs 1.2.27 and 1.2.29 (2020)",
+   "wording": "1.2.27 Assess left ventricular function in all people who have had an NSTEMI. [2013] 1.2.29 Record measures of left ventricular function in the person's care record and in correspondence with the primary healthcare team and the person. [2010]",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "pass": "LV function assessed before discharge (echo, cardiac MRI or LV angiogram) and the result (EF or grade) stated in the discharge summary.",
+  "population": "Adults with a discharge diagnosis of NSTEMI. Exclude in-hospital deaths and transfers to another hospital.",
+  "sample": "40 consecutive NSTEMI discharges over the last 3 months (use the MINAP case list).",
+  "data_source": "MINAP (NCAP) extract for cases; echo or cath report for LV assessment date and result; discharge summary text.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lv_assessed_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lv_assessment_method",
+    "type": "choice",
+    "options": [
+     "echo",
+     "cardiac MRI",
+     "LV angiogram",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lv_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lv_result",
+    "type": "choice",
+    "options": [
+     "normal",
+     "mild",
+     "moderate",
+     "severe",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lv_result_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "mra_if_ef_40_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'LV function (EF %/grade and method)' field to the ACS discharge summary template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 NSTEMI discharges, same template.",
+  "close_loop": "Present at cardiology governance and to the MINAP data team. If it works, keep the mandatory field and share results with the primary care network.",
+  "evidence": [
+   "[3043] ACS: 46% referred to rehabilitation and 27% received optimal preventive care",
+   "[3045] post-MI: 85% of device-eligible patients had repeat LV assessment",
+   "[1358] ED immobilisation: risk assessment 32% → 93% (electronic discharge prompt and pathway)"
+  ],
+  "pitfalls": [
+   "Echo done after discharge → record the date and count only pre-discharge assessment for the first part.",
+   "Result in the cath report but not the letter → the pass needs the letter, as the GP relies on it.",
+   "Type 2 MI coded as NSTEMI → use MINAP type 1 NSTEMI only.",
+   "Mandatory field filled with 'see notes' → define acceptable entries."
+  ],
+  "pearls": [
+   "Recruit the MINAP audit clerk to supply cases.",
+   "Ask echo to prioritise inpatient ACS scans before discharge.",
+   "Auto-pull the latest EF from the echo system into the template if possible.",
+   "Report the number of low-EF patients who missed MRA or device review."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MINAP and discharge summaries"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of nebuliser prescriptions for adults admitted with a COPD exacerbation state the driving gas?",
+  "why": "Oxygen-driven nebulisers can worsen hypercapnia. Library oxygen audits looked at prescription and targets [3049, 3053, 3035]; no audit of the nebuliser driving gas is in the library.",
+  "standard": {
+   "source": "NICE NG115 recs 1.3.11–1.3.12 (2018, updated 2019)",
+   "wording": "If a person with COPD is hypercapnic or acidotic the nebuliser should be driven by compressed air rather than oxygen (to avoid worsening hypercapnia). If oxygen therapy is needed, administer it simultaneously by nasal cannulae. [2004] 1.3.12 The driving gas for nebulised therapy should always be specified in the prescription. [2004]",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "Every nebuliser prescription in the first 48 hours names the driving gas (air or oxygen); for patients with hypercapnia (PaCO2 >6 kPa) the gas is air.",
+  "population": "Adults admitted with an acute exacerbation of COPD who were prescribed nebulised bronchodilators. Exclude patients on invasive ventilation.",
+  "sample": "40 consecutive COPD exacerbation admissions over the last 6–8 weeks.",
+  "data_source": "Coding or NACAP case list; e-prescribing or drug chart for nebuliser prescriptions; blood gas results for PaCO2.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypercapnic_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "PaCO2 >6 kPa"
+   },
+   {
+    "field": "nebuliser_prescriptions_count",
+    "type": "number",
+    "options": [],
+    "note": "First 48 h"
+   },
+   {
+    "field": "prescriptions_with_gas_specified",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_specify_gas",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "gas_specified",
+    "type": "choice",
+    "options": [
+     "air",
+     "oxygen",
+     "mixed",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "air_used_if_hypercapnic",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion for hypercapnic patients"
+   },
+   {
+    "field": "target_saturation_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'driving gas: air / oxygen' a mandatory field on nebuliser prescriptions in e-prescribing (or add it to the pre-printed chart), defaulting to air when a target of 88–92% is prescribed.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 COPD exacerbation admissions, same template.",
+  "close_loop": "Present at respiratory governance and the medicines safety committee. If it works, keep the mandatory field trust-wide and add it to the NACAP action plan.",
+  "evidence": [
+   "[3049] oxygen prescription: adequate prescriptions 5.9% → 36.7% (new chart section and teaching)",
+   "[3035] ED: target saturation prescribed in 14%",
+   "[2154] surgical inpatients: oxygen prescribed 22% → 60% (poster, planned system prompts)"
+  ],
+  "pitfalls": [
+   "Ward has no medical air outlets → check supply with estates first; portable air compressors may be needed.",
+   "Nurses choose the gas regardless of prescription → include nursing staff in the teaching and record the gas used where charted.",
+   "Blood gas not done → record hypercapnia as unknown and report separately.",
+   "IT change delayed → use a chart sticker as an interim fix."
+  ],
+  "pearls": [
+   "Recruit a respiratory nurse specialist and the e-prescribing pharmacist early.",
+   "Build the default from the prescribed oxygen target range to cut clicks.",
+   "Put 'Air-driven nebs' signs by COPD beds.",
+   "Share results through the NACAP quarterly report."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults admitted with a COPD exacerbation are prescribed oral prednisolone 30 mg daily for 5 days?",
+  "why": "Longer or higher steroid courses add harm without benefit. The only library audits with steroid courses are in rheumatology [2919, 1554]; no audit of COPD steroid course length is in the library.",
+  "standard": {
+   "source": "NICE NG115 recs 1.3.13 and 1.3.16 (2018, updated 2019)",
+   "wording": "1.3.13 In the absence of significant contraindications, use oral corticosteroids, in conjunction with other therapies, in all people admitted to hospital with a COPD exacerbation. [2004] 1.3.16 Offer 30 mg oral prednisolone daily for 5 days. [2019]",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "Prednisolone 30 mg once daily prescribed with a total course of 5 days (inpatient plus discharge doses), or a documented reason for a different course.",
+  "population": "Adults admitted with a primary diagnosis of COPD exacerbation. Exclude patients on long-term oral steroids and those with a documented alternative steroid indication (e.g. asthma overlap under specialist).",
+  "sample": "40 consecutive COPD exacerbation discharges over the last 6–8 weeks.",
+  "data_source": "Coding or NACAP list; ED and inpatient drug charts; discharge prescription for remaining days.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_course_days",
+    "type": "number",
+    "options": [],
+    "note": "Include pre-admission doses from the ambulance/GP"
+   },
+   {
+    "field": "course_5_days_30mg",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_variation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_date_on_discharge_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'COPD exacerbation' prednisolone order set in e-prescribing: 30 mg once daily with an automatic stop date at day 5, and a prompt to count days already given.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 COPD exacerbation discharges, same template.",
+  "close_loop": "Present at respiratory governance. If it works, keep the order set and add steroid days to the COPD discharge bundle.",
+  "evidence": [
+   "[2445] surgical prophylaxis: mean duration 70.4 h → 28.2 h (duration sticker on the drug chart)",
+   "[2538] day surgery: correct discharge medicines 25% → 83% (EPR order set)",
+   "[2780] urology antibiotics: correct duration 61% → 68% (posters and teaching)"
+  ],
+  "pitfalls": [
+   "Doses given before admission not counted → record GP or ambulance rescue-pack doses.",
+   "Asthma overlap cases prescribed longer courses → exclude documented overlap under specialist care.",
+   "Discharge letter restarts a fresh 5 days → check the discharge prescription carefully.",
+   "Order set bypassed via free text → review free-text steroid prescriptions in cycle 2."
+  ],
+  "pearls": [
+   "Recruit the COPD nurse specialist who already runs the discharge bundle.",
+   "Print 'Day x of 5' on the drug chart line.",
+   "Ask the pharmacist to reconcile steroid days on discharge.",
+   "Report cumulative steroid exposure avoided."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult inpatients scored on NEWS2 SpO2 Scale 2 meet the RCP criteria for using it?",
+  "why": "Using Scale 2 without confirmed hypercapnia lowers the score and can hide deterioration. Library NEWS2 audits covered chart completion and escalation [3376, 3482, 2498]; none checked who is on Scale 2 and why.",
+  "standard": {
+   "source": "Royal College of Physicians, National Early Warning Score (NEWS) 2 (2017), recommendations 25–26",
+   "wording": "25 For patients confirmed to have hypercapnic respiratory failure on blood gas analysis on either a prior or their current hospital admission, and requiring supplemental oxygen, we recommend (i) a prescribed oxygen saturation target range of 88–92%, and (ii) that the dedicated SpO2 scoring scale (Scale 2) on the NEWS2 chart should be used to record and score the oxygen saturation for the NEWS. 26 The decision to use SpO2 scale 2 should be made by a competent clinical decision maker and should be recorded in the patient's clinical notes.",
+   "url": "https://www.rcp.ac.uk/media/a4ibkkbf/news2-final-report_0_0.pdf"
+  },
+  "pass": "Scale 2 in use AND a documented clinician decision in the notes AND a blood gas (this or a previous admission) showing hypercapnic respiratory failure.",
+  "population": "Adult inpatients on medical wards whose observations are scored on SpO2 Scale 2 on the audit day(s).",
+  "sample": "Point-prevalence: all Scale 2 patients across medical wards on 3–4 audit days (aim 30–50 patients).",
+  "data_source": "E-observations system report of patients on Scale 2; medical notes for decision; blood gas records (current and previous admissions).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scale2_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "From e-observations"
+   },
+   {
+    "field": "decision_documented_in_notes",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision_maker_grade",
+    "type": "choice",
+    "options": [
+     "FY1",
+     "FY2/CT",
+     "registrar",
+     "consultant",
+     "nurse",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hypercapnia_confirmed_on_gas",
+    "type": "yes/no",
+    "options": [],
+    "note": "PaCO2 >6 kPa on arterial or capillary gas; pass criterion"
+   },
+   {
+    "field": "target_88_92_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Overall pass"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Configure the e-observations system so Scale 2 can only be switched on after a clinician enters the date of the qualifying blood gas and their name; auto-expire at discharge.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: repeat point-prevalence on the same wards over 3–4 days, same template.",
+  "close_loop": "Present at the deteriorating patient group and respiratory governance. If it works, make the Scale 2 lock trust-wide and add Scale 2 appropriateness to the deteriorating patient dashboard.",
+  "evidence": [
+   "[2498] NEWS response: 62% of NEWS 5–6 events reviewed (presentation only)",
+   "[3482] NEWS2 monitoring frequency appropriate in 42% of entries",
+   "[3053] target SpO2 range documented in 62 of 100 medical patients"
+  ],
+  "pitfalls": [
+   "Previous-admission gases hard to find → search the blood gas archive by hospital number before cycle 1.",
+   "Nurses start Scale 2 from habit → include nursing leads in the change.",
+   "Scale 2 carried over between admissions → record whether it was re-confirmed.",
+   "IT lock not feasible → use a mandatory note template linked to the Scale 2 option."
+  ],
+  "pearls": [
+   "Recruit the outreach team lead; they see missed deteriorations.",
+   "Pull the Scale 2 list directly from the e-observations system.",
+   "Report any case where Scale 1 would have triggered a higher response.",
+   "Give registrars a one-line rule: 'No gas, no Scale 2'."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients plus report pull"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated for community-acquired pneumonia have antibiotics stopped at 5 days, or a documented reason to continue?",
+  "why": "Five-day courses are the NICE default, reaffirmed in the 2025 pneumonia guideline. Library stewardship audits focused on surgical courses [2780, 2868] and review dates [2489]; no medical CAP duration audit is in the library.",
+  "standard": {
+   "source": "NICE NG250 rec 1.6.3 (2025)",
+   "wording": "For adults with community-acquired pneumonia, stop antibiotic treatment after 5 days unless: microbiological results suggest a longer course is needed or the person is not clinically stable, for example, if they have had a fever in the past 48 hours or have more than 1 of the following signs of clinical instability: systolic blood pressure less than 90 mmHg; heart rate more than 100 beats per minute; respiratory rate more than 24 breaths per minute; oxygen saturations of less than 90% on room air (or failure to meet long-term baseline oxygen requirements) [2019, amended 2025]",
+   "url": "https://www.nice.org.uk/guidance/ng250/chapter/Recommendations"
+  },
+  "pass": "Total antibiotic course (IV plus oral, inpatient plus discharge) is 5 days, or a longer course has a documented reason matching the NICE exceptions.",
+  "population": "Adults admitted with community-acquired pneumonia and treated with antibiotics. Exclude aspiration pneumonia, empyema, lung abscess, Legionella, Staphylococcus aureus pneumonia, immunosuppression and deaths before day 5.",
+  "sample": "40 consecutive CAP discharges over the last 6 weeks.",
+  "data_source": "Coding for cases; e-prescribing for start and stop dates; discharge prescription; observations chart for day 5 stability; microbiology results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_antibiotic_date",
+    "type": "date",
+    "options": [],
+    "note": "Including discharge supply"
+   },
+   {
+    "field": "total_course_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "curb65",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinically_unstable_at_day5",
+    "type": "yes/no",
+    "options": [],
+    "note": "Fever in last 48 h or >1 instability sign"
+   },
+   {
+    "field": "microbiology_supports_longer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_longer_course_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_5_days_or_justified",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "stop_date_on_first_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a default 5-day stop date on CAP antibiotics in e-prescribing (IV and oral share one counter), with a 'continue because...' option at day 5.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 CAP discharges, same template.",
+  "close_loop": "Present at the antimicrobial stewardship committee and acute medicine governance. If it works, keep the default and add CAP duration to the stewardship dashboard.",
+  "evidence": [
+   "[2868] complicated appendicitis: mean duration 9.2 → 8.4 days (electronic theatre note prompts)",
+   "[2445] surgical prophylaxis: mean duration 70.4 h → 28.2 h (drug chart duration sticker)",
+   "[2489] surgical antibiotics: stop/review date 56% → 61.1% (email and posters only)"
+  ],
+  "pitfalls": [
+   "Discharge supplies add days → always count discharge prescriptions.",
+   "IV-to-oral switch restarts the clock → make the counter shared.",
+   "Hospital-acquired pneumonia mixed in → confirm onset within 48 hours of admission.",
+   "Clinicians fear under-treatment → share the NICE instability criteria as the only reasons to extend."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist as co-lead.",
+   "Report antibiotic days saved per 40 patients.",
+   "Add the 5-day rule to the post-take ward round template.",
+   "Share results with GPs, as many courses end in the community."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult inpatients with confirmed C. difficile infection have their proton pump inhibitor reviewed within 48 hours of the result?",
+  "why": "PPIs raise the risk of C. difficile infection and recurrence. Library PPI audits were general deprescribing in older adults [1836, 1939, 1952]; none looked at PPI review after a C. difficile diagnosis.",
+  "standard": {
+   "source": "NICE NG199 rec 1.1.4 (2021)",
+   "wording": "For people with suspected or confirmed C. difficile infection, review the need to continue any treatment with: proton pump inhibitors; other medicines with gastrointestinal activity or adverse effects, such as laxatives; medicines that may cause problems if people are dehydrated, such as non-steroidal anti-inflammatory drugs, angiotensin-converting enzyme inhibitors, angiotensin‑2 receptor antagonists and diuretics.",
+   "url": "https://www.nice.org.uk/guidance/ng199/chapter/Recommendations"
+  },
+  "pass": "Within 48 hours of the positive toxin result, the PPI is stopped, reduced, or continued with a documented indication.",
+  "population": "Adult inpatients with a positive C. difficile toxin result who were on a PPI at the time. Exclude patients on end-of-life care.",
+  "sample": "All toxin-positive inpatients on a PPI over the last 6–12 months (aim 30–40; use the infection control list).",
+  "data_source": "Infection prevention team C. difficile list; e-prescribing for PPI changes; notes for documented indication; laxative and antibiotic review as secondary items.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "toxin_result_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_name_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_indication_documented_before",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_action",
+    "type": "choice",
+    "options": [
+     "stopped",
+     "dose reduced",
+     "continued with indication",
+     "continued no indication"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ppi_action_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_reviewed_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "laxatives_stopped",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unnecessary_antibiotics_stopped",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recurrence_within_8_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a PPI, laxative and antibiotic review box to the C. difficile care bundle sticker/EPR form completed at the infection control review.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 30 consecutive toxin-positive inpatients on a PPI (may need a prospective window), same template.",
+  "close_loop": "Present at infection prevention committee and medicines safety. If it works, keep the bundle item and include PPI review in the root-cause template for each case.",
+  "evidence": [
+   "[1952] older adults: pharmacist review led to 42% PPI dose reductions and 26% stopped",
+   "[1939] rehabilitation: 83.4% of PPI users had no indication (education planned)",
+   "[1836] frailty unit: 23.8% of PPIs had a NICE indication"
+  ],
+  "pitfalls": [
+   "Low case numbers → use a 12-month window or pool with a neighbouring trust.",
+   "Genuine PPI indications failed → accept a documented indication (e.g. Barrett's, recent GI bleed).",
+   "PPI restarted at discharge → check the discharge prescription.",
+   "Infection team and ward team each assume the other acts → name the ward pharmacist as owner."
+  ],
+  "pearls": [
+   "Recruit the infection prevention nurse who reviews every case.",
+   "Add the PPI question to the existing root-cause analysis form.",
+   "Ask the pharmacist to flag PPIs when toxin results come back.",
+   "Give GPs a clear stop or review instruction."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from infection control list and e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with a first unprovoked DVT or PE have no extra cancer imaging unless they have symptoms or signs of cancer?",
+  "why": "Routine CT for occult cancer after unprovoked VTE adds cost and radiation without benefit. No audit of cancer investigations after unprovoked VTE is in the library; VTE audits focus on prophylaxis [1708, 2195].",
+  "standard": {
+   "source": "NICE NG158 recs 1.8.1–1.8.2 (2020, updated 2023)",
+   "wording": "1.8.1 For people with unprovoked DVT or PE who are not known to have cancer, review the medical history and baseline blood test results including full blood count, renal and hepatic function, PT and APTT, and offer a physical examination. [2020] 1.8.2 Do not offer further investigations for cancer to people with unprovoked DVT or PE unless they have relevant clinical symptoms or signs (for further information, see the NICE guideline on suspected cancer). [2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "History, examination and baseline bloods documented, and no CT abdomen/pelvis, CT chest (beyond the diagnostic CTPA), tumour markers or other cancer imaging unless a symptom or sign is documented first.",
+  "population": "Adults with a first unprovoked DVT or PE diagnosed in ED, AMU or the DVT clinic. Exclude known cancer, provoked VTE and pregnancy.",
+  "sample": "40 consecutive unprovoked VTE diagnoses over the last 3 months.",
+  "data_source": "DVT clinic/ambulatory care lists and CTPA/Doppler reports for cases; PACS and order comms for imaging and tumour markers within 3 months; clinic letters for symptoms.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_type",
+    "type": "choice",
+    "options": [
+     "proximal DVT",
+     "PE",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "baseline_bloods_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "FBC, U&E, LFT, PT, APTT"
+   },
+   {
+    "field": "examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cancer_symptom_or_sign_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "extra_cancer_tests",
+    "type": "choice",
+    "options": [
+     "none",
+     "CT abdomen/pelvis",
+     "CT chest",
+     "tumour markers",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "extra_tests_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "no_unindicated_cancer_tests",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cancer_diagnosed_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety outcome"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the 'screen for malignancy' line in the local unprovoked VTE pathway/clinic proforma with the NICE check (history, examination, bloods; imaging only for symptoms or signs).",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 unprovoked VTE diagnoses, same template.",
+  "close_loop": "Present at the thrombosis committee and radiology governance. If it works, update the pathway document and report CT scans avoided.",
+  "evidence": [
+   "[2470] urolithiasis: calcium testing fell 65% → 46% after education (education alone unreliable for test ordering)",
+   "[2495] renal colic: correct tests 77.9% → 94.7% (order set)",
+   "[1708] arthroplasty VTE: compliance 90% after posters, teaching and a final check"
+  ],
+  "pitfalls": [
+   "'Unprovoked' labelled inconsistently → define it before cycle 1 (no major transient risk factor in the preceding 3 months).",
+   "Imaging requested by GPs later → check order comms for 3 months after diagnosis.",
+   "Symptoms documented after the scan → require documentation before the request.",
+   "Clinicians worry about missed cancer → report 12-month cancer outcomes alongside."
+  ],
+  "pearls": [
+   "Recruit the thrombosis nurse who runs the DVT clinic.",
+   "Ask radiology to vet 'occult malignancy' CT requests against the pathway.",
+   "Report avoided scans and cost to managers.",
+   "Keep the change within the existing clinic proforma."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from PACS and clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with confirmed pulmonary embolism have a validated risk score documented before the decision to admit or treat as an outpatient?",
+  "why": "Outpatient care for low-risk PE is safe but depends on formal risk scoring. No audit of PE risk stratification or ambulatory PE care is in the library.",
+  "standard": {
+   "source": "NICE NG158 rec 1.2.1 (2020, updated 2023)",
+   "wording": "Consider outpatient treatment for suspected or confirmed low-risk PE, using a validated risk stratification tool to determine the suitability of outpatient treatment. [2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "PESI, sPESI or Hestia score documented in the ED/AMU notes before the admission or discharge decision.",
+  "population": "Adults with PE confirmed on CTPA or V/Q from ED or AMU. Exclude patients already inpatients for another reason and those needing thrombolysis or critical care.",
+  "sample": "40 consecutive confirmed PEs from ED/AMU over the last 3 months.",
+  "data_source": "Radiology (CTPA/VQ positive reports) for cases; ED and AMU notes for score, disposition and timings; readmission data from PAS.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_tool_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tool_used",
+    "type": "choice",
+    "options": [
+     "PESI",
+     "sPESI",
+     "Hestia",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_low_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "disposition",
+    "type": "choice",
+    "options": [
+     "admitted",
+     "ambulatory/outpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "readmitted_or_bleed_within_30_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety outcome"
+   },
+   {
+    "field": "follow_up_plan_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG158 1.2.4"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory sPESI (or Hestia) box to the ED/AMU PE management proforma, with the ambulatory pathway linked for low scores.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 confirmed PEs, same template.",
+  "close_loop": "Present at the thrombosis committee and ambulatory care meeting. If it works, keep the proforma and report low-risk PEs managed as outpatients and bed-days saved.",
+  "evidence": [
+   "[1358] ED immobilisation: VTE risk assessment 32% → 93% (pathway redesign and electronic discharge prompt)",
+   "[2381] lower GI bleeding: risk score documentation 10% → 42% (teaching, summary sheet and e-calculator link)",
+   "[2864] lower GI bleeding: risk score 36% → 79%, admissions 53% → 38% (targeted education)"
+  ],
+  "pitfalls": [
+   "Score calculated but not written → count only documented scores.",
+   "No ambulatory pathway exists → agree follow-up capacity with the ambulatory unit first.",
+   "Low-risk patients admitted for social reasons → record the reason.",
+   "Small numbers of outpatients → report readmissions carefully with raw numbers."
+  ],
+  "pearls": [
+   "Recruit an ambulatory care consultant.",
+   "Link the sPESI box to the ambulatory referral in one click.",
+   "Give patients the NG158 contact details sheet.",
+   "Report bed-days saved to operational managers."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from radiology and ED notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults admitted with a gout flare who have CKD stage 3–5 or take a diuretic leave hospital with urate-lowering therapy started or planned?",
+  "why": "Gout flares often occur in medical inpatients on diuretics, yet urate-lowering therapy is rarely planned. Library gout audits were in primary care [2959] and clinics [2935]; none covered inpatients.",
+  "standard": {
+   "source": "NICE NG219 recs 1.5.1 and 1.5.4 (2022)",
+   "wording": "1.5.1 Offer ULT, using a treat-to-target strategy, to people with gout who have: multiple or troublesome flares; CKD stages 3 to 5 (glomerular filtration rate [GFR] categories G3 to G5); diuretic therapy; tophi; chronic gouty arthritis. 1.5.4 Start ULT at least 2 to 4 weeks after a gout flare has settled. If flares are more frequent, ULT can be started during a flare (see the section on preventing flares when starting or titrating ULT).",
+   "url": "https://www.nice.org.uk/guidance/ng219/chapter/Recommendations"
+  },
+  "pass": "Discharge summary records ULT started, continued, or a plan for the GP to start ULT 2–4 weeks after the flare with a urate target (<360 µmol/L), or a documented decline.",
+  "population": "Adults with a gout flare diagnosed during a medical admission who have eGFR <60 or take a loop/thiazide diuretic. Exclude end-of-life care.",
+  "sample": "30–40 consecutive inpatients with gout flare over the last 6 months.",
+  "data_source": "Coding and colchicine/prednisolone-for-gout prescriptions for cases; results for eGFR and urate; discharge summary for ULT plan.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "flare_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_diuretic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_ult_before_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serum_urate_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ult_continued_if_already_on",
+    "type": "yes/no",
+    "options": [],
+    "note": "Do not stop ULT during a flare"
+   },
+   {
+    "field": "ult_started_or_planned",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "urate_target_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_decline_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'gout flare' discharge template paragraph (ULT indication, start timing, urate target, recheck in 4 weeks) triggered when colchicine is prescribed for gout.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 30 inpatients with gout flare (may need prospective collection), same template.",
+  "close_loop": "Present at rheumatology and acute medicine governance. If it works, keep the template and share with the primary care network.",
+  "evidence": [
+   "[2959] primary care gout: 58.8% at target or allopurinol increased (clinician education)",
+   "[2935] secondary care gout: treat-to-target levels agreed in 57%",
+   "[1470] hip fracture: secondary prevention prescribed on discharge 50.9% → 84.6% (drug chart stickers)"
+  ],
+  "pitfalls": [
+   "Gout flares poorly coded → find cases through colchicine prescriptions.",
+   "ULT stopped during the flare → record and teach that ULT continues.",
+   "GPs do not act on the plan → put a clear action and date in the summary.",
+   "Few cases → extend the window or add orthopaedic and surgical wards."
+  ],
+  "pearls": [
+   "Recruit a rheumatology registrar as co-lead.",
+   "Use the pharmacy system to find colchicine starts.",
+   "Suggest a nurse-led gout clinic referral where available.",
+   "Report readmissions with gout as a secondary outcome."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from pharmacy data and summaries"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with active rheumatoid arthritis have a DAS28-CRP score recorded every month until remission or low disease activity?",
+  "why": "Monthly measurement drives treat-to-target escalation. Library RA audits found DAS28 documented at least 6-monthly in 7% [2895] and at any time in 74% [2927]; none tested the monthly standard in active disease.",
+  "standard": {
+   "source": "NICE NG100 rec 1.2.3 (2018, updated 2020)",
+   "wording": "In adults with active RA, measure C-reactive protein (CRP) and disease activity (using a composite score such as DAS28) monthly in specialist care until the target of remission or low disease activity is achieved. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng100/chapter/Recommendations"
+  },
+  "pass": "In the first 6 months of active disease (DAS28 >3.2), CRP and DAS28 recorded at least every 5 weeks until DAS28 ≤3.2.",
+  "population": "Adults with RA who had DAS28 >3.2 at a rheumatology visit (new diagnosis or flare with treatment change). Exclude patients who transferred care.",
+  "sample": "40 consecutive patients with active RA from clinic lists over the last 9–12 months (follow each for up to 6 months).",
+  "data_source": "Rheumatology clinic letters and EPR for DAS28; results system for CRP; advice line and nurse clinic records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "baseline_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "baseline_das28",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "das28_count_in_6_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crp_count_in_6_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "monthly_until_target",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_target_reached",
+    "type": "date",
+    "options": [],
+    "note": "Blank if not reached"
+   },
+   {
+    "field": "treatment_escalated_when_above_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Book a 4-weekly nurse-led DAS28 telephone or face-to-face slot automatically when DAS28 is >3.2, with a CRP request form sent at the same time.",
+  "target": "≥75%",
+  "reaudit": "Wk 13–14 onward: next 40 patients with active RA, followed for 3 months, same template.",
+  "close_loop": "Present at the rheumatology department meeting and to the NEIAA lead. If it works, make the 4-weekly slot the default pathway for all active RA.",
+  "evidence": [
+   "[2895] high-cost DMARDs: DAS28 documented 80% but at least 6-monthly in 7%",
+   "[2927] RA service audit: DAS28 documented 74.4%",
+   "[2919] GCA: baseline HbA1c 53% → 93% (dedicated clinic)"
+  ],
+  "pitfalls": [
+   "Follow-up takes 6 months → start cycle 1 retrospectively and accept a 3-month window in cycle 2.",
+   "Joint counts done but DAS28 not calculated → count only documented scores.",
+   "Clinic capacity limits → use nurse telephone reviews with patient-reported joint counts where validated locally.",
+   "Definition of 'monthly' varies → fix the 5-week tolerance before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the rheumatology specialist nurse team early; they will deliver the slots.",
+   "Use NEIAA data to find new active cases.",
+   "Put DAS28 in the letter header so it is easy to find.",
+   "Track time to remission as the headline outcome."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from clinic letters and results"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult medical inpatients at medium risk of sepsis (NEWS2 5–6 with suspected infection) have their venous lactate result reviewed by an FY2-or-above clinician within 1 hour?",
+  "why": "The 2024–2026 NICE sepsis update ties the medium-risk response to NEWS2. A library audit found 62% of NEWS 5–6 events reviewed [2498] and lactate repeated in 28.6% on a surgical ward [2428]; none tested the new 1-hour standard.",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.16 (2025, updated 2026)",
+   "wording": "For people aged 16 or over with a medium risk of severe illness or death from sepsis: carry out a venous blood test, including for: blood gas, including glucose and lactate measurement; blood culture; full blood count; C-reactive protein; urea and electrolytes; creatinine; liver function tests; a clotting screen; consider procalcitonin testing [2026]; arrange for a clinician with core competencies in the care of acutely ill patients (FY2 level or above) to review the person's condition and venous lactate results within 1 hour of the person being assessed as at medium risk. [2024, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "Venous blood gas with lactate taken and an FY2-or-above review documented within 60 minutes of the first NEWS2 score of 5–6 with suspected infection.",
+  "population": "Adult medical ward inpatients with a new NEWS2 of 5 or 6 and suspected infection. Exclude patients on end-of-life care or with a ceiling of care excluding blood tests.",
+  "sample": "40 consecutive medium-risk episodes from the e-observations system over the last 4–6 weeks.",
+  "data_source": "E-observations system for NEWS2 time; blood gas analyser records for lactate time; EPR notes for review time and grade; e-prescribing for antibiotic time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "news2_5_6_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_infection_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lactate_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lactate_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer_grade",
+    "type": "choice",
+    "options": [
+     "FY1",
+     "FY2/CT",
+     "registrar",
+     "consultant",
+     "ACP",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lactate_and_review_within_1h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Secondary: within 3 h per NG253 1.8.17"
+   },
+   {
+    "field": "escalated_to_high_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Configure a NEWS2 5–6 e-observations alert that pages the ward doctor with a 'medium risk sepsis: gas + review within 1 h' task, and add a 'medium risk sepsis' order set for the blood tests.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 medium-risk episodes, same template.",
+  "close_loop": "Present at the deteriorating patient group and the sepsis committee. If it works, keep the alert and add 1-hour compliance to the sepsis dashboard.",
+  "evidence": [
+   "[2498] NEWS response: 62.2% of NEWS 5–6 events reviewed; median 1.03 h (presentation only)",
+   "[2428] surgical sepsis: lactate repeated in 28.6% on the ward vs 92% in HDU/ICU",
+   "[2642] ward sepsis protocol: sepsis-6 completion 55.5%"
+  ],
+  "pitfalls": [
+   "'Suspected infection' rarely recorded by nurses → accept infection documented by either nurse or doctor within 1 hour.",
+   "Blood gas analyser times differ from EPR clocks → note the source and use analyser time.",
+   "Reviews done but not written → count documented reviews only.",
+   "Alert fatigue → limit the alert to new 5–6 scores, not repeated ones."
+  ],
+  "pearls": [
+   "Recruit the outreach or deteriorating patient nurse lead.",
+   "Pull NEWS2 episodes directly from the e-observations system.",
+   "Put venous gas kits on each ward's sepsis trolley.",
+   "Report time from NEWS2 to antibiotics as the headline secondary outcome."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 episodes from e-observations and EPR"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult medical inpatients with a positive blood culture have their antibiotic reviewed within 24 hours of the sensitivity result?",
+  "why": "De-escalation after culture results is a core stewardship step. Library antibiotic audits measured guideline choice and review dates [1896, 2489, 1994]; none measured action on blood culture results.",
+  "standard": {
+   "source": "NICE NG253 rec 1.9.1 (2025, updated 2026)",
+   "wording": "When the source of infection is confirmed or microbiological results are available: review the choice of antibiotic(s) and change the antibiotic(s) according to results, using a narrower-spectrum antibiotic, if appropriate. [2024]",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Antibiotic-therapy-intravenous-fluid-and-oxygen"
+  },
+  "pass": "Within 24 hours of the sensitivity report, a documented review with the antibiotic narrowed, changed to match sensitivities, or continued with a stated reason.",
+  "population": "Adult medical inpatients with a clinically significant positive blood culture and sensitivities. Exclude contaminants (as judged by microbiology), deaths before the result and end-of-life care.",
+  "sample": "40 consecutive significant positive blood cultures over the last 2 months.",
+  "data_source": "Microbiology system for culture and sensitivity report times; e-prescribing for antibiotic changes; EPR notes for review.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "culture_taken_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sensitivity_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "organism",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "empirical_antibiotic",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_documented_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action",
+    "type": "choice",
+    "options": [
+     "narrowed",
+     "changed to match",
+     "continued with reason",
+     "no change no reason"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "bug_drug_mismatch_at_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety measure"
+   },
+   {
+    "field": "microbiology_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'blood culture result reviewed: action' task in the EPR that fires to the responsible team when sensitivities are released.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 significant positive blood cultures, same template.",
+  "close_loop": "Present at the antimicrobial stewardship committee. If it works, keep the task and report time-to-review monthly.",
+  "evidence": [
+   "[1896] older people: Microguide compliance 53% → 83% (microbiology ward rounds, IT access, education)",
+   "[2489] surgical antibiotics: stop/review date 56% → 61.1% (email and posters)",
+   "[2994] paediatric empiric prescribing: indication and compliance 30% → 100% (weekly feedback, handover discussion, app)"
+  ],
+  "pitfalls": [
+   "Microbiology phones results but notes are blank → accept a documented phone call with action.",
+   "Contaminants inflate numbers → use microbiology's significance call.",
+   "Weekend results wait until Monday → report weekday and weekend separately.",
+   "Task ignored → route it to the ward pharmacist as well."
+  ],
+  "pearls": [
+   "Recruit a microbiology consultant and the antimicrobial pharmacist.",
+   "Pull report times straight from the lab system.",
+   "Present bug–drug mismatches as safety events.",
+   "Pair with an IV-to-oral switch prompt."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from microbiology and e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult smokers admitted to medical wards who accept nicotine replacement therapy have it prescribed within 12 hours of admission?",
+  "why": "Delayed NRT drives early self-discharge and withdrawal. Library NRT audits are almost all in mental health [3451, 3148] or surgery and trauma [2371, 1336], where NRT was prescribed in 29–33%; no acute medicine audit is in the library.",
+  "standard": {
+   "source": "NICE NG209 recs 1.14.10 and 1.14.15 (2021, updated 2025)",
+   "wording": "1.14.10 Offer and arrange or supply prescriptions of stop-smoking options (see the sections on stop-smoking interventions and stop-smoking pharmacotherapies in acute and mental health services). [2013, amended 2021] 1.14.15 If stop-smoking pharmacotherapy is accepted, make sure it is provided immediately. [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng209/chapter/Treating-tobacco-dependence"
+  },
+  "pass": "Smoking status recorded at clerking and, for smokers not declining, NRT prescribed within 12 hours of arrival with a first dose administered.",
+  "population": "Adults admitted to acute medical wards who are current smokers. Exclude patients unable to take NRT (e.g. unconscious) and end-of-life care.",
+  "sample": "40 consecutive smokers admitted via AMU over the last 3–4 weeks.",
+  "data_source": "EPR clerking for smoking status; e-prescribing for NRT prescription and administration times; tobacco dependence team referrals.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_status_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_declined_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_prescribed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_within_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "combination_nrt",
+    "type": "yes/no",
+    "options": [],
+    "note": "Patch plus short-acting"
+   },
+   {
+    "field": "referred_to_tobacco_team",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an opt-out NRT order set to the AMU clerking template: smokers get combination NRT pre-selected unless the clerking doctor declines it.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 smokers admitted via AMU, same template.",
+  "close_loop": "Present at acute medicine governance with the tobacco dependence team. If it works, extend the order set to all admission routes.",
+  "evidence": [
+   "[2371] emergency surgery: NRT prescribed in 29% of smokers (structured teaching)",
+   "[1336] trauma: NRT 33.3% of smokers (education campaign)",
+   "[2538] day surgery: correct medicines 25% → 83% (pre-populated EPR order set)"
+  ],
+  "pitfalls": [
+   "Smoking status missing → count missing status as a fail and report it separately.",
+   "Patients vaping instead → record e-cigarette use and do not fail if the patient declines NRT.",
+   "NRT prescribed but not stocked on the ward → check ward stock lists first.",
+   "Opt-out order set seen as coercive → keep a one-click decline."
+  ],
+  "pearls": [
+   "Recruit the tobacco dependence (CURE-type) team; they gain referrals.",
+   "Stock combination NRT on AMU.",
+   "Tell patients about ward vaping and smoking rules at clerking.",
+   "Report self-discharge rates among smokers as an outcome."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with diabetes admitted to medical wards have a documented foot risk assessment within 24 hours of admission?",
+  "why": "Hospital-acquired foot ulcers are a NaDIA harm measure and heel ulcers start within days. Library diabetic foot audits were surgical and vascular [2388, 2386, 2479]; none audited admission foot checks on medical wards.",
+  "standard": {
+   "source": "NICE NG19 recs 1.3.3–1.3.4 (2015, updated 2019)",
+   "wording": "1.3.3 For adults with diabetes, assess their risk of developing a diabetic foot problem at the following times: When diabetes is diagnosed, and at least annually thereafter (see the recommendation on carrying out reassessments at intervals, depending on the person's risk of developing a diabetic foot problem). If any foot problems arise. On any admission to hospital, and if there is any change in their status while they are in hospital. [2015] 1.3.4 When examining the feet of a person with diabetes, remove their shoes, socks, bandages and dressings, and examine both feet for evidence of the following risk factors: neuropathy (use a 10 g monofilament as part of a foot sensory examination); limb ischaemia (see the NICE guideline on peripheral arterial disease); ulceration; callus; infection and/or inflammation; deformity; gangrene",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Both feet examined with a risk category (low/moderate/high/active) documented within 24 hours of admission; moderate/high risk patients have heel offloading documented.",
+  "population": "Adults with known diabetes admitted to medical wards for ≥24 hours. Exclude patients admitted primarily with an active diabetic foot problem (on a separate pathway) and end-of-life care.",
+  "sample": "40 consecutive adults with diabetes admitted to medical wards over the last 3–4 weeks.",
+  "data_source": "Diabetes inpatient team list or EPR diabetes flag for cases; nursing admission assessment and medical clerking for foot check; pressure-area records for offloading.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "foot_check_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "foot_check_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_category",
+    "type": "choice",
+    "options": [
+     "low",
+     "moderate",
+     "high",
+     "active",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "heel_offloading_if_moderate_high",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG19 1.3.12"
+   },
+   {
+    "field": "new_foot_lesion_during_stay",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add the NaDIA-style foot risk check (both feet, monofilament, pulses, risk category) as a mandatory item in the nursing admission assessment for patients with a diabetes flag, linked to heel offloading.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 adults with diabetes admitted to medical wards, same template.",
+  "close_loop": "Present at the diabetes inpatient group and nursing quality meeting. If it works, keep the mandatory item and report hospital-acquired foot lesions to NaDIA-Harms.",
+  "evidence": [
+   "[2479] vascular inpatients with diabetes: HbA1c re-checks 25% → 86% (education)",
+   "[1847] postural hypotension: lying and standing BP 28% → 96% (sticker plus teaching)",
+   "[1813] rehabilitation: 4AT on admission 0% → 92% (proforma with sticker and champions)"
+  ],
+  "pitfalls": [
+   "Foot check documented as 'feet OK' without detail → require a risk category.",
+   "Monofilaments not available → check ward stock before cycle 1.",
+   "Nurses and doctors each assume the other did it → name the nursing admission assessment as the place.",
+   "Gains fade as staff rotate → add the item to the nursing admission audit run monthly."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient specialist nurse and a podiatrist.",
+   "Keep monofilaments on each ward's observation trolley.",
+   "Link 'moderate/high risk' to automatic heel offloading and podiatry referral.",
+   "Report hospital-acquired foot lesions as the outcome that managers watch."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from nursing records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated for diabetic ketoacidosis have their usual long-acting insulin continued, or started if newly diagnosed, while on the fixed-rate insulin infusion?",
+  "why": "Stopping basal insulin during DKA causes rebound ketosis when the infusion stops. A library audit found appropriate long-acting insulin on IV insulin in 45% of surgical patients [2782]; no DKA audit of basal insulin is in the library.",
+  "standard": {
+   "source": "JBDS-IP 02 The Management of Diabetic Ketoacidosis in Adults (revised March 2023), p15 and key recommendations",
+   "wording": "In those already on long acting basal insulin, it should continue to be prescribed at their usual dose. In those newly diagnosed, then a long acting basal insulin should be commenced, at a dose of 0.25 units/Kg subcutaneously once daily. ... 4. Subcutaneous long-acting analogue/human insulin should be continued",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_02_DKA_Guideline_with_QR_code_March_2023.pdf"
+  },
+  "pass": "Long-acting insulin prescribed at the usual dose (or 0.25 units/kg if new) and given at the next due time while the FRIII runs, with no missed dose.",
+  "population": "Adults (≥18) treated with a FRIII for DKA. Exclude patients managed in critical care on a different protocol and those on insulin pumps without basal injections.",
+  "sample": "30–40 consecutive DKA episodes over the last 6–12 months.",
+  "data_source": "Diabetes team DKA list or coding for cases; e-prescribing/drug chart for basal insulin prescriptions and administrations; FRIII chart for start/stop times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "friii_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "friii_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_diagnosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "usual_basal_insulin",
+    "type": "text",
+    "options": [],
+    "note": "Name and dose, or none"
+   },
+   {
+    "field": "basal_prescribed_during_friii",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "basal_dose_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": "Usual dose or 0.25 units/kg"
+   },
+   {
+    "field": "basal_dose_missed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "basal_continued_correctly",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "rebound_ketosis_after_friii",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build the basal insulin line into the DKA e-prescribing order set as a required field ('continue usual basal: name/dose' or '0.25 units/kg if new').",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 onward: next 30 DKA episodes (prospective collection may be needed), same template.",
+  "close_loop": "Present at the diabetes and acute medicine governance meeting. If it works, keep the order set and add basal insulin to the diabetes team's DKA review checklist.",
+  "evidence": [
+   "[2782] perioperative diabetes: appropriate long-acting insulin on VRI 45%",
+   "[925] ward insulin prescribing errors (drug chart redesign)",
+   "[2538] day surgery: correct medicines 25% → 83% (pre-populated EPR order set)"
+  ],
+  "pitfalls": [
+   "DKA episodes are few → use a 12-month window and prospective capture.",
+   "Pump users counted wrongly → exclude or record separately.",
+   "Basal dose prescribed but omitted by nursing → record administration, not just prescription.",
+   "ED starts DKA before the ward → check ED drug charts too."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient specialist nurse; they see every DKA.",
+   "Put the basal line at the top of the DKA order set.",
+   "Report rebound ketosis or readmission as outcomes.",
+   "Add a 'basal insulin given?' question to the DKA nursing care plan."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from e-prescribing"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult inpatients with a capillary glucose below 4.0 mmol/L have a repeat glucose check within 15 minutes of treatment?",
+  "why": "Unconfirmed recovery after hypoglycaemia leads to recurrent and severe episodes. Library work showed milder episodes preceded severe ones [1128] and delayed treatment [926]; no audit of the recheck step is in the library.",
+  "standard": {
+   "source": "JBDS-IP 01 The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023), p11 step 4",
+   "wording": "4. Repeat capillary blood glucose measurement 10-15 minutes later. If it is still less than 4.0mmol/L, repeat step 3 (no more than 3 treatments in total). If it is above 4.0mmol/L then go to step 7.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "pass": "A repeat capillary glucose recorded within 20 minutes of the first low reading (15 minutes after treatment, plus 5 minutes allowed because treatment time is rarely recorded).",
+  "population": "Adult inpatients with diabetes on medical wards with a capillary glucose <4.0 mmol/L. Include one episode per patient (the first in the audit window). Exclude critical care.",
+  "sample": "40 consecutive hypoglycaemia episodes (one per patient) over the last 2–4 weeks.",
+  "data_source": "Networked glucose meter data (time-stamped readings) for cases and recheck times; drug chart/nursing notes for treatment given.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "low_glucose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "low_glucose_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_given",
+    "type": "choice",
+    "options": [
+     "oral rapid carbohydrate",
+     "glucagon",
+     "IV glucose",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_glucose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_within_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_glucose_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "long_acting_carbohydrate_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Step 7"
+   },
+   {
+    "field": "insulin_or_sulfonylurea_reviewed_next_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Configure networked glucose meters to prompt 'Recheck in 10–15 minutes' after any reading <4.0 mmol/L, and place hypo boxes with a timer card on each ward.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 episodes from meter data, same template.",
+  "close_loop": "Present at the diabetes inpatient safety group and nursing quality meeting. If it works, keep the meter prompt and add recheck compliance to the diabetes ward dashboard.",
+  "evidence": [
+   "[1128] inpatient hypoglycaemia: over 600 events a year; milder episodes preceded severe ones (ward dashboard and after-action reviews)",
+   "[926] ward hypoglycaemia: treatment delayed (hypo boxes)",
+   "[1804] delirium sticker: use fell from 57% to 0% by week 6 (stickers alone fade)"
+  ],
+  "pitfalls": [
+   "Meters not networked → use paper glucose charts and accept lower precision.",
+   "Reading repeated on another meter → search by patient, not meter.",
+   "Nurses treat but record late → allow a 5-minute tolerance and state it.",
+   "Prompt ignored → pair with hypo box refresh and ward feedback."
+  ],
+  "pearls": [
+   "Recruit the point-of-care testing manager; they can export meter data in minutes.",
+   "Recruit a ward nurse champion on each ward.",
+   "Report recurrent hypos within 24 hours as the outcome.",
+   "Share weekly ward-level recheck rates on the diabetes dashboard."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 episodes from meter data"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult inpatients with known diabetes started on glucocorticoids have capillary glucose checked four times a day?",
+  "why": "Steroid hyperglycaemia is common in medical inpatients (COPD, cancer, inflammatory disease). Library audits covered screening in giant cell arteritis clinics [2919, 2945]; none audited inpatient monitoring.",
+  "standard": {
+   "source": "JBDS-IP 08 Management of Hyperglycaemia and Steroid (Glucocorticoid) Therapy (revised January 2023), Table 1, p9",
+   "wording": "Known diagnosis of diabetes: Reassess glucose control and current therapy. Set target blood glucose e.g. 6-10mmol/L. Check CBG 4 times a day and use this flowchart to adjust diabetes medication accordingly. In Type 1 diabetes also check daily for ketones if CBG >12mmol/L. Aim for 6-10mmol/L (acceptable range 6-12mmol/L).",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_08_Management_of_Hyperglycaemia_and_Steroid_%28Glucocorticoid%29_Therapy_with_QR_code_January_2023.pdf"
+  },
+  "pass": "At least 4 capillary glucose readings on each of the first 3 full days of steroid therapy (or until discharge), and diabetes treatment adjusted if CBG >12 mmol/L twice in 24 hours.",
+  "population": "Adult medical inpatients with known diabetes newly started on oral or IV glucocorticoid at a dose equivalent to prednisolone ≥10 mg. Exclude critical care and end-of-life care.",
+  "sample": "40 consecutive eligible inpatients over the last 4–6 weeks.",
+  "data_source": "E-prescribing report of new steroid prescriptions cross-matched with diabetes flag; networked glucose meter data; drug chart for diabetes treatment changes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "steroid_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cbg_count_day1",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cbg_count_day2",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cbg_count_day3",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qds_monitoring_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cbg_over_12_twice_in_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_adjusted_if_high",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion when applicable"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Link a steroid prescription in a patient with a diabetes flag to an automatic 'CBG four times daily' monitoring order and a pop-up link to the JBDS steroid flowchart.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 eligible inpatients, same template.",
+  "close_loop": "Present at the diabetes inpatient group and medicines safety committee. If it works, keep the linked order and extend to people without diabetes on high-dose steroids.",
+  "evidence": [
+   "[2919] GCA: baseline HbA1c 53% → 93% and counselling 12% → 30% (regional presentation, dedicated clinic)",
+   "[2945] GCA: follow-up HbA1c 78% but joint rheumatology screening 37%",
+   "[2219] emergency surgery: dose-adjustment prompts 29/36 → 37/38 correct (drug chart checkboxes)"
+  ],
+  "pitfalls": [
+   "Once-daily morning steroid peaks late → check that the afternoon/evening readings are included.",
+   "Meter data not linked to patients → use paper charts for cycle 1.",
+   "Short courses (<3 days) → audit days on steroid only.",
+   "Pop-up fatigue → make it a monitoring order, not an alert."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist nurse and the e-prescribing pharmacist.",
+   "Use the COPD and oncology wards, where volume is high.",
+   "Teach the 'afternoon peak' in one slide.",
+   "Report hyperglycaemia >12 mmol/L days as the outcome."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from e-prescribing and meter data"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated with insulin-glucose for hyperkalaemia have capillary glucose monitored for at least 6 hours afterwards?",
+  "why": "Insulin-glucose often causes hypoglycaemia, sometimes hours after treatment. The only library potassium audit covered guideline and lab protocols [152]; no audit of post-treatment glucose monitoring is in the library.",
+  "standard": {
+   "source": "UK Kidney Association (Renal Association) Clinical Practice Guideline: Treatment of Acute Hyperkalaemia in Adults (2020, v2 July 2022), Guideline 17.2",
+   "wording": "We recommend that the blood glucose concentration is monitored at regular intervals (0, 15, 30, 60, 90, 120, 180, 240, 360, 480 and 720 minutes) up to 12 hours after administration of insulin-glucose infusion in all patients with hyperkalaemia. (1C)",
+   "url": "https://www.ukkidney.org/sites/default/files/RENAL%20ASSOCIATION%20HYPERKALAEMIA%20GUIDELINE%20-%20JULY%202022%20V2_0.pdf"
+  },
+  "pass": "Glucose recorded before treatment and at least at 30, 60, 120, 240 and 360 minutes (±15 minutes) after insulin-glucose. Full compliance to 12 hours reported as a secondary measure.",
+  "population": "Adults given IV insulin-glucose for hyperkalaemia in ED, AMU or medical wards. Exclude patients in DKA on a FRIII and critical care.",
+  "sample": "40 consecutive insulin-glucose treatments over the last 6–8 weeks.",
+  "data_source": "E-prescribing (insulin-glucose for hyperkalaemia) or ED records for cases; networked glucose meters and blood gas records for glucose readings; drug chart for timings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "insulin_glucose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serum_potassium",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_treatment_glucose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glucose_readings_first_6h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "key_timepoints_met_to_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "monitoring_to_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   },
+   {
+    "field": "lowest_glucose_12h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypoglycaemia_below_4",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome"
+   },
+   {
+    "field": "repeat_potassium_within_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Guideline 17.1.2"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a hyperkalaemia insulin-glucose order set that schedules glucose checks (0, 30, 60, 120, 240, 360 min, then to 12 h) as timed nursing tasks and adds 10% glucose if pre-treatment glucose is <7 mmol/L.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 insulin-glucose treatments, same template.",
+  "close_loop": "Present at the renal and acute medicine governance meeting and the medicines safety committee. If it works, keep the order set and report hypoglycaemia after insulin-glucose on the safety dashboard.",
+  "evidence": [
+   "[152] potassium disturbance: poor compliance → 100% on re-audit (guideline and lab protocol)",
+   "[2538] day surgery: correct medicines 25% → 83% (pre-populated EPR order set)",
+   "[1128] inpatient hypoglycaemia: ward dashboard and after-action reviews"
+  ],
+  "pitfalls": [
+   "Readings spread across blood gases and meters → search both sources.",
+   "Patients move from ED to AMU mid-monitoring → follow the patient, not the ward.",
+   "Strict time windows fail good care → state the ±15 minute tolerance before cycle 1.",
+   "Order set used but tasks not done → record completed readings, not scheduled ones."
+  ],
+  "pearls": [
+   "Recruit the renal pharmacist and an ED nurse lead.",
+   "Put a printed timer card in the hyperkalaemia treatment pack.",
+   "Report hypoglycaemia rates to motivate staff.",
+   "Align with the local hyperkalaemia guideline so there is one document."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from meter data and ED records"
+ }
+]

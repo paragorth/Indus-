@@ -1,0 +1,2469 @@
+[
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of infants younger than 3 months with a temperature of 38°C or higher seen by the paediatric team have all four NICE first-line investigations (full blood count, blood culture, CRP and urine test)?",
+  "why": "Febrile young infants are high risk, and missed urine samples are the commonest gap in the screen. The library holds only a registry entry on consultant sign-off for febrile infants [451] and one ED sepsis audit [3031]; no closed-loop audit of the NG143 under-3-month screen has been published.",
+  "standard": {
+   "source": "NICE NG143 rec 1.5.3 (2019, updated 2021)",
+   "wording": "Perform the following investigations in infants younger than 3 months with fever: full blood count blood culture C-reactive protein urine testing for urinary tract infection (see the sections on urine collection, preservation and testing in the NICE guideline on urinary tract infection in under 16s) chest X-ray only if respiratory signs are present stool culture, if diarrhoea is present. [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng143/chapter/Recommendations"
+  },
+  "pass": "FBC, blood culture, CRP and a urine sample sent for testing, all documented within the index attendance (before discharge or within 4 hours of paediatric review).",
+  "population": "Infants aged 0–89 days with a recorded temperature ≥38°C at triage or on the ward, assessed by paediatrics. Exclude transfers already fully investigated elsewhere.",
+  "sample": "40 consecutive eligible infants over the last 6 months (use ED/PAU coding for fever plus age filter).",
+  "data_source": "ED/PAU attendance record for age and temperature; pathology system for FBC, CRP, blood culture and urine sample time stamps; clerking notes for reasons for omission.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_temperature_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blood_culture_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "crp_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "urine_sample_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion; note method in next field"
+   },
+   {
+    "field": "urine_method",
+    "type": "choice",
+    "options": [
+     "clean catch",
+     "pad",
+     "catheter",
+     "suprapubic aspirate",
+     "not obtained"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_omission",
+    "type": "text",
+    "options": [],
+    "note": "Only if any test missing"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'febrile infant under 3 months' order set to the EPR (FBC, CRP, blood culture, urine MC&S in one click) and a matching sticker for the PAU clerking proforma.",
+  "target": "≥95% have all four investigations",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible infants, same template.",
+  "close_loop": "Present at the paediatric audit meeting and ED–paediatric interface meeting. If compliance rises, make the order set default for any ED triage entry of age <90 days with temperature ≥38°C.",
+  "evidence": [
+   "[3031] paediatric severe sepsis in ED: blood cultures, lactate and timing gaps at baseline (no second cycle reported)",
+   "[1529] arthroplasty analgesia: electronic order set 0% → 58% full protocol compliance (order set works)",
+   "[3266] psychiatry admissions: checklist of required investigations 53% → 94% ECG, bloods to 100% (checklist works)"
+  ],
+  "pitfalls": [
+   "Urine not obtained before antibiotics in sick infants → record 'attempted, not obtained' separately so the team is not penalised for correct treatment-first care.",
+   "Parent-reported fever without a measured temperature → decide before cycle 1 whether to include (NG143 treats parental report as valid); keep the same rule in cycle 2.",
+   "Tests sent but sample rejected or clotted → count as sent, and report rejection rate as a secondary finding.",
+   "Order set bypassed by locum staff → build it into the triage prompt, not just the paediatric menu."
+  ],
+  "pearls": [
+   "Recruit an ED paediatric nurse lead; most omissions happen before the paediatrician arrives.",
+   "Agree with the lab that urine from under-3-month infants is always cultured, not just dipped.",
+   "Run a weekly list from ED triage of age <90 days to capture cases as they happen.",
+   "Hand the order set and audit spreadsheet to the next rotation's audit lead at changeover."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 infants from EPR and pathology"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children under 5 with fever and at least one amber feature who are discharged without a diagnosis receive a documented safety net?",
+  "why": "Discharged children with amber features are the group NICE flags for re-presentation risk. Safety-netting advice is the weakest item in discharge audits elsewhere (14–45% [2884][2841]); no paediatric fever safety-net audit has been published in the library.",
+  "standard": {
+   "source": "NICE NG143 rec 1.5.25 (2019, updated 2021)",
+   "wording": "If it is decided that a child does not need to be admitted to hospital, but no diagnosis has been reached, provide a safety net for parents and carers if any 'red' or 'amber' features are present. The safety net should be 1 or more of the following: providing the parent or carer with verbal and/or written information on warning symptoms and how further healthcare can be accessed (see the recommendation on advising parents or carers in the section on advice for home care) arranging further follow-up at a specified time and place liaising with other healthcare professionals, including out-of-hours providers, to ensure direct access for the child if further assessment is required. [2007]",
+   "url": "https://www.nice.org.uk/guidance/ng143/chapter/Recommendations"
+  },
+  "pass": "Notes record at least one of: written fever leaflet given (named), verbal warning symptoms listed, a specified review time and place, or open access arranged.",
+  "population": "Children aged 3 months to 5 years discharged from ED or PAU with fever, at least one amber traffic-light feature recorded, and no definitive diagnosis. Exclude admissions.",
+  "sample": "40 consecutive eligible discharges over the last 3 months.",
+  "data_source": "ED/PAU record (triage observations, traffic-light features), discharge section of clinical notes, discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "amber_features_recorded",
+    "type": "text",
+    "options": [],
+    "note": "List features"
+   },
+   {
+    "field": "diagnosis_reached",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "verbal_warning_signs_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specified_follow_up_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "open_access_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safety_net_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: any of the four"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'safety net given' field with the four NICE options to the ED/PAU discharge screen, linked to printing the Trust fever leaflet.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible discharges, same template.",
+  "close_loop": "Present at the ED–paediatric governance meeting. If it works, keep the mandatory field and add the leaflet to the PAU discharge pack.",
+  "evidence": [
+   "[2884] colorectal discharge summaries: proforma raised safety-netting 14% → 32% (template helps, not enough alone)",
+   "[2667] paediatric post-tonsillectomy discharge: one-click inserts 'go to ED if bleed' 21% → 93% (template snippets work)",
+   "[2841] hernia discharge leaflet: safety-netting 45% at baseline; standard leaflet cut GP and ED re-attendance"
+  ],
+  "pitfalls": [
+   "Amber features not recorded at all → report traffic-light completion as a secondary measure; do not guess features.",
+   "Verbal advice given but not written down → the fix makes the record quick; accept a tick plus leaflet name as evidence.",
+   "Staff see a mandatory field as box-ticking → pair it with the printed leaflet so the tick produces something for the family.",
+   "Seasonal case mix changes between cycles → compare like-for-like months where possible."
+  ],
+  "pearls": [
+   "Recruit the ED paediatric consultant and the PAU nurse lead before cycle 1.",
+   "Use the Trust or regional fever leaflet already approved; do not write a new one.",
+   "Check re-attendance within 7 days as a balancing measure.",
+   "Include translated leaflet versions to cover families with limited English."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 children from ED record"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of infants aged 6 weeks and over with bronchiolitis and no underlying condition are started on supplemental oxygen only when saturations are persistently below 90%?",
+  "why": "NICE lowered the oxygen threshold from 92% to 90% in 2021 to cut oxygen use and length of stay. Oxygen prescribing is poor in children's wards [2976][524]; no audit of the 2021 bronchiolitis threshold has been published in the library.",
+  "standard": {
+   "source": "NICE NG9 rec 1.4.4 (2015, updated 2021)",
+   "wording": "Give oxygen supplementation to babies and children with bronchiolitis if their oxygen saturation is: persistently less than 90%, for children aged 6 weeks and over persistently less than 92%, for babies under 6 weeks or children of any age with underlying health conditions. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng9/chapter/Recommendations"
+  },
+  "pass": "Oxygen started only after documented saturations persistently <90% in air (for this group); or no oxygen given where saturations stayed ≥90%.",
+  "population": "Infants and children aged 6 weeks to 2 years admitted with bronchiolitis. Exclude those under 6 weeks, those with chronic lung disease, congenital heart disease, neuromuscular disease or immunodeficiency, and those needing CPAP or high-flow at arrival.",
+  "sample": "40 consecutive eligible admissions during the current bronchiolitis season.",
+  "data_source": "Observation chart or PEWS record (SpO2 trend), drug chart/oxygen prescription, nursing notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lowest_spo2_in_air",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not started"
+   },
+   {
+    "field": "spo2_before_oxygen",
+    "type": "number",
+    "options": [],
+    "note": "Last recorded value in air"
+   },
+   {
+    "field": "threshold_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: persistently <90% before start, or no oxygen when ≥90%"
+   },
+   {
+    "field": "oxygen_prescribed_with_target",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   },
+   {
+    "field": "length_of_stay_hours",
+    "type": "number",
+    "options": [],
+    "note": "Balancing measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Print the NG9 thresholds (90% / 92%) in the oxygen section of the paediatric drug chart or EPR oxygen order, with target range pre-set to 90–94% for this group.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (same season, or first 40 admissions of next season), same template.",
+  "close_loop": "Present at the paediatric audit meeting and nursing forum. If it works, fix the target range into the bronchiolitis admission order set.",
+  "evidence": [
+   "[2976] children's hospital oxygen prescribing: 0/14 prescribed → 4/18 after chart with an oxygen section (chart change alone modest)",
+   "[524] oxygen prescription for children on the ward (re-audit) registered in the library",
+   "[452] high-flow oxygen weaning with stickers: prompt-based weaning in paediatric wards"
+  ],
+  "pitfalls": [
+   "Saturations recorded only after oxygen started → use the triage and first ward readings; mark 'unknown' rather than guess.",
+   "Night-time dips and probe artefact → define 'persistent' before cycle 1 (for example 2 readings 15 minutes apart).",
+   "Nurses worry about lower targets → share the NICE 2021 rationale and the trial data on readmission.",
+   "Small numbers outside winter → collect over the season peak."
+  ],
+  "pearls": [
+   "Recruit the ward sister and a respiratory nurse; nurses start and wean oxygen.",
+   "Record length of stay and readmission within 7 days as balancing measures.",
+   "Agree the 'underlying condition' exclusion list at the start.",
+   "Keep the chart change in the winter surge plan so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 infants from observation charts"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of infants admitted with bronchiolitis receive none of the treatments NICE advises against (antibiotics, salbutamol, nebulised adrenaline, hypertonic saline, ipratropium, montelukast or steroids)?",
+  "why": "Bronchodilators and antibiotics are still given in bronchiolitis despite no benefit. The library has paediatric antibiotic-guideline audits [2994][2974] but no audit of low-value drug use in bronchiolitis.",
+  "standard": {
+   "source": "NICE NG9 rec 1.4.3 (2015, updated 2021)",
+   "wording": "Do not use any of the following to treat bronchiolitis in babies or children: antibiotics hypertonic saline adrenaline (nebulised) salbutamol montelukast ipratropium bromide systemic or inhaled corticosteroids a combination of systemic corticosteroids and nebulised adrenaline. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng9/chapter/Recommendations"
+  },
+  "pass": "No listed drug given for bronchiolitis during the admission; antibiotics given for a documented separate indication (for example proven UTI, pneumonia with focal signs) count as a pass.",
+  "population": "Children under 2 years admitted with a primary diagnosis of bronchiolitis. Exclude PICU transfers and those with a documented alternative diagnosis (viral-induced wheeze, pneumonia).",
+  "sample": "40 consecutive admissions this bronchiolitis season.",
+  "data_source": "Drug chart / EPMA administration records; admission and ward-round notes for indication.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "salbutamol_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adrenaline_nebulised_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_indication",
+    "type": "text",
+    "options": [],
+    "note": "Only if antibiotic given"
+   },
+   {
+    "field": "other_listed_drug_given",
+    "type": "text",
+    "options": [],
+    "note": "Hypertonic saline, ipratropium, montelukast"
+   },
+   {
+    "field": "no_listed_drug",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a bronchiolitis admission order set in EPMA that contains only supportive care, with a pop-up alert if salbutamol, adrenaline nebs or steroids are prescribed for a patient with bronchiolitis coded.",
+  "target": "≥90% receive no listed drug",
+  "reaudit": "Wk 13–14: next 40 admissions in the same season, same template.",
+  "close_loop": "Present at the paediatric audit and antimicrobial stewardship meetings. If it works, keep the order set and report monthly with the winter dashboard.",
+  "evidence": [
+   "[2994] tertiary paediatric start-smart: weekly feedback and handover discussion raised guideline compliance median 30% → 100%",
+   "[2859] pre-operative tests: digital decision aid cut unnecessary tests by 20–75% (decision support reduces low-value care)",
+   "[2974] paediatric empiric anti-infective guideline adherence 98% (antibiotic choice audited, not bronchiolitis use)"
+  ],
+  "pitfalls": [
+   "Trial of salbutamol in older infants with wheeze → agree before cycle 1 whether a documented single trial in over-12-month infants counts as a fail; keep the rule fixed.",
+   "Diagnosis coded as bronchiolitis but clinically viral wheeze → exclude only if the notes state the alternative diagnosis.",
+   "ED doses before admission → include ED drug records, as that is where most doses are given.",
+   "Pop-up fatigue → alert only on the listed drugs, not all nebulisers."
+  ],
+  "pearls": [
+   "Include the ED team; most salbutamol is given before the ward.",
+   "Share each case of a listed drug with the prescriber anonymously in feedback.",
+   "Pair with a parent leaflet explaining why inhalers are not used.",
+   "Report results with the winter pressures data so managers see the length-of-stay link."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 children from EPMA"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children and young people treated for diabetic ketoacidosis have their intravenous insulin infusion started 1 to 2 hours after intravenous fluids began?",
+  "why": "Starting insulin too early is linked with cerebral oedema; NICE sets a 1–2 hour gap and no insulin bolus. The only DKA entry in the library tests junior doctor knowledge [2207]; no audit of actual DKA fluid and insulin timing in children has been published.",
+  "standard": {
+   "source": "NICE NG18 rec 1.4.36 and 1.4.37 (2015, updated 2023)",
+   "wording": "Start an intravenous insulin infusion 1 to 2 hours after beginning intravenous fluid therapy in children and young people with DKA. If a child or young person with DKA is using an insulin pump, disconnect the pump when starting intravenous insulin therapy. [2015] ... When treating DKA with intravenous insulin in children and young people, use a soluble insulin infusion at a dosage between 0.05 units/kg/hour and 0.1 units/kg/hour. Do not give bolus doses of intravenous insulin. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng18/chapter/Recommendations"
+  },
+  "pass": "Insulin infusion start time is 60–120 minutes after the first IV fluid start time, at 0.05–0.1 units/kg/hour, with no IV insulin bolus.",
+  "population": "Children and young people under 18 treated with IV fluids and IV insulin for DKA (pH <7.3 or bicarbonate <15 mmol/L with ketones). Exclude those transferred in after insulin was started elsewhere.",
+  "sample": "All eligible episodes over the last 24 months (typically 20–40 in a district general hospital).",
+  "data_source": "DKA integrated care pathway/fluid chart for fluid start time; EPMA or infusion chart for insulin start time and rate; blood gas record for severity.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "episode_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_ph",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_fluid_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "insulin_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_fluid_to_insulin",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "insulin_rate_units_kg_hr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_insulin_bolus_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "timing_and_dose_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: 60–120 min, 0.05–0.1 units/kg/hr, no bolus"
+   }
+  ],
+  "timeline": "Wk 1–2 collect (24-month retrospective); Wk 3 analyse/present; Wk 4 change; Wk 5–24 embed; Wk 25–26 re-audit all episodes since the change",
+  "change": "Build the BSPED DKA calculator output into a pre-printed or EPR DKA pathway with a timed box: 'IV fluids started at __ : __ ; insulin not before __ : __ (60 min) and by __ : __ (120 min)'.",
+  "target": "≥90%",
+  "reaudit": "Wk 25–26: all DKA episodes since the change (minimum 10), same template; extend to 12 months if fewer.",
+  "close_loop": "Present at the paediatric diabetes MDT and paediatric governance. If it works, keep the timed box in the pathway and add DKA timing to the NPDA local dashboard.",
+  "evidence": [
+   "[2207] junior doctor DKA knowledge: correct initial fluid choice 55.5%, cerebral oedema management 33.3%; teaching sessions in cycle 2",
+   "[3566] psychiatry MDT notes: co-designed structured template 0–15% → 100% completion (template works)",
+   "[1529] arthroplasty analgesia: electronic order set 0% → 58% protocol compliance"
+  ],
+  "pitfalls": [
+   "Small numbers → use 24 months retrospectively and report counts, not only percentages.",
+   "Fluid start time missing (ED bolus not timed) → take the first recorded IV fluid time from ED notes; mark 'unknown' if absent.",
+   "ED and ward teams blame each other → include both in the feedback and the change.",
+   "Pump users not disconnected → record as a secondary item, not a pass criterion."
+  ],
+  "pearls": [
+   "Recruit the paediatric diabetes nurse specialist as co-lead; they see every DKA case.",
+   "Use the BSPED calculator print-out as the data sheet; it already has times.",
+   "Case-review any episode with cerebral oedema alongside the audit.",
+   "Leave a simple case log so the next trainee can re-audit without searching coding."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case from pathway and EPMA"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children and young people recovering from diabetic ketoacidosis receive their first subcutaneous insulin dose at least 30 minutes before the intravenous insulin is stopped?",
+  "why": "Stopping IV insulin before subcutaneous insulin is working causes rebound ketosis and longer stays. No audit of the DKA transition step in children has been published in the library.",
+  "standard": {
+   "source": "NICE NG18 rec 1.4.44 and 1.4.45 (2015, updated 2023)",
+   "wording": "Start subcutaneous insulin in a child or young person with DKA at least 30 minutes before stopping intravenous insulin. [2015] ... For a child or young person with DKA who is using an insulin pump, restart the pump at least 60 minutes before stopping intravenous insulin. Change the insulin cartridge and infusion set and insert the cannula into a new subcutaneous site. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng18/chapter/Recommendations"
+  },
+  "pass": "Subcutaneous injection given ≥30 minutes (or pump restarted ≥60 minutes) before the IV insulin stop time.",
+  "population": "Children and young people under 18 treated with IV insulin for DKA who transferred to subcutaneous insulin or pump in hospital. Exclude transfers out before transition.",
+  "sample": "All eligible episodes over the last 24 months.",
+  "data_source": "EPMA/insulin infusion chart (stop time), subcutaneous insulin administration record, pump documentation in nursing notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "episode_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "regimen",
+    "type": "choice",
+    "options": [
+     "multiple daily injections",
+     "insulin pump",
+     "new diagnosis"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sc_insulin_or_pump_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_insulin_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "overlap_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "overlap_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: ≥30 min injections, ≥60 min pump"
+   },
+   {
+    "field": "ketones_rose_after_transition",
+    "type": "yes/no",
+    "options": [],
+    "note": "Balancing measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect (24-month retrospective); Wk 3 analyse/present; Wk 4 change; Wk 5–24 embed; Wk 25–26 re-audit all episodes since the change",
+  "change": "Add a 'transition to subcutaneous insulin' step to the DKA pathway with fields for SC dose time and a 'stop IV insulin at (SC time + 30 min)' box signed by the nurse.",
+  "target": "≥95%",
+  "reaudit": "Wk 25–26: all episodes since the change, same template.",
+  "close_loop": "Present at the paediatric diabetes MDT. If it works, keep the pathway step and add it to nurse induction for the children's ward.",
+  "evidence": [
+   "[2207] junior doctor DKA knowledge gaps in initial management (knowledge audit only)",
+   "[3386] lithium clinic proforma: safety-netting and monitoring items rose to 92–100% (proforma works)",
+   "[3266] admission checklist: ECG 59% → 94% (checklist of timed steps works)"
+  ],
+  "pitfalls": [
+   "Stop time of IV insulin not recorded → use the infusion chart end time; mark unknown if missing.",
+   "Transition timed with a meal and done out of hours by agency staff → include the step in the nursing section, not only medical notes.",
+   "Pump users managed by family → record the time the family restarted the pump.",
+   "Small numbers → report counts and each failure as a case story."
+  ],
+  "pearls": [
+   "The diabetes nurse specialist is the natural co-lead.",
+   "Link to the fluid–insulin timing audit so one data pass covers both.",
+   "Ask the ward pharmacist to check overlap on the EPMA at the ward round.",
+   "Store the case list in the diabetes team folder for the next cycle."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies started on antibiotics for suspected neonatal infection receive the first dose within 1 hour of the decision to treat?",
+  "why": "Delay to first antibiotic is a common safety finding on postnatal wards and neonatal units. The library has neonatal antibiotic dosing audits [2983][2984] but none measuring time from decision to first dose.",
+  "standard": {
+   "source": "NICE NG195 rec 1.15.2 (2021, updated 2026)",
+   "wording": "If a baby needs antibiotic treatment, give this as soon as possible and always within 1 hour of the decision to treat. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng195/chapter/Principles-around-use-of-antibiotics-for-early-onset-or-late-onset-neonatal-infection"
+  },
+  "pass": "Documented administration time of the first antibiotic dose is ≤60 minutes after the documented decision (or prescription) time.",
+  "population": "Babies up to 28 days started on IV antibiotics for suspected early- or late-onset infection on the neonatal unit, transitional care or postnatal ward.",
+  "sample": "40 consecutive courses over the last 2 months.",
+  "data_source": "Neonatal EPR (BadgerNet) or medical notes for decision time; EPMA/drug chart for prescription and administration times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_decision",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "neonatal unit",
+     "transitional care",
+     "postnatal ward",
+     "delivery suite"
+    ],
+    "note": ""
+   },
+   {
+    "field": "decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Use prescription time if decision time not written"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_first_dose",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cause_of_delay",
+    "type": "choice",
+    "options": [
+     "cannulation",
+     "blood culture",
+     "prescription",
+     "drug preparation",
+     "staff availability",
+     "none",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a neonatal 'sepsis grab bag' (cannula, culture bottle, pre-calculated benzylpenicillin and gentamicin dose card) and a 'decision time' field on the neonatal antibiotic prescription.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive courses, same template.",
+  "close_loop": "Present at the perinatal governance meeting with midwifery. If it works, stock grab bags on every postnatal ward and add time-to-antibiotic to the unit dashboard.",
+  "evidence": [
+   "[1597] open fractures: tracking and feedback of antibiotic timing improved order and administration within 1 hour",
+   "[2680] acute abdomen pathway: antibiotics within 1 hour 80% → 50% after pathway update alone (pathway without logistics fails)",
+   "[2984] neonatal gentamicin errors: 67% linked to calculation complexity; simplified dosing and monograph examples"
+  ],
+  "pitfalls": [
+   "Decision time not recorded → agree to use prescription time; note it underestimates delay.",
+   "Postnatal ward babies wait for a neonatal doctor to cannulate → capture cause of delay to target the right fix.",
+   "Babies on the NNU skew results → report postnatal ward and NNU separately.",
+   "Grab bags not restocked → assign a named band 5 nurse per shift."
+  ],
+  "pearls": [
+   "Co-lead with a neonatal nurse or ANNP; they give most first doses.",
+   "Run a 'mock sepsis' drill on the postnatal ward in week 4.",
+   "Display monthly median time on the NNU safety board.",
+   "Agree grab-bag restocking with pharmacy before launch."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 babies from neonatal EPR"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies started on antibiotics for risk factors or possible early-onset infection have antibiotics stopped at 36 hours when the NICE stopping criteria are met?",
+  "why": "Unneeded courses keep mothers and babies in hospital and drive resistance. Neonatal antibiotic audits in the library cover NEC regimens and drug levels [3005][2983]; none measure stopping at 36 hours.",
+  "standard": {
+   "source": "NICE NG195 rec 1.21.3 (2012, amended 2026)",
+   "wording": "For babies who are being treated with intravenous antibiotics because of risk factors for early-onset infection or clinical indicators of possible infection, stop antibiotics at 36 hours if: the blood culture is negative and the initial clinical suspicion of infection was not strong and the baby's clinical condition is reassuring, with no clinical indicators of possible infection (see box 2 for clinical indicators of possible early-onset infection) and the levels and trends of C-reactive protein concentration are reassuring. [2012, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng195/chapter/Antibiotics-for-early-onset-neonatal-infection"
+  },
+  "pass": "In babies meeting all four stopping criteria, the last antibiotic dose is given within 36 hours (allow up to 40 hours) of the first dose.",
+  "population": "Babies started on IV antibiotics within 72 hours of birth for suspected early-onset infection. Exclude positive blood cultures, strong initial suspicion documented, and babies with ongoing clinical indicators at 36 hours.",
+  "sample": "50 consecutive courses over the last 3 months (expect 30–40 to meet stopping criteria).",
+  "data_source": "EPMA for dose times; microbiology system for culture result time; neonatal EPR for clinical review and CRP.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_negative_at_36h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "strong_initial_suspicion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinically_well_at_36h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crp_reassuring",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "met_all_stop_criteria",
+    "type": "yes/no",
+    "options": [],
+    "note": "Denominator filter"
+   },
+   {
+    "field": "stopped_by_36h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (≤40 h allowed)"
+   },
+   {
+    "field": "reason_continued",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 36-hour review prompt to the neonatal antibiotic prescription (EPMA stop date set at 36 hours for early-onset regimens, needing a documented reason to extend).",
+  "target": "≥90% stopped by 36 hours when criteria met",
+  "reaudit": "Wk 13–14: next 50 consecutive courses, same template.",
+  "close_loop": "Present at the neonatal and antimicrobial stewardship meetings. If it works, keep the default stop date and report length of stay for these babies.",
+  "evidence": [
+   "[1995] surgical wards: electronic prescribing with mandatory review dates raised review/stop dates 17% → 100%",
+   "[2489] surgical antibiotics: email reminders only 56% → 61% stop/review dates (education alone fails)",
+   "[3023] paediatric IV-to-oral switch: guideline launch with feedback 64% → 82% within 24 hours of eligibility"
+  ],
+  "pitfalls": [
+   "Culture result not visible at 36 hours → measure lab reporting time too; NICE 1.16.1 supports a 36-hour culture result system.",
+   "'Strong suspicion' is subjective → agree a local definition (for example red flag or two or more non-red-flag indicators) before cycle 1.",
+   "CRP repeat taken late → record CRP timing as a secondary item.",
+   "Seniors override the stop date → reasons are captured; review them at the stewardship meeting."
+  ],
+  "pearls": [
+   "Recruit the neonatal pharmacist and a microbiologist.",
+   "Use the Kaiser or local EOS calculator result as a secondary descriptor, not a pass criterion.",
+   "Report bed-days saved; it wins management support.",
+   "Keep the stop-date default in the EPMA build, so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 courses from EPMA"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of eligible babies born at 35 weeks or later on antibiotics beyond 36 hours are switched to oral amoxicillin when the 2026 NICE criteria are met?",
+  "why": "NICE added an IV-to-oral switch for early-onset infection in 2026; units have not yet measured uptake. The paediatric IV-to-oral audit in the library [3023] covers older children, not neonates.",
+  "standard": {
+   "source": "NICE NG195 rec 1.22.1 and 1.22.2 (2026)",
+   "wording": "For babies born from 35+0 weeks' gestation with negative blood culture who need antibiotics for more than 36 hours because the initial clinical suspicion of infection was strong, consider switching treatment from intravenous to oral antibiotics at 36 hours or thereafter to complete the course (up to 7 days of antibiotics in total) if: the baby's clinical condition is reassuring, with no current clinical indicators of ongoing infection (see box 2 for clinical indicators of possible early-onset neonatal infection) and the levels and trends of C-reactive protein concentration are reassuring and the baby is tolerating oral feeds. [2026] ... Use amoxicillin as the oral antibiotic, unless local bacterial resistance data indicates the need for a different antibiotic. [2026]",
+   "url": "https://www.nice.org.uk/guidance/ng195/chapter/Antibiotics-for-early-onset-neonatal-infection"
+  },
+  "pass": "Eligible baby either switched to oral amoxicillin within 24 hours of meeting all criteria, or has a documented senior reason for staying on IV.",
+  "population": "Babies ≥35+0 weeks, blood culture negative, continuing antibiotics beyond 36 hours for strong initial suspicion, clinically well, CRP reassuring and feeding orally. Exclude meningitis, positive cultures and babies under 35 weeks.",
+  "sample": "30 consecutive eligible babies over the last 6 months (screen all courses >36 hours).",
+  "data_source": "EPMA (route and drug changes), neonatal EPR (senior review, feeding), microbiology and CRP results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "criteria_met_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First review where all criteria documented"
+   },
+   {
+    "field": "switched_to_oral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "switch_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oral_agent",
+    "type": "choice",
+    "options": [
+     "amoxicillin",
+     "other",
+     "not switched"
+    ],
+    "note": ""
+   },
+   {
+    "field": "senior_agreed_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE 1.22.4"
+   },
+   {
+    "field": "reason_not_switched",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "switch_or_reason_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'IV-to-oral switch eligible? yes/no/reason' field to the daily neonatal ward-round template and an amoxicillin oral order to the neonatal EPMA antibiotic order set.",
+  "target": "≥80% switched or reason documented",
+  "reaudit": "Wk 13–14: next 30 eligible babies (extend to 3 months if needed), same template.",
+  "close_loop": "Present at the neonatal governance and antimicrobial stewardship meetings. If it works, add a parent leaflet and home-supervision pathway (NICE 1.22.3–1.22.6).",
+  "evidence": [
+   "[3023] paediatric IV-to-oral switch: 64% → 82% switched within 24 hours after guideline launch with feedback",
+   "[3003] tertiary paediatric IV antibiotics: 46% eligible for oral switch at 72 hours; hard stops recommended",
+   "[3566] structured ward-round template 0–15% → 100% completion of key fields"
+  ],
+  "pitfalls": [
+   "Clinicians unaware of the 2026 change → brief consultants before cycle 1; this is a new recommendation.",
+   "Amoxicillin dose for neonates under BNFC review → agree a local dose with pharmacy and microbiology first.",
+   "Few eligible babies in small units → combine with a neighbouring unit or extend the window.",
+   "Home discharge concerns → start with in-hospital oral switch only; add home care later."
+  ],
+  "pearls": [
+   "Co-lead with the neonatal pharmacist.",
+   "Record days of IV cannula use saved as a family-centred outcome.",
+   "Ask the network to share the template so results can be compared.",
+   "Put the eligibility field on the ward-round template so it survives staff change."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 babies"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies having a lumbar puncture for suspected infection have a blood glucose measured immediately before the procedure?",
+  "why": "A paired blood glucose is needed to interpret CSF glucose; NICE added this in 2024. The only CSF audit in the library concerns leukaemia [292]; no neonatal LP audit has been published.",
+  "standard": {
+   "source": "NICE NG195 rec 1.14.4 (2024)",
+   "wording": "Measure blood glucose in babies immediately before lumbar puncture, so that the cerebrospinal fluid to blood glucose ratio can be calculated. [2024]",
+   "url": "https://www.nice.org.uk/guidance/ng195/chapter/Investigations-before-starting-antibiotics-for-early-onset-or-late-onset-neonatal-infection"
+  },
+  "pass": "Blood glucose (point-of-care or lab) recorded within 30 minutes before the LP time.",
+  "population": "Babies up to 28 days corrected age having an LP for suspected infection on the neonatal unit, postnatal ward, children's ward or ED.",
+  "sample": "40 consecutive LPs over the last 6 months (use CSF lab requests to find cases).",
+  "data_source": "Lab system (CSF sample time, CSF glucose); blood gas/POCT glucose record; procedure note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "lp_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "neonatal unit",
+     "children's ward",
+     "ED",
+     "postnatal ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "blood_glucose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_glucose_before_lp",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "csf_glucose_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paired_glucose_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: ≤30 min before LP"
+   },
+   {
+    "field": "csf_results_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary, NICE 1.14.7"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'blood glucose immediately before LP: __ mmol/L at __:__' to the LP procedure sticker or EPR procedure note, and add a paired-glucose item to the LP trolley checklist.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 LPs (extend window if needed), same template.",
+  "close_loop": "Present at neonatal and paediatric governance. If it works, keep the sticker and include CSF:blood glucose ratio in the lab report comment.",
+  "evidence": [
+   "[292] CSF analysis in new leukaemia: systems working, no change needed (lab-side audit)",
+   "[2890] surgical ECGs: proforma stamp on each trace 33% → 51% documented (stamp/sticker partly works)",
+   "[3266] admission checklist raised investigation completion to 94–100%"
+  ],
+  "pitfalls": [
+   "Glucose from a gas taken 2 hours earlier → define 'immediately before' as ≤30 minutes before the LP and keep it fixed.",
+   "LP time not recorded → use CSF sample receipt minus transport time only if agreed; otherwise mark unknown.",
+   "Traumatic or failed LPs → include; the glucose is still needed.",
+   "Low numbers in small units → extend the window to 12 months."
+  ],
+  "pearls": [
+   "Stick the sticker on the LP pack itself.",
+   "Ask biochemistry to flag CSF glucose results without a paired blood glucose.",
+   "Include ED and children's ward LPs, not just the NNU.",
+   "Record the secondary 4-hour CSF result time to engage the lab."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 LPs from lab system"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies with jaundice noticed in the first 24 hours of life have a serum bilirubin measured within 2 hours?",
+  "why": "Jaundice in the first day is pathological until proven otherwise. The library records a 6-hour bilirubin audit for older babies [145] and ED triage gaps [278]; no audit of the 2-hour standard for early jaundice has been published.",
+  "standard": {
+   "source": "NICE CG98 rec 1.2.10 and 1.2.12 (2010, updated 2023)",
+   "wording": "In all babies with suspected or obvious jaundice in the first 24 hours of life, measure and record the serum bilirubin level urgently (within 2 hours). [2010] ... Arrange a referral to ensure that an urgent medical review is conducted (as soon as possible and within 6 hours) for babies with suspected or obvious jaundice in the first 24 hours of life to exclude pathological causes of jaundice. [2010]",
+   "url": "https://www.nice.org.uk/guidance/cg98/chapter/Recommendations"
+  },
+  "pass": "Serum bilirubin sample time ≤2 hours after the first documented observation of jaundice.",
+  "population": "Babies with jaundice first documented at under 24 hours of age on postnatal ward, transitional care or neonatal unit.",
+  "sample": "40 consecutive babies over the last 6 months (search bilirubin requests at age <24 hours plus midwifery notes).",
+  "data_source": "Midwifery/postnatal notes (time jaundice first noted); pathology system (sample time); medical notes (review time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "jaundice_first_noted_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serum_bilirubin_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_bilirubin",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "bilirubin_within_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "medical_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   },
+   {
+    "field": "phototherapy_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'early jaundice (<24 h)' escalation box to the postnatal NEWTT chart that triggers a same-hour bilirubin request and neonatal review call, with the time recorded.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 babies (extend window if needed), same template.",
+  "close_loop": "Present at the perinatal governance meeting. If it works, keep the chart box and add early-jaundice timing to the maternity safety dashboard.",
+  "evidence": [
+   "[145] bilirubin within 6 hours of jaundice: improved by third cycle via safety-briefing dissemination",
+   "[278] jaundiced infants in children's ED: triage gaps; triage education and bilirubin meter training",
+   "[3031] paediatric severe sepsis: time-critical steps met in under half at baseline"
+  ],
+  "pitfalls": [
+   "Time jaundice first noticed poorly recorded → use the first midwifery entry mentioning jaundice; record 'unknown' otherwise.",
+   "Transcutaneous reading used first → CG98 requires serum under 24 hours; count TcB alone as a fail and report separately.",
+   "Night-time phlebotomy delay → capture who took the sample.",
+   "Few cases → extend to 12 months if needed."
+  ],
+  "pearls": [
+   "Co-lead with a postnatal ward midwife.",
+   "Add a laminated flowchart at the TcB meter storage point.",
+   "Share each missed case at the maternity safety huddle.",
+   "Ask the lab to prioritise bilirubin on babies under 24 hours."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 babies"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies seen for prolonged jaundice have the full NICE screen, including a conjugated bilirubin?",
+  "why": "Prolonged jaundice clinics exist to catch biliary atresia early, and missing a conjugated bilirubin defeats that purpose. No audit of prolonged jaundice screening has been published in the library.",
+  "standard": {
+   "source": "NICE CG98 rec 1.7.1 (2010, amended 2023)",
+   "wording": "In babies with a gestational age of 37 weeks or more with jaundice lasting more than 14 days, and in babies with a gestational age of less than 37 weeks and jaundice lasting more than 21 days: look for pale chalky stools and/or dark urine that stains the nappy measure the conjugated bilirubin carry out a full blood count carry out a blood group determination (mother and baby) and DAT (Coombs' test). Interpret the result taking account of the strength of reaction, and whether mother received prophylactic anti‑D immunoglobulin during pregnancy consider a urine culture if there is clinical suspicion of a urinary tract infection ensure that routine metabolic screening (including screening for congenital hypothyroidism) has been performed. [2010, amended 2023]",
+   "url": "https://www.nice.org.uk/guidance/cg98/chapter/Recommendations"
+  },
+  "pass": "Stool and urine colour documented, conjugated bilirubin, FBC, blood group and DAT done, and newborn blood spot result confirmed, at the first prolonged jaundice visit.",
+  "population": "Babies referred to the prolonged jaundice clinic or ward attender service (term >14 days, preterm >21 days).",
+  "sample": "40 consecutive babies over the last 3 months.",
+  "data_source": "Prolonged jaundice clinic proforma or letter; pathology system; child health record for blood spot result.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "visit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stool_urine_colour_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "conjugated_bilirubin_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_group_and_dat_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_spot_result_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_screen_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all five"
+   },
+   {
+    "field": "conjugated_over_25",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, record referral date"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free-text clinic notes with a one-page prolonged jaundice proforma including a stool colour chart and a pre-ticked pathology order set (split bilirubin, FBC, group, DAT).",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 babies, same template.",
+  "close_loop": "Present at the neonatal/paediatric audit meeting. If it works, adopt the proforma for midwife- and GP-referred babies too.",
+  "evidence": [
+   "[3386] lithium clinic proforma: monitoring items to 92–100% (proforma works)",
+   "[3169] CAMHS monitoring: standardised letter and schedule raised complete physical parameters 42% → 56%",
+   "[145] bilirubin timing audit improved over three cycles (jaundice pathway re-audit is feasible)"
+  ],
+  "pitfalls": [
+   "Blood group of mother not requested because 'already known' → count as done only if the result is in the record.",
+   "Blood spot result not visible to hospital staff → agree access to the child health record before cycle 1.",
+   "Babies seen by midwives in the community → include only hospital clinic attendances in both cycles.",
+   "DAT not needed in some units' local policy → keep to NICE and note any agreed local variation."
+  ],
+  "pearls": [
+   "Include a stool colour card; it doubles as parent education.",
+   "Recruit the clinic nurse or phlebotomist who runs the session.",
+   "Track time to specialist referral for any conjugated bilirubin >25 µmol/L.",
+   "Keep the proforma in the clinic template library, not a personal folder."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 babies"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies born at or before 30 weeks' gestation start caffeine citrate before 3 days of age?",
+  "why": "Early caffeine reduces apnoea and bronchopulmonary dysplasia; NICE advises it routinely and early. Neonatal audits in the library cover probiotics and nutrition [3010][3016] but not caffeine timing.",
+  "standard": {
+   "source": "NICE NG124 rec 1.3.5 (2019)",
+   "wording": "Use caffeine citrate routinely in preterm babies born at or before 30 weeks, starting it as early as possible and ideally before 3 days of age.",
+   "url": "https://www.nice.org.uk/guidance/ng124/chapter/Recommendations"
+  },
+  "pass": "First caffeine citrate dose given before 72 hours of age.",
+  "population": "Babies born at ≤30+6 weeks admitted to the unit within 24 hours of birth. Exclude babies who died or were transferred out before 72 hours.",
+  "sample": "40 consecutive eligible babies over the last 12 months (use BadgerNet gestation filter).",
+  "data_source": "BadgerNet/neonatal EPR for gestation and birth time; EPMA for first caffeine dose time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_caffeine_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_caffeine",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "caffeine_before_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "loading_dose_mg_per_kg",
+    "type": "number",
+    "options": [],
+    "note": "Secondary: 20 mg/kg"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month retrospective); Wk 3 analyse/present; Wk 4 change; Wk 5–20 embed; Wk 21–22 re-audit all eligible babies since the change",
+  "change": "Add caffeine citrate loading and maintenance doses to the ≤30-week admission order set in EPMA, so it is prescribed at admission unless actively removed.",
+  "target": "≥95%",
+  "reaudit": "Wk 21–22: all eligible babies admitted since the change, same template.",
+  "close_loop": "Present at the neonatal governance meeting and network. If it works, keep the order set and add hours-to-caffeine to the unit dashboard.",
+  "evidence": [
+   "[3010] neonatal probiotics: 100% of eligible babies prescribed via unit protocol (routine order works)",
+   "[1529] arthroplasty analgesia: electronic order set 0% → 58% full protocol",
+   "[3016] NEON parenteral nutrition: started on time in only 2/5 babies under 31 weeks (timing gaps in admission care)"
+  ],
+  "pitfalls": [
+   "Few eligible babies in a local neonatal unit → use 12 months and consider joining with a network NICU.",
+   "Babies transferred in after 72 hours → exclude; record transfers separately.",
+   "Ventilated babies with delayed start by choice → record documented clinical reason; decide before cycle 1 whether a documented reason counts as a pass.",
+   "Order set not updated in the EPMA build → involve the pharmacy EPMA lead early."
+  ],
+  "pearls": [
+   "The neonatal pharmacist can build the order set in a week.",
+   "Look at caffeine stopping at 33–35 weeks (NICE 1.3.6) as a second measure.",
+   "Present hours-to-caffeine as a run chart.",
+   "Use BadgerNet reports so the next trainee can repeat it in an hour."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 babies from BadgerNet"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of preterm babies on supplemental oxygen have a documented target saturation range of 91–95%?",
+  "why": "Both high and low saturations harm preterm babies; NICE sets 91–95%. Oxygen prescribing is poor across children's wards [2976], and no neonatal target-range audit has been published in the library.",
+  "standard": {
+   "source": "NICE NG124 rec 1.4.2 (2019)",
+   "wording": "After initial stabilisation, aim for an oxygen saturation of 91% to 95% in preterm babies.",
+   "url": "https://www.nice.org.uk/guidance/ng124/chapter/Recommendations"
+  },
+  "pass": "A written target SpO2 range of 91–95% (on oxygen prescription, observation chart or monitor alarm record) on the audit day.",
+  "population": "Preterm babies (<37 weeks at birth, <44 weeks corrected) receiving supplemental oxygen or respiratory support on the audit day.",
+  "sample": "Point-prevalence on 10 separate days over 2 weeks (aim for 40 baby-days).",
+  "data_source": "Bedside observation chart, oxygen prescription in EPMA, monitor alarm limit check at the cot side (recorded by the auditor).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "corrected_gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "respiratory_support",
+    "type": "choice",
+    "options": [
+     "low-flow oxygen",
+     "high-flow",
+     "CPAP",
+     "ventilated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "target_range_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_range",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "range_is_91_to_95",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "monitor_alarm_limits_match",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   },
+   {
+    "field": "current_spo2",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Pre-set '91–95%' as the default target on the neonatal oxygen prescription in EPMA and on the observation chart header, with standard monitor alarm limits agreed by the unit.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: 10 further audit days, same template.",
+  "close_loop": "Present at the neonatal governance and nursing meetings. If it works, keep the default and add alarm-limit checks to the shift safety checklist.",
+  "evidence": [
+   "[2976] children's hospital oxygen: 0/14 → 4/18 prescribed after a chart with an oxygen section; target saturations 100% when prescribed",
+   "[524] oxygen prescription for children on the ward (re-audit) registered in the library",
+   "[114] neonatal thermoregulation: guideline update and monitoring system for a bedside standard"
+  ],
+  "pitfalls": [
+   "Point-prevalence counts the same baby repeatedly → report both baby-days and unique babies.",
+   "Babies near term with different targets → agree the corrected age cut-off (for example until ROP risk ends) before cycle 1.",
+   "Alarm limits changed by staff for comfort → record but do not make them a pass criterion in cycle 1.",
+   "Auditor presence changes behaviour → vary the audit days and times."
+  ],
+  "pearls": [
+   "Pair a trainee with a neonatal nurse champion for cot-side checks.",
+   "Photograph (without patient identifiers) examples of good charts for teaching.",
+   "Include ROP screening staff; they support tight targets.",
+   "Put the default in the EPMA build so it outlasts the rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per cot-side check"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies under 6 months with a first urinary tract infection that responds to treatment have a urinary tract ultrasound within 6 weeks?",
+  "why": "Ultrasound finds obstruction and reflux-related scarring in young infants; follow-up imaging is easily lost after discharge. The library lists one registry entry on UTI in under 16s [453] and no published closed-loop audit of imaging.",
+  "standard": {
+   "source": "NICE NG224 rec 1.3.2 (2022)",
+   "wording": "Send babies younger than 6 months with first-time UTI that responds to treatment for ultrasound within 6 weeks of the UTI, as outlined in table 4. [2007]",
+   "url": "https://www.nice.org.uk/guidance/ng224/chapter/Recommendations"
+  },
+  "pass": "Renal tract ultrasound performed (not just requested) within 42 days of the positive urine sample; for atypical UTI, ultrasound during the acute illness.",
+  "population": "Babies aged under 6 months with a culture-confirmed first UTI managed by paediatrics. Exclude known renal anomalies already under follow-up.",
+  "sample": "40 consecutive babies over the last 12 months (microbiology positive urine cultures filtered by age).",
+  "data_source": "Microbiology system (culture date, organism); PACS/RIS (ultrasound request and scan dates); discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "positive_urine_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "atypical_uti",
+    "type": "yes/no",
+    "options": [],
+    "note": "Per NG224 box 1"
+   },
+   {
+    "field": "ultrasound_requested_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_performed_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_to_ultrasound",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "ultrasound_within_6_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (acute scan if atypical)"
+   },
+   {
+    "field": "dmsa_mcug_requested_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'UTI imaging per NICE table 4' section to the paediatric discharge letter with the scan requested before discharge and a named person to check the scan happened.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 and again at 6 months: next 40 babies (the 6-week window needs follow-up time), same template.",
+  "close_loop": "Present at the paediatric and radiology interface meeting. If it works, keep the discharge template and give radiology a 6-week booking slot type for infant UTI.",
+  "evidence": [
+   "[453] urinary tract infection in under 16s: registered local audit in the library",
+   "[2345] urology: urine culture before antibiotics 83% (UTI process gaps)",
+   "[2667] paediatric discharge: one-click summary inserts raised key advice items to 73–100%"
+  ],
+  "pitfalls": [
+   "Scan requested but family did not attend → count as a fail for the pathway but record DNA separately.",
+   "Culture-negative 'UTIs' treated empirically → include only culture-confirmed cases.",
+   "Radiology waiting list beyond 6 weeks → share data with radiology; the fix may be a booking slot.",
+   "Re-audit too early → allow 6 weeks follow-up after the last case."
+  ],
+  "pearls": [
+   "Recruit a paediatric radiographer or sonographer lead.",
+   "Use microbiology reports to find cases rather than coding.",
+   "Also check DMSA and MCUG against tables 4–6 as secondary measures.",
+   "Build the imaging check into the virtual results clinic."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 babies from microbiology and PACS"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children presenting with a first suspected afebrile seizure have a 12-lead ECG recorded?",
+  "why": "Cardiac arrhythmias such as long QT can mimic seizures and are fatal if missed. ECG audits in the library are almost all in adults [3281][2890]; no paediatric first-seizure ECG audit has been published.",
+  "standard": {
+   "source": "NICE NG217 rec 1.2.2 (2022, updated 2026)",
+   "wording": "Evaluate people after a first suspected seizure with a 12-lead ECG to help identify cardiac-related conditions that could mimic an epileptic seizure. [2022]",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/1-Diagnosis-and-assessment-of-epilepsy"
+  },
+  "pass": "A 12-lead ECG recorded in ED, ward or first seizure clinic, with QTc documented, before or at the first specialist assessment.",
+  "population": "Children and young people aged 1 month to 16 years with a first suspected afebrile seizure seen in ED/PAU or first seizure clinic. Exclude simple febrile seizures and known epilepsy.",
+  "sample": "40 consecutive children over the last 6 months.",
+  "data_source": "ED/PAU record and first-seizure clinic letters; ECG management system or scanned ECGs.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "presentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "PAU",
+     "ward",
+     "first seizure clinic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ecg_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ecg_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qtc_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qtc_ms",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "eyewitness_or_video_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary, NICE 1.2.1"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add '12-lead ECG with QTc' as a mandatory item on the paediatric first-seizure proforma and the ED 'first seizure' triage order set.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 children, same template.",
+  "close_loop": "Present at the paediatric epilepsy and ED governance meetings. If it works, keep the order set and share with Epilepsy12 local lead.",
+  "evidence": [
+   "[3266] psychiatry admissions checklist: ECG 59% → 94%",
+   "[2426] upper abdominal pain: education and flyers raised ECG in over-40s 28% → 61%",
+   "[2890] surgical ECG stamp: documented review 33% → 51%"
+  ],
+  "pitfalls": [
+   "ECG done but not filed → search the ECG system as well as notes.",
+   "QTc not calculated by machine for young children → ask cardiology for a manual QTc protocol.",
+   "Febrile seizures included by mistake → apply the afebrile rule at case selection.",
+   "Clinic sees children already ECG'd in ED → count any ECG before clinic as a pass."
+  ],
+  "pearls": [
+   "Recruit the paediatric epilepsy nurse and Epilepsy12 lead; ECG is also an Epilepsy12 measure.",
+   "Put an ECG machine in the PAU so it is not borrowed from adult ED.",
+   "Teach nurses to record ECGs in children at induction.",
+   "Report any abnormal QTc found as a case study."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 children"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children treated for convulsive status epilepticus leave hospital with an individualised emergency management plan?",
+  "why": "Recurrent prolonged seizures are common, and a written rescue plan lets families and schools give buccal midazolam early. The library holds one learning-disability PRN midazolam audit [3154]; no paediatric audit of post-status emergency plans has been published.",
+  "standard": {
+   "source": "NICE NG217 rec 7.1.12 (2022, updated 2026)",
+   "wording": "After an episode of convulsive status epilepticus, agree an emergency management plan with the person if they do not already have one and there is concern that status epilepticus may recur. [2022]",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/7-Treating-status-epilepticus-repeated-or-cluster-seizures-and-prolonged-seizures"
+  },
+  "pass": "A written individualised emergency management plan (with rescue drug, dose and when to call 999) given to the family or confirmed already in place, documented by discharge; plus rescue medication prescribed.",
+  "population": "Children aged 1 month to 16 years admitted after convulsive seizure lasting ≥5 minutes or needing rescue medication. Exclude PICU deaths.",
+  "sample": "30 consecutive episodes over the last 12 months.",
+  "data_source": "Admission and discharge notes, discharge letter, EPMA discharge prescription, epilepsy nurse records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "episode_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_epilepsy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_already_in_place",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_plan_written",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_given_to_family",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_medication_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "school_copy_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a standard paediatric emergency seizure plan template (buccal midazolam) in the EPR that auto-populates from the discharge prescription and prints with the discharge letter.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 onwards: next 30 episodes (may need 6 months), same template.",
+  "close_loop": "Present at the paediatric epilepsy MDT. If it works, keep the template and share it with the school nursing team.",
+  "evidence": [
+   "[3154] learning disability: PRN buccal midazolam prescription and administration audit (adult setting)",
+   "[2667] paediatric discharge snippets: key safety items 21% → 93%",
+   "[3386] proforma safety-netting items rose to 92–100%"
+  ],
+  "pitfalls": [
+   "Plan exists in the epilepsy nurse file but not the notes → check epilepsy nurse records before marking a fail.",
+   "First presentation with status where recurrence risk unclear → accept a documented decision that no plan is needed.",
+   "Small numbers → extend to 12 months and report counts.",
+   "Template not used by ward doctors → have the epilepsy nurse review all admissions weekly."
+  ],
+  "pearls": [
+   "Co-lead with the paediatric epilepsy nurse specialist.",
+   "Use the regional or BPNA plan format families already know.",
+   "Check the rescue dose matches current weight.",
+   "Link plan issue to Epilepsy12 reporting."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children newly diagnosed with epilepsy have a documented discussion of epilepsy-related death risk, including SUDEP, with their parents or carers within 6 months of diagnosis?",
+  "why": "SUDEP discussion is often avoided in children's clinics, yet NICE asks for it from diagnosis. No audit of SUDEP counselling has been published in the library.",
+  "standard": {
+   "source": "NICE NG217 rec 10.1.4 (2022, updated 2026)",
+   "wording": "Discuss with people with epilepsy, and their families and carers if appropriate, their individual risk of epilepsy-related death, including SUDEP, from the time of diagnosis onwards. For young children, this discussion should be with the child's parents or carers. Discussion should include: supporting them to understand the risks of epilepsy-related death, including SUDEP exploring and agreeing ways to reduce the risks. [2022]",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/10-Reducing-the-risk-of-epilepsy-related-death-including-sudden-unexpected-death-in-epilepsy"
+  },
+  "pass": "Clinic letter or notes within 6 months of diagnosis record a discussion of SUDEP or epilepsy-related death and at least one risk-reduction measure.",
+  "population": "Children and young people diagnosed with epilepsy in the last 6–18 months in the general paediatric epilepsy clinic.",
+  "sample": "40 consecutive new diagnoses (Epilepsy12 case list).",
+  "data_source": "Clinic letters, epilepsy nurse notes, Epilepsy12 case list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seizure_type",
+    "type": "choice",
+    "options": [
+     "generalised tonic-clonic",
+     "focal to bilateral",
+     "focal only",
+     "absence",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sudep_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sudep_discussion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_reduction_measure_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sudep_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: within 6 months"
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Safety and SUDEP discussed (date, measures agreed)' heading to the paediatric epilepsy clinic letter template, and include a SUDEP Action leaflet in the new diagnosis pack.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: letters for the next 40 new diagnoses or new clinic contacts, same template.",
+  "close_loop": "Present at the paediatric epilepsy MDT and Epilepsy12 local meeting. If it works, keep the letter heading permanently.",
+  "evidence": [
+   "[3680] valproate in men: structured reviews and tracking raised risk discussions 17% → 87%",
+   "[3169] CAMHS letters: standardised letter templates improved documented monitoring",
+   "[2633] urology leaflets: email reminder raised leaflet provision 30% → 80%"
+  ],
+  "pitfalls": [
+   "Discussion held but not written down → the letter heading fixes this; do not accept verbal assurance in cycle 1.",
+   "Clinicians feel SUDEP talk is harmful at diagnosis → agree timing (within 6 months) and use NICE wording on individual risk.",
+   "Children with absence epilepsy only → keep them in; risk is low but discussion is still expected.",
+   "Letters dictated late → use clinic date, not letter date."
+  ],
+  "pearls": [
+   "Invite the epilepsy nurse to lead the first discussion, with a leaflet.",
+   "Use a short script agreed by the team.",
+   "Track Epilepsy12 measures alongside so the change counts twice.",
+   "Place the heading in the shared template so all consultants use it."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 letters"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of girls on sodium valproate under paediatric care have a valproate Annual Risk Acknowledgement Form completed in the last 12 months?",
+  "why": "MHRA 2024 measures require annual review and a signed ARAF for girls on valproate. Valproate audits in the library are all in psychiatry [3220][3680]; none cover paediatric epilepsy clinics.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, January 2024 (valproate regulatory measures; materials updated June 2025)",
+   "wording": "valproate must not be started in new patients (male or female) younger than 55 years, unless two specialists independently consider and document that there is no other effective or tolerated treatment, or there are compelling reasons that the reproductive risks do not apply ... at their next annual specialist review, women of childbearing potential and girls receiving valproate should be reviewed using the revised valproate Annual Risk Acknowledgement Form. A second specialist signature will be needed if the patient is to continue on valproate, however subsequent annual reviews will only require one specialist",
+   "url": "https://www.gov.uk/drug-safety-update/valproate-belvo-convulex-depakote-dyzantil-epilim-epilim-chrono-or-chronosphere-episenta-epival-and-syonellv-new-safety-and-educational-materials-to-support-regulatory-measures-in-men-and-women-under-55-years-of-age"
+  },
+  "pass": "Current ARAF signed within the last 12 months and filed in the record (second specialist signature present where required).",
+  "population": "Girls under 18 prescribed valproate for any indication by the paediatric service (including those not yet menstruating, per MHRA).",
+  "sample": "All eligible girls on the paediatric caseload (typically 10–30); census on one date.",
+  "data_source": "Pharmacy/EPMA and clinic prescribing lists; scanned ARAF in the EPR; clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "epilepsy",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "valproate_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_araf_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "araf_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "second_signature_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "If started or first review after Jan 2024"
+   },
+   {
+    "field": "alternative_treatment_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_review_booked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 census; Wk 3 analyse/present; Wk 4 set up register; Wk 5–12 review all overdue patients; Wk 13–14 repeat census",
+  "change": "Set up a paediatric valproate register held by the epilepsy nurse with ARAF due dates and an automatic clinic booking 1 month before expiry.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: repeat census of all girls on valproate, same template.",
+  "close_loop": "Present at the paediatric epilepsy MDT and drugs and therapeutics committee. If it works, hand the register to the epilepsy nurse and report quarterly to medication safety.",
+  "evidence": [
+   "[3220] general adult psychiatry: ARAF completion 3% → 54% after team contact",
+   "[3680] valproate safety: live ARAF tracking system with structured reviews reached 100% of eligible females reviewed",
+   "[3139] CMHT: 4/25 women registered on the pregnancy prevention programme; electronic alert planned"
+  ],
+  "pitfalls": [
+   "Girls started by tertiary neurology → count them; the local team shares responsibility for the annual review.",
+   "Pre-pubertal girls seen as out of scope → MHRA covers girls; agree this before cycle 1.",
+   "Form completed but not scanned → check with the epilepsy nurse before marking a fail.",
+   "Second specialist unavailable → set up a buddy consultant for countersigning."
+  ],
+  "pearls": [
+   "The register is the fix; the audit then becomes a quarterly check.",
+   "Pharmacy can supply the prescribing list in a day.",
+   "Include transition-age girls moving to adult services.",
+   "Share results with GP practices, which also hold ARAF duties."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per patient"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children on intravenous maintenance fluids have plasma electrolytes and glucose measured at least every 24 hours?",
+  "why": "Hospital-acquired hyponatraemia in children on IV fluids can cause death from cerebral oedema. One paediatric fluid audit [112] found electrolytes not checked daily, with feedback and induction only; adult fluid audits using posters stayed poor [2286].",
+  "standard": {
+   "source": "NICE NG29 rec 1.2.4, 1.2.5 and 1.4.4 (2015, updated 2020)",
+   "wording": "Measure plasma electrolyte concentrations using laboratory tests when starting IV fluids, and then at least every 24 hours or more frequently if there are electrolyte disturbances. ... Measure blood glucose when starting IV fluids, and then at least every 24 hours or more frequently if there is a risk of hypoglycaemia. ... Measure plasma electrolyte concentrations and blood glucose when starting IV fluids for routine maintenance (except before most elective surgery), and at least every 24 hours thereafter.",
+   "url": "https://www.nice.org.uk/guidance/ng29/chapter/Recommendations"
+  },
+  "pass": "Electrolytes and glucose measured at the start of IV maintenance fluids and no gap longer than 24 hours between measurements while fluids continue.",
+  "population": "Children aged 1 month to 16 years on IV maintenance fluids for ≥24 hours on paediatric medical or surgical wards. Exclude PICU, DKA (separate protocol) and neonatal unit.",
+  "sample": "40 consecutive eligible children over the last 2 months.",
+  "data_source": "Fluid prescription chart/EPMA (start and stop times, fluid type); pathology system (sodium, potassium, glucose times).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "fluid_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluid_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluid_type",
+    "type": "choice",
+    "options": [
+     "0.9% saline + 5% glucose",
+     "Plasma-Lyte + glucose",
+     "0.45% saline + glucose",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "baseline_electrolytes_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "baseline_glucose_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_gap_hours_between_electrolytes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_gaps_under_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (with baseline)"
+   },
+   {
+    "field": "lowest_sodium",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "isotonic_fluid_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary, NICE 1.4.3"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'U&E and glucose due by: __' field to the paediatric IV fluid prescription (EPMA task or chart box) that must be completed each time fluids are re-prescribed.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible children, same template.",
+  "close_loop": "Present at the paediatric and paediatric surgery governance meetings. If it works, keep the field and add sodium <130 mmol/L on IV fluids as an incident trigger.",
+  "evidence": [
+   "[112] paediatric IV fluid management: electrolytes not checked daily; feedback and induction teaching",
+   "[2286] adult maintenance fluids: posters and emails 16% → 38% correct fluid (education alone weak)",
+   "[1995] electronic prescribing with mandatory fields drove review dates 17% → 100%"
+  ],
+  "pitfalls": [
+   "Surgical patients under a different team → include both medical and surgical wards; report separately.",
+   "Point-of-care gas sodium used instead of lab → NICE says laboratory tests; count gas as a fail in cycle 1 but record it.",
+   "Fluids running at low 'keep vein open' rates → exclude KVO fluids explicitly.",
+   "Blood draws are distressing → coordinate with other planned bloods; note this in feedback."
+  ],
+  "pearls": [
+   "Recruit the paediatric pharmacist and the surgical ward sister.",
+   "Link to the NPSA hyponatraemia alert in teaching.",
+   "Report lowest sodium as a harm measure.",
+   "Put the field in the EPMA build so it outlasts the rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 children"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children treated for suspected anaphylaxis are referred to a paediatric allergy service before discharge?",
+  "why": "Children without allergy follow-up miss trigger identification and adrenaline auto-injector training. NICE re-issued the anaphylaxis guideline in 2026 (NG258); no anaphylaxis audit has been published in the library.",
+  "standard": {
+   "source": "NICE NG258 rec 1.1.12 (Referral to a specialist allergy service) and 1.1.15 (Discharge from A&E or inpatient care) (2026)",
+   "wording": "After emergency treatment for suspected anaphylaxis, offer the adult, young person or child a referral to a specialist allergy service (age-appropriate, where possible) consisting of healthcare professionals with the skills and competencies necessary to accurately investigate, diagnose, monitor and provide ongoing management of, and patient education about, anaphylaxis. [2011] ... At discharge following emergency treatment for suspected or known anaphylaxis, ensure the adult, young person or child has 2 in-date adrenaline auto-injectors (via a prescription, if needed) and knows when and how to use them, unless the anaphylaxis was due to a drug allergy and the drug can be easily avoided. [2011, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Referral-to-a-specialist-allergy-service"
+  },
+  "pass": "Referral to a paediatric allergy service sent (or documented as already under allergy care) by discharge.",
+  "population": "Children under 16 given IM adrenaline for suspected anaphylaxis in ED, PAU or ward.",
+  "sample": "40 consecutive episodes over the last 12 months (search ED coding and pharmacy adrenaline issue).",
+  "data_source": "ED record, discharge letter, referral system (e-RS or internal), EPMA/TTO for auto-injectors.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "episode_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_trigger",
+    "type": "choice",
+    "options": [
+     "food",
+     "drug",
+     "venom",
+     "unknown",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "allergy_referral_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "already_under_allergy_service",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "two_auto_injectors_supplied",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary, NICE 1.1.15"
+   },
+   {
+    "field": "device_training_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'anaphylaxis discharge bundle' to the ED/PAU EPR: a one-click paediatric allergy referral, two auto-injector TTO and a brand-specific training tick-box.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 onwards: next 40 episodes (may need 6 months), same template.",
+  "close_loop": "Present at ED–paediatric governance and to the allergy service. If it works, keep the bundle and send the allergy team a monthly case list.",
+  "evidence": [
+   "[2667] paediatric discharge snippets raised key safety advice 21% → 93%",
+   "[3266] checklist of required actions 53% → 94–100%",
+   "[2841] standard discharge leaflet reduced re-attendance after surgery"
+  ],
+  "pitfalls": [
+   "Anaphylaxis coded as allergic reaction → search adrenaline administration records, not only diagnosis codes.",
+   "Referral left to GP → NICE says offer referral; accept a documented GP referral request only if agreed locally before cycle 1.",
+   "Drug-allergy cases where the drug is easy to avoid → auto-injector criterion does not apply; mark N/A.",
+   "Low numbers → extend window to 12 months."
+  ],
+  "pearls": [
+   "Recruit the paediatric allergy nurse; they want the referrals.",
+   "Stock training pens in ED.",
+   "Include adolescents seen in adult ED.",
+   "Link the bundle to the Resuscitation Council anaphylaxis algorithm poster."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 episodes"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of babies born to mothers with hepatitis B receive their first dose of hepatitis B vaccine within 24 hours of birth?",
+  "why": "Timely birth vaccination prevents most perinatal hepatitis B transmission. No hepatitis B immunisation audit of newborns has been published in the library.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 18, hepatitis B (updated February 2026)",
+   "wording": "Post-exposure immunisation is provided to infants born to women with hepatitis B infection, identified through antenatal screening, to prevent perinatal transmission at or around the time of birth. Immunisation of the infant should start as soon as possible after birth, no later than 24 hours, following the neonatal post exposure schedule.",
+   "url": "https://assets.publishing.service.gov.uk/media/699c8d35e1c6bad1576fbc01/Green-book-on-immunisation-hepatitis-B-chapter_-_05022026.pdf"
+  },
+  "pass": "Hepatitis B vaccine administration time ≤24 hours after birth; HBIG given with it where indicated.",
+  "population": "All live-born babies of mothers who are HBsAg positive (antenatal screening) born in the unit. Exclude babies transferred out within 2 hours of birth.",
+  "sample": "All eligible babies over the last 24 months (typically 15–40 in a DGH).",
+  "data_source": "Antenatal screening coordinator list; maternity/neonatal EPR (birth time); vaccine and HBIG administration records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "maternal_high_infectivity",
+    "type": "yes/no",
+    "options": [],
+    "note": "Determines HBIG"
+   },
+   {
+    "field": "vaccine_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_vaccine",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "vaccine_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hbig_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbig_given_with_vaccine",
+    "type": "yes/no",
+    "options": [],
+    "note": "If indicated"
+   },
+   {
+    "field": "follow_up_doses_notified_to_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary"
+   }
+  ],
+  "timeline": "Wk 1–2 collect (24-month retrospective); Wk 3 analyse/present; Wk 4 change; Wk 5–24 embed; Wk 25–26 re-audit all eligible babies since the change",
+  "change": "Add a hepatitis B birth-plan alert to the maternity EPR at booking that prints a prescription for the baby's vaccine (and HBIG if indicated) into the delivery pack.",
+  "target": "100%",
+  "reaudit": "Wk 25–26: all eligible babies born since the change, same template.",
+  "close_loop": "Present at the antenatal and newborn screening board. If it works, keep the alert and add birth-dose timing to the screening coordinator's quarterly report.",
+  "evidence": [
+   "[319] antenatal and newborn screening completion: good compliance, no change needed",
+   "[2312] post-splenectomy: 21–34% missed recommended vaccines (vaccination gaps without a system)",
+   "[3680] valproate safety: live tracking system raised required actions to 83–100%"
+  ],
+  "pitfalls": [
+   "Small numbers → use 24 months and report each missed case.",
+   "HBIG ordered late from UKHSA → record HBIG order date; the Green Book allows HBIG up to 7 days but aims for the same time as vaccine.",
+   "Vaccine given but time not recorded → count as unknown, not a pass.",
+   "Mother's status unknown at delivery → include and record whether an urgent HBsAg test was done."
+  ],
+  "pearls": [
+   "Co-lead with the antenatal screening coordinator.",
+   "Keep vaccine stock in the delivery suite fridge.",
+   "Notify GP and health visitor for the 4-week and 12-month doses and dried blood spot test.",
+   "Review with the UKHSA health protection team annually."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per baby"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of preterm babies still on the neonatal unit at 8 weeks of age receive their first routine immunisations within 7 days of the due date?",
+  "why": "Preterm babies are at the highest risk from pertussis and pneumococcal disease, yet vaccines are often deferred on the unit. No neonatal immunisation audit has been published in the library; vaccine uptake audits elsewhere show large gaps [2952][2312].",
+  "standard": {
+   "source": "UKHSA Green Book chapter 11, UK immunisation schedule (updated March 2026)",
+   "wording": "It is important that premature infants have their immunisations at the appropriate chronological age (counted from their date of birth), in accordance with the national routine immunisation schedule. As the benefit of vaccination is high in this group of infants, vaccination should not be withheld or delayed.",
+   "url": "https://assets.publishing.service.gov.uk/media/69cbb5ef8017673ffec0f313/Green-book-chapter-11-immunisation-schedules_30_03_26.pdf"
+  },
+  "pass": "All 8-week vaccines (per the current schedule) given between day 56 and day 63 of chronological age, recorded in the red book and neonatal EPR.",
+  "population": "Babies born preterm who are inpatients on the neonatal unit on day 56 of life.",
+  "sample": "All eligible babies over the last 12 months (typically 20–40).",
+  "data_source": "BadgerNet/neonatal EPR (birth date, discharge date), vaccine administration record, red book copy.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "due_date_8_weeks",
+    "type": "date",
+    "options": [],
+    "note": "Birth date + 56 days"
+   },
+   {
+    "field": "vaccine_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_late",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "apnoea_monitoring_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary, for babies born ≤28 weeks"
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month retrospective); Wk 3 analyse/present; Wk 4 change; Wk 5–20 embed; Wk 21–22 re-audit all eligible babies since the change",
+  "change": "Add an automatic 'immunisations due' date to the BadgerNet daily summary and the ward-round board from admission, with pre-filled vaccine prescriptions ready on day 56.",
+  "target": "≥90%",
+  "reaudit": "Wk 21–22: all eligible babies since the change, same template.",
+  "close_loop": "Present at the neonatal governance meeting and to the local immunisation coordinator. If it works, keep the automatic due date and report quarterly.",
+  "evidence": [
+   "[2952] paediatric rheumatology: only 42% of MDT-recommended MMR/VZV vaccines administered",
+   "[2986] asthmatic children: influenza vaccine uptake 31.2%",
+   "[3010] neonatal unit probiotics: protocolised prescribing reached 100% of eligible babies"
+  ],
+  "pitfalls": [
+   "Unwell babies deferred appropriately → accept a documented clinical reason reviewed by a consultant as a pass; decide before cycle 1.",
+   "Vaccine stock not held on the unit → arrange pharmacy supply first.",
+   "Babies discharged just before day 56 → exclude; they fall to primary care.",
+   "Schedule changes (for example 2025–2026 changes) → use the schedule in force on the due date."
+  ],
+  "pearls": [
+   "Recruit the neonatal discharge coordinator.",
+   "Put the due date on the cot card.",
+   "Tell parents the date at the 2-week update.",
+   "Check the red book is filled so the GP does not repeat doses."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per baby from BadgerNet"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of term babies at risk of hypoglycaemia have their first blood glucose measured before the second feed, 2 to 4 hours after birth?",
+  "why": "Hypoglycaemia is a leading cause of term admission to neonatal units; testing too early or too late leads to unnecessary admissions or missed low glucose. Registry entries on neonatal hypoglycaemia exist [137][473] but no audit against the 2024 BAPM framework has been published.",
+  "standard": {
+   "source": "BAPM Framework for Practice: Identification and Management of Neonatal Hypoglycaemia in the Full Term Infant, Practice Point 15 (2024)",
+   "wording": "Measure the BG level before the second feed (2 to 4 hours after birth). If the baby shows feeding cues before 2 hours do not restrict feeding and allow baby to feed. Measure BG immediately if there are clinical signs suggestive of hypoglycaemia (Practice Point 2).",
+   "url": "https://hubble-live-assets.s3.eu-west-1.amazonaws.com/bapm/file_asset/file/2864/Identification_and_Management_of_Neonatal_Hypoglycaemia_Sept_24.pdf"
+  },
+  "pass": "First blood glucose taken between 2 and 4 hours after birth (or earlier only if clinical signs documented).",
+  "population": "Babies ≥37 weeks with a BAPM risk factor (maternal diabetes, maternal beta-blocker, birthweight <2nd centile, and others per framework) on the postnatal ward or transitional care. Exclude babies admitted to NNU before 2 hours.",
+  "sample": "40 consecutive at-risk babies over the last 4 weeks.",
+  "data_source": "NEWTT2 chart and blood glucose record (POCT middleware); birth time from maternity EPR; feeding chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor",
+    "type": "choice",
+    "options": [
+     "maternal diabetes",
+     "maternal beta-blocker",
+     "birthweight <2nd centile",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_feed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_bg_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_first_bg",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "clinical_signs_before_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_bg_timed_correctly",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "first_bg_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nnu_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "Balancing measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'first BG due at __:__ (birth + 2–4 h, before 2nd feed)' box to the NEWTT2 chart for at-risk babies, completed by the midwife at birth.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 at-risk babies, same template.",
+  "close_loop": "Present at the perinatal governance meeting and ATAIN (avoiding term admissions) group. If it works, keep the chart box and track term admissions for hypoglycaemia.",
+  "evidence": [
+   "[473] neonatal observation chart and hypoglycaemia: registered maternity audit",
+   "[137] at-risk newborn identification and hypoglycaemia: good compliance, maintain",
+   "[519] avoiding term admissions to the neonatal unit: registered maternity audit"
+  ],
+  "pitfalls": [
+   "Birth time and BG time from different systems with clock drift → check POCT meter clocks before cycle 1.",
+   "Risk factors missed at birth → report risk identification as a secondary item.",
+   "Babies tested at 1 hour 'to be safe' → share the framework rationale (normal physiological dip).",
+   "Midwife workload at night → keep the chart box simple."
+  ],
+  "pearls": [
+   "Co-lead with a postnatal ward midwife and the infant feeding lead.",
+   "POCT middleware gives exact BG times; ask the POCT team for the download.",
+   "Pair with feeding support measures from the same framework.",
+   "Report term NNU admissions as the outcome that matters to managers."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 babies"
+ },
+ {
+  "area": "Paediatrics and neonatology",
+  "question": "What proportion of children admitted with an acute medical problem are seen by a consultant paediatrician within 14 hours of admission?",
+  "why": "Early consultant review shortens stays and prevents missed deterioration. A paediatric assessment unit re-audit in the library gave limited assurance [523]; consultant-review audits in surgery used education only (70% → 80%) [2366].",
+  "standard": {
+   "source": "RCPCH Facing the Future: Standards for Acute General Paediatric Services, standard 2 (2015)",
+   "wording": "Every child who is admitted to a paediatric department with an acute medical problem is seen by a consultant paediatrician* within 14 hours of admission, with more immediate review as required according to illness severity or if a member staff is concerned.",
+   "url": "https://www.rcpch.ac.uk/resources/facing-future-standards-acute-general-paediatric-services"
+  },
+  "pass": "First documented review by a consultant (or equivalent on the consultant rota) within 14 hours of the admission decision time.",
+  "population": "Children admitted to the paediatric ward or PAU with an acute medical problem. Exclude elective admissions and direct transfers to PICU.",
+  "sample": "50 consecutive admissions over 2 weeks, including weekends.",
+  "data_source": "Patient administration system (admission time); EPR/clerking notes (consultant review entry with name and time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "day_of_week",
+    "type": "choice",
+    "options": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri",
+     "Sat",
+     "Sun"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_consultant",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "within_14h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_documented_by_name",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharged_before_consultant_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'consultant review: name, date, time' mandatory field to the paediatric post-take ward-round template and show 'awaiting consultant' flags on the electronic whiteboard.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 50 consecutive admissions, same template.",
+  "close_loop": "Present at the paediatric department meeting and to the clinical director with rota data. If it works, keep the whiteboard flag and report monthly.",
+  "evidence": [
+   "[2366] emergency surgery: consultant review within target 70% → 80% with education and email reminders",
+   "[523] paediatric assessment unit short-stay standards: limited assurance, moderate risk",
+   "[3566] structured MDT template 0–15% → 100% completion"
+  ],
+  "pitfalls": [
+   "Consultant review not time-stamped → the template field fixes this; in cycle 1 use the note time and mark 'untimed' separately.",
+   "Night admissions reviewed at a morning ward round after 14 hours → analyse by admission hour to support rota discussions.",
+   "Registrar reviews on behalf of consultants → only count staff on the consultant rota, as RCPCH defines.",
+   "Short-stay discharges by registrars → record separately (standard 4 covers them)."
+  ],
+  "pearls": [
+   "Involve the clinical director early; the fix may be rota change, not documentation.",
+   "Include weekends in both cycles.",
+   "Plot hours-to-review by admission hour.",
+   "Share results with the RCPCH regional lead as part of Facing the Future benchmarking."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 admissions"
+ }
+]

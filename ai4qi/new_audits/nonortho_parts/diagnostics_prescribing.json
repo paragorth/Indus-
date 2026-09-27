@@ -1,0 +1,2555 @@
+[
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of red cell transfusions in adults without active bleeding are given as a single unit followed by a clinical reassessment and haemoglobin check before any further unit?",
+  "why": "Back-to-back two-unit transfusions persist: 20.5% of surgical units were given back-to-back without reassessment [2539] and only 54.2% of orthopaedic prescriptions were single-unit [1254]. No closed-loop audit of the single-unit-then-reassess step itself has been published in the library.",
+  "standard": {
+   "source": "NICE NG24 recs 1.6.1 and 1.6.2 (2015, updated February 2026)",
+   "wording": "1.6.1 Consider single‑unit red blood cell transfusions for adults (or equivalent volumes calculated based on body weight for children or adults with low body weight) who do not have active bleeding. [2015] 1.6.2 After each single‑unit red blood cell transfusion (or equivalent volumes calculated based on body weight for children or adults with low body weight), clinically reassess and check haemoglobin levels, and give further transfusions if needed. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "One unit prescribed per episode, and a documented clinical review plus a post-transfusion haemoglobin result before any second unit was started.",
+  "population": "Adults (≥18) receiving red cells on medical or surgical wards. Exclude major haemorrhage, active bleeding, acute coronary syndrome, and chronic transfusion-dependent anaemia.",
+  "sample": "40 consecutive eligible transfusion episodes over the last 6–8 weeks.",
+  "data_source": "Blood bank LIMS issue list for case finding; electronic or paper transfusion prescription for units per episode; notes for reassessment; lab system for post-transfusion Hb time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "transfusion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_specialty",
+    "type": "choice",
+    "options": [
+     "medicine",
+     "surgery",
+     "orthopaedics",
+     "haematology/oncology",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb_g_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_prescribed_in_episode",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_unit_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "post_unit_hb_checked_before_next_unit",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2; 'n/a' if no further unit"
+   },
+   {
+    "field": "clinical_reassessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3"
+   },
+   {
+    "field": "further_units_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_two_units_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the transfusion prescription (paper or EPR order set) so one unit is the default, with a mandatory free-text reason to order more than one.",
+  "target": "≥80% of episodes single-unit with reassessment",
+  "reaudit": "Week 13–14, same template, next 40 consecutive episodes.",
+  "close_loop": "Present at the Hospital Transfusion Committee and medical/surgical governance; if it works, make the single-unit default permanent in the order set and add to the transfusion practitioner's quarterly dashboard.",
+  "evidence": [
+   "[2539] General surgery: 40.2% of units per NICE, 20.5% back-to-back → teaching and posters",
+   "[1294] Orthopaedics: inappropriate transfusions 73.5% → 45.5% (teaching and induction booklet)",
+   "[3028] Haematology: appropriate albumin use 30% → 50% (new electronic order set plus education)"
+  ],
+  "pitfalls": [
+   "Active bleeding is hard to judge from notes → agree a simple definition (drop in Hb with visible bleeding or haemodynamic instability) before cycle 1.",
+   "Blood bank issues two units at once for convenience → agree with the lab that the second unit is issued only on request.",
+   "Clinicians object in low-weight or very anaemic patients → allow a documented reason as a pass.",
+   "Small numbers on one ward → pool across the hospital.",
+   "Order-set change delayed by IT → use a paper sticker on the prescription in the interim."
+  ],
+  "pearls": [
+   "Recruit the hospital transfusion practitioner early; they already have issue data.",
+   "Report 'units saved' alongside compliance; it persuades managers.",
+   "Pair with the Hb threshold field so you do not double count threshold audits.",
+   "Hand the dashboard to the transfusion team so it survives your rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 episodes from LIMS and EPR"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adult platelet transfusions are followed by a platelet count before a further dose is given?",
+  "why": "Platelet use has had little audit outside paediatric oncology [459]. No closed-loop audit of the post-transfusion platelet count or single-dose rule has been published in the library.",
+  "standard": {
+   "source": "NICE NG24 recs 1.8.1 and 1.8.3 (2015, updated February 2026)",
+   "wording": "1.8.1 Do not routinely transfuse more than a single dose of platelets. [2015] ... 1.8.3 Reassess the person's clinical condition and check their platelet count after each platelet transfusion, and give further doses if needed. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Platelet-transfusion"
+  },
+  "pass": "A single adult dose given, and a platelet count taken after it and before any further dose (or within 24 hours if no further dose).",
+  "population": "Adults receiving platelets outside major haemorrhage protocols. Exclude neonates and children.",
+  "sample": "40 consecutive platelet transfusions over the last 2–3 months.",
+  "data_source": "Blood bank LIMS for issue times and doses; lab system for platelet counts and times; notes for clinical reassessment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "transfusion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "prophylactic, no procedure",
+     "before procedure/surgery",
+     "bleeding",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_platelets_x10_9_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_given_in_episode",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_dose_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "post_transfusion_count_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "count_checked_before_next_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "clinical_reassessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "low_bleeding_risk_procedure",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. CVC or bone marrow biopsy; NG24 1.7.8"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 'post-transfusion platelet count' request to the platelet order set in the EPR (or a sticker on the prescription).",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, same template, next 40 transfusions.",
+  "close_loop": "Present to the Hospital Transfusion Committee and haematology governance; keep the linked order if it works and add the metric to the transfusion team's audit programme.",
+  "evidence": [
+   "[3028] Haematology: appropriate albumin use 30% → 50% (electronic order set, education)",
+   "[1434] Orthopaedics: cross-match waste fell 96% (routine day 2 blood count built into pathway)",
+   "[459] Paediatric oncology: platelet and red cell use against national standards (baseline only)"
+  ],
+  "pitfalls": [
+   "Haematology day-unit patients go home before a count → accept a count at next attendance if documented plan.",
+   "Doses are recorded as bags not adult doses → confirm dose conversion with blood bank.",
+   "Pre-procedure transfusions often skip the count → note procedure type separately.",
+   "Order-set change needs IT time → start with a printed sticker."
+  ],
+  "pearls": [
+   "The transfusion practitioner can pull issue and count data in one report.",
+   "Present the cost per platelet dose; it gets attention.",
+   "Flag low-bleeding-risk procedures (NG24 1.7.8) as a secondary finding for a later cycle."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 transfusions from LIMS"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults transfused during an admission have a discharge summary that tells the GP they were transfused and why?",
+  "why": "Transfusion communication at discharge has not been audited in the library; one audit found only 51.5% of transfused surgical patients had it in the discharge letter [1473]. Mandatory discharge fields work elsewhere (0% → 92.9%) [1337].",
+  "standard": {
+   "source": "NICE NG24 rec 1.14.4 (2015, updated February 2026)",
+   "wording": "Provide the person and their GP with copies of the discharge summary or other written communication that explains: the details of any transfusions they had the reasons for the transfusion any adverse events that they are no longer eligible to donate blood. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Patient-information"
+  },
+  "pass": "Discharge summary states that a transfusion was given, the component, the reason, any reaction (or none) and that the patient can no longer donate blood.",
+  "population": "Adults transfused with any blood component and discharged alive. Exclude deaths and transfers to another hospital.",
+  "sample": "40 consecutive transfused adults discharged over the last 2 months.",
+  "data_source": "Blood bank LIMS for transfused patient list; electronic discharge summary for content.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "component",
+    "type": "choice",
+    "options": [
+     "red cells",
+     "platelets",
+     "FFP",
+     "cryoprecipitate",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "transfusion_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "reason_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "adverse_event_status_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3"
+   },
+   {
+    "field": "donation_ineligibility_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 4"
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Blood products given this admission' section to the electronic discharge template, auto-populated from blood bank data where possible, with fixed text on donation.",
+  "target": "≥90% all four items",
+  "reaudit": "Week 13–14, same template, next 40 discharges.",
+  "close_loop": "Present at the Hospital Transfusion Committee and the discharge summary working group; embed the template section trust-wide.",
+  "evidence": [
+   "[1337] Orthopaedics: imaging results in discharge summaries 0% → 92.9% (mandatory field)",
+   "[1647] Orthopaedics: allergy documented 66% → 100% (structured electronic form)",
+   "[1473] Haematology: 51.5% of transfused surgical patients had it recorded at discharge (baseline)"
+  ],
+  "pitfalls": [
+   "Transfusion in theatre is missed by ward doctors → pull cases from LIMS, not notes.",
+   "IT will not auto-populate → a free-text heading still works.",
+   "Donation wording seen as irrelevant in older patients → keep it; it is part of the standard.",
+   "Gains fade after rotation → make the heading mandatory."
+  ],
+  "pearls": [
+   "The transfusion practitioner can send the list weekly.",
+   "Ask the GP practice liaison for one example of a missed transfusion; it makes the case.",
+   "Keep the fixed text short: one line per item."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adult inpatients on intravenous antibiotics have a documented review decision within 72 hours of the first dose?",
+  "why": "Review or stop dates were as low as 17% before e-prescribing forced the field [1995]; surgical ward rounds recorded antibiotic review in 15% [2151]. Most medical-ward audits look at choice, not the 48–72 hour decision.",
+  "standard": {
+   "source": "NICE NG15 rec 1.1.39 (2015); UKHSA Start Smart Then Focus toolkit (2023)",
+   "wording": "Consider reviewing intravenous antimicrobial prescriptions at 48–72 hours in all health and care settings (including community and outpatient services). Include response to treatment and microbiological results in any review, to determine if the antimicrobial needs to be continued and, if so, whether it can be switched to an oral antimicrobial.",
+   "url": "https://www.nice.org.uk/guidance/ng15/chapter/Recommendations"
+  },
+  "pass": "A dated note or chart entry between 48 and 72 hours recording one of: stop, switch to oral, change, continue with review date, or OPAT.",
+  "population": "Adults started on IV antibiotics on medical or surgical wards. Exclude prophylaxis, ICU and deaths before 48 hours.",
+  "sample": "40 consecutive patients over 2 weeks (point-prevalence style across several wards).",
+  "data_source": "Electronic prescribing (or drug chart) for start time; notes and ward round entries for review decision; microbiology system for results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "first_iv_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_48_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "stop",
+     "IV to oral switch",
+     "change agent",
+     "continue IV with review date",
+     "OPAT",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "micro_results_referenced",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_iv_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 48–72 hour 'antimicrobial review' prompt in the e-prescribing system (or a review sticker on the paper chart) with the five decision options.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, same wards and sample size.",
+  "close_loop": "Present at the antimicrobial stewardship committee and medical governance; keep the prompt and add the measure to the AMS pharmacist's monthly point-prevalence.",
+  "evidence": [
+   "[1995] General surgery: review/stop dates 17% → 100% (e-prescribing forced fields, microbiology round)",
+   "[1923] Care of the elderly: end-date documentation 75% → 85% (poster, teaching)",
+   "[901] Orthopaedics: antibiotic review at 48 hours absent → prompt"
+  ],
+  "pitfalls": [
+   "Review happens verbally on rounds but is not written → count only written decisions and say so.",
+   "Weekend starts miss the window → record day of start and analyse separately.",
+   "Prompt fatigue if the pop-up fires daily → set it once at 48 hours.",
+   "Definitions drift between cycles → fix the 48–72 hour window in advance."
+  ],
+  "pearls": [
+   "Partner with the AMS pharmacist; they already run point-prevalence sweeps.",
+   "Use the Start Smart Then Focus five decisions as the drop-down list.",
+   "Feed back ward-level results; competition helps."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of patients on repeat antibiotic prescriptions for more than 6 months have a documented review of the need to continue in the last 6 months?",
+  "why": "Long-term oral antibiotics (acne, UTI prophylaxis, COPD) sit on repeat templates; one acne audit found courses up to 7.5 months and 22% adherence [1971]. No primary care audit of repeat antibiotic review has been published in the library.",
+  "standard": {
+   "source": "NICE NG15 rec 1.1.37 (2015)",
+   "wording": "Do not issue repeat prescriptions for antimicrobials unless needed for a particular clinical condition or indication. Avoid issuing repeat prescriptions for longer than 6 months without review and ensure adequate monitoring for individual patients to reduce adverse drug reactions and to check whether continuing an antimicrobial is really needed.",
+   "url": "https://www.nice.org.uk/guidance/ng15/chapter/Recommendations"
+  },
+  "pass": "Coded or written medication review in the last 6 months that names the antibiotic and records the decision to continue or stop, with the indication.",
+  "population": "Patients of any age with an oral antibiotic on an active repeat template for more than 6 months. Exclude specialist-led prophylaxis (e.g. post-splenectomy, cystic fibrosis) where a hospital letter in the last 6 months covers it.",
+  "sample": "All patients found by the search (usually 30–60 in a mid-sized practice).",
+  "data_source": "EMIS/SystmOne repeat template search; consultation records; hospital letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "antibiotic",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "acne/rosacea",
+     "UTI prophylaxis",
+     "COPD/bronchiectasis",
+     "cellulitis prophylaxis",
+     "other",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "monitoring_bloods_if_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. LFTs for nitrofurantoin long term"
+   },
+   {
+    "field": "outcome_after_review",
+    "type": "choice",
+    "options": [
+     "continued",
+     "stopped",
+     "changed",
+     "not reviewed"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a 6-month maximum review date on every antibiotic repeat template and add an antibiotic line to the practice repeat-prescribing protocol for the clinical pharmacist.",
+  "target": "≥90%",
+  "reaudit": "Re-run the same search at week 13–14.",
+  "close_loop": "Present at the practice clinical meeting and PCN prescribing group; add the search to the practice pharmacist's quarterly schedule.",
+  "evidence": [
+   "[1761] General practice: falls medication review within 4 weeks 22% → 94% (SystmOne prompts, MDT)",
+   "[2959] General practice: gout managed to NICE 58.8% → 87.7% (clinician education)",
+   "[1971] Dermatology: lymecycline adherence 22%, courses up to 7.5 months (baseline)"
+  ],
+  "pitfalls": [
+   "Specialist letters say 'continue' without a review → accept only if dated in last 6 months.",
+   "Patients object to stopping acne antibiotics → offer a topical plan at review.",
+   "Search misses acute issues repeated manually → search issues, not only templates.",
+   "Gains fade → the review date on the template is the lasting fix."
+  ],
+  "pearls": [
+   "Recruit the PCN clinical pharmacist; this is squarely their work.",
+   "Run the search before and after with the same saved report.",
+   "Report the number of antibiotic courses avoided."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EMIS/SystmOne"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adult inpatients with a recorded drug allergy have the reaction and the date it happened documented?",
+  "why": "Allergy status is usually recorded, but the reaction is not: nature of reaction 43% then 31% after teaching alone [1912]. No audit in the library has used a system change to fix reaction and date fields.",
+  "standard": {
+   "source": "NICE CG183 rec 1.2.2 (2014)",
+   "wording": "If drug allergy status has been documented, record all of the following at a minimum: the drug name the signs, symptoms and severity of the reaction (see recommendation 1.1.1) the date when the reaction occurred.",
+   "url": "https://www.nice.org.uk/guidance/cg183/chapter/Recommendations"
+  },
+  "pass": "For every listed drug allergy: drug name, reaction with severity, and date (year acceptable) recorded in the allergy field.",
+  "population": "Adult inpatients with at least one drug allergy on the EPR or drug chart. Exclude 'no known drug allergy' and 'unable to ascertain'.",
+  "sample": "40 consecutive patients with a listed drug allergy on 3–4 wards over 1 week.",
+  "data_source": "EPR allergy module or drug chart front page; admission clerking.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_allergies_listed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_named",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "reaction_described",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "severity_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3"
+   },
+   {
+    "field": "date_or_year_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 4"
+   },
+   {
+    "field": "penicillin_label",
+    "type": "yes/no",
+    "options": [],
+    "note": "For a later de-labelling cycle"
+   },
+   {
+    "field": "all_items_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make reaction, severity and date mandatory fields in the EPR allergy entry (or add three boxes to the paper drug chart allergy panel).",
+  "target": "≥90% all items",
+  "reaudit": "Week 13–14, same wards.",
+  "close_loop": "Present at the Medicines Safety Group; if it works, make the fields mandatory trust-wide and add to pharmacy medicines reconciliation checks.",
+  "evidence": [
+   "[1912] Pharmacy: nature of reaction documented 43% → 31% (education session alone)",
+   "[2017] General surgery: alerts/allergies on drug charts 18% → 72% (results circulated)",
+   "[834] Orthopaedics: allergy documentation missing → mandatory field"
+  ],
+  "pitfalls": [
+   "Patients cannot recall the date → accept year or 'childhood' and pre-agree this.",
+   "Mandatory fields invite 'unknown' → audit the rate of 'unknown' separately.",
+   "IT change takes months → use pharmacy reconciliation to complete fields meanwhile.",
+   "Old allergy imports from primary care lack detail → count them but analyse separately."
+  ],
+  "pearls": [
+   "Ward pharmacists can complete the data and the fix; recruit them.",
+   "Show one real near-miss where 'penicillin' meant nausea; it lands well.",
+   "Use penicillin labels as the seed for a de-labelling project."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients on the ward"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of oral methotrexate prescriptions state the day of the week to take it in full?",
+  "why": "Inadvertent daily dosing of weekly methotrexate still causes deaths. Methotrexate audits in the library cover monitoring [2966][1982]; none measure the MHRA day-of-week wording.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, 'Methotrexate once-weekly for autoimmune diseases: new measures to reduce risk of fatal overdose' (23 September 2020)",
+   "wording": "decide with the patient which day of the week they will take their methotrexate and note this day down in full on the prescription",
+   "url": "https://www.gov.uk/drug-safety-update/methotrexate-once-weekly-for-autoimmune-diseases-new-measures-to-reduce-risk-of-fatal-overdose-due-to-inadvertent-daily-instead-of-weekly-dosing"
+  },
+  "pass": "Prescription directions name the weekday in full (e.g. 'once a week on MONDAY').",
+  "population": "Patients prescribed oral methotrexate once weekly (GP repeats, or hospital inpatient and discharge prescriptions). Exclude oncology high-dose regimens.",
+  "sample": "All practice patients on oral methotrexate (usually 30–50), or 40 consecutive hospital prescriptions.",
+  "data_source": "EMIS/SystmOne repeat templates or e-prescribing directions; discharge TTOs.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "GP repeat",
+     "inpatient chart",
+     "discharge TTO"
+    ],
+    "note": ""
+   },
+   {
+    "field": "once_weekly_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekday_named_in_full",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tablet_strength",
+    "type": "choice",
+    "options": [
+     "2.5 mg only",
+     "10 mg only",
+     "both strengths"
+    ],
+    "note": ""
+   },
+   {
+    "field": "folic_acid_day_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescriber_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Edit every methotrexate repeat template (or the EPR order sentence) so the weekday must be picked from a drop-down before issue.",
+  "target": "100%",
+  "reaudit": "Re-run search/prescription sample at week 13–14.",
+  "close_loop": "Present at practice or Medicines Safety Group; embed the locked order sentence and add to the annual PINCER-style safety search.",
+  "evidence": [
+   "[1982] Dermatology: baseline severity score 14% → 86% (standardised electronic initiation template)",
+   "[1529] Orthopaedics: protocol compliance 0% → 58% (electronic order set)",
+   "[2966] Rheumatology: methotrexate monitoring 35%, unchanged after blood clerk"
+  ],
+  "pitfalls": [
+   "Hospital shared-care letters override GP templates → check both.",
+   "Mixed 2.5 mg and 10 mg strengths → record as a secondary safety flag.",
+   "Prescribers write 'weekly' and think it enough → the standard needs the day.",
+   "Template edits lost when a new strength is added → recheck at re-audit."
+  ],
+  "pearls": [
+   "Practice pharmacists can fix templates in an afternoon.",
+   "Ask community pharmacy to report prescriptions without a day.",
+   "The same search works for weekly oral bisphosphonates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of isotretinoin follow-up appointments record a mental health patient-reported outcome score and a question about sexual function?",
+  "why": "The MHRA replaced the under-18 second prescriber with other measures in January 2026 and expects services to take part in audit. No isotretinoin audit exists in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, 'Isotretinoin: changes to prescribing guidance and additional risk minimisation measures' (22 January 2026)",
+   "wording": "prescribers should monitor patients for side effects including mental health and sexual function side effects at each follow up appointment including objective mental health patient reported outcome measures",
+   "url": "https://www.gov.uk/drug-safety-update/isotretinoin-changes-to-prescribing-guidance-and-additional-risk-minimisation-measures"
+  },
+  "pass": "Each follow-up entry records a validated mental health PROM score (e.g. PHQ-9, GAD-7, PHQ-A) and a documented question about sexual function.",
+  "population": "Patients of any age on isotretinoin with at least one follow-up in the audit period. Exclude the first (initiation) appointment.",
+  "sample": "40 consecutive follow-up appointments (face-to-face or remote) over 4–6 weeks.",
+  "data_source": "Dermatology clinic letters and EPR; isotretinoin monitoring proforma.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_under_18",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "appointment_mode",
+    "type": "choice",
+    "options": [
+     "face to face",
+     "remote"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prom_used",
+    "type": "choice",
+    "options": [
+     "PHQ-9",
+     "GAD-7",
+     "PHQ-A",
+     "other validated",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prom_score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "sexual_function_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "action_if_abnormal_score",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_prevention_documented_if_applicable",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a one-page isotretinoin follow-up template in the EPR with required PROM score and sexual function fields.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 follow-ups.",
+  "close_loop": "Present at dermatology governance; adopt the template for all prescribers and align with the BAD national audit when it opens.",
+  "evidence": [
+   "[1982] Dermatology: baseline severity score 14% → 86% (electronic initiation template)",
+   "[1761] General practice: medication review 22% → 94% (system prompts)",
+   "[1976] Dermatology: psychological morbidity on systemic eczema/psoriasis drugs (baseline only)"
+  ],
+  "pitfalls": [
+   "Remote appointments skip the questionnaire → send it electronically before the call.",
+   "Nurse-led clinics use a different form → include all prescribers in the template.",
+   "Clinicians see PROMs as box-ticking → agree an action pathway for high scores.",
+   "National guidance may change again → note the version used in each cycle."
+  ],
+  "pearls": [
+   "Recruit the acne nurse specialist; they see most follow-ups.",
+   "Use the same PROM at every visit so change can be tracked.",
+   "Share results with the BAD audit lead to avoid duplicate work."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 appointments from letters"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults newly started on an opioid for non-cancer pain in primary care have a documented treatment plan with a review or stop date?",
+  "why": "Opioid audits in the library are postoperative and hospital-based [1298][1570]. None measure the MHRA requirement for an agreed plan at initiation in primary care.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, 'Opioids: risk of dependence and addiction' (23 September 2020)",
+   "wording": "before starting treatment with opioids, agree with the patient a treatment strategy and plan for end of treatment",
+   "url": "https://www.gov.uk/drug-safety-update/opioids-risk-of-dependence-and-addiction"
+  },
+  "pass": "Consultation at initiation records the treatment goal and a review or stop date (or a planned duration), plus a note that dependence risk was discussed.",
+  "population": "Adults with a first prescription of codeine, dihydrocodeine, tramadol, morphine, oxycodone, buprenorphine or fentanyl for non-cancer pain. Exclude palliative care and substance misuse treatment.",
+  "sample": "40 consecutive new starts over the last 3 months.",
+  "data_source": "EMIS/SystmOne search for first opioid issue; consultation notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "first_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_goal_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "review_or_stop_date_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "dependence_risk_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3"
+   },
+   {
+    "field": "quantity_days_supply",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_repeat_at_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an opioid initiation template (goal, planned duration, review date, risk discussed) that opens when a new opioid is prescribed, and set new opioids to acute issue only.",
+  "target": "≥80% all three items",
+  "reaudit": "Week 13–14, next 40 new starts.",
+  "close_loop": "Present at the practice meeting and PCN prescribing group; keep the template and add 'on repeat at 3 months' to the practice pharmacist's quarterly search.",
+  "evidence": [
+   "[1761] General practice: falls medication review 22% → 94% (SystmOne prompts)",
+   "[1570] Orthopaedics: combination opioids at discharge 71.4% → 45.7% (guideline, oversight group)",
+   "[1321] Orthopaedics: protocol analgesia 34% → 61% (EPR powerplan)"
+  ],
+  "pitfalls": [
+   "Out-of-hours and hospital starts are not captured → note the source and include only practice starts.",
+   "Clinicians see the template as extra clicks → keep it to four fields.",
+   "Short courses under 7 days inflate pass rates → record days' supply.",
+   "Codeine co-preparations are missed by searches → include combination products."
+  ],
+  "pearls": [
+   "Use the TARGET-style patient leaflet in the template.",
+   "The PCN pharmacist can run the search each month.",
+   "Track 'on repeat at 3 months' as the outcome that matters."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults started on, or changed to a new, lipid-lowering drug have a full lipid profile and liver transaminase within 2 to 3 months?",
+  "why": "NICE widened the 2023 check to every start or change. Lipid audits in the library are vascular inpatient snapshots [2823][2533]; none audit the 2–3 month follow-up test in primary care.",
+  "standard": {
+   "source": "NICE NG238 rec 1.11.1 (December 2023)",
+   "wording": "Measure liver transaminase and full lipid profile at 2 to 3 months after starting or changing lipid-lowering treatment. [May 2023, amended December 2023]",
+   "url": "https://www.nice.org.uk/guidance/ng238/chapter/Recommendations"
+  },
+  "pass": "Full lipid profile and ALT/AST resulted 6–14 weeks after the start or change date.",
+  "population": "Adults started on, or with a change to, statin, ezetimibe, bempedoic acid or inclisiran. Exclude familial hypercholesterolaemia under lipid clinic and patients who stopped within 2 months.",
+  "sample": "40 consecutive starts or changes, 4–7 months ago (to allow time for the test).",
+  "data_source": "EMIS/SystmOne search for new lipid drug issues; pathology results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "start_or_change_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prevention_type",
+    "type": "choice",
+    "options": [
+     "primary",
+     "secondary"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lipid_profile_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lipid_profile_in_window",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "transaminase_in_window",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "non_hdl_reduction_percent",
+    "type": "number",
+    "options": [],
+    "note": "Primary prevention target >40%"
+   },
+   {
+    "field": "action_if_target_missed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 10-week recall and pre-booked lipid/LFT blood form to the practice's statin initiation template.",
+  "target": "≥80%",
+  "reaudit": "Week 13–14 for starts in the 3 months after the change (look back once the window has passed).",
+  "close_loop": "Present at the practice meeting; embed the recall in the template and share with the PCN.",
+  "evidence": [
+   "[2823] Vascular surgery: lipid profile 12.4% → 65.0% (teaching, posters)",
+   "[2959] General practice: urate treat-to-target 58.8% → 87.7% (education)",
+   "[2533] Vascular surgery: statin optimisation 29% → 64% (MDT education)"
+  ],
+  "pitfalls": [
+   "Re-audit window is long → pick a sample started right after the change and look back at week 13–14 or extend to 20 weeks.",
+   "Hospital-started statins have no practice recall → include them and code the source.",
+   "Patients do not attend → count a recall sent plus two reminders as a separate measure.",
+   "Changing the definition of 'change' between cycles → fix it in advance (drug or dose)."
+  ],
+  "pearls": [
+   "Recruit the practice phlebotomy lead to pre-book the blood test at initiation.",
+   "Report the proportion reaching >40% non-HDL reduction as a bonus outcome.",
+   "Use one saved search for both cycles."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults newly diagnosed with hypertension had the diagnosis confirmed by ambulatory or home blood pressure monitoring?",
+  "why": "White-coat hypertension leads to lifelong unnecessary treatment. No audit of out-of-office confirmation has been published in the library.",
+  "standard": {
+   "source": "NICE NG136 recs 1.2.3 and 1.2.4 (2019, updated February 2026)",
+   "wording": "1.2.3 If clinic blood pressure is between 140/90 mmHg and 180/120 mmHg, offer ambulatory blood pressure monitoring (ABPM) to confirm the diagnosis of hypertension. ... [2019] 1.2.4 If ABPM is unsuitable or the person is unable to tolerate it, offer home blood pressure monitoring (HBPM) to confirm the diagnosis of hypertension. [2019]",
+   "url": "https://www.nice.org.uk/guidance/ng136/chapter/Recommendations"
+  },
+  "pass": "ABPM daytime average or HBPM average recorded before the hypertension code was added.",
+  "population": "Adults with a new hypertension code in the last 6 months and clinic BP 140/90–179/119 mmHg. Exclude clinic BP ≥180/120, pregnancy and diagnoses made in hospital.",
+  "sample": "40 consecutive new diagnoses.",
+  "data_source": "EMIS/SystmOne search for new hypertension code; BP readings and ABPM/HBPM codes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "diagnosis_code_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_bp_systolic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_bp_diastolic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abpm_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbpm_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "out_of_office_confirmation_before_code",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "out_of_office_average_systolic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antihypertensive_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a hypertension diagnosis template that asks for the ABPM/HBPM average before the code can be saved, with a link to the practice home BP loan and diary.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, new diagnoses since the change.",
+  "close_loop": "Present at the practice meeting and to the PCN; keep the template and add a BP monitor loan log.",
+  "evidence": [
+   "[1761] General practice: falls medication review 22% → 94% (SystmOne prompts)",
+   "[1610] Orthopaedics: lying and standing BP 32% → 83.3% (governance presentation, flyers)",
+   "[2959] General practice: treat-to-target 58.8% → 87.7% (education)"
+  ],
+  "pitfalls": [
+   "HBPM values held in free text → search both codes and free text.",
+   "Monitor shortage → a loan scheme or pharmacy BP check service solves it.",
+   "Clinicians code 'raised BP' then 'hypertension' later → use the first hypertension code date.",
+   "Small practices may have few cases → pool across the PCN."
+  ],
+  "pearls": [
+   "Recruit the healthcare assistants who fit ABPM.",
+   "Report how many were not hypertensive after ABPM; it justifies the time.",
+   "Use a standard HBPM diary with average calculation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults with type 2 diabetes and heart failure are prescribed an SGLT-2 inhibitor?",
+  "why": "NICE made SGLT-2 inhibitors first-line with metformin in February 2026. Diabetes audits in the library focus on HbA1c and inpatient care [1897][3294]; none measure SGLT-2 uptake in heart failure.",
+  "standard": {
+   "source": "NICE NG28 recs 1.14.1 and 1.14.2 (2015, updated February 2026)",
+   "wording": "1.14.1 For adults with type 2 diabetes and heart failure offer: modified-release metformin, and an SGLT-2 inhibitor. [2026] 1.14.2 If metformin is contraindicated or not tolerated, offer monotherapy with an SGLT-2 inhibitor. [2026]",
+   "url": "https://www.nice.org.uk/guidance/ng28/chapter/Initial-medicines"
+  },
+  "pass": "SGLT-2 inhibitor issued in the last 3 months, or a documented reason not to (contraindication, intolerance, declined).",
+  "population": "Adults with a type 2 diabetes code and a heart failure code. Exclude type 1 diabetes, eGFR below the licensed limit, and end-of-life care.",
+  "sample": "All patients found by the search (usually 30–60 per practice).",
+  "data_source": "EMIS/SystmOne disease register search; medication issues; consultation records; cardiology letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "heart_failure_type",
+    "type": "choice",
+    "options": [
+     "HFrEF",
+     "HFmrEF",
+     "HFpEF",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "latest_egfr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sglt2_issued_last_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "reason_not_prescribed_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2 (alternative)"
+   },
+   {
+    "field": "metformin_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_diabetes_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sick_day_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Run a monthly practice search with a pop-up alert on the records of eligible patients not on an SGLT-2 inhibitor, actioned by the practice pharmacist.",
+  "target": "≥80% prescribed or reason documented",
+  "reaudit": "Re-run search at week 13–14.",
+  "close_loop": "Present at practice and PCN prescribing meetings; keep the alert and search in the pharmacist's schedule.",
+  "evidence": [
+   "[2199] Vascular surgery: best medical therapy at discharge 40% → 80% (admission document prompt)",
+   "[1761] General practice: medication review 22% → 94% (SystmOne prompts)",
+   "[366] Pharmacy: dapagliflozin/empagliflozin in heart failure admissions (registered, results not published)"
+  ],
+  "pitfalls": [
+   "Heart failure is under-coded → also search for loop diuretics plus echo letters.",
+   "Hospital cardiology may have stopped it → accept a documented reason.",
+   "Genital infection and DKA concerns → include sick-day advice as a field.",
+   "Supply problems change practice → note any shortage."
+  ],
+  "pearls": [
+   "The practice pharmacist can do most of the reviews.",
+   "Start with HFrEF, where evidence is strongest, then widen.",
+   "Pair with the eGFR field so renal limits are checked."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults with a new melanoma diagnosis have a vitamin D level measured in secondary care at diagnosis?",
+  "why": "Melanoma audits in the library look at sentinel node biopsy criteria [2354][2519]. No audit of the NICE vitamin D measurement has been published in the library.",
+  "standard": {
+   "source": "NICE NG14 rec 1.2.1 (2015, updated July 2022)",
+   "wording": "Measure vitamin D levels at diagnosis in secondary care in all people with melanoma. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng14/chapter/Recommendations"
+  },
+  "pass": "Serum 25-OH vitamin D resulted within 8 weeks of the histology report date, with supplementation advice if low.",
+  "population": "Adults with a new histological diagnosis of invasive or in situ melanoma. Exclude recurrences and patients diagnosed elsewhere.",
+  "sample": "40 consecutive new diagnoses from the skin cancer MDT list over the last 4–6 months.",
+  "data_source": "Skin MDT list; histology date; pathology system for vitamin D; clinic letter for advice.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "histology_report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stage",
+    "type": "choice",
+    "options": [
+     "0 (in situ)",
+     "I",
+     "II",
+     "III",
+     "IV"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vitamin_d_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vitamin_d_within_8_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "vitamin_d_result_nmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_given_if_low",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2 (if level low)"
+   },
+   {
+    "field": "clinic_setting",
+    "type": "choice",
+    "options": [
+     "dermatology",
+     "plastic surgery",
+     "oncology"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add vitamin D to the skin cancer nurse's new melanoma results-clinic order set (or the MDT outcome form).",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next consecutive new diagnoses (extend to 3 months if small numbers).",
+  "close_loop": "Present at the skin MDT and dermatology governance; keep the order set and add to the annual skin cancer peer review data.",
+  "evidence": [
+   "[1173] Orthopaedics: vitamin D administration 14.71% → 100% (stickers, standardised process)",
+   "[2354] Plastic surgery: SLNB referrals not meeting criteria 6.5% → 3% (standard referral letter)",
+   "[1982] Dermatology: baseline severity score 14% → 86% (electronic template)"
+  ],
+  "pitfalls": [
+   "In situ lesions are often discharged quickly → decide in advance if stage 0 counts (NICE says all).",
+   "GP-measured levels → accept if within 8 weeks and seen by the team.",
+   "Small monthly numbers → include both dermatology and plastics lists.",
+   "Seasonal variation in levels → record month."
+  ],
+  "pearls": [
+   "The skin cancer CNS is the key ally; they run results clinics.",
+   "Put the test in the same order set as baseline bloods for stage II+.",
+   "Share a standard supplementation leaflet."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from MDT list and pathology"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults with severe psoriasis on systemic treatment or phototherapy have a documented cardiovascular risk assessment within the last 5 years?",
+  "why": "Severe psoriasis doubles cardiovascular risk. Dermatology audits in the library cover biologic TB screening and phototherapy waits [1965][1967]; none audit CV risk assessment.",
+  "standard": {
+   "source": "NICE CG153 rec 1.2.3.1 (2012, updated September 2017)",
+   "wording": "Offer adults with severe psoriasis of any type (defined as either needing treatment with phototherapy or systemic treatments, or needing hospital admission in the studies underpinning this recommendation), a cardiovascular risk assessment at presentation using a validated risk estimation tool. Offer further assessment of cardiovascular risk every 5 years, or more frequently if indicated following assessment.",
+   "url": "https://www.nice.org.uk/guidance/cg153/chapter/Recommendations"
+  },
+  "pass": "QRISK3 (or other validated score) recorded in dermatology or GP records within the last 5 years, with the score in the notes.",
+  "population": "Adults with psoriasis on systemic drugs, biologics or phototherapy in the last 12 months. Exclude people with established CVD (already secondary prevention).",
+  "sample": "40 consecutive patients from the biologic/systemic or phototherapy clinic list.",
+  "data_source": "Dermatology clinic letters; GP summary care record for QRISK; biologic database.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment",
+    "type": "choice",
+    "options": [
+     "methotrexate",
+     "ciclosporin",
+     "acitretin",
+     "apremilast/deucravacitinib",
+     "biologic",
+     "phototherapy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "qrisk_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "qrisk_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qrisk_score_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lipid_profile_last_5_years",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bp_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_if_high_risk",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a QRISK3 field to the dermatology systemic therapy review proforma, with a standard GP letter paragraph asking for statin review if ≥10%.",
+  "target": "≥80%",
+  "reaudit": "Week 13–14, next 40 patients.",
+  "close_loop": "Present at dermatology governance; keep the proforma field and add to the BADBIR data review.",
+  "evidence": [
+   "[1982] Dermatology: baseline severity score 14% → 86% (electronic initiation template)",
+   "[2199] Vascular surgery: best medical therapy 40% → 80% (admission document prompt)",
+   "[1965] Dermatology: pre-biologic CXR 96%, IGRA 94% (baseline only)"
+  ],
+  "pitfalls": [
+   "QRISK done in primary care is not visible → check the summary care record.",
+   "Dermatologists feel CV risk is the GP's job → the GP letter paragraph shares the load.",
+   "Phototherapy lists are nurse-led → include nurses in the proforma change.",
+   "Very young patients have low scores → still counts as assessed."
+  ],
+  "pearls": [
+   "QRISK3 has a free online calculator; build the link into the proforma.",
+   "Nurse specialists can record it at the monitoring visit.",
+   "Report the number with QRISK ≥10% not on a statin."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from letters and SCR"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults with myeloma starting thalidomide, lenalidomide or pomalidomide with steroids are prescribed VTE prophylaxis?",
+  "why": "IMiD regimens carry high VTE risk. Haematology audits in the library cover lymphoma and transplant protocols [63][68]; none measure thromboprophylaxis with IMiDs.",
+  "standard": {
+   "source": "NICE NG89 rec 1.6.2 (2018, updated August 2019)",
+   "wording": "Consider pharmacological VTE prophylaxis for people with myeloma who are receiving chemotherapy with thalidomide, pomalidomide or lenalidomide with steroids. Choose either: aspirin (75 mg or 150 mg) or LMWH. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "Aspirin or LMWH prescribed from cycle 1 day 1 (or already on anticoagulation), or a documented reason for none.",
+  "population": "Adults with myeloma starting an IMiD-containing regimen with dexamethasone or prednisolone. Exclude those on therapeutic anticoagulation (record as pass).",
+  "sample": "40 consecutive IMiD regimen starts over the last 12 months.",
+  "data_source": "Chemotherapy e-prescribing system (e.g. ChemoCare/ARIA); clinic letters; GP records if needed.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "cycle_1_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imid",
+    "type": "choice",
+    "options": [
+     "thalidomide",
+     "lenalidomide",
+     "pomalidomide"
+    ],
+    "note": ""
+   },
+   {
+    "field": "steroid_included",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_prescribed",
+    "type": "choice",
+    "options": [
+     "aspirin",
+     "LMWH",
+     "DOAC/warfarin already",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_or_reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "vte_within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "platelet_count_at_start",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add VTE prophylaxis as a default line (aspirin or LMWH, with a 'not required – reason' option) in the IMiD regimen protocol on the chemotherapy prescribing system.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14 and again at 6 months, as regimen starts are few.",
+  "close_loop": "Present at the haematology MDT/governance and the chemotherapy protocol group; keep the protocol line.",
+  "evidence": [
+   "[1529] Orthopaedics: protocol compliance 0% → 58% (electronic order set)",
+   "[1358] Emergency medicine: VTE risk assessment 32% → 93.1% (electronic discharge prompt)",
+   "[61] Haematology: chemotherapy prescribing against transplant protocols, full compliance (single cycle)"
+  ],
+  "pitfalls": [
+   "Few starts per month → look back 12 months for cycle 1.",
+   "Aspirin bought over the counter is not on the chart → check clinic letters.",
+   "Thrombocytopenia contraindicates aspirin → record platelet count.",
+   "Protocol change needs pharmacy approval → involve the chemo pharmacist early."
+  ],
+  "pearls": [
+   "The haematology pharmacist can pull all IMiD starts in one report.",
+   "Record VTE events as an outcome; it strengthens the case.",
+   "Align with the local myeloma protocol wording."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from chemo system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults treated for proximal DVT or PE have a documented review of whether to continue, stop or change anticoagulation at 3 months?",
+  "why": "Many patients stay on anticoagulation by default after a provoked clot. VTE audits in the library are about prophylaxis [1206][1358]; none audit the 3-month treatment review.",
+  "standard": {
+   "source": "NICE NG158 rec 1.4.1 (2020, updated August 2023)",
+   "wording": "Assess and discuss the benefits and risks of continuing, stopping or changing the anticoagulant with people who have had anticoagulation treatment for 3 months (3 to 6 months for people with active cancer) after a proximal DVT or PE.",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "A dated clinic, virtual or GP entry between 10 and 16 weeks (up to 6 months with active cancer) recording provoked/unprovoked status and a decision to stop, continue or change.",
+  "population": "Adults diagnosed with proximal DVT or PE via the ambulatory DVT/PE service or admitted. Exclude deaths before 3 months and patients already on lifelong anticoagulation.",
+  "sample": "40 consecutive diagnoses made 5–7 months ago.",
+  "data_source": "DVT/PE clinic or radiology list; anticoagulation clinic records; EPR letters; GP records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clot_type",
+    "type": "choice",
+    "options": [
+     "proximal DVT",
+     "PE",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "provoked_status_documented",
+    "type": "choice",
+    "options": [
+     "provoked",
+     "unprovoked",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "active_cancer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_in_window",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "decision_recorded",
+    "type": "choice",
+    "options": [
+     "stop",
+     "continue",
+     "change agent",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "stop_advice_and_contacts_given_if_stopped",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG158 1.4.2"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Book a 3-month anticoagulation review (virtual clinic or GP task with a standard template) at the point of diagnosis, with the provoked/unprovoked status recorded on the discharge letter.",
+  "target": "≥85%",
+  "reaudit": "Look back at week 13–14 on diagnoses made just after the change (or extend to 20 weeks).",
+  "close_loop": "Present at the thrombosis committee and acute medicine governance; keep the booking step and template.",
+  "evidence": [
+   "[1190] Neurosurgery: follow-up appointments arranged 74% → 100% (secretaries booked from discharge summaries)",
+   "[2628] General practice: return to surveillance 43.1% → 100% (invitation letters)",
+   "[1206] Orthopaedics: VTE reassessment 0% → 3% (teaching and EPR dropdown, weak fix)"
+  ],
+  "pitfalls": [
+   "The review happens in primary care and is not visible → check GP records via shared care record.",
+   "Provoked status is never recorded → make it a field at diagnosis.",
+   "Re-audit window is long → sample diagnoses from the first 2 weeks after the change.",
+   "Haematology capacity for clinics → a virtual or GP template works."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation nurse; they often run the DVT clinic.",
+   "Use the HAS-BLED field for unprovoked cases as a quality marker.",
+   "Report days of anticoagulation avoided."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR and GP record"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults aged 65 and over assessed for suspected UTI are managed without a urine dipstick test?",
+  "why": "Dipsticks in older adults drive antibiotics for asymptomatic bacteriuria. One surgical unit audit cut urinalysis from 68% to 39% [2029]; no audit in medicine, ED or care homes against the 2025 UKHSA tool has been published in the library.",
+  "standard": {
+   "source": "UKHSA, 'Diagnosis of urinary tract infections: quick reference tools for primary care' (last updated 7 July 2025), adults over 65 years",
+   "wording": "Do not perform urine dipsticks (see rationale). Urine dipsticks are less reliable with increasing age over 65 years due to increasing levels of asymptomatic bacteriuria (ASB) in older adults.",
+   "url": "https://www.gov.uk/government/publications/urinary-tract-infection-diagnosis/diagnosis-of-urinary-tract-infections-quick-reference-tools-for-primary-care"
+  },
+  "pass": "No dipstick result used for the UTI diagnosis; decision based on symptoms and signs, with culture sent before antibiotics if treated.",
+  "population": "Adults ≥65 assessed for suspected UTI in ED, acute medicine, GP or care home. Exclude catheterised patients (separate tool) and haematuria work-up.",
+  "sample": "40 consecutive patients coded or treated for UTI over 2–4 weeks.",
+  "data_source": "ED/AMU notes or GP consultations; observations chart for dipstick; microbiology for culture; drug chart for antibiotics.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "acute medicine",
+     "GP",
+     "care home"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dipstick_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass if 'no'"
+   },
+   {
+    "field": "localised_urinary_symptoms_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urine_culture_sent_before_antibiotic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "final_diagnosis_uti_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_for_asb_only",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove dipstick from the ED/AMU nursing triage protocol for patients ≥65 and add a UKHSA over-65 symptom checklist to the UTI clerking or GP template.",
+  "target": "≥80% no dipstick",
+  "reaudit": "Week 13–14, same setting and sample.",
+  "close_loop": "Present at the antimicrobial stewardship committee and ED/medicine governance; embed the protocol change and share with care homes via the ICB.",
+  "evidence": [
+   "[2029] General surgery: urinalysis 68% → 39%, indicated cultures 49% → 79% (information sheet, nurse teaching)",
+   "[2685] General surgery: unnecessary bloods 91% → 27% (posters, dissemination)",
+   "[1534] Orthopaedics: gentamicin at catheterisation 42% → 2% (consensus and weekly feedback)"
+  ],
+  "pitfalls": [
+   "Nurses dipstick by habit at triage → the triage protocol must change, not just doctors' practice.",
+   "Clinicians fear missing sepsis → emphasise symptom-based assessment and culture.",
+   "Dipstick results are not always recorded → check obs charts and ask the ward.",
+   "Fit, community-dwelling women over 65 may use the under-65 tool → record and analyse separately."
+  ],
+  "pearls": [
+   "Recruit the ED nurse educator and the AMS pharmacist.",
+   "Remove dipsticks from resus/triage trolleys for the pilot.",
+   "Count antibiotic courses avoided."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from notes"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of patients consulting with acute sore throat have a FeverPAIN or Centor score recorded?",
+  "why": "Sore throat is a major driver of primary care antibiotics. The only sore throat audit in the library is hospital-based [1990]; none audit score use in general practice.",
+  "standard": {
+   "source": "NICE NG84 rec 1.1.3 (2018)",
+   "wording": "Use FeverPAIN or Centor criteria to identify people who are more likely to benefit from an antibiotic and manage in line with recommendations 1.1.4 to 1.1.13.",
+   "url": "https://www.nice.org.uk/guidance/ng84/chapter/Recommendations"
+  },
+  "pass": "A FeverPAIN or Centor score (total or all components) recorded in the consultation, and management matches the score band.",
+  "population": "Patients aged 5 and over with a sore throat, pharyngitis or tonsillitis code. Exclude quinsy, immunosuppression and scarlet fever outbreaks.",
+  "sample": "40 consecutive consultations over the last 2 months.",
+  "data_source": "EMIS/SystmOne search on codes; consultation text; prescriptions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "consultation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinician_role",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "score_used",
+    "type": "choice",
+    "options": [
+     "FeverPAIN",
+     "Centor",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "score_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_decision",
+    "type": "choice",
+    "options": [
+     "none",
+     "back-up",
+     "immediate"
+    ],
+    "note": ""
+   },
+   {
+    "field": "decision_matches_score",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "self_care_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a FeverPAIN template (auto-scoring) to the practice sore throat consultation, linked to the TARGET leaflet.",
+  "target": "≥80% scored",
+  "reaudit": "Week 13–14, next 40 consultations.",
+  "close_loop": "Present at the practice and PCN prescribing meetings; keep the template and include in the practice antibiotic dashboard.",
+  "evidence": [
+   "[1761] General practice: medication review 22% → 94% (SystmOne prompts)",
+   "[2780] Urology: initial antibiotic choice 59% → 82% (QR-code posters, teaching)",
+   "[1990] ENT: hospital sore throat management (baseline only)"
+  ],
+  "pitfalls": [
+   "eConsult and phone contacts have no exam → record contact type and analyse separately.",
+   "Locums do not use the template → include in locum pack.",
+   "Winter peaks change case mix → keep the same season if possible.",
+   "Coding varies (URTI vs sore throat) → fix the code list in advance."
+  ],
+  "pearls": [
+   "Pharmacy First handles many sore throats; include their referrals in context.",
+   "Auto-scoring templates cut the effort to one click per item.",
+   "Report antibiotic prescription rate by score band."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 consultations"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of non-urgent outpatient contrast CT requests record a kidney risk assessment (an eGFR from the past 6 months or the NICE screening questions)?",
+  "why": "NICE changed contrast AKI advice in 2024: screening questions can replace routine blood tests. No radiology audit against the 2024 wording has been published in the library.",
+  "standard": {
+   "source": "NICE NG148 recs 1.1.8 to 1.1.10 (2019, updated October 2024)",
+   "wording": "1.1.8 Before requesting a non-urgent iodine-based contrast media CT scan, assess whether the person has pre-existing kidney disease. [2024] 1.1.9 If available, use an eGFR measurement from the past 6 months to support decision making about the use of iodine-based contrast media. ... [2024] 1.1.10 If no eGFR is available from the past 6 months, ask the person, or their family members and carers if appropriate, the following screening questions: do they have kidney disease or a kidney transplant? have they seen or are waiting to see a kidney specialist, or a kidney surgeon or urologist? do they have symptoms of acute illness likely to cause acute kidney injury such as diarrhoea, vomiting, fever, hypovolaemia, infection or difficulty passing urine? [2024]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "Request or radiographer checklist shows an eGFR dated within 6 months, or all three screening questions answered, before the scan.",
+  "population": "Adult outpatients and GP direct-access patients having non-urgent contrast-enhanced CT. Exclude inpatients, ED and urgent cancer-staging scans done same day.",
+  "sample": "40 consecutive scans over 1–2 weeks.",
+  "data_source": "RIS request form and radiographer safety checklist; pathology system for eGFR date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "scan_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referrer_type",
+    "type": "choice",
+    "options": [
+     "hospital outpatient",
+     "GP"
+    ],
+    "note": ""
+   },
+   {
+    "field": "egfr_within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screening_questions_answered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "kidney_risk_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "scan_delayed_for_blood_test",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_below_30",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the RIS request eGFR box with the three NICE screening questions as mandatory fields when no eGFR from the last 6 months is shown.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, same sample size.",
+  "close_loop": "Present at radiology discrepancy/governance and the RIS user group; embed the request form change and update the contrast SOP.",
+  "evidence": [
+   "[1304] Orthopaedics: BOAST imaging compliance 37% → 53% (single request tab in ICE)",
+   "[1921] Care of the elderly: CT request with indication 69.35% → 83.08% (posters, teaching)",
+   "[2685] General surgery: unnecessary bloods 91% → 27% (posters)"
+  ],
+  "pitfalls": [
+   "Local SOP still demands eGFR for everyone → update the SOP with the radiology lead first.",
+   "Radiographers ask verbally and do not record → add the checklist to the RIS.",
+   "Measuring over-testing and under-assessment together confuses the message → keep pass criterion single; report delays as secondary.",
+   "GP requests come by paper → include the questions on the paper form."
+  ],
+  "pearls": [
+   "Recruit the CT superintendent radiographer.",
+   "Report scans delayed or cancelled for bloods; it shows the benefit.",
+   "Use the NICE wording verbatim on the form."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 scans from RIS"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of adults with confirmed C. difficile infection have their proton pump inhibitor reviewed within 72 hours of the positive result?",
+  "why": "PPIs raise C. difficile risk and recurrence. PPI audits in the library cover general over-prescribing [1939][1923]; none look at review after a C. difficile result.",
+  "standard": {
+   "source": "NICE NG199 rec 1.1.4 (2021)",
+   "wording": "For people with suspected or confirmed C. difficile infection, review the need to continue any treatment with: proton pump inhibitors other medicines with gastrointestinal activity or adverse effects, such as laxatives medicines that may cause problems if people are dehydrated, such as non-steroidal anti-inflammatory drugs, angiotensin-converting enzyme inhibitors, angiotensin‑2 receptor antagonists and diuretics.",
+   "url": "https://www.nice.org.uk/guidance/ng199/chapter/Recommendations"
+  },
+  "pass": "Documented PPI decision (stopped, reduced, or continued with a stated indication) within 72 hours of the toxin-positive result.",
+  "population": "Adult inpatients with toxin-positive C. difficile who were on a PPI at the time. Exclude patients on a PPI for a clear ongoing indication documented before the result (count separately).",
+  "sample": "All cases over the last 6–12 months (usually 30–50 in a DGH).",
+  "data_source": "Infection prevention team CDI list; drug chart/e-prescribing; notes and IPC review forms.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "toxin_positive_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_decision_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ppi_reviewed_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ppi_outcome",
+    "type": "choice",
+    "options": [
+     "stopped",
+     "dose reduced",
+     "switched to H2 blocker",
+     "continued with indication",
+     "no review"
+    ],
+    "note": ""
+   },
+   {
+    "field": "laxatives_stopped",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recurrence_within_8_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'PPI and laxative review' line to the infection prevention CDI review form (or C. difficile EPR alert) that the ward pharmacist completes.",
+  "target": "≥90%",
+  "reaudit": "Next 3 months of cases (or week 13–14 if volume allows).",
+  "close_loop": "Present at the infection prevention committee and antimicrobial stewardship group; keep the form line and include in CDI root-cause reviews.",
+  "evidence": [
+   "[1923] Care of the elderly: unjustified PPI co-prescription with antibiotics 50% → 33% (poster, talk)",
+   "[1939] Care of the elderly: PPI without indication 83.4% → 55% (education)",
+   "[1995] General surgery: review/stop dates 17% → 100% (e-prescribing forced fields)"
+  ],
+  "pitfalls": [
+   "Case numbers are low → look back 12 months and include community-onset cases admitted.",
+   "Gastro teams resist stopping PPIs → accept 'continued with indication' as pass.",
+   "Decisions happen at discharge → count only within 72 hours but note later decisions.",
+   "IPC form changes need committee approval → bring data to the next IPC meeting."
+  ],
+  "pearls": [
+   "The IPC nurses already review every case; add one line to their form.",
+   "Ward pharmacists can action the review.",
+   "Record recurrence as an outcome."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from IPC list and EPR"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of postmenopausal women with node-positive early invasive breast cancer are offered adjuvant bisphosphonates?",
+  "why": "Adjuvant bisphosphonates reduce bone recurrence and are cheap. Breast audits in the library look at DEXA [1311][1530]; none audit the offer of adjuvant bisphosphonates.",
+  "standard": {
+   "source": "NICE NG101 rec 1.12.1 (2018, updated April 2025)",
+   "wording": "Offer bisphosphonates (zoledronic acid or sodium clodronate) as adjuvant therapy to postmenopausal women with node-positive invasive breast cancer. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng101/chapter/Recommendations"
+  },
+  "pass": "Documented offer of zoledronic acid or sodium clodronate (accepted or declined), or a documented contraindication, by the first oncology consultation after surgery.",
+  "population": "Postmenopausal women with node-positive early invasive breast cancer treated with curative intent. Exclude metastatic disease and premenopausal women.",
+  "sample": "40 consecutive eligible patients from the breast MDT list over the last 6–12 months.",
+  "data_source": "Breast MDT outcomes; oncology clinic letters; chemotherapy/SACT system; dental check documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "mdt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "menopausal_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nodal_status",
+    "type": "choice",
+    "options": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "bisphosphonate_discussed_at_mdt",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "offer_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "accepted zoledronic acid",
+     "accepted clodronate",
+     "declined",
+     "contraindicated",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dental_review_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "renal_function_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'adjuvant bisphosphonate: eligible yes/no' to the breast MDT outcome proforma, with a patient information leaflet.",
+  "target": "≥90% offered or contraindication documented",
+  "reaudit": "Next 40 eligible patients from the MDT after the change (may take 3 months).",
+  "close_loop": "Present at the breast MDT business meeting and oncology governance; keep the proforma line.",
+  "evidence": [
+   "[1530] Breast surgery: indicated DEXA 38% → 100% (MDT presentation, posters)",
+   "[2320] Breast surgery: operation note standards failed 7/17 → 1/17 (electronic proforma)",
+   "[1311] Breast surgery: bone health in postmenopausal AI starters, baseline DEXA 61%"
+  ],
+  "pitfalls": [
+   "Menopausal status is unclear in women around 50 → agree definition (e.g. 12 months amenorrhoea or FSH) first.",
+   "Dental access delays start → record dental review separately.",
+   "Oncologists differ in practice → present data by consultant anonymously.",
+   "Small numbers per month → extend the look-back."
+  ],
+  "pearls": [
+   "Recruit the breast CNS and the MDT coordinator.",
+   "Link to the existing bone health pathway to avoid double work.",
+   "Report bone recurrence data from the literature at the presentation, not in the audit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MDT records"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of patients discharged from hospital have medicines reconciliation completed by the GP practice within 1 week of the practice receiving the discharge summary?",
+  "why": "Medicines reconciliation audits in the library are hospital-based [2040][3481]. No audit of primary care reconciliation after discharge has been published in the library.",
+  "standard": {
+   "source": "NICE NG5 rec 1.3.3 (2015)",
+   "wording": "In primary care, carry out medicines reconciliation for all people who have been discharged from hospital or another care setting. This should happen as soon as is practically possible, before a prescription or new supply of medicines is issued and within 1 week of the GP practice receiving the information.",
+   "url": "https://www.nice.org.uk/guidance/ng5/chapter/Recommendations"
+  },
+  "pass": "Coded medicines reconciliation (or documented review of discharge medicines against repeats) within 7 days of the discharge summary arriving, and before the next repeat issue.",
+  "population": "Adults registered with the practice discharged after an inpatient stay of ≥1 night. Exclude deaths, day cases and summaries without a medicines list.",
+  "sample": "40 consecutive discharge summaries received over the last 1–2 months.",
+  "data_source": "Docman/workflow receipt date; EMIS/SystmOne medication review codes; issue history.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "summary_received_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medicine_changes_on_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reconciliation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reconciled_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "reconciled_before_next_issue",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "discrepancy_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reconciled_by",
+    "type": "choice",
+    "options": [
+     "GP",
+     "clinical pharmacist",
+     "pharmacy technician",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Route all discharge summaries with medicine changes to the practice pharmacist's workflow queue with a 5-working-day task.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next 40 summaries.",
+  "close_loop": "Present at the practice meeting and PCN; keep the workflow rule and include in the practice's CQC medicines evidence.",
+  "evidence": [
+   "[2040] General surgery: incomplete reconciliation 38.0% → 2.8% (pharmacist-led ward round)",
+   "[3481] Psychiatry: reconciliation within 24 hours 70% → 100% (guideline summary, e-learning)",
+   "[1837] General practice: DAPT stop date missing on 43% of prescriptions (baseline)"
+  ],
+  "pitfalls": [
+   "Receipt date is not the discharge date → use workflow receipt date.",
+   "Reconciliation is done but not coded → agree one code in advance.",
+   "Pharmacist leave stalls the queue → set a cover rule.",
+   "Summaries arrive without medicines → exclude and report separately to the trust."
+  ],
+  "pearls": [
+   "The practice pharmacist is the natural owner.",
+   "Report discrepancies found; it proves value.",
+   "Feed poor-quality summaries back to the trust."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 summaries from workflow and clinical system"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of outpatient CT scans on a faster diagnosis cancer pathway are reported within 3 days of the scan?",
+  "why": "Reporting delays eat into the 28-day faster diagnosis standard. Turnaround audits in the library are for trauma films and paediatric inpatients [889][300]; none audit the NHS England cancer-pathway CT target.",
+  "standard": {
+   "source": "NHS England, 'Diagnostic imaging reporting turnaround times' (9 August 2023), Table 1",
+   "wording": "Table 1: TAT by referral category for imaging services (Imaging service | Referral category | Maximum TAT) ... Cross-sectional imaging: – CT, including cone beam CT – MRI | Outpatient faster diagnosis standard cancer pathway | 3 days",
+   "url": "https://www.england.nhs.uk/long-read/diagnostic-imaging-reporting-turnaround-times/"
+  },
+  "pass": "Final (verified) report time minus scan completion time ≤3 calendar days.",
+  "population": "Outpatient or GP direct-access CT scans flagged as suspected cancer / FDS pathway. Exclude inpatient and ED scans.",
+  "sample": "40 consecutive flagged scans over 1–2 weeks.",
+  "data_source": "RIS: exam completion time, report verification time, priority flag, reporter type (in-house or outsourced).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "scan_completed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_verified_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "turnaround_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reported_within_3_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "body_area",
+    "type": "choice",
+    "options": [
+     "chest",
+     "abdomen/pelvis",
+     "CAP",
+     "head/neck",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reporter",
+    "type": "choice",
+    "options": [
+     "in-house consultant",
+     "trainee with verification",
+     "outsourced"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fds_flag_on_request",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a dedicated 'FDS cancer pathway' RIS worklist with the flag set at vetting, so these scans sit at the top of reporters' lists.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, same sample.",
+  "close_loop": "Present at radiology governance and the cancer services board; keep the worklist and add to the monthly radiology KPI report.",
+  "evidence": [
+   "[1318] Orthopaedics: MRI reporting 254 → 95.75 minutes (GIRFT pathway standards)",
+   "[1316] Orthopaedics: imaging wait 4.51 → 3.56 days (priority slots)",
+   "[889] Orthopaedics: reporting turnaround for trauma films (recurring topic)"
+  ],
+  "pitfalls": [
+   "Cancer flag missing on requests → check the pathway via the cancer tracker as well.",
+   "Outsourced reports have different timestamps → confirm which field is 'final'.",
+   "Weekends inflate calendar days → report working days too.",
+   "Radiologist workload objection → show the numbers are small."
+  ],
+  "pearls": [
+   "Recruit the RIS manager to pull timestamps in bulk.",
+   "Cancer MDT coordinators know which scans were FDS.",
+   "Present time lost per patient against the 28-day standard."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 scans from RIS"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of mobile chest X-rays taken to check central line position on intensive care have a clinician's evaluation written in the notes?",
+  "why": "The RCR 2026 IR(ME)R guidance uses ICU line films as its example of clinical evaluation outside radiology. The only IR(ME)R clinical evaluation audit in the library is in orthopaedic theatres [1253].",
+  "standard": {
+   "source": "RCR, 'IR(ME)R: Implications for clinical practice in diagnostic imaging, interventional radiology and diagnostic nuclear medicine', second edition (August 2026), chapter 11",
+   "wording": "Regulation 12(9) says that the employer must ensure that a clinical evaluation, including the outcome and implications, is recorded for each exposure. ... The outcome of the clinical evaluation may be recorded directly in the patient's electronic records or written clinical notes. ... Exposures that are not clinically evaluated are not justified.",
+   "url": "https://www.rcr.ac.uk/media/s1sdu4cq/rcr-publications-ir-me-r-implications-for-clinical-practice-in-diagnostic-imaging-interventional-radiology-and-diagnostic-nuclear-medicine-second-edition.pdf"
+  },
+  "pass": "A dated, signed note by an entitled clinician stating line tip position and whether it is safe to use (and any pneumothorax), before the line is used or a formal report is issued.",
+  "population": "Adults on ICU with a mobile CXR requested after CVC insertion. Exclude films formally reported before the line was used.",
+  "sample": "40 consecutive line-check films over 3–4 weeks.",
+  "data_source": "RIS for film time; ICU e-record or paper notes for evaluation; line insertion record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "film_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "line_type",
+    "type": "choice",
+    "options": [
+     "internal jugular CVC",
+     "subclavian CVC",
+     "femoral (if imaged)",
+     "PICC",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "evaluation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "tip_position_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "pneumothorax_comment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "evaluation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "evaluator_grade",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "formal_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'CXR clinical evaluation' box (tip position, pneumothorax, safe to use, name, time) to the ICU line insertion sticker or e-form.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 films.",
+  "close_loop": "Present at the IR(ME)R/radiation protection committee and ICU governance; keep the sticker and add to the radiology department's IR(ME)R audit schedule.",
+  "evidence": [
+   "[1253] Orthopaedics: image description/implications 60% → 100% where template used (mandatory op note section)",
+   "[2353] ENT: NG tube X-ray confirmation 44.7% → improved with sticker use (sticker, posters)",
+   "[1492] Orthopaedics: operation note completeness up to 100% (electronic proforma)"
+  ],
+  "pitfalls": [
+   "ICU staff are not all entitled operators → check the entitlement list with the RPS first.",
+   "Evaluation made verbally on the round → only written entries count.",
+   "Radiology reports quickly in some units → exclude films reported before line use.",
+   "Sticker not stocked → keep it in the CVC packs."
+  ],
+  "pearls": [
+   "Work with the radiation protection supervisor; this fills their audit requirement.",
+   "Put the box on the existing CVC insertion sticker, not a new form.",
+   "Same method works for NG tube and chest drain films."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 films from RIS and notes"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of women aged 40 and over with a primary care CA125 at or above the NICE age-specific threshold have an urgent pelvic ultrasound requested within 2 weeks?",
+  "why": "NICE replaced the single 35 IU/ml cut-off with age-specific thresholds in April 2026. No audit of the CA125-to-ultrasound step has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 recs 1.5.8 and 1.5.9 (2015, updated April 2026)",
+   "wording": "1.5.8 For women, and trans men and non-binary people with female reproductive organs who are aged 40 or over with persistent symptoms that suggest ovarian cancer (see recommendations 1.5.1 to 1.5.5), measure CA125 in primary care. [2026] 1.5.9 Arrange an urgent, direct access ultrasound scan of the abdomen and pelvis depending on age and serum CA125 according to the thresholds in table 1. [2026] (Table 1: 40 to 49, 35 IU/ml or greater; 50 to 59, 31 IU/ml or greater; 60 to 69, 24 IU/ml or greater; 70 to 79, 25 IU/ml or greater; 80+, 31 IU/ml or greater)",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "Urgent abdominal and pelvic ultrasound requested within 14 days of the CA125 result.",
+  "population": "Women and people with female reproductive organs aged ≥40 with a GP-requested CA125 at or above the age threshold. Exclude known ovarian cancer and CA125 requested for monitoring.",
+  "sample": "40 consecutive qualifying results from the lab over the last 3–4 months.",
+  "data_source": "Laboratory LIMS for CA125, age and requester; RIS/PACS for ultrasound request date; GP record if needed.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "ca125_result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ca125_iu_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "at_or_above_age_threshold",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_request_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_requested_within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ultrasound_outcome",
+    "type": "choice",
+    "options": [
+     "normal",
+     "suspicious",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "between_old_and_new_threshold",
+    "type": "yes/no",
+    "options": [],
+    "note": "Result below 35 but at or above new threshold"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic lab comment to CA125 reports stating the NICE age-specific threshold and 'urgent USS recommended', and flag results above threshold to the requesting practice.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next consecutive results.",
+  "close_loop": "Present at the gynaecology cancer MDT and pathology governance, and to the ICB primary care cancer lead; keep the report comment.",
+  "evidence": [
+   "[2909] Rheumatology: seen within 3 weeks 10% → 54% (primary care guidance, changed antibody report wording)",
+   "[2103] Colorectal surgery: qFIT in eligible 2WW referrals 7/74 → 18/18 (new referral form, qFIT access)",
+   "[159] Clinical biochemistry: incomplete GP myeloma screening → GP education"
+  ],
+  "pitfalls": [
+   "The 50–79 thresholds are below the old 35 → results between old and new cut-offs are the ones most likely missed; flag them.",
+   "Ultrasound done privately or elsewhere → check shared record.",
+   "Lab comment change needs pathology approval → involve the duty biochemist early.",
+   "Some women are symptomatic of another cause → note documented alternative diagnosis."
+  ],
+  "pearls": [
+   "Recruit the clinical biochemist; the lab comment is the lasting fix.",
+   "The ICB cancer GP lead can circulate results.",
+   "Count cancers found in the 'new threshold' band."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 results from LIMS and RIS"
+ },
+ {
+  "area": "Diagnostics, prescribing and general practice",
+  "question": "What proportion of primary care serum protein electrophoresis requests for suspected myeloma also include serum free light chains?",
+  "why": "NICE added serum free light chains to the myeloma test set in April 2025. The only myeloma screening audit in the library predates this and relied on GP education [159].",
+  "standard": {
+   "source": "NICE NG12 rec 1.10.4 (2015, amended 2025)",
+   "wording": "Offer the following to assess for myeloma in people aged 60 and over with persistent bone pain, particularly back pain, or unexplained fracture: a full blood count, and blood tests for: calcium plasma viscosity or erythrocyte sedimentation rate paraprotein, using serum protein electrophoresis free light chains contained in serum. If serum free light chain testing is not available, use a Bence–Jones test to check for free light chains contained in urine. [2015, amended 2025]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "Serum free light chains (or urine Bence–Jones if SFLC unavailable) requested on the same or next-day sample as the SPEP, with FBC, calcium and ESR/PV.",
+  "population": "GP requests for SPEP in adults aged ≥60. Exclude known paraproteinaemia under monitoring.",
+  "sample": "40 consecutive qualifying SPEP requests over 2–4 weeks.",
+  "data_source": "Laboratory LIMS requesting and results data.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust or practice drive"
+   },
+   {
+    "field": "request_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sflc_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "urine_bjp_if_no_sflc",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_calcium_esr_pv_all_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "paraprotein_or_abnormal_ratio",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_details_mention_bone_pain_or_fracture",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a 'suspected myeloma' test set on the GP electronic requesting system (ICE) that orders SPEP, SFLC, FBC, calcium and ESR together, and set the lab to add SFLC to lone SPEP requests from primary care.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next 40 requests.",
+  "close_loop": "Present at pathology governance and the haematology MDT, and share with GP practices via the ICB; keep the test set.",
+  "evidence": [
+   "[66] Haematology: missed virology tests → test set on requesting system with annual review",
+   "[2909] Rheumatology: DMARD within 6 weeks 7% → 56% (prompts for antibody requests, changed report wording)",
+   "[159] Clinical biochemistry: incomplete GP myeloma screening → GP education"
+  ],
+  "pitfalls": [
+   "SFLC costs more → agree with the lab that lab add-on is cheaper than delayed diagnosis.",
+   "Many SPEP requests are not for myeloma → use clinical details to classify.",
+   "Urine samples never arrive → the serum test set removes this problem.",
+   "Test set not used by all practices → check uptake by practice."
+  ],
+  "pearls": [
+   "The clinical biochemist can build the test set and add-on rule.",
+   "Report time to diagnosis for any myeloma found.",
+   "Share practice-level uptake with the ICB."
+  ],
+  "novelty": "under-audited",
+  "effort": "~5 min per 10 requests from LIMS"
+ }
+]

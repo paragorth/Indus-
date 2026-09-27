@@ -1,0 +1,2361 @@
+[
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "What proportion of adults having non-orthopaedic surgery in an operating theatre with a risk of bleeding receive intravenous tranexamic acid just before the start of surgery?",
+  "why": "NICE extended tranexamic acid to all adult theatre surgery with any bleeding risk in February 2026. Library audits of tranexamic acid cover only hip fracture and joint replacement [1744] [1629]; no audit has measured general, gynaecological, urological or head and neck surgery.",
+  "standard": {
+   "source": "NICE NG24 recs 1.3.1 and 1.3.3 (2015, updated February 2026)",
+   "wording": "1.3.1 Offer tranexamic acid to adults having surgery in an operating theatre if: there is any risk of bleeding and the procedure will breach the skin or mucous membranes. [2026] 1.3.3 When using tranexamic acid for adults having surgery, administer it just before the start of surgery. Typically give 1 g by slow intravenous injection. [2026]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Reducing-requirement-for-blood-transfusion-for-people-having-surgery"
+  },
+  "pass": "Tranexamic acid (typically 1 g IV) recorded on the anaesthetic chart between induction and knife-to-skin, or a documented contraindication or reason for omission.",
+  "population": "Adults (18+) having elective or emergency general, colorectal, gynaecological, urological, breast or head and neck surgery in theatre that breaches skin or mucosa. Exclude orthopaedic and cardiac surgery, endoscopic procedures without incision, and local-anaesthetic-only minor skin surgery.",
+  "sample": "40 consecutive eligible adults from the theatre system over the last 4 weeks (about 8 per specialty).",
+  "data_source": "Theatre management system (procedure, specialty, knife-to-skin time); electronic anaesthetic chart or EPMA (tranexamic acid dose and time); anaesthetic pre-op note (contraindications).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "choice",
+    "options": [
+     "general/colorectal",
+     "gynaecology",
+     "urology",
+     "breast",
+     "head and neck",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "urgency",
+    "type": "choice",
+    "options": [
+     "elective",
+     "emergency"
+    ],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_time",
+    "type": "datetime",
+    "options": [],
+    "note": "From anaesthetic chart"
+   },
+   {
+    "field": "txa_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_before_knife_to_skin",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (timing)"
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. recent VTE, allergy; counts as pass if TXA not given"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a default 'Tranexamic acid 1 g IV at induction (omit if contraindicated: reason ___)' line to the electronic anaesthetic chart template for all adult theatre cases.",
+  "target": "≥85% of eligible adults",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible adults, same specialties and template.",
+  "close_loop": "Present at the anaesthetic and surgical governance meetings and the hospital transfusion committee. If it works, keep the default chart line and add tranexamic acid to the WHO Sign In prompt.",
+  "evidence": [
+   "[1744] Dorset County Hospital hip fracture: 70.0% → 85.2% received TXA (protocol updated plus teaching)",
+   "[1629] Canadian arthroplasty anaesthetists: 66.6% → 74.4% TXA use in hip replacement (individual audit and feedback reports)"
+  ],
+  "pitfalls": [
+   "Surgeons worry about thrombosis in cancer or vascular patients → agree a short contraindication list with haematology before cycle 1 and count a documented reason as a pass.",
+   "Tranexamic acid given at closure is recorded but not at induction → record the time and report timing separately from 'given at all'.",
+   "Minor procedures swamp the sample → define 'risk of bleeding' locally (e.g. any procedure with a group and save) and keep the same definition in both cycles.",
+   "Default chart line ignored by locums → add it to the Sign In so the ODP asks every case."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner; the 2026 NICE update is on their audit list.",
+   "Pull cases from the theatre system by specialty so one audit covers several teams.",
+   "Ask pharmacy to stock 1 g tranexamic acid in every anaesthetic room drug drawer.",
+   "Name a consultant anaesthetist lead who will keep the chart default after the trainee rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from theatre system and electronic anaesthetic chart"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In non-bleeding adults in intensive care, what proportion of red cell transfusions are given as a single unit followed by a haemoglobin check before the next unit?",
+  "why": "Critical care is a major user of red cells and a regional audit found only 34% of ICU transfusions followed a threshold below 70 g/L [2967]. Two-unit habits persist; single-unit dosing has been audited in surgical wards [2539] but not closed in intensive care.",
+  "standard": {
+   "source": "NICE NG24 recs 1.6.1 and 1.6.2 (2015, guideline updated 2026)",
+   "wording": "1.6.1 Consider single‑unit red blood cell transfusions for adults (or equivalent volumes calculated based on body weight for children or adults with low body weight) who do not have active bleeding. [2015] 1.6.2 After each single‑unit red blood cell transfusion (or equivalent volumes calculated based on body weight for children or adults with low body weight), clinically reassess and check haemoglobin levels, and give further transfusions if needed. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "One unit requested and given per episode, with a haemoglobin result (lab or blood gas) and documented reassessment before any further unit.",
+  "population": "Adults in the ICU/HDU receiving red cells. Exclude active bleeding, major haemorrhage protocol activation, ECMO and cardiac surgery patients.",
+  "sample": "40 consecutive transfusion episodes over the last 2–3 months (blood bank issue list filtered to critical care).",
+  "data_source": "Blood bank LIMS issue log (units and times); ICU chart (Hb before and after, blood gas Hb); ICU notes (bleeding status, reassessment).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_time_first_unit",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actively_bleeding",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "units_requested",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_given_before_hb_check",
+    "type": "number",
+    "options": [],
+    "note": "Pass criterion 1: must be 1"
+   },
+   {
+    "field": "hb_checked_after_first_unit",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "reassessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3"
+   },
+   {
+    "field": "post_transfusion_hb_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the ICU electronic blood request so one unit is the default for non-bleeding patients, with a mandatory reason field to request two.",
+  "target": "≥80% of non-bleeding episodes",
+  "reaudit": "Weeks 13–14: next 40 consecutive episodes, same template.",
+  "close_loop": "Present at ICU governance and the hospital transfusion committee. If it works, make the single-unit default permanent and add 'Hb after each unit' to the ICU ward-round checklist.",
+  "evidence": [
+   "[2967] Nine Wessex ICUs: only 34% of transfusion episodes used a threshold below 70 g/L (single cycle)",
+   "[2539] East Sussex general surgery: back-to-back inappropriate units 20.5% → 4.51% (teaching and NICE threshold posters)",
+   "[1454] UK hip replacement national audit: 7% of transfused patients had a single unit (single cycle)"
+  ],
+  "pitfalls": [
+   "Night teams order two units to avoid a second call → the order-set default does the work; audit night and day separately.",
+   "Bleeding status unclear in notes → agree a definition (e.g. surgical drain loss or GI bleed) before cycle 1.",
+   "Blood gas Hb not accepted as a recheck by some consultants → agree in advance that a gas Hb counts.",
+   "Small numbers per month → extend the look-back window rather than lowering the sample."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner to pull the LIMS list; it saves most of the work.",
+   "Present cost per unit saved; it wins support from managers.",
+   "Ask the ICU pharmacist to flag two-unit requests on the ward round during weeks 5–12.",
+   "Keep the same exclusion list in both cycles."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 episodes from LIMS and ICU chart"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults on surgical wards after an operation, what proportion of intravenous paracetamol doses are given only when the patient cannot take oral medicine?",
+  "why": "Intravenous paracetamol costs more, uses nursing time and carries dosing-error risk, yet it is often continued after patients are eating. No library audit has measured IV-to-oral paracetamol switching after surgery; antimicrobial IV-to-oral work shows EPR prompts succeed [1995].",
+  "standard": {
+   "source": "NICE NG180 rec 1.6.6 (2020)",
+   "wording": "Do not offer intravenous paracetamol unless the person cannot take oral medicine.",
+   "url": "https://www.nice.org.uk/guidance/ng180/chapter/Recommendations"
+  },
+  "pass": "Every IV paracetamol dose after return to the ward was given while the patient was nil by mouth, vomiting, or had another documented reason they could not take oral medicine.",
+  "population": "Adults (18+) on general, colorectal, urology, gynaecology or vascular wards on postoperative days 0–3 prescribed IV paracetamol. Exclude ICU/HDU patients.",
+  "sample": "40 consecutive postoperative inpatients prescribed IV paracetamol over 2 weeks (EPMA report).",
+  "data_source": "EPMA administration record (route and times); nursing fluid/food chart and medical notes (eating and drinking status, vomiting, nil by mouth).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_doses_given_on_ward",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_oral_intake_time",
+    "type": "datetime",
+    "options": [],
+    "note": "From food/fluid chart"
+   },
+   {
+    "field": "iv_doses_after_oral_intake",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_oral_not_possible_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_iv_doses_justified",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "oral_paracetamol_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an EPMA rule: IV paracetamol prescriptions expire after 24 hours and require the indication 'cannot take oral' to renew, with a one-click switch to oral.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: 40 consecutive patients, same wards and template.",
+  "close_loop": "Present at surgical governance and the drugs and therapeutics committee with the cost saved. If it works, keep the 24-hour stop and add paracetamol to the pharmacy IV-to-oral switch list.",
+  "evidence": [
+   "[1995] West Middlesex surgery: appropriate IV antibiotic duration 63% → 93% (electronic prescribing plus microbiology round)",
+   "[1341] Queen Elizabeth Birmingham surgery: antiemetic co-prescribing with opioids rose above 75% (education, posters, weekly reminders)"
+  ],
+  "pitfalls": [
+   "Eating status not recorded → accept any documented oral medicine given at the same time as proof oral route was possible.",
+   "Anaesthetists prescribe IV paracetamol in recovery 'regular' → agree with the anaesthetic department that PACU prescriptions are 'once only' or 24 hours.",
+   "Nurses give IV because it is quicker on rounds → involve ward sisters in the change.",
+   "Pharmacy switch not sustained after rotation → put the rule in EPMA, not in teaching."
+  ],
+  "pearls": [
+   "Ask pharmacy for an EPMA report of IV paracetamol by ward; it takes minutes.",
+   "Show the cost difference per dose at the first presentation.",
+   "Recruit a ward pharmacist as co-lead.",
+   "Lock the 'cannot take oral' definition before cycle 1."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPMA and nursing charts"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults having general or regional anaesthesia for more than 30 minutes, what proportion have their temperature recorded before induction and at least every 30 minutes until the end of surgery?",
+  "why": "Library hypothermia audits report temperatures on arrival in recovery [1422] [2325], not whether theatre teams measure temperature. One trauma audit found temperature documented in only 35% of cases [1712]; no general surgical closed loop exists.",
+  "standard": {
+   "source": "NICE CG65 rec 1.3.1 (2008, updated 2016)",
+   "wording": "The patient's temperature should be measured and documented before induction of anaesthesia and then every 30 minutes until the end of surgery. [2008]",
+   "url": "https://www.nice.org.uk/guidance/cg65/chapter/Recommendations"
+  },
+  "pass": "A temperature before induction and no gap longer than 30 minutes between readings until the end of surgery on the anaesthetic chart.",
+  "population": "Adults (18+) having non-orthopaedic surgery with anaesthesia time over 30 minutes. Exclude local anaesthetic only and cardiac bypass cases.",
+  "sample": "40 consecutive eligible cases across two theatre suites over 2 weeks.",
+  "data_source": "Electronic or paper anaesthetic chart (temperature entries and times); theatre system (anaesthetic start, end of surgery).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthesia_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "end_of_surgery_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temperature_before_induction",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "number_of_intraoperative_readings",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Pass criterion 2: ≤30"
+   },
+   {
+    "field": "site_of_measurement",
+    "type": "choice",
+    "options": [
+     "oesophageal",
+     "bladder",
+     "zero heat-flux",
+     "nasopharyngeal",
+     "tympanic infrared",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lowest_temperature_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the electronic anaesthetic record to prompt a temperature entry at induction and every 30 minutes (or link a continuous temperature probe to the monitor feed), with a 36.0°C alert.",
+  "target": "≥90% of cases",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible cases, same theatres and template.",
+  "close_loop": "Present at the anaesthetic department meeting. If it works, stock zero heat-flux or oesophageal probes in every anaesthetic room and keep the prompt.",
+  "evidence": [
+   "[1712] Salford trauma theatres: temperature documented in 35% (single cycle; mandatory field planned)",
+   "[2325] Tertiary emergency general surgery: >18% hypothermic at knife-to-skin → 100% normothermic (forced-air warming from 45 minutes pre-op)",
+   "[1422] Glasgow Royal Infirmary: mean recovery temperature 35.5°C → 36.6°C (consistent warming changes)"
+  ],
+  "pitfalls": [
+   "Monitor records temperature but it is not exported to the chart → check that the data feed is on before cycle 1.",
+   "Tympanic infrared readings are indirect estimates (NICE 1.1.6) → record the site and report it separately.",
+   "Short cases with one reading distort results → apply the >30-minute rule in both cycles.",
+   "Staff see it as box-ticking → show the recovery hypothermia rate alongside compliance."
+  ],
+  "pearls": [
+   "Recruit an ODP lead; ODPs usually place the probe.",
+   "Audit one theatre suite first if paper charts are mixed with electronic ones.",
+   "Record the lowest temperature too; it makes the case for warming equipment.",
+   "Ask the theatre educator to add the probe to the room set-up checklist."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 cases from electronic anaesthetic charts"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "What proportion of adults sent from the ward or emergency department for surgery have a temperature recorded in the hour before they leave?",
+  "why": "Hypothermia audits in the library start in theatre or recovery [1422] [1406] [2325]; the pre-transfer ward temperature that triggers pre-warming has not been measured in a closed loop.",
+  "standard": {
+   "source": "NICE CG65 rec 1.2.2 (2008, updated 2016)",
+   "wording": "The patient's temperature should be measured and documented in the hour before they leave the ward or emergency department. [2008]",
+   "url": "https://www.nice.org.uk/guidance/cg65/chapter/Recommendations"
+  },
+  "pass": "A temperature documented within 60 minutes before the time the patient left the ward or emergency department for theatre.",
+  "population": "Adults (18+) transferred from a surgical ward, surgical admissions unit or ED to theatre for non-orthopaedic surgery. Exclude day-surgery patients who walk from a separate unit if that unit has its own pathway (audit separately).",
+  "sample": "40 consecutive patients over 2 weeks from two surgical wards and ED.",
+  "data_source": "E-observations (temperature times); theatre system or ward transfer log (time sent for / time left ward); pre-op checklist.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location_before_theatre",
+    "type": "choice",
+    "options": [
+     "surgical ward",
+     "admissions unit",
+     "ED"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_left_ward",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_temperature_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_before_departure",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temperature_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "temperature_value_c",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "below_36_warming_started",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if <36.0°C"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'Temperature in last hour ___°C (time ___); if <36.0°C start warming' as a mandatory field on the pre-operative transfer checklist.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: 40 consecutive patients, same areas and template.",
+  "close_loop": "Present at the surgical nursing forum and theatre users' group. If it works, keep the field and add the result to the Sign In.",
+  "evidence": [
+   "[2325] Tertiary emergency general surgery: >18% hypothermic at knife-to-skin → 100% normothermic (forced-air warming before theatre)",
+   "[1422] Glasgow Royal Infirmary: mean recovery temperature 35.5°C → 36.6°C (warming changes)",
+   "[3024] Large English trust colorectal surgery: pre-bundle audit found local ward practices to target (single cycle)"
+  ],
+  "pitfalls": [
+   "Departure time not recorded → use the theatre 'patient arrived in reception' time minus porter time, and keep the same rule in both cycles.",
+   "Ward nurses object to extra observations → the field replaces a free-text line on the existing checklist.",
+   "Emergency patients sent urgently → accept 'clinical urgency' documented as an exclusion.",
+   "Gains fade after rotation → make the field mandatory in the electronic checklist."
+  ],
+  "pearls": [
+   "Recruit a ward sister and a theatre reception nurse.",
+   "Theatre reception can refuse to accept a checklist without the temperature during weeks 5–12.",
+   "Report how many patients were below 36.0°C; it shows why it matters.",
+   "Agree the time source before cycle 1."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from e-observations and theatre times"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "What proportion of discharges from critical care to a general ward between 22:00 and 07:00 are reported as adverse incidents?",
+  "why": "Out-of-hours ICU discharge is linked with readmission and death, and NICE asks that each one is reported. Library ICU transfer work covers discharge letters [77] and handover [2271], not night discharges or their reporting.",
+  "standard": {
+   "source": "NICE CG50 rec 1.14 (2007)",
+   "wording": "After the decision to transfer a patient from a critical care area to the general ward has been made, he or she should be transferred as early as possible during the day. Transfer from critical care areas to the general ward between 10:00pm and 7:00am should be avoided whenever possible, and should be documented as an adverse incident if it occurs.",
+   "url": "https://www.nice.org.uk/guidance/cg50/chapter/Recommendations"
+  },
+  "pass": "A ward transfer between 22:00 and 07:00 has a matching incident report (Datix or equivalent).",
+  "population": "All adult discharges from ICU/HDU to a general ward. Exclude transfers to another critical care unit, theatre, or deaths.",
+  "sample": "All ward discharges over the last 3 months (typically 150–250), with every 22:00–07:00 transfer (expect 10–40) checked for an incident report.",
+  "data_source": "ICU admission/discharge system or ICNARC data (decision-to-discharge and actual discharge times); incident reporting system (search by date and unit).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "decision_to_discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharged_22_to_07",
+    "type": "yes/no",
+    "options": [],
+    "note": "Denominator filter"
+   },
+   {
+    "field": "delay_from_decision_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "incident_reported",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_night_discharge",
+    "type": "choice",
+    "options": [
+     "bed pressure for admission",
+     "ward bed became available late",
+     "patient/family request",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "readmitted_to_icu_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Discharge time 22:00–07:00? Incident number ___' field to the ICU electronic discharge form, and a nightly report of such discharges to the nurse in charge.",
+  "target": "≥90% of night discharges reported; secondary: fall in night discharges",
+  "reaudit": "Weeks 13–14: all ward discharges in the preceding 2 months, same template.",
+  "close_loop": "Present at ICU governance and the hospital bed management meeting. If it works, share monthly night-discharge counts on the ICU dashboard.",
+  "evidence": [
+   "[77] UHBW ICU-to-ward transfers: poor discharge letters → discharge letter improved",
+   "[2271] Royal Papworth theatre-to-critical care handover: postoperative instructions 30% → 45%"
+  ],
+  "pitfalls": [
+   "Nurses feel blamed by incident reporting → frame reports as capacity data for the board, not individual error.",
+   "Decision time and actual time confused → record both; the standard is about actual transfer.",
+   "Small numbers → use all discharges over 3 months, not a sample.",
+   "Bed managers push back → invite them to the presentation and show readmission data."
+  ],
+  "pearls": [
+   "ICNARC case mix data already hold discharge times; ask the ICNARC data clerk.",
+   "Recruit the ICU matron as co-lead.",
+   "Report time from decision to discharge; it shows the day-time delays that cause night moves.",
+   "Keep the report monthly after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~2 h total from ICNARC/ICU system and incident log"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults admitted to critical care from a ward or the emergency department, what proportion have a documented admission decision involving both the referring consultant and the critical care consultant?",
+  "why": "Consultant-to-consultant discussion improves decisions about escalation, but library ICU audits look at NEWS2 before admission [507] and frailty scoring [2790], not who made the admission decision.",
+  "standard": {
+   "source": "NICE CG50 rec 1.13 (2007)",
+   "wording": "If the team caring for the patient considers that admission to a critical care area is clinically indicated, then the decision to admit should involve both the consultant caring for the patient on the ward and the consultant in critical care.",
+   "url": "https://www.nice.org.uk/guidance/cg50/chapter/Recommendations"
+  },
+  "pass": "The ICU admission note or referral record names both the parent-team consultant and the critical care consultant as involved in the decision.",
+  "population": "Unplanned adult admissions to ICU/HDU from wards or ED. Exclude planned post-operative admissions, direct theatre admissions and cardiac arrest admissions.",
+  "sample": "40 consecutive unplanned admissions over the last 2 months.",
+  "data_source": "ICU admission clerking and referral proforma; parent-team notes; ICU admissions log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "admission_date_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "source",
+    "type": "choice",
+    "options": [
+     "ward",
+     "ED"
+    ],
+    "note": ""
+   },
+   {
+    "field": "out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": "18:00–08:00 or weekend"
+   },
+   {
+    "field": "icu_consultant_involved_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "parent_consultant_involved_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "treatment_escalation_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referrer_grade",
+    "type": "choice",
+    "options": [
+     "FY/CT",
+     "registrar",
+     "consultant",
+     "outreach"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add two mandatory fields to the ICU referral/admission proforma: 'Parent consultant spoken to: name/time' and 'ICU consultant decision: name/time'.",
+  "target": "≥90% of unplanned admissions",
+  "reaudit": "Weeks 13–14: next 40 consecutive unplanned admissions, same template.",
+  "close_loop": "Present at ICU and medical/surgical governance. If it works, keep the fields and report out-of-hours compliance quarterly.",
+  "evidence": [
+   "[78] UHBW emergency ICU admissions from wards: missed deterioration → trainee training and a new outreach team",
+   "[2790] Morriston ICU: Clinical Frailty Scale completion 52% → 68% (posters, handover reminders)"
+  ],
+  "pitfalls": [
+   "Night calls happen by phone and are not written → a timed name field fixes documentation, not behaviour; audit out-of-hours separately.",
+   "Parent consultants feel policed → present as shared decision-making support, with parent-team representation.",
+   "Referral through outreach blurs who spoke to whom → record the parent consultant contact explicitly.",
+   "Definitions drift → lock the exclusion list before cycle 1."
+  ],
+  "pearls": [
+   "Recruit an acute medicine consultant; most ward admissions are medical.",
+   "Check that the ICU admission proforma is the source of truth before cycle 1.",
+   "Report the proportion with a treatment escalation plan at the same time; it is often the real gap.",
+   "Name an ICU consultant sponsor."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 admissions from ICU notes"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults in critical care at risk of long-term problems, what proportion have rehabilitation goals agreed and documented within 4 days of admission or before critical care discharge, whichever is sooner?",
+  "why": "NCEPOD's 2025 report 'Recovery beyond survival' found comprehensive rehabilitation assessments often missing. No closed-loop audit of rehabilitation goals after critical illness is in the library; the closest shows structured documentation doubled goal setting in a rehabilitation unit [1827].",
+  "standard": {
+   "source": "NICE QS158 statement 1 (2017), from NICE CG83 rec 1.4",
+   "wording": "Adults in critical care at risk of morbidity have their rehabilitation goals agreed within 4 days of admission to critical care or before discharge from critical care, whichever is sooner.",
+   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-1-Rehabilitation-goals"
+  },
+  "pass": "Short-term and medium-term rehabilitation goals documented (by any member of the critical care MDT) by day 4 of admission, or before discharge if the stay was shorter.",
+  "population": "Adults admitted to ICU/HDU who meet any 'at risk' criterion on a short clinical assessment (e.g. ventilated, stay expected >4 days, unable to get out of bed independently, premorbid mobility problems). Exclude deaths and end-of-life care within 4 days.",
+  "sample": "40 consecutive at-risk admissions over the last 2–3 months.",
+  "data_source": "ICU notes and physiotherapy/OT records (rehabilitation goals, dates); ICU admission system (admission and discharge dates).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "icu_admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "icu_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "at_risk_criterion",
+    "type": "choice",
+    "options": [
+     "ventilated",
+     "expected stay >4 days",
+     "unable to get out of bed",
+     "premorbid mobility/respiratory problems",
+     "non-physical (nightmares, anxiety)"
+    ],
+    "note": ""
+   },
+   {
+    "field": "short_clinical_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "goals_documented_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "goals_within_4_days_or_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "family_or_patient_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Rehabilitation goals (short-term / medium-term) – agreed on ___' box to the ICU daily ward-round template that becomes mandatory on day 3.",
+  "target": "≥80% of at-risk patients",
+  "reaudit": "Weeks 13–14: next 40 consecutive at-risk admissions, same template.",
+  "close_loop": "Present at ICU MDT governance. If it works, add the goals to the ICU discharge summary so they travel to the ward.",
+  "evidence": [
+   "[1827] Cork older-person rehabilitation unit: goal setting 18% → 40%, SMART goals 4% → 28% (structured MDT booklet)",
+   "[2790] Morriston ICU: Clinical Frailty Scale completion 52% → 68% (posters, handover reminders)"
+  ],
+  "pitfalls": [
+   "Physiotherapists record goals in a separate system → agree before cycle 1 which records count.",
+   "Sedated patients cannot agree goals → count family involvement or documented reason, as NICE allows.",
+   "At-risk definition changes between cycles → write the criteria on the data sheet.",
+   "Weekend admissions missed → report weekday and weekend admissions separately."
+  ],
+  "pearls": [
+   "Recruit the lead ICU physiotherapist as co-lead.",
+   "Use the NCEPOD 2025 audit toolkit fields where they match.",
+   "Present with a patient story from the follow-up clinic.",
+   "Add the box to the day-3 ward round so it is part of routine care."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ICU and therapy notes"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults at risk of long-term problems who move from critical care to a general ward, what proportion have a written handover that includes their rehabilitation programme?",
+  "why": "ICU discharge letters were poor in a UHBW audit [77] and handover information was often incomplete at the theatre–critical care interface [2271]; no audit in the library checks that rehabilitation plans reach the ward.",
+  "standard": {
+   "source": "NICE QS158 statement 2 (2017), from NICE CG83 rec 1.12 and CG50 rec 1.15",
+   "wording": "Adults at risk of morbidity have a formal handover of care, including their agreed individualised structured rehabilitation programme, when they transfer from critical care to a general ward.",
+   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-2-Transfer-from-critical-care-to-a-general-ward"
+  },
+  "pass": "The ICU discharge summary or handover document contains the rehabilitation goals and the plan (therapy frequency, mobility level, referrals) for the ward team.",
+  "population": "Adults discharged alive from ICU/HDU to a general ward who met an 'at risk' criterion during the stay. Exclude transfers to other hospitals and palliative discharges.",
+  "sample": "40 consecutive at-risk ward discharges over the last 2–3 months.",
+  "data_source": "ICU discharge summary and therapy handover notes in the EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "icu_discharge_date_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "receiving_ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_handover_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_goals_included",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "rehab_plan_included",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2: therapy frequency, mobility, referrals"
+   },
+   {
+    "field": "psychological_needs_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_therapy_seen_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Rehabilitation plan for ward' section (goals, mobility, therapy frequency, referrals, psychological needs) to the ICU electronic discharge summary.",
+  "target": "≥85% of at-risk discharges",
+  "reaudit": "Weeks 13–14: next 40 consecutive at-risk discharges, same template.",
+  "close_loop": "Present at ICU governance and the therapies meeting. If it works, copy the section into the hospital discharge summary for the GP.",
+  "evidence": [
+   "[77] UHBW ICU-to-ward transfers: poor discharge letters → discharge letter improved",
+   "[2271] Royal Papworth theatre-to-critical care handover: specific postoperative instructions 30% → 45%",
+   "[1827] Cork rehabilitation unit: goal setting 18% → 40% (structured booklet)"
+  ],
+  "pitfalls": [
+   "Handover is verbal between physiotherapists → count only written handover and say so.",
+   "Summary written by a junior doctor without therapy input → build the section so the physiotherapist can complete it.",
+   "Night discharges skip the summary → cross-check with audit 'night discharges'.",
+   "Section filled with 'see physio notes' → define what counts as a plan."
+  ],
+  "pearls": [
+   "Recruit ICU and ward physiotherapists together.",
+   "Check 48-hour ward therapy review as an outcome; it shows impact.",
+   "Use the same at-risk list as the rehabilitation-goals audit.",
+   "Ask the EPR team for a template change early; it can take weeks."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from ICU discharge summaries"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults who stayed in critical care for more than 4 days and were at risk of long-term problems, what proportion are reviewed 2 to 3 months after critical care discharge?",
+  "why": "NCEPOD's 2025 report 'Recovery beyond survival' found a lack of follow-up after intensive care. No audit of post-ICU follow-up is in the library.",
+  "standard": {
+   "source": "NICE QS158 statement 4 (2017), from NICE CG83 recs 1.1 and 1.23",
+   "wording": "Adults who stayed in critical care for more than 4 days and were at risk of morbidity have a review 2 to 3 months after discharge from critical care.",
+   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-4-Follow-up-after-critical-care-discharge"
+  },
+  "pass": "A face-to-face or video review by a critical care follow-up service (or equivalent) between 8 and 13 weeks after ICU discharge.",
+  "population": "Adults with an ICU/HDU stay over 4 days who were at risk of morbidity and survived to hospital discharge. Exclude patients transferred out of area and those who declined follow-up (record separately).",
+  "sample": "40 consecutive eligible patients discharged from ICU 3–6 months ago.",
+  "data_source": "ICU admission system (length of stay, discharge date); outpatient booking system and follow-up clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "icu_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "icu_length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_follow_up",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_after_icu_discharge",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_between_8_and_13_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "declined_or_dna",
+    "type": "choice",
+    "options": [
+     "attended",
+     "declined",
+     "did not attend",
+     "not offered"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make an automatic follow-up clinic referral from the ICU discharge form for every patient with a stay over 4 days, with an opt-out reason.",
+  "target": "≥75% of eligible patients reviewed at 2–3 months",
+  "reaudit": "Weeks 13–14 audit referrals; full re-audit of attendance 3 months later with the same template.",
+  "close_loop": "Present at ICU governance and to the commissioning lead. If it works, report follow-up rates on the ICU dashboard.",
+  "evidence": [
+   "[1827] Cork rehabilitation unit: predicted discharge date documented 27% → 52% (structured booklet)",
+   "[77] UHBW ICU-to-ward transfers: poor discharge letters → discharge letter improved"
+  ],
+  "pitfalls": [
+   "No follow-up clinic exists → first measure referrals and present the gap to the business planning meeting.",
+   "Outcome lags by 3 months → audit referral rate at re-audit and attendance later.",
+   "Patients die or move after discharge → exclude and report them separately.",
+   "Clinic capacity fills → agree nurse-led or virtual review models with the ICU lead."
+  ],
+  "pearls": [
+   "Recruit the ICU follow-up nurse or the lead physiotherapist.",
+   "Ask ICUsteps or the patient group for a patient voice at the presentation.",
+   "The NCEPOD 2025 audit toolkit fits this audit.",
+   "Separate 'not offered' from 'did not attend'."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ICU and outpatient systems"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults who had a critical care stay and received rehabilitation on the ward, what proportion are given their own copy of the critical care discharge summary before leaving hospital?",
+  "why": "Patients often cannot remember their ICU stay and GPs rarely receive ICU information. No library audit checks whether patients receive their critical care summary.",
+  "standard": {
+   "source": "NICE CG83 rec 1.22 (2009)",
+   "wording": "Give patients the following information before their discharge to home or community care. Also give the information to their family and/or carer, if the patient agrees. ... Give the patient their own copy of the critical care discharge summary.",
+   "url": "https://www.nice.org.uk/guidance/cg83/chapter/Recommendations"
+  },
+  "pass": "The hospital discharge record, discharge checklist or letter documents that the patient (or family, with consent) was given a copy of the critical care discharge summary.",
+  "population": "Adults discharged home or to community care after a hospital stay that included ICU/HDU. Exclude deaths and inter-hospital transfers.",
+  "sample": "40 consecutive eligible hospital discharges over the last 3 months.",
+  "data_source": "EPR discharge checklist and letters; ICU discharge summary; ward nursing discharge record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "icu_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hospital_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "icu_summary_exists",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "summary_sent_to_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'Copy of critical care discharge summary given to patient: yes/no' to the ward discharge checklist, triggered when the EPR shows a critical care stay.",
+  "target": "≥80% of patients",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible discharges, same template.",
+  "close_loop": "Present at ICU governance and the nursing discharge group. If it works, print the ICU summary automatically with the discharge pack.",
+  "evidence": [
+   "[1805] Geriatric wards: documentation in discharge letters improved (compulsory discharge summary template)",
+   "[77] UHBW ICU-to-ward transfers: poor discharge letters → discharge letter improved"
+  ],
+  "pitfalls": [
+   "ICU summary written in jargon → pair the change with a lay-language section.",
+   "Ward nurses do not know the patient was in ICU → use an EPR trigger.",
+   "Giving a copy is not documented even when done → the checklist tick fixes this.",
+   "Low numbers per ward → sample hospital-wide."
+  ],
+  "pearls": [
+   "Recruit the ICU follow-up nurse.",
+   "Check GP receipt at the same time; it is often missing.",
+   "Ask a former patient to review the summary wording.",
+   "Keep the checklist item after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR discharge records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "At pre-operative assessment, what proportion of adults aged over 80 or with diabetes have a lying-to-standing or sitting-to-standing blood pressure recorded?",
+  "why": "Postural hypotension raises the risk of postoperative falls and longer stay. The 2026 guideline added postural screening; no library audit has measured it, and intra-operative hypotension audits show the gap [1935].",
+  "standard": {
+   "source": "Association of Anaesthetists and British and Irish Hypertension Society, Measurement and management of adult blood pressure in the peri-operative period (Anaesthesia 2026), recommendation 6",
+   "wording": "Patients at risk of postural hypotension including those who are symptomatic, aged > 80 y or who are diabetic, should be screened with a supine-to-stand blood pressure assessment or a sit-to-stand assessment (if more pragmatic).",
+   "url": "https://doi.org/10.1111/anae.70082"
+  },
+  "pass": "A lying (or sitting) and standing blood pressure pair documented at the pre-assessment visit, with action recorded if the drop is ≥20/10 mmHg.",
+  "population": "Adults aged over 80, or with diabetes, or with postural symptoms, attending nurse-led or anaesthetist pre-assessment for elective surgery. Exclude patients who cannot stand.",
+  "sample": "40 consecutive eligible pre-assessment attendances over 2 weeks.",
+  "data_source": "Pre-assessment record (observations, history); electronic pre-op assessment system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "preassessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "eligibility_reason",
+    "type": "choice",
+    "options": [
+     "age >80",
+     "diabetes",
+     "postural symptoms"
+    ],
+    "note": ""
+   },
+   {
+    "field": "postural_bp_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "systolic_drop_mmhg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diastolic_drop_mmhg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "significant_drop",
+    "type": "yes/no",
+    "options": [],
+    "note": "≥20 systolic or ≥10 diastolic"
+   },
+   {
+    "field": "action_documented_if_drop",
+    "type": "yes/no",
+    "options": [],
+    "note": "Medication review or referral"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an auto-triggered 'Postural BP (lying/standing)' field to the pre-assessment template when age >80 or diabetes is entered.",
+  "target": "≥85% of eligible patients",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible attendances, same template.",
+  "close_loop": "Present at the pre-assessment team meeting and anaesthetic governance. If it works, add the result to the anaesthetic pre-op summary.",
+  "evidence": [
+   "[1935] District general emergency theatres: time with systolic BP <100 mmHg 25% vs 12% in trauma (single cycle; chart BP-target prompts proposed)",
+   "[223] UHBW blood pressure control during anaesthesia re-audit: improved except BP within 20% of baseline"
+  ],
+  "pitfalls": [
+   "Clinic time is short → standing BP adds 3 minutes; show the falls risk data.",
+   "Telephone pre-assessments cannot measure it → exclude them and report the proportion.",
+   "Drops found but not acted on → add a 'drop found: action' field.",
+   "Automated cuffs give wrong readings on standing → agree a method (1 and 3 minutes) before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the pre-assessment nurse lead.",
+   "Ask the falls team to support the presentation.",
+   "Report the number of significant drops found; it motivates staff.",
+   "Use the same eligibility list in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from pre-assessment records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults taking an ACE inhibitor or angiotensin receptor blocker who have elective surgery, what proportion take it on the morning of surgery?",
+  "why": "The 2026 guideline reversed the habit of withholding ACE inhibitors and ARBs; local pre-assessment leaflets may still say 'omit'. No library audit has measured this.",
+  "standard": {
+   "source": "Association of Anaesthetists and British and Irish Hypertension Society, Measurement and management of adult blood pressure in the peri-operative period (Anaesthesia 2026), recommendation 7",
+   "wording": "Patients should normally take their antihypertensive therapy, including angiotensin-converting enzyme inhibitors and angiotensin receptor blockers, on the day of surgery (moderate recommendation based on moderate-quality evidence).",
+   "url": "https://doi.org/10.1111/anae.70082"
+  },
+  "pass": "The admission drug chart or medicines reconciliation shows the ACE inhibitor or ARB dose taken on the morning of surgery, or a documented clinical reason to omit it.",
+  "population": "Adults on an ACE inhibitor or ARB for hypertension having elective non-cardiac surgery. Exclude heart failure patients with specialist instructions and patients with pre-operative hypotension documented.",
+  "sample": "40 consecutive eligible elective patients over 2–3 weeks.",
+  "data_source": "Pre-assessment medication instructions; day-of-surgery admission checklist or medicines reconciliation; EPMA.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_class",
+    "type": "choice",
+    "options": [
+     "ACE inhibitor",
+     "ARB"
+    ],
+    "note": ""
+   },
+   {
+    "field": "instruction_given",
+    "type": "choice",
+    "options": [
+     "take",
+     "omit",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "instruction_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": "Process measure"
+   },
+   {
+    "field": "dose_taken_morning_of_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_to_omit_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_induction_systolic_bp",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Update the pre-assessment medication instruction sheet and the electronic instruction list so ACE inhibitors and ARBs default to 'take on the morning of surgery'.",
+  "target": "≥85% of patients",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at anaesthetic governance and the pre-assessment team. If it works, update the trust perioperative medicines guideline.",
+  "evidence": [
+   "[2970] 59 UK trusts, peri-operative steroid replacement: 9% overall guideline compliance (single cycle)",
+   "[2782] Southampton peri-operative diabetes: appropriate long-acting insulin on VRII 45% (single cycle)"
+  ],
+  "pitfalls": [
+   "Some anaesthetists still prefer to omit → share the guideline and allow a documented individual decision.",
+   "Old leaflets remain in circulation → recall and replace all printed stock.",
+   "Whether the dose was taken is not recorded → add it to the admission checklist.",
+   "Hypotension after induction worries staff → record pre-induction BP and report it."
+  ],
+  "pearls": [
+   "Recruit a pre-assessment pharmacist.",
+   "Check all instruction sources (leaflet, letter, electronic list) before cycle 1.",
+   "Present the national guideline change as the reason, not local opinion.",
+   "Name a consultant owner for the medication instruction sheet."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pre-assessment and admission records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "Of elective operations cancelled on the day for high blood pressure, what proportion had a blood pressure below 180/120 mmHg?",
+  "why": "Day-of-surgery cancellations waste theatre time; the 2026 guideline states surgery should proceed below stage 3 hypertension. Library cancellation audits focus on fasting and fitness [2193] [2748], not blood pressure thresholds.",
+  "standard": {
+   "source": "Association of Anaesthetists and British and Irish Hypertension Society, Measurement and management of adult blood pressure in the peri-operative period (Anaesthesia 2026)",
+   "wording": "A blood pressure measurement should be performed in the pre-operative clinic using best practice as outlined in this guideline. Surgery should proceed unless the blood pressure is ≥ 180/120 (stage 3 hypertension).",
+   "url": "https://doi.org/10.1111/anae.70082"
+  },
+  "pass": "A cancellation for blood pressure is appropriate only if repeated clinic blood pressure was ≥180/120 mmHg or there was another documented clinical reason.",
+  "population": "Adult elective cases cancelled on the day of surgery with blood pressure recorded as a reason. Exclude cardiac, obstetric and endocrine surgery (outside the guideline scope).",
+  "sample": "All such cancellations over the last 12 months (expect 20–50 in a DGH).",
+  "data_source": "Theatre cancellation log (reason codes); day-of-surgery observations; anaesthetic pre-op note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "planned_date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_systolic_mmhg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_diastolic_mmhg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bp_repeated",
+    "type": "yes/no",
+    "options": [],
+    "note": "At least two readings 60 s apart"
+   },
+   {
+    "field": "bp_at_or_above_180_120",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: appropriate cancellation"
+   },
+   {
+    "field": "other_clinical_reason",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_bp_within_12_months_available",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put the national blood pressure 'traffic light' chart in every admissions area and anaesthetic room, and require consultant anaesthetist agreement for any blood pressure cancellation below 180/120.",
+  "target": "≥90% of blood pressure cancellations appropriate; fewer cancellations overall",
+  "reaudit": "Months 4–6 cancellations (same log, same template).",
+  "close_loop": "Present at theatre users' group with theatre minutes saved. If it works, add the thresholds to the trust pre-operative hypertension guideline.",
+  "evidence": [
+   "[2748] Chelsea and Westminster bariatric surgery: cancellations 30.5% → 17.3% (early anaesthetic-led pre-assessment)",
+   "[2193] Paediatric plastic surgery list: 10% cancelled on the day, mostly for fasting (single cycle)"
+  ],
+  "pitfalls": [
+   "Reason codes are vague ('medical') → search the anaesthetic notes for BP values.",
+   "Anxiety readings on the day → require repeated readings and record them.",
+   "Anaesthetists feel second-guessed → present as a department standard agreed at a meeting.",
+   "Low monthly numbers → use 12 months for cycle 1 and 6 months for cycle 2."
+  ],
+  "pearls": [
+   "Recruit the theatre manager; cancellation data are theirs.",
+   "Present minutes of theatre time lost.",
+   "Ask pre-assessment to request GP readings for anyone at 160/100 or above.",
+   "Name a consultant for the second-opinion rule."
+  ],
+  "novelty": "new",
+  "effort": "~2 h total from the cancellation log and notes"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults taking a GLP-1 receptor agonist (e.g. semaglutide, tirzepatide) who have elective surgery or sedation, what proportion have a documented pulmonary aspiration risk assessment?",
+  "why": "GLP-1 receptor agonist use for weight loss has risen fast, and national advice now says continue the drug and assess aspiration risk. No library audit has examined this group.",
+  "standard": {
+   "source": "Association of Anaesthetists, CPOC, RCoA and partners, Elective peri-operative management of adults taking GLP-1 RAs, GIP/GLP-1 RAs and SGLT2 inhibitors: consensus statement (Anaesthesia 2025)",
+   "wording": "Individualised pulmonary aspiration risk assessment should be completed, accounting for drug, patient and procedural factors.",
+   "url": "https://doi.org/10.1111/anae.16541"
+  },
+  "pass": "The anaesthetic pre-op note or pre-assessment record documents the GLP-1 drug and an aspiration risk assessment (e.g. dose phase, GI symptoms, planned technique or mitigation).",
+  "population": "Adults on any GLP-1 or GIP/GLP-1 receptor agonist (for diabetes or weight) having elective surgery or procedures under sedation or general anaesthesia.",
+  "sample": "40 consecutive patients identified from pre-assessment medication lists over 1–2 months.",
+  "data_source": "Pre-assessment medicines list; anaesthetic pre-op assessment; anaesthetic chart (technique, airway, gastric ultrasound if used).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "diabetes",
+     "weight management"
+    ],
+    "note": ""
+   },
+   {
+    "field": "drug_documented_in_anaesthetic_note",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspiration_risk_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "drug_stopped_preoperatively",
+    "type": "yes/no",
+    "options": [],
+    "note": "Guideline says continue"
+   },
+   {
+    "field": "mitigation_used",
+    "type": "choice",
+    "options": [
+     "none",
+     "RSI/tracheal tube",
+     "regional",
+     "gastric ultrasound",
+     "prokinetic",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'GLP-1/GIP agonist: yes/no → aspiration risk (low/raised), plan' prompt to the pre-assessment and anaesthetic pre-op templates.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: next 40 patients on these drugs, same template.",
+  "close_loop": "Present at anaesthetic governance and the pre-assessment team. If it works, keep the prompt and publish a one-page local guide.",
+  "evidence": [
+   "[2970] 59 UK trusts, peri-operative steroid replacement: 9% overall compliance (single cycle)",
+   "[2782] Southampton peri-operative diabetes: intra-operative glucose monitoring 59% (single cycle)"
+  ],
+  "pitfalls": [
+   "Weight-loss injections bought privately are missing from GP lists → ask directly at pre-assessment.",
+   "Staff still stop the drug for a week → record 'stopped' separately and share the new guidance.",
+   "Definitions of 'assessment' vary → agree minimum content before cycle 1.",
+   "Few cases in cycle 1 → extend the time window, not the inclusion criteria."
+  ],
+  "pearls": [
+   "Recruit a pre-assessment pharmacist to search medication lists.",
+   "Include endoscopy sedation lists; they see many of these patients.",
+   "Share the national consensus infographic with the change.",
+   "Name a consultant who owns the local guide."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pre-assessment and anaesthetic notes"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults taking an SGLT2 inhibitor (e.g. dapagliflozin, empagliflozin) who have elective surgery, what proportion omit it on both the day before and the day of the procedure?",
+  "why": "SGLT2 inhibitors cause euglycaemic ketoacidosis after surgery and are now used for heart failure and kidney disease, not just diabetes. The library diabetes audit did not look at these drugs [2782].",
+  "standard": {
+   "source": "Association of Anaesthetists, CPOC, RCoA and partners, Elective peri-operative management of adults taking GLP-1 RAs, GIP/GLP-1 RAs and SGLT2 inhibitors: consensus statement (Anaesthesia 2025)",
+   "wording": "Sodium-glucose cotransporter-2 inhibitors should be omitted the day before and the day of a procedure.",
+   "url": "https://doi.org/10.1111/anae.16541"
+  },
+  "pass": "Pre-assessment instruction to omit on the day before and the day of surgery, and the admission record confirms no dose was taken on either day.",
+  "population": "Adults on an SGLT2 inhibitor for any indication (diabetes, heart failure, kidney disease) having elective surgery or procedures under anaesthesia or sedation.",
+  "sample": "40 consecutive eligible patients over 1–2 months.",
+  "data_source": "Pre-assessment medicines instructions; day-of-surgery admission checklist or medicines reconciliation; EPMA; ketone results if checked.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "diabetes",
+     "heart failure",
+     "chronic kidney disease"
+    ],
+    "note": ""
+   },
+   {
+    "field": "omit_instruction_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "dose_taken_day_before",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2: must be no"
+   },
+   {
+    "field": "dose_taken_day_of_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 3: must be no"
+   },
+   {
+    "field": "restart_instruction_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ketones_checked_postop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add SGLT2 inhibitors (by drug name, all indications) to the pre-assessment electronic 'omit' list with an automatic day-before and day-of instruction letter.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at anaesthetic and diabetes governance. If it works, add sick-day rules to the discharge letter template.",
+  "evidence": [
+   "[2782] Southampton peri-operative diabetes: HbA1c and ketones checked in 53% (single cycle; targeted education planned)",
+   "[2970] 59 UK trusts, peri-operative steroid replacement: 9% compliance (single cycle)"
+  ],
+  "pitfalls": [
+   "Heart failure patients are not flagged as 'diabetic' → search by drug name, not diagnosis.",
+   "Only day-of omission advised → check the wording of every leaflet.",
+   "Whether the day-before dose was taken is not asked → add it to the admission checklist.",
+   "Cardiologists worry about stopping → the omission is only 2 days; share the consensus."
+  ],
+  "pearls": [
+   "Recruit a pharmacist to run a drug-name search.",
+   "Include day-surgery units.",
+   "Add restart advice at discharge in the same change.",
+   "Keep the drug list up to date as new SGLT2 inhibitors appear."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pre-assessment and admission records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults on a variable rate intravenous insulin infusion during surgery and recovery, what proportion have a capillary blood glucose checked at least every hour?",
+  "why": "A Southampton audit found intra-operative glucose monitoring in only 59% and recovery monitoring in 63% of patients with diabetes, with no second cycle [2782]. The 2026 consensus restates hourly checks.",
+  "standard": {
+   "source": "Association of Anaesthetists and Joint British Diabetes Societies for Inpatient Care, Peri-operative management of diabetes mellitus: consensus statement (Anaesthesia 2026)",
+   "wording": "Check a capillary blood glucose every hour for patients who are placed on a variable rate intravenous insulin infusion.",
+   "url": "https://doi.org/10.1111/anae.70181"
+  },
+  "pass": "No gap longer than 60 minutes between glucose readings from the start of anaesthesia to discharge from recovery while the insulin infusion runs.",
+  "population": "Adults with diabetes on a variable rate intravenous insulin infusion at any point from induction to recovery discharge, elective or emergency.",
+  "sample": "40 consecutive eligible patients over 1–2 months.",
+  "data_source": "Anaesthetic chart and recovery chart (glucose values and times); point-of-care glucose meter download; EPMA (insulin infusion times).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vrii_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recovery_discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_glucose_readings",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Pass criterion: ≤60"
+   },
+   {
+    "field": "any_glucose_below_4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_glucose_above_12",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add hourly glucose prompt rows to the anaesthetic and recovery charts that appear when an insulin infusion is started, and link the glucose meters to the EPR.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at anaesthetic governance and the inpatient diabetes team. If it works, keep the prompts and add a VRII section to the theatre–ward handover.",
+  "evidence": [
+   "[2782] Southampton peri-operative diabetes: intra-operative glucose monitoring 59%, recovery 63%, handover 42% (single cycle)"
+  ],
+  "pitfalls": [
+   "Meter readings are not transcribed → download from the meter to check.",
+   "Short cases under an hour → need only one intra-operative reading; define rules before cycle 1.",
+   "Recovery nurses unaware of VRII → include recovery staff in the change.",
+   "Few eligible patients → extend the time window."
+  ],
+  "pearls": [
+   "Recruit the inpatient diabetes specialist nurse.",
+   "Ask point-of-care testing for meter data by location.",
+   "Report hypoglycaemia and hyperglycaemia episodes as outcomes.",
+   "Use the same gap rule in both cycles."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from charts and meter download"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults having general anaesthesia with at least one PONV risk factor, what proportion receive prophylaxis with two antiemetic interventions?",
+  "why": "Nausea and vomiting after surgery delays discharge and is one of the most disliked outcomes. The library has only incidental PONV data within ERAS audits [2888]; no closed-loop audit of risk-based prophylaxis exists.",
+  "standard": {
+   "source": "Fifth Consensus Guidelines for the Management of Postoperative Nausea and Vomiting: Executive Summary (Gan et al., Anesth Analg 2026;143:497–513), Guideline 3",
+   "wording": "Guideline 3. Administer PONV prophylaxis using 2 interventions in adults at any risk for PONV ... Since most adult patients undergoing surgery and anesthesia will have at least one risk factor for PONV, a general multimodal approach is recommended for administering PONV prophylaxis.",
+   "url": "https://doi.org/10.1213/ANE.0000000000007816"
+  },
+  "pass": "Two prophylactic interventions from different classes (e.g. dexamethasone plus ondansetron, or one drug plus TIVA) recorded on the anaesthetic chart.",
+  "population": "Adults (18+) having general anaesthesia for elective or emergency surgery with ≥1 Apfel risk factor (female, non-smoker, history of PONV or motion sickness, postoperative opioids). Exclude patients going to ICU ventilated.",
+  "sample": "40 consecutive eligible cases from mixed day-case and inpatient lists over 2 weeks.",
+  "data_source": "Electronic anaesthetic chart (antiemetics, TIVA); pre-op assessment (risk factors); recovery chart (PONV, rescue).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "apfel_score",
+    "type": "number",
+    "options": [],
+    "note": "0–4"
+   },
+   {
+    "field": "case_type",
+    "type": "choice",
+    "options": [
+     "day case",
+     "inpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "antiemetic_1",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antiemetic_2",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tiva_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_interventions_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ponv_in_recovery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_given_in_recovery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a default 'PONV prophylaxis: dexamethasone + ondansetron (untick with reason)' bundle to the electronic anaesthetic chart.",
+  "target": "≥85% of eligible cases",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible cases, same lists and template.",
+  "close_loop": "Present at the anaesthetic department meeting with recovery PONV rates. If it works, keep the chart bundle and add PONV to the recovery quality dashboard.",
+  "evidence": [
+   "[2888] Elective colorectal ERAS audit: >90% compliance with PONV prophylaxis within an ERAS pathway (single cycle)",
+   "[1341] Queen Elizabeth Birmingham surgery: antiemetic co-prescribing with opioids >75% after education and reminders",
+   "[1429] Italian orthopaedic theatres without PACU: 6 of 261 patients failed discharge criteria for nausea/vomiting (single cycle)"
+  ],
+  "pitfalls": [
+   "Dexamethasone avoided in diabetes → record the reason; a documented alternative counts.",
+   "Apfel score not documented → derive it from the notes and keep the same method in both cycles.",
+   "Anaesthetists resist 'recipe' anaesthesia → keep an untick-with-reason option.",
+   "PONV outcome under-recorded in recovery → add a yes/no field to the recovery chart."
+  ],
+  "pearls": [
+   "Recruit the recovery sister to record PONV and rescue.",
+   "Present day-case unplanned admissions due to PONV if available.",
+   "Pharmacy can confirm drug stock in each anaesthetic room.",
+   "Run cycle 1 on the same lists you will re-audit."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 cases from electronic anaesthetic and recovery charts"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults who vomit or feel sick after surgery despite prophylaxis, what proportion receive their first rescue antiemetic from a different drug class to the prophylaxis?",
+  "why": "Repeating the same drug (usually ondansetron) soon after prophylaxis gives little extra benefit. No library audit has measured PONV rescue choice.",
+  "standard": {
+   "source": "Fifth Consensus Guidelines for the Management of Postoperative Nausea and Vomiting: Executive Summary (Gan et al., Anesth Analg 2026;143:497–513), Guideline 4",
+   "wording": "Patients should receive rescue treatment from a different pharmacological class to the prophylactic agents administered. If more than 6 hours has elapsed, administration of a second dose of a 5-HT3 receptor antagonist or butyrophenone may be considered if no alternatives are available.",
+   "url": "https://doi.org/10.1213/ANE.0000000000007816"
+  },
+  "pass": "First rescue antiemetic (in recovery or within 24 hours on the ward) is from a class not used for prophylaxis, or a repeat 5-HT3 antagonist given more than 6 hours after the prophylactic dose.",
+  "population": "Adults (18+) who received antiemetic prophylaxis during anaesthesia and then received a rescue antiemetic within 24 hours. Exclude patients in ICU.",
+  "sample": "40 consecutive patients who received rescue antiemetics, from EPMA/recovery records over 3–4 weeks.",
+  "data_source": "Anaesthetic chart (prophylactic drugs and times); recovery chart and EPMA (rescue drug and time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_classes",
+    "type": "text",
+    "options": [],
+    "note": "e.g. 5-HT3, steroid"
+   },
+   {
+    "field": "prophylaxis_5ht3_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_drug",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_class_different",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_5ht3_after_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_appropriate",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "second_rescue_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the generic 'ondansetron PRN' recovery and ward order set with a PONV rescue ladder that lists the drugs given in theatre and suggests a different class first (e.g. cyclizine, prochlorperazine, droperidol).",
+  "target": "≥85% of rescue episodes",
+  "reaudit": "Weeks 13–14: next 40 rescue episodes, same template.",
+  "close_loop": "Present at anaesthetic governance and recovery nursing meeting. If it works, embed the rescue ladder in the post-operative order set.",
+  "evidence": [
+   "[1341] Queen Elizabeth Birmingham surgery: antiemetic co-prescribing with opioids >75% (education, posters, weekly reminders)",
+   "[1429] Italian orthopaedic theatres without PACU: nausea/vomiting among causes of unmet discharge criteria (single cycle)"
+  ],
+  "pitfalls": [
+   "Recovery nurses only have ondansetron under a PGD → update the PGD or order set before cycle 2.",
+   "Prophylaxis not recorded clearly → use the electronic chart as the only source.",
+   "Droperidol availability varies → offer two alternatives in the ladder.",
+   "Ward and recovery rescue differ → report both settings separately."
+  ],
+  "pearls": [
+   "Recruit a recovery nurse and a surgical pharmacist.",
+   "Collect second-rescue rates; they show the benefit.",
+   "Show the ladder on the recovery drug trolley.",
+   "Pair this audit with the prophylaxis audit for one presentation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from charts and EPMA"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "For tracheal intubations outside theatres (ICU, emergency department and wards), what proportion have waveform capnography confirmation of tube placement documented?",
+  "why": "Unrecognised oesophageal intubation still kills patients outside theatre. Library airway work covers an ED checklist bundle [3032] and a theatre pre-induction checklist [2968], not documented capnography confirmation in ICU and wards.",
+  "standard": {
+   "source": "Project for Universal Management of Airways and international airway societies (including DAS), Preventing unrecognised oesophageal intubation: consensus guideline (Anaesthesia 2022)",
+   "wording": "Exhaled carbon dioxide monitoring and pulse oximetry should be available and used for all episodes of airway management. ... Sustained exhaled carbon dioxide should be used to confirm alveolar ventilation following passage of a tracheal tube",
+   "url": "https://doi.org/10.1111/anae.15817"
+  },
+  "pass": "The intubation record documents a sustained waveform capnography trace (or end-tidal CO2 value after ≥7 breaths) as confirmation of tube placement.",
+  "population": "All adult tracheal intubations and tube exchanges performed in ICU, ED, wards and cardiac arrest calls. Exclude operating theatres.",
+  "sample": "40 consecutive out-of-theatre intubations over the last 2–3 months.",
+  "data_source": "ICU/ED intubation checklist or airway record; ICU notes; cardiac arrest audit forms; monitor data if archived.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_time_intubation",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ICU",
+     "ED",
+     "ward",
+     "cardiac arrest"
+    ],
+    "note": ""
+   },
+   {
+    "field": "operator_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "core trainee",
+     "ACCP",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "intubation_checklist_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capnography_confirmation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "videolaryngoscope_used_first_attempt",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "attempts",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oesophageal_intubation_recognised",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Sustained exhaled CO2 confirmed (waveform): yes/no' line to the out-of-theatre intubation checklist and airway record.",
+  "target": "100% of intubations",
+  "reaudit": "Weeks 13–14: next 40 out-of-theatre intubations, same template.",
+  "close_loop": "Present at ICU/ED airway governance and the resuscitation committee. If it works, add capnography to every emergency airway trolley check.",
+  "evidence": [
+   "[3032] Australian major trauma ED: first-attempt success 88.5% → 94.6% (monthly audit, education, intubation checklist)",
+   "[2968] Swiss anaesthesia pre-induction checklist: completion 48.3% → 66.7% over five years (single audit series)"
+  ],
+  "pitfalls": [
+   "Capnography used but not written down → the checklist line fixes documentation; say so when presenting.",
+   "Cardiac arrest forms lack the field → update the resuscitation record too.",
+   "Low trace in cardiac arrest confuses staff → include the PUMA 'sustained CO2' criteria on the checklist.",
+   "Small numbers per month → collect from ICU, ED and arrest calls together."
+  ],
+  "pearls": [
+   "Recruit an ICU airway lead and an ED consultant.",
+   "Check every emergency airway trolley has a working capnography line during weeks 5–12.",
+   "Record videolaryngoscope use at the same time.",
+   "Report any recognised oesophageal intubations anonymously."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 intubations from airway records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "After thyroid surgery, what proportion of adults have observations including wound inspection recorded at least hourly for the first 6 hours?",
+  "why": "Neck haematoma after thyroidectomy can obstruct the airway within hours; half occur in the first 6 hours. Library thyroid audits cover calcium and voice outcomes [2511] [2799], not early postoperative monitoring.",
+  "standard": {
+   "source": "DAS, BAETS and ENT UK, Management of haematoma after thyroid surgery: consensus guidelines (Anaesthesia 2022)",
+   "wording": "Thus, routine patient observations should be carried out at least hourly for first 6 h postoperatively ... Minimum monitoring includes wound inspection, early warning and pain scoring, as well as awareness for more subtle signs (agitation; anxiety; difficulty in breathing; discomfort).",
+   "url": "https://doi.org/10.1111/anae.15585"
+  },
+  "pass": "Observations (NEWS2, pain score and wound/neck check) recorded with no gap over 60 minutes from recovery discharge until 6 hours after end of surgery.",
+  "population": "Adults having hemi, total or completion thyroidectomy (and parathyroidectomy via neck incision if agreed). Exclude patients kept in ICU/HDU.",
+  "sample": "All thyroid operations over the last 6 months (expect 30–50 in a DGH with a thyroid surgeon).",
+  "data_source": "E-observations or paper charts (times, NEWS2, pain score); nursing notes (wound check); theatre system (end of surgery).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "hemithyroidectomy",
+     "total thyroidectomy",
+     "completion thyroidectomy",
+     "parathyroidectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "end_of_surgery_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_obs_gap_first_6h_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Pass criterion 1: ≤60"
+   },
+   {
+    "field": "wound_check_each_obs",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "emergency_box_at_bedside_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haematoma_occurred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'post-thyroid surgery' observation schedule to the e-observations system (hourly for 6 hours with a neck/wound check field and DESATS prompts), triggered by the procedure code.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14 onward: next 20–30 thyroid operations (low volume), same template.",
+  "close_loop": "Present at ENT/endocrine surgery and anaesthetic governance. If it works, keep the schedule and add the emergency box check to the ward safety huddle.",
+  "evidence": [
+   "[2511] Somerset thyroidectomy calcium management: guideline followed 100% and no readmissions after a pre-operative pack and updated guidelines",
+   "[1221] James Cook spinal surgery: 12/25 → 21/25 post-operative care domains at 100% (post-operative checklist)"
+  ],
+  "pitfalls": [
+   "Low volume → use 6–12 months for cycle 1 and keep collecting until 20 cases for cycle 2.",
+   "Obs recorded but no wound check → the field must be separate.",
+   "Patients moved to wards far from the nursing station → record bed location too.",
+   "Night staffing pushback → hourly obs apply only to the first 6 hours."
+  ],
+  "pearls": [
+   "Recruit the ENT or endocrine ward sister.",
+   "Check for the post-thyroid emergency box at the same time.",
+   "Invite the thyroid surgeon to co-present.",
+   "Use the DAS/BAETS/ENT UK post-thyroid surgery review chart as the template."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from e-observations"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "What proportion of adults with a BMI over 40 are flagged as such on the published theatre list?",
+  "why": "Airway complications are more frequent in people living with obesity and preparation depends on the team knowing in advance. Library bariatric audits cover cancellations [2748], not theatre-list flags.",
+  "standard": {
+   "source": "Society for Obesity and Bariatric Anaesthesia, Airway management in patients living with obesity: best practice recommendations (Anaesthesia 2025)",
+   "wording": "Operating theatre lists should flag patients with a BMI > 40 kg.m-2 (Grade D, strong recommendation).",
+   "url": "https://doi.org/10.1111/anae.16647"
+  },
+  "pass": "The final published theatre list shows BMI or an obesity flag for the patient.",
+  "population": "Adults with BMI >40 kg/m2 (from pre-assessment or admission weight) on elective or emergency theatre lists, any specialty.",
+  "sample": "40 consecutive patients with BMI >40 over 4–6 weeks.",
+  "data_source": "Theatre management system (published list); pre-assessment or admission record (height, weight, BMI); team brief record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bmi",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "list_type",
+    "type": "choice",
+    "options": [
+     "elective",
+     "emergency"
+    ],
+    "note": ""
+   },
+   {
+    "field": "bmi_or_flag_on_published_list",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "bmi_discussed_at_team_brief",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "extra_time_allocated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bariatric_equipment_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make BMI a mandatory field when booking a case in the theatre system and display it automatically on the printed and electronic list, with a flag above 40.",
+  "target": "≥95% of patients with BMI >40",
+  "reaudit": "Weeks 13–14: next 40 patients with BMI >40, same template.",
+  "close_loop": "Present at theatre users' group. If it works, add BMI to the WHO team brief script.",
+  "evidence": [
+   "[2748] Chelsea and Westminster bariatric surgery: cancellations 30.5% → 17.3% (early anaesthetic-led pre-assessment)",
+   "[3048] NHS theatres WHO checklist: team brief done in 7/8 sessions, debrief 2/8 (single cycle)"
+  ],
+  "pitfalls": [
+   "BMI missing for emergency cases → allow 'estimated' and record weight on admission.",
+   "Patients object to BMI on public screens → show a neutral flag icon rather than the number.",
+   "Booking clerks bypass mandatory fields → ask IT to block list publication without BMI.",
+   "Definitions change (BMI >35 vs >40) → keep 40 in both cycles."
+  ],
+  "pearls": [
+   "Recruit the theatre scheduling manager.",
+   "Check emergency lists separately; they fail most.",
+   "Show a near miss (equipment not ready) to explain why.",
+   "Record team brief discussion as a second measure."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from theatre system"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "For central venous catheters inserted in theatre or intensive care, what proportion have witnessed documentation that the guidewire was removed?",
+  "why": "A retained guidewire is a Never Event. Library central line audits cover timely removal [2120] and coagulation checks [2423], not guidewire documentation.",
+  "standard": {
+   "source": "Association of Anaesthetists guidelines: safe vascular access 2025 (Anaesthesia 2025)",
+   "wording": "All possible procedures should be put in place to prevent retained guidewires, including operator vigilance; guidewire counts; mandatory witnessed documentation of guidewire removal; and where available, the use of guidewire anti-retention devices.",
+   "url": "https://doi.org/10.1111/anae.16727"
+  },
+  "pass": "The CVC insertion record or LocSSIP checklist states the guidewire was removed and names or signs a second person as witness.",
+  "population": "All non-tunnelled central venous catheters, dialysis lines and PICCs inserted by anaesthetists or intensivists in theatre, ICU or ED. Exclude tunnelled lines placed in radiology.",
+  "sample": "40 consecutive insertions over the last 2–3 months.",
+  "data_source": "CVC insertion record or LocSSIP sticker in EPR; ICU line log; anaesthetic chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_time_insertion",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "theatre",
+     "ICU",
+     "ED"
+    ],
+    "note": ""
+   },
+   {
+    "field": "device_type",
+    "type": "choice",
+    "options": [
+     "CVC",
+     "dialysis line",
+     "PICC",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "locssip_checklist_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "guidewire_removal_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "witness_named_or_signed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "real_time_ultrasound_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free-text line notes with a vascular access LocSSIP sticker/EPR form that has a 'Guidewire removed and shown to: ___ (signature)' box.",
+  "target": "100% of insertions",
+  "reaudit": "Weeks 13–14: next 40 insertions, same template.",
+  "close_loop": "Present at ICU and anaesthetic governance and the NatSSIPs group. If it works, make the form the only way to document a line.",
+  "evidence": [
+   "[2120] Surgical ICU central lines: removal alerts created 25% → 65% (step-by-step guide to the electronic alert)",
+   "[220] UHBW Stop Before You Block: 80% checked before block → full assurance at re-audit [505] (awareness work)",
+   "[508] Stockport prone ventilation safety checklist: significant assurance (single cycle)"
+  ],
+  "pitfalls": [
+   "Theatre lines documented on the anaesthetic chart only → accept the chart if the witness is named.",
+   "Assistants not trained to witness → brief ODPs and ICU nurses before the change.",
+   "Paper stickers run out → keep stock in every line trolley and add an EPR version.",
+   "Emergency lines out of hours are missed → audit day and night separately."
+  ],
+  "pearls": [
+   "Recruit the ICU nurse educator and the theatre ODP lead.",
+   "Record ultrasound use too; it is in the same guideline.",
+   "Keep a blank form on the CVC trolley.",
+   "Present any Never Event learning nationally to show relevance."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 insertions from line records"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults having major elective surgery with blood cross-matched or a transfusion anticipated, what proportion have a documented pre-operative discussion about transfusion and its alternatives?",
+  "why": "Valid consent for transfusion is a national requirement, yet documentation is patchy; a general surgery audit improved it after feedback [2458]. No audit has targeted major elective surgery before the day of operation.",
+  "standard": {
+   "source": "Association of Anaesthetists guidelines: the use of blood components and their alternatives (Anaesthesia 2025), recommendation 2",
+   "wording": "Where blood transfusion is anticipated, this and alternatives to transfusion should be discussed with the patient before surgery, and their consent should be documented according to local protocols.",
+   "url": "https://doi.org/10.1111/anae.16542"
+  },
+  "pass": "Consent form, pre-assessment or anaesthetic note documents a discussion of transfusion risks, benefits and alternatives, and the patient's decision, before the day of surgery or before induction.",
+  "population": "Adults having major elective non-orthopaedic surgery (e.g. colorectal, hepatobiliary, upper GI, gynae-oncology, urology, vascular) for whom blood was cross-matched or a transfusion was judged likely.",
+  "sample": "40 consecutive eligible patients over 4–6 weeks.",
+  "data_source": "Blood bank cross-match list; surgical consent form; pre-assessment and anaesthetic pre-op notes; transfusion record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crossmatch_or_transfusion_anticipated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transfusion_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "alternatives_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. iron, cell salvage, TXA"
+   },
+   {
+    "field": "patient_information_leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transfused_perioperatively",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a transfusion section (risks, benefits, alternatives, leaflet given, decision) to the consent form or anaesthetic pre-op template for procedures with a cross-match on the maximum surgical blood ordering schedule.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at the hospital transfusion committee and surgical governance. If it works, include the section in all major surgery consent forms.",
+  "evidence": [
+   "[2458] District general surgery inpatients: most transfusion documentation criteria above 80% after discussion with junior doctors",
+   "[2539] East Sussex general surgery: NICE-compliant units 40.2% → 50.4% (teaching, posters)"
+  ],
+  "pitfalls": [
+   "Surgeons and anaesthetists each assume the other consents → agree who owns it before cycle 1.",
+   "Consent recorded only when transfusion happens → sample from the cross-match list, not the transfusion list.",
+   "Jehovah's Witness patients distort results → include them; an advance decision counts as a documented discussion.",
+   "Section left blank on the form → make it mandatory for listed procedures."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner.",
+   "Use the NHS Blood and Transplant patient leaflet.",
+   "Link the change to the maximum surgical blood ordering schedule.",
+   "Report alternatives offered; it supports patient blood management."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from consent forms and notes"
+ },
+ {
+  "area": "Anaesthesia, perioperative care and intensive care",
+  "question": "In adults using CPAP or home non-invasive ventilation who have elective surgery, what proportion are told at pre-assessment to bring their machine on the day of surgery?",
+  "why": "Patients with obstructive sleep apnoea who arrive without their CPAP face higher postoperative respiratory risk and may need HDU beds. No library audit covers this.",
+  "standard": {
+   "source": "Society for Obesity and Bariatric Anaesthesia, Airway management in patients living with obesity: best practice recommendations (Anaesthesia 2025)",
+   "wording": "Patients on CPAP/non-invasive ventilation should be instructed to bring their machine on the day of surgery (Grade C, strong recommendation).",
+   "url": "https://doi.org/10.1111/anae.16647"
+  },
+  "pass": "Pre-assessment record or letter documents the instruction to bring the machine, and the admission record shows it arrived.",
+  "population": "Adults using CPAP, APAP or home NIV for any indication having elective surgery with an anaesthetist.",
+  "sample": "40 consecutive eligible patients over 4–6 weeks.",
+  "data_source": "Pre-assessment record and patient letters; admission checklist; recovery/ward notes (CPAP used post-op).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; no names or NHS numbers"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "device",
+    "type": "choice",
+    "options": [
+     "CPAP",
+     "APAP",
+     "NIV"
+    ],
+    "note": ""
+   },
+   {
+    "field": "instruction_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "machine_brought",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "machine_used_postop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_location",
+    "type": "choice",
+    "options": [
+     "day case",
+     "ward",
+     "HDU/ICU"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'Uses CPAP/NIV: bring machine and mask on day of surgery' as an automatic line in the pre-assessment admission letter when CPAP is ticked.",
+  "target": "≥90% instructed; ≥80% machines brought",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at the pre-assessment team and anaesthetic governance. If it works, add a 'CPAP on ward' check to the recovery discharge criteria.",
+  "evidence": [
+   "[2748] Chelsea and Westminster bariatric surgery: cancellations 30.5% → 17.3% (early anaesthetic-led pre-assessment)",
+   "[2968] Swiss pre-induction checklist: completion 48.3% → 66.7% over five years (single audit series)"
+  ],
+  "pitfalls": [
+   "CPAP use not asked at pre-assessment → add a yes/no question first.",
+   "Patients forget despite instruction → add a text reminder the day before.",
+   "Wards lack power points or staff familiar with CPAP → involve the respiratory nurse.",
+   "Small numbers → extend the collection window."
+  ],
+  "pearls": [
+   "Recruit the sleep or respiratory physiology team.",
+   "Include day-surgery units.",
+   "Record post-op CPAP use as an outcome.",
+   "Keep the same inclusion in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from pre-assessment and admission records"
+ }
+]
