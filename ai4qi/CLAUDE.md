@@ -8,7 +8,7 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
 
 ## What is in it
 
-- `ai4qi-library.json`: `audits` (8,450 entries, numbered `id`), `topic_knowledge` (topic cards), `about`.
+- `ai4qi-library.json`: `audits` (9,250 entries, numbered `id`), `topic_knowledge` (topic cards), `about`.
   - ids 1–1145: the original library supplied by the user. Never edit these; treat them as ground truth.
   - ids 1146+: found by the pipeline (PubMed, Europe PMC, Crossref conference abstracts) and read by
     Claude. `status` says how solid each is: `published, detailed` (read and confirmed an audit),
@@ -52,7 +52,7 @@ Rules:
 4. Topic cards: present seed cards as the team's judgement; present draft cards as
    "draft, not yet consultant-reviewed". If a draft and a seed card disagree, show both.
 5. Known duplicates: some projects appear twice, once as a conference abstract and once as a paper
-   (e.g. [583]/[1270], [1130]/[1544], [1132]/[1511], [1131]/[1518], [1873]/[1895]). Count a pair
+   (e.g. [583]/[1270], [1130]/[1532], [1132]/[1499], [1131]/[1506], [1850]/[1872]). Count a pair
    once when saying how many audits exist.
 6. Typical user questions and where to look: "what should I audit in X?" → `--topics --specialty X`
    then the cards' consultant advice (it names overdone topics and gaps); "what fix works for Y?" →
@@ -124,5 +124,5 @@ If a proposed audit (ONA-xxx) fits, offer it with its template path and label it
 See README.md. Pipeline: `pipeline.py` (search/fetch/screen/figures/merge/output),
 `crossref_harvest.py` (conference abstracts), in-session reading via
 `work/claude_batches/INSTRUCTIONS.md` + `validate_claude.py --ingest`, topics via `topics_local.py`.
-`pipeline.py merge` rebuilds new entries from the seed each time, so ids 1146+ can shift if
-inputs change; cite by id only within one version of the library.
+Library ids are permanent: `work/id_map.json` maps each paper's record key to its id, and new papers
+get the next free number, so an id cited today stays valid.

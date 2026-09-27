@@ -425,6 +425,7 @@ def cmd_merge():
     contiguous; pipeline-drafted topic cards are carried over from the current library."""
     with open(SEED, encoding="utf-8") as f:
         lib = json.load(f)
+    old = {"audits": []}
     if os.path.exists(LIB):
         old = json.load(open(LIB, encoding="utf-8"))
         lib["topic_knowledge"] += [t for t in old.get("topic_knowledge", []) if t.get("generated_by") == "pipeline"]
@@ -438,6 +439,7 @@ def cmd_merge():
             by_id.setdefault(i, e)
     titles = {norm_title(e["title"]): e for e in audits if e.get("paper")}
     next_id = max(e["id"] for e in audits) + 1
+    ekeys = {}                        # entry -> record keys folded into it (for permanent ids)
     added = matched_seed = dup = 0
     dedupe_log, excluded = [], []
     excl_ids, excl_titles = set(), set()
@@ -483,9 +485,11 @@ def cmd_merge():
             dup += 1
             dedupe_log.append({"key": k, "matched_id": entry["id"], "by": why})
         _fill(entry, k, r, s, hits.get(k, {}), ext.get(k), figs.get(k))
+        ekeys.setdefault(id(entry), []).append(k)
         for i in ids:
             by_id[i] = entry
         titles[norm_title(r["title"])] = entry
+    _assign_permanent_ids(audits, ekeys, old)
     mp = os.path.join(WORK, "topics_out", "mapping.json")
     if os.path.exists(mp):            # canonical topic names chosen in the topics step
         mapping = json.load(open(mp, encoding="utf-8"))
@@ -500,6 +504,31 @@ def cmd_merge():
     save("excluded_on_reading.json", excluded)
     print(f"merge: {added} new entries, {matched_seed} seed entries enriched, {dup} duplicates folded; "
           f"{len(excluded)} excluded as not audits on reading; library now {len(audits)} entries")
+
+
+def _assign_permanent_ids(audits, ekeys, old):
+    """Ids above SEED_MAX never change once given: work/id_map.json maps record key -> id.
+    New papers get the next unused number, so citations like [2124] stay valid for good."""
+    idmap = load("id_map.json", None)
+    if idmap is None:                 # first run: freeze the ids of the library as it stands
+        idmap = {e["paper"]["key"]: e["id"] for e in old.get("audits", [])
+                 if e["id"] > 1145 and (e.get("paper") or {}).get("key")}
+    used = {e["id"] for e in audits if e["id"] <= 1145}
+    nxt = max(list(idmap.values()) + [1145]) + 1
+    for e in audits:
+        if e["id"] <= 1145:
+            continue
+        ks = ekeys.get(id(e), []) or [(e.get("paper") or {}).get("key")]
+        nid = next((idmap[k] for k in ks if k in idmap and idmap[k] not in used), None)
+        if nid is None:
+            nid, nxt = nxt, nxt + 1
+        e["id"] = nid
+        used.add(nid)
+        for k in ks:
+            if k:
+                idmap.setdefault(k, nid)
+    audits.sort(key=lambda e: e["id"])
+    save("id_map.json", idmap)
 
 
 def _fill(entry, key, r, s, hit, ext, fig):
