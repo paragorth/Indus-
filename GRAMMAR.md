@@ -77,3 +77,10 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 - have its 6+-sign middle unattested elsewhere;
 - place M99/M123 only in second position;
 - be an owned seal that takes the opener more often than the tablet suffix.
+
+## Added 27 Sept 2026 (replicated in both transcriptions)
+
+- **Bar-seal genre (S157, S157b, S175, S184).** Long script-only bar seals (Harappa Period 3C, Dholavira Stage VI) keep the opener but drop the jar closer and the person sign: Harappa 3C 31% vs 47% jar-final among square seals; Dholavira 10% vs 38%; IM77 script-only seals 37% vs 44% (P = 0.007). The Dholavira excavator independently dates these seals to the late phase, made in kaolinite after the steatite supply stopped. The sign inventory does not shrink (S181); the change is in the formula.
+- **Shared number + item terms (S173, S177, S184b).** Stroke-numeral + item pairs found on tablets recur on seals more than other tablet pairs (Wells 59% vs 39%; IM77 78% vs 57%). On seals they fill the title slot before the jar. The number + leaf counts stay on tablets. So the tablets' unit vocabulary doubles as seal titles, while the tablets' counts are a separate system.
+- **Law of abbreviation (S164, S164c, S184c).** Frequent signs are graphically simpler: ρ ≈ −0.3 among well-attested signs, in the range of cuneiform measured the same way (−0.07 to −0.24). Consistent with a script shaped by use; not by itself proof of language.
+- **Negative results.** Seal size (CISI size groups) does not predict the opener or the choice of closer once text length is controlled (S179, S179b). The apparent "name-final elements" were the known closer and marker slots (S182c).
