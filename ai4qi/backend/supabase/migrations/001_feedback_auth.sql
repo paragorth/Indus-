@@ -76,7 +76,7 @@ as $$
 declare
   recent integer;
 begin
-  new.created_at := now();
+  new.created_at := clock_timestamp();
   -- serialise concurrent inserts from the same device so the count is exact
   perform pg_advisory_xact_lock(hashtext('ai4qi_feedback:' || new.device_id));
   select count(*) into recent
