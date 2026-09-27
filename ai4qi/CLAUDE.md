@@ -70,6 +70,11 @@ Exactly this order:
 **Re-audit:** when, same template, same sample size, target.
 **Close the loop:** what to present where, and what to embed if it worked.
 **Evidence:** 2–4 lines, each "[id] where: before → after (fix)". Mark draft cards as draft.
+**Pitfalls:** 3–4 lines, each "what can go wrong or who will object → how to prevent it" (data gaps,
+small numbers, moving the goalposts between cycles, staff pushback, the fix not being used).
+Use the topic card's fix_that_fails and failed cycle2 results in the corpus where they exist.
+**Pearls:** 3–4 short tips that make it succeed (who to recruit, what to lock down before cycle 1,
+how to keep the change alive after the audit team rotates).
 Anything not from the corpus gets "(not corpus)". If a proposed audit (ONA-xxx) fits, offer it with its
 template path and label it "proposed, not yet run".
 
