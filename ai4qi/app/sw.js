@@ -2,7 +2,7 @@
 'use strict';
 
 // Stamped by build_app_data.py on every rebuild; a new value makes browsers install a fresh cache.
-var VERSION = '41a016b3eda2';
+var VERSION = 'b01442d95a32';
 var PREFIX = 'ai4qi-';
 var SHELL = PREFIX + 'shell-' + VERSION;
 var RUNTIME = PREFIX + 'runtime-' + VERSION;
@@ -47,13 +47,24 @@ function staleWhileRevalidate(request) {
   });
 }
 
+// Supabase API traffic (sign-in, feedback, counts) is never cached: it always goes to the network.
+var API_PATHS = /\/(auth|rest|storage|functions|realtime|graphql)\/v1(\/|$)/;
+var NETWORK_ONLY = new Set(['config.json', 'data/version.json']);
+
 self.addEventListener('fetch', function (event) {
   var req = event.request;
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
+  if (API_PATHS.test(url.pathname) || /\.supabase\.(co|in)$/i.test(url.hostname)) return;
   if (url.origin !== self.location.origin || url.href.indexOf(BASE) !== 0) return;
 
   var rel = url.href.slice(BASE.length).split(/[?#]/)[0];
+
+  // Runtime settings are read fresh every time and never stored.
+  if (NETWORK_ONLY.has(rel)) {
+    event.respondWith(fetch(req, { cache: 'no-store' }));
+    return;
+  }
 
   // Opening the app (any hash or query) gets the cached app shell.
   if (req.mode === 'navigate' && (rel === '' || rel === 'index.html')) {

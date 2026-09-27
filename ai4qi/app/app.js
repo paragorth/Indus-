@@ -223,6 +223,8 @@
       else if (name === 'topic' && p[1]) renderTopic(p[1]);
       else if (name === 'topics') renderTopics();
       else if (name === 'standards') renderStandards(r.params);
+      else if (name === 'account' && BE.url) renderAccount();
+      else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
       else renderNotFound();
     } catch (err) {
       renderNotFound();
@@ -450,6 +452,7 @@
       '<h1>' + esc(p.question) + '</h1>' +
       '<div class="doc-actions">' + dl + '<button class="btn btn-secondary" type="button" data-print>Print protocol</button></div></header>' +
       body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
+    showUsefulCount(p.id);
   }
 
   function renderProposedList(params) {
@@ -714,13 +717,15 @@
   var FB_REASONS = ['Too generic', 'Too specific', 'Poor framing', 'Too complex',
     'Not relevant to my specialty', 'Not an important topic to audit'];
   var FB_URL = '';                       // set from config.json ("feedback_url") when a collector exists
-  getJSON('config.json').then(function (c) { FB_URL = (c && c.feedback_url) || ''; flushFeedback(); }).catch(function () {});
   function fbAll() { try { return JSON.parse(localStorage.getItem(FB_KEY) || '[]'); } catch (e) { return []; } }
   function fbSave(list) { try { localStorage.setItem(FB_KEY, JSON.stringify(list)); } catch (e) {} }
   function fbFor(id) { return fbAll().filter(function (f) { return f.id === id; }).pop(); }
   function flushFeedback() {
-    if (!FB_URL || !navigator.onLine) return;
+    if (!navigator.onLine) return;
     var list = fbAll(), pending = list.filter(function (f) { return !f.sent; });
+    if (!pending.length) return;
+    if (BE.url) { flushToSupabase(); return; }
+    if (!FB_URL) return;
     pending.forEach(function (f) {
       fetch(FB_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
         .then(function (r) { if (r.ok) { f.sent = true; fbSave(list); } }).catch(function () {});
@@ -729,7 +734,7 @@
   window.addEventListener('online', flushFeedback);
   function recordFeedback(id, rating, reasons, comment) {
     var list = fbAll().filter(function (f) { return f.id !== id; });
-    list.push({ id: id, rating: rating, reasons: reasons || [], comment: comment || '', at: new Date().toISOString(), sent: false });
+    list.push({ id: id, rating: rating, reasons: reasons || [], comment: comment || '', at: new Date().toISOString(), sent: false, uid: uuid() });
     fbSave(list); flushFeedback();
   }
   function thumb(dir) {
@@ -744,7 +749,8 @@
     return '<section class="fb no-print" data-fb="' + attr(id) + '" aria-label="Feedback on this audit">' +
       '<div class="fb-row"><span class="fb-q">Was this audit idea useful?</span>' +
       '<button type="button" class="fb-btn' + (prev && prev.rating === 'up' ? ' is-on' : '') + '" data-fb-rate="up" aria-pressed="' + !!(prev && prev.rating === 'up') + '">' + thumb('up') + '<span class="sr-only">Yes, useful</span></button>' +
-      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span class="sr-only">No, not useful</span></button></div>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span class="sr-only">No, not useful</span></button>' +
+      '<span class="fb-count" data-fb-count hidden></span></div>' +
       '<div class="fb-more" hidden><p class="fb-sub">What was wrong? Choose any that apply.</p><div class="fb-chips">' +
       FB_REASONS.map(function (r) { return '<button type="button" class="fb-chip" data-fb-reason="' + attr(r) + '" aria-pressed="false">' + esc(r) + '</button>'; }).join('') +
       '</div><label class="fb-sub" for="fb-c-' + attr(id) + '">Anything else? (optional)</label>' +
@@ -773,6 +779,441 @@
       doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – this helps us improve the audit library.</p>';
     }
   });
+  /* ---------- optional Supabase backend: shared feedback, sign-in, admin view ----------
+     Switched on only when config.json has supabase_url and supabase_anon_key. Without them the
+     app behaves exactly as before (feedback stays on the device or goes to feedback_url). */
+  var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  var DEVICE_KEY = 'ai4qi_device_v1';
+  var GRADES = ['Medical student', 'Foundation doctor (FY1–FY2)', 'Core or specialty trainee (CT/ST1–2)',
+    'Specialty registrar (ST3+)', 'Specialty doctor or specialist (SAS)', 'Locally employed doctor', 'Consultant',
+    'General practitioner', 'Nurse or midwife', 'Allied health professional', 'Pharmacist',
+    'Quality improvement or clinical governance lead', 'Other'];
+  var BE = {
+    url: '', key: '', client: null, loading: null, user: null, admin: null, profile: undefined,
+    version: null, summary: null, summaryAt: 0, authError: '', flushing: false
+  };
+  var accountLink = document.querySelector('[data-account]');
+
+  function uuid() {
+    var c = window.crypto;
+    if (c && c.randomUUID) return c.randomUUID();
+    var b = c.getRandomValues(new Uint8Array(16)), h = [];
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    for (var i = 0; i < 16; i++) h.push((b[i] + 256).toString(16).slice(1));
+    return h.slice(0, 4).join('') + '-' + h.slice(4, 6).join('') + '-' + h.slice(6, 8).join('') + '-' + h.slice(8, 10).join('') + '-' + h.slice(10).join('');
+  }
+  function deviceId() {
+    try {
+      var d = localStorage.getItem(DEVICE_KEY);
+      if (!d || !/^[A-Za-z0-9_-]{8,64}$/.test(d)) { d = uuid(); localStorage.setItem(DEVICE_KEY, d); }
+      return d;
+    } catch (e) { return BE.tmpDevice || (BE.tmpDevice = uuid()); }
+  }
+  function hasStoredSession() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) if (/^sb-.+-auth-token$/.test(localStorage.key(i))) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  // A magic link brings the reader back with ?code=… (or ?error=…). Note it before routing so the
+  // account page opens, and let supabase-js exchange the code for a session.
+  var AUTH_RETURN = (function () {
+    var q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.replace(/^#/, ''));
+    var err = q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error');
+    if (!err && !q.get('code') && !h.get('access_token')) return null;
+    return { error: err || '' };
+  })();
+  if (AUTH_RETURN) history.replaceState(null, '', location.pathname + location.search + '#/account');
+  function cleanAuthUrl() {
+    if (location.search) history.replaceState(null, '', location.pathname + location.hash);
+  }
+
+  var configReady = fetch('config.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : {}; })
+    .catch(function () { return {}; })
+    .then(function (c) {
+      c = c || {};
+      FB_URL = c.feedback_url || '';
+      var u = String(c.supabase_url || '').trim().replace(/\/+$/, ''), k = String(c.supabase_anon_key || '').trim();
+      var okUrl = /^https:\/\/[a-z0-9.-]+(:\d+)?$/i.test(u) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(u);
+      if (okUrl && k) { BE.url = u; BE.key = k; }
+      if (BE.url) {
+        if (accountLink) accountLink.hidden = false;
+        updateAccountLink();
+        if (AUTH_RETURN || hasStoredSession()) sbClient().catch(function () {});
+      } else if (AUTH_RETURN) {
+        cleanAuthUrl();
+      }
+      flushFeedback();
+      // If the library finished loading first, an account or admin link was shown as "not found".
+      var cur = parseHash().parts[0];
+      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin')) route();
+    });
+
+  function sbClient() {
+    if (!BE.url) return Promise.reject(new Error('Supabase is not configured'));
+    if (BE.client) return Promise.resolve(BE.client);
+    if (!BE.loading) {
+      BE.loading = new Promise(function (resolve, reject) {
+        if (window.supabase && window.supabase.createClient) { resolve(); return; }
+        var sc = document.createElement('script');
+        sc.src = SUPABASE_JS; sc.async = true; sc.crossOrigin = 'anonymous';
+        sc.onload = function () { resolve(); };
+        sc.onerror = function () { sc.remove(); reject(new Error('supabase-js could not be loaded')); };
+        document.head.appendChild(sc);
+      }).then(function () {
+        var c = window.supabase.createClient(BE.url, BE.key, {
+          auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        });
+        c.auth.onAuthStateChange(function (event, session) {
+          // Keep this callback free of other Supabase calls (they would wait on the auth lock).
+          setTimeout(function () { setUser(session ? session.user : null); }, 0);
+        });
+        return c.auth.getSession().then(function (res) {
+          if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
+          if (AUTH_RETURN) cleanAuthUrl();
+          BE.client = c;
+          BE.user = res.data && res.data.session ? res.data.session.user : null;
+          updateAccountLink();
+          if (BE.user) setTimeout(flushFeedback, 0);
+          return c;
+        });
+      });
+      BE.loading.catch(function () { BE.loading = null; });   // allow a retry, e.g. once back online
+    }
+    return BE.loading;
+  }
+
+  function setUser(u) {
+    var before = BE.user ? BE.user.id : null, after = u ? u.id : null;
+    BE.user = u || null;
+    updateAccountLink();
+    if (before === after) return;
+    BE.admin = null; BE.profile = undefined;
+    if (u) flushFeedback();
+    var name = parseHash().parts[0];
+    if (S.lib.length && (name === 'account' || name === 'admin')) route();
+  }
+  function updateAccountLink() {
+    if (!accountLink) return;
+    var signedIn = BE.user || (!BE.client && hasStoredSession());
+    accountLink.textContent = signedIn ? 'Account' : 'Sign in';
+  }
+
+  function appVersion() {
+    if (!BE.version) {
+      BE.version = fetch('data/version.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (v) { return String((v && v.version) || '').slice(0, 32); })
+        .catch(function () { return ''; });
+    }
+    return BE.version;
+  }
+
+  // Send queued feedback rows one at a time. Each row carries a client-made id, so a retry after a
+  // lost response is recognised as a duplicate (23505) and simply marked as sent.
+  function flushToSupabase() {
+    if (BE.flushing) return;
+    var list = fbAll(), pending = list.filter(function (f) { return !f.sent; });
+    if (!pending.length) return;
+    BE.flushing = true;
+    pending.forEach(function (f) { if (!f.uid) f.uid = uuid(); });
+    fbSave(list);
+    var done = {};
+    Promise.all([sbClient(), appVersion()]).then(function (r) {
+      var c = r[0], ver = r[1], dev = deviceId();
+      return pending.reduce(function (chain, f) {
+        return chain.then(function () {
+          var row = {
+            id: f.uid, audit_id: f.id, rating: f.rating, reasons: f.reasons || [],
+            comment: String(f.comment || '').slice(0, 500), device_id: dev,
+            user_id: BE.user ? BE.user.id : null, app_version: ver || null
+          };
+          return c.from('feedback').insert(row).then(function (res) {
+            var code = res.error ? String(res.error.code || '') : '';
+            if (!res.error || code === '23505') done[f.uid] = 'sent';
+            else if (/^(23502|23503|23514|22P02|42501)$/.test(code)) done[f.uid] = 'rejected';  // would never be accepted
+            else if (code === 'PT429') throw new Error('rate limited');                          // try again later
+          });
+        });
+      }, Promise.resolve());
+    }).catch(function () {}).then(function () {
+      var cur = fbAll();
+      cur.forEach(function (f) {
+        if (done[f.uid]) { f.sent = true; if (done[f.uid] === 'rejected') f.rejected = true; }
+      });
+      fbSave(cur);
+      BE.flushing = false;
+      if (Object.keys(done).length) BE.summaryAt = 0;
+    });
+  }
+
+  function restHeaders() {
+    var h = { apikey: BE.key, 'Content-Type': 'application/json' };
+    if (/^eyJ/.test(BE.key)) h.Authorization = 'Bearer ' + BE.key;   // legacy JWT anon key
+    return h;
+  }
+  function loadSummary() {
+    if (!BE.url) return Promise.resolve(null);
+    if (BE.summary && Date.now() - BE.summaryAt < 5 * 60 * 1000) return BE.summary;
+    BE.summaryAt = Date.now();
+    BE.summary = fetch(BE.url + '/rest/v1/rpc/feedback_summary', {
+      method: 'POST', headers: restHeaders(), body: '{}', cache: 'no-store'
+    }).then(function (r) {
+      if (!r.ok) throw new Error('summary ' + r.status);
+      return r.json();
+    }).then(function (rows) {
+      var m = new Map();
+      (rows || []).forEach(function (row) { m.set(row.audit_id, row); });
+      return m;
+    }).catch(function () { BE.summaryAt = 0; return null; });
+    return BE.summary;
+  }
+  function showUsefulCount(id) {
+    configReady.then(loadSummary).then(function (m) {
+      var el = main.querySelector('[data-fb="' + id + '"] [data-fb-count]');
+      var row = m && m.get(id), n = row ? Number(row.up) : 0;
+      if (!el || !n) return;
+      el.textContent = n === 1 ? '1 person found this useful' : fmt(n) + ' people found this useful';
+      el.hidden = false;
+    });
+  }
+
+  /* account page */
+  function stillOn(name) { return parseHash().parts[0] === name; }
+  function loadingHtml(text) {
+    return '<div class="loading" role="status"><span class="spinner" aria-hidden="true"></span>' + esc(text) + '</div>';
+  }
+  function unavailable(title, nav) {
+    page('<div class="doc narrow"><h1>' + esc(title) + '</h1><p>Sign-in is not available at the moment. Please check your connection and try again.</p></div>', title, nav);
+    focusMain();
+  }
+  function renderAccount() {
+    page(loadingHtml('Loading your account…'), 'Account', 'account');
+    sbClient().then(function (c) {
+      if (!BE.user) return null;
+      return Promise.all([loadProfile(c), checkAdmin(c)]);
+    }).then(function () {
+      if (!stillOn('account')) return;
+      if (BE.user) renderSignedIn(); else renderSignIn();
+      focusMain();
+    }, function () { if (stillOn('account')) unavailable('Account', 'account'); });
+  }
+  function loadProfile(c) {
+    if (BE.profile !== undefined) return Promise.resolve(BE.profile);
+    return c.from('profiles').select('specialty, grade').eq('user_id', BE.user.id).maybeSingle()
+      .then(function (res) { BE.profile = res.error ? null : (res.data || null); return BE.profile; });
+  }
+  function checkAdmin(c) {
+    if (BE.admin !== null) return Promise.resolve(BE.admin);
+    // Row level security returns the admins row only to the admin it belongs to.
+    return c.from('admins').select('email').limit(1)
+      .then(function (res) { BE.admin = !res.error && !!(res.data && res.data.length); return BE.admin; });
+  }
+  function renderSignIn(title) {
+    var err = BE.authError
+      ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or has already been used. Please request a new one.</div>'
+      : '';
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
+      '<div class="doc narrow"><h1>' + esc(title || 'Sign in') + '</h1>' +
+      '<p class="page-intro">Signing in is optional. It lets you add your specialty and grade, so that your feedback on proposed audits can be read in context. There is no password: we email you a secure sign-in link.</p>' +
+      err +
+      '<form class="stack-form" data-signin novalidate>' +
+      '<label for="acc-email">Email address</label>' +
+      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254">' +
+      '<button class="btn" type="submit">Email me a sign-in link</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
+      '</form>' +
+      '<p class="muted small-print">Please do not enter patient information anywhere in this app.</p></div>',
+      'Sign in', 'account', true);
+  }
+  function renderSignedIn() {
+    var pf = BE.profile || {}, grade = pf.grade || '';
+    var gradeOpts = GRADES.slice();
+    if (grade && gradeOpts.indexOf(grade) === -1) gradeOpts.push(grade);
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Account</nav>' +
+      '<div class="doc narrow"><h1>Your account</h1>' +
+      '<p>Signed in as <strong>' + esc(BE.user.email || '') + '</strong>. Your feedback on proposed audits is now linked to your profile.</p>' +
+      '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
+      '<p class="muted">Optional. Used only to understand feedback on proposed audits.</p>' +
+      '<form class="stack-form" data-profile>' +
+      '<label for="pf-specialty">Specialty</label>' +
+      '<input id="pf-specialty" name="specialty" list="pf-specialties" maxlength="80" autocomplete="off" value="' + attr(pf.specialty || '') + '">' +
+      '<datalist id="pf-specialties">' + S.groups.map(function (g) { return '<option value="' + attr(g[0]) + '">'; }).join('') + '</datalist>' +
+      '<label for="pf-grade">Grade or role</label>' +
+      '<select id="pf-grade" name="grade"><option value="">Prefer not to say</option>' +
+      gradeOpts.map(function (g) { return '<option' + (g === grade ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('') + '</select>' +
+      '<button class="btn" type="submit">Save profile</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
+      '</form></section>' +
+      (BE.admin ? '<section class="account-section" aria-labelledby="adm-h"><h2 id="adm-h">Administration</h2><p><a href="#/admin/feedback">Feedback on proposed audits</a></p></section>' : '') +
+      '<div class="account-actions"><button class="btn btn-secondary" type="button" data-signout>Sign out</button></div>' +
+      '</div>', 'Account', 'account', true);
+  }
+
+  document.addEventListener('submit', function (e) {
+    var signin = e.target.closest('[data-signin]'), prof = e.target.closest('[data-profile]');
+    if (!signin && !prof) return;
+    e.preventDefault();
+    var form = signin || prof, btn = form.querySelector('button[type="submit"]'), status = form.querySelector('[data-form-status]');
+    function say(text, bad) { status.textContent = text; status.classList.toggle('is-error', !!bad); }
+    if (signin) {
+      var input = form.querySelector('input[name="email"]'), email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.setAttribute('aria-invalid', 'true'); say('Please enter a valid email address.', true); input.focus(); return;
+      }
+      input.removeAttribute('aria-invalid');
+      btn.disabled = true; say('Sending…');
+      sbClient().then(function (c) {
+        return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
+      }).then(function (res) {
+        if (res.error) throw res.error;
+        BE.authError = '';
+        var box = form.parentNode;
+        form.outerHTML = '<div class="notice notice-ok" data-sent tabindex="-1"><p><strong>Check your email.</strong> We have sent a sign-in link to ' + esc(email) + '.</p>' +
+          '<p>Open the link on this device, in this browser, to finish signing in. If it does not arrive within a few minutes, check your junk folder.</p>' +
+          '<button class="btn btn-secondary" type="button" data-signin-again>Use a different email address</button></div>';
+        var sent = box.querySelector('[data-sent]');
+        if (sent) sent.focus();
+      }).catch(function (err) {
+        btn.disabled = false;
+        var st = err && (err.status || err.code);
+        say(st === 429 || st === 'over_email_send_rate_limit'
+          ? 'Too many sign-in requests. Please wait a few minutes and try again.'
+          : 'The sign-in link could not be sent. Please check the address and your connection, then try again.', true);
+      });
+    } else {
+      var spec = form.querySelector('[name="specialty"]').value.trim().slice(0, 80);
+      var grade = form.querySelector('[name="grade"]').value;
+      btn.disabled = true; say('Saving…');
+      sbClient().then(function (c) {
+        if (!BE.user) throw new Error('signed out');
+        return c.from('profiles').upsert({ user_id: BE.user.id, specialty: spec || null, grade: grade || null }, { onConflict: 'user_id' });
+      }).then(function (res) {
+        if (res.error) throw res.error;
+        BE.profile = { specialty: spec || null, grade: grade || null };
+        btn.disabled = false; say('Your profile has been saved.');
+      }).catch(function () {
+        btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);
+      });
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-signin-again]')) { renderSignIn(); var i = main.querySelector('#acc-email'); if (i) i.focus(); return; }
+    if (e.target.closest('[data-signout]')) {
+      sbClient().then(function (c) { return c.auth.signOut({ scope: 'local' }); })
+        .catch(function () {}).then(function () { setUser(null); });
+      return;
+    }
+    if (e.target.closest('[data-fb-csv]')) downloadFeedbackCsv();
+  });
+
+  /* admin: feedback on proposed audits (#/admin/feedback) */
+  function fetchAllFeedback(c) {
+    var rows = [], size = 1000;
+    function next(from) {
+      return c.from('feedback').select('id, audit_id, rating, reasons, comment, user_id, device_id, created_at, app_version')
+        .order('created_at', { ascending: false }).range(from, from + size - 1)
+        .then(function (res) {
+          if (res.error) throw res.error;
+          rows = rows.concat(res.data || []);
+          return (res.data || []).length === size && rows.length < 50000 ? next(from + size) : rows;
+        });
+    }
+    return next(0);
+  }
+  function renderAdmin() {
+    page(loadingHtml('Loading feedback…'), 'Feedback', '');
+    sbClient().then(function (c) {
+      if (!BE.user) return null;
+      return checkAdmin(c).then(function (isAdmin) { return isAdmin ? fetchAllFeedback(c) : null; });
+    }).then(function (rows) {
+      if (!stillOn('admin')) return;
+      if (!BE.user) { renderSignIn(); focusMain(); return; }
+      if (!rows) { renderNotFound(); focusMain(); return; }
+      BE.adminRows = rows;
+      renderAdminPage(rows);
+      focusMain();
+    }, function () { if (stillOn('admin')) unavailable('Feedback', ''); });
+  }
+  function summarise(rows) {
+    // Latest rating from each person (signed-in user, otherwise device) per audit, as the public count does.
+    var seen = new Set(), per = new Map();
+    rows.forEach(function (r) {   // rows are newest first
+      var who = r.audit_id + '|' + (r.user_id || r.device_id);
+      if (seen.has(who)) return;
+      seen.add(who);
+      if (!per.has(r.audit_id)) per.set(r.audit_id, { id: r.audit_id, up: 0, down: 0, reasons: new Map(), comments: 0 });
+      var a = per.get(r.audit_id);
+      a[r.rating === 'up' ? 'up' : 'down']++;
+      if (r.rating === 'down') (r.reasons || []).forEach(function (x) { a.reasons.set(x, (a.reasons.get(x) || 0) + 1); });
+    });
+    rows.forEach(function (r) { if (r.comment && per.has(r.audit_id)) per.get(r.audit_id).comments++; });
+    return Array.from(per.values()).sort(function (a, b) { return (b.down - a.down) || (b.up - a.up) || a.id.localeCompare(b.id); });
+  }
+  function auditLink(id) {
+    var p = S.pById.get(id);
+    return '<a href="#/proposed/' + encodeURIComponent(id) + '" class="id-tag">' + esc(id) + '</a>' +
+      (p ? '<span class="adm-q">' + esc(trunc(p.question, 90)) + '</span>' : '');
+  }
+  function dateGB(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  function renderAdminPage(rows) {
+    var per = summarise(rows), up = 0, down = 0;
+    per.forEach(function (a) { up += a.up; down += a.down; });
+    var withComments = rows.filter(function (r) { return r.comment; });
+    var table = per.length
+      ? '<div class="table-wrap"><table class="adm-table"><caption class="visually-hidden">Ratings per proposed audit</caption><thead><tr><th scope="col">Audit</th><th scope="col" class="num-col">Useful</th><th scope="col" class="num-col">Not useful</th><th scope="col">Reasons given</th><th scope="col" class="num-col">Comments</th></tr></thead><tbody>' +
+        per.map(function (a) {
+          var rs = Array.from(a.reasons.entries()).sort(function (x, y) { return y[1] - x[1]; })
+            .map(function (x) { return esc(x[0]) + ' (' + x[1] + ')'; }).join('<br>');
+          return '<tr><td>' + auditLink(a.id) + '</td><td class="num-col">' + fmt(a.up) + '</td><td class="num-col">' + fmt(a.down) + '</td><td>' + (rs || '<span class="muted">–</span>') + '</td><td class="num-col">' + fmt(a.comments) + '</td></tr>';
+        }).join('') + '</tbody></table></div>'
+      : '<p class="empty">No feedback has been received yet.</p>';
+    var comments = withComments.length
+      ? '<ul class="adm-comments">' + withComments.map(function (r) {
+          return '<li><p class="meta">' + auditLink(r.audit_id) + '</p><p class="meta">' + esc(dateGB(r.created_at)) + ' · ' + (r.rating === 'up' ? 'Useful' : 'Not useful') +
+            (r.reasons && r.reasons.length ? ' · ' + esc(r.reasons.join(', ')) : '') + '</p><p class="adm-comment">' + esc(r.comment) + '</p></li>';
+        }).join('') + '</ul>'
+      : '<p class="empty">No comments yet.</p>';
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/account">Account</a> › Feedback</nav>' +
+      '<h1>Feedback on proposed audits</h1>' +
+      '<p class="page-intro">Counts include each person’s latest rating of an audit. The CSV contains every response received.</p>' +
+      '<ul class="stats"><li class="stat"><b>' + fmt(rows.length) + '</b><span>responses</span></li>' +
+      '<li class="stat"><b>' + fmt(per.length) + '</b><span>audits rated</span></li>' +
+      '<li class="stat"><b>' + fmt(up) + '</b><span>useful</span></li>' +
+      '<li class="stat"><b>' + fmt(down) + '</b><span>not useful</span></li>' +
+      '<li class="stat"><b>' + fmt(withComments.length) + '</b><span>comments</span></li></ul>' +
+      '<div class="toolbar"><button class="btn" type="button" data-fb-csv' + (rows.length ? '' : ' disabled') + '>' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download CSV</button></div>' +
+      '<h2>By audit</h2>' + table +
+      '<h2 class="adm-h2">Comments</h2>' + comments,
+      'Feedback on proposed audits', '');
+  }
+  function csvCell(v) {
+    var s = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;           // stop spreadsheets treating text as a formula
+    return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function downloadFeedbackCsv() {
+    var rows = BE.adminRows || [];
+    var head = ['id', 'audit_id', 'question', 'rating', 'reasons', 'comment', 'created_at', 'signed_in', 'app_version'];
+    var lines = [head.join(',')].concat(rows.map(function (r) {
+      var p = S.pById.get(r.audit_id);
+      return [r.id, r.audit_id, p ? p.question : '', r.rating, (r.reasons || []).join('; '), r.comment, r.created_at,
+        r.user_id ? 'yes' : 'no', r.app_version || ''].map(csvCell).join(',');
+    }));
+    var blob = new Blob(['﻿' + lines.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ai4qi-feedback-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
   window.addEventListener('hashchange', route);
 
   load().then(route).catch(function (err) {

@@ -4,9 +4,10 @@
 Reads (never writes) ai4qi-library.json, new_audits/*_new_audits.json,
 new_audits/templates/*.csv, standards/standards.json and figures/.
 Writes app/data/*.json, app/data/audits/*.json, app/templates/*.csv, app/figures/.
-The PWA files (app/sw.js, app/manifest.webmanifest, app/icons/) are kept; the service worker's
-cache VERSION is re-stamped from a hash of the built files and written to app/data/version.json,
-so installed copies of the app pick up the new data.
+The PWA files (app/sw.js, app/manifest.webmanifest, app/icons/) and app/config.json (feedback and
+optional Supabase settings) are kept; missing config keys are added empty. The service worker's
+cache VERSION is re-stamped from a hash of the built files, config.json and sw.js itself and written
+to app/data/version.json, so installed copies of the app pick up the new data and code.
 
 Standard library only. Re-runnable: output folders are rebuilt each time.
 
@@ -197,24 +198,44 @@ def build_cards(lib):
 
 
 SHELL = ("index.html", "app.js", "styles.css", "manifest.webmanifest")
+CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": ""}
+VERSION_LINE = re.compile(r"^var VERSION = '[^']*';", re.M)
+
+
+def keep_config():
+    """Keep app/config.json as the owner set it; only add keys that are missing."""
+    path = APP / "config.json"
+    try:
+        cfg = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(cfg, dict):
+            raise ValueError("config.json must hold an object")
+    except FileNotFoundError:
+        cfg = {}
+    missing = {k: v for k, v in CONFIG_DEFAULTS.items() if k not in cfg}
+    if missing or not path.is_file():
+        cfg.update(missing)
+        path.write_text(json.dumps(cfg, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    return cfg
 
 
 def stamp_version():
     """Hash everything the app serves and stamp it into sw.js so clients refresh their caches."""
     h = hashlib.sha256()
-    files = [APP / n for n in SHELL] + sorted((APP / "icons").glob("*.png"))
+    files = [APP / n for n in SHELL] + [APP / "config.json"] + sorted((APP / "icons").glob("*.png"))
     for sub in ("data", "templates", "figures"):
         files += sorted(f for f in (APP / sub).rglob("*") if f.is_file() and f.name != "version.json")
     for f in files:
         if f.is_file():
             h.update(f.relative_to(APP).as_posix().encode())
             h.update(f.read_bytes())
+    sw = APP / "sw.js"
+    if sw.is_file():  # the worker's own code, minus the stamped VERSION line
+        h.update(VERSION_LINE.sub("", sw.read_text(encoding="utf-8")).encode())
     version = h.hexdigest()[:12]
     dump(DATA / "version.json", {"version": version})
-    sw = APP / "sw.js"
     if sw.is_file():
         text = sw.read_text(encoding="utf-8")
-        new = re.sub(r"^var VERSION = '[^']*';", f"var VERSION = '{version}';", text, count=1, flags=re.M)
+        new = VERSION_LINE.sub(f"var VERSION = '{version}';", text, count=1)
         if new != text:
             sw.write_text(new, encoding="utf-8")
     return version
@@ -225,6 +246,7 @@ def main():
 
     for sub in ("data", "templates", "figures"):
         shutil.rmtree(APP / sub, ignore_errors=True)
+    cfg = keep_config()
 
     index, shards, figs = build_library(lib)
     proposed = build_proposed()
@@ -259,6 +281,9 @@ def main():
     print(f"templates: {len(list((APP / 'templates').glob('*.csv')))}  figures copied: {copied}")
     print(f"app/data total: {size / 1024:.0f} KB")
     print(f"offline cache version: {version}")
+    print("backend: " + ("Supabase configured" if cfg.get("supabase_url") and cfg.get("supabase_anon_key")
+                         else "Supabase not configured (feedback stays on the device" +
+                         (" or goes to feedback_url)" if cfg.get("feedback_url") else ")")))
 
 
 if __name__ == "__main__":
