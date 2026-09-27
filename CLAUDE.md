@@ -6,3 +6,4 @@
 - Rules of evidence: use data and symbols from anyone, but not other people's interpretations. Every strategy gets a control and a verdict row in STRATEGIES.md, inserted before the "## Summary" section. Commit and push to branch `claude/indus-script-dictionary-u3dzf8`.
 - Never disable TLS verification, never click through CAPTCHAs, never put model identifiers in commits.
 - Current open leads: ANCHORS.md §19–21 (outside anchors), S149 (Kalibangan ↔ Bahrain twins + W56 link), Scheil 1925 Umma tag (possible cuneiform beside an Indus impression), `anchor_test.py` for any proposed sign values.
+- Before interpreting any positional or distributional effect in the Wells (W) numbering, map the signs to Mahadevan (M) numbers via `data/derived/bridge_extended.json` and check them against the frame slots in GRAMMAR.md (opener, markers, closers). S182–S183 were overturned for skipping this.
