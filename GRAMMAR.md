@@ -94,3 +94,4 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 - **Restatement (S216–S217):** tall strokes = the Harappa tablet voucher count ('tall 2–4 + W700') plus a few frozen seal terms (33+W520, 32+W877, 32+W632, 32+W226, tall-2 + jar/fish). On seals, every other count uses short strokes. Read S204's 'two series' in this narrower sense.
 - The 'tall 2–4 + W700' voucher is Harappa-specific: 417 of 1,765 Harappa tablets, 0 of 139 Mohenjo-daro tablets (S218).
 - **Frozen pre-jar titles** (S229, both transcriptions): 590-390/405 (M249-M162/169), 435-690 (M130-M149), 840-‖ (M403-M87), 17-585 (M112-M194) stand before the jar as fixed pairs; W100 (M8) and W760 (M347) combine freely.
+- **The single stroke W1 (M97/98) is a marker, not 'one'** (S234, both transcriptions): it precedes other numerals and rarely precedes counted signs.
