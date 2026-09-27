@@ -84,7 +84,17 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
      `supabase functions deploy build-audit --project-ref abcdefghijkl`
      (Supabase CLI; or paste `index.ts` into Dashboard > Edge Functions > Create function).
    - In `config.json` set `"build_url": "https://abcdefghijkl.supabase.co/functions/v1/build-audit"`.
-   Building needs sign-in. Each build costs roughly 2–5p in API usage; the daily limit caps it.
+   Building needs sign-in (emailed link, no password). Each new build costs roughly 3–5p.
+   Cost controls, all in Edge Function secrets:
+   - A theme built before is served from the saved copy (free) for `REUSE_DAYS` (default 180);
+     only "Build another version" makes a new one.
+   - `BUILD_DAILY_LIMIT`: new builds per person per day (default 20).
+   - `BUILD_MONTHLY_LIMIT`: new builds for the whole site per 30 days (default 1000, about £30–50).
+     Past it, the page offers "Build it in Claude": the `claude_link` in `config.json`, where
+     people build on their own Claude account. Share that artifact publicly (its Share menu) first.
+   - `BUILD_MODEL`: set `claude-haiku-4-5` to halve the cost (weaker protocols).
+   Spend so far: `select count(*) filter (where not reused) as new_builds, count(*) filter (where reused)
+   as reused from built_audits where created_at > now() - interval '30 days';`
    Built protocols are in the `built_audits` table: review them and add good ones to
    `new_audits/nonortho_parts/generated.json` or `new_audits/parts/generated.json`.
 

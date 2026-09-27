@@ -15,10 +15,14 @@ create table if not exists public.built_audits (
   id         bigint generated always as identity primary key,
   user_id    uuid null references auth.users (id) on delete set null,
   topic      text not null check (char_length(topic) between 1 and 300),
-  protocol   jsonb not null,
+  topic_key  text not null check (topic_key ~ '^B-[a-z0-9-]{1,29}$'),
+  reused     boolean not null default false,   -- true: served a saved protocol, no Claude call
+  protocol   jsonb null,                        -- null on reused rows
   created_at timestamptz not null default now()
 );
 create index if not exists built_audits_user_time_idx on public.built_audits (user_id, created_at);
+create index if not exists built_audits_key_idx on public.built_audits (topic_key, created_at desc) where not reused;
+create index if not exists built_audits_time_idx on public.built_audits (created_at) where not reused;
 
 alter table public.built_audits enable row level security;
 -- No policies: the anon and authenticated roles cannot read or write it. The build-audit

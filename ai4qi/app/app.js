@@ -854,9 +854,11 @@
       });
     });
     function post(url, headers) {
-      return fetch(url, { method: 'POST', headers: headers, signal: signal, body: JSON.stringify({ topic: q.slice(0, 300), prompt: prompt }) })
+      return fetch(url, { method: 'POST', headers: headers, signal: signal, body: JSON.stringify({ topic: q.slice(0, 300), key: builtId(q), fresh: !!fresh, prompt: prompt }) })
         .then(function (r) {
-          if (r.status === 429) throw { code: 'rate_limited' };
+          if (r.status === 429) return r.json().catch(function () { return {}; }).then(function (b) {
+            throw { code: b && b.error === 'monthly limit' ? 'site_limit' : 'rate_limited' };
+          });
           if (r.status === 401) throw { code: 'sign_in' };
           if (r.status === 422) throw { code: 'refused' };
           if (!r.ok) throw { code: 'upstream_error' };
@@ -869,6 +871,7 @@
     sampling_disabled: 'Building audits is not available for this account.',
     rate_limited: 'You have reached the limit for now. Please try again later.',
     sign_in: 'Sign in (free, by emailed link) to build audits.',
+    site_limit: 'Building on this site is paused until next month. You can still build any audit free in Claude, using your own Claude account.',
     session_expired: 'Please sign in to Claude again, then try again.',
     refused: 'This theme could not be turned into an audit. Try wording it as a clinical process, e.g. “reusable gowns in theatre”.',
     invalid_json: 'The protocol came back incomplete. Please try again.',
@@ -923,7 +926,11 @@
       if (st) st.innerHTML = '<span data-build-msg>' + esc(msg) + '</span>';
       if (prog) prog.innerHTML = '';
       var act = main.querySelector('.doc-actions');
-      if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
+      var cl = BE.cfg && safeUrl(BE.cfg.claude_link);
+      if (act && (code === 'site_limit' || code === 'no_generator') && cl) {
+        act.innerHTML = '<a class="btn" href="' + attr(cl) + '" target="_blank" rel="noopener">Build it in Claude</a>' +
+          '<span class="muted">Type “' + esc(q) + '” in the box there.</span>';
+      } else if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
       else if (act) act.innerHTML = code === 'no_generator' || code === 'not_granted' || code === 'sampling_disabled' ? '' :
         '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + '&fresh=1">Try again</a>';
       if (code === 'no_generator' && res.props.length) {
