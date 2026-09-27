@@ -228,7 +228,9 @@
       else if (name === 'account' && BE.url) renderAccount();
       else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
       else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
-      else if (name === 'my-audits' && BE.url) renderMyAudits();
+      else if (name === 'my-audits') renderRuns();
+      else if (name === 'run' && p[1]) renderRun(p[1]);
+      else if (name === 'privacy') renderPrivacy();
       else renderNotFound();
     } catch (err) {
       renderNotFound();
@@ -471,6 +473,22 @@
       (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
   }
 
+  function chooseActions(id) {
+    var run = Array.from(S.runs.values()).filter(function (r) { return r.auditId === id && !r.closed; })[0];
+    return (run ? '<a class="btn" href="#/run/' + attr(run.id) + '">Open in My audits</a>' :
+      '<button class="btn" type="button" data-choose="' + attr(id) + '">Choose this audit</button>') +
+      '<button class="btn btn-secondary" type="button" data-proto-xlsx="' + attr(id) + '">Data sheet (Excel)</button>' +
+      '<span class="copy-status" role="status" data-proto-status></span>';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-proto-xlsx]');
+    if (!b) return;
+    var p = anyAudit(b.getAttribute('data-proto-xlsx')), st = b.parentNode.querySelector('[data-proto-status]');
+    if (!p) return;
+    sayIn(st, 'Making the data sheet…');
+    exporter().then(function (x) { return x.templateXlsx(p, {}); }).then(function (blob) { return saveFile(p.id + '-data-sheet.xlsx', blob); })
+      .then(function () { sayIn(st, 'Data sheet ready.'); }, function (err) { sayIn(st, downloadError(err)); });
+  });
   function renderProposed(id) {
     var p = S.pById.get(id);
     if (!p) return renderNotFound();
@@ -486,11 +504,9 @@
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
-      '<div class="doc-actions">' + dl + (window.AI4QI_EMBED ? '' : '<button class="btn btn-secondary" type="button" data-print>Print protocol</button>') + '</div>' +
-      '<div class="track no-print" data-track="' + attr(p.id) + '" hidden></div></header>' +
+      '<div class="doc-actions">' + chooseActions(p.id) + (window.AI4QI_EMBED ? '' : '<button class="btn btn-secondary" type="button" data-print>Print protocol</button>') + '</div></header>' +
       body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
-    showTracker(p.id);
   }
 
   function renderProposedList(params) {
@@ -731,9 +747,15 @@
     var list = Array.from(S.built.values()).slice(-30);
     try { localStorage.setItem(BUILT_KEY, JSON.stringify(list)); } catch (e) {}
   }
-  function builtId(q) {
-    var slug = themeWords(q).join('-').slice(0, 29).replace(/-+$/, '') || 'audit';
-    return 'B-' + slug;
+  function builtId(q, n) {
+    n = +n || 1;
+    var slug = themeWords(q).join('-').slice(0, n > 1 ? 26 : 29).replace(/-+$/, '') || 'audit';
+    return 'B-' + slug + (n > 1 ? '-' + n : '');
+  }
+  function variantsOf(q) {
+    var t = String(q).trim().toLowerCase(), out = [];
+    S.built.forEach(function (b) { if (String(b.topic).trim().toLowerCase() === t) out.push(b); });
+    return out.sort(function (a, b) { return (a.variant || 1) - (b.variant || 1); });
   }
 
   /* Library material for a topic: published audits (closed-loop, UK and detailed first), standards, proposed. */
@@ -798,24 +820,26 @@
     '"pitfalls": [string], "pearls": [string], "effort": string (e.g. "~15 min per 10 patients"), "similar": {"id": string, "better_because": string} or null}'
   ].join('\n');
 
-  function buildPrompt(q, res) {
+  function buildPrompt(q, res, avoid) {
     var pubs = res.pubs.slice(0, 30).map(auditLine).join('\n') || '(none on this theme)';
     var stds = res.stds.map(function (s) { return '- ' + s.source + ' | "' + s.wording + '" | ' + (s.url || ''); }).join('\n') || '(none listed)';
     var props = res.props.map(function (p) { return '- ' + p.id + ': ' + p.question + ' (standard: ' + ((p.standard || {}).source || '') + ')'; }).join('\n') || '(none)';
     return BUILD_RULES + '\n\nTHEME REQUESTED: ' + q.slice(0, 300) +
       '\n\nPUBLISHED AUDITS (library ids; closest first):\n' + pubs +
       '\n\nSTANDARDS (exact wording):\n' + stds +
-      '\n\nPROPOSED AUDITS already in the library:\n' + props;
+      '\n\nPROPOSED AUDITS already in the library:\n' + props +
+      (avoid && avoid.length ? '\n\nALREADY OFFERED ON THIS THEME. Write a DIFFERENT audit: a different aspect of the theme, a different question and a different standard where possible. Do not repeat these:\n' +
+        avoid.map(function (x) { return '- ' + x; }).join('\n') : '');
   }
 
   /* Tidy what came back: keep only known citations and sensible shapes. */
-  function normaliseBuilt(o, q, res) {
+  function normaliseBuilt(o, q, res, n) {
     if (!o || typeof o !== 'object' || !o.question) throw { code: 'invalid_json' };
     function str(v) { return typeof v === 'string' ? v.trim() : (v == null ? '' : String(v)); }
     function list(v) { return Array.isArray(v) ? v.map(str).filter(Boolean) : []; }
     var st = o.standard || {};
     var p = {
-      id: builtId(q), topic: q, built: new Date().toISOString().slice(0, 10),
+      id: builtId(q, n), variant: +n || 1, topic: q, built: new Date().toISOString().slice(0, 10),
       question: str(o.question), area: str(o.area),
       alternative: o.alternative && o.alternative.question ? { question: str(o.alternative.question), why: str(o.alternative.why) } : null,
       why: str(o.why), standard: { source: str(st.source), wording: str(st.wording), url: safeUrl(str(st.url)) },
@@ -855,8 +879,8 @@
   }
   /* Generation: inside Claude (artifact) via the sample capability; on the hosted site via the
      build_url function in config.json (server-side, key never in the page). */
-  function generate(q, res, fresh, onText, signal) {
-    var prompt = buildPrompt(q, res);
+  function generate(q, res, fresh, onText, signal, n, avoid) {
+    var prompt = buildPrompt(q, res, avoid);
     return samplerReady().then(function (sample) {
       if (sample) {
         return sample.json(prompt, { onText: onText, signal: signal, cache: fresh ? false : { gcTime: 86400000 } });
@@ -870,7 +894,7 @@
       });
     });
     function post(url, headers) {
-      return fetch(url, { method: 'POST', headers: headers, signal: signal, body: JSON.stringify({ topic: q.slice(0, 300), key: builtId(q), fresh: !!fresh, prompt: prompt }) })
+      return fetch(url, { method: 'POST', headers: headers, signal: signal, body: JSON.stringify({ topic: q.slice(0, 300), key: builtId(q, n), fresh: !!fresh, prompt: prompt }) })
         .then(function (r) {
           if (r.status === 429) return r.json().catch(function () { return {}; }).then(function (b) {
             throw { code: b && b.error === 'monthly limit' ? 'site_limit' : 'rate_limited' };
@@ -906,8 +930,9 @@
     var q = (params.get('q') || '').trim();
     if (!q) { location.hash = '#/proposed'; return; }
     if (!isThemed(q)) { location.hash = '#/suggest?q=' + encodeURIComponent(q); return; }
-    var fresh = params.get('fresh') === '1';
-    var res = resourcesFor(q), id = builtId(q), have = !fresh && S.built.get(id);
+    var fresh = params.get('fresh') === '1', n = Math.max(1, Math.min(9, +params.get('n') || 1));
+    var res = resourcesFor(q), id = builtId(q, n), have = !fresh && S.built.get(id);
+    var avoid = n > 1 ? variantsOf(q).filter(function (b) { return b.id !== id; }).map(function (b) { return b.question; }) : [];
     var crumbs = '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Build an audit</nav>';
     if (have && have.topic.toLowerCase() === q.toLowerCase()) return showBuilt(have, res, crumbs);
 
@@ -925,10 +950,10 @@
     generate(q, res, fresh, function (u) {
       var now = Date.now();
       if (now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(u.text); }
-    }, ctl.signal).then(function (o) {
+    }, ctl.signal, n, avoid).then(function (o) {
       if (ctl !== GEN.ctl) return;
       GEN.ctl = null;
-      var p = normaliseBuilt(o, q, res);
+      var p = normaliseBuilt(o, q, res, n);
       builtSave(p);
       if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit built');
       if (parseHash().parts[0] === 'build') showBuilt(p, res, crumbs);
@@ -948,7 +973,7 @@
           '<span class="muted">Type “' + esc(q) + '” in the box there.</span>';
       } else if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
       else if (act) act.innerHTML = code === 'no_generator' || code === 'not_granted' || code === 'sampling_disabled' ? '' :
-        '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + '&fresh=1">Try again</a>';
+        '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + (n > 1 ? '&n=' + n : '') + '&fresh=1">Try again</a>';
       if (code === 'no_generator' && res.props.length) {
         act.insertAdjacentHTML('afterend', '<p class="prose">Closest ready-made protocol: <a href="#/proposed/' + attr(res.props[0].id) + '">' + esc(res.props[0].id + ' – ' + res.props[0].question) + '</a></p>');
       }
@@ -976,12 +1001,21 @@
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<p class="best-label">Best option</p><h1>' + esc(p.question) + '</h1>' + alt +
-      '<div class="doc-actions">' + dl + '<a class="btn btn-secondary" href="#/build?q=' + encodeURIComponent(p.topic) + '&fresh=1">Build another version</a></div>' +
-      '<div class="track no-print" data-track="' + attr(p.id) + '" hidden></div></header>' +
+      '<div class="doc-actions">' + chooseActions(p.id) + '</div>' + variantsNav(p) + '</header>' +
       (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
     showUsefulCount(p.id);
-    showTracker(p.id);
+  }
+  function variantsNav(p) {
+    var vs = variantsOf(p.topic), next = Math.max.apply(null, vs.map(function (b) { return b.variant || 1; }).concat([1])) + 1;
+    var links = vs.length > 1 ? vs.map(function (b) {
+      var here = b.id === p.id;
+      return '<li><a href="#/build?q=' + encodeURIComponent(p.topic) + ((b.variant || 1) > 1 ? '&n=' + b.variant : '') + '"' + (here ? ' aria-current="page"' : '') + '>' +
+        '<span class="v-n">' + (b.variant || 1) + '</span>' + esc(trunc(b.question, 90)) + (b.chosen ? ' ' + badge('Chosen', 'ok') : '') + '</a></li>';
+    }).join('') : '';
+    return '<div class="variants no-print"><p class="v-head">Not quite right?</p>' + (links ? '<ol class="v-list">' + links + '</ol>' : '') +
+      (next <= 9 ? '<a class="btn btn-secondary" href="#/build?q=' + encodeURIComponent(p.topic) + '&n=' + next + '">' +
+        '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Another audit on this theme</a>' : '') + '</div>';
   }
 
   /* No theme given: suggest ready-made audits, quick closed-loop ones first. */
@@ -1021,6 +1055,579 @@
     if (e.target.closest('[data-build-stop]') && GEN.ctl) GEN.ctl.abort();
   });
 
+
+  /* ---------- running an audit: dashboard, data, anonymisation, outputs ---------- */
+  /* Audit data stays on the device (browser storage). Nothing entered here is sent anywhere.
+     Signed-in users may opt in to reminders; then only the audit question, the next step, a due
+     date and counts are sent, never data. */
+  var RUNS_KEY = 'ai4qi_runs_v1';
+  var RUN_STAGES = [
+    ['setup', 'Set up'], ['cycle1', 'Collect cycle 1'], ['present', 'Analyse and present'],
+    ['change', 'Make the change'], ['reaudit', 'Re-audit'], ['close', 'Close the loop']
+  ];
+  var STAGE_STATUS = ['started', 'started', 'cycle1', 'cycle1', 'change', 'reaudit', 'closed'];
+  S.runs = new Map();
+  try { (JSON.parse(localStorage.getItem(RUNS_KEY) || '[]') || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); }); } catch (e) {}
+  function runsSave() {
+    try { localStorage.setItem(RUNS_KEY, JSON.stringify(Array.from(S.runs.values()))); return true; }
+    catch (e) { return false; }
+  }
+  function runPut(r) { r.updated = new Date().toISOString(); S.runs.set(r.id, r); var ok = runsSave(); syncRun(r); return ok; }
+  function newRunId() {
+    var a = new Uint8Array(8); (window.crypto || window.msCrypto).getRandomValues(a);
+    return 'r-' + Array.prototype.map.call(a, function (b) { return ('0' + (b % 36).toString(36)).slice(-1); }).join('') + Date.now().toString(36).slice(-4);
+  }
+  function todayIso() { var d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+  function addDays(iso, n) { var d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
+  function dateGBs(iso) { if (!iso) return ''; var d = new Date(iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  function stageIdx(r) { if (r.closed) return RUN_STAGES.length; for (var i = 0; i < RUN_STAGES.length; i++) if (RUN_STAGES[i][0] === r.stage) return i; return 0; }
+  function sampleGuess(p) { var m = String(p.sample || '').match(/(\d{2,4})/); return m ? Math.min(+m[1], 500) : 30; }
+
+  function chooseAudit(p) {
+    var existing = Array.from(S.runs.values()).filter(function (r) { return r.auditId === p.id && !r.closed; })[0];
+    if (existing) { location.hash = '#/run/' + existing.id; return; }
+    var proto = JSON.parse(JSON.stringify(p));
+    delete proto.feedback;
+    var r = { id: newRunId(), auditId: p.id, protocol: proto, created: new Date().toISOString(), stage: 'setup', closed: false,
+      details: { title: p.question, site: '', department: '', lead: '', team: '', supervisor: '', startDate: todayIso(), sampleSize: sampleGuess(p) },
+      cycles: { c1: { rows: [] }, c2: { rows: [] } }, changeMade: { description: '', date: '' }, reminders: false };
+    if (!runPut(r)) { window.alert && 0; }
+    if (/^B-/.test(p.id)) { var b = builtGet(p.id); if (b) { b.chosen = true; builtSave(b); } }
+    if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit chosen', { props: { kind: /^B-/.test(p.id) ? 'built' : 'proposed' } });
+    location.hash = '#/run/' + r.id;
+  }
+
+  /* --- the pass field and results --- */
+  function passField(p) {
+    var t = p.template || [];
+    var f = t.filter(function (x) { return /^(pass|met_standard|meets_standard|compliant|standard_met)$/i.test(x.field); })[0] ||
+      t.filter(function (x) { return /pass|compliant|met/i.test(x.field) && /yes/i.test(x.type); })[0] ||
+      t.filter(function (x) { return /yes/i.test(x.type); }).slice(-1)[0];
+    return f ? f.field : null;
+  }
+  function yn(v) {
+    var s = String(v == null ? '' : v).trim().toLowerCase();
+    if (/^(y|yes|true|1|✓|pass|met)$/.test(s)) return 'Yes';
+    if (/^(n|no|false|0|✗|fail|not met)$/.test(s)) return 'No';
+    if (/^(n\/?a|not applicable)$/.test(s)) return 'N/A';
+    return '';
+  }
+  function parseTarget(t) {
+    var m = String(t || '').match(/([≥≤<>]?)\s*(\d+(?:\.\d+)?)\s*%/);
+    return m ? { op: m[1] || '≥', value: +m[2], text: String(t) } : null;
+  }
+  function cycleStats(p, rows) {
+    var pf = passField(p), passN = 0, failN = 0, dates = [];
+    rows.forEach(function (row) {
+      var v = pf ? yn(row[pf]) : '';
+      if (v === 'Yes') passN++; else if (v === 'No') failN++;
+      (p.template || []).forEach(function (f) { if (/date/.test(f.type) && row[f.field]) dates.push(String(row[f.field]).slice(0, 10)); });
+    });
+    dates.sort();
+    var denom = passN + failN;
+    return { n: rows.length, passN: passN, failN: failN, pct: denom ? Math.round(passN / denom * 1000) / 10 : null,
+      from: dates[0] || null, to: dates[dates.length - 1] || null };
+  }
+  function runStats(r) {
+    var p = r.protocol, out = { target: parseTarget(p.target), cycles: [], breakdowns: [] };
+    [['c1', 'Cycle 1'], ['c2', 'Re-audit']].forEach(function (c) {
+      var s = cycleStats(p, r.cycles[c[0]].rows); s.key = c[0]; s.label = c[1]; out.cycles.push(s);
+    });
+    (p.template || []).forEach(function (f) {
+      if (f.type !== 'choice' || !(f.options || []).length) return;
+      var b = { field: f.field, label: fieldLabel(f.field), cycles: {} };
+      ['c1', 'c2'].forEach(function (k) {
+        var counts = new Map();
+        r.cycles[k].rows.forEach(function (row) { var v = row[f.field]; if (v) counts.set(v, (counts.get(v) || 0) + 1); });
+        b.cycles[k] = Array.from(counts.entries()).map(function (e) { return { option: e[0], n: e[1] }; }).sort(function (a, c) { return c.n - a.n; });
+      });
+      if (b.cycles.c1.length || b.cycles.c2.length) out.breakdowns.push(b);
+    });
+    return out;
+  }
+  function fieldLabel(f) { return cap(String(f).replace(/_/g, ' ')); }
+
+  /* --- schedule from the protocol timeline and the start date --- */
+  function schedule(r) {
+    var segs = parseTimeline(r.protocol.timeline) || [], start = r.details.startDate || todayIso();
+    function find(re) { return segs.filter(function (s) { return re.test(s.label); })[0]; }
+    function due(seg, fallbackWeeks) { return addDays(start, ((seg ? seg.b : fallbackWeeks) * 7) - 1); }
+    return {
+      setup: start,
+      cycle1: due(find(/collect/i), 3),
+      present: due(find(/analy|present/i), 4),
+      change: due(find(/change/i), 5),
+      reaudit: due(find(/re-?audit/i), 12),
+      close: addDays(due(find(/re-?audit/i), 12), 14)
+    };
+  }
+  function nextStep(r) {
+    var i = stageIdx(r), st = runStats(r), n1 = st.cycles[0].n, n2 = st.cycles[1].n, want = +r.details.sampleSize || 30, sch = schedule(r);
+    if (r.closed) return { text: 'Loop closed. Keep the change going and report it at governance.', due: null };
+    var key = RUN_STAGES[i][0];
+    var map = {
+      setup: 'Add the audit lead, site and start date',
+      cycle1: 'Collect cycle 1 data (' + n1 + ' of ' + want + ' entered)',
+      present: 'Present the cycle 1 results and agree the change',
+      change: 'Put the change in place and record it',
+      reaudit: 'Collect re-audit data (' + n2 + ' of ' + want + ' entered)',
+      close: 'Present the re-audit and close the loop'
+    };
+    return { text: map[key], due: sch[key], key: key };
+  }
+
+  /* --- anonymisation: applied to every record before it is stored --- */
+  var ID_HEADER = /(^|_)(name|names|surname|forename|first_?name|last_?name|nhs|nhs_?(no|num|number)|chi|mrn|hospital_?(no|num|number)|patient_?(id|no|number)|unit_?(no|number)|dob|date_?of_?birth|birth|address|street|postcode|post_?code|zip|phone|mobile|telephone|email|e_?mail|next_?of_?kin|nok|gp_?name)(_|$)/i;
+  var RX = [
+    [/\b\d{3}[\s-]?\d{3}[\s-]?\d{4}\b/g, '[number removed]'],                       // NHS / 10-digit numbers
+    [/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/gi, '[postcode removed]'],               // UK postcodes
+    [/[\w.+-]+@[\w-]+\.[\w.-]+/g, '[email removed]'],                                  // email
+    [/(\+44\s?|\b0)(\d[\s-]?){9,10}\b/g, '[phone removed]'],                           // UK phone
+    [/\b(Mr|Mrs|Ms|Miss|Mx|Dr|Prof|Sister|Nurse)\.?\s+[A-Z][a-zA-Z'-]+(\s+[A-Z][a-zA-Z'-]+)?/g, '[name removed]'],
+    [/\b(DOB|d\.o\.b\.?|born)\s*[:\-]?\s*\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}/gi, '[date of birth removed]'],
+    [/\b[A-Z]\d{6,8}\b/g, '[number removed]'],                                         // hospital numbers like K1234567
+    [/\b\d{7,12}\b/g, '[number removed]']
+  ];
+  function scrub(text, rep) {
+    var s = String(text);
+    RX.forEach(function (x) { s = s.replace(x[0], function () { rep.redacted++; return x[1]; }); });
+    return s;
+  }
+  function isCodeField(f) { return /pseudonym|audit_?code|local_?code|patient_?code|hospital_number|study_?id|case_?(id|no|number)/i.test(f.field); }
+  function normDate(v, withTime) {
+    if (v == null || v === '') return '';
+    if (typeof v === 'number' && v > 20000 && v < 80000) {       // Excel serial date
+      var d = new Date(Math.round((v - 25569) * 86400000));
+      return withTime ? d.toISOString().slice(0, 16).replace('T', ' ') : d.toISOString().slice(0, 10);
+    }
+    var s = String(v).trim(), m;
+    if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/))) return m[1] + '-' + m[2] + '-' + m[3] + (withTime && m[4] ? ' ' + m[4] + ':' + m[5] : '');
+    if ((m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?/))) {
+      var y = m[3].length === 2 ? '20' + m[3] : m[3];
+      return y + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2) + (withTime && m[4] ? ' ' + ('0' + m[4]).slice(-2) + ':' + m[5] : '');
+    }
+    return '';
+  }
+  /* Clean one record against the template. codes: Map of original identifier → audit code. */
+  function cleanRecord(p, raw, codes, rep) {
+    var out = {};
+    (p.template || []).forEach(function (f) {
+      var v = raw[f.field];
+      if (v == null || v === '') return;
+      if (isCodeField(f)) {
+        var key = String(v).trim();
+        if (/^[A-Z]{0,3}\d{1,4}$/i.test(key) && key.length <= 6) { out[f.field] = key.toUpperCase(); return; }   // already a short audit code
+        if (!codes.map.has(key)) { codes.map.set(key, 'P' + ('00' + codes.next).slice(-3)); codes.next++; }
+        out[f.field] = codes.map.get(key); rep.coded++;
+        return;
+      }
+      if (/yes/i.test(f.type)) { var y = yn(v); if (y) out[f.field] = y; return; }
+      if (f.type === 'date' || f.type === 'datetime') { var d = normDate(v, f.type === 'datetime'); if (d) out[f.field] = d; else rep.badDates++; return; }
+      if (f.type === 'number') { var n = parseFloat(String(v).replace(/[^\d.\-]/g, '')); if (!isNaN(n)) out[f.field] = n; return; }
+      if (f.type === 'choice' && (f.options || []).length) {
+        var hit = f.options.filter(function (o) { return o.toLowerCase() === String(v).trim().toLowerCase(); })[0];
+        out[f.field] = hit || scrub(String(v).slice(0, 120), rep);
+        return;
+      }
+      out[f.field] = scrub(String(v).slice(0, 300), rep);
+    });
+    return out;
+  }
+  function normHead(h) { return String(h || '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''); }
+  function mapHeaders(p, heads) {
+    var fields = (p.template || []).map(function (f) { return f.field; }), used = new Set();
+    return heads.map(function (h) {
+      var n = normHead(h);
+      if (!n) return null;
+      var hit = fields.filter(function (f) { return f === n && !used.has(f); })[0] ||
+        fields.filter(function (f) { return !used.has(f) && n.length > 3 && (f.indexOf(n) === 0 || n.indexOf(f) === 0); })[0] || null;
+      if (hit) used.add(hit);
+      return hit;
+    });
+  }
+  function parseCsv(text) {
+    var rows = [], row = [], cell = '', q = false, i, c;
+    text = String(text).replace(/^﻿/, '');
+    var delim = (text.split('\n')[0].split('\t').length > text.split('\n')[0].split(',').length) ? '\t' : ',';
+    for (i = 0; i < text.length; i++) {
+      c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === delim) { row.push(cell); cell = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }
+      else cell += c;
+    }
+    if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (x) { return String(x).trim() !== ''; }); });
+  }
+  var SHEETJS = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js', sheetjsP = null;
+  function loadScript(src, globalName) {
+    return new Promise(function (res, rej) {
+      if (window[globalName]) return res(window[globalName]);
+      var s = document.createElement('script'); s.src = src; s.async = true;
+      s.onload = function () { window[globalName] ? res(window[globalName]) : rej(new Error('load')); };
+      s.onerror = function () { rej(new Error('load')); };
+      document.head.appendChild(s);
+    });
+  }
+  function readTable(file) {
+    if (/\.(csv|tsv|txt)$/i.test(file.name)) return file.text().then(parseCsv);
+    sheetjsP = sheetjsP || loadScript(SHEETJS, 'XLSX');
+    return Promise.all([sheetjsP, file.arrayBuffer()]).then(function (r) {
+      var wb = r[0].read(r[1], { type: 'array' });
+      var name = wb.SheetNames.filter(function (n) { return /data/i.test(n); })[0] || wb.SheetNames[0];
+      return r[0].utils.sheet_to_json(wb.Sheets[name], { header: 1, raw: true, defval: '' });
+    });
+  }
+  /* Find the header row, map columns, clean every record. Returns a preview for the user to confirm. */
+  function prepareImport(p, table, startCode) {
+    var best = 0, bestHits = -1;
+    for (var i = 0; i < Math.min(table.length, 12); i++) {
+      var hits = mapHeaders(p, table[i]).filter(Boolean).length;
+      if (hits > bestHits) { bestHits = hits; best = i; }
+    }
+    var heads = table[best] || [], map = mapHeaders(p, heads), rep = { redacted: 0, coded: 0, badDates: 0 }, codes = { map: new Map(), next: startCode || 1 };
+    var dropped = [], kept = [];
+    heads.forEach(function (h, j) {
+      if (!String(h).trim()) return;
+      if (map[j] && !(ID_HEADER.test(normHead(h)) && !isCodeField({ field: map[j] }))) kept.push([h, map[j]]);
+      else { dropped.push(String(h)); map[j] = null; }
+    });
+    var rows = table.slice(best + 1).map(function (r) {
+      var raw = {}; map.forEach(function (f, j) { if (f) raw[f] = r[j]; }); return cleanRecord(p, raw, codes, rep);
+    }).filter(function (o) { return Object.keys(o).length; });
+    return { rows: rows, kept: kept, dropped: dropped, rep: rep, nextCode: codes.next };
+  }
+
+  /* --- files: download on the hosted site, the downloads capability inside Claude --- */
+  function saveFile(filename, blob) {
+    if (window.AI4QI_EMBED && window.claude && typeof window.claude.use === 'function') {
+      return window.claude.use('downloads').then(function (d) {
+        if (!d) throw { code: 'unavailable' };
+        return d.save({ filename: filename, data: blob });
+      });
+    }
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    return Promise.resolve();
+  }
+  function fileSlug(s) { return String(s || 'audit').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'audit'; }
+  function exporter() {
+    if (window.AI4QI_EXPORT) return Promise.resolve(window.AI4QI_EXPORT);
+    return loadScript('export.js', 'AI4QI_EXPORT');
+  }
+  function sayIn(el, text) { if (el) el.textContent = text; }
+  function downloadError(e) {
+    var c = e && e.code;
+    if (c === 'declined') return 'Download cancelled.';
+    if (c === 'unavailable' || c === 'not_granted') return 'Downloads are not available in this view. Open Ai4Qi in a browser to download.';
+    return (e && e.message && !c) ? e.message : 'The file could not be created. Please try again.';
+  }
+
+  /* --- reminders: opt-in, signed-in users, metadata only --- */
+  var syncTimers = {};
+  function syncRun(r) {
+    if (!BE.url || !BE.user) return;
+    clearTimeout(syncTimers[r.id]);
+    syncTimers[r.id] = setTimeout(function () {
+      sbClient().then(function (c) {
+        var i = stageIdx(r), status = STAGE_STATUS[i], jobs = [];
+        jobs.push(c.from('my_audits').upsert({ user_id: BE.user.id, audit_id: r.auditId, status: status }, { onConflict: 'user_id,audit_id' }));
+        if (r.reminders && !r.closed) {
+          var ns = nextStep(r);
+          jobs.push(c.from('run_reminders').upsert({ user_id: BE.user.id, run_id: r.id, audit_title: trunc(r.protocol.question, 190),
+            next_step: trunc(ns.text, 190), due_date: ns.due || addDays(todayIso(), 7), email_opt_in: true }, { onConflict: 'user_id,run_id' }));
+        } else jobs.push(c.from('run_reminders').delete().eq('user_id', BE.user.id).eq('run_id', r.id));
+        return Promise.all(jobs);
+      }).catch(function () {});
+    }, 800);
+  }
+
+  /* --- pages --- */
+  function stageStepper(r) {
+    var cur = stageIdx(r), sch = schedule(r);
+    return '<ol class="run-steps" aria-label="Audit stages">' + RUN_STAGES.map(function (s, i) {
+      var state = i < cur ? 'is-done' : (i === cur ? 'is-now' : '');
+      return '<li class="' + state + '"><span class="rs-dot" aria-hidden="true">' + (i < cur ? '✓' : i + 1) + '</span><span class="rs-t">' + esc(s[1]) +
+        '</span><span class="rs-d">' + (i === 0 ? '' : 'by ' + esc(dateGBs(sch[s[0]]))) + '</span>' + (i === cur ? '<span class="sr-only"> (current stage)</span>' : '') + '</li>';
+    }).join('') + '</ol>';
+  }
+  function pctBar(label, s, target, cls) {
+    var v = s.pct == null ? 0 : s.pct;
+    return '<div class="sp-row ' + cls + '"><span>' + esc(label) + '</span><div class="sp-track">' +
+      (target ? '<i class="sp-target" style="left:' + Math.min(target.value, 100) + '%" title="Target ' + attr(target.text) + '"></i>' : '') +
+      '<div class="sp-fill" style="width:' + v + '%"></div></div><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b></div>';
+  }
+  function renderRuns() {
+    var list = Array.from(S.runs.values()).sort(function (a, b) { return (a.closed - b.closed) || String(b.updated).localeCompare(String(a.updated)); });
+    var body = list.length ? '<ul class="run-list">' + list.map(function (r) {
+      var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
+      var overdue = ns.due && ns.due < todayIso();
+      return '<li class="run-card"><div class="rc-top"><span class="id-tag">' + esc(r.auditId) + '</span>' +
+        (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + '</div>' +
+        '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title || r.protocol.question) + '</a></h2>' +
+        '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
+        '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
+        '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p></li>';
+    }).join('') + '</ul>' :
+      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p>' +
+      '<p><a class="btn" href="#/">Build an audit</a> <a class="btn btn-secondary" href="#/suggest">See suggested audits</a></p></div>';
+    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + body +
+      '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
+      '<span class="form-status" role="status" data-restore-status></span></div>', 'My audits', 'my-audits');
+  }
+  function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
+
+  function recordForm(r, ck) {
+    var p = r.protocol;
+    return '<form class="rec-form" data-rec-form="' + attr(ck) + '"><div class="rec-grid">' + (p.template || []).map(function (f, i) {
+      var id = 'rf-' + ck + '-' + i, lab = '<label for="' + id + '">' + esc(fieldLabel(f.field)) + (f.note ? ' <span class="muted">' + esc(f.note) + '</span>' : '') + '</label>', ctl;
+      if (/yes/i.test(f.type)) ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option><option>Yes</option><option>No</option><option>N/A</option></select>';
+      else if (f.type === 'choice') ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option>' + (f.options || []).map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '</select>';
+      else if (f.type === 'date') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="date">';
+      else if (f.type === 'datetime') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="datetime-local">';
+      else if (f.type === 'number') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="number" step="any" inputmode="decimal">';
+      else ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="text" maxlength="300" autocomplete="off"' + (isCodeField(f) ? ' placeholder="e.g. P001"' : '') + '>';
+      return '<div class="rec-f">' + lab + ctl + '</div>';
+    }).join('') + '</div><div class="rec-actions"><button class="btn" type="submit">Add record</button><span class="form-status" role="status" data-rec-status></span></div></form>';
+  }
+  function rowsTable(r, ck) {
+    var p = r.protocol, rows = r.cycles[ck].rows, t = p.template || [];
+    if (!rows.length) return '<p class="muted">No records yet.</p>';
+    var shown = rows.slice(-200);
+    return '<div class="table-wrap"><table class="rows-t"><thead><tr><th scope="col">#</th>' + t.map(function (f) { return '<th scope="col">' + esc(fieldLabel(f.field)) + '</th>'; }).join('') +
+      '<th scope="col"><span class="sr-only">Remove</span></th></tr></thead><tbody>' + shown.map(function (row, j) {
+        var idx = rows.length - shown.length + j;
+        return '<tr><td class="num-col">' + (idx + 1) + '</td>' + t.map(function (f) { return '<td>' + esc(row[f.field] == null ? '' : row[f.field]) + '</td>'; }).join('') +
+          '<td><button type="button" class="link-btn" data-rec-del="' + ck + ':' + idx + '" aria-label="Remove record ' + (idx + 1) + '">Remove</button></td></tr>';
+      }).join('') + '</tbody></table></div>' + (rows.length > shown.length ? '<p class="muted">Showing the last 200 of ' + fmt(rows.length) + ' records.</p>' : '');
+  }
+  function cyclePanel(r, ck, st) {
+    var s = st.cycles[ck === 'c1' ? 0 : 1], want = +r.details.sampleSize || 30, t = st.target;
+    var met = s.pct != null && t ? (t.op === '≤' || t.op === '<' ? s.pct <= t.value : s.pct >= t.value) : null;
+    return '<div class="cycle-panel">' +
+      '<div class="kpis"><div class="kpi"><span>Records</span><b>' + s.n + '<small> / ' + want + '</small></b><div class="mini-track"><i style="width:' + Math.min(100, s.n / want * 100) + '%"></i></div></div>' +
+      '<div class="kpi"><span>Met the standard</span><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b><small>' + s.passN + ' of ' + (s.passN + s.failN) + '</small></div>' +
+      '<div class="kpi"><span>Target</span><b>' + (t ? esc(t.op + t.value + '%') : '–') + '</b><small>' + (met == null ? 'No data yet' : met ? 'Met' : 'Not met') + '</small></div></div>' +
+      '<details class="rec-box"><summary>Add a record by hand</summary>' + recordForm(r, ck) + '</details>' +
+      '<details class="rec-box"><summary>Upload a spreadsheet (Excel or CSV)</summary>' +
+      '<p class="muted">Use the Ai4Qi data sheet, or any sheet whose column headings match the template. Columns that are not part of the audit are left out, and patient identifiers are removed before anything is stored.</p>' +
+      '<label class="file-pick"><input type="file" accept=".xlsx,.xls,.csv,.tsv" data-import="' + ck + '"><span class="btn btn-secondary">Choose a file</span></label>' +
+      '<div data-import-preview="' + ck + '"></div></details>' +
+      rowsTable(r, ck) + '</div>';
+  }
+  function renderRun(id) {
+    var r = S.runs.get(id);
+    if (!r) return renderNotFound();
+    var p = r.protocol, d = r.details, st = runStats(r), ns = nextStep(r), i = stageIdx(r), ck = S.view.runTab || (i >= 4 ? 'c2' : 'c1');
+    var overdue = ns.due && ns.due < todayIso() && !r.closed;
+    var detailsForm = '<form class="det-form" data-run-details>' +
+      [['title', 'Audit title', 'text'], ['site', 'Hospital or practice', 'text'], ['department', 'Department or ward', 'text'], ['lead', 'Audit lead', 'text'],
+        ['team', 'Team members', 'text'], ['supervisor', 'Supervising consultant', 'text'], ['startDate', 'Start date', 'date'], ['sampleSize', 'Records per cycle', 'number']]
+        .map(function (x) {
+          return '<div class="rec-f"><label for="rd-' + x[0] + '">' + x[1] + '</label><input id="rd-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
+            (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="200"') + ' value="' + attr(d[x[0]] == null ? '' : d[x[0]]) + '"></div>';
+        }).join('') +
+      '<div class="rec-actions"><button class="btn" type="submit">Save details</button><span class="form-status" role="status" data-det-status></span></div></form>';
+    var remind = BE.url ? (BE.user ?
+      '<label class="check"><input type="checkbox" data-run-remind' + (r.reminders ? ' checked' : '') + '><span>Email me when a step is due. Only the audit question, the next step and its date are sent; never your data.</span></label>' :
+      '<p class="muted"><a href="#/account">Sign in</a> to get email reminders when a step is due.</p>') : '';
+    var changeForm = '<form class="det-form" data-run-change><div class="rec-f rec-wide"><label for="rc-desc">What did you change?</label><textarea id="rc-desc" name="description" rows="3" maxlength="600">' + esc(r.changeMade.description || '') + '</textarea></div>' +
+      '<div class="rec-f"><label for="rc-date">Date it started</label><input id="rc-date" name="date" type="date" value="' + attr(r.changeMade.date || '') + '"></div>' +
+      '<div class="rec-actions"><button class="btn" type="submit">Save change</button><span class="form-status" role="status" data-chg-status></span></div>' +
+      '<p class="muted">Planned in the protocol: ' + esc(p.change) + '</p></form>';
+    var results = '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], st.target, 'before') + pctBar('Re-audit', st.cycles[1], st.target, 'after') + '</div>' +
+      (st.target ? '<p class="muted">Dashed line: target ' + esc(st.target.text) + '</p>' : '') +
+      st.breakdowns.map(function (b) {
+        var all = b.cycles.c1.concat(b.cycles.c2), max = Math.max.apply(null, all.map(function (x) { return x.n; }).concat([1]));
+        return '<div class="sub"><h3>' + esc(b.label) + '</h3><ul class="bd-bars">' + b.cycles.c1.map(function (x) {
+          return '<li><span>' + esc(x.option) + '</span><i style="width:' + (x.n / max * 100) + '%"></i><b>' + x.n + '</b></li>';
+        }).join('') + '</ul></div>';
+      }).join('');
+    var dl = '<div class="out-grid">' +
+      '<button class="out-btn" type="button" data-run-xlsx><b>Data sheet</b><span>Excel, with drop-downs</span></button>' +
+      '<button class="out-btn" type="button" data-run-pptx><b>Results presentation</b><span>PowerPoint, ready for your meeting</span></button>' +
+      '<button class="out-btn" type="button" data-run-csv><b>Your records</b><span>CSV, anonymised</span></button>' +
+      '<button class="out-btn" type="button" data-run-backup><b>Backup</b><span>To move this audit to another device</span></button>' +
+      (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
+      '</div><p class="form-status" role="status" data-out-status></p>';
+    var stageBtn = r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
+      '<button class="btn" type="button" data-run-stage="next">' + (i === RUN_STAGES.length - 1 ? 'Mark the loop closed' : 'Done – go to ' + esc(RUN_STAGES[i + 1][1].toLowerCase())) + '</button>' +
+      (i > 0 ? '<button class="btn btn-secondary" type="button" data-run-stage="back">Back a stage</button>' : '');
+
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/my-audits">My audits</a></nav>' +
+      '<article class="doc run" data-run="' + attr(r.id) + '"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(r.auditId) + '</span>' +
+      (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
+      '<h1>' + esc(d.title || p.question) + '</h1>' + stageStepper(r) +
+      '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
+      '<p class="nc-text">' + esc(ns.text) + '</p></div><div class="nc-actions">' + stageBtn + '</div></div>' +
+      '<p class="privacy-note"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
+      'Your data stays on this device and is anonymised as it is entered. ' + privacyLink() + '</p></header>' +
+      sec(1, 'Audit details', detailsForm + remind) +
+      sec(2, 'Data', '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
+        '<button type="button" role="tab" data-run-tab="c2" aria-selected="' + (ck === 'c2') + '">Re-audit <span class="count">' + st.cycles[1].n + '</span></button></div>' +
+        '<div role="tabpanel">' + cyclePanel(r, ck, st) + '</div>') +
+      sec(3, 'Results', results) +
+      sec(4, 'The change', changeForm) +
+      sec(5, 'Files for you', dl) +
+      '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
+      '</article>', 'My audit', 'my-audits');
+  }
+
+  function renderPrivacy() {
+    page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
+      '<p class="prose"><strong>Your audit data stays on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are not sent to Ai4Qi, and we cannot see them. Clearing your browser data deletes them, so download a backup if you need one.</p>' +
+      '<p class="prose"><strong>Anonymised as it is entered.</strong> Before any record is stored, Ai4Qi:</p><ul class="prose">' +
+      '<li>keeps only the columns that are part of the audit template and leaves out everything else (for example name, NHS number, date of birth or address columns);</li>' +
+      '<li>replaces patient or hospital numbers with audit codes (P001, P002…);</li>' +
+      '<li>removes NHS numbers, other long numbers, postcodes, phone numbers, email addresses, dates of birth and names written with a title (Mr, Mrs, Dr…) from any text.</li></ul>' +
+      '<p class="prose"><strong>Please still check.</strong> Automatic checks cannot catch every way a person can be identified in free text. Do not type names or other identifiers, and follow your organisation\'s audit and information governance rules. Register the audit with your audit department before you start.</p>' +
+      '<p class="prose"><strong>Reminders.</strong> If you sign in and turn on email reminders for an audit, only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
+      '<p class="prose"><strong>Files you download</strong> (data sheet, presentation, backup) are made on your device.</p></article>', 'Privacy', '');
+  }
+
+  /* --- events --- */
+  function curRun() { var el = main.querySelector('[data-run]'); return el ? S.runs.get(el.getAttribute('data-run')) : null; }
+  document.addEventListener('click', function (e) {
+    var ch = e.target.closest('[data-choose]');
+    if (ch) { var p = anyAudit(ch.getAttribute('data-choose')); if (p) chooseAudit(p); return; }
+    var r = curRun(); if (!r) return;
+    var tab = e.target.closest('[data-run-tab]');
+    if (tab) { S.view.runTab = tab.getAttribute('data-run-tab'); renderRunKeep(r, '[data-run-tab="' + S.view.runTab + '"]'); return; }
+    var stg = e.target.closest('[data-run-stage]');
+    if (stg) {
+      var a = stg.getAttribute('data-run-stage'), i = stageIdx(r);
+      if (a === 'reopen') { r.closed = false; r.stage = RUN_STAGES[RUN_STAGES.length - 1][0]; }
+      else if (a === 'back') { if (r.closed) r.closed = false; else r.stage = RUN_STAGES[Math.max(0, i - 1)][0]; }
+      else if (i >= RUN_STAGES.length - 1) r.closed = true;
+      else r.stage = RUN_STAGES[i + 1][0];
+      if (r.stage === 'reaudit' || r.stage === 'close') S.view.runTab = 'c2';
+      runPut(r); renderRunKeep(r, '[data-run-stage]');
+      return;
+    }
+    var del = e.target.closest('[data-rec-del]');
+    if (del) { var k = del.getAttribute('data-rec-del').split(':'); r.cycles[k[0]].rows.splice(+k[1], 1); runPut(r); renderRunKeep(r, '[data-run-tab="' + k[0] + '"]'); return; }
+    if (e.target.closest('[data-run-delete]')) {
+      var box = main.querySelector('[data-del-confirm]');
+      box.innerHTML = ' <strong>Delete permanently?</strong> <button type="button" class="btn btn-secondary" data-run-delete-yes>Delete</button> <button type="button" class="link-btn" data-run-delete-no>Keep it</button>';
+      return;
+    }
+    if (e.target.closest('[data-run-delete-no]')) { main.querySelector('[data-del-confirm]').innerHTML = ''; return; }
+    if (e.target.closest('[data-run-delete-yes]')) {
+      S.runs.delete(r.id); runsSave(); r.reminders = false; syncRun(r);
+      location.hash = '#/my-audits'; return;
+    }
+    var out = main.querySelector('[data-out-status]'), name = fileSlug(r.details.title || r.auditId);
+    if (e.target.closest('[data-run-xlsx]')) {
+      sayIn(out, 'Making the data sheet…');
+      exporter().then(function (x) { return x.templateXlsx(r.protocol, {}); }).then(function (b) { return saveFile(name + '-data-sheet.xlsx', b); })
+        .then(function () { sayIn(out, 'Data sheet ready.'); }, function (err) { sayIn(out, downloadError(err)); });
+      return;
+    }
+    if (e.target.closest('[data-run-pptx]')) {
+      sayIn(out, 'Making the presentation…');
+      exporter().then(function (x) { return x.deckPptx(r, runStats(r)); }).then(function (b) { return saveFile(name + '-results.pptx', b); })
+        .then(function () { sayIn(out, 'Presentation ready.'); }, function (err) { sayIn(out, downloadError(err)); });
+      return;
+    }
+    if (e.target.closest('[data-run-csv]')) {
+      var t = r.protocol.template || [], lines = [['cycle'].concat(t.map(function (f) { return f.field; }))];
+      ['c1', 'c2'].forEach(function (c) { r.cycles[c].rows.forEach(function (row) { lines.push([c === 'c1' ? 'Cycle 1' : 'Re-audit'].concat(t.map(function (f) { return row[f.field] == null ? '' : row[f.field]; }))); }); });
+      var csv = lines.map(function (l) { return l.map(function (v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n') + '\n';
+      saveFile(name + '-records.csv', new Blob([csv], { type: 'text/csv' })).then(function () { sayIn(out, 'Records downloaded.'); }, function (err) { sayIn(out, downloadError(err)); });
+      return;
+    }
+    if (e.target.closest('[data-run-backup]')) {
+      saveFile(name + '-ai4qi-backup.json', new Blob([JSON.stringify({ ai4qi_run: 1, run: r })], { type: 'application/json' }))
+        .then(function () { sayIn(out, 'Backup downloaded. Open it from My audits on another device to continue there.'); }, function (err) { sayIn(out, downloadError(err)); });
+      return;
+    }
+    if (e.target.closest('[data-run-ics]')) {
+      var sch = schedule(r), evs = RUN_STAGES.slice(1).map(function (s) { return { date: sch[s[0]], title: 'Audit: ' + s[1], description: r.protocol.question }; });
+      exporter().then(function (x) { return saveFile(name + '-deadlines.ics', new Blob([x.ics(r, evs)], { type: 'text/calendar' })); })
+        .then(function () { sayIn(out, 'Calendar file downloaded.'); }, function (err) { sayIn(out, downloadError(err)); });
+    }
+  });
+  function renderRunKeep(r, focusSel) {
+    var y = window.scrollY; renderRun(r.id); window.scrollTo(0, y);
+    var f = focusSel && main.querySelector(focusSel); if (f) f.focus({ preventScroll: true });
+  }
+  document.addEventListener('submit', function (e) {
+    var r = curRun(); if (!r) return;
+    var f = e.target, fd = new FormData(f);
+    if (f.matches('[data-run-details]')) {
+      e.preventDefault();
+      fd.forEach(function (v, k) { r.details[k] = k === 'sampleSize' ? Math.max(1, Math.min(2000, +v || 30)) : String(v).slice(0, 200); });
+      if (r.stage === 'setup' && r.details.lead && r.details.site) r.stage = 'cycle1';
+      var ok = runPut(r); renderRunKeep(r); sayIn(main.querySelector('[data-det-status]'), ok ? 'Saved.' : 'Could not save: this browser has no space left.');
+      return;
+    }
+    if (f.matches('[data-run-change]')) {
+      e.preventDefault();
+      var rep0 = { redacted: 0 };
+      r.changeMade = { description: scrub(String(fd.get('description') || '').slice(0, 600), rep0), date: String(fd.get('date') || '') };
+      runPut(r); renderRunKeep(r); sayIn(main.querySelector('[data-chg-status]'), rep0.redacted ? 'Saved. Identifiers were removed from the text.' : 'Saved.');
+      return;
+    }
+    if (f.matches('[data-rec-form]')) {
+      e.preventDefault();
+      var ck = f.getAttribute('data-rec-form'), raw = {};
+      fd.forEach(function (v, k) { raw[k] = String(v).replace('T', ' '); });
+      var rep = { redacted: 0, coded: 0, badDates: 0 }, codes = { map: new Map(), next: r.codeSeq || 1 };
+      var rec = cleanRecord(r.protocol, raw, codes, rep);
+      r.codeSeq = codes.next;
+      if (!Object.keys(rec).length) { sayIn(f.querySelector('[data-rec-status]'), 'Fill in at least one field.'); return; }
+      r.cycles[ck].rows.push(rec);
+      if (r.stage === 'setup' && ck === 'c1') r.stage = 'cycle1';
+      runPut(r); S.view.runTab = ck; renderRunKeep(r);
+      var box = main.querySelector('[data-rec-form="' + ck + '"]');
+      if (box) { box.closest('details').open = true; sayIn(box.querySelector('[data-rec-status]'), 'Record ' + r.cycles[ck].rows.length + ' added.' + (rep.redacted || rep.coded ? ' Identifiers were replaced or removed.' : '')); var first = box.querySelector('input,select'); if (first) first.focus(); }
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var r = curRun(); if (!r) return;
+    if (e.target.matches('[data-run-remind]')) { r.reminders = e.target.checked; runPut(r); return; }
+    var inp = e.target.closest('[data-import]');
+    if (!inp || !inp.files || !inp.files[0]) return;
+    var ck = inp.getAttribute('data-import'), box = main.querySelector('[data-import-preview="' + ck + '"]'), file = inp.files[0];
+    box.innerHTML = '<p class="muted">Reading ' + esc(file.name) + '…</p>';
+    readTable(file).then(function (table) {
+      var prep = prepareImport(r.protocol, table, r.codeSeq || 1);
+      S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode };
+      box.innerHTML = '<div class="import-preview"><p><strong>' + prep.rows.length + ' records ready to add.</strong> Nothing has been stored yet.</p>' +
+        '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
+        '<li>Columns left out: ' + (prep.dropped.length ? esc(prep.dropped.join(', ')) : 'none') + '</li>' +
+        '<li>Patient numbers replaced with audit codes: ' + prep.rep.coded + '</li>' +
+        '<li>Identifiers removed from text: ' + prep.rep.redacted + '</li>' +
+        (prep.rep.badDates ? '<li>Dates that could not be read (left blank): ' + prep.rep.badDates + '</li>' : '') + '</ul>' +
+        (prep.rows.length ? '<button class="btn" type="button" data-import-ok>Add ' + prep.rows.length + ' records</button> ' : '') +
+        '<button class="link-btn" type="button" data-import-cancel>Cancel</button></div>';
+    }).catch(function () { box.innerHTML = '<p class="notice notice-warn">This file could not be read. Save it as .xlsx or .csv and try again.</p>'; });
+    inp.value = '';
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-import-cancel]')) { S.pendingImport = null; var b = e.target.closest('[data-import-preview]'); if (b) b.innerHTML = ''; return; }
+    if (!e.target.closest('[data-import-ok]')) return;
+    var pi = S.pendingImport, r = pi && S.runs.get(pi.runId);
+    if (!r) return;
+    r.cycles[pi.ck].rows = r.cycles[pi.ck].rows.concat(pi.rows);
+    r.codeSeq = Math.max(r.codeSeq || 1, pi.nextCode || 1);
+    if (r.stage === 'setup' && pi.ck === 'c1') r.stage = 'cycle1';
+    S.pendingImport = null; S.view.runTab = pi.ck;
+    var ok = runPut(r); renderRunKeep(r, '[data-run-tab="' + pi.ck + '"]');
+    if (!ok) window.setTimeout(function () { var o = main.querySelector('[data-out-status]'); sayIn(o, 'This browser is out of space. Download a backup.'); }, 0);
+  });
+  /* Restore a backup from My audits */
+  document.addEventListener('change', function (e) {
+    var inp = e.target.closest('[data-restore]');
+    if (!inp || !inp.files || !inp.files[0]) return;
+    inp.files[0].text().then(function (t) {
+      var o = JSON.parse(t), r = o && o.ai4qi_run && o.run;
+      if (!r || !/^r-[a-z0-9]{6,24}$/.test(r.id) || !r.protocol || !r.cycles) throw new Error('bad');
+      runPut(r); location.hash = '#/run/' + r.id;
+    }).catch(function () { var s = main.querySelector('[data-restore-status]'); sayIn(s, 'That file is not an Ai4Qi backup.'); });
+  });
 
   /* ---------- events ---------- */
   document.addEventListener('submit', function (e) {
@@ -1219,7 +1826,7 @@
       flushFeedback();
       // If the library finished loading first, an account or admin link was shown as "not found".
       var cur = parseHash().parts[0];
-      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin' || cur === 'my-audits')) route();
+      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin')) route();
     });
 
   function sbClient() {
@@ -1846,7 +2453,7 @@
     } catch (e) { return ''; }
   })();
   var AN = { kind: '', last: '' };
-  var KNOWN_ROUTES = ['build', 'suggest', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
+  var KNOWN_ROUTES = ['build', 'suggest', 'run', 'privacy', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
   function cleanPageUrl() {
     var keep = new URLSearchParams();
     new URLSearchParams(location.search).forEach(function (v, k) {

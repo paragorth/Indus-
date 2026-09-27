@@ -20,8 +20,9 @@ SHARD = 1000
 
 shutil.rmtree(OUT, ignore_errors=True)
 os.makedirs(os.path.join(OUT, "data", "audits"))
-for f in ("app.js", "styles.css", "config.json"):
-    shutil.copy(os.path.join(APP, f), OUT)
+for f in ("app.js", "styles.css", "config.json", "export.js"):
+    if os.path.exists(os.path.join(APP, f)):
+        shutil.copy(os.path.join(APP, f), OUT)
 for f in ("proposed.json", "cards.json", "standards.json", "version.json"):
     shutil.copy(os.path.join(APP, "data", f), os.path.join(OUT, "data"))
 lib = json.load(open(os.path.join(APP, "data", "library.json"), encoding="utf-8"))

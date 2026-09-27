@@ -8,7 +8,7 @@ var SHELL = PREFIX + 'shell-' + VERSION;
 var RUNTIME = PREFIX + 'runtime-' + VERSION;
 
 var SHELL_FILES = [
-  './', 'index.html', 'app.js', 'styles.css', 'manifest.webmanifest',
+  './', 'index.html', 'app.js', 'export.js', 'styles.css', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon-180.png',
   'data/library.json', 'data/proposed.json', 'data/cards.json', 'data/standards.json'
 ];

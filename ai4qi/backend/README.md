@@ -24,7 +24,11 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
   `weekly_stats()` and `signup_breakdown()`. Groups of fewer than five people are suppressed.
 - `supabase/migrations/003_built_audits.sql`: lets trackers accept built audits (ids `B-…`) and adds
   `built_audits`, where every protocol built on the site is kept for review (server only).
+- `supabase/migrations/004_reminders.sql`: table `run_reminders` (reminder details for a running
+  audit: run id, audit question, next step, due date, opt-in); users see and edit only their own
+  rows, cannot change `last_sent_at`/`sends`, and can keep at most 50.
 - `supabase/functions/build-audit/`: the function that builds an audit on request with Claude.
+- `supabase/functions/send-reminders/`: the daily job that emails reminders through Resend.
 - `pull_feedback.py`: copies feedback from Supabase into `ai4qi/new_audits/feedback.json`.
 
 ## Owner steps: Supabase
@@ -106,6 +110,52 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
   and your own SMTP. Recommended once real users depend on it.
 
 Check <https://supabase.com/pricing> for current prices.
+
+## Reminder emails (optional)
+
+A signed-in user can turn on reminders for an audit they are running. The app then saves only the
+audit question, a short next step made of counts (e.g. "Finish cycle 1 data collection (32 of 40
+entered)"), a due date and the on/off choice in `run_reminders`. The audit data itself (patient
+rows) never leaves the device. Once a day, `send-reminders` emails each person one message listing
+every audit with a next step due from 14 days ago up to tomorrow, with a link to *My audits*. Each
+item is emailed at most every 3 days and at most 6 times in all. Without these steps nothing is sent.
+
+1. **Run the SQL.** In *SQL Editor* run the whole of `supabase/migrations/004_reminders.sql`.
+2. **Create a Resend account** at <https://resend.com>. Under *Domains* → *Add domain*, add the
+   domain you will send from (a subdomain such as `mail.yourdomain.org` is fine) and add the DNS
+   records it lists (SPF/DKIM `TXT` and `MX` records, and optionally DMARC) at your DNS provider.
+   Wait until the domain shows *Verified*. Then *API Keys* → *Create API key* with *Sending access*
+   only, and copy it.
+3. **Set the secrets.** Supabase dashboard → *Edge Functions* → *Secrets*:
+   - `RESEND_API_KEY`: the key from step 2.
+   - `REMINDER_FROM`: e.g. `Ai4Qi <reminders@mail.yourdomain.org>` (must be on the verified domain).
+   - `SITE_URL`: the app address, e.g. `https://yourname.github.io/ai4qi/app` (the email links to
+     `SITE_URL/#/my-audits`).
+   - `CRON_SECRET`: a long random string, e.g. from `openssl rand -hex 32`. Anyone without it gets 401.
+   - Optional `REMINDERS_DRY_RUN=1`: the function logs what it would send (see *Edge Functions* →
+     *Logs*) and neither sends nor updates anything. Remove it to go live.
+4. **Deploy the function** without Supabase's JWT check (the function checks `CRON_SECRET` itself):
+   `supabase functions deploy send-reminders --no-verify-jwt --project-ref abcdefghijkl`
+   (or paste `index.ts` into *Edge Functions* → *Create function* and turn off *Verify JWT*).
+5. **Schedule it daily at 08:00 UK time.** *Database* → *Extensions*: enable **pg_cron** and
+   **pg_net**. Then in the SQL editor (with your project ref and your `CRON_SECRET`):
+
+   ```sql
+   select cron.schedule('ai4qi-reminders', '0 7 * * *', $$ select net.http_post(url := 'https://<ref>.supabase.co/functions/v1/send-reminders', headers := jsonb_build_object('Authorization', 'Bearer <CRON_SECRET>', 'Content-Type','application/json')) $$);
+   ```
+
+   pg_cron runs in UTC: `0 7 * * *` is 08:00 in British Summer Time and 07:00 in winter (use
+   `0 8 * * *` in winter if the hour matters). Due dates are worked out on the UK date. To test once
+   by hand: `curl -X POST -H "Authorization: Bearer <CRON_SECRET>" https://<ref>.supabase.co/functions/v1/send-reminders`;
+   it answers `{"users": …, "emails": …, "items": …, "failed": …, "dry_run": …}`. See past runs with
+   `select * from cron.job_run_details order by start_time desc limit 10;` and the replies with
+   `select * from net._http_response order by created desc limit 10;`. Stop it with
+   `select cron.unschedule('ai4qi-reminders');`.
+
+**Costs.** Resend's free plan (checked 27 Sep 2026) allows 3,000 emails a month and 100 a day, on up
+to 3 domains; Pro is US$20 a month for 50,000. One email per person per day at most, so the free plan
+covers up to about 100 people with something due on the same day. Check <https://resend.com/pricing>
+for current limits. pg_cron, pg_net and Edge Function calls fit within the Supabase plans above.
 
 ## What the app does with Supabase
 
