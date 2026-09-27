@@ -713,4 +713,36 @@
     main.innerHTML = '<h1>The library could not be loaded</h1><p>Please check your connection and refresh the page.</p>';
     if (window.console) console.warn(err);
   });
+
+  /* ---------- installable app and offline use ---------- */
+  var installBtn = document.querySelector('[data-install]');
+  var installPrompt = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    installPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+  window.addEventListener('appinstalled', function () {
+    installPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+  if (installBtn) installBtn.addEventListener('click', function () {
+    if (!installPrompt) return;
+    var ev = installPrompt;
+    installPrompt = null;
+    installBtn.hidden = true;
+    ev.prompt();
+  });
+
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).catch(function () {});
+      navigator.serviceWorker.ready.then(function () {
+        return window.caches ? caches.match('data/library.json') : null;
+      }).then(function (hit) {
+        var note = document.querySelector('[data-offline]');
+        if (hit && note) note.hidden = false;
+      }).catch(function () {});
+    });
+  }
 })();

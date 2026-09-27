@@ -90,3 +90,7 @@ cd app && python3 -m http.server 8000    # then open http://localhost:8000/
 
 To publish, copy the whole `app/` folder to any static host (GitHub Pages, S3, nginx). It must be served
 over HTTP; opening `index.html` straight from disk will not load the data.
+
+Install on a phone home screen (HTTPS host needed; the app then opens full screen and works offline):
+- iPhone (Safari): open the site, tap Share → Add to Home Screen.
+- Android (Chrome): tap Install app (in the header or the ⋮ menu); each `build_app_data.py` run bumps the offline cache version so installed copies update.

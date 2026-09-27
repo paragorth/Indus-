@@ -35,6 +35,11 @@ def main():
     keys.sort(key=lambda k: (scr[k].get("audit_kind") != "closed-loop or re-audit",
                              not classify.uk_ireland(recs[k].get("affiliations")),
                              not os.path.exists(os.path.join(pipeline.FT_DIR, f"{recs[k].get('pmcid')}.xml"))))
+    queued = set()                      # already in a manifest (being read now)
+    import glob
+    for m in glob.glob(os.path.join(BATCH_DIR, "*.txt")):
+        queued.update(l.strip() for l in open(m) if l.strip())
+    keys = [k for k in keys if os.path.join(IN_DIR, fname(k)) not in queued]
     if a.limit:
         keys = keys[:a.limit]
     os.makedirs(IN_DIR, exist_ok=True)

@@ -7,6 +7,14 @@
 <meta name="description" content="Find published clinical audits and ready-to-run audit protocols with standards, templates and evidence.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a6b6f'/%3E%3Cpath d='M9 17l5 5 9-12' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a6b6f" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151e21" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ai4Qi">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,6 +32,7 @@
       <a href="#/proposed" data-nav="proposed">Proposed audits</a>
       <a href="#/topics" data-nav="topics">Topics</a>
       <a href="#/standards" data-nav="standards">Standards</a>
+      <button class="install-btn" type="button" data-install hidden>Install app</button>
     </nav>
   </div>
 </header>
@@ -34,6 +43,7 @@
   <div class="wrap footer-inner">
     <p><strong>Ai4Qi</strong> brings together published clinical audits and quality improvement projects, and ready-to-run audit protocols built on current standards.</p>
     <p>Published work is summarised with a link to the original source. Abstracts and figures are reproduced only where the article licence allows it (CC BY or CC0), with the required credit. Proposed audits have not yet been run. Topic cards marked as drafts have not yet been reviewed by a consultant.</p>
+    <p class="offline-note" data-offline hidden><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Available offline</p>
   </div>
 </footer>
 <script src="app.js"></script>

@@ -4,11 +4,15 @@
 Reads (never writes) ai4qi-library.json, new_audits/*_new_audits.json,
 new_audits/templates/*.csv, standards/standards.json and figures/.
 Writes app/data/*.json, app/data/audits/*.json, app/templates/*.csv, app/figures/.
+The PWA files (app/sw.js, app/manifest.webmanifest, app/icons/) are kept; the service worker's
+cache VERSION is re-stamped from a hash of the built files and written to app/data/version.json,
+so installed copies of the app pick up the new data.
 
 Standard library only. Re-runnable: output folders are rebuilt each time.
 
     python3 build_app_data.py
 """
+import hashlib
 import json
 import re
 import shutil
@@ -192,6 +196,30 @@ def build_cards(lib):
     return cards
 
 
+SHELL = ("index.html", "app.js", "styles.css", "manifest.webmanifest")
+
+
+def stamp_version():
+    """Hash everything the app serves and stamp it into sw.js so clients refresh their caches."""
+    h = hashlib.sha256()
+    files = [APP / n for n in SHELL] + sorted((APP / "icons").glob("*.png"))
+    for sub in ("data", "templates", "figures"):
+        files += sorted(f for f in (APP / sub).rglob("*") if f.is_file() and f.name != "version.json")
+    for f in files:
+        if f.is_file():
+            h.update(f.relative_to(APP).as_posix().encode())
+            h.update(f.read_bytes())
+    version = h.hexdigest()[:12]
+    dump(DATA / "version.json", {"version": version})
+    sw = APP / "sw.js"
+    if sw.is_file():
+        text = sw.read_text(encoding="utf-8")
+        new = re.sub(r"^var VERSION = '[^']*';", f"var VERSION = '{version}';", text, count=1, flags=re.M)
+        if new != text:
+            sw.write_text(new, encoding="utf-8")
+    return version
+
+
 def main():
     lib = json.load(open(HERE / "ai4qi-library.json", encoding="utf-8"))
 
@@ -223,11 +251,14 @@ def main():
             shutil.copy2(src, dst)
             copied += 1
 
+    version = stamp_version()
+
     size = sum(f.stat().st_size for f in DATA.rglob("*") if f.is_file())
     print(f"library index: {len(index)} audits, {len(shards)} detail files")
     print(f"proposed: {len(proposed)}  cards: {len(cards)}  standards: {len(standards)}")
     print(f"templates: {len(list((APP / 'templates').glob('*.csv')))}  figures copied: {copied}")
     print(f"app/data total: {size / 1024:.0f} KB")
+    print(f"offline cache version: {version}")
 
 
 if __name__ == "__main__":
