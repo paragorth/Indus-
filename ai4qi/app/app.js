@@ -423,7 +423,9 @@
     var p = S.pById.get(id);
     if (!p) return renderNotFound();
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
-    var dl = '<a class="btn" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
+    var dl = window.AI4QI_EMBED ? '<button class="btn" type="button" data-copy-csv="' + attr(p.id) + '">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Copy template (CSV)</button><span class="copy-status" role="status" data-copy-status></span>' :
+      '<a class="btn" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download template (CSV)</a>';
 
     var how =
@@ -453,7 +455,7 @@
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
-      '<div class="doc-actions">' + dl + '<button class="btn btn-secondary" type="button" data-print>Print protocol</button></div>' +
+      '<div class="doc-actions">' + dl + (window.AI4QI_EMBED ? '' : '<button class="btn btn-secondary" type="button" data-print>Print protocol</button>') + '</div>' +
       '<div class="track no-print" data-track="' + attr(p.id) + '" hidden></div></header>' +
       body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
@@ -543,7 +545,7 @@
       body += sec(++n, 'Abstract', '<div class="abstract">' + abstractHtml(p.abstract) + '</div>' +
         '<p class="licence-note">Abstract reproduced verbatim under the article’s ' + esc(String(p.licence).toUpperCase()) + ' licence.</p>');
     }
-    if (f.figures && f.figures.length) {
+    if (!window.AI4QI_EMBED && f.figures && f.figures.length) {
       body += sec(++n, 'Figures', '<div class="figures">' + f.figures.map(function (g) {
         return '<figure><a href="' + attr(g.file) + '" target="_blank" rel="noopener"><img src="' + attr(g.file) + '" alt="' + attr((g.label || 'Figure') + ': ' + (g.caption || '')) + '" loading="lazy"></a>' +
           '<figcaption><strong>' + esc(g.label || 'Figure') + '.</strong> ' + esc(g.caption || '') + '<span class="credit">' + esc(g.credit || '') + '</span></figcaption></figure>';
@@ -1547,6 +1549,27 @@
     }
   }
 
+  function templateCsv(p) {
+    function cell(v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+    var t = p.template || [];
+    return [t.map(function (f) { return cell(f.field); }).join(','),
+      t.map(function (f) { return cell(f.type + (f.options && f.options.length ? ': ' + f.options.join(' / ') : '') + (f.note ? ' (' + f.note + ')' : '')); }).join(',')].join('\n') + '\n';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-copy-csv]');
+    if (!b) return;
+    var p = S.pById.get(b.getAttribute('data-copy-csv')), st = b.parentNode.querySelector('[data-copy-status]');
+    if (!p) return;
+    var csv = templateCsv(p);
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = csv; ta.rows = 4; ta.className = 'copy-fallback'; ta.readOnly = true;
+      b.parentNode.appendChild(ta); ta.focus(); ta.select();
+      if (st) st.textContent = 'Select all and copy the text above into a spreadsheet.';
+    }
+    try {
+      navigator.clipboard.writeText(csv).then(function () { if (st) st.textContent = 'Copied – paste into Excel or Google Sheets.'; }, fallback);
+    } catch (err) { fallback(); }
+  });
   window.addEventListener('hashchange', route);
 
   load().then(route).catch(function (err) {
@@ -1574,7 +1597,7 @@
     ev.prompt();
   });
 
-  if ('serviceWorker' in navigator && window.isSecureContext) {
+  if (!window.AI4QI_EMBED && 'serviceWorker' in navigator && window.isSecureContext) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).catch(function () {});
       navigator.serviceWorker.ready.then(function () {
