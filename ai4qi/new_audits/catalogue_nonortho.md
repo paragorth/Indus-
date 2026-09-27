@@ -1,4 +1,4 @@
-# Proposed non-orthopaedic audits (242)
+# Proposed non-orthopaedic audits (244)
 
 Designed from current standards and gaps in the corpus. Each has a data template in `templates/`. Not yet run anywhere.
 
@@ -1957,3 +1957,21 @@ Designed from current standards and gaps in the corpus. Each has a data template
 - Template: `new_audits/templates/NNA-242.csv`
 - Pitfalls: SFLC costs more → agree with the lab that lab add-on is cheaper than delayed diagnosis.; Many SPEP requests are not for myeloma → use clinical details to classify.; Urine samples never arrive → the serum test set removes this problem.; Test set not used by all practices → check uptake by practice.
 - Pearls: The clinical biochemist can build the test set and add-on rule.; Report time to diagnosis for any myeloma found.; Share practice-level uptake with the ICB.
+
+## Older people, stroke, neurology and palliative care
+
+**NNA-243. In adults treated in hospital for an acute migraine attack, what proportion receive an opioid?** (new)
+- Standard: NICE CG150 rec 1.3.16 (2012, guideline updated June 2025): "Do not offer ergots or opioids for the acute treatment of migraine." https://www.nice.org.uk/guidance/cg150/chapter/Recommendations
+- Pass: No opioid (codeine, dihydrocodeine, tramadol, morphine, oxycodone or others) given in hospital or prescribed on discharge for the migraine attack.. Target: ≥90% of attendances opioid-free. Sample: 40 consecutive coded migraine attendances over the last 3–6 months.
+- Change: Add a migraine order set to the ED and acute medical unit electronic prescribing system with NSAID, triptan and metoclopramide or prochlorperazine as defaults, and require a documented reason before an opioid can be prescribed for a migraine diagnosis.
+- Template: `new_audits/templates/NNA-243.csv`
+- Pitfalls: Migraine is under-coded or coded as 'headache' → search both codes and confirm the diagnosis in the notes before including; Clinicians say the triptan or NSAID was contraindicated → record contraindications and report opioid use with and without them; Opioids given before the diagnosis was made → record the time of diagnosis and count only doses given for the migraine; Pushback that patients 'expect' strong analgesia → share the NICE wording and the medication overuse risk, and include re-attendance as a balancing measure
+- Pearls: Recruit an ED consultant and a neurology or headache nurse as joint leads; Ask pharmacy to run the opioid report for migraine diagnoses; it takes minutes; Give patients a one-page migraine discharge leaflet with triptan advice and medication overuse warning; Track re-attendance within 7 days to show that the change is safe
+
+**NNA-244. In adults seen in neurology clinic with chronic headache, what proportion have the number of days per month they take painkillers or triptans recorded?** (new)
+- Standard: NICE CG150 rec 1.2.7 (2012, guideline updated June 2025): "Be alert to the possibility of medication overuse headache in people whose headache developed or worsened while they were taking the following drugs for 3 months or more: triptans, opioids, ergots or combination analgesic medications on 10 days per month or more or paracetamol, aspirin or an NSAID, either alone or in any combination, on 15 days per month or more." https://www.nice.org.uk/guidance/cg150/chapter/Recommendations
+- Pass: The clinic letter records the number of days per month of acute headache medication use (analgesics, triptans or opioids).. Target: ≥90%. Sample: 40 consecutive new chronic headache clinic letters over the last 3 months.
+- Change: Add a mandatory 'Acute medication days per month' line, with the NICE thresholds, to the neurology headache clinic letter template.
+- Template: `new_audits/templates/NNA-244.csv`
+- Pitfalls: Letters say 'uses painkillers frequently' without a number → count only a days-per-month figure as a pass; Consultants use personal templates → agree one shared template line at the department meeting before cycle 2; Referral letters lack the information → add the question to the GP referral form as well
+- Pearls: Ask patients to bring a headache diary to the first visit; the clinic letter invitation can request it; Recruit the headache specialist nurse to champion the template line; Report how many patients met the overuse threshold; it shows the value of asking

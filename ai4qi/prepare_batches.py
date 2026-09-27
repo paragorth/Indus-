@@ -28,7 +28,15 @@ def main():
     ap.add_argument("--size", type=int, default=60)
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
-    keys, recs, _ = extract._todo(a.pas, a.limit)
+    keys, recs, _ = extract._todo(a.pas, 0)
+    scr = pipeline.load("screen.json", {})
+    import classify
+    # closed-loop papers first, then UK/Ireland, then full text available
+    keys.sort(key=lambda k: (scr[k].get("audit_kind") != "closed-loop or re-audit",
+                             not classify.uk_ireland(recs[k].get("affiliations")),
+                             not os.path.exists(os.path.join(pipeline.FT_DIR, f"{recs[k].get('pmcid')}.xml"))))
+    if a.limit:
+        keys = keys[:a.limit]
     os.makedirs(IN_DIR, exist_ok=True)
     paths = []
     for k in keys:

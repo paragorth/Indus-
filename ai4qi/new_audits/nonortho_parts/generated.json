@@ -1,0 +1,199 @@
+[
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "In adults treated in hospital for an acute migraine attack, what proportion receive an opioid?",
+  "why": "Opioids do not treat migraine and increase the risk of medication overuse headache and re-attendance, yet they remain a common emergency analgesic. No audit of opioid use in acute migraine has been published in the library.",
+  "standard": {
+   "source": "NICE CG150 rec 1.3.16 (2012, guideline updated June 2025)",
+   "wording": "Do not offer ergots or opioids for the acute treatment of migraine.",
+   "url": "https://www.nice.org.uk/guidance/cg150/chapter/Recommendations"
+  },
+  "pass": "No opioid (codeine, dihydrocodeine, tramadol, morphine, oxycodone or others) given in hospital or prescribed on discharge for the migraine attack.",
+  "population": "Adults (18+) attending the emergency department or acute medical unit with a discharge diagnosis of migraine. Exclude secondary headache diagnoses and patients on long-term opioids for another condition.",
+  "sample": "40 consecutive coded migraine attendances over the last 3–6 months.",
+  "data_source": "ED and acute medical unit coding for migraine; electronic prescribing and drug administration record; discharge prescription.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "acute medical unit",
+     "ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nsaid_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triptan_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antiemetic_given",
+    "type": "choice",
+    "options": [
+     "metoclopramide",
+     "prochlorperazine",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "opioid_given_in_hospital",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (with next field)"
+   },
+   {
+    "field": "opioid_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid_on_discharge_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reattended_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Balancing measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a migraine order set to the ED and acute medical unit electronic prescribing system with NSAID, triptan and metoclopramide or prochlorperazine as defaults, and require a documented reason before an opioid can be prescribed for a migraine diagnosis.",
+  "target": "≥90% of attendances opioid-free",
+  "reaudit": "Weeks 13–14: same template, next 40 consecutive migraine attendances.",
+  "close_loop": "Present at ED and neurology governance. If it worked, keep the order set, add opioid use in migraine to the ED prescribing dashboard, and share the pathway with the GP headache service.",
+  "evidence": [
+   "[1321] Surrey elective arthroplasty: protocol-standard analgesia 34% → 61% after an electronic order set (related topic)",
+   "[1529] joint replacement: full analgesia protocol compliance 0/27 → 58% after an electronic prescribing order set (related topic)",
+   "[2355] post-tonsillectomy analgesia: correct ibuprofen dosing 5% → 55% after a new prescribing guideline with reduced opioids (related topic)"
+  ],
+  "pitfalls": [
+   "Migraine is under-coded or coded as 'headache' → search both codes and confirm the diagnosis in the notes before including",
+   "Clinicians say the triptan or NSAID was contraindicated → record contraindications and report opioid use with and without them",
+   "Opioids given before the diagnosis was made → record the time of diagnosis and count only doses given for the migraine",
+   "Pushback that patients 'expect' strong analgesia → share the NICE wording and the medication overuse risk, and include re-attendance as a balancing measure"
+  ],
+  "pearls": [
+   "Recruit an ED consultant and a neurology or headache nurse as joint leads",
+   "Ask pharmacy to run the opioid report for migraine diagnoses; it takes minutes",
+   "Give patients a one-page migraine discharge leaflet with triptan advice and medication overuse warning",
+   "Track re-attendance within 7 days to show that the change is safe"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from electronic prescribing records"
+ },
+ {
+  "area": "Older people, stroke, neurology and palliative care",
+  "question": "In adults seen in neurology clinic with chronic headache, what proportion have the number of days per month they take painkillers or triptans recorded?",
+  "why": "Medication overuse headache is common and treatable, but it cannot be recognised unless monthly medication days are asked about and recorded. No audit of this has been published in the library.",
+  "standard": {
+   "source": "NICE CG150 rec 1.2.7 (2012, guideline updated June 2025)",
+   "wording": "Be alert to the possibility of medication overuse headache in people whose headache developed or worsened while they were taking the following drugs for 3 months or more: triptans, opioids, ergots or combination analgesic medications on 10 days per month or more or paracetamol, aspirin or an NSAID, either alone or in any combination, on 15 days per month or more.",
+   "url": "https://www.nice.org.uk/guidance/cg150/chapter/Recommendations"
+  },
+  "pass": "The clinic letter records the number of days per month of acute headache medication use (analgesics, triptans or opioids).",
+  "population": "Adults (18+) at a new neurology outpatient appointment for headache present on 15 or more days a month. Exclude secondary headache.",
+  "sample": "40 consecutive new chronic headache clinic letters over the last 3 months.",
+  "data_source": "Neurology clinic letters and referral letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "headache_days_per_month_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medication_days_per_month_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "medication_types_recorded",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_overuse_threshold",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "medication_overuse_headache_diagnosed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "withdrawal_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Acute medication days per month' line, with the NICE thresholds, to the neurology headache clinic letter template.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: same template, next 40 new chronic headache letters.",
+  "close_loop": "Present at neurology departmental meeting. If it worked, keep the template line and add it to the GP headache referral form.",
+  "evidence": [
+   "[1207] UK hip fracture discharge letter: correct VTE prophylaxis 87% → 95% after a template prompt (template change; related topic)"
+  ],
+  "pitfalls": [
+   "Letters say 'uses painkillers frequently' without a number → count only a days-per-month figure as a pass",
+   "Consultants use personal templates → agree one shared template line at the department meeting before cycle 2",
+   "Referral letters lack the information → add the question to the GP referral form as well"
+  ],
+  "pearls": [
+   "Ask patients to bring a headache diary to the first visit; the clinic letter invitation can request it",
+   "Recruit the headache specialist nurse to champion the template line",
+   "Report how many patients met the overuse threshold; it shows the value of asking"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 clinic letters"
+ }
+]
