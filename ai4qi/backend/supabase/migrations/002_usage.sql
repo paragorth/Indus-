@@ -169,7 +169,7 @@ begin
   insert into public.usage_events (user_id, event) values (uid, 'active_day') on conflict do nothing;
 end;
 $$;
-revoke all on function public.record_activity() from public;
+revoke all on function public.record_activity() from public, anon;
 grant execute on function public.record_activity() to authenticated;
 
 -- ---------------------------------------------------------------- admin-only statistics
@@ -219,7 +219,7 @@ begin
    order by w.wk;
 end;
 $$;
-revoke all on function public.weekly_stats(date, date) from public;
+revoke all on function public.weekly_stats(date, date) from public, anon;
 grant execute on function public.weekly_stats(date, date) to authenticated;
 
 -- Sign-ups in the period by grade, specialty and region. Cells with fewer than five people are
@@ -253,7 +253,7 @@ begin
    order by c.d, c.n desc, c.v;
 end;
 $$;
-revoke all on function public.signup_breakdown(date, date) from public;
+revoke all on function public.signup_breakdown(date, date) from public, anon;
 grant execute on function public.signup_breakdown(date, date) to authenticated;
 
 -- ---------------------------------------------------------------- privileges and row level security
