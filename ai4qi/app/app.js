@@ -217,6 +217,8 @@
     try {
       if (name === '') renderHome();
       else if (name === 'search') renderSearch(r.params, sameView);
+      else if (name === 'build') renderBuild(r.params);
+      else if (name === 'suggest') renderSuggest(r.params);
       else if (name === 'proposed' && p[1]) renderProposed(p[1]);
       else if (name === 'proposed') renderProposedList(r.params);
       else if (name === 'audit' && p[1]) renderAudit(+p[1]);
@@ -253,13 +255,14 @@
     var areas = new Map();
     S.proposed.forEach(function (p) { areas.set(p.area, (areas.get(p.area) || 0) + 1); });
     var areaList = Array.from(areas.entries()).sort(function (a, b) { return a[0].localeCompare(b[0]); });
-    var examples = ['urinary catheter', 'VTE risk assessment', 'operation note', 'consent', 'delirium screening', 'antibiotic prophylaxis'];
+    var examples = ['reusable PPE in theatre', 'sepsis antibiotics within one hour', 'VTE risk assessment', 'delirium screening', 'operation note quality'];
 
     page(
-      '<div class="hero"><h1>Find, plan and run a clinical audit</h1>' +
-      '<p class="lede">Search published audits and closed-loop quality improvement projects, or pick a ready-to-run protocol with the standard, template and timeline already worked out.</p>' +
-      searchForm('', true) +
-      '<p class="examples"><span>Try:</span>' + examples.map(function (e) { return '<a href="#/search?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('') + '</p></div>' +
+      '<div class="hero"><h1>Build a clinical audit on any topic</h1>' +
+      '<p class="lede">Type a theme and get a complete, ready-to-run protocol: one measurable question, the exact standard, a data template, timeline, change, re-audit and evidence from published audits.</p>' +
+      buildForm('', true) +
+      '<p class="examples"><span>Try:</span>' + examples.map(function (e) { return '<a href="#/build?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('') + '</p>' +
+      '<p class="hero-alt">No topic in mind? <a href="#/suggest">See suggested audits</a> · or <a href="#/search">search ' + fmt(S.lib.length) + ' published audits</a></p></div>' +
       '<ul class="stats" aria-label="Library at a glance">' +
       stat(S.lib.length, 'audits in the library') + stat(closed, 'closed the loop') + stat(uk, 'from the UK and Ireland') +
       stat(S.proposed.length, 'proposed audits ready to run') + stat(S.standards.length, 'standards quoted') + stat(S.cards.length, 'topic cards') +
@@ -272,7 +275,7 @@
       '<ul class="chip-grid">' + areaList.map(function (g) {
         return '<li><a class="chip-link" href="#/proposed?area=' + encodeURIComponent(g[0]) + '"><span>' + esc(g[0]) + '</span><span class="count">' + fmt(g[1]) + '</span></a></li>';
       }).join('') + '</ul>',
-      '', '');
+      '', 'build');
   }
   function stat(n, label) { return '<li class="stat"><b>' + fmt(n) + '</b><span>' + esc(label) + '</span></li>'; }
 
@@ -333,9 +336,13 @@
       '<p class="hint">UK and Ireland audits are listed first.</p></aside>';
 
     var propHtml = '';
-    if (st.q || st.sp) {
+    if (st.q && isThemed(st.q)) {
+      propHtml = '<div class="build-cta"><div><h2>Build a complete audit on “' + esc(st.q) + '”</h2>' +
+        '<p>Question, exact standard, template, timeline, change, re-audit, pitfalls and pearls, with the published audits below as evidence.</p></div>' +
+        '<a class="btn" href="#/build?q=' + encodeURIComponent(st.q) + '">Build this audit</a></div>';
+    } else if (st.q || st.sp) {
       var pv = res.props.slice(0, S.view.propShown);
-      propHtml = '<div class="results-title"><h2 id="prop-h">Proposed audits (ready to run)</h2><span class="count">' + fmt(res.props.length) + ' found</span></div>' +
+      propHtml = '<div class="results-title"><h2 id="prop-h">Suggested audits (ready to run)</h2><span class="count">' + fmt(res.props.length) + ' found</span></div>' +
         (pv.length ? '<ul class="result-list" aria-labelledby="prop-h">' + pv.map(propResult).join('') + '</ul>' :
           '<p class="empty">No proposed audit matches this search. Try a broader term, or browse <a href="#/proposed">all proposed audits</a>.</p>') +
         (res.props.length > pv.length ? '<div class="more"><button class="btn btn-secondary" type="button" data-more="prop">Show more proposed audits (' + fmt(res.props.length - pv.length) + ' more)</button></div>' : '');
@@ -419,15 +426,13 @@
   }
   function sub(title, body) { return '<div class="sub"><h3>' + esc(title) + '</h3>' + body + '</div>'; }
 
-  function renderProposed(id) {
-    var p = S.pById.get(id);
-    if (!p) return renderNotFound();
+  function copyBtn(id) {
+    return '<button class="btn" type="button" data-copy-csv="' + attr(id) + '">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Copy template (CSV)</button><span class="copy-status" role="status" data-copy-status></span>';
+  }
+  /* The protocol layout shared by proposed audits and audits built on request. */
+  function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
-    var dl = window.AI4QI_EMBED ? '<button class="btn" type="button" data-copy-csv="' + attr(p.id) + '">' +
-      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Copy template (CSV)</button><span class="copy-status" role="status" data-copy-status></span>' :
-      '<a class="btn" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
-      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download template (CSV)</a>';
-
     var how =
       sub('Standard', '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' +
         '<p class="standard-source">' + esc(st.source) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>') +
@@ -437,8 +442,8 @@
       sub('Data source', '<p class="prose">' + linkify(p.data_source) + '</p>') +
       sub('Template', templateTable(p) + '<div class="no-print">' + dl + '</div>') +
       sub('Timeline', timelineHtml(p.timeline));
-
-    var body =
+    extra = extra || {};
+    return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
       sec(++n, 'Why', '<p class="prose">' + linkify(p.why) + '</p>') +
       sec(++n, 'How', how) +
       sec(++n, 'Change', '<p class="prose">' + linkify(p.change) + '</p>') +
@@ -447,9 +452,19 @@
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       (p.pitfalls && p.pitfalls.length ? sec(++n, 'Pitfalls', '<ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul>') : '') +
       (p.pearls && p.pearls.length ? sec(++n, 'Pearls', '<ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
-      sec(++n, 'Status and effort', '<div class="status-box">' + PROPOSED_BADGE +
+      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
+  }
+
+  function renderProposed(id) {
+    var p = S.pById.get(id);
+    if (!p) return renderNotFound();
+    var dl = window.AI4QI_EMBED ? copyBtn(p.id) :
+      '<a class="btn" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download template (CSV)</a>';
+
+    var body = protocolBody(p, dl, { after: [['Status and effort', '<div class="status-box">' + PROPOSED_BADGE +
         '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' +
-        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>') +
+        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>']] }) +
       feedbackBox(p.id);
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
@@ -677,6 +692,312 @@
     c.textContent = vis === all ? fmt(all) + ' standards' : fmt(vis) + ' of ' + fmt(all) + ' standards';
   }
   function tokensLoose(s) { return String(s || '').toLowerCase().split(/\s+/).filter(Boolean); }
+
+  /* ---------- build an audit on request ---------- */
+  /* A themed request ("reusable PPE") gets a complete new protocol in the standard layout, written from
+     the closest published audits and quoted standards in the library. A request with no theme
+     ("a quick closed-loop audit") gets ready-made proposed audits instead. */
+  var GENERIC = new Set(('audit audits auditing qi quality improvement project projects idea ideas suggest suggestion suggestions ' +
+    'give me my an a the for of to on in do want need would like some any good new quick quickly easy simple fast short ' +
+    'closed loop cycle cycles two 2 one uk nhs application portfolio please can you i help with that is are small ' +
+    'doable achievable junior doctor doctors trainee foundation fy1 fy2 ct1 st1 imt cst gp').split(' '));
+  function themeWords(q) {
+    return String(q || '').toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w && !GENERIC.has(w); });
+  }
+  function isThemed(q) { return themeWords(q).length > 0; }
+
+  var BUILT_KEY = 'ai4qi_built_v1';
+  S.built = new Map();
+  try { (JSON.parse(localStorage.getItem(BUILT_KEY) || '[]') || []).forEach(function (b) { if (b && b.id) S.built.set(b.id, b); }); } catch (e) {}
+  function builtGet(id) { return S.built.get(id); }
+  function builtSave(p) {
+    S.built.delete(p.id); S.built.set(p.id, p);
+    var list = Array.from(S.built.values()).slice(-30);
+    try { localStorage.setItem(BUILT_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+  function builtId(q) {
+    var slug = themeWords(q).join('-').slice(0, 29).replace(/-+$/, '') || 'audit';
+    return 'B-' + slug;
+  }
+
+  /* Library material for a topic: published audits (closed-loop, UK and detailed first), standards, proposed. */
+  function resourcesFor(q) {
+    var qt = tokens(themeWords(q).join(' ') || q), phrase = qt.length > 1 ? q.toLowerCase() : '';
+    var hits = qt.length ? rank(S.pubDocs, qt, phrase) : [];
+    if (hits.length < 8 && qt.length > 1) {
+      var seen = new Set(hits.map(function (r) { return r.d.a.id; }));
+      qt.forEach(function (t) {
+        rank(S.pubDocs, [t], '').forEach(function (r) { if (!seen.has(r.d.a.id)) { seen.add(r.d.a.id); r.sc *= 0.5; hits.push(r); } });
+      });
+    }
+    var pubs = hits.sort(function (x, y) {
+      return (y.cov - x.cov) || ((y.d.a.dt || 0) - (x.d.a.dt || 0)) || ((y.d.a.lc || 0) - (x.d.a.lc || 0)) || (y.d.a.uk - x.d.a.uk) || (y.sc - x.sc);
+    }).map(function (r) { return r.d.a; });
+    var stds = S.standards.map(function (s) {
+      var m = indexDoc([[s.source, 3], [s.wording, 2]]), sc = 0, cov = 0;
+      qt.forEach(function (t) { var v = m.get(t); if (v) { sc += v; cov++; } });
+      return { s: s, sc: sc, cov: cov };
+    }).filter(function (x) { return x.cov; }).sort(function (x, y) { return (y.cov - x.cov) || (y.sc - x.sc); })
+      .slice(0, 8).map(function (x) { return x.s; });
+    var props = qt.length ? rank(S.propDocs, qt, phrase).sort(function (x, y) { return (y.cov - x.cov) || (y.sc - x.sc); })
+      .slice(0, 4).map(function (r) { return r.d.p; }) : [];
+    return { pubs: pubs, stds: stds, props: props };
+  }
+
+  function auditLine(a) {
+    var parts = ['[' + a.id + '] ' + a.t];
+    var where = [a.s, a.co, a.y].filter(Boolean).join(', ');
+    if (where) parts.push(where);
+    if (a.st) parts.push('standard: ' + a.st);
+    if (a.f) parts.push('before: ' + a.f);
+    if (a.c || a.iv) parts.push('fix: ' + (a.c || a.iv) + (a.fx ? ' (' + a.fx + ')' : ''));
+    if (a.r2) parts.push('after: ' + a.r2);
+    parts.push(a.lc ? 'closed loop' : 'single cycle');
+    if (a.uk) parts.push('UK/Ireland');
+    return parts.join(' | ').slice(0, 700);
+  }
+
+  var BUILD_RULES = [
+    'You write clinical audit protocols for Ai4Qi, a professional clinical audit library used by UK and Irish doctors, nurses and allied health professionals.',
+    'Write ONE complete, ready-to-run audit protocol on the requested theme. It is shown directly to clinicians as a finished document.',
+    '',
+    'Rules:',
+    '- The audit question is ONE plain, measurable question: who, against what standard, what counts as a pass. One audit = one question (never "X and Y"). No jargon; define any term.',
+    '- Pick the highest-volume, highest-harm aspect of the theme that a small team can measure in a few weeks from routine records or direct observation.',
+    '- Standard: prefer a standard from the STANDARDS list below and copy its wording and URL exactly. Otherwise use a current UK national standard (NICE, Royal Colleges, NHS England, HSE Ireland, GIRFT, CQC, national audits, statutory guidance) and quote only wording you are certain is verbatim; never overstate it (e.g. "regularly" is not "daily"). If no national standard exists, set source to "Local standard" plus a short description of it, and never present it as national.',
+    '- Evidence: 2-4 lines, each exactly "[id] where: before → after (fix)", citing ONLY ids from the PUBLISHED AUDITS list below, with numbers exactly as given there. Prefer closed-loop and UK/Ireland audits. If only related-topic audits exist, cite the closest and end the line with "(related topic)". If nothing fits, return an empty list.',
+    '- Change: the one fix to put in. Prefer a form, template, checklist, default or other system change; teaching alone rarely works.',
+    '- Pitfalls: 3-4 lines, each "what can go wrong or who will object → how to prevent it".',
+    '- Pearls: 3-4 short practical tips that make it succeed.',
+    '- Template: 8-14 data-collection fields, snake_case, each with type yes/no, date, datetime, number, choice (with options) or text, and an optional short note. Start with a pseudonymised local audit code, never names or NHS numbers. Include a pass field.',
+    '- Timeline in weeks, exactly in this form: "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–10 embed; Wk 11–12 re-audit".',
+    '- Similar: if one of the PROPOSED AUDITS below would clearly serve this user better (more important, easier to measure, or better standard), give its id and one sentence saying why; otherwise null.',
+    '- UK English. No preamble, no notes about your process, sources you lack, or uncertainty. Short, professional sentences.',
+    '',
+    'Reply with only one JSON object with exactly these keys:',
+    '{"question": string, "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (1-2 sentences: the gap or harm), ' +
+    '"standard": {"source": string, "wording": string, "url": string or ""}, "pass": string, "population": string (include exclusions), ' +
+    '"sample": string, "data_source": string, "template": [{"field": string, "type": string, "options": [string], "note": string}], "timeline": string, ' +
+    '"change": string, "target": string (starts with e.g. "≥90%"), "reaudit": string, "close_loop": string, "evidence": [string], ' +
+    '"pitfalls": [string], "pearls": [string], "effort": string (e.g. "~15 min per 10 patients"), "similar": {"id": string, "better_because": string} or null}'
+  ].join('\n');
+
+  function buildPrompt(q, res) {
+    var pubs = res.pubs.slice(0, 30).map(auditLine).join('\n') || '(none on this theme)';
+    var stds = res.stds.map(function (s) { return '- ' + s.source + ' | "' + s.wording + '" | ' + (s.url || ''); }).join('\n') || '(none listed)';
+    var props = res.props.map(function (p) { return '- ' + p.id + ': ' + p.question + ' (standard: ' + ((p.standard || {}).source || '') + ')'; }).join('\n') || '(none)';
+    return BUILD_RULES + '\n\nTHEME REQUESTED: ' + q.slice(0, 300) +
+      '\n\nPUBLISHED AUDITS (library ids; closest first):\n' + pubs +
+      '\n\nSTANDARDS (exact wording):\n' + stds +
+      '\n\nPROPOSED AUDITS already in the library:\n' + props;
+  }
+
+  /* Tidy what came back: keep only known citations and sensible shapes. */
+  function normaliseBuilt(o, q, res) {
+    if (!o || typeof o !== 'object' || !o.question) throw { code: 'invalid_json' };
+    function str(v) { return typeof v === 'string' ? v.trim() : (v == null ? '' : String(v)); }
+    function list(v) { return Array.isArray(v) ? v.map(str).filter(Boolean) : []; }
+    var st = o.standard || {};
+    var p = {
+      id: builtId(q), topic: q, built: new Date().toISOString().slice(0, 10),
+      question: str(o.question), area: str(o.area),
+      alternative: o.alternative && o.alternative.question ? { question: str(o.alternative.question), why: str(o.alternative.why) } : null,
+      why: str(o.why), standard: { source: str(st.source), wording: str(st.wording), url: safeUrl(str(st.url)) },
+      pass: str(o.pass), population: str(o.population), sample: str(o.sample), data_source: str(o.data_source),
+      template: (Array.isArray(o.template) ? o.template : []).filter(function (f) { return f && f.field; }).map(function (f) {
+        return { field: str(f.field).replace(/[^A-Za-z0-9_]+/g, '_').toLowerCase(), type: str(f.type) || 'text',
+          options: list(f.options), note: str(f.note) };
+      }),
+      timeline: str(o.timeline), change: str(o.change), target: str(o.target), reaudit: str(o.reaudit),
+      close_loop: str(o.close_loop), pitfalls: list(o.pitfalls), pearls: list(o.pearls), effort: str(o.effort),
+      evidence: list(o.evidence).filter(function (e) {
+        var ids = idsIn(e);
+        return ids.length && ids.every(function (i) { return S.byId.has(i); });
+      }),
+      resources: res.pubs.slice(0, 8).map(function (a) { return a.id; }),
+      similar: null
+    };
+    var sim = o.similar;
+    if (sim && sim.id && S.pById.has(str(sim.id)) && str(sim.better_because)) p.similar = { id: str(sim.id), better_because: str(sim.better_because) };
+    return p;
+  }
+
+  var BUILD_STEPS = [['question', 'Audit question'], ['standard', 'Standard'], ['template', 'Data template'], ['timeline', 'Timeline'],
+    ['change', 'Change'], ['reaudit', 'Re-audit'], ['evidence', 'Evidence'], ['pitfalls', 'Pitfalls'], ['pearls', 'Pearls']];
+  function progressHtml(text) {
+    return '<ol class="build-steps">' + BUILD_STEPS.map(function (s) {
+      var done = text && text.indexOf('"' + s[0] + '"') !== -1;
+      return '<li class="' + (done ? 'is-done' : '') + '"><span class="dot" aria-hidden="true"></span>' + esc(s[1]) + (done ? '<span class="sr-only"> written</span>' : '') + '</li>';
+    }).join('') + '</ol>';
+  }
+
+  var GEN = { ctl: null, sample: undefined };
+  function samplerReady() {
+    if (GEN.sample !== undefined) return Promise.resolve(GEN.sample);
+    if (!window.claude || typeof window.claude.use !== 'function') { GEN.sample = null; return Promise.resolve(null); }
+    return window.claude.use('sample').then(function (s) { GEN.sample = s || null; return GEN.sample; }, function () { GEN.sample = null; return null; });
+  }
+  /* Generation: inside Claude (artifact) via the sample capability; on the hosted site via the
+     build_url function in config.json (server-side, key never in the page). */
+  function generate(q, res, fresh, onText, signal) {
+    var prompt = buildPrompt(q, res);
+    return samplerReady().then(function (sample) {
+      if (sample) {
+        return sample.json(prompt, { onText: onText, signal: signal, cache: fresh ? false : { gcTime: 86400000 } });
+      }
+      var url = BE.cfg && safeUrl(BE.cfg.build_url);
+      if (!url || !BE.url) throw { code: 'no_generator' };
+      return sbClient().then(function (c) { return c.auth.getSession(); }).then(function (r) {
+        var sess = r && r.data && r.data.session;
+        if (!sess) throw { code: 'sign_in' };
+        return post(url, { 'Content-Type': 'application/json', apikey: BE.key, Authorization: 'Bearer ' + sess.access_token });
+      });
+    });
+    function post(url, headers) {
+      return fetch(url, { method: 'POST', headers: headers, signal: signal, body: JSON.stringify({ topic: q.slice(0, 300), prompt: prompt }) })
+        .then(function (r) {
+          if (r.status === 429) throw { code: 'rate_limited' };
+          if (r.status === 401) throw { code: 'sign_in' };
+          if (r.status === 422) throw { code: 'refused' };
+          if (!r.ok) throw { code: 'upstream_error' };
+          return r.json();
+        }, function (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error' }; });
+    }
+  }
+  var BUILD_ERRORS = {
+    not_granted: 'Building audits needs permission to use Claude on your account. Reload the page to be asked again.',
+    sampling_disabled: 'Building audits is not available for this account.',
+    rate_limited: 'You have reached the limit for now. Please try again later.',
+    sign_in: 'Sign in (free, by emailed link) to build audits.',
+    session_expired: 'Please sign in to Claude again, then try again.',
+    refused: 'This theme could not be turned into an audit. Try wording it as a clinical process, e.g. “reusable gowns in theatre”.',
+    invalid_json: 'The protocol came back incomplete. Please try again.',
+    empty_completion: 'The protocol came back empty. Please try again.',
+    no_generator: 'Building new audits is switched on in the hosted Ai4Qi app. Meanwhile, the published audits and standards below are the evidence base for this theme.'
+  };
+
+  function resourceSection(res) {
+    var pubs = res.pubs.slice(0, 8);
+    if (!pubs.length) return '';
+    var more = res.pubs.length > pubs.length ? '<p class="more-link"><a href="#/search?q=">All ' + fmt(res.pubs.length) + ' published audits on this theme</a></p>' : '';
+    return '<ul class="result-list">' + pubs.map(pubResult).join('') + '</ul>' + more;
+  }
+
+  function renderBuild(params) {
+    var q = (params.get('q') || '').trim();
+    if (!q) { location.hash = '#/proposed'; return; }
+    if (!isThemed(q)) { location.hash = '#/suggest?q=' + encodeURIComponent(q); return; }
+    var fresh = params.get('fresh') === '1';
+    var res = resourcesFor(q), id = builtId(q), have = !fresh && S.built.get(id);
+    var crumbs = '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Build an audit</nav>';
+    if (have && have.topic.toLowerCase() === q.toLowerCase()) return showBuilt(have, res, crumbs);
+
+    if (GEN.ctl) GEN.ctl.abort();
+    var ctl = GEN.ctl = new AbortController();
+    page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow">' + BUILT_BADGE + '</div>' +
+      '<h1>Building your audit: ' + esc(q) + '</h1>' +
+      '<p class="lede">A complete protocol – question, exact standard, template, timeline, change, re-audit and evidence from published audits.</p>' +
+      '<div class="build-status" role="status" aria-live="polite" data-build-status><span class="spinner" aria-hidden="true"></span><span data-build-msg>Writing the protocol… this usually takes under a minute.</span></div>' +
+      '<div data-build-progress>' + progressHtml('') + '</div>' +
+      '<div class="doc-actions"><button class="btn btn-secondary" type="button" data-build-stop>Stop</button></div></header>' +
+      (res.pubs.length ? sec('•', 'Published audits on this theme', resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(q))) : '') +
+      '</article>', 'Build: ' + q, 'build');
+    var prog = main.querySelector('[data-build-progress]'), last = 0;
+    generate(q, res, fresh, function (u) {
+      var now = Date.now();
+      if (now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(u.text); }
+    }, ctl.signal).then(function (o) {
+      if (ctl !== GEN.ctl) return;
+      GEN.ctl = null;
+      var p = normaliseBuilt(o, q, res);
+      builtSave(p);
+      if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit built');
+      if (parseHash().parts[0] === 'build') showBuilt(p, res, crumbs);
+    }).catch(function (e) {
+      if (ctl !== GEN.ctl) return;
+      GEN.ctl = null;
+      if (parseHash().parts[0] !== 'build') return;
+      var code = (e && e.code) || 'upstream_error';
+      var msg = code === 'cancelled' ? 'Stopped.' : (BUILD_ERRORS[code] || 'The connection was interrupted. Please try again.');
+      var st = main.querySelector('[data-build-status]');
+      if (st) st.innerHTML = '<span data-build-msg>' + esc(msg) + '</span>';
+      if (prog) prog.innerHTML = '';
+      var act = main.querySelector('.doc-actions');
+      if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
+      else if (act) act.innerHTML = code === 'no_generator' || code === 'not_granted' || code === 'sampling_disabled' ? '' :
+        '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + '&fresh=1">Try again</a>';
+      if (code === 'no_generator' && res.props.length) {
+        act.insertAdjacentHTML('afterend', '<p class="prose">Closest ready-made protocol: <a href="#/proposed/' + attr(res.props[0].id) + '">' + esc(res.props[0].id + ' – ' + res.props[0].question) + '</a></p>');
+      }
+    });
+  }
+
+  var BUILT_BADGE = badge('Built for you – not yet run', 'warn');
+  function showBuilt(p, res, crumbs) {
+    var dl = copyBtn(p.id);
+    if (p.similar) {
+      var sp = S.pById.get(p.similar.id);
+      if (sp) p._sim = '<aside class="similar-box no-print"><h2>A ready-made audit may suit you better</h2>' +
+        '<p><a href="#/proposed/' + attr(sp.id) + '"><span class="id-tag">' + esc(sp.id) + '</span> ' + esc(sp.question) + '</a></p>' +
+        '<p class="muted">' + esc(p.similar.better_because) + '</p></aside>';
+    }
+    var alt = p.alternative ? '<p class="alt-line"><strong>Alternative:</strong> ' + esc(p.alternative.question) +
+      (p.alternative.why ? ' <span class="muted">– ' + esc(p.alternative.why) + '</span>' : '') + '</p>' : '';
+    var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
+    var after = [];
+    if (resHtml) after.push(['Published audits on this theme', resHtml]);
+    after.push(['Status and effort', '<div class="status-box">' + BUILT_BADGE +
+      (p.effort ? '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' : '') +
+      '<span><strong>Built:</strong> ' + esc(p.built) + '</span></div>']);
+    var body = protocolBody(p, dl, { after: after }) + feedbackBox(p.id);
+    page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
+      (p.area ? badge(p.area, 'primary') : '') + '</div>' +
+      '<p class="best-label">Best option</p><h1>' + esc(p.question) + '</h1>' + alt +
+      '<div class="doc-actions">' + dl + '<a class="btn btn-secondary" href="#/build?q=' + encodeURIComponent(p.topic) + '&fresh=1">Build another version</a></div>' +
+      '<div class="track no-print" data-track="' + attr(p.id) + '" hidden></div></header>' +
+      (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
+    delete p._sim;
+    showUsefulCount(p.id);
+    showTracker(p.id);
+  }
+
+  /* No theme given: suggest ready-made audits, quick closed-loop ones first. */
+  function renderSuggest(params) {
+    var q = (params.get('q') || '').trim();
+    var fb = new Map();
+    fbAll().forEach(function (f) { fb.set(f.id, f.rating); });
+    var list = S.proposed.filter(function (p) {
+      var f = p.feedback || {};
+      return fb.get(p.id) !== 'down' && !((f.down || 0) > (f.up || 0));
+    });
+    function effortMin(p) { var m = String(p.effort || '').match(/(\d+)\s*min/); return m ? +m[1] : 60; }
+    function weeks(p) { var s = parseTimeline(p.timeline); return s ? Math.max.apply(null, s.map(function (x) { return x.b; })) : 52; }
+    list = list.slice().sort(function (a, b) { return (weeks(a) - weeks(b)) || (effortMin(a) - effortMin(b)); }).slice(0, 12);
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Suggested audits</nav>' +
+      '<h1>Suggested audits</h1><p class="lede">Ready-to-run protocols with the shortest route to a closed loop. Type a theme above to build one on any topic instead.</p>' +
+      buildForm('', false) +
+      '<ul class="result-list" style="margin-top:18px">' + list.map(propResult).join('') + '</ul>' +
+      '<p class="more-link"><a href="#/proposed">Browse all ' + fmt(S.proposed.length) + ' proposed audits</a></p>', 'Suggested audits', 'proposed');
+  }
+
+  function buildForm(q, big) {
+    return '<form class="search-form" data-build>' +
+      '<label for="bq"' + (big ? '' : ' class="visually-hidden"') + '>What do you want to audit?</label>' +
+      '<input id="bq" name="q" type="search" autocomplete="off" value="' + attr(q || '') + '" placeholder="e.g. reusable PPE in theatre, sepsis antibiotics within an hour, falls after admission">' +
+      '<button class="btn" type="submit"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Build audit</button>' +
+      '</form>';
+  }
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest('[data-build]');
+    if (!f) return;
+    e.preventDefault();
+    var q = f.querySelector('input[name="q"]').value.trim();
+    location.hash = q && isThemed(q) ? '#/build?q=' + encodeURIComponent(q) : '#/suggest' + (q ? '?q=' + encodeURIComponent(q) : '');
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-build-stop]') && GEN.ctl) GEN.ctl.abort();
+  });
+
 
   /* ---------- events ---------- */
   document.addEventListener('submit', function (e) {
@@ -1185,9 +1506,14 @@
     rows.forEach(function (r) { if (r.comment && per.has(r.audit_id)) per.get(r.audit_id).comments++; });
     return Array.from(per.values()).sort(function (a, b) { return (b.down - a.down) || (b.up - a.up) || a.id.localeCompare(b.id); });
   }
+  function anyAudit(id) { return S.pById.get(id) || builtGet(id); }
+  function auditHref(id) {
+    if (/^B-/.test(id)) { var b = builtGet(id); return '#/build?q=' + encodeURIComponent(b ? b.topic : id.slice(2).replace(/-/g, ' ')); }
+    return '#/proposed/' + encodeURIComponent(id);
+  }
   function auditLink(id) {
-    var p = S.pById.get(id);
-    return '<a href="#/proposed/' + encodeURIComponent(id) + '" class="id-tag">' + esc(id) + '</a>' +
+    var p = anyAudit(id);
+    return '<a href="' + auditHref(id) + '" class="id-tag">' + esc(id) + '</a>' +
       (p ? '<span class="adm-q">' + esc(trunc(p.question, 90)) + '</span>' : '');
   }
   function dateGB(iso) {
@@ -1235,7 +1561,7 @@
     var rows = BE.adminRows || [];
     var head = ['id', 'audit_id', 'question', 'rating', 'reasons', 'comment', 'created_at', 'signed_in', 'app_version'];
     var lines = [head.join(',')].concat(rows.map(function (r) {
-      var p = S.pById.get(r.audit_id);
+      var p = anyAudit(r.audit_id);
       return [r.id, r.audit_id, p ? p.question : '', r.rating, (r.reasons || []).join('; '), r.comment, r.created_at,
         r.user_id ? 'yes' : 'no', r.app_version || ''].map(csvCell).join(',');
     }));
@@ -1350,9 +1676,9 @@
       var done = rows.filter(function (r) { return r.status === 'closed'; }).length;
       var list = rows.length
         ? '<ul class="my-list">' + rows.map(function (r) {
-            var p = S.pById.get(r.audit_id);
+            var p = anyAudit(r.audit_id);
             return '<li class="my-item" data-my-item="' + attr(r.audit_id) + '">' +
-              '<p class="my-title"><a href="#/proposed/' + encodeURIComponent(r.audit_id) + '">' + esc(p ? p.question : r.audit_id) + '</a> <span class="id-tag">' + esc(r.audit_id) + '</span></p>' +
+              '<p class="my-title"><a href="' + auditHref(r.audit_id) + '">' + esc(p ? p.question : r.audit_id) + '</a> <span class="id-tag">' + esc(r.audit_id) + '</span></p>' +
               '<p class="meta muted">Started ' + esc(dateGB(r.started_at)) + (r.completed_at ? ' · loop closed ' + esc(dateGB(r.completed_at)) : '') + '</p>' +
               '<div data-my-steps="' + attr(r.audit_id) + '">' + stepsHtml(r.audit_id, r.status) + '</div>' +
               '<p class="track-status" role="status" aria-live="polite" data-track-status></p>' +
@@ -1497,7 +1823,7 @@
     } catch (e) { return ''; }
   })();
   var AN = { kind: '', last: '' };
-  var KNOWN_ROUTES = ['search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
+  var KNOWN_ROUTES = ['build', 'suggest', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
   function cleanPageUrl() {
     var keep = new URLSearchParams();
     new URLSearchParams(location.search).forEach(function (v, k) {
@@ -1558,7 +1884,7 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-copy-csv]');
     if (!b) return;
-    var p = S.pById.get(b.getAttribute('data-copy-csv')), st = b.parentNode.querySelector('[data-copy-status]');
+    var cid = b.getAttribute('data-copy-csv'), p = S.pById.get(cid) || builtGet(cid), st = b.parentNode.querySelector('[data-copy-status]');
     if (!p) return;
     var csv = templateCsv(p);
     function fallback() {

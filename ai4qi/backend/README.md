@@ -22,6 +22,9 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
 - `supabase/migrations/002_usage.sql`: region on profiles and fixed lists for grade, specialty and
   region; tables `my_audits` and `usage_events`; `record_activity()`; the admin-only functions
   `weekly_stats()` and `signup_breakdown()`. Groups of fewer than five people are suppressed.
+- `supabase/migrations/003_built_audits.sql`: lets trackers accept built audits (ids `B-…`) and adds
+  `built_audits`, where every protocol built on the site is kept for review (server only).
+- `supabase/functions/build-audit/`: the function that builds an audit on request with Claude.
 - `pull_feedback.py`: copies feedback from Supabase into `ai4qi/new_audits/feedback.json`.
 
 ## Owner steps: Supabase
@@ -71,6 +74,19 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
    The script adds new rows as `{"id", "rating", "reasons", "comment", "source": "app", "at",
    "feedback_id"}`, keeps every existing entry, and skips rows it has already copied (matched by
    `feedback_id`), so it can be run as often as you like. Device and user ids are not copied.
+
+8. **Switch on "Build an audit"** (optional; without it the hosted site shows the published
+   evidence and the closest ready-made protocol, and building works only inside Claude):
+   - Get an API key at https://console.anthropic.com (Settings > API keys) and add billing.
+   - Supabase dashboard > Edge Functions > Secrets: add `ANTHROPIC_API_KEY`. Optional:
+     `ALLOWED_ORIGIN` (your site address), `BUILD_DAILY_LIMIT` (default 20 per user per day).
+   - Run the SQL in `003_built_audits.sql`, then deploy the function:
+     `supabase functions deploy build-audit --project-ref abcdefghijkl`
+     (Supabase CLI; or paste `index.ts` into Dashboard > Edge Functions > Create function).
+   - In `config.json` set `"build_url": "https://abcdefghijkl.supabase.co/functions/v1/build-audit"`.
+   Building needs sign-in. Each build costs roughly 2–5p in API usage; the daily limit caps it.
+   Built protocols are in the `built_audits` table: review them and add good ones to
+   `new_audits/nonortho_parts/generated.json` or `new_audits/parts/generated.json`.
 
 ### Costs and limits
 

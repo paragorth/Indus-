@@ -71,6 +71,16 @@ Answers go straight into the product, so write them as a finished professional d
 - Process notes for the developer (blocked sites, uncertain wording) go in the commit message or
   new_audits/NOTES.md, never in the answer.
 
+## Build an audit in the app
+
+The app's main box builds a new protocol for any theme the user types (`#/build?q=…`), in the answer
+shape above, using the closest published audits, standards and proposed audits as material; evidence
+lines that cite ids not in the library are dropped. A request with no theme ("a quick closed-loop
+audit") goes to `#/suggest` (ready-made proposed audits, shortest timeline first). Inside Claude the
+page uses the `sample` capability; on the hosted site it uses `backend/supabase/functions/build-audit`
+(`build_url` in `app/config.json`). Built protocols land in the `built_audits` table: review and add
+good ones to the `generated.json` parts.
+
 ## Keep growing the proposed library
 
 Every new audit designed in a conversation is added to `new_audits/parts/generated.json` (orthopaedic) or
