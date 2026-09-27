@@ -89,9 +89,9 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
    - A theme built before is served from the saved copy (free) for `REUSE_DAYS` (default 180);
      only "Build another version" makes a new one.
    - `BUILD_DAILY_LIMIT`: new builds per person per day (default 20).
-   - `BUILD_MONTHLY_LIMIT`: new builds for the whole site per 30 days (default 1000, about £30–50).
-     Past it, the page offers "Build it in Claude": the `claude_link` in `config.json`, where
-     people build on their own Claude account. Share that artifact publicly (its Share menu) first.
+   - `BUILD_MONTHLY_LIMIT`: off by default (0), so building stays free for everyone. Emergency
+     brake only: set a number of new builds per 30 days, and past it the page offers "Build it in
+     Claude" (the `claude_link` in `config.json`, empty by default; people use their own Claude account).
    - `BUILD_MODEL`: set `claude-haiku-4-5` to halve the cost (weaker protocols).
    Spend so far: `select count(*) filter (where not reused) as new_builds, count(*) filter (where reused)
    as reused from built_audits where created_at > now() - interval '30 days';`

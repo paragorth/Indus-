@@ -2,13 +2,13 @@
 // The page sends the theme and the library material it found (published audits, standards,
 // proposed audits); this function calls Claude with the owner's key, which never reaches the page.
 // Signed-in users only. A theme built before is served from built_audits without calling Claude
-// (unless the user asks for another version). Caps: builds per user per day, and new builds for the
-// whole site per 30 days; past the site cap the page offers the free "build it in Claude" link.
+// (unless the user asks for another version). A per-person daily cap stops abuse; an optional
+// site-wide cap (off by default) can send people to the "build it in Claude" link instead.
 //
 // Secrets (Supabase dashboard > Edge Functions > Secrets): ANTHROPIC_API_KEY.
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase automatically.
 // Optional: BUILD_DAILY_LIMIT (default 20), BUILD_MONTHLY_LIMIT (new builds per 30 days for the
-// whole site, default 1000), REUSE_DAYS (how long a saved build is reused, default 180),
+// whole site; default 0 = no cap, the site stays free for everyone), REUSE_DAYS (how long a saved build is reused, default 180),
 // BUILD_MODEL (default claude-sonnet-5; claude-haiku-4-5 costs about half, weaker protocols),
 // ALLOWED_ORIGIN (default *; set it to the site address, e.g. https://ai4qi.org).
 
@@ -16,7 +16,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const MODEL = Deno.env.get("BUILD_MODEL") ?? "claude-sonnet-5";
 const LIMIT = Number(Deno.env.get("BUILD_DAILY_LIMIT") ?? "20");
-const MONTHLY = Number(Deno.env.get("BUILD_MONTHLY_LIMIT") ?? "1000");
+const MONTHLY = Number(Deno.env.get("BUILD_MONTHLY_LIMIT") ?? "0");   // 0 = no site-wide cap
 const REUSE_DAYS = Number(Deno.env.get("REUSE_DAYS") ?? "180");
 const ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "*";
 const cors = {
@@ -83,7 +83,7 @@ Deno.serve(async (req) => {
   const month = new Date(Date.now() - 30 * 86400000).toISOString();
   const { count: siteCount } = await admin.from("built_audits").select("id", { count: "exact", head: true })
     .eq("reused", false).gte("created_at", month);
-  if ((siteCount ?? 0) >= MONTHLY) return reply(429, { error: "monthly limit" });
+  if (MONTHLY > 0 && (siteCount ?? 0) >= MONTHLY) return reply(429, { error: "monthly limit" });
 
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
