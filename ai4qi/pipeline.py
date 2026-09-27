@@ -176,7 +176,7 @@ def cmd_fetch(pas):
         if k in recs:
             keep, why, kind = classify.screen(recs[k])
             if not keep and why.startswith("excluded: no audit wording") and recs[k].get("pmcid") \
-                    and recs[k].get("open_access"):
+                    and recs[k].get("open_access") and not os.environ.get("AI4QI_NO_FT"):
                 ft = _fulltext(recs[k], epmc_up)
                 if ft:
                     import extract
@@ -189,7 +189,7 @@ def cmd_fetch(pas):
     n_ft = 0
     for k, s in scr.items():
         r = recs.get(k)
-        if not (s["keep"] and s["pass"] == pas and r and r.get("pmcid") and r.get("open_access")):
+        if os.environ.get("AI4QI_NO_FT") or not (s["keep"] and s["pass"] == pas and r and r.get("pmcid") and r.get("open_access")):
             continue
         if _fulltext(r, epmc_up):
             n_ft += 1

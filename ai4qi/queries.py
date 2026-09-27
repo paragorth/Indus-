@@ -111,6 +111,28 @@ NON_ORTHO = {
                  "palliative"],
     "haematology": ["haematology", "hematology", "blood transfusion", "transfusion", "anaemia",
                     "anemia", "sickle cell", "thrombosis", "warfarin"],
+    # wider coverage (added in the third search pass)
+    "vascular surgery": ["vascular surgery", "aortic aneurysm", "carotid", "varicose", "peripheral arterial", "amputation"],
+    "colorectal surgery": ["colorectal", "bowel cancer", "colonoscopy", "stoma", "anastomotic", "haemorrhoid"],
+    "breast surgery": ["breast surgery", "breast cancer", "mastectomy", "breast clinic", "mammography"],
+    "plastic surgery and burns": ["plastic surgery", "burns", "burn injury", "skin cancer excision", "hand trauma", "flap"],
+    "neurosurgery": ["neurosurgery", "neurosurgical", "subarachnoid", "hydrocephalus", "craniotomy", "brain tumour"],
+    "cardiothoracic surgery": ["cardiac surgery", "cardiothoracic", "coronary artery bypass", "thoracic surgery", "lung resection"],
+    "maxillofacial surgery": ["maxillofacial", "oral surgery", "mandibular fracture", "facial trauma", "third molar"],
+    "neurology": ["neurology", "epilepsy", "seizure", "multiple sclerosis", "parkinson", "migraine", "headache"],
+    "stroke": ["stroke", "transient ischaemic attack", "thrombolysis", "thrombectomy"],
+    "care of the elderly": ["elderly", "older people", "geriatric", "frailty", "falls", "dementia", "delirium"],
+    "renal medicine": ["renal", "kidney", "dialysis", "acute kidney injury", "nephrology"],
+    "diabetes and endocrinology": ["diabetes", "diabetic", "insulin", "hypoglycaemia", "thyroid", "endocrin", "DKA"],
+    "rheumatology": ["rheumatology", "rheumatoid", "gout", "methotrexate", "giant cell arteritis", "lupus"],
+    "infection and microbiology": ["antimicrobial", "antibiotic", "sepsis", "infection control", "microbiology", "C. difficile", "MRSA"],
+    "palliative care": ["palliative", "end of life", "end-of-life", "hospice", "DNACPR", "anticipatory"],
+    "neonatology": ["neonatal", "neonate", "newborn", "NICU", "preterm", "jaundice"],
+    "sexual health": ["sexual health", "genitourinary", "HIV", "chlamydia", "gonorrhoea", "syphilis", "contraception"],
+    "pathology and laboratory": ["pathology", "histopathology", "laboratory", "blood test", "phlebotomy", "cytology"],
+    "physiotherapy and rehabilitation": ["physiotherapy", "rehabilitation", "occupational therapy", "speech and language"],
+    "learning disability and CAMHS": ["learning disability", "intellectual disability", "CAMHS", "child and adolescent mental health", "autism"],
+    "patient safety and governance": ["patient safety", "incident reporting", "handover", "medication error", "never event", "record keeping"],
 }
 
 
