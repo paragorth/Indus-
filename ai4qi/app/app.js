@@ -225,12 +225,15 @@
       else if (name === 'standards') renderStandards(r.params);
       else if (name === 'account' && BE.url) renderAccount();
       else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
+      else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
+      else if (name === 'my-audits' && BE.url) renderMyAudits();
       else renderNotFound();
     } catch (err) {
       renderNotFound();
       if (window.console) console.warn(err);
     }
     if (!sameView) focusMain();
+    trackPageview();
   }
 
   function searchForm(q, big) {
@@ -450,9 +453,11 @@
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
-      '<div class="doc-actions">' + dl + '<button class="btn btn-secondary" type="button" data-print>Print protocol</button></div></header>' +
+      '<div class="doc-actions">' + dl + '<button class="btn btn-secondary" type="button" data-print>Print protocol</button></div>' +
+      '<div class="track no-print" data-track="' + attr(p.id) + '" hidden></div></header>' +
       body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
+    showTracker(p.id);
   }
 
   function renderProposedList(params) {
@@ -824,6 +829,7 @@
     if (!err && !q.get('code') && !h.get('access_token')) return null;
     return { error: err || '' };
   })();
+  var ORIGINAL_HASH = location.hash;
   if (AUTH_RETURN) history.replaceState(null, '', location.pathname + location.search + '#/account');
   function cleanAuthUrl() {
     if (location.search) history.replaceState(null, '', location.pathname + location.hash);
@@ -843,12 +849,14 @@
         updateAccountLink();
         if (AUTH_RETURN || hasStoredSession()) sbClient().catch(function () {});
       } else if (AUTH_RETURN) {
-        cleanAuthUrl();
+        // No backend: put the address back exactly as it was and show that page.
+        history.replaceState(null, '', location.pathname + location.search + ORIGINAL_HASH);
+        if (S.lib.length) route();
       }
       flushFeedback();
       // If the library finished loading first, an account or admin link was shown as "not found".
       var cur = parseHash().parts[0];
-      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin')) route();
+      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin' || cur === 'my-audits')) route();
     });
 
   function sbClient() {
@@ -876,7 +884,7 @@
           BE.client = c;
           BE.user = res.data && res.data.session ? res.data.session.user : null;
           updateAccountLink();
-          if (BE.user) setTimeout(flushFeedback, 0);
+          if (BE.user) { setTimeout(flushFeedback, 0); recordActivity(); }
           return c;
         });
       });
@@ -891,9 +899,11 @@
     updateAccountLink();
     if (before === after) return;
     BE.admin = null; BE.profile = undefined;
-    if (u) flushFeedback();
+    BE.tracker = null;
+    if (u) { flushFeedback(); recordActivity(); }
     var name = parseHash().parts[0];
-    if (S.lib.length && (name === 'account' || name === 'admin')) route();
+    if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
+    else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
   }
   function updateAccountLink() {
     if (!accountLink) return;
