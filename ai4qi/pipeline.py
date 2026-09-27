@@ -174,6 +174,8 @@ def cmd_fetch(pas):
         if pas == "nonortho" and scr.get(k, {}).get("pass") == "ortho" and scr[k]["keep"]:
             continue            # already in the orthopaedic library
         if k in recs:
+            if os.environ.get("AI4QI_NO_FT") and k in scr:
+                continue              # quick re-run: keep earlier decisions (some came from full text)
             keep, why, kind = classify.screen(recs[k])
             if not keep and why.startswith("excluded: no audit wording") and recs[k].get("pmcid") \
                     and recs[k].get("open_access") and not os.environ.get("AI4QI_NO_FT"):
