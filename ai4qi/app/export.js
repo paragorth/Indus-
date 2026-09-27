@@ -134,6 +134,218 @@
     return lines;
   }
 
+  /* ---- Results sheet (live formulas) ---- */
+
+  // Same rule as passField() in app.js.
+  function pickPassField(fields) {
+    var t = fields.filter(function (x) { return x.type !== 'cycle'; });
+    return t.filter(function (x) { return /^(pass|met_standard|meets_standard|compliant|standard_met)$/i.test(x.field); })[0] ||
+      t.filter(function (x) { return /pass|compliant|met/i.test(x.field) && /yes/i.test(x.type); })[0] ||
+      t.filter(function (x) { return /yes/i.test(x.type); }).slice(-1)[0] || null;
+  }
+  function parseTargetFraction(t) {
+    var m = /([\u2265\u2264<>]?)\s*(\d+(?:\.\d+)?)\s*%/.exec(str(t));
+    if (!m) return null;
+    var op = m[1] === '\u2264' ? '<=' : m[1] === '<' ? '<' : m[1] === '>' ? '>' : '>=';
+    return { value: +m[2] / 100, op: op };
+  }
+  function codeSafe(s) { return clean(s).replace(/[|;=,]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function xlStr(s) { return '"' + str(s).replace(/"/g, '""') + '"'; }
+
+  function buildResultsSheet(rs, p, fields, FIRST, LAST) {
+    function rng(i) { var L = colLetter(i + 1); return 'Data!$' + L + '$' + FIRST + ':$' + L + '$' + LAST; }
+    var cyc = rng(0);
+    var CYC = ['((' + cyc + '="Cycle 1")+(' + cyc + '=""))', '(' + cyc + '="Re-audit")'];
+    var passF = pickPassField(fields);
+    var passIdx = passF ? fields.indexOf(passF) : -1;
+    var keyIdx = 1;
+    var target = parseTargetFraction(p.target);
+    var thin = { style: 'thin', color: { argb: 'FF' + C.border } };
+    var box = { top: thin, left: thin, bottom: thin, right: thin };
+    var fontInk = { name: FONT, size: 11, color: { argb: 'FF' + C.ink } };
+    var fill = function (c) { return { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + c } }; };
+
+    rs.getColumn(1).width = 34;
+    rs.getColumn(2).width = 18;
+    rs.getColumn(3).width = 18;
+    rs.getColumn(4).width = 4;
+    rs.getColumn(5).width = 40;
+
+    rs.mergeCells('A1:E1');
+    var t = rs.getCell('A1');
+    t.value = 'Results' + (p.id ? ' \u00b7 ' + clean(p.id) : '');
+    t.font = { name: FONT, size: 16, bold: true, color: { argb: 'FFFFFFFF' } };
+    t.fill = fill(C.blue);
+    t.alignment = { vertical: 'middle', indent: 1 };
+    rs.getRow(1).height = 30;
+    rs.mergeCells('A2:E2');
+    var q = rs.getCell('A2');
+    q.value = (clean(p.question) || '') + '  (Updates automatically from the Data sheet.)';
+    q.font = { name: FONT, size: 10, italic: true, color: { argb: 'FF' + C.muted } };
+    q.alignment = { wrapText: true, vertical: 'top', indent: 1 };
+    rs.getRow(2).height = Math.max(18, estLines(q.value, 110, 1) * 13 + 6);
+
+    function header(row, label) {
+      var cells = [label, 'Cycle 1', 'Re-audit'];
+      cells.forEach(function (v, k) {
+        var c = rs.getCell(row, k + 1);
+        c.value = v;
+        c.font = { name: FONT, size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+        c.fill = fill(C.blue);
+        c.alignment = { vertical: 'middle', horizontal: k ? 'center' : 'left', indent: k ? 0 : 1 };
+        c.border = box;
+      });
+      rs.getRow(row).height = 22;
+    }
+    function labelCell(row, text, bold) {
+      var c = rs.getCell(row, 1);
+      c.value = text;
+      c.font = { name: FONT, size: 11, bold: !!bold, color: { argb: 'FF' + C.ink } };
+      c.alignment = { vertical: 'middle', indent: 1, wrapText: true };
+      c.border = box;
+    }
+    function valCell(row, col, formula, fmt, font) {
+      var c = rs.getCell(row, col);
+      c.value = { formula: formula };
+      c.numFmt = fmt || '0';
+      c.font = font || fontInk;
+      c.alignment = { vertical: 'middle', horizontal: 'center' };
+      c.border = box;
+      return c;
+    }
+
+    var R = { rec: 5, met: 6, not: 7, na: 8, pct: 9, target: 10, tmet: 11, diff: 12 };
+    header(4, 'Measure');
+    var anyRow = passIdx >= 0 ? '(((' + rng(keyIdx) + '<>"")+(' + rng(passIdx) + '<>""))>0)' : '(' + rng(keyIdx) + '<>"")';
+    labelCell(R.rec, 'Records entered');
+    labelCell(R.met, 'Met the standard (Yes)' + (passF ? '' : ' \u2013 no pass field'));
+    labelCell(R.not, 'Did not meet (No)');
+    labelCell(R.na, 'Not applicable (N/A)');
+    labelCell(R.pct, '% met  (Yes \u00f7 (Yes + No))', true);
+    labelCell(R.target, 'Target');
+    labelCell(R.tmet, 'Target met?');
+    labelCell(R.diff, 'Change, Re-audit minus Cycle 1 (percentage points)');
+    [0, 1].forEach(function (k) {
+      var col = k + 2, L = colLetter(col);
+      valCell(R.rec, col, 'SUMPRODUCT(' + anyRow + '*' + CYC[k] + ')');
+      if (passIdx >= 0) {
+        valCell(R.met, col, 'SUMPRODUCT((' + rng(passIdx) + '="Yes")*' + CYC[k] + ')');
+        valCell(R.not, col, 'SUMPRODUCT((' + rng(passIdx) + '="No")*' + CYC[k] + ')');
+        valCell(R.na, col, 'SUMPRODUCT((' + rng(passIdx) + '="N/A")*' + CYC[k] + ')');
+      } else {
+        [R.met, R.not, R.na].forEach(function (r) { valCell(r, col, '0'); });
+      }
+      valCell(R.pct, col, 'IF((' + L + R.met + '+' + L + R.not + ')=0,"",' + L + R.met + '/(' + L + R.met + '+' + L + R.not + '))', '0%',
+        { name: FONT, size: 26, bold: true, color: { argb: 'FF' + C.blue } });
+      var tc = rs.getCell(R.target, col);
+      tc.value = target ? target.value : 'No target set';
+      tc.numFmt = '0%';
+      tc.font = fontInk; tc.alignment = { vertical: 'middle', horizontal: 'center' }; tc.border = box;
+      if (target) {
+        valCell(R.tmet, col, 'IF(' + L + R.pct + '="","",IF(' + L + R.pct + target.op + L + R.target + ',"Yes","No"))', '@',
+          { name: FONT, size: 12, bold: true, color: { argb: 'FF' + C.ink } });
+      } else {
+        valCell(R.tmet, col, '""', '@');
+      }
+    });
+    rs.getRow(R.pct).height = 40;
+    rs.mergeCells(R.diff, 2, R.diff, 3);
+    valCell(R.diff, 2, 'IF(OR(B' + R.pct + '="",C' + R.pct + '=""),"",ROUND((C' + R.pct + '-B' + R.pct + ')*100,1))', '+0.0;-0.0;0.0',
+      { name: FONT, size: 16, bold: true, color: { argb: 'FF' + C.ink } });
+    rs.getRow(R.diff).height = 30;
+
+    rs.addConditionalFormatting({ ref: 'B' + R.pct + ':C' + R.pct, rules: [{ type: 'dataBar', priority: 1,
+      cfvo: [{ type: 'num', value: 0 }, { type: 'num', value: 1 }], color: { argb: 'FF' + C.tint }, gradient: false, showValue: true }] });
+    rs.addConditionalFormatting({ ref: 'B' + R.tmet + ':C' + R.tmet, rules: [
+      { type: 'cellIs', operator: 'equal', formulae: ['"Yes"'], priority: 2, style: { fill: { type: 'pattern', pattern: 'solid', bgColor: { argb: 'FF' + C.mint } }, font: { color: { argb: 'FF' + C.passText }, bold: true } } },
+      { type: 'cellIs', operator: 'equal', formulae: ['"No"'], priority: 3, style: { fill: { type: 'pattern', pattern: 'solid', bgColor: { argb: 'FF' + C.amberTint } }, font: { color: { argb: 'FF7A5A00' }, bold: true } } }] });
+    rs.addConditionalFormatting({ ref: 'B' + R.diff, rules: [
+      { type: 'cellIs', operator: 'greaterThan', formulae: ['0'], priority: 4, style: { fill: { type: 'pattern', pattern: 'solid', bgColor: { argb: 'FF' + C.mint } }, font: { color: { argb: 'FF' + C.passText }, bold: true } } }] });
+
+    // Side notes
+    rs.mergeCells('E4:E12');
+    var side = rs.getCell('E4');
+    side.value = 'Pass field: ' + (passF ? humanLabel(passF.field) + ' (Yes = met the standard)' : 'none found in this template') +
+      '\n\nPass definition: ' + (clean(p.pass) || 'not defined') + '\n\nTarget: ' + (clean(p.target) || 'none set') +
+      '\n\nN/A rows are left out of % met. Rows with a blank Cycle count as Cycle 1.';
+    side.font = { name: FONT, size: 10, color: { argb: 'FF' + C.muted } };
+    side.alignment = { wrapText: true, vertical: 'top' };
+    side.fill = fill(C.tint);
+
+    // Option tables
+    var row = 21;
+    var tables = [];
+    fields.forEach(function (f, i) {
+      var tt = str(f.type).toLowerCase();
+      if (!((tt === 'choice' || tt === 'list' || tt === 'select') && f.options && f.options.length)) return;
+      var opts = f.options.map(clean).filter(Boolean);
+      header(row, humanLabel(f.field));
+      var start = row + 1;
+      opts.forEach(function (o, k) {
+        var r = start + k;
+        labelCell(r, o);
+        [0, 1].forEach(function (c) {
+          valCell(r, c + 2, 'SUMPRODUCT((' + rng(i) + '=' + xlStr(o) + ')*' + CYC[c] + ')');
+        });
+      });
+      var end = start + opts.length - 1;
+      rs.addConditionalFormatting({ ref: 'B' + start + ':C' + end, rules: [{ type: 'dataBar', priority: 10 + tables.length,
+        cfvo: [{ type: 'num', value: 0 }, { type: 'max' }], color: { argb: 'FF' + C.grey }, gradient: false, showValue: true }] });
+      tables.push({ field: f.field, opts: opts, start: start });
+      row = end + 2;
+    });
+
+    // Results code
+    var parts = ['"AI4QI v1 | ' + codeSafe(p.id || 'audit').replace(/"/g, '') + ' | C1 "', 'B' + R.met, '"/"', '(B' + R.met + '+B' + R.not + ')', '" n="', 'B' + R.rec,
+      '" | RE "', 'C' + R.met, '"/"', '(C' + R.met + '+C' + R.not + ')', '" n="', 'C' + R.rec];
+    // Breakdown segments are assembled in hidden helper cells (columns G:H):
+    // per table, G = Cycle 1 pairs and H = Re-audit pairs (count > 0 only),
+    // and G17 = all segments joined with " ; ".
+    rs.getColumn(7).hidden = true;
+    rs.getColumn(8).hidden = true;
+    var segRefs = [];
+    tables.forEach(function (tb) {
+      var labelTxt = codeSafe(str(tb.field).replace(/_/g, ' '));
+      [['G', 'B', 'C1'], ['H', 'C', 'RE']].forEach(function (spec) {
+        var pairs = tb.opts.map(function (o, k) {
+          var ref = spec[1] + (tb.start + k);
+          return 'IF(' + ref + '>0,' + xlStr(', ' + trunc(codeSafe(o), 120) + '=') + '&' + ref + ',"")';
+        }).join('&');
+        var cell = spec[0] + tb.start;
+        rs.getCell(cell).value = { formula: 'MID(' + pairs + ',3,4000)' };
+        var cond = spec[2] === 'RE' ? 'OR(C' + R.rec + '=0,' + cell + '="")' : cell + '=""';
+        segRefs.push('IF(' + cond + ',"",' + xlStr(' ; ' + spec[2] + ' ' + labelTxt + ': ') + '&' + cell + ')');
+      });
+    });
+    if (segRefs.length) {
+      rs.getCell('G17').value = { formula: segRefs.join('&') };
+      parts.push('IF(G17="",""," | "&MID(G17,4,8000))');
+    }
+    rs.mergeCells('A14:E14');
+    var lab = rs.getCell('A14');
+    lab.value = 'Results code \u2014 copy this one line into Ai4Qi (My audits \u203a Paste results) to make your dashboard and presentation. It contains totals only, no patient data.';
+    lab.font = { name: FONT, size: 11, bold: true, color: { argb: 'FF' + C.ink } };
+    lab.alignment = { wrapText: true, vertical: 'bottom' };
+    rs.getRow(14).height = 32;
+    rs.mergeCells('A15:E15');
+    var code = rs.getCell('A15');
+    code.value = { formula: parts.join('&') };
+    code.font = { name: 'Consolas', size: 10, color: { argb: 'FF' + C.ink } };
+    code.fill = fill(C.tint);
+    code.alignment = { wrapText: true, vertical: 'middle', indent: 1 };
+    var blue = { style: 'medium', color: { argb: 'FF' + C.blue } };
+    ['A', 'B', 'C', 'D', 'E'].forEach(function (L) {
+      rs.getCell(L + '15').border = { top: blue, bottom: blue, left: L === 'A' ? blue : undefined, right: L === 'E' ? blue : undefined };
+    });
+    rs.getRow(15).height = 48;
+
+    rs.mergeCells('A18:E19');
+    var cp = rs.getCell('A18');
+    cp.value = 'Have Copilot in Excel? Try this prompt: \u201CSummarise this audit\u2019s results for a governance meeting in three sentences, using only the Results sheet.\u201D';
+    cp.font = { name: FONT, size: 10, color: { argb: 'FF' + C.muted } };
+    cp.alignment = { wrapText: true, vertical: 'top' };
+  }
+
   function templateXlsx(protocol, opts) {
     opts = opts || {};
     return withLibError(loadLib('ExcelJS').then(function (ExcelJS) {
@@ -141,6 +353,8 @@
       var std = p.standard || {};
       var fields = (p.template || []).filter(function (f) { return f && f.field; });
       if (!fields.length) fields = [{ field: 'audit_code', type: 'text' }];
+      var tplFields = fields;
+      fields = [{ field: 'cycle', type: 'cycle', note: 'Leave blank for Cycle 1. Choose Re-audit for cases in the second cycle.' }].concat(tplFields);
       var nRows = opts.rows || 100;
       var HEAD = 4, FIRST = HEAD + 1, LAST = HEAD + nRows;
       var n = fields.length;
@@ -159,6 +373,11 @@
         properties: { defaultRowHeight: 18 },
         pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 }
       });
+      // Results goes straight after Data (filled in once Data is laid out).
+      var rs = wb.addWorksheet('Results', {
+        views: [{ showGridLines: false }],
+        pageSetup: { orientation: 'portrait', fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 }
+      });
       var lists = null, listCol = 0;
 
       var thin = { style: 'thin', color: { argb: 'FF' + C.border } };
@@ -169,6 +388,7 @@
         var label = humanLabel(f.field);
         var w = Math.max(12, Math.min(label.length + 4, 34));
         var t = str(f.type).toLowerCase();
+        if (t === 'cycle') w = 13;
         if (t === 'date') w = Math.max(w, 14);
         if (t === 'datetime') w = Math.max(w, 18);
         if (t === 'text') w = Math.max(w, 22);
@@ -209,7 +429,7 @@
         c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + C.blue } };
         c.alignment = { wrapText: true, vertical: 'middle', horizontal: 'left', indent: 1 };
         c.border = { top: thin, left: thin, right: thin, bottom: { style: 'medium', color: { argb: 'FF' + C.ink } } };
-        var noteText = 'Field: ' + f.field + '\nType: ' + (f.type || 'text');
+        var noteText = 'Field: ' + f.field + '\nType: ' + (f.type === 'cycle' ? 'Cycle 1 / Re-audit' : (f.type || 'text'));
         if (f.options && f.options.length) noteText += '\nOptions: ' + f.options.join(' | ');
         if (f.note) noteText += '\n' + clean(f.note);
         c.note = { texts: [{ text: noteText }], margins: { insetmode: 'auto' } };
@@ -236,7 +456,10 @@
         var t = str(f.type).toLowerCase().replace(/\s/g, '');
         var dv = null, fmt = null, align = 'left';
         var prompt = f.note ? trunc(f.note, 250) : '';
-        if (t === 'yes/no' || t === 'yesno' || t === 'boolean') {
+        if (t === 'cycle') {
+          dv = { type: 'list', allowBlank: true, formulae: ['"Cycle 1,Re-audit"'] };
+          align = 'center';
+        } else if (t === 'yes/no' || t === 'yesno' || t === 'boolean') {
           dv = { type: 'list', allowBlank: true, formulae: ['"Yes,No,N/A"'] };
           align = 'center';
         } else if ((t === 'choice' || t === 'list' || t === 'select') && f.options && f.options.length) {
@@ -338,10 +561,12 @@
       rowNo++;
       var steps = [
         'Enter one row per case on the "Data" sheet, starting under the blue header row.',
+        'Set the "Cycle" column to Re-audit for second-cycle cases; leave it blank (or Cycle 1) for the first audit.',
+        'The "Results" sheet updates as you type. Copy its one-line Results code into Ai4Qi (My audits \u203a Paste results).',
         'Use the drop-down lists where offered; dates as dd/mm/yyyy (and times as hh:mm).',
         'Hover over a header to see the field name and any collection notes.',
         'Record excluded cases separately; do not add them to the pass rate.',
-        'When finished, upload or paste the rows into Ai4Qi to calculate results.'
+        'Or upload the rows into Ai4Qi to calculate results.'
       ];
       var sh = hw.getRow(rowNo++);
       sh.getCell(1).value = 'Steps';
@@ -386,7 +611,11 @@
 
       wb.views = [{ activeTab: 0, firstSheet: 0, visibility: 'visible' }];
 
-      return wb.xlsx.writeBuffer().then(function (buf) {
+      buildResultsSheet(rs, p, fields, FIRST, LAST);
+
+      return Promise.resolve(rs.protect('', {
+        selectLockedCells: true, selectUnlockedCells: true, formatColumns: true, formatRows: true
+      })).then(function () { return wb.xlsx.writeBuffer(); }).then(function (buf) {
         return new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       });
     }));

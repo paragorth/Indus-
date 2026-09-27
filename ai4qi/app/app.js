@@ -1158,7 +1158,11 @@
   function addDays(iso, n) { var d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
   function dateGBs(iso) { if (!iso) return ''; var d = new Date(iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
   function stageIdx(r) { if (r.closed) return RUN_STAGES.length; for (var i = 0; i < RUN_STAGES.length; i++) if (RUN_STAGES[i][0] === r.stage) return i; return 0; }
-  function sampleGuess(p) { var m = String(p.sample || '').match(/(\d{2,4})/); return m ? Math.min(+m[1], 500) : 30; }
+  function sampleGuess(p) {
+    var nums = [], re = /(\d{1,4})(?:\s*[–-]\s*\d{1,4})?\s*(months?|weeks?|days?|years?|hours?|mins?|minutes?|%)?/gi, m;
+    while ((m = re.exec(String(p.sample || '')))) if (!m[2] && +m[1] >= 10) nums.push(+m[1]);
+    return nums.length ? Math.min(nums[0], 500) : 30;
+  }
 
   function chooseAudit(p) {
     if (!V.key) { S.pendingChoose = p.id; location.hash = '#/my-audits'; return; }
@@ -1210,7 +1214,11 @@
   function runStats(r) {
     var p = r.protocol, out = { target: parseTarget(p.target), cycles: [], breakdowns: [] };
     [['c1', 'Cycle 1'], ['c2', 'Re-audit']].forEach(function (c) {
-      var s = cycleStats(p, r.cycles[c[0]].rows); s.key = c[0]; s.label = c[1]; out.cycles.push(s);
+      var s = cycleStats(p, r.cycles[c[0]].rows), t = r.totals && r.totals[c[0]];
+      if (!s.n && t && (t.n || t.den)) {
+        s = { n: t.n || t.den, passN: t.met, failN: t.den - t.met, pct: t.den ? Math.round(t.met / t.den * 1000) / 10 : null, from: t.from || null, to: t.to || null, fromTotals: true };
+      }
+      s.key = c[0]; s.label = c[1]; out.cycles.push(s);
     });
     (p.template || []).forEach(function (f) {
       if (f.type !== 'choice' || !(f.options || []).length) return;
@@ -1220,11 +1228,63 @@
         r.cycles[k].rows.forEach(function (row) { var v = row[f.field]; if (v) counts.set(v, (counts.get(v) || 0) + 1); });
         b.cycles[k] = Array.from(counts.entries()).map(function (e) { return { option: e[0], n: e[1] }; }).sort(function (a, c) { return c.n - a.n; });
       });
+      ['c1', 'c2'].forEach(function (k) {
+        var tb = !b.cycles[k].length && r.totals && r.totals.breakdown && r.totals.breakdown[k] && r.totals.breakdown[k][f.field];
+        if (tb) b.cycles[k] = tb.slice().sort(function (a, c) { return c.n - a.n; });
+      });
       if (b.cycles.c1.length || b.cycles.c2.length) out.breakdowns.push(b);
     });
     return out;
   }
   function fieldLabel(f) { return cap(String(f).replace(/_/g, ' ')); }
+
+  /* --- totals: the one-line results code from the Excel Results tab, or totals typed by hand --- */
+  function parseResultsCode(text) {
+    var line = String(text || '').split(/\r?\n/).filter(function (l) { return /AI4QI\s+v1/i.test(l); })[0];
+    if (!line) return null;
+    var parts = line.split('|').map(function (x) { return x.trim(); }), out = { id: parts[1] || '', c1: null, c2: null, breakdown: { c1: {}, c2: {} } };
+    parts.slice(2).forEach(function (seg) {
+      var m = seg.match(/^(C1|RE)\s+(\d+)\s*\/\s*(\d+)(?:\s+n\s*=\s*(\d+))?$/i);
+      if (m) { out[m[1].toUpperCase() === 'C1' ? 'c1' : 'c2'] = { met: +m[2], den: +m[3], n: m[4] != null ? +m[4] : +m[3] }; return; }
+      seg.split(';').forEach(function (b) {
+        var mm = b.trim().match(/^(C1|RE)\s+([^:]+):\s*(.*)$/i);
+        if (!mm) return;
+        var ck = mm[1].toUpperCase() === 'C1' ? 'c1' : 'c2', key = mm[2].trim().toLowerCase().replace(/[\s_]+/g, '_');
+        out.breakdown[ck][key] = mm[3].split(',').map(function (pair) {
+          var q = pair.split('='); return q.length === 2 && q[0].trim() ? { option: q[0].trim(), n: +q[1] || 0 } : null;
+        }).filter(function (x) { return x && x.n > 0; });
+      });
+    });
+    if (!out.c1 && !out.c2) return null;
+    ['c1', 'c2'].forEach(function (k) { var t = out[k]; if (t && (t.met > t.den || t.den > 100000)) out[k] = null; });
+    return out;
+  }
+  function applyTotals(r, code) {
+    r.totals = r.totals || {};
+    ['c1', 'c2'].forEach(function (k) { if (code[k] && (code[k].den || code[k].n)) r.totals[k] = code[k]; });
+    var fields = {}; (r.protocol.template || []).forEach(function (f) { fields[f.field.toLowerCase()] = f.field; });
+    r.totals.breakdown = r.totals.breakdown || { c1: {}, c2: {} };
+    ['c1', 'c2'].forEach(function (k) {
+      Object.keys(code.breakdown[k] || {}).forEach(function (key) { var f = fields[key]; if (f) r.totals.breakdown[k][f] = code.breakdown[k][key]; });
+    });
+    var i = stageIdx(r);
+    if (r.totals.c2 && r.totals.c2.den && i < 5) r.stage = 'close';
+    else if (r.totals.c1 && r.totals.c1.den && i < 2) r.stage = 'present';
+  }
+  function totalsBox(r) {
+    var t = r.totals || {}, c1 = t.c1 || {}, c2 = t.c2 || {};
+    function row(k, lab, v) {
+      return '<div class="rec-f"><label for="tt-' + k + '">' + lab + '</label><input id="tt-' + k + '" name="' + k + '" type="number" min="0" max="100000" value="' + attr(v == null ? '' : v) + '"></div>';
+    }
+    return '<details class="rec-box" open><summary>Paste your results code (totals only)</summary>' +
+      '<p class="muted">Fill in the Ai4Qi data sheet at work. Its Results tab shows one line starting <code>AI4QI v1</code>: copy it here. It holds totals only, never patient data.</p>' +
+      '<form class="det-form" data-totals-code><div class="rec-f rec-wide"><label for="tc-code">Results code</label><textarea id="tc-code" name="code" rows="2" placeholder="AI4QI v1 | ' + attr(r.auditId) + ' | C1 30/42 n=45 | RE 37/40 n=41 | …"></textarea></div>' +
+      '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-totals-status></span></div></form>' +
+      '<details class="rec-box nested"><summary>Or type the totals</summary><form class="det-form" data-totals-hand>' +
+      row('c1n', 'Cycle 1: records audited', c1.n) + row('c1met', 'Cycle 1: met the standard', c1.met) + row('c1den', 'Cycle 1: met + not met', c1.den) +
+      row('c2n', 'Re-audit: records audited', c2.n) + row('c2met', 'Re-audit: met the standard', c2.met) + row('c2den', 'Re-audit: met + not met', c2.den) +
+      '<div class="rec-actions"><button class="btn btn-secondary" type="submit">Save totals</button></div></form></details></details>';
+  }
 
   /* --- schedule from the protocol timeline and the start date --- */
   function schedule(r) {
@@ -1512,7 +1572,10 @@
     }).join('') + '</ul>' :
       '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p>' +
       '<p><a class="btn" href="#/">Build an audit</a> <a class="btn btn-secondary" href="#/suggest">See suggested audits</a></p></div>';
-    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + body +
+    var pasteBox = '<details class="rec-box paste-any"><summary>Paste a results code</summary><form class="det-form" data-paste-any>' +
+      '<div class="rec-f rec-wide"><label for="pa-code">Results code from the Ai4Qi data sheet</label><textarea id="pa-code" name="code" rows="2" placeholder="AI4QI v1 | NNA-245 | C1 30/42 n=45 | …"></textarea></div>' +
+      '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-paste-status></span></div></form></details>';
+    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + pasteBox + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span><button type="button" class="link-btn" data-vault-lock>Lock now</button></div>', 'My audits', 'my-audits');
   }
@@ -1551,6 +1614,7 @@
       '<div class="kpis"><div class="kpi"><span>Records</span><b>' + s.n + '<small> / ' + want + '</small></b><div class="mini-track"><i style="width:' + Math.min(100, s.n / want * 100) + '%"></i></div></div>' +
       '<div class="kpi"><span>Met the standard</span><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b><small>' + s.passN + ' of ' + (s.passN + s.failN) + '</small></div>' +
       '<div class="kpi"><span>Target</span><b>' + (t ? esc(t.op + t.value + '%') : '–') + '</b><small>' + (met == null ? 'No data yet' : met ? 'Met' : 'Not met') + '</small></div></div>' +
+      (ck === 'c1' ? totalsBox(r) : '') +
       '<details class="rec-box"><summary>Add a record by hand</summary>' + recordForm(r, ck) + '</details>' +
       '<details class="rec-box"><summary>Upload a spreadsheet (Excel or CSV)</summary>' +
       '<p class="muted">Use the Ai4Qi data sheet, or any sheet whose column headings match the template. Columns that are not part of the audit are left out, and patient identifiers are removed before anything is stored.</p>' +
@@ -1726,6 +1790,28 @@
       var ok = runPut(r); renderRunKeep(r); sayIn(main.querySelector('[data-det-status]'), ok ? 'Saved.' : 'Could not save: this browser has no space left.');
       return;
     }
+    if (f.matches('[data-totals-code]')) {
+      e.preventDefault();
+      var code = parseResultsCode(fd.get('code'));
+      var tst = f.querySelector('[data-totals-status]');
+      if (!code) { sayIn(tst, 'That is not a results code. Copy the whole line that starts AI4QI v1.'); return; }
+      if (code.id && code.id !== r.auditId) { sayIn(tst, 'This code is for ' + code.id + ', not ' + r.auditId + '. Paste it into that audit instead.'); return; }
+      applyTotals(r, code); runPut(r); renderRunKeep(r);
+      sayIn(main.querySelector('[data-totals-status]'), 'Results updated from your code.');
+      return;
+    }
+    if (f.matches('[data-totals-hand]')) {
+      e.preventDefault();
+      function num(k) { var v = fd.get(k); return v === '' || v == null ? null : Math.max(0, Math.min(100000, Math.round(+v) || 0)); }
+      var hand = { breakdown: { c1: {}, c2: {} } };
+      [['c1', 'c1'], ['c2', 'c2']].forEach(function (k) {
+        var met = num(k[0] + 'met'), den = num(k[0] + 'den'), n = num(k[0] + 'n');
+        if (den != null && met != null && met <= den) hand[k[1]] = { met: met, den: den, n: n == null ? den : n };
+      });
+      if (!hand.c1 && !hand.c2) { window.setTimeout(function () {}, 0); return; }
+      applyTotals(r, hand); runPut(r); renderRunKeep(r);
+      return;
+    }
     if (f.matches('[data-run-change]')) {
       e.preventDefault();
       var rep0 = { redacted: 0 };
@@ -1780,6 +1866,22 @@
     S.pendingImport = null; S.view.runTab = pi.ck;
     var ok = runPut(r); renderRunKeep(r, '[data-run-tab="' + pi.ck + '"]');
     if (!ok) window.setTimeout(function () { var o = main.querySelector('[data-out-status]'); sayIn(o, 'This browser is out of space. Download a backup.'); }, 0);
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f.matches || !f.matches('[data-paste-any]')) return;
+    e.preventDefault();
+    var st = f.querySelector('[data-paste-status]'), code = parseResultsCode(new FormData(f).get('code'));
+    if (!code) { sayIn(st, 'That is not a results code. Copy the whole line that starts AI4QI v1.'); return; }
+    var r = Array.from(S.runs.values()).filter(function (x) { return x.auditId === code.id && !x.closed; })[0];
+    if (!r) {
+      var p = anyAudit(code.id);
+      if (!p) { sayIn(st, 'Audit ' + code.id + ' is not on this device. Open it (Build an audit or Proposed audits), press Choose this audit, then paste the code there.'); return; }
+      chooseAudit(p);
+      r = Array.from(S.runs.values()).filter(function (x) { return x.auditId === code.id && !x.closed; })[0];
+      if (!r) return;
+    }
+    applyTotals(r, code); runPut(r); location.hash = '#/run/' + r.id;
   });
   /* Restore a backup from My audits. Backups are encrypted with the passcode in use when they were made. */
   function restoreRun(r) {
