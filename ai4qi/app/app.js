@@ -2052,6 +2052,11 @@
     'Paediatric surgery', 'Paediatrics', 'Palliative care', 'Pathology', 'Pharmacy', 'Plastic surgery',
     'Psychiatry', 'Radiology', 'Renal medicine', 'Respiratory', 'Rheumatology', 'Sexual health', 'Stroke',
     'Therapies and allied health', 'Urology', 'Vascular surgery', 'Other'];
+  // Fixed lists; they must match the checks in backend migration 006.
+  var WORK_SETTINGS = ['NHS or HSE hospital', 'General practice', 'Community or mental health service', 'Private or independent sector',
+    'University or medical school', 'Working outside the UK and Ireland', 'Not currently working in healthcare'];
+  var AUDIT_PURPOSES = ['Portfolio or ARCP', 'Job or training application', 'Portfolio pathway (CESR) or specialist registration',
+    'Departmental or service improvement', 'Research or a qualification', 'Other'];
   var REGIONS = ['North East and Yorkshire', 'North West', 'Midlands', 'East of England', 'London', 'South East',
     'South West', 'Scotland', 'Wales', 'Northern Ireland', 'Ireland', 'Outside the UK and Ireland'];
   // "My audits" steps, in order; the last one counts as completed.
@@ -2295,8 +2300,20 @@
   }
   function loadProfile(c) {
     if (BE.profile !== undefined) return Promise.resolve(BE.profile);
-    return c.from('profiles').select('specialty, grade, region').eq('user_id', BE.user.id).maybeSingle()
-      .then(function (res) { BE.profile = res.error ? null : (res.data || null); return BE.profile; });
+    return c.from('profiles').select('specialty, grade, region, work_setting, audit_purpose, consent_news, consent_sponsors').eq('user_id', BE.user.id).maybeSingle()
+      .then(function (res) {
+        BE.profile = res.error ? null : (res.data || null);
+        var pend = null; try { pend = JSON.parse(localStorage.getItem('ai4qi_consent_pending') || 'null'); } catch (e) {}
+        if (pend && !res.error) {
+          try { localStorage.removeItem('ai4qi_consent_pending'); } catch (e) {}
+          if (pend.news || pend.sponsors) {
+            var row = { user_id: BE.user.id, consent_news: !!pend.news, consent_sponsors: !!pend.sponsors, consent_updated_at: new Date().toISOString() };
+            BE.profile = Object.assign({}, BE.profile || {}, row);
+            return c.from('profiles').upsert(row, { onConflict: 'user_id' }).then(function () { return BE.profile; });
+          }
+        }
+        return BE.profile;
+      });
   }
   function checkAdmin(c) {
     if (BE.admin !== null) return Promise.resolve(BE.admin);
@@ -2310,11 +2327,15 @@
       : '';
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
       '<div class="doc narrow"><h1>' + esc(title || 'Sign in') + '</h1>' +
-      '<p class="page-intro">Signing in is optional. It lets you keep track of the audits you run and add your grade, specialty and region, so that your feedback on proposed audits can be read in context. There is no password: we email you a secure sign-in link.</p>' +
+      '<p class="page-intro">Signing in is free and takes a minute. You need it to build new audits and to get reminders; everything else works without it. There is no password: we email you a secure sign-in link.</p>' +
       err +
       '<form class="stack-form" data-signin novalidate>' +
       '<label for="acc-email">Email address</label>' +
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254">' +
+      '<fieldset class="consent"><legend>Optional</legend>' +
+      '<label class="check"><input type="checkbox" name="consent_news"><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
+      '<label class="check"><input type="checkbox" name="consent_sponsors"><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
+      '</fieldset>' +
       '<button class="btn" type="submit">Email me a sign-in link</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
       '</form>' +
@@ -2341,6 +2362,14 @@
       '<select id="pf-region" name="region"><option value="">Prefer not to say</option>' +
       '<optgroup label="England (NHS region)">' + optionList(REGIONS.slice(0, 7), pf.region) + '</optgroup>' +
       '<optgroup label="Elsewhere">' + optionList(REGIONS.slice(7), pf.region) + '</optgroup></select>' +
+      '<label for="pf-work">Where you work</label>' +
+      '<select id="pf-work" name="work_setting"><option value="">Prefer not to say</option>' + optionList(WORK_SETTINGS, pf.work_setting) + '</select>' +
+      '<label for="pf-purpose">Main reason for your audits</label>' +
+      '<select id="pf-purpose" name="audit_purpose"><option value="">Prefer not to say</option>' + optionList(AUDIT_PURPOSES, pf.audit_purpose) + '</select>' +
+      '<fieldset class="consent"><legend>Optional</legend>' +
+      '<label class="check"><input type="checkbox" name="consent_news"' + (pf.consent_news ? ' checked' : '') + '><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
+      '<label class="check"><input type="checkbox" name="consent_sponsors"' + (pf.consent_sponsors ? ' checked' : '') + '><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
+      '</fieldset>' +
       '<button class="btn" type="submit">Save profile</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
       '</form></section>' +
@@ -2363,6 +2392,7 @@
       }
       input.removeAttribute('aria-invalid');
       btn.disabled = true; say('Sending…');
+      try { localStorage.setItem('ai4qi_consent_pending', JSON.stringify({ news: form.elements.consent_news.checked, sponsors: form.elements.consent_sponsors.checked })); } catch (e2) {}
       sbClient().then(function (c) {
         return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
       }).then(function (res) {
@@ -2384,13 +2414,18 @@
     } else {
       var pick = function (name, list) { var v = form.querySelector('[name="' + name + '"]').value; return list.indexOf(v) === -1 ? null : v; };
       var spec = pick('specialty', SPECIALTIES), grade = pick('grade', GRADES), region = pick('region', REGIONS);
+      var row = { user_id: BE.user && BE.user.id, specialty: spec, grade: grade, region: region,
+        work_setting: pick('work_setting', WORK_SETTINGS), audit_purpose: pick('audit_purpose', AUDIT_PURPOSES),
+        consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked };
+      var prev = BE.profile || {};
+      if (row.consent_news !== !!prev.consent_news || row.consent_sponsors !== !!prev.consent_sponsors) row.consent_updated_at = new Date().toISOString();
       btn.disabled = true; say('Saving…');
       sbClient().then(function (c) {
         if (!BE.user) throw new Error('signed out');
-        return c.from('profiles').upsert({ user_id: BE.user.id, specialty: spec, grade: grade, region: region }, { onConflict: 'user_id' });
+        return c.from('profiles').upsert(row, { onConflict: 'user_id' });
       }).then(function (res) {
         if (res.error) throw res.error;
-        BE.profile = { specialty: spec, grade: grade, region: region };
+        BE.profile = row;
         btn.disabled = false; say('Your profile has been saved.');
       }).catch(function () {
         btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);
@@ -2727,7 +2762,9 @@
       '<h2 class="adm-h2">Who signed up in this period</h2>' +
       '<p class="muted">From the optional profile. Groups with fewer than five people are not shown, so that nobody can be identified.</p>' +
       '<div class="bd-grid">' + breakdownTable(st.breakdown, 'grade', 'Grade or role') + breakdownTable(st.breakdown, 'specialty', 'Specialty') +
-      breakdownTable(st.breakdown, 'region', 'Region') + '</div>' +
+      breakdownTable(st.breakdown, 'region', 'Region') + breakdownTable(st.breakdown, 'verified', 'NHS or HSE email') +
+      breakdownTable(st.breakdown, 'work_setting', 'Where they work') + breakdownTable(st.breakdown, 'audit_purpose', 'Reason for audits') +
+      breakdownTable(st.breakdown, 'consent', 'Email consent') + '</div>' +
       '<h2 class="adm-h2">Website visitors</h2>' + analyticsLinkHtml(),
       'Usage statistics', '');
   }

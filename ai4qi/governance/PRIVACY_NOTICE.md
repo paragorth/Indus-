@@ -72,6 +72,21 @@ smaller than five people.
 **Please do not put patient information in feedback comments or audit themes.** If we find any, we
 delete it.
 
+## Emails about Ai4Qi and from our sponsors
+
+We only send you news or sponsors' offers if you tick the box for each one, at sign-in or on your
+account page. Both boxes start unticked, and you can untick them at any time on your account page or
+by replying to any such email. We record when you last changed these choices.
+
+- **Ai4Qi news:** new features and audits, about once a month. Lawful basis: your consent.
+- **Sponsor offers:** occasional messages about courses, events or jobs from organisations that
+  support Ai4Qi. We send these ourselves. We never give or sell your email address to sponsors.
+  Lawful basis: your consent.
+
+Sponsors only ever see anonymous totals (for example, how many people signed up by grade or
+specialty, with groups smaller than five hidden). We also count how many people signed up with an
+NHS or HSE email address; this uses the address you signed in with and is only reported as a total.
+
 ## Who we share data with
 
 We use these service providers ("processors"). They act only on our instructions, under a data

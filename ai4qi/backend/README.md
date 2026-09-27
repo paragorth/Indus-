@@ -31,6 +31,9 @@ such as `#/proposed/ONA-012`; search words and filters are removed) and the `fro
 - `supabase/functions/send-reminders/`: the daily job that emails reminders through Resend.
 - `supabase/migrations/005_delete_account.sql`: `delete_my_account()`, so signed-in users can delete
   their own account from the account page (cascades to their profile, progress and reminders).
+- `supabase/migrations/006_consent_profile.sql`: unticked email consent boxes (news, sponsor offers)
+  with the time of change, where-they-work and audit-purpose fields, a "verified NHS/HSE email" count,
+  and the admin-only `mailing_list(kind)` for sending to people who opted in.
 - `pull_feedback.py`: copies feedback from Supabase into `ai4qi/new_audits/feedback.json`.
 
 ## Owner steps: Supabase
