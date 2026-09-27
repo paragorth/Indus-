@@ -1,6 +1,6 @@
 # Ai4Qi privacy notice
 
-> DRAFT — not legal advice — to be reviewed by an information governance lead before publishing.
+> DRAFT — not legal advice. Check the facts marked "check", fill in the placeholders, then publish.
 > Replace everything in [square brackets]. Publish at `/privacy`.
 
 Last updated: [DATE]

@@ -1,7 +1,10 @@
 # Ai4Qi — Data Protection Impact Assessment (draft)
 
-> **DRAFT — not legal advice — to be reviewed by an information governance lead or Caldicott
-> Guardian before launch.**
+> **DRAFT — not legal advice.** Ai4Qi is an independent service, not run by or for an NHS
+> organisation. The owner, as data controller for the account data, completes and signs this DPIA.
+> An independent review (for example a freelance data protection consultant or DPO-as-a-service) is
+> optional but recommended. NHS organisations whose staff use Ai4Qi may read it when deciding
+> whether to allow the tool; their approval is not required for Ai4Qi to operate.
 >
 > Structure follows the ICO's sample DPIA template (Steps 1–7). Facts about the system were checked
 > against the code on 27 September 2026: `ai4qi/backend/README.md`, `backend/supabase/migrations/001–004`,
@@ -190,8 +193,8 @@ use outside the UK and Ireland; a paid tier.
 | Who | How | Status |
 |---|---|---|
 | Users (trainee doctors) | In-app feedback; short survey of pilot users on privacy expectations and shared-computer use | [to do] |
-| An NHS information governance lead / DPO | Review of this DPIA | [to do] |
-| A Caldicott Guardian | Review of the on-device design and user guidance | [to do] |
+| Independent data protection reviewer (optional) | Review of this DPIA | [to do] |
+| Users' NHS organisations (on request) | May review the on-device design and user guidance when deciding whether their staff can use Ai4Qi; not an approval Ai4Qi needs | [as requested] |
 | A Clinical Safety Officer (CSO) | Review of the DCB0129/0160 assessment (§4.7) and AI content risks | [to do] |
 | A local audit department | Check the "register your audit" guidance and export warnings | [to do] |
 | Security review | Review of RLS policies, Edge Functions and CSP | [to do] |
@@ -419,11 +422,11 @@ the user's organisation's incident: tell the user to report it to their IG team.
 |---|---|---|
 | Measures approved by | | Integrate actions back into the project plan, with date and owner |
 | Residual risks approved by | | If accepting any residual high risk, consult the ICO before going ahead |
-| DPO / IG lead advice provided | | Should advise on compliance, Step 6 measures and whether processing can proceed |
-| Summary of DPO / IG lead advice | | |
-| DPO / IG lead advice accepted or overruled by | | If overruled, give reasons |
+| Independent reviewer's advice provided (optional) | | Should advise on compliance, Step 6 measures and whether processing can proceed |
+| Summary of reviewer's advice | | |
+| Reviewer's advice accepted or overruled by (owner) | | If overruled, give reasons |
 | Comments | | |
-| Caldicott Guardian review | | Advice on the on-device patient data design and user guidance |
+| Owner sign-off (data controller) | | Name, date |
 | Clinical Safety Officer review | | Confirm the DCB0129/0160 assessment in §4.7 |
 | Consultation responses reviewed by | | If the decision departs from individuals' views, give reasons |
 | This DPIA will be kept under review by | | Named person responsible for review |

@@ -51,9 +51,10 @@
 
 ## 4. Governance documents
 
-- [ ] **Get the DPIA reviewed** (`governance/DPIA.md`) by an NHS information governance lead or DPO
-      and a Caldicott Guardian. Ask a Clinical Safety Officer to confirm the DCB0129/0160 view in
-      §4.7. Fill in the Step 7 sign-off table.
+- [ ] **Sign your DPIA** (`governance/DPIA.md`) as the data controller and keep it on file. Optional:
+      have it reviewed by a freelance data protection consultant or DPO-as-a-service firm (usually a
+      few hundred pounds). No NHS organisation needs to approve it. If a user's Trust asks about
+      Ai4Qi, send them the DPIA and privacy notice.
 - [ ] **Add the retention jobs** listed in DPIA §4.5 (pg_cron SQL).
 - [ ] **Publish the privacy notice** (`governance/PRIVACY_NOTICE.md`) at `/privacy` on the hosted
       site, fill in every [placeholder], and link it from every page footer and the sign-in page.
