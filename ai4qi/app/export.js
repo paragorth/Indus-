@@ -1003,7 +1003,8 @@
     }
     function cycleLine(c) {
       if (!c || !(c.n > 0) || !isNum(c.pct)) return 'No data yet';
-      return c.passN + ' of ' + c.n + ' (' + pctText(c.pct) + ') met the standard';
+      // Denominator is met + not met (N/A excluded), matching pct; n is records audited.
+      return (c.passN || 0) + ' of ' + ((c.passN || 0) + (c.failN || 0)) + ' (' + pctText(c.pct) + ') met the standard';
     }
 
     /* 1. Title */
@@ -1027,7 +1028,8 @@
     label(s, hasC2 ? c2Label : c1Label, 10.3, 2.0, 2.7);
     if (keyC && isNum(keyC.pct)) {
       s.text(pctText(keyC.pct), 10.3, 2.35, 2.8, 1.3, { size: 66, min: 40, bold: true, color: C.blue, inset: 0 });
-      s.text('met the standard (n=' + keyC.n + ')', 10.3, 3.65, 2.7, 0.7, { size: 14, color: C.ink, inset: 0 });
+      s.text('met the standard\n' + (keyC.passN || 0) + ' of ' + ((keyC.passN || 0) + (keyC.failN || 0)) + ' \u00b7 ' + keyC.n + ' records audited',
+        10.3, 3.65, 2.7, 0.8, { size: 14, min: 10, color: C.ink, inset: 0 });
     } else {
       s.text('No data yet', 10.3, 2.35, 2.8, 0.8, { size: 28, bold: true, color: C.muted, inset: 0 });
     }
@@ -1087,7 +1089,7 @@
       var m1 = metTarget(c1.pct);
       if (m1 !== null) chip(s, m1 ? 'Target met (' + targetShort + ')' : 'Below target (' + targetShort + ')', 0.6, 4.95, 3.6, m1 ? 'good' : 'warn');
       s.chart({ dir: 'col', categories: ['Met standard', 'Did not meet'], alt: 'Cases meeting and not meeting the standard in ' + c1Label,
-        series: [{ name: c1Label, values: [c1.passN || 0, c1.failN || Math.max(0, (c1.n || 0) - (c1.passN || 0))], color: C.blue, pointColors: [C.blue, C.grey] }],
+        series: [{ name: c1Label, values: [c1.passN || 0, c1.failN || 0], color: C.blue, pointColors: [C.blue, C.grey] }],
         labelSize: 16, catSize: 14, gap: 70 }, 5.6, 1.8, 7.1, 4.85);
     } else {
       s.text('No data yet', 0.6, 2.4, 8, 1.2, { size: 48, bold: true, color: C.muted, inset: 0 });

@@ -1439,10 +1439,16 @@
       if (map[j] && !(ID_HEADER.test(normHead(h)) && !isCodeField({ field: map[j] }))) kept.push([h, map[j]]);
       else { dropped.push(String(h)); map[j] = null; }
     });
-    var rows = table.slice(best + 1).map(function (r) {
-      var raw = {}; map.forEach(function (f, j) { if (f) raw[f] = r[j]; }); return cleanRecord(p, raw, codes, rep, opts);
-    }).filter(function (o) { return Object.keys(o).length; });
-    return { rows: rows, kept: kept, dropped: dropped, rep: rep, nextCode: codes.next };
+    var cycCol = heads.map(normHead).indexOf('cycle'), re = [];
+    if (cycCol >= 0) dropped = dropped.filter(function (h) { return normHead(h) !== 'cycle'; });
+    var rows = [];
+    table.slice(best + 1).forEach(function (r) {
+      var raw = {}; map.forEach(function (f, j) { if (f) raw[f] = r[j]; });
+      var o = cleanRecord(p, raw, codes, rep, opts);
+      if (!Object.keys(o).length) return;
+      if (cycCol >= 0 && /re-?audit|cycle\s*2/i.test(String(r[cycCol] || ''))) re.push(o); else rows.push(o);
+    });
+    return { rows: rows, reRows: re, kept: kept, dropped: dropped, rep: rep, nextCode: codes.next };
   }
 
   /* --- files: download on the hosted site, the downloads capability inside Claude --- */
@@ -1843,14 +1849,16 @@
     box.innerHTML = '<p class="muted">Reading ' + esc(file.name) + '…</p>';
     readTable(file).then(function (table) {
       var prep = prepareImport(r.protocol, table, r.codeSeq || 1, r.options);
-      S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode };
-      box.innerHTML = '<div class="import-preview"><p><strong>' + prep.rows.length + ' records ready to add.</strong> Nothing has been stored yet.</p>' +
+      if (prep.reRows.length) { S.pendingImport = { runId: r.id, ck: 'c1', rows: prep.rows, reRows: prep.reRows, nextCode: prep.nextCode }; }
+      else S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode };
+      var total = prep.rows.length + prep.reRows.length;
+      box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : '') + '.</strong> Nothing has been stored yet.</p>' +
         '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
         '<li>Columns left out: ' + (prep.dropped.length ? esc(prep.dropped.join(', ')) : 'none') + '</li>' +
         '<li>Patient numbers replaced with audit codes: ' + prep.rep.coded + '</li>' +
         '<li>Identifiers removed from text: ' + prep.rep.redacted + '</li>' +
         (prep.rep.badDates ? '<li>Dates that could not be read (left blank): ' + prep.rep.badDates + '</li>' : '') + '</ul>' +
-        (prep.rows.length ? '<button class="btn" type="button" data-import-ok>Add ' + prep.rows.length + ' records</button> ' : '') +
+        (total ? '<button class="btn" type="button" data-import-ok>Add ' + total + ' records</button> ' : '') +
         '<button class="link-btn" type="button" data-import-cancel>Cancel</button></div>';
     }).catch(function () { box.innerHTML = '<p class="notice notice-warn">This file could not be read. Save it as .xlsx or .csv and try again.</p>'; });
     inp.value = '';
@@ -1861,6 +1869,7 @@
     var pi = S.pendingImport, r = pi && S.runs.get(pi.runId);
     if (!r) return;
     r.cycles[pi.ck].rows = r.cycles[pi.ck].rows.concat(pi.rows);
+    if (pi.reRows && pi.reRows.length) r.cycles.c2.rows = r.cycles.c2.rows.concat(pi.reRows);
     r.codeSeq = Math.max(r.codeSeq || 1, pi.nextCode || 1);
     if (r.stage === 'setup' && pi.ck === 'c1') r.stage = 'cycle1';
     S.pendingImport = null; S.view.runTab = pi.ck;
