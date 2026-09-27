@@ -16,6 +16,7 @@ import argparse
 import collections
 import csv
 import difflib
+import gzip
 import json
 import os
 import re
@@ -36,10 +37,16 @@ SEED = os.path.join(HERE, "seed", "ai4qi-library.seed.json")
 os.makedirs(FT_DIR, exist_ok=True)
 
 
+GZ_TRACKED = {"records.json"}   # large caches kept in git as .json.gz (plain .json is git-ignored)
+
+
 def load(name, default):
     p = os.path.join(WORK, name)
     if os.path.exists(p):
         with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    if os.path.exists(p + ".gz"):
+        with gzip.open(p + ".gz", "rt", encoding="utf-8") as f:
             return json.load(f)
     return default
 
@@ -50,6 +57,10 @@ def save(name, obj):
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=1)
     os.replace(tmp, p)
+    if name in GZ_TRACKED:
+        with gzip.open(p + ".gz.tmp", "wt", encoding="utf-8", compresslevel=6) as f:
+            json.dump(obj, f, ensure_ascii=False, separators=(",", ":"))
+        os.replace(p + ".gz.tmp", p + ".gz")
 
 
 # ------------------------------------------------------------------ SEARCH
