@@ -49,6 +49,8 @@ function staleWhileRevalidate(request) {
 
 // Supabase API traffic (sign-in, feedback, counts) is never cached: it always goes to the network.
 var API_PATHS = /\/(auth|rest|storage|functions|realtime|graphql)\/v1(\/|$)/;
+var ANALYTICS = /(^|\.)(plausible\.io|cloudflareinsights\.com)$/i;
+var ANALYTICS_PATHS = /\/(js\/(pa-[^/]+|script[^/]*)\.js|api\/event|cdn-cgi\/rum)$/;
 var NETWORK_ONLY = new Set(['config.json', 'data/version.json']);
 
 self.addEventListener('fetch', function (event) {
@@ -56,6 +58,8 @@ self.addEventListener('fetch', function (event) {
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
   if (API_PATHS.test(url.pathname) || /\.supabase\.(co|in)$/i.test(url.hostname)) return;
+  // Visitor analytics (Plausible, Cloudflare Web Analytics) always go straight to the network.
+  if (ANALYTICS.test(url.hostname) || ANALYTICS_PATHS.test(url.pathname)) return;
   if (url.origin !== self.location.origin || url.href.indexOf(BASE) !== 0) return;
 
   var rel = url.href.slice(BASE.length).split(/[?#]/)[0];

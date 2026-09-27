@@ -198,7 +198,9 @@ def build_cards(lib):
 
 
 SHELL = ("index.html", "app.js", "styles.css", "manifest.webmanifest")
-CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": ""}
+CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": "",
+                   "analytics": "", "plausible_script": "", "plausible_domain": "",
+                   "plausible_host": "https://plausible.io", "cloudflare_token": ""}
 VERSION_LINE = re.compile(r"^var VERSION = '[^']*';", re.M)
 
 
@@ -281,6 +283,7 @@ def main():
     print(f"templates: {len(list((APP / 'templates').glob('*.csv')))}  figures copied: {copied}")
     print(f"app/data total: {size / 1024:.0f} KB")
     print(f"offline cache version: {version}")
+    print("analytics: " + (cfg.get("analytics") or "off"))
     print("backend: " + ("Supabase configured" if cfg.get("supabase_url") and cfg.get("supabase_anon_key")
                          else "Supabase not configured (feedback stays on the device" +
                          (" or goes to feedback_url)" if cfg.get("feedback_url") else ")")))
