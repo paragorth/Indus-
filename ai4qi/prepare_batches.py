@@ -40,6 +40,7 @@ def main():
     for m in glob.glob(os.path.join(BATCH_DIR, "*.txt")):
         queued.update(l.strip() for l in open(m) if l.strip())
     keys = [k for k in keys if os.path.join(IN_DIR, fname(k)) not in queued]
+    keys = [k for k in keys if len(recs[k].get("abstract") or "") >= 200]   # title-only records carry no results
     if a.limit:
         keys = keys[:a.limit]
     os.makedirs(IN_DIR, exist_ok=True)

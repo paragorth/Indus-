@@ -454,6 +454,11 @@ def cmd_merge():
         if x.get("is_audit") == "no" or twin:
             excluded.append({"key": k, "title": r["title"], "reason": "not an audit on reading"})
             continue
+        if not x:                     # screened in but not read yet: wait for a reading pass
+            continue
+        if x.get("is_audit") == "unclear" and len(r.get("abstract") or "") < 200:
+            excluded.append({"key": k, "title": r["title"], "reason": "title only; audit status unclear"})
+            continue
         ids = rec_ids(r)
         hit = next((by_id[i] for i in ids if i in by_id), None)
         why = "identifier"
