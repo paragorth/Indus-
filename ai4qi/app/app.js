@@ -793,6 +793,21 @@
     'Specialty registrar (ST3+)', 'Specialty doctor or specialist (SAS)', 'Locally employed doctor', 'Consultant',
     'General practitioner', 'Nurse or midwife', 'Allied health professional', 'Pharmacist',
     'Quality improvement or clinical governance lead', 'Other'];
+  // Fixed lists; they must match ai4qi_specialties() and ai4qi_regions() in backend migration 002.
+  var SPECIALTIES = ['Acute and general medicine', 'Anaesthesia', 'Cardiology', 'Cardiothoracic surgery',
+    'Care of the elderly', 'Clinical governance and quality improvement', 'Dentistry and oral surgery',
+    'Dermatology', 'Emergency medicine', 'Endocrinology and diabetes', 'ENT', 'Gastroenterology',
+    'General practice', 'General surgery', 'Haematology', 'Infectious diseases and microbiology',
+    'Intensive care', 'Medical education', 'Neonatology', 'Neurology', 'Neurosurgery',
+    'Nursing and midwifery', 'Obstetrics and gynaecology', 'Oncology', 'Ophthalmology', 'Orthopaedics',
+    'Paediatric surgery', 'Paediatrics', 'Palliative care', 'Pathology', 'Pharmacy', 'Plastic surgery',
+    'Psychiatry', 'Radiology', 'Renal medicine', 'Respiratory', 'Rheumatology', 'Sexual health', 'Stroke',
+    'Therapies and allied health', 'Urology', 'Vascular surgery', 'Other'];
+  var REGIONS = ['North East and Yorkshire', 'North West', 'Midlands', 'East of England', 'London', 'South East',
+    'South West', 'Scotland', 'Wales', 'Northern Ireland', 'Ireland', 'Outside the UK and Ireland'];
+  // "My audits" steps, in order; the last one counts as completed.
+  var STEPS = [['started', 'Started'], ['cycle1', 'Cycle 1 collected'], ['change', 'Change made'],
+    ['reaudit', 'Re-audit done'], ['closed', 'Loop closed']];
   var BE = {
     url: '', key: '', client: null, loading: null, user: null, admin: null, profile: undefined,
     version: null, summary: null, summaryAt: 0, authError: '', flushing: false
@@ -1012,7 +1027,7 @@
   }
   function loadProfile(c) {
     if (BE.profile !== undefined) return Promise.resolve(BE.profile);
-    return c.from('profiles').select('specialty, grade').eq('user_id', BE.user.id).maybeSingle()
+    return c.from('profiles').select('specialty, grade, region').eq('user_id', BE.user.id).maybeSingle()
       .then(function (res) { BE.profile = res.error ? null : (res.data || null); return BE.profile; });
   }
   function checkAdmin(c) {
@@ -1027,7 +1042,411 @@
       : '';
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
       '<div class="doc narrow"><h1>' + esc(title || 'Sign in') + '</h1>' +
-      '<p class="page-intro">Signing in is optional. It lets you add your specialty and grade, so that your feedback on proposed audits can be read in context. There is no password: we email you a secure sign-in link.</p>' +
+      '<p class="page-intro">Signing in is optional. It lets you keep track of the audits you run and add your grade, specialty and region, so that your feedback on proposed audits can be read in context. There is no password: we email you a secure sign-in link.</p>' +
+      err +
+      '<form class="stack-form" data-signin novalidate>' +
+      '<label for="acc-email">Email address</label>' +
+      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254">' +
+      '<button class="btn" type="submit">Email me a sign-in link</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
+      '</form>' +
+      '<p class="muted small-print">Please do not enter patient information anywhere in this app.</p></div>',
+      'Sign in', 'account', true);
+  }
+  function optionList(list, current) {
+    return list.map(function (g) { return '<option' + (g === current ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('');
+  }
+  function renderSignedIn() {
+    var pf = BE.profile || {};
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Account</nav>' +
+      '<div class="doc narrow"><h1>Your account</h1>' +
+      '<p>Signed in as <strong>' + esc(BE.user.email || '') + '</strong>. Your feedback on proposed audits is now linked to your profile.</p>' +
+      '<p><a href="#/my-audits">My audits</a> <span class="muted">– the proposed audits you are running, and how far each has got.</span></p>' +
+      '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
+      '<p class="muted">Optional. Used only in anonymous totals, to understand who uses the library and how feedback differs between groups.</p>' +
+      '<form class="stack-form" data-profile>' +
+      '<label for="pf-grade">Grade or role</label>' +
+      '<select id="pf-grade" name="grade"><option value="">Prefer not to say</option>' + optionList(GRADES, pf.grade) + '</select>' +
+      '<label for="pf-specialty">Specialty</label>' +
+      '<select id="pf-specialty" name="specialty"><option value="">Prefer not to say</option>' + optionList(SPECIALTIES, pf.specialty) + '</select>' +
+      '<label for="pf-region">Region</label>' +
+      '<select id="pf-region" name="region"><option value="">Prefer not to say</option>' +
+      '<optgroup label="England (NHS region)">' + optionList(REGIONS.slice(0, 7), pf.region) + '</optgroup>' +
+      '<optgroup label="Elsewhere">' + optionList(REGIONS.slice(7), pf.region) + '</optgroup></select>' +
+      '<button class="btn" type="submit">Save profile</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
+      '</form></section>' +
+      (BE.admin ? '<section class="account-section" aria-labelledby="adm-h"><h2 id="adm-h">Administration</h2><ul><li><a href="#/admin/stats">Usage statistics</a></li><li><a href="#/admin/feedback">Feedback on proposed audits</a></li></ul></section>' : '') +
+      '<div class="account-actions"><button class="btn btn-secondary" type="button" data-signout>Sign out</button></div>' +
+      '</div>', 'Account', 'account', true);
+  }
+
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest('[data-search]');
+    if (!f) return;
+    e.preventDefault();
+    var q = f.querySelector('input[name="q"]').value.trim();
+    var cur = parseHash();
+    var st = cur.parts[0] === 'search' ? searchState(cur.params) : { sp: '', closed: false, detailed: false };
+    st.q = q;
+    location.hash = searchHash(st);
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target.closest('[data-filter]');
+    if (!el) return;
+    var st = searchState(parseHash().params);
+    var k = el.getAttribute('data-filter');
+    if (k === 'sp') st.sp = el.value; else st[k] = el.checked;
+    history.replaceState(null, '', searchHash(st));
+    renderSearch(parseHash().params, true);
+    var again = main.querySelector('[data-filter="' + k + '"]');
+    if (again) again.focus();
+  });
+  document.addEventListener('input', function (e) {
+    var el = e.target.closest('[data-listfilter]');
+    if (el) applyListFilter(el);
+  });
+  document.addEventListener('click', function (e) {
+    var m = e.target.closest('[data-more]');
+    if (m) {
+      var which = m.getAttribute('data-more');
+      var before = which === 'pub' ? S.view.pubShown : S.view.propShown;
+      if (which === 'pub') S.view.pubShown += 25; else S.view.propShown += 10;
+      renderSearch(parseHash().params, true);
+      var list = main.querySelector(which === 'pub' ? '[aria-labelledby="pub-h"]' : '[aria-labelledby="prop-h"]');
+      var next = list && list.children[before];
+      if (next) { var a = next.querySelector('a'); if (a) a.focus(); }
+      return;
+    }
+    if (e.target.closest('[data-print]')) window.print();
+  });
+
+  /* ---------- feedback (thumbs up / down) ---------- */
+  var FB_KEY = 'ai4qi_feedback_v1';
+  var FB_REASONS = ['Too generic', 'Too specific', 'Poor framing', 'Too complex',
+    'Not relevant to my specialty', 'Not an important topic to audit'];
+  var FB_URL = '';                       // set from config.json ("feedback_url") when a collector exists
+  function fbAll() { try { return JSON.parse(localStorage.getItem(FB_KEY) || '[]'); } catch (e) { return []; } }
+  function fbSave(list) { try { localStorage.setItem(FB_KEY, JSON.stringify(list)); } catch (e) {} }
+  function fbFor(id) { return fbAll().filter(function (f) { return f.id === id; }).pop(); }
+  function flushFeedback() {
+    if (!navigator.onLine) return;
+    var list = fbAll(), pending = list.filter(function (f) { return !f.sent; });
+    if (!pending.length) return;
+    if (BE.url) { flushToSupabase(); return; }
+    if (!FB_URL) return;
+    pending.forEach(function (f) {
+      fetch(FB_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
+        .then(function (r) { if (r.ok) { f.sent = true; fbSave(list); } }).catch(function () {});
+    });
+  }
+  window.addEventListener('online', flushFeedback);
+  function recordFeedback(id, rating, reasons, comment) {
+    var list = fbAll().filter(function (f) { return f.id !== id; });
+    list.push({ id: id, rating: rating, reasons: reasons || [], comment: comment || '', at: new Date().toISOString(), sent: false, uid: uuid() });
+    fbSave(list); flushFeedback();
+  }
+  function thumb(dir) {
+    var d = dir === 'up'
+      ? 'M7 10v10H4V10h3zm2 10h8.2a2 2 0 0 0 2-1.6l1.3-6.5A2 2 0 0 0 18.5 9.5H14l.8-3.9a1.6 1.6 0 0 0-2.9-1.2L9 9.3V20z'
+      : 'M7 14V4H4v10h3zm2-10h8.2a2 2 0 0 1 2 1.6l1.3 6.5a2 2 0 0 1-2 2.4H14l.8 3.9a1.6 1.6 0 0 1-2.9 1.2L9 14.7V4z';
+    return '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="currentColor"/></svg>';
+  }
+  function feedbackBox(id) {
+    var prev = fbFor(id);
+    var done = prev ? '<p class="fb-thanks" role="status">Thank you – your feedback has been recorded.</p>' : '';
+    return '<section class="fb no-print" data-fb="' + attr(id) + '" aria-label="Feedback on this audit">' +
+      '<div class="fb-row"><span class="fb-q">Was this audit idea useful?</span>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'up' ? ' is-on' : '') + '" data-fb-rate="up" aria-pressed="' + !!(prev && prev.rating === 'up') + '">' + thumb('up') + '<span class="sr-only">Yes, useful</span></button>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span class="sr-only">No, not useful</span></button>' +
+      '<span class="fb-count" data-fb-count hidden></span></div>' +
+      '<div class="fb-more" hidden><p class="fb-sub">What was wrong? Choose any that apply.</p><div class="fb-chips">' +
+      FB_REASONS.map(function (r) { return '<button type="button" class="fb-chip" data-fb-reason="' + attr(r) + '" aria-pressed="false">' + esc(r) + '</button>'; }).join('') +
+      '</div><label class="fb-sub" for="fb-c-' + attr(id) + '">Anything else? (optional)</label>' +
+      '<textarea id="fb-c-' + attr(id) + '" class="fb-comment" rows="2" maxlength="500"></textarea>' +
+      '<button type="button" class="btn" data-fb-send>Send feedback</button></div>' +
+      '<div class="fb-done">' + done + '</div></section>';
+  }
+  document.addEventListener('click', function (e) {
+    var box = e.target.closest('[data-fb]');
+    if (!box) return;
+    var id = box.getAttribute('data-fb');
+    var rate = e.target.closest('[data-fb-rate]'), chip = e.target.closest('[data-fb-reason]'), send = e.target.closest('[data-fb-send]');
+    var more = box.querySelector('.fb-more'), doneEl = box.querySelector('.fb-done');
+    if (rate) {
+      var r = rate.getAttribute('data-fb-rate');
+      box.querySelectorAll('[data-fb-rate]').forEach(function (b) { var on = b === rate; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+      if (r === 'up') { more.hidden = true; recordFeedback(id, 'up'); doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – your feedback has been recorded.</p>'; }
+      else { more.hidden = false; doneEl.innerHTML = ''; var first = more.querySelector('.fb-chip'); if (first) first.focus(); }
+    } else if (chip) {
+      var on = chip.getAttribute('aria-pressed') !== 'true';
+      chip.setAttribute('aria-pressed', on); chip.classList.toggle('is-on', on);
+    } else if (send) {
+      var reasons = Array.prototype.map.call(box.querySelectorAll('.fb-chip.is-on'), function (c) { return c.getAttribute('data-fb-reason'); });
+      recordFeedback(id, 'down', reasons, box.querySelector('.fb-comment').value.trim());
+      more.hidden = true;
+      doneEl.innerHTML = '<p class="fb-thanks" role="status">Thank you – this helps us improve the audit library.</p>';
+    }
+  });
+  /* ---------- optional Supabase backend: shared feedback, sign-in, admin view ----------
+     Switched on only when config.json has supabase_url and supabase_anon_key. Without them the
+     app behaves exactly as before (feedback stays on the device or goes to feedback_url). */
+  var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  var DEVICE_KEY = 'ai4qi_device_v1';
+  var GRADES = ['Medical student', 'Foundation doctor (FY1–FY2)', 'Core or specialty trainee (CT/ST1–2)',
+    'Specialty registrar (ST3+)', 'Specialty doctor or specialist (SAS)', 'Locally employed doctor', 'Consultant',
+    'General practitioner', 'Nurse or midwife', 'Allied health professional', 'Pharmacist',
+    'Quality improvement or clinical governance lead', 'Other'];
+  // Fixed lists; they must match ai4qi_specialties() and ai4qi_regions() in backend migration 002.
+  var SPECIALTIES = ['Acute and general medicine', 'Anaesthesia', 'Cardiology', 'Cardiothoracic surgery',
+    'Care of the elderly', 'Clinical governance and quality improvement', 'Dentistry and oral surgery',
+    'Dermatology', 'Emergency medicine', 'Endocrinology and diabetes', 'ENT', 'Gastroenterology',
+    'General practice', 'General surgery', 'Haematology', 'Infectious diseases and microbiology',
+    'Intensive care', 'Medical education', 'Neonatology', 'Neurology', 'Neurosurgery',
+    'Nursing and midwifery', 'Obstetrics and gynaecology', 'Oncology', 'Ophthalmology', 'Orthopaedics',
+    'Paediatric surgery', 'Paediatrics', 'Palliative care', 'Pathology', 'Pharmacy', 'Plastic surgery',
+    'Psychiatry', 'Radiology', 'Renal medicine', 'Respiratory', 'Rheumatology', 'Sexual health', 'Stroke',
+    'Therapies and allied health', 'Urology', 'Vascular surgery', 'Other'];
+  var REGIONS = ['North East and Yorkshire', 'North West', 'Midlands', 'East of England', 'London', 'South East',
+    'South West', 'Scotland', 'Wales', 'Northern Ireland', 'Ireland', 'Outside the UK and Ireland'];
+  // "My audits" steps, in order; the last one counts as completed.
+  var STEPS = [['started', 'Started'], ['cycle1', 'Cycle 1 collected'], ['change', 'Change made'],
+    ['reaudit', 'Re-audit done'], ['closed', 'Loop closed']];
+  var BE = {
+    url: '', key: '', client: null, loading: null, user: null, admin: null, profile: undefined,
+    version: null, summary: null, summaryAt: 0, authError: '', flushing: false
+  };
+  var accountLink = document.querySelector('[data-account]');
+
+  function uuid() {
+    var c = window.crypto;
+    if (c && c.randomUUID) return c.randomUUID();
+    var b = c.getRandomValues(new Uint8Array(16)), h = [];
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    for (var i = 0; i < 16; i++) h.push((b[i] + 256).toString(16).slice(1));
+    return h.slice(0, 4).join('') + '-' + h.slice(4, 6).join('') + '-' + h.slice(6, 8).join('') + '-' + h.slice(8, 10).join('') + '-' + h.slice(10).join('');
+  }
+  function deviceId() {
+    try {
+      var d = localStorage.getItem(DEVICE_KEY);
+      if (!d || !/^[A-Za-z0-9_-]{8,64}$/.test(d)) { d = uuid(); localStorage.setItem(DEVICE_KEY, d); }
+      return d;
+    } catch (e) { return BE.tmpDevice || (BE.tmpDevice = uuid()); }
+  }
+  function hasStoredSession() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) if (/^sb-.+-auth-token$/.test(localStorage.key(i))) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  // A magic link brings the reader back with ?code=… (or ?error=…). Note it before routing so the
+  // account page opens, and let supabase-js exchange the code for a session.
+  var AUTH_RETURN = (function () {
+    var q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.replace(/^#/, ''));
+    var err = q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error');
+    if (!err && !q.get('code') && !h.get('access_token')) return null;
+    return { error: err || '' };
+  })();
+  var ORIGINAL_HASH = location.hash;
+  if (AUTH_RETURN) history.replaceState(null, '', location.pathname + location.search + '#/account');
+  function cleanAuthUrl() {
+    if (location.search) history.replaceState(null, '', location.pathname + location.hash);
+  }
+
+  var configReady = fetch('config.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : {}; })
+    .catch(function () { return {}; })
+    .then(function (c) {
+      c = c || {};
+      FB_URL = c.feedback_url || '';
+      var u = String(c.supabase_url || '').trim().replace(/\/+$/, ''), k = String(c.supabase_anon_key || '').trim();
+      var okUrl = /^https:\/\/[a-z0-9.-]+(:\d+)?$/i.test(u) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(u);
+      if (okUrl && k) { BE.url = u; BE.key = k; }
+      if (BE.url) {
+        if (accountLink) accountLink.hidden = false;
+        updateAccountLink();
+        if (AUTH_RETURN || hasStoredSession()) sbClient().catch(function () {});
+      } else if (AUTH_RETURN) {
+        // No backend: put the address back exactly as it was and show that page.
+        history.replaceState(null, '', location.pathname + location.search + ORIGINAL_HASH);
+        if (S.lib.length) route();
+      }
+      flushFeedback();
+      // If the library finished loading first, an account or admin link was shown as "not found".
+      var cur = parseHash().parts[0];
+      if (BE.url && S.lib.length && (cur === 'account' || cur === 'admin' || cur === 'my-audits')) route();
+    });
+
+  function sbClient() {
+    if (!BE.url) return Promise.reject(new Error('Supabase is not configured'));
+    if (BE.client) return Promise.resolve(BE.client);
+    if (!BE.loading) {
+      BE.loading = new Promise(function (resolve, reject) {
+        if (window.supabase && window.supabase.createClient) { resolve(); return; }
+        var sc = document.createElement('script');
+        sc.src = SUPABASE_JS; sc.async = true; sc.crossOrigin = 'anonymous';
+        sc.onload = function () { resolve(); };
+        sc.onerror = function () { sc.remove(); reject(new Error('supabase-js could not be loaded')); };
+        document.head.appendChild(sc);
+      }).then(function () {
+        var c = window.supabase.createClient(BE.url, BE.key, {
+          auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        });
+        c.auth.onAuthStateChange(function (event, session) {
+          // Keep this callback free of other Supabase calls (they would wait on the auth lock).
+          setTimeout(function () { setUser(session ? session.user : null); }, 0);
+        });
+        return c.auth.getSession().then(function (res) {
+          if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
+          if (AUTH_RETURN) cleanAuthUrl();
+          BE.client = c;
+          BE.user = res.data && res.data.session ? res.data.session.user : null;
+          updateAccountLink();
+          if (BE.user) { setTimeout(flushFeedback, 0); recordActivity(); }
+          return c;
+        });
+      });
+      BE.loading.catch(function () { BE.loading = null; });   // allow a retry, e.g. once back online
+    }
+    return BE.loading;
+  }
+
+  function setUser(u) {
+    var before = BE.user ? BE.user.id : null, after = u ? u.id : null;
+    BE.user = u || null;
+    updateAccountLink();
+    if (before === after) return;
+    BE.admin = null; BE.profile = undefined;
+    BE.tracker = null;
+    if (u) { flushFeedback(); recordActivity(); }
+    var name = parseHash().parts[0];
+    if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
+    else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
+  }
+  function updateAccountLink() {
+    if (!accountLink) return;
+    var signedIn = BE.user || (!BE.client && hasStoredSession());
+    accountLink.textContent = signedIn ? 'Account' : 'Sign in';
+  }
+
+  function appVersion() {
+    if (!BE.version) {
+      BE.version = fetch('data/version.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (v) { return String((v && v.version) || '').slice(0, 32); })
+        .catch(function () { return ''; });
+    }
+    return BE.version;
+  }
+
+  // Send queued feedback rows one at a time. Each row carries a client-made id, so a retry after a
+  // lost response is recognised as a duplicate (23505) and simply marked as sent.
+  function flushToSupabase() {
+    if (BE.flushing) return;
+    var list = fbAll(), pending = list.filter(function (f) { return !f.sent; });
+    if (!pending.length) return;
+    BE.flushing = true;
+    pending.forEach(function (f) { if (!f.uid) f.uid = uuid(); });
+    fbSave(list);
+    var done = {};
+    Promise.all([sbClient(), appVersion()]).then(function (r) {
+      var c = r[0], ver = r[1], dev = deviceId();
+      return pending.reduce(function (chain, f) {
+        return chain.then(function () {
+          var row = {
+            id: f.uid, audit_id: f.id, rating: f.rating, reasons: f.reasons || [],
+            comment: String(f.comment || '').slice(0, 500), device_id: dev,
+            user_id: BE.user ? BE.user.id : null, app_version: ver || null
+          };
+          return c.from('feedback').insert(row).then(function (res) {
+            var code = res.error ? String(res.error.code || '') : '';
+            if (!res.error || code === '23505') done[f.uid] = 'sent';
+            else if (/^(23502|23503|23514|22P02|42501)$/.test(code)) done[f.uid] = 'rejected';  // would never be accepted
+            else if (code === 'PT429') throw new Error('rate limited');                          // try again later
+          });
+        });
+      }, Promise.resolve());
+    }).catch(function () {}).then(function () {
+      var cur = fbAll();
+      cur.forEach(function (f) {
+        if (done[f.uid]) { f.sent = true; if (done[f.uid] === 'rejected') f.rejected = true; }
+      });
+      fbSave(cur);
+      BE.flushing = false;
+      if (Object.keys(done).length) BE.summaryAt = 0;
+    });
+  }
+
+  function restHeaders() {
+    var h = { apikey: BE.key, 'Content-Type': 'application/json' };
+    if (/^eyJ/.test(BE.key)) h.Authorization = 'Bearer ' + BE.key;   // legacy JWT anon key
+    return h;
+  }
+  function loadSummary() {
+    if (!BE.url) return Promise.resolve(null);
+    if (BE.summary && Date.now() - BE.summaryAt < 5 * 60 * 1000) return BE.summary;
+    BE.summaryAt = Date.now();
+    BE.summary = fetch(BE.url + '/rest/v1/rpc/feedback_summary', {
+      method: 'POST', headers: restHeaders(), body: '{}', cache: 'no-store'
+    }).then(function (r) {
+      if (!r.ok) throw new Error('summary ' + r.status);
+      return r.json();
+    }).then(function (rows) {
+      var m = new Map();
+      (rows || []).forEach(function (row) { m.set(row.audit_id, row); });
+      return m;
+    }).catch(function () { BE.summaryAt = 0; return null; });
+    return BE.summary;
+  }
+  function showUsefulCount(id) {
+    configReady.then(loadSummary).then(function (m) {
+      var el = main.querySelector('[data-fb="' + id + '"] [data-fb-count]');
+      var row = m && m.get(id), n = row ? Number(row.up) : 0;
+      if (!el || !n) return;
+      el.textContent = n === 1 ? '1 person found this useful' : fmt(n) + ' people found this useful';
+      el.hidden = false;
+    });
+  }
+
+  /* account page */
+  function stillOn(name) { return parseHash().parts[0] === name; }
+  function loadingHtml(text) {
+    return '<div class="loading" role="status"><span class="spinner" aria-hidden="true"></span>' + esc(text) + '</div>';
+  }
+  function unavailable(title, nav) {
+    page('<div class="doc narrow"><h1>' + esc(title) + '</h1><p>Sign-in is not available at the moment. Please check your connection and try again.</p></div>', title, nav);
+    focusMain();
+  }
+  function renderAccount() {
+    page(loadingHtml('Loading your account…'), 'Account', 'account');
+    sbClient().then(function (c) {
+      if (!BE.user) return null;
+      return Promise.all([loadProfile(c), checkAdmin(c)]);
+    }).then(function () {
+      if (!stillOn('account')) return;
+      if (BE.user) renderSignedIn(); else renderSignIn();
+      focusMain();
+    }, function () { if (stillOn('account')) unavailable('Account', 'account'); });
+  }
+  function loadProfile(c) {
+    if (BE.profile !== undefined) return Promise.resolve(BE.profile);
+    return c.from('profiles').select('specialty, grade, region').eq('user_id', BE.user.id).maybeSingle()
+      .then(function (res) { BE.profile = res.error ? null : (res.data || null); return BE.profile; });
+  }
+  function checkAdmin(c) {
+    if (BE.admin !== null) return Promise.resolve(BE.admin);
+    // Row level security returns the admins row only to the admin it belongs to.
+    return c.from('admins').select('email').limit(1)
+      .then(function (res) { BE.admin = !res.error && !!(res.data && res.data.length); return BE.admin; });
+  }
+  function renderSignIn(title) {
+    var err = BE.authError
+      ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or has already been used. Please request a new one.</div>'
+      : '';
+    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
+      '<div class="doc narrow"><h1>' + esc(title || 'Sign in') + '</h1>' +
+      '<p class="page-intro">Signing in is optional. It lets you keep track of the audits you run and add your grade, specialty and region, so that your feedback on proposed audits can be read in context. There is no password: we email you a secure sign-in link.</p>' +
       err +
       '<form class="stack-form" data-signin novalidate>' +
       '<label for="acc-email">Email address</label>' +
@@ -1094,15 +1513,15 @@
           : 'The sign-in link could not be sent. Please check the address and your connection, then try again.', true);
       });
     } else {
-      var spec = form.querySelector('[name="specialty"]').value.trim().slice(0, 80);
-      var grade = form.querySelector('[name="grade"]').value;
+      var pick = function (name, list) { var v = form.querySelector('[name="' + name + '"]').value; return list.indexOf(v) === -1 ? null : v; };
+      var spec = pick('specialty', SPECIALTIES), grade = pick('grade', GRADES), region = pick('region', REGIONS);
       btn.disabled = true; say('Saving…');
       sbClient().then(function (c) {
         if (!BE.user) throw new Error('signed out');
-        return c.from('profiles').upsert({ user_id: BE.user.id, specialty: spec || null, grade: grade || null }, { onConflict: 'user_id' });
+        return c.from('profiles').upsert({ user_id: BE.user.id, specialty: spec, grade: grade, region: region }, { onConflict: 'user_id' });
       }).then(function (res) {
         if (res.error) throw res.error;
-        BE.profile = { specialty: spec || null, grade: grade || null };
+        BE.profile = { specialty: spec, grade: grade, region: region };
         btn.disabled = false; say('Your profile has been saved.');
       }).catch(function () {
         btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);
