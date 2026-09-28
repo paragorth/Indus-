@@ -1,0 +1,3151 @@
+[
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who fall during their hospital stay are offered a comprehensive falls assessment?",
+  "why": "Comprehensive falls assessment identifies the modifiable causes of an inpatient fall so a repeat fall can be prevented; no closed-loop audit of this step for general adult wards has been published in the library, which instead holds work on the immediate fracture and head-injury checks after a fall.",
+  "standard": {
+   "source": "NICE NG249 Falls: assessment and prevention in older people and in people 50 and over at higher risk, recommendation 1.1.7 (29 April 2025)",
+   "wording": "Offer a comprehensive falls assessment and comprehensive falls management to people in hospital inpatient settings and residential care settings.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults aged 65 or over, or aged 50-64 with a risk factor for falls, who fall as an inpatient on a general medical or surgical ward in the last 3 months. Exclusion: falls in critical care, maternity, paediatric or mental health wards.",
+  "sample": "40 consecutive adult inpatient falls identified from the incident reporting system over the last 3 months",
+  "data_source": "Incident reporting system for fall dates; EPR/paper notes for the falls assessment documentation and its timing",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_fall",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_fall",
+    "type": "text",
+    "options": [],
+    "note": "24-hour clock"
+   },
+   {
+    "field": "age_65_or_over_or_risk_factor",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "medical",
+     "surgical",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "comprehensive_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_completed_assessment",
+    "type": "choice",
+    "options": [
+     "nurse",
+     "doctor",
+     "MDT",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'comprehensive falls assessment' template to the incident form workflow, so completing the incident report opens the assessment proforma for the falls domains in NG249 1.2.2.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size, same wards",
+  "close_loop": "Present at the ward/divisional patient safety or falls steering group; if the target is met, embed the linked proforma as the trust default and monitor completion through the falls dashboard.",
+  "evidence": [
+   "[no closed-loop audit of comprehensive falls assessment after an inpatient fall found in the library] related: [NNA-060] postural blood pressure recorded at pre-operative assessment"
+  ],
+  "pitfalls": [
+   "Falls not reported on the incident system are missed → cross-check against the falls prevention nurse's ward log.",
+   "Assessment done but filed outside the falls section of the EPR so it is missed on audit → agree one place to file it before cycle 1.",
+   "Small numbers on quieter wards → pool data across a division for 3 months.",
+   "Staff turnover between cycles loses the new habit → build the prompt into the incident-reporting software rather than relying on memory."
+  ],
+  "pearls": [
+   "Recruit the falls prevention lead or matron as audit sponsor before cycle 1.",
+   "Agree with IT which EPR screen counts as 'the assessment' before collecting data.",
+   "Feed back ward-level results, not just a trust average, so staff see their own practice.",
+   "Re-audit on the same wards to see if the change has stuck after staff rotate."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 falls from the incident system and EPR",
+  "pass": "A comprehensive falls assessment (covering the domains in NG249 1.2.2) is documented in the notes or EPR within 24 hours of the fall"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients assessed after a fall have a lying and standing blood pressure test recorded as part of that assessment?",
+  "why": "A postural blood pressure drop is a common and correctable contributor to inpatient falls; the library holds an audit of the medication review that follows a postural drop but none of whether the lying-and-standing test itself is done as part of the falls work-up.",
+  "standard": {
+   "source": "NICE NG249 Falls: assessment and prevention in older people and in people 50 and over at higher risk, recommendation 1.2.2 (29 April 2025)",
+   "wording": "Include the following assessments and examinations (where appropriate) in the comprehensive falls assessment to identify the person's individual fall risk factors: ... Cardiovascular examination (including a lying and standing blood pressure test).",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients who fall and are not already known to be haemodynamically unstable or peri-arrest at the time. Exclusion: falls where the patient cannot stand for the test (document reason).",
+  "sample": "40 consecutive adult inpatient falls over the last 3 months",
+  "data_source": "EPR/paper falls assessment and observation charts",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_fall",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lying_standing_bp_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_bp_recorded",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postural_drop_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "systolic drop ≥20mmHg or diastolic ≥10mmHg"
+   },
+   {
+    "field": "reason_not_done",
+    "type": "text",
+    "options": [],
+    "note": "if not recorded"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'lying and standing BP' box to the falls assessment proforma with a linked task on the observation chart so nursing staff are prompted to complete it.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the ward patient safety huddle and falls steering group; embed the proforma box trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of lying and standing BP testing as part of falls assessment found in the library] related: [NNA-060] postural BP recorded at pre-operative assessment"
+  ],
+  "pitfalls": [
+   "Test omitted because staff feel too busy after an acute fall → make it part of the same set of post-fall observations, not a separate task.",
+   "Manual sphygmomanometer BP takes longer than automated → supply automated cuffs suitable for postural readings on falls-prone wards.",
+   "Definition of 'postural drop' varies between staff → print the numeric threshold on the chart.",
+   "Patient too unwell to stand → record the reason rather than leaving the field blank, so this is distinguished from omission."
+  ],
+  "pearls": [
+   "Train healthcare assistants to do the test as part of routine falls observations.",
+   "Use the same chart used for the sepsis/NEWS2 observations so it is not a duplicate task.",
+   "Ask the falls nurse specialist to spot-check technique early in cycle 1.",
+   "Report both completion rate and the proportion found positive, to show the test finds real problems."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 falls from EPR",
+  "pass": "A lying and standing blood pressure test is recorded in the notes as part of the falls assessment for that admission"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who fall during their hospital stay have a medical examination documented?",
+  "why": "A prompt medical examination after a fall identifies injury and any change in the underlying medical condition; no closed-loop audit of whether this examination itself takes place (as opposed to the specific fracture/head-injury checks already audited) has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS86 Falls, quality statement 6: Medical examination after an inpatient fall (25 March 2015, last updated 29 April 2025)",
+   "wording": "People who fall during a hospital stay have a medical examination.",
+   "url": "https://www.nice.org.uk/guidance/qs86/chapter/Quality-statement-6-Medical-examination-after-an-inpatient-fall"
+  },
+  "population": "Inclusion: all adult inpatient falls in the last 3 months. Exclusion: falls that occur in the community before admission.",
+  "sample": "40 consecutive adult inpatient falls over the last 3 months",
+  "data_source": "Incident reporting system and medical/nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_fall",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_fall",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medical_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_examination",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_local_protocol_time",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "grade_of_examiner",
+    "type": "choice",
+    "options": [
+     "FY1/2",
+     "registrar",
+     "consultant",
+     "ANP",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a timed 'post-fall medical review' task to the incident-reporting workflow that pages the covering doctor and is only closed when the examination is documented.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the trust falls steering group; if the target is met, embed the automatic paging task as standard practice.",
+  "evidence": [
+   "[no closed-loop audit of post-fall medical examination completion found in the library] related: ward-level audit of the fracture/spinal injury check before moving a patient (existing library item)"
+  ],
+  "pitfalls": [
+   "Examination done verbally at the bedside but not written up → give the examiner a one-line documentation prompt on the incident form.",
+   "Out-of-hours falls delay review → agree an explicit maximum time in the post-fall protocol and audit against it.",
+   "Small numbers if only one ward is sampled → pool falls across a division.",
+   "Definition of 'medical examination' disputed between cycles → fix the definition (doctor or ANP, hands-on assessment) before cycle 1."
+  ],
+  "pearls": [
+   "Get sign-off on the post-fall protocol's time target from the on-call medical team before starting.",
+   "Use the falls incident form as the single place to record the examination, so nothing is duplicated.",
+   "Share results by specialty, since surgical and medical wards may have different cover patterns.",
+   "Keep the same protocol time target across cycles so the re-audit is a fair comparison."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 falls from the incident system and notes",
+  "pass": "A doctor or other competent clinician has documented a medical examination of the patient within the timescale set by the local post-fall protocol"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with a suspected fracture or spinal injury after a fall are moved using a documented safe manual handling method?",
+  "why": "Unsafe manual handling after a fall can cause further injury; the library holds an audit of whether the fracture/spinal check happens before a patient is moved, but not of whether the actual move itself uses a documented safe technique.",
+  "standard": {
+   "source": "NICE quality standard QS86 Falls, quality statement 5: Safe manual handling after an inpatient fall (25 March 2015, last updated 29 April 2025)",
+   "wording": "People who fall during a hospital stay and have signs or symptoms of fracture or potential for spinal injury are moved using safe manual handling methods.",
+   "url": "https://www.nice.org.uk/guidance/qs86/chapter/Quality-statement-5-Safe-manual-handling-after-an-inpatient-fall"
+  },
+  "population": "Inclusion: adult inpatient falls with documented signs or symptoms of fracture or possible spinal injury in the last 3-6 months. Exclusion: falls with no such signs.",
+  "sample": "30 consecutive qualifying falls over the last 6 months",
+  "data_source": "Incident reports, nursing notes, moving and handling risk assessment",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_fall",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "signs_of_fracture_or_spinal_injury",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safe_handling_method_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "method_used",
+    "type": "choice",
+    "options": [
+     "hoist",
+     "spinal board/scoop",
+     "log-roll",
+     "other",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tissue_viability_or_moving_handling_team_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'method used to move the patient' field to the falls incident form, prompted whenever the fracture/spinal-injury tick box is marked yes.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the moving and handling committee and falls steering group; embed the linked field trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of documented safe manual handling technique after a fall with suspected fracture found in the library] related: ward-level audit of the fracture/spinal injury check before moving a patient (existing library item)"
+  ],
+  "pitfalls": [
+   "Small numbers because qualifying falls are uncommon → extend the sampling period to 6 months.",
+   "Staff move the patient safely but do not write down the method → add a tick-list rather than free text.",
+   "Night-shift falls are less well documented → check the sample includes out-of-hours events.",
+   "Disagreement on what counts as 'signs of fracture' between cycles → use the same fixed list of signs both times."
+  ],
+  "pearls": [
+   "Involve the moving and handling lead in designing the tick-list before cycle 1.",
+   "Use the same incident form used for the medical-examination audit, adding one field rather than a new form.",
+   "Share near-miss learning (e.g. hoists not available out of hours) at the safety huddle.",
+   "Keep the list of qualifying signs identical at re-audit."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 qualifying falls from incident reports and notes",
+  "pass": "The method used to move the patient (e.g. hoist, spinal board, log-roll, scoop) is documented in the notes for a fall with signs of fracture or possible spinal injury"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who have a urinary catheter inserted have the insertion documented with the indication, date, time and inserter?",
+  "why": "Documented insertion detail is the first safeguard against unnecessary or prolonged catheterisation and catheter-associated urinary tract infection; the library holds an audit of whether the ongoing reason for a catheter is still valid, but not of whether the insertion itself is properly documented.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 4: Urinary catheters (17 April 2014)",
+   "wording": "People who need a urinary catheter have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the catheter and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-4-Urinary-catheters"
+  },
+  "population": "Inclusion: adults having a urinary catheter inserted on a general ward (not in theatre). Exclusion: catheters inserted in theatre or in the community before admission.",
+  "sample": "40 consecutive new ward catheter insertions over the last 3 months",
+  "data_source": "Catheter insertion documentation in the EPR or catheter passport",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_insertion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inserter_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "catheter_type_size_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aseptic_technique_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text insertion note with a structured catheter insertion form (paper passport or EPR form) that will not save without the indication, date, time, inserter and technique fields completed.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee; adopt the structured form trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of catheter insertion documentation completeness found in the library] related: [existing library item] indwelling catheter with a documented reason still valid on the audit day"
+  ],
+  "pitfalls": [
+   "Insertion documented in more than one place (drug chart, nursing notes, catheter care plan) so data are missed → agree one location before cycle 1.",
+   "Junior staff insert catheters out of hours without full documentation → include out-of-hours induction on the new form.",
+   "Retrospective completion after the audit is announced (Hawthorne effect) → sample unannounced and include very recent insertions.",
+   "Small numbers on low-catheterisation wards → combine several wards or extend the period."
+  ],
+  "pearls": [
+   "Use a catheter passport that travels with the patient so the record is easy to find.",
+   "Involve the IPC nurse specialist in designing the mandatory fields.",
+   "Link completion of the form to catheter care plan initiation so it becomes routine, not extra work.",
+   "Re-audit the same wards after staff turnover to check the habit has stuck."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 insertions from the EPR",
+  "pass": "The catheter insertion record documents the clinical indication, date, time, catheter type/size and the name of the person inserting it"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with an indwelling urinary catheter have a documented daily review of its ongoing need?",
+  "why": "Removing catheters as soon as they are no longer needed is the main way to reduce catheter-associated urinary tract infection; the library holds an audit of whether the documented reason is still valid on a single audit day, but not of whether a daily review actually takes place.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 4: Urinary catheters (17 April 2014)",
+   "wording": "People who need a urinary catheter have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the catheter and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-4-Urinary-catheters"
+  },
+  "population": "Inclusion: adults with an indwelling urinary catheter in place for 3 or more days on a general ward. Exclusion: catheters inserted for urology surgery in the immediate post-operative period.",
+  "sample": "40 consecutive qualifying catheterised patients, reviewed over their first 5 days with a catheter, over the last 3 months",
+  "data_source": "EPR nursing daily review/care bundle documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_catheter_inserted",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_review_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_review_day2",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_review_day3",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_review_day4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_review_day5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "catheter_removed_when_no_longer_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'catheter still needed? yes/no, reason' field to the daily nursing care round documentation (a HOUDINI-type prompt), which must be completed before the round can be signed off.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee and matron's meeting; embed the daily prompt trust-wide if the target is met.",
+  "evidence": [
+   "[existing library item] indwelling catheter with a documented reason still valid on the audit day; no closed-loop audit of a daily review process itself found in the library"
+  ],
+  "pitfalls": [
+   "Review done verbally at handover but not written down → make the prompt part of the electronic care round, not a separate task.",
+   "Definition of 'no longer needed' varies by staff member → print the accepted indications list on the prompt.",
+   "Weekend and night reviews are less complete → include all days of the week in the sample, not just weekdays.",
+   "Reviewing nurse defers the decision to the ward round doctor and neither documents it → make either professional's entry count, but require one of them daily."
+  ],
+  "pearls": [
+   "Base the accepted-indications list on a recognised tool (e.g. HOUDINI criteria) agreed with urology and microbiology.",
+   "Put the prompt in the same screen as other daily care bundle items (mouth care, pressure area care) so it is one round, not several.",
+   "Track catheter days per 1000 bed days alongside the audit as a balancing measure.",
+   "Re-audit on the same wards to check the daily habit survives a change of ward manager."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR daily review records",
+  "pass": "A documented daily entry states whether the catheter is still needed, made on every day of the sampled 5-day period for that patient"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with an indwelling urinary catheter have the drainage bag secured below the level of the bladder and off the floor at the time of the audit?",
+  "why": "Correct positioning of the catheter drainage bag prevents backflow of urine and reduces infection risk; no audit of catheter bag positioning as a maintenance step has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 4: Urinary catheters (17 April 2014)",
+   "wording": "People who need a urinary catheter have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the catheter and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-4-Urinary-catheters"
+  },
+  "population": "Inclusion: all adult inpatients with an indwelling urinary catheter on the day of the spot-check. Exclusion: patients off the ward for a procedure at the time of the check.",
+  "sample": "40 catheterised inpatients observed on 4 separate spot-check days over 4 weeks (approximately 10 per day)",
+  "data_source": "Direct observation at the bedside by the audit team",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_observation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bag_below_bladder_level",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bag_off_the_floor",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tubing_free_of_kinks_loops",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bag_within_privacy_cover",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add catheter bag positioning to the twice-daily intentional rounding checklist, with a bag-hanger supplied to every bed with a catheterised patient.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the infection prevention and control committee and share results as a poster on the ward; embed the checklist item trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of catheter bag positioning found in the library]"
+  ],
+  "pitfalls": [
+   "Observation itself changes behaviour on the day (Hawthorne effect) → do unannounced spot-checks, not a scheduled walkround.",
+   "Bag position changes when a patient mobilises → record the position as found, not after adjustment by the auditor.",
+   "Equipment shortage (no bag-hangers) undermines the fix → confirm supply before cycle 1.",
+   "Staff feel 'checked up on' → frame the audit as a safety check, not a performance review, and share results anonymously by ward."
+  ],
+  "pearls": [
+   "Combine the spot-check with an existing safety walkround to avoid extra staff time.",
+   "Involve a student nurse or newly qualified nurse in doing the observations as a learning exercise.",
+   "Fix equipment gaps (bag-hangers, privacy covers) as part of the change, not just education.",
+   "Repeat the spot-check on different shifts to catch night-time practice."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per spot-check round of 10 patients",
+  "pass": "At the point of observation, the drainage bag is below the level of the bladder, supported off the floor, and the tubing is not kinked or looped above the bag"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with a peripheral intravenous cannula have a Visual Infusion Phlebitis (VIP) score documented at every nursing shift?",
+  "why": "Regular VIP scoring is the recognised way to detect early phlebitis and trigger timely cannula removal; the library holds an audit of whether a cannula has been used in the last 24 hours, but not of whether it is actually being scored each shift.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 5: Vascular access devices (17 April 2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "population": "Inclusion: adult inpatients with a peripheral IV cannula in place for at least 24 hours on a general ward. Exclusion: cannulas inserted in theatre within the last 2 hours.",
+  "sample": "40 consecutive cannulated inpatients, reviewed over 3 shifts each, over the last 3 months",
+  "data_source": "EPR or paper VIP score chart at the bedside",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_cannula_inserted",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vip_score_shift1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vip_score_shift2",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vip_score_shift3",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_vip_score_recorded",
+    "type": "number",
+    "options": [],
+    "note": "0-5 scale"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add the VIP score to the electronic observations chart so it is prompted at every set of vital signs, rather than relying on a separate paper chart.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee; embed the electronic VIP prompt trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-279] proportion of peripheral cannulas used in the previous 24 hours (a related but distinct measure of cannula necessity, not scoring frequency)"
+  ],
+  "pitfalls": [
+   "Paper VIP charts are lost when patients move beds or wards → move scoring into the electronic record.",
+   "Scoring done but not at every shift as required → audit each shift separately rather than 'was it ever scored'.",
+   "Different staff interpret the VIP scale differently → include the VIP scale poster at every bed space.",
+   "Cannulas removed and re-sited are miscounted as one device → track by cannula episode, not by patient."
+  ],
+  "pearls": [
+   "Put a VIP scale card on every drug trolley and at the bedside.",
+   "Make VIP scoring part of the same round as NEWS2 observations.",
+   "Recruit a link nurse for IV access on each ward to champion the change.",
+   "Track cannula-related bloodstream infections alongside the audit as a balancing measure."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the EPR",
+  "pass": "A VIP score is documented for the cannula on every nursing shift since insertion, up to the day of audit"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of peripheral cannulas with a VIP score of 2 or more are removed or re-sited within 4 hours of that score being recorded?",
+  "why": "Prompt action on a raised VIP score prevents phlebitis progressing to infection or thrombophlebitis; no audit of the time to action a raised VIP score has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 5: Vascular access devices (17 April 2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "population": "Inclusion: adult inpatients whose cannula reaches a VIP score of 2 or more on a general ward. Exclusion: cannulas needed for immediate ongoing IV treatment where no alternative site is available (document reason for delay).",
+  "sample": "30 consecutive VIP scores of ≥2 identified from cannula charts over the last 3-6 months",
+  "data_source": "VIP score chart, cannula removal/re-siting documentation, drug administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_vip_score_2_or_more",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vip_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_removed_or_resited",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_4_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Give registered nurses standing authority (via a trust-wide patient group direction/protocol) to remove a cannula scoring 2 or more without waiting for a doctor's order.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee; embed the nurse-led removal protocol trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of time to remove or re-site a cannula after a raised VIP score found in the library]"
+  ],
+  "pitfalls": [
+   "Nurses wait for medical sign-off to remove a cannula, causing delay → confirm nurse-led removal is explicitly authorised in policy before cycle 1.",
+   "No alternative IV site available so removal is deferred appropriately → record this as a documented reason, not a failure.",
+   "Small numbers of qualifying events → extend the sampling period to 6 months.",
+   "VIP score under-recorded so events are missed (see the companion scoring-frequency audit) → run that audit alongside this one."
+  ],
+  "pearls": [
+   "Run this audit alongside the VIP-scoring-frequency audit so both parts of the pathway are checked together.",
+   "Get sign-off from medicines management for nurse-led cannula removal before cycle 1.",
+   "Share phlebitis rates before and after the change as the outcome that matters to staff.",
+   "Keep the same 4-hour target at re-audit even if practice has improved, to show real change."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 qualifying events from EPR",
+  "pass": "The cannula is removed, or removed and re-sited, within 4 hours of a VIP score of 2 or more being documented"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of peripheral cannula dressings are labelled with the insertion date and intact (dry, adherent, no visible soiling) at the time of the audit?",
+  "why": "A dated, intact dressing lets staff know how long a cannula has been in place and protects the insertion site from contamination; no audit of cannula dressing labelling and integrity has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 5: Vascular access devices (17 April 2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "population": "Inclusion: all adult inpatients with a peripheral IV cannula in place on the day of the spot-check. Exclusion: none.",
+  "sample": "40 cannulas observed on 4 separate spot-check days over 4 weeks",
+  "data_source": "Direct observation at the bedside",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_observation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dressing_labelled_with_date",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dressing_dry_and_adherent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "visible_soiling_or_lifting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_since_insertion",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Switch to a pre-printed date-label dressing pack as ward stock so every insertion is dated by design, rather than relying on staff writing on a plain dressing.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the infection prevention and control committee; adopt the date-label dressing pack trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of cannula dressing labelling or integrity found in the library]"
+  ],
+  "pitfalls": [
+   "Auditors disturb the dressing to check it, risking dislodgement → train observers to inspect without touching.",
+   "Date obscured by tape or handwriting fades → use a printed date-label dressing pack.",
+   "Cannulas re-sited mid-stay are miscounted → record days since the current cannula's insertion, not the admission date.",
+   "Stock of the new dressing pack runs out → confirm procurement before cycle 1."
+  ],
+  "pearls": [
+   "Combine this spot-check with the bag-position catheter audit as one 'devices' walkround.",
+   "Ask procurement to switch the default stocked dressing before starting the change.",
+   "Share photos (with consent, de-identified) of good and poor practice in ward teaching.",
+   "Repeat the walkround on different days of the week."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per spot-check round of 10 patients",
+  "pass": "The cannula dressing is labelled with a legible insertion date, and is dry, adherent and free of visible soiling or lifting at the edges"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of central venous catheters have the insertion site and dressing checked and documented at least once every 24 hours?",
+  "why": "Daily inspection of the central line insertion site is a core element of a central line care bundle to prevent catheter-related bloodstream infection; no audit of daily central line site/dressing checks has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 5: Vascular access devices (17 April 2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "population": "Inclusion: adult inpatients with a central venous catheter (excluding PICC lines managed by a separate IV team pathway) in place for 2 or more days on a ward or critical care unit. Exclusion: lines removed within 48 hours of insertion.",
+  "sample": "30 consecutive patients with a central line, reviewed over their first 5 days with the line, over the last 3-6 months",
+  "data_source": "Central line care bundle documentation in the EPR",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_line_inserted",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "site_check_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "site_check_day2",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "site_check_day3",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "site_check_day4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "site_check_day5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "signs_of_infection_noted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory daily 'central line site and dressing check' field to the electronic care bundle that must be completed before the shift's nursing documentation can be signed off.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee and critical care outreach meeting; embed the mandatory field trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of daily central line site/dressing checks found in the library] related: [NNA-071] documentation that the guidewire was removed after central line insertion"
+  ],
+  "pitfalls": [
+   "Central lines cared for on wards unfamiliar with the bundle miss checks → target ward education where lines are less common.",
+   "Check done but not documented → make it a mandatory electronic field, not a free-text note.",
+   "Small numbers of ward-based central lines → extend sampling to 6 months or include high-dependency areas.",
+   "Line removed early so fewer than 5 days of data are available → record only the days the line was actually in place."
+  ],
+  "pearls": [
+   "Base the bundle on the trust's existing central line care bundle policy so nothing new is invented.",
+   "Involve the IV access/vascular access team in agreeing the mandatory fields.",
+   "Track central-line-associated bloodstream infection rates alongside the audit.",
+   "Re-audit after ward staff turnover to check the habit persists."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from EPR care bundle records",
+  "pass": "A documented check of the central line insertion site and dressing (site appearance, dressing integrity) is recorded at least once in each 24-hour period"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of central venous catheters have a documented review of ongoing clinical need at least once every 24 hours?",
+  "why": "Removing central lines as soon as they are no longer needed reduces catheter-related bloodstream infection; no audit of a daily documented necessity review for central lines has been published in the library.",
+  "standard": {
+   "source": "NICE quality standard QS61 Infection prevention and control, quality statement 5: Vascular access devices (17 April 2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "population": "Inclusion: adult inpatients with a central venous catheter in place for 3 or more days on a ward. Exclusion: lines in critical care managed under a separate daily goals sheet that already includes this review.",
+  "sample": "30 consecutive qualifying patients, reviewed over their first 5 days with the line, over the last 3-6 months",
+  "data_source": "Ward round entries, EPR care bundle documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_line_inserted",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "necessity_review_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "necessity_review_day2",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "necessity_review_day3",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "necessity_review_day4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "necessity_review_day5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "line_removed_when_no_longer_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'central line: still needed? yes/no, reason' as a mandatory field on the daily ward round proforma for every patient with a central line.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the infection prevention and control committee; embed the ward round field trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of daily central line necessity review found in the library]"
+  ],
+  "pitfalls": [
+   "Review discussed verbally on the ward round but not written down → build the field into the ward round proforma, not a separate note.",
+   "Weekend ward rounds are less structured → include weekend days in the sample.",
+   "Definition of 'still needed' varies by team → agree a short accepted-indications list before cycle 1.",
+   "Line removed and a new one inserted is double-counted → track by line episode."
+  ],
+  "pearls": [
+   "Pair this audit with the daily site/dressing check audit so both bundle elements are reviewed together.",
+   "Involve the consultant leading the ward round in championing the new field.",
+   "Track average central line dwell time as a balancing measure.",
+   "Feed results back promptly so the ward round team sees the impact of the change."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from ward round documentation",
+  "pass": "A documented entry each day states whether the central line is still clinically needed, with a reason if it remains in place"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients newly admitted as an emergency who are aged 65 or over have a 4AT delirium assessment completed within 24 hours of admission?",
+  "why": "Early delirium detection allows prompt investigation of the underlying cause and reduces harm; the library holds audits of delirium detection and discharge coding on orthopaedic wards, but no closed-loop audit of 4AT completion within 24 hours across general medical and surgical wards.",
+  "standard": {
+   "source": "NICE clinical guideline CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, recommendation 1.6.1 (28 July 2010, updated 18 January 2023)",
+   "wording": "If indicators of delirium are identified, a health or social care practitioner who is competent to do so should carry out an assessment using the 4AT tool.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults aged 65 or over admitted as an emergency to a general medical or surgical ward. Exclusion: patients admitted directly to critical care or already under a mental health ward's own delirium pathway.",
+  "sample": "40 consecutive emergency admissions aged 65 or over over the last 4 weeks",
+  "data_source": "Admission clerking proforma / EPR nursing admission assessment",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "4at_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_4at_completed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "4at_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 4AT field to the electronic nursing admission assessment for every patient aged 65 or over, which cannot be saved incomplete.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the dementia and delirium steering group and divisional governance meeting; embed the mandatory field trust-wide if the target is met.",
+  "evidence": [
+   "[ONA-118] delirium screen documented within 24 hours of admission for orthopaedic injury (a related audit limited to orthopaedic wards); [no closed-loop audit for general medical/surgical wards found in the library]"
+  ],
+  "pitfalls": [
+   "4AT done but recorded outside the structured field, so it is missed → make one electronic field the single source of truth.",
+   "Staff confuse the 4AT with a full cognitive assessment (e.g. AMT4) → provide a laminated 4AT card at the bedside.",
+   "Busy admission units skip the 4AT under time pressure → make it part of the same screen as NEWS2 and falls risk, not an extra form.",
+   "Patients admitted out of hours are under-assessed → include night admissions in the sample."
+  ],
+  "pearls": [
+   "Recruit the dementia/delirium specialist nurse to champion the mandatory field before cycle 1.",
+   "Provide short 4AT training at induction for all new admission-unit staff.",
+   "Report results separately for day and night admissions to find where the gap is.",
+   "Re-audit the same admission units after 6 months to check the mandatory field has bedded in."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 admissions from EPR",
+  "pass": "A 4AT score is documented in the notes or EPR within 24 hours of an emergency admission for a patient aged 65 or over"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with a 4AT score of 4 or more have a documented action plan or medical review on the same day?",
+  "why": "A 4AT score of 4 or more indicates possible delirium and should trigger prompt clinical assessment for a reversible cause; no audit of the response to a positive 4AT score (as opposed to the screening itself) has been published in the library.",
+  "standard": {
+   "source": "NICE clinical guideline CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, recommendation 1.6.2 (28 July 2010, updated 18 January 2023)",
+   "wording": "If the assessment described in recommendation 1.6.1 indicates delirium, a healthcare professional with the relevant expertise should make the final diagnosis.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients scoring 4 or more on a 4AT in the last 3-6 months. Exclusion: patients already under an existing delirium care plan from a previous admission with no new score change.",
+  "sample": "30 consecutive patients scoring 4AT ≥4 over the last 3-6 months",
+  "data_source": "EPR nursing and medical notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_4at_scored",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "4at_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medical_review_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medication_review_included",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build an automatic EPR alert to the responsible medical team whenever a 4AT of 4 or more is entered, with a linked delirium action-plan template.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the dementia and delirium steering group; embed the automatic alert trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of the clinical response to a positive 4AT score found in the library]"
+  ],
+  "pitfalls": [
+   "A positive 4AT is scored but no one is notified → build an automatic alert rather than relying on the nurse to escalate verbally.",
+   "Out-of-hours positive scores wait until the next ward round → define an explicit same-day standard covering evenings and weekends.",
+   "Action plan documented but generic and not individualised → audit the presence of a medication review as a specific component.",
+   "Repeat 4AT scores in the same admission are double-counted → count only the first qualifying score per admission."
+  ],
+  "pearls": [
+   "Use the same delirium action-plan template already used elsewhere in the trust rather than creating a new one.",
+   "Ask pharmacy to flag deliriogenic medicines automatically when the alert fires.",
+   "Share turnaround times (score to review) as well as the pass rate.",
+   "Re-audit on the same wards to check the alert has not been switched off or ignored."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR",
+  "pass": "A doctor or advanced clinical practitioner documents a review and either confirms/excludes delirium and records an action plan (investigations, medication review, environment) on the same calendar day as the 4AT of 4 or more"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults aged 65 or over admitted as an emergency have their delirium risk factors assessed at presentation?",
+  "why": "Identifying delirium risk factors at presentation allows preventive measures to start before delirium develops; no audit of upstream risk-factor assessment (distinct from 4AT screening once indicators appear) has been published in the library.",
+  "standard": {
+   "source": "NICE clinical guideline CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, recommendation 1.2.1 (28 July 2010)",
+   "wording": "When people first present to hospital or long-term care, assess them for the following risk factors. If any of these risk factors are present, the person is at risk of delirium. Age 65 years or older. Cognitive impairment (past or present) and/or dementia... Current hip fracture. Severe illness.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults aged 65 or over presenting as an emergency to a medical or surgical admissions unit. Exclusion: elective admissions.",
+  "sample": "40 consecutive emergency admissions aged 65 or over over the last 4 weeks",
+  "data_source": "Admission clerking proforma / EPR nursing admission assessment",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cognitive_impairment_dementia_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hip_fracture_status_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severe_illness_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_risk_factor_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add the four CG103 risk factors as mandatory tick boxes on the electronic admission clerking proforma for patients aged 65 or over.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the dementia and delirium steering group; embed the mandatory tick boxes trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of delirium risk-factor assessment at presentation found in the library]"
+  ],
+  "pitfalls": [
+   "Risk factors assessed informally during clerking but not recorded in a structured way → use fixed tick boxes, not free text.",
+   "Cognitive impairment missed because no baseline is known → ask a family member or GP record as a source.",
+   "Overlap with the 4AT audit causes double data entry → combine both into one admission screen.",
+   "Busy admissions units under time pressure skip non-mandatory fields → make the fields mandatory to save the clerking."
+  ],
+  "pearls": [
+   "Combine this with the 4AT-within-24-hours audit as one admission bundle to save duplicate data collection.",
+   "Train admitting doctors and nurses together so both understand why the risk factors matter.",
+   "Use collateral history (family, care home, GP letter) systematically to assess cognitive impairment.",
+   "Report the proportion found to have at least one risk factor as well as the completion rate."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 admissions from EPR",
+  "pass": "The admission documentation records whether each of the four CG103 risk factors (age ≥65, cognitive impairment/dementia, current hip fracture, severe illness) is present or absent"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients identified as being at risk of delirium have a multicomponent prevention intervention documented within 24 hours of admission?",
+  "why": "A tailored multicomponent prevention package (orientation, hydration, mobility, sleep, sensory aids) reduces the incidence of delirium in at-risk patients; no audit of whether this prevention package is actually delivered has been published in the library.",
+  "standard": {
+   "source": "NICE clinical guideline CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, recommendation 1.4.2 (28 July 2010)",
+   "wording": "Give a tailored multicomponent intervention package: within 24 hours of admission, assess people at risk for clinical factors contributing to delirium based on the results of this assessment, provide a multicomponent intervention tailored to the person's individual needs and care setting.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients identified as at risk of delirium under CG103 1.2.1 in the last 4 weeks. Exclusion: patients already diagnosed with delirium at the time of the risk assessment.",
+  "sample": "30 consecutive at-risk patients over the last 4-8 weeks",
+  "data_source": "EPR care planning documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_identified_at_risk",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prevention_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orientation_measures_included",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hydration_measures_included",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mobility_measures_included",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a delirium prevention care plan template to the EPR that opens automatically when a patient is flagged at risk, pre-populated with the CG103 domains for the nurse to individualise.",
+  "target": "≥85%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the dementia and delirium steering group; embed the automatic care plan trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of multicomponent delirium prevention delivery found in the library]"
+  ],
+  "pitfalls": [
+   "Prevention measures are done (e.g. a clock provided) but not documented → build a simple tick-list into the care plan rather than free text.",
+   "Care plan copied forward without individualisation → spot-check for generic, unedited entries.",
+   "Staff shortages limit mobility-related interventions → record barriers as well as completion.",
+   "Risk-at-risk flag is not consistently set, so eligible patients are missed → link the flag to the CG103 risk-factor audit."
+  ],
+  "pearls": [
+   "Link this audit to the risk-factor assessment audit so the whole pathway from risk to prevention is checked.",
+   "Involve occupational therapy and volunteers (e.g. befriending schemes) in delivering orientation measures.",
+   "Provide clocks, calendars and large-print signage as ward equipment, not something staff must find.",
+   "Track delirium incidence on the ward as an outcome measure alongside process compliance."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from EPR",
+  "pass": "A documented multicomponent prevention plan (covering at least orientation, hydration and mobility) is in place within 24 hours of admission for a patient identified as at risk of delirium"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients receiving supplemental oxygen have a target oxygen saturation range documented on their prescription or observation chart?",
+  "why": "A written target saturation range prevents both under- and over-oxygenation, particularly in patients at risk of hypercapnic respiratory failure; the library holds an audit of whether oxygen is signed for at each drug round, but not of whether a target range is prescribed at all.",
+  "standard": {
+   "source": "British Thoracic Society Guideline for oxygen use in adults in healthcare and emergency settings (2017, reviewed 2019-2024)",
+   "wording": "For acutely ill patients not at risk of hypercapnic respiratory failure, a target saturation range of 94-98% is recommended; for patients at risk of hypercapnic respiratory failure, a target range of 88-92% is recommended pending blood gas results.",
+   "url": "https://www.brit-thoracic.org.uk/quality-improvement/guidelines/emergency-oxygen/"
+  },
+  "population": "Inclusion: adult inpatients receiving supplemental oxygen on a general ward. Exclusion: patients in critical care with individualised ventilation/oxygenation targets set by the intensivist.",
+  "sample": "40 consecutive adult inpatients on supplemental oxygen over the last 4 weeks",
+  "data_source": "Drug chart / EPR oxygen prescription and observation chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_audit",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_supplemental_oxygen",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_range_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_range_used",
+    "type": "choice",
+    "options": [
+     "94-98%",
+     "88-92%",
+     "other",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_of_hypercapnia_flagged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the target saturation range a mandatory field on the electronic oxygen prescription, which cannot be signed without a range being selected.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the respiratory or deteriorating patient steering group; embed the mandatory field trust-wide if the target is met.",
+  "evidence": [
+   "[existing library item] oxygen signed for on the drug chart at every drug round (a related but distinct measure of administration, not target-range prescribing)"
+  ],
+  "pitfalls": [
+   "Oxygen started as an emergency without a formal prescription → build a retrospective prompt into the EPR for the next drug round.",
+   "Staff assume 94-98% by default and do not write it down → make the field mandatory rather than relying on convention.",
+   "COPD patients not flagged as at risk of hypercapnia get the wrong target → link the oxygen order to the COPD/respiratory diagnosis flag where one exists.",
+   "Target range not updated when a blood gas result changes the picture → audit whether the range is reviewed after each blood gas."
+  ],
+  "pearls": [
+   "Provide an oxygen alert card for patients known to be at risk of hypercapnia, to travel with them between wards.",
+   "Train new doctors at induction on the two target ranges and when each applies.",
+   "Use the respiratory team as champions on wards with high oxygen use.",
+   "Report results separately for COPD/at-risk patients and other patients."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR",
+  "pass": "A specific target saturation range (e.g. 94-98% or 88-92%) is written on the drug chart or oxygen prescription section of the EPR for every patient on supplemental oxygen"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with an insulin infusion running who develop hypoglycaemia (capillary glucose below 4.0 mmol/L) have the infusion stopped immediately?",
+  "why": "Continuing an insulin infusion during a hypoglycaemic episode delays recovery and risks severe or recurrent hypoglycaemia; no audit of this specific first step of the hypoglycaemia protocol has been published in the library.",
+  "standard": {
+   "source": "Joint British Diabetes Societies for Inpatient Care, JBDS 01: The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023)",
+   "wording": "If the person with diabetes in hospital has an insulin infusion in situ, stop immediately. Continue to follow the guidance below. Restart the insulin infusion once the hypo has been fully treated.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "population": "Inclusion: adult inpatients on a variable-rate or fixed-rate intravenous insulin infusion who have a capillary glucose reading below 4.0 mmol/L. Exclusion: patients on subcutaneous insulin only.",
+  "sample": "30 consecutive qualifying hypoglycaemic episodes over the last 3-6 months, identified from hypoglycaemia incident reports or glucose meter downloads",
+  "data_source": "Hypoglycaemia incident/event form, drug chart, glucose meter download",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_hypo",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capillary_glucose_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "insulin_infusion_running_at_time",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infusion_stopped_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_infusion_stopped",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_within_5_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'STOP the insulin infusion first' step to the laminated hypoglycaemia algorithm card kept with every hypo box, and to the electronic hypoglycaemia event form.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the diabetes inpatient steering group; embed the updated algorithm card trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-116] repeat glucose check within 15 minutes of treatment for capillary glucose below 4.0 mmol/L (a related but distinct step in the same JBDS pathway)"
+  ],
+  "pitfalls": [
+   "Staff unfamiliar with variable-rate insulin infusions delay stopping it → target training at wards that manage diabetic ketoacidosis and perioperative patients.",
+   "Event not reported so the episode is missed from the sample → cross-check glucose meter downloads for readings below 4.0 mmol/L against incident reports.",
+   "Infusion restarted too early before the hypo is fully treated → audit this as a separate, later step.",
+   "Small numbers of qualifying episodes → extend the sampling period to 6 months across several wards."
+  ],
+  "pearls": [
+   "Run this audit alongside the existing repeat-glucose-check audit to give a fuller picture of the hypo pathway.",
+   "Put the JBDS algorithm card inside every hypo box so the stop-infusion step cannot be missed.",
+   "Involve the diabetes inpatient specialist nurse team in reviewing every qualifying episode.",
+   "Feed back individual episode learning at ward level, not only the aggregate percentage."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from incident reports and drug charts",
+  "pass": "The insulin infusion is documented as stopped within 5 minutes of the capillary glucose reading below 4.0 mmol/L being recorded"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of conscious adult inpatients able to swallow, who develop hypoglycaemia, are treated with 15-20g of rapid-acting carbohydrate as first-line treatment?",
+  "why": "Using the correct dose and form of rapid-acting carbohydrate is the foundation of safe hypoglycaemia management; no audit of whether the first-line treatment given matches the recommended dose has been published in the library.",
+  "standard": {
+   "source": "Joint British Diabetes Societies for Inpatient Care, JBDS 01: The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023)",
+   "wording": "In people who are conscious and able to swallow, 15-20g of rapid-acting carbohydrate is the treatment of choice... Give 15-20g rapid-acting carbohydrate of the person with diabetes in hospital's choice where possible.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "population": "Inclusion: adult inpatients with diabetes, conscious, orientated and able to swallow, who have a capillary glucose below 4.0 mmol/L. Exclusion: patients who are confused, unconscious, having seizures, or nil by mouth.",
+  "sample": "30 consecutive qualifying hypoglycaemic episodes over the last 3-6 months",
+  "data_source": "Hypoglycaemia event form, drug/fluid administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_hypo",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "conscious_and_able_to_swallow",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_matches_15_20g_rapid_carb",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypo_box_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Stock a standard, pre-measured hypo box (containing 15-20g rapid-acting carbohydrate items) on every ward, with a location known to all staff, replacing ad hoc use of whatever is available.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the diabetes inpatient steering group; embed standard hypo box stocking trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-380] as-needed hypoglycaemia rescue treatment prescribed for patients on insulin or a sulfonylurea (a related but distinct prescribing audit, not the treatment actually given)"
+  ],
+  "pitfalls": [
+   "Staff give whatever sugary item is to hand rather than a measured 15-20g dose → stock a standard hypo box.",
+   "Treatment given but not documented in detail (just 'hypo treated') → add a structured field naming the treatment and estimated carbohydrate content.",
+   "Patients on a low-potassium or fluid-restricted diet given an unsuitable treatment → audit for this as a specific error type.",
+   "Under-reporting of hypo episodes overall → cross-check against glucose meter downloads."
+  ],
+  "pearls": [
+   "Introduction of standard hypo boxes has been shown elsewhere to raise correctly-managed episodes substantially; cite this local evidence when presenting.",
+   "Ask the diabetes specialist nurse team to restock and check hypo boxes on a fixed schedule.",
+   "Provide a laminated JBDS algorithm card inside each hypo box.",
+   "Report the proportion of episodes needing more than the initial treatment, as a marker of undertreatment."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from event forms",
+  "pass": "The treatment given for a conscious, swallowing-safe patient with hypoglycaemia is documented as 15-20g of a recognised rapid-acting carbohydrate (e.g. Dextrosol tablets, GlucoTabs, pure fruit juice, sugar in water)"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of scheduled doses of levodopa-containing Parkinson's medicine for adult inpatients on general wards are given within 30 minutes of the prescribed time?",
+  "why": "Delaying or omitting a dose of Parkinson's medicine by more than 30 minutes can precipitate worsening of motor symptoms, an inability to swallow, or neuroleptic malignant-like syndrome; the library holds an audit of this standard for orthopaedic inpatients, but no closed-loop audit across general medical and surgical wards.",
+  "standard": {
+   "source": "NHS Specialist Pharmacy Service, Defining time critical medicines (reviewed 2024/2025), citing the Institute for Safe Medication Practices definition",
+   "wording": "Those where early or delayed administration of maintenance doses of greater than 30 minutes before or after the scheduled dose may cause harm or result in substantial sub-optimal therapy.",
+   "url": "https://sps.nhs.uk/articles/defining-time-critical-medicines/"
+  },
+  "population": "Inclusion: adult inpatients prescribed a levodopa-containing Parkinson's medicine, admitted to a general medical or surgical ward (not orthopaedics). Exclusion: doses withheld for a documented clinical reason (e.g. nil by mouth with no alternative route available).",
+  "sample": "40 consecutive doses across 10 patients over the last 4 weeks",
+  "data_source": "Electronic medicines administration record (eMAR)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_dose",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scheduled_time",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_administration_time",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed_or_omitted",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Flag Parkinson's medicines as 'time-critical' in the e-prescribing system with exact-time (not round-time) dosing and an automatic alert to nursing staff when a dose is 30 minutes late.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the medicines safety committee and the Parkinson's disease specialist nurse team meeting; embed the e-prescribing flag trust-wide if the target is met.",
+  "evidence": [
+   "[ONA-121] Parkinson's medicine within 30 minutes of prescribed time for orthopaedic inpatients (a related audit limited to orthopaedic wards); [no closed-loop audit for general wards found in the library]"
+  ],
+  "pitfalls": [
+   "Drug rounds are organised by ward routine rather than individual medicine timing → flag time-critical medicines so they are given outside the standard round if needed.",
+   "Patient admitted without their usual medicines brought in from home, causing delay while a supply is found → audit whether self-administration or 'own drugs' policies are used.",
+   "Nil-by-mouth patients have no alternative route considered → include a dispersible or patch alternative in the ward's Parkinson's toolkit.",
+   "eMAR times are rounded to the nearest 15 or 30 minutes by the system, masking small delays → confirm the system records exact times before relying on it."
+  ],
+  "pearls": [
+   "Identify every inpatient with Parkinson's disease at the daily board round so nursing staff know who needs time-critical dosing.",
+   "Provide a 'Parkinson's disease: time-critical medicines' alert sticker for the drug chart or bedside.",
+   "Involve the Parkinson's disease specialist nurse in reviewing every admission with the condition.",
+   "Audit the reasons for delay as well as the headline rate, to target the fix at the real cause."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 doses from the eMAR",
+  "pass": "The administration time recorded on the electronic medicines administration record is within 30 minutes of the scheduled time for that dose"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of scheduled short-acting insulin doses for adult inpatients are given within 30 minutes of the prescribed or meal time?",
+  "why": "Short-acting insulin is a recognised time-critical medicine: giving it too early or too late relative to a meal risks hypoglycaemia or hyperglycaemia; no closed-loop audit of insulin dose timing accuracy (as opposed to prescription errors) has been published in the library.",
+  "standard": {
+   "source": "NHS Specialist Pharmacy Service, Defining time critical medicines (reviewed 2024/2025), citing the Institute for Safe Medication Practices definition",
+   "wording": "Those where early or delayed administration of maintenance doses of greater than 30 minutes before or after the scheduled dose may cause harm or result in substantial sub-optimal therapy. [Insulin (short-acting)] ... used in diabetes management.",
+   "url": "https://sps.nhs.uk/articles/defining-time-critical-medicines/"
+  },
+  "population": "Inclusion: adult inpatients prescribed short-acting subcutaneous insulin with meals on a general ward. Exclusion: patients on a continuous intravenous insulin infusion.",
+  "sample": "40 consecutive doses across 10 patients over the last 4 weeks",
+  "data_source": "Electronic medicines administration record and meal service times",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_dose",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scheduled_or_meal_time",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_administration_time",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capillary_glucose_checked_before_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Align meal service and insulin drug round times, and flag insulin as time-critical in e-prescribing with an alert when a dose is 30 minutes late.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the diabetes inpatient steering group and medicines safety committee; embed the aligned round and e-prescribing flag trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of insulin dose timing accuracy against meal times found in the library]"
+  ],
+  "pitfalls": [
+   "Meal trays arrive before the drug round reaches the patient → realign the round or use a 'give with meal' nurse-led protocol.",
+   "Patients who miss meals (off the ward for a scan) have insulin given at the wrong time → audit whether these are flagged and rescheduled.",
+   "eMAR times are rounded, masking real delays → confirm exact-time recording before relying on the system.",
+   "Sliding-scale corrections are confused with meal-time bolus insulin in the data → record dose type clearly."
+  ],
+  "pearls": [
+   "Involve catering and nursing together in redesigning meal/drug round timing.",
+   "Use ward pharmacists to spot-check timing accuracy weekly during the collection period.",
+   "Provide point-of-care glucose meters on the drug trolley so checks and dosing happen together.",
+   "Share results with the ward as 'doses on time' rather than only 'doses missed', to keep the message positive."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 doses from the eMAR",
+  "pass": "The administration time recorded on the eMAR is within 30 minutes of the scheduled or meal time for that dose"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults having elective surgery are fasted from food for no longer than 8 hours and from clear fluids for no longer than 3 hours before their scheduled procedure?",
+  "why": "Unnecessarily prolonged pre-operative fasting causes patient discomfort, dehydration and metabolic stress with no safety benefit; no audit of actual fasting duration against the recommended limits (as opposed to sip-til-send protocols in orthopaedic trauma) has been published in the library for elective general surgical patients.",
+  "standard": {
+   "source": "Association of Anaesthetists of Great Britain and Ireland recommended fasting times, cited in the PIER Network Peri-operative Fasting Policy (October 2020)",
+   "wording": "The Association of Anaesthetists Great Britain and Ireland (AAGBI) states that recommended fasting times are six hours for food, four hours for breast milk and two hours for clear fluids.",
+   "url": "https://www.piernetwork.org/uploads/4/7/8/1/47810883/enc_g_pier_fasting_guideline_oct2.pdf"
+  },
+  "population": "Inclusion: adults on an elective general surgical list having a general or regional anaesthetic. Exclusion: emergency cases and cases with a specific medical reason for prolonged fasting (e.g. delayed gastric emptying).",
+  "sample": "40 consecutive elective surgical patients over the last 4 weeks",
+  "data_source": "Ward nursing fasting record, anaesthetic chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_last_food",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_last_clear_fluid",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_induction",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "food_fasting_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluid_fasting_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_local_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace a fixed 'nil by mouth from midnight' instruction with a staggered sip-til-send protocol and clear fluids allowed up to the pre-operative assessment team's confirmed call time.",
+  "target": "≥80%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the theatres and pre-operative assessment governance meeting; embed the sip-til-send protocol trust-wide if the target is met.",
+  "evidence": [
+   "[ONA-107] gap between last clear drink and being sent for by theatre of 2 hours or less on the orthopaedic trauma list (a related audit limited to trauma lists); [no closed-loop audit for elective general surgery lists found in the library]"
+  ],
+  "pitfalls": [
+   "List order changes on the day so a fixed fasting instruction becomes inaccurate → use a rolling sip-til-send system tied to the actual call time.",
+   "Ward staff default to 'nil by mouth from midnight' out of habit → replace the printed instruction on the pre-op leaflet and drug chart.",
+   "Patients over-restrict themselves beyond what is prescribed → give clear written instructions on what and when they may drink.",
+   "Definition of 'induction time' varies by data source → use the anaesthetic chart time consistently."
+  ],
+  "pearls": [
+   "Involve theatre coordinators in agreeing a realistic call-time process before cycle 1.",
+   "Use patient information leaflets that state the sip-til-send instructions clearly.",
+   "Track cancellations and delays as a balancing measure to show the change has not caused new problems.",
+   "Re-audit after a full list cycle (including list re-ordering on the day) to test robustness."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ward and anaesthetic records",
+  "pass": "Local standard: the recorded time from last food to induction is 8 hours or less and from last clear fluid to induction is 3 hours or less, allowing a practical margin over the AAGBI minimums for list scheduling"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of blood component transfusions have a documented bedside positive patient identification check (patient asked to state their name and date of birth, checked against the identity band, prescription and compatibility label) before the unit is started?",
+  "why": "Failure to correctly identify the patient at the bedside is the commonest root cause of 'wrong blood in patient' incidents reported to SHOT; no audit of the bedside identification step itself (as opposed to post-transfusion vital sign monitoring) has been published in the library.",
+  "standard": {
+   "source": "British Society for Haematology, Guideline on the administration of blood components (2018, review ongoing)",
+   "wording": "The Serious Hazards of Transfusion (SHOT) scheme has repeatedly identified that patients are harmed, and some die, as a result of being given the incorrect type of blood. SHOT therefore recommends a structured process with a bedside checklist.",
+   "url": "https://b-s-h.org.uk/guidelines/guidelines/administration-of-blood-components/"
+  },
+  "population": "Inclusion: adult inpatients receiving a red cell or other blood component transfusion. Exclusion: emergency 'flying squad'/group O transfusions given before full identification is possible (document as an exception).",
+  "sample": "40 consecutive transfused units over the last 4 weeks",
+  "data_source": "Blood transfusion administration record / prescription chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transfusion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bedside_checklist_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_asked_to_state_identifiers",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "identity_band_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_staff_check_if_patient_unable",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce an electronic bedside scanning system (or a mandatory paper bedside checklist) that will not release the unit for administration until the identification steps are recorded.",
+  "target": "100%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the hospital transfusion committee; report to the trust's SHOT reporting lead; embed the electronic scanning system trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-298] vital signs recorded before, at 15 minutes and at the end of a red cell unit (a related but distinct step in the same transfusion pathway)"
+  ],
+  "pitfalls": [
+   "Confused or unconscious patients cannot confirm their own identity → define the two-staff-member check as the alternative in the protocol.",
+   "Bedside check rushed when a unit is urgently needed → build the check into the electronic unit-release process so it cannot be bypassed.",
+   "Checklist completed on paper but filed separately from the prescription → keep it with the transfusion record.",
+   "100% target may feel unrealistic to staff → frame this explicitly as a zero-tolerance patient-identification safety step, distinct from other, more negotiable targets."
+  ],
+  "pearls": [
+   "Involve the hospital transfusion practitioner in designing and auditing the checklist.",
+   "Use electronic bedside scanning where available, since it makes the check harder to skip.",
+   "Report any near-misses found during the audit directly to the transfusion committee, not just the percentage.",
+   "Re-audit unannounced, since a scheduled re-audit may prompt a temporary improvement."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 units from transfusion records",
+  "pass": "The bedside checklist is documented as completed, with the patient (or two staff members if the patient cannot confirm) checking name, date of birth and a unique identifier against the identity band, prescription and unit compatibility label immediately before starting the unit"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of blood component units have the blood group and expiry date checked against the compatibility report and prescription immediately before transfusion is started?",
+  "why": "Checking the unit's blood group and expiry against the compatibility report is a distinct safeguard from patient identification and catches labelling or stock-rotation errors; no audit of this specific check has been published in the library.",
+  "standard": {
+   "source": "British Society for Haematology, Guideline on the administration of blood components (2018, review ongoing)",
+   "wording": "SHOT therefore recommends a structured process with a bedside checklist; an alert from the Chief Medical Officer 9th November 2017 provides information against which organisations should assess their bedside systems.",
+   "url": "https://b-s-h.org.uk/guidelines/guidelines/administration-of-blood-components/"
+  },
+  "population": "Inclusion: adult inpatients receiving a red cell or other blood component transfusion. Exclusion: none.",
+  "sample": "40 consecutive transfused units over the last 4 weeks",
+  "data_source": "Blood transfusion administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transfusion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_group_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "expiry_date_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "donation_number_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discrepancy_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a structured 'unit check' section, separate from the patient-identification section, to the bedside transfusion checklist so both checks are recorded distinctly.",
+  "target": "100%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the hospital transfusion committee; embed the structured checklist trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of unit-level (blood group/expiry) checking distinct from patient identification found in the library]"
+  ],
+  "pitfalls": [
+   "Unit check and patient check are recorded as a single tick, hiding which part was actually done → separate them on the form.",
+   "Expired units are occasionally still in fridge stock → report any near-misses found to the blood bank immediately.",
+   "Staff assume the laboratory has already checked everything → reinforce that the bedside check is an independent final safeguard.",
+   "Rushed urgent transfusions skip the documented check → provide a rapid but complete checklist version for emergencies."
+  ],
+  "pearls": [
+   "Combine with the patient-identification audit as one transfusion safety audit, reported as two separate results.",
+   "Use the hospital transfusion practitioner's existing spot-check programme as a data source where one exists.",
+   "Report any discrepancies found as a serious incident review trigger, not just an audit finding.",
+   "Keep the checklist short so it is actually used under time pressure."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 units from transfusion records",
+  "pass": "The unit's blood group, expiry date and unique donation number are documented as checked against the compatibility report and the prescription before the unit is connected"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients' identity bands contain the correct four identifiers (surname, forename, date of birth and NHS number) with no additions or omissions?",
+  "why": "Missing or incorrect identifiers on an identity band are a preventable cause of wrong-patient errors in medicine administration, transfusion and specimen collection; no audit of identity band accuracy has been published in the library.",
+  "standard": {
+   "source": "NHS patient identifiers for identity bands standard (ISB 0099), cited in Leicestershire Partnership NHS Trust Positive Patient Identification Policy (October 2023)",
+   "wording": "All identity bands must be applied as part of the initial admission process and contain the following information, with no additions or omissions: Last name, First name, Date of birth, NHS Number or unique hospital number if NHS Number unknown.",
+   "url": "https://www.leicspart.nhs.uk/wp-content/uploads/2023/10/Positive-Patient-Identification-Policy-Exp-April-2027.pdf"
+  },
+  "population": "Inclusion: all adult inpatients on the ward at the time of the spot-check who are wearing or should be wearing an identity band. Exclusion: patients who have declined a band with a documented alternative in place (see companion audit).",
+  "sample": "40 inpatients checked across 4 wards on the same day",
+  "data_source": "Direct observation of the identity band at the bedside, cross-checked against the patient's notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_check",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "band_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surname_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "forename_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nhs_number_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "extra_information_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Standardise identity band printing through the EPR admission process (auto-populated, printed band) instead of hand-written bands, removing the main source of transcription error.",
+  "target": "≥98%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the patient safety committee; embed EPR-printed bands trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of identity band identifier accuracy found in the library]"
+  ],
+  "pitfalls": [
+   "Hand-written bands have transcription errors → move to printed bands generated from the EPR.",
+   "Bands not replaced after a name or NHS number correction on the EPR → add a prompt to reprint the band whenever demographics are amended.",
+   "Auditors themselves misread small print → use a standard checklist and, where possible, compare to a second printed source (e.g. wristband label copy).",
+   "Sensitive to Hawthorne effect if staff know the audit is happening → do the spot-check without prior ward announcement."
+  ],
+  "pearls": [
+   "Combine this with the transfusion identification audit so both use the same observation visit.",
+   "Involve ward clerks, who often apply bands on admission, in the change process.",
+   "Feed back errors found immediately to the ward so they can be corrected on the spot, in addition to the aggregate report.",
+   "Repeat the spot-check on different wards and shifts to get a representative picture."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per ward round of 10 patients",
+  "pass": "The identity band worn by the patient at the time of the spot-check shows all four required identifiers, correctly spelled/formatted, with no other information added"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with a documented drug or other allergy are wearing a red allergy identity band?",
+  "why": "A red allergy band is the visual safeguard that alerts every member of staff to a known allergy before they prescribe, dispense or administer anything; no audit of red allergy band use has been published in the library.",
+  "standard": {
+   "source": "NHS patient identifiers for identity bands standard (ISB 0099), cited in Leicestershire Partnership NHS Trust Positive Patient Identification Policy (October 2023)",
+   "wording": "5.2.1 All inpatients should have a white identity band unless they have an identified allergy. 5.2.2 All inpatients with an identified allergy must have either a red identity band with black text.",
+   "url": "https://www.leicspart.nhs.uk/wp-content/uploads/2023/10/Positive-Patient-Identification-Policy-Exp-April-2027.pdf"
+  },
+  "population": "Inclusion: adult inpatients with a documented allergy recorded on the drug chart or EPR. Exclusion: patients admitted within the last hour where band application is still in progress.",
+  "sample": "40 inpatients with a documented allergy, checked across 4 wards on the same day",
+  "data_source": "Direct observation of the identity band, cross-checked against the drug chart allergy box",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_check",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "allergy_documented_on_drug_chart",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "band_colour",
+    "type": "choice",
+    "options": [
+     "red",
+     "white",
+     "none",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "band_matches_allergy_status",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an EPR rule that prints a red band automatically, and flags an alert to nursing staff, whenever an allergy is entered on the drug chart or admission assessment.",
+  "target": "≥98%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the medicines safety committee; embed the automatic red-band rule trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of red allergy identity band use found in the library]"
+  ],
+  "pitfalls": [
+   "Allergy identified after the white band is already applied and the band is not changed → add an automatic reminder when a new allergy is documented.",
+   "Red bands not stocked on the ward when needed → confirm supply as part of the change.",
+   "Allergy status disputed or uncertain (e.g. intolerance vs true allergy) → use the trust's existing allergy documentation policy to decide what counts.",
+   "Patients transferred from another ward keep an old band that was never updated → include a band check in the transfer checklist."
+  ],
+  "pearls": [
+   "Combine this spot-check with the general identity band accuracy audit.",
+   "Involve pharmacy in reviewing any mismatches found, since these are medicines safety incidents.",
+   "Make sure red bands are as freely available as white ones on every ward.",
+   "Report mismatches found as safety learning at ward level, not just an aggregate percentage."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per ward round of 10 patients",
+  "pass": "A patient with a documented allergy on their drug chart or EPR allergy field is wearing a red (not white) identity band at the time of the spot-check"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who are unable or unwilling to wear an identity band have a documented alternative means of identification?",
+  "why": "Patients with confusion, acute mental health needs, or a skin condition may not be able to wear a band safely, and without an agreed alternative they are at higher risk of misidentification; no audit of alternative identification arrangements has been published in the library.",
+  "standard": {
+   "source": "Leicestershire Partnership NHS Trust Positive Patient Identification Policy (October 2023), based on the NHS identity band standard",
+   "wording": "Patients in inpatient areas should wear identity bands, it is however recognised that patients with acute mental health needs or confusion may not agree to wearing an identity band. In these cases, and where there are documented efforts to explain to patients the purpose in relation to their safety, a patient photograph should be taken with the consent of the patient to provide an alternative means of identification.",
+   "url": "https://www.leicspart.nhs.uk/wp-content/uploads/2023/10/Positive-Patient-Identification-Policy-Exp-April-2027.pdf"
+  },
+  "population": "Inclusion: adult inpatients on the ward without an identity band at the time of the spot-check. Exclusion: patients within the first hour of admission.",
+  "sample": "All patients found without a band during 4 ward spot-checks over 4 weeks (expected around 20-30 cases; extend the period if fewer)",
+  "data_source": "Direct observation plus EPR/notes review for the alternative identification documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_check",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_no_band",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "explanation_attempt_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_method_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_method_used",
+    "type": "choice",
+    "options": [
+     "consented photograph",
+     "other documented process",
+     "none"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'alternative identification' care plan entry, triggered whenever a nurse records that a patient is not wearing a band, prompting the photograph-with-consent process.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same method and sample size",
+  "close_loop": "Present at the patient safety committee; embed the mandatory care plan entry trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of alternative patient identification arrangements found in the library]"
+  ],
+  "pitfalls": [
+   "Small numbers, since most patients do wear a band → extend the audit period or pool wards with higher rates of confusion/mental health needs.",
+   "Staff avoid raising the issue with the patient again once refused once → make re-attempting the explanation part of the daily care plan review.",
+   "Photograph consent process is unfamiliar to staff → provide a simple one-page guide at the nursing station.",
+   "Confusion between 'refused' and 'clinically unable' (e.g. skin condition) is not distinguished → record the specific reason, not just 'no band'."
+  ],
+  "pearls": [
+   "Focus data collection on wards with higher numbers of patients with dementia, delirium or acute mental health needs.",
+   "Involve the safeguarding and dementia teams in designing the alternative-identification process.",
+   "Review with patients and carers, where possible, whether the alternative process felt respectful.",
+   "Re-audit on the same wards after staff turnover to check the process has bedded in."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case found",
+  "pass": "For a patient not wearing an identity band, the notes document the reason, the attempt made to explain its purpose, and an agreed alternative (e.g. a consented photograph, or a documented process) is in place"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients transferred between wards have their identity band checked against their notes for accuracy at the point of transfer?",
+  "why": "A ward-to-ward transfer is a recognised point where identity errors can go unnoticed until a later drug round or procedure; no audit of identity checking specifically at the point of transfer has been published in the library.",
+  "standard": {
+   "source": "Leicestershire Partnership NHS Trust Positive Patient Identification Policy (October 2023), based on the NHS identity band standard",
+   "wording": "In the event of a patient being transferred between wards, the identity band should be checked with the patient and/or case notes for accuracy. This may be from ward to ward, ward to department, or between hospitals.",
+   "url": "https://www.leicspart.nhs.uk/wp-content/uploads/2023/10/Positive-Patient-Identification-Policy-Exp-April-2027.pdf"
+  },
+  "population": "Inclusion: adult inpatients transferred between wards (excluding transfer to theatre, which has its own WHO checklist). Exclusion: transfers for a single diagnostic test with return to the same bed.",
+  "sample": "40 consecutive ward-to-ward transfers over the last 4 weeks",
+  "data_source": "Nursing transfer/handover checklist",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transfer",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "from_ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "to_ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "identity_check_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discrepancy_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an identity band check as a mandatory item on the ward-to-ward transfer/handover checklist, to be signed by the receiving nurse.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the patient safety committee; embed the mandatory checklist item trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of identity band checking at ward transfer found in the library]"
+  ],
+  "pitfalls": [
+   "Transfer checklists are completed retrospectively rather than at the time → make the identity check the first item, ahead of clinical handover.",
+   "Verbal handover replaces the written checklist → require the checklist to travel with the patient's notes.",
+   "Bed pressures lead to rushed transfers where the checklist is skipped → audit out-of-hours and high-occupancy periods specifically.",
+   "Discrepancies found are not escalated → add a clear 'what to do if a discrepancy is found' step to the checklist."
+  ],
+  "pearls": [
+   "Use the same transfer checklist already required for other information (e.g. VTE status, allergies) so this is one extra line, not a new form.",
+   "Train bed managers and site teams on the importance of this final identity check.",
+   "Report any discrepancies found as safety learning, in addition to the completion rate.",
+   "Re-audit at a different time of year to check winter bed-pressure periods are not worse."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 transfers from checklists",
+  "pass": "The transfer checklist or handover documentation records that the identity band was checked against the patient and/or case notes at the point of transfer"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who have bed rails fitted have an individual written risk assessment completed before the bed rails are used?",
+  "why": "Bed rails carry a risk of fatal chest or neck entrapment, listed as a Never Event; an individual risk assessment before use is the main safeguard, and no audit of this step has been published in the library.",
+  "standard": {
+   "source": "Medicines and Healthcare products Regulatory Agency, Bed rails: management and safe use (updated 2023)",
+   "wording": "Chest or neck entrapment in bed rails is listed (number 11) as a 'Never Event' according to the NHS in 2018... Risk assessments should account for any characteristics which might put the bed user at greater risk from use of bed rails.",
+   "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1181044/Bed_rails_guidance.pdf"
+  },
+  "population": "Inclusion: adult inpatients with bed rails in use on a general ward. Exclusion: cot-side rails on paediatric beds.",
+  "sample": "40 inpatients with bed rails in use, identified across 4 wards on the same day",
+  "data_source": "Moving and handling / bed rail risk assessment documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_check",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bed_rails_in_use",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_risk_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_before_rails_fitted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the bed rail risk assessment a mandatory EPR step that must be completed before a 'bed rails in use' order can be entered, using a standard entrapment-risk checklist.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the patient safety committee (Never Events); embed the mandatory EPR step trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of individual bed rail risk assessment completion found in the library]"
+  ],
+  "pitfalls": [
+   "Bed rails put up as a default without individual assessment → make the assessment a prerequisite in the EPR order.",
+   "Risk assessment done once on admission and not reviewed when the patient's condition changes → audit whether it is reviewed after any relevant change.",
+   "Staff underestimate entrapment risk because they see bed rails as routine → include Never Event learning in ward teaching.",
+   "Assessment completed but not accessible to night staff → keep it in a single, easy-to-find EPR location."
+  ],
+  "pearls": [
+   "Use the MHRA's example adult entrapment risk assessment checklist as the basis for the EPR form.",
+   "Involve the moving and handling/tissue viability team in reviewing findings.",
+   "Report any Never Event near-misses found during the audit immediately through the incident system.",
+   "Repeat the spot-check on wards with higher rates of confusion or frailty."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per ward round of 10 patients",
+  "pass": "A documented, individualised bed rail risk assessment (considering the patient's size, mobility, confusion or agitation, and bed/mattress configuration) is completed and filed before the bed rails are fitted"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of decisions to use bed rails are documented with the reasoning, and evidence that this was explained to the patient or their family?",
+  "why": "Because bed rails restrict a patient's movement and carry entrapment risk, the decision to use them should be individually justified and, where possible, discussed with the patient; no audit of documented reasoning and communication has been published in the library.",
+  "standard": {
+   "source": "Medicines and Healthcare products Regulatory Agency, Bed rails: management and safe use (updated 2023)",
+   "wording": "Every effort should be made to explain to the person being cared for why their bed has or is likely to have bed rails fitted. The potential risks, as identified by their individual risk assessment should also be explained to the person, as appropriate... The decision to use bed rails should be made with the person's consent, wherever possible.",
+   "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1181044/Bed_rails_guidance.pdf"
+  },
+  "population": "Inclusion: adult inpatients with bed rails in use. Exclusion: none.",
+  "sample": "40 inpatients with bed rails in use, identified across 4 wards on the same day",
+  "data_source": "Bed rail risk assessment and nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_check",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_bed_rails_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "explanation_to_patient_or_family_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consent_or_best_interests_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'reason explained to patient/family' and 'consent/best interests' as mandatory fields on the bed rail risk assessment form, alongside the risk assessment itself.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same spot-check method and sample size",
+  "close_loop": "Present at the patient safety committee; embed the mandatory fields trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of documented reasoning and consent for bed rail use found in the library]"
+  ],
+  "pitfalls": [
+   "Explanation given verbally but not recorded → add a specific field rather than relying on general nursing notes.",
+   "Patients who lack capacity are not covered by a best-interests decision → link the field to the trust's Mental Capacity Act documentation.",
+   "Family not contactable at the time bed rails are first used → record this and require follow-up documentation once contact is made.",
+   "Staff see this as extra paperwork → combine it with the risk assessment form so it is one document, not two."
+  ],
+  "pearls": [
+   "Combine this audit with the risk-assessment-before-use audit as one bed rails safety audit.",
+   "Provide a simple patient/family information leaflet on bed rails to support the conversation.",
+   "Involve the mental capacity/best interests lead where patients lack capacity.",
+   "Share good-practice examples of clear documentation at ward teaching sessions."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per ward round of 10 patients",
+  "pass": "The notes record the reason bed rails were prescribed, that this was explained to the patient (or their family/representative if the patient lacks capacity), and whether consent was given"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of beds with bed rails fitted are checked each shift for gaps or configuration changes that could increase the risk of entrapment?",
+  "why": "Entrapment risk changes if the mattress, bed or rail configuration changes, or is replaced, after the original risk assessment; no audit of ongoing shift-by-shift bed rail safety checks has been published in the library.",
+  "standard": {
+   "source": "Medicines and Healthcare products Regulatory Agency, Bed rails: management and safe use (updated 2023)",
+   "wording": "What configuration of bed, mattress and rail system is being used?... Our adverse incident investigations have shown that the physical or clinical condition of bed occupants means that some are at greater risk of entrapment in bed rails.",
+   "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1181044/Bed_rails_guidance.pdf"
+  },
+  "population": "Inclusion: adult inpatients with bed rails in use on a general ward. Exclusion: none.",
+  "sample": "30 patients with bed rails, checked over 3 consecutive shifts each, over 2-4 weeks",
+  "data_source": "Direct observation and shift handover/intentional rounding documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_and_shift",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "configuration_check_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "configuration_unchanged_from_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gap_or_hazard_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_taken_if_hazard_found",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a bed rail configuration check to the twice-daily intentional rounding checklist, prompting a repeat risk assessment whenever the bed, mattress or rail is changed.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same method and sample size",
+  "close_loop": "Present at the patient safety committee (Never Events); embed the check into intentional rounding trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of shift-by-shift bed rail configuration checks found in the library]"
+  ],
+  "pitfalls": [
+   "Mattress replaced (e.g. for pressure relief) without repeating the bed rail check → link mattress ordering to an automatic bed rail re-check prompt.",
+   "Checks become a tick-box exercise without real inspection → include a photo-based training aid on what to look for.",
+   "Night shift checks are less thorough → include night shifts explicitly in the sample.",
+   "Staff unfamiliar with entrapment zones → provide the MHRA entrapment-area diagram at the nursing station."
+  ],
+  "pearls": [
+   "Combine with other intentional rounding items (pressure area care, hydration) so it is one round.",
+   "Use the MHRA entrapment risk-area diagram for staff training.",
+   "Involve estates/equipment teams when a mismatched bed and mattress combination is found.",
+   "Report any hazards found immediately, not only in the aggregate audit result."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per shift check of 10 patients",
+  "pass": "A documented shift check confirms the bed, mattress and rail configuration matches what was risk-assessed, with no new gaps, and flags any change for a repeat risk assessment"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of safeguarding concerns identified for adult inpatients with care and support needs have a safeguarding referral made and documented on the day the concern is identified?",
+  "why": "A prompt safeguarding referral allows the local authority to assess and act quickly to protect an adult at risk; no audit of the timeliness of making the referral itself (as opposed to the outcome of the safeguarding process) has been published in the library.",
+  "standard": {
+   "source": "Department of Health and Social Care, Care and support statutory guidance (Care Act 2014), paragraph 14.7",
+   "wording": "Safeguarding means protecting an adult's right to live in safety, free from abuse and neglect. It is about people and organisations working together to prevent and stop both the risks and experience of abuse or neglect.",
+   "url": "https://www.gov.uk/government/publications/care-act-statutory-guidance/care-and-support-statutory-guidance"
+  },
+  "population": "Inclusion: adult inpatients for whom a safeguarding concern (suspected abuse, neglect or self-neglect) is identified and documented by ward staff in the last 3-6 months. Exclusion: concerns identified and referred before admission by another agency.",
+  "sample": "30 consecutive safeguarding concerns identified on adult wards over the last 3-6 months",
+  "data_source": "Safeguarding referral log, ward safeguarding documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_concern_identified",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_referral_made",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_route",
+    "type": "choice",
+    "options": [
+     "local authority online form",
+     "phone referral",
+     "safeguarding team internally",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "immediate_safety_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a same-day safeguarding referral task to the EPR whenever a safeguarding concern is documented, with an automatic reminder to the named nurse or ward manager if the referral has not been submitted by the end of the shift.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the trust safeguarding adults committee; embed the automatic EPR task trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of same-day safeguarding referral timeliness for adult inpatients found in the library]"
+  ],
+  "pitfalls": [
+   "Staff are unsure whether a concern meets the referral threshold and delay while seeking advice → provide a same-day advice line staffed by the trust safeguarding team.",
+   "Concerns identified out of hours wait until the next working day → confirm an out-of-hours referral route exists and is used.",
+   "Small numbers of qualifying concerns on general wards → extend sampling to 6 months or pool several wards.",
+   "Referral made verbally to a colleague but not formally submitted → audit only formal referrals recorded in the safeguarding log."
+  ],
+  "pearls": [
+   "Work with the trust safeguarding adults lead to define what counts as 'identified' versus 'referred'.",
+   "Provide a laminated safeguarding referral pathway card on every ward.",
+   "Report both the same-day rate and the reasons for any delay found.",
+   "Re-audit after staff safeguarding training to see if the change has had an effect."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 concerns from the safeguarding log",
+  "pass": "A safeguarding concern/referral form is completed and submitted to the local authority safeguarding team on the same calendar day the concern is identified and documented by staff"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients who receive rapid tranquillisation have their pulse, blood pressure, respiratory rate, temperature, hydration and level of consciousness monitored at least hourly afterwards?",
+  "why": "Rapid tranquillisation carries a risk of cardiorespiratory depression, and physical monitoring is the safeguard against this; no audit of post-rapid-tranquillisation physical monitoring on general hospital wards (as opposed to mental health units) has been published in the library.",
+  "standard": {
+   "source": "NICE guideline NG10 Violence and aggression: short-term management in mental health, health and community settings, recommendation 1.4.45 (2015)",
+   "wording": "After rapid tranquillisation, monitor side effects and the service user's pulse, blood pressure, respiratory rate, temperature, level of hydration and level of consciousness at least every hour until there are no further concerns about their physical health status. Monitor every 15 minutes if the BNF maximum dose has been exceeded or the service user...",
+   "url": "https://www.nice.org.uk/guidance/ng10/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients on a general medical or surgical ward who receive parenteral rapid tranquillisation for acute behavioural disturbance. Exclusion: patients on a mental health ward already covered by a dedicated rapid tranquillisation monitoring protocol.",
+  "sample": "30 consecutive episodes of rapid tranquillisation on general wards over the last 6-12 months",
+  "data_source": "Observation chart, drug administration record, incident report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_rapid_tranquillisation_given",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pulse_bp_monitored_hourly",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "respiratory_rate_monitored_hourly",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "temperature_monitored_hourly",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consciousness_level_monitored_hourly",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "escalated_to_15_min_when_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a dedicated post-rapid-tranquillisation monitoring chart (paper or electronic) that pre-populates the six required parameters and the hourly (or 15-minute) schedule automatically when the drug is recorded as given.",
+  "target": "≥90%",
+  "reaudit": "6-12 months after the change, same template and sample size",
+  "close_loop": "Present at the medicines safety committee and violence-reduction/security steering group; embed the dedicated chart trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of post-rapid-tranquillisation physical monitoring on general wards found in the library]"
+  ],
+  "pitfalls": [
+   "Rapid tranquillisation episodes are uncommon on general wards, giving small numbers → extend the sampling period to 6-12 months across the whole trust.",
+   "Standard NEWS2 charts do not capture hydration or consciousness in the way needed → use a dedicated chart rather than the routine observation chart.",
+   "Staff are focused on managing the acute behavioural disturbance and monitoring is deprioritised → assign a named member of staff to monitoring at the time the drug is given.",
+   "Episodes are not all captured on the incident system → cross-check against pharmacy records of parenteral sedatives given."
+  ],
+  "pearls": [
+   "Involve the mental health liaison team, who are often called to these episodes on general wards.",
+   "Use a pre-printed sticker or EPR order set that starts the monitoring schedule automatically.",
+   "Review every episode with a debrief involving the nurse in charge, not only the aggregate percentage.",
+   "Track any adverse events (oversedation, respiratory depression) alongside the audit as an outcome measure."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per episode from observation charts and drug records",
+  "pass": "All six parameters (pulse, blood pressure, respiratory rate, temperature, hydration status, level of consciousness) are documented at least hourly for the period following rapid tranquillisation until concerns have resolved"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of documented episodes of manual restraint on adult wards record that the least restrictive intervention was used and the reasons for the level of restriction chosen?",
+  "why": "Using and recording the least restrictive intervention protects patients' rights and reduces harm; no audit of whether this specific documentation standard is met (as opposed to whether a post-incident debrief is offered) has been published in the library.",
+  "standard": {
+   "source": "NICE guideline NG10 Violence and aggression: short-term management in mental health, health and community settings, recommendation 1.1.9 (2015)",
+   "wording": "Ensure that service users understand that during any restrictive intervention their human rights will be respected and the least restrictive intervention will be used to enable them to exercise their rights... Identify and reduce any barriers to a service user exercising their rights and, if this is not possible, record the reasons in their notes.",
+   "url": "https://www.nice.org.uk/guidance/ng10/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients physically restrained on a general medical, surgical or mental health ward in the last 6-12 months. Exclusion: brief supportive holds during a medical procedure with the patient's cooperation.",
+  "sample": "30 consecutive restraint episodes over the last 6-12 months",
+  "data_source": "Restraint/restrictive intervention incident form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_incident",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "less_restrictive_options_considered_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_level_of_restriction_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_of_restraint_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add mandatory fields to the restraint incident form for 'less restrictive options considered' and 'reason for level of restriction used', which must be completed before the form can be closed.",
+  "target": "≥90%",
+  "reaudit": "6-12 months after the change, same template and sample size",
+  "close_loop": "Present at the restrictive practice reduction group; embed the mandatory fields trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-147] patients offered a documented chance to talk about a restraint incident within 72 hours (a related but distinct documentation requirement in the same NG10 guideline)"
+  ],
+  "pitfalls": [
+   "Incident forms focus on what happened rather than why that level of restriction was chosen → add specific fields rather than free text alone.",
+   "Staff under time pressure after an incident complete the form minimally → allow the form to be completed in two stages (immediate facts, then reflection within 24 hours).",
+   "Small numbers of restraint episodes on general wards → extend the sampling period.",
+   "Different staff have different thresholds for what counts as 'least restrictive' → provide training and examples."
+  ],
+  "pearls": [
+   "Run this alongside the existing post-incident debrief audit so the whole NG10 documentation standard is reviewed together.",
+   "Involve service user representatives in reviewing what good documentation looks like.",
+   "Use restrictive intervention reduction programme data (already required by NG10) as a source of episodes.",
+   "Share themes from the reasons documented, not just the completion rate, to guide training."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per episode from incident forms",
+  "pass": "The restraint incident record documents that a less restrictive option was considered, and states the reason the level of restriction used was chosen"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients have an oral health/mouth care assessment completed within 24 hours of admission?",
+  "why": "An early mouth care assessment identifies patients who need help maintaining oral hygiene, reducing the risk of infection, discomfort and reduced nutritional intake; no audit of mouth care assessment completion has been published in the library.",
+  "standard": {
+   "source": "Health Education England, Mouth Care Matters (2019), cited in a hospital Trust Mouthcare Policy CLP157",
+   "wording": "It is suggested by (NHS Health Education Mouth Care Matters 2019) a mouth care assessment should be undertaken on admission or within 24 hours of admission and should be reviewed weekly.",
+   "url": "https://foi.ghc.nhs.uk/wp-content/uploads/2026/03/a-CLP157-Mouthcare-Policy-V2-issued-21.7.25_Redacted.pdf"
+  },
+  "population": "Inclusion: adults admitted to a general medical or surgical ward for 24 hours or more. Exclusion: day-case admissions.",
+  "sample": "40 consecutive adult admissions over the last 4 weeks",
+  "data_source": "EPR nursing admission assessment / mouth care assessment tool",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_score",
+    "type": "choice",
+    "options": [
+     "green - independent",
+     "amber - needs supervision/help",
+     "red - needs mouth care",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory mouth care assessment field to the electronic nursing admission assessment for every adult inpatient.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the tissue viability/nutrition and hydration steering group; embed the mandatory field trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of mouth care assessment completion found in the library]"
+  ],
+  "pitfalls": [
+   "Mouth care assessment seen as a low priority compared with other admission tasks → make it part of the same mandatory admission bundle as pressure ulcer and falls risk assessment.",
+   "Staff lack confidence assessing the mouth without dental training → provide short Mouth Care Matters training and a simple visual guide.",
+   "Assessment done but not reviewed weekly as required → track weekly review as a separate, later measure.",
+   "Patients with dentures or dysphagia need a modified approach not captured by a simple tool → add a free-text note field for these cases."
+  ],
+  "pearls": [
+   "Use the trust's existing Mouth Care Matters-based assessment tool rather than creating a new one.",
+   "Provide a basic mouth care kit at every bedside so assessment leads straight into action.",
+   "Involve speech and language therapy for patients with dysphagia identified through the assessment.",
+   "Report results alongside pressure ulcer and falls assessment rates, since all three are part of the same admission bundle."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 admissions from EPR",
+  "pass": "A mouth care assessment screening tool is completed and documented within 24 hours of admission"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients assessed as needing help with mouth care (amber or red on the mouth care assessment) receive documented mouth care at least twice daily?",
+  "why": "Patients who cannot manage their own oral hygiene depend on nursing staff to deliver mouth care reliably; no audit of the frequency of delivered mouth care for dependent patients has been published in the library.",
+  "standard": {
+   "source": "Hospital Trust Mouthcare Policy CLP157, applying Health Education England's Mouth Care Matters standard",
+   "wording": "Independent (Green), promote good oral mouth health care as a minimum of twice daily; Needs supervision/help to clean teeth (Amber)... Needs mouth care (Red), assist with mouth care.",
+   "url": "https://foi.ghc.nhs.uk/wp-content/uploads/2026/03/a-CLP157-Mouthcare-Policy-V2-issued-21.7.25_Redacted.pdf"
+  },
+  "population": "Inclusion: adult inpatients scored amber or red on the mouth care assessment, in hospital for 3 or more days. Exclusion: patients discharged within 48 hours of assessment.",
+  "sample": "30 consecutive amber/red patients, reviewed over 3 days each, over the last 4-8 weeks",
+  "data_source": "EPR daily care round / mouth care recording sheet",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_score",
+    "type": "choice",
+    "options": [
+     "amber",
+     "red"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day1_am",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day1_pm",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day2_am",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day2_pm",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day3_am",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_day3_pm",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add mouth care to the twice-daily intentional rounding checklist for every patient scored amber or red, with a signature box for each round.",
+  "target": "≥85%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the tissue viability/nutrition and hydration steering group; embed the intentional rounding item trust-wide if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of mouth care delivery frequency for dependent patients found in the library]"
+  ],
+  "pitfalls": [
+   "Mouth care given but not recorded → build recording into the same electronic round as repositioning and hydration.",
+   "Staff shortages mean mouth care is deprioritised against other tasks → make it an explicit, named item on the intentional rounding chart rather than assumed.",
+   "Patients who are nil by mouth are wrongly assumed not to need mouth care → clarify that NBM patients need mouth care even more, not less.",
+   "Reduced consciousness or intubated patients need a different technique not distinguished on a simple chart → add a note field for special techniques used."
+  ],
+  "pearls": [
+   "Stock basic mouth care kits (sponge sticks, non-foaming toothpaste) on every bed bay.",
+   "Train healthcare assistants specifically, since they often deliver most mouth care.",
+   "Combine this audit with the mouth care assessment audit to review the full pathway.",
+   "Report results by ward, since dependency levels vary a great deal between specialties."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR care round records",
+  "pass": "For a patient scored amber or red on the mouth care assessment, documented mouth care is recorded at least twice in each 24-hour period"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of omitted or delayed doses of a medicine flagged as time-critical are documented with a reason on the drug chart or eMAR?",
+  "why": "Recording why a time-critical dose was omitted or delayed lets pharmacy and nursing teams identify and fix recurring causes; no audit of the completeness of omission-reason coding for time-critical medicines specifically has been published in the library.",
+  "standard": {
+   "source": "NHS Specialist Pharmacy Service, Defining time critical medicines (reviewed 2024/2025)",
+   "wording": "Those where early or delayed administration of maintenance doses of greater than 30 minutes before or after the scheduled dose may cause harm or result in substantial sub-optimal therapy.",
+   "url": "https://sps.nhs.uk/articles/defining-time-critical-medicines/"
+  },
+  "population": "Inclusion: adult inpatients prescribed a medicine on the ward's local time-critical medicines list (e.g. levodopa, short-acting insulin, anti-epileptics, immunosuppressants). Exclusion: medicines stopped altogether by a prescriber (not an omission).",
+  "sample": "40 consecutive omitted or delayed time-critical doses identified from the eMAR over the last 4-8 weeks",
+  "data_source": "Electronic medicines administration record omission/delay report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_dose",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medicine_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "omitted_or_delayed",
+    "type": "choice",
+    "options": [
+     "omitted",
+     "delayed >30 min"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_coded_or_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_category",
+    "type": "choice",
+    "options": [
+     "patient refused",
+     "not available",
+     "nil by mouth",
+     "clinical decision",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the omission/delay reason a mandatory coded field in the eMAR (rather than optional free text) whenever a time-critical medicine is recorded as omitted or given late.",
+  "target": "≥95%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the medicines safety committee; embed the mandatory coded field trust-wide if the target is met.",
+  "evidence": [
+   "[ONA-121] and [NNA-095] audit whether Parkinson's time-critical doses are given on time; no audit of the completeness of reason-coding for missed or delayed time-critical doses found in the library"
+  ],
+  "pitfalls": [
+   "Reason entered as vague free text ('N/A') that does not explain the cause → use a fixed drop-down list of reason categories.",
+   "Staff do not know which medicines on the chart are time-critical → flag them visually on the eMAR.",
+   "Doses omitted overnight are under-documented due to lower staffing → include night shifts in the sample.",
+   "Reason coding varies between wards using paper versus electronic charts → restrict the audit to wards on the same eMAR system for consistency."
+  ],
+  "pearls": [
+   "Agree the trust's time-critical medicines list with pharmacy before starting data collection.",
+   "Use the coded reasons to run a monthly pharmacy-led review of recurring causes.",
+   "Pair this audit with the specific Parkinson's and insulin timing audits to build a full picture.",
+   "Feed back common reasons (e.g. 'medicine not available') to procurement or ward stock processes."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 omitted/delayed doses from the eMAR",
+  "pass": "Every omitted or more-than-30-minutes-delayed dose of a medicine on the ward's time-critical medicines list has a coded or documented reason entered on the eMAR"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of elective surgical patients who are cancelled or delayed on the day of surgery are offered food or drink within 1 hour of being told they will not have surgery that day?",
+  "why": "Patients who have fasted appropriately for a planned procedure that is then cancelled or significantly delayed are at risk of unnecessary prolonged starvation and dehydration if this is not acted on promptly; no audit of this specific step for elective (non-trauma) lists has been published in the library.",
+  "standard": {
+   "source": "Association of Anaesthetists of Great Britain and Ireland recommended fasting times, cited in the PIER Network Peri-operative Fasting Policy (October 2020)",
+   "wording": "Excessive fasting can cause a great deal of stress for children and their carers... Excessive fasting leads to irritability and agitation whilst waiting for surgery.",
+   "url": "https://www.piernetwork.org/uploads/4/7/8/1/47810883/enc_g_pier_fasting_guideline_oct2.pdf"
+  },
+  "population": "Inclusion: adult elective surgical inpatients cancelled or delayed by more than 2 hours past their scheduled time in the last 4-8 weeks. Exclusion: cancellations where the patient needs to remain fasted for a same-day rescheduled procedure.",
+  "sample": "30 consecutive cancelled or significantly delayed elective patients over the last 4-8 weeks",
+  "data_source": "Ward nursing notes, theatre cancellation log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_scheduled_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_told_cancelled_or_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "food_drink_offered_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'cancelled: may eat and drink now?' step to the theatre coordinator's cancellation process, with a scripted phone call to the ward and a timed nursing task to offer food and drink.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the theatres governance meeting; embed the cancellation step trust-wide if the target is met.",
+  "evidence": [
+   "[ONA-147] similar standard already used for trauma list cancellations (a related audit limited to trauma lists); no closed-loop audit for elective general surgical list cancellations found in the library"
+  ],
+  "pitfalls": [
+   "Communication delay between theatres and the ward means the ward is unaware of the cancellation → use a direct phone call, not just an electronic list update.",
+   "Patient still due to be rescheduled later the same day so remains fasted appropriately → record this as a valid reason, not a failure.",
+   "Cancellations late in the day are under-recorded because staff focus on other tasks → include all times of day in the sample.",
+   "No consistent record of when the patient was actually told → agree a single point of documentation (nursing notes) for this time."
+  ],
+  "pearls": [
+   "Give the theatre coordinator a one-line script to use when phoning the ward.",
+   "Track patient-reported experience of cancellation alongside the audit as a balancing measure.",
+   "Share cancellation and fasting-related complaints with the theatres team to reinforce the case for change.",
+   "Re-audit during a busy winter period to test the process under pressure."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from theatre and ward records",
+  "pass": "A documented offer of food or drink (or a stated clinical reason why this is not yet possible) is recorded within 1 hour of the patient being informed their operation will not go ahead that day"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of restrictive intervention decisions for patients who lack capacity involve documented consultation with a carer or family member, in line with the Mental Capacity Act 2005?",
+  "why": "Involving carers and family in decisions about restrictive interventions for patients who lack capacity is both a legal requirement and a safeguard against unnecessary restriction; no audit of this specific documentation standard has been published in the library.",
+  "standard": {
+   "source": "NICE guideline NG10 Violence and aggression: short-term management in mental health, health and community settings, recommendation 1.1.10 (2015)",
+   "wording": "Ensure that carers are involved in decision-making whenever possible, if the service user agrees, and that carers are involved in decision-making for all service users who lack mental capacity, in accordance with the Mental Capacity Act 2005.",
+   "url": "https://www.nice.org.uk/guidance/ng10/chapter/Recommendations"
+  },
+  "population": "Inclusion: adult inpatients who lack capacity (as documented under the Mental Capacity Act) and are subject to a restrictive intervention decision. Exclusion: patients who have capacity and consent to the intervention themselves.",
+  "sample": "30 consecutive qualifying restrictive intervention episodes over the last 6-12 months",
+  "data_source": "Restraint/restrictive intervention incident form, Mental Capacity Act assessment documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_incident",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capacity_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lacks_capacity",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "carer_family_consultation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_consulted",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'carer/family consulted (or reason why not)' field to the restrictive intervention incident form, linked to the Mental Capacity Act assessment section.",
+  "target": "≥85%",
+  "reaudit": "6-12 months after the change, same template and sample size",
+  "close_loop": "Present at the restrictive practice reduction group and Mental Capacity Act steering group; embed the mandatory field trust-wide if the target is met.",
+  "evidence": [
+   "[no audit of carer/family consultation documentation for restrictive interventions in patients lacking capacity found in the library]"
+  ],
+  "pitfalls": [
+   "Urgent situations mean consultation happens after, not before, the intervention → accept and record retrospective consultation as long as it is documented promptly.",
+   "No carer or family member is contactable → record this explicitly rather than leaving the field blank.",
+   "Capacity assessment itself is not documented, making the population hard to define → run this audit alongside a capacity-documentation check.",
+   "Staff conflate 'informing' a family member after the event with 'involving' them in the decision → clarify the distinction in training."
+  ],
+  "pearls": [
+   "Link this audit to the trust's existing Mental Capacity Act training programme.",
+   "Involve the safeguarding and mental capacity leads in reviewing findings.",
+   "Provide a quick-reference card on when and how to contact carers out of hours.",
+   "Report findings alongside the least-restrictive-intervention audit for a fuller picture of NG10 compliance."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per episode from incident forms",
+  "pass": "For a patient who lacks capacity at the time of a restrictive intervention decision, the notes document that a carer or family member was consulted, or record why this was not possible"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients on a variable-rate intravenous insulin infusion have their capillary blood glucose measured at least hourly?",
+  "why": "Hourly glucose monitoring during a variable-rate insulin infusion is essential to detect and prevent both hypoglycaemia and hyperglycaemia promptly; no audit of monitoring frequency during a running infusion (as opposed to the response once a hypo has already occurred) has been published in the library.",
+  "standard": {
+   "source": "Joint British Diabetes Societies for Inpatient Care, JBDS 01: The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023)",
+   "wording": "If the person was on IV insulin, continue to check blood glucose every 15 minutes until...",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "population": "Inclusion: adult inpatients on a variable-rate intravenous insulin infusion on a general ward. Exclusion: patients in critical care with continuous glucose monitoring already in place.",
+  "sample": "30 consecutive patients on a variable-rate insulin infusion, reviewed over their first 12 hours on the infusion, over the last 3 months",
+  "data_source": "EPR glucose monitoring record, insulin infusion prescription chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_infusion_started",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_glucose_checks_in_first_12h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_between_checks_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hourly_standard_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_hypo_or_hyper_episode",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the EPR insulin infusion order to automatically schedule and prompt hourly glucose-check tasks for the duration of the infusion.",
+  "target": "≥90%",
+  "reaudit": "6 months after the change, same template and sample size",
+  "close_loop": "Present at the diabetes inpatient steering group; embed the automatic scheduling trust-wide if the target is met.",
+  "evidence": [
+   "[NNA-116] repeat glucose check within 15 minutes after a hypo on treatment (a related but distinct audit of the response to a low reading, not routine hourly monitoring)"
+  ],
+  "pitfalls": [
+   "Glucose checks recorded on a separate paper chart not linked to the EPR infusion order → move monitoring into the same electronic system as the infusion.",
+   "Checks clustered together after a gap rather than genuinely hourly → measure the longest gap, not just the total number of checks.",
+   "Ward staffing pressure causes delays overnight → include night hours specifically in the sample.",
+   "Infusion stopped and restarted multiple times, complicating the 12-hour window → record only the first continuous run."
+  ],
+  "pearls": [
+   "Use networked glucose meters that time-stamp readings automatically to reduce data collection effort.",
+   "Involve the diabetes inpatient specialist nurse team in reviewing outlying cases.",
+   "Track hypoglycaemia and severe hyperglycaemia rates on infusions as an outcome measure alongside monitoring frequency.",
+   "Re-audit on wards less familiar with insulin infusions, such as surgical wards, separately from specialist diabetes wards."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR glucose records",
+  "pass": "Local standard, applying the JBDS principle of frequent glucose monitoring during IV insulin therapy: capillary blood glucose is documented at least once every hour while the variable-rate insulin infusion is running"
+ }
+]
