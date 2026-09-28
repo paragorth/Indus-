@@ -34,3 +34,5 @@ Coherence is not evidence; every number is computed, never narrated. Sealings ar
 - `GRAMMAR.md`: the resulting data-only frame grammar (opener, middle, closer, suffix), with the controls that separate it from artefacts.
 - `prereg/preregistration-3-frozen.json`: predictions R1–R13 from this work, frozen for new data.
 - `CLEANROOM.md`, `MYTHS.md`, `RELATED-ARTIFACTS.md`: analysis without published readings; myth and scene parallels; non-Indus artefacts with related motifs.
+
+- `WORKING-DICTIONARY.md`: provisional glosses for the common signs, graded A/B/C (guesses allowed, each with a test).
