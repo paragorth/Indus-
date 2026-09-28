@@ -28,18 +28,14 @@ fully meet this standard. The known gaps are listed below, with what we are doin
 - **Colour.** Results are shown as numbers and percentages as well as coloured bars, so colour is
   never the only way information is given.
 - **Text contrast.** Body text is dark navy on white or near-white in the light theme, and light on
-  dark navy in the dark theme, well above the minimum contrast. Secondary grey text also meets the
-  minimum.
+  dark navy in the dark theme, well above the minimum contrast. Secondary grey text and the gold
+  labels and section numbers meet the 4.5:1 minimum for small text (the light-theme gold is about
+  5:1).
+- **Focus and form fields.** The keyboard focus outline is at least 3:1 against its background in
+  both themes, and the borders of text boxes and drop-down lists are about 3.7:1 against white.
 
 ## Known limitations
 
-- **Gold accents in the light theme.** Some small gold text (short labels above headings, and
-  section numbers) has a contrast ratio of about 3:1 against its background. Small text needs
-  4.5:1. The dark theme does not have this problem.
-- **Focus outline in the light theme.** The gold focus outline has a contrast ratio of about 2.3:1
-  against white. Outlines need 3:1. It is easy to see on navy buttons and in the dark theme, but may
-  be hard to see on white areas.
-- **Input borders.** The light grey borders of text boxes are faint (about 1.6:1 against white).
 - **Timeline and results charts** are drawn with coloured blocks. The values are also shown as
   text, but the charts themselves have not been tested with screen readers.
 - **Downloaded files.** The slides, spreadsheets and data files you download have not yet been
@@ -50,9 +46,6 @@ fully meet this standard. The known gaps are listed below, with what we are doin
 - **Testing.** We have reviewed the code and measured the colours ourselves. We have not yet
   completed a full manual test with a keyboard and screen readers, had an audit by an
   accessibility specialist, or tested with disabled users. We plan to do all three.
-
-We are fixing the contrast problems first, by darkening the gold used for small text, focus
-outlines and form borders in the light theme.
 
 ## Reporting a problem
 

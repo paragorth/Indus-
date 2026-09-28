@@ -13,7 +13,7 @@
   --primary-hover: #1b3358;
   --on-primary: #ffffff;
   --primary-tint: #eef1f6;
-  --gold: #b08a45;
+  --gold: #87652a;                 /* 5:1 on the page background (WCAG AA text) */
   --gold-soft: #f6efe1;
   --ink: #0b1f3a;
   --on-ink: #f3f5f9;
@@ -21,7 +21,8 @@
   --mint: #c9a45c;
   --link: #0b1f3a;
   --link-visited: #3c3a6e;
-  --focus: #c9a45c;
+  --focus: #87652a;
+  --control-border: #7c8595;       /* 3.7:1 against white (WCAG 1.4.11) */
   --focus-text: #0b1f3a;
   --ok-bg: #edf5f0;
   --ok-text: #1f6a47;
@@ -46,7 +47,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0a1424; --surface: #0f1b30; --surface-2: #15233c; --text: #edf0f5; --muted: #9aa4b6;
     --border: #22324e; --border-strong: #3a4c6d; --primary: #d6b772; --primary-hover: #e3c98f; --on-primary: #0b1f3a;
-    --primary-tint: #1a2944; --gold: #d6b772; --gold-soft: #2a2718; --ink: #060d1a; --mint: #d6b772;
+    --primary-tint: #1a2944; --gold: #d6b772; --focus: #d6b772; --control-border: #6f82a3; --focus: #d6b772; --control-border: #6f82a3; --gold-soft: #2a2718; --ink: #060d1a; --mint: #d6b772;
     --link: #e3e8f1; --link-visited: #c9c4ee; --ok-bg: #12301f; --ok-text: #9fd6b5; --warn-bg: #33280f; --warn-text: #ecd29a;
     --warn-border: #8a6a2b; --info-bg: #1a2944; --info-text: #c7d2e6; --neutral-bg: #182640; --neutral-text: #c5ccda;
     --bar: #9fb0cc; --bar-2: #d6b772; --bar-2-text: #0b1f3a; --shadow: 0 1px 2px rgba(0, 0, 0, .35);
@@ -56,7 +57,7 @@
 :root[data-theme="dark"] {
   --bg: #0a1424; --surface: #0f1b30; --surface-2: #15233c; --text: #edf0f5; --muted: #9aa4b6;
   --border: #22324e; --border-strong: #3a4c6d; --primary: #d6b772; --primary-hover: #e3c98f; --on-primary: #0b1f3a;
-  --primary-tint: #1a2944; --gold: #d6b772; --gold-soft: #2a2718; --ink: #060d1a; --mint: #d6b772;
+  --primary-tint: #1a2944; --gold: #d6b772; --focus: #d6b772; --control-border: #6f82a3; --gold-soft: #2a2718; --ink: #060d1a; --mint: #d6b772;
   --link: #e3e8f1; --link-visited: #c9c4ee; --ok-bg: #12301f; --ok-text: #9fd6b5; --warn-bg: #33280f; --warn-text: #ecd29a;
   --warn-border: #8a6a2b; --info-bg: #1a2944; --info-text: #c7d2e6; --neutral-bg: #182640; --neutral-text: #c5ccda;
   --bar: #9fb0cc; --bar-2: #d6b772; --bar-2-text: #0b1f3a; --shadow: 0 1px 2px rgba(0, 0, 0, .35);
@@ -643,3 +644,4 @@ h1[tabindex="-1"]:focus { outline: none; }
 .legal table { width: 100%; border-collapse: collapse; font-size: .9rem; display: block; overflow-x: auto; }
 .legal th, .legal td { border-bottom: 1px solid var(--border, #e3e6ec); padding: 8px 10px; text-align: left; vertical-align: top; }
 .legal p, .legal li { line-height: 1.6; max-width: 70ch; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea { border-color: var(--control-border) !important; }

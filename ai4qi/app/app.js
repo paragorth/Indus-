@@ -1299,6 +1299,7 @@
       details: { title: p.question, site: '', department: '', lead: '', team: '', supervisor: '', startDate: todayIso(), sampleSize: sampleGuess(p) },
       cycles: { c1: { rows: [] }, c2: { rows: [] } }, changeMade: { description: '', date: '' }, reminders: false,
       options: { monthOnly: false, noFreeText: false } };
+    if (DEMO) r.demo = true;                             // chosen in demo mode: an example audit from the start
     if (!runPut(r)) { window.alert && 0; }
     if (/^B-/.test(p.id)) { var b = builtGet(p.id); if (b) { b.chosen = true; builtSave(b); } }
     if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit chosen', { props: { kind: /^B-/.test(p.id) ? 'built' : 'proposed' } });
@@ -1605,7 +1606,7 @@
   /* --- reminders: opt-in, signed-in users, metadata only --- */
   var syncTimers = {};
   function syncRun(r) {
-    if (!BE.url || !BE.user) return;
+    if (!BE.url || !BE.user || r.demo) return;           // example audits never leave the device
     clearTimeout(syncTimers[r.id]);
     syncTimers[r.id] = setTimeout(function () {
       sbClient().then(function (c) {

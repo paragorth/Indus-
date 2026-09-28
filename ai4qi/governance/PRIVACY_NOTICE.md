@@ -1,17 +1,12 @@
 # Ai4Qi privacy notice
 
-> DRAFT — not legal advice. Check the facts marked "check", fill in the placeholders, then publish.
-> Replace everything in [square brackets]. Publish at `/privacy`.
-
 Last updated: [DATE]
 
 ## Who we are
 
-Ai4Qi is a free website that helps clinicians find, design and run clinical audits and quality
-improvement projects.
-
-Ai4Qi is run by [OWNER LEGAL NAME], [ADDRESS]. We are the "controller" of the personal data
-described in this notice. This means we decide how it is used.
+Ai4Qi is a free website that helps clinicians plan and run clinical audits. It is run by
+[OWNER LEGAL NAME], [ADDRESS], the "controller" who decides how the personal data in this notice
+is used.
 
 - Contact: [CONTACT EMAIL]
 - ICO registration number: [ICO REG NO.]
@@ -26,85 +21,82 @@ described in this notice. This means we decide how it is used.
 
 ## What we never collect: patient data
 
-When you run an audit, the records you type or upload are stored **only in your browser, on your
-device**. They are never sent to us or to any of our service providers. We cannot see them.
+Audit records you type or upload are stored **only in your browser, on your device**, encrypted with
+a passcode only you know. They are never sent to us or our service providers. So is a "results
+code" (totals only) if you paste one. Before a record is stored, Ai4Qi keeps only the template's
+columns, replaces patient numbers with audit codes and removes common identifiers from text. See
+[how your audit data is protected](#/privacy).
 
-Before a record is stored, Ai4Qi:
-
-- keeps only the columns in the audit template;
-- replaces patient or hospital numbers with audit codes (P001, P002…);
-- removes NHS numbers, other long numbers, postcodes, phone numbers, email addresses, dates of
-  birth and names written with a title (such as "Mr" or "Dr") from any text.
-
-This reduces the risk, but the records are **not anonymous**. Dates and details together can still
-identify a patient. They remain patient data that you hold under your organisation's rules. Your
-organisation, not Ai4Qi, is responsible for them. Please:
-
-- register your audit with your audit department before you start;
-- never type names or numbers into free-text boxes;
-- keep downloaded files on your organisation's systems, and share them only inside it;
-- delete the audit from the device when you have finished.
-
-[When live:] You can protect your records with a passcode. They are then stored encrypted and lock
-after 15 minutes without use. On a shared computer, choose "shared computer" mode: your records are
-then deleted when you close the browser. We never see your passcode, so we cannot reset it.
+The records are **de-identified, not anonymous**: details together can still identify a patient.
+They remain patient data held under your organisation's rules, and your organisation, not Ai4Qi,
+is responsible for them. Never type names or numbers into free-text boxes, and keep downloaded
+files on your organisation's systems.
 
 ## What we collect and why
 
-| What | When | Why | Lawful basis |
-|---|---|---|---|
-| Your email address | If you sign in (we email you a link; there is no password) | To sign you in and keep your audit list | Legitimate interests |
-| Grade or role, specialty, region | Only if you choose them in your profile | To understand who uses Ai4Qi, in totals only | Legitimate interests |
-| "My audits" progress: which audit, which step, dates | If you are signed in and start an audit | To show your progress and count completed audits in totals | Legitimate interests |
-| Usage events: sign-up, audit started or completed, days active | If you are signed in | To report how Ai4Qi is used, in totals only | Legitimate interests |
-| Feedback: thumbs up or down, reasons, optional comment, a random device number | If you give feedback | To improve the audit library. The device number stops spam and counts one vote per person | Legitimate interests |
-| Themes you type into "Build an audit", and the protocol built | If you build an audit on our website | To build the audit, reuse it for others, and improve the library | Legitimate interests |
-| Reminder details: the audit question, the next step (for example "Collect cycle 1 data (32 of 40 entered)"), the due date | Only if you turn on reminders for an audit | To email you when a step is due | Legitimate interests |
-| Visit statistics: pages viewed, referring site, browser type, country | When you visit | To see which pages are useful | Legitimate interests |
-| Technical logs, such as sign-in times and IP addresses kept by our providers | When you use the service | To keep the service secure | Legitimate interests |
+All of this is optional: we collect it only when you use the feature.
+
+| What | Why | Lawful basis |
+|---|---|---|
+| Your email address, if you sign in (by emailed link; no password) | To sign you in and keep your audit list | Legitimate interests |
+| Profile, if you fill it in: grade or role, specialty, region, where you work, what the audit is for | To understand who uses Ai4Qi, in totals | Legitimate interests |
+| "My audits" progress: which audit, which step, dates | To show your progress | Legitimate interests |
+| Usage events: sign-up, audit started or completed, days active | To report use, in totals | Legitimate interests |
+| Feedback: rating, reasons, optional comment, a random device number | To improve the library; the number limits spam | Legitimate interests |
+| Topics you type into "Build an audit", and the protocols built | To build and reuse audits | Legitimate interests |
+| Reminders you turn on: audit question, next step (such as "Collect cycle 1 data (32 of 40 entered)"), due date | To email you when a step is due | Legitimate interests |
+| Your email choices (news, sponsor offers) and when you changed them | To send only what you asked for | Consent |
+| Visit statistics: pages viewed, referring site, browser type, country | To see which pages are useful | Legitimate interests |
+| Our providers' technical logs, such as sign-in times and IP addresses | Security | Legitimate interests |
 
 "Legitimate interests" means we use the data because it is needed to run a service you have chosen
 to use, and your rights do not outweigh that. You can ask us about our assessment.
 
-Reminder details never include audit records. Admin reports show only totals, and never groups
-smaller than five people.
+**Building an audit.** We send the topic you type (up to 300 characters, with obvious identifiers
+removed) and extracts from our library to Anthropic, which writes the protocol. While you read it,
+Ai4Qi prepares the next version on the same topic in the background, sending the topic again.
+Anthropic never receives your email address or audit records. We may show a saved protocol to
+anyone who types the same topic, without saying who built it.
 
-**Please do not put patient information in feedback comments or audit themes.** If we find any, we
+**Demo mode** adds nothing to what we collect: its fictitious example audits stay on your device.
+(If you are signed in, their steps update "My audits" like any audit.)
+
+**Admin statistics** show totals only, never groups smaller than five people. Admins can read
+feedback comments.
+
+**Please do not put patient information in feedback comments or audit topics.** If we find any, we
 delete it.
 
 ## Emails about Ai4Qi and from our sponsors
 
-We only send you news or sponsors' offers if you tick the box for each one, at sign-in or on your
-account page. Both boxes start unticked, and you can untick them at any time on your account page or
-by replying to any such email. We record when you last changed these choices.
+We send news or sponsors' offers only if you tick the box for each one. Both start unticked. Untick
+them at any time on your account page, or reply to any such email.
 
-- **Ai4Qi news:** new features and audits, about once a month. Lawful basis: your consent.
+- **Ai4Qi news:** new features and audits, about once a month.
 - **Sponsor offers:** occasional messages about courses, events or jobs from organisations that
-  support Ai4Qi. We send these ourselves. We never give or sell your email address to sponsors.
-  Lawful basis: your consent.
+  support Ai4Qi. We send these ourselves and never give your email address to sponsors.
 
-Sponsors only ever see anonymous totals (for example, how many people signed up by grade or
-specialty, with groups smaller than five hidden). We also count how many people signed up with an
-NHS or HSE email address; this uses the address you signed in with and is only reported as a total.
+Sponsors only ever see totals, such as sign-ups by grade, specialty, region, work setting or audit
+purpose, and how many signed up with an NHS or HSE email address. Groups smaller than five are
+hidden.
 
 ## Who we share data with
 
-We use these service providers ("processors"). They act only on our instructions, under a data
-processing agreement.
+Our service providers ("processors") act only on our instructions, under a data processing
+agreement.
 
 | Provider | What they do | Where |
 |---|---|---|
-| Supabase | Stores accounts, profiles, feedback, progress and reminders; runs our server code | [London, UK / EU region chosen] |
-| Resend | Sends sign-in and reminder emails | United States |
-| Anthropic | Writes audit protocols from the theme you type. It receives the theme and extracts from our library, but not your email or any audit records | United States |
-| Plausible Analytics | Counts visits | EU (Germany) |
-| [Website host, e.g. GitHub] | Serves the website | [location] |
+| Supabase | Stores accounts, profiles, feedback, progress, built audits and reminders; runs our server code | London, UK |
+| Resend | Sends sign-in, reminder and news emails | United States |
+| Anthropic | Writes audit protocols from the topic you type. It does not use them to train its models | United States |
+| Plausible Analytics | Counts visits | European Union |
+| [Cloudflare Pages / Netlify] | Serves the website | [location] |
 
-We do not sell data. We share data with others only if the law requires it.
+We share data with others only if the law requires it.
 
-**Ai4Qi inside Claude.** If you use the Ai4Qi version published in Claude (claude.ai), your audit
-records still stay in your browser. Building an audit there uses your own Claude account, so
-Anthropic handles your theme under your own agreement with Anthropic, not ours.
+**Ai4Qi inside Claude.** In the version published in Claude (claude.ai), building an audit uses your
+own Claude account, under your own agreement with Anthropic, not ours.
 
 ## International transfers
 
@@ -117,50 +109,29 @@ safeguards. Transfers to the EU are covered by UK adequacy regulations. Ask us f
 
 | Data | How long |
 |---|---|
-| Account and profile | Until you ask us to delete it, or 24 months after you last sign in |
-| My audits progress | As long as your account exists |
+| Account, profile, email choices, My audits progress | Until you delete your account, or 24 months after you last sign in |
 | Feedback | 24 months, then deleted or stripped of the device number |
 | Usage events | 24 months, then kept only as weekly totals |
-| Reminders | Deleted when you turn them off or close the audit, and within 90 days of the due date |
-| Audit themes and built protocols | Protocols kept to improve the library; the link to your account removed after 90 days |
+| Reminders | Until you turn them off or close the audit; at most 90 days after the due date |
+| Audit topics and built protocols | Protocols kept to improve the library; the link to your account removed after 90 days |
 | Visit statistics | Totals only, kept while the site runs |
-| Providers' technical logs | As set by each provider (usually days to weeks) |
-| Records on your device | Until you delete them, clear your browser data, or (in shared-computer mode) close the browser |
+| Providers' technical logs | As set by each provider |
 
 ## Cookies and storage on your device
 
-Ai4Qi sets **no advertising or tracking cookies**. Plausible counts visits without cookies and
-without storing anything on your device, so we do not need a cookie banner.
-
-Ai4Qi uses your browser's storage, which is needed for the features you use:
-
-| What is stored | Why |
-|---|---|
-| Your audits and records | So your audit stays on your device, not on our servers |
-| Audits you have built | So you can come back to them |
-| Feedback waiting to be sent | So it can be sent when you are back online |
-| A random device number | To limit spam and count one vote per person |
-| Your sign-in session (if you sign in) | To keep you signed in |
-| A copy of the library | So the app works offline |
-
-You can delete all of this by clearing your browser's site data for Ai4Qi. This also deletes your
-audit records, so download a backup first if you need one.
+Ai4Qi sets **no advertising or tracking cookies**, and Plausible stores nothing on your device. Ai4Qi
+uses browser storage only for features you use, such as keeping your audits and your sign-in. Our
+[cookies and storage](#/cookies) page lists every item.
 
 ## Your rights
 
-You have the right to:
+You have the right to get a copy of your data, correct it, have it deleted, object to how we use
+it or ask us to limit it, get it in a portable format, and withdraw consent to emails at any time.
 
-- get a copy of your data;
-- correct it;
-- have it deleted;
-- object to how we use it, or ask us to limit it;
-- get your data in a portable format.
-
-Email [CONTACT EMAIL]. We will reply within one month. You can change your profile and turn
-reminders off in the app at any time.
-
-If you gave feedback without signing in, we cannot tell which feedback is yours unless you tell us
-your comment or device number.
+You can change your profile, email choices and reminders in the app. **Delete my account** on your
+account page deletes your account, profile, progress, usage events and reminders; feedback and
+built protocols are kept without any link to you. For anything else, email [CONTACT EMAIL]. We will
+reply within one month.
 
 **Patients:** we hold no patient data. For audit data about you, contact the hospital or practice
 that carried out the audit.
@@ -174,5 +145,5 @@ In Ireland, you can complain to the Data Protection Commission: https://www.data
 
 ## Changes to this notice
 
-We will update this notice when we change how we use data. We will show the date at the top. If
-the change is important, we will tell signed-in users by email before it takes effect.
+We will update this notice when we change how we use data, and show the date at the top. We will
+email signed-in users before any important change takes effect.
