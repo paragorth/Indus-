@@ -1,0 +1,1932 @@
+[
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults with suspected neutropenic sepsis receive their first dose of intravenous antibiotics within 1 hour of arrival at hospital?",
+  "why": "Neutropenic sepsis kills quickly and delay is the main modifiable factor. The library holds two closed loops, with baselines of 15% and well below target [6435][8112]; most units have never re-measured after their first project.",
+  "standard": {
+   "source": "NICE CG151 rec 1.4.1.1 (2012, updated 2024)",
+   "wording": "Treat suspected neutropenic sepsis as an acute medical emergency and offer empiric antibiotic therapy immediately.",
+   "url": "https://www.nice.org.uk/guidance/cg151/chapter/Recommendations"
+  },
+  "pass": "First dose of intravenous empiric antibiotic given (administration time on the drug chart or EPR) within 60 minutes of the arrival time, or of the time the patient became unwell if already an inpatient. The 60-minute limit is the audit's measure of 'immediately'.",
+  "population": "Adults (18+) who had systemic anticancer treatment in the last 6 weeks and presented with fever or were unwell and were treated as suspected neutropenic sepsis. Exclude patients whose antibiotics were started before arrival and those on end-of-life care.",
+  "sample": "40 consecutive episodes over the last 3–4 months (ED, acute medical unit, oncology/haematology wards and assessment unit).",
+  "data_source": "Acute oncology or chemotherapy helpline log and ED system for cases; ED arrival time from the ED system; antibiotic administration time from the drug chart or EPR; neutrophil count from the results system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "ED or assessment unit arrival, or time of deterioration for inpatients"
+   },
+   {
+    "field": "place_of_presentation",
+    "type": "choice",
+    "options": [
+     "ED",
+     "oncology assessment unit",
+     "direct to ward",
+     "inpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_sact_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Administration time, not prescribing time"
+   },
+   {
+    "field": "minutes_to_antibiotic",
+    "type": "number",
+    "options": [],
+    "note": "Calculated"
+   },
+   {
+    "field": "antibiotic_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "neutrophil_count",
+    "type": "number",
+    "options": [],
+    "note": "×10⁹/L, first result"
+   },
+   {
+    "field": "delay_reason_documented",
+    "type": "text",
+    "options": [],
+    "note": "e.g. no cannula, waiting for bloods, not triaged as sepsis"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a patient group direction so the triage or assessment-unit nurse gives the first dose of piperacillin with tazobactam without waiting for a doctor or a neutrophil count.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes, same template and same settings.",
+  "close_loop": "Present at the cancer services and ED governance meetings with the acute oncology lead. If it works, keep the PGD, add door-to-needle time to the acute oncology monthly dashboard and include PGD sign-off in ED nurse induction.",
+  "evidence": [
+   "[6435] oncology, UK: antibiotics within 60 min 15% → 95% (care pathway plus PGD for nurse-led first dose)",
+   "[8112] acute medicine, UK: antibiotics within 1 hour reached only 60% after training and several initiatives",
+   "[6356] acute medicine: Sepsis Six management 1% → 67% (trust protocol and teamwork)"
+  ],
+  "pitfalls": [
+   "Arrival time and administration time sit in different systems → agree before cycle 1 which timestamp counts, and use administration time only.",
+   "Patients who were never neutropenic get excluded later, changing the denominator → include all treated as suspected neutropenic sepsis and report confirmed cases separately.",
+   "ED nurses may object to a PGD they have not been trained on → agree the PGD with pharmacy and the ED nurse educator before launch.",
+   "Gains fade when the audit team rotates → hand the dashboard to the acute oncology nurse team."
+  ],
+  "pearls": [
+   "Recruit the acute oncology nurse; they already see most of these patients within 24 hours.",
+   "Stock piperacillin with tazobactam in the ED resus cupboard so the dose is not delayed by pharmacy.",
+   "Ask the chemotherapy unit to give patients an alert card to show at triage.",
+   "Report median minutes as well as the percentage so small improvements are visible."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from ED system and EPR"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults treated for suspected neutropenic sepsis receive no aminoglycoside in their initial empiric antibiotic regimen, unless a reason is documented?",
+  "why": "Adding gentamicin adds kidney and hearing toxicity with no survival benefit, yet many local sepsis protocols still pair it with other agents. No audit of aminoglycoside use in neutropenic sepsis has been published in the library.",
+  "standard": {
+   "source": "NICE CG151 rec 1.4.3.2 (2012, updated 2024)",
+   "wording": "Do not offer an aminoglycoside, either as monotherapy or in dual therapy, for the initial empiric treatment of suspected neutropenic sepsis unless there are patient-specific or local microbiological indications.",
+   "url": "https://www.nice.org.uk/guidance/cg151/chapter/Recommendations"
+  },
+  "pass": "No aminoglycoside prescribed in the first 24 hours of empiric treatment, or an aminoglycoside given with a patient-specific or microbiological reason written in the notes (e.g. penicillin allergy regimen, known resistant organism, septic shock per local policy).",
+  "population": "Adults (18+) receiving anticancer treatment who were started on intravenous empiric antibiotics for suspected neutropenic sepsis. Exclude patients already on antibiotics for another infection.",
+  "sample": "40 consecutive episodes over the last 3–4 months.",
+  "data_source": "Acute oncology log or ED coding for cases; drug chart or EPR for antibiotics in the first 24 hours; medical notes for the documented reason; allergy record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_regimen",
+    "type": "text",
+    "options": [],
+    "note": "All agents given in the first 24 hours"
+   },
+   {
+    "field": "aminoglycoside_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "penicillin_allergy_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_aminoglycoside_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Blank if none given"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "creatinine_rise_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Optional harm marker"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove gentamicin from the neutropenic sepsis antibiotic order set and the sepsis page of the local antimicrobial app, leaving piperacillin with tazobactam alone as the default with a separate penicillin-allergy option.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes, same template.",
+  "close_loop": "Present at the antimicrobial stewardship committee with the oncology pharmacist. If it works, keep the order set and add aminoglycoside use to the stewardship quarterly report.",
+  "evidence": [
+   "[7660] regional oncology centre: correct peri-procedural antibiotics 93% → 96% (teaching and guideline access)",
+   "[2465] general surgery: antibiotic stop/review date 56% → 61.1% (email and posters only)",
+   "[6661] ENT: guideline change moved empirical drops to the agreed choice in 24 of 25 cases"
+  ],
+  "pitfalls": [
+   "Local policy may still recommend gentamicin for shock or allergy → agree the local exceptions with microbiology before cycle 1 and count them as passes.",
+   "ED sepsis protocols override the oncology guideline → change the ED sepsis page at the same time.",
+   "Small numbers if few patients get gentamicin → report the count as well as the percentage.",
+   "Microbiologists may object without local resistance data → bring the latest bacteraemia sensitivity report to the meeting."
+  ],
+  "pearls": [
+   "Recruit the oncology or antimicrobial pharmacist; they can check every new episode within 24 hours.",
+   "Check the penicillin-allergy regimen at the same time so the fix does not leave a gap.",
+   "Share one-page results with ED and acute medicine, where most first doses are prescribed.",
+   "Build the order set so the default is the correct regimen with one click."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults with confirmed neutropenic sepsis have a validated risk score (such as MASCC) documented within 24 hours of presentation?",
+  "why": "Without a risk score, low-risk patients cannot be stepped down to oral or outpatient treatment and stay in hospital longer. The one audit in the library found 61.1% were low risk by MASCC but did not measure scoring or close the loop [7845].",
+  "standard": {
+   "source": "NICE CG151 rec 1.5.1.1 (2012, updated 2024)",
+   "wording": "A healthcare professional with competence in managing complications of anticancer treatment should assess the patient's risk of septic complications within 24 hours of presentation to secondary or tertiary care, basing the risk assessment on presentation features and using a validated risk scoring system.",
+   "url": "https://www.nice.org.uk/guidance/cg151/chapter/Recommendations"
+  },
+  "pass": "A named validated score (MASCC or CISNE) with its total written in the notes or EPR within 24 hours of arrival.",
+  "population": "Adults (18+) receiving anticancer treatment with confirmed neutropenic sepsis (neutrophils 0.5×10⁹/L or lower plus fever or signs of sepsis). Exclude patients on end-of-life care.",
+  "sample": "40 consecutive confirmed episodes over the last 3–6 months.",
+  "data_source": "Acute oncology log for cases; medical and acute oncology notes or EPR for the score and time; results system for neutrophil count.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "neutrophil_count",
+    "type": "number",
+    "options": [],
+    "note": "×10⁹/L"
+   },
+   {
+    "field": "risk_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "score_used",
+    "type": "choice",
+    "options": [
+     "MASCC",
+     "CISNE",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "score_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "scored_by",
+    "type": "choice",
+    "options": [
+     "acute oncology",
+     "oncology/haematology doctor",
+     "medical team",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "low_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory MASCC score field to the acute oncology assessment form in the EPR, completed at the first acute oncology review.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive confirmed episodes, same template.",
+  "close_loop": "Present at the cancer services governance meeting. If it works, keep the form field and report the proportion of low-risk patients switched to oral antibiotics as the next measure.",
+  "evidence": [
+   "[7845] UK cancer centre: 61.1% of admissions were low risk by MASCC; median stay 6 v 8 days (no loop)",
+   "[2712] general surgery: severity score in acute pancreatitis 10% → 80% (printed score added to clerking)",
+   "[6435] oncology: care pathway with ward documentation took first-dose antibiotic timing from 15% to 95%"
+  ],
+  "pitfalls": [
+   "Scores written by the medical team before neutrophils are known → count only scores recorded after the count is available.",
+   "Weekend admissions without acute oncology cover → record day of admission and report weekends separately.",
+   "Staff tick 'low risk' without a number → a pass needs the named score and its total.",
+   "The field is added but nobody acts on it → track step-down to oral antibiotics in the re-audit."
+  ],
+  "pearls": [
+   "Recruit the acute oncology nurse specialist to own the field.",
+   "Print the MASCC score on the back of the neutropenic sepsis pathway so it is scored at the bedside.",
+   "Agree with consultants before cycle 1 which score counts as validated.",
+   "Link the score to a one-line step-down plan so it has a purpose."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults starting a new course of chemotherapy have documented written and verbal information on neutropenic sepsis and the 24-hour oncology helpline before cycle 1?",
+  "why": "Patients who do not know the warning signs or the helpline number arrive late with sepsis. No audit of pre-treatment neutropenic sepsis information has been published in the library; the nearest oncology information audit is from 2003 [4328].",
+  "standard": {
+   "source": "NICE CG151 rec 1.1.1.1 (2012, updated 2024)",
+   "wording": "Provide patients having anticancer treatment and their carers with written and oral information, both before starting and throughout their anticancer treatment, on: neutropenic sepsis; how and when to contact 24-hour specialist oncology advice; how and when to seek emergency care.",
+   "url": "https://www.nice.org.uk/guidance/cg151/chapter/Recommendations"
+  },
+  "pass": "The pre-treatment consultation, consent form or chemotherapy nurse assessment records that neutropenic sepsis was explained, a written leaflet or alert card with the 24-hour helpline number was given, and this was dated before the first dose.",
+  "population": "Adults (18+) starting a new line of intravenous or oral chemotherapy. Exclude patients who only receive hormone therapy.",
+  "sample": "40 consecutive new starts over the last 2 months.",
+  "data_source": "Chemotherapy e-prescribing system (e.g. ChemoCare) for new starts; consent form and chemotherapy pre-assessment record for information given; date of first dose from the prescribing system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "tumour_group",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "regimen",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "information_discussed_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Neutropenic sepsis explained"
+   },
+   {
+    "field": "written_leaflet_or_alert_card_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "helpline_number_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_before_cycle_1",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all three before first dose"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'neutropenic sepsis information and alert card given' tick box, with date, to the chemotherapy pre-assessment template that must be completed before cycle 1 is released.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 new starts, same template.",
+  "close_loop": "Present at the chemotherapy unit and cancer services meeting. If it works, keep the tick box and audit a sample each quarter with the chemotherapy nurse lead.",
+  "evidence": [
+   "[4328] oncology: standardised nurse-led written chemotherapy information improved reported patient information",
+   "[2609] urology: patient leaflet given 30% → 80% (email to consultants and registrars)",
+   "[8056] ED early-pregnancy bleeding: leaflet provision 19% → 81% (leaflet access and reminders)"
+  ],
+  "pitfalls": [
+   "Information is given but written in a place you do not search → list every document type before cycle 1 (consent form, nurse assessment, clinic letter).",
+   "Oral chemotherapy started in clinic by a different team → include oral starts and record the team.",
+   "Nurses object to another tick box → replace a free-text field rather than adding a new page.",
+   "Leaflet stock runs out → ask the unit manager to keep alert cards with the consent packs."
+  ],
+  "pearls": [
+   "Recruit the chemotherapy nurse lead; they run pre-assessment.",
+   "Use the UKONS or local alert card so the helpline number is always the same.",
+   "Check oral chemotherapy clinics as well; they are often missed.",
+   "Ask two patients at the re-audit to show you their card; it makes the result real for staff."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from chemotherapy records"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults starting rituximab for a haematological cancer have hepatitis B surface antigen and core antibody results available before the first dose?",
+  "why": "Hepatitis B reactivation after rituximab can cause fatal liver failure, and prophylaxis is only possible if serology is known before treatment. The library has one rituximab pre-infusion checklist audit (43.5% → 93.75%) but none in haematology [7550].",
+  "standard": {
+   "source": "NICE CG165 rec 1.5.48 (2013, updated 2017)",
+   "wording": "In people who are HBsAg negative and anti-HBc positive (regardless of anti-HBs status) and are starting rituximab or other B cell-depleting therapies: offer prophylaxis with lamivudine; start prophylaxis before beginning immunosuppressive therapy and continue for a minimum of 6 months after stopping immunosuppressive therapy.",
+   "url": "https://www.nice.org.uk/guidance/cg165/chapter/Recommendations"
+  },
+  "pass": "Both HBsAg and anti-HBc results reported on the results system before the date of the first rituximab dose.",
+  "population": "Adults (18+) starting a new course of rituximab (intravenous or subcutaneous) for lymphoma, CLL or another haematological cancer. Exclude patients already on anti-HBV treatment.",
+  "sample": "40 consecutive new starts over the last 6 months.",
+  "data_source": "Chemotherapy e-prescribing system or pharmacy aseptic records for first-dose dates; virology results system for HBsAg and anti-HBc report dates; drug chart for antiviral prophylaxis.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_rituximab_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbsag_result_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if not done"
+   },
+   {
+    "field": "anti_hbc_result_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if not done"
+   },
+   {
+    "field": "both_results_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hbsag_or_anti_hbc_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antiviral_prophylaxis_started_before_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if positive"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make HBsAg and anti-HBc results a hard-stop item on the cycle 1 pre-treatment checklist in the chemotherapy e-prescribing system, checked by the pharmacist before release.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: next 40 new starts (or all new starts in 3 months), same template.",
+  "close_loop": "Present at the haematology directorate meeting with the haematology pharmacist. If it works, extend the same hard stop to other B cell-depleting drugs such as obinutuzumab.",
+  "evidence": [
+   "[7550] dermatology: rituximab pre-infusion parameters met 43.5% → 93.75% (checklist and consent form)",
+   "[6680] radiology: cancellations from missing anticoagulation plans 5% → 0% (compulsory fields on the request form)",
+   "[9678] acute medicine: DOAC prescribing errors fell after a structured initiation form"
+  ],
+  "pitfalls": [
+   "Serology done at another hospital is not visible → check referral letters and record 'external result' as a pass only if the result is written.",
+   "Low numbers in a small unit → include all new starts over 6 months.",
+   "Clinicians argue that anti-HBc is not needed → quote CG165 1.5.48; prophylaxis decisions depend on it.",
+   "The hard stop is overridden → report overrides at the re-audit."
+  ],
+  "pearls": [
+   "Recruit the haematology pharmacist who verifies cycle 1.",
+   "Add HBV serology to the lymphoma new-patient blood order set.",
+   "Check that positive results trigger a hepatology or virology referral as a secondary measure.",
+   "Ask pharmacy to keep the hard stop on the checklist after the audit team leaves."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from prescribing and results systems"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults starting fluorouracil or capecitabine have a DPD deficiency test result documented before the first dose?",
+  "why": "People with DPD deficiency can die from standard doses of fluoropyrimidines, which are among the most used cancer drugs. No audit of pre-treatment DPD testing has been published in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, October 2020",
+   "wording": "Patients with complete or partial dihydropyrimidine dehydrogenase (DPD) deficiency are at increased risk of severe and fatal toxicity during treatment with these medicines. All patients should be tested for DPD deficiency before initiation to minimise the risk of these reactions.",
+   "url": "https://www.gov.uk/drug-safety-update/5-fluorouracil-intravenous-capecitabine-tegafur-dpd-testing-recommended-before-initiation-to-identify-patients-at-increased-risk-of-severe-and-fatal-toxicity"
+  },
+  "pass": "A DPYD genotype (or DPD phenotype) result is on the results system or in the notes, dated before the first dose of intravenous fluorouracil or capecitabine.",
+  "population": "Adults (18+) starting intravenous fluorouracil or oral capecitabine for any cancer. Exclude topical fluorouracil and patients previously treated with a fluoropyrimidine.",
+  "sample": "40 consecutive new starts over the last 3 months.",
+  "data_source": "Chemotherapy e-prescribing system for new starts and first-dose date; genetics or pathology results system for DPYD result and report date; prescription for dose adjustment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "drug",
+    "type": "choice",
+    "options": [
+     "fluorouracil IV",
+     "capecitabine"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_dose_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dpd_result_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if not done"
+   },
+   {
+    "field": "result_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dpyd_variant_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_reduced_if_variant",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if variant found"
+   },
+   {
+    "field": "grade_3_or_4_toxicity_cycle_1",
+    "type": "yes/no",
+    "options": [],
+    "note": "Optional harm marker"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make a DPYD result a hard-stop field on the cycle 1 prescription in the chemotherapy e-prescribing system, so the pharmacist cannot verify cycle 1 without it.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: next 40 new starts, same template.",
+  "close_loop": "Present at the chemotherapy/SACT safety group. If it works, keep the hard stop and add DPYD turnaround time to the SACT dashboard.",
+  "evidence": [
+   "[7550] dermatology: rituximab pre-infusion parameters met 43.5% → 93.75% (checklist)",
+   "[6680] radiology: compulsory request-form fields cut cancellations 5% → 0%",
+   "[8221] haematology/oncology: PRN prescribing errors 30% → 8% (tools, QR-code resources and induction teaching)"
+  ],
+  "pitfalls": [
+   "Urgent starts before the result returns → record the documented reason and report them separately.",
+   "Result sent to a genetics portal the team cannot see → confirm where results live before cycle 1.",
+   "Oncologists may fear delays → share the laboratory turnaround time and request the test at the first clinic visit.",
+   "Variant found but dose not reduced → collect dose adjustment as a secondary field."
+  ],
+  "pearls": [
+   "Recruit the oncology pharmacist; they verify every cycle 1.",
+   "Add the DPYD test to the colorectal and breast new-patient blood order sets.",
+   "Ask the laboratory for the median turnaround so clinics can plan.",
+   "Present one near-miss case at the meeting; it wins support fast."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from prescribing and results systems"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults given a non-urgent red cell transfusion on medical or haematology wards have a documented discussion of the reason, risks and alternatives before the transfusion starts?",
+  "why": "The national audit found consent documented in only 43% of notes, and only 38% of patients recalled hearing about risks [6543]. The library has surgical consent audits but no closed loop in medical patients.",
+  "standard": {
+   "source": "NICE NG24 recs 1.14.2 and 1.14.3 (2015, updated 2026)",
+   "wording": "Provide verbal and written information to people who may have or who have had a transfusion, and their family members or carers (as appropriate), explaining: the reason for the transfusion; the risks and benefits; the transfusion process; any transfusion needs specific to them; any alternatives that are available, and how they might reduce their need for a transfusion; that they are no longer eligible to donate blood; that they are encouraged to ask questions. [2015] Document discussions in the patient's notes. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Patient-information"
+  },
+  "pass": "Before the first unit is started, the notes or EPR record the reason for transfusion, the risks discussed and any alternatives discussed (or a note that the patient lacked capacity and a best-interests decision was made).",
+  "population": "Adults (18+) on medical, elderly care or haematology wards given a planned (non-emergency) red cell transfusion. Exclude major haemorrhage and patients on a chronic transfusion programme with a signed long-term consent.",
+  "sample": "40 consecutive transfusion episodes over the last 4–6 weeks.",
+  "data_source": "Blood bank issue list for cases; medical notes, EPR or transfusion prescription for the consent record and time; transfusion record for start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_unit_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risks_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternatives_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capacity_issue_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: reason, risks and alternatives before the first unit"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a short consent section (reason, risks including circulatory overload, alternatives, leaflet given) to the transfusion prescription or EPR blood order, which the prescriber completes before the order is sent.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes on the same wards, same template.",
+  "close_loop": "Present at the hospital transfusion committee with the transfusion practitioner. If it works, roll the consent section out to surgical wards and add it to the annual transfusion audit programme.",
+  "evidence": [
+   "[6543] national comparative audit: consent documented in 43% of notes; 28% received a leaflet (no loop)",
+   "[2584] general surgery: transfusion risk on consent 0% → 71.4% (EIDO leaflets and induction teaching)",
+   "[2434] general surgery: most transfusion documentation criteria above 80% after junior doctor discussion"
+  ],
+  "pitfalls": [
+   "Consent written after the unit started → record both times and count only discussions before the start.",
+   "Out-of-hours transfusions have poorer documentation → report in-hours and out-of-hours separately.",
+   "Juniors say it takes too long → keep the section to four tick boxes and one free-text line.",
+   "Patients without capacity are counted as fails → accept a documented best-interests decision."
+  ],
+  "pearls": [
+   "Recruit the hospital transfusion practitioner; they already audit transfusion records.",
+   "Keep leaflets with the transfusion packs on each ward.",
+   "Include circulatory overload in the risk box; the 2024 national alert asks for it.",
+   "Ask the blood bank to reject e-orders with an empty consent section only after the pilot has worked."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from notes and EPR"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adult red cell transfusions have a completed TACO (transfusion-associated circulatory overload) risk assessment before the first unit starts?",
+  "why": "TACO is the leading cause of transfusion-related death in the UK and led to a 2024 national patient safety alert. Library audits found risk assessments in 15% and 59% of transfusions [2551][7809]; only one loop was closed, in orthopaedics [1294].",
+  "standard": {
+   "source": "National Patient Safety Alert NatPSA/2024/004/MHRA, action 1b (2024)",
+   "wording": "A TACO risk assessment is undertaken utilising the SHOT risk assessment tool prior to transfusions",
+   "url": "https://www.gov.uk/drug-device-alerts/national-patient-safety-alert-reducing-risks-for-transfusion-associated-circulatory-overload-natpsa-slash-2024-slash-004-slash-mhra"
+  },
+  "pass": "The SHOT TACO risk assessment is fully completed (all questions answered) and dated before the first unit starts; if any risk is present, a mitigation (e.g. single unit, weight-adjusted dose, slower rate, diuretic plan) is written.",
+  "population": "Adults (18+) receiving a red cell transfusion on any ward. Exclude major haemorrhage protocol activations.",
+  "sample": "40 consecutive transfusion episodes over the last 4 weeks.",
+  "data_source": "Blood bank issue list for cases; transfusion prescription, TACO form or EPR for the assessment; transfusion record for start time; observations and notes for respiratory deterioration within 6 hours.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_unit_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "taco_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_risk_factor_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mitigation_documented_if_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "respiratory_deterioration_within_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Optional harm marker"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build the SHOT TACO risk assessment into the red cell prescription (paper or EPR) as a mandatory section that must be completed before the prescription is valid.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive transfusion episodes, same template.",
+  "close_loop": "Present at the hospital transfusion committee as evidence for the NatPSA action plan. If it works, keep the mandatory section and include TACO assessment in the annual transfusion audit.",
+  "evidence": [
+   "[2551] haematology, UK: TACO checklist completed for 15% of transfusions; mitigation considered for 4% (loop not reported)",
+   "[7809] teaching hospital, UK: 59% had a TACO risk assessment; 12% of those were incorrect (no loop)",
+   "[1294] trauma and orthopaedics: TACO assessment 58.8% → 90.9% (teaching and induction booklet)"
+  ],
+  "pitfalls": [
+   "The form is ticked without thought → count as a pass only if every question is answered and a mitigation is written when risk is present.",
+   "Paper forms get separated from the notes → check the transfusion record and the EPR.",
+   "Doctors object to another form → replace an existing section of the prescription rather than adding a sheet.",
+   "Gains fade after rotation → include the form in junior doctor induction and keep the transfusion practitioner's monthly spot check."
+  ],
+  "pearls": [
+   "Recruit the hospital transfusion practitioner; the NatPSA already requires them to audit this.",
+   "Use the current SHOT 2024 version of the tool, which includes severe chronic anaemia.",
+   "Pair results with any local TACO incidents to show why it matters.",
+   "Ask blood bank staff to prompt when an order arrives without the assessment."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from transfusion records"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "Of red cell transfusions given to adult medical inpatients who are not bleeding, what proportion are given at a haemoglobin below 70 g/L?",
+  "why": "Transfusing above the restrictive threshold exposes patients to overload and infection risk with no benefit. Library audits found only 21.4–40.2% of transfusions met NICE thresholds, mostly in surgical and orthopaedic patients [1254][2515]; no medical-ward loop has been published.",
+  "standard": {
+   "source": "NICE NG24 recs 1.5.1 and 1.5.2 (2015, updated 2026)",
+   "wording": "Use restrictive red blood cell transfusion thresholds for people who need red blood cell transfusions and who do not: have major haemorrhage or have acute coronary syndrome or need regular blood transfusions for chronic anaemia. [2015] When using a restrictive red blood cell transfusion threshold, consider a threshold of 70 g/litre and a haemoglobin concentration target of 70 to 90 g/litre after transfusion. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "The most recent haemoglobin before the first unit was below 70 g/L, or a patient-specific reason for a higher threshold is documented (e.g. symptomatic anaemia with a written clinical reason).",
+  "population": "Adults (18+) on medical and elderly care wards given red cells. Exclude major haemorrhage, active bleeding, acute coronary syndrome, chronic transfusion programmes and haematology patients with an individual threshold.",
+  "sample": "40 consecutive transfusion episodes over the last 4–6 weeks.",
+  "data_source": "Blood bank issue list for cases; results system for the pre-transfusion haemoglobin; transfusion prescription or notes for indication and reason.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_unit_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hb_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_recorded",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_higher_threshold_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_threshold",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "units_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the pre-transfusion haemoglobin and an indication code mandatory fields on the electronic blood request, with a prompt showing the 70 g/L threshold when the value entered is higher.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes on the same wards, same template.",
+  "close_loop": "Present at the hospital transfusion committee and medical directorate governance. If it works, keep the request fields and add threshold compliance to the transfusion team's quarterly report.",
+  "evidence": [
+   "[1254] perioperative orthopaedics: 21.4% transfused within NICE threshold and targets (no loop)",
+   "[2515] general surgery: units given per NICE 40.2% → 50.4% (teaching and ward posters)",
+   "[6117] critical care: all transfusions appropriate or unclear, none inappropriate, after guidance was attached to the transfusion prescription"
+  ],
+  "pitfalls": [
+   "Symptomatic anaemia is used loosely as a reason → agree before cycle 1 what counts as a documented reason.",
+   "The pre-transfusion haemoglobin is days old → record its date and require one within 24 hours.",
+   "Consultants disagree with a single threshold in frail patients → report results by ward and invite them to the meeting.",
+   "Changing exclusions between cycles → fix the exclusion list in writing before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner and a haematology consultant to present with you.",
+   "Look at out-of-hours transfusions separately; they are more often outside threshold.",
+   "Pair the threshold with single-unit dosing on the same request screen.",
+   "Share each ward's results with its matron, not just the doctors."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from blood bank and results system"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "Of prophylactic platelet transfusions given to adults who are not bleeding and not having a procedure, what proportion are given at a platelet count below 10×10⁹/L?",
+  "why": "Platelets are scarce and carry the highest bacterial contamination risk of any component, yet prophylactic use above threshold is common [3016]. The only platelet threshold loop in the library dates from 1992 [4317].",
+  "standard": {
+   "source": "NICE NG24 rec 1.7.3 (2015, updated 2026)",
+   "wording": "Offer prophylactic platelet transfusions to people with a platelet count below 10×10⁹ per litre who are not bleeding or having invasive procedures or surgery, and who do not have any of the following conditions: chronic bone marrow failure; autoimmune thrombocytopenia; heparin-induced thrombocytopenia; thrombotic thrombocytopenic purpura. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Platelet-transfusion"
+  },
+  "pass": "The most recent platelet count before the transfusion (within 24 hours) was below 10×10⁹/L, or a higher threshold is justified in the notes (e.g. sepsis or fever per local policy).",
+  "population": "Adults (18+) given a prophylactic platelet transfusion with no bleeding (WHO grade 0–1) and no procedure planned within 24 hours. Exclude chronic transfusion-dependent marrow failure on an individual plan.",
+  "sample": "40 consecutive prophylactic platelet transfusions over the last 2–3 months.",
+  "data_source": "Blood bank issue list for platelets; results system for pre-transfusion count; notes or transfusion request for indication, bleeding status and procedures.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transfusion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_platelet_count",
+    "type": "number",
+    "options": [],
+    "note": "×10⁹/L"
+   },
+   {
+    "field": "count_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bleeding_status",
+    "type": "choice",
+    "options": [
+     "none",
+     "minor (WHO 1)"
+    ],
+    "note": ""
+   },
+   {
+    "field": "procedure_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Should be no to be included"
+   },
+   {
+    "field": "justified_higher_threshold_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_threshold",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the pre-transfusion platelet count and an indication code mandatory on the platelet request, and have the blood bank query any prophylactic request above 10×10⁹/L before issue.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 prophylactic platelet transfusions, same template.",
+  "close_loop": "Present at the hospital transfusion committee with the haematology consultant. If it works, keep the laboratory query and report platelet use per month on the transfusion dashboard.",
+  "evidence": [
+   "[4317] haematology: a lower instituted threshold cut platelet use by 20% with no increase in major bleeding",
+   "[3016] UK multi-regional cirrhosis audit: 61% of prophylactic transfusions given without a planned procedure (no loop)",
+   "[6509] critical care: a double platelet dose given despite a count above 50×10⁹/L (no loop)"
+  ],
+  "pitfalls": [
+   "Bleeding status is not recorded → agree to classify from nursing notes and exclude unclear cases consistently.",
+   "Haematology units use higher thresholds for fever → write these exceptions into the pass rule before cycle 1.",
+   "Laboratory staff are uneasy querying senior clinicians → give them a written script and haematology backing.",
+   "Numbers are small outside haematology → collect over a longer period rather than cutting the sample."
+  ],
+  "pearls": [
+   "Recruit a haematology consultant to agree the exceptions list.",
+   "Use the blood bank issue list; it captures every unit.",
+   "Show the cost and shelf-life of platelets on the results slide.",
+   "Pair with the existing library audit on post-transfusion platelet counts for the next cycle."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 transfusions from blood bank and results system"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "Of adults with a platelet count between 10 and 50×10⁹/L who have a central venous catheter inserted or a bone marrow biopsy, what proportion receive no prophylactic platelet transfusion for the procedure?",
+  "why": "Low-risk procedures are often covered with platelets by habit, which wastes a scarce component and adds transfusion risk. No audit of platelet use before low-risk procedures has been published in the library; the nearest found platelets given despite adequate counts [6509].",
+  "standard": {
+   "source": "NICE NG24 rec 1.7.8 (2015, updated 2026)",
+   "wording": "Do not offer prophylactic platelet transfusions to people having procedures with a low risk of bleeding, such as adults having central venous cannulation or any people having bone marrow aspiration and trephine biopsy. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Platelet-transfusion"
+  },
+  "pass": "No platelet transfusion was given in the 12 hours before the procedure with the procedure as the stated reason.",
+  "population": "Adults (18+) with a platelet count of 10–50×10⁹/L having a non-tunnelled or tunnelled central venous catheter, PICC line, or bone marrow aspirate and trephine. Exclude patients who are bleeding.",
+  "sample": "30–40 consecutive procedures over the last 3–6 months.",
+  "data_source": "Haematology day unit and ICU/anaesthetic procedure logs or line-insertion records for cases; results system for platelet count; blood bank issue list for platelets and times; request form for stated reason.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "non-tunnelled CVC",
+     "tunnelled CVC",
+     "PICC",
+     "bone marrow biopsy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "procedure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_procedure_platelet_count",
+    "type": "number",
+    "options": [],
+    "note": "×10⁹/L"
+   },
+   {
+    "field": "platelets_given_within_12h_before",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stated_reason_for_platelets",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_guided",
+    "type": "yes/no",
+    "options": [],
+    "note": "Lines only"
+   },
+   {
+    "field": "no_prophylactic_platelets",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "bleeding_complication",
+    "type": "yes/no",
+    "options": [],
+    "note": "Optional harm marker"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a line to the platelet request screen: 'Central line or bone marrow biopsy only? Platelets not indicated (NICE NG24 1.7.8)', with the request blocked unless a senior overrides it with a reason.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 30–40 procedures, same template.",
+  "close_loop": "Present at the hospital transfusion committee with anaesthesia and haematology leads. If it works, add the rule to the local line-insertion guideline.",
+  "evidence": [
+   "[6509] critical care: FFP before drains despite normal clotting and a double platelet dose despite platelets above 50×10⁹/L (no loop)",
+   "[3016] UK cirrhosis audit: 61% of prophylactic transfusions given without a planned procedure",
+   "[4317] haematology: lower platelet threshold cut use 20% with no increase in major bleeding"
+  ],
+  "pitfalls": [
+   "Local policies (and some society guidance) still use a threshold of 20×10⁹/L for lines → agree the local rule with haematology and anaesthesia before cycle 1 and report counts below 20 separately.",
+   "Line insertions are poorly logged → use the blood bank issue list to find platelet units linked to procedures.",
+   "Operators may refuse without platelets → pair the change with ultrasound-guided insertion by an experienced operator.",
+   "Small numbers → extend the collection period rather than the population."
+  ],
+  "pearls": [
+   "Recruit an anaesthetist who inserts lines and a haematologist who does biopsies.",
+   "Record ultrasound guidance; it reassures sceptics.",
+   "Report bleeding complications alongside compliance to show safety.",
+   "Ask ICU to join; they insert most lines in thrombocytopenic patients."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 procedures from procedure logs and blood bank"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of fresh frozen plasma transfusions in adults are given for bleeding or before an invasive procedure with a risk of significant bleeding?",
+  "why": "FFP is often used to 'correct' abnormal clotting in patients who are not bleeding or to reverse warfarin, where it is ineffective and risks lung injury and overload. Library audits describe this but none closed the loop [6509][3016].",
+  "standard": {
+   "source": "NICE NG24 rec 1.9.2 (2015, updated 2026)",
+   "wording": "Do not offer fresh frozen plasma transfusions to correct abnormal coagulation in people who: are not bleeding (unless they are having invasive procedures or surgery with a risk of clinically significant bleeding); need reversal of a vitamin K antagonist. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Fresh-frozen-plasma-transfusion"
+  },
+  "pass": "FFP was given to a patient with clinically significant bleeding, or within 12 hours before a named invasive procedure or surgery with a risk of significant bleeding, and was not given to reverse warfarin.",
+  "population": "Adults (18+) given FFP outside a major haemorrhage protocol, on any ward or ICU.",
+  "sample": "40 consecutive FFP episodes over the last 2–3 months.",
+  "data_source": "Blood bank issue list for FFP; request form and notes for indication, bleeding and procedure; results system for PT/INR and APTT; drug chart for warfarin.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "location",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ffp_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_on_request",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bleeding_at_time",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_within_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_for_warfarin_reversal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pt_ratio_or_inr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "appropriate_indication",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Require an indication code (bleeding or named procedure) on every FFP request, with the blood bank referring any other indication to the on-call haematologist before issue.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 FFP episodes, same template.",
+  "close_loop": "Present at the hospital transfusion committee and ICU governance. If it works, keep the laboratory referral step and report FFP use per 1,000 admissions.",
+  "evidence": [
+   "[6509] critical care: 12.3% received FFP before drain insertion despite normal prothrombin time (no loop)",
+   "[3016] UK multi-regional cirrhosis audit: FFP given at INR ≤1.5 before high-risk procedures in 19% (no loop)",
+   "[6117] critical care: guidance attached to transfusion prescriptions removed all inappropriate red cell transfusions"
+  ],
+  "pitfalls": [
+   "'Procedure planned' but never done → record whether the procedure happened within 12 hours.",
+   "Major haemorrhage packs inflate numbers → exclude protocol activations.",
+   "ICU and liver teams may object → invite them to agree the exceptions before cycle 1.",
+   "Warfarin reversal with FFP hides the lack of PCC stock → check PCC availability as part of the fix."
+  ],
+  "pearls": [
+   "Recruit the transfusion laboratory manager; they see every request.",
+   "Show the cost per unit and the TRALI/TACO risk on one slide.",
+   "Ask the on-call haematologist to log each referral for the re-audit.",
+   "Keep PCC stocked in ED so warfarin reversal never needs FFP."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 episodes from blood bank and notes"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "Of adults on warfarin with severe bleeding outside the brain, what proportion receive prothrombin complex concentrate within 1 hour of the bleed being recognised?",
+  "why": "Every hour of delay in reversing warfarin in major bleeding increases blood loss and death. The library shows PCC delays of 156 minutes cut to 49 minutes by a ward protocol and stock [6985], and dosing protocols followed in only 40% [5836]; no loop outside stroke has been published.",
+  "standard": {
+   "source": "NICE NG24 rec 1.12.3 (2015, updated 2026)",
+   "wording": "Offer immediate prothrombin complex concentrate transfusions for the emergency reversal of warfarin anticoagulation in people with either: severe bleeding or head injury with suspected intracerebral haemorrhage. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Prothrombin-complex-concentrate-transfusion"
+  },
+  "pass": "PCC administration started within 60 minutes of the time severe bleeding was first documented (the audit's measure of 'immediate').",
+  "population": "Adults (18+) taking warfarin with severe bleeding (e.g. GI, retroperitoneal, muscle, haemothorax) and an INR above the normal range. Exclude intracranial haemorrhage (audited separately) and patients on DOACs.",
+  "sample": "All eligible cases over the last 6–12 months (aim for 30), from the blood bank PCC issue log.",
+  "data_source": "Blood bank or pharmacy PCC issue log for cases; ED/ward notes for time bleeding recognised; drug chart or EPR for PCC administration time; results system for INR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "bleed_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bleed_recognised_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_inr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pcc_administration_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_pcc",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pcc_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pcc_dose_iu",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_vitamin_k_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "text",
+    "options": [],
+    "note": "e.g. waiting for INR, haematology approval, stock"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock PCC in the ED with a weight- and INR-based dosing chart, so it can be given without phoning haematology or the blood bank.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14 onward: next 30 cases (or all cases over 6 months), same template.",
+  "close_loop": "Present at the hospital transfusion committee and ED governance. If it works, keep ED stock, add PCC time to the transfusion team's incident review, and link to the stroke team's ICH pathway.",
+  "evidence": [
+   "[6985] stroke: PCC scan-to-needle time 156 → 49 minutes (dosing algorithm and PCC stock on the unit, no haematology call)",
+   "[5836] haematology: reduced-dose PCC protocol followed in only 40% (no loop)",
+   "[1506] hip fracture: nurse-led IV vitamin K in ED cut mean time to theatre from 53.71 to 37.61 hours"
+  ],
+  "pitfalls": [
+   "Time of recognition is vague → use the first documented time of 'major bleed' or haemodynamic instability, agreed before cycle 1.",
+   "Few cases per month → collect retrospectively over 6–12 months and report each case.",
+   "Haematology may want to approve each dose → agree a dosing chart they sign off in advance.",
+   "Stock expires unused in ED → agree rotation with the blood bank."
+  ],
+  "pearls": [
+   "Recruit the transfusion laboratory manager and an ED consultant.",
+   "Write the dosing chart on the PCC box itself.",
+   "Record IV vitamin K as a secondary field; it should be given with PCC.",
+   "Present one delayed case as a short timeline; it persuades faster than percentages."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 cases from notes, logs and EPR"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults given prothrombin complex concentrate to reverse warfarin have their INR rechecked within 1 hour of the dose?",
+  "why": "Without a repeat INR, teams cannot tell whether reversal worked or whether more PCC is needed before surgery or endoscopy. The one PCC protocol audit in the library corrected INR in 83.6% but did not report timing and closed no loop [5836].",
+  "standard": {
+   "source": "NICE NG24 rec 1.12.6 (2015, updated 2026)",
+   "wording": "Monitor the international normalised ratio (INR) to confirm that warfarin anticoagulation has been adequately reversed, and consider further prothrombin complex concentrate.[2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Prothrombin-complex-concentrate-transfusion"
+  },
+  "pass": "A repeat INR sample was taken within 60 minutes of the end of the PCC dose (the audit's local measure of monitoring).",
+  "population": "Adults (18+) given PCC to reverse warfarin for bleeding or emergency surgery. Exclude patients who died within 1 hour of the dose.",
+  "sample": "All eligible cases over the last 6–12 months (aim for 30), from the PCC issue log.",
+  "data_source": "Blood bank or pharmacy PCC issue log for cases; drug chart or EPR for PCC time; results system for INR sample collection times and values.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "intracranial bleed",
+     "other severe bleed",
+     "emergency surgery"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pcc_end_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_pcc_inr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_inr_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "minutes_to_repeat_inr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_inr_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_inr_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_pcc_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'repeat INR 30 minutes after PCC' as a pre-printed step on the PCC prescription and dosing chart, with the sample request generated at the same time as the PCC order.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14 onward: next 30 cases (or all cases over 6 months), same template.",
+  "close_loop": "Present at the hospital transfusion committee. If it works, keep the linked order and review INR correction rates annually.",
+  "evidence": [
+   "[5836] haematology: INR corrected (≤1.5) in 83.6% but protocol followed in only 40% (no loop)",
+   "[6985] stroke: PCC protocol with dosing algorithm cut scan-to-needle time 156 → 49 minutes",
+   "[2471] renal colic: calcium requested 77.9% → 94.7% (renal order set)"
+  ],
+  "pitfalls": [
+   "Sample taken but time not recorded → use the laboratory collection time, not the report time.",
+   "Small numbers → include all cases for 6–12 months and present case by case.",
+   "Teams recheck only if still bleeding → explain that surgery and endoscopy decisions depend on it.",
+   "Changing the time window between cycles → fix the 60-minute window before cycle 1."
+  ],
+  "pearls": [
+   "Collect this at the same time as the PCC timing audit; the cases are the same.",
+   "Recruit the blood bank; they can remind the ward when PCC is issued.",
+   "Report INR values as well as timing so the committee sees reversal adequacy.",
+   "Put the step on the PCC box label."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from logs and results system"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of red cell units have pulse, blood pressure, temperature and respiratory rate recorded before the start, at 15 minutes and at the end of the unit?",
+  "why": "Most acute reactions start in the first 15 minutes and are missed when observations are skipped. The national bedside audit found some patients lacked monitoring [5633]; no closed-loop audit of transfusion observations has been published in the library.",
+  "standard": {
+   "source": "NICE NG24 rec 1.13.1 (2015, updated 2026)",
+   "wording": "Monitor the person's condition and vital signs before, during and after blood transfusions, to detect acute transfusion reactions that may need immediate investigation and treatment. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Patient-safety"
+  },
+  "pass": "All four vital signs recorded within 60 minutes before the start, 15 minutes (±10 minutes) after the start, and within 60 minutes after the end of the unit.",
+  "population": "Adults (18+) receiving red cells on inpatient wards. Exclude theatres, ICU with continuous monitoring and major haemorrhage.",
+  "sample": "40 consecutive units on medical and surgical wards over the last 4 weeks.",
+  "data_source": "Blood bank issue list for units; transfusion record for start and end times; e-observations or paper observation chart for vital signs and times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unit_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unit_end_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_obs_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "All four within 60 min before start"
+   },
+   {
+    "field": "obs_15_min_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "5–25 min after start"
+   },
+   {
+    "field": "end_obs_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 60 min after end"
+   },
+   {
+    "field": "all_three_sets_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reaction_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a transfusion observation schedule to the e-observations system that is triggered when a unit is started and alerts the nurse at 15 minutes and at the expected end time.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 units on the same wards, same template.",
+  "close_loop": "Present at the hospital transfusion committee and nursing quality meeting. If it works, keep the e-obs schedule and add it to ward nursing competency sign-off.",
+  "evidence": [
+   "[5633] national bedside transfusion audit: some patients lacked monitoring or identity bands (no loop)",
+   "[2434] general surgery: transfusion documentation criteria above 80% after junior doctor discussion",
+   "[6763] critical care: 4-hourly pain assessments rose to 89% after a structured tool was built into care"
+  ],
+  "pitfalls": [
+   "Paper and electronic observations are split → check both for every unit.",
+   "Night transfusions have fewer staff → report day and night separately and avoid non-urgent night transfusions.",
+   "Nurses object to alerts → agree the alert wording with ward managers.",
+   "The 15-minute window is argued over → fix it (5–25 minutes) before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner and a ward matron.",
+   "Report by ward; ward-level results drive nursing change.",
+   "Pair with a push to avoid starting non-urgent units after 20:00.",
+   "Share any reaction found late as a learning case."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 units from transfusion and observation records"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of people with an acute painful sickle cell episode receive their first analgesia within 30 minutes of arriving at hospital?",
+  "why": "Delayed analgesia in sickle cell crisis is a repeated finding in national reports and patient complaints. Library audits are old or have no figures, and none measured the 30-minute standard with a closed loop [8382][3726][2978].",
+  "standard": {
+   "source": "NICE CG143 rec 1.1.4 (2012, updated 2026)",
+   "wording": "Offer analgesia within 30 minutes of presentation to all patients presenting at hospital with an acute painful sickle cell episode (see also the recommendations on primary analgesia). [2012]",
+   "url": "https://www.nice.org.uk/guidance/cg143/chapter/Recommendations"
+  },
+  "pass": "First analgesic dose administered (time on the drug chart or ED record) within 30 minutes of arrival or booking time.",
+  "population": "Adults and children presenting to ED, paediatric ED or a haematology day unit with an acute painful sickle cell episode. Exclude people who arrived with analgesia already running by ambulance crew and still controlled.",
+  "sample": "40 consecutive attendances over the last 6–12 months (collect across sites if volume is low).",
+  "data_source": "ED system coded diagnosis or haematology register for cases; ED arrival time; drug chart, ED record or EPR for analgesia administration time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "age_group",
+    "type": "choice",
+    "options": [
+     "child",
+     "adult"
+    ],
+    "note": ""
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "place_of_presentation",
+    "type": "choice",
+    "options": [
+     "ED",
+     "paediatric ED",
+     "haematology day unit"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pain_score_at_triage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesic",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_analgesia",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "analgesia_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "individual_care_plan_available",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a patient group direction for triage nurses to give the first dose of the patient's care-plan opioid (or a standard opioid) at triage for people with known sickle cell disease.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14 onward: next 40 attendances, same template.",
+  "close_loop": "Present at the ED and haematology governance meetings with the sickle cell specialist nurse and a patient representative. If it works, keep the PGD and report time to analgesia to the regional haemoglobinopathy network.",
+  "evidence": [
+   "[2978] paediatrics: regular analgesia prescribed in 45% and correct doses in 78% (no loop)",
+   "[8382] haematology: local pain guidelines improved crisis care (no figures)",
+   "[6435] oncology: PGD for nurse-led first doses helped raise time-critical antibiotics from 15% to 95%"
+  ],
+  "pitfalls": [
+   "Low attendance numbers in a DGH → collect over 12 months or pool with a neighbouring hospital.",
+   "Arrival time and triage time differ → agree which time counts before cycle 1.",
+   "ED staff may doubt pain severity → include the patient's care plan and triage pain score in the fix.",
+   "Frequent attenders dominate the sample → report per attendance and the number of individual patients."
+  ],
+  "pearls": [
+   "Recruit the haemoglobinopathy specialist nurse and a patient from the local sickle cell society.",
+   "Put individual care plans on the EPR alert so triage can see the patient's usual opioid.",
+   "Report median minutes as well as the percentage.",
+   "Include children; paediatric ED often has different barriers."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 attendances from ED system and drug chart"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of people treated with a strong opioid for an acute painful sickle cell episode have a sedation score recorded every hour for the first 6 hours?",
+  "why": "Opioid toxicity and hypoventilation can trigger acute chest syndrome and respiratory arrest in sickle cell crises. No audit of opioid monitoring in sickle cell disease has been published in the library.",
+  "standard": {
+   "source": "NICE CG143 rec 1.1.16 (2012, updated 2026)",
+   "wording": "Monitor patients taking strong opioids for adverse events, and perform a clinical assessment (including sedation score): every 1 hour for the first 6 hours; at least every 4 hours thereafter. [2012]",
+   "url": "https://www.nice.org.uk/guidance/cg143/chapter/Recommendations"
+  },
+  "pass": "A sedation score recorded at least once in each of the 6 hours after the first strong opioid dose.",
+  "population": "Adults and children given a strong opioid (morphine, diamorphine, oxycodone, fentanyl) for an acute painful sickle cell episode in ED, a day unit or a ward.",
+  "sample": "40 consecutive episodes over the last 6–12 months.",
+  "data_source": "Haematology register or ED coding for cases; drug chart for first strong opioid time; e-observations or paper charts for sedation scores and respiratory rate.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_strong_opioid_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "route",
+    "type": "choice",
+    "options": [
+     "IV",
+     "SC",
+     "oral",
+     "intranasal",
+     "PCA"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hours_with_sedation_score_first_6h",
+    "type": "number",
+    "options": [],
+    "note": "0–6"
+   },
+   {
+    "field": "hourly_sedation_scores_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "respiratory_rate_recorded_each_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "naloxone_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acute_chest_syndrome_diagnosed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a sickle cell opioid monitoring schedule to the e-observations system that sets hourly sedation and respiratory rate checks for 6 hours when a strong opioid is given.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14 onward: next 40 episodes, same template.",
+  "close_loop": "Present at the haematology and nursing quality meetings. If it works, keep the schedule and include it in the ward sickle cell pathway.",
+  "evidence": [
+   "[6763] critical care: 4-hourly pain assessments rose to 89% after a structured tool was built into care",
+   "[2978] paediatrics: sickle cell analgesia standards not met (45% regular analgesia; no loop)",
+   "[8283] cancer hospital: morphine prescribing gaps partly improved after education (no figures)"
+  ],
+  "pitfalls": [
+   "Sedation scores recorded on a separate chart → check all charts before marking a fail.",
+   "Transfer from ED to ward breaks the schedule → include both areas and note where gaps occur.",
+   "Nurses see hourly checks as excessive → share the acute chest syndrome risk and agree a stop point at 6 hours.",
+   "Low numbers → pool 12 months of data."
+  ],
+  "pearls": [
+   "Recruit the haemoglobinopathy nurse and the ward matron.",
+   "Build the schedule into the PCA chart as well.",
+   "Report the gap by hour; it shows exactly where monitoring drops.",
+   "Include respiratory rate as a secondary measure; it catches hypoventilation earlier."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from observation charts"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of people with an acute painful sickle cell episode have their pain reassessed with a pain score within 30 minutes of the first analgesic dose?",
+  "why": "Without early reassessment, patients wait hours for a second dose while in severe pain. No audit of pain reassessment in sickle cell crisis has been published in the library; ED pain audits show rechecks as low as 19% [6159].",
+  "standard": {
+   "source": "NICE CG143 rec 1.1.12 (2012, updated 2026)",
+   "wording": "Assess the effectiveness of pain relief: every 30 minutes until satisfactory pain relief has been achieved, and at least every 4 hours thereafter; using an age-appropriate pain scoring tool; by asking questions, such as: How well did that last painkiller work? Do you feel that you need more pain relief? [2012]",
+   "url": "https://www.nice.org.uk/guidance/cg143/chapter/Recommendations"
+  },
+  "pass": "A pain score recorded within 30 minutes (±5 minutes) after the first analgesic dose.",
+  "population": "Adults and children given analgesia in hospital for an acute painful sickle cell episode.",
+  "sample": "40 consecutive episodes over the last 6–12 months (can share cases with the time-to-analgesia audit).",
+  "data_source": "ED system or haematology register for cases; drug chart for analgesia time; ED record or e-observations for pain scores and times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_analgesia_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_pain_score",
+    "type": "number",
+    "options": [],
+    "note": "0–10 or age-appropriate"
+   },
+   {
+    "field": "reassessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "minutes_to_reassessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reassessed_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "second_pain_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_dose_given_if_severe",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 30-minute pain reassessment task to the ED and ward e-observations that is triggered when an opioid is recorded for a patient with a sickle cell alert.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14 onward: next 40 episodes, same template.",
+  "close_loop": "Present at ED and haematology governance with the sickle cell specialist nurse. If it works, keep the task and add reassessment to the ED nursing pain competency.",
+  "evidence": [
+   "[6159] ED: pain rechecked 19% at baseline; pain score at triage 38% → 87% (guidelines, teaching and nurse-led changes)",
+   "[2949] paediatrics: analgesia given within the same hour in 58% of severe pain (no loop)",
+   "[7134] ambulance burns audit: pain reassessment after analgesia often missing (no loop)"
+  ],
+  "pitfalls": [
+   "Reassessment is done but not scored → count only numeric or age-appropriate scale scores.",
+   "Busy EDs cannot manage 30-minute checks → assign the task to the nurse giving the dose.",
+   "Patients moved between areas → track across ED and ward.",
+   "Children need age-appropriate tools → list accepted tools before cycle 1."
+  ],
+  "pearls": [
+   "Run this alongside the time-to-analgesia audit; the same notes give both.",
+   "Recruit a patient representative to review the results.",
+   "Report the proportion who needed a second dose; it shows why reassessment matters.",
+   "Put the reassessment reminder on the sickle cell care plan alert."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 episodes from ED records and observations"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "Of adults with active cancer and a new proximal DVT or PE, what proportion are started on a DOAC or have a documented reason why a DOAC is unsuitable?",
+  "why": "Cancer-associated thrombosis is common, and outdated default use of LMWH injections for 6 months is burdensome when a DOAC is suitable. No audit of anticoagulant choice in cancer-associated thrombosis has been published in the library.",
+  "standard": {
+   "source": "NICE NG158 recs 1.3.16 and 1.3.17 (2020, updated 2023)",
+   "wording": "When choosing anticoagulation treatment for people with active cancer and confirmed proximal DVT or PE, take into account the tumour site, interactions with other drugs including those used to treat cancer, and the person's bleeding risk. [2020] Consider a direct-acting oral anticoagulant (DOAC) for people with active cancer and confirmed proximal DVT or PE. [2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "Discharged on a DOAC, or on LMWH or warfarin with a written reason (e.g. GI or urothelial tumour with bleeding risk, drug interaction, renal function, patient choice).",
+  "population": "Adults (18+) with active cancer (treatment ongoing, diagnosed within 6 months, recurrent, metastatic or inoperable) and a new confirmed proximal DVT or PE. Exclude patients on end-of-life care.",
+  "sample": "40 consecutive cases over the last 3–6 months.",
+  "data_source": "Radiology reports (CTPA and leg Doppler) and the anticoagulation clinic referral list for cases; EPR and oncology letters for cancer status; discharge prescription for anticoagulant; notes for the reason.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clot_type",
+    "type": "choice",
+    "options": [
+     "proximal DVT",
+     "PE",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tumour_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_sact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_at_discharge",
+    "type": "choice",
+    "options": [
+     "DOAC",
+     "LMWH",
+     "warfarin",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_doac_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "drug_interaction_check_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a cancer-associated thrombosis section to the VTE treatment proforma or EPR order set that asks tumour site, interacting drugs and bleeding risk, and defaults to a DOAC if none apply.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 cases, same template.",
+  "close_loop": "Present at the thrombosis committee with the acute oncology and anticoagulation teams. If it works, keep the proforma section and review choice and bleeding events annually.",
+  "evidence": [
+   "[9678] acute medicine: DOAC prescribing errors reduced with a DOAC initiation form and training",
+   "[1930] stroke: 21% of DOAC doses incorrect, 93% of them under-dosed (no loop)",
+   "[8335] haematology: early audit of anticoagulation start in inpatients (no loop)"
+  ],
+  "pitfalls": [
+   "Cancer status is unclear in the notes → use the NICE definition of active cancer and check oncology letters.",
+   "Oncologists prefer LMWH for some tumours → any documented reason counts as a pass.",
+   "Outpatient PE pathways are missed → include ambulatory emergency care cases.",
+   "Drug interactions with SACT are not checked → ask the oncology pharmacist to review the proforma."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation nurse and oncology pharmacist.",
+   "Add a short interaction list for common SACT drugs to the proforma.",
+   "Capture the 3–6 month review date at discharge for the next audit cycle.",
+   "Share results with acute oncology; they see these patients first."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR and radiology"
+ },
+ {
+  "area": "Oncology, haematology and transfusion",
+  "question": "What proportion of adults with a central venous line treated for suspected neutropenic sepsis receive no empirical vancomycin or teicoplanin, unless a reason is documented?",
+  "why": "Routine glycopeptides for line patients add kidney toxicity and drive resistance without improving outcomes. No audit of empirical glycopeptide use in neutropenic sepsis has been published in the library.",
+  "standard": {
+   "source": "NICE CG151 rec 1.4.3.3 (2012, updated 2024)",
+   "wording": "Do not offer empiric glycopeptide antibiotics to patients with suspected neutropenic sepsis who have central venous access devices unless there are patient-specific or local microbiological indications.",
+   "url": "https://www.nice.org.uk/guidance/cg151/chapter/Recommendations"
+  },
+  "pass": "No vancomycin or teicoplanin in the first 48 hours, or a documented patient-specific or microbiological reason (e.g. line site infection, MRSA carriage, Gram-positive bacteraemia, septic shock per local policy).",
+  "population": "Adults (18+) with a PICC, tunnelled line or port who were started on empiric antibiotics for suspected neutropenic sepsis.",
+  "sample": "40 consecutive episodes over the last 6 months.",
+  "data_source": "Acute oncology or haematology admission log for cases; drug chart or EPR for antibiotics in the first 48 hours; microbiology results; notes for documented reason.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "line_type",
+    "type": "choice",
+    "options": [
+     "PICC",
+     "tunnelled CVC",
+     "port"
+    ],
+    "note": ""
+   },
+   {
+    "field": "glycopeptide_given_first_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "line_site_infection_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mrsa_carrier",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Blank if none given"
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the neutropenic sepsis section of the antimicrobial app and order set so that glycopeptides appear only under named indications (line site infection, MRSA, Gram-positive blood culture), not as an add-on for all line patients.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 episodes, same template.",
+  "close_loop": "Present at the antimicrobial stewardship committee with haematology and oncology. If it works, keep the order set and add glycopeptide use to the stewardship report.",
+  "evidence": [
+   "[7660] regional oncology centre: correct peri-procedural antibiotics 93% → 96% (teaching and guideline access)",
+   "[9276] pharmacy: vancomycin correct loading dose 65.3% (digital prompts planned, no loop)",
+   "[1873] care of the elderly: antibiotic guideline compliance mean 53% → 83% (microbiology-led rounds and education)"
+  ],
+  "pitfalls": [
+   "Haematology units may have local policies adding glycopeptides → agree local indications with microbiology before cycle 1.",
+   "Glycopeptides started after 48 hours for a positive culture are appropriate → only count the first 48 hours.",
+   "Small numbers in solid tumour units → include haematology.",
+   "The order set is bypassed with free-text prescribing → check free-text orders at re-audit."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist and a microbiologist.",
+   "Collect with the aminoglycoside audit; the same drug charts answer both.",
+   "Report days of glycopeptide therapy saved.",
+   "Ask the line team to record line-site signs at admission so exceptions are clear."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR and microbiology"
+ }
+]
