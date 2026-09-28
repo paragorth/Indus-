@@ -100,6 +100,16 @@ These show the dictionary in use. They are not translations.
 3. Drop or demote a gloss when a test goes against it, and record the test in STRATEGIES.md.
 4. Any set of about 20 or more glosses that together predict something outside the corpus goes to `anchor_test.py`.
 
+## 7. Pot and bangle signs (S294)
+
+| Sign | Gloss | Grade | Evidence |
+|---|---|---|---|
+| W34 (tall 4) alone on a pot | "4 (units)": capacity or batch mark | C | alone on 12 pot texts; pot-enriched (p = 10⁻⁸) |
+| W999 | divider between two quantities ("N · N") | C | 32-999-31, 34-999-34 ×2, 645-999-645; 14 of 17 uses on pots |
+| W480, W697 | pot marks | function B | pot-enriched (FDR) |
+| W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
+
 ## Test log
+- S294: 'jar = the vessel it is written on' fails (the jar is on 16% of pot texts vs 42% of seal texts); 'arrow = weapon' fails (0 of 18 implements). Pots and bangles have their own sign set.
 - S293: twins next to a number 39% vs 13% for other person signs (P ≈ 0.09, trend); closers do not cluster by building or quarter at Mohenjo-daro (P = 0.13–0.73), so 'office tied to a building' is not supported.
 - S292: 'porter' (C–), 'ration fish' (reworded), 'chief' / 'overseer' / 'the Twelve' by seal size (no support, low power).
