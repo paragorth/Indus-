@@ -83,8 +83,23 @@ def build(name, std):
             continue
         seen.add(k)
         unique.append(a)
-    for i, a in enumerate(unique, 1):
-        a["id"] = f"{prefix}-{i:03d}"
+    # Ids are permanent: id_map_<set>.json maps each question to its id; new questions get the next number.
+    map_path = os.path.join(HERE, f"id_map_{name}.json")
+    idmap = json.load(open(map_path, encoding="utf-8")) if os.path.exists(map_path) else None
+    if idmap is None:                      # first run: seed from the ids already published
+        idmap = {}
+        if os.path.exists(os.path.join(HERE, out_json)):
+            for old in json.load(open(os.path.join(HERE, out_json), encoding="utf-8")):
+                idmap[re.sub(r"[^a-z0-9]+", " ", old["question"].lower()).strip()] = old["id"]
+    used = set(idmap.values())
+    nxt = max([int(v.split("-")[1]) for v in used] + [0]) + 1
+    for a in unique:
+        k = re.sub(r"[^a-z0-9]+", " ", a["question"].lower()).strip()
+        if k not in idmap:
+            idmap[k] = f"{prefix}-{nxt:03d}"; nxt += 1
+        a["id"] = idmap[k]
+    unique.sort(key=lambda a: int(a["id"].split("-")[1]))
+    json.dump(idmap, open(map_path, "w", encoding="utf-8"), ensure_ascii=False, indent=0, sort_keys=True)
     fb_path = os.path.join(HERE, "feedback.json")      # thumbs up/down collected from the app and reviewers
     fb = json.load(open(fb_path, encoding="utf-8")) if os.path.exists(fb_path) else []
     for a in unique:
