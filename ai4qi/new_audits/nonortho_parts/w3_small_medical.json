@@ -896,17 +896,17 @@
  },
  {
   "area": "Acute and specialty medicine",
-  "question": "What proportion of adults in critical care at risk of morbidity have their rehabilitation goals agreed within 4 days of admission to critical care, or before discharge from critical care if sooner?",
-  "why": "Rehabilitation after critical illness has no closed-loop audit in the library; existing ICU/anaesthesia entries focus on physiological monitoring rather than rehabilitation goal-setting.",
+  "question": "What proportion of adults admitted to hospital with heart failure are offered a referral to a personalised, exercise-based cardiac rehabilitation programme?",
+  "why": "Cardiac rehabilitation referral after coronary artery bypass grafting is already audited [see NNA-048], but referral for the much larger heart failure population is a distinct recommendation not measured anywhere in the library.",
   "standard": {
-   "source": "NICE QS158 Rehabilitation after critical illness in adults, quality statement 1 (2017)",
-   "wording": "Adults in critical care at risk of morbidity have their rehabilitation goals agreed within 4 days of admission to critical care or before discharge from critical care, whichever is sooner.",
-   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-1-Rehabilitation-goals"
+   "source": "NICE NG106 Chronic heart failure in adults: diagnosis and management, rec 1.11.1 (2018, amended 2025)",
+   "wording": "Offer people with heart failure a personalised, exercise-based cardiac rehabilitation programme. The programme: should be preceded by an assessment to ensure that it is suitable for the person should be provided in a format and setting (at home, in the community or in the hospital) that is easily accessible for the person should include a psychological and educational component.",
+   "url": "https://www.nice.org.uk/guidance/ng106/chapter/recommendations"
   },
-  "pass": "Rehabilitation goals are documented as agreed with the patient within 4 days of critical care admission, or before earlier discharge",
-  "population": "Inclusion: adults admitted to level 2 or level 3 critical care for more than 24 hours who are flagged at risk of morbidity. Exclusion: patients who die within 4 days of admission.",
-  "sample": "30 consecutive critical care admissions over the last 3 months",
-  "data_source": "Critical care rehabilitation assessment form, ICU daily review notes",
+  "pass": "A referral to an exercise-based cardiac rehabilitation programme is documented as offered before or shortly after discharge",
+  "population": "Inclusion: adults admitted with a primary diagnosis of heart failure over the last 3 months. Exclusion: patients receiving end-of-life or palliative care only.",
+  "sample": "30 consecutive heart failure admissions over the last 3 months",
+  "data_source": "Discharge summary, cardiac rehabilitation service referral log",
   "template": [
    {
     "field": "hospital_number_pseudonymised",
@@ -921,202 +921,65 @@
     "note": ""
    },
    {
-    "field": "risk_of_morbidity_flagged",
+    "field": "suitability_assessment_documented",
     "type": "yes/no",
     "options": [],
     "note": ""
    },
    {
-    "field": "rehabilitation_goals_agreed_date",
-    "type": "date",
+    "field": "rehabilitation_referral_offered",
+    "type": "yes/no",
     "options": [],
     "note": ""
    },
    {
-    "field": "days_to_goals_agreed",
-    "type": "number",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "discharge_date",
-    "type": "date",
-    "options": [],
+    "field": "referral_format",
+    "type": "choice",
+    "options": [
+     "hospital",
+     "community",
+     "home-based",
+     "not offered"
+    ],
     "note": ""
    }
   ],
   "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
-  "change": "Add a mandatory 'rehabilitation goals agreed' field with a due-by date to the critical care daily review template, flagged on the ward round board when overdue.",
+  "change": "Add a mandatory exercise-based cardiac rehabilitation referral field to the heart failure discharge bundle, defaulting to 'referred' with a documented reason required if not.",
   "target": "≥90%",
-  "reaudit": "3 months after the mandatory field is switched on, same template, same sample size",
-  "close_loop": "Present at critical care governance; keep the flagged field if the target is met.",
+  "reaudit": "6 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at cardiology/heart failure MDT governance; keep the mandatory field if the target is met.",
   "evidence": [
-   "[no closed-loop audit of critical care rehabilitation goal-setting timing has been published in the library]"
+   "[48 nearest related entry: cardiac rehabilitation referral after CABG for myocardial infarction]"
   ],
   "pitfalls": [
-   "Risk of morbidity is not always formally screened → agree a simple screening tool with the unit before cycle 1",
-   "Multidisciplinary input (physio, OT, dietetics) needed to set goals may be delayed at weekends → check weekend staffing separately",
-   "Goals agreed verbally but not documented → count only documented goals as a pass",
-   "Patients too sedated to participate → record 'goals agreed with family' as an acceptable alternative if documented"
+   "Cardiac rehabilitation services may be commissioned mainly for post-MI/CABG patients, with heart failure referral pathways less established → confirm the local service accepts heart failure referrals before cycle 1",
+   "Frail or very elderly patients may be wrongly assumed unsuitable without a formal assessment → require a documented suitability assessment, not clinician judgement alone",
+   "Community or home-based options may not exist locally → record the format offered so gaps in provision are visible",
+   "Patients declining rehabilitation should be recorded as offered-declined, not as a system failure"
   ],
   "pearls": [
-   "Recruit the critical care outreach or rehabilitation coordinator as audit lead",
-   "Build the goal-setting prompt into the existing daily ward round checklist rather than creating a new one",
-   "Use QS158's own quality measure wording as the audit standard so results map directly onto the national quality statement",
-   "Present early wins (a handful of goal-setting examples) to build staff buy-in before the full re-audit"
-  ],
-  "novelty": "new",
-  "effort": "~15 min per 10 patients from ICU records"
- },
- {
-  "area": "Acute and specialty medicine",
-  "question": "What proportion of adults at risk of morbidity have a formal, documented handover of their individualised rehabilitation programme when they transfer from critical care to a general ward?",
-  "why": "Breaks in rehabilitation continuity at ICU-to-ward transfer are not measured by any existing audit in the library.",
-  "standard": {
-   "source": "NICE QS158 Rehabilitation after critical illness in adults, quality statement 2 (2017)",
-   "wording": "Adults at risk of morbidity have a formal handover of care, including their agreed individualised structured rehabilitation programme, when they transfer from critical care to a general ward.",
-   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-2-Transfer-from-critical-care-to-a-general-ward"
-  },
-  "pass": "A documented formal handover including the individualised rehabilitation programme accompanies the patient at transfer",
-  "population": "Inclusion: adults at risk of morbidity transferred from critical care to a general ward over the last 3 months. Exclusion: direct transfers to another critical care unit.",
-  "sample": "30 consecutive ICU-to-ward transfers over the last 3 months",
-  "data_source": "Critical care transfer/handover document, ward admission note",
-  "template": [
-   {
-    "field": "hospital_number_pseudonymised",
-    "type": "text",
-    "options": [],
-    "note": "local pseudonymised ID, never the real hospital number"
-   },
-   {
-    "field": "transfer_date",
-    "type": "date",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "formal_handover_document_used",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "rehabilitation_programme_included_in_handover",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "ward_team_acknowledged_handover",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   }
-  ],
-  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
-  "change": "Build a single ICU-to-ward transfer template that pulls the rehabilitation programme directly from the critical care record, rather than relying on a separate handwritten summary.",
-  "target": "≥90%",
-  "reaudit": "3 months after the transfer template is switched on, same template, same sample size",
-  "close_loop": "Present at the joint critical care/ward governance meeting; keep the transfer template if the target is met.",
-  "evidence": [
-   "[no audit of rehabilitation programme handover at ICU-to-ward transfer has been published in the library]"
-  ],
-  "pitfalls": [
-   "Out-of-hours transfers may bypass the formal process → check both in-hours and out-of-hours transfers separately",
-   "Receiving ward staff unfamiliar with rehabilitation terminology → provide a one-page explanation sheet with the handover",
-   "EPR handover fields exist but are left blank → treat a blank field as a fail, not a pass",
-   "Bed pressure transfers happen faster than the paperwork → build the handover into the bed-move process itself"
-  ],
-  "pearls": [
-   "Involve both ICU and ward physiotherapy leads in designing the transfer template",
-   "Make the rehabilitation section a required field before the transfer can be confirmed on the bed management system",
-   "Track transfers happening out of hours separately, since they are the highest-risk group",
-   "Share the completed transfer template with the patient and family as well as staff"
-  ],
-  "novelty": "new",
-  "effort": "~15 min per 10 patients from transfer records"
- },
- {
-  "area": "Acute and specialty medicine",
-  "question": "What proportion of adults who were in critical care and at risk of morbidity are given information based on their rehabilitation goals before they are discharged from hospital?",
-  "why": "Discharge information tailored to rehabilitation goals after critical illness is not currently audited in the library, despite being a distinct national quality statement.",
-  "standard": {
-   "source": "NICE QS158 Rehabilitation after critical illness in adults, quality statement 3 (2017)",
-   "wording": "Adults who were in critical care and at risk of morbidity are given information based on their rehabilitation goals before they are discharged from hospital.",
-   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-3-Information-on-discharge-from-hospital"
-  },
-  "pass": "Discharge information documented as given references the patient's own rehabilitation goals, not only generic advice",
-  "population": "Inclusion: adults at risk of morbidity following critical care, discharged from hospital over the last 3 months. Exclusion: patients discharged to another acute hospital.",
-  "sample": "30 consecutive discharges over the last 3 months",
-  "data_source": "Discharge summary, rehabilitation goals record, patient information leaflet given",
-  "template": [
-   {
-    "field": "hospital_number_pseudonymised",
-    "type": "text",
-    "options": [],
-    "note": "local pseudonymised ID, never the real hospital number"
-   },
-   {
-    "field": "discharge_date",
-    "type": "date",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "rehabilitation_goals_documented",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "goal_linked_information_given",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "family_or_carer_included",
-    "type": "yes/no",
-    "options": [],
-    "note": ""
-   }
-  ],
-  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
-  "change": "Add a 'discharge information linked to rehabilitation goals' section to the discharge summary template, auto-populated from the rehabilitation goals already recorded on the ward.",
-  "target": "≥85%",
-  "reaudit": "3 months after the template change, same template, same sample size",
-  "close_loop": "Present at ward/rehabilitation governance; keep the auto-populated section if the target is met.",
-  "evidence": [
-   "[no audit of goal-linked discharge information after critical illness has been published in the library]"
-  ],
-  "pitfalls": [
-   "Generic discharge leaflets are counted as compliant when they are not goal-specific → define the pass criterion tightly before cycle 1",
-   "Staff turnover between ICU and ward loses sight of the original goals → keep the goals visible in the shared EPR record throughout the stay",
-   "Family involvement varies → record whether family/carers were included, not just the patient",
-   "Discharge happens at short notice → build the goal-linked section into the discharge checklist so it cannot be skipped"
-  ],
-  "pearls": [
-   "Base the goal-linked information directly on the goals agreed in the first quality statement audit, so the two audits reinforce each other",
-   "Involve ward-based physiotherapy and occupational therapy staff who write most discharge information",
-   "Pilot the new discharge section on one ward before trust-wide rollout",
-   "Ask patients directly (informal feedback) whether the information felt relevant to their own goals"
+   "Involve the heart failure specialist nurse, who already coordinates much of this discharge planning",
+   "Agree with the cardiac rehabilitation service in advance how they will handle a rise in heart failure referrals",
+   "Use the same discharge bundle build as the CABG rehabilitation referral audit already running, for efficiency",
+   "Report referral rate by referral format to identify where local provision needs to expand"
   ],
   "novelty": "new",
   "effort": "~15 min per 10 patients from discharge records"
  },
  {
   "area": "Acute and specialty medicine",
-  "question": "What proportion of adults who stayed in critical care for more than 4 days and were at risk of morbidity have a follow-up review 2 to 3 months after discharge from critical care?",
-  "why": "Post-ICU follow-up review timing has never been audited in the library, despite being a distinct national quality statement with a defined time window.",
+  "question": "What proportion of patients with a new traumatic or non-traumatic spinal cord injury are referred to the linked Spinal Cord Injury Centre within 12 hours of injury via the National Spinal Cord Injury Database, or telephoned within 4 hours where no agreed protocol exists?",
+  "why": "Timely specialist rehabilitation referral after spinal cord injury is a distinct national service standard not currently measured in the library, which covers spinal trauma from an orthopaedic/surgical rather than rehabilitation perspective.",
   "standard": {
-   "source": "NICE QS158 Rehabilitation after critical illness in adults, quality statement 4 (2017)",
-   "wording": "Adults who stayed in critical care for more than 4 days and were at risk of morbidity have a review 2 to 3 months after discharge from critical care.",
-   "url": "https://www.nice.org.uk/guidance/qs158/chapter/Quality-statement-4-Follow-up-after-critical-care-discharge"
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "Referral is made through the National Spinal Cord Injury Database (NSCID) within 12 hours of injury. If agreed protocols do not exist the SCIC should also be telephoned within 4 hours.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
   },
-  "pass": "A documented follow-up review took place between 2 and 3 months after critical care discharge",
-  "population": "Inclusion: adults who stayed in critical care for more than 4 days and were flagged at risk of morbidity, discharged over the last 6 months. Exclusion: patients who died before the review window.",
-  "sample": "30 consecutive eligible patients over the last 6 months",
-  "data_source": "Critical care follow-up clinic booking system, clinic letters",
+  "pass": "Referral is documented via the NSCID within 12 hours of injury, with telephone contact within 4 hours recorded where no agreed local protocol exists",
+  "population": "Inclusion: adults and children with a new traumatic or non-traumatic spinal cord injury presenting to a major trauma centre or acute hospital over the last 12 months. Exclusion: patients who die before referral could be made.",
+  "sample": "20 consecutive new spinal cord injury presentations over the last 12 months (a smaller, targeted sample given expected low case numbers)",
+  "data_source": "NSCID referral record, trauma team notes",
   "template": [
    {
     "field": "hospital_number_pseudonymised",
@@ -1125,52 +988,188 @@
     "note": "local pseudonymised ID, never the real hospital number"
    },
    {
-    "field": "critical_care_discharge_date",
-    "type": "date",
+    "field": "injury_or_presentation_datetime",
+    "type": "datetime",
     "options": [],
     "note": ""
    },
    {
-    "field": "length_of_critical_care_stay_days",
+    "field": "nscid_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_nscid_referral",
     "type": "number",
     "options": [],
     "note": ""
    },
    {
-    "field": "follow_up_review_date",
-    "type": "date",
-    "options": [],
-    "note": ""
-   },
-   {
-    "field": "review_within_2_to_3_months",
+    "field": "telephone_contact_within_4h_if_no_protocol",
     "type": "yes/no",
     "options": [],
     "note": ""
    }
   ],
   "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
-  "change": "Book the 2–3 month follow-up review automatically at the point of critical care discharge for every eligible patient, rather than leaving it to be arranged later.",
-  "target": "≥85%",
-  "reaudit": "6 months after automatic booking starts, same template, same sample size",
-  "close_loop": "Present at the critical care follow-up service governance meeting; keep automatic booking if the target is met.",
+  "change": "Add an NSCID referral step, timed from presentation, to the trauma team's spinal injury checklist, with a direct telephone number for the linked Spinal Cord Injury Centre displayed on the checklist.",
+  "target": "≥90%",
+  "reaudit": "12 months after the checklist change, same template, same sample size",
+  "close_loop": "Present at the major trauma network and Spinal Cord Injury Centre joint governance meeting; keep the checklist step if the target is met.",
   "evidence": [
-   "[no audit of the 2 to 3 month post-critical-care follow-up review window has been published in the library]"
+   "[no audit of NSCID referral timing after spinal cord injury has been published in the library]"
   ],
   "pitfalls": [
-   "Follow-up clinic capacity is limited → agree a realistic slot allocation with the service before cycle 1",
-   "Patients move house or change contact details after a long admission → confirm contact details before discharge, not at the booking stage",
-   "'At risk of morbidity' flagging may not be consistently applied → use the same screening definition as the goal-setting audit",
-   "Patients who feel well may not attend → explain the purpose of the review clearly at discharge"
+   "Spinal cord injury presentations are infrequent in a single centre → extend the sampling period to 12–24 months if needed",
+   "Non-traumatic cases (for example from compressive pathology) may be referred later, from neurology or spinal surgery rather than the trauma team → include both referral routes",
+   "Staff unfamiliar with the NSCID system may default to informal telephone contact only → check both are properly recorded, not just one",
+   "Referral timing may be recorded on NSCID but not cross-checked locally → keep a parallel local log during the audit"
   ],
   "pearls": [
-   "Link the automatic booking to the discharge checklist used in the earlier quality statement audits",
-   "Recruit the ICU follow-up clinic coordinator as audit lead",
-   "Track non-attendance reasons separately, since these point to a different fix (access, not booking)",
-   "Report the same case list across all four QS158 statements to build a complete picture of the rehabilitation pathway with one data collection round"
+   "Contact the linked Spinal Cord Injury Centre to confirm the agreed local referral protocol before cycle 1",
+   "Display the NSCID referral pathway and the direct SCIC telephone number in the emergency department trauma bay",
+   "Recruit the trauma coordinator or major trauma network rehabilitation lead as audit champion",
+   "Present findings to the regional trauma network, since this is a network-wide rather than single-hospital standard"
   ],
   "novelty": "new",
-  "effort": "~15 min per 10 patients from follow-up clinic records"
+  "effort": "~20 min per 10 cases from trauma/NSCID records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients admitted to a Spinal Cord Injury Centre have their first documented MDT goal-planning meeting within 3 weeks of mobilisation?",
+  "why": "Timeliness of structured goal-planning after admission to specialist spinal injury rehabilitation is not measured anywhere in the library.",
+  "standard": {
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "documented goal-planning meetings should be held between the MDT staff and the patient. Family and significant others should be encouraged to participate and contribute to goals set. Following acute injury, the first meeting should take place within 3 weeks of mobilisation and subsequent meetings no less often than 4-weekly thereafter.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
+  },
+  "pass": "A documented MDT goal-planning meeting takes place within 3 weeks of mobilisation, with subsequent meetings no more than 4 weeks apart",
+  "population": "Inclusion: adults and children admitted to the Spinal Cord Injury Centre over the last 12 months who have reached mobilisation. Exclusion: patients transferred out before mobilisation.",
+  "sample": "20 consecutive admissions reaching mobilisation over the last 12 months",
+  "data_source": "SCIC MDT goal-planning meeting record, mobilisation date in therapy notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "mobilisation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_goal_planning_meeting_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_weeks_of_mobilisation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "subsequent_meeting_interval_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic goal-planning meeting booking, timed from the mobilisation date recorded in therapy notes, to the SCIC's weekly MDT diary.",
+  "target": "≥90%",
+  "reaudit": "12 months after automatic booking is switched on, same template, same sample size",
+  "close_loop": "Present at the SCIC's own MDT and BSRM-aligned service governance meeting; keep automatic booking if the target is met.",
+  "evidence": [
+   "[no audit of spinal cord injury goal-planning meeting timing has been published in the library]"
+  ],
+  "pitfalls": [
+   "Mobilisation date can be recorded inconsistently across therapy disciplines → agree a single definition (first out-of-bed sitting/standing) before cycle 1",
+   "Small numbers in a single specialist centre → extend the sampling period if fewer than 20 admissions reach mobilisation in a year",
+   "Weekly MDT diary pressure may push meetings later than planned → protect goal-planning meeting slots in the diary rather than fitting them around other business",
+   "Family/significant other participation may not be recorded even when the meeting itself happens on time → check both timing and participation"
+  ],
+  "pearls": [
+   "Use the SCIC's own MDT coordinator, who already runs the weekly meeting diary, as audit lead",
+   "Cross-check this audit against the referral-timing audit above to build a full picture of the SCI pathway from injury to rehabilitation",
+   "Present results alongside UKROC outcome data already collected by the centre",
+   "Keep a simple wall planner of mobilisation dates and due goal-planning meetings visible to the MDT"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from SCIC MDT records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of spinal cord injury patients' MDT goal-planning meetings have documented evidence that family or significant others were invited to participate?",
+  "why": "Family involvement in goal-planning is a distinct requirement from the timing of the meeting itself, and is not measured anywhere in the library.",
+  "standard": {
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "Family and significant others should be encouraged to participate and contribute to goals set.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
+  },
+  "pass": "The goal-planning meeting record documents that family or significant others were invited, whether or not they were able to attend",
+  "population": "Inclusion: adults and children with a documented MDT goal-planning meeting at the SCIC over the last 12 months. Exclusion: patients with no identifiable family or significant other, documented as such.",
+  "sample": "20 consecutive goal-planning meetings over the last 12 months",
+  "data_source": "SCIC MDT goal-planning meeting record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "meeting_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_or_significant_other_invited",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_or_significant_other_attended",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_invited",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'family/significant other invited: yes (who) / no (why not)' field to the goal-planning meeting record template.",
+  "target": "≥90%",
+  "reaudit": "12 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at the SCIC MDT governance meeting; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[no audit of family involvement in spinal cord injury goal-planning meetings has been published in the library]"
+  ],
+  "pitfalls": [
+   "Family may live far from the specialist centre, making attendance difficult → accept telephone or video participation as equivalent to invitation and involvement",
+   "Patients may decline family involvement, which should be recorded as a valid patient choice rather than non-compliance",
+   "Small numbers of meetings in a specialist centre → extend the sampling period if needed",
+   "Invitation may happen informally by phone without being logged → require the invitation itself, not just attendance, to be documented"
+  ],
+  "pearls": [
+   "Combine data collection with the goal-planning meeting timing audit, since both use the same meeting records",
+   "Offer video-link attendance as standard for family members who cannot travel",
+   "Ask the SCIC's clinical psychologist or family liaison worker to help design the invitation record",
+   "Share this audit with the trust's patient experience team, since family involvement is closely linked to reported patient experience"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 meetings from SCIC MDT records"
  },
  {
   "area": "Acute and specialty medicine",

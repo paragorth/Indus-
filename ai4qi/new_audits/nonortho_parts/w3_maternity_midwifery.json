@@ -1,0 +1,3288 @@
+[
+ {
+  "question": "In women on continuous CTG monitoring in labour, what proportion of hourly fetal heart rate assessments had an in-person 'fresh eyes' review by a second clinician documented before the next hourly assessment?",
+  "why": "Delayed or absent fresh-eyes review of the CTG is a recurring theme in avoidable intrapartum stillbirth and brain injury cases; the corpus holds general intrapartum care and PPH audits [1] but no closed-loop audit of fresh-eyes CTG review timing.",
+  "standard": {
+   "source": "NICE NG229 Fetal monitoring in labour, rec 1.3.6 (2022)",
+   "wording": "Obtain an in-person review of every hourly assessment (see recommendation 1.3.5) by another clinician (\"fresh eyes\") for women on CTG, to be completed before the next assessment takes place.",
+   "url": "https://www.nice.org.uk/guidance/ng229/chapter/Recommendations"
+  },
+  "pass": "The hourly CTG assessment has a documented fresh-eyes review (name/role and time) by a second clinician, completed before the next hourly assessment is due",
+  "population": "Inclusion: all women on continuous CTG monitoring in established labour. Exclusion: births before continuous CTG was started, home births.",
+  "sample": "40 consecutive women on continuous CTG monitoring in labour over the last 4 weeks, one CTG episode of at least 3 hours per woman",
+  "data_source": "Labour ward CTG trace annotations and electronic partogram/labour record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_labour",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hourly_assessments_expected",
+    "type": "number",
+    "options": [],
+    "note": "number of hourly CTG assessments during the labour reviewed"
+   },
+   {
+    "field": "hourly_assessments_with_fresh_eyes",
+    "type": "number",
+    "options": [],
+    "note": "how many had a documented second-clinician review before the next assessment"
+   },
+   {
+    "field": "fresh_eyes_reviewer_role_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_over_60_min_to_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "escalation_triggered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a timed 'fresh eyes review due at __:__' prompt to the CTG trace and electronic labour record that is generated automatically at each hourly assessment and must be signed by a second clinician before it can be marked complete.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks after the prompt is introduced, same template and sample size",
+  "close_loop": "Present at the labour ward forum and maternity governance meeting; if compliance improves, embed the CTG fresh-eyes prompt as a fixed field in the electronic labour record build",
+  "evidence": [
+   "[1892] intrapartum care and PPH: before → after (proforma change)",
+   "no closed-loop audit of fresh-eyes CTG review timing found in the library"
+  ],
+  "pitfalls": [
+   "Paper CTG annotations are often illegible or missing a time → agree a single place (trace margin or e-record) and a minimum data set with the labour ward before cycle 1",
+   "Small numbers if the unit has few continuous-CTG labours in the sample window → extend the collection period rather than lowering the sample",
+   "Staff may see the fresh-eyes prompt as another tick-box → involve labour ward coordinators in designing the prompt and explain the Each Baby Counts rationale",
+   "Definition of 'in-person' review may be interpreted loosely (a verbal comment vs a documented review) → fix the definition and a single documentation location before data collection starts",
+   "Gains fade once the audit team rotates → make the fresh-eyes field mandatory in the EPR build rather than relying on a poster reminder"
+  ],
+  "pearls": [
+   "Recruit a labour ward co-ordinator and a supervisor of midwives/PMA as co-investigators so the change has authority on the ward",
+   "Agree the exact fresh-eyes documentation field and audit definition with labour ward before cycle 1 starts",
+   "Time the audit to include day and night shifts, as fresh-eyes reviews are more often missed at night",
+   "Share individual near-miss examples (anonymised) at the labour ward forum to build buy-in before the second cycle",
+   "Keep the re-audit sample the same size and season to allow fair comparison"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 labours from the CTG trace and electronic labour record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In women with a low risk of complications having intermittent auscultation in established first stage of labour, what proportion of documented auscultations were performed at least once every 15 minutes?",
+  "why": "RCEM's Each Baby Counts and MBRRACE-UK reviews repeatedly identify failure to follow the recommended frequency and technique of intermittent auscultation as a contributory factor in avoidable harm; no closed-loop audit of intermittent auscultation frequency is in the library.",
+  "standard": {
+   "source": "NICE NG229 Fetal monitoring in labour, rec 1.2.9 (2017, amended 2026)",
+   "wording": "Offer women with a low risk of complications, fetal heart rate monitoring with intermittent auscultation when in established first stage of labour. Do this as follows: ... carry out intermittent auscultation immediately after a palpated contraction for at least 1 minute, repeated at least once every 15 minutes, and record it as a single rate.",
+   "url": "https://www.nice.org.uk/guidance/ng229/chapter/Recommendations"
+  },
+  "pass": "For a woman on intermittent auscultation in established first stage, the interval between two consecutive documented auscultations does not exceed 15 minutes",
+  "population": "Inclusion: low-risk women having intermittent auscultation in established first stage of labour. Exclusion: women moved to continuous CTG monitoring during the period reviewed.",
+  "sample": "40 consecutive low-risk women having intermittent auscultation in established first stage over the last 4 weeks",
+  "data_source": "Partogram/electronic labour record auscultation entries",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_labour",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auscultation_entries_reviewed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_between_auscultations_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_gaps_15_min_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "maternal_pulse_differentiated_hourly",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a 15-minute auscultation timer into the electronic partogram that flags amber when 12 minutes have elapsed since the last entry and red at 15 minutes, visible on the ward dashboard.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the labour ward audit meeting; if the timer improves compliance, make it a permanent feature of the electronic partogram build",
+  "evidence": [
+   "no closed-loop audit of intermittent auscultation frequency found in the library"
+  ],
+  "pitfalls": [
+   "Paper partograms with gaps in recording → exclude labours with more than 20% missing entries and note the exclusion rate",
+   "Busy labour ward staffing may make 15-minute auscultation genuinely difficult → review staffing ratios alongside the audit, not instead of the process change",
+   "Definition of 'established first stage' varies between recorders → agree the definition (4 cm plus regular contractions) with the labour ward before data collection",
+   "One midwife's caseload dominating the sample → sample across shifts and midwives",
+   "Improvement fading after the audit team moves on → make the electronic timer the permanent default rather than a temporary poster"
+  ],
+  "pearls": [
+   "Recruit a practice development midwife to co-lead so the change is owned by the ward, not just the audit team",
+   "Pilot the electronic timer on one bay before full roll-out to iron out false alarms",
+   "Use real (anonymised) examples of delayed auscultation from incident reports to explain the 'why' at launch",
+   "Cross-reference with the labour ward's Each Baby Counts and MBRRACE-UK action plan so this audit is not seen as a duplicate task",
+   "Feed results back to individual midwives confidentially as well as to the team, to support learning"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 labours from the partogram",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Once a woman has signs of, or is in confirmed second stage of labour, what proportion of documented intermittent auscultations were performed at least once every 5 minutes?",
+  "why": "Each Baby Counts identified failure to increase the frequency of intermittent auscultation in second stage as a recurring contributory factor in intrapartum harm; this specific second-stage frequency has not had a closed-loop audit in the library.",
+  "standard": {
+   "source": "NICE NG229 Fetal monitoring in labour, rec 1.2.10 (2007, amended 2026)",
+   "wording": "Once the woman has signs of, or is in confirmed second stage of labour: perform intermittent auscultation immediately after a palpated contraction for at least 1 minute, repeated at least once every 5 minutes and record it as a single rate.",
+   "url": "https://www.nice.org.uk/guidance/ng229/chapter/Recommendations"
+  },
+  "pass": "In second stage, the interval between two consecutive documented auscultations does not exceed 5 minutes",
+  "population": "Inclusion: women on intermittent auscultation who reach second stage of labour. Exclusion: women converted to continuous CTG before or during second stage.",
+  "sample": "40 consecutive women who laboured with intermittent auscultation and reached second stage over the last 4 weeks",
+  "data_source": "Partogram/electronic labour record and second stage record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_second_stage_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auscultation_entries_in_second_stage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_gaps_5_min_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a distinct 'second stage' mode to the electronic partogram auscultation timer that shortens the alert interval from 15 to 5 minutes as soon as second stage is confirmed.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the labour ward audit meeting; embed the second-stage timer mode as a permanent EPR feature if compliance improves",
+  "evidence": [
+   "no closed-loop audit of second-stage intermittent auscultation frequency found in the library"
+  ],
+  "pitfalls": [
+   "Ambiguity about the exact moment second stage starts → use the documented time of full dilatation or bearing-down urge as the trigger, agreed in advance",
+   "Very short second stages give few data points → record the number of auscultations expected as well as achieved",
+   "Staff may confuse this with the separate first-stage 15-minute standard → make the EPR mode change explicit and visible",
+   "Retrospective note review may miss verbal-only auscultations → accept only documented entries as per protocol",
+   "Losing momentum after go-live → include the second-stage timer in new starter induction"
+  ],
+  "pearls": [
+   "Pair this audit with the first-stage auscultation audit so both cycles share the same data collection visit",
+   "Get labour ward coordinator sign-off on the definition of second stage onset before starting",
+   "Use huddle boards to display real-time compliance during the embedding phase",
+   "Link learning to the unit's Each Baby Counts action plan",
+   "Keep sample size and season consistent at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 labours from the partogram",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In women starting induction of labour, what proportion had a Bishop score and antenatal cardiotocography documented before the first method of induction was started?",
+  "why": "Assessment before induction confirms the baby is suitable for induction and that the fetal heart rate is normal; the corpus has induction of labour practice audits [general] but no closed-loop audit of pre-induction assessment completeness.",
+  "standard": {
+   "source": "NICE NG207 Inducing labour, rec 1.5.1 (2008, amended 2021)",
+   "wording": "Ensure the position of the baby and the woman's condition are suitable for induction by: abdominally assessing the level and stability of the fetal head in the lower part of the uterus at or near the pelvic brim ... assessing and recording the Bishop score, confirming a normal fetal heart rate pattern using antenatal cardiotocography interpretation, confirming the absence of significant uterine contractions (not Braxton-Hicks) using cardiotocography.",
+   "url": "https://www.nice.org.uk/guidance/ng207/chapter/Recommendations"
+  },
+  "pass": "A Bishop score and a CTG confirming a normal fetal heart rate pattern are both documented in the notes before the first induction method (sweep excluded) is administered",
+  "population": "Inclusion: all women undergoing induction of labour on the delivery suite or induction ward. Exclusion: induction started in extremis (category 1 indication) where immediate delivery supersedes assessment.",
+  "sample": "40 consecutive women started on induction of labour over the last 6-8 weeks",
+  "data_source": "Induction of labour proforma and CTG trace",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_induction_started",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bishop_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_induction_ctg_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ctg_reported_normal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_done_before_first_method",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_for_induction",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Redesign the induction of labour proforma so the Bishop score box and a mandatory pre-induction CTG result field must both be completed before the first prostaglandin, balloon or amniotomy step can be signed for.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the maternity governance meeting; if compliant, roll the redesigned proforma out across the induction ward and delivery suite",
+  "evidence": [
+   "no closed-loop audit of pre-induction Bishop score and CTG assessment found in the library"
+  ],
+  "pitfalls": [
+   "Bishop score sometimes recorded narratively rather than as a number → accept only a numeric or component score as compliant",
+   "CTG performed but not formally reported before induction starts → require a documented category (normal/suspicious/pathological), not just a trace reference",
+   "Staff shortages leading to skipped pre-induction CTG on busy days → escalate persistent gaps to the labour ward matron",
+   "Retrospective note-finding may undercount compliance if records are split between paper and EPR → check both systems for each case",
+   "Definition drift between cycles (e.g. accepting an antenatal CTG from earlier in the day as 'pre-induction') → fix the definition (within 4 hours of starting) before cycle 1"
+  ],
+  "pearls": [
+   "Involve the induction ward coordinator in designing the proforma change",
+   "Pilot the new proforma for two weeks and fix obvious problems before the full re-audit",
+   "Use real anonymised delayed-recognition cases to make the case for the change at launch",
+   "Keep the same definition of 'before induction started' across both cycles",
+   "Feed back individual near-misses privately as well as team results"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 inductions from the induction proforma",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In women having active management of the third stage after a vaginal birth, what proportion received the uterotonic at the correct dose and route (10 units oxytocin IM, 5 units oxytocin IV, or 5 units oxytocin plus 500 micrograms ergometrine IM)?",
+  "why": "Active management substantially reduces postpartum haemorrhage, but the correct 2023-updated dose and route of oxytocin is not yet embedded everywhere; no closed-loop audit of third-stage uterotonic dose and route accuracy is in the library (carbetocin at caesarean birth is separately audited [NNA-203]).",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.10.11 (2023)",
+   "wording": "For active management after vaginal birth, administer 10 units of oxytocin (by intramuscular injection), 5 units of oxytocin (by intravenous injection, see recommendation 1.10.12) or 5 units of oxytocin plus 500 micrograms of ergometrine (by intramuscular injection) immediately after the birth of the baby and before the cord is clamped and cut.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "The uterotonic given for active management is one of the three NICE-specified dose/route combinations, given after the birth of the baby and before the cord is clamped and cut",
+  "population": "Inclusion: women having a vaginal birth who chose active management of the third stage. Exclusion: physiological management, caesarean births.",
+  "sample": "40 consecutive vaginal births with active third-stage management over the last 4 weeks",
+  "data_source": "Birth register/electronic labour record drug administration entries",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "uterotonic_drug_given",
+    "type": "choice",
+    "options": [
+     "oxytocin 10 units IM",
+     "oxytocin 5 units IV",
+     "oxytocin 5 units + ergometrine 500mcg IM",
+     "other/non-standard"
+    ],
+    "note": ""
+   },
+   {
+    "field": "given_before_cord_clamped",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_birth_to_uterotonic_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pph_over_500ml",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the third-stage drug chart pre-print with the three NICE-approved oxytocin/ergometrine dose-route options only, removing any legacy non-standard options.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the labour ward drug safety meeting; if compliant, standardise the pre-print across all birth settings including the midwifery-led unit",
+  "evidence": [
+   "no closed-loop audit of active third-stage uterotonic dose and route accuracy found in the library"
+  ],
+  "pitfalls": [
+   "Legacy local practice (e.g. syntometrine as default) may persist after guidance changes → communicate the 2023 update explicitly to all grades of staff",
+   "Documentation of exact time relative to cord clamping is often absent → add a simple tick box rather than relying on free text",
+   "Small numbers if the maternity unit has a low birth rate → extend the collection period",
+   "Staff may conflate this with the caesarean carbetocin standard → make clear this audit is for vaginal births only",
+   "Improvement fading if the old pre-printed chart re-enters stock → destroy old stock once the new chart is live"
+  ],
+  "pearls": [
+   "Involve the labour ward pharmacist in redesigning the drug chart",
+   "Brief anaesthetic and obstetric staff as well as midwives, since doctors sometimes give the third-stage drug at instrumental births",
+   "Use a short teaching huddle to explain the rationale for the 2023 change (reduced side-effect burden with single-agent oxytocin where appropriate)",
+   "Display current compliance on the labour ward safety board",
+   "Keep the same definition of 'active management' between cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 births from the birth register",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In women with continuing postpartum haemorrhage who required a second-line uterotonic, what proportion also received intravenous tranexamic acid 1g given over 10 minutes?",
+  "why": "Tranexamic acid reduces bleeding-related death in postpartum haemorrhage, but its use alongside uterotonics is not consistently documented; no closed-loop audit of tranexamic acid use in postpartum haemorrhage is in the library.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.10.35 (2023)",
+   "wording": "In addition to uterotonic drugs, give tranexamic acid (1 g by intravenous injection over 10 minutes). Repeat if necessary after at least 30 minutes for managing continuing postpartum haemorrhage.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "Tranexamic acid 1g IV over 10 minutes is given alongside uterotonic drugs for continuing postpartum haemorrhage, with a repeat dose after at least 30 minutes if bleeding continues",
+  "population": "Inclusion: all women with a postpartum haemorrhage of 500ml or more who received a second-line uterotonic for continuing bleeding. Exclusion: haemorrhage that resolved with a single uterotonic dose alone.",
+  "sample": "30 consecutive women with continuing postpartum haemorrhage requiring a second-line uterotonic over the last 6 months",
+  "data_source": "Maternity emergency drug chart, PPH proforma, incident report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_pph",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "estimated_blood_loss_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tranexamic_acid_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_and_route_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": "1g IV over 10 minutes"
+   },
+   {
+    "field": "time_from_pph_recognition_to_txa_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_dose_given_if_continuing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a pre-filled tranexamic acid 1g IV line to the maternity haemorrhage emergency box drug card and the PPH proforma, so it is prescribed at the same time as the second-line uterotonic.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at maternity risk management/patient safety meeting; if compliant, embed the tranexamic acid line in the PPH simulation drill checklist",
+  "evidence": [
+   "no closed-loop audit of tranexamic acid use in postpartum haemorrhage found in the library"
+  ],
+  "pitfalls": [
+   "PPH events are relatively infrequent → extend the collection window to 6 months to reach an adequate sample",
+   "Emergency documentation is often incomplete under pressure → use a structured PPH proforma with timed boxes rather than free text",
+   "Staff may not know the correct infusion time (10 minutes, not a rapid push) → include this explicitly in PPH drills",
+   "Ambiguity about what counts as 'continuing' haemorrhage → define as bleeding continuing after the first uterotonic dose, agreed with the labour ward before cycle 1",
+   "Fading compliance once the initial drill enthusiasm passes → repeat PPH simulation drills quarterly with tranexamic acid timing as a scored item"
+  ],
+  "pearls": [
+   "Link this audit to the unit's regular PPH simulation training programme",
+   "Involve the obstetric anaesthetist and transfusion practitioner as co-investigators",
+   "Use the maternity haemorrhage box contents check as a natural trigger to review the drug card design",
+   "Present near-miss and good-practice cases anonymously at multidisciplinary training",
+   "Keep the same PPH volume threshold and definition of 'continuing' bleeding at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from the PPH proforma and drug chart",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In births with active management of the third stage, what proportion had the exact time of cord clamping recorded, and was the cord clamped no earlier than 1 minute and before 5 minutes from birth?",
+  "why": "NICE requires the timing of cord clamping to be recorded in every birth and specifies a window for active management, but this is inconsistently documented outside the preterm cord-clamping pathway already audited in the library [NNA-198]; no audit of cord-clamping timing documentation for term active-managed births exists.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, recs 1.10.14 and 1.10.16 (2014, amended 2023)",
+   "wording": "After administering the uterotonic, clamp and cut the cord, but: do not clamp the cord earlier than 1 minute from the birth of the baby unless there is concern about the integrity of the cord or the baby has a heart rate below 60 beats a minute that is not getting faster; clamp the cord before 5 minutes in order to perform controlled cord traction as part of active management ... Record the timing of cord clamping in both active and physiological management.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "The time of cord clamping is documented, and clamping occurred at or after 1 minute and before 5 minutes from birth (unless a documented clinical reason for earlier clamping is recorded)",
+  "population": "Inclusion: term births with active management of the third stage. Exclusion: preterm births below 37 weeks (covered by the existing preterm cord-clamping audit), stillbirths.",
+  "sample": "40 consecutive term vaginal births with active third-stage management over the last 4 weeks",
+  "data_source": "Birth register/electronic labour record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_birth",
+    "type": "text",
+    "options": [],
+    "note": "hh:mm"
+   },
+   {
+    "field": "time_of_cord_clamping_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cord_clamping_time_seconds_from_birth",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_1_to_5_min_window",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented_if_outside_window",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'time of cord clamping' field, with an automatic timer started at the recorded time of birth, to the electronic birth record for every vaginal birth.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the labour ward audit meeting; if compliant, extend the automatic timer field to caesarean birth records",
+  "evidence": [
+   "[NNA-198] preterm cord clamping is separately audited in the proposed library",
+   "no audit of term cord-clamping timing documentation found in the library"
+  ],
+  "pitfalls": [
+   "Cord clamping time is often estimated rather than timed → provide a wall clock or timer visible to the person clamping the cord",
+   "Staff may confuse this with the preterm cord-clamping standard → make clear in training that this audit covers term active-managed births",
+   "Retrospective note review may find blank fields rather than wrong values → record 'not documented' as a distinct category, not a fail by default, to identify where the gap is",
+   "Genuine clinical reasons for early clamping (cord integrity concern, poor condition at birth) must not be miscounted as non-compliance → capture the documented reason",
+   "Fading compliance after go-live → include the field in the maternity dashboard so gaps are visible weekly"
+  ],
+  "pearls": [
+   "Use a simple wall-mounted timer or the delivery room clock as a low-cost prompt",
+   "Recruit maternity support workers to help time and record cord clamping during the collection period",
+   "Link this audit with training on delayed cord clamping benefits for haemoglobin and iron stores",
+   "Present compliance trends, not just a single snapshot, to the labour ward forum",
+   "Keep the same window definition (1-5 minutes) and exclusions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the birth register",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of babies had uninterrupted skin-to-skin contact with their mother (or birth companion if the mother was unable) started within 5 minutes of birth and continued for at least the first hour, with no separation for routine procedures during that time?",
+  "why": "Early, uninterrupted skin-to-skin contact supports thermoregulation, breastfeeding initiation and bonding, but routine weighing and measuring often interrupt it; no closed-loop audit of skin-to-skin contact timing and duration is in the library.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, recs 1.11.7 and 1.11.10 (2007, amended 2023)",
+   "wording": "Encourage women to have skin-to-skin contact with their babies as soon as possible after the birth. If the woman is not well enough, encourage her birth companion to have skin-to-skin contact instead. ... Avoid separating the woman and her baby within the first hour of the birth for routine postnatal procedures, for example, weighing, measuring and bathing, unless these measures are requested by the woman or are necessary for the immediate care of the baby.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "Skin-to-skin contact is documented as starting within 5 minutes of birth and continuing uninterrupted for at least 1 hour, with no routine procedure documented as the reason for any earlier separation",
+  "population": "Inclusion: all live births on the labour ward and midwifery-led unit where the baby did not need resuscitation. Exclusion: babies needing resuscitation or immediate neonatal unit admission.",
+  "sample": "40 consecutive births not requiring neonatal resuscitation over the last 4 weeks",
+  "data_source": "Birth register, postnatal care record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "skin_to_skin_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_start_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_uninterrupted_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interrupted_for_routine_procedure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_interruption",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "breastfeeding_initiated_within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'skin-to-skin start and end time' box to the birth record and move routine weighing/measuring to after the first postnatal hour in the ward's standard birth checklist.",
+  "target": "≥85%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the infant feeding and maternity governance meetings; if compliant, embed the revised checklist order across all birth settings",
+  "evidence": [
+   "no closed-loop audit of skin-to-skin contact timing and interruption found in the library"
+  ],
+  "pitfalls": [
+   "Skin-to-skin start/stop times are rarely documented precisely → accept nearest 5-minute estimates and note this limitation",
+   "Genuine clinical reasons for interruption (maternal instability, baby needing review) must not be counted as non-compliance → capture the documented reason",
+   "Staff habit of weighing the baby immediately is hard to change → involve maternity support workers, who usually do the weighing, in redesigning the checklist",
+   "Caesarean births may need a separate pathway (theatre staffing, recovery) → consider auditing vaginal and caesarean births separately",
+   "Improvement fading if the checklist reverts to the old order → update the printed and electronic checklist together"
+  ],
+  "pearls": [
+   "Involve an infant feeding lead/lactation consultant as co-investigator",
+   "Use UNICEF Baby Friendly Initiative standards as a familiar framework for staff",
+   "Display compliance alongside breastfeeding initiation rates, since the two are linked",
+   "Consider a champion on each shift to model early, uninterrupted skin-to-skin",
+   "Keep exclusions (resuscitation, neonatal unit admission) identical at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 births from the birth register",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of babies had a parental decision about vitamin K prophylaxis (accepted by injection, accepted orally, or declined) recorded before transfer from the birth setting?",
+  "why": "Vitamin K deficiency bleeding is rare but preventable, and NICE 2026 guidance reintroduced explicit reference to vitamin K prophylaxis; no closed-loop audit of vitamin K decision documentation is in the library.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.11.12 (2006, amended 2026)",
+   "wording": "Offer parents vitamin K prophylaxis for their babies. Explain this is to prevent vitamin K deficiency bleeding, which is a rare but serious and sometimes fatal disorder.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "A vitamin K decision (accepted by injection, accepted orally with a documented follow-up plan, or declined) is recorded in the baby's notes before transfer from the birth setting",
+  "population": "Inclusion: all live births. Exclusion: babies transferred directly to the neonatal unit before the discussion could take place.",
+  "sample": "40 consecutive live births over the last 4 weeks",
+  "data_source": "Newborn record/postnatal discharge checklist",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vitamin_k_decision_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "injection given",
+     "oral accepted with follow-up plan",
+     "declined",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "given_before_transfer_from_birth_setting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'vitamin K discussed and decision recorded' field to the electronic newborn discharge checklist that must be completed before the birth episode can be closed.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the maternity governance meeting; if compliant, make the field a hard stop in the EPR discharge workflow",
+  "evidence": [
+   "no closed-loop audit of vitamin K decision documentation found in the library"
+  ],
+  "pitfalls": [
+   "Vitamin K given but not documented, understating true practice → cross-check the drug administration record as well as the discharge checklist",
+   "Oral vitamin K needs multiple doses and a follow-up plan, which is often the part left undocumented → make follow-up plan a required sub-field, not just 'oral given'",
+   "Parents declining vitamin K may not have this decision recorded, only omission → make 'declined' an explicit selectable option, not a blank",
+   "Home births and midwifery-led unit births may use different documentation → include both settings in the sample",
+   "Improvement fading without a hard stop → build the field into the EPR rather than a paper checklist alone"
+  ],
+  "pearls": [
+   "Agree the exact wording of the three decision options with the neonatal team before cycle 1",
+   "Use a short scripted explanation for staff to give consistent information to parents",
+   "Cross-check a sample against the drug administration record to validate documentation accuracy",
+   "Involve postnatal ward staff, since some decisions are made after transfer from the birth room",
+   "Keep the same three decision categories at re-audit for comparability"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the newborn record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women who had an instrumental vaginal birth (forceps or ventouse) received a single dose of intravenous co-amoxiclav (or a locally agreed alternative) within 6 hours after cord clamping?",
+  "why": "A single prophylactic antibiotic dose after instrumental birth reduces maternal infection, but timing and completion are not routinely checked; no closed-loop audit of post-instrumental-birth antibiotic prophylaxis is in the library.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.9.43 (2023)",
+   "wording": "Offer women who have had a birth with forceps or ventouse a single dose of intravenous co-amoxiclav (or a locally agreed alternative for women who are allergic to penicillin) within 6 hours after cord clamping.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "A single dose of IV co-amoxiclav (or the locally agreed penicillin-allergy alternative) is prescribed and administered within 6 hours of cord clamping",
+  "population": "Inclusion: all women having a forceps or ventouse birth. Exclusion: women already on therapeutic antibiotics for another indication.",
+  "sample": "40 consecutive instrumental vaginal births over the last 6-8 weeks",
+  "data_source": "Electronic drug chart and birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "instrument_used",
+    "type": "choice",
+    "options": [
+     "forceps",
+     "ventouse"
+    ],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_cord_clamping_to_dose_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "penicillin_allergy_alternative_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a pre-filled 'co-amoxiclav 1.2g IV, single dose, within 6 hours of instrumental birth' order set to the electronic prescribing system, triggered when the birth mode is coded as forceps or ventouse.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at maternity medicines safety meeting; if compliant, review at 6 months for sustained compliance",
+  "evidence": [
+   "no closed-loop audit of post-instrumental-birth antibiotic prophylaxis timing found in the library"
+  ],
+  "pitfalls": [
+   "Instrumental births at night or in an emergency may have prophylaxis forgotten → include an automatic EPR prompt rather than relying on memory",
+   "Penicillin allergy alternatives vary between trusts → confirm the local alternative with pharmacy before starting",
+   "Time from cord clamping (not from birth of baby) may be poorly documented → accept birth time as a proxy where clamping time is missing and note the limitation",
+   "Antibiotic prescribed but not actually administered within the window → check both prescribing and administration records",
+   "Fading compliance once the initial launch attention passes → include compliance in the routine maternity medicines dashboard"
+  ],
+  "pearls": [
+   "Involve the labour ward pharmacist in building the order set",
+   "Brief the on-call obstetric team as well as midwives, since doctors usually perform instrumental births",
+   "Use theatre/instrumental birth trolleys to physically prompt the antibiotic dose",
+   "Track reasons for non-administration (e.g. declined, allergy uncertainty) to target further work",
+   "Keep the same 6-hour window and instrument definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the drug chart",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of babies had a complete newborn and infant physical examination (NIPE) documented within 72 hours of birth?",
+  "why": "The 72-hour newborn examination detects major abnormalities early, but completion within the national timeframe is not routinely audited outside the specific hip-screening pathway already in the library [ONA-060, ONA-061]; no audit of overall 72-hour NIPE completion exists.",
+  "standard": {
+   "source": "NICE NG194 Postnatal care, rec 1.3.3 (2021)",
+   "wording": "Carry out a complete examination of the baby within 72 hours of the birth and at 6 to 8 weeks after the birth (see the NHS newborn and infant physical examination [NIPE] screening programme).",
+   "url": "https://www.nice.org.uk/guidance/ng194/chapter/Recommendations"
+  },
+  "pass": "The full NIPE examination (all systems listed in NG194 1.3.3) is documented as completed within 72 hours of birth",
+  "population": "Inclusion: all babies born in the unit or transferred home within the maternity service's care. Exclusion: babies who died before 72 hours, babies transferred to another provider before examination.",
+  "sample": "40 consecutive babies born over the last 4 weeks",
+  "data_source": "NIPE screening record/electronic postnatal record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_nipe_completed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_within_72_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_systems_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'NIPE due by' countdown (birth time plus 72 hours) to the postnatal ward whiteboard/EPR task list, visible to the team booking discharges.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the neonatal/maternity governance meeting; if compliant, extend the countdown prompt to home births and early transfers",
+  "evidence": [
+   "[ONA-060] and [ONA-061] audit the downstream hip-screening pathway; no audit of overall 72-hour NIPE completion found in the library"
+  ],
+  "pitfalls": [
+   "Early transfer home or short postnatal stay can make the 72-hour window difficult → flag these babies for a home or GP-arranged NIPE and track separately",
+   "NIPE performed but recorded on paper not in the electronic system → check both records before counting as not done",
+   "Staffing gaps (no NIPE-trained practitioner on a shift) causing delay → escalate rota gaps to the neonatal/paediatric lead",
+   "Partial examinations (e.g. hips only) may be miscounted as complete → require all listed systems to be documented",
+   "Improvement fading after go-live → include NIPE completion in the daily safety huddle metrics"
+  ],
+  "pearls": [
+   "Recruit the NIPE lead practitioner as co-investigator",
+   "Use the existing electronic NIPE screening record as the primary data source to minimise extra work",
+   "Cross-check timing against discharge time to identify babies discharged before examination",
+   "Share compliance weekly with the postnatal ward as a visible metric",
+   "Keep the 72-hour definition and exclusions identical at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 babies from the NIPE screening record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "At each postnatal contact in the first 6-8 weeks, what proportion of women had their psychological and emotional wellbeing formally assessed and documented?",
+  "why": "Routine assessment of mood at every postnatal contact is a distinct NICE requirement from the written perinatal care plan for women with severe mental illness already audited in the library [NNA-163]; no audit of routine mood assessment at every postnatal contact exists.",
+  "standard": {
+   "source": "NICE NG194 Postnatal care, rec 1.2.x 'Recognising mental health problems' section (2021)",
+   "wording": "At each postnatal contact, assess the woman's psychological and emotional wellbeing. Follow the recommendations on recognising mental health problems in pregnancy and the postnatal period and referral in the NICE guideline on antenatal and postnatal mental health. If there are concerns, arrange for further assessment and follow up.",
+   "url": "https://www.nice.org.uk/guidance/ng194/chapter/Recommendations"
+  },
+  "pass": "Each documented postnatal contact includes a recorded psychological/emotional wellbeing assessment, with a follow-up plan recorded whenever concerns are noted",
+  "population": "Inclusion: all women having community postnatal contacts in the first 6-8 weeks. Exclusion: women who declined a postnatal contact.",
+  "sample": "40 consecutive women, reviewing all postnatal contacts up to the 6-8 week check, over the last 6 weeks",
+  "data_source": "Community midwifery/health visitor postnatal records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_postnatal_contacts_reviewed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contacts_with_mood_assessment_documented",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "concerns_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_plan_documented_if_concerns",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory mood/emotional wellbeing assessment field to every postnatal contact template in the community electronic record, which must be completed before the contact can be closed.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the community midwifery and perinatal mental health governance meeting; if compliant, extend the mandatory field to health visitor contact templates",
+  "evidence": [
+   "[NNA-163] audits the written care plan for severe mental illness; no audit of routine mood assessment at every postnatal contact found in the library"
+  ],
+  "pitfalls": [
+   "Mood assessment sometimes recorded narratively without a clear structure → agree a minimum structured question set (for example, the two Whooley questions) before cycle 1",
+   "Contacts done by phone may be less thoroughly documented than face-to-face → record contact type and compare compliance by type",
+   "Women lost to follow-up (moved, discharged early) reduce the denominator → record and report separately, not as non-compliance",
+   "Staff may feel this duplicates the perinatal mental health screening already done antenatally → explain this is about ongoing postnatal review, not booking screening",
+   "Improvement fading without a mandatory field → make the field compulsory in the EPR rather than an optional free-text box"
+  ],
+  "pearls": [
+   "Involve the perinatal mental health midwife lead as co-investigator",
+   "Use a validated brief tool (Whooley questions or Edinburgh Postnatal Depression Scale) consistently across the team",
+   "Feed back individual practitioner compliance sensitively alongside team-level results",
+   "Link this audit to the trust's perinatal mental health strategy and MBRRACE-UK maternal death recommendations",
+   "Keep the same assessment tool and contact definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 women from the community postnatal record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of postnatal discharge records document that the baby had passed meconium within 24 hours of birth, or that a medical review was arranged if not?",
+  "why": "Failure to pass meconium within 24 hours can indicate a serious underlying disorder such as Hirschsprung's disease or anorectal malformation; there is no closed-loop audit in the library of this specific safety-netting check before discharge.",
+  "standard": {
+   "source": "NICE NG194 Postnatal care, rec 1.3.2 (2021)",
+   "wording": "Be aware that if the baby has not passed meconium within 24 hours of birth, this may indicate a serious disorder and requires medical advice.",
+   "url": "https://www.nice.org.uk/guidance/ng194/chapter/Recommendations"
+  },
+  "pass": "The discharge or 24-hour check record documents either that meconium has passed, or, if not, that medical advice/review was sought before discharge",
+  "population": "Inclusion: all babies discharged from the birth setting within 48 hours. Exclusion: babies remaining as neonatal unit inpatients beyond 24 hours for an unrelated reason.",
+  "sample": "40 consecutive babies discharged within 48 hours of birth over the last 4 weeks",
+  "data_source": "Postnatal discharge checklist/newborn record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meconium_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meconium_passed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medical_review_arranged_if_not_passed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'meconium passed by 24 hours: yes/no/pending review' field to the electronic discharge checklist that must be completed before discharge is signed off.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the postnatal ward safety huddle; if compliant, extend the field to the home birth discharge checklist",
+  "evidence": [
+   "no closed-loop audit of meconium passage safety-netting before discharge found in the library"
+  ],
+  "pitfalls": [
+   "Meconium passage is often not asked about directly, only inferred from nappy charts → make it an explicit yes/no question at discharge",
+   "Early discharge before 24 hours makes assessment impossible at the point of discharge → record a safety-netting plan (what to look for, who to contact) for these babies instead",
+   "Staff may assume a normal-looking baby has passed meconium without checking → require a positive confirmation, not an assumption",
+   "Retrospective note review may miss verbal advice given without documentation → count only documented safety-netting as compliant",
+   "Improvement fading without a mandatory field → build it into the EPR discharge workflow"
+  ],
+  "pearls": [
+   "Combine this check with the existing discharge checklist review to avoid extra staff workload",
+   "Train maternity support workers, who often complete nappy/feeding charts, to flag meconium status",
+   "Use a simple laminated prompt card on the postnatal ward during the embedding phase",
+   "Share any missed or delayed diagnoses (anonymised) at induction/mandatory training to reinforce the rationale",
+   "Keep the same 24-hour definition and discharge timing categories at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 babies from the discharge checklist",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women had a documented venous thromboembolism (VTE) risk assessment at their antenatal booking appointment?",
+  "why": "VTE remains a leading direct cause of maternal death in the UK, and a documented early risk assessment is the foundation of thromboprophylaxis decisions; no closed-loop audit of booking VTE risk assessment completion is in the library.",
+  "standard": {
+   "source": "RCOG Green-top Guideline No. 37a, Reducing the Risk of Venous Thromboembolism during Pregnancy and the Puerperium (April 2015, amended 2023), Executive summary of recommendations",
+   "wording": "All women should undergo a documented assessment of risk factors for VTE in early pregnancy or prepregnancy.",
+   "url": "https://www.rcog.org.uk/media/m4mbpjwi/gtg-no37a-2015_amended-2023.pdf"
+  },
+  "pass": "A structured VTE risk assessment (using the local or national scoring tool) is completed and documented in the notes at the booking appointment",
+  "population": "Inclusion: all women booking for antenatal care. Exclusion: women booking after 20 weeks whose first contact was an emergency admission.",
+  "sample": "40 consecutive women at their booking appointment over the last 4 weeks",
+  "data_source": "Antenatal booking proforma/electronic maternity record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_booking",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_recorded",
+    "type": "choice",
+    "options": [
+     "low",
+     "intermediate",
+     "high",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "thromboprophylaxis_plan_documented_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the structured VTE risk assessment tool a mandatory, non-skippable section of the electronic booking proforma.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the maternity governance and thrombosis committee meeting; if compliant, extend mandatory reassessment fields to hospital admission during pregnancy",
+  "evidence": [
+   "no closed-loop audit of booking VTE risk assessment completion found in the library"
+  ],
+  "pitfalls": [
+   "Booking appointments are sometimes done by different staff groups (GP, community midwife) with different systems → confirm which system captures the assessment before cycle 1",
+   "Risk assessment done verbally but not documented → count only documented assessments as compliant",
+   "Missing risk factors (e.g. undocumented BMI or family history) can make the assessment incomplete even if a form was started → check completeness, not just presence of a form",
+   "Women booking late or via unbooked emergency attendance are hard to capture → report this group separately",
+   "Improvement fading if the mandatory field can be bypassed → confirm the EPR build genuinely blocks completion of booking without it"
+  ],
+  "pearls": [
+   "Involve the maternity thrombosis lead midwife/obstetrician as co-investigator",
+   "Use the RCOG/local VTE risk assessment tool your unit has already adopted, for consistency",
+   "Cross-check a sample of high-risk women to confirm the resulting thromboprophylaxis plan was actually carried out",
+   "Present findings alongside MBRRACE-UK data on VTE as a leading cause of direct maternal death, to support engagement",
+   "Keep the same risk assessment tool and definition of 'booking' at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the booking record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women having a vaginal birth had a systematic perineal examination, including a digital rectal examination, documented before perineal suturing?",
+  "why": "Undiagnosed obstetric anal sphincter injury causes long-term incontinence; systematic examination including a rectal examination is a core element of the national OASI care bundle, but is not consistently documented; no closed-loop audit of this specific step is in the library (perineal repair pain relief is separately audited [NNA-205, NNA-206]).",
+  "standard": {
+   "source": "RCOG Green-top Guideline No. 29, The Management of Third- and Fourth-Degree Perineal Tears (2015)",
+   "wording": "All women having a vaginal delivery are at risk of sustaining OASIS or isolated rectal buttonhole tears. They should therefore be examined systematically, including a digital rectal examination, to assess the severity of damage, particularly prior to suturing.",
+   "url": "https://www.rcog.org.uk/media/5jeb5hzu/gtg-29.pdf"
+  },
+  "pass": "The perineal examination record documents a systematic assessment including a digital rectal examination, completed before suturing began",
+  "population": "Inclusion: all women having a vaginal birth with any degree of perineal trauma. Exclusion: women with an intact perineum and no trauma.",
+  "sample": "40 consecutive vaginal births with perineal trauma over the last 4-6 weeks",
+  "data_source": "Perineal repair record/electronic birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "degree_of_tear",
+    "type": "choice",
+    "options": [
+     "first",
+     "second",
+     "third",
+     "fourth",
+     "labial/other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "systematic_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "digital_rectal_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "examination_before_suturing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "examiner_grade",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Redesign the perineal repair record as a structured proforma with a mandatory digital rectal examination tick box that must be completed before the suturing section can be signed.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the OASI care bundle/maternity governance meeting; if compliant, roll the proforma out to the midwifery-led unit",
+  "evidence": [
+   "no closed-loop audit of systematic perineal/rectal examination documentation found in the library"
+  ],
+  "pitfalls": [
+   "Rectal examination may be performed but not documented → accept only documented examination as compliant; consider a spot-check with the woman's consent if under-recording is suspected",
+   "Junior staff may be uncomfortable performing or documenting a rectal examination → provide OASI care bundle training and supervision",
+   "Free-text notes may describe the tear without confirming a rectal examination was done → use a structured tick-box proforma rather than free text",
+   "Under-recognition of OASI, not just under-documentation, is the real risk → track third/fourth-degree tear detection rates alongside documentation compliance",
+   "Improvement fading without embedding in training → include the proforma in annual perineal repair skills updates"
+  ],
+  "pearls": [
+   "Base the audit on the national OASI care bundle project methodology so results are comparable with other units",
+   "Involve the OASI care bundle champion or perineal trauma lead as co-investigator",
+   "Use simulation training (perineal repair mannequins) to reinforce the systematic examination technique",
+   "Track OASI detection rate as a linked outcome measure alongside documentation compliance",
+   "Keep the same tear degree categories and examiner grade field at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the perineal repair record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of instrumental vaginal births with a mediolateral episiotomy, what proportion had the episiotomy angle documented as approximately 60 degrees from the midline at the time of distension?",
+  "why": "An episiotomy cut too close to the midline increases the risk of extension into the anal sphincter; angle documentation is a core OASI care bundle element but is inconsistently recorded; no closed-loop audit of episiotomy angle documentation is in the library.",
+  "standard": {
+   "source": "RCOG Green-top Guideline No. 29, The Management of Third- and Fourth-Degree Perineal Tears (2015)",
+   "wording": "Where episiotomy is indicated, the mediolateral technique is recommended, with careful attention to ensure that the angle is 60 degrees away from the midline when the perineum is distended.",
+   "url": "https://www.rcog.org.uk/media/5jeb5hzu/gtg-29.pdf"
+  },
+  "pass": "The birth record documents that a mediolateral episiotomy was performed and states the angle achieved (or confirms the 60-degree technique was used) at the time of distension",
+  "population": "Inclusion: all instrumental vaginal births (forceps or ventouse) with an episiotomy. Exclusion: spontaneous vaginal births without instrumental delivery.",
+  "sample": "40 consecutive instrumental births with episiotomy over the last 6-8 weeks",
+  "data_source": "Birth record/instrumental delivery proforma",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "episiotomy_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mediolateral_technique_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "angle_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "angle_degrees_if_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oasi_occurred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce an episiotomy angle guide (a single-use disposable protractor/angle indicator) at every instrumental birth, with a mandatory 'angle achieved' field on the instrumental birth proforma.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the OASI care bundle meeting; if compliant, extend the angle guide to spontaneous births requiring episiotomy",
+  "evidence": [
+   "no closed-loop audit of mediolateral episiotomy angle documentation found in the library"
+  ],
+  "pitfalls": [
+   "Angle is difficult to measure precisely in a fast-moving birth → accept a disposable angle-guide indicator mark as a reasonable proxy for documentation",
+   "Only the mediolateral technique should be counted; midline episiotomy carries a higher OASI risk and should be flagged separately → record technique type explicitly",
+   "Junior obstetric and midwifery staff performing episiotomies may lack confidence with angle guides → provide simulation training before roll-out",
+   "Retrospective note review may only capture 'episiotomy performed' without angle detail → introduce the field prospectively for cycle 2",
+   "Improvement fading if angle guides run out of stock → confirm reliable procurement before wider roll-out"
+  ],
+  "pearls": [
+   "Use the same OASI care bundle framework and champion as the rectal-examination audit above, since they share a data collection visit",
+   "Pilot the angle guide with a small group of obstetricians and senior midwives first",
+   "Track OASI rate alongside angle-guide use as the outcome measure",
+   "Share results with the local perineal trauma multidisciplinary meeting",
+   "Keep the same technique and angle definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the instrumental delivery proforma",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women presenting with reduced fetal movements after 26 weeks had fetal heart rate auscultation, symphysis-fundal height/growth review and a fetal heart rate assessment (CTG) all completed and documented at that presentation, in line with the national RFM checklist?",
+  "why": "Unrecognised or poorly managed reduced fetal movements (RFM) is a recurring contributory factor in avoidable stillbirth identified by MBRRACE-UK; no closed-loop audit of full RFM checklist completion is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 3, 'Suggested checklist for the management of reduced fetal movements (RFM)' (2023)",
+   "wording": "2. Act: Auscultate fetal heart (hand-held Doppler/Pinnard) to confirm fetal viability. Assess fetal growth by reviewing growth chart, perform SFH if not performed within last 2 weeks (if not on an ultrasound surveillance pathway already). Perform CTG to assess fetal heart rate in accordance with national guidelines (ideally computerised CTG should be used).",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "At the RFM presentation, fetal heart rate auscultation, a fundal height/growth review (or confirmation of an existing surveillance scan within 2 weeks) and a CTG are all documented as completed",
+  "population": "Inclusion: all women presenting to triage or the day assessment unit with reduced fetal movements after 26 weeks. Exclusion: women presenting in established labour.",
+  "sample": "40 consecutive women presenting with reduced fetal movements over the last 4-6 weeks",
+  "data_source": "Triage/day assessment unit RFM record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fetal_heart_auscultated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "growth_review_or_recent_scan_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ctg_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_or_recurrent_episode",
+    "type": "choice",
+    "options": [
+     "first",
+     "recurrent"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_offered_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a structured RFM triage proforma based on the national Ask-Act-Advise checklist, with all three Act steps as mandatory fields before the assessment can be closed.",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the maternity safety champions meeting; if compliant, embed the proforma as the standard triage RFM pathway",
+  "evidence": [
+   "no closed-loop audit of full reduced fetal movements checklist completion found in the library"
+  ],
+  "pitfalls": [
+   "RFM presentations are often managed hastily on a busy triage shift → make the proforma the fastest route, not an extra step, by pre-populating fields from the booking record",
+   "Recurrent RFM (which carries higher risk) may not be flagged if previous episodes are not cross-referenced → build a search of previous RFM presentations into the proforma",
+   "Growth chart review is sometimes skipped if a scan was 'recent' without checking the exact date → require the date of the last scan to be entered",
+   "Staff unfamiliar with the national checklist → provide short RFM update training before cycle 1",
+   "Improvement fading without an EPR-embedded proforma → build the checklist into the triage EPR template, not a paper insert"
+  ],
+  "pearls": [
+   "Base the audit directly on the NHS England SBLCB v3 checklist so it aligns with national reporting",
+   "Involve the maternity safety champion and RFM/stillbirth prevention lead as co-investigators",
+   "Track induction of labour and caesarean birth rates alongside compliance to watch for unintended over-intervention",
+   "Use anonymised MBRRACE-UK case summaries in training to explain the rationale",
+   "Keep the same first/recurrent RFM definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 presentations from the triage record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of pregnant women identified as smokers and referred for tobacco dependence treatment, what proportion were contacted within 1 working day and seen face-to-face by a tobacco dependence adviser within 5 working days of referral?",
+  "why": "Rapid opt-out referral to tobacco dependence treatment is central to reducing smoking in pregnancy, but referral-to-contact timeliness is not routinely tracked; no closed-loop audit of this specific timeliness standard is in the library (CO testing itself is already audited [NNA-195]).",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 1 implementation guidance, 'Opt-out referral pathways' (2023)",
+   "wording": "Immediate referral and consultation with the tobacco dependence adviser is the ideal, but as a minimum the woman should be contacted within 1 working day and seen (ideally face-to-face) by a TDA within 5 working days.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The woman is contacted by the tobacco dependence service within 1 working day of referral and seen face-to-face within 5 working days",
+  "population": "Inclusion: all pregnant women with an opt-out referral to the in-house tobacco dependence treatment service. Exclusion: women who self-refer outside the opt-out pathway.",
+  "sample": "40 consecutive opt-out tobacco dependence referrals over the last 8-12 weeks",
+  "data_source": "Tobacco dependence service referral and contact log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_first_contact",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contacted_within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_first_face_to_face_appointment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_within_5_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "quit_date_set",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up an automatic same-day electronic referral from the maternity CO-testing record straight into the tobacco dependence adviser's worklist, replacing any manual fax or paper referral step.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the maternity smoking in pregnancy steering group; if compliant, use the electronic referral pathway as the trust standard",
+  "evidence": [
+   "[NNA-195] audits CO/smoking status recording; no audit of referral-to-contact timeliness for the tobacco dependence service found in the library"
+  ],
+  "pitfalls": [
+   "Referral date and contact date are sometimes recorded in different systems → agree a single source of truth (the tobacco dependence service log) before cycle 1",
+   "Working days versus calendar days can be miscounted around weekends and bank holidays → define clearly and apply consistently",
+   "Women who decline contact should not be miscounted as a service delay → record 'declined contact' as a distinct outcome",
+   "Small tobacco dependence adviser team capacity may be the real bottleneck → report capacity alongside timeliness data to inform service planning",
+   "Improvement fading if referrals revert to a manual process → confirm the electronic referral route is the permanent default"
+  ],
+  "pearls": [
+   "Involve the tobacco dependence adviser team directly, since they hold the contact log",
+   "Benchmark local performance against the Maternity Services Dashboard smoking metrics",
+   "Track quit-date setting and 4-week quit rates alongside timeliness as a linked outcome",
+   "Present results at the local Smoking in Pregnancy Challenge Group network meeting for benchmarking",
+   "Keep the same working-day definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from the tobacco dependence service log",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women had a fetal growth restriction (FGR) risk assessment completed by 14 weeks' gestation, using a validated digital blood pressure monitor for the blood pressure component?",
+  "why": "Early, structured FGR risk assessment determines the surveillance pathway a woman is offered; digital blood pressure measurement was newly mandated in the 2023 care bundle update, and no closed-loop audit of this combined standard is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 2, interventions 2.4 and 2.6 (2023)",
+   "wording": "2.4 Perform a risk assessment for FGR by 14 weeks gestation using an agreed pathway (for example, Appendix D). ... 2.6 As part of the risk assessment for FGR, blood pressure should be recorded using a digital monitor that has been [validated for use in pregnancy].",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The FGR risk assessment is documented as completed by 14+0 weeks' gestation, and the blood pressure recorded as part of it was measured on a validated digital monitor",
+  "population": "Inclusion: all women booked for antenatal care who reach 14 weeks under the unit's care. Exclusion: women booking after 14 weeks.",
+  "sample": "40 consecutive women who reached 14 weeks' gestation over the last 6-8 weeks",
+  "data_source": "Antenatal booking and risk assessment record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_booking",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fgr_risk_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_completion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_by_14_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bp_recorded_on_validated_digital_monitor",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_assigned",
+    "type": "choice",
+    "options": [
+     "low",
+     "high",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the FGR risk assessment pathway a mandatory field in the electronic booking record with a due-date prompt at 14 weeks, and replace remaining manual sphygmomanometers in booking clinics with validated digital monitors.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the maternity safety champions meeting; if compliant, report ongoing compliance through the Maternity Services Dashboard",
+  "evidence": [
+   "no closed-loop audit of combined 14-week FGR risk assessment and validated digital blood pressure recording found in the library"
+  ],
+  "pitfalls": [
+   "Booking sometimes happens after 14 weeks, making the deadline unachievable for some women → report late bookers separately, not as non-compliance",
+   "Non-validated manual sphygmomanometers may still be in use in some clinic rooms → audit equipment as well as documentation",
+   "Risk assessment pathway/tool varies locally → confirm which tool (for example, a locally agreed algorithm per Appendix D of the care bundle) is in use before cycle 1",
+   "Community midwives booking women may use a different system from the hospital → include both settings in the sample",
+   "Improvement fading if old equipment is not fully withdrawn → remove non-validated monitors from clinical areas, not just add new ones"
+  ],
+  "pearls": [
+   "Involve the fetal growth surveillance/screening lead midwife as co-investigator",
+   "Audit equipment (monitor validation status) at the same time as the notes review",
+   "Use the care bundle's own process indicators for benchmarking against national data",
+   "Link with community midwifery teams early since much of this assessment happens outside hospital",
+   "Keep the same risk assessment pathway and 14-week deadline definition at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the booking record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of midwives and obstetricians providing intrapartum care had up-to-date annual training and competency assessment in intermittent auscultation and electronic fetal monitoring?",
+  "why": "Each Baby Counts and MBRRACE-UK repeatedly cite gaps in fetal monitoring training as a contributory factor in avoidable harm; no closed-loop audit of annual fetal monitoring training completion is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 4, intervention 4.1 (2023)",
+   "wording": "All staff who care for women in labour are required to undertake annual training and competency assessment on knowledge and skills required for effective fetal monitoring via Intermittent auscultation (IA) [Midwives] and electronic fetal monitoring [Midwives and Obstetricians].",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The staff member has a documented, in-date (within the last 12 months) fetal monitoring training and competency assessment record",
+  "population": "Inclusion: all midwives and obstetricians who provide intrapartum care, including bank/agency and locum staff. Exclusion: staff on long-term leave for the full audit period.",
+  "sample": "All midwives and obstetricians providing intrapartum care on the unit at the time of the audit (or 40 consecutive staff records if the unit is very large)",
+  "data_source": "Trust training/learning management system records",
+  "template": [
+   {
+    "field": "staff_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "staff_group",
+    "type": "choice",
+    "options": [
+     "midwife",
+     "obstetrician",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "employment_type",
+    "type": "choice",
+    "options": [
+     "substantive",
+     "bank/agency/locum"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_fetal_monitoring_training",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "in_date_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "competency_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up an automatic training system alert to staff and their line manager 6 weeks before their fetal monitoring training expires, and block rostering onto the labour ward for staff more than 4 weeks overdue.",
+  "target": "≥95%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the maternity education and governance meeting; if compliant, use the alert system as the trust-wide model for other mandatory training",
+  "evidence": [
+   "no closed-loop audit of annual fetal monitoring training and competency assessment completion found in the library"
+  ],
+  "pitfalls": [
+   "Bank, agency and locum staff are hardest to track and often missed by the trust's own training system → include a specific check for these staff groups at ward entry",
+   "Training completion recorded but competency assessment (a separate step) not done → audit both fields, not just attendance",
+   "Staff on leave (maternity, sickness) may appear overdue through no fault of their own → exclude or flag separately",
+   "Different training records systems for medical and midwifery staff can under- or double-count → reconcile both systems before reporting",
+   "Improvement fading without automatic alerts → confirm the alert system, not just a spreadsheet, is doing the tracking"
+  ],
+  "pearls": [
+   "Involve the practice development midwife/fetal monitoring lead and medical education lead as co-investigators",
+   "Use existing trust training system reports as the primary data source to avoid duplicate data entry",
+   "Report compliance by staff group so gaps (for example, obstetric trainees rotating in) are visible",
+   "Link training compliance data to the unit's Each Baby Counts and SBLCB v3 annual submission",
+   "Keep the same 12-month in-date definition at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 staff records from the training system",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women with pre-existing diabetes had an HbA1c measured at the start of the third trimester, with a documented increased-surveillance plan if the result was above 48 mmol/mol?",
+  "why": "Women with type 1 and type 2 diabetes continue to have persistently high perinatal mortality; third-trimester HbA1c monitoring with escalation is a new 2023 care bundle standard with no closed-loop audit yet in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 6, intervention 6.4 (2023)",
+   "wording": "Women with diabetes should have an HbA1c measured at the start of the third trimester and those with an HbA1c above 48mmol/mmol should be offered increased surveillance including additional diabetes nurse/dietetic support, more frequent face to face review and input from their named, specialist Consultant to plan ongoing care and timing of birth decisions.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "An HbA1c is recorded at 28+0 to 28+6 weeks (start of third trimester), and if above 48 mmol/mol, an increased-surveillance plan is documented",
+  "population": "Inclusion: all women with pre-existing type 1 or type 2 diabetes under joint diabetes-obstetric care. Exclusion: women diagnosed with gestational diabetes only.",
+  "sample": "30 consecutive women with pre-existing diabetes reaching the third trimester over the last 3-6 months",
+  "data_source": "Joint diabetes antenatal clinic record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hba1c_measured_28_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_result",
+    "type": "number",
+    "options": [],
+    "note": "mmol/mol"
+   },
+   {
+    "field": "increased_surveillance_plan_documented_if_over_48",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_named_and_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic HbA1c order and a due-date prompt at 28 weeks to the joint diabetes antenatal clinic pathway, with a mandatory 'surveillance plan' field triggered when the result exceeds 48 mmol/mol.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the joint diabetes-obstetric MDT and the National Pregnancy in Diabetes (NPID) audit review meeting; if compliant, submit the improved pathway as evidence to the NPID audit",
+  "evidence": [
+   "no closed-loop audit of third-trimester HbA1c monitoring and escalation for pre-existing diabetes in pregnancy found in the library"
+  ],
+  "pitfalls": [
+   "Women with diabetes are a relatively small cohort per unit → extend the collection period to 3-6 months to reach an adequate sample",
+   "HbA1c may be requested but the result not reviewed or acted on → audit the surveillance plan, not just the blood test being done",
+   "Joint clinic records may be split between diabetes and obstetric systems → check both before concluding non-compliance",
+   "Definition of 'increased surveillance' varies between clinicians → agree a minimum data set (extra visit booked, dietitian/diabetes nurse referral, named consultant documented) before cycle 1",
+   "Improvement fading without an automatic order → build the 28-week HbA1c into the standard order set, not a manual reminder"
+  ],
+  "pearls": [
+   "Involve the joint diabetes antenatal clinic team (diabetes consultant, specialist nurse, dietitian) as co-investigators",
+   "Submit results to the National Pregnancy in Diabetes (NPID) audit for external benchmarking",
+   "Use the multidisciplinary joint clinic list as the sampling frame to minimise missed cases",
+   "Present findings against the unit's overall SBLCB v3 element 6 compliance",
+   "Keep the same 48 mmol/mol threshold and 28-week timing at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the joint diabetes clinic record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of babies born before 34 weeks' gestation had their first temperature recorded between 36.5 and 37.5 degrees Celsius, measured within one hour of birth?",
+  "why": "Neonatal hypothermia after preterm birth increases the risk of death and morbidity; normothermia is a scored element of the national perinatal optimisation pathway but is not yet separately audited in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 5, Normothermia (2023)",
+   "wording": "Babies born at less than 37 weeks gestational age should have a first temperature which is both between 36.5–37.5°C and measured within one hour of birth. Neonatal normothermia can have benefits for all babies.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The baby's first recorded temperature is between 36.5 and 37.5 degrees Celsius and was measured within 1 hour of birth",
+  "population": "Inclusion: all babies born before 34 weeks' gestation. Exclusion: stillbirths, babies who died before a temperature could be recorded.",
+  "sample": "30 consecutive babies born before 34 weeks over the last 6 months",
+  "data_source": "Neonatal admission record/delivery room resuscitation record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_temperature_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_birth_to_first_temperature_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_temperature_value",
+    "type": "number",
+    "options": [],
+    "note": "degrees C"
+   },
+   {
+    "field": "within_target_range_36_5_to_37_5",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a preterm delivery normothermia bundle (pre-warmed delivery room, polythene wrap/hat, transwarmer mattress) as a standard checklist item for every birth under 34 weeks, based on the BAPM normothermia toolkit.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the neonatal/perinatal optimisation pathway meeting; if compliant, report through the National Neonatal Audit Programme (NNAP) normothermia measure",
+  "evidence": [
+   "no closed-loop audit of preterm normothermia (temperature target and timing) found in the library"
+  ],
+  "pitfalls": [
+   "Very preterm births are relatively infrequent → extend the collection period to 6 months and use network-level data if the unit's numbers are too small",
+   "Temperature taken later than 1 hour may be recorded without the delay being obvious → record both the time and the value",
+   "Emergency preterm births may not allow time for the full normothermia bundle to be prepared → record whether the birth was planned or emergency and compare",
+   "Different thermometers/sites (axillary vs other) can give inconsistent readings → standardise the measurement method across the unit",
+   "Improvement fading without embedding → make the normothermia bundle a standing item on the preterm birth checklist, not a one-off initiative"
+  ],
+  "pearls": [
+   "Base the change directly on the BAPM normothermia toolkit for a ready-made implementation package",
+   "Involve neonatal nursing staff and the labour ward as joint owners, since both are responsible for temperature control",
+   "Benchmark against National Neonatal Audit Programme (NNAP) data",
+   "Link this audit to the wider perinatal optimisation pathway compliance metric in the care bundle",
+   "Keep the same gestation cut-off and timing definition at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 babies from the neonatal admission record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of babies born before 34 weeks' gestation received their own mother's milk within 24 hours of birth?",
+  "why": "Early maternal breast milk reduces necrotising enterocolitis and late-onset sepsis in preterm babies; this is a scored perinatal optimisation pathway element with no closed-loop audit yet in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 5, Early maternal breast milk (2023)",
+   "wording": "Babies born below 37 weeks gestational age should receive their own mother's milk, ideally within 6 hours, but aiming always within 24 hours of birth (except in rare situations where there are contraindications to MBM). Perinatal teams should work together to ensure consistent delivery of antenatal advice about MBM, with support (equipment, education, help) for mothers to express within two hours of birth.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The baby receives their own mother's milk within 24 hours of birth, and the mother was supported to start expressing within 2 hours of birth, unless a documented contraindication exists",
+  "population": "Inclusion: all babies born before 34 weeks' gestation. Exclusion: babies with a documented contraindication to maternal breast milk, stillbirths.",
+  "sample": "30 consecutive babies born before 34 weeks over the last 6 months",
+  "data_source": "Neonatal unit feeding record/postnatal record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mother_supported_to_express_within_2_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mbm_given_within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_first_mbm_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented_if_not_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Ensure a breast pump, expressing consumables and written/verbal expressing support are available at the mother's bedside within 2 hours of a preterm birth, prompted by a checklist item on the neonatal admission pathway.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the neonatal/infant feeding governance meeting; if compliant, report through the perinatal optimisation pathway compliance metric",
+  "evidence": [
+   "no closed-loop audit of early maternal breast milk provision for preterm babies found in the library"
+  ],
+  "pitfalls": [
+   "Mothers recovering from caesarean birth or illness may be physically unable to express within 2 hours → record and report this separately from equipment or support failures",
+   "Milk expressed but not given to the baby promptly (e.g. delayed transport to neonatal unit) → capture both expressing time and administration time",
+   "Equipment availability (pumps, kits) at night or on a busy unit can be a genuine bottleneck → audit equipment availability alongside documentation",
+   "Small numbers of very preterm births → extend the collection period to 6 months",
+   "Improvement fading without embedding → make expressing support a standing item on the preterm admission checklist"
+  ],
+  "pearls": [
+   "Involve the infant feeding lead and neonatal nursing team as co-investigators",
+   "Use the BAPM maternal breast milk toolkit for a ready-made implementation package",
+   "Track necrotising enterocolitis and late-onset sepsis rates as linked longer-term outcome measures",
+   "Ensure postnatal ward and neonatal unit protocols are aligned so support does not stop at transfer",
+   "Keep the same 24-hour and 2-hour definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 babies from the neonatal feeding record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women presenting with suspected pre-eclampsia between 20 and 36+6 weeks had placental growth factor (PlGF)-based testing performed as part of their assessment?",
+  "why": "PlGF-based testing helps rule out pre-eclampsia and speeds appropriate discharge or admission decisions; no closed-loop audit of PlGF testing uptake for suspected pre-eclampsia is in the library.",
+  "standard": {
+   "source": "NICE NG133 Hypertension in pregnancy, rec 1.4.4 (2019)",
+   "wording": "Offer placental growth factor (PLGF)-based testing to help rule out pre-eclampsia in women presenting with suspected pre-eclampsia (for example, with gestational hypertension) between 20 weeks and 36 weeks and 6 days of pregnancy.",
+   "url": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+  },
+  "pass": "PlGF-based testing is documented as performed (or a clear reason recorded for not performing it) at the assessment for suspected pre-eclampsia within the eligible gestation window",
+  "population": "Inclusion: women assessed for suspected pre-eclampsia between 20+0 and 36+6 weeks. Exclusion: women with confirmed pre-eclampsia already on treatment, women outside the gestation window.",
+  "sample": "30 consecutive women assessed for suspected pre-eclampsia over the last 3 months",
+  "data_source": "Maternal day assessment unit/triage record, laboratory results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plgf_test_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_performed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_influenced_management",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add PlGF-based testing as a default item on the suspected pre-eclampsia assessment order set in the maternal day assessment unit, alongside the standard bloods and urine protein tests.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the maternal medicine/obstetric governance meeting; if compliant, extend the order set to the antenatal day unit and triage",
+  "evidence": [
+   "no closed-loop audit of PlGF-based testing uptake for suspected pre-eclampsia found in the library"
+  ],
+  "pitfalls": [
+   "PlGF testing may not be available on-site out of hours → confirm laboratory turnaround and availability before setting the target",
+   "Clinicians unfamiliar with the test or its interpretation may default to not requesting it → provide a short interpretation guide alongside the order set",
+   "Cost or sample-handling requirements may cause under-use → involve the laboratory in planning capacity",
+   "Borderline gestations (just under 20 or over 36+6 weeks) can cause miscounting → apply the window strictly and record exact gestation",
+   "Improvement fading without an order-set default → embed the test as an automatic tick rather than a manual add-on"
+  ],
+  "pearls": [
+   "Involve the maternal medicine lead and laboratory point-of-care/biochemistry lead as co-investigators",
+   "Use the existing NICE diagnostics guidance on PlGF-based testing as supporting evidence for clinicians",
+   "Track time to discharge or admission decision as a linked outcome measure",
+   "Present early results to reassure staff about turnaround time before wider roll-out",
+   "Keep the same gestation window and definition of 'suspected pre-eclampsia' at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 assessments from the day unit record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women with pre-eclampsia who had given birth and remained on antihypertensive treatment, what proportion had their blood pressure kept below 140/90 mmHg before discharge from postnatal care?",
+  "why": "Uncontrolled postnatal hypertension after pre-eclampsia is a recognised cause of maternal harm, including postnatal eclampsia and stroke; no closed-loop audit of postnatal blood pressure control against the NICE target is in the library.",
+  "standard": {
+   "source": "NICE NG133 Hypertension in pregnancy, postnatal investigation, monitoring and treatment section, aim for women with pre-eclampsia after birth (2019)",
+   "wording": "aim to keep blood pressure lower than 140/90 mmHg",
+   "url": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+  },
+  "pass": "The last blood pressure reading documented before discharge from postnatal inpatient care is below 140/90 mmHg, or, if not, a documented ongoing management plan is recorded",
+  "population": "Inclusion: women with a diagnosis of pre-eclampsia in the current pregnancy who remain on antihypertensive treatment postnatally. Exclusion: women with chronic hypertension diagnosed before pregnancy managed under a separate pathway.",
+  "sample": "30 consecutive women with pre-eclampsia discharged from postnatal inpatient care over the last 3 months",
+  "data_source": "Postnatal ward observation chart and discharge summary",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_bp_before_discharge",
+    "type": "text",
+    "options": [],
+    "note": "systolic/diastolic mmHg"
+   },
+   {
+    "field": "bp_below_140_90",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ongoing_management_plan_documented_if_not",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_follow_up_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'discharge blood pressure below 140/90, or plan documented' field to the postnatal discharge checklist for women coded with pre-eclampsia.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the maternal medicine/obstetric governance meeting; if compliant, embed the field as a hard stop in the discharge workflow",
+  "evidence": [
+   "no closed-loop audit of postnatal blood pressure control against the NICE target for pre-eclampsia found in the library"
+  ],
+  "pitfalls": [
+   "Blood pressure can genuinely take days to settle after pre-eclampsia → discharge with a documented plan is an acceptable pass, not only an achieved target",
+   "Postnatal ward staff may not code pre-eclampsia consistently, making case-finding difficult → cross-check against the obstetric discharge summary and drug chart for antihypertensives",
+   "Early discharge (common practice) may mean the last reading in hospital is not representative → record whether community follow-up BP was also documented",
+   "Methyldopa should be changed to an alternative postnatally, which is a separate existing audit [NNA-194]; keep this audit focused on the BP target, not drug choice",
+   "Improvement fading without a mandatory field → build the check into the EPR discharge workflow"
+  ],
+  "pearls": [
+   "Involve the maternal medicine lead and postnatal ward matron as co-investigators",
+   "Cross-reference with the existing methyldopa-stopping audit [NNA-194] since both relate to postnatal hypertension management",
+   "Track readmission for hypertension/eclampsia as a linked outcome measure",
+   "Ensure community midwives and GPs receive a clear follow-up BP plan in the discharge letter",
+   "Keep the same 140/90 mmHg threshold at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the postnatal record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women with a confirmed diagnosis of miscarriage were offered expectant management for 7 to 14 days as the first-line management strategy?",
+  "why": "Expectant management avoids unnecessary medical or surgical intervention for miscarriage, but units often default to medical management; the corpus has audits on medical management drug regimens [NNA-209] but no audit of whether expectant management is offered first-line.",
+  "standard": {
+   "source": "NICE NG126 Ectopic pregnancy and miscarriage, rec 1.10.1 (2019)",
+   "wording": "Use expectant management for 7 to 14 days as the first-line management strategy for women with a confirmed diagnosis of miscarriage.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Management-of-miscarriage"
+  },
+  "pass": "Expectant management for 7-14 days is documented as having been offered (and chosen, declined, or exceptions explained) before medical or surgical management is arranged",
+  "population": "Inclusion: all women with a confirmed diagnosis of miscarriage seen in the early pregnancy assessment unit. Exclusion: women with the documented exceptions to expectant management listed in NG126 (for example, increased risk of haemorrhage or infection).",
+  "sample": "40 consecutive women with a confirmed miscarriage diagnosis over the last 6-8 weeks",
+  "data_source": "Early pregnancy unit assessment record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "expectant_management_offered_first",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "management_chosen",
+    "type": "choice",
+    "options": [
+     "expectant",
+     "medical",
+     "surgical"
+    ],
+    "note": ""
+   },
+   {
+    "field": "exception_documented_if_not_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Redesign the early pregnancy unit miscarriage counselling proforma so expectant management is listed and discussed first, with a mandatory field recording why it was not chosen if applicable.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the gynaecology/early pregnancy unit governance meeting; if compliant, review annually alongside miscarriage management outcome data",
+  "evidence": [
+   "[NNA-209] audits the medical management drug regimen; no audit of whether expectant management is offered first-line found in the library"
+  ],
+  "pitfalls": [
+   "Women may express a preference for a quicker resolution, making 'not chosen' common even when correctly offered → audit whether it was offered, not just whether it was chosen",
+   "Documented exceptions (haemorrhage risk, infection risk) must be captured accurately, not assumed → require the specific exception to be named",
+   "Staff turnover and locum medical staff may be unfamiliar with the first-line recommendation → include in early pregnancy unit induction",
+   "Verbal counselling without documentation understates true practice → use a structured, tick-box proforma",
+   "Fading compliance without embedding → make the counselling proforma the standard document for every miscarriage consultation"
+  ],
+  "pearls": [
+   "Involve the early pregnancy unit lead nurse/sonographer as co-investigator",
+   "Provide women with a written information leaflet alongside verbal counselling to support informed choice",
+   "Track re-attendance and unplanned admission rates for each management option as a linked outcome",
+   "Share results with GPs who often see women in the days after miscarriage diagnosis",
+   "Keep the same definition of 'confirmed miscarriage' and exceptions list at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the early pregnancy unit record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women with an ectopic pregnancy treated with systemic methotrexate, what proportion had serum hCG measured on days 4 and 7 after treatment, with weekly measurement continued until a negative result?",
+  "why": "Missed or delayed hCG follow-up after methotrexate treatment for ectopic pregnancy risks failing to detect treatment failure or rupture; no closed-loop audit of this specific follow-up schedule is in the library.",
+  "standard": {
+   "source": "NICE NG126 Ectopic pregnancy and miscarriage, rec 1.15.4 (2019)",
+   "wording": "For women with ectopic pregnancy who have had methotrexate, take 2 serum hCG measurements in the first week (days 4 and 7) after treatment and then 1 serum hCG measurement per week until a negative result is obtained. If hCG levels plateau or rise, reassess the woman's condition for further treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Management-of-tubal-ectopic-pregnancy"
+  },
+  "pass": "hCG is measured on both day 4 and day 7 after methotrexate, and weekly thereafter until a negative result, with a documented reassessment if levels plateau or rise",
+  "population": "Inclusion: all women treated with systemic methotrexate for a tubal ectopic pregnancy. Exclusion: women converted to surgical management before the day 4 hCG.",
+  "sample": "20-30 consecutive women treated with methotrexate for ectopic pregnancy over the last 12 months (or all cases if fewer)",
+  "data_source": "Early pregnancy unit follow-up record and laboratory results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_methotrexate",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hcg_day4_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hcg_day7_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekly_hcg_until_negative_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reassessment_documented_if_plateau_or_rise",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_treatment_required",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Give every woman starting methotrexate a pre-printed follow-up appointment card with day 4, day 7 and subsequent weekly hCG dates filled in at the time of treatment, and add the same schedule as a recall task in the early pregnancy unit tracking system.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the early pregnancy unit governance meeting; if compliant, make the pre-printed follow-up schedule standard practice for every methotrexate treatment",
+  "evidence": [
+   "no closed-loop audit of methotrexate hCG follow-up schedule completion found in the library"
+  ],
+  "pitfalls": [
+   "Methotrexate for ectopic pregnancy is relatively uncommon per unit → extend the collection period to 12 months",
+   "Women may have blood tests done at their GP practice, with results not always returned promptly to the early pregnancy unit → include a system to actively chase GP-taken bloods",
+   "Non-attendance for follow-up bloods is a genuine risk in this population → record non-attendance separately and have an escalation plan for women who do not attend",
+   "hCG plateau/rise noted but reassessment not documented → audit the action taken, not just the blood test being done",
+   "Fading compliance without a recall system → use an active tracking list, not reliance on the woman remembering appointments"
+  ],
+  "pearls": [
+   "Involve the early pregnancy unit nurse/coordinator who typically manages this follow-up",
+   "Use a dedicated methotrexate follow-up tracker (spreadsheet or EPR task list) to actively chase results",
+   "Give women a clear written safety-netting leaflet on symptoms of rupture to watch for between visits",
+   "Review any case of treatment failure or rupture at the departmental morbidity meeting to close the loop",
+   "Keep the same follow-up schedule definition at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the early pregnancy unit record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women with heavy menstrual bleeding and no identified pathology, fibroids under 3cm, or suspected/diagnosed adenomyosis, what proportion were offered an LNG-IUS as the first treatment?",
+  "why": "The levonorgestrel-releasing intrauterine system is the recommended first-line treatment for most women with heavy menstrual bleeding, but non-hormonal or surgical options are often tried first; the corpus has an audit of FBC testing for HMB [NNA-212] but no audit of first-line treatment choice.",
+  "standard": {
+   "source": "NICE NG88 Heavy menstrual bleeding: assessment and management, rec 1.5.2 (2018)",
+   "wording": "Consider an LNG-IUS as the first treatment for HMB in women with: no identified pathology or fibroids less than 3 cm in diameter, which are not causing distortion of the uterine cavity or suspected or diagnosed adenomyosis.",
+   "url": "https://www.nice.org.uk/guidance/ng88/chapter/Recommendations"
+  },
+  "pass": "An LNG-IUS is documented as having been offered as the first treatment option, before any other pharmacological or surgical treatment was started, unless a reason for not offering it is recorded",
+  "population": "Inclusion: women newly referred to gynaecology with heavy menstrual bleeding and no cavity-distorting pathology. Exclusion: women with fibroids of 3cm or more causing cavity distortion, endometrial pathology, or a contraindication to LNG-IUS documented at referral.",
+  "sample": "40 consecutive new HMB referrals meeting the eligibility criteria over the last 8-12 weeks",
+  "data_source": "Gynaecology clinic letter/electronic outpatient record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_clinic_appointment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lng_ius_offered_first",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_chosen",
+    "type": "choice",
+    "options": [
+     "LNG-IUS",
+     "tranexamic acid/NSAID",
+     "combined hormonal contraception",
+     "cyclical progestogen",
+     "surgical",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_lng_ius_not_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an LNG-IUS 'offered/accepted/declined/not suitable (reason)' field as the first treatment option on the gynaecology HMB clinic letter template, positioned before other treatment options.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the gynaecology governance meeting; if compliant, extend the template to community gynaecology and GP referral pathways",
+  "evidence": [
+   "[NNA-212] audits FBC testing for HMB referrals; no audit of first-line LNG-IUS offer found in the library"
+  ],
+  "pitfalls": [
+   "Some women decline an LNG-IUS due to a previous poor experience or personal preference → count 'offered but declined' as compliant, distinct from 'not offered'",
+   "Clinic letters may describe a treatment plan without stating what was discussed first → use a structured template rather than free text",
+   "Insertion capacity/waiting times for LNG-IUS fitting may discourage clinicians from offering it → review fitting clinic capacity alongside the audit",
+   "GP referral letters may already state a treatment preference that anchors the gynaecology consultation → record whether the referral influenced the discussion",
+   "Fading compliance without a template change → build the field into the standard clinic letter, not a separate audit form"
+  ],
+  "pearls": [
+   "Involve a gynaecology consultant with a special interest in HMB as co-investigator",
+   "Provide a patient decision aid on HMB treatment options to support shared decision-making",
+   "Track LNG-IUS fitting waiting times as a linked service measure",
+   "Share results with GPs to support earlier community offering of LNG-IUS where appropriate",
+   "Keep the same eligibility criteria at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from the clinic letter",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of people newly started on hormone replacement therapy (HRT) for menopause symptoms had a documented review at 3 months, with a further review at 12 months?",
+  "why": "Structured review supports safe, effective long-term HRT use and catches ineffective treatment or side effects early; no closed-loop audit of the NICE-recommended HRT review schedule is in the library.",
+  "standard": {
+   "source": "NICE NG23 Menopause: identification and management, rec 1.9.2 (2015)",
+   "wording": "Review each treatment for symptoms associated with menopause: at 3 months to assess efficacy and tolerability, annually thereafter, unless there are clinical indications for an earlier review (such as treatment ineffectiveness, side effects or adverse events).",
+   "url": "https://www.nice.org.uk/guidance/ng23/chapter/Recommendations"
+  },
+  "pass": "A documented review of efficacy and tolerability occurs at approximately 3 months after starting HRT, and again at approximately 12 months (or earlier if clinically indicated)",
+  "population": "Inclusion: all patients newly started on HRT for menopause symptoms in general practice or the menopause clinic. Exclusion: patients who stopped HRT themselves before the 3-month review was due.",
+  "sample": "40 consecutive patients started on HRT over the last 12-15 months (allowing time for both reviews to fall due)",
+  "data_source": "GP or menopause clinic electronic record",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_hrt_started",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_at_3_months_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_3_month_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_at_12_months_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_12_month_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "earlier_review_reason_if_applicable",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic recall task to the practice/clinic electronic record at 3 months and 12 months from the first HRT prescription, visible on the clinician's task list.",
+  "target": "≥85%",
+  "reaudit": "At 15 months, same template and sample size",
+  "close_loop": "Present at the practice/menopause clinic clinical governance meeting; if compliant, extend the recall system to all hormonal contraception and HRT prescribing",
+  "evidence": [
+   "no closed-loop audit of the 3-month and 12-month HRT review schedule found in the library"
+  ],
+  "pitfalls": [
+   "Patients started on HRT by different prescribers (GP, menopause clinic, private) may fall outside a single system's recall → clarify which service owns follow-up before cycle 1",
+   "Reviews done opportunistically (e.g. at an unrelated appointment) may not be labelled as an 'HRT review' → search consultation content, not just appointment type",
+   "Patients who stop HRT themselves and do not attend should not be counted as a missed review by the service → record and exclude these appropriately",
+   "The audit needs a run-in period of over a year to capture both reviews, delaying results → consider an interim analysis of 3-month reviews only while waiting for 12-month data",
+   "Fading compliance without an automatic recall → build the recall into the electronic record's task system, not a manual diary"
+  ],
+  "pearls": [
+   "Involve the practice's menopause lead GP or specialist nurse as co-investigator",
+   "Use a search of the electronic prescribing record to build an accurate cohort of new HRT starts",
+   "Record side effects and reasons for stopping at review to feed into future prescribing discussions",
+   "Consider running this alongside a wider menopause care quality improvement project",
+   "Keep the same 3-month and 12-month definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the GP/clinic record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women had a warm wet compress applied to the perineum from crowning until birth in the second stage of labour, where the birth was not in water?",
+  "why": "A warm compress reduces the risk of obstetric anal sphincter injury, but its use is not routinely checked; the corpus audits perineal repair analgesia [NNA-205, NNA-206] but not this preventive intervention.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.9.13 (2023, amended 2025)",
+   "wording": "Once the presenting part distends the perineum in the second stage of labour, offer to apply a warm wet compress to the perineum and continue this until birth. Check the temperature of the compress is comfortable for the woman or pregnant person. Note, this recommendation does not apply to births in water.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "A warm wet compress is documented as offered and applied to the perineum from crowning until birth, for births not in water",
+  "population": "Inclusion: all vaginal births not in water. Exclusion: waterbirths, births too precipitate for any intervention (documented).",
+  "sample": "40 consecutive vaginal births not in water over the last 4-6 weeks",
+  "data_source": "Birth record/second stage record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "birth_in_water",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "warm_compress_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "warm_compress_applied_until_birth",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oasi_occurred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Stock a warm compress kit (warming device, single-use pads) in every birth room and add a 'warm compress offered/applied' tick box to the second-stage section of the birth record.",
+  "target": "≥85%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the OASI care bundle/labour ward audit meeting; if compliant, review OASI rate as a linked outcome at 6 months",
+  "evidence": [
+   "no closed-loop audit of warm perineal compress use in second stage found in the library"
+  ],
+  "pitfalls": [
+   "Compresses may be applied but not documented → add a simple tick box rather than relying on narrative notes",
+   "Equipment (compress warmers, single-use pads) may not be available in every room → audit equipment stocking alongside documentation",
+   "Precipitate births leave no time for a compress → record this as a distinct, acceptable exception",
+   "Staff unfamiliar with the 2023 update may not know this is now recommended → include in perineal care refresher training",
+   "Fading compliance if equipment runs out → add compress kits to the standard birth room stock list with a restocking check"
+  ],
+  "pearls": [
+   "Link this audit to the OASI care bundle programme and its existing champions",
+   "Trial the compress kit in one birth room before wider roll-out to solve practical issues",
+   "Track OASI rate over time alongside compress use as the outcome measure",
+   "Include the temperature-check step in training to ensure comfort and safety",
+   "Keep the same water-birth exclusion at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from the birth record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "When uterine hyperstimulation occurred during induction of labour, what proportion had a fetal assessment performed and any further induction medicines withheld, with vaginal pessaries or delivery systems removed where possible?",
+  "why": "Uterine hyperstimulation during induction can cause fetal compromise if not promptly managed; no closed-loop audit of the NICE hyperstimulation management steps is in the library.",
+  "standard": {
+   "source": "NICE NG207 Inducing labour, rec 1.7.1 (2008, amended 2021)",
+   "wording": "If uterine hyperstimulation occurs during induction of labour: carry out a fetal assessment, do not administer any more doses of medicines to induce labour and remove any vaginal pessaries or delivery systems if possible, consider tocolysis.",
+   "url": "https://www.nice.org.uk/guidance/ng207/chapter/Recommendations"
+  },
+  "pass": "All three steps (fetal assessment, no further induction doses given, pessary/delivery system removed where possible) are documented for every episode of hyperstimulation during induction",
+  "population": "Inclusion: all women who had a documented episode of uterine hyperstimulation during induction of labour. Exclusion: hyperstimulation occurring during augmented (not induced) labour.",
+  "sample": "All documented hyperstimulation episodes during induction over the last 6-12 months (or 20-30 consecutive episodes if the unit has a higher volume)",
+  "data_source": "CTG trace annotations, drug chart, incident report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_episode",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fetal_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_doses_withheld",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delivery_system_removed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tocolysis_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'hyperstimulation response' sticker/proforma to the induction pathway documenting each of the three required steps, to be completed at the time of the event.",
+  "target": "≥90%",
+  "reaudit": "At 6-12 months, same template and sample size",
+  "close_loop": "Present at the labour ward risk management meeting; if compliant, include the proforma in induction of labour training",
+  "evidence": [
+   "no closed-loop audit of uterine hyperstimulation management during induction found in the library"
+  ],
+  "pitfalls": [
+   "Hyperstimulation is relatively infrequent, making case-finding important → use an incident/CTG database search rather than relying on staff recall",
+   "Emergency documentation under pressure may be incomplete → use a dedicated proforma rather than free text",
+   "Ambiguity about what counts as 'removing where possible' for a slow-release pessary already largely absorbed → record what was physically done and any limiting factors",
+   "Tocolysis use is a 'consider' recommendation, not mandatory, so should not be scored as a hard fail → record as a separate, non-mandatory field",
+   "Fading compliance without a structured proforma → embed the proforma in the induction pathway documentation set"
+  ],
+  "pearls": [
+   "Cross-reference incident reports and CTG categorisation logs to find all episodes",
+   "Involve the labour ward risk midwife/obstetrician as co-investigator",
+   "Use simulation training to rehearse the hyperstimulation response as a team",
+   "Present findings alongside outcome (mode of birth, neonatal outcome) for context",
+   "Keep the same three-step definition at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per episode from CTG and drug records",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In babies with an acute fetal bradycardia (or a single prolonged deceleration of 3 minutes or more) that did not recover, what proportion were born within 9 minutes of the bradycardia being recognised, or had a documented reason for a longer interval?",
+  "why": "An unresolved acute bradycardia is a time-critical fetal emergency; delayed recognition-to-birth intervals are a recurring theme in Each Baby Counts reports, but no closed-loop audit of this specific interval is in the library.",
+  "standard": {
+   "source": "NICE NG229 Fetal monitoring in labour, rec 1.5.9 (2017, amended 2022)",
+   "wording": "If there is an acute bradycardia, or a single prolonged deceleration for 3 minutes or more: ... expedite the birth if the acute bradycardia persists for 9 minutes, or less if there are significant antenatal or intrapartum risk factors for fetal compromise.",
+   "url": "https://www.nice.org.uk/guidance/ng229/chapter/Recommendations"
+  },
+  "pass": "The baby is born within 9 minutes of the acute bradycardia/prolonged deceleration being recognised, or a documented clinical reason for a longer interval is recorded",
+  "population": "Inclusion: all babies with a documented acute bradycardia or single prolonged deceleration of 3 minutes or more that did not recover and led to expedited birth. Exclusion: bradycardia that resolved spontaneously without expedited birth.",
+  "sample": "All such episodes over the last 12 months (or 20-30 consecutive episodes if the unit has a higher volume)",
+  "data_source": "CTG trace, birth record, incident report/perinatal morbidity review",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_bradycardia_recognised",
+    "type": "text",
+    "options": [],
+    "note": "hh:mm"
+   },
+   {
+    "field": "time_of_birth",
+    "type": "text",
+    "options": [],
+    "note": "hh:mm"
+   },
+   {
+    "field": "interval_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_9_minutes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented_if_longer",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cord_gas_ph",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a 'crash caesarean/instrumental birth' timer sheet, started automatically when an acute bradycardia is called, that is displayed in theatre/the birth room and reviewed at every case in the perinatal morbidity meeting.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present every case at the perinatal morbidity and mortality review meeting; if compliant, use the timer sheet as standard practice for all category 1 births",
+  "evidence": [
+   "no closed-loop audit of the acute bradycardia decision-to-birth interval found in the library"
+  ],
+  "pitfalls": [
+   "Recognition time is often reconstructed retrospectively and may be imprecise → use the CTG trace timestamp as the primary source where available",
+   "This is a rare, high-stakes event, so numbers will be small → review every case rather than a sample, and extend the collection period as needed",
+   "Blame-focused review can suppress honest reporting → use a just-culture, learning-focused review process",
+   "Genuine clinical reasons for delay (for example, maternal resuscitation first) must be captured accurately → require a documented reason field, not just a pass/fail",
+   "Fading attention after an initial cluster of cases → keep this as a standing perinatal morbidity meeting agenda item"
+  ],
+  "pearls": [
+   "Review every case at the perinatal morbidity meeting rather than sampling, given the rarity and severity",
+   "Use simulation and \"obstetric emergency\" drills (crash caesarean, category 1) to rehearse the target interval",
+   "Link outcome data (cord gases, Apgar, NNU admission) to each case for full context",
+   "Feed learning into the unit's Each Baby Counts and MBRRACE-UK action plans",
+   "Keep the same definition of 'recognition time' and the 9-minute target at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case from CTG trace and birth record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women identified as high risk of preterm birth at booking, what proportion were referred to a preterm birth prevention pathway by 12 weeks and offered transvaginal cervical length scanning every 2-4 weeks between 16 and 24 weeks?",
+  "why": "Timely referral and surveillance can allow preventive interventions such as cerclage or progesterone; no closed-loop audit of preterm birth prevention pathway referral and cervical scanning frequency is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 5, Appendix F risk assessment and management algorithm (2023)",
+   "wording": "1. Referral to local or tertiary Preterm Prevention (PP) clinic by 12 weeks. ... 3. All pregnant women to be offered transvaginal cervix scanning every 2-4 weeks between 16 and 24 weeks as a secondary test to more accurately quantify the risk of preterm birth.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "A woman identified as high risk for preterm birth is referred to the preterm prevention pathway by 12 weeks, and transvaginal cervical scanning is offered at intervals of no more than 4 weeks between 16 and 24 weeks",
+  "population": "Inclusion: women identified with a high-risk factor for preterm birth (for example, previous preterm birth, previous cervical cerclage) at booking. Exclusion: women who decline referral or scanning.",
+  "sample": "30 consecutive women identified as high risk for preterm birth over the last 6 months",
+  "data_source": "Preterm birth prevention clinic record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_by_12_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_cervical_scans_16_to_24_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_interval_between_scans_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "intervention_offered",
+    "type": "text",
+    "options": [],
+    "note": "e.g. cerclage, pessary, progesterone, none indicated"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic referral trigger to the preterm birth prevention clinic when a high-risk factor is coded at booking, with the clinic's own scheduling system generating each cervical scan appointment automatically.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the preterm birth prevention team/maternity governance meeting; if compliant, report through the SBLCB v3 element 5 process indicators",
+  "evidence": [
+   "no closed-loop audit of preterm birth prevention referral timing and cervical scanning frequency found in the library"
+  ],
+  "pitfalls": [
+   "High-risk factors may not be consistently identified or coded at booking → audit booking risk-factor recognition as well as the downstream pathway",
+   "Clinic capacity constraints may limit scan frequency regardless of intent → report capacity alongside compliance",
+   "Women who move between services (community/tertiary) may have incomplete records in one place → check both if the woman was referred onward",
+   "Missed scans due to non-attendance should be recorded separately from scans not offered → capture both",
+   "Improvement fading without automation → use an automatic referral trigger rather than relying on staff to remember"
+  ],
+  "pearls": [
+   "Involve the preterm birth prevention clinic lead as co-investigator",
+   "Use the SBLCB v3 Appendix F risk assessment and management algorithm as the reference standard",
+   "Track preterm birth rate in this cohort over time as a linked outcome measure",
+   "Coordinate with community midwives who identify risk factors at booking",
+   "Keep the same risk factor list and scanning interval definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the preterm prevention clinic record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of pregnant women with type 1 diabetes were offered real-time continuous glucose monitoring (CGM) with appropriate education and support to use it?",
+  "why": "Continuous glucose monitoring improves glycaemic control and neonatal outcomes in type 1 diabetes in pregnancy and is a new 2023 care bundle standard; no closed-loop audit of CGM offer completion is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 6, intervention 6.2 (2023)",
+   "wording": "Women with type 1 diabetes should be offered real time continuous glucose monitoring (CGM) and be provided with appropriate education and support to use this.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "The woman with type 1 diabetes has a documented offer of real-time CGM, with education/support provided, recorded at or soon after the joint diabetes-antenatal booking",
+  "population": "Inclusion: all pregnant women with type 1 diabetes under joint diabetes-antenatal care. Exclusion: women already established on CGM before pregnancy (record as already in place, not a new offer).",
+  "sample": "20-30 consecutive women with type 1 diabetes in pregnancy over the last 6-12 months",
+  "data_source": "Joint diabetes antenatal clinic record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_joint_clinic_booking",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cgm_already_in_use",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cgm_offered_if_not_already_in_use",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "education_and_support_provided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cgm_accepted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_declined",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'CGM offered, education provided, outcome' field to the joint diabetes antenatal booking proforma for every woman with type 1 diabetes.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the joint diabetes-obstetric MDT; if compliant, submit as supporting evidence to the National Pregnancy in Diabetes (NPID) audit",
+  "evidence": [
+   "no closed-loop audit of CGM offer completion for type 1 diabetes in pregnancy found in the library"
+  ],
+  "pitfalls": [
+   "CGM funding/access pathways vary and may cause delay unrelated to clinical practice → record whether the delay was clinical or logistic (funding, device supply)",
+   "Small numbers of type 1 diabetes pregnancies per unit → extend the audit period to 12 months",
+   "Education/support may be provided by diabetes specialist nurses outside the joint clinic record → check both diabetes and obstetric records",
+   "Some women decline CGM for personal reasons, which is appropriate and should not be scored as non-compliance → record 'offered and declined' as compliant with the offer",
+   "Fading compliance without a mandatory field → build the field into the joint clinic booking proforma"
+  ],
+  "pearls": [
+   "Involve the diabetes specialist nurse and joint antenatal diabetes clinic lead as co-investigators",
+   "Use the NPID audit's own data fields to align local and national reporting",
+   "Track glycaemic control (time in range) as a linked outcome measure where CGM is accepted",
+   "Ensure equitable access regardless of postcode or funding pathway complexity",
+   "Keep the same definitions of 'offered' and 'already in use' at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the joint diabetes clinic record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women with a tubal ectopic pregnancy managed expectantly, what proportion met the NICE eligibility criteria (serum hCG of 1500 IU/L or less, size and symptoms criteria, and ability to return for follow-up) documented at the decision?",
+  "why": "Expectant management outside the recommended hCG and clinical criteria risks a missed ruptured ectopic pregnancy; no closed-loop audit of expectant management eligibility documentation is in the library.",
+  "standard": {
+   "source": "NICE NG126 Ectopic pregnancy and miscarriage, rec 1.14.1 (2019)",
+   "wording": "have serum hCG levels of 1,000 IU/L or less ... are able to return for follow-up.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Management-of-tubal-ectopic-pregnancy"
+  },
+  "pass": "The documented decision for expectant management records the serum hCG level and confirms it was 1,000 IU/L or less (or 1,000-1,500 IU/L under the extended criteria in rec 1.14.2), with confirmation the woman was able to return for follow-up",
+  "population": "Inclusion: all women with a tubal ectopic pregnancy managed expectantly. Exclusion: women managed medically or surgically from the outset.",
+  "sample": "20-30 consecutive women managed expectantly for ectopic pregnancy over the last 12 months (or all cases if fewer)",
+  "data_source": "Early pregnancy unit assessment and decision record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_decision",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hcg_level_at_decision",
+    "type": "number",
+    "options": [],
+    "note": "IU/L"
+   },
+   {
+    "field": "within_eligibility_threshold",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ability_to_return_for_follow_up_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinically_stable_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "resolved expectantly",
+     "changed to medical",
+     "changed to surgical",
+     "rupture/emergency"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a structured ectopic pregnancy management decision proforma into the early pregnancy unit record with the hCG threshold and follow-up criteria as mandatory fields before expectant management can be selected.",
+  "target": "≥95%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the early pregnancy unit/gynaecology governance meeting; if compliant, review any rupture or emergency admission cases at the departmental morbidity meeting",
+  "evidence": [
+   "no closed-loop audit of expectant management eligibility documentation for ectopic pregnancy found in the library"
+  ],
+  "pitfalls": [
+   "Ectopic pregnancy volumes are relatively low per unit → extend the collection period to 12 months",
+   "hCG result timing relative to the decision may be unclear in retrospective notes → record the hCG date and value explicitly",
+   "Women may be judged clinically stable without this being explicitly documented → require an explicit statement, not an assumption",
+   "Follow-up non-attendance is itself a safety risk requiring an escalation plan → record any non-attendance and the service's response",
+   "Fading compliance without a structured proforma → embed the eligibility fields into the decision record, not a separate audit form"
+  ],
+  "pearls": [
+   "Involve the early pregnancy unit lead as co-investigator",
+   "Use a dedicated ectopic pregnancy tracking log to actively follow up all expectantly managed women",
+   "Review any case of rupture or emergency surgery after expectant management at the morbidity meeting to close the loop",
+   "Give women a clear written safety-netting leaflet on symptoms of rupture",
+   "Keep the same hCG thresholds at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the early pregnancy unit record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "In women with a retained placenta, what proportion had intravenous access secured, with the reason explained to the woman, documented at the time retention was diagnosed?",
+  "why": "Retained placenta carries a risk of sudden major haemorrhage; securing IV access early is a basic safety step that is not routinely checked; no closed-loop audit of this step is in the library.",
+  "standard": {
+   "source": "NICE NG235 Intrapartum care, rec 1.10.21 (2014)",
+   "wording": "Secure intravenous access if the placenta is retained, and explain to the woman why this is needed.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "IV access is documented as secured at the time retained placenta is diagnosed, with a note that the reason was explained to the woman",
+  "population": "Inclusion: all women with a placenta not delivered within 30 minutes (active management) or 60 minutes (physiological management) of birth. Exclusion: women who already had IV access in place for another reason before diagnosis (record as already in place).",
+  "sample": "20-30 consecutive women with a retained placenta over the last 6-12 months",
+  "data_source": "Birth record/third stage record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_birth_baby",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_placenta_diagnosed_retained",
+    "type": "text",
+    "options": [],
+    "note": "hh:mm"
+   },
+   {
+    "field": "iv_access_already_in_place",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_access_secured_on_diagnosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "explanation_to_woman_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "subsequent_haemorrhage",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'retained placenta' sticker/proforma triggered at 30 or 60 minutes (as applicable) on the third-stage record, with a mandatory IV access field.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the labour ward audit meeting; if compliant, embed the proforma in standard third-stage documentation",
+  "evidence": [
+   "no closed-loop audit of IV access for retained placenta found in the library"
+  ],
+  "pitfalls": [
+   "Retained placenta is relatively infrequent → extend the collection period to 6-12 months",
+   "IV access may be secured but not documented as related to the retained placenta specifically → check the timing against the diagnosis time",
+   "Community/home births have different equipment and transfer implications → consider auditing hospital and home births separately",
+   "Explanation to the woman is often given verbally without being noted → add a simple documentation prompt",
+   "Fading compliance without an automatic prompt → build the 30/60-minute retained placenta alert into the electronic partogram"
+  ],
+  "pearls": [
+   "Involve the labour ward coordinator in designing the retained placenta proforma",
+   "Use simulation training on postpartum haemorrhage and retained placenta to reinforce the IV access step",
+   "Track subsequent haemorrhage rate as a linked outcome measure",
+   "Coordinate with the community/home birth team on transfer protocols for this scenario",
+   "Keep the same 30/60-minute definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the birth record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women having outpatient induction of labour, what proportion had a full clinical assessment of the woman and baby, and an agreed review plan, documented before they were discharged home?",
+  "why": "Outpatient induction relies on safe assessment and a clear review plan before the woman leaves the unit; no closed-loop audit of pre-discharge assessment completeness for outpatient induction is in the library.",
+  "standard": {
+   "source": "NICE NG207 Inducing labour, rec 1.6.2 and rec 1.6.3 (2008, amended 2021)",
+   "wording": "Carry out a full clinical assessment of the woman and baby (see recommendations 1.5.1 and 1.5.2) and ensure safety and support procedures are in place. ... For induction being undertaken on an outpatient basis, agree a review plan with the woman before she returns home.",
+   "url": "https://www.nice.org.uk/guidance/ng207/chapter/Recommendations"
+  },
+  "pass": "A full clinical assessment (Bishop score, CTG) and an agreed, documented review plan (including when to return, or when to contact the unit) are both recorded before the woman is discharged home",
+  "population": "Inclusion: all women having outpatient induction of labour. Exclusion: women converted to inpatient induction before any planned discharge home.",
+  "sample": "30 consecutive outpatient inductions over the last 3-6 months",
+  "data_source": "Induction of labour outpatient pathway record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_induction_started",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_plan_agreed_and_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safety_netting_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unplanned_reattendance_before_planned_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a structured outpatient induction discharge checklist with mandatory assessment and review-plan fields that must be completed before the woman can be marked as discharged home.",
+  "target": "≥95%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the induction of labour/maternity governance meeting; if compliant, make the checklist the standard outpatient induction discharge document",
+  "evidence": [
+   "no closed-loop audit of pre-discharge assessment completeness for outpatient induction found in the library"
+  ],
+  "pitfalls": [
+   "Outpatient induction volumes may be modest → extend the collection period to 3-6 months",
+   "Review plan sometimes given verbally without being written down → require a written plan given to the woman as well as documented in the notes",
+   "Safety-netting advice content varies between staff → use a standard script or leaflet for consistency",
+   "Unplanned reattendance before the planned review may indicate inadequate initial safety-netting → track and review these cases",
+   "Fading compliance without a mandatory checklist → build the checklist into the EPR discharge workflow"
+  ],
+  "pearls": [
+   "Involve the outpatient induction pathway lead midwife as co-investigator",
+   "Provide a standard written safety-netting leaflet for all outpatient induction patients",
+   "Track unplanned reattendance rate as a linked safety outcome measure",
+   "Share learning from any adverse outcome after outpatient induction at the governance meeting",
+   "Keep the same assessment and review-plan definitions at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the outpatient induction record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "Of women who gave birth following spontaneous preterm labour before 34 weeks' gestation, what proportion received intravenous intrapartum antibiotic prophylaxis against early-onset group B streptococcal infection?",
+  "why": "Preterm birth carries a substantially higher risk of early-onset GBS infection regardless of known maternal GBS status, and this preterm-specific antibiotic standard is distinct from the existing audit of antibiotics for women with a known GBS-positive result at term [NNA-200]; no audit of intrapartum antibiotic prophylaxis for preterm labour under 34 weeks is in the library.",
+  "standard": {
+   "source": "NHS England Saving Babies' Lives Care Bundle version 3, Element 5, process indicator 5d (2023)",
+   "wording": "Percentage of women who give birth following preterm labour below 34 weeks of gestation who receive IV intrapartum antibiotic prophylaxis to prevent early onset neonatal Group B Streptococcal (GBS) infection.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "IV intrapartum antibiotic prophylaxis against GBS is given during labour to a woman giving birth following spontaneous preterm labour before 34 weeks",
+  "population": "Inclusion: women giving birth following spontaneous preterm labour before 34+0 weeks. Exclusion: elective preterm birth for a maternal or fetal indication with no labour, women with a documented penicillin/antibiotic contraindication managed with an alternative agent (record as compliant with an alternative).",
+  "sample": "20-30 consecutive preterm births below 34 weeks following spontaneous labour over the last 6-12 months",
+  "data_source": "Labour ward drug chart and birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_antibiotic_prophylaxis_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_labour_onset_to_first_dose_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_gbs_status",
+    "type": "choice",
+    "options": [
+     "positive",
+     "negative",
+     "unknown"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'preterm labour under 34 weeks' order set to e-prescribing that defaults to IV benzylpenicillin (or the locally agreed alternative) regardless of known GBS status, triggered when gestation under 34 weeks is entered.",
+  "target": "≥90%",
+  "reaudit": "At 6-12 months, same template and sample size",
+  "close_loop": "Present at the preterm birth/perinatal optimisation pathway meeting; if compliant, report through the SBLCB v3 element 5 process indicators",
+  "evidence": [
+   "[NNA-200] audits intrapartum antibiotics for known GBS-positive status at term; this audit covers preterm labour under 34 weeks regardless of GBS status, not previously audited in the library"
+  ],
+  "pitfalls": [
+   "Very preterm births are infrequent per unit → extend the collection period to 6-12 months",
+   "Staff may only think to give antibiotics if GBS status is known positive, missing the preterm-specific indication → make the order set trigger on gestation alone, not GBS status",
+   "Rapid/precipitate preterm births may not allow time for antibiotics before birth → record time from labour onset (or arrival) to first dose to distinguish this from omission",
+   "This is a distinct standard from the term GBS-positive antibiotic audit already in the library → keep the two audits and their process indicators clearly separate in reporting",
+   "Fading compliance without an order-set default → embed the trigger by gestation in the electronic prescribing system"
+  ],
+  "pearls": [
+   "Cross-reference with the existing term GBS antibiotic audit [NNA-200] but report separately to avoid confusion",
+   "Involve the preterm birth team and labour ward pharmacist in building the order set",
+   "Track early-onset neonatal GBS infection rates in preterm babies as a linked outcome measure",
+   "Report through the perinatal optimisation pathway compliance metric alongside the other SBLCB v3 element 5 measures",
+   "Keep the same 34-week gestation cut-off at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the drug chart and birth record",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of parents were given information, before discharge, on the 'red flag' signs of serious illness in young babies that should prompt an urgent or emergency review?",
+  "why": "Delayed recognition of serious neonatal illness after discharge is a recurring theme in serious incident reviews; no closed-loop audit of red-flag safety-netting information given at discharge is in the library.",
+  "standard": {
+   "source": "NICE NG194 Postnatal care, rec 1.4.9 and rec 1.4.10 (2021)",
+   "wording": "Recognise the following as 'red flags' for serious illness in young babies: appearing ill to a healthcare professional, appearing pale, ashen, mottled or blue (cyanosis), unresponsive or unrousable ... If a baby is thought to be seriously unwell based on a 'red flag' ... or on an overall assessment of their condition, arrange an immediate assessment with an appropriate emergency service.",
+   "url": "https://www.nice.org.uk/guidance/ng194/chapter/Recommendations"
+  },
+  "pass": "The discharge record documents that parents were given verbal and/or written information on newborn red-flag symptoms and when to seek urgent or emergency help",
+  "population": "Inclusion: all babies discharged home from the birth setting or postnatal ward. Exclusion: babies transferred directly to another hospital or the neonatal unit.",
+  "sample": "40 consecutive babies discharged home over the last 4-6 weeks",
+  "data_source": "Postnatal discharge checklist/newborn record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "red_flag_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "format",
+    "type": "choice",
+    "options": [
+     "verbal only",
+     "written leaflet",
+     "both",
+     "not given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "emergency_contact_details_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a standard newborn red-flag safety-netting leaflet to the discharge pack, with a mandatory 'red flag information given' tick box on the electronic discharge checklist.",
+  "target": "≥95%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the postnatal ward/neonatal governance meeting; if compliant, extend the leaflet to home birth discharge packs",
+  "evidence": [
+   "no closed-loop audit of newborn red-flag safety-netting information at discharge found in the library"
+  ],
+  "pitfalls": [
+   "Verbal-only advice is easily forgotten by tired new parents → always pair verbal advice with a written leaflet",
+   "Documentation of 'advice given' is often generic and does not specify red flags → require the specific red-flag leaflet to be named in the record",
+   "Parents with limited English or literacy needs may need alternative formats → ensure translated or accessible versions are available and their use recorded",
+   "Fading compliance without a mandatory field → build the tick box into the electronic discharge checklist",
+   "Different discharge pathways (early transfer, home birth) may be missed by a single checklist → apply the same check to all discharge routes"
+  ],
+  "pearls": [
+   "Base the leaflet directly on the NG194 red-flag list for consistency with national guidance",
+   "Involve neonatal outreach/community midwifery teams in leaflet design and distribution",
+   "Audit understanding, not just receipt, with a brief follow-up question at the next contact if feasible",
+   "Share any serious incident learning (anonymised) to reinforce staff engagement",
+   "Keep the same red-flag list and format categories at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 discharges from the discharge checklist",
+  "area": "Obstetrics, gynaecology and sexual health"
+ },
+ {
+  "question": "What proportion of women had a documented postnatal reassessment of their venous thromboembolism (VTE) risk before discharge from postnatal care?",
+  "why": "VTE risk changes after birth and a postnatal reassessment determines the need for continued thromboprophylaxis; this is distinct from the booking risk assessment already audited above, and no closed-loop audit of postnatal VTE reassessment is in the library.",
+  "standard": {
+   "source": "RCOG Green-top Guideline No. 37a, Reducing the Risk of Venous Thromboembolism during Pregnancy and the Puerperium (April 2015, amended 2023)",
+   "wording": "usually require prophylactic LMWH for 6 weeks postnatally but a postnatal risk reassessment should be made.",
+   "url": "https://www.rcog.org.uk/media/m4mbpjwi/gtg-no37a-2015_amended-2023.pdf"
+  },
+  "pass": "A documented VTE risk reassessment is recorded before discharge from postnatal inpatient care, with a clear plan for continued or stopped thromboprophylaxis",
+  "population": "Inclusion: all women being discharged from postnatal inpatient care. Exclusion: women who did not have any antenatal risk factors for VTE and had a straightforward vaginal birth with no intrapartum risk factors (very low risk, reassessment still recommended but often brief).",
+  "sample": "40 consecutive women discharged from postnatal inpatient care over the last 4-6 weeks",
+  "data_source": "Postnatal discharge checklist/electronic maternity record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postnatal_vte_reassessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thromboprophylaxis_plan_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mode_of_birth",
+    "type": "choice",
+    "options": [
+     "vaginal",
+     "instrumental",
+     "caesarean"
+    ],
+    "note": ""
+   },
+   {
+    "field": "notes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory postnatal VTE risk reassessment field to the electronic discharge checklist, pre-populated with the antenatal risk factors for review and updating with any new intrapartum risk factors (for example, caesarean birth, prolonged labour, haemorrhage).",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the maternity thrombosis committee; if compliant, extend the mandatory field to postnatal readmissions",
+  "evidence": [
+   "no closed-loop audit of postnatal VTE risk reassessment before discharge found in the library"
+  ],
+  "pitfalls": [
+   "Reassessment may be assumed rather than actively documented if the booking assessment was normal → require an explicit postnatal entry, not just reference to the booking assessment",
+   "Caesarean births automatically carry additional risk factors that must be captured → ensure the reassessment tool includes intrapartum and mode-of-birth factors",
+   "Early discharge (within 24 hours) can compress the time available for reassessment → include timing of reassessment relative to discharge in the data",
+   "Duplication with the booking VTE audit above may confuse staff → make clear in training that this is a separate, postnatal check",
+   "Fading compliance without a mandatory field → build the postnatal reassessment into the EPR discharge workflow"
+  ],
+  "pearls": [
+   "Pair this audit with the booking VTE risk assessment audit above to give a complete picture of the pathway",
+   "Involve the maternity thrombosis lead midwife/obstetrician as co-investigator",
+   "Cross-check a sample of women given continued LMWH to confirm the correct duration was prescribed and supplied at discharge",
+   "Present alongside MBRRACE-UK data on VTE as a leading cause of direct maternal death",
+   "Keep the same reassessment definition and mode-of-birth categories at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from the discharge checklist",
+  "area": "Obstetrics, gynaecology and sexual health"
+ }
+]
