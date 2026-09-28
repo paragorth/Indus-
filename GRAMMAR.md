@@ -95,3 +95,4 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 - The 'tall 2–4 + W700' voucher is Harappa-specific: 417 of 1,765 Harappa tablets, 0 of 139 Mohenjo-daro tablets (S218).
 - **Frozen pre-jar titles** (S229, both transcriptions): 590-390/405 (M249-M162/169), 435-690 (M130-M149), 840-‖ (M403-M87), 17-585 (M112-M194) stand before the jar as fixed pairs; W100 (M8) and W760 (M347) combine freely.
 - **The single stroke W1 (M97/98) is a marker, not 'one'** (S234, both transcriptions): it precedes other numerals and rarely precedes counted signs.
+- **One motif-linked label** (S223, S253, both transcriptions): the stand-alone sign W930/M393, usually on its own line, goes with zebu seals (3 of ~50 vs 1–2 of ~1,700). The only text–animal link found.
