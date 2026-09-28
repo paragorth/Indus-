@@ -110,6 +110,7 @@ These show the dictionary in use. They are not translations.
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
 ## Test log
+- S295: the pot sign set does not replicate in IM77 (89 pot texts, no Harappa post-1986 material); for now it is a Harappa/Kalibangan feature.
 - S294: 'jar = the vessel it is written on' fails (the jar is on 16% of pot texts vs 42% of seal texts); 'arrow = weapon' fails (0 of 18 implements). Pots and bangles have their own sign set.
 - S293: twins next to a number 39% vs 13% for other person signs (P ≈ 0.09, trend); closers do not cluster by building or quarter at Mohenjo-daro (P = 0.13–0.73), so 'office tied to a building' is not supported.
 - S292: 'porter' (C–), 'ration fish' (reworded), 'chief' / 'overseer' / 'the Twelve' by seal size (no support, low power).
