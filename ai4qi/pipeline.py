@@ -72,7 +72,11 @@ def cmd_search(pas):
     if not epmc_up:
         print("Europe PMC unavailable now; searching PubMed only (re-run later to add Europe PMC).")
     epmc_cache = load("epmc_core.json", {})
-    for lab, pm_q, ep_q in query_set(pas) + broad_query_set(pas):
+    qs = query_set(pas) + broad_query_set(pas)
+    if os.environ.get("AI4QI_SWEEP") and pas == "nonortho":
+        from queries import sweep_query_set
+        qs = sweep_query_set()          # sweep only; hits accumulate into the existing file
+    for lab, pm_q, ep_q in qs:
         pm = (sources.pubmed_search(pm_q) or []) if pm_q else []
         ep = (sources.epmc_search(ep_q) or []) if epmc_up else []
         for pmid in pm:

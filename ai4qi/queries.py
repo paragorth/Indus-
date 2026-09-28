@@ -189,3 +189,19 @@ def broad_query_set(which):
                     f'("quality improvement"[tiab] OR PDSA[tiab]) AND audit*[tiab] AND {pm_title}',
                     f'(TITLE:"quality improvement" OR TITLE:"improvement project" OR TITLE:PDSA) AND audit* AND {ep_title}'))
     return out
+
+
+# ---------------------------------------------------------------------------
+# Year sweep (added Sep 2026): the area queries hit Europe PMC's 5,000-result cap and miss
+# topics outside the area lists. One strong-term query per publication year, no area filter.
+SWEEP_YEARS = range(2008, 2027)
+
+
+def sweep_query_set():
+    out = []
+    for y in SWEEP_YEARS:
+        out.append((f"sweep {y} (closed loop)", None, f"({' OR '.join(STRONG)}) AND PUB_YEAR:{y}"))
+        out.append((f"sweep {y} (audit + QI title)", None,
+                    f'(TITLE:audit* OR TITLE:"quality improvement" OR TITLE:"improvement project") AND '
+                    f'(re-audit OR reaudit OR "second cycle" OR "second audit" OR "cycle 2" OR "closed loop" OR PDSA) AND PUB_YEAR:{y}'))
+    return out
