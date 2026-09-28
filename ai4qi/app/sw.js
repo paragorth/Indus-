@@ -2,7 +2,7 @@
 'use strict';
 
 // Stamped by build_app_data.py on every rebuild; a new value makes browsers install a fresh cache.
-var VERSION = '0d358002329e';
+var VERSION = '67622241db3b';
 var PREFIX = 'ai4qi-';
 var SHELL = PREFIX + 'shell-' + VERSION;
 var RUNTIME = PREFIX + 'runtime-' + VERSION;

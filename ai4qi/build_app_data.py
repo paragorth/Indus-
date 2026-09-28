@@ -201,7 +201,7 @@ SHELL = ("index.html", "app.js", "export.js", "styles.css", "manifest.webmanifes
 CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": "",
                    "analytics": "", "plausible_script": "", "plausible_domain": "",
                    "plausible_host": "https://plausible.io", "cloudflare_token": "", "build_url": "", "claude_link": "", "nice_ai_permission": False,
-                   "legal": {"owner_name": "", "postal_address": "", "contact_email": "", "ico_number": "", "updated": ""}}
+                   "legal": {"owner_name": "", "postal_address": "", "contact_email": "", "security_email": "", "site_url": "", "ico_number": "", "updated": ""}}
 VERSION_LINE = re.compile(r"^var VERSION = '[^']*';", re.M)
 
 
@@ -245,7 +245,22 @@ def stamp_version():
 
 
 LEGAL = [("terms", "TERMS_OF_USE.md", "Terms of use"), ("privacy-notice", "PRIVACY_NOTICE.md", "Privacy notice"),
-         ("cookies", "COOKIES_AND_STORAGE.md", "Cookies and storage"), ("accessibility", "ACCESSIBILITY_STATEMENT.md", "Accessibility")]
+         ("cookies", "COOKIES_AND_STORAGE.md", "Cookies and storage"), ("accessibility", "ACCESSIBILITY_STATEMENT.md", "Accessibility"),
+         ("security", "VULNERABILITY_DISCLOSURE.md", "Reporting a security problem")]
+
+
+def write_security_txt(cfg):
+    """app/.well-known/security.txt (RFC 9116), only once the owner has set site_url and an email."""
+    L = (cfg or {}).get("legal") or {}
+    site, mail = (L.get("site_url") or "").rstrip("/"), L.get("security_email") or L.get("contact_email")
+    src = HERE / "governance" / "security.txt"
+    if not (site and mail and src.exists()):
+        return
+    txt = src.read_text(encoding="utf-8").replace("[security contact email]", mail)
+    txt = txt.replace("https://[your domain]/security", site + "/#/security").replace("https://[your domain]", site)
+    out = APP / ".well-known" / "security.txt"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(txt, encoding="utf-8")
 
 
 def build_legal(cfg):
@@ -253,7 +268,9 @@ def build_legal(cfg):
     L = (cfg or {}).get("legal") or {}
     fill = {"OWNER LEGAL NAME": L.get("owner_name"), "Owner name": L.get("owner_name"), "ADDRESS": L.get("postal_address"),
             "Postal address": L.get("postal_address"), "CONTACT EMAIL": L.get("contact_email"), "Contact email": L.get("contact_email"),
-            "ICO REG NO.": L.get("ico_number"), "ICO registration number": L.get("ico_number"), "DATE": L.get("updated")}
+            "ICO REG NO.": L.get("ico_number"), "ICO registration number": L.get("ico_number"), "DATE": L.get("updated"),
+            "security contact email": L.get("security_email") or L.get("contact_email"),
+            "your domain": (L.get("site_url") or "").replace("https://", "").rstrip("/")}
     try:
         import markdown
     except ImportError:
@@ -298,6 +315,7 @@ def main():
     dump(DATA / "cards.json", cards)
     dump(DATA / "standards.json", standards)
     dump(DATA / "legal.json", build_legal(cfg))
+    write_security_txt(cfg)
 
     (APP / "templates").mkdir(parents=True, exist_ok=True)
     for csv in sorted((HERE / "new_audits" / "templates").glob("*.csv")):

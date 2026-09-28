@@ -1859,7 +1859,7 @@
       '</article>', 'My audit', 'my-audits');
   }
 
-  var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility'], LEGAL = null;
+  var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'security'], LEGAL = null;
   function renderLegal(slug) {
     function show(all) {
       var d = all && all[slug];
@@ -3011,7 +3011,7 @@
     } catch (e) { return ''; }
   })();
   var AN = { kind: '', last: '' };
-  var KNOWN_ROUTES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'build', 'suggest', 'run', 'privacy', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
+  var KNOWN_ROUTES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'security', 'build', 'suggest', 'run', 'privacy', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
   function cleanPageUrl() {
     var keep = new URLSearchParams();
     new URLSearchParams(location.search).forEach(function (v, k) {
