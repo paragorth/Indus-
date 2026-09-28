@@ -80,7 +80,7 @@ def cmd_search(pas):
         if os.environ["AI4QI_SWEEP"] == "thin":
             from queries import thin_query_set
             qs = thin_query_set()
-        if os.environ["AI4QI_SWEEP"] == "title":
+        if os.environ["AI4QI_SWEEP"] in ("title", "title_early"):
             from queries import title_sweep_query_set
             qs = title_sweep_query_set()
     for lab, pm_q, ep_q in qs:

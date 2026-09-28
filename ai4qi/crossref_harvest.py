@@ -113,6 +113,30 @@ JOURNALS4 = [(j, ["audit", "re-audit", "quality improvement"], 2010) for j in [
     "Transplantation", "Clinical Transplantation", "International Journal of Obstetric Anesthesia", "Pediatric Anesthesia", "Anaesthesia Reports",
     "Journal of Evaluation in Clinical Practice", "BMJ Open", "BMJ Quality &amp; Safety", "BMJ Quality & Safety", "Cureus",
 ]]
+# fifth pass (Sep 2026): congress-abstract journals missed so far (resuscitation, trauma, burns, EU public health,
+# nursing, epilepsy, obstetrics). Selected with: python3 crossref_harvest.py --wave5
+JOURNALS5 = [(j, ["audit", "re-audit", "quality improvement"], 2010) for j in [
+    "Resuscitation", "Resuscitation Plus", "Injury", "Burns", "Burns Open", "The Breast", "Clinical Nutrition",
+    "European Journal of Public Health", "Family Practice", "Neuro-Oncology", "Neuro-Oncology Advances",
+    "European Heart Journal - Quality of Care and Clinical Outcomes", "European Heart Journal", "Europace",
+    "Rheumatology Advances in Practice", "Journal of Pediatric Surgery", "Surgery (Oxford)", "Annals of Medicine and Surgery",
+    "International Journal of Surgery Open", "Intensive and Critical Care Nursing", "Women and Birth",
+    "European Journal of Obstetrics &amp; Gynecology and Reproductive Biology", "European Journal of Obstetrics & Gynecology and Reproductive Biology",
+    "Epilepsy &amp; Behavior", "Epilepsy & Behavior", "Journal of the Neurological Sciences", "Parkinsonism &amp; Related Disorders",
+    "Parkinsonism & Related Disorders", "Journal of the Royal College of Physicians of Edinburgh", "JRSM Open",
+    "European Journal of Cardiovascular Nursing", "Journal of Burn Care &amp; Research", "Journal of Burn Care & Research",
+    "Clinical Medicine Insights", "QJM: An International Journal of Medicine", "Journal of Clinical Neuroscience",
+    "European Urology", "European Urology Supplements", "Journal of Clinical Oncology", "Annals of Oncology",
+    "European Journal of Cancer", "Radiotherapy and Oncology", "Journal of Medical Imaging and Radiation Oncology",
+    "Anaesthesia and Intensive Care", "Canadian Journal of Anesthesia", "Pediatric Critical Care Medicine",
+    "Critical Care", "Intensive Care Medicine Experimental", "European Journal of Anaesthesiology",
+    "Journal of Perinatal Medicine", "Archives of Disease in Childhood - Education &amp; Practice Edition",
+    "Journal of Paediatrics and Child Health", "Paediatrics and Child Health", "Irish Medical Journal",
+    "Journal of Oral and Maxillofacial Surgery", "British Journal of Oral &amp; Maxillofacial Surgery", "Oral Surgery",
+    "Journal of Dentistry", "International Journal of Paediatric Dentistry", "Gerodontology",
+    "Journal of Psychiatric and Mental Health Nursing", "BJPsych Advances", "Progress in Neurology and Psychiatry",
+    "Journal of Affective Disorders", "Schizophrenia Research", "European Neuropsychopharmacology",
+]]
 MAX_PER_QUERY = 4000
 S = requests.Session()
 S.headers["User-Agent"] = "ai4qi-audit-library/1.0 (clinical audit library research)"
@@ -177,9 +201,9 @@ def html_unescape(s):
 def main(only=None):
     recs = pipeline.load("records.json", {})
     hits = pipeline.load("hits_crossref.json", {})
-    js = JOURNALS4 if only == "--wave4" else JOURNALS
+    js = JOURNALS4 if only == "--wave4" else JOURNALS5 if only == "--wave5" else JOURNALS
     for container, queries, year in js:
-        if only and only != "--wave4" and container != only:
+        if only and not only.startswith("--wave") and container != only:
             continue
         got = {}
         for q in queries:

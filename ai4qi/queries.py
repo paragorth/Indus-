@@ -211,7 +211,8 @@ def sweep_query_set():
 # Title sweep (added Sep 2026, library growth to 20,000): every paper with "audit" in the title,
 # one query per year (each year is under Europe PMC's 5,000 cap), plus QI projects that measure
 # against a standard. Screening and reading decide what is a clinical audit.
-TITLE_SWEEP_YEARS = range(2000, 2027)
+import os as _os
+TITLE_SWEEP_YEARS = range(1985, 2000) if _os.environ.get("AI4QI_SWEEP") == "title_early" else range(2000, 2027)
 
 
 def title_sweep_query_set():
