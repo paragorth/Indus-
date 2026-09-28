@@ -105,3 +105,7 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 **12 as a fixed term (S273):** W55 (12) is about 50× commoner than a smooth number distribution predicts, and there is no 11. It stands before the jar (title slot) or before the pan-Indus title 255-435-690, not before counted goods. Treat 12 (and 24) as named numbers, like the fixed numeral terms.
 
 **Opener as closer (S286):** in the 25 texts where W817/861/820 stands last, the jar closer is usually absent (16% vs 46%, p = 0.003). The opener sign can take the closer slot.
+
+
+### Closer alternative: W595 (M252) (S288)
+W595 comes before a final opener 3 of 25 times (P = 0.0001), is never before the jar, and avoids texts with the jar (0.24× expected). It stands next to W820 in either order (820-595 ×5, 595-820 ×4). Treat W595 as a closer-slot sign that alternates with the jar ending; this replicates in IM77 (M252 before M391, 4 of 10).
