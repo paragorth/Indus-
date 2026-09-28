@@ -98,12 +98,11 @@ select cron.schedule('ai4qi-usage-rollup', '40 2 1 * *', $$
        and e.event <> 'signup'
      returning e.day, e.event, e.user_id
   )
-  insert into public.usage_weekly_archive (week, event, users, events)
+  insert into public.usage_weekly_archive as w (week, event, users, events)
   select date_trunc('week', day)::date, event, count(distinct user_id), count(*)
     from gone group by 1, 2
   on conflict (week, event) do update
-    set users  = public.usage_weekly_archive.users  + excluded.users,
-        events = public.usage_weekly_archive.events + excluded.events
+    set users = w.users + excluded.users, events = w.events + excluded.events
 $$);
 
 -- J5. Delete accounts with no activity for 24 months (daily 02:50 UTC). "Activity" is the later of
