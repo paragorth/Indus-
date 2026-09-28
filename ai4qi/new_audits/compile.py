@@ -35,6 +35,10 @@ DROP = [
     "What proportion of febrile infants under 3 months seen in the ED have ",  # non-ortho near-duplicate
     "What proportion of adults discharged from the ED or ambulatory care wi",  # non-ortho near-duplicate
     "What proportion of adults given insulin-glucose for hyperkalaemia in t",  # non-ortho near-duplicate
+    "What proportion of adults with atrial fibrillation prescribed a DOAC in hospital",  # wave 2: kept w2_medicines DOAC dose
+    "What proportion of adult inpatients with diabetes who have a severe or recurrent hypo",  # wave 2: kept w2_gi_renal_diabetes
+    "What proportion of adult inpatients at high risk of refeeding problems receive thiamine",  # wave 2: kept w2_gi_renal_diabetes
+    "What proportion of adults whose chest X-ray report suggests lung cancer are referred",  # wave 2: kept w2_general_practice
 ]
 ORDER = ["hip", "trauma", "paeds", "limbs_spine", "elective", "periop", "outpatients", "generated"]  # generated = added from live answers; always last so earlier ids never shift
 
