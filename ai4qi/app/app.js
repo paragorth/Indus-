@@ -203,7 +203,9 @@
     if (ab) ab.classList.toggle('is-current', name === 'my-audits' || name === 'account');
   }
   function page(html, title, nav, keepScroll) {
-    main.innerHTML = html;
+    main.innerHTML = (DEMO ? demoBar() : '') + html;
+    var dt = document.querySelector('[data-demo-toggle]');
+    if (dt) { dt.textContent = DEMO ? 'Turn off demo mode' : 'Demo mode'; dt.setAttribute('href', DEMO ? '#/demo/off' : '#/demo'); }
     document.title = title ? title + ' · Ai4Qi' : 'Ai4Qi Clinical Audit Library';
     setNav(nav || '');
     if (!keepScroll) window.scrollTo(0, 0);
@@ -217,6 +219,7 @@
     var r = parseHash(), p = r.parts, name = p[0] || '';
     var sameView = false;
     try {
+      if (name === 'demo') { demoSet(p[1] !== 'off'); location.replace('#/' + (p[1] === 'off' ? '' : 'suggest')); return; }
       if (name === '') renderHome();
       else if (name === 'search') renderSearch(r.params, sameView);
       else if (name === 'build') renderBuild(r.params);
@@ -1093,6 +1096,7 @@
   function b64(buf) { var s2 = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i++) s2 += String.fromCharCode(a[i]); return btoa(s2); }
   function unb64(t) { var s2 = atob(t), a = new Uint8Array(s2.length); for (var i = 0; i < s2.length; i++) a[i] = s2.charCodeAt(i); return a; }
   function stGet(st, k) { try { return st.getItem(k); } catch (e) { return null; } }
+  var DEMO = (function () { try { return localStorage.getItem('ai4qi_demo') === '1'; } catch (e) { return false; } })();
   (function initVault() {
     var m = null;
     try { m = JSON.parse(stGet(sessionStorage, VAULT_META) || 'null'); if (m) V.store = sessionStorage; } catch (e) {}
@@ -1181,6 +1185,108 @@
     while ((m = re.exec(String(p.sample || '')))) if (!m[2] && +m[1] >= 10) nums.push(+m[1]);
     return nums.length ? Math.min(nums[0], 500) : 30;
   }
+
+  /* --- demo mode (#/demo on, #/demo/off): one-click example data for live demonstrations.
+         Everything it makes is fictitious, marked "Example data", and kept in shared-computer storage. --- */
+  var DEMO_PASS = 'ai4qi-demo-passcode';
+  function demoSet(on) { DEMO = on; try { if (on) localStorage.setItem('ai4qi_demo', '1'); else localStorage.removeItem('ai4qi_demo'); } catch (e) {} }
+  function demoBar() {
+    return '<div class="demo-bar" role="note"><span><strong>Demo mode.</strong> Example-data buttons are on; everything they fill is fictitious.</span>' +
+      '<span><button type="button" class="link-btn" data-demo-reset>Clear example audits</button> · <a href="#/demo/off">Turn off</a></span></div>';
+  }
+  function demoRand(seed) { var x = seed % 2147483647 || 7; return function () { x = x * 16807 % 2147483647; return (x - 1) / 2147483646; }; }
+  function demoStepLabel(r) {
+    var k = RUN_STAGES[stageIdx(r)][0];
+    return { setup: 'Demo: fill the details', cycle1: 'Demo: fill cycle 1 data', present: 'Demo: go to the change', change: 'Demo: record the change',
+      reaudit: 'Demo: fill the re-audit', close: 'Demo: close the loop' }[k] || 'Demo: next step';
+  }
+  var NO_CAUSE_RE = /^(no delay|no delays|none|nil|no reason|no problem|no issue|not applicable|n\/?a|not delayed|on time)$/i;
+  function demoRows(r, ck, n) {
+    var p = r.protocol, t = p.template || [], pf = passField(p), tg = parseTarget(p.target) || { op: '≥', value: 90 };
+    var low = tg.op === '≤' || tg.op === '<';
+    var rate = ck === 'c1' ? (low ? Math.min(95, tg.value + 25) : Math.max(25, tg.value - 32)) : (low ? Math.max(0, tg.value - 4) : Math.min(98, tg.value + 3));
+    var yes = Math.round(n * rate / 100), R = demoRand(Date.now() + (ck === 'c1' ? 1 : 2));
+    var o = r.options || {}, start = r.details.startDate || todayIso();
+    var from = ck === 'c1' ? addDays(start, -56) : addDays((r.changeMade && r.changeMade.date) || addDays(start, 28), 7);
+    var flags = []; for (var i = 0; i < n; i++) flags.push(i < yes); flags.sort(function () { return R() - 0.5; });
+    var seq = r.codeSeq || 1;
+    var rows = flags.map(function (pass, i) {
+      var row = {}, day = addDays(from, Math.floor(i * 56 / n)), mins = 8 * 60 + Math.floor(R() * 14 * 60);
+      t.forEach(function (f) {
+        var nm = f.field, v = '';
+        if (isCodeField(f)) v = 'P' + ('00' + (seq++)).slice(-3);
+        else if (nm === pf) v = pass ? 'Yes' : 'No';
+        else if (/yes/i.test(f.type)) v = R() < (ck === 'c1' ? 0.7 : 0.9) ? 'Yes' : 'No';
+        else if (f.type === 'choice' && (f.options || []).length) {
+          var ops = f.options, cause = /delay|reason|barrier|cause|why|fail/i.test(nm), none = ops.filter(function (x) { return NO_CAUSE_RE.test(x); })[0];
+          if (cause && none && pass) v = none;
+          else {
+            var pool = ops.filter(function (x) { return x !== none && !/^other$/i.test(x); }); if (!pool.length) pool = ops;
+            v = pool[Math.min(pool.length - 1, Math.floor(Math.pow(R(), 1.8) * pool.length))];
+          }
+        }
+        else if (f.type === 'date') v = o.monthOnly ? day.slice(0, 7) : day;
+        else if (f.type === 'datetime') { mins += 5 + Math.floor(R() * (pass ? 25 : 70)); var h = Math.min(23, Math.floor(mins / 60)), m = mins % 60; v = o.monthOnly ? day.slice(0, 7) : day + ' ' + ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2); }
+        else if (f.type === 'number') {
+          v = /minute|mins/i.test(nm) ? (pass ? 15 + Math.floor(R() * 40) : 65 + Math.floor(R() * 110)) :
+            /hour/i.test(nm) ? (pass ? 1 + Math.floor(R() * 20) : 26 + Math.floor(R() * 48)) :
+            /news|score/i.test(nm) ? 5 + Math.floor(R() * 7) : /age.*month/i.test(nm) ? 1 + Math.floor(R() * 23) :
+            /age/i.test(nm) ? 45 + Math.floor(R() * 45) : /day/i.test(nm) ? 1 + Math.floor(R() * 9) :
+            /percent|pct|%/i.test(nm) ? 40 + Math.floor(R() * 60) : /ml|volume/i.test(nm) ? 250 * (1 + Math.floor(R() * 4)) : 1 + Math.floor(R() * 20);
+        }
+        if (v !== '') row[nm] = v;
+      });
+      return row;
+    });
+    r.codeSeq = seq;
+    return rows;
+  }
+  function demoDetails(r) {
+    var d = r.details;
+    if (!d.site) d.site = 'Riverside General Hospital (fictional)';
+    if (!d.department) d.department = { 'Emergency medicine': 'Emergency Department', 'Surgery': 'General Surgery' }[r.protocol.area] || (r.protocol.area || 'Medicine');
+    if (!d.lead) d.lead = 'Dr Alex Morgan (example)';
+    if (!d.team) d.team = 'Two foundation doctors; ward pharmacist';
+    if (!d.supervisor) d.supervisor = 'Supervising consultant (example)';
+    d.startDate = addDays(todayIso(), -16 * 7);
+  }
+  function demoStep(r) {
+    var k = RUN_STAGES[stageIdx(r)][0], want = +r.details.sampleSize || 30;
+    r.demo = true;
+    if (k === 'setup') { demoDetails(r); r.stage = 'cycle1'; }
+    else if (k === 'cycle1') { if (!r.cycles.c1.rows.length) r.cycles.c1.rows = demoRows(r, 'c1', want); r.stage = 'present'; S.view.runTab = 'c1'; }
+    else if (k === 'present') r.stage = 'change';
+    else if (k === 'change') {
+      if (!r.changeMade.description) r.changeMade = { description: String(r.protocol.change || 'The agreed change').slice(0, 600), date: addDays(r.details.startDate || todayIso(), 28) };
+      r.stage = 'reaudit'; S.view.runTab = 'c2';
+    }
+    else if (k === 'reaudit') { if (!r.cycles.c2.rows.length) r.cycles.c2.rows = demoRows(r, 'c2', want); r.stage = 'close'; S.view.runTab = 'c2'; }
+    else r.closed = true;
+  }
+  document.addEventListener('click', function (e) {
+    if (!DEMO) return;
+    if (e.target.closest('[data-demo-vault]')) { vaultCreate(DEMO_PASS, true).then(afterUnlock); return; }
+    if (e.target.closest('[data-demo-unlock]')) {
+      vaultUnlock(DEMO_PASS).then(afterUnlock, function () { var st = main.querySelector('[data-vault-status]'); sayIn(st, 'These audits were not made with the demo passcode.'); });
+      return;
+    }
+    if (e.target.closest('[data-demo-reset]')) {
+      if (!V.key) return;
+      Array.from(S.runs.values()).forEach(function (r) { if (r.demo) S.runs.delete(r.id); });
+      runsSave(); if (parseHash().parts[0] === 'run') location.hash = '#/my-audits'; else route();
+      return;
+    }
+    var r = curRun(); if (!r) return;
+    var fill = e.target.closest('[data-demo-fill]');
+    if (fill) {
+      var ck = fill.getAttribute('data-demo-fill');
+      r.demo = true; r.cycles[ck].rows = r.cycles[ck].rows.concat(demoRows(r, ck, +r.details.sampleSize || 30));
+      if (ck === 'c1' && stageIdx(r) < 1) r.stage = 'cycle1';
+      runPut(r); S.view.runTab = ck; renderRunKeep(r, '[data-run-tab="' + ck + '"]');
+      return;
+    }
+    if (e.target.closest('[data-demo-step]')) { demoStep(r); runPut(r); renderRunKeep(r, '[data-demo-step]'); }
+  });
 
   function chooseAudit(p) {
     if (!V.key) { S.pendingChoose = p.id; location.hash = '#/my-audits'; return; }
@@ -1542,12 +1648,14 @@
         '<form class="stack-form" data-vault-new><label for="vp1">New passcode (at least 8 characters)</label><input id="vp1" name="p1" type="password" minlength="8" autocomplete="new-password" required>' +
         '<label for="vp2">Type it again</label><input id="vp2" name="p2" type="password" minlength="8" autocomplete="new-password" required>' +
         '<label class="check"><input type="checkbox" name="shared"><span><strong>This is a shared computer.</strong> Keep audits only until the browser is closed, then delete them. Download a backup to keep your work.</span></label>' +
-        '<button class="btn" type="submit">Set passcode</button><p class="form-status" role="status" data-vault-status></p></form>' + privacyLink() + '</article>';
+        '<button class="btn" type="submit">Set passcode</button><p class="form-status" role="status" data-vault-status></p></form>' +
+        (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-vault>Demo: use a demo passcode</button></p>' : '') + privacyLink() + '</article>';
     } else {
       html = '<article class="doc narrow vault"><h1>My audits are locked</h1>' + intro +
         '<p class="prose">Enter your passcode to open your audits on this device' + (V.meta.shared ? ' (shared-computer mode: they are deleted when the browser closes)' : '') + '.</p>' +
         '<form class="stack-form" data-vault-open><label for="vpo">Passcode</label><input id="vpo" name="p" type="password" autocomplete="current-password" required>' +
         '<button class="btn" type="submit">Unlock</button><p class="form-status" role="status" data-vault-status></p></form>' +
+        (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-unlock>Demo: unlock with the demo passcode</button></p>' : '') +
         '<details class="rec-box"><summary>Forgotten your passcode?</summary><p class="prose">It cannot be recovered. You can erase all audits on this device and start again (restore from a backup file if you have one).</p>' +
         '<button type="button" class="btn btn-secondary" data-vault-erase>Erase all audits on this device</button> <span data-vault-erase-confirm></span></details></article>';
     }
@@ -1586,9 +1694,10 @@
     var list = Array.from(S.runs.values()).sort(function (a, b) { return (a.closed - b.closed) || String(b.updated).localeCompare(String(a.updated)); });
     var body = list.length ? '<ul class="run-list">' + list.map(function (r) {
       var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
+      if (r.demo) ns.due = null;
       var overdue = ns.due && ns.due < todayIso();
       return '<li class="run-card"><div class="rc-top"><span class="id-tag">' + esc(r.auditId) + '</span>' +
-        (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + '</div>' +
+        (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : '') + '</div>' +
         '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title || r.protocol.question) + '</a></h2>' +
         '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
         '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
@@ -1639,6 +1748,7 @@
       '<div class="kpi"><span>Met the standard</span><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b><small>' + s.passN + ' of ' + (s.passN + s.failN) + '</small></div>' +
       '<div class="kpi"><span>Target</span><b>' + (t ? esc(t.op + t.value + '%') : '–') + '</b><small>' + (met == null ? 'No data yet' : met ? 'Met' : 'Not met') + '</small></div></div>' +
       (ck === 'c1' ? totalsBox(r) : '') +
+      (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-fill="' + ck + '">Demo: fill ' + (ck === 'c1' ? 'cycle 1' : 'the re-audit') + ' with ' + want + ' example records</button></p>' : '') +
       '<details class="rec-box"><summary>Add a record by hand</summary>' + recordForm(r, ck) + '</details>' +
       '<details class="rec-box"><summary>Upload a spreadsheet (Excel or CSV)</summary>' +
       '<p class="muted">Use the Ai4Qi data sheet, or any sheet whose column headings match the template. Columns that are not part of the audit are left out, and patient identifiers are removed before anything is stored.</p>' +
@@ -1651,6 +1761,7 @@
     var r = S.runs.get(id);
     if (!r) return renderNotFound();
     var p = r.protocol, d = r.details, st = runStats(r), ns = nextStep(r), i = stageIdx(r), ck = S.view.runTab || (i >= 4 ? 'c2' : 'c1');
+    if (r.demo) ns.due = null;                                   // example audits are backdated: no "was due" warnings on stage
     var overdue = ns.due && ns.due < todayIso() && !r.closed;
     var detailsForm = '<form class="det-form" data-run-details>' +
       [['title', 'Audit title', 'text'], ['site', 'Hospital or practice', 'text'], ['department', 'Department or ward', 'text'], ['lead', 'Audit lead', 'text'],
@@ -1674,9 +1785,15 @@
       (st.target ? '<p class="muted">Dashed line: target ' + esc(st.target.text) + '</p>' : '') +
       st.breakdowns.map(function (b) {
         var all = b.cycles.c1.concat(b.cycles.c2), max = Math.max.apply(null, all.map(function (x) { return x.n; }).concat([1]));
-        return '<div class="sub"><h3>' + esc(b.label) + '</h3><ul class="bd-bars">' + b.cycles.c1.map(function (x) {
-          return '<li><span>' + esc(x.option) + '</span><i style="width:' + (x.n / max * 100) + '%"></i><b>' + x.n + '</b></li>';
-        }).join('') + '</ul></div>';
+        var two = b.cycles.c1.length && b.cycles.c2.length, opts = [];
+        b.cycles.c1.concat(b.cycles.c2).forEach(function (x) { if (opts.indexOf(x.option) < 0) opts.push(x.option); });
+        function n(k, o) { var h = b.cycles[k].filter(function (x) { return x.option === o; })[0]; return h ? h.n : 0; }
+        function bar(k, o, cls) { return '<i class="' + cls + '" style="width:' + (n(k, o) / max * 100) + '%"></i>'; }
+        return '<div class="sub"><h3>' + esc(b.label) + '</h3>' + (two ? '<p class="bd-key"><span class="k-before">Cycle 1</span><span class="k-after">Re-audit</span></p>' : '') +
+          '<ul class="bd-bars' + (two ? ' is-two' : '') + '">' + opts.map(function (o) {
+            return two ? '<li><span>' + esc(o) + '</span><div class="bd-pair">' + bar('c1', o, 'before') + bar('c2', o, 'after') + '</div><b>' + n('c1', o) + ' → ' + n('c2', o) + '</b></li>' :
+              '<li><span>' + esc(o) + '</span><i style="width:' + (n(b.cycles.c1.length ? 'c1' : 'c2', o) / max * 100) + '%"></i><b>' + n(b.cycles.c1.length ? 'c1' : 'c2', o) + '</b></li>';
+          }).join('') + '</ul></div>';
       }).join('');
     var dl = '<div class="out-grid">' +
       '<button class="out-btn" type="button" data-run-xlsx><b>Data sheet</b><span>Excel, with drop-downs</span></button>' +
@@ -1686,12 +1803,13 @@
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
       '</div><p class="export-warn">These files hold de-identified patient records. Keep them on your organisation\'s systems and share them only inside it.</p><p class="form-status" role="status" data-out-status></p>';
     var stageBtn = r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
+      (DEMO ? '<button class="btn demo-btn" type="button" data-demo-step>' + esc(demoStepLabel(r)) + '</button>' : '') +
       '<button class="btn" type="button" data-run-stage="next">' + (i === RUN_STAGES.length - 1 ? 'Mark the loop closed' : 'Done – go to ' + esc(RUN_STAGES[i + 1][1].toLowerCase())) + '</button>' +
       (i > 0 ? '<button class="btn btn-secondary" type="button" data-run-stage="back">Back a stage</button>' : '');
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/my-audits">My audits</a></nav>' +
       '<article class="doc run" data-run="' + attr(r.id) + '"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(r.auditId) + '</span>' +
-      (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
+      (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : '') + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
       '<h1>' + esc(d.title || p.question) + '</h1>' + stageStepper(r) +
       '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
       '<p class="nc-text">' + esc(ns.text) + '</p></div><div class="nc-actions">' + stageBtn + '</div></div>' +

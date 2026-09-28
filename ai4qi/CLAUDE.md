@@ -81,6 +81,13 @@ page uses the `sample` capability; on the hosted site it uses `backend/supabase/
 (`build_url` in `app/config.json`). Built protocols land in the `built_audits` table: review and add
 good ones to the `generated.json` parts.
 
+## Demo mode and the worked example
+
+`#/demo` (or account menu → Demo mode) adds dashed "Demo:" buttons that fill fictitious details and
+records for any audit, one click per stage, for live demonstrations; `#/demo/off` ends it. The worked
+example (NNA-074 sepsis, fictitious hospital) with the filled Excel sheets, results code, final
+presentation and screenshots is in `demo/` (see `demo/README.md`).
+
 ## Keep growing the proposed library
 
 Every new audit designed in a conversation is added to `new_audits/parts/generated.json` (orthopaedic) or

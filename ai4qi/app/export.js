@@ -951,7 +951,13 @@
     var c2Label = (c2 && c2.label) || 'Re-audit';
     var title = clean(D.title) || clean(P.question) || 'Clinical audit results';
     var today = fmtDate(new Date());
-    var breakdowns = (stats.breakdowns || []).filter(function (b) {
+    // For cause-type fields ("reason for delay"), the no-problem option is not a cause: leave it off the slides.
+    var NO_CAUSE = /^(no delay|no delays|none|nil|no reason|no problem|no issue|not applicable|n\/?a|not delayed|on time)$/i;
+    var breakdowns = (stats.breakdowns || []).map(function (b) {
+      if (!b || !b.cycles || !/delay|reason|barrier|cause|why|fail/i.test(b.field + ' ' + (b.label || ''))) return b;
+      var c = {}; Object.keys(b.cycles).forEach(function (k) { c[k] = (b.cycles[k] || []).filter(function (o) { return !NO_CAUSE.test(String(o.option).trim()); }); });
+      return Object.assign({}, b, { cycles: c, causes: true });
+    }).filter(function (b) {
       return b && b.cycles && ((b.cycles.c1 || []).some(function (o) { return o.n > 0; }) || (has2 && (b.cycles.c2 || []).some(function (o) { return o.n > 0; })));
     });
     var keyIsC2 = has2;
@@ -1199,7 +1205,7 @@
       if (top) return;
       (b.cycles.c1 || []).forEach(function (o) { if (o.n > 0 && (!top || o.n > top.n)) { top = o; topB = b; } });
     });
-    if (top) items.push('Biggest factor: ' + words(top.option, 6));
+    if (top) items.push((topB.causes ? 'Commonest cause in cycle 1: ' : 'Biggest group in cycle 1: ') + words(top.option, 6) + ' (' + top.n + ')');
     if (has2 && clean(P.close_loop)) items.push(words(noStop(firstSentence(P.close_loop)), 10));
     else if (!has2) {
       var when = /^([^:;.]+)/.exec(clean(P.reaudit));
