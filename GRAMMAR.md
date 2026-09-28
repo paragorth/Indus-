@@ -96,3 +96,6 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 - **Frozen pre-jar titles** (S229, both transcriptions): 590-390/405 (M249-M162/169), 435-690 (M130-M149), 840-‖ (M403-M87), 17-585 (M112-M194) stand before the jar as fixed pairs; W100 (M8) and W760 (M347) combine freely.
 - **The single stroke W1 (M97/98) is a marker, not 'one'** (S234, both transcriptions): it precedes other numerals and rarely precedes counted signs.
 - **One motif-linked label** (S223, S253, both transcriptions): the stand-alone sign W930/M393, usually on its own line, goes with zebu seals (3 of ~50 vs 1–2 of ~1,700). The only text–animal link found.
+
+
+**Opener caveat (S256, S260):** W817/861/820 (M267/391) opens 465 texts but closes 25, mostly square seals with two lines. Both transcriptions agree, and most are not space wrap-arounds. After a jar-closed unit a second unit can end with the same sign, so 'opener' names its usual position, not a fixed one.
