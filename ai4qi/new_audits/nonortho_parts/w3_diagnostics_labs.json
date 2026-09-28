@@ -2361,6 +2361,301 @@
   "area": "Radiology, pathology and diagnostics",
   "template": [
    {
+    "field": "test_panel",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_sample_taken",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_result_authorised",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calendar_days_to_result",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_6_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_communicated_to_midwifery_team",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of routine antenatal screening samples for hepatitis B, HIV, syphilis and rubella susceptibility are reported, confirmed and electronically available to the requestor within 6 calendar days of the sample being taken?",
+  "why": "No audit against this specific RCPath antenatal infection screening turnaround key performance indicator exists in the library, despite the direct harm from delayed hepatitis B and HIV results (missed opportunity for timely maternal and neonatal intervention).",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of routine antenatal screening tests for Hepatitis B, HIV, Syphilis, and Rubella susceptibility reported, confirmed, authorised and electronically available to requestor within 6 calendar days from sample being taken... Challenge: 90% by April 2012 increasing to 97% by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all routine antenatal screening samples for hepatitis B, HIV, syphilis and rubella susceptibility taken at booking over the sample period. Exclusion: samples taken in labour or at late presentation.",
+  "sample": "40 consecutive eligible samples over the last 4-6 weeks, from the LIMS antenatal screening worklist.",
+  "data_source": "LIMS sample-received and result-authorised timestamps, maternity booking record.",
+  "change": "Route all antenatal booking bloods through a dedicated, prioritised antenatal screening batch on the analyser and serology platform, with an automatic exception report for any sample not authorised within 6 days sent to the lead biomedical scientist and named midwifery screening coordinator.",
+  "target": "≥90%, rising to ≥97% at re-audit",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present jointly at the pathology and maternity screening governance meeting; keep the prioritised batch and exception report permanently if the target is met.",
+  "evidence": [
+   "No audit against this specific antenatal screening turnaround KPI exists in the library"
+  ],
+  "pitfalls": [
+   "Late bookings and presentation in labour wrongly inflate the denominator → apply the exclusion criteria exactly as the KPI defines them.",
+   "Results are authorised on time but not passed to the midwifery team promptly, so the clinical benefit is lost even when the KPI is met → add the communication step as its own template field.",
+   "Repeat testing after an equivocal result is counted as a fresh breach → track repeats separately from the initial screen.",
+   "Serology platform downtime causes a batch delay affecting many samples at once → note any platform outage dates when interpreting results.",
+   "Gains fade once the dedicated batch is deprioritised during staff shortages → make the exception report, not just the batch process, the sustained safety net."
+  ],
+  "pearls": [
+   "Recruit the antenatal screening coordinator midwife and a biomedical scientist from serology/virology together.",
+   "This maps to the National Infectious Diseases in Pregnancy Screening Programme's own quality requirements, so the data has a second use beyond this audit.",
+   "Use the LIMS exception report as a live dashboard rather than a one-off manual pull.",
+   "Report separately for each of the four infections, since some (e.g. syphilis serology) may have different processing times than others."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 samples from the LIMS antenatal worklist",
+  "pass": "The LIMS shows the antenatal hepatitis B, HIV, syphilis and rubella result set authorised and available to the requestor within 6 calendar days of the sample being taken, excluding presentation in labour or late presentation."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "role_covered",
+    "type": "choice",
+    "options": [
+     "consultant pathologist",
+     "senior biomedical scientist/laboratory manager"
+    ],
+    "note": ""
+   },
+   {
+    "field": "leave_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "leave_end_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_cover_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "handover_protocol_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "turnaround_kpi_maintained_during_leave",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "Does the laboratory have documented, named cover for planned consultant and senior biomedical scientist leave, with a handover protocol, such that clinical advice and reporting turnaround are not reduced while cover is in place?",
+  "why": "No audit of laboratory leave-cover documentation and its effect on turnaround exists in the library, even though RCPath specifically flags this as a determinant of sustained performance against its other turnaround KPIs.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final), item vii Cover and handover",
+   "wording": "Documented and named cover for planned leave for clinical advice and laboratory oversight with accompanying handover protocols. There should be no reduction in the quality of clinical advice given or turnaround times when cover is provided.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all planned leave periods of one week or more for consultant pathologists and senior biomedical scientist laboratory managers over the last 12 months. Exclusion: unplanned short-notice sickness absence (a separate resilience issue).",
+  "sample": "All eligible planned leave periods over the last 12 months (typically 10-20 per department), from the rota and leave request system, cross-referenced with the routine turnaround KPI data for the same weeks.",
+  "data_source": "Rota/leave management system, departmental handover log, existing turnaround KPI data.",
+  "change": "Add a mandatory 'named cover and handover' field to the leave request approval process, which must be completed by the requesting consultant or laboratory manager before leave is approved.",
+  "target": "100%",
+  "reaudit": "At 6 months, same source.",
+  "close_loop": "Present at the pathology directorate governance meeting; keep the mandatory leave-approval field permanently if it is being reliably completed.",
+  "evidence": [
+   "No audit of leave-cover documentation and its effect on laboratory turnaround exists in the library; the corpus's turnaround-time audits (e.g. [8233]) do not report whether staffing cover was a factor in delay"
+  ],
+  "pitfalls": [
+   "Cover is arranged informally by phone with nothing written down → require a written handover note, however brief, as the pass criterion.",
+   "Turnaround dips during leave are attributed to unrelated causes without checking the cover arrangements first → always cross-check cover documentation before accepting another explanation.",
+   "Short leave periods (a single day) are included, diluting the sample with low-risk cases → restrict to leave of one week or more.",
+   "Rota systems do not distinguish planned from unplanned absence clearly → validate a sample against the departmental diary.",
+   "The mandatory field is completed as a formality without real handover content → sample-check a subset of handover notes for genuine clinical content."
+  ],
+  "pearls": [
+   "Recruit the pathology directorate manager and a consultant with an interest in workforce resilience.",
+   "Reuse existing turnaround KPI data collected for other audits rather than gathering new timing data.",
+   "Present findings as part of the department's business continuity and resilience planning, not just as a standalone audit.",
+   "Use any turnaround dip found during leave as a concrete case for additional locum or cross-cover funding."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per leave period from rota and handover records",
+  "pass": "For each period of planned consultant or senior biomedical scientist leave, a named cover individual and a written handover record are on file, and the laboratory's routine turnaround KPI for that period shows no fall compared with the preceding non-leave period."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "staff_role",
+    "type": "choice",
+    "options": [
+     "practitioner",
+     "operator",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "training_record_on_file",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_training_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nature_of_training_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "record_retrievable_within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of practitioners and operators carrying out exposures in the imaging department have an up-to-date training record, held by the employer, showing the dates and nature of the IR(ME)R training they have completed?",
+  "why": "No audit of employer training-record completeness under IR(ME)R exists in the library, even though this is the specific, named record the enforcing authority may inspect.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 17(4)",
+   "wording": "The employer must keep and have available for inspection by the relevant enforcing authority an up-to-date record of all relevant training undertaken by all practitioners and operators engaged by the employer to carry out any exposures or any practical aspect of such exposures showing the date or dates on which training qualifying as adequate training was completed and the nature of the training.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/17/made"
+  },
+  "population": "Inclusion: all staff currently acting as a practitioner or operator under IR(ME)R in the imaging and nuclear medicine departments. Exclusion: staff whose role does not involve carrying out exposures or practical aspects of exposures.",
+  "sample": "30 named staff sampled from the current departmental staff list, cross-checked against the training record system.",
+  "data_source": "Employer's IR(ME)R training record system, staff list.",
+  "change": "Consolidate all IR(ME)R training evidence into the trust's single electronic learning management system, replacing paper certificates and local spreadsheets, with a standard record template capturing date and nature of training for every practitioner and operator.",
+  "target": "100%",
+  "reaudit": "At 6 months, same staff sample.",
+  "close_loop": "Present at the radiation protection committee, since this record is a specific statutory duty subject to enforcing authority inspection; keep the consolidated system if the target is met.",
+  "evidence": [
+   "No audit of IR(ME)R employer training-record completeness exists in the library"
+  ],
+  "pitfalls": [
+   "Training certificates are held by individual staff members rather than centrally by the employer, failing the regulation's requirement → require submission of a copy to the central record as a condition of the training counting.",
+   "New starters and locums are not added to the training record promptly → build training-record creation into the pre-employment/induction checklist.",
+   "Records show that training happened but not what it covered, failing the 'nature of training' requirement → require a brief description or course title, not just a date.",
+   "Staff who have moved role (e.g. from operator to also acting as practitioner) are not flagged for additional training → cross-check role changes against training records annually.",
+   "Gains fade after a learning management system migration loses historical records → export and archive records before any system change."
+  ],
+  "pearls": [
+   "Recruit the radiation protection supervisor and trust education/learning management system administrator together.",
+   "Use this audit to also identify any staff whose training has lapsed and needs urgent renewal.",
+   "Report the audit result to the trust's statutory and mandatory training compliance dashboard, since it likely already has a reporting mechanism.",
+   "Keep a simple named list of practitioners and operators, updated whenever the rota changes, to make future audits quick."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 staff records from the training system",
+  "pass": "The employer's training record system holds, for each named practitioner and operator, the date and nature of their IR(ME)R training, and the record is available for inspection without needing to be reconstructed from memory or scattered files."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "protocol_or_procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "classified_high_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medical_physics_expert_signoff_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_signoff",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_year_review_cycle",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "For high-dose interventional radiology and CT procedures, what proportion have documented medical physics expert involvement in the optimisation of the technique, equipment or protocol used?",
+  "why": "No audit of medical physics expert involvement in high-dose procedures exists in the library, despite this being a graded, named requirement under IR(ME)R distinct from routine diagnostic imaging.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 14 (Expert advice)",
+   "wording": "Regulation 14 requires the involvement of a medical physics expert in practices including standardised therapeutic nuclear medicine, diagnostic nuclear medicine, and high dose interventional radiology and computed tomography, and consultation as appropriate on optimisation in all other radiological practices.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/14/made"
+  },
+  "population": "Inclusion: all interventional radiology procedure types and CT protocols classified locally as high-dose. Exclusion: standard diagnostic protocols not classified as high-dose.",
+  "sample": "All high-dose protocol types held in the department's protocol library, cross-checked against the medical physics expert's sign-off record.",
+  "data_source": "Department protocol library, medical physics expert sign-off/quality assurance record.",
+  "change": "Add medical physics expert sign-off as a mandatory field in the protocol register for every protocol classified as high-dose, with an automatic 3-year review reminder sent to the medical physics department.",
+  "target": "100%",
+  "reaudit": "At 12 months, same protocol register.",
+  "close_loop": "Present at the radiation protection committee; keep the mandatory sign-off field permanently if the target is met.",
+  "evidence": [
+   "No audit of medical physics expert involvement in high-dose protocol optimisation exists in the library"
+  ],
+  "pitfalls": [
+   "Local classification of 'high-dose' is inconsistent or undocumented → agree a written definition and list with the medical physics team before cycle 1.",
+   "Historic protocols predate the current medical physics expert and have no record of original sign-off → treat any protocol without a dated sign-off as non-compliant and prioritise for review.",
+   "New protocols are introduced clinically before medical physics review is complete → require sign-off before a new high-dose protocol goes live on the scanner or interventional system.",
+   "The medical physics department has limited capacity to review every protocol promptly → risk-stratify so the highest-volume or highest-dose protocols are reviewed first.",
+   "Gains fade if the review reminder system is not monitored → assign the radiation protection adviser to check overdue reviews monthly."
+  ],
+  "pearls": [
+   "Recruit the medical physics expert and radiation protection adviser as joint leads, since this is squarely their statutory area.",
+   "Combine this with the earlier audit of the employer's written procedures (regulation 6), since both use the same protocol register.",
+   "Use dose-audit data already being collected (for example the CTPA diagnostic reference level audit) as supporting evidence of ongoing optimisation.",
+   "Report progress at the radiation protection committee alongside other statutory compliance items."
+  ],
+  "novelty": "new",
+  "effort": "~30 min reviewing the protocol register against medical physics sign-off records",
+  "pass": "For each high-dose interventional radiology or CT protocol reviewed, documentation shows medical physics expert input into its optimisation (dosimetry review, quality assurance sign-off, or protocol approval) within the last 3 years."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
     "field": "procedure_type",
     "type": "text",
     "options": [],
@@ -2635,5 +2930,80 @@
   "novelty": "new",
   "effort": "~10 min per 10 examinations from booking records",
   "pass": "The record shows express consent obtained (verbally or in writing) and documented consideration of a chaperone (offered and accepted, offered and declined, or not applicable with reason) before the examination."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_booked",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_information_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_at_least_24h_before",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "For planned interventional radiology procedures, what proportion of patients are given written, procedure-specific information in sufficient time before the procedure to consider it and consult others if they wish?",
+  "why": "No audit of the timing and adequacy of written pre-procedure information for interventional radiology exists in the library; the consent-documentation topic card in the corpus focuses on risks recorded on the form itself, not on information given in advance.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for patient consent particular to radiology, second edition",
+   "wording": "In a planned procedure, the patient should receive information, verbally or in writing, in sufficient time before the procedure to consider it and to consult others if they so wish.",
+   "url": "https://www.bsgar.org/media/BFCR(12)8_consent.pdf"
+  },
+  "population": "Inclusion: all planned (non-emergency) interventional radiology procedures booked at least 48 hours in advance over the sample period. Exclusion: emergency or same-day add-on procedures.",
+  "sample": "40 consecutive eligible planned procedures over the last 2-3 months, from the interventional radiology booking system.",
+  "data_source": "Booking system record of information sent, pre-procedure clinic letter, patient information leaflet log.",
+  "change": "Create a library of procedure-specific written information leaflets for the department's highest-volume interventional procedures, sent automatically (by post or patient portal) as soon as the procedure is booked, rather than being handed over only on the day.",
+  "target": "≥90%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the interventional radiology governance meeting; keep the automatic leaflet dispatch if the target is met.",
+  "evidence": [
+   "The corpus's consent-documentation topic card notes that written information given to patients before surgery/procedures 'stayed 8-14%' in some audited settings even after a teaching-only intervention, suggesting this step is commonly under-delivered across specialties"
+  ],
+  "pitfalls": [
+   "A generic hospital leaflet is sent instead of a procedure-specific one, technically meeting a loose definition of 'written information' but not its intent → require the leaflet to name the specific procedure and its specific risks.",
+   "Late-booked planned procedures (booked less than 48 hours ahead) are wrongly included and unfairly counted as failures → apply the inclusion criterion strictly.",
+   "Patients report not receiving or not reading the leaflet despite a record that one was sent → consider a simple patient-reported cross-check for a subset of cases.",
+   "Leaflets are only available in English, disadvantaging patients needing another language or an accessible format → record whether an alternative format was needed and provided.",
+   "Gains fade once the automatic dispatch process is not checked after an IT system change → re-verify the automation after any booking system update."
+  ],
+  "pearls": [
+   "Recruit a interventional radiology specialist nurse who manages pre-procedure information as co-author.",
+   "Start with the two or three highest-volume procedures to build the leaflet library quickly, then expand.",
+   "Ask patients directly (a brief survey) whether they felt they had enough information and time to decide, as a complementary patient experience measure.",
+   "Share the leaflet library with the pre-assessment or referring team so information can be given even earlier, at the point of referral."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from the booking system",
+  "pass": "The patient record shows written, procedure-specific information was given (posted, emailed or handed over in clinic) at least 24 hours before a planned interventional radiology procedure, excluding same-day emergency or urgent add-on cases."
  }
 ]
