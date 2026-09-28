@@ -12,6 +12,14 @@ TASK: Find published sources containing Indus-script inscriptions (or Indus seal
 3. Museum catalogues of Indus-type seals held outside South Asia (Louvre, British Museum, Penn, Iraq Museum, Kuwait National Museum, Bahrain National Museum, BnF Cabinet des Médailles — especially an Indus-type chlorite seal with a cuneiform inscription in the BnF).
 4. Any Mesopotamian or Gulf cuneiform document that names a person from Meluhha AND is sealed with, or found with, an Indus-type seal.
 
+## Specific leads (from Konasukawa 2013 thesis: 43 seals from recent excavations not in CISI)
+- Dhavalikar, Raval & Chitalwala 1996, *Kuntasi: A Harappan Emporium on the West Coast* (Deccan College) — Kuntasi has 0 texts in our corpus.
+- Mallah 2008 (Sindh sites, Shah Abdul Latif University).
+- Rao, Sahu, Sahu, Shastry, Diwan 2004/2005, Bhirrana excavation reports (Puratattva 34–35).
+- Sant, Sharan, Lal 2005 (Baror, Rajasthan).
+- Kharakwal et al. 2012, *Excavations at Kanmer 2005–06 – 2008–09* (Kanmer seals).
+- Konasukawa 2011a and Konasukawa et al. 2011 (Farmana seals).
+
 ## Where to look
 archive.org, Google Scholar, Crossref, JSTOR, Academia.edu, ResearchGate, Persée, OpenEdition, HAL, Shodhganga (Indian PhD theses), ASI publications site, Archaeopress open access, Proceedings of the Seminar for Arabian Studies, Arabian Archaeology and Epigraphy, South Asian Studies, Ancient Asia, Heritage (Journal of Multidisciplinary Studies in Archaeology), Puratattva, Man and Environment, Iraq, CDLI (cdli.mpiwg-berlin.mpg.de).
 
