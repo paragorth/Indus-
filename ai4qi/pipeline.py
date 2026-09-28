@@ -77,6 +77,9 @@ def cmd_search(pas):
     if os.environ.get("AI4QI_SWEEP") and pas == "nonortho":
         from queries import sweep_query_set
         qs = sweep_query_set()          # sweep only; hits accumulate into the existing file
+        if os.environ["AI4QI_SWEEP"] == "adherence":
+            from queries import adherence_query_set
+            qs = adherence_query_set()
         if os.environ["AI4QI_SWEEP"] == "thin":
             from queries import thin_query_set
             qs = thin_query_set()

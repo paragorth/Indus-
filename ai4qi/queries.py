@@ -262,3 +262,18 @@ def thin_query_set():
         t = "(" + " OR ".join(f'TITLE_ABS:"{x}"' for x in terms) + ")"
         out.append((f"thin {lab}", None, f"{audit} AND {t}"))
     return out
+
+
+# Adherence and abstract-only audits (Sep 2026, wave 13): guideline-adherence studies and audits that
+# say so only in the abstract. Screening and reading decide what counts.
+def adherence_query_set():
+    out = []
+    no_title = 'NOT (TITLE:audit OR TITLE:audits OR TITLE:audited OR TITLE:auditing)'
+    for y in range(2000, 2027):
+        out.append((f"adherence {y}", None,
+                    f'(TITLE:"adherence to" OR TITLE:"compliance with" OR TITLE:"conformity with") AND '
+                    f'(TITLE:guideline OR TITLE:guidelines OR TITLE:protocol OR TITLE:standards OR TITLE:recommendations OR TITLE:bundle) AND PUB_YEAR:{y}'))
+        out.append((f"abstract audit {y}", None,
+                    f'(ABSTRACT:"clinical audit" OR ABSTRACT:"retrospective audit" OR ABSTRACT:"prospective audit" OR '
+                    f'ABSTRACT:"audited against" OR ABSTRACT:"audit cycle" OR ABSTRACT:"re-audit") AND {no_title} AND PUB_YEAR:{y}'))
+    return out
