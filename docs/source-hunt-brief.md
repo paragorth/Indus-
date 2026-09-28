@@ -20,6 +20,8 @@ TASK: Find published sources containing Indus-script inscriptions (or Indus seal
 - Kharakwal et al. 2012, *Excavations at Kanmer 2005–06 – 2008–09* (Kanmer seals).
 - Konasukawa 2011a and Konasukawa et al. 2011 (Farmana seals).
 
+- Shodhganga theses (downloads need a browser): Kotada Bhadli artefacts thesis https://shodhganga.inflibnet.ac.in/handle/10603/223367 ; Rakhigarhi hinterland https://shodhganga.inflibnet.ac.in/handle/10603/666580 ; Kuntasi pottery https://shodhganga.inflibnet.ac.in/handle/10603/148877 ; Indus script structural analysis https://shodhganga.inflibnet.ac.in/handle/10603/148073
+
 ## Where to look
 archive.org, Google Scholar, Crossref, JSTOR, Academia.edu, ResearchGate, Persée, OpenEdition, HAL, Shodhganga (Indian PhD theses), ASI publications site, Archaeopress open access, Proceedings of the Seminar for Arabian Studies, Arabian Archaeology and Epigraphy, South Asian Studies, Ancient Asia, Heritage (Journal of Multidisciplinary Studies in Archaeology), Puratattva, Man and Environment, Iraq, CDLI (cdli.mpiwg-berlin.mpg.de).
 
