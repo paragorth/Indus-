@@ -2551,5 +2551,210 @@
   "novelty": "new",
   "effort": "~10 min per case from the ED and fracture clinic records",
   "pass": "The patient's record documents that written, video or app-based information about first-time patellar dislocation and its rehabilitation was given or signposted at the first assessment."
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of open fractures have definitive soft tissue closure or coverage achieved within 72 hours of injury?",
+  "why": "Delayed soft tissue coverage is strongly linked to infection risk in open fractures, but no audit in the library measures this specific BOAST timing standard; existing library items cover antibiotic timing and photography, not definitive closure.",
+  "standard": {
+   "source": "BOA/BAPRAS Audit Standards for Trauma: Open Fractures (December 2017), standard 14",
+   "wording": "Definitive soft tissue closure or coverage should be achieved within 72 hours of injury if it cannot be performed at the time of debridement.",
+   "url": "https://www.boa.ac.uk/asset/3B91AD0A-9081-4253-92F7D90E8DF0FB2C/"
+  },
+  "population": "Inclusion: all patients with an open fracture of a long bone, hindfoot or midfoot managed with a staged (debridement then later closure) approach over the last 6-12 months. Exclusion: cases closed at the time of debridement (already meeting the standard by definition), hand/wrist/forefoot/digit injuries.",
+  "sample": "20-30 consecutive staged open fracture cases over the last 6-12 months.",
+  "data_source": "Operation notes (debridement and closure/coverage procedures), theatre system dates and times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "time_of_injury",
+    "type": "datetime"
+   },
+   {
+    "field": "date_time_of_debridement",
+    "type": "datetime"
+   },
+   {
+    "field": "date_time_of_definitive_closure",
+    "type": "datetime"
+   },
+   {
+    "field": "hours_from_injury_to_closure",
+    "type": "number"
+   },
+   {
+    "field": "within_72_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "closure_type",
+    "type": "choice",
+    "options": [
+     "primary closure",
+     "split skin graft",
+     "local flap",
+     "free flap",
+     "other"
+    ]
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add open fracture cases awaiting definitive closure to a shared orthoplastic tracker board with an automatic 72-hour countdown flag visible to both orthopaedic and plastic surgery theatre coordinators.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the trauma network open fracture and orthoplastic governance meeting; if the tracker board reduces delay, keep it as the standard joint theatre planning tool.",
+  "evidence": [
+   "No audit of the 72-hour definitive soft tissue closure standard exists in the library; existing open fracture audits in this batch cover antibiotic timing and photography, earlier steps in the same pathway."
+  ],
+  "pitfalls": [
+   "Combined theatre lists across two specialties (orthopaedics and plastics) can be hard to coordinate → the tracker board should be visible and editable by both teams' coordinators.",
+   "A patient may be too physiologically unstable for definitive closure within 72 hours → record this as a valid clinical reason, not a service failure, but still report it.",
+   "Transfer between hospitals for orthoplastic care adds a delay outside the receiving centre's control → record transfer time separately from in-hospital delay.",
+   "Wound complexity may make a single 72-hour target unrealistic for some injuries → present results stratified by injury severity if possible."
+  ],
+  "pearls": [
+   "Recruit a plastic surgery colleague as joint audit lead, since this standard is inherently a shared orthoplastic responsibility.",
+   "Use the trust's existing TARN open fracture data as an additional data source and cross-check.",
+   "Present timeline data (injury, debridement, closure) for each case to show exactly where delay occurs.",
+   "Keep the tracker board live by giving both specialties' theatre coordinators joint ownership."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from theatre records",
+  "pass": "Definitive soft tissue closure or coverage (primary closure, split skin graft, or flap) is completed within 72 hours of the recorded time of injury, or was achieved at the time of the initial debridement."
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults assessed for recurrent patellar instability have the three required radiograph views performed?",
+  "why": "The BOA/BASK recurrent patellar instability standard specifies three particular radiograph views needed to detect patella alta, degenerative change, loose fragments and trochlear dysplasia; no audit in the library checks radiograph completeness for this indication (the MRI-findings audit in this batch covers a different imaging modality).",
+  "standard": {
+   "source": "BOA Specialty Standard: The Assessment of Patients with Recurrent Patellar Instability (August 2020), standard 2",
+   "wording": "Radiographs should include: antero-posterior (or PA); true lateral at 20-30 degrees flexion; and axial (skyline) views at 20-30 degrees knee flexion.",
+   "url": "https://www.boa.ac.uk/asset/6BF34E87-23E7-4DEA-AA932B8BB9991B32/"
+  },
+  "population": "Inclusion: adults with recurrent (two or more) patellar dislocations having plain radiographs as part of assessment, over the last 12 months. Exclusion: first-time dislocation, patients unable to achieve the required positioning due to acute injury.",
+  "sample": "30 consecutive recurrent patellar instability radiograph series over the last 12 months.",
+  "data_source": "Radiology information system (view codes and images), knee clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_radiographs",
+    "type": "date"
+   },
+   {
+    "field": "ap_view_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "true_lateral_20to30_degrees_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "axial_skyline_20to30_degrees_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single 'recurrent patellar instability' radiograph request protocol in the RIS that automatically includes all three specified views, replacing ad hoc individual view requests.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury and radiology governance meeting; if the combined protocol improves completeness, keep it as the default request set for this indication.",
+  "evidence": [
+   "No audit of radiograph completeness for recurrent patellar instability exists in the library; the MRI-findings audit in this batch covers a different imaging modality from the same guideline."
+  ],
+  "pitfalls": [
+   "Standard knee X-ray protocols may default to only AP and lateral, missing the specified flexion angles and the skyline view → the RIS protocol change should specify the exact positioning, not just view names.",
+   "Patients with severe instability or pain may struggle with the 20-30 degree flexed positioning → record any positioning difficulty as a valid reason for an incomplete series.",
+   "Requesting clinicians may not specify 'recurrent patellar instability' clearly on the request → agree standard request wording with the knee clinic first.",
+   "Radiographers may not be aware of the specific flexion angle requirement → include this in the protocol change and staff communication."
+  ],
+  "pearls": [
+   "Recruit a radiographer superintendent to help build the combined request protocol correctly.",
+   "Reuse the same case list as the MRI-findings audit in this batch, since the two together complete the full BOA standard.",
+   "Use example radiograph series (with and without skyline views) in radiographer teaching to reinforce the requirement.",
+   "Keep the protocol live by adding it to the RIS standard request-set library."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the radiology system",
+  "pass": "All three specified radiograph views (AP/PA, true lateral at 20-30 degrees flexion, and axial/skyline at 20-30 degrees flexion) are performed and available at the recurrent patellar instability assessment."
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients started on empiric antibiotics for suspected fracture-related infection without a prior diagnostic work-up have those antibiotics stopped once this is identified?",
+  "why": "The BOAST FRI standard explicitly prohibits empiric antibiotics without a diagnostic work-up and requires them to be stopped if already started, but no audit in the library checks whether this specific stewardship rule is followed once a lapse is identified.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019), standard 5A",
+   "wording": "Empiric antibiotics without a diagnostic work up should not be given and if already commenced should be stopped.",
+   "url": "https://www.boa.ac.uk/asset/DEE7CBA7-5919-4F26-A286033FCF46A458/"
+  },
+  "population": "Inclusion: adults started on antibiotics for suspected fracture-related infection over the last 6 months where a case-note review shows no diagnostic work-up was documented before the first dose. Exclusion: systemically septic patients (for whom immediate antibiotics are correctly prioritised).",
+  "sample": "20-30 consecutive suspected FRI antibiotic starts over the last 6 months, screened for those started before a work-up was documented.",
+  "data_source": "EPMA/drug chart, microbiology request system, consultant/MDT review notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_antibiotics_started",
+    "type": "date"
+   },
+   {
+    "field": "diagnostic_workup_in_place_before_antibiotics",
+    "type": "yes/no"
+   },
+   {
+    "field": "septic_at_presentation",
+    "type": "yes/no"
+   },
+   {
+    "field": "antibiotics_stopped_once_gap_identified",
+    "type": "yes/no"
+   },
+   {
+    "field": "days_until_stopped",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_continued",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'diagnostic work-up in place before antibiotics: yes/no' field to the EPMA order for suspected FRI antibiotics, with a forced 48-hour review task if the answer is 'no' and the patient is not septic.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance and antimicrobial stewardship meeting; if the EPMA field and review task work, keep them as standard antibiotic stewardship for suspected FRI.",
+  "evidence": [
+   "No audit of this specific FRI antibiotic stewardship rule exists in the library; [ONA-037] audits a related but distinct standard (consultant review before antibiotics start in the non-septic patient)."
+  ],
+  "pitfalls": [
+   "Clinicians may feel uncomfortable stopping antibiotics once started, even without evidence of infection → the fix should build in an explicit, supported review point rather than relying on individual decision-making.",
+   "A patient who deteriorates after antibiotics are stopped is a genuine safety concern → ensure the review pathway includes a clear escalation route if this happens.",
+   "This audit requires identifying a fairly specific subgroup (antibiotics before work-up) → screening a broader group of FRI antibiotic starts will be needed to find eligible cases.",
+   "Antimicrobial stewardship and orthopaedic teams may not routinely cross-reference each other's records → involve pharmacy or the antimicrobial stewardship team in case-finding."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial stewardship pharmacist as co-lead; they can help identify cases from EPMA data.",
+   "Use the same case list as the weekly bone and joint infection MDT audit in this batch to reduce duplicate work.",
+   "Present this as supporting good antimicrobial stewardship, aligning with existing trust stewardship priorities and targets.",
+   "Keep the EPMA field and review task live by embedding them in the standard FRI antibiotic order set."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from EPMA, microbiology and review records",
+  "pass": "Where empiric antibiotics were started for suspected FRI before a diagnostic work-up (blood cultures, imaging, sampling plan) was in place, they are stopped once the absence of a work-up is identified on consultant or MDT review, unless the patient is systemically septic."
  }
 ]
