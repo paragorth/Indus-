@@ -64,8 +64,9 @@ Its reproduction page asks people to request permission from copyright@rcog.org.
 reply within 2 weeks. RCOG logos must not be used, and no endorsement may be implied. **Ai4Qi's
 approach:** short quotations under s30(1ZA), with "Source: RCOG, [title], [year]" and a link. Ask
 RCOG for written permission, because Ai4Qi quotes several standards systematically. Take the same
-approach with other colleges (for example RCEM, whose code of conduct also requires written
-permission to reproduce college educational material). Check each college's terms before adding
+approach with other colleges. For example, RCEM's code of conduct tells its members, fellows and
+affiliates not to reproduce college educational material without written permission. That binds
+members, and an owner who is an RCEM member is one of them. Check each college's terms before adding
 its standards.
 
 ## 3. How proposed audits are designed
@@ -157,5 +158,5 @@ standard has changed since it was fetched, update the wording and the "accessed"
 - RCOG, Rights and permissions policy 2024: https://www.rcog.org.uk/about-us/policies/rights-and-permissions/
 - RCOG, Reproducing RCOG guidance and patient information: https://www.rcog.org.uk/guidance/reproducing-rcog-guidance-and-patient-information/
 - RCOG, Terms and conditions: https://www.rcog.org.uk/legal/terms-conditions/
-- RCEM, Code of conduct (search summary only; page not read in full): https://rcem.ac.uk/code-of-conduct/
+- RCEM, Code of conduct: https://rcem.ac.uk/code-of-conduct/
 - App code checked: `app/app.js` (licence note, badges, feedback reasons), `backend/supabase/functions/build-audit/index.ts`.
