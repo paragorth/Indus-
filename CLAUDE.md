@@ -7,3 +7,4 @@
 - Never disable TLS verification, never click through CAPTCHAs, never put model identifiers in commits.
 - Current open leads: ANCHORS.md §19–21 (outside anchors), S149 (Kalibangan ↔ Bahrain twins + W56 link), Scheil 1925 Umma tag (possible cuneiform beside an Indus impression), `anchor_test.py` for any proposed sign values.
 - Before interpreting any positional or distributional effect in the Wells (W) numbering, map the signs to Mahadevan (M) numbers via `data/derived/bridge_extended.json` and check them against the frame slots in GRAMMAR.md (opener, markers, closers). S182–S183 were overturned for skipping this.
+- For sign counts and distribution tests, use `data/derived/merged-corpus-canonical.json` (hand and medium variants merged into 23 classes, S268; `seq_raw` keeps the original Wells numbers). Report whether a result survives the merge.
