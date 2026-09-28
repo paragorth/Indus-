@@ -915,41 +915,71 @@
     return '<ul class="result-list">' + pubs.map(pubResult).join('') + '</ul>' + more;
   }
 
+  /* One build per audit id, shared by the page and the background prefetch, so opening an audit that
+     is already being written attaches to it instead of starting again. */
+  var BUILDS = new Map();          // id -> { promise, text, listeners, done }
+  function startBuild(q, n, fresh) {
+    var id = builtId(q, n), cur = BUILDS.get(id);
+    if (cur && !cur.failed) return cur;
+    var res = resourcesFor(q);
+    var avoid = n > 1 ? variantsOf(q).filter(function (b) { return b.id !== id; }).map(function (b) { return b.question; }) : [];
+    var entry = { text: '', listeners: [], res: res, ctl: new AbortController() };
+    entry.promise = generate(q, res, fresh, function (u) {
+      entry.text = u.text; entry.listeners.forEach(function (fn) { try { fn(u.text); } catch (e) {} });
+    }, entry.ctl.signal, n, avoid).then(function (o) {
+      var p = normaliseBuilt(o, q, res, n);
+      builtSave(p); entry.done = true;
+      if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit built');
+      return p;
+    }, function (e) { entry.failed = true; throw e; });
+    BUILDS.set(id, entry);
+    return entry;
+  }
+  /* While someone reads an audit, quietly write the next one on the same theme. */
+  function prefetchNext(p) {
+    var next = (p.variant || 1) + 1;
+    while (next <= 9 && S.built.get(builtId(p.topic, next))) next++;     // the next one not written yet
+    if (next > 9 || BUILDS.get(builtId(p.topic, next))) return;
+    var e = startBuild(p.topic, next, false);
+    e.promise.then(function () {
+      var nav = main.querySelector('[data-variants]');
+      if (nav && parseHash().parts[0] === 'build') { var cur = S.built.get(nav.getAttribute('data-variants')); if (cur) nav.outerHTML = variantsNav(cur); }
+    }, function () { BUILDS.delete(builtId(p.topic, next)); });
+  }
+
   function renderBuild(params) {
     var q = scrub((params.get('q') || '').trim(), { redacted: 0 }).slice(0, 300);
     if (!q) { location.hash = '#/proposed'; return; }
     if (!isThemed(q)) { location.hash = '#/suggest?q=' + encodeURIComponent(q); return; }
     var fresh = params.get('fresh') === '1', n = Math.max(1, Math.min(9, +params.get('n') || 1));
-    var res = resourcesFor(q), id = builtId(q, n), have = !fresh && S.built.get(id);
-    var avoid = n > 1 ? variantsOf(q).filter(function (b) { return b.id !== id; }).map(function (b) { return b.question; }) : [];
+    var id = builtId(q, n), have = !fresh && S.built.get(id);
     var crumbs = '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Build an audit</nav>';
-    if (have && have.topic.toLowerCase() === q.toLowerCase()) return showBuilt(have, res, crumbs);
-
-    if (GEN.ctl) GEN.ctl.abort();
-    var ctl = GEN.ctl = new AbortController();
+    if (have && have.topic.toLowerCase() === q.toLowerCase()) { showBuilt(have, resourcesFor(q), crumbs); prefetchNext(have); return; }
+    if (fresh) BUILDS.delete(id);
+    var entry = startBuild(q, n, fresh), res = entry.res;
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow">' + BUILT_BADGE + '</div>' +
-      '<h1>Building your audit: ' + esc(q) + '</h1>' +
-      '<p class="lede">A complete protocol – question, exact standard, template, timeline, change, re-audit and evidence from published audits.</p>' +
-      '<div class="build-status" role="status" aria-live="polite" data-build-status><span class="spinner" aria-hidden="true"></span><span data-build-msg>Writing the protocol… this usually takes under a minute.</span></div>' +
-      '<div data-build-progress>' + progressHtml('') + '</div>' +
+      '<h1>' + (n > 1 ? 'Another audit on ' : 'Building your audit: ') + esc(q) + '</h1>' +
+      '<p class="lede">A complete protocol: question, exact standard, template, timeline, change, re-audit and evidence from published audits.</p>' +
+      '<div class="build-status" role="status" aria-live="polite" data-build-status><span class="spinner" aria-hidden="true"></span><span data-build-msg>' +
+      (entry.text ? 'Nearly ready…' : 'Writing the protocol… this usually takes under a minute.') + '</span></div>' +
+      '<div data-build-progress>' + progressHtml(entry.text) + '</div>' +
       '<div class="doc-actions"><button class="btn btn-secondary" type="button" data-build-stop>Stop</button></div></header>' +
       (res.pubs.length ? sec('•', 'Published audits on this theme', resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(q))) : '') +
       '</article>', 'Build: ' + q, 'build');
+    GEN.ctl = entry.ctl;
     var prog = main.querySelector('[data-build-progress]'), last = 0;
-    generate(q, res, fresh, function (u) {
+    var listen = function (text) {
       var now = Date.now();
-      if (now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(u.text); }
-    }, ctl.signal, n, avoid).then(function (o) {
-      if (ctl !== GEN.ctl) return;
-      GEN.ctl = null;
-      var p = normaliseBuilt(o, q, res, n);
-      builtSave(p);
-      if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit built');
-      if (parseHash().parts[0] === 'build') showBuilt(p, res, crumbs);
+      if (now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(text); }
+    };
+    entry.listeners.push(listen);
+    var here = function () { var r = parseHash(); return r.parts[0] === 'build' && builtId(scrub((r.params.get('q') || '').trim(), { redacted: 0 }).slice(0, 300), Math.max(1, +r.params.get('n') || 1)) === id; };
+    entry.promise.then(function (p) {
+      entry.listeners = entry.listeners.filter(function (f) { return f !== listen; });
+      if (here()) { showBuilt(p, res, crumbs); prefetchNext(p); }
     }).catch(function (e) {
-      if (ctl !== GEN.ctl) return;
-      GEN.ctl = null;
-      if (parseHash().parts[0] !== 'build') return;
+      BUILDS.delete(id);
+      if (!here()) return;
       var code = (e && e.code) || 'upstream_error';
       var msg = code === 'cancelled' ? 'Stopped.' : (BUILD_ERRORS[code] || 'The connection was interrupted. Please try again.');
       var st = main.querySelector('[data-build-status]');
@@ -963,7 +993,7 @@
       } else if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
       else if (act) act.innerHTML = code === 'no_generator' || code === 'not_granted' || code === 'sampling_disabled' ? '' :
         '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + (n > 1 ? '&n=' + n : '') + '&fresh=1">Try again</a>';
-      if (code === 'no_generator' && res.props.length) {
+      if (code === 'no_generator' && res.props.length && act) {
         act.insertAdjacentHTML('afterend', '<p class="prose">Closest ready-made protocol: <a href="#/proposed/' + attr(res.props[0].id) + '">' + esc(res.props[0].id + ' – ' + res.props[0].question) + '</a></p>');
       }
     });
@@ -978,8 +1008,6 @@
         '<p><a href="#/proposed/' + attr(sp.id) + '"><span class="id-tag">' + esc(sp.id) + '</span> ' + esc(sp.question) + '</a></p>' +
         '<p class="muted">' + esc(p.similar.better_because) + '</p></aside>';
     }
-    var alt = p.alternative ? '<p class="alt-line"><strong>Alternative:</strong> ' + esc(p.alternative.question) +
-      (p.alternative.why ? ' <span class="muted">– ' + esc(p.alternative.why) + '</span>' : '') + '</p>' : '';
     var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
     var after = [];
     if (resHtml) after.push(['Published audits on this theme', resHtml]);
@@ -989,23 +1017,24 @@
     var body = protocolBody(p, dl, { after: after }) + feedbackBox(p.id);
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
-      '<p class="best-label">Best option</p><h1>' + esc(p.question) + '</h1>' + alt +
+      '<h1>' + esc(p.question) + '</h1>' +
       '<div class="doc-actions">' + chooseActions(p.id) + '</div>' + variantsNav(p) + '</header>' +
       (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
     showUsefulCount(p.id);
   }
   function variantsNav(p) {
-    var vs = variantsOf(p.topic), next = Math.max.apply(null, vs.map(function (b) { return b.variant || 1; }).concat([1])) + 1;
+    var vs = variantsOf(p.topic), next = (p.variant || 1) + 1;          // the one after this: usually already written
     var links = vs.length > 1 ? vs.map(function (b) {
       var here = b.id === p.id;
       return '<li><a href="#/build?q=' + encodeURIComponent(p.topic) + ((b.variant || 1) > 1 ? '&n=' + b.variant : '') + '"' + (here ? ' aria-current="page"' : '') + '>' +
         '<span class="v-n">' + (b.variant || 1) + '</span>' + esc(trunc(b.question, 90)) + (b.chosen ? ' ' + badge('Chosen', 'ok') : '') + '</a></li>';
     }).join('') : '';
-    return '<div class="variants no-print"><p class="v-head">Not quite right?</p>' + (links ? '<ol class="v-list">' + links + '</ol>' : '') +
-      (next <= 9 ? '<a class="btn btn-secondary" href="#/build?q=' + encodeURIComponent(p.topic) + '&n=' + next + '">' +
-        '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Another audit on this theme</a>' : '') + '</div>';
+    return '<div class="variants no-print" data-variants="' + attr(p.id) + '">' +
+      (next <= 9 ? '<a class="btn btn-secondary" href="#/build?q=' + encodeURIComponent(p.topic) + '&n=' + next + '">Not quite right? Another audit on this theme</a>' : '') +
+      (links ? '<details class="v-more"><summary>Audits on this theme (' + vs.length + ')</summary><ol class="v-list">' + links + '</ol></details>' : '') + '</div>';
   }
+
 
   /* No theme given: suggest ready-made audits, quick closed-loop ones first. */
   function renderSuggest(params) {
