@@ -19,14 +19,14 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
   - `paper`: authors, journal, year, DOI/PMID/PMCID, abstract, licence, UK/Ireland flag, citation.
 - Topic cards: 3 seed cards (written by the user's team; authoritative) and 99 drafts with
   `"status": "Draft, needs consultant sign-off"` and `evidence_ids`.
-- `new_audits/`: 171 PROPOSED orthopaedic audits (ONA-001…), designed from current UK standards
+- `new_audits/`: 212 PROPOSED orthopaedic audits (ONA-001…), designed from current UK standards
   (NICE, BOAST, NHFD, BSCOS, ROS, RCEM, GIRFT/NHS England, fetched 2026) and gaps in the corpus. Not run
   anywhere yet: never cite them as evidence, only as ideas. Each has one plain question, the exact
   standard wording + URL, pass definition, sample, timeline, change, re-audit and a ready template
   `new_audits/templates/ONA-xxx.csv`. List: `new_audits/catalogue.md`. Search:
   `python3 query.py "words" --proposed`. Rebuild after editing `new_audits/parts/*.json`:
   `python3 new_audits/compile.py`.
-- `new_audits/nonortho_new_audits.json`: 401 PROPOSED non-orthopaedic audits (NNA-001…) across 18 areas,
+- `new_audits/nonortho_new_audits.json`: 799 PROPOSED non-orthopaedic audits (NNA-001…) across 19 areas (including Allied health professions),
   same structure plus `pitfalls` and `pearls`; templates `new_audits/templates/NNA-xxx.csv`; list
   `new_audits/catalogue_nonortho.md`. `query.py --proposed` searches both sets.
 - `standards/standards.json`: exact standard wording with URLs, and which ONA audits use it. Quote

@@ -2400,5 +2400,181 @@
   "effort": "~10 min per 10 discharges from the discharge checklist and pharmacy log",
   "area": "Psychiatry",
   "pass": "A take-home naloxone kit is documented as supplied at discharge, or a specific reason for not supplying it (e.g. already holds a kit, clinically inappropriate, declined) is recorded"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "When a multidisciplinary, medical or independent review determines that seclusion is no longer warranted, does the patient leave seclusion without unnecessary delay?",
+  "why": "No audit in the library measures the time between a review decision to end seclusion and the patient actually being allowed free and unrestricted access to the ward, despite this being a specific Mental Health Act Code of Practice requirement distinct from the well-audited review-timing measures already in the corpus.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraphs 26.144-26.145",
+   "wording": "Seclusion should immediately end when a MDT review, a medical review or the independent MDT review determines it is no longer warranted... Seclusion ends when a patient is allowed free and unrestricted access to the normal ward environment or transfers or returns to conditions of long-term segregation.",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all seclusion episodes ended by a documented review decision in the audit period. Exclusion: episodes ended by the patient absconding or being transferred for an unrelated reason.",
+  "sample": "All seclusion episodes ended in the last 3 months (typically 20-40 episodes across a secure or acute inpatient service)",
+  "data_source": "Seclusion record, showing the time of the review decision and the time seclusion actually ended",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "datetime_review_decision_made",
+    "type": "datetime"
+   },
+   {
+    "field": "datetime_seclusion_actually_ended",
+    "type": "datetime"
+   },
+   {
+    "field": "delay_minutes",
+    "type": "number"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'time of review decision' and 'time seclusion ended' pair of fields to the seclusion record, both time-stamped by the system rather than handwritten, so any delay is automatically visible",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the ward or secure service clinical governance meeting; if effective, adopt the dual time-stamp field trust-wide",
+  "evidence": [
+   "Topic card 'Seclusion practice and review' notes that huddles and weekly meetings reduced average seclusion duration from 30 to 20 hours in one service [3105], showing seclusion duration (including the tail end of an episode) is a measurable and improvable indicator"
+  ],
+  "pitfalls": [
+   "Staff may record the review decision time and the ending time as the same moment out of habit, masking a real delay: use system time-stamps rather than staff-entered times where possible",
+   "A delay may be clinically justified (e.g. arranging safe staffing to support the patient leaving seclusion): capture the reason for any delay rather than treating all delay as a failure",
+   "Night shifts with lower staffing may show longer delays: report results by time of day",
+   "Ending seclusion for a toilet or food break should not be confused with a genuine end of seclusion: apply the Code of Practice definition (free and unrestricted access) strictly",
+   "A patient may be reviewed as 'no longer warranted' by one professional but a second required reviewer disagrees: record how such disagreements are resolved and timed"
+  ],
+  "pearls": [
+   "Use existing seclusion review audit infrastructure (already common in the corpus) to add these two extra time fields rather than building a new audit from scratch",
+   "Recruit ward nursing staff to identify realistic causes of delay (e.g. arranging support) so the fix addresses real barriers, not just recording",
+   "Present the corpus finding that a huddle model cut average seclusion duration by a third [3105], to support a similar staffing/planning change here",
+   "Track the reason for delay over time to see if a particular cause (e.g. staffing) dominates and needs a separate fix",
+   "Keep this as a standing indicator on the ward's seclusion dashboard rather than a single-cycle audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per episode from the seclusion record",
+  "pass": "The time recorded for the end of seclusion is within 30 minutes of the review decision that seclusion is no longer warranted"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "Do people living with dementia prescribed an antipsychotic for behaviour and psychological symptoms of dementia have the medication reassessed at least every 6 weeks, with the decision to continue or stop documented at that review?",
+  "why": "No audit in the library isolates the specific 6-weekly reassessment interval and continuation decision required by NICE for antipsychotics in dementia; the existing 'Antipsychotic prescribing in dementia (BPSD)' topic in the corpus is heavily audited for physical health monitoring, but the reassessment interval and stopping decision itself has not been separately measured.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support for people living with dementia and their carers, rec 1.7.6 (2018)",
+   "wording": "When using antipsychotics: use the lowest effective dose and use them for the shortest possible time reassess the person at least every 6 weeks, to check whether they still need medication.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "population": "Inclusion: people with dementia currently prescribed an antipsychotic for behavioural and psychological symptoms of dementia, under old age psychiatry follow-up. Exclusion: antipsychotics prescribed for a co-existing psychotic illness diagnosed independently of dementia.",
+  "sample": "30 consecutive people with dementia on an antipsychotic for behavioural and psychological symptoms, from the old age psychiatry or memory service caseload",
+  "data_source": "Old age psychiatry electronic record and medication review notes",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_antipsychotic_started",
+    "type": "date"
+   },
+   {
+    "field": "dates_of_reviews_in_last_6_months",
+    "type": "text"
+   },
+   {
+    "field": "longest_gap_between_reviews_weeks",
+    "type": "number"
+   },
+   {
+    "field": "continue_or_stop_decision_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 6-weekly review reminder to the electronic record for every patient coded as being on an antipsychotic for behavioural and psychological symptoms of dementia, which must be actioned with a continue/stop decision before it can be dismissed",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the old age psychiatry governance meeting; if effective, embed the automatic reminder permanently",
+  "evidence": [
+   "Topic card 'Antipsychotic prescribing in dementia (BPSD)' (15 audits) focuses on physical health monitoring rather than the specific 6-weekly reassessment interval; this audit targets a distinct, currently unmeasured requirement (the reassessment interval and stop/continue decision) rather than repeating physical monitoring measures already extensively covered"
+  ],
+  "pitfalls": [
+   "A general medication review note that does not specifically address whether the antipsychotic is still needed should not count as a pass: require an explicit continue/stop statement",
+   "Community-dwelling patients seen less frequently than every 6 weeks by a specialist may be reviewed jointly with a GP: check both records for the review",
+   "Some patients may be on a long-standing, stable dose with an implicit assumption that stopping is unsafe: this should be recorded as an explicit, reasoned decision to continue, not an omission",
+   "This audit should be framed around the reassessment interval and action, not repeat existing physical health monitoring audits, to avoid the corpus's identified overdone territory",
+   "A short administrative gap (e.g. patient in hospital) may extend the interval for a valid reason: record and report these separately from true gaps in follow-up"
+  ],
+  "pearls": [
+   "Frame this audit explicitly as measuring the reassessment interval and stop/continue decision, not repeating overdone physical health monitoring measures",
+   "Recruit the old age psychiatry pharmacist to help identify the current antipsychotic-for-BPSD caseload and build the reminder system",
+   "Use the NICE wording directly ('reassess... to check whether they still need medication') as the pass criterion to keep the standard unambiguous",
+   "Track the proportion of reviews resulting in an actual dose reduction or stop over successive re-audits, as the ultimate measure of impact",
+   "Align the re-audit timing with the service's existing dementia care review cycle to avoid extra data collection burden"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the old age psychiatry record",
+  "pass": "A documented reassessment, with an explicit decision to continue or stop, is present at an interval of 6 weeks or less throughout the prescribing period"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "Do adults with a learning disability prescribed medication for behaviour that challenges receive only a single psychotropic drug at a time, rather than two or more used concurrently for the same target behaviour?",
+  "why": "The STOMP topic card notes single drug therapy fell from 19% to 34% in one repeated-cycle audit [3268], but no audit in the library specifically measures polypharmacy for behaviour that challenges as its own single, plain question distinct from rationale, review or monitoring audits already covered.",
+  "standard": {
+   "source": "NICE NG11 Challenging behaviour and learning disabilities, rec 1.8.3 (2015)",
+   "wording": "start with a low dose and use the minimum effective dose needed only prescribe a single drug monitor side effects as recommended in the NICE guidelines on psychosis and schizophrenia...",
+   "url": "https://www.nice.org.uk/guidance/ng11/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a learning disability currently prescribed at least one psychotropic medication for behaviour that challenges. Exclusion: patients with a co-existing diagnosed mental illness requiring its own separate treatment (e.g. an antidepressant for depression alongside an antipsychotic for a separate diagnosed psychotic illness).",
+  "sample": "30 consecutive adults with a learning disability on psychotropic medication for behaviour that challenges, from the community learning disability team or STOMP register",
+  "data_source": "Community learning disability team electronic record and current drug chart/repeat prescription list",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "number_of_psychotropics_for_target_behaviour",
+    "type": "number"
+   },
+   {
+    "field": "single_drug_only",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_for_combination_documented",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic polypharmacy alert to the electronic prescribing system, triggered when a second psychotropic is added for a patient already coded as being treated for behaviour that challenges, prompting a mandatory documented reason",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the community learning disability team and pharmacy governance meeting; if effective, embed the polypharmacy alert trust-wide",
+  "evidence": [
+   "[3268] Repeated cycles of audit in one intellectual disability team found single drug therapy stayed low, moving from 19% to only 34% despite improvements in metabolic monitoring (0% to 95%) and risk assessment (68% to 100%), showing polypharmacy specifically resists the general improvements seen elsewhere"
+  ],
+  "pitfalls": [
+   "Distinguishing 'for the same target behaviour' from legitimate separate diagnoses requires careful case-by-case review: use a learning disability psychiatrist to adjudicate ambiguous cases",
+   "Historic long-term polypharmacy may be well established and difficult to safely change quickly: record whether a reduction plan exists even where combination therapy continues",
+   "PRN (as-needed) medication used occasionally alongside a regular psychotropic should be recorded separately, since NG11 addresses this differently",
+   "The library shows this measure resisted improvement even when other measures improved sharply [3268]: expect this to be a harder change and plan a longer improvement timeline",
+   "Switching directly from one drug to another (a brief overlap during a cross-taper) should not be wrongly counted as ongoing combination therapy: define a minimum overlap duration before counting as polypharmacy"
+  ],
+  "pearls": [
+   "Use the STOMP register as the sampling frame, since it should already list current psychotropic prescriptions for this population",
+   "Present the corpus finding that single drug therapy resisted improvement even where other STOMP measures improved sharply [3268], to justify a dedicated focus on this specific measure",
+   "Recruit the learning disability pharmacist to review combination cases and support tapering plans where appropriate",
+   "Track the number of patients on 2 or more psychotropics for the same behaviour over successive audits as the key outcome measure, not just documentation of a reason",
+   "Keep the audit register with the learning disability pharmacist for continuity across trainee rotations"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the STOMP register and prescribing record",
+  "pass": "Only one psychotropic drug is prescribed for the target behaviour at any one time, or, where more than one is used, a specific documented clinical reason for combination therapy is present"
  }
 ]

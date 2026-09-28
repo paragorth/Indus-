@@ -14915,5 +14915,2845 @@
   "effort": "~10 min per 10 patients from the pre-assessment record",
   "id": "ONA-171",
   "template_file": "new_audits/templates/ONA-171.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of adults whose X-ray suggests possible bone sarcoma are given a suspected cancer pathway referral?",
+  "why": "Bone sarcoma is rare but delay is common because the presenting X-ray is often first reported outside a cancer pathway (routine trauma or GP films); no audit of this referral step exists in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.11.1 (2015)",
+   "wording": "Consider a suspected cancer pathway referral for adults if an X-ray suggests the possibility of bone sarcoma. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/recommendations"
+  },
+  "population": "Inclusion: all adults (16 and over) whose plain X-ray report includes a comment raising the possibility of a bone tumour or sarcoma (e.g. 'cannot exclude', 'suspicious of', 'refer bone tumour service'), from any requesting source (GP, ED, fracture clinic, orthopaedics), over the last 12-24 months. Exclusion: known metastatic bone disease, known primary bone sarcoma already under follow-up.",
+  "sample": "All eligible X-ray reports over the last 12-24 months (bone sarcoma referrals are rare; expect 5-15 cases per hospital, so pool radiology reporting system data across the trust or across a network if needed).",
+  "data_source": "Radiology reporting system (text search for sarcoma/tumour/neoplasm terms in X-ray reports), 2-week wait referral log, PAS referral dates, and the bone sarcoma centre's referral inbox or letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "note": "Pseudonymised study ID"
+   },
+   {
+    "field": "date_of_xray",
+    "type": "date"
+   },
+   {
+    "field": "date_report_suggests_sarcoma",
+    "type": "date"
+   },
+   {
+    "field": "requesting_source",
+    "type": "choice",
+    "options": [
+     "GP",
+     "ED",
+     "fracture clinic",
+     "orthopaedic clinic",
+     "other"
+    ]
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_referral_made",
+    "type": "date"
+   },
+   {
+    "field": "referral_pathway_used",
+    "type": "choice",
+    "options": [
+     "suspected cancer pathway (2ww)",
+     "routine orthopaedic referral",
+     "none"
+    ]
+   },
+   {
+    "field": "same_day_as_report",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_not_referred",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-24 re-audit",
+  "change": "Add a mandatory radiology 'critical result' alert that fires to the reporting radiologist's and requester's inbox whenever a bone tumour/sarcoma-suggestive phrase is used, with a same-day 2-week-wait referral form linked from the alert.",
+  "target": "100% (every suggestive report should trigger same-day referral)",
+  "reaudit": "At 6 months, same case-finding method and time window",
+  "close_loop": "Present at the radiology-orthopaedic governance meeting and trust cancer performance meeting; if the alert works, add the sarcoma-suggestive phrase list to the radiology reporting template's critical-results dictionary permanently.",
+  "evidence": [
+   "No audit of bone sarcoma referral timeliness exists in the library (checked with query.py)."
+  ],
+  "pitfalls": [
+   "Numbers are tiny in a single hospital → pool data across a network or over 24 months, and report as 'x/y' not a percentage alone.",
+   "Free-text radiology reports make cases hard to find by search terms → agree the search phrase list with radiology before starting and screen a wider set manually.",
+   "Radiologists may already phone the referrer informally without a written referral → count a documented, dated phone call as a pass if a referral follows within 24 hours.",
+   "The finding may be an incidental old lesion (e.g. bone island) → have a second radiologist confirm true suspicion before including the case."
+  ],
+  "pearls": [
+   "Recruit a musculoskeletal radiologist as co-lead; they can define the search terms and pull the report list.",
+   "Agree the definition of 'suggestive of sarcoma' before counting cases, using the regional bone sarcoma service's own referral criteria.",
+   "Link the audit to the regional bone sarcoma MDT's own referral log, which may already record delays.",
+   "Keep the critical-result alert switched on after the trainee rotates by naming a radiology governance lead as its owner."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case (searching reports plus checking the referral log); expect only 5-15 cases so total effort is low",
+  "pass": "A suspected cancer pathway (2-week wait) referral to a bone sarcoma service is made and documented on the day the report is authorised, or the same working day.",
+  "id": "ONA-172",
+  "template_file": "new_audits/templates/ONA-172.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of children and young people whose X-ray suggests possible bone sarcoma get a specialist appointment within 48 hours?",
+  "why": "NICE sets a tighter 48-hour standard for children than for adults because paediatric bone sarcomas grow faster; no audit of this step exists in the library, and the adult and paediatric pathways are often confused locally.",
+  "standard": {
+   "source": "NICE NG12 rec 1.11.2 (2015), with 'very urgent' defined in NG12 Terms used in this guideline",
+   "wording": "Consider a very urgent referral (for an appointment within 48 hours) for specialist assessment for children and young people if an X-ray suggests the possibility of bone sarcoma. [2015] ... Very urgent: To happen within 48 hours.",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/recommendations"
+  },
+  "population": "Inclusion: patients under 25 whose plain X-ray report raises the possibility of bone sarcoma, over the last 24-36 months (rare in children, so a long window is needed). Exclusion: known bone sarcoma already under follow-up.",
+  "sample": "All eligible cases identified from the last 24-36 months of radiology reports across the network (expect very few cases in a single hospital; escalate to network level if under 5).",
+  "data_source": "Radiology reporting system, referral log to the paediatric/teenage-and-young-adult bone sarcoma service, clinic letter or MDT record confirming the appointment date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_birth",
+    "type": "date"
+   },
+   {
+    "field": "date_of_xray_report",
+    "type": "date"
+   },
+   {
+    "field": "date_specialist_seen",
+    "type": "date"
+   },
+   {
+    "field": "hours_to_specialist_review",
+    "type": "number"
+   },
+   {
+    "field": "within_48_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "referral_route",
+    "type": "choice",
+    "options": [
+     "direct to bone sarcoma service",
+     "via local paediatrics/orthopaedics first",
+     "other"
+    ]
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect (extended window for cases); Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-24 re-audit",
+  "change": "Create a single 'child/young person: X-ray suggests bone sarcoma' escalation route that bypasses the general 2-week-wait office and goes straight to the on-call paediatric orthopaedic/oncology consultant by phone, logged on a shared tracker.",
+  "target": "100%",
+  "reaudit": "At 12 months, same case-finding method",
+  "close_loop": "Present at the paediatric orthopaedic and radiology governance meeting; if the direct escalation route works, publish it as a one-page pathway card kept in the radiology reporting room and the children's ED.",
+  "evidence": [
+   "No audit of paediatric bone sarcoma referral timeliness exists in the library (checked with query.py)."
+  ],
+  "pitfalls": [
+   "Case numbers are very small → do not report a single percentage from under 5 cases; describe each case's timeline individually as well.",
+   "Out-of-hours reporting can delay the clock starting → record the time the report was authorised, not just the date.",
+   "Confusing the adult 2-week-wait pathway with the paediatric 48-hour pathway → make the escalation route unambiguous and age-based in the referral form.",
+   "Families may decline urgent transfer for practical reasons → record this separately, it is not a service failure."
+  ],
+  "pearls": [
+   "Recruit the paediatric orthopaedic and paediatric oncology teams jointly, since the referral crosses both.",
+   "Use the regional bone sarcoma MDT's referral log as the second data source to catch cases the local search misses.",
+   "Fix the phone number and escalation script for the on-call route before cycle 1, not after the first missed case.",
+   "Keep the pathway card current by giving one named consultant ownership after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case; case numbers are very low so total effort is small",
+  "pass": "The child or young person (under 25) is seen by a bone sarcoma specialist (in person or virtually) within 48 hours of the X-ray report being authorised.",
+  "id": "ONA-173",
+  "template_file": "new_audits/templates/ONA-173.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of children with unexplained bone swelling or pain get a direct access X-ray within 48 hours of the GP request?",
+  "why": "NICE sets a 'very urgent' direct access X-ray standard for unexplained bone swelling or pain in children to catch bone sarcoma early; no audit of direct access imaging turnaround for this indication exists in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.11.3 (2015), with 'very urgent' defined in NG12 Terms used in this guideline",
+   "wording": "Consider a very urgent, direct access X-ray to assess for bone sarcoma in children and young people with unexplained bone swelling or pain. [2015] ... Very urgent: To happen within 48 hours.",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/recommendations"
+  },
+  "population": "Inclusion: all direct access X-ray requests from primary care for children and young people (under 25) with the clinical details 'unexplained bone swelling' or 'unexplained bone pain', over the last 6-12 months. Exclusion: requests with an alternative clear cause given (e.g. recent injury, known infection).",
+  "sample": "30-40 consecutive eligible direct access requests over the last 6-12 months, from the radiology request system.",
+  "data_source": "Radiology information system (RIS) request and performed dates/times for direct access paediatric X-rays with the relevant clinical details.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_request_received",
+    "type": "date"
+   },
+   {
+    "field": "date_xray_performed",
+    "type": "date"
+   },
+   {
+    "field": "hours_to_xray",
+    "type": "number"
+   },
+   {
+    "field": "within_48_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "clinical_details_given",
+    "type": "text"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a RIS priority code for 'paediatric direct access - unexplained bone swelling/pain' that books automatically into the next available slot within 48 hours, separate from routine direct access X-ray priority.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the radiology and primary-care interface meeting; if the priority code reduces delay, keep it live in the RIS and tell local GP practices via the referral guidance intranet page.",
+  "evidence": [
+   "No audit of direct access X-ray turnaround for suspected childhood bone sarcoma exists in the library (checked with query.py)."
+  ],
+  "pitfalls": [
+   "GP requests may not use the words 'unexplained' or specify duration → agree a pragmatic definition with radiology reception before starting.",
+   "School-age children may only attend after school or at weekends → check whether out-of-hours direct access slots exist locally.",
+   "Small numbers in a single practice's referrals → collect from radiology centrally rather than per-practice.",
+   "A slow report turnaround can hide a fast scan turnaround → measure scan date, not report date, against this standard."
+  ],
+  "pearls": [
+   "Recruit a radiology superintendent radiographer to set up the priority code; they control RIS booking rules.",
+   "Share the finding with the local GP referral guidance so requesters know the 48-hour pathway exists.",
+   "Keep a running log of these referrals so the (rare) sarcoma-positive cases can be traced right through to specialist review.",
+   "Name a radiology governance lead to keep the priority code active after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the RIS request log",
+  "pass": "The X-ray is performed within 48 hours of the GP direct-access request being received by radiology.",
+  "id": "ONA-174",
+  "template_file": "new_audits/templates/ONA-174.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults listed for ACL reconstruction are offered prehabilitation before surgery?",
+  "why": "ACL reconstruction is one of the highest-volume knee soft-tissue operations in a DGH, but the library has no audit of the ACL-specific BOA/BASK-BOSTAA standard, only broader knee arthroscopy and problematic knee replacement audits (e.g. [ONA-090]).",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 3",
+   "wording": "All patients being considered for surgery should be offered prehabilitation to recover knee movement and quadriceps strength.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults listed for primary ACL reconstruction over the last 6-12 months. Exclusion: revision ACL surgery, multiligament reconstruction.",
+  "sample": "30-40 consecutive adults listed for primary ACL reconstruction over the last 6-12 months.",
+  "data_source": "Knee/soft-tissue clinic letters, physiotherapy referral system, listing decision form in the EPR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_listed_for_surgery",
+    "type": "date"
+   },
+   {
+    "field": "prehab_referral_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_prehab_referral",
+    "type": "date"
+   },
+   {
+    "field": "quadriceps_and_rom_assessed_before_listing",
+    "type": "yes/no"
+   },
+   {
+    "field": "knee_quiet_full_extension_at_surgery",
+    "type": "yes/no",
+    "note": "documented in pre-op assessment or op note"
+   },
+   {
+    "field": "reason_if_no_prehab",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic prehabilitation physiotherapy referral to the knee clinic listing form, triggered whenever 'ACL reconstruction' is selected as the planned procedure.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT or departmental audit meeting; if the automatic referral works, keep it as the default listing pathway for ACL reconstruction.",
+  "evidence": [
+   "No audit of the BOA ACL standard exists in the library; only knee arthroscopy for osteoarthritis [ONA-090] and problematic knee replacement [ONA-095, ONA-096] are covered."
+  ],
+  "pitfalls": [
+   "Patients seen privately or via self-referral physiotherapy before clinic may not have a hospital-documented referral → ask specifically and record patient-reported prehab too.",
+   "Some patients with an acutely locked knee proceed to urgent surgery without time for prehab → exclude or flag these separately rather than counting as a fail.",
+   "Physiotherapy waiting times may make 'offered' meaningless if never delivered → also record whether the patient attended at least one session before surgery.",
+   "Surgeons may assume prehab is 'standard practice' without checking it happened → make the referral itself, not the surgeon's assumption, the recorded evidence."
+  ],
+  "pearls": [
+   "Recruit the knee/sports injury physiotherapist as co-lead; they can confirm attendance data.",
+   "Agree the definition of 'offered' (referral made, not just verbal advice) before cycle 1.",
+   "Use the knee clinic listing form as the single source of truth so the fix is easy to embed.",
+   "Keep the automatic referral live by naming the clinic's physiotherapy lead as its owner after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the clinic letter and physiotherapy referral system",
+  "pass": "A documented referral to, or plan for, prehabilitation physiotherapy (range of movement and quadriceps strengthening) is recorded before the listing decision or at listing.",
+  "id": "ONA-175",
+  "template_file": "new_audits/templates/ONA-175.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults having ACL reconstruction are registered on the National Ligament Registry?",
+  "why": "Consent for, and registration on, the National Ligament Registry is a specific BOA standard for ACL surgery; the library's arthroplasty audits use the National Joint Registry but nothing audits ligament registry participation.",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 7d",
+   "wording": "Consent for inclusion into National Ligament Registry should be sought and patients should be registered in its database. Hospitals should facilitate the accurate recording of surgical procedures and patients' outcome by providing appropriate clerical and IT support.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults having primary ACL reconstruction over the last 6-12 months. Exclusion: none.",
+  "sample": "30-40 consecutive primary ACL reconstructions over the last 6-12 months.",
+  "data_source": "Consent form, operation note, National Ligament Registry local upload log or export.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "consent_for_registry_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "case_found_on_registry_upload_log",
+    "type": "yes/no"
+   },
+   {
+    "field": "days_from_surgery_to_upload",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_not_registered",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'Ligament Registry consent: yes/no/declined' field to the ACL operation note template that cannot be saved blank, linked to an automatic upload task for theatre administrative staff.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT; if the mandatory field improves capture, keep it in the operation note template and give the registry upload task a named owner.",
+  "evidence": [
+   "No audit of National Ligament Registry participation exists in the library; National Joint Registry participation is a separate, unaudited topic too."
+  ],
+  "pitfalls": [
+   "Staff may confuse the National Ligament Registry with the National Joint Registry → clarify which registry is being audited in the template and this protocol.",
+   "Registration can lag behind surgery by weeks → measure both consent documentation and eventual upload, not just one.",
+   "Patients may decline consent → record this as a valid reason, not a failure, but still count it in the denominator.",
+   "IT or clerical understaffing may be the real bottleneck → escalate this as a service gap if the fix does not work, per the standard's own wording."
+  ],
+  "pearls": [
+   "Recruit the theatre coordinator or department secretary who manages registry uploads as co-lead.",
+   "Check the registry's own dashboard for the unit's baseline capture rate before cycle 1 if it already exists.",
+   "Make the consent conversation part of the standard ACL consent script so it is never missed.",
+   "Name a registry data lead to keep uploads current after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per patient from the consent form and registry log",
+  "pass": "Consent for the National Ligament Registry is documented on the consent form or in the notes, and the case is found on the registry's local upload log.",
+  "id": "ONA-176",
+  "template_file": "new_audits/templates/ONA-176.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of ACL reconstruction operation notes document the examination under anaesthesia findings?",
+  "why": "The BOA ACL standard requires a documented EUA of anteroposterior and rotational laxity and associated injuries at every reconstruction; this specific documentation item is not covered by any audit in the library.",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 8d",
+   "wording": "An examination under anaesthetic must be performed to take into account the degree of anteroposterior and rotational laxity as well as any other associated injuries and documented.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults having primary or revision ACL reconstruction over the last 3-6 months. Exclusion: none.",
+  "sample": "30-40 consecutive ACL reconstruction operation notes over the last 3-6 months.",
+  "data_source": "Operation note in the EPR or paper theatre record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "ap_laxity_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "rotational_laxity_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "associated_injuries_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "operating_surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "associate specialist/SAS",
+     "trainee under supervision"
+    ]
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory structured EUA section (AP laxity, pivot shift/rotational laxity, other injuries) to the ACL operation note template that must be completed before the note can be saved.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT; if the structured field improves documentation, keep it as the standard ACL operation note template.",
+  "evidence": [
+   "No audit of EUA documentation completeness for ACL reconstruction exists in the library."
+  ],
+  "pitfalls": [
+   "Free-text operation notes may describe the EUA in prose without clearly separating each element → agree what counts as 'documented' before starting (all three elements named, even briefly).",
+   "Trainees may perform and record the EUA differently from consultants → record operator grade to see if this varies.",
+   "A dictated note may be transcribed late, after the data collection window → check for addenda before marking a case a fail.",
+   "The fix only works if surgeons actually complete the structured field rather than leaving it blank → spot-check a sample after go-live."
+  ],
+  "pearls": [
+   "Recruit a knee surgery registrar to help design the structured field wording with the consultants.",
+   "Pilot the template on one theatre list before rolling it out trust-wide.",
+   "Use real anonymised examples of good and poor documentation in teaching to fix the standard quickly.",
+   "Keep the field mandatory (not just present) so it survives staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per operation note",
+  "pass": "The operation note records EUA findings for anteroposterior laxity, rotational (pivot shift) laxity, and any other associated injury found.",
+  "id": "ONA-177",
+  "template_file": "new_audits/templates/ONA-177.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of patients cleared to return to sport after ACL reconstruction have criteria-based testing documented?",
+  "why": "The BOA ACL standard requires criteria-based (not time-based alone) return-to-sport testing including strength and hop tests; no audit of this final rehabilitation milestone exists in the library, which otherwise stops at the operative standards.",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 10",
+   "wording": "Decision to return to sport should be criteria based taking into consideration physical factors relating to the knee; psychological factors including fear of reinjury and social factors; while being tailored to the specific sport. To assess readiness to return to play and the risk for reinjury, a range of tests, including strength tests, hop tests and measurement of movement quality, should be used.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults discharged from physiotherapy with return-to-sport clearance after primary ACL reconstruction, over the last 12 months. Exclusion: patients who did not return to sport or were discharged for other reasons.",
+  "sample": "30 consecutive return-to-sport discharges over the last 12 months (this milestone occurs 9-12 months post-surgery, so a longer window is needed).",
+  "data_source": "Physiotherapy discharge letter or return-to-sport assessment record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "date_return_to_sport_cleared",
+    "type": "date"
+   },
+   {
+    "field": "months_since_surgery",
+    "type": "number"
+   },
+   {
+    "field": "strength_test_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "hop_test_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "psychological_readiness_assessed",
+    "type": "yes/no"
+   },
+   {
+    "field": "criteria_based_decision",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a standard 'ACL return-to-sport testing battery' form (quadriceps/hamstring strength ratio, single-leg hop tests, psychological readiness scale) that must be completed and filed before a return-to-sport letter is issued.",
+  "target": "≥85%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the physiotherapy and knee/sports injury MDT joint meeting; if the testing battery is adopted, embed it in the physiotherapy department's standard operating procedure.",
+  "evidence": [
+   "No audit of criteria-based return-to-sport testing after ACL reconstruction exists in the library."
+  ],
+  "pitfalls": [
+   "Return-to-sport decisions may be made informally by the patient without a final physiotherapy discharge letter → agree with physiotherapy how these are captured before starting.",
+   "Testing equipment (hop test space, dynamometer) may not be available in every clinic → note equipment gaps as a barrier, not just a documentation failure.",
+   "Patients may return to sport gradually with no single 'clearance' event → allow a range of dates and pick the first formal sign-off.",
+   "Sport-specific tailoring (e.g. football versus running) can make a single checklist feel rigid → keep the form flexible with a sport-specific notes field."
+  ],
+  "pearls": [
+   "Recruit the lead sports physiotherapist to design and own the testing battery.",
+   "Benchmark against the local ACL rehabilitation pathway if one already exists informally.",
+   "Share results with patients as part of their own rehabilitation goal-setting; it increases engagement with testing.",
+   "Keep the form in the physiotherapy department's shared drive so it outlives individual staff rotations."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the physiotherapy discharge record",
+  "pass": "The physiotherapy discharge or return-to-sport letter records at least one strength test and one hop test result supporting the return-to-sport decision, not a time-since-surgery statement alone.",
+  "id": "ONA-178",
+  "template_file": "new_audits/templates/ONA-178.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults assessed for recurrent patellar instability have all the required MRI findings documented?",
+  "why": "A separate BOA/BASK specialty standard sets out the specific MRI findings needed before surgical decision-making for recurrent patellar instability; the library's only patellar-dislocation audit [ONA-166] covers the very different first-time-dislocation X-ray standard.",
+  "standard": {
+   "source": "BOA Specialty Standard: The Assessment of Patients with Recurrent Patellar Instability (August 2020), standards 3 and 5",
+   "wording": "Further imaging investigations should include an MRI of the knee (unless MRI contra-indicated) which includes axial and sagittal images. The MRI aims to outline: Patella alta ...; Degenerative change or cartilage loss; Loose osteochondral or chondral fragment; Meniscal and ligamentous pathology; Trochlear dysplasia; Tibial tuberosity offset. ... Determination of patella alta involves assessment of the clinical picture and radiological imaging, and may include indices such as patellotrochlear overlap, Caton-Dechamps ratio or Blackburne-Peel ratio according to published normal ranges.",
+   "url": "https://www.boa.ac.uk/asset/6BF34E87-23E7-4DEA-AA932B8BB9991B32/"
+  },
+  "population": "Inclusion: adults with recurrent (two or more) patellar dislocations having an MRI as part of surgical work-up, over the last 12 months. Exclusion: first-time dislocation, patients with significant knee degenerative change managed non-operatively.",
+  "sample": "30 consecutive recurrent patellar instability MRI work-ups over the last 12 months.",
+  "data_source": "MRI report and knee/soft-tissue clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_mri",
+    "type": "date"
+   },
+   {
+    "field": "patella_height_index_reported",
+    "type": "yes/no"
+   },
+   {
+    "field": "trochlear_morphology_reported",
+    "type": "yes/no"
+   },
+   {
+    "field": "tibial_tuberosity_offset_reported",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "reporting_radiologist_subspecialty",
+    "type": "choice",
+    "options": [
+     "musculoskeletal",
+     "general",
+     "not stated"
+    ]
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a structured MRI reporting proforma for 'recurrent patellar instability' in the radiology system that prompts the reporting radiologist for each of the three required measurements.",
+  "target": "≥85%",
+  "reaudit": "At 4-6 months, same template and sample size",
+  "close_loop": "Present at the joint knee-radiology MDT; if the proforma improves completeness, keep it as the default template for this MRI indication.",
+  "evidence": [
+   "No audit of MRI reporting completeness for recurrent patellar instability exists in the library; the only patellar-dislocation audit [ONA-166] covers first-time-dislocation X-rays instead."
+  ],
+  "pitfalls": [
+   "Non-specialist radiologists reporting out of hours may not know the required measurements → target the proforma fix at general as well as MSK radiology.",
+   "Different named indices (Caton-Deschamps versus Blackburne-Peel) may be used interchangeably → accept any recognised index as a pass.",
+   "Requesting clinicians may not specify 'recurrent patellar instability' on the request, making cases hard to find → agree a standard request wording with the knee clinic first.",
+   "Adding fields to the proforma can slow reporting turnaround → monitor report turnaround time alongside completeness."
+  ],
+  "pearls": [
+   "Recruit the MSK radiology lead as co-lead; the proforma change is theirs to make.",
+   "Use example reports from the current baseline to show radiology colleagues exactly what is missing.",
+   "Link the proforma to the knee clinic's surgical decision-making template so surgeons flag if a needed measurement is absent.",
+   "Keep the proforma live by adding it to radiology's standard reporting templates list, not a personal favourite."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per MRI report",
+  "pass": "The MRI report or clinic letter documents a comment on patella height (an index such as Caton-Deschamps or Blackburne-Peel or 'patella alta: yes/no'), trochlear morphology, and tibial tuberosity offset, for a patient being worked up for recurrent patellar instability surgery.",
+  "id": "ONA-179",
+  "template_file": "new_audits/templates/ONA-179.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults having arthroscopic meniscal surgery have a preoperative MRI confirming a meniscal lesion?",
+  "why": "The national BASK meniscal guideline states the flowchart only applies once MRI confirms a lesion, but the library's only knee arthroscopy audit [ONA-090] covers mechanical locking in osteoarthritis, not MRI confirmation for meniscal surgery generally.",
+  "standard": {
+   "source": "BASK Arthroscopic Meniscal Surgery: A National Society Treatment Guideline and Consensus Statement (Bone Joint J 2019;101-B:652-659)",
+   "wording": "It was agreed that for the guidance from the flowchart to be applicable, MRI confirmation of a lesion would be necessary.",
+   "url": "https://bask.ac.uk/bask-treatment-guidelines-on-arthroscopic-meniscal-surgery/"
+  },
+  "population": "Inclusion: all adults having elective arthroscopic partial meniscectomy or meniscal repair over the last 3-6 months. Exclusion: acute locked knee proceeding to emergency arthroscopy without preoperative MRI, combined ACL reconstruction cases (covered separately).",
+  "sample": "40 consecutive elective arthroscopic meniscal surgery cases over the last 3-6 months.",
+  "data_source": "Theatre list/operation note, MRI report, pre-listing clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "mri_performed_before_listing",
+    "type": "yes/no"
+   },
+   {
+    "field": "mri_confirms_meniscal_target",
+    "type": "yes/no"
+   },
+   {
+    "field": "side_and_compartment_match_surgery",
+    "type": "yes/no"
+   },
+   {
+    "field": "locked_knee_emergency_case",
+    "type": "yes/no",
+    "note": "exclude from denominator if yes"
+   },
+   {
+    "field": "reason_if_no_confirmatory_mri",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'MRI target confirmed: yes, side/compartment ___' field to the elective knee arthroscopy listing form, which must be completed before the case can be added to a theatre list.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT or departmental audit meeting; if the mandatory field works, keep it in the listing form permanently.",
+  "evidence": [
+   "No audit of MRI confirmation before elective meniscal surgery exists in the library; [ONA-090] covers a different indication (mechanical locking in osteoarthritis)."
+  ],
+  "pitfalls": [
+   "Surgeons occasionally proceed on clinical grounds alone in a clear-cut case → record and discuss these as a deliberate exception, not simply a fail.",
+   "MRI and clinical side/compartment can be transcribed incorrectly between systems → cross-check the operation note against the MRI report directly, not just clinic letters.",
+   "Waiting times for MRI may create pressure to list before the scan is back → escalate this as a capacity issue if it appears repeatedly.",
+   "'Possible target' lesions are a genuine grey area in the guideline → record separately from clear 'target' lesions rather than combining them."
+  ],
+  "pearls": [
+   "Recruit the knee/sports injury lead surgeon to define what counts as a 'target' lesion for local use.",
+   "Check MRI waiting times before cycle 1; a listing delay is often the true bottleneck, not documentation.",
+   "Present findings by individual surgeon (anonymised) to encourage engagement without blame.",
+   "Keep the mandatory field in place after rotation by embedding it in the department's standard listing proforma."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the MRI report and listing form",
+  "pass": "An MRI report before surgery describes a meniscal 'target' or 'possible target' lesion matching the side and compartment operated on (locked knee cases needing emergency surgery before MRI is possible are excluded, per the guideline).",
+  "id": "ONA-180",
+  "template_file": "new_audits/templates/ONA-180.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults with a locked knee from a meniscal tear have urgent arthroscopic surgery documented as planned within the recommended timeframe?",
+  "why": "The BASK meniscal guideline classifies a locked knee as needing urgent arthroscopic surgery, distinct from routine meniscal tear management; no audit in the library measures how quickly locked knees reach theatre.",
+  "standard": {
+   "source": "BASK Arthroscopic Meniscal Surgery: A National Society Treatment Guideline and Consensus Statement (Bone Joint J 2019;101-B:652-659), Meniscal Tear Management Guideline flowchart",
+   "wording": "Locked Knee: Assessment: Arthroscopic meniscal surgery indicated. Recommendation: Urgent Arthroscopic Meniscal Surgery.",
+   "url": "https://bask.ac.uk/bask-treatment-guidelines-on-arthroscopic-meniscal-surgery/"
+  },
+  "population": "Inclusion: adults presenting with a clinically locked knee (unable to fully extend) attributed to a meniscal tear, over the last 6-12 months. Exclusion: locking due to loose body from other pathology, pre-existing severe osteoarthritis.",
+  "sample": "20-30 consecutive locked knee presentations over the last 6-12 months (locked knee is less common than routine meniscal referrals, so a longer window may be needed).",
+  "data_source": "ED/clinic assessment note, theatre booking system, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_locked_knee_diagnosed",
+    "type": "date"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "days_to_surgery",
+    "type": "number"
+   },
+   {
+    "field": "within_7_days",
+    "type": "yes/no"
+   },
+   {
+    "field": "booked_as_urgent",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'locked knee (meniscal)' as a named category on the trauma/urgent theatre booking form with a 7-day target, so it is not booked onto a routine elective waiting list.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury and trauma theatre governance meeting; if the booking category works, keep it as a standing theatre priority category.",
+  "evidence": [
+   "No audit of locked-knee-to-surgery timing for meniscal tears exists in the library."
+  ],
+  "pitfalls": [
+   "Locked knee can be misdiagnosed as simple knee pain and missed from case-finding → search ED and clinic coding broadly, not just theatre lists.",
+   "Elective and trauma theatre capacity may compete for the same slots → present findings alongside theatre capacity data, not in isolation.",
+   "A knee that 'unlocks' spontaneously before surgery may no longer need urgent listing → record this as a valid change of plan, not a fail.",
+   "Different clinicians may disagree on what counts as 'locked' → agree a clinical definition (fixed flexion deformity, unable to fully extend) before starting."
+  ],
+  "pearls": [
+   "Recruit the trauma coordinator to help identify locked knee cases from the daily trauma list.",
+   "Agree the 7-day target and definition of 'locked' with the knee/sports injury lead before cycle 1.",
+   "Track whether the urgent booking category is actually used, not just whether it exists, at re-audit.",
+   "Keep the category live in the booking system by naming a trauma coordinator as its permanent owner."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the assessment note and theatre system",
+  "pass": "Surgery is performed within 7 days of the locked knee being diagnosed by the knee/orthopaedic team, or a documented clinical reason for a longer wait is recorded.",
+  "id": "ONA-181",
+  "template_file": "new_audits/templates/ONA-181.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults with advanced knee osteoarthritis and a meniscal tear on MRI are correctly NOT listed for arthroscopic meniscal surgery?",
+  "why": "The BASK guideline explicitly advises against meniscal surgery in advanced structural osteoarthritis; the library's AoMRC Evidence-Based Interventions audit [ONA-090] checks for a history of true locking but does not check this specific overuse scenario.",
+  "standard": {
+   "source": "BASK Arthroscopic Meniscal Surgery: A National Society Treatment Guideline and Consensus Statement (Bone Joint J 2019;101-B:652-659), Meniscal Tear Management Guideline flowchart",
+   "wording": "Advanced Structural OA & Meniscal Tear (or Arthritic Symptoms/Signs only). Assessment: Arthroscopic meniscal surgery usually* not appropriate. Recommendation: No Arthroscopic Meniscal Surgery (Provide information and consider physiotherapy, exercise, analgesia, weight loss, steroid injection, arthroplasty). *Except in uncommon special cases (a second opinion is advised).",
+   "url": "https://bask.ac.uk/bask-treatment-guidelines-on-arthroscopic-meniscal-surgery/"
+  },
+  "population": "Inclusion: adults with a knee MRI showing both advanced structural osteoarthritis and a meniscal tear, discussed in a knee clinic over the last 12 months. Exclusion: locked knee, mild or no osteoarthritis with a meniscal tear (covered by [ONA-090] and other pathways).",
+  "sample": "30 consecutive knee clinic patients with MRI-confirmed advanced OA and a meniscal tear over the last 12 months.",
+  "data_source": "MRI report, knee clinic letter, theatre booking system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_mri",
+    "type": "date"
+   },
+   {
+    "field": "oa_severity_on_mri_or_xray",
+    "type": "choice",
+    "options": [
+     "mild",
+     "moderate",
+     "advanced"
+    ]
+   },
+   {
+    "field": "meniscal_tear_reported",
+    "type": "yes/no"
+   },
+   {
+    "field": "listed_for_arthroscopic_meniscal_surgery",
+    "type": "yes/no"
+   },
+   {
+    "field": "second_opinion_documented_if_listed",
+    "type": "yes/no"
+   },
+   {
+    "field": "non_operative_options_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'BASK advanced OA + meniscal tear' prompt to the knee clinic letter template that appears when advanced OA is coded, requiring either a non-operative plan or a documented second-opinion reason for surgery.",
+  "target": "≥90% managed non-operatively (or with documented second opinion)",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT and evidence-based intervention governance meeting; if the prompt reduces inappropriate listings, keep it in the clinic letter template.",
+  "evidence": [
+   "No audit of this specific BASK overuse scenario exists in the library; [ONA-090] audits a different criterion (mechanical locking) for a different AoMRC standard."
+  ],
+  "pitfalls": [
+   "Grading osteoarthritis severity consistently between clinicians is difficult → agree a simple local definition (e.g. Kellgren-Lawrence 3-4, or 'bone-on-bone' on MRI/X-ray) before starting.",
+   "Surgeons may list for a genuine uncommon exception without documenting a second opinion → make the second-opinion box explicit and easy to complete.",
+   "Patients may push for surgery having read about it online → record shared decision-making discussion as part of the non-operative pathway.",
+   "This can feel like scrutiny of individual surgeons' listing decisions → present anonymised, aggregate data first."
+  ],
+  "pearls": [
+   "Recruit the knee clinic lead and a second senior colleague to define the local osteoarthritis severity threshold.",
+   "Link the audit to existing AoMRC Evidence-Based Interventions governance processes already used for [ONA-090], since the listing form may already exist.",
+   "Share the evidence base (BASK guideline) directly with the surgical team before presenting results, to pre-empt disagreement.",
+   "Keep the clinic letter prompt live by adding it to the standard knee clinic template, not a personal one."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the MRI report and clinic letter",
+  "pass": "A patient with advanced structural osteoarthritis (Kellgren-Lawrence grade 3-4 or equivalent MRI cartilage loss) and a meniscal tear on MRI is managed non-operatively (physiotherapy, weight, analgesia, injection or arthroplasty pathway), or a documented second opinion supports the uncommon exception.",
+  "id": "ONA-182",
+  "template_file": "new_audits/templates/ONA-182.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of primary ACL reconstructions are performed as a day case?",
+  "why": "The BOA ACL standard states the procedure should be a day case for most patients, which affects both patient experience and bed capacity, but no audit of day-case rates for ACL reconstruction exists in the library.",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 8a",
+   "wording": "The procedure should be performed on a Day Case basis, for majority of patients. The surgery should be performed by or under supervision of a surgeon with special interest in soft tissue knee reconstruction.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults having primary ACL reconstruction over the last 6-12 months. Exclusion: combined multiligament reconstruction, revision surgery.",
+  "sample": "40 consecutive primary ACL reconstructions over the last 6-12 months.",
+  "data_source": "Theatre system admission and discharge dates, ward discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date"
+   },
+   {
+    "field": "same_day_discharge",
+    "type": "yes/no"
+   },
+   {
+    "field": "list_start_time",
+    "type": "text",
+    "note": "morning/afternoon"
+   },
+   {
+    "field": "reason_for_overnight_stay",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Move routine primary ACL reconstruction onto a dedicated day-case theatre list with a morning start time, a standard multimodal analgesia and nerve block protocol, and a same-day physiotherapy discharge checklist.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT and day-case governance meeting; if the dedicated list improves the day-case rate, make it the standing list model.",
+  "evidence": [
+   "No audit of ACL reconstruction day-case rates exists in the library."
+  ],
+  "pitfalls": [
+   "Afternoon list starts make same-day discharge harder → record list start time to see if this explains variation.",
+   "Patients travelling a long distance or living alone may need to stay for social reasons → record these as valid reasons, not failures.",
+   "Combined meniscal repair or associated injuries can extend recovery time → note any additional procedure performed at the same sitting.",
+   "A push to hit the day-case target could discharge patients before pain and mobility are safe → monitor unplanned re-attendance rates alongside the day-case rate."
+  ],
+  "pearls": [
+   "Recruit the day-case unit manager and the anaesthetic lead, since analgesia and list timing drive the outcome.",
+   "Agree the standard analgesia and nerve block protocol with anaesthetics before cycle 1.",
+   "Check readmission or unplanned contact rates at re-audit to confirm the change is safe, not just efficient.",
+   "Keep the dedicated list running by giving the day-case unit ownership of the booking template after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the theatre and ward systems",
+  "pass": "The patient is admitted and discharged on the same calendar day as surgery, with no overnight stay, unless a documented medical or social reason justifies admission.",
+  "id": "ONA-183",
+  "template_file": "new_audits/templates/ONA-183.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of patients with an open fracture receive intravenous antibiotics within 1 hour of injury?",
+  "why": "Timely antibiotics are the single most evidence-based intervention for reducing infection after open fracture, but the library has no audit of this specific timing standard; existing open-fracture and fracture-related-infection audits [ONA-141] focus on sampling, not the initial antibiotic clock.",
+  "standard": {
+   "source": "BOA/BAPRAS Audit Standards for Trauma: Open Fractures (December 2017), standard 2",
+   "wording": "Intravenous prophylactic antibiotics should be administered as soon as possible, ideally within 1 hour of injury.",
+   "url": "https://www.boa.ac.uk/asset/3B91AD0A-9081-4253-92F7D90E8DF0FB2C/"
+  },
+  "population": "Inclusion: all patients with an open fracture of a long bone, hindfoot or midfoot presenting to the emergency department over the last 3 months. Exclusion: hand, wrist, forefoot or digit injuries (managed under a different principle per the standard), patients who received pre-hospital antibiotics (record separately).",
+  "sample": "40 consecutive open fracture presentations over the last 3-6 months.",
+  "data_source": "Ambulance patient report form (for injury/pre-hospital antibiotic time), ED drug chart or e-prescribing record, ED triage record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "time_of_injury_or_arrival_if_unknown",
+    "type": "datetime"
+   },
+   {
+    "field": "injury_time_source",
+    "type": "choice",
+    "options": [
+     "patient/witness reported",
+     "estimated from arrival",
+     "pre-hospital record"
+    ]
+   },
+   {
+    "field": "time_antibiotic_given",
+    "type": "datetime"
+   },
+   {
+    "field": "minutes_to_antibiotic",
+    "type": "number"
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no"
+   },
+   {
+    "field": "given_pre_hospital",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add open fracture antibiotics to the ED trauma triage 'time-critical medicine' checklist with a pre-drawn-up antibiotic kept in the resus and majors antibiotic cupboard, triggered by the trauma call or open fracture triage category.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the trauma network open fracture governance meeting and submit alongside routine TARN data; if the checklist works, add it permanently to the trauma triage proforma.",
+  "evidence": [
+   "No audit of the 1-hour open fracture antibiotic standard exists in the library; the related fracture-related-infection audit [ONA-141] measures microbiology sampling, not antibiotic timing."
+  ],
+  "pitfalls": [
+   "Injury time is often an estimate, especially for unwitnessed or intoxicated patients → record the source of the time and analyse both scenarios.",
+   "Pre-hospital antibiotics given by ambulance crews may not be visible in the hospital drug chart → check the ambulance record specifically.",
+   "A polytrauma patient may have antibiotics delayed by resuscitation priorities → record this as a clinical reason, not simply a fail, but still report it.",
+   "'As soon as possible' can be read as more lenient than 'within 1 hour' → use the 1-hour figure as the audited pass criterion, consistent with the standard's own wording."
+  ],
+  "pearls": [
+   "Recruit an ED trauma nurse coordinator; they can identify open fracture attendances quickly from the trauma call log.",
+   "Pre-draw antibiotics for common open fracture protocols so the drug itself is never the delay.",
+   "Present results alongside the trust's TARN open fracture data, which may already flag delays.",
+   "Keep the checklist item live by linking it to the trauma call proforma rather than a stand-alone poster."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the ED and ambulance records",
+  "pass": "IV prophylactic antibiotics are given within 1 hour of the recorded time of injury (or time of arrival if injury time is unknown, documented as such).",
+  "id": "ONA-184",
+  "template_file": "new_audits/templates/ONA-184.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of open fracture wounds are photographed before debridement?",
+  "why": "The BOA/BAPRAS open fracture standard requires photography of the wound before debridement to reduce repeated dressing changes and support the orthoplastic decision, but no audit of photography compliance exists in the library.",
+  "standard": {
+   "source": "BOA/BAPRAS Audit Standards for Trauma: Open Fractures (December 2017), standards 9 and 10",
+   "wording": "Photographs of open fracture wounds should be taken when they are first exposed for clinical care, before debridement and at other key stages of management. These should be kept in the patient's records.",
+   "url": "https://www.boa.ac.uk/asset/3B91AD0A-9081-4253-92F7D90E8DF0FB2C/"
+  },
+  "population": "Inclusion: all patients with an open fracture of a long bone, hindfoot or midfoot over the last 3 months. Exclusion: hand, wrist, forefoot or digit injuries.",
+  "sample": "40 consecutive open fracture presentations over the last 3-6 months.",
+  "data_source": "Clinical photography system, ED and orthopaedic clerking notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "photograph_taken_before_debridement",
+    "type": "yes/no"
+   },
+   {
+    "field": "photograph_filed_in_record",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_from_exposure_to_photograph_minutes",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_no_photograph",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Issue a dedicated, information-governance-approved clinical photography device in ED resus/majors with a direct upload link to the EPR, and add 'wound photographed: yes/no' to the open fracture ED proforma.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the trauma network open fracture governance meeting; if the dedicated device and proforma field improve compliance, keep both as standard ED trauma equipment.",
+  "evidence": [
+   "No audit of open fracture wound photography exists in the library."
+  ],
+  "pitfalls": [
+   "Staff may take photographs on personal phones due to convenience, breaching information governance → the fix must make the approved device easier to use than the alternative.",
+   "Photographs taken but not properly filed or linked to the right patient are effectively a fail → check the record, not just staff recollection.",
+   "Photography can be delayed by resuscitation priorities in a polytrauma patient → record this as a reason, not simply omit the case.",
+   "Repeated exposure of the wound to reposition for photography risks contamination → the standard specifically asks for photography at first exposure, so time this carefully."
+  ],
+  "pearls": [
+   "Recruit the ED trauma lead and the trust's information governance team early, since device approval is the main barrier.",
+   "Site the approved device somewhere staff will actually reach for it (resus wall mount, on the trauma trolley).",
+   "Use the photograph itself in trauma meeting teaching to reinforce the value of early photography.",
+   "Keep the device stocked and working by giving ED equipment services ownership after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per patient from the ED notes and photography system",
+  "pass": "At least one photograph of the open fracture wound taken before debridement is filed in the patient's clinical record (EPR clinical photography system or equivalent).",
+  "id": "ONA-185",
+  "template_file": "new_audits/templates/ONA-185.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of inpatients with proven or suspected fracture-related infection are discussed at a weekly bone and joint infection MDT?",
+  "why": "The BOAST Fracture Related Infections standard requires weekly MDT review of these inpatients to rationalise surgical and antimicrobial management; the library's only FRI audits [ONA-141, ONA-037, ONA-038] cover sampling and consultant review, not ongoing MDT oversight.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019), standard 7B",
+   "wording": "All in-patients with proven or suspected FRI should be the subject of weekly bone and joint infection MDT review to rationalise surgical strategy and antimicrobial management. MDT time should be sufficient to review relevant out-patients too.",
+   "url": "https://www.boa.ac.uk/asset/DEE7CBA7-5919-4F26-A286033FCF46A458/"
+  },
+  "population": "Inclusion: all inpatients with a diagnosis of proven or suspected fracture-related infection over the last 3-6 months. Exclusion: patients discharged within 7 days of diagnosis (no full week to audit).",
+  "sample": "20-30 consecutive inpatient episodes with proven or suspected FRI over the last 3-6 months.",
+  "data_source": "MDT minutes or outcome log, inpatient notes, microbiology/infection team records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_fri_diagnosis_suspected",
+    "type": "date"
+   },
+   {
+    "field": "length_of_stay_weeks",
+    "type": "number"
+   },
+   {
+    "field": "weeks_with_mdt_discussion",
+    "type": "number"
+   },
+   {
+    "field": "weeks_expected",
+    "type": "number"
+   },
+   {
+    "field": "proportion_of_weeks_discussed",
+    "type": "number"
+   },
+   {
+    "field": "mdt_outcome_documented_in_notes",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a standing weekly bone and joint infection MDT with a running inpatient tracker list (populated automatically from the microbiology alert system) so no FRI inpatient can be missed from the agenda.",
+  "target": "≥90% of expected weeks discussed",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance meeting; if the tracker list works, hand ownership to the infection MDT coordinator as a permanent process.",
+  "evidence": [
+   "No audit of weekly bone and joint infection MDT review exists in the library; [ONA-141] covers sampling and [ONA-037]/[ONA-038] cover the initial consultant review and GP advice, not ongoing MDT oversight."
+  ],
+  "pitfalls": [
+   "If no formal bone and joint infection MDT exists locally, this audit will show 0% and should prompt setting one up rather than just documenting the gap → say so plainly in the report.",
+   "MDT discussion may happen informally on the ward round without being logged → agree that only a dated, attributable record counts as a pass.",
+   "Patients transferred between wards or hospitals mid-treatment are easy to lose from the tracker → cross-check against the microbiology alert list weekly.",
+   "A weekly MDT can become tokenistic if only 'discussed, no change' is recorded → also capture whether an actual management decision was documented."
+  ],
+  "pearls": [
+   "Recruit a consultant microbiologist or infectious diseases physician as co-lead; the MDT needs their commitment to be sustainable.",
+   "Use the existing FRI sampling audit process [ONA-141] as the case-finding route for this audit too, since the same patients are involved.",
+   "Agree MDT membership and a fixed weekly slot before cycle 1, not after gaps appear.",
+   "Keep the MDT running after rotation by giving it a standing slot in the theatre/clinic timetable, not an ad hoc booking."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per patient episode cross-checking MDT records against the notes",
+  "pass": "Every full week of the inpatient stay with proven or suspected FRI has a documented bone and joint infection MDT discussion (attendance list and outcome recorded).",
+  "id": "ONA-186",
+  "template_file": "new_audits/templates/ONA-186.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of stable patients with suspected late or chronic fracture-related infection have at least 2 weeks off antibiotics before deep sampling?",
+  "why": "An adequate antibiotic-free window before sampling is essential for accurate microbiology in chronic fracture-related infection, but this specific BOAST timing element is not covered by the library's existing FRI sampling audit [ONA-141], which measures the number of samples taken, not the antibiotic-free window beforehand.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019), standard 4E",
+   "wording": "For stable patients the optimum antibiotic free duration before sampling should be discussed with microbiology. In non-acute infections this should be a minimum of 2 weeks.",
+   "url": "https://www.boa.ac.uk/asset/DEE7CBA7-5919-4F26-A286033FCF46A458/"
+  },
+  "population": "Inclusion: clinically stable adults having planned deep sampling (biopsy or debridement) for suspected late or chronic fracture-related infection, over the last 12 months. Exclusion: acutely septic patients needing emergency surgery.",
+  "sample": "20-30 consecutive planned sampling episodes for suspected late/chronic FRI over the last 12 months.",
+  "data_source": "Medicines reconciliation/GP record, microbiology request form, pre-operative clinic letter, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_sampling",
+    "type": "date"
+   },
+   {
+    "field": "last_antibiotic_dose_date",
+    "type": "date"
+   },
+   {
+    "field": "days_antibiotic_free",
+    "type": "number"
+   },
+   {
+    "field": "at_least_14_days",
+    "type": "yes/no"
+   },
+   {
+    "field": "microbiology_discussion_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_shorter_window",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'last antibiotic dose' and 'planned sampling date' field to the FRI clinic booking process, with a GP letter template asking GPs not to prescribe antibiotics for the wound in the 2 weeks before the planned date.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance meeting; if the GP letter and booking field reduce premature antibiotic exposure, embed both in the standard FRI work-up pathway.",
+  "evidence": [
+   "No audit of the 2-week antibiotic-free sampling window for fracture-related infection exists in the library; [ONA-141] audits the number of samples taken, not this preceding step."
+  ],
+  "pitfalls": [
+   "Patients may receive antibiotics from a GP or walk-in centre unknown to the orthopaedic team → check the GP record or ask the patient directly at every case.",
+   "Genuine systemic sepsis overrides the antibiotic-free window and should be excluded, not counted as a fail → apply the exclusion consistently.",
+   "A rigid 2-week rule can delay urgent surgical decision-making → record and discuss cases where microbiology explicitly agreed a shorter window as a pass, not a fail.",
+   "Patients may not disclose over-the-counter or dental antibiotic courses → ask specifically about any antibiotics, not only prescribed ones."
+  ],
+  "pearls": [
+   "Recruit a consultant microbiologist to help define 'stable' and agree the GP letter wording.",
+   "Send the GP letter as soon as the sampling date is booked, not on the day of admission.",
+   "Use the same case list as the weekly bone and joint infection MDT audit to reduce duplicate data collection.",
+   "Keep the GP letter template live in the EPR discharge/clinic letter library after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the GP record and clinic letters",
+  "pass": "The patient has no antibiotics (prescribed or self-reported, including from the GP) for at least 2 weeks before deep sampling for suspected late or chronic FRI, or a documented microbiology discussion justifies a shorter window.",
+  "id": "ONA-187",
+  "template_file": "new_audits/templates/ONA-187.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of adults having further surgery for a non-union or delayed union have microbiology and histology samples taken to exclude infection?",
+  "why": "The BOAST FRI standard requires the same sampling work-up at secondary fracture surgery (for non-union or delayed union) as at initial suspected infection, but the library's existing sampling audit [ONA-141] is written for debridement or revision surgery for suspected infection, not for the wider population having non-union surgery where infection has not yet been suspected clinically.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019), standard 6",
+   "wording": "The presence of infection should be considered in any patient having further surgery following initial fracture fixation for instance for non or delayed union. ... Where surgical exposure allows, 5 samples for microbiology (using separate sterile instruments) and 2 for histology should be taken at the time of subsequent surgery unless the fracture is soundly united with no evidence for infection and the procedure was for the elective removal of metalwork.",
+   "url": "https://www.boa.ac.uk/asset/DEE7CBA7-5919-4F26-A286033FCF46A458/"
+  },
+  "population": "Inclusion: adults having revision surgery for non-union or delayed union of a previously fixed fracture, over the last 6-12 months. Exclusion: elective metalwork removal in a soundly united, non-infected fracture (exception already defined in the standard).",
+  "sample": "30 consecutive non-union or delayed union revision operations over the last 6-12 months.",
+  "data_source": "Operation note, microbiology and histology request/result system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "non-union",
+     "delayed union",
+     "other revision"
+    ]
+   },
+   {
+    "field": "5_microbiology_samples_taken",
+    "type": "yes/no"
+   },
+   {
+    "field": "2_histology_samples_taken",
+    "type": "yes/no"
+   },
+   {
+    "field": "exception_documented",
+    "type": "yes/no",
+    "note": "soundly united, no infection suspicion, elective metalwork removal"
+   },
+   {
+    "field": "reason_if_not_sampled_and_no_exception",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add non-union and delayed union revision surgery to the same 'bone infection sampling kit' WHO sign-in prompt already used for suspected FRI debridements, so sampling becomes the default rather than something to remember separately.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance meeting; if extending the sampling kit prompt to this population works, keep it in the WHO sign-in permanently.",
+  "evidence": [
+   "No audit of sampling at non-union/delayed union surgery exists in the library; [ONA-141] audits a narrower population already suspected of infection."
+  ],
+  "pitfalls": [
+   "Surgeons may not consider infection likely in an apparently mechanical non-union, and skip sampling without documenting a reason → the standard asks infection to be 'considered' in every case, so absence of a documented decision should count as a fail.",
+   "Limited surgical exposure genuinely prevents full sampling in some cases → record this as a valid reason rather than a fail, but still count it in the denominator.",
+   "Confusing this audit with the existing FRI debridement sampling audit [ONA-141] risks double-counting patients → define the two populations clearly and keep them separate.",
+   "Histology turnaround delays can make results unavailable at the time of data collection → collect whether samples were sent, not just results."
+  ],
+  "pearls": [
+   "Recruit the same infection MDT and theatre coordinator already engaged for [ONA-141]; the fix (a sampling kit) is shared.",
+   "Brief the trauma and limb reconstruction surgeons specifically, since non-union surgery is often booked as 'routine' rather than 'infection-related'.",
+   "Use real (anonymised) non-union cases in departmental teaching to show why sampling matters even without obvious infection signs.",
+   "Keep the extended WHO sign-in prompt live by updating the theatre checklist master copy, not a local printout."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the operation note and lab system",
+  "pass": "The operation note for non-union or delayed union surgery records 5 separate microbiology samples and 2 histology samples, or explicitly documents that the fracture was soundly united with no evidence of infection and the procedure was elective metalwork removal (an accepted exception).",
+  "id": "ONA-188",
+  "template_file": "new_audits/templates/ONA-188.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of septic patients with suspected acute prosthetic joint infection have emergency surgical drainage within 6 hours?",
+  "why": "The BOAST for acute PJI sets a 6-hour surgical target for the septic patient, distinct from the library's existing PJI audits [ONA-142, ONA-143], which cover antibiotic timing in non-septic patients and discharge information, not this emergency surgical standard.",
+  "standard": {
+   "source": "BOAST Acute Management of Peri-Prosthetic Joint Infection (October 2023), standard 3.3",
+   "wording": "requires emergent drainage and should have surgery performed by a suitably experienced surgical team as soon as is safe. In an acutely unwell patient this should be within 6 hours unless there are specific reasons that this is not possible.",
+   "url": "https://www.boa.ac.uk/asset/1D7D2F54-34B7-4C96-8A0EB80BAE3E3A07/"
+  },
+  "population": "Inclusion: adults presenting with sepsis and a suspected acute prosthetic joint infection, over the last 12-24 months. Exclusion: chronic, stable PJI without sepsis.",
+  "sample": "20-30 consecutive septic suspected acute PJI presentations over the last 12-24 months (this is a relatively rare emergency presentation, so a long window may be needed).",
+  "data_source": "ED sepsis pathway documentation, theatre booking and start times, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "time_sepsis_recognised",
+    "type": "datetime"
+   },
+   {
+    "field": "time_surgery_started",
+    "type": "datetime"
+   },
+   {
+    "field": "hours_to_surgery",
+    "type": "number"
+   },
+   {
+    "field": "within_6_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "sepsis_six_started_immediately",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect (extended window); Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-24 re-audit",
+  "change": "Classify septic suspected acute PJI as an NCEPOD category 1 emergency on the theatre booking system, triggering immediate theatre and on-call consultant notification in the same way as other time-critical orthopaedic emergencies.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance and sepsis governance meetings; if the emergency booking category works, keep it as a standing theatre priority classification.",
+  "evidence": [
+   "No audit of the 6-hour surgical standard for septic acute PJI exists in the library; [ONA-142] covers non-septic patients and [ONA-143] covers discharge information."
+  ],
+  "pitfalls": [
+   "Case numbers will be small in any one hospital → pool data across a longer window or a network, and describe cases individually as well as in aggregate.",
+   "Competing theatre emergencies (e.g. open fractures, vascular injury) may delay this case legitimately → record competing cases as a documented reason, not a hidden delay.",
+   "Sepsis recognition time can be recorded inconsistently → use the time the 'sepsis six' pathway was started as the standard start point.",
+   "An unstable patient may need prolonged resuscitation before theatre is safe → this is a valid reason under the standard's own wording ('unless there are specific reasons'), so record it as such."
+  ],
+  "pearls": [
+   "Recruit the sepsis lead and emergency theatre coordinator, since both pathways intersect in this standard.",
+   "Use the trust's existing sepsis-six audit process as an additional case-finding source.",
+   "Present timeline data (recognition, theatre booking, knife-to-skin) rather than a single figure, to show where any delay occurs.",
+   "Keep the NCEPOD category 1 classification live by adding it to the theatre booking system's fixed category list."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ED, theatre and sepsis pathway records",
+  "pass": "A septic patient with suspected acute PJI has surgical drainage started within 6 hours of the sepsis being recognised, or a documented specific reason explains a longer time.",
+  "id": "ONA-189",
+  "template_file": "new_audits/templates/ONA-189.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients assessed for suspected prosthetic joint infection have a documented assessment for additional sources of infection, including endocarditis?",
+  "why": "The BOAST PJI standard requires a general assessment for other infection sources including cardiovascular assessment for endocarditis as part of the comprehensive work-up, but this documentation item is not covered by the library's existing PJI audits [ONA-142, ONA-143, ONA-097], which focus on antibiotic timing and discharge advice.",
+  "standard": {
+   "source": "BOAST Acute Management of Peri-Prosthetic Joint Infection (October 2023), standard 5.2",
+   "wording": "a general assessment for additional sources of infection including a cardiovascular assessment for endocarditis.",
+   "url": "https://www.boa.ac.uk/asset/1D7D2F54-34B7-4C96-8A0EB80BAE3E3A07/"
+  },
+  "population": "Inclusion: adults assessed by orthopaedics for suspected acute prosthetic joint infection over the last 6 months. Exclusion: none.",
+  "sample": "30 consecutive suspected acute PJI assessments over the last 6 months.",
+  "data_source": "Orthopaedic admission or clinic assessment note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "general_infection_source_review_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "cardiovascular_endocarditis_comment_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "echocardiogram_requested_if_indicated",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_not_documented",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'other infection sources considered (including endocarditis)' field to the PJI assessment proforma, which cannot be left blank.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance meeting; if the mandatory field improves documentation, keep the proforma as the standard PJI assessment tool.",
+  "evidence": [
+   "No audit of endocarditis/other-source assessment in suspected PJI exists in the library; other PJI audits [ONA-142, ONA-143, ONA-097] cover different standards."
+  ],
+  "pitfalls": [
+   "Orthopaedic teams may feel this assessment 'belongs' to medicine or microbiology and skip it → the standard specifically asks for it as part of the orthopaedic comprehensive assessment, so frame the fix accordingly.",
+   "A brief 'no murmur' note may be too minimal to count as a considered assessment → agree what counts as adequate documentation before starting.",
+   "Bacteraemia results may arrive after the initial assessment, changing the risk → allow the field to be updated once culture results are known.",
+   "Overuse of echocardiography for every case would be inappropriate → the pass criterion is a documented assessment/comment, not routine echo for all."
+  ],
+  "pearls": [
+   "Recruit a microbiologist or infectious diseases physician to help define what a 'considered' assessment looks like.",
+   "Combine data collection with the existing PJI antibiotic-timing audits [ONA-142] to reduce duplicate note review.",
+   "Use real case examples of bacteraemic PJI with missed endocarditis assessment (anonymised) to illustrate the stakes in teaching.",
+   "Keep the proforma field live by embedding it in the trust's standard PJI clerking template."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the assessment note",
+  "pass": "The orthopaedic assessment documents a general review for other infection sources and a specific comment on cardiovascular/endocarditis risk (murmur examination, relevant history, or echocardiogram request where indicated).",
+  "id": "ONA-190",
+  "template_file": "new_audits/templates/ONA-190.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients assessed for suspected prosthetic joint infection have the full initial investigation panel of FBC, CRP, renal function and plain radiographs?",
+  "why": "The BOAST PJI standard specifies a minimum initial investigation panel, but no audit in the library checks completeness of this basic work-up, as distinct from the antibiotic-timing and sampling standards already audited [ONA-142, ONA-097].",
+  "standard": {
+   "source": "BOAST Acute Management of Peri-Prosthetic Joint Infection (October 2023), standard 6",
+   "wording": "Initial investigations should include Full Blood Count, CRP, renal function, and plain radiographs.",
+   "url": "https://www.boa.ac.uk/asset/1D7D2F54-34B7-4C96-8A0EB80BAE3E3A07/"
+  },
+  "population": "Inclusion: adults presenting with suspected prosthetic joint infection over the last 3-6 months. Exclusion: none.",
+  "sample": "40 consecutive suspected PJI presentations over the last 3-6 months.",
+  "data_source": "Laboratory results system, radiology system, admission/clinic assessment note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "fbc_done",
+    "type": "yes/no"
+   },
+   {
+    "field": "crp_done",
+    "type": "yes/no"
+   },
+   {
+    "field": "renal_function_done",
+    "type": "yes/no"
+   },
+   {
+    "field": "plain_radiograph_done",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_four_within_24_hours",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single 'suspected PJI' order set in the EPR that requests FBC, CRP, renal function and the appropriate plain radiograph together in one click.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance meeting; if the order set improves completeness, keep it as the default admission/clinic order set for suspected PJI.",
+  "evidence": [
+   "No audit of initial investigation completeness for suspected PJI exists in the library; [ONA-142] and [ONA-097] audit antibiotic timing around sampling, not this initial panel."
+  ],
+  "pitfalls": [
+   "A recent radiograph taken elsewhere (e.g. in clinic days earlier) may be wrongly excluded → allow any radiograph within a clinically reasonable window (e.g. 2 weeks) if repeat imaging is not indicated.",
+   "Renal function is often checked as part of a routine U&E and easy to miss counting → confirm creatinine/eGFR specifically, not just that 'bloods were sent'.",
+   "Out-of-hours presentations may have delayed radiograph access → record whether the delay was due to service availability.",
+   "The order set can become a 'tick box' exercise if results are not actioned → also check whether abnormal results changed management."
+  ],
+  "pearls": [
+   "Recruit an ED and orthopaedic EPR administrator to build the order set quickly.",
+   "Pilot the order set in one clinical area (e.g. orthopaedic assessment unit) before wider rollout.",
+   "Reuse the same case list as the antibiotic-timing PJI audits [ONA-142] to minimise duplicate note review.",
+   "Keep the order set live by adding it to the EPR's standard order set library, not a personal favourite list."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the lab and radiology systems",
+  "pass": "All four investigations (FBC, CRP, renal function, plain radiographs of the affected joint) are requested and resulted within 24 hours of the suspected PJI assessment.",
+  "id": "ONA-191",
+  "template_file": "new_audits/templates/ONA-191.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "What proportion of elective orthopaedic operations use reusable (laundered) surgical gowns and drapes instead of single-use disposable ones?",
+  "why": "The Intercollegiate Green Theatre Checklist recommends reusable textiles to cut theatre carbon footprint and waste, but the library's existing sustainability audits [ONA-122, ONA-123, ONA-150, ONA-151] cover catheters, histology, waste streams and instrument tray overage, not gown and drape choice.",
+  "standard": {
+   "source": "Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 6",
+   "wording": "Evaluate PPE and sterile field requirements: rationalise use of non-sterile single-use gloves and PPE and opt for reusables when possible; limit sterile field to necessary areas only. Ensure availability of reusable textiles, including theatre hats, sterile gowns, patient drapes, and trolley covers.",
+   "url": "https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf"
+  },
+  "population": "Inclusion: all elective primary hip and knee replacement operations over the last 4-6 weeks. Exclusion: revision arthroplasty and cases with a documented high infection-risk reason for single-use gowns.",
+  "sample": "40 consecutive elective primary hip and knee replacement operations over the last 4-6 weeks.",
+  "data_source": "Theatre stock/pick-list records, direct observation of gowns opened for the case, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "primary hip replacement",
+     "primary knee replacement"
+    ]
+   },
+   {
+    "field": "gown_type_used",
+    "type": "choice",
+    "options": [
+     "reusable/laundered",
+     "single-use disposable",
+     "mixed"
+    ]
+   },
+   {
+    "field": "reason_if_single_use",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree a written default of reusable gowns for routine elective primary arthroplasty with theatre sterile services, and remove single-use gowns from the default arthroplasty pick list so they must be actively requested.",
+  "target": "≥80%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the theatre sustainability and green theatre governance meeting; if the default pick-list change works, keep reusable gowns as the standard stock item for elective arthroplasty.",
+  "evidence": [
+   "No audit of reusable versus single-use gown use exists in the library; existing green theatre audits [ONA-122, ONA-123, ONA-150, ONA-151] cover different checklist items."
+  ],
+  "pitfalls": [
+   "Infection prevention teams may have local policies favouring single-use gowns for specific high-risk procedures → agree the exceptions list with infection control before starting.",
+   "Laundry turnaround and stock levels of reusable gowns can limit availability → check supply chain capacity before setting the pick-list default.",
+   "Staff comfort and familiarity with disposable gowns can drive continued use even when reusables are stocked → include staff feedback alongside the audit numbers.",
+   "Cost and carbon savings depend on genuine laundry-cycle data, which this audit does not itself measure → note this is a process audit, and pair it with the trust's sustainability team's carbon data if available."
+  ],
+  "pearls": [
+   "Recruit the theatre sterile services manager and the trust's sustainability/green theatre lead as co-leads.",
+   "Use the Intercollegiate Green Theatre Checklist itself as a ready-made teaching resource for theatre staff.",
+   "Present the change alongside cost data (reusable gowns are typically cheaper over their laundry lifecycle), which helps engagement.",
+   "Keep the pick-list default live by updating theatre stores' master pick-list, not a temporary note."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from direct observation or the pick-list record",
+  "pass": "The case uses reusable (laundered, non-disposable) surgical gowns for the scrub team, or a documented clinical reason (e.g. high fluid-risk procedure per local infection control policy) justifies single-use gowns.",
+  "id": "ONA-192",
+  "template_file": "new_audits/templates/ONA-192.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "What proportion of orthopaedic general anaesthetics using a volatile agent are given using low-flow (end-tidal controlled) anaesthesia?",
+  "why": "Volatile anaesthetic gases are a major contributor to theatre carbon footprint, and low-flow anaesthesia substantially reduces this; the library's sustainability audits do not yet cover anaesthetic gas delivery.",
+  "standard": {
+   "source": "Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 3",
+   "wording": "If using inhalational anaesthesia: use low-flow anaesthesia (via end-tidal anaesthetic gas control, if available).",
+   "url": "https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf"
+  },
+  "population": "Inclusion: all adults having a general anaesthetic with a volatile agent for elective orthopaedic surgery over the last 4-6 weeks. Exclusion: cases using total intravenous anaesthesia only, cases with a documented clinical reason for high flow (e.g. malignant hyperthermia risk).",
+  "sample": "40 consecutive volatile general anaesthetics for elective orthopaedic surgery over the last 4-6 weeks.",
+  "data_source": "Anaesthetic e-record or paper anaesthetic chart (fresh gas flow rate over time).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "volatile_agent_used",
+    "type": "text"
+   },
+   {
+    "field": "low_flow_achieved",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_to_low_flow_minutes",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_not_low_flow",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set low-flow anaesthesia as the default target on the anaesthetic machine's electronic workflow prompt, with a reminder to reduce fresh gas flow once the patient is stable, agreed with the anaesthetic department.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the anaesthetic department and theatre sustainability meeting; if the workflow prompt increases low-flow use, keep it as a standard machine setting.",
+  "evidence": [
+   "No audit of low-flow anaesthesia use in orthopaedic theatres exists in the library."
+  ],
+  "pitfalls": [
+   "Not all anaesthetic machines have end-tidal gas control, limiting how low flow can safely go → record equipment availability alongside the result.",
+   "Induction and early maintenance legitimately need higher flow → measure low-flow achievement after the first few minutes of stable anaesthesia, not from time zero.",
+   "Anaesthetists may have individual practice preferences → present data anonymised by list rather than by named anaesthetist initially.",
+   "Desflurane has a far higher carbon impact than other volatiles regardless of flow rate → consider recording which agent was used as well as the flow rate."
+  ],
+  "pearls": [
+   "Recruit an anaesthetic sustainability champion (many departments already have one) as co-lead.",
+   "Use the Intercollegiate Green Theatre Checklist's own compendium of evidence to support the teaching session.",
+   "Track total volatile agent usage (bottles used) as a simple parallel metric that is easy to trend over time.",
+   "Keep the practice alive by including it in anaesthetic departmental induction for new starters."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the anaesthetic record",
+  "pass": "The anaesthetic record shows fresh gas flow reduced to low-flow (typically ≤1 L/min) once the patient is stable, using end-tidal anaesthetic gas control where available.",
+  "id": "ONA-193",
+  "template_file": "new_audits/templates/ONA-193.csv"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "What proportion of elective hip and knee replacement wounds are closed with sutures rather than metal staples?",
+  "why": "The Green Theatre Checklist names suture skin closure as a lower-carbon alternative to staples, and sutures have a comparable or better evidence base for wound complications; the library has no audit of skin closure method choice.",
+  "standard": {
+   "source": "Intercollegiate Green Theatre Checklist v2.0 (November 2024), item 12",
+   "wording": "REPLACE: switch to low carbon alternatives (e.g. skin sutures vs. clips, \"loose\" antiseptic solutions in reusable gallipots).",
+   "url": "https://www.rcsed.ac.uk/media/zs2nlvpj/green-theatre-checklist.pdf"
+  },
+  "population": "Inclusion: all adults having primary elective hip or knee replacement over the last 4-6 weeks. Exclusion: revision arthroplasty, documented wound-specific reasons for staples (e.g. very thin or friable skin).",
+  "sample": "40 consecutive elective primary hip and knee replacements over the last 4-6 weeks.",
+  "data_source": "Operation note, theatre stock/pick-list record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date"
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "primary hip replacement",
+     "primary knee replacement"
+    ]
+   },
+   {
+    "field": "skin_closure_method",
+    "type": "choice",
+    "options": [
+     "sutures",
+     "staples/clips",
+     "mixed"
+    ]
+   },
+   {
+    "field": "reason_if_staples",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree a written default of suture skin closure for routine primary elective arthroplasty with the arthroplasty surgeons, and set the theatre pick-list default to sutures, with staples available on specific request.",
+  "target": "≥70%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the theatre sustainability and arthroplasty governance meeting; if the default change is adopted and wound complication rates remain acceptable, keep sutures as the standard pick-list default.",
+  "evidence": [
+   "No audit of skin closure method choice for sustainability exists in the library."
+  ],
+  "pitfalls": [
+   "Surgeon preference and training background strongly influence closure method → present the evidence base (equivalent or better wound outcomes with sutures) alongside the audit to support a practice change conversation.",
+   "Wound closure time may increase slightly with sutures → consider recording closure time to address concerns directly.",
+   "A subset of patients (e.g. very thin skin, high tension closure) genuinely need staples → keep the exception category open and reviewed regularly.",
+   "This audit alone does not measure wound complication rates → pair it with existing surgical site infection surveillance data before making the change permanent."
+  ],
+  "pearls": [
+   "Recruit an arthroplasty lead surgeon who already prefers sutures to champion the change with colleagues.",
+   "Present carbon and cost savings data together, since staples are also typically more expensive per case.",
+   "Check surgical site infection surveillance data at re-audit to reassure colleagues the change is safe.",
+   "Keep the pick-list default live by updating theatre stores' master list, not a temporary request."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the operation note and pick-list record",
+  "pass": "The skin is closed with sutures (not metal staples/clips) for a routine primary elective hip or knee replacement, or a documented clinical reason justifies staples.",
+  "id": "ONA-194",
+  "template_file": "new_audits/templates/ONA-194.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of new orthopaedic referrals for tennis elbow have avoided a corticosteroid injection beforehand?",
+  "why": "National guidance strongly advises against corticosteroid injection for lateral elbow tendinopathy because of worse medium-term outcomes, but the library has no elbow-specific audit at all; tennis elbow is one of the highest-volume upper limb soft-tissue referrals.",
+  "standard": {
+   "source": "BESS patient care pathway: Tennis elbow (Shoulder & Elbow 2023;15(4):348-359), summary of recommendations",
+   "wording": "Corticosteroid injection should not be used in the treatment of LET [lateral elbow tendinopathy] - Strong recommendation.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2023/11/singh-et-al-2023-bess-patient-care-pathway-tennis-elbow.pdf"
+  },
+  "population": "Inclusion: all adults referred to orthopaedics or a musculoskeletal service with a working diagnosis of tennis elbow (lateral elbow tendinopathy) over the last 6 months. Exclusion: referrals for red-flag features (fracture, dislocation, tumour, inflammatory arthritis).",
+  "sample": "30-40 consecutive new tennis elbow referrals over the last 6 months.",
+  "data_source": "GP referral letter, clinic letter, medicines record/GP summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date"
+   },
+   {
+    "field": "corticosteroid_injection_given_before_referral",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_injection_if_given",
+    "type": "date"
+   },
+   {
+    "field": "physiotherapy_tried_first",
+    "type": "yes/no"
+   },
+   {
+    "field": "duration_of_symptoms_weeks",
+    "type": "number"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Share the BESS tennis elbow pathway and a one-page 'do not inject' summary with local GP practices and the musculoskeletal triage service, so physiotherapy becomes the automatic first step instead of injection.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the primary-secondary care musculoskeletal interface meeting; if referral patterns improve, add the pathway to the local GP referral guidance system permanently.",
+  "evidence": [
+   "No audit of tennis elbow management exists in the library; there is no dedicated elbow audit topic in the corpus at all."
+  ],
+  "pitfalls": [
+   "GPs may have already tried an injection years earlier for a different episode → ask specifically about the current episode.",
+   "Patients may have received an injection privately or from a physiotherapist without GP record → ask the patient directly as well as checking records.",
+   "Injection use may reflect limited access to physiotherapy rather than clinician choice → capture physiotherapy access/waiting time as context.",
+   "This is a primary-care-facing change, so orthopaedic teams alone cannot fix it → engage the musculoskeletal triage service and GP education leads directly."
+  ],
+  "pearls": [
+   "Recruit a GP or musculoskeletal triage clinician as co-lead, since most of the change happens before referral.",
+   "Use the BESS pathway flowchart directly as an education resource for referrers.",
+   "Present the evidence (injections reversing to worse outcomes than placebo by 6 months) clearly, as this often changes practice quickly once seen.",
+   "Keep the pathway visible by adding it to the CCG/ICB musculoskeletal referral guidance, not just a one-off email."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the referral letter and GP summary",
+  "pass": "The patient has not received a corticosteroid injection for lateral elbow pain in primary or secondary care before or during their orthopaedic/physiotherapy assessment.",
+  "id": "ONA-195",
+  "template_file": "new_audits/templates/ONA-195.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults with a straightforward clinical diagnosis of tennis elbow avoid unnecessary imaging before physiotherapy?",
+  "why": "National guidance states plain radiographs are not essential and specialist imaging is not needed for treatment when the diagnosis is clinically clear, but no audit of imaging stewardship for this very common presentation exists in the library.",
+  "standard": {
+   "source": "BESS patient care pathway: Tennis elbow (Shoulder & Elbow 2023;15(4):348-359), Primary care/community triage services section",
+   "wording": "Plain radiographs of the elbow are not essential for confirming the diagnosis. Specialist imaging such as magnetic resonance imaging (MRI) or computed tomography (CT) scans are not needed for treatment of LET in the primary care setting.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2023/11/singh-et-al-2023-bess-patient-care-pathway-tennis-elbow.pdf"
+  },
+  "population": "Inclusion: adults with a new clinical diagnosis of tennis elbow (insidious onset lateral elbow pain, tenderness over the lateral epicondyle, no history of trauma) seen in primary care or musculoskeletal triage over the last 6 months. Exclusion: any red-flag feature present.",
+  "sample": "30-40 consecutive new tennis elbow presentations over the last 6 months.",
+  "data_source": "GP or musculoskeletal triage clinical record, radiology request system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "red_flag_features_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "imaging_requested",
+    "type": "yes/no"
+   },
+   {
+    "field": "imaging_type",
+    "type": "choice",
+    "options": [
+     "none",
+     "X-ray",
+     "ultrasound",
+     "MRI",
+     "CT"
+    ]
+   },
+   {
+    "field": "physiotherapy_referral_made_without_imaging",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add the BESS diagnostic checklist to the musculoskeletal triage and GP referral template so imaging is only requested when a red-flag feature or diagnostic uncertainty is specifically documented.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the primary-secondary care musculoskeletal interface meeting and radiology demand management meeting; if the checklist reduces unnecessary imaging, embed it in the referral template permanently.",
+  "evidence": [
+   "No audit of imaging stewardship for tennis elbow exists in the library; there is no dedicated elbow audit topic in the corpus at all."
+  ],
+  "pitfalls": [
+   "Clinicians may request imaging for reassurance or because a patient asks for it → the fix should include clear patient-facing information explaining why imaging is not needed.",
+   "Genuine diagnostic uncertainty (e.g. in an older patient or atypical presentation) is a valid reason for imaging → record this as an exception, not a fail.",
+   "Imaging requested for a different reason (e.g. incidental) should not be counted against this standard → check the stated indication on the request.",
+   "This crosses primary and secondary care, so a purely hospital-based fix will not reach GP-ordered imaging → involve the musculoskeletal triage/referral pathway directly."
+  ],
+  "pearls": [
+   "Recruit a GP or musculoskeletal triage clinician as co-lead, since most imaging requests originate in primary care.",
+   "Use the BESS diagnostic flowchart as a simple, shareable one-page resource for referrers.",
+   "Present imaging cost and waiting-list impact data alongside the guideline evidence to strengthen the case for change.",
+   "Keep the checklist current by embedding it in the CCG/ICB musculoskeletal referral guidance, not a one-off circulation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the referral and radiology systems",
+  "pass": "No X-ray, ultrasound, CT or MRI of the elbow is requested before a trial of physiotherapy, in a patient with a clinically clear diagnosis of tennis elbow and no red-flag features (trauma, swelling/lump, multi-joint involvement, suspected malignancy).",
+  "id": "ONA-196",
+  "template_file": "new_audits/templates/ONA-196.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of patients aged 40 to 60 with a first traumatic anterior shoulder dislocation have rotator cuff imaging (ultrasound or MRI)?",
+  "why": "Up to 40% of patients in this age group have a clinically relevant rotator cuff tear after dislocation, which is easily missed if imaging is not routinely considered; the library's only shoulder dislocation audit [ONA-156] covers post-reduction axillary nerve function, not rotator cuff assessment.",
+  "standard": {
+   "source": "BESS/BOA Patient Care Pathway: Traumatic anterior shoulder instability (Shoulder & Elbow 2015;7(3):214-226)",
+   "wording": "Patients between the ages of 40 years and 60 years have an increased risk of clinically relevant rotator cuff tears (approximately 40%) and, consequently should undergo routine ultrasound/magnetic resonance imaging to assess cuff integrity.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2020/06/Traumatic_Anterior_Instability.pdf"
+  },
+  "population": "Inclusion: adults aged 40-60 with a first traumatic anterior shoulder dislocation, over the last 12 months. Exclusion: dislocation in the context of a known chronic cuff tear, atraumatic or recurrent dislocation.",
+  "sample": "30 consecutive eligible patients over the last 12 months.",
+  "data_source": "ED/fracture clinic record, radiology request system, clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_dislocation",
+    "type": "date"
+   },
+   {
+    "field": "age_at_dislocation",
+    "type": "number"
+   },
+   {
+    "field": "cuff_weakness_examined_and_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "cuff_imaging_requested",
+    "type": "yes/no"
+   },
+   {
+    "field": "imaging_modality",
+    "type": "choice",
+    "options": [
+     "none",
+     "ultrasound",
+     "MRI"
+    ]
+   },
+   {
+    "field": "date_imaging_performed",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'age 40-60: request shoulder ultrasound for cuff integrity' prompt to the fracture clinic outcome form whenever a first traumatic anterior dislocation is coded in this age group.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the shoulder/upper limb MDT and fracture clinic governance meeting; if the prompt increases appropriate imaging, keep it in the outcome form permanently.",
+  "evidence": [
+   "No audit of rotator cuff imaging after shoulder dislocation exists in the library; [ONA-156] covers axillary nerve function, a different clinical question."
+  ],
+  "pitfalls": [
+   "Cuff weakness can be masked by pain in the acute setting → the standard specifically recommends routine imaging for this age group rather than relying on examination alone, so imaging should not be skipped just because examination seemed normal.",
+   "Some patients recover full strength quickly and imaging may be deferred to a follow-up appointment → record whether imaging was requested at any point in the pathway, not only at first presentation.",
+   "Asymptomatic degenerative cuff tears are common with age and can confuse interpretation → this audit measures whether imaging was requested, not the clinical significance of any finding.",
+   "Patients may not attend for outpatient imaging after discharge from ED → track requests through to completion, not just the request being made."
+  ],
+  "pearls": [
+   "Recruit the shoulder/upper limb clinical lead to define the exact age band and imaging pathway locally.",
+   "Use the fracture clinic outcome form as the single trigger point so the prompt reaches every relevant patient.",
+   "Present findings alongside any known missed rotator cuff tear cases to illustrate the clinical stakes.",
+   "Keep the prompt live by embedding it in the fracture clinic's standard outcome form, not a separate checklist."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the clinic and radiology systems",
+  "pass": "An ultrasound or MRI scan of the shoulder to assess rotator cuff integrity is requested within 6 weeks of a first traumatic anterior dislocation in a patient aged 40 to 60.",
+  "id": "ONA-197",
+  "template_file": "new_audits/templates/ONA-197.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of shoulder dislocations have a documented neurological and circulatory examination before reduction?",
+  "why": "Pre-reduction neurovascular assessment is essential for clinical and medico-legal reasons and to distinguish pre-existing nerve injury from a reduction complication; the library's only shoulder dislocation audit [ONA-156] covers documentation after reduction, not before.",
+  "standard": {
+   "source": "BESS/BOA Patient Care Pathway: Traumatic anterior shoulder instability (Shoulder & Elbow 2015;7(3):214-226)",
+   "wording": "It is essential, for clinical and medico-legal reasons, that a detailed and documented neurological (and circulatory) examination is performed prior to shoulder relocation.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2020/06/Traumatic_Anterior_Instability.pdf"
+  },
+  "population": "Inclusion: all patients with a shoulder dislocation undergoing reduction in the emergency department over the last 3 months. Exclusion: none.",
+  "sample": "40 consecutive shoulder dislocation reductions over the last 3-6 months.",
+  "data_source": "ED procedure note or shoulder reduction proforma.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "pre_reduction_neuro_exam_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "pre_reduction_circulatory_exam_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "both_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "post_reduction_neuro_exam_documented",
+    "type": "yes/no",
+    "note": "for comparison with existing post-reduction audit"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory pre-reduction neurovascular examination box (paired with the existing post-reduction box) to the ED shoulder reduction procedure note, so the note cannot be completed without both.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the ED and trauma governance meeting; if the paired pre- and post-reduction box improves documentation, keep it in the standard procedure note template.",
+  "evidence": [
+   "No audit of pre-reduction neurovascular documentation for shoulder dislocation exists in the library; the existing audit [ONA-156] covers only the post-reduction examination."
+  ],
+  "pitfalls": [
+   "In a very painful, acute presentation, clinicians may examine but not document fully before moving quickly to reduce the joint → the fix should make documentation as quick as ticking a box, not writing free text.",
+   "Distinguishing pre-existing nerve injury from a reduction complication is only possible if the pre-reduction exam is genuinely done before, not after, reduction → clarify timing in the proforma design.",
+   "Sedation given before examination could affect the reliability of sensory testing → note whether sedation preceded the neuro exam.",
+   "This audit pairs naturally with the existing post-reduction audit [ONA-156]; running them together avoids duplicate note review but keep the two standards and pass criteria distinct in reporting."
+  ],
+  "pearls": [
+   "Recruit an ED consultant with an interest in procedural sedation, since reduction technique and documentation are closely linked.",
+   "Combine data collection with the existing post-reduction audit [ONA-156] for efficiency, using one combined proforma covering both time points.",
+   "Use a simple diagram-based proforma (regimental badge area, deltoid, pulses) rather than free text to speed up completion.",
+   "Keep the paired box live by building it into the ED's electronic procedure note template."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per case from the ED procedure note",
+  "pass": "A documented neurological examination (including axillary nerve sensation and deltoid function) and a circulatory examination (distal pulse) are recorded before the reduction attempt.",
+  "id": "ONA-198",
+  "template_file": "new_audits/templates/ONA-198.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of new fracture clinic patients who need information in a different language or an accessible format have this recorded as provided?",
+  "why": "National BOAST standards require accessible-format and language-appropriate information for fracture patients, but no audit in the library checks whether patients with a communication or language need actually receive it, an equity gap not covered by the library's plain-English letter audit [ONA-135].",
+  "standard": {
+   "source": "BOASt Outpatient and on-call services for people with fractures or musculoskeletal injury (BOA, February 2026), standard 7",
+   "wording": "Information in an accessible format and language should be available and include instructions for casts, splints, slings, and appliances.",
+   "url": "https://www.boa.ac.uk/asset/513423FF-1257-4C15-958A92BB5BE11877/"
+  },
+  "population": "Inclusion: new fracture clinic patients with a recorded communication or language need (interpreter required, learning disability, visual or hearing impairment) over the last 3-6 months. Exclusion: patients with no recorded communication need.",
+  "sample": "30 consecutive fracture clinic patients with a recorded communication or language need over the last 3-6 months (identify via PAS communication-needs flags or interpreter bookings).",
+  "data_source": "PAS communication needs/flag field, interpreter booking system, clinic letter, plaster room record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_clinic_attendance",
+    "type": "date"
+   },
+   {
+    "field": "communication_need_recorded",
+    "type": "choice",
+    "options": [
+     "interpreter needed",
+     "easy read/learning disability",
+     "visual impairment",
+     "hearing impairment",
+     "other"
+    ]
+   },
+   {
+    "field": "interpreter_or_accessible_format_arranged",
+    "type": "yes/no"
+   },
+   {
+    "field": "cast_splint_advice_given_in_appropriate_format",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_not_provided",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory check at fracture clinic booking that reads the PAS communication-needs flag and automatically books an interpreter or flags the need for an accessible-format information leaflet before the appointment.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the fracture clinic governance and trust equality/health inequalities meeting; if the automatic booking check works, keep it as the standard fracture clinic booking process.",
+  "evidence": [
+   "No audit of accessible-format/language provision in fracture clinic exists in the library; [ONA-135] audits plain-English reading level of letters for the general population, a different equity dimension."
+  ],
+  "pitfalls": [
+   "Communication needs may not be recorded accurately or consistently on PAS → cross-check with ward or ED records where possible and report the recording gap itself as a finding.",
+   "An interpreter booked but not attending on the day is a common real-world failure → record actual use, not just booking.",
+   "Family members are sometimes used informally as interpreters, which is not equivalent to a professional interpreter → record this separately and do not count it as a pass.",
+   "Small numbers of patients with each type of need make percentages unstable → report by need category as well as combined."
+  ],
+  "pearls": [
+   "Recruit the trust's interpreting and translation service manager as co-lead.",
+   "Use the trust's equality, diversity and inclusion or health inequalities lead to help frame and present the findings.",
+   "Pilot the automatic booking check in one fracture clinic before wider rollout.",
+   "Keep the check live by embedding it in the booking team's standard operating procedure, not an individual's reminder."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from PAS, interpreter booking and clinic records",
+  "pass": "A patient recorded as needing a language interpreter, an easy-read format, or another accessible communication format has this need documented and the corresponding format/interpreter actually used or arranged for their fracture clinic information.",
+  "id": "ONA-199",
+  "template_file": "new_audits/templates/ONA-199.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients with a first-time lateral patellar dislocation are assessed by a musculoskeletal physiotherapist within 3 weeks of injury?",
+  "why": "The national FTLPD standard sets a specific early physiotherapy assessment target that is distinct from, and not covered by, the library's existing patellar dislocation audit [ONA-166], which measures only the skyline X-ray view.",
+  "standard": {
+   "source": "BOA Standard: Assessment and Management of First Time Lateral Patellar Dislocation (FTLPD) (December 2024), standard 8",
+   "wording": "Assessment by a musculo-skeletal physiotherapist should occur within 3 weeks of injury.",
+   "url": "https://www.boa.ac.uk/asset/4D585229-6598-445C-81AB07A90CD15D65/"
+  },
+  "population": "Inclusion: all patients (any age) with a first-time lateral patellar dislocation managed non-operatively as the initial plan, over the last 6 months. Exclusion: patients proceeding directly to surgery for an associated injury before physiotherapy would be due.",
+  "sample": "30-40 consecutive first-time lateral patellar dislocations over the last 6 months.",
+  "data_source": "ED/fracture clinic record, physiotherapy referral and appointment system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_dislocation",
+    "type": "date"
+   },
+   {
+    "field": "date_physio_referral_made",
+    "type": "date"
+   },
+   {
+    "field": "date_physio_assessment",
+    "type": "date"
+   },
+   {
+    "field": "days_to_physio_assessment",
+    "type": "number"
+   },
+   {
+    "field": "within_3_weeks",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a direct physiotherapy self-referral or fast-track booking option to the virtual fracture clinic outcome form for first-time patellar dislocation, bypassing the general physiotherapy waiting list.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT and physiotherapy service governance meeting; if the fast-track referral works, keep it as the standard pathway for this diagnosis.",
+  "evidence": [
+   "No audit of the BOA FTLPD physiotherapy timing standard exists in the library; the existing audit [ONA-166] covers a different standard (skyline X-ray view) from the same guideline."
+  ],
+  "pitfalls": [
+   "General physiotherapy waiting lists may make the 3-week target unachievable without a dedicated pathway → escalate capacity constraints if the fast-track referral does not resolve the gap.",
+   "Patients may be referred but not attend their first appointment → record both referral date and actual attendance date.",
+   "Diagnosis coding for 'patellar dislocation' can be inconsistent between ED and fracture clinic systems → cross-check both sources when identifying cases.",
+   "A patient who self-refers to a private physiotherapist would still meet the clinical intent but may not appear in hospital data → note this as a data limitation."
+  ],
+  "pearls": [
+   "Recruit the musculoskeletal physiotherapy service lead as co-lead, since capacity is the likely rate-limiting step.",
+   "Use the same case list as any recurrent patellar instability MRI audit already running, since patients may overlap.",
+   "Agree the fast-track referral criteria and capacity with physiotherapy before cycle 1, not after finding a gap.",
+   "Keep the fast-track pathway live by adding it to the virtual fracture clinic outcome form permanently."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the fracture clinic and physiotherapy systems",
+  "pass": "The patient is seen by a musculoskeletal physiotherapist within 3 weeks (21 days) of the date of dislocation.",
+  "id": "ONA-200",
+  "template_file": "new_audits/templates/ONA-200.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients considered for surgery after a first-time lateral patellar dislocation have this discussed and documented at an age-appropriate MDT?",
+  "why": "The national FTLPD standard requires MDT or peer-review discussion before surgery is offered, to avoid unnecessary stabilisation procedures; this specific governance step is not covered by the library's existing patellar dislocation audit [ONA-166].",
+  "standard": {
+   "source": "BOA Standard: Assessment and Management of First Time Lateral Patellar Dislocation (FTLPD) (December 2024), standard 13",
+   "wording": "Clinicians considering surgery following FTLPD should discuss their plan within an age-appropriate multi-disciplinary team meeting, or alternative forum for peer review, with written documentation of the outcome included in the medical records.",
+   "url": "https://www.boa.ac.uk/asset/4D585229-6598-445C-81AB07A90CD15D65/"
+  },
+  "population": "Inclusion: all patients considered for surgery (for the dislocation itself or an associated injury) after a first-time lateral patellar dislocation, over the last 12 months. Exclusion: emergency surgery for an acute vascular or open injury.",
+  "sample": "20-30 consecutive patients considered for surgery after FTLPD over the last 12 months.",
+  "data_source": "MDT/peer-review meeting minutes, clinic letter, theatre listing form.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_surgery_considered",
+    "type": "date"
+   },
+   {
+    "field": "mdt_or_peer_review_discussion_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_discussion",
+    "type": "date"
+   },
+   {
+    "field": "outcome_documented_in_notes",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_listed_for_surgery",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'FTLPD surgical plan' as a standing agenda item template in the knee/sports injury or paediatric orthopaedic MDT, with a mandatory outcome-recording field linked to the theatre listing form.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury and paediatric orthopaedic MDT governance meeting; if the standing agenda item works, keep it as a permanent MDT process.",
+  "evidence": [
+   "No audit of MDT discussion before FTLPD surgery exists in the library; the existing audit [ONA-166] covers a different standard (skyline X-ray view) from the same guideline."
+  ],
+  "pitfalls": [
+   "A single-surgeon department may not have a formal MDT and rely on informal peer discussion → the standard allows an 'alternative forum for peer review', so define and document what this looks like locally.",
+   "Surgery decided in a busy clinic without a documented discussion is easy to miss from case-finding → cross-check theatre listing forms against MDT minutes systematically.",
+   "Skeletally immature patients may go through a different (paediatric) MDT to adults → make sure both age-appropriate forums are captured.",
+   "Retrospective documentation of an MDT outcome after the decision was already made in clinic would not meet the spirit of the standard → check the dates are in the correct order."
+  ],
+  "pearls": [
+   "Recruit both adult knee/sports injury and paediatric orthopaedic leads, since the standard applies across ages.",
+   "Use the recurrent patellar instability assessment standard's own MRI findings as part of the MDT discussion template.",
+   "Agree what counts as an acceptable 'alternative forum for peer review' locally before cycle 1.",
+   "Keep the agenda item live by giving the MDT coordinator ownership of the standing template."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from MDT minutes and the listing form",
+  "pass": "The decision to offer surgery after a first-time lateral patellar dislocation is documented as having been discussed at an age-appropriate MDT or peer-review forum before listing.",
+  "id": "ONA-201",
+  "template_file": "new_audits/templates/ONA-201.csv"
+ },
+ {
+  "area": "Foot and ankle, hand and wrist, spine",
+  "question": "What proportion of adults with non-specific low back pain (with or without sciatica) in a non-specialist setting avoid routine spinal imaging?",
+  "why": "Unnecessary lumbar spine imaging drives further unhelpful investigation and patient anxiety without changing management; the library's spine audits focus heavily on cauda equina and traumatic fracture imaging, with no audit of this very high-volume imaging stewardship standard.",
+  "standard": {
+   "source": "NICE NG59 rec 1.1.4 (2016)",
+   "wording": "Do not routinely offer imaging in a non-specialist setting for people with low back pain with or without sciatica. [2016]",
+   "url": "https://www.nice.org.uk/guidance/ng59/chapter/recommendations"
+  },
+  "population": "Inclusion: adults presenting to primary care or a non-specialist musculoskeletal/orthopaedic triage service with low back pain, with or without sciatica, over the last 3 months. Exclusion: any red-flag feature present (cauda equina symptoms, unexplained weight loss, history of cancer, significant trauma, fever, progressive neurological deficit).",
+  "sample": "40 consecutive eligible low back pain presentations over the last 3 months.",
+  "data_source": "GP or musculoskeletal triage clinical record, radiology request system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "sciatica_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "red_flag_features_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "imaging_requested",
+    "type": "yes/no"
+   },
+   {
+    "field": "imaging_type",
+    "type": "choice",
+    "options": [
+     "none",
+     "X-ray",
+     "CT",
+     "MRI"
+    ]
+   },
+   {
+    "field": "reason_if_imaged_without_red_flag",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory red-flag checklist to the GP and musculoskeletal triage low back pain template that must be completed before an imaging request can be submitted for non-specific low back pain.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the primary care and musculoskeletal interface meeting and radiology demand management meeting; if the checklist reduces unnecessary imaging, embed it in the referral/request system permanently.",
+  "evidence": [
+   "No audit of imaging stewardship for non-specific low back pain exists in the library; existing spine audits cover cauda equina and traumatic fracture imaging, a different population."
+  ],
+  "pitfalls": [
+   "Patient expectation and anxiety commonly drive imaging requests → pair the checklist with patient-facing information explaining why imaging is not needed without red flags.",
+   "Clinicians may document a red flag loosely to justify imaging they already intended to request → define red flags precisely in the checklist to reduce this.",
+   "Imaging requested by a specialist (e.g. after referral) is outside the scope of this non-specialist-setting standard → clearly define the non-specialist population before starting.",
+   "This crosses primary and secondary care, so a hospital-only fix will not reach all GP-ordered imaging → involve GP practices or the musculoskeletal triage service directly."
+  ],
+  "pearls": [
+   "Recruit a GP with a special interest in musculoskeletal medicine or the musculoskeletal triage lead as co-lead.",
+   "Use the existing NICE NG59 red-flag list as a ready-made teaching and checklist resource.",
+   "Present imaging cost and reporting turnaround data alongside the guideline evidence to strengthen engagement.",
+   "Keep the checklist current by embedding it in the CCG/ICB musculoskeletal referral and imaging request guidance."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the clinical record and radiology system",
+  "pass": "No lumbar spine X-ray, CT or MRI is requested in primary care or a non-specialist musculoskeletal clinic for a patient with non-specific low back pain (with or without sciatica) and no red-flag features.",
+  "id": "ONA-202",
+  "template_file": "new_audits/templates/ONA-202.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of patients with a confirmed limb arterial injury from musculoskeletal trauma have revascularisation started within 1 hour of arrival?",
+  "why": "Revascularisation is a time-critical (NCEPOD 1) emergency with no safe ischaemic time, and knee dislocation is a classic cause; the library's existing audit [ONA-034] measures pulse documentation in the ED but not the time to definitive treatment once an arterial injury is confirmed.",
+  "standard": {
+   "source": "BOA/BAPRAS/Vascular Society Standard: Diagnosis and management of arterial injuries associated with musculoskeletal trauma (June 2026), standard 10",
+   "wording": "Revascularisation is an emergency procedure (NCEPOD 1) and should be commenced within one hour of arrival to hospital.",
+   "url": "https://www.boa.ac.uk/asset/7E8D1CA3-7448-47C7-84980C6D3E7E96B0/"
+  },
+  "population": "Inclusion: patients with a confirmed arterial injury associated with musculoskeletal trauma (including knee dislocation, tibial plateau or distal femoral fracture with vascular compromise) over the last 12-24 months. Exclusion: supracondylar fractures in children (covered by a separate BOAST).",
+  "sample": "15-25 consecutive confirmed arterial injury cases over the last 12-24 months (this is a rare, high-harm emergency, so a long window and possibly network-level pooling is needed).",
+  "data_source": "ED arrival time (trauma call record), theatre start time, operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "time_of_arrival",
+    "type": "datetime"
+   },
+   {
+    "field": "time_revascularisation_commenced",
+    "type": "datetime"
+   },
+   {
+    "field": "minutes_to_revascularisation",
+    "type": "number"
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no"
+   },
+   {
+    "field": "temporary_vascular_shunt_used",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect (extended window); Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-24 re-audit",
+  "change": "Classify confirmed limb arterial injury as an NCEPOD category 1 emergency on the theatre booking system with immediate simultaneous notification of orthopaedic, vascular or plastic surgery on-call teams, bypassing the standard trauma list queue.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the trauma network governance meeting and submit alongside TARN data; if the emergency booking classification reduces time to revascularisation, keep it as a standing theatre priority category.",
+  "evidence": [
+   "No audit of the 1-hour revascularisation standard exists in the library; the related audit [ONA-034] measures ED pulse documentation, an earlier step in the same pathway."
+  ],
+  "pitfalls": [
+   "Case numbers are small and high-stakes → review every case individually as well as in aggregate, and involve the trauma network mortality and morbidity process.",
+   "Time of injury versus time of arrival can be confused → the standard specifies time of arrival to hospital as the start point, so use that consistently.",
+   "Transfer from a non-specialist centre adds an unavoidable delay before the clock at the receiving centre starts → record transfer time separately from in-hospital delay.",
+   "Competing emergencies (e.g. major haemorrhage) may genuinely delay theatre access → record this as a documented reason, not a hidden delay."
+  ],
+  "pearls": [
+   "Recruit vascular and plastic surgery colleagues as co-leads, since the standard requires consultant-led joint care.",
+   "Use the trauma network's existing arterial injury or limb trauma governance process as the case-finding route.",
+   "Present a timeline (arrival, CT angiogram, theatre start) for each case to show exactly where any delay occurs.",
+   "Keep the NCEPOD category 1 classification live by embedding it in the theatre booking system's fixed category list."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ED, radiology and theatre records",
+  "pass": "Surgical revascularisation is commenced within 1 hour of the patient's arrival at hospital.",
+  "id": "ONA-203",
+  "template_file": "new_audits/templates/ONA-203.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of patients with suspected limb arterial injury have CT angiography performed concurrently with the initial trauma CT, rather than as a delayed second scan?",
+  "why": "Performing CT angiography at the same time as the trauma CT avoids a second scan and the delay this causes to diagnosis and revascularisation; the library's existing audit [ONA-029] covers CT angiography for cervical spine injury specifically, not limb arterial injury.",
+  "standard": {
+   "source": "BOA/BAPRAS/Vascular Society Standard: Diagnosis and management of arterial injuries associated with musculoskeletal trauma (June 2026), standard 8",
+   "wording": "CT angiogram is recommended if arterial injury is suspected and should be performed concurrently with whole-body CT.",
+   "url": "https://www.boa.ac.uk/asset/7E8D1CA3-7448-47C7-84980C6D3E7E96B0/"
+  },
+  "population": "Inclusion: trauma patients with a suspected limb arterial injury (absent or asymmetric pulse after reduction and splinting) who proceed to CT, over the last 12 months. Exclusion: patients going directly to theatre without CT due to overwhelming clinical urgency.",
+  "sample": "20-30 consecutive suspected limb arterial injury CT episodes over the last 12 months.",
+  "data_source": "Radiology information system (scan protocol and times), trauma CT report.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_ct",
+    "type": "date"
+   },
+   {
+    "field": "whole_body_ct_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "cta_performed_same_episode",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_between_scans_if_separate_minutes",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_separate_scan",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic CT angiography arterial-phase extension to the trauma CT protocol whenever 'suspected limb arterial injury' is selected on the trauma CT request, so radiographers do not need a separate request.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the trauma radiology governance meeting; if the combined protocol works, keep it as the default trauma CT protocol option.",
+  "evidence": [
+   "No audit of concurrent CT angiography for suspected limb arterial injury exists in the library; the related audit [ONA-029] covers cervical spine injury, a different indication."
+  ],
+  "pitfalls": [
+   "Radiographers may not always know a limb arterial injury is suspected at the time of the initial scan → make 'suspected arterial injury' a clear, separate tick box on the trauma CT request form.",
+   "Renal function may limit additional contrast in some patients → record any documented contrast-related reason for a separate or deferred scan.",
+   "A patient stabilised and reduced after the initial scan may develop new concern for arterial injury later → a later, separate CTA is appropriate in this scenario and should be recorded as a valid reason, not a fail.",
+   "Protocol changes need radiology and trauma team agreement together → involve both from the outset."
+  ],
+  "pearls": [
+   "Recruit a trauma radiologist and radiographer superintendent as co-leads, since the protocol change is theirs to implement.",
+   "Use real (anonymised) cases where a second scan delayed revascularisation to illustrate the value of the change.",
+   "Combine data collection with the 1-hour revascularisation audit, since the same patients are involved.",
+   "Keep the protocol extension live by adding it to the trauma CT protocol library in the radiology system."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the radiology system",
+  "pass": "CT angiography of the affected limb is performed as part of the same CT episode as the initial trauma/whole-body CT, with no separate second scan visit required.",
+  "id": "ONA-204",
+  "template_file": "new_audits/templates/ONA-204.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults with a 'possible target' meniscal lesion and symptoms under 3 months are offered a structured non-operative trial before arthroscopic surgery is considered?",
+  "why": "The BASK meniscal guideline directs a first-line non-operative trial for possible-target lesions with short symptom duration, avoiding premature surgery; no audit in the library checks this specific staging step.",
+  "standard": {
+   "source": "BASK Arthroscopic Meniscal Surgery: A National Society Treatment Guideline and Consensus Statement (Bone Joint J 2019;101-B:652-659), Meniscal Tear Management Guideline flowchart",
+   "wording": "Possible Meniscal Target (MRI) & Corresponding Symptoms/Signs, Symptoms < 3 months: Assessment: Further non-surgical treatment is first line. Recommendation: Optimal Non-Operative Treatment & Re-assess (e.g. provide information, physiotherapy, exercise, analgesia, steroid injection).",
+   "url": "https://bask.ac.uk/bask-treatment-guidelines-on-arthroscopic-meniscal-surgery/"
+  },
+  "population": "Inclusion: adults with an MRI-reported 'possible target' meniscal lesion and symptom duration under 3 months, discussed in a knee clinic over the last 6-12 months. Exclusion: locked knee, clear 'target' lesion, symptoms of 3 months or more.",
+  "sample": "20-30 consecutive eligible knee clinic patients over the last 6-12 months.",
+  "data_source": "MRI report, knee clinic letter, physiotherapy referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_mri",
+    "type": "date"
+   },
+   {
+    "field": "symptom_duration_months",
+    "type": "number"
+   },
+   {
+    "field": "lesion_classification",
+    "type": "choice",
+    "options": [
+     "target",
+     "possible target",
+     "no target"
+    ]
+   },
+   {
+    "field": "non_operative_plan_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "listed_for_surgery_without_trial",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_if_listed_without_trial",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'possible target, symptoms <3 months: non-operative trial plan' prompt to the knee clinic letter template that must be completed before a surgical listing option becomes available for this category.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT; if the prompt reduces premature listing, keep it in the standard clinic letter template.",
+  "evidence": [
+   "No audit of this BASK staging step exists in the library; other meniscal audits in this batch cover MRI confirmation and locked-knee timing, not this earlier decision point."
+  ],
+  "pitfalls": [
+   "Classifying a lesion as 'target' versus 'possible target' relies on radiologist and surgeon agreement, which can vary → agree the definition locally using the BASK terminology before starting.",
+   "Patients may push for early surgery having researched their MRI report → record shared decision-making discussion as part of the non-operative pathway.",
+   "Symptom duration can be difficult to pin down precisely → use the patient's best estimate and record it consistently.",
+   "This can read as restricting surgeon autonomy → present it as following an agreed national consensus guideline, not local policy."
+  ],
+  "pearls": [
+   "Recruit the knee/sports injury lead surgeon to define local application of the BASK terminology.",
+   "Reuse the same case list as the MRI confirmation and advanced-OA overuse audits in this batch to reduce duplicate note review.",
+   "Share the BASK flowchart directly with the surgical team as the source of authority for the fix.",
+   "Keep the clinic letter prompt live by embedding it in the standard knee clinic template."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the MRI report and clinic letter",
+  "pass": "A patient with a 'possible target' meniscal lesion on MRI and symptoms present for less than 3 months has a documented structured non-operative treatment plan (physiotherapy, exercise, analgesia or injection) before any arthroscopic listing.",
+  "id": "ONA-205",
+  "template_file": "new_audits/templates/ONA-205.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of shoulder dislocations have two orthogonal radiographic views before reduction is attempted?",
+  "why": "A single view can miss the direction of dislocation or an associated fracture, but no audit in the library checks pre-reduction imaging adequacy for shoulder dislocation; the existing audit [ONA-156] covers post-reduction nerve function only.",
+  "standard": {
+   "source": "BESS/BOA Patient Care Pathway: Traumatic anterior shoulder instability (Shoulder & Elbow 2015;7(3):214-226)",
+   "wording": "Two views are required to confirm glenohumeral dislocation and the direction of dislocation. An antero-posterior radiograph is obligatory. Ideally, an axial view should also be obtained as the second view.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2020/06/Traumatic_Anterior_Instability.pdf"
+  },
+  "population": "Inclusion: all patients with a suspected or confirmed shoulder dislocation presenting to the emergency department over the last 3-6 months. Exclusion: none.",
+  "sample": "40 consecutive shoulder dislocation presentations over the last 3-6 months.",
+  "data_source": "Radiology information system (views requested and performed), ED procedure note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "ap_view_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "second_view_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "second_view_type",
+    "type": "choice",
+    "options": [
+     "axial",
+     "modified axial (Wallace)",
+     "scapular Y/lateral",
+     "none"
+    ]
+   },
+   {
+    "field": "reason_if_single_view",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the default ED radiology request protocol for 'suspected shoulder dislocation' to always include both an AP and an axial (or modified axial) view as a single combined request.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the ED and radiology governance meeting; if the combined default request improves compliance, keep it as the standard shoulder dislocation imaging protocol.",
+  "evidence": [
+   "No audit of pre-reduction imaging adequacy for shoulder dislocation exists in the library; [ONA-156] audits post-reduction nerve function, a different standard from the same guideline family."
+  ],
+  "pitfalls": [
+   "Severe pain can genuinely prevent a second view being obtained before reduction → the guideline itself allows a modified axial or scapular Y view as an alternative, so record which alternative (if any) was used.",
+   "Clinicians experienced in recognising dislocation direction clinically may feel a second view is unnecessary → present the medico-legal and diagnostic value of confirming direction before reduction.",
+   "Radiographer availability out of hours can limit view choice → record time of day to see if this explains variation.",
+   "Recurrent dislocators with a well-documented pattern may reasonably need less imaging → consider excluding known recurrent dislocations with a typical re-presentation if locally agreed."
+  ],
+  "pearls": [
+   "Recruit an ED radiographer lead to help set the default combined request protocol.",
+   "Combine data collection with the pre-reduction neurovascular examination audit in this batch, since the same patients and notes are involved.",
+   "Use example missed posterior dislocations (single-view AP only) in teaching to illustrate the risk.",
+   "Keep the combined request protocol live by adding it to the RIS default request set for this presentation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the radiology and ED systems",
+  "pass": "An AP view plus an axial (or modified axial/scapular Y) second view are obtained before the reduction attempt, or a documented reason (e.g. pain precluding positioning) explains a single view with an accepted alternative technique.",
+  "id": "ONA-206",
+  "template_file": "new_audits/templates/ONA-206.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of ACL reconstruction consent discussions document the graft options, risks and the surgeon's recommendation?",
+  "why": "The BOA ACL standard requires graft selection (autograft, allograft, synthetic) with its benefits, complications and risks to be discussed and documented at consent; this specific consent element is not covered by any audit in the library.",
+  "standard": {
+   "source": "BOA Specialty Standard: Best Practice for Management of Anterior Cruciate Ligament (ACL) Injuries (September 2020), standard 7b",
+   "wording": "Graft selection should be discussed including autograft, allograft and synthetic ligaments. This should include the benefits, complications and risks of all and the preferred graft recommendation.",
+   "url": "https://www.boa.ac.uk/asset/1232CAB5-2B7F-4CE1-87833268B0EA5403/"
+  },
+  "population": "Inclusion: all adults consented for primary ACL reconstruction over the last 6 months. Exclusion: revision surgery where graft choice is highly constrained by prior surgery (record separately).",
+  "sample": "30-40 consecutive ACL reconstruction consent episodes over the last 6 months.",
+  "data_source": "Consent form, pre-operative clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_consent",
+    "type": "date"
+   },
+   {
+    "field": "graft_options_discussed_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "risks_and_benefits_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "agreed_graft_choice_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a structured 'graft choice discussion' section to the ACL consent form or a paired patient information sheet, with tick boxes for each graft type discussed and a free-text line for the agreed choice.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT; if the structured section improves documentation, keep it as the standard ACL consent form.",
+  "evidence": [
+   "No audit of ACL graft-choice consent documentation exists in the library."
+  ],
+  "pitfalls": [
+   "Standard hospital consent forms often have very limited space for procedure-specific detail → use a paired information sheet if the consent form itself cannot be extended.",
+   "Patients may already have a strong graft preference from research beforehand → document this as part of the discussion, not a substitute for it.",
+   "Trainees consenting patients may be less confident discussing all graft options → pair the fix with a short teaching session on graft choice discussion.",
+   "A generic 'risks discussed' tick box without naming graft types would not meet the standard → the fix must specifically separate out graft-related discussion."
+  ],
+  "pearls": [
+   "Recruit the knee/sports injury lead surgeon to draft the structured wording.",
+   "Use the existing National Ligament Registry consent audit in this batch as a combined data collection opportunity, since both relate to the same consent episode.",
+   "Give patients a copy of the graft-choice information sheet to take home, improving both consent quality and patient experience.",
+   "Keep the structured section live by embedding it in the standard ACL consent bundle."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the consent form and clinic letter",
+  "pass": "The consent form or pre-operative clinic letter documents the graft options considered, their benefits/risks, and the agreed graft choice.",
+  "id": "ONA-207",
+  "template_file": "new_audits/templates/ONA-207.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of patients referred to secondary care for tennis elbow have a PRTEE (Patient-Rated Tennis Elbow Evaluation) score recorded before treatment starts?",
+  "why": "The BESS tennis elbow pathway defines PRTEE as the core outcome measure for this condition, but the library has no audit of outcome measurement for any elbow condition, making it impossible to track whether treatment is working.",
+  "standard": {
+   "source": "BESS patient care pathway: Tennis elbow (Shoulder & Elbow 2023;15(4):348-359), Outcome metrics section",
+   "wording": "The core outcome set for LET defined by Bateman et al. PRTEE; PRTEE pain & function subscale.",
+   "url": "https://bess.ac.uk/wp-content/uploads/2023/11/singh-et-al-2023-bess-patient-care-pathway-tennis-elbow.pdf"
+  },
+  "population": "Inclusion: adults newly referred to secondary care or a musculoskeletal service for tennis elbow (lateral elbow tendinopathy) over the last 6 months. Exclusion: red-flag referrals for an alternative diagnosis.",
+  "sample": "30 consecutive new tennis elbow secondary care assessments over the last 6 months.",
+  "data_source": "Clinic letter, physiotherapy or orthopaedic assessment record, PROM collection system if one exists.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "prtee_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "prtee_score",
+    "type": "number"
+   },
+   {
+    "field": "repeat_prtee_planned_at_followup",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add the PRTEE questionnaire as a mandatory patient self-completed form in the waiting area at every new tennis elbow appointment, with the score entered into the clinic letter template.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the musculoskeletal/upper limb service governance meeting; if the self-completed form works, keep it as standard practice for every new tennis elbow assessment.",
+  "evidence": [
+   "No audit of outcome measurement for any elbow condition exists in the library."
+  ],
+  "pitfalls": [
+   "A new questionnaire adds to clinic administrative burden → keep it a short, patient-self-completed form to minimise staff time.",
+   "Patients with limited literacy or English as a second language may need support completing it → have an accessible-format or interpreter-assisted version available.",
+   "A score recorded but never reviewed at follow-up is of limited value → also check whether a repeat PRTEE is planned to track progress.",
+   "Digital and paper systems may both be in use locally, risking inconsistent recording → agree a single method before starting."
+  ],
+  "pearls": [
+   "Recruit the musculoskeletal physiotherapy service, since they usually run outcome measure collection already for other conditions.",
+   "Use the BESS-defined PRTEE as the core outcome set, avoiding the need to develop a local measure.",
+   "Feed results back to referrers to demonstrate the value of the pathway.",
+   "Keep the form live by adding it to the department's standard new-patient paperwork pack."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case; the PRTEE itself takes the patient under 5 minutes to complete",
+  "pass": "A PRTEE score (or its pain and function subscales) is recorded at the first secondary care assessment before any new treatment is started.",
+  "id": "ONA-208",
+  "template_file": "new_audits/templates/ONA-208.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients with a first-time lateral patellar dislocation are given patient information about their injury and rehabilitation?",
+  "why": "The national FTLPD standard requires accessible patient information (leaflet, video or app-based) to be available, but the library's existing patellar dislocation audit [ONA-166] does not check this information-provision step.",
+  "standard": {
+   "source": "BOA Standard: Assessment and Management of First Time Lateral Patellar Dislocation (FTLPD) (December 2024), standard 15",
+   "wording": "Appropriate patient information including leaflets, videos or online / app-based content should be available.",
+   "url": "https://www.boa.ac.uk/asset/4D585229-6598-445C-81AB07A90CD15D65/"
+  },
+  "population": "Inclusion: all patients with a first-time lateral patellar dislocation assessed in ED or fracture clinic over the last 3-6 months. Exclusion: none.",
+  "sample": "40 consecutive first-time lateral patellar dislocation presentations over the last 3-6 months.",
+  "data_source": "ED discharge record, fracture clinic letter, patient information leaflet log if one exists.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date"
+   },
+   {
+    "field": "information_given_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "information_format",
+    "type": "choice",
+    "options": [
+     "leaflet",
+     "video link",
+     "app/online",
+     "verbal only",
+     "none documented"
+    ]
+   },
+   {
+    "field": "reason_if_not_given",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single FTLPD patient information leaflet (with a QR code linking to a rehabilitation video) and add a mandatory 'information given: yes/no, format' field to the ED and fracture clinic discharge template for this diagnosis.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury MDT and fracture clinic governance meeting; if the leaflet and mandatory field work, keep both as standard practice for this diagnosis.",
+  "evidence": [
+   "No audit of patient information provision for FTLPD exists in the library; the existing audit [ONA-166] covers a different standard (skyline X-ray view) from the same guideline."
+  ],
+  "pitfalls": [
+   "Verbal advice alone is easy to give but hard to verify or standardise → the fix should make written/digital information the default, with verbal advice as a supplement.",
+   "Information given in ED may not be repeated or reinforced at fracture clinic follow-up → check both points in the pathway.",
+   "A leaflet only in English may not meet the needs of all patients → pair this with the accessible-format/language audit in this batch where relevant.",
+   "Staff may forget to document that a leaflet was given even when it was → make documentation as quick as a single tick box."
+  ],
+  "pearls": [
+   "Recruit the physiotherapy team to help create rehabilitation video content, since they already produce exercise materials.",
+   "Use the BOA standard itself as the justification when presenting the change to ED and fracture clinic staff.",
+   "Combine data collection with the physiotherapy-timing audit in this batch, since the same patients are involved.",
+   "Keep the leaflet current by giving the knee/sports injury service ownership of periodic review and updates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the ED and fracture clinic records",
+  "pass": "The patient's record documents that written, video or app-based information about first-time patellar dislocation and its rehabilitation was given or signposted at the first assessment.",
+  "id": "ONA-209",
+  "template_file": "new_audits/templates/ONA-209.csv"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of open fractures have definitive soft tissue closure or coverage achieved within 72 hours of injury?",
+  "why": "Delayed soft tissue coverage is strongly linked to infection risk in open fractures, but no audit in the library measures this specific BOAST timing standard; existing library items cover antibiotic timing and photography, not definitive closure.",
+  "standard": {
+   "source": "BOA/BAPRAS Audit Standards for Trauma: Open Fractures (December 2017), standard 14",
+   "wording": "Definitive soft tissue closure or coverage should be achieved within 72 hours of injury if it cannot be performed at the time of debridement.",
+   "url": "https://www.boa.ac.uk/asset/3B91AD0A-9081-4253-92F7D90E8DF0FB2C/"
+  },
+  "population": "Inclusion: all patients with an open fracture of a long bone, hindfoot or midfoot managed with a staged (debridement then later closure) approach over the last 6-12 months. Exclusion: cases closed at the time of debridement (already meeting the standard by definition), hand/wrist/forefoot/digit injuries.",
+  "sample": "20-30 consecutive staged open fracture cases over the last 6-12 months.",
+  "data_source": "Operation notes (debridement and closure/coverage procedures), theatre system dates and times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "time_of_injury",
+    "type": "datetime"
+   },
+   {
+    "field": "date_time_of_debridement",
+    "type": "datetime"
+   },
+   {
+    "field": "date_time_of_definitive_closure",
+    "type": "datetime"
+   },
+   {
+    "field": "hours_from_injury_to_closure",
+    "type": "number"
+   },
+   {
+    "field": "within_72_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "closure_type",
+    "type": "choice",
+    "options": [
+     "primary closure",
+     "split skin graft",
+     "local flap",
+     "free flap",
+     "other"
+    ]
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add open fracture cases awaiting definitive closure to a shared orthoplastic tracker board with an automatic 72-hour countdown flag visible to both orthopaedic and plastic surgery theatre coordinators.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the trauma network open fracture and orthoplastic governance meeting; if the tracker board reduces delay, keep it as the standard joint theatre planning tool.",
+  "evidence": [
+   "No audit of the 72-hour definitive soft tissue closure standard exists in the library; existing open fracture audits in this batch cover antibiotic timing and photography, earlier steps in the same pathway."
+  ],
+  "pitfalls": [
+   "Combined theatre lists across two specialties (orthopaedics and plastics) can be hard to coordinate → the tracker board should be visible and editable by both teams' coordinators.",
+   "A patient may be too physiologically unstable for definitive closure within 72 hours → record this as a valid clinical reason, not a service failure, but still report it.",
+   "Transfer between hospitals for orthoplastic care adds a delay outside the receiving centre's control → record transfer time separately from in-hospital delay.",
+   "Wound complexity may make a single 72-hour target unrealistic for some injuries → present results stratified by injury severity if possible."
+  ],
+  "pearls": [
+   "Recruit a plastic surgery colleague as joint audit lead, since this standard is inherently a shared orthoplastic responsibility.",
+   "Use the trust's existing TARN open fracture data as an additional data source and cross-check.",
+   "Present timeline data (injury, debridement, closure) for each case to show exactly where delay occurs.",
+   "Keep the tracker board live by giving both specialties' theatre coordinators joint ownership."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from theatre records",
+  "pass": "Definitive soft tissue closure or coverage (primary closure, split skin graft, or flap) is completed within 72 hours of the recorded time of injury, or was achieved at the time of the initial debridement.",
+  "id": "ONA-210",
+  "template_file": "new_audits/templates/ONA-210.csv"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "What proportion of adults assessed for recurrent patellar instability have the three required radiograph views performed?",
+  "why": "The BOA/BASK recurrent patellar instability standard specifies three particular radiograph views needed to detect patella alta, degenerative change, loose fragments and trochlear dysplasia; no audit in the library checks radiograph completeness for this indication (the MRI-findings audit in this batch covers a different imaging modality).",
+  "standard": {
+   "source": "BOA Specialty Standard: The Assessment of Patients with Recurrent Patellar Instability (August 2020), standard 2",
+   "wording": "Radiographs should include: antero-posterior (or PA); true lateral at 20-30 degrees flexion; and axial (skyline) views at 20-30 degrees knee flexion.",
+   "url": "https://www.boa.ac.uk/asset/6BF34E87-23E7-4DEA-AA932B8BB9991B32/"
+  },
+  "population": "Inclusion: adults with recurrent (two or more) patellar dislocations having plain radiographs as part of assessment, over the last 12 months. Exclusion: first-time dislocation, patients unable to achieve the required positioning due to acute injury.",
+  "sample": "30 consecutive recurrent patellar instability radiograph series over the last 12 months.",
+  "data_source": "Radiology information system (view codes and images), knee clinic letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_radiographs",
+    "type": "date"
+   },
+   {
+    "field": "ap_view_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "true_lateral_20to30_degrees_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "axial_skyline_20to30_degrees_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single 'recurrent patellar instability' radiograph request protocol in the RIS that automatically includes all three specified views, replacing ad hoc individual view requests.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the knee/sports injury and radiology governance meeting; if the combined protocol improves completeness, keep it as the default request set for this indication.",
+  "evidence": [
+   "No audit of radiograph completeness for recurrent patellar instability exists in the library; the MRI-findings audit in this batch covers a different imaging modality from the same guideline."
+  ],
+  "pitfalls": [
+   "Standard knee X-ray protocols may default to only AP and lateral, missing the specified flexion angles and the skyline view → the RIS protocol change should specify the exact positioning, not just view names.",
+   "Patients with severe instability or pain may struggle with the 20-30 degree flexed positioning → record any positioning difficulty as a valid reason for an incomplete series.",
+   "Requesting clinicians may not specify 'recurrent patellar instability' clearly on the request → agree standard request wording with the knee clinic first.",
+   "Radiographers may not be aware of the specific flexion angle requirement → include this in the protocol change and staff communication."
+  ],
+  "pearls": [
+   "Recruit a radiographer superintendent to help build the combined request protocol correctly.",
+   "Reuse the same case list as the MRI-findings audit in this batch, since the two together complete the full BOA standard.",
+   "Use example radiograph series (with and without skyline views) in radiographer teaching to reinforce the requirement.",
+   "Keep the protocol live by adding it to the RIS standard request-set library."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per case from the radiology system",
+  "pass": "All three specified radiograph views (AP/PA, true lateral at 20-30 degrees flexion, and axial/skyline at 20-30 degrees flexion) are performed and available at the recurrent patellar instability assessment.",
+  "id": "ONA-211",
+  "template_file": "new_audits/templates/ONA-211.csv"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients started on empiric antibiotics for suspected fracture-related infection without a prior diagnostic work-up have those antibiotics stopped once this is identified?",
+  "why": "The BOAST FRI standard explicitly prohibits empiric antibiotics without a diagnostic work-up and requires them to be stopped if already started, but no audit in the library checks whether this specific stewardship rule is followed once a lapse is identified.",
+  "standard": {
+   "source": "BOAST Fracture Related Infections (September 2019), standard 5A",
+   "wording": "Empiric antibiotics without a diagnostic work up should not be given and if already commenced should be stopped.",
+   "url": "https://www.boa.ac.uk/asset/DEE7CBA7-5919-4F26-A286033FCF46A458/"
+  },
+  "population": "Inclusion: adults started on antibiotics for suspected fracture-related infection over the last 6 months where a case-note review shows no diagnostic work-up was documented before the first dose. Exclusion: systemically septic patients (for whom immediate antibiotics are correctly prioritised).",
+  "sample": "20-30 consecutive suspected FRI antibiotic starts over the last 6 months, screened for those started before a work-up was documented.",
+  "data_source": "EPMA/drug chart, microbiology request system, consultant/MDT review notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_antibiotics_started",
+    "type": "date"
+   },
+   {
+    "field": "diagnostic_workup_in_place_before_antibiotics",
+    "type": "yes/no"
+   },
+   {
+    "field": "septic_at_presentation",
+    "type": "yes/no"
+   },
+   {
+    "field": "antibiotics_stopped_once_gap_identified",
+    "type": "yes/no"
+   },
+   {
+    "field": "days_until_stopped",
+    "type": "number"
+   },
+   {
+    "field": "reason_if_continued",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'diagnostic work-up in place before antibiotics: yes/no' field to the EPMA order for suspected FRI antibiotics, with a forced 48-hour review task if the answer is 'no' and the patient is not septic.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the orthopaedic infection governance and antimicrobial stewardship meeting; if the EPMA field and review task work, keep them as standard antibiotic stewardship for suspected FRI.",
+  "evidence": [
+   "No audit of this specific FRI antibiotic stewardship rule exists in the library; [ONA-037] audits a related but distinct standard (consultant review before antibiotics start in the non-septic patient)."
+  ],
+  "pitfalls": [
+   "Clinicians may feel uncomfortable stopping antibiotics once started, even without evidence of infection → the fix should build in an explicit, supported review point rather than relying on individual decision-making.",
+   "A patient who deteriorates after antibiotics are stopped is a genuine safety concern → ensure the review pathway includes a clear escalation route if this happens.",
+   "This audit requires identifying a fairly specific subgroup (antibiotics before work-up) → screening a broader group of FRI antibiotic starts will be needed to find eligible cases.",
+   "Antimicrobial stewardship and orthopaedic teams may not routinely cross-reference each other's records → involve pharmacy or the antimicrobial stewardship team in case-finding."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial stewardship pharmacist as co-lead; they can help identify cases from EPMA data.",
+   "Use the same case list as the weekly bone and joint infection MDT audit in this batch to reduce duplicate work.",
+   "Present this as supporting good antimicrobial stewardship, aligning with existing trust stewardship priorities and targets.",
+   "Keep the EPMA field and review task live by embedding them in the standard FRI antibiotic order set."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from EPMA, microbiology and review records",
+  "pass": "Where empiric antibiotics were started for suspected FRI before a diagnostic work-up (blood cultures, imaging, sampling plan) was in place, they are stopped once the absence of a work-up is identified on consultant or MDT review, unless the patient is systemically septic.",
+  "id": "ONA-212",
+  "template_file": "new_audits/templates/ONA-212.csv"
  }
 ]
