@@ -103,3 +103,5 @@ These tests are frozen predictions R1–R7 (`prereg/preregistration-3-frozen.jso
 **Medium variants (S262–S264):** one sign carved differently on seals vs moulded or bas-relief tablets: W390~W405, W154~W158, W320~W318, W527~W525/526. Merge them before counting. After the jar, tablets end in W400 while seals use other endings (W679, W565, W621). The script-only seals carry a second closing unit, A-n + W806 + W154.
 
 **12 as a fixed term (S273):** W55 (12) is about 50× commoner than a smooth number distribution predicts, and there is no 11. It stands before the jar (title slot) or before the pan-Indus title 255-435-690, not before counted goods. Treat 12 (and 24) as named numbers, like the fixed numeral terms.
+
+**Opener as closer (S286):** in the 25 texts where W817/861/820 stands last, the jar closer is usually absent (16% vs 46%, p = 0.003). The opener sign can take the closer slot.
