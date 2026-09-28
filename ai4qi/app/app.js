@@ -199,6 +199,8 @@
       if (a.getAttribute('data-nav') === name) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
+    var ab = document.querySelector('[data-acct-btn]');
+    if (ab) ab.classList.toggle('is-current', name === 'my-audits' || name === 'account');
   }
   function page(html, title, nav, keepScroll) {
     main.innerHTML = html;
@@ -2163,11 +2165,36 @@
     if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
     else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
   }
-  function updateAccountLink() {
-    if (!accountLink) return;
-    var signedIn = BE.user || (!BE.client && hasStoredSession());
-    accountLink.textContent = signedIn ? 'Account' : 'Sign in';
+  function initialsOf(email) {
+    var local = String(email || '').split('@')[0].replace(/[0-9]+/g, '');
+    var parts = local.split(/[._\-+]+/).filter(Boolean);
+    var s = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : local.slice(0, 2);
+    return s.toUpperCase();
   }
+  function updateAccountLink() {
+    var signedIn = BE.user || (!BE.client && hasStoredSession());
+    if (accountLink) accountLink.textContent = signedIn ? 'Account and sign out' : 'Sign in';
+    var av = document.querySelector('[data-acct-initials]'), who = document.querySelector('[data-acct-who]');
+    var lab = document.querySelector('[data-acct-label]');
+    if (av && !av.dataset.icon) av.dataset.icon = av.innerHTML;
+    if (av && !(BE.user && BE.user.email) && av.classList.contains('has-initials')) {
+      av.innerHTML = av.dataset.icon; av.classList.remove('has-initials'); if (who) who.hidden = true;
+    }
+    if (av && BE.user && BE.user.email) {
+      av.textContent = initialsOf(BE.user.email); av.classList.add('has-initials');
+      if (who) { who.textContent = BE.user.email; who.hidden = false; }
+      if (lab) lab.textContent = 'Your menu, signed in as ' + BE.user.email;
+    }
+  }
+  (function acctMenu() {
+    var btn = document.querySelector('[data-acct-btn]'), menu = document.querySelector('[data-acct-menu]');
+    if (!btn || !menu) return;
+    function set(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); set(menu.hidden); if (!menu.hidden) { var f = menu.querySelector('a:not([hidden])'); if (f) f.focus(); } });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('[data-acct]')) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
+    menu.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  })();
 
   function appVersion() {
     if (!BE.version) {
