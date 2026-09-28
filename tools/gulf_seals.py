@@ -35,7 +35,7 @@ S=[
  (26,'Mesopotamia?','Buchanan 1981 no. 1088 / Newell 23','Unknown',[160,384,133,1,90],'probable','drawing has one more initial sign'),
  (27,'Mesopotamia?','Buchanan 1981 no. 1089 / Newell 876','Unknown',[725,90,2],'probable','with animal motif'),
 ]
-MISSING=[(6,'Bahrain (Qala\'at al-Bahrain)','Kjaerum 1994 fig. 1726; Al-Sindi 1999 no. 8','Fig. 11 no. 6 / Fig. 9: fragment, only twins legible'),
+MISSING=[(6,'Bahrain (Qala\'at al-Bahrain)','Kjaerum 1994 fig. 1726','Fig. 11 no. 6 / Fig. 9: fragment, only twins legible'),
  (17,'Mesopotamia (Ur)','Gadd 1932 pl. I no. 3','Fig. 11 no. 17: no corpus match; 4-5 signs, first damaged'),
  (20,'Mesopotamia (Ur)','Gadd 1932 pl. I no. 15','Fig. 11 no. 20: no corpus match; 3 signs'),
  (25,'Mesopotamia?','Langdon 1932 p. 48 (J. Rosen collection)','Fig. 11 no. 25: no corpus match; about 6 signs'),
