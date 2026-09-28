@@ -3,6 +3,7 @@
     python3 extra_harvest.py doaj            # DOAJ open-access journals, "audit" in the title, by year
     python3 extra_harvest.py s2              # Semantic Scholar bulk search for audit-cycle wording
     python3 extra_harvest.py crossref_all    # Crossref across all journals, audit query, by year
+    python3 extra_harvest.py thin            # Crossref + Semantic Scholar per thin specialty
     python3 extra_harvest.py all
 
 Records land in work/records.json under "DOI:<doi>" (or "S2:<id>" when there is no DOI) and in
@@ -200,10 +201,97 @@ def crossref_all(st):
     st.save()
 
 
+THIN_TERMS = {   # specialties with the fewest audits in the library (specialties.py gap report)
+    "podiatry": "podiatry foot diabetic foot ulcer", "endocrine surgery": "thyroidectomy parathyroidectomy adrenalectomy",
+    "occupational therapy": "occupational therapy", "sport medicine": "sports medicine exercise injury",
+    "prison": "prison custody secure hospital", "hepatology": "cirrhosis liver disease hepatitis",
+    "transplant": "transplant transplantation", "midwifery": "midwife midwifery labour intrapartum",
+    "speech therapy": "speech and language therapy dysphagia", "genetics": "genetic testing clinical genetics",
+    "allergy": "allergy anaphylaxis immunology", "clinical pharmacology": "therapeutic drug monitoring medication",
+    "nuclear medicine": "nuclear medicine PET scintigraphy", "audiology": "audiology hearing aid newborn hearing",
+    "hepatobiliary": "cholecystectomy pancreatitis hepatobiliary", "physiotherapy": "physiotherapy",
+    "rehabilitation": "rehabilitation", "paediatric surgery": "paediatric surgery appendicitis children",
+    "occupational medicine": "occupational health staff", "ambulance": "ambulance paramedic prehospital",
+    "cardiothoracic": "cardiac surgery thoracic surgery", "public health": "screening vaccination immunisation",
+    "neurosurgery": "neurosurgery head injury", "maxillofacial": "maxillofacial oral surgery mandible",
+    "dietetics": "nutrition dietitian malnutrition", "upper gi": "oesophagectomy gastrectomy bariatric",
+    "plastic surgery": "plastic surgery burns hand surgery", "dermatology": "dermatology skin cancer",
+    "neurology": "epilepsy multiple sclerosis Parkinson", "breast": "breast surgery mastectomy",
+}
+
+
+def thin(st):
+    for name, terms in THIN_TERMS.items():
+        got = 0
+        for q in (f"clinical audit re-audit {terms}", f"audit compliance guideline {terms}"):
+            cursor = "*"
+            for _ in range(2):
+                d = _get("https://api.crossref.org/works", {
+                    "query.bibliographic": q, "filter": "has-abstract:true,type:journal-article",
+                    "rows": 1000, "cursor": cursor,
+                    "select": "DOI,title,abstract,container-title,issued,author,volume,issue,page,license"}, "crossref-thin")
+                if not d:
+                    break
+                m = d["message"]
+                for it in m["items"]:
+                    title = (it.get("title") or [""])[0]
+                    abst = _clean(it.get("abstract"))
+                    if not re.search(r"\baudit(?!ory|ion|ive)", f"{title} {abst}", re.I):
+                        continue
+                    lic = ""
+                    for l in it.get("license") or []:
+                        mm = re.search(r"creativecommons\.org/(licenses|publicdomain)/([a-z-]+)", l.get("URL", ""))
+                        if mm:
+                            lic = "cc0" if mm.group(2) == "zero" else "cc " + mm.group(2)
+                            break
+                    rec = _record(title, abst, doi=it["DOI"], journal=(it.get("container-title") or [""])[0],
+                                  year=(it.get("issued", {}).get("date-parts") or [[""]])[0][0],
+                                  authors=[" ".join(x for x in (a.get("family"), (a.get("given") or "")[:1]) if x) for a in it.get("author", [])],
+                                  affs=[f.get("name", "") for a in it.get("author", []) for f in a.get("affiliation", [])],
+                                  volume=it.get("volume", ""), issue=it.get("issue", ""), pages=it.get("page", ""),
+                                  licence=lic, source="Crossref")
+                    st.add(f"DOI:{it['DOI'].lower()}", rec, f"thin crossref {name}")
+                    got += 1
+                if len(m["items"]) < 1000:
+                    break
+                cursor = m["next-cursor"]
+        token = None
+        while True:                                       # Semantic Scholar, same specialty
+            p = {"query": f"audit + ({' | '.join(terms.split()[:4])})",
+                 "fields": "title,abstract,externalIds,year,venue,journal,authors,publicationTypes"}
+            if token:
+                p["token"] = token
+            d = _get("https://api.semanticscholar.org/graph/v1/paper/search/bulk", p, "semanticscholar-thin")
+            if not d:
+                break
+            for it in d.get("data") or []:
+                ex = it.get("externalIds") or {}
+                if "Review" in (it.get("publicationTypes") or []):
+                    continue
+                if not re.search(r"\baudit(?!ory|ion|ive)", f"{it.get('title') or ''} {it.get('abstract') or ''}", re.I):
+                    continue
+                j = it.get("journal") or {}
+                rec = _record(it.get("title"), it.get("abstract"), doi=ex.get("DOI", ""), pmid=ex.get("PubMed", ""),
+                              pmcid=("PMC" + str(ex["PubMedCentral"])) if ex.get("PubMedCentral") else "",
+                              journal=j.get("name") or it.get("venue", ""), year=it.get("year"),
+                              authors=[a.get("name", "") for a in it.get("authors") or []],
+                              volume=j.get("volume", ""), pages=j.get("pages", ""), source="Semantic Scholar")
+                key = (f"PMID:{rec['pmid']}" if rec["pmid"] else f"DOI:{rec['doi']}" if rec["doi"]
+                       else f"S2:{it.get('paperId')}")
+                st.add(key, rec, f"thin s2 {name}")
+                got += 1
+            token = d.get("token")
+            if not token or got > 6000:
+                break
+            time.sleep(1.2)
+        print(f"  thin {name}: {got} results, {st.new} new so far", flush=True)
+        st.save()
+
+
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     st = Store()
-    for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all)):
+    for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin)):
         if which in (name, "all"):
             fn(st)
             print(f"{name}: {st.new} new records in total", flush=True)
