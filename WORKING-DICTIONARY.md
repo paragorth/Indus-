@@ -101,4 +101,5 @@ These show the dictionary in use. They are not translations.
 4. Any set of about 20 or more glosses that together predict something outside the corpus goes to `anchor_test.py`.
 
 ## Test log
+- S293: twins next to a number 39% vs 13% for other person signs (P ≈ 0.09, trend); closers do not cluster by building or quarter at Mohenjo-daro (P = 0.13–0.73), so 'office tied to a building' is not supported.
 - S292: 'porter' (C–), 'ration fish' (reworded), 'chief' / 'overseer' / 'the Twelve' by seal size (no support, low power).
