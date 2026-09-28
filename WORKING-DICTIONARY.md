@@ -39,7 +39,7 @@ Notation: W = Wells number, M = Mahadevan number. Glosses are in SMALL CAPS styl
 | Sign | Shape | Usual partner before it | Working gloss | Grade |
 |---|---|---|---|---|
 | W520 (M211) | arrow or spear head on a shaft | 33 (tall 3), fish W220/W240 | "spearman, guard" (a title) | C |
-| W151 (M12) | man carrying two loads | jar, 1 | "porter, carrier" | C |
+| W151 (M12) | man carrying two loads | jar, 1 | "porter, carrier": **not supported** (S292: carrier closers are *less* often on tablets and tags, 22% vs 29%) | C– |
 | W156 (M15) | man carrying loads, jar-handle head | 3 | "jar-carrier" (a carrier grade) | C |
 | W527 (M254) | hatched box with two lines | W550/W555 (pincer) | "granary / store" (hatching = grain?) | C |
 | W226 (M60) | fish with 4 strokes | tall 2 | a fish-class title | C |
@@ -53,7 +53,7 @@ Would support the "titles" reading: a closer that turns up on the same kind of o
 
 | Sign | Shape | Working gloss | Grade |
 |---|---|---|---|
-| W176 (M48) | seated man, knees bent, lines on the back | "the seated one: chief, lord" (176-740-400 is the most repeated text in the corpus: 38 copies) | C |
+| W176 (M48) | seated man, knees bent, lines on the back | "the seated one: chief, lord" (176-740-400 is the most repeated text in the corpus: 38 copies). S292: seals with it are not larger (P = 0.29) | C |
 | W100 (M8) | man with three heads | "overseer (of three / of all)" | C |
 | W760 (M347) | U with branching on top | "of the (tree-)estate" | C |
 | W923 (M296) | outlined right bracket | title word; usually after 33 | C |
@@ -64,7 +64,7 @@ Would support the "titles" reading: a closer that turns up on the same kind of o
 | Sign | Shape | Typical count | Working gloss | Grade |
 |---|---|---|---|---|
 | W390 / W405 (M161–169) | tree or branch | 3–6 | "tree / plant unit" (a crop measure, or an orchard) | B counted, C word |
-| W220 (M59) | plain fish | tall 2, 3, 6 | "fish" (a food ration or a unit) | C |
+| W220 (M59) | plain fish | tall 2, 3, 6 | "fish" as a seal title term, not a ration: counted fish is on seals 85% of the time vs 70% for other counted items (S292) | C |
 | W900 (M287) | right bracket | 3, 4, 5 | a measure (half-circle = part?) | C |
 | W904, W407, W645, W384 | — | 2–4 | counted items | function B only |
 | W575 (M197) | trapezoid with box on top | always 7 | "7-X", a fixed number-name ("the Seven") | B fixed, C meaning |
@@ -99,3 +99,6 @@ These show the dictionary in use. They are not translations.
 2. Promote to B when a data test with a control supports the gloss. Promote to A only when it replicates in IM77.
 3. Drop or demote a gloss when a test goes against it, and record the test in STRATEGIES.md.
 4. Any set of about 20 or more glosses that together predict something outside the corpus goes to `anchor_test.py`.
+
+## Test log
+- S292: 'porter' (C–), 'ration fish' (reworded), 'chief' / 'overseer' / 'the Twelve' by seal size (no support, low power).
