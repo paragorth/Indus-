@@ -205,3 +205,59 @@ def sweep_query_set():
                     f'(TITLE:audit* OR TITLE:"quality improvement" OR TITLE:"improvement project") AND '
                     f'(re-audit OR reaudit OR "second cycle" OR "second audit" OR "cycle 2" OR "closed loop" OR PDSA) AND PUB_YEAR:{y}'))
     return out
+
+
+# ---------------------------------------------------------------------------
+# Title sweep (added Sep 2026, library growth to 20,000): every paper with "audit" in the title,
+# one query per year (each year is under Europe PMC's 5,000 cap), plus QI projects that measure
+# against a standard. Screening and reading decide what is a clinical audit.
+TITLE_SWEEP_YEARS = range(2000, 2027)
+
+
+def title_sweep_query_set():
+    out = []
+    for y in TITLE_SWEEP_YEARS:
+        out.append((f"title {y} (audit)", None, f"TITLE:audit* AND PUB_YEAR:{y} AND (SRC:MED OR SRC:PMC OR SRC:PPR)"))
+        out.append((f"title {y} (QI vs standard)", None,
+                    f'(TITLE:"quality improvement" OR TITLE:"improvement project" OR TITLE:"compliance with" OR TITLE:"adherence to") AND '
+                    f'(audit* OR PDSA OR "national guidance" OR NICE) AND PUB_YEAR:{y}'))
+    return out
+
+
+# Thin specialties (gap report, Sep 2026): audits described in the abstract, not only the title.
+THIN = {
+    "hepatology": ["hepatology", "cirrhosis", "liver disease", "hepatitis", "ascites", "variceal"],
+    "pre-hospital": ["ambulance", "paramedic", "pre-hospital", "prehospital", "emergency medical services"],
+    "midwifery": ["midwife", "midwives", "midwifery", "intrapartum", "postnatal", "antenatal"],
+    "podiatry": ["podiatry", "podiatrist", "diabetic foot"],
+    "nuclear medicine": ["nuclear medicine", "radionuclide", "radiopharmaceutical", "PET-CT", "scintigraphy"],
+    "prison": ["prison", "prisoner", "custody", "secure hospital", "forensic"],
+    "clinical pharmacology": ["overdose", "poisoning", "toxicology", "drug interaction", "therapeutic drug monitoring"],
+    "endocrine surgery": ["thyroidectomy", "parathyroidectomy", "adrenalectomy"],
+    "rehabilitation": ["rehabilitation", "neurorehabilitation", "spinal cord injury"],
+    "occupational therapy": ["occupational therapy", "occupational therapist"],
+    "immunology and allergy": ["allergy", "anaphylaxis", "penicillin allergy", "immunodeficiency", "immunoglobulin"],
+    "sport and exercise": ["sports medicine", "concussion", "exercise medicine", "athlete"],
+    "occupational medicine": ["occupational health", "occupational medicine", "sickness absence", "needlestick"],
+    "speech and language": ["speech and language", "dysphagia", "swallow assessment", "swallowing"],
+    "clinical genetics": ["genetic testing", "clinical genetics", "familial hypercholesterolaemia", "Lynch syndrome", "BRCA"],
+    "audiology": ["audiology", "hearing loss", "hearing aid", "newborn hearing"],
+    "hepatobiliary": ["cholecystectomy", "pancreatitis", "hepatobiliary", "pancreatic", "gallstone"],
+    "public health": ["vaccination", "immunisation", "screening uptake", "smoking cessation", "public health"],
+    "transplant": ["transplant", "transplantation"],
+    "dietetics": ["dietitian", "dietetic", "malnutrition", "nutritional screening", "enteral feeding"],
+    "physiotherapy": ["physiotherapy", "physiotherapist", "mobilisation"],
+    "paediatric surgery": ["paediatric surgery", "pediatric surgery", "testicular torsion", "intussusception", "pyloric stenosis"],
+    "cardiothoracic": ["cardiac surgery", "cardiothoracic", "thoracic surgery", "CABG", "lobectomy"],
+    "neurology": ["epilepsy", "seizure", "multiple sclerosis", "Parkinson", "headache", "migraine"],
+}
+
+
+def thin_query_set():
+    audit = ('(TITLE:audit OR TITLE:audits OR TITLE:audited OR TITLE:auditing OR TITLE:"re-audit" OR ABSTRACT:"re-audit" OR ABSTRACT:reaudit OR ABSTRACT:"audit cycle" OR ABSTRACT:"clinical audit" '
+             'OR ABSTRACT:"closed loop" OR (TITLE:"quality improvement" AND ABSTRACT:audit*))')
+    out = []
+    for lab, terms in THIN.items():
+        t = "(" + " OR ".join(f'TITLE_ABS:"{x}"' for x in terms) + ")"
+        out.append((f"thin {lab}", None, f"{audit} AND {t}"))
+    return out

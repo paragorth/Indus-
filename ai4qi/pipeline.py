@@ -26,6 +26,7 @@ import xml.etree.ElementTree as ET
 
 import classify
 import sources
+import specialties
 from queries import broad_query_set, query_set
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -76,6 +77,12 @@ def cmd_search(pas):
     if os.environ.get("AI4QI_SWEEP") and pas == "nonortho":
         from queries import sweep_query_set
         qs = sweep_query_set()          # sweep only; hits accumulate into the existing file
+        if os.environ["AI4QI_SWEEP"] == "thin":
+            from queries import thin_query_set
+            qs = thin_query_set()
+        if os.environ["AI4QI_SWEEP"] == "title":
+            from queries import title_sweep_query_set
+            qs = title_sweep_query_set()
     for lab, pm_q, ep_q in qs:
         pm = (sources.pubmed_search(pm_q) or []) if pm_q else []
         ep = (sources.epmc_search(ep_q) or []) if epmc_up else []
@@ -462,6 +469,9 @@ def cmd_merge():
         if x.get("is_audit") == "no" or twin:
             excluded.append({"key": k, "title": r["title"], "reason": "not an audit on reading"})
             continue
+        if x and specialties.NOT_CLINICAL.search(x.get("specialty") or ""):
+            excluded.append({"key": k, "title": r["title"], "reason": "not a human clinical audit"})
+            continue
         if not x:                     # screened in but not read yet: wait for a reading pass
             continue
         if x.get("is_audit") == "unclear" and len(r.get("abstract") or "") < 200:
@@ -571,7 +581,7 @@ def _fill(entry, key, r, s, hit, ext, fig):
         x = ext["result"]
         entry["status"] = "published, detailed" if x.get("is_audit") == "yes" else "published, audit status unclear"
         if x.get("specialty") and x["specialty"] != "not reported":
-            entry["specialty"] = x["specialty"]
+            entry["specialty"] = specialties.canonical(x["specialty"])
             # the reader's specialty decides the library: an obstetric audit found by an
             # orthopaedic query belongs in the non-orthopaedic library
             paper["library"] = "orthopaedic" if re.match(r"orthopaed", x["specialty"], re.I) else "non-orthopaedic"

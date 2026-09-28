@@ -84,6 +84,35 @@ JOURNALS = [
     ("British Journal of Hospital Medicine", ["audit", "re-audit"], 2010),
     ("BJPsych Bulletin", ["audit", "re-audit"], 2014),
 ]
+# fourth pass (Sep 2026, growth to 20,000): journals for thin specialties and allied professions.
+# Selected with: python3 crossref_harvest.py --wave4
+JOURNALS4 = [(j, ["audit", "re-audit", "quality improvement"], 2010) for j in [
+    "British Dental Journal", "Faculty Dental Journal", "Dental Update", "Primary Dental Journal", "Journal of Orthodontics",
+    "British Journal of General Practice", "BJGP Open", "Education for Primary Care",
+    "BMJ Sexual &amp; Reproductive Health", "BMJ Sexual & Reproductive Health", "Sexually Transmitted Infections", "HIV Medicine", "International Journal of STD &amp; AIDS", "International Journal of STD & AIDS",
+    "Journal of Perioperative Practice", "British Journal of Pain", "Journal of the Intensive Care Society", "Clinical Nutrition ESPEN",
+    "Proceedings of the Nutrition Society", "Journal of Human Nutrition and Dietetics", "International Journal of Audiology",
+    "British Journal of Occupational Therapy", "International Journal of Language &amp; Communication Disorders", "International Journal of Language & Communication Disorders",
+    "Radiography", "Occupational Medicine", "British Journal of Sports Medicine", "Journal of Public Health", "Public Health",
+    "Emergency Nurse", "British Paramedic Journal", "Journal of Paramedic Practice", "Journal of Neonatal Nursing", "Midwifery", "British Journal of Midwifery",
+    "British Journal of Nursing", "Nursing Standard", "Nursing Older People", "Journal of Clinical Nursing", "Journal of Wound Care", "Journal of Tissue Viability",
+    "European Journal of Hospital Pharmacy", "Journal of Oncology Pharmacy Practice", "The Pharmaceutical Journal", "JAC-Antimicrobial Resistance",
+    "Journal of Antimicrobial Chemotherapy", "Infection Prevention in Practice", "Journal of Infection Prevention", "Clinical Infection in Practice",
+    "Acute Medicine", "Frontline Gastroenterology", "Journal of Crohn's and Colitis", "Endocrine Abstracts", "Clinical Endocrinology", "Practical Diabetes",
+    "Journal of Renal Care", "Nephrology Dialysis Transplantation", "Kidney International Reports", "Journal of Cystic Fibrosis",
+    "International Journal of Stroke", "European Stroke Journal", "Seizure", "Developmental Medicine &amp; Child Neurology", "Developmental Medicine & Child Neurology",
+    "British Journal of Neurosurgery", "BJU International", "Journal of Pediatric Urology", "Colorectal Disease", "Annals of The Royal College of Surgeons of England",
+    "Clinical and Experimental Dermatology", "Palliative Medicine", "European Geriatric Medicine", "Journal of Psychopharmacology",
+    "Irish Journal of Psychological Medicine", "Journal of Intellectual Disability Research", "Advances in Mental Health and Intellectual Disabilities",
+    "The Journal of Forensic Psychiatry &amp; Psychology", "The Journal of Forensic Psychiatry & Psychology", "Archives of Disease in Childhood - Fetal and Neonatal Edition",
+    "BMJ Paediatrics Open", "Child: Care, Health and Development", "Vox Sanguinis", "Cytopathology", "Histopathology", "Annals of Clinical Biochemistry",
+    "British Journal of Biomedical Science", "The Clinical Teacher", "BMJ Simulation &amp; Technology Enhanced Learning", "BMJ Simulation & Technology Enhanced Learning",
+    "European Journal of Vascular and Endovascular Surgery", "Journal of Vascular Societies Great Britain &amp; Ireland", "Journal of Vascular Societies Great Britain & Ireland",
+    "Interactive CardioVascular and Thoracic Surgery", "Journal of Cardiothoracic Surgery", "British Journal of Ophthalmology", "Ophthalmic and Physiological Optics",
+    "Journal of Medical Imaging and Radiation Sciences", "The British Journal of Radiology", "BJR|Open", "Journal of Clinical Urology",
+    "Transplantation", "Clinical Transplantation", "International Journal of Obstetric Anesthesia", "Pediatric Anesthesia", "Anaesthesia Reports",
+    "Journal of Evaluation in Clinical Practice", "BMJ Open", "BMJ Quality &amp; Safety", "BMJ Quality & Safety", "Cureus",
+]]
 MAX_PER_QUERY = 4000
 S = requests.Session()
 S.headers["User-Agent"] = "ai4qi-audit-library/1.0 (clinical audit library research)"
@@ -148,8 +177,9 @@ def html_unescape(s):
 def main(only=None):
     recs = pipeline.load("records.json", {})
     hits = pipeline.load("hits_crossref.json", {})
-    for container, queries, year in JOURNALS:
-        if only and container != only:
+    js = JOURNALS4 if only == "--wave4" else JOURNALS
+    for container, queries, year in js:
+        if only and only != "--wave4" and container != only:
             continue
         got = {}
         for q in queries:
