@@ -2828,5 +2828,315 @@
   "novelty": "new",
   "effort": "~15 min per case from the ambulance electronic patient record",
   "pass": "A child with a documented NICE 'red' fever feature is conveyed by emergency ambulance immediately (not left at home or referred to a delayed pathway), or a documented clinical reason for an alternative pathway is recorded"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of people with sudden-onset neurological symptoms assessed by an ambulance crew have a validated FAST (Face Arm Speech Test) screen documented before hypoglycaemia is excluded and a stroke pre-alert decision is made?",
+  "why": "No closed-loop audit of the completeness of the pre-hospital FAST and hypoglycaemia-exclusion sequence has been published in the library.",
+  "standard": {
+   "source": "NICE NG128 Stroke and transient ischaemic attack in over 16s, recs 1.1.1 and 1.1.2 (2008)",
+   "wording": "Use a validated tool, such as FAST (Face Arm Speech Test), outside hospital to screen people with sudden onset of neurological symptoms for a diagnosis of stroke or transient ischaemic attack (TIA). Exclude hypoglycaemia in people with sudden onset of neurological symptoms as the cause of these symptoms.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults assessed by ambulance for sudden-onset neurological symptoms over a 2-week period. Exclusion: patients with an obvious alternative cause identified at scene (for example, a witnessed seizure with full recovery)",
+  "sample": "30 consecutive eligible ambulance assessments over 2 weeks",
+  "data_source": "Ambulance electronic patient record neurological assessment section",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fast_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capillary_glucose_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypoglycaemia_excluded_before_stroke_call",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stroke_pre_alert_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make both the FAST score and capillary glucose mandatory fields on the ambulance electronic patient report form before the stroke pre-alert option can be selected, so the sequence cannot be skipped.",
+  "target": "≥95%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present jointly to the ambulance trust and stroke operational delivery network; keep the mandatory field sequence permanently if completeness improves",
+  "evidence": [
+   "No audit of pre-hospital FAST and hypoglycaemia-exclusion completeness is in the library; NNA-119/NNA-120 show this network already audits the hospital-side stroke/TIA pathway"
+  ],
+  "pitfalls": [
+   "Capillary glucose may be checked but not documented in the neurological assessment section → search the whole ambulance record, not just the stroke-specific field",
+   "FAST scoring can be inconsistently applied by less experienced crews → provide a laminated FAST reference card on every vehicle",
+   "Small numbers if stroke-call coding is inconsistent → cross-check against the stroke pre-alert log as well as the neurological assessment field",
+   "Crews under time pressure may prioritise conveyance speed over full documentation → keep the mandatory fields quick (tick-box, not free text)",
+   "Gains fade without refresher training → add to the ambulance trust's annual stroke pathway update"
+  ],
+  "pearls": [
+   "Agree the mandatory field design with the ambulance trust's stroke clinical lead before starting",
+   "Use the stroke operational delivery network meeting, which already exists, to close the loop",
+   "Keep the FAST tool and glucose threshold definitions identical across both cycles",
+   "Track pre-alert accuracy (stroke mimics versus confirmed stroke) as a secondary measure of the pathway's overall quality"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ambulance electronic patient record",
+  "pass": "Both a documented FAST score and a documented capillary blood glucose (excluding hypoglycaemia) are recorded on the ambulance patient report form before the stroke pathway decision is made"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with major trauma and active or suspected bleeding who are taking an anticoagulant have a documented decision about reversal made with, or by, a haematologist?",
+  "why": "No closed-loop audit of haematology involvement in anticoagulation reversal decisions for bleeding trauma patients has been published in the library.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: assessment and initial management, rec 1.5.11-1.5.12 (2016)",
+   "wording": "Do not reverse anticoagulation in patients who do not have active or suspected bleeding. For advice on reversing direct-acting oral anticoagulants (DOACs), see the MHRA safety advice on DOACs for a list of reversal agents.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with major trauma known to be taking an anticoagulant (warfarin, DOAC, heparin) who are admitted via the trauma pathway, over 6 months. Exclusion: patients on antiplatelet monotherapy only",
+  "sample": "20 consecutive eligible patients over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Trauma clerking record, haematology consultation note, drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_type",
+    "type": "choice",
+    "options": [
+     "Warfarin",
+     "DOAC",
+     "Heparin/LMWH"
+    ],
+    "note": ""
+   },
+   {
+    "field": "active_or_suspected_bleeding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haematology_consulted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reversal_agent_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reversal_avoided_if_no_bleeding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'anticoagulant reversal decision: haematology contacted, agent/reason' field to the trauma team clerking proforma whenever an anticoagulant is flagged in the drug history.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the trauma governance and haematology joint meeting; keep the mandatory field permanently if compliance improves",
+  "evidence": [
+   "No audit of haematology involvement in trauma anticoagulation reversal decisions is in the library; the anticoagulated head-injury reversal audit in this set covers a related but narrower (intracranial haemorrhage only) population"
+  ],
+  "pitfalls": [
+   "Anticoagulant use may not be reliably known at first assessment → cross-check with the GP summary care record and pharmacy medicines reconciliation",
+   "Small numbers given expected low volume of anticoagulated major trauma → extend the collection period to 12 months",
+   "Out-of-hours haematology advice may be by telephone and not always documented → agree a documentation standard for telephone advice before cycle 1",
+   "Reversal may be started before haematology is reached in a genuine emergency, which is appropriate → audit for a subsequent haematology discussion, not necessarily a prior one, in the most urgent cases",
+   "Gains fade if the mandatory field is not maintained after an EPR update → recheck after any system change"
+  ],
+  "pearls": [
+   "Agree the reversal pathway and documentation standard with haematology before starting",
+   "Recruit the trauma coordinator to flag eligible cases prospectively",
+   "Use the joint trauma-haematology governance meeting to close the loop",
+   "Keep the definitions of 'active or suspected bleeding' and 'reversal indicated' identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from trauma and haematology records",
+  "pass": "For a bleeding trauma patient on an anticoagulant, the trauma record documents a reversal decision (agent given, or reversal not indicated) made with haematology input; anticoagulation is not reversed in a patient without active or suspected bleeding"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults triaged in the ED with a pain score of 7 or more (severe pain) receive their first analgesia within 20 minutes of triage?",
+  "why": "No closed-loop audit of time to first analgesia specifically for severe (rather than any) pain has been published in the library; the corpus's 8 general time-to-analgesia audits do not isolate the severe-pain group most likely to come to harm from delay.",
+  "standard": {
+   "source": "Local standard, based on the pain-severity thresholds used in RCEM's Pain in Children quality improvement programme (2021/22) extended to adults",
+   "wording": "Patients in severe pain (pain score 7 or more out of 10) should receive their first dose of analgesia within 20 minutes of a pain score being recorded.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2022/02/Pain_in_Children_QIP_Info_Pack_2021-22_v4.pdf"
+  },
+  "population": "Inclusion: adults triaged with a documented pain score of 7 or more, over 2 weeks. Exclusion: patients who decline analgesia or for whom analgesia is contraindicated and this is documented",
+  "sample": "30 consecutive eligible patients over 2 weeks",
+  "data_source": "ED triage record (pain score, time) and drug chart/EPMA administration time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_at_triage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_analgesia_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed_or_declined",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a nurse-initiated analgesia protocol at triage for any adult scoring 7 or more, covering oral and intranasal options that do not need a doctor's prescription first.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED pain management/patient safety meeting; make the nurse-initiated protocol permanent if it improves the 20-minute rate",
+  "evidence": [
+   "The library holds 8 general time-to-analgesia audits in the ED, none of which isolates the severe (≥7/10) pain-score subgroup, where delay causes the most harm and complaints"
+  ],
+  "pitfalls": [
+   "Pain scores are not always recorded consistently by all triage staff → audit the recording rate itself as a secondary measure",
+   "Nurse-initiated analgesia protocols need pharmacy and governance sign-off before use → secure this before cycle 1",
+   "Small numbers on quieter shifts → sample across different shift types",
+   "Some patients decline analgesia or have a contraindication, which should not count as a breach → record these separately, not as failures",
+   "Gains fade if the protocol lapses on renewal → set a renewal reminder alongside the re-audit date"
+  ],
+  "pearls": [
+   "Agree the nurse-initiated analgesia protocol with pharmacy and medical leadership before starting",
+   "Recruit a triage nurse champion to help embed the change",
+   "Use the ED pain management meeting, which already exists for other analgesia audits, to close the loop",
+   "Keep the pain-score threshold (≥7) and time window identical across both cycles"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from triage and EPMA records",
+  "pass": "A first dose of analgesia (any route) is given within 20 minutes of a pain score of 7 or more being recorded at triage"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of patients whose ambulance handover is delayed beyond 60 minutes have a full set of vital sign observations recorded by ambulance or ED staff at least every 30 minutes while still in the ambulance or queue?",
+  "why": "No closed-loop audit of observation frequency during prolonged ambulance handover delay has been published in the library, despite a national review finding severe potential harm in this group.",
+  "standard": {
+   "source": "AACE, Delayed Hospital Handovers: Impact Assessment of Patient Harm (November 2021), summarised on the AACE Hospital Handovers webpage (accessed 2026)",
+   "wording": "Over eight in ten of those whose 'handover' (from ambulance clinician to hospital clinician) was delayed beyond 60 minutes were assessed as having potentially experienced some level of harm; 53% low harm, 23% moderate harm and 9% (one patient in ten) could have been said to have experienced severe harm.",
+   "url": "https://aace.org.uk/hospital-handovers/"
+  },
+  "population": "Inclusion: all patients whose ambulance-to-ED handover exceeds 60 minutes over a 4-week period. Exclusion: handovers under 60 minutes",
+  "sample": "20 consecutive handovers exceeding 60 minutes over 4 weeks (or all cases if fewer)",
+  "data_source": "Ambulance observation chart during the wait, cross-checked with the ED tracking system handover time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ambulance_arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "handover_accepted_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_delayed_beyond_60",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observations_expected_every_30_min",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observations_actually_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "news2_escalation_if_deteriorating",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a joint ambulance-ED 'queue safety officer' role during any period when more than 2 ambulances are waiting, responsible for cycling through queued patients to check and escalate observations every 30 minutes.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the joint ambulance-ED patient safety meeting; make the queue safety officer role permanent during escalation if it improves observation compliance",
+  "evidence": [
+   "This set's ambulance-to-ED handover time audit measures the 15-minute target itself; no audit in the library measures clinical monitoring quality during a delay once it has already happened"
+  ],
+  "pitfalls": [
+   "Responsibility for observations during a handover delay can be unclear between ambulance and ED staff → agree ownership explicitly before cycle 1",
+   "Small numbers if 60-minute-plus delays are rare (a good sign operationally, but limits audit power) → extend the collection period",
+   "Ambulance staff may be tied up with other calls during a queue → record which service (ambulance or ED) took each observation",
+   "Staff may see this as adding a role during an already unsafe situation → frame it as protecting patients, not adding paperwork",
+   "Gains fade once escalation pressure passes and the role is dropped informally → tie the role to a defined occupancy/queue-length trigger, not to memory"
+  ],
+  "pearls": [
+   "Use the trust's existing ambulance handover delay escalation policy meeting to close the loop",
+   "Recruit both an ED matron and an ambulance operations manager as joint audit owners",
+   "Keep the 60-minute delay threshold and 30-minute observation interval identical across both cycles",
+   "Track NEWS2 escalation events as the safety outcome that matters most, not just the observation count"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance observation and ED tracking records",
+  "pass": "A full set of vital sign observations is recorded at least every 30 minutes for every patient whose handover exceeds 60 minutes, with escalation to a senior clinician if NEWS2 rises"
  }
 ]
