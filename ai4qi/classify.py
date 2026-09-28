@@ -15,6 +15,11 @@ CLOSED_LOOP = re.compile(
     r"closing the loop|audit loop|completed loop|repeat audit", re.I)
 AUDIT = re.compile(r"\baudit(?!ory|ion|ive)", re.I)
 QI = re.compile(r"quality improvement|\bPDSA\b|plan[- ]do[- ]study[- ]act", re.I)
+# QI projects and adherence studies that measure practice against a named standard are audits in all
+# but name (added Sep 2026); the reader still decides is_audit.
+STANDARD = re.compile(r"\b(guideline|guidance|standard|recommendation|protocol|NICE|target|bundle|checklist)s?\b", re.I)
+ADHERENCE = re.compile(r"adheren\w* (to|with)|complian\w* (to|with)|conformity with|in line with (the )?(national|local|NICE)", re.I)
+MEASURED = re.compile(r"\d\s?%|per ?cent|\b\d+\s?/\s?\d+\b|proportion|rate (rose|increased|improved|fell)|improved from", re.I)
 EXCLUDE_TYPES = {"review", "systematic review", "meta-analysis", "editorial", "comment",
                  "published erratum", "retracted publication", "retraction of publication",
                  "letter", "news", "guideline", "practice guideline", "scoping review",
@@ -60,6 +65,8 @@ def screen(rec, fulltext=""):
     if bad and not CLOSED_LOOP.search(title):
         return False, f"excluded: publication type {sorted(bad)[0]}", None
     if not AUDIT.search(text):
+        if MEASURED.search(abst) and ((QI.search(text) and STANDARD.search(text)) or (ADHERENCE.search(text) and STANDARD.search(text))):
+            return True, "kept", "QI or adherence measured against a standard"
         if fulltext and CLOSED_LOOP.search(fulltext) and len(AUDIT.findall(fulltext)) >= 3:
             return True, "kept", "closed-loop or re-audit (stated in full text only)"
         return False, "excluded: no audit wording in title/abstract", None

@@ -32,7 +32,10 @@ def main():
     scr = pipeline.load("screen.json", {})
     import classify
     # closed-loop papers first, then UK/Ireland, then full text available
-    keys.sort(key=lambda k: (scr[k].get("audit_kind") != "closed-loop or re-audit",
+    hits = pipeline.load(f"hits_{a.pas}.json", {})
+    thin = {k for k, h in hits.items() if any(l.startswith("thin ") for l in h.get("labels", []))}
+    keys.sort(key=lambda k: (k not in thin,                 # thin specialties first (gap report)
+                             scr[k].get("audit_kind") != "closed-loop or re-audit",
                              not classify.uk_ireland(recs[k].get("affiliations")),
                              not os.path.exists(os.path.join(pipeline.FT_DIR, f"{recs[k].get('pmcid')}.xml"))))
     queued = set()                      # already in a manifest (being read now)
