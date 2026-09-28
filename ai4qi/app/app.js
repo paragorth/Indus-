@@ -236,6 +236,7 @@
       else if (name === 'my-audits') renderRuns();
       else if (name === 'run' && p[1]) renderRun(p[1]);
       else if (name === 'privacy') renderPrivacy();
+      else if (LEGAL_PAGES.indexOf(name) !== -1) renderLegal(name);
       else renderNotFound();
     } catch (err) {
       renderNotFound();
@@ -1827,6 +1828,20 @@
       '</article>', 'My audit', 'my-audits');
   }
 
+  var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility'], LEGAL = null;
+  function renderLegal(slug) {
+    function show(all) {
+      var d = all && all[slug];
+      if (!d) return renderNotFound();
+      page('<article class="doc narrow legal">' + d.html + '</article>', d.title, '');
+      var h = main.querySelector('h1'); if (h) h.setAttribute('tabindex', '-1');
+      main.querySelectorAll('.legal a[href^="http"]').forEach(function (x) { x.setAttribute('target', '_blank'); x.setAttribute('rel', 'noopener'); });
+    }
+    if (LEGAL) return show(LEGAL);
+    page('<p class="muted">Loading…</p>', '', '');
+    getJSON('data/legal.json').then(function (d) { LEGAL = d; if (parseHash().parts[0] === slug) show(d); }, function () { renderNotFound(); });
+  }
+
   function renderPrivacy() {
     page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
       '<p class="prose"><strong>Your audit records stay on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are never sent to Ai4Qi, and we cannot see them.</p>' +
@@ -2965,7 +2980,7 @@
     } catch (e) { return ''; }
   })();
   var AN = { kind: '', last: '' };
-  var KNOWN_ROUTES = ['build', 'suggest', 'run', 'privacy', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
+  var KNOWN_ROUTES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'build', 'suggest', 'run', 'privacy', 'search', 'proposed', 'audit', 'topic', 'topics', 'standards', 'account', 'my-audits', 'admin'];
   function cleanPageUrl() {
     var keep = new URLSearchParams();
     new URLSearchParams(location.search).forEach(function (v, k) {

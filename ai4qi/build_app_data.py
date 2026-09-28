@@ -200,7 +200,8 @@ def build_cards(lib):
 SHELL = ("index.html", "app.js", "export.js", "styles.css", "manifest.webmanifest")
 CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": "",
                    "analytics": "", "plausible_script": "", "plausible_domain": "",
-                   "plausible_host": "https://plausible.io", "cloudflare_token": "", "build_url": "", "claude_link": ""}
+                   "plausible_host": "https://plausible.io", "cloudflare_token": "", "build_url": "", "claude_link": "",
+                   "legal": {"owner_name": "", "postal_address": "", "contact_email": "", "ico_number": "", "updated": ""}}
 VERSION_LINE = re.compile(r"^var VERSION = '[^']*';", re.M)
 
 
@@ -243,6 +244,41 @@ def stamp_version():
     return version
 
 
+LEGAL = [("terms", "TERMS_OF_USE.md", "Terms of use"), ("privacy-notice", "PRIVACY_NOTICE.md", "Privacy notice"),
+         ("cookies", "COOKIES_AND_STORAGE.md", "Cookies and storage"), ("accessibility", "ACCESSIBILITY_STATEMENT.md", "Accessibility")]
+
+
+def build_legal(cfg):
+    """Public legal pages from governance/*.md (draft banners and review notes stripped)."""
+    L = (cfg or {}).get("legal") or {}
+    fill = {"OWNER LEGAL NAME": L.get("owner_name"), "Owner name": L.get("owner_name"), "ADDRESS": L.get("postal_address"),
+            "Postal address": L.get("postal_address"), "CONTACT EMAIL": L.get("contact_email"), "Contact email": L.get("contact_email"),
+            "ICO REG NO.": L.get("ico_number"), "ICO registration number": L.get("ico_number"), "DATE": L.get("updated")}
+    try:
+        import markdown
+    except ImportError:
+        print("legal pages skipped: pip install markdown")
+        return {}
+    out = {}
+    for slug, fn, title in LEGAL:
+        p = HERE / "governance" / fn
+        if not p.exists():
+            continue
+        raw = p.read_text(encoding="utf-8").splitlines()
+        first_h2 = next((i for i, l in enumerate(raw) if l.startswith("## ")), len(raw))
+        lines = [l for i, l in enumerate(raw)            # owner notes are blockquotes above the first section
+                 if not (l.lstrip().startswith(">") and (i < first_h2 or re.match(r"\s*>\s*\**\s*draft", l, re.I)))]
+        text = re.sub(r"<!--.*?-->", "", "\n".join(lines), flags=re.S)
+        text = re.split(r"\n#+\s*sources checked", text, flags=re.I)[0]
+        for ph, val in fill.items():                    # placeholders filled from app/config.json "legal"
+            if val:
+                text = re.sub(r"\[" + re.escape(ph) + r"\]", val, text, flags=re.I)
+        html = markdown.markdown(text, extensions=["tables", "sane_lists"])
+        html = re.sub(r"<script.*?</script>", "", html, flags=re.S | re.I)
+        out[slug] = {"title": title, "html": html}
+    return out
+
+
 def main():
     lib = json.load(open(HERE / "ai4qi-library.json", encoding="utf-8"))
 
@@ -261,6 +297,7 @@ def main():
     dump(DATA / "proposed.json", proposed)
     dump(DATA / "cards.json", cards)
     dump(DATA / "standards.json", standards)
+    dump(DATA / "legal.json", build_legal(cfg))
 
     (APP / "templates").mkdir(parents=True, exist_ok=True)
     for csv in sorted((HERE / "new_audits" / "templates").glob("*.csv")):
