@@ -44,6 +44,9 @@ def main():
         queued.update(l.strip() for l in open(m) if l.strip())
     keys = [k for k in keys if os.path.join(IN_DIR, fname(k)) not in queued]
     keys = [k for k in keys if len(recs[k].get("abstract") or "") >= 200]   # title-only records carry no results
+    from extra_harvest import CLINICAL, NOT_CLINICAL      # drop financial, IT and research-governance "audits"
+    keys = [k for k in keys if CLINICAL.search((recs[k].get("title") or "") + " " + (recs[k].get("abstract") or ""))
+            and not NOT_CLINICAL.search(recs[k].get("title") or "")]
     if a.limit:
         keys = keys[:a.limit]
     os.makedirs(IN_DIR, exist_ok=True)
