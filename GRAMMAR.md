@@ -112,3 +112,4 @@ W595 comes before a final opener 3 of 25 times (P = 0.0001), is never before the
 
 ### Closer paradigm (S289)
 The jar ending (X-342) is one of about ten mutually exclusive closing units. Each is a final sign with a fixed left partner: 806-154/158, 550/555-527, 220/33/240-520, 3-156, 32-226, 142-617, plus W151, W236 and W700. Each is ≥ 40% final and occurs with the jar ≤ 0.5× expected; that is 10 signs against a shuffled-null maximum of 5.
+Replicated in IM77 with a prior prediction (S291): M15, M254, M12, M211 and M60 are the only signs that pass the same cuts (P = 1.4 × 10⁻⁷).
