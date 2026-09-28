@@ -83,7 +83,7 @@ select jsonb_pretty(jsonb_build_object(
 ```
 
 Add sign-in events if asked (`select created_at, ip_address, payload from auth.audit_log_entries
-where payload->>'actor_id' = '[uid]'`). Include the supplementary information: purposes, lawful
+where payload->>'actor_id' = '[uid]'`; if the table is empty, search *Logs → Auth* instead). Include the supplementary information: purposes, lawful
 bases, recipients, retention, rights and the right to complain. The privacy notice covers these;
 attach or link it. This JSON file also meets a **portability** request.
 
@@ -114,13 +114,13 @@ Also delete: any mailing-list export holding the address; support emails you no 
 row in `admins` if any. Resend logs expire within 30 days. Supabase Pro backups roll off within 7
 days. Tell the person both points.
 
-You may refuse erasure only in narrow cases (for example, you need the data for a legal claim).
-Ai4Qi will rarely have such a reason.
+The right to erasure is not absolute, but Ai4Qi will rarely have a reason to refuse. Backups count:
+say how long they take to roll off.
 
 ### Objection and restriction
 
-- **Emails:** turning off the consent boxes (account page) stops news and sponsor emails at once.
-  Remove them from any list you have exported.
+- **Emails:** the right to object to direct marketing is absolute. Turning off the consent boxes
+  (account page) stops news and sponsor emails at once. Remove them from any list you have exported.
 - **Reminders:** off per audit in My audits; or delete their `run_reminders` rows.
 - **Other processing (legitimate interests):** stop unless you have compelling reasons that override
   their interests. In practice, offer deletion of the relevant rows or of the whole account.
@@ -191,8 +191,10 @@ outcome.
   2025: one month; extension by up to two further months; identity; stopping the clock for
   clarification; fees; reasonable and proportionate search):
   https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/subject-access-requests/a-guide-to-subject-access/
-- ICO, individual rights (erasure, rectification, objection, restriction, portability):
-  https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/
+- ICO, right to object (absolute for direct marketing; otherwise compelling reasons; one month):
+  https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-object/
+- ICO, right to erasure (not absolute; one month; backups):
+  https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-erasure/
 - ICO, New data protection complaints law now in force (23 June 2026):
   https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/06/new-data-protection-complaints-law-now-in-force/
 - ICO, What do we do when we receive a complaint? (acknowledge within 30 days; how to count):
