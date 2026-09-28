@@ -249,50 +249,36 @@
   }
 
   /* ---------- home ---------- */
-  /* A real closed loop from the library, shown on the home page as what "closing the loop" looks like. */
-  var SPECIMEN = { id: 2098, measure: 'PPE donning sequence correct', before: 52, after: 88, where: 'University Hospital Limerick', fix: 'results and guidelines emailed, plus teaching' };
-  function specimenHtml() {
-    var a = S.byId.get(SPECIMEN.id);
-    if (!a) return '';
-    function row(cls, label, v) {
-      return '<div class="sp-row ' + cls + '"><span>' + label + '</span><div class="sp-track"><div class="sp-fill" style="width:' + v + '%"></div></div><b>' + v + '%</b></div>';
-    }
-    return '<aside class="specimen" aria-label="Example of a closed audit loop from the library"><p class="sp-label">A closed loop from the library</p>' +
-      '<h2>' + esc(SPECIMEN.measure) + '</h2><div class="sp-bars">' + row('before', 'Cycle 1', SPECIMEN.before) + row('after', 'Re-audit', SPECIMEN.after) + '</div>' +
-      '<p class="sp-meta"><span>' + esc(SPECIMEN.where) + '</span><span>Fix: ' + esc(SPECIMEN.fix) + '</span><a href="#/audit/' + a.id + '">[' + a.id + ']</a></p></aside>';
-  }
   function renderHome() {
     var closed = S.lib.filter(function (a) { return a.lc; }).length;
-    var topGroups = S.groups.slice().sort(function (a, b) { return b[1] - a[1]; }).slice(0, 18)
+    var topGroups = S.groups.slice().sort(function (a, b) { return b[1] - a[1]; }).slice(0, 24)
       .sort(function (a, b) { return a[0].localeCompare(b[0]); });
     var areas = new Map();
     S.proposed.forEach(function (p) { areas.set(p.area, (areas.get(p.area) || 0) + 1); });
     var areaList = Array.from(areas.entries()).sort(function (a, b) { return a[0].localeCompare(b[0]); });
-    var examples = ['reusable PPE in theatre', 'sepsis antibiotics within one hour', 'VTE risk assessment', 'delirium screening', 'operation note quality'];
-
+    var examples = ['sepsis antibiotics within one hour', 'VTE risk assessment', 'delirium screening', 'reusable PPE in theatre'];
+    function index(list, href) {
+      return '<ul class="index-list">' + list.map(function (g) {
+        return '<li><a href="' + href(g[0]) + '"><span class="il-name">' + esc(g[0]) + '</span><span class="il-dots" aria-hidden="true"></span><span class="il-n">' + fmt(g[1]) + '</span></a></li>';
+      }).join('') + '</ul>';
+    }
     page(
-      '<section class="hero" aria-labelledby="hero-h"><div class="hero-inner"><div>' +
-      '<h1 id="hero-h">Build a clinical audit on <em>any topic</em>.</h1>' +
-      '<p class="lede">One measurable question, the exact standard, a data template, timeline, change and re-audit, with evidence from audits that closed the loop.</p>' +
+      '<section class="hero" aria-labelledby="hero-h">' +
+      '<p class="kicker">Clinical audit for UK and Irish clinicians</p>' +
+      '<h1 id="hero-h">Build a clinical audit on any topic.</h1>' +
+      '<p class="lede">A complete protocol in a minute: one measurable question, the standard quoted word for word, a data sheet, timeline, change and re-audit, backed by audits that closed the loop.</p>' +
       buildForm('', true) +
-      '<p class="examples"><span>Try</span>' + examples.map(function (e) { return '<a href="#/build?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('') + '</p>' +
-      '<p class="hero-alt">No topic yet? <a href="#/suggest">See suggested audits</a> or <a href="#/search">search the library</a>.</p></div>' +
-      specimenHtml() + '</div>' +
-      '<ul class="hero-stats" aria-label="Library at a glance">' +
-      '<li><b>' + fmt(S.lib.length) + '</b>published audits</li><li><b>' + fmt(closed) + '</b>closed the loop</li>' +
-      '<li><b>' + fmt(S.proposed.length) + '</b>ready-to-run protocols</li><li><b>' + fmt(S.standards.length) + '</b>standards quoted word for word</li></ul></section>' +
-      '<ol class="steps-how" aria-label="How it works">' +
-      '<li><h3>Type a theme</h3><p>Anything you want to improve, in your own words.</p></li>' +
-      '<li><h3>Get the protocol</h3><p>Question, standard, template and timeline, built on published audits.</p></li>' +
-      '<li><h3>Close the loop</h3><p>Collect, make the one change, re-audit with the same template.</p></li></ol>' +
-      '<div class="section-head"><h2>Published audits by specialty</h2><a href="#/search">Search all</a></div>' +
-      '<ul class="chip-grid">' + topGroups.map(function (g) {
-        return '<li><a class="chip-link" href="#/search?sp=' + encodeURIComponent(g[0]) + '"><span>' + esc(g[0]) + '</span><span class="count">' + fmt(g[1]) + '</span></a></li>';
-      }).join('') + '</ul>' +
-      '<div class="section-head"><h2>Ready-to-run protocols by area</h2><a href="#/proposed">Browse all</a></div>' +
-      '<ul class="chip-grid">' + areaList.map(function (g) {
-        return '<li><a class="chip-link" href="#/proposed?area=' + encodeURIComponent(g[0]) + '"><span>' + esc(g[0]) + '</span><span class="count">' + fmt(g[1]) + '</span></a></li>';
-      }).join('') + '</ul>',
+      '<p class="examples"><span>For example</span>' + examples.map(function (e) { return '<a href="#/build?q=' + encodeURIComponent(e) + '">' + esc(e) + '</a>'; }).join('<span class="sep" aria-hidden="true">·</span>') + '</p>' +
+      '</section>' +
+      '<dl class="facts">' +
+      '<div><dt>Published audits</dt><dd>' + fmt(S.lib.length) + '</dd></div>' +
+      '<div><dt>Closed the loop</dt><dd>' + fmt(closed) + '</dd></div>' +
+      '<div><dt>Ready-made protocols</dt><dd>' + fmt(S.proposed.length) + '</dd></div>' +
+      '<div><dt>Standards quoted</dt><dd>' + fmt(S.standards.length) + '</dd></div></dl>' +
+      '<div class="home-cols"><section><div class="section-head"><h2>Ready-made protocols</h2><a href="#/proposed">All ' + fmt(S.proposed.length) + '</a></div>' +
+      index(areaList, function (n) { return '#/proposed?area=' + encodeURIComponent(n); }) + '</section>' +
+      '<section><div class="section-head"><h2>Published audits by specialty</h2><a href="#/search">Search all</a></div>' +
+      index(topGroups, function (n) { return '#/search?sp=' + encodeURIComponent(n); }) + '</section></div>',
       '', 'build');
   }
   function stat(n, label) { return '<li class="stat"><b>' + fmt(n) + '</b><span>' + esc(label) + '</span></li>'; }
@@ -387,7 +373,8 @@
   }
   function pubResult(a) {
     var meta = [a.s, a.co, a.y].filter(Boolean).map(esc).join(' · ');
-    var snip = a.r2 ? (trunc(a.f, 120) + ' → ' + trunc(a.r2, 120)) : trunc(a.f, 230);
+    var nr = function (v) { return !v || /^not reported/i.test(v); };
+    var snip = !nr(a.r2) && !nr(a.f) ? (trunc(a.f, 120) + ' → ' + trunc(a.r2, 120)) : trunc(nr(a.f) ? a.r2 : a.f, 230);
     return '<li class="result"><h3><a href="#/audit/' + a.id + '">' + esc(a.t) + '</a></h3>' +
       '<p class="meta">' + meta + ' <span class="id-tag">[' + a.id + ']</span></p>' +
       '<p class="snippet">' + esc(snip) + '</p>' +

@@ -38,7 +38,7 @@
     pass: '2E7D5B'        // reserved for essential traffic-light meaning
   };
   var DECK_FONTS = { head: 'Georgia', body: 'Calibri' };
-  var LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#3346D3"/><path d="M24 15.5A12 12 0 0 0 24 39.5" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M24 8.5A12 12 0 0 1 24 32.5" fill="none" stroke="#7CF2C0" stroke-width="5" stroke-linecap="round"/></svg>';
+  var LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#0B1F3A"/><rect x="15" y="21" width="5" height="16" rx="2.5" fill="#fff"/><rect x="28" y="21" width="5" height="16" rx="2.5" fill="#fff"/><circle cx="17.5" cy="14.5" r="3.4" fill="#8C97AB"/><circle cx="30.5" cy="9.5" r="3.4" fill="#C9A45C"/></svg>';
 
   /* ------------------------------------------------------------------ */
   /* Library loading                                                     */

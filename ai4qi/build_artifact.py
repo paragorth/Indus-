@@ -57,7 +57,7 @@ html = re.sub(r"<!doctype html>\s*|</?html[^>]*>\s*|</?head>\s*|</?body>\s*", ""
 html = re.sub(r'<meta charset[^>]*>\s*|<meta name="viewport"[^>]*>\s*|<link rel="(manifest|apple-touch-icon)"[^>]*>\s*', "", html)
 html = re.sub(r'<meta http-equiv="Content-Security-Policy"[^>]*>\s*', "", html)   # the artifact host sets its own CSP
 html = html.replace('<link rel="stylesheet" href="vendor/fonts/fonts.css">',
-                    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800'
+                    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400'
                     '&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">')
 html = html.replace('<script src="app.js"></script>', '<script>window.AI4QI_EMBED = true;</script>\n<script src="app.js"></script>')
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(html)
