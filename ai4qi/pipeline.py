@@ -16,6 +16,7 @@ import argparse
 import collections
 import csv
 import difflib
+import glob
 import gzip
 import json
 import os
@@ -23,6 +24,7 @@ import re
 import sys
 import time
 import xml.etree.ElementTree as ET
+import zlib
 
 import classify
 import sources
@@ -38,7 +40,8 @@ SEED = os.path.join(HERE, "seed", "ai4qi-library.seed.json")
 os.makedirs(FT_DIR, exist_ok=True)
 
 
-GZ_TRACKED = {"records.json"}   # large caches kept in git as .json.gz (plain .json is git-ignored)
+GZ_TRACKED = {"records.json"}
+GZ_SHARDS = 6   # large caches kept in git as .json.gz (plain .json is git-ignored)
 
 
 def load(name, default):
@@ -46,6 +49,13 @@ def load(name, default):
     if os.path.exists(p):
         with open(p, encoding="utf-8") as f:
             return json.load(f)
+    shards = sorted(glob.glob(p[:-5] + ".part*.json.gz"))
+    if shards:                                   # large caches are split so each git file stays under 50 MB
+        out = {}
+        for s in shards:
+            with gzip.open(s, "rt", encoding="utf-8") as f:
+                out.update(json.load(f))
+        return out
     if os.path.exists(p + ".gz"):
         with gzip.open(p + ".gz", "rt", encoding="utf-8") as f:
             return json.load(f)
@@ -59,9 +69,16 @@ def save(name, obj):
         json.dump(obj, f, ensure_ascii=False, indent=1)
     os.replace(tmp, p)
     if name in GZ_TRACKED:
-        with gzip.open(p + ".gz.tmp", "wt", encoding="utf-8", compresslevel=6) as f:
-            json.dump(obj, f, ensure_ascii=False, separators=(",", ":"))
-        os.replace(p + ".gz.tmp", p + ".gz")
+        parts = [dict() for _ in range(GZ_SHARDS)]
+        for k, v in obj.items():                 # stable shard per key, so git diffs stay small
+            parts[zlib.crc32(k.encode()) % GZ_SHARDS][k] = v
+        for i, part in enumerate(parts):
+            sp = f"{p[:-5]}.part{i:02d}.json.gz"
+            with gzip.open(sp + ".tmp", "wt", encoding="utf-8", compresslevel=6) as f:
+                json.dump(part, f, ensure_ascii=False, separators=(",", ":"))
+            os.replace(sp + ".tmp", sp)
+        if os.path.exists(p + ".gz"):
+            os.remove(p + ".gz")
 
 
 # ------------------------------------------------------------------ SEARCH
