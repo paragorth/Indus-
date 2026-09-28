@@ -445,8 +445,8 @@
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     var how =
-      sub('Standard', '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' +
-        '<p class="standard-source">' + esc(st.source) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>') +
+      sub('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
+        '<p class="standard-source">' + esc(st.source) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
       sub('Pass', '<p class="prose">' + linkify(p.pass) + '</p>') +
       sub('Population', '<p class="prose">' + linkify(p.population) + '</p>') +
       sub('Sample', '<p class="prose">' + linkify(p.sample) + '</p>') +
@@ -681,7 +681,7 @@
       '<ul class="std-list">' + S.standards.map(function (s) {
         var url = safeUrl(s.url);
         return '<li class="std" data-text="' + attr((s.source + ' ' + s.wording + ' ' + (s.used_by || []).join(' ')).toLowerCase()) + '">' +
-          '<h3>' + esc(s.source) + '</h3><blockquote class="standard"><p>“' + esc(s.wording) + '”</p></blockquote>' +
+          '<h3>' + esc(s.source) + '</h3><blockquote class="standard"><p>“' + esc(s.wording) + '”</p></blockquote>' + niceAttribution(s) +
           (url ? '<p class="standard-source"><a href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a></p>' : '') +
           ((s.used_by || []).length ? '<div class="used"><span class="muted">Used by:</span>' + s.used_by.map(function (id) {
             var p = S.pById.get(id);
@@ -788,6 +788,20 @@
     return parts.join(' | ').slice(0, 700);
   }
 
+  /* NICE's UK Open Content Licence does not cover AI use: unless the owner records NICE's written
+     permission (config "nice_ai_permission": true), NICE wording is never put in a build prompt;
+     the app inserts the published wording itself, with NICE's attribution. */
+  var NICE_LICENCE_URL = 'https://www.nice.org.uk/reusing-our-content/nice-uk-open-content-licence';
+  function isNice(s) { s = s || {}; return /^\s*NICE\b/.test(s.source || '') || /(^|\.)nice\.org\.uk\//i.test(s.url || ''); }
+  function niceAI() { return !!(BE.cfg && BE.cfg.nice_ai_permission === true); }
+  function niceAttribution(s) {
+    if (!isNice(s)) return '';
+    var y = (String(s.source || '').match(/(19|20)\d\d(?!.*(19|20)\d\d)/) || [''])[0], url = safeUrl(s.url);
+    return '<p class="nice-attr">© NICE ' + esc(y) + ' ' + esc(String(s.source || '').replace(/^NICE\s*/, '')) + '. Available from ' +
+      (url ? '<a href="' + attr(url) + '" target="_blank" rel="noopener">' + esc(url.replace(/^https?:\/\//, '')) + '</a>' : 'www.nice.org.uk') +
+      '. All rights reserved. Subject to <a href="' + NICE_LICENCE_URL + '" target="_blank" rel="noopener">Notice of rights</a>. NICE guidance is prepared for the National Health Service in England. ' +
+      'All NICE guidance is subject to regular review and may be updated or withdrawn. NICE accepts no responsibility for the use of its content in this product.</p>';
+  }
   var BUILD_RULES = [
     'You write clinical audit protocols for Ai4Qi, a professional clinical audit library used by UK and Irish doctors, nurses and allied health professionals.',
     'Write ONE complete, ready-to-run audit protocol on the requested theme. It is shown directly to clinicians as a finished document.',
@@ -815,11 +829,15 @@
 
   function buildPrompt(q, res, avoid) {
     var pubs = res.pubs.slice(0, 30).map(auditLine).join('\n') || '(none on this theme)';
-    var stds = res.stds.map(function (s) { return '- ' + s.source + ' | "' + s.wording + '" | ' + (s.url || ''); }).join('\n') || '(none listed)';
+    var nice = !niceAI();
+    var stds = res.stds.map(function (s) {
+      return '- ' + s.source + ' | ' + (nice && isNice(s) ? '(NICE: wording not supplied)' : '"' + s.wording + '"') + ' | ' + (s.url || '');
+    }).join('\n') || '(none listed)';
     var props = res.props.map(function (p) { return '- ' + p.id + ': ' + p.question + ' (standard: ' + ((p.standard || {}).source || '') + ')'; }).join('\n') || '(none)';
     return BUILD_RULES + '\n\nTHEME REQUESTED: ' + q.slice(0, 300) +
       '\n\nPUBLISHED AUDITS (library ids; closest first):\n' + pubs +
       '\n\nSTANDARDS (exact wording):\n' + stds +
+      (nice ? '\nFor any NICE standard, do not write NICE wording: set "wording" to "" and give the exact NICE source (e.g. "NICE NG253 rec 1.8.3") and URL; the app inserts the published wording.' : '') +
       '\n\nPROPOSED AUDITS already in the library:\n' + props +
       (avoid && avoid.length ? '\n\nALREADY OFFERED ON THIS THEME. Write a DIFFERENT audit: a different aspect of the theme, a different question and a different standard where possible. Do not repeat these:\n' +
         avoid.map(function (x) { return '- ' + x; }).join('\n') : '');
@@ -850,6 +868,16 @@
       resources: res.pubs.slice(0, 8).map(function (a) { return a.id; }),
       similar: null
     };
+    if (!niceAI() && isNice(p.standard)) {                  // NICE wording comes from the library copy, never from the AI
+      var key = function (src) {                           // e.g. "ng253|1.8.3": the guideline and the recommendation number
+        var s = String(src || '').toLowerCase(), g = (s.match(/\b(ng|cg|qs|dg|ta|htg|ph|sc)\s?\d+/) || [''])[0].replace(/\s/g, ''),
+          r = (s.match(/\b(?:rec(?:ommendation)?s?|statement|qs\d+\s+statement)\s*(\d+(?:\.\d+)*)/) || [])[1] || '';
+        return g && r ? g + '|' + r : '';
+      };
+      var want = key(p.standard.source), hit = want ? res.stds.concat(S.standards || []).filter(function (s) { return isNice(s) && key(s.source) === want; })[0] : null;
+      p.standard.wording = hit ? hit.wording : '';          // no exact match: show the source and link only
+      if (hit && !p.standard.url) p.standard.url = safeUrl(hit.url);
+    }
     var sim = o.similar;
     if (sim && sim.id && S.pById.has(str(sim.id)) && str(sim.better_because)) p.similar = { id: str(sim.id), better_because: str(sim.better_because) };
     return p;
@@ -1018,7 +1046,9 @@
     after.push(['Status and effort', '<div class="status-box">' + BUILT_BADGE +
       (p.effort ? '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' : '') +
       '<span><strong>Built:</strong> ' + esc(p.built) + '</span></div>']);
-    var body = protocolBody(p, dl, { after: after }) + feedbackBox(p.id);
+    var body = '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
+      'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
+      'Your audit records are never sent to the AI or to Ai4Qi.</p></aside>' + protocolBody(p, dl, { after: after }) + feedbackBox(p.id);
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +

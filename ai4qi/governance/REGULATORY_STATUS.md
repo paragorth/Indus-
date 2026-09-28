@@ -49,8 +49,7 @@ standards.
 
 **Points that keep this answer true:**
 
-- **Free does not mean exempt.** The MHRA guidance says the rules cover software "made available
-  in return for payment or free of charge". The answer rests on purpose, not on price.
+- **Free does not mean exempt.** The rules cover software made available "free of charge" too.
 - **Claims decide it.** The MHRA says a manufacturer's own view is "not solely determinative", and
   that a disclaimer such as "this product is not a medical device" is not acceptable if medical
   claims are made elsewhere, including in promotional material. So avoid words like "detects",
@@ -68,8 +67,8 @@ mean UKCA marking and MHRA registration):
   suggesting a dose, a test, a referral or a diagnosis.
 - Risk scores, early-warning scores or clinical calculators applied to a patient's data.
 - Reading an electronic patient record and prompting action on a patient.
-- Letting users ask the AI clinical questions about a patient or a case.
-- Marketing Ai4Qi as a tool that improves decisions about patients rather than about services.
+- Letting users ask the AI clinical questions about a patient, or marketing Ai4Qi as improving
+  decisions about patients rather than about services.
 
 ## 3. NHS clinical risk management: DCB0129 and DCB0160
 
@@ -121,9 +120,7 @@ The ESF (ECD7, last updated 9 August 2022) is for evaluating digital health tech
 **It does not apply to Ai4Qi today**, because nobody commissions or buys it. If a commissioner ever
 assessed it, the closest class is **Tier A, "System service"**. NICE defines this as technologies
 "intended to release costs or staff time, or to improve efficiency" and "unlikely to have direct
-health outcomes measurable for individual service users". Tier A needs the lightest evidence. The
-ESF also excludes DHTs "designed for providing training to health or care professionals", which
-covers part of what Ai4Qi does.
+health outcomes measurable for individual service users". Tier A needs the lightest evidence.
 
 ## 6. Ireland (HPRA)
 
@@ -133,8 +130,7 @@ individual patient". The EU guidance (MDCG 2019-11 rev.1, June 2025, decision st
 is not for the benefit of individual patients if it is intended "only to aggregate population
 data, provide generic diagnostic or treatment pathways (not directed to individual patients),
 scientific literature, medical atlases, models and templates". **Same conclusion as in the UK:
-not a medical device.** Ai4Qi is not procured by the HSE, so no Irish clinical safety process
-applies.
+not a medical device.** 
 
 ## 7. Summary
 

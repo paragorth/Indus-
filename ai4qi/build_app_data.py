@@ -200,7 +200,7 @@ def build_cards(lib):
 SHELL = ("index.html", "app.js", "export.js", "styles.css", "manifest.webmanifest")
 CONFIG_DEFAULTS = {"feedback_url": "", "supabase_url": "", "supabase_anon_key": "",
                    "analytics": "", "plausible_script": "", "plausible_domain": "",
-                   "plausible_host": "https://plausible.io", "cloudflare_token": "", "build_url": "", "claude_link": "",
+                   "plausible_host": "https://plausible.io", "cloudflare_token": "", "build_url": "", "claude_link": "", "nice_ai_permission": False,
                    "legal": {"owner_name": "", "postal_address": "", "contact_email": "", "ico_number": "", "updated": ""}}
 VERSION_LINE = re.compile(r"^var VERSION = '[^']*';", re.M)
 
