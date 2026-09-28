@@ -126,7 +126,8 @@ Ai4Qi) is the controller of them.
 | Reminders (opt-in) | User id, run id, the audit question (≤200), next step text made of counts (e.g. "Collect cycle 1 data (32 of 40 entered)"), due date, opt-in flag, times sent | `run_reminders` | The user; the `send-reminders` job |
 | Reminder emails | Email address, audit question, next step, due date | Resend (sending and logs) | Owner (Resend dashboard) |
 | Audit building | The build prompt: fixed instructions, the typed theme, and excerpts from the Ai4Qi library (published audits, standards, proposed audits). **No patient data and no user identifiers** | Sent from the `build-audit` Edge Function to the Anthropic API | Anthropic, as processor |
-| Visitor analytics | Page views with cleaned address (route only, e.g. `#/proposed/ONA-012`; search words and filters removed; only `utm_*`, `ref` and `from` kept), referrer, browser/OS and country derived by Plausible | Plausible (EU) | Owner |
+| Visitor analytics | Page views with cleaned address (route only, e.g. `#/proposed/ONA-012`; search words and filters removed; only `utm_*`, `ref` and `from` kept), referrer, browser/OS and country derived by Plausible (or by Cloudflare Web Analytics, if that is switched on instead) | Plausible (EU), or Cloudflare | Owner |
+| Feedback comments copied into the library | When the owner runs `pull_feedback.py`, free-text comments with their audit id, rating and reasons (no user or device id) are copied into `new_audits/feedback.json` | The project's GitHub repository (GitHub, Inc., US) | Owner; anyone with access to the repository. The owner reads new comments first and deletes any that name a person |
 
 Admins are listed by email in the `admins` table and can read raw feedback and aggregate
 statistics. Row level security (RLS) is enabled on every table.
@@ -215,7 +216,7 @@ Record the outcome of each consultation here before sign-off.
   the user's device and has no access to that data, so it is neither controller nor processor of it.
   **Confirm this view with the reviewer.** It depends on patient data never reaching Ai4Qi, which
   the code currently ensures.
-- **Supabase, Resend, Anthropic, Plausible** — processors for Ai4Qi.
+- **Supabase, Resend, Anthropic, the host (Cloudflare Pages or Netlify), Plausible and GitHub** — processors for Ai4Qi (see `PROCESSORS_AND_TRANSFERS.md`).
 
 ### 4.2 Lawful bases (UK GDPR Art. 6)
 
@@ -276,11 +277,12 @@ assessment. Transfers to the EU/EEA are covered by UK adequacy regulations.
 
 | Processor | What it processes | Where | Transfer mechanism to check | DPA |
 |---|---|---|---|---|
-| Supabase Inc. (US) | Database (all tables above), Auth (email, sign-in logs), Edge Functions and their logs | Project region chosen by owner: **London (eu-west-2)** recommended. Choose that specific region, not a "general" region grouping. Support and some sub-processors may access from the US | UK adequacy for EU region; for any US access, the DPA's SCCs with UK Addendum (incorporated in the DPA); check DPF / UK Extension status | https://supabase.com/legal/dpa |
-| Resend (Plus Five Five, Inc., US) | Recipient email, reminder content, delivery logs; also Supabase Auth sign-in emails if Resend is used as the SMTP provider | Resend's DPA says primary processing is in the **United States** | EU SCCs and UK Addendum incorporated in the DPA; check DPF / UK Extension status | https://resend.com/legal/dpa |
-| Anthropic PBC (US) | Build prompts (theme and library excerpts) and generated protocols from the hosted site | US (check Anthropic's current processing locations and data-residency options) | SCCs and UK Addendum in the DPA; check DPF / UK Extension status; check API retention period and zero-retention options | https://www.anthropic.com/legal/data-processing-addendum (part of the Commercial Terms) |
+| Supabase Pte. Ltd (Singapore), the contracting party under the DPA; sub-processors include Supabase, Inc. (US, support) and AWS | Database (all tables above), Auth (email, sign-in logs), Edge Functions and their logs | Project region: **London (eu-west-2)**. Choose that specific region, not a "general" region grouping. Support and some sub-processors may access from elsewhere, including the US | Not on the DPF list; Singapore has no UK adequacy regulations. EU SCCs with the UK Addendum (IDTA Addendum), incorporated in the DPA, plus a transfer risk assessment | https://supabase.com/legal/dpa |
+| Resend (Plus Five Five, Inc., US) | Recipient email, reminder content, delivery logs; also Supabase Auth sign-in emails if Resend is used as the SMTP provider | Account data, email metadata and logs stored in the **United States**, even when sending from the Ireland (eu-west-1) region | **UK Extension to the EU–US DPF** (certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://resend.com/legal/dpa |
+| Anthropic PBC (US) | Build prompts (theme and library excerpts) and generated protocols from the hosted site | US (check Anthropic's current processing locations and data-residency options) | Not on the DPF list. EU SCCs with the UK Addendum (IDTA Addendum) in the DPA, plus a transfer risk assessment; check API retention period and zero-retention options | https://www.anthropic.com/legal/data-processing-addendum (part of the Commercial Terms) |
 | Plausible Insights OÜ (EU) | Page views, referrer, browser/OS and country derived from IP and User-Agent (raw IP and User-Agent not stored, per Plausible) | EU; servers in Germany, per Plausible | UK adequacy for the EU | https://plausible.io/dpa |
-| Static host for the site (e.g. GitHub Pages) | Web server logs (IP address, user agent) of every visitor | [check host] | [check] | [add when host chosen] |
+| Static host for the site: Cloudflare, Inc. (US, Cloudflare Pages; also optional Cloudflare Web Analytics, as an alternative to Plausible) or Netlify, Inc. (US) | Web server logs (IP address, user agent) of every visitor | Cloudflare: global network. Netlify: US and global CDN | **UK Extension to the EU–US DPF** (both certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://www.cloudflare.com/cloudflare-customer-dpa/ or https://www.netlify.com/pdf/netlify-dpa.pdf |
+| GitHub, Inc. (US) | Source code repository; also `new_audits/feedback.json`, holding feedback comments copied by `pull_feedback.py` (no user or device ids), which could contain personal data if someone typed it | US | **UK Extension to the EU–US DPF** (certified, non-HR data) | https://github.com/customer-terms/github-data-protection-agreement |
 | Font and script CDNs (Google Fonts, jsDelivr, cdnjs) — **hosted site: no longer used (self-hosted); Claude-artifact version still loads Google Fonts** | Visitor IP address and user agent when files are fetched | Global | Removed by the planned self-hosting | n/a |
 
 For the Claude artifact version, building happens under the viewer's own Anthropic account and
@@ -290,7 +292,7 @@ terms; Ai4Qi's processor contract does not cover it. Say so in the privacy notic
 and offers its service to people in Ireland, check whether an **EU representative (EU GDPR Art. 27)**
 is required, or whether the exemption for occasional, low-risk processing applies.
 
-### 4.5 Retention (proposed)
+### 4.5 Retention (full schedule and deletion jobs: `RETENTION_SCHEDULE.md`)
 
 | Data | Proposed retention | How |
 |---|---|---|
@@ -301,9 +303,9 @@ is required, or whether the exemption for occasional, low-risk processing applie
 | Run reminders | Deleted automatically when the audit is closed or reminders are turned off (already in `syncRun`); purge rows with a due date more than 90 days in the past | Add a scheduled purge |
 | Built audits | Protocol and theme kept for library review; set `user_id` to null after 90 days (the daily cap only needs 24 hours) | Scheduled SQL job |
 | Admin list | While the person is an admin | Manual |
-| Supabase Auth and Edge Function logs | Platform default for the plan (check in the dashboard) | Supabase |
-| Resend email logs | Resend default for the plan (check) | Resend |
-| Anthropic API inputs/outputs | Anthropic's commercial API retention (check current period; request zero data retention if available) | Anthropic |
+| Supabase Auth and Edge Function logs | 1 day (free plan) or 7 days (paid plan) | Supabase |
+| Resend email logs | 30 days | Resend |
+| Anthropic API inputs/outputs | Deleted within 30 days under Anthropic's commercial API terms, with the exceptions they list (request zero data retention if offered) | Anthropic |
 | Plausible statistics | Aggregate; keep while the site runs | Plausible |
 | Backups (Supabase Pro) | Platform default (daily backups, typically 7 days on Pro) | Supabase |
 | Records on user devices | Under the user's and their organisation's control. App guidance: delete the audit from the device once it is presented and archived on the organisation's systems | "Delete this audit and its data from this device" button; shared-computer mode **[live]** |

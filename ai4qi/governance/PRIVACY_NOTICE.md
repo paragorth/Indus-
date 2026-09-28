@@ -61,6 +61,12 @@ anyone who types the same topic, without saying who built it.
 **Demo mode** adds nothing to what we collect: its fictitious example audits stay on your device.
 (If you are signed in, their steps update "My audits" like any audit.)
 
+**Feedback comments in our library.** From time to time we copy feedback comments into our audit
+library, a file (`new_audits/feedback.json`) in the project's code repository on GitHub, so we can
+use them to improve the audits. We copy only the comment, rating and reasons, never your user or
+device number. Comments must not contain personal information about you or anyone else; we read
+new comments before copying them and delete any that name a person.
+
 **Admin statistics** show totals only, never groups smaller than five people. Admins can read
 feedback comments.
 
@@ -87,11 +93,13 @@ agreement.
 
 | Provider | What they do | Where |
 |---|---|---|
-| Supabase | Stores accounts, profiles, feedback, progress, built audits and reminders; runs our server code | London, UK |
-| Resend | Sends sign-in, reminder and news emails | United States |
+| Supabase (Supabase Pte. Ltd, Singapore, with Supabase, Inc., US, for support) | Stores accounts, profiles, feedback, progress, built audits and reminders; runs our server code | Stored in London, UK. Support staff and Supabase's own providers may access it from elsewhere, including the US |
+| Resend | Sends sign-in, reminder and news emails | Emails can be sent from Ireland, but Resend keeps account data and email logs in the United States |
 | Anthropic | Writes audit protocols from the topic you type. It does not use them to train its models | United States |
 | Plausible Analytics | Counts visits | European Union |
+| Cloudflare Web Analytics (instead of Plausible, if we switch it on) | Counts visits | Global network |
 | [Cloudflare Pages / Netlify] | Serves the website | [location] |
+| GitHub | Stores our code, and copies of feedback comments without user or device numbers | United States |
 
 We share data with others only if the law requires it.
 
@@ -100,22 +108,36 @@ own Claude account, under your own agreement with Anthropic, not ours.
 
 ## International transfers
 
-Resend and Anthropic are based in the United States, and Supabase is a US company. When personal
-data goes to the US, we rely on [the UK Extension to the EU–US Data Privacy Framework / the
-International Data Transfer Addendum to the EU Standard Contractual Clauses], which are UK-approved
-safeguards. Transfers to the EU are covered by UK adequacy regulations. Ask us for details.
+Some of our providers are outside the UK, and these UK-approved safeguards apply:
+
+- **Resend, Cloudflare, Netlify and GitHub** (United States) are certified under the UK Extension to
+  the EU–US Data Privacy Framework, which UK adequacy regulations cover. Resend keeps account data
+  and email logs in the US even when emails are sent from its EU region.
+- **Anthropic** (United States) and **Supabase** (Supabase Pte. Ltd, Singapore; support from
+  Supabase, Inc. in the US) are covered by the EU Standard Contractual Clauses with the UK's
+  International Data Transfer Addendum, built into their data processing agreements. Supabase stores
+  our data in London; the transfer is remote access, for example by support staff.
+
+Transfers to the EU are covered by UK adequacy regulations. Ask us for details.
 
 ## How long we keep data
 
 | Data | How long |
 |---|---|
-| Account, profile, email choices, My audits progress | Until you delete your account, or 24 months after you last sign in |
-| Feedback | 24 months, then deleted or stripped of the device number |
-| Usage events | 24 months, then kept only as weekly totals |
+| Account, profile, email choices, My audits progress | Until you delete your account, or 24 months after you last used it (we email you 30 days before) |
+| Feedback | 24 months, then your user and device numbers and your comment are removed; the rating and reasons are kept |
+| Feedback comments copied into our library on GitHub | While useful to the library; no user or device numbers are copied |
+| Usage events | 24 months, then kept only as weekly totals. The record that you signed up is kept for the life of your account |
 | Reminders | Until you turn them off or close the audit; at most 90 days after the due date |
-| Audit topics and built protocols | Protocols kept to improve the library; the link to your account removed after 90 days |
+| Audit topics and built protocols | Protocols kept to improve the library; the link to your account removed after 90 days, or sooner if you delete your account |
 | Visit statistics | Totals only, kept while the site runs |
-| Providers' technical logs | As set by each provider |
+| Supabase technical logs | 1 day (free plan) or 7 days (paid plan) |
+| Supabase backups | 7 days (paid plan only) |
+| Resend email logs | 30 days |
+| Topics sent to Anthropic, and the protocols it writes | Deleted by Anthropic within 30 days (longer only if flagged under its usage policy or if the law requires it) |
+| Website hosting logs | As set by the host (Cloudflare or Netlify) |
+| Support emails | 24 months after the last message |
+| Records of rights requests and complaints | 3 years after the request or complaint is closed |
 
 ## Cookies and storage on your device
 
