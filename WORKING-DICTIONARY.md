@@ -26,7 +26,7 @@ Notation: W = Wells number, M = Mahadevan number. Glosses are in SMALL CAPS styl
 
 | Sign | Shape | Gloss | Grade | Evidence / would support – would kill |
 |---|---|---|---|---|
-| W817, W861 (M267) | leaf or diamond with a small diamond on top | OPENER; C: "seal of" | A function | owned seals; excludes the tablet suffix (S29, S66) |
+| W817, W861 (M267) | leaf or diamond with a small diamond on top | OPENER. C glosses weighed: "seal of" (the impression travels without the seal); "promise / guarantee of" (user); "holder / member of (a seal-holding body)". The data fit the last best: the opener is on 12–21% of seals but almost never on the impressions and tablets that record transactions (MD sealings 3/70, HP 5/155, tablets 9%; p = 2 × 10⁻⁷, S29, S66). A "promise" word should be most common exactly on those. | A function | owned seals; excludes the tablet suffix (S29, S66) |
 | W820 (M391) | 6-spoked wheel | OPENER, alternates with M267; C: "seal of (another office or house)" | A function | can also close a text (S286, S287) |
 | W740 (M342) | jar with handles | default CLOSER / title head; C: "steward, store(-keeper)" | A function, C word | one of a closed set of ~10 closers (S289, S291). Also counted (T2 + jar ×46), so it is also a thing: a jar or measure |
 | W400 (M176) | vertical line with side ticks | SUFFIX on tablets and sealings; C: "received / checked" | A function | after the closer, on handled goods, not on owned seals (S29) |
