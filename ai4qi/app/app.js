@@ -591,7 +591,7 @@
       { p: 'Dear ' + name + ',' },
       { p: 'I\'d like to run a clinical audit' + (place ? ' in ' + place : '') + ', and I was hoping you might supervise it.' },
       { h: 'The audit' },
-      { p: 'The question: ' + noDot(p.question).replace(/\?+$/, '') + '?' },
+      { b: noDot(p.question).replace(/\?+$/, '') + '?' },
       { p: stdLine + (targetPhrase(p.target) ? ' ' + targetPhrase(p.target) : '') },
       { h: 'How we\'ll do it' },
       { p: [sample, change].filter(Boolean).join(' ') },
@@ -606,7 +606,8 @@
     ];
     var html = '', text = '';
     blocks.forEach(function (b) {
-      if (b.h) { html += '<p style="margin:16px 0 4px"><strong>' + esc(b.h) + '</strong></p>'; text += '\n' + b.h.toUpperCase() + '\n'; }
+      if (b.h) { html += '<p style="margin:16px 0 4px" data-h><strong>' + esc(b.h) + '</strong></p>'; text += '\n' + b.h.toUpperCase() + '\n'; }
+      else if (b.b) { html += '<p style="margin:0 0 8px"><strong>' + esc(b.b) + '</strong></p>'; text += b.b + '\n\n'; }
       else if (b.links) {
         if (!b.links.length) return;
         html += '<p style="margin:18px 0 4px;font-size:10pt;color:#555"><strong>Links</strong></p>' + b.links.map(function (l) {
@@ -651,7 +652,8 @@
       '<div class="out-grid sup-actions">' +
       '<button class="out-btn" type="button" data-sup-docx><b>Proposal</b><span>Word, with a sign-off box</span></button>' +
       '<button class="out-btn" type="button" data-sup-copy><b>Copy email</b><span>Pastes with bold headings into Outlook or NHSmail</span></button>' +
-      '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Plain text; then attach the proposal</span></a></div>' +
+      (window.AI4QI_EMBED ? '' : '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Copies the email, opens a new message: paste it in</span></a>') +
+      (DEMO ? '<button class="out-btn demo-btn" type="button" data-sup-demo><b>Demo: fill the form</b><span>Example names and dates</span></button>' : '') + '</div>' +
       '<p class="muted sup-note">Download the proposal first and attach it to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Your name, your supervisor\'s details and the hospital are remembered on this device only.</p>' +
       '<p class="form-status" role="status" data-sup-status></p></div></details>';
   }
@@ -662,14 +664,15 @@
     var miss = supMissing(box);
     box.querySelector('[data-sup-missing]').textContent = miss.length ? 'Still to fill in: ' + miss.map(function (x) { return x[1].toLowerCase(); }).join(', ') + '.' : '';
     SUP_FIELDS.forEach(function (x) { var el = box.querySelector('#sp-' + x[0]); if (x[3]) el.setAttribute('aria-invalid', box.hasAttribute('data-touched') && !d[x[0]] ? 'true' : 'false'); });
-    box.querySelector('[data-sup-mailto]').href = 'mailto:' + encodeURIComponent(d.supEmail || '').replace(/%40/g, '@') +
-      '?subject=' + encodeURIComponent(box.querySelector('[data-sup-subject]').value) + '&body=' + encodeURIComponent(supText(pv));
+    var ml = box.querySelector('[data-sup-mailto]');          // a long body in a mailto link breaks many mail apps:
+    if (ml) ml.href = 'mailto:' + encodeURIComponent(d.supEmail || '').replace(/%40/g, '@') +   // address and subject only
+      '?subject=' + encodeURIComponent(box.querySelector('[data-sup-subject]').value);
   }
   function supText(pv) {       // the edited email as plain text: headings in capitals, lists with dashes
     var out = [];
     pv.childNodes.forEach(function (n) {
       if (n.nodeName === 'UL') out.push(Array.prototype.map.call(n.querySelectorAll('li'), function (li) { return '- ' + li.textContent.trim(); }).join('\n'));
-      else if (n.querySelector && n.querySelector('strong') && n.textContent.trim() === n.querySelector('strong').textContent.trim()) out.push('\n' + n.textContent.trim().toUpperCase());
+      else if (n.hasAttribute && n.hasAttribute('data-h')) out.push('\n' + n.textContent.trim().toUpperCase());
       else if (n.nodeType === 1 && n.querySelector && n.querySelector('a')) out.push(Array.prototype.map.call(n.querySelectorAll('a'), function (a) { return a.textContent.trim() + ': ' + a.getAttribute('href'); }).join('\n'));
       else if (n.nodeType === 1) out.push((n.innerText || n.textContent).trim());
       else if (n.textContent.trim()) out.push(n.textContent.trim());
@@ -703,6 +706,14 @@
     var open = e.target.closest('[data-sup-open]');
     if (open) { var bx = document.getElementById('send-supervisor'); if (bx) { bx.open = true; bx.scrollIntoView({ behavior: 'smooth', block: 'start' }); bx.querySelector('input').focus({ preventScroll: true }); } return; }
     var box = e.target.closest('.sup-box'); if (!box) return;
+    if (e.target.closest('[data-sup-demo]')) {
+      var f = box.querySelector('[data-sup-form]'), ex = { lead: 'Dr Alex Morgan (example)', role: 'ST4 Emergency Medicine', email: 'alex.morgan@example.nhs.uk',
+        supervisor: 'Dr Priya Shah (example)', supEmail: 'priya.shah@example.nhs.uk', site: 'Riverside General Hospital (fictional)', department: 'Emergency Department',
+        startDate: addDays(todayIso(), 7), sampleSize: '40' };
+      Object.keys(ex).forEach(function (k) { if (f.elements[k]) f.elements[k].value = ex[k]; });
+      supRefresh(box, false); supSaveRun(box);
+      return;
+    }
     var act = e.target.closest('[data-sup-docx],[data-sup-copy],[data-sup-mailto]'); if (!act) return;
     var st = box.querySelector('[data-sup-status]'), p = supProtocol(box); if (!p) return;
     box.setAttribute('data-touched', ''); supRefresh(box, true);
@@ -712,9 +723,13 @@
       sayIn(st, 'Making the Word proposal…');
       exporter().then(function (x) { return x.proposalDocx(p, d); }).then(function (b) { return saveFile(name + '.docx', b); })
         .then(function () { sayIn(st, 'Proposal ready. Attach it to the email.' + warn); }, function (err) { sayIn(st, downloadError(err)); });
-    } else if (act.matches('[data-sup-copy]')) {
+    } else if (act.matches('[data-sup-copy],[data-sup-mailto]')) {
+      var viaMail = act.matches('[data-sup-mailto]');
       var pv = box.querySelector('[data-sup-body]'), subj = box.querySelector('[data-sup-subject]').value;
-      var plain = supText(pv), ok = function () { sayIn(st, 'Email copied. Paste it into a new message; the subject is: ' + subj + warn); };
+      var plain = supText(pv), ok = function () {
+        sayIn(st, viaMail ? 'Email copied. Your email app is opening a new message: click in the message and paste (Ctrl+V or Cmd+V).' + warn :
+          'Email copied. Paste it into a new message; the subject is: ' + subj + warn);
+      };
       var fallback = function () {
         var r = document.createRange(); r.selectNodeContents(pv); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
         sayIn(st, 'The email is selected: press Ctrl+C (or Cmd+C) to copy it.' + warn);
@@ -725,7 +740,7 @@
             'text/plain': new Blob([plain], { type: 'text/plain' }) })]).then(ok, function () { navigator.clipboard.writeText(plain).then(ok, fallback); });
         } else navigator.clipboard.writeText(plain).then(ok, fallback);
       } catch (err) { fallback(); }
-    } else if (miss.length) sayIn(st, warn.trim());
+    }
   });
 
   function chooseActions(id) {
