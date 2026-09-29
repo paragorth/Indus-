@@ -30,3 +30,13 @@ Published inscriptions up to about 2015 are in the corpus. We checked this again
 1. New excavated texts, to test the 13 frozen predictions (prereg/preregistration-3-frozen.json).
 2. An outside anchor: a Mesopotamian or Gulf document naming the owner of an Indus seal impressed on it.
 3. Sign-by-sign expert transcription of any new long text.
+
+## Working interpretation (29 Sept 2026, user's model; grade B–)
+**A seal text is a credential: the activities, rights, offices or degrees of a person, family or business. Nothing more (no personal name needed).**
+- The shield/opener (leaf, diamond, wheel, bracket, X) + 'of' introduces the credential. Occasionally it closes the text instead (S286), or a prefix precedes it.
+- Middle: what the holder commands, owns or deals in, e.g. counts of goods ('of 4 tree-units', perhaps timber, S345–S346) and fish-class words.
+- End: an office word (jar, arrow, carrier, box …) with its own qualifiers (S289, S303).
+- The animal is a separate house or clan stamp, independent of the text (S329).
+
+Evidence: the same credential in several cities and on tablets far from any seal (S324, S344); middles are not a stock of personal names (S321–S322); nameless quantity seals, including the Umma sealing (S336, S345); short credentials nest inside longer ones at 4× chance (S347), as parallel grades rather than promotions (S348).
+Still missing: the spoken words and meanings of the individual credential terms, which need an outside anchor.
