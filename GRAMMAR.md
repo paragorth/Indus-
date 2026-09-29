@@ -116,3 +116,6 @@ Replicated in IM77 with a prior prediction (S291): M15, M254, M12, M211 and M60 
 
 ### Fish qualifier order (S296–S297)
 Modified fish signs form one word class in both corpora. When two stand together they keep a fixed, transitive order: W235 (hat) → W240 (whiskers) → W233 (bar) → W231 (stroke); e.g. 36:5 and 22:3. The plain fish W220 has no fixed place.
+
+### The arrow phrase (S299–S300)
+Template, in both corpora: fish word(s) in the order hat → whiskers → bar → stroke → plain, then optionally W705/706 + tall 3 (M336-M89), then the arrow closer W520 (M211). 'U-stroke 3' occurs only after a fish word (64% vs 33% base) and never between a fish and a directly following arrow (1 of 86).
