@@ -119,3 +119,6 @@ Modified fish signs form one word class in both corpora. When two stand together
 
 ### The arrow phrase (S299–S300)
 Template, in both corpora: fish word(s) in the order hat → whiskers → bar → stroke → plain, then optionally W705/706 + tall 3 (M336-M89), then the arrow closer W520 (M211). 'U-stroke 3' occurs only after a fish word (64% vs 33% base) and never between a fish and a directly following arrow (1 of 86).
+
+### The seated-person phrase (S301–S302)
+W176/M48 (seated person) (+ W100/M8, three-headed person) + jar W740/M342. M8 comes after M48 and never before it (Wells 13:0, IM77 10:0). Texts with M8-jar carry M48 earlier far above chance in both corpora.
