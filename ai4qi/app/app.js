@@ -256,8 +256,10 @@
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
   }
 
+  var AFTER_SIGNIN = 'ai4qi_after_signin';
   function route() {
     var r = parseHash(), p = r.parts, name = p[0] || '';
+    if (name !== 'account' && name !== 'demo') S.lastRoute = location.hash || '#/';   // where to go back to after signing in
     var sameView = false;
     try {
       if (name === 'demo') { demoSet(p[1] !== 'off'); location.replace('#/' + (p[1] === 'off' ? '' : 'suggest')); return; }
@@ -2626,7 +2628,7 @@
           BE.client = c;
           BE.user = res.data && res.data.session ? res.data.session.user : null;
           updateAccountLink();
-          if (BE.user) { setTimeout(flushFeedback, 0); recordActivity(); }
+          if (BE.user) { setTimeout(flushFeedback, 0); recordActivity(); loadProfile(c).then(updateAccountLink, function () {}); }
           return c;
         });
       });
@@ -2642,12 +2644,14 @@
     if (before === after) return;
     BE.admin = null; BE.profile = undefined;
     BE.tracker = null;
-    if (u) { flushFeedback(); recordActivity(); }
+    if (u) { flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
     var name = parseHash().parts[0];
     if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
     else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
   }
   function initialsOf(email) {
+    var name = String((BE.profile && BE.profile.full_name) || '').replace(/\b(dr|mr|mrs|ms|miss|mx|prof|professor|sir|dame)\.?\s+/gi, '').trim().split(/\s+/).filter(Boolean);
+    if (name.length) return (name[0][0] + (name.length > 1 ? name[name.length - 1][0] : '')).toUpperCase();   // "Parag Garg" -> PG
     var local = String(email || '').split('@')[0].replace(/[0-9]+/g, '');
     var parts = local.split(/[._\-+]+/).filter(Boolean);
     var s = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : local.slice(0, 2);
@@ -2841,12 +2845,25 @@
   function optionList(list, current) {
     return list.map(function (g) { return '<option' + (g === current ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('');
   }
+  // After the emailed link: offer to carry on straight away; the profile is optional.
+  function afterSigninHref() {
+    var h = ''; try { h = localStorage.getItem(AFTER_SIGNIN) || ''; } catch (e) {}
+    return /^#\/(?!account)/.test(h) ? h : (S.lastRoute && !/^#\/account/.test(S.lastRoute) ? S.lastRoute : '#/');
+  }
+  function welcomeBack() {
+    var pf = BE.profile || {}, empty = !pf.grade && !pf.specialty && !pf.full_name && !pf.organisation;
+    if (!AUTH_RETURN && !empty) return '';
+    var to = afterSigninHref();
+    return '<div class="welcome-card"><p><strong>You\'re signed in.</strong> ' + (empty ? 'The profile below is optional: fill it in now or later, or skip it.' : 'Welcome back.') + '</p>' +
+      '<a class="btn" href="' + attr(to) + '" data-skip-profile>' + (to === '#/' ? 'Continue to Ai4Qi' : 'Continue where you were') + '</a></div>';
+  }
   function renderSignedIn() {
     var pf = BE.profile || {};
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Account</nav>' +
       '<div class="doc narrow"><h1>Your account</h1>' +
       '<p>Signed in as <strong>' + esc(BE.user.email || '') + '</strong>. Your feedback on proposed audits is now linked to your profile.</p>' +
       '<p><a href="#/my-audits">My audits</a> <span class="muted">– the proposed audits you are running, and how far each has got.</span></p>' +
+      welcomeBack() +
       '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
       '<p class="muted">Optional. Used only in anonymous totals, to understand who uses the library and how feedback differs between groups.</p>' +
       '<form class="stack-form" data-profile>' +
@@ -2871,7 +2888,8 @@
       '<label class="check"><input type="checkbox" name="consent_news"' + (pf.consent_news ? ' checked' : '') + '><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
       '<label class="check"><input type="checkbox" name="consent_sponsors"' + (pf.consent_sponsors ? ' checked' : '') + '><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
       '</fieldset>' +
-      '<button class="btn" type="submit">Save profile</button>' +
+      '<div class="pf-actions"><button class="btn" type="submit">Save profile</button>' +
+      '<a class="btn btn-secondary" href="' + attr(afterSigninHref()) + '" data-skip-profile>Skip for now</a></div>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
       '</form></section>' +
       (BE.admin ? '<section class="account-section" aria-labelledby="adm-h"><h2 id="adm-h">Administration</h2><ul><li><a href="#/admin/stats">Usage statistics</a></li><li><a href="#/admin/feedback">Feedback on proposed audits</a></li></ul></section>' : '') +
@@ -2880,6 +2898,9 @@
       '</div>', 'Account', 'account', true);
   }
 
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-skip-profile]')) { try { localStorage.removeItem(AFTER_SIGNIN); } catch (e2) {} }
+  });
   document.addEventListener('submit', function (e) {
     var signin = e.target.closest('[data-signin]'), prof = e.target.closest('[data-profile]');
     if (!signin && !prof) return;
@@ -2894,6 +2915,7 @@
       input.removeAttribute('aria-invalid');
       btn.disabled = true; say('Sending…');
       try { localStorage.setItem('ai4qi_consent_pending', JSON.stringify({ news: form.elements.consent_news.checked, sponsors: form.elements.consent_sponsors.checked })); } catch (e2) {}
+      try { localStorage.setItem(AFTER_SIGNIN, S.lastRoute || '#/'); } catch (e2) {}
       sbClient().then(function (c) {
         return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
       }).then(function (res) {
@@ -2928,7 +2950,7 @@
         return c.from('profiles').upsert(row, { onConflict: 'user_id' });
       }).then(function (res) {
         if (res.error) throw res.error;
-        BE.profile = row;
+        BE.profile = row; updateAccountLink();
         btn.disabled = false; say('Your profile has been saved.');
       }).catch(function () {
         btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);

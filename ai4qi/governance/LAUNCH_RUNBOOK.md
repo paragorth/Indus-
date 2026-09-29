@@ -96,6 +96,9 @@ Code and SQL live in the GitHub repository `paragorth/Indus-`, branch
    - Supabase → **Authentication** → **Emails** → **SMTP Settings**: enable custom SMTP. Host
      `smtp.resend.com`, port `465`, username `resend`, password = the same key, sender
      `Ai4Qi <signin@mail.<your domain>>`.
+4b. Supabase → **Authentication** → **Emails** → **Templates**: paste the branded sign-in emails from
+   `ai4qi/backend/supabase/email-templates/` (**Magic Link** and **Confirm signup**; subjects and steps
+   in that folder's README).
 5. Add these secrets in Supabase → **Edge Functions** → **Secrets**:
    - `REMINDER_FROM` = `Ai4Qi <reminders@mail.<your domain>>`
    - `SITE_URL` = the live site address (no trailing slash)
