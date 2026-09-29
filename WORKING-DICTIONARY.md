@@ -131,7 +131,23 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 15 (Iran) 91-840-413-831: 'PARTNERS · [name 840-413-831]'
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
+## 10. Functions of further frequent signs (S341, from positions and neighbours)
+| Sign | Function (B) | Evidence |
+|---|---|---|
+| W752, W48 | pre-jar title words (join the 176/904/636/923 class) | directly before the jar 17/21 and 6/7 |
+| W900 (right bracket) | counted item before the jar ('N × 900 · jar') | preceded by numerals (3 ×15, 5 ×8); followed by the jar 28 times |
+| W255-W435(-W690) | a fixed three-sign unit (a shared title, S224) | 255 → 435 in 43 of 55; 435 → 690 in 29 |
+| W705/706-W33 | fixed unit 'U-stroke · 3' (optional member of the arrow and 590 phrases) | 705 → 33 in 77 of 164 |
+| W590-W390/405 | fixed unit 'box-on-stand · tree' (the 590-390-740 title) | 590 → tree 79 of 170 |
+| W845-W407 | caption unit of the copper tablets (S306) | 845 → 407 in 10 of 21 |
+| W368, W892 | text-final name endings on seals | final 34/106 and 13/59; after the opener 25 times (368) |
+| W503, W413, W824, W255, W550 | name-initial or opening elements | initial in 24/47, 15/28, 12/17, 38/103, 44/103 |
+| W61 | medial word before the jar or the man-with-staff W142 | → jar 17, → W142 9 |
+| W798 (pincer) | pre-jar word and pitchfork companion | → jar 45, → W415 20 |
+| W550 (pincer variant) | head of the box-closer phrase (550-527) and opener-like before W60 | → 527 ×22, → 60 ×22 |
+
 ## Test log
+- S341: function labels added for 20 more frequent signs (section 10).
 - S336–S339: 'opener · of · N · tree' is a standard pan-Indus seal type (31 texts, 8 sites, used on Kalibangan sealings; N = 3–6; size does not track N). 'Of N fish' heads a title phrase instead. Seals vary the number within one template as often as tablets do.
 - S335: 15 nameless seals read in full 'opener · of · N · tree' (N = 3–6). C gloss: allotment/share-holder seals ('holder of 3 tree-units').
 - S333 → corrected by S334: W2 and W60 behave alike (both 'of'); it is the opener W920 that always takes 60 + the marked jar (920-60-741: a fixed opening phrase).
