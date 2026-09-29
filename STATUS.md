@@ -40,3 +40,10 @@ Published inscriptions up to about 2015 are in the corpus. We checked this again
 
 Evidence: the same credential in several cities and on tablets far from any seal (S324, S344); middles are not a stock of personal names (S321–S322); nameless quantity seals, including the Umma sealing (S336, S345); short credentials nest inside longer ones at 4× chance (S347), as parallel grades rather than promotions (S348).
 Still missing: the spoken words and meanings of the individual credential terms, which need an outside anchor.
+
+## Is it language? (29 Sept 2026)
+Current position: **probably not written speech; most likely a word-sign (logographic) labelling system with a fixed grammar of slots**, like licences, badges or shipping stamps. It would have been read aloud in some language, but it records meanings, not sounds.
+- Against written speech: formula-like repetition (S16, S88); no spelling traces (S53, S57–S58, S320); every phonetic key failed its controls (S107–S137); the content is credentials and counts (S344–S348).
+- For a structured sign system: fixed slots, connectives, numeral-before-item order, ordered qualifier chains; transcription-robust across corpora, and the name-element and fish-order results replicated at held-out sites (S313).
+- Caveat: a few name-like parts could still be spelled phonetically, as in early cuneiform.
+Consequence: 'cracking' means identifying the meanings of the word-signs (goods, counts, offices) through outside matches, not recovering a spoken language.
