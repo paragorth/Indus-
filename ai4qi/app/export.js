@@ -1397,7 +1397,7 @@
     o = o || {};
     return '<w:tc><w:tcPr><w:tcW w:w="' + o.w + '" w:type="dxa"/>' + (o.span ? '<w:gridSpan w:val="' + o.span + '"/>' : '') +
       (o.fill ? '<w:shd w:val="clear" w:color="auto" w:fill="' + o.fill + '"/>' : '') +
-      '<w:tcMar><w:top w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:bottom w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tcMar>' +
+      '<w:tcMar><w:top w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tcMar>' +
       '<w:vAlign w:val="' + (o.vAlign || 'top') + '"/></w:tcPr>' + (content || wPara('', { after: 0 })) + '</w:tc>';
   }
   function wTable(widths, rows, o) {
@@ -1407,8 +1407,8 @@
       var none = o.noVertical && (k === 'left' || k === 'right' || k === 'insideV');
       return '<w:' + k + ' w:val="' + (none ? 'nil' : 'single') + '" w:sz="' + bw + '" w:space="0" w:color="' + b + '"/>';
     }).join('');
-    return '<w:tbl><w:tblPr><w:tblW w:w="' + widths.reduce(function (a, c) { return a + c; }, 0) + '" w:type="dxa"/><w:tblLayout w:type="fixed"/>' +
-      '<w:tblBorders>' + borders + '</w:tblBorders><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="1" w:noVBand="1"/></w:tblPr>' +
+    return '<w:tbl><w:tblPr><w:tblW w:w="' + widths.reduce(function (a, c) { return a + c; }, 0) + '" w:type="dxa"/>' +
+      '<w:tblBorders>' + borders + '</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="1" w:noVBand="1"/></w:tblPr>' +
       '<w:tblGrid>' + widths.map(function (w) { return '<w:gridCol w:w="' + w + '"/>'; }).join('') + '</w:tblGrid>' +
       rows.map(function (r, i) {
         return '<w:tr>' + (i === 0 && o.header ? '<w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>' : '<w:trPr><w:cantSplit/></w:trPr>') + r + '</w:tr>';
