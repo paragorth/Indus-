@@ -509,9 +509,17 @@
     return '<button class="btn" type="button" data-copy-csv="' + attr(id) + '">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Copy template (CSV)</button><span class="copy-status" role="status" data-copy-status></span>';
   }
-  /* The protocol layout shared by proposed audits and audits built on request. */
+  /* The protocol layout shared by proposed audits and audits built on request:
+     why and how; status; a rule; closing the loop (change, re-audit, embed); a rule; evidence;
+     pitfalls and pearls together in one box. */
+  function whyPoints(t) {
+    var parts = String(t || '').replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+(?=[A-Z\[])/).filter(Boolean);
+    if (parts.length < 2) return '<p class="prose why-lead">' + linkify(t) + '</p>';
+    return '<ul class="why-list">' + parts.map(function (x) { return '<li>' + linkify(x) + '</li>'; }).join('') + '</ul>';
+  }
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
+    extra = extra || {};
     var how =
       sub('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
         '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
@@ -519,19 +527,24 @@
       sub('Population', '<p class="prose">' + linkify(p.population) + '</p>') +
       sub('Sample', '<p class="prose">' + linkify(p.sample) + '</p>') +
       sub('Data source', '<p class="prose">' + linkify(p.data_source) + '</p>') +
-      sub('Template', templateTable(p) + '<div class="no-print">' + dl + '</div>') +
+      sub('Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>') +
       sub('Timeline', timelineHtml(p.timeline));
-    extra = extra || {};
+    var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
-      sec(++n, 'Why', '<p class="prose">' + linkify(p.why) + '</p>') +
+      sec(++n, 'Why this audit matters', whyPoints(p.why)) +
       sec(++n, 'How', how) +
-      sec(++n, 'Change', '<p class="prose">' + linkify(p.change) + '</p>') +
-      sec(++n, 'Re-audit and target', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>') +
-      sec(++n, 'Close the loop', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
+      (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
+      '<div class="part-rule" role="separator"><span>Closing the loop</span></div>' +
+      sec(++n, 'The change', '<p class="prose">' + linkify(p.change) + '</p>') +
+      sec(++n, 'Re-audit: close the loop', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>') +
+      sec(++n, 'Share and embed it', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
+      '<div class="part-rule" role="separator"><span>Evidence and advice</span></div>' +
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
-      (p.pitfalls && p.pitfalls.length ? sec(++n, 'Pitfalls', '<ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul>') : '') +
-      (p.pearls && p.pearls.length ? sec(++n, 'Pearls', '<ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
-      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
+      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '') +
+      (pits || pearls ? '<section class="pp-box"><div class="pp-grid">' +
+        (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul></div>' : '') +
+        (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul></div>' : '') +
+        '</div></section>' : '');
   }
 
   /* ---------- send a proposal to a supervisor: a plain, friendly email + a Word proposal ---------- */
@@ -788,9 +801,9 @@
       '<a class="btn btn-secondary" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Template (CSV)</a>') + '<span class="copy-status" role="status" data-proto-status></span>';
 
-    var body = protocolBody(p, dl, { after: [['Status and effort', '<div class="status-box">' + PROPOSED_BADGE +
+    var body = protocolBody(p, dl, { status: '<div class="status-box">' + PROPOSED_BADGE +
         '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' +
-        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>']] }) +
+        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>' }) +
       feedbackBox(p.id);
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
@@ -1119,7 +1132,7 @@
     '- UK English. No preamble, no notes about your process, sources you lack, or uncertainty. Short, professional sentences.',
     '',
     'Reply with only one JSON object with exactly these keys:',
-    '{"question": string, "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (1-2 sentences: the gap or harm), ' +
+    '{"question": string, "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (2-3 short, forceful sentences, each a separate point: the harm to patients, the gap in practice, why audit it now; lead with a number from the evidence where there is one; no hedging), ' +
     '"standard": {"source": string, "wording": string, "url": string or ""}, "pass": string, "population": string (include exclusions), ' +
     '"sample": string, "data_source": string, "template": [{"field": string, "type": string, "options": [string], "note": string}], "timeline": string, ' +
     '"change": string, "target": string (starts with e.g. "≥90%"), "reaudit": string, "close_loop": string, "evidence": [string], ' +
@@ -1309,6 +1322,7 @@
     if (have && have.topic.toLowerCase() === q.toLowerCase()) { showBuilt(have, resourcesFor(q), crumbs); prefetchNext(have); return; }
     if (fresh) BUILDS.delete(id);
     var entry = startBuild(q, n, fresh), res = entry.res;
+    if (n > 1) prefetchNext({ topic: q, variant: n });      // 'Not quite right?': line up the one after straight away
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow">' + BUILT_BADGE + '</div>' +
       '<h1>' + (n > 1 ? 'Another audit on ' : 'Building your audit: ') + esc(q) + '</h1>' +
       '<p class="lede">A complete protocol: question, exact standard, template, timeline, change, re-audit and evidence from published audits.</p>' +
@@ -1363,12 +1377,13 @@
     var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
     var after = [];
     if (resHtml) after.push(['Published audits on this theme', resHtml]);
-    after.push(['Status and effort', '<div class="status-box">' + BUILT_BADGE +
+    var status = '<div class="status-box">' + BUILT_BADGE +
       (p.effort ? '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' : '') +
-      '<span><strong>Built:</strong> ' + esc(p.built) + '</span></div>']);
-    var body = '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
+      '<span><strong>Built:</strong> ' + esc(p.built) + '</span></div>';
+    var body = protocolBody(p, dl, { status: status, after: after }) + feedbackBox(p.id) +
+      '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
       'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
-      'Your audit records are never sent to the AI or to Ai4Qi.</p></aside>' + protocolBody(p, dl, { after: after }) + feedbackBox(p.id);
+      'Your audit records are never sent to the AI or to Ai4Qi.</p></aside>';
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
