@@ -5,7 +5,7 @@
 Glosses come only from (a) the sign's drawn shape, (b) its behaviour in our own tests (S-numbers), and (c) outside data (find-spots, counts, objects). They are not taken from other researchers' readings. Where a gloss happens to agree with one in the literature, that is a coincidence of shape, not a borrowing.
 
 ## Grades
-- **A: function established.** Replicated in both transcriptions (Wells and IM77) with controls. The gloss names the function.
+- **A: function established.** Shown with controls and robust to an independent transcription (Wells and IM77; note S312: these are ~70% the same objects, so this is not a new sample). The gloss names the function.
 - **B: likely.** The function is established, and the gloss follows from the shape and fits the behaviour. Not tested against anything outside the corpus.
 - **C: leeway guess.** A plausible reading from shape plus some support. Kept because it is useful and testable, not because it is shown. Each has a "would support / would kill" line.
 
@@ -114,6 +114,7 @@ These show the dictionary in use. They are not translations.
 - Name-final (B): W840/M403 (double leaf), W460/M230 (three triangles), W435/M130, W440/M127, W717/M341, W70, W35, W690. C gloss: a name-forming ending ('-son', '-man', a hypocoristic suffix).
 
 ## Test log
+- S312 (audit): 'replicated in IM77' downgraded to 'transcription-robust'. The 'name' label for the middle is a gloss, not a result: uniqueness is what a bigram model predicts anyway.
 - S310: the grammar labels 45.5% of all signs (shuffled 25%); the rest is a short NAME, 0–3 signs in 71% of texts.
 - S311: names have initial and final elements, replicated blind in IM77 (P = 0.0005).
 - S308 (user idea: title + name + village): no city-level place names (37 vs null 36). Inside Mohenjo-daro, 9 sign groups are tied to one quarter (null 4; P = 0.02), mostly DK-G South, e.g. 840-760, 61-171-35, 468-806. C gloss: ward or kin qualifier before the title.
