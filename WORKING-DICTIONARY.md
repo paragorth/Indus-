@@ -114,6 +114,7 @@ These show the dictionary in use. They are not translations.
 - Name-final (B): W840/M403 (double leaf), W460/M230 (three triangles), W435/M130, W440/M127, W717/M341, W70, W35, W690. C gloss: a name-forming ending ('-son', '-man', a hypocoristic suffix).
 
 ## Test log
+- S313: true held-out replication at 67 other sites: name-element positions (P = 0.0005) and fish order (10:0, p = 0.002) hold.
 - S312 (audit): 'replicated in IM77' downgraded to 'transcription-robust'. The 'name' label for the middle is a gloss, not a result: uniqueness is what a bigram model predicts anyway.
 - S310: the grammar labels 45.5% of all signs (shuffled 25%); the rest is a short NAME, 0–3 signs in 71% of texts.
 - S311: names have initial and final elements, replicated blind in IM77 (P = 0.0005).
