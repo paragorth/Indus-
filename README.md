@@ -36,3 +36,4 @@ Coherence is not evidence; every number is computed, never narrated. Sealings ar
 - `CLEANROOM.md`, `MYTHS.md`, `RELATED-ARTIFACTS.md`: analysis without published readings; myth and scene parallels; non-Indus artefacts with related motifs.
 
 - `WORKING-DICTIONARY.md`: provisional glosses for the common signs, graded A/B/C (guesses allowed, each with a test).
+- `READINGS.md`: the 60 most repeated texts and all texts found abroad, read with the current working glosses (provisional labels, not translations).
