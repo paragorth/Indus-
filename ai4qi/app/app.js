@@ -1454,9 +1454,11 @@
   ];
   var STAGE_STATUS = ['started', 'started', 'cycle1', 'cycle1', 'change', 'reaudit', 'closed'];
   S.runs = new Map();
-  /* Records are encrypted at rest with a key derived from the user's passcode (PBKDF2 → AES-GCM).
-     The key lives only in memory; after 15 idle minutes it is dropped and the audits lock.
-     "Shared computer" keeps everything in session storage, which the browser clears on close. */
+  /* Records are encrypted at rest (AES-GCM). By default the key is a random device key kept in the
+     browser, so My audits opens without a passcode (Trust computers lock themselves; personal devices
+     are the owner's). Optionally the key comes from a passcode (PBKDF2); then it lives only in memory
+     and the audits lock after 15 idle minutes. "Shared computer" keeps everything in session storage,
+     which the browser clears on close. */
   var VAULT_META = 'ai4qi_vault_v1', VAULT_DATA = 'ai4qi_runs_enc_v1', PBKDF2_ITER = 310000, IDLE_MS = 15 * 60000;
   var V = { key: null, store: null, meta: null, last: Date.now(), legacy: null };
   function b64(buf) { var s2 = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i++) s2 += String.fromCharCode(a[i]); return btoa(s2); }
@@ -1511,6 +1513,50 @@
     });
   }
   function vaultLock() { V.key = null; S.runs = new Map(); S.pendingImport = null; }
+  function vaultDevice() { return !!(V.meta && V.meta.device); }
+  function loadRuns(key) {
+    var box = null; try { box = JSON.parse(stGet(V.store, VAULT_DATA) || 'null'); } catch (e) {}
+    return (box ? unseal(key, box) : Promise.resolve('[]')).then(function (json) {
+      S.runs = new Map(); (JSON.parse(json) || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); });
+      V.key = key; V.last = Date.now();
+    });
+  }
+  // No passcode: a random key kept in this browser.
+  function vaultCreateDevice(shared) {
+    var store = shared ? sessionStorage : localStorage;
+    return crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']).then(function (key) {
+      return crypto.subtle.exportKey('raw', key).then(function (raw) {
+        V.meta = { v: 1, device: b64(raw), shared: !!shared };
+        V.store = store; V.key = key; V.last = Date.now();
+        store.setItem(VAULT_META, JSON.stringify(V.meta));
+        (V.legacy || []).forEach(function (r) { if (r && r.id) S.runs.set(r.id, r); });
+        return runsSave().then(function () { try { localStorage.removeItem(RUNS_KEY); } catch (e) {} V.legacy = null; });
+      });
+    });
+  }
+  function vaultOpenDevice() {
+    return crypto.subtle.importKey('raw', unb64(V.meta.device), { name: 'AES-GCM' }, true, ['encrypt', 'decrypt']).then(loadRuns);
+  }
+  // Switch protection without losing records: re-encrypt everything under the new key and settings.
+  function vaultRekey(pass, shared) {
+    var runs = Array.from(S.runs.values()), old = V.store;
+    var target = shared ? sessionStorage : localStorage;
+    var make = pass ? (function () {
+      var salt = crypto.getRandomValues(new Uint8Array(16));
+      return deriveKey(pass, salt, PBKDF2_ITER).then(function (key) {
+        return seal(key, 'ai4qi-ok').then(function (check) { return { key: key, meta: { v: 1, salt: b64(salt), iter: PBKDF2_ITER, check: check, shared: !!shared } }; });
+      });
+    })() : crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']).then(function (key) {
+      return crypto.subtle.exportKey('raw', key).then(function (raw) { return { key: key, meta: { v: 1, device: b64(raw), shared: !!shared } }; });
+    });
+    return make.then(function (k) {
+      return seal(k.key, JSON.stringify(runs)).then(function (box) {
+        target.setItem(VAULT_DATA, JSON.stringify(box)); target.setItem(VAULT_META, JSON.stringify(k.meta));
+        if (old && old !== target) { try { old.removeItem(VAULT_DATA); old.removeItem(VAULT_META); } catch (e) {} }
+        V.meta = k.meta; V.store = target; V.key = k.key; V.last = Date.now();
+      });
+    });
+  }
   function vaultErase() {
     [localStorage, sessionStorage].forEach(function (st) { try { st.removeItem(VAULT_META); st.removeItem(VAULT_DATA); st.removeItem(RUNS_KEY); } catch (e) {} });
     V.meta = null; V.store = null; V.legacy = null; vaultLock();
@@ -1526,7 +1572,7 @@
   }
   ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, function () { V.last = Date.now(); }, { passive: true }); });
   setInterval(function () {
-    if (V.key && Date.now() - V.last > IDLE_MS) {
+    if (V.key && !vaultDevice() && Date.now() - V.last > IDLE_MS) {
       vaultLock();
       var n = parseHash().parts[0];
       if (n === 'run' || n === 'my-audits') route();
@@ -2004,6 +2050,13 @@
   }
   function vaultGate() {
     if (V.key) return false;
+    if (!vaultSet() || vaultDevice()) {                      // no passcode: open (or set up) straight away
+      page(loadingHtml('Opening My audits…'), 'My audits', 'my-audits');
+      (vaultSet() ? vaultOpenDevice() : vaultCreateDevice(false)).then(afterUnlock, function () {
+        page('<article class="doc narrow"><h1>My audits could not open</h1><p class="prose">This browser is not letting Ai4Qi store data (private browsing, or storage switched off). Try a normal window or another browser.</p></article>', 'My audits', 'my-audits');
+      });
+      return true;
+    }
     var pending = S.pendingChoose && anyAudit(S.pendingChoose);
     var intro = pending ? '<p class="notice notice-ok">You chose <strong>' + esc(trunc(pending.question, 120)) + '</strong>. ' + (vaultSet() ? 'Unlock' : 'Set a passcode') + ' to add it to My audits.</p>' : '';
     var html;
@@ -2077,9 +2130,51 @@
       '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-paste-status></span></div></form></details>';
     page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + pasteBox + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
-      '<span class="form-status" role="status" data-restore-status></span><button type="button" class="link-btn" data-vault-lock>Lock now</button></div>', 'My audits', 'my-audits');
+      '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
+      protectionBox(), 'My audits', 'my-audits');
   }
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
+  function protectionBox() {
+    var dev = vaultDevice(), shared = !!(V.meta && V.meta.shared);
+    return '<details class="rec-box protect"><summary>Protection on this device: ' + (dev ? 'no passcode' : 'passcode') + (shared ? ', shared computer' : '') + '</summary>' +
+      '<p class="prose">Your records are stored encrypted in this browser. ' + (dev ? 'They open without a passcode, like other work on this device.' : 'They lock after 15 minutes without use.') + '</p>' +
+      (dev ? '<form class="stack-form" data-protect-pass><label for="pp1">Add a passcode (optional, at least 6 characters)</label><input id="pp1" name="p1" type="password" minlength="6" autocomplete="new-password" required>' +
+        '<label for="pp2">Type it again</label><input id="pp2" name="p2" type="password" minlength="6" autocomplete="new-password" required>' +
+        '<button class="btn btn-secondary" type="submit">Add passcode</button></form>' :
+        '<p><button type="button" class="btn btn-secondary" data-protect-nopass>Remove the passcode</button></p>') +
+      '<label class="check"><input type="checkbox" data-protect-shared' + (shared ? ' checked' : '') + '><span><strong>This is a shared computer.</strong> Delete my audits when the browser closes. Download a backup to keep your work.</span></label>' +
+      '<p class="form-status" role="status" data-protect-status></p></details>';
+  }
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('[data-protect-pass]'); if (!f) return;
+    e.preventDefault();
+    var st = main.querySelector('[data-protect-status]'), p1 = f.elements.p1.value;
+    if (p1.length < 6) return sayIn(st, 'Use at least 6 characters.');
+    if (p1 !== f.elements.p2.value) return sayIn(st, 'The two passcodes do not match.');
+    sayIn(st, 'Adding the passcode…');
+    vaultRekey(p1, !!(V.meta && V.meta.shared)).then(function () { route(); }, function () { sayIn(st, 'The passcode could not be added. Please try again.'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-protect-nopass]')) return;
+    vaultRekey(null, !!(V.meta && V.meta.shared)).then(function () { route(); }, function () { sayIn(main.querySelector('[data-protect-status]'), 'Could not change the protection. Please try again.'); });
+  });
+  document.addEventListener('change', function (e) {
+    var c = e.target.closest && e.target.closest('[data-protect-shared]'); if (!c) return;
+    var st = main.querySelector('[data-protect-status]');
+    // Keep the current key type; only move where the records are kept.
+    var move = function () {
+      var target = c.checked ? sessionStorage : localStorage, old = V.store;
+      if (old === target) return Promise.resolve();
+      return seal(V.key, JSON.stringify(Array.from(S.runs.values()))).then(function (box) {
+        V.meta.shared = c.checked;
+        target.setItem(VAULT_DATA, JSON.stringify(box)); target.setItem(VAULT_META, JSON.stringify(V.meta));
+        try { old.removeItem(VAULT_DATA); old.removeItem(VAULT_META); } catch (e2) {}
+        V.store = target;
+      });
+    };
+    move().then(function () { sayIn(st, c.checked ? 'Shared computer: your audits will be deleted when the browser closes.' : 'Your audits are kept on this device.'); },
+      function () { sayIn(st, 'Could not change this. Please try again.'); c.checked = !c.checked; });
+  });
 
   function recordForm(r, ck) {
     var p = r.protocol, o = r.options || {};
@@ -2211,7 +2306,7 @@
   function renderPrivacy() {
     page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
       '<p class="prose"><strong>Your audit records stay on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are never sent to Ai4Qi, and we cannot see them.</p>' +
-      '<p class="prose"><strong>Encrypted with your passcode.</strong> Records are stored encrypted (AES-256) with a key made from a passcode only you know. The audits lock after 15 minutes without use. On a shared computer, choose shared-computer mode and everything is deleted when the browser closes. We cannot reset a forgotten passcode.</p>' +
+      '<p class="prose"><strong>Stored encrypted.</strong> Records are stored encrypted (AES-256) in this browser and open without a passcode, like your other work on this device: Trust computers lock themselves, and a personal device is yours to keep locked. Under <em>Protection</em> on My audits you can add a passcode (the audits then lock after 15 minutes without use; we cannot reset a forgotten passcode), or choose shared-computer mode so everything is deleted when the browser closes.</p>' +
       '<p class="prose"><strong>De-identified as they are entered.</strong> Before a record is stored, Ai4Qi:</p><ul class="prose">' +
       '<li>keeps only the columns that are part of the audit template and leaves out everything else (for example name, NHS number, date of birth or address columns);</li>' +
       '<li>replaces patient or hospital numbers with audit codes (P001, P002…);</li>' +
@@ -2277,7 +2372,9 @@
     }
     if (e.target.closest('[data-run-backup]')) {
       seal(V.key, JSON.stringify(r)).then(function (box) {
-        var file = { ai4qi_backup: 2, note: 'Encrypted Ai4Qi audit backup. Open it in Ai4Qi > My audits > Restore a backup, with the passcode used when it was made.', salt: V.meta.salt, iter: V.meta.iter || PBKDF2_ITER, box: box };
+        var file = vaultDevice() ?
+          { ai4qi_backup: 3, note: 'Ai4Qi audit backup (no passcode). Open it in Ai4Qi > My audits > Restore a backup. It holds de-identified audit records: keep it on your organisation\'s systems.', key: V.meta.device, box: box } :
+          { ai4qi_backup: 2, note: 'Encrypted Ai4Qi audit backup. Open it in Ai4Qi > My audits > Restore a backup, with the passcode used when it was made.', salt: V.meta.salt, iter: V.meta.iter || PBKDF2_ITER, box: box };
         return saveFile(name + '-ai4qi-backup.json', new Blob([JSON.stringify(file)], { type: 'application/json' }));
       })
         .then(function () { sayIn(out, 'Backup downloaded. Open it from My audits on another device to continue there.'); }, function (err) { sayIn(out, downloadError(err)); });
@@ -2422,6 +2519,10 @@
     inp.files[0].text().then(function (t) {
       var o = JSON.parse(t);
       if (o && o.ai4qi_run && o.run) return restoreRun(o.run);           // older, unencrypted backups
+      if (o && o.ai4qi_backup === 3 && o.key && o.box) {                 // made without a passcode
+        return crypto.subtle.importKey('raw', unb64(o.key), { name: 'AES-GCM' }, false, ['decrypt'])
+          .then(function (k) { return unseal(k, o.box); }).then(function (json) { restoreRun(JSON.parse(json)); });
+      }
       if (!o || o.ai4qi_backup !== 2 || !o.box || !o.salt) throw new Error('bad');
       S.pendingRestore = o;
       st.innerHTML = '<form class="inline-form" data-restore-pass><label for="rsp">Passcode used when this backup was made</label>' +

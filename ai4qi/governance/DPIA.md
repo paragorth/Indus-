@@ -100,10 +100,13 @@ Ai4Qi) is the controller of them.
 
 **Controls added 27 Sep 2026 [live]** (code in progress in `app.js`, to be confirmed):
 
-- Passcode encryption of stored records: AES-GCM (256-bit key) derived from a user passcode with
-  PBKDF2-SHA-256 (310,000 iterations, random 16-byte salt). The key is held only in memory.
-  The passcode cannot be recovered; forgetting it means erasing the data on that device.
-- Automatic lock after 15 minutes without activity (key dropped from memory).
+- Encryption of stored records: AES-GCM (256-bit key). **Changed 29 Sep 2026 (controller's decision):**
+  by default the key is a random device key kept in the browser, so records open without a passcode.
+  Rationale: Trust computers lock themselves and sit under the Trust's own IG controls; personal
+  devices are the user's own responsibility. A passcode remains **optional** (Protection on My
+  audits): the key is then derived with PBKDF2-SHA-256 (310,000 iterations, random 16-byte salt),
+  held only in memory, and cannot be recovered.
+- With a passcode: automatic lock after 15 minutes without activity (key dropped from memory).
 - "Shared computer" mode: records kept in `sessionStorage`, which the browser clears when it closes.
 - Optional month-and-year-only dates, per audit (existing dates shortened).
 - Option to switch off free-text fields, per audit (existing free text deleted).
@@ -395,9 +398,9 @@ Significant / Severe. Overall: Low / Medium / High. Scores are **before** the me
 
 | Risk | Measures (E = exists in code; P = planned this week; R = recommended) | Effect | Residual risk | Approved |
 |---|---|---|---|---|
-| R1 Shared computers | P: passcode encryption (AES-GCM, PBKDF2 310k); P: auto-lock after 15 min; P: shared-computer mode (session storage only); E: "Delete this audit and its data from this device"; R: ask "Is this a shared computer?" on first use and default to shared mode on unknown devices; R: guidance to prefer an organisation-issued personal device; R: lock on sign-out and on tab hide after a shorter time | Reduced | Low–Medium (a weak passcode, or a PC left unlocked within 15 min) | [ ] |
+| R1 Shared computers | E: encryption at rest (AES-GCM; device key by default, reliance on the device's own lock and the Trust's IG); E: optional passcode (PBKDF2 310k) with auto-lock after 15 min; P: shared-computer mode (session storage only); E: "Delete this audit and its data from this device"; R: ask "Is this a shared computer?" on first use and default to shared mode on unknown devices; R: guidance to prefer an organisation-issued personal device; R: lock on sign-out and on tab hide after a shorter time | Reduced | Low–Medium (a weak passcode, or a PC left unlocked within 15 min) | [ ] |
 | R2 Free-text identifiers | E: template-only columns, audit codes, regex scrub, 300-character cap; P: switch off free-text per audit; P: month-only dates; R: show a warning when a free-text field contains a capitalised word pair or numbers; R: templates prefer choice fields over text (add to `BUILD_RULES`); R: tell users the scrubber is a safety net, not a guarantee (the in-app page already says so) | Reduced | Medium | [ ] |
-| R3 Exports | P: warning on the export panel; R: encrypt the backup file with the passcode; R: omit free-text fields from CSV by default; R: add a "share only inside your organisation" line in the slide footer (slides already say "check before sharing outside the department"); R: aggregate-only option for slides | Reduced | Low–Medium | [ ] |
+| R3 Exports | P: warning on the export panel; E: backups are encrypted with the passcode when one is set; without one, the file carries its own key and is marked as de-identified records to keep on organisational systems; R: omit free-text fields from CSV by default; R: add a "share only inside your organisation" line in the slide footer (slides already say "check before sharing outside the department"); R: aggregate-only option for slides | Reduced | Low–Medium | [ ] |
 | R4 Script compromise | P: self-host all third-party code and fonts; P: strict CSP (`default-src 'self'`, `connect-src` only Supabase, the build function and Cloudflare Web Analytics; no inline script; `frame-ancestors 'none'`); R: Subresource Integrity on anything still external; R: pin versions and review updates | Reduced | Low | [ ] |
 | R5 Account breach | E: magic link (no passwords stored); E: RLS on all tables; admins see aggregates, not raw events; E: service key only in Edge Function secrets; R: use a dedicated admin mailbox with two-factor authentication; R: two-factor authentication on Supabase, Resend, Anthropic, Cloudflare and GitHub accounts; R: own SMTP with SPF/DKIM/DMARC; R: short magic-link expiry; R: review the admin list quarterly | Reduced | Low | [ ] |
 | R6 Reminders | E: only question, next-step counts and due date sent; E: opt-in per audit; E: ≤6 sends, ≥3 days apart, ≤50 audits per user; E: users cannot change send counts; E: `CRON_SECRET` protects the job; R: keep the audit question from the protocol, not from user free text (as now) | Reduced | Low | [ ] |
