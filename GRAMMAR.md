@@ -128,3 +128,6 @@ The grammar labels 45.5% of held-out sign tokens (shuffled 25%). The residue is 
 
 ### Opener class extended (S331)
 Besides W817/W861/W820 + W2, two more opener units start texts: W920 + W60 (text-initial 61 of 62) and W692 + W60 (33 of 39). The connective after the opener is W2 for the leaf/diamond/wheel and W60 for these two (and sometimes for the wheel: 820-60, 26 of 26 initial).
+
+### Two different connectives (S333)
+W60 (M123) is followed by the marked-jar family W741/742/745 (M343–346) in about a quarter of cases; opener + W2 (M99) almost never is (0 of 324 Wells; 1 of 275 IM77). W2 introduces fish, number and leaf-tree words. The two 'connectives' are different words.
