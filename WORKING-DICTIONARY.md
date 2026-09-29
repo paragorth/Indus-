@@ -152,7 +152,7 @@ The whole seal text is a **title or credential, like a degree**, not a personal 
 - **What the holder commands or owns:** goods and counts ('of 4 tree-units', 'of 2 fish'), fish-class words, units such as 255-435 or 590-390.
 - **Office word (closer):** jar ('store/steward'), arrow, carrier, box, with its own qualifiers.
 - Short credentials reappear inside longer ones with parts added (4× chance). The same credential is issued in several cities and pressed on tablets far from any seal. The animal is a separate house or clan stamp.
-Would support: the same credential appearing over time with parts added (a promotion). Would kill: repeated credentials from one grave or house (i.e. one person's name).
+Promotion over time: tested in S348, not supported (longer versions are not later; p = 0.40). The short and extended versions coexist as parallel grades. Would kill: repeated credentials from one grave or house (i.e. one person's name).
 
 ## Test log
 - S347: the credential model (user) fits: nesting of short titles in longer ones is 4× chance; longer texts on bigger seals (ρ = 0.32).
