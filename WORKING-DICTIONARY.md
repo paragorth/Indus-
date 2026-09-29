@@ -26,10 +26,10 @@ Notation: W = Wells number, M = Mahadevan number. Glosses are in SMALL CAPS styl
 
 | Sign | Shape | Gloss | Grade | Evidence / would support – would kill |
 |---|---|---|---|---|
-| W817, W861 (M267) | leaf or diamond with a small diamond on top | OPENER. C glosses weighed: "seal of" (the impression travels without the seal); "promise / guarantee of" (user); "holder / member of (a seal-holding body)". The data fit the last best: the opener is on 12–21% of seals but almost never on the impressions and tablets that record transactions (MD sealings 3/70, HP 5/155, tablets 9%; p = 2 × 10⁻⁷, S29, S66). A "promise" word should be most common exactly on those. | A function | owned seals; excludes the tablet suffix (S29, S66) |
+| W817, W861 (M267) | leaf or diamond with a small diamond on top | OPENER. C glosses: "sealed / closed" (user: the leaf as a closed lid), "seal of", "holder of". S318: the opener is on clay sealings at half to nearly the seal rate (Wells 14% vs 17%; IM77 9–16% vs 19–25%), so "sealed" is compatible. (An earlier claim that it was almost absent from sealings was overstated.) | A function | owned seals; excludes the tablet suffix (S29, S66, S318) |
 | W820 (M391) | 6-spoked wheel | OPENER, alternates with M267; C: "seal of (another office or house)" | A function | can also close a text (S286, S287) |
 | W740 (M342) | jar with handles | default CLOSER / title head; C: "steward, store(-keeper)" | A function, C word | one of a closed set of ~10 closers (S289, S291). Also counted (T2 + jar ×46), so it is also a thing: a jar or measure |
-| W400 (M176) | vertical line with side ticks | SUFFIX on tablets and sealings; C: "received / checked" | A function | after the closer, on handled goods, not on owned seals (S29) |
+| W400 (M176) | vertical line with side ticks | SUFFIX on tablets and rods (21–25%), rare on sealings (1%, S318); C: "received / checked" (a receipt word) | A function | after the closer, on handled goods, not on owned seals (S29) |
 | W90 (M1) | standing man | "man, person"; SUFFIX alternative to W400 | B | person sign first on Gulf seals (S47, S74) |
 | W91 | two standing men side by side ("twins") | "two men / partners / the (foreign) community" | B | 28% of its texts are abroad vs 1% for peers (S274) |
 | W595 (M252) | — | PRE-CLOSER; pairs with the wheel opener in free order | A function | S288 |
@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S318: no sign is specific to clay sealings. The opener is on sealings at half to nearly the seal rate, so 'sealed/closed' (user) stays possible. W400 is a tablet/rod word, not a sealing word.
 - S316: twins W91 texts sit on trade objects (50% vs 16% matched; P = 0.004); the single man W90 does not (17% vs 17%). 'Twins = partners' rises to B– (n = 14, overlaps S274).
 - S315: fish signs are not coastal (25.5% vs 23.5%, P = 0.34); 'fish = sea/seafarer' is dropped.
 - S314 (user idea: shared symbols, different syntax abroad): abroad, the frame words halve (P < 0.0001), persons double, numerals rise, and name elements stay at the home rate. Same script and name stock; a different text type ('person + count').
