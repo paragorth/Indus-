@@ -40,6 +40,7 @@ All of this is optional: we collect it only when you use the feature.
 |---|---|---|
 | Your email address, if you sign in (by emailed link; no password) | To sign you in and keep your audit list | Legitimate interests |
 | Profile, if you fill it in: grade or role, specialty, region, where you work, what the audit is for | To understand who uses Ai4Qi, in totals | Legitimate interests |
+| Your name, hospital and department, if you add them to your profile | To fill in the email and proposal you send to your supervisor; never used in totals | Legitimate interests |
 | "My audits" progress: which audit, which step, dates | To show your progress | Legitimate interests |
 | Usage events: sign-up, audit started or completed, days active | To report use, in totals | Legitimate interests |
 | Feedback: rating, reasons, optional comment, a random device number | To improve the library; the number limits spam | Legitimate interests |

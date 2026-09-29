@@ -57,7 +57,7 @@ Code and SQL live in the GitHub repository `paragorth/Indus-`, branch
    password (save it in the password manager). Free plan to start.
 3. **SQL Editor** → **New query**. Run each file below in this order, pasting the whole file each time:
    `ai4qi/backend/supabase/migrations/001_feedback_auth.sql`, `002_usage.sql`,
-   `003_built_audits.sql`, `004_reminders.sql`, `005_delete_account.sql`, `006_consent_profile.sql`.
+   `003_built_audits.sql`, `004_reminders.sql`, `005_delete_account.sql`, `006_consent_profile.sql`, `007_profile_names.sql`.
    Each should end with "Success. No rows returned".
 4. Same editor, with the owner's own sign-in email in lower case:
    `insert into public.admins (email) values ('owner@example.org');`

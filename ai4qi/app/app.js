@@ -630,14 +630,33 @@
     if (site && S.pById.has(p.id)) out.push(['The full protocol on Ai4Qi', site.replace(/\/+$/, '') + '/#/proposed/' + encodeURIComponent(p.id)]);
     return out;
   }
+  // The signed-in trainee's own details, from their account; supervisor details are always typed.
+  function supProfile() {
+    var p = BE.user ? (BE.profile || {}) : {};
+    return { lead: p.full_name || '', email: BE.user ? BE.user.email || '' : '', site: p.organisation || '', department: p.department || '',
+      role: [p.grade, p.specialty].filter(function (x) { return x && !/prefer not/i.test(x); }).join(', ') };
+  }
+  function supFillFromProfile(box) {
+    if (!BE.user) return;
+    var go = function () {
+      var pf = supProfile(), f = box.querySelector('[data-sup-form]'), r = supRun(box), changed = false;
+      ['lead', 'email', 'role', 'site', 'department'].forEach(function (k) {
+        if (pf[k] && f.elements[k] && !f.elements[k].value && !(r && r.details[k])) { f.elements[k].value = pf[k]; changed = true; }
+      });
+      if (changed) supRefresh(box, false);
+    };
+    if (BE.profile !== undefined) return go();
+    sbClient().then(function (c) { return loadProfile(c); }).then(go, function () {});
+  }
   function supMissing(box) {
     var d = supWho(box);
     return SUP_FIELDS.filter(function (x) { return x[3] && !d[x[0]]; });
   }
   function supervisorBox(p, run) {
     var me = meGet(), d = run ? run.details : {};
-    var val = { lead: d.lead || me.lead, role: me.role, email: me.email, supervisor: d.supervisor || me.supervisor, supEmail: me.supEmail,
-      site: d.site || me.site, department: d.department || me.department, startDate: d.startDate || '', sampleSize: d.sampleSize || '' };
+    var pf = supProfile();
+    var val = { lead: d.lead || pf.lead || me.lead, role: pf.role || me.role, email: pf.email || me.email, supervisor: d.supervisor || me.supervisor, supEmail: me.supEmail,
+      site: d.site || pf.site || me.site, department: d.department || pf.department || me.department, startDate: d.startDate || '', sampleSize: d.sampleSize || '' };
     return '<details class="sup-box no-print" id="send-supervisor" data-sup="' + attr(p.id) + '"' + (run ? ' data-sup-run="' + attr(run.id) + '"' : '') + '>' +
       '<summary><span class="sup-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 6.5h18v11H3z M3 7l9 6.5L21 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>' +
       '<span><b>Send to your supervisor</b><small>A ready-to-send email and a Word proposal with a sign-off box</small></span></summary>' +
@@ -653,8 +672,8 @@
       '<button class="out-btn" type="button" data-sup-docx><b>Proposal</b><span>Word, with a sign-off box</span></button>' +
       '<button class="out-btn" type="button" data-sup-copy><b>Copy email</b><span>Pastes with bold headings into Outlook or NHSmail</span></button>' +
       (window.AI4QI_EMBED ? '' : '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Copies the email, opens a new message: paste it in</span></a>') +
-      (DEMO ? '<button class="out-btn demo-btn" type="button" data-sup-demo><b>Demo: fill the form</b><span>Example names and dates</span></button>' : '') + '</div>' +
-      '<p class="muted sup-note">Download the proposal first and attach it to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Your name, your supervisor\'s details and the hospital are remembered on this device only.</p>' +
+      '</div>' +
+      '<p class="muted sup-note">Download the proposal first and attach it to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Your supervisor\'s details are remembered on this device only. If you are signed in, your own name and hospital come from your account profile.</p>' +
       '<p class="form-status" role="status" data-sup-status></p></div></details>';
   }
   function supRefresh(box, keepBody) {
@@ -687,7 +706,7 @@
   }
   document.addEventListener('toggle', function (e) {
     var box = e.target;
-    if (box.matches && box.matches('.sup-box') && box.open) supRefresh(box, true);
+    if (box.matches && box.matches('.sup-box') && box.open) { supRefresh(box, true); supFillFromProfile(box); }
   }, true);
   document.addEventListener('input', function (e) {
     var box = e.target.closest && e.target.closest('.sup-box');
@@ -706,14 +725,6 @@
     var open = e.target.closest('[data-sup-open]');
     if (open) { var bx = document.getElementById('send-supervisor'); if (bx) { bx.open = true; bx.scrollIntoView({ behavior: 'smooth', block: 'start' }); bx.querySelector('input').focus({ preventScroll: true }); } return; }
     var box = e.target.closest('.sup-box'); if (!box) return;
-    if (e.target.closest('[data-sup-demo]')) {
-      var f = box.querySelector('[data-sup-form]'), ex = { lead: 'Dr Alex Morgan (example)', role: 'ST4 Emergency Medicine', email: 'alex.morgan@example.nhs.uk',
-        supervisor: 'Dr Priya Shah (example)', supEmail: 'priya.shah@example.nhs.uk', site: 'Riverside General Hospital (fictional)', department: 'Emergency Department',
-        startDate: addDays(todayIso(), 7), sampleSize: '40' };
-      Object.keys(ex).forEach(function (k) { if (f.elements[k]) f.elements[k].value = ex[k]; });
-      supRefresh(box, false); supSaveRun(box);
-      return;
-    }
     var act = e.target.closest('[data-sup-docx],[data-sup-copy],[data-sup-mailto]'); if (!act) return;
     var st = box.querySelector('[data-sup-status]'), p = supProtocol(box); if (!p) return;
     box.setAttribute('data-touched', ''); supRefresh(box, true);
@@ -2785,7 +2796,7 @@
   }
   function loadProfile(c) {
     if (BE.profile !== undefined) return Promise.resolve(BE.profile);
-    return c.from('profiles').select('specialty, grade, region, work_setting, audit_purpose, consent_news, consent_sponsors').eq('user_id', BE.user.id).maybeSingle()
+    return c.from('profiles').select('specialty, grade, region, work_setting, audit_purpose, consent_news, consent_sponsors, full_name, organisation, department').eq('user_id', BE.user.id).maybeSingle()
       .then(function (res) {
         BE.profile = res.error ? null : (res.data || null);
         var pend = null; try { pend = JSON.parse(localStorage.getItem('ai4qi_consent_pending') || 'null'); } catch (e) {}
@@ -2839,6 +2850,11 @@
       '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
       '<p class="muted">Optional. Used only in anonymous totals, to understand who uses the library and how feedback differs between groups.</p>' +
       '<form class="stack-form" data-profile>' +
+      '<fieldset class="pf-me"><legend>For proposals you send</legend>' +
+      '<p class="muted">Optional. Filled into the email and Word proposal you send to your supervisor. Never used in totals.</p>' +
+      '<label for="pf-name">Your name</label><input id="pf-name" name="full_name" maxlength="120" autocomplete="name" value="' + attr(pf.full_name || '') + '">' +
+      '<label for="pf-org">Hospital or practice</label><input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" value="' + attr(pf.organisation || '') + '">' +
+      '<label for="pf-dept">Department or ward</label><input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '"></fieldset>' +
       '<label for="pf-grade">Grade or role</label>' +
       '<select id="pf-grade" name="grade"><option value="">Prefer not to say</option>' + optionList(GRADES, pf.grade) + '</select>' +
       '<label for="pf-specialty">Specialty</label>' +
@@ -2901,7 +2917,9 @@
       var spec = pick('specialty', SPECIALTIES), grade = pick('grade', GRADES), region = pick('region', REGIONS);
       var row = { user_id: BE.user && BE.user.id, specialty: spec, grade: grade, region: region,
         work_setting: pick('work_setting', WORK_SETTINGS), audit_purpose: pick('audit_purpose', AUDIT_PURPOSES),
-        consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked };
+        consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked,
+        full_name: form.elements.full_name.value.trim().slice(0, 120) || null, organisation: form.elements.organisation.value.trim().slice(0, 160) || null,
+        department: form.elements.department.value.trim().slice(0, 120) || null };
       var prev = BE.profile || {};
       if (row.consent_news !== !!prev.consent_news || row.consent_sponsors !== !!prev.consent_sponsors) row.consent_updated_at = new Date().toISOString();
       btn.disabled = true; say('Saving…');
