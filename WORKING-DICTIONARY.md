@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S320: the substitution graph (texts differing in one sign) recovers the opener, fish and numeral paradigms blind. New pre-jar title class: W176 (seated person) ↔ W904, W636, W923, W61 (B: same slot; meanings C).
 - S318: no sign is specific to clay sealings. The opener is on sealings at half to nearly the seal rate, so 'sealed/closed' (user) stays possible. W400 is a tablet/rod word, not a sealing word.
 - S316: twins W91 texts sit on trade objects (50% vs 16% matched; P = 0.004); the single man W90 does not (17% vs 17%). 'Twins = partners' rises to B– (n = 14, overlaps S274).
 - S315: fish signs are not coastal (25.5% vs 23.5%, P = 0.34); 'fish = sea/seafarer' is dropped.
