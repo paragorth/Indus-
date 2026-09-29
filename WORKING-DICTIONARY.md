@@ -74,7 +74,7 @@ Would support the "titles" reading: a closer that turns up on the same kind of o
 ## 5. Name and core signs (the middle slot)
 
 These spell the unique part of a seal text: names, or name plus office. Shapes are recorded; meanings are open.
-- Fish family W220, W240 (whiskers), W235 (hat), W233 (bar), W231 (stroke). One base with modifiers, so a word family, C: "fish" + qualifier.
+- Fish family W220, W240 (whiskers), W235 (hat), W233 (bar), W231 (stroke). One base with modifiers: a word family, **B** "fish" + qualifier (S296: shared contexts P ≈ 0.005; modified fish interchangeable, cosine 0.76–0.92; often stacked, e.g. 235-240 ×36). Plain fish is also a counted item; W226 is a closing word.
 - Man with staff W142: C "official". Archer W125: C "hunter / archer". Woman with raised arm W140: C "woman"; an opening element on round seals at home (S106).
 - Leaf-tree W803/W806 and pitchfork W415: the Gulf formula 415-803-1 (S99–S104). C: a place or house name used abroad.
 - Pincer W550/W798 (M216), U-with-stroke W705/W706 (M336), jar-with-mark W741 (M343): frequent name elements.
@@ -110,6 +110,7 @@ These show the dictionary in use. They are not translations.
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
 ## Test log
+- S296: fish family confirmed as one word class (P ≈ 0.005); promoted to B.
 - S295: the pot sign set does not replicate in IM77 (89 pot texts, no Harappa post-1986 material); for now it is a Harappa/Kalibangan feature.
 - S294: 'jar = the vessel it is written on' fails (the jar is on 16% of pot texts vs 42% of seal texts); 'arrow = weapon' fails (0 of 18 implements). Pots and bangles have their own sign set.
 - S293: twins next to a number 39% vs 13% for other person signs (P ≈ 0.09, trend); closers do not cluster by building or quarter at Mohenjo-daro (P = 0.13–0.73), so 'office tied to a building' is not supported.
