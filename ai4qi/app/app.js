@@ -599,10 +599,7 @@
       { p: [sample, change].filter(Boolean).join(' ') },
       { h: 'Timeline' + (d.startDate ? ', starting ' + dateGBs(d.startDate) : '') },
       { list: supTimeline(p, d.startDate) },
-      { h: 'What I\'d need from you' },
-      { list: ['To agree the standard, the target and the sample', 'To supervise the audit and sign off the protocol', 'A hand registering it with the clinical audit department'] },
-      { p: 'I\'ve attached a short proposal (Word) with the full details and a sign-off box. There\'s no patient data in it.' },
-      { p: 'Would you be happy to supervise? I\'m glad to talk it through whenever suits you.' },
+      { p: 'If you are happy with the audit and the standard, would you agree to be my supervisor for this audit? Please find the proposal attached, with a form to fill in.' },
       { p: 'Best wishes,', sig: [d.lead || '[your name]', d.role, d.email].filter(Boolean) },
       { links: supLinks(p) }
     ];
@@ -623,7 +620,7 @@
       }
     });
     text = text.replace(/\n{3,}/g, '\n\n').replace(/\n+(?=[A-Z][A-Z' ]+\n)/g, '\n\n').trim();
-    return { subject: 'Would you supervise my audit? ' + trunc(d.title || p.question, 70), html: html, text: text };
+    return { subject: 'New audit proposal: ' + shortTitle(d.title || p.question), html: html, text: text };
   }
   // Links sit at the bottom of the email and the proposal, never in the middle of a sentence.
   function supLinks(p) {
@@ -649,6 +646,14 @@
     };
     if (BE.profile !== undefined) return go();
     sbClient().then(function (c) { return loadProfile(c); }).then(go, function () {});
+  }
+  // "What proportion of adults at high risk from sepsis (NEWS2…) receive IV antibiotics within 1 hour of…?"
+  // -> "Adults at high risk from sepsis receive IV antibiotics within 1 hour of…" (for subject lines)
+  function shortTitle(q) {
+    var t = String(q || '').replace(/\s*\([^)]*\)/g, '').replace(/\?+\s*$/, '').trim()
+      .replace(/^(what (proportion|percentage|share|fraction) of|what %( of)?|how (many|often|much)( of)?|in what proportion of|do|does|are|is|were|was)\s+/i, '');
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+    return trunc(t, 90);
   }
   function supMissing(box) {
     var d = supWho(box);
@@ -760,25 +765,28 @@
     var run = Array.from(S.runs.values()).filter(function (r) { return r.auditId === id && !r.closed; })[0];
     return (run ? '<a class="btn" href="#/run/' + attr(run.id) + '">Open in My audits</a>' :
       '<button class="btn" type="button" data-choose="' + attr(id) + '">Choose this audit</button>') +
-      '<button class="btn btn-secondary" type="button" data-proto-xlsx="' + attr(id) + '">Data sheet (Excel)</button>' +
-      '<button class="btn btn-secondary" type="button" data-sup-open>Send to supervisor</button>' +
-      '<span class="copy-status" role="status" data-proto-status></span>';
+      '';
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-proto-xlsx]');
     if (!b) return;
-    var p = anyAudit(b.getAttribute('data-proto-xlsx')), st = b.parentNode.querySelector('[data-proto-status]');
+    var p = anyAudit(b.getAttribute('data-proto-xlsx')), st = b.parentNode.querySelector('[data-proto-status]') || b.parentNode.querySelector('[data-copy-status]');
     if (!p) return;
     sayIn(st, 'Making the data sheet…');
     exporter().then(function (x) { return x.templateXlsx(p, {}); }).then(function (blob) { return saveFile(p.id + '-data-sheet.xlsx', blob); })
       .then(function () { sayIn(st, 'Data sheet ready.'); }, function (err) { sayIn(st, downloadError(err)); });
   });
+  // Template downloads, under the data sheet: the Excel sheet (drop-downs, results) and the plain CSV.
+  function sheetButton(id) {
+    return '<button class="btn" type="button" data-proto-xlsx="' + attr(id) + '">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download data sheet (Excel)</button>';
+  }
   function renderProposed(id) {
     var p = S.pById.get(id);
     if (!p) return renderNotFound();
-    var dl = window.AI4QI_EMBED ? copyBtn(p.id) :
-      '<a class="btn" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
-      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download template (CSV)</a>';
+    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) :
+      '<a class="btn btn-secondary" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Template (CSV)</a>') + '<span class="copy-status" role="status" data-proto-status></span>';
 
     var body = protocolBody(p, dl, { after: [['Status and effort', '<div class="status-box">' + PROPOSED_BADGE +
         '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' +
@@ -1214,8 +1222,29 @@
           if (r.status === 401) throw { code: 'sign_in' };
           if (r.status === 422) throw { code: 'refused' };
           if (!r.ok) throw { code: 'upstream_error' };
-          return r.json();
+          if (/ndjson/.test(r.headers.get('content-type') || '') && r.body && r.body.getReader) return readStream(r.body.getReader());
+          return r.json();                                  // a saved protocol comes back whole
         }, function (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error' }; });
+    }
+    // The function streams one JSON object per line: {"t": more text}, then {"done": protocol} or {"error": code}.
+    function readStream(reader) {
+      var dec = new TextDecoder(), buf = '', text = '';
+      var ERR = { 'not an audit topic': 'refused', 'invalid json': 'invalid_json', busy: 'rate_limited' };
+      return (function pump() {
+        return reader.read().then(function (chunk) {
+          if (chunk.done) throw { code: 'upstream_error' };  // ended without a result
+          buf += dec.decode(chunk.value, { stream: true });
+          var lines = buf.split('\n'); buf = lines.pop();
+          for (var i = 0; i < lines.length; i++) {
+            if (!lines[i]) continue;
+            var m; try { m = JSON.parse(lines[i]); } catch (e) { continue; }
+            if (m.done) { reader.cancel().catch(function () {}); return m.done; }
+            if (m.error) throw { code: ERR[m.error] || 'upstream_error' };
+            if (typeof m.t === 'string') { text += m.t; if (onText) onText({ text: text }); }
+          }
+          return pump();
+        });
+      })().catch(function (e) { throw e && e.code ? e : { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error' }; });
     }
   }
   var BUILD_ERRORS = {
@@ -1324,7 +1353,7 @@
 
   var BUILT_BADGE = badge('Built for you – not yet run', 'warn');
   function showBuilt(p, res, crumbs) {
-    var dl = copyBtn(p.id);
+    var dl = sheetButton(p.id) + copyBtn(p.id);
     if (p.similar) {
       var sp = S.pById.get(p.similar.id);
       if (sp) p._sim = '<aside class="similar-box no-print"><h2>A ready-made audit may suit you better</h2>' +

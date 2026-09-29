@@ -82,6 +82,8 @@ Code and SQL live in the GitHub repository `paragorth/Indus-`, branch
    legacy "Verify JWT" check rejects real users' tokens. The function checks sign-in itself: it calls
    `auth.getUser` with the request's `Authorization` token and returns 401, without calling Claude,
    when the token is missing or invalid.
+   The function streams the protocol to the page as it is written. Optional secret `BUILD_EFFORT`
+   (`low` by default, for speed; `medium` or `high` for more depth, slower).
 
 ## 5. Email: Resend (sign-in links and reminders)
 

@@ -9,15 +9,19 @@
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase automatically.
 // Optional: BUILD_DAILY_LIMIT (default 20), BUILD_MONTHLY_LIMIT (new builds per 30 days for the
 // whole site; default 0 = no cap, the site stays free for everyone), REUSE_DAYS (how long a saved build is reused, default 180),
-// BUILD_MODEL (default claude-sonnet-5; claude-haiku-4-5 costs about half, weaker protocols),
+// BUILD_MODEL (default claude-sonnet-5; claude-haiku-4-5 costs about half, weaker protocols), BUILD_EFFORT (default low),
 // ALLOWED_ORIGIN (default *; set it to the site address, e.g. https://ai4qi.org).
 
 import { createClient } from "npm:@supabase/supabase-js@2";
+import Anthropic from "npm:@anthropic-ai/sdk";
 
 const MODEL = Deno.env.get("BUILD_MODEL") ?? "claude-sonnet-5";
 const LIMIT = Number(Deno.env.get("BUILD_DAILY_LIMIT") ?? "20");
 const MONTHLY = Number(Deno.env.get("BUILD_MONTHLY_LIMIT") ?? "0");   // 0 = no site-wide cap
 const REUSE_DAYS = Number(Deno.env.get("REUSE_DAYS") ?? "180");
+// How hard the model thinks before writing. "low" keeps a build to well under a minute; raise to
+// "medium" or "high" (BUILD_EFFORT secret) if protocols need more depth.
+const EFFORT = (Deno.env.get("BUILD_EFFORT") ?? "low") as "low" | "medium" | "high";
 const ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "*";
 const cors = {
   "Access-Control-Allow-Origin": ORIGIN,
@@ -85,19 +89,37 @@ Deno.serve(async (req) => {
     .eq("reused", false).gte("created_at", month);
   if (MONTHLY > 0 && (siteCount ?? 0) >= MONTHLY) return reply(429, { error: "monthly limit" });
 
-  const r = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: MODEL, max_tokens: 8000, system: SYSTEM, messages: [{ role: "user", content: prompt }] }),
+  // 3. Write it. The protocol is streamed to the page as it is written (one JSON object per line:
+  // {"t": text so far added} ... then {"done": protocol} or {"error": code}), so the page can show the
+  // sections filling in instead of a blank wait. Saved to built_audits once complete.
+  const anthropic = new Anthropic({ apiKey: key });
+  const enc = new TextEncoder();
+  const out = new ReadableStream({
+    async start(ctl) {
+      const send = (o: unknown) => ctl.enqueue(enc.encode(JSON.stringify(o) + "\n"));
+      try {
+        const stream = anthropic.messages.stream({
+          model: MODEL, max_tokens: 16000, system: SYSTEM,
+          output_config: { effort: EFFORT },
+          messages: [{ role: "user", content: prompt }],
+        });
+        for await (const ev of stream) {
+          if (ev.type === "content_block_delta" && ev.delta.type === "text_delta") send({ t: ev.delta.text });
+        }
+        const msg = await stream.finalMessage();
+        if (msg.stop_reason === "refusal") { send({ error: "not an audit topic" }); return; }
+        const text = msg.content.filter((c) => c.type === "text").map((c) => (c as { text: string }).text).join("");
+        let protocol: Record<string, unknown>;
+        try { protocol = firstJson(text) as Record<string, unknown>; } catch { send({ error: "invalid json" }); return; }
+        if (!protocol || typeof protocol !== "object" || !protocol.question) { send({ error: "not an audit topic" }); return; }
+        await admin.from("built_audits").insert({ user_id: user.id, topic, topic_key: topicKey, protocol });
+        send({ done: protocol });
+      } catch (e) {
+        send({ error: e instanceof Anthropic.RateLimitError ? "busy" : "upstream" });
+      } finally {
+        ctl.close();
+      }
+    },
   });
-  if (r.status === 429) return reply(429, { error: "busy" });
-  if (!r.ok) return reply(502, { error: "upstream" });
-  const out = await r.json();
-  const text = (out.content ?? []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("");
-  let protocol: Record<string, unknown>;
-  try { protocol = firstJson(text) as Record<string, unknown>; } catch { return reply(502, { error: "invalid json" }); }
-  if (!protocol || typeof protocol !== "object" || !protocol.question) return reply(422, { error: "not an audit topic" });
-
-  await admin.from("built_audits").insert({ user_id: user.id, topic, topic_key: topicKey, protocol });
-  return reply(200, protocol);
+  return new Response(out, { status: 200, headers: { ...cors, "Content-Type": "application/x-ndjson", "Cache-Control": "no-store" } });
 });
