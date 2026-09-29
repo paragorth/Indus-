@@ -814,6 +814,15 @@
     showUsefulCount(p.id);
   }
 
+  /* Everyone's votes, live from the server (feedback_summary). They only count once an audit has
+     MIN_VOTES votes, so a handful of early responses cannot move anything. */
+  var MIN_VOTES = 5;
+  function votesOf(p) {
+    var live = S.votes && S.votes.get(p.id), f = live || p.feedback || {};
+    return { up: Number(f.up) || 0, down: Number(f.down) || 0 };
+  }
+  function voteScore(p) { var v = votesOf(p), n = v.up + v.down; return n >= MIN_VOTES ? (v.up - v.down) / n : 0; }
+  function mixedFeedback(p) { var v = votesOf(p); return v.up + v.down >= MIN_VOTES && v.down >= 2 * Math.max(1, v.up); }
   function renderProposedList(params) {
     var area = params.get('area') || '';
     var areas = new Map();
@@ -822,6 +831,7 @@
       if (!areas.has(p.area)) areas.set(p.area, []);
       areas.get(p.area).push(p);
     });
+    areas.forEach(function (list) { list.sort(function (a, b) { return voteScore(b) - voteScore(a); }); });   // stable: unrated keep their order
     var keys = Array.from(areas.keys()).sort();
     var html = '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › ' + (area ? '<a href="#/proposed">Proposed audits</a> › ' + esc(area) : 'Proposed audits') + '</nav>' +
       '<h1>' + esc(area || 'Proposed audits') + '</h1>' +
@@ -832,7 +842,7 @@
           areas.get(k).map(function (p) {
             return '<li class="result result-proposed" data-text="' + attr((p.id + ' ' + p.question + ' ' + (p.standard || {}).source).toLowerCase()) + '">' +
               '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(p.question) + '</a></h3><p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · ' +
-              esc(trunc((p.standard || {}).source, 120)) + (p.novelty ? ' · ' + esc(cap(p.novelty)) : '') + '</p></li>';
+              esc(trunc(humanSource((p.standard || {}).source), 120)) + (p.novelty ? ' · ' + esc(cap(p.novelty)) : '') + (mixedFeedback(p) ? ' · ' + badge('Mixed feedback', 'warn') : '') + '</p></li>';
           }).join('') + '</ul></div>';
       }).join('');
     page(html, area || 'Proposed audits', 'proposed');
@@ -1151,6 +1161,10 @@
       '\n\nSTANDARDS (exact wording):\n' + stds +
       (nice ? '\nFor any NICE standard, do not write NICE wording: set "wording" to "" and give the exact NICE source (e.g. "NICE NG253 rec 1.8.3") and URL; the app inserts the published wording.' : '') +
       '\n\nPROPOSED AUDITS already in the library:\n' + props +
+      (avoid && avoid.fix && avoid.fix.length ? '\n\nTHE USER SAID THE EARLIER VERSION WAS NOT RIGHT, BECAUSE: ' + avoid.fix.join(' | ') +
+        '. Fix exactly that. Too generic: narrow the population, name one ward or pathway and a time window. Too specific: widen it to a common, high-volume group. ' +
+        'Poor framing: one plain, measurable question with an obvious pass. Too complex: fewer data fields and a shorter timeline. ' +
+        'Not relevant to my specialty: stay inside the specialty the theme implies. Not an important topic: pick the higher-harm, higher-volume aspect.' : '') +
       (avoid && avoid.length ? '\n\nALREADY OFFERED ON THIS THEME. Write a DIFFERENT audit: a different aspect of the theme, a different question and a different standard where possible. Do not repeat these:\n' +
         avoid.map(function (x) { return '- ' + x; }).join('\n') : '');
   }
@@ -1198,7 +1212,9 @@
   var BUILD_STEPS = [['question', 'Audit question'], ['standard', 'Standard'], ['template', 'Data template'], ['timeline', 'Timeline'],
     ['change', 'Change'], ['reaudit', 'Re-audit'], ['evidence', 'Evidence'], ['pitfalls', 'Pitfalls'], ['pearls', 'Pearls']];
   function progressHtml(text) {
-    return '<ol class="build-steps">' + BUILD_STEPS.map(function (s) {
+    var qm = /"question"\s*:\s*"((?:[^"\\]|\\.)*)"/.exec(text || '');
+    var qText = qm ? qm[1].replace(/\\"/g, '"').replace(/\\n/g, ' ') : '';
+    return (qText ? '<p class="build-q"><span class="muted">Audit question</span><br><strong>' + esc(qText) + '</strong></p>' : '') + '<ol class="build-steps">' + BUILD_STEPS.map(function (s) {
       var done = text && text.indexOf('"' + s[0] + '"') !== -1;
       return '<li class="' + (done ? 'is-done' : '') + '"><span class="dot" aria-hidden="true"></span>' + esc(s[1]) + (done ? '<span class="sr-only"> written</span>' : '') + '</li>';
     }).join('') + '</ol>';
@@ -1296,7 +1312,12 @@
     var id = builtId(q, n), cur = BUILDS.get(id);
     if (cur && !cur.failed) return cur;
     var res = resourcesFor(q);
-    var avoid = n > 1 ? variantsOf(q).filter(function (b) { return b.id !== id; }).map(function (b) { return b.question; }) : [];
+    var others = n > 1 ? variantsOf(q).filter(function (b) { return b.id !== id; }) : [];
+    var avoid = others.map(function (b) { return b.question; });
+    // 'Not quite right?' learns why: the reasons (and comment) the user gave on earlier versions.
+    avoid.fix = others.map(function (b) { var f = fbFor(b.id); return f && f.rating === 'down' ? f : null; }).filter(Boolean)
+      .map(function (f) { return (f.reasons || []).join(', ') + (f.comment ? (f.reasons && f.reasons.length ? '; ' : '') + '"' + scrub(String(f.comment).slice(0, 200), { redacted: 0 }) + '"' : ''); })
+      .filter(Boolean);
     var entry = { text: '', listeners: [], res: res, ctl: new AbortController() };
     entry.promise = generate(q, res, fresh, function (u) {
       entry.text = u.text; entry.listeners.forEach(function (fn) { try { fn(u.text); } catch (e) {} });
@@ -1424,13 +1445,10 @@
     var q = (params.get('q') || '').trim();
     var fb = new Map();
     fbAll().forEach(function (f) { fb.set(f.id, f.rating); });
-    var list = S.proposed.filter(function (p) {
-      var f = p.feedback || {};
-      return fb.get(p.id) !== 'down' && !((f.down || 0) > (f.up || 0));
-    });
+    var list = S.proposed.filter(function (p) { return fb.get(p.id) !== 'down' && !mixedFeedback(p); });
     function effortMin(p) { var m = String(p.effort || '').match(/(\d+)\s*min/); return m ? +m[1] : 60; }
     function weeks(p) { var s = parseTimeline(p.timeline); return s ? Math.max.apply(null, s.map(function (x) { return x.b; })) : 52; }
-    list = list.slice().sort(function (a, b) { return (weeks(a) - weeks(b)) || (effortMin(a) - effortMin(b)); }).slice(0, 12);
+    list = list.slice().sort(function (a, b) { return (voteScore(b) - voteScore(a)) || (weeks(a) - weeks(b)) || (effortMin(a) - effortMin(b)); }).slice(0, 12);
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Suggested audits</nav>' +
       '<h1>Suggested audits</h1><p class="lede">Ready-to-run protocols with the shortest route to a closed loop. Type a theme above to build one on any topic instead.</p>' +
       buildForm('', false) +
@@ -2869,6 +2887,14 @@
     if (/^eyJ/.test(BE.key)) h.Authorization = 'Bearer ' + BE.key;   // legacy JWT anon key
     return h;
   }
+  function loadVotes() {
+    configReady.then(loadSummary).then(function (m) {
+      if (!m) return;
+      S.votes = m;
+      var n = parseHash().parts[0];
+      if ((n === 'proposed' && !parseHash().parts[1]) || n === 'suggest') route();
+    });
+  }
   function loadSummary() {
     if (!BE.url || !navigator.onLine) return Promise.resolve(null);
     if (BE.summary && Date.now() - BE.summaryAt < 5 * 60 * 1000) return BE.summary;
@@ -3543,7 +3569,7 @@
   });
   window.addEventListener('hashchange', route);
 
-  load().then(route).catch(function (err) {
+  load().then(function () { route(); loadVotes(); }).catch(function (err) {
     main.innerHTML = '<h1>The library could not be loaded</h1><p>Please check your connection and refresh the page.</p>';
     if (window.console) console.warn(err);
   });
