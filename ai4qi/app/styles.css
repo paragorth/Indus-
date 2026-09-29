@@ -699,3 +699,7 @@ a.out-btn { text-decoration: none; }
 .stack-form .pf-me { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px 14px; margin: 0 0 8px; display: flex; flex-direction: column; gap: 6px; }
 .stack-form .pf-me legend { font-weight: 600; padding: 0 6px; }
 .stack-form .pf-me .muted { margin: 0; font-size: .9rem; }
+/* Checkboxes inside stacked forms: .stack-form input would stretch them to full width and squeeze the label. */
+.stack-form .check { align-self: stretch; }
+.stack-form .check input[type="checkbox"] { width: 17px; height: 17px; padding: 0; flex: none; }
+.stack-form .check > span { flex: 1 1 auto; min-width: 0; }

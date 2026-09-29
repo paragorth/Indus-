@@ -3347,6 +3347,8 @@
       AN.kind = 'plausible';
       if (S.lib.length) trackPageview();
     } else if (kind === 'cloudflare') {
+      // The hosted pages carry the beacon in their head (build_app_data.py writes it); never add a second one.
+      if (document.querySelector('script[data-cf-beacon]')) { AN.kind = 'cloudflare'; return; }
       var token = String(c.cloudflare_token || '').trim();
       if (!/^[A-Za-z0-9]{16,64}$/.test(token)) return;
       sc = document.createElement('script');

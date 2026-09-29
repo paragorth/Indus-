@@ -249,6 +249,25 @@ LEGAL = [("terms", "TERMS_OF_USE.md", "Terms of use"), ("privacy-notice", "PRIVA
          ("security", "VULNERABILITY_DISCLOSURE.md", "Reporting a security problem")]
 
 
+BEACON = re.compile(r"\s*<!-- analytics -->.*?<!-- /analytics -->", re.S)
+
+
+def write_beacon(cfg):
+    """Cloudflare Web Analytics is a manual snippet (automatic injection is off in Cloudflare): write it
+    into the head of every page from config.json, or remove it when analytics is not Cloudflare."""
+    token = str(cfg.get("cloudflare_token") or "").strip()
+    on = str(cfg.get("analytics") or "").lower() == "cloudflare" and re.fullmatch(r"[A-Za-z0-9]{16,64}", token)
+    tag = ('\n<!-- analytics -->\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+           f'data-cf-beacon=\'{{"token": "{token}", "spa": false}}\'></script>\n<!-- /analytics -->') if on else ""
+    for name in ("index.html", "404.html"):
+        path = APP / name
+        if not path.exists():
+            continue
+        html = BEACON.sub("", path.read_text(encoding="utf-8"))
+        html = html.replace("</head>", tag.lstrip("\n") + "\n</head>", 1) if tag else html
+        path.write_text(html, encoding="utf-8")
+
+
 def write_security_txt(cfg):
     """app/.well-known/security.txt (RFC 9116), only once the owner has set site_url and an email."""
     L = (cfg or {}).get("legal") or {}
@@ -318,6 +337,7 @@ def main():
     nt = HERE / "standards" / "nice_titles.json"            # NICE titles for plain-words sources
     dump(DATA / "nice_titles.json", json.loads(nt.read_text()) if nt.exists() else {})
     write_security_txt(cfg)
+    write_beacon(cfg)
 
     (APP / "templates").mkdir(parents=True, exist_ok=True)
     for csv in sorted((HERE / "new_audits" / "templates").glob("*.csv")):

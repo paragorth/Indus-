@@ -30,6 +30,7 @@ storage** is cleared when you close the browser (or the tab).
 | `ai4qi_feedback_v1` | Your thumbs up or down, reasons and any comment on proposed audits | To send your feedback when you are online, and show that you have already given it | Until you clear your browser's site data |
 | `ai4qi_device_v1` | A random device number. It is created only when feedback is sent | To limit spam and count one vote per device | Until you clear your browser's site data |
 | `ai4qi_consent_pending` | Whether you ticked the news and sponsor email boxes when asking for a sign-in link | To save those choices to your account once you open the link | Deleted once your choices are saved to your account |
+| `ai4qi_me_v1` | Your name, role, email and hospital, and your supervisor's name and email, if you type them into "Send to your supervisor" | So you do not have to type them again | Until you clear your browser's site data |
 | `ai4qi_demo` | The value "1" when demo mode is on | To show the "Demo" buttons until you turn demo mode off | Until you turn demo mode off |
 
 **Demo mode.** Example audits made in demo mode are fictitious and are saved like any other audit.
@@ -55,10 +56,9 @@ personal data. It is replaced when Ai4Qi is updated.
 
 ## Visitor statistics
 
-We count visits with Plausible Analytics. Plausible does not use cookies, browser cache or local
-storage, and does not create identifiers that last beyond a day. It records the page viewed, the
-referring website, browser and device type and the country. Before a page view is sent, Ai4Qi
-removes search words and filters from the address.
+We count visits with Cloudflare Web Analytics. It sets **no cookies** and stores nothing in your
+browser, and it does not follow you across other websites. It records the page viewed, the referring
+website, browser and device type, the country and how quickly the page loaded.
 
 ## No other cookies
 

@@ -59,8 +59,24 @@ need("Content-Security-Policy" in hdr and "frame-ancestors 'none'" in hdr, "secu
 for f in ("index.html", "robots.txt", "404.html", "manifest.webmanifest", "sw.js"):
     need((APP / f).exists(), f"{f} present", f"app/{f} missing")
 idx = (APP / "index.html").read_text()
-ext = [s for s in re.findall(r'src="(https?://[^"]+)"', idx) if "plausible.io" not in s]
+ext = [s for s in re.findall(r'src="(https?://[^"]+)"', idx)
+       if "plausible.io" not in s and s != "https://static.cloudflareinsights.com/beacon.min.js"]
 need(not ext, "no outside scripts in index.html", "outside scripts in index.html: " + ", ".join(ext))
+if str(cfg.get("analytics") or "").lower() == "cloudflare":
+    tok = cfg.get("cloudflare_token") or ""
+    for f in ("index.html", "404.html"):
+        page = (APP / f).read_text() if (APP / f).exists() else ""
+        need("static.cloudflareinsights.com/beacon.min.js" in page and tok in page, f"{f}: Cloudflare Web Analytics beacon with the token",
+             f"app/{f}: Cloudflare beacon missing (run build_app_data.py)")
+    need("https://static.cloudflareinsights.com" in hdr and "https://cloudflareinsights.com" in hdr,
+         "CSP allows the Cloudflare beacon (script-src and connect-src)", "app/_headers CSP: add static.cloudflareinsights.com (script-src) and cloudflareinsights.com (connect-src)")
+sw = (APP / "sw.js").read_text() if (APP / "sw.js").exists() else ""
+shell_list = re.search(r"SHELL_FILES\s*=\s*\[(.*?)\]", sw, re.S)
+need(bool(shell_list) and not re.search(r"['\"](\./|/)?index\.html['\"]", shell_list.group(1)),
+     "sw.js does not precache index.html (Cloudflare Pages redirects it to /)",
+     "app/sw.js precaches index.html: returning visitors get ERR_FAILED from the redirected response")
+need("redirected" in sw, "sw.js rebuilds redirected responses before caching or returning them",
+     "app/sw.js: redirected responses are cached as-is (Chrome refuses them for navigations)")
 code = (APP / "app.js").read_text() + (APP / "export.js").read_text()
 need(not re.search(r"sk-ant-|sb_secret_|service_role", code), "no API keys in the site code", "an API key appears in app.js or export.js")
 

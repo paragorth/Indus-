@@ -7,7 +7,7 @@ them. Please also read our [privacy notice](#/privacy-notice).
 
 ## Who we are
 
-Ai4Qi is run by [OWNER LEGAL NAME], [ADDRESS] ("we", "us"). Contact: [CONTACT EMAIL].
+Ai4Qi is run by Paraggarg Limited (company number 16367622), trading as Ai4Qi, a private limited company registered in England and Wales, whose registered office is 40 St James Buildings, St James Street, Taunton, Somerset TA1 1JR ("we", "us"). Contact: [CONTACT EMAIL].
 
 ## Who Ai4Qi is for
 
@@ -140,4 +140,4 @@ have jurisdiction.
 
 ## Contact
 
-Email [CONTACT EMAIL] or write to [OWNER LEGAL NAME], [ADDRESS].
+Email [CONTACT EMAIL] or write to Paraggarg Limited (Ai4Qi), 40 St James Buildings, St James Street, Taunton, Somerset TA1 1JR.

@@ -1,12 +1,14 @@
 # Ai4Qi — ICO data protection fee: answers to prepare
 
-> **Draft for the owner's review — not legal advice.** Checked on the ICO website on 28 September
-> 2026. Pay before launch on Friday 2 October 2026.
+> **Status (29 September 2026): done.** Paraggarg Limited (company number 16367622) already pays the
+> fee: registration **ZB979579**, tier 1. Ai4Qi has been added to that registration as a trading
+> name, so no second fee is due. The notes below are kept for the yearly renewal and for reference.
 
 ## The short answer
 
-- **You must pay.** Ai4Qi is run by an individual who decides how personal data is used
-  (controller), uses it on computers, and does so for purposes beyond the exempt list.
+- **The fee is due.** Ai4Qi is run by Paraggarg Limited, a private limited company, which decides how
+  personal data is used (controller), uses it on computers, and does so for purposes beyond the
+  exempt list. The company's existing registration (ZB979579) covers it.
 - **Tier 1 (micro organisations): £52 a year.** £47 if you pay by direct debit (£5 discount).
 - **Register here:** https://ico.org.uk/for-organisations/data-protection-fee/register/
   (takes about 15 minutes; must be done in one session).
@@ -25,7 +27,7 @@ Charities and small occupational pension schemes pay tier 1 whatever their size.
 every controller as tier 3 until told otherwise, so complete the form.
 
 **Staff** means employees, workers, office holders and partners, averaged over the financial year;
-count yourself. With no employees, you are in tier 1.
+a company director is an office holder and counts. With the director only, the company is in tier 1.
 
 ## Who is exempt, and why Ai4Qi is not
 
@@ -56,10 +58,10 @@ processing goes beyond that, and sponsor messages are sent. **Answer "No".**
 | 9 | Do you use information for health, education or childcare services? | Yes is reasonable (a tool for health professionals' training and quality work). Either answer leads to the same result |
 | 10–11 | (If you answered No at 9) property or land services; list of other purposes (membership, marketing for others, consultancy, social networking, software development such as web hosting, selling data) | No; No |
 | — | Are you exempt from paying? (shown on the No path) | No |
-| — | How many members of staff do you have? | No employees (sole trader) |
+| — | How many members of staff do you have? | 1 (the director, an office holder); no employees |
 | — | Small occupational pension scheme? (shown on some paths) | No |
 | — | Charity or exempt charitable status? | No, unless Ai4Qi is set up as a charity |
-| — | Existing registration? | No — never paid before (or Yes, see below) |
+| — | Existing registration? | Yes — ZB979579 (Paraggarg Limited); Ai4Qi added as a trading name |
 | **Result** | "You need to pay £52 … You're in tier one" | Both paths tested gave this result |
 
 ## Information the registration form asks for
@@ -68,14 +70,14 @@ Have this ready before you start:
 
 | Item | Ai4Qi answer |
 |---|---|
-| Organisation type | **Individual / sole trader** (or "Limited company …" if you set one up) |
-| Name | [Owner name] (title optional). The ICO publishes the business name on the public register |
+| Organisation type | **Limited company** |
+| Name | **Paraggarg Limited** (company number 16367622). The ICO publishes it on the public register |
 | Trading name | **Ai4Qi** |
-| Address | [Postal address]. For a sole trader this is your **principal place of business in the UK**, and it is **published** on the register. If you do not want your home address public, consider a business address |
-| Number of staff | 0 employees (you) |
-| Turnover for the financial year | £[0 / amount of sponsorship income] |
-| Person completing the form | [Owner name], [Contact email], [phone] |
-| Contact for ICO regulatory matters (if different) | [Name, email] |
+| Address | Registered office: **40 St James Buildings, St James Street, Taunton, Somerset TA1 1JR** (published on the register) |
+| Number of staff | 1 (the director); no employees |
+| Turnover for the financial year | Paraggarg Limited's turnover (well under the £632,000 tier 1 limit) |
+| Person completing the form | The director of Paraggarg Limited, privacy@ai4qi.com |
+| Contact for ICO regulatory matters | privacy@ai4qi.com |
 | Data protection officer | None (not required) |
 | Payment | Card, or direct debit for the £5 discount |
 
@@ -84,12 +86,11 @@ expiry date, trading names, and DPO details if you have one. It does not publish
 
 After paying: a confirmation usually arrives the next working day, and the entry appears on the
 register of fee payers within seven working days. Put the registration number into the privacy
-notice, the DPIA and `RECORD_OF_PROCESSING.md` in place of [ICO registration number].
+notice, the DPIA and `RECORD_OF_PROCESSING.md` (done: ZB979579).
 
-**If you already pay the fee** (for example as a sole trader for private practice): the fee is paid
-by the controller, not per activity. In our reading you should add "Ai4Qi" as a trading name and
-check your tier, rather than pay a second time. Confirm with the ICO helpline (0303 123 1113) if
-unsure.
+**Existing registration (what was done):** the fee is paid by the controller, not per activity.
+Paraggarg Limited already paid (ZB979579, tier 1), so "Ai4Qi" was added as a trading name instead of
+paying a second time. Keep the tier under review if staff or turnover grow (ICO helpline 0303 123 1113).
 
 **Nature of the processing** (keep this ready if the ICO asks, and for the exemption-form free-text
 box if ever needed): "Ai4Qi is a free website that helps UK and Irish clinicians plan and run
@@ -112,5 +113,5 @@ do not process patient data; audit records stay on the user's own device."
   https://ico.org.uk/for-organisations/data-protection-fee/data-protection-fee-self-assessment/
 - ICO, Register (what you need; confirmation next working day; published within seven working
   days): https://ico.org.uk/for-organisations/data-protection-fee/register/
-- ICO, New registration form (organisation types; sole trader details published):
+- ICO, New registration form (organisation types; what is published):
   https://ico.org.uk/for-organisations/data-protection-fee/register/new-registration/

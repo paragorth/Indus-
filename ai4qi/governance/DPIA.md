@@ -22,9 +22,9 @@
 
 | | |
 |---|---|
-| Controller | [OWNER LEGAL NAME], [ADDRESS] |
-| ICO registration number | [ICO REG NO.] |
-| Contact | [CONTACT EMAIL] |
+| Controller | Paraggarg Limited (company number 16367622), trading as Ai4Qi. Registered office: 40 St James Buildings, St James Street, Taunton, Somerset TA1 1JR |
+| ICO registration number | ZB979579 (Paraggarg Limited, tier 1; Ai4Qi added as a trading name) |
+| Contact | privacy@ai4qi.com (security reports: security@ai4qi.com) |
 | DPIA author | [NAME] |
 | Version / date | 0.1 draft, 27 September 2026 |
 | Next review | Before launch; then every 12 months or on any change listed in §2.6 |
@@ -126,7 +126,7 @@ Ai4Qi) is the controller of them.
 | Reminders (opt-in) | User id, run id, the audit question (≤200), next step text made of counts (e.g. "Collect cycle 1 data (32 of 40 entered)"), due date, opt-in flag, times sent | `run_reminders` | The user; the `send-reminders` job |
 | Reminder emails | Email address, audit question, next step, due date | Resend (sending and logs) | Owner (Resend dashboard) |
 | Audit building | The build prompt: fixed instructions, the typed theme, and excerpts from the Ai4Qi library (published audits, standards, proposed audits). **No patient data and no user identifiers** | Sent from the `build-audit` Edge Function to the Anthropic API | Anthropic, as processor |
-| Visitor analytics | Page views with cleaned address (route only, e.g. `#/proposed/ONA-012`; search words and filters removed; only `utm_*`, `ref` and `from` kept), referrer, browser/OS and country derived by Plausible (or by Cloudflare Web Analytics, if that is switched on instead) | Plausible (EU), or Cloudflare | Owner |
+| Visitor analytics | Page views with cleaned address (route only, e.g. `#/proposed/ONA-012`; search words and filters removed; only `utm_*`, `ref` and `from` kept), referrer, browser/OS and country derived by Cloudflare Web Analytics (no cookies, nothing stored on the device) | Cloudflare | Owner |
 | Feedback comments copied into the library | When the owner runs `pull_feedback.py`, free-text comments with their audit id, rating and reasons (no user or device id) are copied into `new_audits/feedback.json` | The project's GitHub repository (GitHub, Inc., US) | Owner; anyone with access to the repository. The owner reads new comments first and deletes any that name a person |
 
 Admins are listed by email in the `admins` table and can read raw feedback and aggregate
@@ -216,7 +216,7 @@ Record the outcome of each consultation here before sign-off.
   the user's device and has no access to that data, so it is neither controller nor processor of it.
   **Confirm this view with the reviewer.** It depends on patient data never reaching Ai4Qi, which
   the code currently ensures.
-- **Supabase, Resend, Anthropic, the host (Cloudflare Pages or Netlify), Plausible and GitHub** — processors for Ai4Qi (see `PROCESSORS_AND_TRANSFERS.md`).
+- **Supabase, Resend, Anthropic, Cloudflare (hosting, visitor statistics, email forwarding) and GitHub** — processors for Ai4Qi (see `PROCESSORS_AND_TRANSFERS.md`).
 
 ### 4.2 Lawful bases (UK GDPR Art. 6)
 
@@ -228,7 +228,7 @@ Record the outcome of each consultation here before sign-off.
 | Feedback incl. device id | 6(1)(f) | Improve library; device id for spam limit and one-vote counting |
 | Built audits (theme, protocol, user id) | 6(1)(f) | Deliver the build; reuse; daily cap; library review |
 | Reminder emails | 6(1)(f) | User turns them on per audit. Service messages, not marketing, so PECR marketing consent does not apply |
-| Visitor analytics | 6(1)(f) | Plausible sets no cookies and stores nothing on the device, so PECR reg. 6 consent is not needed. Check the current PECR position after the Data (Use and Access) Act 2025 |
+| Visitor analytics | 6(1)(f) | Cloudflare Web Analytics sets no cookies and stores nothing on the device, so PECR reg. 6 consent is not needed. Check the current PECR position after the Data (Use and Access) Act 2025 |
 | Security logs (Supabase, Resend) | 6(1)(f) | Security and abuse prevention |
 
 No Art. 9 condition is relied on, because Ai4Qi does not intend to process special category data.
@@ -278,10 +278,9 @@ assessment. Transfers to the EU/EEA are covered by UK adequacy regulations.
 | Processor | What it processes | Where | Transfer mechanism to check | DPA |
 |---|---|---|---|---|
 | Supabase Pte. Ltd (Singapore), the contracting party under the DPA; sub-processors include Supabase, Inc. (US, support) and AWS | Database (all tables above), Auth (email, sign-in logs), Edge Functions and their logs | Project region: **London (eu-west-2)**. Choose that specific region, not a "general" region grouping. Support and some sub-processors may access from elsewhere, including the US | Not on the DPF list; Singapore has no UK adequacy regulations. EU SCCs with the UK Addendum (IDTA Addendum), incorporated in the DPA, plus a transfer risk assessment | https://supabase.com/legal/dpa |
-| Resend (Plus Five Five, Inc., US) | Recipient email, reminder content, delivery logs; also Supabase Auth sign-in emails if Resend is used as the SMTP provider | Account data, email metadata and logs stored in the **United States**, even when sending from the Ireland (eu-west-1) region | **UK Extension to the EU–US DPF** (certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://resend.com/legal/dpa |
+| Resend (Plus Five Five, Inc., US) | Recipient email, reminder content, delivery logs, sent from mail.ai4qi.com; also Supabase Auth sign-in emails if Resend is used as the SMTP provider | Account data, email metadata and logs stored in the **United States**, even when sending from the Ireland (eu-west-1) region | **UK Extension to the EU–US DPF** (certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://resend.com/legal/dpa |
 | Anthropic PBC (US) | Build prompts (theme and library excerpts) and generated protocols from the hosted site | US (check Anthropic's current processing locations and data-residency options) | Not on the DPF list. EU SCCs with the UK Addendum (IDTA Addendum) in the DPA, plus a transfer risk assessment; check API retention period and zero-retention options | https://www.anthropic.com/legal/data-processing-addendum (part of the Commercial Terms) |
-| Plausible Insights OÜ (EU) | Page views, referrer, browser/OS and country derived from IP and User-Agent (raw IP and User-Agent not stored, per Plausible) | EU; servers in Germany, per Plausible | UK adequacy for the EU | https://plausible.io/dpa |
-| Static host for the site: Cloudflare, Inc. (US, Cloudflare Pages; also optional Cloudflare Web Analytics, as an alternative to Plausible) or Netlify, Inc. (US) | Web server logs (IP address, user agent) of every visitor | Cloudflare: global network. Netlify: US and global CDN | **UK Extension to the EU–US DPF** (both certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://www.cloudflare.com/cloudflare-customer-dpa/ or https://www.netlify.com/pdf/netlify-dpa.pdf |
+| Cloudflare, Inc. (US) | Cloudflare Pages: web server logs (IP address, user agent) of every visitor. Cloudflare Web Analytics: page views, referrer, browser/OS and country, without cookies. Email Routing: forwards messages sent to privacy@ai4qi.com and security@ai4qi.com | Global network | **UK Extension to the EU–US DPF** (certified, non-HR data); fallback: SCCs and UK Addendum in the DPA | https://www.cloudflare.com/cloudflare-customer-dpa/ |
 | GitHub, Inc. (US) | Source code repository; also `new_audits/feedback.json`, holding feedback comments copied by `pull_feedback.py` (no user or device ids), which could contain personal data if someone typed it | US | **UK Extension to the EU–US DPF** (certified, non-HR data) | https://github.com/customer-terms/github-data-protection-agreement |
 | Font and script CDNs (Google Fonts, jsDelivr, cdnjs) — **hosted site: no longer used (self-hosted); Claude-artifact version still loads Google Fonts** | Visitor IP address and user agent when files are fetched | Global | Removed by the planned self-hosting | n/a |
 
@@ -306,7 +305,7 @@ is required, or whether the exemption for occasional, low-risk processing applie
 | Supabase Auth and Edge Function logs | 1 day (free plan) or 7 days (paid plan) | Supabase |
 | Resend email logs | 30 days | Resend |
 | Anthropic API inputs/outputs | Deleted within 30 days under Anthropic's commercial API terms, with the exceptions they list (request zero data retention if offered) | Anthropic |
-| Plausible statistics | Aggregate; keep while the site runs | Plausible |
+| Cloudflare Web Analytics statistics | Aggregate; as set by Cloudflare | Cloudflare |
 | Backups (Supabase Pro) | Platform default (daily backups, typically 7 days on Pro) | Supabase |
 | Records on user devices | Under the user's and their organisation's control. App guidance: delete the audit from the device once it is presented and archived on the organisation's systems | "Delete this audit and its data from this device" button; shared-computer mode **[live]** |
 
@@ -378,7 +377,7 @@ Significant / Severe. Overall: Low / Medium / High. Scores are **before** the me
 | R1 | **Re-identification from pseudonymised records on shared NHS computers.** Records sit in browser storage of a shared ward PC; the next user opens Ai4Qi or the browser's developer tools and sees patient rows (dates, ward, clinical details) that colleagues can link to real patients. Breach of patient confidentiality. | Probable | Significant | High |
 | R2 | **Identifiers in free text.** A user types a name without a title, a hospital number in another format, an address or a rare-condition description; the regex scrubber misses it. Identifiable patient data stored and exported. | Probable | Significant | High |
 | R3 | **Exports shared by email.** CSV, backup JSON (currently unencrypted and containing all records and staff names), Excel or slides sent to personal email, WhatsApp or cloud drives, or presented outside the organisation. | Possible | Significant | Medium |
-| R4 | **Third-party script compromise.** A compromised CDN file (supabase-js, SheetJS, ExcelJS, JSZip, Google Fonts CSS, Plausible) runs in the page and reads browser storage, including decrypted records while unlocked. Mass exposure of patient data across users. | Remote | Severe | Medium |
+| R4 | **Third-party script compromise.** A compromised CDN file (supabase-js, SheetJS, ExcelJS, JSZip, Google Fonts CSS, the Cloudflare Web Analytics beacon) runs in the page and reads browser storage, including decrypted records while unlocked. Mass exposure of patient data across users. | Remote | Severe | Medium |
 | R5 | **Account or email breach.** Theft of the Supabase service key, an admin's email account (admin rights come from the email address), or a user's email (magic link). Exposure of emails, profiles, feedback comments, reminder text; misuse of admin statistics. | Possible | Significant | Medium |
 | R6 | **Misuse of reminders.** Audit question or next-step text containing patient information emailed via Resend; reminders sent to the wrong address; the email reveals the user's work to others with access to their inbox. Also: the reminder feature used to spam. | Remote | Minimal | Low |
 | R7 | **AI-generated content inaccuracies (clinical safety).** Claude invents or misquotes a standard, target or evidence; a trainee runs the audit and a department changes practice based on a wrong standard. Indirect harm to patients; reputational harm to the user. | Possible | Significant | Medium |
@@ -399,8 +398,8 @@ Significant / Severe. Overall: Low / Medium / High. Scores are **before** the me
 | R1 Shared computers | P: passcode encryption (AES-GCM, PBKDF2 310k); P: auto-lock after 15 min; P: shared-computer mode (session storage only); E: "Delete this audit and its data from this device"; R: ask "Is this a shared computer?" on first use and default to shared mode on unknown devices; R: guidance to prefer an organisation-issued personal device; R: lock on sign-out and on tab hide after a shorter time | Reduced | Low–Medium (a weak passcode, or a PC left unlocked within 15 min) | [ ] |
 | R2 Free-text identifiers | E: template-only columns, audit codes, regex scrub, 300-character cap; P: switch off free-text per audit; P: month-only dates; R: show a warning when a free-text field contains a capitalised word pair or numbers; R: templates prefer choice fields over text (add to `BUILD_RULES`); R: tell users the scrubber is a safety net, not a guarantee (the in-app page already says so) | Reduced | Medium | [ ] |
 | R3 Exports | P: warning on the export panel; R: encrypt the backup file with the passcode; R: omit free-text fields from CSV by default; R: add a "share only inside your organisation" line in the slide footer (slides already say "check before sharing outside the department"); R: aggregate-only option for slides | Reduced | Low–Medium | [ ] |
-| R4 Script compromise | P: self-host all third-party code and fonts; P: strict CSP (`default-src 'self'`, `connect-src` only Supabase, the build function and Plausible; no inline script; `frame-ancestors 'none'`); R: Subresource Integrity on anything still external; R: pin versions and review updates | Reduced | Low | [ ] |
-| R5 Account breach | E: magic link (no passwords stored); E: RLS on all tables; admins see aggregates, not raw events; E: service key only in Edge Function secrets; R: use a dedicated admin mailbox with two-factor authentication; R: two-factor authentication on Supabase, Resend, Anthropic, Plausible, GitHub and DNS accounts; R: own SMTP with SPF/DKIM/DMARC; R: short magic-link expiry; R: review the admin list quarterly | Reduced | Low | [ ] |
+| R4 Script compromise | P: self-host all third-party code and fonts; P: strict CSP (`default-src 'self'`, `connect-src` only Supabase, the build function and Cloudflare Web Analytics; no inline script; `frame-ancestors 'none'`); R: Subresource Integrity on anything still external; R: pin versions and review updates | Reduced | Low | [ ] |
+| R5 Account breach | E: magic link (no passwords stored); E: RLS on all tables; admins see aggregates, not raw events; E: service key only in Edge Function secrets; R: use a dedicated admin mailbox with two-factor authentication; R: two-factor authentication on Supabase, Resend, Anthropic, Cloudflare and GitHub accounts; R: own SMTP with SPF/DKIM/DMARC; R: short magic-link expiry; R: review the admin list quarterly | Reduced | Low | [ ] |
 | R6 Reminders | E: only question, next-step counts and due date sent; E: opt-in per audit; E: ≤6 sends, ≥3 days apart, ≤50 audits per user; E: users cannot change send counts; E: `CRON_SECRET` protects the job; R: keep the audit question from the protocol, not from user free text (as now) | Reduced | Low | [ ] |
 | R7 AI accuracy | E: prompt requires verbatim standard wording from the library's standards list, or "Local standard"; E: evidence lines filtered to existing library ids; E: "Built for you – not yet run" label; R: show "Check the standard against the source before you start; get your supervisor to approve the protocol" on every built audit; R: owner reviews `built_audits` and promotes good ones; R: CSO-confirmed hazard log (§4.7) | Reduced | Low–Medium | [ ] |
 | R8 Identifiable uploads | E: identifier-looking columns dropped; E: preview before storage ("Nothing has been stored yet") listing kept and dropped columns; R: refuse the import (not just drop) when more than N scrubs occur and tell the user to use the Ai4Qi data sheet; R: warn if the audit-code column contains values longer than 6 characters that look like hospital numbers | Reduced | Low–Medium | [ ] |

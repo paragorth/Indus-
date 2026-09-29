@@ -5,11 +5,13 @@ Last updated: [DATE]
 ## Who we are
 
 Ai4Qi is a free website that helps clinicians plan and run clinical audits. It is run by
-[OWNER LEGAL NAME], [ADDRESS], the "controller" who decides how the personal data in this notice
+Paraggarg Limited (company number 16367622), trading as Ai4Qi, a private limited company registered in England and Wales, whose registered office is
+40 St James Buildings, St James Street, Taunton, Somerset TA1 1JR. Paraggarg Limited is the "controller" who decides how the personal data in this notice
 is used.
 
 - Contact: [CONTACT EMAIL]
-- ICO registration number: [ICO REG NO.]
+- Security reports: security@ai4qi.com
+- ICO registration number: [ICO REG NO.] (Paraggarg Limited, with Ai4Qi as a trading name)
 
 ## The short version
 
@@ -94,12 +96,10 @@ agreement.
 
 | Provider | What they do | Where |
 |---|---|---|
-| Supabase (Supabase Pte. Ltd, Singapore, with Supabase, Inc., US, for support) | Stores accounts, profiles, feedback, progress, built audits and reminders; runs our server code | Stored in London, UK. Support staff and Supabase's own providers may access it from elsewhere, including the US |
-| Resend | Sends sign-in, reminder and news emails | Emails can be sent from Ireland, but Resend keeps account data and email logs in the United States |
+| Supabase (Supabase Pte. Ltd, Singapore, with Supabase, Inc., US, for support) | Stores accounts, profiles, feedback, progress, built audits and reminders; runs our server code | Stored in London, UK (eu-west-2). Support staff and Supabase's own providers may access it from elsewhere, including the US |
+| Resend | Sends sign-in, reminder and news emails from mail.ai4qi.com | Sent from Ireland (eu-west-1); Resend keeps account data and email logs in the United States |
 | Anthropic | Writes audit protocols from the topic you type. It does not use them to train its models | United States |
-| Plausible Analytics | Counts visits | European Union |
-| Cloudflare Web Analytics (instead of Plausible, if we switch it on) | Counts visits | Global network |
-| Cloudflare Pages (Cloudflare, Inc.) | Serves the website | Global network; US company (UK Extension to the Data Privacy Framework, or SCCs with the UK Addendum) |
+| Cloudflare (Cloudflare, Inc.) | Serves the website (Cloudflare Pages); counts visits without cookies (Cloudflare Web Analytics); forwards emails sent to privacy@ai4qi.com and security@ai4qi.com (Email Routing) | Global network; US company (UK Extension to the Data Privacy Framework, or SCCs with the UK Addendum) |
 | GitHub | Stores our code, and copies of feedback comments without user or device numbers | United States |
 
 We share data with others only if the law requires it.
@@ -111,7 +111,7 @@ own Claude account, under your own agreement with Anthropic, not ours.
 
 Some of our providers are outside the UK, and these UK-approved safeguards apply:
 
-- **Resend, Cloudflare, Netlify and GitHub** (United States) are certified under the UK Extension to
+- **Resend, Cloudflare and GitHub** (United States) are certified under the UK Extension to
   the EU–US Data Privacy Framework, which UK adequacy regulations cover. Resend keeps account data
   and email logs in the US even when emails are sent from its EU region.
 - **Anthropic** (United States) and **Supabase** (Supabase Pte. Ltd, Singapore; support from
@@ -136,13 +136,13 @@ Transfers to the EU are covered by UK adequacy regulations. Ask us for details.
 | Supabase backups | 7 days (paid plan only) |
 | Resend email logs | 30 days |
 | Topics sent to Anthropic, and the protocols it writes | Deleted by Anthropic within 30 days (longer only if flagged under its usage policy or if the law requires it) |
-| Website hosting logs | As set by the host (Cloudflare or Netlify) |
+| Website hosting and visitor statistics | As set by Cloudflare |
 | Support emails | 24 months after the last message |
 | Records of rights requests and complaints | 3 years after the request or complaint is closed |
 
 ## Cookies and storage on your device
 
-Ai4Qi sets **no advertising or tracking cookies**, and Plausible stores nothing on your device. Ai4Qi
+Ai4Qi sets **no cookies**, and our visitor statistics (Cloudflare Web Analytics) store nothing on your device. Ai4Qi
 uses browser storage only for features you use, such as keeping your audits and your sign-in. Our
 [cookies and storage](#/cookies) page lists every item.
 

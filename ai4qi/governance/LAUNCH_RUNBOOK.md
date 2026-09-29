@@ -78,7 +78,10 @@ Code and SQL live in the GitHub repository `paragorth/Indus-`, branch
    `ALLOWED_ORIGIN` = the live site address (no trailing slash).
 5. Supabase → **Edge Functions** → **Deploy a new function** → **Via editor**. Name it
    `build-audit` and paste the whole of `ai4qi/backend/supabase/functions/build-audit/index.ts`.
-   Deploy it with **Verify JWT on**.
+   Deploy it with **Verify JWT off**. The project uses Supabase's new JWT signing keys, and the
+   legacy "Verify JWT" check rejects real users' tokens. The function checks sign-in itself: it calls
+   `auth.getUser` with the request's `Authorization` token and returns 401, without calling Claude,
+   when the token is missing or invalid.
 
 ## 5. Email: Resend (sign-in links and reminders)
 
@@ -100,7 +103,7 @@ Code and SQL live in the GitHub repository `paragorth/Indus-`, branch
      generator and do not store it anywhere else.
 6. **Edge Functions** → **Deploy a new function** → **Via editor**. Name it `send-reminders` and
    paste `ai4qi/backend/supabase/functions/send-reminders/index.ts`. Turn **Verify JWT off**
-   (the function checks CRON_SECRET itself), then deploy.
+   (the function checks CRON_SECRET itself and returns 401 on a mismatch, 503 if it is not set), then deploy.
 7. **SQL Editor**, replacing `<ref>` (the project ref in the dashboard address) and `<CRON_SECRET>`:
    ```sql
    select cron.schedule('ai4qi-reminders', '0 7 * * *', $$ select net.http_post(url := 'https://<ref>.supabase.co/functions/v1/send-reminders', headers := jsonb_build_object('Authorization', 'Bearer <CRON_SECRET>', 'Content-Type','application/json')) $$);

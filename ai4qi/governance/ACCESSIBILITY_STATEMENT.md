@@ -60,7 +60,7 @@ while we fix the problem.
 
 ## Enforcement
 
-Ai4Qi is run by an individual, [OWNER LEGAL NAME], not by a public sector body. The Public Sector
+Ai4Qi is run by Paraggarg Limited (company number 16367622), trading as Ai4Qi, a private company, not by a public sector body. The Public Sector
 Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 therefore do not
 apply to Ai4Qi. We publish this statement and aim for WCAG 2.2 AA voluntarily.
 
