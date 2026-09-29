@@ -125,3 +125,6 @@ W176/M48 (seated person) (+ W100/M8, three-headed person) + jar W740/M342. M8 co
 
 ### Whole-corpus parse and name structure (S310–S311)
 The grammar labels 45.5% of held-out sign tokens (shuffled 25%). The residue is a 0–3-sign NAME in 71% of texts. Names have their own positions, replicated in IM77: name-initial W692/M150, W575/M197, W125/M28, W416/M173 (+ W413, W920, W495); name-final W840/M403, W460/M230, W435/M130, W440/M127, W717/M341 (+ W70, W35, W690).
+
+### Opener class extended (S331)
+Besides W817/W861/W820 + W2, two more opener units start texts: W920 + W60 (text-initial 61 of 62) and W692 + W60 (33 of 39). The connective after the opener is W2 for the leaf/diamond/wheel and W60 for these two (and sometimes for the wheel: 820-60, 26 of 26 initial).
