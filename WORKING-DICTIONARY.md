@@ -110,6 +110,7 @@ These show the dictionary in use. They are not translations.
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
 ## Test log
+- S308 (user idea: title + name + village): no city-level place names (37 vs null 36). Inside Mohenjo-daro, 9 sign groups are tied to one quarter (null 4; P = 0.02), mostly DK-G South, e.g. 840-760, 61-171-35, 468-806. C gloss: ward or kin qualifier before the title.
 - S307: the copper-tablet ending replicates blind in IM77 (M169 final 11/65 vs 43/1,280; p = 3 × 10⁻⁵). Bridge by text alignment: W407 = M169 (tree series), W845 = M407.
 - S306: the copper tablets end in 845 (+61/63) + 407 (12% vs 1.2% of other Mohenjo-daro texts; p = 5 × 10⁻⁸), usually after a fish word. C gloss: W407 = unit or offering count; 845…407 = 'offering of / dedicated to'.
 - S303: each closer takes its own qualifier set (overlap 0.10, P = 0.0005 in both corpora). Title phrases: jar ← W760/W100/W176; arrow ← tall 3/fish; box W527 ← pincers; W617 ← man with staff; W154/158 ← leaf-tree; W700 ← tall numerals.
