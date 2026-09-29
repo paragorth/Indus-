@@ -147,6 +147,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 | W550 (pincer variant) | head of the box-closer phrase (550-527) and opener-like before W60 | → 527 ×22, → 60 ×22 |
 
 ## Test log
+- S345: the Umma sealing (found in Sumer) reads '[127-705] · of · 4 · TREE-unit', the standard home quantity formula. The formula travelled with goods; W127 is a head word for tree-unit consignments (C).
 - S341: function labels added for 20 more frequent signs (section 10).
 - S336–S339: 'opener · of · N · tree' is a standard pan-Indus seal type (31 texts, 8 sites, used on Kalibangan sealings; N = 3–6; size does not track N). 'Of N fish' heads a title phrase instead. Seals vary the number within one template as often as tablets do.
 - S335: 15 nameless seals read in full 'opener · of · N · tree' (N = 3–6). C gloss: allotment/share-holder seals ('holder of 3 tree-units').
