@@ -146,7 +146,16 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 | W798 (pincer) | pre-jar word and pitchfork companion | → jar 45, → W415 20 |
 | W550 (pincer variant) | head of the box-closer phrase (550-527) and opener-like before W60 | → 527 ×22, → 60 ×22 |
 
+## 11. Working model of a seal text: a credential (user, 29 Sept; S347, grade B–)
+The whole seal text is a **title or credential, like a degree**, not a personal name:
+- **Shield (opener):** leaf / diamond / wheel / bracket / X, then 'of'. It says what kind of credential it is.
+- **What the holder commands or owns:** goods and counts ('of 4 tree-units', 'of 2 fish'), fish-class words, units such as 255-435 or 590-390.
+- **Office word (closer):** jar ('store/steward'), arrow, carrier, box, with its own qualifiers.
+- Short credentials reappear inside longer ones with parts added (4× chance). The same credential is issued in several cities and pressed on tablets far from any seal. The animal is a separate house or clan stamp.
+Would support: the same credential appearing over time with parts added (a promotion). Would kill: repeated credentials from one grave or house (i.e. one person's name).
+
 ## Test log
+- S347: the credential model (user) fits: nesting of short titles in longer ones is 4× chance; longer texts on bigger seals (ρ = 0.32).
 - S345: the Umma sealing (found in Sumer) reads '[127-705] · of · 4 · TREE-unit', the standard home quantity formula. The formula travelled with goods; W127 is a head word for tree-unit consignments (C).
 - S341: function labels added for 20 more frequent signs (section 10).
 - S336–S339: 'opener · of · N · tree' is a standard pan-Indus seal type (31 texts, 8 sites, used on Kalibangan sealings; N = 3–6; size does not track N). 'Of N fish' heads a title phrase instead. Seals vary the number within one template as often as tablets do.
