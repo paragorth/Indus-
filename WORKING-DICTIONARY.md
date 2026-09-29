@@ -113,7 +113,26 @@ These show the dictionary in use. They are not translations.
 - Name-initial (B): W692/M150 (outlined X), W575/M197, W125/M28 (archer), W416/M173, W413, W920, W495. C gloss: a clan, deity or class word that begins a name.
 - Name-final (B): W840/M403 (double leaf), W460/M230 (three triangles), W435/M130, W440/M127, W717/M341, W70, W35, W690. C gloss: a name-forming ending ('-son', '-man', a hypocoristic suffix).
 
+## 9. Intuitive readings of the round (Gulf) seal signs (grade C; user-led, 29 Sept)
+| Sign | Picture | Intuitive meaning | Evidence so far | Would support / would kill |
+|---|---|---|---|---|
+| strokes 1–8 | tallies | the number itself | counting behaviour (A) | – |
+| 3 rows of 4 / 8 (W55, W56) | stroke blocks | '12' / '24': a standard batch or unit ('a dozen') | 12 is a fixed term, enriched abroad (S273, S284) | support: 12/24 totals on vouchers; kill: block counts that vary freely |
+| man W90 / W93 | standing person | 'man, person, agent' | person signs double abroad (S314) | support: '1 + man' listing pattern (S101) |
+| twins W91 | two men side by side | 'partners, a partnership, companions' | 28% of its texts are abroad (S274); next to numbers 39% vs 13% (S293) | support: twins mostly with numbers on trade objects; kill: twins on home office seals |
+| fish family | fish ± marks | a class word with qualifiers (kin, rank or office), **not** 'sea' | fixed qualifier order (S297, held-out S313); not coastal (S315) | – |
+| pitchfork W415 + leaf-tree W803 | Y-shaped fork; tree | a house or place name used abroad ('415-803-1' at Ur and Dilmun) | S99–S104 | support: the same pair on tags from one Gulf site |
+| jar W740 | vessel with handles | at home the default ending: 'store, steward, holder of goods' | closer paradigm (S289) | kill: shown to be counted goods only |
+| hatched box W527, toothed box W632 | grid / granary? | 'store, granary, storehouse' | closer with its own qualifiers (S303) | support: on tags from storage buildings |
+
+Reading of the Gulf seals with these (illustrative, not a translation):
+- no. 8 (Bahrain) 91-31-455-220: 'PARTNERS · 2 · [455] · FISH-word'
+- no. 9 (Saar) 55-220-91-1-93-31: 'TWELVE · FISH-word · PARTNERS · 1 · MAN · 2'
+- no. 15 (Iran) 91-840-413-831: 'PARTNERS · [name 840-413-831]'
+- no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
+
 ## Test log
+- S315: fish signs are not coastal (25.5% vs 23.5%, P = 0.34); 'fish = sea/seafarer' is dropped.
 - S314 (user idea: shared symbols, different syntax abroad): abroad, the frame words halve (P < 0.0001), persons double, numerals rise, and name elements stay at the home rate. Same script and name stock; a different text type ('person + count').
 - S313: true held-out replication at 67 other sites: name-element positions (P = 0.0005) and fish order (10:0, p = 0.002) hold.
 - S312 (audit): 'replicated in IM77' downgraded to 'transcription-robust'. The 'name' label for the middle is a gloss, not a result: uniqueness is what a bigram model predicts anyway.
