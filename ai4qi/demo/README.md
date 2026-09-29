@@ -10,8 +10,8 @@ suspected infection) receive IV antibiotics within 1 hour of their first ED NEWS
 | Step | What happens | Screen |
 |---|---|---|
 | 1 | Open the protocol (or build one on any topic from the home page) | `screens/02-protocol.jpg` |
-| 2 | Press **Choose this audit**; set a passcode so records are stored encrypted on the device | `screens/03-passcode.jpg` |
-| 3 | Add the audit details: site, lead, start date, records per cycle | `screens/05-details.jpg` |
+| 2 | Press **Choose this audit**. It opens straight away; records are stored encrypted on the device (a passcode is optional, under Protection in My audits) | |
+| 3 | Add the audit details: site, lead, start date, records per cycle. **Send to your supervisor**: the email and the Word proposal with a sign-off box | `screens/05-details.jpg`, `sepsis-audit-proposal.docx` |
 | 4 | Download the **Data sheet** (Excel). Fill the Data tab at work | `sepsis-audit-cycle1.xlsx` |
 | 5 | Upload the filled sheet. Hospital numbers are replaced with audit codes (P001…) before anything is stored | `screens/06-import-preview.jpg` |
 | 6 | Cycle 1 result: 23 of 40 (58%) against a 90% target. Commonest delay: not recognised as sepsis (8) | `screens/08-results-c1.jpg` |
@@ -28,8 +28,7 @@ device. Pasting the results code sends only totals, and the records never leave 
 Open the account menu (top right) and pick **Demo mode**, or go to `#/demo`. A gold bar confirms it
 is on. Each step then shows a dashed **Demo:** button:
 
-1. On the passcode page: **Demo: use a demo passcode**. This uses shared-computer storage, which
-   the browser clears when it closes.
+1. Press **Choose this audit** on any protocol: it opens straight away (no passcode).
 2. On the audit page, press the **Demo:** button in the Next step card six times: fill the
    details → fill cycle 1 data → go to the change → record the change → fill the re-audit →
    close the loop. It works for any audit, including ones built live on stage.
