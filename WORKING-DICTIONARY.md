@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S331–S332: five opener units (817-2, 861-2, 820-2/60, 920-60, 692-60), used everywhere. 920-60 takes the marked jar W741/742/745 next (46 of 65): a fixed formula '920-60-741'. The animal is independent of the text (user; S15, S200, S329).
 - S329: titles do not belong to houses (emblem × title P = 0.38).
 - S330: Lothal has no elephant seals (0/43); its 10 elephant bale sealings came from elsewhere, probably Mohenjo-daro. Kish seal = [name 416-840] · 60 · [title 3-220-590-390-740].
 - S327: second fish-qualified title: fish word(s) (+705-33) + 590-390 + jar, on unicorn seals at 7 cities. The Kish seal = home seal M-94 (3-220-590-390-740) + a prefix 416-840-60 (a local name/place?).
