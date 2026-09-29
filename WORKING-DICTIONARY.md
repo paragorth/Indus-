@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S322: after one legend per seal, real Mesopotamian names still repeat (ratio 0.62) while Indus middles do not (0.97). 'Middle = personal name' demoted to C–; a compound description (house/firm + person + office) fits as well.
 - S321: Indus middles are nearly as unique as random strings (ratio 0.97), while real Mesopotamian seal names repeat heavily (0.46, size-matched). 'Middle = personal name' is weakened; the middle may be a compound description. Caveat: repeated impressions inflate the Mesopotamian repeats.
 - S320: the substitution graph (texts differing in one sign) recovers the opener, fish and numeral paradigms blind. New pre-jar title class: W176 (seated person) ↔ W904, W636, W923, W61 (B: same slot; meanings C).
 - S318: no sign is specific to clay sealings. The opener is on sealings at half to nearly the seal rate, so 'sealed/closed' (user) stays possible. W400 is a tablet/rod word, not a sealing word.
