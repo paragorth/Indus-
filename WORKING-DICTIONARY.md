@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S335: 15 nameless seals read in full 'opener · of · N · tree' (N = 3–6). C gloss: allotment/share-holder seals ('holder of 3 tree-units').
 - S333 → corrected by S334: W2 and W60 behave alike (both 'of'); it is the opener W920 that always takes 60 + the marked jar (920-60-741: a fixed opening phrase).
 - S331–S332: five opener units (817-2, 861-2, 820-2/60, 920-60, 692-60), used everywhere. 920-60 takes the marked jar W741/742/745 next (46 of 65): a fixed formula '920-60-741'. The animal is independent of the text (user; S15, S200, S329).
 - S329: titles do not belong to houses (emblem × title P = 0.38).
