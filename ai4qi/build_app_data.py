@@ -112,7 +112,7 @@ def build_library(lib):
         row = {
             "id": a["id"],
             "t": a.get("title"),
-            "s": a.get("specialty"),
+            "s": re.sub(r"^Orthopaedics\b", "Trauma and orthopaedics", a.get("specialty") or "") or a.get("specialty"),
             "g": spec_group(a.get("specialty")),
             "tp": a.get("topic"),
             "st": a.get("standard"),
@@ -149,14 +149,18 @@ def build_library(lib):
 
 
 def build_proposed():
+    st = HERE / "new_audits" / "short_titles.json"          # 3-4 word names, e.g. for email subjects
+    short = json.loads(st.read_text(encoding="utf-8")) if st.exists() else {}
     out = []
-    for fname, group in (("ortho_new_audits.json", "Orthopaedics"), ("nonortho_new_audits.json", "")):
+    for fname, group in (("ortho_new_audits.json", "Trauma and orthopaedics"), ("nonortho_new_audits.json", "")):
         for p in json.load(open(HERE / "new_audits" / fname, encoding="utf-8")):
             q = tidy_all(dict(p))
             # Evidence lines are shown only when they cite a library entry.
             q["evidence"] = [e for e in q.get("evidence") or [] if re.search(r"\[\d+", e)]
             q["group"] = group or q.get("area")
             q["template_file"] = "templates/" + Path(p.get("template_file") or (p["id"] + ".csv")).name
+            if short.get(p["id"]):
+                q["short"] = short[p["id"]]
             out.append(clean(q))
     return out
 
@@ -334,6 +338,8 @@ def main():
     dump(DATA / "cards.json", cards)
     dump(DATA / "standards.json", standards)
     dump(DATA / "legal.json", build_legal(cfg))
+    og = HERE / "standards" / "organisations.json"          # NHS trusts, health boards, HSE regions (drop-down)
+    dump(DATA / "organisations.json", json.loads(og.read_text()) if og.exists() else {})
     nt = HERE / "standards" / "nice_titles.json"            # NICE titles for plain-words sources
     dump(DATA / "nice_titles.json", json.loads(nt.read_text()) if nt.exists() else {})
     write_security_txt(cfg)

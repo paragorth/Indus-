@@ -82,7 +82,7 @@ need(not re.search(r"sk-ant-|sb_secret_|service_role", code), "no API keys in th
 
 reminders = [
     "Domain bought and connected to Cloudflare Pages (runbook §1–2)",
-    "Supabase project in London, migrations 001–008 run, admin email added (runbook §3)",
+    "Supabase project in London, migrations 001–009 run, admin email added (runbook §3)",
     "Anthropic key and ALLOWED_ORIGIN in Supabase secrets; build-audit deployed; spend limit set (runbook §4)",
     "Resend domain verified; SMTP and reminder secrets set; send-reminders deployed and scheduled (runbook §5)",
     "ICO fee paid; number added to config.json legal.ico_number (runbook §6)",

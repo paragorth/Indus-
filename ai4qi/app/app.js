@@ -50,7 +50,7 @@
   function badge(text, kind) { return '<span class="badge' + (kind ? ' badge-' + kind : '') + '">' + esc(text) + '</span>'; }
   function loopBadge(a) { return a.lc ? badge('Closed loop', 'ok') : ''; }
   function ukBadge(a) { return a.uk ? badge('UK & Ireland', 'info') : ''; }
-  var PROPOSED_BADGE = badge('Proposed – not yet run', 'warn');
+  var PROPOSED_BADGE = badge('Ready-made audit', 'primary');
   var DRAFT_BADGE = badge('Draft – needs consultant sign-off', 'warn');
 
   function getJSON(url) {
@@ -245,8 +245,10 @@
   }
   function page(html, title, nav, keepScroll) {
     main.innerHTML = (DEMO ? demoBar() : '') + html;
-    var dt = document.querySelector('[data-demo-toggle]');
-    if (dt) { dt.textContent = DEMO ? 'Turn off demo mode' : 'Demo mode'; dt.setAttribute('href', DEMO ? '#/demo/off' : '#/demo'); }
+    document.querySelectorAll('[data-demo-toggle]').forEach(function (dt) {
+      dt.textContent = DEMO ? 'Turn off demo mode' : (dt.closest('.footer-links') ? 'Try demo mode' : 'Demo mode');
+      dt.setAttribute('href', DEMO ? '#/demo/off' : '#/demo');
+    });
     document.title = title ? title + ' · Ai4Qi' : 'Ai4Qi Clinical Audit Library';
     setNav(nav || '');
     if (!keepScroll) window.scrollTo(0, 0);
@@ -367,7 +369,7 @@
       });
       if (st.sp) {
         var spt = tokens(st.sp);
-        props = st.sp === 'Orthopaedics' ? S.proposed.filter(function (p) { return p.group === 'Orthopaedics'; })
+        props = st.sp === 'Trauma and orthopaedics' ? S.proposed.filter(function (p) { return p.group === 'Trauma and orthopaedics'; })
           : rank(S.propDocs, spt, '').sort(function (x, y) { return y.sc - x.sc; }).map(function (r) { return r.d.p; });
       } else props = [];
     }
@@ -517,6 +519,19 @@
     if (parts.length < 2) return '<p class="prose why-lead">' + linkify(t) + '</p>';
     return '<ul class="why-list">' + parts.map(function (x) { return '<li>' + linkify(x) + '</li>'; }).join('') + '</ul>';
   }
+  /* Data collection effort as a scale: "~15 min per 10 patients" -> Medium, marker on a green-to-red bar. */
+  function effortScale(t) {
+    t = String(t || ''); if (!t) return '';
+    var m = t.match(/(\d+)\s*(min|minutes|h|hours?)\b[^\d]*?(\d+)?\s*(patients|records|cases|notes)?/i);
+    var per10 = null;
+    if (m) { var v = +m[1] * (/^h/i.test(m[2]) ? 60 : 1), n = m[3] ? +m[3] : 10; per10 = v * 10 / (n || 10); }
+    var lvl = per10 == null ? null : per10 <= 10 ? 0 : per10 <= 20 ? 1 : 2;
+    var names = ['Easy', 'Medium', 'Hard'], pos = per10 == null ? 50 : Math.max(4, Math.min(96, per10 / 30 * 100));
+    return '<div class="effort"><span class="effort-h">Data collection effort' + (lvl == null ? '' : ': <b>' + names[lvl] + '</b>') + '</span>' +
+      '<div class="effort-bar" role="img" aria-label="' + attr((lvl == null ? '' : names[lvl] + ': ') + t) + '"><i style="left:' + pos + '%"></i></div>' +
+      '<div class="effort-scale" aria-hidden="true"><span>Easy</span><span>Medium</span><span>Hard</span></div>' +
+      '<p class="effort-t">' + esc(t.replace(/^~/, 'About ')) + '</p></div>';
+  }
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     extra = extra || {};
@@ -540,11 +555,11 @@
       sec(++n, 'Share and embed it', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
       '<div class="part-rule" role="separator"><span>Evidence and advice</span></div>' +
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
-      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '') +
       (pits || pearls ? '<section class="pp-box"><div class="pp-grid">' +
         (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul></div>' : '') +
         (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul></div>' : '') +
-        '</div></section>' : '');
+        '</div></section>' : '') +
+      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
   }
 
   /* ---------- send a proposal to a supervisor: a plain, friendly email + a Word proposal ---------- */
@@ -553,8 +568,24 @@
   function meSet(o) { try { localStorage.setItem(ME_KEY, JSON.stringify(o)); } catch (e) {} }
   // [key, label, type, needed before sending, remembered on this device]
   var SUP_FIELDS = [['lead', 'Your name', 'text', 1, 1], ['role', 'Your role or grade', 'text', 0, 1], ['email', 'Your email', 'email', 0, 1],
-    ['supervisor', 'Supervisor\'s name', 'text', 1, 1], ['supEmail', 'Supervisor\'s email', 'email', 1, 1], ['site', 'Hospital or practice', 'text', 1, 1],
+    ['supervisor', 'Supervisor\'s name', 'text', 1, 1], ['supEmail', 'Supervisor\'s email', 'email', 1, 1], ['site', 'Hospital, Trust or practice', 'text', 1, 1],
     ['department', 'Department or ward', 'text', 0, 1], ['startDate', 'Proposed start date', 'date', 1, 0], ['sampleSize', 'Records per cycle', 'number', 0, 0]];
+  // NHS trusts (England), health boards (Wales, Scotland), HSC trusts (NI) and HSE regions, for a typeahead list.
+  // Anyone can still type an organisation that is not on it.
+  var ORGS = null;
+  function orgList() {
+    if (!ORGS) {
+      getJSON('data/organisations.json').then(function (o) {
+        ORGS = o || {}; var dl = document.getElementById('org-list'); if (dl) dl.innerHTML = orgOptions();
+      }, function () { ORGS = {}; });
+      return '<datalist id="org-list"></datalist>';
+    }
+    return '<datalist id="org-list">' + orgOptions() + '</datalist>';
+  }
+  function orgOptions() {
+    var out = []; Object.keys(ORGS || {}).forEach(function (k) { (ORGS[k] || []).forEach(function (n) { out.push('<option value="' + attr(n) + '">' + esc(k) + '</option>'); }); });
+    return out.join('');
+  }
   function supRun(box) { var id = box.getAttribute('data-sup-run'); return id ? S.runs.get(id) : null; }
   function supWho(box) {
     var o = {}, f = box.querySelector('[data-sup-form]'), r = supRun(box);
@@ -633,7 +664,7 @@
       }
     });
     text = text.replace(/\n{3,}/g, '\n\n').replace(/\n+(?=[A-Z][A-Z' ]+\n)/g, '\n\n').trim();
-    return { subject: 'New audit proposal: ' + shortTitle(d.title || p.question), html: html, text: text };
+    return { subject: 'New audit proposal: ' + (p.short || (p.topic ? cap(p.topic) : '') || shortTitle(d.title || p.question)), html: html, text: text };
   }
   // Links sit at the bottom of the email and the proposal, never in the middle of a sentence.
   function supLinks(p) {
@@ -666,7 +697,7 @@
     var t = String(q || '').replace(/\s*\([^)]*\)/g, '').replace(/\?+\s*$/, '').trim()
       .replace(/^(what (proportion|percentage|share|fraction) of|what %( of)?|how (many|often|much)( of)?|in what proportion of|do|does|are|is|were|was)\s+/i, '');
     t = t.charAt(0).toUpperCase() + t.slice(1);
-    return trunc(t, 90);
+    return t.split(/\s+/).slice(0, 5).join(' ');
   }
   function supMissing(box) {
     var d = supWho(box);
@@ -682,8 +713,8 @@
       '<span><b>Send to your supervisor</b><small>A ready-to-send email and a Word proposal with a sign-off box</small></span></summary>' +
       '<div class="sup-body"><form class="det-form" data-sup-form novalidate>' + SUP_FIELDS.map(function (x) {
         return '<div class="rec-f"><label for="sp-' + x[0] + '">' + x[1] + (x[3] ? '' : ' <span class="muted">optional</span>') + '</label><input id="sp-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
-          (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="120"') + ' autocomplete="' + (x[0] === 'lead' ? 'name' : x[0] === 'email' ? 'email' : 'off') + '" value="' + attr(val[x[0]] || '') + '"></div>';
-      }).join('') + '</form>' +
+          (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="120"') + (x[0] === 'site' ? ' list="org-list"' : '') + ' autocomplete="' + (x[0] === 'lead' ? 'name' : x[0] === 'email' ? 'email' : 'off') + '" value="' + attr(val[x[0]] || '') + '"></div>';
+      }).join('') + '</form>' + orgList() +
       '<p class="sup-missing" data-sup-missing role="status"></p>' +
       '<div class="sup-mail"><div class="rec-f"><label for="sp-subj">Subject</label><input id="sp-subj" data-sup-subject></div>' +
       '<div class="rec-f"><span class="sup-lab" id="sp-body-l">Email <span class="muted">Click to edit before copying</span></span>' +
@@ -801,9 +832,7 @@
       '<a class="btn btn-secondary" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Template (CSV)</a>') + '<span class="copy-status" role="status" data-proto-status></span>';
 
-    var body = protocolBody(p, dl, { status: '<div class="status-box">' + PROPOSED_BADGE +
-        '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' +
-        (p.novelty ? '<span><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</span>' : '') + '</div>' }) +
+    var body = protocolBody(p, dl, { status: effortScale(p.effort) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : '') }) +
       feedbackBox(p.id);
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
@@ -882,7 +911,7 @@
     var loopTxt = !has(loop) ? 'Not reported' : cap(String(loop));
     var country = has(d.country) ? d.country : a.co;
     var meta = [
-      ['Specialty', esc(f.specialty)],
+      ['Specialty', esc(String(f.specialty || '').replace(/^Orthopaedics\b/, 'Trauma and orthopaedics'))],
       f.topic ? ['Topic', '<a href="' + topicHref(f.topic) + '">' + esc(f.topic) + '</a>'] : null,
       has(d.setting) ? ['Setting', esc(d.setting)] : null,
       country ? ['Country', esc(country)] : null,
@@ -1142,7 +1171,7 @@
     '- UK English. No preamble, no notes about your process, sources you lack, or uncertainty. Short, professional sentences.',
     '',
     'Reply with only one JSON object with exactly these keys:',
-    '{"question": string, "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (2-3 short, forceful sentences, each a separate point: the harm to patients, the gap in practice, why audit it now; lead with a number from the evidence where there is one; no hedging), ' +
+    '{"question": string, "short": string (the audit\'s name in 3-4 words, e.g. "Sepsis antibiotics within 1 hour"), "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (2-3 short, forceful sentences, each a separate point: the harm to patients, the gap in practice, why audit it now; lead with a number from the evidence where there is one; no hedging), ' +
     '"standard": {"source": string, "wording": string, "url": string or ""}, "pass": string, "population": string (include exclusions), ' +
     '"sample": string, "data_source": string, "template": [{"field": string, "type": string, "options": [string], "note": string}], "timeline": string, ' +
     '"change": string, "target": string (starts with e.g. "≥90%"), "reaudit": string, "close_loop": string, "evidence": [string], ' +
@@ -1179,7 +1208,7 @@
       id: builtId(q, n), variant: +n || 1, topic: q, built: new Date().toISOString().slice(0, 10),
       question: str(o.question), area: str(o.area),
       alternative: o.alternative && o.alternative.question ? { question: str(o.alternative.question), why: str(o.alternative.why) } : null,
-      why: str(o.why), standard: { source: str(st.source), wording: str(st.wording), url: safeUrl(str(st.url)) },
+      short: str(o.short).split(/\s+/).slice(0, 6).join(' '), why: str(o.why), standard: { source: str(st.source), wording: str(st.wording), url: safeUrl(str(st.url)) },
       pass: str(o.pass), population: str(o.population), sample: str(o.sample), data_source: str(o.data_source),
       template: (Array.isArray(o.template) ? o.template : []).filter(function (f) { return f && f.field; }).map(function (f) {
         return { field: str(f.field).replace(/[^A-Za-z0-9_]+/g, '_').toLowerCase(), type: str(f.type) || 'text',
@@ -1400,7 +1429,7 @@
     });
   }
 
-  var BUILT_BADGE = badge('Built for you – not yet run', 'warn');
+  var BUILT_BADGE = badge('Your bespoke audit', 'primary');
   function showBuilt(p, res, crumbs) {
     var dl = sheetButton(p.id) + copyBtn(p.id);
     if (p.similar) {
@@ -1412,9 +1441,7 @@
     var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
     var after = [];
     if (resHtml) after.push(['Published audits on this theme', resHtml]);
-    var status = '<div class="status-box">' + BUILT_BADGE +
-      (p.effort ? '<span><strong>Data collection effort:</strong> ' + esc(p.effort) + '</span>' : '') +
-      '<span><strong>Built:</strong> ' + esc(p.built) + '</span></div>';
+    var status = effortScale(p.effort);
     var body = protocolBody(p, dl, { status: status, after: after }) + feedbackBox(p.id) +
       '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
       'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
@@ -2148,7 +2175,20 @@
   function renderRuns() {
     if (vaultGate()) return;
     var list = Array.from(S.runs.values()).sort(function (a, b) { return (a.closed - b.closed) || String(b.updated).localeCompare(String(a.updated)); });
-    var body = list.length ? '<ul class="run-list">' + list.map(function (r) {
+    var open = list.filter(function (r) { return !r.closed; }), done = list.filter(function (r) { return r.closed; });
+    var startNew = '<section class="dash-new" aria-labelledby="dn-h"><h2 id="dn-h">Start a new audit</h2><div class="dash-actions">' +
+      '<a class="out-btn" href="#/"><b>Build an audit</b><span>On any topic, in under a minute</span></a>' +
+      '<a class="out-btn" href="#/suggest"><b>Suggested audits</b><span>Quickest to a closed loop</span></a>' +
+      '<a class="out-btn" href="#/proposed"><b>Browse ready-made audits</b><span>' + fmt(S.proposed.length) + ' protocols by specialty</span></a></div></section>';
+    var tiles = list.length ? '<div class="dash-tiles"><div><b>' + open.length + '</b><span>In progress</span></div><div><b>' + done.length + '</b><span>Completed</span></div>' +
+      '<div><b>' + list.filter(function (r) { var ns = nextStep(r); return !r.closed && !r.demo && ns.due && ns.due < todayIso(); }).length + '</b><span>Overdue steps</span></div></div>' : '';
+    function group(title, runs, empty) {
+      return '<section class="dash-group"><h2>' + title + ' <span class="count">' + runs.length + '</span></h2>' + (runs.length ? '<ul class="run-list">' + runs.map(runCard).join('') + '</ul>' : '<p class="muted">' + empty + '</p>') + '</section>';
+    }
+    var body = list.length ? group('In progress', open, 'Nothing in progress.') + group('Completed', done, 'None yet: close the loop on an audit and it moves here.') :
+      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p></div>';
+    body = tiles + startNew + body;
+    function runCard(r) {
       var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
       if (r.demo) ns.due = null;
       var overdue = ns.due && ns.due < todayIso();
@@ -2158,13 +2198,12 @@
         '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
         '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
         '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p></li>';
-    }).join('') + '</ul>' :
-      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p>' +
-      '<p><a class="btn" href="#/">Build an audit</a> <a class="btn btn-secondary" href="#/suggest">See suggested audits</a></p></div>';
+    }
     var pasteBox = '<details class="rec-box paste-any"><summary>Paste a results code</summary><form class="det-form" data-paste-any>' +
       '<div class="rec-f rec-wide"><label for="pa-code">Results code from the Ai4Qi data sheet</label><textarea id="pa-code" name="code" rows="2" placeholder="AI4QI v1 | NNA-245 | C1 30/42 n=45 | …"></textarea></div>' +
       '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-paste-status></span></div></form></details>';
-    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + pasteBox + body +
+    var hello = BE.user && BE.profile && BE.profile.full_name ? 'Welcome back, ' + esc(String(BE.profile.full_name).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i, '').split(/\s+/)[0]) + '. ' : '';
+    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + pasteBox + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
       protectionBox(), 'My audits', 'my-audits');
@@ -2673,7 +2712,7 @@
     'Dermatology', 'Emergency medicine', 'Endocrinology and diabetes', 'ENT', 'Gastroenterology',
     'General practice', 'General surgery', 'Haematology', 'Infectious diseases and microbiology',
     'Intensive care', 'Medical education', 'Neonatology', 'Neurology', 'Neurosurgery',
-    'Nursing and midwifery', 'Obstetrics and gynaecology', 'Oncology', 'Ophthalmology', 'Orthopaedics',
+    'Nursing and midwifery', 'Obstetrics and gynaecology', 'Oncology', 'Ophthalmology', 'Trauma and orthopaedics',
     'Paediatric surgery', 'Paediatrics', 'Palliative care', 'Pathology', 'Pharmacy', 'Plastic surgery',
     'Psychiatry', 'Radiology', 'Renal medicine', 'Respiratory', 'Rheumatology', 'Sexual health', 'Stroke',
     'Therapies and allied health', 'Urology', 'Vascular surgery', 'Other'];
@@ -2803,7 +2842,12 @@
   }
   function initialsOf(email) {
     var name = String((BE.profile && BE.profile.full_name) || '').replace(/\b(dr|mr|mrs|ms|miss|mx|prof|professor|sir|dame)\.?\s+/gi, '').trim().split(/\s+/).filter(Boolean);
-    if (name.length) return (name[0][0] + (name.length > 1 ? name[name.length - 1][0] : '')).toUpperCase();   // "Parag Garg" -> PG
+    if (name.length > 1) return (name[0][0] + name[name.length - 1][0]).toUpperCase();   // "Parag Garg" -> PG
+    if (name.length === 1) {                                 // "Parag" + paraggarg@... -> PG
+      var loc = String(email || '').split('@')[0].toLowerCase().replace(/[^a-z]/g, ''), first = name[0].toLowerCase();
+      var rest = loc.indexOf(first) === 0 ? loc.slice(first.length) : '';
+      return (name[0][0] + (rest ? rest[0] : '')).toUpperCase();
+    }
     var local = String(email || '').split('@')[0].replace(/[0-9]+/g, '');
     var parts = local.split(/[._\-+]+/).filter(Boolean);
     var s = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : local.slice(0, 2);
@@ -2986,8 +3030,8 @@
       ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or has already been used. Please request a new one.</div>'
       : '';
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
-      '<div class="doc narrow"><h1>' + esc(title || 'Sign in') + '</h1>' +
-      '<p class="page-intro">Signing in is free and takes a minute. You need it to build new audits and to get reminders; everything else works without it. There is no password: we email you a secure sign-in link.</p>' +
+      '<div class="doc narrow"><h1>' + esc(title || 'Sign in or create an account') + '</h1>' +
+      '<p class="page-intro"><strong>Already registered?</strong> Enter the same email and we will send you a sign-in link. <strong>New here?</strong> The same link creates your free account. There is no password. You need an account to build new audits and get reminders; everything else works without it.</p>' +
       err +
       '<form class="stack-form" data-signin novalidate>' +
       '<label for="acc-email">Email address</label>' +
@@ -3030,7 +3074,7 @@
       '<fieldset class="pf-me"><legend>For proposals you send</legend>' +
       '<p class="muted">Optional. Filled into the email and Word proposal you send to your supervisor. Never used in totals.</p>' +
       '<label for="pf-name">Your name</label><input id="pf-name" name="full_name" maxlength="120" autocomplete="name" value="' + attr(pf.full_name || '') + '">' +
-      '<label for="pf-org">Hospital or practice</label><input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" value="' + attr(pf.organisation || '') + '">' +
+      '<label for="pf-org">Hospital, Trust or practice <span class="muted">start typing to pick from the list</span></label><input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" list="org-list" value="' + attr(pf.organisation || '') + '">' + orgList() +
       '<label for="pf-dept">Department or ward</label><input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '"></fieldset>' +
       '<label for="pf-grade">Grade or role</label>' +
       '<select id="pf-grade" name="grade"><option value="">Prefer not to say</option>' + optionList(GRADES, pf.grade) + '</select>' +
@@ -3040,10 +3084,7 @@
       '<select id="pf-region" name="region"><option value="">Prefer not to say</option>' +
       '<optgroup label="England (NHS region)">' + optionList(REGIONS.slice(0, 7), pf.region) + '</optgroup>' +
       '<optgroup label="Elsewhere">' + optionList(REGIONS.slice(7), pf.region) + '</optgroup></select>' +
-      '<label for="pf-work">Where you work</label>' +
-      '<select id="pf-work" name="work_setting"><option value="">Prefer not to say</option>' + optionList(WORK_SETTINGS, pf.work_setting) + '</select>' +
-      '<label for="pf-purpose">Main reason for your audits</label>' +
-      '<select id="pf-purpose" name="audit_purpose"><option value="">Prefer not to say</option>' + optionList(AUDIT_PURPOSES, pf.audit_purpose) + '</select>' +
+
       '<fieldset class="consent"><legend>Emails</legend>' +
       '<label class="check"><input type="checkbox" name="reminders"' + (pf.reminders_off ? '' : ' checked') + '><span>Email me when a step in any of my audits is due (one email lists everything that is due).</span></label>' +
       '<label class="check"><input type="checkbox" name="consent_news"' + (pf.consent_news ? ' checked' : '') + '><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
@@ -3099,7 +3140,7 @@
       var pick = function (name, list) { var v = form.querySelector('[name="' + name + '"]').value; return list.indexOf(v) === -1 ? null : v; };
       var spec = pick('specialty', SPECIALTIES), grade = pick('grade', GRADES), region = pick('region', REGIONS);
       var row = { user_id: BE.user && BE.user.id, specialty: spec, grade: grade, region: region,
-        work_setting: pick('work_setting', WORK_SETTINGS), audit_purpose: pick('audit_purpose', AUDIT_PURPOSES),
+        work_setting: (BE.profile || {}).work_setting || null, audit_purpose: (BE.profile || {}).audit_purpose || null,
         consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked,
         full_name: form.elements.full_name.value.trim().slice(0, 120) || null, organisation: form.elements.organisation.value.trim().slice(0, 160) || null,
         department: form.elements.department.value.trim().slice(0, 120) || null, reminders_off: !form.elements.reminders.checked };
@@ -3115,6 +3156,7 @@
         if (row.reminders_off) sbClient().then(function (c2) { return c2.from('run_reminders').delete().eq('user_id', BE.user.id); }).catch(function () {});
         else syncAllRuns();                                  // audits on this device; others sync when opened
         btn.disabled = false; say('Your profile has been saved.');
+        setTimeout(function () { location.hash = '#/my-audits'; }, 600);
       }).catch(function () {
         btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);
       });
