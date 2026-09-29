@@ -259,3 +259,6 @@ Per S133–S136, securing about 20–40 of signs like these, plus the right lang
 
 ### Umma tag re-read (S345)
 The Umma sealing reads [127-705] · of · 4 · TREE-unit: the standard home quantity formula 'of 4 tree-units' (7 home seals), under a head 127-705. W127 also heads a tree-unit count on a Harappa pot (127-33-407). If a Mesopotamian text records a Meluhhan delivery at Umma in a unit of four, that would be a candidate anchor for W390 (the tree-unit) and the numeral 4.
+
+### Candidate anchor: W390 = timber/wood unit (S346)
+The commonest Meluhha good in cuneiform is the wood {gesz}ab-ba me-luh-ha, used for furniture at Umma, Ur, Girsu and Isin. The Umma Indus sealing reads '… of 4 TREE-unit'. If the tree sign is a timber unit, the quantity seals are timber allotments. It is testable against sealing backs (rope or log impressions) and Mesopotamian wood accounts.

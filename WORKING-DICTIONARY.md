@@ -63,7 +63,7 @@ Would support the "titles" reading: a closer that turns up on the same kind of o
 
 | Sign | Shape | Typical count | Working gloss | Grade |
 |---|---|---|---|---|
-| W390 / W405 (M161–169) | tree or branch | 3–6 | "tree / plant unit" (a crop measure, or an orchard) | B counted, C word |
+| W390 / W405 (M161–169) | tree or branch | 3–6 | "tree / plant unit"; **candidate: timber/wood unit** (S346: the Umma sealing 'of 4 tree-units' + Meluhha wood as the main Meluhha good at Umma) | B counted, C word |
 | W220 (M59) | plain fish | tall 2, 3, 6 | "fish" as a seal title term, not a ration: counted fish is on seals 85% of the time vs 70% for other counted items (S292) | C |
 | W900 (M287) | right bracket | 3, 4, 5 | a measure (half-circle = part?) | C |
 | W904, W407, W645, W384 | — | 2–4 | counted items | function B only |
