@@ -277,3 +277,18 @@ def adherence_query_set():
                     f'(ABSTRACT:"clinical audit" OR ABSTRACT:"retrospective audit" OR ABSTRACT:"prospective audit" OR '
                     f'ABSTRACT:"audited against" OR ABSTRACT:"audit cycle" OR ABSTRACT:"re-audit") AND {no_title} AND PUB_YEAR:{y}'))
     return out
+
+
+# Full-text sections (Sep 2026, wave 15): open-access papers whose Methods or Results describe an audit
+# cycle but whose title and abstract never say "audit". Screening and reading decide what counts.
+def fulltext_query_set():
+    out = []
+    no_ta = 'NOT (TITLE_ABS:audit OR TITLE_ABS:audits OR TITLE_ABS:audited OR TITLE_ABS:"re-audit")'
+    for y in range(2005, 2027):
+        out.append((f"fulltext methods {y}", None,
+                    f'(METHODS:"audit cycle" OR METHODS:"clinical audit" OR METHODS:"re-audit" OR METHODS:"closed-loop audit" OR '
+                    f'METHODS:"audit standard" OR METHODS:"audited against" OR METHODS:"Plan-Do-Study-Act") AND {no_ta} AND PUB_YEAR:{y}'))
+        out.append((f"fulltext results {y}", None,
+                    f'(RESULTS:"re-audit" OR RESULTS:"second audit cycle" OR RESULTS:"first audit cycle" OR RESULTS:"second cycle") AND '
+                    f'(METHODS:audit OR METHODS:PDSA) AND {no_ta} AND PUB_YEAR:{y}'))
+    return out

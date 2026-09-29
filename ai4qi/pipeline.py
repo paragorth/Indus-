@@ -97,6 +97,9 @@ def cmd_search(pas):
         if os.environ["AI4QI_SWEEP"] == "adherence":
             from queries import adherence_query_set
             qs = adherence_query_set()
+        if os.environ["AI4QI_SWEEP"] == "fulltext":
+            from queries import fulltext_query_set
+            qs = fulltext_query_set()
         if os.environ["AI4QI_SWEEP"] == "thin":
             from queries import thin_query_set
             qs = thin_query_set()
