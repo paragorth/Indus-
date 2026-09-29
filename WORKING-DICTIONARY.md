@@ -110,6 +110,7 @@ These show the dictionary in use. They are not translations.
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
 ## Test log
+- S303: each closer takes its own qualifier set (overlap 0.10, P = 0.0005 in both corpora). Title phrases: jar ← W760/W100/W176; arrow ← tall 3/fish; box W527 ← pincers; W617 ← man with staff; W154/158 ← leaf-tree; W700 ← tall numerals.
 - S302: the seated person (+ three-headed person) + jar phrase replicates in IM77 (p = 0.002; order 10:0); promoted from lead to B as a phrase template.
 - S301: second phrase template (lead): SEATED PERSON W176 (+ THREE-HEADED W100) + JAR. W100 is an optional middle member, like 'U-stroke 3' in the arrow phrase.
 - S300: the arrow phrase has a template in both corpora: fish word(s) (+ 705/706·33) + ARROW W520. 'U-stroke 3' (W705/706 + tall 3) is an optional middle member of that phrase (B).
