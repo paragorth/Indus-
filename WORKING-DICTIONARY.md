@@ -132,6 +132,7 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S316: twins W91 texts sit on trade objects (50% vs 16% matched; P = 0.004); the single man W90 does not (17% vs 17%). 'Twins = partners' rises to B– (n = 14, overlaps S274).
 - S315: fish signs are not coastal (25.5% vs 23.5%, P = 0.34); 'fish = sea/seafarer' is dropped.
 - S314 (user idea: shared symbols, different syntax abroad): abroad, the frame words halve (P < 0.0001), persons double, numerals rise, and name elements stay at the home rate. Same script and name stock; a different text type ('person + count').
 - S313: true held-out replication at 67 other sites: name-element positions (P = 0.0005) and fish order (10:0, p = 0.002) hold.
