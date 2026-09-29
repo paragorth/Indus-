@@ -98,7 +98,7 @@ agreement.
 | Anthropic | Writes audit protocols from the topic you type. It does not use them to train its models | United States |
 | Plausible Analytics | Counts visits | European Union |
 | Cloudflare Web Analytics (instead of Plausible, if we switch it on) | Counts visits | Global network |
-| [Cloudflare Pages / Netlify] | Serves the website | [location] |
+| Cloudflare Pages (Cloudflare, Inc.) | Serves the website | Global network; US company (UK Extension to the Data Privacy Framework, or SCCs with the UK Addendum) |
 | GitHub | Stores our code, and copies of feedback comments without user or device numbers | United States |
 
 We share data with others only if the law requires it.
