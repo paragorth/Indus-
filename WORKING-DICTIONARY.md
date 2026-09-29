@@ -110,6 +110,7 @@ These show the dictionary in use. They are not translations.
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
 ## Test log
+- S298: of eight shape families, only fish behaves as one stackable, ordered word class; person, jar, tree, U, triangle and box families do not. W100 (three heads) comes after another person sign (176-100 ×13, 140-100 ×7, never the reverse), so it acts as a title that attaches to other titles; the 'overseer' gloss stays C.
 - S297: the fish family replicates in IM77 (P = 0.004). Stacked fish keep a fixed order: hat (W235) → whiskers (W240) → bar (W233) → stroke (W231), transitive in all 6 pairs. Prediction for new texts.
 - S296: fish family confirmed as one word class (P ≈ 0.005); promoted to B.
 - S295: the pot sign set does not replicate in IM77 (89 pot texts, no Harappa post-1986 material); for now it is a Harappa/Kalibangan feature.
