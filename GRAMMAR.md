@@ -122,3 +122,6 @@ Template, in both corpora: fish word(s) in the order hat → whiskers → bar �
 
 ### The seated-person phrase (S301–S302)
 W176/M48 (seated person) (+ W100/M8, three-headed person) + jar W740/M342. M8 comes after M48 and never before it (Wells 13:0, IM77 10:0). Texts with M8-jar carry M48 earlier far above chance in both corpora.
+
+### Whole-corpus parse and name structure (S310–S311)
+The grammar labels 45.5% of held-out sign tokens (shuffled 25%). The residue is a 0–3-sign NAME in 71% of texts. Names have their own positions, replicated in IM77: name-initial W692/M150, W575/M197, W125/M28, W416/M173 (+ W413, W920, W495); name-final W840/M403, W460/M230, W435/M130, W440/M127, W717/M341 (+ W70, W35, W690).

@@ -109,7 +109,13 @@ These show the dictionary in use. They are not translations.
 | W480, W697 | pot marks | function B | pot-enriched (FDR) |
 | W790 (leaf) alone, W64 (M161) | bangle marks | function B | bangle-enriched (FDR) |
 
+## 8. Name elements (S311, replicated)
+- Name-initial (B): W692/M150 (outlined X), W575/M197, W125/M28 (archer), W416/M173, W413, W920, W495. C gloss: a clan, deity or class word that begins a name.
+- Name-final (B): W840/M403 (double leaf), W460/M230 (three triangles), W435/M130, W440/M127, W717/M341, W70, W35, W690. C gloss: a name-forming ending ('-son', '-man', a hypocoristic suffix).
+
 ## Test log
+- S310: the grammar labels 45.5% of all signs (shuffled 25%); the rest is a short NAME, 0–3 signs in 71% of texts.
+- S311: names have initial and final elements, replicated blind in IM77 (P = 0.0005).
 - S308 (user idea: title + name + village): no city-level place names (37 vs null 36). Inside Mohenjo-daro, 9 sign groups are tied to one quarter (null 4; P = 0.02), mostly DK-G South, e.g. 840-760, 61-171-35, 468-806. C gloss: ward or kin qualifier before the title.
 - S307: the copper-tablet ending replicates blind in IM77 (M169 final 11/65 vs 43/1,280; p = 3 × 10⁻⁵). Bridge by text alignment: W407 = M169 (tree series), W845 = M407.
 - S306: the copper tablets end in 845 (+61/63) + 407 (12% vs 1.2% of other Mohenjo-daro texts; p = 5 × 10⁻⁸), usually after a fish word. C gloss: W407 = unit or offering count; 845…407 = 'offering of / dedicated to'.
