@@ -132,6 +132,8 @@ Reading of the Gulf seals with these (illustrative, not a translation):
 - no. 21 (Ur) 415-803-1-717-354: '[house 415-803] · 1 · [name 717-354]'
 
 ## Test log
+- S329: titles do not belong to houses (emblem × title P = 0.38).
+- S330: Lothal has no elephant seals (0/43); its 10 elephant bale sealings came from elsewhere, probably Mohenjo-daro. Kish seal = [name 416-840] · 60 · [title 3-220-590-390-740].
 - S327: second fish-qualified title: fish word(s) (+705-33) + 590-390 + jar, on unicorn seals at 7 cities. The Kish seal = home seal M-94 (3-220-590-390-740) + a prefix 416-840-60 (a local name/place?).
 - S326: repeated texts mostly keep one animal (branches rare, P = 0.05); sealed goods flow out of Mohenjo-daro; zebu seals are largest (31 vs 27 mm, p = 0.0004), so the zebu is a candidate high-status house; the home title ending 590-390-740 (box · tree · jar) appears at Kish and Gonur Depe.
 - S322: after one legend per seal, real Mesopotamian names still repeat (ratio 0.62) while Indus middles do not (0.97). 'Middle = personal name' demoted to C–; a compound description (house/firm + person + office) fits as well.
