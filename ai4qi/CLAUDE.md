@@ -8,7 +8,7 @@ root CLAUDE.md is about a different project (the Indus script) and does not appl
 
 ## What is in it
 
-- `ai4qi-library.json`: `audits` (18,371 entries, numbered `id`), `topic_knowledge` (topic cards), `about`.
+- `ai4qi-library.json`: `audits` (18,635 entries, numbered `id`), `topic_knowledge` (topic cards), `about`.
   - ids 1–1145: the original library supplied by the user. Never edit these; treat them as ground truth.
   - ids 1146+: found by the pipeline (PubMed, Europe PMC, Crossref conference abstracts) and read by
     Claude. `status` says how solid each is: `published, detailed` (read and confirmed an audit),
