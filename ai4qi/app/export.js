@@ -1,6 +1,6 @@
 /*
- * Ai4Qi export helpers: data-collection workbook (.xlsx), results deck (.pptx)
- * and calendar (.ics). Plain ES5 in an IIFE, no build step.
+ * Ai4Qi export helpers: data-collection workbook (.xlsx), results deck (.pptx),
+ * proposal for a supervisor (.docx and .pptx) and calendar (.ics). Plain ES5 in an IIFE, no build step.
  *
  * Libraries are loaded lazily from this site's vendor/ folder (copies of the cdnjs builds):
  *   ExcelJS 4.4.0  https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js
@@ -8,7 +8,7 @@
  * PptxGenJS is not hosted on cdnjs, so the deck is written directly as OOXML
  * (PresentationML, bars drawn as editable shapes, speaker notes) and zipped with JSZip.
  *
- * API: window.AI4QI_EXPORT = { ready, templateXlsx, deckPptx, ics }
+ * API: window.AI4QI_EXPORT = { ready, templateXlsx, deckPptx, proposalDocx, proposalPptx, ics }
  */
 (function () {
   'use strict';
@@ -1244,10 +1244,16 @@
   }
 
   function deckPptx(run, stats) {
+    var ttl = clean((run && run.details && run.details.title) || (run && run.protocol && run.protocol.question) || 'Clinical audit results');
+    return packPptx(function (deck) { buildSlides(deck, run || {}, stats || {}); }, ttl);
+  }
+
+  // Zips slides made by build(deck) into a .pptx package.
+  function packPptx(build, ttl) {
     return withLibError(Promise.all([loadLib('JSZip'), logoPng()]).then(function (res) {
       var JSZip = res[0];
       var deck = { slides: [], logoPng: res[1] };
-      buildSlides(deck, run || {}, stats || {});
+      build(deck);
 
       var zip = new JSZip();
       var nS = deck.slides.length;
@@ -1276,7 +1282,6 @@
         ['rId2', 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties', 'docProps/core.xml'],
         ['rId3', REL + 'extended-properties', 'docProps/app.xml']]));
       var now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
-      var ttl = clean((run && run.details && run.details.title) || (run && run.protocol && run.protocol.question) || 'Clinical audit results');
       zip.file('docProps/core.xml', XMLH + '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
         '<dc:title>' + esc(trunc(ttl, 250)) + '</dc:title><dc:creator>Ai4Qi</dc:creator><cp:lastModifiedBy>Ai4Qi</cp:lastModifiedBy>' +
         '<dcterms:created xsi:type="dcterms:W3CDTF">' + now + '</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">' + now + '</dcterms:modified></cp:coreProperties>');
@@ -1324,6 +1329,421 @@
       return zip.generateAsync({ type: 'blob', compression: 'DEFLATE',
         mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
     }));
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 2b. Proposal for a supervisor: Word (.docx) and slides (.pptx)      */
+  /* ------------------------------------------------------------------ */
+
+  // "Wk 1–2 collect; Wk 3 analyse" -> [{a:1,b:2,label:'collect'}, ...]; null if it does not parse.
+  function timelineSteps(t) {
+    var out = [];
+    var ok = clean(t).split(/;\s*/).every(function (part) {
+      var m = /^\s*(?:wk|weeks?)\s*(\d+)\s*(?:[–—-]\s*(\d+))?\s*[:,]?\s*(.+)$/i.exec(part);
+      if (!m) return false;
+      out.push({ a: +m[1], b: +(m[2] || m[1]), label: capFirst(clean(m[3])) });
+      return true;
+    });
+    return ok && out.length ? out : null;
+  }
+  function weeksTotal(t) {
+    var s = timelineSteps(t);
+    return s ? Math.max.apply(null, s.map(function (x) { return x.b; })) : null;
+  }
+  function isNiceStd(st) { return /^\s*NICE\b/.test(str(st && st.source)) || /(^|\.)nice\.org\.uk\//i.test(str(st && st.url)); }
+  function niceNotice(st) {
+    var y = (str(st.source).match(/(19|20)\d\d(?!.*(19|20)\d\d)/) || [''])[0];
+    return '© NICE ' + y + ' ' + clean(str(st.source).replace(/^NICE\s*/, '')) + '. Available from ' + (clean(st.url) || 'www.nice.org.uk') +
+      '. All rights reserved. Subject to Notice of rights. NICE guidance is prepared for the National Health Service in England. ' +
+      'All NICE guidance is subject to regular review and may be updated or withdrawn. NICE accepts no responsibility for the use of its content in this product.';
+  }
+  // Example cell for the spreadsheet preview of the template.
+  function cellHint(f) {
+    var t = str(f.type).toLowerCase();
+    if (f.options && f.options.length) return '▾ ' + f.options.slice(0, 3).join(' / ') + (f.options.length > 3 ? ' …' : '');
+    if (/yes/.test(t)) return '▾ yes / no';
+    if (/datetime/.test(t)) return 'dd/mm/yyyy hh:mm';
+    if (/date/.test(t)) return 'dd/mm/yyyy';
+    if (/time/.test(t)) return 'hh:mm';
+    if (/num|min|hour|score|count/.test(t)) return '123';
+    if (/code|pseud|hospital_number|audit_code/i.test(f.field)) return 'P001';
+    return 'text';
+  }
+
+  /* ---- Word ---- */
+  var W_NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="' + NS_R + '"';
+  function wRun(text, o) {
+    o = o || {};
+    var pr = (o.font ? '<w:rFonts w:ascii="' + o.font + '" w:hAnsi="' + o.font + '" w:cs="' + o.font + '"/>' : '') +
+      (o.bold ? '<w:b/>' : '') + (o.italic ? '<w:i/>' : '') + (o.caps ? '<w:caps/>' : '') +
+      (o.color ? '<w:color w:val="' + o.color + '"/>' : '') + (o.spacing ? '<w:spacing w:val="' + o.spacing + '"/>' : '') +
+      (o.size ? '<w:sz w:val="' + Math.round(o.size * 2) + '"/><w:szCs w:val="' + Math.round(o.size * 2) + '"/>' : '') +
+      (o.link ? '<w:u w:val="single"/>' : '');
+    return str(text).split('\n').map(function (line, i) {
+      return (i ? '<w:r><w:br/></w:r>' : '') + '<w:r>' + (pr ? '<w:rPr>' + pr + '</w:rPr>' : '') + '<w:t xml:space="preserve">' + esc(line) + '</w:t></w:r>';
+    }).join('');
+  }
+  function wPara(runs, o) {
+    o = o || {};
+    var pr = (o.style ? '<w:pStyle w:val="' + o.style + '"/>' : '') + (o.keepNext ? '<w:keepNext/>' : '') +
+      (o.border ? '<w:pBdr><w:left w:val="single" w:sz="18" w:space="12" w:color="' + o.border + '"/></w:pBdr>' : '') +
+      (o.shade ? '<w:shd w:val="clear" w:color="auto" w:fill="' + o.shade + '"/>' : '') +
+      '<w:spacing w:before="' + (o.before || 0) + '" w:after="' + (o.after === undefined ? 120 : o.after) + '"' + (o.line ? ' w:line="' + o.line + '" w:lineRule="auto"' : '') + '/>' +
+      (o.indent ? '<w:ind w:left="' + o.indent + '"' + (o.hanging ? ' w:hanging="' + o.hanging + '"' : '') + '/>' : '') +
+      (o.align ? '<w:jc w:val="' + o.align + '"/>' : '');
+    return '<w:p><w:pPr>' + pr + '</w:pPr>' + (typeof runs === 'string' ? runs : runs.join('')) + '</w:p>';
+  }
+  function wCell(content, o) {
+    o = o || {};
+    return '<w:tc><w:tcPr><w:tcW w:w="' + o.w + '" w:type="dxa"/>' + (o.span ? '<w:gridSpan w:val="' + o.span + '"/>' : '') +
+      (o.fill ? '<w:shd w:val="clear" w:color="auto" w:fill="' + o.fill + '"/>' : '') +
+      '<w:tcMar><w:top w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:bottom w:w="' + (o.pad || 70) + '" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tcMar>' +
+      '<w:vAlign w:val="' + (o.vAlign || 'top') + '"/></w:tcPr>' + (content || wPara('', { after: 0 })) + '</w:tc>';
+  }
+  function wTable(widths, rows, o) {
+    o = o || {};
+    var b = o.grid || DECK.hairline, bw = o.gridW || 4;
+    var borders = ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(function (k) {
+      var none = o.noVertical && (k === 'left' || k === 'right' || k === 'insideV');
+      return '<w:' + k + ' w:val="' + (none ? 'nil' : 'single') + '" w:sz="' + bw + '" w:space="0" w:color="' + b + '"/>';
+    }).join('');
+    return '<w:tbl><w:tblPr><w:tblW w:w="' + widths.reduce(function (a, c) { return a + c; }, 0) + '" w:type="dxa"/><w:tblLayout w:type="fixed"/>' +
+      '<w:tblBorders>' + borders + '</w:tblBorders><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="1" w:noVBand="1"/></w:tblPr>' +
+      '<w:tblGrid>' + widths.map(function (w) { return '<w:gridCol w:w="' + w + '"/>'; }).join('') + '</w:tblGrid>' +
+      rows.map(function (r, i) {
+        return '<w:tr>' + (i === 0 && o.header ? '<w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>' : '<w:trPr><w:cantSplit/></w:trPr>') + r + '</w:tr>';
+      }).join('') + '</w:tbl>' + wPara('', { after: 60 });
+  }
+
+  function proposalDocx(protocol, who) {
+    var P = protocol || {}, D = who || {}, st = P.standard || {};
+    var docLinks = [];
+    return withLibError(loadLib('JSZip').then(function (JSZip) {
+      var FULL = 9638;                      // A4 text width in twips (2 cm margins)
+      var body = [], secN = 0, today = fmtDate(new Date());
+      var navy = DECK.navy, gold = DECK.gold, muted = DECK.muted;
+      function h1(t) { body.push(wPara(wRun(String(++secN), { color: gold, bold: true }) + '<w:r><w:tab/></w:r>' + wRun(t), { style: 'Heading1', keepNext: true })); }
+      function label(t) { body.push(wPara(wRun(t, { bold: true, caps: true, color: gold, size: 8.5, spacing: 20 }), { keepNext: true, after: 40, before: 120 })); }
+      function para(t, o) { if (clean(t)) body.push(wPara(wRun(clean(t), o), { line: 276 })); }
+      function bullets(list) {
+        list.forEach(function (t) {
+          if (clean(t)) body.push(wPara(wRun('•', { color: gold, bold: true }) + wRun('\t' + clean(t)), { indent: 360, hanging: 360, after: 80, line: 264 }));
+        });
+      }
+      var title = clean(D.title) || clean(P.question) || 'Clinical audit proposal';
+      var place = [D.department, D.site].map(clean).filter(Boolean).join(', ');
+
+      /* Masthead */
+      body.push(wPara(wRun('CLINICAL AUDIT PROPOSAL', { bold: true, color: gold, size: 9, spacing: 60 }), { after: 120 }));
+      body.push(wPara(wRun(title, { font: DECK_FONTS.head, size: 24, color: navy }), { after: 160, line: 252 }));
+      if (clean(D.title) && clean(P.question) && clean(D.title) !== clean(P.question)) para('Audit question: ' + clean(P.question), { italic: true, color: muted });
+      body.push(wPara(wRun([place, 'Prepared ' + today].filter(Boolean).join('   ·   '), { color: muted, size: 10 }),
+        { after: 240, border: null }));
+
+      /* At a glance */
+      var weeks = weeksTotal(P.timeline);
+      var glance = [
+        ['Audit lead', clean([D.lead, D.role].filter(Boolean).join(', ')) || '—'],
+        ['Supervisor', clean(D.supervisor) || '—'],
+        ['Where', place || '—'],
+        ['Proposed start', D.startDate ? fmtDate(D.startDate) : 'To agree'],
+        ['Records per cycle', clean(D.sampleSize) || words(stripParens(firstSentence(P.sample)), 10) || '—'],
+        ['Duration', weeks ? weeks + ' weeks to the first results, then re-audit' : '—'],
+        ['Target', clean(P.target) ? words(P.target, 18) : 'To agree'],
+        ['Reference', clean(P.id) || '—']
+      ];
+      var gw = [1900, FULL / 2 - 1900];
+      var rowsG = [];
+      for (var i = 0; i < glance.length; i += 2) {
+        var cells = '';
+        [glance[i], glance[i + 1]].forEach(function (g) {
+          cells += wCell(wPara(wRun(g[0].toUpperCase(), { bold: true, color: muted, size: 8, spacing: 20 }), { after: 0 }), { w: gw[0], fill: 'F6F4EE', vAlign: 'center' }) +
+            wCell(wPara(wRun(g[1], { color: navy, size: 10 }), { after: 0 }), { w: gw[1], vAlign: 'center' });
+        });
+        rowsG.push(cells);
+      }
+      body.push(wTable([gw[0], gw[1], gw[0], gw[1]], rowsG, { grid: 'E4E1D8' }));
+
+      /* 1 Why */
+      h1('Why this audit');
+      para(P.why);
+
+      /* 2 Standard */
+      h1('The standard');
+      if (clean(st.wording)) body.push(wPara(wRun('“' + clean(st.wording) + '”', { font: DECK_FONTS.head, italic: true, size: 12, color: navy }),
+        { border: gold, indent: 240, after: 120, line: 288 }));
+      if (clean(st.source)) body.push(wPara(wRun(clean(st.source), { color: muted, size: 9.5 }), { indent: 240, after: clean(st.url) ? 0 : 120 }));
+      if (/^https?:\/\//i.test(str(st.url))) {
+        docLinks.push(clean(st.url));
+        body.push(wPara('<w:hyperlink r:id="rIdL' + docLinks.length + '">' + wRun(clean(st.url), { color: '1F4E8C', size: 9, link: true }) + '</w:hyperlink>', { indent: 240, after: 120 }));
+      }
+      if (isNiceStd(st)) body.push(wPara(wRun(niceNotice(st), { color: muted, size: 7.5 }), { indent: 240, after: 160 }));
+
+      /* 3 Method */
+      h1('Method');
+      [['Who is included', P.population], ['Sample', P.sample], ['Where the data come from', P.data_source], ['What counts as a pass', P.pass]].forEach(function (x) {
+        if (!clean(x[1])) return;
+        label(x[0]); para(x[1]);
+      });
+
+      /* 4 Data collection sheet (spreadsheet look) */
+      var fields = (P.template || []).filter(function (f) { return f && f.field; });
+      if (fields.length) {
+        h1('Data collection sheet');
+        para('One row per patient, one column per question. Audit codes only: no names, NHS numbers or dates of birth.', { color: muted, size: 9.5 });
+        var shown = fields.slice(0, 8), rest = fields.slice(8);
+        var nW = 380, colW = Math.floor((FULL - nW) / shown.length);
+        var widths = [nW].concat(shown.map(function () { return colW; }));
+        var head = wCell(wPara('', { after: 0 }), { w: nW, fill: 'EDEDED', pad: 30 }) + shown.map(function (f, k) {
+          return wCell(wPara(wRun(String.fromCharCode(65 + k), { color: '6B6B6B', size: 8 }), { align: 'center', after: 0 }), { w: colW, fill: 'EDEDED', pad: 30 });
+        }).join('');
+        var hdr = wCell(wPara(wRun('1', { color: '6B6B6B', size: 8 }), { align: 'center', after: 0 }), { w: nW, fill: 'EDEDED' }) + shown.map(function (f) {
+          return wCell(wPara(wRun(humanLabel(f.field), { bold: true, color: 'FFFFFF', size: 8.5 }), { after: 0 }), { w: colW, fill: C.blue });
+        }).join('');
+        var hint = wCell(wPara(wRun('2', { color: '6B6B6B', size: 8 }), { align: 'center', after: 0 }), { w: nW, fill: 'EDEDED' }) + shown.map(function (f) {
+          return wCell(wPara(wRun(cellHint(f), { italic: true, color: '8A8A8A', size: 8 }), { after: 0 }), { w: colW });
+        }).join('');
+        var rowsX = [head, hdr, hint];
+        for (var r = 3; r <= 5; r++) {
+          rowsX.push(wCell(wPara(wRun(String(r), { color: '6B6B6B', size: 8 }), { align: 'center', after: 0 }), { w: nW, fill: 'EDEDED' }) +
+            shown.map(function () { return wCell(wPara('', { after: 0 }), { w: colW }); }).join(''));
+        }
+        body.push(wTable(widths, rowsX, { grid: 'C8C8C8', gridW: 4, header: true }));
+        if (rest.length) para('Further columns: ' + rest.map(function (f) { return humanLabel(f.field) + ' (' + cellHint(f).replace(/^▾ /, '') + ')'; }).join('; ') + '.', { size: 9.5, color: muted });
+        var notes = fields.filter(function (f) { return clean(f.note); });
+        if (notes.length) { label('Column notes'); bullets(notes.map(function (f) { return humanLabel(f.field) + ': ' + clean(f.note); })); }
+        para('The Ai4Qi Excel data sheet has these columns with drop-down lists and calculates the results automatically.', { size: 9.5, color: muted });
+      }
+
+      /* 5 Timeline */
+      var steps = timelineSteps(P.timeline);
+      if (steps || clean(P.timeline)) {
+        h1('Timeline');
+        if (steps) {
+          var tw = [1500, FULL - 1500];
+          body.push(wTable(tw, steps.map(function (sx) {
+            return wCell(wPara(wRun(sx.a === sx.b ? 'Week ' + sx.a : 'Weeks ' + sx.a + '–' + sx.b, { bold: true, color: gold, size: 10 }), { after: 0 }), { w: tw[0] }) +
+              wCell(wPara(wRun(sx.label, { color: navy, size: 10 }), { after: 0 }), { w: tw[1] });
+          }), { noVertical: true, grid: DECK.hairline }));
+        } else para(P.timeline);
+      }
+
+      /* 6-8 Change, re-audit, loop */
+      if (clean(P.change)) { h1('The change we will make'); para(P.change); }
+      if (clean(P.reaudit) || clean(P.target)) {
+        h1('Re-audit and target');
+        if (clean(P.target)) body.push(wPara(wRun('Target', { bold: true, caps: true, color: gold, size: 9, spacing: 20 }) + '<w:r><w:tab/></w:r>' + wRun(clean(P.target), { font: DECK_FONTS.head, size: 13, color: navy }), { after: 120 }));
+        para(P.reaudit);
+      }
+      if (clean(P.close_loop)) { h1('Closing the loop'); para(P.close_loop); }
+      if ((P.pitfalls || []).length) { h1('Risks and how we will handle them'); bullets(P.pitfalls.map(function (t) { return str(t).replace(/\s*→\s*/, ' → '); })); }
+      if ((P.evidence || []).length) { h1('Previous audits on this topic'); bullets(P.evidence); }
+
+      /* Approval */
+      body.push(wPara(wRun('Supervisor approval', { font: DECK_FONTS.head, size: 14, color: navy }), { before: 360, after: 120, keepNext: true }));
+      var aw = [2600, FULL - 2600];
+      body.push(wTable(aw, [
+        ['Supervisor', clean(D.supervisor)], ['Decision', '☐ Approved as written     ☐ Approved with changes     ☐ Not approved'],
+        ['Changes or comments', '\n\n'], ['Signature', ''], ['Date', '']
+      ].map(function (x) {
+        return wCell(wPara(wRun(x[0].toUpperCase(), { bold: true, color: muted, size: 8, spacing: 20 }), { after: 0 }), { w: aw[0], fill: 'F6F4EE', vAlign: 'center', pad: 140 }) +
+          wCell(wPara(wRun(x[1], { color: navy, size: 10 }), { after: 0 }), { w: aw[1], vAlign: 'center', pad: 140 });
+      }), { grid: 'E4E1D8' }));
+      para('Register the audit with your clinical audit department before collecting data.', { size: 9, color: muted });
+
+      var doc = XMLH + '<w:document ' + W_NS + '><w:body>' + body.join('') +
+        '<w:sectPr><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="11906" w:h="16838"/>' +
+        '<w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>';
+      var footer = XMLH + '<w:ftr ' + W_NS + '>' + wPara(
+        wRun('Audit proposal  ·  ' + trunc(title, 70) + '  ·  Prepared with Ai4Qi  ·  Page ', { color: DECK.grey, size: 8 }) +
+        '<w:r><w:rPr><w:color w:val="' + DECK.grey + '"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="' + DECK.grey + '"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r>' +
+        '<w:r><w:rPr><w:color w:val="' + DECK.grey + '"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="' + DECK.grey + '"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r>' +
+        '<w:r><w:rPr><w:color w:val="' + DECK.grey + '"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r>', { after: 0 }) + '</w:ftr>';
+      var styles = XMLH + '<w:styles ' + W_NS + '><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="' + DECK_FONTS.body + '" w:hAnsi="' + DECK_FONTS.body + '" w:cs="' + DECK_FONTS.body + '" w:eastAsia="' + DECK_FONTS.body + '"/>' +
+        '<w:color w:val="' + DECK.navy + '"/><w:sz w:val="21"/><w:szCs w:val="21"/><w:lang w:val="en-GB"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="264" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>' +
+        '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>' +
+        '<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/>' +
+        '<w:pPr><w:keepNext/><w:pBdr><w:top w:val="single" w:sz="4" w:space="8" w:color="' + DECK.hairline + '"/></w:pBdr><w:spacing w:before="300" w:after="120"/><w:outlineLvl w:val="0"/></w:pPr>' +
+        '<w:rPr><w:rFonts w:ascii="' + DECK_FONTS.head + '" w:hAnsi="' + DECK_FONTS.head + '" w:cs="' + DECK_FONTS.head + '"/><w:color w:val="' + DECK.navy + '"/><w:sz w:val="30"/><w:szCs w:val="30"/></w:rPr></w:style>' +
+        '<w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:left w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>';
+      var zip = new JSZip();
+      zip.file('[Content_Types].xml', XMLH + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>' +
+        '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>' +
+        '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>' +
+        '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>' +
+        '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>');
+      zip.file('_rels/.rels', relsDoc([['rId1', REL + 'officeDocument', 'word/document.xml'],
+        ['rId2', 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties', 'docProps/core.xml'], ['rId3', REL + 'extended-properties', 'docProps/app.xml']]));
+      var drels = XMLH + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+        '<Relationship Id="rIdS" Type="' + REL + 'styles" Target="styles.xml"/><Relationship Id="rIdF" Type="' + REL + 'footer" Target="footer1.xml"/>' +
+        docLinks.map(function (u, k) { return '<Relationship Id="rIdL' + (k + 1) + '" Type="' + REL + 'hyperlink" Target="' + esc(u) + '" TargetMode="External"/>'; }).join('') + '</Relationships>';
+      zip.file('word/_rels/document.xml.rels', drels);
+      zip.file('word/document.xml', doc);
+      zip.file('word/styles.xml', styles);
+      zip.file('word/footer1.xml', footer);
+      var now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+      zip.file('docProps/core.xml', XMLH + '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+        '<dc:title>' + esc(trunc('Audit proposal: ' + title, 250)) + '</dc:title><dc:creator>' + esc(clean(D.lead) || 'Ai4Qi') + '</dc:creator>' +
+        '<dcterms:created xsi:type="dcterms:W3CDTF">' + now + '</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">' + now + '</dcterms:modified></cp:coreProperties>');
+      zip.file('docProps/app.xml', XMLH + '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Ai4Qi</Application></Properties>');
+      return zip.generateAsync({ type: 'blob', compression: 'DEFLATE', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    }));
+  }
+
+  /* ---- Slides ---- */
+  function buildProposalSlides(deck, P, D) {
+    var std = P.standard || {}, today = fmtDate(new Date());
+    var title = clean(D.title) || clean(P.question) || 'Clinical audit proposal';
+    function add(bg) { var s = new Slide(deck, bg); deck.slides.push(s); if (deck.slides.length > 1) s.number(deck.slides.length); return s; }
+    function eyebrow(s, t) { s.text(t.toUpperCase(), X0, 0.75, 9, 0.3, { size: 11, bold: true, spc: 200, color: s.dark ? DECK.greyOnNavy : DECK.muted }); }
+    function headline(s, t) { s.text(t, X0, 0.7, XW, 1.0, { size: 32, min: 20, font: DECK_FONTS.head, color: s.dark ? DECK.paper : DECK.navy, lineSpacing: 0.95 }); }
+
+    /* 1. Title */
+    var s = add(DECK.navy);
+    s.text('AUDIT PROPOSAL', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.gold });
+    s.text(title, X0, 2.0, 10.4, 2.6, { size: 40, min: 24, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95 });
+    var sub = [[D.lead, D.role].map(clean).filter(Boolean).join(', '), D.department, D.site].map(function (v) { return trunc(clean(v), 60); }).filter(Boolean).join('  ·  ');
+    if (sub) s.text(sub, X0, 4.85, 10.4, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy });
+    s.text((clean(D.supervisor) ? 'For ' + clean(D.supervisor) + '  ·  ' : '') + today, X0, 5.3, 8, 0.35, { size: 12, color: DECK.greyOnNavy });
+    s.logo(X0, SH - 1.15, 0.42);
+    s.note('Audit proposal: ' + title, clean(P.question) ? 'Question: ' + clean(P.question) : '');
+
+    /* 2. Why */
+    if (clean(P.why)) {
+      s = add();
+      eyebrow(s, 'Why this audit');
+      var why = firstSentence(P.why);
+      if (why.split(/\s+/).length > 32) why = words(why, 30);
+      s.text(why, X0, 1.5, 9.6, 3.6, { size: 32, min: 20, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0, anchor: 'ctr' });
+      s.text('The question', X0, 5.55, 3, 0.3, { size: 11, bold: true, color: DECK.gold });
+      s.text(words(P.question, 35), X0, 5.85, 9.6, 0.75, { size: 14, min: 11, color: DECK.muted });
+      s.note(clean(P.why));
+    }
+
+    /* 3. Standard + target */
+    s = add();
+    eyebrow(s, 'The standard');
+    var tm = /(\d+(?:\.\d+)?)\s*%/.exec(str(P.target));
+    var qW = tm ? 8.0 : XW - 0.4;
+    s.line(X0, 1.6, X0, 4.9, DECK.gold, 1.25);
+    var quote = noStop(std.wording) || 'Standard to agree';
+    if (quote.split(/\s+/).length > 45) quote = words(quote, 40);
+    s.text('“' + quote + '”', X0 + 0.4, 1.5, qW, 3.5, { size: 28, min: 16, font: DECK_FONTS.head, italic: true, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
+    if (clean(std.source)) s.text(clean(std.source), X0 + 0.4, 5.3, qW, 0.6, { size: 12, min: 9, color: DECK.muted });
+    if (isNiceStd(std)) s.text(niceNotice(std), X0 + 0.4, 5.95, qW, 0.75, { size: 7, min: 6, color: DECK.grey });
+    if (tm) {
+      var tx = X0 + 0.4 + qW + 0.5;
+      s.text('Target', tx, 2.05, SW - X0 - tx, 0.3, { size: 11, bold: true, color: DECK.muted, spc: 200 });
+      s.text(tm[1] + '%', tx, 2.35, SW - X0 - tx, 1.3, { size: 80, min: 48, font: DECK_FONTS.head, color: DECK.gold });
+      var rest = clean(str(P.target).replace(/^[^%]*%/, ''));
+      if (rest) s.text(rest, tx, 3.7, SW - X0 - tx, 1.2, { size: 15, min: 10, color: DECK.navy });
+    }
+    s.note('Standard: ' + (clean(std.wording) || 'to agree'), clean(std.source) ? 'Source: ' + clean(std.source) : '', clean(std.url) ? 'Link: ' + clean(std.url) : '', clean(P.target) ? 'Target: ' + clean(P.target) : '');
+
+    /* 4. Method 2x2 */
+    s = add();
+    headline(s, 'How we will measure it');
+    var facts = [['Who', P.population], ['How many', clean(D.sampleSize) ? D.sampleSize + ' records per cycle' : P.sample], ['Where from', P.data_source], ['What counts as a pass', P.pass]];
+    var gx = [X0, X0 + XW / 2 + 0.25], gy = [2.15, 4.35], cw2 = XW / 2 - 0.25;
+    s.line(X0, gy[0] - 0.2, SW - X0, gy[0] - 0.2, DECK.hairline, 0.75);
+    s.line(X0, gy[1] - 0.2, SW - X0, gy[1] - 0.2, DECK.hairline, 0.75);
+    facts.forEach(function (f, k) {
+      var x = gx[k % 2], y = gy[Math.floor(k / 2)];
+      s.text(f[0].toUpperCase(), x, y, cw2, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
+      s.text(words(stripParens(firstSentence(f[1])), 16) || 'To agree', x, y + 0.4, cw2 - 0.3, 1.4, { size: 20, min: 13, color: DECK.navy, lineSpacing: 1.05 });
+    });
+    s.note('Population: ' + clean(P.population), 'Sample: ' + clean(P.sample), 'Data source: ' + clean(P.data_source), 'Pass: ' + clean(P.pass));
+
+    /* 5. Data sheet preview (spreadsheet look) */
+    var fields = (P.template || []).filter(function (f) { return f && f.field; });
+    if (fields.length) {
+      s = add();
+      headline(s, 'The data we will collect');
+      var shown = fields.slice(0, 7), nW = 0.45, top = 1.85, rh = 0.46;
+      var cw = (XW - nW) / shown.length;
+      s.rect(X0, top, XW, rh * 0.7, 'EDEDED');
+      shown.forEach(function (f, k) { s.text(String.fromCharCode(65 + k), X0 + nW + k * cw, top, cw, rh * 0.7, { size: 10, color: '6B6B6B', align: 'ctr', anchor: 'ctr' }); });
+      var y0 = top + rh * 0.7;
+      s.rect(X0 + nW, y0, XW - nW, rh * 1.6, C.blue);
+      for (var r = 0; r < 5; r++) {
+        var ry = r === 0 ? y0 : y0 + rh * 1.6 + (r - 1) * rh, hh = r === 0 ? rh * 1.6 : rh;
+        s.rect(X0, ry, nW, hh, 'EDEDED');
+        s.text(String(r + 1), X0, ry, nW, hh, { size: 10, color: '6B6B6B', align: 'ctr', anchor: 'ctr' });
+      }
+      shown.forEach(function (f, k) {
+        var x = X0 + nW + k * cw;
+        s.text(humanLabel(f.field), x + 0.06, y0, cw - 0.12, rh * 1.6, { size: 12, min: 8, bold: true, color: 'FFFFFF', anchor: 'ctr' });
+        s.text(cellHint(f), x + 0.06, y0 + rh * 1.6, cw - 0.12, rh, { size: 10, min: 7, italic: true, color: '8A8A8A', anchor: 'ctr' });
+      });
+      var bottom = y0 + rh * 1.6 + 4 * rh;
+      for (var g = 0; g <= shown.length; g++) s.line(X0 + nW + g * cw, top, X0 + nW + g * cw, bottom, 'C8C8C8', 0.5);
+      s.line(X0, top, X0, bottom, 'C8C8C8', 0.5);
+      [top, y0, y0 + rh * 1.6, y0 + rh * 2.6, y0 + rh * 3.6, y0 + rh * 4.6, bottom].forEach(function (yy) { s.line(X0, yy, SW - X0, yy, 'C8C8C8', 0.5); });
+      s.text((fields.length > shown.length ? '+ ' + (fields.length - shown.length) + ' more columns  ·  ' : '') +
+        'One row per patient  ·  audit codes only, no patient identifiers', X0, bottom + 0.25, XW, 0.35, { size: 12, color: DECK.muted });
+      s.note('Columns: ' + fields.map(function (f) { return humanLabel(f.field) + ' (' + cellHint(f).replace(/^▾ /, '') + ')'; }).join('; ') + '.');
+    }
+
+    /* 6. Timeline */
+    var steps = timelineSteps(P.timeline);
+    if (steps) {
+      s = add();
+      headline(s, 'Timeline');
+      var wk = Math.max.apply(null, steps.map(function (x) { return x.b; })), lx = X0 + 3.2, tw = SW - X0 - lx, per = tw / wk;
+      for (var w = 1; w <= wk; w++) s.text(String(w), lx + (w - 1) * per, 1.75, per, 0.3, { size: 10, color: DECK.grey, align: 'ctr' });
+      s.text('Week', X0, 1.75, 3, 0.3, { size: 10, color: DECK.grey });
+      var rowH = Math.min(0.7, 4.4 / steps.length);
+      steps.forEach(function (sx, i) {
+        var y = 2.2 + i * rowH;
+        s.text(sx.label, X0, y, 3.1, rowH * 0.8, { size: 15, min: 10, color: DECK.navy, anchor: 'ctr' });
+        s.rect(lx + (sx.a - 1) * per + 0.03, y + rowH * 0.15, (sx.b - sx.a + 1) * per - 0.06, rowH * 0.5, /embed|re-?audit/i.test(sx.label) ? DECK.gold : DECK.navy);
+      });
+      s.note('Timeline: ' + clean(P.timeline));
+    }
+
+    /* 7. Change + re-audit */
+    if (clean(P.change)) {
+      s = add();
+      eyebrow(s, 'If we fall short: the change');
+      var ch = clean((str(P.change).match(/[^.!?]+[.!?]+(\s|$)/g) || [P.change]).slice(0, 2).join(' '));
+      if (ch.split(/\s+/).length > 40) ch = words(ch, 38);
+      s.text(ch, X0, 1.5, 10.2, 3.4, { size: 28, min: 16, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
+      if (clean(P.reaudit)) {
+        s.text('RE-AUDIT', X0, 5.3, 3, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
+        s.text(words(P.reaudit, 30), X0, 5.6, 10.2, 0.9, { size: 14, min: 10, color: DECK.muted });
+      }
+      s.note('Change: ' + clean(P.change), 'Re-audit: ' + clean(P.reaudit), clean(P.close_loop) ? 'Closing the loop: ' + clean(P.close_loop) : '');
+    }
+
+    /* 8. The ask */
+    s = add(DECK.navy);
+    eyebrow(s, 'What I am asking');
+    var asks = ['Agree the standard, target and sample', 'Supervise the audit and sign off the protocol', 'Help register it with the clinical audit department'];
+    asks.forEach(function (t, i) {
+      var y = 1.7 + i * 1.35;
+      s.text(String(i + 1), X0, y - 0.12, 0.7, 0.8, { size: 44, font: DECK_FONTS.head, color: DECK.gold });
+      s.text(t, X0 + 0.9, y, 10.6, 0.8, { size: 26, min: 16, color: DECK.paper });
+    });
+    s.text([clean(D.lead), clean(D.email)].filter(Boolean).join('  ·  '), X0, 6.2, 10, 0.35, { size: 13, color: DECK.greyOnNavy });
+    s.note('Ask: ' + asks.join('; ') + '.');
+
+    /* 9. References */
+    var refs = [];
+    if (clean(std.source)) refs.push('Standard: ' + clean(std.source) + (clean(std.url) ? '. ' + clean(std.url) : ''));
+    (P.evidence || []).map(clean).filter(Boolean).forEach(function (e) { refs.push(e); });
+    if (refs.length > 1) {
+      s = add();
+      s.text('References', X0, 0.7, 8, 0.7, { size: 24, font: DECK_FONTS.head, color: DECK.navy });
+      refs = refs.slice(0, 10);
+      s.text(refs.join('\n'), X0, 1.7, XW * 0.8, 4.6, { size: 13, min: 8, color: DECK.muted, paraSpace: 0.8, lineSpacing: 1.05 });
+      s.text('Prepared with Ai4Qi  ·  ' + today, X0, SH - 0.62, 9, 0.3, { size: 10, color: DECK.grey, anchor: 'b' });
+    }
+  }
+  function proposalPptx(protocol, who) {
+    var P = protocol || {}, D = who || {};
+    return packPptx(function (deck) { buildProposalSlides(deck, P, D); }, 'Audit proposal: ' + (clean(D.title) || clean(P.question) || 'clinical audit'));
   }
 
   /* ------------------------------------------------------------------ */
@@ -1380,6 +1800,8 @@
     ready: ready,
     templateXlsx: templateXlsx,
     deckPptx: deckPptx,
+    proposalDocx: proposalDocx,
+    proposalPptx: proposalPptx,
     ics: ics,
     libraries: { exceljs: LIBS.ExcelJS.url, jszip: LIBS.JSZip.url }
   };

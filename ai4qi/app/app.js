@@ -412,7 +412,32 @@
           '" style="grid-column:' + s.a + ' / ' + (s.b + 1) + '">' + esc(weeksTxt) + '</div></div></div>';
       }).join('') + '</div>';
   }
+  function cellHint(f) {
+    var t = String(f.type || '').toLowerCase();
+    if (f.options && f.options.length) return '▾ ' + f.options.slice(0, 3).join(' / ') + (f.options.length > 3 ? ' …' : '');
+    if (/yes/.test(t)) return '▾ yes / no';
+    if (/cycle/.test(t)) return '▾ Cycle 1 / Re-audit';
+    if (/datetime/.test(t)) return 'dd/mm/yyyy hh:mm';
+    if (/date/.test(t)) return 'dd/mm/yyyy';
+    if (/time/.test(t)) return 'hh:mm';
+    if (/num|min|hour|score|count/.test(t)) return '123';
+    if (/code|pseud|hospital_number/i.test(f.field)) return 'P001';
+    return 'text';
+  }
+  function colName(i) { var n = i + 1, out = ''; while (n > 0) { var m = (n - 1) % 26; out = String.fromCharCode(65 + m) + out; n = Math.floor((n - 1) / 26); } return out; }
+  /* The template as it looks in the Excel data sheet: column letters, row numbers, headings, an example row. */
   function templateTable(p) {
+    var t = (p.template || []).filter(function (f) { return f && f.field; });
+    var sheet = '<div class="sheet-wrap" role="region" tabindex="0" aria-label="Data collection sheet, ' + t.length + ' columns"><table class="sheet">' +
+      '<caption class="visually-hidden">Data collection sheet for ' + esc(p.id) + ': one row per patient</caption>' +
+      '<thead><tr><th class="sh-corner" aria-hidden="true"></th>' + t.map(function (f, i) { return '<th class="sh-col" aria-hidden="true">' + colName(i) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      '<tr><th class="sh-row" aria-hidden="true">1</th>' + t.map(function (f) { return '<th scope="col" class="sh-head" title="' + attr(f.note || '') + '">' + esc(fieldLabel(f.field)) + '</th>'; }).join('') + '</tr>' +
+      '<tr><th class="sh-row" aria-hidden="true">2</th>' + t.map(function (f) { return '<td class="sh-hint">' + esc(cellHint(f)) + '</td>'; }).join('') + '</tr>' +
+      [3, 4, 5].map(function (n) { return '<tr aria-hidden="true"><th class="sh-row">' + n + '</th>' + t.map(function () { return '<td></td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div><p class="sheet-cap">One row per patient. ▾ marks a drop-down list in the Excel sheet.</p>';
+    return sheet + '<details class="field-notes"><summary>Column details (' + t.length + ')</summary>' + fieldTable(p) + '</details>';
+  }
+  function fieldTable(p) {
     var rows = (p.template || []).map(function (f) {
       var opts = (f.options || []).join(' / ');
       return '<tr><td data-label="Field"><code>' + esc(f.field).replace(/_/g, '_<wbr>') + '</code></td><td data-label="Type">' + esc(f.type) + '</td>' +
@@ -466,11 +491,115 @@
       (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
   }
 
+  /* ---------- send a proposal to a supervisor: email text + Word and PowerPoint files ---------- */
+  var ME_KEY = 'ai4qi_me_v1';
+  function meGet() { try { return JSON.parse(localStorage.getItem(ME_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function meSet(o) { try { localStorage.setItem(ME_KEY, JSON.stringify(o)); } catch (e) {} }
+  var SUP_FIELDS = [['lead', 'Your name', 'text'], ['role', 'Your role or grade', 'text'], ['email', 'Your email', 'email'],
+    ['supervisor', 'Supervisor\'s name', 'text'], ['supEmail', 'Supervisor\'s email', 'email'], ['site', 'Hospital or practice', 'text'], ['department', 'Department or ward', 'text']];
+  function supWho(box) {
+    var o = {}, f = box.querySelector('[data-sup-form]');
+    SUP_FIELDS.forEach(function (x) { o[x[0]] = (f.elements[x[0]].value || '').trim(); });
+    var r = box.getAttribute('data-sup-run') && S.runs.get(box.getAttribute('data-sup-run'));
+    if (r) { o.title = r.details.title; o.startDate = r.details.startDate; o.sampleSize = r.details.sampleSize; o.team = r.details.team; }
+    return o;
+  }
+  function supProtocol(box) {
+    var r = box.getAttribute('data-sup-run') && S.runs.get(box.getAttribute('data-sup-run'));
+    return r ? r.protocol : anyAudit(box.getAttribute('data-sup'));
+  }
+  function firstSent(t) { var m = String(t || '').match(/^[\s\S]*?[.!?](\s|$)/); return (m ? m[0] : String(t || '')).trim(); }
+  function supEmail(p, d) {
+    var st = p.standard || {}, sup = d.supervisor ? d.supervisor.trim() : '', place = [d.department, d.site].filter(Boolean).join(', ');
+    var wording = String(st.wording || '').replace(/\s+/g, ' ').trim(), ww = wording.split(' ');
+    if (ww.length > 45) wording = ww.slice(0, 42).join(' ').replace(/[.,;:]+$/, '') + '…';
+    var subject = 'Audit proposal for your approval: ' + trunc(d.title || p.question, 80);
+    var lines = [
+      'Dear ' + (sup || 'Dr [name]') + ',', '',
+      'I would like to run a clinical audit' + (place ? ' in ' + place : '') + ' and would be grateful if you would supervise it.', '',
+      'Question: ' + p.question,
+      'Standard: ' + (st.source || 'local standard') + (wording ? ' – "' + wording + '"' : ''),
+      p.target ? 'Target: ' + p.target : '',
+      'Sample: ' + (d.sampleSize ? d.sampleSize + ' records per cycle. ' : '') + (p.sample || ''),
+      p.timeline ? 'Timeline: ' + p.timeline : '',
+      p.change ? 'If we fall short: ' + firstSent(p.change) : '', '',
+      isNice(st) && wording ? 'NICE wording © NICE, reproduced under the NICE UK Open Content Licence; check the current version at ' + (st.url || 'www.nice.org.uk') + '.' : '',
+      '', 'I have attached a short proposal (Word) and slides (PowerPoint) with the full protocol, the data collection sheet and the timeline. They contain no patient data.', '',
+      'Could you let me know whether you are happy to supervise it, and whether you would change the standard, target or sample? Once it is agreed I will register it with the clinical audit department.', '',
+      'Many thanks,', d.lead || '[Your name]', d.role || '', d.email || ''];
+    return { subject: subject, body: lines.filter(function (l, i, a) { return l !== '' || a[i - 1] !== ''; }).join('\n').replace(/\n+$/, '') };
+  }
+  function supervisorBox(p, run) {
+    var me = meGet(), d = run ? run.details : {};
+    var val = { lead: d.lead || me.lead, role: me.role, email: me.email, supervisor: d.supervisor || me.supervisor, supEmail: me.supEmail, site: d.site || me.site, department: d.department || me.department };
+    return '<details class="sup-box no-print" id="send-supervisor" data-sup="' + attr(p.id) + '"' + (run ? ' data-sup-run="' + attr(run.id) + '"' : '') + '>' +
+      '<summary><span class="sup-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 6.5h18v11H3z M3 7l9 6.5L21 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>' +
+      '<span><b>Send to your supervisor</b><small>An email ready to send, with the proposal as a Word document and as slides</small></span></summary>' +
+      '<div class="sup-body"><form class="det-form" data-sup-form>' + SUP_FIELDS.map(function (x) {
+        return '<div class="rec-f"><label for="sp-' + x[0] + '">' + x[1] + '</label><input id="sp-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '" maxlength="120" autocomplete="' +
+          (x[0] === 'lead' ? 'name' : x[0] === 'email' ? 'email' : 'off') + '" value="' + attr(val[x[0]] || '') + '"></div>';
+      }).join('') + '</form>' +
+      '<div class="sup-mail"><div class="rec-f"><label for="sp-subj">Subject</label><input id="sp-subj" data-sup-subject readonly></div>' +
+      '<div class="rec-f"><label for="sp-body">Email <span class="muted">You can edit it before copying</span></label><textarea id="sp-body" rows="14" data-sup-body></textarea></div></div>' +
+      '<div class="out-grid sup-actions">' +
+      '<button class="out-btn" type="button" data-sup-docx><b>Proposal</b><span>Word, with a sign-off box</span></button>' +
+      '<button class="out-btn" type="button" data-sup-pptx><b>Proposal slides</b><span>PowerPoint, 8 slides</span></button>' +
+      '<button class="out-btn" type="button" data-sup-copy><b>Copy email</b><span>Paste into Outlook or NHSmail</span></button>' +
+      '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Then attach the files</span></a></div>' +
+      '<p class="muted sup-note">Download the files first and attach them to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Names and emails you type are remembered on this device only.</p>' +
+      '<p class="form-status" role="status" data-sup-status></p></div></details>';
+  }
+  function supRefresh(box, keepBody) {
+    var p = supProtocol(box); if (!p) return;
+    var d = supWho(box), m = supEmail(p, d);
+    box.querySelector('[data-sup-subject]').value = m.subject;
+    var ta = box.querySelector('[data-sup-body]');
+    if (!keepBody || !ta.value) ta.value = m.body;
+    box.querySelector('[data-sup-mailto]').href = 'mailto:' + encodeURIComponent(d.supEmail || '').replace(/%40/g, '@') +
+      '?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(ta.value);
+  }
+  document.addEventListener('toggle', function (e) {
+    var box = e.target;
+    if (box.matches && box.matches('.sup-box') && box.open) supRefresh(box, true);
+  }, true);
+  document.addEventListener('input', function (e) {
+    var box = e.target.closest && e.target.closest('.sup-box');
+    if (!box) return;
+    if (e.target.closest('[data-sup-form]')) {
+      var d = supWho(box), me = meGet();
+      SUP_FIELDS.forEach(function (x) { me[x[0]] = d[x[0]]; }); meSet(me);
+      supRefresh(box, false);
+    } else if (e.target.matches('[data-sup-body]')) supRefresh(box, true);
+  });
+  document.addEventListener('click', function (e) {
+    var open = e.target.closest('[data-sup-open]');
+    if (open) { var bx = document.getElementById('send-supervisor'); if (bx) { bx.open = true; bx.scrollIntoView({ behavior: 'smooth', block: 'start' }); bx.querySelector('input').focus({ preventScroll: true }); } return; }
+    var box = e.target.closest('.sup-box'); if (!box) return;
+    var st = box.querySelector('[data-sup-status]'), p = supProtocol(box); if (!p) return;
+    var d = supWho(box), name = fileSlug(d.title || p.question) + '-proposal';
+    if (e.target.closest('[data-sup-docx]')) {
+      sayIn(st, 'Making the Word proposal…');
+      exporter().then(function (x) { return x.proposalDocx(p, d); }).then(function (b) { return saveFile(name + '.docx', b); })
+        .then(function () { sayIn(st, 'Word proposal ready. Attach it to the email.'); }, function (err) { sayIn(st, downloadError(err)); });
+    } else if (e.target.closest('[data-sup-pptx]')) {
+      sayIn(st, 'Making the slides…');
+      exporter().then(function (x) { return x.proposalPptx(p, d); }).then(function (b) { return saveFile(name + '.pptx', b); })
+        .then(function () { sayIn(st, 'Slides ready. Attach them to the email.'); }, function (err) { sayIn(st, downloadError(err)); });
+    } else if (e.target.closest('[data-sup-copy]')) {
+      var txt = 'Subject: ' + box.querySelector('[data-sup-subject]').value + '\n\n' + box.querySelector('[data-sup-body]').value;
+      var ok = function () { sayIn(st, 'Email copied. Paste it into a new message.'); };
+      try {
+        navigator.clipboard.writeText(txt).then(ok, function () { box.querySelector('[data-sup-body]').select(); sayIn(st, 'Select all and copy the email text.'); });
+      } catch (err) { box.querySelector('[data-sup-body]').select(); sayIn(st, 'Select all and copy the email text.'); }
+    }
+  });
+
   function chooseActions(id) {
     var run = Array.from(S.runs.values()).filter(function (r) { return r.auditId === id && !r.closed; })[0];
     return (run ? '<a class="btn" href="#/run/' + attr(run.id) + '">Open in My audits</a>' :
       '<button class="btn" type="button" data-choose="' + attr(id) + '">Choose this audit</button>') +
       '<button class="btn btn-secondary" type="button" data-proto-xlsx="' + attr(id) + '">Data sheet (Excel)</button>' +
+      '<button class="btn btn-secondary" type="button" data-sup-open>Send to supervisor</button>' +
       '<span class="copy-status" role="status" data-proto-status></span>';
   }
   document.addEventListener('click', function (e) {
@@ -498,7 +627,7 @@
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
       '<div class="doc-actions">' + chooseActions(p.id) + (window.AI4QI_EMBED ? '' : '<button class="btn btn-secondary" type="button" data-print>Print protocol</button>') + '</div></header>' +
-      body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
+      supervisorBox(p) + body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
   }
 
@@ -1053,7 +1182,7 @@
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
       '<div class="doc-actions">' + chooseActions(p.id) + '</div>' + variantsNav(p) + '</header>' +
-      (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
+      supervisorBox(p) + (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
     showUsefulCount(p.id);
   }
@@ -1848,7 +1977,7 @@
       '<p class="privacy-note"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
       'Stored encrypted on this device only; identifiers are removed as records are entered. ' + privacyLink() +
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
-      sec(1, 'Audit details', detailsForm + remind) +
+      sec(1, 'Audit details', detailsForm + remind + supervisorBox(p, r)) +
       sec(2, 'Data', '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
         '<button type="button" role="tab" data-run-tab="c2" aria-selected="' + (ck === 'c2') + '">Re-audit <span class="count">' + st.cycles[1].n + '</span></button></div>' +
         '<div role="tabpanel">' + cyclePanel(r, ck, st) + '</div>') +
