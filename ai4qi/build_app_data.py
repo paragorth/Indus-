@@ -315,6 +315,8 @@ def main():
     dump(DATA / "cards.json", cards)
     dump(DATA / "standards.json", standards)
     dump(DATA / "legal.json", build_legal(cfg))
+    nt = HERE / "standards" / "nice_titles.json"            # NICE titles for plain-words sources
+    dump(DATA / "nice_titles.json", json.loads(nt.read_text()) if nt.exists() else {})
     write_security_txt(cfg)
 
     (APP / "templates").mkdir(parents=True, exist_ok=True)

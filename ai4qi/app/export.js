@@ -1,6 +1,6 @@
 /*
  * Ai4Qi export helpers: data-collection workbook (.xlsx), results deck (.pptx),
- * proposal for a supervisor (.docx and .pptx) and calendar (.ics). Plain ES5 in an IIFE, no build step.
+ * proposal for a supervisor (.docx) and calendar (.ics). Plain ES5 in an IIFE, no build step.
  *
  * Libraries are loaded lazily from this site's vendor/ folder (copies of the cdnjs builds):
  *   ExcelJS 4.4.0  https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js
@@ -8,7 +8,7 @@
  * PptxGenJS is not hosted on cdnjs, so the deck is written directly as OOXML
  * (PresentationML, bars drawn as editable shapes, speaker notes) and zipped with JSZip.
  *
- * API: window.AI4QI_EXPORT = { ready, templateXlsx, deckPptx, proposalDocx, proposalPptx, ics }
+ * API: window.AI4QI_EXPORT = { ready, templateXlsx, deckPptx, proposalDocx, ics }
  */
 (function () {
   'use strict';
@@ -20,7 +20,7 @@
   var loading = {};
 
   var C = {
-    blue: '3346D3', ink: '0E1626', muted: '586174', border: 'E0E3EB', tint: 'ECEEFC',
+    blue: '217346', ink: '0E1626', muted: '586174', border: 'E0E3EB', tint: 'E7F2EA',   // 'blue' is the sheet accent: Excel green
     mint: '7CF2C0', passText: '0B6A4A', amber: 'E0A91A', amberTint: 'FDF5E1', grey: 'B9C0CE',
     green: '16A574', white: 'FFFFFF', zebra: 'F7F8FD'
   };
@@ -81,6 +81,8 @@
   /* ------------------------------------------------------------------ */
 
   function str(v) { return v === null || v === undefined ? '' : String(v); }
+  // Standard sources in plain words (see humanSource in app.js); the raw reference when app.js is absent.
+  function hsrc(v) { return clean(window.AI4QI_humanSource ? window.AI4QI_humanSource(v) : v); }
   function clean(v) { return str(v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, '').replace(/\s+$/, ''); }
   function trunc(s, n) {
     s = clean(s);
@@ -426,7 +428,7 @@
         r.height = Math.max(20, Math.min(160, lines * (font.size || 11) * 1.35 + 8));
       }
       banner(1, clean(p.question) || 'Clinical audit', { name: FONT, size: 14, bold: true, color: { argb: 'FF' + C.ink } }, C.tint);
-      var stdLine = 'Standard: ' + (clean(std.wording) || 'not recorded') + (std.source ? '  \u2014  ' + clean(std.source) : '');
+      var stdLine = 'Standard: ' + (clean(std.wording) || 'not recorded') + (std.source ? '  \u2014  ' + hsrc(std.source) : '');
       banner(2, stdLine, { name: FONT, size: 10, italic: true, color: { argb: 'FF' + C.muted } }, C.tint);
       banner(3, 'Pass: ' + (clean(p.pass) || 'not defined') + (p.target ? '   |   Target: ' + clean(p.target) : ''),
         { name: FONT, size: 10, bold: true, color: { argb: 'FF' + C.passText } }, C.tint);
@@ -560,7 +562,7 @@
       info('Audit question', p.question);
       info('Clinical area', p.area);
       info('Standard', std.wording);
-      info('Standard source', std.source);
+      info('Standard source', hsrc(std.source));
       info('Standard URL', std.url, /^https?:\/\//i.test(str(std.url)));
       info('Pass definition', p.pass);
       info('Population', p.population);
@@ -1007,7 +1009,7 @@
     if (quote.split(/\s+/).length > 45) quote = words(quote, 40);
     s.text('\u201c' + quote + '\u201d', X0 + 0.4, 1.5, qW, 3.5,
       { size: 30, min: 18, font: DECK_FONTS.head, italic: true, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
-    if (clean(std.source)) s.text(clean(std.source), X0 + 0.4, 5.3, qW, 0.7, { size: 12, min: 9, color: DECK.muted });
+    if (clean(std.source)) s.text(hsrc(std.source), X0 + 0.4, 5.3, qW, 0.7, { size: 12, min: 9, color: DECK.muted });
     if (/^https?:\/\//i.test(str(std.url))) s.text(trunc(std.url, 110), X0 + 0.4, 6.05, qW, 0.3, { size: 10, min: 8, color: DECK.grey, link: clean(std.url) });
     if (target) {
       var tx = X0 + 0.4 + qW + 0.5;
@@ -1226,7 +1228,7 @@
 
     /* 10. References */
     var refs = [];
-    if (clean(std.source)) refs.push('Standard: ' + clean(std.source) + (clean(std.url) ? '. ' + clean(std.url) : ''));
+    if (clean(std.source)) refs.push('Standard: ' + hsrc(std.source) + (clean(std.url) ? '. ' + clean(std.url) : ''));
     (P.evidence || []).map(clean).filter(Boolean).forEach(function (e) { refs.push(e); });
     if (refs.length) {
       s = add();
@@ -1332,7 +1334,7 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* 2b. Proposal for a supervisor: Word (.docx) and slides (.pptx)      */
+  /* 2b. Proposal for a supervisor: Word (.docx)                        */
   /* ------------------------------------------------------------------ */
 
   // "Wk 1–2 collect; Wk 3 analyse" -> [{a:1,b:2,label:'collect'}, ...]; null if it does not parse.
@@ -1346,6 +1348,21 @@
     });
     return ok && out.length ? out : null;
   }
+  // Adds dates when a start date is known; "reminder" marks the steps Ai4Qi emails about when due
+  // (the same steps as schedule() in app.js: collect, analyse/present, change, re-audit).
+  function datedSteps(t, startIso) {
+    var steps = timelineSteps(t), st = parseYmd(startIso);
+    if (!steps) return null;
+    return steps.map(function (x) {
+      var o = { a: x.a, b: x.b, label: x.label, reminder: /collect|analy|present|change|re-?audit/i.test(x.label) && !/embed/i.test(x.label) };
+      if (st) {
+        o.from = new Date(st.getTime() + (x.a - 1) * 7 * 86400000);
+        o.to = new Date(st.getTime() + (x.b * 7 - 1) * 86400000);
+      }
+      return o;
+    });
+  }
+  function shortDate(d) { return d ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : ''; }
   function weeksTotal(t) {
     var s = timelineSteps(t);
     return s ? Math.max.apply(null, s.map(function (x) { return x.b; })) : null;
@@ -1472,7 +1489,7 @@
       h1('The standard');
       if (clean(st.wording)) body.push(wPara(wRun('“' + clean(st.wording) + '”', { font: DECK_FONTS.head, italic: true, size: 12, color: navy }),
         { border: gold, indent: 240, after: 120, line: 288 }));
-      if (clean(st.source)) body.push(wPara(wRun(clean(st.source), { color: muted, size: 9.5 }), { indent: 240, after: clean(st.url) ? 0 : 120 }));
+      if (clean(st.source)) body.push(wPara(wRun(hsrc(st.source), { color: muted, size: 9.5 }), { indent: 240, after: clean(st.url) ? 0 : 120 }));
       if (/^https?:\/\//i.test(str(st.url))) {
         docLinks.push(clean(st.url));
         body.push(wPara('<w:hyperlink r:id="rIdL' + docLinks.length + '">' + wRun(clean(st.url), { color: '1F4E8C', size: 9, link: true }) + '</w:hyperlink>', { indent: 240, after: 120 }));
@@ -1516,15 +1533,23 @@
       }
 
       /* 5 Timeline */
-      var steps = timelineSteps(P.timeline);
+      var steps = datedSteps(P.timeline, D.startDate);
       if (steps || clean(P.timeline)) {
         h1('Timeline');
         if (steps) {
-          var tw = [1500, FULL - 1500];
-          body.push(wTable(tw, steps.map(function (sx) {
-            return wCell(wPara(wRun(sx.a === sx.b ? 'Week ' + sx.a : 'Weeks ' + sx.a + '–' + sx.b, { bold: true, color: gold, size: 10 }), { after: 0 }), { w: tw[0] }) +
-              wCell(wPara(wRun(sx.label, { color: navy, size: 10 }), { after: 0 }), { w: tw[1] });
-          }), { noVertical: true, grid: DECK.hairline }));
+          var dated = !!steps[0].from;
+          var tw = dated ? [1400, 2300, FULL - 1400 - 2300 - 2400, 2400] : [1500, FULL - 1500 - 2400, 2400];
+          var head2 = ['Weeks'].concat(dated ? ['Dates'] : []).concat(['Step', 'Reminder']);
+          var trows = [head2.map(function (h, k) { return wCell(wPara(wRun(h.toUpperCase(), { bold: true, color: muted, size: 8, spacing: 20 }), { after: 0 }), { w: tw[k] }); }).join('')];
+          steps.forEach(function (sx) {
+            var cells = [wRun(sx.a === sx.b ? 'Week ' + sx.a : 'Weeks ' + sx.a + '\u2013' + sx.b, { bold: true, color: gold, size: 10 })];
+            if (dated) cells.push(wRun(shortDate(sx.from) + ' \u2013 ' + shortDate(sx.to), { color: navy, size: 10 }));
+            cells.push(wRun(sx.label, { color: navy, size: 10 }));
+            cells.push(sx.reminder ? wRun('\u25cf ', { color: gold, size: 10 }) + wRun('Email ' + (dated ? 'on ' + shortDate(sx.to) : 'when due'), { color: muted, size: 9.5 }) : wRun('', {}));
+            trows.push(cells.map(function (c, k) { return wCell(wPara(c, { after: 0 }), { w: tw[k] }); }).join(''));
+          });
+          body.push(wTable(tw, trows, { noVertical: true, grid: DECK.hairline, header: true }));
+          para('Reminders: Ai4Qi emails the audit lead when each marked step is due, once they sign in and switch reminders on for this audit. The emails hold only the audit question, the step and its date.', { size: 9, color: muted });
         } else para(P.timeline);
       }
 
@@ -1592,160 +1617,6 @@
     }));
   }
 
-  /* ---- Slides ---- */
-  function buildProposalSlides(deck, P, D) {
-    var std = P.standard || {}, today = fmtDate(new Date());
-    var title = clean(D.title) || clean(P.question) || 'Clinical audit proposal';
-    function add(bg) { var s = new Slide(deck, bg); deck.slides.push(s); if (deck.slides.length > 1) s.number(deck.slides.length); return s; }
-    function eyebrow(s, t) { s.text(t.toUpperCase(), X0, 0.75, 9, 0.3, { size: 11, bold: true, spc: 200, color: s.dark ? DECK.greyOnNavy : DECK.muted }); }
-    function headline(s, t) { s.text(t, X0, 0.7, XW, 1.0, { size: 32, min: 20, font: DECK_FONTS.head, color: s.dark ? DECK.paper : DECK.navy, lineSpacing: 0.95 }); }
-
-    /* 1. Title */
-    var s = add(DECK.navy);
-    s.text('AUDIT PROPOSAL', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.gold });
-    s.text(title, X0, 2.0, 10.4, 2.6, { size: 40, min: 24, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95 });
-    var sub = [[D.lead, D.role].map(clean).filter(Boolean).join(', '), D.department, D.site].map(function (v) { return trunc(clean(v), 60); }).filter(Boolean).join('  ·  ');
-    if (sub) s.text(sub, X0, 4.85, 10.4, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy });
-    s.text((clean(D.supervisor) ? 'For ' + clean(D.supervisor) + '  ·  ' : '') + today, X0, 5.3, 8, 0.35, { size: 12, color: DECK.greyOnNavy });
-    s.logo(X0, SH - 1.15, 0.42);
-    s.note('Audit proposal: ' + title, clean(P.question) ? 'Question: ' + clean(P.question) : '');
-
-    /* 2. Why */
-    if (clean(P.why)) {
-      s = add();
-      eyebrow(s, 'Why this audit');
-      var why = firstSentence(P.why);
-      if (why.split(/\s+/).length > 32) why = words(why, 30);
-      s.text(why, X0, 1.5, 9.6, 3.6, { size: 32, min: 20, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0, anchor: 'ctr' });
-      s.text('The question', X0, 5.55, 3, 0.3, { size: 11, bold: true, color: DECK.gold });
-      s.text(words(P.question, 35), X0, 5.85, 9.6, 0.75, { size: 14, min: 11, color: DECK.muted });
-      s.note(clean(P.why));
-    }
-
-    /* 3. Standard + target */
-    s = add();
-    eyebrow(s, 'The standard');
-    var tm = /(\d+(?:\.\d+)?)\s*%/.exec(str(P.target));
-    var qW = tm ? 8.0 : XW - 0.4;
-    s.line(X0, 1.6, X0, 4.9, DECK.gold, 1.25);
-    var quote = noStop(std.wording) || 'Standard to agree';
-    if (quote.split(/\s+/).length > 45) quote = words(quote, 40);
-    s.text('“' + quote + '”', X0 + 0.4, 1.5, qW, 3.5, { size: 28, min: 16, font: DECK_FONTS.head, italic: true, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
-    if (clean(std.source)) s.text(clean(std.source), X0 + 0.4, 5.3, qW, 0.6, { size: 12, min: 9, color: DECK.muted });
-    if (isNiceStd(std)) s.text(niceNotice(std), X0 + 0.4, 5.95, qW, 0.75, { size: 7, min: 6, color: DECK.grey });
-    if (tm) {
-      var tx = X0 + 0.4 + qW + 0.5;
-      s.text('Target', tx, 2.05, SW - X0 - tx, 0.3, { size: 11, bold: true, color: DECK.muted, spc: 200 });
-      s.text(tm[1] + '%', tx, 2.35, SW - X0 - tx, 1.3, { size: 80, min: 48, font: DECK_FONTS.head, color: DECK.gold });
-      var rest = clean(str(P.target).replace(/^[^%]*%/, ''));
-      if (rest) s.text(rest, tx, 3.7, SW - X0 - tx, 1.2, { size: 15, min: 10, color: DECK.navy });
-    }
-    s.note('Standard: ' + (clean(std.wording) || 'to agree'), clean(std.source) ? 'Source: ' + clean(std.source) : '', clean(std.url) ? 'Link: ' + clean(std.url) : '', clean(P.target) ? 'Target: ' + clean(P.target) : '');
-
-    /* 4. Method 2x2 */
-    s = add();
-    headline(s, 'How we will measure it');
-    var facts = [['Who', P.population], ['How many', clean(D.sampleSize) ? D.sampleSize + ' records per cycle' : P.sample], ['Where from', P.data_source], ['What counts as a pass', P.pass]];
-    var gx = [X0, X0 + XW / 2 + 0.25], gy = [2.15, 4.35], cw2 = XW / 2 - 0.25;
-    s.line(X0, gy[0] - 0.2, SW - X0, gy[0] - 0.2, DECK.hairline, 0.75);
-    s.line(X0, gy[1] - 0.2, SW - X0, gy[1] - 0.2, DECK.hairline, 0.75);
-    facts.forEach(function (f, k) {
-      var x = gx[k % 2], y = gy[Math.floor(k / 2)];
-      s.text(f[0].toUpperCase(), x, y, cw2, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
-      s.text(words(stripParens(firstSentence(f[1])), 16) || 'To agree', x, y + 0.4, cw2 - 0.3, 1.4, { size: 20, min: 13, color: DECK.navy, lineSpacing: 1.05 });
-    });
-    s.note('Population: ' + clean(P.population), 'Sample: ' + clean(P.sample), 'Data source: ' + clean(P.data_source), 'Pass: ' + clean(P.pass));
-
-    /* 5. Data sheet preview (spreadsheet look) */
-    var fields = (P.template || []).filter(function (f) { return f && f.field; });
-    if (fields.length) {
-      s = add();
-      headline(s, 'The data we will collect');
-      var shown = fields.slice(0, 7), nW = 0.45, top = 1.85, rh = 0.46;
-      var cw = (XW - nW) / shown.length;
-      s.rect(X0, top, XW, rh * 0.7, 'EDEDED');
-      shown.forEach(function (f, k) { s.text(String.fromCharCode(65 + k), X0 + nW + k * cw, top, cw, rh * 0.7, { size: 10, color: '6B6B6B', align: 'ctr', anchor: 'ctr' }); });
-      var y0 = top + rh * 0.7;
-      s.rect(X0 + nW, y0, XW - nW, rh * 1.6, C.blue);
-      for (var r = 0; r < 5; r++) {
-        var ry = r === 0 ? y0 : y0 + rh * 1.6 + (r - 1) * rh, hh = r === 0 ? rh * 1.6 : rh;
-        s.rect(X0, ry, nW, hh, 'EDEDED');
-        s.text(String(r + 1), X0, ry, nW, hh, { size: 10, color: '6B6B6B', align: 'ctr', anchor: 'ctr' });
-      }
-      shown.forEach(function (f, k) {
-        var x = X0 + nW + k * cw;
-        s.text(humanLabel(f.field), x + 0.06, y0, cw - 0.12, rh * 1.6, { size: 12, min: 8, bold: true, color: 'FFFFFF', anchor: 'ctr' });
-        s.text(cellHint(f), x + 0.06, y0 + rh * 1.6, cw - 0.12, rh, { size: 10, min: 7, italic: true, color: '8A8A8A', anchor: 'ctr' });
-      });
-      var bottom = y0 + rh * 1.6 + 4 * rh;
-      for (var g = 0; g <= shown.length; g++) s.line(X0 + nW + g * cw, top, X0 + nW + g * cw, bottom, 'C8C8C8', 0.5);
-      s.line(X0, top, X0, bottom, 'C8C8C8', 0.5);
-      [top, y0, y0 + rh * 1.6, y0 + rh * 2.6, y0 + rh * 3.6, y0 + rh * 4.6, bottom].forEach(function (yy) { s.line(X0, yy, SW - X0, yy, 'C8C8C8', 0.5); });
-      s.text((fields.length > shown.length ? '+ ' + (fields.length - shown.length) + ' more columns  ·  ' : '') +
-        'One row per patient  ·  audit codes only, no patient identifiers', X0, bottom + 0.25, XW, 0.35, { size: 12, color: DECK.muted });
-      s.note('Columns: ' + fields.map(function (f) { return humanLabel(f.field) + ' (' + cellHint(f).replace(/^▾ /, '') + ')'; }).join('; ') + '.');
-    }
-
-    /* 6. Timeline */
-    var steps = timelineSteps(P.timeline);
-    if (steps) {
-      s = add();
-      headline(s, 'Timeline');
-      var wk = Math.max.apply(null, steps.map(function (x) { return x.b; })), lx = X0 + 3.2, tw = SW - X0 - lx, per = tw / wk;
-      for (var w = 1; w <= wk; w++) s.text(String(w), lx + (w - 1) * per, 1.75, per, 0.3, { size: 10, color: DECK.grey, align: 'ctr' });
-      s.text('Week', X0, 1.75, 3, 0.3, { size: 10, color: DECK.grey });
-      var rowH = Math.min(0.7, 4.4 / steps.length);
-      steps.forEach(function (sx, i) {
-        var y = 2.2 + i * rowH;
-        s.text(sx.label, X0, y, 3.1, rowH * 0.8, { size: 15, min: 10, color: DECK.navy, anchor: 'ctr' });
-        s.rect(lx + (sx.a - 1) * per + 0.03, y + rowH * 0.15, (sx.b - sx.a + 1) * per - 0.06, rowH * 0.5, /embed|re-?audit/i.test(sx.label) ? DECK.gold : DECK.navy);
-      });
-      s.note('Timeline: ' + clean(P.timeline));
-    }
-
-    /* 7. Change + re-audit */
-    if (clean(P.change)) {
-      s = add();
-      eyebrow(s, 'If we fall short: the change');
-      var ch = clean((str(P.change).match(/[^.!?]+[.!?]+(\s|$)/g) || [P.change]).slice(0, 2).join(' '));
-      if (ch.split(/\s+/).length > 40) ch = words(ch, 38);
-      s.text(ch, X0, 1.5, 10.2, 3.4, { size: 28, min: 16, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
-      if (clean(P.reaudit)) {
-        s.text('RE-AUDIT', X0, 5.3, 3, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
-        s.text(words(P.reaudit, 30), X0, 5.6, 10.2, 0.9, { size: 14, min: 10, color: DECK.muted });
-      }
-      s.note('Change: ' + clean(P.change), 'Re-audit: ' + clean(P.reaudit), clean(P.close_loop) ? 'Closing the loop: ' + clean(P.close_loop) : '');
-    }
-
-    /* 8. The ask */
-    s = add(DECK.navy);
-    eyebrow(s, 'What I am asking');
-    var asks = ['Agree the standard, target and sample', 'Supervise the audit and sign off the protocol', 'Help register it with the clinical audit department'];
-    asks.forEach(function (t, i) {
-      var y = 1.7 + i * 1.35;
-      s.text(String(i + 1), X0, y - 0.12, 0.7, 0.8, { size: 44, font: DECK_FONTS.head, color: DECK.gold });
-      s.text(t, X0 + 0.9, y, 10.6, 0.8, { size: 26, min: 16, color: DECK.paper });
-    });
-    s.text([clean(D.lead), clean(D.email)].filter(Boolean).join('  ·  '), X0, 6.2, 10, 0.35, { size: 13, color: DECK.greyOnNavy });
-    s.note('Ask: ' + asks.join('; ') + '.');
-
-    /* 9. References */
-    var refs = [];
-    if (clean(std.source)) refs.push('Standard: ' + clean(std.source) + (clean(std.url) ? '. ' + clean(std.url) : ''));
-    (P.evidence || []).map(clean).filter(Boolean).forEach(function (e) { refs.push(e); });
-    if (refs.length > 1) {
-      s = add();
-      s.text('References', X0, 0.7, 8, 0.7, { size: 24, font: DECK_FONTS.head, color: DECK.navy });
-      refs = refs.slice(0, 10);
-      s.text(refs.join('\n'), X0, 1.7, XW * 0.8, 4.6, { size: 13, min: 8, color: DECK.muted, paraSpace: 0.8, lineSpacing: 1.05 });
-      s.text('Prepared with Ai4Qi  ·  ' + today, X0, SH - 0.62, 9, 0.3, { size: 10, color: DECK.grey, anchor: 'b' });
-    }
-  }
-  function proposalPptx(protocol, who) {
-    var P = protocol || {}, D = who || {};
-    return packPptx(function (deck) { buildProposalSlides(deck, P, D); }, 'Audit proposal: ' + (clean(D.title) || clean(P.question) || 'clinical audit'));
-  }
-
   /* ------------------------------------------------------------------ */
   /* 3. Calendar (.ics)                                                  */
   /* ------------------------------------------------------------------ */
@@ -1801,7 +1672,6 @@
     templateXlsx: templateXlsx,
     deckPptx: deckPptx,
     proposalDocx: proposalDocx,
-    proposalPptx: proposalPptx,
     ics: ics,
     libraries: { exceljs: LIBS.ExcelJS.url, jszip: LIBS.JSZip.url }
   };

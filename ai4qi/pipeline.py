@@ -81,6 +81,27 @@ def save(name, obj):
             os.remove(p + ".gz")
 
 
+# Source text sometimes arrives with broken characters (U+FFFD). Known words are repaired; a string that is
+# mostly broken (a garbled abstract) is emptied; otherwise the stray marks are dropped.
+FFFD_FIXES = {"M\ufffdxico": "México", "Bogot\ufffd": "Bogotá", "S\ufffdo Paulo": "São Paulo", "Espa\ufffda": "España"}
+
+
+def fix_text(o):
+    if isinstance(o, str):
+        if "\ufffd" not in o:
+            return o
+        for bad, good in FFFD_FIXES.items():
+            o = o.replace(bad, good)
+        if o.count("\ufffd") > max(3, len(o) // 20):
+            return ""
+        return re.sub(r"\s{2,}", " ", o.replace("\ufffd", "")).strip()
+    if isinstance(o, dict):
+        return {k: fix_text(v) for k, v in o.items()}
+    if isinstance(o, list):
+        return [fix_text(v) for v in o]
+    return o
+
+
 # ------------------------------------------------------------------ SEARCH
 
 def cmd_search(pas):
@@ -640,7 +661,7 @@ def norm_country(c):
 def _write_lib(lib):
     tmp = LIB + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(lib, f, ensure_ascii=False, indent=1)
+        json.dump(fix_text(lib), f, ensure_ascii=False, indent=1)
     os.replace(tmp, LIB)
 
 

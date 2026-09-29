@@ -26,7 +26,7 @@ for f in ("app.js", "styles.css", "config.json", "export.js"):
 os.makedirs(os.path.join(OUT, "vendor"), exist_ok=True)
 for f in ("exceljs.min.js", "jszip.min.js", "xlsx.mini.min.js"):
     shutil.copy(os.path.join(APP, "vendor", f), os.path.join(OUT, "vendor"))
-for f in ("proposed.json", "cards.json", "standards.json", "version.json", "legal.json"):
+for f in ("proposed.json", "cards.json", "standards.json", "version.json", "legal.json", "nice_titles.json"):
     shutil.copy(os.path.join(APP, "data", f), os.path.join(OUT, "data"))
 lib = json.load(open(os.path.join(APP, "data", "library.json"), encoding="utf-8"))
 rows = []

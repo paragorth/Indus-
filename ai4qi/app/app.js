@@ -141,12 +141,53 @@
     S.vocab = Array.from(vocab);
   }
 
+  /* ---------- standards in plain words ----------
+     "NICE NG253 rec 1.8.3 (November 2025, updated September 2026)" reads as
+     "NICE guideline on suspected sepsis in people aged 16 or over (NG253)"; other sources lose their
+     rec numbers, dates and "accessed" notes. The exact reference stays in the link and the NICE notice.
+     Titles come from data/nice_titles.json (standards/fetch_nice_titles.py). Used everywhere a source
+     is shown, including the downloads (export.js reads window.AI4QI_humanSource). */
+  var NICE_TITLES = {};
+  var NICE_KIND = { ng: 'guideline', cg: 'guideline', ph: 'guideline', nm: 'guideline', sc: 'guideline', qs: 'quality standard',
+    ta: 'technology appraisal', dg: 'diagnostics guidance', ipg: 'interventional procedures guidance', mtg: 'medical technologies guidance' };
+  function topicOf(t) {
+    t = String(t || '').split(':')[0].trim();
+    return /^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t;
+  }
+  function humanSource(src) {
+    src = String(src || '').replace(/\s+/g, ' ').trim();
+    if (!src) return '';
+    var codes = [], m, re = /\b(NG|CG|QS|PH|NM|TA|DG|IPG|MTG|SC)\s?(\d+)/gi;
+    if (/^\s*NICE\b/.test(src)) {
+      while ((m = re.exec(src))) { var c = (m[1] + m[2]).toLowerCase(); if (codes.indexOf(c) < 0) codes.push(c); }
+      if (codes.length) {
+        return codes.map(function (c, i) {
+          var k = c.replace(/\d+/, ''), code = c.toUpperCase(), t = NICE_TITLES[c], kind = NICE_KIND[k] || 'guidance';
+          if (!t) return (i ? '' : 'NICE ') + kind + ' ' + code;
+          if (/^guidance on /i.test(t)) return (i ? '' : 'NICE ') + topicOf(t) + ' (' + code + ')';
+          return (i ? '' : 'NICE ') + kind + ' on ' + topicOf(t) + ' (' + code + ')';
+        }).join(' and ');
+      }
+    }
+    var out = src
+      .replace(/\s*\((?:[^()]*\b(?:19|20)\d\d\b[^()]*|accessed[^()]*|updated[^()]*)\)/gi, '')   // (2015, updated 2023), (accessed 2026)
+      .replace(/,?\s*summarised on .*$/i, '')
+      .replace(/\bchapter\s+\d+[a-z]?,\s*/i, 'chapter on ')
+      .replace(/,?\s*\b(?:recs?|recommendations?|statements?|standards?|sections?|elements?|interventions?|para(?:graph)?s?|practice points?|criteri(?:on|a))\s+[\d.]+(?:\s*(?:and|,|&|–|-)\s*[\d.]+)*/gi, '')
+      .replace(/,\s*(?:19|20)\d\d\b(?:\s*guidance)?/g, '')
+      .replace(/\s*,\s*,/g, ',').replace(/[\s,;:–-]+$/, '').trim();
+    return out || src;
+  }
+  window.AI4QI_humanSource = humanSource;
+
   /* ---------- data loading ---------- */
   function load() {
     return Promise.all([
       getJSON('data/library.json'), getJSON('data/proposed.json'),
-      getJSON('data/cards.json'), getJSON('data/standards.json')
+      getJSON('data/cards.json'), getJSON('data/standards.json'),
+      getJSON('data/nice_titles.json').catch(function () { return {}; })
     ]).then(function (r) {
+      NICE_TITLES = r[4] || {};
       S.shard = r[0].shard || 100;
       S.lib = r[0].audits;
       S.lib.forEach(function (a) {
@@ -374,7 +415,7 @@
     return '<li class="result result-proposed"><div class="badges">' + PROPOSED_BADGE + badge(p.area, 'primary') +
       (p.novelty ? badge(cap(p.novelty)) : '') + '</div>' +
       '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(p.question) + '</a></h3>' +
-      '<p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · Standard: ' + esc(trunc(st.source, 110)) + '</p>' +
+      '<p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · Standard: ' + esc(trunc(humanSource(st.source), 110)) + '</p>' +
       '<p class="snippet">' + esc(trunc(p.why, 230)) + '</p></li>';
   }
   function pubResult(a) {
@@ -471,7 +512,7 @@
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     var how =
       sub('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
-        '<p class="standard-source">' + esc(st.source) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
+        '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
       sub('Pass', '<p class="prose">' + linkify(p.pass) + '</p>') +
       sub('Population', '<p class="prose">' + linkify(p.population) + '</p>') +
       sub('Sample', '<p class="prose">' + linkify(p.sample) + '</p>') +
@@ -491,72 +532,139 @@
       (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
   }
 
-  /* ---------- send a proposal to a supervisor: email text + Word and PowerPoint files ---------- */
+  /* ---------- send a proposal to a supervisor: a plain, friendly email + a Word proposal ---------- */
   var ME_KEY = 'ai4qi_me_v1';
   function meGet() { try { return JSON.parse(localStorage.getItem(ME_KEY) || '{}') || {}; } catch (e) { return {}; } }
   function meSet(o) { try { localStorage.setItem(ME_KEY, JSON.stringify(o)); } catch (e) {} }
-  var SUP_FIELDS = [['lead', 'Your name', 'text'], ['role', 'Your role or grade', 'text'], ['email', 'Your email', 'email'],
-    ['supervisor', 'Supervisor\'s name', 'text'], ['supEmail', 'Supervisor\'s email', 'email'], ['site', 'Hospital or practice', 'text'], ['department', 'Department or ward', 'text']];
+  // [key, label, type, needed before sending, remembered on this device]
+  var SUP_FIELDS = [['lead', 'Your name', 'text', 1, 1], ['role', 'Your role or grade', 'text', 0, 1], ['email', 'Your email', 'email', 0, 1],
+    ['supervisor', 'Supervisor\'s name', 'text', 1, 1], ['supEmail', 'Supervisor\'s email', 'email', 1, 1], ['site', 'Hospital or practice', 'text', 1, 1],
+    ['department', 'Department or ward', 'text', 0, 1], ['startDate', 'Proposed start date', 'date', 1, 0], ['sampleSize', 'Records per cycle', 'number', 0, 0]];
+  function supRun(box) { var id = box.getAttribute('data-sup-run'); return id ? S.runs.get(id) : null; }
   function supWho(box) {
-    var o = {}, f = box.querySelector('[data-sup-form]');
+    var o = {}, f = box.querySelector('[data-sup-form]'), r = supRun(box);
     SUP_FIELDS.forEach(function (x) { o[x[0]] = (f.elements[x[0]].value || '').trim(); });
-    var r = box.getAttribute('data-sup-run') && S.runs.get(box.getAttribute('data-sup-run'));
-    if (r) { o.title = r.details.title; o.startDate = r.details.startDate; o.sampleSize = r.details.sampleSize; o.team = r.details.team; }
+    if (r) { o.title = r.details.title; o.team = r.details.team; }
     return o;
   }
-  function supProtocol(box) {
-    var r = box.getAttribute('data-sup-run') && S.runs.get(box.getAttribute('data-sup-run'));
-    return r ? r.protocol : anyAudit(box.getAttribute('data-sup'));
-  }
+  function supProtocol(box) { var r = supRun(box); return r ? r.protocol : anyAudit(box.getAttribute('data-sup')); }
   function firstSent(t) { var m = String(t || '').match(/^[\s\S]*?[.!?](\s|$)/); return (m ? m[0] : String(t || '')).trim(); }
+  function lowerFirst(t) { t = String(t || ''); return /^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
+  function noDot(t) { return String(t || '').trim().replace(/[.\s]+$/, ''); }
+  function standardQuote(st) {
+    var w = String(st.wording || '').replace(/\s+/g, ' ').replace(/\s*\.\.\.\s*/g, ' ').trim();
+    w = w.replace(/^\d+(\.\d+)+\s+/, '').replace(/\s*\[\d{4}[^\]]*\]/g, '');
+    w = firstSent(w);
+    var ww = w.split(' ');
+    if (ww.length > 38) w = ww.slice(0, 34).join(' ').replace(/[.,;:]+$/, '') + '…';
+    return noDot(w);
+  }
+  function targetPhrase(t) {
+    t = String(t || '').trim();
+    var m = t.match(/^([≥>≤<]?)\s*(\d+(?:\.\d+)?)\s*%\s*(.*)$/);
+    if (!m) return t ? 'Our target is ' + lowerFirst(noDot(t)) + '.' : '';
+    var more = m[1] === '≤' || m[1] === '<' ? ' or less' : m[1] ? ' or more' : '';
+    return 'We are aiming for ' + m[2] + '%' + more + (m[3] ? ' (' + noDot(m[3]).replace(/^[,;:\s-]+/, '') + ')' : '') + '.';
+  }
+  function supTimeline(p, start) {
+    var segs = parseTimeline(p.timeline);
+    if (!segs) return p.timeline ? [p.timeline] : [];
+    return segs.map(function (s) {
+      var wk = s.a === s.b ? 'Week ' + s.a : 'Weeks ' + s.a + '–' + s.b;
+      var when = start ? ' (' + (s.a === s.b ? 'w/c ' + dateGBs(addDays(start, (s.a - 1) * 7)).replace(/ \d{4}$/, '') :
+        dateGBs(addDays(start, (s.a - 1) * 7)).replace(/ \d{4}$/, '') + ' – ' + dateGBs(addDays(start, s.b * 7 - 1)).replace(/ \d{4}$/, '')) + ')' : '';
+      return wk + when + ': ' + lowerFirst(s.label).replace(/\//g, ' and ');
+    });
+  }
+  /* The email: {subject, html, text}. Written the way a trainee would write it. */
   function supEmail(p, d) {
-    var st = p.standard || {}, sup = d.supervisor ? d.supervisor.trim() : '', place = [d.department, d.site].filter(Boolean).join(', ');
-    var wording = String(st.wording || '').replace(/\s+/g, ' ').trim(), ww = wording.split(' ');
-    if (ww.length > 45) wording = ww.slice(0, 42).join(' ').replace(/[.,;:]+$/, '') + '…';
-    var subject = 'Audit proposal for your approval: ' + trunc(d.title || p.question, 80);
-    var lines = [
-      'Dear ' + (sup || 'Dr [name]') + ',', '',
-      'I would like to run a clinical audit' + (place ? ' in ' + place : '') + ' and would be grateful if you would supervise it.', '',
-      'Question: ' + p.question,
-      'Standard: ' + (st.source || 'local standard') + (wording ? ' – "' + wording + '"' : ''),
-      p.target ? 'Target: ' + p.target : '',
-      'Sample: ' + (d.sampleSize ? d.sampleSize + ' records per cycle. ' : '') + (p.sample || ''),
-      p.timeline ? 'Timeline: ' + p.timeline : '',
-      p.change ? 'If we fall short: ' + firstSent(p.change) : '', '',
-      isNice(st) && wording ? 'NICE wording © NICE, reproduced under the NICE UK Open Content Licence; check the current version at ' + (st.url || 'www.nice.org.uk') + '.' : '',
-      '', 'I have attached a short proposal (Word) and slides (PowerPoint) with the full protocol, the data collection sheet and the timeline. They contain no patient data.', '',
-      'Could you let me know whether you are happy to supervise it, and whether you would change the standard, target or sample? Once it is agreed I will register it with the clinical audit department.', '',
-      'Many thanks,', d.lead || '[Your name]', d.role || '', d.email || ''];
-    return { subject: subject, body: lines.filter(function (l, i, a) { return l !== '' || a[i - 1] !== ''; }).join('\n').replace(/\n+$/, '') };
+    var st = p.standard || {}, place = d.department && d.site ? 'the ' + d.department.replace(/^the\s+/i, '') + ' at ' + d.site : (d.department || d.site || '');
+    var name = d.supervisor ? d.supervisor.trim() : '[supervisor\'s name]';
+    var quote = standardQuote(st), sName = humanSource(st.source) || 'our local standard';
+    if (/^NICE /.test(sName)) sName = 'the ' + sName;
+    var stdLine = 'We\'ll measure this against ' + sName + (quote ? ', which says: “' + quote + '”.' : '.');
+    var sample = d.sampleSize ? 'We\'ll look at ' + d.sampleSize + ' patients in each cycle, and do the same again at re-audit.' :
+      (p.sample ? 'Sample: ' + noDot(firstSent(p.sample)) + '.' : '');
+    var change = p.change ? 'If we fall short, the plan is to ' + lowerFirst(noDot(firstSent(p.change))).replace(/^(build|put|add|introduce|create|use|make|run|start|set|change|move|give|train|display|embed)\b/i, function (m) { return m.toLowerCase(); }) + '.' : '';
+    var blocks = [
+      { p: 'Dear ' + name + ',' },
+      { p: 'I\'d like to run a clinical audit' + (place ? ' in ' + place : '') + ', and I was hoping you might supervise it.' },
+      { h: 'The audit' },
+      { p: 'The question: ' + noDot(p.question).replace(/\?+$/, '') + '?' },
+      { p: stdLine + (targetPhrase(p.target) ? ' ' + targetPhrase(p.target) : '') },
+      { h: 'How we\'ll do it' },
+      { p: [sample, change].filter(Boolean).join(' ') },
+      { h: 'Timeline' + (d.startDate ? ', starting ' + dateGBs(d.startDate) : '') },
+      { list: supTimeline(p, d.startDate) },
+      { h: 'What I\'d need from you' },
+      { list: ['To agree the standard, the target and the sample', 'To supervise the audit and sign off the protocol', 'A hand registering it with the clinical audit department'] },
+      { p: 'I\'ve attached a short proposal (Word) with the full details and a sign-off box. There\'s no patient data in it.' },
+      { p: 'Would you be happy to supervise? I\'m glad to talk it through whenever suits you.' },
+      { p: 'Best wishes,', sig: [d.lead || '[your name]', d.role, d.email].filter(Boolean) }
+    ];
+    var html = '', text = '';
+    blocks.forEach(function (b) {
+      if (b.h) { html += '<p style="margin:16px 0 4px"><strong>' + esc(b.h) + '</strong></p>'; text += '\n' + b.h.toUpperCase() + '\n'; }
+      else if (b.list) { if (!b.list.length) return; html += '<ul style="margin:0 0 8px;padding-left:20px">' + b.list.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'; text += b.list.map(function (x) { return '- ' + x; }).join('\n') + '\n'; }
+      else if (b.p) {
+        html += '<p style="margin:0 0 8px">' + esc(b.p) + (b.sig ? '<br>' + b.sig.map(esc).join('<br>') : '') + '</p>';
+        text += b.p + (b.sig ? '\n' + b.sig.join('\n') : '') + '\n' + (b.sig ? '' : '\n');
+      }
+    });
+    text = text.replace(/\n{3,}/g, '\n\n').replace(/\n+(?=[A-Z][A-Z' ]+\n)/g, '\n\n').trim();
+    return { subject: 'Would you supervise my audit? ' + trunc(d.title || p.question, 70), html: html, text: text };
+  }
+  function supMissing(box) {
+    var d = supWho(box);
+    return SUP_FIELDS.filter(function (x) { return x[3] && !d[x[0]]; });
   }
   function supervisorBox(p, run) {
     var me = meGet(), d = run ? run.details : {};
-    var val = { lead: d.lead || me.lead, role: me.role, email: me.email, supervisor: d.supervisor || me.supervisor, supEmail: me.supEmail, site: d.site || me.site, department: d.department || me.department };
+    var val = { lead: d.lead || me.lead, role: me.role, email: me.email, supervisor: d.supervisor || me.supervisor, supEmail: me.supEmail,
+      site: d.site || me.site, department: d.department || me.department, startDate: d.startDate || '', sampleSize: d.sampleSize || '' };
     return '<details class="sup-box no-print" id="send-supervisor" data-sup="' + attr(p.id) + '"' + (run ? ' data-sup-run="' + attr(run.id) + '"' : '') + '>' +
       '<summary><span class="sup-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 6.5h18v11H3z M3 7l9 6.5L21 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>' +
-      '<span><b>Send to your supervisor</b><small>An email ready to send, with the proposal as a Word document and as slides</small></span></summary>' +
-      '<div class="sup-body"><form class="det-form" data-sup-form>' + SUP_FIELDS.map(function (x) {
-        return '<div class="rec-f"><label for="sp-' + x[0] + '">' + x[1] + '</label><input id="sp-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '" maxlength="120" autocomplete="' +
-          (x[0] === 'lead' ? 'name' : x[0] === 'email' ? 'email' : 'off') + '" value="' + attr(val[x[0]] || '') + '"></div>';
+      '<span><b>Send to your supervisor</b><small>A ready-to-send email and a Word proposal with a sign-off box</small></span></summary>' +
+      '<div class="sup-body"><form class="det-form" data-sup-form novalidate>' + SUP_FIELDS.map(function (x) {
+        return '<div class="rec-f"><label for="sp-' + x[0] + '">' + x[1] + (x[3] ? '' : ' <span class="muted">optional</span>') + '</label><input id="sp-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
+          (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="120"') + ' autocomplete="' + (x[0] === 'lead' ? 'name' : x[0] === 'email' ? 'email' : 'off') + '" value="' + attr(val[x[0]] || '') + '"></div>';
       }).join('') + '</form>' +
-      '<div class="sup-mail"><div class="rec-f"><label for="sp-subj">Subject</label><input id="sp-subj" data-sup-subject readonly></div>' +
-      '<div class="rec-f"><label for="sp-body">Email <span class="muted">You can edit it before copying</span></label><textarea id="sp-body" rows="14" data-sup-body></textarea></div></div>' +
+      '<p class="sup-missing" data-sup-missing role="status"></p>' +
+      '<div class="sup-mail"><div class="rec-f"><label for="sp-subj">Subject</label><input id="sp-subj" data-sup-subject></div>' +
+      '<div class="rec-f"><span class="sup-lab" id="sp-body-l">Email <span class="muted">Click to edit before copying</span></span>' +
+      '<div class="sup-preview" id="sp-body" data-sup-body contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="sp-body-l"></div></div></div>' +
       '<div class="out-grid sup-actions">' +
       '<button class="out-btn" type="button" data-sup-docx><b>Proposal</b><span>Word, with a sign-off box</span></button>' +
-      '<button class="out-btn" type="button" data-sup-pptx><b>Proposal slides</b><span>PowerPoint, 8 slides</span></button>' +
-      '<button class="out-btn" type="button" data-sup-copy><b>Copy email</b><span>Paste into Outlook or NHSmail</span></button>' +
-      '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Then attach the files</span></a></div>' +
-      '<p class="muted sup-note">Download the files first and attach them to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Names and emails you type are remembered on this device only.</p>' +
+      '<button class="out-btn" type="button" data-sup-copy><b>Copy email</b><span>Pastes with bold headings into Outlook or NHSmail</span></button>' +
+      '<a class="out-btn" data-sup-mailto href="mailto:"><b>Open in email app</b><span>Plain text; then attach the proposal</span></a></div>' +
+      '<p class="muted sup-note">Download the proposal first and attach it to the email; an email link cannot attach files. The proposal holds the protocol only, never patient data. Your name, your supervisor\'s details and the hospital are remembered on this device only.</p>' +
       '<p class="form-status" role="status" data-sup-status></p></div></details>';
   }
   function supRefresh(box, keepBody) {
     var p = supProtocol(box); if (!p) return;
-    var d = supWho(box), m = supEmail(p, d);
-    box.querySelector('[data-sup-subject]').value = m.subject;
-    var ta = box.querySelector('[data-sup-body]');
-    if (!keepBody || !ta.value) ta.value = m.body;
+    var d = supWho(box), m = supEmail(p, d), pv = box.querySelector('[data-sup-body]');
+    if (!keepBody || !pv.innerHTML) { box.querySelector('[data-sup-subject]').value = m.subject; pv.innerHTML = m.html; }
+    var miss = supMissing(box);
+    box.querySelector('[data-sup-missing]').textContent = miss.length ? 'Still to fill in: ' + miss.map(function (x) { return x[1].toLowerCase(); }).join(', ') + '.' : '';
+    SUP_FIELDS.forEach(function (x) { var el = box.querySelector('#sp-' + x[0]); if (x[3]) el.setAttribute('aria-invalid', box.hasAttribute('data-touched') && !d[x[0]] ? 'true' : 'false'); });
     box.querySelector('[data-sup-mailto]').href = 'mailto:' + encodeURIComponent(d.supEmail || '').replace(/%40/g, '@') +
-      '?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(ta.value);
+      '?subject=' + encodeURIComponent(box.querySelector('[data-sup-subject]').value) + '&body=' + encodeURIComponent(supText(pv));
+  }
+  function supText(pv) {       // the edited email as plain text: headings in capitals, lists with dashes
+    var out = [];
+    pv.childNodes.forEach(function (n) {
+      if (n.nodeName === 'UL') out.push(Array.prototype.map.call(n.querySelectorAll('li'), function (li) { return '- ' + li.textContent.trim(); }).join('\n'));
+      else if (n.querySelector && n.querySelector('strong') && n.textContent.trim() === n.querySelector('strong').textContent.trim()) out.push('\n' + n.textContent.trim().toUpperCase());
+      else if (n.nodeType === 1) out.push((n.innerText || n.textContent).trim());
+      else if (n.textContent.trim()) out.push(n.textContent.trim());
+    });
+    return out.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  function supSaveRun(box) {   // the start date and sample typed here also update the running audit
+    var r = supRun(box); if (!r) return;
+    var d = supWho(box);
+    ['lead', 'supervisor', 'site', 'department', 'startDate', 'sampleSize'].forEach(function (k) { if (d[k]) r.details[k] = k === 'sampleSize' ? +d[k] : d[k]; });
+    runPut(r);
   }
   document.addEventListener('toggle', function (e) {
     var box = e.target;
@@ -567,31 +675,41 @@
     if (!box) return;
     if (e.target.closest('[data-sup-form]')) {
       var d = supWho(box), me = meGet();
-      SUP_FIELDS.forEach(function (x) { me[x[0]] = d[x[0]]; }); meSet(me);
+      SUP_FIELDS.forEach(function (x) { if (x[4]) me[x[0]] = d[x[0]]; }); meSet(me);
       supRefresh(box, false);
-    } else if (e.target.matches('[data-sup-body]')) supRefresh(box, true);
+    } else supRefresh(box, true);
+  });
+  document.addEventListener('change', function (e) {
+    var box = e.target.closest && e.target.closest('.sup-box');
+    if (box && e.target.closest('[data-sup-form]')) supSaveRun(box);
   });
   document.addEventListener('click', function (e) {
     var open = e.target.closest('[data-sup-open]');
     if (open) { var bx = document.getElementById('send-supervisor'); if (bx) { bx.open = true; bx.scrollIntoView({ behavior: 'smooth', block: 'start' }); bx.querySelector('input').focus({ preventScroll: true }); } return; }
     var box = e.target.closest('.sup-box'); if (!box) return;
+    var act = e.target.closest('[data-sup-docx],[data-sup-copy],[data-sup-mailto]'); if (!act) return;
     var st = box.querySelector('[data-sup-status]'), p = supProtocol(box); if (!p) return;
+    box.setAttribute('data-touched', ''); supRefresh(box, true);
+    var miss = supMissing(box), warn = miss.length ? ' Fill in ' + miss.map(function (x) { return x[1].toLowerCase(); }).join(', ') + ' before you send it.' : '';
     var d = supWho(box), name = fileSlug(d.title || p.question) + '-proposal';
-    if (e.target.closest('[data-sup-docx]')) {
+    if (act.matches('[data-sup-docx]')) {
       sayIn(st, 'Making the Word proposal…');
       exporter().then(function (x) { return x.proposalDocx(p, d); }).then(function (b) { return saveFile(name + '.docx', b); })
-        .then(function () { sayIn(st, 'Word proposal ready. Attach it to the email.'); }, function (err) { sayIn(st, downloadError(err)); });
-    } else if (e.target.closest('[data-sup-pptx]')) {
-      sayIn(st, 'Making the slides…');
-      exporter().then(function (x) { return x.proposalPptx(p, d); }).then(function (b) { return saveFile(name + '.pptx', b); })
-        .then(function () { sayIn(st, 'Slides ready. Attach them to the email.'); }, function (err) { sayIn(st, downloadError(err)); });
-    } else if (e.target.closest('[data-sup-copy]')) {
-      var txt = 'Subject: ' + box.querySelector('[data-sup-subject]').value + '\n\n' + box.querySelector('[data-sup-body]').value;
-      var ok = function () { sayIn(st, 'Email copied. Paste it into a new message.'); };
+        .then(function () { sayIn(st, 'Proposal ready. Attach it to the email.' + warn); }, function (err) { sayIn(st, downloadError(err)); });
+    } else if (act.matches('[data-sup-copy]')) {
+      var pv = box.querySelector('[data-sup-body]'), subj = box.querySelector('[data-sup-subject]').value;
+      var plain = supText(pv), ok = function () { sayIn(st, 'Email copied. Paste it into a new message; the subject is: ' + subj + warn); };
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(pv); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        sayIn(st, 'The email is selected: press Ctrl+C (or Cmd+C) to copy it.' + warn);
+      };
       try {
-        navigator.clipboard.writeText(txt).then(ok, function () { box.querySelector('[data-sup-body]').select(); sayIn(st, 'Select all and copy the email text.'); });
-      } catch (err) { box.querySelector('[data-sup-body]').select(); sayIn(st, 'Select all and copy the email text.'); }
-    }
+        if (window.ClipboardItem && navigator.clipboard.write) {
+          navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob(['<div style="font-family:Calibri,Arial,sans-serif;font-size:11pt">' + pv.innerHTML + '</div>'], { type: 'text/html' }),
+            'text/plain': new Blob([plain], { type: 'text/plain' }) })]).then(ok, function () { navigator.clipboard.writeText(plain).then(ok, fallback); });
+        } else navigator.clipboard.writeText(plain).then(ok, fallback);
+      } catch (err) { fallback(); }
+    } else if (miss.length) sayIn(st, warn.trim());
   });
 
   function chooseActions(id) {
@@ -810,7 +928,7 @@
       '<ul class="std-list">' + S.standards.map(function (s) {
         var url = safeUrl(s.url);
         return '<li class="std" data-text="' + attr((s.source + ' ' + s.wording + ' ' + (s.used_by || []).join(' ')).toLowerCase()) + '">' +
-          '<h3>' + esc(s.source) + '</h3><blockquote class="standard"><p>“' + esc(s.wording) + '”</p></blockquote>' + niceAttribution(s) +
+          '<h3 title="' + attr(s.source) + '">' + esc(humanSource(s.source)) + '</h3><blockquote class="standard"><p>“' + esc(s.wording) + '”</p></blockquote>' + niceAttribution(s) +
           (url ? '<p class="standard-source"><a href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a></p>' : '') +
           ((s.used_by || []).length ? '<div class="used"><span class="muted">Used by:</span>' + s.used_by.map(function (id) {
             var p = S.pById.get(id);
