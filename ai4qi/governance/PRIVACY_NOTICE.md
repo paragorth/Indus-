@@ -47,7 +47,7 @@ All of this is optional: we collect it only when you use the feature.
 | Usage events: sign-up, audit started or completed, days active | To report use, in totals | Legitimate interests |
 | Feedback: rating, reasons, optional comment, a random device number | To improve the library; the number limits spam | Legitimate interests |
 | Topics you type into "Build an audit", and the protocols built | To build and reuse audits | Legitimate interests |
-| Reminders you turn on: audit question, next step (such as "Collect cycle 1 data (32 of 40 entered)"), due date | To email you when a step is due | Legitimate interests |
+| Reminders (on for signed-in users unless you turn them off in Account): audit question, next step (such as "Collect cycle 1 data (32 of 40 entered)"), due date | To email you when a step is due | Legitimate interests |
 | Your email choices (news, sponsor offers) and when you changed them | To send only what you asked for | Consent |
 | Visit statistics: pages viewed, referring site, browser type, country | To see which pages are useful | Legitimate interests |
 | Our providers' technical logs, such as sign-in times and IP addresses | Security | Legitimate interests |
@@ -129,7 +129,7 @@ Transfers to the EU are covered by UK adequacy regulations. Ask us for details.
 | Feedback | 24 months, then your user and device numbers and your comment are removed; the rating and reasons are kept |
 | Feedback comments copied into our library on GitHub | While useful to the library; no user or device numbers are copied |
 | Usage events | 24 months, then kept only as weekly totals. The record that you signed up is kept for the life of your account |
-| Reminders | Until you turn them off or close the audit; at most 90 days after the due date |
+| Reminders | Until you turn them off in Account or close the audit; at most 90 days after the due date |
 | Audit topics and built protocols | Protocols kept to improve the library; the link to your account removed after 90 days, or sooner if you delete your account |
 | Visit statistics | Totals only, kept while the site runs |
 | Supabase technical logs | 1 day (free plan) or 7 days (paid plan) |

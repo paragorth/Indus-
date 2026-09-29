@@ -73,7 +73,7 @@ function buildEmail(items: Row[], today: string, link: string) {
   const subject = sorted.length === 1
     ? `Your audit: next step ${sorted[0].due_date < today ? "was due" : "due"} ${fmtDate(sorted[0].due_date, false)}`
     : `Your audits: ${sorted.length} next steps due`;
-  const footer = "You get this because you turned on reminders for this audit. Turn them off in Ai4Qi under My audits.";
+  const footer = "You get this because email reminders are on for your Ai4Qi audits. Turn them off for all audits in Ai4Qi under Account.";
   const intro = sorted.length === 1
     ? "This is a reminder of the next step in your audit."
     : "This is a reminder of the next steps in your audits.";

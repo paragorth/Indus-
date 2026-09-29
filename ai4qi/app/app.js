@@ -1239,12 +1239,20 @@
           return r.json();                                  // a saved protocol comes back whole
         }, function (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error' }; });
     }
-    // The function streams one JSON object per line: {"t": more text}, then {"done": protocol} or {"error": code}.
+    // The function streams one JSON object per line: {"hb": 1} heartbeats, {"t": more text}, then
+    // {"done": protocol} or {"error": code}. Give up after 60 s of silence or 3 minutes in all.
     function readStream(reader) {
-      var dec = new TextDecoder(), buf = '', text = '';
-      var ERR = { 'not an audit topic': 'refused', 'invalid json': 'invalid_json', busy: 'rate_limited' };
+      var dec = new TextDecoder(), buf = '', text = '', started = Date.now();
+      var ERR = { 'not an audit topic': 'refused', 'invalid json': 'invalid_json', busy: 'rate_limited', 'daily limit': 'rate_limited',
+        'monthly limit': 'site_limit', 'sign in': 'sign_in' };
+      function next() {
+        var timer;
+        var quiet = new Promise(function (res, rej) { timer = setTimeout(function () { rej({ code: 'upstream_error' }); }, 60000); });
+        return Promise.race([reader.read(), quiet]).then(function (c) { clearTimeout(timer); return c; }, function (e) { clearTimeout(timer); reader.cancel().catch(function () {}); throw e; });
+      }
       return (function pump() {
-        return reader.read().then(function (chunk) {
+        if (Date.now() - started > 180000) { reader.cancel().catch(function () {}); return Promise.reject({ code: 'upstream_error' }); }
+        return next().then(function (chunk) {
           if (chunk.done) throw { code: 'upstream_error' };  // ended without a result
           buf += dec.decode(chunk.value, { stream: true });
           var lines = buf.split('\n'); buf = lines.pop();
@@ -1254,6 +1262,7 @@
             if (m.done) { reader.cancel().catch(function () {}); return m.done; }
             if (m.error) throw { code: ERR[m.error] || 'upstream_error' };
             if (typeof m.t === 'string') { text += m.t; if (onText) onText({ text: text }); }
+            else if (m.hb && onText && !text) onText({ text: '', waiting: Date.now() - started });
           }
           return pump();
         });
@@ -1336,8 +1345,13 @@
     var prog = main.querySelector('[data-build-progress]'), last = 0;
     var listen = function (text) {
       var now = Date.now();
-      if (now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(text); }
+      if (text && now - last > 400 && prog && prog.isConnected) { last = now; prog.innerHTML = progressHtml(text); }
     };
+    var slow = setTimeout(function () {
+      var msg = main.querySelector('[data-build-msg]');
+      if (msg && here() && !entry.text) msg.textContent = 'Still writing… a full protocol can take up to two minutes.';
+    }, 20000);
+    entry.promise.then(function () { clearTimeout(slow); }, function () { clearTimeout(slow); });
     entry.listeners.push(listen);
     var here = function () { var r = parseHash(); return r.parts[0] === 'build' && builtId(scrub((r.params.get('q') || '').trim(), { redacted: 0 }).slice(0, 300), Math.max(1, +r.params.get('n') || 1)) === id; };
     entry.promise.then(function (p) {
@@ -2016,6 +2030,10 @@
 
   /* --- reminders: opt-in, signed-in users, metadata only --- */
   var syncTimers = {};
+  // Reminders are on for every signed-in user unless they switch them off once, in Account
+  // (profiles.reminders_off). One email lists every step that is due, across all their audits.
+  function remindersOn() { return !!BE.user && !(BE.profile && BE.profile.reminders_off); }
+  function syncAllRuns() { S.runs.forEach(function (r) { syncRun(r); }); }
   function syncRun(r) {
     if (!BE.url || !BE.user || r.demo) return;           // example audits never leave the device
     clearTimeout(syncTimers[r.id]);
@@ -2023,7 +2041,7 @@
       sbClient().then(function (c) {
         var i = stageIdx(r), status = STAGE_STATUS[i], jobs = [];
         jobs.push(c.from('my_audits').upsert({ user_id: BE.user.id, audit_id: r.auditId, status: status }, { onConflict: 'user_id,audit_id' }));
-        if (r.reminders && !r.closed) {
+        if (remindersOn() && !r.closed && S.runs.has(r.id)) {
           var ns = nextStep(r);
           jobs.push(c.from('run_reminders').upsert({ user_id: BE.user.id, run_id: r.id, audit_title: trunc(r.protocol.question, 190),
             next_step: trunc(ns.text, 190), due_date: ns.due || addDays(todayIso(), 7), email_opt_in: true }, { onConflict: 'user_id,run_id' }));
@@ -2176,21 +2194,7 @@
       function () { sayIn(st, 'Could not change this. Please try again.'); c.checked = !c.checked; });
   });
 
-  function recordForm(r, ck) {
-    var p = r.protocol, o = r.options || {};
-    return '<form class="rec-form" data-rec-form="' + attr(ck) + '"><div class="rec-grid">' + (p.template || []).filter(function (f) { return !(o.noFreeText && isFreeText(f)); }).map(function (f, i) {
-      var id = 'rf-' + ck + '-' + i, lab = '<label for="' + id + '">' + esc(fieldLabel(f.field)) + (f.note ? ' <span class="muted">' + esc(f.note) + '</span>' : '') + '</label>', ctl;
-      if (/yes/i.test(f.type)) ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option><option>Yes</option><option>No</option><option>N/A</option></select>';
-      else if (f.type === 'choice') ctl = '<select id="' + id + '" name="' + attr(f.field) + '"><option value=""></option>' + (f.options || []).map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '</select>';
-      else if ((f.type === 'date' || f.type === 'datetime') && o.monthOnly) ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="month">';
-      else if (f.type === 'date') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="date">';
-      else if (f.type === 'datetime') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="datetime-local">';
-      else if (f.type === 'number') ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="number" step="any" inputmode="decimal">';
-      else ctl = '<input id="' + id + '" name="' + attr(f.field) + '" type="text" maxlength="300" autocomplete="off"' + (isCodeField(f) ? ' placeholder="e.g. P001"' : ' placeholder="No names or identifiers"') + '>' +
-        (isCodeField(f) ? '' : '<span class="ft-warn">Free text: never write names, numbers or anything that could identify a patient.</span>');
-      return '<div class="rec-f">' + lab + ctl + '</div>';
-    }).join('') + '</div><div class="rec-actions"><button class="btn" type="submit">Add record</button><span class="form-status" role="status" data-rec-status></span></div></form>';
-  }
+
   function rowsTable(r, ck) {
     var p = r.protocol, rows = r.cycles[ck].rows, t = p.template || [];
     if (!rows.length) return '<p class="muted">No records yet.</p>';
@@ -2211,7 +2215,6 @@
       '<div class="kpi"><span>Target</span><b>' + (t ? esc(t.op + t.value + '%') : '–') + '</b><small>' + (met == null ? 'No data yet' : met ? 'Met' : 'Not met') + '</small></div></div>' +
       (ck === 'c1' ? totalsBox(r) : '') +
       (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-fill="' + ck + '">Demo: fill ' + (ck === 'c1' ? 'cycle 1' : 'the re-audit') + ' with ' + want + ' example records</button></p>' : '') +
-      '<details class="rec-box"><summary>Add a record by hand</summary>' + recordForm(r, ck) + '</details>' +
       '<details class="rec-box"><summary>Upload a spreadsheet (Excel or CSV)</summary>' +
       '<p class="muted">Use the Ai4Qi data sheet, or any sheet whose column headings match the template. Columns that are not part of the audit are left out, and patient identifiers are removed before anything is stored.</p>' +
       '<label class="file-pick"><input type="file" accept=".xlsx,.xls,.csv,.tsv" data-import="' + ck + '"><span class="btn btn-secondary">Choose a file</span></label>' +
@@ -2236,9 +2239,10 @@
       '<label class="check"><input type="checkbox" name="monthOnly"' + ((r.options || {}).monthOnly ? ' checked' : '') + '><span>Store dates as month and year only (existing dates are shortened too)</span></label>' +
       '<label class="check"><input type="checkbox" name="noFreeText"' + ((r.options || {}).noFreeText ? ' checked' : '') + '><span>Switch off free-text fields (existing free text is deleted)</span></label></fieldset>' +
       '<div class="rec-actions"><button class="btn" type="submit">Save details</button><span class="form-status" role="status" data-det-status></span></div></form>';
-    var remind = BE.url ? (BE.user ?
-      '<label class="check"><input type="checkbox" data-run-remind' + (r.reminders ? ' checked' : '') + '><span>Email me when a step is due. Only the audit question, the next step and its date are sent; never your data.</span></label>' :
-      '<p class="muted"><a href="#/account">Sign in</a> to get email reminders when a step is due.</p>') : '';
+    var remind = BE.url ? '<p class="muted remind-note">' + (BE.user ? (remindersOn() ?
+      'Email reminders are on: we email you when a step in any of your audits is due (only the audit question, the step and its date; never your data). <a href="#/account">Turn them off</a>' :
+      'Email reminders are off. <a href="#/account">Turn them on</a>') :
+      '<a href="#/account">Sign in</a> to get an email when a step is due.') + '</p>' : '';
     var changeForm = '<form class="det-form" data-run-change><div class="rec-f rec-wide"><label for="rc-desc">What did you change?</label><textarea id="rc-desc" name="description" rows="3" maxlength="600">' + esc(r.changeMade.description || '') + '</textarea></div>' +
       '<div class="rec-f"><label for="rc-date">Date it started</label><input id="rc-date" name="date" type="date" value="' + attr(r.changeMade.date || '') + '"></div>' +
       '<div class="rec-actions"><button class="btn" type="submit">Save change</button><span class="form-status" role="status" data-chg-status></span></div>' +
@@ -2314,7 +2318,7 @@
       '<li>can store dates as month and year only, and can switch free-text fields off, for each audit.</li></ul>' +
       '<p class="prose"><strong>This is de-identified, not anonymous, data.</strong> Dates and details together can sometimes identify a person, so treat your records as patient data under your organisation\'s rules. Automatic checks cannot catch every identifier written in free text: never type names or numbers. Register the audit with your audit department before you start.</p>' +
       '<p class="prose"><strong>Files you download</strong> (data sheet, presentation, records, backup) are made on your device. Records and backups contain de-identified patient data: keep them on your organisation\'s systems.</p>' +
-      '<p class="prose"><strong>Reminders.</strong> If you sign in and turn on email reminders, only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
+      '<p class="prose"><strong>Reminders.</strong> If you sign in, email reminders are on unless you turn them off in Account. Only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
       '<p class="prose"><strong>No outside code.</strong> Every script this page runs is served by Ai4Qi itself' +
       (window.AI4QI_EMBED ? '.' : ', fonts included, and the page blocks scripts and connections to anywhere else.') + '</p></article>', 'Privacy', '');
   }
@@ -2439,24 +2443,9 @@
       runPut(r); renderRunKeep(r); sayIn(main.querySelector('[data-chg-status]'), rep0.redacted ? 'Saved. Identifiers were removed from the text.' : 'Saved.');
       return;
     }
-    if (f.matches('[data-rec-form]')) {
-      e.preventDefault();
-      var ck = f.getAttribute('data-rec-form'), raw = {};
-      fd.forEach(function (v, k) { raw[k] = String(v).replace('T', ' '); });
-      var rep = { redacted: 0, coded: 0, badDates: 0 }, codes = { map: new Map(), next: r.codeSeq || 1 };
-      var rec = cleanRecord(r.protocol, raw, codes, rep, r.options);
-      r.codeSeq = codes.next;
-      if (!Object.keys(rec).length) { sayIn(f.querySelector('[data-rec-status]'), 'Fill in at least one field.'); return; }
-      r.cycles[ck].rows.push(rec);
-      if (r.stage === 'setup' && ck === 'c1') r.stage = 'cycle1';
-      runPut(r); S.view.runTab = ck; renderRunKeep(r);
-      var box = main.querySelector('[data-rec-form="' + ck + '"]');
-      if (box) { box.closest('details').open = true; sayIn(box.querySelector('[data-rec-status]'), 'Record ' + r.cycles[ck].rows.length + ' added.' + (rep.redacted || rep.coded ? ' Identifiers were replaced or removed.' : '')); var first = box.querySelector('input,select'); if (first) first.focus(); }
-    }
   });
   document.addEventListener('change', function (e) {
     var r = curRun(); if (!r) return;
-    if (e.target.matches('[data-run-remind]')) { r.reminders = e.target.checked; runPut(r); return; }
     var inp = e.target.closest('[data-import]');
     if (!inp || !inp.files || !inp.files[0]) return;
     var ck = inp.getAttribute('data-import'), box = main.querySelector('[data-import-preview="' + ck + '"]'), file = inp.files[0];
@@ -2945,7 +2934,7 @@
   }
   function loadProfile(c) {
     if (BE.profile !== undefined) return Promise.resolve(BE.profile);
-    return c.from('profiles').select('specialty, grade, region, work_setting, audit_purpose, consent_news, consent_sponsors, full_name, organisation, department').eq('user_id', BE.user.id).maybeSingle()
+    return c.from('profiles').select('specialty, grade, region, work_setting, audit_purpose, consent_news, consent_sponsors, full_name, organisation, department, reminders_off').eq('user_id', BE.user.id).maybeSingle()
       .then(function (res) {
         BE.profile = res.error ? null : (res.data || null);
         var pend = null; try { pend = JSON.parse(localStorage.getItem('ai4qi_consent_pending') || 'null'); } catch (e) {}
@@ -3029,7 +3018,8 @@
       '<select id="pf-work" name="work_setting"><option value="">Prefer not to say</option>' + optionList(WORK_SETTINGS, pf.work_setting) + '</select>' +
       '<label for="pf-purpose">Main reason for your audits</label>' +
       '<select id="pf-purpose" name="audit_purpose"><option value="">Prefer not to say</option>' + optionList(AUDIT_PURPOSES, pf.audit_purpose) + '</select>' +
-      '<fieldset class="consent"><legend>Optional</legend>' +
+      '<fieldset class="consent"><legend>Emails</legend>' +
+      '<label class="check"><input type="checkbox" name="reminders"' + (pf.reminders_off ? '' : ' checked') + '><span>Email me when a step in any of my audits is due (one email lists everything that is due).</span></label>' +
       '<label class="check"><input type="checkbox" name="consent_news"' + (pf.consent_news ? ' checked' : '') + '><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
       '<label class="check"><input type="checkbox" name="consent_sponsors"' + (pf.consent_sponsors ? ' checked' : '') + '><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
       '</fieldset>' +
@@ -3086,7 +3076,7 @@
         work_setting: pick('work_setting', WORK_SETTINGS), audit_purpose: pick('audit_purpose', AUDIT_PURPOSES),
         consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked,
         full_name: form.elements.full_name.value.trim().slice(0, 120) || null, organisation: form.elements.organisation.value.trim().slice(0, 160) || null,
-        department: form.elements.department.value.trim().slice(0, 120) || null };
+        department: form.elements.department.value.trim().slice(0, 120) || null, reminders_off: !form.elements.reminders.checked };
       var prev = BE.profile || {};
       if (row.consent_news !== !!prev.consent_news || row.consent_sponsors !== !!prev.consent_sponsors) row.consent_updated_at = new Date().toISOString();
       btn.disabled = true; say('Saving…');
@@ -3096,6 +3086,8 @@
       }).then(function (res) {
         if (res.error) throw res.error;
         BE.profile = row; updateAccountLink();
+        if (row.reminders_off) sbClient().then(function (c2) { return c2.from('run_reminders').delete().eq('user_id', BE.user.id); }).catch(function () {});
+        else syncAllRuns();                                  // audits on this device; others sync when opened
         btn.disabled = false; say('Your profile has been saved.');
       }).catch(function () {
         btn.disabled = false; say('Your profile could not be saved. Please check your connection and try again.', true);
