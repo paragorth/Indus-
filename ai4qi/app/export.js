@@ -1490,10 +1490,7 @@
       if (clean(st.wording)) body.push(wPara(wRun('“' + clean(st.wording) + '”', { font: DECK_FONTS.head, italic: true, size: 12, color: navy }),
         { border: gold, indent: 240, after: 120, line: 288 }));
       if (clean(st.source)) body.push(wPara(wRun(hsrc(st.source), { color: muted, size: 9.5 }), { indent: 240, after: clean(st.url) ? 0 : 120 }));
-      if (/^https?:\/\//i.test(str(st.url))) {
-        docLinks.push(clean(st.url));
-        body.push(wPara('<w:hyperlink r:id="rIdL' + docLinks.length + '">' + wRun(clean(st.url), { color: '1F4E8C', size: 9, link: true }) + '</w:hyperlink>', { indent: 240, after: 120 }));
-      }
+
       if (isNiceStd(st)) body.push(wPara(wRun(niceNotice(st), { color: muted, size: 7.5 }), { indent: 240, after: 160 }));
 
       /* 3 Method */
@@ -1563,6 +1560,17 @@
       if (clean(P.close_loop)) { h1('Closing the loop'); para(P.close_loop); }
       if ((P.pitfalls || []).length) { h1('Risks and how we will handle them'); bullets(P.pitfalls.map(function (t) { return str(t).replace(/\s*→\s*/, ' → '); })); }
       if ((P.evidence || []).length) { h1('Previous audits on this topic'); bullets(P.evidence); }
+
+      /* Links, all together at the end */
+      var links = (D.links && D.links.length) ? D.links : (/^https?:\/\//i.test(str(st.url)) ? [[capFirst(hsrc(st.source)) || 'The standard', clean(st.url)]] : []);
+      if (links.length) {
+        h1('Links');
+        links.forEach(function (l) {
+          docLinks.push(clean(l[1]));
+          body.push(wPara(wRun(clean(l[0]), { color: navy, size: 10 }) + '<w:r><w:br/></w:r><w:hyperlink r:id="rIdL' + docLinks.length + '">' +
+            wRun(clean(l[1]), { color: '1F4E8C', size: 9, link: true }) + '</w:hyperlink>', { after: 80 }));
+        });
+      }
 
       /* Approval */
       body.push(wPara(wRun('Supervisor approval', { font: DECK_FONTS.head, size: 14, color: navy }), { before: 360, after: 120, keepNext: true }));

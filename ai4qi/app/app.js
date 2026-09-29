@@ -545,6 +545,7 @@
     var o = {}, f = box.querySelector('[data-sup-form]'), r = supRun(box);
     SUP_FIELDS.forEach(function (x) { o[x[0]] = (f.elements[x[0]].value || '').trim(); });
     if (r) { o.title = r.details.title; o.team = r.details.team; }
+    var pr = supProtocol(box); o.links = pr ? supLinks(pr) : [];
     return o;
   }
   function supProtocol(box) { var r = supRun(box); return r ? r.protocol : anyAudit(box.getAttribute('data-sup')); }
@@ -600,11 +601,18 @@
       { list: ['To agree the standard, the target and the sample', 'To supervise the audit and sign off the protocol', 'A hand registering it with the clinical audit department'] },
       { p: 'I\'ve attached a short proposal (Word) with the full details and a sign-off box. There\'s no patient data in it.' },
       { p: 'Would you be happy to supervise? I\'m glad to talk it through whenever suits you.' },
-      { p: 'Best wishes,', sig: [d.lead || '[your name]', d.role, d.email].filter(Boolean) }
+      { p: 'Best wishes,', sig: [d.lead || '[your name]', d.role, d.email].filter(Boolean) },
+      { links: supLinks(p) }
     ];
     var html = '', text = '';
     blocks.forEach(function (b) {
       if (b.h) { html += '<p style="margin:16px 0 4px"><strong>' + esc(b.h) + '</strong></p>'; text += '\n' + b.h.toUpperCase() + '\n'; }
+      else if (b.links) {
+        if (!b.links.length) return;
+        html += '<p style="margin:18px 0 4px;font-size:10pt;color:#555"><strong>Links</strong></p>' + b.links.map(function (l) {
+          return '<p style="margin:0 0 2px;font-size:10pt"><a href="' + attr(l[1]) + '">' + esc(l[0]) + '</a></p>'; }).join('');
+        text += '\nLINKS\n' + b.links.map(function (l) { return l[0] + ': ' + l[1]; }).join('\n') + '\n';
+      }
       else if (b.list) { if (!b.list.length) return; html += '<ul style="margin:0 0 8px;padding-left:20px">' + b.list.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'; text += b.list.map(function (x) { return '- ' + x; }).join('\n') + '\n'; }
       else if (b.p) {
         html += '<p style="margin:0 0 8px">' + esc(b.p) + (b.sig ? '<br>' + b.sig.map(esc).join('<br>') : '') + '</p>';
@@ -613,6 +621,13 @@
     });
     text = text.replace(/\n{3,}/g, '\n\n').replace(/\n+(?=[A-Z][A-Z' ]+\n)/g, '\n\n').trim();
     return { subject: 'Would you supervise my audit? ' + trunc(d.title || p.question, 70), html: html, text: text };
+  }
+  // Links sit at the bottom of the email and the proposal, never in the middle of a sentence.
+  function supLinks(p) {
+    var st = p.standard || {}, out = [], u = safeUrl(st.url), site = BE.cfg && BE.cfg.legal && safeUrl(BE.cfg.legal.site_url);
+    if (u) out.push([cap(humanSource(st.source) || 'The standard'), u]);
+    if (site && S.pById.has(p.id)) out.push(['The full protocol on Ai4Qi', site.replace(/\/+$/, '') + '/#/proposed/' + encodeURIComponent(p.id)]);
+    return out;
   }
   function supMissing(box) {
     var d = supWho(box);
@@ -655,6 +670,7 @@
     pv.childNodes.forEach(function (n) {
       if (n.nodeName === 'UL') out.push(Array.prototype.map.call(n.querySelectorAll('li'), function (li) { return '- ' + li.textContent.trim(); }).join('\n'));
       else if (n.querySelector && n.querySelector('strong') && n.textContent.trim() === n.querySelector('strong').textContent.trim()) out.push('\n' + n.textContent.trim().toUpperCase());
+      else if (n.nodeType === 1 && n.querySelector && n.querySelector('a')) out.push(Array.prototype.map.call(n.querySelectorAll('a'), function (a) { return a.textContent.trim() + ': ' + a.getAttribute('href'); }).join('\n'));
       else if (n.nodeType === 1) out.push((n.innerText || n.textContent).trim());
       else if (n.textContent.trim()) out.push(n.textContent.trim());
     });
