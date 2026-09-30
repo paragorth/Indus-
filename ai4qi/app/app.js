@@ -264,7 +264,8 @@
     if (name !== 'account' && name !== 'demo') S.lastRoute = location.hash || '#/';   // where to go back to after signing in
     var sameView = false;
     try {
-      if (name === 'demo') { demoSet(p[1] !== 'off'); location.replace('#/' + (p[1] === 'off' ? '' : 'suggest')); return; }
+      // Demo mode on or off keeps you on the page you were on (sign-in and your own audits are untouched).
+      if (name === 'demo') { demoSet(p[1] !== 'off'); location.replace(S.lastRoute && S.lastRoute !== '#/' ? S.lastRoute : (p[1] === 'off' ? '#/' : '#/suggest')); return; }
       if (name === '') renderHome();
       else if (name === 'search') renderSearch(r.params, sameView);
       else if (name === 'build') renderBuild(r.params);
@@ -1664,7 +1665,7 @@
   function demoSet(on) { DEMO = on; try { if (on) localStorage.setItem('ai4qi_demo', '1'); else localStorage.removeItem('ai4qi_demo'); } catch (e) {} }
   function demoBar() {
     return '<div class="demo-bar" role="note"><span><strong>Demo mode.</strong> Example-data buttons are on; everything they fill is fictitious.</span>' +
-      '<span><button type="button" class="link-btn" data-demo-reset>Clear example audits</button> · <a href="#/demo/off">Turn off</a></span></div>';
+      '<span><button type="button" class="link-btn" data-demo-reset>Clear example audits (yours are kept)</button> · <a href="#/demo/off">Turn off</a></span></div>';
   }
   function demoRand(seed) { var x = seed % 2147483647 || 7; return function () { x = x * 16807 % 2147483647; return (x - 1) / 2147483646; }; }
   function demoStepLabel(r) {
@@ -1720,11 +1721,13 @@
     if (!d.lead) d.lead = 'Dr Alex Morgan (example)';
     if (!d.team) d.team = 'Two foundation doctors; ward pharmacist';
     if (!d.supervisor) d.supervisor = 'Supervising consultant (example)';
-    d.startDate = addDays(todayIso(), -16 * 7);
+    if (r.demo) d.startDate = addDays(todayIso(), -16 * 7);   // example audits are backdated; your own keep their dates
   }
   function demoStep(r) {
     var k = RUN_STAGES[stageIdx(r)][0], want = +r.details.sampleSize || 30;
-    r.demo = true;
+    // An audit chosen in demo mode is an example (r.demo). On your own audit the demo buttons only fill the
+    // empty parts with example data and mark it; nothing you entered is changed or deleted.
+    if (!r.demo) { r.exampleData = true; r.committed = true; }
     if (k === 'setup') { demoDetails(r); r.stage = 'cycle1'; }
     else if (k === 'cycle1') { if (!r.cycles.c1.rows.length) r.cycles.c1.rows = demoRows(r, 'c1', want); r.stage = 'present'; S.view.runTab = 'c1'; }
     else if (k === 'present') r.stage = 'change';
@@ -2208,7 +2211,12 @@
       '<div class="rec-f rec-wide"><label for="pa-code">Results code from the Ai4Qi data sheet</label><textarea id="pa-code" name="code" rows="2" placeholder="AI4QI v1 | NNA-245 | C1 30/42 n=45 | …"></textarea></div>' +
       '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-paste-status></span></div></form></details>';
     var hello = BE.user && BE.profile && BE.profile.full_name ? 'Welcome back, ' + esc(String(BE.profile.full_name).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i, '').split(/\s+/)[0]) + '. ' : '';
-    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + pasteBox + body +
+    var pf0 = BE.profile || {}, noProfile = BE.user && BE.profile !== undefined && !pf0.full_name && !pf0.grade && !pf0.specialty;
+    var signedNote = S.justSignedIn || noProfile ? '<div class="welcome-card dash-signed"><p><strong>' + (S.justSignedIn ? 'You\'re signed in.' : 'Your profile is empty.') + '</strong> ' +
+      (noProfile ? 'Add your name, hospital and grade once, and your supervisor emails fill themselves in.' : 'Your audits are below.') + '</p>' +
+      (noProfile ? '<a class="btn btn-secondary" href="#/account">Add my details</a>' : '') + '</div>' : '';
+    S.justSignedIn = false;
+    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + signedNote + pasteBox + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
       protectionBox(), 'My audits', 'my-audits');
@@ -2331,7 +2339,7 @@
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
       '</div><p class="export-warn">These files hold de-identified patient records. Keep them on your organisation\'s systems and share them only inside it.</p><p class="form-status" role="status" data-out-status></p>';
     var started = isStarted(r) || r.demo;
-    var stageBtn = !started ? '<button class="btn" type="button" data-run-commit>Start this audit</button>' :
+    var stageBtn = !started ? (DEMO ? '<button class="btn demo-btn" type="button" data-demo-step>' + esc(demoStepLabel(r)) + '</button>' : '') + '<button class="btn" type="button" data-run-commit>Start this audit</button>' :
       r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
       (DEMO ? '<button class="btn demo-btn" type="button" data-demo-step>' + esc(demoStepLabel(r)) + '</button>' : '') +
       '<button class="btn" type="button" data-run-stage="next">' + (i === RUN_STAGES.length - 1 ? 'Mark the loop closed' : 'Done – go to ' + esc(RUN_STAGES[i + 1][1].toLowerCase())) + '</button>' +
@@ -2339,7 +2347,7 @@
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/my-audits">My audits</a></nav>' +
       '<article class="doc run" data-run="' + attr(r.id) + '"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(r.auditId) + '</span>' +
-      (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : '') + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
+      (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : r.exampleData ? badge('Includes example data', 'demo') : '') + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
       '<h1>' + esc(d.title || p.question) + '</h1>' + stageStepper(r) +
       (started ? '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
       '<p class="nc-text">' + esc(ns.text) + '</p></div>' :
@@ -2862,6 +2870,7 @@
           BE.user = res.data && res.data.session ? res.data.session.user : null;
           updateAccountLink();
           if (BE.user) { setTimeout(flushFeedback, 0); recordActivity(); loadProfile(c).then(updateAccountLink, function () {}); }
+          if (BE.user && AUTH_RETURN && !AUTH_RETURN.error && parseHash().parts[0] === 'account') { S.justSignedIn = true; location.hash = signedInHome(); }
           return c;
         });
       });
@@ -3142,6 +3151,11 @@
   function optionList(list, current) {
     return list.map(function (g) { return '<option' + (g === current ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('');
   }
+  // Straight after signing in: back to the audit they were on, otherwise to My audits (the dashboard).
+  function signedInHome() {
+    var h = ''; try { h = localStorage.getItem(AFTER_SIGNIN) || ''; localStorage.removeItem(AFTER_SIGNIN); } catch (e) {}
+    return /^#\/(build|proposed\/|run\/|suggest)/.test(h) ? h : '#/my-audits';
+  }
   // After the emailed link: offer to carry on straight away; the profile is optional.
   function afterSigninHref() {
     var h = ''; try { h = localStorage.getItem(AFTER_SIGNIN) || ''; } catch (e) {}
@@ -3149,7 +3163,7 @@
   }
   function welcomeBack() {
     var pf = BE.profile || {}, empty = !pf.grade && !pf.specialty && !pf.full_name && !pf.organisation;
-    if (!AUTH_RETURN && !S.codeSignin && !empty) return '';
+    if (!AUTH_RETURN && !empty) return '';
     var to = afterSigninHref();
     return '<div class="welcome-card"><p><strong>You\'re signed in.</strong> ' + (empty ? 'The profile below is optional: fill it in now or later, or skip it.' : 'Welcome back.') + '</p>' +
       '<a class="btn" href="' + attr(to) + '" data-skip-profile>' + (to === '#/' ? 'Continue to Ai4Qi' : 'Continue where you were') + '</a></div>';
@@ -3157,10 +3171,9 @@
   function renderSignedIn() {
     var pf = BE.profile || {};
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Account</nav>' +
-      '<div class="doc narrow"><h1>Your account</h1>' +
-      '<p>Signed in as <strong>' + esc(BE.user.email || '') + '</strong>. Your feedback on proposed audits is now linked to your profile.</p>' +
-      '<p><a href="#/my-audits">My audits</a> <span class="muted">– the proposed audits you are running, and how far each has got.</span></p>' +
-      welcomeBack() +
+      '<div class="doc narrow acct-page"><div class="auth-card acct-head"><div class="auth-avatar" aria-hidden="true">' + esc(initialsOf(BE.user.email)) + '</div>' +
+      '<h1>Your account</h1><p class="auth-sub">' + esc(BE.user.email || '') + '</p>' +
+      '<a class="btn auth-wide" href="#/my-audits">Go to My audits &nbsp;→</a></div>' +
       '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
       '<p class="muted">Optional. Used only in anonymous totals, to understand who uses the library and how feedback differs between groups.</p>' +
       '<form class="stack-form" data-profile>' +
@@ -3206,9 +3219,9 @@
       sbClient().then(function (c) { return c.auth.verifyOtp({ email: otp.elements.email.value, token: code, type: 'email' }); })
         .then(function (res) {
           if (res.error) throw res.error;
-          S.codeSignin = true;
+          S.justSignedIn = true;
           if (res.data && res.data.user) setUser(res.data.user);
-          location.hash = '#/account'; route();
+          location.hash = signedInHome();
         }).catch(function () { ost.textContent = 'That code did not work. Check it, or use the newest email.'; ost.classList.add('is-error'); });
       return;
     }
