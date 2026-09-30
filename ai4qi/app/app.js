@@ -281,6 +281,7 @@
       else if (name === 'my-audits') renderRuns();
       else if (name === 'run' && p[1]) renderRun(p[1]);
       else if (name === 'privacy') renderPrivacy();
+      else if (name === 'how-it-works') renderHow();
       else if (LEGAL_PAGES.indexOf(name) !== -1) renderLegal(name);
       else renderNotFound();
     } catch (err) {
@@ -1445,7 +1446,7 @@
     var body = protocolBody(p, dl, { status: status, after: after }) + feedbackBox(p.id) +
       '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
       'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
-      'Your audit records are never sent to the AI or to Ai4Qi.</p></aside>';
+      'Your audit records are never sent to the AI or to Ai4Qi. <a href="#/how-it-works">How Ai4Qi works</a></p></aside>';
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
@@ -2373,6 +2374,32 @@
     getJSON('data/legal.json').then(function (d) { LEGAL = d; if (parseHash().parts[0] === slug) show(d); }, function () { renderNotFound(); });
   }
 
+  function renderHow() {
+    var nLib = fmt(S.lib.length), nProp = fmt(S.proposed.length), nStd = fmt(S.standards.length);
+    function step(n, t, body) { return '<li class="how-step"><span class="how-n" aria-hidden="true">' + n + '</span><div><h2>' + t + '</h2>' + body + '</div></li>'; }
+    page('<article class="doc narrow how"><h1>How Ai4Qi works</h1>' +
+      '<p class="page-intro">Ai4Qi takes you from an audit idea to a closed loop: a clear question, the right standard, a data sheet, results and the re-audit. Every audit is built on real evidence, not on guesswork.</p>' +
+      '<ol class="how-steps">' +
+      step(1, 'A library of real audits', '<p class="prose">' + nLib + ' published clinical audits and quality improvement projects, each read and summarised: the setting, the standard, the result before, the change that was made and the result after. Only real, published projects are in it.</p>') +
+      step(2, 'Checked standards', '<p class="prose">' + nStd + ' national standards (NICE, the Royal Colleges, NHS England, national audits and others), with their exact wording and a link to the source.</p>') +
+      step(3, 'Ready-made audits', '<p class="prose">' + nProp + ' audits designed by us from current standards and from the gaps in the library: topics that matter but few people have audited. Each has one question, a pass definition, a sample, a timeline and a data sheet.</p>') +
+      step(4, 'Build your own audit', '<p class="prose">Type any topic and Ai4Qi writes a new audit for it in under a minute. The AI (Claude, made by Anthropic) is given material from the library and must follow these rules:</p>' +
+        '<ul class="prose how-rules">' +
+        '<li><strong>New, not copied.</strong> Every audit is written fresh for your topic: its own question, standard, data sheet, pitfalls and pearls. The library supplies the facts; it is not a template.</li>' +
+        '<li><strong>From the library first.</strong> It reads the closest published audits on your topic (up to 30, closed-loop and detailed ones first), the best-matching standards and our closest ready-made audits.</li>' +
+        '<li><strong>One plain question.</strong> Who, against what standard, and what counts as a pass. One audit answers one question.</li>' +
+        '<li><strong>The real standard.</strong> A standard from our checked list, quoted exactly and linked. Where no national standard exists, it says "Local standard" and never pretends otherwise. NICE wording is added by the site itself, straight from NICE, not written by the AI.</li>' +
+        '<li><strong>Evidence you can check.</strong> It may only cite audits from the library, with their numbers exactly as published. Any citation that is not in the library is removed before you see it.</li>' +
+        '<li><strong>A change that lasts.</strong> The change it suggests is a form, checklist, default or system change, because teaching alone rarely works.</li>' +
+        '<li><strong>Honest suggestions.</strong> If one of our ready-made audits would suit you better, it tells you.</li>' +
+        '<li><strong>It learns from you.</strong> If you press <em>Not quite right</em>, your reasons go into the next version.</li></ul>' +
+        '<p class="prose">A topic nobody has published on still gets a full audit, built from the national standard; it simply has no evidence section.</p>') +
+      step(5, 'Run it and close the loop', '<p class="prose">Press <em>Choose this audit</em>, then <em>Start this audit</em> when you are ready. Download the data sheet, send the proposal to your supervisor, record your data, see the results, make the change and re-audit. Once you start, we email you when each step is due.</p>') +
+      '</ol>' +
+      '<h2>What stays with you</h2><p class="prose">Your audit records stay encrypted on your own device. They are never sent to Ai4Qi or to the AI. <a href="#/privacy">How your data is protected</a></p>' +
+      '<h2>Always check</h2><p class="prose">An audit built by AI is a well-founded draft. Check the standard against its linked source and ask your supervisor to review the protocol before you collect data. Register the audit with your audit department.</p>' +
+      '</article>', 'How Ai4Qi works', '');
+  }
   function renderPrivacy() {
     page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
       '<p class="prose"><strong>Your audit records stay on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are never sent to Ai4Qi, and we cannot see them.</p>' +
