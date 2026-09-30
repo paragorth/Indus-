@@ -3486,6 +3486,7 @@
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
       '<button class="btn btn-secondary auth-wide" type="submit">Sign in with the code</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      (/@nhs\.net$/i.test(email) ? '<p class="auth-tip"><strong>Using NHSmail?</strong> New senders can land in <em>Junk</em>, the <em>Other</em> tab or quarantine. Found it there? Mark it <em>Not junk</em>. Still nothing after 2 minutes? Use a personal email for now.</p>' : '') +
       '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
       '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
     var h = card.querySelector('h1'); if (h) h.focus();
