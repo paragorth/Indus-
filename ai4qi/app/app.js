@@ -3157,8 +3157,11 @@
   var AUTH_RETURN = (function () {
     var q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.replace(/^#/, ''));
     var err = q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error');
-    if (!err && !q.get('code') && !h.get('access_token')) return null;
-    return { error: err || '' };
+    // Our own emails link to ai4qi.com with ?token_hash=… (checked here in the page, so an email
+    // scanner that opens the link cannot use it up, and the link points to the site it came from).
+    var th = q.get('token_hash'), ty = q.get('type');
+    if (!err && !q.get('code') && !h.get('access_token') && !th) return null;
+    return { error: err || '', tokenHash: th || '', type: /^(email|magiclink|signup|invite|email_change)$/.test(ty || '') ? ty : 'email' };
   })();
   var ORIGINAL_HASH = location.hash;
   if (AUTH_RETURN) history.replaceState(null, '', location.pathname + location.search + '#/account');
@@ -3212,6 +3215,12 @@
           setTimeout(function () { setUser(session ? session.user : null); }, 0);
         });
         return c.auth.getSession().then(function (res) {
+          if (!AUTH_RETURN || !AUTH_RETURN.tokenHash || (res.data && res.data.session)) return res;
+          return c.auth.verifyOtp({ token_hash: AUTH_RETURN.tokenHash, type: AUTH_RETURN.type }).then(function (v) {
+            if (v.error) { AUTH_RETURN.error = 'This sign-in link has expired or was already used. Ask for a new one, or type the code from the email.'; return res; }
+            return { data: { session: v.data && v.data.session } };
+          });
+        }).then(function (res) {
           if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
           if (AUTH_RETURN) cleanAuthUrl();
           BE.client = c;
