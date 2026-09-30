@@ -719,12 +719,12 @@ a.out-btn { text-decoration: none; }
 .part-rule::before, .part-rule::after { content: ""; height: 2px; background: var(--text); opacity: .85; flex: 1 1 auto; }
 .part-rule::before { flex: 0 0 24px; }
 .part-rule span { font-size: .76rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
-.pp-box { margin: 28px 0 8px; padding: 18px 20px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface-2); }
+.pp-box { margin: 28px 0 8px; padding: 0; border: 0; background: none; }
 .pp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px 28px; }
 .pp-h { font-family: var(--font); font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
 .pp-box ul { margin: 0; }
 .ai-note { margin-top: 28px; }
-.doc section.pp-box { display: block; padding: 18px 20px; border: 1px solid var(--border-strong); }
+.doc section.pp-box { display: block; padding: 0; border: 0; }
 .doc section.pp-box > * { grid-column: auto; }
 .build-q { margin: 6px 0 10px; max-width: 70ch; } .build-q strong { font-size: 1.08rem; }
 .std-list { grid-template-columns: minmax(0, 1fr); } .std { min-width: 0; overflow-wrap: anywhere; }
@@ -827,13 +827,6 @@ details.loop-part > summary { list-style: none; cursor: pointer; display: flex; 
 details.loop-part > summary::-webkit-details-marker { display: none; }
 details.loop-part > summary:hover { border-color: var(--text); }
 details.loop-part[open] > summary { border-style: solid; margin-bottom: 8px; }
-.loop-svg { width: 210px; height: 210px; flex: none; color: var(--text); }
-.loop-svg .lp-arc { fill: none; stroke: currentColor; stroke-width: 2.5; }
-.loop-svg .lp-dot { fill: var(--surface); stroke: currentColor; stroke-width: 2; }
-.loop-svg .lp-dot.is-gold { fill: var(--gold); stroke: var(--gold); }
-.loop-svg text { font: 700 11.5px var(--font); fill: currentColor; }
-.loop-svg text.on-gold { fill: #fff; }
-.loop-svg .lp-mid { font: 500 15px var(--display); fill: var(--muted); }
 .loop-cta { display: flex; flex-direction: column; gap: 4px; }
 .loop-cta b { font-family: var(--display); font-weight: 500; font-size: 1.5rem; }
 .loop-cta b::after { content: " \2192"; color: var(--gold); }
@@ -910,3 +903,66 @@ details.loop-part[open] .loop-cta b::after { content: " \2193"; }
 .rows-sheet td, .rows-sheet th.sh-row { padding-top: 4px; padding-bottom: 4px; height: auto; }
 .cycle-panel .sheet-wrap { max-height: 460px; overflow: auto; }
 .cycle-panel .sheet-wrap thead th { position: sticky; top: 0; z-index: 1; }
+
+/* Pitfalls (amber, warning) and pearls (green, star) as two cards */
+.pp-grid > div { padding: 16px 18px; border-radius: 12px; border: 1px solid; }
+.pp-grid > div:first-child { background: var(--warn-bg); border-color: var(--warn-border); }
+.pp-grid > div:last-child:not(:first-child) { background: var(--ok-bg); border-color: color-mix(in srgb, var(--ok-text) 35%, transparent); }
+.pp-h { display: flex; align-items: center; gap: 8px; font-size: .85rem; letter-spacing: .1em; }
+.pp-grid > div:first-child .pp-h { color: var(--warn-text); }
+.pp-grid > div:first-child .pp-h::before { content: "\26A0"; font-size: 1.1rem; letter-spacing: 0; }
+.pp-grid > div:last-child:not(:first-child) .pp-h { color: var(--ok-text); }
+.pp-grid > div:last-child:not(:first-child) .pp-h::before { content: "\2605"; font-size: 1.1rem; letter-spacing: 0; }
+.pp-grid .pit-list li, .pp-grid .pearl-list li { border-bottom-color: color-mix(in srgb, currentColor 12%, transparent); }
+.pp-grid > div:first-child li::before { background: var(--warn-text); }
+.pp-grid > div:last-child:not(:first-child) li::before { background: var(--ok-text); }
+.pp-grid .pit-list .arrow { color: var(--warn-text); }
+
+/* Closing the loop: a strip of six steps; opened, a numbered flowchart */
+details.loop-part > summary { flex-direction: column; align-items: stretch; gap: 16px; }
+.flow-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; }
+.flow-strip li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 0 4px; }
+.flow-strip li:not(:last-child)::after { content: ""; position: absolute; top: 22px; left: calc(50% + 26px); right: calc(-50% + 26px); border-top: 2px solid var(--border-strong); }
+.flow-strip li:not(:last-child)::before { content: ""; position: absolute; top: 18px; right: calc(-50% + 24px); border: 5px solid transparent; border-left: 8px solid var(--border-strong); }
+.fs-i, .fl-i { display: grid; place-items: center; border-radius: 50%; background: var(--primary-tint); color: var(--primary); }
+.fs-i { width: 46px; height: 46px; }
+.fs-i svg, .fl-i svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fs-change .fs-i, .fl-change .fl-i { background: var(--gold); color: #fff; }
+.fs-reaudit .fs-i, .fl-reaudit .fl-i { background: var(--primary); color: var(--on-primary); }
+.fs-t { font-weight: 700; font-size: .88rem; line-height: 1.2; }
+.fs-w { font-size: .76rem; color: var(--muted); }
+.flow-steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 0; }
+.flow-steps li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; position: relative; padding-bottom: 14px; }
+.flow-steps li:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 38px; bottom: 0; border-left: 2px solid var(--border-strong); }
+.fl-n { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--surface); border: 2px solid var(--text); position: relative; z-index: 1; }
+.fl-card { padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.fl-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fl-i { width: 32px; height: 32px; }
+.fl-i svg { width: 18px; height: 18px; }
+.fl-head h3 { margin: 0; font-size: 1.1rem; }
+.fl-w { margin-left: auto; font-size: .8rem; font-weight: 700; color: var(--gold); background: var(--gold-soft); padding: 2px 10px; border-radius: 999px; }
+.fl-card p { margin: 8px 0 0; max-width: 75ch; }
+@media (max-width: 720px) {
+  .flow-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
+  .flow-strip li::after, .flow-strip li::before { display: none; }
+}
+
+/* Similar published audits: closed until clicked */
+details.more-box { margin: 24px 0 0; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+details.more-box > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; font-family: var(--display); font-size: 1.3rem; }
+details.more-box > summary::-webkit-details-marker { display: none; }
+.more-hint { font-family: var(--font); font-size: .85rem; font-weight: 700; color: var(--gold); }
+.more-hint::after { content: " \25BE"; }
+details.more-box[open] .more-hint { font-size: 0; }
+details.more-box[open] .more-hint::after { content: "Hide \25B4"; font-size: .85rem; }
+details.more-box > :not(summary) { padding: 0 18px 16px; }
+
+/* Feedback: a prominent card */
+.fb { margin: 22px 0 8px; padding: 18px 20px; border-radius: 12px; border: 1px solid var(--border); border-left: 5px solid var(--gold); background: var(--surface); }
+.fb .fb-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.fb .fb-q { display: flex; flex-direction: column; gap: 2px; font-size: 1rem; }
+.fb .fb-q b { font-family: var(--display); font-weight: 500; font-size: 1.3rem; }
+.fb .fb-q span { color: var(--muted); font-size: .9rem; max-width: 55ch; }
+.fb .fb-btns { display: flex; gap: 10px; }
+.fb .fb-btn { display: inline-flex; align-items: center; gap: 8px; width: auto; height: auto; padding: 10px 16px; border-radius: 999px; font: inherit; font-weight: 600; }
+.fb .fb-btn span { position: static; width: auto; height: auto; clip: auto; margin: 0; overflow: visible; white-space: nowrap; }

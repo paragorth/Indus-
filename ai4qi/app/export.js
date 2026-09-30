@@ -447,10 +447,12 @@
         var lines = estLines(text, totalW, (font.size || 11) / 11 * 1.1);
         r.height = Math.max(20, Math.min(160, lines * (font.size || 11) * 1.35 + 8));
       }
-      banner(1, clean(p.question) || 'Clinical audit', { name: FONT, size: 14, bold: true, color: { argb: 'FF' + C.ink } }, C.tint);
+      // opts.code ties the sheet to one audit and one round ("NNA-074/r-ab12cd/RE"); the site reads it back on upload.
+      var isRe = /\/RE$/.test(str(opts.code));
+      banner(1, (isRe ? 'RE-AUDIT  \u00b7  ' : '') + (clean(p.question) || 'Clinical audit'), { name: FONT, size: 14, bold: true, color: { argb: 'FF' + C.ink } }, C.tint);
       var stdLine = 'Standard: ' + (clean(std.wording) || 'not recorded') + (std.source ? '  \u2014  ' + hsrc(std.source) : '');
       banner(2, stdLine, { name: FONT, size: 10, italic: true, color: { argb: 'FF' + C.muted } }, C.tint);
-      banner(3, 'Pass: ' + (clean(p.pass) || 'not defined') + (p.target ? '   |   Target: ' + clean(p.target) : ''),
+      banner(3, 'Pass: ' + (clean(p.pass) || 'not defined') + (p.target ? '   |   Target: ' + clean(p.target) : '') + (opts.code ? '   |   Sheet code: ' + opts.code : ''),
         { name: FONT, size: 10, bold: true, color: { argb: 'FF' + C.passText } }, C.tint);
 
       // Header row
@@ -546,6 +548,7 @@
           if (zebra) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + C.zebra } };
           if (spec.fmt) cell.numFmt = spec.fmt;
           if (spec.dv && !rangeDv) cell.dataValidation = spec.dv;
+          if (isRe && ci === 0 && str(fields[0].type) === 'cycle') cell.value = 'Re-audit';   // re-audit sheet: every row is the re-audit
         }
       }
 

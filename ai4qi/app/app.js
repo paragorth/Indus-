@@ -573,16 +573,36 @@
       '<div class="effort-scale" aria-hidden="true">' + names.map(function (n, i) { return '<span' + (i === lvl ? ' class="on"' : '') + '>' + n + '</span>'; }).join('') + '</div>' +
       '<p class="effort-t">' + esc(t.replace(/^~/, 'About ')) + '</p>' + timeBudget(p, per10) + '</div>';
   }
-  // Audit cycle: audit -> analyse -> change -> re-audit, drawn as a loop.
-  var LOOP_SVG = '<svg class="loop-svg" viewBox="0 0 220 220" role="img" aria-label="Audit cycle: audit, analyse, change, re-audit">' +
-    '<defs><marker id="lp-ar" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>' +
-    [[110, 30, 'Audit'], [190, 110, 'Analyse'], [110, 190, 'Change'], [30, 110, 'Re-audit']].map(function (n, i, a) {
-      var m = a[(i + 1) % 4], ang0 = Math.atan2(n[1] - 110, n[0] - 110) + 0.42, ang1 = Math.atan2(m[1] - 110, m[0] - 110) - 0.42;
-      if (ang1 < ang0) ang1 += 2 * Math.PI;
-      var r = 80, x0 = 110 + r * Math.cos(ang0), y0 = 110 + r * Math.sin(ang0), x1 = 110 + r * Math.cos(ang1), y1 = 110 + r * Math.sin(ang1);
-      return '<path class="lp-arc" d="M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + 'A80 80 0 0 1 ' + x1.toFixed(1) + ' ' + y1.toFixed(1) + '" marker-end="url(#lp-ar)"/>' +
-        '<circle class="lp-dot' + (i === 2 ? ' is-gold' : '') + '" cx="' + n[0] + '" cy="' + n[1] + '" r="27"/><text' + (i === 2 ? ' class="on-gold"' : '') + ' x="' + n[0] + '" y="' + (n[1] + 4) + '" text-anchor="middle">' + n[2] + '</text>';
-    }).join('') + '<text class="lp-mid" x="110" y="106" text-anchor="middle">Closed</text><text class="lp-mid" x="110" y="124" text-anchor="middle">loop</text></svg>';
+  // Closing the loop as a flowchart: each step with its weeks (from the timeline) and what to do.
+  var FLOW_ICON = {
+    collect: '<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+    present: '<svg viewBox="0 0 24 24"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg>',
+    change: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L4 16.8V20h3.2l5.3-5.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.6-.6-.6-2.6z"/></svg>',
+    embed: '<svg viewBox="0 0 24 24"><path d="M12 21c-4-2-7-5-7-10V5l7-2 7 2v6c0 5-3 8-7 10z"/><path d="M9 12l2 2 4-4"/></svg>',
+    reaudit: '<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg>',
+    share: '<svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/></svg>'
+  };
+  function loopFlow(p) {
+    var segs = parseTimeline(p.timeline) || [];
+    function wk(re) { var sg = segs.filter(function (x) { return re.test(x.label); })[0]; return sg ? 'Week' + (sg.a === sg.b ? ' ' + sg.a : 's ' + sg.a + '–' + sg.b) : ''; }
+    var last = segs.length ? Math.max.apply(null, segs.map(function (x) { return x.b; })) : 0;
+    var steps = [
+      ['collect', 'Collect cycle 1', wk(/collect/i), 'Fill in the cycle 1 sheet for ' + lowerFirst(noDot(p.sample) || 'your sample') + '.'],
+      ['present', 'Analyse and present', wk(/analy|present/i), 'Upload the sheet in My audits: the results, charts and slides are made for you. Present them and agree the change.'],
+      ['change', 'Make the change', wk(/change/i), noDot(p.change) + '.'],
+      ['embed', 'Let it bed in', wk(/embed/i), 'Keep the change in daily use: remind the team, check it is being used, and fix what gets in the way.'],
+      ['reaudit', 'Re-audit', wk(/re-?audit/i), noDot(p.reaudit) + '. Use the re-audit sheet from My audits: its code ties it to this audit.' + (p.target ? ' Target: ' + p.target + '.' : '')],
+      ['share', 'Share and keep it going', last ? 'Week ' + (last + 1) + ' on' : '', noDot(p.close_loop) + '.']
+    ];
+    var strip = '<ol class="flow-strip" aria-hidden="true">' + steps.map(function (st, i) {
+      return '<li class="fs-' + st[0] + '"><span class="fs-i">' + FLOW_ICON[st[0]] + '</span><span class="fs-t">' + st[1] + '</span><span class="fs-w">' + esc(st[2]) + '</span></li>';
+    }).join('') + '</ol>';
+    var detail = '<ol class="flow-steps">' + steps.map(function (st, i) {
+      return '<li class="fl-' + st[0] + '"><span class="fl-n">' + (i + 1) + '</span><div class="fl-card"><div class="fl-head"><span class="fl-i">' + FLOW_ICON[st[0]] + '</span><h3>' + st[1] + '</h3>' +
+        (st[2] ? '<span class="fl-w">' + esc(st[2]) + '</span>' : '') + '</div><p>' + linkify(st[3]) + '</p></div></li>';
+    }).join('') + '</ol>';
+    return { strip: strip, detail: detail };
+  }
   window.addEventListener('beforeprint', function () { document.querySelectorAll('details.loop-part').forEach(function (d) { d.open = true; }); });
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
@@ -605,25 +625,22 @@
       sec(++n, 'Why this audit matters', whyPoints(p.why)) +
       sec(++n, 'Method', how) +
       sec(++n, 'Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>' +
-        '<p class="muted sheet-note">One Excel sheet for both rounds: set the Cycle column to Re-audit for the second round. Only the sheet\'s own columns are ever read back, so names, NHS numbers and dates of birth are never imported.</p>') +
-      (window.AI4QI_EMBED ? '' : '<div class="choose-cta no-print">' + chooseActions(p.id) +
-        '<p>Choosing it adds it to <strong>My audits</strong>, where you track each step, upload your sheet and get the results and slides.</p></div>') +
+        '<p class="muted sheet-note">Choosing the audit adds it to <strong>My audits</strong>: you upload your sheet there and get the results and slides. The re-audit gets its own sheet, with a code that ties it to this audit. Only the sheet\'s own columns are ever read, so names, NHS numbers and dates of birth are never imported.</p>') +
+
       (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
+      (extra.feedback || '') +
       '<div class="part-rule" role="separator"><span>Closing the loop</span></div>' +
-      '<details class="loop-part"><summary>' + LOOP_SVG +
-        '<span class="loop-cta"><b>Make it a closed loop</b><span>The change, the re-audit and how to keep it going</span></span></summary>' +
-        sec(++n, 'The change', '<p class="prose">' + linkify(p.change) + '</p>') +
-        sec(++n, 'Re-audit: close the loop', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>' +
-          '<p class="muted">Use the same data sheet: add the re-audit rows with Cycle set to Re-audit, then upload it again in My audits.</p>') +
-        sec(++n, 'Share and embed it', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
-      '</details>' +
+      (function () { var lf = loopFlow(p); return '<details class="loop-part"><summary><span class="loop-cta"><b>Make it a closed loop</b><span>Six steps from the first data to a change that lasts. Tap to see what to do at each one.</span></span>' + lf.strip + '</summary>' + lf.detail + '</details>'; })() +
       '<div class="part-rule" role="separator"><span>Evidence and advice</span></div>' +
       (pits || pearls ? '<section class="pp-box"><div class="pp-grid">' +
         (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul></div>' : '') +
         (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul></div>' : '') +
         '</div></section>' : '') +
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
-      (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
+      (extra.after ? extra.after.map(function (x) {
+        var cnt = (x[1].match(/<li/g) || []).length;
+        return '<details class="more-box"><summary><span>' + esc(x[0]) + (cnt ? ' <span class="count">' + cnt + '</span>' : '') + '</span><span class="more-hint">Show</span></summary>' + x[1] + '</details>';
+      }).join('') : '');
   }
 
   /* ---------- send a proposal to a supervisor: a plain, friendly email + a Word proposal ---------- */
@@ -881,7 +898,7 @@
     var p = anyAudit(b.getAttribute('data-proto-xlsx')), st = b.parentNode.querySelector('[data-proto-status]') || b.parentNode.querySelector('[data-copy-status]');
     if (!p) return;
     sayIn(st, 'Making the data sheet…');
-    exporter().then(function (x) { return x.templateXlsx(p, {}); }).then(function (blob) { return saveFile(p.id + '-data-sheet.xlsx', blob); })
+    exporter().then(function (x) { return x.templateXlsx(p, { code: p.id + '//C1' }); }).then(function (blob) { return saveFile(p.id + '-data-sheet.xlsx', blob); })
       .then(function () { sayIn(st, 'Data sheet ready.'); }, function (err) { sayIn(st, downloadError(err)); });
   });
   // Template downloads, under the data sheet: the Excel sheet (drop-downs, results) and the plain CSV.
@@ -892,10 +909,11 @@
   function renderProposed(id) {
     var p = S.pById.get(id);
     if (!p) return renderNotFound();
-    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : '') + '<span class="copy-status" role="status" data-proto-status></span>';
+    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : chooseActions(p.id)) + '<span class="copy-status" role="status" data-proto-status></span>';
 
-    var body = protocolBody(p, dl, { status: effortScale(p) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : '') }) +
-      feedbackBox(p.id);
+    var simHtml = resourceSection(resourcesFor(p.question)).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.question));
+    var body = protocolBody(p, dl, { status: effortScale(p) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : ''),
+      feedback: feedbackBox(p.id), after: simHtml ? [['Similar published audits', simHtml]] : [] });
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
@@ -1493,7 +1511,7 @@
 
   var BUILT_BADGE = badge('Your bespoke audit', 'primary');
   function showBuilt(p, res, crumbs) {
-    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : '') + '<span class="copy-status" role="status" data-proto-status></span>';
+    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : chooseActions(p.id)) + '<span class="copy-status" role="status" data-proto-status></span>';
     if (p.similar) {
       var sp = S.pById.get(p.similar.id);
       if (sp) p._sim = '<aside class="similar-box no-print"><h2>A ready-made audit may suit you better</h2>' +
@@ -1502,9 +1520,9 @@
     }
     var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
     var after = [];
-    if (resHtml) after.push(['Published audits on this theme', resHtml]);
+    if (resHtml) after.push(['Similar published audits', resHtml]);
     var status = effortScale(p);
-    var body = protocolBody(p, dl, { status: status, after: after }) + feedbackBox(p.id) +
+    var body = protocolBody(p, dl, { status: status, after: after, feedback: feedbackBox(p.id) }) +
       '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
       'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
       'Your audit records are never sent to the AI or to Ai4Qi. <a href="#/how-it-works">How Ai4Qi works</a></p></aside>';
@@ -2457,7 +2475,7 @@
       '<div class="rec-box upload-box"><h3>Upload your data sheet</h3>' +
       '<p class="muted">The Excel sheet you downloaded for this audit. Rows marked Re-audit in the Cycle column go to the re-audit. Only the sheet\'s own columns are read: names, NHS numbers, dates of birth and addresses are never imported, hospital numbers become audit codes, and numbers or names typed in free text are removed.</p>' +
       '<label class="file-pick"><input type="file" accept=".xlsx,.xls,.csv,.tsv" data-import="' + ck + '"><span class="btn">Choose your Excel sheet</span></label> ' +
-      '<button class="btn btn-secondary" type="button" data-run-xlsx>Download the data sheet</button>' +
+      '<button class="btn btn-secondary" type="button" data-run-xlsx="' + ck + '">Download the ' + (ck === 'c2' ? 're-audit' : 'cycle 1') + ' sheet</button>' +
       '<div data-import-preview="' + ck + '"></div></div>' +
       rowsTable(r, ck) + '</div>';
   }
@@ -2648,7 +2666,9 @@
     var out = main.querySelector('[data-out-status]'), name = fileSlug(r.details.title || r.auditId);
     if (e.target.closest('[data-run-xlsx]')) {
       sayIn(out, 'Making the data sheet…');
-      exporter().then(function (x) { return x.templateXlsx(r.protocol, {}); }).then(function (b) { return saveFile(name + '-data-sheet.xlsx', b); })
+      var xb = e.target.closest('[data-run-xlsx]'), cyc = xb.getAttribute('data-run-xlsx') || (stageIdx(r) >= 4 ? 'c2' : 'c1');
+      exporter().then(function (x) { return x.templateXlsx(r.protocol, { code: r.auditId + '/' + r.id + '/' + (cyc === 'c2' ? 'RE' : 'C1') }); })
+        .then(function (b) { return saveFile(name + (cyc === 'c2' ? '-re-audit' : '-cycle-1') + '-data-sheet.xlsx', b); })
         .then(function () { sayIn(out, 'Data sheet ready.'); }, function (err) { sayIn(out, downloadError(err)); });
       return;
     }
@@ -2753,14 +2773,29 @@
     }
     return col;
   }
+  function sheetCode(table) {
+    for (var i = 0; i < Math.min(table.length, 6); i++) {
+      var m = (table[i] || []).join(' ').match(/Sheet code:\s*([A-Za-z0-9-]+)\/(r-[a-z0-9]+)?\/(C1|RE)\b/);
+      if (m) return { audit: m[1], run: m[2] || '', round: m[3] };
+    }
+    return null;
+  }
   function showImportPreview(r, ck, table, box) {
+    var code = sheetCode(table);
+    if (code && (code.audit !== r.auditId || (code.run && code.run !== r.id))) {
+      box.innerHTML = '<div class="import-preview notice notice-warn"><p><strong>This sheet belongs to ' + (code.audit !== r.auditId ? 'a different audit (' + esc(code.audit) + ')' : 'another copy of this audit') + '.</strong> Nothing was added. Upload it in that audit, or download this audit\'s sheet.</p>' +
+        '<button class="link-btn" type="button" data-import-cancel>Close</button></div>';
+      S.pendingImport = null; return;
+    }
+    if (code && code.round === 'RE') ck = 'c2';
     var prep = prepareImport(r.protocol, table, r.codeSeq || 1, r.options);
     if (prep.reRows.length) { S.pendingImport = { runId: r.id, ck: 'c1', rows: prep.rows, reRows: prep.reRows, nextCode: prep.nextCode, table: table, tab: ck }; }
     else S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode, table: table, tab: ck };
     var fresh = prep.dropped.filter(function (h) { var n = normHead(h); return n && n !== 'cycle' && !ID_HEADER.test(n); });
     var ids = prep.dropped.filter(function (h) { return ID_HEADER.test(normHead(h)); });
     var total = prep.rows.length + prep.reRows.length;
-    box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : '') + '.</strong> Nothing has been stored yet.</p>' +
+    box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : code ? ' to the ' + (ck === 'c2' ? 're-audit' : 'cycle 1') : '') + '.</strong> Nothing has been stored yet.</p>' +
+      (code ? '<p class="muted">Sheet code ' + esc(code.audit + (code.run ? '/' + code.run : '') + '/' + code.round) + ': ' + (code.round === 'RE' ? 'the re-audit' : 'cycle 1') + ' of this audit.</p>' : '') +
       (fresh.length ? '<div class="new-cols"><p><strong>New columns in your sheet:</strong> ' + esc(fresh.join(', ')) + '</p>' +
         '<button class="btn btn-secondary" type="button" data-import-addcols>Add ' + (fresh.length === 1 ? 'it' : 'them') + ' to this audit</button> <span class="muted">They will then count in your results.</span></div>' : '') +
       '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
@@ -2937,9 +2972,9 @@
     var prev = fbFor(id);
     var done = prev ? '<p class="fb-thanks" role="status">Thank you – your feedback has been recorded.</p>' : '';
     return '<section class="fb no-print" data-fb="' + attr(id) + '" aria-label="Feedback on this audit">' +
-      '<div class="fb-row"><span class="fb-q">Was this audit idea useful?</span>' +
-      '<button type="button" class="fb-btn' + (prev && prev.rating === 'up' ? ' is-on' : '') + '" data-fb-rate="up" aria-pressed="' + !!(prev && prev.rating === 'up') + '">' + thumb('up') + '<span class="sr-only">Yes, useful</span></button>' +
-      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span class="sr-only">No, not useful</span></button>' +
+      '<div class="fb-row"><div class="fb-q"><b>Is this a good audit to run?</b><span>Your vote improves it for everyone: audits with more thumbs down get rewritten.</span></div>' +
+      '<div class="fb-btns"><button type="button" class="fb-btn' + (prev && prev.rating === 'up' ? ' is-on' : '') + '" data-fb-rate="up" aria-pressed="' + !!(prev && prev.rating === 'up') + '">' + thumb('up') + '<span>Yes, useful</span></button>' +
+      '<button type="button" class="fb-btn' + (prev && prev.rating === 'down' ? ' is-on' : '') + '" data-fb-rate="down" aria-pressed="' + !!(prev && prev.rating === 'down') + '">' + thumb('down') + '<span>Not quite right</span></button></div>' +
       '<span class="fb-count" data-fb-count hidden></span></div>' +
       '<div class="fb-more" hidden><p class="fb-sub">What was wrong? Choose any that apply.</p><div class="fb-chips">' +
       FB_REASONS.map(function (r) { return '<button type="button" class="fb-chip" data-fb-reason="' + attr(r) + '" aria-pressed="false">' + esc(r) + '</button>'; }).join('') +
