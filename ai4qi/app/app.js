@@ -522,34 +522,66 @@
     return '<ul class="why-list">' + parts.map(function (x) { return '<li>' + linkify(x) + '</li>'; }).join('') + '</ul>';
   }
   /* Data collection effort as a scale: "~15 min per 10 patients" -> Medium, marker on a green-to-red bar. */
-  function effortScale(t) {
-    t = String(t || ''); if (!t) return '';
+  var ICON = {
+    clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    day: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><rect x="7" y="13" width="3" height="3" rx=".5"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg>',
+    tool: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L4 16.8V20h3.2l5.3-5.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.6-.6-.6-2.6z"/></svg>'
+  };
+  function minsText(m) {
+    if (m < 60) return Math.max(5, Math.round(m / 5) * 5) + ' min';
+    var h = Math.round(m / 30) / 2; return h + (h === 1 ? ' hour' : ' hours');
+  }
+  // Rough time budget from the protocol: data collection (cycle 1 + re-audit), summary per cycle, putting in the change.
+  function timeBudget(p, per10) {
+    if (per10 == null) return '';
+    var n = sampleGuess(p), segs = parseTimeline(p.timeline) || [];
+    function wks(re, d) { var sg = segs.filter(function (x) { return re.test(x.label); })[0]; return sg ? sg.b - sg.a + 1 : d; }
+    var cWeeks = wks(/collect/i, 2), total = segs.length ? Math.max.apply(null, segs.map(function (x) { return x.b; })) : 12;
+    var collect = per10 * n / 10, perDay = collect / (cWeeks * 5), summary = 45, action = 120;
+    var all = collect * 2 + summary * 2 + action;
+    function tile(ic, h, v, sub) { return '<div class="tb"><span class="tb-i">' + ICON[ic] + '</span><div><span class="tb-h">' + h + '</span><b>' + v + '</b><span class="tb-s">' + sub + '</span></div></div>'; }
+    return '<div class="time-budget">' +
+      tile('clock', 'Total time', 'About ' + minsText(all), 'hands-on, over ' + total + ' weeks') +
+      tile('day', 'Per day', 'About ' + minsText(perDay), 'while collecting (' + cWeeks + (cWeeks === 1 ? ' week' : ' weeks') + ', ' + n + ' records)') +
+      tile('chart', 'Summary', 'About ' + minsText(summary), 'per cycle: the sheet and slides are made for you') +
+      tile('tool', 'Action', 'About ' + minsText(action), 'to agree and put the change in place') +
+      '</div><p class="tb-note">Estimates, to help you plan.</p>';
+  }
+  function effortScale(p) {
+    var t = String((p && p.effort) || ''); if (!t) return '';
     var m = t.match(/(\d+)\s*(min|minutes|h|hours?)\b[^\d]*?(\d+)?\s*(patients|records|cases|notes)?/i);
     var per10 = null;
     if (m) { var v = +m[1] * (/^h/i.test(m[2]) ? 60 : 1), n = m[3] ? +m[3] : 10; per10 = v * 10 / (n || 10); }
-    var lvl = per10 == null ? null : per10 <= 10 ? 0 : per10 <= 20 ? 1 : 2;
-    var names = ['Easy', 'Medium', 'Hard'], pos = per10 == null ? 50 : Math.max(4, Math.min(96, per10 / 30 * 100));
+    // Five fixed positions, by minutes per 10 patients.
+    var lvl = per10 == null ? null : per10 <= 5 ? 0 : per10 <= 10 ? 1 : per10 <= 20 ? 2 : per10 <= 30 ? 3 : 4;
+    var names = ['Very easy', 'Easy', 'Medium', 'Hard', 'Very hard'], pos = lvl == null ? 50 : 10 + lvl * 20;
     return '<div class="effort"><span class="effort-h">Data collection effort' + (lvl == null ? '' : ': <b>' + names[lvl] + '</b>') + '</span>' +
       '<div class="effort-bar" role="img" aria-label="' + attr((lvl == null ? '' : names[lvl] + ': ') + t) + '"><i style="left:' + pos + '%"></i></div>' +
-      '<div class="effort-scale" aria-hidden="true"><span>Easy</span><span>Medium</span><span>Hard</span></div>' +
-      '<p class="effort-t">' + esc(t.replace(/^~/, 'About ')) + '</p></div>';
+      '<div class="effort-scale" aria-hidden="true">' + names.map(function (n, i) { return '<span' + (i === lvl ? ' class="on"' : '') + '>' + n + '</span>'; }).join('') + '</div>' +
+      '<p class="effort-t">' + esc(t.replace(/^~/, 'About ')) + '</p>' + timeBudget(p, per10) + '</div>';
   }
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     extra = extra || {};
+    // Method: the question across the top, a 2 x 2 grid, then the sample size under a solid rule.
+    function cell(t, body) { return '<div class="m-cell"><h3 class="m-lab">' + t + '</h3>' + body + '</div>'; }
     var how =
-      sub('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
+      '<div class="m-q"><h3 class="m-lab">Audit question</h3><p>' + esc(p.question) + '</p></div>' +
+      '<div class="m-grid">' +
+      cell('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
         '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
-      sub('Pass', '<p class="prose">' + linkify(p.pass) + '</p>') +
-      sub('Population', '<p class="prose">' + linkify(p.population) + '</p>') +
-      sub('Sample', '<p class="prose">' + linkify(p.sample) + '</p>') +
-      sub('Data source', '<p class="prose">' + linkify(p.data_source) + '</p>') +
+      cell('Pass criterion', '<p class="prose">' + linkify(p.pass) + '</p>') +
+      cell('Selection criteria', '<p class="prose">' + linkify(p.population) + '</p>') +
+      cell('Data collection', '<p class="prose">' + linkify(p.data_source) + '</p>') +
+      '</div>' +
+      '<div class="m-sample"><h3 class="m-lab">Sample size</h3><p class="prose">' + linkify(p.sample) + '</p></div>' +
       sub('Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>') +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
       sec(++n, 'Why this audit matters', whyPoints(p.why)) +
-      sec(++n, 'How', how) +
+      sec(++n, 'Method', how) +
       (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
       '<div class="part-rule" role="separator"><span>Closing the loop</span></div>' +
       sec(++n, 'The change', '<p class="prose">' + linkify(p.change) + '</p>') +
@@ -834,7 +866,7 @@
       '<a class="btn btn-secondary" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Template (CSV)</a>') + '<span class="copy-status" role="status" data-proto-status></span>';
 
-    var body = protocolBody(p, dl, { status: effortScale(p.effort) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : '') }) +
+    var body = protocolBody(p, dl, { status: effortScale(p) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : '') }) +
       feedbackBox(p.id);
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
@@ -1443,7 +1475,7 @@
     var resHtml = resourceSection(res).replace('#/search?q=', '#/search?q=' + encodeURIComponent(p.topic));
     var after = [];
     if (resHtml) after.push(['Published audits on this theme', resHtml]);
-    var status = effortScale(p.effort);
+    var status = effortScale(p);
     var body = protocolBody(p, dl, { status: status, after: after }) + feedbackBox(p.id) +
       '<aside class="ai-note"><p><strong>How this was made.</strong> This protocol was drafted by an AI model (Claude, made by Anthropic) from the topic you typed, ' +
       'using published audits and standards from the Ai4Qi library. It is a draft. Check the standard against its linked source, and ask your supervisor to review the protocol before you collect data. ' +
