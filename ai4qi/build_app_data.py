@@ -151,6 +151,8 @@ def build_library(lib):
 def build_proposed():
     st = HERE / "new_audits" / "short_titles.json"          # 3-4 word names, e.g. for email subjects
     short = json.loads(st.read_text(encoding="utf-8")) if st.exists() else {}
+    sp = HERE / "new_audits" / "pass_short.json"            # the pass criterion in 14 words or fewer
+    pass_short = json.loads(sp.read_text(encoding="utf-8")) if sp.exists() else {}
     out = []
     for fname, group in (("ortho_new_audits.json", "Trauma and orthopaedics"), ("nonortho_new_audits.json", "")):
         for p in json.load(open(HERE / "new_audits" / fname, encoding="utf-8")):
@@ -161,6 +163,8 @@ def build_proposed():
             q["template_file"] = "templates/" + Path(p.get("template_file") or (p["id"] + ".csv")).name
             if short.get(p["id"]):
                 q["short"] = short[p["id"]]
+                if pass_short.get(q["id"]):
+                    q["pass_short"] = pass_short[q["id"]]
             out.append(clean(q))
     return out
 

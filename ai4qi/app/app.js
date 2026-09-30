@@ -420,7 +420,7 @@
     var st = p.standard || {};
     return '<li class="result result-proposed"><div class="badges">' + PROPOSED_BADGE + badge(p.area, 'primary') +
       (p.novelty ? badge(cap(p.novelty)) : '') + '</div>' +
-      '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(p.question) + '</a></h3>' +
+      '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(auditName(p)) + '</a></h3><p class="audit-q small">' + esc(p.question) + '</p>' +
       '<p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · Standard: ' + esc(trunc(humanSource(st.source), 110)) + '</p>' +
       '<p class="snippet">' + esc(trunc(p.why, 230)) + '</p></li>';
   }
@@ -614,9 +614,9 @@
       '<div class="m-grid">' +
       cell('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
         '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
-      cell('Pass criterion', '<p class="prose">' + linkify(p.pass) + '</p>') +
-      cell('Selection criteria', '<p class="prose">' + linkify(p.population) + '</p>') +
-      cell('Data collection', '<p class="prose">' + linkify(p.data_source) + '</p>') +
+      cell('Pass criterion', passHtml(p)) +
+      cell('Selection criteria', selectionHtml(p.population)) +
+      cell('Data collection', bullets(splitTop(p.data_source, /;/), 'bul')) +
       '</div>' +
       '<div class="m-sample m-card"><h3 class="m-lab">Sample size</h3><p>' + linkify(p.sample) + '</p></div>' +
       sub('Timeline', timelineHtml(p.timeline));
@@ -774,6 +774,37 @@
   }
   // "What proportion of adults at high risk from sepsis (NEWS2…) receive IV antibiotics within 1 hour of…?"
   // -> "Adults at high risk from sepsis receive IV antibiotics within 1 hour of…" (for subject lines)
+  // Method cells as short, scannable lists.
+  function splitTop(t, sepRe) {                 // split on a separator, but not inside brackets
+    var out = [], cur = '', depth = 0;
+    String(t || '').split('').forEach(function (ch) {
+      if (ch === '(') depth++; else if (ch === ')') depth = Math.max(0, depth - 1);
+      if (depth === 0 && sepRe.test(ch)) { out.push(cur); cur = ''; } else cur += ch;
+    });
+    out.push(cur);
+    return out.map(function (x) { return x.trim().replace(/[.\s]+$/, ''); }).filter(Boolean);
+  }
+  function bullets(items, cls) { return items.length ? '<ul class="' + cls + '">' + items.map(function (x) { return '<li>' + linkify(cap(x)) + '</li>'; }).join('') + '</ul>' : ''; }
+  function selectionHtml(t) {
+    var inc = [], exc = [];
+    String(t || '').split(/(?<=\.)\s+(?=[A-Z])/).forEach(function (sent) {
+      var x = sent.trim(); if (!x) return;
+      if (/^(exclude[sd]?|exclusions?|excluding)\b\s*:?\s*/i.test(x)) exc = exc.concat(splitTop(x.replace(/^(exclude[sd]?|exclusions?|excluding)\b\s*:?\s*/i, ''), /[,;]/));
+      else inc.push(x.replace(/^(include[sd]?|inclusions?( criteria)?)\b\s*:?\s*/i, '').replace(/[.\s]+$/, ''));
+    });
+    return (inc.length ? '<p class="sel-h is-inc">Include</p>' + bullets(inc, 'bul inc') : '') + (exc.length ? '<p class="sel-h is-exc">Exclude</p>' + bullets(exc, 'bul exc') : '') ||
+      '<p class="prose">' + linkify(t) + '</p>';
+  }
+  function passHtml(p) {
+    if (!p.pass_short) return '<p class="prose">' + linkify(p.pass) + '</p>';
+    return '<p class="pass-short">' + esc(cap(p.pass_short)) + '</p><details class="pass-full"><summary>Exact definition</summary><p>' + linkify(p.pass) + '</p></details>';
+  }
+  // Heading and subheading: the audit's short name, then the full question underneath.
+  function auditName(p) { return cap(String((p && p.short) || shortTitle((p && p.question) || ''))); }
+  function titleBlock(p, tag) {
+    tag = tag || 'h1';
+    return '<' + tag + ' class="audit-name">' + esc(auditName(p)) + '</' + tag + '><p class="audit-q">' + esc(p.question) + '</p>';
+  }
   function shortTitle(q) {
     var t = String(q || '').replace(/\s*\([^)]*\)/g, '').replace(/\?+\s*$/, '').trim()
       .replace(/^(what (proportion|percentage|share|fraction) of|what %( of)?|how (many|often|much)( of)?|in what proportion of|do|does|are|is|were|was)\s+/i, '');
@@ -917,7 +948,7 @@
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
-      '<h1>' + esc(p.question) + '</h1>' +
+      titleBlock(p) +
       (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + '</header>' +
       supervisorBox(p) + body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
@@ -950,7 +981,7 @@
         return '<div class="area-group"><h2>' + esc(k) + ' <span class="muted" style="font-weight:400;font-size:.9rem">(' + areas.get(k).length + ')</span></h2><ul class="result-list">' +
           areas.get(k).map(function (p) {
             return '<li class="result result-proposed" data-text="' + attr((p.id + ' ' + p.question + ' ' + (p.standard || {}).source).toLowerCase()) + '">' +
-              '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(p.question) + '</a></h3><p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · ' +
+              '<h3><a href="#/proposed/' + attr(p.id) + '">' + esc(auditName(p)) + '</a></h3><p class="audit-q small">' + esc(p.question) + '</p><p class="meta"><span class="id-tag">' + esc(p.id) + '</span> · ' +
               esc(trunc(humanSource((p.standard || {}).source), 120)) + (p.novelty ? ' · ' + esc(cap(p.novelty)) : '') + (mixedFeedback(p) ? ' · ' + badge('Mixed feedback', 'warn') : '') + '</p></li>';
           }).join('') + '</ul></div>';
       }).join('');
@@ -1252,7 +1283,7 @@
     '',
     'Reply with only one JSON object with exactly these keys:',
     '{"question": string, "short": string (the audit\'s name in 3-4 words, e.g. "Sepsis antibiotics within 1 hour"), "area": string (clinical area), "alternative": {"question": string, "why": string}, "why": string (2-3 short, forceful sentences, each a separate point: the harm to patients, the gap in practice, why audit it now; lead with a number from the evidence where there is one; no hedging), ' +
-    '"standard": {"source": string, "wording": string, "url": string or ""}, "pass": string, "population": string (include exclusions), ' +
+    '"standard": {"source": string, "wording": string, "url": string or ""}, "pass": string, "pass_short": string (the pass criterion in 14 words or fewer, keeping the key threshold), "population": string (who to include, then a sentence starting "Exclude" listing exclusions separated by commas), ' +
     '"sample": string, "data_source": string, "template": [{"field": string, "type": string, "options": [string], "note": string}], "timeline": string, ' +
     '"change": string, "target": string (starts with e.g. "≥90%"), "reaudit": string, "close_loop": string, "evidence": [string], ' +
     '"pitfalls": [string], "pearls": [string], "effort": string (e.g. "~15 min per 10 patients"), "similar": {"id": string, "better_because": string} or null}'
@@ -1289,7 +1320,7 @@
       question: str(o.question), area: str(o.area),
       alternative: o.alternative && o.alternative.question ? { question: str(o.alternative.question), why: str(o.alternative.why) } : null,
       short: str(o.short).split(/\s+/).slice(0, 6).join(' '), why: str(o.why), standard: { source: str(st.source), wording: str(st.wording), url: safeUrl(str(st.url)) },
-      pass: str(o.pass), population: str(o.population), sample: str(o.sample), data_source: str(o.data_source),
+      pass: str(o.pass), pass_short: str(o.pass_short).split(/\s+/).slice(0, 16).join(" "), population: str(o.population), sample: str(o.sample), data_source: str(o.data_source),
       template: (Array.isArray(o.template) ? o.template : []).filter(function (f) { return f && f.field; }).map(function (f) {
         return { field: str(f.field).replace(/[^A-Za-z0-9_]+/g, '_').toLowerCase(), type: str(f.type) || 'text',
           options: list(f.options), note: str(f.note) };
@@ -1528,7 +1559,7 @@
       'Your audit records are never sent to the AI or to Ai4Qi. <a href="#/how-it-works">How Ai4Qi works</a></p></aside>';
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
-      '<h1>' + esc(p.question) + '</h1>' +
+      titleBlock(p) +
       (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + variantsNav(p) + '</header>' +
       supervisorBox(p) + (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
@@ -2288,7 +2319,7 @@
       var overdue = ns.due && ns.due < todayIso();
       return '<li class="run-card"><div class="rc-top"><span class="id-tag">' + esc(r.auditId) + '</span>' +
         (r.closed ? badge('Loop closed', 'ok') : (isStarted(r) || r.demo) ? badge(RUN_STAGES[i][1], 'primary') : badge('Not started', 'muted')) + (r.demo ? badge('Example data', 'demo') : '') + '</div>' +
-        '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title || r.protocol.question) + '</a></h2>' +
+        '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title && r.details.title !== r.protocol.question ? r.details.title : auditName(r.protocol)) + '</a></h2><p class="audit-q small">' + esc(r.protocol.question) + '</p>' +
         '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
         '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
         ((isStarted(r) || r.demo) ? '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' :
@@ -2574,7 +2605,7 @@
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/my-audits">My audits</a></nav>' +
       '<article class="doc run" data-run="' + attr(r.id) + '"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(r.auditId) + '</span>' +
       (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : r.exampleData ? badge('Includes example data', 'demo') : '') + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
-      '<h1>' + esc(d.title || p.question) + '</h1>' + stageStepper(r) +
+      '<h1 class="audit-name">' + esc(d.title && d.title !== p.question ? d.title : auditName(p)) + '</h1><p class="audit-q">' + esc(p.question) + '</p>' + stageStepper(r) +
       (started ? '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
       '<p class="nc-text">' + esc(ns.text) + '</p></div>' :
       '<div class="next-card is-trial"><div><p class="nc-label">Not started yet</p>' +
