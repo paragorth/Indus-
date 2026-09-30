@@ -24,7 +24,7 @@ is used.
 ## What we never collect: patient data
 
 Audit records you type or upload are stored **only in your browser, on your device**, encrypted.
-You can add a passcode if you want one. They are never sent to us or our service providers. So is a "results
+They are never sent to us or our service providers. So is a "results
 code" (totals only) if you paste one. Before a record is stored, Ai4Qi keeps only the template's
 columns, replaces patient numbers with audit codes and removes common identifiers from text. See
 [how your audit data is protected](#/privacy).

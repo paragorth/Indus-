@@ -23,9 +23,9 @@ storage** is cleared when you close the browser (or the tab).
 
 | Name | What it holds | Why | How long |
 |---|---|---|---|
-| `ai4qi_vault_v1` | How your audits are protected: the device key they are encrypted with (if you have not set a passcode), or, with a passcode, a random "salt" and a check value (never the passcode itself); and whether you chose shared-computer mode | To unlock your audits with your passcode | Until you erase your audits. In shared-computer mode: session storage, cleared when the browser closes |
-| `ai4qi_runs_enc_v1` | Your audits and their de-identified records, **encrypted** with the device key, or with a key made from your passcode if you set one | To keep your audit on your device, not on our servers | As above |
-| `ai4qi_runs_v1` | Audits saved by an older version of Ai4Qi, before passcodes were added | Moved into the encrypted store, and then deleted, when you set a passcode | Until you set a passcode or erase your audits |
+| `ai4qi_vault_v1` | How your audits are protected: the device key they are encrypted with (or, for audits protected by an older version's passcode, a random "salt" and a check value, never the passcode itself, until they are next opened); and whether you chose shared-computer mode | To unlock your audits with your passcode | Until you erase your audits. In shared-computer mode: session storage, cleared when the browser closes |
+| `ai4qi_runs_enc_v1` | Your audits and their de-identified records, **encrypted** with the device key | To keep your audit on your device, not on our servers | As above |
+| `ai4qi_runs_v1` | Audits saved by an older version of Ai4Qi, before encryption was added | Moved into the encrypted store, and then deleted, when you next open My audits | Until you next open My audits or erase your audits |
 | `ai4qi_built_v1` | The last 30 audit protocols you built (no patient data) | So you can go back to them | Until you clear your browser's site data |
 | `ai4qi_feedback_v1` | Your thumbs up or down, reasons and any comment on proposed audits | To send your feedback when you are online, and show that you have already given it | Until you clear your browser's site data |
 | `ai4qi_device_v1` | A random device number. It is created only when feedback is sent | To limit spam and count one vote per device | Until you clear your browser's site data |

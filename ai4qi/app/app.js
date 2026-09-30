@@ -2273,10 +2273,10 @@
         '<button class="btn" type="submit">Set passcode</button><p class="form-status" role="status" data-vault-status></p></form>' +
         (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-vault>Demo: use a demo passcode</button></p>' : '') + privacyLink() + '</article>';
     } else {
-      html = '<article class="doc narrow vault"><h1>My audits are locked</h1>' + intro +
-        '<p class="prose">Enter your passcode to open your audits on this device' + (V.meta.shared ? ' (shared-computer mode: they are deleted when the browser closes)' : '') + '.</p>' +
+      html = '<article class="doc narrow vault"><h1>One last passcode</h1>' + intro +
+        '<p class="prose">Ai4Qi no longer uses passcodes. Enter the passcode you set on this device once more; after that My audits opens straight away.</p>' +
         '<form class="stack-form" data-vault-open><label for="vpo">Passcode</label><input id="vpo" name="p" type="password" autocomplete="current-password" required>' +
-        '<button class="btn" type="submit">Unlock</button><p class="form-status" role="status" data-vault-status></p></form>' +
+        '<button class="btn" type="submit">Open My audits</button><p class="form-status" role="status" data-vault-status></p></form>' +
         (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-unlock>Demo: unlock with the demo passcode</button></p>' : '') +
         '<details class="rec-box"><summary>Forgotten your passcode?</summary><p class="prose">It cannot be recovered. You can erase all audits on this device and start again (restore from a backup file if you have one).</p>' +
         '<button type="button" class="btn btn-secondary" data-vault-erase>Erase all audits on this device</button> <span data-vault-erase-confirm></span></details></article>';
@@ -2301,7 +2301,10 @@
     } else if (f.matches && f.matches('[data-vault-open]')) {
       e.preventDefault();
       sayIn(st, 'Unlocking…');
-      vaultUnlock(f.elements.p.value).then(afterUnlock, function () { sayIn(st, 'That passcode is not right.'); f.elements.p.select(); });
+      vaultUnlock(f.elements.p.value).then(function () {
+        // Passcodes are retired: re-encrypt with this browser's own key so it never asks again.
+        return vaultRekey(null, !!(V.meta && V.meta.shared)).catch(function () {});
+      }).then(afterUnlock, function () { sayIn(st, 'That passcode is not right.'); f.elements.p.select(); });
     }
   });
   document.addEventListener('click', function (e) {
@@ -2363,12 +2366,9 @@
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
   function protectionBox() {
     var dev = vaultDevice(), shared = !!(V.meta && V.meta.shared);
-    return '<details class="rec-box protect"><summary>Protection on this device: ' + (dev ? 'no passcode' : 'passcode') + (shared ? ', shared computer' : '') + '</summary>' +
-      '<p class="prose">Your records are stored encrypted in this browser. ' + (dev ? 'They open without a passcode, like other work on this device.' : 'They lock after 15 minutes without use.') + '</p>' +
-      (dev ? '<form class="stack-form" data-protect-pass><label for="pp1">Add a passcode (optional, at least 6 characters)</label><input id="pp1" name="p1" type="password" minlength="6" autocomplete="new-password" required>' +
-        '<label for="pp2">Type it again</label><input id="pp2" name="p2" type="password" minlength="6" autocomplete="new-password" required>' +
-        '<button class="btn btn-secondary" type="submit">Add passcode</button></form>' :
-        '<p><button type="button" class="btn btn-secondary" data-protect-nopass>Remove the passcode</button></p>') +
+    return '<details class="rec-box protect"><summary>Protection on this device' + (shared ? ': shared computer' : '') + '</summary>' +
+      '<p class="prose">Your records are stored encrypted in this browser and open like your other work on this device.</p>' +
+      (dev ? '' : '<p><button type="button" class="btn btn-secondary" data-protect-nopass>Remove the old passcode</button></p>') +
       '<label class="check"><input type="checkbox" data-protect-shared' + (shared ? ' checked' : '') + '><span><strong>This is a shared computer.</strong> Delete my audits when the browser closes. Download a backup to keep your work.</span></label>' +
       '<p class="form-status" role="status" data-protect-status></p></details>';
   }
@@ -2698,7 +2698,7 @@
   function renderPrivacy() {
     page('<article class="doc narrow"><h1>How your audit data is protected</h1>' +
       '<p class="prose"><strong>Your audit records stay on your device.</strong> Records you type or upload in My audits are kept in this browser only. They are never sent to Ai4Qi, and we cannot see them.</p>' +
-      '<p class="prose"><strong>Stored encrypted.</strong> Records are stored encrypted (AES-256) in this browser and open without a passcode, like your other work on this device: Trust computers lock themselves, and a personal device is yours to keep locked. Under <em>Protection</em> on My audits you can add a passcode (the audits then lock after 15 minutes without use; we cannot reset a forgotten passcode), or choose shared-computer mode so everything is deleted when the browser closes.</p>' +
+      '<p class="prose"><strong>Stored encrypted.</strong> Records are stored encrypted (AES-256) in this browser and open without a passcode, like your other work on this device: Trust computers lock themselves, and a personal device is yours to keep locked. On a shared computer, choose shared-computer mode under <em>Backup and protection</em> on My audits, so everything is deleted when the browser closes.</p>' +
       '<p class="prose"><strong>De-identified as they are entered.</strong> Before a record is stored, Ai4Qi:</p><ul class="prose">' +
       '<li>keeps only the columns that are part of the audit template and leaves out everything else (for example name, NHS number, date of birth or address columns);</li>' +
       '<li>replaces patient or hospital numbers with audit codes (P001, P002…);</li>' +
@@ -3549,7 +3549,6 @@
         '<div class="ac-grid">' +
         field('pf-name', 'Full name', '<input id="pf-name" name="full_name" maxlength="120" autocomplete="name" placeholder="e.g. Priya Shah" value="' + attr(pf.full_name || '') + '">') +
         field('pf-org', 'Hospital, Trust or practice', '<input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" list="org-list" placeholder="Start typing to pick" value="' + attr(pf.organisation || '') + '">' + orgList()) +
-        field('pf-dept', 'Department or ward', '<input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '">') +
         '</div>') +
       card('ac-role', 'Your role', 'Optional. Only ever counted in anonymous totals.',
         '<div class="ac-grid">' +
@@ -3616,7 +3615,7 @@
         work_setting: (BE.profile || {}).work_setting || null, audit_purpose: (BE.profile || {}).audit_purpose || null,
         consent_news: form.elements.consent_news.checked, consent_sponsors: form.elements.consent_sponsors.checked,
         full_name: form.elements.full_name.value.trim().slice(0, 120) || null, organisation: form.elements.organisation.value.trim().slice(0, 160) || null,
-        department: form.elements.department.value.trim().slice(0, 120) || null, reminders_off: !form.elements.reminders.checked };
+        department: (BE.profile || {}).department || null, reminders_off: !form.elements.reminders.checked };
       var prev = BE.profile || {};
       if (row.consent_news !== !!prev.consent_news || row.consent_sponsors !== !!prev.consent_sponsors) row.consent_updated_at = new Date().toISOString();
       btn.disabled = true; say('Saving…');
@@ -4114,7 +4113,6 @@
     { q: 'How do I make the presentation?', k: 'powerpoint pptx slides presentation deck present meeting teaching', a: 'Under Files on your audit, press Results presentation. Choose a design from the list first if you like; there are 20. The slides contain your charts and tables and no Ai4Qi branding.' },
     { q: 'How do I send the proposal to my supervisor?', k: 'proposal supervisor consultant approve approval word document send registration', a: 'Open Send to your supervisor on your audit. It writes the email and a Word proposal with a sign-off box. Download the proposal and attach it; it holds the protocol only, never patient data. Register the audit with your audit department too.' },
     { q: 'How do I move my audits to another device?', k: 'backup restore transfer device phone computer laptop move export', a: 'Under Files on your audit, press Backup. On the other device, open My audits, then Backup and protection, then Restore a backup.', go: [['My audits', '#/my-audits']] },
-    { q: 'I forgot my passcode', k: 'passcode password forgot lost locked lock pin', a: 'A passcode cannot be recovered, not even by us. You can erase the audits on this device and start again, then restore a backup file if you have one.' },
     { q: 'What is demo mode?', k: 'demo example try test practice sample data', a: 'Demo mode fills an audit with example data so you can see every step, the results and the presentation. Your own audits are kept separately.', go: [['Try demo mode', '#/demo']] },
     { q: 'Where do the standards come from?', k: 'standard nice guideline royal college source reference evidence', a: 'From NICE, the Royal Colleges, NHS England, national audits and others, quoted exactly with a link to the source. Where none exists the audit says Local standard.', go: [['Browse standards', '#/standards']] },
     { q: 'Is the audit written by AI? Can I trust it?', k: 'ai artificial intelligence claude trust accurate correct wrong made up', a: 'Audits you build are written by AI from the library and checked standards, following strict rules. Treat it as a well-founded draft: check the standard against its source and ask your supervisor to review it.', go: [['How Ai4Qi works', '#/how-it-works']] },
