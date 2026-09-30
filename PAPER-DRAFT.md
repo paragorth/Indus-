@@ -1,6 +1,6 @@
 # Indus seal inscriptions as credentials, not names: calibrated and pre-registered tests, with the Umma sealing as an exported standard formula
 
-*Draft, 29 September 2026. Authors: P. Garg (and co-authors to be agreed). The code and data for every number are in this repository; the strategy IDs (S###) point to the log in STRATEGIES.md.*
+*Draft, 30 September 2026 (corrected: the Umma sealing is in the Ashmolean, not the Louvre). Authors: P. Garg (and co-authors to be agreed). The code and data for every number are in this repository; the strategy IDs (S###) point to the log in STRATEGIES.md.*
 
 ## Abstract
 Most attempts to decipher the Indus script assume that seal inscriptions record owners' names, spelled phonetically. Mukhopadhyay (2023) argued instead that the inscriptions contain no proper nouns and served licensing, taxation and access control. We test this "no proper nouns" model quantitatively for the first time, on the merged Wells/ICIT corpus (3,599 distinct texts), with Mahadevan's 1977 transcription (IM77) as a transcription check.
@@ -55,8 +55,8 @@ Both predictions pass.
 ### 3.3 Nameless quantity seals and the Umma sealing (S335–S346)
 - **Quantity seals.** Thirty-one texts consist only of 'opener · 2 · N · item', mostly with the item W390 (the tree or branch sign). They come from 8 sites and include two Kalibangan sealings, so the seals were used. Within Mohenjo-daro they are not clustered in one quarter, and seal size does not rise with N (ρ = −0.38, p = 0.14).
 - **Counts.** On seals, the numbers attached to the tree sign peak at 3 and 4. The Harappa voucher counts (tall 2–4 + W700) peak at the same values.
-- **The Umma sealing.** The Umma sealing (Louvre; Scheil 1925) reads 127-705 · 2 · 4 · 390. Its ending, '2-4-390', is the complete text of seven home seals (Mohenjo-daro M-103, M-278, M-984, M-1750, M-1844; Harappa H-2003 and H-55; Dholavira; Surkotada). We are not aware of this equivalence being noted before.
-- **Candidate anchor.** In CDLI texts about Meluhha, the most frequently named good is a wood, {gesz}ab-ba me-luh-ha, used for furniture at Umma (P107404, P249043), Ur, Girsu and Isin. We therefore propose W390 = a timber unit. This is a hypothesis with a stated test: sealing backs (log or rope impressions), and Mesopotamian wood accounts with counts of 3–6 units.
+- **The Umma sealing.** The Umma sealing (Ashmolean Museum, Oxford, 1931.120; published by Scheil 1925; Parpola 1994 no. 25) reads 127-705 · 2 · 4 · 390. Its ending, '2-4-390', is the complete text of seven home seals (Mohenjo-daro M-103, M-278, M-984, M-1750, M-1844; Harappa H-2003 and H-55; Dholavira; Surkotada). We are not aware of this equivalence being noted before.
+- **Candidate anchor.** In CDLI texts about Meluhha, the most frequently named good is a wood, {gesz}ab-ba me-luh-ha, used for furniture at Umma (P107404, P249043), Ur, Girsu and Isin. We therefore propose W390 = a timber unit. This is a hypothesis with a stated test: sealing backs (log or rope impressions), and Mesopotamian wood accounts with counts of 3–6 units. A point against it: the back of the Umma bulla carries the impression of textile, so it was attached to a cloth-covered bale (Parpola 1994), which fits bundled goods better than logs. The find-spot 'Umma' also rests only on the dealer's word (Scheil 1925).
 
 ### 3.4 Where sealed goods went (S324–S330)
 - **All matches are cross-site.** Eighteen sealings match a seal text exactly, against about 1 expected by chance. All 18 were found at another site: Mohenjo-daro → Lothal 13, and → Harappa, Kalibangan, Hulas and Rupar; one match runs Harappa → Lothal.
@@ -71,7 +71,7 @@ The results agree with Mukhopadhyay's (2023) thesis and add calibrated, pre-regi
 - The corpus is a small sample of all seals ever made: Chao1 estimates about 950 signs, of which about 240 are unseen (S309). Most texts come from Mohenjo-daro and Harappa (76%).
 - Sign identities depend on the transcription. Allograph merges were run at three levels (strict, strong, all), and the results hold at each.
 - The Mesopotamian comparison mixes a syllabic script with a word-sign script. The within-corpus null model mitigates this, but does not remove it.
-- The timber reading of W390 is a hypothesis, not a demonstration.
+- The timber reading of W390 is a hypothesis, not a demonstration, and the textile impression on the back of the Umma bulla argues against it. The Umma provenance is a dealer's report.
 - A literature check (web; Mukhopadhyay 2023; Yadav et al.; Laursen 2010; arXiv 2608.02999) found no prior report of results 3.1, 3.2 (pre-registered form), 3.3 or 3.4 (cross-site statistics). A specialist check of Parpola's CISI commentary is still pending.
 
 ## 6. Reproducibility
@@ -89,6 +89,7 @@ The scripts are in `tools/`. Each is named after its STRATEGIES row:
 - Yadav, N., Vahia, M. N., Mahadevan, I., Joglekar, H. Segmentation of Indus texts. https://www.harappa.com/sites/default/files/pdf/indus-texts.pdf
 - Rao, R. P. N. et al. 2009. A Markov model of the Indus script. *PNAS* 106.
 - Laursen, S. T. 2010. The westward transmission of Indus Valley sealing technology. *Arabian Archaeology and Epigraphy* 21: 96–134.
+- Parpola, A. 1994. Harappan inscriptions: an analytical catalogue of the Indus inscriptions from the Near East. In F. Højlund & H. H. Andersen, *Qala'at al-Bahrain* 1: 304–315. Aarhus.
 - Scheil, V. 1925. Un nouveau sceau hindou pseudo-sumérien. *Revue d'Assyriologie* 22: 55–56.
 - Mahadevan, I. 1977. *The Indus Script: Texts, Concordance and Tables.*
 - Shah, S. G. M. & Parpola, A. (eds) 1987–1991; Parpola et al. 2010. *Corpus of Indus Seals and Inscriptions.*
