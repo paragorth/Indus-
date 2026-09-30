@@ -985,3 +985,47 @@ details.more-box > :not(summary) { padding: 0 18px 16px; }
 .rd-chg-t { font: 700 10px var(--font); fill: var(--gold); }
 @media (max-width: 560px) { .rd-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; } .rd-track { text-align: left; } }
 .rd-charts svg { max-height: 240px; }
+/* Results: a vivid headline panel */
+.rd-hero { background: linear-gradient(135deg, var(--ink) 0%, color-mix(in srgb, var(--ink) 78%, var(--gold)) 100%); border: 0; color: var(--on-ink); box-shadow: var(--shadow); }
+.rd-hero .rd-hero-t h3 { color: #fff; }
+.rd-hero .rd-hero-t p, .rd-hero .rd-key, .rd-hero .rd-tl { color: var(--on-ink-muted); }
+.rd-kicker { display: block; font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); margin-bottom: 6px; }
+.rd-hero .donut .dn-track { stroke: rgba(255,255,255,.14); }
+.rd-hero .donut.is-c1 .dn-val { stroke: #aab4c6; }
+.rd-hero .donut.is-c2 .dn-val, .rd-hero.is-met .donut .dn-val { stroke: var(--mint); }
+.rd-hero .donut .dn-pct { fill: #fff; }
+.rd-hero .donut .dn-sub { fill: var(--on-ink-muted); }
+.rd-hero .donut .dn-tick, .rd-hero .dn-tick-key { stroke: #fff; border-color: #fff; }
+.rd-hero .rd-tb { background: rgba(255,255,255,.14); }
+.rd-hero .rd-tb i.is-c1 { background: #aab4c6; } .rd-hero .rd-tb i.is-c2 { background: var(--mint); }
+.rd-hero .rd-tt { border-color: #fff; }
+.rd-hero .rd-tv { color: #fff; }
+.rd-hero .rd-state.is-ok { background: #2e9e5b; color: #fff; }
+.rd-hero .rd-state.is-bad { background: #e0a43a; color: #1b1300; }
+.rd-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.rd-tile { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+.rd-tile b { font-family: var(--display); font-weight: 500; font-size: 2rem; line-height: 1; }
+.rd-tile span:last-child { font-size: .85rem; color: var(--muted); }
+.rd-ti { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; margin-bottom: 6px; background: var(--primary-tint); color: var(--primary); }
+.rd-ti svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.rd-tile.is-ok { background: var(--ok-bg); border-color: transparent; } .rd-tile.is-ok .rd-ti { background: #2e9e5b; color: #fff; } .rd-tile.is-ok b { color: var(--ok-text); }
+.rd-tile.is-bad { background: var(--warn-bg); border-color: transparent; } .rd-tile.is-bad .rd-ti { background: #e0a43a; color: #1b1300; } .rd-tile.is-bad b { color: var(--warn-text); }
+.rd-tile.is-gold { background: var(--gold-soft); border-color: transparent; } .rd-tile.is-gold .rd-ti { background: var(--gold); color: #fff; } .rd-tile.is-gold b { color: var(--gold); }
+@media (max-width: 720px) { .rd-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Breakdown bars in colour */
+.bd-bars i { border-radius: 999px; background: var(--gold); }
+.bd-bars i.before { background: var(--border-strong); }
+.bd-bars i.after { background: var(--gold); }
+/* Re-audit: a card that opens to the change and the re-audit sheet */
+details.reaudit-part { margin: 28px 0 0; }
+details.reaudit-part > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 14px; border: 2px solid var(--gold); background: var(--gold-soft); }
+details.reaudit-part > summary::-webkit-details-marker { display: none; }
+details.reaudit-part[open] > summary { margin-bottom: 8px; }
+.ra-i { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #fff; }
+.ra-i svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.ra-t { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.ra-t b { font-family: var(--display); font-weight: 500; font-size: 1.4rem; }
+.ra-t span { color: var(--muted); }
+.ra-go { flex: none; padding: 10px 20px; border-radius: 999px; background: var(--primary); color: var(--on-primary); font-weight: 700; }
+details.reaudit-part[open] .ra-go { background: transparent; color: var(--muted); font-size: 0; }
+details.reaudit-part[open] .ra-go::after { content: "Hide"; font-size: .9rem; }

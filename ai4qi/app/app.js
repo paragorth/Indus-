@@ -2388,10 +2388,16 @@
       return '<div class="rd-track"><span class="rd-tl">' + label + '</span><div class="rd-tb"><i class="' + cls + '" style="width:' + Math.min(100, c.pct) + '%"></i>' +
         (t ? '<b class="rd-tt" style="left:' + t.value + '%" title="Target"></b>' : '') + '</div><span class="rd-tv">' + Math.round(c.pct) + '%</span></div>';
     }
-    var hero = '<div class="rd-hero">' + donutSvg(key, t, two ? 'is-c2' : 'is-c1') +
-      '<div class="rd-hero-t"><h3>' + head + '</h3><p>' + sub + '</p>' + badge2 +
+    var tiles = '<div class="rd-tiles">' +
+      '<div class="rd-tile"><span class="rd-ti">' + ICON.day + '</span><b>' + (key.passN + key.failN) + '</b><span>patients with a result</span></div>' +
+      '<div class="rd-tile is-ok"><span class="rd-ti">✓</span><b>' + key.passN + '</b><span>met the standard</span></div>' +
+      '<div class="rd-tile is-bad"><span class="rd-ti">✕</span><b>' + key.failN + '</b><span>did not</span></div>' +
+      (two ? '<div class="rd-tile is-gold"><span class="rd-ti">↗</span><b>' + (diff > 0 ? '+' : diff < 0 ? '−' : '±') + Math.abs(diff) + '</b><span>points after the change</span></div>' :
+        (t ? '<div class="rd-tile is-gold"><span class="rd-ti">◎</span><b>' + esc(t.op + t.value) + '%</b><span>target</span></div>' : '')) + '</div>';
+    var hero = '<div class="rd-hero' + (m ? ' is-met' : '') + '">' + donutSvg(key, t, two ? 'is-c2' : 'is-c1') +
+      '<div class="rd-hero-t"><span class="rd-kicker">' + (two ? 'Before and after the change' : 'Cycle 1 result') + '</span><h3>' + head + '</h3><p>' + sub + '</p>' + badge2 +
       '<div class="rd-tracks">' + track(c1, 'Cycle 1', 'is-c1') + (two ? track(c2, 'Re-audit', 'is-c2') : '') + '</div>' +
-      (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '') + '</div></div>';
+      (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '') + '</div></div>' + tiles;
     // Charts that add something: before/after columns once there are two cycles; a run chart when months allow
     var W = 320, H = 180, x0 = 36, y0 = 12, ch = 140;
     function y(p) { return y0 + ch - ch * Math.max(0, Math.min(100, p)) / 100; }
@@ -2429,6 +2435,7 @@
   // Trainees can add or remove columns for their own audit. The pass column stays (results need it);
   // column names that look like patient identifiers are refused.
   var COL_TYPES = [['yes/no', 'Yes / No'], ['choice', 'Choice from a list'], ['number', 'Number'], ['date', 'Date'], ['datetime', 'Date and time'], ['text', 'Short text']];
+  var ICON_RE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg>';
   function colEditor(r) {
     var t = r.protocol.template || [], pf = passField(r.protocol);
     return '<details class="rec-box col-edit"' + (S.view.colEditOpen ? ' open' : '') + '><summary>Edit columns (' + t.length + ')</summary>' +
@@ -2578,11 +2585,16 @@
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
       sec(1, 'Audit details', detailsForm + remind + supervisorBox(p, r)) +
       // In the order of the loop: cycle 1, the change, the re-audit, then what it all achieved.
+      // Cycle 1, its results straight below, then the re-audit, which opens to the change and the re-audit sheet.
       sec(2, 'Cycle 1', colEditor(r) + cyclePanel(r, 'c1', st)) +
-      sec(3, 'The change', '<p class="step-why">After cycle 1, you and your team change one thing to fix what the results showed: a form, a checklist, an alert or a new pathway. ' +
-        'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
-      sec(4, 'Re-audit', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit.</p>' + cyclePanel(r, 'c2', st)) +
-      sec(5, 'Results', results) +
+      sec(3, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId))) +
+      '<details class="reaudit-part"' + (st.cycles[1].n || (r.changeMade && r.changeMade.description) || stageIdx(r) >= 3 ? ' open' : '') + '><summary>' +
+        '<span class="ra-i">' + ICON_RE + '</span><span class="ra-t"><b>Re-audit: close the loop</b><span>Record the change you made, then collect the same data again with the re-audit sheet.</span></span>' +
+        '<span class="ra-go">Start</span></summary>' +
+        sec(4, 'The change', '<p class="step-why">After cycle 1, you and your team change one thing to fix what the results showed: a form, a checklist, an alert or a new pathway. ' +
+          'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
+        sec(5, 'Re-audit data', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit. The results above then show before and after.</p>' + cyclePanel(r, 'c2', st)) +
+      '</details>' +
       sec(6, 'Files for you', dl) +
       '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
       '</article>', 'My audit', 'my-audits');
