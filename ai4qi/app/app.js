@@ -1842,7 +1842,7 @@
 
   /* --- the pass field and results --- */
   function passField(p) {
-    var t = p.template || [];
+    var t = (p.template || []).filter(function (f) { return !f.added; });   // a column the trainee adds is never the pass column
     var f = t.filter(function (x) { return /^(pass|met_standard|meets_standard|compliant|standard_met)$/i.test(x.field); })[0] ||
       t.filter(function (x) { return /pass|compliant|met/i.test(x.field) && /yes/i.test(x.type); })[0] ||
       t.filter(function (x) { return /yes/i.test(x.type); }).slice(-1)[0];
@@ -1887,12 +1887,14 @@
       }
       s.key = c[0]; s.label = c[1]; out.cycles.push(s);
     });
+    var pfield = passField(p);
     (p.template || []).forEach(function (f) {
-      if (f.type !== 'choice' || !(f.options || []).length) return;
+      var isYN = /^yes\/?no$/i.test(String(f.type)) && f.field !== pfield;       // yes/no columns other than the pass one
+      if (!isYN && (f.type !== 'choice' || !(f.options || []).length)) return;
       var b = { field: f.field, label: fieldLabel(f.field), cycles: {} };
       ['c1', 'c2'].forEach(function (k) {
         var counts = new Map();
-        r.cycles[k].rows.forEach(function (row) { var v = row[f.field]; if (v) counts.set(v, (counts.get(v) || 0) + 1); });
+        r.cycles[k].rows.forEach(function (row) { var v = isYN ? yn(row[f.field]) : row[f.field]; if (v) counts.set(v, (counts.get(v) || 0) + 1); });
         b.cycles[k] = Array.from(counts.entries()).map(function (e) { return { option: e[0], n: e[1] }; }).sort(function (a, c) { return c.n - a.n; });
       });
       ['c1', 'c2'].forEach(function (k) {
@@ -2733,25 +2735,63 @@
       return;
     }
   });
+  // Columns added in Excel: offer to add them to this audit in one click (never identifier-like ones),
+  // with the type worked out from what was typed in them.
+  function guessColumn(table, head) {
+    var j = -1, i0 = -1;
+    for (var i = 0; i < Math.min(table.length, 12) && j < 0; i++) { j = (table[i] || []).indexOf(head); i0 = i; }
+    var vals = table.slice(i0 + 1).map(function (r) { return r[j]; }).filter(function (v) { return v !== null && v !== undefined && String(v).trim() !== ''; });
+    var sv = vals.map(function (v) { return v instanceof Date ? v.toISOString() : String(v).trim(); });
+    var col = { field: normHead(head), type: 'text', options: [], note: '', added: true };
+    if (!sv.length) return col;
+    if (sv.every(function (v) { return /^(y|yes|n|no|true|false|n\/?a)$/i.test(v); })) col.type = 'yes/no';
+    else if (sv.every(function (v) { return /^-?\d+(\.\d+)?$/.test(v); })) col.type = 'number';
+    else if (sv.every(function (v) { return /^\d{4}-\d{2}-\d{2}|^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(v); })) col.type = sv.some(function (v) { return /\d{1,2}:\d{2}/.test(v) && !/T00:00:00/.test(v); }) ? 'datetime' : 'date';
+    else {
+      var uniq = sv.filter(function (v, k) { return sv.indexOf(v) === k; });
+      if (uniq.length <= 8 && sv.length >= uniq.length * 2) { col.type = 'choice'; col.options = uniq; }
+    }
+    return col;
+  }
+  function showImportPreview(r, ck, table, box) {
+    var prep = prepareImport(r.protocol, table, r.codeSeq || 1, r.options);
+    if (prep.reRows.length) { S.pendingImport = { runId: r.id, ck: 'c1', rows: prep.rows, reRows: prep.reRows, nextCode: prep.nextCode, table: table, tab: ck }; }
+    else S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode, table: table, tab: ck };
+    var fresh = prep.dropped.filter(function (h) { var n = normHead(h); return n && n !== 'cycle' && !ID_HEADER.test(n); });
+    var ids = prep.dropped.filter(function (h) { return ID_HEADER.test(normHead(h)); });
+    var total = prep.rows.length + prep.reRows.length;
+    box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : '') + '.</strong> Nothing has been stored yet.</p>' +
+      (fresh.length ? '<div class="new-cols"><p><strong>New columns in your sheet:</strong> ' + esc(fresh.join(', ')) + '</p>' +
+        '<button class="btn btn-secondary" type="button" data-import-addcols>Add ' + (fresh.length === 1 ? 'it' : 'them') + ' to this audit</button> <span class="muted">They will then count in your results.</span></div>' : '') +
+      '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
+      (ids.length ? '<li>Identifier columns ignored: ' + esc(ids.join(', ')) + ' <span class="muted">(never imported)</span></li>' : '') +
+      '<li>Patient numbers replaced with audit codes: ' + prep.rep.coded + '</li>' +
+      '<li>Identifiers removed from text: ' + prep.rep.redacted + '</li>' +
+      (prep.rep.badDates ? '<li>Dates that could not be read (left blank): ' + prep.rep.badDates + '</li>' : '') + '</ul>' +
+      (total ? '<button class="btn" type="button" data-import-ok>Add ' + total + ' records</button> ' : '') +
+      '<button class="link-btn" type="button" data-import-cancel>Cancel</button></div>';
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-import-addcols]')) return;
+    var pi = S.pendingImport, r = pi && S.runs.get(pi.runId); if (!r || !pi.table) return;
+    var box = e.target.closest('[data-import-preview]');
+    var prep = prepareImport(r.protocol, pi.table, r.codeSeq || 1, r.options);
+    var have = (r.protocol.template || []).map(function (f) { return f.field; });
+    prep.dropped.forEach(function (h) {
+      var n = normHead(h);
+      if (!n || n === 'cycle' || ID_HEADER.test(n) || have.indexOf(n) >= 0) return;
+      r.protocol.template = (r.protocol.template || []).concat([guessColumn(pi.table, h)]); have.push(n);
+    });
+    runPut(r);
+    showImportPreview(r, pi.tab || pi.ck, pi.table, box);
+  });
   document.addEventListener('change', function (e) {
     var r = curRun(); if (!r) return;
     var inp = e.target.closest('[data-import]');
     if (!inp || !inp.files || !inp.files[0]) return;
     var ck = inp.getAttribute('data-import'), box = main.querySelector('[data-import-preview="' + ck + '"]'), file = inp.files[0];
     box.innerHTML = '<p class="muted">Reading ' + esc(file.name) + '…</p>';
-    readTable(file).then(function (table) {
-      var prep = prepareImport(r.protocol, table, r.codeSeq || 1, r.options);
-      if (prep.reRows.length) { S.pendingImport = { runId: r.id, ck: 'c1', rows: prep.rows, reRows: prep.reRows, nextCode: prep.nextCode }; }
-      else S.pendingImport = { runId: r.id, ck: ck, rows: prep.rows, nextCode: prep.nextCode };
-      var total = prep.rows.length + prep.reRows.length;
-      box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : '') + '.</strong> Nothing has been stored yet.</p>' +
-        '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
-        '<li>Columns left out: ' + (prep.dropped.length ? esc(prep.dropped.join(', ')) + ' <span class="muted">(to keep one, add it under Edit columns above, then upload again; identifiers are never kept)</span>' : 'none') + '</li>' +
-        '<li>Patient numbers replaced with audit codes: ' + prep.rep.coded + '</li>' +
-        '<li>Identifiers removed from text: ' + prep.rep.redacted + '</li>' +
-        (prep.rep.badDates ? '<li>Dates that could not be read (left blank): ' + prep.rep.badDates + '</li>' : '') + '</ul>' +
-        (total ? '<button class="btn" type="button" data-import-ok>Add ' + total + ' records</button> ' : '') +
-        '<button class="link-btn" type="button" data-import-cancel>Cancel</button></div>';
+    readTable(file).then(function (table) { showImportPreview(r, ck, table, box);
     }).catch(function () { box.innerHTML = '<p class="notice notice-warn">This file could not be read. Save it as .xlsx or .csv and try again.</p>'; });
     inp.value = '';
   });
