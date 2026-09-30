@@ -4071,6 +4071,107 @@
     if (window.console) console.warn(err);
   });
 
+  /* ---------- help box: instant answers, no AI, nothing leaves the device ---------- */
+  // Each answer: q (the question), k (extra words people use), a (short answer), go ([label, link]).
+  var HELP = [
+    { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it, press Choose this audit, then Start this audit when you are ready.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
+    { q: 'Is Ai4Qi free?', k: 'cost price pay money subscription charge', a: 'Yes. Ai4Qi is free to use.' },
+    { q: 'Do I need an account?', k: 'sign register login log email password', a: 'No. You can build and run an audit without one. Signing in only adds email reminders when each step is due. We send a code to your email; there is no password.', go: [['Sign in', '#/account']] },
+    { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Check your junk or spam folder, and wait a minute. You can type the code from the email instead of pressing the link. Trust email filters sometimes hold it back: try a personal address.', go: [['Sign in again', '#/account']] },
+    { q: 'Where are my audits?', k: 'dashboard saved find lost my audits list progress', a: 'In My audits. They are kept on this device and in this browser. If you switched device or browser, restore a backup there.', go: [['My audits', '#/my-audits']] },
+    { q: 'How do I enter my data?', k: 'data upload excel spreadsheet sheet enter record collect import input', a: 'Open your audit in My audits, download the Excel data sheet, fill in one row per patient, then upload it under Upload your data sheet. The results appear straight away.' },
+    { q: 'Can I add or remove columns in the data sheet?', k: 'column add delete extra change excel field question', a: 'Yes. Open the audit in My audits and add or remove columns before you download the sheet. Or add them in Excel: when you upload, Ai4Qi offers to add the new columns and includes them in the results.' },
+    { q: 'What happens to patient identifiers?', k: 'identifier nhs number hospital number name mrn dob patient confidential gdpr id', a: 'Do not put them in the sheet. If a column looks like an identifier (name, NHS or hospital number, date of birth), Ai4Qi leaves it out on upload. The Code column refuses long numbers like NHS numbers.' },
+    { q: 'Is my data safe? Who can see it?', k: 'privacy secure safe data protection gdpr encrypted server see', a: 'Your records stay encrypted in your own browser. They are never sent to Ai4Qi or to the AI, and we cannot see them.', go: [['How your data is protected', '#/privacy']] },
+    { q: 'How many patients do I need?', k: 'sample size number patients how many cases enough power strength', a: 'Each audit suggests a sample. You can change it: fewer patients is fine, but the result is less precise. The page shows how precise it will be, for example 50 patients gives about ±14 points.' },
+    { q: 'Can I change the audit question or title?', k: 'edit change reword title question tweak adapt modify', a: 'Yes. Open the audit in My audits and edit the Audit question under Audit details. The title follows it unless you changed the title yourself.', go: [['My audits', '#/my-audits']] },
+    { q: 'What is the re-audit?', k: 'reaudit re audit second cycle close loop closing again repeat', a: 'After cycle 1 you make one change, then collect the same data again with a new re-audit sheet. The results then show before and after. Open Re-audit: close the loop on the audit page.' },
+    { q: 'What goes in The change?', k: 'change intervention action improvement what did you change', a: 'The one thing you changed after cycle 1, for example a new checklist, a form or a default in the system, and the date you started it. It appears on the results and in the presentation.' },
+    { q: 'How do I make the presentation?', k: 'powerpoint pptx slides presentation deck present meeting teaching', a: 'Under Files on your audit, press Results presentation. Choose a design from the list first if you like; there are 20. The slides contain your charts and tables and no Ai4Qi branding.' },
+    { q: 'How do I send the proposal to my supervisor?', k: 'proposal supervisor consultant approve approval word document send registration', a: 'Open Send to your supervisor on your audit. It writes the email and a Word proposal with a sign-off box. Download the proposal and attach it; it holds the protocol only, never patient data. Register the audit with your audit department too.' },
+    { q: 'How do I move my audits to another device?', k: 'backup restore transfer device phone computer laptop move export', a: 'Under Files on your audit, press Backup. On the other device, open My audits, then Backup and protection, then Restore a backup.', go: [['My audits', '#/my-audits']] },
+    { q: 'I forgot my passcode', k: 'passcode password forgot lost locked lock pin', a: 'A passcode cannot be recovered, not even by us. You can erase the audits on this device and start again, then restore a backup file if you have one.' },
+    { q: 'What is demo mode?', k: 'demo example try test practice sample data', a: 'Demo mode fills an audit with example data so you can see every step, the results and the presentation. Your own audits are kept separately.', go: [['Try demo mode', '#/demo']] },
+    { q: 'Where do the standards come from?', k: 'standard nice guideline royal college source reference evidence', a: 'From NICE, the Royal Colleges, NHS England, national audits and others, quoted exactly with a link to the source. Where none exists the audit says Local standard.', go: [['Browse standards', '#/standards']] },
+    { q: 'Is the audit written by AI? Can I trust it?', k: 'ai artificial intelligence claude trust accurate correct wrong made up', a: 'Audits you build are written by AI from the library and checked standards, following strict rules. Treat it as a well-founded draft: check the standard against its source and ask your supervisor to review it.', go: [['How Ai4Qi works', '#/how-it-works']] },
+    { q: 'The audit is not quite right', k: 'wrong bad not right different another version improve feedback', a: 'On a built audit press Not quite right? to get another version on the same theme, and tell us why. On any audit, use the feedback box to vote and comment.' },
+    { q: 'What is the difference between an audit and a QI project?', k: 'qi quality improvement pdsa difference project service evaluation', a: 'An audit measures care against a standard, makes a change and measures again. QI tests changes in small cycles. Ai4Qi audits close the loop with a re-audit.' },
+    { q: 'Will I get reminders?', k: 'reminder email notification due date deadline alert', a: 'Yes, if you sign in and press Start this audit. We email you when a step is due. You can turn them off in your account.', go: [['Account', '#/account']] },
+    { q: 'Can I install it as an app?', k: 'install app phone android iphone home screen offline', a: 'Yes. In Chrome or Edge press Install app at the top. On an iPhone, tap Share, then Add to Home Screen. It then works offline too.' },
+    { q: 'Can I search published audits?', k: 'library published search find papers similar examples', a: 'Yes. Search the library of published audits and QI projects by topic, with the result before and after each change.', go: [['Search the library', '#/search']] },
+    { q: 'How long does an audit take?', k: 'time long duration weeks hours effort how long quick', a: 'Setting up, the proposal, the results and the presentation take about 5 minutes each with Ai4Qi. Collecting the data is the part that takes time; each audit shows an estimate and a timeline.' },
+    { q: 'How do I report a problem?', k: 'bug problem error broken contact help issue report', a: 'Use the feedback box on any audit page to tell us, or see the Security page for anything sensitive.', go: [['Security', '#/security']] }
+  ];
+  var HELP_IDX = null;
+  function helpIndex() {
+    if (HELP_IDX) return HELP_IDX;
+    HELP_IDX = HELP.map(function (h) { return { h: h, m: indexDoc([[h.q, 3], [h.k, 2], [h.a, 1]]) }; });
+    return HELP_IDX;
+  }
+  function helpScore(m, qt) {
+    var sc = 0, hit = 0;
+    qt.forEach(function (t) {
+      var best = m.get(t) || 0;
+      if (!best && t.length >= 3) m.forEach(function (w, k) { if (k.indexOf(t) === 0 && w * 0.8 > best) best = w * 0.8; });
+      if (best) { hit++; sc += best; }
+    });
+    return hit ? sc * hit / qt.length : 0;
+  }
+  function helpFind(q) {
+    var qt = tokens(q);
+    if (!qt.length) return { faq: [], audits: [] };
+    var faq = helpIndex().map(function (d) { return { h: d.h, s: helpScore(d.m, qt) }; })
+      .filter(function (x) { return x.s >= 1.5; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 3).map(function (x) { return x.h; });
+    var audits = (S.proposed || []).map(function (p) {
+      p._hm = p._hm || indexDoc([[auditName(p), 3], [p.question, 2], [p.area, 1]]);
+      return { p: p, s: helpScore(p._hm, qt) };
+    }).filter(function (x) { return x.s >= 2; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 3).map(function (x) { return x.p; });
+    return { faq: faq, audits: audits };
+  }
+  function helpAnswer(h, open) {
+    return '<details class="hb-a"' + (open ? ' open' : '') + '><summary>' + esc(h.q) + '</summary><p>' + esc(h.a) + '</p>' +
+      (h.go ? '<p class="hb-go">' + h.go.map(function (g) { return '<a href="' + attr(g[1]) + '" data-help-close>' + esc(g[0]) + ' →</a>'; }).join('') + '</p>' : '') + '</details>';
+  }
+  var HELP_START = [0, 5, 7, 9, 13, 11];
+  function helpResults(q) {
+    q = String(q || '').trim();
+    if (!q) return '<p class="hb-k">Common questions</p>' + HELP_START.map(function (i) { return helpAnswer(HELP[i]); }).join('');
+    var r = helpFind(q), out = '';
+    if (r.faq.length) out += r.faq.map(function (h, i) { return helpAnswer(h, i === 0); }).join('');
+    if (r.audits.length) out += '<p class="hb-k">Ready-made audits</p><ul class="hb-list">' + r.audits.map(function (p) {
+      return '<li><a href="#/proposed/' + encodeURIComponent(p.id) + '" data-help-close>' + esc(auditName(p)) + '</a></li>'; }).join('') + '</ul>';
+    if (!r.faq.length) out += '<p class="hb-none">' + (r.audits.length ? '' : 'No answer found for that. ') + '</p>';
+    if (r.faq.length && !r.audits.length) return out;
+    out += '<p class="hb-k">' + (r.faq.length || r.audits.length ? 'Or' : 'Try') + '</p><ul class="hb-list">' +
+      '<li><a href="#/build?q=' + encodeURIComponent(q) + '" data-help-close>Build an audit on “' + esc(q) + '”</a></li>' +
+      '<li><a href="#/search?q=' + encodeURIComponent(q) + '" data-help-close>Search published audits for “' + esc(q) + '”</a></li></ul>';
+    return out;
+  }
+  if (!window.AI4QI_EMBED) (function () {
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'help-fab'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'help-box');
+    btn.innerHTML = '<span aria-hidden="true">?</span><span class="help-fab-t">Help</span>';
+    var box = document.createElement('section');
+    box.id = 'help-box'; box.className = 'help-box'; box.hidden = true; box.setAttribute('aria-label', 'Help');
+    box.innerHTML = '<div class="hb-head"><h2>How can we help?</h2><button type="button" class="hb-x" data-help-close aria-label="Close help">×</button></div>' +
+      '<form class="hb-form" role="search" data-help-form><label class="visually-hidden" for="help-q">Your question</label>' +
+      '<input id="help-q" type="search" autocomplete="off" placeholder="Ask a question, e.g. how do I upload data?"></form>' +
+      '<div class="hb-res" data-help-res aria-live="polite"></div>' +
+      '<p class="hb-foot">Answers come from this site. Nothing you type is sent anywhere. <a href="#/how-it-works" data-help-close>How Ai4Qi works</a></p>';
+    document.body.appendChild(box); document.body.appendChild(btn);
+    var inp = box.querySelector('#help-q'), res = box.querySelector('[data-help-res]'), t = null;
+    function show(open) {
+      box.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); btn.classList.toggle('is-open', open);
+      if (open) { res.innerHTML = helpResults(inp.value); inp.focus(); } else btn.focus({ preventScroll: true });
+    }
+    btn.addEventListener('click', function () { show(box.hidden); });
+    inp.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { res.innerHTML = helpResults(inp.value); }, 120); });
+    box.querySelector('[data-help-form]').addEventListener('submit', function (e) { e.preventDefault(); res.innerHTML = helpResults(inp.value); });
+    box.addEventListener('click', function (e) { if (e.target.closest('[data-help-close]')) { box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.classList.remove('is-open'); } });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) show(false); });
+    document.addEventListener('click', function (e) { if (!box.hidden && !box.contains(e.target) && !btn.contains(e.target)) { box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.classList.remove('is-open'); } });
+  })();
+
   /* ---------- installable app and offline use ---------- */
   var installBtn = document.querySelector('[data-install]');
   var installPrompt = null;
