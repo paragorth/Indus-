@@ -38,10 +38,28 @@ def main():
                              scr[k].get("audit_kind") != "closed-loop or re-audit",
                              not classify.uk_ireland(recs[k].get("affiliations")),
                              not os.path.exists(os.path.join(pipeline.FT_DIR, f"{recs[k].get('pmcid')}.xml"))))
-    queued = set()                      # already in a manifest (being read now)
+    # Already in a manifest and being read now. A paper whose batch has an output file that does not
+    # contain it was never read (e.g. the output was overwritten by a re-run), so it is queued again.
+    queued = set()
     import glob
+    import json
     for m in glob.glob(os.path.join(BATCH_DIR, "*.txt")):
-        queued.update(l.strip() for l in open(m) if l.strip())
+        paths = [l.strip() for l in open(m) if l.strip()]
+        out = os.path.join(pipeline.WORK, "claude_out", os.path.basename(m)[:-4] + ".json")
+        if not os.path.exists(out):
+            queued.update(paths)
+            continue
+        try:
+            done = set(json.load(open(out)))
+        except ValueError:
+            done = set()
+        for pth in paths:
+            try:
+                key = open(pth).readline().split("KEY:", 1)[1].strip()
+            except (OSError, IndexError):
+                key = None
+            if key is None or key in done:
+                queued.add(pth)
     keys = [k for k in keys if os.path.join(IN_DIR, fname(k)) not in queued]
     keys = [k for k in keys if len(recs[k].get("abstract") or "") >= 200]   # title-only records carry no results
     from extra_harvest import CLINICAL, NOT_CLINICAL      # drop financial, IT and research-governance "audits"

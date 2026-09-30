@@ -126,8 +126,16 @@ S2_QUERIES = ['"clinical audit"', '"re-audit" | reaudit', '"audit cycle" | "clos
               'audit + (compliance | adherence) + (guideline | standard | protocol) + (hospital | ward | patients)']
 
 
-def s2(st):
-    for q in S2_QUERIES:
+# Wave 16 (Sep 2026): wider wording, to reach 20,000 audits.
+S2_QUERIES_2 = ['"retrospective audit" + (hospital | patients)', '"prospective audit" + (hospital | patients)',
+                'audit + (NICE | "Royal College" | BTS | BSG | RCOG | RCEM | RCR | BAUS | "national standard")',
+                '"quality improvement project" + (audit | compliance | documentation)',
+                '"compliance audit" | "documentation audit" | "prescribing audit"',
+                'audit + (UK | NHS | Ireland | HSE) + (standard | guideline)']
+
+
+def s2(st, queries=None):
+    for q in (queries or S2_QUERIES):
         token, got = None, 0
         while True:
             p = {"query": q, "fields": "title,abstract,externalIds,year,venue,journal,authors,publicationTypes,openAccessPdf"}
@@ -291,7 +299,8 @@ def thin(st):
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     st = Store()
-    for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin)):
-        if which in (name, "all"):
+    for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin),
+                     ("s2b", lambda st: s2(st, S2_QUERIES_2))):
+        if which == name or (which == "all" and name != "s2b"):
             fn(st)
             print(f"{name}: {st.new} new records in total", flush=True)
