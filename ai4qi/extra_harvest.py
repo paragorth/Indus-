@@ -195,10 +195,10 @@ def s2(st, queries=None):
         st.save()
 
 
-def crossref_all(st):
-    for y in YEARS:
+def crossref_all(st, years=None, pages=3):
+    for y in (years or YEARS):
         cursor, got = "*", 0
-        for _ in range(3):                                # top 3,000 by relevance per year
+        for _ in range(pages):                            # top 1,000 x pages by relevance per year (default 3,000)
             d = _get("https://api.crossref.org/works", {
                 "query.bibliographic": "audit re-audit audit cycle closed loop audit clinical audit",
                 "filter": f"has-abstract:true,type:journal-article,from-pub-date:{y},until-pub-date:{y}",
@@ -327,7 +327,8 @@ if __name__ == "__main__":
     st = Store()
     for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin),
                      ("s2b", lambda st: s2(st, S2_QUERIES_2)), ("s2c", lambda st: s2(st, S2_QUERIES_3)),
-                     ("s2d", lambda st: s2(st, S2_QUERIES_4))):
-        if which == name or (which == "all" and name not in ("s2b", "s2c", "s2d")):
+                     ("s2d", lambda st: s2(st, S2_QUERIES_4)),
+                     ("crossref_deep", lambda st: crossref_all(st, range(2008, 2027), 8))):
+        if which == name or (which == "all" and name not in ("s2b", "s2c", "s2d", "crossref_deep")):
             fn(st)
             print(f"{name}: {st.new} new records in total", flush=True)
