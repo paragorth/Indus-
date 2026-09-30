@@ -81,6 +81,25 @@
   }
   function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
   function towards(c, to, bg, min) { var t = 0, out = c; while (contrast(out, bg) < min && t < 1) { t += 0.08; out = hexMix(c, to, t); } return out; }
+  // Slide titles differ by design, so two decks never read identically. Chosen by design number.
+  var DECK_WORDS = {
+    why: ['Why it matters', 'The problem', 'Why we audited this', 'Background'],
+    standard: ['The standard', 'What good looks like', 'The benchmark', 'Our standard'],
+    method: ['How we measured', 'Method', 'How the audit was done', 'Our approach'],
+    found: ['What we found', 'Findings', 'The baseline', 'Cycle 1 results'],
+    barriers: ['What got in the way', 'Barriers', 'Why cases were missed', 'Causes'],
+    mix: ['How the cases break down', 'Case mix', 'Breakdown', 'Who was audited'],
+    change: ['The change', 'What we changed', 'Our intervention', 'The fix'],
+    after: ['After the change', 'Re-audit', 'The result', 'Did it work?'],
+    side: ['Before and after, side by side', 'Cycle 1 vs re-audit', 'Before vs after', 'Comparing the two cycles'],
+    month: ['Month by month', 'Over time', 'Run chart', 'The trend'],
+    glance: ['Results at a glance', 'The numbers', 'Summary table', 'Key figures'],
+    bdtable: ['The breakdown in numbers', 'Answers by cycle', 'Detailed breakdown', 'Breakdown table'],
+    loop: ['How we closed the loop', 'The audit cycle', 'From audit to change', 'Our journey'],
+    next: ['What next', 'Next steps', 'Recommendations', 'Where we go from here'],
+    refs: ['References', 'Sources', 'References and sources', 'Bibliography']
+  };
+  function W(k) { return DECK_WORDS[k][(DECK.wordSet || 0) % DECK_WORDS[k].length]; }
   function applyDeckTheme(i) {
     var t = DECK_THEMES[((i % DECK_THEMES.length) + DECK_THEMES.length) % DECK_THEMES.length];
     var ink = t[1], acc = t[2], paper = t[3];
@@ -90,7 +109,8 @@
       muted: hexMix(ink, 'FFFFFF', 0.28), hairline: hexMix(ink, 'FFFFFF', 0.88),
       series: [acc, ink, hexMix(ink, 'FFFFFF', 0.5), hexMix(acc, 'FFFFFF', 0.45), hexMix(ink, acc, 0.5), hexMix(ink, 'FFFFFF', 0.78)],
       titleStyle: t[6], motif: t[7], themeName: t[0],
-      goldDark: towards(acc, 'FFFFFF', ink, 3.4), goldText: towards(acc, '000000', paper, 4.5)
+      goldDark: towards(acc, 'FFFFFF', ink, 3.4), goldText: towards(acc, '000000', paper, 4.5),
+      wordSet: ((i % DECK_THEMES.length) + DECK_THEMES.length) % DECK_THEMES.length % 4
     });
     DECK_FONTS.head = t[4]; DECK_FONTS.body = t[5];
     return t[0];
@@ -171,6 +191,13 @@
     var dt = new Date(Date.UTC(y, mo - 1, d));
     if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
     return dt;
+  }
+  // "Wk 1-2 collect; Wk 3 analyse/present; ..." -> [{a, b, label}]
+  function parseTl(t) {
+    return String(t || '').split(/;\s*/).map(function (x) {
+      var m = x.trim().match(/^(?:wk|wks|week|weeks)\s*(\d+)(?:\s*[\u2013\-]\s*(\d+))?\s*[:,]?\s*(.+)$/i);
+      return m ? { a: +m[1], b: +(m[2] || m[1]), label: m[3] } : null;
+    }).filter(Boolean);
   }
   function fmtDate(s) {
     var d = s instanceof Date ? s : parseYmd(s);
@@ -822,6 +849,42 @@
     o = o || {};
     this.shape({ x: x, y: y, w: w, h: h, anchor: o.anchor, paras: [{ align: o.align, runs: runs }] });
   };
+  // A real PowerPoint table (editable). cols: widths in inches; rows: arrays of cell text; row 0 is the header.
+  // o: {size, headSize, align: ['l','r',...], boldFirst, zebra}
+  Slide.prototype.table = function (x, y, cols, rows, o) {
+    o = o || {};
+    var id = this.nextId++, size = o.size || 14, hs = o.headSize || 12, total = 0, self = this;
+    var hLine = '<a:ln w="9525"><a:solidFill><a:srgbClr val="' + DECK.hairline + '"/></a:solidFill></a:ln>';
+    function cell(t, ri, ci) {
+      var head = ri === 0, al = head ? (o.align && o.align[ci] === 'r' ? 'r' : 'l') : (o.align && o.align[ci]) || 'l';
+      var sz = head ? hs : size, bold = head || (o.boldFirst && ci === 0), col = head ? DECK.paper : DECK.navy;
+      var fill = head ? DECK.navy : (o.zebra && ri % 2 === 0 ? DECK.hairline : null);
+      var paras = String(t == null ? '' : t).split('\n').map(function (line) {
+        return '<a:p><a:pPr algn="' + al + '"/><a:r><a:rPr lang="en-GB" sz="' + Math.round(sz * 100) + '" b="' + (bold ? 1 : 0) + '" dirty="0">' + fillXml(col) +
+          '<a:latin typeface="' + DECK_FONTS.body + '"/></a:rPr><a:t>' + esc(line) + '</a:t></a:r></a:p>';
+      }).join('');
+      return '<a:tc><a:txBody><a:bodyPr/><a:lstStyle/>' + paras + '</a:txBody><a:tcPr marL="91440" marR="91440" marT="54864" marB="54864" anchor="ctr">' +
+        '<a:lnL w="0"><a:noFill/></a:lnL><a:lnR w="0"><a:noFill/></a:lnR><a:lnT w="0"><a:noFill/></a:lnT>' + hLine.replace('a:ln ', 'a:lnB ').replace('</a:ln>', '</a:lnB>') +
+        (fill ? '<a:solidFill><a:srgbClr val="' + fill + '"/></a:solidFill>' : '<a:noFill/>') + '</a:tcPr></a:tc>';
+    }
+    var trs = rows.map(function (r, ri) {
+      var lines = 1;
+      r.forEach(function (t, ci) {
+        var sz = ri === 0 ? hs : size, cpl = Math.max(4, Math.floor((cols[ci] - 0.2) / (sz * 0.52 / 72)));
+        var n = String(t == null ? '' : t).split('\n').reduce(function (a, line) { return a + Math.max(1, Math.ceil(line.length / cpl)); }, 0);
+        lines = Math.max(lines, n);
+      });
+      var h = lines * (ri === 0 ? hs : size) * 1.25 / 72 + 0.14;
+      total += h;
+      return '<a:tr h="' + emu(h) + '">' + r.map(function (t, ci) { return cell(t, ri, ci); }).join('') + '</a:tr>';
+    });
+    var w = cols.reduce(function (a, b) { return a + b; }, 0);
+    this.shapes.push('<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id="' + id + '" name="Table ' + id + '"/><p:cNvGraphicFramePr><a:graphicFrameLocks noGrp="1"/></p:cNvGraphicFramePr><p:nvPr/></p:nvGraphicFramePr>' +
+      '<p:xfrm><a:off x="' + emu(x) + '" y="' + emu(y) + '"/><a:ext cx="' + emu(w) + '" cy="' + emu(total) + '"/></p:xfrm>' +
+      '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/table"><a:tbl><a:tblPr firstRow="1" bandRow="1"/><a:tblGrid>' +
+      cols.map(function (c) { return '<a:gridCol w="' + emu(c) + '"/>'; }).join('') + '</a:tblGrid>' + trs.join('') + '</a:tbl></a:graphicData></a:graphic></p:graphicFrame>');
+    return total;
+  };
   Slide.prototype.line = function (x1, y1, x2, y2, color, wPt, dash) {
     var id = this.nextId++;
     var flipH = x2 < x1, flipV = y2 < y1;
@@ -1113,10 +1176,15 @@
     /* 2. Why it matters */
     if (clean(P.why)) {
       s = add();
-      eyebrow(s, 'Why it matters');
-      var why = firstSentence(P.why);
-      if (why.split(/\s+/).length > 32) why = words(why, 30);
-      s.text(why, X0, 1.5, 9.6, 3.6, { size: 34, min: 20, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0, anchor: 'ctr' });
+      eyebrow(s, W('why'));
+      var whyTxt = clean(P.why).replace(/\s*(\[\d+\])+/g, '').replace(/\bLibrary\b/g, 'Published');   // no library ids on a slide
+      var pts = (whyTxt.match(/[^.!?]+[.!?]+(\s|$)/g) || [whyTxt]).map(function (x) { return words(clean(x), 26); }).filter(Boolean).slice(0, 3);
+      if (pts.length === 1) s.text(pts[0], X0, 1.5, 9.6, 3.6, { size: 34, min: 20, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0, anchor: 'ctr' });
+      else pts.forEach(function (t, i) {
+        var yy = 1.35 + i * 1.3;
+        s.rect(X0, yy + 0.12, 0.12, 0.12, DECK.gold);
+        s.text(t, X0 + 0.4, yy, 10.8, 1.2, { size: 22, min: 14, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0 });
+      });
       if (clean(P.question)) {
         s.text('The question', X0, 5.55, 3, 0.3, { size: 11, bold: true, color: DECK.goldText });
         s.text(words(P.question, 35), X0, 5.85, 9.6, 0.75, { size: 14, min: 11, color: DECK.muted });
@@ -1126,7 +1194,7 @@
 
     /* 3. The standard */
     s = add();
-    eyebrow(s, 'The standard');
+    eyebrow(s, W('standard'));
     var qW = target ? 8.0 : XW - 0.4;
     s.line(X0, 1.6, X0, 4.9, DECK.gold, 1.25);
     var quote = noStop(std.wording) || 'Standard wording not recorded';
@@ -1145,30 +1213,21 @@
     s.note('Standard: ' + (clean(std.wording) || 'not recorded'), clean(std.source) ? 'Source: ' + clean(std.source) : '',
       clean(std.url) ? 'Link: ' + clean(std.url) : '', targetText ? 'Target: ' + targetText : '');
 
-    /* 4. How we measured (2x2) */
+    /* 4. How we measured: the method as a table */
     s = add();
-    headline(s, 'How we measured', 0.7, { size: 32 });
-    var howMany;
-    if (c1 && c1.n > 0) {
-      howMany = c1.n + ' cases in ' + c1Label.toLowerCase() + (c2 && c2.n > 0 ? ', ' + c2.n + ' at ' + c2Label.toLowerCase() : '');
-      var dr = dateRange(c1);
-      if (dr && !(c2 && c2.n > 0)) howMany += ', ' + dr;
-    } else howMany = words(stripParens(firstSentence(P.sample)), 12) || 'Not yet collected';
-    var dsrc = clean(P.data_source).split(/;\s*/).map(stripParens).filter(Boolean).slice(0, 3).join('; ');
-    var facts = [
-      ['Who', words(stripParens(firstSentence(P.population)), 12) || 'Not recorded'],
-      ['How many', words(howMany, 12)],
-      ['Where from', words(dsrc, 12) || 'Not recorded'],
-      ['What counts as a pass', words(stripParens(firstSentence(P.pass)), 12) || 'Not defined']
-    ];
-    var gx = [X0, X0 + XW / 2 + 0.25], gy = [2.15, 4.35], cw2 = XW / 2 - 0.25;
-    s.line(X0, gy[0] - 0.2, SW - X0, gy[0] - 0.2, DECK.hairline, 0.75);
-    s.line(X0, gy[1] - 0.2, SW - X0, gy[1] - 0.2, DECK.hairline, 0.75);
-    facts.forEach(function (f, k) {
-      var x = gx[k % 2], y = gy[Math.floor(k / 2)];
-      s.text(f[0].toUpperCase(), x, y, cw2, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
-      s.text(f[1], x, y + 0.4, cw2 - 0.3, 1.3, { size: 22, min: 14, color: DECK.navy, lineSpacing: 1.05 });
-    });
+    headline(s, W('method'), 0.7, { size: 32 });
+    var howMany = [];
+    if (c1 && c1.n > 0) howMany.push(c1Label + ': ' + c1.n + ' records' + (dateRange(c1) ? ' (' + dateRange(c1) + ')' : ''));
+    if (c2 && c2.n > 0) howMany.push(c2Label + ': ' + c2.n + ' records' + (dateRange(c2) ? ' (' + dateRange(c2) + ')' : ''));
+    var mrows = [['', ''],
+      ['Audit question', words(clean(P.question), 40)],
+      ['Standard', words(noStop(std.wording) || hsrc(std.source) || 'Not recorded', 32) + (clean(std.source) ? '\n' + hsrc(std.source) : '')],
+      ['Pass criterion', words(clean(P.pass), 30) || 'Not defined'],
+      ['Selection criteria', words(clean(P.population), 30) || 'Not recorded'],
+      ['Data collection', words(clean(P.data_source), 26) || 'Not recorded'],
+      ['Sample', howMany.length ? howMany.join('\n') : (words(clean(P.sample), 22) || 'Not recorded')]];
+    mrows[0] = ['Item', 'Detail'];
+    s.table(X0, 1.55, [2.6, XW - 2.6], mrows, { size: 15, headSize: 12, boldFirst: true });
     s.note('Population: ' + (clean(P.population) || 'not recorded'), 'Sample: ' + (clean(P.sample) || 'not recorded'),
       'Data source: ' + (clean(P.data_source) || 'not recorded'), 'Pass definition: ' + (clean(P.pass) || 'not defined'));
     cycles.forEach(function (c) {
@@ -1184,7 +1243,7 @@
       else if (m1) head1 = capFirst(near1) + ' met the standard \u2014 target reached';
       else if (tv - p1 <= 10) head1 = 'Close, but short: ' + near1 + ' met the standard';
       else head1 = fewerThan(p1) ? 'Fewer than ' + fewerThan(p1) + ' met the standard' : capFirst(near1) + ' met the standard';
-      eyebrow(s, 'What we found' + (has2 ? ' \u00b7 ' + c1Label : ''), dark1 ? DECK.greyOnNavy : DECK.muted);
+      eyebrow(s, W('found') + (has2 && W('found') !== 'Cycle 1 results' ? ' \u00b7 ' + c1Label : ''), dark1 ? DECK.greyOnNavy : DECK.muted);
       s.text(pctText(p1), X0 - 0.08, 1.35, 6.4, 2.4, { size: 140, min: 90, font: DECK_FONTS.head, color: dark1 ? DECK.goldDark : DECK.navy, anchor: 'ctr' });
       s.text(head1, X0, 3.85, 6.6, 1.6, { size: 30, min: 18, font: DECK_FONTS.head, color: dark1 ? DECK.paper : DECK.navy, lineSpacing: 1.0 });
       s.text(c1.n + ' audited' + (dateRange(c1) ? '  \u00b7  ' + dateRange(c1) : '') + (tv !== null ? '  \u00b7  target ' + tOp + ' ' + tv + '%' : ''),
@@ -1199,7 +1258,7 @@
     if (breakdowns.length) {
       s = add();
       var causeLike = breakdowns.some(function (b) { return /delay|reason|barrier|cause|why|fail/i.test(b.field + ' ' + (b.label || '')); });
-      headline(s, causeLike ? 'What got in the way' : 'How the cases break down', 0.7, { size: 32 });
+      headline(s, causeLike ? W('barriers') : W('mix'), 0.7, { size: 32 });
       var shown = breakdowns.slice(0, 3);
       var anyC2 = has2 && shown.some(function (b) { return (b.cycles.c2 || []).some(function (o) { return o.n > 0; }); });
       if (anyC2) {
@@ -1271,7 +1330,7 @@
     if (changeText) {
       s = add();
       var lbl = recorded ? (fmtDate(cm.date) ? 'Started ' + fmtDate(cm.date) : 'In place') : 'Planned';
-      s.runs([{ text: 'THE CHANGE', size: 11, bold: true, spc: 200, color: DECK.muted },
+      s.runs([{ text: W('change').toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.muted },
         { text: '   \u00b7   ' + lbl.toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.goldText }], X0, 0.75, 9, 0.3);
       var sents = changeText.match(/[^.!?]+[.!?]+(\s|$)/g) || [changeText];
       var short = clean(sents.slice(0, 2).join(' '));
@@ -1294,7 +1353,7 @@
         else if (m2) head2 = dir + (mBefore ? ', still above target' : ', now above target');
         else head2 = dir + ', still short of target';
       }
-      eyebrow(s, 'After the change', DECK.greyOnNavy);
+      eyebrow(s, W('after'), DECK.greyOnNavy);
       s.text(head2, X0, 1.1, XW, 1.0, { size: 34, min: 22, font: DECK_FONTS.head, color: DECK.paper });
       var ny = 2.75, nh = 2.0;
       var lx = X0, rx = X0 + 7.3, nw = 3.6;
@@ -1313,6 +1372,10 @@
       s.text(pctText(c2.pct), rx - 0.06, ny, nw, nh, { size: 110, min: 72, font: DECK_FONTS.head, color: DECK.goldDark, anchor: 'ctr' });
       s.text(c2Label + '  \u00b7  ' + ofText(c2), rx, ny + nh + 0.05, nw, 0.35, { size: 13, color: DECK.greyOnNavy });
       if (tv !== null) s.text('Target ' + tv + '%', X0, 6.45, 4, 0.3, { size: 12, color: DECK.greyOnNavy });
+      if (has1 && diff > 0) {
+        var gain = Math.round(diff / 100 * den(c2));
+        if (gain > 0) s.text('About ' + gain + ' more patients out of ' + den(c2) + ' now get it right.', X0, 5.75, XW, 0.45, { size: 16, color: DECK.paper });
+      }
       s.note(head2 + '.', has1 ? c1Label + ': ' + ofText(c1) + ' (' + (Math.round(c1.pct * 10) / 10) + '%), ' + c1.n + ' records audited.' : '',
         c2Label + ': ' + ofText(c2) + ' (' + (Math.round(c2.pct * 10) / 10) + '%), ' + c2.n + ' records audited' + (dateRange(c2) ? ', ' + dateRange(c2) : '') + '.',
         diff !== null ? 'Change: ' + (diff >= 0 ? '+' : '') + (Math.round(diff * 10) / 10) + ' percentage points.' : '',
@@ -1338,7 +1401,7 @@
     /* 8b. Side by side: column chart against the target */
     if (has1 && has2) {
       s = add();
-      headline(s, 'Before and after, side by side', 0.7, { size: 32 });
+      headline(s, W('side'), 0.7, { size: 32 });
       var gx0 = X0 + 0.8, gy0 = 1.95, gw = 6.6, gh = 4.1, yOf = pctAxis(s, gx0, gy0, gw, gh);
       [[c1, DECK.grey, c1Label], [c2, DECK.gold, c2Label]].forEach(function (cc, i) {
         var bx = gx0 + 1.0 + i * 2.9, bw = 1.7, top = yOf(cc[0].pct);
@@ -1373,7 +1436,7 @@
     pts.sort(function (a, b) { return a.m < b.m ? -1 : a.m > b.m ? 1 : a.cyc - b.cyc; });
     if (pts.length >= 4) {
       s = add();
-      headline(s, 'Month by month', 0.7, { size: 32 });
+      headline(s, W('month'), 0.7, { size: 32 });
       s.runs([{ text: '●', size: 13, color: DECK.grey }, { text: ' ' + c1Label + '     ', size: 12, color: DECK.muted },
         { text: '●', size: 13, color: DECK.gold }, { text: ' ' + c2Label + '     ', size: 12, color: DECK.muted },
         { text: '- - -', size: 12, color: DECK.muted }, { text: ' median', size: 12, color: DECK.muted }], X0, 1.5, 9, 0.3);
@@ -1406,6 +1469,80 @@
         pts.map(function (p) { return MON[+p.m.slice(5) - 1] + ' ' + p.m.slice(0, 4) + ': ' + Math.round(p.pct) + '% of ' + p.n; }).join('; ') + '.');
     }
 
+    /* 8d. Results at a glance: the numbers in a table */
+    if (has1 || has2) {
+      s = add();
+      headline(s, W('glance'), 0.7, { size: 32 });
+      function cyc(c) { return c && c.n > 0 ? c : null; }
+      var A = cyc(c1), B = has2 ? cyc(c2) : null;
+      function pc(c) { return c && isNum(c.pct) ? pctText(c.pct) : '–'; }
+      var gl = [['Measure', c1Label].concat(B ? [c2Label, 'Change'] : []),
+        ['Period', A ? (dateRange(A) || '–') : '–'].concat(B ? [dateRange(B) || '–', ''] : []),
+        ['Records audited', A ? String(A.n) : '–'].concat(B ? [String(B.n), ''] : []),
+        ['Met the standard', A ? String(A.passN || 0) : '–'].concat(B ? [String(B.passN || 0), ((B.passN || 0) - (A ? A.passN || 0 : 0) >= 0 ? '+' : '') + ((B.passN || 0) - (A ? A.passN || 0 : 0))] : []),
+        ['Did not meet it', A ? String(A.failN || 0) : '–'].concat(B ? [String(B.failN || 0), ''] : []),
+        ['Share meeting the standard', pc(A)].concat(B ? [pc(B), A && isNum(A.pct) ? (B.pct - A.pct >= 0 ? '+' : '−') + Math.abs(Math.round((B.pct - A.pct) * 10) / 10) + ' pts' : ''] : [])];
+      if (target) gl.push(['Target ' + tOp + ' ' + tv + '%', A ? (met(A.pct) ? 'Met' : 'Not met') : '–'].concat(B ? [met(B.pct) ? 'Met' : 'Not met', ''] : []));
+      var gcols = B ? [4.2, 2.4, 2.4, XW - 9.0] : [5.0, 3.0];
+      s.table(X0, 1.7, gcols, gl, { size: 16, headSize: 12, boldFirst: true, zebra: true, align: ['l', 'r', 'r', 'r'] });
+      if (B && A && isNum(A.pct) && isNum(B.pct)) {
+        var extra = Math.round((B.pct - A.pct) / 100 * (B.passN + B.failN));
+        if (extra > 0) s.text('About ' + extra + ' more patients out of ' + (B.passN + B.failN) + ' now get it right.', X0, SH - 1.25, XW, 0.5, { size: 18, font: DECK_FONTS.head, color: DECK.goldText });
+      }
+      s.note('Table of results: records audited, number and share meeting the standard' + (target ? ', and whether the ' + tOp + ' ' + tv + '% target was met' : '') + '.');
+    }
+
+    /* 8e. Breakdown in numbers: every answer, with its share, in each cycle */
+    var bdShown = breakdowns.slice(0, 2);
+    if (bdShown.length) {
+      s = add();
+      headline(s, W('bdtable'), 0.7, { size: 32 });
+      var twoB = has2 && bdShown.some(function (b) { return (b.cycles.c2 || []).some(function (o) { return o.n > 0; }); });
+      var br = [['Question', 'Answer', c1Label].concat(twoB ? [c2Label] : [])];
+      bdShown.forEach(function (b) {
+        var t1 = 0, t2 = 0, opts = [];
+        (b.cycles.c1 || []).forEach(function (o) { t1 += o.n || 0; if (opts.indexOf(o.option) < 0) opts.push(o.option); });
+        (b.cycles.c2 || []).forEach(function (o) { t2 += o.n || 0; if (opts.indexOf(o.option) < 0) opts.push(o.option); });
+        function nOf(k, o) { var h = (b.cycles[k] || []).filter(function (x) { return x.option === o; })[0]; return h ? h.n : 0; }
+        opts.slice(0, 6).forEach(function (o, i) {
+          var a1 = nOf('c1', o), a2 = nOf('c2', o);
+          br.push([i === 0 ? trunc(clean(b.label) || humanLabel(b.field), 40) : '', trunc(capFirst(o), 40), a1 + (t1 ? ' (' + Math.round(a1 / t1 * 100) + '%)' : '')].concat(twoB ? [a2 + (t2 ? ' (' + Math.round(a2 / t2 * 100) + '%)' : '')] : []));
+        });
+      });
+      var bcols = twoB ? [3.6, 4.1, 1.9, XW - 9.6] : [3.8, 5.0, XW - 8.8];
+      s.table(X0, 1.6, bcols, br, { size: br.length > 10 ? 12 : 14, headSize: 11, boldFirst: true, align: ['l', 'l', 'r', 'r'] });
+      s.note('Counts and shares of each answer' + (twoB ? ' in cycle 1 and at re-audit' : '') + '. Up to six answers for up to two questions are shown.');
+    }
+
+    /* 8f. How we closed the loop: six steps with what happened and when */
+    (function () {
+      var segs = parseTl(P.timeline);
+      function wk(re) { var sg = segs.filter(function (x) { return re.test(x.label); })[0]; return sg ? 'Week' + (sg.a === sg.b ? ' ' + sg.a : 's ' + sg.a + '–' + sg.b) : ''; }
+      var cmD = fmtDate((run && run.changeMade || {}).date);
+      var steps = [
+        ['Collect cycle 1', has1 ? (dateRange(c1) || 'Done') : wk(/collect/i), has1],
+        ['Analyse and present', has1 ? 'Done' : wk(/analy|present/i), has1],
+        ['Make the change', cmD ? 'From ' + cmD : wk(/change/i), !!cmD || has2],
+        ['Let it bed in', wk(/embed/i), has2],
+        ['Re-audit', has2 ? (dateRange(c2) || 'Done') : wk(/re-?audit/i), has2],
+        ['Share and keep it going', 'Next', false]
+      ];
+      s = add();
+      headline(s, W('loop'), 0.7, { size: 32 });
+      var n6 = steps.length, gapX = XW / n6, cy = 3.3, r = 0.42;
+      steps.forEach(function (st, i) {
+        var cx = X0 + gapX * (i + 0.5);
+        if (i < n6 - 1) s.line(cx + r + 0.08, cy, cx + gapX - r - 0.08, cy, st[2] ? DECK.gold : DECK.hairline, 2.5);
+        s.shape({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, geom: 'ellipse', fill: st[2] ? DECK.gold : DECK.paper, line: st[2] ? DECK.gold : DECK.grey, lineW: 2 });
+        s.text(st[2] ? '✓' : String(i + 1), cx - r, cy - r, 2 * r, 2 * r, { size: 20, bold: true, color: st[2] ? DECK.paper : DECK.navy, align: 'ctr', anchor: 'ctr' });
+        s.text(st[0], cx - gapX / 2 + 0.05, cy + r + 0.2, gapX - 0.1, 0.7, { size: 14, bold: true, color: DECK.navy, align: 'ctr' });
+        if (st[1]) s.text(st[1], cx - gapX / 2 + 0.05, cy + r + 0.9, gapX - 0.1, 0.6, { size: 11, color: DECK.muted, align: 'ctr' });
+      });
+      var cmText = clean((run && run.changeMade || {}).description);
+      if (cmText) s.text('The change: ' + words(cmText, 30), X0, 5.7, XW, 0.9, { size: 14, color: DECK.navy });
+      s.note('The audit cycle, step by step. Ticked steps are done' + (cmD ? '; the change started ' + cmD : '') + '.');
+    })();
+
     /* 9. What next */
     var items = [];
     if (has2) {
@@ -1419,11 +1556,11 @@
       items.push(mm1 === null ? 'Agree a local target before re-auditing' : mm1 ? 'Standard met \u2014 keep monitoring' : 'Below target \u2014 a change is needed');
     } else items.push('Collect cycle 1 data with the data sheet');
     var top = null, topB = null;
-    breakdowns.forEach(function (b) {
-      if (top) return;
+    breakdowns.forEach(function (b) {                 // only a cause (reason, delay, barrier) is worth a takeaway
+      if (top || !b.causes) return;
       (b.cycles.c1 || []).forEach(function (o) { if (o.n > 0 && (!top || o.n > top.n)) { top = o; topB = b; } });
     });
-    if (top) items.push((topB.causes ? 'Commonest cause in cycle 1: ' : 'Biggest group in cycle 1: ') + words(top.option, 6) + ' (' + top.n + ')');
+    if (top) items.push('Commonest cause in cycle 1: ' + words(top.option, 6) + ' (' + top.n + ')');
     if (has2 && clean(P.close_loop)) items.push(words(noStop(firstSentence(P.close_loop)), 10));
     else if (!has2) {
       var when = /^([^:;.]+)/.exec(clean(P.reaudit));
@@ -1431,7 +1568,7 @@
     }
     items = items.slice(0, 3).map(function (t) { return words(t, 10); });
     s = add();
-    headline(s, 'What next', 0.7, { size: 32 });
+    headline(s, W('next'), 0.7, { size: 32 });
     var nsz = 28;
     items.forEach(function (t) { nsz = Math.min(nsz, fitText(t, 10.6, 0.8, 28, 16, {}).size); });
     items.forEach(function (t, i) {
@@ -1448,7 +1585,7 @@
     (P.evidence || []).map(clean).filter(Boolean).forEach(function (e) { refs.push(e); });
     if (refs.length) {
       s = add();
-      s.text('References', X0, 0.7, 8, 0.7, { size: 24, font: DECK_FONTS.head, color: DECK.navy });
+      s.text(W('refs'), X0, 0.7, 8, 0.7, { size: 24, font: DECK_FONTS.head, color: DECK.navy });
       refs = refs.slice(0, 12);
       var half = Math.ceil(refs.length / 2);
       var cols = refs.length > 3 ? [refs.slice(0, half), refs.slice(half)] : [refs];
