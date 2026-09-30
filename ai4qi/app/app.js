@@ -532,21 +532,33 @@
     if (m < 60) return Math.max(5, Math.round(m / 5) * 5) + ' min';
     var h = Math.round(m / 30) / 2; return h + (h === 1 ? ' hour' : ' hours');
   }
-  // Rough time budget from the protocol: data collection (cycle 1 + re-audit), summary per cycle, putting in the change.
+  // Time with and without the site, estimated from the protocol. Data collection is the same either way
+  // (records still have to be read); the site saves the design, the sums and charts, the slides and the paperwork.
   function timeBudget(p, per10) {
     if (per10 == null) return '';
     var n = sampleGuess(p), segs = parseTimeline(p.timeline) || [];
-    function wks(re, d) { var sg = segs.filter(function (x) { return re.test(x.label); })[0]; return sg ? sg.b - sg.a + 1 : d; }
-    var cWeeks = wks(/collect/i, 2), total = segs.length ? Math.max.apply(null, segs.map(function (x) { return x.b; })) : 12;
-    var collect = per10 * n / 10, perDay = collect / (cWeeks * 5), summary = 45, action = 120;
-    var all = collect * 2 + summary * 2 + action;
-    function tile(ic, h, v, sub) { return '<div class="tb"><span class="tb-i">' + ICON[ic] + '</span><div><span class="tb-h">' + h + '</span><b>' + v + '</b><span class="tb-s">' + sub + '</span></div></div>'; }
-    return '<div class="time-budget">' +
-      tile('clock', 'Total time', 'About ' + minsText(all), 'hands-on, over ' + total + ' weeks') +
-      tile('day', 'Per day', 'About ' + minsText(perDay), 'while collecting (' + cWeeks + (cWeeks === 1 ? ' week' : ' weeks') + ', ' + n + ' records)') +
-      tile('chart', 'Summary', 'About ' + minsText(summary), 'per cycle: the sheet and slides are made for you') +
-      tile('tool', 'Action', 'About ' + minsText(action), 'to agree and put the change in place') +
-      '</div><p class="tb-note">Estimates, to help you plan.</p>';
+    var weeks = segs.length ? Math.max.apply(null, segs.map(function (x) { return x.b; })) : 12;
+    var collect = per10 * n / 10 * 2;                                  // cycle 1 and re-audit
+    var rows = [
+      ['Design the audit', 'find the standard, write the protocol, build the data sheet', 240, 15],
+      ['Proposal for your supervisor', 'email and proposal document', 60, 10],
+      ['Collect the data', n + ' records, twice', collect, collect],
+      ['Work out the results', 'totals, percentages and charts, twice', 120, 10],
+      ['Make the presentation', 'slides for each cycle', 180, 20]
+    ];
+    var tot0 = 0, tot1 = 0, mx = 0;
+    rows.forEach(function (r) { tot0 += r[2]; tot1 += r[3]; mx = Math.max(mx, r[2]); });
+    function bar(v, cls) { return '<span class="tc-bar ' + cls + '" style="width:' + Math.max(2, v / mx * 70) + '%"></span>'; }
+    return '<div class="time-compare">' +
+      '<div class="tc-head"><span></span><span class="tc-k tc-k0">By hand</span><span class="tc-k tc-k1">With Ai4Qi</span></div>' +
+      rows.map(function (r) {
+        return '<div class="tc-row"><div class="tc-lab"><b>' + r[0] + '</b><span>' + r[1] + '</span></div>' +
+          '<div class="tc-cell">' + bar(r[2], 'is-hand') + '<em>' + minsText(r[2]) + '</em></div>' +
+          '<div class="tc-cell">' + bar(r[3], 'is-app') + '<em>' + minsText(r[3]) + '</em></div></div>';
+      }).join('') +
+      '<div class="tc-row tc-total"><div class="tc-lab"><b>Total, over ' + weeks + ' weeks</b></div><div class="tc-cell"><em>' + minsText(tot0) + '</em></div><div class="tc-cell"><em>' + minsText(tot1) + '</em></div></div>' +
+      '<div class="tc-saved">' + ICON.clock + '<span>Time saved: <b>about ' + minsText(tot0 - tot1) + '</b></span></div>' +
+      '<p class="tb-note">Estimates, to help you plan. Collecting the data takes the same time either way.</p></div>';
   }
   function effortScale(p) {
     var t = String((p && p.effort) || ''); if (!t) return '';
@@ -578,7 +590,7 @@
     // Method: the question across the top, a 2 x 2 grid, then the sample size under a solid rule.
     function cell(t, body) { return '<div class="m-cell"><h3 class="m-lab">' + t + '</h3>' + body + '</div>'; }
     var how =
-      '<div class="m-q"><h3 class="m-lab">Audit question</h3><p>' + esc(p.question) + '</p></div>' +
+      '<div class="m-q m-card"><h3 class="m-lab">Audit question</h3><p>' + esc(p.question) + '</p></div>' +
       '<div class="m-grid">' +
       cell('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
         '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
@@ -586,7 +598,7 @@
       cell('Selection criteria', '<p class="prose">' + linkify(p.population) + '</p>') +
       cell('Data collection', '<p class="prose">' + linkify(p.data_source) + '</p>') +
       '</div>' +
-      '<div class="m-sample"><h3 class="m-lab">Sample size</h3><p class="prose">' + linkify(p.sample) + '</p></div>' +
+      '<div class="m-sample m-card"><h3 class="m-lab">Sample size</h3><p>' + linkify(p.sample) + '</p></div>' +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
