@@ -3454,9 +3454,10 @@
     return m ? '<a class="btn auth-wide" href="' + m[0] + '" target="_blank" rel="noopener">' + esc(m[1]) + ' &nbsp;↗</a>' : '';
   }
   function renderSignIn(title, fresh) {
-    var err = BE.authError
-      ? '<div class="notice notice-warn" role="alert">That link has expired or was already used. Send a new one below.</div>' : '';
     var known = !fresh && lastEmail();
+    // A work email's link scanner (Microsoft Defender on NHSmail) can open the link first and use it up,
+    // along with the code in that email. A fresh code, typed rather than clicked, always works.
+    var err = BE.authError ? '<div class="notice notice-warn" role="alert">That link did not sign you in: your email\'s security scanner may have used it first. Send a new code below and <strong>type it in</strong> instead of clicking.</div>' : '';
     var body = known ?
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
       '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err +
@@ -3486,7 +3487,7 @@
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
       '<button class="btn auth-wide" type="submit">Sign in</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> NHSmail can take a minute or two, and may land in <em>Junk</em> or the <em>Other</em> tab. Found it there? Mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
+      (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> Not in your inbox? Check <em>Junk</em> and the <em>Other</em> tab, and mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
       '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
       '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
     var h = card.querySelector('h1'); if (h) h.focus();
