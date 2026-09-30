@@ -3461,11 +3461,11 @@
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
       '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err +
       '<form class="auth-form" data-signin novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
-      '<button class="btn auth-wide" type="submit">Email me a sign-in link &nbsp;→</button>' +
+      '<button class="btn auth-wide" type="submit">Email me a sign-in code &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
       '<button type="button" class="link-btn auth-alt" data-signin-other>Not you? Use another email</button>' :
       '<div class="auth-icon">' + ICON_MAIL + '</div>' +
-      '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a link.</p>' + err +
+      '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a 6-digit code.</p>' + err +
       '<form class="auth-form" data-signin novalidate>' +
       '<label for="acc-email" class="sr-only">Email address</label>' +
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
@@ -3479,14 +3479,14 @@
   function renderSent(email) {
     var card = main.querySelector('.auth-card'); if (!card) return;
     card.innerHTML = '<div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
-      '<h1 tabindex="-1">Check your email</h1><p class="auth-sub">We sent a link to<br><strong>' + esc(email) + '</strong></p>' +
+      '<h1 tabindex="-1">Check your email</h1><p class="auth-sub">We sent a 6-digit code to<br><strong>' + esc(email) + '</strong></p>' +
       inboxLink(email) +
       '<form class="auth-form auth-code" data-otp novalidate><input type="hidden" name="email" value="' + attr(email) + '">' +
-      '<label for="otp-code">Or type the code from the email</label>' +
+      '<label for="otp-code">Type the code from the email</label>' +
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
-      '<button class="btn btn-secondary auth-wide" type="submit">Sign in with the code</button>' +
+      '<button class="btn auth-wide" type="submit">Sign in</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      (/@nhs\.net$/i.test(email) ? '<p class="auth-tip"><strong>Using NHSmail?</strong> New senders can land in <em>Junk</em>, the <em>Other</em> tab or quarantine. Found it there? Mark it <em>Not junk</em>. Still nothing after 2 minutes? Use a personal email for now.</p>' : '') +
+      (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> NHSmail can take a minute or two, and may land in <em>Junk</em> or the <em>Other</em> tab. Found it there? Mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
       '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
       '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
     var h = card.querySelector('h1'); if (h) h.focus();
@@ -4100,7 +4100,7 @@
     { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it, press Choose this audit, then Start this audit when you are ready.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
     { q: 'Is Ai4Qi free?', k: 'cost price pay money subscription charge', a: 'Yes. Ai4Qi is free to use.' },
     { q: 'Do I need an account?', k: 'sign register login log email password', a: 'No. You can build and run an audit without one. Signing in only adds email reminders when each step is due. We send a code to your email; there is no password.', go: [['Sign in', '#/account']] },
-    { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Check your junk or spam folder, and wait a minute. You can type the code from the email instead of pressing the link. Trust email filters sometimes hold it back: try a personal address.', go: [['Sign in again', '#/account']] },
+    { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Wait a minute or two, then check Junk and the Other tab. NHSmail is slower with new senders. Still nothing after 3 minutes? Sign in with a personal email instead.', go: [['Sign in again', '#/account']] },
     { q: 'Where are my audits?', k: 'dashboard saved find lost my audits list progress', a: 'In My audits. They are kept on this device and in this browser. If you switched device or browser, restore a backup there.', go: [['My audits', '#/my-audits']] },
     { q: 'How do I enter my data?', k: 'data upload excel spreadsheet sheet enter record collect import input', a: 'Open your audit in My audits, download the Excel data sheet, fill in one row per patient, then upload it under Upload your data sheet. The results appear straight away.' },
     { q: 'Can I add or remove columns in the data sheet?', k: 'column add delete extra change excel field question', a: 'Yes. Open the audit in My audits and add or remove columns before you download the sheet. Or add them in Excel: when you upload, Ai4Qi offers to add the new columns and includes them in the results.' },
