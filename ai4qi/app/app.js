@@ -540,11 +540,11 @@
     var weeks = segs.length ? Math.max.apply(null, segs.map(function (x) { return x.b; })) : 12;
     var collect = per10 * n / 10 * 2;                                  // cycle 1 and re-audit
     var rows = [
-      ['Design the audit', 'find the standard, write the protocol, build the data sheet', 240, 15],
-      ['Proposal for your supervisor', 'email and proposal document', 60, 10],
+      ['Design the audit', 'find the standard, write the protocol, build the data sheet', 240, 5],
+      ['Proposal for your supervisor', 'email and proposal document', 60, 5],
       ['Collect the data', n + ' records, twice', collect, collect],
-      ['Work out the results', 'totals, percentages and charts, twice', 120, 10],
-      ['Make the presentation', 'slides for each cycle', 180, 20]
+      ['Work out the results', 'totals, percentages and charts, twice', 120, 5],
+      ['Make the presentation', 'slides for each cycle', 180, 5]
     ];
     var tot0 = 0, tot1 = 0, mx = 0;
     rows.forEach(function (r) { tot0 += r[2]; tot1 += r[3]; mx = Math.max(mx, r[2]); });
@@ -900,7 +900,7 @@
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
-      '<div class="doc-actions">' + chooseActions(p.id) + (window.AI4QI_EMBED ? '' : '<button class="btn btn-secondary" type="button" data-print>Print protocol</button>') + '</div></header>' +
+      (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + '</header>' +
       supervisorBox(p) + body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
   }
@@ -1511,7 +1511,7 @@
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
       '<h1>' + esc(p.question) + '</h1>' +
-      '<div class="doc-actions">' + chooseActions(p.id) + '</div>' + variantsNav(p) + '</header>' +
+      (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + variantsNav(p) + '</header>' +
       supervisorBox(p) + (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
     showUsefulCount(p.id);
@@ -2332,14 +2332,114 @@
   });
 
 
+  /* Results dashboard: a doughnut per cycle, the change between them, a before/after column chart
+     against the target and, when dates allow, a month-by-month run chart. Plain inline SVG. */
+  function donutSvg(c, t, cls) {
+    var R = 44, C = 2 * Math.PI * R, pct = c.pct == null ? 0 : c.pct, len = C * Math.min(100, pct) / 100;
+    var tick = '';
+    if (t) { var a = t.value / 100 * 2 * Math.PI; tick = '<line class="dn-tick" x1="' + (60 + 34 * Math.sin(a)).toFixed(1) + '" y1="' + (60 - 34 * Math.cos(a)).toFixed(1) + '" x2="' + (60 + 56 * Math.sin(a)).toFixed(1) + '" y2="' + (60 - 56 * Math.cos(a)).toFixed(1) + '"/>'; }
+    return '<svg class="donut ' + cls + '" viewBox="0 0 120 120" role="img" aria-label="' + (c.pct == null ? 'No data yet' : Math.round(pct) + '% met the standard') + '">' +
+      '<circle class="dn-track" cx="60" cy="60" r="' + R + '"/>' +
+      (c.pct == null ? '' : '<circle class="dn-val" cx="60" cy="60" r="' + R + '" stroke-dasharray="' + len.toFixed(1) + ' ' + C.toFixed(1) + '" transform="rotate(-90 60 60)"/>') + tick +
+      '<text class="dn-pct" x="60" y="62" text-anchor="middle">' + (c.pct == null ? '–' : Math.round(pct) + '%') + '</text>' +
+      '<text class="dn-sub" x="60" y="80" text-anchor="middle">' + (c.pct == null ? 'no data yet' : c.passN + ' of ' + (c.passN + c.failN)) + '</text></svg>';
+  }
+  function resultsDash(r, st) {
+    var c1 = st.cycles[0], c2 = st.cycles[1], t = st.target;
+    if (!c1.n && !c2.n) return '<div class="rd-empty">' + ICON.chart + '<p><strong>Your results appear here</strong> as soon as you upload your data sheet: the share meeting the standard, before and after, and month by month.</p></div>';
+    function met(c) { return c.pct == null || !t ? null : (t.op === '≤' || t.op === '<' ? c.pct <= t.value : c.pct >= t.value); }
+    function card(c, label, cls) {
+      var m = met(c);
+      return '<div class="rd-card"><span class="rd-lab">' + label + '</span>' + donutSvg(c, t, cls) +
+        '<span class="rd-state ' + (m === null ? '' : m ? 'is-ok' : 'is-bad') + '">' + (m === null ? (c.n ? c.n + ' records' : 'Not collected yet') : m ? 'Target met' : 'Below target') + '</span></div>';
+    }
+    var diff = c1.pct != null && c2.pct != null ? Math.round((c2.pct - c1.pct) * 10) / 10 : null;
+    var mid = '<div class="rd-change">' + (diff === null ? '<span class="rd-arrow">→</span><span class="muted">Re-audit next</span>' :
+      '<span class="rd-arrow ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : '') + '">' + (diff > 0 ? '↗' : diff < 0 ? '↘' : '→') + '</span><b>' + (diff > 0 ? '+' : diff < 0 ? '−' : '±') + Math.abs(diff) + ' pts</b><span class="muted">after the change</span>') + '</div>';
+    var top = '<div class="rd-top">' + card(c1, 'Cycle 1', 'is-c1') + mid + card(c2, 'Re-audit', 'is-c2') + '</div>' +
+      (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '');
+    // Column chart
+    var W = 320, H = 180, x0 = 36, y0 = 12, ch = 140;
+    function y(p) { return y0 + ch - ch * Math.max(0, Math.min(100, p)) / 100; }
+    var cols = '<svg class="rd-cols" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cycle 1 and re-audit compared with the target">' +
+      [0, 50, 100].map(function (g) { return '<line class="rd-grid" x1="' + x0 + '" y1="' + y(g) + '" x2="' + (W - 8) + '" y2="' + y(g) + '"/><text class="rd-ax" x="' + (x0 - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + '%</text>'; }).join('') +
+      [[c1, 'Cycle 1', 'is-c1', 90], [c2, 'Re-audit', 'is-c2', 210]].map(function (cc) {
+        var v = cc[0].pct; if (v == null) return '<text class="rd-ax" x="' + (cc[3] + 30) + '" y="' + (y0 + ch - 6) + '" text-anchor="middle">no data</text><text class="rd-cat" x="' + (cc[3] + 30) + '" y="' + (H - 6) + '" text-anchor="middle">' + cc[1] + '</text>';
+        return '<rect class="rd-bar ' + cc[2] + '" x="' + cc[3] + '" y="' + y(v) + '" width="60" height="' + (y0 + ch - y(v)) + '" rx="3"/>' +
+          '<text class="rd-val" x="' + (cc[3] + 30) + '" y="' + (y(v) - 5) + '" text-anchor="middle">' + Math.round(v) + '%</text><text class="rd-cat" x="' + (cc[3] + 30) + '" y="' + (H - 6) + '" text-anchor="middle">' + cc[1] + '</text>';
+      }).join('') +
+      (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (W - 8) + '" y2="' + y(t.value) + '"/>' : '') + '</svg>';
+    // Run chart by month
+    var pts = [];
+    [[c1, 1], [c2, 2]].forEach(function (cc) { (cc[0].months || []).forEach(function (m) { var d = m.pass + m.fail; if (d) pts.push({ m: m.m, p: m.pass / d * 100, c: cc[1] }); }); });
+    pts.sort(function (a, b) { return a.m < b.m ? -1 : a.m > b.m ? 1 : a.c - b.c; });
+    var run = '';
+    if (pts.length >= 3) {
+      var RW = 320, step = (RW - x0 - 12) / pts.length, MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var xs = pts.map(function (q, i) { return x0 + step * (i + 0.5); });
+      var srt = pts.map(function (q) { return q.p; }).sort(function (a, b) { return a - b; }), med = srt.length % 2 ? srt[(srt.length - 1) / 2] : (srt[srt.length / 2 - 1] + srt[srt.length / 2]) / 2;
+      run = '<svg class="rd-run" viewBox="0 0 ' + RW + ' ' + H + '" role="img" aria-label="Month by month run chart">' +
+        [0, 50, 100].map(function (g) { return '<line class="rd-grid" x1="' + x0 + '" y1="' + y(g) + '" x2="' + (RW - 8) + '" y2="' + y(g) + '"/><text class="rd-ax" x="' + (x0 - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + '%</text>'; }).join('') +
+        '<line class="rd-median" x1="' + x0 + '" y1="' + y(med) + '" x2="' + (RW - 8) + '" y2="' + y(med) + '"/>' +
+        (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (RW - 8) + '" y2="' + y(t.value) + '"/>' : '') +
+        '<polyline class="rd-line" points="' + pts.map(function (q, i) { return xs[i].toFixed(1) + ',' + y(q.p).toFixed(1); }).join(' ') + '"/>' +
+        pts.map(function (q, i) { return '<circle class="rd-pt ' + (q.c === 2 ? 'is-c2' : 'is-c1') + '" cx="' + xs[i].toFixed(1) + '" cy="' + y(q.p).toFixed(1) + '" r="4.5"/>' +
+          (pts.length <= 12 || i % 2 === 0 ? '<text class="rd-ax" x="' + xs[i].toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + MON[+q.m.slice(5) - 1] + '</text>' : ''); }).join('') + '</svg>';
+    }
+    return top + '<div class="rd-charts"><figure><figcaption>Before and after</figcaption>' + cols + '</figure>' +
+      (run ? '<figure><figcaption>Month by month <span class="muted">(dotted: median; dashed: target)</span></figcaption>' + run + '</figure>' : '') + '</div>';
+  }
+  // Trainees can add or remove columns for their own audit. The pass column stays (results need it);
+  // column names that look like patient identifiers are refused.
+  var COL_TYPES = [['yes/no', 'Yes / No'], ['choice', 'Choice from a list'], ['number', 'Number'], ['date', 'Date'], ['datetime', 'Date and time'], ['text', 'Short text']];
+  function colEditor(r) {
+    var t = r.protocol.template || [], pf = passField(r.protocol);
+    return '<details class="rec-box col-edit"' + (S.view.colEditOpen ? ' open' : '') + '><summary>Edit columns (' + t.length + ')</summary>' +
+      '<p class="muted">Add a column you want to record, or remove one you do not need. Then download the data sheet again: it will have your columns, and uploads will read them.</p>' +
+      '<ul class="col-list">' + t.map(function (f) {
+        var ty = (COL_TYPES.filter(function (c) { return c[0] === String(f.type).toLowerCase(); })[0] || [0, f.type])[1];
+        return '<li><span><b>' + esc(fieldLabel(f.field)) + '</b><small>' + esc(ty) + (f.added ? ' · added by you' : '') + '</small></span>' +
+          (f.field === pf ? '<small class="muted">Needed for the results</small>' : '<button type="button" class="link-btn" data-col-del="' + attr(f.field) + '">Remove</button>') + '</li>';
+      }).join('') + '</ul>' +
+      '<form class="det-form col-add" data-col-add><div class="rec-f"><label for="ca-name">New column</label><input id="ca-name" name="name" maxlength="60" required placeholder="e.g. Seen by senior"></div>' +
+      '<div class="rec-f"><label for="ca-type">Type</label><select id="ca-type" name="type">' + COL_TYPES.map(function (c) { return '<option value="' + c[0] + '">' + c[1] + '</option>'; }).join('') + '</select></div>' +
+      '<div class="rec-f rec-wide"><label for="ca-opts">Choices, separated by commas <span class="muted">(for "Choice from a list")</span></label><input id="ca-opts" name="options" maxlength="300"></div>' +
+      '<div class="rec-actions"><button class="btn btn-secondary" type="submit">Add column</button><span class="form-status" role="status" data-col-status></span></div></form></details>';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-col-del]'); if (!b) return;
+    var r = curRun(); if (!r) return;
+    var f = b.getAttribute('data-col-del'), used = ['c1', 'c2'].some(function (k) { return r.cycles[k].rows.some(function (row) { return row[f] != null && row[f] !== ''; }); });
+    if (used && b.getAttribute('data-sure') !== '1') { b.setAttribute('data-sure', '1'); b.textContent = 'Remove it and its data?'; return; }
+    r.protocol.template = (r.protocol.template || []).filter(function (x) { return x.field !== f; });
+    ['c1', 'c2'].forEach(function (k) { r.cycles[k].rows.forEach(function (row) { delete row[f]; }); });
+    S.view.colEditOpen = true; runPut(r); renderRunKeep(r, '.col-edit summary');
+  });
+  document.addEventListener('submit', function (e) {
+    var fm = e.target.closest && e.target.closest('[data-col-add]'); if (!fm) return;
+    e.preventDefault();
+    var r = curRun(); if (!r) return;
+    var st = fm.querySelector('[data-col-status]'), name = fm.elements.name.value.trim(), type = fm.elements.type.value;
+    var field = name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 40);
+    var opts = fm.elements.options.value.split(',').map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 20);
+    if (!field) return sayIn(st, 'Give the column a name.');
+    if (ID_HEADER.test(field)) return sayIn(st, 'That looks like a patient identifier (name, NHS or hospital number, date of birth, address). Those are never collected.');
+    if ((r.protocol.template || []).some(function (x) { return x.field === field; })) return sayIn(st, 'There is already a column with that name.');
+    if (type === 'choice' && opts.length < 2) return sayIn(st, 'Add at least two choices, separated by commas.');
+    r.protocol.template = (r.protocol.template || []).concat([{ field: field, type: type, options: type === 'choice' ? opts : [], note: '', added: true }]);
+    S.view.colEditOpen = true; runPut(r); renderRunKeep(r, '.col-edit summary');
+  });
   function rowsTable(r, ck) {
     var p = r.protocol, rows = r.cycles[ck].rows, t = p.template || [];
     if (!rows.length) return '<p class="muted">No records yet.</p>';
     var shown = rows.slice(-200);
-    return '<div class="table-wrap"><table class="rows-t"><thead><tr><th scope="col">#</th>' + t.map(function (f) { return '<th scope="col">' + esc(fieldLabel(f.field)) + '</th>'; }).join('') +
-      '<th scope="col"><span class="sr-only">Remove</span></th></tr></thead><tbody>' + shown.map(function (row, j) {
+    // Shown like the Excel sheet it came from: column letters, row numbers and the green header row.
+    return '<div class="sheet-wrap" role="region" tabindex="0" aria-label="Your records"><table class="sheet rows-sheet">' +
+      '<thead><tr><th class="sh-corner" aria-hidden="true"></th>' + t.map(function (f, i) { return '<th class="sh-col" aria-hidden="true">' + colName(i) + '</th>'; }).join('') + '<th class="sh-col" aria-hidden="true"></th></tr></thead><tbody>' +
+      '<tr><th class="sh-row" aria-hidden="true">1</th>' + t.map(function (f) { return '<th scope="col" class="sh-head">' + esc(fieldLabel(f.field)) + '</th>'; }).join('') + '<th class="sh-head"><span class="sr-only">Remove</span></th></tr>' +
+      shown.map(function (row, j) {
         var idx = rows.length - shown.length + j;
-        return '<tr><td class="num-col">' + (idx + 1) + '</td>' + t.map(function (f) { return '<td>' + esc(row[f.field] == null ? '' : row[f.field]) + '</td>'; }).join('') +
+        return '<tr><th class="sh-row">' + (idx + 2) + '</th>' + t.map(function (f) { return '<td>' + esc(row[f.field] == null ? '' : row[f.field]) + '</td>'; }).join('') +
           '<td><button type="button" class="link-btn" data-rec-del="' + ck + ':' + idx + '" aria-label="Remove record ' + (idx + 1) + '">Remove</button></td></tr>';
       }).join('') + '</tbody></table></div>' + (rows.length > shown.length ? '<p class="muted">Showing the last 200 of ' + fmt(rows.length) + ' records.</p>' : '');
   }
@@ -2399,8 +2499,7 @@
       '<div class="rec-f"><label for="rc-date">Date it started</label><input id="rc-date" name="date" type="date" value="' + attr(r.changeMade.date || '') + '"></div>' +
       '<div class="rec-actions"><button class="btn" type="submit">Save change</button><span class="form-status" role="status" data-chg-status></span></div>' +
       '<p class="muted">Planned in the protocol: ' + esc(p.change) + '</p></form>';
-    var results = '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], st.target, 'before') + pctBar('Re-audit', st.cycles[1], st.target, 'after') + '</div>' +
-      (st.target ? '<p class="muted">Dashed line: target ' + esc(st.target.text) + '</p>' : '') +
+    var results = resultsDash(r, st) +
       st.breakdowns.map(function (b) {
         var all = b.cycles.c1.concat(b.cycles.c2), max = Math.max.apply(null, all.map(function (x) { return x.n; }).concat([1]));
         var two = b.cycles.c1.length && b.cycles.c2.length, opts = [];
@@ -2441,7 +2540,7 @@
       'Stored encrypted on this device only; identifiers are removed as records are entered. ' + privacyLink() +
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
       sec(1, 'Audit details', detailsForm + remind + supervisorBox(p, r)) +
-      sec(2, 'Data', '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
+      sec(2, 'Data', colEditor(r) + '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
         '<button type="button" role="tab" data-run-tab="c2" aria-selected="' + (ck === 'c2') + '">Re-audit <span class="count">' + st.cycles[1].n + '</span></button></div>' +
         '<div role="tabpanel">' + cyclePanel(r, ck, st) + '</div>') +
       sec(3, 'Results', results) +
@@ -2647,7 +2746,7 @@
       var total = prep.rows.length + prep.reRows.length;
       box.innerHTML = '<div class="import-preview"><p><strong>' + total + ' records ready to add' + (prep.reRows.length ? ' (' + prep.rows.length + ' cycle 1, ' + prep.reRows.length + ' re-audit)' : '') + '.</strong> Nothing has been stored yet.</p>' +
         '<ul><li>Columns used: ' + (prep.kept.length ? prep.kept.map(function (k) { return esc(k[0]); }).join(', ') : 'none matched the template') + '</li>' +
-        '<li>Columns left out: ' + (prep.dropped.length ? esc(prep.dropped.join(', ')) : 'none') + '</li>' +
+        '<li>Columns left out: ' + (prep.dropped.length ? esc(prep.dropped.join(', ')) + ' <span class="muted">(to keep one, add it under Edit columns above, then upload again; identifiers are never kept)</span>' : 'none') + '</li>' +
         '<li>Patient numbers replaced with audit codes: ' + prep.rep.coded + '</li>' +
         '<li>Identifiers removed from text: ' + prep.rep.redacted + '</li>' +
         (prep.rep.badDates ? '<li>Dates that could not be read (left blank): ' + prep.rep.badDates + '</li>' : '') + '</ul>' +
