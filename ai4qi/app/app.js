@@ -1888,7 +1888,7 @@
     function find(re) { return segs.filter(function (s) { return re.test(s.label); })[0]; }
     function due(seg, fallbackWeeks) { return addDays(start, ((seg ? seg.b : fallbackWeeks) * 7) - 1); }
     return {
-      setup: start,
+      setup: addDays(start, 7),
       cycle1: due(find(/collect/i), 3),
       present: due(find(/analy|present/i), 4),
       change: due(find(/change/i), 5),
@@ -2078,6 +2078,9 @@
   // Reminders are on for every signed-in user unless they switch them off once, in Account
   // (profiles.reminders_off). One email lists every step that is due, across all their audits.
   function remindersOn() { return !!BE.user && !(BE.profile && BE.profile.reminders_off); }
+  // An audit counts as started once the person presses "Start this audit" (or has moved past set-up).
+  // Until then they are only looking around: no reminders, nothing on the server.
+  function isStarted(r) { return !!(r.committed || r.closed || stageIdx(r) > 0); }
   function syncAllRuns() { S.runs.forEach(function (r) { syncRun(r); }); }
   function syncRun(r) {
     if (!BE.url || !BE.user || r.demo) return;           // example audits never leave the device
@@ -2085,8 +2088,8 @@
     syncTimers[r.id] = setTimeout(function () {
       sbClient().then(function (c) {
         var i = stageIdx(r), status = STAGE_STATUS[i], jobs = [];
-        jobs.push(c.from('my_audits').upsert({ user_id: BE.user.id, audit_id: r.auditId, status: status }, { onConflict: 'user_id,audit_id' }));
-        if (remindersOn() && !r.closed && S.runs.has(r.id)) {
+        if (isStarted(r)) jobs.push(c.from('my_audits').upsert({ user_id: BE.user.id, audit_id: r.auditId, status: status }, { onConflict: 'user_id,audit_id' }));
+        if (remindersOn() && isStarted(r) && !r.closed && S.runs.has(r.id)) {
           var ns = nextStep(r);
           jobs.push(c.from('run_reminders').upsert({ user_id: BE.user.id, run_id: r.id, audit_title: trunc(r.protocol.question, 190),
             next_step: trunc(ns.text, 190), due_date: ns.due || addDays(todayIso(), 7), email_opt_in: true }, { onConflict: 'user_id,run_id' }));
@@ -2181,7 +2184,7 @@
       '<a class="out-btn" href="#/suggest"><b>Suggested audits</b><span>Quickest to a closed loop</span></a>' +
       '<a class="out-btn" href="#/proposed"><b>Browse ready-made audits</b><span>' + fmt(S.proposed.length) + ' protocols by specialty</span></a></div></section>';
     var tiles = list.length ? '<div class="dash-tiles"><div><b>' + open.length + '</b><span>In progress</span></div><div><b>' + done.length + '</b><span>Completed</span></div>' +
-      '<div><b>' + list.filter(function (r) { var ns = nextStep(r); return !r.closed && !r.demo && ns.due && ns.due < todayIso(); }).length + '</b><span>Overdue steps</span></div></div>' : '';
+      '<div><b>' + list.filter(function (r) { var ns = nextStep(r); return !r.closed && !r.demo && isStarted(r) && ns.due && ns.due < todayIso(); }).length + '</b><span>Overdue steps</span></div></div>' : '';
     function group(title, runs, empty) {
       return '<section class="dash-group"><h2>' + title + ' <span class="count">' + runs.length + '</span></h2>' + (runs.length ? '<ul class="run-list">' + runs.map(runCard).join('') + '</ul>' : '<p class="muted">' + empty + '</p>') + '</section>';
     }
@@ -2190,14 +2193,15 @@
     body = tiles + startNew + body;
     function runCard(r) {
       var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
-      if (r.demo) ns.due = null;
+      if (r.demo || !isStarted(r)) ns.due = null;
       var overdue = ns.due && ns.due < todayIso();
       return '<li class="run-card"><div class="rc-top"><span class="id-tag">' + esc(r.auditId) + '</span>' +
-        (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : '') + '</div>' +
+        (r.closed ? badge('Loop closed', 'ok') : (isStarted(r) || r.demo) ? badge(RUN_STAGES[i][1], 'primary') : badge('Not started', 'muted')) + (r.demo ? badge('Example data', 'demo') : '') + '</div>' +
         '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title || r.protocol.question) + '</a></h2>' +
         '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
         '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
-        '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p></li>';
+        ((isStarted(r) || r.demo) ? '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' :
+          '<p class="rc-next"><strong>Next:</strong> <a href="#/run/' + attr(r.id) + '">Start this audit</a> when you are ready</p>') + '</li>';
     }
     var pasteBox = '<details class="rec-box paste-any"><summary>Paste a results code</summary><form class="det-form" data-paste-any>' +
       '<div class="rec-f rec-wide"><label for="pa-code">Results code from the Ai4Qi data sheet</label><textarea id="pa-code" name="code" rows="2" placeholder="AI4QI v1 | NNA-245 | C1 30/42 n=45 | …"></textarea></div>' +
@@ -2297,7 +2301,7 @@
       '<label class="check"><input type="checkbox" name="noFreeText"' + ((r.options || {}).noFreeText ? ' checked' : '') + '><span>Switch off free-text fields (existing free text is deleted)</span></label></fieldset>' +
       '<div class="rec-actions"><button class="btn" type="submit">Save details</button><span class="form-status" role="status" data-det-status></span></div></form>';
     var remind = BE.url ? '<p class="muted remind-note">' + (BE.user ? (remindersOn() ?
-      'Email reminders are on: we email you when a step in any of your audits is due (only the audit question, the step and its date; never your data). <a href="#/account">Turn them off</a>' :
+      'Email reminders are on: once you start an audit, we email you when a step is due (only the audit question, the step and its date; never your data). <a href="#/account">Turn them off</a>' :
       'Email reminders are off. <a href="#/account">Turn them on</a>') :
       '<a href="#/account">Sign in</a> to get an email when a step is due.') + '</p>' : '';
     var changeForm = '<form class="det-form" data-run-change><div class="rec-f rec-wide"><label for="rc-desc">What did you change?</label><textarea id="rc-desc" name="description" rows="3" maxlength="600">' + esc(r.changeMade.description || '') + '</textarea></div>' +
@@ -2325,7 +2329,9 @@
       '<button class="out-btn" type="button" data-run-backup><b>Backup</b><span>To move this audit to another device</span></button>' +
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
       '</div><p class="export-warn">These files hold de-identified patient records. Keep them on your organisation\'s systems and share them only inside it.</p><p class="form-status" role="status" data-out-status></p>';
-    var stageBtn = r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
+    var started = isStarted(r) || r.demo;
+    var stageBtn = !started ? '<button class="btn" type="button" data-run-commit>Start this audit</button>' :
+      r.closed ? '<button class="btn btn-secondary" type="button" data-run-stage="reopen">Reopen</button>' :
       (DEMO ? '<button class="btn demo-btn" type="button" data-demo-step>' + esc(demoStepLabel(r)) + '</button>' : '') +
       '<button class="btn" type="button" data-run-stage="next">' + (i === RUN_STAGES.length - 1 ? 'Mark the loop closed' : 'Done – go to ' + esc(RUN_STAGES[i + 1][1].toLowerCase())) + '</button>' +
       (i > 0 ? '<button class="btn btn-secondary" type="button" data-run-stage="back">Back a stage</button>' : '');
@@ -2334,8 +2340,11 @@
       '<article class="doc run" data-run="' + attr(r.id) + '"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(r.auditId) + '</span>' +
       (r.closed ? badge('Loop closed', 'ok') : badge(RUN_STAGES[i][1], 'primary')) + (r.demo ? badge('Example data', 'demo') : '') + '<a href="' + auditHref(r.auditId) + '">View protocol</a></div>' +
       '<h1>' + esc(d.title || p.question) + '</h1>' + stageStepper(r) +
-      '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
-      '<p class="nc-text">' + esc(ns.text) + '</p></div><div class="nc-actions">' + stageBtn + '</div></div>' +
+      (started ? '<div class="next-card' + (overdue ? ' is-late' : '') + '"><div><p class="nc-label">' + (r.closed ? 'Done' : 'Next step') + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' +
+      '<p class="nc-text">' + esc(ns.text) + '</p></div>' :
+      '<div class="next-card is-trial"><div><p class="nc-label">Not started yet</p>' +
+      '<p class="nc-text">Look around, download the data sheet or send it to your supervisor. When you are ready to run it, press <strong>Start this audit</strong>: the start date becomes today' +
+      (BE.url ? ' and we email you when each step is due' : '') + '. Nothing is sent before then.</p></div>') + '<div class="nc-actions">' + stageBtn + '</div></div>' +
       '<p class="privacy-note"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
       'Stored encrypted on this device only; identifiers are removed as records are entered. ' + privacyLink() +
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
@@ -2375,7 +2384,7 @@
       '<li>can store dates as month and year only, and can switch free-text fields off, for each audit.</li></ul>' +
       '<p class="prose"><strong>This is de-identified, not anonymous, data.</strong> Dates and details together can sometimes identify a person, so treat your records as patient data under your organisation\'s rules. Automatic checks cannot catch every identifier written in free text: never type names or numbers. Register the audit with your audit department before you start.</p>' +
       '<p class="prose"><strong>Files you download</strong> (data sheet, presentation, records, backup) are made on your device. Records and backups contain de-identified patient data: keep them on your organisation\'s systems.</p>' +
-      '<p class="prose"><strong>Reminders.</strong> If you sign in, email reminders are on unless you turn them off in Account. Only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
+      '<p class="prose"><strong>Reminders.</strong> If you sign in, email reminders are on for audits you have started (pressed <em>Start this audit</em>) unless you turn them off in Account. Only the audit question, the next step, its due date and record counts are sent to our server, never records.</p>' +
       '<p class="prose"><strong>No outside code.</strong> Every script this page runs is served by Ai4Qi itself' +
       (window.AI4QI_EMBED ? '.' : ', fonts included, and the page blocks scripts and connections to anywhere else.') + '</p></article>', 'Privacy', '');
   }
@@ -2388,6 +2397,12 @@
     var r = curRun(); if (!r) return;
     var tab = e.target.closest('[data-run-tab]');
     if (tab) { S.view.runTab = tab.getAttribute('data-run-tab'); renderRunKeep(r, '[data-run-tab="' + S.view.runTab + '"]'); return; }
+    if (e.target.closest('[data-run-commit]')) {
+      r.committed = true; r.committedAt = new Date().toISOString();
+      if (!r.details.startDate || r.details.startDate < todayIso()) r.details.startDate = todayIso();
+      runPut(r); renderRunKeep(r, '[data-run-stage="next"]');
+      return;
+    }
     var stg = e.target.closest('[data-run-stage]');
     if (stg) {
       var a = stg.getAttribute('data-run-stage'), i = stageIdx(r);
@@ -3073,7 +3088,7 @@
       '<form class="stack-form" data-profile>' +
       '<fieldset class="pf-me"><legend>For proposals you send</legend>' +
       '<p class="muted">Optional. Filled into the email and Word proposal you send to your supervisor. Never used in totals.</p>' +
-      '<label for="pf-name">Your name</label><input id="pf-name" name="full_name" maxlength="120" autocomplete="name" value="' + attr(pf.full_name || '') + '">' +
+      '<label for="pf-name">Your full name (first and last)</label><input id="pf-name" name="full_name" maxlength="120" autocomplete="name" value="' + attr(pf.full_name || '') + '">' +
       '<label for="pf-org">Hospital, Trust or practice <span class="muted">start typing to pick from the list</span></label><input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" list="org-list" value="' + attr(pf.organisation || '') + '">' + orgList() +
       '<label for="pf-dept">Department or ward</label><input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '"></fieldset>' +
       '<label for="pf-grade">Grade or role</label>' +
@@ -3638,7 +3653,14 @@
 
   if (!window.AI4QI_EMBED && 'serviceWorker' in navigator && window.isSecureContext) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).catch(function () {});
+      // A new version installs in the background; when it takes over within the first minute of a visit,
+      // reload once so people see today's site, not yesterday's. Later on, it waits for the next visit.
+      var hadCtrl = !!navigator.serviceWorker.controller, loadedAt = Date.now(), reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!hadCtrl || reloaded || Date.now() - loadedAt > 60000) return;
+        reloaded = true; location.reload();
+      });
+      navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).then(function (reg) { reg.update().catch(function () {}); }).catch(function () {});
       navigator.serviceWorker.ready.then(function () {
         return window.caches ? caches.match('data/library.json') : null;
       }).then(function (hit) {
