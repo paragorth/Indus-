@@ -2314,43 +2314,50 @@
     if (vaultGate()) return;
     var list = Array.from(S.runs.values()).sort(function (a, b) { return (a.closed - b.closed) || String(b.updated).localeCompare(String(a.updated)); });
     var open = list.filter(function (r) { return !r.closed; }), done = list.filter(function (r) { return r.closed; });
-    var startNew = '<section class="dash-new" aria-labelledby="dn-h"><h2 id="dn-h">Start a new audit</h2><div class="dash-actions">' +
-      '<a class="out-btn" href="#/"><b>Build an audit</b><span>On any topic, in under a minute</span></a>' +
-      '<a class="out-btn" href="#/suggest"><b>Suggested audits</b><span>Quickest to a closed loop</span></a>' +
-      '<a class="out-btn" href="#/proposed"><b>Browse ready-made audits</b><span>' + fmt(S.proposed.length) + ' protocols by specialty</span></a></div></section>';
-    var tiles = list.length ? '<div class="dash-tiles"><div><b>' + open.length + '</b><span>In progress</span></div><div><b>' + done.length + '</b><span>Completed</span></div>' +
-      '<div><b>' + list.filter(function (r) { var ns = nextStep(r); return !r.closed && !r.demo && isStarted(r) && ns.due && ns.due < todayIso(); }).length + '</b><span>Overdue steps</span></div></div>' : '';
-    function group(title, runs, empty) {
-      return '<section class="dash-group"><h2>' + title + ' <span class="count">' + runs.length + '</span></h2>' + (runs.length ? '<ul class="run-list">' + runs.map(runCard).join('') + '</ul>' : '<p class="muted">' + empty + '</p>') + '</section>';
+    var overdueN = list.filter(function (r) { var ns = nextStep(r); return !r.closed && !r.demo && isStarted(r) && ns.due && ns.due < todayIso(); }).length;
+    var startNew = '<div class="dash-new-row" role="group" aria-label="Start a new audit">' +
+      '<a class="btn" href="#/">+ Build an audit</a><a class="btn btn-secondary" href="#/suggest">Suggested audits</a>' +
+      '<a class="btn btn-secondary" href="#/proposed">Ready-made audits</a></div>';
+    var stats = list.length ? '<p class="dash-stats"><span><b>' + open.length + '</b> in progress</span><span><b>' + done.length + '</b> completed</span>' +
+      '<span' + (overdueN ? ' class="is-late"' : '') + '><b>' + overdueN + '</b> overdue</span></p>' : '';
+    // One tidy row per audit: name and place, where it is in the loop, the result, what is next.
+    function row(r) {
+      var st = runStats(r), ns = nextStep(r), i = stageIdx(r), c1 = st.cycles[0], c2 = st.cycles[1];
+      var started = isStarted(r) || r.demo;
+      if (r.demo || !started) ns.due = null;
+      var overdue = ns.due && ns.due < todayIso() && !r.closed;
+      var name = r.details.title && r.details.title !== r.protocol.question ? r.details.title : auditName(r.protocol);
+      var dots = '<span class="ar-dots" aria-hidden="true">' + RUN_STAGES.map(function (sg, k) {
+        return '<i class="' + (r.closed || k < i ? 'is-done' : k === i && started ? 'is-now' : '') + '"></i>';
+      }).join('') + '</span>';
+      var res = c1.pct == null ? '<span class="muted">No data yet</span>' :
+        '<span class="ar-pct">' + Math.round(c1.pct) + '%' + (c2.pct != null ? ' <span class="ar-arrow">→</span> <b>' + Math.round(c2.pct) + '%</b>' : '') + '</span>';
+      return '<li><a class="ar" href="#/run/' + attr(r.id) + '">' +
+        '<span class="ar-main"><b class="ar-name">' + esc(name) + '</b><span class="ar-meta">' + esc([r.details.site, r.details.department].filter(Boolean).join(' · ') || r.auditId) + '</span>' +
+          (r.demo ? '<span class="ar-demo">Example data</span>' : '') + '</span>' +
+        '<span class="ar-stage">' + dots + '<span>' + (r.closed ? 'Loop closed' : started ? RUN_STAGES[i][1] : 'Not started') + '</span></span>' +
+        '<span class="ar-res">' + res + '</span>' +
+        '<span class="ar-next' + (overdue ? ' is-late' : '') + '">' + (r.closed ? 'Keep the change going' : started ? esc(ns.text) : 'Press Start this audit when ready') +
+          (ns.due ? '<small>' + (overdue ? 'Was due ' : 'Due ') + esc(dateGBs(ns.due)) + '</small>' : '') + '</span>' +
+        '<span class="ar-go" aria-hidden="true">›</span></a></li>';
     }
-    var body = list.length ? group('In progress', open, 'Nothing in progress.') + group('Completed', done, 'None yet: close the loop on an audit and it moves here.') :
-      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p></div>';
-    body = tiles + startNew + body;
-    function runCard(r) {
-      var st = runStats(r), ns = nextStep(r), i = stageIdx(r), t = st.target;
-      if (r.demo || !isStarted(r)) ns.due = null;
-      var overdue = ns.due && ns.due < todayIso();
-      return '<li class="run-card"><div class="rc-top"><span class="id-tag">' + esc(r.auditId) + '</span>' +
-        (r.closed ? badge('Loop closed', 'ok') : (isStarted(r) || r.demo) ? badge(RUN_STAGES[i][1], 'primary') : badge('Not started', 'muted')) + (r.demo ? badge('Example data', 'demo') : '') + '</div>' +
-        '<h2><a href="#/run/' + attr(r.id) + '">' + esc(r.details.title && r.details.title !== r.protocol.question ? r.details.title : auditName(r.protocol)) + '</a></h2><p class="audit-q small">' + esc(r.protocol.question) + '</p>' +
-        '<p class="meta">' + esc([r.details.site, r.details.lead].filter(Boolean).join(' · ') || 'Details not added yet') + '</p>' +
-        '<div class="sp-bars">' + pctBar('Cycle 1', st.cycles[0], t, 'before') + (st.cycles[1].n ? pctBar('Re-audit', st.cycles[1], t, 'after') : '') + '</div>' +
-        ((isStarted(r) || r.demo) ? '<p class="rc-next' + (overdue ? ' is-late' : '') + '"><strong>Next:</strong> ' + esc(ns.text) + (ns.due ? ' · ' + (overdue ? 'was due ' : 'due ') + esc(dateGBs(ns.due)) : '') + '</p>' :
-          '<p class="rc-next"><strong>Next:</strong> <a href="#/run/' + attr(r.id) + '">Start this audit</a> when you are ready</p>') + '</li>';
-    }
-    var pasteBox = '<details class="rec-box paste-any"><summary>Paste a results code</summary><form class="det-form" data-paste-any>' +
-      '<div class="rec-f rec-wide"><label for="pa-code">Results code from the Ai4Qi data sheet</label><textarea id="pa-code" name="code" rows="2" placeholder="AI4QI v1 | NNA-245 | C1 30/42 n=45 | …"></textarea></div>' +
-      '<div class="rec-actions"><button class="btn" type="submit">Use these results</button><span class="form-status" role="status" data-paste-status></span></div></form></details>';
-    var hello = BE.user && BE.profile && BE.profile.full_name ? 'Welcome back, ' + esc(String(BE.profile.full_name).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i, '').split(/\s+/)[0]) + '. ' : '';
+    var head = '<div class="ar-head" aria-hidden="true"><span>Audit</span><span>Stage</span><span>Result</span><span>Next step</span><span></span></div>';
+    var body = !list.length ?
+      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p></div>' :
+      (open.length ? '<section class="dash-list"><h2>In progress</h2>' + head + '<ul class="ar-list">' + open.map(row).join('') + '</ul></section>' : '') +
+      (done.length ? '<details class="dash-list dash-done"' + (open.length ? '' : ' open') + '><summary><h2>Completed <span class="count">' + done.length + '</span></h2></summary>' + head + '<ul class="ar-list">' + done.map(row).join('') + '</ul></details>' : '');
+    var hello = BE.user && BE.profile && BE.profile.full_name ? 'Welcome back, ' + esc(String(BE.profile.full_name).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i, '').split(/\s+/)[0]) + '.' : 'Your audits, where each one is up to, and what to do next.';
     var pf0 = BE.profile || {}, noProfile = BE.user && BE.profile !== undefined && !pf0.full_name && !pf0.grade && !pf0.specialty;
     var signedNote = S.justSignedIn || noProfile ? '<div class="welcome-card dash-signed"><p><strong>' + (S.justSignedIn ? 'You\'re signed in.' : 'Your profile is empty.') + '</strong> ' +
       (noProfile ? 'Add your name, hospital and grade once, and your supervisor emails fill themselves in.' : 'Your audits are below.') + '</p>' +
       (noProfile ? '<a class="btn btn-secondary" href="#/account">Add my details</a>' : '') + '</div>' : '';
     S.justSignedIn = false;
-    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + signedNote + body +
+    var care = '<details class="rec-box dash-care"><summary>Backup and protection</summary>' +
+      '<p class="muted">Everything here is stored encrypted on this device only. ' + privacyLink() + '</p>' +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
-      protectionBox(), 'My audits', 'my-audits');
+      protectionBox() + '</details>';
+    page('<div class="dash-top"><div><h1>My audits</h1><p class="page-intro">' + hello + '</p></div>' + startNew + '</div>' + signedNote + stats + body + care, 'My audits', 'my-audits');
   }
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
   function protectionBox() {
