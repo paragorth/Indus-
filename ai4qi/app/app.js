@@ -2366,48 +2366,65 @@
   }
   function resultsDash(r, st) {
     var c1 = st.cycles[0], c2 = st.cycles[1], t = st.target;
-    if (!c1.n && !c2.n) return '<div class="rd-empty">' + ICON.chart + '<p><strong>Your results appear here</strong> as soon as you upload your data sheet: the share meeting the standard, before and after, and month by month.</p></div>';
+    if (!c1.n && !c2.n) return '<div class="rd-empty">' + ICON.chart + '<p><strong>Your results appear here</strong> as soon as you upload your cycle 1 sheet.</p></div>';
     function met(c) { return c.pct == null || !t ? null : (t.op === '≤' || t.op === '<' ? c.pct <= t.value : c.pct >= t.value); }
-    function card(c, label, cls) {
-      var m = met(c);
-      return '<div class="rd-card"><span class="rd-lab">' + label + '</span>' + donutSvg(c, t, cls) +
-        '<span class="rd-state ' + (m === null ? '' : m ? 'is-ok' : 'is-bad') + '">' + (m === null ? (c.n ? c.n + ' records' : 'Not collected yet') : m ? 'Target met' : 'Below target') + '</span></div>';
+    var two = c1.pct != null && c2.pct != null, key = two ? c2 : (c1.pct != null ? c1 : c2), m = met(key);
+    var diff = two ? Math.round((c2.pct - c1.pct) * 10) / 10 : null;
+    // Headline: what the audit showed or achieved, in words and numbers
+    var head, sub;
+    if (two) {
+      head = diff > 0 ? 'Up from ' + Math.round(c1.pct) + '% to ' + Math.round(c2.pct) + '%' : diff < 0 ? 'Down from ' + Math.round(c1.pct) + '% to ' + Math.round(c2.pct) + '%' : 'Unchanged at ' + Math.round(c2.pct) + '%';
+      var more = c2.passN - Math.round(c1.pct / 100 * (c2.passN + c2.failN));
+      sub = (diff !== 0 ? (diff > 0 ? '+' : '−') + Math.abs(diff) + ' percentage points after the change' : 'No change after the intervention') +
+        (more > 0 ? '. About ' + more + ' more patients out of ' + (c2.passN + c2.failN) + ' now get it right.' : '.');
+    } else {
+      head = Math.round(key.pct) + '% met the standard';
+      sub = key.passN + ' of ' + (key.passN + key.failN) + ' patients' + (t ? (m ? ': the target is met.' : ': ' + Math.round(Math.abs(t.value - key.pct)) + ' points short of the ' + esc(t.text) + ' target.') : '.');
     }
-    var diff = c1.pct != null && c2.pct != null ? Math.round((c2.pct - c1.pct) * 10) / 10 : null;
-    var mid = '<div class="rd-change">' + (diff === null ? '<span class="rd-arrow">→</span><span class="muted">Re-audit next</span>' :
-      '<span class="rd-arrow ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : '') + '">' + (diff > 0 ? '↗' : diff < 0 ? '↘' : '→') + '</span><b>' + (diff > 0 ? '+' : diff < 0 ? '−' : '±') + Math.abs(diff) + ' pts</b><span class="muted">after the change</span>') + '</div>';
-    var top = '<div class="rd-top">' + card(c1, 'Cycle 1', 'is-c1') + mid + card(c2, 'Re-audit', 'is-c2') + '</div>' +
-      (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '');
-    // Column chart
+    var badge2 = m === null ? '' : '<span class="rd-state ' + (m ? 'is-ok' : 'is-bad') + '">' + (m ? '✓ Target met' : 'Below target') + '</span>';
+    // Progress bar to the target (one bar per cycle)
+    function track(c, label, cls) {
+      if (c.pct == null) return '';
+      return '<div class="rd-track"><span class="rd-tl">' + label + '</span><div class="rd-tb"><i class="' + cls + '" style="width:' + Math.min(100, c.pct) + '%"></i>' +
+        (t ? '<b class="rd-tt" style="left:' + t.value + '%" title="Target"></b>' : '') + '</div><span class="rd-tv">' + Math.round(c.pct) + '%</span></div>';
+    }
+    var hero = '<div class="rd-hero">' + donutSvg(key, t, two ? 'is-c2' : 'is-c1') +
+      '<div class="rd-hero-t"><h3>' + head + '</h3><p>' + sub + '</p>' + badge2 +
+      '<div class="rd-tracks">' + track(c1, 'Cycle 1', 'is-c1') + (two ? track(c2, 'Re-audit', 'is-c2') : '') + '</div>' +
+      (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '') + '</div></div>';
+    // Charts that add something: before/after columns once there are two cycles; a run chart when months allow
     var W = 320, H = 180, x0 = 36, y0 = 12, ch = 140;
     function y(p) { return y0 + ch - ch * Math.max(0, Math.min(100, p)) / 100; }
-    var cols = '<svg class="rd-cols" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cycle 1 and re-audit compared with the target">' +
+    var cols = two ? '<svg class="rd-cols" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cycle 1 and re-audit compared with the target">' +
       [0, 50, 100].map(function (g) { return '<line class="rd-grid" x1="' + x0 + '" y1="' + y(g) + '" x2="' + (W - 8) + '" y2="' + y(g) + '"/><text class="rd-ax" x="' + (x0 - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + '%</text>'; }).join('') +
       [[c1, 'Cycle 1', 'is-c1', 90], [c2, 'Re-audit', 'is-c2', 210]].map(function (cc) {
-        var v = cc[0].pct; if (v == null) return '<text class="rd-ax" x="' + (cc[3] + 30) + '" y="' + (y0 + ch - 6) + '" text-anchor="middle">no data</text><text class="rd-cat" x="' + (cc[3] + 30) + '" y="' + (H - 6) + '" text-anchor="middle">' + cc[1] + '</text>';
+        var v = cc[0].pct;
         return '<rect class="rd-bar ' + cc[2] + '" x="' + cc[3] + '" y="' + y(v) + '" width="60" height="' + (y0 + ch - y(v)) + '" rx="3"/>' +
           '<text class="rd-val" x="' + (cc[3] + 30) + '" y="' + (y(v) - 5) + '" text-anchor="middle">' + Math.round(v) + '%</text><text class="rd-cat" x="' + (cc[3] + 30) + '" y="' + (H - 6) + '" text-anchor="middle">' + cc[1] + '</text>';
       }).join('') +
-      (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (W - 8) + '" y2="' + y(t.value) + '"/>' : '') + '</svg>';
-    // Run chart by month
+      '<path class="rd-rise" d="M150 ' + y(c1.pct) + ' L210 ' + y(c2.pct) + '" marker-end="url(#rd-ar)"/><defs><marker id="rd-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>' +
+      (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (W - 8) + '" y2="' + y(t.value) + '"/>' : '') + '</svg>' : '';
     var pts = [];
-    [[c1, 1], [c2, 2]].forEach(function (cc) { (cc[0].months || []).forEach(function (m) { var d = m.pass + m.fail; if (d) pts.push({ m: m.m, p: m.pass / d * 100, c: cc[1] }); }); });
+    [[c1, 1], [c2, 2]].forEach(function (cc) { (cc[0].months || []).forEach(function (mm) { var d = mm.pass + mm.fail; if (d) pts.push({ m: mm.m, p: mm.pass / d * 100, c: cc[1] }); }); });
     pts.sort(function (a, b) { return a.m < b.m ? -1 : a.m > b.m ? 1 : a.c - b.c; });
     var run = '';
     if (pts.length >= 3) {
       var RW = 320, step = (RW - x0 - 12) / pts.length, MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       var xs = pts.map(function (q, i) { return x0 + step * (i + 0.5); });
       var srt = pts.map(function (q) { return q.p; }).sort(function (a, b) { return a - b; }), med = srt.length % 2 ? srt[(srt.length - 1) / 2] : (srt[srt.length / 2 - 1] + srt[srt.length / 2]) / 2;
+      var chg = String((r.changeMade || {}).date || '').slice(0, 7), ci = /^\d{4}-\d{2}$/.test(chg) ? pts.findIndex(function (q) { return q.m >= chg; }) : -1;
       run = '<svg class="rd-run" viewBox="0 0 ' + RW + ' ' + H + '" role="img" aria-label="Month by month run chart">' +
         [0, 50, 100].map(function (g) { return '<line class="rd-grid" x1="' + x0 + '" y1="' + y(g) + '" x2="' + (RW - 8) + '" y2="' + y(g) + '"/><text class="rd-ax" x="' + (x0 - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + '%</text>'; }).join('') +
         '<line class="rd-median" x1="' + x0 + '" y1="' + y(med) + '" x2="' + (RW - 8) + '" y2="' + y(med) + '"/>' +
         (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (RW - 8) + '" y2="' + y(t.value) + '"/>' : '') +
+        (ci > 0 ? '<line class="rd-chg" x1="' + ((xs[ci - 1] + xs[ci]) / 2).toFixed(1) + '" y1="' + y0 + '" x2="' + ((xs[ci - 1] + xs[ci]) / 2).toFixed(1) + '" y2="' + (y0 + ch) + '"/><text class="rd-chg-t" x="' + ((xs[ci - 1] + xs[ci]) / 2 + 4).toFixed(1) + '" y="' + (y0 + 10) + '">Change</text>' : '') +
         '<polyline class="rd-line" points="' + pts.map(function (q, i) { return xs[i].toFixed(1) + ',' + y(q.p).toFixed(1); }).join(' ') + '"/>' +
         pts.map(function (q, i) { return '<circle class="rd-pt ' + (q.c === 2 ? 'is-c2' : 'is-c1') + '" cx="' + xs[i].toFixed(1) + '" cy="' + y(q.p).toFixed(1) + '" r="4.5"/>' +
           (pts.length <= 12 || i % 2 === 0 ? '<text class="rd-ax" x="' + xs[i].toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + MON[+q.m.slice(5) - 1] + '</text>' : ''); }).join('') + '</svg>';
     }
-    return top + '<div class="rd-charts"><figure><figcaption>Before and after</figcaption>' + cols + '</figure>' +
-      (run ? '<figure><figcaption>Month by month <span class="muted">(dotted: median; dashed: target)</span></figcaption>' + run + '</figure>' : '') + '</div>';
+    var charts = (cols ? '<figure><figcaption>Before and after the change</figcaption>' + cols + '</figure>' : '') +
+      (run ? '<figure><figcaption>Month by month <span class="muted">(dotted: median; dashed: target)</span></figcaption>' + run + '</figure>' : '');
+    return hero + (charts ? '<div class="rd-charts">' + charts + '</div>' : '');
   }
   // Trainees can add or remove columns for their own audit. The pass column stays (results need it);
   // column names that look like patient identifiers are refused.
@@ -2560,12 +2577,13 @@
       'Stored encrypted on this device only; identifiers are removed as records are entered. ' + privacyLink() +
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
       sec(1, 'Audit details', detailsForm + remind + supervisorBox(p, r)) +
-      sec(2, 'Data', colEditor(r) + '<div class="tabs" role="tablist"><button type="button" role="tab" data-run-tab="c1" aria-selected="' + (ck === 'c1') + '">Cycle 1 <span class="count">' + st.cycles[0].n + '</span></button>' +
-        '<button type="button" role="tab" data-run-tab="c2" aria-selected="' + (ck === 'c2') + '">Re-audit <span class="count">' + st.cycles[1].n + '</span></button></div>' +
-        '<div role="tabpanel">' + cyclePanel(r, ck, st) + '</div>') +
-      sec(3, 'Results', results) +
-      sec(4, 'The change', changeForm) +
-      sec(5, 'Files for you', dl) +
+      // In the order of the loop: cycle 1, the change, the re-audit, then what it all achieved.
+      sec(2, 'Cycle 1', colEditor(r) + cyclePanel(r, 'c1', st)) +
+      sec(3, 'The change', '<p class="step-why">After cycle 1, you and your team change one thing to fix what the results showed: a form, a checklist, an alert or a new pathway. ' +
+        'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
+      sec(4, 'Re-audit', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit.</p>' + cyclePanel(r, 'c2', st)) +
+      sec(5, 'Results', results) +
+      sec(6, 'Files for you', dl) +
       '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
       '</article>', 'My audit', 'my-audits');
   }
