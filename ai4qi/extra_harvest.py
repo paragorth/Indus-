@@ -147,6 +147,19 @@ S2_QUERIES_3 = ['audit + (anaesthesia | anaesthetic | theatre | perioperative)',
                 'audit + (respiratory | asthma | COPD | oxygen)', 'audit + (infection control | "hand hygiene" | cannula)']
 
 
+S2_QUERIES_4 = ['audit + (ophthalmology | cataract | glaucoma | eye)', 'audit + (dermatology | skin | melanoma)', 'audit + (urology | catheter | prostate)',
+                'audit + (ENT | otolaryngology | tonsillectomy | tracheostomy)', 'audit + (haematology | anaemia | "iron deficiency")',
+                'audit + (renal | dialysis | nephrology)', 'audit + (rheumatology | "rheumatoid arthritis" | gout | osteoporosis)',
+                'audit + (neurology | epilepsy | "Parkinson" | "multiple sclerosis")', 'audit + (orthopaedic | fracture | arthroplasty | "hip fracture")',
+                'audit + ("general surgery" | appendicectomy | cholecystectomy | hernia)', 'audit + (caesarean | labour | postpartum | antenatal)',
+                'audit + (neonatal | NICU | preterm | newborn)', 'audit + (ICU | "intensive care" | ventilated | "critical care")',
+                'audit + (palliative | "end of life" | DNACPR | "advance care")', 'audit + (physiotherapy | rehabilitation | "occupational therapy")',
+                'audit + (vascular | amputation | "diabetic foot")', 'audit + (plastic surgery | "hand surgery" | burns)',
+                'audit + (breast | mammography | "breast surgery")', 'audit + (colorectal | "bowel cancer" | stoma)',
+                'audit + (hepatology | cirrhosis | "liver disease" | alcohol)', 'audit + (sexual health | HIV | contraception)',
+                'audit + (blood transfusion | "blood products" | "patient blood management")']
+
+
 def s2(st, queries=None):
     for q in (queries or S2_QUERIES):
         token, got = None, 0
@@ -313,7 +326,8 @@ if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     st = Store()
     for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin),
-                     ("s2b", lambda st: s2(st, S2_QUERIES_2)), ("s2c", lambda st: s2(st, S2_QUERIES_3))):
-        if which == name or (which == "all" and name not in ("s2b", "s2c")):
+                     ("s2b", lambda st: s2(st, S2_QUERIES_2)), ("s2c", lambda st: s2(st, S2_QUERIES_3)),
+                     ("s2d", lambda st: s2(st, S2_QUERIES_4))):
+        if which == name or (which == "all" and name not in ("s2b", "s2c", "s2d")):
             fn(st)
             print(f"{name}: {st.new} new records in total", flush=True)
