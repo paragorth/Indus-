@@ -618,7 +618,8 @@
       cell('Selection criteria', selectionHtml(p.population)) +
       cell('Data collection', bullets(splitTop(p.data_source, /;/), 'bul')) +
       '</div>' +
-      '<div class="m-sample m-card"><h3 class="m-lab">Sample size</h3><p>' + linkify(p.sample) + '</p></div>' +
+      '<div class="m-sample m-card"><h3 class="m-lab">Sample size</h3><p>' + linkify(p.sample) + '</p>' +
+        '<small class="prec-note">' + precisionText(sampleGuess(p)) + ' Need to do fewer? After choosing the audit, set your own number in My audits (at least 20).</small></div>' +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
@@ -1762,6 +1763,18 @@
   function addDays(iso, n) { var d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
   function dateGBs(iso) { if (!iso) return ''; var d = new Date(iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
   function stageIdx(r) { if (r.closed) return RUN_STAGES.length; for (var i = 0; i < RUN_STAGES.length; i++) if (RUN_STAGES[i][0] === r.stage) return i; return 0; }
+  // How precise a percentage is with n records: 95% margin of error at the worst case (50%).
+  function marginPts(n) { return n > 0 ? Math.round(1.96 * Math.sqrt(0.25 / n) * 100) : null; }
+  function precisionText(n) {
+    n = Math.round(+n || 0); if (n < 1) return '';
+    var m = marginPts(n);
+    return (n < 20 ? '<b class="prec-warn">Too few to judge.</b> ' : '') + 'With ' + n + ' records, your result is accurate to about ±' + m + ' percentage points.' +
+      (n >= 20 && n < 30 ? ' Fine for a first look.' : n >= 30 ? '' : ' Aim for at least 20.');
+  }
+  document.addEventListener('input', function (e) {
+    var i = e.target.closest && e.target.closest('[data-sample-input]'); if (!i) return;
+    var n = i.parentNode.querySelector('[data-prec]'); if (n) n.innerHTML = precisionText(+i.value);
+  });
   function sampleGuess(p) {
     var nums = [], re = /(\d{1,4})(?:\s*[–-]\s*\d{1,4})?\s*(months?|weeks?|days?|years?|hours?|mins?|minutes?|%)?/gi, m;
     while ((m = re.exec(String(p.sample || '')))) if (!m[2] && +m[1] >= 10) nums.push(+m[1]);
@@ -2556,11 +2569,14 @@
     if (r.demo) ns.due = null;                                   // example audits are backdated: no "was due" warnings on stage
     var overdue = ns.due && ns.due < todayIso() && !r.closed;
     var detailsForm = '<form class="det-form" data-run-details>' +
+      '<div class="rec-f rec-wide"><label for="rd-question">Audit question <span class="muted">(reword it for your service if you need to; this changes only your copy)</span></label>' +
+      '<textarea id="rd-question" name="question" rows="2" maxlength="400">' + esc(p.question) + '</textarea></div>' +
       [['title', 'Audit title', 'text'], ['site', 'Hospital or practice', 'text'], ['department', 'Department or ward', 'text'], ['lead', 'Audit lead', 'text'],
         ['team', 'Team members', 'text'], ['supervisor', 'Supervising consultant', 'text'], ['startDate', 'Start date', 'date'], ['sampleSize', 'Records per cycle', 'number']]
         .map(function (x) {
           return '<div class="rec-f"><label for="rd-' + x[0] + '">' + x[1] + '</label><input id="rd-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
-            (x[2] === 'number' ? ' min="1" max="2000"' : ' maxlength="200"') + ' value="' + attr(d[x[0]] == null ? '' : d[x[0]]) + '"></div>';
+            (x[2] === 'number' ? ' min="1" max="2000" data-sample-input' : ' maxlength="200"') + ' value="' + attr(d[x[0]] == null ? '' : d[x[0]]) + '">' +
+            (x[0] === 'sampleSize' ? '<small class="prec-note" data-prec>' + precisionText(+d.sampleSize || 30) + '</small>' : '') + '</div>';
         }).join('') +
       '<fieldset class="rec-wide opt-set"><legend>Extra data protection</legend>' +
       '<label class="check"><input type="checkbox" name="monthOnly"' + ((r.options || {}).monthOnly ? ' checked' : '') + '><span>Store dates as month and year only (existing dates are shortened too)</span></label>' +
@@ -2771,7 +2787,13 @@
     var f = e.target, fd = new FormData(f);
     if (f.matches('[data-run-details]')) {
       e.preventDefault();
-      fd.forEach(function (v, k) { if (k === 'monthOnly' || k === 'noFreeText') return; r.details[k] = k === 'sampleSize' ? Math.max(1, Math.min(2000, +v || 30)) : String(v).slice(0, 200); });
+      var oldQ = r.protocol.question;
+      fd.forEach(function (v, k) {
+        if (k === 'monthOnly' || k === 'noFreeText') return;
+        if (k === 'question') { var qv = String(v).trim().slice(0, 400); if (qv) r.protocol.question = qv; return; }
+        r.details[k] = k === 'sampleSize' ? Math.max(1, Math.min(2000, +v || 30)) : String(v).slice(0, 200);
+      });
+      if (r.details.title === oldQ) r.details.title = r.protocol.question;     // an untouched title follows the reworded question
       r.options = { monthOnly: fd.has('monthOnly'), noFreeText: fd.has('noFreeText') };
       ['c1', 'c2'].forEach(function (c) {
         r.cycles[c].rows.forEach(function (row) {
