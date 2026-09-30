@@ -279,6 +279,7 @@
       else if (name === 'account' && BE.url) renderAccount();
       else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
       else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
+      else if (name === 'signed-out') renderSignedOut();
       else if (name === 'my-audits') renderRuns();
       else if (name === 'run' && p[1]) renderRun(p[1]);
       else if (name === 'privacy') renderPrivacy();
@@ -3253,7 +3254,8 @@
   }
   function updateAccountLink() {
     var signedIn = BE.user || (!BE.client && hasStoredSession());
-    if (accountLink) accountLink.textContent = signedIn ? 'Account and sign out' : 'Sign in';
+    if (accountLink) accountLink.textContent = signedIn ? 'Account' : 'Sign in';
+    var so = document.querySelector('[data-acct-signout]'); if (so) so.hidden = !signedIn;
     var av = document.querySelector('[data-acct-initials]'), who = document.querySelector('[data-acct-who]');
     var lab = document.querySelector('[data-acct-label]');
     if (av && !av.dataset.icon) av.dataset.icon = av.innerHTML;
@@ -3273,7 +3275,7 @@
     btn.addEventListener('click', function (e) { e.stopPropagation(); set(menu.hidden); if (!menu.hidden) { var f = menu.querySelector('a:not([hidden])'); if (f) f.focus(); } });
     document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('[data-acct]')) set(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
-    menu.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+    menu.addEventListener('click', function (e) { if (e.target.closest('a, button')) set(false); });
   })();
 
   function appVersion() {
@@ -3515,42 +3517,53 @@
     return '<div class="welcome-card"><p><strong>You\'re signed in.</strong> ' + (empty ? 'The profile below is optional: fill it in now or later, or skip it.' : 'Welcome back.') + '</p>' +
       '<a class="btn" href="' + attr(to) + '" data-skip-profile>' + (to === '#/' ? 'Continue to Ai4Qi' : 'Continue where you were') + '</a></div>';
   }
+  var WORK_EMAIL = /@(nhs\.net|([a-z0-9-]+\.)*nhs\.uk|([a-z0-9-]+\.)*nhs\.scot|([a-z0-9-]+\.)*nhs\.wales|([a-z0-9-]+\.)*hscni\.net|([a-z0-9-]+\.)*hse\.ie)$/i;
   function renderSignedIn() {
-    var pf = BE.profile || {};
-    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Account</nav>' +
-      '<div class="doc narrow acct-page"><div class="auth-card acct-head"><div class="auth-avatar" aria-hidden="true">' + esc(initialsOf(BE.user.email)) + '</div>' +
-      '<h1>Your account</h1><p class="auth-sub">' + esc(BE.user.email || '') + '</p>' +
-      '<a class="btn auth-wide" href="#/my-audits">Go to My audits &nbsp;→</a></div>' +
-      '<section class="account-section" aria-labelledby="pf-h"><h2 id="pf-h">Your profile</h2>' +
-      '<p class="muted">Optional. Used only in anonymous totals, to understand who uses the library and how feedback differs between groups.</p>' +
-      '<form class="stack-form" data-profile>' +
-      '<fieldset class="pf-me"><legend>For proposals you send</legend>' +
-      '<p class="muted">Optional. Filled into the email and Word proposal you send to your supervisor. Never used in totals.</p>' +
-      '<label for="pf-name">Your full name (first and last)</label><input id="pf-name" name="full_name" maxlength="120" autocomplete="name" value="' + attr(pf.full_name || '') + '">' +
-      '<label for="pf-org">Hospital, Trust or practice <span class="muted">start typing to pick from the list</span></label><input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" list="org-list" value="' + attr(pf.organisation || '') + '">' + orgList() +
-      '<label for="pf-dept">Department or ward</label><input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '"></fieldset>' +
-      '<label for="pf-grade">Grade or role</label>' +
-      '<select id="pf-grade" name="grade"><option value="">Prefer not to say</option>' + optionList(GRADES, pf.grade) + '</select>' +
-      '<label for="pf-specialty">Specialty</label>' +
-      '<select id="pf-specialty" name="specialty"><option value="">Prefer not to say</option>' + optionList(SPECIALTIES, pf.specialty) + '</select>' +
-      '<label for="pf-region">Region</label>' +
-      '<select id="pf-region" name="region"><option value="">Prefer not to say</option>' +
-      '<optgroup label="England (NHS region)">' + optionList(REGIONS.slice(0, 7), pf.region) + '</optgroup>' +
-      '<optgroup label="Elsewhere">' + optionList(REGIONS.slice(7), pf.region) + '</optgroup></select>' +
-
-      '<fieldset class="consent"><legend>Emails</legend>' +
-      '<label class="check"><input type="checkbox" name="reminders"' + (pf.reminders_off ? '' : ' checked') + '><span>Email me when a step in any of my audits is due (one email lists everything that is due).</span></label>' +
-      '<label class="check"><input type="checkbox" name="consent_news"' + (pf.consent_news ? ' checked' : '') + '><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
-      '<label class="check"><input type="checkbox" name="consent_sponsors"' + (pf.consent_sponsors ? ' checked' : '') + '><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
-      '</fieldset>' +
-      '<div class="pf-actions"><button class="btn" type="submit">Save profile</button>' +
-      '<a class="btn btn-secondary" href="' + attr(afterSigninHref()) + '" data-skip-profile>Skip for now</a></div>' +
-      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
-      '</form></section>' +
-      (BE.admin ? '<section class="account-section" aria-labelledby="adm-h"><h2 id="adm-h">Administration</h2><ul><li><a href="#/admin/stats">Usage statistics</a></li><li><a href="#/admin/feedback">Feedback on proposed audits</a></li></ul></section>' : '') +
-      '<div class="account-actions"><button class="btn btn-secondary" type="button" data-signout>Sign out</button> ' +
-      '<button class="link-btn" type="button" data-delete-account>Delete my account</button><span data-delete-account-box></span></div>' +
+    var pf = BE.profile || {}, email = BE.user.email || '', verified = WORK_EMAIL.test(email);
+    function card(id, title, sub, body) {
+      return '<section class="ac-card" aria-labelledby="' + id + '"><header><h2 id="' + id + '">' + title + '</h2>' + (sub ? '<p>' + sub + '</p>' : '') + '</header>' + body + '</section>';
+    }
+    function field(id, label, input) { return '<div class="ac-f"><label for="' + id + '">' + label + '</label>' + input + '</div>'; }
+    function sel(id, name, opts) { return '<select id="' + id + '" name="' + name + '"><option value="">Prefer not to say</option>' + opts + '</select>'; }
+    function sw(name, on, title, sub) {
+      return '<label class="ac-sw"><span><b>' + title + '</b><small>' + sub + '</small></span><input type="checkbox" role="switch" name="' + name + '"' + (on ? ' checked' : '') + '><i aria-hidden="true"></i></label>';
+    }
+    page('<div class="ac-page">' +
+      '<div class="ac-hero"><div class="auth-avatar" aria-hidden="true">' + esc(initialsOf(email)) + '</div><div class="ac-id">' +
+        '<h1>' + esc(pf.full_name || 'Your account') + '</h1><p>' + esc(email) + '</p>' +
+        (verified ? '<span class="ac-badge is-ok">✓ Verified NHS / HSE email</span>' : '<span class="ac-badge">Personal email</span>') +
+      '</div><a class="btn" href="#/my-audits">My audits →</a></div>' +
+      '<form class="ac-form" data-profile novalidate>' +
+      card('ac-you', 'About you', 'Filled into the email and Word proposal you send to your supervisor.',
+        '<div class="ac-grid">' +
+        field('pf-name', 'Full name', '<input id="pf-name" name="full_name" maxlength="120" autocomplete="name" placeholder="e.g. Priya Shah" value="' + attr(pf.full_name || '') + '">') +
+        field('pf-org', 'Hospital, Trust or practice', '<input id="pf-org" name="organisation" maxlength="160" autocomplete="organization" list="org-list" placeholder="Start typing to pick" value="' + attr(pf.organisation || '') + '">' + orgList()) +
+        field('pf-dept', 'Department or ward', '<input id="pf-dept" name="department" maxlength="120" value="' + attr(pf.department || '') + '">') +
+        '</div>') +
+      card('ac-role', 'Your role', 'Optional. Only ever counted in anonymous totals.',
+        '<div class="ac-grid">' +
+        field('pf-grade', 'Grade or role', sel('pf-grade', 'grade', optionList(GRADES, pf.grade))) +
+        field('pf-specialty', 'Specialty', sel('pf-specialty', 'specialty', optionList(SPECIALTIES, pf.specialty))) +
+        field('pf-region', 'Region', '<select id="pf-region" name="region"><option value="">Prefer not to say</option>' +
+          '<optgroup label="England (NHS region)">' + optionList(REGIONS.slice(0, 7), pf.region) + '</optgroup>' +
+          '<optgroup label="Elsewhere">' + optionList(REGIONS.slice(7), pf.region) + '</optgroup></select>') +
+        '</div>') +
+      card('ac-mail', 'Emails', 'We never share your email address.',
+        sw('reminders', !pf.reminders_off, 'Audit reminders', 'When a step in one of your audits is due') +
+        sw('consent_news', pf.consent_news, 'Ai4Qi news', 'New features, about once a month') +
+        sw('consent_sponsors', pf.consent_sponsors, 'Offers from our sponsors', 'Courses, events and jobs, sent by us')) +
+      '<div class="ac-save"><button class="btn" type="submit">Save changes</button>' +
+        '<a class="btn btn-secondary" href="' + attr(afterSigninHref()) + '" data-skip-profile>Skip for now</a>' +
+        '<p class="form-status" data-form-status role="status" aria-live="polite"></p></div>' +
+      '</form>' +
+      (BE.admin ? card('ac-adm', 'Administration', '', '<p class="ac-links"><a href="#/admin/stats">Usage statistics →</a><a href="#/admin/feedback">Feedback on audits →</a></p>') : '') +
+      '<div class="ac-danger"><button class="link-btn" type="button" data-delete-account>Delete my account</button><span data-delete-account-box></span></div>' +
       '</div>', 'Account', 'account', true);
+  }
+  function renderSignedOut() {
+    page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>You are signed out</h1>' +
+      '<p class="auth-sub">Your audits stay on this device. Sign in again to get reminders.</p>' +
+      '<a class="btn auth-wide" href="#/account">Sign in again</a><a class="link-btn" href="#/">Go to the home page</a></div></div>', 'Signed out', '');
   }
 
   document.addEventListener('click', function (e) {
@@ -3621,7 +3634,7 @@
     }
     if (e.target.closest('[data-signout]')) {
       sbClient().then(function (c) { return c.auth.signOut({ scope: 'local' }); })
-        .catch(function () {}).then(function () { setUser(null); });
+        .catch(function () {}).then(function () { setUser(null); location.hash = '#/signed-out'; });
       return;
     }
     if (e.target.closest('[data-fb-csv]')) downloadFeedbackCsv();
