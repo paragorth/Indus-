@@ -103,8 +103,8 @@ company will insist on these points, and they protect Ai4Qi too.
 - **Donations and grants cannot go to an individual.** Clause 23.1: "Donations and grants to
   individuals are prohibited." Under clause 1.22, sponsorship is support for an activity "performed,
   organised, created, etc. by a healthcare organisation, patient organisation or other independent
-  organisation". **Ai4Qi is run by an individual clinician today, so it needs a legal entity (for
-  example a company or community interest company) before taking pharmaceutical money.**
+  organisation". **Ai4Qi is run by a company, so payments go to the company, never to the owner
+  personally.**
 - **Declaration.** Clause 5.6: material on human health or diseases that a company sponsors "must
   clearly indicate the role of that pharmaceutical company". The supplementary information says
   the declaration must be "sufficiently prominent" so that readers know about it "at the outset".
@@ -128,8 +128,8 @@ The ABHI Code of Ethical Business Practice (July 2019 edition, the current one o
 binds ABHI members:
 
 - "A Member Company shall not provide Grants or Charitable Donations to individual Healthcare
-  Professionals." Payment goes "directly to the qualifying organisation", in its name. **This is
-  another reason for Ai4Qi to become a legal entity first.**
+  Professionals." Payment goes "directly to the qualifying organisation", in its name. **Payments go
+  to the Ai4Qi company, never to the owner personally.**
 - Grants need a written request, a signed agreement, and an independent review inside the company.
 - Educational grants are "restricted" to a stated purpose, the company may check how they are used,
   and they are publicly disclosed.
