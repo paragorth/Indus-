@@ -1,0 +1,39 @@
+// Ai4Qi for Android: a Trusted Web Activity that opens https://ai4qi.com full screen.
+// Signing: keystore.properties next to this project (never committed) holds
+// storeFile, storePassword, keyAlias, keyPassword. Build: gradle bundleRelease (Play) or assembleRelease.
+plugins { id 'com.android.application' }
+
+def ksFile = rootProject.file('keystore.properties')
+def ks = new Properties()
+if (ksFile.exists()) ksFile.withInputStream { ks.load(it) }
+
+android {
+    namespace 'com.ai4qi.app'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.ai4qi.app'
+        minSdk 23
+        targetSdk 36
+        versionCode 1
+        versionName '1.0.0'
+    }
+    signingConfigs {
+        release {
+            if (ks['storeFile']) {
+                storeFile file(ks['storeFile']); storePassword ks['storePassword']
+                keyAlias ks['keyAlias']; keyPassword ks['keyPassword']
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ks['storeFile']) signingConfig signingConfigs.release
+        }
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.3'
+}
