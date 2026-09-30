@@ -167,6 +167,11 @@ def build_proposed():
 
 def build_standards(proposed):
     stds = json.load(open(HERE / "standards" / "standards.json", encoding="utf-8"))
+    # standards/standards.json is rebuilt by new_audits/compile.py from the audits; standards added on
+    # their own (not yet used by an audit) live in extra_standards.json so a recompile never drops them.
+    extra = HERE / "standards" / "extra_standards.json"
+    if extra.exists():
+        stds = stds + json.load(open(extra, encoding="utf-8"))
     by_key = {}
     for s in stds:
         s = dict(s)
