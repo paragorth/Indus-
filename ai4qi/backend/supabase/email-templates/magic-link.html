@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
-<title>Sign in to Ai4Qi</title></head>
+<title>Welcome back</title></head>
 <body style="margin:0;padding:0;background:#f4f5f8;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f8;padding:28px 12px;">
 <tr><td align="center">
@@ -11,12 +11,13 @@
 <td style="padding-left:12px;font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#ffffff;">Ai4Qi <span style="font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:2px;color:#C9A45C;text-transform:uppercase;">&nbsp;Clinical audit</span></td>
 </tr></table></td></tr>
 <tr><td style="padding:30px 28px 8px;font-family:Arial,Helvetica,sans-serif;color:#0B1F3A;">
-<h1 style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:26px;line-height:1.25;color:#0B1F3A;">Sign in to Ai4Qi</h1>
-<p style="margin:0 0 24px;font-size:16px;line-height:1.55;color:#33405a;">Tap the button below to sign in. It works once, on this device and in this browser, for the next hour.</p>
+<div style="display:inline-block;margin:0 0 14px;padding:4px 12px;border-radius:999px;background:#edf5f0;color:#1f6a47;font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;">Welcome back</div>
+<h1 style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:26px;line-height:1.25;color:#0B1F3A;">Welcome back</h1>
+<p style="margin:0 0 24px;font-size:16px;line-height:1.55;color:#33405a;">Tap the button to sign in to your account. The link works once, for the next hour.</p>
 <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:999px;background:#0B1F3A;">
-<a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:15px 34px;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px;border:2px solid #C9A45C;">Sign in to Ai4Qi&nbsp;&rarr;</a>
+<a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:15px 34px;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px;border:2px solid #C9A45C;">Sign in &rarr;</a>
 </td></tr></table>
-<p style="margin:24px 0 0;font-size:14px;line-height:1.5;color:#586174;">Open it in the same browser you used to ask for it.</p>
+<p style="margin:26px 0 8px;font-size:14px;color:#586174;">Or type this code on the sign-in page:</p><div style="display:inline-block;padding:12px 22px;border:1px dashed #C9A45C;border-radius:10px;background:#fbf7ee;font-family:'Courier New',Courier,monospace;font-size:28px;font-weight:bold;letter-spacing:8px;color:#0B1F3A;">{{ .Token }}</div>
 <p style="margin:18px 0 0;font-size:13px;line-height:1.5;color:#8a93a6;">Button not working? Copy this link into your browser:<br><a href="{{ .ConfirmationURL }}" style="color:#586174;word-break:break-all;">{{ .ConfirmationURL }}</a></p>
 </td></tr>
 <tr><td style="padding:22px 28px 26px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:#8a93a6;border-top:1px solid #eef0f4;">

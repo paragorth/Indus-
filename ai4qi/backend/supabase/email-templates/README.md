@@ -6,10 +6,13 @@ Supabase → **Authentication** → **Emails** → **Templates**:
 
 | Template | Subject | Message body |
 |---|---|---|
-| **Magic Link** | `Your Ai4Qi sign-in link` | the whole of `magic-link.html` |
-| **Confirm signup** (first sign-in of a new email address) | `Confirm your email for Ai4Qi` | the whole of `confirm-signup.html` |
+| **Magic Link** (someone who already has an account) | `Welcome back: sign in to Ai4Qi` | the whole of `magic-link.html` |
+| **Confirm signup** (first sign-in of a new email address) | `Welcome to Ai4Qi: create your account` | the whole of `confirm-signup.html` |
 
 Paste into the **Source** (HTML) view and save. `{{ .ConfirmationURL }}` is Supabase's own placeholder:
 leave it exactly as it is. The emails use only inline styles and tables, so they look the same in
 Outlook, NHSmail, Gmail and Apple Mail. They go out through Resend (custom SMTP, sender
 `Ai4Qi <signin@mail.ai4qi.com>`).
+
+Both emails show the button and a 6-digit code (`{{ .Token }}`). The code can be typed on the sign-in page, so
+people can open the email on their phone and still sign in on a Trust computer.

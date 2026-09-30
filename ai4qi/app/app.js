@@ -49,7 +49,7 @@
   }
   function badge(text, kind) { return '<span class="badge' + (kind ? ' badge-' + kind : '') + '">' + esc(text) + '</span>'; }
   function loopBadge(a) { return a.lc ? badge('Closed loop', 'ok') : ''; }
-  function ukBadge(a) { return a.uk ? badge('UK & Ireland', 'info') : ''; }
+  function ukBadge(a) { return ''; }   // no country badge on audits
   var PROPOSED_BADGE = badge('Ready-made audit', 'primary');
   var DRAFT_BADGE = badge('Draft – needs consultant sign-off', 'warn');
 
@@ -315,7 +315,7 @@
     }
     page(
       '<section class="hero" aria-labelledby="hero-h">' +
-      '<p class="kicker">Clinical audit for UK and Irish clinicians</p>' +
+      '<p class="kicker">Clinical audit, start to closed loop</p>' +
       '<h1 id="hero-h">Build a clinical audit on any topic.</h1>' +
       '<p class="lede">A complete protocol in a minute: one measurable question, the standard quoted word for word, a data sheet, timeline, change and re-audit, backed by audits that closed the loop.</p>' +
       buildForm('', true) +
@@ -388,7 +388,7 @@
       '</select>' +
       '<label class="check"><input type="checkbox" data-filter="closed"' + (st.closed ? ' checked' : '') + '><span>Closed loop only</span></label>' +
       '<label class="check"><input type="checkbox" data-filter="detailed"' + (st.detailed ? ' checked' : '') + '><span>Detailed records only</span></label>' +
-      '<p class="hint">UK and Ireland audits are listed first.</p></aside>';
+      '</aside>';
 
     var propHtml = '';
     if (st.q && isThemed(st.q)) {
@@ -2850,7 +2850,7 @@
     if (before === after) return;
     BE.admin = null; BE.profile = undefined;
     BE.tracker = null;
-    if (u) { flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
+    if (u) { if (u.email) setLastEmail(u.email); flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
     var name = parseHash().parts[0];
     if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
     else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
@@ -3000,7 +3000,7 @@
     var st = main.querySelector('[data-delete-account-status]');
     sayIn(st, ' Deleting…');
     sbClient().then(function (c) {
-      return c.rpc('delete_my_account').then(function (res) { if (res.error) throw res.error; return c.auth.signOut(); });
+      return c.rpc('delete_my_account').then(function (res) { if (res.error) throw res.error; setLastEmail(''); return c.auth.signOut(); });
     }).then(function () {
       BE.user = null; BE.tracker = null;
       page('<article class="doc narrow"><h1>Your account has been deleted</h1><p class="prose">Your sign-in, profile, audit progress and reminders have been removed from our server. Audits stored on this device are not affected; delete them from My audits if you wish.</p></article>', 'Account deleted', 'account');
@@ -3040,26 +3040,77 @@
     return c.from('admins').select('email').limit(1)
       .then(function (res) { BE.admin = !res.error && !!(res.data && res.data.length); return BE.admin; });
   }
-  function renderSignIn(title) {
+  /* --- sign in: one card, one field, one button; "Welcome back" for someone who has signed in here before --- */
+  var LAST_EMAIL = 'ai4qi_last_email';
+  function lastEmail() { try { return localStorage.getItem(LAST_EMAIL) || ''; } catch (e) { return ''; } }
+  function setLastEmail(v) { try { if (v) localStorage.setItem(LAST_EMAIL, v); else localStorage.removeItem(LAST_EMAIL); } catch (e) {} }
+  var ICON_MAIL = '<svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true"><rect x="5" y="11" width="38" height="27" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 13l18 14 18-14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+  var ICON_SENT = '<svg viewBox="0 0 48 48" width="64" height="64" aria-hidden="true"><rect x="5" y="11" width="38" height="27" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 13l18 14 18-14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="38" cy="36" r="8" fill="var(--ok-text)"/><path d="M34.5 36l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function emailInitials(e) {
+    var loc = String(e || '').split('@')[0].replace(/[0-9]+/g, ''), parts = loc.split(/[._\-+]+/).filter(Boolean);
+    return (parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : loc.slice(0, 1)).toUpperCase() || '?';
+  }
+  // A button straight to the person's inbox, when we can tell which webmail they use.
+  function inboxLink(email) {
+    var d = String(email || '').split('@')[1] || '', m = null;
+    if (/^(gmail|googlemail)\.com$/i.test(d)) m = ['https://mail.google.com/mail/u/0/#inbox', 'Open Gmail'];
+    else if (/(^|\.)(nhs\.net|nhs\.uk|hse\.ie|outlook\.com|hotmail\.[a-z.]+|live\.[a-z.]+|msn\.com)$/i.test(d)) m = ['https://outlook.office.com/mail/', 'Open Outlook'];
+    else if (/^(icloud|me|mac)\.com$/i.test(d)) m = ['https://www.icloud.com/mail', 'Open iCloud Mail'];
+    else if (/^yahoo\./i.test(d)) m = ['https://mail.yahoo.com', 'Open Yahoo Mail'];
+    return m ? '<a class="btn auth-wide" href="' + m[0] + '" target="_blank" rel="noopener">' + esc(m[1]) + ' &nbsp;↗</a>' : '';
+  }
+  function renderSignIn(title, fresh) {
     var err = BE.authError
-      ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or has already been used. Please request a new one.</div>'
-      : '';
-    page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Sign in</nav>' +
-      '<div class="doc narrow"><h1>' + esc(title || 'Sign in or create an account') + '</h1>' +
-      '<p class="page-intro"><strong>Already registered?</strong> Enter the same email and we will send you a sign-in link. <strong>New here?</strong> The same link creates your free account. There is no password. You need an account to build new audits and get reminders; everything else works without it.</p>' +
-      err +
-      '<form class="stack-form" data-signin novalidate>' +
-      '<label for="acc-email">Email address</label>' +
-      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254">' +
-      '<fieldset class="consent"><legend>Optional</legend>' +
-      '<label class="check"><input type="checkbox" name="consent_news"><span>Email me Ai4Qi news and new features (about once a month).</span></label>' +
-      '<label class="check"><input type="checkbox" name="consent_sponsors"><span>Email me occasional offers from Ai4Qi\'s sponsors (courses, events, jobs). We never share your email address with them.</span></label>' +
-      '</fieldset>' +
-      '<button class="btn" type="submit">Email me a sign-in link</button>' +
-      '<p class="form-status" data-form-status role="status" aria-live="polite"></p>' +
-      '</form>' +
-      '<p class="muted small-print">Please do not enter patient information anywhere in this app.</p></div>',
+      ? '<div class="notice notice-warn" role="alert">That link has expired or was already used. Send a new one below.</div>' : '';
+    var known = !fresh && lastEmail();
+    var body = known ?
+      '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
+      '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err +
+      '<form class="auth-form" data-signin novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
+      '<button class="btn auth-wide" type="submit">Email me a sign-in link &nbsp;→</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      '<button type="button" class="link-btn auth-alt" data-signin-other>Not you? Use another email</button>' :
+      '<div class="auth-icon">' + ICON_MAIL + '</div>' +
+      '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a link.</p>' + err +
+      '<form class="auth-form" data-signin novalidate>' +
+      '<label for="acc-email" class="sr-only">Email address</label>' +
+      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
+      '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      '<p class="auth-note">New here? The same step creates your free account.</p>';
+    page('<div class="auth-wrap"><div class="auth-card">' + body + '</div>' +
+      '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
+  }
+  function renderSent(email) {
+    var card = main.querySelector('.auth-card'); if (!card) return;
+    card.innerHTML = '<div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
+      '<h1 tabindex="-1">Check your email</h1><p class="auth-sub">We sent a link to<br><strong>' + esc(email) + '</strong></p>' +
+      inboxLink(email) +
+      '<form class="auth-form auth-code" data-otp novalidate><input type="hidden" name="email" value="' + attr(email) + '">' +
+      '<label for="otp-code">Or type the code from the email</label>' +
+      '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
+      '<button class="btn btn-secondary auth-wide" type="submit">Sign in with the code</button>' +
+      '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
+      '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
+    var h = card.querySelector('h1'); if (h) h.focus();
+    var rb = card.querySelector('[data-signin-resend]'), left = 60;
+    var t = setInterval(function () {
+      left--; if (!rb.isConnected) return clearInterval(t);
+      rb.textContent = left > 0 ? 'Send again (' + left + ')' : 'Send again';
+      if (left <= 0) { rb.disabled = false; clearInterval(t); }
+    }, 1000);
+  }
+  function sendLink(email) {
+    try { localStorage.setItem(AFTER_SIGNIN, S.lastRoute || '#/'); } catch (e2) {}
+    return sbClient().then(function (c) {
+      return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
+    }).then(function (res) { if (res.error) throw res.error; BE.authError = ''; setLastEmail(email); });
+  }
+  function sendError(err) {
+    var st = err && (err.status || err.code);
+    return st === 429 || st === 'over_email_send_rate_limit' ? 'Too many requests. Wait a minute and try again.' : 'Could not send. Check the address and your connection.';
   }
   function optionList(list, current) {
     return list.map(function (g) { return '<option' + (g === current ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('');
@@ -3071,7 +3122,7 @@
   }
   function welcomeBack() {
     var pf = BE.profile || {}, empty = !pf.grade && !pf.specialty && !pf.full_name && !pf.organisation;
-    if (!AUTH_RETURN && !empty) return '';
+    if (!AUTH_RETURN && !S.codeSignin && !empty) return '';
     var to = afterSigninHref();
     return '<div class="welcome-card"><p><strong>You\'re signed in.</strong> ' + (empty ? 'The profile below is optional: fill it in now or later, or skip it.' : 'Welcome back.') + '</p>' +
       '<a class="btn" href="' + attr(to) + '" data-skip-profile>' + (to === '#/' ? 'Continue to Ai4Qi' : 'Continue where you were') + '</a></div>';
@@ -3119,6 +3170,21 @@
     if (e.target.closest('[data-skip-profile]')) { try { localStorage.removeItem(AFTER_SIGNIN); } catch (e2) {} }
   });
   document.addEventListener('submit', function (e) {
+    var otp = e.target.closest && e.target.closest('[data-otp]');
+    if (otp) {
+      e.preventDefault();
+      var code = otp.elements.code.value.replace(/\D/g, ''), ost = otp.querySelector('[data-form-status]');
+      if (code.length < 6) { ost.textContent = 'Type the code from the email.'; ost.classList.add('is-error'); return; }
+      ost.classList.remove('is-error'); ost.textContent = 'Checking…';
+      sbClient().then(function (c) { return c.auth.verifyOtp({ email: otp.elements.email.value, token: code, type: 'email' }); })
+        .then(function (res) {
+          if (res.error) throw res.error;
+          S.codeSignin = true;
+          if (res.data && res.data.user) setUser(res.data.user);
+          location.hash = '#/account'; route();
+        }).catch(function () { ost.textContent = 'That code did not work. Check it, or use the newest email.'; ost.classList.add('is-error'); });
+      return;
+    }
     var signin = e.target.closest('[data-signin]'), prof = e.target.closest('[data-profile]');
     if (!signin && !prof) return;
     e.preventDefault();
@@ -3131,26 +3197,7 @@
       }
       input.removeAttribute('aria-invalid');
       btn.disabled = true; say('Sending…');
-      try { localStorage.setItem('ai4qi_consent_pending', JSON.stringify({ news: form.elements.consent_news.checked, sponsors: form.elements.consent_sponsors.checked })); } catch (e2) {}
-      try { localStorage.setItem(AFTER_SIGNIN, S.lastRoute || '#/'); } catch (e2) {}
-      sbClient().then(function (c) {
-        return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
-      }).then(function (res) {
-        if (res.error) throw res.error;
-        BE.authError = '';
-        var box = form.parentNode;
-        form.outerHTML = '<div class="notice notice-ok" data-sent tabindex="-1"><p><strong>Check your email.</strong> We have sent a sign-in link to ' + esc(email) + '.</p>' +
-          '<p>Open the link on this device, in this browser, to finish signing in. If it does not arrive within a few minutes, check your junk folder.</p>' +
-          '<button class="btn btn-secondary" type="button" data-signin-again>Use a different email address</button></div>';
-        var sent = box.querySelector('[data-sent]');
-        if (sent) sent.focus();
-      }).catch(function (err) {
-        btn.disabled = false;
-        var st = err && (err.status || err.code);
-        say(st === 429 || st === 'over_email_send_rate_limit'
-          ? 'Too many sign-in requests. Please wait a few minutes and try again.'
-          : 'The sign-in link could not be sent. Please check the address and your connection, then try again.', true);
-      });
+      sendLink(email).then(function () { renderSent(email); }, function (err) { btn.disabled = false; say(sendError(err), true); });
     } else {
       var pick = function (name, list) { var v = form.querySelector('[name="' + name + '"]').value; return list.indexOf(v) === -1 ? null : v; };
       var spec = pick('specialty', SPECIALTIES), grade = pick('grade', GRADES), region = pick('region', REGIONS);
@@ -3178,7 +3225,13 @@
     }
   });
   document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-signin-again]')) { renderSignIn(); var i = main.querySelector('#acc-email'); if (i) i.focus(); return; }
+    if (e.target.closest('[data-signin-again]') || e.target.closest('[data-signin-other]')) { renderSignIn(null, true); var i = main.querySelector('#acc-email'); if (i) i.focus(); return; }
+    var again = e.target.closest('[data-signin-resend]');
+    if (again) {
+      var em = again.getAttribute('data-signin-resend'); again.disabled = true; again.textContent = 'Sending…';
+      sendLink(em).then(function () { renderSent(em); }, function (err) { again.disabled = false; again.textContent = sendError(err); });
+      return;
+    }
     if (e.target.closest('[data-signout]')) {
       sbClient().then(function (c) { return c.auth.signOut({ scope: 'local' }); })
         .catch(function () {}).then(function () { setUser(null); });
