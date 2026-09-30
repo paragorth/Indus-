@@ -817,3 +817,28 @@ a.out-btn { text-decoration: none; }
 .tb-note { margin: 6px 0 0; font-size: .8rem; color: var(--muted); }
 @media (max-width: 900px) { .time-budget { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 420px) { .time-budget { grid-template-columns: 1fr; } }
+/* Choose this audit, after the data sheet */
+.choose-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 24px 0 8px; padding: 18px 20px; border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 10px; background: var(--surface); }
+.choose-cta .btn { font-size: 1.05rem; padding: 14px 26px; }
+.choose-cta p { margin: 0; max-width: 52ch; color: var(--muted); }
+.sheet-note { margin-top: 10px; max-width: 75ch; font-size: .9rem; }
+/* Closed loop: part two opens from the graphic */
+details.loop-part > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 18px 20px; border: 1px dashed var(--border-strong); border-radius: 12px; background: var(--surface); }
+details.loop-part > summary::-webkit-details-marker { display: none; }
+details.loop-part > summary:hover { border-color: var(--text); }
+details.loop-part[open] > summary { border-style: solid; margin-bottom: 8px; }
+.loop-svg { width: 210px; height: 210px; flex: none; color: var(--text); }
+.loop-svg .lp-arc { fill: none; stroke: currentColor; stroke-width: 2.5; }
+.loop-svg .lp-dot { fill: var(--surface); stroke: currentColor; stroke-width: 2; }
+.loop-svg .lp-dot.is-gold { fill: var(--gold); stroke: var(--gold); }
+.loop-svg text { font: 700 11.5px var(--font); fill: currentColor; }
+.loop-svg text.on-gold { fill: #fff; }
+.loop-svg .lp-mid { font: 500 15px var(--display); fill: var(--muted); }
+.loop-cta { display: flex; flex-direction: column; gap: 4px; }
+.loop-cta b { font-family: var(--display); font-weight: 500; font-size: 1.5rem; }
+.loop-cta b::after { content: " \2192"; color: var(--gold); }
+details.loop-part[open] .loop-cta b::after { content: " \2193"; }
+.loop-cta span { color: var(--muted); }
+.upload-box h3 { margin: 0 0 6px; }
+.upload-box .file-pick { display: inline-block; margin-top: 6px; }
+@media print { details.loop-part > summary { display: none; } }

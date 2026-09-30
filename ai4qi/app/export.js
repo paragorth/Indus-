@@ -373,50 +373,6 @@
       row = end + 2;
     });
 
-    // Results code
-    var parts = ['"AI4QI v1 | ' + codeSafe(p.id || 'audit').replace(/"/g, '') + ' | C1 "', 'B' + R.met, '"/"', '(B' + R.met + '+B' + R.not + ')', '" n="', 'B' + R.rec,
-      '" | RE "', 'C' + R.met, '"/"', '(C' + R.met + '+C' + R.not + ')', '" n="', 'C' + R.rec];
-    // Breakdown segments are assembled in hidden helper cells (columns G:H):
-    // per table, G = Cycle 1 pairs and H = Re-audit pairs (count > 0 only),
-    // and G17 = all segments joined with " ; ".
-    rs.getColumn(7).hidden = true;
-    rs.getColumn(8).hidden = true;
-    var segRefs = [];
-    tables.forEach(function (tb) {
-      var labelTxt = codeSafe(str(tb.field).replace(/_/g, ' '));
-      [['G', 'B', 'C1'], ['H', 'C', 'RE']].forEach(function (spec) {
-        var pairs = tb.opts.map(function (o, k) {
-          var ref = spec[1] + (tb.start + k);
-          return 'IF(' + ref + '>0,' + xlStr(', ' + trunc(codeSafe(o), 120) + '=') + '&' + ref + ',"")';
-        }).join('&');
-        var cell = spec[0] + tb.start;
-        rs.getCell(cell).value = { formula: 'MID(' + pairs + ',3,4000)' };
-        var cond = spec[2] === 'RE' ? 'OR(C' + R.rec + '=0,' + cell + '="")' : cell + '=""';
-        segRefs.push('IF(' + cond + ',"",' + xlStr(' ; ' + spec[2] + ' ' + labelTxt + ': ') + '&' + cell + ')');
-      });
-    });
-    if (segRefs.length) {
-      rs.getCell('G17').value = { formula: segRefs.join('&') };
-      parts.push('IF(G17="",""," | "&MID(G17,4,8000))');
-    }
-    rs.mergeCells('A14:E14');
-    var lab = rs.getCell('A14');
-    lab.value = 'Results code \u2014 copy this one line into Ai4Qi (My audits \u203a Paste results) to make your dashboard and presentation. It contains totals only, no patient data.';
-    lab.font = { name: FONT, size: 11, bold: true, color: { argb: 'FF' + C.ink } };
-    lab.alignment = { wrapText: true, vertical: 'bottom' };
-    rs.getRow(14).height = 32;
-    rs.mergeCells('A15:E15');
-    var code = rs.getCell('A15');
-    code.value = { formula: parts.join('&') };
-    code.font = { name: 'Consolas', size: 10, color: { argb: 'FF' + C.ink } };
-    code.fill = fill(C.tint);
-    code.alignment = { wrapText: true, vertical: 'middle', indent: 1 };
-    var blue = { style: 'medium', color: { argb: 'FF' + C.blue } };
-    ['A', 'B', 'C', 'D', 'E'].forEach(function (L) {
-      rs.getCell(L + '15').border = { top: blue, bottom: blue, left: L === 'A' ? blue : undefined, right: L === 'E' ? blue : undefined };
-    });
-    rs.getRow(15).height = 48;
-
     rs.mergeCells('A18:E19');
     var cp = rs.getCell('A18');
     cp.value = 'Have Copilot in Excel? Try this prompt: \u201CSummarise this audit\u2019s results for a governance meeting in three sentences, using only the Results sheet.\u201D';
@@ -550,7 +506,11 @@
           fmt = 'dd/mm/yyyy hh:mm'; align = 'center';
         } else if (t === 'number' || t === 'numeric' || t === 'integer') {
           dv = { type: 'decimal', operator: 'greaterThanOrEqual', allowBlank: true, formulae: [0] };
-          fmt = '0.##'; align = 'right';
+          fmt = '0.##'; align = 'right';        } else if (/(^|_)(code|id|number|no|pseudonym\w*)(_|$)/i.test(f.field)) {
+          // An audit code, never an NHS or hospital number: refuse a plain number of 7 digits or more.
+          var ref = colLetter(i + 1) + FIRST;
+          dv = { type: 'custom', allowBlank: true, formulae: ['NOT(AND(ISNUMBER(--SUBSTITUTE(' + ref + '," ","")),LEN(SUBSTITUTE(' + ref + '," ",""))>=7))'] };
+          dv.idWarning = true;
         }
         if (dv) {
           dv.showErrorMessage = true;
@@ -558,6 +518,7 @@
           dv.errorTitle = humanLabel(f.field);
           if (dv.type === 'list') dv.error = 'Please choose a value from the list.';
           else if (dv.type === 'date') dv.error = 'Please enter a date as dd/mm/yyyy' + (fmt === 'dd/mm/yyyy hh:mm' ? ' hh:mm' : '') + '.';
+          else if (dv.idWarning) { dv.error = 'This looks like an NHS or hospital number. Use a local audit code such as P001, and keep the key to the codes separately.'; delete dv.idWarning; }
           else dv.error = 'Please enter a number of 0 or more.';
           if (prompt) { dv.showInputMessage = true; dv.promptTitle = trunc(humanLabel(f.field), 32); dv.prompt = prompt; }
         }
@@ -640,11 +601,11 @@
       var steps = [
         'Enter one row per case on the "Data" sheet, starting under the blue header row.',
         'Set the "Cycle" column to Re-audit for second-cycle cases; leave it blank (or Cycle 1) for the first audit.',
-        'The "Results" sheet updates as you type. Copy its one-line Results code into Ai4Qi (My audits \u203a Paste results).',
+        'The "Results" sheet updates as you type.',
         'Use the drop-down lists where offered; dates as dd/mm/yyyy (and times as hh:mm).',
         'Hover over a header to see the field name and any collection notes.',
         'Record excluded cases separately; do not add them to the pass rate.',
-        'Or upload the rows into Ai4Qi to calculate results.'
+        'When you are done, upload this sheet in My audits for your results, charts and slides. Only its own columns are read.'
       ];
       var sh = hw.getRow(rowNo++);
       sh.getCell(1).value = 'Steps';

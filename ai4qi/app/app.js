@@ -561,6 +561,17 @@
       '<div class="effort-scale" aria-hidden="true">' + names.map(function (n, i) { return '<span' + (i === lvl ? ' class="on"' : '') + '>' + n + '</span>'; }).join('') + '</div>' +
       '<p class="effort-t">' + esc(t.replace(/^~/, 'About ')) + '</p>' + timeBudget(p, per10) + '</div>';
   }
+  // Audit cycle: audit -> analyse -> change -> re-audit, drawn as a loop.
+  var LOOP_SVG = '<svg class="loop-svg" viewBox="0 0 220 220" role="img" aria-label="Audit cycle: audit, analyse, change, re-audit">' +
+    '<defs><marker id="lp-ar" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>' +
+    [[110, 30, 'Audit'], [190, 110, 'Analyse'], [110, 190, 'Change'], [30, 110, 'Re-audit']].map(function (n, i, a) {
+      var m = a[(i + 1) % 4], ang0 = Math.atan2(n[1] - 110, n[0] - 110) + 0.42, ang1 = Math.atan2(m[1] - 110, m[0] - 110) - 0.42;
+      if (ang1 < ang0) ang1 += 2 * Math.PI;
+      var r = 80, x0 = 110 + r * Math.cos(ang0), y0 = 110 + r * Math.sin(ang0), x1 = 110 + r * Math.cos(ang1), y1 = 110 + r * Math.sin(ang1);
+      return '<path class="lp-arc" d="M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + 'A80 80 0 0 1 ' + x1.toFixed(1) + ' ' + y1.toFixed(1) + '" marker-end="url(#lp-ar)"/>' +
+        '<circle class="lp-dot' + (i === 2 ? ' is-gold' : '') + '" cx="' + n[0] + '" cy="' + n[1] + '" r="27"/><text' + (i === 2 ? ' class="on-gold"' : '') + ' x="' + n[0] + '" y="' + (n[1] + 4) + '" text-anchor="middle">' + n[2] + '</text>';
+    }).join('') + '<text class="lp-mid" x="110" y="106" text-anchor="middle">Closed</text><text class="lp-mid" x="110" y="124" text-anchor="middle">loop</text></svg>';
+  window.addEventListener('beforeprint', function () { document.querySelectorAll('details.loop-part').forEach(function (d) { d.open = true; }); });
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     extra = extra || {};
@@ -576,23 +587,30 @@
       cell('Data collection', '<p class="prose">' + linkify(p.data_source) + '</p>') +
       '</div>' +
       '<div class="m-sample"><h3 class="m-lab">Sample size</h3><p class="prose">' + linkify(p.sample) + '</p></div>' +
-      sub('Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>') +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
       sec(++n, 'Why this audit matters', whyPoints(p.why)) +
       sec(++n, 'Method', how) +
+      sec(++n, 'Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>' +
+        '<p class="muted sheet-note">One Excel sheet for both rounds: set the Cycle column to Re-audit for the second round. Only the sheet\'s own columns are ever read back, so names, NHS numbers and dates of birth are never imported.</p>') +
+      (window.AI4QI_EMBED ? '' : '<div class="choose-cta no-print">' + chooseActions(p.id) +
+        '<p>Choosing it adds it to <strong>My audits</strong>, where you track each step, upload your sheet and get the results and slides.</p></div>') +
       (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
       '<div class="part-rule" role="separator"><span>Closing the loop</span></div>' +
-      sec(++n, 'The change', '<p class="prose">' + linkify(p.change) + '</p>') +
-      sec(++n, 'Re-audit: close the loop', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>') +
-      sec(++n, 'Share and embed it', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
+      '<details class="loop-part"><summary>' + LOOP_SVG +
+        '<span class="loop-cta"><b>Make it a closed loop</b><span>The change, the re-audit and how to keep it going</span></span></summary>' +
+        sec(++n, 'The change', '<p class="prose">' + linkify(p.change) + '</p>') +
+        sec(++n, 'Re-audit: close the loop', targetHtml(p.target) + '<p class="prose">' + linkify(p.reaudit) + '</p>' +
+          '<p class="muted">Use the same data sheet: add the re-audit rows with Cycle set to Re-audit, then upload it again in My audits.</p>') +
+        sec(++n, 'Share and embed it', '<p class="prose">' + linkify(p.close_loop) + '</p>') +
+      '</details>' +
       '<div class="part-rule" role="separator"><span>Evidence and advice</span></div>' +
-      (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       (pits || pearls ? '<section class="pp-box"><div class="pp-grid">' +
         (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul></div>' : '') +
         (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul></div>' : '') +
         '</div></section>' : '') +
+      (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       (extra.after ? extra.after.map(function (x) { return sec(++n, x[0], x[1]); }).join('') : '');
   }
 
@@ -862,9 +880,7 @@
   function renderProposed(id) {
     var p = S.pById.get(id);
     if (!p) return renderNotFound();
-    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) :
-      '<a class="btn btn-secondary" href="' + attr(p.template_file) + '" download="' + attr(p.id + '.csv') + '">' +
-      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Template (CSV)</a>') + '<span class="copy-status" role="status" data-proto-status></span>';
+    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : '') + '<span class="copy-status" role="status" data-proto-status></span>';
 
     var body = protocolBody(p, dl, { status: effortScale(p) + (p.novelty ? '<p class="gap-note"><strong>Gap:</strong> ' + esc(cap(p.novelty)) + '</p>' : '') }) +
       feedbackBox(p.id);
@@ -1465,7 +1481,7 @@
 
   var BUILT_BADGE = badge('Your bespoke audit', 'primary');
   function showBuilt(p, res, crumbs) {
-    var dl = sheetButton(p.id) + copyBtn(p.id);
+    var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : '') + '<span class="copy-status" role="status" data-proto-status></span>';
     if (p.similar) {
       var sp = S.pById.get(p.similar.id);
       if (sp) p._sim = '<aside class="similar-box no-print"><h2>A ready-made audit may suit you better</h2>' +
@@ -2255,7 +2271,7 @@
       (noProfile ? 'Add your name, hospital and grade once, and your supervisor emails fill themselves in.' : 'Your audits are below.') + '</p>' +
       (noProfile ? '<a class="btn btn-secondary" href="#/account">Add my details</a>' : '') + '</div>' : '';
     S.justSignedIn = false;
-    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + signedNote + pasteBox + body +
+    page('<div class="page-head"><h1>My audits</h1><p class="page-intro">' + hello + 'Your audits in progress and completed, and new ones to start. Everything you record here stays on this device. ' + privacyLink() + '</p></div>' + signedNote + body +
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
       protectionBox(), 'My audits', 'my-audits');
@@ -2322,12 +2338,13 @@
       '<div class="kpis"><div class="kpi"><span>Records</span><b>' + s.n + '<small> / ' + want + '</small></b><div class="mini-track"><i style="width:' + Math.min(100, s.n / want * 100) + '%"></i></div></div>' +
       '<div class="kpi"><span>Met the standard</span><b>' + (s.pct == null ? '–' : Math.round(s.pct) + '%') + '</b><small>' + s.passN + ' of ' + (s.passN + s.failN) + '</small></div>' +
       '<div class="kpi"><span>Target</span><b>' + (t ? esc(t.op + t.value + '%') : '–') + '</b><small>' + (met == null ? 'No data yet' : met ? 'Met' : 'Not met') + '</small></div></div>' +
-      (ck === 'c1' ? totalsBox(r) : '') +
+
       (DEMO ? '<p><button type="button" class="btn demo-btn" data-demo-fill="' + ck + '">Demo: fill ' + (ck === 'c1' ? 'cycle 1' : 'the re-audit') + ' with ' + want + ' example records</button></p>' : '') +
-      '<details class="rec-box"><summary>Upload a spreadsheet (Excel or CSV)</summary>' +
-      '<p class="muted">Use the Ai4Qi data sheet, or any sheet whose column headings match the template. Columns that are not part of the audit are left out, and patient identifiers are removed before anything is stored.</p>' +
-      '<label class="file-pick"><input type="file" accept=".xlsx,.xls,.csv,.tsv" data-import="' + ck + '"><span class="btn btn-secondary">Choose a file</span></label>' +
-      '<div data-import-preview="' + ck + '"></div></details>' +
+      '<div class="rec-box upload-box"><h3>Upload your data sheet</h3>' +
+      '<p class="muted">The Excel sheet you downloaded for this audit. Rows marked Re-audit in the Cycle column go to the re-audit. Only the sheet\'s own columns are read: names, NHS numbers, dates of birth and addresses are never imported, hospital numbers become audit codes, and numbers or names typed in free text are removed.</p>' +
+      '<label class="file-pick"><input type="file" accept=".xlsx,.xls,.csv,.tsv" data-import="' + ck + '"><span class="btn">Choose your Excel sheet</span></label> ' +
+      '<button class="btn btn-secondary" type="button" data-run-xlsx>Download the data sheet</button>' +
+      '<div data-import-preview="' + ck + '"></div></div>' +
       rowsTable(r, ck) + '</div>';
   }
   // Keep in step with DECK_THEMES in export.js.
@@ -2388,7 +2405,7 @@
       '<button class="out-btn" type="button" data-run-xlsx><b>Data sheet</b><span>Excel, with drop-downs</span></button>' +
       '<div class="out-btn deck-pick"><button class="link-btn" type="button" data-run-pptx><b>Results presentation</b><span>PowerPoint, with charts</span></button>' +
         '<label><span class="sr-only">Design</span><select data-deck-theme>' + deckThemeOptions(r) + '</select></label></div>' +
-      '<button class="out-btn" type="button" data-run-csv><b>Your records</b><span>CSV, de-identified</span></button>' +
+
       '<button class="out-btn" type="button" data-run-backup><b>Backup</b><span>To move this audit to another device</span></button>' +
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +
       '</div><p class="export-warn">These files hold de-identified patient records. Keep them on your organisation\'s systems and share them only inside it.</p><p class="form-status" role="status" data-out-status></p>';
