@@ -1800,16 +1800,23 @@
     return m ? { op: m[1] || '≥', value: +m[2], text: String(t) } : null;
   }
   function cycleStats(p, rows) {
-    var pf = passField(p), passN = 0, failN = 0, dates = [];
+    var pf = passField(p), passN = 0, failN = 0, dates = [], byMonth = {};
+    var df = (p.template || []).filter(function (f) { return /date/.test(f.type); })[0];
     rows.forEach(function (row) {
       var v = pf ? yn(row[pf]) : '';
       if (v === 'Yes') passN++; else if (v === 'No') failN++;
       (p.template || []).forEach(function (f) { if (/date/.test(f.type) && row[f.field]) dates.push(String(row[f.field]).slice(0, 10)); });
+      var m = df && String(row[df.field] || '').slice(0, 7);          // month of the first date field, for the run chart
+      if (m && /^\d{4}-\d{2}$/.test(m) && (v === 'Yes' || v === 'No')) {
+        byMonth[m] = byMonth[m] || { m: m, pass: 0, fail: 0 };
+        byMonth[m][v === 'Yes' ? 'pass' : 'fail']++;
+      }
     });
     dates.sort();
     var denom = passN + failN;
     return { n: rows.length, passN: passN, failN: failN, pct: denom ? Math.round(passN / denom * 1000) / 10 : null,
-      from: dates[0] || null, to: dates[dates.length - 1] || null };
+      from: dates[0] || null, to: dates[dates.length - 1] || null,
+      months: Object.keys(byMonth).sort().map(function (k) { return byMonth[k]; }) };
   }
   function runStats(r) {
     var p = r.protocol, out = { target: parseTarget(p.target), cycles: [], breakdowns: [] };
@@ -2291,6 +2298,20 @@
       '<div data-import-preview="' + ck + '"></div></details>' +
       rowsTable(r, ck) + '</div>';
   }
+  // Keep in step with DECK_THEMES in export.js.
+  var DECK_THEME_NAMES = ['Classic navy', 'NHS blue', 'Forest', 'Plum and coral', 'Slate and coral', 'Teal', 'Burgundy', 'Charcoal and lime', 'Ocean',
+    'Graphite and amber', 'Emerald', 'Indigo', 'Terracotta', 'Midnight and rose', 'Pine and sand', 'Royal', 'Steel and cyan', 'Aubergine and mint', 'Oxford', 'Sage'];
+  function deckThemeOptions(r) {
+    var cur = r.deckTheme === undefined || r.deckTheme === null || r.deckTheme === '' ? '' : String(r.deckTheme);
+    return '<option value=""' + (cur === '' ? ' selected' : '') + '>Design: automatic</option>' + DECK_THEME_NAMES.map(function (n, i) {
+      return '<option value="' + i + '"' + (cur === String(i) ? ' selected' : '') + '>Design ' + (i + 1) + ': ' + n + '</option>';
+    }).join('');
+  }
+  document.addEventListener('change', function (e) {
+    var sel = e.target.closest && e.target.closest('[data-deck-theme]'); if (!sel) return;
+    var r = curRun(); if (!r) return;
+    r.deckTheme = sel.value === '' ? null : +sel.value; runPut(r);
+  });
   function renderRun(id) {
     if (vaultGate()) return;
     var r = S.runs.get(id);
@@ -2333,7 +2354,8 @@
       }).join('');
     var dl = '<div class="out-grid">' +
       '<button class="out-btn" type="button" data-run-xlsx><b>Data sheet</b><span>Excel, with drop-downs</span></button>' +
-      '<button class="out-btn" type="button" data-run-pptx><b>Results presentation</b><span>PowerPoint, ready for your meeting</span></button>' +
+      '<div class="out-btn deck-pick"><button class="link-btn" type="button" data-run-pptx><b>Results presentation</b><span>PowerPoint, with charts</span></button>' +
+        '<label><span class="sr-only">Design</span><select data-deck-theme>' + deckThemeOptions(r) + '</select></label></div>' +
       '<button class="out-btn" type="button" data-run-csv><b>Your records</b><span>CSV, de-identified</span></button>' +
       '<button class="out-btn" type="button" data-run-backup><b>Backup</b><span>To move this audit to another device</span></button>' +
       (window.AI4QI_EMBED ? '' : '<button class="out-btn" type="button" data-run-ics><b>Calendar</b><span>Add the deadlines</span></button>') +

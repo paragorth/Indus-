@@ -35,9 +35,73 @@
     paper: 'FFFFFF',
     muted: '44506A',      // body captions
     hairline: 'E4E6EB',
-    pass: '2E7D5B'        // reserved for essential traffic-light meaning
+    pass: '2E7D5B',       // reserved for essential traffic-light meaning
+    goldDark: 'B8924A',   // accent on dark slides (lightened if needed for contrast)
+    goldText: '87652A'    // accent for small text on light slides (darkened if needed)
   };
   var DECK_FONTS = { head: 'Georgia', body: 'Calibri' };
+  var DECK_BASE = JSON.parse(JSON.stringify(DECK)), FONTS_BASE = JSON.parse(JSON.stringify(DECK_FONTS));
+
+  /* 20 designs for the results deck, so decks from different audits do not all look alike.
+     Each: [name, ink (dark slides and text), accent, paper, heading font, body font, title layout, slide motif].
+     Title layouts: bleed, band, frame, split, stripe. Motifs on light slides: none, rule, bar, corner.
+     Fonts are ones Office ships on Windows and Mac. Keep DECK_THEME_NAMES in app.js in step. */
+  var DECK_THEMES = [
+    ['Classic navy', '0B1F3A', 'B8924A', 'FFFFFF', 'Georgia', 'Calibri', 'bleed', 'none'],
+    ['NHS blue', '003087', '0072CE', 'FFFFFF', 'Arial', 'Arial', 'band', 'bar'],
+    ['Forest', '1B4332', 'C9981A', 'FFFFFF', 'Cambria', 'Calibri', 'frame', 'rule'],
+    ['Plum and coral', '3C1642', 'D9674E', 'FFFFFF', 'Georgia', 'Segoe UI', 'split', 'corner'],
+    ['Slate and coral', '2F3E46', 'D8603F', 'FAFAF8', 'Trebuchet MS', 'Trebuchet MS', 'bleed', 'bar'],
+    ['Teal', '004E64', 'E09A2D', 'FFFFFF', 'Century Gothic', 'Calibri', 'stripe', 'rule'],
+    ['Burgundy', '5C1A2B', 'B8924A', 'FCFAF7', 'Garamond', 'Calibri', 'frame', 'none'],
+    ['Charcoal and lime', '222831', '6E9A1F', 'FFFFFF', 'Segoe UI', 'Segoe UI', 'band', 'corner'],
+    ['Ocean', '0A3D62', '1F9A96', 'FFFFFF', 'Palatino Linotype', 'Calibri', 'split', 'rule'],
+    ['Graphite and amber', '2B2D42', 'E0873A', 'FFFFFF', 'Franklin Gothic Medium', 'Calibri', 'bleed', 'corner'],
+    ['Emerald', '064E3B', '0E9F6E', 'FFFFFF', 'Constantia', 'Corbel', 'stripe', 'bar'],
+    ['Indigo', '1E1B4B', 'D98E04', 'FFFFFF', 'Cambria', 'Candara', 'band', 'rule'],
+    ['Terracotta', '3D2B1F', 'C0502F', 'FCF9F5', 'Rockwell', 'Calibri', 'frame', 'bar'],
+    ['Midnight and rose', '14213D', 'C96F72', 'FFFFFF', 'Georgia', 'Verdana', 'split', 'none'],
+    ['Pine and sand', '2D3A3A', 'A8894F', 'FBFAF6', 'Book Antiqua', 'Calibri', 'bleed', 'rule'],
+    ['Royal', '26215C', 'C79214', 'FFFFFF', 'Palatino Linotype', 'Segoe UI', 'stripe', 'corner'],
+    ['Steel and cyan', '263238', '0093A8', 'FFFFFF', 'Segoe UI', 'Segoe UI', 'frame', 'rule'],
+    ['Aubergine and mint', '2E1A47', '1F9E6E', 'FFFFFF', 'Trebuchet MS', 'Trebuchet MS', 'band', 'bar'],
+    ['Oxford', '002147', 'B8962E', 'FFFFFF', 'Garamond', 'Gill Sans MT', 'split', 'rule'],
+    ['Sage', '283618', '7A8F4E', 'FAFAF5', 'Cambria', 'Calibri', 'stripe', 'none']
+  ];
+  function hexMix(a, b, t) {                 // t = share of b
+    var r = [0, 2, 4].map(function (i) {
+      var x = parseInt(a.substr(i, 2), 16), y = parseInt(b.substr(i, 2), 16);
+      return ('0' + Math.round(x + (y - x) * t).toString(16)).slice(-2);
+    });
+    return r.join('').toUpperCase();
+  }
+  function lum(h) {
+    return [0, 2, 4].map(function (i) { var c = parseInt(h.substr(i, 2), 16) / 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); })
+      .reduce(function (a, c, i) { return a + c * [0.2126, 0.7152, 0.0722][i]; }, 0);
+  }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function towards(c, to, bg, min) { var t = 0, out = c; while (contrast(out, bg) < min && t < 1) { t += 0.08; out = hexMix(c, to, t); } return out; }
+  function applyDeckTheme(i) {
+    var t = DECK_THEMES[((i % DECK_THEMES.length) + DECK_THEMES.length) % DECK_THEMES.length];
+    var ink = t[1], acc = t[2], paper = t[3];
+    Object.assign(DECK, {
+      navy: ink, gold: acc, paper: paper,
+      grey: hexMix(ink, 'FFFFFF', 0.52), greyOnNavy: hexMix(ink, 'FFFFFF', 0.62), navySoft: hexMix(ink, 'FFFFFF', 0.16),
+      muted: hexMix(ink, 'FFFFFF', 0.28), hairline: hexMix(ink, 'FFFFFF', 0.88),
+      series: [acc, ink, hexMix(ink, 'FFFFFF', 0.5), hexMix(acc, 'FFFFFF', 0.45), hexMix(ink, acc, 0.5), hexMix(ink, 'FFFFFF', 0.78)],
+      titleStyle: t[6], motif: t[7], themeName: t[0],
+      goldDark: towards(acc, 'FFFFFF', ink, 3.4), goldText: towards(acc, '000000', paper, 4.5)
+    });
+    DECK_FONTS.head = t[4]; DECK_FONTS.body = t[5];
+    return t[0];
+  }
+  function resetDeckTheme() { Object.keys(DECK).forEach(function (k) { delete DECK[k]; }); Object.assign(DECK, DECK_BASE); Object.assign(DECK_FONTS, FONTS_BASE); }
+  function themeFor(run) {                   // the same audit keeps the same design unless one is chosen
+    if (run && isFinite(run.deckTheme) && run.deckTheme !== null && run.deckTheme !== '') return +run.deckTheme;
+    var k = String((run && (run.id || run.auditId)) || ''), h = 0;
+    for (var i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;
+    return h % DECK_THEMES.length;
+  }
   var LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#0B1F3A"/><circle cx="20.5" cy="23" r="11.8" fill="none" stroke="#fff" stroke-width="3.2"/><path d="M26.6 30.2l5.8 6.6" stroke="#C9A45C" stroke-width="3.4" stroke-linecap="round"/><path d="M17.65 24.9V24.02H22.89V24.9ZM25.08 27.77 26.28 28.19V28.6H21.93V28.19L23.27 27.79L19.78 19.37H20.23L16.97 27.79L18.24 28.19V28.6H14.75V28.19L15.95 27.79L19.92 18H20.95Z" fill="#fff"/><rect x="37" y="26" width="3.2" height="10.6" rx="1.6" fill="#fff"/><circle cx="38.6" cy="21.4" r="2.2" fill="#C9A45C"/></svg>';
 
   /* ------------------------------------------------------------------ */
@@ -751,10 +815,31 @@
       : '<p:txBody><a:bodyPr rtlCol="0" anchor="ctr"/><a:lstStyle/><a:p><a:endParaRPr lang="en-GB" dirty="0"/></a:p></p:txBody>';
     this.shapes.push('<p:sp><p:nvSpPr><p:cNvPr id="' + id + '" name="' + (o.name || ((o.paras ? 'Text ' : 'Shape ') + id)) + '"/><p:cNvSpPr' +
       (o.paras && !o.fill ? ' txBox="1"' : '') + '/><p:nvPr/></p:nvSpPr><p:spPr>' + xfrm(o.x, o.y, o.w, o.h) +
-      '<a:prstGeom prst="' + (o.geom || 'rect') + '"><a:avLst/></a:prstGeom>' + fillXml(o.fill) + lnXml(o.line, o.lineW) +
+      '<a:prstGeom prst="' + (o.geom || 'rect') + '"><a:avLst>' + Object.keys(o.adj || {}).map(function (k) {
+        return '<a:gd name="' + k + '" fmla="val ' + Math.round(o.adj[k]) + '"/>';
+      }).join('') + '</a:avLst></a:prstGeom>' + fillXml(o.fill) + lnXml(o.line, o.lineW) +
       '</p:spPr>' + body + '</p:sp>');
   };
   Slide.prototype.rect = function (x, y, w, h, color, geom) { this.shape({ x: x, y: y, w: w, h: h, fill: color, geom: geom }); };
+  // Pie or doughnut centred on (cx, cy), radius r. slices: [{v, color}], clockwise from 12 o'clock.
+  // hole (0-1) cuts a doughnut hole in the slide's background colour.
+  Slide.prototype.pie = function (cx, cy, r, slices, hole) {
+    var tot = 0, self = this;
+    slices.forEach(function (sl) { tot += Math.max(0, sl.v || 0); });
+    if (!tot) { this.shape({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, geom: 'ellipse', fill: DECK.hairline }); }
+    else {
+      var a = 0;
+      slices.forEach(function (sl) {
+        var v = Math.max(0, sl.v || 0); if (!v) return;
+        var b = a + v / tot * 360;
+        if (v >= tot) self.shape({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, geom: 'ellipse', fill: sl.color });
+        else self.shape({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, geom: 'pie', fill: sl.color, line: self.bg, lineW: 1.5,
+          adj: { adj1: ((a - 90 + 360) % 360) * 60000, adj2: ((b - 90 + 360) % 360) * 60000 } });
+        a = b;
+      });
+    }
+    if (hole) this.shape({ x: cx - r * hole, y: cy - r * hole, w: 2 * r * hole, h: 2 * r * hole, geom: 'ellipse', fill: this.bg });
+  };
   // Single-style text box that shrinks to fit, then truncates with an ellipsis.
   Slide.prototype.text = function (text, x, y, w, h, o) {
     o = o || {};
@@ -773,13 +858,14 @@
     o = o || {};
     this.shape({ x: x, y: y, w: w, h: h, anchor: o.anchor, paras: [{ align: o.align, runs: runs }] });
   };
-  Slide.prototype.line = function (x1, y1, x2, y2, color, wPt) {
+  Slide.prototype.line = function (x1, y1, x2, y2, color, wPt, dash) {
     var id = this.nextId++;
     var flipH = x2 < x1, flipV = y2 < y1;
     this.shapes.push('<p:cxnSp><p:nvCxnSpPr><p:cNvPr id="' + id + '" name="Line ' + id + '"/><p:cNvCxnSpPr/><p:nvPr/></p:nvCxnSpPr><p:spPr>' +
       '<a:xfrm' + (flipH ? ' flipH="1"' : '') + (flipV ? ' flipV="1"' : '') + '><a:off x="' + emu(Math.min(x1, x2)) + '" y="' + emu(Math.min(y1, y2)) +
       '"/><a:ext cx="' + emu(Math.abs(x2 - x1)) + '" cy="' + emu(Math.abs(y2 - y1)) + '"/></a:xfrm><a:prstGeom prst="line"><a:avLst/></a:prstGeom>' +
-      '<a:ln w="' + Math.round((wPt || 1) * 12700) + '" cap="rnd"><a:solidFill><a:srgbClr val="' + color + '"/></a:solidFill></a:ln></p:spPr></p:cxnSp>');
+      '<a:ln w="' + Math.round((wPt || 1) * 12700) + '" cap="rnd"><a:solidFill><a:srgbClr val="' + color + '"/></a:solidFill>' +
+      (dash ? '<a:prstDash val="' + (dash === true ? 'dash' : dash) + '"/>' : '') + '</a:ln></p:spPr></p:cxnSp>');
   };
   Slide.prototype.logo = function (x, y, size) {
     if (this.deck.logoPng) {
@@ -949,6 +1035,23 @@
     var tOp = target ? (target.op || '\u2265') : '';
     var targetText = (stats.target && stats.target.text) || clean(P.target) || '';
     function met(p) { return target && isNum(p) ? cmp(tOp, p, tv) : null; }
+    // Met / not met doughnut with a tick at the target, the count in the middle and a key below.
+    function donut(sl, cx, cy, r, c, dark) {
+      var metN = c.passN || 0, notN = c.failN || 0;
+      var accD = dark ? DECK.goldDark : DECK.gold;
+      sl.pie(cx, cy, r, [{ v: metN, color: accD }, { v: notN, color: dark ? DECK.navySoft : DECK.hairline }], 0.64);
+      sl.text(String(metN), cx - 1.1, cy - 0.55, 2.2, 0.7, { size: 34, font: DECK_FONTS.head, color: dark ? DECK.paper : DECK.navy, align: 'ctr', anchor: 'b' });
+      sl.text('of ' + den(c) + ' met', cx - 1.1, cy + 0.15, 2.2, 0.35, { size: 13, color: dark ? DECK.greyOnNavy : DECK.muted, align: 'ctr' });
+      if (tv !== null) {
+        var th = tv / 100 * 2 * Math.PI, r1 = r * 0.6, r2 = r * 1.1;
+        sl.line(cx + r1 * Math.sin(th), cy - r1 * Math.cos(th), cx + r2 * Math.sin(th), cy - r2 * Math.cos(th), dark ? DECK.paper : DECK.navy, 2);
+        var lx = cx + (r2 + 0.1) * Math.sin(th), ly = cy - (r2 + 0.1) * Math.cos(th);
+        sl.text('Target', lx - 0.6, ly - 0.17, 1.2, 0.34, { size: 11, bold: true, color: dark ? DECK.paper : DECK.navy, align: 'ctr', anchor: 'ctr' });
+      }
+      sl.runs([{ text: '\u25cf', size: 13, color: accD }, { text: ' Met ' + metN + '     ', size: 12, color: dark ? DECK.greyOnNavy : DECK.muted },
+        { text: '\u25cf', size: 13, color: dark ? DECK.navySoft : DECK.hairline }, { text: ' Not met ' + notN, size: 12, color: dark ? DECK.greyOnNavy : DECK.muted }],
+        cx - r, cy + r + 0.35, 2 * r, 0.32, { align: 'ctr' });
+    }
     var c1Label = (c1 && c1.label) || 'Cycle 1';
     var c2Label = (c2 && c2.label) || 'Re-audit';
     var title = clean(D.title) || clean(P.question) || 'Clinical audit results';
@@ -964,7 +1067,16 @@
     });
     var keyIsC2 = has2;
 
-    function add(bg) { var s = new Slide(deck, bg); deck.slides.push(s); if (deck.slides.length > 1) s.number(deck.slides.length); return s; }
+    function add(bg, plain) {
+      var s = new Slide(deck, bg); deck.slides.push(s);
+      if (!plain && !s.dark) {                    // the design's small recurring mark on light slides
+        if (DECK.motif === 'rule') s.rect(X0, 0.42, 1.1, 0.07, DECK.gold);
+        else if (DECK.motif === 'bar') s.rect(0, 0, 0.14, SH, DECK.gold);
+        else if (DECK.motif === 'corner') s.rect(SW - 0.62, 0.5, 0.22, 0.22, DECK.gold);
+      }
+      if (deck.slides.length > 1) s.number(deck.slides.length);
+      return s;
+    }
     function eyebrow(s, t, color) {
       s.text(t.toUpperCase(), X0, 0.75, 8, 0.3, { size: 11, bold: true, spc: 200, color: color || (s.dark ? DECK.greyOnNavy : DECK.muted) });
     }
@@ -974,14 +1086,37 @@
         color: s.dark ? DECK.paper : DECK.navy, anchor: o.anchor || 't', lineSpacing: 0.95 });
     }
 
-    /* 1. Title (dark) */
-    var s = add(DECK.navy);
-    s.text('CLINICAL AUDIT', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.gold });
-    s.text(title, X0, 2.0, 10.4, 2.6, { size: 44, min: 26, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95 });
+    /* 1. Title, in the design's layout */
     var sub = [D.site, D.department, D.lead].map(function (v) { return trunc(v, 60); }).filter(Boolean).join('  \u00b7  ');
-    if (sub) s.text(sub, X0, 4.85, 10.4, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy });
-    s.text(today, X0, 5.3, 6, 0.35, { size: 12, color: DECK.greyOnNavy });
-    s.logo(X0, SH - 1.15, 0.42);
+    var ts = DECK.titleStyle || 'bleed', s;
+    if (ts === 'band' || ts === 'split') {
+      s = add(DECK.paper, true);
+      var bandW = ts === 'band' ? 4.2 : 0, tx0 = ts === 'band' ? bandW + 0.7 : X0, tw0 = ts === 'band' ? SW - tx0 - 0.8 : 7.6;
+      if (ts === 'band') {
+        s.rect(0, 0, bandW, SH, DECK.navy);
+        s.text('CLINICAL AUDIT', 0.7, 1.55, bandW - 1.0, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldDark });
+        s.text(today, 0.7, SH - 1.9, bandW - 1.0, 0.35, { size: 12, color: DECK.greyOnNavy });
+        s.logo(0.7, SH - 1.15, 0.42);
+      } else {
+        var bx = SW * 0.64;
+        s.rect(bx, 0, SW - bx, SH, DECK.navy);
+        s.pie(bx + (SW - bx) / 2, SH / 2, 1.55, [{ v: 1, color: DECK.goldDark }], 0.8);
+        s.logo(bx + (SW - bx) / 2 - 0.3, SH / 2 - 0.3, 0.6);
+        s.text('CLINICAL AUDIT', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldText });
+        s.text(today, X0, SH - 1.0, 6, 0.35, { size: 12, color: DECK.muted });
+      }
+      s.text(title, tx0, 2.0, tw0, 2.9, { size: 42, min: 24, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 0.95 });
+      if (sub) s.text(sub, tx0, 5.0, tw0, 0.5, { size: 16, min: 11, color: DECK.muted });
+    } else {
+      s = add(DECK.navy, true);
+      if (ts === 'frame') s.shape({ x: 0.35, y: 0.35, w: SW - 0.7, h: SH - 0.7, line: DECK.goldDark, lineW: 1.5 });
+      if (ts === 'stripe') { s.rect(0, SH - 0.32, SW, 0.32, DECK.gold); s.rect(X0, 1.3, 0.9, 0.06, DECK.goldDark); }
+      s.text('CLINICAL AUDIT', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldDark });
+      s.text(title, X0, 2.0, 10.4, 2.6, { size: 44, min: 26, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95 });
+      if (sub) s.text(sub, X0, 4.85, 10.4, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy });
+      s.text(today, X0, 5.3, 6, 0.35, { size: 12, color: DECK.greyOnNavy });
+      s.logo(X0, SH - (ts === 'stripe' ? 1.35 : 1.15), 0.42);
+    }
     s.note(title, clean(P.question) && clean(P.question) !== title ? 'Audit question: ' + clean(P.question) : '',
       sub ? 'Presented by: ' + sub : '', clean(D.team) ? 'Team: ' + clean(D.team) : '', clean(D.supervisor) ? 'Supervisor: ' + clean(D.supervisor) : '',
       (run && run.auditId) || P.id ? 'Audit reference: ' + ((run && run.auditId) || P.id) : '');
@@ -994,7 +1129,7 @@
       if (why.split(/\s+/).length > 32) why = words(why, 30);
       s.text(why, X0, 1.5, 9.6, 3.6, { size: 34, min: 20, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.0, anchor: 'ctr' });
       if (clean(P.question)) {
-        s.text('The question', X0, 5.55, 3, 0.3, { size: 11, bold: true, color: DECK.gold });
+        s.text('The question', X0, 5.55, 3, 0.3, { size: 11, bold: true, color: DECK.goldText });
         s.text(words(P.question, 35), X0, 5.85, 9.6, 0.75, { size: 14, min: 11, color: DECK.muted });
       }
       s.note(clean(P.why), clean(P.question) ? 'Audit question: ' + clean(P.question) : '');
@@ -1042,7 +1177,7 @@
     s.line(X0, gy[1] - 0.2, SW - X0, gy[1] - 0.2, DECK.hairline, 0.75);
     facts.forEach(function (f, k) {
       var x = gx[k % 2], y = gy[Math.floor(k / 2)];
-      s.text(f[0].toUpperCase(), x, y, cw2, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
+      s.text(f[0].toUpperCase(), x, y, cw2, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
       s.text(f[1], x, y + 0.4, cw2 - 0.3, 1.3, { size: 22, min: 14, color: DECK.navy, lineSpacing: 1.05 });
     });
     s.note('Population: ' + (clean(P.population) || 'not recorded'), 'Sample: ' + (clean(P.sample) || 'not recorded'),
@@ -1052,15 +1187,6 @@
     });
 
     /* 5. What we found (cycle 1) */
-    function resultBar(sl, pct, x, y, w, fillCol, trackCol, tickCol) {
-      sl.rect(x, y, w, 0.12, trackCol);
-      if (pct > 0) sl.rect(x, y, Math.max(0.04, w * Math.min(pct, 100) / 100), 0.12, fillCol);
-      if (tv !== null) {
-        var tx2 = x + w * tv / 100;
-        sl.line(tx2, y - 0.22, tx2, y + 0.34, tickCol, 1.5);
-        sl.text('Target ' + tv + '%', Math.min(tx2 - 0.6, x + w - 1.2), y + 0.42, 1.2, 0.3, { size: 11, color: tickCol, align: 'ctr' });
-      }
-    }
     if (has1) {
       var dark1 = !keyIsC2;
       s = add(dark1 ? DECK.navy : DECK.paper);
@@ -1070,11 +1196,11 @@
       else if (tv - p1 <= 10) head1 = 'Close, but short: ' + near1 + ' met the standard';
       else head1 = fewerThan(p1) ? 'Fewer than ' + fewerThan(p1) + ' met the standard' : capFirst(near1) + ' met the standard';
       eyebrow(s, 'What we found' + (has2 ? ' \u00b7 ' + c1Label : ''), dark1 ? DECK.greyOnNavy : DECK.muted);
-      s.text(pctText(p1), X0 - 0.08, 1.55, 5.2, 2.6, { size: 150, min: 96, font: DECK_FONTS.head, color: dark1 ? DECK.gold : DECK.navy, anchor: 'ctr' });
-      s.text(head1, X0 + 5.5, 1.75, SW - X0 - (X0 + 5.5), 2.2, { size: 32, min: 20, font: DECK_FONTS.head, color: dark1 ? DECK.paper : DECK.navy, anchor: 'ctr', lineSpacing: 1.0 });
-      resultBar(s, p1, X0, 4.9, XW, dark1 ? DECK.gold : DECK.grey, dark1 ? DECK.navySoft : DECK.hairline, dark1 ? DECK.paper : DECK.navy);
-      s.text(ofText(c1) + ' cases with a result  \u00b7  ' + c1.n + ' audited' + (dateRange(c1) ? '  \u00b7  ' + dateRange(c1) : ''),
-        X0, 5.75, 9, 0.35, { size: 12, color: dark1 ? DECK.greyOnNavy : DECK.muted });
+      s.text(pctText(p1), X0 - 0.08, 1.35, 6.4, 2.4, { size: 140, min: 90, font: DECK_FONTS.head, color: dark1 ? DECK.goldDark : DECK.navy, anchor: 'ctr' });
+      s.text(head1, X0, 3.85, 6.6, 1.6, { size: 30, min: 18, font: DECK_FONTS.head, color: dark1 ? DECK.paper : DECK.navy, lineSpacing: 1.0 });
+      s.text(c1.n + ' audited' + (dateRange(c1) ? '  \u00b7  ' + dateRange(c1) : '') + (tv !== null ? '  \u00b7  target ' + tOp + ' ' + tv + '%' : ''),
+        X0, 5.75, 6.6, 0.35, { size: 12, color: dark1 ? DECK.greyOnNavy : DECK.muted });
+      donut(s, SW - X0 - 2.15, 3.35, 1.95, c1, dark1);
       s.note(head1 + '.', c1Label + ': ' + ofText(c1) + ' (' + (Math.round(p1 * 10) / 10) + '%) met the standard; records audited: ' + c1.n +
         (den(c1) < c1.n ? ' (' + (c1.n - den(c1)) + ' not applicable or blank, excluded from the percentage)' : '') + '.',
         targetText ? 'Target: ' + targetText + (m1 === null ? '' : m1 ? ' \u2014 met.' : ' \u2014 not met.') : '');
@@ -1106,8 +1232,22 @@
         order.forEach(function (o) { mx = Math.max(mx, m1b[o] || 0, m2b[o] || 0); });
         var x = X0 + bi * (colW + gap), y = 2.2;
         var wide = k === 1;
-        s.text((clean(b.label) || humanLabel(b.field)).toUpperCase(), x, y, colW, 0.3, { size: 11, bold: true, spc: 200, color: DECK.gold });
+        s.text((clean(b.label) || humanLabel(b.field)).toUpperCase(), x, y, colW, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
         y += 0.5;
+        // A share of the whole with few answers reads best as a pie; causes and before/after pairs stay as bars.
+        if (!b.causes && !anyC2 && total >= 2 && total <= 5) {
+          var sum = 0; order.forEach(function (o) { sum += m1b[o] || 0; });
+          var pr = wide ? 1.75 : Math.min(colW / 2 - 0.25, 1.25), pcx = wide ? x + pr + 0.2 : x + colW / 2, pcy = y + pr + 0.15;
+          s.pie(pcx, pcy, pr, order.map(function (o, oi) { return { v: m1b[o] || 0, color: DECK.series[oi % DECK.series.length] }; }), 0);
+          order.forEach(function (o, oi) {
+            var lab = o === null || o === undefined || o === '' ? '(blank)' : trunc(capFirst(o), wide ? 40 : 24), v = m1b[o] || 0;
+            var lx = wide ? x + 2 * pr + 0.9 : x, ly = wide ? pcy - order.length * 0.28 + oi * 0.56 : pcy + pr + 0.35 + oi * 0.36;
+            s.runs([{ text: '\u25a0 ', size: wide ? 16 : 13, color: DECK.series[oi % DECK.series.length] },
+              { text: lab + '  ', size: wide ? 16 : 12, color: DECK.navy },
+              { text: v + ' (' + Math.round(v / sum * 100) + '%)', size: wide ? 16 : 12, bold: true, color: DECK.muted }], lx, ly, wide ? colW - 2 * pr - 0.9 : colW, wide ? 0.5 : 0.34);
+          });
+          return;
+        }
         var rowH = anyC2 ? 0.78 : 0.66;
         var labW = wide ? 3.6 : colW;
         var barX = wide ? x + 3.8 : x, barW = (wide ? colW - 3.8 : colW) - 0.55;
@@ -1143,7 +1283,7 @@
       s = add();
       var lbl = recorded ? (fmtDate(cm.date) ? 'Started ' + fmtDate(cm.date) : 'In place') : 'Planned';
       s.runs([{ text: 'THE CHANGE', size: 11, bold: true, spc: 200, color: DECK.muted },
-        { text: '   \u00b7   ' + lbl.toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.gold }], X0, 0.75, 9, 0.3);
+        { text: '   \u00b7   ' + lbl.toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.goldText }], X0, 0.75, 9, 0.3);
       var sents = changeText.match(/[^.!?]+[.!?]+(\s|$)/g) || [changeText];
       var short = clean(sents.slice(0, 2).join(' '));
       if (short.split(/\s+/).length > 40) short = words(short, 38);
@@ -1175,19 +1315,106 @@
         // slope between the two figures
         var sx1 = lx + nw + 0.1, sx2 = rx - 0.35, mid = ny + nh / 2, k2 = 1.6;
         var y1 = mid + (c2.pct - c1.pct) / 100 * k2 / 2, y2 = mid - (c2.pct - c1.pct) / 100 * k2 / 2;
-        s.line(sx1, y1, sx2, y2, DECK.gold, 1.5);
+        s.line(sx1, y1, sx2, y2, DECK.goldDark, 1.5);
         s.shape({ x: sx1 - 0.07, y: y1 - 0.07, w: 0.14, h: 0.14, geom: 'ellipse', fill: DECK.grey });
-        s.shape({ x: sx2 - 0.07, y: y2 - 0.07, w: 0.14, h: 0.14, geom: 'ellipse', fill: DECK.gold });
+        s.shape({ x: sx2 - 0.07, y: y2 - 0.07, w: 0.14, h: 0.14, geom: 'ellipse', fill: DECK.goldDark });
         var dtxt = (diff > 0 ? '+' : diff < 0 ? '\u2212' : '\u00b1') + (Math.round(Math.abs(diff) * 10) / 10) + ' pts';
-        s.text(dtxt, (sx1 + sx2) / 2 - 1.0, Math.min(y1, y2) - 0.55, 2.0, 0.4, { size: 16, bold: true, color: DECK.gold, align: 'ctr' });
+        s.text(dtxt, (sx1 + sx2) / 2 - 1.0, Math.min(y1, y2) - 0.55, 2.0, 0.4, { size: 16, bold: true, color: DECK.goldDark, align: 'ctr' });
       }
-      s.text(pctText(c2.pct), rx - 0.06, ny, nw, nh, { size: 110, min: 72, font: DECK_FONTS.head, color: DECK.gold, anchor: 'ctr' });
+      s.text(pctText(c2.pct), rx - 0.06, ny, nw, nh, { size: 110, min: 72, font: DECK_FONTS.head, color: DECK.goldDark, anchor: 'ctr' });
       s.text(c2Label + '  \u00b7  ' + ofText(c2), rx, ny + nh + 0.05, nw, 0.35, { size: 13, color: DECK.greyOnNavy });
       if (tv !== null) s.text('Target ' + tv + '%', X0, 6.45, 4, 0.3, { size: 12, color: DECK.greyOnNavy });
       s.note(head2 + '.', has1 ? c1Label + ': ' + ofText(c1) + ' (' + (Math.round(c1.pct * 10) / 10) + '%), ' + c1.n + ' records audited.' : '',
         c2Label + ': ' + ofText(c2) + ' (' + (Math.round(c2.pct * 10) / 10) + '%), ' + c2.n + ' records audited' + (dateRange(c2) ? ', ' + dateRange(c2) : '') + '.',
         diff !== null ? 'Change: ' + (diff >= 0 ? '+' : '') + (Math.round(diff * 10) / 10) + ' percentage points.' : '',
         targetText ? 'Target: ' + targetText + '.' : '');
+    }
+
+    // Shared axis for the charts below: 0-100% with light gridlines.
+    function pctAxis(sl, x, y, w, h) {
+      [0, 25, 50, 75, 100].forEach(function (g) {
+        var gy = y + h - h * g / 100;
+        sl.line(x, gy, x + w, gy, g === 0 ? DECK.grey : DECK.hairline, g === 0 ? 1 : 0.75);
+        sl.text(g + '%', x - 0.75, gy - 0.15, 0.65, 0.3, { size: 10, color: DECK.muted, align: 'r', anchor: 'ctr' });
+      });
+      return function (p) { return y + h - h * Math.max(0, Math.min(100, p)) / 100; };
+    }
+    function targetLine(sl, x, w, yOf) {
+      if (tv === null) return;
+      var yT = yOf(tv);
+      sl.line(x, yT, x + w, yT, DECK.navy, 1.5, 'dash');
+      sl.text('Target ' + tv + '%', x + w - 1.6, yT - 0.36, 1.6, 0.3, { size: 11, bold: true, color: DECK.navy, align: 'r' });
+    }
+
+    /* 8b. Side by side: column chart against the target */
+    if (has1 && has2) {
+      s = add();
+      headline(s, 'Before and after, side by side', 0.7, { size: 32 });
+      var gx0 = X0 + 0.8, gy0 = 1.95, gw = 6.6, gh = 4.1, yOf = pctAxis(s, gx0, gy0, gw, gh);
+      [[c1, DECK.grey, c1Label], [c2, DECK.gold, c2Label]].forEach(function (cc, i) {
+        var bx = gx0 + 1.0 + i * 2.9, bw = 1.7, top = yOf(cc[0].pct);
+        s.rect(bx, top, bw, gy0 + gh - top, cc[1]);
+        s.text(pctText(cc[0].pct), bx - 0.4, top - 0.62, bw + 0.8, 0.55, { size: 26, font: DECK_FONTS.head, color: DECK.navy, align: 'ctr', anchor: 'b' });
+        s.text(cc[2], bx - 0.4, gy0 + gh + 0.1, bw + 0.8, 0.3, { size: 13, bold: true, color: DECK.navy, align: 'ctr' });
+        s.text(ofText(cc[0]) + ' met', bx - 0.4, gy0 + gh + 0.4, bw + 0.8, 0.3, { size: 11, color: DECK.muted, align: 'ctr' });
+      });
+      targetLine(s, gx0, gw, yOf);
+      var px = gx0 + gw + 0.9, pw = SW - X0 - px;
+      var dd = Math.round((c2.pct - c1.pct) * 10) / 10;
+      [['Change', (dd > 0 ? '+' : dd < 0 ? '−' : '±') + Math.abs(dd) + ' pts'],
+       ['Cases audited', c1.n + ' → ' + c2.n],
+       ['Target', tv === null ? 'Not set' : (met(c2.pct) ? 'Met at re-audit' : 'Not yet met')]].forEach(function (f, i) {
+        var yy = 2.0 + i * 1.35;
+        s.text(f[0].toUpperCase(), px, yy, pw, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
+        s.text(f[1], px, yy + 0.32, pw, 0.7, { size: 26, min: 16, font: DECK_FONTS.head, color: DECK.navy });
+      });
+      s.note('Column chart: the share of cases meeting the standard in each cycle; the dashed line is the target.',
+        c1Label + ': ' + ofText(c1) + ' (' + pctText(c1.pct) + '). ' + c2Label + ': ' + ofText(c2) + ' (' + pctText(c2.pct) + ').');
+    }
+
+    /* 8c. Month by month: a run chart, the usual QI view of change over time */
+    var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var pts = [];
+    [[c1, 1], [c2, 2]].forEach(function (cc) {
+      ((cc[0] && cc[0].months) || []).forEach(function (mm) {
+        var d = (mm.pass || 0) + (mm.fail || 0);
+        if (d > 0 && /^\d{4}-\d{2}$/.test(mm.m)) pts.push({ m: mm.m, pct: mm.pass / d * 100, n: d, cyc: cc[1] });
+      });
+    });
+    pts.sort(function (a, b) { return a.m < b.m ? -1 : a.m > b.m ? 1 : a.cyc - b.cyc; });
+    if (pts.length >= 4) {
+      s = add();
+      headline(s, 'Month by month', 0.7, { size: 32 });
+      s.runs([{ text: '●', size: 13, color: DECK.grey }, { text: ' ' + c1Label + '     ', size: 12, color: DECK.muted },
+        { text: '●', size: 13, color: DECK.gold }, { text: ' ' + c2Label + '     ', size: 12, color: DECK.muted },
+        { text: '- - -', size: 12, color: DECK.muted }, { text: ' median', size: 12, color: DECK.muted }], X0, 1.5, 9, 0.3);
+      var rx0 = X0 + 0.8, ry0 = 2.1, rw = SW - X0 - rx0 - 0.3, rh = 3.7, yOfR = pctAxis(s, rx0, ry0, rw, rh);
+      var step = rw / pts.length, xs = pts.map(function (p, i) { return rx0 + step * (i + 0.5); });
+      var sorted = pts.map(function (p) { return p.pct; }).sort(function (a, b) { return a - b; });
+      var med = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+      s.line(rx0, yOfR(med), rx0 + rw, yOfR(med), DECK.muted, 1, 'sysDash');
+      s.text('Median ' + Math.round(med) + '%', rx0, yOfR(med) - 0.34, 1.8, 0.3, { size: 10, color: DECK.muted });
+      targetLine(s, rx0, rw, yOfR);
+      var chg = clean(cm.date).slice(0, 7);
+      if (/^\d{4}-\d{2}$/.test(chg)) {
+        var ci = pts.findIndex(function (p) { return p.m >= chg; });
+        if (ci > 0) {
+          var cxm = (xs[ci - 1] + xs[ci]) / 2;
+          s.line(cxm, ry0 - 0.1, cxm, ry0 + rh, DECK.gold, 1.25, 'dash');
+          s.text('Change', cxm + 0.08, ry0 - 0.15, 1.2, 0.3, { size: 11, bold: true, color: DECK.goldText });
+        }
+      }
+      pts.forEach(function (p, i) {
+        if (i > 0) s.line(xs[i - 1], yOfR(pts[i - 1].pct), xs[i], yOfR(p.pct), DECK.navy, 1.5);
+      });
+      var every = pts.length > 12 ? 2 : 1;
+      pts.forEach(function (p, i) {
+        s.shape({ x: xs[i] - 0.09, y: yOfR(p.pct) - 0.09, w: 0.18, h: 0.18, geom: 'ellipse', fill: p.cyc === 2 ? DECK.gold : DECK.grey, line: DECK.paper, lineW: 1 });
+        if (i % every === 0) s.text(MON[+p.m.slice(5) - 1] + ' ' + p.m.slice(2, 4), xs[i] - 0.5, ry0 + rh + 0.1, 1.0, 0.28, { size: 10, color: DECK.muted, align: 'ctr' });
+      });
+      s.note('Run chart: each point is one month’s share of cases meeting the standard; the dotted line is the median of all points.',
+        'A run of six or more points on one side of the median, or five rising or falling in a row, suggests a real change rather than chance.',
+        pts.map(function (p) { return MON[+p.m.slice(5) - 1] + ' ' + p.m.slice(0, 4) + ': ' + Math.round(p.pct) + '% of ' + p.n; }).join('; ') + '.');
     }
 
     /* 9. What next */
@@ -1247,7 +1474,10 @@
 
   function deckPptx(run, stats) {
     var ttl = clean((run && run.details && run.details.title) || (run && run.protocol && run.protocol.question) || 'Clinical audit results');
-    return packPptx(function (deck) { buildSlides(deck, run || {}, stats || {}); }, ttl);
+    return packPptx(function (deck) {
+      applyDeckTheme(themeFor(run));
+      try { buildSlides(deck, run || {}, stats || {}); } finally { resetDeckTheme(); }
+    }, ttl);
   }
 
   // Zips slides made by build(deck) into a .pptx package.
