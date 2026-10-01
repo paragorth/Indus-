@@ -4487,6 +4487,17 @@
     { q: 'How long does an audit take?', k: 'time long duration weeks hours effort how long quick', a: 'Setting up, the proposal, the results and the presentation take about 5 minutes each with Ai4Qi. Collecting the data is the part that takes time; each audit shows an estimate and a timeline.' },
     { q: 'How do I report a problem?', k: 'bug problem error broken contact help issue report', a: 'Use the feedback box on any audit page to tell us, or see the Security page for anything sensitive.', go: [['Security', '#/security']] }
   ];
+  // Opening the suggestion form gives it the whole panel (the questions fold away), so the box and
+  // the Post button are always in view; Enter posts it (Shift+Enter for a new line).
+  document.addEventListener('toggle', function (e) {
+    var d = e.target; if (!d.matches || !d.matches('details.hb-idea')) return;
+    var box = d.closest('.help-box'); if (box) box.classList.toggle('idea-open', d.open);
+    if (d.open) { var t = d.querySelector('textarea'); if (t) setTimeout(function () { t.focus(); }, 0); }
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    var t = e.target; if (e.key !== 'Enter' || e.shiftKey || !t.closest || !t.closest('[data-hb-idea] textarea')) return;
+    e.preventDefault(); var f = t.form; if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  });
   document.addEventListener('submit', function (e) {
     var f = e.target.closest && e.target.closest('[data-hb-idea]'); if (!f) return;
     e.preventDefault();
