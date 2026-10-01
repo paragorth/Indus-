@@ -1,7 +1,7 @@
 # Store listing (Google Play and App Store)
 
 **App name:** Ai4Qi: Clinical Audit
-**Short description (Play, 80 characters max):** Clinical audit from idea to closed loop, built on 18,635 real audits.
+**Short description (Play, 80 characters max):** Clinical audit from idea to closed loop, built on 20,000 real audits.
 **Subtitle (Apple, 30 max):** Clinical audit, start to finish
 **Category:** Medical (Apple: Medical; Play: Medical)
 **Contact email:** the privacy email in config.json (legal.contact_email)
@@ -14,7 +14,7 @@ Ai4Qi takes doctors, nurses and allied health professionals from an audit idea t
 
 • Build an audit on any topic in under a minute: one clear question, the right national standard, a data sheet, pitfalls and pearls.
 • 1,011 ready-made audits across every major specialty, each with a standard, a pass definition, a sample and a timeline.
-• A library of 18,635 published audits and quality improvement projects, so you can see what worked elsewhere.
+• A library of 20,000+ published audits and quality improvement projects, so you can see what worked elsewhere.
 • Send a proposal to your supervisor: a ready email and a Word document.
 • Run the audit: download the Excel data sheet, record results, see them against the target, make the change and re-audit.
 • Reminders by email when each step is due, once you start an audit.
