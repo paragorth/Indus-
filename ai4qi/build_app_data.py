@@ -244,6 +244,24 @@ def keep_config():
     return cfg
 
 
+def stamp_assets():
+    """Give app.js, export.js and styles.css addresses that change with their content (?v=<hash>), so a
+    browser never runs an old copy from its cache (Cloudflare tells browsers to keep files for 4 hours)."""
+    def hv(name):
+        return hashlib.sha256((APP / name).read_bytes()).hexdigest()[:10]
+    app = APP / "app.js"
+    t = app.read_text(encoding="utf-8")
+    t2 = re.sub(r"var EXPORT_V = '[^']*';", f"var EXPORT_V = '{hv('export.js')}';", t, count=1)
+    if t2 != t:
+        app.write_text(t2, encoding="utf-8")
+    idx = APP / "index.html"
+    t = idx.read_text(encoding="utf-8")
+    t2 = re.sub(r'href="styles\.css(\?v=[^"]*)?"', f'href="styles.css?v={hv("styles.css")}"', t)
+    t2 = re.sub(r'src="app\.js(\?v=[^"]*)?"', f'src="app.js?v={hv("app.js")}"', t2)
+    if t2 != t:
+        idx.write_text(t2, encoding="utf-8")
+
+
 def stamp_version():
     """Hash everything the app serves and stamp it into sw.js so clients refresh their caches."""
     h = hashlib.sha256()
@@ -379,6 +397,7 @@ def main():
             shutil.copy2(src, dst)
             copied += 1
 
+    stamp_assets()
     version = stamp_version()
 
     size = sum(f.stat().st_size for f in DATA.rglob("*") if f.is_file())

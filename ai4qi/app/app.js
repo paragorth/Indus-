@@ -2216,6 +2216,7 @@
     return rows.filter(function (r) { return r.some(function (x) { return String(x).trim() !== ''; }); });
   }
   var SHEETJS = 'vendor/xlsx.mini.min.js', sheetjsP = null;   // SheetJS 0.18.5, served from this site
+  var EXPORT_V = '4d7ee7f4df';   // stamped by build_app_data.py: a new export.js gets a new address, so no browser keeps an old copy
   function loadScript(src, globalName) {
     return new Promise(function (res, rej) {
       if (window[globalName]) return res(window[globalName]);
@@ -2276,7 +2277,7 @@
   function fileSlug(s) { return String(s || 'audit').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'audit'; }
   function exporter() {
     if (window.AI4QI_EXPORT) return Promise.resolve(window.AI4QI_EXPORT);
-    return loadScript('export.js', 'AI4QI_EXPORT');
+    return loadScript('export.js?v=' + EXPORT_V, 'AI4QI_EXPORT');
   }
   function sayIn(el, text) { if (el) el.textContent = text; }
   function downloadError(e) {

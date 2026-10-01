@@ -2,7 +2,7 @@
 'use strict';
 
 // Stamped by build_app_data.py on every rebuild; a new value makes browsers install a fresh cache.
-var VERSION = 'dcc94ff47394';
+var VERSION = '2c91393856ad';
 var PREFIX = 'ai4qi-';
 // GEN 2 (Sep 2026): caches from before the redirect fix are dropped on activate, whatever VERSION says.
 var GEN = 'g2-';
@@ -65,7 +65,7 @@ function staleWhileRevalidate(request) {
   });
 }
 
-var CODE = new Set(['app.js', 'export.js', 'styles.css']);
+var CODE = new Set(['app.js', 'export.js', 'styles.css', 'boot.js']);
 function networkFirst(req, key) {
   return caches.open(SHELL).then(function (cache) {
     var net = fetchClean(req, { cache: 'no-cache' }).then(function (res) {
