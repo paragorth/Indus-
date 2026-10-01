@@ -153,6 +153,8 @@ def build_proposed():
     short = json.loads(st.read_text(encoding="utf-8")) if st.exists() else {}
     sp = HERE / "new_audits" / "pass_short.json"            # the pass criterion in 14 words or fewer
     pass_short = json.loads(sp.read_text(encoding="utf-8")) if sp.exists() else {}
+    hp = HERE / "new_audits" / "pp_heads.json"              # 2-5 word headings for each pitfall and pearl
+    pp_heads = json.loads(hp.read_text(encoding="utf-8")) if hp.exists() else {}
     out = []
     for fname, group in (("ortho_new_audits.json", "Trauma and orthopaedics"), ("nonortho_new_audits.json", "")):
         for p in json.load(open(HERE / "new_audits" / fname, encoding="utf-8")):
@@ -165,6 +167,10 @@ def build_proposed():
                 q["short"] = short[p["id"]]
                 if pass_short.get(q["id"]):
                     q["pass_short"] = pass_short[q["id"]]
+            h = pp_heads.get(q["id"]) or {}
+            for k, hk in (("pitfalls", "pitfall_heads"), ("pearls", "pearl_heads")):
+                if q.get(k) and len(h.get(k) or []) == len(q[k]):
+                    q[hk] = h[k]
             out.append(clean(q))
     return out
 
