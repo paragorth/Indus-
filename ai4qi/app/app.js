@@ -3358,7 +3358,10 @@
     if (u) { if (u.email) setLastEmail(u.email); flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
     // A non-institutional email that has not been approved goes straight to the approval page.
     if (u && !isInstitutional(u.email) && !DEMO) setTimeout(function () {
-      accessStatus().then(function (st) { if (st !== 'ok' && BE.user && BE.user.id === u.id && parseHash().parts[0] !== 'access') { S.accessNext = signedInHome(); location.hash = '#/access'; } });
+      accessStatus().then(function (st) {
+        if (st === 'none' && BE.client) return BE.client.from('access_requests').insert({ user_id: u.id }).then(function () { return 'pending'; }, function () { return 'pending'; });
+        return st;
+      }).then(function (st) { if (st !== 'ok' && BE.user && BE.user.id === u.id && parseHash().parts[0] !== 'access') { S.accessNext = signedInHome(); location.hash = '#/access'; } });
     }, 0);
     var name = parseHash().parts[0];
     if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
@@ -3576,7 +3579,7 @@
     var err = BE.authError ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or was already used. Send a new one below.</div>' : '';
     var body = known ?
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
-      '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err + (isInstitutional(known) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
+      '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err + (isInstitutional(known) ? '' : '<p class="auth-warn">' + NONINST_NOTE + '</p>') +
       '<form class="auth-form" data-signin novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
       '<button class="btn auth-wide" type="submit">Email me a sign-in link &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
@@ -3595,15 +3598,18 @@
       '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
   }
-  var NONINST_WARN = '<strong>Non-institutional emails need admin approval.</strong> For instant access, use your institutional email (NHS, HSE or university).';
+  var NONINST_NOTE = 'Personal email: access to build and run audits follows in about 5 minutes. Institutional emails (NHS, HSE or university) get instant access.';
+  var NONINST_WARN = '<strong>Use your institutional email (NHS, HSE or university) for instant access.</strong> Personal emails need moderation and have delayed access (about 5 minutes). To go ahead with this email, press Continue again.';
   document.addEventListener('input', function (e) {
     var i = e.target.closest && e.target.closest('#acc-email'); if (!i) return;
     var g = i.parentNode.querySelector('.em-ghost');
     if (g) { g.firstChild.textContent = i.value; g.hidden = !i.value || i.value.indexOf('@') !== -1; }
     var w = main.querySelector('[data-email-warn]'), v = i.value.trim(), done = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v);
     if (!w) return;
-    w.hidden = !(done && !isInstitutional(v));
-    if (!w.hidden) w.innerHTML = NONINST_WARN;
+    var f = i.form; if (f && f.getAttribute('data-warned') && f.getAttribute('data-warned') !== v.toLowerCase()) {
+      f.removeAttribute('data-warned'); w.hidden = true;
+      var bt = f.querySelector('button[type="submit"]'); if (bt) bt.innerHTML = 'Continue &nbsp;→';
+    }
   });
   function renderLinkConfirm() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
@@ -3637,7 +3643,7 @@
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
       '<button class="btn btn-secondary auth-wide" type="submit">Sign in with the code</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      (isInstitutional(email) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
+      (isInstitutional(email) ? '' : '<p class="auth-warn">' + NONINST_NOTE + '</p>') +
       (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> Not in your inbox? Check <em>Junk</em> and the <em>Other</em> tab, and mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
       '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
       '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
@@ -3723,7 +3729,7 @@
   }
   /* ---------- who can build and run audits: NHS, HSE and university staff ----------
      Work and university emails get in straight away. Anyone else asks for access; a request is
-     approved automatically after 15 minutes unless an admin rejects it (migration 010). Demo mode
+     approved automatically after 5 minutes unless an admin rejects it (migrations 010, 013). Demo mode
      and a site without a backend are never gated. The build function checks the same rule. */
   var INST_EMAIL = /@(([a-z0-9-]+\.)*ac\.uk|([a-z0-9-]+\.)*(tcd|ucd|ucc|ul|dcu|mu|rcsi|universityofgalway|nuigalway|atu|tus|setu|mtu|tudublin)\.ie|([a-z0-9-]+\.)*rcsi\.com)$/i;
   function isInstitutional(email) { return WORK_EMAIL.test(email || '') || INST_EMAIL.test(email || ''); }
@@ -3757,8 +3763,8 @@
         '<a class="btn auth-wide" href="#/account">Sign in</a><p class="auth-note">Browsing the library, standards and ready-made audits stays open to everyone.</p>';
     } else if (st === 'pending') {
       body = '<div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div><h1>Request received</h1>' +
-        '<p class="auth-sub">Non-institutional emails go through a quick approval, usually within 15 minutes. After that you can build and run audits.</p>' +
-        '<button class="btn auth-wide" type="button" data-access-recheck>Check again</button><p class="form-status" role="status" data-access-status></p>' +
+        '<p class="auth-sub">Personal emails are approved automatically within about 5 minutes. This page lets you in as soon as it is done.</p>' +
+        '<button class="btn auth-wide" type="button" data-access-recheck>Check now</button><p class="form-status" role="status" data-access-status></p>' +
         '<p class="auth-note">Signed in as ' + esc(email) + '. Have a work email? <button type="button" class="link-btn" data-signout-to-signin>Sign in with it instead</button></p>';
     } else if (st === 'rejected') {
       body = '<h1>Access not approved</h1><p class="auth-sub">Ai4Qi is for NHS, HSE and university staff. Sign in with your work email to build and run audits.</p>' +
@@ -3774,6 +3780,11 @@
         '<button class="btn auth-wide" type="submit">Ask for access</button><p class="form-status" role="status" data-access-status></p></form></details>';
     }
     page('<div class="auth-wrap"><div class="auth-card">' + body + '</div></div>', 'Access', '');
+    clearInterval(S.accessTimer);
+    if (st === 'pending') S.accessTimer = setInterval(function () {      // let them in as soon as it is approved
+      if (!document.querySelector('[data-access-recheck]')) { clearInterval(S.accessTimer); return; }
+      accessStatus().then(function (v) { if (v !== 'pending') { clearInterval(S.accessTimer); renderAccess(v); } });
+    }, 30000);
   }
   document.addEventListener('submit', function (e) {
     var f = e.target.closest && e.target.closest('[data-access-request]'); if (!f) return;
@@ -3810,9 +3821,9 @@
     }).then(function (res) {
       if (!res) { page('<article class="doc narrow"><h1>Not available</h1><p class="prose">Sign in with an admin account.</p></article>', 'Access requests', ''); return; }
       var rows = (res[0].data || []), doms = (res[1].data || []);
-      function stateOf(r) { return r.decision || (Date.now() - new Date(r.created_at).getTime() > 900000 ? 'approved (auto)' : 'waiting'); }
+      function stateOf(r) { return r.decision || (Date.now() - new Date(r.created_at).getTime() > 300000 ? 'approved (auto)' : 'waiting'); }
       page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/account">Account</a> › Access requests</nav><h1>Access requests</h1>' +
-        '<p class="prose">Requests are approved automatically 15 minutes after they arrive unless you reject them. Allowing a domain lets everyone with that email in straight away.</p>' +
+        '<p class="prose">Requests are approved automatically 5 minutes after they arrive unless you reject them. Allowing a domain lets everyone with that email in straight away.</p>' +
         '<div class="table-wrap"><table class="sheet"><thead><tr><th>When</th><th>Email</th><th>Role</th><th>Workplace</th><th>Why</th><th>Status</th><th></th></tr></thead><tbody>' +
         (rows.length ? rows.map(function (r) {
           var dom = String(r.email || '').split('@')[1] || '';
@@ -3912,6 +3923,13 @@
     if (signin) {
       var input = form.querySelector('input[name="email"]'), email = input.value.trim();
       if (email && email.indexOf('@') === -1 && input.id === 'acc-email') { email += '@nhs.net'; input.value = email; }   // the grey @nhs.net ending
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && !isInstitutional(email) && form.getAttribute('data-warned') !== email.toLowerCase()) {
+        form.setAttribute('data-warned', email.toLowerCase());
+        var w = form.querySelector('[data-email-warn]') || (function () { var p = document.createElement('p'); p.className = 'auth-warn'; form.insertBefore(p, btn); return p; })();
+        w.innerHTML = NONINST_WARN; w.hidden = false;
+        btn.innerHTML = 'Continue with this email &nbsp;→';
+        input.focus(); return;
+      }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         input.setAttribute('aria-invalid', 'true'); say('Please enter a valid email address.', true); input.focus(); return;
       }

@@ -1,6 +1,6 @@
 -- 010: Ai4Qi is for NHS, HSE and university staff.
 -- Work and university emails get in straight away. Anyone else can ask for access: a request is
--- approved automatically after 15 minutes unless an admin rejects it first (or approves it sooner).
+-- approved automatically after 5 minutes unless an admin rejects it first (or approves it sooner).
 -- Admins can also allow a whole domain (for example a hospital that does not use nhs.net).
 -- Safe to run again.
 
@@ -78,7 +78,7 @@ begin
   select * into r from public.access_requests q where q.user_id = p_user;
   if not found then return 'none'; end if;
   if r.decision = 'rejected' then return 'rejected'; end if;
-  if r.decision = 'approved' or r.created_at < now() - interval '15 minutes' then return 'ok'; end if;
+  if r.decision = 'approved' or r.created_at < now() - interval '5 minutes' then return 'ok'; end if;
   return 'pending';
 end $$;
 
