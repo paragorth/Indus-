@@ -3607,7 +3607,7 @@
       'Sign in', 'account', true);
   }
   var NONINST_NOTE = 'Personal email: access to build and run audits follows in about 5 minutes. Institutional emails (NHS, HSE or university) get instant access.';
-  var NONINST_WARN = '<strong>Use your institutional email (NHS, HSE or university) for instant access.</strong> Personal emails need moderation and have delayed access (about 5 minutes). To go ahead with this email, press Continue again.';
+  var NONINST_WARN = '<strong>Use your institutional email (NHS, HSE or university) for instant access.</strong> Personal emails need moderation and have delayed access (about 5 minutes).';
   document.addEventListener('input', function (e) {
     var i = e.target.closest && e.target.closest('#acc-email'); if (!i) return;
     var g = i.parentNode.querySelector('.em-ghost');
@@ -3615,8 +3615,14 @@
     var w = main.querySelector('[data-email-warn]'), v = i.value.trim(), done = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v);
     if (!w) return;
     var f = i.form; if (f && f.getAttribute('data-warned') && f.getAttribute('data-warned') !== v.toLowerCase()) {
-      f.removeAttribute('data-warned'); w.hidden = true;
+      f.removeAttribute('data-warned');
       var bt = f.querySelector('button[type="submit"]'); if (bt) bt.innerHTML = 'Continue &nbsp;→';
+    }
+    // As soon as a full personal address is typed (e.g. ...@gmail.com), say what that means.
+    w.hidden = !(done && !isInstitutional(v));
+    if (!w.hidden && f) {                      // warned while typing: one press of Continue then goes ahead
+      w.innerHTML = NONINST_WARN; f.setAttribute('data-warned', v.toLowerCase());
+      var bt2 = f.querySelector('button[type="submit"]'); if (bt2) bt2.innerHTML = 'Continue with this email &nbsp;→';
     }
   });
   function renderLinkConfirm() {
