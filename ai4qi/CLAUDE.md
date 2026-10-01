@@ -106,6 +106,19 @@ avoid repeating the problem (e.g. "Not an important topic" → pick higher-volum
 The app collects feedback on the device and posts it to `feedback_url` in `app/config.json` once a
 collector is set; add received entries to `feedback.json`.
 
+## Site ideas ("Suggest a change", #/ideas)
+
+Visitors post ideas for the site; they are private (feedback rows with audit_id `SITE-<area>-<random>`,
+readable only by admins). When the owner asks for the ideas, they press **Copy ideas for Claude** on
+`#/admin/feedback` and paste the text. Then, compressed:
+1. Group by part (building, audit page, data sheet, results, presentation, signing in, other) and
+   merge duplicates and near-duplicates into one line each, with a count (how many people asked).
+2. For each: one plain line of what people want, the count, and a verdict - **Makes sense** (what we
+   would build, in one line, and roughly how big), **Already there** (where it is), or **Not now**
+   (why: risk, cost, patient data, against the rules above).
+3. Ask the owner to choose per idea with AskUserQuestion (Yes / No / Something else), most-asked
+   first, at most 4 per question round; then build the yes ones, test, commit, push.
+
 ## Answer shape (for "can I audit X?")
 
 Short. No preamble. The corpus gives examples; you may also propose new audits nobody has done (say so).

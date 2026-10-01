@@ -2761,6 +2761,13 @@
     else ta.value = o.getAttribute('data-text') || '';
   });
 
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest || !e.target.closest('[data-ideas-copy]')) return;
+    var st = main.querySelector('[data-ideas-status]'), t = S.ideasText || '';
+    function fallback() { var ta = document.createElement('textarea'); ta.value = t; ta.rows = 8; ta.className = 'ideas-copy'; e.target.closest('p').appendChild(ta); ta.select(); if (st) st.textContent = 'Select all and copy the text below.'; }
+    try { navigator.clipboard.writeText(t).then(function () { if (st) st.textContent = 'Copied. Paste it into your Claude conversation.'; }, fallback); } catch (err) { fallback(); }
+  });
+
   var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'security'], LEGAL = null;
   function renderLegal(slug) {
     function show(all) {
@@ -4007,6 +4014,10 @@
       return '<li><p class="meta">' + esc(dateGB(r.created_at)) + ' · ' + esc(lab) + (r.user_id ? ' · signed in' : '') + '</p><p class="adm-comment">' + esc(r.comment) + '</p></li>';
     }).join('') + '</ul>' : '<p class="empty">No ideas yet.</p>');
     var per = summarise(rows), up = 0, down = 0;
+    S.ideasText = 'Ai4Qi site ideas (' + ideas.length + '), newest first. Format: date | part | signed in | idea\n' + ideas.map(function (r) {
+      var area = (String(r.audit_id).split('-')[1] || 'other');
+      return String(r.created_at || '').slice(0, 10) + ' | ' + area + ' | ' + (r.user_id ? 'yes' : 'no') + ' | ' + String(r.comment || '').replace(/\s+/g, ' ');
+    }).join('\n');
     per.forEach(function (a) { up += a.up; down += a.down; });
     var withComments = rows.filter(function (r) { return r.comment; });
     var table = per.length
@@ -4024,7 +4035,9 @@
         }).join('') + '</ul>'
       : '<p class="empty">No comments yet.</p>';
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/account">Account</a> › Feedback</nav>' +
-      '<h1>Feedback on proposed audits</h1>' +
+      '<h1>Feedback</h1>' + '<section class="adm-ideas">' + ideasHtml +
+      (ideas.length ? '<p><button class="btn" type="button" data-ideas-copy>Copy ideas for Claude</button> <span class="muted" data-ideas-status>Then paste them into your Claude conversation and ask for a review.</span></p>' : '') + '</section>' +
+      '<h2>Feedback on proposed audits</h2>' +
       '<p class="page-intro">Counts include each person’s latest rating of an audit. The CSV contains every response received.</p>' +
       '<ul class="stats"><li class="stat"><b>' + fmt(rows.length) + '</b><span>responses</span></li>' +
       '<li class="stat"><b>' + fmt(per.length) + '</b><span>audits rated</span></li>' +
