@@ -3585,7 +3585,7 @@
       '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a sign-in link.</p>' + err +
       '<form class="auth-form" data-signin novalidate>' +
       '<label for="acc-email" class="sr-only">Email address</label>' +
-      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
+      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="e.g. firstname.lastname@nhs.net">' +
       '<p class="auth-warn" data-email-warn hidden></p>' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
