@@ -3275,7 +3275,7 @@
     // scanner that opens the link cannot use it up, and the link points to the site it came from).
     var th = q.get('token_hash'), ty = q.get('type');
     if (!err && !q.get('code') && !h.get('access_token') && !th) return null;
-    return { error: err || '', tokenHash: th || '', type: /^(email|magiclink|signup|invite|email_change)$/.test(ty || '') ? ty : 'email' };
+    return { error: err || '', code: q.get('code') || '', tokenHash: th || '', type: /^(email|magiclink|signup|invite|email_change)$/.test(ty || '') ? ty : 'email' };
   })();
   var ORIGINAL_HASH = location.hash;
   if (AUTH_RETURN) history.replaceState(null, '', location.pathname + location.search + '#/account');
@@ -3335,6 +3335,9 @@
           return res;
         }).then(function (res) {
           if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
+          // A ?code= link only works in the browser it was asked from (e.g. requested in Chrome, opened in
+          // Safari, the Mac's default): offer the code from the same email instead of a dead end.
+          if (AUTH_RETURN && AUTH_RETURN.code && !AUTH_RETURN.error && !(res.data && res.data.session)) BE.otherBrowser = true;
           if (AUTH_RETURN) cleanAuthUrl();
           BE.client = c;
           BE.user = res.data && res.data.session ? res.data.session.user : null;
@@ -3578,6 +3581,11 @@
     // A work email's link scanner (Microsoft Defender on NHSmail) can open the link first and use it up,
     // along with the code in that email. A fresh code, typed rather than clicked, always works.
     var err = BE.authError ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or was already used. Send a new one below.</div>' : '';
+    if (BE.otherBrowser && known) err = '<div class="notice notice-warn" role="alert">That link opened in a different browser from the one you asked in. Type the code from the same email instead:</div>' +
+      '<form class="auth-form auth-code" data-otp novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
+      '<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="Code from the email" aria-label="Code from the email">' +
+      '<button class="btn auth-wide" type="submit">Sign in</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      '<p class="auth-note">No code in the email? Send a new link below and open it in this browser.</p>';
     var body = known ?
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
       '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err + (isInstitutional(known) ? '' : '<p class="auth-warn">' + NONINST_NOTE + '</p>') +
