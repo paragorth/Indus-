@@ -61,9 +61,12 @@ def main():
             if key is None or key in done:
                 queued.add(pth)
     keys = [k for k in keys if os.path.join(IN_DIR, fname(k)) not in queued]
-    keys = [k for k in keys if len(recs[k].get("abstract") or "") >= 200]   # title-only records carry no results
+    def has_ft(k):
+        return bool(recs[k].get("pmcid")) and os.path.exists(os.path.join(pipeline.FT_DIR, f"{recs[k].get('pmcid')}.xml"))
+    # title-only records carry no results, unless the full text is cached (fetch_fulltext.py)
+    keys = [k for k in keys if len(recs[k].get("abstract") or "") >= 200 or has_ft(k)]
     from extra_harvest import CLINICAL, NOT_CLINICAL      # drop financial, IT and research-governance "audits"
-    keys = [k for k in keys if CLINICAL.search((recs[k].get("title") or "") + " " + (recs[k].get("abstract") or ""))
+    keys = [k for k in keys if (CLINICAL.search((recs[k].get("title") or "") + " " + (recs[k].get("abstract") or "")) or has_ft(k))
             and not NOT_CLINICAL.search(recs[k].get("title") or "")]
     if a.limit:
         keys = keys[:a.limit]
