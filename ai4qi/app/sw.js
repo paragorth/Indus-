@@ -2,7 +2,7 @@
 'use strict';
 
 // Stamped by build_app_data.py on every rebuild; a new value makes browsers install a fresh cache.
-var VERSION = 'b642d8823e65';
+var VERSION = 'ac69fe4a39e5';
 var PREFIX = 'ai4qi-';
 // GEN 2 (Sep 2026): caches from before the redirect fix are dropped on activate, whatever VERSION says.
 var GEN = 'g2-';

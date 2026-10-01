@@ -3883,7 +3883,7 @@
     page('<article class="doc narrow ideas">' +
       '<p class="eyebrow-k">Make Ai4Qi better</p><h1>Hit a block? Found a problem? Want something changed?</h1>' +
       '<p class="page-intro">Post it here and we will make the change for you. We read every post and build the good ones, often within days.</p>' +
-      (sent ? '<div class="idea-done" role="status"><b>Sent!</b><span>' + esc(IDEA_THANKS().replace(/^Sent! /, '')) + '</span>' +
+      (sent ? '<div class="idea-done" role="status"><b>' + esc(IDEA_THANKS()) + '</b>' +
         '<button type="button" class="btn btn-secondary" data-idea-again>Post another</button></div>' :
       '<form class="idea-form" data-idea novalidate>' +
         '<fieldset><legend>Which part?</legend><div class="idea-areas">' + IDEA_AREAS.map(function (a, i) {
