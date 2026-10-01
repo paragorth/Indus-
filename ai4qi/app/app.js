@@ -3928,6 +3928,17 @@
     try { (el.requestFullscreen || el.webkitRequestFullscreen).call(el); } catch (err) {}
   });
 
+  // The QR button in the header: the big code over the page; click anywhere or Esc to close.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-qr-open]')) {
+      var o = document.createElement('div'); o.className = 'qr-overlay'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'QR code for ai4qi.com');
+      o.innerHTML = '<div class="qr-card"><img src="icons/qr-launch.png" alt="QR code for ai4qi.com" width="888" height="1058"></div><p class="qr-ov-t">Scan to start your audit</p><p class="qr-ov-x">Tap anywhere to close</p>';
+      document.body.appendChild(o); return;
+    }
+    var ov = e.target.closest && e.target.closest('.qr-overlay'); if (ov) ov.remove();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var ov = document.querySelector('.qr-overlay'); if (ov) ov.remove(); } });
+
   function renderSignedOut() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>You are signed out</h1>' +
       '<p class="auth-sub">Your audits stay on this device. Sign in again to get reminders.</p>' +
