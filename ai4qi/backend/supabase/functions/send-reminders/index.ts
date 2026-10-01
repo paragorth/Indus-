@@ -214,5 +214,43 @@ Deno.serve(async (req) => {
     await sleep(600); // stay under Resend's per-second request limit
   }
 
-  return reply(200, { users: byUser.size, emails, items, failed, dry_run: dryRun });
+  // 4. Replies to "Report a problem or suggest a change" posts: each reply is emailed once to the
+  //    person who posted. Replies are published at SITE_URL/data/idea_replies.json as
+  //    [{ "id": "<feedback row id>", "status": "done" | "exists" | "not_possible", "reply": "..." }].
+  let replies = 0;
+  try {
+    const res = await fetch(`${site}/data/idea_replies.json`, { headers: { "Cache-Control": "no-cache" } });
+    const list = res.ok ? await res.json() as { id: string; status: string; reply: string }[] : [];
+    const ids = list.filter((x) => x && /^[0-9a-f-]{36}$/.test(x.id) && x.reply).map((x) => x.id);
+    const { data: sent } = ids.length ? await admin.from("idea_emails").select("idea_id").in("idea_id", ids) : { data: [] };
+    const done = new Set((sent ?? []).map((r: { idea_id: string }) => r.idea_id));
+    for (const it of list) {
+      if (!ids.includes(it.id) || done.has(it.id)) continue;
+      const { data: post } = await admin.from("feedback").select("user_id, comment").eq("id", it.id).maybeSingle();
+      if (!post?.user_id) { await admin.from("idea_emails").insert({ idea_id: it.id, status: "no address" }); continue; }
+      const { data: got } = await admin.auth.admin.getUserById(post.user_id);
+      const email = got?.user?.email;
+      if (!email) continue;
+      const head = it.status === "done" ? "Done: your change is on Ai4Qi" : it.status === "exists" ? "Good news: Ai4Qi already does this" : "About your suggestion for Ai4Qi";
+      const asked = String(post.comment || "").replace(/\s*\[reply wanted\]\s*$/, "").slice(0, 300);
+      const text = `You wrote: "${asked}"\n\n${it.reply}\n\nThank you for helping us make Ai4Qi better.\n${site}`;
+      const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+      const html = `<div style="font-family:Arial,sans-serif;color:#0B1F3A;max-width:520px"><p style="font-family:Georgia,serif;font-size:20px">Ai4Qi</p>` +
+        `<p style="color:#586174">You wrote: <em>${esc(asked)}</em></p><p style="font-size:16px;line-height:1.5">${esc(it.reply)}</p>` +
+        `<p style="color:#586174">Thank you for helping us make Ai4Qi better.<br><a href="${site}">${site}</a></p></div>`;
+      if (dryRun) { console.log(JSON.stringify({ dry_run: true, idea: it.id, subject: head })); replies++; continue; }
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": `ai4qi-idea-${it.id}` },
+        body: JSON.stringify({ from, to: [email], subject: head, text, html }),
+      });
+      if (!r.ok) { console.error("idea reply failed", it.id, r.status); continue; }
+      await r.body?.cancel();
+      await admin.from("idea_emails").insert({ idea_id: it.id, status: it.status });
+      replies++;
+      await sleep(600);
+    }
+  } catch (e) { console.error("idea replies", e instanceof Error ? e.message : String(e)); }
+
+  return reply(200, { users: byUser.size, emails, items, failed, replies, dry_run: dryRun });
 });

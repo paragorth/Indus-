@@ -3663,7 +3663,7 @@
   // Straight after signing in: back to the audit they were on, otherwise to My audits (the dashboard).
   function signedInHome() {
     var h = ''; try { h = localStorage.getItem(AFTER_SIGNIN) || ''; localStorage.removeItem(AFTER_SIGNIN); } catch (e) {}
-    return /^#\/(build|proposed\/|run\/|suggest)/.test(h) ? h : '#/my-audits';
+    return /^#\/(build|proposed\/|run\/|suggest|ideas)/.test(h) ? h : '#/my-audits';
   }
   // After the emailed link: offer to carry on straight away; the profile is optional.
   function afterSigninHref() {
@@ -3837,10 +3837,17 @@
   var IDEA_AREAS = [['build', 'Building an audit'], ['audit', 'Audit page'], ['sheet', 'Data sheet'], ['results', 'Results'],
     ['slides', 'Presentation'], ['signin', 'Signing in'], ['other', 'Something else']];
   function renderIdeas(sent) {
+    if (BE.url && !BE.user && !sent) {
+      page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div>' +
+        '<h1>Hit a block or want a change?</h1><p class="auth-sub">Sign in to post it, so we can email you our answer: done, where it already is, or why we cannot change it.</p>' +
+        '<a class="btn auth-wide" href="#/account" data-ideas-signin>Sign in to post</a></div></div>', 'Suggest a change', '');
+      try { localStorage.setItem(AFTER_SIGNIN, '#/ideas'); } catch (e) {}
+      return;
+    }
     page('<article class="doc narrow ideas">' +
       '<p class="eyebrow-k">Make Ai4Qi better</p><h1>Hit a block? Found a problem? Want something changed?</h1>' +
       '<p class="page-intro">Post it here and we will make the change for you. We read every post and build the good ones, often within days.</p>' +
-      (sent ? '<div class="idea-done" role="status"><b>Thank you, it is with us.</b><span>We read every post and make the change if it helps.</span>' +
+      (sent ? '<div class="idea-done" role="status"><b>Thank you, it is with us.</b><span>We read every post and will email you our answer.</span>' +
         '<button type="button" class="btn btn-secondary" data-idea-again>Post another</button></div>' :
       '<form class="idea-form" data-idea novalidate>' +
         '<fieldset><legend>Which part?</legend><div class="idea-areas">' + IDEA_AREAS.map(function (a, i) {
@@ -3849,7 +3856,7 @@
         '<label for="idea-t">What happened, or what would you change?</label>' +
         '<textarea id="idea-t" name="text" rows="5" maxlength="480" placeholder="e.g. The results page should also show the trend by ward, or: I could not find where to change the sample size."></textarea>' +
         '<p class="idea-count" data-idea-count>0 / 480</p>' +
-        (BE.user ? '<label class="check"><input type="checkbox" name="reply"><span>Tell me when it is done (we use your account email; nothing else is shared).</span></label>' : '') +
+        '<p class="idea-mail">We email you our answer: done, where it already is, or why we cannot change it.</p>' +
         '<p class="muted idea-note">Read by the Ai4Qi team. Please do not include names or patient details.</p>' +
         '<button class="btn" type="submit">Post it</button><p class="form-status" role="status" data-idea-status></p>' +
       '</form>') + '</article>', 'Suggest a change', '');
@@ -3865,7 +3872,7 @@
     if (txt.length < 5) { st.textContent = 'Please write a few words about your idea.'; st.classList.add('is-error'); return; }
     var area = (f.querySelector('input[name="area"]:checked') || {}).value || 'other';
     var rnd = Math.random().toString(36).slice(2, 8);
-    recordFeedback('SITE-' + area + '-' + rnd, 'up', [], (txt + (f.elements.reply && f.elements.reply.checked ? ' [reply wanted]' : '')).slice(0, 500));
+    recordFeedback('SITE-' + area + '-' + rnd, 'up', [], txt.slice(0, 500));
     renderIdeas(true);
   });
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-idea-again]')) renderIdeas(false); });

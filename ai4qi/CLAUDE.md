@@ -119,6 +119,12 @@ Claude**. Then, compressed:
    (why: risk, cost, patient data, against the rules above).
 3. Ask the owner to choose per idea with AskUserQuestion (Yes / No / Something else), most-asked
    first, at most 4 per question round; then build the yes ones, test, commit, push.
+4. Every post gets an emailed answer. Add one entry per post (use each post's id from read_ideas.py;
+   duplicates each get their own entry) to `new_audits/idea_replies.json`:
+   `{"id": "...", "status": "done" | "exists" | "not_possible", "reply": "two or three plain sentences"}`
+   - done: what changed and where to find it; exists: where it already is (page and button);
+   not_possible: the honest reason. Rebuild (build_app_data.py), commit and push; the daily
+   send-reminders run emails each reply once (migration 012 records it).
 
 ## Answer shape (for "can I audit X?")
 

@@ -354,6 +354,8 @@ def main():
     for key, rows in shards.items():
         dump(DATA / "audits" / f"{key}.json", rows)
     dump(DATA / "proposed.json", proposed)
+    ir = HERE / "new_audits" / "idea_replies.json"            # replies to "suggest a change" posts, emailed by send-reminders
+    dump(DATA / "idea_replies.json", json.loads(ir.read_text(encoding="utf-8")) if ir.exists() else [])
     dump(DATA / "cards.json", cards)
     dump(DATA / "standards.json", standards)
     dump(DATA / "legal.json", build_legal(cfg))

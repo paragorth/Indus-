@@ -14,4 +14,4 @@ req = urllib.request.Request(url + "/rest/v1/rpc/site_ideas", data=json.dumps({"
 rows = json.load(urllib.request.urlopen(req, timeout=30))
 print(f"{len(rows)} ideas in the last {days} days")
 for r in rows:
-    print(f"{r['created']} | {r['part']} | {r['idea']}")
+    print(f"{r['id']} | {r['created']} | {r['part']} | {r['idea']}")
