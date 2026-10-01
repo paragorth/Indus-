@@ -108,9 +108,10 @@ collector is set; add received entries to `feedback.json`.
 
 ## Site ideas ("Suggest a change", #/ideas)
 
-Visitors post ideas for the site; they are private (feedback rows with audit_id `SITE-<area>-<random>`,
-readable only by admins). When the owner asks for the ideas, they press **Copy ideas for Claude** on
-`#/admin/feedback` and paste the text. Then, compressed:
+Visitors post problems and ideas for the site (feedback rows with audit_id `SITE-<area>-<random>`).
+When the owner asks for them, read them yourself: `python3 read_ideas.py [days]` (public function
+`site_ideas()`, migration 011: text, part and date only). The admin page also has **Copy ideas for
+Claude**. Then, compressed:
 1. Group by part (building, audit page, data sheet, results, presentation, signing in, other) and
    merge duplicates and near-duplicates into one line each, with a count (how many people asked).
 2. For each: one plain line of what people want, the count, and a verdict - **Makes sense** (what we

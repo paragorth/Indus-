@@ -46,6 +46,7 @@ All of this is optional: we collect it only when you use the feature.
 | "My audits" progress: which audit, which step, dates | To show your progress | Legitimate interests |
 | Usage events: sign-up, audit started or completed, days active | To report use, in totals | Legitimate interests |
 | Feedback: rating, reasons, optional comment, a random device number | To improve the library; the number limits spam | Legitimate interests |
+| Posts on "Report a problem or suggest a change": what you wrote, which part of the site, the date | To fix problems and improve the site. The Ai4Qi team and its tools read the text, part and date only (not who posted it) | Legitimate interests |
 | Topics you type into "Build an audit", and the protocols built | To build and reuse audits | Legitimate interests |
 | Reminders (on for signed-in users unless you turn them off in Account): audit question, next step (such as "Collect cycle 1 data (32 of 40 entered)"), due date | To email you when a step is due | Legitimate interests |
 | Your email choices (news, sponsor offers) and when you changed them | To send only what you asked for | Consent |

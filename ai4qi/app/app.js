@@ -2438,7 +2438,7 @@
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
       protectionBox() + '</details>';
-    var idea = '<a class="idea-card no-print" href="#/ideas"><b>Something not quite right?</b><span>Tell us what to change and we will build it for you.</span><i aria-hidden="true">→</i></a>';
+    var idea = '<a class="idea-card no-print" href="#/ideas"><b>Hit a block, found a problem, or want something changed?</b><span>Post it here and we will make the change for you.</span><i aria-hidden="true">→</i></a>';
     page('<div class="dash-top"><div><h1>My audits</h1><p class="page-intro">' + hello + '</p></div>' + startNew + '</div>' + signedNote + stats + body + idea + care, 'My audits', 'my-audits');
   }
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
@@ -2743,7 +2743,7 @@
           'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
         sec(4, 'Re-audit data', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit. The results below then show before and after.</p>' + cyclePanel(r, 'c2', st)) +
       '</details>' +
-      sec(5, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId)) + '<a class="idea-card no-print" href="#/ideas"><b>Could the results or slides be better?</b><span>Tell us what to change and we will build it for you.</span><i aria-hidden="true">→</i></a>') +
+      sec(5, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId)) + '<a class="idea-card no-print" href="#/ideas"><b>Found a problem, or want the results or slides changed?</b><span>Post it here and we will make the change for you.</span><i aria-hidden="true">→</i></a>') +
       sec(6, 'Files for you', dl) +
       '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
       '</article>', 'My audit', 'my-audits');
@@ -3838,20 +3838,20 @@
     ['slides', 'Presentation'], ['signin', 'Signing in'], ['other', 'Something else']];
   function renderIdeas(sent) {
     page('<article class="doc narrow ideas">' +
-      '<p class="eyebrow-k">Make Ai4Qi better</p><h1>What would you change?</h1>' +
-      '<p class="page-intro">Tell us one thing that would make Ai4Qi work better for you. We read every idea and build the good ones, often within days.</p>' +
-      (sent ? '<div class="idea-done" role="status"><b>Thank you, your idea is with us.</b><span>We will look at it and, if it helps, build it.</span>' +
-        '<button type="button" class="btn btn-secondary" data-idea-again>Suggest another</button></div>' :
+      '<p class="eyebrow-k">Make Ai4Qi better</p><h1>Hit a block? Found a problem? Want something changed?</h1>' +
+      '<p class="page-intro">Post it here and we will make the change for you. We read every post and build the good ones, often within days.</p>' +
+      (sent ? '<div class="idea-done" role="status"><b>Thank you, it is with us.</b><span>We read every post and make the change if it helps.</span>' +
+        '<button type="button" class="btn btn-secondary" data-idea-again>Post another</button></div>' :
       '<form class="idea-form" data-idea novalidate>' +
         '<fieldset><legend>Which part?</legend><div class="idea-areas">' + IDEA_AREAS.map(function (a, i) {
           return '<label class="idea-chip"><input type="radio" name="area" value="' + a[0] + '"' + (i === IDEA_AREAS.length - 1 ? ' checked' : '') + '><span>' + a[1] + '</span></label>';
         }).join('') + '</div></fieldset>' +
-        '<label for="idea-t">Your idea</label>' +
+        '<label for="idea-t">What happened, or what would you change?</label>' +
         '<textarea id="idea-t" name="text" rows="5" maxlength="480" placeholder="e.g. The results page should also show the trend by ward, or: I could not find where to change the sample size."></textarea>' +
         '<p class="idea-count" data-idea-count>0 / 480</p>' +
         (BE.user ? '<label class="check"><input type="checkbox" name="reply"><span>Tell me when it is done (we use your account email; nothing else is shared).</span></label>' : '') +
-        '<p class="muted idea-note">Please do not include patient details.</p>' +
-        '<button class="btn" type="submit">Send my idea</button><p class="form-status" role="status" data-idea-status></p>' +
+        '<p class="muted idea-note">Read by the Ai4Qi team. Please do not include names or patient details.</p>' +
+        '<button class="btn" type="submit">Post it</button><p class="form-status" role="status" data-idea-status></p>' +
       '</form>') + '</article>', 'Suggest a change', '');
   }
   document.addEventListener('input', function (e) {
@@ -4490,7 +4490,7 @@
       '<form class="hb-form" role="search" data-help-form><label class="visually-hidden" for="help-q">Your question</label>' +
       '<input id="help-q" type="search" autocomplete="off" placeholder="Ask a question, e.g. how do I upload data?"></form>' +
       '<div class="hb-res" data-help-res aria-live="polite"></div>' +
-      '<a class="hb-idea" href="#/ideas" data-help-close><b>💡 Suggest a change</b><span>Tell us what would make Ai4Qi better and we will build it.</span></a>' +
+      '<a class="hb-idea" href="#/ideas" data-help-close><b>💡 Hit a block or want a change?</b><span>Post it here and we will make the change for you.</span></a>' +
       '<p class="hb-foot">Answers come from this site. Nothing you type in the search box is sent anywhere. <a href="#/how-it-works" data-help-close>How Ai4Qi works</a></p>';
     document.body.appendChild(box); document.body.appendChild(btn);
     var inp = box.querySelector('#help-q'), res = box.querySelector('[data-help-res]'), t = null;
