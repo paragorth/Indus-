@@ -1216,3 +1216,13 @@ details.dash-done > summary h2::after { content: "\25BE"; font-size: .9rem; colo
 .bd-bars .bd-pair i { height: 9px; }
 .rd-hero .rd-tb i.is-c1 { background: linear-gradient(90deg, #4f8fe0, #6aa6ee); }
 .rd-hero .rd-tb i.is-c2 { background: linear-gradient(90deg, #1baf7a, #3fd09a); }
+/* the change: suggested 1, suggested 2 or your own */
+.chg-opts { border: 0; padding: 0; margin: 0 0 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; grid-column: 1 / -1; }
+.chg-opts legend { font-weight: 700; margin-bottom: 8px; padding: 0; }
+.chg-opt { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1.5px solid var(--border-strong); border-radius: 12px; background: var(--surface); cursor: pointer; }
+.chg-opt:has(input:checked) { border-color: var(--gold); background: var(--gold-soft); box-shadow: 0 0 0 2px var(--gold-soft); }
+.chg-opt input { margin-top: 3px; accent-color: var(--gold); flex: none; }
+.chg-opt b { display: block; font-size: .95rem; }
+.chg-opt small { display: block; color: var(--muted); font-size: .88rem; line-height: 1.45; margin-top: 2px; }
+.loop-change .lc-k { display: inline; font-size: inherit; letter-spacing: 0; text-transform: none; color: var(--gold); margin-right: 6px; }
+.loop-change .lc-alt { margin: 0 0 6px; color: var(--text); line-height: 1.45; }

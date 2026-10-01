@@ -611,7 +611,8 @@
         (st[2] ? '<span class="fl-w">' + esc(st[2]) + '</span>' : '') + '</div><p>' + linkify(st[3]) + '</p></div></li>';
     }).join('') + '</ol>';
     var change = '<div class="loop-change"><span class="lc-i" aria-hidden="true">' + FLOW_ICON.change + '</span><div><b>The change</b><p>' + linkify(noDot(p.change)) + '.</p>' +
-      '<small>This is a suggestion you can change. Pick what will work on your ward, agree it with your team, and record it in My audits.</small></div></div>';
+      (p.change_alt ? '<p class="lc-alt"><b class="lc-k">Or change 2</b>' + linkify(noDot(p.change_alt)) + '.</p>' : '') +
+      '<small>These are suggestions you can change. Pick one, or your own, that will work on your ward, agree it with your team, and record it in My audits.</small></div></div>';
     return { strip: strip, detail: detail, change: change };
   }
   window.addEventListener('beforeprint', function () { document.querySelectorAll('details.loop-part').forEach(function (d) { d.open = true; }); });
@@ -2610,10 +2611,17 @@
       'Email reminders are on: once you start an audit, we email you when a step is due (only the audit question, the step and its date; never your data). <a href="#/account">Turn them off</a>' :
       'Email reminders are off. <a href="#/account">Turn them on</a>') :
       '<a href="#/account">Sign in</a> to get an email when a step is due.') + '</p>' : '';
-    var changeForm = '<form class="det-form" data-run-change><div class="rec-f rec-wide"><label for="rc-desc">What did you change?</label><textarea id="rc-desc" name="description" rows="3" maxlength="600">' + esc(r.changeMade.description || '') + '</textarea></div>' +
+    var chg = r.changeMade.description || '', alt = p.change_alt || '';
+    var pick = !chg ? '' : chg === noDot(p.change) + '.' || chg === p.change ? '1' : alt && (chg === alt || chg === noDot(alt) + '.') ? '2' : 'own';
+    function opt(v, title, text) {
+      return '<label class="chg-opt"><input type="radio" name="pick" value="' + v + '"' + (pick === v ? ' checked' : '') + (text ? ' data-text="' + attr(noDot(text) + '.') + '"' : '') + '>' +
+        '<span><b>' + title + '</b>' + (text ? '<small>' + esc(noDot(text)) + '.</small>' : '<small>Write the change that fits your ward.</small>') + '</span></label>';
+    }
+    var changeForm = '<form class="det-form" data-run-change><fieldset class="chg-opts"><legend>Choose the change</legend>' +
+      opt('1', 'Suggested change 1', p.change) + (alt ? opt('2', 'Suggested change 2', alt) : '') + opt('own', 'My own change', '') + '</fieldset>' +
+      '<div class="rec-f rec-wide"><label for="rc-desc">What did you change? <span class="muted">You can edit this</span></label><textarea id="rc-desc" name="description" rows="3" maxlength="600">' + esc(chg) + '</textarea></div>' +
       '<div class="rec-f"><label for="rc-date">Date it started</label><input id="rc-date" name="date" type="date" value="' + attr(r.changeMade.date || '') + '"></div>' +
-      '<div class="rec-actions"><button class="btn" type="submit">Save change</button><span class="form-status" role="status" data-chg-status></span></div>' +
-      '<p class="muted">Planned in the protocol: ' + esc(p.change) + '</p></form>';
+      '<div class="rec-actions"><button class="btn" type="submit">Save change</button><span class="form-status" role="status" data-chg-status></span></div></form>';
     var results = resultsDash(r, st) +
       st.breakdowns.map(function (b) {
         var all = b.cycles.c1.concat(b.cycles.c2), max = Math.max.apply(null, all.map(function (x) { return x.n; }).concat([1]));
@@ -2675,6 +2683,13 @@
     var d = e.target; if (!d.matches || !d.matches('[data-reaudit-part]')) return;
     var run = d.closest('[data-run]'); S.view.reauditOpen = d.open && run ? run.getAttribute('data-run') : null;
   }, true);
+
+  document.addEventListener('change', function (e) {
+    var o = e.target.closest && e.target.closest('.chg-opt input[name="pick"]'); if (!o) return;
+    var ta = o.form && o.form.elements.description; if (!ta) return;
+    if (o.value === 'own') { if (o.form.querySelector('[data-text]') && Array.prototype.some.call(o.form.querySelectorAll('[data-text]'), function (x) { return x.getAttribute('data-text') === ta.value; })) ta.value = ''; ta.focus(); }
+    else ta.value = o.getAttribute('data-text') || '';
+  });
 
   var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'security'], LEGAL = null;
   function renderLegal(slug) {
