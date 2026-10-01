@@ -20,6 +20,10 @@ def need(cond, good, bad, soft=False):
 
 
 cfg = json.loads((APP / "config.json").read_text())
+# Older Safari (before 16.4) cannot parse look-behind patterns; one in the code stops the whole site loading there.
+import re as _re
+_lb = [f for f in ("app.js", "export.js", "sw.js") if _re.search(r"\(\?<[=!]", (APP / f).read_text(encoding="utf-8"))]
+need(not _lb, "no look-behind patterns (older Safari can load the site)", "look-behind regex in " + ", ".join(_lb) + ": older Safari cannot load the site")
 L = cfg.get("legal") or {}
 site = (L.get("site_url") or "").strip()
 need(site.startswith("https://"), f"site address set ({site})", "config.json legal.site_url: the live address, e.g. https://ai4qi.org")

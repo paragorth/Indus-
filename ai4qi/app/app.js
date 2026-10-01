@@ -527,7 +527,7 @@
      why and how; status; a rule; closing the loop (change, re-audit, embed); a rule; evidence;
      pitfalls and pearls together in one box. */
   function whyPoints(t) {
-    var parts = String(t || '').replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+(?=[A-Z\[])/).filter(Boolean);
+    var parts = String(t || '').replace(/\s+/g, ' ').trim().replace(/([.!?])\s+(?=[A-Z\[])/g, '$1\u0001').split('\u0001').filter(Boolean);
     if (parts.length < 2) return '<p class="prose why-lead">' + linkify(t) + '</p>';
     return '<ul class="why-list">' + parts.map(function (x) { return '<li>' + linkify(x) + '</li>'; }).join('') + '</ul>';
   }
@@ -801,7 +801,7 @@
   function bullets(items, cls) { return items.length ? '<ul class="' + cls + '">' + items.map(function (x) { return '<li>' + linkify(cap(x)) + '</li>'; }).join('') + '</ul>' : ''; }
   function selectionHtml(t) {
     var inc = [], exc = [];
-    String(t || '').split(/(?<=\.)\s+(?=[A-Z])/).forEach(function (sent) {
+    String(t || '').replace(/\.\s+(?=[A-Z])/g, '.\u0001').split('\u0001').forEach(function (sent) {
       var x = sent.trim(); if (!x) return;
       if (/^(exclude[sd]?|exclusions?|excluding)\b\s*:?\s*/i.test(x)) exc = exc.concat(splitTop(x.replace(/^(exclude[sd]?|exclusions?|excluding)\b\s*:?\s*/i, ''), /[,;]/));
       else inc.push(x.replace(/^(include[sd]?|inclusions?( criteria)?)\b\s*:?\s*/i, '').replace(/[.\s]+$/, ''));
