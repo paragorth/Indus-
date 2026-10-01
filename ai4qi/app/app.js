@@ -3568,7 +3568,7 @@
     var err = BE.authError ? '<div class="notice notice-warn" role="alert">That link did not sign you in: your email\'s security scanner may have used it first. Send a new code below and <strong>type it in</strong> instead of clicking.</div>' : '';
     var body = known ?
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
-      '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err +
+      '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err + (isInstitutional(known) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
       '<form class="auth-form" data-signin novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
       '<button class="btn auth-wide" type="submit">Email me a sign-in code &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
@@ -3578,14 +3578,23 @@
       '<form class="auth-form" data-signin novalidate>' +
       '<label for="acc-email" class="sr-only">Email address</label>' +
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
+      '<p class="auth-warn" data-email-warn hidden></p>' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      '<p class="auth-tip"><strong>Use your institutional email</strong> (NHS, HSE or university) for instant access. Other emails need a quick approval before you can build or run audits.</p>' +
+      '<p class="auth-tip" data-email-tip><strong>Institutional email</strong> (NHS, HSE or university): instant access.<br><strong>Any other email</strong> (Gmail, Outlook, iCloud…): you can sign in, but building and running audits waits for approval, usually within 15 minutes.</p>' +
       '<p class="auth-note">New here? The same step creates your free account.</p>';
     page('<div class="auth-wrap"><div class="auth-card">' + body + '</div>' +
       '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
   }
+  var NONINST_WARN = '<strong>This is not an institutional email.</strong> You can sign in and browse, but building and running audits waits for approval (usually within 15 minutes). Have an NHS, HSE or university email? Use that for instant access.';
+  document.addEventListener('input', function (e) {
+    var i = e.target.closest && e.target.closest('#acc-email'); if (!i) return;
+    var w = main.querySelector('[data-email-warn]'), v = i.value.trim(), done = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v);
+    if (!w) return;
+    w.hidden = !(done && !isInstitutional(v));
+    if (!w.hidden) w.innerHTML = NONINST_WARN;
+  });
   function renderSent(email) {
     var card = main.querySelector('.auth-card'); if (!card) return;
     card.innerHTML = '<div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
@@ -3596,6 +3605,7 @@
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
       '<button class="btn auth-wide" type="submit">Sign in</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
+      (isInstitutional(email) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
       (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> Not in your inbox? Check <em>Junk</em> and the <em>Other</em> tab, and mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
       '<p class="auth-note">Nothing yet? Check junk. <button type="button" class="link-btn" data-signin-resend="' + attr(email) + '" disabled>Send again</button> · ' +
       '<button type="button" class="link-btn" data-signin-other>Use another email</button></p>';
