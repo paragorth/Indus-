@@ -3868,7 +3868,7 @@
     page('<article class="doc narrow ideas">' +
       '<p class="eyebrow-k">Make Ai4Qi better</p><h1>Hit a block? Found a problem? Want something changed?</h1>' +
       '<p class="page-intro">Post it here and we will make the change for you. We read every post and build the good ones, often within days.</p>' +
-      (sent ? '<div class="idea-done" role="status"><b>Thank you, it is with us.</b><span>We read every post and will email you our answer.</span>' +
+      (sent ? '<div class="idea-done" role="status"><b>Sent!</b><span>' + esc(IDEA_THANKS().replace(/^Sent! /, '')) + '</span>' +
         '<button type="button" class="btn btn-secondary" data-idea-again>Post another</button></div>' :
       '<form class="idea-form" data-idea novalidate>' +
         '<fieldset><legend>Which part?</legend><div class="idea-areas">' + IDEA_AREAS.map(function (a, i) {
@@ -3894,7 +3894,8 @@
     var area = (f.querySelector('input[name="area"]:checked') || {}).value || 'other';
     var rnd = Math.random().toString(36).slice(2, 8);
     recordFeedback('SITE-' + area + '-' + rnd, 'up', [], txt.slice(0, 500));
-    renderIdeas(true);
+    whoosh(); f.elements.text.classList.add('is-sent');
+    setTimeout(function () { renderIdeas(true); }, 650);
   });
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-idea-again]')) renderIdeas(false); });
 
@@ -4477,9 +4478,29 @@
     var txt = scrub(f.elements.text.value.trim(), { redacted: 0 }), st = f.querySelector('.hb-idea-st');
     if (txt.length < 5) { st.textContent = 'Please write a few words.'; return; }
     recordFeedback('SITE-' + (f.elements.area.value || 'other') + '-' + Math.random().toString(36).slice(2, 8), 'up', [], txt.slice(0, 500));
-    f.elements.text.value = '';
-    st.textContent = 'Thank you, it is with us.' + (BE.user ? ' We will email you our answer.' : '');
+    whoosh();
+    var ta = f.elements.text;
+    ta.classList.add('is-sent');                       // the note flies away
+    setTimeout(function () {
+      ta.value = ''; ta.classList.remove('is-sent');
+      st.textContent = IDEA_THANKS();
+    }, 650);
   });
+  function IDEA_THANKS() { return BE.user ? 'Sent! We are looking into it and will email you the result as soon as we can.' : 'Sent! We are looking into it. Sign in next time and we will email you the result.'; }
+  // A short "swoosh": filtered noise sweeping down, made in the browser (no sound file). Only after a tap.
+  function whoosh() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      var ac = whoosh.ac || (whoosh.ac = new AC()), t = ac.currentTime, len = Math.floor(ac.sampleRate * 0.5);
+      var buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
+      var src = ac.createBufferSource(); src.buffer = buf;
+      var bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.2;
+      bp.frequency.setValueAtTime(2400, t); bp.frequency.exponentialRampToValueAtTime(300, t + 0.45);
+      var g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.06); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.48);
+      src.connect(bp); bp.connect(g); g.connect(ac.destination); src.start(t); src.stop(t + 0.5);
+    } catch (e) {}
+  }
   var HELP_IDX = null;
   function helpIndex() {
     if (HELP_IDX) return HELP_IDX;

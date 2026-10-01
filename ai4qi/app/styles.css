@@ -1272,3 +1272,8 @@ details.hb-idea > summary::-webkit-details-marker { display: none; }
 .hb-idea-form .btn { align-self: flex-start; padding: 8px 18px; }
 .hb-idea-st { margin: 0; font-size: .88rem; color: var(--ok-text); }
 .hb-idea-st:empty { display: none; }
+/* a posted suggestion flies away */
+textarea.is-sent { animation: idea-fly .65s cubic-bezier(.5,0,.75,0) forwards; }
+@keyframes idea-fly { 0% { transform: none; opacity: 1; } 20% { transform: translateY(4px) scale(.98); } 100% { transform: translate(140%, -60%) rotate(8deg) scale(.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { textarea.is-sent { animation: none; opacity: .3; } }
+.hb-idea { overflow: hidden; }
