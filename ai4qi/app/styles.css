@@ -1257,3 +1257,9 @@ details.dash-done > summary h2::after { content: "\25BE"; font-size: .9rem; colo
 .hb-idea b { display: block; } .hb-idea span { font-size: .85rem; color: var(--muted); }
 .ideas-copy { display: block; width: 100%; margin-top: 8px; font: 12px/1.4 monospace; } .adm-ideas { margin-bottom: 28px; }
 .idea-mail { margin: 0; padding: 8px 12px; border-radius: 10px; background: var(--primary-tint); font-size: .9rem; }
+/* sign-in: "@nhs.net" shown in grey after what is typed, until an @ is typed */
+.em-wrap { position: relative; }
+.em-wrap #acc-email { text-align: left; }
+.em-ghost { position: absolute; inset: 0; padding: 16px 18px; font-size: 1.1rem; white-space: pre; overflow: hidden; pointer-events: none; text-align: left; }
+.em-ghost [data-em-typed] { color: transparent; }
+.em-ghost .em-suf { color: var(--muted); opacity: .7; }

@@ -3585,7 +3585,8 @@
       '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a sign-in link.</p>' + err +
       '<form class="auth-form" data-signin novalidate>' +
       '<label for="acc-email" class="sr-only">Email address</label>' +
-      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="e.g. firstname.lastname@nhs.net">' +
+      '<div class="em-wrap">' +
+      '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="e.g. firstname.lastname@nhs.net">' + '<span class="em-ghost" aria-hidden="true" hidden><span data-em-typed></span><span class="em-suf">@nhs.net</span></span></div>' +
       '<p class="auth-warn" data-email-warn hidden></p>' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
@@ -3597,6 +3598,8 @@
   var NONINST_WARN = '<strong>Non-institutional emails need admin approval.</strong> For instant access, use your institutional email (NHS, HSE or university).';
   document.addEventListener('input', function (e) {
     var i = e.target.closest && e.target.closest('#acc-email'); if (!i) return;
+    var g = i.parentNode.querySelector('.em-ghost');
+    if (g) { g.firstChild.textContent = i.value; g.hidden = !i.value || i.value.indexOf('@') !== -1; }
     var w = main.querySelector('[data-email-warn]'), v = i.value.trim(), done = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v);
     if (!w) return;
     w.hidden = !(done && !isInstitutional(v));
@@ -3908,6 +3911,7 @@
     function say(text, bad) { status.textContent = text; status.classList.toggle('is-error', !!bad); }
     if (signin) {
       var input = form.querySelector('input[name="email"]'), email = input.value.trim();
+      if (email && email.indexOf('@') === -1 && input.id === 'acc-email') { email += '@nhs.net'; input.value = email; }   // the grey @nhs.net ending
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         input.setAttribute('aria-invalid', 'true'); say('Please enter a valid email address.', true); input.focus(); return;
       }
