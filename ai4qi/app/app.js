@@ -3589,13 +3589,12 @@
       '<p class="auth-warn" data-email-warn hidden></p>' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      '<p class="auth-tip" data-email-tip><strong>Institutional email</strong> (NHS, HSE or university): instant access.<br><strong>Any other email</strong> (Gmail, Outlook, iCloud…): you can sign in, but building and running audits waits for approval, usually within 15 minutes.</p>' +
       '<p class="auth-note">New here? The same step creates your free account.</p>';
     page('<div class="auth-wrap"><div class="auth-card">' + body + '</div>' +
       '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
   }
-  var NONINST_WARN = '<strong>This is not an institutional email.</strong> You can sign in and browse, but building and running audits waits for approval (usually within 15 minutes). Have an NHS, HSE or university email? Use that for instant access.';
+  var NONINST_WARN = '<strong>Non-institutional emails need admin approval.</strong> For instant access, use your institutional email (NHS, HSE or university).';
   document.addEventListener('input', function (e) {
     var i = e.target.closest && e.target.closest('#acc-email'); if (!i) return;
     var w = main.querySelector('[data-email-warn]'), v = i.value.trim(), done = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v);
