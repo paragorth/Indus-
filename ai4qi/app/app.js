@@ -3532,7 +3532,10 @@
       return Promise.all([loadProfile(c), checkAdmin(c)]);
     }).then(function () {
       if (!stillOn('account')) return;
-      if (BE.user) renderSignedIn(); else if (BE.pendingLink) renderLinkConfirm(); else renderSignIn();
+      if (BE.user) renderSignedIn();
+      else if (BE.pendingLink && askedHere()) { renderLinkConfirm(); var lb = main.querySelector('[data-link-confirm]'); if (lb) lb.click(); }   // asked on this device: straight in
+      else if (BE.pendingLink) renderLinkConfirm();
+      else renderSignIn();
       focusMain();
     }, function () { if (stillOn('account')) unavailable('Account', 'account'); });
   }
@@ -3632,6 +3635,11 @@
       var bt2 = f.querySelector('button[type="submit"]'); if (bt2) bt2.innerHTML = 'Continue with this email &nbsp;→';
     }
   });
+  // The link was asked for in this browser in the last 2 hours: an email scanner or another
+  // device never has this mark, so they still get the button and cannot use the link up.
+  function askedHere() {
+    try { var t = +localStorage.getItem('ai4qi_link_asked') || 0; return t && Date.now() - t < 7200000; } catch (e) { return false; }
+  }
   function renderLinkConfirm() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
       '<h1>Finish signing in</h1><p class="auth-sub">' + (lastEmail() ? esc(lastEmail()) : 'Your sign-in link is ready.') + '</p>' +
@@ -3643,7 +3651,7 @@
     var st = main.querySelector('[data-form-status]'), pl = BE.pendingLink;
     b.disabled = true; if (st) st.textContent = 'Signing you in…';
     sbClient().then(function (c) { return c.auth.verifyOtp({ token_hash: pl.h, type: pl.t }); }).then(function (v) {
-      BE.pendingLink = null;
+      BE.pendingLink = null; try { localStorage.removeItem('ai4qi_link_asked'); } catch (e2) {}
       if (v.error) throw v.error;
       S.justSignedIn = true;
       if (v.data && v.data.user) setUser(v.data.user);
@@ -3677,7 +3685,7 @@
     }, 1000);
   }
   function sendLink(email) {
-    try { localStorage.setItem(AFTER_SIGNIN, S.lastRoute || '#/'); } catch (e2) {}
+    try { localStorage.setItem(AFTER_SIGNIN, S.lastRoute || '#/'); localStorage.setItem('ai4qi_link_asked', String(Date.now())); } catch (e2) {}
     return sbClient().then(function (c) {
       return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
     }).then(function (res) { if (res.error) throw res.error; BE.authError = ''; setLastEmail(email); });
