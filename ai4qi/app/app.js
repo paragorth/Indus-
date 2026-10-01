@@ -1323,6 +1323,38 @@
   }
 
   /* Tidy what came back: keep only known citations and sensible shapes. */
+  /* Every audit must quote its standard word for word. When a protocol has a source but no wording
+     (an AI build on a NICE topic whose recommendation number is not in our checked list, or an older
+     saved audit), use the checked standard that fits it best: the same recommendation, else the most
+     relevant recommendation of the same guideline, else the closest standard overall. */
+  function stdKey(src) {
+    var t = String(src || '').toLowerCase(), g = (t.match(/\b(ng|cg|qs|dg|ta|htg|ph|sc)\s?\d+/) || [''])[0].replace(/\s/g, ''),
+      r = (t.match(/\b(?:rec(?:ommendation)?s?|statement|qs\d+\s+statement)\s*(\d+(?:\.\d+)*)/) || [])[1] || '';
+    return { g: g, k: g && r ? g + '|' + r : '' };
+  }
+  function bestByText(list, text) {
+    var want = tokens(text), best = null, top = 0;
+    (list || []).forEach(function (s) {
+      var have = new Set(tokens(s.source + ' ' + s.wording)), n = 0;
+      want.forEach(function (t) { if (have.has(t)) n++; });
+      if (n > top) { top = n; best = s; }
+    });
+    return top >= 2 ? best : null;
+  }
+  function fillStandard(p, ranked) {
+    if (!p) return false;
+    var st = p.standard = p.standard || {};
+    if (String(st.wording || '').trim()) return false;
+    var pool = (ranked || []).concat(S.standards || []).filter(function (s) { return s && String(s.wording || '').trim(); });
+    var want = stdKey(st.source), text = [p.question, p.pass, p.area].join(' '), hit = null;
+    if (want.k) hit = pool.filter(function (s) { return stdKey(s.source).k === want.k; })[0] || null;
+    if (!hit && want.g) hit = bestByText(pool.filter(function (s) { return stdKey(s.source).g === want.g; }), text);
+    if (!hit) hit = bestByText(pool, text);
+    if (!hit) return false;
+    st.source = hit.source; st.wording = hit.wording; if (hit.url) st.url = safeUrl(hit.url);
+    return true;
+  }
+
   function normaliseBuilt(o, q, res, n) {
     if (!o || typeof o !== 'object' || !o.question) throw { code: 'invalid_json' };
     function str(v) { return typeof v === 'string' ? v.trim() : (v == null ? '' : String(v)); }
@@ -1347,16 +1379,8 @@
       resources: res.pubs.slice(0, 8).map(function (a) { return a.id; }),
       similar: null
     };
-    if (!niceAI() && isNice(p.standard)) {                  // NICE wording comes from the library copy, never from the AI
-      var key = function (src) {                           // e.g. "ng253|1.8.3": the guideline and the recommendation number
-        var s = String(src || '').toLowerCase(), g = (s.match(/\b(ng|cg|qs|dg|ta|htg|ph|sc)\s?\d+/) || [''])[0].replace(/\s/g, ''),
-          r = (s.match(/\b(?:rec(?:ommendation)?s?|statement|qs\d+\s+statement)\s*(\d+(?:\.\d+)*)/) || [])[1] || '';
-        return g && r ? g + '|' + r : '';
-      };
-      var want = key(p.standard.source), hit = want ? res.stds.concat(S.standards || []).filter(function (s) { return isNice(s) && key(s.source) === want; })[0] : null;
-      p.standard.wording = hit ? hit.wording : '';          // no exact match: show the source and link only
-      if (hit && !p.standard.url) p.standard.url = safeUrl(hit.url);
-    }
+    if (!niceAI() && isNice(p.standard)) p.standard.wording = '';   // NICE wording comes from the library copy, never from the AI
+    fillStandard(p, res.stds);
     var sim = o.similar;
     if (sim && sim.id && S.pById.has(str(sim.id)) && str(sim.better_because)) p.similar = { id: str(sim.id), better_because: str(sim.better_because) };
     return p;
@@ -1558,6 +1582,7 @@
 
   var BUILT_BADGE = badge('Your bespoke audit', 'primary');
   function showBuilt(p, res, crumbs) {
+    fillStandard(p);
     var dl = sheetButton(p.id) + (window.AI4QI_EMBED ? copyBtn(p.id) : chooseActions(p.id)) + '<span class="copy-status" role="status" data-proto-status></span>';
     if (p.similar) {
       var sp = S.pById.get(p.similar.id);
@@ -2590,6 +2615,7 @@
     if (vaultGate()) return;
     var r = S.runs.get(id);
     if (!r) return renderNotFound();
+    if (fillStandard(r.protocol)) runPut(r);                   // older saves with a source but no wording
     var p = r.protocol, d = r.details, st = runStats(r), ns = nextStep(r), i = stageIdx(r), ck = S.view.runTab || (i >= 4 ? 'c2' : 'c1');
     if (r.demo) ns.due = null;                                   // example audits are backdated: no "was due" warnings on stage
     var overdue = ns.due && ns.due < todayIso() && !r.closed;

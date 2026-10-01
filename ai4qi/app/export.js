@@ -97,6 +97,8 @@
     bdtable: ['The breakdown in numbers', 'Answers by cycle', 'Detailed breakdown', 'Breakdown table'],
     loop: ['How we closed the loop', 'The audit cycle', 'From audit to change', 'Our journey'],
     next: ['What next', 'Next steps', 'Recommendations', 'Where we go from here'],
+    take: ['Take-home message', 'The key message', 'What to remember', 'In one slide'],
+    found2: ['Re-audit: before and after', 'Did the change work?', 'The re-audit', 'After the change'],
     refs: ['References', 'Sources', 'References and sources', 'Bibliography']
   };
   function W(k) { return DECK_WORDS[k][(DECK.wordSet || 0) % DECK_WORDS[k].length]; }
@@ -1020,6 +1022,7 @@
   }
   function stripParens(s) { return clean(s).replace(/\s*\([^)]*\)/g, '').replace(/\s+([,.;])/g, '$1'); }
   function capFirst(s) { s = str(s); return s.charAt(0).toUpperCase() + s.slice(1); }
+  function lowerFirst(s) { s = str(s); return /^[A-Z][A-Z0-9]/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1); }
   function noStop(s) { return clean(s).replace(/[.\s]+$/, ''); }
   var FRACTIONS = [[10, 'one in ten'], [20, 'one in five'], [25, 'one in four'], [100 / 3, 'one in three'], [40, 'two in five'],
     [50, 'half'], [60, 'three in five'], [200 / 3, 'two in three'], [70, 'seven in ten'], [75, 'three in four'], [80, 'four in five'], [90, 'nine in ten']];
@@ -1039,10 +1042,61 @@
   }
   function den(c) { return c ? (c.passN || 0) + (c.failN || 0) : 0; }
   function ofText(c) { return (c.passN || 0) + ' of ' + den(c); }
+  function monRange(c) {
+    var a = parseYmd(c && c.from), b = parseYmd(c && c.to);
+    if (!a) return '';
+    var f = function (d) { return MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+    return b && f(b) !== f(a) ? (a.getUTCFullYear() === b.getUTCFullYear() ? MONTHS[a.getUTCMonth()] : f(a)) + '\u2013' + f(b) : f(a);
+  }
   function dateRange(c) {
     if (!c || !c.from) return '';
     return fmtDate(c.from) + (c.to && c.to !== c.from ? ' \u2013 ' + fmtDate(c.to) : '');
   }
+
+  // The standard, word for word: whole sentences only (never cut mid-sentence), as many as fit the limit.
+  function stdQuote(w, max) {
+    w = clean(w); if (!w) return '';
+    if (w.split(/\s+/).length <= max) return noStop(w);
+    var sents = w.match(/[^.!?]+[.!?]+(\s|$)/g) || [w], out = '';
+    for (var i = 0; i < sents.length; i++) {
+      var next = clean(out + ' ' + sents[i]);
+      if (out && next.split(/\s+/).length > max) break;
+      out = next;
+    }
+    return noStop(out) + (out.length < w.length - 2 ? ' [\u2026]' : '');
+  }
+  /* Did the share meeting the standard really change between the cycles?
+     95% confidence interval of the difference (Newcombe, from Wilson intervals) and a two-sided
+     p value (Fisher's exact test when any expected count is under 5, otherwise the chi-squared test). */
+  function wilson(x, n) {
+    if (!n) return [0, 1];
+    var z = 1.959964, p = x / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d, h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+    return [Math.max(0, c - h), Math.min(1, c + h)];
+  }
+  function lgam(n) { var s = 0; for (var i = 2; i <= n; i++) s += Math.log(i); return s; }
+  function fisher2(a, b, c, d) {
+    var n = a + b + c + d, r1 = a + b, c1 = a + c, lf = function (x) { return lgam(r1) + lgam(n - r1) + lgam(c1) + lgam(n - c1) - lgam(n) - lgam(x) - lgam(r1 - x) - lgam(c1 - x) - lgam(n - r1 - c1 + x); };
+    var p0 = lf(a), tot = 0, lo = Math.max(0, r1 + c1 - n), hi = Math.min(r1, c1);
+    for (var x = lo; x <= hi; x++) { var q = lf(x); if (q <= p0 + 1e-7) tot += Math.exp(q); }
+    return Math.min(1, tot);
+  }
+  function chi2p(a, b, c, d) {
+    var n = a + b + c + d, num = n * Math.pow(a * d - b * c, 2), den = (a + b) * (c + d) * (a + c) * (b + d);
+    if (!den) return 1;
+    var x = Math.sqrt(num / den);                         // |z|; two-sided normal tail
+    var t = 1 / (1 + 0.2316419 * x), y = 0.3989423 * Math.exp(-x * x / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return Math.min(1, 2 * y);
+  }
+  function compareCycles(c1, c2) {
+    var a = c2.passN || 0, b = c2.failN || 0, c = c1.passN || 0, d = c1.failN || 0, n2 = a + b, n1 = c + d;
+    if (!n1 || !n2) return null;
+    var p1 = c / n1, p2 = a / n2, w1 = wilson(c, n1), w2 = wilson(a, n2), diff = p2 - p1;
+    var lo = diff - Math.sqrt(Math.pow(p2 - w2[0], 2) + Math.pow(w1[1] - p1, 2)), hi = diff + Math.sqrt(Math.pow(w2[1] - p2, 2) + Math.pow(p1 - w1[0], 2));
+    var n = n1 + n2, small = [[a + c, n2], [a + c, n1], [b + d, n2], [b + d, n1]].some(function (q) { return q[0] * q[1] / n < 5; });
+    var p = small ? fisher2(a, b, c, d) : chi2p(a, b, c, d);
+    return { diff: diff * 100, lo: lo * 100, hi: hi * 100, p: p, real: p < 0.05, test: small ? "Fisher's exact test" : 'chi-squared test' };
+  }
+  function pText(p) { return p < 0.001 ? 'p < 0.001' : 'p = ' + (p < 0.01 ? p.toFixed(3) : p.toFixed(2)); }
 
   /* ---- Slides ---- */
   function buildSlides(deck, run, stats) {
@@ -1081,7 +1135,15 @@
     }
     var c1Label = (c1 && c1.label) || 'Cycle 1';
     var c2Label = (c2 && c2.label) || 'Re-audit';
-    var title = clean(D.title) || clean(P.question) || 'Clinical audit results';
+    var qFull = clean(P.question);
+    var title = clean(D.title) && clean(D.title) !== qFull ? clean(D.title) : capFirst(clean(P.short) || qFull || 'Clinical audit results');
+    var qSub = qFull && qFull !== title ? words(qFull, 34) : '';
+    // The audit's name, big, with the question under it.
+    function titleBlock(sl, x, y, w, h, o) {
+      var nh = qSub ? h * 0.58 : h;
+      sl.text(title, x, y, w, nh, { size: o.size || 44, min: 24, font: DECK_FONTS.head, color: o.color, lineSpacing: 0.95, align: o.align, anchor: qSub ? 'b' : (o.anchor || 't') });
+      if (qSub) sl.text(qSub, x, y + nh + 0.12, w, h - nh - 0.12, { size: 17, min: 11, color: o.qcolor, align: o.align, lineSpacing: 1.08 });
+    }
     var today = fmtDate(new Date());
     // For cause-type fields ("reason for delay"), the no-problem option is not a cause: leave it off the slides.
     var NO_CAUSE = /^(no delay|no delays|none|nil|no reason|no problem|no issue|not applicable|n\/?a|not delayed|on time)$/i;
@@ -1120,14 +1182,14 @@
       s = add(DECK.paper, true);
       s.rect(0, 0, SW, 4.3, DECK.navy);
       s.text('CLINICAL AUDIT', X0, 0.9, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldDark });
-      s.text(title, X0, 1.3, 11.2, 2.7, { size: 40, min: 24, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95, anchor: 'b' });
+      titleBlock(s, X0, 1.3, 11.2, 2.85, { size: 40, color: DECK.paper, qcolor: DECK.greyOnNavy });
       s.rect(X0, 4.3, 1.4, 0.1, DECK.gold);
       if (sub) s.text(sub, X0, 4.85, 11, 0.5, { size: 16, min: 11, color: DECK.navy });
       s.text(today, X0, 5.4, 6, 0.35, { size: 12, color: DECK.muted });
     } else if (ts === 'underline') {
       s = add(DECK.paper, true);
       s.text('CLINICAL AUDIT', X0, 1.2, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldText });
-      s.text(title, X0, 1.65, 11.2, 3.0, { size: 44, min: 26, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 0.95, anchor: 'b' });
+      titleBlock(s, X0, 1.65, 11.2, 3.1, { size: 44, color: DECK.navy, qcolor: DECK.muted });
       s.rect(X0, 4.9, 2.4, 0.14, DECK.gold);
       if (sub) s.text(sub, X0, 5.35, 11, 0.5, { size: 16, min: 11, color: DECK.muted });
       s.text(today, X0, 5.9, 6, 0.35, { size: 12, color: DECK.muted });
@@ -1135,7 +1197,7 @@
       s = add(DECK.navy, true);
       s.rect(SW / 2 - 0.5, 1.5, 1.0, 0.06, DECK.goldDark);
       s.text('CLINICAL AUDIT', 1.5, 1.7, SW - 3, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldDark, align: 'ctr' });
-      s.text(title, 1.5, 2.1, SW - 3, 2.6, { size: 42, min: 24, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95, align: 'ctr', anchor: 'ctr' });
+      titleBlock(s, 1.5, 2.0, SW - 3, 2.8, { size: 42, color: DECK.paper, qcolor: DECK.greyOnNavy, align: 'ctr' });
       if (sub) s.text(sub, 1.5, 4.95, SW - 3, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy, align: 'ctr' });
       s.text(today, 1.5, 5.45, SW - 3, 0.35, { size: 12, color: DECK.greyOnNavy, align: 'ctr' });
     } else if (ts === 'band' || ts === 'split') {
@@ -1158,18 +1220,18 @@
         s.text('CLINICAL AUDIT', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldText });
         s.text(today, X0, SH - 1.0, 6, 0.35, { size: 12, color: DECK.muted });
       }
-      s.text(title, tx0, 2.0, tw0, 2.9, { size: 42, min: 24, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 0.95 });
+      titleBlock(s, tx0, 1.95, tw0, 2.95, { size: 42, color: DECK.navy, qcolor: DECK.muted });
       if (sub) s.text(sub, tx0, 5.0, tw0, 0.5, { size: 16, min: 11, color: DECK.muted });
     } else {
       s = add(DECK.navy, true);
       if (ts === 'frame') s.shape({ x: 0.35, y: 0.35, w: SW - 0.7, h: SH - 0.7, line: DECK.goldDark, lineW: 1.5 });
       if (ts === 'stripe') { s.rect(0, SH - 0.32, SW, 0.32, DECK.gold); s.rect(X0, 1.3, 0.9, 0.06, DECK.goldDark); }
       s.text('CLINICAL AUDIT', X0, 1.55, 6, 0.3, { size: 11, bold: true, spc: 300, color: DECK.goldDark });
-      s.text(title, X0, 2.0, 10.4, 2.6, { size: 44, min: 26, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 0.95 });
+      titleBlock(s, X0, 1.95, 10.4, 2.8, { size: 44, color: DECK.paper, qcolor: DECK.greyOnNavy });
       if (sub) s.text(sub, X0, 4.85, 10.4, 0.45, { size: 16, min: 11, color: DECK.greyOnNavy });
       s.text(today, X0, 5.3, 6, 0.35, { size: 12, color: DECK.greyOnNavy });
     }
-    s.note(title, clean(P.question) && clean(P.question) !== title ? 'Audit question: ' + clean(P.question) : '',
+    s.note(title, qFull && qFull !== title ? 'Audit question: ' + qFull : '',
       sub ? 'Presented by: ' + sub : '', clean(D.team) ? 'Team: ' + clean(D.team) : '', clean(D.supervisor) ? 'Supervisor: ' + clean(D.supervisor) : '',
       (run && run.auditId) || P.id ? 'Audit reference: ' + ((run && run.auditId) || P.id) : '');
 
@@ -1197,10 +1259,9 @@
     eyebrow(s, W('standard'));
     var qW = target ? 8.0 : XW - 0.4;
     s.line(X0, 1.6, X0, 4.9, DECK.gold, 1.25);
-    var quote = noStop(std.wording) || 'Standard wording not recorded';
-    if (quote.split(/\s+/).length > 45) quote = words(quote, 40);
-    s.text('\u201c' + quote + '\u201d', X0 + 0.4, 1.5, qW, 3.5,
-      { size: 30, min: 18, font: DECK_FONTS.head, italic: true, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
+    var quote = stdQuote(std.wording, 75) || 'Standard wording not recorded';
+    s.text('\u201c' + quote + '\u201d', X0 + 0.4, 1.3, qW, 3.9,
+      { size: 28, min: 14, font: DECK_FONTS.head, italic: true, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
     if (clean(std.source)) s.text(hsrc(std.source), X0 + 0.4, 5.3, qW, 0.7, { size: 12, min: 9, color: DECK.muted });
     if (/^https?:\/\//i.test(str(std.url))) s.text(trunc(std.url, 110), X0 + 0.4, 6.05, qW, 0.3, { size: 10, min: 8, color: DECK.grey, link: clean(std.url) });
     if (target) {
@@ -1221,7 +1282,7 @@
     if (c2 && c2.n > 0) howMany.push(c2Label + ': ' + c2.n + ' records' + (dateRange(c2) ? ' (' + dateRange(c2) + ')' : ''));
     var mrows = [['', ''],
       ['Audit question', words(clean(P.question), 40)],
-      ['Standard', words(noStop(std.wording) || hsrc(std.source) || 'Not recorded', 32) + (clean(std.source) ? '\n' + hsrc(std.source) : '')],
+      ['Standard', (stdQuote(std.wording, 45) || hsrc(std.source) || 'Not recorded') + (clean(std.source) ? '\n' + hsrc(std.source) : '')],
       ['Pass criterion', words(clean(P.pass), 30) || 'Not defined'],
       ['Selection criteria', words(clean(P.population), 30) || 'Not recorded'],
       ['Data collection', words(clean(P.data_source), 26) || 'Not recorded'],
@@ -1234,113 +1295,138 @@
       if (c && c.n > 0) s.note((c.label || c.key) + ': ' + c.n + ' records audited' + (dateRange(c) ? ', ' + dateRange(c) : '') + '.');
     });
 
-    /* 5. What we found (cycle 1) */
+    /* 5. Cycle 1 result: cycle 1 only */
     if (has1) {
-      var dark1 = !keyIsC2;
-      s = add(dark1 ? DECK.navy : DECK.paper);
+      s = add(DECK.navy);
       var p1 = c1.pct, m1 = met(p1), near1 = nearPhrase(p1), head1;
       if (m1 === null) head1 = capFirst(near1) + ' met the standard';
-      else if (m1) head1 = capFirst(near1) + ' met the standard \u2014 target reached';
+      else if (m1) head1 = capFirst(near1) + ' met the standard — target reached';
       else if (tv - p1 <= 10) head1 = 'Close, but short: ' + near1 + ' met the standard';
       else head1 = fewerThan(p1) ? 'Fewer than ' + fewerThan(p1) + ' met the standard' : capFirst(near1) + ' met the standard';
-      eyebrow(s, W('found') + (has2 && W('found') !== 'Cycle 1 results' ? ' \u00b7 ' + c1Label : ''), dark1 ? DECK.greyOnNavy : DECK.muted);
-      s.text(pctText(p1), X0 - 0.08, 1.35, 6.4, 2.4, { size: 140, min: 90, font: DECK_FONTS.head, color: dark1 ? DECK.goldDark : DECK.navy, anchor: 'ctr' });
-      s.text(head1, X0, 3.85, 6.6, 1.6, { size: 30, min: 18, font: DECK_FONTS.head, color: dark1 ? DECK.paper : DECK.navy, lineSpacing: 1.0 });
-      s.text(c1.n + ' audited' + (dateRange(c1) ? '  \u00b7  ' + dateRange(c1) : '') + (tv !== null ? '  \u00b7  target ' + tOp + ' ' + tv + '%' : ''),
-        X0, 5.75, 6.6, 0.35, { size: 12, color: dark1 ? DECK.greyOnNavy : DECK.muted });
-      donut(s, SW - X0 - 2.15, 3.35, 1.95, c1, dark1);
+      eyebrow(s, W('found') === 'Cycle 1 results' ? 'Cycle 1 results' : W('found') + ' · ' + c1Label, DECK.greyOnNavy);
+      s.text(pctText(p1), X0 - 0.08, 1.35, 6.4, 2.4, { size: 140, min: 90, font: DECK_FONTS.head, color: DECK.goldDark, anchor: 'ctr' });
+      s.text(head1, X0, 3.85, 6.6, 1.6, { size: 30, min: 18, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 1.0 });
+      s.text(c1.n + ' audited' + (dateRange(c1) ? '  ·  ' + dateRange(c1) : '') + (tv !== null ? '  ·  target ' + tOp + ' ' + tv + '%' : ''),
+        X0, 5.75, 6.6, 0.35, { size: 12, color: DECK.greyOnNavy });
+      donut(s, SW - X0 - 2.15, 3.35, 1.95, c1, true);
       s.note(head1 + '.', c1Label + ': ' + ofText(c1) + ' (' + (Math.round(p1 * 10) / 10) + '%) met the standard; records audited: ' + c1.n +
         (den(c1) < c1.n ? ' (' + (c1.n - den(c1)) + ' not applicable or blank, excluded from the percentage)' : '') + '.',
-        targetText ? 'Target: ' + targetText + (m1 === null ? '' : m1 ? ' \u2014 met.' : ' \u2014 not met.') : '');
+        targetText ? 'Target: ' + targetText + (m1 === null ? '' : m1 ? ' — met.' : ' — not met.') : '');
     }
 
-    /* 6. Why it happened (small multiples) */
-    if (breakdowns.length) {
+    /* Breakdown slides: cycle 1 alone, then (after the re-audit) cycle 1 against the re-audit. */
+    function breakdownSlide(both) {
+      var list = breakdowns.filter(function (b) { return (b.cycles.c1 || []).some(function (o) { return o.n > 0; }) || (both && (b.cycles.c2 || []).some(function (o) { return o.n > 0; })); });
+      if (!list.length) return;
       s = add();
-      var causeLike = breakdowns.some(function (b) { return /delay|reason|barrier|cause|why|fail/i.test(b.field + ' ' + (b.label || '')); });
-      headline(s, causeLike ? W('barriers') : W('mix'), 0.7, { size: 32 });
-      var shown = breakdowns.slice(0, 3);
-      var anyC2 = has2 && shown.some(function (b) { return (b.cycles.c2 || []).some(function (o) { return o.n > 0; }); });
-      if (anyC2) {
-        s.runs([{ text: '\u25a0', size: 12, color: DECK.grey }, { text: ' ' + c1Label, size: 12, color: DECK.muted },
-          { text: '      \u25a0', size: 12, color: DECK.gold }, { text: ' ' + c2Label, size: 12, color: DECK.muted }], X0, 1.55, 6, 0.3);
+      var causeLike = list.some(function (b) { return b.causes; });
+      headline(s, (causeLike ? W('barriers') : W('mix')) + (both ? ': before and after' : ''), 0.7, { size: 32 });
+      var shown = list.slice(0, 3);
+      if (both) {
+        s.runs([{ text: '■', size: 12, color: DECK.grey }, { text: ' ' + c1Label + (c1 ? ' (' + den(c1) + ' cases)' : ''), size: 12, color: DECK.muted },
+          { text: '      ■', size: 12, color: DECK.gold }, { text: ' ' + c2Label + ' (' + den(c2) + ' cases)', size: 12, color: DECK.muted }], X0, 1.55, 9, 0.3);
       } else {
-        s.text('Top answers, ' + c1Label.toLowerCase() + (c1 && c1.n ? ' (' + c1.n + ' cases)' : ''), X0, 1.55, 8, 0.3, { size: 12, color: DECK.muted });
+        s.text(c1Label + (c1 && c1.n ? ', ' + c1.n + ' cases' : '') + (dateRange(c1) ? ', ' + dateRange(c1) : ''), X0, 1.55, 9, 0.3, { size: 12, color: DECK.muted });
       }
       var k = shown.length, gap = 0.6, colW = (XW - gap * (k - 1)) / k;
       shown.forEach(function (b, bi) {
         var m1b = {}, m2b = {}, order = [];
         (b.cycles.c1 || []).forEach(function (o) { m1b[o.option] = o.n || 0; if (order.indexOf(o.option) < 0) order.push(o.option); });
-        if (anyC2) (b.cycles.c2 || []).forEach(function (o) { m2b[o.option] = o.n || 0; if (order.indexOf(o.option) < 0) order.push(o.option); });
+        if (both) (b.cycles.c2 || []).forEach(function (o) { m2b[o.option] = o.n || 0; if (order.indexOf(o.option) < 0) order.push(o.option); });
         order = order.filter(function (o) { return (m1b[o] || 0) + (m2b[o] || 0) > 0; });
         order.sort(function (a, c) { return ((m1b[c] || 0) - (m1b[a] || 0)) || ((m2b[c] || 0) - (m2b[a] || 0)); });
-        var total = order.length;
+        var total = order.length, sum1 = 0, sum2 = 0;
+        order.forEach(function (o) { sum1 += m1b[o] || 0; sum2 += m2b[o] || 0; });
         order = order.slice(0, 5);
         var mx = 1;
         order.forEach(function (o) { mx = Math.max(mx, m1b[o] || 0, m2b[o] || 0); });
-        var x = X0 + bi * (colW + gap), y = 2.2;
-        var wide = k === 1;
+        var x = X0 + bi * (colW + gap), y = 2.2, wide = k === 1;
         s.text((clean(b.label) || humanLabel(b.field)).toUpperCase(), x, y, colW, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
         y += 0.5;
-        // A share of the whole with few answers reads best as a pie; causes and before/after pairs stay as bars.
-        if (!b.causes && !anyC2 && total >= 2 && total <= 5) {
-          var sum = 0; order.forEach(function (o) { sum += m1b[o] || 0; });
+        if (!b.causes && !both && total >= 2 && total <= 5) {
           var pr = wide ? 1.75 : Math.min(colW / 2 - 0.25, 1.25), pcx = wide ? x + pr + 0.2 : x + colW / 2, pcy = y + pr + 0.15;
           s.pie(pcx, pcy, pr, order.map(function (o, oi) { return { v: m1b[o] || 0, color: DECK.series[oi % DECK.series.length] }; }), 0);
           order.forEach(function (o, oi) {
             var lab = o === null || o === undefined || o === '' ? '(blank)' : trunc(capFirst(o), wide ? 40 : 24), v = m1b[o] || 0;
             var lx = wide ? x + 2 * pr + 0.9 : x, ly = wide ? pcy - order.length * 0.28 + oi * 0.56 : pcy + pr + 0.35 + oi * 0.36;
-            s.runs([{ text: '\u25a0 ', size: wide ? 16 : 13, color: DECK.series[oi % DECK.series.length] },
+            s.runs([{ text: '■ ', size: wide ? 16 : 13, color: DECK.series[oi % DECK.series.length] },
               { text: lab + '  ', size: wide ? 16 : 12, color: DECK.navy },
-              { text: v + ' (' + Math.round(v / sum * 100) + '%)', size: wide ? 16 : 12, bold: true, color: DECK.muted }], lx, ly, wide ? colW - 2 * pr - 0.9 : colW, wide ? 0.5 : 0.34);
+              { text: v + ' (' + Math.round(v / (sum1 || 1) * 100) + '%)', size: wide ? 16 : 12, bold: true, color: DECK.muted }], lx, ly, wide ? colW - 2 * pr - 0.9 : colW, wide ? 0.5 : 0.34);
           });
           return;
         }
-        var rowH = anyC2 ? 0.78 : 0.66;
-        var labW = wide ? 3.6 : colW;
-        var barX = wide ? x + 3.8 : x, barW = (wide ? colW - 3.8 : colW) - 0.55;
+        var rowH = both ? 0.78 : 0.66, labW = wide ? 3.6 : colW, barX = wide ? x + 3.8 : x, barW = (wide ? colW - 3.8 : colW) - 1.2;
         order.forEach(function (o, oi) {
-          var ry = y + oi * rowH;
-          var lab = o === null || o === undefined || o === '' ? '(blank)' : capFirst(o);
+          var ry = y + oi * rowH, lab = o === null || o === undefined || o === '' ? '(blank)' : capFirst(o);
           if (wide) s.text(lab, x, ry, labW, 0.34, { size: 14, min: 10, color: DECK.navy, anchor: 'ctr' });
           else s.text(lab, x, ry, labW, 0.28, { size: 12, min: 9, color: DECK.navy });
-          var by = wide ? ry + (anyC2 ? 0.02 : 0.1) : ry + 0.3;
-          var bars = anyC2 ? [[m1b[o] || 0, DECK.grey], [m2b[o] || 0, DECK.gold]] : [[m1b[o] || 0, DECK.navy]];
+          var by = wide ? ry + (both ? 0.02 : 0.1) : ry + 0.3;
+          var bars = both ? [[m1b[o] || 0, DECK.grey, sum1], [m2b[o] || 0, DECK.gold, sum2]] : [[m1b[o] || 0, DECK.navy, sum1]];
           bars.forEach(function (bb, j) {
             var yy = by + j * 0.2, ww = barW * bb[0] / mx;
-            if (bb[0] <= 0) return;
-            s.rect(barX, yy, Math.max(0.03, ww), 0.14, bb[1]);
-            s.text(String(bb[0]), barX + ww + 0.08, yy - 0.06, 0.5, 0.26, { size: 12, color: DECK.muted, anchor: 'ctr' });
+            if (bb[0] > 0) s.rect(barX, yy, Math.max(0.03, ww), 0.14, bb[1]);
+            s.text(bb[0] + (bb[2] ? ' (' + Math.round(bb[0] / bb[2] * 100) + '%)' : ''), barX + ww + 0.08, yy - 0.06, 1.2, 0.26, { size: 11, color: DECK.muted, anchor: 'ctr' });
           });
         });
         if (total > order.length) s.text('Top 5 of ' + total + ' answers', x, y + order.length * rowH + 0.05, colW, 0.3, { size: 10, color: DECK.grey });
       });
-      breakdowns.forEach(function (b) {
-        var fmt = function (list) { return (list || []).filter(function (o) { return o.n > 0; }).map(function (o) { return o.option + ' ' + o.n; }).join(', '); };
-        s.note((clean(b.label) || humanLabel(b.field)) + ' \u2014 ' + c1Label + ': ' + (fmt(b.cycles.c1) || 'none') +
-          (has2 ? '; ' + c2Label + ': ' + (fmt(b.cycles.c2) || 'none') : '') + '.');
+      list.forEach(function (b) {
+        var fmt = function (l) { return (l || []).filter(function (o) { return o.n > 0; }).map(function (o) { return o.option + ' ' + o.n; }).join(', '); };
+        s.note((clean(b.label) || humanLabel(b.field)) + ' — ' + c1Label + ': ' + (fmt(b.cycles.c1) || 'none') + (both ? '; ' + c2Label + ': ' + (fmt(b.cycles.c2) || 'none') : '') + '.');
       });
-      if (breakdowns.length > 3) s.note('Only the first three breakdowns are shown on the slide.');
     }
+    if (breakdowns.length) breakdownSlide(false);
 
-    /* 7. What we changed */
+    /* Dates for the loop: real dates where we have them; planned ones from the protocol's timeline. */
     var cm = (run && run.changeMade) || {};
     var recorded = !!clean(cm.description);
     var changeText = recorded ? clean(cm.description) : clean(P.change);
+    var segs = parseTl(P.timeline);
+    function seg(re) { return segs.filter(function (x) { return re.test(x.label); })[0]; }
+    function addDays(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+    function monthYear(d) { return d ? MONTHS[d.getMonth()] + ' ' + d.getFullYear() : ''; }
+    var chD = parseYmd(cm.date), chDate = chD ? new Date(chD.getUTCFullYear(), chD.getUTCMonth(), chD.getUTCDate()) : null;
+    var sC = seg(/change/i), sR = seg(/re-?audit/i);
+    var gapW = sC && sR ? Math.max(2, sR.a - sC.a) : 8;   // weeks from the change to the re-audit, from the timeline
+    var plannedRe = has2 ? null : addDays(chDate || new Date(), gapW * 7);
+
+    /* 6. The change, with its dates */
     if (changeText) {
       s = add();
       var lbl = recorded ? (fmtDate(cm.date) ? 'Started ' + fmtDate(cm.date) : 'In place') : 'Planned';
       s.runs([{ text: W('change').toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.muted },
-        { text: '   \u00b7   ' + lbl.toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.goldText }], X0, 0.75, 9, 0.3);
+        { text: '   ·   ' + lbl.toUpperCase(), size: 11, bold: true, spc: 200, color: DECK.goldText }], X0, 0.75, 9, 0.3);
       var sents = changeText.match(/[^.!?]+[.!?]+(\s|$)/g) || [changeText];
       var short = clean(sents.slice(0, 2).join(' '));
       if (short.split(/\s+/).length > 40) short = words(short, 38);
-      s.text(short, X0, 1.9, 10.2, 4.3, { size: 32, min: 18, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
-      s.note((recorded ? 'Change made' : 'Planned change') + ': ' + changeText, recorded && fmtDate(cm.date) ? 'Introduced: ' + fmtDate(cm.date) + '.' : '');
+      s.text(short, X0, 1.3, 11.4, 2.7, { size: 30, min: 18, font: DECK_FONTS.head, color: DECK.navy, lineSpacing: 1.02, anchor: 'ctr' });
+      // the loop on a dated line
+      var bedFrom = chDate ? fmtDate(chDate) : '', bedTo = has2 && c2.from ? fmtDate(c2.from) : '';
+      var steps = [
+        ['Cycle 1 data', has1 ? (dateRange(c1) || 'Done') : 'To collect', has1],
+        ['Change started', chDate ? fmtDate(chDate) : 'Date to set', !!chDate],
+        ['Bedding in', bedFrom && bedTo ? bedFrom + ' – ' + bedTo : chDate ? gapW + ' weeks from ' + fmtDate(chDate) : gapW + ' weeks', has2],
+        ['Re-audit', has2 ? (dateRange(c2) || 'Done') : 'Planned ' + monthYear(plannedRe), has2]
+      ];
+      var n4 = steps.length, gx = XW / n4, cy = 4.75, r = 0.32;
+      s.line(X0 + gx / 2, cy, X0 + gx * (n4 - 0.5), cy, DECK.hairline, 2.5);
+      steps.forEach(function (st, i) {
+        var cx = X0 + gx * (i + 0.5);
+        if (i < n4 - 1 && st[2] && steps[i + 1][2]) s.line(cx, cy, cx + gx, cy, DECK.gold, 2.5);
+        var isCh = i === 1;
+        var rr = isCh ? r + 0.1 : r;
+        s.shape({ x: cx - rr, y: cy - rr, w: 2 * rr, h: 2 * rr, geom: 'ellipse', fill: st[2] ? DECK.gold : DECK.paper, line: st[2] || isCh ? DECK.gold : DECK.grey, lineW: 2 });
+        s.text(st[2] ? '✓' : String(i + 1), cx - rr, cy - rr, 2 * rr, 2 * rr, { size: 16, bold: true, color: st[2] ? DECK.paper : DECK.navy, align: 'ctr', anchor: 'ctr' });
+        s.text(st[0], cx - gx / 2 + 0.05, cy + rr + 0.15, gx - 0.1, 0.35, { size: 14, bold: true, color: DECK.navy, align: 'ctr' });
+        s.text(st[1], cx - gx / 2 + 0.05, cy + rr + 0.52, gx - 0.1, 0.55, { size: 12, color: DECK.muted, align: 'ctr' });
+      });
+      s.note((recorded ? 'Change made' : 'Planned change') + ': ' + changeText, chDate ? 'Introduced: ' + fmtDate(chDate) + '.' : '',
+        steps.map(function (st) { return st[0] + ': ' + st[1]; }).join('; ') + '.');
     }
 
-    /* 8. After the change (dark, key result) */
+    /* 7. Re-audit result, compared with cycle 1 */
     var diff = has1 && has2 ? c2.pct - c1.pct : null;
+    var cmp2 = has1 && has2 ? compareCycles(c1, c2) : null;
     if (has2) {
       s = add(DECK.navy);
       var m2 = met(c2.pct), mBefore = has1 ? met(c1.pct) : null, head2;
@@ -1353,32 +1439,33 @@
         else if (m2) head2 = dir + (mBefore ? ', still above target' : ', now above target');
         else head2 = dir + ', still short of target';
       }
-      eyebrow(s, W('after'), DECK.greyOnNavy);
+      eyebrow(s, W('found2'), DECK.greyOnNavy);
       s.text(head2, X0, 1.1, XW, 1.0, { size: 34, min: 22, font: DECK_FONTS.head, color: DECK.paper });
-      var ny = 2.75, nh = 2.0;
-      var lx = X0, rx = X0 + 7.3, nw = 3.6;
+      var ny = 2.55, nh = 2.0, lx = X0, rx = X0 + 7.3, nw = 3.6;
       if (has1) {
         s.text(pctText(c1.pct), lx - 0.06, ny, nw, nh, { size: 110, min: 72, font: DECK_FONTS.head, color: DECK.grey, anchor: 'ctr' });
-        s.text(c1Label + '  \u00b7  ' + ofText(c1), lx, ny + nh + 0.05, nw, 0.35, { size: 13, color: DECK.greyOnNavy });
-        // slope between the two figures
+        s.text(c1Label + '  ·  ' + ofText(c1) + (dateRange(c1) ? '\n' + dateRange(c1) : ''), lx, ny + nh + 0.05, nw, 0.6, { size: 13, color: DECK.greyOnNavy });
         var sx1 = lx + nw + 0.1, sx2 = rx - 0.35, mid = ny + nh / 2, k2 = 1.6;
         var y1 = mid + (c2.pct - c1.pct) / 100 * k2 / 2, y2 = mid - (c2.pct - c1.pct) / 100 * k2 / 2;
         s.line(sx1, y1, sx2, y2, DECK.goldDark, 1.5);
         s.shape({ x: sx1 - 0.07, y: y1 - 0.07, w: 0.14, h: 0.14, geom: 'ellipse', fill: DECK.grey });
         s.shape({ x: sx2 - 0.07, y: y2 - 0.07, w: 0.14, h: 0.14, geom: 'ellipse', fill: DECK.goldDark });
-        var dtxt = (diff > 0 ? '+' : diff < 0 ? '\u2212' : '\u00b1') + (Math.round(Math.abs(diff) * 10) / 10) + ' pts';
+        var dtxt = (diff > 0 ? '+' : diff < 0 ? '−' : '±') + (Math.round(Math.abs(diff) * 10) / 10) + ' pts';
         s.text(dtxt, (sx1 + sx2) / 2 - 1.0, Math.min(y1, y2) - 0.55, 2.0, 0.4, { size: 16, bold: true, color: DECK.goldDark, align: 'ctr' });
       }
       s.text(pctText(c2.pct), rx - 0.06, ny, nw, nh, { size: 110, min: 72, font: DECK_FONTS.head, color: DECK.goldDark, anchor: 'ctr' });
-      s.text(c2Label + '  \u00b7  ' + ofText(c2), rx, ny + nh + 0.05, nw, 0.35, { size: 13, color: DECK.greyOnNavy });
-      if (tv !== null) s.text('Target ' + tv + '%', X0, 6.45, 4, 0.3, { size: 12, color: DECK.greyOnNavy });
+      s.text(c2Label + '  ·  ' + ofText(c2) + (dateRange(c2) ? '\n' + dateRange(c2) : ''), rx, ny + nh + 0.05, nw, 0.6, { size: 13, color: DECK.greyOnNavy });
+      var verdict = cmp2 ? (cmp2.real ? (diff > 0 ? 'A real improvement' : 'A real fall') + ', unlikely to be chance (' + pText(cmp2.p) + ')' :
+        'This difference could be chance (' + pText(cmp2.p) + '): more cases would settle it') : '';
+      if (verdict) s.text(verdict + (cmp2 ? '.  95% CI of the change: ' + (cmp2.lo >= 0 ? '+' : '') + Math.round(cmp2.lo) + ' to ' + (cmp2.hi >= 0 ? '+' : '') + Math.round(cmp2.hi) + ' points.' : ''),
+        X0, 5.65, XW, 0.45, { size: 15, color: DECK.paper });
       if (has1 && diff > 0) {
         var gain = Math.round(diff / 100 * den(c2));
-        if (gain > 0) s.text('About ' + gain + ' more patients out of ' + den(c2) + ' now get it right.', X0, 5.75, XW, 0.45, { size: 16, color: DECK.paper });
+        if (gain > 0) s.text('About ' + gain + ' more patients out of ' + den(c2) + ' now get it right.' + (tv !== null ? '   Target ' + tOp + ' ' + tv + '%.' : ''), X0, 6.15, XW, 0.4, { size: 14, color: DECK.greyOnNavy });
       }
       s.note(head2 + '.', has1 ? c1Label + ': ' + ofText(c1) + ' (' + (Math.round(c1.pct * 10) / 10) + '%), ' + c1.n + ' records audited.' : '',
         c2Label + ': ' + ofText(c2) + ' (' + (Math.round(c2.pct * 10) / 10) + '%), ' + c2.n + ' records audited' + (dateRange(c2) ? ', ' + dateRange(c2) : '') + '.',
-        diff !== null ? 'Change: ' + (diff >= 0 ? '+' : '') + (Math.round(diff * 10) / 10) + ' percentage points.' : '',
+        cmp2 ? 'Statistics: change ' + (Math.round(cmp2.diff * 10) / 10) + ' points, 95% confidence interval ' + (Math.round(cmp2.lo * 10) / 10) + ' to ' + (Math.round(cmp2.hi * 10) / 10) + ', ' + pText(cmp2.p) + ' (' + cmp2.test + ').' : '',
         targetText ? 'Target: ' + targetText + '.' : '');
     }
 
@@ -1395,36 +1482,40 @@
       if (tv === null) return;
       var yT = yOf(tv);
       sl.line(x, yT, x + w, yT, DECK.navy, 1.5, 'dash');
-      sl.text('Target ' + tv + '%', x + w - 1.6, yT - 0.36, 1.6, 0.3, { size: 11, bold: true, color: DECK.navy, align: 'r' });
+      sl.text('Target ' + tv + '%', x + 0.05, yT - 0.36, 1.6, 0.3, { size: 11, bold: true, color: DECK.navy });
     }
 
-    /* 8b. Side by side: column chart against the target */
+    /* 8. Side by side: columns against the target, with the numbers in a table */
     if (has1 && has2) {
       s = add();
       headline(s, W('side'), 0.7, { size: 32 });
-      var gx0 = X0 + 0.8, gy0 = 1.95, gw = 6.6, gh = 4.1, yOf = pctAxis(s, gx0, gy0, gw, gh);
+      var gx0 = X0 + 0.8, gy0 = 1.95, gw = 4.6, gh = 4.1, yOf = pctAxis(s, gx0, gy0, gw, gh);
       [[c1, DECK.grey, c1Label], [c2, DECK.gold, c2Label]].forEach(function (cc, i) {
-        var bx = gx0 + 1.0 + i * 2.9, bw = 1.7, top = yOf(cc[0].pct);
+        var bx = gx0 + 0.6 + i * 2.1, bw = 1.4, top = yOf(cc[0].pct);
         s.rect(bx, top, bw, gy0 + gh - top, cc[1]);
         s.text(pctText(cc[0].pct), bx - 0.4, top - 0.62, bw + 0.8, 0.55, { size: 26, font: DECK_FONTS.head, color: DECK.navy, align: 'ctr', anchor: 'b' });
         s.text(cc[2], bx - 0.4, gy0 + gh + 0.1, bw + 0.8, 0.3, { size: 13, bold: true, color: DECK.navy, align: 'ctr' });
-        s.text(ofText(cc[0]) + ' met', bx - 0.4, gy0 + gh + 0.4, bw + 0.8, 0.3, { size: 11, color: DECK.muted, align: 'ctr' });
       });
       targetLine(s, gx0, gw, yOf);
-      var px = gx0 + gw + 0.9, pw = SW - X0 - px;
-      var dd = Math.round((c2.pct - c1.pct) * 10) / 10;
-      [['Change', (dd > 0 ? '+' : dd < 0 ? '−' : '±') + Math.abs(dd) + ' pts'],
-       ['Cases audited', c1.n + ' → ' + c2.n],
-       ['Target', tv === null ? 'Not set' : (met(c2.pct) ? 'Met at re-audit' : 'Not yet met')]].forEach(function (f, i) {
-        var yy = 2.0 + i * 1.35;
-        s.text(f[0].toUpperCase(), px, yy, pw, 0.3, { size: 11, bold: true, spc: 200, color: DECK.goldText });
-        s.text(f[1], px, yy + 0.32, pw, 0.7, { size: 26, min: 16, font: DECK_FONTS.head, color: DECK.navy });
-      });
-      s.note('Column chart: the share of cases meeting the standard in each cycle; the dashed line is the target.',
-        c1Label + ': ' + ofText(c1) + ' (' + pctText(c1.pct) + '). ' + c2Label + ': ' + ofText(c2) + ' (' + pctText(c2.pct) + ').');
+      function pc(c) { return isNum(c.pct) ? pctText(c.pct) : '–'; }
+      var gl = [['', c1Label, c2Label],
+        ['Period', monRange(c1) || '–', monRange(c2) || '–'],
+        ['Records audited', String(c1.n), String(c2.n)],
+        ['Met the standard', String(c1.passN || 0), String(c2.passN || 0)],
+        ['Did not', String(c1.failN || 0), String(c2.failN || 0)],
+        ['Share met', pc(c1), pc(c2)]];
+      if (target) gl.push(['Target ' + tOp + ' ' + tv + '%', met(c1.pct) ? 'Met' : 'Not met', met(c2.pct) ? 'Met' : 'Not met']);
+      if (cmp2) gl.push(['Change (95% CI)', '', (cmp2.diff >= 0 ? '+' : '−') + Math.abs(Math.round(cmp2.diff)) + ' (' + Math.round(cmp2.lo) + ' to ' + Math.round(cmp2.hi) + ')']);
+      if (cmp2) gl.push(['Could it be chance?', '', cmp2.real ? 'Unlikely, ' + pText(cmp2.p) : 'Possibly, ' + pText(cmp2.p)]);
+      var tx0 = gx0 + gw + 0.6, tw = SW - X0 - tx0;
+      s.table(tx0, 1.95, [tw - 3.5, 1.75, 1.75], gl, { size: 13, headSize: 11, boldFirst: true, zebra: true, align: ['l', 'r', 'r'] });
+      s.note('Column chart: the share of cases meeting the standard in each cycle; the dashed line is the target. Table: the same numbers, with the change and its 95% confidence interval.');
     }
 
-    /* 8c. Month by month: a run chart, the usual QI view of change over time */
+    /* 9. The breakdown again, cycle 1 against the re-audit */
+    if (has2 && breakdowns.length) breakdownSlide(true);
+
+    /* 10. Month by month: a run chart */
     var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var pts = [];
     [[c1, 1], [c2, 2]].forEach(function (cc) {
@@ -1434,7 +1525,7 @@
       });
     });
     pts.sort(function (a, b) { return a.m < b.m ? -1 : a.m > b.m ? 1 : a.cyc - b.cyc; });
-    if (pts.length >= 4) {
+    if (has2 && pts.length >= 4) {
       s = add();
       headline(s, W('month'), 0.7, { size: 32 });
       s.runs([{ text: '●', size: 13, color: DECK.grey }, { text: ' ' + c1Label + '     ', size: 12, color: DECK.muted },
@@ -1453,12 +1544,10 @@
         if (ci > 0) {
           var cxm = (xs[ci - 1] + xs[ci]) / 2;
           s.line(cxm, ry0 - 0.1, cxm, ry0 + rh, DECK.gold, 1.25, 'dash');
-          s.text('Change', cxm + 0.08, ry0 - 0.15, 1.2, 0.3, { size: 11, bold: true, color: DECK.goldText });
+          s.text('Change ' + fmtDate(cm.date), cxm + 0.08, ry0 - 0.15, 2.4, 0.3, { size: 11, bold: true, color: DECK.goldText });
         }
       }
-      pts.forEach(function (p, i) {
-        if (i > 0) s.line(xs[i - 1], yOfR(pts[i - 1].pct), xs[i], yOfR(p.pct), DECK.navy, 1.5);
-      });
+      pts.forEach(function (p, i) { if (i > 0) s.line(xs[i - 1], yOfR(pts[i - 1].pct), xs[i], yOfR(p.pct), DECK.navy, 1.5); });
       var every = pts.length > 12 ? 2 : 1;
       pts.forEach(function (p, i) {
         s.shape({ x: xs[i] - 0.09, y: yOfR(p.pct) - 0.09, w: 0.18, h: 0.18, geom: 'ellipse', fill: p.cyc === 2 ? DECK.gold : DECK.grey, line: DECK.paper, lineW: 1 });
@@ -1469,117 +1558,88 @@
         pts.map(function (p) { return MON[+p.m.slice(5) - 1] + ' ' + p.m.slice(0, 4) + ': ' + Math.round(p.pct) + '% of ' + p.n; }).join('; ') + '.');
     }
 
-    /* 8d. Results at a glance: the numbers in a table */
-    if (has1 || has2) {
-      s = add();
-      headline(s, W('glance'), 0.7, { size: 32 });
-      function cyc(c) { return c && c.n > 0 ? c : null; }
-      var A = cyc(c1), B = has2 ? cyc(c2) : null;
-      function pc(c) { return c && isNum(c.pct) ? pctText(c.pct) : '–'; }
-      var gl = [['Measure', c1Label].concat(B ? [c2Label, 'Change'] : []),
-        ['Period', A ? (dateRange(A) || '–') : '–'].concat(B ? [dateRange(B) || '–', ''] : []),
-        ['Records audited', A ? String(A.n) : '–'].concat(B ? [String(B.n), ''] : []),
-        ['Met the standard', A ? String(A.passN || 0) : '–'].concat(B ? [String(B.passN || 0), ((B.passN || 0) - (A ? A.passN || 0 : 0) >= 0 ? '+' : '') + ((B.passN || 0) - (A ? A.passN || 0 : 0))] : []),
-        ['Did not meet it', A ? String(A.failN || 0) : '–'].concat(B ? [String(B.failN || 0), ''] : []),
-        ['Share meeting the standard', pc(A)].concat(B ? [pc(B), A && isNum(A.pct) ? (B.pct - A.pct >= 0 ? '+' : '−') + Math.abs(Math.round((B.pct - A.pct) * 10) / 10) + ' pts' : ''] : [])];
-      if (target) gl.push(['Target ' + tOp + ' ' + tv + '%', A ? (met(A.pct) ? 'Met' : 'Not met') : '–'].concat(B ? [met(B.pct) ? 'Met' : 'Not met', ''] : []));
-      var gcols = B ? [4.2, 2.4, 2.4, XW - 9.0] : [5.0, 3.0];
-      s.table(X0, 1.7, gcols, gl, { size: 16, headSize: 12, boldFirst: true, zebra: true, align: ['l', 'r', 'r', 'r'] });
-      if (B && A && isNum(A.pct) && isNum(B.pct)) {
-        var extra = Math.round((B.pct - A.pct) / 100 * (B.passN + B.failN));
-        if (extra > 0) s.text('About ' + extra + ' more patients out of ' + (B.passN + B.failN) + ' now get it right.', X0, SH - 1.25, XW, 0.5, { size: 18, font: DECK_FONTS.head, color: DECK.goldText });
-      }
-      s.note('Table of results: records audited, number and share meeting the standard' + (target ? ', and whether the ' + tOp + ' ' + tv + '% target was met' : '') + '.');
-    }
-
-    /* 8e. Breakdown in numbers: every answer, with its share, in each cycle */
-    var bdShown = breakdowns.slice(0, 2);
-    if (bdShown.length) {
-      s = add();
-      headline(s, W('bdtable'), 0.7, { size: 32 });
-      var twoB = has2 && bdShown.some(function (b) { return (b.cycles.c2 || []).some(function (o) { return o.n > 0; }); });
-      var br = [['Question', 'Answer', c1Label].concat(twoB ? [c2Label] : [])];
-      bdShown.forEach(function (b) {
-        var t1 = 0, t2 = 0, opts = [];
-        (b.cycles.c1 || []).forEach(function (o) { t1 += o.n || 0; if (opts.indexOf(o.option) < 0) opts.push(o.option); });
-        (b.cycles.c2 || []).forEach(function (o) { t2 += o.n || 0; if (opts.indexOf(o.option) < 0) opts.push(o.option); });
-        function nOf(k, o) { var h = (b.cycles[k] || []).filter(function (x) { return x.option === o; })[0]; return h ? h.n : 0; }
-        opts.slice(0, 6).forEach(function (o, i) {
-          var a1 = nOf('c1', o), a2 = nOf('c2', o);
-          br.push([i === 0 ? trunc(clean(b.label) || humanLabel(b.field), 40) : '', trunc(capFirst(o), 40), a1 + (t1 ? ' (' + Math.round(a1 / t1 * 100) + '%)' : '')].concat(twoB ? [a2 + (t2 ? ' (' + Math.round(a2 / t2 * 100) + '%)' : '')] : []));
-        });
+    /* The main cause still at work (cause-type answers only, never yes/no). */
+    function topCause(key) {
+      var best = null, bb = null;
+      breakdowns.forEach(function (b) {
+        if (!b.causes) return;
+        (b.cycles[key] || []).forEach(function (o) { if (o.n > 0 && clean(o.option) && (!best || o.n > best.n)) { best = o; bb = b; } });
       });
-      var bcols = twoB ? [3.6, 4.1, 1.9, XW - 9.6] : [3.8, 5.0, XW - 8.8];
-      s.table(X0, 1.6, bcols, br, { size: br.length > 10 ? 12 : 14, headSize: 11, boldFirst: true, align: ['l', 'l', 'r', 'r'] });
-      s.note('Counts and shares of each answer' + (twoB ? ' in cycle 1 and at re-audit' : '') + '. Up to six answers for up to two questions are shown.');
+      return best ? { option: clean(best.option), n: best.n, of: den(key === 'c2' ? c2 : c1) } : null;
     }
+    var measure = capFirst(noStop(clean(P.short) || title));
+    // The change in a few words: its first clause (before a colon, semicolon or dash).
+    var changeShort = changeText ? noStop(words(clean(firstSentence(changeText)).split(/\s*[:;\u2013\u2014]\s+|\s+-\s+/)[0], 16)).replace(/\u2026$/, '') : '';
 
-    /* 8f. How we closed the loop: six steps with what happened and when */
+    /* 11. Take-home message */
     (function () {
-      var segs = parseTl(P.timeline);
-      function wk(re) { var sg = segs.filter(function (x) { return re.test(x.label); })[0]; return sg ? 'Week' + (sg.a === sg.b ? ' ' + sg.a : 's ' + sg.a + '–' + sg.b) : ''; }
-      var cmD = fmtDate((run && run.changeMade || {}).date);
-      var steps = [
-        ['Collect cycle 1', has1 ? (dateRange(c1) || 'Done') : wk(/collect/i), has1],
-        ['Analyse and present', has1 ? 'Done' : wk(/analy|present/i), has1],
-        ['Make the change', cmD ? 'From ' + cmD : wk(/change/i), !!cmD || has2],
-        ['Let it bed in', wk(/embed/i), has2],
-        ['Re-audit', has2 ? (dateRange(c2) || 'Done') : wk(/re-?audit/i), has2],
-        ['Share and keep it going', 'Next', false]
-      ];
-      s = add();
-      headline(s, W('loop'), 0.7, { size: 32 });
-      var n6 = steps.length, gapX = XW / n6, cy = 3.3, r = 0.42;
-      steps.forEach(function (st, i) {
-        var cx = X0 + gapX * (i + 0.5);
-        if (i < n6 - 1) s.line(cx + r + 0.08, cy, cx + gapX - r - 0.08, cy, st[2] ? DECK.gold : DECK.hairline, 2.5);
-        s.shape({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, geom: 'ellipse', fill: st[2] ? DECK.gold : DECK.paper, line: st[2] ? DECK.gold : DECK.grey, lineW: 2 });
-        s.text(st[2] ? '✓' : String(i + 1), cx - r, cy - r, 2 * r, 2 * r, { size: 20, bold: true, color: st[2] ? DECK.paper : DECK.navy, align: 'ctr', anchor: 'ctr' });
-        s.text(st[0], cx - gapX / 2 + 0.05, cy + r + 0.2, gapX - 0.1, 0.7, { size: 14, bold: true, color: DECK.navy, align: 'ctr' });
-        if (st[1]) s.text(st[1], cx - gapX / 2 + 0.05, cy + r + 0.9, gapX - 0.1, 0.6, { size: 11, color: DECK.muted, align: 'ctr' });
+      var keyC = has2 ? c2 : has1 ? c1 : null;
+      if (!keyC) return;
+      var mk = met(keyC.pct), lines = [], big;
+      if (has2 && has1) {
+        big = diff > 0 ? measure + ' rose from ' + pctText(c1.pct) + ' to ' + pctText(c2.pct) + ' after the change.' :
+          measure + ': no improvement after the change (' + pctText(c1.pct) + ' before, ' + pctText(c2.pct) + ' after).';
+        if (mk !== null) lines.push(mk ? 'The ' + tOp + ' ' + tv + '% target is now met.' : 'Still ' + Math.round(Math.abs(tv - c2.pct)) + ' points short of the ' + tOp + ' ' + tv + '% target.');
+        var g2 = Math.round(diff / 100 * den(c2));
+        if (g2 > 0) lines.push('About ' + g2 + ' more patients out of every ' + den(c2) + ' now get the right care.');
+        if (cmp2) lines.push(cmp2.real ? 'The improvement is unlikely to be chance (' + pText(cmp2.p) + ').' : 'With these numbers the difference could still be chance (' + pText(cmp2.p) + ').');
+        if (diff > 0 && changeShort) lines.push('What worked: ' + lowerFirst(changeShort) + '.');
+        var tc2 = topCause('c2');
+        if (tc2 && mk === false) lines.push('Main remaining barrier: ' + lowerFirst(tc2.option) + ' (' + tc2.n + ' of ' + tc2.of + ').');
+      } else {
+        big = measure + ': ' + (mk === false ? 'only ' : '') + pctText(c1.pct) + ' met the standard' + (target ? ', against a ' + tOp + ' ' + tv + '% target.' : '.');
+        var tc1 = topCause('c1');
+        if (tc1) lines.push('Main barrier: ' + lowerFirst(tc1.option) + ' (' + tc1.n + ' of ' + tc1.of + ' cases).');
+        if (mk === false) lines.push((den(c1) - (c1.passN || 0)) + ' of ' + den(c1) + ' patients did not get ' + lowerFirst(measure) + '.');
+        if (changeShort) lines.push('Our change: ' + lowerFirst(changeShort) + '.');
+      }
+      s = add(DECK.navy);
+      eyebrow(s, W('take'), DECK.goldDark);
+      s.text(big, X0, 1.2, XW, 2.3, { size: 36, min: 22, font: DECK_FONTS.head, color: DECK.paper, lineSpacing: 1.02, anchor: 'ctr' });
+      s.rect(X0, 3.75, 1.2, 0.06, DECK.goldDark);
+      lines.slice(0, 4).forEach(function (t, i) {
+        var y = 4.0 + i * 0.68;
+        s.rect(X0, y + 0.14, 0.13, 0.13, DECK.goldDark);
+        s.text(t, X0 + 0.4, y, XW - 0.4, 0.6, { size: 19, min: 13, color: DECK.paper });
       });
-      var cmText = clean((run && run.changeMade || {}).description);
-      if (cmText) s.text('The change: ' + words(cmText, 30), X0, 5.7, XW, 0.9, { size: 14, color: DECK.navy });
-      s.note('The audit cycle, step by step. Ticked steps are done' + (cmD ? '; the change started ' + cmD : '') + '.');
+      s.note('Take-home message: ' + big, lines.join(' '));
     })();
 
-    /* 9. What next */
-    var items = [];
-    if (has2) {
-      var mm2 = met(c2.pct);
-      if (mm2 === true) items.push('Target reached \u2014 keep the change in place');
-      else if (diff !== null && diff > 0) items.push('Better, but still short of the target');
-      else if (diff !== null) items.push('No improvement yet \u2014 revisit how the change works');
-      else items.push('Keep measuring against the standard');
-    } else if (has1) {
-      var mm1 = met(c1.pct);
-      items.push(mm1 === null ? 'Agree a local target before re-auditing' : mm1 ? 'Standard met \u2014 keep monitoring' : 'Below target \u2014 a change is needed');
-    } else items.push('Collect cycle 1 data with the data sheet');
-    var top = null, topB = null;
-    breakdowns.forEach(function (b) {                 // only a cause (reason, delay, barrier) is worth a takeaway
-      if (top || !b.causes) return;
-      (b.cycles.c1 || []).forEach(function (o) { if (o.n > 0 && (!top || o.n > top.n)) { top = o; topB = b; } });
-    });
-    if (top) items.push('Commonest cause in cycle 1: ' + words(top.option, 6) + ' (' + top.n + ')');
-    if (has2 && clean(P.close_loop)) items.push(words(noStop(firstSentence(P.close_loop)), 10));
-    else if (!has2) {
-      var when = /^([^:;.]+)/.exec(clean(P.reaudit));
-      items.push(when && /week|month|day/i.test(when[1]) ? 'Re-audit in ' + when[1].charAt(0).toLowerCase() + when[1].slice(1) + ', same template' : 'Re-audit with the same template');
-    }
-    items = items.slice(0, 3).map(function (t) { return words(t, 10); });
-    s = add();
-    headline(s, W('next'), 0.7, { size: 32 });
-    var nsz = 28;
-    items.forEach(function (t) { nsz = Math.min(nsz, fitText(t, 10.6, 0.8, 28, 16, {}).size); });
-    items.forEach(function (t, i) {
-      var y = 2.1 + i * 1.35;
-      s.text(String(i + 1), X0, y - 0.12, 0.7, 0.8, { size: 44, font: DECK_FONTS.head, color: DECK.gold });
-      s.text(t, X0 + 0.9, y, 10.6, 0.8, { size: nsz, min: nsz, color: DECK.navy });
-    });
-    s.note('Takeaways: ' + items.join('; ') + '.', clean(P.close_loop) ? 'Closing the loop: ' + clean(P.close_loop) : '',
-      clean(P.reaudit) ? 'Re-audit: ' + clean(P.reaudit) : '', topB ? 'Largest single factor from "' + (clean(topB.label) || humanLabel(topB.field)) + '": ' + top.option + ' (' + top.n + ').' : '');
+    /* 12. What next: the next actions, with dates */
+    (function () {
+      var items = [], when;
+      var cl = clean(P.close_loop), keep = (cl.match(/if it works,?\s*([^.]+)/i) || [])[1];
+      var alt = clean(P.change_alt);
+      if (has2) {
+        var mm2 = met(c2.pct), reD = c2.to ? addDays(new Date(parseYmd(c2.to).getTime()), 182) : addDays(new Date(), 182);
+        if (mm2 !== false && diff !== null && diff > 0) {
+          items.push(['Make the change permanent', keep ? capFirst(noStop(keep)) + '.' : 'Build it into the standard process so it does not depend on the audit team.']);
+          items.push(['Name an owner', 'One person keeps it going when the team rotates and checks it is still used.']);
+          items.push(['Re-audit in ' + monthYear(reD), 'Same sheet, same sample size, to check the gain holds.']);
+        } else {
+          var tc = topCause('c2');
+          items.push(tc ? ['Tackle the main barrier', capFirst(tc.option) + ' still accounts for ' + tc.n + ' of ' + tc.of + ' cases.'] :
+            ['Find out why', 'Ask the team what gets in the way, and check the change is being used.']);
+          if (alt) items.push(['Add a second change', words(noStop(alt), 22) + '.']);
+          items.push(['Re-audit in ' + monthYear(addDays(new Date(), gapW * 7)), 'After the next change has bedded in; same sheet, same sample size.']);
+        }
+      } else if (has1) {
+        items.push(['Make the change', changeShort ? capFirst(changeShort) + '.' : 'Agree one change with the team.']);
+        items.push(['Start by ' + monthYear(addDays(new Date(), 14)), 'Agree it with the team and record the start date in the audit.']);
+        items.push(['Re-audit in ' + monthYear(plannedRe), 'Same sheet, same sample size' + (target ? ', target ' + tOp + ' ' + tv + '%' : '') + '.']);
+      } else items.push(['Collect cycle 1', 'Use the data sheet.']);
+      s = add();
+      headline(s, W('next'), 0.7, { size: 32 });
+      items.slice(0, 3).forEach(function (it, i) {
+        var y = 1.85 + i * 1.45;
+        s.text(String(i + 1), X0, y - 0.1, 0.7, 0.9, { size: 44, font: DECK_FONTS.head, color: DECK.gold });
+        s.text(it[0], X0 + 0.9, y, 10.6, 0.5, { size: 24, min: 16, bold: true, color: DECK.navy });
+        s.text(it[1], X0 + 0.9, y + 0.5, 10.6, 0.75, { size: 16, min: 11, color: DECK.muted });
+      });
+      s.note('Next steps: ' + items.map(function (it) { return it[0] + ' — ' + it[1]; }).join(' '));
+    })();
 
-    /* 10. References */
+    /* 13. References */
     var refs = [];
     if (clean(std.source)) refs.push('Standard: ' + hsrc(std.source) + (clean(std.url) ? '. ' + clean(std.url) : ''));
     (P.evidence || []).map(clean).filter(Boolean).forEach(function (e) { refs.push(e); });
