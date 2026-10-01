@@ -2,7 +2,7 @@
 'use strict';
 
 // Stamped by build_app_data.py on every rebuild; a new value makes browsers install a fresh cache.
-var VERSION = 'c1363558676c';
+var VERSION = '18b9d13b5986';
 var PREFIX = 'ai4qi-';
 // GEN 2 (Sep 2026): caches from before the redirect fix are dropped on activate, whatever VERSION says.
 var GEN = 'g2-';
@@ -65,6 +65,19 @@ function staleWhileRevalidate(request) {
   });
 }
 
+var CODE = new Set(['app.js', 'export.js', 'styles.css']);
+function networkFirst(req, key) {
+  return caches.open(SHELL).then(function (cache) {
+    var net = fetchClean(req, { cache: 'no-cache' }).then(function (res) {
+      if (res && res.ok) cache.put(key, res.clone());
+      return res;
+    });
+    var slow = new Promise(function (resolve) { setTimeout(resolve, 4000); }).then(function () { return cache.match(key); });
+    return Promise.race([net.catch(function () { return cache.match(key); }), slow.then(function (c) { return c || net; })])
+      .then(function (res) { return res || net; });
+  });
+}
+
 // Supabase API traffic (sign-in, feedback, counts) is never cached: it always goes to the network.
 var API_PATHS = /\/(auth|rest|storage|functions|realtime|graphql)\/v1(\/|$)/;
 var ANALYTICS = /(^|\.)(plausible\.io|cloudflareinsights\.com)$/i;
@@ -88,17 +101,17 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  // Opening the app (any hash or query, or the old /index.html address) gets the cached app shell './'.
+  // The page and its code come from the network when online (so a new version is used at once), and
+  // from the cache when offline or when the network is slower than 4 seconds.
   if (req.mode === 'navigate' && (rel === '' || rel === 'index.html')) {
-    event.respondWith(
-      caches.match(BASE, { cacheName: SHELL }).then(unredirect).then(function (cached) {
-        return cached || fetchClean(BASE);
-      }).catch(function () { return fetchClean(BASE); })
-    );
+    event.respondWith(networkFirst(new Request(BASE), BASE));
     return;
   }
-
   var clean = url.origin + url.pathname;
+  if (CODE.has(rel)) {
+    event.respondWith(networkFirst(req, clean));
+    return;
+  }
   if (SHELL_URLS.has(clean)) {
     event.respondWith(
       caches.match(clean, { cacheName: SHELL }).then(unredirect).then(function (cached) { return cached || fetchClean(req); })
