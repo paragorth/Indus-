@@ -2490,6 +2490,8 @@
         '<line class="rd-median" x1="' + x0 + '" y1="' + y(med) + '" x2="' + (RW - 8) + '" y2="' + y(med) + '"/>' +
         (t ? '<line class="rd-target" x1="' + x0 + '" y1="' + y(t.value) + '" x2="' + (RW - 8) + '" y2="' + y(t.value) + '"/>' : '') +
         (ci > 0 ? '<line class="rd-chg" x1="' + ((xs[ci - 1] + xs[ci]) / 2).toFixed(1) + '" y1="' + y0 + '" x2="' + ((xs[ci - 1] + xs[ci]) / 2).toFixed(1) + '" y2="' + (y0 + ch) + '"/><text class="rd-chg-t" x="' + ((xs[ci - 1] + xs[ci]) / 2 + 4).toFixed(1) + '" y="' + (y0 + 10) + '">Change</text>' : '') +
+        '<defs><linearGradient id="rd-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--viz-c2)" stop-opacity=".28"/><stop offset="1" stop-color="var(--viz-c1)" stop-opacity="0"/></linearGradient></defs>' +
+        '<path class="rd-area" d="M' + xs[0].toFixed(1) + ' ' + (y0 + ch) + ' ' + pts.map(function (q, i) { return 'L' + xs[i].toFixed(1) + ' ' + y(q.p).toFixed(1); }).join(' ') + ' L' + xs[xs.length - 1].toFixed(1) + ' ' + (y0 + ch) + 'Z"/>' +
         '<polyline class="rd-line" points="' + pts.map(function (q, i) { return xs[i].toFixed(1) + ',' + y(q.p).toFixed(1); }).join(' ') + '"/>' +
         pts.map(function (q, i) { return '<circle class="rd-pt ' + (q.c === 2 ? 'is-c2' : 'is-c1') + '" cx="' + xs[i].toFixed(1) + '" cy="' + y(q.p).toFixed(1) + '" r="4.5"/>' +
           (pts.length <= 12 || i % 2 === 0 ? '<text class="rd-ax" x="' + xs[i].toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + MON[+q.m.slice(5) - 1] + '</text>' : ''); }).join('') + '</svg>';
@@ -2620,9 +2622,9 @@
         function n(k, o) { var h = b.cycles[k].filter(function (x) { return x.option === o; })[0]; return h ? h.n : 0; }
         function bar(k, o, cls) { return '<i class="' + cls + '" style="width:' + (n(k, o) / max * 100) + '%"></i>'; }
         return '<div class="sub"><h3>' + esc(b.label) + '</h3>' + (two ? '<p class="bd-key"><span class="k-before">Cycle 1</span><span class="k-after">Re-audit</span></p>' : '') +
-          '<ul class="bd-bars' + (two ? ' is-two' : '') + '">' + opts.map(function (o) {
+          '<ul class="bd-bars' + (two ? ' is-two' : '') + '">' + opts.map(function (o, oi) {
             return two ? '<li><span>' + esc(o) + '</span><div class="bd-pair">' + bar('c1', o, 'before') + bar('c2', o, 'after') + '</div><b>' + n('c1', o) + ' → ' + n('c2', o) + '</b></li>' :
-              '<li><span>' + esc(o) + '</span><i style="width:' + (n(b.cycles.c1.length ? 'c1' : 'c2', o) / max * 100) + '%"></i><b>' + n(b.cycles.c1.length ? 'c1' : 'c2', o) + '</b></li>';
+              '<li><span><em class="sw s' + Math.min(oi + 1, 8) + '" aria-hidden="true"></em>' + esc(o) + '</span><i class="s' + Math.min(oi + 1, 8) + '" style="width:' + (n(b.cycles.c1.length ? 'c1' : 'c2', o) / max * 100) + '%"></i><b>' + n(b.cycles.c1.length ? 'c1' : 'c2', o) + '</b></li>';
           }).join('') + '</ul></div>';
       }).join('');
     var dl = '<div class="out-grid">' +
@@ -2654,20 +2656,25 @@
       ' <button type="button" class="link-btn" data-vault-lock>Lock</button></p></header>' +
       sec(1, 'Audit details', detailsForm + remind + supervisorBox(p, r)) +
       // In the order of the loop: cycle 1, the change, the re-audit, then what it all achieved.
-      // Cycle 1, its results straight below, then the re-audit, which opens to the change and the re-audit sheet.
+      // Cycle 1, then the re-audit (closed until clicked: the change and the re-audit sheet), then the results.
       sec(2, 'Cycle 1', colEditor(r) + cyclePanel(r, 'c1', st)) +
-      sec(3, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId))) +
-      '<details class="reaudit-part"' + (st.cycles[1].n || (r.changeMade && r.changeMade.description) || stageIdx(r) >= 3 ? ' open' : '') + '><summary>' +
+      '<details class="reaudit-part" data-reaudit-part' + (S.view.reauditOpen === r.id ? ' open' : '') + '><summary>' +
         '<span class="ra-i">' + ICON_RE + '</span><span class="ra-t"><b>Re-audit: close the loop</b><span>Record the change you made, then collect the same data again with the re-audit sheet.</span></span>' +
-        '<span class="ra-go">Start</span></summary>' +
-        sec(4, 'The change', '<p class="step-why">After cycle 1, you and your team change one thing to fix what the results showed: a form, a checklist, an alert or a new pathway. ' +
+        '<span class="ra-go">Open</span></summary>' +
+        sec(3, 'The change', '<p class="step-why">After cycle 1, you and your team change one thing to fix what the results showed: a form, a checklist, an alert or a new pathway. ' +
           'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
-        sec(5, 'Re-audit data', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit. The results above then show before and after.</p>' + cyclePanel(r, 'c2', st)) +
+        sec(4, 'Re-audit data', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit. The results below then show before and after.</p>' + cyclePanel(r, 'c2', st)) +
       '</details>' +
+      sec(5, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId))) +
       sec(6, 'Files for you', dl) +
       '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
       '</article>', 'My audit', 'my-audits');
   }
+
+  document.addEventListener('toggle', function (e) {
+    var d = e.target; if (!d.matches || !d.matches('[data-reaudit-part]')) return;
+    var run = d.closest('[data-run]'); S.view.reauditOpen = d.open && run ? run.getAttribute('data-run') : null;
+  }, true);
 
   var LEGAL_PAGES = ['terms', 'privacy-notice', 'cookies', 'accessibility', 'security'], LEGAL = null;
   function renderLegal(slug) {

@@ -1189,3 +1189,30 @@ details.dash-done > summary h2::after { content: "\25BE"; font-size: .9rem; colo
 .acc-form { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
 .acc-form label { font-weight: 600; font-size: .92rem; margin-top: 6px; }
 .acc-form input, .acc-form select, .acc-form textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 10px 12px; border: 1.5px solid var(--border-strong); border-radius: 10px; background: var(--surface); color: var(--text); }
+
+/* ---------- results charts: validated categorical palette (cycle 1 blue, re-audit aqua) ---------- */
+:root { --viz-c1: #2a78d6; --viz-c2: #1baf7a; --viz-s1: #2a78d6; --viz-s2: #eb6834; --viz-s3: #1baf7a; --viz-s4: #eda100; --viz-s5: #e87ba4; --viz-s6: #008300; --viz-s7: #4a3aa7; --viz-s8: #e34948; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --viz-c1: #3987e5; --viz-c2: #199e70; --viz-s1: #3987e5; --viz-s2: #d95926; --viz-s3: #199e70; --viz-s4: #c98500; --viz-s5: #d55181; --viz-s6: #008300; --viz-s7: #9085e9; --viz-s8: #e66767; } }
+:root[data-theme="dark"] { --viz-c1: #3987e5; --viz-c2: #199e70; --viz-s1: #3987e5; --viz-s2: #d95926; --viz-s3: #199e70; --viz-s4: #c98500; --viz-s5: #d55181; --viz-s6: #008300; --viz-s7: #9085e9; --viz-s8: #e66767; }
+.rd-bar.is-c1, .rd-pt.is-c1 { fill: var(--viz-c1); }
+.rd-bar.is-c2, .rd-pt.is-c2 { fill: var(--viz-c2); }
+.rd-pt { stroke: var(--surface); stroke-width: 2; }
+.rd-line { stroke: color-mix(in srgb, var(--text) 70%, transparent); stroke-width: 2; stroke-linejoin: round; }
+.rd-area { fill: url(#rd-fill); stroke: none; }
+.rd-rise { stroke: var(--viz-c2); color: var(--viz-c2); }
+.rd-tb i.is-c1 { background: linear-gradient(90deg, color-mix(in srgb, var(--viz-c1) 70%, #fff), var(--viz-c1)); }
+.rd-tb i.is-c2 { background: linear-gradient(90deg, color-mix(in srgb, var(--viz-c2) 70%, #fff), var(--viz-c2)); }
+.rd-hero .donut.is-c1 .dn-val { stroke: #6aa6ee; }
+.rd-hero .donut.is-c2 .dn-val, .rd-hero.is-met .donut .dn-val { stroke: #3fd09a; }
+.rd-tile.is-ok b { color: var(--ok-text); } .rd-tile.is-bad b { color: var(--warn-text); }
+.bd-pair i.before, .bd-key .k-before::before { background: var(--viz-c1); }
+.bd-pair i.after, .bd-key .k-after::before { background: var(--viz-c2); }
+.bd-bars i { height: 14px; border-radius: 4px; }
+.bd-bars i.s1, .sw.s1 { background: var(--viz-s1); } .bd-bars i.s2, .sw.s2 { background: var(--viz-s2); }
+.bd-bars i.s3, .sw.s3 { background: var(--viz-s3); } .bd-bars i.s4, .sw.s4 { background: var(--viz-s4); }
+.bd-bars i.s5, .sw.s5 { background: var(--viz-s5); } .bd-bars i.s6, .sw.s6 { background: var(--viz-s6); }
+.bd-bars i.s7, .sw.s7 { background: var(--viz-s7); } .bd-bars i.s8, .sw.s8 { background: var(--viz-s8); }
+.bd-bars .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.bd-bars .bd-pair i { height: 9px; }
+.rd-hero .rd-tb i.is-c1 { background: linear-gradient(90deg, #4f8fe0, #6aa6ee); }
+.rd-hero .rd-tb i.is-c2 { background: linear-gradient(90deg, #1baf7a, #3fd09a); }
