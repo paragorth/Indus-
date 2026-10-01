@@ -160,6 +160,10 @@ S2_QUERIES_4 = ['audit + (ophthalmology | cataract | glaucoma | eye)', 'audit + 
                 'audit + (blood transfusion | "blood products" | "patient blood management")']
 
 
+# The s2d run stopped at the neonatal query (killed before saving): the rest of S2_QUERIES_4.
+S2_QUERIES_5 = S2_QUERIES_4[S2_QUERIES_4.index('audit + (neonatal | NICU | preterm | newborn)'):]
+
+
 def s2(st, queries=None):
     for q in (queries or S2_QUERIES):
         token, got = None, 0
@@ -327,8 +331,8 @@ if __name__ == "__main__":
     st = Store()
     for name, fn in (("doaj", doaj), ("s2", s2), ("crossref_all", crossref_all), ("thin", thin),
                      ("s2b", lambda st: s2(st, S2_QUERIES_2)), ("s2c", lambda st: s2(st, S2_QUERIES_3)),
-                     ("s2d", lambda st: s2(st, S2_QUERIES_4)),
+                     ("s2d", lambda st: s2(st, S2_QUERIES_4)), ("s2e", lambda st: s2(st, S2_QUERIES_5)),
                      ("crossref_deep", lambda st: crossref_all(st, range(2008, 2027), 8))):
-        if which == name or (which == "all" and name not in ("s2b", "s2c", "s2d", "crossref_deep")):
+        if which == name or (which == "all" and name not in ("s2b", "s2c", "s2d", "s2e", "crossref_deep")):
             fn(st)
             print(f"{name}: {st.new} new records in total", flush=True)
