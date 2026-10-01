@@ -1466,8 +1466,8 @@
     not_granted: 'Building audits needs permission to use Claude on your account. Reload the page to be asked again.',
     sampling_disabled: 'Building audits is not available for this account.',
     rate_limited: 'You have reached the limit for now. Please try again later.',
-    sign_in: 'Sign in (free, by emailed link) to build audits.',
-    no_access: 'Ai4Qi is for NHS, HSE and university staff. Sign in with your work email, or ask for access.',
+    sign_in: 'Sign in (free, with an emailed code) to build audits. Institutional emails get instant access; others need a quick approval.',
+    no_access: 'Institutional emails (NHS, HSE or university) get instant access. Other emails need a quick approval: ask for access.',
     site_limit: 'Building on this site is paused until next month. You can still build any audit free in Claude, using your own Claude account.',
     session_expired: 'Please sign in to Claude again, then try again.',
     refused: 'This theme could not be turned into an audit. Try wording it as a clinical process, e.g. “reusable gowns in theatre”.',
@@ -2793,7 +2793,7 @@
         '<li><strong>Honest suggestions.</strong> If one of our ready-made audits would suit you better, it tells you.</li>' +
         '<li><strong>It learns from you.</strong> If you press <em>Not quite right</em>, your reasons go into the next version.</li></ul>' +
         '<p class="prose">A topic nobody has published on still gets a full audit, built from the national standard; it simply has no evidence section.</p>') +
-      step(5, 'Run it and close the loop', '<p class="prose">Press <em>Choose this audit</em>, then <em>Start this audit</em> when you are ready. Download the data sheet, send the proposal to your supervisor, record your data, see the results, make the change and re-audit. Once you start, we email you when each step is due.</p>') +
+      step(5, 'Run it and close the loop', '<p class="prose">Sign in first: an institutional email (NHS, HSE or university) gets instant access; other emails go through a quick approval. Then press <em>Choose this audit</em>, then <em>Start this audit</em> when you are ready. Download the data sheet, send the proposal to your supervisor, record your data, see the results, make the change and re-audit. Once you start, we email you when each step is due.</p>') +
       '</ol>' +
       '<h2>What stays with you</h2><p class="prose">Your audit records stay encrypted on your own device. They are never sent to Ai4Qi or to the AI. <a href="#/privacy">How your data is protected</a></p>' +
       '<h2>Always check</h2><p class="prose">An audit built by AI is a well-founded draft. Check the standard against its linked source and ask your supervisor to review the protocol before you collect data. Register the audit with your audit department.</p>' +
@@ -3348,6 +3348,10 @@
     BE.admin = null; BE.profile = undefined; S.accessOk = false;
     BE.tracker = null;
     if (u) { if (u.email) setLastEmail(u.email); flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
+    // A non-institutional email that has not been approved goes straight to the approval page.
+    if (u && !isInstitutional(u.email) && !DEMO) setTimeout(function () {
+      accessStatus().then(function (st) { if (st !== 'ok' && BE.user && BE.user.id === u.id && parseHash().parts[0] !== 'access') { S.accessNext = signedInHome(); location.hash = '#/access'; } });
+    }, 0);
     var name = parseHash().parts[0];
     if (S.lib.length && (name === 'account' || name === 'admin' || name === 'my-audits')) route();
     else if (name === 'proposed' && parseHash().parts[1]) showTracker(parseHash().parts[1]);
@@ -3576,7 +3580,8 @@
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      '<p class="auth-note">Use your NHS, HSE or university email. New here? The same step creates your free account.</p>';
+      '<p class="auth-tip"><strong>Use your institutional email</strong> (NHS, HSE or university) for instant access. Other emails need a quick approval before you can build or run audits.</p>' +
+      '<p class="auth-note">New here? The same step creates your free account.</p>';
     page('<div class="auth-wrap"><div class="auth-card">' + body + '</div>' +
       '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
@@ -3706,18 +3711,18 @@
         '<a class="btn auth-wide" href="' + attr(S.accessNext && S.accessNext !== '#/access' ? S.accessNext : '#/my-audits') + '">Continue</a>';
     } else if (st === 'signed_out') {
       body = '<div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div><h1>Sign in with your work email</h1>' +
-        '<p class="auth-sub">Building and running audits is for NHS, HSE and university staff. Sign in with your nhs.net, Trust, HSE or university email.</p>' +
+        '<p class="auth-sub">Use your institutional email (nhs.net, Trust, HSE or university) for instant access. Other emails need a quick approval first.</p>' +
         '<a class="btn auth-wide" href="#/account">Sign in</a><p class="auth-note">Browsing the library, standards and ready-made audits stays open to everyone.</p>';
     } else if (st === 'pending') {
       body = '<div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div><h1>Request received</h1>' +
-        '<p class="auth-sub">We review requests within 15 minutes. After that you can build and run audits.</p>' +
+        '<p class="auth-sub">Non-institutional emails go through a quick approval, usually within 15 minutes. After that you can build and run audits.</p>' +
         '<button class="btn auth-wide" type="button" data-access-recheck>Check again</button><p class="form-status" role="status" data-access-status></p>' +
         '<p class="auth-note">Signed in as ' + esc(email) + '. Have a work email? <button type="button" class="link-btn" data-signout-to-signin>Sign in with it instead</button></p>';
     } else if (st === 'rejected') {
       body = '<h1>Access not approved</h1><p class="auth-sub">Ai4Qi is for NHS, HSE and university staff. Sign in with your work email to build and run audits.</p>' +
         '<button class="btn auth-wide" type="button" data-signout-to-signin>Sign in with a work email</button>';
     } else {
-      body = '<h1>Use your work email</h1><p class="auth-sub">Building and running audits is for NHS, HSE and university staff. You are signed in as <strong>' + esc(email) + '</strong>.</p>' +
+      body = '<h1>Use your work email</h1><p class="auth-sub">Institutional emails (NHS, HSE or university) get instant access. You are signed in as <strong>' + esc(email) + '</strong>, which needs a quick approval first.</p>' +
         '<button class="btn auth-wide" type="button" data-signout-to-signin>Sign in with my work email</button>' +
         '<details class="acc-req"><summary>No work email? Ask for access</summary>' +
         '<form class="auth-form acc-form" data-access-request novalidate>' +
@@ -4316,7 +4321,7 @@
   var HELP = [
     { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it, press Choose this audit, then Start this audit when you are ready.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
     { q: 'Is Ai4Qi free?', k: 'cost price pay money subscription charge', a: 'Yes. Ai4Qi is free to use.' },
-    { q: 'Do I need an account?', k: 'sign register login log email password', a: 'Browsing is open to everyone. To build or run an audit, sign in with your NHS, HSE or university email; we send a code, there is no password. No work email? Sign in and ask for access.', go: [['Sign in', '#/account']] },
+    { q: 'Do I need an account?', k: 'sign register login log email password', a: 'Browsing is open to everyone. To build or run an audit, sign in: an institutional email (NHS, HSE or university) gets instant access; other emails go through a quick approval first. We send a code; there is no password.', go: [['Sign in', '#/account']] },
     { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Wait a minute or two, then check Junk and the Other tab. NHSmail is slower with new senders. Still nothing after 3 minutes? Sign in with a personal email instead.', go: [['Sign in again', '#/account']] },
     { q: 'Where are my audits?', k: 'dashboard saved find lost my audits list progress', a: 'In My audits. They are kept on this device and in this browser. If you switched device or browser, restore a backup there.', go: [['My audits', '#/my-audits']] },
     { q: 'How do I enter my data?', k: 'data upload excel spreadsheet sheet enter record collect import input', a: 'Open your audit in My audits, download the Excel data sheet, fill in one row per patient, then upload it under Upload your data sheet. The results appear straight away.' },
