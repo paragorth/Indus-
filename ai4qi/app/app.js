@@ -4510,9 +4510,24 @@
     setTimeout(function () {
       ta.value = ''; ta.classList.remove('is-sent');
       st.textContent = IDEA_THANKS();
+      setTimeout(function () {                         // then the help panel folds back into its circle
+        var box = f.closest('.help-box'), d = f.closest('details'), fab = document.querySelector('.help-fab');
+        st.textContent = ''; if (d) d.open = false;
+        if (box) { box.classList.add('is-closing'); setTimeout(function () { box.hidden = true; box.classList.remove('is-closing', 'idea-open'); if (fab) { fab.setAttribute('aria-expanded', 'false'); fab.classList.remove('is-open'); } }, 280); }
+      }, 6500);
     }, 650);
   });
-  function IDEA_THANKS() { return BE.user ? 'Thanks! We are looking into it and will reply.' : 'Thanks! We are looking into it.'; }
+  function IDEA_THANKS() {
+    var reply = BE.user;
+    var a = [
+      'Swoosh, and it has landed! Ideas from the people actually doing the audits are the ones that make Ai4Qi better, so yours goes straight to the top of our pile. ' + (reply ? 'We will email you as soon as we have an answer.' : 'Thank you for taking the time.'),
+      'Brilliant, thank you. You have spotted something we can only see through your eyes, and we genuinely want to get it right for you. ' + (reply ? 'Keep an eye on your inbox: you will hear back from us.' : 'We are already looking into it.'),
+      'Got it, and we love it. Every change on Ai4Qi so far started with someone like you saying "this could be better". ' + (reply ? 'We will let you know what we do with yours.' : 'We are on the case.'),
+      'Message received, loud and clear. Thank you for making Ai4Qi work better for every trainee who comes after you. ' + (reply ? 'Our reply is on its way soon.' : 'We are looking into it now.')
+    ];
+    return a[Math.floor(Math.random() * a.length)];
+  }
+
   // A short "swoosh": filtered noise sweeping down, made in the browser (no sound file). Only after a tap.
   function whoosh() {
     try {
