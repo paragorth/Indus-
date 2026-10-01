@@ -280,6 +280,8 @@
       else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
       else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
       else if (name === 'signed-out') renderSignedOut();
+      else if (name === 'access') renderAccess();
+      else if (name === 'admin' && p[1] === 'access' && BE.url) renderAdminAccess();
       else if (name === 'my-audits') renderRuns();
       else if (name === 'run' && p[1]) renderRun(p[1]);
       else if (name === 'privacy') renderPrivacy();
@@ -500,11 +502,17 @@
     if (!m) return '<p class="prose"><strong>Target:</strong> ' + linkify(t) + '</p>';
     return '<p class="target-line"><span class="target">' + esc(m[1]) + '</span>' + (m[2] ? '<span>' + linkify(m[2]) + '</span>' : '') + '</p>';
   }
-  function pitfallItem(t) {
-    var i = t.indexOf('→');
-    if (i === -1) return '<li>' + linkify(t) + '</li>';
-    return '<li><span class="risk">' + linkify(t.slice(0, i).trim()) + '</span><span class="arrow" aria-label="prevent by">→</span>' + linkify(t.slice(i + 1).trim()) + '</li>';
+  /* Pitfalls and pearls: a short heading, then the full explanation. Headings come with the
+     ready-made audits; for built audits the risk (before the arrow) becomes the heading. */
+  function ppItem(t, head) {
+    var i = t.indexOf('→'), risk = i === -1 ? '' : t.slice(0, i).trim(), fix = i === -1 ? t : t.slice(i + 1).trim();
+    var h = head || (risk && risk.split(/\s+/).length <= 8 ? risk : '');
+    if (!h) return '<li><p class="pp-txt">' + linkify(t) + '</p></li>';
+    var body = h === risk ? '<span class="pp-fix">' + linkify(cap(fix)) + '</span>' :
+      risk ? linkify(risk) + ' <span class="pp-arrow" aria-label="prevent by">→</span> <span class="pp-fix">' + linkify(fix) + '</span>' : linkify(t);
+    return '<li><b class="pp-t">' + esc(h) + '</b><p class="pp-txt">' + body + '</p></li>';
   }
+
   function sec(n, title, body) {
     return '<section><h2><span class="num" aria-hidden="true">' + n + '</span>' + esc(title) + '</h2>' + body + '</section>';
   }
@@ -602,25 +610,27 @@
       return '<li class="fl-' + st[0] + '"><span class="fl-n">' + (i + 1) + '</span><div class="fl-card"><div class="fl-head"><span class="fl-i">' + FLOW_ICON[st[0]] + '</span><h3>' + st[1] + '</h3>' +
         (st[2] ? '<span class="fl-w">' + esc(st[2]) + '</span>' : '') + '</div><p>' + linkify(st[3]) + '</p></div></li>';
     }).join('') + '</ol>';
-    return { strip: strip, detail: detail };
+    var change = '<div class="loop-change"><span class="lc-i" aria-hidden="true">' + FLOW_ICON.change + '</span><div><b>The change</b><p>' + linkify(noDot(p.change)) + '.</p>' +
+      '<small>This is a suggestion you can change. Pick what will work on your ward, agree it with your team, and record it in My audits.</small></div></div>';
+    return { strip: strip, detail: detail, change: change };
   }
   window.addEventListener('beforeprint', function () { document.querySelectorAll('details.loop-part').forEach(function (d) { d.open = true; }); });
   function protocolBody(p, dl, extra) {
     var st = p.standard || {}, url = safeUrl(st.url), n = 0;
     extra = extra || {};
-    // Method: the question across the top, a 2 x 2 grid, then the sample size under a solid rule.
+    // Method: the question across the top, then a 2 x 2 grid: standard (with the pass criterion), selection, data collection, sample size.
     function cell(t, body) { return '<div class="m-cell"><h3 class="m-lab">' + t + '</h3>' + body + '</div>'; }
     var how =
       '<div class="m-q m-card"><h3 class="m-lab">Audit question</h3><p>' + esc(p.question) + '</p></div>' +
       '<div class="m-grid">' +
       cell('Standard', (st.wording ? '<blockquote class="standard"><p>“' + esc(st.wording) + '”</p></blockquote>' : '<p class="prose">Read the exact recommendation at the source below.</p>') +
-        '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st)) +
-      cell('Pass criterion', passHtml(p)) +
+        '<p class="standard-source" title="' + attr(st.source) + '">' + esc(humanSource(st.source)) + (url ? ' · <a class="print-url" href="' + attr(url) + '" target="_blank" rel="noopener">Read the standard</a>' : '') + '</p>' + niceAttribution(st) +
+        '<div class="m-pass"><h4 class="m-sublab">Pass criterion</h4>' + passHtml(p) + '</div>') +
       cell('Selection criteria', selectionHtml(p.population)) +
       cell('Data collection', bullets(splitTop(p.data_source, /;/), 'bul')) +
+      cell('Sample size', '<p class="m-n">' + linkify(p.sample) + '</p>' +
+        '<small class="prec-note">' + precisionText(sampleGuess(p)) + ' Need to do fewer? After choosing the audit, set your own number in My audits (at least 20).</small>') +
       '</div>' +
-      '<div class="m-sample m-card"><h3 class="m-lab">Sample size</h3><p>' + linkify(p.sample) + '</p>' +
-        '<small class="prec-note">' + precisionText(sampleGuess(p)) + ' Need to do fewer? After choosing the audit, set your own number in My audits (at least 20).</small></div>' +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
     return (extra.before ? sec(++n, extra.before[0], extra.before[1]) : '') +
@@ -632,11 +642,11 @@
       (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
       (extra.feedback || '') +
       '<div class="part-rule" role="separator"><span>Closing the loop</span></div>' +
-      (function () { var lf = loopFlow(p); return '<details class="loop-part"><summary><span class="loop-cta"><b>Make it a closed loop</b><span>Six steps from the first data to a change that lasts. Tap to see what to do at each one.</span></span>' + lf.strip + '</summary>' + lf.detail + '</details>'; })() +
+      (function () { var lf = loopFlow(p); return '<details class="loop-part"><summary><span class="loop-cta"><b>Make it a closed loop</b><span>Six steps from the first data to a change that lasts. Tap to see what to do at each one.</span></span>' + lf.strip + lf.change + '</summary>' + lf.detail + '</details>'; })() +
       '<div class="part-rule" role="separator"><span>Evidence and advice</span></div>' +
       (pits || pearls ? '<section class="pp-box"><div class="pp-grid">' +
-        (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(pitfallItem).join('') + '</ul></div>' : '') +
-        (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul></div>' : '') +
+        (pits ? '<div><h2 class="pp-h">Pitfalls</h2><ul class="pit-list">' + p.pitfalls.map(function (e, i) { return ppItem(e, (p.pitfall_heads || [])[i]); }).join('') + '</ul></div>' : '') +
+        (pearls ? '<div><h2 class="pp-h">Pearls</h2><ul class="pearl-list">' + p.pearls.map(function (e, i) { return ppItem(e, (p.pearl_heads || [])[i]); }).join('') + '</ul></div>' : '') +
         '</div></section>' : '') +
       (p.evidence && p.evidence.length ? sec(++n, 'Evidence', '<ul class="ev-list">' + p.evidence.map(function (e) { return '<li>' + linkify(e) + '</li>'; }).join('') + '</ul>') : '') +
       (extra.after ? extra.after.map(function (x) {
@@ -1402,7 +1412,7 @@
     function readStream(reader) {
       var dec = new TextDecoder(), buf = '', text = '', started = Date.now();
       var ERR = { 'not an audit topic': 'refused', 'invalid json': 'invalid_json', busy: 'rate_limited', 'daily limit': 'rate_limited',
-        'monthly limit': 'site_limit', 'sign in': 'sign_in' };
+        'monthly limit': 'site_limit', 'sign in': 'sign_in', 'no access': 'no_access' };
       function next() {
         var timer;
         var quiet = new Promise(function (res, rej) { timer = setTimeout(function () { rej({ code: 'upstream_error' }); }, 60000); });
@@ -1432,6 +1442,7 @@
     sampling_disabled: 'Building audits is not available for this account.',
     rate_limited: 'You have reached the limit for now. Please try again later.',
     sign_in: 'Sign in (free, by emailed link) to build audits.',
+    no_access: 'Ai4Qi is for NHS, HSE and university staff. Sign in with your work email, or ask for access.',
     site_limit: 'Building on this site is paused until next month. You can still build any audit free in Claude, using your own Claude account.',
     session_expired: 'Please sign in to Claude again, then try again.',
     refused: 'This theme could not be turned into an audit. Try wording it as a clinical process, e.g. “reusable gowns in theatre”.',
@@ -1492,6 +1503,7 @@
     var id = builtId(q, n), have = !fresh && S.built.get(id);
     var crumbs = '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › Build an audit</nav>';
     if (have && have.topic.toLowerCase() === q.toLowerCase()) { showBuilt(have, resourcesFor(q), crumbs); prefetchNext(have); return; }
+    if (!accessGate(function () { renderBuild(params); })) return;
     if (fresh) BUILDS.delete(id);
     var entry = startBuild(q, n, fresh), res = entry.res;
     if (n > 1) prefetchNext({ topic: q, variant: n });      // 'Not quite right?': line up the one after straight away
@@ -1534,6 +1546,7 @@
         act.innerHTML = '<a class="btn" href="' + attr(cl) + '" target="_blank" rel="noopener">Build it in Claude</a>' +
           '<span class="muted">Type “' + esc(q) + '” in the box there.</span>';
       } else if (act && code === 'sign_in') act.innerHTML = '<a class="btn" href="#/account">Sign in</a>';
+      else if (act && code === 'no_access') act.innerHTML = '<a class="btn" href="#/access">Get access</a>';
       else if (act) act.innerHTML = code === 'no_generator' || code === 'not_granted' || code === 'sampling_disabled' ? '' :
         '<a class="btn" href="#/build?q=' + encodeURIComponent(q) + (n > 1 ? '&n=' + n : '') + '&fresh=1">Try again</a>';
       if (code === 'no_generator' && res.props.length && act) {
@@ -1887,6 +1900,7 @@
   });
 
   function chooseAudit(p) {
+    if (!accessGate(function () { chooseAudit(p); })) return;
     if (!V.key) { S.pendingChoose = p.id; location.hash = '#/my-audits'; return; }
     var existing = Array.from(S.runs.values()).filter(function (r) { return r.auditId === p.id && !r.closed; })[0];
     if (existing) { location.hash = '#/run/' + existing.id; return; }
@@ -3241,7 +3255,7 @@
     BE.user = u || null;
     updateAccountLink();
     if (before === after) return;
-    BE.admin = null; BE.profile = undefined;
+    BE.admin = null; BE.profile = undefined; S.accessOk = false;
     BE.tracker = null;
     if (u) { if (u.email) setLastEmail(u.email); flushFeedback(); recordActivity(); if (BE.client) loadProfile(BE.client).then(updateAccountLink, function () {}); }
     var name = parseHash().parts[0];
@@ -3472,7 +3486,7 @@
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
       '<button class="btn auth-wide" type="submit">Continue &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
-      '<p class="auth-note">New here? The same step creates your free account.</p>';
+      '<p class="auth-note">Use your NHS, HSE or university email. New here? The same step creates your free account.</p>';
     page('<div class="auth-wrap"><div class="auth-card">' + body + '</div>' +
       '<p class="auth-foot">Never enter patient information. <a href="#/privacy-notice">Privacy</a></p></div>',
       'Sign in', 'account', true);
@@ -3566,10 +3580,123 @@
         '<a class="btn btn-secondary" href="' + attr(afterSigninHref()) + '" data-skip-profile>Skip for now</a>' +
         '<p class="form-status" data-form-status role="status" aria-live="polite"></p></div>' +
       '</form>' +
-      (BE.admin ? card('ac-adm', 'Administration', '', '<p class="ac-links"><a href="#/admin/stats">Usage statistics →</a><a href="#/admin/feedback">Feedback on audits →</a></p>') : '') +
+      (BE.admin ? card('ac-adm', 'Administration', '', '<p class="ac-links"><a href="#/admin/stats">Usage statistics →</a><a href="#/admin/feedback">Feedback on audits →</a><a href="#/admin/access">Access requests →</a></p>') : '') +
       '<div class="ac-danger"><button class="link-btn" type="button" data-delete-account>Delete my account</button><span data-delete-account-box></span></div>' +
       '</div>', 'Account', 'account', true);
   }
+  /* ---------- who can build and run audits: NHS, HSE and university staff ----------
+     Work and university emails get in straight away. Anyone else asks for access; a request is
+     approved automatically after 15 minutes unless an admin rejects it (migration 010). Demo mode
+     and a site without a backend are never gated. The build function checks the same rule. */
+  var INST_EMAIL = /@(([a-z0-9-]+\.)*ac\.uk|([a-z0-9-]+\.)*(tcd|ucd|ucc|ul|dcu|mu|rcsi|universityofgalway|nuigalway|atu|tus|setu|mtu|tudublin)\.ie|([a-z0-9-]+\.)*rcsi\.com)$/i;
+  function isInstitutional(email) { return WORK_EMAIL.test(email || '') || INST_EMAIL.test(email || ''); }
+  function accessStatus() {
+    if (!BE.url || DEMO) return Promise.resolve('ok');
+    return sbClient().then(function (c) {
+      if (!BE.user) return 'signed_out';
+      if (isInstitutional(BE.user.email)) return 'ok';
+      return c.rpc('my_access').then(function (r) { return r.error ? 'ok' : String(r.data || 'none'); }, function () { return 'ok'; });
+    }, function () { return 'ok'; });
+  }
+  // Returns true when the action can go ahead now; otherwise checks, then runs `then` or shows the gate.
+  function accessGate(then) {
+    if (S.accessOk || !BE.url || DEMO) return true;
+    accessStatus().then(function (st) {
+      if (st === 'ok') { S.accessOk = true; then(); return; }
+      S.accessNext = location.hash; renderAccess(st);
+    });
+    return false;
+  }
+  function renderAccess(known) {
+    if (!known) { page(loadingHtml('Checking…'), 'Access', ''); accessStatus().then(function (st) { if (parseHash().parts[0] === 'access') renderAccess(st); }); return; }
+    var st = known, email = BE.user ? BE.user.email || '' : '', body;
+    if (st === 'ok') {
+      S.accessOk = true;
+      body = '<div class="auth-icon is-ok" aria-hidden="true">' + ICON_SENT + '</div><h1>You have access</h1><p class="auth-sub">You can build and run audits.</p>' +
+        '<a class="btn auth-wide" href="' + attr(S.accessNext && S.accessNext !== '#/access' ? S.accessNext : '#/my-audits') + '">Continue</a>';
+    } else if (st === 'signed_out') {
+      body = '<div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div><h1>Sign in with your work email</h1>' +
+        '<p class="auth-sub">Building and running audits is for NHS, HSE and university staff. Sign in with your nhs.net, Trust, HSE or university email.</p>' +
+        '<a class="btn auth-wide" href="#/account">Sign in</a><p class="auth-note">Browsing the library, standards and ready-made audits stays open to everyone.</p>';
+    } else if (st === 'pending') {
+      body = '<div class="auth-icon" aria-hidden="true">' + ICON_MAIL + '</div><h1>Request received</h1>' +
+        '<p class="auth-sub">We review requests within 15 minutes. After that you can build and run audits.</p>' +
+        '<button class="btn auth-wide" type="button" data-access-recheck>Check again</button><p class="form-status" role="status" data-access-status></p>' +
+        '<p class="auth-note">Signed in as ' + esc(email) + '. Have a work email? <button type="button" class="link-btn" data-signout-to-signin>Sign in with it instead</button></p>';
+    } else if (st === 'rejected') {
+      body = '<h1>Access not approved</h1><p class="auth-sub">Ai4Qi is for NHS, HSE and university staff. Sign in with your work email to build and run audits.</p>' +
+        '<button class="btn auth-wide" type="button" data-signout-to-signin>Sign in with a work email</button>';
+    } else {
+      body = '<h1>Use your work email</h1><p class="auth-sub">Building and running audits is for NHS, HSE and university staff. You are signed in as <strong>' + esc(email) + '</strong>.</p>' +
+        '<button class="btn auth-wide" type="button" data-signout-to-signin>Sign in with my work email</button>' +
+        '<details class="acc-req"><summary>No work email? Ask for access</summary>' +
+        '<form class="auth-form acc-form" data-access-request novalidate>' +
+        '<label for="ar-role">Your role</label><select id="ar-role" name="role" required><option value="">Choose…</option>' + optionList(GRADES, '') + '</select>' +
+        '<label for="ar-work">Where you work or study</label><input id="ar-work" name="workplace" maxlength="160" list="org-list" required>' + orgList() +
+        '<label for="ar-why">Why you need access <span class="muted">optional</span></label><textarea id="ar-why" name="reason" maxlength="500" rows="3"></textarea>' +
+        '<button class="btn auth-wide" type="submit">Ask for access</button><p class="form-status" role="status" data-access-status></p></form></details>';
+    }
+    page('<div class="auth-wrap"><div class="auth-card">' + body + '</div></div>', 'Access', '');
+  }
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('[data-access-request]'); if (!f) return;
+    e.preventDefault();
+    var stEl = f.querySelector('[data-access-status]'), role = f.elements.role.value, work = f.elements.workplace.value.trim();
+    if (!role || !work) { stEl.textContent = 'Please choose your role and say where you work or study.'; stEl.classList.add('is-error'); return; }
+    stEl.classList.remove('is-error'); stEl.textContent = 'Sending…';
+    sbClient().then(function (c) {
+      return c.from('access_requests').insert({ user_id: BE.user.id, role: role, workplace: work.slice(0, 160), reason: f.elements.reason.value.trim().slice(0, 500) || null });
+    }).then(function (r) {
+      if (r.error && !/duplicate|unique/i.test(r.error.message || '')) throw r.error;
+      renderAccess('pending');
+    }).catch(function () { stEl.textContent = 'Your request could not be sent. Please try again.'; stEl.classList.add('is-error'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-access-recheck]')) {
+      var st = main.querySelector('[data-access-status]'); if (st) st.textContent = 'Checking…';
+      accessStatus().then(function (v) { if (v === 'pending' && st) st.textContent = 'Not yet. Please check again in a few minutes.'; else renderAccess(v); });
+    } else if (e.target.closest('[data-signout-to-signin]')) {
+      sbClient().then(function (c) { return c.auth.signOut({ scope: 'local' }); }).catch(function () {}).then(function () {
+        setUser(null); setLastEmail(''); S.accessOk = false; location.hash = '#/account'; renderSignIn(null, true);
+      });
+    }
+  });
+  /* admin: access requests (#/admin/access) */
+  function renderAdminAccess() {
+    page(loadingHtml('Loading requests…'), 'Access requests', '');
+    sbClient().then(function (c) {
+      if (!BE.user) return null;
+      return checkAdmin(c).then(function (ok) {
+        if (!ok) return null;
+        return Promise.all([c.from('access_requests').select('*').order('created_at', { ascending: false }).limit(200), c.from('allowed_domains').select('*').order('domain')]);
+      });
+    }).then(function (res) {
+      if (!res) { page('<article class="doc narrow"><h1>Not available</h1><p class="prose">Sign in with an admin account.</p></article>', 'Access requests', ''); return; }
+      var rows = (res[0].data || []), doms = (res[1].data || []);
+      function stateOf(r) { return r.decision || (Date.now() - new Date(r.created_at).getTime() > 900000 ? 'approved (auto)' : 'waiting'); }
+      page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/account">Account</a> › Access requests</nav><h1>Access requests</h1>' +
+        '<p class="prose">Requests are approved automatically 15 minutes after they arrive unless you reject them. Allowing a domain lets everyone with that email in straight away.</p>' +
+        '<div class="table-wrap"><table class="sheet"><thead><tr><th>When</th><th>Email</th><th>Role</th><th>Workplace</th><th>Why</th><th>Status</th><th></th></tr></thead><tbody>' +
+        (rows.length ? rows.map(function (r) {
+          var dom = String(r.email || '').split('@')[1] || '';
+          return '<tr><td>' + esc(new Date(r.created_at).toLocaleString('en-GB')) + '</td><td>' + esc(r.email) + '</td><td>' + esc(r.role || '') + '</td><td>' + esc(r.workplace || '') + '</td><td>' + esc(r.reason || '') + '</td><td>' + esc(stateOf(r)) + '</td>' +
+            '<td><button class="link-btn" data-acc-decide="approved" data-uid="' + attr(r.user_id) + '">Approve</button> · <button class="link-btn" data-acc-decide="rejected" data-uid="' + attr(r.user_id) + '">Reject</button>' +
+            (dom ? ' · <button class="link-btn" data-acc-domain="' + attr(dom) + '">Allow @' + esc(dom) + '</button>' : '') + '</td></tr>';
+        }).join('') : '<tr><td colspan="7">No requests yet.</td></tr>') + '</tbody></table></div>' +
+        '<h2>Allowed domains</h2><p class="prose">' + (doms.length ? doms.map(function (d) { return esc(d.domain); }).join(', ') : 'None yet (NHS, HSE and university emails are always allowed).') + '</p>' +
+        '<p class="form-status" role="status" data-acc-admin-status></p>', 'Access requests', '');
+    }).catch(function () { page('<article class="doc narrow"><h1>Not available yet</h1><p class="prose">Run migration 010 in Supabase first.</p></article>', 'Access requests', ''); });
+  }
+  document.addEventListener('click', function (e) {
+    var d = e.target.closest('[data-acc-decide]'), dm = e.target.closest('[data-acc-domain]');
+    if (!d && !dm) return;
+    var st = main.querySelector('[data-acc-admin-status]');
+    sbClient().then(function (c) {
+      return d ? c.from('access_requests').update({ decision: d.getAttribute('data-acc-decide'), decided_at: new Date().toISOString() }).eq('user_id', d.getAttribute('data-uid'))
+        : c.from('allowed_domains').upsert({ domain: dm.getAttribute('data-acc-domain').toLowerCase() });
+    }).then(function (r) { if (r.error) throw r.error; renderAdminAccess(); }, function () {}).catch(function () { if (st) st.textContent = 'That did not save. Please try again.'; });
+  });
+
   function renderSignedOut() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>You are signed out</h1>' +
       '<p class="auth-sub">Your audits stay on this device. Sign in again to get reminders.</p>' +
@@ -4099,7 +4226,7 @@
   var HELP = [
     { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it, press Choose this audit, then Start this audit when you are ready.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
     { q: 'Is Ai4Qi free?', k: 'cost price pay money subscription charge', a: 'Yes. Ai4Qi is free to use.' },
-    { q: 'Do I need an account?', k: 'sign register login log email password', a: 'No. You can build and run an audit without one. Signing in only adds email reminders when each step is due. We send a code to your email; there is no password.', go: [['Sign in', '#/account']] },
+    { q: 'Do I need an account?', k: 'sign register login log email password', a: 'Browsing is open to everyone. To build or run an audit, sign in with your NHS, HSE or university email; we send a code, there is no password. No work email? Sign in and ask for access.', go: [['Sign in', '#/account']] },
     { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Wait a minute or two, then check Junk and the Other tab. NHSmail is slower with new senders. Still nothing after 3 minutes? Sign in with a personal email instead.', go: [['Sign in again', '#/account']] },
     { q: 'Where are my audits?', k: 'dashboard saved find lost my audits list progress', a: 'In My audits. They are kept on this device and in this browser. If you switched device or browser, restore a backup there.', go: [['My audits', '#/my-audits']] },
     { q: 'How do I enter my data?', k: 'data upload excel spreadsheet sheet enter record collect import input', a: 'Open your audit in My audits, download the Excel data sheet, fill in one row per patient, then upload it under Upload your data sheet. The results appear straight away.' },

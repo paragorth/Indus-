@@ -9,7 +9,7 @@
 //   {"hb": 1}            heartbeat, straight away and every 5 seconds (keeps the gateway and the page waiting)
 //   {"t": "..."}         the next piece of the protocol text as Claude writes it
 //   {"done": {...}}      the finished protocol
-//   {"error": "..."}     "sign in", "bad request", "daily limit", "monthly limit", "busy",
+//   {"error": "..."}     "sign in", "no access", "bad request", "daily limit", "monthly limit", "busy",
 //                        "not an audit topic", "invalid json", "upstream", "not configured"
 // All checks and the Claude call run after the response has started, so nothing can hold up the
 // headers. Errors are written to the function logs with console.error.
@@ -108,6 +108,12 @@ async function build(req: Request, send: Send): Promise<void> {
   const { data: who, error: authErr } = await admin.auth.getUser(jwt);
   const user = who?.user;
   if (!user) { if (authErr) console.error("auth", authErr.message); await send({ error: "sign in" }); return; }
+
+  // 1b. NHS, HSE and university staff, or an approved access request (migration 010).
+  //     If the migration has not been run yet, the check is skipped rather than blocking everyone.
+  const { data: access, error: accErr } = await admin.rpc("access_for", { p_user: user.id });
+  if (accErr) console.error("access check", accErr.message);
+  else if (access !== "ok") { await send({ error: "no access" }); return; }
 
   let body: { topic?: unknown; theme?: unknown; prompt?: unknown; key?: unknown; fresh?: unknown };
   try { body = await req.json(); } catch { await send({ error: "bad request" }); return; }
