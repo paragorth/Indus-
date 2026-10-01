@@ -630,7 +630,7 @@
       cell('Selection criteria', selectionHtml(p.population)) +
       cell('Data collection', bullets(splitTop(p.data_source, /;/), 'bul')) +
       cell('Sample size', '<p class="m-n">' + linkify(p.sample) + '</p>' +
-        '<small class="prec-note">' + precisionText(sampleGuess(p)) + ' Need to do fewer? After choosing the audit, set your own number in My audits (at least 20).</small>') +
+        '<small class="prec-note">' + precisionText(sampleGuess(p)) + powerText(p) + ' Need to do fewer? After choosing the audit, set your own number in My audits (at least 20).</small>') +
       '</div>' +
       sub('Timeline', timelineHtml(p.timeline));
     var pits = (p.pitfalls || []).length, pearls = (p.pearls || []).length;
@@ -1815,6 +1815,42 @@
     var i = e.target.closest && e.target.closest('[data-sample-input]'); if (!i) return;
     var n = i.parentNode.querySelector('[data-prec]'); if (n) n.innerHTML = precisionText(+i.value);
   });
+  /* How many records each cycle needs to show a real rise to the target (two-sided 5%, 80% power). */
+  function nNeeded(p1, p2) {
+    if (!(p2 > p1) || p1 < 0 || p2 > 1) return null;
+    var pb = (p1 + p2) / 2, a = 1.959964 * Math.sqrt(2 * pb * (1 - pb)), b = 0.841621 * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2));
+    return Math.ceil(Math.pow(a + b, 2) / Math.pow(p2 - p1, 2));
+  }
+  function powerText(p, baseline) {
+    var t = parseTarget(p && p.target);
+    if (!t || !/[≥>]/.test(t.op) || t.value <= 5) return '';
+    var known = isFinite(baseline) && baseline !== null, b = known ? baseline : Math.max(10, Math.round((t.value - 30) / 5) * 5);
+    if (b >= t.value) return known ? ' Cycle 1 already meets the ' + t.op + t.value + '% target.' : '';
+    var n = nNeeded(b / 100, t.value / 100); if (!n) return '';
+    return ' To show a real rise ' + (known ? 'from your ' + Math.round(b) + '%' : 'from about ' + b + '% now') + ' to the ' + t.op + t.value + '% target, collect about <b>' + n + ' per cycle</b>.';
+  }
+  /* Is the difference between the cycles real? 95% CI (Newcombe) and a two-sided p value
+     (Fisher's exact test when an expected count is under 5, otherwise chi-squared). */
+  function wilsonCI(x, n) { var z = 1.959964, p = x / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d, h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d; return [Math.max(0, c - h), Math.min(1, c + h)]; }
+  function lgamI(n) { var s = 0; for (var i = 2; i <= n; i++) s += Math.log(i); return s; }
+  function cycleTest(c1, c2) {
+    var a = c2.passN || 0, b = c2.failN || 0, c = c1.passN || 0, d = c1.failN || 0, n2 = a + b, n1 = c + d, n = n1 + n2;
+    if (!n1 || !n2) return null;
+    var p1 = c / n1, p2 = a / n2, w1 = wilsonCI(c, n1), w2 = wilsonCI(a, n2), df = p2 - p1;
+    var lo = df - Math.sqrt(Math.pow(p2 - w2[0], 2) + Math.pow(w1[1] - p1, 2)), hi = df + Math.sqrt(Math.pow(w2[1] - p2, 2) + Math.pow(p1 - w1[0], 2));
+    var small = [[a + c, n2], [a + c, n1], [b + d, n2], [b + d, n1]].some(function (q) { return q[0] * q[1] / n < 5; }), pv;
+    if (small) {
+      var r1 = a + b, k1 = a + c, lf = function (x) { return lgamI(r1) + lgamI(n - r1) + lgamI(k1) + lgamI(n - k1) - lgamI(n) - lgamI(x) - lgamI(r1 - x) - lgamI(k1 - x) - lgamI(n - r1 - k1 + x); };
+      var p0 = lf(a); pv = 0;
+      for (var x = Math.max(0, r1 + k1 - n); x <= Math.min(r1, k1); x++) { var q = lf(x); if (q <= p0 + 1e-7) pv += Math.exp(q); }
+    } else {
+      var den = (a + b) * (c + d) * (a + c) * (b + d), z = den ? Math.sqrt(n * Math.pow(a * d - b * c, 2) / den) : 0;
+      var t = 1 / (1 + 0.2316419 * z); pv = 2 * 0.3989423 * Math.exp(-z * z / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    }
+    pv = Math.min(1, pv);
+    return { diff: df * 100, lo: lo * 100, hi: hi * 100, p: pv, real: pv < 0.05 };
+  }
+  function pFmt(p) { return p < 0.001 ? 'p < 0.001' : 'p = ' + (p < 0.01 ? p.toFixed(3) : p.toFixed(2)); }
   function sampleGuess(p) {
     var nums = [], re = /(\d{1,4})(?:\s*[–-]\s*\d{1,4})?\s*(months?|weeks?|days?|years?|hours?|mins?|minutes?|%)?/gi, m;
     while ((m = re.exec(String(p.sample || '')))) if (!m[2] && +m[1] >= 10) nums.push(+m[1]);
@@ -2488,6 +2524,12 @@
         (t ? '<div class="rd-tile is-gold"><span class="rd-ti">◎</span><b>' + esc(t.op + t.value) + '%</b><span>target</span></div>' : '')) + '</div>';
     var hero = '<div class="rd-hero' + (m ? ' is-met' : '') + '">' + donutSvg(key, t, two ? 'is-c2' : 'is-c1') +
       '<div class="rd-hero-t"><span class="rd-kicker">' + (two ? 'Before and after the change' : 'Cycle 1 result') + '</span><h3>' + head + '</h3><p>' + sub + '</p>' + badge2 +
+      (function () {
+        var ts = two ? cycleTest(c1, c2) : null; if (!ts) return '';
+        var ci = ' 95% confidence interval of the change: ' + (ts.lo >= 0 ? '+' : '') + Math.round(ts.lo) + ' to ' + (ts.hi >= 0 ? '+' : '') + Math.round(ts.hi) + ' points.';
+        return '<p class="rd-sig ' + (ts.real ? 'is-real' : 'is-maybe') + '"><b>' + (ts.real ? (diff > 0 ? '✓ A real improvement' : 'A real fall') + '</b> — unlikely to be chance (' + pFmt(ts.p) + ').' :
+          'Could be chance</b> (' + pFmt(ts.p) + '): with these numbers the difference is not certain. More records in each cycle would settle it.') + ci + '</p>';
+      })() +
       '<div class="rd-tracks">' + track(c1, 'Cycle 1', 'is-c1') + (two ? track(c2, 'Re-audit', 'is-c2') : '') + '</div>' +
       (t ? '<p class="rd-key"><span class="dn-tick-key"></span> Target ' + esc(t.text) + '</p>' : '') + '</div></div>' + tiles;
     // Charts that add something: before/after columns once there are two cycles; a run chart when months allow
@@ -2627,7 +2669,7 @@
         .map(function (x) {
           return '<div class="rec-f"><label for="rd-' + x[0] + '">' + x[1] + '</label><input id="rd-' + x[0] + '" name="' + x[0] + '" type="' + x[2] + '"' +
             (x[2] === 'number' ? ' min="1" max="2000" data-sample-input' : ' maxlength="200"') + ' value="' + attr(d[x[0]] == null ? '' : d[x[0]]) + '">' +
-            (x[0] === 'sampleSize' ? '<small class="prec-note" data-prec>' + precisionText(+d.sampleSize || 30) + '</small>' : '') + '</div>';
+            (x[0] === 'sampleSize' ? '<small class="prec-note" data-prec>' + precisionText(+d.sampleSize || 30) + '</small><small class="prec-note">' + powerText(p, st.cycles[0].pct) + '</small>' : '') + '</div>';
         }).join('') +
       '<fieldset class="rec-wide opt-set"><legend>Extra data protection</legend>' +
       '<label class="check"><input type="checkbox" name="monthOnly"' + ((r.options || {}).monthOnly ? ' checked' : '') + '><span>Store dates as month and year only (existing dates are shortened too)</span></label>' +
@@ -4281,7 +4323,7 @@
     { q: 'Can I add or remove columns in the data sheet?', k: 'column add delete extra change excel field question', a: 'Yes. Open the audit in My audits and add or remove columns before you download the sheet. Or add them in Excel: when you upload, Ai4Qi offers to add the new columns and includes them in the results.' },
     { q: 'What happens to patient identifiers?', k: 'identifier nhs number hospital number name mrn dob patient confidential gdpr id', a: 'Do not put them in the sheet. If a column looks like an identifier (name, NHS or hospital number, date of birth), Ai4Qi leaves it out on upload. The Code column refuses long numbers like NHS numbers.' },
     { q: 'Is my data safe? Who can see it?', k: 'privacy secure safe data protection gdpr encrypted server see', a: 'Your records stay encrypted in your own browser. They are never sent to Ai4Qi or to the AI, and we cannot see them.', go: [['How your data is protected', '#/privacy']] },
-    { q: 'How many patients do I need?', k: 'sample size number patients how many cases enough power strength', a: 'Each audit suggests a sample. You can change it: fewer patients is fine, but the result is less precise. The page shows how precise it will be, for example 50 patients gives about ±14 points.' },
+    { q: 'How many patients do I need?', k: 'sample size number patients how many cases enough power strength', a: 'Each audit suggests a sample, and shows how precise it is (50 patients gives about ±14 points) and how many you need in each cycle to show a real rise to the target. You can do fewer; after the re-audit the results say whether the change could be chance.' },
     { q: 'Can I change the audit question or title?', k: 'edit change reword title question tweak adapt modify', a: 'Yes. Open the audit in My audits and edit the Audit question under Audit details. The title follows it unless you changed the title yourself.', go: [['My audits', '#/my-audits']] },
     { q: 'What is the re-audit?', k: 'reaudit re audit second cycle close loop closing again repeat', a: 'After cycle 1 you make one change, then collect the same data again with a new re-audit sheet. The results then show before and after. Open Re-audit: close the loop on the audit page.' },
     { q: 'What goes in The change?', k: 'change intervention action improvement what did you change', a: 'The one thing you changed after cycle 1, for example a new checklist, a form or a default in the system, and the date you started it. It appears on the results and in the presentation.' },
