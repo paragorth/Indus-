@@ -4512,7 +4512,7 @@
       st.textContent = IDEA_THANKS();
     }, 650);
   });
-  function IDEA_THANKS() { return BE.user ? 'Sent! We are looking into it and will email you the result as soon as we can.' : 'Sent! We are looking into it. Sign in next time and we will email you the result.'; }
+  function IDEA_THANKS() { return BE.user ? 'Thanks! We are looking into it and will reply.' : 'Thanks! We are looking into it.'; }
   // A short "swoosh": filtered noise sweeping down, made in the browser (no sound file). Only after a tap.
   function whoosh() {
     try {
