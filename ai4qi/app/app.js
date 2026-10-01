@@ -3336,7 +3336,10 @@
           if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
           // A ?code= link only works in the browser it was asked from (e.g. requested in Chrome, opened in
           // Safari, the Mac's default): offer the code from the same email instead of a dead end.
-          if (AUTH_RETURN && AUTH_RETURN.code && !AUTH_RETURN.error && !(res.data && res.data.session)) BE.otherBrowser = true;
+          if (AUTH_RETURN && !AUTH_RETURN.tokenHash && !(res.data && res.data.session)) {
+            BE.otherBrowser = true;
+            BE.linkWhy = AUTH_RETURN.error ? /expired|invalid/i.test(AUTH_RETURN.error) ? 'expired' : 'error' : AUTH_RETURN.code ? 'browser' : 'unknown';
+          }
           if (AUTH_RETURN) cleanAuthUrl();
           BE.client = c;
           BE.user = res.data && res.data.session ? res.data.session.user : null;
@@ -3580,7 +3583,11 @@
     // A work email's link scanner (Microsoft Defender on NHSmail) can open the link first and use it up,
     // along with the code in that email. A fresh code, typed rather than clicked, always works.
     var err = BE.authError ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or was already used. Send a new one below.</div>' : '';
-    if (BE.otherBrowser && known) err = '<div class="notice notice-warn" role="alert">That link opened in a different browser from the one you asked in. Type the code from the same email instead:</div>' +
+    if (BE.otherBrowser && known) err = '<div class="notice notice-warn" role="alert">' + ({
+        browser: 'That link opened in a different browser from the one you asked in (on a Mac, links often open in Safari).',
+        expired: 'That link was already used: email security (e.g. NHSmail) often opens links before you do.',
+        error: 'That link did not sign you in.', unknown: 'That link did not sign you in.' })[BE.linkWhy || 'unknown'] +
+      ' Type the code from the same email instead:</div>' +
       '<form class="auth-form auth-code" data-otp novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
       '<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="Code from the email" aria-label="Code from the email">' +
       '<button class="btn auth-wide" type="submit">Sign in</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
