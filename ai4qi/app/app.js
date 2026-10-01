@@ -281,6 +281,7 @@
       else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
       else if (name === 'signed-out') renderSignedOut();
       else if (name === 'ideas') renderIdeas();
+      else if (name === 'qr') renderQR();
       else if (name === 'access') renderAccess();
       else if (name === 'admin' && p[1] === 'access' && BE.url) renderAdminAccess();
       else if (name === 'my-audits') renderRuns();
@@ -3913,6 +3914,19 @@
     setTimeout(function () { renderIdeas(true); }, 650);
   });
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-idea-again]')) renderIdeas(false); });
+
+  /* #/qr: the launch QR code, full screen, for showing on a projector or a phone. */
+  function renderQR() {
+    page('<div class="qr-stage"><div class="qr-card"><img src="icons/qr-launch.png" alt="QR code for ai4qi.com" width="888" height="1058"></div>' +
+      '<div class="qr-side"><p class="qr-k">Clinical audit, start to closed loop</p><h1>Scan to start your audit</h1>' +
+      '<p class="qr-sub">Free. 20,000 published audits, 1,011 ready-to-run protocols, results and slides made for you.</p>' +
+      '<p class="qr-url">ai4qi.com</p><button type="button" class="btn btn-secondary qr-full no-print" data-qr-full>Full screen</button></div></div>', 'Scan to start', '');
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest || !e.target.closest('[data-qr-full]')) return;
+    var el = document.documentElement;
+    try { (el.requestFullscreen || el.webkitRequestFullscreen).call(el); } catch (err) {}
+  });
 
   function renderSignedOut() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>You are signed out</h1>' +
