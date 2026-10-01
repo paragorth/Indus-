@@ -280,6 +280,7 @@
       else if (name === 'admin' && p[1] === 'feedback' && BE.url) renderAdmin();
       else if (name === 'admin' && p[1] === 'stats' && BE.url) renderStats();
       else if (name === 'signed-out') renderSignedOut();
+      else if (name === 'ideas') renderIdeas();
       else if (name === 'access') renderAccess();
       else if (name === 'admin' && p[1] === 'access' && BE.url) renderAdminAccess();
       else if (name === 'my-audits') renderRuns();
@@ -2437,7 +2438,8 @@
       '<div class="restore"><label class="file-pick"><input type="file" accept=".json,application/json" data-restore><span class="btn btn-secondary">Restore a backup</span></label>' +
       '<span class="form-status" role="status" data-restore-status></span>' + (vaultDevice() ? '' : '<button type="button" class="link-btn" data-vault-lock>Lock now</button>') + '</div>' +
       protectionBox() + '</details>';
-    page('<div class="dash-top"><div><h1>My audits</h1><p class="page-intro">' + hello + '</p></div>' + startNew + '</div>' + signedNote + stats + body + care, 'My audits', 'my-audits');
+    var idea = '<a class="idea-card no-print" href="#/ideas"><b>Something not quite right?</b><span>Tell us what to change and we will build it for you.</span><i aria-hidden="true">→</i></a>';
+    page('<div class="dash-top"><div><h1>My audits</h1><p class="page-intro">' + hello + '</p></div>' + startNew + '</div>' + signedNote + stats + body + idea + care, 'My audits', 'my-audits');
   }
   function privacyLink() { return '<a href="#/privacy">How your data is protected</a>'; }
   function protectionBox() {
@@ -2741,7 +2743,7 @@
           'Write down what you changed and the day it started. It goes on your slides, marks the date on the month-by-month chart, and shows the loop was closed.</p>' + changeForm) +
         sec(4, 'Re-audit data', '<p class="step-why">Once the change has bedded in, collect the same data again with the re-audit sheet. It has its own code, so it can only go into this audit, as the re-audit. The results below then show before and after.</p>' + cyclePanel(r, 'c2', st)) +
       '</details>' +
-      sec(5, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId))) +
+      sec(5, 'Results', results + (r.demo ? '' : feedbackBox(r.auditId)) + '<a class="idea-card no-print" href="#/ideas"><b>Could the results or slides be better?</b><span>Tell us what to change and we will build it for you.</span><i aria-hidden="true">→</i></a>') +
       sec(6, 'Files for you', dl) +
       '<section class="danger-zone"><button type="button" class="link-btn" data-run-delete>Delete this audit and its data from this device</button><span data-del-confirm></span></section>' +
       '</article>', 'My audit', 'my-audits');
@@ -3823,6 +3825,44 @@
     }).then(function (r) { if (r.error) throw r.error; renderAdminAccess(); }, function () {}).catch(function () { if (st) st.textContent = 'That did not save. Please try again.'; });
   });
 
+  /* ---------- "Make Ai4Qi better": ideas for the site, from anyone, kept with the audit feedback
+     (audit_id "SITE-<area>-<random>", so each idea is its own row). ---------- */
+  var IDEA_AREAS = [['build', 'Building an audit'], ['audit', 'Audit page'], ['sheet', 'Data sheet'], ['results', 'Results'],
+    ['slides', 'Presentation'], ['signin', 'Signing in'], ['other', 'Something else']];
+  function renderIdeas(sent) {
+    page('<article class="doc narrow ideas">' +
+      '<p class="eyebrow-k">Make Ai4Qi better</p><h1>What would you change?</h1>' +
+      '<p class="page-intro">Tell us one thing that would make Ai4Qi work better for you. We read every idea and build the good ones, often within days.</p>' +
+      (sent ? '<div class="idea-done" role="status"><b>Thank you, your idea is with us.</b><span>We will look at it and, if it helps, build it.</span>' +
+        '<button type="button" class="btn btn-secondary" data-idea-again>Suggest another</button></div>' :
+      '<form class="idea-form" data-idea novalidate>' +
+        '<fieldset><legend>Which part?</legend><div class="idea-areas">' + IDEA_AREAS.map(function (a, i) {
+          return '<label class="idea-chip"><input type="radio" name="area" value="' + a[0] + '"' + (i === IDEA_AREAS.length - 1 ? ' checked' : '') + '><span>' + a[1] + '</span></label>';
+        }).join('') + '</div></fieldset>' +
+        '<label for="idea-t">Your idea</label>' +
+        '<textarea id="idea-t" name="text" rows="5" maxlength="480" placeholder="e.g. The results page should also show the trend by ward, or: I could not find where to change the sample size."></textarea>' +
+        '<p class="idea-count" data-idea-count>0 / 480</p>' +
+        (BE.user ? '<label class="check"><input type="checkbox" name="reply"><span>Tell me when it is done (we use your account email; nothing else is shared).</span></label>' : '') +
+        '<p class="muted idea-note">Please do not include patient details.</p>' +
+        '<button class="btn" type="submit">Send my idea</button><p class="form-status" role="status" data-idea-status></p>' +
+      '</form>') + '</article>', 'Suggest a change', '');
+  }
+  document.addEventListener('input', function (e) {
+    var t = e.target.closest && e.target.closest('#idea-t'); if (!t) return;
+    var c = main.querySelector('[data-idea-count]'); if (c) c.textContent = t.value.length + ' / 480';
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('[data-idea]'); if (!f) return;
+    e.preventDefault();
+    var txt = scrub(f.elements.text.value.trim(), { redacted: 0 }), st = f.querySelector('[data-idea-status]');
+    if (txt.length < 5) { st.textContent = 'Please write a few words about your idea.'; st.classList.add('is-error'); return; }
+    var area = (f.querySelector('input[name="area"]:checked') || {}).value || 'other';
+    var rnd = Math.random().toString(36).slice(2, 8);
+    recordFeedback('SITE-' + area + '-' + rnd, 'up', [], (txt + (f.elements.reply && f.elements.reply.checked ? ' [reply wanted]' : '')).slice(0, 500));
+    renderIdeas(true);
+  });
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-idea-again]')) renderIdeas(false); });
+
   function renderSignedOut() {
     page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>You are signed out</h1>' +
       '<p class="auth-sub">Your audits stay on this device. Sign in again to get reminders.</p>' +
@@ -3960,7 +4000,12 @@
     var d = new Date(iso);
     return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
-  function renderAdminPage(rows) {
+  function renderAdminPage(allRows) {
+    var ideas = allRows.filter(function (r) { return /^SITE-/.test(r.audit_id || ''); }), rows = allRows.filter(function (r) { return !/^SITE-/.test(r.audit_id || ''); });
+    var ideasHtml = '<h2>Ideas for the site (' + ideas.length + ')</h2>' + (ideas.length ? '<ul class="adm-comments">' + ideas.map(function (r) {
+      var area = (String(r.audit_id).split('-')[1] || 'other'), lab = (IDEA_AREAS.filter(function (a) { return a[0] === area; })[0] || [0, area])[1];
+      return '<li><p class="meta">' + esc(dateGB(r.created_at)) + ' · ' + esc(lab) + (r.user_id ? ' · signed in' : '') + '</p><p class="adm-comment">' + esc(r.comment) + '</p></li>';
+    }).join('') + '</ul>' : '<p class="empty">No ideas yet.</p>');
     var per = summarise(rows), up = 0, down = 0;
     per.forEach(function (a) { up += a.up; down += a.down; });
     var withComments = rows.filter(function (r) { return r.comment; });
@@ -4432,7 +4477,8 @@
       '<form class="hb-form" role="search" data-help-form><label class="visually-hidden" for="help-q">Your question</label>' +
       '<input id="help-q" type="search" autocomplete="off" placeholder="Ask a question, e.g. how do I upload data?"></form>' +
       '<div class="hb-res" data-help-res aria-live="polite"></div>' +
-      '<p class="hb-foot">Answers come from this site. Nothing you type is sent anywhere. <a href="#/how-it-works" data-help-close>How Ai4Qi works</a></p>';
+      '<a class="hb-idea" href="#/ideas" data-help-close><b>💡 Suggest a change</b><span>Tell us what would make Ai4Qi better and we will build it.</span></a>' +
+      '<p class="hb-foot">Answers come from this site. Nothing you type in the search box is sent anywhere. <a href="#/how-it-works" data-help-close>How Ai4Qi works</a></p>';
     document.body.appendChild(box); document.body.appendChild(btn);
     var inp = box.querySelector('#help-q'), res = box.querySelector('[data-help-res]'), t = null;
     function show(open) {
@@ -4473,8 +4519,15 @@
       // reload once so people see today's site, not yesterday's. Later on, it waits for the next visit.
       var hadCtrl = !!navigator.serviceWorker.controller, loadedAt = Date.now(), reloaded = false;
       navigator.serviceWorker.addEventListener('controllerchange', function () {
-        if (!hadCtrl || reloaded || Date.now() - loadedAt > 60000) return;
-        reloaded = true; location.reload();
+        if (!hadCtrl || reloaded) return;
+        if (Date.now() - loadedAt <= 60000) { reloaded = true; location.reload(); return; }
+        // Later in a visit: offer the new version rather than reloading under someone's feet.
+        if (document.querySelector('.update-bar')) return;
+        var bar = document.createElement('div');
+        bar.className = 'update-bar'; bar.setAttribute('role', 'status');
+        bar.innerHTML = '<span>A new version of Ai4Qi is ready.</span><button type="button" class="btn">Refresh</button>';
+        bar.querySelector('button').addEventListener('click', function () { reloaded = true; location.reload(); });
+        document.body.appendChild(bar);
       });
       navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).then(function (reg) { reg.update().catch(function () {}); }).catch(function () {});
       navigator.serviceWorker.ready.then(function () {
