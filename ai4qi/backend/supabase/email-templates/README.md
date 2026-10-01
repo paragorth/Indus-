@@ -6,16 +6,14 @@ Supabase → **Authentication** → **Emails** → **Templates**:
 
 | Template | Subject | Message body |
 |---|---|---|
-| **Magic Link** (someone who already has an account) | `Your Ai4Qi sign-in code` | the whole of `magic-link.html` |
-| **Confirm signup** (first sign-in of a new email address) | `Your Ai4Qi code` | the whole of `confirm-signup.html` |
+| **Magic Link** (someone who already has an account) | `Sign in to Ai4Qi` | the whole of `magic-link.html` |
+| **Confirm signup** (first sign-in of a new email address) | `Create your Ai4Qi account` | the whole of `confirm-signup.html` |
 
-Paste into the **Source** (HTML) view and save. Leave `{{ .Token }}` exactly as it is.
+Paste into the **Source** (HTML) view and save. Leave `{{ .TokenHash }}` and `{{ .Token }}` exactly as they are.
 
-The emails carry **only the 6-digit code: no link, no button, no image**. ai4qi.com was registered on
-28 Sep 2026, and Microsoft filtering (NHSmail and Trust Microsoft 365 tenants) put the earlier emails,
-which had a sign-in button, into admin-only quarantine as suspected phishing, although Resend showed
-them delivered. A code-only message carries none of those signals. People type the code on the
-sign-in page, which also lets them read the email on a phone and sign in on a Trust computer.
-
-The app still accepts `?token_hash=` links (see AUTH_RETURN in app.js) if a link is ever added back
-once the domain has a sending reputation.
+The email has a **Sign me in** button and, smaller, the code. The button opens
+`https://ai4qi.com/?token_hash=...`; that page signs the person in only when they press **Sign me in**
+there. Email security scanners (Microsoft Defender on NHSmail) open every link in an incoming email,
+which used up one-time links before people clicked them; scanners never press buttons, so the sign-in
+waits for the person. The code is for reading the email on a phone and signing in on another computer.
+The link points to ai4qi.com (the sender's own domain), not to supabase.co.

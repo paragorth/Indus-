@@ -3319,11 +3319,10 @@
           setTimeout(function () { setUser(session ? session.user : null); }, 0);
         });
         return c.auth.getSession().then(function (res) {
-          if (!AUTH_RETURN || !AUTH_RETURN.tokenHash || (res.data && res.data.session)) return res;
-          return c.auth.verifyOtp({ token_hash: AUTH_RETURN.tokenHash, type: AUTH_RETURN.type }).then(function (v) {
-            if (v.error) { AUTH_RETURN.error = 'This sign-in link has expired or was already used. Ask for a new one, or type the code from the email.'; return res; }
-            return { data: { session: v.data && v.data.session } };
-          });
+          // An emailed link is only used when the person presses "Sign me in": email security scanners
+          // (Microsoft Defender on NHSmail) open links but never press buttons, so they cannot use it up.
+          if (AUTH_RETURN && AUTH_RETURN.tokenHash && !(res.data && res.data.session)) BE.pendingLink = { h: AUTH_RETURN.tokenHash, t: AUTH_RETURN.type };
+          return res;
         }).then(function (res) {
           if (AUTH_RETURN && AUTH_RETURN.error && !(res.data && res.data.session)) BE.authError = AUTH_RETURN.error;
           if (AUTH_RETURN) cleanAuthUrl();
@@ -3515,7 +3514,7 @@
       return Promise.all([loadProfile(c), checkAdmin(c)]);
     }).then(function () {
       if (!stillOn('account')) return;
-      if (BE.user) renderSignedIn(); else renderSignIn();
+      if (BE.user) renderSignedIn(); else if (BE.pendingLink) renderLinkConfirm(); else renderSignIn();
       focusMain();
     }, function () { if (stillOn('account')) unavailable('Account', 'account'); });
   }
@@ -3565,16 +3564,16 @@
     var known = !fresh && lastEmail();
     // A work email's link scanner (Microsoft Defender on NHSmail) can open the link first and use it up,
     // along with the code in that email. A fresh code, typed rather than clicked, always works.
-    var err = BE.authError ? '<div class="notice notice-warn" role="alert">That link did not sign you in: your email\'s security scanner may have used it first. Send a new code below and <strong>type it in</strong> instead of clicking.</div>' : '';
+    var err = BE.authError ? '<div class="notice notice-warn" role="alert">That sign-in link has expired or was already used. Send a new one below.</div>' : '';
     var body = known ?
       '<div class="auth-avatar" aria-hidden="true">' + esc(emailInitials(known)) + '</div>' +
       '<h1>Welcome back</h1><p class="auth-sub">' + esc(known) + '</p>' + err + (isInstitutional(known) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
       '<form class="auth-form" data-signin novalidate><input type="hidden" name="email" value="' + attr(known) + '">' +
-      '<button class="btn auth-wide" type="submit">Email me a sign-in code &nbsp;→</button>' +
+      '<button class="btn auth-wide" type="submit">Email me a sign-in link &nbsp;→</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
       '<button type="button" class="link-btn auth-alt" data-signin-other>Not you? Use another email</button>' :
       '<div class="auth-icon">' + ICON_MAIL + '</div>' +
-      '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a 6-digit code.</p>' + err +
+      '<h1>' + esc(title || 'Sign in') + '</h1><p class="auth-sub">No password. We email you a sign-in link.</p>' + err +
       '<form class="auth-form" data-signin novalidate>' +
       '<label for="acc-email" class="sr-only">Email address</label>' +
       '<input id="acc-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254" placeholder="you@nhs.net">' +
@@ -3595,15 +3594,37 @@
     w.hidden = !(done && !isInstitutional(v));
     if (!w.hidden) w.innerHTML = NONINST_WARN;
   });
+  function renderLinkConfirm() {
+    page('<div class="auth-wrap"><div class="auth-card"><div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
+      '<h1>Finish signing in</h1><p class="auth-sub">' + (lastEmail() ? esc(lastEmail()) : 'Your sign-in link is ready.') + '</p>' +
+      '<button class="btn auth-wide" type="button" data-link-confirm>Sign me in &nbsp;→</button>' +
+      '<p class="form-status" role="status" data-form-status></p></div></div>', 'Sign in', 'account', true);
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-link-confirm]'); if (!b || !BE.pendingLink) return;
+    var st = main.querySelector('[data-form-status]'), pl = BE.pendingLink;
+    b.disabled = true; if (st) st.textContent = 'Signing you in…';
+    sbClient().then(function (c) { return c.auth.verifyOtp({ token_hash: pl.h, type: pl.t }); }).then(function (v) {
+      BE.pendingLink = null;
+      if (v.error) throw v.error;
+      S.justSignedIn = true;
+      if (v.data && v.data.user) setUser(v.data.user);
+      location.hash = signedInHome();
+    }).catch(function () {
+      BE.pendingLink = null;
+      BE.authError = 'This sign-in link has expired or was already used.';
+      renderSignIn();
+    });
+  });
   function renderSent(email) {
     var card = main.querySelector('.auth-card'); if (!card) return;
     card.innerHTML = '<div class="auth-icon is-ok">' + ICON_SENT + '</div>' +
-      '<h1 tabindex="-1">Check your email</h1><p class="auth-sub">We sent a 6-digit code to<br><strong>' + esc(email) + '</strong></p>' +
+      '<h1 tabindex="-1">Check your email</h1><p class="auth-sub">We sent a sign-in link to<br><strong>' + esc(email) + '</strong>. Open it on this device and press <em>Sign me in</em>.</p>' +
       inboxLink(email) +
       '<form class="auth-form auth-code" data-otp novalidate><input type="hidden" name="email" value="' + attr(email) + '">' +
-      '<label for="otp-code">Type the code from the email</label>' +
+      '<label for="otp-code">Reading the email on another device? Type the code from it</label>' +
       '<input id="otp-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="10" placeholder="••••••">' +
-      '<button class="btn auth-wide" type="submit">Sign in</button>' +
+      '<button class="btn btn-secondary auth-wide" type="submit">Sign in with the code</button>' +
       '<p class="form-status" data-form-status role="status" aria-live="polite"></p></form>' +
       (isInstitutional(email) ? '' : '<p class="auth-warn">' + NONINST_WARN + '</p>') +
       (WORK_EMAIL.test(email) ? '<p class="auth-tip"><strong>Using a work email?</strong> Not in your inbox? Check <em>Junk</em> and the <em>Other</em> tab, and mark it <em>Not junk</em>. Still nothing after 3 minutes? Use a personal email for now.</p>' : '') +
