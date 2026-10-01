@@ -1,0 +1,1520 @@
+{
+"ONA-001": {
+"question": "What proportion of adults having hip fracture surgery receive intravenous tranexamic acid before the start of surgery?",
+"pass": "IV tranexamic acid given between induction and knife-to-skin, or contraindication documented",
+"change": "Add a default 'Tranexamic acid 1 g IV at induction' line to the hip fracture anaesthetic e-record or pre-printed chart, with an 'omitted because' box.",
+"area": "Hip and fragility fracture"
+},
+"ONA-002": {
+"question": "What proportion of red cell transfusions for non-bleeding hip fracture patients are given as a single unit followed by reassessment?",
+"pass": "One unit prescribed, with Hb check or clinical review before any further unit",
+"change": "Set the EPMA red cell order for hip fracture patients to default to 1 unit, with a mandatory reason field for more than 1.",
+"area": "Hip and fragility fracture"
+},
+"ONA-003": {
+"question": "What proportion of older adults admitted with a pelvic fragility fracture receive pharmacological VTE prophylaxis for one month?",
+"pass": "LMWH or fondaparinux covering at least 28 days from admission, or reason documented",
+"change": "Add pelvic fragility fractures to the hip fracture discharge letter template so the 28-day LMWH prompt appears for them too.",
+"area": "Hip and fragility fracture"
+},
+"ONA-004": {
+"question": "What proportion of hip fracture patients whose surgery is delayed beyond the day after admission receive pre-operative pharmacological VTE prophylaxis?",
+"pass": "At least one pre-operative LMWH dose, last dose 12 hours or more before surgery",
+"change": "Add a rule to the hip fracture admission order set: if not on tomorrow's list, prescribe evening LMWH, with a 12-hour stop note.",
+"area": "Hip and fragility fracture"
+},
+"ONA-005": {
+"question": "What proportion of hip fracture patients who had delirium in hospital have the delirium diagnosis written in the discharge summary to the GP?",
+"pass": "Discharge summary to the GP names delirium as a diagnosis or complication",
+"change": "Add a mandatory 'Delirium this admission: yes/no' field to the orthogeriatric discharge summary template.",
+"area": "Hip and fragility fracture"
+},
+"ONA-006": {
+"question": "What proportion of hip fracture patients with delirium still present at discharge have a plan for cognitive follow-up?",
+"pass": "Named cognitive follow-up with a timescale in the discharge summary or notes",
+"change": "Add an 'If delirium unresolved: cognitive follow-up plan' box to the orthogeriatric discharge template, triggered when the last 4AT is ≥4.",
+"area": "Hip and fragility fracture"
+},
+"ONA-007": {
+"question": "What proportion of hip fracture inpatients staying longer than 7 days have their malnutrition screen repeated every week?",
+"pass": "MUST with recorded weight on admission and at least every 7 days",
+"change": "Set a recurring 7-day MUST task in the nursing e-record for the hip fracture ward, shown on the ward whiteboard ('MUST Monday').",
+"area": "Hip and fragility fracture"
+},
+"ONA-008": {
+"question": "What proportion of hip fracture patients receive a nerve block within 4 hours of arrival at hospital?",
+"pass": "Nerve block documented within 4 hours of ED arrival, or contraindication documented",
+"change": "Add 'nerve block' to the ED hip fracture triage order set so it is prescribed at X-ray confirmation, with a time field on the proforma.",
+"area": "Hip and fragility fracture"
+},
+"ONA-009": {
+"question": "What proportion of hip fracture patients have their pain reassessed within 30 minutes of their first analgesia in ED?",
+"pass": "Pain score documented within 30 minutes of the first analgesic dose",
+"change": "Make the ED system create an automatic 'pain score due' task 30 minutes after any analgesic is recorded as given.",
+"area": "Hip and fragility fracture"
+},
+"ONA-010": {
+"question": "What proportion of hip fracture patients are prescribed regular 6-hourly paracetamol before surgery?",
+"pass": "Regular 6-hourly paracetamol prescribed before surgery, or contraindication documented",
+"change": "Build a hip fracture analgesia order set in EPMA with regular weight-banded paracetamol ticked by default.",
+"area": "Hip and fragility fracture"
+},
+"ONA-011": {
+"question": "What proportion of stable trochanteric hip fractures are fixed with a sliding hip screw?",
+"pass": "Trochanteric fracture fixed with a sliding hip screw, or reason for a nail documented",
+"change": "Add 'fracture pattern and NICE implant (1.6.9)' fields to the trauma meeting list, to be confirmed by the consultant when booking.",
+"area": "Hip and fragility fracture"
+},
+"ONA-012": {
+"question": "What proportion of hemiarthroplasties for displaced intracapsular hip fracture use the hospital's single nominated cemented femoral stem?",
+"pass": "Hospital's nominated cemented stem used, or reason for a different implant documented",
+"change": "Agree one nominated cemented stem in writing and set theatre stores so only that stem is on the trauma shelf; others by request.",
+"area": "Hip and fragility fracture"
+},
+"ONA-013": {
+"question": "What proportion of patients with suspected hip fracture and normal X-rays have an MRI within 24 hours?",
+"pass": "MRI within 24 hours of the negative X-ray, or CT if MRI unavailable",
+"change": "Agree a protected daily MRI slot for occult hip fracture with radiographer vetting and the MRI safety form in the ED order set.",
+"area": "Hip and fragility fracture"
+},
+"ONA-014": {
+"question": "What proportion of hip fracture patients taking psychotropic medicines have a documented falls-focused review of them before discharge?",
+"pass": "Each psychotropic has a documented stop, reduce or continue decision before discharge",
+"change": "Add a 'falls-risk medicines: stop / reduce / continue because' table to the orthogeriatric review template, pre-filled from EPMA.",
+"area": "Hip and fragility fracture"
+},
+"ONA-015": {
+"question": "What proportion of adults aged 50 and over with a low-energy wrist fracture have a fracture risk assessment?",
+"pass": "FRAX or QFracture recorded, or FLS referral, within 12 weeks of fracture",
+"change": "Add an automatic FLS referral tick box to the virtual fracture clinic outcome form, pre-set to 'yes' for age ≥50 with low-energy mechanism.",
+"area": "Hip and fragility fracture"
+},
+"ONA-016": {
+"question": "What proportion of adults aged 65 and over with a fall-related wrist or shoulder fracture are offered a comprehensive falls assessment?",
+"pass": "Falls service referral or comprehensive falls assessment within 16 weeks of fracture",
+"change": "Add a falls service referral option to the virtual fracture clinic outcome form, pre-set for age ≥65 with a fall.",
+"area": "Hip and fragility fracture"
+},
+"ONA-017": {
+"question": "What proportion of hip fracture patients recommended intravenous zoledronate receive the first dose before discharge?",
+"pass": "Zoledronate given before discharge, or documented reason to defer with a date",
+"change": "Add a zoledronate line to the hip fracture order set that is due on post-op day 3–5 once vitamin D and calcium are checked, with a deferral reason box.",
+"area": "Hip and fragility fracture"
+},
+"ONA-018": {
+"question": "What proportion of older adults with a periprosthetic or non-hip femoral fragility fracture are seen by a senior geriatrician within 72 hours?",
+"pass": "Geriatrician ST3 or above review documented within 72 hours of arrival",
+"change": "Put all femoral fragility fractures on the orthogeriatric daily referral list automatically from the trauma meeting list.",
+"area": "Hip and fragility fracture"
+},
+"ONA-019": {
+"question": "What proportion of DXA scans done after a fragility fracture in women aged 60 and over or men aged 70 and over include a vertebral fracture assessment?",
+"pass": "Vertebral fracture assessment done and reported with the DXA, or reason documented",
+"change": "Make VFA the default protocol on the DXA request form for FLS patients in the NICE age groups.",
+"area": "Hip and fragility fracture"
+},
+"ONA-020": {
+"question": "What proportion of adults aged 50 and over with a newly reported vertebral fracture on CT are identified by the fracture liaison service?",
+"pass": "On the FLS database or referred to FLS within 12 weeks of CT report",
+"change": "Set a RIS keyword rule that copies reports with a new vertebral fracture in patients ≥50 to the FLS inbox automatically.",
+"area": "Hip and fragility fracture"
+},
+"ONA-021": {
+"question": "What proportion of adults admitted with a tibial fracture have a documented compartment syndrome check at least hourly for the first 24 hours?",
+"pass": "No gap over 75 minutes between documented compartment checks in first 24 hours",
+"change": "Add a mandatory hourly compartment chart to the EPR (or a printed RCN-style chart in the admission pack) triggered by any tibial fracture admission.",
+"area": "Adult trauma"
+},
+"ONA-022": {
+"question": "What proportion of adults discharged within 48 hours of a tibial fracture (or its fixation) have documented advice on self-monitoring for compartment syndrome?",
+"pass": "Documented advice on compartment syndrome symptoms and where to go",
+"change": "Add a compartment syndrome warning paragraph to the EPR discharge template for tibial fractures, plus a one-page leaflet.",
+"area": "Adult trauma"
+},
+"ONA-023": {
+"question": "What proportion of adults having tibial fracture fixation under a peripheral nerve block have a documented joint decision that mentions compartment syndrome monitoring?",
+"pass": "Surgeon and anaesthetist agreed the block, patient consented, compartment syndrome monitoring plan documented",
+"change": "Add a tick box to the anaesthetic chart: 'Block agreed with surgeon; compartment syndrome risk discussed; monitoring plan: ___'.",
+"area": "Adult trauma"
+},
+"ONA-024": {
+"question": "What proportion of pelvic binders are centred at the level of the greater trochanters on the first trauma image?",
+"pass": "Binder centred over the greater trochanters on the first pelvic image",
+"change": "Add a 'binder level check on scanogram' line to the trauma CT reporting template and trauma team checklist, and share results with the ambulance service.",
+"area": "Adult trauma"
+},
+"ONA-025": {
+"question": "What proportion of pelvic binders are removed within 24 hours of application?",
+"pass": "Binder removal documented within 24 hours of application",
+"change": "Add a binder start-time sticker and a 'binder review due' alert to the EPR at application.",
+"area": "Adult trauma"
+},
+"ONA-026": {
+"question": "What proportion of adults with a high-energy pelvic ring fracture receive IV tranexamic acid within 1 hour of injury?",
+"pass": "First TXA dose given within 60 minutes of injury",
+"change": "Add TXA as a default line in the ED trauma booklet or major trauma order set, prescribed on arrival unless ticked 'given prehospital' or contraindicated.",
+"area": "Adult trauma"
+},
+"ONA-027": {
+"question": "What proportion of adults with a high-energy pelvic ring fracture have a documented perineal, genital and rectal examination?",
+"pass": "Perineal, genital and rectal examination findings recorded, or reason for deferral",
+"change": "Add a perineum/genitalia/rectal line to the secondary survey section of the trauma booklet.",
+"area": "Adult trauma"
+},
+"ONA-028": {
+"question": "What proportion of older adults with a displaced fragility pelvic ring fracture who cannot mobilise are discussed with the specialist pelvic centre?",
+"pass": "Discussion with the regional pelvic service documented during the admission",
+"change": "Add a day-5 physiotherapy prompt: 'Not mobilising with pelvic ring fracture — refer to pelvic centre' on the trauma ward round checklist.",
+"area": "Adult trauma"
+},
+"ONA-029": {
+"question": "What proportion of adults with a cervical spine fracture or subluxation have CT angiography of the neck vessels?",
+"pass": "CT angiography of the neck during the admission, or senior reason documented",
+"change": "Add an auto-prompt to the radiology report template: 'Cervical fracture: CTA recommended (BOAST 2025)', and add arterial phase to the trauma CT protocol when cervical injury is seen.",
+"area": "Adult trauma"
+},
+"ONA-030": {
+"question": "What proportion of adults with a new traumatic spinal column fracture have imaging of the whole spine?",
+"pass": "Remaining spinal regions imaged by CT, MRI or X-ray during the admission",
+"change": "Add a standard line to spine CT and X-ray reports: 'New fracture — recommend imaging of the remaining spine (NICE NG41 1.5.11)'.",
+"area": "Adult trauma"
+},
+"ONA-031": {
+"question": "What proportion of adults with a spinal fracture treated non-operatively have a documented stability decision and orthosis plan?",
+"pass": "Notes record stability, orthosis decision, duration and care instructions",
+"change": "Use a one-page 'non-operative spinal fracture plan' EPR form with the four fields, copied to patient and GP.",
+"area": "Adult trauma"
+},
+"ONA-032": {
+"question": "What proportion of adults with an ankle fracture of uncertain stability have a weight-bearing radiograph within 2 weeks of injury?",
+"pass": "Weight-bearing ankle radiograph within 14 days of injury, or reason documented",
+"change": "Add a pre-set radiology request 'Ankle AP/mortise/lateral WEIGHT-BEARING' to the virtual fracture clinic outcome menu for uncertain-stability ankle fractures.",
+"area": "Adult trauma"
+},
+"ONA-033": {
+"question": "What proportion of adults under 60 with an unstable ankle fracture listed for fixation have surgery on the day of injury or the next day?",
+"pass": "Surgery on the day of injury or the following day",
+"change": "Create a protected 'first on the list' slot or ambulatory ankle slot on the next-day trauma list for under-60 unstable ankles.",
+"area": "Adult trauma"
+},
+"ONA-034": {
+"question": "What proportion of adults with a knee dislocation, tibial plateau or distal femoral fracture have timed pulse findings documented for both legs in ED?",
+"pass": "Dorsalis pedis and posterior tibial pulses of both legs documented with a time",
+"change": "Add a two-column (left/right) timed pulse box to the ED and orthopaedic clerking templates for lower limb injuries.",
+"area": "Adult trauma"
+},
+"ONA-035": {
+"question": "What proportion of adults having humeral shaft or distal humerus fixation have a named-nerve examination documented by the operating team after surgery?",
+"pass": "Radial, median and ulnar motor and sensory findings recorded on the day of surgery",
+"change": "Add a mandatory 'post-op nerve check (radial/median/ulnar)' field to the electronic post-op instructions for upper limb fracture surgery.",
+"area": "Adult trauma"
+},
+"ONA-036": {
+"question": "What proportion of adults having a native joint aspirated for suspected septic arthritis have a sample sent for crystal microscopy?",
+"pass": "Crystal microscopy requested on the joint aspirate",
+"change": "Create a 'synovial fluid' order set in the lab system that requests MC&S and crystals together.",
+"area": "Adult trauma"
+},
+"ONA-037": {
+"question": "What proportion of systemically well adults with a suspected wound infection after fracture fixation are reviewed by a consultant before antibiotics start?",
+"pass": "Consultant review within 48 hours, with no antibiotics started beforehand",
+"change": "Set up a 'leaky wound' pathway: patient and GP advice line to a next-day consultant slot, plus a 'do not start antibiotics unless septic' line on the discharge letter.",
+"area": "Adult trauma"
+},
+"ONA-038": {
+"question": "What proportion of discharge summaries after fracture fixation tell the patient and GP what to do if infection is suspected?",
+"pass": "Discharge summary names infection warning signs and a direct orthopaedic contact",
+"change": "Add a fixed FRI advice paragraph and contact number to the orthopaedic EPR discharge template.",
+"area": "Adult trauma"
+},
+"ONA-039": {
+"question": "What proportion of adults with an open fracture have a wound photograph stored in the record before debridement?",
+"pass": "At least one wound photograph, dated before debridement, stored in the record",
+"change": "Enable the trust secure photo app on ED devices, with 'open fracture photo uploaded' as a required box on the ED trauma or referral form.",
+"area": "Adult trauma"
+},
+"ONA-040": {
+"question": "What proportion of adult trauma-team patients admitted under orthopaedics have a documented tertiary survey within 24 hours of admission?",
+"pass": "Structured head-to-toe tertiary survey documented within 24 hours of admission",
+"change": "Put a tertiary survey proforma in the EPR and make 'tertiary survey done' a checklist item on the morning trauma meeting list.",
+"area": "Adult trauma"
+},
+"ONA-041": {
+"question": "What proportion of adults admitted with a complex fracture have a written summary sent to their GP within 24 hours of admission?",
+"pass": "GP sent diagnosis, plan and expected outcome within 24 hours of admission",
+"change": "Create an EPR 'admission notification to GP' template auto-populated from the post-take ward round, sent by the trauma coordinator.",
+"area": "Adult trauma"
+},
+"ONA-042": {
+"question": "In children who have K-wire fixation of a supracondylar fracture, does the operation note state when the wires will come out?",
+"pass": "Operation note records the expected time of wire removal",
+"change": "Add two mandatory drop-down fields to the paediatric K-wire operation note template: 'wire removal at __ weeks' and 'post-op X-ray: yes/no'.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-043": {
+"question": "When a medial K-wire is used for a child's supracondylar fracture, does the operation note record how the ulnar nerve was protected?",
+"pass": "Operation note names how the ulnar nerve was protected",
+"change": "Add a conditional field to the paediatric K-wire op-note template: if 'medial wire = yes', the note cannot be saved until an ulnar protection technique is chosen.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-044": {
+"question": "When a child's supracondylar fracture is fixed at night, is the urgent reason for night surgery documented?",
+"pass": "Urgent indication for night surgery (22:00 to 07:59) documented",
+"change": "Add a mandatory 'urgent indication' drop-down to the emergency theatre booking form for any paediatric case booked for 22:00–07:59.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-045": {
+"question": "Do children who have a forearm fracture manipulated in the Emergency Department have a documented consultant review within 48 hours of injury?",
+"pass": "Named consultant review of case and images within 48 hours of injury",
+"change": "ED paediatric manipulation form auto-adds the child to the next trauma meeting list; trauma meeting proforma has a mandatory 'reviewing consultant' field.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-046": {
+"question": "Do children discharged after Emergency Department manipulation of a forearm fracture get a leaflet with red-flag symptoms and contact details?",
+"pass": "Fracture leaflet with red-flag symptoms and contact numbers documented as given",
+"change": "Add a mandatory 'paediatric cast leaflet given' tick box to the ED discharge template for paediatric fracture diagnoses, with leaflets stocked in the plaster room.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-047": {
+"question": "Do children with a suspected limb fracture and moderate or severe pain get analgesia within 30 minutes of arrival?",
+"pass": "First analgesic within 30 minutes of arrival for moderate or severe pain",
+"change": "Nurse-initiated analgesia at triage: a patient group direction for oral ibuprofen/paracetamol, prompted by the triage template when the pain score is 4 or more.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-048": {
+"question": "Do children with a limb fracture who receive analgesia in the Emergency Department have their pain re-scored within 60 minutes?",
+"pass": "Second pain score within 60 minutes of first analgesic dose",
+"change": "EPR task: giving an analgesic to a child with pain score 4 or more automatically creates a 'repeat pain score due' task at 45 minutes on the nursing board.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-049": {
+"question": "Do children with a suspected long-bone fracture and moderate or severe pain receive an intranasal or intravenous opioid in the Emergency Department?",
+"pass": "Intranasal or IV opioid given or declined when pain score is 7 or more",
+"change": "Add intranasal diamorphine/fentanyl to the ED paediatric fracture order set, pre-filled by weight, triggered when a pain score of 7 or more is entered.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-050": {
+"question": "Do children with a suspected displaced femoral shaft fracture receive a femoral nerve or fascia iliaca block in the Emergency Department?",
+"pass": "Femoral nerve or fascia iliaca block in ED, or reason documented",
+"change": "Add a 'block given / reason not given' sign-off box to the ED paediatric femoral fracture proforma, with a weight-based dosing card.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-051": {
+"question": "Do children with a femoral fracture have a documented safeguarding assessment before discharge?",
+"pass": "Safeguarding assessment with outcome documented before discharge",
+"change": "Add a mandatory safeguarding section to the paediatric trauma admission proforma that must be completed before the discharge summary can be finalised.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-052": {
+"question": "In children under 2 years with a fracture, does the Emergency Department note record whether the explanation fits the injury?",
+"pass": "ED note records mechanism, developmental stage, whether the explanation fits, and action taken",
+"change": "Mandatory safeguarding prompt in the ED EPR for any fracture diagnosis in a child under 2 (mechanism, mobility, 'explanation suitable? yes/no', action), in line with NICE NG38 rec 1.5.1.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-053": {
+"question": "Are skeletal surveys for suspected physical abuse done and reported within 24 hours of the request?",
+"pass": "Skeletal survey request to final report within 24 hours",
+"change": "Create a RIS priority code for 'suspected physical abuse skeletal survey' that books the next available paediatric slot and alerts the reporting radiologist automatically.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-054": {
+"question": "Do children who have a skeletal survey for suspected physical abuse have follow-up imaging within 11 to 14 days?",
+"pass": "Follow-up imaging 11 to 14 days after the first survey",
+"change": "Book the follow-up survey at the time of the first survey, with a named professional in the safeguarding team to chase missed appointments (RCR rec 34).",
+"area": "Paediatric orthopaedics"
+},
+"ONA-055": {
+"question": "Do children admitted with suspected bone or joint infection have FBC, CRP, blood cultures and ESR sent before antibiotics?",
+"pass": "FBC, CRP, blood culture and ESR all sent before the first antibiotic",
+"change": "Create an EPR 'suspected bone and joint infection – child' order set that requests FBC, CRP, blood culture, ESR and an X-ray together.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-056": {
+"question": "Do children with suspected osteomyelitis or complex joint infection who need an MRI get it within 48 hours of admission?",
+"pass": "MRI done within 48 hours of admission",
+"change": "Agree a protected daily paediatric MRI slot (with GA list access) for suspected bone and joint infection, bookable via a 'BJI – within 48 h' RIS priority code.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-057": {
+"question": "Do children with septic arthritis have surgical drainage within 24 hours of diagnosis?",
+"pass": "Surgical drainage within 24 hours of diagnosis or decision to operate",
+"change": "Classify paediatric septic arthritis as NCEPOD category 2 on the emergency theatre booking form, so it is listed with a 24-hour target.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-058": {
+"question": "Do children treated for bone or joint infection have clinical and X-ray follow-up for at least 12 months?",
+"pass": "Clinic review with radiograph at 12 months or later after diagnosis",
+"change": "Add a '12-month infection review with X-ray' field to the discharge letter template and an outpatient outcome code that blocks discharge from clinic before 12 months.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-059": {
+"question": "Is every child treated for a slipped upper femoral epiphysis discussed at a documented regional peer review meeting?",
+"pass": "Case discussion recorded in regional peer review or MDT minutes",
+"change": "SUFE procedure codes on the theatre system automatically add the case to the next network peer review meeting list, with a structured case template.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-060": {
+"question": "Do babies with a screen-positive newborn hip result have their hip ultrasound between 4 and 6 weeks of age?",
+"pass": "Hip ultrasound at 4 to 6 weeks of age (corrected age if preterm)",
+"change": "At the newborn check, the NIPE practitioner books the hip scan directly into a RIS slot dated for day 28–35, and the date is printed on the parent's discharge letter.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-061": {
+"question": "Are infants with a screen-positive hip at the 6 to 8 week check seen by a paediatric orthopaedic surgeon by 10 weeks of age?",
+"pass": "First paediatric orthopaedic appointment attended by 70 days of age",
+"change": "Create an e-Referral triage category 'NIPE 6–8 week hip – see by 10 weeks' that shows the date-of-birth-based deadline to the vetting consultant and books into a reserved slot.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-062": {
+"question": "In adults whose ankle fracture was reduced in ED, was the check X-ray reviewed and the reduction documented as adequate before they left ED?",
+"pass": "Post-reduction X-ray reviewed and documented as adequate before leaving ED",
+"change": "Add a mandatory 'post-reduction X-ray reviewed: adequate / not adequate, by whom' line to the ED ankle reduction procedure note (EPR template), which must be completed before the ED discharge/transfer step.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-063": {
+"question": "In patients with a suspected Achilles tendon rupture, was a definitive treatment plan (surgery or a named non-operative protocol) documented within 72 hours of first presentation?",
+"pass": "Definitive treatment plan documented within 72 hours of first presentation",
+"change": "A single ED/VFC Achilles pathway sheet: equinus boot at ED, direct VFC referral flagged 'Achilles', and consultant plan at the next-day trauma meeting (no routine wait for ultrasound where clinical tests are clear).",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-064": {
+"question": "In patients discharged in a boot or cast for an Achilles tendon rupture, was a VTE risk assessment documented at first contact?",
+"pass": "VTE risk assessment documented on the day of first presentation",
+"change": "Build the lower-limb immobilisation VTE tool into the ED discharge step so the boot/cast discharge cannot be completed without it (hard stop).",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-065": {
+"question": "In adults whose dorsally displaced distal radius fracture was manipulated in ED, was the manipulation done under regional anaesthesia (for example Bier's block) rather than a haematoma block?",
+"pass": "Manipulation under regional anaesthesia such as Bier's block, not haematoma block",
+"change": "Stock a ready-made Bier's block pack in ED resus with a one-page procedure checklist, and put 'Bier's block' as the default option in the ED distal radius reduction template.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-066": {
+"question": "In patients aged 50 or over with a low-energy distal radius fracture, was a referral to the fracture liaison service (or a documented bone health and falls assessment) made?",
+"pass": "FLS referral or bone health and falls assessment within 12 weeks of injury",
+"change": "Automatic FLS feed: VFC coding of 'distal radius fracture, age ≥50' triggers an electronic referral to the FLS, with an opt-out box.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-067": {
+"question": "In adults with a distal radius fracture treated in a cast, was an X-ray at cast removal avoided when there was no documented clinical concern?",
+"pass": "No X-ray at cast removal unless a clinical reason is documented",
+"change": "Change the fracture clinic booking template so 'X-ray on arrival' is no longer the default for distal radius cast-removal visits; the clinician must request it with a reason.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-068": {
+"question": "In adults with a scaphoid fracture seen on plain X-ray, was a CT scan done to measure displacement?",
+"pass": "CT reporting displacement within 14 days of presentation",
+"change": "Add 'CT scaphoid (sagittal and coronal along scaphoid axis)' as an automatic request on the VFC scaphoid-fracture outcome, with the reconstruction protocol agreed with radiology.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-069": {
+"question": "In adults with a scaphoid fracture treated non-operatively, was union confirmed on CT (or on X-ray at 6 months) before discharge from follow-up?",
+"pass": "Union confirmed on CT, or X-ray at 6 months or later, before discharge",
+"change": "A scaphoid discharge checklist in the clinic letter template: 'Union confirmed on: CT date __ / 6-month X-ray date __; non-union advice given'.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-070": {
+"question": "In patients with a closed mallet finger injury, were they seen by a hand surgeon or hand therapist within 72 hours of presentation?",
+"pass": "Hand surgeon or hand therapist review within 72 hours of first attendance",
+"change": "Direct booking from ED/MIU into hand therapy (a 'mallet' slot in the hand therapy diary) with a pre-made splint and leaflet in the minor injuries cupboard.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-071": {
+"question": "In patients with a hand bite that broke the skin, were antibiotics started on the day of first attendance?",
+"pass": "Antibiotic given or prescribed at the first attendance",
+"change": "Add a 'hand bite' order set to the ED system: first-dose co-amoxiclav (or local alternative) plus referral pathway, triggered by the bite presenting complaint.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-072": {
+"question": "In patients with an open hand fracture, were antibiotics stopped by 72 hours or at definitive wound closure, whichever came first?",
+"pass": "Antibiotics stopped within 72 hours or at wound closure, unless reason documented",
+"change": "Add a 'stop date' field to the open hand fracture antibiotic prescription (EPMA default: 72 hours) and a line in the operation note: 'Antibiotics: stop now / stop at __ (reason)'.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-073": {
+"question": "In patients listed for washout of a flexor sheath infection, did surgery start within 24 hours of the decision to operate?",
+"pass": "Knife-to-skin within 24 hours of the decision to operate",
+"change": "Flag flexor sheath infection as 'priority 2' (within 24 hours) on the trauma list booking form so it is listed first on the next day list.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-074": {
+"question": "In adults with suspected cauda equina syndrome who could pass urine, were both pre-void and post-void bladder scan volumes documented?",
+"pass": "Pre-void and post-void bladder scan volumes documented before the MRI",
+"change": "Put 'pre-void __ ml / post-void __ ml' boxes on the ED suspected-CES proforma and give ED nurses a triage standing order to bladder scan.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-075": {
+"question": "In adults discharged after an MRI showed no cauda equina compression, was safety-netting with the CES warning card or video documented?",
+"pass": "CES warning card or video link documented as given at discharge",
+"change": "Add a tick box 'CES warning card given / video link sent' to the ED discharge template for the suspected-CES pathway, and stock cards at ED discharge desk.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-076": {
+"question": "In adults with neurological symptoms or signs of metastatic spinal cord compression, was a 16 mg dexamethasone dose given within 4 hours of presentation?",
+"pass": "16 mg dexamethasone given within 4 hours of presentation",
+"change": "An 'MSCC' order set on EPMA: dexamethasone 16 mg stat plus PPI and capillary glucose monitoring, linked from the ED MSCC pathway.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-077": {
+"question": "In adults with suspected metastatic spinal cord compression, was the spinal MRI done within 24 hours of the MSCC coordinator being contacted?",
+"pass": "MRI within 24 hours of first contact with the MSCC coordinator",
+"change": "A radiology SOP that treats suspected MSCC as a protected same-day slot with the MSCC referral code auto-vetted.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-078": {
+"question": "In adults with diabetes admitted under trauma and orthopaedics, was a documented foot examination (both feet) done within 24 hours of admission?",
+"pass": "Foot risk assessment of both feet with risk category within 24 hours of admission",
+"change": "Add the diabetic foot risk tool to the T&O nursing admission bundle, triggered by a diabetes flag on the EPR.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-079": {
+"question": "In adults with a diabetic foot infection started on IV antibiotics, was the IV antibiotic reviewed within 48 hours?",
+"pass": "Documented IV antibiotic review within 48 hours of the first dose",
+"change": "EPMA 48-hour 'IV antibiotic review' alert with forced outcome (continue with reason / oral switch / stop) for diabetic foot infection prescriptions.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-080": {
+"question": "In adults with a diabetic foot ulcer seen by the orthopaedic or foot and ankle team, was ulcer severity recorded with SINBAD or the University of Texas system?",
+"pass": "SINBAD score or University of Texas grade recorded at first review",
+"change": "A diabetic foot ulcer box with SINBAD scoring in the T&O ward-referral response and clinic templates.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-081": {
+"question": "In adults having primary elective hip or knee replacement without renal impairment, what proportion receive both intravenous and topical tranexamic acid, with a total dose of 3 g or less?",
+"pass": "IV plus 1 to 2 g topical TXA, total 3 g or less",
+"change": "Add a pre-filled TXA line to the arthroplasty anaesthetic chart and a 'topical TXA given? dose' tick box to the operation note template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-082": {
+"question": "In adults having primary elective shoulder replacement, what proportion receive intravenous tranexamic acid or have a recorded reason for not giving it?",
+"pass": "IV TXA given at or before incision, or reason for omission recorded",
+"change": "Add shoulder replacement to the theatre TXA prompt in the WHO sign-in (\"TXA given?\") on the electronic checklist.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-083": {
+"question": "In primary elective hip, knee and shoulder replacements, what proportion have both implant 'stop moments' recorded: one before implantation and one before wound closure?",
+"pass": "Both implant stop moments recorded, before implantation and before wound closure",
+"change": "Add two mandatory fields ('implant stop 1: before opening' and 'implant stop 2: before closure') to the electronic theatre record for arthroplasty cases.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-084": {
+"question": "In adults having primary elective knee replacement, what proportion have local infiltration analgesia recorded in the operation or anaesthetic record?",
+"pass": "Local infiltration analgesia recorded, or reason for not giving it",
+"change": "Add an LIA line (drug, concentration, volume) to the knee replacement op-note template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-085": {
+"question": "In adults listed for primary total knee replacement, what proportion have patella resurfacing offered and recorded before surgery?",
+"pass": "Patella resurfacing offer and the decision recorded before surgery",
+"change": "Add 'patella resurfacing offered: yes/no, decision' to the TKR consent form (or procedure-specific consent template).",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-086": {
+"question": "In adults with isolated medial compartment knee osteoarthritis listed for knee replacement, what proportion have a choice of partial or total knee replacement recorded?",
+"pass": "Both partial and total replacement discussed, with benefits and risks, recorded",
+"change": "Add a 'medial OA: UKR vs TKR discussed' prompt to the knee listing clinic letter template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-087": {
+"question": "In adults having primary elective shoulder replacement, what proportion are seen by a physiotherapist or occupational therapist for rehabilitation within 24 hours of surgery?",
+"pass": "First physio or OT rehabilitation contact within 24 hours of surgery",
+"change": "Automatic therapy referral generated when the patient leaves theatre (theatre system to therapy task list), including weekend lists.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-088": {
+"question": "In adults discharged after primary elective hip or knee replacement, what proportion have a named point of contact for rehabilitation advice recorded before they leave?",
+"pass": "Rehab advice, goals and a named contact recorded before discharge",
+"change": "Add a 'rehab goals + contact number given' tick box to the arthroplasty discharge summary template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-089": {
+"question": "Of hip and knee osteoarthritis referrals to orthopaedics that were rejected or returned, what proportion were rejected because of BMI or smoking alone?",
+"pass": "Referral not rejected on BMI, smoking, age or comorbidity alone",
+"change": "Remove BMI and smoking as rejection options from the triage proforma. Replace with 'referred to weight/smoking support in parallel'.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-090": {
+"question": "In adults with knee osteoarthritis who had a knee arthroscopy, what proportion had a documented history of true mechanical locking?",
+"pass": "Pre-operative letter documents mechanical locking or another non-OA indication",
+"change": "Add an EBI criteria check box (mechanical locking yes/no) to the knee arthroscopy listing form, with a prior-approval step if not met.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-091": {
+"question": "In adults aged 45 or over referred to orthopaedics with knee pain and osteoarthritis features, what proportion had a knee MRI requested without a prior weight-bearing radiograph?",
+"pass": "Weight-bearing knee X-ray before any MRI, unless atypical features recorded",
+"change": "Radiology vetting rule: knee MRI requests for adults 45+ without a weight-bearing radiograph in the last 12 months are returned with a prompt.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-092": {
+"question": "In adults listed for arthroscopic subacromial decompression, what proportion had at least 6 months of documented physiotherapy or other non-surgical treatment first?",
+"pass": "At least 6 months of physiotherapy or non-surgical treatment before listing",
+"change": "Add an ASD listing checklist (months of physio, injection, imaging, sham evidence discussed) to the shoulder clinic letter template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-093": {
+"question": "In adults having a subacromial steroid injection, what proportion had it done under image guidance?",
+"pass": "Subacromial injection given without image guidance, unless reason documented",
+"change": "Radiology vetting rule: US-guided subacromial injection requests are returned unless a reason is given. Offer a landmark injection clinic slot instead.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-094": {
+"question": "In adults having primary shoulder replacement, what proportion have a pre-operative Oxford Shoulder Score (or other validated shoulder PROM) recorded?",
+"pass": "Validated shoulder PROM (OSS, DASH or Constant) recorded in the 3 months before surgery",
+"change": "Make the Oxford Shoulder Score a required item on the shoulder pre-assessment form (paper or electronic), completed by the patient in the waiting area.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-095": {
+"question": "In adults reviewed in clinic for a painful or problematic knee replacement, what proportion had CRP and ESR (or PV) checked at the first review?",
+"pass": "CRP, ESR or PV, and radiograph, within 2 weeks of first review",
+"change": "Create a 'problematic knee replacement' order set in the EPR (CRP, ESR, AP/lateral, long-leg, skyline) linked to the clinic outcome form.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-096": {
+"question": "In adults investigated for a painful or problematic knee replacement, what proportion had the full radiograph set: weight-bearing AP and lateral, long-leg alignment and patella skyline?",
+"pass": "Standing AP, lateral, long-leg and skyline views within 3 months",
+"change": "Same EPR 'problematic knee replacement' order set that requests all four views in one click.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-097": {
+"question": "In adults with suspected chronic knee replacement infection who had a joint aspiration or biopsy, what proportion had no antibiotics in the 2 weeks before sampling?",
+"pass": "No antibiotics in the 14 days before aspiration or biopsy, unless septic",
+"change": "Add a GP letter template ('suspected joint replacement infection: please do not start antibiotics before aspiration') sent from the first clinic, and an 'antibiotics in last 14 days?' field on the aspiration request.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-098": {
+"question": "In adults discharged on VTE prophylaxis after primary hip or knee replacement, what proportion have the drug and stop date stated in the GP discharge summary?",
+"pass": "GP discharge summary names the VTE drug, dose and stop date",
+"change": "Make 'VTE prophylaxis: drug, dose, stop date' a mandatory field in the arthroplasty discharge summary template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-099": {
+"question": "In adults transfused red cells after primary hip, knee or shoulder replacement (not actively bleeding), what proportion received a single unit followed by a haemoglobin check before any further unit?",
+"pass": "Single units with Hb recheck and review before the next; threshold 70 g/L",
+"change": "Change the EPR blood prescription so that red cells default to one unit, with a prompt to recheck Hb before the next.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-100": {
+"question": "In adults found to have iron-deficiency anaemia at pre-assessment for primary hip or knee replacement, what proportion were offered iron before surgery?",
+"pass": "Oral or IV iron prescribed or recommended before the surgery date",
+"change": "Pre-assessment reflex rule: Hb below cut-off triggers automatic ferritin/TSAT and a nurse-led iron pathway (oral iron letter to GP or IV iron slot).",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-101": {
+"question": "In adults with diabetes having primary elective joint replacement, what proportion had an HbA1c result from the 3 months before surgery?",
+"pass": "HbA1c result dated within 3 months before surgery",
+"change": "Add a pre-assessment rule: diabetes flag triggers an HbA1c order if none in the last 3 months.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-102": {
+"question": "In adults attending pre-assessment for primary elective joint replacement, what proportion had a routine urine dipstick without symptoms?",
+"pass": "No urine dipstick or MSU unless urinary symptoms or other reason recorded",
+"change": "Remove 'urinalysis' from the default arthroplasty pre-assessment test panel; keep it as a symptom-triggered option.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-103": {
+"question": "In adults listed for primary hip or knee replacement, what proportion have prehabilitation advice on exercise, weight and smoking recorded before surgery?",
+"pass": "Advice on exercise and lifestyle (weight, smoking) recorded before surgery",
+"change": "Add a 3-item prehab box (exercise sheet given, weight advice, smoking referral) to the pre-assessment form.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-104": {
+"question": "In adults who had an orthopaedic implant inserted, was a record of every implant (manufacturer, size and unique identifier or lot number) placed in the patient's notes?",
+"pass": "Every implant recorded in the notes with manufacturer, size and unique identifier",
+"change": "Add a mandatory 'implant record complete' tick (with a scan of the labels) to the Sign Out step on the electronic theatre record.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-105": {
+"question": "Did each elective orthopaedic theatre session end with a recorded team debrief?",
+"pass": "Team debrief recorded for the session, with problems or actions, or none",
+"change": "Make the debrief a required field that must be completed before the session can be closed on the theatre system, with a short 3-question prompt (went well / problems / actions and owner).",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-106": {
+"question": "In adults having orthopaedic surgery, was thromboprophylaxis prescribed, or a reason for omission recorded, before the patient left recovery?",
+"pass": "Thromboprophylaxis prescribed, or reason for none, before leaving recovery",
+"change": "Add 'VTE prophylaxis prescribed (drug/time) or reason' as a hard stop on the electronic Sign Out and recovery discharge checklist.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-107": {
+"question": "In adults on the orthopaedic trauma list, was the gap between their last clear drink and being sent for by theatre 2 hours or less?",
+"pass": "Last clear drink 2 hours or less before theatre sent for patient",
+"change": "Replace 'NBM from midnight' on the trauma ward pre-op checklist with a SipTilSend hourly sip chart that must be signed each hour until the send-for call.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-108": {
+"question": "In women aged 12 to 55 having orthopaedic surgery, was the discussion about possible pregnancy documented on the day of surgery?",
+"pass": "Pregnancy status question or test result documented on the day of surgery",
+"change": "Add a required pregnancy status field (asked / test result / not applicable with reason) to the Sign In section of the electronic WHO checklist.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-109": {
+"question": "In adults having orthopaedic surgery, was every pre-operative chest X-ray backed by a documented clinical indication?",
+"pass": "No pre-operative chest X-ray unless a clinical reason is documented",
+"change": "Remove chest X-ray from the default orthopaedic admission order set; require a free-text clinical indication to request one.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-110": {
+"question": "In adults after orthopaedic surgery, was a temperature of 36.0°C or above recorded before transfer from recovery to the ward?",
+"pass": "Last recovery temperature before ward transfer is 36.0°C or above",
+"change": "Add 'temperature ≥36.0°C' as a required field in the recovery discharge criteria on the electronic recovery chart.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-111": {
+"question": "In adults having upper limb surgery under general anaesthetic for more than 90 minutes, was a VTE prophylaxis decision documented?",
+"pass": "VTE prophylaxis prescribed after surgery, or reason for none recorded",
+"change": "Add an auto-prompt to the operation note template: 'GA >90 min: VTE prophylaxis yes/no and reason'.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-112": {
+"question": "In adults having elective primary hip or knee replacement, did antibiotic prophylaxis stop within 24 hours of the operation?",
+"pass": "No prophylactic antibiotic dose more than 24 hours after knife-to-skin",
+"change": "Build an arthroplasty prophylaxis order set in e-prescribing with a fixed number of doses and an automatic 24-hour stop.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-113": {
+"question": "In orthopaedic inpatients on treatment antibiotics, was a documented review decision made 48 to 72 hours after starting them?",
+"pass": "Documented antibiotic review with one outcome 48 to 72 hours after first dose",
+"change": "Turn on a mandatory 72-hour antibiotic review task in e-prescribing that must be answered with one outcome before the next dose can be given.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-114": {
+"question": "In non-bleeding adults transfused after orthopaedic surgery, was each red cell unit followed by a haemoglobin check before the next unit?",
+"pass": "Single units with Hb checked between units and below 70 g/L before transfusion",
+"change": "Change the electronic blood request so that one unit is the default for non-bleeding patients, with a required reason for requesting two.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-115": {
+"question": "In adults transfused during an orthopaedic admission, did the discharge summary state the transfusion and that they can no longer donate blood?",
+"pass": "Discharge summary states transfusion details, reason, adverse events and donation ineligibility",
+"change": "Add a transfusion section to the discharge summary template that auto-fills from the transfusion lab system and includes the 'no longer eligible to donate' line.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-116": {
+"question": "In adults having orthopaedic trauma surgery other than hip fracture, was tranexamic acid given at the start of surgery?",
+"pass": "IV tranexamic acid given at or before knife-to-skin, or contraindication documented",
+"change": "Add 'Tranexamic acid given / contraindicated' to the Time Out on the electronic WHO checklist for all trauma cases.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-117": {
+"question": "In adults aged 65 or over, or with an eGFR below 60, listed for elective hip or knee replacement, did the pre-operative assessment record their risk of acute kidney injury?",
+"pass": "AKI risk and plan for ACE inhibitors, diuretics and NSAIDs documented pre-operatively",
+"change": "Add an AKI risk box with a medicines plan (ACE inhibitor/ARB/diuretic/NSAID) to the pre-op assessment template, auto-shown when age ≥65 or eGFR <60.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-118": {
+"question": "In adults aged 65 or over admitted with an orthopaedic injury other than hip fracture, was a delirium screen documented within 24 hours of admission?",
+"pass": "Validated delirium screen such as 4AT within 24 hours of admission",
+"change": "Add a 4AT field to the orthopaedic admission clerking proforma that is required for all patients aged 65 or over.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-119": {
+"question": "In orthopaedic ward patients with suspected infection and a NEWS2 score of 7 or more, were IV antibiotics given within 1 hour of that score?",
+"pass": "First IV antibiotic within 60 minutes of the first NEWS2 of 7 or more",
+"change": "Set e-observations so a NEWS2 ≥7 on an orthopaedic ward pages the on-call doctor with a sepsis screen, and stock a sepsis grab bag with first-dose antibiotics on each orthopaedic ward.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-120": {
+"question": "In adults discharged with opioids after orthopaedic surgery, did the discharge letter state the opioid dose, amount supplied and planned duration?",
+"pass": "Discharge letter states opioid dose, amount and duration, with supply 7 days or less",
+"change": "Add a required 'opioid plan' block (dose, quantity, stop date, GP not to add to repeats) to the discharge TTO template when any opioid is prescribed.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-121": {
+"question": "In orthopaedic inpatients with Parkinson's disease, was every dose of their Parkinson's medicine given within 30 minutes of the prescribed time in the first 72 hours?",
+"pass": "All Parkinson's doses in first 72 hours given within 30 minutes of due time",
+"change": "Flag Parkinson's drugs as time-critical in e-prescribing (exact-time dosing and alert when a dose is 30 minutes late) and add a Parkinson's NBM plan to the pre-op checklist.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-122": {
+"question": "In adults having elective primary hip or knee replacement, was a urinary catheter avoided unless a clinical indication was documented?",
+"pass": "No urinary catheter in theatre unless an indication is documented",
+"change": "Remove catheter packs from the default arthroplasty pick list and add 'catheter: indication' to the Team Brief.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-123": {
+"question": "In adults having hemiarthroplasty or total hip replacement for hip fracture, was the femoral head sent for histology only when a clinical indication was documented?",
+"pass": "No femoral head histology unless a clinical indication is documented",
+"change": "Agree a written indication list with pathology and add 'histology: indication or not required' to the Sign Out specimen check.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-124": {
+"question": "What proportion of new fracture clinic referrals have a named consultant review documented within 24 hours of first presentation?",
+"pass": "Named consultant review documented within 24 hours of first presentation",
+"change": "Add a mandatory 'reviewing consultant' and 'review time' field to the VFC outcome template, and add a weekend VFC or trauma-meeting review slot on the rota.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-125": {
+"question": "What proportion of patients reviewed in the virtual fracture clinic are sent a copy of the review outcome?",
+"pass": "VFC outcome sent to the patient within 7 days of review",
+"change": "Set the VFC letter template to add the patient as a recipient by default (opt-out, with a reason box).",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-126": {
+"question": "What proportion of new fracture clinic patients have a definitive treatment plan documented within 72 hours of first presentation?",
+"pass": "Definitive treatment plan documented within 72 hours of first presentation",
+"change": "Replace free-text VFC outcomes with a structured field 'Definitive plan' with drop-down options, which cannot be left as 'review'.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-127": {
+"question": "What proportion of first fracture clinic letters for lower limb injuries record weightbearing status using the BOASt terms?",
+"pass": "First letter states weightbearing using only the three BOASt terms",
+"change": "Add a weightbearing drop-down (NWB / LWB / UWB, with reason and duration boxes) to the fracture clinic letter template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-128": {
+"question": "What proportion of fracture clinic patients aged 50 or over with a fragility fracture are identified by the fracture liaison service?",
+"pass": "On the FLS database, or FLS referral or contact, within 12 weeks",
+"change": "Add an automatic weekly report of fracture clinic patients aged 50+ sent to the FLS, or a mandatory 'FLS referral: yes/no/why not' field in the VFC template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-129": {
+"question": "What proportion of patients identified by the fracture liaison service complete their FLS assessment within 12 weeks of fracture diagnosis?",
+"pass": "FLS assessment completed within 84 days of fracture diagnosis",
+"change": "Book DXA directly from the FLS at identification (protocol-based request) instead of asking the GP to request it.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-130": {
+"question": "What proportion of FLS patients aged 65 or over have a documented falls risk assessment?",
+"pass": "Falls risk assessment documented in the FLS record",
+"change": "Add a mandatory three-question falls screen with an automatic falls service referral trigger to the FLS assessment template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-131": {
+"question": "What proportion of FLS patients recommended bone treatment are followed up by the FLS within 8 weeks of the recommendation?",
+"pass": "FLS contact within 8 weeks of recommendation, recording whether treatment started",
+"change": "Create a tracked follow-up task (EPR or FLS database reminder) at the time of each treatment recommendation.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-132": {
+"question": "What proportion of radiology reports describing vertebral body height loss call it a 'vertebral fracture'?",
+"pass": "Report uses the words 'vertebral fracture'",
+"change": "Add a reporting macro in RIS ('Vertebral fracture at Tx. Recommend fracture risk assessment / FLS referral') and send an automatic copy to the FLS.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-133": {
+"question": "What proportion of fracture clinic letters are addressed directly to the patient?",
+"pass": "Letter addressed 'Dear' the patient (or carer) in second person, GP copied",
+"change": "Change the fracture clinic letter template default to 'Dear [patient]' with GP as copy recipient.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-134": {
+"question": "What proportion of fracture clinic letters give the patient a hospital phone number and email address for questions?",
+"pass": "Letter gives a direct hospital phone number and an email address",
+"change": "Add a fixed footer with the fracture clinic direct line and team email to the letter template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-135": {
+"question": "What proportion of fracture clinic letters to patients reach a Flesch reading ease score of 70 or more?",
+"pass": "Patient-facing text scores Flesch reading ease of 70 or more",
+"change": "Replace the template with plain-English section headings and a stock phrase bank (for example 'broken bone' for 'fracture', explained once).",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-136": {
+"question": "What proportion of fracture clinic patients moved to patient-initiated follow-up are sent a letter confirming PIFU, copied to their GP?",
+"pass": "Letter confirms PIFU, how to book, and the end date, with GP copied",
+"change": "Add a PIFU paragraph (contact route, end date, what happens at the end) that auto-inserts when the PIFU outcome is chosen on the clinic outcome form.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-137": {
+"question": "What proportion of fracture clinic PIFU pathways past their end date are closed with discharge documented in the notes and on PAS?",
+"pass": "Pathway closed on PAS and discharge recorded within 4 weeks of PIFU end date",
+"change": "A weekly automated PAS report of expired PIFU pathways sent to the trauma co-ordinator, with a standard discharge letter.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-138": {
+"question": "What proportion of X-ray requests from fracture clinic state the clinical question the image should answer?",
+"pass": "Request states the injury, time since injury or surgery, and the clinical question",
+"change": "Add a mandatory 'clinical question' drop-down (position check / union / hardware / new symptom / other) to the fracture clinic order set.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-139": {
+"question": "What proportion of trauma operations using fluoroscopy have the radiation dose recorded in the operation note or clinical evaluation?",
+"pass": "Operation note records dose-area product or screening time, and what images showed",
+"change": "Add a mandatory 'Imaging: DAP / screening time / findings' section to the trauma operation note template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-140": {
+"question": "What proportion of patients aged 12–55 of childbearing potential have a documented pregnancy enquiry before intraoperative fluoroscopy?",
+"pass": "Pregnancy enquiry recorded on the day of surgery before first exposure",
+"change": "Add a hard-stop pregnancy/breastfeeding line to the radiographer exposure record and the theatre sign-in.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-141": {
+"question": "What proportion of debridements or revision operations for suspected fracture-related infection send five separate deep microbiology samples?",
+"pass": "Five or more separate deep tissue samples received, with separate instruments",
+"change": "A pre-packed 'bone infection sampling kit' (5 labelled pots, 5 sets of instruments, request forms) kept in trauma theatre, added to the WHO sign-in for these cases.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-142": {
+"question": "What proportion of non-septic patients with suspected acute prosthetic joint infection receive no antibiotics before deep tissue samples are taken?",
+"pass": "First antibiotic dose given after joint aspiration or deep sampling",
+"change": "An ED and orthopaedic electronic alert on 'suspected joint replacement infection': 'Not septic? Withhold antibiotics until aspiration – call orthopaedics'.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-143": {
+"question": "What proportion of hip and knee replacement discharge summaries tell the patient who to contact if they suspect joint infection?",
+"pass": "Discharge summary gives infection warning signs, a named contact, and no antibiotics before review",
+"change": "Add a fixed 'If you think your joint is infected' box with the arthroplasty hotline and GP advice to the arthroplasty discharge template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-144": {
+"question": "What proportion of fracture fixation patients are given written advice on how to recognise wound infection and who to contact?",
+"pass": "Written advice on wound infection signs and a named contact route",
+"change": "Add a mandatory 'wound care and infection' section (signs, contact number, shower advice) to the trauma discharge summary template.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-145": {
+"question": "What proportion of trauma patients are told in their discharge summary that they received antibiotics during their operation?",
+"pass": "Discharge summary states the antibiotic given at surgery, or patient told",
+"change": "Auto-pull theatre antibiotics into the discharge summary with a plain-English line ('During your operation you were given the antibiotic ...').",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-146": {
+"question": "What proportion of limb operations under tourniquet have prophylactic antibiotic given before tourniquet inflation?",
+"pass": "Antibiotic given before tourniquet inflation",
+"change": "Add 'antibiotic given – time' as a required item before the tourniquet inflation entry in the theatre system (WHO time-out prompt).",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-147": {
+"question": "When a patient is cancelled from the trauma list, are they offered food or drink within 1 hour of the cancellation?",
+"pass": "Food or drink offered within 60 minutes of cancellation",
+"change": "Add a 'Cancelled: may eat and drink now?' step to the theatre coordinator's cancellation checklist; the coordinator phones the ward with a one-line script and records the time.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-148": {
+"question": "On elective orthopaedic lists, what proportion of turnarounds take 15 minutes or less?",
+"pass": "Turnaround from patient leaving theatre to next anaesthetic start is 15 minutes or less",
+"change": "Make 'send for next patient' a fixed step on the theatre checklist, triggered at the start of wound closure and time-logged by the coordinator. If the delay data point elsewhere, fix the leading delay reason instead.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-149": {
+"question": "On elective orthopaedic lists, what percentage of the planned session time is touch time?",
+"pass": "Touch time is 85% or more of planned session time",
+"change": "Fix the largest single source of lost time found: usually the first-case start, using a golden patient (first case identified and prepared the day before).",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-150": {
+"question": "In elective hip and knee replacements, what percentage of theatre waste by weight goes into the orange (infectious) waste stream?",
+"pass": "Orange-stream waste share per case halved from cycle 1",
+"change": "Place tiger (offensive) and recycling bins in every arthroplasty theatre; open packaging into recycling before the patient enters; keep the orange bin for items with a clear infection risk, as defined in writing with infection prevention.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-151": {
+"question": "On primary knee replacement instrument trays, what proportion of the instruments are used during the operation?",
+"pass": "Instrument used in at least 10% of cases",
+"change": "Remove instruments used in under 10% of cases from the main tray into a separate 'open if needed' pack, agreed with all knee surgeons and sterile services.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-152": {
+"question": "What proportion of hip fracture patients taking warfarin with an INR above 1.5 on arrival receive intravenous vitamin K within 4 hours of arrival?",
+"pass": "IV vitamin K within 4 hours of arrival, or reason not to reverse",
+"change": "Add a 'Taking warfarin? Give vitamin K IV now' line to the ED hip fracture pathway order set, so the dose is prescribed by the ED clinician before the INR result returns.",
+"area": "Hip and fragility fracture"
+},
+"ONA-153": {
+"question": "What proportion of hip fracture patients have a pressure ulcer risk assessment recorded within 6 hours of admission?",
+"pass": "Validated pressure ulcer risk score within 6 hours of the decision to admit",
+"change": "Make the pressure ulcer risk score a mandatory field in the ED hip fracture nursing pathway document, completed before the patient leaves the ED.",
+"area": "Hip and fragility fracture"
+},
+"ONA-154": {
+"question": "What proportion of older adults having surgery for a fragility fracture have a consultant-level decision about resuscitation and treatment escalation documented before surgery?",
+"pass": "Consultant-endorsed escalation plan, ReSPECT or DNACPR decision before anaesthesia starts",
+"change": "Add a 'Escalation plan / ReSPECT completed and consultant-endorsed' tick-box to the pre-operative trauma list checklist, checked at the morning trauma meeting.",
+"area": "Hip and fragility fracture"
+},
+"ONA-155": {
+"question": "What proportion of adults with an open fracture have tetanus prophylaxis given or withheld in line with UKHSA guidance?",
+"pass": "Tetanus status recorded and action matching UKHSA guidance given by first operation",
+"change": "Add a tetanus section with the UKHSA Table 4 decision grid to the ED open-fracture proforma, with vaccine and immunoglobulin on the open-fracture order set.",
+"area": "Adult trauma"
+},
+"ONA-156": {
+"question": "What proportion of adults with a reduced shoulder dislocation have axillary nerve function documented after reduction?",
+"pass": "Axillary nerve sensation and deltoid function recorded after reduction",
+"change": "Add a post-reduction nerve box (axillary sensation, deltoid contraction) to the ED shoulder reduction procedure note in the EPR.",
+"area": "Adult trauma"
+},
+"ONA-157": {
+"question": "What proportion of adults aged 65 and over who have surgery for a fragility fracture other than hip fracture are seen by a physiotherapist on the day after surgery?",
+"pass": "Physiotherapy functional assessment or goals recorded by the day after surgery",
+"change": "Add all operated patients aged 65 and over (not only hip fractures) to the daily therapy trauma referral list produced from the theatre system.",
+"area": "Adult trauma"
+},
+"ONA-158": {
+"question": "What proportion of adults aged 65 and over with a head injury and suspected neck injury have a CT cervical spine scan within 1 hour of the risk factor being identified?",
+"pass": "CT cervical spine within 60 minutes of the risk factor being documented",
+"change": "Add a combined 'CT head and cervical spine – NICE 1-hour' option to the electronic imaging request for people aged 65 and over, flagged to CT as urgent.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-159": {
+"question": "What proportion of patients with a hand or wrist laceration and a documented sensory or motor deficit receive specialist hand advice within 24 hours?",
+"pass": "Hand service advice, referral or review within 24 hours of arrival",
+"change": "Add a rule to the ED hand-wound template: any recorded sensory or motor deficit triggers an electronic referral to the hand trauma service before discharge.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-160": {
+"question": "What proportion of adults whose distal radius fracture is manipulated in the ED have median nerve function documented after the manipulation?",
+"pass": "Median nerve sensation and function recorded after manipulation and plaster",
+"change": "Add a mandatory post-manipulation nerve section (median, ulnar and radial, with median first) to the ED Bier's block or manipulation procedure note.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-161": {
+"question": "What proportion of adults with diabetes admitted with a limb-threatening foot problem have the multidisciplinary foot care service informed within 24 hours of admission?",
+"pass": "Multidisciplinary foot care service contacted within 24 hours of admission",
+"change": "Add an automatic electronic referral to the diabetic foot MDT when a diabetic foot admission is booked under orthopaedics (PAS diagnosis or admission reason), with a daily list to the foot team.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-162": {
+"question": "Do children who have a forearm fracture manipulated in the Emergency Department have a neurovascular assessment recorded before discharge?",
+"pass": "Radial pulse, capillary refill and three nerves recorded after manipulation, before discharge",
+"change": "Add a 'pre-discharge neurovascular check' box to the paediatric forearm manipulation pathway document, required before the discharge letter can be completed.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-163": {
+"question": "In children under 16 who have a CT cervical spine scan after a head injury, is one of the NICE risk factors for CT documented before the scan?",
+"pass": "At least one NICE risk factor documented before the scan",
+"change": "Make the CT cervical spine request for under-16s require selection of one NICE 1.6.4 risk factor in the electronic request, with radiologist vetting if none applies.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-164": {
+"question": "In children aged 8 to 16 who attend the Emergency Department with non-traumatic hip, thigh or knee pain or a limp, what proportion have frog-leg lateral X-rays of both hips before discharge?",
+"pass": "AP pelvis and frog-leg lateral views of both hips before discharge",
+"change": "Add an 'Age 8–16 with hip, thigh or knee pain or limp' prompt to the paediatric ED limp pathway and X-ray request, defaulting to AP pelvis plus frog-leg lateral of both hips.",
+"area": "Paediatric orthopaedics"
+},
+"ONA-165": {
+"question": "What proportion of ED X-rays for suspected fracture have a definitive written report before the patient leaves the Emergency Department?",
+"pass": "Verified X-ray report issued before the patient leaves ED",
+"change": "Route all ED musculoskeletal X-rays to a dedicated hot-reporting worklist covered by a reporting radiographer during 08:00–20:00.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-166": {
+"question": "What proportion of patients with a first-time patellar dislocation have a skyline patellar view X-ray after reduction?",
+"pass": "Skyline patellar view after reduction within 2 weeks of injury",
+"change": "Add a 'Patellar dislocation – AP, lateral and skyline' protocol button to the ED and fracture clinic X-ray request.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-167": {
+"question": "What proportion of adults with a manipulated distal radius fracture treated in a cast have a repeat X-ray between 1 and 2 weeks after manipulation?",
+"pass": "Wrist X-ray 7 to 14 days after manipulation, or documented no-surgery decision",
+"change": "Set the virtual fracture clinic outcome for manipulated distal radius fractures to book a fracture clinic slot with X-ray on day 7–10 by default.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-168": {
+"question": "In adults taking prednisolone 5 mg a day or more (or equivalent) for 4 weeks or longer who have orthopaedic surgery, what proportion receive intravenous steroid cover at induction?",
+"pass": "Hydrocortisone 100 mg IV or dexamethasone 6 to 8 mg IV at induction",
+"change": "Add a 'Steroid ≥5 mg for ≥4 weeks: give hydrocortisone 100 mg IV at induction' flag to the pre-operative checklist and the anaesthetic e-record when medicines reconciliation shows a long-term steroid.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-169": {
+"question": "What proportion of adults aged 65 and over admitted with a fracture are not given an oral or intravenous NSAID during their admission?",
+"pass": "No dose of a systemic NSAID given during the admission",
+"change": "Add an electronic prescribing alert for systemic NSAIDs in patients aged 65 and over on trauma wards, and remove NSAIDs from the default trauma analgesia order set for this age group.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-170": {
+"question": "In adults having primary elective hip or knee replacement, what proportion start physiotherapy or occupational therapy rehabilitation on the day of surgery?",
+"pass": "Therapy entry recording rehabilitation on the day of surgery",
+"change": "Schedule a named therapist on the arthroplasty ward until 19:00 on operating days, with patients from the morning list automatically added to the day-0 therapy list.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-171": {
+"question": "In adults aged 65 and over listed for primary elective hip or knee replacement, what proportion have a validated risk stratification score recorded at pre-operative assessment?",
+"pass": "Validated risk score such as SORT recorded before the day of surgery",
+"change": "Add a SORT calculator field (auto-populated from pre-assessment data) to the electronic pre-assessment record for patients aged 65 and over.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-172": {
+"question": "What proportion of adults whose X-ray suggests possible bone sarcoma are given a suspected cancer pathway referral?",
+"pass": "Suspected cancer pathway referral made on the day the report is authorised",
+"change": "Add a mandatory radiology 'critical result' alert that fires to the reporting radiologist's and requester's inbox whenever a bone tumour/sarcoma-suggestive phrase is used, with a same-day 2-week-wait referral form linked from the alert.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-173": {
+"question": "What proportion of children and young people whose X-ray suggests possible bone sarcoma get a specialist appointment within 48 hours?",
+"pass": "Seen by a bone sarcoma specialist within 48 hours of the report",
+"change": "Create a single 'child/young person: X-ray suggests bone sarcoma' escalation route that bypasses the general 2-week-wait office and goes straight to the on-call paediatric orthopaedic/oncology consultant by phone, logged on a shared tracker.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-174": {
+"question": "What proportion of children with unexplained bone swelling or pain get a direct access X-ray within 48 hours of the GP request?",
+"pass": "X-ray performed within 48 hours of the GP request",
+"change": "Add a RIS priority code for 'paediatric direct access - unexplained bone swelling/pain' that books automatically into the next available slot within 48 hours, separate from routine direct access X-ray priority.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-175": {
+"question": "What proportion of adults listed for ACL reconstruction are offered prehabilitation before surgery?",
+"pass": "Prehabilitation physiotherapy referral or plan recorded by the time of listing",
+"change": "Add an automatic prehabilitation physiotherapy referral to the knee clinic listing form, triggered whenever 'ACL reconstruction' is selected as the planned procedure.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-176": {
+"question": "What proportion of adults having ACL reconstruction are registered on the National Ligament Registry?",
+"pass": "Registry consent documented and case found on the upload log",
+"change": "Add a mandatory 'Ligament Registry consent: yes/no/declined' field to the ACL operation note template that cannot be saved blank, linked to an automatic upload task for theatre administrative staff.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-177": {
+"question": "What proportion of ACL reconstruction operation notes document the examination under anaesthesia findings?",
+"pass": "Operation note records anteroposterior and rotational laxity and associated injuries",
+"change": "Add a mandatory structured EUA section (AP laxity, pivot shift/rotational laxity, other injuries) to the ACL operation note template that must be completed before the note can be saved.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-178": {
+"question": "What proportion of patients cleared to return to sport after ACL reconstruction have criteria-based testing documented?",
+"pass": "Return-to-sport letter records a strength test and a hop test",
+"change": "Introduce a standard 'ACL return-to-sport testing battery' form (quadriceps/hamstring strength ratio, single-leg hop tests, psychological readiness scale) that must be completed and filed before a return-to-sport letter is issued.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-179": {
+"question": "What proportion of adults assessed for recurrent patellar instability have all the required MRI findings documented?",
+"pass": "Patella height, trochlear morphology and tibial tuberosity offset documented",
+"change": "Create a structured MRI reporting proforma for 'recurrent patellar instability' in the radiology system that prompts the reporting radiologist for each of the three required measurements.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-180": {
+"question": "What proportion of adults having arthroscopic meniscal surgery have a preoperative MRI confirming a meniscal lesion?",
+"pass": "Pre-operative MRI shows a target lesion matching the side and compartment operated",
+"change": "Add a mandatory 'MRI target confirmed: yes, side/compartment ___' field to the elective knee arthroscopy listing form, which must be completed before the case can be added to a theatre list.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-181": {
+"question": "What proportion of adults with a locked knee from a meniscal tear have urgent arthroscopic surgery documented as planned within the recommended timeframe?",
+"pass": "Surgery within 7 days of diagnosis, or reason for longer wait documented",
+"change": "Add 'locked knee (meniscal)' as a named category on the trauma/urgent theatre booking form with a 7-day target, so it is not booked onto a routine elective waiting list.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-182": {
+"question": "What proportion of adults with advanced knee osteoarthritis and a meniscal tear on MRI are correctly NOT listed for arthroscopic meniscal surgery?",
+"pass": "Advanced osteoarthritis with meniscal tear managed non-operatively",
+"change": "Add a 'BASK advanced OA + meniscal tear' prompt to the knee clinic letter template that appears when advanced OA is coded, requiring either a non-operative plan or a documented second-opinion reason for surgery.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-183": {
+"question": "What proportion of primary ACL reconstructions are performed as a day case?",
+"pass": "Admitted and discharged on the day of surgery, unless reason documented",
+"change": "Move routine primary ACL reconstruction onto a dedicated day-case theatre list with a morning start time, a standard multimodal analgesia and nerve block protocol, and a same-day physiotherapy discharge checklist.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-184": {
+"question": "What proportion of patients with an open fracture receive intravenous antibiotics within 1 hour of injury?",
+"pass": "IV antibiotics within 1 hour of injury",
+"change": "Add open fracture antibiotics to the ED trauma triage 'time-critical medicine' checklist with a pre-drawn-up antibiotic kept in the resus and majors antibiotic cupboard, triggered by the trauma call or open fracture triage category.",
+"area": "Adult trauma"
+},
+"ONA-185": {
+"question": "What proportion of open fracture wounds are photographed before debridement?",
+"pass": "Wound photograph taken before debridement and filed in the record",
+"change": "Issue a dedicated, information-governance-approved clinical photography device in ED resus/majors with a direct upload link to the EPR, and add 'wound photographed: yes/no' to the open fracture ED proforma.",
+"area": "Adult trauma"
+},
+"ONA-186": {
+"question": "What proportion of inpatients with proven or suspected fracture-related infection are discussed at a weekly bone and joint infection MDT?",
+"pass": "Bone and joint infection MDT discussion documented every full week of stay",
+"change": "Create a standing weekly bone and joint infection MDT with a running inpatient tracker list (populated automatically from the microbiology alert system) so no FRI inpatient can be missed from the agenda.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-187": {
+"question": "What proportion of stable patients with suspected late or chronic fracture-related infection have at least 2 weeks off antibiotics before deep sampling?",
+"pass": "No antibiotics for at least 2 weeks before deep sampling",
+"change": "Add a mandatory 'last antibiotic dose' and 'planned sampling date' field to the FRI clinic booking process, with a GP letter template asking GPs not to prescribe antibiotics for the wound in the 2 weeks before the planned date.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-188": {
+"question": "What proportion of adults having further surgery for a non-union or delayed union have microbiology and histology samples taken to exclude infection?",
+"pass": "Five microbiology and two histology samples recorded, barring elective metalwork removal",
+"change": "Add non-union and delayed union revision surgery to the same 'bone infection sampling kit' WHO sign-in prompt already used for suspected FRI debridements, so sampling becomes the default rather than something to remember separately.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-189": {
+"question": "What proportion of septic patients with suspected acute prosthetic joint infection have emergency surgical drainage within 6 hours?",
+"pass": "Surgical drainage started within 6 hours of recognising sepsis, or reason documented",
+"change": "Classify septic suspected acute PJI as an NCEPOD category 1 emergency on the theatre booking system, triggering immediate theatre and on-call consultant notification in the same way as other time-critical orthopaedic emergencies.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-190": {
+"question": "What proportion of patients assessed for suspected prosthetic joint infection have a documented assessment for additional sources of infection, including endocarditis?",
+"pass": "Other infection sources and endocarditis risk documented in the assessment",
+"change": "Add a mandatory 'other infection sources considered (including endocarditis)' field to the PJI assessment proforma, which cannot be left blank.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-191": {
+"question": "What proportion of patients assessed for suspected prosthetic joint infection have the full initial investigation panel of FBC, CRP, renal function and plain radiographs?",
+"pass": "FBC, CRP, renal function and radiographs resulted within 24 hours of assessment",
+"change": "Create a single 'suspected PJI' order set in the EPR that requests FBC, CRP, renal function and the appropriate plain radiograph together in one click.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-192": {
+"question": "What proportion of elective orthopaedic operations use reusable (laundered) surgical gowns and drapes instead of single-use disposable ones?",
+"pass": "Reusable gowns used, unless a clinical reason justifies single-use",
+"change": "Agree a written default of reusable gowns for routine elective primary arthroplasty with theatre sterile services, and remove single-use gowns from the default arthroplasty pick list so they must be actively requested.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-193": {
+"question": "What proportion of orthopaedic general anaesthetics using a volatile agent are given using low-flow (end-tidal controlled) anaesthesia?",
+"pass": "Fresh gas flow reduced to 1 L/min or less once stable",
+"change": "Set low-flow anaesthesia as the default target on the anaesthetic machine's electronic workflow prompt, with a reminder to reduce fresh gas flow once the patient is stable, agreed with the anaesthetic department.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-194": {
+"question": "What proportion of elective hip and knee replacement wounds are closed with sutures rather than metal staples?",
+"pass": "Skin closed with sutures not staples, unless reason documented",
+"change": "Agree a written default of suture skin closure for routine primary elective arthroplasty with the arthroplasty surgeons, and set the theatre pick-list default to sutures, with staples available on specific request.",
+"area": "Orthopaedic perioperative, theatre and ward care"
+},
+"ONA-195": {
+"question": "What proportion of new orthopaedic referrals for tennis elbow have avoided a corticosteroid injection beforehand?",
+"pass": "No corticosteroid injection for lateral elbow pain before assessment",
+"change": "Share the BESS tennis elbow pathway and a one-page 'do not inject' summary with local GP practices and the musculoskeletal triage service, so physiotherapy becomes the automatic first step instead of injection.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-196": {
+"question": "What proportion of adults with a straightforward clinical diagnosis of tennis elbow avoid unnecessary imaging before physiotherapy?",
+"pass": "No elbow imaging before a trial of physiotherapy",
+"change": "Add the BESS diagnostic checklist to the musculoskeletal triage and GP referral template so imaging is only requested when a red-flag feature or diagnostic uncertainty is specifically documented.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-197": {
+"question": "What proportion of patients aged 40 to 60 with a first traumatic anterior shoulder dislocation have rotator cuff imaging (ultrasound or MRI)?",
+"pass": "Rotator cuff ultrasound or MRI requested within 6 weeks of dislocation",
+"change": "Add an automatic 'age 40-60: request shoulder ultrasound for cuff integrity' prompt to the fracture clinic outcome form whenever a first traumatic anterior dislocation is coded in this age group.",
+"area": "Adult trauma"
+},
+"ONA-198": {
+"question": "What proportion of shoulder dislocations have a documented neurological and circulatory examination before reduction?",
+"pass": "Neurological and circulatory examination documented before reduction",
+"change": "Add a mandatory pre-reduction neurovascular examination box (paired with the existing post-reduction box) to the ED shoulder reduction procedure note, so the note cannot be completed without both.",
+"area": "Adult trauma"
+},
+"ONA-199": {
+"question": "What proportion of new fracture clinic patients who need information in a different language or an accessible format have this recorded as provided?",
+"pass": "Language or accessible format need documented and the format or interpreter provided",
+"change": "Add a mandatory check at fracture clinic booking that reads the PAS communication-needs flag and automatically books an interpreter or flags the need for an accessible-format information leaflet before the appointment.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-200": {
+"question": "What proportion of patients with a first-time lateral patellar dislocation are assessed by a musculoskeletal physiotherapist within 3 weeks of injury?",
+"pass": "Seen by an MSK physiotherapist within 21 days of dislocation",
+"change": "Add a direct physiotherapy self-referral or fast-track booking option to the virtual fracture clinic outcome form for first-time patellar dislocation, bypassing the general physiotherapy waiting list.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-201": {
+"question": "What proportion of patients considered for surgery after a first-time lateral patellar dislocation have this discussed and documented at an age-appropriate MDT?",
+"pass": "Surgery decision discussed at an age-appropriate MDT before listing",
+"change": "Add 'FTLPD surgical plan' as a standing agenda item template in the knee/sports injury or paediatric orthopaedic MDT, with a mandatory outcome-recording field linked to the theatre listing form.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-202": {
+"question": "What proportion of adults with non-specific low back pain (with or without sciatica) in a non-specialist setting avoid routine spinal imaging?",
+"pass": "No lumbar spine imaging requested in non-specialist settings without red flags",
+"change": "Add a mandatory red-flag checklist to the GP and musculoskeletal triage low back pain template that must be completed before an imaging request can be submitted for non-specific low back pain.",
+"area": "Foot and ankle, hand and wrist, spine"
+},
+"ONA-203": {
+"question": "What proportion of patients with a confirmed limb arterial injury from musculoskeletal trauma have revascularisation started within 1 hour of arrival?",
+"pass": "Surgical revascularisation started within 1 hour of arrival",
+"change": "Classify confirmed limb arterial injury as an NCEPOD category 1 emergency on the theatre booking system with immediate simultaneous notification of orthopaedic, vascular or plastic surgery on-call teams, bypassing the standard trauma list queue.",
+"area": "Adult trauma"
+},
+"ONA-204": {
+"question": "What proportion of patients with suspected limb arterial injury have CT angiography performed concurrently with the initial trauma CT, rather than as a delayed second scan?",
+"pass": "CT angiography done in the same CT episode as the initial trauma CT",
+"change": "Add an automatic CT angiography arterial-phase extension to the trauma CT protocol whenever 'suspected limb arterial injury' is selected on the trauma CT request, so radiographers do not need a separate request.",
+"area": "Adult trauma"
+},
+"ONA-205": {
+"question": "What proportion of adults with a 'possible target' meniscal lesion and symptoms under 3 months are offered a structured non-operative trial before arthroscopic surgery is considered?",
+"pass": "Structured non-operative treatment plan documented before any arthroscopy listing",
+"change": "Add a 'possible target, symptoms <3 months: non-operative trial plan' prompt to the knee clinic letter template that must be completed before a surgical listing option becomes available for this category.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-206": {
+"question": "What proportion of shoulder dislocations have two orthogonal radiographic views before reduction is attempted?",
+"pass": "AP and axial (or scapular Y) views before reduction, or reason documented",
+"change": "Set the default ED radiology request protocol for 'suspected shoulder dislocation' to always include both an AP and an axial (or modified axial) view as a single combined request.",
+"area": "Adult trauma"
+},
+"ONA-207": {
+"question": "What proportion of ACL reconstruction consent discussions document the graft options, risks and the surgeon's recommendation?",
+"pass": "Consent documents graft options, benefits and risks, and the agreed choice",
+"change": "Add a structured 'graft choice discussion' section to the ACL consent form or a paired patient information sheet, with tick boxes for each graft type discussed and a free-text line for the agreed choice.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-208": {
+"question": "What proportion of patients referred to secondary care for tennis elbow have a PRTEE (Patient-Rated Tennis Elbow Evaluation) score recorded before treatment starts?",
+"pass": "PRTEE score recorded at first secondary care assessment before treatment",
+"change": "Add the PRTEE questionnaire as a mandatory patient self-completed form in the waiting area at every new tennis elbow appointment, with the score entered into the clinic letter template.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-209": {
+"question": "What proportion of patients with a first-time lateral patellar dislocation are given patient information about their injury and rehabilitation?",
+"pass": "Written, video or app-based information given at first assessment",
+"change": "Create a single FTLPD patient information leaflet (with a QR code linking to a rehabilitation video) and add a mandatory 'information given: yes/no, format' field to the ED and fracture clinic discharge template for this diagnosis.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"ONA-210": {
+"question": "What proportion of open fractures have definitive soft tissue closure or coverage achieved within 72 hours of injury?",
+"pass": "Definitive soft tissue closure or coverage within 72 hours of injury",
+"change": "Add open fracture cases awaiting definitive closure to a shared orthoplastic tracker board with an automatic 72-hour countdown flag visible to both orthopaedic and plastic surgery theatre coordinators.",
+"area": "Adult trauma"
+},
+"ONA-211": {
+"question": "What proportion of adults assessed for recurrent patellar instability have the three required radiograph views performed?",
+"pass": "AP/PA, true lateral and skyline views all done and available",
+"change": "Create a single 'recurrent patellar instability' radiograph request protocol in the RIS that automatically includes all three specified views, replacing ad hoc individual view requests.",
+"area": "Elective arthroplasty, knee and shoulder"
+},
+"ONA-212": {
+"question": "What proportion of patients started on empiric antibiotics for suspected fracture-related infection without a prior diagnostic work-up have those antibiotics stopped once this is identified?",
+"pass": "Empiric antibiotics stopped once lack of work-up is identified, unless septic",
+"change": "Add a mandatory 'diagnostic work-up in place before antibiotics: yes/no' field to the EPMA order for suspected FRI antibiotics, with a forced 48-hour review task if the answer is 'no' and the patient is not septic.",
+"area": "Fracture clinic, outpatients, imaging, bone health and infection"
+},
+"NNA-001": {
+"question": "What proportion of adults admitted with suspected non-variceal upper GI bleeding do not receive a proton pump inhibitor before their endoscopy?",
+"pass": "No PPI or H2 antagonist given before endoscopy",
+"change": "Remove IV PPI from the ED and surgical admission order set for GI bleeding, and add a 'no PPI before endoscopy (NICE 1.4.3)' line to the GI bleed proforma.",
+"area": "General and emergency surgery"
+},
+"NNA-002": {
+"question": "What proportion of haemodynamically stable adults admitted with upper GI bleeding have endoscopy within 24 hours of admission?",
+"pass": "Endoscopy within 24 hours of admission",
+"change": "A named daily 'bleed slot' on the endoscopy list, booked by the admitting team through an electronic request that timestamps the referral.",
+"area": "General and emergency surgery"
+},
+"NNA-003": {
+"question": "What proportion of adults treated for a perforated peptic ulcer are tested for H. pylori and, if positive, given eradication therapy?",
+"pass": "H. pylori test sent or planned with named owner, eradication if positive",
+"change": "Add 'H. pylori serology sent / eradication prescribed' to the emergency laparotomy postoperative order set and discharge template.",
+"area": "General and emergency surgery"
+},
+"NNA-004": {
+"question": "What proportion of adults given intravenous antibiotics for acute diverticulitis have a documented review of the IV antibiotics within 48 hours or after their CT, whichever is sooner?",
+"pass": "IV antibiotic decision documented within 48 hours, or 24 hours of CT report",
+"change": "Add a 48-hour 'IV antibiotic review: continue / oral / stop' box to the EPMA antibiotic order that must be completed on the surgical ward round.",
+"area": "General and emergency surgery"
+},
+"NNA-005": {
+"question": "What proportion of adults admitted with acute pancreatitis are allowed to eat, or have a documented reason for withholding food, within 24 hours of admission?",
+"pass": "Eating within 24 hours of admission, or reason for withholding food documented",
+"change": "Replace the default 'NBM' line in the pancreatitis clerking proforma with 'Diet: eat as tolerated unless vomiting / ileus / procedure (state reason)'.",
+"area": "General and emergency surgery"
+},
+"NNA-006": {
+"question": "What proportion of adults with acute pancreatitis not caused by gallstones or alcohol have serum calcium and triglycerides measured during the admission?",
+"pass": "Adjusted calcium and triglycerides both measured during the admission",
+"change": "An electronic 'pancreatitis cause' blood panel (calcium, triglycerides, IgG4) available from the admission order set.",
+"area": "General and emergency surgery"
+},
+"NNA-007": {
+"question": "What proportion of adults who had potentially curative surgery for colorectal cancer have CEA and CT chest, abdomen and pelvis at the planned intervals over the first 3 years?",
+"pass": "Every CEA and CT done within 6 weeks of its due date",
+"change": "Automatic surveillance tracking: each patient is loaded onto an electronic recall list at the end of treatment, with CEA and CT requests triggered by the cancer nurse team.",
+"area": "General and emergency surgery"
+},
+"NNA-008": {
+"question": "What proportion of adults having sphincter-preserving rectal cancer surgery have documented pre-operative information about low anterior resection syndrome?",
+"pass": "LARS discussed or leaflet given before surgery, documented",
+"change": "Add 'LARS explained and leaflet given' to the colorectal CNS pre-operative checklist and to the anterior resection consent template.",
+"area": "General and emergency surgery"
+},
+"NNA-009": {
+"question": "What proportion of women under 50 with triple-negative breast cancer are offered BRCA1/2 genetic testing?",
+"pass": "BRCA testing offered (test sent or genetics referral), or declined, documented",
+"change": "Add an automatic 'TNBC <50: BRCA test offered?' field to the breast MDT outcome form, completed at the diagnostic MDT.",
+"area": "General and emergency surgery"
+},
+"NNA-010": {
+"question": "What proportion of postmenopausal women with node-positive early invasive breast cancer are offered adjuvant bisphosphonates?",
+"pass": "Adjuvant bisphosphonate offered, started or declined, or contraindication documented",
+"change": "Add 'Adjuvant bisphosphonate: yes / no (reason)' to the postoperative MDT outcome template.",
+"area": "General and emergency surgery"
+},
+"NNA-011": {
+"question": "What proportion of pre-operative breast MRIs in newly diagnosed breast cancer have a NICE indication recorded on the request?",
+"pass": "NICE or agreed local MRI indication stated on the request",
+"change": "Make 'MRI indication' a mandatory drop-down on the breast MRI request, listing the NICE and agreed local indications.",
+"area": "General and emergency surgery"
+},
+"NNA-012": {
+"question": "What proportion of people treated for breast cancer have their annual surveillance mammogram within 13 months of the previous one?",
+"pass": "Each surveillance mammogram done within 13 months of the previous one",
+"change": "Add each patient to an electronic surveillance recall list in the breast imaging system at the end of treatment, with automatic invitations.",
+"area": "General and emergency surgery"
+},
+"NNA-013": {
+"question": "What proportion of adults with an incidental abdominal aortic aneurysm of 3.0 cm or more on imaging are referred to the vascular service within the NICE time frame?",
+"pass": "Vascular review within 2 weeks if 5.5 cm or more, else 12 weeks",
+"change": "Radiology adds a coded 'AAA ≥3 cm' alert that automatically copies the report to the vascular service's referral inbox.",
+"area": "General and emergency surgery"
+},
+"NNA-014": {
+"question": "What proportion of aortic ultrasound reports state the inner-to-inner maximum anterior-posterior diameter?",
+"pass": "Report gives maximum anterior-posterior diameter and states it is inner-to-inner",
+"change": "A structured aortic ultrasound report template with 'Maximum AP diameter (inner-to-inner): __ cm' as a required field.",
+"area": "General and emergency surgery"
+},
+"NNA-015": {
+"question": "What proportion of adults newly diagnosed with intermittent claudication in vascular clinic are offered a supervised exercise programme?",
+"pass": "Supervised exercise programme referral, or offered and declined, or unsuitability documented",
+"change": "Add 'Supervised exercise programme: referred / declined / unsuitable (reason)' to the vascular new-patient clinic template, with a one-click referral.",
+"area": "General and emergency surgery"
+},
+"NNA-016": {
+"question": "What proportion of adults having major abdominal surgery lasting longer than the half-life of the prophylactic antibiotic receive a timely repeat dose?",
+"pass": "Repeat antibiotic dose recorded within 30 minutes of the local redosing interval",
+"change": "Add a 'Redose antibiotic due at __:__' line to the WHO checklist time-out, completed by the anaesthetist, with the time shown on the theatre whiteboard.",
+"area": "General and emergency surgery"
+},
+"NNA-017": {
+"question": "What proportion of adults on the general surgical wards who are able to take oral medicines receive paracetamol orally rather than intravenously on the day after surgery?",
+"pass": "Every paracetamol dose on postoperative day 1 is oral in patients able to swallow",
+"change": "Change the postoperative EPMA order set so oral paracetamol is the default and IV paracetamol needs a reason with a 24-hour auto-stop.",
+"area": "General and emergency surgery"
+},
+"NNA-018": {
+"question": "What proportion of adults after elective abdominal or hernia surgery are prescribed regular oral ibuprofen for the first 24 hours unless contraindicated?",
+"pass": "Regular oral ibuprofen prescribed for first 24 hours, or contraindication documented",
+"change": "Add regular oral ibuprofen to the elective general surgery postoperative order set, with a contraindication checklist that removes it when ticked.",
+"area": "General and emergency surgery"
+},
+"NNA-019": {
+"question": "What proportion of adults referred on the suspected lower GI cancer pathway (excluding rectal or anal mass or anal ulceration) have a FIT result available at triage?",
+"pass": "Quantitative FIT result available at triage",
+"change": "Make a FIT result a required field on the electronic lower GI referral form, with referral returned to the GP with a FIT kit if blank (safety-netted for strong clinical concern).",
+"area": "General and emergency surgery"
+},
+"NNA-020": {
+"question": "What proportion of adults needing immediate emergency laparotomy have their pre-operative CT reported by a senior radiologist within one hour of the scan?",
+"pass": "CT report by radiologist ST3 or above within 60 minutes of scan",
+"change": "A 'NELA urgent' flag on the CT request that sends the scan to the top of the reporting worklist and prompts a phone call to the surgical registrar.",
+"area": "General and emergency surgery"
+},
+"NNA-021": {
+"question": "What proportion of adults having emergency laparotomy with suspected sepsis receive antibiotics within one hour of the first qualifying NEWS2 score?",
+"pass": "First antibiotic within 60 minutes of first NEWS2 of 5 or more",
+"change": "A 'surgical sepsis' PGD allowing ED and SAU nurses to give first-dose antibiotics from the trust guideline once NEWS2 ≥5 with suspected abdominal source.",
+"area": "General and emergency surgery"
+},
+"NNA-022": {
+"question": "What proportion of adults having emergency laparotomy have a mortality risk score documented at the end of surgery?",
+"pass": "Numerical mortality risk score documented at the end of surgery",
+"change": "Add a mandatory 'End-of-surgery NELA risk: __%' field to the emergency laparotomy operation note template, completed at sign-out.",
+"area": "General and emergency surgery"
+},
+"NNA-023": {
+"question": "What proportion of adults with bowel perforation or ischaemia managed without surgery who die in hospital receive direct input from the palliative care team?",
+"pass": "Palliative care team reviewed the patient before death",
+"change": "An automatic palliative care referral prompt in the NoLap proforma when the consultant records a non-operative decision.",
+"area": "General and emergency surgery"
+},
+"NNA-024": {
+"question": "What proportion of adults with a CT-confirmed ureteric stone and ongoing pain, or a stone unlikely to pass, have surgical treatment (ureteroscopy or lithotripsy) within 48 hours of diagnosis?",
+"pass": "Ureteroscopy or lithotripsy started within 48 hours of diagnostic CT",
+"change": "Ring-fence a daily 'hot stone' slot (ureteroscopy list or lithotripsy session) that the urology registrar books directly from the morning trauma/take meeting.",
+"area": "Surgical specialties"
+},
+"NNA-025": {
+"question": "What proportion of men catheterised for acute urinary retention are prescribed an alpha blocker before their trial without catheter?",
+"pass": "Alpha blocker prescribed before trial without catheter, or contraindication documented",
+"change": "Build an 'acute urinary retention' order set in ED and urology e-prescribing that includes tamsulosin 400 micrograms once daily and books the trial without catheter.",
+"area": "Surgical specialties"
+},
+"NNA-026": {
+"question": "What proportion of patients whose first TURBT shows high-risk non-muscle-invasive bladder cancer have a second TURBT within 6 weeks?",
+"pass": "Second TURBT within 42 days of the first",
+"change": "Make the MDT outcome for high-risk NMIBC automatically list the re-TURBT with a 'must be done by' date (day 42) on the waiting list, tracked by the cancer tracker.",
+"area": "Surgical specialties"
+},
+"NNA-027": {
+"question": "What proportion of men starting androgen deprivation therapy for prostate cancer are offered a supervised exercise programme?",
+"pass": "Supervised exercise offer or referral documented within 3 months of first ADT dose",
+"change": "Add a 'Supervised exercise programme offered: accepted / declined' line to the ADT start clinic template with a one-click referral to the local programme.",
+"area": "Surgical specialties"
+},
+"NNA-028": {
+"question": "What proportion of women seen for the first time in a continence clinic with urinary incontinence or overactive bladder have a completed bladder diary of at least 3 days?",
+"pass": "Bladder diary of 3 days or more in notes by first appointment",
+"change": "Have the booking system send a 3-day bladder diary with every new continence appointment letter, with instructions to bring it.",
+"area": "Surgical specialties"
+},
+"NNA-029": {
+"question": "What proportion of children having grommets for otitis media with effusion have a hearing test about 6 weeks after surgery?",
+"pass": "Age-appropriate hearing test 4 to 10 weeks after grommet insertion",
+"change": "Add 'Audiology at 6 weeks post-op' as a default item on the paediatric grommet listing form, so the audiology request is generated at listing.",
+"area": "Surgical specialties"
+},
+"NNA-030": {
+"question": "What proportion of children listed for grommets for otitis media with effusion had hearing reassessed at least 3 months after the first test showing hearing loss?",
+"pass": "Two hearing assessments at least 3 months apart before listing, or reason documented",
+"change": "Add two required fields to the grommet listing form: dates of both hearing tests, or an 'early intervention reason' box.",
+"area": "Surgical specialties"
+},
+"NNA-031": {
+"question": "What proportion of people who have a PET-CT after radical chemoradiotherapy for head and neck cancer have it 3 to 6 months after treatment ends?",
+"pass": "PET-CT 12 to 26 weeks after the last radiotherapy fraction",
+"change": "Have the oncology end-of-treatment summary generate the PET-CT request with a 'not before' date of 12 weeks and a 'not after' date of 26 weeks.",
+"area": "Surgical specialties"
+},
+"NNA-032": {
+"question": "What proportion of smokers newly diagnosed with head and neck cancer are offered referral to a stop-smoking service at diagnosis?",
+"pass": "Stop-smoking service referral documented within 2 weeks of diagnosis appointment",
+"change": "Add an opt-out stop-smoking referral field to the CNS diagnosis/holistic needs template that emails the Trust stop-smoking service automatically.",
+"area": "Surgical specialties"
+},
+"NNA-033": {
+"question": "What proportion of people with newly diagnosed head and neck cancer have their need for enteral nutrition assessed and recorded before treatment starts?",
+"pass": "Enteral nutrition decision documented before first treatment date",
+"change": "Add a mandatory 'Nutrition and tube plan' field to the head and neck MDT outcome form, completed by the MDT dietitian.",
+"area": "Surgical specialties"
+},
+"NNA-034": {
+"question": "What proportion of people with early (T1–T2, N0) oral cavity cancer have sentinel lymph node biopsy rather than elective neck dissection?",
+"pass": "Sentinel node biopsy, or neck dissection with documented need for cervical access",
+"change": "Add a default 'SLNB' option to the MDT outcome form for cT1–2N0 oral cancer, with a required reason if elective neck dissection is chosen.",
+"area": "Surgical specialties"
+},
+"NNA-035": {
+"question": "What proportion of patients having surgical removal of impacted wisdom teeth have a NICE-listed indication documented before surgery?",
+"pass": "NICE indication for wisdom tooth surgery named before surgery",
+"change": "Replace free text on the wisdom tooth listing (TCI) form with a mandatory tick-box list of TA1 indications plus 'other (specify)'.",
+"area": "Surgical specialties"
+},
+"NNA-036": {
+"question": "What proportion of people newly diagnosed with melanoma have vitamin D measured at diagnosis in secondary care?",
+"pass": "Vitamin D result dated within 3 months of histological diagnosis",
+"change": "Add vitamin D to the 'new melanoma' results-clinic order set used by the skin cancer CNS.",
+"area": "Surgical specialties"
+},
+"NNA-037": {
+"question": "What proportion of patients attending the emergency department with a burn that meets national referral thresholds are referred to a specialised burn service?",
+"pass": "Referral to or discussion with a specialised burn service within 24 hours",
+"change": "Introduce an ED burns proforma with a Lund and Browder chart and a 'refer if' box that links to the burns network referral portal.",
+"area": "Surgical specialties"
+},
+"NNA-038": {
+"question": "What proportion of patients with a hand injury or burn seen by plastic surgery have tetanus prophylaxis managed in line with UKHSA guidance?",
+"pass": "Tetanus status and wound category documented, with vaccine or immunoglobulin if required",
+"change": "Embed a three-step tetanus box (status → wound category → action from Table 4) in the hand trauma and burns clerking proformas.",
+"area": "Surgical specialties"
+},
+"NNA-039": {
+"question": "What proportion of patients admitted with a human or animal bite on intravenous antibiotics are reviewed for a switch to oral antibiotics within 48 hours?",
+"pass": "Documented IV antibiotic review within 48 hours of first dose",
+"change": "Set IV antibiotics on the bite admission order set to a 48-hour review stop date in e-prescribing.",
+"area": "Surgical specialties"
+},
+"NNA-040": {
+"question": "What proportion of patients having uncomplicated cataract surgery avoid an in-person review on the day after surgery?",
+"pass": "No face-to-face review on the first day after surgery",
+"change": "Set the cataract post-operative booking template to default 'no day-1 visit; nurse phone call; 4-week review', with a surgeon override box for complicated cases.",
+"area": "Surgical specialties"
+},
+"NNA-041": {
+"question": "What proportion of adults newly diagnosed with non-advanced chronic open angle glaucoma are offered 360° selective laser trabeculoplasty as first treatment?",
+"pass": "360° SLT offered as first treatment, whether accepted or declined",
+"change": "Add a 'First-line SLT offered: accepted / declined / not suitable (reason)' field to the glaucoma new-patient letter template.",
+"area": "Surgical specialties"
+}
+}

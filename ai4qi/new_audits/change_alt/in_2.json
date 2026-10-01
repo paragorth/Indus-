@@ -1,0 +1,1520 @@
+{
+"NNA-295": {
+"question": "What proportion of fresh frozen plasma transfusions in adults are given for bleeding or before an invasive procedure with a risk of significant bleeding?",
+"pass": "FFP given for significant bleeding or before high-bleeding-risk procedure, not for warfarin reversal",
+"change": "Require an indication code (bleeding or named procedure) on every FFP request, with the blood bank referring any other indication to the on-call haematologist before issue.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-296": {
+"question": "Of adults on warfarin with severe bleeding outside the brain, what proportion receive prothrombin complex concentrate within 1 hour of the bleed being recognised?",
+"pass": "PCC started within 60 minutes of severe bleeding first being documented",
+"change": "Stock PCC in the ED with a weight- and INR-based dosing chart, so it can be given without phoning haematology or the blood bank.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-297": {
+"question": "What proportion of adults given prothrombin complex concentrate to reverse warfarin have their INR rechecked within 1 hour of the dose?",
+"pass": "Repeat INR taken within 60 minutes of the end of the PCC dose",
+"change": "Add 'repeat INR 30 minutes after PCC' as a pre-printed step on the PCC prescription and dosing chart, with the sample request generated at the same time as the PCC order.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-298": {
+"question": "What proportion of red cell units have pulse, blood pressure, temperature and respiratory rate recorded before the start, at 15 minutes and at the end of the unit?",
+"pass": "All four vital signs recorded before start, at 15 minutes and after the unit",
+"change": "Add a transfusion observation schedule to the e-observations system that is triggered when a unit is started and alerts the nurse at 15 minutes and at the expected end time.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-299": {
+"question": "What proportion of people with an acute painful sickle cell episode receive their first analgesia within 30 minutes of arriving at hospital?",
+"pass": "First analgesic dose given within 30 minutes of arrival",
+"change": "Introduce a patient group direction for triage nurses to give the first dose of the patient's care-plan opioid (or a standard opioid) at triage for people with known sickle cell disease.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-300": {
+"question": "What proportion of people treated with a strong opioid for an acute painful sickle cell episode have a sedation score recorded every hour for the first 6 hours?",
+"pass": "Sedation score recorded in each of the 6 hours after first strong opioid",
+"change": "Add a sickle cell opioid monitoring schedule to the e-observations system that sets hourly sedation and respiratory rate checks for 6 hours when a strong opioid is given.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-301": {
+"question": "What proportion of people with an acute painful sickle cell episode have their pain reassessed with a pain score within 30 minutes of the first analgesic dose?",
+"pass": "Pain score recorded within 30 minutes of the first analgesic dose",
+"change": "Add an automatic 30-minute pain reassessment task to the ED and ward e-observations that is triggered when an opioid is recorded for a patient with a sickle cell alert.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-302": {
+"question": "Of adults with active cancer and a new proximal DVT or PE, what proportion are started on a DOAC or have a documented reason why a DOAC is unsuitable?",
+"pass": "Discharged on a DOAC, or on LMWH or warfarin with a written reason",
+"change": "Add a cancer-associated thrombosis section to the VTE treatment proforma or EPR order set that asks tumour site, interacting drugs and bleeding risk, and defaults to a DOAC if none apply.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-303": {
+"question": "What proportion of adults with a central venous line treated for suspected neutropenic sepsis receive no empirical vancomycin or teicoplanin, unless a reason is documented?",
+"pass": "No vancomycin or teicoplanin in first 48 hours, unless a reason is documented",
+"change": "Change the neutropenic sepsis section of the antimicrobial app and order set so that glycopeptides appear only under named indications (line site infection, MRSA, Gram-positive blood culture), not as an add-on for all line patients.",
+"area": "Oncology, haematology and transfusion"
+},
+"NNA-304": {
+"question": "What proportion of adults on IV antibiotics who meet the national IV-to-oral switch criteria at 48 hours are switched to oral antibiotics within the next 24 hours?",
+"pass": "Switched to oral within 24 hours of meeting IV-to-oral criteria, unless exception documented",
+"change": "Add an IVOS prompt to the EPMA IV antibiotic order that fires at 48 hours and asks the prescriber to switch, continue with a reason, or stop.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-305": {
+"question": "What proportion of adults given once-daily IV gentamicin have a gentamicin level result available before the second dose is given?",
+"pass": "Gentamicin level taken per local protocol, with result acknowledged before second dose",
+"change": "Build a gentamicin order set in EPMA that auto-requests the level at the protocol time and blocks the second dose until the result is acknowledged.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-306": {
+"question": "What proportion of adults on intermittent IV vancomycin have their first level taken on the second day of treatment, immediately before the next dose?",
+"pass": "First vancomycin level taken on day 2, within 1 hour before next dose",
+"change": "Add an automatic day-2 pre-dose level request to the vancomycin EPMA order, linked to the second-day dose time.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-307": {
+"question": "What proportion of adults started on IV vancomycin receive a first dose that matches the weight-based dose in the local guideline?",
+"pass": "Weight recorded before first dose, and dose within local guideline band for that weight",
+"change": "Put a vancomycin dose calculator in EPMA that pulls the recorded weight and suggests the guideline first dose.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-308": {
+"question": "What proportion of adult inpatients started on a DOAC receive the licensed dose for their Cockcroft–Gault creatinine clearance?",
+"pass": "DOAC dose matches the licence for Cockcroft–Gault creatinine clearance",
+"change": "Add a mandatory Cockcroft–Gault calculator and licensed-dose table to the EPMA DOAC order sentence.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-309": {
+"question": "What proportion of adults prescribed treatment-dose enoxaparin have the dose calculated from a weight measured during this admission?",
+"pass": "Measured weight recorded this admission, and dose within local band for that weight",
+"change": "Make 'measured weight and date' a mandatory field on the EPMA treatment-dose enoxaparin order, pre-filled from the observations chart.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-310": {
+"question": "What proportion of adults starting anticoagulation for a DVT or PE in hospital are given an anticoagulant alert card before discharge?",
+"pass": "Alert card for the prescribed anticoagulant issued before or at discharge",
+"change": "Add an 'anticoagulant alert card given' tick box to the discharge letter template, linked to any new anticoagulant on the discharge prescription.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-311": {
+"question": "What proportion of adults discharged on prednisolone 5 mg a day or more (or equivalent) for 4 weeks or longer have a Steroid Emergency Card documented as issued or already held?",
+"pass": "Discharge record shows a Steroid Emergency Card issued or already held",
+"change": "Add an EPMA prompt that fires when a qualifying steroid dose is on the discharge prescription and asks the prescriber to confirm the card was issued.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-312": {
+"question": "What proportion of adults admitted as an emergency on long-term oral steroids receive every due dose of their steroid in the first 72 hours?",
+"pass": "Every due steroid dose given in first 72 hours, none delayed over 2 hours",
+"change": "Add a mandatory 'on long-term steroids? card held?' question to the admission clerking template that triggers a steroid prescription prompt with the IV/IM alternative when nil by mouth.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-313": {
+"question": "What proportion of adults on a variable rate intravenous insulin infusion who normally take a long-acting insulin continue to receive it while on the infusion?",
+"pass": "Every due dose of usual basal insulin prescribed and given during the infusion",
+"change": "Add a 'continue usual basal insulin' line with a prescribing prompt to the VRIII order set or chart.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-314": {
+"question": "What proportion of adults on a variable rate intravenous insulin infusion on a general ward have a glucose-containing substrate fluid running throughout the infusion?",
+"pass": "Glucose-containing fluid prescribed from the start and running at every check",
+"change": "Replace the separate fluid prescription with a combined VRIII and substrate fluid order set so the insulin cannot be prescribed alone.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-315": {
+"question": "What proportion of adults discharged from general surgical wards with a newly started opioid have a planned stop date or duration in the discharge letter?",
+"pass": "Discharge letter to GP states stop date, duration or tapering plan for the opioid",
+"change": "Make 'planned duration / stop date' a mandatory field on the discharge prescription when an opioid not on the admission drug history is added.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-316": {
+"question": "What proportion of inpatient 'when required' opioid prescriptions state a maximum dose or number of doses in 24 hours?",
+"pass": "Prescription states maximum dose or number of doses in 24 hours, plus minimum interval",
+"change": "Change the EPMA 'when required' opioid order sentences so a maximum dose in 24 hours and a minimum interval are mandatory.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-317": {
+"question": "What proportion of discharge prescriptions for Schedule 2 or 3 controlled drugs state the total quantity in both words and figures?",
+"pass": "Total quantity written in both words and figures on the discharge prescription",
+"change": "Configure the EPMA discharge template so controlled drug items auto-generate the total quantity in words and figures.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-318": {
+"question": "What proportion of hospital discharge letters record the patient's drug allergy status?",
+"pass": "Discharge letter states allergy status and matches the inpatient drug chart",
+"change": "Make the discharge letter template pull allergy status automatically from the EPMA allergy record as a locked field.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-319": {
+"question": "What proportion of adults admitted as an emergency at the weekend have medicines reconciliation completed within 24 hours of admission?",
+"pass": "Medicines reconciliation from at least two sources completed within 24 hours of admission",
+"change": "Give the weekend on-call pharmacy team an EPMA worklist of admissions without a reconciliation, sorted by time since admission.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-320": {
+"question": "What proportion of adults admitted with sepsis, vomiting or diarrhoea who take an ACE inhibitor or ARB have a documented decision to withhold or continue it within 24 hours of admission?",
+"pass": "Decision to withhold or continue ACE inhibitor or ARB recorded within 24 hours",
+"change": "Add a 'sick day medicines' line to the acute medical clerking template listing ACE inhibitors, ARBs, diuretics, metformin, SGLT2 inhibitors and NSAIDs with a withhold/continue choice.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-321": {
+"question": "What proportion of intravenous potassium doses given on general wards are given as a ready-mixed (pre-diluted) infusion bag?",
+"pass": "IV potassium given from a ready-mixed bag, with no strong concentrate used",
+"change": "Remove potassium concentrate from all general ward stock and list the ready-mixed bags as the only EPMA options for ward prescribing.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-322": {
+"question": "What proportion of IV paracetamol prescriptions for adults weighing under 50 kg use a weight-based dose of no more than 15 mg/kg?",
+"pass": "Weight recorded, each IV dose 15 mg/kg or less, daily maximum 60 mg/kg",
+"change": "Set the EPMA IV paracetamol order to require a current weight and default to 15 mg/kg when the weight is under 50 kg.",
+"area": "Medicines safety and antimicrobial stewardship"
+},
+"NNA-323": {
+"question": "What proportion of women and girls of childbearing potential on repeat valproate have a signed Annual Risk Acknowledgement Form from the last 12 months in their GP record?",
+"pass": "Signed Annual Risk Acknowledgement Form from the last 12 months in GP record",
+"change": "Add a valproate alert to every repeat template that shows the date of the last ARAF at re-authorisation, backed by a practice register that triggers a letter to the specialist when a form is more than 11 months old.",
+"area": "General practice and community care"
+},
+"NNA-324": {
+"question": "What proportion of women of childbearing potential on repeat topiramate have highly effective contraception recorded in their GP record?",
+"pass": "Highly effective contraception recorded as current, or documented reason not at risk of pregnancy",
+"change": "Add a topiramate Pregnancy Prevention Programme alert to the repeat template, and send each woman without a recorded highly effective method a recall letter for a contraception review.",
+"area": "General practice and community care"
+},
+"NNA-325": {
+"question": "What proportion of patients on stable repeat methotrexate had their full monitoring blood set (blood count, liver tests, renal function) in the 12 weeks before their latest prescription?",
+"pass": "Blood count, liver tests and creatinine or eGFR within 84 days before latest prescription",
+"change": "Limit methotrexate repeats to 12 weeks' supply and add a re-authorisation alert that shows the dates of the last FBC, LFT and eGFR.",
+"area": "General practice and community care"
+},
+"NNA-326": {
+"question": "What proportion of adults aged 75 and over on a DOAC for atrial fibrillation are on the licensed dose for their Cockcroft-Gault creatinine clearance?",
+"pass": "Dose matches licensed AF dose for Cockcroft–Gault clearance using recent weight and creatinine",
+"change": "Add a DOAC review template that calculates Cockcroft-Gault creatinine clearance from the latest weight and creatinine and shows the licensed dose, triggered at each annual re-authorisation.",
+"area": "General practice and community care"
+},
+"NNA-327": {
+"question": "What proportion of adults on long-term oral prednisolone 5 mg a day or more have a Steroid Emergency Card issue recorded in their GP record?",
+"pass": "Record that a Steroid Emergency Card was issued during the current course",
+"change": "Add a prompt to every oral glucocorticoid repeat template: 'Steroid Emergency Card issued? Code it', with cards stocked at reception and the dispensary.",
+"area": "General practice and community care"
+},
+"NNA-328": {
+"question": "What proportion of denosumab 60 mg injections given in general practice are given within 6 months and 4 weeks of the previous dose?",
+"pass": "Denosumab injection given no more than 211 days after the previous one",
+"change": "Book the next injection at the time of each dose, and run a monthly recall search for anyone more than 6 months since their last injection, owned by a named practice nurse.",
+"area": "General practice and community care"
+},
+"NNA-329": {
+"question": "In adults with chronic kidney disease newly started on an ACE inhibitor or ARB in general practice, what proportion have potassium and eGFR checked 1 to 2 weeks after starting?",
+"pass": "Potassium and eGFR from one sample taken 7 to 14 days after first prescription",
+"change": "Add an initiation protocol to the ACE inhibitor and ARB templates that creates a blood request and a reception task to book it 10 days ahead at the time of prescribing.",
+"area": "General practice and community care"
+},
+"NNA-330": {
+"question": "What proportion of adults with diabetes and chronic kidney disease with a urine ACR of 3 mg/mmol or more are prescribed an ACE inhibitor or ARB?",
+"pass": "ACE inhibitor or ARB issued in last 3 months, or contraindication or decline documented",
+"change": "Add a prompt to the diabetes annual review template that fires when ACR is 3 mg/mmol or more and no ACE inhibitor or ARB is prescribed, plus a monthly search for the diabetes nurse.",
+"area": "General practice and community care"
+},
+"NNA-331": {
+"question": "What proportion of patients treated in an emergency care setting for an asthma attack are reviewed by their GP practice within 2 working days of discharge?",
+"pass": "Clinical review within 2 working days of discharge or practice notification",
+"change": "Add a workflow rule so any discharge or ED letter mentioning asthma goes the same day to a named nurse task: 'Book asthma review within 2 working days'.",
+"area": "General practice and community care"
+},
+"NNA-332": {
+"question": "What proportion of people aged 12 and over on the asthma register who were issued a reliever inhaler in the last 12 months were also issued an inhaled corticosteroid?",
+"pass": "At least one inhaled corticosteroid inhaler issued in the same 12 months",
+"change": "Stop adding SABA as a stand-alone repeat for asthma: switch the practice asthma formulary and template default to as-needed ICS/formoterol, and invite everyone on SABA only for a review.",
+"area": "General practice and community care"
+},
+"NNA-333": {
+"question": "What proportion of adults added to the COPD register in the last 2 years have post-bronchodilator spirometry with an FEV1/FVC below 0.7 recorded?",
+"pass": "Post-bronchodilator FEV1/FVC below 0.7 recorded, tested up to 3 months after diagnosis",
+"change": "Make the COPD diagnosis code available only through a diagnostic template that asks for the post-bronchodilator FEV1/FVC, or creates a spirometry referral task if none is recorded.",
+"area": "General practice and community care"
+},
+"NNA-334": {
+"question": "What proportion of adults aged 26 and over newly started on an antidepressant in general practice have a documented review within 2 weeks?",
+"pass": "Documented clinical review of symptoms or side effects within 14 days of first prescription",
+"change": "Add a 'first review booked' step to the antidepressant initiation template that creates a telephone review task at day 10–14, and set the first issue to 14 days' supply.",
+"area": "General practice and community care"
+},
+"NNA-335": {
+"question": "What proportion of adults with suspected heart failure and an NT-proBNP above 2,000 ng/L from a GP request have specialist assessment with echocardiography within 2 weeks of the result?",
+"pass": "Specialist assessment with echocardiography within 14 days of the NT-proBNP result",
+"change": "Agree with the laboratory an automatic comment on every NT-proBNP above 2,000 ng/L ('Refer urgently: specialist assessment and echo within 2 weeks') and a direct e-referral form to the heart failure one-stop clinic.",
+"area": "General practice and community care"
+},
+"NNA-336": {
+"question": "What proportion of women aged 55 and over presenting to general practice with unexplained post-menopausal bleeding are referred on a suspected cancer pathway?",
+"pass": "Suspected cancer pathway referral sent within 2 working days of the consultation",
+"change": "Link the post-menopausal bleeding code to a pop-up that opens the gynaecology suspected cancer referral form with the NICE criteria.",
+"area": "General practice and community care"
+},
+"NNA-337": {
+"question": "What proportion of adults aged 45 and over with unexplained visible haematuria in general practice are referred on a suspected cancer pathway?",
+"pass": "Urology suspected cancer referral sent within 2 working days of the consultation",
+"change": "Add a haematuria template that asks about age, infection and anticoagulation and opens the urology suspected cancer referral form when the NICE criteria are met.",
+"area": "General practice and community care"
+},
+"NNA-338": {
+"question": "What proportion of men with possible prostate cancer symptoms and a PSA above the NICE age-specific threshold have a suspected cancer referral or a documented reason not to refer?",
+"pass": "Urology suspected cancer referral within 2 weeks of result, or documented reason not to",
+"change": "Add a laboratory comment to every PSA above the age threshold ('Above NICE threshold: consider suspected cancer referral') and a results-workflow rule that sends it back to the requesting clinician.",
+"area": "General practice and community care"
+},
+"NNA-339": {
+"question": "What proportion of GP-requested chest X-rays reported as suggesting lung cancer lead to a suspected lung cancer referral or direct CT within 7 days of the report?",
+"pass": "Suspected lung cancer referral or direct CT booked within 7 days of the report",
+"change": "Agree with radiology a 'suspicious for cancer' alert code that routes the report to the practice's urgent results workflow the same day, and keep a failsafe register until each patient is seen.",
+"area": "General practice and community care"
+},
+"NNA-340": {
+"question": "What proportion of patients referred on a suspected cancer pathway from general practice have it documented that they were told the referral is to a cancer service?",
+"pass": "Records show the patient was told the referral is to a cancer service",
+"change": "Add a mandatory tick-box to the practice's suspected cancer referral template: 'Told this is a referral to a cancer service; leaflet given', with the national patient leaflet linked.",
+"area": "General practice and community care"
+},
+"NNA-341": {
+"question": "What proportion of patients aged 65 and over coded with severe frailty have had a medication review in the last 12 months?",
+"pass": "Documented medication review within 12 months, not just repeat re-authorisation",
+"change": "A frailty review template (medication review plus falls question) and a monthly search of severe frailty patients without a review in 12 months, assigned to the PCN pharmacist.",
+"area": "General practice and community care"
+},
+"NNA-342": {
+"question": "What proportion of practice patients whose cervical screening result needs colposcopy have colposcopy attendance recorded in their GP record within 12 weeks of the result?",
+"pass": "Colposcopy attendance recorded in GP record within 12 weeks of the screening result",
+"change": "Keep a colposcopy failsafe register: every result needing colposcopy is added on receipt and checked monthly by a named administrator until a colposcopy letter is filed.",
+"area": "General practice and community care"
+},
+"NNA-343": {
+"question": "What proportion of adults with sudden hearing loss that began within the last 30 days are seen by ENT within 24 hours of referral?",
+"pass": "Seen face to face by ENT within 24 hours of referral",
+"change": "Create a 'sudden hearing loss' hot slot in the daily ENT emergency clinic that GPs and the emergency department book directly through one bleep or email, with a same-day audiogram request built into the booking.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-344": {
+"question": "When adults or children in the emergency department are given an oral antibiotic for sore throat or tonsillitis, what proportion receive phenoxymethylpenicillin (or clarithromycin or erythromycin if allergic to penicillin)?",
+"pass": "Phenoxymethylpenicillin given, or clarithromycin (erythromycin in pregnancy) if penicillin allergic",
+"change": "Build a 'sore throat' order set in the emergency department discharge prescribing system that defaults to phenoxymethylpenicillin at the NG84 dose, and shows clarithromycin or erythromycin only when an allergy is recorded.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-345": {
+"question": "What proportion of suspected skin cancer referrals for a pigmented lesion record a weighted 7-point checklist score?",
+"pass": "Referral records a total weighted 7-point checklist score",
+"change": "Replace free-text skin cancer referrals with a regional e-referral form on which the 7-point checklist is a required field that calculates the score.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-346": {
+"question": "What proportion of wide local excisions for stage I or II melanoma use the NICE clinical margin (1 cm for stage I, 2 cm for stage II)?",
+"pass": "Margin recorded as 1 cm for stage I or 2 cm for stage II",
+"change": "Add a required 'stage and planned clinical margin (cm)' box to the skin surgery operation note template, pre-filled from the MDT outcome.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-347": {
+"question": "For isotretinoin prescriptions issued to patients who can get pregnant, what proportion have a negative pregnancy test documented 3 days or less before the prescription is issued?",
+"pass": "Negative supervised pregnancy test dated 3 days or less before prescription",
+"change": "Make the isotretinoin prescription form (paper or electronic) require the pregnancy test date and result, with pharmacy screening set to refuse to dispense if the test is more than 3 days older than the prescription.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-348": {
+"question": "Of adults who have taken hydroxychloroquine for more than 5 years, what proportion had retinal monitoring in the last 12 months?",
+"pass": "Retinal monitoring with SD-OCT recorded in hospital eye service within last 12 months",
+"change": "Run a monthly report from the DMARD database of patients reaching 5 years on hydroxychloroquine and send each an RCOphth-style standard referral to the eye service.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-349": {
+"question": "What proportion of adults with chronic open angle glaucoma are seen within the review interval their clinician set at the previous visit?",
+"pass": "Seen by requested date plus 15% tolerance of the requested interval",
+"change": "Add a required risk-of-harm rating (high, medium, low) to the glaucoma clinic outcome form and run a weekly overdue report that books high-risk patients first.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-350": {
+"question": "What proportion of ward patients with a tracheostomy or laryngectomy have a complete emergency airway equipment set at the bedside?",
+"pass": "Every item on the bedside emergency airway checklist present and in date",
+"change": "Introduce a sealed, tagged tracheostomy 'grab box' issued by critical care outreach with every ward transfer, with a once-a-shift check line added to the nursing safety checklist.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-351": {
+"question": "Of patients discharged from critical care to a ward with a cuffed tracheostomy tube, what proportion have the reason for keeping a cuffed tube documented?",
+"pass": "Discharge or transfer note states why a cuffed tube is still needed",
+"change": "Add a required 'cuffed tube still needed? yes/no and reason' field to the critical care discharge summary template for any patient with a tracheostomy.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-352": {
+"question": "In children under 5 attending the emergency department with a burn or scald, what proportion have the notes record whether the explanation fits the injury?",
+"pass": "Notes state whether the explanation is consistent with the injury and development",
+"change": "Add a required five-question burns safeguarding box (explanation, consistency, mobility, site and pattern, previous attendances) to the emergency department paediatric burns template.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-353": {
+"question": "Of patients who reach the emergency department within 3 hours of a thermal burn, what proportion have 20 minutes of cool running water documented?",
+"pass": "At least 20 minutes of cool running water documented, started within 3 hours",
+"change": "Add a 'cooling' section to the emergency department triage burns template (minutes before arrival, time cooling started and stopped in the department), with triage sending any patient short of 20 minutes to a designated sink or shower.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-354": {
+"question": "In patients with a chemical injury to the eye, what proportion have the eye pH rechecked both straight after irrigation stops and again 30 minutes later?",
+"pass": "Two post-irrigation pH readings: within 5 minutes of stopping, and 30 minutes later",
+"change": "Stock a chemical eye injury pack at triage (pH strips, topical anaesthetic, Morgan lens or giving set, fluorescein) with a sticker chart for pH before irrigation, at the end of irrigation and 30 minutes later.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-355": {
+"question": "Of children discharged after a burn, what proportion have toxic shock syndrome safety-netting advice documented?",
+"pass": "Discharge note records toxic shock advice given, including when to return",
+"change": "Add toxic shock advice to the emergency department paediatric burns discharge template as a required tick-box that prints the network toxic shock leaflet.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-356": {
+"question": "Of patients with a facial burn seen in the emergency department, what proportion have a fluorescein eye examination documented?",
+"pass": "Fluorescein staining result documented for each eye, or reason with ophthalmology review arranged",
+"change": "Add 'eyes: fluorescein result right and left' to the emergency department burns template, triggered whenever the face is shaded on the body map, and keep fluorescein strips and a blue light in the burns bay.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-357": {
+"question": "Of patients with a burn and at least one sign of inhalation injury, what proportion are reviewed by a senior anaesthetist in the emergency department?",
+"pass": "Airway assessment by a senior anaesthetist documented while in the emergency department",
+"change": "Add 'suspected inhalation injury' to the emergency department burns template and trauma call criteria as an automatic trigger for a senior anaesthetist call.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-358": {
+"question": "Of patients taking warfarin who have a tooth extraction, what proportion have their INR checked no more than 24 hours before (or 72 hours if their INR is stable)?",
+"pass": "INR recorded within 24 hours before extraction, or 72 hours if stable",
+"change": "Use a point-of-care INR meter in the oral surgery clinic on the day of the procedure, with the result entered in a required field on the extraction safety checklist.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-359": {
+"question": "What proportion of adults starting radiotherapy for head and neck cancer had a specialist dental assessment before treatment began?",
+"pass": "Specialist dental team assessment documented before the first radiotherapy fraction",
+"change": "Make 'referred to specialist dental team' a required outcome field on the head and neck MDT form for any patient with radiotherapy in the plan, generating the referral automatically.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-360": {
+"question": "Of adults treated in the emergency department for nosebleeds that did not stop with first aid, what proportion have nasal cautery attempted before a nasal pack is inserted?",
+"pass": "Cautery attempted before any pack, or reason for packing without cautery documented",
+"change": "Stock an emergency department nosebleed trolley (headlight, nasal speculum, co-phenylcaine, silver nitrate sticks, packs) with a laminated step-by-step pathway attached, checked daily.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-361": {
+"question": "Of adults attending the emergency department with an eye problem, what proportion have visual acuity recorded for each eye?",
+"pass": "Visual acuity recorded for both eyes, or reason it could not be measured",
+"change": "Make right and left visual acuity required fields in the emergency department triage template whenever the presenting complaint is an eye problem, and mount a Snellen chart at a marked distance in triage.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-362": {
+"question": "What proportion of adults listed for cataract surgery have their chosen refractive outcome (for example distance, near or monovision) recorded before the day of surgery?",
+"pass": "Agreed refractive target for the operated eye recorded before the day of surgery",
+"change": "Add a required 'agreed refractive target' field to the cataract pre-assessment e-form that carries through to the lens selection screen and the WHO cataract checklist.",
+"area": "Head, neck, eye and skin"
+},
+"NNA-363": {
+"question": "What proportion of adults admitted with acute upper GI bleeding have a Glasgow-Blatchford score documented at their first assessment?",
+"pass": "Numeric Glasgow-Blatchford score documented before the decision to admit, discharge or scope",
+"change": "Add a mandatory Glasgow-Blatchford calculator to the ED and acute take GI-bleed proforma (EPR form or printed sticker), so the score auto-calculates from the bloods and observations already entered.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-364": {
+"question": "What proportion of adults with suspected variceal bleeding receive terlipressin before endoscopy?",
+"pass": "First terlipressin dose given before the start of endoscopy",
+"change": "Add terlipressin as a pre-selected item in a 'suspected variceal bleed' EPR order set (with IV antibiotic) and stock it in the ED emergency drug cupboard so the first dose is not delayed by pharmacy supply.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-365": {
+"question": "What proportion of adults taking low-dose aspirin for secondary prevention who are admitted with upper GI bleeding have aspirin continued once bleeding has stopped?",
+"pass": "Aspirin on drug chart or discharge prescription once bleeding has stopped, or reason documented",
+"change": "Add a 'secondary-prevention aspirin: continue once haemostasis achieved (NICE CG141 1.6.1)' tick box to the endoscopy report template and the GI-bleed post-endoscopy plan.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-366": {
+"question": "What proportion of adults with harmful or dependent drinking admitted with an acute illness receive parenteral thiamine within 24 hours of admission?",
+"pass": "First dose of parenteral thiamine given within 24 hours of admission",
+"change": "Build an 'alcohol admission' EPR order set that pre-selects IV Pabrinex followed by oral thiamine whenever alcohol dependence is recorded in the clerking.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-367": {
+"question": "What proportion of adults treated in hospital for acute alcohol withdrawal are prescribed a symptom-triggered benzodiazepine regimen?",
+"pass": "Benzodiazepine prescribed as doses linked to a withdrawal score, scored before first dose",
+"change": "Replace the free-text withdrawal prescription with a symptom-triggered EPR order set linked to a CIWA-Ar or GMAWS observation chart that tells nurses the dose for each score.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-368": {
+"question": "What proportion of adults with cirrhosis and ascites admitted as an emergency have a diagnostic ascitic tap within 24 hours of admission?",
+"pass": "Ascitic fluid sample taken within 24 hours of admission",
+"change": "Add a 'diagnostic ascitic tap within 24 hours' step with a pre-filled ascitic fluid order set to the decompensated cirrhosis admission bundle in the EPR.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-369": {
+"question": "What proportion of adults with cirrhosis having a large-volume paracentesis of more than 5 litres receive 8 g of albumin per litre drained?",
+"pass": "Albumin given within 10% of 8 g per litre drained",
+"change": "Add a dose table (litres drained → grams and bottles of 20% albumin) to the paracentesis procedure record so the dose is read off, not calculated.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-370": {
+"question": "What proportion of adults with acute kidney injury and no identified cause have a urinary tract ultrasound within 24 hours?",
+"pass": "Urinary tract ultrasound within 24 hours of first medical assessment of AKI",
+"change": "Create an 'AKI – no cause found / risk of obstruction' ultrasound request option in the RIS that radiology books into a protected next-day slot.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-371": {
+"question": "What proportion of adults discharged after stage 2 or 3 acute kidney injury have a discharge letter that states when their creatinine should be rechecked?",
+"pass": "Discharge letter names AKI stage, gives creatinine recheck date and who will do it",
+"change": "Make an 'AKI during admission' section with a required 'recheck creatinine by (date)' field in the electronic discharge letter, triggered automatically when an AKI stage 2–3 alert occurred during the stay.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-372": {
+"question": "What proportion of adult inpatients with a potassium of 6.0 mmol/L or above have a 12-lead ECG recorded within 1 hour of the result?",
+"pass": "12-lead ECG within 1 hour of the result, with hyperkalaemic changes noted",
+"change": "Add 'record a 12-lead ECG now' to the laboratory critical-result phone script and to the EPR hyperkalaemia alert, so the nurse who takes the call records the ECG.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-373": {
+"question": "What proportion of adults treated for a potassium of 6.0 mmol/L or above have their potassium rechecked within 2 hours of treatment?",
+"pass": "Potassium result available within 2 hours of first potassium-lowering treatment",
+"change": "Add a pre-timed potassium recheck (blood gas at 1 and 2 hours) to the hyperkalaemia treatment order set, printed on the insulin-glucose prescription.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-374": {
+"question": "What proportion of adults treated for hyperkalaemia in hospital leave with a community potassium check arranged?",
+"pass": "Discharge letter gives date for potassium check and who will do it",
+"change": "Add a required 'hyperkalaemia treated: potassium check by (date)' field to the electronic discharge letter, triggered when a hyperkalaemia treatment was given during the stay.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-375": {
+"question": "What proportion of adults starting planned haemodialysis start with an arteriovenous fistula or graft rather than a catheter?",
+"pass": "First haemodialysis session uses a working arteriovenous fistula or graft",
+"change": "Add an automatic prompt in the renal database that lists every patient whose eGFR falls below 15 ml/min/1.73 m2 (or who has chosen haemodialysis) without a vascular access referral, reviewed at the weekly low-clearance MDT.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-376": {
+"question": "What proportion of adults treated for diabetic ketoacidosis have 10% glucose started within 1 hour of their blood glucose falling below 14 mmol/L?",
+"pass": "10% glucose running within 1 hour of glucose first falling below 14 mmol/L",
+"change": "Pre-print (or pre-build in the EPR) a 10% glucose 125 ml/hour prescription on the DKA pathway, marked 'start when glucose <14 mmol/L', so nurses can start it without waiting for a doctor.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-377": {
+"question": "What proportion of adults admitted with diabetic ketoacidosis are seen by the diabetes specialist team within 1 working day of admission?",
+"pass": "Diabetes specialist team review documented by end of first working day after admission",
+"change": "Set up an automatic referral to the diabetes inpatient team when a DKA order set or fixed-rate insulin infusion is started in the EPR.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-378": {
+"question": "What proportion of adults with hyperosmolar hyperglycaemic state and blood ketones of 1.0 mmol/L or less have intravenous insulin held until glucose stops falling on fluids alone?",
+"pass": "No IV insulin until glucose has stopped falling on fluids alone",
+"change": "Create a separate HHS pathway document (paper or EPR) that opens with 'Ketones ≤1.0: do NOT start insulin; fluids first' and replaces use of the DKA pathway for HHS.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-379": {
+"question": "What proportion of adults treated for hyperosmolar hyperglycaemic state receive prophylactic low molecular weight heparin within 24 hours of admission?",
+"pass": "First prophylactic LMWH dose within 24 hours of admission, or contraindication documented",
+"change": "Add prophylactic LMWH (weight- and renal-adjusted) as a pre-selected item in the HHS order set, with a required reason field if it is deselected.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-380": {
+"question": "What proportion of adult inpatients on insulin or a sulfonylurea have an as-needed hypoglycaemia rescue treatment prescribed?",
+"pass": "As-needed IV glucose or IM glucagon prescribed, or nurse-led protocol allows it",
+"change": "Add IV glucose and IM glucagon as-needed items that are pre-selected whenever insulin or a sulfonylurea is prescribed in the EPR (a linked 'diabetes order set').",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-381": {
+"question": "What proportion of adult inpatients who have a severe hypoglycaemic episode have their glucose-lowering treatment reviewed by a doctor or diabetes nurse within 24 hours?",
+"pass": "Medical or diabetes nurse review within 24 hours stating cause and dose decision",
+"change": "Set the point-of-care glucose system to send an automatic electronic referral to the diabetes inpatient team for every reading below 3.0 mmol/L.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-382": {
+"question": "What proportion of adults at high risk of refeeding syndrome receive thiamine before tube feeding or parenteral nutrition starts?",
+"pass": "First thiamine dose given on or before the day feeding starts",
+"change": "Add a refeeding-risk box to the enteral feeding and PN prescription forms that pre-selects thiamine and vitamin B compound strong for 10 days when any high-risk criterion is ticked.",
+"area": "Gastroenterology, hepatology, renal and diabetes"
+},
+"NNA-383": {
+"question": "What proportion of adults diagnosed with NSTEMI or unstable angina have a formal 6-month mortality risk score (such as GRACE) recorded in their notes within 24 hours of diagnosis?",
+"pass": "Named 6-month mortality score recorded within 24 hours of diagnosis",
+"change": "Add a mandatory GRACE field, with a built-in calculator link, to the ACS clerking proforma or EPR chest pain pathway.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-384": {
+"question": "What proportion of adults with NSTEMI or unstable angina and a predicted 6-month mortality above 3% have coronary angiography within 72 hours of first admission?",
+"pass": "Coronary angiography started within 72 hours of arrival at first hospital",
+"change": "Send the referral to the PCI centre electronically on the day the diagnosis is made, triggered from the ACS proforma, with a daily 'awaiting angiography' list reviewed at the cardiology board round.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-385": {
+"question": "What proportion of adults admitted with an acute coronary syndrome and a blood glucose above 11.0 mmol/L, without known diabetes, have HbA1c measured before discharge?",
+"pass": "HbA1c result dated between admission and discharge",
+"change": "Add HbA1c to the standard ACS admission blood order set so it is requested with the first troponin.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-386": {
+"question": "What proportion of adults admitted with acute heart failure are reviewed by the specialist heart failure team before discharge?",
+"pass": "Documented review by heart failure specialist team during admission, before discharge",
+"change": "Set up an automatic electronic alert to the heart failure team for every inpatient with a raised NT-proBNP (local threshold agreed with the team).",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-387": {
+"question": "What proportion of adults admitted with new suspected heart failure and a raised natriuretic peptide have a transthoracic echocardiogram within 48 hours of admission?",
+"pass": "Transthoracic echocardiogram performed within 48 hours of arrival",
+"change": "Ring-fence daily inpatient echo slots for new suspected heart failure, booked directly from the heart failure referral.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-388": {
+"question": "What proportion of adults receiving intravenous diuretics for acute heart failure have their weight recorded every day while on intravenous treatment?",
+"pass": "Weight recorded every day from first to last day of IV diuretic",
+"change": "Add an automatic daily weight task to the EPR observation schedule that switches on when intravenous loop diuretic is prescribed.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-389": {
+"question": "What proportion of adults seen in hospital after transient loss of consciousness with a red flag feature have a specialist cardiovascular assessment referral reviewed within 24 hours?",
+"pass": "Specialist referral made and reviewed within 24 hours of first hospital assessment",
+"change": "Add the six NICE red flags as tick boxes to the ED TLoC proforma; any ticked box opens an electronic cardiology referral.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-390": {
+"question": "What proportion of adults with acute hypercapnic respiratory failure who need NIV start it within 60 minutes of the blood gas that led to the decision?",
+"pass": "NIV started within 60 minutes of the qualifying blood gas",
+"change": "Introduce a single NIV activation call (one bleep or phone number) that brings a ventilator and an NIV-trained nurse to the patient once the decision is made.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-391": {
+"question": "What proportion of adults started on acute NIV have an escalation plan documented before NIV begins?",
+"pass": "Written escalation plan documented at or before NIV start",
+"change": "Put a mandatory escalation plan box on the front of the NIV prescription chart, so NIV cannot be prescribed until it is completed.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-392": {
+"question": "What proportion of adults started on acute NIV have a blood gas taken within 2 hours of starting?",
+"pass": "Blood gas analysed within 2 hours of NIV start",
+"change": "Print the 'repeat blood gas due' time on the NIV prescription chart and set an automatic 2-hour task in the EPR when NIV starts.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-393": {
+"question": "What proportion of adults started on acute NIV are reviewed by a consultant trained in NIV within 14 hours of starting?",
+"pass": "Review by an NIV-trained consultant within 14 hours of NIV start",
+"change": "Add every new NIV patient automatically to the on-call respiratory consultant's review list (EPR list or ward NIV board) at the time NIV starts.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-394": {
+"question": "What proportion of adults admitted with a COPD exacerbation who have no spirometry on record have spirometry requested before discharge?",
+"pass": "Spirometry requested before discharge where no post-bronchodilator spirometry is on record",
+"change": "Add a 'spirometry on record? If not, request now' step with a one-click lung function referral to the COPD discharge bundle.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-395": {
+"question": "What proportion of adults discharged after a COPD exacerbation are referred to pulmonary rehabilitation?",
+"pass": "Pulmonary rehabilitation referral sent before discharge, or documented decline",
+"change": "Make pulmonary rehabilitation referral a mandatory item on the COPD discharge bundle, with the referral form embedded in the EPR.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-396": {
+"question": "What proportion of adults discharged after an asthma attack have follow-up with their GP or practice asthma nurse arranged within two working days?",
+"pass": "GP or practice asthma nurse review booked within two working days of discharge",
+"change": "Add a mandatory 'GP/asthma nurse review within 2 working days: requested' field to the asthma discharge template, which sends an electronic task to the practice.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-397": {
+"question": "What proportion of adults with a likely PE Wells score whose CTPA cannot be done immediately receive interim therapeutic anticoagulation before the scan?",
+"pass": "Therapeutic anticoagulant given before scan if scan over 1 hour after Wells score",
+"change": "Add a required question to the electronic CTPA and V/Q request: 'Wells above 4 and scan not within 1 hour: interim anticoagulant prescribed? (yes / contraindicated)'.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-398": {
+"question": "What proportion of pleural aspirations and chest drains for pleural fluid are done with thoracic ultrasound at the time of the procedure?",
+"pass": "Bedside thoracic ultrasound by the operator immediately before or during the procedure",
+"change": "Route all non-emergency pleural fluid procedures through a daily pleural list run by ultrasound-trained operators, booked by electronic referral.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-399": {
+"question": "What proportion of pleural procedures have a pleural safety checklist (LocSSIP) completed both before and after the procedure?",
+"pass": "Pleural safety checklist completed both before and after the procedure",
+"change": "Build the pleural LocSSIP into the EPR pleural procedure note so the note cannot be saved until both sections are complete.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-400": {
+"question": "What proportion of adults with respiratory infection symptoms and a unilateral pleural effusion have the fluid sampled within 24 hours?",
+"pass": "Pleural fluid sampled within 24 hours of the imaging report, or reason documented",
+"change": "Add a 'pneumonia with effusion' step to the pneumonia admission proforma that requires thoracic ultrasound and a pleural team referral within 24 hours.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-401": {
+"question": "What proportion of adults with a recurrent spontaneous pneumothorax are offered referral to thoracic surgery for recurrence prevention?",
+"pass": "Thoracic surgical referral offered and documented, sent or declined",
+"change": "Add 'Recurrent pneumothorax? Offer thoracic surgery referral' to the pneumothorax discharge proforma, with an electronic link to the regional thoracic surgical referral.",
+"area": "Cardiology and respiratory medicine"
+},
+"NNA-402": {
+"question": "What proportion of adult inpatients who fall during their hospital stay are offered a comprehensive falls assessment?",
+"pass": "Comprehensive falls assessment documented within 24 hours of the fall",
+"change": "Add a mandatory 'comprehensive falls assessment' template to the incident form workflow, so completing the incident report opens the assessment proforma for the falls domains in NG249 1.2.2.",
+"area": "Patient safety and nursing care"
+},
+"NNA-403": {
+"question": "What proportion of adult inpatients assessed after a fall have a lying and standing blood pressure test recorded as part of that assessment?",
+"pass": "Lying and standing blood pressure recorded as part of the falls assessment",
+"change": "Add a 'lying and standing BP' box to the falls assessment proforma with a linked task on the observation chart so nursing staff are prompted to complete it.",
+"area": "Patient safety and nursing care"
+},
+"NNA-404": {
+"question": "What proportion of adult inpatients who fall during their hospital stay have a medical examination documented?",
+"pass": "Medical examination documented within the local post-fall protocol timescale",
+"change": "Add a timed 'post-fall medical review' task to the incident-reporting workflow that pages the covering doctor and is only closed when the examination is documented.",
+"area": "Patient safety and nursing care"
+},
+"NNA-405": {
+"question": "What proportion of adult inpatients with a suspected fracture or spinal injury after a fall are moved using a documented safe manual handling method?",
+"pass": "Method used to move the patient documented in the notes",
+"change": "Add a mandatory 'method used to move the patient' field to the falls incident form, prompted whenever the fracture/spinal-injury tick box is marked yes.",
+"area": "Patient safety and nursing care"
+},
+"NNA-406": {
+"question": "What proportion of adult inpatients who have a urinary catheter inserted have the insertion documented with the indication, date, time and inserter?",
+"pass": "Insertion record documents indication, date, time, catheter type and inserter",
+"change": "Replace the free-text insertion note with a structured catheter insertion form (paper passport or EPR form) that will not save without the indication, date, time, inserter and technique fields completed.",
+"area": "Patient safety and nursing care"
+},
+"NNA-407": {
+"question": "What proportion of adult inpatients with an indwelling urinary catheter have a documented daily review of its ongoing need?",
+"pass": "Daily entry on ongoing catheter need on every day of the 5-day period",
+"change": "Add a mandatory 'catheter still needed? yes/no, reason' field to the daily nursing care round documentation (a HOUDINI-type prompt), which must be completed before the round can be signed off.",
+"area": "Patient safety and nursing care"
+},
+"NNA-408": {
+"question": "What proportion of adult inpatients with an indwelling urinary catheter have the drainage bag secured below the level of the bladder and off the floor at the time of the audit?",
+"pass": "Drainage bag below bladder, off the floor, tubing not kinked or looped",
+"change": "Add catheter bag positioning to the twice-daily intentional rounding checklist, with a bag-hanger supplied to every bed with a catheterised patient.",
+"area": "Patient safety and nursing care"
+},
+"NNA-409": {
+"question": "What proportion of adult inpatients with a peripheral intravenous cannula have a Visual Infusion Phlebitis (VIP) score documented at every nursing shift?",
+"pass": "VIP score documented on every nursing shift since cannula insertion",
+"change": "Add the VIP score to the electronic observations chart so it is prompted at every set of vital signs, rather than relying on a separate paper chart.",
+"area": "Patient safety and nursing care"
+},
+"NNA-410": {
+"question": "What proportion of peripheral cannulas with a VIP score of 2 or more are removed or re-sited within 4 hours of that score being recorded?",
+"pass": "Cannula removed or re-sited within 4 hours of a VIP score of 2+",
+"change": "Give registered nurses standing authority (via a trust-wide patient group direction/protocol) to remove a cannula scoring 2 or more without waiting for a doctor's order.",
+"area": "Patient safety and nursing care"
+},
+"NNA-411": {
+"question": "What proportion of peripheral cannula dressings are labelled with the insertion date and intact (dry, adherent, no visible soiling) at the time of the audit?",
+"pass": "Dressing labelled with legible insertion date, and dry, adherent and clean",
+"change": "Switch to a pre-printed date-label dressing pack as ward stock so every insertion is dated by design, rather than relying on staff writing on a plain dressing.",
+"area": "Patient safety and nursing care"
+},
+"NNA-412": {
+"question": "What proportion of central venous catheters have the insertion site and dressing checked and documented at least once every 24 hours?",
+"pass": "Central line site and dressing check documented at least once every 24 hours",
+"change": "Add a mandatory daily 'central line site and dressing check' field to the electronic care bundle that must be completed before the shift's nursing documentation can be signed off.",
+"area": "Patient safety and nursing care"
+},
+"NNA-413": {
+"question": "What proportion of central venous catheters have a documented review of ongoing clinical need at least once every 24 hours?",
+"pass": "Daily documented entry stating whether the central line is still needed",
+"change": "Add 'central line: still needed? yes/no, reason' as a mandatory field on the daily ward round proforma for every patient with a central line.",
+"area": "Patient safety and nursing care"
+},
+"NNA-414": {
+"question": "What proportion of adult inpatients newly admitted as an emergency who are aged 65 or over have a 4AT delirium assessment completed within 24 hours of admission?",
+"pass": "4AT score documented within 24 hours of emergency admission",
+"change": "Add a mandatory 4AT field to the electronic nursing admission assessment for every patient aged 65 or over, which cannot be saved incomplete.",
+"area": "Patient safety and nursing care"
+},
+"NNA-415": {
+"question": "What proportion of adult inpatients with a 4AT score of 4 or more have a documented action plan or medical review on the same day?",
+"pass": "Doctor or ACP documents review and action plan on the same day",
+"change": "Build an automatic EPR alert to the responsible medical team whenever a 4AT of 4 or more is entered, with a linked delirium action-plan template.",
+"area": "Patient safety and nursing care"
+},
+"NNA-416": {
+"question": "What proportion of adults aged 65 or over admitted as an emergency have their delirium risk factors assessed at presentation?",
+"pass": "Admission record notes presence or absence of each of the four delirium risk factors",
+"change": "Add the four CG103 risk factors as mandatory tick boxes on the electronic admission clerking proforma for patients aged 65 or over.",
+"area": "Patient safety and nursing care"
+},
+"NNA-417": {
+"question": "What proportion of adult inpatients identified as being at risk of delirium have a multicomponent prevention intervention documented within 24 hours of admission?",
+"pass": "Multicomponent prevention plan covering orientation, hydration and mobility in place within 24 hours",
+"change": "Add a delirium prevention care plan template to the EPR that opens automatically when a patient is flagged at risk, pre-populated with the CG103 domains for the nurse to individualise.",
+"area": "Patient safety and nursing care"
+},
+"NNA-418": {
+"question": "What proportion of adult inpatients receiving supplemental oxygen have a target oxygen saturation range documented on their prescription or observation chart?",
+"pass": "Specific target saturation range written on the oxygen prescription",
+"change": "Make the target saturation range a mandatory field on the electronic oxygen prescription, which cannot be signed without a range being selected.",
+"area": "Patient safety and nursing care"
+},
+"NNA-419": {
+"question": "What proportion of adult inpatients with an insulin infusion running who develop hypoglycaemia (capillary glucose below 4.0 mmol/L) have the infusion stopped immediately?",
+"pass": "Insulin infusion documented as stopped within 5 minutes of glucose below 4.0 mmol/L",
+"change": "Add a 'STOP the insulin infusion first' step to the laminated hypoglycaemia algorithm card kept with every hypo box, and to the electronic hypoglycaemia event form.",
+"area": "Patient safety and nursing care"
+},
+"NNA-420": {
+"question": "What proportion of conscious adult inpatients able to swallow, who develop hypoglycaemia, are treated with 15-20g of rapid-acting carbohydrate as first-line treatment?",
+"pass": "Treatment documented as 15-20g of a recognised rapid-acting carbohydrate",
+"change": "Stock a standard, pre-measured hypo box (containing 15-20g rapid-acting carbohydrate items) on every ward, with a location known to all staff, replacing ad hoc use of whatever is available.",
+"area": "Patient safety and nursing care"
+},
+"NNA-421": {
+"question": "What proportion of scheduled doses of levodopa-containing Parkinson's medicine for adult inpatients on general wards are given within 30 minutes of the prescribed time?",
+"pass": "Levodopa dose given within 30 minutes of the scheduled time",
+"change": "Flag Parkinson's medicines as 'time-critical' in the e-prescribing system with exact-time (not round-time) dosing and an automatic alert to nursing staff when a dose is 30 minutes late.",
+"area": "Patient safety and nursing care"
+},
+"NNA-422": {
+"question": "What proportion of scheduled short-acting insulin doses for adult inpatients are given within 30 minutes of the prescribed or meal time?",
+"pass": "Short-acting insulin dose given within 30 minutes of the scheduled or meal time",
+"change": "Align meal service and insulin drug round times, and flag insulin as time-critical in e-prescribing with an alert when a dose is 30 minutes late.",
+"area": "Patient safety and nursing care"
+},
+"NNA-423": {
+"question": "What proportion of adults having elective surgery are fasted from food for no longer than 8 hours and from clear fluids for no longer than 3 hours before their scheduled procedure?",
+"pass": "Fasted 8 hours or less from food, 3 hours or less from clear fluids",
+"change": "Replace a fixed 'nil by mouth from midnight' instruction with a staggered sip-til-send protocol and clear fluids allowed up to the pre-operative assessment team's confirmed call time.",
+"area": "Patient safety and nursing care"
+},
+"NNA-424": {
+"question": "What proportion of blood component transfusions have a documented bedside positive patient identification check (patient asked to state their name and date of birth, checked against the identity band, prescription and compatibility label) before the unit is started?",
+"pass": "Bedside identity check documented immediately before starting the unit, against band, prescription and label",
+"change": "Introduce an electronic bedside scanning system (or a mandatory paper bedside checklist) that will not release the unit for administration until the identification steps are recorded.",
+"area": "Patient safety and nursing care"
+},
+"NNA-425": {
+"question": "What proportion of blood component units have the blood group and expiry date checked against the compatibility report and prescription immediately before transfusion is started?",
+"pass": "Unit blood group, expiry and donation number checked against report and prescription beforehand",
+"change": "Add a structured 'unit check' section, separate from the patient-identification section, to the bedside transfusion checklist so both checks are recorded distinctly.",
+"area": "Patient safety and nursing care"
+},
+"NNA-426": {
+"question": "What proportion of adult inpatients' identity bands contain the correct four identifiers (surname, forename, date of birth and NHS number) with no additions or omissions?",
+"pass": "Band shows surname, forename, date of birth and NHS number, correct, nothing else",
+"change": "Standardise identity band printing through the EPR admission process (auto-populated, printed band) instead of hand-written bands, removing the main source of transcription error.",
+"area": "Patient safety and nursing care"
+},
+"NNA-427": {
+"question": "What proportion of adult inpatients with a documented drug or other allergy are wearing a red allergy identity band?",
+"pass": "Patient with documented allergy is wearing a red identity band",
+"change": "Add an EPR rule that prints a red band automatically, and flags an alert to nursing staff, whenever an allergy is entered on the drug chart or admission assessment.",
+"area": "Patient safety and nursing care"
+},
+"NNA-428": {
+"question": "What proportion of adult inpatients who are unable or unwilling to wear an identity band have a documented alternative means of identification?",
+"pass": "Notes document the reason, explanation attempted and an agreed alternative identification",
+"change": "Add a mandatory 'alternative identification' care plan entry, triggered whenever a nurse records that a patient is not wearing a band, prompting the photograph-with-consent process.",
+"area": "Patient safety and nursing care"
+},
+"NNA-429": {
+"question": "What proportion of adult inpatients transferred between wards have their identity band checked against their notes for accuracy at the point of transfer?",
+"pass": "Transfer documentation records identity band checked against the patient or notes",
+"change": "Add an identity band check as a mandatory item on the ward-to-ward transfer/handover checklist, to be signed by the receiving nurse.",
+"area": "Patient safety and nursing care"
+},
+"NNA-430": {
+"question": "What proportion of adult inpatients who have bed rails fitted have an individual written risk assessment completed before the bed rails are used?",
+"pass": "Individual written bed rail risk assessment completed before the rails are fitted",
+"change": "Make the bed rail risk assessment a mandatory EPR step that must be completed before a 'bed rails in use' order can be entered, using a standard entrapment-risk checklist.",
+"area": "Patient safety and nursing care"
+},
+"NNA-431": {
+"question": "What proportion of decisions to use bed rails are documented with the reasoning, and evidence that this was explained to the patient or their family?",
+"pass": "Notes record reason for bed rails, explanation to patient or family, and consent",
+"change": "Add 'reason explained to patient/family' and 'consent/best interests' as mandatory fields on the bed rail risk assessment form, alongside the risk assessment itself.",
+"area": "Patient safety and nursing care"
+},
+"NNA-432": {
+"question": "What proportion of beds with bed rails fitted are checked each shift for gaps or configuration changes that could increase the risk of entrapment?",
+"pass": "Documented shift check that configuration matches the assessment, with no new gaps",
+"change": "Add a bed rail configuration check to the twice-daily intentional rounding checklist, prompting a repeat risk assessment whenever the bed, mattress or rail is changed.",
+"area": "Patient safety and nursing care"
+},
+"NNA-433": {
+"question": "What proportion of safeguarding concerns identified for adult inpatients with care and support needs have a safeguarding referral made and documented on the day the concern is identified?",
+"pass": "Safeguarding referral submitted to the local authority on the same day as the concern",
+"change": "Add a same-day safeguarding referral task to the EPR whenever a safeguarding concern is documented, with an automatic reminder to the named nurse or ward manager if the referral has not been submitted by the end of the shift.",
+"area": "Patient safety and nursing care"
+},
+"NNA-434": {
+"question": "What proportion of adult inpatients who receive rapid tranquillisation have their pulse, blood pressure, respiratory rate, temperature, hydration and level of consciousness monitored at least hourly afterwards?",
+"pass": "All six parameters documented at least hourly after rapid tranquillisation until concerns resolve",
+"change": "Build a dedicated post-rapid-tranquillisation monitoring chart (paper or electronic) that pre-populates the six required parameters and the hourly (or 15-minute) schedule automatically when the drug is recorded as given.",
+"area": "Patient safety and nursing care"
+},
+"NNA-435": {
+"question": "What proportion of documented episodes of manual restraint on adult wards record that the least restrictive intervention was used and the reasons for the level of restriction chosen?",
+"pass": "Record shows a less restrictive option was considered and reason for level chosen",
+"change": "Add mandatory fields to the restraint incident form for 'less restrictive options considered' and 'reason for level of restriction used', which must be completed before the form can be closed.",
+"area": "Patient safety and nursing care"
+},
+"NNA-436": {
+"question": "What proportion of adult inpatients have an oral health/mouth care assessment completed within 24 hours of admission?",
+"pass": "Mouth care assessment completed and documented within 24 hours of admission",
+"change": "Add a mandatory mouth care assessment field to the electronic nursing admission assessment for every adult inpatient.",
+"area": "Patient safety and nursing care"
+},
+"NNA-437": {
+"question": "What proportion of adult inpatients assessed as needing help with mouth care (amber or red on the mouth care assessment) receive documented mouth care at least twice daily?",
+"pass": "Mouth care documented at least twice in each 24 hours",
+"change": "Add mouth care to the twice-daily intentional rounding checklist for every patient scored amber or red, with a signature box for each round.",
+"area": "Patient safety and nursing care"
+},
+"NNA-438": {
+"question": "What proportion of omitted or delayed doses of a medicine flagged as time-critical are documented with a reason on the drug chart or eMAR?",
+"pass": "Every omitted or over-30-minute delayed dose has a documented reason on the eMAR",
+"change": "Make the omission/delay reason a mandatory coded field in the eMAR (rather than optional free text) whenever a time-critical medicine is recorded as omitted or given late.",
+"area": "Patient safety and nursing care"
+},
+"NNA-439": {
+"question": "What proportion of elective surgical patients who are cancelled or delayed on the day of surgery are offered food or drink within 1 hour of being told they will not have surgery that day?",
+"pass": "Food or drink offered within 1 hour of being told surgery is cancelled",
+"change": "Add a 'cancelled: may eat and drink now?' step to the theatre coordinator's cancellation process, with a scripted phone call to the ward and a timed nursing task to offer food and drink.",
+"area": "Patient safety and nursing care"
+},
+"NNA-440": {
+"question": "What proportion of restrictive intervention decisions for patients who lack capacity involve documented consultation with a carer or family member, in line with the Mental Capacity Act 2005?",
+"pass": "Notes document consulting a carer or family member, or why that was not possible",
+"change": "Add a mandatory 'carer/family consulted (or reason why not)' field to the restrictive intervention incident form, linked to the Mental Capacity Act assessment section.",
+"area": "Patient safety and nursing care"
+},
+"NNA-441": {
+"question": "What proportion of adult inpatients on a variable-rate intravenous insulin infusion have their capillary blood glucose measured at least hourly?",
+"pass": "Capillary blood glucose documented at least hourly while the infusion is running",
+"change": "Set the EPR insulin infusion order to automatically schedule and prompt hourly glucose-check tasks for the duration of the infusion.",
+"area": "Patient safety and nursing care"
+},
+"NNA-442": {
+"question": "What proportion of adults newly registering with a GP practice have their MMR vaccination history checked and, if unvaccinated or partially vaccinated, are offered catch-up MMR?",
+"pass": "MMR status recorded and, if fewer than two doses, catch-up offered within 8 weeks",
+"change": "Add a mandatory 'MMR history: 0/1/2/unknown' field to the new patient health check template in the EPR, with an automatic task to the practice nurse to offer catch-up MMR whenever fewer than 2 doses are recorded.",
+"area": "General practice and community care"
+},
+"NNA-443": {
+"question": "What proportion of severely immunosuppressed adults under 80 who are eligible for shingles vaccination have been offered Shingrix in the last 12 months?",
+"pass": "Documented offer of Shingrix in the last 12 months, or already fully vaccinated",
+"change": "Add a rule-based search that cross-references the immunosuppression/DMARD register against the shingles vaccination record, run monthly by a named administrator, generating a recall letter for anyone not yet offered Shingrix.",
+"area": "General practice and community care"
+},
+"NNA-444": {
+"question": "What proportion of adults newly added to a pneumococcal at-risk clinical group have been offered pneumococcal vaccination within 3 months of the risk factor being coded?",
+"pass": "Pneumococcal vaccine offered within 3 months of the risk group code being entered",
+"change": "Build an EPR alert that fires when a qualifying risk-group code is entered, creating a task for the practice nurse to check and offer pneumococcal vaccination at the same or next contact.",
+"area": "General practice and community care"
+},
+"NNA-445": {
+"question": "What proportion of adults in a pneumococcal high-risk group (asplenia, splenic dysfunction or chronic kidney disease) who are due 5-yearly revaccination receive it within 3 months of the due date?",
+"pass": "Revaccination given or declined within 3 months of the 5-year due date",
+"change": "Add a 5-year pneumococcal revaccination recall to the practice's existing asplenia/CKD register searches, run quarterly, generating an invitation letter automatically.",
+"area": "General practice and community care"
+},
+"NNA-446": {
+"question": "What proportion of adult smokers identified in general practice consultations are told about the range of stop-smoking support available and referred if they wish to quit?",
+"pass": "Smoking status checked, options explained, and referral made or offered if interested",
+"change": "Add a one-click 'discussed stop-smoking support / referred' template item to the consultation screen that pops up whenever the smoking status is 'current smoker', linked directly to the local stop-smoking service referral form.",
+"area": "General practice and community care"
+},
+"NNA-447": {
+"question": "What proportion of adults who screen positive for hazardous or harmful drinking on AUDIT/AUDIT-C in general practice receive a structured brief alcohol intervention at the same or next contact?",
+"pass": "Brief alcohol intervention delivered at same appointment or offered within 2 weeks",
+"change": "Add a mandatory 'brief intervention delivered / appointment offered' field to the AUDIT/AUDIT-C template, which cannot be closed until completed, and give staff a standard FRAMES-based script card.",
+"area": "General practice and community care"
+},
+"NNA-448": {
+"question": "What proportion of women reaching the 20-week screening scan in pregnancy have been offered pertussis vaccination, and what proportion have received it before 32 weeks?",
+"pass": "Pertussis vaccine offered by the 20-week scan and, if accepted, given before 32 weeks",
+"change": "Add an automatic 'pertussis vaccine due' task to the GP maternity template at the point the 16-week booking bloods are recorded, with a reminder if not given by the time the 20-week scan result is filed.",
+"area": "General practice and community care"
+},
+"NNA-449": {
+"question": "What proportion of patients on the practice's non-responder list for cervical screening have a documented follow-up action recorded within 8 weeks of appearing on the list?",
+"pass": "Follow-up action documented within 8 weeks of joining the non-responder list",
+"change": "Assign a named administrator to review the CSMS non-responder list monthly and action every entry within 2 weeks, using an agreed local script for calls and opportunistic flags.",
+"area": "General practice and community care"
+},
+"NNA-450": {
+"question": "What proportion of patients eligible for an NHS Health Check who do not attend their first invited appointment are re-invited using a different contact method within 12 weeks?",
+"pass": "Re-invited by a different contact method within 12 weeks, recorded on the log",
+"change": "Build a 12-week DNA recall rule into the NHS Health Check invitation system that automatically triggers a second invitation by a different method (text after a letter, or a phone call after a text).",
+"area": "General practice and community care"
+},
+"NNA-451": {
+"question": "What proportion of people entering prison have a first-stage health assessment completed, before allocation to a cell, that documents any prescribed medicines and immediate health and safety issues?",
+"pass": "First-stage health assessment completed before cell allocation, including prescribed medicines and immediate safety issues",
+"change": "Make cell allocation on the prison IT system dependent on the first-stage health assessment record being saved first, so custodial staff cannot allocate a cell before healthcare confirms the assessment is complete.",
+"area": "General practice and community care"
+},
+"NNA-452": {
+"question": "What proportion of people in prison have a second-stage health assessment completed within 7 days of their first-stage assessment?",
+"pass": "Second-stage health assessment completed within 7 days of the first-stage assessment",
+"change": "Add an automatic 'second-stage assessment due' task to the prison health record, created on completion of the first-stage assessment with a 7-day countdown visible on the nursing team's daily worklist.",
+"area": "General practice and community care"
+},
+"NNA-453": {
+"question": "What proportion of people entering prison who were taking prescribed medicines in the community have their next dose confirmed as given, or a prescriber referral made, before the second-stage health assessment?",
+"pass": "Next dose given or same-day prescriber referral made, with reconciliation by second-stage assessment",
+"change": "Build a same-day electronic referral from the reception nurse's medicines question directly to the prison pharmacist/prescriber worklist, with a flag that clears only once the next dose is confirmed given.",
+"area": "General practice and community care"
+},
+"NNA-454": {
+"question": "What proportion of people in prison who were on community opioid substitution treatment have their opioid substitution medicine continued, at a confirmed dose, within 24 hours of reception?",
+"pass": "Opioid substitution dose confirmed, prescribed and given within 24 hours of reception",
+"change": "Add a same-day electronic confirmation pathway between the prison substance misuse team and community pharmacies (or the national controlled drug database where available), with a target of confirming dose and pharmacy within 4 hours of reception.",
+"area": "General practice and community care"
+},
+"NNA-455": {
+"question": "What proportion of people entering prison are offered confidential testing for hepatitis B and hepatitis C, and what proportion of those tested receive their result regardless of location?",
+"pass": "Hepatitis B and C testing offered at reception, results communicated wherever the person is",
+"change": "Add hepatitis B/C testing as a default opt-out item on the first-stage reception assessment template, with an electronic result-tracking flag that stays open (and is checked at every wing move or segregation transfer) until the result is confirmed given to the patient.",
+"area": "General practice and community care"
+},
+"NNA-456": {
+"question": "What proportion of people entering prison are offered an HIV test at reception?",
+"pass": "HIV test offered at reception, with outcome recorded",
+"change": "Combine the HIV test offer with the hepatitis B/C offer as a single mandatory blood-borne virus testing block on the first-stage reception template, so none of the three can be skipped independently.",
+"area": "General practice and community care"
+},
+"NNA-457": {
+"question": "What proportion of people in prison, or at prisons receiving from high-incidence areas, who are under 65 and in regular contact with substance misuse services are offered an interferon-gamma release assay for TB, combined with hepatitis B/C and HIV testing?",
+"pass": "IGRA for TB offered at the same time as hepatitis B/C and HIV testing",
+"change": "Add a single combined 'blood-borne virus and TB testing' order set to the substance misuse service's clinical template so IGRA, hepatitis B/C and HIV testing are requested together by default.",
+"area": "General practice and community care"
+},
+"NNA-458": {
+"question": "What proportion of prisoners in prison for the first time are screened for TB within 48 hours of arrival?",
+"pass": "TB screening documented as completed within 48 hours of reception",
+"change": "Add an automatic 'TB screen due within 48 hours' countdown task to the reception worklist, visible to the nursing team separately from the general first/second-stage assessment tasks.",
+"area": "General practice and community care"
+},
+"NNA-459": {
+"question": "When an ACCT is opened for a prisoner, what proportion of first case reviews have healthcare or mental health staff attendance, or a documented written/verbal contribution, recorded?",
+"pass": "Healthcare staff attended first ACCT review, or documented a written or verbal contribution",
+"change": "Add an automatic healthcare notification when a concern form is raised (as required by paragraph 4.173/4.184), with the first case review time only confirmed once healthcare has acknowledged attendance or provided a contribution.",
+"area": "General practice and community care"
+},
+"NNA-460": {
+"question": "What proportion of people discharged or transferred from prison with an ongoing prescription are given at least 7 days of their prescribed medicines or an FP10 prescription?",
+"pass": "Given 7 days' supply of each ongoing medicine, or an FP10 for 7 days",
+"change": "Add a mandatory 'discharge medicines: days supplied' field to the release checklist that must show 7 or more (or a linked risk assessment) before the release paperwork can be signed off by pharmacy.",
+"area": "General practice and community care"
+},
+"NNA-461": {
+"question": "What proportion of people in prison who smoke are offered stop-smoking support at their first-stage health assessment, in a smoke-free establishment?",
+"pass": "Smoking status asked and stop-smoking support offered to current smokers at reception",
+"change": "Add a mandatory 'smoker: NRT/stop-smoking support offered' field to the first-stage reception template, linked directly to an NRT prescribing order set so support can be started the same day.",
+"area": "General practice and community care"
+},
+"NNA-462": {
+"question": "What proportion of adults with hypertension aged under 80 on antihypertensive treatment have a clinic blood pressure below 140/90 mmHg at their most recent reading?",
+"pass": "Most recent clinic blood pressure in last 12 months below 140/90 mmHg",
+"change": "Run a monthly practice search flagging hypertension register patients whose last clinic BP is above target with no medication change or clinic BP recheck in the last 8 weeks, for pharmacist-led review.",
+"area": "General practice and community care"
+},
+"NNA-463": {
+"question": "What proportion of adults with atrial fibrillation and a CHA2DS2-VASc score of 2 or more are prescribed a direct-acting oral anticoagulant or warfarin?",
+"pass": "Prescribed a DOAC or warfarin, or clearly documented reason for not anticoagulating",
+"change": "Run a monthly practice search cross-referencing the AF register, CHA2DS2-VASc score and current anticoagulant prescription, generating a task for GP review of every patient scoring ≥2 with no anticoagulant and no documented reason.",
+"area": "General practice and community care"
+},
+"NNA-464": {
+"question": "What proportion of adults with one of the NICE risk factors for chronic kidney disease (diabetes, hypertension, cardiovascular disease or previous acute kidney injury) have had both an eGFR and a urine albumin:creatinine ratio (ACR) tested in the last 12 months?",
+"pass": "Both eGFR and urine ACR recorded in the last 12 months",
+"change": "Add ACR to the default annual review blood test order set for diabetes, hypertension and cardiovascular disease reviews, so it is requested automatically alongside eGFR rather than as a separate step.",
+"area": "General practice and community care"
+},
+"NNA-465": {
+"question": "What proportion of adults and children aged 5 and over on the practice asthma register have a documented, reviewed personalised asthma action plan?",
+"pass": "Personalised asthma action plan documented and reviewed at the most recent review",
+"change": "Add a mandatory 'action plan issued/reviewed' field to the asthma annual review and acute asthma consultation templates, which cannot be closed until completed, with a printable or app-based plan generated automatically.",
+"area": "General practice and community care"
+},
+"NNA-466": {
+"question": "What proportion of adults admitted with a COPD exacerbation in the last year who remain at risk of exacerbations have a documented individualised exacerbation action plan, with a short course of oral corticosteroids and antibiotics to keep at home?",
+"pass": "Individualised action plan documented, rescue pack supplied, and patient told to inform practice",
+"change": "Add a mandatory 'exacerbation action plan and rescue pack' section to the COPD annual review and post-exacerbation follow-up templates, generating a printed plan and linked repeat prescription automatically.",
+"area": "General practice and community care"
+},
+"NNA-467": {
+"question": "What proportion of patients on shared-care methotrexate monitoring in general practice have had FBC, liver function tests and renal function checked within the interval specified in the shared care protocol?",
+"pass": "FBC, LFTs and renal function all recorded within the shared care protocol interval",
+"change": "Run a monthly practice search identifying shared-care methotrexate patients overdue their monitoring interval, generating an automatic recall to the patient and a task to the practice pharmacist.",
+"area": "General practice and community care"
+},
+"NNA-468": {
+"question": "What proportion of people prescribed systemic HRT for menopausal symptoms have a documented review at 3 months of starting or changing treatment?",
+"pass": "Review of efficacy, tolerability and bleeding within 3 months of starting or changing HRT",
+"change": "Add an automatic 3-month HRT review task to the practice system, generated whenever a new HRT prescription or dose/preparation change is issued, with a structured review template pre-populated with the bleeding-pattern question.",
+"area": "General practice and community care"
+},
+"NNA-469": {
+"question": "What proportion of adult patients with a new safeguarding concern raised in a GP consultation have that concern coded in their electronic record using the practice's agreed safeguarding code?",
+"pass": "Safeguarding concern recorded with the practice's specific code within the same working day",
+"change": "Add a pop-up prompt in the EPR whenever certain safeguarding-related free-text phrases are entered, asking the clinician to confirm and apply the specific safeguarding code before the consultation can be saved.",
+"area": "General practice and community care"
+},
+"NNA-470": {
+"question": "What proportion of adults aged 6 months to 64 years in a clinical risk group for influenza are on the practice's flu register and are invited for vaccination each season?",
+"pass": "Coded at-risk patient included on the flu register with a documented invitation this season",
+"change": "Build a single combined flu risk-group search that pulls from all individual chronic disease registers automatically each August, generating the season's invitation list without relying on manual compilation.",
+"area": "General practice and community care"
+},
+"NNA-471": {
+"question": "What proportion of adults aged 65 and over on the practice list have a record of having received a pneumococcal vaccine (PPV23 or PCV20)?",
+"pass": "Single documented dose of PPV23 or PCV20 given at or after age 65",
+"change": "Run a one-off practice-wide search of all patients aged 65 and over with no recorded pneumococcal vaccine, and add a standing rule that the vaccine is offered automatically at the 65th birthday alongside the shingles vaccination invitation.",
+"area": "General practice and community care"
+},
+"NNA-472": {
+"question": "What proportion of people transferring between prisons have relevant health record information (including current medicines) available to the receiving establishment's healthcare team before or at the point of transfer?",
+"pass": "Receiving team has health record and medicines information, and patient has enough medicines",
+"change": "Introduce a standard transfer healthcare summary (including current medicines list) that must accompany every prisoner escort record electronically, checked as complete by the sending establishment's healthcare team before transfer.",
+"area": "General practice and community care"
+},
+"NNA-473": {
+"question": "What proportion of people entering prison who report drinking more than 15 units of alcohol daily, or who show signs of withdrawal, are urgently referred to the GP or an alternative healthcare professional at first-stage assessment?",
+"pass": "Urgent referral to GP or suitable professional made same shift as first-stage assessment",
+"change": "Build an automatic same-shift alert to the on-call GP or clinical lead whenever the first-stage assessment template records one of the three urgent-referral criteria, with a linked withdrawal monitoring chart started at the same time.",
+"area": "General practice and community care"
+},
+"NNA-474": {
+"question": "What proportion of people in prison who score above threshold on the Correctional Mental Health Screen (CMHS-M or CMHS-W) at reception are referred for further mental health assessment?",
+"pass": "Further mental health assessment or referral within 5 working days of a positive screen",
+"change": "Add an automatic referral task to the mental health in-reach team's worklist whenever a CMHS score meets or exceeds the referral threshold, removing reliance on the reception clinician remembering to refer manually.",
+"area": "General practice and community care"
+},
+"NNA-475": {
+"question": "What proportion of people entering prison are offered hepatitis B vaccination at reception?",
+"pass": "Hepatitis B vaccination offered at reception, with outcome recorded",
+"change": "Add hepatitis B vaccination as a mandatory field on the first-stage reception template, linked to an accelerated (0, 7, 21 day plus booster) schedule order set for people likely to be in custody only briefly.",
+"area": "General practice and community care"
+},
+"NNA-476": {
+"question": "What proportion of people entering prison who report injecting drug use in the last month have their injection sites checked and are referred to substance misuse services if there are concerns about their immediate clinical management?",
+"pass": "Injection sites physically checked and, if concerns, substance misuse referral made",
+"change": "Add a mandatory 'injection sites checked' field to the first-stage assessment template for anyone reporting intravenous drug use, with a direct one-click referral to substance misuse services built in.",
+"area": "General practice and community care"
+},
+"NNA-477": {
+"question": "What proportion of adults with hypertension aged 80 and over on antihypertensive treatment have a clinic blood pressure below 150/90 mmHg at their most recent reading?",
+"pass": "Most recent clinic blood pressure in last 12 months below 150/90 mmHg",
+"change": "Add an age- and frailty-aware target display to the hypertension review template so clinicians see the correct NG136 target (under-80, 80-and-over, or individualised for frailty) automatically rather than applying a single blanket target.",
+"area": "General practice and community care"
+},
+"NNA-478": {
+"question": "What proportion of stable patients with atrial fibrillation taking warfarin have their time in therapeutic range discussed, with the option of switching to a direct-acting oral anticoagulant, at their most recent routine anticoagulation review?",
+"pass": "Time in therapeutic range reviewed and DOAC switch option discussed at latest review",
+"change": "Add an automatic time-in-therapeutic-range calculation to the anticoagulation review template, with a mandatory 'DOAC switch discussed: yes/outcome' field that cannot be left blank at routine review.",
+"area": "General practice and community care"
+},
+"NNA-479": {
+"question": "What proportion of patients on the asthma register who have been dispensed 6 or more short-acting beta agonist (SABA) inhalers in the last 12 months have a documented clinical review of the reasons for overuse?",
+"pass": "Documented review of reasons for overuse within 8 weeks of reaching 6 SABA inhalers",
+"change": "Run a monthly practice search flagging patients reaching the 6-SABA-inhaler threshold, generating an automatic task for a respiratory review appointment.",
+"area": "General practice and community care"
+},
+"NNA-480": {
+"question": "What proportion of adults with a new diagnosis of chronic kidney disease have their GFR and ACR category jointly recorded and used to state their risk of adverse outcomes in the record?",
+"pass": "GFR and ACR categories recorded together with the combined NICE risk category",
+"change": "Add an automatic GFR/ACR risk-grid calculator to the CKD annual review template that displays the combined NICE risk category as soon as both results are entered, rather than requiring manual look-up of table 1.",
+"area": "General practice and community care"
+},
+"NNA-481": {
+"question": "What proportion of patients on shared-care DMARD monitoring have their individual risk factors for toxicity (renal function, age, alcohol use, interacting medicines) reviewed at least annually, with monitoring frequency adjusted accordingly?",
+"pass": "Documented annual review of toxicity risk factors, with monitoring interval confirmed or adjusted",
+"change": "Add a dedicated 'annual DMARD risk review' template, separate from the routine blood monitoring recall, that prompts the reviewing clinician to check renal trend, age, alcohol use and new interacting prescriptions once a year for every shared-care DMARD patient.",
+"area": "General practice and community care"
+},
+"NNA-482": {
+"question": "What proportion of ambulance-to-emergency-department patient handovers are completed within 15 minutes of the ambulance arriving?",
+"pass": "Handover completed within 15 minutes of the ambulance arriving",
+"change": "Introduce a rapid 'streaming and handover' nurse and a cohorting bay so incoming ambulances are met at the door, with a visible countdown clock at the ambulance entrance and an internal professional standard escalation when handover passes 30 minutes.",
+"area": "Emergency medicine"
+},
+"NNA-483": {
+"question": "What proportion of ambulance pre-alert calls for adult major trauma patients record all the core information items required by the trauma network?",
+"pass": "Pre-alert contains mechanism, injuries, vital signs, treatment, arrival time and caller details",
+"change": "Replace the free-text pre-alert radio message with a structured ATMIST (age, time, mechanism, injuries, signs, treatment) proforma shared with the ambulance trust, printed automatically as a trauma call sheet when the pre-alert is logged.",
+"area": "Emergency medicine"
+},
+"NNA-484": {
+"question": "What proportion of pre-alerted major trauma patients have a trauma team leader and team ready to receive the handover before the patient arrives?",
+"pass": "Named team leader received the pre-alert and team was ready before arrival",
+"change": "Introduce a mandatory trauma team leader tabard and a pre-arrival checklist (bay, airway trolley, blood products requested, team roles assigned) signed off by the TTL before the patient arrives, triggered automatically by the pre-alert bleep.",
+"area": "Emergency medicine"
+},
+"NNA-485": {
+"question": "What proportion of adults with major trauma needing pre-hospital rapid sequence induction have it started within 45 minutes of the initial 999 call?",
+"pass": "Time from 999 call to RSI drugs is 45 minutes or less",
+"change": "Feed back individual case timelines to the regional critical care/HEMS desk at the monthly trauma governance meeting, with a standard 'time to RSI' field added to the electronic patient report form so delays are flagged automatically.",
+"area": "Emergency medicine"
+},
+"NNA-486": {
+"question": "What proportion of adults with active pre-hospital haemorrhage who receive intravenous fluid are given crystalloid only when blood components are not available?",
+"pass": "Crystalloid given only when crew records blood components were not available",
+"change": "Add a mandatory 'blood available: yes/no, reason for crystalloid' field to the ambulance/HEMS electronic patient report form fluid section, and reinforce the crystalloid-avoidance message in the trauma network's annual pre-hospital update training.",
+"area": "Emergency medicine"
+},
+"NNA-487": {
+"question": "What proportion of adults with a head injury and a GCS of 12 or less, and no suspected extracranial bleeding, receive tranexamic acid within 2 hours of injury?",
+"pass": "Tranexamic acid 2 g IV given within 2 hours of injury, or reason documented",
+"change": "Add TXA as a default prompt on both the ambulance head injury pathway card and the ED trauma order set whenever GCS 12 or less is entered without a bleeding flag, with the 2-hour deadline shown on the prompt.",
+"area": "Emergency medicine"
+},
+"NNA-488": {
+"question": "What proportion of ambulance patient report forms for head-injured children and adults record a Glasgow Coma Scale score using the correct adult or paediatric version?",
+"pass": "GCS recorded using the paediatric version under 5 years and the standard version otherwise",
+"change": "Feed back examples of incomplete or wrong-version GCS recording to the ambulance trust's clinical education team for inclusion in the next mandatory update training cycle, and add a hard-stop prompt for the paediatric GCS version in the electronic patient report form for patients under 5.",
+"area": "Emergency medicine"
+},
+"NNA-489": {
+"question": "When ambulance crews identify a safeguarding concern in a patient with a head injury, what proportion of cases have this documented and verbally handed over to the emergency department?",
+"pass": "ED note documents verbal handover of the concern and a safeguarding action taken",
+"change": "Add a mandatory 'ambulance safeguarding flag received: yes/no, action taken' field to the ED triage template, so a flagged case cannot be booked in without an ED safeguarding decision being recorded.",
+"area": "Emergency medicine"
+},
+"NNA-490": {
+"question": "What proportion of adults with suspected acute stroke conveyed by ambulance are admitted directly to a specialist acute stroke unit without first going to a general emergency department bay?",
+"pass": "First inpatient bed is the stroke unit, or a documented reason for going elsewhere",
+"change": "Agree a direct-conveyance protocol with the ambulance trust so a FAST-positive pre-alert triggers the stroke unit bed to be held and the patient taken straight there (bypassing the general ED cubicle) unless immediate resuscitation is needed.",
+"area": "Emergency medicine"
+},
+"NNA-491": {
+"question": "What proportion of adults with an ambulance-diagnosed ST-elevation myocardial infarction receive a 300 mg aspirin loading dose before hospital arrival?",
+"pass": "300 mg aspirin given before hospital arrival, or contraindication documented",
+"change": "Feed back cases where aspirin was omitted or delayed to the ambulance trust's cardiac clinical lead, and add a mandatory 'aspirin given: dose/time or reason not given' field to the ambulance STEMI pathway record.",
+"area": "Emergency medicine"
+},
+"NNA-492": {
+"question": "What proportion of adults who achieve return of spontaneous circulation after out-of-hospital cardiac arrest have their oxygen saturation titrated to 94-98% by the time of ED handover?",
+"pass": "Last SpO2 before ED handover is 94-98%, or reason for different target",
+"change": "Add a 'post-ROSC oxygen target 94-98%' prompt to the ambulance cardiac arrest care bundle card and the post-ROSC section of the electronic patient report form, so oxygen is actively titrated down once saturations are reliably measured.",
+"area": "Emergency medicine"
+},
+"NNA-493": {
+"question": "What proportion of adults with return of spontaneous circulation after cardiac arrest of presumed cardiac cause are transported directly to a hospital with 24/7 primary PCI capability?",
+"pass": "Taken directly to a 24/7 primary PCI centre, or reason documented",
+"change": "Agree a documented destination-decision algorithm with the ambulance trust's cardiac arrest desk so presumed-cardiac ROSC cases bypass the nearest general ED and go directly to the network's 24/7 PCI centre unless airway or scene factors prevent it.",
+"area": "Emergency medicine"
+},
+"NNA-494": {
+"question": "What proportion of adults with return of spontaneous circulation who remain comatose have active fever prevention (temperature kept below 37.7°C) documented for the first 72 hours?",
+"pass": "Temperature kept below 37.7°C for 72 hours, or fever treated whenever above",
+"change": "Add a 'post-ROSC fever prevention (target <37.7°C for 72 hours)' order set to the critical care admission bundle, with a nurse-initiated antipyretic protocol that fires automatically when temperature crosses the threshold.",
+"area": "Emergency medicine"
+},
+"NNA-495": {
+"question": "What proportion of adults aged 65 and over attended by an ambulance after a fall, but not conveyed to hospital, are referred for a comprehensive falls assessment?",
+"pass": "Referral to community falls service documented at the non-conveyed episode",
+"change": "Add a mandatory 'falls service referral: yes/no, reason' field to the ambulance non-conveyance falls pathway, with a direct electronic referral route to the local falls service built into the ambulance ePR.",
+"area": "Emergency medicine"
+},
+"NNA-496": {
+"question": "What proportion of ED patients on a time-critical medication (Parkinson's, insulin, anti-epileptic, immunosuppressant, or long-term steroid) receive their next scheduled dose at the usual time while waiting in the department?",
+"pass": "Time-critical medicine given within 30 minutes of its usual time, or reason documented",
+"change": "Display the UKCPA patient-facing poster at reception/triage so patients can flag their own time-critical medicines, add a mandatory 'time-critical medication' triage field that creates a timed EPMA task, and confirm ED pharmacy cover for medicines availability.",
+"area": "Emergency medicine"
+},
+"NNA-497": {
+"question": "What proportion of adults on long-term steroid therapy who present with signs of possible adrenal crisis receive hydrocortisone promptly?",
+"pass": "Hydrocortisone 100 mg IM or IV given within 30 minutes of triage",
+"change": "Add a mandatory 'steroid card/medic alert seen: yes/no' question to the ED triage template, stock pre-drawn hydrocortisone 100 mg in the resus room drug cupboard, and add an adrenal crisis order set to the ED EPR.",
+"area": "Emergency medicine"
+},
+"NNA-498": {
+"question": "What proportion of children under 16 with a suspected sepsis red flag identified by an ambulance crew have a sepsis pre-alert call made to the receiving emergency department?",
+"pass": "Structured pre-alert call made to the ED before arrival",
+"change": "Add a paediatric sepsis red-flag prompt to the ambulance clinical decision-support tool that triggers a structured pre-alert message, and set the ED to open the paediatric sepsis order set automatically when a sepsis pre-alert is received.",
+"area": "Emergency medicine"
+},
+"NNA-499": {
+"question": "What proportion of patients cared for in a corridor or other non-designated clinical space in the ED have a full set of observations recorded at least hourly?",
+"pass": "Full set of observations recorded at least hourly for every hour in the corridor",
+"change": "Name a corridor-care safety nurse on each shift with explicit responsibility for hourly observations and NEWS2 escalation, and flag every corridor-care patient on the electronic tracking board with a visible observation-due countdown.",
+"area": "Emergency medicine"
+},
+"NNA-500": {
+"question": "What proportion of adults aged 65 and over attending the ED have a Clinical Frailty Scale score recorded at triage?",
+"pass": "Clinical Frailty Scale score recorded on the triage assessment",
+"change": "Make the Clinical Frailty Scale a mandatory field in the ED triage screen for every patient aged 65 and over (cannot complete triage without it), with an automatic prompt to refer to the frailty/same-day emergency care team when the score is 5 or more.",
+"area": "Emergency medicine"
+},
+"NNA-501": {
+"question": "What proportion of adults with acute severe hyperkalaemia (potassium 6.5 mmol/L or above, or ECG changes) in the ED receive calcium gluconate or calcium chloride within 15 minutes of the result being available?",
+"pass": "Calcium given within 15 minutes of the result or ECG changes",
+"change": "Build a hyperkalaemia order set in the ED EPR that fires automatically when a potassium result of 6.5 mmol/L or above is filed, pre-selecting calcium gluconate 10 ml 10% with a one-click prescribe-and-administer pathway.",
+"area": "Emergency medicine"
+},
+"NNA-502": {
+"question": "What proportion of adults presenting to the ED with suspected carbon monoxide poisoning have a carboxyhaemoglobin level measured before treatment decisions are made?",
+"pass": "Carboxyhaemoglobin level by co-oximetry documented before any management decision",
+"change": "Add a 'suspected carbon monoxide exposure' order set to the ED EPR that automatically requests a co-oximetry blood gas and prompts a fire and rescue service/Gas Safe notification and hyperbaric referral consideration.",
+"area": "Emergency medicine"
+},
+"NNA-503": {
+"question": "What proportion of children discharged from the ED after a first anaphylaxis episode leave with two adrenaline auto-injectors and a written action plan?",
+"pass": "Two adrenaline auto-injectors and written action plan given, with training documented",
+"change": "Build a mandatory anaphylaxis discharge bundle in the ED EPR that cannot be completed without ticking 'two auto-injectors supplied/confirmed', 'action plan given' and 'training given', with the auto-injectors and action plan template stocked in every paediatric bay.",
+"area": "Emergency medicine"
+},
+"NNA-504": {
+"question": "What proportion of adults with a suspected ureteric colic who have significant pain in the ED receive their first dose of analgesia within 20 minutes of arrival?",
+"pass": "First analgesic dose given within 20 minutes of arrival",
+"change": "Introduce a nurse-initiated analgesia patient group direction for suspected renal colic at triage (NSAID unless contraindicated, otherwise paracetamol or opioid), prompted automatically when the triage template flags flank pain with a pain score of 4 or more.",
+"area": "Emergency medicine"
+},
+"NNA-505": {
+"question": "What proportion of adults given IV opioid analgesia in the ED have their respiratory rate and sedation score checked within 30 minutes of the dose?",
+"pass": "Respiratory rate and sedation score both documented within 30 minutes of the IV opioid",
+"change": "Set the EPMA IV opioid administration step to automatically create a 30-minute 'respiratory rate and sedation score due' nursing task on the tracking board, which cannot be dismissed until both are recorded.",
+"area": "Emergency medicine"
+},
+"NNA-506": {
+"question": "What proportion of adults with suspected sepsis who are discharged from the ED after a period of observation have a documented safety-netting plan given to them in writing?",
+"pass": "Written safety-netting leaflet listing red-flag symptoms given at discharge",
+"change": "Add a mandatory 'sepsis safety-netting leaflet given' tick box to the ED discharge template, linked to an automatic print of the leaflet whenever a sepsis screening tool has been used during the attendance.",
+"area": "Emergency medicine"
+},
+"NNA-507": {
+"question": "What proportion of adults presenting to the ED with an acute exacerbation of COPD have their oxygen prescribed with a target saturation range appropriate to their risk of hypercapnia?",
+"pass": "Oxygen target of 88-92% documented on the prescription for hypercapnic risk",
+"change": "Make the oxygen target saturation range a mandatory field on the ED electronic drug chart whenever a COPD diagnosis flag is present, defaulting to 88-92% with an override reason required to change it.",
+"area": "Emergency medicine"
+},
+"NNA-508": {
+"question": "What proportion of adults with a suspected ectopic pregnancy have a formal transvaginal ultrasound or gynaecology review arranged within 24 hours of presenting to the ED?",
+"pass": "Early pregnancy service referral or gynaecology review made and actioned within 24 hours",
+"change": "Add a direct electronic referral route from the ED clerking template to the early pregnancy assessment unit, with a weekend/out-of-hours pathway to on-call gynaecology so referrals made overnight are still seen within 24 hours.",
+"area": "Emergency medicine"
+},
+"NNA-509": {
+"question": "What proportion of adults with suspected acute limb ischaemia in the ED are discussed with the vascular surgery on-call team within 30 minutes of the diagnosis being suspected?",
+"pass": "Vascular on-call team contacted within 30 minutes of suspected limb ischaemia",
+"change": "Add an 'acute limb ischaemia' one-click referral button to the ED EPR that pages the vascular on-call team directly and time-stamps the call automatically, bypassing switchboard.",
+"area": "Emergency medicine"
+},
+"NNA-510": {
+"question": "What proportion of adults triaged as category 2 (very urgent) in the ED are seen by a clinician within 10 minutes of triage?",
+"pass": "Seen by a clinician within 10 minutes of triage",
+"change": "Add a category 2 visual flag and 10-minute countdown to the ED tracking board, with a nurse-in-charge escalation if the countdown expires before a clinician has been assigned.",
+"area": "Emergency medicine"
+},
+"NNA-511": {
+"question": "What proportion of adults discharged from the ED with a new diagnosis of atrial fibrillation have anticoagulation risk (CHA2DS2-VASc) formally assessed before discharge?",
+"pass": "CHA2DS2-VASc score documented with an anticoagulation decision before ED discharge",
+"change": "Add a mandatory CHA2DS2-VASc calculator field to the ED discharge template whenever an AF/flutter diagnosis code is entered, which must be completed (with an anticoagulation decision) before the discharge letter can be printed.",
+"area": "Emergency medicine"
+},
+"NNA-512": {
+"question": "When ambulance crews attend a person who has self-harmed but does not need urgent physical care, what proportion have a documented discussion of the person's care/safety plan and this information passed on if not conveyed?",
+"pass": "Existing care plan checked and followed, and information shared if not conveyed",
+"change": "Add a structured self-harm non-conveyance section to the ambulance electronic patient record with mandatory fields for care/safety plan check, mental health advice sought, and information sharing, linked to a direct referral route to the crisis/home treatment team.",
+"area": "Emergency medicine"
+},
+"NNA-513": {
+"question": "What proportion of pre-hospital chest decompressions for suspected tension pneumothorax are performed only in patients with documented haemodynamic instability or severe respiratory compromise?",
+"pass": "Haemodynamic instability or severe respiratory compromise documented before decompression",
+"change": "Add a mandatory 'indication for decompression: haemodynamic instability / severe respiratory compromise' field to the ambulance/HEMS chest trauma pathway, and reinforce the NG39 threshold in the trauma network's annual pre-hospital training update.",
+"area": "Emergency medicine"
+},
+"NNA-514": {
+"question": "What proportion of adults on warfarin with a head injury and CT-confirmed intracranial haemorrhage receive prothrombin complex concentrate within 1 hour of the scan result?",
+"pass": "Prothrombin complex concentrate given within 1 hour of the CT report",
+"change": "Build a 'warfarin-associated intracranial haemorrhage' order set in the ED EPR that fires automatically when a CT report containing both 'intracranial haemorrhage' and an anticoagulant flag is filed, pre-selecting weight-based prothrombin complex concentrate and vitamin K.",
+"area": "Emergency medicine"
+},
+"NNA-515": {
+"question": "What proportion of adults with an ambulance-diagnosed STEMI, when the primary PCI centre is not the nearest hospital, are taken directly to the primary PCI centre rather than the nearest emergency department?",
+"pass": "Taken directly to primary PCI centre, or reason for nearest ED documented",
+"change": "Agree a documented bypass-distance threshold with the ambulance trust and cardiac network so any ambulance-diagnosed STEMI within the threshold travel time bypasses the nearest ED automatically, with the cath lab activated directly from the ambulance ECG transmission.",
+"area": "Emergency medicine"
+},
+"NNA-516": {
+"question": "What proportion of children assessed by an ambulance crew with a NICE 'red' (high-risk) fever feature are conveyed immediately by emergency ambulance rather than left for a delayed or alternative assessment?",
+"pass": "Conveyed immediately by emergency ambulance, or clinical reason for alternative pathway documented",
+"change": "Build the NICE traffic light system into the ambulance paediatric assessment screen so a 'red' feature triggers a mandatory conveyance recommendation and a paediatric pre-alert prompt, with an override reason required to deviate.",
+"area": "Emergency medicine"
+},
+"NNA-517": {
+"question": "What proportion of people with sudden-onset neurological symptoms assessed by an ambulance crew have a validated FAST (Face Arm Speech Test) screen documented before hypoglycaemia is excluded and a stroke pre-alert decision is made?",
+"pass": "Both FAST score and capillary glucose recorded before the stroke pathway decision",
+"change": "Make both the FAST score and capillary glucose mandatory fields on the ambulance electronic patient report form before the stroke pre-alert option can be selected, so the sequence cannot be skipped.",
+"area": "Emergency medicine"
+},
+"NNA-518": {
+"question": "What proportion of adults with major trauma and active or suspected bleeding who are taking an anticoagulant have a documented decision about reversal made with, or by, a haematologist?",
+"pass": "Reversal decision documented with haematology input, and no reversal without suspected bleeding",
+"change": "Add a mandatory 'anticoagulant reversal decision: haematology contacted, agent/reason' field to the trauma team clerking proforma whenever an anticoagulant is flagged in the drug history.",
+"area": "Emergency medicine"
+},
+"NNA-519": {
+"question": "What proportion of adults triaged in the ED with a pain score of 7 or more (severe pain) receive their first analgesia within 20 minutes of triage?",
+"pass": "First analgesia given within 20 minutes of a pain score of 7 or more",
+"change": "Introduce a nurse-initiated analgesia protocol at triage for any adult scoring 7 or more, covering oral and intranasal options that do not need a doctor's prescription first.",
+"area": "Emergency medicine"
+},
+"NNA-520": {
+"question": "What proportion of patients whose ambulance handover is delayed beyond 60 minutes have a full set of vital sign observations recorded by ambulance or ED staff at least every 30 minutes while still in the ambulance or queue?",
+"pass": "Full observations at least every 30 minutes, with escalation if NEWS2 rises",
+"change": "Introduce a joint ambulance-ED 'queue safety officer' role during any period when more than 2 ambulances are waiting, responsible for cycling through queued patients to check and escalate observations every 30 minutes.",
+"area": "Emergency medicine"
+},
+"NNA-521": {
+"question": "In women on continuous CTG monitoring in labour, what proportion of hourly fetal heart rate assessments had an in-person 'fresh eyes' review by a second clinician documented before the next hourly assessment?",
+"pass": "Fresh-eyes review by a second clinician documented before the next hourly assessment",
+"change": "Add a timed 'fresh eyes review due at __:__' prompt to the CTG trace and electronic labour record that is generated automatically at each hourly assessment and must be signed by a second clinician before it can be marked complete.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-522": {
+"question": "In women with a low risk of complications having intermittent auscultation in established first stage of labour, what proportion of documented auscultations were performed at least once every 15 minutes?",
+"pass": "Auscultations no more than 15 minutes apart in established first stage",
+"change": "Build a 15-minute auscultation timer into the electronic partogram that flags amber when 12 minutes have elapsed since the last entry and red at 15 minutes, visible on the ward dashboard.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-523": {
+"question": "Once a woman has signs of, or is in confirmed second stage of labour, what proportion of documented intermittent auscultations were performed at least once every 5 minutes?",
+"pass": "Auscultations no more than 5 minutes apart in second stage",
+"change": "Add a distinct 'second stage' mode to the electronic partogram auscultation timer that shortens the alert interval from 15 to 5 minutes as soon as second stage is confirmed.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-524": {
+"question": "In women starting induction of labour, what proportion had a Bishop score and antenatal cardiotocography documented before the first method of induction was started?",
+"pass": "Bishop score and normal CTG documented before the first induction method",
+"change": "Redesign the induction of labour proforma so the Bishop score box and a mandatory pre-induction CTG result field must both be completed before the first prostaglandin, balloon or amniotomy step can be signed for.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-525": {
+"question": "In women having active management of the third stage after a vaginal birth, what proportion received the uterotonic at the correct dose and route (10 units oxytocin IM, 5 units oxytocin IV, or 5 units oxytocin plus 500 micrograms ergometrine IM)?",
+"pass": "One of the three NICE dose and route combinations given before cord clamping",
+"change": "Replace the third-stage drug chart pre-print with the three NICE-approved oxytocin/ergometrine dose-route options only, removing any legacy non-standard options.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-526": {
+"question": "In women with continuing postpartum haemorrhage who required a second-line uterotonic, what proportion also received intravenous tranexamic acid 1g given over 10 minutes?",
+"pass": "Tranexamic acid 1g IV over 10 minutes given alongside uterotonics",
+"change": "Add a pre-filled tranexamic acid 1g IV line to the maternity haemorrhage emergency box drug card and the PPH proforma, so it is prescribed at the same time as the second-line uterotonic.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-527": {
+"question": "In births with active management of the third stage, what proportion had the exact time of cord clamping recorded, and was the cord clamped no earlier than 1 minute and before 5 minutes from birth?",
+"pass": "Clamping time documented and done between 1 and 5 minutes after birth",
+"change": "Add a mandatory 'time of cord clamping' field, with an automatic timer started at the recorded time of birth, to the electronic birth record for every vaginal birth.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-528": {
+"question": "What proportion of babies had uninterrupted skin-to-skin contact with their mother (or birth companion if the mother was unable) started within 5 minutes of birth and continued for at least the first hour, with no separation for routine procedures during that time?",
+"pass": "Skin-to-skin starting within 5 minutes of birth and continuing uninterrupted for 1 hour",
+"change": "Add a 'skin-to-skin start and end time' box to the birth record and move routine weighing/measuring to after the first postnatal hour in the ward's standard birth checklist.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-529": {
+"question": "What proportion of babies had a parental decision about vitamin K prophylaxis (accepted by injection, accepted orally, or declined) recorded before transfer from the birth setting?",
+"pass": "Vitamin K decision recorded in the baby's notes before leaving the birth setting",
+"change": "Add a mandatory 'vitamin K discussed and decision recorded' field to the electronic newborn discharge checklist that must be completed before the birth episode can be closed.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-530": {
+"question": "What proportion of women who had an instrumental vaginal birth (forceps or ventouse) received a single dose of intravenous co-amoxiclav (or a locally agreed alternative) within 6 hours after cord clamping?",
+"pass": "Single IV co-amoxiclav dose given within 6 hours of cord clamping",
+"change": "Add a pre-filled 'co-amoxiclav 1.2g IV, single dose, within 6 hours of instrumental birth' order set to the electronic prescribing system, triggered when the birth mode is coded as forceps or ventouse.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-531": {
+"question": "What proportion of babies had a complete newborn and infant physical examination (NIPE) documented within 72 hours of birth?",
+"pass": "Complete newborn physical examination documented within 72 hours of birth",
+"change": "Add an automatic 'NIPE due by' countdown (birth time plus 72 hours) to the postnatal ward whiteboard/EPR task list, visible to the team booking discharges.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-532": {
+"question": "At each postnatal contact in the first 6-8 weeks, what proportion of women had their psychological and emotional wellbeing formally assessed and documented?",
+"pass": "Psychological wellbeing assessment recorded at each contact, with follow-up plan if concerns",
+"change": "Add a mandatory mood/emotional wellbeing assessment field to every postnatal contact template in the community electronic record, which must be completed before the contact can be closed.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-533": {
+"question": "What proportion of postnatal discharge records document that the baby had passed meconium within 24 hours of birth, or that a medical review was arranged if not?",
+"pass": "Meconium passed documented, or medical review sought before discharge",
+"change": "Add a mandatory 'meconium passed by 24 hours: yes/no/pending review' field to the electronic discharge checklist that must be completed before discharge is signed off.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-534": {
+"question": "What proportion of women had a documented venous thromboembolism (VTE) risk assessment at their antenatal booking appointment?",
+"pass": "Structured VTE risk assessment documented at the booking appointment",
+"change": "Make the structured VTE risk assessment tool a mandatory, non-skippable section of the electronic booking proforma.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-535": {
+"question": "What proportion of women having a vaginal birth had a systematic perineal examination, including a digital rectal examination, documented before perineal suturing?",
+"pass": "Systematic perineal examination including digital rectal examination documented before suturing",
+"change": "Redesign the perineal repair record as a structured proforma with a mandatory digital rectal examination tick box that must be completed before the suturing section can be signed.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-536": {
+"question": "Of instrumental vaginal births with a mediolateral episiotomy, what proportion had the episiotomy angle documented as approximately 60 degrees from the midline at the time of distension?",
+"pass": "Episiotomy angle of approximately 60 degrees documented at distension",
+"change": "Introduce an episiotomy angle guide (a single-use disposable protractor/angle indicator) at every instrumental birth, with a mandatory 'angle achieved' field on the instrumental birth proforma.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-537": {
+"question": "What proportion of women presenting with reduced fetal movements after 26 weeks had fetal heart rate auscultation, symphysis-fundal height/growth review and a fetal heart rate assessment (CTG) all completed and documented at that presentation, in line with the national RFM checklist?",
+"pass": "Heart rate auscultation, growth review and CTG all documented at the presentation",
+"change": "Introduce a structured RFM triage proforma based on the national Ask-Act-Advise checklist, with all three Act steps as mandatory fields before the assessment can be closed.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-538": {
+"question": "Of pregnant women identified as smokers and referred for tobacco dependence treatment, what proportion were contacted within 1 working day and seen face-to-face by a tobacco dependence adviser within 5 working days of referral?",
+"pass": "Contacted within 1 working day and seen face to face within 5 working days",
+"change": "Set up an automatic same-day electronic referral from the maternity CO-testing record straight into the tobacco dependence adviser's worklist, replacing any manual fax or paper referral step.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-539": {
+"question": "What proportion of women had a fetal growth restriction (FGR) risk assessment completed by 14 weeks' gestation, using a validated digital blood pressure monitor for the blood pressure component?",
+"pass": "FGR risk assessment completed by 14+0 weeks using a validated digital blood pressure monitor",
+"change": "Make the FGR risk assessment pathway a mandatory field in the electronic booking record with a due-date prompt at 14 weeks, and replace remaining manual sphygmomanometers in booking clinics with validated digital monitors.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-540": {
+"question": "What proportion of midwives and obstetricians providing intrapartum care had up-to-date annual training and competency assessment in intermittent auscultation and electronic fetal monitoring?",
+"pass": "Documented fetal monitoring training and competency assessment within the last 12 months",
+"change": "Set up an automatic training system alert to staff and their line manager 6 weeks before their fetal monitoring training expires, and block rostering onto the labour ward for staff more than 4 weeks overdue.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-541": {
+"question": "What proportion of women with pre-existing diabetes had an HbA1c measured at the start of the third trimester, with a documented increased-surveillance plan if the result was above 48 mmol/mol?",
+"pass": "HbA1c recorded at 28+0 to 28+6 weeks, with surveillance plan if above 48",
+"change": "Add an automatic HbA1c order and a due-date prompt at 28 weeks to the joint diabetes antenatal clinic pathway, with a mandatory 'surveillance plan' field triggered when the result exceeds 48 mmol/mol.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-542": {
+"question": "What proportion of babies born before 34 weeks' gestation had their first temperature recorded between 36.5 and 37.5 degrees Celsius, measured within one hour of birth?",
+"pass": "First temperature between 36.5 and 37.5 degrees, measured within 1 hour of birth",
+"change": "Introduce a preterm delivery normothermia bundle (pre-warmed delivery room, polythene wrap/hat, transwarmer mattress) as a standard checklist item for every birth under 34 weeks, based on the BAPM normothermia toolkit.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-543": {
+"question": "What proportion of babies born before 34 weeks' gestation received their own mother's milk within 24 hours of birth?",
+"pass": "Baby received own mother's milk within 24 hours, and expressing started within 2 hours",
+"change": "Ensure a breast pump, expressing consumables and written/verbal expressing support are available at the mother's bedside within 2 hours of a preterm birth, prompted by a checklist item on the neonatal admission pathway.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-544": {
+"question": "What proportion of women presenting with suspected pre-eclampsia between 20 and 36+6 weeks had placental growth factor (PlGF)-based testing performed as part of their assessment?",
+"pass": "PlGF-based testing performed at assessment, or reason for not performing recorded",
+"change": "Add PlGF-based testing as a default item on the suspected pre-eclampsia assessment order set in the maternal day assessment unit, alongside the standard bloods and urine protein tests.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-545": {
+"question": "Of women with pre-eclampsia who had given birth and remained on antihypertensive treatment, what proportion had their blood pressure kept below 140/90 mmHg before discharge from postnatal care?",
+"pass": "Last blood pressure before discharge below 140/90 mmHg, or ongoing management plan documented",
+"change": "Add a mandatory 'discharge blood pressure below 140/90, or plan documented' field to the postnatal discharge checklist for women coded with pre-eclampsia.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-546": {
+"question": "What proportion of women with a confirmed diagnosis of miscarriage were offered expectant management for 7 to 14 days as the first-line management strategy?",
+"pass": "Expectant management for 7-14 days offered before medical or surgical management",
+"change": "Redesign the early pregnancy unit miscarriage counselling proforma so expectant management is listed and discussed first, with a mandatory field recording why it was not chosen if applicable.",
+"area": "Obstetrics, gynaecology and sexual health"
+},
+"NNA-547": {
+"question": "Of women with an ectopic pregnancy treated with systemic methotrexate, what proportion had serum hCG measured on days 4 and 7 after treatment, with weekly measurement continued until a negative result?",
+"pass": "hCG measured on days 4 and 7 after methotrexate, then weekly until negative",
+"change": "Give every woman starting methotrexate a pre-printed follow-up appointment card with day 4, day 7 and subsequent weekly hCG dates filled in at the time of treatment, and add the same schedule as a recall task in the early pregnancy unit tracking system.",
+"area": "Obstetrics, gynaecology and sexual health"
+}
+}
