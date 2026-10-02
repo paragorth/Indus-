@@ -302,3 +302,72 @@ This is still the strongest feature that no published generator reproduces.
 **Novelty.** The Voynich community knows the idea of the "line as a functional unit". This cross-line junction reset, with prose and verse controls, may not have been measured in this form. Check the literature before claiming it.
 
 **Next.** Model one line as a unit. Do line-start glyph, line length and line-end glyph predict each other? Can a small line grammar generate held-out lines better than a Markov model?
+
+### Control for V2–V3: uncertain spaces (`tools/attack_junction_spaces.py`)
+The junction coupling could have come from where transcribers placed word breaks. Junction MI, ZL:
+
+| space type | junctions | junction MI |
+|---|---|---|
+| certain spaces (`.`) | 28,150 | 0.164 (0.171 on a sample of 2,434) |
+| uncertain spaces (`,`) | 2,434 | 0.510 |
+
+IT shows the same on certain spaces: 0.181. The coupling is real at certain word breaks. The uncertain spaces mostly mark places where one word may have been split in two.
+
+## 7. Tests the literature has not run (as far as we know)
+
+### N1. Line quotas and line clumping (`tools/attack_quota.py`, `tools/attack_quota2.py`)
+**Question.** Is each line filled to a budget of some glyph class, like a tally, a checksum or a metre? Or do lines differ in make-up?
+
+**Method.** Within each paragraph, the words are dealt back into the lines at random, keeping each line's word count (200×). The statistic is the dispersion of a class's count per line, corrected for line length, observed against the null. Above 1 means the class clumps into some lines. Below 1 means it is spread evenly, like a quota.
+
+| class | Voynich | prose and verse letters (range) |
+|---|---|---|
+| gallows | **1.12** (p < 0.005) | — |
+| e | **1.14** (p < 0.005) | — |
+| d | **1.10** (p < 0.005) | — |
+| a | **1.11** (p < 0.005) | — |
+| r, n, y, l | 1.05–1.09 (p ≤ 0.025) | — |
+| m/g | **0.90 (spread evenly, p < 0.005)** | — |
+| vowels | — | 0.89–0.97 |
+| consonants | — | 0.88–1.08; only Latin s and m reach 1.07–1.08 |
+
+**Result.**
+- **In languages, letters are spread across lines about as evenly as chance, or more evenly.**
+- **In the Voynich, most glyph classes clump: lines have their own make-up.**
+- The one quota-like class is m/g, the line-final glyphs: about one per line, a line-end marker.
+
+### N2. Line bracketing (`tools/attack_linebracket.py`)
+**Question.** Does the first glyph of a line predict its last glyph, or the line's length?
+
+**Result.** No. First vs last: −0.003, p = 0.77. First glyph vs length: p = 0.75. Prose and verse are also null.
+
+**Verdict.** Lines are not opener–closer frames. The line-start and line-end rules work separately.
+
+### N3. Two line modes inside paragraphs (`tools/attack_lineflavour.py`)
+**Method.** Correlate per-line residuals between glyph classes, against the same re-dealing null (100×).
+
+**Result.** Two kinds of line exist inside the same paragraph:
+- a **q-type** (q, gallows, e, d, y travel together: q~d z = +10.8, gallows~d +11.2, q~y +6.9; "qokedy"-like);
+- an **a-type** (a, i, r, n: "aiin/ar"-like).
+
+They trade off against each other (q~a z = −5.8, q~i −4.7, q~r −4.7). The strongest single trade-off is **ch against e (z = −10.7)**: a line rich in `ch` is poor in `e`, and vice versa.
+
+### N4. Do line modes alternate, persist or vary freely? (`tools/attack_linemode.py`)
+**Method.** Line score = share of q-initial words minus share of words with `ai` or `ar`, demeaned within each paragraph. Lag-1 and lag-2 correlation against line-order shuffles inside the paragraph (1000×).
+
+**Result.**
+- All lines: lag-1 −0.098 against a null of −0.151 (z = +2.9); lag-2 z = +2.9.
+- Currier A: z = 1.6. Currier B: z = 2.4.
+- Lines drift slowly. There is no alternation, so no fixed key schedule such as ABAB.
+
+### What N1–N4 and V1–V3 say together
+Each Voynich line:
+1. is a **sealed unit**: the word-to-word coupling resets at every line break (V3);
+2. has **its own glyph make-up**, in one of two modes, q-type or a-type (N1, N3);
+3. has **start and end rules** but no link between its start and its end (test b, N2);
+4. ends in about **one m/g glyph**, an end marker (N1);
+5. changes mode **slowly**, not on a schedule, from line to line (N4).
+
+No language sample shows points 1, 2 or 4. The best working model is a **line-by-line procedure with a state that resets each line and drifts slowly across a paragraph**: something like a table or wheel setting chosen per line, or each line copied and modified from a seed. A fixed per-line key schedule is ruled out (N4). Simple verbose substitution is ruled out (V1).
+
+**Next.** Fit the two modes as two "tables": can q-type lines be mapped to a-type lines by a small set of glyph swaps (ch↔e, q-…↔…-a-), so that the two modes become one vocabulary? If a few swaps merge them, the modes are two settings of one device. That would be a real crack in the mechanism.

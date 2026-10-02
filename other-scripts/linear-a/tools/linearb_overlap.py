@@ -87,6 +87,18 @@ def main():
         nn.append(sum(1 for w in smp if occ[w].get('KN', 0) > sum(occ[w].values()) / 2))
     print(f'  control (random LB types, same lengths): mean mostly-KN {sum(nn)/len(nn):.1f}; P(>= {kn_types}) '
           f'{sum(x >= kn_types for x in nn)/len(nn):.4f}')
+    # same control at token level, and with the 2 most frequent matches removed
+    def kn_tok(ws):
+        k, t = kn_share(ws); return k / max(1, t)
+    nn = []
+    for _ in range(5000):
+        smp = [w for L, n in lens.items() for w in random.sample(bylen[L], n)]
+        nn.append(kn_tok(smp))
+    o = kn_tok(obs)
+    print(f'  token-level KN share obs {o:.2f}; control mean {sum(nn)/len(nn):.2f}; P(>=obs) {sum(x >= o for x in nn)/len(nn):.4f}')
+    top2 = sorted(obs, key=lambda w: -sum(occ[w].values()))[:2]
+    rest = [w for w in obs if w not in top2]
+    print(f'  without {top2}: KN token share {kn_tok(rest):.2f}')
     json.dump({'matches': obs, 'lb_sites': {w: dict(occ[w]) for w in obs}},
               open(os.path.join(D, 'la_lb_matches.json'), 'w'), ensure_ascii=False, indent=1)
 
