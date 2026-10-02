@@ -1,0 +1,221 @@
+# Voynich MS 408: where the armour is thinnest (data-only tests)
+
+Other people's transcriptions are used only as data. Their readings and theories are not used.
+
+## 1. Data
+
+**Sources:**
+- Main: ZL v3b (13 May 2025) by Zandbergen, in EVA (IVTFF 2.0). From https://www.voynich.nu/data/ZL3b-n.txt, saved as `data/ZL3b-n.txt`.
+- Second reading: Takahashi IT2a, from the same site, saved as `data/IT2a-n.txt`.
+- Both files transcribe the same manuscript, so agreement between them shows the result does not depend on one transcriber's reading; it is not replication.
+
+**Parsing (`tools/parse_ivtff.py`):**
+- `.` and `,` (uncertain space) both count as word breaks.
+- `<->` (a break around a drawing) also counts as a word break.
+- For `[a:b]` alternatives, the first reading is kept.
+- Rare glyphs `@nnn;` become `?`. Words containing `?` are dropped from the statistics.
+- Glyph units: `ch`, `sh`, `cth`, `ckh`, `cph` and `cfh` each count as one sign.
+
+**ZL3b counts:**
+- 227 pages, 5,384 lines, 39,019 words.
+- By line type: paragraph 35,069; circle 2,398; label 1,198; radial 354.
+- 740 paragraphs.
+- Currier language: A 11,620; B 24,063; untagged 3,336.
+- Hands 1–5: 11,065 / 11,167 / 11,770 / 3,627 / 929.
+- Sections (by illustration type): stars-recipes 11,646; herbal 11,582; bio 6,387; pharma 2,589; text-only 2,362; cosmo 2,254; zodiac 1,316; astro 883.
+- Clean paragraph text: 34,857 words, 7,025 distinct words. 308 words had an uncertain glyph.
+- IT2a: 37,918 words on 225 pages.
+
+**Comparison texts (Project Gutenberg, first 20,000 words each):**
+- Latin: Caesar (pg218) and Descartes (pg23306).
+- Italian: Manzoni (pg45334) and Dante (pg1000, verse).
+- German: Kafka (pg22367).
+- Spanish: Cervantes (pg2000).
+
+**Download problems:**
+- The gutendex catalogue API timed out, so book IDs were chosen by hand and checked against each file's `Language:` header.
+- No medieval Latin herbal was included.
+
+## 2. Tests
+
+**(a) Is it language-like?**
+
+Method: word statistics and letter-entropy statistics on 20,000-word samples. The controls are:
+- a character shuffle;
+- character bigram and trigram models;
+- a Rugg-style table generator;
+- a crude copy-and-modify generator.
+
+| text | Zipf | TTR | hapax share | word length (mean ± SD) | h1 | h2 | h3 | adjacent-word MI excess |
+|---|---|---|---|---|---|---|---|---|
+| Voynich ZL (glyph units) | −1.06 | .23 | .68 | 4.29 ± 1.60 | 3.86 | 2.25 | 2.01 | .16 |
+| Voynich ZL (EVA letters) | – | – | – | 4.85 ± 1.76 | – | 2.11 | – | – |
+| Voynich IT | −1.05 | .23 | .68 | 4.37 ± 1.55 | – | 2.25 | – | .15 |
+| Currier A / B | – | – | – | – | – | 2.33 / 2.08 | – | .09 / .17 |
+| six languages | −0.86 to −1.07 | .17–.28 | .60–.64 | SD 2.2–2.9 | 4.01–4.13 | 3.08–3.31 | 2.42–2.64 | .27–.44 |
+| character shuffle | −0.66 | .78 | – | – | – | 3.78 | – | 0 |
+| bigram model | −1.08 | .33 | .82 | ± 2.97 | – | 2.23 | – | 0 |
+| trigram model | −1.08 | .25 | .73 | ± 1.98 | – | 2.22 | 2.00 | 0 |
+| table generator | −0.57 | .53 | – | – | – | 2.92 | – | 0 |
+| copy-and-modify | −0.39 | .37 | – | – | – | 3.44 | – | .06 |
+
+Verdict:
+- **Matches language:** the Zipf slope, the vocabulary size (TTR), and the presence of real word-to-word dependency.
+- **Fails:**
+  - h2 is far too low.
+  - Word lengths are too uniform.
+  - Word-to-word dependency is half the language level.
+  - Too many words occur only once.
+- A trigram model copies every letter-level statistic but has no word-to-word dependency.
+- The copy-and-modify generator is crude. It is not a fair test of the published algorithm.
+
+**(b) Line and paragraph position**
+
+Method: the null shuffles word order within each line. The effect is measured as the mutual information between position and glyph, minus the mean of 20 shuffles. Enriched words are tested with a z-test and BH FDR at 5%. Modern prose lines (arbitrary breaks) and Dante's verse lines are the controls.
+
+| text | first-glyph excess | same, paragraph-first lines excluded | last-glyph excess | words enriched line-initial / line-final |
+|---|---|---|---|---|
+| Voynich ZL | 0.106 | 0.092 | 0.053 | 94 / 56 (of 265 tested) |
+| Voynich IT | 0.109 | 0.094 | 0.055 | 87 / 51 |
+| prose | 0.001–0.003 | 0.001–0.003 | 0.002–0.004 | 1–15 / 0–4 |
+| Dante (verse) | 0.047 | 0.046 | 0.084 | 78 / 121 |
+| generators | ≈0 | – | ≈0 | – |
+
+Specific rules:
+- **Paragraph starts:** 83% of paragraphs begin with a gallows glyph, against 9% of other lines. 50% begin with `p`/`f`, against 1.4%. 81% of all `p`/`f` glyphs sit on paragraph-first lines, which hold 21% of the glyphs.
+- **Line-initial glyphs** (non-paragraph lines): `y` 3.1×, `s` 3.1×, `t` 2.7× and `d` 1.7× are favoured. `ch` 0.23× and `a` 0.09× are avoided.
+- **Line-initial words:** `aiin` once against 47.5 expected; `chedy` 7 against 52 expected.
+- **Line-final:** `m` 5.9×, `g` 6.0×; `am`, `dam`, `qokam` 5–7.5×.
+- **Word length:** line-initial words are longer, but prose lines show the same wrap effect, so this one is not diagnostic.
+- **"Extra glyph" check:** dropping the first glyph leaves a common word in 77% of line-initial words, against 61% mid-line. Within each first glyph the gap almost vanishes (for `s`: 0.84 against 0.82). So the gap mostly reflects which glyphs start lines.
+
+Verdict: a strong chink. The line has its own start and end rules, stronger than Dante's verse lines. This holds in A (0.086) and B (0.129) and in both transcriptions.
+
+**(c) Word structure (slot grammar)**
+
+Two measures:
+- **Order rigidity:** how often pairs of glyphs keep the same order inside a word (1.0 = always the same order).
+- **One-order slot grammar:** a single glyph order is learned on half the text, then tested on the other half.
+
+| text | rigidity | held-out words covered | held-out distinct words covered | unseen words covered |
+|---|---|---|---|---|
+| Voynich ZL | .878 | .58 | .20 | .12 |
+| Voynich IT | .876 | .57 | .21 | .13 |
+| six languages | .64–.69 | .18–.46 | .025–.073 | .009–.023 |
+| character shuffle | .51 | .13 | .06 | .04 |
+| trigram model | .873 | .62 | .21 | .12 |
+| table generator | .833 | .43 | .26 | .17 |
+
+The learned order runs roughly `q` → `o` → gallows/`ch` → `e` → `d`/`s` → `a` → `i` → `n`/`l`/`r` → `m`/`g` → `y`.
+
+Verdict:
+- The grammar covers 3–8× more held-out distinct words than in any language.
+- A shuffle removes the structure entirely.
+- A trigram model reproduces it fully, so this is the same fact as the low h2 in (a).
+
+**(d) Sections, Currier A vs B, labels**
+
+Section-specific words:
+- 323 of 1,186 tests are significant after FDR. With section labels shuffled across pages, the mean is 16 and the maximum 39 (20 runs).
+- Examples: bio `qol` 4.1×; pharma `okeol` 8.2× and `qokeol` 7.6×; astro `am` 5.9×.
+
+Currier A against B, measured as divergence between word or letter-pair distributions (JSD; 0 = identical):
+
+| comparison | word divergence | letter-pair divergence |
+|---|---|---|
+| A vs B | .53 | .094 |
+| A split / B split (pages) | .30 / .28 | .006 / .003 |
+| herbal-A vs herbal-B | .61 | – |
+| herbal-A split | .38 | – |
+| one author split | .29–.36 | – |
+| Caesar vs Descartes | .63 | .034 |
+| Manzoni vs Dante | .46 | – |
+| Latin vs Italian | .90 | .17 |
+
+- 289 of 485 word tests separate A from B.
+- At word level, A and B look like two authors in one language.
+- At letter-pair level they differ about 3× more than two Latin authors, about halfway to two languages.
+- The difference survives inside the herbal section alone.
+
+Labels (1,163 label words, 836 distinct):
+- Only 60% occur in running text, against 80% for running-text words of the same length.
+- Labels are longer: 4.98 glyphs against 4.46.
+- 54% start with `o`, against 21% of text words.
+
+Verdict: sections and A/B are real, strong divisions, and labels are a separate vocabulary.
+
+**(e) Repetition**
+
+Method: adjacent word pairs inside a line, compared with a whole-text word shuffle (10 runs).
+
+| text | identical pairs per 1000 | vs chance | near-identical per 1000 | vs chance | near-pairs differing inside the word |
+|---|---|---|---|---|---|
+| Voynich ZL | 9.4 | 2.8× | 43 | 2.0× | 32% |
+| Voynich IT | 9.6 | 2.8× | 42 | 2.0× | 35% |
+| Currier A / B | – | 2.0× / 2.1× | – | – | – |
+| six languages | 0–3.3 | 0.00–0.53× | – | 0.5–0.85× | 1–8% |
+| trigram model | – | 0.9× | – | – | – |
+| table generator | – | 1.3× | – | – | – |
+| copy-and-modify | – | 135× (overshoots) | – | – | – |
+
+The most common repeats are `chol chol` (24), `qokeedy qokeedy` (18) and `qokedy qokedy` (16).
+
+Verdict: real languages avoid repeating a word. Voynich seeks it out, and no letter-level model produces this.
+
+**(f) Cipher class**
+
+Method: compare a profile (h1, h2, h3, word length, alphabet size, share of the 5 commonest signs) with candidate encodings built from the six language samples. Distance is in units of the spread between the languages; lower is better.
+
+| rank | class | distance | why it fails |
+|---|---|---|---|
+| 1 | verbose cipher with re-cut word spacing | 2.6 | h2 2.90 |
+| 2 | verbose cipher | 3.0 | h2 2.47, but words 6.6 ± 3.8 long |
+| 3 | position-dependent verbose cipher | 3.3 | words too long |
+| 4 | simple substitution | 3.7 | h2 3.08 |
+| 5 | abjad (vowels dropped) | 4.1 | h2 too high |
+| 6 | simple substitution with re-cut spacing | 4.9 | h2 3.5 |
+| 7 | homophonic | 10.1 | h1 4.9 |
+| 8 | syllabary | 14.1 | hundreds of signs |
+
+Verdict:
+- Relabelling letters cannot change h2, which rules out simple substitution of these languages.
+- Homophonic substitution and a syllabary are ruled out by h1 and alphabet size.
+- A verbose cipher ranks best, but no version tested gets low h2 and short, uniform words at the same time. This is a ranking of hypotheses, not a solution.
+
+## 3. Caveats
+
+- Word breaks follow the transcribers' spacing, and uncertain spaces counted as breaks.
+- The comparison lines are modern typesetting, plus a single verse text.
+- The copy-and-modify generator is crude.
+- All comparison languages are European, alphabetic and later than the manuscript.
+- ZL and IT readings overlap heavily, so they are not independent.
+
+## 4. Chinks (ranked)
+
+1. **The line is a coded unit.**
+   - Attack: find rewrite rules for line-edge words, using a within-glyph control.
+   - Success: 5 or fewer rules bring line-edge vocabulary overlap up to the mid-line level (75%) on held-out pages, in A and B, and in both transcriptions.
+2. **h2 shortfall and rigid word order.**
+   - Attack: search groupings of the glyph stream into 20–35 units.
+   - Success: h2 of 3.0–3.3 together with a word-length SD of 2.2 or more and a language-like Zipf slope.
+3. **Repetition.**
+   - Attack: fit one copy-and-modify generator, then test it unchanged on Zipf, h2, the line rules and the section effects.
+   - Success: it matches all of them, which would argue for a mechanical process. If it fails, the repeats are more likely cipher artefacts.
+4. **Labels.**
+   - Attack: look for consistent label structure on parallel zodiac/star pages, against a page-shuffle control.
+   - Success: it predicts labels on pages not used for fitting.
+5. **A vs B.**
+   - Attack: find a glyph rewrite that maps A onto B.
+   - Success: letter-pair divergence of 0.035 or less, and herbal word divergence near the split level (0.38).
+6. **Word-to-word dependency.**
+   - Attack: class-based next-word prediction on held-out pages, against a shuffle.
+   - Success: word classes predict their neighbours better than the shuffle does.
+
+## 5. Files
+
+- `data/ZL3b-n.txt`, `data/IT2a-n.txt` (transcriptions)
+- `data/pg*.txt` (comparison texts)
+- `data/derived/*_lines.json` (parsed lines)
+- `data/results/*.json` (all numbers)
+- `tools/`: `parse_ivtff.py`, `vlib.py`, `gen.py`, `test_a_language.py` … `test_f_cipher.py`
+- `test_b_position.py extra` runs the extra position checks.
