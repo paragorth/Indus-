@@ -251,3 +251,54 @@ Verdict:
 - **Some features no letter model makes:** the word-to-word dependency (0.16 bits; Markov texts score 0), the doubled words (2.8× chance) and the line rules.
 
 If there is a hidden language, the evidence for it sits at word and line level, not inside words. Next attacks: chink 1 (line rules) and chink 6 (word-to-word prediction).
+
+### V2. Where the word-to-word link comes from (`tools/attack_wordlink.py`, `data/results/attack_wordlink.json`)
+**Method.** For adjacent words inside a line, measure the information between the *last glyph* of one word and the *first glyph* of the next (the junction). Also measure it between whole words. Both are reported as excess over a within-line word shuffle (20×). Each text is 20,000 words.
+
+| text | junction MI | without doubled words | without line edges | whole-word MI |
+|---|---|---|---|---|
+| **Voynich** | **0.178** | 0.179 | 0.178 | −0.134 |
+| Latin (Caesar) | 0.036 | 0.035 | 0.036 | 0.181 |
+| Italian (Manzoni) | 0.080 | 0.080 | 0.077 | 0.111 |
+| German (Kafka) | 0.046 | 0.046 | 0.046 | 0.328 |
+| Italian verse (Dante) | 0.173 | 0.172 | 0.184 | 0.095 |
+| Markov-3 (no language) | 0.000 | 0.000 | 0.001 | −0.001 |
+| self-citation generator | 0.005 | 0.005 | 0.006 | 0.006 |
+
+**Results.**
+- **The Voynich junction coupling is 2–5× prose and equal to Dante's verse.** Dante's comes from Italian vowel endings and metre.
+- **Strongest pairs:** `…o r…` 7.0× expected, `…s a…` 5.9×, `…r a…` 3.2×, `…y q…` 1.8× (1,884 cases).
+- **Avoided pairs:** `…y a…` 0.14×, `…r q…` 0.30×, `…n q…` 0.46×.
+- **Not from repeats or line edges.** It is unchanged with doubled words removed and with line edges removed.
+- **No generator produces it.** The letter-level and self-citation generators score zero.
+- **Whole-word dependency is negative.** Inside a line, specific word pairs are *rarer* than in a shuffle. The earlier positive figure (0.16, test a) used a whole-text shuffle, so it measured line and section effects, not neighbour links.
+
+**Verdict.** The link between neighbouring words lives at the junction: the end of one word constrains the start of the next. Two things look like this:
+- the sound-joining rules of a real spoken or sung language, which verse shows strongly;
+- a writing procedure that picks each word's first glyph from the last glyph of the word before.
+
+This is still the strongest feature that no published generator reproduces.
+
+**Next test.** Does the junction rule also hold across line breaks (last word of a line → first word of the next)?
+- If the text is continuous language wrapped into lines, it should.
+- If each line is a self-contained coded unit (chink 1), it should not.
+
+### V3. Does the junction rule cross line breaks? (inline check, same code as V2)
+**Method.** Junction MI (last glyph → next first glyph) for word pairs that straddle a line break inside a paragraph. This is compared with a sample of within-line pairs of the same size, each against 200 shuffles.
+
+| text | across a line break | within a line (same n) |
+|---|---|---|
+| **Voynich ZL** (n = 3,390) | **0.002 (p = 0.24, nothing)** | 0.174 |
+| **Voynich IT** (n = 3,345) | **0.002 (p = 0.27)** | 0.208 |
+| Italian prose (Manzoni) | 0.054 (p < 0.005) | 0.086 |
+| German prose (Kafka) | 0.036 (p < 0.005) | 0.036 |
+| Italian verse (Dante) | 0.024 (p < 0.005) | 0.145 |
+| Latin (Caesar, n = 1,916) | −0.004 (n.s.) | 0.045 |
+
+**Result.** In real texts the link between neighbouring words carries on across a line break, weaker in verse but still clear. In the Voynich it **drops to zero at every line break**, in both transcriptions, although the same paragraph continues.
+
+**Verdict: strong support for chink 1, "each line is a sealed unit".** The text is not continuous language that has been wrapped into lines. Whatever process joins neighbouring words restarts at the start of every line. Together with the line-start and line-end glyph rules (test b), this points to a line-by-line writing procedure: a cipher, a table or a notation applied one line at a time.
+
+**Novelty.** The Voynich community knows the idea of the "line as a functional unit". This cross-line junction reset, with prose and verse controls, may not have been measured in this form. Check the literature before claiming it.
+
+**Next.** Model one line as a unit. Do line-start glyph, line length and line-end glyph predict each other? Can a small line grammar generate held-out lines better than a Markov model?
