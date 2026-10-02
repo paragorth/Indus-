@@ -1,0 +1,55 @@
+2c. Commodity association
+  commodity logograms used (tablets, >=8 tokens): [('OLE', 130), ('GRA', 113), ('CYP', 88), ('VIN', 58), ('OLIV', 28), ('QA2', 19), ('HIDE', 16), ('*401', 15), ('MI', 14), ('VIR', 47)]
+  words directly before a commodity sign, >=2 times:
+     SA-RA₂ {'GRA': 8, 'OLE': 1, 'CYP': 5, '*401': 1, 'MI': 1, 'VIR': 1}
+     KI-RE-TA-NA {'OLE': 1, 'VIR': 1, 'GRA': 1}
+     A-DU {'VIR': 1, 'GRA': 1, 'OLE': 1}
+     KU-RO {'GRA': 1, 'OLIV': 1, 'VIN': 1}
+     JE-DI {'OLE': 2}
+     PA-SE {'GRA': 1, 'VIN': 1}
+     JA-*21F {'GRA': 1, 'VIN': 1}
+     I-QA-*118 {'GRA': 2}
+     KU-NI-SU {'GRA': 2}
+     DA-ME {'GRA': 2}
+     KU-PA {'GRA': 2}
+  words on >=3 tablets that carry commodity signs: 16
+  tied (one commodity on every tablet with the word): 2 -> {'KU-NI-SU': 'GRA', 'DA-ME': 'GRA'}
+  spread (>=4 different commodities): 6 -> ['KU-RO', 'KI-RO', 'SA-RA₂', 'A-DU', 'KA-PA', 'KU-PA']
+  control (commodity sets shuffled across tablets): tied share obs 0.12 vs null mean 0.06 (P>=obs 0.175); spread share obs 0.38 vs null 0.72 (P>=obs 0.991)
+  words followed by exactly "1": 125 types; by other numbers: 259 types; both: 27 ['*306-TU', '*324-DI-RA', 'A-RI-NI-TA', 'A-RU', 'DA-I-PI-TA', 'DA-KU-SE-NE', 'DA-RE', 'DA-RI-DA', 'DI-NA-U', 'KU-PA₃-NU', 'KU-RE-JU', 'MA-DI', 'MA-KA-I-TA', 'ME-ZA', 'PA-DE']
+
+2d. Name-like repetition (share of word tokens that are unique types)
+  tablets                              tokens   934 types  675 unique-share obs 0.608  bigram model 0.728  ratio 0.84
+  Hagia Triada tablets                 tokens   618 types  406 unique-share obs 0.528  bigram model 0.673  ratio 0.78
+  all objects                          tokens  1332 types  952 unique-share obs 0.599  bigram model 0.747  ratio 0.80
+  non-tablet (vessels, stone, metal)   tokens   294 types  245 unique-share obs 0.762  bigram model 0.876  ratio 0.87
+  words with quantity 1 (list entries) tokens   135 types  126 unique-share obs 0.889  bigram model 0.832
+
+2f. Affix alternations (word types, all objects, >=2 signs)
+  word types used: 769
+  initial alternation (same rest, different first sign): total obs 42, control 29.5 +/- 5.8
+      ('A', 'JA'): obs 3, control 0.52, P 0.013 
+  final alternation (same stem, different last sign): total obs 66, control 44.8 +/- 8.5
+  prefix added (W and X-W both exist): total obs 83, control 45.5 +/- 6.0
+      A: obs 11, control 5.49, P 0.010 
+      I: obs 8, control 2.91, P 0.000 REAL
+      KA: obs 5, control 1.85, P 0.043 
+      KI: obs 5, control 1.35, P 0.010 
+      SI: obs 5, control 1.29, P 0.003 REAL
+      KU: obs 3, control 1.94, P 0.317 
+      MI: obs 3, control 1.06, P 0.087 
+      PA: obs 3, control 1.34, P 0.147 
+      PI: obs 3, control 0.82, P 0.040 
+  suffix added (W and W-X both exist): total obs 111, control 63.7 +/- 7.7
+      JA: obs 7, control 3.45, P 0.057 
+      RA: obs 6, control 2.58, P 0.047 
+      TE: obs 6, control 3.23, P 0.097 
+      ME: obs 6, control 1.23, P 0.003 REAL
+      RE: obs 5, control 2.91, P 0.167 
+      TA: obs 5, control 2.52, P 0.097 
+      NA: obs 5, control 3.17, P 0.207 
+      TI: obs 5, control 3.19, P 0.183 
+      RO: obs 4, control 1.46, P 0.073 
+      SE: obs 4, control 1.72, P 0.077 
+      PA: obs 3, control 1.09, P 0.073 
+      MI: obs 3, control 1.78, P 0.290 
