@@ -1,0 +1,133 @@
+# Proto-Elamite: where the script is attackable
+
+Goal: find the weak points ("chinks") of Proto-Elamite (PE) that data analysis can exploit.
+Rules: data and sign lists from anyone; nobody's readings used as evidence. Every test has a control.
+
+## Data
+
+- Source: CDLI bulk data, github.com/cdli-gh/data, commit d66b12b (11 Oct 2023).
+  Files `cdliatf_unblocked.atf` (86.9 MB) and `cdli_cat.csv` (155 MB).
+  These are Git LFS files. raw.githubusercontent.com returns only the 133-byte LFS pointer.
+  The full files came from a Git LFS clone made earlier in this project.
+- Filter: catalogue `period` starts with "Proto-Elamite". CDLI lists PE `language` as "undetermined". In the ATF the tag is `lang qpc` (proto-cuneiform), not `qpe`.
+- `data/pe_raw.atf`: the PE subset, verbatim. `data/pe_corpus.json`: parsed version. For each line it gives the surface, the M-signs and the numerals as (count, N-code), kept separate.
+- Counts:
+  - 1,729 PE catalogue entries. 1,585 of them have a transliteration.
+  - Sites: Susa 1,502 (95%), Tepe Yahya 27, Malyan 22, Sialk 12, Sofalin 11, others 11.
+  - 18,074 non-numerical sign tokens: 15,372 M-signs or compounds, plus 2,640 `x` (unreadable).
+  - 351 distinct base M-numbers. That rises to 1,641 forms if variants (~a, ~b) and compounds count separately.
+  - 11,850 numeral groups.
+  - Entries ("sign-string , numeral"): 6,166 have a readable final sign. 4,816 are fully clean (no `x`, no break).
+- Caution: 95% of the corpus is from Susa, so every result below is a Susa result. The other sites have too few texts for held-out replication of most tests.
+- Rebuild: `tools/run_all.sh <atf> <csv>`. Results go to `data/res_*.json`.
+
+## Tests
+
+### a. Entry structure (tools/test_a_slots.py)
+- Method: entry = a line with signs and a numeral (not the header, not a lone reverse total). Count how often each sign is first or last in multi-sign entries.
+- Control: 1,000 shuffles of sign order within each entry.
+- Numbers:
+  - Lengths: 1 sign 62.6%, 2 signs 19.1%, 3 signs 8.6%, 4 or more 9.7%.
+  - Of 62 signs with n >= 20: 11 are initial-biased and 14 are final-biased (z >= 3). No sign is both.
+  - Final slot: M288 237/250 final, against 86 expected (z = 20). Also M297 (z = 9), M263 (8.9), M346 (7.9), M264, M072, M003, M354, M371, M096, M376, M036.
+  - Initial slot: M387 185/290 initial, against 107 expected (z = 10.5). Also M157, M370, M124, M305, M038, M111.
+  - 45% of multi-sign entries end in a final-biased sign.
+- Verdict: **strong slot grammar.** Each entry is [optional prefix] + [middle] + [final class sign], followed by the numeral. The final sign behaves like a category or commodity marker.
+
+### b. Counted goods vs number system (tools/test_b_goods.py)
+- Method: each numeral is classed by its diagnostic N-codes:
+  - C = capacity or grain-type codes (N39B, N30C, N24, N30D, N39C)
+  - C* = hatched or modified capacity codes
+  - B = N51 or N54
+  - S-frac = N08 or N02 fractions
+  - N23 = a separate system
+  - SDB = plain N01 / N14 / N34 / N45 numerals
+
+  Then compare these classes against the sign that touches the numeral.
+- Control: permute the numerals 1,000 times, once across all entries and once only within each tablet. The within-tablet version is the strict control, because whole tablets tend to be about one commodity.
+- Numbers:
+  - Mutual information between final sign and system: observed 0.309 bits.
+  - Global permutation: mean 0.065, max 0.077. Within-tablet permutation: mean 0.178, max 0.190. Both are beaten (p < 0.001).
+  - Baseline C share is 20%.
+  - Tied to capacity: M297 73% C (n = 253), M002 84%, M036 66%, M243 64%, M075 60%, M106 58%, M010 52%. Also M379 and M050 >= 90%.
+  - Never capacity (<= 2% C, with n >= 30): M346, M263, M376, M003, M032, M373, M264, M102, M362, M317, M149, M046.
+  - The key detail: M263 is C in 3/184 entries, while 44% of the other entries on the same tablets are C. M264 is C in 0/51 against 34% on its tablets. So these are sign effects, not tablet effects.
+  - M376 takes fractional numerals (N08 etc.) in 59/158 entries, against ~2% overall.
+  - M288 is mixed (34% C). It is a general head sign, not a grain marker.
+- Verdict: **strong.** The final-slot signs split into "measured in capacity units" (M297, M002, M036, M243...) and "counted, never measured" (M263, M346, M264, M003...). M376 is a "takes fractions" class. This is the determinative layer of the script.
+
+### c. Totals (tools/test_c_totals.py, tools/test_c2_rations.py)
+- Method: take tablets whose only numeric line off the obverse is a total. Sum the obverse entries and compare.
+  - Relaxed set: 77 tablets with no breaks and no `n` (damage marks allowed).
+  - Strict set: 44 tablets with no damage marks either.
+  - Unit ratios come from a grid search, scored by how many tablets add up.
+- Control: give each tablet another tablet's total.
+- Numbers:
+  - Non-capacity tablets: values N14 = 10*N01 and N34 = 60*N01 fit 15/39 (38%; strict set 10/21 = 48%). The shuffled-total control gives 2-4%.
+  - Tablets using only N01/N14: 14/29 add up.
+  - Tablets that use N34/N45: 2/13 add up under any tested value set. The grid cannot even fix whether N45 is 100, 600 or 1000.
+  - Capacity tablets: the best ratio set fits 5/22 (23%) against a 0.9% control. Ratios are underdetermined; many grids tie.
+  - Only 6 of 77 tablets add up code by code with no carrying.
+  - Conversion tablets: 37 tablets have plain-count entries and a capacity total. The total line is almost always headed by M297 or M243, the two capacity-tied signs from test b. Test c2 asked whether total / head-count gives a round per-head ration. Best grid 5/14, shuffled control mean 4.8: **no signal.**
+- Verdict: **mixed.** Small sums work well above chance. About half the totals still do not add up, from scribal error, transcription, or a wrong model of what the total covers. Higher units and capacity ratios are poorly pinned by clean data. This is a data-quality hole, and also an attack point.
+
+### d. Header signs (tools/test_d_headers.py)
+- Method: 744 tablets have a first line with signs and no numeral (the header). Compare the header's first sign with its rate among entry tokens and among entry-initial signs.
+- Control: 1,000 draws of the same number of random entry-initial signs.
+- Numbers:
+  - M157 opens 277/744 headers (37%). It is 86x its entry rate, z = 153.
+  - |M327+M342| 34 headers (176x). M327 22 (18x). |M327+X| 14. |M377+M320+M377| 11. M136, M005, M305, M247 are all 3-9x, with permutation p < 0.001.
+  - 200 distinct header strings, 142 of them used once. Top 3 cover 45%.
+  - M136 headers lean toward capacity entries (47 C / 65 SDB). M157 tablets are mostly SDB (809 vs 227 C).
+- Verdict: **strong "opener" slot.** M157 is a general opener. The M327 family is a second one. Header type partly predicts the commodity.
+
+### e. Do entry strings repeat like names? (tools/test_e_names.py)
+- Method: unique share = types seen once / tokens. Compare with a bigram model trained on the same strings, 200 runs.
+- Planted control: a fixed lexicon of model-generated strings used with Zipf frequencies.
+- Numbers:
+  - Full strings of 2+ signs: n = 1,803. Unique share 0.792 against a model 0.737 (sd 0.013). Ratio 1.08.
+  - Strings minus the final class sign (3+ signs): ratio 1.06.
+  - Planted lexicon: ratio 0.21-0.29. So the test can see a fixed vocabulary when one exists.
+  - 123 strings repeat, 100 of them on 2 or more tablets. The top repeats are prefix + class pairs: M387+M263 (18), M056+M288 (13), M387+M297 (12).
+  - Strings from non-Susa sites: 4/43 are also found at Susa, against 13.1 expected under the bigram model.
+- Verdict: the long strings are **not a small fixed lexicon** (ratio is not below 1). They are at least as diverse as free combination. This fits one-off personal names or spelled words, and does not fit formulaic category terms. Per standing rules, uniqueness alone does not prove names.
+
+### f. Linear Elamite foothold (tools/test_f_le_matches.py, data/le_pe_graphic_matches.json)
+- Source: Desset et al., *Linear Elamite Inscriptions* vol. 1 (2026), Plates III-V. It is free at orientlab.net, linked from hatamti-elam.uliege.be. The plates print a "PE signs" column (Dahl 2006 numbers) beside each Linear Elamite (LE) syllable. I read 63 base PE signs from it, for example:
+  - M218 -> a, M096 -> e, M263 -> ha, M387/M002 -> na
+  - M288 -> pu2, M297/M298 -> ri2, M371 -> u2/w, M009 -> zu, M032 -> še, M219 -> ta, M057 -> u
+  - M157a/M175 -> undeciphered US5
+- Their 2022 ZA paper (doi 10.1515/za-2022-0003) is paywalled and was not read.
+- These are leads, not evidence. The authors may have picked PE matches with knowledge of PE usage, so the sign set is not blind.
+- Test: if these PE signs were already phonetic in PE, they should sit inside long strings rather than standing alone as one-sign entries.
+- Control: 2,000 random sign sets matched on frequency decile.
+- Numbers:
+  - All 63 signs:
+    - share of their tokens in 3+ sign strings: 0.533 against 0.443 (p = 0.02)
+    - share as one-sign entries: 0.269 against 0.342 (p = 0.04)
+    - adjacent pairs where both signs are in the set: 0.59 against 0.34 (p < 0.001)
+  - Without the 10 frame signs (M288, M387, M297, M263, M371, M218, M346, M009, M032, M157), 55 signs remain:
+    - non-final position in long strings: 0.510 against 0.328 (p < 0.001)
+    - one-sign entries: 0.222 against 0.342 (p = 0.005)
+    - adjacency: no effect (0.265 against 0.236, p = 0.28). The adjacency result came from the frame signs.
+- Verdict: **positive but not independent.** The proposed LE-ancestor signs do concentrate in the name-like middles of long strings. A blind replication needs a match list made without looking at PE distributions.
+
+## Chinks (ranked)
+
+1. **Determinative layer (tests a+b).** The final slot holds about 14 class signs. Number systems split them into "measured" (M297, M002, M036, M243) and "counted" (M263, M264, M346, M003), and M376 takes fractions.
+   - Attack: cluster all signs by their numeral-system profile and slot. Then predict the system of numerals that are broken or `x` from the final sign alone.
+   - Success: held-out accuracy well above the within-tablet baseline (MI > 0.19 bits). The same classes should hold on non-Susa tablets (Malyan, Yahya, Sialk).
+2. **Arithmetic as a decoder (test c).** Small sums work (38-48% against 2-4% control). Two things remain unknown: the high units (N34/N45) and the capacity ratios.
+   - Attack: run a joint integer-programme fit over all totals and sub-totals, including tablets with several reverse lines. Allow one scribal error per tablet.
+   - Success: a single value set making >70% of clean totals add up, stable across random halves of the corpus. The conversion tablets (count -> M297 capacity total, n = 37) should then yield consistent per-head rates.
+3. **Name-like middles + the LE bridge (tests e+f).** Middles are as diverse as free combination, and the LE-ancestor signs cluster there (p < 0.001 after removing frame signs).
+   - Attack: take the 20-30 LE-matched signs with fixed CV values. Transcribe every middle that is >= 70% LE-matched signs, then check whether known Elamite name elements appear more often than in shuffled-value controls. Name elements must come from a list compiled from cuneiform Elamite, fixed before the test.
+   - Success: more hits than 95% of value-shuffles, plus a prediction of an unmatched sign's value that a later LE or cuneiform form confirms.
+4. **Opener slot (test d).** M157 heads 37% of headers, and the M327 family is a second opener.
+   - Attack: correlate header type with entry systems, tablet totals and seal impressions (82 seal notes in the ATF) to see whether openers mark office, transaction type or commodity.
+   - Success: header predicts the dominant system or commodity class of the tablet's entries better than a header-shuffle control.
+5. **Prefix slot M387 / M370 / M124 (test a).** These are initial-biased and combine with class signs (M387+M263, +M297, +M036, +M069).
+   - Attack: test whether the prefix changes the numeral profile of the class sign. For example, does M387+M297 take smaller capacity amounts than bare M297? A "qualifier" (male/female, young/old) should shift amounts.
+   - Success: a consistent amount shift with permutation p < 0.01 across at least 3 class signs.
+6. **Weak spot to fix first: data quality.** About half the totals fail, there are 2,640 `x` tokens, and Susa is 95% of the data.
+   - Fix: check failing totals against photos and line art (CDLI has images for many MDP tablets) before using arithmetic as evidence. Report all results as Susa results.
