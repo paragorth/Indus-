@@ -1,6 +1,6 @@
 # Indus seal inscriptions as credentials, not names: calibrated and pre-registered tests, with the Umma sealing as an exported standard formula
 
-*Draft, 30 September 2026 (corrected: the Umma sealing is in the Ashmolean, not the Louvre). Authors: P. Garg (and co-authors to be agreed). The code and data for every number are in this repository; the strategy IDs (S###) point to the log in STRATEGIES.md.*
+*Draft, 2 October 2026 (adds the pot comparison and the 'no language to decipher' argument; Umma sealing corrected to the Ashmolean). Authors: P. Garg (and co-authors to be agreed). The code and data for every number are in this repository; the strategy IDs (S###) point to the log in STRATEGIES.md.*
 
 ## Abstract
 Most attempts to decipher the Indus script assume that seal inscriptions record owners' names, spelled phonetically. Mukhopadhyay (2023) argued instead that the inscriptions contain no proper nouns and served licensing, taxation and access control. We test this "no proper nouns" model quantitatively for the first time, on the merged Wells/ICIT corpus (3,599 distinct texts), with Mahadevan's 1977 transcription (IM77) as a transcription check.
@@ -8,7 +8,8 @@ Most attempts to decipher the Indus script assume that seal inscriptions record 
 (2) **Pre-registered credential test.** We model a seal text as a credential: an introductory 'shield' sign, then holdings or dealings, then an office word. We froze two predictions before testing and checked them on 239 texts from sites absent from IM77. Short texts recur whole inside longer ones at 4.1× the within-text-shuffled rate, and 40% of the held-out texts reuse a ≥3-sign run known from Mohenjo-daro or Harappa (5×).
 (3) **Nameless quantity seals.** Thirty-one seals from eight sites carry only 'shield · of · N · TREE', with N = 3–6, the same counts as the Harappa voucher tablets. The Indus sealing from Umma (southern Iraq) carries this same formula, '… of 4 TREE', which appears as the complete text of seven home seals.
 (4) **Seal–sealing flow.** All 18 clay sealings that match a seal text were found at a different site from that seal, mostly in the direction Mohenjo-daro → Lothal and northern towns.
-Together these results support reading Indus seal texts as standardised credentials rather than personal names. We also propose a testable anchor: the tree sign as a timber unit, since timber (gesh ab-ba Meluhha) is the Meluhhan good most often recorded at Umma.
+(5) **Pots and other objects.** Pots carry one-sign labels from the same symbol set (half are a single sign: 'jar', a numeral, 'tree'), either stamped at the workshop or scratched on by users; no object class carries running text (mean 3.3 signs over 5,369 objects; maximum 17).
+Together these results support reading Indus seal texts as standardised credentials rather than personal names, and the sign system as a structured business code rather than a record of speech. **The Indus script has resisted decipherment because there is probably no written language in it to recover**: what survives is a coded symbol system for trade and administration, with a slot grammar, counts and qualifiers, comparable to hallmarks or shipping codes, not to sentences. It can be decoded by function, not read aloud. We also propose a testable anchor: the tree sign as a timber unit, since timber (gesh ab-ba Meluhha) is the Meluhhan good most often recorded at Umma.
 
 ## 1. Background
 - **Structure.** Indus seal texts have fixed beginners and enders, a fixed direction and correlated sign order (Yadav et al. 2009; Rao et al. 2009). Long texts divide into recurring segments (Yadav, Vahia, Mahadevan & Joglekar, 'Segmentation of Indus texts').
@@ -67,6 +68,8 @@ Both predictions pass.
 ## 4. Discussion
 The results agree with Mukhopadhyay's (2023) thesis and add calibrated, pre-registered and held-out tests. The emblem is independent of the text: emblem × title association P = 0.38 (S329); the same text appears under different animals (S325). The script behaves as a word-sign labelling system with a fixed slot grammar, not as recorded speech: repetition is formula-like, there are no spelling traces, and phonetic keys fail their controls. On this view, 'decipherment' means identifying what the credential terms referred to (goods, counts, offices) through outside matches, not recovering a spoken language.
 
+**Why no decipherment has succeeded.** Every decipherment since 1925 has assumed a script that writes a language and sought its sound values. Our evidence points the other way: (a) no object class carries running text (pots and bangles mostly one or two signs; seals 4.2 on average; the longest text 17 signs); (b) the same small set of symbols is used in full on seals, sealings and tablets and as single labels on pots; (c) the middles do not behave like a population's names; (d) phonetic keys 'read' planted controls equally well, so their successes carry no information. If the signs encode business categories (authority, goods, counts, makers) rather than words, there is no language to recover, and the long run of failed readings is the expected result, not a puzzle. Two cautions. This does not show that the Harappans lacked spoken language, or that they never wrote on perishable materials (cloth, palm leaf, wood) that have not survived. And the claim is falsifiable: one long running Indus text, of the kind found in every literate neighbour, would overturn it. The non-linguistic view was first argued by Farmer, Sproat & Witzel (2004) and disputed by Rao et al. (2009); the tests here add calibrated, pre-registered and held-out evidence to that debate.
+
 ## 5. Limitations
 - The corpus is a small sample of all seals ever made: Chao1 estimates about 950 signs, of which about 240 are unseen (S309). Most texts come from Mohenjo-daro and Harappa (76%).
 - Sign identities depend on the transcription. Allograph merges were run at three levels (strict, strong, all), and the results hold at each.
@@ -82,8 +85,11 @@ The scripts are in `tools/`. Each is named after its STRATEGIES row:
 - `strat_sealflow.py` (S324)
 - `strat_branches.py`, `strat_590title.py`, `strat_abroadsuffix.py` (S326–S328)
 - `parse_all.py` (S310)
+- `strat_potcompare.py` (S354, S355)
+- `strat_counted.py`, `strat_countedcloser.py` (S350, S351)
 
 ## References
+- Farmer, S., Sproat, R. & Witzel, M. 2004. The collapse of the Indus-script thesis: the myth of a literate Harappan civilization. *Electronic Journal of Vedic Studies* 11(2): 19–57.
 - Mukhopadhyay, B. A. 2023. Semantic scope of Indus inscriptions comprising taxation, trade and craft licensing, commodity control and access control. *Humanities and Social Sciences Communications* 10. https://www.nature.com/articles/s41599-023-02320-7
 - Yadav, N., Joglekar, H., Rao, R. P. N., Vahia, M. N., Mahadevan, I., Adhikari, R. 2009/2010. Statistical analysis of the Indus script using n-grams. arXiv 0901.3017; *PLoS ONE* 5(3): e9506.
 - Yadav, N., Vahia, M. N., Mahadevan, I., Joglekar, H. Segmentation of Indus texts. https://www.harappa.com/sites/default/files/pdf/indus-texts.pdf
