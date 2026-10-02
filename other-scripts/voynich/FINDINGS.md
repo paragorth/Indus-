@@ -371,3 +371,33 @@ Each Voynich line:
 No language sample shows points 1, 2 or 4. The best working model is a **line-by-line procedure with a state that resets each line and drifts slowly across a paragraph**: something like a table or wheel setting chosen per line, or each line copied and modified from a seed. A fixed per-line key schedule is ruled out (N4). Simple verbose substitution is ruled out (V1).
 
 **Next.** Fit the two modes as two "tables": can q-type lines be mapped to a-type lines by a small set of glyph swaps (ch↔e, q-…↔…-a-), so that the two modes become one vocabulary? If a few swaps merge them, the modes are two settings of one device. That would be a real crack in the mechanism.
+
+### N5. Can glyph swaps merge the two line modes? (`tools/attack_modemerge.py`)
+**Method.**
+- Split lines into a q-type third and an a-type third by the N4 score.
+- Search greedily for up to 6 glyph rewrites (single glyphs and common pairs, deletion allowed), applied to the a-type lines, that make their word distribution closest to the q-type lines (Jensen-Shannon divergence, JSD).
+- Fit the rewrites on half the lines and score them on the other half.
+- Controls: an Italian text and a Latin text split by the same recipe.
+
+| text | JSD between modes (held-out) | after rewrites | same-mode baseline | gap closed |
+|---|---|---|---|---|
+| **Voynich** | 0.414 | 0.412 | 0.266 | **2%** |
+| Italian (Manzoni) | 0.385 | 0.383 | 0.305 | 1% |
+| Latin (Caesar) | 0.489 | 0.489 | 0.389 | 0% |
+
+**Result: null.** No small set of glyph swaps turns a-type lines into q-type lines. The two modes are different word stocks, not one vocabulary under two substitution settings.
+
+The mode gap is larger in the Voynich (0.414 against 0.266) than in the prose splits (0.385 against 0.305). So the modes are real word classes that cluster by line, as if each line drew mainly from one of two word lists.
+
+**Verdict.** The "two settings of one device" idea, in its simple substitution form, is ruled out.
+
+**Model now:**
+- Each line draws its words mainly from one of two word classes: q-words (`qokedy`, `qokeey`…) or a-words (`aiin`, `ar`, `dain`…).
+- Word junctions are coupled within the line and reset at the line break.
+- The line ends with an m/g glyph.
+
+This looks like a structured record per line. For example, each line could be one entry, with the class marking the entry type, like the Indus slot classes. It does not look like running prose.
+
+**Next tests (not yet run):**
+- Do the line classes follow the illustration on the page (plant, star, bath)?
+- Do the a-words and q-words take different positions inside the line, like a two-column table?
