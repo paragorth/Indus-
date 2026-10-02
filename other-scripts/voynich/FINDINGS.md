@@ -219,3 +219,35 @@ Verdict:
 - `data/results/*.json` (all numbers)
 - `tools/`: `parse_ivtff.py`, `vlib.py`, `gen.py`, `test_a_language.py` … `test_f_cipher.py`
 - `test_b_position.py extra` runs the extra position checks.
+
+## 6. Attacks
+
+### V1. Verbose-cipher merge attack on the h2 gap (`tools/attack_h2_bpe.py`, `data/results/attack_h2_bpe.json`)
+**Question.** If each plain letter is written as a fixed group of glyphs (a verbose cipher), merging the commonest glyph pairs should restore language values at a plausible alphabet size.
+
+**Method.** Merge the most frequent adjacent glyph pair inside words, repeatedly (byte-pair merging). Record h2 and the mean and SD of word length (in units) as the alphabet grows. Each text is 20,000 words.
+
+**Controls.**
+- Positive: Latin (Caesar) and Italian (Manzoni), encrypted with a fixed verbose codebook (each letter becomes 1–3 symbols from 12).
+- Negative: an order-3 glyph Markov text trained on the Voynich (same letter statistics, no hidden language), and the self-citation generator.
+
+| text | start h2 | h2 at 25 / 35 / 50 units | word length at 35 units (mean ± SD) |
+|---|---|---|---|
+| Latin, verbose-encrypted | 2.34 | **3.25** / 3.55 / 3.77 | 5.2 ± 2.7 (plain Latin: h2 3.30, 6.0 ± 2.9) |
+| Italian, verbose-encrypted | 2.40 | **3.19** / 3.39 / 3.65 | 4.5 ± 2.7 (plain: h2 3.25, 4.6 ± 2.8) |
+| **Voynich** | 2.25 (31 units) | – / 2.48 / 3.12 | **3.6 ± 1.4** |
+| Markov-3 from Voynich (no language) | 2.24 | – / 2.47 / 3.12 | 3.8 ± 1.5 |
+| self-citation generator | 3.43 | – / 3.77 / 4.10 | 3.9 ± 1.0 |
+
+**Result.**
+- The method works on the positive controls. Within the first merges, the encrypted Latin and Italian return to their real h2 (3.2–3.3) and real word lengths (SD 2.7–3.1).
+- The Voynich does not. Its trajectory is the same as the no-language Markov text to two decimals (2.48 vs 2.47 at 35 units; 3.12 vs 3.12 at 50).
+- Its words shrink to 2.6 units with SD 1.1 before h2 reaches language level. A language never looks like that.
+
+**Verdict: chink 2 is closed for the simple case.** A fixed letter-to-glyph-group cipher of Latin or Italian, with the spaces as real word breaks, is ruled out. On letter statistics the Voynich is indistinguishable from a third-order glyph Markov text.
+
+**What stays open:**
+- **The spaces may not be word breaks.** Their word lengths are far too uniform for any language.
+- **Some features no letter model makes:** the word-to-word dependency (0.16 bits; Markov texts score 0), the doubled words (2.8× chance) and the line rules.
+
+If there is a hidden language, the evidence for it sits at word and line level, not inside words. Next attacks: chink 1 (line rules) and chink 6 (word-to-word prediction).
