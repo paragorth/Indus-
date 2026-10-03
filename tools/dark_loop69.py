@@ -474,6 +474,26 @@ def cycle2(level):
         for g in groups: L[g] = lab[g][rng.permutation(len(g))]
         null.append(mi_site(L))
     P(f'  MI(register; site) {obs:.4f} bits vs null {np.mean(null):.4f} (97.5% {np.quantile(null, 0.975):.4f}; P {(np.sum(np.array(null) >= obs) + 1) / (len(null) + 1):.3f})')
+    # chronology: register x phase within site, null = labels permuted within site x fine type
+    P('\n## Register x phase (objects with a phase; null: labels permuted within site x fine type)')
+    ph_idx = [i for i, t in enumerate(T) if t['phase']]
+    for site_pref in ('MD-', 'H-3', 'H-Str', 'Dlv-', 'K-'):
+        idx = np.array([i for i in ph_idx if T[i]['phase'].startswith(site_pref)])
+        if len(idx) < 30: continue
+        phs = [T[i]['phase'] for i in idx]; l0 = lab[idx]
+        obs = MI(phs, l0) / math.log(2)
+        st = collections.defaultdict(list)
+        for j, i in enumerate(idx): st[T[i]['tf']].append(j)
+        gr = [np.array(v) for v in st.values() if len(v) > 1]
+        nul = []
+        for p_ in range(300):
+            L2 = l0.copy()
+            for g in gr: L2[g] = l0[g][rng.permutation(len(g))]
+            nul.append(MI(phs, L2) / math.log(2))
+        P(f'  {site_pref:6s} n={len(idx)} phases {dict(collections.Counter(phs))}: MI {obs:.4f} vs null {np.mean(nul):.4f} (97.5% {np.quantile(nul, 0.975):.4f}, P {(np.sum(np.array(nul) >= obs) + 1) / 301:.3f})')
+        tab = collections.defaultdict(collections.Counter)
+        for i in idx: tab[T[i]['phase']][names[lab[i]].split('[')[0]] += 1
+        for ph in sorted(tab): P(f'      {ph}: ' + ', '.join(f'{k} {v}' for k, v in sorted(tab[ph].items())))
     # designation-slot loyalty
     P('\n## Designation slot: loyalty of middle elements to a register (elements with >= 5 tokens; null: register labels permuted within site x length-bin)')
     def loyalty(l, min_tok=5):

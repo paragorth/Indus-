@@ -1,0 +1,26 @@
+S-DARK-68 corpora (open data only; raw downloads over 20 MB aggregated, then deleted)
+
+edh/*.jsonl
+  Epigraphic Database Heidelberg (EDH) open API, https://edh.ub.uni-heidelberg.de/data/api/inschrift/suche?provinz=<code>
+  Licence CC BY-SA 4.0. Fetched by tools/dark_loop68_fetch_edh.py; fields kept: id, province, findspot, country, type, dates, language, transcription.
+edh_data_pers.csv
+  EDH person table (open data download, edh_data_pers.csv), CC BY-SA 4.0. Linked to provinces through hd_nr.
+ssa_state_cohorts.json.gz
+  US Social Security Administration, "Beyond the Top 1000 Names: state-specific data", namesbystate.zip
+  (https://www.ssa.gov/oact/babynames/state/namesbystate.zip), US government work, public domain. The site refuses
+  non-browser clients, so it was fetched with tools/dark_loop68_fetch_ssa.py (Chromium under xvfb, TLS verified).
+  The 24 MB zip was aggregated to per-state decade cohorts (1910s, 1950s, 1980s, 2010s; key 'sex:name' -> births;
+  SSA suppresses names with < 5 births per state-year), then deleted.
+fcc_amateur_callsign_state_surname.tsv.gz
+  US Federal Communications Commission, Universal Licensing System, amateur licence database (l_amat.zip, entity
+  file EN.dat; https://data.fcc.gov/download/pub/uls/complete/l_amat.zip), US government work, public domain.
+  Reduced to call sign, state of mailing address, surname (823,177 rows); the raw zip was deleted. The reduction was
+  made by the earlier, interrupted run of this loop; the script for that step was not kept, so the filter for licence
+  status (active only, or active plus recently expired) is not recorded.
+ons_boys2024.xlsx
+  Office for National Statistics, Baby names for boys in England and Wales: 2024 (released 31 July 2025), Open
+  Government Licence v3.0. NOT USED: the regional tables (Table 4) give only the top 10 names per region, not a name
+  pool, so the divergence engine cannot be run on them.
+
+Not obtained: US Census Bureau surnames are published nationally (2000, 2010), not by state, so the FCC licensee
+surnames stand in for a state-level surname pool (a non-random population: amateur radio licensees).
