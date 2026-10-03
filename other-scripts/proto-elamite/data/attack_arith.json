@@ -1,10 +1,10 @@
 {
  "n_conversion": 10,
  "count_main": {
-  "n_tablets": 35,
-  "n_strict": 20,
+  "n_tablets": 32,
+  "n_strict": 19,
   "full_best_exact": 17,
-  "full_best_one_error": 18,
+  "full_best_one_error": 17,
   "n_tied_best": 12,
   "tied_best_labels_sample": [
    [
@@ -105,20 +105,20 @@
    ]
   ],
   "oos": {
-   "test_exact": 0.38415921936275466,
-   "test_exact_sd": 0.09699094038767204,
-   "test_exact_strict": 0.40402265111686597,
-   "test_one_error": 0.43856200818116753,
-   "control_exact": 0.008888888888888889,
-   "control_one_error": 0.04527777777777777,
+   "test_exact": 0.43229706917661465,
+   "test_exact_sd": 0.1045172313106698,
+   "test_exact_strict": 0.4116015365779002,
+   "test_one_error": 0.455649309073136,
+   "control_exact": 0.00575,
+   "control_one_error": 0.04227500000000001,
    "share_splits_over_70pct": 0.0
   },
   "fit_to_noise_best_exact": [
-   1,
    2,
    1,
-   1,
-   3
+   2,
+   2,
+   2
   ]
  },
  "count_marginals": {
@@ -239,7 +239,7 @@
   }
  },
  "count_high_unit_tablets": {
-  "n": 9,
+  "n": 8,
   "best_exact_on_them": 2,
   "ids": [
    "P008019",
@@ -247,7 +247,6 @@
    "P008735",
    "P008755",
    "P008806",
-   "P008990",
    "P009002",
    "P009130",
    "P009457"
@@ -385,40 +384,44 @@
  "count_named_systems": {
   "S (10,600?,60)": {
    "exact": 16,
-   "one_error": 17,
-   "n": 35,
-   "high_unit_exact": 1
+   "one_error": 16,
+   "n": 32,
+   "high_unit_exact": 1,
+   "shuffled_control_mean": 0.315
   },
   "S-strict N45>N34 ignored: (10,-,60) N45=100": {
    "exact": 17,
-   "one_error": 18,
-   "n": 35,
-   "high_unit_exact": 2
+   "one_error": 17,
+   "n": 32,
+   "high_unit_exact": 2,
+   "shuffled_control_mean": 0.23
   },
   "D (10,100,1000)": {
    "exact": 16,
-   "one_error": 17,
-   "n": 35,
-   "high_unit_exact": 1
+   "one_error": 16,
+   "n": 32,
+   "high_unit_exact": 1,
+   "shuffled_control_mean": 0.24
   },
   "D3 (10,100,300)": {
    "exact": 17,
-   "one_error": 18,
-   "n": 35,
-   "high_unit_exact": 2
+   "one_error": 17,
+   "n": 32,
+   "high_unit_exact": 2,
+   "shuffled_control_mean": 0.295
   }
  },
  "count_multiline_last_first": {
-  "n": 20,
+  "n": 19,
   "exact": 1,
   "one_error": 2,
   "shuffled_control_exact": 0
  },
  "cap_stage1": {
-  "n_tablets": 19,
-  "n_strict": 11,
+  "n_tablets": 17,
+  "n_strict": 9,
   "full_best_exact": 4,
-  "full_best_one_error": 7,
+  "full_best_one_error": 6,
   "n_tied_best": 29282,
   "tied_best_labels_sample": [
    [
@@ -643,19 +646,19 @@
    ]
   ],
   "oos": {
-   "test_exact": 0.08912022121057812,
-   "test_exact_sd": 0.06427561729057506,
-   "test_exact_strict": 0.0449776073127264,
-   "test_one_error": 0.2912144838868322,
-   "control_exact": 0.004990256410256411,
-   "control_one_error": 0.024193333333333338,
+   "test_exact": 0.1040418930311785,
+   "test_exact_sd": 0.07534402549011579,
+   "test_exact_strict": 0.05190763641031504,
+   "test_one_error": 0.28526138318766714,
+   "control_exact": 0.0016,
+   "control_one_error": 0.03813333333333333,
    "share_splits_over_70pct": 0.0
   },
   "fit_to_noise_best_exact": [
-   2,
+   1,
    0,
-   2,
-   0,
+   1,
+   1,
    1
   ]
  },
@@ -762,6 +765,223 @@
    2
   ]
  },
+ "bundling_max_repetition": {
+  "cnt N14": {
+   "1": 876,
+   "2": 317,
+   "3": 198,
+   "4": 142,
+   "5": 97,
+   "6": 75,
+   "7": 36,
+   "8": 31,
+   "9": 25
+  },
+  "cnt N01": {
+   "1": 2308,
+   "2": 1137,
+   "3": 584,
+   "4": 420,
+   "5": 369,
+   "6": 228,
+   "7": 125,
+   "8": 125,
+   "9": 73,
+   "11": 2
+  },
+  "cnt N34": {
+   "1": 124,
+   "2": 46,
+   "3": 14,
+   "4": 16,
+   "5": 10,
+   "6": 7,
+   "7": 5,
+   "8": 1,
+   "9": 1
+  },
+  "cnt N08": {
+   "1": 15
+  },
+  "cap N39B": {
+   "1": 484,
+   "2": 441,
+   "3": 256,
+   "4": 118
+  },
+  "cap N30C": {
+   "1": 374,
+   "2": 299
+  },
+  "cap N24": {
+   "1": 593
+  },
+  "cap N01": {
+   "1": 242,
+   "2": 158,
+   "3": 73,
+   "4": 68,
+   "5": 53,
+   "6": 1,
+   "7": 3,
+   "9": 4
+  },
+  "cnt N08A": {
+   "1": 72,
+   "5": 1
+  },
+  "cap N45": {
+   "1": 40,
+   "2": 14,
+   "3": 1
+  },
+  "cap N14": {
+   "1": 100,
+   "2": 48,
+   "3": 28,
+   "4": 32,
+   "5": 12,
+   "6": 12,
+   "7": 11,
+   "8": 7,
+   "9": 8
+  },
+  "cnt N45": {
+   "1": 96,
+   "2": 55,
+   "3": 2,
+   "5": 1
+  },
+  "cnt n": {
+   "1": 7,
+   "2": 2,
+   "3": 1
+  },
+  "cap N34": {
+   "1": 20,
+   "2": 12,
+   "3": 2,
+   "4": 3,
+   "5": 2,
+   "6": 2,
+   "7": 3,
+   "9": 3
+  },
+  "cap N30D": {
+   "1": 237,
+   "2": 9
+  },
+  "cap N39C": {
+   "1": 45,
+   "3": 1
+  },
+  "cnt N02": {
+   "1": 13,
+   "2": 9,
+   "3": 1
+  },
+  "cnt N23": {
+   "1": 40,
+   "2": 17,
+   "3": 8,
+   "4": 5,
+   "5": 7,
+   "6": 4,
+   "7": 4,
+   "9": 2
+  },
+  "cnt N8B": {
+   "1": 16
+  },
+  "cnt N51": {
+   "1": 20,
+   "2": 14,
+   "3": 1,
+   "4": 2,
+   "5": 1,
+   "7": 2,
+   "8": 1
+  },
+  "cnt N48": {
+   "1": 9,
+   "2": 2,
+   "3": 3,
+   "4": 2
+  }
+ },
+ "cap_named_sets": {
+  "bundling A (N30C=2 N30D)": {
+   "ratios(N30D/N39C,N30C/N30D,N24/N30C,N39B/N24,N01/N39B,N14/N01,N45/N14,N34/N45,N48/N34)": [
+    2,
+    2,
+    3,
+    2,
+    5,
+    6,
+    10,
+    3,
+    10
+   ],
+   "exact": 5,
+   "one_error": 7,
+   "n": 17,
+   "exact_ids": [
+    "P008014",
+    "P008016",
+    "P008140",
+    "P008150",
+    "P008753"
+   ],
+   "shuffled_control_mean": 0.0
+  },
+  "bundling B (N30C=3 N30D)": {
+   "ratios(N30D/N39C,N30C/N30D,N24/N30C,N39B/N24,N01/N39B,N14/N01,N45/N14,N34/N45,N48/N34)": [
+    2,
+    3,
+    3,
+    2,
+    5,
+    6,
+    10,
+    3,
+    10
+   ],
+   "exact": 5,
+   "one_error": 7,
+   "n": 17,
+   "exact_ids": [
+    "P008014",
+    "P008016",
+    "P008140",
+    "P008150",
+    "P008753"
+   ],
+   "shuffled_control_mean": 0.0
+  },
+  "best-fit example": {
+   "ratios(N30D/N39C,N30C/N30D,N24/N30C,N39B/N24,N01/N39B,N14/N01,N45/N14,N34/N45,N48/N34)": [
+    2,
+    2,
+    2,
+    2,
+    5,
+    6,
+    3,
+    10,
+    6
+   ],
+   "exact": 4,
+   "one_error": 6,
+   "n": 17,
+   "exact_ids": [
+    "P008014",
+    "P008140",
+    "P008150",
+    "P008753"
+   ],
+   "shuffled_control_mean": 0.0
+  }
+ },
  "best_count_values": {
   "N01": 1.0,
   "N14": 10.0,
@@ -774,17 +994,17 @@
   "N8B": 0.5,
   "N02": 0.5
  },
- "best_cap_values_example": {
+ "cap_values_used_for_diagnosis(bundling A)": {
   "N39C": 1.0,
   "N30D": 2.0,
   "N30C": 4.0,
-  "N24": 8.0,
-  "N39B": 16.0,
-  "N01": 80.0,
-  "N14": 480.0,
-  "N45": 1440.0,
-  "N34": 14400.0,
-  "N48": 86400.0,
+  "N24": 12.0,
+  "N39B": 24.0,
+  "N01": 120.0,
+  "N14": 720.0,
+  "N45": 7200.0,
+  "N34": 21600.0,
+  "N48": 216000.0,
   "N51": 120.0,
   "N08": 0.5,
   "N08A": 0.5,
@@ -811,7 +1031,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -830,7 +1049,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008005",
@@ -840,7 +1060,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -858,7 +1077,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008012",
@@ -868,7 +1088,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -887,7 +1106,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008018",
@@ -897,7 +1117,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -916,7 +1135,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008019",
@@ -926,7 +1146,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -949,7 +1168,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008048",
@@ -959,7 +1179,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -976,7 +1195,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008160",
@@ -986,7 +1206,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1003,7 +1222,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008201",
@@ -1013,7 +1233,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1031,7 +1250,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008210",
@@ -1041,7 +1261,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1058,7 +1277,8 @@
      "tot_signs": [],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008216",
@@ -1068,7 +1288,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1088,7 +1307,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008229",
@@ -1098,7 +1318,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1118,36 +1337,8 @@
      ],
      "suggest": []
     }
-   ]
-  },
-  {
-   "id": "P008311",
-   "struct": "single",
-   "classes": [
-    "cnt"
    ],
-   "strict": false,
-   "exact": false,
-   "one_error": false,
-   "pairs": [
-    {
-     "cls": "cnt",
-     "sum": {
-      "N14": 7,
-      "N01": 3
-     },
-     "tot": {
-      "N14": 1,
-      "N01": 9
-     },
-     "sum_val": 73.0,
-     "tot_val": 19.0,
-     "tot_signs": [
-      "M072"
-     ],
-     "suggest": []
-    }
-   ]
+   "one_error": false
   },
   {
    "id": "P008316",
@@ -1157,7 +1348,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1175,7 +1365,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008639",
@@ -1185,7 +1376,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1205,7 +1395,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008735",
@@ -1215,7 +1406,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1235,7 +1425,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008755",
@@ -1245,7 +1436,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1266,7 +1456,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008767",
@@ -1276,7 +1467,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1294,7 +1484,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008784",
@@ -1304,7 +1495,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1323,7 +1513,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008803",
@@ -1333,7 +1524,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1352,7 +1542,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008806",
@@ -1362,7 +1553,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1381,7 +1571,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008895",
@@ -1391,7 +1582,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1410,7 +1600,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008922",
@@ -1420,7 +1611,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1439,36 +1629,8 @@
      ],
      "suggest": []
     }
-   ]
-  },
-  {
-   "id": "P008990",
-   "struct": "single",
-   "classes": [
-    "cnt"
    ],
-   "strict": false,
-   "exact": false,
-   "one_error": false,
-   "pairs": [
-    {
-     "cls": "cnt",
-     "sum": {
-      "N14": 1
-     },
-     "tot": {
-      "N45": 1,
-      "N14": 1,
-      "N01": 2
-     },
-     "sum_val": 10.0,
-     "tot_val": 112.0,
-     "tot_signs": [
-      "M288"
-     ],
-     "suggest": []
-    }
-   ]
+   "one_error": false
   },
   {
    "id": "P009002",
@@ -1478,7 +1640,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1496,7 +1657,8 @@
      "tot_signs": [],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009107",
@@ -1506,7 +1668,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1525,7 +1686,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009125",
@@ -1535,7 +1697,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1552,7 +1713,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009130",
@@ -1562,7 +1724,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1581,7 +1742,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009350",
@@ -1591,7 +1753,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1610,7 +1771,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009382",
@@ -1620,7 +1782,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1637,7 +1798,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009441",
@@ -1647,7 +1809,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1666,7 +1827,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009442",
@@ -1676,7 +1838,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1694,7 +1855,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009457",
@@ -1704,7 +1866,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1725,7 +1886,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009463",
@@ -1735,7 +1897,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1754,7 +1915,8 @@
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009486",
@@ -1764,7 +1926,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cnt",
@@ -1782,39 +1943,8 @@
      ],
      "suggest": []
     }
-   ]
-  },
-  {
-   "id": "P009543",
-   "struct": "single",
-   "classes": [
-    "cnt"
    ],
-   "strict": true,
-   "exact": false,
-   "one_error": true,
-   "pairs": [
-    {
-     "cls": "cnt",
-     "sum": {
-      "N14": 1,
-      "N01": 4
-     },
-     "tot": {
-      "N14": 1,
-      "N01": 3
-     },
-     "sum_val": 14.0,
-     "tot_val": 13.0,
-     "tot_signs": [
-      "M044",
-      "M056"
-     ],
-     "suggest": [
-      "total should have one more N01 (or one entry one N01 fewer)"
-     ]
-    }
-   ]
+   "one_error": false
   },
   {
    "id": "P008003",
@@ -1824,26 +1954,28 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
      "sum": {
-      "N39B": 2
+      "N39B": 2,
+      "N01": 44,
+      "N14": 3
      },
      "tot": {
       "N01": 1,
       "N39B": 3,
       "N24": 1
      },
-     "sum_val": 32.0,
-     "tot_val": 136.0,
+     "sum_val": 7488.0,
+     "tot_val": 204.0,
      "tot_signs": [
       "M288"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008011",
@@ -1853,7 +1985,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": true,
    "pairs": [
     {
      "cls": "cap@",
@@ -1863,8 +1994,8 @@
      "tot": {
       "N01": 9
      },
-     "sum_val": 640.0,
-     "tot_val": 720.0,
+     "sum_val": 960.0,
+     "tot_val": 1080.0,
      "tot_signs": [
       "|M036+1(N14)|"
      ],
@@ -1872,7 +2003,8 @@
       "total should have one N01 fewer (or one entry one N01 more)"
      ]
     }
-   ]
+   ],
+   "one_error": true
   },
   {
    "id": "P008014",
@@ -1882,7 +2014,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -1896,14 +2027,15 @@
       "N01": 1,
       "N39B": 3
      },
-     "sum_val": 2048.0,
-     "tot_val": 2048.0,
+     "sum_val": 3072.0,
+     "tot_val": 3072.0,
      "tot_signs": [
       "M288"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008016",
@@ -1912,14 +2044,13 @@
     "cap"
    ],
    "strict": false,
-   "exact": false,
-   "one_error": true,
+   "exact": true,
    "pairs": [
     {
      "cls": "cap",
      "sum": {
-      "N14": 4,
-      "N01": 1,
+      "N14": 8,
+      "N01": 18,
       "N39B": 3
      },
      "tot": {
@@ -1927,17 +2058,16 @@
       "N14": 1,
       "N39B": 3
      },
-     "sum_val": 2048.0,
-     "tot_val": 1968.0,
+     "sum_val": 7992.0,
+     "tot_val": 7992.0,
      "tot_signs": [
       "M056",
       "M288"
      ],
-     "suggest": [
-      "total should have one more N01 (or one entry one N01 fewer)"
-     ]
+     "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008140",
@@ -1947,7 +2077,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -1967,14 +2096,15 @@
       "N39B": 2,
       "N24": 1
      },
-     "sum_val": 36120.0,
-     "tot_val": 36120.0,
+     "sum_val": 64260.0,
+     "tot_val": 64260.0,
      "tot_signs": [
       "M288"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008150",
@@ -1984,7 +2114,6 @@
    ],
    "strict": false,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -1997,14 +2126,15 @@
       "N14": 2,
       "N39B": 2
      },
-     "sum_val": 992.0,
-     "tot_val": 992.0,
+     "sum_val": 1488.0,
+     "tot_val": 1488.0,
      "tot_signs": [
       "M297"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008245",
@@ -2015,25 +2145,24 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
      "sum": {
-      "N39B": 1
+      "N39B": 1,
+      "N01": 1,
+      "N14": 1
      },
      "tot": {
       "N39B": 1,
       "N24": 1
      },
-     "sum_val": 16.0,
-     "tot_val": 24.0,
+     "sum_val": 864.0,
+     "tot_val": 36.0,
      "tot_signs": [
       "M243"
      ],
-     "suggest": [
-      "total should have one N24 fewer (or one entry one N24 more)"
-     ]
+     "suggest": []
     },
     {
      "cls": "cap@",
@@ -2046,13 +2175,14 @@
       "N14": 1
      },
      "sum_val": 6.0,
-     "tot_val": 484.0,
+     "tot_val": 724.0,
      "tot_signs": [
       "M002"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008267",
@@ -2062,56 +2192,26 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
      "sum": {
-      "N30C": 1
+      "N30C": 1,
+      "N01": 2
      },
      "tot": {
       "N30C": 2,
       "N30D": 1
      },
-     "sum_val": 4.0,
+     "sum_val": 244.0,
      "tot_val": 10.0,
      "tot_signs": [
       "M288"
      ],
      "suggest": []
     }
-   ]
-  },
-  {
-   "id": "P008426",
-   "struct": "single",
-   "classes": [
-    "cap@"
    ],
-   "strict": true,
-   "exact": false,
-   "one_error": false,
-   "pairs": [
-    {
-     "cls": "cap@",
-     "sum": {
-      "N24": 1,
-      "N30C": 1
-     },
-     "tot": {
-      "N39B": 1,
-      "N24": 1,
-      "N30D": 1,
-      "N30C": 1
-     },
-     "sum_val": 12.0,
-     "tot_val": 30.0,
-     "tot_signs": [
-      "M288"
-     ],
-     "suggest": []
-    }
-   ]
+   "one_error": false
   },
   {
    "id": "P008709",
@@ -2121,7 +2221,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2136,14 +2235,15 @@
       "N39B": 3,
       "N24": 1
      },
-     "sum_val": 856.0,
-     "tot_val": 1016.0,
+     "sum_val": 1284.0,
+     "tot_val": 1524.0,
      "tot_signs": [
       "M297"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008753",
@@ -2153,7 +2253,6 @@
    ],
    "strict": true,
    "exact": true,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2164,14 +2263,15 @@
      "tot": {
       "N01": 4
      },
-     "sum_val": 320.0,
-     "tot_val": 320.0,
+     "sum_val": 480.0,
+     "tot_val": 480.0,
      "tot_signs": [
       "M297"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008772",
@@ -2181,7 +2281,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2197,14 +2296,15 @@
       "N39B": 3,
       "N24": 1
      },
-     "sum_val": 2216.0,
-     "tot_val": 3416.0,
+     "sum_val": 3324.0,
+     "tot_val": 5124.0,
      "tot_signs": [
       "M054"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P008838",
@@ -2214,7 +2314,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2231,43 +2330,15 @@
       "N24": 1,
       "N30C": 2
      },
-     "sum_val": 220.0,
-     "tot_val": 2304.0,
+     "sum_val": 324.0,
+     "tot_val": 3452.0,
      "tot_signs": [
       "M293"
      ],
      "suggest": []
     }
-   ]
-  },
-  {
-   "id": "P008992",
-   "struct": "single",
-   "classes": [
-    "cap@"
    ],
-   "strict": true,
-   "exact": false,
-   "one_error": false,
-   "pairs": [
-    {
-     "cls": "cap@",
-     "sum": {
-      "N14": 3
-     },
-     "tot": {
-      "N01": 1,
-      "N39B": 5,
-      "N30C": 2
-     },
-     "sum_val": 1440.0,
-     "tot_val": 168.0,
-     "tot_signs": [
-      "M297"
-     ],
-     "suggest": []
-    }
-   ]
+   "one_error": false
   },
   {
    "id": "P008999",
@@ -2277,7 +2348,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap@",
@@ -2289,14 +2359,15 @@
       "N30C": 3,
       "N24": 1
      },
-     "sum_val": 960.0,
-     "tot_val": 100.0,
+     "sum_val": 1440.0,
+     "tot_val": 144.0,
      "tot_signs": [
       "M297"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009014",
@@ -2306,7 +2377,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": true,
    "pairs": [
     {
      "cls": "cap",
@@ -2317,14 +2387,15 @@
       "N01": 1,
       "N24": 1
      },
-     "sum_val": 16.0,
-     "tot_val": 88.0,
+     "sum_val": 24.0,
+     "tot_val": 132.0,
      "tot_signs": [
       "M243"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009209",
@@ -2334,12 +2405,11 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
      "sum": {
-      "N01": 1,
+      "N01": 7,
       "N39B": 2,
       "N24": 1
      },
@@ -2350,14 +2420,15 @@
       "N30D": 1,
       "N39C": 1
      },
-     "sum_val": 120.0,
-     "tot_val": 203.0,
+     "sum_val": 900.0,
+     "tot_val": 303.0,
      "tot_signs": [
       "M297"
      ],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P009348",
@@ -2367,7 +2438,6 @@
    ],
    "strict": false,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2379,12 +2449,13 @@
       "N01": 4,
       "N39B": 3
      },
-     "sum_val": 416.0,
-     "tot_val": 368.0,
+     "sum_val": 624.0,
+     "tot_val": 552.0,
      "tot_signs": [],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   },
   {
    "id": "P368541",
@@ -2394,7 +2465,6 @@
    ],
    "strict": true,
    "exact": false,
-   "one_error": false,
    "pairs": [
     {
      "cls": "cap",
@@ -2406,15 +2476,16 @@
      "tot": {
       "N01": 1
      },
-     "sum_val": 180.0,
-     "tot_val": 80.0,
+     "sum_val": 268.0,
+     "tot_val": 120.0,
      "tot_signs": [],
      "suggest": []
     }
-   ]
+   ],
+   "one_error": false
   }
  ],
- "n_tablets_needing_one_error": 4,
+ "n_tablets_needing_one_error": 1,
  "decimal_vs_sexagesimal": {
   "capacity-tied": {
    "n_lines_value_ge_60": 10,
@@ -2459,21 +2530,28 @@
    }
   },
   "sign_effect_stat": 14.919780702765127,
-  "within_tablet_null_mean": 13.938823202422336,
-  "p_within_tablet": 0.12987012987012986,
+  "within_tablet_null_mean": 13.902011945052255,
+  "p_within_tablet": 0.11388611388611389,
   "tablet_level": {
    "all sexagesimal-marked": 64,
    "all decimal": 128,
    "mixed": 21
-  }
+  },
+  "M376_vs_rest_gap": 0.5413097540757115,
+  "M376_p_within_tablet": 1.0,
+  "M376_tablets": 8,
+  "tablets_with_2plus_marked_lines": 60,
+  "mixed_observed": 21,
+  "mixed_expected_if_random": 39.6595,
+  "p_fewer_mixed": 0.0004997501249375312
  },
  "conversion_clean": {
   "n_tablets": 10,
   "best_modal_rate_count": 2,
   "n_with_rate": 10,
   "modal_rate_in_smallest_units": "68",
-  "control_mean_best_modal": 1.36,
-  "control_p": 0.36633663366336633,
+  "control_mean_best_modal": 1.37,
+  "control_p": 0.37623762376237624,
   "tablets": [
    {
     "id": "P008138",
@@ -2644,8 +2722,8 @@
   "best_modal_rate_count": 2,
   "n_with_rate": 15,
   "modal_rate_in_smallest_units": "74/13",
-  "control_mean_best_modal": 1.86,
-  "control_p": 0.8316831683168316,
+  "control_mean_best_modal": 1.72,
+  "control_p": 0.6732673267326733,
   "tablets": [
    {
     "id": "P008046",
@@ -2891,5 +2969,79 @@
    "M243": 3,
    "null": 1
   }
+ },
+ "summary": {
+  "success_criterion": "one value set with >70% of clean totals adding up out of sample",
+  "criterion_met": false,
+  "count_best_values": {
+   "N01": 1,
+   "N14": 10,
+   "N45": 100,
+   "N34": 300
+  },
+  "count_in_sample": "17/32",
+  "count_oos_exact": 0.432,
+  "count_oos_control": 0.0057,
+  "count_one_error_rescues": 0,
+  "capacity_apriori_bundling_values": {
+   "N39C": 1.0,
+   "N30D": 2.0,
+   "N30C": 4.0,
+   "N24": 12.0,
+   "N39B": 24.0,
+   "N01": 120.0,
+   "N14": 720.0,
+   "N45": 7200.0,
+   "N34": 21600.0,
+   "N48": 216000.0,
+   "N51": 120.0,
+   "N08": 0.5,
+   "N08A": 0.5,
+   "N8B": 0.5,
+   "N02": 0.5
+  },
+  "capacity_in_sample_bundling": "5/17 (7/17 with one error)",
+  "capacity_oos_grid_exact": 0.104,
+  "capacity_oos_control": 0.0016,
+  "multiline_reverse_last_or_first_as_total": "1/19 (control 0)",
+  "conversion_constant_ration": "no (best 2/10 share a rate; control 1.4; p=0.38)",
+  "decimal_vs_sexagesimal": "set per tablet, not per class sign",
+  "tablets_to_check": [
+   {
+    "id": "P008210",
+    "url": "https://cdli.earth/artifacts/8210",
+    "entries": 54,
+    "total_read": "5(N14) 1(N01)=51",
+    "predicted": "total 5(N14) 4(N01)"
+   },
+   {
+    "id": "P009107",
+    "url": "https://cdli.earth/artifacts/9107",
+    "entries": 51,
+    "total_read": "5(N14) 5(N01)=55",
+    "predicted": "total 5(N14) 1(N01), or obv. 1 M075 1(N14) 6(N01)"
+   },
+   {
+    "id": "P008784",
+    "url": "https://cdli.earth/artifacts/8784",
+    "entries": 38,
+    "total_read": "4(N14) 2(N01)=42",
+    "predicted": "obv. 2 4(N01) is 8(N01), or total 3(N14) 8(N01)"
+   },
+   {
+    "id": "P008803",
+    "url": "https://cdli.earth/artifacts/8803",
+    "entries": 60,
+    "total_read": "4(N14)# 4(N01)#=44",
+    "predicted": "total 6(N14)"
+   },
+   {
+    "id": "P008011",
+    "url": "https://cdli.earth/artifacts/8011",
+    "entries": "8 N01@b",
+    "total_read": "9(N1@b)",
+    "predicted": "obv. 2 4(N1@b)# is 5(N1@b)"
+   }
+  ]
  }
 }

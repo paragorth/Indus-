@@ -177,7 +177,7 @@ for t in T:
             per_pair.append([(cls, m, tl) for m in member_variants(ent, cls)])
         hyps = []
         for combo in itertools.product(*per_pair):
-            if any(not m for _, m, _ in combo):
+            if any(len(m) < 2 for _, m, _ in combo):
                 continue
             hyps.append([{'cls': cls, 'sum': vec(m), 'tot': vec([tl]),
                           'tot_signs': [base(s) for s in tl['signs'] if is_sign(s)],
@@ -526,9 +526,9 @@ def pair_val(p, Vd):
 
 
 VN = dict(zip(CNT_ORDER, Vn[rows_n[0]]))
-VC = dict(zip(CODES_ALL, Vc_all[rows_c[0]]))
+VC = dict(zip(CODES_ALL, with_cnt(np.array([cap_values(CAP_NAMED['bundling A (N30C=2 N30D)'])]))[0]))
 out['best_count_values'] = {k: float(v) for k, v in VN.items()}
-out['best_cap_values_example'] = {k: float(v) for k, v in VC.items() if not k.startswith('cnt')}
+out['cap_values_used_for_diagnosis(bundling A)'] = {k: float(v) for k, v in VC.items() if not k.startswith('cnt')}
 out['best_cap_label_example'] = Lc[rows_c[0]]
 
 
@@ -555,12 +555,16 @@ for tabs, E, R, rows, Vd in ((cnt_tabs, En, Rn, rows_n, VN), (cap_tabs, Ec, Rc, 
         for hh in t['hyps']:
             if all(abs(pair_val(p, Vd)[0] - pair_val(p, Vd)[1]) < 1e-7 for p in hh):
                 best_h = hh
+        ex_ = any(all(abs(pair_val(p, Vd)[0] - pair_val(p, Vd)[1]) < 1e-7 for p in hh) for hh in t['hyps'])
         rec = {'id': t['id'], 'struct': t['struct'], 'classes': t['classes'], 'strict': t['strict'],
-               'exact': bool(E[b, k]), 'one_error': bool(R[b, k] and not E[b, k]), 'pairs': []}
+               'exact': ex_, 'pairs': []}
         for p in best_h:
             s, tt, sug = fix_suggestion(p, Vd)
             rec['pairs'].append({'cls': p['cls'], 'sum': p['sum'], 'tot': p['tot'], 'sum_val': s, 'tot_val': tt,
                                  'tot_signs': p['tot_signs'], 'suggest': sug})
+        rec['one_error'] = (not ex_) and len(rec['pairs']) >= 1 and all(
+            p['suggest'] or abs(p['sum_val'] - p['tot_val']) < 1e-7 for p in rec['pairs']) and sum(
+            abs(p['sum_val'] - p['tot_val']) > 1e-7 for p in rec['pairs']) == 1
         diag.append(rec)
 out['tablets'] = diag
 n_need_err = sum(d['one_error'] for d in diag)
@@ -620,6 +624,35 @@ for t_id, idxs in bytab.items():
     v = [lines_all[i][2] for i in idxs]
     tabdec['all decimal' if all(v) else ('all sexagesimal-marked' if not any(v) else 'mixed')] += 1
 ds['tablet_level'] = dict(tabdec)
+# targeted: M376 (fractional class) vs all other signs, within-tablet permutation
+def m376_gap(dec_list):
+    a = [d for (_, fs, _), d in zip(lines_all, dec_list) if fs == 'M376']
+    b = [d for (_, fs, _), d in zip(lines_all, dec_list) if fs != 'M376']
+    return (np.mean(b) - np.mean(a)) if a else 0
+obs376 = m376_gap([r[2] for r in lines_all])
+null376 = []
+for _ in range(2000):
+    dec = [r[2] for r in lines_all]
+    for idxs in bytab.values():
+        vals = [dec[i] for i in idxs]; rng.shuffle(vals)
+        for i, v in zip(idxs, vals):
+            dec[i] = v
+    null376.append(m376_gap(dec))
+ds['M376_vs_rest_gap'] = float(obs376)
+ds['M376_p_within_tablet'] = float((np.sum(np.array(null376) >= obs376) + 1) / 2001)
+ds['M376_tablets'] = len(set(r[0] for r in lines_all if r[1] == 'M376'))
+# tablet homogeneity: mixed tablets vs expectation when marks are shuffled across tablets
+multi = [idxs for idxs in bytab.values() if len(idxs) >= 2]
+def n_mixed(dec):
+    return sum(0 < sum(dec[i] for i in idxs) < len(idxs) for idxs in multi)
+obsm = n_mixed([r[2] for r in lines_all])
+nm = []
+for _ in range(2000):
+    dec = [r[2] for r in lines_all]; rng.shuffle(dec); nm.append(n_mixed(dec))
+ds['tablets_with_2plus_marked_lines'] = len(multi)
+ds['mixed_observed'] = obsm
+ds['mixed_expected_if_random'] = float(np.mean(nm))
+ds['p_fewer_mixed'] = float((np.sum(np.array(nm) <= obsm) + 1) / 2001)
 out['decimal_vs_sexagesimal'] = ds
 print('dec/sex', json.dumps(ds)[:1200])
 

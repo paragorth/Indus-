@@ -158,3 +158,36 @@ Caveats:
 - The values were read by eye from the Desset plates.
 - The Elamite-vs-control comparison is partly circular, because the Linear Elamite values were themselves derived from Elamite words.
 - The varied middles (test e) still fit one-off names, but this attack found no route to reading them.
+
+## Attack 2: arithmetic as a decoder (`tools/attack_arith.py`; report in `data/attack_arith_report.txt`)
+**Data clean-up.** The earlier totals test scored some top-edge marks as totals. That partly explains why only 2 of 13 N34/N45 tablets added up. Broken or unnumbered tablets and 21 note lines were dropped. The clean set is 32 count tablets and 17 capacity tablets.
+- Multi-line reverses are mostly further entries, not totals: 1 of 19 adds up.
+
+**Joint fit.**
+- **Counting system:** the best set is N14 = 10, N45 = 100, N34 = 300, with 17 of 32 tablets adding up (control 0.6%).
+  - **N14 = 10 is firmly pinned.**
+  - N45 and N34 win by only one tablet over the sexagesimal set and the "N34 = 1000" set (16 of 32 each).
+- **Independent check from how the numerals are written:**
+  - N45 is written before N34, so N45 is the smaller unit.
+  - N14 repeats up to 9 times.
+  - N45 almost never appears more than twice (151 of 154 lines), which fits N34 = 3 × N45.
+  - **Grade B: 1 / 10 / 100 / 300.**
+- **Capacity system:** the totals cannot pin it (29,282 value sets tie). A set taken from how the signs are written, fixed before checking any totals, matches the best fit at 5 of 17 (control 0):
+  - N39C 1, N30D 2, N30C 4, N24 12, N39B 24, N01 120, N14 720.
+- **One-unit slips:** allowing one rescues 0 count tablets and 2 capacity tablets. Most failures are not one-unit errors.
+
+**Out of sample.** No split of the 50 reached the pre-set 70% bar. **The pre-registered test fails.**
+
+**Decimal or sexagesimal: the choice goes by tablet, not by commodity sign.**
+- Mixed tablets: 21 against 39.7 expected (p = 0.0005).
+- No effect of the commodity sign within a tablet (p = 0.12).
+- Conversion tablets show no constant ration per head (p = 0.38).
+
+**Tablets to check on photographs** (predicted readings):
+- P008210: total should read 5(N14) 4(N01).
+- P009107: total should read 5(N14) 1(N01).
+- P008784: obverse line 2 should read 8(N01).
+- P008803: the damaged total should read 6(N14).
+- P008011: line 2 should read 5(N1@b).
+
+Photos: https://cdli.earth/artifacts/<number>.

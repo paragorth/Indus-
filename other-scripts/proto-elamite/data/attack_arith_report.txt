@@ -1,0 +1,69 @@
+PROTO-ELAMITE ATTACK 2: ARITHMETIC AS A DECODER
+Tool: tools/attack_arith.py. Numbers: data/attack_arith.json (the 'summary' key comes first).
+Run time is about 2 minutes. Rules: data only, nobody's readings used. Every test has a control.
+
+VERDICT
+- The success criterion was fixed in advance: one value set with >70% of clean totals adding up out of sample.
+- It FAILED for both counting and capacity.
+- Counting: 43% out of sample (strict set 41%). The shuffled-total control gives 0.6%.
+- Capacity: 10% out of sample. The control gives 0.2%.
+- The arithmetic is real, since every rate is far above its control. But only about half the clean totals add up under any value set, and allowing one scribal error rescues almost none of the rest.
+- So the failures are not one-unit slips. Either the totals do not cover what we assume, or the transcriptions are wrong.
+
+DATA FIXES (these change earlier test c)
+- Top-edge numbers with no signs (1(N34) 77x, 2(N01) 19x) are edge marks, not totals. Test c had scored some of them as totals (P008022, P009180, P009237, P009300). That partly explains its "N34/N45 tablets add up 2/13".
+- Tablets with any '$ ... broken' line were dropped (test c missed these). So were 39 tablets with a gap in line numbers, and 21 lines that put a numeral before the signs with no comma (e.g. P009382 '2(N14) x').
+- A total must cover at least 2 entries.
+- Multi-line reverses: in 19 clean tablets, neither the last line nor the first line acts as a total (1/19 add up, control 0). So most reverse lines are just more entries.
+- What is left: 32 clean count tablets and 17 capacity tablets.
+
+1. JOINT FIT
+Counting systems. The grid has 148,430 value sets: N14 2-12; N45 and N34 as multiples or as 60/100/120/600/1000/3600; N48, N51 and the fractions also vary.
+- Writing order fixes the rank of the signs: N48 > N34 > N45 > N14 > N01. N45 is written BEFORE N34 (58 vs 4 lines), so N45 is the smaller unit.
+- Best fit: N14 = 10, N45 = 100, N34 = 300. It adds up 17/32. 12 sets tie, and all of them share these three values.
+- N14 = 10 is firmly pinned: 17 tablets, against 11 or fewer for any other value.
+- N45 = 100 and N34 = 300 win by only one tablet (16 for the next values). Only 2 of the 8 high-unit tablets add up under any set: P008019 (needs N45 = 10 x N14) and P008806 (2 N45 + 20 N14 = 1 N34 + 1 N45, which needs N34 = 3 x N45).
+- Independent check from notation (how many times a sign repeats in one numeral):
+  - N01 repeats up to 9 times and N14 up to 9 times (even beside N45). That fits 10 and 100.
+  - N45 almost never repeats more than twice (151 of 154 lines). That fits N34 = 3 x N45 = 300.
+  - So the notation and the totals agree on D3: 1, 10, 100, 300.
+  - The sexagesimal set (60 / 600) scores 16/32, and so does the decimal set 1000. That is a difference of one tablet, so this is a B grade, not proven.
+Capacity. The grid has 1.77 million chains, N39C < N30D < N30C < N24 < N39B < N01 < N14 < N45 < N34, with each ratio 2-12.
+- Best fit: 4-5/17. 29,282 sets tie.
+- The four lower ratios are completely unidentified (every value ties).
+- N01/N39B = 5 and N14/N01 = 6 are only weakly preferred (5 tablets against 3-4).
+- An a-priori set taken from the notation alone (maximum repetitions + 1), not fitted to totals: N39C 1, N30D 2, N30C 4, N24 12, N39B 24, N01 120, N14 720, N45 7200, N34 21600. It adds up 5/17, with a control of 0.0. That is as good as the best fit.
+- Scribal error: one error adds 0 count tablets and 2 capacity tablets (5 -> 7 of 17). Only P008011 is a clean one-unit slip.
+
+2. OUT OF SAMPLE (50 random halves, all tied best sets averaged)
+- Counting: test 43% (sd 10%). Control 0.6%. Fitting to shuffled totals scores at most 2 of 32. No split reached 70%.
+- Capacity: test 10%. Control 0.2%. No split reached 70%.
+
+3. SYSTEM BY COMMODITY, AND RATIONS
+Decimal or sexagesimal?
+- Lines are marked decimal (6-9 N14, or any N45) or 'N34-type' (N34 with 5 or fewer N14).
+- Tablets are strongly uniform. Only 21 tablets mix the two types, against 39.7 expected at random (p = 0.0005).
+- No class-sign effect inside tablets (within-tablet permutation p = 0.12).
+- M376, the fraction-taking class, has only 1/11 lines marked decimal. All 11 lines come from 8 tablets, and the within-tablet test gives p = 1.0, so this is a tablet effect.
+- The capacity-tied group (7/10 decimal) and the counted group (8/10 decimal) are too small to compare.
+- Conclusion: the number system is chosen per tablet (scribe, office or genre), not per commodity sign.
+- Caveat: under D3, the 'N34-type' lines may simply be decimal numbers of 300 or more.
+Conversion tablets (count entries -> capacity total, mostly headed by M297/M243). These were tested against the up to 3,000 best-scoring capacity sets.
+- Clean set: 10 tablets. Relaxed set: 15 tablets.
+- No constant ration per head. At best 2 tablets share a rate, against a control of 1.4 (p = 0.38); relaxed p = 0.67.
+- This repeats the null result of test c2.
+
+4. FIVE TABLETS TO CHECK ON CDLI PHOTOS (best values)
+- P008210 https://cdli.earth/artifacts/8210
+  Entries 54, total read 5(N14) 1(N01) = 51. Predicted total: 5(N14) 4(N01).
+- P009107 https://cdli.earth/artifacts/9107
+  Entries 51, total 5(N14) 5(N01) = 55. Predicted: total 5(N14) 1(N01), or obverse line 1 (M075) reads 1(N14) 6(N01).
+- P008784 https://cdli.earth/artifacts/8784
+  Entries 38, total 4(N14) 2(N01) = 42. Predicted: obverse line 2 4(N01) is really 8(N01), or the total is 3(N14) 8(N01).
+- P008803 https://cdli.earth/artifacts/8803
+  Entries 60, damaged total 4(N14)# 4(N01)# = 44. Predicted total: 6(N14).
+- P008011 https://cdli.earth/artifacts/8011
+  Hatched N01 entries 8, total 9(N1@b). Predicted: obverse line 2 4(N1@b)# is 5(N1@b).
+- Reserves: P008316 (16 against 14; the damaged line 5 2(N01)# may not belong) and P009486 (11 against 14).
+
+Sites: 47 of the 49 fitted tablets are from Susa and 2 are from Anshan (Malyan). These are Susa results.
