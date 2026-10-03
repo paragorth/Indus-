@@ -1,0 +1,39 @@
+LOOP 33 CYCLE 2: held-out acceptance and ROC of the induced automata (tools/dark_loop33.py 2 <level>; controls: tools/dark_loop33.py 5 seq_raw)
+Per-level logs: loop33_cycle2_seq_raw.txt / _seq_strong.txt / _seq_all.txt (+ loop33_c2_<level>.json); controls loop33_cycle5_seq_raw.txt (+ loop33_c5_seq_raw.json)
+
+Method. Models fitted on 80% of the MD+H fit set (seals 1,007 / all types 2,356 texts; the object type is a start symbol in the all-types
+model and its probability is divided out). Score = per-sign log-likelihood (end symbol counted). Threshold = 5th percentile of the remaining
+20% (dev), so dev acceptance is 95% by construction. Genuine test sets: (a) held-out sites (297 seals / 451 texts), (b) the 324 IM77-only
+certainly-new texts of S-DARK-27 (164 seals), mapped M->W through bridge_extended + the loop 27 completed bridge (0 of 1,291 tokens
+unbridged). Negatives built from the same texts: (c) within-text shuffle, (c') within-slot shuffle (opener/connective kept first, closer/suffix
+kept last, middle shuffled), (d) random strings of the same length from the fit-set unigram. AUC = genuine vs negative on the per-sign score.
+Controls (cycle 5, same pipeline, 120-sign + OTHER alphabet, corpora capped at 3,000 texts): Ur III seal legends (syllables), Linear B tablet
+lines, Proto-Elamite lines, a planted frame corpus (loop 25), a STRICT designed code (6 ordered optional fields with disjoint symbol sets),
+a Markov-2 synthetic clone of the Indus seals, and the Indus seals shuffled within text.
+
+Results (ALERGIA alpha 0.05 / HMM-20; ranges over seq_raw, seq_strong, seq_all).
+  Indus seals, CLASS alphabet: accept held-out sites 0.94-0.97 (ALERGIA) / 0.94-0.95 (HMM); IM77-new seals 0.77-0.82 / 0.79-0.81.
+    Shuffles are NOT rejected: within-text shuffles of the held-out texts accepted 0.77-0.86 (ALERGIA), 0.62-0.65 (HMM); slot shuffles 0.89-0.95 / 0.86-0.91; random strings 0.82-0.92 / 0.58-0.60.
+    AUC genuine vs within-text shuffle: held-out sites 0.72-0.75 (ALERGIA), 0.76-0.77 (HMM; texts >= 3 signs 0.82-0.85); IM77-new 0.63-0.65 / 0.70-0.72.
+    AUC vs slot shuffle 0.53-0.62 (almost nothing below the slot level is captured); AUC vs random 0.77-0.79 / 0.81-0.84.
+  All object types with type symbol: ALERGIA accept held-out 0.87-0.89, IM77-new 0.71-0.78; AUC shuffle 0.66-0.68 / 0.64-0.67; HMM-20 accepts everything (0.93-0.99 genuine, 0.90-0.96 shuffled).
+  RAW alphabet (120 signs): the same picture (seals AUC shuffle 0.70-0.77, IM77-new 0.65-0.76).
+  Controls (seq_raw pipeline, held-out 20%, AUC genuine vs within-text shuffle, ALERGIA / HMM-20; shuffled-text acceptance in brackets):
+    STRICT designed code     0.972 / 0.985  [0.07 / 0.04]   <- what a designed code looks like
+    planted frame corpus     0.909 / 0.942  [0.28 / 0.19]
+    Ur III seal legends      0.900 / 0.945  [0.78 / 0.21]
+    Indus seals              0.766 / 0.831  [0.70 / 0.51]   (len >= 3: 0.80 / 0.89)
+    Markov-2 clone of Indus  0.817 / 0.853  [0.79 / 0.36]
+    Proto-Elamite lines      0.789 / 0.824  [0.43 / 0.34]
+    Linear B tablet lines    0.726 / 0.708  [0.81 / 0.72]
+    Indus shuffled           0.493 / 0.497  [0.93 / 0.92]   (floor)
+  Same on all three merge levels (differences <= 0.03 AUC).
+
+Reading. The automata accept new genuine Indus texts at nearly the training rate on held-out sites (0.94-0.97) but only 0.77-0.82 of the IM77-only
+seals (new material has 17% OTHER tokens vs 20% in training, so the drop is not a vocabulary effect; it is partly transcription convention, partly
+genuinely different texts). The decisive number is the shuffle AUC: a designed code separates its texts from their own shuffles at 0.97-0.99 and
+rejects 93-96% of shuffles; the Indus automaton separates at 0.72-0.83 and still accepts 50-86% of shuffles. Indus sits below Ur III seal legends and
+below its own Markov-2 clone, above Linear B and the shuffle floor. The slot-shuffle AUC of 0.53-0.62 says the automaton learns the frame (first and
+last positions) and little else - consistent with S-DARK-19 (26% of fixed pairs are inside slots) but those are too weak per text to reject a shuffle.
+
+| S-DARK-33.2 | **Held-out acceptance and ROC of the induced automata.** ALERGIA (alpha 0.05), MDL-merge, Markov-1/2 and a 20-state HMM fitted on 80% of MD+H (seals; all types with the object type as start symbol); threshold = 5th percentile of the per-sign log-likelihood on the other 20%. Genuine: held-out sites (297 seals / 451 texts), the 324 IM77-only certainly-new texts (S-DARK-27; 164 seals; M->W via the completed bridge, 0 unbridged tokens). Negatives from the same texts: within-text shuffle, within-slot shuffle, random unigram strings. Controls with the same pipeline (cycle 5): a strict designed code (6 ordered optional fields), the loop 25 planted frame, Ur III legends, Linear B lines, Proto-Elamite lines, a Markov-2 clone of the Indus seals, shuffled Indus. seq_raw / seq_strong / seq_all (`tools/dark_loop33.py 2`, `5`) | **Genuine held-out sites accepted 0.94-0.97 (seals), IM77-new seals 0.77-0.82; but within-text shuffles of the same texts are accepted 0.62-0.86 and random strings 0.58-0.92. AUC genuine vs shuffle: held-out sites 0.72-0.77 (texts >= 3 signs 0.82-0.85), IM77-new 0.63-0.72; vs slot shuffle 0.53-0.62.** Controls: strict code AUC 0.97-0.99 (rejects 93-96% of shuffles), planted frame 0.91-0.94, Ur III legends 0.90-0.95, Markov-2 clone of Indus 0.82-0.85, Proto-Elamite 0.79-0.82, Linear B 0.71-0.76, shuffled Indus 0.49-0.50. All three levels within 0.03. | **A compact automaton does not behave like a designed code on new texts.** It accepts genuine new material, but it cannot tell a genuine Indus text from its own shuffle much better than chance beyond the frame (AUC 0.72-0.83 vs 0.97-0.99 for a real code and 0.90-0.95 for Ur III legends); the Indus texts separate no better than a Markov-2 clone of themselves. What the automaton learns is the frame (first/last slots); the inside is unpredictable to it. The 'business code' premise fails this test on all levels. |

@@ -1,0 +1,21 @@
+LOOP 33 CYCLE 4: size of the code (tools/dark_loop33.py 4 <level>; logs loop33_cycle4_seq_<level>.txt)
+
+Method. Seal automata fitted on all 1,259 MD+H seals (ALERGIA alpha 0.05; Markov-1 and Markov-2 as PFAs for comparison), RAW (120 signs + OTHER)
+and CLASS alphabets. Best-first enumeration of every string with probability >= 1e-3, 1e-4, 1e-5 (max length 12); how many of them occur in the fit
+set; the probability mass of the enumerated set; P(next text is one already seen) = sum of model probabilities of the 1,107-1,116 distinct seen
+seal texts; Good-Turing P(new) = share of singleton texts.
+
+Results (seq_raw; seq_strong and seq_all within 0.01):
+  RAW, ALERGIA 15 states: p >= 1e-3: 49 strings (mass 0.125), 25 seen; p >= 1e-4: 606 strings (mass 0.273), 108 seen (18%); p >= 1e-5: 5,879 strings (mass 0.41), 265 seen (4.5%).
+       P(next seal text already seen) = 0.10 -> P(new) = 0.90; Good-Turing P(new) = 0.82-0.83 (1,030-1,041 singletons of 1,259 seals).
+  RAW, Markov-1: 745 strings at 1e-4 (mass 0.38), 192 seen; P(new) 0.79.  Markov-2: 1,066 strings (mass 0.45), 500 seen; P(new) 0.67 (overfits the seen texts).
+  CLASS, ALERGIA 14-15 states: 723-775 strings at 1e-4 (mass 0.40-0.42), 188-206 seen (24-28%); P(new) 0.73-0.77; Good-Turing 0.70.
+
+Reading. At probability >= 1e-4 the automaton generates about 600 (RAW) to 770 (CLASS) distinct seal texts, of which only a fifth to a quarter have
+been seen, and this set carries only 27-42% of the automaton's probability mass: 58-73% of the mass lies in strings each rarer than 1e-4, i.e. in an
+effectively unbounded tail. A compact code with a bounded vocabulary of messages would put most of its mass on a listable set. The automaton's own
+estimate of the share of new texts among future seals (0.90 raw signs, 0.75 classes) agrees with Good-Turing on the same texts (0.82 / 0.70) and
+with S309 (95% new for texts of 3+ signs over the whole corpus): the seen/possible ratio is low because the generator is open, not because the
+sample is small relative to a fixed message set. Under the automaton, the ~240 unseen signs of S309 would only widen the tail.
+
+| S-DARK-33.4 | **Size of the code.** Seal automata (ALERGIA 14-15 states; Markov-1/2 for comparison) on all MD+H seals, RAW and CLASS alphabets; best-first enumeration of all strings with P >= 1e-3 / 1e-4 / 1e-5; share seen in the fit set; probability mass of the enumerated set; model P(next text already seen) vs Good-Turing singleton share. seq_raw / seq_strong / seq_all (`tools/dark_loop33.py 4`) | **At P >= 1e-4 the automaton generates ~600 (RAW) to ~770 (CLASS) texts, 18-28% of them seen; the set holds only 27-42% of the probability mass (58-73% is in strings rarer than 1e-4).** P(next seal text new): automaton 0.90 (RAW) / 0.73-0.77 (CLASS), Good-Turing 0.82 / 0.70 on the same 1,259 seals (S309: 0.95 for 3+-sign texts, whole corpus). Markov-2 overfits (P(new) 0.67, 47% of its 1e-4 strings seen). Same on all levels. | **The generator is open-ended, not a listable code.** Most of the automaton's mass is in a long tail of individually rare strings, so the low seen/possible ratio is a property of the grammar (a hub of freely combining phrases) rather than of under-sampling a fixed message set; it is consistent with S309's 95% new-text rate without needing the unseen signs. A compact automaton describes the frame and the phrase types, but the number of distinct texts it licenses is unbounded for practical purposes. |

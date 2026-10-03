@@ -1,0 +1,48 @@
+LOOP 33 CYCLE 3: reading the automaton (tools/dark_loop33.py 3 <level>; logs loop33_cycle3_seq_<level>.txt; automata loop33_automaton_{seals,all+type}_<level>.{json,dot})
+
+ALERGIA (alpha 0.05, t0 3, root never a merge target) on all MD+H seals, CLASS alphabet (52 symbols): 14 / 14 / 15 states (seq_raw / strong / all),
+409-439 transitions. On all 2,946 texts with the object type as start symbol: 61-64 states, 977-1,023 transitions.
+
+The seal automaton read as grammatical positions (seq_raw numbering; same shape on the other levels):
+  s0  START            -> OTHER (374: a lexicon sign) | OPEN (327) | tall numeral (91) | short numeral (76) | fish mark (63) | leaf (38)
+  s2  after OPENER     -> CONN (319 of 400); also after w550, w595 (the S288 alternative closer taking the opener slot)
+  s3  MIDDLE HUB       in: CONN 508, fish marks 334, marked jar 111; out: OTHER, fish mark (self-loop 198 = the stacked fish words of S296), short numeral, tall numeral, leaf, TITLE
+  s1  LEXICON          in: OTHER 894; self-loop 294 (2-3 lexicon signs in a row), then jar 138, CONN 113, marked jar 61, OPEN 60, tree 47
+  s4  after SHORT NUM  -> tree 79 (the count), OTHER 23, fish 22, bracket 20, C156 15   (the numeral phrase)
+  s6  after TALL NUM / w415 -> fish 64, OTHER 41, TITLE 16, C226 8                      (the tall-numeral phrase: 32-fish, 415-fish)
+  s10 after w705/w706/w550 -> tall numeral 97 (U-stroke + tall 3 of S299)
+  s9  after FISH / tall num / leaf -> fish mark 67, arrow C520 66, OTHER 38, jar 29  (the arrow phrase of S299-S300)
+  s7  PRE-CLOSER       in: TITLE 232, OTHER 144, tree 47; out: jar C740 295 (TITLE self-loop 76 = stacked titles 255-435-690)
+  s13 PRE-CLOSER 2     in: TITLE, w142, w575, w585 -> jar 96 (the fixed pre-jar terms of S229)
+  s11 after LEAF (803/806) -> C154/C158/C527 (the leaf closers of S289)
+  s12 after w590/w840/w845 -> tree 47 (590-tree, the S229 frozen pair)
+  s5  END HUB          end 0.79; in: jar 601, arrow 132, OTHER 119, suffix 109; self-loops OTHER 74, SUF 60; exits: short numeral -> s3 (27), OPEN -> s2 (13), CONN -> s3 (11)
+  s8  SECOND UNIT      in: OPEN 68 (a non-initial opener), tree 49; out: CONN -> s3 (49), end 0.20
+
+Minimal form the automaton fills (seals):
+  [OPEN CONN]? ( LEXICON{1-3} | FISHMARK+ [FISH] | SHORTNUM GOOD | TALLNUM FISH | w705 TALLNUM | LEAF )* [TITLE+ | PREJAR-TERM] CLOSER [SUFFIX]* ( SHORTNUM-unit | OPEN CONN ... )?
+  Fields in order: opener+connective (optional) -> a middle made of repeatable phrase types (any order among them: the hub s3 returns to itself) ->
+  an optional title stack -> one closer -> optional suffixes -> optionally a second unit. Nothing in the middle is obligatory; the only
+  obligatory element is that a text ends (end probability 0.79 only in the END HUB, 0.02-0.09 elsewhere).
+
+What the automaton has that the hand grammar (GRAMMAR.md frame, S-DARK-19 chain) lacks:
+  (1) LOOPS: s5 --short numeral--> s3 (27x), s5 --OPEN--> s2 (13x), s5 --CONN--> s3 (11x): after a closer the text can restart with a numeral
+      phrase or a second opener unit (the stacked formulae of S91b / the opener-as-closer of S256), and s1 --OPEN--> s8 (60x): an opener after one
+      lexicon sign (the two-line seals). The frame treats the opener as initial; the automaton gives it a second entry 60 + 13 times in 1,259 seals.
+  (2) A SECOND PATH into the closer: s13 (TITLE / w142 / w575 / w585 -> jar) is kept apart from s7 (TITLE / OTHER / tree -> jar): the fixed pre-jar
+      terms form their own state, i.e. they are not interchangeable with free titles (S229 confirmed by the learner).
+  (3) FORBIDDEN TRANSITIONS: 18 class bigrams expected >= 8 times by chance but never seen in the fit set (jar->jar, jar->TITLE, OPEN->fish mark,
+      fish mark->OPEN, jar->tree, CONN->tree, jar->fish, TITLE->fish mark, jar<->arrow, marked jar->jar, jar->leaf, ...).
+      Held-out test (prediction): held-out sites 5 of 969 bigrams (0.5%) vs within-text shuffle median 39 [30-48]; IM77-new 4 of 534 (0.7%) vs 20 [12-26].
+      All-types automaton: 30-31 forbidden bigrams; held-out 6 of 1,305 vs 34-39; IM77-new 9 of 967 vs 32-33. Same on all three levels.
+      So the forbidden transitions hold outside the fit set at about 1/7 of the shuffle rate; the few violations are jar->jar (1), MJAR->jar (2),
+      jar->TITLE (1), TITLE->fish mark (1): all of them are 'second unit' cases, not random.
+  (4) ORDER: the mean relative position of the 34-41 classes in the fit set predicts their order on held-out sites + IM77-new with Kendall tau
+      0.51-0.59 (seals 0.51-0.52, all types 0.56-0.59). The S-DARK-19 chain is reproduced in its frame part (OPEN 0.13 < CONN 0.33 < fish marks 0.41
+      < fish 0.52 < TITLE 0.59 < tree 0.78 < SUF 0.90 < closers 0.91-1.00); the lexicon signs all sit at 0.29-0.48 with no order among them.
+
+Compared with GRAMMAR.md: nothing in the automaton contradicts the frame; the automaton adds the loops (second units), separates fixed pre-jar terms
+from free titles, and shows the middle as a hub that returns to itself (any phrase type can follow any other) - exactly the 'bag of phrases in one
+slot' that S-DARK-26 found. The learned machine is a frame with an unstructured hub, not a form with ordered fields.
+
+| S-DARK-33.3 | **Reading the automaton as a form.** ALERGIA (alpha 0.05, root never merged) on all MD+H seals (CLASS alphabet, 52 symbols) and on all 2,946 texts with the object type as start symbol; every state named by its dominant incoming and outgoing symbols and mean position; loops (edges to an earlier position), second paths, and forbidden class bigrams (expected >= 8 under independence, 0 observed in fit) listed; forbidden bigrams and the class order tested as predictions on held-out sites and the 324 IM77-new texts against within-text shuffles (200x). seq_raw / seq_strong / seq_all (`tools/dark_loop33.py 3`; `loop33_automaton_*.json/.dot`) | **Seals: 14-15 states; all types: 61-64 states.** The states are the frame: START -> after-OPENER (CONN 319/400) -> MIDDLE HUB (fish-mark self-loop, numeral phrases, lexicon run, leaf) -> PRE-CLOSER (free titles) or PRE-CLOSER-2 (fixed terms w142/w575/w585/TITLE -> jar) -> END HUB (end 0.79, suffix loop). Extras the hand grammar lacks: loops END HUB -> numeral phrase (27x), -> OPEN (13x), -> CONN (11x) and LEXICON -> OPEN (60x) = second units; a separate state for the fixed pre-jar terms; 18 forbidden bigrams (jar->jar, jar->TITLE, OPEN->fish mark, CONN->tree, jar<->arrow, ...). **Prediction held: forbidden bigrams on held-out sites 5 of 969 (shuffle median 39 [30-48]), IM77-new 4 of 534 (20 [12-26]); all-types 6/1,305 and 9/967 vs 34-39 and 32-33. Class order Kendall tau fit vs held-out 0.51-0.59.** Same on all levels. | **The automaton is the frame plus an unordered hub.** Its only obligatory element is the end; the middle is a hub that returns to itself, so any phrase type may follow any other (S-DARK-26 again), with the lexicon signs all at relative position 0.3-0.5 and no order among them. The new facts are the second-unit loops and the forbidden transitions, which generalise to new sites and new texts (1/7 of the shuffle rate). The 'form' is: [opener connective]? phrases* [titles | fixed term] closer suffix* [second unit]? - a formulaic legend, not a fixed-field record. |
