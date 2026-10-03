@@ -24,8 +24,8 @@ def page_headers(path=os.path.join(DATA, 'ZL3b-n.txt')):
     return hdr
 
 
-def voynich_pages(min_tokens=30, ltypes=('P', 'C', 'R')):
-    recs = json.load(open(os.path.join(DATA, 'derived', 'ZL3b_lines.json')))
+def voynich_pages(min_tokens=30, ltypes=('P', 'C', 'R'), name='ZL3b'):
+    recs = json.load(open(os.path.join(DATA, 'derived', name + '_lines.json')))
     hdr = page_headers()
     pages, idx = {}, []
     for r in recs:
