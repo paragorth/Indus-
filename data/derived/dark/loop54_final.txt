@@ -1,0 +1,37 @@
+# Loop 54 final: every dictionary entry and grammar statement re-graded against Markov nulls (4 cycles)
+# Scripts: tools/dark_loop54_common.py (corpus, chains, S366 wrapper, IM77 loader, statistics), dark_loop54_claims.py (131 claims), dark_loop54_c1.py (MD+H and held-out sites),
+# dark_loop54_c2.py (IM77-only), dark_loop54_c3.py (re-grading), dark_loop54_c4.py (outside facts).
+# Outputs: loop54_c1_<seq_raw|seq_strong|seq_all>_big.txt/.json, loop54_c1_<seq_raw|seq_all>_heldout.txt/.json, loop54_c2_im77.txt/.json, loop54_c3_table.txt, loop54_regrade.csv,
+# loop54_c4_outside.txt, loop54_cycle1-4.txt (each with its STRATEGIES.md row). Nothing committed; no .md touched.
+
+## Method in one paragraph
+Each A/B entry (and the testable C closers, and each GRAMMAR statement) was reduced to its quantitative claim(s): 131 statistics, typed as adjacency (bigram), position (start/end),
+distance (co-occurrence, exclusion, order or repetition at distance >= 2), trigram or whole-corpus. Each was computed on Mohenjo-daro + Harappa (die regime, three merge levels) and on
+200 corpora from an order-1 chain fitted within site x object type with lengths kept (the loop 41 null), 200 from an order-2 chain, 200 from an order-1 chain with an END state (lengths
+free), and 100 from the S366 M* generator. Then on the 854 held-out-site texts (chains fitted on them) and on the 324 IM77-only texts in Mahadevan numbers (claims through the completed
+bridge; chains fitted on them per object type). Rule: adjacency claims are chain-explained by construction; A only if a non-adjacency claim beats M1 and M2 at every merge level and
+replicates out of sample; outside facts (object type, site, Gulf) recomputed in cycle 4 can hold an entry at B.
+
+## Results
+1. 52 of 131 claims are bigrams: every 'followed by the jar / preceded by a numeral / fixed numeral / qualifier set / pre-jar title' gloss (S197, S204, S229, S303, S341). A chain fitted to the
+   texts has them in expectation; they are not evidence beyond chaining and cannot be.
+2. 28 claims are inside both chains: opener-first (start state), connective-never-initial, every S311 name-element position (0.21 vs 0.20 [0.16-0.24]; 0.36 vs 0.35 [0.30-0.40]), W595's four
+   S288 claims, W176 before W100, fish non-adjacent order (n tiny), fish + 1 + arrow, nesting (0.163 vs 0.156; reversed on IM77-only 0.058 vs 0.19), anagram share.
+3. 44 claims beat both lengths-kept chains at all three merge levels. 24 of these are finality / closer-last facts that the END-state chain reproduces (jar final 0.87 vs 0.47; closer-last
+   0.57 vs 0.28; S289 count 10 vs 1); they replicate everywhere but are bigrams-with-END. 20 are beyond every chain: W2 once (3.5 vs 47 per 1000), opener/W400 exclusion both ways,
+   closer mutual exclusion (0.042 vs 0.164; two-closer texts 0.023 vs 0.069), jar never doubled, no-repeat (0.038 vs 0.122), numeral exclusivity, marker second, non-adjacent fixed order
+   (0.48 vs 0.16), long-range attraction (52 vs 11 pairs), the runs 590-tree-740, 705-33-520, 2-N-tree. The S366 generator fails the same 34 statistics.
+4. Replication: on held-out sites and IM77-only, closer finality, closer-last, closer mutual exclusion, the two-closer ban, no-repeat, the fixed order and W2-once (sites only) are beyond
+   both chains; the opener/W400 exclusion, numeral exclusivity, marker-second, trigram runs, name positions and long-range attraction are the same way but inside wide bands (power).
+5. Grades (loop54_regrade.csv): A kept 4 (W2, W817/861, W740, W400); A -> B 6 (numerals 1-8, tall strokes, W55, W60, W820, W692-unit); A -> C 2 (W595, W920-60-741 unit); B kept 6 (W90, W700,
+   tree, arrow phrase, 590-tree-740, W368/W892); B -> B- 5 (W56, W91, fish family, 255-435-690, 845-407); B -> C 13 (pre-jar titles, 705-33, W61, W798, W550, S341 openers, W575, W585, W632,
+   name-initial, name-final, credential model). C closers keep C as glosses; their function replicates as an end-state fact. No grade depends on a merge; six claims do (cycle 1).
+6. Grammar: beyond every chain and replicated: closer-last (end-state), marker once-rule, two-closer exclusion, no-repeat, partial order. MD+H only: marker second, opener before closer,
+   numeral exclusivity, long-range attraction. Chain-explained: opener first, connective never initial, both numeral series, minimum lot, sequence rigidity (anagram share), length sd.
+
+## Caveats
+Lengths-kept chains cannot end a text, so 'final' claims beat them trivially; the END-state chain is the fair null for those and was reported alongside. The IM77-only set (324 texts) has power
+only for the closer system. W56, W91, W48, W824 are unbridged; W632 is merged away at seq_strong/seq_all; W923, W845, W435, W690, W503, W617, W142 are >= 89% MD+H and untestable out of sample.
+Held-out sites include Lothal, Kalibangan, Chanhu-daro and Dholavira, which IM77 also read, so 'held-out' there is transcription-robust rather than new material (S312).
+
+## Ready-to-paste rows: see loop54_cycle1.txt (S-DARK-54.1), loop54_cycle2.txt (54.2), loop54_cycle3.txt (54.3), loop54_cycle4.txt (54.4).

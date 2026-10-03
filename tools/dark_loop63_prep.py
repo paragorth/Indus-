@@ -87,7 +87,7 @@ dump('jp_person_given',[(list(''.join(s)[len(su):]),'U',su) for s,_,su in pr],'g
 # ---- Vietnamese ----
 rows=[]; rows_f=[]
 for r in csv.DictReader(open(D+'vinames/UIT-ViNames/UIT-ViNames - Full.csv',encoding='utf-8-sig')):
-    toks=[t.lower() for t in r['Full_Names'].split() if t.strip()]
+    toks=[t.lower() for t in (r.get('Full_Name') or r.get('Full_Names')).split() if t.strip()]
     if len(toks)<2 or len(toks)>5: continue
     g={'0':'F','1':'M'}.get(r['Gender'].strip(),'U')
     rows.append((toks[1:],g,toks[0])); rows_f.append((toks,g,toks[0]))

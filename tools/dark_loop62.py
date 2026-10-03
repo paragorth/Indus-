@@ -584,7 +584,7 @@ def cycle3(T, els, nperm, label='Wells'):
                 lb = [lenbin(t['n']) for t in pool]; groups = collections.defaultdict(list)
                 for ix, l in enumerate(lb): groups[l].append(ix)
                 lab = np.zeros(len(pool), int); lab[:na] = 1; nulls = []
-                for p in range(min(nperm, 400)):
+                for p in range(nperm):
                     lab2 = lab.copy()
                     for gidx in groups.values():
                         gi = np.array(gidx); lab2[gi] = lab[gi][rng.permutation(len(gi))]
