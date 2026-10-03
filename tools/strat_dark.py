@@ -327,26 +327,39 @@ for a in surv:
         a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure'); redis.append(a)
     else: keep.append(a)
 say(f'stage A: {len(surv)} corrected survivors -> {len(redis)} are type/length rediscoveries (fact=type or vanish within site x type x length); {len(keep)} carry information beyond type and length')
-# stage B: permutation confirmation + replication for the rest
+# stage B: cheap asymptotic replication first (held-out G-test, merge levels G-test), then permutation confirmation
+def gtest(kind,p,fact,objs,level,minn=40):
+    c=collect(kind,p,fact,objs,level,minn)
+    if c is None: return None
+    xi,yi,si,nx,ny,ns,_=c; mi,df=cmi(xi,yi,si,nx,ny,ns); return dict(mi=mi,p=float(chi2.sf(2*len(xi)*mi,df)),n=len(xi))
 for a in keep:
     kind,p,fact=a['kind'],a['p'],a['fact']
-    xi,yi,si,nx,ny,ns,_=collect(kind,p,fact,TRAIN,'seq_raw'); o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,2000,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
-    a['held']=evaluate(kind,p,fact,TEST,'seq_raw',3000,rng,minn=60)
-    a['held_strong']=evaluate(kind,p,fact,TEST,'seq_strong',2000,rng,minn=60); a['held_all']=evaluate(kind,p,fact,TEST,'seq_all',2000,rng,minn=60)
-    a['train_strong']=evaluate(kind,p,fact,TRAIN,'seq_strong',2000,rng); a['train_all']=evaluate(kind,p,fact,TRAIN,'seq_all',2000,rng)
-    a['ok_perm']=pp<0.005
+    a['held']=gtest(kind,p,fact,TEST,'seq_raw',minn=60)
+    a['held_strong']=gtest(kind,p,fact,TEST,'seq_strong',minn=60); a['held_all']=gtest(kind,p,fact,TEST,'seq_all',minn=60)
+    a['train_strong']=gtest(kind,p,fact,TRAIN,'seq_strong'); a['train_all']=gtest(kind,p,fact,TRAIN,'seq_all')
     a['ok_held']=bool(a['held'] and a['held']['p']<0.01)
     a['ok_levels']=all(x and x['p']<0.01 for x in (a['train_strong'],a['train_all'],a['held_strong'],a['held_all']))
-    if not a['ok_perm']: a['flags'].append('fails within-site permutation (asymptotic artefact)')
+    a['ok_perm']=False; a['p_perm']=None
     if a['held'] is None: a['flags'].append('held-out n<60: cannot replicate')
     elif not a['ok_held']: a['flags'].append('fails held-out sites')
     if not a['ok_levels']: a['flags'].append('depends on merge level')
+cand=[a for a in keep if a['ok_held'] and a['ok_levels']]
+say(f'stage B: {len(keep)} -> {len(cand)} replicate on held-out sites (G p<0.01) and on all three merge levels; now permutation-confirming these')
+for a in cand:
+    kind,p,fact=a['kind'],a['p'],a['fact']
+    xi,yi,si,nx,ny,ns,_=collect(kind,p,fact,TRAIN,'seq_raw'); o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,2000,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
+    hp=evaluate(kind,p,fact,TEST,'seq_raw',2000,rng,minn=60); a['held_perm']=hp
+    a['ok_perm']=pp<0.005 and bool(hp and hp['p']<0.01)
+    if not a['ok_perm']: a['flags'].append('fails within-site permutation (train p %.3g, held-out p %s)'%(pp,'%.3g'%hp['p'] if hp else 'n/a'))
 full=[a for a in keep if a['ok_perm'] and a['ok_held'] and a['ok_levels']]
 say(f'full survivors (corrected + held-out p<0.01 + all three levels train and held-out): {len(full)}')
 def fmt(r): return 'n/a' if r is None else 'CMI %.3f p %.2e n %d'%(r['mi'],r['p'],r['n'])
 keep.sort(key=lambda a:a['p_screen'])
-for a in keep:
-    say(('FULL ' if a in full else 'part ')+f"{a['kind']} {a['p']} -> {a['fact']} | train G-p {a['p_screen']:.2e} perm {fmt(dict(mi=a['mi'],p=a['p_perm'],n=a['n']))} bonf {a['bonf']} bh {a['bh']} | held-out {fmt(a['held'])} | levels train {fmt(a['train_strong'])}; {fmt(a['train_all'])} | held levels {fmt(a['held_strong'])}; {fmt(a['held_all'])} | within site x type x len {fmt(a['within_type'])} | flags {a['flags'] or 'none'}")
+kc=collections.Counter((a['kind'],a['fact']) for a in keep)
+say(f'beyond-type arrows by (reading, fact), top 20 of {len(kc)}: '+'; '.join(f'{k[0]}->{k[1]} x{v}' for k,v in kc.most_common(20)))
+fc=collections.Counter(a['fact'] for a in keep); say('beyond-type arrows by fact: '+'; '.join(f'{k} x{v}' for k,v in fc.most_common()))
+for a in [x for x in keep if x in full]+[x for x in keep if x not in full][:40]:
+    say(('FULL ' if a in full else 'part ')+f"{a['kind']} {a['p']} -> {a['fact']} | train G-p {a['p_screen']:.2e} perm p {a['p_perm']} bonf {a['bonf']} bh {a['bh']} | held-out {fmt(a['held'])} | levels train {fmt(a['train_strong'])}; {fmt(a['train_all'])} | held levels {fmt(a['held_strong'])}; {fmt(a['held_all'])} | within site x type x len {fmt(a['within_type'])} | flags {a['flags'] or 'none'}")
 redis.sort(key=lambda a:a['p_screen'])
 rc=collections.Counter((a['kind'],a['fact']) for a in redis)
 say(f'rediscoveries by (reading, fact), top 15 of {len(rc)}: '+'; '.join(f'{k[0]}->{k[1]} x{v}' for k,v in rc.most_common(15)))

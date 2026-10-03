@@ -158,3 +158,57 @@
      OPENER     4  mean d +1.600  end-tighter 0/4
      SUFFIX     1  mean d -1.479  end-tighter 1/1
      TITLE      1  mean d -0.016  end-tighter 1/1
+
+-- (a) ANCHORING [Ur III legends (syllables)] texts 6675, signs with >= 30 tokens: 208; tighter from END 104, from START 104; Bonferroni alpha 1.20e-04: END-anchored 34, START-anchored 46
+   token-weighted entropy gain over shuffle null (bits): from start 0.643, from end 0.325; ratio end/start 0.51
+   mean |H_end - H_start| 0.664 bits (null ~0 by construction)
+   strongest END-anchored (H_end - H_start, bits; H_end; gain_end; n; slot):
+                         zu d -3.61  H_end 1.53 gain 3.20  n 1023  -  z -63.6
+                         ir d -3.07  H_end 1.64 gain 3.03  n   56  -  z -15.8
+                      ARAD2 d -2.95  H_end 2.17 gain 2.49  n 1304  -  z -63.4
+                         in d -2.23  H_end 2.39 gain 2.24  n   74  -  z -10.8
+                       gaba d -2.12  H_end 2.15 gain 1.86  n   67  -  z -10.6
+                        ra2 d -2.08  H_end 2.36 gain 1.70  n   73  -  z -11.1
+                   kuruszda d -1.94  H_end 1.76 gain 1.95  n   78  -  z -10.1
+                         ka d -1.64  H_end 2.96 gain 1.28  n  295  -  z -15.4
+                       gar3 d -1.37  H_end 1.85 gain 1.59  n   99  -  z -10.3
+                     szabra d -1.26  H_end 2.61 gain 1.15  n   95  -  z -7.9
+   strongest START-anchored:
+                       amar d +3.48  H_start 1.07 gain 3.46  n  114  -  z +23.6
+                       nita d +2.93  H_start 1.58 gain 3.16  n  204  -  z +29.7
+                       suen d +2.47  H_start 2.62 gain 2.30  n  726  -  z +41.9
+                        li9 d +2.39  H_start 1.45 gain 2.63  n  105  -  z +19.5
+                        si4 d +2.21  H_start 1.71 gain 2.35  n  109  -  z +15.1
+                       uri5 d +2.18  H_start 2.44 gain 2.57  n  654  -  z +35.5
+                      geme2 d +2.06  H_start 1.80 gain 2.10  n   55  -  z +11.8
+                     limmu2 d +2.02  H_start 2.35 gain 2.72  n  504  -  z +25.7
+                       lam2 d +1.99  H_start 1.43 gain 1.99  n   37  -  z +9.3
+                         ub d +1.98  H_start 2.41 gain 2.67  n  512  -  z +33.4
+   (sig counts use the normal approximation to the permutation null; z shown below)
+
+-- (a) ANCHORING [Linear B lines (words/ideograms/numbers)] texts 2643, signs with >= 30 tokens: 40; tighter from END 21, from START 19; Bonferroni alpha 6.25e-04: END-anchored 12, START-anchored 10
+   token-weighted entropy gain over shuffle null (bits): from start 0.128, from end 0.617; ratio end/start 4.83
+   mean |H_end - H_start| 0.780 bits (null ~0 by construction)
+   strongest END-anchored (H_end - H_start, bits; H_end; gain_end; n; slot):
+                       I:ME d -2.01  H_end 1.37 gain 2.16  n   39  -  z -9.4
+                        I:V d -1.07  H_end 2.30 gain 0.89  n  350  -  z -11.4
+                      I:GRA d -1.04  H_end 2.32 gain 0.88  n  312  -  z -11.6
+                    w:pe-mo d -1.01  H_end 2.11 gain 1.27  n  135  -  z -9.4
+                        I:T d -1.01  H_end 2.32 gain 0.94  n  336  -  z -13.1
+                        I:O d -1.00  H_end 1.67 gain 1.74  n   32  -  z -4.4
+                        I:N d -0.91  H_end 1.97 gain 1.45  n   87  -  z -8.1
+                       I:ZE d -0.89  H_end 1.56 gain 0.92  n   30  -  z -3.4
+                        NUM d -0.87  H_end 2.42 gain 0.69  n 3585  -  z -31.5
+                    w:da-mo d -0.72  H_end 2.16 gain 1.26  n   44  -  z -3.5
+   strongest START-anchored:
+                  w:o-da-a2 d +2.96  H_start 0.55 gain 2.52  n   36  -  z +10.9
+                  w:te-o-jo d +2.64  H_start 0.56 gain 2.88  n   73  -  z +19.9
+                  w:do-e-ra d +1.90  H_start 1.45 gain 1.88  n   48  -  z +9.5
+                  w:do-e-ro d +1.81  H_start 1.54 gain 1.71  n   62  -  z +9.2
+                 w:ko-re-te d +1.18  H_start 1.57 gain 1.16  n   30  -  z +4.8
+                  w:o-na-to d +1.06  H_start 2.12 gain 1.28  n  104  -  z +7.7
+                     I:HORD d +1.02  H_start 2.07 gain 0.93  n  126  -  z +6.8
+                  w:e-ke-qe d +1.00  H_start 1.96 gain 1.21  n   55  -  z +6.5
+                       I:RI d +0.97  H_start 2.21 gain 1.38  n   37  -  z +4.7
+                     w:e-ke d +0.85  H_start 2.18 gain 1.22  n  103  -  z +8.7
+   (sig counts use the normal approximation to the permutation null; z shown below)

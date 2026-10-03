@@ -1,0 +1,84 @@
+== S-DARK-22 cycle 2 level seq_strong nperm 300; objects 3155 (complete, direction recorded, >=2 signs)
+   by type {'pot': 80, 'sealing': 67, 'seal': 1515, 'other': 59, 'tablet': 1434}  big-city share 0.87
+
+-- (b) PREDICTIVE MODELS [Indus] V 600; held-out split fit 2751 / test 404 texts; plus 5-fold on all 3155
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            4.666            3.620
+   Markov-2 + L,rem                    4.772            3.655
+   Offset-from-END                     5.120            4.420
+   Offset-from-START                   5.092            4.515
+   Offset-both (i,L)                   5.120            4.420
+   Slot-class bigram                   4.789            4.319
+   Slot-class + END off                4.889            4.317
+   Markov-1                            4.521            3.642
+   Markov-1 + END off                  4.695            3.628
+   held-out difference Offset-from-END - Markov-2: 95% CI [+0.352, +0.554] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [+0.261, +0.408] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.092, +0.123] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [-0.037, +0.101] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [+0.075, +0.126] nats/tok
+
+   per-sign held-out gain of Offset-from-END over Markov-2 (nats/token; >= 15 held-out tokens); also START-offset gain:
+                  W151(M12) n   17 END-gain +2.025  START-gain +1.307  slot CLOSER
+                       W892 n   15 END-gain +0.844  START-gain +1.015  slot NAME
+                 W590(M249) n   28 END-gain +0.551  START-gain +0.350  slot NAME
+                 W920(M293) n   18 END-gain +0.315  START-gain +0.075  slot OPENER
+                 W820(M391) n   28 END-gain +0.314  START-gain +0.243  slot OPENER
+                   W31(M86) n   38 END-gain +0.278  START-gain +0.064  slot COUNT
+                 W368(M402) n   15 END-gain +0.218  START-gain +0.070  slot NAME
+                 W803(M387) n   20 END-gain +0.147  START-gain +0.204  slot NAME
+                 W1(M97/98) n   34 END-gain +0.116  START-gain +0.111  slot COUNT
+                  W220(M59) n   48 END-gain +0.070  START-gain -0.029  slot NAME
+               W3(M102/103) n   25 END-gain +0.041  START-gain -0.359  slot COUNT
+                 W520(M211) n   30 END-gain -0.006  START-gain -0.826  slot CLOSER
+                   W32(M87) n   44 END-gain -0.141  START-gain -0.158  slot COUNT
+                 W740(M342) n  177 END-gain -0.275  START-gain -0.419  slot CLOSER
+                  W240(M67) n   21 END-gain -0.341  START-gain -0.438  slot NAME
+   ... worst for the offset model:
+                 W705(M336) n   27 END-gain -0.668  START-gain -0.002  slot NAME
+                  W235(M65) n   21 END-gain -0.689  START-gain -0.525  slot NAME
+                 W741(M343) n   40 END-gain -0.807  START-gain -0.667  slot NAME
+                  W60(M123) n   39 END-gain -0.813  START-gain -1.073  slot MARKER
+     W390(M161/162/167/168/169) n   61 END-gain -0.921  START-gain -1.038  slot NAME
+                W2(M99/100) n  118 END-gain -1.267  START-gain -1.025  slot MARKER
+                    W90(M1) n   26 END-gain -1.473  START-gain -1.857  slot SUFFIX
+                  W55(M121) n   18 END-gain -1.509  START-gain -1.072  slot COUNT
+   signs better predicted by END offset than Markov-2: 11 / 26
+
+-- (b) PREDICTIVE MODELS [Indus seal] V 525; held-out split fit 1224 / test 291 texts; plus 5-fold on all 1515
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            4.538            4.040
+   Markov-2 + L,rem                    4.630            4.101
+   Offset-from-END                     4.913            4.594
+   Offset-from-START                   4.907            4.681
+   Offset-both (i,L)                   4.913            4.594
+   Slot-class bigram                   4.687            4.457
+   Slot-class + END off                4.754            4.481
+   Markov-1                            4.417            3.978
+   Markov-1 + END off                  4.563            4.020
+   held-out difference Offset-from-END - Markov-2: 95% CI [+0.268, +0.480] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [+0.141, +0.317] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.076, +0.110] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [-0.079, +0.084] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [+0.039, +0.093] nats/tok
+
+-- (b) PREDICTIVE MODELS [Indus tablet] V 274; held-out split fit 1416 / test 18 texts; plus 5-fold on all 1434
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            5.162            2.652
+   Markov-2 + L,rem                    5.456            2.663
+   Offset-from-END                     5.467            3.677
+   Offset-from-START                   5.543            3.752
+   Offset-both (i,L)                   5.467            3.677
+   Slot-class bigram                   4.962            3.744
+   Slot-class + END off                5.381            3.659
+   Markov-1                            4.850            2.751
+   Markov-1 + END off                  5.297            2.640
+   held-out difference Offset-from-END - Markov-2: 95% CI [-0.176, +0.870] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [+0.072, +0.973] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.165, +0.473] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [-0.483, +0.392] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [+0.216, +0.657] nats/tok
+
+-- (b) PREDICTIVE MODELS [Ur III legends] V 838; held-out split fit 4634 / test 2041 texts; plus 5-fold on all 6675
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            2.516            2.474

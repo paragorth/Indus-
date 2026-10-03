@@ -101,3 +101,22 @@
 
 -- (a) anagram census [tablets] objects 1434; multisets on >=2 objects 180; in >1 order 9 (0.050); object pairs same order 19030 vs different 5671 (diff share 0.230)
    null within-slot shuffle : anagram-group rate median 0.544 [5% 0.506, 95% 0.578], P(obs<=null) 0.0020; pair-diff share median 0.286 [0.285,0.287] P_lo 0.0020; order information retained = 1 - obs/null = 0.20
+   null whole-text shuffle  : anagram-group rate median 0.906 [5% 0.878, 95% 0.939], P(obs<=null) 0.0020; pair-diff share median 0.542 [0.536,0.545] P_lo 0.0020; order information retained = 1 - obs/null = 0.58
+   anagram groups: {'one site': 8, 'multi-site': 1}; order-pairs that are a single adjacent transposition 8, other 1
+   inverted sign pairs by frame-slot pair: [(('NAME', 'NAME'), 5), (('CLOSER', 'TITLE'), 2), (('CLOSER', 'COUNT'), 2), (('COUNT', 'COUNT'), 1), (('NAME', 'TITLE'), 1)]
+     n=138 33-700 x113 | 700-33 x25   [Har/tablet]
+     n=115 34-700 x102 | 700-34 x13   [Har/tablet]
+     n=105 32-700 x88 | 700-32 x17   [Har/tablet, Kal/tablet, Unk/tablet]
+     n=12 413-892-824 x11 | 824-892-413 x1   [Har/tablet]
+     n=5 235-240-740-90 x4 | 240-235-740-90 x1   [Har/tablet]
+     n=4 4-220-700 x1 | 4-700-220 x3   [Har/tablet]
+     n=3 416-220-740-760-400 x1 | 416-220-760-740-400 x2   [Har/tablet]
+     n=3 33-255 x1 | 255-33 x2   [Har/tablet]
+     n=3 323-690 x2 | 690-323 x1   [Moh/tablet]
+
+-- (a) anagram census [pots] objects 80; multisets on >=2 objects 9; in >1 order 1 (0.111); object pairs same order 8 vs different 1 (diff share 0.111)
+   null within-slot shuffle : anagram-group rate median 0.444 [5% 0.333, 95% 0.778], P(obs<=null) 0.0060; pair-diff share median 0.444 [0.333,0.778] P_lo 0.0060; order information retained = 1 - obs/null = 0.75
+   null whole-text shuffle  : anagram-group rate median 0.556 [5% 0.333, 95% 0.889], P(obs<=null) 0.0020; pair-diff share median 0.556 [0.333,0.889] P_lo 0.0020; order information retained = 1 - obs/null = 0.80
+   anagram groups: {'one site': 1}; order-pairs that are a single adjacent transposition 1, other 0
+   inverted sign pairs by frame-slot pair: [(('CLOSER', 'TITLE'), 1)]
+     n=2 33-700 x1 | 700-33 x1   [Har/pot]

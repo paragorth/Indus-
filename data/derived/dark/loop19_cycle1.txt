@@ -1,0 +1,39 @@
+LOOP 19 CYCLE 1: (a) anagram census. Is a text a sequence or a set?
+Engine: tools/dark_loop19.py 1 <level> 1000. Full output: loop19_cycle1_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Data: merged-corpus-canonical.json, complete objects with a recorded direction (dir '-' excluded per S-DARK-8.4), >= 2 signs: 3,155 objects
+(seals 1,515, tablets 1,434, pots 80, sealings 67, other 59). Texts grouped by sign MULTISET; a multiset on >= 2 objects is a group; a group
+whose copies stand in more than one ORDER is an anagram group. Two nulls keep the groups identical and only re-order the copies: (i) shuffle
+signs within each frame slot (S310 parser + S331/S334 openers), i.e. the frame holds but order inside slots is free; (ii) shuffle each whole
+text (the text is a set). 1,000 reps (500 for the subsets). Statistic: anagram-group rate and, per pair of copies, the share in different order.
+Arrows fired this cycle: 11 subsets x 2 nulls = 22; Bonferroni threshold P < 0.0023.
+
+RESULTS (seq_raw / seq_strong / seq_all agree to the second decimal; merges change nothing here)
+  All objects: 278-292 groups, 15 anagram groups (5.1-5.4%); copy pairs in a different order 0.225. Null (i) frame-kept: 0.49-0.51 anagram groups,
+   pair-diff 0.283; null (ii) set: 0.87, pair-diff 0.546. P = 0.001 against both. BUT the pair statistic is dominated by three 2-sign groups:
+   the Harappa voucher 'N-700' tablets: 33-700 x117 vs 700-33 x26; 34-700 x103 vs 700-34 x13; 32-700 x88 vs 700-32 x17 (364 objects, 56
+   reversed = 15%). Reversals are commoner on moulded bas-relief tablets (TAB:B 41 of 187 = 22%) than on incised ones (TAB:I 14 of 175 = 8%),
+   all recorded R/L. Either the count can stand on either side of W700, or a share of the moulded tablets are read mirrored. Order information
+   retained in 2-sign texts: only 0.04-0.05 vs the frame null, 0.50 vs the set null.
+  Texts of >= 3 signs: 2,281 objects, 192-206 groups, 7 anagram groups (3.4-3.6%); copy pairs in a different order 24 of 2,811 (0.009) vs
+   0.46 under the frame-kept null and 0.92 under the set null. Order information retained 0.98 / 0.99.
+  All minus the N-700 vouchers: 269-283 groups, 11 anagram groups (3.9-4.1%); pair-diff 31 of 4,024 (0.008) vs 0.39 / 0.79. Retained 0.98 / 0.99.
+  Seals: 64-78 groups, 1 anagram group (390-590-151 Harappa vs 590-390-151 Lothal); pair-diff 1 of 184-227 (0.004-0.005) vs 0.23-0.26 / 0.63-0.67.
+  Tablets: 179-180 groups, 9 anagram groups; pair-diff 0.230 with the vouchers, otherwise the same handful listed below.
+  Pots: 80 objects, 8 groups, 1 anagram group (33-700 / 700-33 again). Underpowered.
+  Held-out sites (not Mohenjo-daro / Harappa): 404 objects, 15-20 groups, 0 anagram groups, 0 of 145-152 copy pairs in a different order
+   (< 3/150 upper bound) vs 0.55 (frame null) and 0.93-0.95 (set null). Mohenjo-daro + Harappa: 12 anagram groups of 243-255.
+  Where the orders differ: 13 of 15 anagram order-pairs are a single ADJACENT transposition; 2 are not. Inverted sign pairs by frame slot:
+   NAME-NAME 6, COUNT-COUNT 3, CLOSER-COUNT 3, CLOSER-TITLE 2, COUNT-SUFFIX 2, CLOSER-SUFFIX 2, NAME-TITLE 1. The >= 3-sign anagram groups
+   (all Harappa tablets unless noted): 413-892-824 x11 vs 824-892-413 x1 (full reversal: a direction error, S-DARK-8.4); 235-240-740-90 x4 vs
+   240-235-740-90 x1 (hat/whiskers fish swap, the one exception to S296's order); 4-220-700 x1 vs 4-700-220 x3; 416-220-740-760-400 x1 vs
+   416-220-760-740-400 x2 (jar and 760 swap before the suffix); 31-384-156-400 x2 vs 400-31-384-156 x1 (suffix moved to the front: likely a
+   line/side wrap); 142-151-400 x1 vs 142-400-151 x1; 390-590-151 vs 590-390-151 (seals, two sites).
+
+READING. Outside the two-sign voucher tablets, the same multiset essentially never recurs in another order: 24 of 2,811 copy pairs among >= 3-sign
+texts, against 46% expected if order inside the frame slots were free and 92% if the text were a set. Even the few anagrams are adjacent swaps
+of two neighbouring signs (or a whole-text reversal that is a recording error), not re-orderings of a set. A text is a sequence, and the
+sequence is fixed well below the level of the frame slots. The one place where order is loose is the two-sign count + W700 voucher at Harappa
+(15% reversed, medium-dependent), which fits a label '3 | unit' whose two parts can sit on either side, or a mirror-reading problem on moulds.
+
+Ready-to-paste row:
+| S-DARK-19.1 | Sequence or set, part 1: anagram census. 3,155 complete direction-recorded objects (>= 2 signs) grouped by sign multiset; among multisets on >= 2 objects, how many recur in more than one order, and which slot pairs swap. Nulls keep the groups and re-order the copies: (i) shuffle within frame slots (S310 parser + S331/S334 openers), (ii) shuffle whole texts; 1,000 reps; subsets by length, object type, Mohenjo-daro + Harappa vs held-out sites; seq_raw / seq_strong / seq_all (tools/dark_loop19.py 1) | 278-292 multiset groups, 15 anagram groups (5%); copy pairs in a different order 0.225, but 5,885 of the 5,909 differing pairs are the three Harappa voucher groups 33/34/32-700 vs 700-N (364 tablets, 15% reversed; 22% on moulded TAB:B vs 8% on incised TAB:I). Texts of >= 3 signs: 7 anagram groups of 192-206; 24 of 2,811 copy pairs differ (0.009) vs 0.46 with the frame kept and order free inside slots, 0.92 for a set (P = 0.001; order retained 0.98-0.99). Seals: 1 of 64-78 groups (390-590-151 Harappa vs 590-390-151 Lothal), 1 of 184-227 pairs. Held-out sites: 0 of 15-20 groups, 0 of 145-152 pairs (< 3/150) vs 0.55 / 0.93-0.95. 13 of 15 anagram order-pairs are single adjacent transpositions (235-240 vs 240-235 fish, 740-760 vs 760-740 before the suffix, 220-700 vs 700-220); the others are a full reversal (413-892-824 x11 vs 824-892-413 x1) and a suffix moved to the front, i.e. recording errors. Same numbers at all three merge levels. Pots: 8 groups, underpowered. | **Supported: a text is a sequence, not a set, and the order is fixed below the frame slots.** If order inside the slots were free, half the recurring multisets would show two orders; 3-5% do, and those are neighbour swaps. The only loose order is the Harappa two-sign voucher N + W700 (15% reversed, more on moulds), read as a label whose count and unit can stand on either side, or as mirrored moulds; it needs a photo check of H-tablets reading 700-33. Caveat: 76% of objects are Harappa + Mohenjo-daro; the held-out zero is an upper bound (< 3/150). |
