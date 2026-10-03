@@ -1,0 +1,14 @@
+# cycle 4b: restrict to seals recorded as preservation=complete AND complete=Y (text fully read), so damage cannot shorten the text; condition Poor/Fair/Good/Fine = surface wear only
+seals 1235; classes Counter({'office_jar': 437, 'other': 387, 'counted_other': 232, 'arrow': 97, 'stock': 82}); condition Counter({2: 585, 1: 340, 0: 225, 3: 85})
+   office_jar     n=437 cond=1.43 len=5.16
+   stock          n=82 cond=1.38 len=3.95
+   counted_other  n=232 cond=1.44 len=5.21
+   arrow          n=97 cond=1.40 len=4.90
+   other          n=387 cond=1.43 len=3.76
+   office_jar     cond class-minus-rest: +0.005 (null -0.009, p_lo 0.622, p_hi 0.403)
+   stock          cond class-minus-rest: -0.055 (null +0.013, p_lo 0.227, p_hi 0.808)
+   counted_other  cond class-minus-rest: +0.018 (null -0.010, p_lo 0.697, p_hi 0.336)
+   arrow          cond class-minus-rest: -0.029 (null +0.006, p_lo 0.367, p_hi 0.679)
+   text length r with cond (complete seals only): +0.121 (null +0.030, p_lo 1.000, p_hi 0.001)
+   Mohenjo-daro: n=753 len-cond r = +0.104; mean cond by length 1-2/3-4/5-6/7+: 1.34(n119) 1.45(n236) 1.63(n243) 1.55(n155)
+   Harappa: n=232 len-cond r = +0.124; mean cond by length 1-2/3-4/5-6/7+: 1.17(n42) 1.27(n80) 1.27(n66) 1.59(n44)

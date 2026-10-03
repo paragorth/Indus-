@@ -158,29 +158,80 @@ def accept(rec, slack=0.15):
     L = rec['L']
     return L >= 3 and rec['cost'] <= 1.0 + slack * L and rec['second'] >= rec['cost'] + 1.0
 
+TYPE_OK = {'seal': {'SEAL'}, 'sealing': {'TAG', 'TAB'}, 'miniature tablet': {'TAB'}, 'copper tablet': {'TAB'},
+           'pottery graffito': {'POT'}, 'ivory/bone rod': {'ROD'}, 'bronze implement': {'IMPL'},
+           'miscellaneous': {'MISC', 'BNGL', 'MDLN', 'POsT', 'IMPL', 'ROD'}}
+def type_ok(ot, wt): return wt.split(':')[0] in TYPE_OK.get(ot, set())
+def wsym(sym):
+    p = sym.split(':')[0]
+    return {'Bull1': 'unicorn', 'Zebu': 'zebu', 'Elep': 'elephant', 'Tigr': 'tiger', 'Htgr': 'tiger', 'Rhin': 'rhino',
+            'Goat': 'goat', 'Buff': 'buffalo', 'Hare': 'hare', 'Gavi': 'gharial', 'Comp': 'composite', 'CompBull': 'composite',
+            'None': 'none'}.get(p)
+def msym(fs):
+    if fs == 0: return 'none'
+    for lo, hi, c in [(11, 19, 'unicorn'), (31, 32, 'zebu'), (71, 82, 'elephant'), (91, 104, 'tiger'), (111, 121, 'rhino'),
+                      (131, 139, 'goat'), (61, 65, 'buffalo'), (163, 171, 'hare'), (361, 369, 'gharial'), (231, 340, 'composite')]:
+        if lo <= fs <= hi: return c
+    return None
+def sym_state(rec):
+    a, b = wsym(rec['wells']['symbol']), msym(rec['im']['fs80'])
+    if a is None or b is None: return 'unknown'
+    return 'agree' if a == b else 'differ'
+
+def accept(rec, slack=0.15):
+    """text cost + metadata; returns (accepted, reason)."""
+    L = rec['L']
+    if L < 3: return False, 'short'
+    if rec['cost'] > 1.0 + slack * L: return False, 'cost'
+    if not type_ok(rec['im']['object_type'], rec['wells']['type']): return False, 'type'
+    if sym_state(rec) == 'differ': return False, 'symbol'
+    if rec['second'] < rec['cost'] + 0.5 and rec['cost'] > 0: return False, 'tie'
+    return True, 'ok'
+
+def learn(acc, corr, minc=3, share=0.6):
+    """Extend the W->M correspondence from aligned substitutions of unbridged Wells signs."""
+    co = collections.defaultdict(collections.Counter)
+    for r in acc:
+        for op in r['ops']:
+            if op[0] == 'S' and op[1] and op[2] and op[1] not in corr: co[op[1]][op[2]] += 1
+    new = {}
+    for w, c in co.items():
+        tot = sum(c.values()); m, k = c.most_common(1)[0]
+        if k >= minc and k / tot >= share: new[w] = {m}
+    return new, co
+
 if __name__ == '__main__':
     corr = {w: set(v) for w, v in bridge.items()}
-    res = run(corr)
-    nul = run(corr, null=True)
+    log = []
     def summarize(rs, label):
-        acc = [r for r in rs if accept(r)]
+        acc = [r for r in rs if accept(r)[0]]
+        rej = collections.Counter(accept(r)[1] for r in rs)
         exact = sum(1 for r in acc if r['cost'] == 0)
-        print(f'{label}: IM77 texts with a candidate {len(rs)}; accepted {len(acc)}; cost 0: {exact}; cost>0: {len(acc)-exact}')
         byc = collections.Counter(min(int(r["cost"] * 2) / 2, 4) for r in acc)
-        print('   cost histogram', sorted(byc.items()))
-        return acc
-    acc = summarize(res, 'HOME'); nacc = summarize(nul, 'WRONG-SITE NULL')
-    # uniqueness: one Wells object claimed by several IM77 texts
-    cl = collections.Counter(r['widx'] for r in acc)
-    print('Wells objects claimed by >1 IM77 text:', sum(1 for v in cl.values() if v > 1))
-    json.dump([dict(text_no=r['text_no'], site_code=r['site_code'], cisi=r['cisi'], widx=r['widx'], cost=r['cost'],
-                    second=r['second'], L=r['L'], ops=r['ops'],
-                    wells=dict(seq=list(r['wells']['full']), type=r['wells']['type'], symbol=r['wells']['symbol'],
-                               material=r['wells']['material'], condition=r['wells']['condition'],
-                               preservation=r['wells']['preservation'], complete=r['wells']['complete'],
-                               nlines=r['wells']['nlines'], site=r['wells']['site']),
-                    im=dict(seq=r['im']['seq'], doubt=r['im']['doubt'], lineid=r['im']['lineid'], nlines=r['im']['nlines'],
-                            fs80=r['im']['fs80'], object_type=r['im']['object_type'], source=r['im']['source']))
-               for r in res], open(OUT + 'loop24_pairs_raw.json', 'w'))
-    json.dump([dict(text_no=r['text_no'], cisi=r['cisi'], cost=r['cost'], second=r['second'], L=r['L']) for r in nul],
-              open(OUT + 'loop24_pairs_null.json', 'w'))
+        sy = collections.Counter(sym_state(r) for r in acc)
+        line = (f'{label}: IM77 texts with a candidate {len(rs)}; accepted {len(acc)} (cost 0: {exact}, >0: {len(acc)-exact}); '
+                f'rejections {dict(rej)}; cost histogram {sorted(byc.items())}; field-symbol check among accepted {dict(sy)}')
+        print(line); log.append(line); return acc
+    res1 = run(corr); acc1 = summarize(res1, 'PASS1 HOME')
+    new, co = learn(acc1, corr)
+    log.append(f'learned correspondences for {len(new)} unbridged Wells signs: ' + ', '.join(f'W{w}->M{list(m)[0]}' for w, m in sorted(new.items())))
+    log.append('raw co-alignments of unbridged Wells signs (top): ' + '; '.join(f'W{w}:{dict(c.most_common(3))}' for w, c in sorted(co.items(), key=lambda z: -sum(z[1].values()))[:40]))
+    corr2 = dict(corr); corr2.update(new)
+    res2 = run(corr2); acc2 = summarize(res2, 'PASS2 HOME')
+    nul2 = run(corr2, null=True, seed=1); nacc2 = summarize(nul2, 'PASS2 WRONG-SITE NULL')
+    cl = collections.Counter(r['widx'] for r in acc2)
+    log.append(f'Wells objects claimed by >1 IM77 text: {sum(1 for v in cl.values() if v > 1)} (identical duplicate texts; object identity ambiguous, readings still comparable)')
+    def dump(rs):
+        return [dict(text_no=r['text_no'], site_code=r['site_code'], cisi=r['cisi'], widx=r['widx'], cost=r['cost'],
+                     second=r['second'], L=r['L'], ops=r['ops'], accepted=accept(r)[0], reason=accept(r)[1], sym=sym_state(r),
+                     wells=dict(seq=list(r['wells']['full']), type=r['wells']['type'], symbol=r['wells']['symbol'],
+                                material=r['wells']['material'], condition=r['wells']['condition'],
+                                preservation=r['wells']['preservation'], complete=r['wells']['complete'],
+                                nlines=r['wells']['nlines'], site=r['wells']['site'], lines=r['wells']['lines']),
+                     im=dict(seq=r['im']['seq'], doubt=r['im']['doubt'], lineid=r['im']['lineid'], nlines=r['im']['nlines'],
+                             fs80=r['im']['fs80'], object_type=r['im']['object_type'], source=r['im']['source']))
+                for r in rs]
+    json.dump(dump(res2), open(OUT + 'loop24_pairs.json', 'w'))
+    json.dump(dump(nul2), open(OUT + 'loop24_pairs_null.json', 'w'))
+    json.dump({str(w): sorted(m) for w, m in corr2.items()}, open(OUT + 'loop24_corr.json', 'w'))
+    open(OUT + 'loop24_align_log.txt', 'w').write('\n'.join(log) + '\n')
