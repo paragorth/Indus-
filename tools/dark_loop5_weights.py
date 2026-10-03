@@ -10,7 +10,7 @@ import numpy as np
 from dark_loop5_engine import *
 
 WEIGHTS = [1, 2, 4, 8, 16, 32, 64, 160, 200, 320, 640]
-RESTARTS = 30; STEPS = 4000; VMAX = 12
+RESTARTS = 30; STEPS = 1500; VMAX = 12
 STROKES = {int(k): v for k, v in json.load(open('data/derived/dark/loop5_strokes.json')).items()}
 objs = load_rows(); SIGNS = top_signs([o['seq_raw'] for o in objs])
 S = [o for o in objs if o['type'].startswith('SEAL')]

@@ -63,3 +63,43 @@ Indus: fit (MD+Harappa) 2746 texts, test (other named sites) 825 texts, 2627 tes
 
 ## Indus level seq_strong
   [seq_strong] baseline sign level: bits=7.538 uniq=1.026 rep=0.272 gram=0.441 units=649
+    bpe k=60 T=5 s=0             bits=7.490 uniq=1.052 rep=0.562 gram=0.289 units=708
+    bpe k=60 T=5 s=2             bits=7.490 uniq=1.051 rep=0.557 gram=0.286 units=708
+    bpe k=60 T=1 s=0             bits=7.493 uniq=1.051 rep=0.570 gram=0.287 units=708
+    bpe k=20 T=5 s=0             bits=7.495 uniq=1.033 rep=0.418 gram=0.326 units=669
+    bpe k=60 T=5 s=1             bits=7.495 uniq=1.048 rep=0.566 gram=0.287 units=708
+    bpe k=20 T=5 s=2             bits=7.496 uniq=1.038 rep=0.425 gram=0.321 units=669
+    bpe k=20 T=5 s=1             bits=7.499 uniq=1.034 rep=0.404 gram=0.337 units=669
+    bpe k=40 T=5 s=0             bits=7.500 uniq=1.039 rep=0.470 gram=0.298 units=688
+    bpe k=40 T=1 s=0             bits=7.501 uniq=1.039 rep=0.483 gram=0.297 units=688
+    bpe k=40 T=5 s=2             bits=7.503 uniq=1.044 rep=0.483 gram=0.296 units=688
+    bpe k=10 T=5 s=1             bits=7.503 uniq=1.022 rep=0.349 gram=0.360 units=659
+    bpe k=20 T=1 s=0             bits=7.503 uniq=1.033 rep=0.432 gram=0.320 units=669
+    bpe k=40 T=5 s=1             bits=7.503 uniq=1.039 rep=0.488 gram=0.297 units=688
+    bpe k=10 T=5 s=2             bits=7.506 uniq=1.027 rep=0.353 gram=0.356 units=659
+    bpe k=10 T=1 s=0             bits=7.511 uniq=1.026 rep=0.351 gram=0.347 units=659
+    bpe k=5 T=5 s=1              bits=7.516 uniq=1.026 rep=0.279 gram=0.412 units=654
+    bpe k=5 T=5 s=2              bits=7.521 uniq=1.024 rep=0.340 gram=0.383 units=654
+    bpe k=10 T=5 s=0             bits=7.524 uniq=1.030 rep=0.364 gram=0.347 units=659
+    bpe k=5 T=5 s=0              bits=7.525 uniq=1.027 rep=0.343 gram=0.369 units=654
+    bpe k=5 T=1 s=0              bits=7.528 uniq=1.021 rep=0.357 gram=0.371 units=654
+    sign                         bits=7.538 uniq=1.026 rep=0.272 gram=0.441 units=649
+    sub ligs                     bits=7.559 uniq=1.027 rep=0.352 gram=0.441 units=638
+    sub rand3                    bits=7.601 uniq=1.027 rep=0.336 gram=0.441 units=635
+    sub rand5                    bits=7.613 uniq=1.017 rep=0.403 gram=0.441 units=630
+    sub rand4                    bits=7.625 uniq=1.026 rep=0.386 gram=0.441 units=631
+    sub rand0                    bits=7.626 uniq=1.024 rep=0.422 gram=0.441 units=631
+    sub rand1                    bits=7.634 uniq=1.025 rep=0.416 gram=0.441 units=627
+    sub rand2                    bits=7.638 uniq=1.027 rep=0.415 gram=0.441 units=633
+    sub marks                    bits=7.650 uniq=1.018 rep=0.497 gram=0.441 units=618
+    sub all                      bits=7.672 uniq=1.021 rep=0.529 gram=0.441 units=614
+  [seq_strong] best per statistic (delta vs sign level):
+    bits  bpe k=60 T=5 s=0             7.490  (sign 7.538, delta -0.048)  bits/sign lower=more predictable
+    uniq  sub rand5                    1.017  (sign 1.026, delta -0.009)  uniq ratio lower=texts recur more than bigram
+    rep   bpe k=5 T=5 s=1              0.279  (sign 0.272, delta +0.007)  within-text repetition ratio
+    gram  sub rand5                    0.441  (sign 0.441, delta +0.000)  grammar-covered token share
+    segmentations beating sign level on bits AND (uniq or rep): 4 of 29: bpe k=5 T=1 s=0, bpe k=5 T=5 s=1, bpe k=5 T=5 s=2, bpe k=10 T=5 s=1
+    first merges of best BPE: 760+740 (M347/358+M342); 740+90 (M342+M1); 100+740 (M8+M342); 705+33 (M336+M89); 861+2 (M267+M99/100); 390+740 (M161/162/167/168/169+M342); 32+220 (M87+M59); 820+2 (M391+M99/100); 176+740 (M48+M342); 590+390+740 (M249+M161/162/167/168/169+M342); 740+400 (M342+M176); 705+33+520 (M336+M89+M211)
+
+## Indus level seq_all
+  [seq_all] baseline sign level: bits=7.511 uniq=1.031 rep=0.271 gram=0.441 units=643

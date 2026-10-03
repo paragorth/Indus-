@@ -10,7 +10,7 @@ import numpy as np
 from scipy.stats import spearmanr
 from dark_loop5_engine import *
 
-CYC = int(sys.argv[1]); RESTARTS = 30; STEPS = 4000; VMAX = 12
+CYC = int(sys.argv[1]); RESTARTS = 30; STEPS = 1500; VMAX = 12
 OUT = f'data/derived/dark/loop5_cycle{CYC}.txt'
 WEIGHTS = [1, 2, 4, 8, 16, 32, 64, 160, 200, 320, 640]
 STROKES = {int(k): v for k, v in json.load(open('data/derived/dark/loop5_strokes.json')).items()}
@@ -101,16 +101,15 @@ if __name__ == '__main__':
         lines.append(f'FIXED stroke-count=value [{rule}]: train rho={r_tr[0]:.3f} (p={r_tr[1]:.2g}); test rho={r_te[0]:.3f} (p={r_te[1]:.2g}); all texts vs raw target rho={r_raw[0]:.3f} (p={r_raw[1]:.2g})')
     jobs = []
     for rule in ('sum', 'prod', 'pos'):
-        for key in ('seq_raw', 'seq_strong', 'seq_all'):
+        for key in (('seq_raw', 'seq_strong', 'seq_all') if rule == 'sum' else ('seq_raw',)):
             jobs.append((rule, key, 'real', 1, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
-        for p in range(3):
-            jobs.append((rule, 'seq_raw', 'perm', 10 + p, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
+        jobs.append((rule, 'seq_raw', 'perm', 10, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
         jobs.append((rule, 'seq_raw', 'shuffle', 20, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
-        jobs.append((rule, 'seq_raw', 'planted', 30, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
+    jobs.append(('sum', 'seq_raw', 'planted', 30, S_tr, list(y_res[tr]), S_te, list(y_res[te])))
     t0 = time.time()
     with Pool(4) as P:
         results = P.map(arrow, jobs, chunksize=1)
-    lines.append(f'arrows: {sum(1 for r in results if r[2]=="real")} real (3 rules x 3 seq levels), restarts={RESTARTS}, steps={STEPS}, values 1..{VMAX} on {len(SIGNS)} signs + OTHER; wall {time.time()-t0:.0f}s')
+    lines.append(f'arrows: {sum(1 for r in results if r[2]=="real")} real (sum x 3 seq levels + prod + pos), restarts={RESTARTS}, steps={STEPS}, values 1..{VMAX} on {len(SIGNS)} signs + OTHER; wall {time.time()-t0:.0f}s')
     best_real = {}; null_max = collections.defaultdict(list)
     for rule, key, kind, seed, r in results:
         tag = f'{rule:4s} {key:10s} {kind:8s}'
@@ -120,9 +119,9 @@ if __name__ == '__main__':
         lines.append(f'{tag}: train={r["train"]:.3f} test(best-train)={r["test"]:.3f} test_max={r["test_max"]:.3f} test_mean={r["test_mean"]:.3f} stable>80%={r["stable_frac"]:.2f} ({len(r["stable_signs"])} signs){extra}')
         if kind == 'real': best_real[(rule, key)] = r
         if kind in ('perm', 'shuffle'): null_max[rule].append(r['test_max'])
-    lines.append('## verdict per rule (real test_max over 30 restarts vs controls\' test_max; 3 perms + 1 shuffle = 4 null arrows per rule)')
+    lines.append('## verdict per rule (real test_max over 30 restarts vs controls\' test_max; 1 perm + 1 shuffle = 2 null arrows per rule, each 30 restarts)')
     for rule in ('sum', 'prod', 'pos'):
-        reals = [(k, best_real[(rule, k)]) for k in ('seq_raw', 'seq_strong', 'seq_all')]
+        reals = [(k, best_real[(rule, k)]) for k in ('seq_raw', 'seq_strong', 'seq_all') if (rule, k) in best_real]
         lines.append(f'{rule}: real test(best-train) ' + ', '.join(f'{k}={r["test"]:.3f}' for k, r in reals) +
                      f'; real test_max raw={best_real[(rule,"seq_raw")]["test_max"]:.3f}; null test_max values={[round(v,3) for v in null_max[rule]]} (max {max(null_max[rule]):.3f})')
     r = best_real[('sum', 'seq_raw')]

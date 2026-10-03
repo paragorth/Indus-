@@ -100,7 +100,7 @@ class Problem:
         return self.M @ v + self.fixed
 
 def rank(x):
-    return np.argsort(np.argsort(x, kind='stable')).astype(float)
+    o = np.argsort(x, kind='stable'); r = np.empty(len(x)); r[o] = np.arange(len(x), dtype=float); return r
 
 def fast_spearman(vals, target_rank):
     r = rank(vals)
