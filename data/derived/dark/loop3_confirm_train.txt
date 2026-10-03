@@ -10,3 +10,6 @@ train seq_raw dropframe   repeat    base 0.229 -> 0.374 [0.196,0.504] D +0.146 n
 train seq_raw dropsign    namecalib base 0.777 -> 0.911 [0.842,0.987] D +0.134 null +0.012±0.009 z +13.7 p 0.016 (206s)
 train seq_raw bpe         arith     base 0.253 -> 0.312 [0.255,0.331] D +0.060 null -0.015±0.017 z +4.4 p 0.016 (3117s)
 train seq_raw bpe         repeat    base 0.244 -> 0.412 [0.262,0.505] D +0.169 null -0.078±0.045 z +5.4 p 0.016 (3117s)
+train seq_strong family      namecalib base 0.764 -> 0.669 [0.643,0.731] D -0.095 null -0.048±0.015 z -3.2 p 0.016 (154s)
+train seq_strong family      repeat    base 0.233 -> 0.980 [0.949,1.031] D +0.747 null +0.005±0.053 z +13.9 p 0.016 (154s)
+train seq_strong family      slot      base 1.164 -> 0.156 [-0.044,0.189] D -1.008 null -0.154±0.046 z -18.5 p 0.016 (154s)
