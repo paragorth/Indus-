@@ -49,3 +49,38 @@ LR and NN agree on 8/31 texts
   shape sealing  n= 1: LR {'Kalibangan': 1}; NN {'Mohenjo-daro': 1}
 
 == leave-one-out calibration (bigram LR), every home text of >= 2 signs
+  [object removed] accuracy 0.418 vs chance (marginal product) 0.219; assigned marginal {'other-Indus': 391, 'Dholavira': 440, 'Chanhu-daro': 622, 'Mohenjo-daro': 801, 'Kalibangan': 431, 'Lothal': 448, 'Harappa': 1263}
+     true Mohenjo-daro n= 1699: Mohe 0.34 Hara 0.07 Loth 0.10 Kali 0.11 Dhol 0.10 Chan 0.18 othe 0.09  (recall 0.34)
+     true Harappa      n= 2031: Mohe 0.07 Hara 0.54 Loth 0.07 Kali 0.07 Dhol 0.08 Chan 0.10 othe 0.06  (recall 0.54)
+     true Lothal       n=  159: Mohe 0.09 Hara 0.04 Loth 0.36 Kali 0.10 Dhol 0.13 Chan 0.14 othe 0.14  (recall 0.36)
+     true Kalibangan   n=  122: Mohe 0.11 Hara 0.11 Loth 0.14 Kali 0.26 Dhol 0.13 Chan 0.16 othe 0.08  (recall 0.26)
+     true Dholavira    n=  160: Mohe 0.10 Hara 0.08 Loth 0.13 Kali 0.19 Dhol 0.17 Chan 0.17 othe 0.16  (recall 0.17)
+     true Chanhu-daro  n=   67: Mohe 0.16 Hara 0.04 Loth 0.09 Kali 0.06 Dhol 0.09 Chan 0.40 othe 0.15  (recall 0.40)
+     true other-Indus  n=  158: Mohe 0.13 Hara 0.08 Loth 0.16 Kali 0.11 Dhol 0.14 Chan 0.17 othe 0.20  (recall 0.20)
+     precision: Mohe 0.72 Hara 0.86 Loth 0.13 Kali 0.07 Dhol 0.06 Chan 0.04 othe 0.08
+  [all copies of the text removed] accuracy 0.276 vs chance (marginal product) 0.185; assigned marginal {'other-Indus': 457, 'Dholavira': 466, 'Chanhu-daro': 698, 'Mohenjo-daro': 848, 'Lothal': 440, 'Kalibangan': 607, 'Harappa': 880}
+     true Mohenjo-daro n= 1699: Mohe 0.25 Hara 0.10 Loth 0.11 Kali 0.12 Dhol 0.12 Chan 0.20 othe 0.10  (recall 0.25)
+     true Harappa      n= 2031: Mohe 0.15 Hara 0.32 Loth 0.07 Kali 0.16 Dhol 0.09 Chan 0.12 othe 0.09  (recall 0.32)
+     true Lothal       n=  159: Mohe 0.21 Hara 0.05 Loth 0.25 Kali 0.09 Dhol 0.13 Chan 0.10 othe 0.16  (recall 0.25)
+     true Kalibangan   n=  122: Mohe 0.16 Hara 0.12 Loth 0.14 Kali 0.16 Dhol 0.20 Chan 0.14 othe 0.09  (recall 0.16)
+     true Dholavira    n=  160: Mohe 0.12 Hara 0.08 Loth 0.13 Kali 0.18 Dhol 0.14 Chan 0.17 othe 0.17  (recall 0.14)
+     true Chanhu-daro  n=   67: Mohe 0.21 Hara 0.07 Loth 0.09 Kali 0.06 Dhol 0.10 Chan 0.33 othe 0.13  (recall 0.33)
+     true other-Indus  n=  158: Mohe 0.16 Hara 0.12 Loth 0.16 Kali 0.11 Dhol 0.13 Chan 0.16 othe 0.15  (recall 0.15)
+     precision: Mohe 0.51 Hara 0.74 Loth 0.09 Kali 0.03 Dhol 0.05 Chan 0.03 othe 0.05
+
+== null: 1000 draws of 31 home texts, length-matched to the foreign set, assigned leave-one-out (object removed)
+observed: top-site share 0.19 (Chanhu-daro), top-2 share 0.39
+  corpus-mix null: top share 0.29 [0.19-0.39] P(obs >=) = 0.997; top-2 0.49 P = 0.986
+  uniform-site null: top share 0.25 P = 0.990
+  per-site assignment counts, observed vs corpus-mix null mean [2.5-97.5%] P_hi P_lo; uniform null mean P_hi P_lo:
+    Mohenjo-daro obs  2 | mix  5.82 [2-10] P_hi 0.991 P_lo 0.047 | uniform  4.50 P_hi 0.950 P_lo 0.148
+    Harappa      obs  6 | mix  8.21 [4-12] P_hi 0.884 P_lo 0.229 | uniform  4.25 P_hi 0.252 P_lo 0.880
+    Lothal       obs  1 | mix  3.50 [0-7] P_hi 0.974 P_lo 0.112 | uniform  4.75 P_hi 0.998 P_lo 0.036
+    Kalibangan   obs  6 | mix  3.00 [0-7] P_hi 0.066 P_lo 0.971 | uniform  4.32 P_hi 0.261 P_lo 0.864
+    Dholavira    obs  5 | mix  3.04 [0-6] P_hi 0.190 P_lo 0.932 | uniform  3.58 P_hi 0.281 P_lo 0.857
+    Chanhu-daro  obs  6 | mix  4.73 [1-9] P_hi 0.335 P_lo 0.823 | uniform  6.16 P_hi 0.612 P_lo 0.590
+    other-Indus  obs  5 | mix  2.70 [0-6] P_hi 0.125 P_lo 0.951 | uniform  3.43 P_hi 0.255 P_lo 0.882
+
+mean LR margin (best - second): foreign 1.088 vs length-matched home 1.453 [0.960-2.061] P_lo 0.094
+
+== NN calibration: 40 home texts per site (>= 2 signs), nearest neighbour with the object itself excluded
