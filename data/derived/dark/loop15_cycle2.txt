@@ -1,0 +1,38 @@
+LOOP 15 (NEGATIVE SPACE) cycle 2: classify the gaps and test them against a model-free null
+Scripts: data/derived/dark/loop15_classify.py (outputs loop15_c2_<seqkey>.txt all texts, loop15_c2d_<seqkey>.txt dedup),
+         data/derived/dark/loop15_im77.py (output loop15_im77.txt)
+Second null: sign tokens permuted across texts within site x object-class strata keeping text lengths, 200 corpora (E_perm).
+A gap is 'robust' when E_perm >= 5 as well as E_model >= 5 (so it is not a misfit of the order-2 chain).
+Kinds: REPEAT (X..X), PARADIGM (X and Y never in one text), ORDER (X..Y never with a gap, Y..X attested >= 3),
+BOUND (X,Y adjacent >= 3 but never separated), TRIPLE (all three pairs attested >= 3, triple never), REDUCIBLE (a pair is already absent).
+
+Dedup classification (seq_raw / seq_strong / seq_all):
+  all gaps:    REPEAT 8/5/6, ORDER 5/4/5, PARADIGM 2/0/0, BOUND 0/1/1, TRIPLE 2/2/3
+  robust (E_perm >= 5): REPEAT 5/5/5, ORDER 5/4/5, PARADIGM 2/0/0, BOUND 0/1/1; TRIPLE 0/0/0 (every triple gap has E_perm < 2.5)
+  persistent on held-out: ORDER 1 (2 ... 741) in all levels; REPEAT 2 (861-2-2, 820-2-2) in seq_raw; BOUND 1 (861 .. 741) in seq_all
+All-texts classification adds PARADIGM {501, 740}, {240, 850}, {235, 700}, {405, 482} and 10-11 TRIPLE gaps, all of which are
+mass-produced-tablet artefacts (cycle 1) and none of which has E_perm >= 5 except 501-740 (E_perm 7.8; the 29-copy tablet).
+
+The surviving rule classes, in plain words (dedup, robust under both nulls):
+  R1 ONCE.      The marker W2 (M99) is written at most once per text: E_model 28, E_perm 39, observed 0 at home (2,873 dedup texts; the
+                two home cases with W2 twice are a 2-sign pot graffito '2 2' and M-658 817-2-2-70-3, both dropped from the >= 15-token
+                search by dedup/position), 1 of 842 held-out (Ns-66, a Nausharo pot).  IM77: M99 twice 1 of 1,809 vs 55.7 expected.
+                The fish-mark W240 (M67) likewise never twice (E 6 / 9; IM77 0 vs 7.2).  This is the general repetition ban (S88) at
+                its sharpest: the grammar words are the signs that are never doubled.
+  R2 BEFORE.    W2 stands before what it governs and never after it: fish marks W240/W233 never precede W2 with a gap (0 vs 10-15
+                expected; the reverse 29 + 40 and 24 + 18 attested; adjacent fish-2 only 12 vs 2-fish 184 in all texts); the jar
+                W740 never precedes W2 with a gap (0 vs 61 under permutation; reverse 263).  IM77: M67 ... M99 0 vs 13.4.
+  R3 FRAME.     W2 never shares a text with the marked jars W741 (0 vs 11-12; held-out 0 vs 3.4-3.6; IM77 M99 .. M343 3 vs 16.2) or
+                W742 (0 vs 5-8).  Extends S333/S334 from 'opener + W2 is never directly followed by a marked jar' to a text-level
+                exclusion: the {opener + W2 ...} frame and the {920 + 60 + marked jar ...} frame never mix.  The opener W861 shows the
+                same at a distance (861 ... 741 never with a gap, 861-741 adjacent 4x: seq_strong/all, E 6.7-6.9, held-out 0 vs 2.0).
+  R4 COMPOUND.  W233 before W220 only as the adjacent pair 233-220 (7x adjacent, never separated; E 5): a bound fish compound (weak, E = 5).
+  Not surviving: every triple rule, every 'numeral N never with item Z' rule (cycle 3), every new multi-sign paradigm.
+
+Transcription robustness (IM77, Mahadevan numbers via the bridge, 1,809 dedup undamaged lines, stratified permutation 300x):
+  M99 x2 1 vs 55.7 (P0 < 0.001); M99 .. M343 3 vs 16.2 (< 0.001); M67 ... M99 0 vs 13.4 (< 0.001); M67 x2 0 vs 7.2 (< 0.001);
+  M123 & M267 2 vs 20.8 (< 0.001; S360 clique); M65 & M328 0 vs 3.4 (0.02); M210 & M342 1 vs 2.9 (the W501 ghost: 0.02, not significant
+  after dedup); all triples E < 1 (untestable).  Wells and IM77 are ~70% the same objects (S312): call this transcription-robust, not replicated.
+  Held-out sites are the replication: R3 persists (E 3.4-3.6, O 0; chance persistence max 2 of 7 tested), R1 has one exception, R2 one (Desalpur tag).
+
+| S-DARK-15.2 | Classify the cycle-1 gaps (REPEAT / PARADIGM / ORDER / BOUND / TRIPLE) and test each against a model-free null (sign tokens permuted across texts within site x object class, 200x; `data/derived/dark/loop15_classify.py`); check the surviving rules in IM77 (Mahadevan numbers via the bridge, 1,809 dedup lines, stratified permutation 300x; `loop15_im77.py`) | Dedup, robust under both nulls: REPEAT 5, ORDER 4-5, PARADIGM 0-2, BOUND 0-1, TRIPLE 0 (every triple gap has E_perm < 2.5). Rules: (R1) W2 never twice (E 28 / 39, O 0; held-out 1 of 842; IM77 M99 x2 1 vs 55.7), W240 never twice (E 6 / 9; IM77 0 vs 7.2); (R2) fish marks W240/W233 and the jar never precede W2 with a gap (0 vs 10-15 / 61; reverse 69 / 42 / 263; IM77 M67 ... M99 0 vs 13.4); (R3) W2 never in a text with the marked jars W741/W742 (0 vs 11-12 / 5-8; held-out 0 vs 3.5, persistent in all three levels; IM77 3 vs 16.2); (R4) 233 before 220 only adjacent (E 5, weak). The all-texts PARADIGM gaps {501,740}, {240,850}, {235,700}, {405,482} and all 10-11 TRIPLE gaps are single moulded-tablet series | **Four small rules, all about the frame, no new paradigm, no triple rule.** The negative space beyond pairwise exclusion is the syntax of the marker W2: once per text, before its fish/jar hosts, and in a frame that excludes the 920-60-marked-jar opening (extends S333/S334 to the whole text, held-out and IM77 agree). The same picture holds in seq_raw, seq_strong and seq_all. A code with so little forbidden beyond its frame words is consistent with short formulae whose middles are nearly free (S321) |
