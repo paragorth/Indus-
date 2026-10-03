@@ -1,0 +1,25 @@
+strat_anneal_levels: reduced anneal 4 x 800; main seq run was 50 x 3000
+
+[seq_raw] texts=3599 held-out=463; top-80 overlap with seq top-80: 76/80
+  baselines: raw 0.351  length-only 0.232  random median 0.161 max 0.257
+  transferred best A (seq): 0.778  per fact {'type': 0.1489, 'emblem': 0.0302, 'region': 0.086, 'size': 0.1677, 'material': 0.3424, 'period': 0.0027}
+  transferred best B (seq): 0.235  per fact {'type': 0.0139, 'emblem': 0.0181, 'region': -0.1003, 'size': 0.0835, 'material': 0.2279, 'period': -0.0079}
+  reduced anneal at this level: best 0.725 (top range 0.616..0.725); permuted-fact control best 0.004; gap +0.721
+  per fact: {'type': 0.1257, 'emblem': 0.0354, 'region': 0.0694, 'size': 0.164, 'material': 0.3277, 'period': 0.003}
+  partition agreement with seq best A over 76 shared signs: 0.899 (random 0.885)
+  elapsed 297s
+
+[seq_strong] texts=3547 held-out=458; top-80 overlap with seq top-80: 78/80
+  baselines: raw 0.321  length-only 0.240  random median 0.134 max 0.233
+  transferred best A (seq): 0.883  per fact {'type': 0.172, 'emblem': 0.016, 'region': 0.1155, 'size': 0.2154, 'material': 0.3593, 'period': 0.0045}
+  transferred best B (seq): 0.255  per fact {'type': 0.0133, 'emblem': 0.0129, 'region': -0.086, 'size': 0.0887, 'material': 0.2432, 'period': -0.0169}
+  reduced anneal at this level: best 0.702 (top range 0.685..0.702); permuted-fact control best 0.009; gap +0.693
+  per fact: {'type': 0.1067, 'emblem': 0.0124, 'region': 0.0627, 'size': 0.2226, 'material': 0.3078, 'period': -0.0106}
+  partition agreement with seq best A over 78 shared signs: 0.889 (random 0.885)
+  elapsed 620s
+
+[seq] texts=3545 held-out=458; top-80 overlap with seq top-80: 80/80
+  baselines: raw 0.323  length-only 0.242  random median 0.136 max 0.265
+  transferred best A (seq): 0.904  per fact {'type': 0.1762, 'emblem': 0.0169, 'region': 0.1213, 'size': 0.222, 'material': 0.3608, 'period': 0.0065}
+  transferred best B (seq): 0.262  per fact {'type': 0.0158, 'emblem': 0.0128, 'region': -0.0846, 'size': 0.0905, 'material': 0.2428, 'period': -0.0154}
+  elapsed 627s

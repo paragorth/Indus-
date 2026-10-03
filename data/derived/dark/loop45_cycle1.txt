@@ -1,0 +1,40 @@
+# S-DARK-45 cycle 1: who owns the middle inventory? element x head / site / type (tools/dark_loop45.py 1 LEVEL 1000)
+Logs: loop45_c1_seq_raw.txt / _seq_strong.txt / _seq_all.txt (+ .json). Corpus: merged-corpus-canonical.json (older build, S-DARK-23),
+complete, direction recorded, >= 2 signs: 3,155 texts -> 2,167 (2,144 / 2,144) after collapsing to one per distinct text per site x type.
+Head = closer unit of the S310/S331 parser (jar 740, arrow 520, 151, 156, 527, 226, 617, 154, 158, 236, 700; 'none' for 822 texts without one).
+Non-adjacent middle element = NAME/COUNT/TITLE token of the parse that is NOT the sign directly before the closer; adjacent qualifier = that sign (S303).
+Statistics on element tokens: MI(element, label) in bits and as % of H(label); 'loyal' = share of elements with >= 5 tokens that put >= 80% of
+their tokens under one label; 'non-dominant loyal' = number of those loyal to a label other than the commonest one (the jar / Mohenjo-daro / seal);
+'>= 2 labels' = share of elements seen under at least two labels. Nulls (1,000x): labels permuted among texts within (middle length x object type),
+within (length x type x site) [for heads] or (length x type x head) [for sites], and the S366 chain null for heads = heads permuted among texts with
+the same ADJACENT sign (length x type x adjacent sign), which keeps everything the chain model predicts and destroys only what the rest of the
+middle might add.
+
+## Texts with a closer (1,345 / 1,342 / 1,342), seq_raw (seq_strong / seq_all in brackets)
+NON-ADJACENT elements x HEAD: 2,813 tokens, 96 (93 / 93) elements with >= 5 tokens.
+  MI 0.498 bits = 31.9% of H(head) (30.6 / 30.4). Null len x type 0.363 -> excess +8.7% of H(head) (+8.7 / +8.8), P = 0.001.
+  S366 chain null (adjacent sign held): 0.472 -> excess +1.6% (+2.0 / +2.3), P = 0.001 on MI but loyalty P = 0.43 (0.77 / 0.67).
+  Loyal 0.365 vs null 0.296 (P = 0.061; strong 0.323 vs 0.282 P = 0.20; all P = 0.20). Loyal to a NON-jar head: 1 element in all three levels
+  (W468 -> 154, 4 of 5) vs null 0.01-0.02 (P = 0.013-0.018). Seen under >= 2 heads: 0.896 vs null 0.941 (P_lo = 0.057; 0.882 vs 0.946, P = 0.008).
+ADJACENT qualifier x HEAD (positive control, S303): 1,337 tokens, 65 (59 / 59) elements. MI 1.246 bits = 66.9% of H(head); null 0.574 ->
+  excess +36.1% (+37.8 / +37.8), P = 0.001. Loyal 0.677 vs 0.205 (P = 0.001); 5 elements loyal to a NON-jar head vs 0.01. Seen under >= 2 heads 0.646 vs 0.966.
+NON-ADJACENT elements x SITE (7 site groups): MI 0.338 = 20.5% of H(site); null 0.314 -> excess +1.5% (+1.3 / +1.3), P = 0.007 (0.013 / 0.014);
+  with heads held (len x type x head) +1.2% (P = 0.025 / 0.040 / 0.027). Loyal 0.156 vs 0.105 (P = 0.062; 0.047 / 0.051). >= 2 sites 0.969 vs 0.982 (P_lo = 0.24).
+  Mohenjo-daro vs Harappa only (all texts, 160 elements): excess +2.1% of H(site) (+1.9 / +1.9), loyal 0.287 vs 0.239 (P = 0.046; 0.056 / 0.046).
+NON-ADJACENT elements x TYPE (seal / tablet / sealing / pot / other): MI 0.209 = 23.8% of H(type); null (len x site) 0.178 -> excess +3.5% (+3.2 / +3.0),
+  P = 0.001; loyal 0.604 vs 0.557 (P = 0.11; 0.34 / 0.36), none loyal to a non-seal type. >= 2 types 0.854 vs 0.867 (P_lo = 0.41).
+All texts incl. 'none' head (2,167): non-adjacent x head excess +7.9% (len x type) but +0.7% under the chain null (loyal P = 0.83); x site +2.5%;
+  x type +5.8% (the tablet voucher vocabulary, S93/S216). Seals with a closer (923): x head +6.5% / chain +1.1%; x site +1.2% (P = 0.097).
+
+## The loyal elements (texts with a closer, >= 5 tokens, >= 80%)
+head: 35 (30 / 30) elements, ALL to the jar except W468 -> 154 (4/5): W590 69/79, W255 32/40, W806 29/36, W840 32/34, W17 30/30, W503 27/30, W176 24/26,
+  W435 24/24, W550 19/23, W61 22/22, W140 18/20, W742 12/14, W320 10/11, W142 9/11, W171, W175 10/10, W460 9/10, W920 9/9 ... These are the pre-jar
+  title members (590-390, 255-435-690, 840-87, S229; W806 the leaf-tree that otherwise qualifies 154/158) and the jar's own qualifier family standing one slot further left, i.e. the frozen
+  phrases, not identifiers. Jar-loyalty is also the base rate: the jar closes 67% of closed texts, so 'loyal' here means 'followed by the default closer'.
+site: 26 elements, 23 to Mohenjo-daro (W520 20/23, W621, W679, W460, W241, W585 11/11, W374, W190, W853 ...) and 3 to Harappa (W525, W137, W201); Mohenjo-daro
+  holds 51% of texts, so most of these are base-rate loyal; the arrow W520 as a non-adjacent middle element (i.e. 520 followed by more signs) is the one
+  clear Mohenjo-daro habit (S157 bar-seal genre is Harappa/Dholavira).
+type: 92 elements loyal to 'seal' (the seal holds 69% of texts), none to tablet/pot/sealing at >= 5 tokens.
+
+## Ready-to-paste STRATEGIES.md row
+| S-DARK-45.1 | **Loop 45, cycle 1: who owns the middle inventory? Is the set of middle elements partitioned by head (closer), by site or by object type, or shared?** `tools/dark_loop45.py 1 LEVEL 1000` (logs `loop45_c1_*.txt/.json`). Complete direction-recorded texts >= 2 signs, collapsed to one per distinct text per site x type (S-DARK-13; 3,155 -> 2,167). Head = S310/S331 closer unit (11 + 'none'); middle split into the ADJACENT qualifier (sign before the closer, S303) and the NON-ADJACENT rest. Per element: distribution over heads, 7 site groups, 5 object types; MI(element, label) as % of H(label); 'loyal' = >= 80% of >= 5 tokens under one label; loyal to a NON-dominant label; share seen under >= 2 labels. Nulls 1,000x: labels permuted among texts within length x type, within length x type x site/head, and the S366 chain null (heads permuted among texts with the same adjacent sign). Three merge levels | **Texts with a closer (1,345):** NON-ADJACENT elements x head MI = 31.9% of H(head), excess over the permutation null +8.7% (seq_strong +8.7, seq_all +8.8; P = 0.001), **but under the S366 chain null (adjacent sign held) the excess is +1.6% (+2.0 / +2.3) and loyalty is at chance (0.365 vs 0.355, P = 0.43–0.77)**; 90% of well-attested elements occur under >= 2 heads (null 94%); exactly 1 element in 96 is loyal to a non-jar head (W468 -> 154, 4/5; null 0.02). ADJACENT qualifier x head (positive control): MI 66.9% of H(head), excess +36% (P = 0.001), loyal 0.68 vs 0.21, 5 non-jar-loyal. The 35 'head-loyal' non-adjacent elements are all jar-loyal (W590, W255, W806, W840, W17, W503, W176, W435 ...): members of the frozen pre-jar titles standing one slot left (S229), and the jar is the 67% default. SITE: excess +1.5% of H(site) (P = 0.007–0.027), loyal 0.156 vs 0.105 (P = 0.05–0.06); Mohenjo-daro vs Harappa +2.1%, loyal 0.287 vs 0.239 (P = 0.046); 97% of elements seen at >= 2 sites (null 98%). TYPE: excess +3.5% (P = 0.001) but loyal 0.60 vs 0.56 (P = 0.11), all to 'seal'; incl. unclosed texts +5.8% (the tablet voucher words). Same at all three levels; no result depends on a merge | **Shared, not partitioned.** The non-adjacent middle vocabulary is one pan-Indus inventory: it carries about 9% of the head information, of which all but 1.6–2.3% is already in the sign next to the closer (S303/S366), and it carries 1–2% of site information and 3% of type information, far below the 36% that the adjacent qualifier carries about its head. No office has its own identifier register and no city has its own: an element seen at Mohenjo-daro under the jar is as likely to turn up at Harappa under the arrow as chance allows. Cycle 2 asks whether weak block structure exists anyway; cycle 3 replicates on held-out sites and IM77 and tests the loyal elements on the 324 new texts |

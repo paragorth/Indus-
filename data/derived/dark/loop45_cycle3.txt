@@ -1,0 +1,33 @@
+# S-DARK-45 cycle 3: replication on held-out sites and IM77; prediction on the 324 IM77-only new texts (tools/dark_loop45.py 3 LEVEL 1000)
+Logs: loop45_c3_seq_raw.txt / _seq_strong.txt / _seq_all.txt. Same statistics and nulls as cycle 1.
+IM77 read in M space with its own frame: closers M342 (jar), M211 (arrow), M12, M15, M254, M60, M245, M328, M66 (= W236, loop-27 proposal); openers
+M267/391/293/150, connectives M99/100/123, suffix M176/M1; texts = (text_no, side), lines joined, sign 0 dropped, >= 2 signs, collapsed per site x type.
+Wells loyal elements mapped to M with bridge_extended first, loop-27 proposals second, only where the mapping is one-to-one (27 of 32 mapped; 4 via proposals).
+CAUTION: M245 covers W615 + W617 (S-DARK-27 one-to-many); W615 is final in only 9 of 70 Wells texts, so 'C617' heads in M space are inflated
+(19 of 155 closed new texts); the prediction is therefore also run without the C617 heads.
+
+## Held-out Wells sites (not Mohenjo-daro / Harappa): 371 collapsed texts, 203 with a closer; seq_raw (strong / all)
+Texts with a closer, non-adjacent elements x head: 386 tokens, 22 elements with >= 5 tokens; MI 52% of H(head); excess over len x type +5.4% (P = 0.09),
+  under the S366 chain null +0.5% (+0.4 / +0.3), P = 0.08 (0.15 / 0.22); loyal 0.318 vs 0.306 (P = 0.61); NO element loyal to a non-jar head; 82% under >= 2 heads.
+All held-out texts: x head excess +2.2% (len x type), +0.2% under chain null (P = 0.07–0.22), loyal P = 1.0; x site (Lothal/Kalibangan/Dholavira/Chanhu-daro/other)
+  excess +2.0% (P = 0.09), loyal 0.025 vs 0.025 (P = 0.9); x type excess +2.9% (P = 0.18).
+Loyal set fitted on Mohenjo-daro + Harappa (32 / 30 / 31 elements, all jar-loyal except W468) applied to held-out closed texts: 62 tokens, 52 (0.84) with the fitted
+  head vs base rate 39.4 (0.64), head-permutation null 44.2 +- 3.4, P = 0.014 (0.006 / 0.005). 17 of the 52 hits are W590 (the frozen 590-390-jar title), 5 W17,
+  5 W840, 3 each W920, W255, W61: frozen pre-jar phrases travel, as S17/S229 already said. Nothing non-jar to test (0 of 62: < 5%).
+
+## IM77 (2,373 collapsed texts, 1,372 with a closer)
+Texts with a closer, non-adjacent x head: 2,878 tokens, 103 elements; MI 28.1% of H(head); excess len x type +8.6%; **chain null +2.2% (P = 0.001)**; loyal 0.388
+  vs 0.373 (P = 0.33); 1 element loyal to a non-jar head (vs 0.02, P = 0.02); 87% under >= 2 heads. All IM77 texts: excess +7.5%, chain null not run (no adjacent
+  sign for 'none'). Transcription-robust (IM77 and Wells are ~70% the same objects, S312): the 1.6–2.3% residual beyond the adjacent sign appears in both.
+
+## Prediction on the 324 IM77-only new texts (284 present with >= 2 signs after collapse; 155 with a closer: jar 85, C617 19, arrow 17, C156 14, C151 9, C527 6, C226 3, C700 2)
+P1 (Wells-fitted, 27 mapped loyal elements): 65 tokens in closed new texts, 33 (0.51) with the fitted head vs base rate 35.1 (0.54); null 32.8 +- 3.8, **P = 0.54**
+   (strong 29/59 P = 0.56; all 31/61 P = 0.47). Without the inflated C617 heads: 33/50 = 0.66 vs 0.61, P = 0.30 (0.31 / 0.23).
+   Misses: M25 (W142, qualifier of 617) under C617 x9, M403 under C156 x2, M293 and M186 under C520 x2 each, M48 under C226/C617/C527 ...
+P2 (IM77-fitted on the 1,217 non-new closed texts, 40 loyal elements, all jar): 81 tokens, 48 (0.59) vs base 44.4 (0.55); null 43.4 +- 4.0, P = 0.16; without C617 48/70 = 0.69 vs 0.62, P = 0.22.
+P3 (site-loyal, Mohenjo-daro vs Harappa, 37 mapped elements): 77 tokens in new MD/H texts, 50 (0.65) at the fitted site vs base 43.5 (0.57); null 53.4 +- 3.1, P = 0.88
+   (strong/all 39/57 vs null 40.5, P = 0.76). The fitted 'Mohenjo-daro' elements (M169, M176, M244, M253, M391 ...) turn up at Harappa in the new texts at the base rate.
+Contrast: on ALL IM77 closed texts the Wells-fitted set scores 425/541 = 0.79 vs base 0.65 (P = 0.001) because 70% of those objects ARE the Wells objects (S312).
+
+## Ready-to-paste STRATEGIES.md row
+| S-DARK-45.3 | **Loop 45, cycle 3: replication of the ownership test on held-out Wells sites and on IM77, and the frozen prediction on the 324 IM77-only new texts.** `tools/dark_loop45.py 3 LEVEL 1000` (logs `loop45_c3_*.txt`). Cycle-1 statistics on (a) the 371 collapsed non-MD/H texts, (b) IM77 in M space with its own frame (2,373 texts; closers M342/211/12/15/254/60/245/328/66), with the S366 chain null; (c) loyal sets (>= 5 tokens, >= 80% one head / one site) fitted on Mohenjo-daro + Harappa (Wells) or on the 1,217 non-new IM77 closed texts, mapped W -> M where bridge_extended + loop-27 proposals are one-to-one, then scored on the new texts: share of tokens whose text carries the fitted head/site vs the base rate and vs heads permuted within length x type (1,000x); 0-of-n reported as < 3/n; also without the inflated C617 heads (M245 = W615 + W617). Three merge levels | **Held-out sites (203 closed texts, 22 elements):** non-adjacent x head excess +5.4% of H(head) under the plain null, **+0.5% (+0.4 / +0.3) under the chain null (P = 0.08–0.22)**, loyalty 0.318 vs 0.306 (P = 0.61), 0 of 22 elements loyal to a non-jar head (< 14%); x site excess +2.0% (P = 0.09), loyalty at chance (P = 0.9). **IM77 (1,372 closed):** excess +8.6% plain, **+2.2% under the chain null (P = 0.001)**, loyalty 0.388 vs 0.373 (P = 0.33), 1 non-jar-loyal element; transcription-robust, not replicated. **Prediction on the new texts (155 closed):** Wells-fitted loyal elements keep their head in 33 of 65 tokens (0.51) vs base rate 0.54, null 32.8 +- 3.8, **P = 0.54** (0.56 / 0.47); without C617 heads 33/50 = 0.66 vs 0.61 (P = 0.30); IM77-fitted set 48/81 = 0.59 vs 0.55 (P = 0.16); site-loyal elements at their own site 50/77 = 0.65 vs 0.57, null 53.4 (P = 0.88). On held-out Wells sites the MD/H jar-loyal set does score 52/62 = 0.84 vs 0.64 (P = 0.005–0.014), but 17 of the 52 hits are W590 of the frozen 590-390-jar title and all are the default closer; on all IM77 closed texts 425/541 = 0.79 (P = 0.001) only because 70% are the same objects (S312) | **The prediction FAILS, in the direction the shared-inventory reading expects.** An element 'loyal' to a head or a city at Mohenjo-daro + Harappa is no likelier than chance to carry that head or sit in that city on a text the corpus had never seen; the only reproducible head-information outside the adjacent qualifier is 0.3–2.3% of H(head) and comes from frozen pre-jar titles. The middle inventory is one pan-Indus pool used under every closer at every site. Caveats: 155 closed new texts give power only for a > 15-point effect; 77% of the new texts are still MD + Harappa; M245 inflates the C617 head |
