@@ -1,0 +1,14 @@
+
+## Indus middle, DESC classes, non-adjacent pairs: 1590 names, 2921 classed pairs (non-adjacent only), 6 classes {'geometric': 21, 'human': 17, 'plant': 14, 'numeral': 13, 'tool': 11, 'animal': 8}
+   Cramer V vs permutation expectation: 0.089 (null tables 0.049 [0.038, 0.060], P = 0.003)
+   same-class pairs 458 / 2921 = 0.157; expected 0.169; O/E 0.93; P(hi) = 0.980 P(lo) = 0.023
+   class-pair gain over unigram (2-fold held-out): +0.0051 bits/token [-0.0047, +0.0136] on 2921 tokens; random partitions -0.0063 [-0.0201, +0.0058] P = 0.059
+   symmetry corr(z(A->B), z(B->A)) = -0.63 over 15 cell pairs
+   strongest symmetric cells: animalxanimal O 30 E 56 z -3.8; numeralxnumeral O 163 E 193 z -2.7; numeralxtool O 117 E 146 z -2.3; toolxtool O 30 E 21 z +2.2; animalxhuman O 140 E 165 z -1.8; animalxnumeral O 232 E 259 z -1.6; plantxplant O 48 E 42 z +1.1; geometricxgeometric O 103 E 94 z +1.0
+
+## Indus middle, DESC classes, all pairs: 1590 names, 5004 classed pairs (all pairs), 6 classes {'geometric': 21, 'human': 17, 'plant': 14, 'numeral': 13, 'tool': 11, 'animal': 8}
+   Cramer V vs permutation expectation: 0.102 (null tables 0.037 [0.029, 0.047], P = 0.003)
+   same-class pairs 865 / 5004 = 0.173; expected 0.162; O/E 1.07; P(hi) = 0.017 P(lo) = 0.987
+   class-pair gain over unigram (2-fold held-out): +0.0145 bits/token [+0.0057, +0.0223] on 5004 tokens; random partitions +0.0045 [-0.0051, +0.0140] P = 0.030
+   symmetry corr(z(A->B), z(B->A)) = -0.57 over 15 cell pairs
+   strongest symmetric cells: animalxanimal O 137 E 92 z +5.5; numeralxplant O 427 E 353 z +4.0; animalxtool O 175 E 136 z +3.3; humanxhuman O 160 E 134 z +2.8; toolxtool O 47 E 34 z +2.5; animalxhuman O 225 E 265 z -2.4; plantxtool O 88 E 109 z -2.1; humanxnumeral O 439 E 484 z -1.9

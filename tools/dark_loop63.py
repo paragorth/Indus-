@@ -166,7 +166,7 @@ def spectral_split(names,fmin=5,r=None):
         for i in range(len(s)):
             for j in range(i+1,len(s)): tot+=1; same+=(s[i]==s[j])
     return side,(same/tot if tot else float('nan')),tot
-def bipartition_test(names,label,nperm=50,fmin=5,gender=None,r=None):
+def bipartition_test(names,label,nperm=50,fmin=5,gender=None,r=None,listing=False):
     r=r or random.Random(63)
     names=[tuple(n) for n in names if len(n)>=2]
     side,obs,tot=spectral_split(names,fmin)
@@ -192,10 +192,14 @@ def bipartition_test(names,label,nperm=50,fmin=5,gender=None,r=None):
         agr=max(agree,cnt-agree)/cnt if cnt else float('nan')
         # gender purity of the shuffle (elements keep their names' genders in the shuffle? no: shuffle breaks element-name link, so purity under
         # shuffle = baseline from the gender mix)
-        out.update(gender_purity=sum(pur)/len(pur) if pur else float('nan'),side_gender_agreement=agr,n_gendered_el=cnt,
+        out.update(gender_purity=sum(pur)/len(pur) if pur else float('nan'),side_gender_agreement=agr,n_gendered_el=cnt,chance_agreement=max(bal,1-bal),
                    same_gender_share=sum(1 for n,g in zip(names,gender) if g in('M','F'))/len(names))
     P(f'  {label}: n={len(names)} frequent elements {len(side)} (balance {bal:.2f}); same-side share of within-name pairs {obs:.3f} vs shuffle {mu:.3f} +- {sd:.3f} (z={out["z"]:.1f})'
-      +(f'; element gender purity {out["gender_purity"]:.3f}, spectral side = gender for {out["side_gender_agreement"]:.3f} of {cnt} gendered elements' if gender is not None else ''))
+      +(f'; element gender purity {out["gender_purity"]:.3f}, spectral side = gender for {out["side_gender_agreement"]:.3f} of {cnt} gendered elements (chance = max side share {max(bal,1-bal):.3f})' if gender is not None else ''))
+    if listing:
+        el=collections.Counter(a for n in names for a in n); mn=1 if bal<0.5 else 0
+        out['minority_side']=sorted([a for a,sd in side.items() if sd==mn],key=lambda a:-el[a])
+        P('    minority side ('+str(len(out['minority_side']))+' elements, by frequency): '+' '.join(f'{a}:{el[a]}' for a in out['minority_side'][:40]))
     return out
 def head_test(heads,mids,label,nperm=200,r=None):
     """heads: list of head tokens (surname / closer), mids: list of middle tuples (same length). Closed-set size, coverage,
@@ -313,19 +317,19 @@ if CY==3:
     P(f'== S-DARK-63 cycle 3: replication on held-out sites, Mohenjo-daro vs Harappa, IM77, three merge levels; ndraw {NB}')
     R={}
     KEY=['pos_excess','pos_bound','mi_ex','pair_pred','big_reuse','el_gini','el_heaps']
-    def block(names,label,gender=None):
+    def block(names,label,gender=None,listing=False):
         names=sorted(set(tuple(n) for n in names if len(n)>=2)); n=len(names)
         b=boot(names,label,nboot=max(10,NB//2)); c=cov_boot(names,max(10,NB//2))
-        bp=bipartition_test(names,label+' bipartition',max(10,NB//2),gender=gender)
+        bp=bipartition_test(names,label+' bipartition',max(10,NB//2),gender=gender,listing=listing)
         P('    closed-slot: '+'; '.join(f'{k} {t3(c[k])}' for k in COVK))
         return dict(n=n,bat={k:(b['med'][k],b['lo'][k],b['hi'][k]) for k in LADDER},cov=c,bip=bp)
     for LV in ['seq_raw','seq_strong','seq_all','im77']:
         objs=load_indus(LV) if LV!='im77' else im77_objects()
-        groups={'MD':[o['mid'] for o in objs if o['site']=='Mohenjo-daro'],'Harappa':[o['mid'] for o in objs if o['site']=='Harappa'],
+        groups={'len2to4':[o['mid'] for o in objs if 2<=len(o['mid'])<=4],'MD':[o['mid'] for o in objs if o['site']=='Mohenjo-daro'],'Harappa':[o['mid'] for o in objs if o['site']=='Harappa'],
                 'heldout':[o['mid'] for o in objs if not o['big']],'seals':[o['mid'] for o in objs if o['ot']=='seal'],'tablets':[o['mid'] for o in objs if o['ot']=='tablet']}
         for g,nm in groups.items():
             P(f'\n##### Indus {LV} {g}')
-            R[f'indus_{LV}_{g}']=block(nm,f'Indus {LV} {g}')
+            R[f'indus_{LV}_{g}']=block(nm,f'Indus {LV} {g}',listing=(g=='len2to4'))
     # logographic comparators at the held-out n (~300) and at the MD n, with gender as positive control for the bipartition
     nh=R['indus_seq_raw_heldout']['n']; nmd=R['indus_seq_raw_MD']['n']
     P(f'\n##### logographic lists drawn at the held-out n={nh} and the Mohenjo-daro n={nmd} (same code), gendered rows only for the purity figure')
@@ -334,6 +338,18 @@ if CY==3:
         for n,tag in [(nh,'heldout_n'),(nmd,'MD_n')]:
             sub=r.sample(rows,n); P(f'\n  {nm} at n={n}')
             R[f'{nm}_{tag}']=block(seqs(sub),f'{nm} n={n}',gender=[x[1] for x in sub])
+    # EXACT length match: logographic lists drawn to the Indus length-2..4 middle distribution (one draw set, then block statistics on it)
+    base24=[n for n in indus_names('seq_raw',2) if len(n)<=4]; L24=[len(n) for n in base24]; n24=len(base24)
+    P(f'\n##### logographic lists exactly LENGTH-MATCHED to the {n24} Indus middles of 2-4 elements (lengths {sorted(collections.Counter(L24).items())})')
+    for nm in ['cn_given','cn_ancient','jp_given','jp_person_given','vi_given']:
+        rows=jl63(nm,2,4); byL=collections.defaultdict(list)
+        for x in rows: byL[len(x[0])].append(x)
+        r=random.Random(61); sub=[]
+        for L,c in collections.Counter(L24).items(): sub+=r.sample(byL[L],min(c,len(byL[L])))
+        P(f'\n  {nm} length-matched n={len(sub)} (lengths {sorted(collections.Counter(len(x[0]) for x in sub).items())})')
+        R[f'{nm}_len24match']=block(seqs(sub),f'{nm} len-matched 2-4',gender=[x[1] for x in sub])
+    fr24=freq_random(base24,random.Random(8)); fr24=[s for s in fr24 if len(s)<=4]
+    R['indus_freqrand_len24']=block(random.Random(3).sample(fr24,n24),'Indus freq-random len 2-4')
     fr=freq_random(indus_names('seq_raw',2),random.Random(7))
     for n,tag in [(nh,'heldout_n'),(nmd,'MD_n')]:
         R[f'indus_freqrand_{tag}']=block(random.Random(2).sample(fr,n),f'Indus freq-random n={n}')
