@@ -87,7 +87,8 @@ def read(kind,p,s):
         if p['s'] not in s: return 'absent'
         return round(s.index(p['s'])/(L-1),1) if L>1 else 0
 # ---------- MI with permutation ----------
-def mi_p(xs,ys,nperm,rng):
+def mi_p(xs,ys,nperm,rng,strata=None):
+    """MI of x,y with a permutation null that shuffles y WITHIN strata (site), so a common site cause cannot create MI."""
     xs=np.asarray(xs); ys=np.asarray(ys); n=len(xs)
     _,xi=np.unique(xs,return_inverse=True); _,yi=np.unique(ys,return_inverse=True)
     nx=xi.max()+1; ny=yi.max()+1
@@ -97,23 +98,25 @@ def mi_p(xs,ys,nperm,rng):
         px=t.sum(1,keepdims=True); py=t.sum(0,keepdims=True)
         nz=t>0; return float((t[nz]*np.log(t[nz]/(px@py)[nz])).sum())
     o=mi(xi,yi); ge=0; r=np.random.default_rng(rng.randint(0,10**9)); yy=yi.copy()
+    groups=[np.where(np.asarray(strata)==g)[0] for g in set(strata)] if strata is not None else [np.arange(n)]
     for k in range(nperm):
-        r.shuffle(yy); ge+=mi(xi,yy)>=o
+        for g in groups: yy[g]=r.permutation(yy[g])
+        ge+=mi(xi,yy)>=o
         if ge>=5 and k>=20: return o,(ge+1)/(k+2)   # early stop
     return o,(ge+1)/(nperm+1)
 def evaluate(kind,p,fact,objs,level,nperm,rng,minn=40):
-    xs=[];ys=[]
+    xs=[];ys=[];st=[]
     for o in objs:
         y=o['f'][fact]
         if y is None: continue
         x=read(kind,p,o[level])
         if x is None: continue
-        xs.append(str(x)); ys.append(str(y))
+        xs.append(str(x)); ys.append(str(y)); st.append(o['f']['site'])
     if len(xs)<minn: return None
     # collapse rare x and y values (<5) to 'other' to avoid MI inflation
     cx=collections.Counter(xs); cy=collections.Counter(ys)
     xs=[x if cx[x]>=5 else 'other' for x in xs]; ys=[y if cy[y]>=5 else 'other' for y in ys]
-    r=mi_p(xs,ys,nperm,rng)
+    r=mi_p(xs,ys,nperm,rng,strata=None if fact in ('site','region') else st)
     return (r[0],r[1],len(xs)) if r else None
 # ---------- run ----------
 surv=[]; tried=0
