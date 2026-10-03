@@ -176,9 +176,9 @@ tokall = collections.Counter(s for r in corpus for s in r['seq_raw'])
 ladder = [('raw Wells', [r['seq_raw'] for r in corpus], None),
           ('canonical strong', [r['seq_strong'] for r in corpus], None),
           ('canonical all', [r['seq_all'] for r in corpus], None),
-          ('contextual-merged (all + graph k>=2)', [r['seq_raw'] for r in corpus], merges['classes']['all_k2']),
-          ('maximal-merged (all + graph k>=1)', [r['seq_raw'] for r in corpus], merges['classes']['all_k1']),
-          ('strict-merged (all + graph k>=3)', [r['seq_raw'] for r in corpus], merges['classes']['all_k3'])]
+          ('contextual-merged (all + principled graph)', [r['seq_raw'] for r in corpus], merges['classes']['all_kp']),
+          ('permissive-merged (all + graph k>=2)', [r['seq_raw'] for r in corpus], merges['classes']['all_k2']),
+          ('maximal-merged (all + graph k>=1)', [r['seq_raw'] for r in corpus], merges['classes']['all_k1'])]
 out.append('\n## Indus ladder, all %d texts (%d tokens) and distinct texts' % (len(corpus), sum(tokall.values())))
 results = {}
 for label, texts, classes in ladder:

@@ -77,3 +77,27 @@ mid_init_final_jaccard           0.570     0.437    0.024    5.61  [   0.386,   
 H_start3                         6.201     6.477    0.053   -5.21  [   6.335,   6.612] *
 key stats: longrange_attract_pairs 127.000 vs 91.290 z 1.9; longrange_avoid_pairs 272.000 vs 250.600 z 1.6; repeat_rate 0.043 vs 0.034 z 2.2; len_sd 2.021 vs 1.787 z 8.3*; two_numerals_share 0.044 vs 0.055 z -2.4*; H_start1 6.694 vs 6.635 z 0.8; H_start2 6.217 vs 6.702 z -11.5*; H_start3 6.201 vs 6.477 z -5.2*; H_cond_bigram 2.770 vs 3.422 z -26.3*; mi_d2 2.489 vs 2.312 z 4.4*; hapax_sign_share 0.354 vs 0.312 z 2.7*; bigram_hapax_share 0.660 vs 0.512 z 14.9*; len_mean 3.358 vs 3.462 z -2.9*; unique_text_share 0.580 vs 0.582 z -0.4; same_middle_diff_closer 0.204 vs 0.051 z 17.7*
 field-level check (real vs one synthetic corpus): texts with a repeated field 0.067, tokens in an already-used field 0.023, repeated-sign tokens 0.009 | texts with a repeated field 0.078, tokens in an already-used field 0.024, repeated-sign tokens 0.007; pair-order agreement with the linear field order 0.851
+
+## PARTIAL ablation: strict linear field order  (fit 586 s)
+PARTIAL ablation: strict linear field order: outside 28/50, |z|>3: 24, sum|z| 200.5
+statistic                         real  syn mean       sd       z                range out
+trigram_hapax_share              0.799     0.640    0.010   15.81  [   0.618,   0.668] *
+bigram_hapax_share               0.660     0.492    0.012   14.14  [   0.464,   0.532] *
+same_middle_diff_closer          0.204     0.079    0.010   12.04  [   0.059,   0.110] *
+nesting_rate                     0.163     0.089    0.007   11.31  [   0.076,   0.113] *
+H_cond_bigram                    2.770     2.937    0.019   -8.81  [   2.902,   2.981] *
+mid_init_final_jaccard           0.570     0.397    0.020    8.56  [   0.351,   0.453] *
+texts_rep3                     107.000   197.800   10.858   -8.36  [ 175.000, 226.000] *
+mid_len_closer_diff             -1.027    -0.459    0.073   -7.80  [  -0.677,  -0.274] *
+mi_d2                            2.489     2.298    0.030    6.27  [   2.233,   2.386] *
+mi_d4                            2.687     2.299    0.063    6.10  [   2.141,   2.477] *
+text3_multisite_share            0.021     0.009    0.002    5.67  [   0.004,   0.013] *
+mi_d1                            3.181     3.049    0.023    5.64  [   2.996,   3.112] *
+adj_double_rate                  0.007     0.023    0.003   -5.32  [   0.016,   0.030] *
+numeral_initial_share            0.460     0.381    0.015    5.18  [   0.342,   0.430] *
+run4_rep3                      171.000   294.170   25.334   -4.86  [ 239.000, 352.000] *
+mi_d3                            2.441     2.233    0.044    4.69  [   2.132,   2.358] *
+len_max                         17.000    12.650    1.043    4.17  [  11.000,  15.000] *
+len_mean                         3.358     3.490    0.034   -3.92  [   3.409,   3.615] *
+key stats: longrange_attract_pairs 127.000 vs 101.530 z 1.6; longrange_avoid_pairs 272.000 vs 291.280 z -1.6; repeat_rate 0.043 vs 0.035 z 1.9; len_sd 2.021 vs 1.918 z 3.2*; two_numerals_share 0.044 vs 0.044 z -0.0; H_start1 6.694 vs 6.582 z 1.6; H_start2 6.217 vs 6.410 z -3.6*; H_start3 6.201 vs 6.336 z -2.5; H_cond_bigram 2.770 vs 2.937 z -8.8*; mi_d2 2.489 vs 2.298 z 6.3*; hapax_sign_share 0.354 vs 0.326 z 1.5; bigram_hapax_share 0.660 vs 0.492 z 14.1*; len_mean 3.358 vs 3.490 z -3.9*; unique_text_share 0.580 vs 0.574 z 0.9; same_middle_diff_closer 0.204 vs 0.079 z 12.0*
+field-level check (real vs one synthetic corpus): texts with a repeated field 0.067, tokens in an already-used field 0.023, repeated-sign tokens 0.009 | texts with a repeated field 0.088, tokens in an already-used field 0.027, repeated-sign tokens 0.010; pair-order agreement with the linear field order 0.851

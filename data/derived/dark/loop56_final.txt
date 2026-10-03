@@ -1,0 +1,37 @@
+S-DARK-56 FINAL: THE 'NOT NAMES' CLAIM WITH THE RIGHT COMPARATOR (three cycles + one extra; rows in loop56_cycle1-3.txt;
+scripts tools/dark_loop56_prep.py, dark_loop56.py, dark_loop56_c3c.py, dark_loop56_suffix.py; corpora data/derived/dark/loop56_corpora/;
+numbers loop56_cycle*.json; logs loop56_*_log.txt). Nothing committed. Data: merged-corpus-canonical.json (S-DARK-23 caution) and IM77 via bridge.
+
+Comparators built (all deduplicated to one copy per distinct name, so uniqueness = 1 by construction):
+  Ur III seal-owner names 1,348 (CDLI @seal line 1, 12,493 impressions); Old Babylonian + Early OB 1,388; Old Assyrian 69 (small);
+  Linear B personnel / flock / landholder series 1,649 (KN 757, PY 931; DAMOS As, B, Ap, V, Da-Dv, An, Cn, Jn, Ea-Es, Ad, Ae);
+  Latin EDH 'dis manibus' names 1,170 (words; letters as a flagged variant); poles: ICD-10, HTS, Proto-Elamite and proto-cuneiform
+  entries minus numerals, uniform IDs, frequency-matched random strings, Zipf iid, planted prefix/stem/suffix lexicon.
+  Indus: S-DARK-26 middles, one per site x type x text, one per distinct middle, >= 2 elements: 1,431 / 1,403 / 1,402 (raw/strong/all), IM77 1,505.
+
+Plain answer to question (4): does 'not names' survive a one-per-person comparator?
+  YES, but not on the statistics we had been using.
+  1. RETIRED: uniqueness and element-frequency contrasts (S321, S-DARK-18, S-DARK-53 Gini/Zipf/Heaps). Deduplicated Ur III names have
+     the Indus element profile to three decimals (TTR 0.108 vs 0.107, reuse 0.958 vs 0.960, Gini 0.718 vs 0.733, Zipf -1.26 vs -1.26,
+     Heaps 0.47 vs 0.50), and so do frequency-matched random strings. Those statistics measured homonymy in a seal-user population and
+     the Zipfian shape of a ~500-sign inventory, not whether the strings are names.
+  2. ORDER statistics put Indus between accounting strings and names: positional slot-binding 0.17 / 0.38 (names 0.20-0.29 / 0.48-0.65;
+     random 0.00 / 0.13; Proto-Elamite 0.19 / 0.45), adjacent MI 0.38 (names 0.51-1.12 for cuneiform and Linear B, Latin 0.17; PE 0.03),
+     pair predictability 0.06 (names 0.10-0.16), bigram reuse 0.26 and substring share 0.05 inside the name range (but carried by frozen
+     numeral + W390 / fish pairs). The structure is real and transfers to held-out sites (edge agreement 0.333 vs shuffle 0.258, z 5.6;
+     83% of shared elements keep their edge) but with the smallest excess of every system tested (ratio 1.29 vs Linear B KN->PY 1.53,
+     Ur III Umma->Girsu 1.86, Proto-Elamite split 1.46). Not a parser artefact: whole Indus texts vs whole legends show the same gap.
+  3. DECISIVE NEW STATISTIC: closed edge set. Every attested name system builds names from an open stem plus a small set of recurring heads
+     or tails, so the 10 commonest initials or finals cover 30-63% of names (Ur III initials 0.48, OB 0.40 / 0.39, Linear B finals 0.63,
+     Latin initials 0.29). In the Indus middle the 10 commonest initials cover 0.24 and finals 0.27, identical to frequency-matched random
+     strings (0.26 / 0.26), at all three merge levels, IM77 (0.27 / 0.34) and NAME-only (0.23 / 0.28); the slot entropies equal random.
+     The Indus middle has no theophoric head, no suffix class, no praenomen slot.
+  Verdict: Indus middles are NEITHER personnel names NOR designed codes. They are short formulaic strings with soft positional habits,
+  less structured than Proto-Elamite entries and far less than any name list, with edges as open as random. 'Middle = name' stays C.
+  Killer for the C gloss, stated in advance: a recurring edge set covering >= 0.35 of initials or finals on new material would revive it.
+  What a positive names reading predicts and the current status: (1) closed suffix / head set: FAILS; (2) cross-site transfer of slot
+  preferences: passes weakly, but so does Proto-Elamite, so not diagnostic; (3) same-site seal-sealing element sharing: untestable
+  (30 sealings survive the filters; Lothal 9: element coverage 0.86 vs 0.67 permuted, marginal); (4) patronymic pairs at one findspot:
+  needs findspot-level data (S-DARK-23 rebuild).
+Caveats: Linear B list includes some occupational words; Ur III 'elements' are a greedy approximation; Latin letters are phonemic, not
+signs; Old Assyrian n=69 is test-only; 76% of Indus texts are Mohenjo-daro + Harappa; corpus from the older inscriptions.csv build.

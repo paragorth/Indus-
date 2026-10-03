@@ -1,0 +1,205 @@
+== S-DARK-58 cycle 1, level seq_strong: minimal texts, roles from 1399 complete texts of >= 4 signs; 528 signs get a role
+   role inventory (signs by majority role): {'COUNT': 55, 'NAME': 447, 'TITLE': 10, 'CLOSER': 8, 'OPENER': 4, 'MARKER': 2, 'SUFFIX': 2}
+   closer-class signs: W151 W154 W156 W226 W520 W527 W617 W740
+   title/qualifier signs: W100 W176 W555 W585 W690 W752 W760 W772 W904 W923
+   opener/marker/suffix: W2:MAR W60:MAR W90:SUF W400:SUF W692:OPE W820:OPE W861:OPE W920:OPE
+   1-sign texts (clean, one per die): 302; 2-sign: 467; (before cleaning: 754 and 896 rows incl. fragments)
+   1-sign by object type: {'pot': 159, 'seal': 57, 'other': 35, 'tablet': 31, 'bangle': 19, 'sealing': 1}
+   1-sign by site: {'Harappa': 157, 'Mohenjo-daro': 69, 'Kalibangan': 26, 'Lothal': 10, 'Karanpura': 6, 'Dholavira': 6, 'Nausharo': 4, 'Banawali': 3, 'Chanhu-daro': 3, 'Bhirrana': 2}
+   1-sign seals by emblem: {'Bull1': 19, 'None': 11, 'Goat': 5, 'Zebu': 5, 'Bull3': 3, 'Tigr': 2, 'Bult': 2, '-': 2, 'Gavi': 1, 'Gaur': 1}
+   2-sign by object type: {'seal': 246, 'tablet': 108, 'pot': 73, 'other': 18, 'bangle': 15, 'sealing': 7}
+   2-sign by site: {'Mohenjo-daro': 183, 'Harappa': 170, 'Kalibangan': 26, 'Dholavira': 18, 'Banawali': 10, 'Lothal': 9, 'Chanhu-daro': 8, 'Nausharo': 8, 'Farmana': 4, 'Kanmer': 4}
+   2-sign seals by emblem: {'Bull1': 144, 'None': 44, 'Zebu': 8, 'Goat': 7, 'Gaur': 7, 'Rhin': 5, 'Bull3': 4, 'Buff': 4, 'Bult': 4, 'Elep': 3}
+   1-sign texts, commonest signs by object type (sign:role count):
+     seal     n= 57: W740:CLO x3 W411:NAM x2 W117:UNS x2 W220:NAM x2 W705:NAM x2 W592:NAM x2 W415:NAM x1 W7:NAM x1 W6:NAM x1 W679:NAM x1 W47:UNS x1 W700:NAM x1 W33:COU x1 W281:NAM x1
+     tablet   n= 31: W156:CLO x2 W942:UNS x2 W413:NAM x1 W692:OPE x1 W110:UNS x1 W137:NAM x1 W144:NAM x1 W698:UNS x1 W702:NAM x1 W697:NAM x1 W98:NAM x1 W700:NAM x1 W782:UNS x1 W780:UNS x1
+     sealing  n=  1: W32:COU x1
+     pot      n=159: W32:COU x39 W33:COU x19 W2:MAR x11 W34:COU x9 W31:COU x8 W700:NAM x7 W4:COU x6 W740:CLO x4 W1:COU x4 W3:COU x4 W540:NAM x4 W90:SUF x3 W698:UNS x3 W220:NAM x3
+     bangle   n= 19: W840:NAM x7 W790:NAM x3 W32:COU x2 W2:MAR x1 W836:NAM x1 W33:COU x1 W820:OPE x1 W390:NAM x1 W850:NAM x1 W740:CLO x1
+     other    n= 35: W390:NAM x6 W480:NAM x5 W33:COU x3 W515:NAM x2 W740:CLO x1 W700:NAM x1 W31:COU x1 W705:NAM x1 W840:NAM x1 W455:NAM x1 W5:COU x1 W3:COU x1 W892:NAM x1 W898:NAM x1
+ == 1-sign texts: role mix vs nulls (pools: all clean tokens n=10449; tokens of texts >=4 n=7860)
+  -- 1-sign ALL (302 texts): n = 302 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       3   0.01 |   18.7 [ 11, 28] 0.000 under |   21.6 [ 13, 30] 0.000 under
+     MARKER      12   0.04 |   21.1 [ 13, 30] 0.032 under |   25.5 [ 16, 35] 0.006 under
+     COUNT      106   0.35 |   40.5 [ 29, 53] 0.000 OVER  |   35.8 [ 25, 47] 0.000 OVER 
+     TITLE        0   0.00 |   13.6 [  7, 21] 0.000 under |   14.6 [  8, 22] 0.000 under
+     CLOSER      16   0.05 |   45.8 [ 34, 58] 0.000 under |   43.0 [ 32, 55] 0.000 under
+     SUFFIX       3   0.01 |    9.3 [  4, 15] 0.028 under |    8.8 [  4, 15] 0.030 under
+     NAME       121   0.40 |  148.0 [132,165] 0.002 under |  152.4 [137,169] 0.000 under
+     UNSEEN      41   0.14 |    5.0 [  1,  9] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 1-sign seal (57 texts): n = 57 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       1   0.02 |    3.5 [  0,  7] 0.244       |    4.1 [  1,  8] 0.158      
+     MARKER       0   0.00 |    4.0 [  1,  8] 0.028 under |    4.9 [  1, 10] 0.010 under
+     COUNT        3   0.05 |    7.6 [  3, 13] 0.090       |    6.9 [  3, 12] 0.164      
+     TITLE        0   0.00 |    2.6 [  0,  6] 0.126       |    2.8 [  0,  6] 0.120      
+     CLOSER       4   0.07 |    8.6 [  4, 14] 0.108       |    8.2 [  3, 14] 0.160      
+     SUFFIX       0   0.00 |    1.8 [  0,  4] 0.304       |    1.7 [  0,  4] 0.364      
+     NAME        33   0.58 |   28.1 [ 21, 35] 0.232       |   28.4 [ 21, 36] 0.280      
+     UNSEEN      16   0.28 |    1.0 [  0,  3] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 1-sign tablet (31 texts): n = 31 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       1   0.03 |    1.9 [  0,  5] 0.888       |    2.2 [  0,  5] 0.668      
+     MARKER       0   0.00 |    2.2 [  0,  5] 0.200       |    2.7 [  0,  6] 0.100      
+     COUNT        1   0.03 |    4.1 [  1,  8] 0.164       |    3.6 [  1,  7] 0.208      
+     TITLE        0   0.00 |    1.4 [  0,  4] 0.446       |    1.6 [  0,  4] 0.372      
+     CLOSER       3   0.10 |    4.7 [  1,  9] 0.570       |    4.4 [  1,  9] 0.660      
+     SUFFIX       0   0.00 |    1.0 [  0,  3] 0.798       |    0.9 [  0,  3] 0.786      
+     NAME        13   0.42 |   15.2 [ 10, 21] 0.552       |   15.8 [ 10, 21] 0.398      
+     UNSEEN      13   0.42 |    0.5 [  0,  2] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 1-sign sealing: n = 1 texts, too few
+  -- 1-sign pot (159 texts): n = 159 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       0   0.00 |    9.7 [  4, 16] 0.000 under |   11.4 [  5, 18] 0.000 under
+     MARKER      11   0.07 |   10.9 [  5, 17] 1.000       |   13.6 [  7, 21] 0.604      
+     COUNT       90   0.57 |   21.1 [ 13, 30] 0.000 OVER  |   18.8 [ 12, 27] 0.000 OVER 
+     TITLE        0   0.00 |    7.2 [  2, 13] 0.002 under |    7.8 [  3, 14] 0.000 under
+     CLOSER       7   0.04 |   24.4 [ 16, 33] 0.000 under |   22.7 [ 15, 32] 0.000 under
+     SUFFIX       3   0.02 |    4.8 [  1,  9] 0.604       |    4.6 [  1,  9] 0.652      
+     NAME        36   0.23 |   77.8 [ 66, 90] 0.000 under |   80.1 [ 68, 93] 0.000 under
+     UNSEEN      12   0.08 |    2.6 [  0,  6] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 1-sign bangle (19 texts): n = 19 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       1   0.05 |    1.2 [  0,  4] 1.000       |    1.3 [  0,  4] 1.000      
+     MARKER       1   0.05 |    1.3 [  0,  4] 1.000       |    1.6 [  0,  4] 1.000      
+     COUNT        3   0.16 |    2.5 [  0,  5] 0.966       |    2.3 [  0,  5] 0.822      
+     TITLE        0   0.00 |    0.9 [  0,  3] 0.824       |    1.0 [  0,  3] 0.718      
+     CLOSER       1   0.05 |    2.9 [  0,  6] 0.344       |    2.8 [  0,  6] 0.436      
+     SUFFIX       0   0.00 |    0.6 [  0,  2] 1.000       |    0.6 [  0,  2] 1.000      
+     NAME        13   0.68 |    9.4 [  5, 14] 0.168       |    9.6 [  5, 14] 0.208      
+     UNSEEN       0   0.00 |    0.3 [  0,  2] 1.000       |    0.0 [  0,  0] 1.000      
+  -- 1-sign: within-object-type null (pool = clean tokens of the same object type, texts >= 3)
+  -- 1-sign seal within-type: n = 57 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       1   0.02 |    4.2 [  1,  8] 0.122      
+     MARKER       0   0.00 |    5.2 [  1, 10] 0.006 under
+     COUNT        3   0.05 |    6.4 [  2, 11] 0.234      
+     TITLE        0   0.00 |    2.5 [  0,  6] 0.172      
+     CLOSER       4   0.07 |    8.3 [  4, 14] 0.112      
+     SUFFIX       0   0.00 |    1.1 [  0,  4] 0.648      
+     NAME        33   0.58 |   28.7 [ 21, 37] 0.332      
+     UNSEEN      16   0.28 |    0.3 [  0,  1] 0.000 OVER 
+  -- 1-sign tablet within-type: n = 31 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       1   0.03 |    1.3 [  0,  4] 1.000      
+     MARKER       0   0.00 |    1.0 [  0,  3] 0.782      
+     COUNT        1   0.03 |    3.3 [  0,  7] 0.280      
+     TITLE        0   0.00 |    2.3 [  0,  5] 0.200      
+     CLOSER       3   0.10 |    5.6 [  2, 10] 0.336      
+     SUFFIX       0   0.00 |    2.5 [  0,  6] 0.164      
+     NAME        13   0.42 |   14.7 [  9, 20] 0.676      
+     UNSEEN      13   0.42 |    0.4 [  0,  2] 0.000 OVER 
+  -- 1-sign pot within-type: n = 159 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       0   0.00 |    7.2 [  3, 12] 0.000 under
+     MARKER      11   0.07 |    5.0 [  1, 10] 0.028 OVER 
+     COUNT       90   0.57 |   42.5 [ 32, 53] 0.000 OVER 
+     TITLE        0   0.00 |    2.1 [  0,  5] 0.276      
+     CLOSER       7   0.04 |   16.8 [ 10, 25] 0.002 under
+     SUFFIX       3   0.02 |    2.0 [  0,  5] 0.640      
+     NAME        36   0.23 |   74.6 [ 63, 87] 0.000 under
+     UNSEEN      12   0.08 |    9.1 [  4, 15] 0.424      
+ == 2-sign texts: role mix vs nulls (pools: all clean tokens n=10449; tokens of texts >=4 n=7860)
+  -- 2-sign ALL (467 texts): n = 934 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER      25   0.03 |   57.8 [ 43, 73] 0.000 under |   67.0 [ 53, 83] 0.000 under
+     MARKER      13   0.01 |   64.9 [ 50, 80] 0.000 under |   80.5 [ 65, 98] 0.000 under
+     COUNT      190   0.20 |  124.9 [104,145] 0.000 OVER  |  110.1 [ 91,130] 0.000 OVER 
+     TITLE       27   0.03 |   42.5 [ 30, 55] 0.018 under |   45.9 [ 33, 59] 0.002 under
+     CLOSER     187   0.20 |  142.1 [120,163] 0.000 OVER  |  132.9 [114,153] 0.000 OVER 
+     SUFFIX      20   0.02 |   28.8 [ 20, 39] 0.086       |   27.6 [ 19, 38] 0.154      
+     NAME       417   0.45 |  458.7 [429,488] 0.002 under |  471.0 [439,502] 0.000 under
+     UNSEEN      55   0.06 |   15.1 [  8, 23] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 2-sign seal (246 texts): n = 492 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER      12   0.02 |   30.5 [ 21, 41] 0.000 under |   35.6 [ 26, 47] 0.000 under
+     MARKER       5   0.01 |   34.4 [ 24, 46] 0.000 under |   42.6 [ 30, 55] 0.000 under
+     COUNT       86   0.17 |   65.9 [ 51, 82] 0.024 OVER  |   57.9 [ 44, 72] 0.000 OVER 
+     TITLE       13   0.03 |   22.2 [ 14, 31] 0.038 under |   24.1 [ 15, 34] 0.020 under
+     CLOSER     135   0.27 |   75.0 [ 60, 91] 0.000 OVER  |   69.9 [ 55, 85] 0.000 OVER 
+     SUFFIX       8   0.02 |   15.2 [  8, 23] 0.064       |   14.5 [  8, 22] 0.090      
+     NAME       208   0.42 |  241.4 [219,264] 0.006 under |  248.5 [226,270] 0.000 under
+     UNSEEN      25   0.05 |    7.9 [  3, 14] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 2-sign tablet (108 texts): n = 216 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       7   0.03 |   13.6 [  7, 21] 0.072       |   15.5 [  8, 23] 0.018 under
+     MARKER       2   0.01 |   15.0 [  8, 23] 0.000 under |   18.3 [ 11, 27] 0.000 under
+     COUNT       34   0.16 |   28.7 [ 19, 38] 0.326       |   25.5 [ 17, 35] 0.106      
+     TITLE       10   0.05 |    9.7 [  5, 16] 1.000       |   10.7 [  5, 17] 0.946      
+     CLOSER      29   0.13 |   32.9 [ 23, 43] 0.536       |   30.6 [ 22, 41] 0.848      
+     SUFFIX      11   0.05 |    6.6 [  2, 12] 0.148       |    6.4 [  2, 12] 0.108      
+     NAME       104   0.48 |  106.2 [ 93,121] 0.798       |  108.5 [ 94,123] 0.580      
+     UNSEEN      19   0.09 |    3.5 [  0,  8] 0.000 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 2-sign sealing (7 texts): n = 14 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       0   0.00 |    0.9 [  0,  3] 0.810       |    1.0 [  0,  3] 0.748      
+     MARKER       0   0.00 |    1.0 [  0,  3] 0.690       |    1.2 [  0,  4] 0.570      
+     COUNT        3   0.21 |    1.9 [  0,  5] 0.626       |    1.7 [  0,  4] 0.474      
+     TITLE        0   0.00 |    0.6 [  0,  3] 1.000       |    0.7 [  0,  3] 0.930      
+     CLOSER       4   0.29 |    2.1 [  0,  5] 0.356       |    2.0 [  0,  5] 0.234      
+     SUFFIX       0   0.00 |    0.4 [  0,  2] 1.000       |    0.4 [  0,  2] 1.000      
+     NAME         7   0.50 |    6.9 [  3, 11] 1.000       |    7.1 [  3, 11] 1.000      
+     UNSEEN       0   0.00 |    0.2 [  0,  2] 1.000       |    0.0 [  0,  0] 1.000      
+  -- 2-sign pot (73 texts): n = 146 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       6   0.04 |    9.0 [  4, 15] 0.384       |   10.5 [  5, 17] 0.190      
+     MARKER       3   0.02 |   10.1 [  4, 16] 0.020 under |   12.5 [  6, 20] 0.002 under
+     COUNT       51   0.35 |   19.7 [ 12, 27] 0.000 OVER  |   17.3 [ 10, 25] 0.000 OVER 
+     TITLE        2   0.01 |    6.5 [  2, 12] 0.072       |    7.0 [  2, 12] 0.056      
+     CLOSER      16   0.11 |   22.4 [ 14, 31] 0.172       |   20.8 [ 13, 30] 0.294      
+     SUFFIX       1   0.01 |    4.6 [  1,  9] 0.088       |    4.2 [  1,  9] 0.178      
+     NAME        59   0.40 |   71.8 [ 60, 83] 0.040 under |   73.4 [ 62, 85] 0.020 under
+     UNSEEN       8   0.05 |    2.3 [  0,  6] 0.002 OVER  |    0.0 [  0,  0] 0.000 OVER 
+  -- 2-sign bangle (15 texts): n = 30 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       0   0.00 |    1.8 [  0,  5] 0.294       |    2.2 [  0,  5] 0.224      
+     MARKER       1   0.03 |    2.1 [  0,  5] 0.736       |    2.6 [  0,  6] 0.488      
+     COUNT        2   0.07 |    3.9 [  1,  8] 0.476       |    3.6 [  0,  7] 0.554      
+     TITLE        1   0.03 |    1.4 [  0,  4] 1.000       |    1.4 [  0,  4] 1.000      
+     CLOSER       1   0.03 |    4.7 [  1,  9] 0.084       |    4.2 [  1,  8] 0.118      
+     SUFFIX       0   0.00 |    0.9 [  0,  3] 0.846       |    0.9 [  0,  3] 0.812      
+     NAME        23   0.77 |   14.6 [  9, 20] 0.000 OVER  |   15.2 [ 10, 20] 0.006 OVER 
+     UNSEEN       2   0.07 |    0.5 [  0,  2] 0.174       |    0.0 [  0,  0] 0.000 OVER 
+  -- 2-sign: within-object-type null (pool = clean tokens of the same object type, texts >= 3)
+  -- 2-sign seal within-type: n = 492 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER      12   0.02 |   36.7 [ 26, 48] 0.000 under
+     MARKER       5   0.01 |   43.8 [ 33, 56] 0.000 under
+     COUNT       86   0.17 |   57.6 [ 44, 72] 0.000 OVER 
+     TITLE       13   0.03 |   21.5 [ 13, 31] 0.074      
+     CLOSER     135   0.27 |   72.1 [ 57, 88] 0.000 OVER 
+     SUFFIX       8   0.02 |    9.6 [  4, 16] 0.754      
+     NAME       208   0.42 |  249.0 [226,271] 0.000 under
+     UNSEEN      25   0.05 |    2.2 [  0,  5] 0.000 OVER 
+  -- 2-sign tablet within-type: n = 216 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       7   0.03 |    8.9 [  3, 15] 0.700      
+     MARKER       2   0.01 |    7.1 [  3, 13] 0.038 under
+     COUNT       34   0.16 |   23.5 [ 15, 33] 0.032 OVER 
+     TITLE       10   0.05 |   15.5 [  8, 23] 0.172      
+     CLOSER      29   0.13 |   38.8 [ 29, 49] 0.056      
+     SUFFIX      11   0.05 |   17.9 [ 10, 26] 0.090      
+     NAME       104   0.48 |  101.6 [ 88,116] 0.796      
+     UNSEEN      19   0.09 |    3.1 [  0,  7] 0.000 OVER 
+  -- 2-sign sealing within-type: n = 14 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       0   0.00 |    1.2 [  0,  3] 0.552      
+     MARKER       0   0.00 |    1.5 [  0,  4] 0.420      
+     COUNT        3   0.21 |    2.3 [  0,  5] 0.872      
+     TITLE        0   0.00 |    0.7 [  0,  3] 0.990      
+     CLOSER       4   0.29 |    1.9 [  0,  5] 0.230      
+     SUFFIX       0   0.00 |    0.3 [  0,  2] 1.000      
+     NAME         7   0.50 |    6.0 [  2, 10] 0.754      
+     UNSEEN       0   0.00 |    0.1 [  0,  1] 1.000      
+  -- 2-sign pot within-type: n = 146 sign tokens
+     role       obs   share  | null-all mean [2.5,97.5] P | null-long mean [2.5,97.5] P   (P = two-sided permutation, over/under marked)
+     OPENER       6   0.04 |    6.4 [  2, 12] 1.000      
+     MARKER       3   0.02 |    4.6 [  1,  9] 0.662      
+     COUNT       51   0.35 |   38.9 [ 29, 49] 0.036 OVER 
+     TITLE        2   0.01 |    1.9 [  0,  5] 1.000      
+     CLOSER      16   0.11 |   15.7 [  9, 24] 1.000      
+     SUFFIX       1   0.01 |    1.8 [  0,  5] 0.914      
+     NAME        59   0.40 |   68.4 [ 57, 80] 0.126      
+     UNSEEN       8   0.05 |    8.4 [  3, 15] 1.000      
+   1-sign SEALS, every sign with role: W415:NAME W7:NAME W411:NAME W6:NAME W679:NAME W740:CLOS W47:UNSE W117:UNSE W700:NAME W33:COUN W281:NAME W147:UNSE W822:UNSE W387:UNSE W462:UNSE W384:NAME W13:NAME W647:NAME W220:NAME W586:NAME W550:NAME W705:NAME W43:UNSE W230:UNSE W945:UNSE W234:NAME W145:UNSE W386:UNSE W169:UNSE W511:NAME W3:COUN W220:NAME W565:NAME W117:UNSE W592:NAME W685:NAME W840:NAME W236:NAME W930:NAME W226:CLOS W136:NAME W98:NAME W705:NAME W790:NAME W820:OPEN W740:CLOS W946:UNSE W530:NAME W740:CLOS W416:NAME W592:NAME W411:NAME W31:COUN W843:UNSE W237:UNSE W575:NAME W91:NAME

@@ -46,7 +46,10 @@ def partition(level, k, exclude=()):
         if m['level'] in allowed: uf.u(m['form'], m['into'])
     for r in merges['pairs']:
         if r['veto']: continue
-        if sum(v for t, v in r['ev'].items() if t not in exclude) >= k: uf.u(r['a'], r['b'])
+        e = {t: (v and t not in exclude) for t, v in r['ev'].items()}
+        if k == 'p':
+            if (e['E3'] or e['E4']) and (e['E1'] or e['E2']): uf.u(r['a'], r['b'])
+        elif sum(e.values()) >= k: uf.u(r['a'], r['b'])
     cls = collections.defaultdict(set)
     for s in signs: cls[uf.f(s)].add(s)
     return {min(v, key=lambda s: -tok[s]): v for v in cls.values()}
@@ -97,8 +100,8 @@ def frame_stats(texts, m):
 
 
 texts_raw = [r['seq_raw'] for r in corpus]
-steps = [('raw Wells', partition('raw', 99)), ('canonical all', partition('all', 99)), ('contextual-merged k>=2', partition('all', 2)),
-         ('maximal-merged k>=1', partition('all', 1)), ('maximal-merged, no E4', partition('all', 1, exclude=('E4',)))]
+steps = [('raw Wells', partition('raw', 99)), ('canonical all', partition('all', 99)), ('contextual-merged (principled)', partition('all', 'p')),
+         ('permissive k>=2', partition('all', 2)), ('maximal-merged k>=1', partition('all', 1)), ('maximal-merged, no E4', partition('all', 1, exclude=('E4',)))]
 out.append('\n## (a) frame statistics at each ladder step (texts >= 2 signs; slot sets mapped through the merge)')
 out.append('| step | classes | opener initial / opener tokens | connective 2nd / tokens | closer final / tokens | texts with 2 closers vs shuffle | O<C | O<K | K<C | C<X | distinct heads O/K/C |')
 for label, cls in steps:
@@ -110,7 +113,7 @@ for label, cls in steps:
 
 # closer paradigm per unit: final rate and jar co-occurrence for each closing sign after maximal merge
 out.append('\n## (a2) closer paradigm (S289) after maximal merging: final rate and co-occurrence with the jar class (obs/exp)')
-m_max = mapping(steps[3][1])
+m_max = mapping(steps[4][1])
 mt = [[m_max[s] for s in t] for t in texts_raw if len(t) >= 2]
 tokc = collections.Counter(s for t in mt for s in t); ntexts = len(mt)
 jar = m_max[740]
@@ -125,7 +128,7 @@ for s in sorted(CLOSERS, key=lambda s: -tok[s]):
     h = m_max[s]
     exp = has[h] * has[jar] / ntexts
     out.append('  W%d -> class %d (%d members): final %d/%d = %.2f; with jar %d vs %.1f expected (%.2fx)' % (
-        s, h, len(steps[3][1][h]), fin[h], tokc[h], fin[h] / max(1, tokc[h]), withjar[h], exp, withjar[h] / exp if exp else 0))
+        s, h, len(steps[4][1][h]), fin[h], tokc[h], fin[h] / max(1, tokc[h]), withjar[h], exp, withjar[h] / exp if exp else 0))
 
 # slot purity of merged classes
 out.append('\n## (a3) slot purity of merged classes (position bins initial / medial / final, texts >= 2; chi-square among members with >= 5 tokens)')
@@ -142,7 +145,7 @@ def posbins(sign):
 
 
 from scipy.stats import chi2_contingency
-for label, cls in steps[2:4]:
+for label, cls in steps[2:5]:
     impure = []; tested = 0
     for h, v in cls.items():
         mem = [s for s in v if tok[s] >= 5]
@@ -192,16 +195,17 @@ def null_scores(cls, n=1000):
     return np.array(res)
 
 
-for label, cls in [('E1-E3 only, k>=2', partition('all', 2, exclude=('E4',))), ('E1-E3 only, k>=1', partition('all', 1, exclude=('E4',))),
+for label, cls in [('E1-E3 only, principled (E3 & (E1|E2))', partition('all', 'p', exclude=('E4',))), ('graph only (no canonical), E1-E3 principled', partition('raw', 'p', exclude=('E4',))),
+                   ('E1-E3 only, k>=2', partition('all', 2, exclude=('E4',))), ('E1-E3 only, k>=1', partition('all', 1, exclude=('E4',))),
                    ('graph only (no canonical), E1-E3 k>=2', partition('raw', 2, exclude=('E4',))), ('canonical all (S268) alone', partition('all', 99)),
-                   ('with E4 (circular), k>=2', partition('all', 2))]:
+                   ('with E4 (circular), principled', partition('all', 'p'))]:
     m = mapping(cls); ins, pin, pall = lump_score(m)
     nl = null_scores(cls, 1000)
     out.append('  %s (%d classes): lumps inside one class %d of %d (null %.1f +/- %.1f, P %.3f); lump pairs merged %d of %d (null %.1f, P %.3f)' % (
         label, len(cls), ins, len(lumps), nl[:, 0].mean(), nl[:, 0].std(), (np.sum(nl[:, 0] >= ins) + 1) / 1001, pin, pall, nl[:, 1].mean(), (np.sum(nl[:, 1] >= pin) + 1) / 1001))
     print(out[-1], flush=True)
 # which lumps are recovered / missed at k>=2 no-E4
-m = mapping(partition('all', 2, exclude=('E4',)))
+m = mapping(partition('raw', 'p', exclude=('E4',)))
 rec = [(mm, sorted(ws)) for mm, ws in lumps.items() if max(collections.Counter(m[w] for w in ws).values()) >= 2]
 mis = [(mm, sorted(ws)) for mm, ws in lumps.items() if max(collections.Counter(m[w] for w in ws).values()) < 2]
 out.append('  recovered: ' + '; '.join('M%d=%s' % (mm, ws) for mm, ws in sorted(rec)))
@@ -264,7 +268,7 @@ def unseen_report(label, mapf):
 
 
 unseen_report('raw M inventory', lambda s: s)
-for label, cls in [('canonical all', partition('all', 99)), ('contextual-merged k>=2 (no E4)', partition('all', 2, exclude=('E4',))), ('maximal-merged k>=1 (no E4)', partition('all', 1, exclude=('E4',)))]:
+for label, cls in [('canonical all', partition('all', 99)), ('contextual-merged principled (no E4)', partition('all', 'p', exclude=('E4',))), ('permissive k>=2 (no E4)', partition('all', 2, exclude=('E4',))), ('maximal-merged k>=1 (no E4)', partition('all', 1, exclude=('E4',)))]:
     unseen_report(label, m_mapping(cls))
 # which M signs are the unseen ones
 seen = set(s for t in seen_texts for s in t)

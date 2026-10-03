@@ -16,7 +16,9 @@ import dark_loop41_common as L41
 
 ROOT = '/home/user/Indus-/'
 DARK = ROOT + 'data/derived/dark/'
-CY = int(sys.argv[1]); LV = sys.argv[2] if len(sys.argv) > 2 else 'seq_all'; NP = int(sys.argv[3]) if len(sys.argv) > 3 else 1000
+CY = int(sys.argv[1]) if len(sys.argv) > 1 and __name__ == '__main__' else 0
+LV = sys.argv[2] if len(sys.argv) > 2 and __name__ == '__main__' else 'seq_all'
+NP = int(sys.argv[3]) if len(sys.argv) > 3 and __name__ == '__main__' else 1000
 rnd = random.Random(58)
 LOG = []
 def P(*a):

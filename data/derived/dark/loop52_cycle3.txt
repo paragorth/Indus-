@@ -1,0 +1,48 @@
+# Loop 52 cycle 3: grammar after merging, and two outside tests
+
+## (a) frame statistics at each ladder step (texts >= 2 signs; slot sets mapped through the merge)
+| step | classes | opener initial / opener tokens | connective 2nd / tokens | closer final / tokens | texts with 2 closers vs shuffle | O<C | O<K | K<C | C<X | distinct heads O/K/C |
+| raw Wells | 713 | 659 / 917 (0.72) | 654 / 1048 (0.62) | 2179 / 3072 (0.71) | 118 vs 658 | 479:18 | 587:9 | 640:28 | 318:29 | 5/2/11 |
+| canonical all | 689 | 659 / 917 (0.72) | 654 / 1048 (0.62) | 2209 / 3124 (0.71) | 120 vs 679 | 483:18 | 587:9 | 646:28 | 337:29 | 4/2/11 |
+| contextual-merged (principled) | 669 | 659 / 917 (0.72) | 654 / 1048 (0.62) | 2227 / 3162 (0.70) | 133 vs 685 | 487:19 | 587:9 | 655:28 | 339:29 | 4/2/9 |
+| permissive k>=2 | 626 | 706 / 1072 (0.66) | 654 / 1048 (0.62) | 2270 / 3220 (0.70) | 158 vs 707 | 574:34 | 610:16 | 667:28 | 342:30 | 4/2/7 |
+| maximal-merged k>=1 | 288 | 4174 / 16280 (0.26) | 4319 / 16280 (0.27) | 4351 / 16280 (0.27) | 4346 vs 4348 | 0:4455 | 0:4455 | 0:4455 | 0:4455 | 1/1/1 |
+| maximal-merged, no E4 | 299 | 4166 / 16229 (0.26) | 4297 / 16229 (0.26) | 4334 / 16229 (0.27) | 4339 vs 4337 | 0:4455 | 0:4455 | 0:4455 | 0:4455 | 1/1/1 |
+
+## (a2) closer paradigm (S289) after maximal merging: final rate and co-occurrence with the jar class (obs/exp)
+  W740 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W700 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W520 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W156 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W151 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W617 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W527 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W595 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W154 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W226 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+  W236 -> class 740 (404 members): final 4351/16280 = 0.27; with jar 0 vs 4453.0 expected (0.00x)
+
+## (a3) slot purity of merged classes (position bins initial / medial / final, texts >= 2; chi-square among members with >= 5 tokens)
+  contextual-merged (principled): 32 classes tested, 8 impure (P < 0.01): 32/315/317 P=7.8e-04; 90/93 P=4.4e-03; 154/156/158/151 P=3.0e-05; 297/298 P=7.5e-03; 632/636/630 P=4.0e-03; 832/803/806/838/812/831 P=4.7e-08; 817/861 P=5.3e-08; 824/877 P=3.7e-05
+  permissive k>=2: 31 classes tested, 9 impure (P < 0.01): 32/93/90/315/317 P=7.6e-45; 64/161/226/804/232/520/621/241/151/154/156/158 P=6.5e-07; 515/70/72/175/240/242/95 P=3.8e-03; 384/388/772/773/792/923/798/803/806/808/812/176/831/832/838/711/717/336/337/222/482/100/101/752/760 P=5.6e-29; 297/298 P=7.5e-03; 632/636/630 P=4.0e-03; 817/861 P=5.3e-08; 824/877 P=3.7e-05; 920/906/900 P=7.7e-07
+  maximal-merged k>=1: 4 classes tested, 1 impure (P < 0.01): 1/2/3/4/5/13/14/15/16/17/31/32/33/34/35/36/48/55/60/61/63/64/65/66/67/70/72/90/91/93/95/97/98/100/101/104/111/125/130/136/137/140/142/151/154/155/156/158/161/165/167/171/175/176/190/204/215/219/220/221/222/226/231/232/233/234/235/236/240/241/242/243/250/252/255/257/260/267/269/297/298/315/317/318/320/321/326/335/336/337/347/350/353/354/360/365/368/370/371/374/380/382/384/388/390/391/392/400/401/405/406/407/408/411/413/415/416/417/420/423/426/435/436/440/443/455/460/463/467/468/472/480/482/484/491/495/500/501/503/504/510/511/515/519/520/525/526/527/530/540/545/550/552/554/555/556/565/575/585/590/592/595/597/605/615/617/621/625/626/630/632/634/636/637/642/645/679/681/690/692/697/698/700/702/703/705/706/711/717/740/741/742/744/745/746/747/752/760/772/773/776/790/791/792/794/798/803/804/806/808/812/817/820/821/824/831/832/838/840/842/844/845/849/850/851/853/861/868/869/871/877/880/890/892/900/904/905/906/920/921/923/924/927/930/999 P=0.0e+00
+
+## (b) outside test 1: Mahadevan lumps (one M sign <- >= 2 attested Wells signs; bridge + proposals): 58 M signs, 141 Wells signs
+  E1-E3 only, principled (E3 & (E1|E2)) (675 classes): lumps inside one class 18 of 58 (null 0.1 +/- 0.4, P 0.001); lump pairs merged 26 of 122 (null 0.1, P 0.001)
+  graph only (no canonical), E1-E3 principled (694 classes): lumps inside one class 5 of 58 (null 0.1 +/- 0.3, P 0.001); lump pairs merged 5 of 122 (null 0.1, P 0.001)
+  E1-E3 only, k>=2 (646 classes): lumps inside one class 20 of 58 (null 0.7 +/- 1.0, P 0.001); lump pairs merged 28 of 122 (null 0.7, P 0.001)
+  E1-E3 only, k>=1 (299 classes): lumps inside one class 46 of 58 (null 43.1 +/- 2.0, P 0.112); lump pairs merged 78 of 122 (null 72.7, P 0.180)
+  graph only (no canonical), E1-E3 k>=2 (663 classes): lumps inside one class 13 of 58 (null 0.5 +/- 1.0, P 0.001); lump pairs merged 13 of 122 (null 0.5, P 0.001)
+  canonical all (S268) alone (689 classes): lumps inside one class 18 of 58 (null 0.1 +/- 0.4, P 0.001); lump pairs merged 24 of 122 (null 0.1, P 0.001)
+  with E4 (circular), principled (669 classes): lumps inside one class 22 of 58 (null 0.2 +/- 0.5, P 0.001); lump pairs merged 30 of 122 (null 0.2, P 0.001)
+  recovered: M15=[154, 156, 158]; M193=[336, 337]; M244=[630, 632, 636, 643]; M387=[803, 806]; M397=[370, 371]
+  missed: M9=[101, 103]; M14=[159, 161]; M50=[345, 346]; M54=[190, 193, 195]; M55=[190, 192]; M76=[260, 263]; M81=[267, 269]; M84=[278, 279]; M87=[32, 600]; M89=[33, 36]; M103=[3, 13]; M119=[27, 28]; M125=[61, 65]; M127=[440, 442]; M155=[70, 72]; M161=[64, 390, 405]; M162=[390, 392, 405]; M167=[390, 405, 411]; M168=[390, 405]; M169=[390, 405, 406, 407, 409]; M174=[350, 354]; M175=[350, 353]; M176=[400, 401]; M178=[467, 468, 472]; M180=[296, 297, 298, 301, 304, 308, 311]; M182=[320, 322, 324]; M186=[315, 317]; M190=[421, 423, 426]; M205=[491, 495]; M210=[501, 502]; M214=[540, 543, 544]; M216=[550, 798]; M219=[560, 561]; M230=[460, 463]; M242=[621, 622]; M245=[615, 617]; M253=[510, 511, 513]; M254=[526, 527]; M261=[625, 790, 850]; M267=[817, 861]; M294=[904, 927]; M302=[250, 252]; M336=[704, 705, 706]; M341=[711, 717]; M345=[745, 746, 747]; M348=[772, 773]; M358=[752, 760]; M375=[792, 808, 832]; M381=[812, 814]; M391=[820, 821]; M395=[285, 286]; M402=[365, 367, 368]; M417=[215, 216]
+
+## (c) outside test 2: the 324 IM77 texts Wells never saw (1291 tokens) vs the seen IM77 sample (2742 matched texts, 11328 tokens; also all 3100 non-new texts)
+  raw M inventory: seen inventory 398 types; new texts 1291 tokens / 166 types; unseen tokens 0 (0.0%), unseen types 0; GT rate from seen 0.009 -> 11.7 tokens; S309 1.7% -> 21.9 tokens; hold-out of the seen sample at the same size: 13.7 +/- 4.1 unseen tokens, 12.7 +/- 3.6 types
+  canonical all: seen inventory 377 types; new texts 1291 tokens / 149 types; unseen tokens 0 (0.0%), unseen types 0; GT rate from seen 0.009 -> 11.6 tokens; S309 1.7% -> 21.9 tokens; hold-out of the seen sample at the same size: 13.0 +/- 3.6 unseen tokens, 12.1 +/- 3.2 types
+  contextual-merged principled (no E4): seen inventory 368 types; new texts 1291 tokens / 140 types; unseen tokens 0 (0.0%), unseen types 0; GT rate from seen 0.009 -> 11.6 tokens; S309 1.7% -> 21.9 tokens; hold-out of the seen sample at the same size: 13.3 +/- 3.8 unseen tokens, 12.4 +/- 3.4 types
+  permissive k>=2 (no E4): seen inventory 342 types; new texts 1291 tokens / 117 types; unseen tokens 0 (0.0%), unseen types 0; GT rate from seen 0.009 -> 11.6 tokens; S309 1.7% -> 21.9 tokens; hold-out of the seen sample at the same size: 13.9 +/- 3.9 unseen tokens, 12.9 +/- 3.4 types
+  maximal-merged k>=1 (no E4): seen inventory 225 types; new texts 1291 tokens / 16 types; unseen tokens 0 (0.0%), unseen types 0; GT rate from seen 0.009 -> 11.6 tokens; S309 1.7% -> 21.9 tokens; hold-out of the seen sample at the same size: 13.2 +/- 3.8 unseen tokens, 12.4 +/- 3.4 types
+  unseen M signs in the 324 (raw): 
+  of these, bridged to a Wells sign: 0 of 0 types
