@@ -412,7 +412,7 @@ def split(seqs, R, frac=0.8):
     idx = list(range(len(seqs))); R.shuffle(idx); k = int(frac * len(seqs))
     return [seqs[i] for i in idx[:k]], [seqs[i] for i in idx[k:]]
 
-def fit_all_models(train, dev, alphabet, tag, log, hmm_ks=(5, 10, 20, 40), hmm_iters=30):
+def fit_all_models(train, dev, alphabet, tag, log, hmm_ks=(5, 10, 20, 40), hmm_iters=20):
     """fit baselines, ALERGIA at several alphas, MDL-merge, HMMs; choose each family's member by dev LL; report sizes + MDL"""
     N = sum(len(s) + 1 for s in train); res = {}
     def rec(name, m, S, ntr):
@@ -584,6 +584,7 @@ def main():
         if LV == 'seq_raw':
             for cname, loader in (('ur3', load_ur3), ('linb', load_linb), ('pe', load_pe)):
                 objs = loader(); seqs = [o['seq'] for o in objs]
+                if len(seqs) > 3000: seqs = random.Random(11).sample(seqs, 3000)   # size-matched to the Indus fit set
                 freq = collections.Counter(x for s in seqs for x in s); top = set(w for w, _ in freq.most_common(120))
                 enc = [[str(x) if x in top else 'OTHER' for x in s] for s in seqs]
                 A = sorted(set(x for s in enc for x in s)) + [END]
@@ -645,6 +646,7 @@ def main():
                 'pe': [o['seq'] for o in load_pe()], 'planted-frame': planted_frame(), 'strict-code': strict_code(),
                 'markov2-synth': markov2_synthetic(fs, random.Random(4)), 'indus-shuffled': shuffle_within(fs, random.Random(6))}
         for cname, seqs in corp.items():
+            if len(seqs) > 3000: seqs = random.Random(11).sample(seqs, 3000)
             freq = collections.Counter(x for s in seqs for x in s); top = set(w for w, _ in freq.most_common(120))
             enc = [[str(x) if x in top else 'OTHER' for x in s] for s in seqs]
             A = sorted(set(x for s in enc for x in s)) + [END]

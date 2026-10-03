@@ -1,0 +1,51 @@
+S-DARK-32 cycle 1: library, battery, first classifier. Tools: tools/dark_loop32_prep.py (library), tools/dark_loop32.py features|classify.
+Outputs: data/derived/dark/loop32_corpora/*.jsonl + SOURCES.txt (provenance, licence, type), loop32_features.json (36 structural
+features x 24 corpora x 8 length-matched subsamples), loop32_features.log, loop32_classify.txt (full tables).
+
+Library actually obtained (type in brackets; all openly licensed or public domain; sizes before length matching):
+  L language writing: ur3_words 6,381 (CDLI seal legends, words, deduplicated); ur3_syll 20,392 (same legends as syllables, one per
+     impression); ur3_names_syll 24,494 (line-1 owner names, syllables); linb_words 13,170 and linb_syll 13,170 (DAMOS Linear B lines);
+     latin_edh 6,000 (EDH Italy, words); runes_words 613 (RunesDB.de TEI, CC BY-SA; BELOW the 1,000 bar, test only).
+  D designed code: heraldry 31,814 (Rietstap blazons); icd10 74,260 (CMS ICD-10-CM codes, characters); hts 29,861 (USITC tariff numbers,
+     2-digit groups); unicode_names 20,000 (character names, words); aircraft_reg 20,000 (OpenSky registrations, characters).
+  G grammar without language: chess_eco 3,815 (lichess openings, CC0, moves); chords 20,000 (Chordonomicon song sections, CC BY-NC).
+  A accounting / tally: khipu 6,561 (OKR cord clusters); proto_elamite 10,836 (CDLI lines); proto_cuneiform 53,295 (CDLI lang qpc lines, new).
+  I Indus: seq_raw / seq_strong / seq_all (5,369 objects, merged-corpus-canonical.json, S-DARK-23 caution) and IM77 (2,813 texts, lines
+     joined in reading order). X controls: slot-shuffled Indus (S310 parse; tokens permuted across texts within slot label x length),
+     Markov-2 synthetic Indus, bigram synthetic Indus.
+  NOT obtained (no open machine-readable source reachable; skipped, not faked): Egyptian titularies, Old Persian / Aramaic / Phoenician
+     seals, oracle-bone or bronze texts, merchant / masons / potters marks, real ISBN lists, vehicle plates, Dewey; Rundata (GitHub mirror
+     and FAA registry returned 403 from this session).
+
+Battery = the repository's own code paths: strat_codelibrary.battery (18 stats: Zipf slope, positional entropies, closed-class ends,
+bigram MI, h2/H1, uniq_vs_bigram = S321 statistic, repeat ratio, nesting, frames, vocabulary growth) + dark_loop19 pair census with BH
+(fixed / free pair shares, anagram rate; functions copied verbatim) + dark_loop25 complement hubs, hub mobility, free use and
+determinative loyalty (compact port) + slot exclusivity, top-10 closer / opener share, second / penultimate position entropies, numeral
+share / end bias / run share, and a held-out slot-model-vs-bigram-model preference (bits per token). Every corpus subsampled to the
+Indus length histogram (2-13 signs, cap 3,000) eight times; length features excluded from the classifier.
+
+Results (loop32_classify.txt)
+1. Indus replicates its earlier numbers inside the joint battery: fixed pair share 0.70 (0.71 raw/strong/all, 0.65 IM77), anagram rate
+   0.03-0.04, uniq_vs_bigram 0.82-0.86, hubs 0.02-0.07 per sign, det_loy50_max 0.30-0.37, slot model beats bigram by 0.21-0.50 bits.
+   All three merge levels agree to the second decimal; IM77 differs most on hubs (0.10) and slot preference (+0.50).
+2. First classifier (36 features, 16 training corpora, L2 multinomial logistic regression, class-balanced, leave-one-CORPUS-out):
+   accuracy 7/16 = 0.44 = majority-class chance; label-permutation null mean 0.30, 95th pct 0.62, P(null >= obs) = 0.195.
+   Nearest-centroid 0.50, 1-NN 0.38. Wrong: khipu -> D, proto_cuneiform -> D, proto_elamite -> L, heraldry -> L, hts -> A,
+   unicode_names -> L, chords -> A, linb_syll -> D, ur3_words -> D. So the three "known types" are NOT separable by this battery when a
+   whole system is held out: the within-class spread (characters vs words vs syllables; Zipf slopes -0.6 to -1.8) is as large as the
+   between-class spread. The classifier's Indus verdict (P(A) = 0.91-0.92 on all three levels and IM77, P(D) = 0.00) is therefore an
+   OVERCONFIDENT output of an uncalibrated model and is not reported as a result; the controls also fail the pre-set requirement
+   (slot-shuffled Indus -> A 0.76, not D; Markov-2 -> 0.50/0.50 L vs A; bigram -> L 0.54).
+3. Nearest reference corpora of Indus in standardised feature space (model-free): proto_cuneiform 4.2-4.7, linb_syll 4.8-4.9,
+   ur3_names_syll 5.0-5.2, proto_elamite 5.2, ur3_syll 5.4-5.6 (same order at raw / strong / all; IM77 puts ur3_syll second). The three
+   synthetic Indus controls sit nearest ur3_syll / linb_syll (4.2-4.4), i.e. the syllable-level language corpora are what a Markov
+   corpus of Indus shape looks like, so nearness to them carries no typological information.
+4. Univariate: the metric that most separates Indus from the language corpora is num_run_share (numeral followed by numeral: Indus 0.07,
+   L 0.005, z +8; A 0.44), then num_end_bias (Indus numerals lean to the START, -0.26; L +0.28; A +0.08) and det_loy50_max (Indus 0.34
+   vs L 0.66: no loyal class sign, S-DARK-25). CAUTION: three of the six L corpora have no numeral annotation at all (Ur III syllables,
+   names, and the deduplicated words), so the numeral z-scores are inflated by annotation, not only by behaviour; cycle 2 must drop or
+   equalise the numeral features before any claim.
+Verdict: library and battery stand; the first joint classifier is at chance under leave-one-corpus-out and its Indus probabilities are
+not usable. Next: nested feature selection, stronger regularisation, binary 'language writing or not', numeral features dropped.
+
+| S-DARK-32.1 | **Typology classifier, cycle 1: library + joint battery + first LOCO classifier.** 20 reference corpora of known type assembled from open sources (`tools/dark_loop32_prep.py`; SOURCES.txt): 6 language-writing (Ur III legends as words / syllables, Ur III owner names, Linear B lines as words / syllables, Latin EDH; RunesDB 613 texts test-only), 5 designed codes (Rietstap blazons, ICD-10-CM, HTS tariff numbers, Unicode character names, OpenSky aircraft registrations), 2 grammar-without-language (lichess ECO openings, Chordonomicon chord sections), 3 accounting (khipu, Proto-Elamite, proto-cuneiform lines, new), plus Indus seq_raw / seq_strong / seq_all / IM77 and three controls (slot-shuffled, Markov-2, bigram Indus). 36 structural features from the repository's own code (strat_codelibrary battery, dark_loop19 pair census, dark_loop25 hubs / loyalty, slot exclusivity, numeral behaviour, slot-vs-bigram held-out bits), 8 length-matched subsamples per corpus (2-13 signs, cap 3,000). L2 multinomial logistic regression, leave-one-corpus-out; label-permutation null (40); nearest centroid and 1-NN (`tools/dark_loop32.py`) | LOCO accuracy **7/16 = 0.44 = majority-class chance** (permutation null mean 0.30, 95th pct 0.62, P = 0.20); nearest centroid 0.50, 1-NN 0.38. Misclassified: khipu, proto-cuneiform, Proto-Elamite, heraldry, HTS, Unicode names, chords, Linear B syllables, Ur III words. Indus gets P(A) 0.91-0.92 at all three levels and IM77 but the controls fail (slot-shuffled -> A 0.76, Markov-2 0.50 / 0.50, bigram -> L 0.54), so the Indus probabilities are uncalibrated and not reported. Model-free nearest corpora of Indus: proto-cuneiform 4.2-4.7, Linear B syllables 4.8, Ur III names 5.0-5.2, Proto-Elamite 5.2 (same at raw / strong / all; synthetic Indus lands nearest Ur III syllables, so that nearness is uninformative). Strongest univariate separator Indus vs language: num_run_share (0.07 vs 0.005, z +8) and num_end_bias (-0.26 vs +0.28), but 3 of 6 language corpora carry no numeral annotation; det_loy50_max 0.34 vs 0.66 (S-DARK-25) is the cleanest | **Inconclusive by design check: the joint 3-class typology is not learnable from 16 heterogeneous corpora with 36 features (chance accuracy), so no Indus class can be read off it yet.** Library and battery are sound and reusable (raw / strong / all agree to 0.01). Cycle 2 reduces features by nested selection, drops the annotation-dependent numeral features and asks the binary question 'language writing or not'. Nothing read, nothing 'cracked'. |

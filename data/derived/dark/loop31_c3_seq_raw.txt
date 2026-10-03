@@ -1,0 +1,44 @@
+== S-DARK-31 cycle 3, level seq_raw: 3276 complete Wells texts (all sites), vocab 287 signs with >= 4 tokens
+
+-- (a) ligature additivity: cos(derived, base + partner) vs random part pairs (2,000x)
+  W101 = W794 + W920(M293) (tokens 8/9/121, low): cos(sum) 0.11 vs null 0.14 P 0.551; cos(base) 0.15, cos(partner) 0.03
+  W48 = W422 + W903 (tokens 18/7/4, low): cos(sum) 0.07 vs null 0.09 P 0.529; cos(base) 0.04, cos(partner) 0.06
+  2 ligatures testable: 0 with cos(sum) above the 95% null (expected 0.1); the sum beats both parts alone in 1
+
+-- (b) operator consistency: mean pairwise offset cosine (derived - base) within one derivation type vs frequency-matched random pairs; (c) cos(derived, base) vs random
+  family: n = 84 edges; offset cos 0.04 (null median 0.03, 95% 0.04, P = 0.0240); cos(derived, base) 0.24 vs null 0.09 (P = 0.0005)
+  family/block: n = 84 edges; offset cos 0.04 (null median 0.03, 95% 0.04, P = 0.0210); cos(derived, base) 0.24 vs null 0.09 (P = 0.0005)
+  strokes: n = 28 edges; offset cos 0.02 (null median 0.01, 95% 0.03, P = 0.1244); cos(derived, base) 0.27 vs null 0.10 (P = 0.0005)
+  strokes/1 stroke(s): n = 15 edges; offset cos 0.04 (null median 0.00, 95% 0.03, P = 0.0350); cos(derived, base) 0.30 vs null 0.10 (P = 0.0005)
+  doubling: n = 12 edges; offset cos 0.06 (null median 0.05, 95% 0.11, P = 0.3538); cos(derived, base) 0.14 vs null 0.08 (P = 0.0885)
+     edges: W55(M121)->W56 (47/10, cos 0.41), W700(M328)->W697 (457/8, cos 0.32), W700(M328)->W698 (457/5, cos 0.15), W220(M59)->W219 (311/7, cos 0.28), W900(M287)->W906(M303) (86/10, cos 0.06), W400(M176)->W401 (361/5, cos 0.45), W420->W617 (4/64, cos -0.18), W832->W792 (25/10, cos -0.01), W820(M391)->W821 (167/13, cos 0.07), W520(M211)->W519 (254/9, cos 0.03), W32(M87)->W55(M121) (408/47, cos 0.23), W798(M216)->W799 (109/4, cos -0.12)
+  doubling/doubled-col: n = 10 edges; offset cos 0.06 (null median 0.06, 95% 0.12, P = 0.5132); cos(derived, base) 0.18 vs null 0.08 (P = 0.0440)
+     edges: W55(M121)->W56 (47/10, cos 0.41), W700(M328)->W697 (457/8, cos 0.32), W700(M328)->W698 (457/5, cos 0.15), W220(M59)->W219 (311/7, cos 0.28), W400(M176)->W401 (361/5, cos 0.45), W420->W617 (4/64, cos -0.18), W832->W792 (25/10, cos -0.01), W820(M391)->W821 (167/13, cos 0.07), W520(M211)->W519 (254/9, cos 0.03), W32(M87)->W55(M121) (408/47, cos 0.23)
+  enclosure: n = 5 edges; offset cos 0.09 (null median 0.01, 95% 0.12, P = 0.1004); cos(derived, base) 0.04 vs null 0.09 (P = 0.7751)
+     edges: W605->W792 (12/10, cos 0.27), W617->W880(M286) (64/7, cos -0.28), W820(M391)->W792 (167/10, cos -0.07), W824->W808(M375) (25/5, cos 0.32), W155->W812(M381) (6/8, cos -0.07)
+  plain fish -> marked fish: n = 5 edges; offset cos 0.52 (null median 0.06, 95% 0.25, P = 0.0005); cos(derived, base) 0.65 vs null 0.18 (P = 0.0005)
+     edges: W220(M59)->W233(M72) (311/147, cos 0.77), W220(M59)->W240(M67) (311/281, cos 0.70), W220(M59)->W235(M65) (311/194, cos 0.61), W220(M59)->W231(M70) (311/71, cos 0.67), W220(M59)->W226(M60) (311/28, cos 0.52)
+  strokes/2 stroke(s): n = 5 edges; offset cos 0.09 (null median -0.00, 95% 0.11, P = 0.0810); cos(derived, base) 0.29 vs null 0.11 (P = 0.0205)
+     edges: W595(M252)->W597 (33/8, cos -0.00), W630(M244)->W636(M244) (25/16, cos 0.60), W869->W879 (4/4, cos 0.02), W791->W792 (6/10, cos 0.32), W630(M244)->W637 (25/4, cos 0.51)
+  enclosure/oval: n = 4 edges; offset cos 0.06 (null median -0.00, 95% 0.14, P = 0.2439); cos(derived, base) 0.11 vs null 0.09 (P = 0.3993)
+     edges: W605->W792 (12/10, cos 0.27), W820(M391)->W792 (167/10, cos -0.07), W824->W808(M375) (25/5, cos 0.32), W155->W812(M381) (6/8, cos -0.07)
+  strokes/4 stroke(s): n = 4 edges; offset cos 0.21 (null median 0.06, 95% 0.20, P = 0.0470); cos(derived, base) 0.19 vs null 0.06 (P = 0.0745)
+     edges: W590(M249)->W592 (169/8, cos 0.03), W845(M407)->W842 (49/4, cos -0.10), W235(M65)->W236 (194/22, cos 0.56), W900(M287)->W910 (86/4, cos 0.25)
+  strokes/? stroke(s): n = 4 edges; offset cos 0.09 (null median -0.00, 95% 0.14, P = 0.1394); cos(derived, base) 0.23 vs null 0.10 (P = 0.0915)
+     edges: W142(M25)->W97 (60/16, cos 0.70), W31(M86)->W55(M121) (176/47, cos 0.30), W921->W48 (13/18, cos -0.12), W326->W48 (4/18, cos 0.03)
+  jar -> marked jar: n = 3 edges; offset cos 0.69 (null median 0.01, 95% 0.20, P = 0.0005); cos(derived, base) 0.03 vs null 0.08 (P = 0.7011)
+     edges: W740(M342)->W741(M343) (1361/172, cos -0.02), W740(M342)->W742 (1361/29, cos 0.04), W740(M342)->W745(M345) (1361/18, cos 0.08)
+  roof: n = 3 edges; offset cos 0.19 (null median -0.01, 95% 0.17, P = 0.0390); cos(derived, base) 0.27 vs null 0.10 (P = 0.0800)
+     edges: W406(M169)->W391 (9/9, cos -0.18), W455(M233)->W456(M234) (31/5, cos 0.11), W233(M72)->W235(M65) (147/194, cos 0.87)
+  roof/roof: n = 3 edges; offset cos 0.19 (null median -0.00, 95% 0.18, P = 0.0470); cos(derived, base) 0.27 vs null 0.10 (P = 0.0815)
+     edges: W406(M169)->W391 (9/9, cos -0.18), W455(M233)->W456(M234) (31/5, cos 0.11), W233(M72)->W235(M65) (147/194, cos 0.87)
+  doubling/mirrored-col: n = 2 edges; offset cos -0.01 (null median 0.06, 95% 0.44, P = 0.6617); cos(derived, base) -0.03 vs null 0.05 (P = 0.7886)
+     edges: W900(M287)->W906(M303) (86/10, cos 0.06), W798(M216)->W799 (109/4, cos -0.12)
+  ligature: n = 2 edges; offset cos -0.10 (null median 0.00, 95% 0.32, P = 0.7096); cos(derived, base) 0.10 vs null 0.10 (P = 0.4978)
+     edges: W794->W101 (9/8, cos 0.15), W422->W48 (7/18, cos 0.04)
+  ligature/col: n = 2 edges; offset cos -0.10 (null median -0.00, 95% 0.31, P = 0.7041); cos(derived, base) 0.10 vs null 0.10 (P = 0.4953)
+     edges: W794->W101 (9/8, cos 0.15), W422->W48 (7/18, cos 0.04)
+
+-- (d) the fish-mark direction (mean of marked - plain fish) applied to other bases that have marked variants in loop 28: is the predicted NN the marked variant?
+  50 base->derived edges: derived sign within the top 5 of base + fish-mark in 5 (random derived sign: median 1, 95% 3); median rank 86 of 287
+done
