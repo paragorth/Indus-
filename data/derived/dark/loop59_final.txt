@@ -1,0 +1,47 @@
+LOOP 59 FINAL: HOW MUCH OF THE SCRIPT IS EXPLAINED? (3 cycles; tools/dark_loop59_common.py, dark_loop59_c1.py, dark_loop59_c2.py, dark_loop59_c3.py,
+dark_loop59_rows.py; rows to paste: loop59_cycle1.txt (S-DARK-59.1), loop59_cycle2.txt (59.2), loop59_cycle3.txt (59.3); logs loop59_c1_<level>[_rows].txt/.json,
+loop59_c2_<level>.txt/.json, loop59_c3.txt/.json). Corpus: merged-corpus-canonical.json (S-DARK-23 caution), complete direction-recorded texts, one per die,
+fit = Mohenjo-daro + Harappa (~2,000 texts), scored on 424 held-out-site texts and the 324 IM77-only texts; all three merge levels (every figure within
+0.1 bit / 2 points across levels), seq_all also with duplicates kept. Nothing committed.
+
+METHOD. Every model is a predictive distribution over the next sign (or END) given the text so far, the object class and the site, scored in bits.
+Ladder: uniform, unigram, Kneser-Ney Markov-1/2/3, the STRUCTURAL model (frame-slot automaton with a pan-Indus shared middle pool + 139-149 rule
+pairs + adaptive site and global whole-text caches + unigram, EM-interpolated per zone), STRUCTURAL + KN2/KN3 (best), the S366 generator (Monte Carlo),
+the loop 33 automaton. The loop 39 form generator is not a sequential predictor and was not scored.
+
+THE NUMBER. A held-out Indus text costs 6.2-6.5 bits per sign under its own sign frequencies (unigram) and 4.9-5.2 bits under the best model we can
+build: 17% (new sites) to 24% (new IM77 texts) of the unigram entropy is explained, 43-47% of the uniform-inventory entropy. Per seal: 33 bits ->
+27 bits. By slot (gap closed vs unigram): marker 89%, suffix 57%, END 38-46%, opener 34% (what is unpredictable is whether the seal opens at all),
+closer 32%, qualifiers 26%, counts 7-12%, middle 8% (19% once a site's stock texts are cached). So: THE FRAME IS ~40% PREDICTABLE FROM ITS OWN
+FREQUENCIES (75% from a uniform inventory) AND THE MIDDLE 8-19% (18-27%).
+
+WHAT EXPLAINS IT. The hand grammar (frame + frozen pairs + whole-text reuse) predicts exactly as well as a second-order Markov chain (5.44 vs 5.37
+bits, CIs overlapping fully) and not better; combining them gains 0.2 bits. The S366 generator and the loop 33 automaton, which pass battery and
+acceptance tests, are near-unigram predictors (6.14, 6.16 vs 6.23): statistical adequacy on 50 summary statistics is not predictive adequacy.
+Where KN2 beats the grammar (0.5-1.6 bits) it is on the frozen pairs and phrase templates already in GRAMMAR.md (705->33, 590->tree, 255->435,
+760->jar, 32->fish, 220->arrow, 550->60/527, 142->617, tree->END); where the grammar beats KN2 it is the END/suffix decision after the jar and the
+closer after a qualifier, the frame's long-range part. No new rule is hiding in the residual.
+
+THE IRREDUCIBLE PART. Of the 27 bits a held-out seal costs under the best model, 18.7 (69%) sit in its 2-3 middle signs at 7.1-7.5 bits each
+(85-90% of their unigram entropy), 4.3 in the frame, 1.5 in the qualifiers, 2.7 in the counts; tablets 21 bits with the middle at 60%. 16% of all
+tokens are at unigram level under every model (middle 20%, closer 17%, counts 13%, qualifiers 10%, opener/marker/suffix 0%), spread across the
+middle rather than concentrated in one construction; the irreducible signs are not the rare ones. 16-19 bits per seal is 10^5 equiprobable
+alternatives, the S-DARK-17.5 credential-stock size and the S-DARK-53 Chao1 floor.
+
+COMPARISON. Through the identical code, Ur III seal legends (fit Umma, score other sites) give: titles 26% closed (words) / 48% (syllables), names
+-18% (words; new sites bring new names) / 34% (syllables); names carry 65-71% of the remaining bits. Linear B lines: formulae 19%, sign-groups
+-29%, words 50% of the bits. Indus: frame 41%, middle 8-19%, middle 67-69% of the bits. The Indus seal's information budget is distributed as a
+name + title legend's, and the within-slot predictability of its unique part is at the level of names, between Sumerian name words (8.7 bits)
+and name syllables (4.9 bits) per token.
+
+PLAIN STATEMENT (all three merge levels). About a fifth of the information in an average seal text, measured against the script's own sign
+frequencies, is rule-governed (frame order, markers, closers, frozen pairs, stock texts); against a flat inventory, under half. About two thirds of
+the bits a seal carries (16-19 of 25-27) are irreducible identifier content in the middle, which no model, hand-written or statistical, predicts
+beyond its sign frequencies and a few frozen pairs. That split (frame ~40% predictable, identifier ~10%, identifier = 2/3 of the bits) is the
+split of an Ur III name + title legend. Nothing here is a reading; it fixes the size of what a reading would have to supply: ~16 bits per seal,
+all in the middle.
+
+CAVEATS. Held-out sites are new material relative to the fit but IM77 is 70% the same objects (S312); the IM77 middle gain (19%) is the site cache
+finding Mohenjo-daro/Harappa stock texts among the 'new' IM77 texts. Oracle taken as 0 bits; a better model than ours would move the explained
+share up, but KN3 and the combination already saturate (KN3 < KN2 on held-out). The unigram itself is structure (Zipfian frequencies, S356);
+numbers against a uniform inventory are given beside it. Ur III title/name labels are a fixed word list, not a parse.

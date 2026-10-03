@@ -87,7 +87,23 @@ def propose2(e, recs):
     dec = [x for x in recs if x['claim'] in why]
     if dec and dec[0]['M1E'] == 'in' and dec[0]['kind'] != 'adjacency': why += ' [end-state fact: an order-1 chain with END reproduces it]'
     return pg, why
+OVERRIDE = {
+ 'W817/W861 opener': ('A', 'opener-W400 exclusion beats M1, M2 and the END-state chain at all levels (0.025 vs 0.053 [0.033-0.073]); opener-before-closer at a distance replicates on held-out sites and IM77-only (0.37 vs 0.23; 0.62 vs 0.30); the exclusion itself is the same way but inside wide bands out of sample (0.007 vs 0.015; 0.038 vs 0.055); W817/861 initial is a start-state fact; outside fact: seals vs tablets (S29) and W400 on tablets 6.8x (loop 54 c4)'),
+ 'W400 suffix': ('A', 'raw-final 0.88 vs 0.42 replicates on held-out sites (0.76 vs 0.50) and IM77-only (0.86 vs 0.43) [end-state fact]; the opener exclusion beats every chain at MD+H (0.044 vs 0.073 [0.048-0.098]) and is the same way out of sample (0.040 vs 0.083; 0.080 vs 0.094, inside); outside fact: tablets 6.8x, sealings 1% (object type)'),
+ 'W740 jar closer': ('A', 'mutual exclusion with the other closers beats M1, M2 and the END-state chain (0.042 vs 0.164 [0.143-0.187]) and replicates on held-out sites (0.040 vs 0.138) and IM77-only (0.073 vs 0.20); jar never doubled (13 vs 126 per 1000); finality 0.87 vs 0.47 is an end-state fact; the gloss stays C'),
+ 'W2 connective': ('A', 'the once-rule beats every chain (3.5 vs 47 [32-66] per 1000; END-state and S366 generator too) and replicates on held-out sites (5.6 vs 37 [17-67]); underpowered on IM77-only (2 of 40 texts repeat it, 50 vs 43 [0-97]); second position and marked-jar exclusion beat the chains at MD+H only; initial rate chain-explained'),
+ 'W820 wheel opener': ('B', 'as a member of the opener set it shares the W400 exclusion (beyond all chains); every claim that distinguishes it (initial 0.74 vs 0.72, final 0.11 vs 0.10 [S286], followed by W2/W60) is inside the chain bands; S288 alternation with W595 chain-explained'),
+ 'W920+W60(+741) opener unit': ('C', 'W920 initial 0.60 vs 0.60 [0.52-0.70] (start-state fact); the run 920-60-741 beats M1 (12.9 vs 2.9) but not M2 (9.7 [band includes it]): an order-2 fact; no outside fact'),
+ 'name-initial elements W692/575/125/416/413/920/495': ('C', 'first-in-middle share 0.21 vs M1 0.20 [0.16-0.24], text-initial 0.55 vs 0.51 [0.47-0.56]; inside the chain bands on MD+H, held-out sites and IM77-only; S313 replicated against a shuffle, which a chain beats anyway'),
+ 'name-final elements W840/460/435/440/717/70/35/690': ('C', 'last-before-closer share 0.36 vs M1 0.35 [0.30-0.40]; inside the chain bands on all three sets; S311/S313 were shuffle-null results'),
+ 'credential model (sec. 11)': ('C', 'nesting 0.163 vs M1 0.156 [0.141-0.171] (inside) and below M2 (0.257); on IM77-only 0.058 vs 0.19 [0.15-0.24], i.e. reversed; confirms S-DARK-41.3'),
+ 'W575 seven-X': ('C', "'always 7' is a bigram (modal numeral share 0.93 vs M1 0.91 [0.60-1.00]); a chain fitted to the texts has it by construction; no outside fact"),
+ 'W585 seven-X': ('C', "'always 7' is a bigram (0.85 vs 0.85 [0.59-1.00]); no outside fact"),
+ 'W632 two-X': ('C', 'merged into W630 at seq_strong/seq_all (no tokens); at seq_raw the fixed numeral is a bigram; no outside fact'),
+}
 prop = {e: propose2(e, recs) for e, recs in per_entry.items()}
+for e, v in OVERRIDE.items():
+    if e in prop: prop[e] = v
 with open(DARK + 'loop54_regrade.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['sign', 'current grade', 'claim', 'statistic (obs seq_all; seq_raw; seq_strong)', 'Markov-1 null (med [band])', 'Markov-2 null', 'held-out (sites; IM77-only)', 'proposed grade', 'reason', 'kind', 'MD+H verdict', 'M1E', 'S366 gen', 'outside fact', 'S-rows'])
