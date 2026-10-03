@@ -168,7 +168,7 @@ for nm, c in [('Ur III legend word 1 (owner name)', collections.Counter(s[0] for
               ('Ur III legend word 2 (title / dumu)', collections.Counter(s[1] for s in ur3 if len(s) > 1)),
               ('Ur III legend word 3', collections.Counter(s[2] for s in ur3 if len(s) > 2)),
               ('Ur III legend last word', collections.Counter(s[-1] for s in ur3 if len(s) > 1)),
-              ('Ur III legend all title-like words (dumu/dub-sar/arad/sanga/...)', collections.Counter(w for s in ur3 for w in s if re.fullmatch(r'_?(dumu|dub-sar|arad2?|sanga|nu-banda3|szabra|ensi2|lugal|sagi|gudu4|ugula|kuruszda|szagina|nar|simug|ma2-lah5|aszgab|nagar|azlag2|ensi2|lu2|nin|munus)_?', w))]:
+              ('Ur III legend all title-like words (dumu/dub-sar/arad/sanga/...)', collections.Counter(w for s in ur3 for w in s if re.fullmatch(r'_?(dumu|dub-sar|arad2?|sanga|nu-banda3|szabra|ensi2|lugal|sagi|gudu4|ugula|kuruszda|szagina|nar|simug|ma2-lah5|aszgab|nagar|azlag2|ensi2|lu2|nin|munus)_?', w)))]:
     say(f'{nm:60s} {fmt(metrics(c))}'); say(f"{'':60s}   top: {', '.join(f'{w}:{n}' for w, n in c.most_common(12))}")
 # Ur III administrative calendar fields from the CDLI ATF dump (if downloaded): month lines 'iti X', year lines 'mu ...'
 atf = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/cdli.atf'
