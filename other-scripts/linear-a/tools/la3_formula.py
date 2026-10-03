@@ -151,6 +151,7 @@ def main():
     seeds = []; claimed = defaultdict(set); tier = {}
     for c in cands:
         c = list(c)
+        if any('-' + '-'.join(c) + '-' in '-' + '-'.join(f) + '-' for f in seeds): continue  # sub-form of a seed
         hs = scan([c], na_obj, raw=True)
         objs = {h[0] for h in hs}
         if len(objs) < 2: continue
@@ -178,78 +179,127 @@ def main():
     # ---- families and alignment table
     fam = defaultdict(list)
     for h in hits: fam[h['seed']].append(h)
+    # core = tier-1 families with >= 3 attestations; formula objects carry a core hit;
+    # formula families = families with >= 2 hits on formula objects
+    core = {k for k in fam if tier['-'.join(seeds[k])] == 1 and len(fam[k]) >= 3}
+    fobj = {h['obj'] for h in hits if h['seed'] in core}
+    formula = {k for k in fam if sum(1 for h in fam[k] if h['obj'] in fobj) >= 2}
+    rep.append('Core families: %s; formula objects: %d; formula families: %s'
+               % (', '.join('-'.join(seeds[k]) for k in sorted(core)), len(fobj), ', '.join('-'.join(seeds[k]) for k in sorted(formula))))
     rep.append('')
-    rep.append('Families (star alignment on seed; "." = deleted, "+X" = inserted):')
-    events = []   # (family, column, seed sign X, variant sign Y, obj, site)
+    rep.append('Families (star alignment on seed; lower case = substituted, "." = deleted, "+X" = inserted; * = formula family):')
+    events = []   # dict(fam, col, kind, a, b, obj, site)
     columns = defaultdict(list)  # (family, column) -> [(obj, site, variant)]
     for k in sorted(fam):
         seed = seeds[k]
-        rep.append('  [%s] n=%d' % ('-'.join(seed), len(fam[k])))
+        rep.append('  [%s]%s n=%d' % ('-'.join(seed), '*' if k in formula else '', len(fam[k])))
         for h in fam[k]:
             ci = -1; row = []
             for a, b in h['cols']:
-                if a is None: row.append('+' + b); continue
+                if a is None:
+                    row.append('+' + b)
+                    events.append(dict(fam=k, col=ci + .5, kind='ins', a=None, b=b, obj=h['obj'], site=h['site']))
+                    continue
                 ci += 1
-                if b is None: row.append('.'); columns[(k, ci)].append((h['obj'], h['site'], '.')); continue
+                if b is None:
+                    row.append('.'); columns[(k, ci)].append((h['obj'], h['site'], '.'))
+                    events.append(dict(fam=k, col=ci, kind='del', a=a, b=None, obj=h['obj'], site=h['site']))
+                    continue
                 row.append(b if a == b else b.lower() if b.isalpha() else b + '!')
                 columns[(k, ci)].append((h['obj'], h['site'], b))
-                if a != b: events.append((k, ci, a, b, h['obj'], h['site']))
-            rep.append('    %-12s %-16s %s' % (h['obj'], h['site'], ' '.join(row)))
+                if a != b: events.append(dict(fam=k, col=ci, kind='sub', a=a, b=b, obj=h['obj'], site=h['site']))
+            rep.append('    %-12s %-16s %-14s %s' % (h['obj'], h['site'], h['support'][:14], ' '.join(row)))
     # ---- alternations
-    pairs = defaultdict(set); pair_ev = Counter()
-    for k, ci, a, b, o, s in events:
-        p = tuple(sorted((a, b))); pairs[p].add(k); pair_ev[p] += 1
-    rep.append('')
-    rep.append('Substitution events: %d; distinct pairs: %d' % (len(events), len(pairs)))
-    for p, fs in sorted(pairs.items(), key=lambda x: (-len(x[1]), -pair_ev[x[0]])):
-        rep.append('  %s~%s  events %d  families %d (%s)' % (p[0], p[1], pair_ev[p], len(fs), ', '.join('-'.join(seeds[f]) for f in sorted(fs))))
-    obs_sys = sum(1 for fs in pairs.values() if len(fs) >= 2)
-    # null: redraw the variant sign from non-admin sign frequency
-    freq = Counter(pool); signs = list(freq); wts = [freq[s] for s in signs]
-    null = []
-    for it in range(NR):
-        pp = defaultdict(set)
-        for k, ci, a, b, o, s in events:
-            while True:
-                y = random.choices(signs, wts)[0]
-                if y != a: break
-            pp[tuple(sorted((a, y)))].add(k)
-        null.append(sum(1 for fs in pp.values() if len(fs) >= 2))
-    mu = sum(null) / NR; sd = (sum((x - mu) ** 2 for x in null) / NR) ** .5
-    p = sum(1 for x in null if x >= obs_sys) / NR
-    rep.append('Systematic pairs (same pair in >=2 families): observed %d, null %.2f +- %.2f, P(>=obs) = %.4f' % (obs_sys, mu, sd, p))
-    # same statistic counting each (family,column) once (repeated copies of one slip do not count twice)
+    freq = Counter(pool); signs = list(freq); wts = [freq[x] for x in signs]
+    def sys_test(evs, label):
+        subs = [e for e in evs if e['kind'] == 'sub']
+        pairs = defaultdict(set); pev = Counter()
+        for e in subs:
+            p = tuple(sorted((e['a'], e['b']))); pairs[p].add(e['fam']); pev[p] += 1
+        rep.append('')
+        rep.append('[%s] substitution events: %d; distinct pairs: %d; deletions %d; insertions %d'
+                   % (label, len(subs), len(pairs), sum(e['kind'] == 'del' for e in evs), sum(e['kind'] == 'ins' for e in evs)))
+        for p, fs in sorted(pairs.items(), key=lambda x: (-len(x[1]), -pev[x[0]])):
+            rep.append('  %s~%s  events %d  families %d (%s)' % (p[0], p[1], pev[p], len(fs), ', '.join('-'.join(seeds[f]) for f in sorted(fs))))
+        obs = sum(1 for fs in pairs.values() if len(fs) >= 2)
+        obs_ev = sum(1 for e in subs if len(pairs[tuple(sorted((e['a'], e['b'])))]) >= 2)
+        null = []; null_ev = []
+        for it in range(NR):
+            pp = defaultdict(set); keys = []
+            for e in subs:
+                while True:
+                    y = random.choices(signs, wts)[0]
+                    if y != e['a']: break
+                q = tuple(sorted((e['a'], y))); pp[q].add(e['fam']); keys.append(q)
+            null.append(sum(1 for fs in pp.values() if len(fs) >= 2))
+            null_ev.append(sum(1 for q in keys if len(pp[q]) >= 2))
+        mu = sum(null) / NR; sd = (sum((x - mu) ** 2 for x in null) / NR) ** .5
+        pv = sum(1 for x in null if x >= obs) / NR
+        mu_e = sum(null_ev) / NR; pv_e = sum(1 for x in null_ev if x >= obs_ev) / NR
+        rep.append('  systematic pairs (>=2 families): obs %d, null %.2f +- %.2f, P = %.4f; events in systematic pairs: obs %d, null %.2f, P = %.4f'
+                   % (obs, mu, sd, pv, obs_ev, mu_e, pv_e))
+        return pairs, (obs, mu, sd, pv)
+    pairs_f, st_f = sys_test([e for e in events if e['fam'] in formula], 'formula families')
+    pairs_a, st_a = sys_test(events, 'all families')
     # ---- geography
-    def agree_stat(cols_, key):
-        tot = 0
-        for c, lst in cols_.items():
-            for i in range(len(lst)):
-                for j in range(i + 1, len(lst)):
-                    if key(lst[i]) == key(lst[j]) and lst[i][0] != lst[j][0]:
-                        tot += (lst[i][2] == lst[j][2])
-        return tot
-    var_cols = {c: l for c, l in columns.items() if len({v for _, _, v in l}) >= 2 and len(l) >= 3}
+    fev = [e for e in events if e['fam'] in formula]
+    att = defaultdict(set)      # (fam) -> set of (obj, site) attestations
+    for h in hits:
+        if h['seed'] in formula: att[h['seed']].add((h['obj'], h['site']))
+    # (a) deviation rate by region: share of formula attestations with any deviation
+    dev = {(e['fam'], e['obj']) for e in fev}
+    rows = [(k, o, s, (k, o) in dev) for k in att for o, s in att[k]]
+    byreg = defaultdict(lambda: [0, 0])
+    for k, o, s, d in rows: byreg[region(s)][0] += d; byreg[region(s)][1] += 1
     rep.append('')
-    rep.append('Geography: %d variable columns with >=3 attestations' % len(var_cols))
-    for key_name, key in (('site', lambda x: x[1]), ('region', lambda x: region(x[1]))):
-        obs = agree_stat(var_cols, key)
+    rep.append('Geography (formula families; regions by longitude W/C/EC/E):')
+    rep.append('  deviating attestations by region: ' + ', '.join('%s %d/%d' % (r_, v[0], v[1]) for r_, v in sorted(byreg.items())))
+    def chi(rows_):
+        tab = defaultdict(lambda: [0, 0])
+        for k, o, s, d in rows_: tab[region(s)][d] += 1
+        n = len(rows_); dtot = sum(r_[3] for r_ in rows_); x = 0
+        for r_, (a0, a1) in tab.items():
+            t = a0 + a1
+            for obs_, exp in ((a1, t * dtot / n), (a0, t * (n - dtot) / n)):
+                if exp > 0: x += (obs_ - exp) ** 2 / exp
+        return x
+    x0 = chi(rows); ds = [r_[3] for r_ in rows]; nl = []
+    for it in range(NR):
+        random.shuffle(ds); nl.append(chi([(k, o, s, d) for (k, o, s, _), d in zip(rows, ds)]))
+    rep.append('  chi2 region x deviation = %.2f, permutation P = %.4f' % (x0, sum(1 for x in nl if x >= x0) / NR))
+    # by site, Iouktas vs rest
+    io = [r_ for r_ in rows if r_[2] == 'Iouktas']; rest = [r_ for r_ in rows if r_[2] != 'Iouktas']
+    rep.append('  Iouktas %d/%d deviating vs other sites %d/%d' % (sum(r_[3] for r_ in io), len(io), sum(r_[3] for r_ in rest), len(rest)))
+    # (b) shared deviants: the same non-consensus variant (same family, column, kind, sign) on >= 2 objects
+    key = lambda e: (e['fam'], e['col'], e['kind'], e['b'])
+    grp = defaultdict(list)
+    for e in fev: grp[key(e)].append(e)
+    shared = {g: l for g, l in grp.items() if len({e['obj'] for e in l}) >= 2}
+    rep.append('  shared deviant variants: ' + '; '.join('%s col %s %s %s: %s' % ('-'.join(seeds[g[0]]), g[1], g[2], g[3] or '', ','.join('%s/%s' % (e['obj'], region(e['site'])) for e in l)) for g, l in shared.items()))
+    def same_pairs(groups, keyf):
+        t = 0; n = 0
+        for l in groups:
+            for i in range(len(l)):
+                for j in range(i + 1, len(l)):
+                    if l[i]['obj'] != l[j]['obj']:
+                        n += 1; t += keyf(l[i]['site']) == keyf(l[j]['site'])
+        return t, n
+    for kn, kf in (('site', lambda x: x), ('region', region)):
+        o_, n_ = same_pairs(shared.values(), kf)
+        # null: the deviant variants keep their counts but are reassigned to random attestations of the same family
         nl = []
         for it in range(NR):
-            perm = {}
-            for c, l in var_cols.items():
-                vs = [v for _, _, v in l]; random.shuffle(vs)
-                perm[c] = [(o, s, v) for (o, s, _), v in zip(l, vs)]
-            nl.append(agree_stat(perm, key))
-        mu2 = sum(nl) / NR; p2 = sum(1 for x in nl if x >= obs) / NR
-        pairs_tot = sum(1 for c, l in var_cols.items() for i in range(len(l)) for j in range(i+1, len(l))
-                        if key(l[i]) == key(l[j]) and l[i][0] != l[j][0])
-        rep.append('  same-%s pairs agreeing: %d of %d, null %.2f, P = %.4f' % (key_name, obs, pairs_tot, mu2, p2))
-    for c, l in sorted(var_cols.items()):
-        rep.append('    %s col %d (%s): %s' % ('-'.join(seeds[c[0]]), c[1], seeds[c[0]][c[1]],
-                   '; '.join('%s/%s:%s' % (o, region(s), v) for o, s, v in l)))
-    out = {'seeds': ['-'.join(s) for s in seeds], 'hits': hits, 'admin_hits': ad_hits,
-           'events': events, 'pairs': {'~'.join(p): sorted(fs) for p, fs in pairs.items()},
-           'systematic_obs': obs_sys, 'systematic_null': [mu, sd, p]}
+            gl = []
+            for g, l in shared.items():
+                pool_ = list(att[g[0]]); pick = random.sample(pool_, min(len(l), len(pool_)))
+                gl.append([{'obj': o, 'site': s_} for o, s_ in pick])
+            nl.append(same_pairs(gl, kf)[0])
+        rep.append('  shared-deviant pairs from same %s: %d of %d, null %.2f, P = %.4f' % (kn, o_, n_, sum(nl) / NR, sum(1 for x in nl if x >= o_) / NR))
+    out = {'seeds': ['-'.join(s) for s in seeds], 'formula': sorted(formula), 'core': sorted(core),
+           'hits': hits, 'admin_hits': ad_hits, 'events': events,
+           'pairs_formula': {'~'.join(p): sorted(fs) for p, fs in pairs_f.items()},
+           'pairs_all': {'~'.join(p): sorted(fs) for p, fs in pairs_a.items()},
+           'systematic_formula': st_f, 'systematic_all': st_a}
     json.dump(out, open(os.path.join(D, 'la3_formula.json'), 'w'), ensure_ascii=False, indent=1)
     open(os.path.join(D, 'la3_formula_report.txt'), 'w').write('\n'.join(rep) + '\n')
     print('\n'.join(rep))
