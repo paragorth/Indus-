@@ -134,22 +134,39 @@ for rule in (4, 2):
                               interp=[dict(pairs=[[vocab[a], vocab[b]] for a, b in c['pairs']], kinds=dict(kinds), meancos=c['meancos'], disjoint=c['disjoint']) for c, kinds in interp])
 
 # ---------------- (c) new candidates on held-out sites and IM77 ----------------
-log('\n-- (c) new relation candidates (non-known members of interpretable rule-4 classes) tested on held-out Wells sites and IM77')
+log('\n-- (c) new relation candidates. Blind classes carry no known relation, so the probes are the relation directions that passed (a):')
+log('   for each passing kind, o = mean unit offset of its pairs; for every other vocabulary sign c, d = NN(E_c + o) if cos >= 0.6 and d != NN1(c);')
+log('   test: context-profile cosine of c and d (and, for closer -> qualifier, the count of d directly before c) on held-out Wells sites and IM77 vs frequency-matched random pairs')
+probes = {}
+for k, prs in KNOWN.items():
+    r = rowsA.get(k)
+    if not r or r['P'] >= 0.01 or k.startswith('closer <-> closer') or k.startswith('opener <-> opener'): continue
+    O = np.array([E[VI[a]] - E[VI[b]] for a, b in prs]); On = O / np.linalg.norm(O, axis=1, keepdims=True)
+    probes[k] = (On.mean(0) * np.linalg.norm(O, axis=1).mean(), {x for a, b in prs for x in (a, b)})
+cs_all = E @ E.T; nn1 = (cs_all - 2 * np.eye(len(vocab), dtype=np.float32)).argmax(1)
 cands = []
-for c in res['rule4']['interp']:
-    kind = max(c['kinds'], key=c['kinds'].get)
-    for a, b in c['pairs']:
-        if frozenset((a, b)) not in known_pairs: cands.append((a, b, kind))
-log(f'  {len(cands)} candidate pairs from {len(res["rule4"]["interp"])} interpretable classes')
+for k, (o, used) in probes.items():
+    for ci, c in enumerate(vocab):
+        if c in used: continue
+        q = E[ci] + o; q = q / np.linalg.norm(q)
+        sc = E @ q; sc[ci] = -2
+        di = int(sc.argmax())
+        if sc[di] < 0.6 or di == nn1[ci]: continue
+        # the pair order follows the relation: a - b = o means a = b + o, so c + o ~ d plays 'a' and c plays 'b'
+        cands.append((vocab[di], c, k, float(sc[di])))
+log(f'  {len(cands)} candidate pairs (predicted a, given b) from {len(probes)} probe directions: ' + ', '.join(f"{k[:24]}: {sum(1 for x in cands if x[2]==k)}" for k in probes))
+for a, b, k, sc in sorted(cands, key=lambda x: -x[3])[:40]:
+    known = known_pairs.get(frozenset((a, b)), '')
+    log(f'     {D.fmt_sign(a)} <- {D.fmt_sign(b)} + [{k[:28]}] cos {sc:.2f} {("KNOWN: "+known) if known else ""}')
 
 def ctx_profiles(texts):
-    L = collections.defaultdict(collections.Counter); R = collections.defaultdict(collections.Counter); f = collections.Counter(); adj = collections.Counter()
+    L = collections.defaultdict(collections.Counter); R = collections.defaultdict(collections.Counter); f = collections.Counter(); adj = collections.Counter(); before = collections.Counter()
     for s in texts:
         for i, x in enumerate(s):
             f[x] += 1
-            if i > 0: L[x][s[i - 1]] += 1; adj[frozenset((x, s[i - 1]))] += 1
+            if i > 0: L[x][s[i - 1]] += 1; adj[frozenset((x, s[i - 1]))] += 1; before[(s[i - 1], x)] += 1
             if i < len(s) - 1: R[x][s[i + 1]] += 1
-    return L, R, f, adj
+    return L, R, f, adj, before
 def cos_c(c1, c2):
     keys = set(c1) | set(c2)
     if not keys: return 0.0
@@ -160,58 +177,70 @@ def ctxsim(L, R, a, b):
     return 0.5 * (cos_c(L[a], L[b]) + cos_c(R[a], R[b]))
 
 def test_candidates(texts, cands_local, label, nrand=500):
-    L, R, f, adj = ctx_profiles(texts)
+    L, R, f, adj, before = ctx_profiles(texts)
     signs = [s for s, n in f.items() if n >= 3]
     fb = {s: int(math.log2(f[s])) for s in signs}; bb = collections.defaultdict(list)
     for s in signs: bb[fb[s]].append(s)
-    hits = 0; tested = 0; details = []
-    for a, b, kind in cands_local:
-        if f[a] < 3 or f[b] < 3: continue
+    hits = 0; tested = 0; details = []; adj_hits = 0; adj_tested = 0
+    for a, b, kind, sc in cands_local:
+        if f.get(a, 0) < 3 or f.get(b, 0) < 3: continue
         tested += 1
         real = ctxsim(L, R, a, b)
-        null = []
+        null = []; nulladj = []
         for _ in range(nrand):
             x = rnd.choice(bb[fb[a]]); y = rnd.choice(bb[fb[b]])
             if x == y: continue
-            null.append(ctxsim(L, R, x, y))
+            null.append(ctxsim(L, R, x, y)); nulladj.append(before[(y, x)])
         P = (sum(1 for v in null if v >= real) + 1) / (len(null) + 1)
         if P < 0.05: hits += 1
-        details.append((a, b, kind, f[a], f[b], real, float(np.median(null)), P, adj[frozenset((a, b))]))
-    log(f'  {label}: {tested} candidates testable (both signs >= 3 tokens), {hits} with context similarity above 95% of frequency-matched pairs (expected {0.05*tested:.1f})')
-    for a, b, kind, fa, fb_, real, nm, P, ad in sorted(details, key=lambda d: d[7])[:12]:
-        log(f'     {a}:{b} [{kind[:28]}] n {fa}/{fb_} ctx cos {real:.2f} vs null {nm:.2f} P {P:.3f} adjacent {ad}x')
-    return tested, hits, details
+        Padj = None
+        if kind.startswith('closer'):
+            # relation a = closer, b = qualifier: b should stand directly before a
+            adj_tested += 1
+            Padj = (sum(1 for v in nulladj if v >= before[(b, a)]) + 1) / (len(nulladj) + 1)
+            if Padj < 0.05 and before[(b, a)] >= 2: adj_hits += 1
+        details.append((a, b, kind, f[a], f[b], real, float(np.median(null)), P, before[(b, a)], Padj))
+    log(f'  {label}: {tested} candidates testable (both signs >= 3 tokens), {hits} with context similarity above 95% of frequency-matched pairs (expected {0.05*tested:.1f})'
+        + (f'; closer -> qualifier adjacency (qualifier directly before closer, >= 2x and P < 0.05): {adj_hits} of {adj_tested} (expected {0.05*adj_tested:.1f})' if adj_tested else ''))
+    for a, b, kind, fa, fb_, real, nm, P, bef, Padj in sorted(details, key=lambda d: d[7])[:14]:
+        log(f'     {a} <- {b} [{kind[:26]}] n {fa}/{fb_} ctx cos {real:.2f} vs null {nm:.2f} P {P:.3f}; b-before-a {bef}x' + (f' P {Padj:.3f}' if Padj is not None else ''))
+    return tested, hits, adj_tested, adj_hits, details
 
-held = [r[LV] for r in C_all if r[LV] and len(r[LV]) >= 2 and r['site'] not in ('Mohenjo-daro', 'Harappa') and r['complete'] == 'Y'] if (C_all := D.C) else []
+C_all = D.C
+held = [r[LV] for r in C_all if r[LV] and len(r[LV]) >= 2 and r['site'] not in ('Mohenjo-daro', 'Harappa') and r['complete'] == 'Y']
 log(f'  held-out Wells texts (not MD/H, complete, >= 2 signs): {len(held)}')
-t1, h1, d1 = test_candidates(held, cands, 'held-out Wells sites')
+r1 = test_candidates(held, cands, 'held-out Wells sites')
 
 # IM77 via bridge + proposals
 BR = D.BR; prop = json.load(open(os.path.join(HERE, 'data/derived/dark/bridge_proposals.json')))
 W2M = {int(w): list(m) for w, m in BR.items()}
 for p in prop['proposals']:
-    W2M.setdefault(p['W'], []);
+    W2M.setdefault(p['W'], [])
     if p['M'] not in W2M[p['W']]: W2M[p['W']].append(p['M'])
-for p in prop.get('corrections', []):
-    if isinstance(p, dict) and 'W' in p: W2M[p['W']] = [p['M']]
+for p in prop.get('corrections', []): W2M[p['W']] = list(p['new'])
+for p in prop.get('contextual_not_alignment_validated', []): W2M.setdefault(p['W'], [p['M']])
 im = D.load_im77()
 im_texts = [o['seq'] for o in im]
 cands_m = []
-for a, b, kind in cands:
+for a, b, kind, sc in cands:
     if a in W2M and b in W2M:
         ma, mb = W2M[a][0], W2M[b][0]
-        if ma != mb: cands_m.append((ma, mb, kind))
+        if ma != mb: cands_m.append((ma, mb, kind, sc))
 log(f'  IM77 texts {len(im_texts)}; candidates bridged to Mahadevan numbers: {len(cands_m)} of {len(cands)}')
-t2, h2, d2 = test_candidates(im_texts, cands_m, 'IM77 (all sites, bridged)')
-# control: random non-candidate pairs from the vocabulary, same procedure, to calibrate the hit rate
+r2 = test_candidates(im_texts, cands_m, 'IM77 (all sites, bridged)')
+# control: random vocabulary pairs with the same kind labels, same procedure
 ctrl = []
-for _ in range(len(cands)):
-    a, b = rnd.sample(vocab, 2); ctrl.append((a, b, 'random'))
-t3, h3, _ = test_candidates(held, ctrl, 'CONTROL random vocabulary pairs, held-out sites')
-ctrl_m = [(W2M[a][0], W2M[b][0], 'random') for a, b, _ in ctrl if a in W2M and b in W2M and W2M[a][0] != W2M[b][0]]
-t4, h4, _ = test_candidates(im_texts, ctrl_m, 'CONTROL random vocabulary pairs, IM77')
-res['candidates'] = dict(n=len(cands), heldout=dict(tested=t1, hits=h1), im77=dict(tested=t2, hits=h2), control_heldout=dict(tested=t3, hits=h3), control_im77=dict(tested=t4, hits=h4),
-                         details_heldout=[list(map(lambda v: v if not isinstance(v, (np.floating,)) else float(v), d)) for d in d1])
+for a, b, kind, sc in cands:
+    x, y = rnd.sample(vocab, 2); ctrl.append((x, y, kind, 0.0))
+r3 = test_candidates(held, ctrl, 'CONTROL random vocabulary pairs, held-out sites')
+ctrl_m = [(W2M[a][0], W2M[b][0], kind, 0.0) for a, b, kind, _ in ctrl if a in W2M and b in W2M and W2M[a][0] != W2M[b][0]]
+r4 = test_candidates(im_texts, ctrl_m, 'CONTROL random vocabulary pairs, IM77')
+# the known pairs themselves on held-out / IM77, for calibration of the test's power
+kn = [(a, b, k, 1.0) for k, prs in KNOWN.items() for a, b in prs if k in probes]
+r5 = test_candidates(held, kn, 'CALIBRATION known relation pairs, held-out sites')
+kn_m = [(W2M[a][0], W2M[b][0], k, 1.0) for a, b, k, _ in kn if a in W2M and b in W2M and W2M[a][0] != W2M[b][0]]
+r6 = test_candidates(im_texts, kn_m, 'CALIBRATION known relation pairs, IM77')
+res['candidates'] = dict(n=len(cands), list=[list(c) for c in cands], heldout=r1[:4], im77=r2[:4], control_heldout=r3[:4], control_im77=r4[:4], known_heldout=r5[:4], known_im77=r6[:4])
 res['known_offsets'] = rowsA
 json.dump(res, open(OUT + f'loop31_c2_{LV}.json', 'w'), default=str)
 log('done')
