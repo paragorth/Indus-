@@ -1,0 +1,24 @@
+S-DARK-3 cycle 4: pipeline screen (two-step transformations) and targeted held-out confirmation of its non-trivial survivors
+Code: tools/strat_dark3_run.py pipelines 20 3 (screen, loop3_pipelines.txt/.json; finished before the previous session was cut);
+      tools/strat_dark3_run.py pipeconfirm 60 {11,13} {train,heldout} {seq_raw,seq_strong,seq_all} ... (loop3_pipeconfirm_*.txt/.json);
+      pipecontrol 40 7 (bigram-generated Indus corpus, loop3_pipecontrol_bigram.txt); pipeur3 0 5 (Ur III values, loop3_pipeur3.txt).
+
+Screen (train = Mohenjo-daro + Harappa, seq_raw, 20 random parameterisations, P = 20 null draws). 20 random ordered pairs of
+the 15 base transformations composed a>b; 4 tests each = 74 arrows with a value (6 n/a). 47 of 74 reach |z| >= 3.
+Why so many: cycle 3 showed the single-step machine fires 19 of 68 on a null corpus; a composition inherits every artefact of
+its parts and the slot test fires whenever a step moves or destroys the frame. Triage of the 47:
+  - 21 are slot-test arrows (frame destroyed/moved: re-states S17-S40, GRAMMAR.md opener/closer slots). Excluded.
+  - 17 more involve family / randfamily / emblem / objtype as one step: class-count collapse (S-DARK-3.2: a random 10-class
+    partition reproduces 'family') or the weak form-text dependence (S15/S28, S-DARK-3.3). numonly>family reaches ratio 1.000
+    and repeat 1.000 trivially (every numeral is class 0). Excluded.
+  - nonnum>middleout/namecalib -10.2: middle-out alone gives -12.2 and lowers Ur III names by the same amount (generic). Excluded.
+  - bpe>rotate/arith +5.1: the arithmetic test is order-invariant, so this is bpe/arith (died on held-out, cycle 2). Excluded.
+  Non-trivial survivors sent to confirmation (6 arrows, 4 pipelines):
+    dropsign>reverse / namecalib  +21.4 (0.78 -> 0.96)   [parts: dropsign +12.5, reverse +5.4 -- is it more than the sum?]
+    bpe>reverse / namecalib +5.5, / repeat +7.3, / arith +5.6 (0.80->0.85, 0.24->0.49, 0.25->0.29) [parts: reverse +5.4, bpe +5.3, +4.4]
+    bpe>rotate / repeat +3.6 (0.25 -> 0.37)              [part: bpe/repeat +5.3]
+    sort>nonnum / namecalib -3.9 (0.76 -> 0.76, null +0.03) [parts: sort -2.7, nonnum -1.0 -- a new sign only in composition]
+Bar as in cycle 2: train |z| > 3.4 on all three variants, held-out p <= 0.016 with the same sign on all three, and the
+bigram-generated corpus (no hidden reading) must NOT reproduce it.
+
+RESULTS_PLACEHOLDER

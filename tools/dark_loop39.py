@@ -224,14 +224,31 @@ class FormModel:
         self.perm = None
         if 'shuffleorder' in self.mech:
             p = list(range(K)); random.Random(seed + 1).shuffle(p); self.perm = p
-        # parse into units
+        # parse into units ('partial': the whole text is one form instance = one field subset, written in a partial order)
         self.units = []   # (site, cls, unit_index, [(field, sign)])
         nun = collections.defaultdict(collections.Counter)
+        self.mult = collections.defaultdict(collections.Counter)   # multiplicity of a field given present (partial model)
         for site, cls, s in data:
-            units, viol, unk = F.parse(s)
+            if 'partial' in self.mech:
+                items = [(F.field_of[x], x) for x in s if x in F.field_of]
+                units = [items] if items else []
+                for f, c in collections.Counter(f for f, _ in items).items(): self.mult[f][min(c, 3)] += 1
+            else:
+                units, viol, unk = F.parse(s)
             nun[self.tkey(cls)][min(len(units), 3)] += 1
             for ui, u in enumerate(units): self.units.append((site, cls, ui, u))
         self.n_units = {k: SA.Cat(dict(v)) for k, v in nun.items()}
+        self.multcat = {f: SA.Cat(dict(c)) for f, c in self.mult.items()}
+        # pairwise field order model (Babington Smith weights): p_ij = P(field i written before field j | both present)
+        A = np.zeros((K, K))
+        for (x, y), c in F.before.items():
+            fx, fy = F.field_of.get(x), F.field_of.get(y)
+            if fx is not None and fy is not None and fx != fy: A[fx, fy] += c
+        if 'strictorder' in self.mech:      # ablation: linear field order only
+            self.logp = np.where(np.arange(K)[:, None] < np.arange(K)[None, :], 0.0, -20.0)
+        else:
+            self.logp = np.log((A + 1) / (A + A.T + 2))
+        self.order_agree = float(np.triu(A, 1).sum() / max(1, A.sum()))
         # design matrix
         self.sites = sorted(set(s for s, _, _ in data)); self.clss = ['SEAL', 'TAB', 'OTHER']
         N = len(self.units); X = np.zeros((N, K)); Z = np.zeros((N, self.ncov()))
@@ -258,7 +275,7 @@ class FormModel:
             for site, cls, ui, u in self.units:
                 prev = 'S'
                 for f, x in u: ch[f][prev].append(x); prev = x
-            self.chain = {f: {p: SA.Cat(v, self.elem[f], 3.0) for p, v in d.items()} for f, d in ch.items()}
+            self.chain = {f: {p: SA.Cat(v, self.elem[f], CHAIN_LAM) for p, v in d.items()} for f, d in ch.items()}
         self.fresh = 0
         # whole-text reuse
         if 'reuse' in self.mech:
