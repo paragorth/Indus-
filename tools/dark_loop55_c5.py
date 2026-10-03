@@ -11,7 +11,9 @@ state). Features that are undefined in any L or D sample (multi-site shares: cod
 Classifiers: standardised L2 logistic regression (C=0.1) and nearest centroid. Exact permutation null: all C(11,5) = 462
 assignments of the class labels to the 11 L/D corpora.
 Usage: python3 tools/dark_loop55_c5.py [controls]   (controls = also run the chain-synthetic batteries; ~15 min)"""
-import os, sys, json, math, random, itertools, collections, statistics as st
+import os
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'): os.environ.setdefault(_v, '1')
+import sys, json, math, random, itertools, collections, statistics as st
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 import dark_loop55_common as C
@@ -78,9 +80,11 @@ def loco(R, corp, lab, kind, feats, model):
     return P, acc
 
 
-def perm_null(R, corp, kind, feats, model, true_lab):
+def perm_null(R, corp, kind, feats, model, true_lab, cap=None):
     L0 = [c for c in corp if true_lab[c] == 1]; accs = []
-    for Ls in itertools.combinations(corp, len(L0)):
+    combos = list(itertools.combinations(corp, len(L0)))
+    if cap and len(combos) > cap: combos = random.Random(55).sample(combos, cap)
+    for Ls in combos:
         lab = {c: (1 if c in Ls else 0) for c in corp}
         accs.append(loco(R, corp, lab, kind, feats, model)[1])
     return accs
@@ -164,7 +168,7 @@ def main(with_controls=False):
         for kind in ('raw', 'zM2', 'zM2E'):
             feats = usable(Rn, kind, cn)
             _, acc = loco(Rn, cn, lab, kind, feats, 'logit')
-            null = perm_null(Rn, cn, kind, feats, 'logit', lab); pv = sum(1 for x in null if x >= acc) / len(null)
+            null = perm_null(Rn, cn, kind, feats, 'logit', lab, cap=120); pv = sum(1 for x in null if x >= acc) / len(null)
             cells.append(f'{acc:.2f} ({pv:.3f})')
             tg = apply_all(Rn, cn, lab, kind, feats, 'logit', {'indus_seq_all': Rn.get('indus_seq_all', [])})
             ind.append(f"{tg['indus_seq_all'][0]:.2f}" if 'indus_seq_all' in tg else 'n/a')
