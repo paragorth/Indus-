@@ -1,0 +1,253 @@
+== loop16 cycle 3 level=seq_all nperm=1000; lines TAG=224 (objects 193) SEAL=2250 TAB=2173
+# (c) dead seals: seal lines whose text (>=2 signs) never appears on any TAG or TAB line (any site)
+seal lines 2028; with attested use 202
+   Lothal        seals=77 used=10 (13.0%)  used-on-TAG 2 used-on-TAB 10
+   Dholavira     seals=105 used=13 (12.4%)  used-on-TAG 6 used-on-TAB 10
+   Kalibangan    seals=50 used=5 (10.0%)  used-on-TAG 1 used-on-TAB 5
+   Harappa       seals=384 used=37 (9.6%)  used-on-TAG 13 used-on-TAB 35
+   Mohenjo-daro  seals=1250 used=124 (9.9%)  used-on-TAG 32 used-on-TAB 112
+
+# used-minus-dead mean difference; null = used label permuted within site x seal type
+   len             (n used 202, dead 1826): -2.186 (null -0.167, p_lo 0.001, p_hi 1.000)
+   jar_final       (n used 202, dead 1826): +0.119 (null -0.002, p_lo 1.000, p_hi 0.001)
+   arrow_final     (n used 202, dead 1826): +0.027 (null +0.005, p_lo 0.890, p_hi 0.187)
+   opener_first    (n used 202, dead 1826): -0.087 (null -0.005, p_lo 0.003, p_hi 0.999)
+   any_numeral     (n used 202, dead 1826): -0.119 (null -0.005, p_lo 0.001, p_hi 1.000)
+   stock           (n used 202, dead 1826): +0.055 (null -0.002, p_lo 1.000, p_hi 0.001)
+   voucher700      (n used 202, dead 1826): +0.008 (null +0.000, p_lo 0.942, p_hi 0.190)
+   fish            (n used 202, dead 1826): -0.176 (null -0.005, p_lo 0.001, p_hi 1.000)
+   area_mm2        (n used 160, dead 1548): -198.697 (null -21.027, p_lo 0.001, p_hi 1.000)
+   h_mm            (n used 173, dead 1639): -4.436 (null -0.223, p_lo 0.001, p_hi 1.000)
+   cond            (n used 202, dead 1823): -0.179 (null -0.032, p_lo 0.014, p_hi 0.992)
+   chipped_or_frag (n used 202, dead 1826): +0.058 (null +0.015, p_lo 0.908, p_hi 0.121)
+   unicorn         (n used 202, dead 1826): -0.068 (null -0.053, p_lo 0.328, p_hi 0.742)
+   no_emblem       (n used 202, dead 1826): +0.055 (null +0.048, p_lo 0.719, p_hi 0.397)
+   steatite        (n used 202, dead 1826): -0.015 (null +0.007, p_lo 0.223, p_hi 0.834)
+   rect_bar        (n used 202, dead 1826): +0.016 (null +0.016, p_lo 1.000, p_hi 1.000)
+ arrows 16; Bonferroni alpha 0.0031
+
+# length-controlled: used label permuted within site x seal type x text length (2,3,4,5,>=6)
+   jar_final      : +0.119 (null -0.072, p_lo 1.000, p_hi 0.001)
+   arrow_final    : +0.027 (null -0.022, p_lo 1.000, p_hi 0.002)
+   opener_first   : -0.087 (null -0.156, p_lo 1.000, p_hi 0.001)
+   any_numeral    : -0.119 (null -0.141, p_lo 0.770, p_hi 0.279)
+   stock          : +0.055 (null +0.009, p_lo 0.996, p_hi 0.008)
+   voucher700     : +0.008 (null +0.002, p_lo 0.923, p_hi 0.255)
+   fish           : -0.176 (null -0.180, p_lo 0.621, p_hi 0.469)
+   area_mm2       : -198.697 (null -164.975, p_lo 0.107, p_hi 0.894)
+   h_mm           : -4.436 (null -3.592, p_lo 0.052, p_hi 0.949)
+   cond           : -0.179 (null -0.216, p_lo 0.759, p_hi 0.255)
+   chipped_or_frag: +0.058 (null +0.083, p_lo 0.245, p_hi 0.810)
+   unicorn        : -0.068 (null -0.078, p_lo 0.674, p_hi 0.398)
+   no_emblem      : +0.055 (null +0.071, p_lo 0.227, p_hi 0.843)
+   steatite       : -0.015 (null -0.025, p_lo 0.693, p_hi 0.392)
+   rect_bar       : +0.016 (null +0.016, p_lo 1.000, p_hi 1.000)
+
+# held-out: same stats per site (Mohenjo-daro, Harappa, rest) for len, jar_final, any_numeral, area_mm2, cond, unicorn, no_emblem
+   Mohenjo-daro  used=124 dead=1126: len -2.31, jar_final +0.17, any_numeral -0.13, area_mm2 -214.25, cond -0.29, unicorn -0.03, no_emblem +0.05
+   Harappa       used=37 dead=347: len -1.96, jar_final -0.05, any_numeral -0.03, area_mm2 -224.45, cond -0.02, unicorn -0.05, no_emblem -0.10
+   other sites   used=41 dead=353: len -2.00, jar_final +0.12, any_numeral -0.17, area_mm2 -118.66, cond +0.00, unicorn -0.20, no_emblem +0.20
+
+# the used seals (text, site, type, emblem, material, size, condition, where used):
+   590-390-740                  Ad-1     Allahdino    SEAL:S  emb=Bull1     Steatite 28x23mm cond=Poor TAG@- TAB@Harappa
+   803-740                      B-19     Banawali     SEAL:S  emb=None      -        10x9mm cond=Fair TAG@- TAB@Harappa
+   861-2                        B-5      Banawali     SEAL:S  emb=Bull3     -        13x13mm cond=Fair TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        B-7      Banawali     SEAL:S  emb=Buff      Steatite 23x22mm cond=Fair TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        B-15     Banawali     SEAL:S  emb=Rhin      Steatite 19x19mm cond=Good TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        B-18     Banawali     SEAL:S  emb=-         -        0x0mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   100-740                      C-17     Chanhu-daro  SEAL:S  emb=Bull1:I   Steatite 21x21mm cond=Good TAG@- TAB@Harappa
+   590-390-740                  C-2      Chanhu-daro  SEAL:S  emb=Bull1:L   Steatite 36x34mm cond=Good TAG@- TAB@Harappa
+   820-2                        C-85     Chanhu-daro  SEAL:R  emb=-         Steatite 29x17mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa
+   861-2-3-390                  C-66     Chanhu-daro  SEAL:S  emb=Bull1:W   Steatite 23x23mm cond=Fair TAG@Kalibangan TAB@-
+   33-33-520                    -        Dholavira    SEAL:S  emb=Bull1:S   -        18x18mm cond=Fair TAG@- TAB@Harappa
+   142-617                      -        Dholavira    SEAL:R  emb=None      Steatite 22x10mm cond=Fair TAG@- TAB@Harappa,Mohenjo-daro
+   235-520                      -        Dholavira    SEAL:S  emb=None      -        24x22mm cond=Poor TAG@- TAB@Mohenjo-daro
+   235-740                      -        Dholavira    SEAL:S  emb=-         Steatite 24x0mm cond=Poor TAG@Allahdino TAB@-
+   705-33-520                   -        Dholavira    SEAL:R  emb=None      Steatite 22x14mm cond=Good TAG@Lothal TAB@-
+   740-151                      -        Dholavira    SEAL:S  emb=?         Steatite 15x0mm cond=Poor TAG@Lothal TAB@-
+   760-740                      -        Dholavira    SEAL    emb=-         -        25x0mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   798-740                      -        Dholavira    SEAL    emb=-         Steatite 0x0mm cond=Fair TAG@- TAB@Kalibangan
+   798-740                      -        Dholavira    SEAL:S  emb=-         -        0x0mm cond=Fair TAG@- TAB@Kalibangan
+   820-2                        -        Dholavira    SEAL:S  emb=Bull1     -        31x0mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa
+   840-32                       -        Dholavira    SEAL:S  emb=Bull1     -        29x29mm cond=Poor TAG@- TAB@Harappa
+   861-2                        Dlv-2    Dholavira    SEAL:R  emb=None      -        0x18mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2-4-390                  -        Dholavira    SEAL:S  emb=Bull1:U   Steatite 22x22mm cond=Good TAG@- TAB@Harappa
+   371-390                      -        Farmana      SEAL:S  emb=Bull1:J   Steatite 27x27mm cond=Good TAG@- TAB@Mohenjo-daro
+   3-156                        H-81     Harappa      SEAL:S  emb=Gaur      -        20x20mm cond=Good TAG@Mohenjo-daro TAB@Harappa
+   3-156                        H-499    Harappa      SEAL:S  emb=Bull1:S   -        19x19mm cond=Good TAG@Mohenjo-daro TAB@Harappa
+   3-390                        H-585    Harappa      SEAL:S  emb=Zebu      -        40x40mm cond=Good TAG@Mohenjo-daro TAB@Dholavira,Harappa
+   3-390                        H-1664   Harappa      SEAL:S  emb=Bull1:W   Steatite 29x29mm cond=Good TAG@Mohenjo-daro TAB@Dholavira,Harappa
+   3-390                        H-596    Harappa      SEAL:S  emb=None      Faience  15x15mm cond=Poor TAG@Mohenjo-daro TAB@Dholavira,Harappa
+   3-550-617                    H-49     Harappa      SEAL:S  emb=Bull1:S   Steatite 23x23mm cond=Good TAG@- TAB@Harappa
+   13-840-740                   H-147    Harappa      SEAL:R  emb=None      Faience  22x13mm cond=Good TAG@- TAB@Harappa
+   31-156                       H-516    Harappa      SEAL:S  emb=Bull1:I   Steatite 20x20mm cond=Poor TAG@- TAB@Harappa
+   31-388-740                   H-982    Harappa      SEAL:R  emb=Bult      Steatite 14x6mm cond=Fair TAG@- TAB@Harappa
+   33-700                       H-352    Harappa      SEAL:R  emb=Bult      Steatite 15x8mm cond=Fair TAG@- TAB@Harappa
+   33-700                       H-354    Harappa      SEAL:R  emb=Bult      Steatite 15x8mm cond=Fair TAG@- TAB@Harappa
+   34-700                       H-982    Harappa      SEAL:R  emb=Bult      Steatite 14x6mm cond=Fair TAG@- TAB@Harappa
+   61-142-400-740               H-1679   Harappa      SEAL:S  emb=Bull1:W   Steatite 22x21mm cond=Fair TAG@- TAB@Harappa
+   61-142-400-740               H-451    Harappa      SEAL:S  emb=Bull1:W   Steatite 24x24mm cond=Poor TAG@- TAB@Harappa
+   100-740                      H-684    Harappa      SEAL:R  emb=None      Steatite 0x9mm cond=Poor TAG@- TAB@Harappa
+   104-4-390                    H-1673   Harappa      SEAL:S  emb=Bull1:W   Steatite 28x26mm cond=Poor TAG@- TAB@Harappa
+   142-617                      H-72     Harappa      SEAL:S  emb=Bull1:W   Steatite 20x20mm cond=Fair TAG@- TAB@Harappa,Mohenjo-daro
+   175-520                      H-503    Harappa      SEAL:S  emb=Bull1:J   Steatite 18x18mm cond=Poor TAG@- TAB@Dholavira
+   176-100-740                  H-1080   Harappa      SEAL:R  emb=None      Steatite 30x13mm cond=Poor TAG@- TAB@Harappa
+   176-740-400                  H-352    Harappa      SEAL:R  emb=Bult      Steatite 15x8mm cond=Fair TAG@- TAB@Harappa
+   176-740-400                  H-354    Harappa      SEAL:R  emb=Bult      Steatite 15x8mm cond=Fair TAG@- TAB@Harappa
+   220-520                      H-1687   Harappa      SEAL:S  emb=Bull1:J   Steatite 16x17mm cond=Poor TAG@- TAB@Harappa
+   220-520                      H-525    Harappa      SEAL:S  emb=Bull1:I   Steatite 20x20mm cond=Poor TAG@- TAB@Harappa
+   220-740-90                   H-1685   Harappa      SEAL:S  emb=Bull      -        0x0mm cond=Poor TAG@Lothal TAB@Harappa
+   220-740-90                   H-401    Harappa      SEAL:S  emb=Bull1     Steatite 37x37mm cond=Poor TAG@Lothal TAB@Harappa
+   390-740                      H-537    Harappa      SEAL:S  emb=Bull1     Steatite 38x38mm cond=Poor TAG@Chanhu-daro TAB@Harappa
+   416-740                      H-475    Harappa      SEAL:S  emb=Bull1:W   Steatite 25x25mm cond=Fine TAG@- TAB@Harappa
+   484-337-740                  H-441    Harappa      SEAL:S  emb=Bull1:W   Steatite 27x27mm cond=Fair TAG@- TAB@Harappa
+   550-527                      H-650    Harappa      SEAL:R  emb=None      Steatite 36x15mm cond=Poor TAG@- TAB@Harappa
+   590-390-740                  H-533    Harappa      SEAL:S  emb=None      Steatite 0x0mm cond=Poor TAG@- TAB@Harappa
+   590-390-740-400              H-75     Harappa      SEAL:S  emb=Bull1:I   Steatite 14x14mm cond=Fair TAG@- TAB@Harappa
+   705-33-520                   H-53     Harappa      SEAL:S  emb=Bull1:I   -        30x30mm cond=Good TAG@Lothal TAB@-
+   760-740                      H-1059   Harappa      SEAL    emb=-         -        0x0mm cond=Good TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   798-740                      H-488    Harappa      SEAL:S  emb=Bull1     Steatite 25x25mm cond=Poor TAG@- TAB@Kalibangan
+   820-2                        H-653    Harappa      SEAL:R  emb=None      Steatite 41x15mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa
+   861-2                        H-15     Harappa      SEAL:S  emb=Bull1:W   Steatite 34x34mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2-3-390                  H-407    Harappa      SEAL:S  emb=Bull1:W   Steatite 29x29mm cond=Fair TAG@Kalibangan TAB@-
+   5-390                        K-19     Kalibangan   SEAL:S  emb=Bull1:W   Steatite 25x24mm cond=Fine TAG@- TAB@Harappa
+   495-776-740-400              K-63     Kalibangan   SEAL:R  emb=None      Steatite 14x7mm cond=Fair TAG@- TAB@Harappa
+   690-740                      K-61     Kalibangan   SEAL:R  emb=None      Terracot 28x14mm cond=Fair TAG@- TAB@Harappa,Mohenjo-daro
+   803-233-176-740              K-62     Kalibangan   SEAL:R  emb=None      Terracot 36x20mm cond=Good TAG@- TAB@Mohenjo-daro
+   861-2                        K-27     Kalibangan   SEAL:S  emb=Bull2     Steatite 15x16mm cond=Fine TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   31-520                       -        Kanmer       SEAL:S  emb=Ass       Steatite 11x11mm cond=Fair TAG@- TAB@Harappa
+   3-156                        L-42     Lothal       SEAL:S  emb=Bull1:S   -        17x17mm cond=Fair TAG@Mohenjo-daro TAB@Harappa
+   13-840-740                   L-22     Lothal       SEAL:S  emb=Bull1:U   Steatite 25x25mm cond=Good TAG@- TAB@Harappa
+   233-176-740                  L-35     Lothal       SEAL:S  emb=Bull1:J   Steatite 19x19mm cond=Fair TAG@- TAB@Mohenjo-daro
+   233-176-740                  L-55     Lothal       SEAL:S  emb=None      Steatite 23x23mm cond=Poor TAG@- TAB@Mohenjo-daro
+   235-555-527                  L-9      Lothal       SEAL:S  emb=Bull1:W   Steatite 30x30mm cond=Fair TAG@- TAB@Harappa
+   550-527                      L-52     Lothal       SEAL:S  emb=None      Clay     30x30mm cond=Poor TAG@- TAB@Harappa
+   564-740                      -        Lothal       SEAL:R  emb=None      Steatite 0x0mm cond=Poor TAG@- TAB@Harappa
+   760-740                      L-64     Lothal       SEAL    emb=-         Steatite 0x0mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   840-32-740                   L-59     Lothal       SEAL:S  emb=None      Steatite 16x16mm cond=Fair TAG@- TAB@Harappa,Mohenjo-daro
+   861-2-832                    L-57     Lothal       SEAL:S  emb=-         -        19x19mm cond=Fair TAG@- TAB@Harappa
+   3-156                        M-1779   Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 25x25mm cond=Fair TAG@Mohenjo-daro TAB@Harappa
+   3-156                        M-838    Mohenjo-daro SEAL:S  emb=Bull1:L   Steatite 24x0mm cond=Good TAG@Mohenjo-daro TAB@Harappa
+   3-156                        M-919    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 23x23mm cond=Poor TAG@Mohenjo-daro TAB@Harappa
+   3-156                        M-1232   Mohenjo-daro SEAL:S  emb=None      Steatite 27x23mm cond=Poor TAG@Mohenjo-daro TAB@Harappa
+   3-220-590-390-740            M-94     Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 25x25mm cond=Good TAG@- TAB@Mohenjo-daro
+   3-220-740                    M-294    Mohenjo-daro SEAL:S  emb=Scene     Steatite 29x29mm cond=Poor TAG@- TAB@Mohenjo-daro
+   3-220-740                    M-1441   Mohenjo-daro SEAL:R  emb=None      -        18x12mm cond=Fair TAG@- TAB@Mohenjo-daro
+   3-220-740                    M-1443   Mohenjo-daro SEAL:R  emb=None      -        18x9mm cond=Fair TAG@- TAB@Mohenjo-daro
+   3-390                        M-1857   Mohenjo-daro SEAL:S  emb=Bull1     Steatite 13x13mm cond=Poor TAG@Mohenjo-daro TAB@Dholavira,Harappa
+   3-390                        M-179    Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 22x22mm cond=Fair TAG@Mohenjo-daro TAB@Dholavira,Harappa
+   3-550-617                    M-401    Mohenjo-daro SEAL:R  emb=None      Steatite 23x10mm cond=Good TAG@- TAB@Harappa
+   4-900-740                    M-893    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 0x0mm cond=Poor TAG@- TAB@Harappa
+   5-390                        M-1983   Mohenjo-daro SEAL:R  emb=None      Steatite 27x13mm cond=Good TAG@- TAB@Harappa
+   5-390                        M-224    Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 23x21mm cond=Good TAG@- TAB@Harappa
+   5-390                        M-404    Mohenjo-daro SEAL:R  emb=None      Steatite 24x11mm cond=Fine TAG@- TAB@Harappa
+   13-840-740                   M-1915   Mohenjo-daro SEAL:S  emb=Elep      Steatite 20x20mm cond=Fair TAG@- TAB@Harappa
+   13-840-740                   M-1774   Mohenjo-daro SEAL:S  emb=Bull1:U   Steatite 25x25mm cond=Poor TAG@- TAB@Harappa
+   17-585-740                   M-1777   Mohenjo-daro SEAL:S  emb=Bull1:L   Steatite 27x27mm cond=Good TAG@Rupar TAB@-
+   31-156                       M-1735   Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 25x25mm cond=Good TAG@- TAB@Harappa
+   31-156                       M-188    Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 19x19mm cond=Fair TAG@- TAB@Harappa
+   31-156                       M-229    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 16x16mm cond=Fine TAG@- TAB@Harappa
+   31-156                       M-995    Mohenjo-daro SEAL:S  emb=Bull1:X   -        17x17mm cond=Poor TAG@- TAB@Harappa
+   33-33                        M-1840   Mohenjo-daro SEAL:S  emb=Bull1:I   -        22x22mm cond=Poor TAG@- TAB@Harappa
+   55-740                       M-807    Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 29x29mm cond=Poor TAG@Dholavira TAB@-
+   61-142-400-740               M-879    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 27x27mm cond=Good TAG@- TAB@Harappa
+   97-400                       M-830    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 23x23mm cond=Fair TAG@- TAB@Harappa
+   100-740                      M-444    Mohenjo-daro SEAL    emb=None      -        15x14mm cond=Poor TAG@- TAB@Harappa
+   100-740                      M-1034   Mohenjo-daro SEAL:S  emb=Bull      Steatite 28x0mm cond=Poor TAG@- TAB@Harappa
+   100-740                      M-1035   Mohenjo-daro SEAL:S  emb=Bull      -        0x0mm cond=Poor TAG@- TAB@Harappa
+   100-740                      M-1298   Mohenjo-daro SEAL:R  emb=None      -        0x15mm cond=Poor TAG@- TAB@Harappa
+   140-100-740                  M-1077   Mohenjo-daro SEAL:S  emb=Bull2     Steatite 26x26mm cond=Fair TAG@Lothal TAB@-
+   142-617                      M-382    Mohenjo-daro SEAL:R  emb=None      Steatite 23x13mm cond=Good TAG@- TAB@Harappa,Mohenjo-daro
+   142-617                      M-1335   Mohenjo-daro SEAL:R  emb=None      Steatite 14x10mm cond=Good TAG@- TAB@Harappa,Mohenjo-daro
+   175-520                      M-1829   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 17x17mm cond=Good TAG@- TAB@Dholavira
+   176-156                      M-330    Mohenjo-daro SEAL:S  emb=None      Steatite 18x18mm cond=Fair TAG@- TAB@Harappa
+   176-337-740                  M-736    Mohenjo-daro SEAL:S  emb=Bull1:J   Faience  30x30mm cond=Good TAG@- TAB@Harappa
+   176-337-740                  M-832    Mohenjo-daro SEAL:S  emb=Bull1:S   -        28x28mm cond=Good TAG@- TAB@Harappa
+   176-740                      M-1819   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 16x18mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   176-740                      M-301    Mohenjo-daro SEAL:S  emb=CompBull  Steatite 29x29mm cond=Fair TAG@- TAB@Harappa,Mohenjo-daro
+   176-740                      M-1000   Mohenjo-daro SEAL:S  emb=Bull1     Steatite 16x16mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   176-740                      M-1062   Mohenjo-daro SEAL    emb=-         Steatite 0x0mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   176-740                      M-1195   Mohenjo-daro SEAL:S  emb=None      Steatite 22x20mm cond=Good TAG@- TAB@Harappa,Mohenjo-daro
+   220-176-740                  M-1294   Mohenjo-daro SEAL:R  emb=None      Steatite 22x15mm cond=Poor TAG@- TAB@Harappa
+   220-520                      M-185    Mohenjo-daro SEAL:S  emb=Bull1:L   Steatite 20x20mm cond=Poor TAG@- TAB@Harappa
+   220-520                      M-978    Mohenjo-daro SEAL:S  emb=Bull1     -        21x21mm cond=Poor TAG@- TAB@Harappa
+   220-740-400                  M-1312   Mohenjo-daro SEAL:R  emb=None      Steatite 19x11mm cond=Fair TAG@- TAB@Harappa
+   233-520                      M-1827   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 23x23mm cond=Good TAG@- TAB@Harappa
+   233-520                      M-1836   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 20x20mm cond=Poor TAG@- TAB@Harappa
+   233-520                      M-1157   Mohenjo-daro SEAL:S  emb=Elep      Steatite 27x27mm cond=Fair TAG@- TAB@Harappa
+   235-555-527                  M-1351   Mohenjo-daro SEAL:R  emb=None      Steatite 34x14mm cond=Good TAG@- TAB@Harappa
+   235-590-390-740              M-672    Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 38x38mm cond=Good TAG@- TAB@Harappa
+   240-100-740                  M-1678   Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 0x10mm cond=Poor TAG@- TAB@Harappa
+   240-233                      M-1099   Mohenjo-daro SEAL:S  emb=Gaur      Steatite 8x0mm cond=Poor TAG@- TAB@Unknown
+   240-520                      M-186    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 19x19mm cond=Fair TAG@- TAB@Harappa
+   240-520                      M-208    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 20x20mm cond=Good TAG@- TAB@Harappa
+   240-520                      M-657    Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 32x34mm cond=Fair TAG@- TAB@Harappa
+   240-630-740                  M-228    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 17x16mm cond=Fair TAG@- TAB@Harappa
+   255-435-156                  M-97     Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 25x25mm cond=Good TAG@- TAB@Harappa
+   255-435-690-740              M-857    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 29x29mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   255-435-690-740              M-950    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 22x0mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   255-740                      M-1855   Mohenjo-daro SEAL:S  emb=Bull1     Steatite 13x13mm cond=Poor TAG@- TAB@Harappa
+   323-690                      M-501    Mohenjo-daro SEAL:R  emb=None      Steatite 18x11mm cond=Fair TAG@- TAB@Mohenjo-daro
+   384-740                      M-1782   Mohenjo-daro SEAL:S  emb=Bull1     -        25x25mm cond=Poor TAG@- TAB@Mohenjo-daro
+   390-740                      M-1669   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 30x29mm cond=Fair TAG@Chanhu-daro TAB@Harappa
+   415-100                      M-1122   Mohenjo-daro SEAL:S  emb=Zebu      Steatite 0x0mm cond=Poor TAG@- TAB@Harappa
+   415-100-740                  M-1009   Mohenjo-daro SEAL    emb=None      Steatite 0x0mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   415-100-740                  M-1886   Mohenjo-daro SEAL:S  emb=Gaur      Steatite 23x23mm cond=Good TAG@- TAB@Harappa,Mohenjo-daro
+   415-220                      M-1968   Mohenjo-daro SEAL:R  emb=-         -        0x0mm cond=Poor TAG@- TAB@Harappa
+   415-220-520                  M-37     Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 31x31mm cond=Fine TAG@Harappa TAB@Harappa
+   416-740                      M-938    Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 18x18mm cond=Fair TAG@- TAB@Harappa
+   416-740                      M-182    Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 23x23mm cond=Good TAG@- TAB@Harappa
+   435-690-740                  M-1018   Mohenjo-daro SEAL:S  emb=Bull      Steatite 30x0mm cond=Poor TAG@- TAB@Mohenjo-daro
+   435-690-740                  M-1069   Mohenjo-daro SEAL    emb=None      Steatite 0x0mm cond=Poor TAG@- TAB@Mohenjo-daro
+   482-740                      M-1168   Mohenjo-daro SEAL:S  emb=Htgr      Steatite 25x24mm cond=Good TAG@- TAB@Harappa
+   503-17-740                   M-1813   Mohenjo-daro SEAL:S  emb=Bull1:U   Steatite 19x19mm cond=Good TAG@- TAB@Harappa
+   503-615-740                  M-1803   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 20x20mm cond=Good TAG@- TAB@Mohenjo-daro
+   519-740                      M-264    Mohenjo-daro SEAL:S  emb=Zebu      Steatite 18x18mm cond=Good TAG@- TAB@Harappa
+   519-740                      M-388    Mohenjo-daro SEAL:R  emb=None      Steatite 23x13mm cond=Fair TAG@- TAB@Harappa
+   550-60-690-740               M-501    Mohenjo-daro SEAL:R  emb=None      Steatite 18x11mm cond=Fair TAG@- TAB@Mohenjo-daro
+   550-527                      M-1800   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 19x19mm cond=Good TAG@- TAB@Harappa
+   550-527                      M-244    Mohenjo-daro SEAL:S  emb=Gaur      Steatite 28x27mm cond=Fair TAG@- TAB@Harappa
+   550-527                      M-939    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 20x20mm cond=Fair TAG@- TAB@Harappa
+   585-740                      M-1326   Mohenjo-daro SEAL:R  emb=None      -        0x12mm cond=Poor TAG@Dholavira TAB@-
+   590-390                      M-681    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 0x0mm cond=Poor TAG@- TAB@Harappa
+   590-390-740                  M-1922   Mohenjo-daro SEAL:S  emb=None      Faience  14x14mm cond=Good TAG@- TAB@Harappa
+   590-390-740                  M-1017   Mohenjo-daro SEAL:S  emb=Bull      Steatite 9x0mm cond=Poor TAG@- TAB@Harappa
+   590-407-740                  M-1301   Mohenjo-daro SEAL:R  emb=None      -        0x12mm cond=Poor TAG@Hulas TAB@Mohenjo-daro
+   690-740                      M-176    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 20x20mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   692-60                       M-1786   Mohenjo-daro SEAL:S  emb=Bull1     Steatite 23x23mm cond=Poor TAG@- TAB@Harappa,Mohenjo-daro
+   705-33-520                   M-122    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 28x28mm cond=Good TAG@Lothal TAB@-
+   705-33-520                   M-1359   Mohenjo-daro SEAL    emb=None      Steatite 31x20mm cond=Poor TAG@Lothal TAB@-
+   705-33-923-740               M-1364   Mohenjo-daro SEAL:R  emb=None      Steatite 27x18mm cond=Poor TAG@- TAB@Mohenjo-daro
+   705-740                      M-223    Mohenjo-daro SEAL:S  emb=Bull1:S   Steatite 22x22mm cond=Good TAG@Lakhanjo-daro TAB@Harappa
+   760-740                      M-1908   Mohenjo-daro SEAL:S  emb=Rhin      Steatite 25x5mm cond=Fair TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   760-740                      M-1010   Mohenjo-daro SEAL:S  emb=None      Steatite 0x0mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   760-740                      M-1071   Mohenjo-daro SEAL    emb=-         Steatite 0x0mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   760-740                      M-1163   Mohenjo-daro SEAL:S  emb=Tigr      Steatite 32x18mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa,Mohenjo-daro
+   798-740                      M-1802   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 22x22mm cond=Poor TAG@- TAB@Kalibangan
+   798-740                      M-1028   Mohenjo-daro SEAL:S  emb=Bull1     Steatite 0x0mm cond=Poor TAG@- TAB@Kalibangan
+   803-740                      M-1797   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 22x22mm cond=Good TAG@- TAB@Harappa
+   803-740                      M-977    Mohenjo-daro SEAL:S  emb=Bull1:X   Steatite 21x21mm cond=Poor TAG@- TAB@Harappa
+   820-2                        M-1354   Mohenjo-daro SEAL:R  emb=None      Steatite 0x11mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa
+   820-2                        M-1754   Mohenjo-daro SEAL:S  emb=Bull1     -        25x26mm cond=Poor TAG@Dholavira,Lothal TAB@Harappa
+   820-2-740                    M-1960   Mohenjo-daro SEAL:R  emb=None      Steatite 31x15mm cond=Fair TAG@- TAB@Kalibangan
+   821-740                      M-1811   Mohenjo-daro SEAL:S  emb=Bull1:L   Steatite 21x20mm cond=Good TAG@- TAB@Harappa
+   821-740                      M-1868   Mohenjo-daro SEAL    emb=-         Steatite 0x0mm cond=Fair TAG@- TAB@Harappa
+   831-892                      M-207    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 20x20mm cond=Fair TAG@- TAB@Harappa
+   832-740                      M-150    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 25x25mm cond=Good TAG@- TAB@Harappa
+   861-2                        M-19     Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 38x38mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        M-110    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 27x26mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        M-175    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 0x0mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2                        M-825    Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 27x0mm cond=Poor TAG@Dholavira,Kalibangan,Lothal TAB@Harappa
+   861-2-3-390                  M-1697   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 32x32mm cond=Good TAG@Kalibangan TAB@-
+   861-2-3-390                  M-32     Mohenjo-daro SEAL:S  emb=Bull1:J   Steatite 32x32mm cond=Good TAG@Kalibangan TAB@-
+   861-2-3-390                  M-712    Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 32x33mm cond=Poor TAG@Kalibangan TAB@-
+   861-2-4-390                  M-1844   Mohenjo-daro SEAL:S  emb=Bull1:U   Steatite 22x22mm cond=Poor TAG@- TAB@Harappa
+   861-2-4-390                  M-1750   Mohenjo-daro SEAL:S  emb=Bull1:W   Steatite 25x25mm cond=Fair TAG@- TAB@Harappa
+   861-2-4-390                  M-984    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 20x20mm cond=Poor TAG@- TAB@Harappa
+   861-2-4-407                  M-1063   Mohenjo-daro SEAL:S  emb=-         Steatite 22x0mm cond=Poor TAG@- TAB@Harappa
+   861-2-48-740                 M-895    Mohenjo-daro SEAL:S  emb=Bull1     Steatite 23x0mm cond=Poor TAG@Lothal TAB@-
+   861-2-235                    M-1778   Mohenjo-daro SEAL:S  emb=Bull1:I   Steatite 25x25mm cond=Poor TAG@Lothal TAB@-
+   861-2-832                    M-1914   Mohenjo-daro SEAL:S  emb=Elep      Steatite 26x26mm cond=Poor TAG@- TAB@Harappa
+   904-740                      M-1006   Mohenjo-daro SEAL:S  emb=Bull      Faience  0x0mm cond=Poor TAG@Lothal TAB@-
+   927-740                      M-1179   Mohenjo-daro SEAL:S  emb=Goat:3    Steatite 30x27mm cond=Good TAG@- TAB@Mohenjo-daro
+   31-520                       Rhd-1    Rahman-deri  SEAL    emb=MISC      Bone     31x28mm cond=Good TAG@- TAB@Harappa
