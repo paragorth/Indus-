@@ -235,23 +235,31 @@ def crit_reuse(D, A, K):
 
 
 def crit_quantity(D, A, K, mode):
-    def catseq(s): return tuple(A[x] for x in s)
+    Al = A.tolist()
+    def key(s): return tuple(Al[x] for x in s)
     def fit_score(train, test):
-        tab = collections.defaultdict(collections.Counter)
-        prior = collections.Counter()
-        for s, v, _ in train: tab[catseq(s)][v] += 1; prior[v] += 1
-        vals = sorted(prior); tot = sum(prior.values())
-        g = []
+        tab = collections.defaultdict(collections.Counter); prior = collections.Counter()
+        for s, v, _ in train: tab[key(s)][v] += 1; prior[v] += 1
+        nv = len(prior); tot = sum(prior.values()); g = 0.0
         for s, v, _ in test:
-            c = tab.get(catseq(s), collections.Counter())
-            p = (c[v] + 0.5) / (sum(c.values()) + 0.5 * len(vals))
-            g.append(np.log2(p) - np.log2((prior[v] + 0.5) / (tot + 0.5 * len(vals))))
-        return float(np.mean(g)) if g else 0.0
-    if mode == 'opt':   # leave-one-site-out within vouchers+quantity pooled, by site
+            c = tab.get(key(s))
+            p = ((c[v] + 0.5) / (sum(c.values()) + 0.5 * nv)) if c else (0.5 / (0.5 * nv))
+            g += np.log2(p) - np.log2((prior[v] + 0.5) / (tot + 0.5 * nv))
+        return g / len(test) if test else 0.0
+    if mode == 'opt':   # leave-one-site-out over vouchers + quantity seals pooled
         pool = D.vou + D.qty
-        sites = sorted(set(s for _, _, s in pool))
-        sc = [fit_score([p for p in pool if p[2] != st], [p for p in pool if p[2] == st]) for st in sites]
-        return float(np.mean(sc))
+        tab = collections.defaultdict(collections.Counter); prior = collections.Counter()
+        bysite = collections.defaultdict(list)
+        for s, v, st in pool: tab[key(s)][v] += 1; prior[v] += 1; bysite[st].append((key(s), v))
+        nv = len(prior); tot = sum(prior.values()); g = 0.0
+        for st, items in bysite.items():
+            loc = collections.defaultdict(collections.Counter); lp = collections.Counter()
+            for k, v in items: loc[k][v] += 1; lp[v] += 1
+            for k, v in items:
+                c = tab[k][v] - loc[k][v]; n = sum(tab[k].values()) - len(items and [1 for kk, _ in items if kk == k])
+                p = (c + 0.5) / (max(n, 0) + 0.5 * nv)
+                g += np.log2(p) - np.log2((prior[v] - lp[v] + 0.5) / (tot - len(items) + 0.5 * nv))
+        return g / len(pool)
     return 0.5 * (fit_score(D.vou, D.qty) + fit_score(D.qty, D.vou))
 
 
@@ -290,14 +298,21 @@ def hillclimb(D, K, crit, rng, max_pass=8):
     return A, best, evals
 
 
-def run_ontologies(D, specs, rng):
-    out = []
-    for (K, sem, crit, seed) in specs:
-        r = random.Random(seed)
-        A, best, ev = hillclimb(D, K, crit, r)
-        held = evaluate(D, A, K, crit, mode='held')
-        out.append(dict(K=K, semantics=sem, crit=crit, opt=best, held=held, A=A[:NTOP].tolist(), evals=ev))
-    return out
+_D = None
+def _one(spec):
+    K, sem, crit, seed = spec
+    r = random.Random(seed)
+    A, best, ev = hillclimb(_D, K, crit, r)
+    held = evaluate(_D, A, K, crit, mode='held')
+    return dict(K=K, semantics=sem, crit=crit, opt=best, held=held, A=A[:NTOP].tolist(), evals=ev)
+
+
+def run_ontologies(D, specs, rng, procs=None):
+    global _D
+    _D = D
+    from multiprocessing import Pool
+    with Pool(procs or max(1, os.cpu_count() - 1)) as pool:
+        return pool.map(_one, specs, chunksize=1)
 
 
 def cograph(results, ntop):

@@ -47,7 +47,6 @@ def feats_for(T):
     f['W1_any']=lambda t: 1 in t['seq']
     for v in (2,3,4,5,6,7,8,12):
         f[f'value_{v}']=(lambda t,v=v: any(VAL.get(a)==v for a in t['seq']))
-    f['value_mean']=lambda t: (np.mean([VAL[a] for a in t['seq'] if a in VAL and VAL[a]<12]) if any(a in VAL and VAL[a]<12 for a in t['seq']) else np.nan)
     f['doubled_adjacent']=lambda t: any(t['seq'][i]==t['seq'][i+1] for i in range(len(t['seq'])-1))
     f['repeat_any']=lambda t: len(set(t['seq']))<len(t['seq'])
     f['sign_initial_W817']=lambda t: t['seq'][0]==817
@@ -97,15 +96,20 @@ qs=bh([r['p'] for r in ALL])
 P(f'\nJOINT FDR over {len(ALL)} arrows (both passes): min q = {qs.min():.3f}; arrows q<0.10: {(qs<0.10).sum()}')
 
 # IM77 direction check on the 5 named sites for frame features (bridge: M342 jar, M267/391 opener, M99 marker, M1 person, M176 suffix)
+P('leaf family members: '+str(sorted(FAM['fam_leaf']))+' pitchfork: '+str(sorted(FAM['fam_pitchfork']))+' box: '+str(sorted(FAM['fam_box'])))
 P('\nIM77 check (5 named sites): per-site rates of jar-final, opener-initial, marker M99, person M1, length>=5')
 rows=list(csv.DictReader(open(ROOT+'data/im77/im77_corpus_lines.csv')))
 MAP={'Mohenjodaro':'Mohenjo-daro','Harappa':'Harappa','Lothal':'Lothal','Kalibangan':'Kalibangan','Chanhudaro':'Chanhu-daro'}
-txt=collections.defaultdict(list); seen=set()
-for r in rows:
-    if r['site'] not in MAP or r['line']!='1': continue
-    s=[int(a) for a in r['signs_clean'].split()] if r['signs_clean'].strip() else []
-    if not s or (r['site'],tuple(s)) in seen: continue
-    seen.add((r['site'],tuple(s))); txt[MAP[r['site']]].append(s)
+txt=collections.defaultdict(list); seen=set(); sides=collections.defaultdict(list)
+for r in rows: sides[(r['text_no'],r['side'])].append(r)
+for k,ls in sides.items():
+    ls=sorted(ls,key=lambda r:int(r['line'])); s=[]
+    for l in ls: s+=l['signs_clean'].split()
+    s=[int(x) for x in s if x.isdigit() and x not in ('0','000')]
+    site=ls[0]['site']
+    if not s or site not in MAP or (site,tuple(s)) in seen: continue
+    seen.add((site,tuple(s))); txt[MAP[site]].append(s)
+P('IM77 texts per site: '+str({k:len(v) for k,v in txt.items()}))
 IMF={'jar_final':lambda s:s[-1]==342,'opener_initial':lambda s:s[0] in (267,391),'marker_M99':lambda s:99 in s,'person_M1':lambda s:1 in s,'len_ge5':lambda s:len(s)>=5,'fish_M59':lambda s:59 in s}
 for k,f in IMF.items():
     xs=[];ys=[]
