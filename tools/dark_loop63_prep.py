@@ -86,7 +86,7 @@ dump('jp_person',pr,'JMnedict full personal names (surname + given), surname = l
 dump('jp_person_given',[(list(''.join(s)[len(su):]),'U',su) for s,_,su in pr],'given-name part of jp_person')
 # ---- Vietnamese ----
 rows=[]; rows_f=[]
-for r in csv.DictReader(open(D+'vinames/UIT-ViNames/UIT-ViNames - Full.csv',encoding='utf8')):
+for r in csv.DictReader(open(D+'vinames/UIT-ViNames/UIT-ViNames - Full.csv',encoding='utf-8-sig')):
     toks=[t.lower() for t in r['Full_Names'].split() if t.strip()]
     if len(toks)<2 or len(toks)>5: continue
     g={'0':'F','1':'M'}.get(r['Gender'].strip(),'U')
