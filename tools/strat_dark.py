@@ -1,65 +1,129 @@
-"""S362: ARROW-IN-THE-DARK machine. Random hypotheses = (random READING of a text) x (random OUTSIDE FACT) x (relation =
-mutual information). Train: Mohenjo-daro + Harappa; survivors (perm p < 0.001) are re-tested on HELD-OUT sites (perm
-p < 0.01) and must hold on seq_raw, seq_strong and seq_all. Whole-machine control: the same run with facts permuted
-within site (expected survivors ~0). Usage: python3 tools/strat_dark.py N_HYP [control]"""
-import json,csv,random,math,sys,collections
+"""ARROW-IN-THE-DARK machine (S362 family; loop-1 extension).
+Random hypotheses = (random READING of a text) x (random OUTSIDE FACT) x (relation = mutual information).
+SITE CONFOUND: texts and facts both differ by city, so the statistic is the CONDITIONAL mutual information given
+site, I(X;Y|site), and every permutation null shuffles facts WITHIN site (train: within Mohenjo-daro and within
+Harappa; held-out: within each other site). 'site' and 'region' are therefore not facts any more.
+Train: Mohenjo-daro + Harappa. Screen: G-test on 2n*CMI; candidates (screen p<0.01) get a within-site permutation
+null with enough permutations to resolve the Bonferroni level (up to --maxperm). Multiple testing: Bonferroni and
+Benjamini-Hochberg over every arrow fired in the cycle. Survivors must replicate on HELD-OUT sites (perm p<0.01)
+and on seq_raw / seq_strong / seq_all (train and held-out). A permutation within site x type x length-bin strata
+flags frame-rule rediscoveries (opener->seal, suffix->tablet, length->type).
+Whole-machine control: --control shuffles facts within site before firing (expected survivors ~0).
+Usage: python3 tools/strat_dark.py --n 3000 --seed 7 --cycle 1 [--families legacy|all|mid,parity,...] [--control]
+"""
+import json,csv,random,math,sys,collections,argparse,time,os
 import numpy as np
-NH=int(sys.argv[1]) if len(sys.argv)>1 else 3000; CONTROL=len(sys.argv)>2
+from scipy.stats import chi2
+ap=argparse.ArgumentParser()
+ap.add_argument('--n',type=int,default=3000); ap.add_argument('--seed',type=int,default=7); ap.add_argument('--cycle',type=int,default=0)
+ap.add_argument('--families',default='all'); ap.add_argument('--control',action='store_true'); ap.add_argument('--out',default=None)
+ap.add_argument('--maxperm',type=int,default=60000); ap.add_argument('--tag',default='loop1')
+A=ap.parse_args(); NH=A.n; CONTROL=A.control
 C=json.load(open('data/derived/merged-corpus-canonical.json'))
 raw={r['cisi']:r for r in csv.DictReader(open('data/raw/inscriptions.csv')) if r['cisi']}
 NUM={1:1,3:3,4:4,5:5,16:6,17:7,18:8,31:1,32:2,33:3,34:4}
 def fam(s): return s//100 if s>=100 else 0
+GS=json.load(open('data/derived/glyph_sim_signs.json')); GSI={s:i for i,s in enumerate(GS)}; GSIM=np.load('data/derived/glyph_sim.npy')
+GTHR=float(np.quantile(GSIM[np.triu_indices(len(GS),1)],0.9))   # top-decile glyph similarity = 'same shape family'
+def gsim(a,b):
+    if a in GSI and b in GSI: return float(GSIM[GSI[a],GSI[b]])
+    return None
 # ---------- objects with facts ----------
-def fbin(x,q):
+def fnum(x):
     try: v=float(x)
     except: return None
     return None if v<=0 else v
+def depth_ft(x):
+    x=(x or '').strip()
+    if not x or x=='- -': return None
+    try: v=float(x.split()[0])
+    except: return None
+    if x.endswith('cm'): v=v*0.0328
+    elif x.endswith('m'): v=v*3.281
+    v=abs(v)
+    return 0 if v<2 else 1 if v<4 else 2 if v<6 else 3 if v<9 else 4 if v<13 else 5
+def clean(v):
+    v=(v or '').strip()
+    return None if v in ('','-','--','None','?','- -') else v
 OBJ=[]
 for r in C:
     if not r.get('seq_raw') or len(r['seq_raw'])<2: continue
     x=raw.get(r['cisi'],{})
-    f={'site':r['site'],'region':x.get('region'),'type':r['type'].split(':')[0],'type2':r['type'],
-       'emblem':(r.get('symbol') or '').split(':')[0] or None,'cult':x.get('cult'),'material':x.get('material'),
-       'color':x.get('color'),'shape':x.get('shape'),'xsec':x.get('cross-section'),'boss':x.get('boss'),'dir':x.get('dir.'),
-       'sides':x.get('sides'),'area':r.get('area-section'),'time':x.get('time') or r.get('period'),
-       'h':fbin(x.get('horizontal(mm)'),4),'v':fbin(x.get('vertical(mm)'),4),'th':fbin(x.get('thickness(mm)'),4)}
-    for k,v in list(f.items()):
-        if v in ('','-','--','None','?'): f[k]=None
-    OBJ.append({'seq_raw':r['seq_raw'],'seq_strong':r['seq_strong'],'seq_all':r['seq_all'],'f':f})
+    f={'site':r['site'],'type':r['type'].split(':')[0],'type2':r['type'],
+       'emblem':((r.get('symbol') or '').split(':')[0] or None),'cult':clean(x.get('cult')),'material':clean(x.get('material')),
+       'color':clean(x.get('color')),'shape':clean(x.get('shape')),'xsec':clean(x.get('cross-section')),'boss':clean(x.get('boss')),'dir':clean(x.get('dir.')),
+       'sides':clean(x.get('sides')),'area':clean(r.get('area-section')),'time':clean(x.get('time')) or clean(r.get('period')),
+       'h':fnum(x.get('horizontal(mm)')),'v':fnum(x.get('vertical(mm)')),'th':fnum(x.get('thickness(mm)')),
+       'depth':depth_ft(x.get('depth')),'condition':(clean(x.get('condition')) or '').capitalize() or None,
+       'preservation':clean(x.get('preservation'))}
+    if f['emblem'] in ('','None'): f['emblem']=None
+    if f['cult']=='None': f['cult']=None
+    if f['preservation']=='complsete': f['preservation']='complete'
+    OBJ.append({'cisi':r['cisi'],'seq_raw':r['seq_raw'],'seq_strong':r['seq_strong'],'seq_all':r['seq_all'],'f':f})
+for k in ('h','v','th'):   # size bins: quartiles over objects with a value
+    vals=np.array([o['f'][k] for o in OBJ if o['f'][k]]); qs=np.quantile(vals,[0.25,0.5,0.75])
+    for o in OBJ:
+        v=o['f'][k]; o['f'][k]=None if v is None else int(np.searchsorted(qs,v))
 TRAIN=[o for o in OBJ if o['f']['site'] in ('Mohenjo-daro','Harappa')]; TEST=[o for o in OBJ if o['f']['site'] not in ('Mohenjo-daro','Harappa')]
-print('objects',len(OBJ),'train',len(TRAIN),'held-out',len(TEST))
-rng=random.Random(7)
-if CONTROL:  # permute facts within site
-    for key in ('type','type2','emblem','cult','material','color','shape','xsec','boss','dir','sides','area','time','h','v','th','region'):
+FACTS=['type','type2','emblem','cult','material','color','shape','xsec','boss','dir','sides','area','time','h','v','th','depth','condition','preservation']
+rng=random.Random(A.seed)
+if CONTROL:  # scrambled-fact control: permute facts within site (keeps the site confound, destroys any text link)
+    for key in FACTS:
         bysite=collections.defaultdict(list)
         for o in OBJ: bysite[o['f']['site']].append(o)
         for os_ in bysite.values():
             vals=[o['f'][key] for o in os_]; rng.shuffle(vals)
             for o,v in zip(os_,vals): o['f'][key]=v
-FACTS=['site','region','type','type2','emblem','cult','material','color','shape','xsec','boss','dir','sides','area','time','h','v','th']
-# ---------- random readings ----------
+FREQ={lv:collections.Counter(s for o in OBJ for s in o[lv]) for lv in ('seq_raw','seq_strong','seq_all')}
+ALLSIGNS=sorted(FREQ['seq_raw']); COMMON=[s for s,c in FREQ['seq_raw'].most_common(60)]
+# ---------- reading families ----------
+LEGACY=['pos','pair','mod','even','odd','famfl','nfam','rep','nnum','sumnum','maxw','lenpar','run','fampos','dist','first2','last2','contains','posrel']
+NEW={'mid':['midpos','midfam','midpar'],'parity':['parpos','xorpar','npar','parfl'],'set3':['set3','set3fam','nset3'],
+     'w500':['nabove','fracabove','nabove_bin','allabove'],'shapefl':['flsame','flsim','adjsim','minadjsim'],
+     'rare':['rarest','rarepos','rarestfam','nrare'],'numpos':['firstnum','lastnum','numval_first','numgap'],
+     'ascrun':['ascrun','descrun','nasc','monot'],'base':['modw','modfam','modrev','digitsum'],
+     'len':['len','lenbin','lenfam'],'gap':['sumgap','maxgap','mingap','gapsign'],'rank':['rankfirst','ranklast','medrank']}
+def families():
+    if A.families=='all': return LEGACY+[k for v in NEW.values() for k in v]
+    if A.families=='legacy': return LEGACY
+    out=[]
+    for f in A.families.split(','): out+=NEW.get(f,[f] if f in LEGACY else [])
+    return out
+KINDS=families()
 def make_reading(rng):
-    kind=rng.choice(['pos','pair','mod','even','odd','famfl','nfam','rep','nnum','sumnum','maxw','lenpar','run','fampos','dist','first2','last2','contains','posrel'])
-    p={}
+    kind=rng.choice(KINDS); p={}
     if kind=='pos': p['i']=rng.choice([0,1,2,-1,-2,-3])
     if kind=='pair': p['d']=rng.randint(1,4); p['i']=rng.choice([0,1,-2,'any'])
     if kind=='mod': p['base']=rng.randint(2,13); p['m']=rng.randint(2,12); p['digit']=rng.choice(['w','fam','num'])
     if kind=='fampos': p['i']=rng.choice([0,1,-1,-2])
-    if kind=='dist': p['a']=rng.choice([740,2,390,220,520,817,861,820,700,400,90,60,176,100,415,590,235,240,233,231,226,900,405,407]); p['b']=rng.choice([740,2,390,220,520,817,861,820,700,400,90,60,176,100,415,590,235,240,233,231,226,900,405,407])
-    if kind=='contains': p['s']=rng.randint(1,999)
-    if kind=='posrel': p['s']=rng.choice([740,2,390,220,520,700,400,90,60,176,100,415,590,900])
+    if kind=='dist': p['a']=rng.choice(COMMON[:24]); p['b']=rng.choice(COMMON[:24])
+    if kind=='contains': p['s']=rng.choice(ALLSIGNS)
+    if kind=='posrel': p['s']=rng.choice(COMMON[:14])
+    if kind in ('midpos','midfam','midpar'): p['i']=rng.choice([-2,-1,0,1,2])
+    if kind=='parpos': p['i']=rng.choice([0,1,2,-1,-2,-3])
+    if kind in ('set3','set3fam','nset3'): p['S']=rng.sample(ALLSIGNS if kind!='set3fam' else list(range(0,10)),3)
+    if kind in ('nabove','fracabove','nabove_bin','allabove'): p['t']=rng.choice([100,200,300,400,500,600,700,800,900])
+    if kind=='rarepos': p['which']=rng.choice(['rarest','commonest'])
+    if kind in ('modw','modfam','modrev','digitsum'): p['base']=rng.randint(2,16); p['m']=rng.randint(2,13)
+    if kind in ('rankfirst','ranklast','medrank'): p['bins']=rng.choice([3,4,6])
+    if kind=='lenfam': p['f']=rng.randint(0,9)
+    if kind=='lenbin': p['cut']=rng.choice([3,4,5,6,7])
     return kind,p
-def read(kind,p,s):
+def mid_index(L,i):
+    c=(L-1)/2; j=int(math.floor(c))+i if i<=0 else int(math.ceil(c))+i
+    return j if 0<=j<L else None
+def rankbin(s,lv,bins):
+    r=math.log2(max(FREQ[lv][s],1)); return min(int(r*bins/11),bins-1)
+def read(kind,p,s,lv='seq_raw'):
     L=len(s)
     if kind=='pos': i=p['i']; return s[i] if -L<=i<L else None
     if kind=='pair':
         d=p['d']
-        if p['i']=='any': return tuple(sorted((s[j],s[j+d]) for j in range(L-d)))[:1] and min((s[j],s[j+d]) for j in range(L-d)) if L>d else None
+        if p['i']=='any': return min((s[j],s[j+d]) for j in range(L-d)) if L>d else None
         i=p['i']; j=i+d if i>=0 else i-d
         return (s[i],s[j]) if -L<=i<L and -L<=j<L else None
     if kind=='mod':
-        dig={'w':lambda x:x,'fam':fam,'num':lambda x:NUM.get(x,0)}[p['digit']]
-        v=0
+        dig={'w':lambda x:x,'fam':fam,'num':lambda x:NUM.get(x,0)}[p['digit']]; v=0
         for x in s: v=(v*p['base']+dig(x))%p['m']
         return v
     if kind=='even': return tuple(s[0::2])
@@ -86,59 +150,182 @@ def read(kind,p,s):
     if kind=='posrel':
         if p['s'] not in s: return 'absent'
         return round(s.index(p['s'])/(L-1),1) if L>1 else 0
-# ---------- MI with permutation ----------
-def mi_p(xs,ys,nperm,rng,strata=None):
-    """MI of x,y with a permutation null that shuffles y WITHIN strata (site), so a common site cause cannot create MI."""
-    xs=np.asarray(xs); ys=np.asarray(ys); n=len(xs)
-    _,xi=np.unique(xs,return_inverse=True); _,yi=np.unique(ys,return_inverse=True)
-    nx=xi.max()+1; ny=yi.max()+1
-    if nx<2 or ny<2 or n<30: return None
-    def mi(a,b):
-        t=np.bincount(a*ny+b,minlength=nx*ny).reshape(nx,ny)/n
-        px=t.sum(1,keepdims=True); py=t.sum(0,keepdims=True)
-        nz=t>0; return float((t[nz]*np.log(t[nz]/(px@py)[nz])).sum())
-    o=mi(xi,yi); ge=0; r=np.random.default_rng(rng.randint(0,10**9)); yy=yi.copy()
-    groups=[np.where(np.asarray(strata)==g)[0] for g in set(strata)] if strata is not None else [np.arange(n)]
+    # ---- new families ----
+    if kind in ('midpos','midfam','midpar'):
+        j=mid_index(L,p['i'])
+        if j is None: return None
+        return s[j] if kind=='midpos' else fam(s[j]) if kind=='midfam' else s[j]%2
+    if kind=='parpos': i=p['i']; return s[i]%2 if -L<=i<L else None
+    if kind=='xorpar':
+        v=0
+        for x in s: v^=x%2
+        return v
+    if kind=='npar': return min(sum(x%2 for x in s),6)
+    if kind=='parfl': return (s[0]%2,s[-1]%2)
+    if kind=='set3': return any(x in p['S'] for x in s)
+    if kind=='set3fam': return any(fam(x) in p['S'] for x in s)
+    if kind=='nset3': return min(sum(x in p['S'] for x in s),3)
+    if kind=='nabove': return min(sum(x>=p['t'] for x in s),6)
+    if kind=='fracabove': return round(sum(x>=p['t'] for x in s)/L,1)
+    if kind=='nabove_bin': return sum(x>=p['t'] for x in s)>sum(x<p['t'] for x in s)
+    if kind=='allabove': return all(x>=p['t'] for x in s)
+    if kind=='flsame':
+        g=gsim(s[0],s[-1]); return None if g is None else (fam(s[0])==fam(s[-1]),g>=GTHR)
+    if kind=='flsim':
+        g=gsim(s[0],s[-1]); return None if g is None else int(min(g,0.999)*5)
+    if kind in ('adjsim','minadjsim'):
+        gs=[g for g in (gsim(a,b) for a,b in zip(s,s[1:])) if g is not None]
+        if not gs: return None
+        v=(sum(gs)/len(gs)) if kind=='adjsim' else min(gs); return int(min(v,0.999)*5)
+    if kind=='rarest': return rankbin(min(s,key=lambda x:FREQ[lv][x]),lv,6)
+    if kind=='rarestfam': return fam(min(s,key=lambda x:FREQ[lv][x]))
+    if kind=='rarepos':
+        x=min(s,key=lambda x:FREQ[lv][x]) if p['which']=='rarest' else max(s,key=lambda x:FREQ[lv][x])
+        return round(s.index(x)/(L-1),1)
+    if kind=='nrare': return min(sum(FREQ[lv][x]<10 for x in s),4)
+    if kind=='firstnum':
+        for j,x in enumerate(s):
+            if x in NUM: return min(j,4)
+        return 'none'
+    if kind=='lastnum':
+        for j in range(L-1,-1,-1):
+            if s[j] in NUM: return min(L-1-j,4)
+        return 'none'
+    if kind=='numval_first':
+        for x in s:
+            if x in NUM: return NUM[x]
+        return 'none'
+    if kind=='numgap':
+        idx=[j for j,x in enumerate(s) if x in NUM]
+        return 'none' if len(idx)<2 else min(idx[1]-idx[0],4)
+    if kind in ('ascrun','descrun'):
+        best=cur=1
+        for a,b in zip(s,s[1:]):
+            cur=cur+1 if ((b>a) if kind=='ascrun' else (b<a)) else 1; best=max(best,cur)
+        return min(best,5)
+    if kind=='nasc': return round(sum(b>a for a,b in zip(s,s[1:]))/(L-1),1)
+    if kind=='monot':
+        up=all(b>a for a,b in zip(s,s[1:])); dn=all(b<a for a,b in zip(s,s[1:]))
+        return 'up' if up else 'down' if dn else 'mixed'
+    if kind in ('modw','modfam','modrev'):
+        seq=s if kind!='modrev' else s[::-1]; dig=fam if kind=='modfam' else (lambda x:x); v=0
+        for x in seq: v=(v*p['base']+dig(x))%p['m']
+        return v
+    if kind=='digitsum': return sum(x%p['base'] for x in s)%p['m']
+    if kind=='len': return min(L,12)
+    if kind=='lenbin': return L>=p['cut']
+    if kind=='lenfam': return min(sum(fam(x)==p['f'] for x in s),4)
+    if kind in ('sumgap','maxgap','mingap','gapsign'):
+        g=[b-a for a,b in zip(s,s[1:])]
+        if kind=='sumgap': return int(np.sign(sum(g)))
+        if kind=='maxgap': return min(max(g)//100,9)
+        if kind=='mingap': return max(min(g)//100,-9)
+        return tuple(int(np.sign(x)) for x in g[:3])
+    if kind=='rankfirst': return rankbin(s[0],lv,p['bins'])
+    if kind=='ranklast': return rankbin(s[-1],lv,p['bins'])
+    if kind=='medrank': return int(np.median([rankbin(x,lv,p['bins']) for x in s]))
+# ---------- conditional MI given strata, G screen, within-strata permutation ----------
+def encode(xs,ys,st):
+    xi=np.unique(np.asarray(xs),return_inverse=True)[1]; yi=np.unique(np.asarray(ys),return_inverse=True)[1]; si=np.unique(np.asarray(st),return_inverse=True)[1]
+    return xi,yi,si,xi.max()+1,yi.max()+1,si.max()+1
+def cmi(xi,yi,si,nx,ny,ns):
+    """I(X;Y|S) = sum_s p(s) I(X;Y|S=s); also returns df for the G approximation."""
+    n=len(xi); t=np.bincount((si*nx+xi)*ny+yi,minlength=ns*nx*ny).reshape(ns,nx,ny).astype(float)
+    tot=0.0; df=0
+    for s in range(ns):
+        ts=t[s]; m=ts.sum()
+        if m<2: continue
+        ts=ts/m; px=ts.sum(1,keepdims=True); py=ts.sum(0,keepdims=True); nz=ts>0
+        tot+=m/n*float((ts[nz]*np.log(ts[nz]/(px@py)[nz])).sum()); df+=(int((px>0).sum())-1)*(int((py>0).sum())-1)
+    return tot,max(df,1)
+def perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=None,stop=10):
+    o,_=cmi(xi,yi,si,nx,ny,ns); r=np.random.default_rng(rng.randint(0,10**9)); yy=yi.copy(); ge=0
+    strata=si if strata is None else strata
+    groups=[np.where(strata==g)[0] for g in np.unique(strata)]
     for k in range(nperm):
-        for g in groups: yy[g]=r.permutation(yy[g])
-        ge+=mi(xi,yy)>=o
-        if ge>=5 and k>=20: return o,(ge+1)/(k+2)   # early stop
-    return o,(ge+1)/(nperm+1)
-def evaluate(kind,p,fact,objs,level,nperm,rng,minn=40):
-    xs=[];ys=[];st=[]
+        for g in groups: yy[g]=yy[r.permutation(g)]
+        ge+=cmi(xi,yy,si,nx,ny,ns)[0]>=o
+        if ge>=stop and k>=50: return o,(ge+1)/(k+2),k+1
+    return o,(ge+1)/(nperm+1),nperm
+def collect(kind,p,fact,objs,level,minn=40,strat=False):
+    xs=[];ys=[];st=[];st2=[]
     for o in objs:
         y=o['f'][fact]
         if y is None: continue
-        x=read(kind,p,o[level])
+        x=read(kind,p,o[level],level)
         if x is None: continue
-        xs.append(str(x)); ys.append(str(y)); st.append(o['f']['site'])
+        xs.append(str(x)); ys.append(str(y)); st.append(o['f']['site']); st2.append(o['f']['site']+'|'+o['f']['type']+'|'+str(min(len(o[level]),6)))
     if len(xs)<minn: return None
-    # collapse rare x and y values (<5) to 'other' to avoid MI inflation
-    cx=collections.Counter(xs); cy=collections.Counter(ys)
+    cx=collections.Counter(xs); cy=collections.Counter(ys)   # collapse rare values (<5) to 'other'
     xs=[x if cx[x]>=5 else 'other' for x in xs]; ys=[y if cy[y]>=5 else 'other' for y in ys]
-    r=mi_p(xs,ys,nperm,rng,strata=None if fact in ('site','region') else st)
-    return (r[0],r[1],len(xs)) if r else None
+    xi,yi,si,nx,ny,ns=encode(xs,ys,st)
+    if nx<2 or ny<2: return None
+    return xi,yi,si,nx,ny,ns,(np.unique(np.asarray(st2),return_inverse=True)[1] if strat else None)
+def evaluate(kind,p,fact,objs,level,nperm,rng,minn=40,strat=False):
+    c=collect(kind,p,fact,objs,level,minn,strat)
+    if c is None: return None
+    xi,yi,si,nx,ny,ns,st=c
+    o,pp,k=perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=st)
+    return dict(mi=o,p=pp,n=len(xi),nx=nx,ny=ny,nperm=k)
 # ---------- run ----------
-surv=[]; tried=0
+t0=time.time(); log=[]
+def say(*a):
+    s=' '.join(str(x) for x in a); print(s,flush=True); log.append(s)
+say(f'cycle {A.cycle} seed {A.seed} families {A.families} control {CONTROL} | objects {len(OBJ)} train {len(TRAIN)} held-out {len(TEST)} | kinds {len(KINDS)} facts {len(FACTS)} | statistic I(X;Y|site), null = facts shuffled within site')
+arrows=[]
 for h in range(NH):
     kind,p=make_reading(rng); fact=rng.choice(FACTS)
-    if fact in ('site','region','area') and kind in ('contains',): pass
-    r=evaluate(kind,p,fact,TRAIN,"seq_raw",500,rng)
-    tried+=1
-    if not r or r[1]>0.0021: continue
-    # held-out replication
-    r2=evaluate(kind,p,fact,TEST,'seq_raw',1000,rng,minn=60) if fact not in ('site','region') else None
-    ok_held = (r2 is not None and r2[1]<0.01)
-    # level robustness on train
-    r3=[evaluate(kind,p,fact,TRAIN,lv,300,rng) for lv in ('seq_strong','seq_all')]
-    ok_lv=all(x and x[1]<0.01 for x in r3)
-    surv.append(dict(kind=kind,p=p,fact=fact,train=r,held=r2,ok_held=ok_held,levels=[x[:2] if x else None for x in r3],ok_levels=ok_lv))
-print(f'hypotheses tried {tried}; train survivors {len(surv)}; held-out+levels survivors {sum(s["ok_held"] and s["ok_levels"] for s in surv)}; held-out n/a (site facts) {sum(s["held"] is None for s in surv)}')
-surv.sort(key=lambda s:-(s['train'][0]))
-for s in surv:
-    if s['ok_held'] and s['ok_levels']:
-        print('SURVIVOR',s['kind'],s['p'],'->',s['fact'],'train MI %.3f p %.4f n %d'%s['train'],'| held MI %.3f p %.4f n %d'%s['held'])
-print('--- train-only survivors (site/region facts or failed held-out) top 25:')
-for s in surv[:25]:
-    if not (s['ok_held'] and s['ok_levels']): print('  ',s['kind'],s['p'],'->',s['fact'],'train MI %.3f p %.4f n %d'%s['train'],'held',s['held'][:2] if s['held'] else None,'levels ok',s['ok_levels'])
-json.dump(surv,open('data/derived/strat_dark%s.json'%('_control' if CONTROL else ''),'w'),default=str,indent=0)
+    c=collect(kind,p,fact,TRAIN,'seq_raw')
+    if c is None: arrows.append(dict(kind=kind,p=p,fact=fact,p_screen=None)); continue
+    xi,yi,si,nx,ny,ns,_=c; mi,df=cmi(xi,yi,si,nx,ny,ns); ps=float(chi2.sf(2*len(xi)*mi,df))
+    arrows.append(dict(kind=kind,p=p,fact=fact,mi=mi,n=len(xi),nx=nx,ny=ny,p_screen=ps))
+fired=sum(a['p_screen'] is not None for a in arrows); alpha_b=0.05/max(fired,1)
+say(f'arrows fired (evaluable) {fired} of {NH}; Bonferroni alpha {alpha_b:.2e}')
+cands=[a for a in arrows if a['p_screen'] is not None and a['p_screen']<0.01]
+nperm=min(A.maxperm,int(math.ceil(20/alpha_b)))
+say(f'candidates after G-test screen (p<0.01): {len(cands)} (null expectation ~{0.01*fired:.0f}); within-site permutations per candidate up to {nperm}')
+for a in cands:
+    xi,yi,si,nx,ny,ns,_=collect(a['kind'],a['p'],a['fact'],TRAIN,'seq_raw')
+    o,pp,k=perm_p(xi,yi,si,nx,ny,ns,nperm,rng); a['p_perm']=pp; a['nperm']=k
+evalu=[a for a in arrows if a['p_screen'] is not None]
+pv=np.array([a.get('p_perm',a['p_screen']) for a in evalu]); order=np.argsort(pv); m=len(pv); bh=np.zeros(m,bool); thr=0.05*np.arange(1,m+1)/m
+ok=np.where(pv[order]<=thr)[0]
+if len(ok): bh[order[:ok.max()+1]]=True
+for a,b in zip(evalu,bh): a['bh']=bool(b); a['bonf']=a.get('p_perm',a['p_screen'])<alpha_b
+say(f'Bonferroni survivors {sum(a["bonf"] for a in evalu)}; BH-FDR(q=0.05) survivors {sum(a["bh"] for a in evalu)}')
+surv=[a for a in evalu if a['bonf'] or a['bh']]
+def rediscovery_flag(a):
+    k=a['kind']; f=a['fact']
+    frame_pos = k in ('pos','fampos','parpos','first2','last2','pair','famfl','parfl','flsame','flsim','rankfirst','ranklast','posrel','dist','midpos','midfam','midpar','rarepos')
+    lenlike = k in ('len','lenbin','lenpar','nfam','rep','nnum','nabove','nset3','lenfam','npar','nrare','rarest','medrank','nasc','ascrun','descrun','run','even','odd','mod','modw','modfam','modrev','digitsum','sumgap','gapsign','xorpar')
+    objclass = f in ('type','type2','sides','boss','xsec','shape','material','h','v','th','dir','preservation','condition','color')
+    tags=[]
+    if frame_pos and objclass: tags.append('frame-slot x object-class (opener/closer->seal/tablet?)')
+    if lenlike and objclass: tags.append('length-like x object-class (length->type?)')
+    return tags
+for a in surv:
+    kind,p,fact=a['kind'],a['p'],a['fact']
+    a['held']=evaluate(kind,p,fact,TEST,'seq_raw',5000,rng,minn=60)
+    a['held_strong']=evaluate(kind,p,fact,TEST,'seq_strong',2000,rng,minn=60); a['held_all']=evaluate(kind,p,fact,TEST,'seq_all',2000,rng,minn=60)
+    a['train_strong']=evaluate(kind,p,fact,TRAIN,'seq_strong',2000,rng); a['train_all']=evaluate(kind,p,fact,TRAIN,'seq_all',2000,rng)
+    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',5000,rng,strat=True) if fact not in ('type','type2') else None
+    a['ok_held']=bool(a['held'] and a['held']['p']<0.01)
+    a['ok_levels']=all(x and x['p']<0.01 for x in (a['train_strong'],a['train_all'],a['held_strong'],a['held_all']))
+    a['flags']=rediscovery_flag(a)
+    if a['within_type'] and a['within_type']['p']>0.05: a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure')
+    if fact in ('type','type2'): a['flags'].append('fact is object type: compare against GRAMMAR frame rules')
+full=[a for a in surv if a['ok_held'] and a['ok_levels']]
+say(f'full survivors (corrected + held-out p<0.01 + all three levels train and held-out): {len(full)}')
+def fmt(r): return 'n/a' if r is None else 'CMI %.3f p %.2e n %d'%(r['mi'],r['p'],r['n'])
+surv.sort(key=lambda a:a.get('p_perm',a['p_screen']))
+for a in surv:
+    say(('FULL ' if a in full else 'part ')+f"{a['kind']} {a['p']} -> {a['fact']} | train {fmt(dict(mi=a['mi'],p=a.get('p_perm',a['p_screen']),n=a['n']))} bonf {a['bonf']} bh {a['bh']} | held-out {fmt(a['held'])} | levels train {fmt(a['train_strong'])}; {fmt(a['train_all'])} | held levels {fmt(a['held_strong'])}; {fmt(a['held_all'])} | within site x type x len {fmt(a['within_type'])} | flags {a['flags'] or 'none'}")
+byk=collections.defaultdict(list)
+for a in evalu: byk[a['kind']].append(a['p_screen'])
+say('family: arrows / frac screen p<0.01 (null 0.01):')
+for k,v in sorted(byk.items(),key=lambda kv:-np.mean(np.array(kv[1])<0.01)): say(f'  {k:12s} {len(v):4d} {np.mean(np.array(v)<0.01):.3f}')
+say(f'elapsed {time.time()-t0:.0f}s')
+out=A.out or f"data/derived/dark/{A.tag}_cycle{A.cycle}{'_control' if CONTROL else ''}.txt"
+os.makedirs(os.path.dirname(out),exist_ok=True)
+open(out,'w').write('\n'.join(log)+'\n')
+json.dump(dict(arrows=arrows),open(out.replace('.txt','.json'),'w'),default=str)

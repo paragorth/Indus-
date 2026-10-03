@@ -75,10 +75,10 @@ FACTS = ['type', 'emblem', 'material', 'shape', 'boss', 'area', 'room', 'time', 
          'complete', 'dir', 'cond', 'sides', 'typefull']
 NUMERIC = {'h': 5.0, 'v': 5.0, 'depth': 60.0}
 
-if CONTROL:  # shuffle every fact within site before anything else: calibrates the whole procedure
+if CONTROL:  # shuffle every fact within site (room: within site x type) before anything else: calibrates the whole procedure
     for key in FACTS:
         bysite = collections.defaultdict(list)
-        for o in OBJ: bysite[o['f']['site']].append(o)
+        for o in OBJ: bysite[(o['f']['site'], o['f']['type'] if key == 'room' else None)].append(o)
         for os_ in bysite.values():
             vals = [o['f'][key] for o in os_]; rng.shuffle(vals)
             for o, v in zip(os_, vals): o['f'][key] = v
@@ -267,7 +267,7 @@ def encode(objs, key):
 def pairfact(key, codes, a, b):
     fa, fb = codes[a], codes[b]
     if key in NUMERIC:
-        ok = ~(np.isnan(fa) | np.isnan(fb)); y = np.minimum(3, (np.abs(fa - fb) // NUMERIC[key])).astype(int)
+        ok = ~(np.isnan(fa) | np.isnan(fb)); d = np.where(ok, np.abs(fa - fb), 0.0); y = np.minimum(3, d // NUMERIC[key]).astype(int)
     else:
         ok = (fa >= 0) & (fb >= 0); y = (fa == fb).astype(int)
     return y, ok
@@ -290,6 +290,9 @@ class Pool:
         bysite = collections.defaultdict(list)
         for i, o in enumerate(objs): bysite[o['f']['site']].append(i)
         self.site_idx = [np.array(v) for v in bysite.values()]
+        st = collections.defaultdict(list)
+        for i, o in enumerate(objs): st[(o['f']['site'], o['f']['type'])].append(i)
+        self.strict_idx = [np.array(v) for v in st.values()]
         sites = [s for s in bysite if len(bysite[s]) >= minsite]; w = [len(bysite[s]) for s in sites]
         P = []
         for _ in range(npairs):
@@ -302,17 +305,18 @@ class Pool:
         vals = [str(fn(p, F[i], F[j])) for i, j in zip(self.a, self.b)]
         u = {v: i for i, v in enumerate(sorted(set(vals)))}
         return np.array([u[v] for v in vals]), len(u)
-    def evaluate(self, kind, p, fact, level, nperm, early=True, rcache=None):
+    def evaluate(self, kind, p, fact, level, nperm, early=True, rcache=None, strict=False):
+        strata = self.strict_idx if (strict and fact not in ('type', 'typefull')) else self.site_idx
         if rcache is None: rcache = self.relation(kind, p, level)
         r, nr = rcache
         y, ok = pairfact(fact, self.codes[fact], self.a, self.b)
         if ok.sum() < 200 or nr < 2: return None
         ra = r[ok]; ya = y[ok]
         if len(set(ya.tolist())) < 2 or len(set(ra.tolist())) < 2: return None
-        ny = int(y.max()) + 1
+        ny = 4 if fact in NUMERIC else 2
         o = mi_codes(ra, ya, nr, ny); ge = 0
         for k in range(nperm):
-            c2 = site_perm(self.codes[fact], self.site_idx)
+            c2 = site_perm(self.codes[fact], strata)
             y2, _ = pairfact(fact, c2, self.a, self.b)
             ge += mi_codes(ra, y2[ok], nr, ny) >= o
             if early and ge >= 5 and k >= 20: return o, (ge + 1) / (k + 2), int(ok.sum())
@@ -405,14 +409,16 @@ class SetPool:
             out.append(np.nan if len(c) < 2 else max(collections.Counter(c.tolist()).values()) / len(c))
         return np.array(out)
     def redeal(self, G):
-        """Re-deal objects among groups of the same sizes within site."""
-        bysite = collections.defaultdict(list)
-        for (site, room), idx in G.items(): bysite[site].append(idx)
-        out = []
-        for site, gl in bysite.items():
-            pool = np.concatenate([np.array(x) for x in gl]); pool = pool[nrng.permutation(len(pool))]
-            c = 0
-            for idx in gl: out.append(pool[c:c + len(idx)]); c += len(idx)
+        """Re-deal objects among groups of the same sizes within site AND within object type (each group keeps its type mix)."""
+        groups = [np.array(v) for v in G.values()]
+        strata = collections.defaultdict(list)
+        for gi, idx in enumerate(groups):
+            for i in idx: strata[(self.objs[i]['f']['site'], self.objs[i]['f']['type'])].append(gi)
+        out = [np.empty(len(idx), int) for idx in groups]; fill = [0] * len(groups)
+        for key, slots in strata.items():
+            pool = np.array([i for gi, idx in enumerate(groups) for i in idx if (self.objs[i]['f']['site'], self.objs[i]['f']['type']) == key])
+            pool = pool[nrng.permutation(len(pool))]
+            for gi, i in zip(slots, pool): out[gi][fill[gi]] = i; fill[gi] += 1
         return out
     def evaluate(self, name, filt, level, dedup, nperm, early=True):
         G = groups_for(self.objs, filt)
@@ -445,7 +451,7 @@ class SetPool:
         o = corr(self.codes[key])
         if o is None: return None
         bysite = collections.defaultdict(list)
-        for i, ob in enumerate(self.objs): bysite[ob['f']['site']].append(i)
+        for i, ob in enumerate(self.objs): bysite[(ob['f']['site'], None if key == 'type' else ob['f']['type'])].append(i)
         site_idx = [np.array(v) for v in bysite.values()]
         ge = 0; n = 0
         for k in range(nperm):
@@ -479,16 +485,19 @@ def main():
         r2 = PTE.evaluate(kind, p, fact, 'raw', 1000)
         r3 = PTR.evaluate(kind, p, fact, 'all', 500)
         rfine = PTR.evaluate(kind, p, fact, 'raw', 20000, early=False)
+        rstrict = PTR.evaluate(kind, p, fact, 'raw', 2000, strict=True)
         ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
         bonf = rfine is not None and rfine[1] < 0.05 / NPAIR
-        surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, held=r2, all=r3, ok=ok, bonf=bonf))
-        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %.5f (bonf %s) | held %s | seq_all %s | %s' % (
-            h, kind, p, fact, r[0], r[1], r[2], rfine[1] if rfine else -1, bonf,
+        strict_ok = rstrict is not None and rstrict[1] < 0.01
+        surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, strict=rstrict, held=r2, all=r3, ok=ok, bonf=bonf, strict_ok=strict_ok))
+        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %.5f (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (
+            h, kind, p, fact, r[0], r[1], r[2], rfine[1] if rfine else -1, bonf, rstrict[1] if rstrict else -1,
             tuple(round(x, 4) for x in r2[:2]) if r2 else None, tuple(round(x, 4) for x in r3[:2]) if r3 else None,
             'REPLICATED' if ok else 'train-only'))
     tested = sum(1 for a in arrows if a['train'])
-    say('PAIR: fired %d, testable %d, train p<0.002: %d, replicated(held-out & seq_all): %d, Bonferroni-at-%d: %d  [%.0fs]' % (
-        NPAIR, tested, len(surv), sum(s['ok'] for s in surv), NPAIR, sum(s['bonf'] for s in surv), time.time() - t0))
+    say('PAIR: fired %d, testable %d, train p<0.002: %d, replicated(held-out & seq_all): %d, Bonferroni-at-%d: %d, survive within-site-x-type null: %d, all four: %d  [%.0fs]' % (
+        NPAIR, tested, len(surv), sum(s['ok'] for s in surv), NPAIR, sum(s['bonf'] for s in surv), sum(s['strict_ok'] for s in surv),
+        sum(s['ok'] and s['bonf'] and s['strict_ok'] for s in surv), time.time() - t0))
     say('  expected train hits under null ~ %.1f (0.002 x testable)' % (0.002 * tested))
     fam = collections.Counter((s['kind'], s['fact']) for s in surv)
     say('  hit families: %s' % dict(fam.most_common(12)))
