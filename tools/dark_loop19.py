@@ -10,7 +10,7 @@ C=json.load(open('data/derived/merged-corpus-canonical.json'))
 BR=json.load(open('data/derived/bridge_extended.json'))
 def M(w):
     m=BR.get(str(w)); return f'W{w}(M{"/".join(map(str,m))})' if m else f'W{w}(M?)'
-CY=int(sys.argv[1]); LV=sys.argv[2]; NP=int(sys.argv[3]) if len(sys.argv)>3 else 1000
+CY=sys.argv[1]; CY=int(CY) if CY.isdigit() else CY; LV=sys.argv[2]; NP=int(sys.argv[3]) if len(sys.argv)>3 else 1000
 rnd=random.Random(19)
 def otype(t):
     t=t.split(':')[0]
@@ -206,8 +206,9 @@ def pair_counts(texts):
     for (a,b,d),n in cnt.items():
         x=out.setdefault((a,b),[0,0]); x[d]+=n
     return out
-def binom_one_sided(k,n):  # P(X<=k) for X~Bin(n,.5), k = minority count
-    return sum(comb(n,i) for i in range(k+1))/2**n
+def binom_one_sided(k,n):  # P(X<=k) for X~Bin(n,.5), k = minority count; normal approximation above n = 80
+    if n<=80: return sum(comb(n,i) for i in range(k+1))/2**n
+    z=(k+0.5-n/2)/math.sqrt(n/4); return 0.5*math.erfc(-z/math.sqrt(2))
 def classify(pc,nmin=5,alpha=0.05):
     fixed=[];free=[];amb=[]
     for (a,b),(nab,nba) in pc.items():
@@ -454,6 +455,7 @@ elif CY==2:
 elif CY==3:
     fixed,free,pc=run_c(OBJ,NP//5)
     run_d(OBJ,fixed,free,NP)
+elif CY=='3e':
     full,names=ur3()
     generic_census(full,'Ur III legends, all lines concatenated',NP)
     generic_census(names,'Ur III legends, line 1 (owner names, syllables)',NP)

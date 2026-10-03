@@ -316,13 +316,16 @@ def rediscovery_flag(a):
     if frame_pos and objclass: tags.append('frame-slot x object-class (opener/closer->seal/tablet?)')
     if lenlike and objclass: tags.append('length-like x object-class (length->type?)')
     return tags
-# stage A: rediscovery filter = permutation within site x type x length bin
+# stage A: rediscovery filter = G-test of I(X;Y | site x type x length bin) (permutation version re-run in stage C for finalists)
 redis=[]; keep=[]
 for a in surv:
     kind,p,fact=a['kind'],a['p'],a['fact']; a['flags']=rediscovery_flag(a)
     if fact in ('type','type2'):
         a['within_type']=None; a['flags'].append('fact is object type: text structure vs object type (GRAMMAR frame rules)'); redis.append(a); continue
-    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',1000,rng,strat=True)
+    c=collect(kind,p,fact,TRAIN,'seq_raw',strat=True)
+    if c is None: a['within_type']=None
+    else:
+        xi,yi,si,nx,ny,ns,st=c; mi2,df2=cmi(xi,yi,st,nx,ny,st.max()+1); a['within_type']=dict(mi=mi2,p=float(chi2.sf(2*len(xi)*mi2,df2)),n=len(xi))
     if a['within_type'] is None or a['within_type']['p']>0.05:
         a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure'); redis.append(a)
     else: keep.append(a)
@@ -344,13 +347,14 @@ for a in keep:
     elif not a['ok_held']: a['flags'].append('fails held-out sites')
     if not a['ok_levels']: a['flags'].append('depends on merge level')
 cand=[a for a in keep if a['ok_held'] and a['ok_levels']]
-say(f'stage B: {len(keep)} -> {len(cand)} replicate on held-out sites (G p<0.01) and on all three merge levels; now permutation-confirming these')
+say(f'stage B: {len(keep)} -> {len(cand)} replicate on held-out sites (G p<0.01) and on all three merge levels; stage C: permutation nulls (within site: train 2000, held-out 2000; within site x type x length 1000) for these')
 for a in cand:
     kind,p,fact=a['kind'],a['p'],a['fact']
     xi,yi,si,nx,ny,ns,_=collect(kind,p,fact,TRAIN,'seq_raw'); o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,2000,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
     hp=evaluate(kind,p,fact,TEST,'seq_raw',2000,rng,minn=60); a['held_perm']=hp
-    a['ok_perm']=pp<0.005 and bool(hp and hp['p']<0.01)
-    if not a['ok_perm']: a['flags'].append('fails within-site permutation (train p %.3g, held-out p %s)'%(pp,'%.3g'%hp['p'] if hp else 'n/a'))
+    wp=evaluate(kind,p,fact,TRAIN,'seq_raw',1000,rng,strat=True); a['within_type_perm']=wp
+    a['ok_perm']=pp<0.005 and bool(hp and hp['p']<0.01) and bool(wp and wp['p']<0.05)
+    if not a['ok_perm']: a['flags'].append('fails permutation (train within-site p %.3g, held-out within-site p %s, within site x type x len p %s)'%(pp,'%.3g'%hp['p'] if hp else 'n/a','%.3g'%wp['p'] if wp else 'n/a'))
 full=[a for a in keep if a['ok_perm'] and a['ok_held'] and a['ok_levels']]
 say(f'full survivors (corrected + held-out p<0.01 + all three levels train and held-out): {len(full)}')
 def fmt(r): return 'n/a' if r is None else 'CMI %.3f p %.2e n %d'%(r['mi'],r['p'],r['n'])

@@ -4,3 +4,37 @@
    middle length distribution [(1, 591), (2, 793), (3, 450), (4, 302), (5, 211), (6, 121), (7, 87), (8, 43), (9, 18), (10, 20), (11, 5), (12, 6), (15, 1)]
    by type {'pot': 57, 'seal': 1142, 'other': 49, 'tablet': 769, 'sealing': 40}  big-city share 0.86
    controls: Ur III names 2648 of 6498 distinct-legend line-1 names; planted attribute code K=6 slots x 98 symbols; planted lexicon 1500 words over 150 syllables
+
+--- Indus seq_all: pair census. 5448 distinct observed pairs; 879 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.540 vs permuted corpora 0.120 [0.099,0.141]  P=0.016
+    mean |log2(O/E)|:     1.354 vs permuted 0.501 [0.475,0.534]  P=0.016
+    share O > 4E (compound-like): 0.168 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.085 vs permuted 0.010
+    strong compounds (O>=5, O>=4E): 175 pairs covering 0.321 of element tokens in >=2-element middles
+    top compounds: W33(M89)+W705(M336) 66:10.9, W407(M169)+W845(M407) 45:10.4, W255(M51)+W435(M130) 36:1.6, W503(M204)+W615 34:4.3, W3(M102/103)+W861(M267) 32:4.5, W33(M89)+W700(M328) 31:6.2, W4(M104/105)+W390(M161/162/167/168/169) 30:7.0, W2(M99/100)+W501(M210) 29:1.6, W390(M161/162/167/168/169)+W501(M210) 29:1.7, W60(M123)+W550(M216) 28:2.0, W176(M48)+W740(M342) 26:3.6, W320(M182)+W920(M293) 22:0.7
+    strong exclusions (E>=6, O=0): 7 of 238 pairs with E>=6
+    top exclusions: W407(M169)|W615 0:8.9, W3(M102/103)|W33(M89) 0:8.6, W407(M169)|W503(M204) 0:8.4, W32(M87)|W503(M204) 0:6.9, W503(M204)|W705(M336) 0:6.8, W615|W803(M387) 0:6.6, W3(M102/103)|W415(M171) 0:6.3
+    fit big / test held-out: held-out bits/element independence 7.661 vs pair(bigram) 7.486; gain 0.175 bits = 2.3%  (n=1198 tokens, 360 middles)
+    5-fold 0: held-out bits/element independence 7.343 vs pair(bigram) 6.295; gain 1.048 bits = 14.3%  (n=1572 tokens, 530 middles)
+    5-fold 1: held-out bits/element independence 7.367 vs pair(bigram) 6.261; gain 1.106 bits = 15.0%  (n=1666 tokens, 530 middles)
+    5-fold 2: held-out bits/element independence 7.363 vs pair(bigram) 6.202; gain 1.161 bits = 15.8%  (n=1530 tokens, 530 middles)
+    5-fold 3: held-out bits/element independence 7.410 vs pair(bigram) 6.341; gain 1.069 bits = 14.4%  (n=1543 tokens, 529 middles)
+    5-fold 4: held-out bits/element independence 7.413 vs pair(bigram) 6.325; gain 1.088 bits = 14.7%  (n=1662 tokens, 529 middles)
+    5-fold mean gain 14.8%
+    adjacent-pair MI 3.661 bits vs shuffle 2.718 [2.682,2.760]; excess 0.943
+
+--- Indus frame-purged: pair census. 3569 distinct observed pairs; 468 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.598 vs permuted corpora 0.134 [0.091,0.174]  P=0.016
+    mean |log2(O/E)|:     1.483 vs permuted 0.525 [0.483,0.586]  P=0.016
+    share O > 4E (compound-like): 0.216 vs permuted 0.002;  share O < E/4 (exclusion-like): 0.081 vs permuted 0.014
+    strong compounds (O>=5, O>=4E): 118 pairs covering 0.283 of element tokens in >=2-element middles
+    top compounds: W407(M169)+W845(M407) 45:10.2, W220(M59)+W415(M171) 37:8.7, W503(M204)+W615 34:3.9, W4(M104/105)+W390(M161/162/167/168/169) 30:6.4, W390(M161/162/167/168/169)+W501(M210) 29:1.6, W803(M387)+W850 21:4.4, W61(M124/125)+W845(M407) 20:3.2, W13(M103)+W840(M403) 17:1.4, W413(M177)+W575(M197) 17:0.7, W3(M102/103)+W900(M287) 17:2.6, W415(M171)+W798(M216) 17:3.4, W33(M89)+W845(M407) 16:3.8
+    strong exclusions (E>=6, O=0): 5 of 110 pairs with E>=6
+    top exclusions: W407(M169)|W615 0:8.8, W407(M169)|W503(M204) 0:8.2, W3(M102/103)|W33(M89) 0:8.1, W615|W803(M387) 0:6.1, W32(M87)|W503(M204) 0:6.1
+    fit big / test held-out: held-out bits/element independence 7.692 vs pair(bigram) 7.758; gain -0.066 bits = -0.9%  (n=969 tokens, 354 middles)
+    5-fold 0: held-out bits/element independence 7.266 vs pair(bigram) 6.505; gain 0.762 bits = 10.5%  (n=1279 tokens, 518 middles)
+    5-fold 1: held-out bits/element independence 7.435 vs pair(bigram) 6.633; gain 0.802 bits = 10.8%  (n=1297 tokens, 518 middles)
+    5-fold 2: held-out bits/element independence 7.421 vs pair(bigram) 6.724; gain 0.696 bits = 9.4%  (n=1285 tokens, 518 middles)
+    5-fold 3: held-out bits/element independence 7.255 vs pair(bigram) 6.420; gain 0.836 bits = 11.5%  (n=1234 tokens, 517 middles)
+    5-fold 4: held-out bits/element independence 7.300 vs pair(bigram) 6.355; gain 0.945 bits = 12.9%  (n=1262 tokens, 517 middles)
+    5-fold mean gain 11.0%
+    adjacent-pair MI 3.748 bits vs shuffle 3.000 [2.945,3.049]; excess 0.747
