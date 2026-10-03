@@ -558,7 +558,7 @@ def cycle3(T, els, nperm, label='Wells'):
     # ---- pairwise distinctness ----
     P('\n### Pairwise functional distinctness within class (openers; markers; fish). Profile over type_fine, site group, head, suffix, '
       'numeral, quantity, midbin, fish_any, second unit; statistic = summed chi-square; null = labels shuffled between the two '
-      f'elements\' texts within length-bin, {min(nperm, 400)}x; texts carrying both are dropped; texts >= 2 signs')
+      f'elements\' texts within length-bin, {nperm}x; texts carrying both are dropped; texts >= 2 signs')
     dims = [lambda t: t['tf'], sitegrp, lambda t: t['head'], lambda t: t['suffix'], lambda t: t['numeral'], lambda t: t['quantity'],
             lambda t: t['midbin'], lambda t: t['fish_any'], lambda t: t['second_unit']]
     dimnames = ['type', 'site', 'head', 'suffix', 'numeral', 'quantity', 'midlen', 'fish', 'second']
@@ -570,17 +570,19 @@ def cycle3(T, els, nperm, label='Wells'):
             if e_a > 0: tot += (ca[c] - e_a) ** 2 / e_a
             if e_b > 0: tot += (cb[c] - e_b) ** 2 / e_b
         return tot
-    def allchi(A, B): return [chi(A, B, fn) for fn in dims]
+    def allchi(A, B, skip=()): return [chi(A, B, fn) if nm not in skip else 0.0 for nm, fn in zip(dimnames, dims)]
     groups_out = {}
     classes = [('openers', [e for e in els if e.startswith('op')]), ('markers', [e for e in els if e.startswith('W')]), ('fish', [e for e in els if e.startswith('F')])]
     for cname, members in classes:
         use = [e for e in members if sum(1 for t in T2 if e in t['els']) >= 15]
+        skip = ('numeral', 'midlen') if cname == 'markers' else ()   # W32 is itself a numeral; W2_conn shortens the middle by construction
+        if skip: P(f'  ({cname}: dimensions {skip} dropped as self-confounded)')
         pairs = {}
         for i in range(len(use)):
             for k in range(i + 1, len(use)):
                 A = [t for t in T2 if use[i] in t['els'] and use[k] not in t['els']]; B = [t for t in T2 if use[k] in t['els'] and use[i] not in t['els']]
                 if len(A) < 10 or len(B) < 10: continue
-                pool = A + B; na = len(A); obs = allchi(A, B); tot = sum(obs)
+                pool = A + B; na = len(A); obs = allchi(A, B, skip); tot = sum(obs)
                 lb = [lenbin(t['n']) for t in pool]; groups = collections.defaultdict(list)
                 for ix, l in enumerate(lb): groups[l].append(ix)
                 lab = np.zeros(len(pool), int); lab[:na] = 1; nulls = []
@@ -589,7 +591,7 @@ def cycle3(T, els, nperm, label='Wells'):
                     for gidx in groups.values():
                         gi = np.array(gidx); lab2[gi] = lab[gi][rng.permutation(len(gi))]
                     A3 = [pool[x] for x in range(len(pool)) if lab2[x] == 1]; B3 = [pool[x] for x in range(len(pool)) if lab2[x] == 0]
-                    nulls.append(sum(allchi(A3, B3)))
+                    nulls.append(sum(allchi(A3, B3, skip)))
                 pl = (sum(1 for v in nulls if v >= tot) + 1) / (len(nulls) + 1)
                 top = sorted(zip(dimnames, obs), key=lambda kv: -kv[1])[:3]
                 pairs[(use[i], use[k])] = (tot, pl, top, len(A), len(B))

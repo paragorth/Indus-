@@ -154,6 +154,90 @@ The whole seal text is a **title or credential, like a degree**, not a personal 
 - Short credentials reappear inside longer ones with parts added (4× chance). The same credential is issued in several cities and pressed on tablets far from any seal. The animal is a separate house or clan stamp.
 Promotion over time: tested in S348, not supported (longer versions are not later; p = 0.40). The short and extended versions coexist as parallel grades. Would kill: repeated credentials from one grave or house (i.e. one person's name).
 
+
+## 12. Re-grading against Markov nulls (S-DARK-54, 3 Oct 2026)
+Every graded claim (131) was recomputed against 200 first-order and 200 second-order Markov chains fitted within site × type (lengths kept), an END-state chain, the S366 generator, and then on 890 held-out-site texts and the 324 IM77-only texts with chains fitted on each set. A grade keeps A only if the claim beats both chains and replicates out of sample. Full table: `data/derived/dark/loop54_regrade.csv`.
+- **Chain by construction (52 claims):** every 'followed by jar / fixed numeral / qualifier / pre-jar title' gloss is a bigram fact; true, but not evidence of a system beyond adjacency.
+- **Inside both chains (28):** opener-first, S311 name positions, W595, W176–W100, nesting (reversed on IM77: 0.058 vs 0.19).
+- **Beyond every chain and replicated:** W2 once per text, closer mutual exclusion, the two-closer ban, no-repeat, non-adjacent fixed order (0.48 vs 0.16; held-out 0.65 vs 0.03).
+- **Mohenjo-daro + Harappa only (not replicated):** opener/W400 exclusion, numeral exclusivity, marker-second, long-range attraction (52 vs 11 pairs).
+- **Grades:** A kept for W2, W817/W861, W740, W400. A→B: numerals 1–8, tall strokes, W55, W60, W820, the W692 unit. A→C: W595, the 920-60-741 unit. B→C: pre-jar titles, 705-33, W61, W798, W550, the S341 openers, W575/585/632, name-initial/final elements, the credential model (§11). B→B−: W56, W91, the fish family, 255-435-690, 845-407. No grade depends on a merge level.
+
+| sign | old | new | claim |
+|---|---|---|---|
+| W1-W5,W16-W18 numerals 1-8 | A | B | short numeral followed by a counted item (next in COUNTED) |
+| W1-W5,W16-W18 numerals 1-8 | A | B | distinct numerals before the tree (counted = many) |
+| W1-W5,W16-W18 numerals 1-8 | A | B | two numeral tokens in one text, non-adjacent (numerals mutually exclusive: low) |
+| W31-W34 tall strokes | A | B | tall numeral followed by W700 (voucher count) |
+| W31-W34 tall strokes | A | B | W700 preceded by a tall numeral |
+| W55 twelve | A number / B fixed term | B | W55 followed by the jar or by 255 (title slot), not by a counted good |
+| W55 twelve | A number / B fixed term | B | W55 followed by a counted good (should be low) |
+| W56 twenty-four | B | B- | W56 followed by W2 (the Kalibangan 91-56-2 formula) |
+| W2 connective | A connective | A | W2 in second position |
+| W2 connective | A connective | A | W2 preceded by an opener |
+| W2 connective | A connective | A | W2 initial (never: low) |
+| W2 connective | A connective | A | W2 twice in one text per 1000 texts with W2 (once rule: low) |
+| W2 connective | A connective | A | W2 text also carries marked jar 741/742 at any distance (exclusion: low) |
+| W60 connective | A | B | W60 in second position |
+| W60 connective | A | B | W60 preceded by an opener (817/861/820/920/692) |
+| W60 connective | A | B | W60 twice per 1000 texts with W60 (low) |
+| W60 connective | A | B | W60 initial (low) |
+| W817/W861 opener | A function | A | W817/861 initial |
+| W817/W861 opener | A function | A | W817/861 followed by W2 |
+| W817/W861 opener | A function | A | opener text also carries suffix W400 at any distance (exclusion: low) |
+| W817/W861 opener | A function | A | opener text also carries a closer (jar etc.) at distance >= 2 |
+| W817/W861 opener | A function | A | opener twice per 1000 texts with it (low) |
+| W820 wheel opener | A function | B | W820 initial |
+| W820 wheel opener | A function | B | W820 final (suffix stripped; S286 opener-as-closer) |
+| W820 wheel opener | A function | B | W820 followed by W2 or W60 |
+| W740 jar closer | A function / C word | A | W740 final (suffix stripped) |
+| W740 jar closer | A function / C word | A | jar text also carries another closer at any distance (mutual exclusion: low) |
+| W740 jar closer | A function / C word | A | W740 twice per 1000 jar texts (low) |
+| W740 jar closer | A function / C word | A | S289 closer-paradigm count (signs >=40% final with jar O/E <= 0.5) |
+| W400 suffix | A function | A | W400 raw-final |
+| W400 suffix | A function | A | W400 preceded by a closer |
+| W400 suffix | A function | A | W400 text also carries an opener (exclusion: low) |
+| W91 twins | B | B- | W91 adjacent to a numeral |
+| W595 pre-closer | A function | C | W595 text also carries the jar at any distance (avoidance: low) |
+| W595 pre-closer | A function | C | W595 followed by W820 |
+| W595 pre-closer | A function | C | W595 adjacent to W820 in either order: share with 595 first |
+| W595 pre-closer | A function | C | W595 final (suffix stripped) |
+| W760, W923, W690, W482, W752, W48 pre-jar titles | B function | C | followed by the jar |
+| W390/W405 tree | B counted / C word | B | tree preceded by a numeral |
+| W390/W405 tree | B counted / C word | B | distinct numerals before the tree |
+| W390/W405 tree | B counted / C word | B | tree final (suffix stripped; self-closing) |
+| W390/W405 tree | B counted / C word | B | numeral-tree pair preceded by W2 (opener-of-N-tree seal type), i.e. run 2-NUM-tree per 100 |
+| W575 seven-X | B fixed / C meaning | C | modal numeral share before W575 (always 7) |
+| W585 seven-X | B | C | modal numeral share before W585 |
+| W632 two-X | B | C | modal numeral share before W632 |
+| W632 two-X | B | C | W632 preceded by a numeral at all |
+| fish family W220/240/235/233/231 | B | B- | two modified fish adjacent: predicted order share (hat>whiskers>bar>stroke) |
+| fish family W220/240/235/233/231 | B | B- | two modified fish NON-adjacent (distance >= 2): predicted order share 235 first |
+| fish family W220/240/235/233/231 | B | B- | 240 before 233/231 at distance >= 2 |
+| fish family W220/240/235/233/231 | B | B- | share of texts with two or more distinct fish signs (stacking) |
+| fish family W220/240/235/233/231 | B | B- | modified fish stacked adjacently: run 235-240 |
+| name-initial elements W692/575/125/416/413/920/495 | B | C | share of tokens standing first in the middle (after opener+marker) |
+| name-initial elements W692/575/125/416/413/920/495 | B | C | share of tokens text-initial |
+| name-final elements W840/460/435/440/717/70/35/690 | B | C | share of tokens standing last before the closer |
+| name-final elements W840/460/435/440/717/70/35/690 | B | C | followed by a closer |
+| W255-W435(-W690) unit | B function | B- | 255 followed by 435 |
+| W255-W435(-W690) unit | B function | B- | run 255-435-690 per 1000 texts |
+| W255-W435(-W690) unit | B function | B- | 255 before 690 at distance >= 2 (share 255 first) |
+| W705/706-W33 unit | B function | C | 705/706 followed by tall 3 |
+| W590-W390/405 unit | B function | B | 590 followed by the tree |
+| W590-W390/405 unit | B function | B | run 590-tree-740 per 1000 |
+| W845-W407 copper-tablet caption | B function | B- | 845 followed by 407 |
+| W368, W892 name endings | B function | B | final (suffix stripped) |
+| W503, W413, W824, W255, W550 opening elements | B function | C | text-initial share |
+| W61 medial word | B function | C | 61 followed by the jar or W142 |
+| W798 pincer | B function | C | 798 followed by the jar or W415 |
+| W550 pincer variant | B function | C | 550 followed by 527 or 60 |
+| W920+W60(+741) opener unit | A function (S331) | C | W920 initial |
+| W920+W60(+741) opener unit | A function (S331) | C | run 920-60-741 per 1000 |
+| W692+W60 opener unit | A function (S331) | B | W692 initial |
+| credential model (sec. 11) | B- | C | nesting: share of distinct 3-5-sign texts found whole inside a longer text |
+| GRAMMAR minimum lot (counts before goods >= 3) | C (demoted) | C | share of goods (tree/520/900) preceded by short 1 or 2 or tall 1 (low) |
+
 ## Test log
 - S366: Turing test of the credential grammar as a generator (`tools/strat_adequacy.py`). Three mechanisms make the real corpus indistinguishable from synthetic ones on 33 of 50 statistics: stock texts copied whole within a city, closer chosen by the middle's end, frame set by object type. A lexicon of middles freely recombined with closers is refuted (same middle under different closers 20% real vs 80% model). Unexplained: long-range sign attraction/avoidance and the no-repeat rule, i.e. whole-text planning.
 - S347: the credential model (user) fits: nesting of short titles in longer ones is 4× chance; longer texts on bigger seals (ρ = 0.32). **Killed as evidence by S-DARK-41 (3 Oct 2026):** a first-order Markov chain fitted to the same texts reproduces the nesting rate exactly (0.152 vs 0.152) and the held-out run reuse (P2) is 1.3× against a held-out bigram chain and 0.7× against a big-city chain. Nesting and reuse are local sign-statistics, not grades. Surviving beyond the chains: closer paradigm, opener-first/closer-last frame, W2 once per text, the bridge, the name-uniqueness contrast.
