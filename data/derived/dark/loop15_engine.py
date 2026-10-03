@@ -160,14 +160,14 @@ def run():
         P(f'  synthetic null {kind}: mean {sum(xs)/len(xs):.1f} p95 {xs[int(0.95*len(xs))-1]} max {xs[-1]}  | real {bykind[kind]}')
     # control 2: shuffled-within-text corpus, refit
     SH = shuffle_within(HOME, rng); MS = Model(SH); obs_s = count(SH, voc)
-    exp_s, _ = expected(MS, meta, voc, max(40, NSYN // 4), rng)
+    exp_s, _ = expected(MS, meta, voc, max(40, NSYN // 4), SEED * 2000)
     gs = collections.Counter(k[0] for k, _ in gaps(exp_s, obs_s, EMIN))
     P('  shuffled-within-text corpus (refit) gaps:', dict(gs))
     # held-out
     vocH = voc  # same sign set
     metaH = [(a, b) for a, b, _ in HELD]
     MH = Model(HELD); obsH = count(HELD, vocH)
-    expH, _ = expected(MH, metaH, vocH, NSYN, rng)
+    expH, _ = expected(MH, metaH, vocH, NSYN, SEED * 3000)
     # held-out chance: how many of the real gaps would persist in a synthetic held-out corpus
     persist = [(k, e, expH.get(k, 0)) for k, e in G if expH.get(k, 0) >= EHELD and obsH.get(k, 0) == 0]
     tested = [(k, e) for k, e in G if expH.get(k, 0) >= EHELD]
