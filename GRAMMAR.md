@@ -131,3 +131,9 @@ Besides W817/W861/W820 + W2, two more opener units start texts: W920 + W60 (text
 
 ### Two different connectives (S333)
 W60 (M123) is followed by the marked-jar family W741/742/745 (M343–346) in about a quarter of cases; opener + W2 (M99) almost never is (0 of 324 Wells; 1 of 275 IM77). W2 introduces fish, number and leaf-tree words. CORRECTION (S334): all W60 → marked-jar cases follow W920; elsewhere W60 behaves like W2 (cosine 0.90). The fixed unit is 920-60-741, an opening phrase of its own.
+
+## Added 3 Oct 2026: the minimum-lot rule (S-DARK-15.3; all three merge levels; held-out sites agree)
+- **Counts before a good start at 3.** For every counted item (tree 390/405/407, arrow 520, bracket 900, and the fixed terms 845, 923, 550) the numeral before it is 3 or more. The apparent 'no 1 tree, no 2 tree' hole is not about trees: the **short-stroke 1, short-stroke 2 and tall 1 glyphs are grammar markers** (W1, W2 = connective; tall 1 = a fixed-term element), not counts, so they never appear before a good.
+- **1 and 2 as true counts are written only with TALL strokes and only inside fixed terms**: '2 tree' exists 13 times at home as tall 2 (32-390 ×4, 32-407 in the seven-copy tablet 231-17-585-95-520-32-407). Short-stroke 2 before a tree occurs only as the W2 marker after an opener (M-1851; K-78, K-431, Ns-67).
+- **Persons (S98 refined):** figure signs take fixed numerals; only the plain person W90/W91 is never counted (2 of 196 at home, same at held-out sites).
+- **Frozen prediction for new finds** (prereg/preregistration-5-minimumlot.json): no new text will show a short-stroke 1 or 2 directly before a counted good; counts before goods will be 3–8. Would kill: three or more new texts with short 1 or 2 before a tree, arrow or bracket.

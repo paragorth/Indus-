@@ -209,3 +209,10 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - W55 + W415: one class.
 - Independent support for the S268 allograph merges: a description-length criterion on seq_raw recovers all 13 strong pairs and not the doubtful 156–151.
 - Would support: the same placements on new sites. Would kill: a slot change on held-out texts.
+
+
+### Numerals: the minimum-lot rule (S-DARK-15.3, Oct 2026; grade B)
+- Short-stroke 1 (W31), short-stroke 2 (W2) and tall 1 are grammar markers, not counts: they never stand before a counted good.
+- Counts before goods start at 3 (3-8). '1' and '2' as counts are tall strokes inside fixed terms.
+- The plain person sign is never counted; figure ligatures carry fixed numerals.
+- Would support: new finds keep counts >= 3 before goods. Would kill: three new texts with short 1 or 2 before a tree, arrow or bracket.

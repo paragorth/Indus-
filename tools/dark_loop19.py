@@ -396,6 +396,16 @@ def ur3():
 # ============================ main ============================
 if CY==1:
     run_a(OBJ,'all sites',NP)
+    run_a([o for o in OBJ if len(o['seq'])>=3],'texts of >=3 signs',NP)
+    run_a([o for o in OBJ if len(o['seq'])==2],'2-sign texts',NP//2)
+    run_a([o for o in OBJ if not (len(o['seq'])==2 and 700 in o['seq'])],'all minus the N-700 voucher tablets',NP)
+    # medium of the reversed voucher tablets
+    vc=collections.Counter()
+    for r in C:
+        s=r[LV]
+        if len(s)==2 and 700 in s and r['complete']=='Y' and r['dir.'].strip()!='-' and (set(s)-{700})<=set(NUM):
+            vc[(r['type'],'700 first' if s[0]==700 else 'N first')]+=1
+    print('\n   N-700 voucher tablets by medium and order:',sorted(vc.items()))
     run_a([o for o in OBJ if o['big']],'Mohenjo-daro + Harappa',NP//2)
     run_a([o for o in OBJ if not o['big']],'held-out: other sites',NP//2)
     run_a([o for o in OBJ if o['ot']=='seal'],'seals',NP//2)
