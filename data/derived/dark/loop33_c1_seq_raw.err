@@ -59,3 +59,23 @@
   indus-all+type-CLASS               hmm5           states     5 trans    305 MDL      49020 bits (model     2091)  fit 2.353  dev 2.367 nats/sign
   indus-all+type-CLASS               hmm10          states    10 trans    660 MDL      48790 bits (model     4532)  fit 2.220  dev 2.242 nats/sign
   indus-all+type-CLASS               hmm20          states    20 trans   1520 MDL      51233 bits (model    10447)  fit 2.045  dev 2.069 nats/sign
+  indus-all+type-CLASS               hmm40          states    40 trans   3840 MDL      66072 bits (model    26402)  fit 1.989  dev 2.018 nats/sign
+-- control shuffle (1884 train)
+  ctrl-shuffle-all+type-CLASS        unigram        states     1 trans     56 MDL      50239 bits (model      757)  fit 3.105  dev 3.089 nats/sign
+  ctrl-shuffle-all+type-CLASS        markov1        states    56 trans   1102 MDL      57783 bits (model    20200)  fit 2.359  dev 2.602 nats/sign
+  ctrl-shuffle-all+type-CLASS        markov2        states  1052 trans   3758 MDL     113379 bits (model    84787)  fit 1.794  dev 2.668 nats/sign
+  ctrl-shuffle-all+type-CLASS        alergia@0.5    states    23 trans    728 MDL      49555 bits (model    12410)  fit 2.331  dev 2.604 nats/sign
+  ctrl-shuffle-all+type-CLASS        alergia@0.1    states    13 trans    445 MDL      45711 bits (model     7219)  fit 2.416  dev 2.522 nats/sign
+  ctrl-shuffle-all+type-CLASS        alergia@0.01   states     9 trans    299 MDL      43966 bits (model     4692)  fit 2.465  dev 2.523 nats/sign
+  ctrl-shuffle-all+type-CLASS        alergia@0.001  states     7 trans    211 MDL      43032 bits (model     3235)  fit 2.498  dev 2.534 nats/sign
+  ctrl-shuffle-all+type-CLASS        mdl-merge      states     4 trans    123 MDL      43231 bits (model     1786)  fit 2.601  dev 2.617 nats/sign
+  ctrl-shuffle-all+type-CLASS        hmm10          states    10 trans    660 MDL      45657 bits (model     4426)  fit 2.587  dev 2.580 nats/sign
+  ctrl-shuffle-all+type-CLASS        hmm20          states    20 trans   1520 MDL      50532 bits (model    10201)  fit 2.531  dev 2.536 nats/sign
+-- control slotshuf (1884 train)
+  ctrl-slotshuf-all+type-CLASS       unigram        states     1 trans     56 MDL      50239 bits (model      757)  fit 3.105  dev 3.089 nats/sign
+  ctrl-slotshuf-all+type-CLASS       markov1        states    56 trans   1011 MDL      52109 bits (model    18532)  fit 2.107  dev 2.313 nats/sign
+  ctrl-slotshuf-all+type-CLASS       markov2        states   963 trans   3137 MDL      95898 bits (model    70376)  fit 1.602  dev 2.409 nats/sign
+  ctrl-slotshuf-all+type-CLASS       alergia@0.5    states    35 trans    881 MDL      47754 bits (model    15552)  fit 2.021  dev 2.387 nats/sign
+  ctrl-slotshuf-all+type-CLASS       alergia@0.1    states    18 trans    554 MDL      43293 bits (model     9248)  fit 2.137  dev 2.305 nats/sign
+  ctrl-slotshuf-all+type-CLASS       alergia@0.01   states    11 trans    368 MDL      40970 bits (model     5882)  fit 2.202  dev 2.287 nats/sign
+  ctrl-slotshuf-all+type-CLASS       alergia@0.001  states    10 trans    332 MDL      40965 bits (model     5260)  fit 2.241  dev 2.292 nats/sign
