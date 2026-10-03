@@ -9,7 +9,12 @@ Cycle 2: logographic signatures: (a) two partially disjoint element pools (gende
          null, calibrated on the gender-tagged lists; (b) head slot vs surname slot: closed-set size, coverage, MI(head, middle
          element) vs permutation; (c) common-element free combination.
 Cycle 3: replication on held-out sites, Mohenjo-daro vs Harappa, IM77, seq_raw / seq_strong / seq_all.
-Usage: python3 tools/dark_loop63.py <1|2|3> [ndraw]
+Cycle 4: Korean (Wikidata, element = Hangul syllable; tools/dark_loop63_prep_ko.py) through cycles 1-2, then the separator
+         table: every list drawn repeatedly at the EXACT Indus length-2..4 distribution, each draw with its OWN frequency-matched
+         random null (edge ratios = top-10 initial / final coverage over the null's), Indus at 4 levels x {all sites, held-out,
+         Mohenjo-daro} by 0.8-subsampling with the same per-subsample null; a statistic 'separates' only if every Indus CI lies
+         outside the whole logographic range on the same side.
+Usage: python3 tools/dark_loop63.py <1|2|3|4> [ndraw]
 """
 import sys,os
 _CY=int(sys.argv[1]) if len(sys.argv)>1 else 0; _NB=int(sys.argv[2]) if len(sys.argv)>2 else 40
@@ -358,3 +363,79 @@ if CY==3:
     for k,v in R.items():
         P(f'  {k:30s} {v["n"]:5d} '+' '.join(f'{v["bat"][x][0]:10.3f}' for x in KEY)+f'   {v["cov"]["init10"][0]:7.3f}   {v["cov"]["fin10"][0]:7.3f}   {(v["bip"] or {}).get("z",float("nan")):5.1f}')
     save('loop63_cycle3',R)
+
+# ---- cycle 4: Korean + the separator table at the exact Indus length distribution, per-draw own null ----
+SEPK=['pos_excess','pos_bound','big_reuse','mi_ex','pair_pred','substr','el_gini','el_zipf','el_heaps','init10','fin10','r_init','r_fin','r_edge_max','r_edge_min','Hinit','Hfin']
+def sep_stats(sub,r):
+    m=metrics(sub,r,nnull=10); c=cov(sub); nul=cov(freq_random(sub,r,1))
+    ri=c['init10']/nul['init10']; rf=c['fin10']/nul['fin10']
+    out={k:m[k] for k in LADDER}; out.update({k:c[k] for k in COVK})
+    out.update(r_init=ri,r_fin=rf,r_edge_max=max(ri,rf),r_edge_min=min(ri,rf),n=len(sub),meanL=m['meanL'])
+    return out
+def summ(runs):
+    return {k:(q([x[k] for x in runs],0.5),q([x[k] for x in runs],0.025),q([x[k] for x in runs],0.975)) for k in SEPK+['n','meanL']}
+def sep_line(label,S):
+    P(f'  {label:34s} n={S["n"][0]:5.0f} L={S["meanL"][0]:.2f} '+'; '.join(f'{k} {t3(S[k])}' for k in SEPK))
+
+if CY==4:
+    P(f'== S-DARK-63 cycle 4: Korean names; separator table at the exact Indus length distribution with per-draw own null; ndraw {NB}')
+    R={}
+    base=indus_names('seq_raw',2); n0=len(base)
+    objs=load_indus('seq_raw'); n1=len([o for o in objs if len(o['mid'])>=1])
+    P(f'\n##### (A) Korean given / full names through the cycle-1 battery at n={n0} (order) and n={n1} (capacity), with their own freq-matched random null')
+    for nm in ['ko_given','ko_full']:
+        rows=jl63(nm); pool2=[s for s in seqs(rows) if len(s)>=2]; pool1=seqs(rows)
+        R[nm]=dict(bat=draws(pool2,n0,nm,ndraw=NB),cov=cov_draws(pool2,n0,NB),cap=cap_draws(pool1,n1,NB))
+        P('    closed-slot: '+'; '.join(f'{k} {t3(R[nm]["cov"][k])}' for k in COVK))
+        P('    capacity: '+'; '.join(f'{k} {t3(R[nm]["cap"][k])}' for k in CAPK))
+        fr=freq_random(pool2,random.Random(11),2)
+        R[nm+'_freqrand']=dict(bat=draws(fr,n0,nm+' freq-matched random',ndraw=max(10,NB//2)),cov=cov_draws(fr,n0,max(10,NB//2)))
+        P('    closed-slot (freq-random): '+'; '.join(f'{k} {t3(R[nm+"_freqrand"]["cov"][k])}' for k in COVK))
+    P('\n##### (B) Korean: gender bipartition (calibration), surname slot, free combination')
+    rows=[x for x in jl63('ko_given',2) if x[1] in('M','F')]; sub=random.Random(21).sample(rows,min(n0,len(rows)))
+    R['bip_ko_given']=bipartition_test(seqs(sub),'ko_given (gendered names only)',NB,gender=[x[1] for x in sub])
+    rows=jl63('ko_full'); rows=[x for x in rows if x[2] and len(x[0])>len(x[2])]; sub=random.Random(31).sample(rows,2000)
+    heads=[x[2] for x in sub]; mids=[x[0][len(x[2]):] for x in sub]
+    R['head_ko_full']=head_test(heads,mids,'ko_full surname -> given')
+    R['head_ko_full_lastel']=head_test([m[-1] for m in mids if len(m)>=2],[m[:-1] for m in mids if len(m)>=2],'ko_full last given element as head (open-slot control)')
+    # (C) separator table
+    b24=[n for n in base if len(n)<=4]; L24=[len(n) for n in b24]; n24=len(b24)
+    P(f'\n##### (C) separator table: every list drawn {NB}x at the EXACT Indus seq_raw length-2..4 distribution (n={n24}, lengths {sorted(collections.Counter(L24).items())}); each draw with its OWN freq-matched random null (r_init / r_fin = top-10 initial / final coverage over the null; r_edge_max = the stronger edge). Indus: 0.8-subsamples, same per-subsample null.')
+    LG=['cn_given','cn_ancient','jp_given','jp_person_given','vi_given','ko_given']
+    for nm in LG+OLD:
+        pool=[s for s in (seqs(jl63(nm,2,4)) if nm in LG else [t for t in jl(nm) if 2<=len(t)<=4])]
+        runs=[]; shorts=[]
+        for b in range(NB):
+            r=random.Random(4000+b); sub,sh=L56.length_match(pool,L24,n24,r); shorts.append(sh); runs.append(sep_stats(sub,r))
+        R['sep_'+nm]=summ(runs); R['sep_'+nm]['shortfall']=q(shorts,0.5)
+        sep_line(nm+(f' (short {q(shorts,0.5):.0f})' if q(shorts,0.5) else ''),R['sep_'+nm])
+    IV=[]
+    for LV in ['seq_raw','seq_strong','seq_all','im77']:
+        ob=load_indus(LV) if LV!='im77' else im77_objects()
+        grp={'len2to4':[o['mid'] for o in ob if 2<=len(o['mid'])<=4],'heldout_len2to4':[o['mid'] for o in ob if 2<=len(o['mid'])<=4 and not o['big']],
+             'heldout_all':[o['mid'] for o in ob if len(o['mid'])>=2 and not o['big']],'MD_len2to4':[o['mid'] for o in ob if 2<=len(o['mid'])<=4 and o['site']=='Mohenjo-daro'],
+             'Harappa_len2to4':[o['mid'] for o in ob if 2<=len(o['mid'])<=4 and o['site']=='Harappa']}
+        for g,nm in grp.items():
+            names=sorted(set(tuple(x) for x in nm)); runs=[]
+            for b in range(NB):
+                r=random.Random(6000+b); runs.append(sep_stats(r.sample(names,int(0.8*len(names))),r))
+            k=f'indus_{LV}_{g}'; R['sep_'+k]=summ(runs); R['sep_'+k]['n_full']=len(names); IV.append(k)
+            sep_line(k,R['sep_'+k])
+    fr=[s for s in freq_random(b24,random.Random(8)) if len(s)<=4]; runs=[]
+    for b in range(NB):
+        r=random.Random(6500+b); runs.append(sep_stats(r.sample(fr,n24),r))
+    R['sep_indus_freqrand_len24']=summ(runs); sep_line('indus_freqrand_len24',R['sep_indus_freqrand_len24'])
+    # verdict: separation = every Indus variant CI outside the logographic median range (all six lists, or the five with >= 90% of the length match)
+    P('\n=== separator verdict. LOGO range = medians of the logographic lists at the exact length match (cn_given excluded from the strict set: only length-2 names). SEP+ / SEP- = every Indus variant CI above / below the whole range; main = Indus seq_raw len2to4 CI.')
+    full_lg=[x for x in LG if R['sep_'+x]['shortfall']<=0.1*n24]
+    verd={}
+    for k in SEPK:
+        lgv=[R['sep_'+x][k][0] for x in full_lg]; lo_l,hi_l=min(lgv),max(lgv)
+        allv=[R['sep_'+x][k][0] for x in LG]
+        ph=[R['sep_'+x][k][0] for x in OLD]
+        above=all(R['sep_'+i][k][1]>hi_l for i in IV); below=all(R['sep_'+i][k][2]<lo_l for i in IV)
+        mainv=R['sep_indus_seq_raw_len2to4'][k]; nab=sum(R['sep_'+i][k][1]>hi_l for i in IV); nbe=sum(R['sep_'+i][k][2]<lo_l for i in IV)
+        verd[k]=dict(sep='SEP+' if above else 'SEP-' if below else 'no',n_above=nab,n_below=nbe,n_var=len(IV),logo=(lo_l,hi_l))
+        P(f'  {k:11s} Indus main {t3(mainv)}  LOGO(strict) {lo_l:7.3f}..{hi_l:7.3f} (all six {min(allv):7.3f}..{max(allv):7.3f})  phonetic {min(ph):7.3f}..{max(ph):7.3f}  rand {R["sep_indus_freqrand_len24"][k][0]:7.3f}  Indus variants above {nab}/{len(IV)} below {nbe}/{len(IV)} -> {verd[k]["sep"]}')
+    R['_verdict']=verd; R['_strict_lists']=full_lg
+    save('loop63_cycle4',R)

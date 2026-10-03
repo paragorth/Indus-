@@ -376,5 +376,117 @@ def cycle2():
     open(DARK + 'loop68_c2_log.txt', 'w').write('\n'.join(out) + '\n')
     print('\n'.join(out))
 
+# ------------------------------------------------------------------ cycle 3: US surnames and amateur call signs by state (FCC ULS, public domain)
+CALL_DISTRICT = {'1': 'New England', '2': 'NY/NJ', '3': 'PA/MD/DE/DC', '4': 'Southeast', '5': 'TX/OK/AR/LA/MS/NM', '6': 'CA',
+                 '7': 'Northwest + Mountain', '8': 'MI/OH/WV', '9': 'IL/IN/WI', '0': 'Central'}
+
+def load_fcc(min_n=8000, max_states=20):
+    G = collections.defaultdict(list)
+    for l in gzip.open(C68 + 'fcc_amateur_callsign_state_surname.tsv.gz', 'rt'):
+        f = l.rstrip('\n').split('\t')
+        if f[0] == 'call_sign' or len(f) < 3: continue
+        cs, st, sn = f[0].strip().upper(), f[1].strip().upper(), f[2].strip()
+        if st in STATE_XY and re.fullmatch(r'[A-Z]{1,2}[0-9][A-Z]{1,3}', cs): G[st].append((cs, sn))
+    keep = sorted([s for s in G if len(G[s]) >= min_n], key=lambda s: -len(G[s]))[:max_states]
+    return {s: G[s] for s in keep}
+
+def run_design(G, dist, unit, tok, whole, ns, out, R, finite=False, noise_target=None, label=''):
+    """G: label -> Counter(text -> count) (counts mode) or list of texts (finite). runs every pair at each n and the noise-matched n"""
+    vocab = {}
+    if finite: pops = {g: Pop([tok(x) for x in v if tok(x)], vocab, finite=True) for g, v in G.items()}
+    else: pops = {g: Pop(collections.Counter({tok(k): c for k, c in v.items() if tok(k)}), vocab) for g, v in G.items()}
+    groups = sorted(pops, key=lambda g: -pops[g].N)
+    pairs = [(a, b) for i, a in enumerate(groups) for b in groups[i + 1:]]
+    keys = ['uni', 'reuse'] if whole else KEYS
+    ns = list(ns)
+    if noise_target is not None:
+        nm = noise_matched_n(pops[groups[0]], noise_target, whole)
+        out.append(f'\n  NOISE-MATCHED ({label} {unit}): within-group unigram JSD = {noise_target} bits at n = {nm}')
+        ns.append(('nm', nm))
+    for n in ns:
+        tag = 'n%d' % n if not isinstance(n, tuple) else 'noisematched_n%d' % n[1]
+        nn = n if not isinstance(n, tuple) else n[1]
+        Rn = {f'{a} vs {b}': pair_test(pops[a], pops[b], nn, whole=whole) for a, b in pairs if not finite or min(pops[a].N, pops[b].N) >= nn}
+        if not Rn: continue
+        S = band_summary(Rn, dist, out, f'{label} {unit} {tag}', keys)
+        wv = [r['comp']['uni']['within'] for r in Rn.values()]
+        out.append(f'  within-group unigram JSD at this n: median {np.median(wv):.3f} bits')
+        near = sorted([p for p in Rn if 450 <= dist[p] <= 750], key=lambda p: dist[p])
+        out.append(f'  pairs at 450-750 km: ' + '; '.join(f"{p} {dist[p]:.0f}km uni x{Rn[p]['comp']['uni']['ratio']:.2f}" + (f" reuse x{Rn[p]['comp']['reuse']['ratio']:.2f}" if 'reuse' in Rn[p]['comp'] else '') for p in near[:12]))
+        R[f'{label}|{unit}|{tag}'] = {'bands': S, 'within_median': float(np.median(wv)), 'pairs': {p: {'dist': dist[p], 'comp': r['comp']} for p, r in Rn.items()}}
+    return pops
+
+def cycle3():
+    out = [f'# S-DARK-68 cycle 3 (nsub {NSUB}, nperm {NPERM}): US amateur radio licensees by state of address (FCC ULS amateur licence database, public domain): surnames as a naming population; call signs as a centrally issued designed code with a deliberate geographic field (the call-district digit)']
+    G = load_fcc()
+    states = sorted(G, key=lambda s: -len(G[s]))
+    out.append('states (top 20, >= 8000 licensees): ' + ', '.join(f'{s} {len(G[s])}' for s in states))
+    pairs = [(a, b) for i, a in enumerate(states) for b in states[i + 1:]]
+    dist = {f'{a} vs {b}': haversine(STATE_XY[a], STATE_XY[b]) for a, b in pairs}
+    out.append('pairs per band: ' + ', '.join(f"{nm} {sum(lo <= d < hi for d in dist.values())}" for nm, lo, hi in BANDS))
+    R = {}
+    SUR = {s: collections.Counter(sn.title() for cs, sn in G[s] if re.fullmatch(r"[A-Za-z' -]{2,}", sn)) for s in states}
+    CS = {s: collections.Counter(cs for cs, sn in G[s]) for s in states}
+    SUF = {s: collections.Counter(re.sub(r'^[A-Z]{1,2}[0-9]', '', cs) for cs, sn in G[s]) for s in states}
+    SHAPE = {s: collections.Counter(re.sub(r'[A-Z]', 'L', cs) for cs, sn in G[s]) for s in states}
+    run_design(SUR, dist, 'surname-bigrams', tok_bigrams, False, (200, 30), out, R, noise_target=INDUS_WITHIN_UNI, label='US surnames')
+    run_design(SUR, dist, 'surname-whole', tok_whole, True, (200,), out, R, noise_target=INDUS_WITHIN_NAME, label='US surnames')
+    chars = lambda x: tuple(x)
+    run_design(CS, dist, 'callsign-chars', chars, False, (200, 30), out, R, noise_target=INDUS_WITHIN_UNI, label='call signs (with district digit)')
+    run_design(SUF, dist, 'suffix-chars', chars, False, (200,), out, R, noise_target=INDUS_WITHIN_UNI, label='call-sign suffix only (no geographic field)')
+    # call-district digit alone: how strongly the designed geographic field separates states
+    out.append('\n  call-district digit by state (share of licensees in the modal district): ' + ', '.join(
+        f"{s} {collections.Counter(re.search(r'[0-9]', cs).group() for cs in CS[s].elements()).most_common(1)[0][0]}:{collections.Counter(re.search(r'[0-9]', cs).group() for cs in CS[s].elements()).most_common(1)[0][1] / len(G[s]):.2f}" for s in states))
+    json.dump(R, open(DARK + 'loop68_c3.json', 'w'), default=float)
+    open(DARK + 'loop68_c3_log.txt', 'w').write('\n'.join(out) + '\n')
+    print('\n'.join(out))
+
+# ------------------------------------------------------------------ cycle 4: Indus through this engine + noise-matched EDH name bigrams
+SITE_XY = {'Mohenjo-daro': (27.33, 68.14), 'Harappa': (30.63, 72.86), 'Lothal': (22.52, 72.25), 'Dholavira': (23.89, 70.21),
+           'Kalibangan': (29.47, 74.13), 'Chanhu-daro': (26.17, 68.32)}
+
+def load_indus(level, types=('SEAL',)):
+    C = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
+    G = collections.defaultdict(list)
+    for r in C:
+        s = r[level]
+        if not s or len(s) < 2 or r['complete'] != 'Y' or r['dir.'].strip() == '-': continue
+        if r['type'].split(':')[0] not in types or r['site'] not in SITE_XY: continue
+        G[r['site']].append(tuple(s))
+    return G
+
+def cycle4():
+    out = [f'# S-DARK-68 cycle 4 (nsub {NSUB}, nperm {NPERM}): Indus seals through the identical engine (merged-corpus-canonical.json, older build per S-DARK-23; complete, direction-recorded, >= 2 signs, seals only), plus EDH cognomen letter-bigrams at the Indus noise level']
+    R = {}
+    for level in ('seq_raw', 'seq_strong', 'seq_all'):
+        G = load_indus(level)
+        for mode in ('uncollapsed', 'collapsed'):
+            GG = {s: (list(dict.fromkeys(v)) if mode == 'collapsed' else v) for s, v in G.items() if len(v) >= 60}
+            sites = sorted(GG, key=lambda s: -len(GG[s]))
+            pairs = [(a, b) for i, a in enumerate(sites) for b in sites[i + 1:]]
+            dist = {f'{a} vs {b}': haversine(SITE_XY[a], SITE_XY[b]) for a, b in pairs}
+            out.append(f'\n== Indus seals {level} {mode}: ' + ', '.join(f'{s} {len(GG[s])}' for s in sites))
+            for unit, tok, whole in (('signs', lambda t: t, False), ('whole-text', lambda t: (t,), True)):
+                vocab = {}
+                pops = {s: Pop(GG[s], vocab, finite=True) if not whole else Pop([(t,) for t in GG[s]], vocab, finite=True) for s in sites}
+                keys = ['uni', 'reuse'] if whole else KEYS
+                for n in (200, 30):
+                    Rn = {f'{a} vs {b}': pair_test(pops[a], pops[b], n, whole=whole) for a, b in pairs if min(pops[a].N, pops[b].N) >= n}
+                    if not Rn: continue
+                    for p, r in Rn.items():
+                        c = r['comp']
+                        out.append(f"  {unit} n={n} {p} ({dist[p]:.0f} km): " + '; '.join(f"{k} x{c[k]['ratio']:.2f} [{c[k]['lo']:.2f}-{c[k]['hi']:.2f}] within {c[k]['within']:.3f} P {c[k]['P']:.2f}" for k in keys if k in c))
+                    R[f'indus|{level}|{mode}|{unit}|n{n}'] = {'pairs': {p: {'dist': dist[p], 'comp': r['comp']} for p, r in Rn.items()}}
+    # EDH cognomen letter-bigrams at the Indus noise level (within-province unigram JSD = 0.142 bits)
+    G = load_edh_persons(400)
+    provs = sorted(G, key=lambda g: -len(G[g]))
+    pairs = [(a, b) for i, a in enumerate(provs) for b in provs[i + 1:]]
+    dist = {f'{a} vs {b}': haversine(PROV_XY[a], PROV_XY[b]) for a, b in pairs}
+    GT = {g: [p['cog'] for p in G[g] if p['cog']] for g in provs}
+    run_design(GT, dist, 'cognomen-bigrams', tok_bigrams, False, (), out, R, finite=True, noise_target=INDUS_WITHIN_UNI, label='EDH')
+    json.dump(R, open(DARK + 'loop68_c4.json', 'w'), default=float)
+    open(DARK + 'loop68_c4_log.txt', 'w').write('\n'.join(out) + '\n')
+    print('\n'.join(out))
+
 if __name__ == '__main__':
-    {1: cycle1, 2: cycle2}[CY]()
+    {1: cycle1, 2: cycle2, 3: cycle3, 4: cycle4}[CY]()

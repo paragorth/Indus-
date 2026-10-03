@@ -46,7 +46,7 @@ def job(args):
 def run(nres=6, nnull=20, dup='natural', corpora=None):
     os.makedirs(OUTD, exist_ok=True)
     jobs = [(name, r, nnull, dup) for r in range(nres) for name in (corpora or CORPORA)]
-    with Pool(8) as P:
+    with Pool(int(os.environ.get("NPROC", "4"))) as P:
         for tag, msg in P.imap_unordered(job, jobs):
             print(tag, msg, flush=True)
 

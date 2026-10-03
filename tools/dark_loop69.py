@@ -55,7 +55,7 @@ M_HEAD = {342: 'jar', 343: 'mjar', 344: 'mjar', 345: 'mjar', 211: 'arrow', 12: '
           60: 'W226', 245: 'W615/617', 66: 'W236', 328: 'W700', 252: 'W595'}
 M_SUF = {176: 'W400', 1: 'W90/91'}
 M_SEAL_OP = {267, 391, 293, 150}
-M_TAB_OP = set()          # W501/W413/W503 have no settled M number; tablet openers are read as 'none' in IM77 (stated)
+M_TAB_OP = {210, 177, 204}  # W501/W413/W503 through bridge_extended.json
 M_CONN = {99, 100, 123}
 M_PERSON = {1, 3, 2}
 M_GRID = {121, 122}
@@ -253,11 +253,12 @@ def best_fit(T, feats, K, restarts=8, X=None, cats_from=None):
     return fits[0], stab, X
 
 def cv_select(T, feats, Ks, folds=5, restarts=4):
+    """5-fold held-out log-likelihood per text; returns {K: (mean, se)} with se over folds (per-text means)"""
     base = LCA(feats, 1); base.set_cats(T); X = base.encode(T)
     N = len(T); perm = rng.permutation(N); fold = np.zeros(N, int); fold[perm] = np.arange(N) % folds
     out = {}
     for K in Ks:
-        tot = 0.0
+        per = []
         for f in range(folds):
             tr = np.where(fold != f)[0]; te = np.where(fold == f)[0]
             Ttr = [T[i] for i in tr]
@@ -265,9 +266,20 @@ def cv_select(T, feats, Ks, folds=5, restarts=4):
             for s in range(restarts):
                 m = LCA(feats, K); m.cats = base.cats; m.fit(Ttr, seed=7 * K + s, X=X[tr])
                 if best is None or m.ll_train > best.ll_train: best = m
-            tot += best.loglik(X[te])
-        out[K] = tot / N
+            per.append(best.loglik(X[te]) / len(te))
+        per = np.array(per)
+        # paired SE vs nothing yet; store raw folds
+        out[K] = per
     return out
+
+def choose_K(cv):
+    """best K by mean held-out LL; parsimonious K = smallest K whose fold-paired gap to the best is within 1 SE of that gap"""
+    mean = {K: v.mean() for K, v in cv.items()}
+    bestK = max(mean, key=mean.get)
+    for K in sorted(cv):
+        d = cv[bestK] - cv[K]; se = d.std(ddof=1) / math.sqrt(len(d))
+        if d.mean() <= se: return bestK, K, mean
+    return bestK, bestK, mean
 
 def perm_null_ami(lab, obj, nperm):
     obs = AMI(obj, lab); mi = MI(obj, lab) / math.log(2)
@@ -307,51 +319,99 @@ def name_register(T, lab, k):
     return tf.most_common(3)
 
 # =====================================================================================
+def dedup(T):
+    """one unit per distinct (text, fine type, site): moulded-tablet and copper copies collapse"""
+    seen = {}; U = []
+    for t in T:
+        k = (tuple(t['seq']), t['tf'], t['site'])
+        if k not in seen: seen[k] = 1; U.append(t)
+    return U
+
+def cond_perm_ami(lab, obj, strat, nperm):
+    """AMI(register, object) vs register labels permuted within strata (e.g. length bin): does the register carry format
+    information beyond the stratifying variable?"""
+    lab = np.asarray(lab); obj = np.asarray(obj); strat = np.asarray(strat)
+    groups = [np.where(strat == g)[0] for g in np.unique(strat)]
+    obs = AMI(obj, lab); null = []
+    L = lab.copy()
+    for p in range(nperm):
+        for g in groups: L[g] = lab[g][rng.permutation(len(g))]
+        null.append(AMI(obj, L))
+    null = np.array(null)
+    return obs, null.mean(), np.quantile(null, 0.975), (np.sum(null >= obs) + 1) / (nperm + 1)
+
+def nb_ceiling(T, feats, dim, folds=5):
+    """supervised ceiling: naive Bayes on the same text features predicting the object label (5-fold)"""
+    obj = np.array([t[dim] for t in T]); N = len(T)
+    perm = rng.permutation(N); fold = np.zeros(N, int); fold[perm] = np.arange(N) % folds
+    correct = 0
+    for f in range(folds):
+        tr = np.where(fold != f)[0]; te = np.where(fold == f)[0]
+        cls = sorted(set(obj[tr])); prior = collections.Counter(obj[tr])
+        cnt = {c: [collections.Counter() for _ in feats] for c in cls}
+        for i in tr:
+            for j, fe in enumerate(feats): cnt[obj[i]][j][T[i][fe]] += 1
+        nv = [len({t[fe] for t in T}) for fe in feats]
+        for i in te:
+            best = None
+            for c in cls:
+                lp = math.log(prior[c])
+                for j, fe in enumerate(feats): lp += math.log((cnt[c][j][T[i][fe]] + 0.5) / (prior[c] + 0.5 * nv[j]))
+                if best is None or lp > best[0]: best = (lp, c)
+            correct += best[1] == obj[i]
+    return correct / N
+
 def cycle1(level):
-    T = load_wells(level)
+    T0 = load_wells(level)
     P(f'# S-DARK-69 cycle 1 ({level}): latent registers from text-side features; nperm={NP}')
-    P(f'complete texts {len(T)}; fine types: ' + ', '.join(f'{k} {v}' for k, v in collections.Counter(t["tf"] for t in T).most_common()))
-    res = {}
-    for tag, feats in (('with_len', FEATS), ('no_len', FEATS_NOLEN)):
-        P(f'\n## Feature set {tag} ({len(feats)} features)')
-        cv = cv_select(T, feats, range(1, 13))
-        bestK = max(cv, key=cv.get)
-        # one-standard-error style: smallest K within 0.005 nats/text of the best
-        tol = 0.005; Ksel = min(K for K in cv if cv[K] >= cv[bestK] - tol)
-        P('held-out loglik per text by K: ' + ', '.join(f'K{K} {v:.3f}' for K, v in cv.items()))
-        P(f'best K {bestK}; smallest K within {tol} of best: {Ksel}')
-        for K in sorted({Ksel, bestK}):
-            m, stab, X = best_fit(T, feats, K)
-            lab = m.predict(X)
-            P(f'\n### K = {K} ({tag}): stability (mean ARI over 8 restarts) {stab:.3f}; class sizes ' +
-              ', '.join(f'R{k} {int((lab == k).sum())}' for k in range(K)))
-            overall = {f: collections.Counter(t[f] for t in T) for f in feats}
-            for f in overall:
-                n = len(T); overall[f] = {v: c / n for v, c in overall[f].items()}
-            for k in range(K):
-                P(f'  R{k} n={int((lab == k).sum())}: top types ' + ', '.join(f'{a} {b}' for a, b in name_register(T, lab, k)))
-                for line in describe_register(T, lab, k, feats, overall): P('      ' + line)
-            # object-side prediction
-            for dim in ('tf', 'tc', 'shape', 'material', 'boss', 'sides'):
-                obj = np.array([t[dim] for t in T])
-                keep = obj != 'unknown'
-                ami, (nm, n97, pv), mi, (nmm, nm97) = perm_null_ami(lab[keep], obj[keep], NP)
-                acc, base = map_accuracy(lab[keep], obj[keep])
-                P(f'  {dim:9s} n={keep.sum()}: AMI {ami:.3f} (null mean {nm:.4f}, 97.5% {n97:.4f}, P {pv:.3f}); MI {mi:.3f} bits (null {nmm:.3f}); '
-                  f'register->{dim} accuracy {acc:.3f} vs modal {base:.3f}')
-            # single-feature comparators for the fine type
-            obj = np.array([t['tf'] for t in T])
-            for f in ('len', 'head', 'opener', 'numser'):
-                if f in feats:
-                    lf = np.array([hash(t[f]) % 10**6 for t in T])
-                    acc, base = map_accuracy(lf, obj)
-                    P(f'  comparator {f} alone -> fine type: AMI {AMI(obj, lf):.3f}, accuracy {acc:.3f}')
-            res[(tag, K)] = dict(K=K, stab=stab, labels=lab.tolist(), cv=cv)
-            if tag == 'with_len' and K == Ksel:
-                json.dump(dict(level=level, K=K, feats=feats, cats=[{str(kk): vv for kk, vv in c.items()} for c in m.cats],
-                               pi=m.pi.tolist(), theta=[th.tolist() for th in m.theta],
-                               labels={t['id']: int(l) for t, l in zip(T, lab)}),
-                          open(OUT + f'loop69_model_{level}.json', 'w'))
+    for unit, T in (('objects', T0), ('dedup', dedup(T0))):
+        P(f'\n######## unit = {unit}: {len(T)} complete texts; fine types: ' + ', '.join(f'{k} {v}' for k, v in collections.Counter(t["tf"] for t in T).most_common()))
+        for tag, feats in (('with_len', FEATS), ('no_len', FEATS_NOLEN)):
+            if unit == 'dedup' and tag == 'no_len': continue
+            P(f'\n## Feature set {tag} ({len(feats)} features)')
+            cv = cv_select(T, feats, range(1, 21))
+            bestK, Ksel, mean = choose_K(cv)
+            P('held-out loglik per text by K: ' + ', '.join(f'K{K} {v:.3f}' for K, v in mean.items()))
+            P(f'best K {bestK}; parsimonious K (1-SE, fold-paired): {Ksel}')
+            for K in sorted({Ksel, bestK}):
+                m, stab, X = best_fit(T, feats, K)
+                lab = m.predict(X)
+                P(f'\n### K = {K} ({unit}, {tag}): stability (mean ARI over 8 restarts) {stab:.3f}; class sizes ' +
+                  ', '.join(f'R{k} {int((lab == k).sum())}' for k in range(K)))
+                overall = {f: collections.Counter(t[f] for t in T) for f in feats}
+                for f in overall:
+                    n = len(T); overall[f] = {v: c / n for v, c in overall[f].items()}
+                for k in range(K):
+                    P(f'  R{k} n={int((lab == k).sum())}: top types ' + ', '.join(f'{a} {b}' for a, b in name_register(T, lab, k)))
+                    for line in describe_register(T, lab, k, feats, overall):
+                        if not line.split(': ')[1].startswith(('no 1.00', 'none 1.00')): P('      ' + line)
+                for dim in ('tf', 'tc', 'shape', 'material', 'boss', 'sides'):
+                    obj = np.array([t[dim] for t in T])
+                    keep = obj != 'unknown'
+                    ami, (nm, n97, pv), mi, (nmm, nm97) = perm_null_ami(lab[keep], obj[keep], NP)
+                    acc, base = map_accuracy(lab[keep], obj[keep])
+                    P(f'  {dim:9s} n={keep.sum()}: AMI {ami:.3f} (null mean {nm:.4f}, 97.5% {n97:.4f}, P {pv:.3f}); MI {mi:.3f} bits (null {nmm:.3f}); '
+                      f'register->{dim} accuracy {acc:.3f} vs modal {base:.3f}')
+                obj = np.array([t['tf'] for t in T])
+                o, nm, n97, pv = cond_perm_ami(lab, obj, [t['len'] for t in T], min(NP, 300))
+                P(f'  CONTROL within-length null (register permuted inside length bin): AMI(tf) {o:.3f} vs {nm:.3f} (97.5% {n97:.3f}, P {pv:.3f})')
+                o, nm, n97, pv = cond_perm_ami(lab, obj, [t['len'] + '|' + t['head'] for t in T], min(NP, 300))
+                P(f'  CONTROL within length x head null: AMI(tf) {o:.3f} vs {nm:.3f} (97.5% {n97:.3f}, P {pv:.3f})')
+                o, nm, n97, pv = cond_perm_ami(lab, obj, [t['site'] if t['big'] else 'other' for t in T], min(NP, 300))
+                P(f'  CONTROL within-site null: AMI(tf) {o:.3f} vs {nm:.3f} (97.5% {n97:.3f}, P {pv:.3f})')
+                for f in ('len', 'head', 'opener', 'numser'):
+                    if f in feats:
+                        lf = np.array([t[f] for t in T])
+                        acc, base = map_accuracy(lf, obj)
+                        P(f'  comparator {f} alone -> fine type: AMI {AMI(obj, lf):.3f}, accuracy {acc:.3f}')
+                lf = np.array([t['len'] + '|' + t['head'] for t in T]); acc, _ = map_accuracy(lf, obj)
+                P(f'  comparator len x head cell ({len(set(lf))} cells) -> fine type: AMI {AMI(obj, lf):.3f}, accuracy {acc:.3f}')
+                P(f'  supervised ceiling (naive Bayes, same features, 5-fold) -> fine type accuracy {nb_ceiling(T, feats, "tf"):.3f}; coarse {nb_ceiling(T, feats, "tc"):.3f}')
+                if unit == 'objects' and tag == 'with_len' and K == Ksel:
+                    json.dump(dict(level=level, K=K, feats=feats, cats=[{str(kk): vv for kk, vv in c.items()} for c in m.cats],
+                                   pi=m.pi.tolist(), theta=[th.tolist() for th in m.theta],
+                                   labels={t['id']: int(l) for t, l in zip(T, lab)}),
+                              open(OUT + f'loop69_model_{level}.json', 'w'))
     open(OUT + f'loop69_c1_{level}.txt', 'w').write('\n'.join(LOG))
 
 def load_model(level):
@@ -513,9 +573,9 @@ def cycle3(level):
         P(f'  {g}: n={len(idx)}; refit stability {stab:.2f}; ARI(global, local refit) {ari:.3f}; AMI with fine type: global map {ami_glob:.3f}, local refit {ami_loc:.3f}; '
           f'accuracy global {acc_g:.3f} / local {acc_l:.3f} vs modal {base:.3f}')
         # cv: K chosen locally
-        cv = cv_select(Tg, d['feats'], range(1, 11), restarts=3)
-        bestK = max(cv, key=cv.get); Ksel = min(k for k in cv if cv[k] >= cv[bestK] - 0.005)
-        P(f'      local held-out loglik: best K {bestK}, smallest within 0.005: {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in cv.items()))
+        cv = cv_select(Tg, d['feats'], range(1, 16), restarts=3)
+        bestK, Ksel, mean = choose_K(cv)
+        P(f'      local held-out loglik: best K {bestK}, 1-SE K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
     P('  register shares among SEALS by site (global map):')
     for s in ['Mohenjo-daro', 'Harappa', 'Lothal', 'Kalibangan', 'Dholavira', 'Chanhu-daro', 'HELD-OUT-ALL', 'FOREIGN']:
         if s == 'HELD-OUT-ALL': idx = [i for i, t in enumerate(T) if not t['big'] and t['tc'] == 'seal' and not t['foreign']]
@@ -565,16 +625,18 @@ def cycle4(level):
         obj = np.array([I[i]['tf'] for i in sub]); l = labi[sub]
         ami, (nm, n97, pv), mi, (nmm, nm97) = perm_null_ami(l, obj, NP)
         acc, base = map_accuracy(l, obj)
-        # Wells-trained majority map (coarse Wells type -> IM77 type names)
-        wmap = {}
-        wtc = np.array([{'seal': 'seal', 'tablet': 'tablet', 'sealing': 'sealing', 'pot': 'pot'}.get(t['tc'], 'misc') for t in T])
-        for k in range(K): wmap[k] = collections.Counter(wtc[labw == k]).most_common(1)[0][0]
-        # IM77 'tablet' = miniature tablet (Harappa moulded/incised), 'tab_cu' copper; 'sealing' in IM77 includes Harappa moulded tablets? keep recorded
-        obj2 = np.array(['tablet' if o == 'tab_cu' else o for o in obj])
-        acc_w = np.mean([wmap[k] == o for k, o in zip(l, obj2)])
-        base_w = collections.Counter(obj2).most_common(1)[0][1] / len(obj2)
+        # Wells-trained majority map, translated into IM77 categories: IM77 'sealing' = Wells TAB:B moulded tablets + TAG sealings,
+        # 'miniature tablet' = Wells TAB:I, 'copper tablet' = TAB:C
+        W2I = {'seal_sq': 'seal', 'seal_bar': 'seal', 'seal_round': 'seal', 'seal_oth': 'seal', 'tab_mould': 'sealing', 'sealing': 'sealing',
+               'tab_inc': 'tablet', 'tab_cu': 'tab_cu', 'pot': 'pot', 'rod': 'rod'}
+        wtc = np.array([W2I.get(t['tf'], 'misc') for t in T])
+        wmap = {k: collections.Counter(wtc[labw == k]).most_common(1)[0][0] for k in range(K)}
+        acc_w = np.mean([wmap[k] == o for k, o in zip(l, obj)])
+        base_w = collections.Counter(obj).most_common(1)[0][1] / len(obj)
+        # null for the Wells-learned map: IM77 labels permuted among texts
+        nullw = [np.mean([wmap[k] == o for k, o in zip(l, rng.permutation(obj))]) for _ in range(min(NP, 500))]
         P(f'  {label}: n={len(sub)}; AMI(register, type) {ami:.3f} (null {nm:.4f}, 97.5% {n97:.4f}, P {pv:.3f}); MI {mi:.3f} bits; '
-          f'IM77-learned map accuracy {acc:.3f} vs modal {base:.3f}; Wells-learned map accuracy {acc_w:.3f} vs modal {base_w:.3f}')
+          f'IM77-learned map accuracy {acc:.3f} vs modal {base:.3f}; Wells-learned map accuracy {acc_w:.3f} vs modal {base_w:.3f} (permuted-label null {np.mean(nullw):.3f}, 97.5% {np.quantile(nullw, 0.975):.3f})')
     # the Wells 70% overlap check: IM77-only vs overlap
     # IM77 type mix per register in new texts
     sub = [i for i, t in enumerate(I) if t['new']]
@@ -586,9 +648,9 @@ def cycle4(level):
         P(f'  {names[k]} n={len(idx)}: ' + ', '.join(f'{a} {b}' for a, b in c.most_common(5)) + ' | e.g. ' +
           ' | '.join(f"{I[i]['id']} {'-'.join(map(str, I[i]['seq']))}" for i in idx[:3]))
     # refit on IM77 alone: does K hold and do classes match?
-    cv = cv_select(I, d['feats'], range(1, 13), restarts=3)
-    bestK = max(cv, key=cv.get); Ksel = min(k for k in cv if cv[k] >= cv[bestK] - 0.005)
-    P(f'\nIM77 own fit: held-out loglik best K {bestK}, smallest within 0.005: {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in cv.items()))
+    cv = cv_select(I, d['feats'], range(1, 21), restarts=3)
+    bestK, Ksel, mean = choose_K(cv)
+    P(f'\nIM77 own fit: held-out loglik best K {bestK}, 1-SE K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
     mi_, stab, Xi2 = best_fit(I, d['feats'], K, restarts=6, cats_from=T)
     li = mi_.predict(Xi2)
     P(f'IM77 refit at K={K}: stability {stab:.2f}; ARI(Wells-model labels, IM77 refit labels) {ARI(labi, li):.3f}; '
