@@ -1,0 +1,54 @@
+S-DARK-24 cycle 1: aligning Wells and Mahadevan (IM77) readings object by object; disagreement inventory
+Scripts: tools/dark24_align.py (matching + alignment), tools/dark24_analyze.py (classification, confusion matrix)
+Data: data/derived/dark/loop24_pairs.json (every IM77 text's best Wells match, accepted flag), loop24_pairs_null.json (wrong-site control),
+      loop24_corr.json (W->M correspondence used: bridge + learned), loop24_systematic.json, loop24_positions.json, loop24_align_log.txt, loop24_cycle1_log.txt
+
+METHOD
+- IM77 text = all lines of a text number (sides, lines in order), M sign 0 kept as a 'lost' token. Wells object = seq_raw with the
+  000 (lost) tokens restored from data/raw/inscriptions.csv, in reading order; for two-line Wells texts both line orders are tried.
+- Within the same site (MD, HP, LL, KB, CD; 'other sites' and 'West Asia' pooled), bridge-aware edit distance: substitution cost 0 if
+  M is in the correspondence set of W, 1 otherwise, 0.5 if W has no correspondence, 0.25 for a lost token; indel 1 (0.5 for a lost token).
+- Accept: length >= 3, cost <= 1 + 0.15 L, object type compatible (Mahadevan 'sealing' = Wells TAG or TAB), field symbol not in
+  conflict (unicorn / zebu / elephant / tiger / rhino / goat / buffalo / hare / gharial / composite / none), unique best (margin 0.5)
+  unless cost 0 (identical readings; object identity then ambiguous but the readings are comparable).
+- Correspondence learned in two passes from accepted pairs: (i) 57 Wells signs the bridge lacks got a dominant M partner (>= 3
+  tokens, >= 60%); (ii) two BRIDGED signs are read by Mahadevan as a different M sign on nearly every object (systematic
+  definition differences, not noise) and were added: W798 -> M53 (51/51 tokens, 51 texts; the bridge said M216 = W550) and
+  W806 -> M389 (31/34; the bridge said M387 = W803).
+- Control: the whole procedure with each IM77 text matched against a same-sized pool of Wells objects from the WRONG sites.
+
+RESULTS
+Matching: 1,363 of 2,484 IM77 texts (length >= 3) accepted at home (823 identical, 540 with at least one difference);
+  wrong-site control 119 (4.3% of the same texts; 24 identical). Field-symbol agreement of accepted matches (where both sides give
+  a known class): 90% at cost 0, 84-86% at cost 0.5-1.0, 75% at 1.5, ~50% at >= 1.75. Chance object matches by cost band (home vs
+  wrong-site): cost 0-0.5 1,056 vs 44; 0.75-1.0 178 vs 24; 1.25-1.5 92 vs 35; >= 1.75 37 vs 16. So disagreement statistics are
+  clean only for pairs with cost <= 1.0 (one plain difference); pairs with two or more differences are up to one-third to one-half
+  chance matches of different objects carrying similar texts (upper bound: formulae genuinely recur across sites).
+Aligned positions (1,363 pairs, 7,390 positions): agree 6,418; Wells sign with no correspondence 384 (5.2%, rare signs);
+  Wells marks LOST where Mahadevan reads a sign 186 (+8 extra), Mahadevan marks lost where Wells reads a sign 34 (+64 extra lost
+  tokens); both lost 91; SUBSTITUTION (both read a sign, different sign) 109 = 1.67% of 6,527 sign-to-sign positions
+  (deduplicated by distinct text pair: 87 / 5,937 = 1.47%); one transcriber reads a sign the other omits: Mahadevan-only 38,
+  Wells-only 9; segmentation (one sign read as a doubled sign, e.g. W617 = M245 245, W519 = M153 153, W36 = M89 89): 45 + 4.
+  By site: MD 1.12% substitutions (50 / 4,455), Harappa 3.25% (47 / 1,447; 2.0% deduplicated), Lothal 1.9%, Kalibangan 3.1%,
+  Chanhu-daro 1.3%. Harappa's excess is one decision copied over duplicate tablets: W388 read as M48 (= W176) on 22 tokens of ONE text.
+Validation against Mahadevan's own doubtful marks (*): agree positions 1.1% doubtful; substitutions 7.3%; Wells-lost / Mahadevan-reads
+  26.3%; Mahadevan-only insertions 21.1%; wrong-site control pairs 1.6% at the same 'lost' class. The alignment is finding the
+  genuinely hard spots, and the wrong-site pairs are not.
+Position: substitution rate first sign 3.1% (MD 0.4%, Harappa 11.6% = the W388/M48 tablet), middle 1.7%, LAST sign 0.4%
+  (5 / 1,187): the closer slot is the most reliably read position in both transcriptions.
+Confusion matrix (before removing the two systematic mappings): dominated by W798->M53 (51), W806->M389 (30), W388->M48 (22,
+  one text); recurrence of specific pairs otherwise AT chance (pairs recurring >= 2: 16 vs permuted-partner null 24).
+  After removing them (residual 109 substitutions): pairs recurring >= 2: 12 vs null median 7 (95% 10; P = 0.011); >= 3: 5 vs 2
+  (P = 0.003); mean glyph similarity of the confused Wells pairs 0.73 vs null 0.555 (95% 0.58; P = 0.001); weight on pairs
+  already in a Wells merge class 5 vs null 0 (P = 0.001). Residual recurring pairs (distinct texts): W740<->W741 jar vs marked
+  jar (6), W220<->W233 plain fish vs barred fish (4), W803<->W806 (4, MD), W220<->W231 (2), W220<->W235 (2), W233<->W235 (2),
+  W550<->W798 (2), W900<->W920 (2), W31<->W32 (2), W368<->W520 (2, Harappa).
+Mahadevan's readings of the merge candidates (tokens, distinct texts): SPLITS Wells pairs that the project merges or proposes to
+  merge: W384 = M326 (13) vs W388 = M327 (25) [S-DARK-11.3 candidate W384 = W388]; W803 = M387 (64) vs W806 = M389 (65) [S268
+  'strong' class 803/806, whose Mahadevan support was a bridge error]; W390 = M162 (120) vs W405/406/407 = M169 (40/7/42) [S268
+  strong class 390/405/406: Mahadevan keeps the plain tree apart and lumps the three variants]; W151 = M12 (34) vs W156 = M15 (16)
+  [S268 doubtful, confirmed separate]. LUMPS Wells signs the project keeps apart: W154/W156/W158 all = M15 (15/16/5); W615/W617 = M245
+  (43/23); W510/W511 = M253; W904/W927 = M294; W336/W337 = M193 and W812/W814 = M381 and W526/W527 = M254 (these three agree with
+  S268). W27/W28 = M119 (bridge; 1 token here).
+
+| S-DARK-24.1 | Transcriber disagreement as data. Wells (seq_raw + 000 lost tokens) and Mahadevan IM77 readings aligned object by object within site by bridge-aware edit distance (sub 0 if M in the W sign's correspondence set, else 1; unknown 0.5; lost 0.25); accepted if cost <= 1 + 0.15 L, object type compatible, field symbol not in conflict, unique best. Correspondence = bridge + learned dominant partners for 57 unbridged Wells signs + systematic mappings. Control: same procedure against wrong-site Wells objects. Validation: Mahadevan's own doubtful marks (`tools/dark24_align.py`, `dark24_analyze.py`) | **1,363 IM77 texts matched (823 identical readings, 540 with differences) vs 119 at wrong sites (4.3%); field-symbol agreement 90% at cost 0, ~50% at cost >= 1.75, so only one-difference pairs are clean.** 7,390 aligned positions: substitutions 109 / 6,527 sign-to-sign positions = 1.7% (1.5% deduplicated); Mahadevan reads a sign where Wells marks lost 186, the reverse 34; one-sided extra sign 38 (M) / 9 (W); doubling-segmentation 49 (W617 = M245 245, W519 = M153 153, W36 = M89 89). Doubtful marks: 1.1% at agreements, 7.3% at substitutions, 26% at Wells-lost positions (control 1.6%). Last sign 0.4% substitutions vs first 3.1%, middle 1.7%. **Two systematic bridge errors found: W798 = M53 (51/51 tokens; bridge said M216 = W550) and W806 = M389 (31/34; bridge said M387 = W803).** After removing them, residual confused pairs are shape-similar (glyph 0.73 vs null 0.56, P = 0.001), recur above chance (12 vs 7, P = 0.011) and are mostly jar/marked-jar (740/741), fish/marked-fish (220/233/231/235), 803/806, 550/798, 900/920, 31/32. Mahadevan SPLITS 384 (M326) / 388 (M327), 803 (M387) / 806 (M389), 390 (M162) / 405-406-407 (M169), 151 (M12) / 156 (M15); LUMPS 154/156/158 = M15, 615/617 = M245, 510/511 = M253, 904/927 = M294 | **The two transcriptions agree on 98.3% of sign-to-sign positions; the disagreement load sits in lost-vs-read positions (condition) and in a small set of shape-similar sign pairs, not in random noise.** Corrections: (1) the bridge's W798 -> M216 and W806 -> M387 are wrong (fix in bridge_extended.json: W798 = M53, W806 = M389); (2) the S268 'strong' merge 803/806 loses its Mahadevan support (he splits them on 129 tokens) and 390/405 likewise (M162 vs M169); (3) S-DARK-11.3's W384 = W388 is contradicted by Mahadevan (M326 vs M327). W154/156/158 = M15 and W615/617 = M245 are new lump candidates for the interchangeability test (cycle 2). Caveat: 76% of pairs are Mohenjo-daro; Harappa's rate is one duplicated tablet decision. |
