@@ -1,0 +1,12 @@
+# S-DARK-20.2 allograph clock: per text, one feature per variant set (+1 variant form present, -1 canonical only, 0 absent), 28 sets; ridge regression (lambda 1) to stratum-residualised time (site x area x object type); 5-fold CV within city and train-one-city/test-the-other; control = shuffled-variant clock (features permuted within stratum, 500x)
+sets: 90:90/93 156:156/151 154:154/158 240:240/242 297:297/298 317:317/315 320:320/318 337:337/336 371:371/370 390:390/405/406 413:413/511 527:527/526 630:630/632/636 705:705/704/706 717:717/711 745:745/744 772:772/773 803:803/806/838 812:812/814 861:861/817 820:820/825 868:868/871 824:824/877 384x388:384/388 27x28:27/28 525x526:525/526 850x851:850/851 390x407:390/407
+Mohenjo-daro vs depth (5-fold CV): n=1325 held-out Spearman(pred, residual time) = +0.015; shuffled-variant clock mean -0.011 sd 0.037; P = 0.255
+Mohenjo-daro vs period (5-fold CV): n=780 held-out Spearman(pred, residual time) = -0.020; shuffled-variant clock mean -0.020 sd 0.047; P = 0.501
+Harappa vs depth (5-fold CV): n=934 held-out Spearman(pred, residual time) = -0.023; shuffled-variant clock mean -0.026 sd 0.040; P = 0.489
+Harappa vs period (5-fold CV): n=431 held-out Spearman(pred, residual time) = -0.108; shuffled-variant clock mean -0.035 sd 0.062; P = 0.874
+train Mohenjo-daro -> test Harappa vs depth: train n=1325 test n=934; Spearman(pred, residual time) = +0.065; null mean -0.001 sd 0.031; P = 0.018
+   weights (later = +): 812:-2.73 371:+2.63 154:-2.26 868:-1.50 337:-1.07 317:-0.99 850x851:+0.84 297:+0.68
+train Harappa -> test Mohenjo-daro vs depth: train n=934 test n=1325; Spearman(pred, residual time) = +0.028; null mean +0.001 sd 0.028; P = 0.162
+   weights (later = +): 772:+2.04 390x407:+1.61 527:-1.41 320:+1.36 812:-1.09 297:+0.99 27x28:+0.90 413:+0.89
+train Mohenjo-daro -> test Harappa vs period: train n=780 test n=431; Spearman(pred, residual time) = +0.013; null mean -0.008 sd 0.049; P = 0.351
+train Harappa -> test Mohenjo-daro vs period: train n=431 test n=780; Spearman(pred, residual time) = -0.026; null mean -0.002 sd 0.035; P = 0.735

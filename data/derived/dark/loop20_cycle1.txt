@@ -1,0 +1,62 @@
+# S-DARK-20.1 drift test: variant form share vs time, per city; token level, permutation 2000x of time labels across texts within site x area x object type; Spearman(form indicator, time residualised on stratum mean); larger = later (age = -depth ft; period = HARP fine period at Harappa, Marshall Early/Int/Late at Mohenjo-daro when fine missing)
+# texts: MD 1883, HP 2528; with depth MD 1325 HP 934; with period MD 780 HP 431
+
+## Mohenjo-daro vs depth (age): 9 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+156	151	doubtful	63	35	+0.064	0.6027	0.947
+390	405	strong	142	22	+0.052	0.5337	0.947
+390	406	strong	142	6	+0.004	0.9415	0.947
+705	706	strong	110	39	+0.191	0.0040	0.036
+803	806	strong	117	47	+0.071	0.5692	0.947
+803	838	probable	117	9	-0.216	0.4103	0.947
+861	817	strong	183	87	+0.007	0.9155	0.947
+384x388	388	cand	30	22	+0.139	0.6982	0.947
+390x407	407	cand	156	42	+0.040	0.9470	0.947
+survivors q<0.1: 1 of 9; p<0.05: 1 (expected 0.5)
+
+## Mohenjo-daro vs period: 7 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+156	151	doubtful	49	25	+0.128	0.2979	0.980
+390	405	strong	76	10	+0.005	0.9795	0.980
+705	706	strong	54	19	+0.017	0.8841	0.980
+803	806	strong	67	28	+0.102	0.7416	0.980
+803	838	probable	67	8	-0.250	0.0575	0.402
+861	817	strong	109	49	-0.050	0.5622	0.980
+390x407	407	cand	81	18	+0.168	0.4248	0.980
+survivors q<0.1: 0 of 7; p<0.05: 0 (expected 0.4)
+
+## Harappa vs depth (age): 5 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	56	21	+0.205	0.6347	0.861
+705	706	strong	42	16	+0.117	0.3528	0.861
+803	806	strong	44	23	-0.043	0.8611	0.861
+861	817	strong	66	38	+0.031	0.7476	0.861
+390x407	407	cand	49	16	+0.535	0.0005	0.002
+survivors q<0.1: 1 of 5; p<0.05: 1 (expected 0.2)
+
+## Harappa vs period: 4 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	30	13	-0.016	0.9915	0.992
+803	806	strong	37	22	-0.054	0.8656	0.992
+861	817	strong	40	21	+0.132	0.6097	0.992
+390x407	407	cand	30	13	+0.265	0.1349	0.540
+survivors q<0.1: 0 of 4; p<0.05: 0 (expected 0.2)
+
+## Cross-city agreement (sets testable in both cities)
+
+### depth: 5 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.052	0.534	+0.205	0.635	same
+705	706	+0.191	0.004	+0.117	0.353	same
+803	806	+0.071	0.569	-0.043	0.861	opp
+861	817	+0.007	0.916	+0.031	0.748	same
+390x407	407	+0.040	0.947	+0.535	0.000	same
+same-direction 4 of 5 (binomial P(>= 4) = 0.188); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.01)
+
+### period: 4 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.005	0.980	-0.016	0.992	opp
+803	806	+0.102	0.742	-0.054	0.866	opp
+861	817	-0.050	0.562	+0.132	0.610	opp
+390x407	407	+0.168	0.425	+0.265	0.135	same
+same-direction 1 of 4 (binomial P(>= 1) = 0.938); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.01)

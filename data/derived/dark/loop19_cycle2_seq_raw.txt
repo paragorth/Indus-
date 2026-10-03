@@ -7,3 +7,129 @@
      seal           groups   32 extra-objects   57: distinct-order excess (k-1)/(n-1) = 0.018; whole-shuffle null 0.807 [0.737,0.877]; within-slot null 0.316; order retained vs free 0.98; summed H 1.00 bits
      sealing        groups    5 extra-objects   29: distinct-order excess (k-1)/(n-1) = 0.000; whole-shuffle null 0.931 [0.862,0.966]; within-slot null 0.448; order retained vs free 1.00; summed H 0.00 bits
      other          groups    6 extra-objects    8: distinct-order excess (k-1)/(n-1) = 0.125; whole-shuffle null 1.000 [0.750,1.000]; within-slot null 0.625; order retained vs free 0.88; summed H 0.92 bits
+   split by site:
+     Harappa        groups  119 extra-objects  343: distinct-order excess (k-1)/(n-1) = 0.017; whole-shuffle null 0.749 [0.726,0.770]; within-slot null 0.312; order retained vs free 0.98; summed H 4.78 bits
+     Mohenjo-daro   groups   55 extra-objects  150: distinct-order excess (k-1)/(n-1) = 0.000; whole-shuffle null 0.867 [0.833,0.907]; within-slot null 0.513; order retained vs free 1.00; summed H 0.00 bits
+     Lothal         groups    5 extra-objects   23: distinct-order excess (k-1)/(n-1) = 0.043; whole-shuffle null 0.870 [0.826,0.957]; within-slot null 0.304; order retained vs free 0.95; summed H 1.00 bits
+     Kalibangan     groups    1 extra-objects    7: distinct-order excess (k-1)/(n-1) = 0.000; whole-shuffle null 1.000 [1.000,1.000]; within-slot null 1.000; order retained vs free 1.00; summed H 0.00 bits
+     Chanhu-daro    groups    4 extra-objects    6: distinct-order excess (k-1)/(n-1) = 0.000; whole-shuffle null 0.833 [0.667,1.000]; within-slot null 0.333; order retained vs free 1.00; summed H 0.00 bits
+   split by all:
+     all            groups  186 extra-objects  531: distinct-order excess (k-1)/(n-1) = 0.013; whole-shuffle null 0.795 [0.776,0.812]; within-slot null 0.375; order retained vs free 0.98; summed H 5.78 bits
+   pots vs seals: distinct-order excess pot 0.000 seal 0.018 tablet 0.012; pot-seal diff -0.018, type-label permutation within site null median 0.000 [-0.053,0.000], P_hi 0.6993
+
+-- (c) pair order census: distinct (site,text) 2131; unordered sign pairs co-occurring in >=5 texts 794; fixed-order (one-sided binomial p<=.05) 511, after BH(0.05) 395; free (minority >=30%, n>=8) 63; ambiguous 220
+   null whole-text shuffle  : fixed pairs median 41 [max 59]; after BH median 0 [max 1]; same-frame-slot fixed pairs after BH median 0 [max 1]
+   null within-slot shuffle : fixed pairs median 376 [max 394]; after BH median 273 [max 288]; same-frame-slot fixed pairs after BH median 20 [max 27]
+   partial order: 117 signs, 395 fixed edges; cycles broken by dropping 1 weakest edges: [('W741(M343)', 'W820(M391)', 6)]
+   longest chain 16 signs (= slots the order needs): W320(M182)[NAME] -> W920(M293)[OPENER] -> W60(M123)[MARKER] -> W741(M343)[NAME] -> W2(M99/100)[MARKER] -> W840(M403)[NAME] -> W32(M87)[COUNT] -> W350(M174/175)[NAME] -> W798(M216)[NAME] -> W415(M171)[NAME] -> W220(M59)[NAME] -> W233(M72)[NAME] -> W705(M336)[NAME] -> W33(M89)[TITLE] -> W740(M342)[CLOSER] -> W400(M176)[SUFFIX]
+   signs by chain depth (0 = sinks/last): [(0, 14), (1, 5), (2, 47), (3, 12), (4, 4), (5, 4), (6, 7), (7, 4), (8, 3), (9, 3), (10, 1), (11, 2), (12, 5), (13, 1), (14, 4), (15, 1)]
+   same-majority-slot BH-fixed pairs (comparable to the null line above): 84, of which NEW (not a documented rule) 52
+   fixed edges: explained by frame slot order (per text) 293; both signs in the same frame slot 102 [of which documented in GRAMMAR.md/count rule 40, NEW 62]; against the frame 0
+   same-slot fixed pairs (ordering rules the frame does not give); top 60 by n (102):
+      W705(M336) [NAME] -> W33(M89) [TITLE] 59:1  GRAMMAR.md
+      W32(M87) [COUNT] -> W220(M59) [NAME] 43:8  count rule (numeral before item)
+      W415(M171) [NAME] -> W220(M59) [NAME] 39:0  NEW
+      W2(M99/100) [MARKER] -> W590(M249) [NAME] 25:12  NEW
+      W235(M65) [NAME] -> W240(M67) [NAME] 31:4  GRAMMAR.md
+      W706(M336) [NAME] -> W33(M89) [TITLE] 33:0  GRAMMAR.md
+      W255(M51) [NAME] -> W435(M130) [NAME] 33:0  GRAMMAR.md
+      W60(M123) [MARKER] -> W741(M343) [NAME] 30:0  GRAMMAR.md
+      W550(M216) [NAME] -> W60(M123) [MARKER] 21:5  NEW
+      W3(M102/103) [COUNT] -> W390(M161/162/167/168/169) [NAME] 23:1  count rule (numeral before item)
+      W60(M123) [MARKER] -> W220(M59) [NAME] 19:4  NEW
+      W235(M65) [NAME] -> W33(M89) [TITLE] 22:1  GRAMMAR.md (arrow phrase S299)
+      W2(M99/100) [MARKER] -> W405(M161/162/167/168/169) [NAME] 19:4  NEW
+      W125(M28) [NAME] -> W2(M99/100) [MARKER] 18:5  NEW
+      W235(M65) [NAME] -> W233(M72) [NAME] 17:4  GRAMMAR.md
+      W233(M72) [NAME] -> W33(M89) [TITLE] 19:2  GRAMMAR.md (arrow phrase S299)
+      W803(M387) [NAME] -> W233(M72) [NAME] 17:3  NEW
+      W803(M387) [NAME] -> W220(M59) [NAME] 17:3  NEW
+      W4(M104/105) [COUNT] -> W390(M161/162/167/168/169) [NAME] 19:1  count rule (numeral before item)
+      W220(M59) [NAME] -> W590(M249) [NAME] 17:3  NEW
+      W240(M67) [NAME] -> W233(M72) [NAME] 16:3  GRAMMAR.md
+      W2(M99/100) [MARKER] -> W806(M387) [NAME] 19:0  NEW
+      W741(M343) [NAME] -> W32(M87) [COUNT] 14:4  NEW
+      W240(M67) [NAME] -> W33(M89) [TITLE] 14:4  GRAMMAR.md (arrow phrase S299)
+      W17(M110/112) [COUNT] -> W585(M?) [TITLE] 18:0  GRAMMAR.md
+      W233(M72) [NAME] -> W705(M336) [NAME] 15:2  GRAMMAR.md (arrow phrase S299)
+      W798(M216) [NAME] -> W415(M171) [NAME] 14:2  NEW
+      W798(M216) [NAME] -> W240(M67) [NAME] 14:2  NEW
+      W741(M343) [NAME] -> W220(M59) [NAME] 14:2  NEW
+      W32(M87) [COUNT] -> W240(M67) [NAME] 13:3  count rule (numeral before item)
+      W235(M65) [NAME] -> W590(M249) [NAME] 13:3  NEW
+      W220(M59) [NAME] -> W33(M89) [TITLE] 14:2  GRAMMAR.md (arrow phrase S299)
+      W32(M87) [COUNT] -> W590(M249) [NAME] 15:0  count rule (numeral before item)
+      W3(M102/103) [COUNT] -> W220(M59) [NAME] 14:1  count rule (numeral before item)
+      W235(M65) [NAME] -> W705(M336) [NAME] 14:1  GRAMMAR.md (arrow phrase S299)
+      W861(M267) [OPENER] -> W368(M402) [NAME] 12:1  NEW
+      W240(M67) [NAME] -> W100(M8) [TITLE] 13:0  NEW
+      W176(M48) [TITLE] -> W100(M8) [TITLE] 13:0  GRAMMAR.md
+      W17(M110/112) [COUNT] -> W575(M197) [NAME] 12:1  GRAMMAR.md
+      W806(M387) [NAME] -> W240(M67) [NAME] 11:1  NEW
+      W740(M342) [CLOSER] -> W679(M139) [NAME] 10:2  GRAMMAR.md
+      W455(M233) [NAME] -> W220(M59) [NAME] 10:2  NEW
+      W455(M233) [NAME] -> W2(M99/100) [MARKER] 10:2  NEW
+      W31(M86) [COUNT] -> W400(M176) [SUFFIX] 10:2  count rule (numeral before item)
+      W171(M409) [NAME] -> W35(M96) [NAME] 12:0  NEW
+      W13(M103) [NAME] -> W840(M403) [NAME] 11:1  NEW
+      W741(M343) [NAME] -> W235(M65) [NAME] 10:1  NEW
+      W4(M104/105) [COUNT] -> W407(M169) [NAME] 11:0  count rule (numeral before item)
+      W231(M70) [NAME] -> W33(M89) [TITLE] 11:0  GRAMMAR.md (arrow phrase S299)
+      W16(M108/109) [COUNT] -> W220(M59) [NAME] 10:1  count rule (numeral before item)
+      W125(M28) [NAME] -> W390(M161/162/167/168/169) [NAME] 11:0  NEW
+      W845(M407) [NAME] -> W407(M169) [NAME] 10:0  NEW
+      W806(M387) [NAME] -> W233(M72) [NAME] 9:1  NEW
+      W590(M249) [NAME] -> W892(M?) [NAME] 9:1  NEW
+      W3(M102/103) [COUNT] -> W405(M161/162/167/168/169) [NAME] 9:1  count rule (numeral before item)
+      W220(M59) [NAME] -> W233(M72) [NAME] 9:1  NEW
+      W2(M99/100) [MARKER] -> W70(M155) [NAME] 9:1  NEW
+      W2(M99/100) [MARKER] -> W16(M108/109) [COUNT] 9:1  NEW
+      W1(M97/98) [COUNT] -> W4(M104/105) [COUNT] 9:1  NEW
+      W806(M387) [NAME] -> W33(M89) [TITLE] 8:1  NEW
+   fixed pairs AGAINST the frame slot order (0):
+   NEW same-slot rules by slot: [('NAME-NAME', 31), ('NAME-COUNT', 6), ('MARKER-NAME', 6), ('NAME-TITLE', 5), ('NAME-SUFFIX', 4), ('NAME-MARKER', 4), ('NAME-OPENER', 2), ('COUNT-COUNT', 2), ('MARKER-COUNT', 1), ('OPENER-NAME', 1)]
+   free pairs (both orders >=30%, n>=8), top 40 by n:
+      W2(M99/100) [MARKER] <-> W31(M86) [COUNT] 19:17
+      W220(M59) [NAME] <-> W240(M67) [NAME] 15:12
+      W390(M161/162/167/168/169) [NAME] <-> W741(M343) [NAME] 8:13
+      W220(M59) [NAME] <-> W235(M65) [NAME] 7:13
+      W407(M169) [NAME] <-> W740(M342) [CLOSER] 10:9
+      W2(M99/100) [MARKER] <-> W550(M216) [NAME] 11:7
+      W1(M97/98) [COUNT] <-> W31(M86) [COUNT] 11:7
+      W2(M99/100) [MARKER] <-> W350(M174/175) [NAME] 9:8
+      W31(M86) [COUNT] <-> W32(M87) [COUNT] 7:10
+      W2(M99/100) [MARKER] <-> W368(M402) [NAME] 5:11
+      W2(M99/100) [MARKER] <-> W900(M287) [NAME] 9:7
+      W1(M97/98) [COUNT] <-> W32(M87) [COUNT] 5:10
+      W590(M249) [NAME] <-> W741(M343) [NAME] 6:9
+      W2(M99/100) [MARKER] <-> W717(M341) [NAME] 7:6
+      W2(M99/100) [MARKER] <-> W920(M293) [OPENER] 4:9
+      W705(M336) [NAME] <-> W803(M387) [NAME] 4:9
+      W2(M99/100) [MARKER] <-> W416(M173) [NAME] 9:4
+      W32(M87) [COUNT] <-> W233(M72) [NAME] 7:6
+      W32(M87) [COUNT] <-> W33(M89) [TITLE] 6:7
+      W368(M402) [NAME] <-> W390(M161/162/167/168/169) [NAME] 7:5
+      W220(M59) [NAME] <-> W550(M216) [NAME] 7:5
+      W31(M86) [COUNT] <-> W861(M267) [OPENER] 4:8
+      W31(M86) [COUNT] <-> W741(M343) [NAME] 5:7
+      W240(M67) [NAME] <-> W803(M387) [NAME] 4:8
+      W32(M87) [COUNT] <-> W390(M161/162/167/168/169) [NAME] 8:4
+      W1(M97/98) [COUNT] <-> W220(M59) [NAME] 7:5
+      W2(M99/100) [MARKER] <-> W460(M230) [NAME] 8:4
+      W240(M67) [NAME] <-> W590(M249) [NAME] 5:6
+      W2(M99/100) [MARKER] <-> W575(M197) [NAME] 6:5
+      W240(M67) [NAME] <-> W415(M171) [NAME] 7:4
+      W2(M99/100) [MARKER] <-> W615(M?) [NAME] 6:5
+      W31(M86) [COUNT] <-> W220(M59) [NAME] 6:5
+      W140(M17) [NAME] <-> W920(M293) [OPENER] 6:4
+      W1(M97/98) [COUNT] <-> W60(M123) [MARKER] 3:7
+      W400(M176) [SUFFIX] <-> W520(M211) [CLOSER] 4:6
+      W33(M89) [TITLE] <-> W415(M171) [NAME] 4:6
+      W31(M86) [COUNT] <-> W33(M89) [TITLE] 5:5
+      W231(M70) [NAME] <-> W798(M216) [NAME] 4:6
+      W2(M99/100) [MARKER] <-> W690(M149) [NAME] 6:4
+      W235(M65) [NAME] <-> W390(M161/162/167/168/169) [NAME] 7:3
+   pair instances: total 20358; in BH-fixed pairs 8129 (0.399); in free pairs 761 (0.037); in pairs seen <5 times 0.455
+
+-- (c) held-out replication: 441 BH-fixed pairs from Mohenjo-daro+Harappa (1759 texts) tested on other sites (372 texts): direction agrees 994, disagrees 98 (0.910); within-slot-shuffle null agreement median 0.839 [95% 0.855]
+   same-frame-slot pairs only: agree 118, disagree 24 (0.831); null median 0.592 [95% 0.655]

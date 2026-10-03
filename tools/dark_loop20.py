@@ -10,9 +10,10 @@ import numpy as np
 CYCLE = int(sys.argv[1]) if len(sys.argv) > 1 else 1
 TYPEF = next((a[5:] for a in sys.argv if a.startswith('type=')), None)
 CONTROL = 'control' in sys.argv
+CSEED = next((int(a[5:]) for a in sys.argv if a.startswith('seed=')), 7)
 NPERM = 2000
 rng = np.random.default_rng(20 + CYCLE)
-OUT = open(f'data/derived/dark/loop20_cycle{CYCLE}{"_"+TYPEF if TYPEF else ""}{"_control" if CONTROL else ""}.txt', 'w')
+OUT = open(f'data/derived/dark/loop20_cycle{CYCLE}{"_"+TYPEF if TYPEF else ""}{"_control"+str(CSEED) if CONTROL else ""}.txt', 'w')
 def say(*a):
     s = ' '.join(str(x) for x in a); print(s); OUT.write(s + '\n'); OUT.flush()
 
@@ -60,7 +61,7 @@ if CONTROL:  # whole-machine control: shuffle time labels within site x area x t
     for o in OBJ: g[(o['site'], o['area'], o['type'])].append(o)
     for os_ in g.values():
         for key in ('age', 'per'):
-            vals = [o[key] for o in os_]; random.Random(7).shuffle(vals)
+            vals = [o[key] for o in os_]; random.Random(CSEED * 1000 + len(os_)).shuffle(vals)
             for o, v in zip(os_, vals): o[key] = v
 
 def strata(objs):
@@ -110,7 +111,7 @@ def bh(ps):
 
 def cycle1():
     say(f'# S-DARK-20.1 drift test: variant form share vs time, per city; token level, permutation {NPERM}x of time labels '
-        f'across texts within site x area x object type; Spearman(form indicator, time); larger time = later '
+        f'across texts within site x area x object type; Spearman(form indicator, time residualised on stratum mean); larger = later '
         f'(age = -depth ft; period = HARP fine period at Harappa, Marshall Early/Int/Late at Mohenjo-daro when fine missing)')
     say(f'# texts: MD {sum(o["site"]=="Mohenjo-daro" for o in OBJ)}, HP {sum(o["site"]=="Harappa" for o in OBJ)}; '
         f'with depth MD {sum(o["site"]=="Mohenjo-daro" and o["age"] is not None for o in OBJ)} HP {sum(o["site"]=="Harappa" and o["age"] is not None for o in OBJ)}; '
@@ -120,6 +121,7 @@ def cycle1():
         objs = [o for o in OBJ if o['site'] == city]; strat = strata(objs)
         for key in ('age', 'per'):
             t, gen = perm_time(objs, key, strat)
+            t = residualize(objs, t, strat)   # within-stratum deviation, so the null is centred on 0
             arrows = []
             for sk, S in SETS.items():
                 tok = tokens_for_set(objs, S['forms'])

@@ -9,3 +9,20 @@
   S322 rule sealobj    n=4291: unique 0.384 vs bigram 0.597; ratio 0.643 (sd 0.019); share_shared 0.706; seals/string 2.48
 
 ## loop4 caveat check: Ur III names deduplicated by NAME STRING (one copy per distinct name), n=1700 matched
+  distinct name strings from impression: n=1795: unique 1.000 vs bigram 0.851; ratio 1.175 (sd 0.014)  (forced to 1.0 unique by construction)
+  distinct name strings from legend: n=1794: unique 1.000 vs bigram 0.851; ratio 1.175 (sd 0.013)  (forced to 1.0 unique by construction)
+
+## Indus by sign level and site (seal_phys and text; n matched to the smaller side, Ur III legend sampled to the same n)
+  seq_raw all                                  seal_phys    n=1744: Indus ratio 0.967 (unique 0.844/0.873); Ur III legend at n=1744: ratio 0.596; Indus share_shared 0.156, seals/string 1.114; Zipf -1.358
+  seq_raw all                                  text         n=2663: Indus ratio 1.012 (unique 0.829/0.819); Ur III legend at n=2663: ratio 0.554; Indus share_shared 0.171, seals/string 1.125; Zipf -1.407
+  seq_raw all                                  object_seal  n=1744: Indus ratio 0.966 (unique 0.844/0.874); Ur III legend at n=1744: ratio 0.599; Indus share_shared 0.156, seals/string 1.114; Zipf -1.358
+  seq_raw MD                                   seal_phys    n=1081: Indus ratio 0.982 (unique 0.872/0.889); Ur III legend at n=1081: ratio 0.657; Indus share_shared 0.128, seals/string 1.086; Zipf -1.274
+  seq_raw MD                                   text         n=1266: Indus ratio 1.024 (unique 0.912/0.891); Ur III legend at n=1266: ratio 0.636; Indus share_shared 0.088, seals/string 1.055; Zipf -1.302
+  seq_raw MD                                   object_seal  n=1081: Indus ratio 0.983 (unique 0.872/0.888); Ur III legend at n=1081: ratio 0.662; Indus share_shared 0.128, seals/string 1.086; Zipf -1.274
+  seq_raw Harappa                              seal_phys    n=319: Indus ratio 1.018 (unique 0.909/0.893); Ur III legend at n=319: ratio 0.810; Indus share_shared 0.091, seals/string 1.063; Zipf -1.087
+  seq_raw Harappa                              text         n=864: Indus ratio 1.113 (unique 0.856/0.770); Ur III legend at n=864: ratio 0.681; Indus share_shared 0.144, seals/string 1.094; Zipf -1.198
+  seq_raw Harappa                              object_seal  n=319: Indus ratio 1.019 (unique 0.909/0.892); Ur III legend at n=319: ratio 0.818; Indus share_shared 0.091, seals/string 1.063; Zipf -1.087
+  seq_raw Lothal+Kalibangan+Dholavira+Chanhu   seal_phys    n=229: Indus ratio 1.008 (unique 0.921/0.914); Ur III legend at n=229: ratio 0.851; Indus share_shared 0.079, seals/string 1.041; Zipf -0.968
+  seq_raw Lothal+Kalibangan+Dholavira+Chanhu   text         n=354: Indus ratio 1.065 (unique 0.929/0.873); Ur III legend at n=354: ratio 0.801; Indus share_shared 0.071, seals/string 1.041; Zipf -1.031
+  seq_raw Lothal+Kalibangan+Dholavira+Chanhu   object_seal  n=229: Indus ratio 1.015 (unique 0.921/0.908); Ur III legend at n=229: ratio 0.863; Indus share_shared 0.079, seals/string 1.041; Zipf -0.968
+  seq_strong all                                  seal_phys    n=1744: Indus ratio 0.953 (unique 0.827/0.868); Ur III legend at n=1744: ratio 0.605; Indus share_shared 0.173, seals/string 1.129; Zipf -1.369
