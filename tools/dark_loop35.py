@@ -104,7 +104,7 @@ CLASSES=[k for k,n in cnt.most_common() if k not in ('none','OPN') and n>=8]   #
 print(f'== S-DARK-35 cycle {CY} level {LV} nperm {NP}: complete seal texts {len(OBJ)}, home {len(home)}; closer counts {dict(cnt)}')
 print('closer classes used (>= 8 home seals):',[Mno(c) for c in CLASSES])
 # ---------- mixed-model engine ----------
-def design(objs,classes,ref=740,site_fe=True):
+def design(objs,classes,ref=740,site_fe=True,use_mat=True,use_emb=True):
     """fixed: intercept, closer dummies (ref=jar; 'none' and 'OPN' and rare closers as own levels), length bins, site,
     material class, emblem class. random: site x area-section."""
     cols=['int']; X=[np.ones(len(objs))]
@@ -117,10 +117,10 @@ def design(objs,classes,ref=740,site_fe=True):
     if site_fe:
         for s in sorted(set(o['site'] for o in objs))[1:]:
             X.append(np.array([1.0 if o['site']==s else 0.0 for o in objs])); cols.append(f'site:{s}')
-    for m in sorted(set(o['mat'] for o in objs),key=lambda x:(x is None,x)):
+    for m in (sorted(set(o['mat'] for o in objs),key=lambda x:(x is None,x)) if use_mat else []):
         if m==2: continue
         X.append(np.array([1.0 if o['mat']==m else 0.0 for o in objs])); cols.append(f'mat:{m}')
-    for e in ('none','other','unk'):
+    for e in (('none','other','unk') if use_emb else []):
         v=np.array([1.0 if o['emb']==e else 0.0 for o in objs])
         if v.sum()>0: X.append(v); cols.append(f'emb:{e}')
     X=np.column_stack(X)
@@ -137,7 +137,8 @@ def _solve(P,lam):
     D=1.0/(lam+P['ng'])
     A=P['XtX']-(P['XtZ']*D)@P['XtZ'].T
     bv=P['Xty']-P['XtZ']@(D*P['Zty'])
-    b=np.linalg.solve(A,bv)
+    try: b=np.linalg.solve(A,bv)
+    except np.linalg.LinAlgError: b=np.linalg.pinv(A)@bv
     yVy=P['yty']-float(P['Zty']@(D*P['Zty']))
     rVr=yVy-2*float(b@bv)+float(b@A@b)
     return b,A,rVr
@@ -156,12 +157,12 @@ def reml_fit(y,X,Z,lam=None,grid=np.logspace(-2,2.5,19)):
             if best is None or ll>best[0]: best=(ll,lm,b,s2,A)
         ll,lam,b,s2,A=best
     else: ll,b,s2,A=crit(lam)
-    se=np.sqrt(np.maximum(np.diag(np.linalg.inv(A)),0)*s2)
+    se=np.sqrt(np.maximum(np.diag(np.linalg.pinv(A)),0)*s2)
     return b,se,lam,s2,lam
 def refit(y,X,Z,lam):
     b,A,rVr=_solve(_parts(y,X,Z),lam); return b
-def closer_effects(objs,y,classes,lam=None,Vi=None,ref=740):
-    X,cols,Z=design(objs,classes,ref)
+def closer_effects(objs,y,classes,lam=None,Vi=None,ref=740,use_mat=True,use_emb=True):
+    X,cols,Z=design(objs,classes,ref,True,use_mat,use_emb)
     if Vi is None: b,se,lam,s2,Vi=reml_fit(y,X,Z,lam)
     else: b=refit(y,X,Z,Vi); se=np.full(len(b),np.nan); s2=np.nan
     eff={ref:0.0}; sef={ref:0.0}
@@ -271,7 +272,7 @@ if CY==2:
     for meas,_f in MEASURES:
         S,y=subset(home,meas,CLASSES)
         if meas in ('unicorn',): S=[o for o in S if True];
-        eff,sef,extra,lam,Vi,cols,b,se=closer_effects(S,y,CLASSES)
+        eff,sef,extra,lam,Vi,cols,b,se=closer_effects(S,y,CLASSES,use_mat=(meas!='mat_rank'),use_emb=(meas!='unicorn'))
         table[meas]=eff; sefs[meas]=sef; ns[meas]=collections.Counter(o['clo'] for o in S); lams[meas]=lam; Vis[meas]=Vi; subsets[meas]=(S,y)
         print(f'\n--- {meas}: n={len(S)}, lambda {lam:.3g}; mean y {y.mean():.3f}')
         print('  '+fmt_eff(eff,sef,CLASSES)); print('  other levels:',{k:round(v,3) for k,v in extra.items()})
@@ -298,7 +299,7 @@ if CY==2:
         for meas,_f in MEASURES:
             S,y=subsets[meas]
             Pm=[dict(o,clo=lab[id(o)]) for o in S]
-            e,*_=closer_effects(Pm,y,CLASSES,lams[meas],Vis[meas]); effs.append([e.get(c,0.0) for c in CLASSES])
+            e,*_=closer_effects(Pm,y,CLASSES,lams[meas],Vis[meas],use_mat=(meas!='mat_rank'),use_emb=(meas!='unicorn')); effs.append([e.get(c,0.0) for c in CLASSES])
         nullW.append(kendall_w(effs)); nullWp.append(kendall_w([effs[0],effs[1],effs[2]]))
     print(f'Kendall W null: median {np.median(nullW):.3f}, 95% {np.percentile(nullW,95):.3f}; P = {pv(W,nullW):.3f}')
     print(f'Kendall W (3 physical) null: median {np.median(nullWp):.3f}, 95% {np.percentile(nullWp,95):.3f}; P = {pv(Wphys,nullWp):.3f}')
@@ -395,7 +396,7 @@ if CY==4:
     for meas in ('log_thick','unicorn','boss','used'):
         S2,y2=subset(other,meas,CLASSES); c2=collections.Counter(o['clo'] for o in S2); com2=[c for c in CLASSES if c2[c]>=3]
         if len(com2)>=4:
-            e2,s2,*_=closer_effects(S2,y2,com2)
+            e2,s2,*_=closer_effects(S2,y2,com2,use_mat=(meas!='mat_rank'),use_emb=(meas!='unicorn'))
             print(f'  held-out {meas} (n={len(S2)}): '+fmt_eff(e2,s2,com2)+f'  | rho with home cost rank {spearman([e2[c] for c in com2],[cost[c] for c in com2]):+.2f}')
     # IM77: no dimensions
     hdr=open('data/im77/im77_corpus_lines.csv').readline().strip().split(',')

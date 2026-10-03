@@ -1,0 +1,55 @@
+S-DARK-34 THE CHECKSUM HUNT: final (3 Oct 2026). Four cycles, three merge levels, two hold-outs.
+Scripts: tools/dark_loop34.py (engine), dark_loop34_c1.py, dark_loop34_cs.py, dark_loop34_c2.py, dark_loop34_c3.py,
+dark_loop34_c4.py. Cycle notes: loop34_cycle1-4.txt (each with its STRATEGIES.md row). Per-level logs in the scratchpad.
+Data: merged-corpus-canonical.json (older inscriptions.csv build, see CLAUDE.md caution; all counts come from it),
+inscriptions.csv (boss), im77_corpus_lines.csv + im77_field_symbols.csv, loop27_sets.json ('new' = 324 IM77-only
+texts, 319 usable, mapped M -> W through the completed bridge, 0 unmapped tokens).
+
+QUESTION. Is any element of a seal a deterministic function of the others (a check sign, a class sign fixed by the
+content, an emblem fixed by the text, a numeral computed from the text)?
+
+DETERMINISM TABLE (held-out accuracy of the best of tree / forest / 5-NN, trained on 1,224 MD + Harappa seals;
+seq_raw / seq_strong / seq_all; planted = the same pipeline on a corpus where the target IS a function of the rest)
+target          | other sites (n)  modal slot | IM77-only (n)  modal slot | planted checksum | planted class sign | shuffled | carries the prediction
+first sign      | .68-.71 (291)    .64  .60   | .70-.71 (319)  .69  .68   | 1.00             | .94                | .63      | 2nd sign = W2 -> 1st is an opener (frame)
+second sign     | .71-.73 (232)    .53  .63   | .74-.75 (272)  .65  .70   | 1.00             | .96                | .52      | opener -> connective W2 (frame)
+penultimate     | .73-.74 (232)    .68  .69   | .67-.69 (272)  .63  .63   | 1.00             | .91                | .68      | W590 / W705 pre-closer titles (S229/S299)
+last sign       | .51-.56 (291)    .31  .40   | .38-.42 (319)  .23  .25   | 1.00             | .91                | .34      | jar elsewhere -> not jar-final; n distinct; length
+which closer    | .69 (163)        .61  .63   | .59-.60 (167)  .54  .52   | 1.00             | .90                | .61      | tall-3 / plain fish before -> arrow W520; W550 -> W527 (S289/S299)
+closer vs name  | .68-.73 (291)    .56  .65   | .65-.67 (319)  .52  .60   | 1.00             | .96                | .56      | n fish, jar elsewhere
+emblem class    | .71-.75 (222)    .71  .69   | .44 (156)      .44  .42   | 1.00             | .90                | .71      | nothing (mod-k noise, importance .03)
+material        | .92 (206)        .92  .91   |  -                        | 1.00             | .94                | .92      | nothing
+boss class      | .67 (159)        .60  .60   |  -                        | 1.00             | .90                | .60      | sub-type code SEAL:R (round seals have no boss)
+shape class     | .88-.90 (284)    .79  .79   |  -                        | 1.00             | .89                | .79      | sub-type code SEAL:R -> circular
+numeral value   | .46-.51 (93)     .41  .37   | .58-.64 (66)   .45  .33   | 1.00             | .85-.91            | .31-.40  | W705 present -> tall 3 (S299 fixed term)
+
+THE RECOVERED FUNCTION, in words, for the strongest target (the closer / last sign):
+  if tall-3 (W33) or the plain fish (W220) stands before the end and the jar is absent -> the last sign is the arrow W520
+      train 23-24/24 and 15/16; held-out sites 2/2 + 3/4, IM77 4/4 + 3/3 (bounds < 3/4 and < 3/3)
+  if W550/W555 stands before the end -> the closer is W527 (12-16 train; held-out 4/4, < 3/4)
+  if W100 stands before the end -> jar (40/40 train, but 16/19 held-out: a tendency)
+  otherwise -> jar (the modal class); nothing else is predictable.
+  No rule of the form 'closer X -> emblem Y' or 'middle contains Z -> no numeral' exists at precision >= 0.85 on
+  >= 10-15 training seals; the rule census (cycle 4) finds 0 rules for the last sign, 0 for the first sign, 0 for the
+  emblem that survive, and for material / shape exactly as many 'survivors' as the shuffled-label census (base rates).
+
+NUMERIC CHECKSUMS: the numeral's value matches no simple function of the text above chance (n signs, n+1, n distinct,
+n fish, sum mod 10 / 7 / 9: exact-match rates 0.08-0.18 vs nulls 0.10-0.20); an annealed additive sign-value map
+scores -0.02 to +0.04 held-out (permuted-value anneals -0.03 to -0.22; planted truth 0.79 -> recovered 0.72); the
+only correlate is text length, NEGATIVE (rho -0.11 pooled, -0.35 on IM77): long seal texts carry the frozen tall-2
+terms, short texts carry the 3-8 counts (S216-S217). Same at all three merge levels.
+
+VERDICT. The pipeline recovers a planted modular checksum at 100% and a planted class sign at 86-96% on both
+hold-outs, and falls to the modal rate on shuffled labels. On the real seals no target comes within 40 points of the
+planted level; the gains over the slot-grammar baseline (0-14 points) are carried entirely by rules already in
+GRAMMAR.md (opener-connective pairing, the ten closer units, the W705 + tall-3 term). Emblem, material, boss and
+shape are independent of the text (S15/S28/S365 re-found with a supervised learner), and the text is independent of
+them. The stroke numeral is not computed from the text. THE SEALS CARRY NO REDUNDANCY BEYOND THE FRAME: what is
+predictable is the grammar (which slot follows which), and what it encodes is slot membership, not a check on the
+content. This is consistent with an owner-legend system (name + title + closer) and inconsistent with a designed
+code that protects its payload. Caveats: the hold-outs are small for rare closers (2-4 cases, bounds < 3/4); the
+IM77-only emblem set is dominated by 'no field symbol' seals; 76% of the training texts are MD + Harappa by design.
+What would overturn it: a new find set (>= 100 seals, e.g. Rakhigarhi) on which any hidden slot is predicted above
+0.9 by a model trained here.
+
+| S-DARK-34 (summary) | **The checksum hunt.** Is any element of a seal a deterministic function of the others? Tree / forest / 5-NN predictors of every hidden sign slot (first, second, penultimate, last, closer, closer-vs-name), the emblem, material, boss, shape and the stroke numeral's value, trained on 1,224 MD + Harappa seals with sum-mod-k features so a modular check is learnable, scored on 291 other-site seals and the 319 IM77-only texts; slot-grammar baseline; planted checksum / planted class sign / shuffled labels; a depth-3 rule extraction and a one-antecedent exceptionless-rule census with shuffled and planted controls; numeric functions and an annealed additive map with permutation nulls; three merge levels (`tools/dark_loop34*.py`) | Planted checksum 1.00, planted class sign 0.86-0.96, shuffled = modal. Real: first .68-.71 vs slot .60; second .71-.73 vs .63; penultimate .73 vs .69; last .51-.56 vs .40 (IM77 .38-.42 vs .25); which closer .69 vs .63; closer-vs-name .68-.73 vs .65; emblem .71-.75 vs .71 (IM77 .44 = modal); material .92 = modal; boss .67 and shape .88-.90 above modal only through the sub-type code; numeral value .46-.51 vs .41 (W705 -> tall 3). Carrying features are all frame rules. Rule census: 0 rules for first / last sign, 0 surviving for emblem, material / shape survivors = shuffled count, one closer unit survives (W555 -> W527, 16 cases); planted emblem := f(closer) gives 22 survivors. Numeral: no function beats chance; anneal inside the permuted spread; length correlate negative | **No check sign, no class sign, no emblem fixed by the text, no computed numeral: the seals carry no redundancy beyond the frame, and what the frame predicts is slot membership (GRAMMAR.md), not a check on the content.** Validated against planted codes at 100%; transcription-robust across levels (data/derived/dark/loop34_final.txt) |
