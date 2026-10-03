@@ -23,7 +23,7 @@ from scipy.signal import fftconvolve
 from PIL import Image
 from multiprocessing import Pool
 random.seed(281); np.random.seed(281)
-T0 = time.time(); OUT = 'data/derived/dark/'; R = 64
+T0 = time.time(); OUT = 'data/derived/dark/'; R = 48; DIL = 2; WF = (0.85, 1.0, 1.2); COVFIX = 0.9
 SIGNS = json.load(open('data/derived/glyph_sim_signs.json')); IDX = {w: i for i, w in enumerate(SIGNS)}
 SIM_FINE = np.load('data/derived/glyph_sim_fine.npy')
 NUMERAL = set(range(1, 8)) | set(range(12, 21)) | set(range(25, 30)) | set(range(31, 40)) | {55, 56}
@@ -31,7 +31,7 @@ M = json.load(open('data/derived/merged-corpus-canonical.json'))
 FREQ = collections.Counter(x for r in M for x in r['seq_raw'] if x not in (0, 999))
 G = {w: render(w, size=192, out=R) for w in SIGNS}
 BASES = [w for w in SIGNS if w not in NUMERAL and FREQ[w] >= 2 and G[w].sum() > 40]
-SCALES = [0.55, 0.67, 0.8, 0.9, 1.0]
+SCALES = [0.6, 0.75, 0.9, 1.0]
 
 def bbox(m):
     ys, xs = np.nonzero(m); return ys.min(), ys.max(), xs.min(), xs.max()
@@ -59,7 +59,8 @@ for w in BASES:
     c = crop(G[w]); h, wd = c.shape
     BC[w] = []
     for s in SCALES:
-        H = max(4, int(round(h * s))); W = max(2, int(round(wd * s * 1.0)))
+      for wf in WF:
+        H = max(4, int(round(h * s))); W = max(2, int(round(wd * s * wf)))
         if H > R or W > R: continue
         sc = np.array(Image.fromarray(c.astype(np.uint8) * 255).resize((W, H), Image.BILINEAR)) > 100
         if sc.sum() >= 10: BC[w].append((s, sc))
@@ -73,7 +74,7 @@ def place(Dd, sc, Dh=None, sch=None):
     coarse-to-fine: a half-resolution pass must reach 0.8 coverage before the full pass runs"""
     if Dh is not None and sch is not None and sch.sum() > 0:
         c = fftconvolve(Dh.astype(np.float32), sch[::-1, ::-1].astype(np.float32), mode='valid')
-        if c.max() / sch.sum() < 0.8: return 0.0, (0, 0)
+        if c.max() / sch.sum() < 0.75: return 0.0, (0, 0)
     corr = fftconvolve(Dd.astype(np.float32), sc[::-1, ::-1].astype(np.float32), mode='valid')
     k = int(np.argmax(corr)); y, x = np.unravel_index(k, corr.shape)
     return corr[y, x] / sc.sum(), (y, x)
@@ -83,7 +84,7 @@ def components(mask, minpix=4):
     return [lab == i for i in range(1, k + 1) if (lab == i).sum() >= minpix]
 
 def analyse(D, self_w, COV, bases=None):
-    ink = D.sum(); Dd = ndi.binary_dilation(D, iterations=1); Dh = ndi.binary_dilation(half(Dd), iterations=1)
+    ink = D.sum(); Dd = ndi.binary_dilation(D, iterations=DIL); Dh = ndi.binary_dilation(half(Dd), iterations=1)
     hits = []
     for b in (bases or BASES):
         if b == self_w: continue
@@ -125,6 +126,7 @@ def analyse(D, self_w, COV, bases=None):
                     if SIGNS[j] == b: kind, sub, extra = 'doubling+', 'fused', {}
                     else: kind, sub, extra = 'ligature+', 'fused', dict(partner=SIGNS[j], pscore=float(sm[j]))
                 else: continue
+        if explained < 0.5 and kind != 'same': continue
         hits.append(dict(base=b, type=kind, sub=sub, score=float(cov), explained=float(explained), scale=s, **extra))
     return hits
 
@@ -183,11 +185,8 @@ if __name__ == '__main__':
     rep.append(f'bases {len(BASES)} (non-numeral, freq >= 2); scales {SCALES}; derived = all {len([w for w in SIGNS if w not in NUMERAL])} non-numeral signs')
     with Pool(4) as pool:
         # 1. wrong-base coverage distribution on 150 random real glyphs
-        cov = [x for lst in pool.map(work_cov, random.sample([w for w in SIGNS if w not in NUMERAL and G[w].sum() > 60], 100)) for x in lst]
-        cv = np.array([c[2] for c in cov])
-        COV = float(np.quantile(cv, 0.98))
-        rep.append(f'random (derived, wrong base) best coverage: median {np.median(cv):.3f}, 95th {np.quantile(cv,.95):.3f}, 98th {COV:.3f} (n={len(cv)}); threshold COV = 98th pct = {COV:.3f}')
-        rep.append('   note: some of these "random" pairs are real derivations, so the threshold is conservative')
+        COV = COVFIX
+        rep.append(f'coverage threshold fixed at {COV} on D dilated by {DIL}px; a hit also needs a classifiable residual and explained ink >= 0.5')
         # 2. planted recall
         NONNUM = [w for w in BASES if G[w].sum() > 80]
         jobs = []
@@ -201,8 +200,13 @@ if __name__ == '__main__':
             if any(h['type'] == KM[kind] and (h['base'] == w or h.get('partner') == w) for h in bh): rec[kind] += 1
             elif any(h['base'] == w or h.get('partner') == w for h in bh): anytype[kind] += 1
             elif bh: wrongb[kind] += 1
-        rep.append('planted recall (right base AND type) | right base, other type | wrong base:')
-        for kind in KM: rep.append(f'  {kind:9s} {rec[kind]:2d}/{tot[kind]} | {anytype[kind]} | {wrongb[kind]}')
+        fp = collections.Counter(); fpall = collections.Counter()
+        for w, kind, partner, hits in res:
+            bh = best_hits(hits)
+            if any(h['base'] not in (w, partner) and h.get('partner') not in (w, partner) for h in bh): fp[kind] += 1
+            fpall[kind] += sum(1 for h in hits if h['type'] != 'same' and h['base'] not in (w, partner) and h.get('partner') not in (w, partner))
+        rep.append('planted recall (right base AND type) | right base, other type | best-hit list contains a wrong base | wrong-base hits per planted glyph before selection:')
+        for kind in KM: rep.append(f'  {kind:9s} {rec[kind]:2d}/{tot[kind]} | {anytype[kind]} | {fp[kind]} | {fpall[kind]/tot[kind]:.1f}')
         # 3. real graph
         real = pool.map(work_real, [(w, COV) for w in SIGNS if w not in NUMERAL])
     EB = []
