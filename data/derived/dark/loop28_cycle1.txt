@@ -1,0 +1,182 @@
+# LOOP 28 cycle 1: graphic-derivation graph from the lipi font (2026-10-03T12:15)
+signs rendered 712; non-numeral signs with ink 683; render 64x64, parts normalised to 32x32, similarity = symmetric dilated overlap
+score of planted part vs TRUE base: median 1.000, 10th pct 0.529 (n=629)
+score of planted part vs WRONG bases (random pairs): median 0.551, 99th 0.859, 99.5th 0.889 (n=16080)
+threshold = 99.5th percentile of wrong-base scores = 0.889
+planted-derivation recall (correct type AND correct base) at this threshold:
+  box        59/60 found; 1 with right type but wrong base
+  oval       26/60 found; 5 with right type but wrong base
+  roof       59/60 found; 1 with right type but wrong base
+  strokes    48/60 found; 7 with right type but wrong base
+  doubled    59/60 found; 1 with right type but wrong base
+  mirrored   59/60 found; 1 with right type but wrong base
+  ligature   47/60 found; 0 with right type but wrong base
+false-positive rate of a wrong base passing the threshold: 0.50% per (part, wrong base) comparison
+
+## derivation edges found among real signs: 154 (derived -> base), by type {'roof': 13, 'doubling': 27, 'strokes': 79, 'enclosure': 24, 'ligature': 11}
+   confidence: {'high': 46, 'mid': 57, 'low': 51}
+   check 1 (Wells shape-family numbering): |W_derived - W_base| <= 20 in 55% of edges vs 4% of random pairs; median distance 10 vs 290
+   check 2 (glyph_sim_fine, independent whole-glyph measure): mean 0.581 for edges vs 0.397 random pairs; edges above the random 95th pct (0.602): 50%
+   roof: n=13, fine mean 0.656, within-20 77%
+   doubling: n=27, fine mean 0.301, within-20 78%
+   strokes: n=79, fine mean 0.721, within-20 65%
+   enclosure: n=24, fine mean 0.450, within-20 4%
+   ligature: n=11, fine mean 0.465, within-20 18%
+
+## edge table (derived <- base, type/sub, score, conf, glyph_sim_fine, partner)
+  W44   <- W33   roof      roof           score 1.000 high fine 0.75
+  W56   <- W55   doubling  doubled-col    score 1.000 high fine 0.36
+  W69   <- W70   doubling  doubled-col    score 1.000 high fine 0.21
+  W93   <- W90   strokes   1inside        score 1.000 high fine 0.92 pos ['inside']
+  W191  <- W190  doubling  doubled-col    score 1.000 high fine 0.39
+  W219  <- W220  doubling  doubled-col    score 1.000 high fine 0.38
+  W361  <- W360  roof      roof           score 1.000 high fine 0.65
+  W401  <- W400  doubling  doubled-col    score 1.000 high fine 0.44
+  W479  <- W480  doubling  doubled-col    score 1.000 high fine 0.14
+  W481  <- W480  strokes   2inside        score 1.000 high fine 0.84 pos ['inside', 'inside']
+  W562  <- W561  strokes   4right         score 1.000 high fine 0.91 pos ['right', 'left', 'left', 'right']
+  W592  <- W590  strokes   4left          score 1.000 high fine 0.88 pos ['left', 'right', 'left', 'right']
+  W597  <- W595  strokes   2inside        score 1.000 high fine 0.96 pos ['inside', 'inside']
+  W636  <- W630  strokes   2inside        score 1.000 high fine 0.90 pos ['inside', 'inside']
+  W697  <- W700  doubling  doubled-col    score 1.000 high fine 0.11
+  W698  <- W700  doubling  doubled-col    score 1.000 high fine 0.11
+  W699  <- W705  doubling  doubled-col    score 1.000 high fine 0.43
+  W701  <- W702  roof      roof           score 1.000 high fine 0.57
+  W735  <- W734  strokes   1inside        score 1.000 high fine 0.92 pos ['inside']
+  W804  <- W803  strokes   4right         score 1.000 high fine 0.91 pos ['inside', 'right', 'left', 'right']
+  W807  <- W806  strokes   4left          score 1.000 high fine 0.90 pos ['left', 'right', 'right', 'left']
+  W828  <- W790  strokes   1inside        score 1.000 high fine 0.92 pos ['inside']
+  W829  <- W790  strokes   2inside        score 1.000 high fine 0.83 pos ['inside', 'inside']
+  W834  <- W1    enclosure oval           score 1.000 high fine 0.37
+  W842  <- W845  strokes   4inside        score 1.000 high fine 0.94 pos ['inside', 'inside', 'inside', 'inside']
+  W844  <- W840  strokes   3inside        score 1.000 high fine 0.94 pos ['inside', 'inside', 'inside']
+  W854  <- W850  strokes   4inside        score 1.000 high fine 0.89 pos ['inside', 'inside', 'inside', 'inside']
+  W870  <- W869  strokes   4inside        score 1.000 high fine 0.92 pos ['inside', 'inside', 'inside', 'inside']
+  W893  <- W892  doubling  doubled-col    score 1.000 high fine 0.28
+  W895  <- W892  strokes   4left          score 1.000 high fine 0.88 pos ['left', 'right', 'left', 'right']
+  W906  <- W900  doubling  mirrored-col   score 1.000 high fine 0.20
+  W919  <- W920  doubling  doubled-col~   score 1.000 high fine 0.10
+  W629  <- W630  doubling  doubled-col    score 0.998 high fine 0.17
+  W744  <- W750  strokes   2inside        score 0.998 high fine 0.88 pos ['inside', 'inside']
+  W746  <- W750  strokes   3inside        score 0.998 high fine 0.85 pos ['inside', 'inside', 'inside']
+  W617  <- W420  doubling  doubled-col    score 0.998 high fine 0.52
+  W832  <- W790  strokes   1inside        score 0.998 high fine 0.90 pos ['inside']
+  W792  <- W832  doubling  doubled-col    score 0.996 high fine 0.24
+  W833  <- W790  strokes   4inside        score 0.995 high fine 0.82 pos ['inside', 'inside', 'inside', 'inside']
+  W831  <- W790  strokes   3inside        score 0.993 high fine 0.83 pos ['inside', 'inside', 'inside']
+  W822  <- W820  strokes   4right         score 0.993 high fine 0.60 pos ['right', 'left', 'left', 'right']
+  W97   <- W142  strokes   numeral-col    score 0.993 high fine 0.47 partner W31
+  W748  <- W750  strokes   4inside        score 0.992 high fine 0.88 pos ['inside', 'inside', 'inside', 'inside']
+  W741  <- W750  strokes   1inside        score 0.992 high fine 0.92 pos ['inside']
+  W236  <- W235  strokes   4left          score 0.991 high fine 0.79 pos ['left', 'right', 'left', 'right']
+  W745  <- W750  strokes   3inside        score 0.990 high fine 0.90 pos ['inside', 'inside', 'inside']
+  W43   <- W14   strokes   4left          score 0.988 mid  fine 0.82 pos ['left', 'right', 'left', 'right']
+  W830  <- W790  strokes   2inside        score 0.988 mid  fine 0.85 pos ['inside', 'inside']
+  W878  <- W877  strokes   4inside        score 0.985 mid  fine 0.84 pos ['inside', 'inside', 'inside', 'inside']
+  W542  <- W540  strokes   1inside        score 0.984 mid  fine 0.91 pos ['inside']
+  W443  <- W440  strokes   1inside        score 0.983 mid  fine 0.91 pos ['inside']
+  W226  <- W220  strokes   4left          score 0.982 mid  fine 0.80 pos ['left', 'right', 'left', 'right']
+  W791  <- W835  doubling  doubled-col    score 0.982 mid  fine 0.12
+  W461  <- W463  doubling  mirrored-row   score 0.981 mid  fine 0.43
+  W856  <- W387  enclosure ring           score 0.980 mid  fine 0.43
+  W231  <- W233  strokes   1inside        score 0.979 mid  fine 0.96 pos ['inside']
+  W542  <- W513  enclosure ring           score 0.976 mid  fine 0.21
+  W880  <- W387  enclosure ring           score 0.974 mid  fine 0.56
+  W637  <- W642  strokes   2inside        score 0.973 mid  fine 0.90 pos ['inside', 'inside']
+  W241  <- W240  strokes   4left          score 0.972 mid  fine 0.83 pos ['left', 'right', 'right', 'left']
+  W638  <- W642  strokes   3inside        score 0.971 mid  fine 0.85 pos ['inside', 'inside', 'inside']
+  W879  <- W869  strokes   2inside        score 0.970 mid  fine 0.91 pos ['inside', 'inside']
+  W792  <- W823  enclosure oval           score 0.969 mid  fine 0.41
+  W234  <- W220  strokes   4left          score 0.969 mid  fine 0.83 pos ['left', 'right', 'right', 'left']
+  W821  <- W820  doubling  doubled-col    score 0.968 mid  fine 0.44
+  W815  <- W831  strokes   1inside        score 0.967 mid  fine 0.89 pos ['inside']
+  W678  <- W906  roof      roof           score 0.967 mid  fine 0.48
+  W808  <- W823  enclosure oval           score 0.966 mid  fine 0.80
+  W391  <- W406  roof      roof           score 0.966 mid  fine 0.81
+  W458  <- W455  roof      roof           score 0.966 mid  fine 0.64
+  W792  <- W605  enclosure oval           score 0.964 mid  fine 0.38
+  W834  <- W790  strokes   1inside        score 0.964 mid  fine 0.88 pos ['inside']
+  W295  <- W291  strokes   1inside        score 0.963 mid  fine 0.97 pos ['inside']
+  W456  <- W455  roof      roof           score 0.963 mid  fine 0.62
+  W552  <- W555  doubling  mirrored-col   score 0.962 mid  fine 0.25
+  W144  <- W142  strokes   4left          score 0.962 mid  fine 0.82 pos ['left', 'right', 'left', 'right']
+  W703  <- W775  strokes   3inside        score 0.962 mid  fine 0.65 pos ['inside', 'inside', 'inside']
+  W217  <- W425  strokes   numeral-col    score 0.961 mid  fine 0.30 partner W31
+  W832  <- W216  enclosure oval           score 0.961 mid  fine 0.42
+  W208  <- W207  strokes   2inside        score 0.960 mid  fine 0.83 pos ['inside', 'inside']
+  W792  <- W791  strokes   2inside        score 0.954 mid  fine 0.77 pos ['inside', 'inside']
+  W742  <- W750  strokes   2inside        score 0.951 mid  fine 0.77 pos ['inside', 'inside']
+  W830  <- W12   enclosure oval           score 0.950 mid  fine 0.31
+  W47   <- W424  ligature  col            score 0.949 mid  fine 0.33 partner W899
+  W519  <- W520  doubling  doubled-col    score 0.948 mid  fine 0.20
+  W780  <- W781  strokes   1inside        score 0.947 mid  fine 0.86 pos ['inside']
+  W55   <- W32   doubling  doubled-col    score 0.947 mid  fine 0.45
+  W243  <- W278  roof      roof           score 0.946 mid  fine 0.71
+  W229  <- W231  strokes   2inside        score 0.943 mid  fine 0.75 pos ['inside', 'inside']
+  W444  <- W14   strokes   1inside        score 0.941 mid  fine 0.79 pos ['inside']
+  W799  <- W798  doubling  mirrored-col   score 0.941 mid  fine 0.26
+  W596  <- W593  doubling  doubled-col    score 0.939 mid  fine 0.44
+  W946  <- W424  enclosure oval           score 0.938 mid  fine 0.30
+  W514  <- W510  strokes   3inside        score 0.937 mid  fine 0.79 pos ['inside', 'inside', 'inside']
+  W57   <- W32   strokes   numeral-col    score 0.937 mid  fine 0.37 partner W34
+  W911  <- W604  roof      roof           score 0.936 mid  fine 0.60
+  W628  <- W311  enclosure box            score 0.934 mid  fine 0.48
+  W55   <- W31   strokes   numeral-col    score 0.934 mid  fine 0.01 partner W33
+  W638  <- W617  enclosure box            score 0.933 mid  fine 0.33
+  W701  <- W703  strokes   2inside        score 0.933 mid  fine 0.80 pos ['inside', 'inside']
+  W813  <- W428  enclosure oval           score 0.930 mid  fine 0.60
+  W623  <- W14   enclosure box            score 0.930 mid  fine 0.51
+  W50   <- W617  ligature  col            score 0.929 mid  fine 0.66 partner W230
+  W812  <- W387  enclosure oval           score 0.928 low  fine 0.52
+  W833  <- W413  enclosure oval           score 0.926 low  fine 0.49
+  W47   <- W32   strokes   numeral-col    score 0.926 low  fine 0.07 partner W33
+  W50   <- W420  doubling  mirrored-col   score 0.925 low  fine 0.42
+  W907  <- W900  doubling  mirrored-col   score 0.924 low  fine 0.31
+  W412  <- W33   strokes   numeral-col    score 0.924 low  fine 0.35 partner W31
+  W843  <- W841  strokes   2left          score 0.923 low  fine 0.54 pos ['left', 'left']
+  W50   <- W387  ligature  col            score 0.923 low  fine 0.73 partner W763
+  W102  <- W85   ligature  col            score 0.922 low  fine 0.45 partner W899
+  W910  <- W900  strokes   4left          score 0.921 low  fine 0.77 pos ['left', 'right', 'left', 'right']
+  W47   <- W230  strokes   numeral-col    score 0.921 low  fine 0.40 partner W33
+  W223  <- W425  strokes   numeral-col    score 0.921 low  fine 0.41 partner W31
+  W48   <- W425  doubling  mirrored-col   score 0.920 low  fine 0.26
+  W702  <- W781  strokes   2inside        score 0.918 low  fine 0.80 pos ['inside', 'inside']
+  W810  <- W879  enclosure oval           score 0.918 low  fine 0.63
+  W50   <- W47   ligature  col            score 0.918 low  fine 0.45 partner W424
+  W57   <- W33   strokes   numeral-col    score 0.917 low  fine 0.08 partner W33
+  W831  <- W424  enclosure oval           score 0.915 low  fine 0.59
+  W628  <- W625  strokes   3inside        score 0.915 low  fine 0.74 pos ['inside', 'inside', 'inside']
+  W506  <- W505  strokes   4inside        score 0.914 low  fine 0.59 pos ['inside', 'left', 'right', 'below']
+  W224  <- W192  strokes   numeral-col    score 0.914 low  fine 0.55 partner W31
+  W237  <- W94   strokes   4above         score 0.913 low  fine 0.54 pos ['above', 'above', 'left', 'right']
+  W57   <- W55   strokes   numeral-col    score 0.912 low  fine 0.72 partner W1
+  W55   <- W425  strokes   numeral-col    score 0.909 low  fine 0.28 partner W31
+  W945  <- W820  ligature  col            score 0.907 low  fine 0.47 partner W924
+  W192  <- W190  strokes   1inside        score 0.907 low  fine 0.76 pos ['inside']
+  W811  <- W71   enclosure oval           score 0.907 low  fine 0.35
+  W235  <- W233  roof      roof           score 0.905 low  fine 0.71
+  W793  <- W511  ligature  col            score 0.904 low  fine 0.40 partner W900
+  W731  <- W725  roof      roof           score 0.902 low  fine 0.71
+  W912  <- W1    strokes   4right         score 0.901 low  fine 0.61 pos ['right', 'left', 'left', 'right']
+  W681  <- W680  roof      roof           score 0.901 low  fine 0.57
+  W945  <- W822  ligature  col            score 0.900 low  fine 0.63 partner W903
+  W743  <- W750  strokes   2inside        score 0.900 low  fine 0.70 pos ['inside', 'inside']
+  W627  <- W599  strokes   4inside        score 0.899 low  fine 0.74 pos ['inside', 'inside', 'inside', 'inside']
+  W643  <- W2    enclosure box            score 0.898 low  fine 0.55
+  W145  <- W142  strokes   3right         score 0.897 low  fine 0.31 pos ['right', 'right', 'right']
+  W225  <- W31   strokes   numeral-col    score 0.897 low  fine 0.15 partner W35
+  W641  <- W39   enclosure box            score 0.896 low  fine 0.40
+  W83   <- W72   roof      roof           score 0.895 low  fine 0.70
+  W57   <- W31   strokes   numeral-col    score 0.895 low  fine 0.00 partner W35
+  W101  <- W794  ligature  col            score 0.895 low  fine 0.31 partner W920
+  W643  <- W639  strokes   2inside        score 0.894 low  fine 0.71 pos ['inside', 'inside']
+  W593  <- W39   enclosure ring           score 0.893 low  fine 0.43
+  W441  <- W444  doubling  doubled-col    score 0.891 low  fine 0.46
+  W51   <- W403  strokes   numeral-row    score 0.891 low  fine 0.38 partner W4
+  W73   <- W793  ligature  col            score 0.891 low  fine 0.32 partner W899
+  W514  <- W420  enclosure ring           score 0.890 low  fine 0.26
+  W48   <- W422  ligature  col            score 0.890 low  fine 0.36 partner W903
+  W815  <- W36   enclosure oval           score 0.890 low  fine 0.47
+  W223  <- W424  strokes   numeral-col    score 0.889 low  fine 0.74 partner W31
+
+(sheet of the top 120 edges: data/derived/dark/loop28_edges_sheet.png; elapsed 218s)

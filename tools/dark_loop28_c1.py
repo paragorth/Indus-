@@ -54,6 +54,8 @@ def match(part):
     v, d = nvec(n)
     inter = NDM @ v + NVM @ d
     s = inter / (NN + v.sum())
+    dens = v.sum() / (32 * 32)
+    s = np.where((NN / (32 * 32) > 2.0 * dens) | (NN / (32 * 32) < 0.5 * dens), 0.0, s)
     return s
 
 def components(mask, minpix=4):
@@ -117,11 +119,18 @@ def analyse(D, self_w=None):
                 elif cy0 > ry1 - 0.1 * bh: cands.append(dict(type='roof', sub='baseline', part=rest, extra=c, ratio=rest.sum() / ink))
     # --- added strokes: 1-4 small components, remainder is the base
     small = [c for c in comps if c.sum() <= 0.18 * ink and (elongation(c) >= 2.2 or c.sum() <= 0.06 * ink)]
-    if 1 <= len(small) <= 4 and len(small) < len(comps):
+    import itertools
+    subsets = []
+    if 1 <= len(small) <= 5 and len(small) < len(comps):
+        for k in range(1, min(4, len(small)) + 1):
+            subsets += list(itertools.combinations(range(len(small)), k))
+    for sub_ix in subsets:
+        small_s = [small[i] for i in sub_ix]
         strokes = np.zeros_like(D)
-        for c in small: strokes |= c
+        for c in small_s: strokes |= c
         rest = D & ~strokes
         if rest.sum() >= 0.5 * ink:
+            small = small_s
             ry0, ry1, rx0, rx1 = bbox(rest); pos = []
             for c in small:
                 cy, cx = ndi.center_of_mass(c)
@@ -131,6 +140,7 @@ def analyse(D, self_w=None):
                 elif cx > rx1: pos.append('right')
                 else: pos.append('inside')
             cands.append(dict(type='strokes', sub=f'{len(small)}{collections.Counter(pos).most_common(1)[0][0]}', part=rest, extra=strokes, ratio=rest.sum() / ink, k=len(small), pos=pos))
+            small = [c for c in comps if c.sum() <= 0.18 * ink and (elongation(c) >= 2.2 or c.sum() <= 0.06 * ink)]
     # --- doubling / ligature: split at an empty column or row (or the sparsest interior line)
     for axis in (0, 1):
         gp, prof, lo, hi = gaps(D, axis)
@@ -210,7 +220,7 @@ def planted(w, kind, partner=None):
         canvas[oy:oy + ph, ox:ox + pw] = sm[y0:y1 + 1, x0:x1 + 1]
         m = 8
         if kind == 'box': d.rectangle([ox - m, oy - m, ox + pw + m, oy + ph + m], outline=255, width=3)
-        else: d.ellipse([ox - m - 4, oy - m - 4, ox + pw + m + 4, oy + ph + m + 4], outline=255, width=3)
+        else: d.ellipse([ox - m - 10, oy - m - 10, ox + pw + m + 10, oy + ph + m + 10], outline=255, width=3)
         canvas |= np.array(im) > 100
     elif kind == 'roof':
         y0, y1, x0, x1 = bbox(g); pw = x1 - x0 + 1
@@ -302,8 +312,20 @@ for w in SIGNS:
 best = {}
 for e in EDGES:
     k = (e['derived'], e['base'], e['type'])
-    if k not in best or e['score'] > best[k]['score']: best[k] = e
+    if k not in best or (round(e['score'], 2), e.get('ratio', 0)) > (round(best[k]['score'], 2), best[k].get('ratio', 0)): best[k] = e
 EDGES = sorted(best.values(), key=lambda e: (-e['score']))
+# for strokes edges keep, per derived sign, only the base that retains the most ink (maximal base), unless another base scores >= 0.05 higher
+keep = []
+for w in set(e['derived'] for e in EDGES):
+    st = [e for e in EDGES if e['derived'] == w and e['type'] == 'strokes' and 'ratio' in e]
+    if len(st) > 1:
+        top = max(st, key=lambda e: e['score'])
+        mx = max(st, key=lambda e: e['ratio'])
+        chosen = mx if mx['score'] >= top['score'] - 0.05 else top
+        keep += [e for e in EDGES if e['derived'] == w and not (e['type'] == 'strokes' and 'ratio' in e and e is not chosen)]
+    else:
+        keep += [e for e in EDGES if e['derived'] == w]
+EDGES = sorted(keep, key=lambda e: (-e['score']))
 # confidence: score relative to threshold band
 for e in EDGES:
     e['conf'] = 'high' if e['score'] >= THR + 0.1 else ('mid' if e['score'] >= THR + 0.04 else 'low')

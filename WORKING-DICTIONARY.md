@@ -223,3 +223,4 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - The S268 'strong' merges 803/806 and 390/405 are split by Mahadevan on many tokens (M389 vs M53-type forms; M162 vs M169): keep them, but report any result that depends on them at seq_raw too.
 - Bridge corrections: W798 = M53, W806 = M389.
 - New lump candidates for an interchangeability test: W154/156/158 = M15; W615/617 = M245.
+- S-DARK-24.2/24.3 (loop complete): 98.3% per-position agreement on 1,363 matched objects; frame signs and numerals read identically. Transcription-fragile and to be read with care: W617 as a closer (W617 is a doubled W615, a segmentation choice), W700 and the tablet half of S29 (Wells-only Harappa tablets, no second reader), any count that separates jar W740 from marked jar W741 at the 0.5% level, and W388 at Harappa (one duplicated tablet). The core closers (S289), S296, S321 and the name calibration hold on identical-reading objects.
