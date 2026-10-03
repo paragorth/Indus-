@@ -1,0 +1,24 @@
+LOOP 6 - CYCLE 4: whole-vocabulary distance vs geographic distance (Mantel)
+Script: data/derived/dark/loop6_c4_profile.py; full output loop6_c4_profile.txt
+Site sign-frequency profiles over signs with >= 10 tokens (167 all objects; 120 seals). Distance between sites = Jensen-Shannon
+divergence (bits). (a) the 6 sites with >= 50 texts, equal 50-text subsamples averaged over 200 draws, EXACT permutation of site
+labels (6! = 720) of the geographic matrix (great-circle km, coast-distance difference, river change). (b) all 20 sites, JSD minus
+each site's own bootstrap resampling JSD (sample-size correction), 20,000 label permutations. (c) seals only. (d) without MD + HP.
+(e) nearest-neighbour test: is each site's vocabulary-nearest site its geographically nearest site?
+12 Mantel arrows fired in total (3 variables x 2 object passes x 2 designs).
+
+RESULT:
+(a) all objects, 6 big sites: JSD ~ km rho = +0.54, exact p = 0.017; JSD ~ coast-distance difference rho = +0.53, p = 0.013;
+    river change p = 0.15. Without MD+HP (4 sites, 24 perms): rho +0.83, p = 0.17 (floor 0.083).
+    SEALS ONLY, same 6 sites: JSD ~ km rho = +0.10, p = 0.69; coast p = 0.56; river p = 0.13. The all-objects signal is gone.
+    The JSD matrix shows why: with all objects Harappa (tablets) and Kalibangan are far from everyone; on seals the matrix is flat
+    (0.23-0.32 bits everywhere, MD closest to all). The 'gradient' is the object-type mix of each site, not the script.
+(b) all 20 sites, corrected JSD: km rho = -0.05 (p 0.56), coast -0.04, river -0.02; without MD+HP -0.08 (p 0.38).
+    Seals, 13 sites: km +0.10 (p 0.32), coast +0.05, river change +0.22 (p = 0.012; BH q over 12 arrows = 0.07; without MD+HP km p 0.26).
+(e) vocabulary-nearest site = geographically nearest for 0 of 20 sites (null mean 1.05); seals 1 of 13 (null 1.1).
+    Vocabulary neighbours are random with respect to the map: Allahdino->Rupar, Bala-kot->Bhirrana, Gola Dhoro->Rakhigarhi,
+    Kot-Diji->Nausharo; on seals Mohenjo-daro<->Harappa, Dholavira<->Lothal are the only sensible pairs and both are the big-n pairs.
+Over the 12 arrows, BH min q = 0.067 (the three p < 0.02 are one all-objects 6-site design that vanishes on seals, and one seals
+river-change arrow with no km or coast counterpart). Nothing passes at q < 0.05 and nothing replicates across object passes.
+
+| S-DARK-6.4 | Geography as plaintext, whole vocabulary: Mantel test of site-to-site sign-profile distance (Jensen-Shannon, >= 10-token signs) against great-circle distance, coast-distance difference and river change. (a) 6 sites with >= 50 texts, equal 50-text subsamples x200, exact permutation of site labels (720); (b) all 20 sites, bootstrap-corrected JSD, 20,000 label permutations; both for all objects and seals only; without MD + HP; nearest-neighbour test. 12 arrows, BH-FDR. `data/derived/dark/loop6_c4_profile.py` | **All objects, 6 big sites: JSD ~ km rho +0.54, exact p 0.017, coast p 0.013. Seals only, same sites: rho +0.10, p 0.69.** The signal is each site's object-type mix (Harappa tablets, Lothal/Kalibangan sealings), not the script. 20 sites, corrected JSD: rho -0.05 (p 0.56); seals 13 sites: river change p 0.012 (q 0.07) with no km or coast counterpart. Vocabulary-nearest site = map-nearest site for 0 of 20 (null 1.05). BH min q 0.067 over 12 arrows; nothing at q < 0.05 and nothing agrees between object passes. | **Not supported: sign vocabulary does not drift with distance.** Sites 900 km apart (Lothal-Harappa, Allahdino-Rupar) are as close in vocabulary as neighbours; on seals Mohenjo-daro is the nearest neighbour of every big site. One script, one register, no dialect geography. The only geographic structure in the corpus is which object genres each site used (S29, S66, S86, S216). |

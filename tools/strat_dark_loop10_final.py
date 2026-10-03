@@ -106,7 +106,7 @@ percrit = {}
 for kind in ('mdl', 'reuse', 'fact', 'quantity'):
     acc, n = pooled(kind)
     if not acc: continue
-    st = sorted(((a[0] / a[3], a[1] / a[3], a[2] / a[3], k) for k, a in acc.items() if a[3] >= 8 and a[0] / a[3] >= 0.7 and a[0] / a[3] - max(a[1], a[2]) / a[3] >= 0.2), reverse=True)
+    st = sorted(((a[0] / a[3], a[1] / a[3], a[2] / a[3], k) for k, a in acc.items() if a[3] >= 8 and a[0] / a[3] >= 0.7 and a[0] / a[3] - (a[2] if kind == 'mdl' else max(a[1], a[2])) / a[3] >= 0.2), reverse=True)  # P control = real for mdl (no facts used)
     percrit[kind] = {k for _, _, _, k in st}
     out2.append('  %-9s n=%2d ontologies, %d stable pairs: %s' % (kind, n, len(st), '  '.join('%d-%d(%.2f;P%.2f,S%.2f)[%s|%s]' % (k[0], k[1], g, gp, gs, label(k[0]), label(k[1])) for g, gp, gs, k in st[:40])))
 if len(percrit) > 1:
