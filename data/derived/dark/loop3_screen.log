@@ -6,3 +6,7 @@ train seq_raw reverse     namecalib base 0.779 -> 0.825 [0.802,0.834] D +0.046 n
 train seq_raw reverse     repeat    base 0.250 -> 0.274 [0.244,0.298] D +0.024 null -0.000±0.029 z +0.8 p 0.476 (70s)
 train seq_raw reverse     slot      base 1.134 -> 1.134 [1.134,1.134] D +0.000 null -0.000±0.000 z +0.2 p 1.000 (70s)
 train seq_raw reverse     arith     base 0.253 -> 0.253 [0.253,0.253] D +0.000 null +0.000±0.000 z +0.0 p 1.000 (70s)
+train seq_raw interleave  namecalib base 0.782 -> 0.946 [0.922,0.961] D +0.164 null +0.130±0.014 z +2.5 p 0.048 (79s)
+train seq_raw interleave  repeat    base 0.226 -> 0.426 [0.350,0.487] D +0.200 null -0.005±0.073 z +2.8 p 0.048 (79s)
+train seq_raw interleave  slot      base 1.134 -> 0.577 [0.577,0.577] D -0.557 null +0.056±0.090 z -6.8 p 0.048 (79s)
+train seq_raw interleave  arith     base 0.253 -> 0.250 [0.250,0.250] D -0.003 null -0.001±0.044 z -0.0 p 0.952 (79s)

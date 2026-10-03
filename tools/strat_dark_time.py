@@ -100,9 +100,92 @@ def named_arrows(lv):
     A['unicorn'] = ('num', lambda o: int(o['emblem'] == 'Bull1') if o['emblem'] not in (None, 'None', '-') else None)
     return A
 
-# random arrows: reuse strat_dark reading kinds
-src = open('tools/strat_dark.py').read()
-exec(src[src.index('def make_reading'):src.index('# ---------- MI')])
+# random arrows: self-contained copy of the strat_dark.py legacy reading kinds (+ a few numeric ones)
+ALLSIGNS = sorted({x for r in C for x in r['seq_raw']})
+COMMON = [s for s, _ in collections.Counter(x for r in C for x in r['seq_raw']).most_common(24)]
+KINDS = ['pos', 'pair', 'mod', 'even', 'odd', 'famfl', 'nfam', 'rep', 'nnum', 'sumnum', 'maxw', 'lenpar', 'run', 'fampos',
+         'dist', 'first2', 'last2', 'contains', 'posrel', 'npar', 'xorpar', 'nabove', 'fracabove', 'nasc', 'ascrun', 'descrun',
+         'lenfam', 'set3', 'nset3', 'firstnum', 'lastnum', 'numval_first', 'digitsum']
+NUMERIC_KINDS = {'mod', 'nfam', 'rep', 'nnum', 'sumnum', 'maxw', 'lenpar', 'run', 'contains', 'npar', 'xorpar', 'nabove',
+                 'fracabove', 'nasc', 'ascrun', 'descrun', 'lenfam', 'set3', 'nset3', 'digitsum'}
+def make_reading(rng):
+    kind = rng.choice(KINDS); p = {}
+    if kind == 'pos': p['i'] = rng.choice([0, 1, 2, -1, -2, -3])
+    if kind == 'pair': p['d'] = rng.randint(1, 4); p['i'] = rng.choice([0, 1, -2, 'any'])
+    if kind == 'mod': p['base'] = rng.randint(2, 13); p['m'] = rng.randint(2, 12); p['digit'] = rng.choice(['w', 'fam', 'num'])
+    if kind == 'fampos': p['i'] = rng.choice([0, 1, -1, -2])
+    if kind == 'dist': p['a'] = rng.choice(COMMON); p['b'] = rng.choice(COMMON)
+    if kind == 'contains': p['s'] = rng.choice(ALLSIGNS)
+    if kind == 'posrel': p['s'] = rng.choice(COMMON[:14])
+    if kind in ('set3', 'nset3'): p['S'] = rng.sample(ALLSIGNS, 3)
+    if kind in ('nabove', 'fracabove'): p['t'] = rng.choice([100, 200, 300, 400, 500, 600, 700, 800, 900])
+    if kind == 'digitsum': p['base'] = rng.randint(2, 16); p['m'] = rng.randint(2, 13)
+    if kind == 'lenfam': p['f'] = rng.randint(0, 9)
+    return kind, p
+def read(kind, p, s):
+    L = len(s)
+    if kind == 'pos': i = p['i']; return s[i] if -L <= i < L else None
+    if kind == 'pair':
+        d = p['d']
+        if p['i'] == 'any': return min((s[j], s[j + d]) for j in range(L - d)) if L > d else None
+        i = p['i']; j = i + d if i >= 0 else i - d
+        return (s[i], s[j]) if -L <= i < L and -L <= j < L else None
+    if kind == 'mod':
+        dig = {'w': lambda x: x, 'fam': fam, 'num': lambda x: NUM.get(x, 0)}[p['digit']]; v = 0
+        for x in s: v = (v * p['base'] + dig(x)) % p['m']
+        return v
+    if kind == 'even': return tuple(s[0::2])
+    if kind == 'odd': return tuple(s[1::2]) or None
+    if kind == 'famfl': return (fam(s[0]), fam(s[-1]))
+    if kind == 'nfam': return len({fam(x) for x in s})
+    if kind == 'rep': return L - len(set(s))
+    if kind == 'nnum': return sum(x in NUM for x in s)
+    if kind == 'sumnum': return min(sum(NUM.get(x, 0) for x in s), 12)
+    if kind == 'maxw': return max(s) // 100
+    if kind == 'lenpar': return L % 2
+    if kind == 'run':
+        best = cur = 1
+        for a, b in zip(s, s[1:]): cur = cur + 1 if fam(a) == fam(b) else 1; best = max(best, cur)
+        return best
+    if kind == 'fampos': i = p['i']; return fam(s[i]) if -L <= i < L else None
+    if kind == 'dist':
+        a, b = p['a'], p['b']
+        if a in s and b in s: return max(-3, min(3, s.index(b) - s.index(a)))
+        return 'absent'
+    if kind == 'first2': return tuple(s[:2])
+    if kind == 'last2': return tuple(s[-2:])
+    if kind == 'contains': return int(p['s'] in s)
+    if kind == 'posrel':
+        if p['s'] not in s: return 'absent'
+        return round(s.index(p['s']) / (L - 1), 1) if L > 1 else 0
+    if kind == 'npar': return min(sum(x % 2 for x in s), 6)
+    if kind == 'xorpar':
+        v = 0
+        for x in s: v ^= x % 2
+        return v
+    if kind == 'nabove': return min(sum(x >= p['t'] for x in s), 6)
+    if kind == 'fracabove': return round(sum(x >= p['t'] for x in s) / L, 1)
+    if kind == 'nasc': return round(sum(b > a for a, b in zip(s, s[1:])) / (L - 1), 1) if L > 1 else None
+    if kind in ('ascrun', 'descrun'):
+        best = cur = 1
+        for a, b in zip(s, s[1:]): cur = cur + 1 if ((b > a) if kind == 'ascrun' else (b < a)) else 1; best = max(best, cur)
+        return min(best, 5)
+    if kind == 'lenfam': return min(sum(fam(x) == p['f'] for x in s), 4)
+    if kind == 'set3': return int(any(x in p['S'] for x in s))
+    if kind == 'nset3': return min(sum(x in p['S'] for x in s), 3)
+    if kind == 'firstnum':
+        for j, x in enumerate(s):
+            if x in NUM: return min(j, 4)
+        return 'none'
+    if kind == 'lastnum':
+        for j in range(L - 1, -1, -1):
+            if s[j] in NUM: return min(L - 1 - j, 4)
+        return 'none'
+    if kind == 'numval_first':
+        for x in s:
+            if x in NUM: return NUM[x]
+        return 'none'
+    if kind == 'digitsum': return sum(x % p['base'] for x in s) % p['m']
 def random_arrows(lv, n):
     A = {}
     r = random.Random(1000 + n)
@@ -110,7 +193,7 @@ def random_arrows(lv, n):
         kind, p = make_reading(r)
         name = f'{kind}{json.dumps(p, sort_keys=True)}'
         if name in A: continue
-        numeric = kind in ('mod', 'nfam', 'rep', 'nnum', 'sumnum', 'maxw', 'lenpar', 'run', 'contains')
+        numeric = kind in NUMERIC_KINDS
         A[name] = ('num' if numeric else 'cat', (lambda k, q: lambda o: read(k, q, o[lv]))(kind, p))
     return A
 
