@@ -1,0 +1,185 @@
+# Strategy: sign x pictorial motif on Gulf-type and Near-East seals (counter-intuitive anchor)
+# Script: tools/strat_gulfmotif.py. Corpus: merged canonical (seq = strong+probable merges).
+
+## 1. Object table (every row cited; motif = carved picture beside the text, from the cited source)
+id | site | format | stratum | text (Wells, reading order) | status | motifs | source
+L6 | Qala'at al-Bahrain | round | abroad-round | 91 | partial | antelope | Laursen 2010 Table 1 no. 6 = Kjaerum 1994 fig. 1726; Parpola 1994 no. 6 (antelope); Laursen n. 11: Kjaerum reads the animal as an antelope with short tail [fragment, only the twins legible (gulf_seals.csv)]
+L7 | Qala'at al-Bahrain | round | abroad-round | 190-60-55-90-160 | full | bull | Laursen no. 7 = Kjaerum 1994 fig. 1725 = Al-Sindi 1999 no. 279 (large bull, pleated neck); Parpola 1994 no. 5 (bison)
+L8 | Karzakan | round | abroad-round | 91-31-455-220 | full | rhino | Laursen no. 8 = Srivastava 1991 fig. 55 = Al-Sindi 1999 no. 180: animal is a rhinoceros (Al-Sindi text)
+L9 | Saar | round | abroad-round | 55-220-91-1-90-31 | full | none | Laursen no. 9 = Al-Sindi 1999 no. 182: lower half empty, no animal (Al-Sindi p. 245; photo)
+L10 | Janabiyah | round | abroad-round | 71-31-831-55-121-99-55 | full | bull | Laursen no. 10 (fig. 1a): bull
+L11 | Karzakan | round | abroad-round | 91-32-1-33 | full | bull | Laursen no. 11 (fig. 1b), BBM 14569: bull; pseudo-script after the twins (ANCHORS sec. 10) [pseudo-script: only W91 secure]
+L12 | Failaka | round | abroad-round | 716-350-1-90 | full | unrecorded | Laursen no. 12 = Kjaerum 1983 no. 319; motif not recorded in our notes (csv: -)
+L13 | Failaka | round | abroad-round | 90-861-317 | full | bull,scene | Laursen no. 13 = Kjaerum 1983 no. 279 (Dilmun Type, compass-drilled bull head, extra scene; Laursen n. 12, p. 114)
+L14 | Susa | round | abroad-round | 365-90-407-604-700 | full | bull | Laursen no. 14 = Amiet 1972 no. 1643: bull
+L15 | Luristan | round | abroad-round | 91-840-413-831 | full | bull | Laursen no. 15 = Amiet 1973 pl. 23a-b: bull
+L16 | Ur | round | abroad-round | 528-220-924-340-90 | full | bull | Laursen no. 16 = Gadd 1932 no. 2 (BM 122187): short-horned bull (ANCHORS sec. 9)
+L18 | Ur | round | abroad-round | 90-390 | full | unrecorded | Laursen no. 18 = Gadd 1932 no. 4 (BM 122188): fragment, fish + 1
+L19 | Ur | round | abroad-round | 90-1 | full | unrecorded | Laursen no. 19 = Gadd 1932 no. 5 (Penn U.17341): lower half only
+L20 | Ur | round | abroad-round | 90-crab | partial | bull,footprint,scorpion | Laursen no. 20 = Gadd 1932 no. 15, PG-401: crude bull; text band holds the plain man sign, a crab-sign variant, a scorpion and a human footprint (Laursen p. 114)
+L21 | Dilmun | round | abroad-round | 415-803-1-717-354 | full | bull | Laursen no. 21 = Gadd 1932 no. 16 (BM 123208, U.17649): bull, no manger
+L22 | Girsu | round | abroad-round | 255-13-745-740 | full | bull,manger | Laursen no. 22 = Sarzec & Heuzey pl. 30.3: bull with manger (Laursen p. 111; corpus cult = Trough)
+L23 | Unknown | round | abroad-round | 467-550-1-740-740 | full | bull,manger | Laursen no. 23 = Gadd 1932 no. 17 (Babylon per Collon 1994): bull with proper manger, Indus-style Decke (Laursen p. 112)
+L24 | Unknown | round | abroad-round | 190-91-603 | full | bull,scene_mating | Laursen no. 24 = Gadd 1932 no. 18 (BM 123059): mating bull and cow, facing left; twins sign oversized (Laursen n. 11, p. 117)
+L26 | Unknown | round | abroad-round | 160-384-133-1-90 | full | bull | Laursen no. 26 = Buchanan 1981 no. 1088 / Newell 23: bull
+L27 | Unknown | round | abroad-round | 725-90-2 | full | bird | Laursen no. 27 = Buchanan 1981 no. 1089 / Newell 876: peacock(?) (Laursen n. 11); corpus symbol Bird
+L56 | Karzakan | round | abroad-round | 740-740 | full | bull,two_animals | Laursen no. 56 = Al-Sindi 1999 no. 160: two animals upside down to each other, two sign-like marks between them
+X1 | Susa | cylinder | abroad-round | 924-1-319-31-55-2-150-416 | full | bull,manger | merged corpus: Susa cylinder, symbol Gaur, cult Trough
+X2 | Ur | round | abroad-round | 415-803-1-328-4-2 | full | bull | merged corpus: Ur round seal, symbol Gaur
+X3 | Ur | round | abroad-round | 350-90-4 | full | bull,manger | merged corpus: Ur round seal, symbol Gaur, cult Trough
+X4 | Unknown | cylinder | abroad-round | 32-132-55-90 | full | unrecorded | merged corpus: cylinder, symbol Unknown
+X5 | Unknown | cylinder | abroad-round | 139-145 | full | scene | merged corpus: stone cylinder, symbol Scene
+X6 | Unknown | round | abroad-round | 171-35-130-60-17-154-740 | full | unrecorded | merged corpus: round seal, no symbol recorded
+X7 | Kalba | round | abroad-round | 91 | full | unrecorded | merged corpus: Kalba K4, pseudo-twins (Laursen fig. 10i) [pseudo-script]
+G7 | Ur | cylinder | abroad-round | fish_hatched | partial | tree,unicorn | Gadd 1932 no. 7 (U.11958): cylinder, unicorn bull and tree; cross-hatched fish (+2?) (ANCHORS sec. 9)
+K1 | Kish | square | abroad-square | 416-840-60-3-220-590-390-740 | full | unicorn | merged corpus Kish, symbol Bull1:L; Parpola 1994 no. 27
+K2 | Kish | square | abroad-square | 240-643 | full | unicorn | merged corpus Kish, symbol Bull1; Parpola 1994 no. 28
+N1 | Nippur | square | abroad-square | 151 | full | zebu | merged corpus Nippur, symbol Zebu; Parpola 1994 no. 26
+T1 | Tello | square | abroad-square | 384-440-390-220 | full | manger,tiger | merged corpus Tello, symbol Tigr, cult Trough
+U1 | Tell Umma | tag | abroad-square | 127-705-2-4-390 | full | manger,unicorn | Umma bulla, Ashmolean 1931.120; unicorn with cult object (S353)
+Go1 | Gonur Depe | square | abroad-square | 285-2-235-220-125-590-390-740 | full | elephant | merged corpus Gonur Depe, symbol Elep
+Sa1 | Salut | square | abroad-square | 595-278-2-4-392 | full | bull,manger | merged corpus Salut, symbol Gaur, cult Trough
+Sa2 | Salut | tag | abroad-square | 921 | full | elephant | merged corpus Salut tag, symbol Elep
+Sh1 | Shortughai | square | abroad-square | 3-426 | full | rhino | merged corpus Shortughai, symbol Rhin
+Al1 | Altyn Depe | square | abroad-square | 415-390 | full | unrecorded | merged corpus Altyn Depe, no symbol
+L1 | Chanhu-daro | round | home-round | 630-390-400-375 | full | unicorn | Laursen no. 1 = CISI C-32, symbol Bull1:W
+L2 | Mohenjo-daro | round | home-round | 16-390-1-255-324 | full | bull | Laursen no. 2 = M-416, symbol Gaur (western-style bull, Laursen p. 112)
+L3 | Mohenjo-daro | round | home-round | 820-60-2-832-140-592-55 | full | unrecorded | Laursen no. 3 = M-1369, no symbol recorded
+L4 | Mohenjo-daro | round | home-round | 140 | full | composite | Laursen no. 4 = M-417, symbol Comp
+L5 | Mohenjo-daro | round | home-round | 832-256 | full | bull | Laursen no. 5 = M-415, symbol Gaur
+
+Abroad round/cylinder objects with Indus signs: 29; with a recorded motif: 23; with a motif other than the plain bull: 14.
+Motif counts (abroad round, recorded): {'antelope': 1, 'bull': 17, 'rhino': 1, 'none': 1, 'scene': 2, 'scorpion': 1, 'footprint': 1, 'manger': 4, 'scene_mating': 1, 'bird': 1, 'two_animals': 1, 'tree': 1, 'unicorn': 1}
+Note: "bull" = short-horned bull / bison / gaur, the standard Gulf-type animal; Laursen (p. 112) says the scorpion, footprint, crescent and caprid motifs sit mostly on UNINSCRIBED "local" Bahraini seals, so inscribed seals with these motifs are rare by construction.
+
+## 2. Test (a): sign x motif, abroad round/cylinder seals with recorded motif (n = 23)
+Pairs tested (sign in >=2 objects, motif on >=2 objects, co-occurrence >=2): 23
+sign | motif | sign&motif | sign only | motif only | neither | Fisher one-sided p | BH q
+NUMERAL | manger | 4 | 7 | 0 | 12 | 0.037 | 0.511
+740 | manger | 2 | 1 | 2 | 18 | 0.067 | 0.511
+JAR | manger | 2 | 1 | 2 | 18 | 0.067 | 0.511
+NUMERAL | bull | 10 | 1 | 7 | 5 | 0.095 | 0.549
+1 | manger | 2 | 5 | 2 | 14 | 0.352 | 0.813
+1 | bull | 6 | 1 | 11 | 5 | 0.382 | 0.813
+740 | bull | 3 | 0 | 14 | 6 | 0.384 | 0.813
+JAR | bull | 3 | 0 | 14 | 6 | 0.384 | 0.813
+160 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+190 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+4 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+415 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+803 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+831 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+924 | bull | 2 | 0 | 15 | 6 | 0.538 | 0.813
+90 | bull | 7 | 2 | 10 | 4 | 0.565 | 0.813
+PERSON | bull | 11 | 4 | 6 | 2 | 0.712 | 0.883
+55 | bull | 3 | 1 | 14 | 5 | 0.730 | 0.883
+TWELVE | bull | 3 | 1 | 14 | 5 | 0.730 | 0.883
+2 | bull | 2 | 1 | 15 | 5 | 0.845 | 0.971
+TWINS | bull | 4 | 3 | 13 | 3 | 0.955 | 0.979
+31 | bull | 2 | 2 | 15 | 4 | 0.960 | 0.979
+91 | bull | 3 | 3 | 14 | 3 | 0.979 | 0.979
+Pairs with BH q < 0.10: 0
+Permutation (shuffle motif labels across the 23 objects, 2000x): smallest observed p = 0.037; a smallest p this small or smaller arises in 609/2000 shuffles (P = 0.30).
+
+### Non-bull motifs and the signs beside them (exhaustive)
+  L6 Qala'at al-Bahrain: antelope <- 91  classes=PERSON,TWINS
+  L8 Karzakan: rhino <- 91-31-455-220  classes=FISH,PERSON,TWINS
+  L9 Saar: none <- 55-220-91-1-90-31  classes=FISH,NUMERAL,PERSON,TWELVE,TWINS
+  L13 Failaka: scene <- 90-861-317  classes=PERSON
+  L20 Ur: footprint,scorpion <- 90-crab  classes=PERSON
+  L22 Girsu: manger <- 255-13-745-740  classes=JAR,NUMERAL
+  L23 Unknown: manger <- 467-550-1-740-740  classes=JAR,NUMERAL
+  L24 Unknown: scene_mating <- 190-91-603  classes=PERSON,TWINS
+  L27 Unknown: bird <- 725-90-2  classes=PERSON
+  L56 Karzakan: two_animals <- 740-740  classes=JAR
+  X1 Susa: manger <- 924-1-319-31-55-2-150-416  classes=NUMERAL,TWELVE
+  X3 Ur: manger <- 350-90-4  classes=NUMERAL,PERSON
+  X5 Unknown: scene <- 139-145  classes=
+  G7 Ur: tree,unicorn <- fish_hatched  classes=
+
+## 3. Test (c): person / twins signs vs motif type, abroad round seals (recorded motif)
+person sign present & non-bull motif 8; person & plain bull 7; no person & non-bull 6; no person & plain bull 2; Fisher one-sided p = 0.931
+twins (W91 or 121+99) & non-bull 4; twins & plain bull 3; no twins & non-bull 10; no twins & plain bull 6; Fisher p = 0.761
+person & scene (mating, Failaka scene, inverted animals, cylinder scene) 2; person & no scene 13; no person & scene 2; no person & no scene 6; Fisher p = 0.897
+Twins sign and its motif, object by object:
+  L6 Qala'at al-Bahrain: antelope
+  L8 Karzakan: rhino
+  L9 Saar: none
+  L10 Janabiyah: bull
+  L11 Karzakan: bull
+  L15 Luristan: bull
+  L24 Unknown: bull,scene_mating
+  X7 Kalba: unrecorded
+
+## 4. Test (d): numeral next to a person sign (S98b unit) vs motif, abroad round seals
+Abroad round texts with a person sign: 20; with numeral+person adjacency: 8
+  L7 Qala'at al-Bahrain: 190-60-55-90-160  pairs=[(55, 90)]  motif=bull
+  L9 Saar: 55-220-91-1-90-31  pairs=[(91, 1), (1, 90)]  motif=none
+  L10 Janabiyah: 71-31-831-55-121-99-55  pairs=[(55, 121), (99, 55)]  motif=bull
+  L12 Failaka: 716-350-1-90  pairs=[(1, 90)]  motif=unrecorded
+  L19 Ur: 90-1  pairs=[(90, 1)]  motif=unrecorded
+  L26 Unknown: 160-384-133-1-90  pairs=[(1, 90)]  motif=bull
+  X3 Ur: 350-90-4  pairs=[(90, 4)]  motif=bull,manger
+  X4 Unknown: 32-132-55-90  pairs=[(55, 90)]  motif=unrecorded
+Person sign without an adjacent numeral:
+  L6 Qala'at al-Bahrain: 91  motif=antelope
+  L8 Karzakan: 91-31-455-220  motif=rhino
+  L11 Karzakan: 91-32-1-33  motif=bull
+  L13 Failaka: 90-861-317  motif=bull,scene
+  L14 Susa: 365-90-407-604-700  motif=bull
+  L15 Luristan: 91-840-413-831  motif=bull
+  L16 Ur: 528-220-924-340-90  motif=bull
+  L18 Ur: 90-390  motif=unrecorded
+  L20 Ur: 90-crab  motif=bull,footprint,scorpion
+  L24 Unknown: 190-91-603  motif=bull,scene_mating
+  L27 Unknown: 725-90-2  motif=bird
+  X7 Kalba: 91  motif=unrecorded
+motif counts, numeral+person texts: {'bull': 4, 'none': 1, 'unrecorded': 3, 'manger': 1} | person without numeral: {'antelope': 1, 'rhino': 1, 'bull': 7, 'scene': 1, 'unrecorded': 2, 'scorpion': 1, 'footprint': 1, 'scene_mating': 1, 'bird': 1}
+
+## 5. Test (b): the same signs at home. Sign x emblem on home seals (SEAL* types, Indus-valley sites), site+text dedup
+Home seals with a recorded emblem: 1542; emblem classes: {'unicorn': 1203, 'bull': 109, 'zebu': 56, 'elephant': 39, 'composite': 25, 'rhino': 23, 'other': 21, 'tiger': 18, 'buffalo': 16, 'goat': 14, 'scene/anthropomorph': 14, 'plant': 2, 'hare': 1, 'bird': 1}
+Also "manger" = cult field Trough or S*/R*/H* cult-stand codes; "none" = cult field - with an emblem absent is not recoverable from these fields.
+sign/class | emblem | sign&emblem | sign other | emblem other | neither | Fisher p (one-sided, enrichment) | site-permutation P | why tested
+PERSON | bull | 5 | 82 | 104 | 1351 | 0.752 | 0.817 | person signs sit beside the bull abroad
+TWINS | bull | 1 | 5 | 108 | 1428 | 0.356 | 0.491 | twins beside bull abroad (L10, L11, L15, L24)
+PERSON | scene/anthropomorph | 4 | 83 | 10 | 1445 | 0.006 | 0.009 | persons beside scenes abroad (L13, L24)
+TWINS | scene/anthropomorph | 1 | 5 | 13 | 1523 | 0.053 | 0.113 | twins on the mating-scene seal L24
+PERSON | rhino | 2 | 85 | 21 | 1434 | 0.376 | 0.335 | twins beside rhinoceros L8
+TWINS | rhino | 0 | 6 | 23 | 1513 | 1.000 | 1.000 | twins beside rhinoceros L8
+PERSON | bird | 1 | 86 | 0 | 1455 | 0.056 | 0.197 | man beside peacock L27
+90 | bird | 1 | 78 | 0 | 1463 | 0.051 | 0.139 | man beside peacock L27
+FISH | fish | 0 | 227 | 0 | 1315 | 1.000 | 1.000 | fish sign beside fish emblem?
+220 | fish | 0 | 193 | 0 | 1349 | 1.000 | 1.000 | plain fish beside fish emblem?
+FISH | rhino | 2 | 225 | 21 | 1294 | 0.874 | 0.962 | fish beside rhinoceros L8
+JAR | bull | 42 | 624 | 67 | 809 | 0.869 | 0.810 | doubled jar on bull seals L23, L56
+740 | bull | 42 | 624 | 67 | 809 | 0.869 | 0.816 | jar on bull seals
+415 | bull | 8 | 53 | 101 | 1380 | 0.061 | 0.099 | pitchfork opens two bull seals (L21, X2)
+55 | bull | 4 | 14 | 105 | 1419 | 0.033 | 0.029 | 12 on bull seals L7, L10, X1
+TWELVE | bull | 4 | 14 | 105 | 1419 | 0.033 | 0.026 | 12 on bull seals
+1 | bull | 10 | 75 | 99 | 1358 | 0.071 | 0.085 | single stroke on bull seals
+NUMERAL | bull | 23 | 228 | 86 | 1205 | 0.103 | 0.124 | numerals on bull seals
+BH q over the 18 pre-registered home pairs: PERSONxscene/anthropomorph=0.11, TWINSxscene/anthropomorph=0.16, PERSONxbird=0.16, 90xbird=0.16, 415xbull=0.16, 55xbull=0.16, TWELVExbull=0.16, 1xbull=0.16
+
+Depletion check (two-sided view) for the person class and the twins at home, by emblem:
+  PERSON: unicorn 66/1203 (exp 67.9); bull 5/109 (exp 6.1); zebu 3/56 (exp 3.2); elephant 0/39 (exp 2.2); rhino 2/23 (exp 1.3); tiger 2/18 (exp 1.0); buffalo 1/16 (exp 0.9); goat 0/14 (exp 0.8); scene/anthropomorph 4/14 (exp 0.8); composite 2/25 (exp 1.4); fish 0/0 (exp 0.0); bird 1/1 (exp 0.1)
+  TWINS: unicorn 4/1203 (exp 4.7); bull 1/109 (exp 0.4); zebu 0/56 (exp 0.2); elephant 0/39 (exp 0.2); rhino 0/23 (exp 0.1); tiger 0/18 (exp 0.1); buffalo 0/16 (exp 0.1); goat 0/14 (exp 0.1); scene/anthropomorph 1/14 (exp 0.1); composite 0/25 (exp 0.1); fish 0/0 (exp 0.0); bird 0/1 (exp 0.0)
+  90: unicorn 62/1203 (exp 61.6); bull 3/109 (exp 5.6); zebu 3/56 (exp 2.9); elephant 0/39 (exp 2.0); rhino 1/23 (exp 1.2); tiger 2/18 (exp 0.9); buffalo 1/16 (exp 0.8); goat 0/14 (exp 0.7); scene/anthropomorph 3/14 (exp 0.7); composite 2/25 (exp 1.3); fish 0/0 (exp 0.0); bird 1/1 (exp 0.1)
+  91: unicorn 4/1203 (exp 4.7); bull 1/109 (exp 0.4); zebu 0/56 (exp 0.2); elephant 0/39 (exp 0.2); rhino 0/23 (exp 0.1); tiger 0/18 (exp 0.1); buffalo 0/16 (exp 0.1); goat 0/14 (exp 0.1); scene/anthropomorph 1/14 (exp 0.1); composite 0/25 (exp 0.1); fish 0/0 (exp 0.0); bird 0/1 (exp 0.0)
+
+### Exploratory home scan: every sign with >=15 seal texts x every emblem class with >=20 seals (one-sided enrichment, BH-FDR)
+177 pairs tested; 0 with BH q < 0.05:
+Site-permutation check on the hits (emblem labels shuffled within site, 2000x):
+
+### Home bull/gaur-emblem seals: do they share the abroad vocabulary (PERSON, TWINS, 1, 55, 415-803, 740-740)?
+  PERSON: gaur seals 5/109 vs other emblems 82/1433; Fisher p(enriched on gaur) = 0.752
+  TWINS: gaur seals 1/109 vs other emblems 5/1433; Fisher p(enriched on gaur) = 0.356
+  W1: gaur seals 10/109 vs other emblems 75/1433; Fisher p(enriched on gaur) = 0.071
+  W55: gaur seals 4/109 vs other emblems 14/1433; Fisher p(enriched on gaur) = 0.033
+  415-803 bigram: gaur seals 0/109 vs other emblems 0/1433; Fisher p(enriched on gaur) = 1.000
+  740-740: gaur seals 1/109 vs other emblems 1/1433; Fisher p(enriched on gaur) = 0.136
+  numeral+person adjacency: gaur seals 3/109 vs other emblems 0/1433; Fisher p(enriched on gaur) = 0.000
+
+## 6. Bridge check (W -> M) for the signs in the abroad table and their GRAMMAR.md slot
+W1->M[97, 98] [marker stroke (S234)], W2->M[99, 100] [marker (M99)], W4->M[104, 105], W13->M[103], W17->M[110, 112], W31->M[86] [middle-initial marker (M86)], W32->M[87], W33->M[89], W35->M[96], W55->M[121] [fixed 12 (M121)], W60->M[123] [marker (M123)], W71->MNone, W90->M[1] [suffix/person (M1)], W91->MNone, W99->MNone, W121->MNone, W130->M[19], W132->MNone, W133->MNone, W139->MNone, W145->MNone, W150->MNone, W154->MNone, W160->MNone, W171->M[409], W190->M[54, 55], W220->M[59], W255->M[51], W317->M[186], W319->MNone, W328->MNone, W340->MNone, W350->M[174, 175], W354->MNone, W365->MNone, W384->MNone, W390->M[161, 162, 167, 168, 169], W407->M[169], W413->M[177], W415->M[171], W416->M[173], W455->M[233], W467->MNone, W528->MNone, W550->M[216], W603->MNone, W604->MNone, W700->M[328], W716->MNone, W717->M[341], W725->MNone, W740->M[342] [closer (M342)], W745->M[345], W803->M[387], W831->MNone, W840->M[403], W861->M[267] [opener], W924->MNone
+
+## 7. Verdict (see the final section of the report for the strategy row text)
