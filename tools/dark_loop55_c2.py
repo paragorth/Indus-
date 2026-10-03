@@ -42,7 +42,7 @@ def job(args):
 def run(nres=6, nnull=10):
     os.makedirs(OUTD, exist_ok=True)
     jobs = [(name, n, r, nnull) for r in range(nres) for n in SIZES for name in CORPORA]
-    with Pool(4) as P:
+    with Pool(8) as P:
         for tag, msg in P.imap_unordered(job, jobs):
             print(tag, msg, flush=True)
 

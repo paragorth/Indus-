@@ -15,7 +15,7 @@ CORPORA = ['ur3_words', 'ur3_syll', 'ur3_names_syll', 'linb_syll', 'linb_words',
            'icd10', 'hts', 'aircraft_reg', 'unicode_names', 'heraldry', 'chess_eco', 'chords',
            'proto_cuneiform', 'proto_elamite', 'khipu',
            'indus_seq_raw', 'indus_seq_strong', 'indus_seq_all']
-NULLS = ('SH', 'M1', 'M2', 'M2E')
+NULLS = ('M1', 'M2', 'M2E')
 
 
 def job(args):
@@ -33,7 +33,8 @@ def job(args):
         by_type = True
     else:
         src = C.load_ref(name)
-        data, meta = C.sample_indus_shaped(src, rnd, hist, copies, dup=dup)
+        if dup == 'sites': data, meta = C.sample_site_structured(src, rnd, hist, copies)
+        else: data, meta = C.sample_indus_shaped(src, rnd, hist, copies, dup=dup)
         by_type = False
     t0 = time.time()
     obs, res = C.run_one(data, rnd, nnull=nnull, nulls=NULLS, by_type=by_type)
@@ -42,10 +43,10 @@ def job(args):
     return tag, f'{time.time() - t0:.0f}s'
 
 
-def run(nres=6, nnull=20, dup='natural'):
+def run(nres=6, nnull=20, dup='natural', corpora=None):
     os.makedirs(OUTD, exist_ok=True)
-    jobs = [(name, r, nnull, dup) for r in range(nres) for name in CORPORA]
-    with Pool(4) as P:
+    jobs = [(name, r, nnull, dup) for r in range(nres) for name in (corpora or CORPORA)]
+    with Pool(8) as P:
         for tag, msg in P.imap_unordered(job, jobs):
             print(tag, msg, flush=True)
 
@@ -59,8 +60,8 @@ def summary(dup='natural', out=None):
     lines = []
     P = lines.append
     P(f'# Loop 55 cycle 1 (dup={dup}): statistics beyond chain per corpus. beyond = |z| >= 3 and outside the null range; mean over resamples [min-max].')
-    P('| corpus | class | n | med len | distinct | len TVD | beyond SH | beyond M1 | beyond M2 | beyond M2E | beyond all chains | sum|z| M2 (cap 20) |')
-    P('|---|---|---|---|---|---|---|---|---|---|---|---|')
+    P('| corpus | class | n | med len | distinct | len TVD | beyond M1 | beyond M2 | beyond M2E | beyond all chains | sum|z| M2 (cap 20) |')
+    P('|---|---|---|---|---|---|---|---|---|---|---|')
     per_stat = collections.defaultdict(lambda: collections.defaultdict(list))   # stat -> corpus -> [beyond M2 flags]
     zvals = collections.defaultdict(lambda: collections.defaultdict(list))
     agg = {}
@@ -74,7 +75,7 @@ def summary(dup='natural', out=None):
         cs = {nm: [cnt(d, nm) for d in R] for nm in NULLS}; b = [both(d) for d in R]; s2 = [sz(d, 'M2') for d in R]
         m = R[0]['meta']
         P(f"| {name} | {C.TYPE[name]} | {int(st.mean(d['meta']['n'] for d in R))} | {st.mean(d['meta']['median_len'] for d in R):.1f} | {st.mean(d['meta']['distinct_share'] for d in R):.2f} | {m['len_tvd']:.2f} | "
-          f"{rng(cs['SH'])} | {rng(cs['M1'])} | {rng(cs['M2'])} | {rng(cs['M2E'])} | {rng(b)} | {st.mean(s2):.0f} |")
+          f"{rng(cs['M1'])} | {rng(cs['M2'])} | {rng(cs['M2E'])} | {rng(b)} | {st.mean(s2):.0f} |")
         agg[name] = {'class': C.TYPE[name], 'nres': len(R), 'beyond': {nm: cs[nm] for nm in NULLS}, 'both': b}
         for d in R:
             for k in C.STATS:

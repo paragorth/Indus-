@@ -550,3 +550,33 @@ def fmt(x):
         if math.isnan(x): return 'nan'
         return f'{x:.3f}' if abs(x) < 100 else f'{x:.0f}'
     return str(x)
+
+
+# ------------------------------------------------------------------ site-structured sampling (cycle 4)
+def indus_site_shares(level='seq_all'):
+    T = [t for t in load_indus(level) if 2 <= len(t[2]) <= 12]
+    c = collections.Counter(site for site, _, _ in T); n = sum(c.values())
+    return [(s, v / n) for s, v in c.most_common()]
+
+
+def sample_site_structured(src, rnd, hist, copies, n=3000, k_sites=6):
+    """Map the Indus site shares (largest first) onto the source corpus's largest sites, then draw each site's quota with
+    the Indus length histogram and natural duplication; the remaining Indus share goes to the pooled small sites."""
+    shares = indus_site_shares()
+    by_site = collections.defaultdict(list)
+    for t in src:
+        if 2 <= len(t[2]) <= 12: by_site[t[0]].append(t)
+    big = [s for s, _ in collections.Counter({s: len(v) for s, v in by_site.items()}).most_common(k_sites)]
+    out = []; mapping = {}
+    for i, (isite, sh) in enumerate(shares[:k_sites]):
+        pool = by_site[big[i]]
+        smp, _ = sample_indus_shaped(pool, rnd, hist, copies, n=int(round(n * sh)), dup='natural')
+        out += [(isite, ty, s) for _, ty, s in smp]; mapping[isite] = big[i]
+    rest = sum(sh for _, sh in shares[k_sites:])
+    pool = [t for s, v in by_site.items() if s not in big for t in v]
+    smp, _ = sample_indus_shaped(pool, rnd, hist, copies, n=int(round(n * rest)), dup='natural')
+    out += [('small:' + site, ty, s) for site, ty, s in smp]
+    rnd.shuffle(out)
+    meta = {'n': len(out), 'shortfall0': 0.0, 'len_tvd': 0.0, 'mapping': mapping,
+            'distinct_share': len(set(s for _, _, s in out)) / max(1, len(out)), 'median_len': st.median([len(s) for _, _, s in out])}
+    return out, meta
