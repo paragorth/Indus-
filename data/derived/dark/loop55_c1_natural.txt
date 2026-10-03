@@ -1,0 +1,77 @@
+# Loop 55 cycle 1 (dup=natural): statistics beyond chain per corpus. beyond = |z| >= 3 and outside the null range; mean over resamples [min-max].
+| corpus | class | n | med len | distinct | len TVD | beyond M1 | beyond M2 | beyond M2E | beyond all chains | sum|z| M2 (cap 20) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ur3_syll | L | 2949 | 7.0 | 0.54 | 0.52 | 39.0 [39-39] | 38.0 [38-38] | 30.0 [30-30] | 25.0 [25-25] | 553 |
+| ur3_words | L | 3003 | 4.0 | 0.56 | 0.03 | 45.0 [45-45] | 45.0 [45-45] | 25.0 [25-25] | 23.0 [23-23] | 594 |
+| ur3_names_syll | L | 3002 | 3.0 | 0.39 | 0.06 | 37.0 [37-37] | 37.0 [37-37] | 17.0 [17-17] | 16.0 [16-16] | 478 |
+| linb_syll | L | 3003 | 4.0 | 0.70 | 0.00 | 40.0 [40-40] | 39.0 [39-39] | 24.0 [24-24] | 15.0 [15-15] | 533 |
+| icd10 | D | 2990 | 6.0 | 1.00 | 0.46 | 29.0 [29-29] | 34.0 [34-34] | 31.0 [31-31] | 23.0 [23-23] | 447 |
+| hts | D | 2999 | 3.0 | 1.00 | 0.19 | 34.0 [34-34] | 26.0 [26-26] | 16.0 [16-16] | 16.0 [16-16] | 297 |
+| aircraft_reg | D | 3003 | 6.0 | 0.99 | 0.57 | 37.0 [37-37] | 26.0 [26-26] | 25.0 [25-25] | 16.0 [16-16] | 264 |
+| heraldry | D | 2980 | 5.0 | 0.79 | 0.22 | 44.0 [44-44] | 35.0 [35-35] | 27.0 [27-27] | 22.0 [22-22] | 488 |
+| chess_eco | G | 2813 | 7.0 | 1.00 | 0.53 | 42.0 [42-42] | 40.0 [40-40] | 28.0 [28-28] | 25.0 [25-25] | 496 |
+| chords | G | 2992 | 4.0 | 0.78 | 0.12 | 27.0 [27-27] | 24.0 [24-24] | 18.0 [18-18] | 13.0 [13-13] | 207 |
+
+## Detection rate of beyond-chain structure by class (share of statistics beyond M2, pooled over corpora and resamples)
+- L: beyond M1 40.2/55, beyond M2 39.8/55 (range 37-45), beyond M2E 24.0/55, beyond all three chains 19.8/55 (4 samples)
+- D: beyond M1 36.0/55, beyond M2 30.2/55 (range 26-35), beyond M2E 24.8/55, beyond all three chains 19.2/55 (4 samples)
+- G: beyond M1 34.5/55, beyond M2 32.0/55 (range 24-40), beyond M2E 23.0/55, beyond all three chains 19.0/55 (2 samples)
+
+## Per statistic: share of samples beyond ALL chains (M1, M2, M2E), by class (L language, D code, A accounting, I Indus); z of Indus seq_all (mean over resamples)
+| statistic | family | L | D | G | A | Indus raw/strong/all | mean z Indus(all) vs M2 |
+|---|---|---|---|---|---|---|---|
+| unique_text_share | reuse | 0.750 | 1.000 | 1.000 | nan |  | nan |
+| texts_rep3 | reuse | 0.500 | 0.500 | 1.000 | nan |  | nan |
+| nesting_rate | reuse | 1.000 | 1.000 | 0.500 | nan |  | nan |
+| run3_multisite_share | reuse | 0.750 | 0.000 | 0.000 | nan |  | nan |
+| text3_multisite_share | reuse | 0.500 | 0.000 | 0.000 | nan |  | nan |
+| mi_d1 | adjacency | 0.500 | 1.000 | 0.500 | nan |  | nan |
+| mi_d2 | long-range | 0.750 | 0.500 | 0.000 | nan |  | nan |
+| mi_d3 | long-range | 0.250 | 0.750 | 1.000 | nan |  | nan |
+| mi_d4 | long-range | 0.500 | 0.500 | 1.000 | nan |  | nan |
+| repeat_rate | long-range | 0.250 | 0.250 | 0.500 | nan |  | nan |
+| adj_double_rate | adjacency | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| nonadj_repeat_rate | long-range | 0.250 | 0.250 | 0.500 | nan |  | nan |
+| top10_twice_texts | long-range | 0.750 | 0.250 | 1.000 | nan |  | nan |
+| longrange_attract_pairs | long-range | 0.750 | 0.500 | 0.500 | nan |  | nan |
+| longrange_avoid_pairs | long-range | 0.500 | 0.500 | 0.500 | nan |  | nan |
+| H_start1 | frame/position | 0.000 | 0.250 | 0.000 | nan |  | nan |
+| H_start2 | frame/position | 0.000 | 0.250 | 0.000 | nan |  | nan |
+| H_start3 | frame/position | 0.000 | 0.500 | 0.500 | nan |  | nan |
+| H_end1 | frame/position | 0.250 | 0.000 | 0.000 | nan |  | nan |
+| H_end2 | frame/position | 0.500 | 0.500 | 0.000 | nan |  | nan |
+| H_end3 | frame/position | 0.000 | 0.250 | 0.000 | nan |  | nan |
+| top10_last_share | frame/position | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| top10_first_share | frame/position | 0.000 | 0.250 | 0.000 | nan |  | nan |
+| n80_last/n80_all | frame/position | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| n80_first/n80_all | frame/position | 0.000 | 0.250 | 0.000 | nan |  | nan |
+| slot_exclusivity | frame/position | 0.500 | 0.250 | 0.000 | nan |  | nan |
+| H_second/H_mid | frame/position | 0.000 | 0.500 | 0.000 | nan |  | nan |
+| H_penult/H_mid | frame/position | 0.250 | 0.250 | 0.000 | nan |  | nan |
+| closer_paradigm_n | frame/position | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| J_final_share | frame/position | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| J_twice_per_1000 | long-range | 0.250 | 0.250 | 1.000 | nan |  | nan |
+| fixed_pair_share | order | 0.250 | 0.000 | 0.500 | nan |  | nan |
+| free_pair_share | order | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| fixed_pair_share_d2 | order | 0.250 | 0.250 | 0.500 | nan |  | nan |
+| anagram_rate | order | 0.250 | 0.750 | 0.000 | nan |  | nan |
+| mi_first_last | long-range | 0.750 | 0.750 | 1.000 | nan |  | nan |
+| mi_first_len | frame/position | 0.750 | 0.750 | 0.000 | nan |  | nan |
+| same_prefix_diff_last | frame/position | 0.250 | 0.250 | 0.500 | nan |  | nan |
+| same_suffix_diff_first | frame/position | 0.750 | 0.750 | 0.500 | nan |  | nan |
+| zipf_all | inventory | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| zipf_initial | inventory | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| zipf_final | inventory | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| n_sign_types | inventory | 1.000 | 0.250 | 1.000 | nan |  | nan |
+| hapax_sign_share | inventory | 1.000 | 0.250 | 1.000 | nan |  | nan |
+| bigram_hapax_share | adjacency | 0.750 | 0.750 | 0.500 | nan |  | nan |
+| trigram_hapax_share | adjacency | 0.750 | 1.000 | 1.000 | nan |  | nan |
+| run4_rep3 | reuse | 0.500 | 0.500 | 1.000 | nan |  | nan |
+| H_cond_bigram | adjacency | 1.000 | 0.750 | 0.500 | nan |  | nan |
+| hubs_per_sign | detectors | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| hub_free_median | detectors | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| hub_mobility | detectors | 0.250 | 0.000 | 0.500 | nan |  | nan |
+| det_loy50_max | detectors | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| loyal_per_sign | detectors | 0.000 | 0.000 | 0.000 | nan |  | nan |
+| slot_minus_bigram_bits | frame/position | 1.000 | 1.000 | 0.500 | nan |  | nan |
+| uniq_vs_bigram | reuse | 0.500 | 0.750 | 0.500 | nan |  | nan |
