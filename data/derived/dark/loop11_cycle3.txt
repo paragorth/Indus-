@@ -1,0 +1,90 @@
+LOOP 11 cycle 3: allograph test of the unmerged candidates, optional signs, frequency effect. Script tools/dark11_cycle3.py; full outputs loop11_c3_<level>.txt.
+
+(A) ALLOGRAPH TEST for unmerged substitution pairs with glyph similarity >= 0.80 (any class), tokens >= 5 each
+    ctx = mean cosine of left/right neighbour profiles (whole corpus); null = 500 frequency-matched sign pairs; site/medium split = 1 - cosine of distribution profiles (higher = more split)
+    pair           frames glyph  ctx    ctx-null(P)        site-split  med-split  tokens      slots            M           verdict
+     233<->235       3   0.88  0.68   0.41 (P=0.050)   0.00 (P=0.94)  0.01 (P=0.89)   191/245   -/mid-initial  M[72]/M[65]  ALLOGRAPH-LIKE
+     390<->407       2   0.80  0.70   0.33 (P=0.035)   0.09 (P=0.20)  0.35 (P=0.03)   265/142   closer/closer       M[161, 162, 167, 168, 169]/M[169]  local/medium variant?
+     235<->240       2   0.92  0.68   0.44 (P=0.035)   0.06 (P=0.35)  0.02 (P=0.63)   245/346   mid-initial/-            M[65]/M[67]  ALLOGRAPH-LIKE
+      32<->240       1   0.90  0.57   0.51 (P=0.328)   0.02 (P=0.80)  0.02 (P=0.82)   516/346   numeral/-            M[87]/M[67]  different word
+     220<->235       1   0.86  0.49   0.44 (P=0.318)   0.03 (P=0.22)  0.01 (P=0.65)   443/245   -/mid-initial  M[59]/M[65]  different word
+     140<->233       1   0.82  0.55   0.49 (P=0.308)   0.00 (P=1.00)  0.02 (P=0.76)   105/191   -/-            M[17]/M[72]  different word
+     850<->851       1   0.94  0.39   0.27 (P=0.070)   0.77 (P=0.02)  0.36 (P=0.07)    52/7     -/-            M?/M?  different word
+     525<->526       1   0.88  0.48   0.08 (P=0.020)   0.07 (P=0.91)  0.15 (P=0.85)    11/13    -/closer       M?/M[254]  local/medium variant?
+     384<->388       1   0.87  0.82   0.39 (P=0.005)   0.01 (P=0.75)  0.04 (P=0.54)    29/58    -/-            M?/M[327]  ALLOGRAPH-LIKE
+      27<->28        1   0.93  0.97   0.32 (P=0.040)   0.03 (P=0.91)  0.17 (P=0.85)     6/5     numeral/numeral      M[119]/M[119]  local/medium variant?
+      14<->27        1   0.86  0.63   0.32 (P=0.015)   0.22 (P=0.62)  0.63 (P=0.08)     7/6     numeral/numeral      M?/M[119]  local/medium variant?
+      32<->235       1   0.87  0.62   0.48 (P=0.254)   0.13 (P=0.30)  0.08 (P=0.48)   516/245   numeral/mid-initial  M[87]/M[65]  different word
+      17<->615       1   0.82  0.35   0.38 (P=0.711)   0.03 (P=0.53)  0.08 (P=0.28)    82/65    numeral/-            M[110, 112]/M?  different word
+      61<->63        1   0.99  0.44   0.33 (P=0.264)   0.08 (P=0.58)  0.12 (P=0.53)    91/13    -/-            M[124, 125]/M?  different word
+    reference: frequency-matched random pairs ctx mean 0.28 (95% 0.00..0.63)
+    calibration, strong Wells merges on the same test:
+      158<->154 ctx 0.85 (null 0.24, P=0.040) site-split 0.03 med-split 0.46 tokens 39/44
+      298<->297 ctx 0.45 (null 0.19, P=0.020) site-split 0.07 med-split 0.01 tokens 8/15
+      315<->317 ctx 0.38 (null 0.28, P=0.274) site-split 0.43 med-split 0.11 tokens 11/12
+      318<->320 ctx 0.70 (null 0.03, P=0.005) site-split 0.47 med-split 0.71 tokens 13/20
+      336<->337 ctx 0.67 (null 0.16, P=0.005) site-split 0.12 med-split 0.23 tokens 11/13
+      370<->371 ctx 0.72 (null 0.41, P=0.080) site-split 0.08 med-split 0.22 tokens 9/10
+      405<->390 ctx 0.78 (null 0.28, P=0.005) site-split 0.26 med-split 0.11 tokens 115/265
+      406<->390 ctx 0.72 (null 0.46, P=0.005) site-split 0.00 med-split 0.05 tokens 12/265
+      526<->527 ctx 0.98 (null 0.17, P=0.005) site-split 0.42 med-split 0.41 tokens 13/63
+      632<->630 ctx 0.45 (null 0.33, P=0.179) site-split 0.01 med-split 0.42 tokens 30/37
+      636<->630 ctx 0.64 (null 0.21, P=0.030) site-split 0.21 med-split 0.05 tokens 22/37
+      706<->705 ctx 0.96 (null 0.38, P=0.005) site-split 0.01 med-split 0.03 tokens 97/211
+      711<->717 ctx 0.09 (null 0.09, P=0.458) site-split 0.41 med-split 0.72 tokens 21/55
+      773<->772 ctx 0.79 (null 0.19, P=0.055) site-split 0.01 med-split 0.04 tokens 9/9
+      806<->803 ctx 0.70 (null 0.39, P=0.035) site-split 0.07 med-split 0.05 tokens 133/132
+      817<->861 ctx 0.98 (null 0.38, P=0.030) site-split 0.00 med-split 0.00 tokens 211/259
+(B) OPTIONAL SIGNS: indel frames (minfreq 3), direction and position
+(seq_strong / seq_all: 384<->388 ctx 0.82 vs 0.40 P = 0.005 at all levels; 27<->28 P = 0.035-0.045; 390<->407 P = 0.005; 233<->235 P = 0.05-0.065; 235<->240 P = 0.035 raw, 0.13-0.15 strong/all; 850<->851 site-split 0.77, P = 0.02 at all levels.)
+
+--- seq_raw
+  55 indel frames: longer text is the commoner one in 18, shorter commoner in 37, tie 0
+  position of the extra sign: {'final': 15, 'medial': 8, 'initial': 32}  (expected if uniform over positions: initial = final = 13.2, medial = 28.6)
+  known deletable/qualifier set (GRAMMAR mid-initial, suffix, markers, fish qualifiers, U-stroke 3, W100): 28 of 55 deletions vs position-matched null 10.4 (max 23) P=0.0005
+  jar W740 deleted in 1 frames (expected 6.0); opener (817/820/861) deleted in 1 (expected 4.5)
+  rho obs 0.095; null mean 0.189 (95% 0.032..0.344); P(obs<=null) = 0.1262
+    tokens 10-30: 64 signs, confusion events per 100 tokens 5.59
+    tokens 30-100: 48 signs, confusion events per 100 tokens 4.16
+    tokens 100-300: 26 signs, confusion events per 100 tokens 3.10
+    tokens 300-5000: 3 signs, confusion events per 100 tokens 0.32
+     400    10   2.7  3.71   0.001              328  M[176]     {'final': 10}
+     240     6   1.5  4.01   0.001              273  M[67]      {'initial': 6}
+     235     3   1.3  2.38   0.132              188  M[65]      {'initial': 3}
+     519     2   0.1 36.98   0.005                7  M?         {'initial': 2}
+     803     2   0.6  3.40   0.106              103  M[387]     {'initial': 2}
+--- seq_strong
+  71 indel frames: longer text is the commoner one in 20, shorter commoner in 49, tie 2
+  position of the extra sign: {'medial': 14, 'final': 18, 'initial': 39}  (expected if uniform over positions: initial = final = 16.7, medial = 37.6)
+  known deletable/qualifier set (GRAMMAR mid-initial, suffix, markers, fish qualifiers, U-stroke 3, W100): 36 of 71 deletions vs position-matched null 13.7 (max 26) P=0.0005
+  jar W740 deleted in 1 frames (expected 7.4); opener (817/820/861) deleted in 1 (expected 6.0)
+  rho obs 0.040; null mean 0.161 (95% -0.014..0.301); P(obs<=null) = 0.0864
+    tokens 10-30: 61 signs, confusion events per 100 tokens 6.14
+    tokens 30-100: 47 signs, confusion events per 100 tokens 5.47
+    tokens 100-300: 23 signs, confusion events per 100 tokens 3.47
+    tokens 300-5000: 4 signs, confusion events per 100 tokens 0.75
+     400    12   3.1  3.91   0.001              328  M[176]     {'final': 12}
+     240     8   1.8  4.36   0.001              273  M[67]      {'medial': 2, 'initial': 6}
+     803     4   1.9  2.11   0.126              213  M[387]     {'initial': 4}
+     235     4   1.6  2.51   0.071              188  M[65]      {'initial': 4}
+     519     2   0.1 30.06   0.002                7  M?         {'initial': 2}
+--- seq_all
+  71 indel frames: longer text is the commoner one in 20, shorter commoner in 49, tie 2
+  position of the extra sign: {'medial': 14, 'final': 18, 'initial': 39}  (expected if uniform over positions: initial = final = 16.7, medial = 37.6)
+  known deletable/qualifier set (GRAMMAR mid-initial, suffix, markers, fish qualifiers, U-stroke 3, W100): 36 of 71 deletions vs position-matched null 13.7 (max 26) P=0.0005
+  jar W740 deleted in 1 frames (expected 7.4); opener (817/820/861) deleted in 1 (expected 6.0)
+  rho obs 0.045; null mean 0.148 (95% -0.027..0.326); P(obs<=null) = 0.1296
+    tokens 10-30: 58 signs, confusion events per 100 tokens 6.23
+    tokens 30-100: 48 signs, confusion events per 100 tokens 5.66
+    tokens 100-300: 23 signs, confusion events per 100 tokens 3.57
+    tokens 300-5000: 4 signs, confusion events per 100 tokens 0.75
+     400    12   3.1  3.91   0.001              328  M[176]     {'final': 12}
+     240     8   1.8  4.35   0.001              274  M[67]      {'medial': 2, 'initial': 6}
+     803     4   2.1  1.93   0.125              226  M[387]     {'initial': 4}
+     235     4   1.6  2.51   0.071              188  M[65]      {'initial': 4}
+     519     2   0.1 30.06   0.002                7  M?         {'initial': 2}
+
+Arrows this cycle: 14 candidate pairs + 8 per-sign deletion tests + 1 set test + 1 rho; Bonferroni alpha ~0.002. Pass: W400 and W240 deletions (P = 0.001), the known-deletable set (P = 0.0005), 519 (P = 0.002-0.005, 7 tokens, fragile), 384<->388 context (P = 0.005, borderline). Fail: frequency slope with the position-matched null (P = 0.09-0.13).
+
+READY-TO-PASTE ROW:
+| S-DARK-11.3 | (A) Allograph test for the unmerged shape-similar substitution pairs of S-DARK-11.2: context sharing (mean cosine of left and right neighbour profiles, whole corpus) vs 200 frequency-matched partners, plus site and medium split; calibrated on the 16 strong Wells merges. (B) Optional signs: indel frames (one text = the other plus one sign, one member frequent), deleted sign vs a null matched on position class and object class (1000x); direction (is the longer or the shorter text the commoner?). (C) Confusion rate per sign vs log frequency with a position-matched null (tools/dark11_cycle3.py; seq_raw / seq_strong / seq_all) | (A) Calibration: 12 of 16 strong merges pass the context test (P <= 0.05); site/medium split does not separate them (5 of 16 are split), so split is not diagnostic. Candidates: **384<->388** ctx 0.82 vs null 0.39 (P = 0.005 at all three levels, glyph 0.87, same site and medium distribution, 29/58 tokens) = allograph-like; **27<->28** ctx 0.97 vs 0.32 (P = 0.04, glyph 0.93, 6/5 tokens; Mahadevan already has both as M119); 390<->407 ctx 0.70 vs 0.33 (P = 0.005-0.035) with a medium split (0.35, P = 0.03) = medium variant of the tree, like 390/405; 525<->526 ctx P = 0.02 (11/13 tokens); 233<->235 and 235<->240 score as allographs on context (P = 0.035-0.065) but are the S296 fish word family; 850<->851 is site-split (0.77, P = 0.02; 851 = 7 tokens) = local form or local word; 61<->63, 32<->240, 220<->235, 17<->615, 140<->233 fail (different words). (B) 55 / 71 / 71 indel frames; the shorter text is the commoner one in 37 / 49 / 49 (longer texts are expansions of a base formula); the extra sign is initial in 32 / 39 / 39 vs 13 / 17 / 17 expected, medial in 8 / 14 / 14 vs 29 / 38 / 38. Optional signs: W400 (M176) 10 / 12 / 12 frames, all final, vs 2.7-3.1 expected (P = 0.001); W240 (M67) 6 / 8 / 8, initial, vs 1.5-1.8 (P = 0.001); W235, W803, W2, W33 2-4 each (P = 0.07-0.3); W519 2 (7 tokens, P = 0.002-0.005). The known deletable/qualifier set carries 28 / 36 / 36 of the deletions vs 10.4 / 13.7 / 13.7 (max 23-26; P = 0.0005). The jar is deleted in 1 frame vs 6-7 expected and the opener in 1 vs 4.5-6. (C) rho 0.10 / 0.04 / 0.05 vs position-matched null 0.19 / 0.16 / 0.15 (P = 0.13 / 0.09 / 0.13): not significant, though confusion events per 100 tokens fall from 5.6-6.2 (10-30 tokens) to 0.3-0.8 (>= 300 tokens) | **Two likely missed merges: W384 = W388 (B) and W27 = W28 (B, Mahadevan agrees); W407 is a medium variant of the tree W390 (B); W525 may belong to the W526/527 box class (C).** Otherwise the Wells merge list is complete at the one-slot level: there is no pool of unrecognised allographs. **Optional signs are exactly the grammar's qualifiers**: the suffix W400 after the jar and the fish qualifier W240 (then W235, W803, W33) before a base formula; frame members (opener, jar) are not optional. Frequent-text variants are expansions (base + one prefixed qualifier), not omissions, so the near-duplicates of a formula are qualified copies, not miscopies. The learned-script frequency effect is suggestive only (fails the position-matched null). |

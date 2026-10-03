@@ -192,3 +192,11 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - S294: 'jar = the vessel it is written on' fails (the jar is on 16% of pot texts vs 42% of seal texts); 'arrow = weapon' fails (0 of 18 implements). Pots and bangles have their own sign set.
 - S293: twins next to a number 39% vs 13% for other person signs (P ≈ 0.09, trend); closers do not cluster by building or quarter at Mohenjo-daro (P = 0.13–0.73), so 'office tied to a building' is not supported.
 - S292: 'porter' (C–), 'ration fish' (reworded), 'chief' / 'overseer' / 'the Twelve' by seal size (no support, low power).
+
+
+### Merge candidates from the confusion test (S-DARK-11, Oct 2026)
+- W384 = W388 (grade B; P = 0.005 at all three levels).
+- W27 = W28 (grade B; Mahadevan M119 agrees).
+- W407 = a medium variant of W390 (grade B).
+- W525 ~ W526/527 (grade C).
+- Would support: the pairs keep swapping at new sites. Would kill: one member taking a different slot or qualifier set.

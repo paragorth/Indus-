@@ -159,3 +159,30 @@
 
 ## Ur III names, distinct only: fit 2354, test 1010
   [Ur3 distinct names] baseline sign level: bits=7.536 uniq=1.105 rep=1.527 units=662
+    bpe k=40 T=1 s=0             bits=7.483 uniq=1.127 rep=1.853 units=697
+    bpe k=40 T=5 s=2             bits=7.485 uniq=1.127 rep=1.892 units=697
+    bpe k=60 T=5 s=1             bits=7.486 uniq=1.133 rep=1.817 units=715
+    bpe k=40 T=5 s=0             bits=7.487 uniq=1.129 rep=1.897 units=697
+    bpe k=60 T=1 s=0             bits=7.487 uniq=1.137 rep=1.787 units=714
+    bpe k=60 T=5 s=0             bits=7.488 uniq=1.134 rep=1.765 units=714
+    bpe k=40 T=5 s=1             bits=7.488 uniq=1.127 rep=1.852 units=697
+    bpe k=60 T=5 s=2             bits=7.492 uniq=1.137 rep=1.773 units=715
+    bpe k=20 T=1 s=0             bits=7.501 uniq=1.117 rep=1.756 units=681
+    bpe k=20 T=5 s=0             bits=7.503 uniq=1.118 rep=1.755 units=681
+    bpe k=20 T=5 s=2             bits=7.504 uniq=1.116 rep=1.729 units=681
+    bpe k=20 T=5 s=1             bits=7.505 uniq=1.119 rep=1.930 units=680
+    bpe k=10 T=5 s=0             bits=7.518 uniq=1.108 rep=1.572 units=672
+    bpe k=10 T=1 s=0             bits=7.519 uniq=1.108 rep=1.598 units=672
+    bpe k=10 T=5 s=2             bits=7.521 uniq=1.106 rep=1.616 units=672
+    bpe k=5 T=1 s=0              bits=7.521 uniq=1.106 rep=1.540 units=667
+    bpe k=5 T=5 s=2              bits=7.523 uniq=1.106 rep=1.700 units=667
+    bpe k=5 T=5 s=0              bits=7.523 uniq=1.102 rep=1.660 units=667
+    bpe k=10 T=5 s=1             bits=7.523 uniq=1.107 rep=1.775 units=672
+    bpe k=5 T=5 s=1              bits=7.530 uniq=1.110 rep=1.474 units=667
+    sign                         bits=7.536 uniq=1.105 rep=1.527 units=662
+  [Ur3 distinct names] best per statistic (delta vs sign level):
+    bits  bpe k=40 T=1 s=0             7.483  (sign 7.536, delta -0.053)  bits/sign lower=more predictable
+    uniq  bpe k=5 T=5 s=0              1.102  (sign 1.105, delta -0.003)  uniq ratio lower=texts recur more than bigram
+    rep   bpe k=5 T=5 s=1              1.474  (sign 1.527, delta -0.054)  within-text repetition ratio
+    segmentations beating sign level on bits AND (uniq or rep): 2 of 20: bpe k=5 T=5 s=0, bpe k=5 T=5 s=1
+    first merges of best BPE: i3+li2; {d}en+lil2; nu+um; i+din; a+a; an+na; e2+a; sa6+ga; ib+ni; a+bi; er3+ra; kal+la
