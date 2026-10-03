@@ -70,7 +70,7 @@ def fit_combo(folds=5, iters=30):
         for _ in range(iters):
             acc = [0.0] * 3
             for ps in L:
-                tot = sum(wi * pi for wi, pi in zip(w, ps))
+                tot = max(sum(wi * pi for wi, pi in zip(w, ps)), 1e-300)
                 for k in range(3): acc[k] += w[k] * ps[k] / tot
             Z = sum(acc); w = [a / Z for a in acc]
         Wc[z] = w
