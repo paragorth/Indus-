@@ -459,3 +459,22 @@ The line is a real production unit (this replicates arXiv 2604.19762 with strong
 - Word junctions are coupled inside the line and not across the break.
 - The mix of word classes is set mainly by the page and section, not by the line.
 - The order of words in the middle is nearly free.
+
+### Novelty check, part 2: arXiv 2608.17096 (abstract read 3 Oct 2026)
+"A Glyph Is Not a Letter, a Token Is Not a Word, a Space Is Not a Space" uses the same ZL transliteration, with prose, cipher and pseudo-text controls. It already reports:
+- **low glyph entropy** (2.7 bits against about 3.5), too strong for one-to-one substitution, resolving onto multi-symbol units (cf. our V1);
+- **edge-glyph coupling of about 0.2 bits** between tokens, more than any prose control (cf. our V2);
+- **token-to-token prediction below every control** (cf. our negative whole-word MI);
+- **uncertain spaces that behave like word-internal junctures** (cf. our space control);
+- **Voynich-imitating ciphers and self-citation generators that fail** on the edge coupling and the open vocabulary.
+
+**So V1, V2, V3 and the space control are replications of published work.** They agree with it independently.
+
+**Not covered in that abstract or the other papers found so far, so possibly new:**
+- the m/g one-per-line quota (N1);
+- the ch↔e line trade-off (N3);
+- the variance split of line mode across section, page, paragraph and line (§9);
+- the edge-vocabulary-controlled reset (§9);
+- the verbose-cipher merge with encrypted-language positive controls, as a method.
+
+Our Voynich work mostly confirms the current state of the art. It has not cracked anything.
