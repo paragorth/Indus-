@@ -1,0 +1,61 @@
+== S-DARK-63 cycle 2: logographic-name signatures (gender pools, surname slot, free combination of common elements); nperm 10
+
+##### (a) two partially disjoint element pools: spectral bipartition of the element co-occurrence graph (elements >= 5 tokens), same-side share of within-name pairs vs token shuffle (lengths kept), 10 permutations; calibration = gender-tagged lists at n=1431
+  cn_given (gendered names only): n=1431 frequent elements 222 (balance 0.41); same-side share of within-name pairs 0.791 vs shuffle 0.796 +- 0.020 (z=-0.3); element gender purity 0.887, spectral side = gender for 0.667 of 222 gendered elements
+  cn_given (all): n=1431 frequent elements 212 (balance 0.47); same-side share of within-name pairs 0.817 vs shuffle 0.799 +- 0.034 (z=0.6); element gender purity 0.877, spectral side = gender for 0.524 of 212 gendered elements
+  jp_given (gendered names only): n=1431 frequent elements 196 (balance 0.81); same-side share of within-name pairs 0.895 vs shuffle 0.655 +- 0.025 (z=9.6); element gender purity 0.921, spectral side = gender for 0.944 of 196 gendered elements
+  jp_given (all): n=1431 frequent elements 206 (balance 0.36); same-side share of within-name pairs 0.818 vs shuffle 0.690 +- 0.027 (z=4.7); element gender purity 0.924, spectral side = gender for 0.841 of 170 gendered elements
+  vi_given (gendered names only): n=1431 frequent elements 184 (balance 0.44); same-side share of within-name pairs 0.749 vs shuffle 0.621 +- 0.010 (z=12.7); element gender purity 0.863, spectral side = gender for 0.957 of 184 gendered elements
+  vi_given (all): n=1431 frequent elements 176 (balance 0.44); same-side share of within-name pairs 0.725 vs shuffle 0.611 +- 0.017 (z=6.6); element gender purity 0.855, spectral side = gender for 0.949 of 176 gendered elements
+  cn_ancient: n=1431 frequent elements 226 (balance 0.47); same-side share of within-name pairs 0.709 vs shuffle 0.682 +- 0.019 (z=1.4)
+  jp_person_given: n=1431 frequent elements 186 (balance 0.78); same-side share of within-name pairs 0.839 vs shuffle 0.690 +- 0.019 (z=7.9)
+  ur3_names_dedup: n=1342 frequent elements 165 (balance 0.50); same-side share of within-name pairs 0.696 vs shuffle 0.584 +- 0.009 (z=12.1)
+  ob_names_dedup: n=1378 frequent elements 184 (balance 0.45); same-side share of within-name pairs 0.631 vs shuffle 0.559 +- 0.015 (z=4.9)
+  linb_personnel_dedup: n=1431 frequent elements 66 (balance 0.67); same-side share of within-name pairs 0.590 vs shuffle 0.542 +- 0.010 (z=4.7)
+  latin_names_dedup: n=986 frequent elements 63 (balance 0.90); same-side share of within-name pairs 0.963 vs shuffle 0.730 +- 0.042 (z=5.6)
+  Indus seq_raw middles: n=1431 frequent elements 190 (balance 0.23); same-side share of within-name pairs 0.653 vs shuffle 0.570 +- 0.032 (z=2.6)
+  Indus seq_raw NAME-only: n=1163 frequent elements 156 (balance 0.84); same-side share of within-name pairs 0.671 vs shuffle 0.587 +- 0.017 (z=5.0)
+  Indus seq_raw seals: n=1028 frequent elements 157 (balance 0.20); same-side share of within-name pairs 0.677 vs shuffle 0.570 +- 0.014 (z=7.6)
+  Indus seq_raw middles with seal/tablet as the label: n=1331 frequent elements 182 (balance 0.24); same-side share of within-name pairs 0.620 vs shuffle 0.564 +- 0.005 (z=10.3); element gender purity 0.819, spectral side = gender for 0.764 of 182 gendered elements
+  Indus seq_strong middles: n=1403 frequent elements 175 (balance 0.79); same-side share of within-name pairs 0.655 vs shuffle 0.563 +- 0.012 (z=7.7)
+  Indus seq_all middles: n=1402 frequent elements 173 (balance 0.79); same-side share of within-name pairs 0.656 vs shuffle 0.560 +- 0.009 (z=10.6)
+  IM77: 2218 distinct objects; unbridged M tokens 456/11720=0.039 kept as opaque elements
+  Indus im77 middles: n=1505 frequent elements 172 (balance 0.34); same-side share of within-name pairs 0.636 vs shuffle 0.556 +- 0.010 (z=7.8)
+  Indus freq-matched random: n=1431 frequent elements 199 (balance 0.39); same-side share of within-name pairs 0.565 vs shuffle 0.568 +- 0.010 (z=-0.3)
+
+##### (b) head slot: Indus closer (parser) and last-sign (closer-agnostic) vs the surname slot of Chinese / Japanese / Vietnamese full names; MI(head, middle element) vs heads permuted (200x)
+  cn_full surname -> given: n=2000 head types 227 top1 0.095 top10 0.375 Hnorm 0.823; MI(head, middle element) 3.320 vs permuted 3.441 +- 0.012 (z -9.8; excess -1.9% of H(head)); elements (>=5) exclusive to one head 0.000 of 217
+  cn_full last given element as head (open-slot control): n=1673 head types 422 top1 0.025 top10 0.160 Hnorm 0.906; MI(head, middle element) 5.244 vs permuted 5.191 +- 0.008 (z 6.6; excess 0.7% of H(head)); elements (>=5) exclusive to one head 0.000 of 109
+  jp_person surname -> given: n=2000 head types 1261 top1 0.011 top10 0.073 Hnorm 0.959; MI(head, middle element) 6.060 vs permuted 6.068 +- 0.009 (z -0.9; excess -0.1% of H(head)); elements (>=5) exclusive to one head 0.000 of 195
+  jp_person last given element as head (open-slot control): n=1687 head types 339 top1 0.103 top10 0.391 Hnorm 0.803; MI(head, middle element) 4.305 vs permuted 4.141 +- 0.018 (z 8.8; excess 2.4% of H(head)); elements (>=5) exclusive to one head 0.009 of 110
+  vi_full surname -> given: n=2000 head types 139 top1 0.254 top10 0.695 Hnorm 0.646; MI(head, middle element) 1.329 vs permuted 1.362 +- 0.012 (z -2.7; excess -0.7% of H(head)); elements (>=5) exclusive to one head 0.000 of 184
+  vi_full last given element as head (open-slot control): n=1961 head types 381 top1 0.023 top10 0.143 Hnorm 0.909; MI(head, middle element) 3.139 vs permuted 2.896 +- 0.013 (z 18.1; excess 3.1% of H(head)); elements (>=5) exclusive to one head 0.000 of 90
+  Indus seq_raw parser closer -> middle: n=966 head types 11 top1 0.684 top10 0.994 Hnorm 0.532; MI(head, middle element) 0.569 vs permuted 0.499 +- 0.014 (z 4.8; excess 3.8% of H(head)); elements (>=5) exclusive to one head 0.096 of 114
+  Indus seq_raw last sign -> rest of text: n=1726 head types 234 top1 0.311 top10 0.614 Hnorm 0.655; MI(head, middle element) 1.694 vs permuted 1.542 +- 0.018 (z 8.6; excess 2.9% of H(head)); elements (>=5) exclusive to one head 0.016 of 185
+  Indus seq_strong parser closer -> middle: n=956 head types 10 top1 0.680 top10 1.000 Hnorm 0.546; MI(head, middle element) 0.531 vs permuted 0.456 +- 0.012 (z 6.1; excess 4.2% of H(head)); elements (>=5) exclusive to one head 0.075 of 107
+  Indus seq_strong last sign -> rest of text: n=1697 head types 228 top1 0.311 top10 0.635 Hnorm 0.648; MI(head, middle element) 1.615 vs permuted 1.464 +- 0.017 (z 8.8; excess 3.0% of H(head)); elements (>=5) exclusive to one head 0.011 of 174
+  Indus seq_all parser closer -> middle: n=954 head types 10 top1 0.680 top10 1.000 Hnorm 0.546; MI(head, middle element) 0.527 vs permuted 0.451 +- 0.013 (z 6.1; excess 4.2% of H(head)); elements (>=5) exclusive to one head 0.075 of 106
+  Indus seq_all last sign -> rest of text: n=1695 head types 226 top1 0.310 top10 0.636 Hnorm 0.648; MI(head, middle element) 1.605 vs permuted 1.449 +- 0.016 (z 9.5; excess 3.1% of H(head)); elements (>=5) exclusive to one head 0.012 of 171
+  IM77: 2218 distinct objects; unbridged M tokens 456/11720=0.039 kept as opaque elements
+  Indus im77 parser closer -> middle: n=812 head types 7 top1 0.734 top10 1.000 Hnorm 0.482; MI(head, middle element) 0.305 vs permuted 0.239 +- 0.010 (z 6.5; excess 4.9% of H(head)); elements (>=5) exclusive to one head 0.134 of 97
+  Indus im77 last sign -> rest of text: n=1738 head types 191 top1 0.290 top10 0.617 Hnorm 0.679; MI(head, middle element) 1.399 vs permuted 1.245 +- 0.015 (z 10.4; excess 3.0% of H(head)); elements (>=5) exclusive to one head 0.013 of 160
+  ur3_names_dedup last element as head (suffix slot): n=1114 head types 208 top1 0.066 top10 0.368 Hnorm 0.854; MI(head, middle element) 3.088 vs permuted 2.658 +- 0.017 (z 25.7; excess 6.5% of H(head)); elements (>=5) exclusive to one head 0.000 of 121
+  ur3_names_dedup first element as head (prefix slot): n=1114 head types 169 top1 0.199 top10 0.494 Hnorm 0.778; MI(head, middle element) 2.660 vs permuted 2.343 +- 0.020 (z 15.9; excess 5.5% of H(head)); elements (>=5) exclusive to one head 0.008 of 125
+  linb_personnel_dedup last element as head (suffix slot): n=1465 head types 55 top1 0.151 top10 0.666 Hnorm 0.803; MI(head, middle element) 0.609 vs permuted 0.460 +- 0.010 (z 15.3; excess 3.2% of H(head)); elements (>=5) exclusive to one head 0.000 of 63
+  linb_personnel_dedup first element as head (prefix slot): n=1465 head types 62 top1 0.137 top10 0.488 Hnorm 0.877; MI(head, middle element) 0.716 vs permuted 0.558 +- 0.011 (z 14.7; excess 3.0% of H(head)); elements (>=5) exclusive to one head 0.000 of 65
+
+##### (c) common elements combined freely: top-10 element token share; for the top-10 elements, number of distinct partners / tokens and share of partners that are hapax partners; pair-model gain (S-DARK-26) is in cycle 1 pair_pred
+  cn_given: top-10 elements carry 0.059 of tokens; distinct partners per token 1.000; hapax partners 1.000; |P(first)-P(not first)| of the top-10 0.308
+  cn_ancient: top-10 elements carry 0.111 of tokens; distinct partners per token 0.915; hapax partners 0.921; |P(first)-P(not first)| of the top-10 0.924
+  jp_given: top-10 elements carry 0.152 of tokens; distinct partners per token 0.745; hapax partners 0.835; |P(first)-P(not first)| of the top-10 0.640
+  jp_person_given: top-10 elements carry 0.156 of tokens; distinct partners per token 0.765; hapax partners 0.899; |P(first)-P(not first)| of the top-10 0.754
+  vi_given: top-10 elements carry 0.250 of tokens; distinct partners per token 0.676; hapax partners 0.744; |P(first)-P(not first)| of the top-10 0.512
+  ur3_names_dedup: top-10 elements carry 0.289 of tokens; distinct partners per token 0.374; hapax partners 0.505; |P(first)-P(not first)| of the top-10 0.662
+  ob_names_dedup: top-10 elements carry 0.248 of tokens; distinct partners per token 0.290; hapax partners 0.444; |P(first)-P(not first)| of the top-10 0.508
+  linb_personnel_dedup: top-10 elements carry 0.355 of tokens; distinct partners per token 0.116; hapax partners 0.121; |P(first)-P(not first)| of the top-10 0.735
+  latin_names_dedup: top-10 elements carry 0.137 of tokens; distinct partners per token 0.847; hapax partners 0.913; |P(first)-P(not first)| of the top-10 0.630
+  Indus seq_raw: top-10 elements carry 0.261 of tokens; distinct partners per token 0.340; hapax partners 0.530; |P(first)-P(not first)| of the top-10 0.639
+  Indus seq_all: top-10 elements carry 0.272 of tokens; distinct partners per token 0.318; hapax partners 0.529; |P(first)-P(not first)| of the top-10 0.592
+  IM77: 2218 distinct objects; unbridged M tokens 456/11720=0.039 kept as opaque elements
+  Indus im77: top-10 elements carry 0.289 of tokens; distinct partners per token 0.228; hapax partners 0.408; |P(first)-P(not first)| of the top-10 0.613
+  Indus freq-matched random: top-10 elements carry 0.260 of tokens; distinct partners per token 0.355; hapax partners 0.505; |P(first)-P(not first)| of the top-10 0.508

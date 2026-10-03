@@ -1,0 +1,40 @@
+S-DARK-61 FINAL: IS THE HEAD A TITLE OR THE LAST ELEMENT OF A NAME? (three cycles + one extra; rows in loop61_cycle1-3.txt;
+scripts tools/dark_loop61_prep.py, dark_loop61.py, dark_loop61_unit.py; corpora data/derived/dark/loop61_corpora/ (Ur III legends
+with name and title fields apart, 17,964 complete legends -> 2,018 distinct name+title, 1,413 distinct names); numbers loop61_cycle*.json,
+loop61_unit.json; logs loop61_*_log.txt, loop61_c*_run.txt). Nothing committed. Data: merged-corpus-canonical.json (S-DARK-23 caution),
+IM77 via bridge + S-DARK-27 proposals. All results at seq_raw / seq_strong / seq_all within 0.03; IM77 and held-out sites agree.
+
+The arrow: S-DARK-56 stripped the head and its qualifier and found the Indus middle has no closed edge set (names do). Counter-arrow:
+the head IS the closed final set (like -ilum / -{d}DN / -mu), the qualifier the penultimate name element, 'title' is wrong.
+
+(1) Edge set with the head kept. Top-10 finals cover 0.67 of Indus strings (random 0.33; stripped middle 0.27 = random). This equals
+    what adding the TITLE to an Ur III name does (0.85 vs 0.37) and matches Linear B names (0.63). The Ur III NAME's own final element
+    gives NO closed set (0.26-0.32 = random; Sumerian names are closed at the start: ur-/lu2-/lugal-, 0.45-0.53). Indus has no closed
+    initial set at all (0.27, below random 0.33); every name list has one. So the closed-set statistic cannot by itself say 'name final'
+    vs 'title'; it does say the Indus string is unlike a compound name at its start.
+(2) Decisive binding test. Ur III title vs preceding name element: MI excess 0.00 (P 0.3-1.0), loyalty at chance -> titles are chosen
+    independently of the name, as predicted. Name finals: weakly bound (+0.06 to +0.20 of H(final); loyalty 0.00-0.18). Indus qualifier ->
+    head: +0.31 of H(head), loyalty 0.67 vs null 0.21 (P 0.001), 16 repulsions / 1 attraction among 60 testable cells; adjacent only
+    (one step back: chance). The head is bound to its qualifier 2.5-5x more tightly than any name final to its penultimate. The
+    (qualifier + head) unit keeps +0.08 of its entropy from the element before it (Ur III title 0.00; name endings +0.01-0.05).
+(3) Positional predictions. Heads are string-initial 0.03 (name finals 0.13-0.63), non-final 0.23 and then only as the first of two
+    stacked units (name finals 0.48-0.81; titles 0.00); two heads repel (0.069 vs 0.21 shuffled; compound names 0.14-0.36; Ur III legends
+    stack titles 0.50). Heads stand alone on 6.5% of head texts and without any name element on 20%; an Ur III title without a name is
+    3 of 17,964.
+(4) Replication: held-out Wells sites and IM77 reproduce the closed final set (+0.33 / +0.26), the open initial, and the qualifier ->
+    head binding (P 0.001) at all three merge levels.
+
+PLAIN STATEMENT. The heads behave like NEITHER a name-final element NOR an Ur III-style title. They behave like a free-standing
+closed-class WORD of one or two signs (qualifier + head = one frozen term, like dub-sar) that can be the whole text, that ends a unit,
+that does not stack, and whose choice is only weakly linked to the rest of the string. 'Head = suffix of a name' fails on the open
+initial, the near-ban on string-initial heads, head repulsion, head-alone texts and the far-too-tight adjacent binding. 'Head = title of
+an owner's name' in the Mesopotamian sense fails on the head-alone / no-name texts (6.5% / 20% vs 0.02%) and on the non-stacking.
+Effect on readings: the 'credential' reading (S366: a text composed as a checklist of terms, the closer a term) is strengthened, since
+the closing term can stand without any 'name'; the 'not names' verdict on the middle (S-DARK-56) is unchanged, with one correction to
+its wording: the Indus text does have a closed final set, it is the final TERM, not an affix. The 'owner legend = name + title' gloss
+in GRAMMAR.md should be read as 'term(s) + closing term', not as PN + profession.
+Killers stated in advance: a new corpus in which heads show loyalty to their qualifier <= 0.2 and MI excess <= 0.1 of H(head) would
+revive 'title'; heads at string-initial position >= 0.10 or a closed initial set >= 0.40 would revive 'name final'.
+Caveats: Ur III elements are a greedy approximation (S-DARK-56); titles taken as the first word of line 2 (dumu / dub-sar / arad2 ...);
+76% of Indus texts are Mohenjo-daro + Harappa; corpus from the older inscriptions.csv build; 'head alone' texts are mostly short
+seals and tablets, where the frame itself is reduced (S29, S66).
