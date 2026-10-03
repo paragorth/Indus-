@@ -249,7 +249,7 @@ class FormModel:
             self.logp = np.where(np.arange(K)[:, None] < np.arange(K)[None, :], 0.0, -20.0)
         else:
             self.logp = np.log((A + 1) / (A + A.T + 2))
-        self.order_agree = float(np.triu(A, 1).sum() / max(1, A.sum()))
+        self.order_agree = float(np.triu(A, 1).sum() / max(1, A.sum())); self.A = A
         # design matrix
         self.sites = sorted(set(s for s, _, _ in data)); self.clss = ['SEAL', 'TAB', 'OTHER']
         N = len(self.units); X = np.zeros((N, K)); Z = np.zeros((N, self.ncov()))
@@ -530,9 +530,21 @@ def main():
         for name, s in res.items(): log(f"  {name:60s} {s['outside']:2d}/{s['n']}  {s['z_gt3']:2d}  {s['sum_abs_z_capped']:.1f}")
 
     if CY == 3:
-        base = ['ising', 'type', 'site', 'reuse', 'open', 'units', 'elemchain']
+        base = ['ising', 'type', 'site', 'reuse', 'open', 'partial', 'elemchain']
         M = FormModel(FIT, mech=base, form=F)
+        log(f"model: PARTIAL (whole text = one field subset; Ising co-selection; pairwise field order; element chain); pair-order agreement with the linear field order {M.order_agree:.3f}; " + field_diag(F, FIT))
         describe_form(F, texts, model=M)
+        A = M.A; licensed = (A >= 2)   # a field pair may be written in this order if the fit set shows it at least twice
+        log(f"licensed pair orders: {int(licensed.sum())} of {K*(K-1)} ordered field pairs; both orders licensed for {int((licensed & licensed.T).sum()//2)} unordered pairs, one order only for {int((licensed & ~licensed.T).sum())}, never co-written {int((~licensed & ~licensed.T).sum()//2 - K/2)}")
+        def valid_partial(s, forbid):
+            fs = [F.field_of[x] for x in s if x in F.field_of]
+            if len(set(fs)) < len(fs): return False
+            for i in range(len(fs)):
+                for j in range(i + 1, len(fs)):
+                    if not licensed[fs[i], fs[j]]: return False
+                    a, b = min(fs[i], fs[j]), max(fs[i], fs[j])
+                    if (a, b) in forbid: return False
+            return True
         W = M.W; K = M.K
         # forbidden / required co-selections from the fit data on fields
         fx = collections.Counter(); fboth = collections.Counter(); nU = len(M.units)
