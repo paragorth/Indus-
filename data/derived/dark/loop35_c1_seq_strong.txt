@@ -1,0 +1,41 @@
+== S-DARK-35 cycle 1 level seq_strong nperm 1000: complete seal texts 1597, home 1277; closer counts {520: 114, 740: 530, 'none': 449, 151: 35, 156: 31, 154: 25, 'OPN': 20, 617: 20, 700: 6, 527: 31, 236: 4, 226: 12}
+closer classes used (>= 8 home seals): ['W740/M342', 'W520/M211', 'W151/M12', 'W156/M15', 'W527/M254', 'W154', 'W617', 'W226/M60']
+
+--- cycle 1: log face area, home seals with H and V: n=1193; by site Counter({'Mohenjo-daro': 931, 'Harappa': 262}); closers Counter({740: 492, 'none': 421, 520: 108, 151: 34, 156: 29, 527: 28, 154: 24, 'OPN': 20, 617: 18, 226: 11, 700: 5, 236: 3})
+REML lambda (s2_e/s2_u) = 17.8; n groups (site x area-section) = 51
+closer effects on log area (vs jar W740/M342 = 0), 95% CI:
+  W226/M60 +0.224 [-0.072,+0.520]; W520/M211 +0.026 [-0.077,+0.129]; W617 +0.025 [-0.210,+0.259]; W740/M342 +0.000; W156/M15 -0.017 [-0.209,+0.175]; W527/M254 -0.082 [-0.271,+0.107]; W151/M12 -0.082 [-0.257,+0.092]; W154 -0.165 [-0.374,+0.043]
+  other levels: {'none': 0.088, 'OPN': 0.388, 'rare': -0.631}
+  covariates: int=+6.11 len:2=+0.06 len:3=+0.17 len:4=+0.30 len:5=+0.37 len:6=+0.54 len:7=+0.55 len:8=+0.77 len:10=+1.08 site:Mohenjo-daro=+0.04 mat:0=+0.47 mat:1=-0.29 mat:3=-0.01 mat:None=-0.07 emb:none=-0.60 emb:other=-0.07 emb:unk=-0.53
+
+split MD vs Harappa: common closers 7; counts A [385, 87, 30, 23, 24, 11, 15] B [107, 21, 4, 6, 4, 13, 3]
+  A: W520/M211 +0.042 [-0.069,+0.152]; W617 +0.014 [-0.233,+0.262]; W740/M342 +0.000; W156/M15 -0.023 [-0.230,+0.184]; W151/M12 -0.079 [-0.259,+0.101]; W154 -0.121 [-0.408,+0.165]; W527/M254 -0.157 [-0.353,+0.039]
+  B: W527/M254 +0.263 [-0.261,+0.787]; W156/M15 +0.019 [-0.433,+0.471]; W740/M342 +0.000; W520/M211 -0.008 [-0.257,+0.241]; W617 -0.040 [-0.649,+0.568]; W154 -0.144 [-0.466,+0.179]; W151/M12 -0.210 [-0.737,+0.317]
+  Spearman rho between splits = -0.107
+
+split steatite vs other-material: too few closers shared (common=['W740/M342'])
+Traceback (most recent call last):
+  File "/home/user/Indus-/tools/dark_loop35.py", line 245, in <module>
+    rho,common,effs,Vis,cc=split_rho(S,y,fa,fb,lam)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop35.py", line 241, in split_rho
+    eb,sb,_,lb,Vib,_,_,_=closer_effects(ob,yv[B],common,lamfix,None if Vis is None else Vis[1])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop35.py", line 165, in closer_effects
+    if Vi is None: b,se,lam,s2,Vi=reml_fit(y,X,Z,lam)
+                                  ^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop35.py", line 158, in reml_fit
+    else: ll,b,s2,A=crit(lam)
+                    ^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop35.py", line 149, in crit
+    b,A,rVr=_solve(P,lm); s2=rVr/(n-p)
+            ^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop35.py", line 140, in _solve
+    b=np.linalg.solve(A,bv)
+      ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/numpy/linalg/_linalg.py", line 451, in solve
+    r = gufunc(a, b, signature=signature)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/numpy/linalg/_linalg.py", line 144, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix

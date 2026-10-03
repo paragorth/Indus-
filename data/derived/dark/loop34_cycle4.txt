@@ -1,0 +1,32 @@
+S-DARK-34 cycle 4: EXCEPTIONLESS-RULE CENSUS (3 Oct 2026)
+Script tools/dark_loop34_c4.py; logs loop34_c4_<level>.txt/json (scratchpad). A learner can miss a rule that holds
+on a small subset, so this cycle enumerates every one-antecedent rule directly. Antecedents (facts about the rest
+of the object): a sign present; the first / last / before-closer sign; the closer unit; sub-type; length bucket;
+emblem, material, boss, shape; numeral present / value; sum of W indices mod 3/5/7/10. Consequents: last sign,
+closer, first sign, emblem, material, boss, shape, numeral present, numeral value. Facts that reveal the hidden
+target are removed (e.g. for the numeral targets every fact naming a numeral sign; for the closer every fact naming
+the last position). A rule is kept if it holds on >= 10 Mohenjo-daro + Harappa seals with precision 1.0; it then
+faces (a) other-site seals (291) and (b) the 319 IM77-only texts; 'survives' = 0 exceptions and >= 3 held-out cases.
+Controls: the same census on consequents permuted within sub-type (3 reps); a planted corpus with emblem :=
+lookup[closer] on every object.
+
+target        | train rules | survive | killed | untestable | shuffled rules / survivors (3 reps)      | notes
+last sign     | 0 / 1 / 1   | 0       | 0      | 0 / 1 / 1  | 0 / 0                                     | no sign anywhere in a seal fixes its last sign
+closer        | 5 / 8 / 8   | 0 / 1 / 1| 3     | 2 / 4 / 4  | 0 / 0                                     | survivor (strong/all) 'W555 before the closer -> W527' 12/12, held-out 4/4 (< 3/4): the S289 unit 550/555-527; killed: 'W100 before -> jar' 40/40 train, 16/19 held-out; 'W585 before -> jar' 14/14, 5/6; 'W1 before -> name-final' 11/11, 8/10
+first sign    | 0           | 0       | 0      | 0          | 0 / 0                                     |
+emblem        | 6 / 4 / 4   | 0       | 5 / 4  | 1 / 0      | 2-4 / 0                                   | all rules predicted 'unicorn' from a rare sign (W806, W226, short-4 before the closer) and all died on the hold-outs (e.g. short-4 before closer: 17/17 train, 4/8 sites, 0/5 IM77)
+material      | 112/108/108 | 39      | 35/32  | 38/37      | 84-95 / 29-37                             | every rule is 'X -> steatite' (98% base rate); the shuffled census yields as many survivors (29-37 vs 39): no information
+boss          | 5           | 0       | 2 / 1  | 3 / 4      | 3-5 / 0-2                                 |
+shape         | 21/19/19    | 11/9/9  | 4      | 6          | 18-21 / 8-11                              | every rule is 'X -> square' (83% base rate); shuffled census matches (8-11 vs 9-11): no information
+numeral yes/no| 1           | 0       | 0      | 1          | 0-2 / 0-1                                 | nothing in a seal's non-numeral signs fixes whether it carries a numeral
+numeral value | 1 / 0 / 0   | 0       | 1      | 0          | 0 / 0                                     | 'W705 present -> value 3' 39/39 train, sites 2/3, IM77 4/4: killed by one Dholavira/Lothal seal (S299 term, a strong tendency)
+PLANTED emblem := f(closer): 30-32 training rules, 22 survive both hold-outs, including closer=jar -> zebu (529),
+closer=W520 -> elephant (114), closer=none -> unicorn (420): the census finds a planted class sign at once.
+
+Reading. Across 9 targets and three merge levels, the census finds exactly one exceptionless rule that survives
+both hold-outs and is not a base-rate artefact: 'W555 before the closer -> closer W527' (12 train + 4 held-out,
+bound < 3/4), which is the closer unit 550/555-527 already in S289. Material and shape produce dozens of
+'survivors' but the label-shuffled census produces the same number, because 98% of seals are steatite and 83% square.
+The planted class sign produces 22 survivors with supports of 100-500. Nothing in the real corpus looks like that.
+
+| S-DARK-34.4 | **Checksum hunt, exceptionless-rule census.** Every one-antecedent rule (sign present; first / last / before-closer sign; closer unit; sub-type; length; emblem / material / boss / shape; numeral present / value; sum of indices mod 3/5/7/10 -> one of nine targets) that holds with precision 1.0 on >= 10 MD + Harappa seals, tested on other-site seals (291) and the 319 IM77-only texts; survivor = 0 exceptions on >= 3 held-out cases; controls: consequents permuted within sub-type (3 reps) and a planted emblem := lookup[closer]. Three levels (`tools/dark_loop34_c4.py`) | Last sign 0-1 training rules, 0 survive; first sign 0; closer 5-8 rules, 1 survives at the merged levels ('W555 before the closer -> W527', 12/12 + 4/4, < 3/4; S289 unit), 'W100 before -> jar' (40/40) dies 16/19, 'W585 before -> jar' 5/6; emblem 4-6 rules, 0 survive (all 'rare sign -> unicorn', e.g. 4/8 and 0/5 held-out); numeral present 1 rule, untestable; numeral value 'W705 -> 3' 39/39 train dies 2/3 at the sites (4/4 IM77); material 39 survivors vs 29-37 under shuffled labels, shape 9-11 vs 8-11 (base rates 98% steatite, 83% square); boss 0. Planted emblem := f(closer): 22 survivors with supports 100-500 | **No exceptionless rule links any element of a seal to any other beyond the known closer units, and the one survivor is a 16-case tendency.** With a planted class sign the same census returns 22 rules; on the real seals it returns the base rate. The seals carry no redundancy beyond the frame (data/derived/dark/loop34_cycle4.txt) |

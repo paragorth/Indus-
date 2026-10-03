@@ -229,8 +229,8 @@ if CY==1:
             'steatite vs other-material':(lambda o:o['mat']==2,lambda o:o['mat'] is not None and o['mat']!=2),
             'unicorn vs other-emblem':(lambda o:o['emb']=='unicorn',lambda o:o['emb'] in('none','other')),
             'square vs non-square shape':(lambda o:o['shape']=='square',lambda o:o['shape'] not in('square','-',''))}
-    halves=[rnd.random()<0.5 for _ in S]
-    SPLITS['random halves']=(lambda o,h=dict((id(o),x) for o,x in zip(S,halves)):h[id(o)],lambda o,h=dict((id(o),x) for o,x in zip(S,halves)):not h[id(o)])
+    for o in S: o['half']=rnd.random()<0.5
+    SPLITS['random halves']=(lambda o:o['half'],lambda o:not o['half'])
     def split_rho(objs,yv,fa,fb,lamfix,Vis=None):
         A=[k for k,o in enumerate(objs) if fa(o)]; B=[k for k,o in enumerate(objs) if fb(o)]
         oa=[objs[k] for k in A]; ob=[objs[k] for k in B]

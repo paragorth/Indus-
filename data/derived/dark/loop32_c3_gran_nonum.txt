@@ -1,0 +1,118 @@
+S-DARK-32 cycle 3 (granularity-matched): nested feature selection inside LOCO. numerals DROPPED; 33 candidate features; training corpora 9: khipu[A], proto_cuneiform[A], proto_elamite[A], heraldry[D], chess_eco[D], chords[D], linb_syll[L], ur3_names_syll[L], ur3_syll[L]
+  granularity window: types per 2,000 tokens within [0.4, 2.5] x Indus (274) -> [110, 686]; dropped: aircraft_reg (40), hts (99), icd10 (35), unicode_names (832), latin_edh (1164), linb_words (725), ur3_words (764)
+
+== Three classes L / D / A, logistic regression ==
+  k= 3 lam=   1: LOCO accuracy 0.00
+  k= 3 lam=  10: LOCO accuracy 0.00
+  k= 3 lam=  50: LOCO accuracy 0.11
+  k= 5 lam=   1: LOCO accuracy 0.00
+  k= 5 lam=  10: LOCO accuracy 0.22
+  k= 5 lam=  50: LOCO accuracy 0.22
+  k= 8 lam=   1: LOCO accuracy 0.22
+  k= 8 lam=  10: LOCO accuracy 0.22
+  k= 8 lam=  50: LOCO accuracy 0.22
+  k=12 lam=   1: LOCO accuracy 0.22
+  k=12 lam=  10: LOCO accuracy 0.22
+  k=12 lam=  50: LOCO accuracy 0.22
+  best: k=5 lam=10 accuracy 0.22 (majority-class chance 0.33); features chosen across folds: top10_first_share x8, H_penult/H_mid x7, bigram_MI/H1 x5, H_uni_norm x5, anagram_rate x5, h2/H1 x4, frames_per_text x3, det_loy50_max x1, hub_mobility x1, top10_frame_share x1
+    khipu            true A P=L 0.25 D 0.68 A 0.07  WRONG
+    proto_cuneiform  true A P=L 0.59 D 0.08 A 0.33  WRONG
+    proto_elamite    true A P=L 0.72 D 0.00 A 0.28  WRONG
+    heraldry         true D P=L 0.66 D 0.16 A 0.18  WRONG
+    chess_eco        true D P=L 0.28 D 0.44 A 0.28
+    chords           true D P=L 0.35 D 0.05 A 0.61  WRONG
+    linb_syll        true L P=L 0.07 D 0.20 A 0.73  WRONG
+    ur3_names_syll   true L P=L 0.49 D 0.02 A 0.49
+    ur3_syll         true L P=L 0.26 D 0.24 A 0.51  WRONG
+  label-permutation null (30, same nested selection): mean 0.21, 95th pct 0.56, max 0.56; P(null >= 0.22) = 0.548
+  reliability: of 0 held-out corpora given P >= 0.80, 0 were right; of 9 given P < 0.80, 2 right
+
+== Three classes, 3-NN on corpus means ==
+  k= 3 lam=   1: LOCO accuracy 0.11 (3-NN on corpus means)
+  k= 5 lam=   1: LOCO accuracy 0.11 (3-NN on corpus means)
+  k= 8 lam=   1: LOCO accuracy 0.22 (3-NN on corpus means)
+  k=12 lam=   1: LOCO accuracy 0.11 (3-NN on corpus means)
+  best: k=8 lam=1 accuracy 0.22 (majority-class chance 0.33); features chosen across folds: top10_first_share x9, anagram_rate x9, H_uni_norm x9, bigram_MI/H1 x8, h2/H1 x8, H_penult/H_mid x8, H_second/H_mid x4, frames_per_text x3, det_loy50_max x3, types_per_2000tok x1
+    khipu            true A P=L 0.33 D 0.67 A 0.00  WRONG
+    proto_cuneiform  true A P=L 1.00 D 0.00 A 0.00  WRONG
+    proto_elamite    true A P=L 0.67 D 0.00 A 0.33  WRONG
+    heraldry         true D P=L 1.00 D 0.00 A 0.00  WRONG
+    chess_eco        true D P=L 0.00 D 0.67 A 0.33
+    chords           true D P=L 0.33 D 0.00 A 0.67  WRONG
+    linb_syll        true L P=L 0.00 D 0.00 A 1.00  WRONG
+    ur3_names_syll   true L P=L 0.67 D 0.00 A 0.33
+    ur3_syll         true L P=L 0.00 D 0.00 A 1.00  WRONG
+  label-permutation null (30, same nested selection): mean 0.16, 95th pct 0.44, max 0.56; P(null >= 0.22) = 0.419
+  reliability: of 4 held-out corpora given P >= 0.80, 0 were right; of 5 given P < 0.80, 2 right
+
+== Binary: language writing (L) vs not (N = designed, grammar-only, accounting) ==
+  k= 3 lam=   1: LOCO accuracy 0.22
+  k= 3 lam=  10: LOCO accuracy 0.22
+  k= 3 lam=  50: LOCO accuracy 0.22
+  k= 5 lam=   1: LOCO accuracy 0.33
+  k= 5 lam=  10: LOCO accuracy 0.44
+  k= 5 lam=  50: LOCO accuracy 0.44
+  k= 8 lam=   1: LOCO accuracy 0.44
+  k= 8 lam=  10: LOCO accuracy 0.44
+  k= 8 lam=  50: LOCO accuracy 0.44
+  k=12 lam=   1: LOCO accuracy 0.33
+  k=12 lam=  10: LOCO accuracy 0.33
+  k=12 lam=  50: LOCO accuracy 0.33
+  best: k=5 lam=10 accuracy 0.44 (majority-class chance 0.67); features chosen across folds: det_loy50_max x8, loyal_per_sign x7, H_uni_norm x6, unique_share x5, uniq_vs_bigram x4, anagram_rate x4, h2/H1 x3, bigram_MI/H1 x3, smallset_share x2, H_penult/H_mid x1
+    khipu            true N P=L 0.37 N 0.63
+    proto_cuneiform  true N P=L 0.55 N 0.45  WRONG
+    proto_elamite    true N P=L 0.96 N 0.04  WRONG
+    heraldry         true N P=L 0.99 N 0.01  WRONG
+    chess_eco        true N P=L 0.05 N 0.95
+    chords           true N P=L 0.03 N 0.97
+    linb_syll        true L P=L 0.08 N 0.92  WRONG
+    ur3_names_syll   true L P=L 0.87 N 0.13
+    ur3_syll         true L P=L 0.37 N 0.63  WRONG
+  label-permutation null (30, same nested selection): mean 0.43, 95th pct 0.78, max 0.78; P(null >= 0.44) = 0.452
+  reliability: of 6 held-out corpora given P >= 0.80, 3 were right; of 3 given P < 0.80, 1 right
+
+== Three-class: unknowns and controls with the best config (k=5: top10_first_share, anagram_rate, H_uni_norm, H_penult/H_mid, bigram_MI/H1; lam=10); LOCO accuracy of this config 0.22 ==
+  aircraft_reg     P(L)=0.22[0.20-0.24] P(D)=0.45[0.41-0.49] P(A)=0.34[0.31-0.36] -> D; nearest: chess_eco[D] 4.2, khipu[A] 4.6, linb_syll[L] 5.1, proto_cuneiform[A] 5.5
+  hts              P(L)=0.14[0.13-0.15] P(D)=0.04[0.03-0.04] P(A)=0.83[0.81-0.84] -> A; nearest: khipu[A] 4.6, linb_syll[L] 4.9, chess_eco[D] 5.1, proto_cuneiform[A] 5.2
+  icd10            P(L)=0.05[0.04-0.05] P(D)=0.31[0.29-0.33] P(A)=0.64[0.62-0.66] -> A; nearest: chess_eco[D] 5.0, khipu[A] 5.0, chords[D] 5.5, linb_syll[L] 5.7
+  unicode_names    P(L)=0.36[0.33-0.37] P(D)=0.02[0.02-0.03] P(A)=0.62[0.60-0.65] -> A; nearest: proto_cuneiform[A] 3.2, ur3_names_syll[L] 3.5, ur3_syll[L] 3.6, khipu[A] 4.0
+  indus_im77       P(L)=0.52[0.50-0.53] P(D)=0.02[0.02-0.02] P(A)=0.46[0.45-0.48] -> L; nearest: linb_syll[L] 1.1, proto_cuneiform[A] 1.6, ur3_names_syll[L] 2.0, ur3_syll[L] 2.3
+  indus_seq_all    P(L)=0.44[0.41-0.45] P(D)=0.04[0.04-0.04] P(A)=0.53[0.52-0.54] -> A; nearest: linb_syll[L] 0.9, proto_cuneiform[A] 1.5, ur3_syll[L] 2.0, khipu[A] 2.0
+  indus_seq_raw    P(L)=0.45[0.43-0.46] P(D)=0.03[0.03-0.03] P(A)=0.52[0.51-0.53] -> A; nearest: linb_syll[L] 1.0, proto_cuneiform[A] 1.5, ur3_syll[L] 2.1, khipu[A] 2.2
+  indus_seq_strong P(L)=0.44[0.42-0.45] P(D)=0.04[0.03-0.04] P(A)=0.52[0.51-0.54] -> A; nearest: linb_syll[L] 0.9, proto_cuneiform[A] 1.5, ur3_syll[L] 2.0, khipu[A] 2.1
+  latin_edh        P(L)=0.90[0.90-0.91] P(D)=0.00[0.00-0.00] P(A)=0.10[0.09-0.10] -> L; nearest: ur3_names_syll[L] 3.2, proto_elamite[A] 4.7, proto_cuneiform[A] 4.7, ur3_syll[L] 4.9
+  linb_words       P(L)=0.50[0.47-0.53] P(D)=0.01[0.01-0.01] P(A)=0.49[0.46-0.52] -> L; nearest: proto_elamite[A] 2.0, ur3_syll[L] 2.7, ur3_names_syll[L] 2.7, proto_cuneiform[A] 3.1
+  ur3_words        P(L)=0.08[0.07-0.08] P(D)=0.02[0.02-0.02] P(A)=0.90[0.90-0.91] -> A; nearest: proto_cuneiform[A] 3.5, proto_elamite[A] 3.7, khipu[A] 3.8, linb_syll[L] 3.9
+  indus_bigram     P(L)=0.45[0.43-0.47] P(D)=0.03[0.03-0.03] P(A)=0.52[0.50-0.54] -> A; nearest: linb_syll[L] 1.2, proto_cuneiform[A] 1.3, ur3_syll[L] 2.0, khipu[A] 2.2
+  indus_markov2    P(L)=0.52[0.51-0.54] P(D)=0.02[0.02-0.02] P(A)=0.46[0.44-0.47] -> L; nearest: linb_syll[L] 1.3, proto_cuneiform[A] 1.4, ur3_syll[L] 2.0, ur3_names_syll[L] 2.0
+  indus_slotshuf   P(L)=0.13[0.12-0.14] P(D)=0.07[0.07-0.08] P(A)=0.80[0.79-0.80] -> A; nearest: khipu[A] 1.8, linb_syll[L] 2.0, proto_cuneiform[A] 2.7, chords[D] 3.2
+  runes_words      P(L)=0.91[0.90-0.91] P(D)=0.00[0.00-0.00] P(A)=0.09[0.09-0.10] -> L; nearest: ur3_names_syll[L] 4.0, proto_elamite[A] 4.9, ur3_syll[L] 5.3, proto_cuneiform[A] 5.4
+  selected features, Indus (mean of 4 versions) vs class means over corpora:
+    top10_first_share        Indus   0.344 | L   0.601 [0.49-0.70] | D   0.884 [0.72-0.97] | A   0.496 [0.24-0.65]
+    anagram_rate             Indus   0.034 | L   0.087 [0.01-0.16] | D   0.535 [0.20-0.75] | A   0.209 [0.03-0.36]
+    H_uni_norm               Indus   0.739 | L   0.751 [0.70-0.81] | D   0.650 [0.61-0.70] | A   0.711 [0.68-0.74]
+    H_penult/H_mid           Indus   0.963 | L   0.943 [0.91-0.99] | D   1.047 [0.99-1.08] | A   0.913 [0.81-0.98]
+    bigram_MI/H1             Indus   0.484 | L   0.539 [0.45-0.61] | D   0.381 [0.33-0.43] | A   0.492 [0.39-0.57]
+
+== Binary: unknowns and controls with the best config (k=5: det_loy50_max, H_uni_norm, loyal_per_sign, unique_share, uniq_vs_bigram; lam=10); LOCO accuracy of this config 0.44 ==
+  aircraft_reg     P(L)=0.60[0.56-0.64] P(N)=0.40[0.36-0.44] -> L; nearest: proto_cuneiform[N] 2.9, chess_eco[N] 3.5, khipu[N] 3.7, proto_elamite[N] 4.2
+  hts              P(L)=0.45[0.44-0.47] P(N)=0.55[0.53-0.56] -> N; nearest: proto_cuneiform[N] 3.3, chess_eco[N] 3.7, khipu[N] 4.6, proto_elamite[N] 4.8
+  icd10            P(L)=0.37[0.34-0.41] P(N)=0.63[0.59-0.66] -> N; nearest: proto_cuneiform[N] 2.3, chess_eco[N] 2.8, khipu[N] 3.4, proto_elamite[N] 3.7
+  unicode_names    P(L)=0.99[0.99-1.00] P(N)=0.01[0.00-0.01] -> L; nearest: linb_syll[L] 13.4, proto_cuneiform[N] 15.7, chess_eco[N] 15.7, proto_elamite[N] 15.8
+  indus_im77       P(L)=0.54[0.53-0.56] P(N)=0.46[0.44-0.47] -> L; nearest: proto_cuneiform[N] 1.3, khipu[N] 1.6, ur3_syll[L] 1.6, proto_elamite[N] 1.8
+  indus_seq_all    P(L)=0.54[0.51-0.56] P(N)=0.46[0.44-0.49] -> L; nearest: ur3_syll[L] 1.1, khipu[N] 1.2, proto_elamite[N] 1.4, proto_cuneiform[N] 1.9
+  indus_seq_raw    P(L)=0.58[0.55-0.66] P(N)=0.42[0.34-0.45] -> L; nearest: ur3_syll[L] 1.1, khipu[N] 1.3, proto_elamite[N] 1.5, proto_cuneiform[N] 1.8
+  indus_seq_strong P(L)=0.54[0.52-0.56] P(N)=0.46[0.44-0.48] -> L; nearest: ur3_syll[L] 1.1, khipu[N] 1.2, proto_elamite[N] 1.4, proto_cuneiform[N] 1.9
+  latin_edh        P(L)=0.81[0.72-1.00] P(N)=0.19[0.00-0.28] -> L; nearest: proto_cuneiform[N] 3.1, linb_syll[L] 3.5, chess_eco[N] 3.7, ur3_syll[L] 4.1
+  linb_words       P(L)=0.53[0.51-0.55] P(N)=0.47[0.45-0.49] -> L; nearest: proto_elamite[N] 1.1, ur3_syll[L] 1.2, heraldry[N] 1.4, proto_cuneiform[N] 2.0
+  ur3_words        P(L)=0.57[0.23-0.92] P(N)=0.43[0.08-0.77] -> L; nearest: linb_syll[L] 3.1, chess_eco[N] 5.0, proto_cuneiform[N] 5.0, proto_elamite[N] 5.0
+  indus_bigram     P(L)=0.32[0.29-0.34] P(N)=0.68[0.66-0.71] -> N; nearest: proto_cuneiform[N] 0.6, proto_elamite[N] 1.2, chess_eco[N] 1.5, ur3_syll[L] 1.6
+  indus_markov2    P(L)=0.46[0.41-0.49] P(N)=0.54[0.51-0.59] -> N; nearest: proto_cuneiform[N] 1.0, proto_elamite[N] 1.3, ur3_syll[L] 1.4, khipu[N] 1.6
+  indus_slotshuf   P(L)=0.14[0.13-0.15] P(N)=0.86[0.85-0.87] -> N; nearest: proto_cuneiform[N] 1.0, khipu[N] 1.3, chess_eco[N] 1.6, proto_elamite[N] 1.7
+  runes_words      P(L)=0.41[0.34-0.45] P(N)=0.59[0.55-0.66] -> N; nearest: proto_cuneiform[N] 2.0, khipu[N] 2.7, chess_eco[N] 2.8, proto_elamite[N] 3.3
+  selected features, Indus (mean of 4 versions) vs class means over corpora:
+    det_loy50_max            Indus   0.340 | L   0.669 [0.56-0.84] | N   0.301 [0.00-0.79]
+    H_uni_norm               Indus   0.739 | L   0.751 [0.70-0.81] | N   0.681 [0.61-0.74]
+    loyal_per_sign           Indus   0.000 | L   0.003 [0.00-0.01] | N   0.000 [0.00-0.00]
+    unique_share             Indus   0.709 | L   0.615 [0.38-0.75] | N   0.811 [0.68-1.00]
+    uniq_vs_bigram           Indus   0.839 | L   0.772 [0.53-0.96] | N   0.953 [0.85-1.13]
