@@ -17,7 +17,7 @@ sys.path.insert(0, '/home/user/Indus-/tools')
 from dark_loop46_common import *
 
 LEVEL = sys.argv[1] if len(sys.argv) > 1 else 'all'
-NSHUF = 200; NPERM = 1000; KMAX = 4; RESTARTS = 20; FOLDS = 5
+NSHUF = 100; NPERM = 1000; KMAX = 4; RESTARTS = 8; FOLDS = 5
 rng = np.random.default_rng(462)
 corpus = load_corpus(); N = len(corpus)
 classes = load_classes(LEVEL); use = usable_classes(corpus, classes)
@@ -34,7 +34,7 @@ def matrix(texts):
     return X
 
 
-def em(X, K, iters=200, seed=0):
+def em(X, K, iters=120, seed=0):
     r = np.random.default_rng(seed)
     n = len(X); obs = X >= 0; x1 = (X == 1)
     pi = np.full(K, 1 / K); theta = r.uniform(0.2, 0.8, (K, H))

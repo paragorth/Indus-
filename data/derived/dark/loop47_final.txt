@@ -1,0 +1,38 @@
+LOOP 47 FINAL (2026-10-03): re-read the museum seals that fail the code; misreading, genuine exception, or modern piece?
+Three cycles (loop47_cycle1-3.txt, rows ready to paste before '## Summary' in STRATEGIES.md); scripts tools/dark_loop47_crop.py (crop /
+sheet / glyphs) and tools/dark_loop47_score.py (re-score + copy test; logs loop47_score_seq_{raw,strong,all}.txt); images and museum JSON
+records with SOURCES.txt in data/derived/dark/loop47_images/ (Cleveland CC0 TIFFs 2.5-4.1k px, Met CC0 originals, Sindh banner);
+corrected table data/derived/dark/loop47_newfinds_v2.csv. Nothing committed.
+
+QUESTION. S-DARK-42.3 found the seven loop 36 museum seals failing the grammar on one rule, non-adjacent repetition (false alarm 0.6-1%).
+Are the repeats misreadings, genuine exceptions, or signs of modern manufacture?
+
+ANSWER.
+ 1. Re-reading at 5-20x the loop 36 image size (47.1). 12 of 31 tier-B signs change identity, all within shape families. Sindh seal:
+    the two 'W435' are three different hooks (loop hook W902, Z-hook W435, lambda W62) -> no repeat. Cleveland 1964.104: W700 is a
+    one-stroke cup W706 and W790 a pointed oval W832 -> the exclusion flag was two shape-pair misreadings. Cleveland 1973.160: the two
+    grids are each a single 3 x 8 grid (W615, not the doubled W617), identical in form and size, separated by the person W90 -> the
+    repeat is REAL. Met 49.40.1: two strokes of equal height, the end one chipped at the top with a faint possible branch -> identical
+    or damaged. Mirror-image (impression-orientation) blind re-reading agreed on 31/31 sign families.
+ 2. Re-score (47.2). Strict: 1 of 3 museum texts breaks a rule (was 3 of 4); R1 repeat 1/3 strict, 2/7 lenient (was 2/4, 3/7). The
+    surviving strict flag is 1973.160's 615..615 (0 of 3,463 Wells texts, but IM77 Mohenjo-daro 1004 repeats the grid M245 non-
+    adjacently). The Met repeat depends on W1 vs W31: W31 is an exempt repeatable sign that stands at both ends of two excavated
+    Mohenjo-daro texts, and loop 36 already said the stroke height is between the two. Remaining lenient flags are C-grade signs at
+    the false-alarm rate. Copy test: no museum text is within edit distance 1 of any corpus text; nearest-neighbour distances (2-3)
+    are at or beyond the excavated-seal median (P = 0.64-1.00), so none copies a published seal. Same on all three merge levels.
+ 3. Provenance (47.3). Cleveland 1973.160/.161: dealer William H. Wolff, New York, 1973, published by the museum 1974-1998;
+    1964.104: ex MFA Boston by exchange 1964; Met 49.40.1-4: Dodge Fund 1949, no vendor in the record; Sindh: site-museum piece.
+
+VERDICTS. Sindh MM-2831: misread. Cleveland 1964.104: misread (passes strict; lenient flag at false alarm). Cleveland 1973.161: passes.
+Met 49.40.2-4: pass. Met 49.40.1: undecidable (W1/W31 convention + chipped sign; genuine exception at worst). Cleveland 1973.160:
+genuine exception more likely than modern piece (one rule, 1% false alarm, one IM77 precedent, well-formed remainder, no published
+source to copy, published 1974 without challenge); the script alone cannot close it.
+A human should: ask Cleveland (Indian and Southeast Asian Art) for RTI or a cast of 1973.160 and the Wolff purchase file; ask the Met
+(Ancient West Asian Art) for RTI of 49.40.1's end sign and the 1949 Dodge Fund vendor; look up CISI 3.1 for both museums.
+
+METHOD LESSON. Readings from photographs under ~400 px per seal should be graded C throughout; the hook family (W435/902/61-67), the
+U family (700/703/706) and the oval family (790/832) are the confusions that produced the loop 42 group signal. The grammar-as-
+authenticity flag (S-DARK-42) survives: after correct reading the museum group sits at the false-alarm rate, as the corpus's own
+unprovenanced objects do. Nothing here is a reading; no sign values.
+Caveats: single reader (one pass direct, one mirrored, not independent people); IM77 precedent is one text; CISI 3.1 unchecked;
+rules fitted on data/raw/inscriptions.csv (S-DARK-23 caution); harappa.com and asia.si.edu block curl (Chromium/WebFetch used).

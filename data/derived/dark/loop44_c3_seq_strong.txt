@@ -1,0 +1,35 @@
+== S-DARK-44 cycle 3, level seq_strong: head -> measure-class table and the reverse prediction
+-- head -> series class table, MD+H, all numerals (class: >= 80% of tokens one series):
+         W700/M328 texts  346 tokens  346  short    5 tall  341  -> TALL   values T3:136 T4:109 T2:93 S4:4 T6:3 S3:1  | items HEAD:343 W220/M59:1 W31/M86:1 W840/M403:1
+         W740/M342 texts  265 tokens  299  short  128 tall  171  -> MIXED  values T2:116 S3:49 T3:48 S7:40 S5:15 S4:8  | items HEAD:62 W220/M59:44 W900/M287:20 W585:16 W32/M87:15
+         W520/M211 texts   54 tokens   64  short    8 tall   56  -> TALL   values T3:44 T2:11 S6:3 S3:2 S4:2 S2:1  | items HEAD:39 W220/M59:14 W33/M89:3 W172:1 W95/M18:1
+          W156/M15 texts   39 tokens   39  short   38 tall    1  -> SHORT  values S3:35 S5:2 T2:1 S4:1  | items HEAD:38 W140/M17:1
+              W617 texts   19 tokens   21  short   10 tall   11  -> MIXED  values T2:10 S3:8 S4:1 S6:1 T3:1  | items W597:8 W550/M216:5 W798/M216:1 W840/M403:1 W831:1
+              W154 texts   13 tokens   15  short    9 tall    6  -> MIXED  values S3:8 T2:4 T3:2 S4:1  | items HEAD:7 W877/M284:2 W617:1 W467:1 W474:1
+          W151/M12 texts    8 tokens    8  short    2 tall    6  -> MIXED  values T2:3 T3:2 S3:1 S6:1 T4:1  | items W220/M59:2 HEAD:2 W700/M328:1 W630/M244:1 W850:1
+          W226/M60 texts    7 tokens    7  short    0 tall    7  -> TALL   values T2:7  | items HEAD:7
+         W527/M254 texts    4 tokens    5  short    0 tall    5  -> TALL   values T3:3 T2:2  | items W550/M216:2 W555/M222:1 W350/M174-175:1 W220/M59:1
+-- same, counts elsewhere in the text (FAR):
+         W740/M342 texts  221 tokens  237  short  117 tall  120  -> MIXED  values T2:71 S3:49 T3:46 S7:33 S5:14 S4:8  | items W220/M59:44 W900/M287:20 W585:16 W32/M87:15 W840/M403:15
+         W520/M211 texts   23 tokens   25  short    8 tall   17  -> MIXED  values T2:11 T3:5 S6:3 S3:2 S4:2 S2:1  | items W220/M59:14 W33/M89:3 W172:1 W95/M18:1 W440/M127:1
+              W617 texts   18 tokens   20  short    9 tall   11  -> MIXED  values T2:10 S3:8 S4:1 T3:1  | items W597:8 W550/M216:5 W798/M216:1 W840/M403:1 W831:1
+              W154 texts    7 tokens    8  short    3 tall    5  -> MIXED  values T2:3 T3:2 S3:2 S4:1  | items W877/M284:2 W617:1 W467:1 W474:1 W520/M211:1
+          W151/M12 texts    6 tokens    6  short    2 tall    4  -> MIXED  values T2:3 S3:1 S6:1 T4:1  | items W220/M59:2 W700/M328:1 W630/M244:1 W850:1 W90/M1:1
+         W527/M254 texts    4 tokens    5  short    0 tall    5  -> TALL   values T3:3 T2:2  | items W550/M216:2 W555/M222:1 W350/M174-175:1 W220/M59:1
+-- reverse prediction (ALL numerals): predict the head from the numeral; modal baseline = W700/M328
+    series       : 5-fold MD+H 469/806 = 0.58 (modal 0.43); held-out sites 18/66 = 0.27 (training modal 0.03; held-out own modal W740/M342 0.55)
+    item         : 5-fold MD+H 555/806 = 0.69 (modal 0.43); held-out sites 28/66 = 0.42 (training modal 0.03; held-out own modal W740/M342 0.55)
+    series+item  : 5-fold MD+H 582/806 = 0.72 (modal 0.43); held-out sites 28/66 = 0.42 (training modal 0.03; held-out own modal W740/M342 0.55)
+    series+value : 5-fold MD+H 498/806 = 0.62 (modal 0.43); held-out sites 32/66 = 0.48 (training modal 0.03; held-out own modal W740/M342 0.55)
+    series -> head on IM77 all: 401/699 = 0.57 (modal jar 0.44)
+    series -> head on IM77-only: 5/27 = 0.19 (modal jar 0.41)
+-- reverse prediction (FAR numerals): predict the head from the numeral; modal baseline = W740/M342
+    series       : 5-fold MD+H 237/307 = 0.77 (modal 0.77); held-out sites 29/40 = 0.72 (training modal 0.72; held-out own modal W740/M342 0.72)
+    item         : 5-fold MD+H 245/307 = 0.80 (modal 0.77); held-out sites 29/40 = 0.72 (training modal 0.72; held-out own modal W740/M342 0.72)
+    series+item  : 5-fold MD+H 246/307 = 0.80 (modal 0.77); held-out sites 30/40 = 0.75 (training modal 0.72; held-out own modal W740/M342 0.72)
+    series+value : 5-fold MD+H 237/307 = 0.77 (modal 0.77); held-out sites 29/40 = 0.72 (training modal 0.72; held-out own modal W740/M342 0.72)
+    series -> head on IM77 all: 237/301 = 0.79 (modal jar 0.79)
+    series -> head on IM77-only: 9/13 = 0.69 (modal jar 0.69)
+-- comparison with the frozen pairs (GRAMMAR S197/S229) and pot numerals (S206/S-DARK-23.4):
+    frozen pairs at MD+H: tall 3 + arrow 41; short 3 + carrier 35; 7 + W585 26; tall 3 + W923 13; 7 + W575 11; tall 2 + 4-stroke fish 10; tall 2 + W877 6
+    pot numerals (canonical file, see data caution): {('S', 2): 1, ('S', 3): 28, ('S', 4): 11, ('S', 5): 5, ('S', 6): 4, ('S', 7): 7, ('S', 9): 2, ('S', 10): 1, ('T', 2): 39, ('T', 3): 57, ('T', 4): 26, ('T', 5): 13, ('T', 6): 3, ('T', 7): 1, ('T', 9): 2}; heads on numbered pots {'no head': 181, 740: 9, 154: 3, 700: 5, 151: 1, 226: 1}

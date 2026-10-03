@@ -335,7 +335,8 @@ if __name__ == '__main__':
                 tab = fit(recs, kind, sel)
                 oh, nh = score(tab, hrecs, kind, sel, modal)
                 bh = sum(1 for r in hrecs for t in r['toks'] if not (sel == 'FAR' and t['adj']) and r['head'] == modal)
-                P(f'    {kind:13}: 5-fold MD+H {ok}/{n} = {ok/max(n,1):.2f} (modal {okb/max(n,1):.2f}); held-out sites {oh}/{nh} = {oh/max(nh,1):.2f} (modal {bh/max(nh,1):.2f})')
+                hm = collections.Counter(r['head'] for r in hrecs for t in r['toks'] if not (sel == 'FAR' and t['adj'])).most_common(1)[0]
+                P(f'    {kind:13}: 5-fold MD+H {ok}/{n} = {ok/max(n,1):.2f} (modal {okb/max(n,1):.2f}); held-out sites {oh}/{nh} = {oh/max(nh,1):.2f} (training modal {bh/max(nh,1):.2f}; held-out own modal {W(hm[0])} {hm[1]/max(nh,1):.2f})')
             # IM77 via bridge, series only (+ value)
             m_modal = 342
             tabS = fit(recs, 'series', sel); conv = lambda f: f
@@ -370,11 +371,13 @@ if __name__ == '__main__':
         H = load_wells(LV, 'heldout'); hrecs = make_records(H, NUMS, VAL, set(CL), SUF, MARK, FIXED12)
         In = load_im77('new'); nrecs = make_records(In, set(M_TALL) | set(M_SHORT), {**M_TALL, **M_SHORT}, set(M_CL), M_SUF, set(), ())
         # classes from MD+H, FAR numerals (counts not part of the head's own frozen pair)
-        for sel in ('ALL', 'FAR'):
+        hseq = {t['id']: t['seq'] for t in H}; nseq = {t['id']: t['seq'] for t in In}; hsite = {t['id']: t['site'] for t in H}
+        for sel in ('ADJ', 'ALL', 'FAR'):
             prof = collections.defaultdict(collections.Counter)
             for r in recs:
                 for t in r['toks']:
                     if sel == 'FAR' and t['adj']: continue
+                    if sel == 'ADJ' and not t['adj']: continue
                     prof[r['head']][t['series']] += 1
             cls = {}
             for h, c in prof.items():
@@ -388,9 +391,10 @@ if __name__ == '__main__':
                     if h not in cls or cls[h] == 'MIXED': continue
                     for t in r['toks']:
                         if sel == 'FAR' and t['adj']: continue
+                        if sel == 'ADJ' and not t['adj']: continue
                         tot += 1
                         if (cls[h] == 'TALL') != (t['series'] == 'T'):
-                            viol += 1; det[(nm(r['head']), t['series'], t['value'], r['id'])] += 1
+                            viol += 1; det[(nm(r['head']), t['series'], t['value'], r['id'] + ':' + hsite.get(r['id'], 'IM77') + ':' + '-'.join(map(str, (hseq.get(r['id']) or nseq.get(r['id'])))))] += 1
                 P(f'    prediction on {lab} ({sel}): heads of one series keep it: violations {viol} of {tot} '
                   f'(upper bound {"< 3/%d = %.3f" % (tot, 3/tot) if viol == 0 and tot else "%.3f" % (viol/max(tot,1))})' +
                   ('; cases: ' + ', '.join(f'{k[0]} {k[1]}{k[2]} ({k[3]})' for k in list(det)[:12]) if det else ''))
