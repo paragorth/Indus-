@@ -23,3 +23,27 @@ set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
 861	817	strong	105	47	-0.048	0.5897	0.965
 390x407	407	cand	68	11	+0.063	0.7521	0.965
 survivors q<0.1: 0 of 7; p<0.05: 0 (expected 0.4)
+
+## Harappa vs depth (age): 2 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	38	15	+0.422	0.0095	0.019
+861	817	strong	40	20	+0.282	0.0420	0.042
+survivors q<0.1: 2 of 2; p<0.05: 2 (expected 0.1)
+
+## Harappa vs period: 1 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+861	817	strong	31	17	+0.225	0.5527	0.553
+survivors q<0.1: 0 of 1; p<0.05: 0 (expected 0.1)
+
+## Cross-city agreement (sets testable in both cities)
+
+### depth: 2 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.017	0.852	+0.422	0.009	same
+861	817	+0.016	0.850	+0.282	0.042	same
+same-direction 2 of 2 (binomial P(>= 2) = 0.250); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.00)
+
+### period: 1 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+861	817	-0.048	0.590	+0.225	0.553	opp
+same-direction 0 of 1 (binomial P(>= 0) = 1.000); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.00)
