@@ -28,3 +28,6 @@ LOOP 70 cycle 2: conditional logit over cut positions (features UNIT-internal, M
    middle cohesion (canon): 6 MIDMID breaks in texts with >= 2 MIDMID adjacencies; mean PMI percentile of the broken pair among the text's MIDMID pairs 0.53 (0 = least cohesive; null 0.50, P_low 0.594)
    learned boundaries (canon): AUC UNIT-vs-rest 0.656 (null mean 0.480, 95th 0.572, P 0.005); MIDMID-vs-BOUND 0.521 (null 0.521, 95th 0.593, P 0.478); UNIT-vs-BOUND 0.656 (null 0.486, P 0.005)
    agnostic all (n=77): UNIT -8.00 [-8.00,-8.00], MIDMID +0.51 [+0.51,+0.51], AFTERHEAD +2.84 [+2.84,+2.84], IMBAL -0.27 [-0.27,-0.27] | LR MIDMID=ref chi2 0.70 P 0.402
+   agnostic home (n=59): UNIT -8.00 [-8.00,-8.00], MIDMID +0.39 [+0.39,+0.39], AFTERHEAD +2.95 [+2.95,+2.95], IMBAL -0.29 [-0.29,-0.29] | LR MIDMID=ref chi2 0.30 P 0.587
+   agnostic other (n=18): UNIT -8.00 [-8.00,-8.00], MIDMID +0.83 [+0.83,+0.83], AFTERHEAD +2.59 [+2.59,+2.59], IMBAL -0.20 [-0.20,-0.20] | LR MIDMID=ref chi2 0.46 P 0.496
+   middle cohesion (agnostic): 6 MIDMID breaks in texts with >= 2 MIDMID adjacencies; mean PMI percentile of the broken pair among the text's MIDMID pairs 0.53 (0 = least cohesive; null 0.50, P_low 0.588)
