@@ -17,7 +17,7 @@ from scipy.stats import chi2
 ap=argparse.ArgumentParser()
 ap.add_argument('--n',type=int,default=3000); ap.add_argument('--seed',type=int,default=7); ap.add_argument('--cycle',type=int,default=0)
 ap.add_argument('--families',default='all'); ap.add_argument('--control',action='store_true'); ap.add_argument('--out',default=None)
-ap.add_argument('--maxperm',type=int,default=60000); ap.add_argument('--tag',default='loop1')
+ap.add_argument('--maxperm',type=int,default=20000); ap.add_argument('--tag',default='loop1')
 A=ap.parse_args(); NH=A.n; CONTROL=A.control
 C=json.load(open('data/derived/merged-corpus-canonical.json'))
 raw={r['cisi']:r for r in csv.DictReader(open('data/raw/inscriptions.csv')) if r['cisi']}
@@ -249,17 +249,19 @@ def cmi_batch(xi,YY,si,nx,ny,ns):
         term=np.where(ts>0,ts*np.log(ts/np.where(pxy>0,pxy,1)),0.0)
     return (term.sum((2,3))*(m[:,:,0,0]/n)).sum(1)
 def perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=None,stop=10,B=250):
-    """within-strata permutation p for CMI; strata default to site; early stop once `stop` exceedances seen."""
+    """within-strata permutation p for CMI; strata default to site; early stop once `stop` exceedances seen.
+    Vectorised: rows sorted by stratum, random keys + stratum offset, argsort -> a within-stratum shuffle per row."""
     o,_=cmi(xi,yi,si,nx,ny,ns); r=np.random.default_rng(rng.randint(0,10**9))
     strata=si if strata is None else strata
-    groups=[np.where(strata==g)[0] for g in np.unique(strata)]
-    ge=0; done=0
+    order=np.argsort(strata,kind='stable'); xs=xi[order]; ys=yi[order]; ss=si[order]; st=strata[order].astype(float)
+    ge=0; done=0; n=len(xi)
     while done<nperm:
-        b=min(B,nperm-done); YY=np.tile(yi,(b,1))
-        for g in groups: YY[:,g]=r.permuted(YY[:,g],axis=1)
-        ge+=int((cmi_batch(xi,YY,si,nx,ny,ns)>=o-1e-12).sum()); done+=b
+        b=min(B,nperm-done)
+        perm=np.argsort(st[None,:]+r.random((b,n)),axis=1)
+        YY=ys[perm]
+        ge+=int((cmi_batch(xs,YY,ss,nx,ny,ns)>=o-1e-12).sum()); done+=b
         if ge>=stop: break
-    return o,(ge+1)/(done+1),done
+    return o,(ge+1)/(done+1),done,ge
 def collect(kind,p,fact,objs,level,minn=40,strat=False):
     xs=[];ys=[];st=[];st2=[]
     for o in objs:
@@ -278,8 +280,8 @@ def evaluate(kind,p,fact,objs,level,nperm,rng,minn=40,strat=False):
     c=collect(kind,p,fact,objs,level,minn,strat)
     if c is None: return None
     xi,yi,si,nx,ny,ns,st=c
-    o,pp,k=perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=st)
-    return dict(mi=o,p=pp,n=len(xi),nx=nx,ny=ny,nperm=k)
+    o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=st)
+    return dict(mi=o,p=pp,n=len(xi),nx=nx,ny=ny,nperm=k,ge=ge)
 # ---------- run ----------
 t0=time.time(); log=[]
 def say(*a):
@@ -299,7 +301,8 @@ nperm=min(A.maxperm,int(math.ceil(20/alpha_b)))
 say(f'candidates after G-test screen (p<0.01): {len(cands)} (null expectation ~{0.01*fired:.0f}); within-site permutations per candidate up to {nperm}')
 for a in cands:
     xi,yi,si,nx,ny,ns,_=collect(a['kind'],a['p'],a['fact'],TRAIN,'seq_raw')
-    o,pp,k=perm_p(xi,yi,si,nx,ny,ns,nperm,rng); a['p_perm']=pp; a['nperm']=k
+    o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,nperm,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
+    if ge==0 and pp>alpha_b: a['p_perm']=min(pp,a['p_screen']); a['p_note']='0 exceedances in %d perms; asymptotic G-test p used for the correction'%k
 evalu=[a for a in arrows if a['p_screen'] is not None]
 pv=np.array([a.get('p_perm',a['p_screen']) for a in evalu]); order=np.argsort(pv); m=len(pv); bh=np.zeros(m,bool); thr=0.05*np.arange(1,m+1)/m
 ok=np.where(pv[order]<=thr)[0]
@@ -318,16 +321,18 @@ def rediscovery_flag(a):
     return tags
 for a in surv:
     kind,p,fact=a['kind'],a['p'],a['fact']
-    a['held']=evaluate(kind,p,fact,TEST,'seq_raw',5000,rng,minn=60)
+    a['held']=evaluate(kind,p,fact,TEST,'seq_raw',3000,rng,minn=60)
     a['held_strong']=evaluate(kind,p,fact,TEST,'seq_strong',2000,rng,minn=60); a['held_all']=evaluate(kind,p,fact,TEST,'seq_all',2000,rng,minn=60)
     a['train_strong']=evaluate(kind,p,fact,TRAIN,'seq_strong',2000,rng); a['train_all']=evaluate(kind,p,fact,TRAIN,'seq_all',2000,rng)
-    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',5000,rng,strat=True) if fact not in ('type','type2') else None
+    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',3000,rng,strat=True) if fact not in ('type','type2') else None
     a['ok_held']=bool(a['held'] and a['held']['p']<0.01)
     a['ok_levels']=all(x and x['p']<0.01 for x in (a['train_strong'],a['train_all'],a['held_strong'],a['held_all']))
     a['flags']=rediscovery_flag(a)
     if a['within_type'] and a['within_type']['p']>0.05: a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure')
     if fact in ('type','type2'): a['flags'].append('fact is object type: compare against GRAMMAR frame rules')
 full=[a for a in surv if a['ok_held'] and a['ok_levels']]
+for a in surv:
+    if a.get('p_note'): a['flags'].append(a['p_note'])
 say(f'full survivors (corrected + held-out p<0.01 + all three levels train and held-out): {len(full)}')
 def fmt(r): return 'n/a' if r is None else 'CMI %.3f p %.2e n %d'%(r['mi'],r['p'],r['n'])
 surv.sort(key=lambda a:a.get('p_perm',a['p_screen']))

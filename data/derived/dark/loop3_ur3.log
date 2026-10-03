@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/user/Indus-/tools/strat_dark3_run.py", line 99, in <module>
+    main()
+  File "/home/user/Indus-/tools/strat_dark3_run.py", line 64, in main
+    res=run_split(key,'tokens',P,rng,tr,['namecalib','repeat','slot'],log,data=X)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/strat_dark3_run.py", line 25, in run_split
+    log(f'{split} {var} {tn:11s} {sn:9s} base {base:.3f} -> {st.median(vals):.3f} [{min(vals):.3f},{max(vals):.3f}] D {Dm:+.3f} null {st.mean(null):+.3f}±{st.pstdev(null):.3f} z {z:+.1f} p {p:.3f} ({time.time()-t0:.0f}s)')
+                                                                                                                                      ^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/statistics.py", line 432, in mean
+    raise StatisticsError('mean requires at least one data point')
+statistics.StatisticsError: mean requires at least one data point

@@ -33,7 +33,7 @@ def texts(split,var):
 # ---- statistics ----
 def uniq(ms):
     c=collections.Counter(ms); return sum(1 for m in ms if c[m]==1)/len(ms)
-def bigram_uniq(seqs,rng,G=2):
+def bigram_uniq(seqs,rng,G=1):
     big=collections.defaultdict(list)
     for m in seqs:
         p='S'
@@ -53,7 +53,7 @@ def S_namecalib(T,rng):
     if len(seqs)<50: return None
     b=bigram_uniq(seqs,rng)
     return uniq(seqs)/b if b>0 else None
-def S_repeat(T,rng,K=2):
+def S_repeat(T,rng,K=1):
     seqs=[t for t in T if len(t)>=3]
     if len(seqs)<50: return None
     obs=sum(1 for t in seqs if len(set(t))<len(t))/len(seqs)
