@@ -1,0 +1,33 @@
+S-DARK-3 (loop 3, transformation search): FINAL
+Question: is there a text-to-text transformation of the Indus corpus (reading order, segmentation, sign classes, deletion,
+fusion of compound terms, object metadata as a sign, and random two-step compositions of these) after which the corpus
+behaves like a known system (Ur III owner names, Ur III legends, Linear B, Latin epigraphy, proto-Elamite, khipu, heraldry)
+on four tests: name-calibration uniqueness ratio, within-text repetition vs slot-preserving shuffle (S88), slot-entropy
+edge drop (frame), arithmetic closure of numerals?
+
+Cycles (rows S-DARK-3.1 to 3.4; details loop3_cycle1-4.txt; code tools/strat_dark3.py, tools/strat_dark3_run.py):
+ 1. Screen: 16 transformations x 4 tests x 20 parameterisations, train = Mohenjo-daro + Harappa, seq_raw. 64 arrows.
+ 2. Confirm: 9 candidates on held-out sites (n = 930) x 3 transcription variants, P = 60, randfamily control. 0 of 9 at the bar.
+ 3. Whole-machine controls: same screen on a bigram-generated Indus corpus (19 of 68 arrows 'hit' with nothing to find) and
+    on Ur III names (name statistic survives 7 of 8 order transformations; Indus never reaches the name band).
+ 4. Pipelines: 20 random two-step compositions (74 arrows, 47 at |z| >= 3), 6 non-trivial survivors confirmed on held-out
+    with the null corpus and Ur III as controls. 1 of 6 holds on z (bpe>reverse/repeat); the rest are artefacts or re-statements.
+Arrows fired in all: 256 (64 + 9 + 3 + 68 + 24 + 74 + 5 + 3 + 6).
+
+Verdict: NO transformation makes the Indus corpus look like a known system. The Ur III name band (0.43-0.62) is never
+reached (best 0.70, by middle-out, which lowers Ur III names by the same 0.11: generic). The 'misread names' idea is closed.
+What survived is three frame facts, two already in GRAMMAR.md and one that corrects an earlier measurement:
+ (a) End anchoring (S17/S30/S36): a bigram model started from the text END regenerates the recurring formulae better
+     (reverse/namecalib +5 to +6 train; sign flips on the Markov corpus). Transcription-robust, held-out underpowered.
+ (b) Compound terms (S-DARK-3.2 bpe/repeat, suggestive): fusing the 5-80 commonest pairs raises unit repetition toward chance.
+ (c) NEW SIZE for S88: with compound terms fused and the shuffle null aligned from the end, within-text repetition is
+     0.5-0.6 of chance on train and 0.7-0.9 on held-out (bpe>reverse/repeat: train z +5.1/+6.9/+8.0, held-out +5.0/+5.5/+3.7,
+     null corpus +1.3, Ur III names 1.13 -> 1.66). The S88 figure of ~0.23 was mostly sign-level counting of multi-sign terms
+     plus a start-aligned null on end-anchored texts. A real but modest avoidance of repeating a TERM remains (ratio < 1 on
+     all six runs; language corpora 0.96-1.29).
+ Side fact (cycle 2): off Mohenjo-daro/Harappa the whole-text uniqueness ratio is 1.02-1.08; the sub-1 value that invited the
+ 'name' comparison is carried by a few exact short closer formulae at the two big cities.
+Nothing here predicts anything outside the corpus. Not cracked. Open follow-up (cheap): re-run S88 at term level with an
+end-aligned null as its own strategy, and check whether the residual avoidance concentrates in the closer slot.
+Caveats: all counts from data/derived/merged-corpus-canonical.json (older inscriptions.csv, S-DARK-23); held-out = 930 texts
+(thin); cycle-4 BPE arrows at reduced size (P = 20, 10 parameterisations, p floor 0.048) because the machine was shared.
