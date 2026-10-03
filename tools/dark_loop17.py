@@ -224,12 +224,13 @@ def summary(objs, is_num, rng):
 
 # ---------------------------------------------------------------------------------------------- generator
 PARAMS = ['A', 'O', 'zO', 'C', 'H', 'k', 'p_mid', 'lam_mid', 'V_mid', 'z_mid', 'p_share', 'p_open', 'p_comm', 'p_off', 'p_ext',
-          'p_reissue', 'z_copy', 'p_batch', 'p_travel', 'p_suf', 'p_potcred']
+          'p_reissue', 'z_copy', 'p_batch', 'p_travel', 'p_suf', 'p_potcred', 'm_mould']
 # prior: (type, lo, hi); 'int' uniform integer, 'log' log-uniform, 'u' uniform
 PRIOR = {'A': ('int', 1, 8), 'O': ('log', 3, 400), 'zO': ('u', 0.3, 2.0), 'C': ('log', 1, 40), 'H': ('log', 50, 60000),
          'k': ('u', 1.0, 6.0), 'p_mid': ('u', 0, 1), 'lam_mid': ('u', 0, 2.5), 'V_mid': ('log', 30, 3000), 'z_mid': ('u', 0.3, 1.3), 'p_share': ('u', 0, 1),
          'p_open': ('u', 0, 1), 'p_comm': ('u', 0, 1), 'p_off': ('u', 0, 1), 'p_ext': ('u', 0, 1), 'p_reissue': ('u', 0, 1),
-         'z_copy': ('u', 0.3, 2.5), 'p_batch': ('u', 0, 1), 'p_travel': ('u', 0, 1), 'p_suf': ('u', 0, 1), 'p_potcred': ('u', 0, 1)}
+         'z_copy': ('u', 0.3, 2.5), 'p_batch': ('u', 0, 1), 'p_travel': ('u', 0, 1), 'p_suf': ('u', 0, 1), 'p_potcred': ('u', 0, 1),
+         'm_mould': ('log', 1, 40)}   # mean number of tablets struck from one mould (1 = every re-issue is a single tablet)
 
 def draw_prior(rng):
     th = {}
@@ -346,16 +347,22 @@ def simulate(th, skel, seed):
     site_list = skel.sites; sw = np.array([skel.site_w[s] for s in site_list]); csw = np.cumsum(sw / sw.sum())
     tall = lambda: TALL_ID[2 + int(np.searchsorted(cTALL, U()))]
 
-    out = []
+    out = []; mould_run = {}
     for o in skel.objs:
         s = o['site']; known = o['area'] is not None; area = None
         if o['cls'] == 'SEAL':
             seq, area = get_cred(s, int(rng.integers(N[s])))
         elif o['cls'] == 'TAB':
             if U() < th['p_reissue']:
-                seq, ha = get_cred(s, pick(cum_pop[s]))
-                if U() < th['p_suf']: seq = seq + (SUF,)
-                area = ha if U() < th['p_batch'] else rand_area(s)
+                run = mould_run.get(s)
+                if run is None or run[2] <= 0:
+                    seq, ha = get_cred(s, pick(cum_pop[s]))
+                    if U() < th['p_suf']: seq = seq + (SUF,)
+                    area = ha if U() < th['p_batch'] else rand_area(s)
+                    left = 1 + rng.poisson(max(0.0, th.get('m_mould', 1.0) - 1.0))
+                    mould_run[s] = [seq, area, left]
+                    run = mould_run[s]
+                seq, area = run[0], run[1]; run[2] -= 1
             else:
                 if U() < 0.5: seq = (tall(), VOUCH)
                 else:
@@ -479,7 +486,9 @@ def main():
     if cmd in ('fit', 'control', 'ppc', 'truth', 'gen2'):
         Ts = []; Ss = []; LW = []
         for f in sys.argv[2].split(','):
-            b = np.load(f); Ts.append(b['theta']); Ss.append(b['stats']); LW.append(b['logw'] if 'logw' in b else np.zeros(len(b['theta'])))
+            b = np.load(f); th_ = b['theta']
+            if th_.shape[1] < len(PARAMS): th_ = np.c_[th_, np.zeros((len(th_), len(PARAMS) - th_.shape[1]))]   # old bank: m_mould = 1
+            Ts.append(th_); Ss.append(b['stats']); LW.append(b['logw'] if 'logw' in b else np.zeros(len(b['theta'])))
         T = np.vstack(Ts); S = np.vstack(Ss); LOGW = np.concatenate(LW); print('bank', T.shape, S.shape, 'gen2 rows', int((LOGW != 0).sum()))
         import builtins; builtins.LOGW_GLOBAL = LOGW
         n_acc = int(os.environ.get('NACC', '400'))
