@@ -1,0 +1,37 @@
+S-DARK-72 FINAL: IS THE DESIGNATION (THE DEDUPLICATED MIDDLE) A SORTED LIST OR A NAME?
+Scripts: tools/dark_loop72.py <1|2|3|4> [ndraw], statistics in tools/dark_loop72_common.py; logs loop72_cycle{1..4}_log.txt,
+run logs loop72_c{1..4}_run.log, numbers loop72_cycle{1..4}.json, rows loop72_cycle{1..4}.txt.
+Data (nothing downloaded): data/derived/merged-corpus-canonical.json seq_raw / seq_strong / seq_all, IM77 through
+bridge_extended.json + dark/bridge_proposals.json (S-DARK-27; 3.9% of IM77 tokens unbridged, kept opaque), parsed with the
+S-DARK-26/56 frame parser (tools/dark_loop56.py), one copy per distinct middle string (>= 2 distinct elements: 1,425 seq_raw).
+Comparators reused from loop63_corpora (Chinese / Japanese / Vietnamese given names, ancient Chinese names), loop56_corpora
+(Ur III, Old Babylonian, Linear B personnel, Latin EDH names; ICD-10; HTS; Proto-Elamite middles minus numerals) and
+loop32_corpora (aircraft registrations). Synthetic anchors: the Indus multisets sorted by one global order; one random order
+per multiset (per-name fixed, globally free).
+
+PLAIN ANSWER
+1. Not a sorted list. The best single ranking of the 590 middle elements leaves 22% of pair instances out of order
+   (fit 0.78 [0.77,0.79]; sorted anchor 1.00, globally free anchor 0.67); half of the violations come from intransitive
+   cycles; a ranking fitted on half the strings predicts unseen pairs at 0.62 [0.59,0.64] (sorted 0.905, free 0.50).
+   On a 0 (free) to 1 (sorted) scale Indus sits at 0.22-0.34 on every statistic, at all three merge levels and IM77 (within 0.03).
+2. Its order is local, not global. A Markov-2 chain fitted to the same strings reproduces the FAS (0.213 vs 0.219), the cyclic
+   part (0.113 vs 0.112), the triad intransitivity (12.3% vs 12.7%) and the cross-site transfer (Mohenjo-daro + Harappa ->
+   other sites 0.64 vs 0.64 on unseen pairs). Nothing beyond the previous two signs is needed.
+3. Ladder. Decisive-triad intransitivity: sorted 0, ICD-10 1%, HTS 2%, Proto-Elamite 2%, logographic names 0-1%, Ur III names 4%,
+   Linear B 5%, Old Babylonian names 8%, aircraft 8.5%, INDUS 12.7% [11.4,14.0], Markov-2 clone 12.3%, free 20%.
+   FAS (length-matched): logographic names 0.05-0.08, Ur III 0.10, Proto-Elamite 0.12, HTS 0.17, OB 0.19, INDUS 0.22,
+   Linear B 0.22, ICD 0.24. Transitive prediction: ICD across chapters 0.02, HTS 0.28, Chinese/Japanese across gender 0.41-0.49,
+   INDUS 0.55-0.66, Linear B KN->PY 0.63, phonetic names / Proto-Elamite 0.65-0.76, sorted 0.9.
+   Nearest list on every order statistic: Old Babylonian seal names (phonetically written). Farthest: designed codes (their
+   contradictions are slot ties, not cycles) and logographic given names (nearly transitive in-sample, nothing transfers).
+4. Does any global order track frequency or graphic class? No. Rank vs log frequency -0.03 (null +-0.15), complexity 0.07,
+   Wells catalogue band (graphic class) eta^2 0.04, P = 0.59-0.76 at every level, numerals neither early nor late (AUC 0.42-0.48).
+   NAME-only rare-first tendency +0.15 to +0.19 is inside the Markov-2 null at all levels. The fitted order is just mean position.
+5. Anagrams: 1.5-1.9% of distinct designations share their multiset with another (seals 0.4%); names 0-1.5%, codes 1-6%.
+   Too rare to separate anything; order within a designation is fixed (S-DARK-19), but not by a shared sort key.
+
+VERDICT: the designation is written in a per-string fixed order governed by local two-sign sequencing rules, more intransitive
+than any real list tested, with no global sort key: name-like (closest to a phonetically written name list) or word-like, not a
+sorted checklist or slot code. It does not say what the elements mean. Caveats: 84% of distinct designations come from
+Mohenjo-daro + Harappa; held-out sites 259 strings; IM77 agreement is transcription-robust, not replication (S312);
+the merged corpus file predates the 5,680-row inscriptions.csv (S-DARK-23), so counts are from merged-corpus-canonical.json.
