@@ -17,7 +17,7 @@ from scipy.stats import chi2
 ap=argparse.ArgumentParser()
 ap.add_argument('--n',type=int,default=3000); ap.add_argument('--seed',type=int,default=7); ap.add_argument('--cycle',type=int,default=0)
 ap.add_argument('--families',default='all'); ap.add_argument('--control',action='store_true'); ap.add_argument('--out',default=None)
-ap.add_argument('--maxperm',type=int,default=20000); ap.add_argument('--tag',default='loop1')
+ap.add_argument('--maxperm',type=int,default=10000); ap.add_argument('--tag',default='loop1')
 A=ap.parse_args(); NH=A.n; CONTROL=A.control
 C=json.load(open('data/derived/merged-corpus-canonical.json'))
 raw={r['cisi']:r for r in csv.DictReader(open('data/raw/inscriptions.csv')) if r['cisi']}

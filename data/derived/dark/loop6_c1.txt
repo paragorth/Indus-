@@ -1,0 +1,20 @@
+LOOP 6 (geography as plaintext) - CYCLE 1: single signs vs geographic gradients
+Scripts: data/derived/dark/build_site_coords.py (site table), loop6_engine.py, loop6_c1_signs.py; full output loop6_c1_signs.txt
+Site table: data/derived/dark/site_coords.csv (22 sites with >=5 texts; Ur and 'Unknown' excluded from gradients -> 20 Indus sites).
+Variables: lat, lon, distance to the Arabian Sea (modern coast; 'Harappan' coast with the Rann of Kutch marine), distance to
+Mohenjo-daro, distance to Harappa, elevation (m), river system (Indus / Ghaggar / Gujarat / Coast).
+Unit = site (texts site+text deduplicated). Statistic = Spearman rho of per-site share of texts containing the sign vs the variable;
+river = Kruskal-Wallis H. Null = geographic values permuted among the 20 sites (Monte Carlo 20,000x; exact enumeration when n<=8).
+BH-FDR over all arrows fired. Re-test with Mohenjo-daro + Harappa dropped. Run on seq_raw, seq_strong, seq_all.
+
+RESULT (seq_raw): 82 signs x 8 variables = 656 arrows. 0 with q < 0.10 (min q = 0.99). p < 0.01: 0 observed vs 6.6 expected.
+Best arrow: W125 ~ longitude rho = -0.56, p = 0.012 (uncorrected). It rests on 1 text at Bala-kot (1/7) and 1 at Gola Dhoro (1/5);
+W388 ~ river H = 6.4, p = 0.016: again 1 text each at Allahdino and Bala-kot. These are small-site noise, not gradients.
+Dropping MD + HP changes nothing (the small sites drive both the hits and the noise). seq_strong and seq_all: same top list, same nulls.
+POWER: for a binary feature rising linearly from 10% to 30% across the variable range, the site-level Spearman test (alpha 0.05)
+has power 0.59-0.69 (coast distance 0.69, dist-MD 0.59, lat 0.69; without MD+HP 0.53-0.59). For 10% -> 50%, power 0.95-0.98.
+So a strong geographic gradient in any common sign would have been seen; a weak one (<= 2x across the region) could be missed.
+Transcription robustness: IM77 codes only 5 named sites (MD, Harappa, Lothal, Kalibangan, Chanhu-daro) + 'Other sites', so the
+20-site test cannot be replicated there; nothing to replicate anyway.
+
+| S-DARK-6.1 | Geography as plaintext, single signs: for every sign with >= 30 tokens, does its per-site share of texts follow a geographic gradient (latitude, longitude, distance to the Arabian Sea [modern and Harappan coast], distance to Mohenjo-daro, distance to Harappa, elevation, river system)? 20 Indus sites with >= 5 texts (`data/derived/dark/site_coords.csv`, coordinates from published locations, Shikarpur and Lakhanjo-daro marked uncertain). Unit = site; Spearman rho (Kruskal-Wallis for river); null = geographic values permuted among sites 20,000x; BH-FDR over 656 arrows; re-test without MD + HP; three merge levels. `data/derived/dark/loop6_c1_signs.py` | **Null. 0 of 656 arrows at q < 0.10 (min q 0.99); 0 at p < 0.01 vs 6.6 expected.** Best: W125 ~ longitude rho -0.56 (p 0.012), carried by one text each at Bala-kot (1/7) and Gola Dhoro (1/5). Same on seq_strong/seq_all; same without MD + HP. Power 0.59-0.69 for a 10% -> 30% gradient, 0.95-0.98 for 10% -> 50%. IM77 has only 5 named sites, so no cross-transcription check is possible at this grain. | **No common sign has a geographic gradient** across the 20 sites: the sign inventory is geographically flat (extends S11/S105/S308/S315 from presence/absence at single cities to continuous gradients). Caveat: 76% of texts are MD + HP, and the 15 small sites (5-36 texts) carry little power individually; a 2x regional gradient could hide. |

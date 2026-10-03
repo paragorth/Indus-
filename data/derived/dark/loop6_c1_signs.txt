@@ -115,3 +115,184 @@ top 15 arrows:
                           W125 ~ dist_coast_harappan_km   n=20 stat=-0.465 p=0.0441 q=0.990
                           W388 ~ dist_coast_harappan_km   n=20 stat=-0.455 p=0.0464 q=0.990
                           W480 ~ dist_md_km               n=20 stat=-0.445 p=0.0507 q=0.990
+                          W220 ~ lon                      n=20 stat=+0.427 p=0.0619 q=0.990
+                          W125 ~ river                    n=20 stat=+5.818 p=0.0667 q=0.990
+                          W480 ~ river                    n=20 stat=+5.189 p=0.0715 q=0.990
+                          W151 ~ dist_md_km               n=20 stat=-0.405 p=0.0762 q=0.990
+re-test of top 15 without Mohenjo-daro and Harappa:
+      W125 ~ lon                      full rho=-0.563 p=0.0122 | drop MD+HP rho=-0.548 p=0.0208
+      W388 ~ river                    full rho=+6.384 p=0.0162 | drop MD+HP rho=+5.842 p=0.0136
+      W388 ~ elev_m                   full rho=-0.527 p=0.0197 | drop MD+HP rho=-0.575 p=0.0134
+      W125 ~ elev_m                   full rho=-0.512 p=0.0249 | drop MD+HP rho=-0.551 p=0.0188
+      W388 ~ lon                      full rho=-0.506 p=0.0260 | drop MD+HP rho=-0.521 p=0.0273
+      W125 ~ dist_coast_modern_km     full rho=-0.498 p=0.0293 | drop MD+HP rho=-0.544 p=0.0205
+      W388 ~ dist_coast_modern_km     full rho=-0.471 p=0.0389 | drop MD+HP rho=-0.540 p=0.0221
+      W220 ~ dist_coast_harappan_km   full rho=+0.458 p=0.0427 | drop MD+HP rho=+0.501 p=0.0369
+      W125 ~ dist_coast_harappan_km   full rho=-0.465 p=0.0441 | drop MD+HP rho=-0.482 p=0.0437
+      W388 ~ dist_coast_harappan_km   full rho=-0.455 p=0.0464 | drop MD+HP rho=-0.510 p=0.0310
+      W480 ~ dist_md_km               full rho=-0.445 p=0.0507 | drop MD+HP rho=-0.492 p=0.0411
+      W220 ~ lon                      full rho=+0.427 p=0.0619 | drop MD+HP rho=+0.487 p=0.0425
+      W125 ~ river                    full rho=+5.818 p=0.0667 | drop MD+HP rho=+5.301 p=0.0786
+      W480 ~ river                    full rho=+5.189 p=0.0715 | drop MD+HP rho=+4.014 p=0.1205
+      W151 ~ dist_md_km               full rho=-0.405 p=0.0762 | drop MD+HP rho=-0.395 p=0.1011
+  per-site rates for W125 (site, n, rate, lon):
+     Bala-kot               n=   7 rate=0.143 lon=66.73
+     Allahdino              n=  12 rate=0.083 lon=67.42
+     Nausharo               n=  36 rate=0.028 lon=67.63
+     Amri                   n=   5 rate=0.000 lon=68.01
+     Mohenjo-daro           n=1510 rate=0.019 lon=68.14
+     Chanhu-daro            n=  70 rate=0.014 lon=68.33
+     Kot-Diji               n=   9 rate=0.000 lon=68.71
+     Lakhanjo-daro          n=  10 rate=0.000 lon=68.85
+     Dholavira              n= 187 rate=0.021 lon=70.21
+     Shikarpur              n=   6 rate=0.000 lon=70.43
+     Gola Dhoro (Bagasra)   n=   5 rate=0.200 lon=70.62
+     Kanmer                 n=   7 rate=0.000 lon=70.87
+     Lothal                 n= 166 rate=0.006 lon=72.25
+     Harappa                n=1191 rate=0.011 lon=72.87
+     Kalibangan             n= 152 rate=0.007 lon=74.13
+     Banawali               n=  21 rate=0.000 lon=75.39
+     Bhirrana               n=   5 rate=0.000 lon=75.55
+     Rakhigarhi             n=  11 rate=0.000 lon=76.11
+     Farmana                n=   7 rate=0.000 lon=76.31
+     Rupar                  n=   5 rate=0.000 lon=76.53
+  per-site rates for W388 (site, n, rate, river):
+     Allahdino              n=  12 rate=0.083 river=Coast
+     Amri                   n=   5 rate=0.000 river=Indus
+     Bala-kot               n=   7 rate=0.143 river=Coast
+     Banawali               n=  21 rate=0.000 river=Ghaggar
+     Bhirrana               n=   5 rate=0.000 river=Ghaggar
+     Chanhu-daro            n=  70 rate=0.029 river=Indus
+     Dholavira              n= 187 rate=0.016 river=Gujarat
+     Farmana                n=   7 rate=0.000 river=Ghaggar
+     Gola Dhoro (Bagasra)   n=   5 rate=0.000 river=Gujarat
+     Harappa                n=1191 rate=0.016 river=Indus
+     Mohenjo-daro           n=1510 rate=0.017 river=Indus
+     Kanmer                 n=   7 rate=0.000 river=Gujarat
+     Kalibangan             n= 152 rate=0.000 river=Ghaggar
+     Kot-Diji               n=   9 rate=0.000 river=Indus
+     Lothal                 n= 166 rate=0.018 river=Gujarat
+     Nausharo               n=  36 rate=0.000 river=Indus
+     Rakhigarhi             n=  11 rate=0.000 river=Ghaggar
+     Rupar                  n=   5 rate=0.000 river=Indus
+     Lakhanjo-daro          n=  10 rate=0.000 river=Indus
+     Shikarpur              n=   6 rate=0.000 river=Gujarat
+  per-site rates for W388 (site, n, rate, elev_m):
+     Lothal                 n= 166 rate=0.018 elev_m=5.0
+     Bala-kot               n=   7 rate=0.143 elev_m=10.0
+     Gola Dhoro (Bagasra)   n=   5 rate=0.000 elev_m=10.0
+     Shikarpur              n=   6 rate=0.000 elev_m=10.0
+     Dholavira              n= 187 rate=0.016 elev_m=15.0
+     Allahdino              n=  12 rate=0.083 elev_m=20.0
+     Kanmer                 n=   7 rate=0.000 elev_m=25.0
+     Chanhu-daro            n=  70 rate=0.029 elev_m=35.0
+     Amri                   n=   5 rate=0.000 elev_m=40.0
+     Mohenjo-daro           n=1510 rate=0.017 elev_m=45.0
+     Kot-Diji               n=   9 rate=0.000 elev_m=50.0
+     Lakhanjo-daro          n=  10 rate=0.000 elev_m=65.0
+     Nausharo               n=  36 rate=0.000 elev_m=150.0
+     Harappa                n=1191 rate=0.016 elev_m=170.0
+     Kalibangan             n= 152 rate=0.000 elev_m=175.0
+     Bhirrana               n=   5 rate=0.000 elev_m=200.0
+     Banawali               n=  21 rate=0.000 elev_m=210.0
+     Farmana                n=   7 rate=0.000 elev_m=220.0
+     Rakhigarhi             n=  11 rate=0.000 elev_m=220.0
+     Rupar                  n=   5 rate=0.000 elev_m=260.0
+
+=== level seq_all: 3424 distinct site+text pairs, 20 sites with >=5 texts, 79 signs >=30 tokens, 632 arrows
+arrows fired 632; min p 0.0122; min q 0.992; arrows with q<0.10: 0; p<0.01: 0 (expected 6.3)
+top 15 arrows:
+                          W125 ~ lon                      n=20 stat=-0.563 p=0.0122 q=0.992
+                          W388 ~ river                    n=20 stat=+6.384 p=0.0162 q=0.992
+                          W388 ~ elev_m                   n=20 stat=-0.527 p=0.0197 q=0.992
+                          W125 ~ elev_m                   n=20 stat=-0.512 p=0.0249 q=0.992
+                          W388 ~ lon                      n=20 stat=-0.506 p=0.0260 q=0.992
+                          W125 ~ dist_coast_modern_km     n=20 stat=-0.498 p=0.0293 q=0.992
+                          W388 ~ dist_coast_modern_km     n=20 stat=-0.471 p=0.0389 q=0.992
+                          W220 ~ dist_coast_harappan_km   n=20 stat=+0.458 p=0.0427 q=0.992
+                          W125 ~ dist_coast_harappan_km   n=20 stat=-0.465 p=0.0441 q=0.992
+                          W388 ~ dist_coast_harappan_km   n=20 stat=-0.455 p=0.0464 q=0.992
+                          W480 ~ dist_md_km               n=20 stat=-0.445 p=0.0507 q=0.992
+                          W220 ~ lon                      n=20 stat=+0.427 p=0.0619 q=0.992
+                          W125 ~ river                    n=20 stat=+5.818 p=0.0667 q=0.992
+                          W480 ~ river                    n=20 stat=+5.189 p=0.0715 q=0.992
+                          W151 ~ dist_md_km               n=20 stat=-0.405 p=0.0762 q=0.992
+re-test of top 15 without Mohenjo-daro and Harappa:
+      W125 ~ lon                      full rho=-0.563 p=0.0122 | drop MD+HP rho=-0.548 p=0.0208
+      W388 ~ river                    full rho=+6.384 p=0.0162 | drop MD+HP rho=+5.842 p=0.0136
+      W388 ~ elev_m                   full rho=-0.527 p=0.0197 | drop MD+HP rho=-0.575 p=0.0134
+      W125 ~ elev_m                   full rho=-0.512 p=0.0249 | drop MD+HP rho=-0.551 p=0.0188
+      W388 ~ lon                      full rho=-0.506 p=0.0260 | drop MD+HP rho=-0.521 p=0.0273
+      W125 ~ dist_coast_modern_km     full rho=-0.498 p=0.0293 | drop MD+HP rho=-0.544 p=0.0205
+      W388 ~ dist_coast_modern_km     full rho=-0.471 p=0.0389 | drop MD+HP rho=-0.540 p=0.0221
+      W220 ~ dist_coast_harappan_km   full rho=+0.458 p=0.0427 | drop MD+HP rho=+0.501 p=0.0369
+      W125 ~ dist_coast_harappan_km   full rho=-0.465 p=0.0441 | drop MD+HP rho=-0.482 p=0.0437
+      W388 ~ dist_coast_harappan_km   full rho=-0.455 p=0.0464 | drop MD+HP rho=-0.510 p=0.0310
+      W480 ~ dist_md_km               full rho=-0.445 p=0.0507 | drop MD+HP rho=-0.492 p=0.0411
+      W220 ~ lon                      full rho=+0.427 p=0.0619 | drop MD+HP rho=+0.487 p=0.0425
+      W125 ~ river                    full rho=+5.818 p=0.0667 | drop MD+HP rho=+5.301 p=0.0786
+      W480 ~ river                    full rho=+5.189 p=0.0715 | drop MD+HP rho=+4.014 p=0.1205
+      W151 ~ dist_md_km               full rho=-0.405 p=0.0762 | drop MD+HP rho=-0.395 p=0.1011
+  per-site rates for W125 (site, n, rate, lon):
+     Bala-kot               n=   7 rate=0.143 lon=66.73
+     Allahdino              n=  12 rate=0.083 lon=67.42
+     Nausharo               n=  36 rate=0.028 lon=67.63
+     Amri                   n=   5 rate=0.000 lon=68.01
+     Mohenjo-daro           n=1509 rate=0.019 lon=68.14
+     Chanhu-daro            n=  70 rate=0.014 lon=68.33
+     Kot-Diji               n=   9 rate=0.000 lon=68.71
+     Lakhanjo-daro          n=  10 rate=0.000 lon=68.85
+     Dholavira              n= 187 rate=0.021 lon=70.21
+     Shikarpur              n=   6 rate=0.000 lon=70.43
+     Gola Dhoro (Bagasra)   n=   5 rate=0.200 lon=70.62
+     Kanmer                 n=   7 rate=0.000 lon=70.87
+     Lothal                 n= 166 rate=0.006 lon=72.25
+     Harappa                n=1190 rate=0.011 lon=72.87
+     Kalibangan             n= 152 rate=0.007 lon=74.13
+     Banawali               n=  21 rate=0.000 lon=75.39
+     Bhirrana               n=   5 rate=0.000 lon=75.55
+     Rakhigarhi             n=  11 rate=0.000 lon=76.11
+     Farmana                n=   7 rate=0.000 lon=76.31
+     Rupar                  n=   5 rate=0.000 lon=76.53
+  per-site rates for W388 (site, n, rate, river):
+     Allahdino              n=  12 rate=0.083 river=Coast
+     Amri                   n=   5 rate=0.000 river=Indus
+     Bala-kot               n=   7 rate=0.143 river=Coast
+     Banawali               n=  21 rate=0.000 river=Ghaggar
+     Bhirrana               n=   5 rate=0.000 river=Ghaggar
+     Chanhu-daro            n=  70 rate=0.029 river=Indus
+     Dholavira              n= 187 rate=0.016 river=Gujarat
+     Farmana                n=   7 rate=0.000 river=Ghaggar
+     Gola Dhoro (Bagasra)   n=   5 rate=0.000 river=Gujarat
+     Harappa                n=1190 rate=0.016 river=Indus
+     Mohenjo-daro           n=1509 rate=0.017 river=Indus
+     Kanmer                 n=   7 rate=0.000 river=Gujarat
+     Kalibangan             n= 152 rate=0.000 river=Ghaggar
+     Kot-Diji               n=   9 rate=0.000 river=Indus
+     Lothal                 n= 166 rate=0.018 river=Gujarat
+     Nausharo               n=  36 rate=0.000 river=Indus
+     Rakhigarhi             n=  11 rate=0.000 river=Ghaggar
+     Rupar                  n=   5 rate=0.000 river=Indus
+     Lakhanjo-daro          n=  10 rate=0.000 river=Indus
+     Shikarpur              n=   6 rate=0.000 river=Gujarat
+  per-site rates for W388 (site, n, rate, elev_m):
+     Lothal                 n= 166 rate=0.018 elev_m=5.0
+     Bala-kot               n=   7 rate=0.143 elev_m=10.0
+     Gola Dhoro (Bagasra)   n=   5 rate=0.000 elev_m=10.0
+     Shikarpur              n=   6 rate=0.000 elev_m=10.0
+     Dholavira              n= 187 rate=0.016 elev_m=15.0
+     Allahdino              n=  12 rate=0.083 elev_m=20.0
+     Kanmer                 n=   7 rate=0.000 elev_m=25.0
+     Chanhu-daro            n=  70 rate=0.029 elev_m=35.0
+     Amri                   n=   5 rate=0.000 elev_m=40.0
+     Mohenjo-daro           n=1509 rate=0.017 elev_m=45.0
+     Kot-Diji               n=   9 rate=0.000 elev_m=50.0
+     Lakhanjo-daro          n=  10 rate=0.000 elev_m=65.0
+     Nausharo               n=  36 rate=0.000 elev_m=150.0
+     Harappa                n=1190 rate=0.016 elev_m=170.0
+     Kalibangan             n= 152 rate=0.000 elev_m=175.0
+     Bhirrana               n=   5 rate=0.000 elev_m=200.0
+     Banawali               n=  21 rate=0.000 elev_m=210.0
+     Farmana                n=   7 rate=0.000 elev_m=220.0
+     Rakhigarhi             n=  11 rate=0.000 elev_m=220.0
+     Rupar                  n=   5 rate=0.000 elev_m=260.0

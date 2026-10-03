@@ -152,7 +152,8 @@ class Data:
             v = [t[f] for t in texts]
             if permute:
                 v = list(v); rng.shuffle(v)
-            self.facts[f] = np.array([x if x else '' for x in v])
+            levels = sorted(set(x for x in v if x))
+            self.facts[f] = np.array([levels.index(x) if x else -1 for x in v])
         if permute:
             sites = list(self.site); rng.shuffle(sites); self.site = np.array(sites)
         self.md = self.site == 'Mohenjo-daro'; self.ha = self.site == 'Harappa'; self.other = ~(self.md | self.ha)
@@ -175,23 +176,20 @@ class Data:
 
 # -------------------------------------------------------------------------------------------- criteria
 def nb_score(F, y, train, test):
-    """multinomial NB on feature matrix F; mean log2 gain over the prior on test rows"""
-    classes = sorted(set(y[train]) - {''})
-    if len(classes) < 2: return 0.0
-    tr = train & (y != ''); te = test & (y != '')
-    if te.sum() < 20: return 0.0
-    logth = []; prior = []
-    for c in classes:
-        m = tr & (y == c)
-        cnt = F[m].sum(0) + 0.5
-        logth.append(np.log2(cnt / cnt.sum())); prior.append(m.sum() + 0.5)
-    logth = np.array(logth); prior = np.array(prior) / sum(prior)
-    lp = F[te] @ logth.T + np.log2(prior)
+    """multinomial NB on feature matrix F; y integer-coded (-1 missing); mean log2 gain over the prior on test rows"""
+    tr = train & (y >= 0); te = test & (y >= 0)
+    if te.sum() < 20 or tr.sum() < 20: return 0.0
+    nc = int(y.max()) + 1
+    Y = np.zeros((tr.sum(), nc), dtype=np.float32); Y[np.arange(tr.sum()), y[tr]] = 1
+    cnt = Y.T @ F[tr] + 0.5                      # classes x features
+    prior = Y.sum(0) + 0.5
+    if (prior > 1).sum() < 2: return 0.0
+    logth = np.log2(cnt / cnt.sum(1, keepdims=True)); lprior = np.log2(prior / prior.sum())
+    lp = F[te] @ logth.T + lprior
     lp -= lp.max(1, keepdims=True)
-    post = lp - np.log2((2.0 ** lp).sum(1, keepdims=True))
-    yi = np.array([classes.index(c) if c in classes else -1 for c in y[te]])
-    ok = yi >= 0
-    gain = post[np.arange(len(yi))[ok], yi[ok]] - np.log2(prior[yi[ok]])
+    post = lp - np.log2(np.exp2(lp).sum(1, keepdims=True))
+    yt = y[te]
+    gain = post[np.arange(len(yt)), yt] - lprior[yt]
     return float(gain.mean())
 
 
@@ -333,7 +331,7 @@ def main():
     DS = Data(texts, vouchers, quantity, random.Random(seed + 2), shuffle=True)
     crit_kinds = a.crits.split(',')
     facts = [f for f in ('type', 'emblem', 'material', 'period', 'size')
-             if (D.facts[f] != '').sum() > 200 and len(set(D.facts[f]) - {''}) > 1]
+             if (D.facts[f] >= 0).sum() > 200 and len(set(D.facts[f].tolist()) - {-1}) > 1]
     specs = []
     for i in range(a.n):
         K = rng.randint(2, 6)

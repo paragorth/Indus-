@@ -159,10 +159,17 @@ class Bigram:
             for u in list(s) + ['E']: b -= math.log2(self.p(u, p)); p = u
         return b / nsigns
     def sample(self, n, rng):
+        if not hasattr(self, '_cum'):
+            import itertools
+            self._cum = {}
+            for p, c in self.big.items():
+                ks = [k for k in c if k != 'E'] or ['E']; ws = [c[k] for k in ks]
+                self._cum[p] = (ks, list(itertools.accumulate(ws)))
+        import bisect
         out = []; p = 'S'
         while len(out) < n:
-            c = self.big.get(p) or self.big['S']; ks = list(c.keys()); ws = list(c.values())
-            u = rng.choices(ks, ws)[0]
+            ks, cw = self._cum.get(p) or self._cum['S']
+            u = ks[bisect.bisect(cw, rng.random() * cw[-1])]
             if u == 'E': p = 'S'; continue
             out.append(u); p = u
         return out
