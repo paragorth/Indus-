@@ -1,0 +1,83 @@
+# LOOP 21 cycle 1: true replication on IM77 texts absent from Wells/ICIT  (level=seq_raw, nodoubt=False, 2026-10-03T11:31)
+IM77 texts (text_no+side): 3445; status: {'damaged': 703, 'none': 52, 'exact': 2433, 'near': 257}
+complete texts 2742: exact 2433 (88.7%), near 257, none 52 (1.9%)
+  length 1: n=137 exact 137 near 0 none 0
+  length 2: n=612 exact 611 near 1 none 0
+  length 3: n=496 exact 493 near 3 none 0
+  length 4: n=443 exact 409 near 33 none 1
+  length 5+: n=1054 exact 783 near 220 none 51
+  by site (complete texts): Mohenjodaro: none 17/1347; Harappa: none 3/1103; Lothal: none 12/112; Kalibangan: none 9/80; Chanhudaro: none 7/58; Other sites: none 3/29; West Asian finds: none 1/13
+  by object type (complete): seal: none 30/1471; sealing: none 20/558; miniature tablet: none 0/438; copper tablet: none 1/140; pottery graffito: none 0/84; ivory/bone rod: none 1/21
+  audit_overlap-style (len>=4, fully bridgeable, any site, exact): 642/724 = 88.7%
+
+### set IM77-only (conservative: no exact, no near match): 52 texts; sites {'Mohenjodaro': 17, 'Harappa': 3, 'Chanhudaro': 7, 'Lothal': 12, 'Kalibangan': 9, 'Other sites': 3, 'West Asian finds': 1}
+   object types {'seal': 30, 'sealing': 20, 'copper tablet': 1, 'ivory/bone rod': 1}; length distribution {4: 1, 5: 9, 6: 3, 7: 13, 8: 13, 9: 5, 10: 3, 11: 2, 12: 1, 13: 1, 14: 1}
+   mean length 7.65; texts with a doubtful reading 11
+
+### set OVERLAP (exact match in Wells): 2433 texts; sites {'Mohenjodaro': 1182, 'Harappa': 1050, 'Chanhudaro': 39, 'Lothal': 74, 'Kalibangan': 57, 'Other sites': 22, 'West Asian finds': 9}
+   object types {'seal': 1265, 'miscellaneous': 15, 'ivory/bone rod': 17, 'sealing': 490, 'copper tablet': 127, 'pottery graffito': 79, 'bronze implement': 10, 'miniature tablet': 430}; length distribution {1: 137, 2: 611, 3: 493, 4: 409, 5: 332, 6: 195, 7: 144, 8: 58, 9: 22, 10: 13, 11: 13, 12: 1, 13: 4, 17: 1}
+   mean length 3.83; texts with a doubtful reading 177
+
+## (1) slot frame on IM77-only (n texts >= 2 signs)
+  opener (M267/391/293/150) in first position    obs    7 / 52 = 0.135   shuffled mean 2.9 [1-6]
+  connective (M99/100/123) text-initial          obs    1 / 52 = 0.019   shuffled mean 5.1 [2-10]
+  opener followed directly by connective         obs    6 / 52 = 0.115   shuffled mean 0.4 [0-2]
+  closer (M342/211/12/15/254/60/328) last        obs   17 / 52 = 0.327   shuffled mean 5.9 [2-10]
+  texts with 2+ distinct closer signs (exclusivity) obs    4 / 52 = 0.077   shuffled mean 4.0 [4-4]
+  jar together with another closer sign          obs    4 / 52 = 0.077   shuffled mean 4.0 [4-4]
+  connective tokens 38, of which text-initial 1 (shuffled mean 5.1)
+  opener before closer in texts with both: 9/9 (shuffled 5.2/9.0)
+  closer sign: tokens, final, texts co-occurring with the jar
+    M12   tokens   3 final   1 (0.33) with-jar 3
+    M15   tokens   0 final   0 (nan) with-jar 0
+    M60   tokens   1 final   0 (0.00) with-jar 0
+    M211  tokens  12 final   9 (0.75) with-jar 0
+    M254  tokens   1 final   1 (1.00) with-jar 1
+    M328  tokens   6 final   0 (0.00) with-jar 2
+    M342  tokens  19 final   6 (0.32) with-jar None
+  seals vs other objects: opener-first 5/30 vs 2/22; suffix M176/M1 last 2/30 vs 2/22
+
+## (2) fish-qualifier order hat(M65) -> whiskers(M67) -> bar(M72) -> stroke(M70) on IM77-only
+  adjacent modified-fish pairs: predicted order 5, reverse 2, two-sided binomial P = 0.4531  pairs: {(72, 65): 1, (70, 72): 1, (67, 72): 5}
+  any-distance pairs within a text: predicted 5, reverse 2, P = 0.4531
+  plain fish M59 before a modified fish 0, after 3 (prediction: no fixed place)
+  texts with a modified fish: 15; texts with 2+ distinct modified fish: 7
+
+## (3) minimum-lot rule on IM77-only: numeral directly before a counted good (trees M161/162/167/168/169, arrow M211, bracket M287, M407, M296, M216)
+  numeral+good pairs: 8; distribution: [(('short', 2), 1), (('short', 3), 2), (('short', 4), 1), (('tall', 2), 1), (('tall', 3), 3)]
+  short-1/short-2 before a good: 1; tall-1 before a good: 0; counts 3-8: 6; tall-2 (fixed term): 1
+  numeral tokens 83 (short-1/2 tokens 38); null (values permuted among numeral slots) short-1/2 before goods: mean 3.7, min 0, P(<= obs) = 0.0440
+  plain person M1 directly after a numeral: 0 of 16 tokens
+  goods counted: {211: 3, 162: 2, 287: 2, 169: 1}
+
+## (1) slot frame on OVERLAP (n texts >= 2 signs)
+  opener (M267/391/293/150) in first position    obs  391 / 2296 = 0.170   shuffled mean 110.6 [91-130]
+  connective (M99/100/123) text-initial          obs    7 / 2296 = 0.003   shuffled mean 109.3 [93-129]
+  opener followed directly by connective         obs  328 / 2296 = 0.143   shuffled mean 22.4 [16-32]
+  closer (M342/211/12/15/254/60/328) last        obs 1568 / 2296 = 0.683   shuffled mean 530.9 [497-561]
+  texts with 2+ distinct closer signs (exclusivity) obs   36 / 2296 = 0.016   shuffled mean 36.0 [36-36]
+  jar together with another closer sign          obs   30 / 2296 = 0.013   shuffled mean 30.0 [30-30]
+  connective tokens 553, of which text-initial 7 (shuffled mean 109.3)
+  opener before closer in texts with both: 341/344 (shuffled 176.6/344.0)
+  closer sign: tokens, final, texts co-occurring with the jar
+    M12   tokens  61 final  56 (0.92) with-jar 3
+    M15   tokens 109 final 104 (0.95) with-jar 8
+    M60   tokens  20 final  15 (0.75) with-jar 4
+    M211  tokens 176 final 155 (0.88) with-jar 6
+    M254  tokens  57 final  52 (0.91) with-jar 4
+    M328  tokens 291 final 264 (0.91) with-jar 5
+    M342  tokens 1031 final 929 (0.90) with-jar None
+  seals vs other objects: opener-first 323/1230 vs 68/1066; suffix M176/M1 last 86/1230 vs 223/1066
+
+## (2) fish-qualifier order hat(M65) -> whiskers(M67) -> bar(M72) -> stroke(M70) on OVERLAP
+  adjacent modified-fish pairs: predicted order 67, reverse 12, two-sided binomial P = 0.0000  pairs: {(65, 67): 36, (72, 65): 3, (67, 72): 11, (70, 72): 3, (67, 65): 3, (65, 72): 12, (65, 70): 2, (67, 70): 6, (72, 67): 3}
+  any-distance pairs within a text: predicted 73, reverse 12, P = 0.0000
+  plain fish M59 before a modified fish 15, after 14 (prediction: no fixed place)
+  texts with a modified fish: 439; texts with 2+ distinct modified fish: 77
+
+## (3) minimum-lot rule on OVERLAP: numeral directly before a counted good (trees M161/162/167/168/169, arrow M211, bracket M287, M407, M296, M216)
+  numeral+good pairs: 208; distribution: [(('short', 1), 3), (('short', 2), 5), (('short', 3), 37), (('short', 4), 40), (('short', 5), 24), (('short', 6), 11), (('short', 7), 11), (('short', 8), 3), (('tall', 1), 4), (('tall', 2), 12), (('tall', 3), 58)]
+  short-1/short-2 before a good: 8; tall-1 before a good: 4; counts 3-8: 184; tall-2 (fixed term): 12
+  numeral tokens 1505 (short-1/2 tokens 523); null (values permuted among numeral slots) short-1/2 before goods: mean 72.3, min 50, P(<= obs) = 0.0005
+  plain person M1 directly after a numeral: 0 of 76 tokens
+  goods counted: {162: 62, 211: 39, 169: 53, 287: 23, 216: 9, 296: 10, 407: 11, 161: 1}

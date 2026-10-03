@@ -217,6 +217,18 @@ class SlotModel:
         self.theta_mid = fit_theta(len(n_mid), len(set(n_mid)))
         texts = [s for _, _, s, _ in self.D]
         self.theta_text = fit_theta(len(texts), len(set(texts)))
+        if 'textreuse' in self.mech:
+            # stock texts are reused within a city (S17/S76), so one restaurant per site; theta calibrated by
+            # simulation so that the generated share of distinct texts matches the fit set (collisions of
+            # independently generated short texts already produce repeats, so the closed-form fit overshoots)
+            target = len(set(texts)) / len(texts); meta = [(site, cls) for site, cls, _, _ in self.D]
+            lo, hi = 10.0, 1e5; rng = random.Random(99)
+            for _ in range(12):
+                self.theta_text = math.sqrt(lo * hi)
+                g = self.generate_corpus(meta, rng); u = len(set(x[2] for x in g)) / len(g)
+                if u < target: lo = self.theta_text
+                else: hi = self.theta_text
+            self.theta_text = math.sqrt(lo * hi)
     def key(self, site, cls):
         return ((site if 'site' in self.mech else None), (cls if 'type' in self.mech else None))
     def fit_tables(self, ds, parent):
@@ -251,9 +263,9 @@ class SlotModel:
     def generate_corpus(self, meta, rng):
         """meta: list of (site, cls) -> list of (site, cls, seq)"""
         out = []
-        mid_crp = CRP(self.theta_mid); text_crp = CRP(self.theta_text)
+        mid_crp = CRP(self.theta_mid); text_crps = collections.defaultdict(lambda: CRP(self.theta_text))
         for site, cls in meta:
-            T = self.tables(site, cls)
+            T = self.tables(site, cls); text_crp = text_crps[site]
             def one():
                 for _ in range(50):
                     s = self.generate_text(T, rng, mid_crp)
@@ -547,7 +559,7 @@ def main():
             'package': 'frame package: opener + marker + closer + suffix drawn jointly',
             'markov2': 'order-2 chain for the middle (interpolated)',
             'open': 'open sign inventory: the middle chain emits a never-seen sign with the Good-Turing mass (hapax signs / tokens, S309)',
-            'textreuse': f'whole-text reuse (stock texts): CRP over texts, theta fitted to the distinct-text count = {M0.theta_text:.1f} (fits unique_text_share directly)'}
+            'textreuse': f'whole-text reuse (stock texts): one CRP per site, theta calibrated by simulation to the distinct-text share = {SlotModel(FIT, mech=["textreuse"]).theta_text:.0f} (closed-form fit would give {M0.theta_text:.0f}; fits unique_text_share directly)'}
     single = {}
     for m in MECHS:
         Mm = SlotModel(FIT, mech=[m]); rows = run_model(Mm, meta, real, NSYN)
