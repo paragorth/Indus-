@@ -1,0 +1,35 @@
+# Loop 52 final: HOW MANY SIGNS ARE THERE REALLY? (3 Oct 2026)
+Files: loop52_cycle1a.txt (first pass, the failure), loop52_cycle1.txt, loop52_cycle2.txt (+ .json), loop52_cycle3.txt, loop52_cycle3b.txt, loop52_merges.json (graph, classes at every level, 'proposed_principled' table of 32 pairs).
+Scripts: tools/dark_loop52_c1.py, _c1b.py, _c2.py, _c3.py, _c3b.py.
+
+## The ladder (signs with >= 1 token; Chao1 total, analytic 95% CI, distinct texts; frame check from cycle 3)
+| step | seen | Chao1 total | frame | verdict |
+| raw Wells | 713 | 955 [873-1038] | holds | starting point |
+| canonical strong (S268) | 695 | 939 [856-1023] | holds | |
+| canonical all (S268) | 689 | 933 [850-1017] | holds | |
+| contextual-merged = canonical all + principled graph ((shape or reader) AND (contextual or free-interchange)) | 669 | 913 [830-997] | holds (opener 0.72, closer 0.70, O<C 487:19) | the defensible inventory |
+| permissive = any 2 of 4 evidence types | 626 | 873 [789-957] | degrades (opener 0.66, 25-sign class of titles) | merges same-slot paradigms |
+| maximal = any 1 evidence type | 288 | 450 [379-521] | destroyed (one class of 404 signs; O<C 0:4,455) | wrong |
+Calibrated references at 3,000 texts: Chao1 overshoots the whole-corpus count 1.1-1.4x (Linear B, Ur III, Proto-Elamite, ECO, khipu), undershoots only proto-cuneiform (0.69). Reference inventories: Linear B syllabograms 87 (DAMOS split 532 tokens types), Linear B with ideograms 1,114, Ur III legend syllables 797, Ur III name syllables 882, Proto-Elamite base-merged 690 (raw 1,737), proto-cuneiform base-merged 2,205, ECO 420, khipu 229.
+
+## Best estimate
+About 670 distinct signs in use after every defensible merge (713 Wells numbers minus 44 variant forms), out of a total of roughly 900 (Chao1 913, 95% CI 830-997; after the calibrated bias correction 650-800 is the conservative band, S309's ~950 the upper one). The unseen quarter is rare signs, not variants: merging removes frequent forms and leaves the singleton count at 219-234 untouched, and the new-material rate (1.4% of tokens in a random IM77 split, 4.5% on objects Wells never matched) does not fall under any merge level.
+
+## What that count rules out
+- A syllabary (60-120 signs): no evidence rule reaches it. Even the indefensible maximal merge leaves 288 seen / 450 total and destroys the frame, the closer paradigm and the partial order.
+- A small closed code: the spectrum (f1/S 0.33-0.37, GT unseen 1.9%) is that of an open inventory, unlike khipu (0.06 / 0.1%) or ECO (0.27 / 0.4%).
+- 'Hundreds of Wells numbers are allographs': the principled graph finds 44 (6%), re-finding 24 of S268's 27 merges and adding 22 pairs (697/700, 840/844, 900/906, 61/63, 595/597, 552/555, 226/232/241, 32/315, 176/388, 70/72, 97/142, 460/463, 467/468, 904/927, 151/154/156, 803/806/812/831/832/838).
+Consistent with: a logographic or logosyllabic inventory of Proto-Elamite / early cuneiform size (600-900 base signs), or Linear B's mixed list counted with its ideograms.
+
+## Method lessons
+1. 'Variant predicted by the neighbour' (S-DARK-46) is not an allograph detector: 57% of all sign pairs pass it, because two different signs in one slot also have different neighbours. It confirms a shape or reader link; it cannot create one.
+2. Two distributional witnesses (contextual + free interchange) agree below chance (0.7x) and, where they do agree, merge paradigm-mates (titles before the jar, closers after 33/806).
+3. Shape (fine >= 0.85) and reader (same Mahadevan sign) agree 36x above chance: those are the independent witnesses.
+4. Naive text-bootstrap CIs for Chao1 are biased low; use the analytic variance.
+5. Loop 21's 'certainly new' IM77 texts cannot test unseen signs (texts with unbridged signs are sent to 'indeterminate').
+
+## Outside tests
+- Mahadevan lumps (58 M signs <- 141 Wells signs): the graph without any reader input puts 5 (principled) to 13 (any-2) of 58 inside one class vs 0.1-0.5 by chance (P 0.001); 22 lumps are untestable (< 8 tokens), the rest are the medium-split tree/opener/jar pairs that fail the strict usage cuts.
+- New material: on the 1,561 IM77 objects Wells never matched, 265 of 5,846 tokens (4.5%) are M signs unseen on the shared objects, vs 80 +/- 10 (1.4%) for a random split (z +18); selection and bridge gaps explain part of the excess, but both numbers exceed S309's 1.7% token-level Good-Turing figure for the next-sign-is-new rate.
+
+Verdict words: not 'cracked'; nothing here reads a sign. Supported: the Indus inventory is logographic-sized (~670 in use, ~900 total) and open; a syllabary is excluded at every merge level.

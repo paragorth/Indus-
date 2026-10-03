@@ -29,7 +29,7 @@ for setname in ('pooled', 'held', 'im'):
     for r in recs:
         for k in ('x', 'prev'):
             v = r[k]
-            r[k] = int(v) if v.lstrip('-').isdigit() else v
+            r[k] = int(v) if isinstance(v, str) and v.lstrip('-').isdigit() else v
     ntexts = len(set((r['site'], r['t'], r['n']) for r in recs))
     log(f'\n## {setname}: {len(recs)} tokens')
     # (a) KN2 vs structural by (zone, prev sign)

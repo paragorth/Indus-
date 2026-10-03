@@ -1,0 +1,134 @@
+# loop 59 cycle 2, level seq_raw: residual map from cycle 1 records (held-out sites + IM77-only pooled, and separately)
+
+## pooled: 3634 tokens
+(a) contexts (zone, previous sign) where Markov-2 beats the structural model, n >= 12; fit-set continuations of the previous sign:
+| zone | prev | n | KN2 bits | structural - KN2 | unigram bits | fit-set top continuations P(next|prev) |
+|---|---|---|---|---|---|---|
+| MID | 140 | 24 | 6.72 | 1.50 | 7.59 | 920:0.13, 100:0.08, 706:0.05, 136:0.05 |
+| MID | 255 | 17 | 4.36 | 1.17 | 8.39 | 435:0.51, 740:0.18, 70:0.08, 436:0.05 |
+| MID | 900 | 17 | 6.53 | 1.11 | 7.71 | 740:0.40, 165:0.11, 32:0.07, 2:0.07 |
+| MID | 32 | 78 | 5.69 | 0.87 | 7.08 | 220:0.20, 740:0.15, E:0.09, 226:0.05 |
+| MID | 717 | 14 | 5.70 | 0.86 | 6.47 | 740:0.33, 388:0.07, 533:0.07, 415:0.04 |
+| MID | 220 | 78 | 6.34 | 0.74 | 7.11 | 520:0.17, 740:0.12, E:0.07, 240:0.06 |
+| MID | 233 | 39 | 6.03 | 0.68 | 7.18 | 520:0.15, 705:0.12, 176:0.04, 550:0.04 |
+| MID | 590 | 32 | 4.09 | 0.62 | 6.13 | 390:0.39, 405:0.16, 892:0.08, 407:0.05 |
+| MID | 550 | 20 | 3.87 | 0.59 | 7.20 | 60:0.31, 527:0.24, 617:0.09, 525:0.07 |
+| MID | 125 | 13 | 6.70 | 0.58 | 8.11 | 390:0.17, E:0.06, 406:0.06, 861:0.06 |
+| MID | 705 | 30 | 5.51 | 0.57 | 6.98 | 33:0.61, 255:0.07, 167:0.03, 740:0.03 |
+| MID | 820 | 19 | 4.53 | 0.54 | 4.96 | 2:0.45, 60:0.14, E:0.11, 1:0.10 |
+| MID | 760 | 25 | 0.40 | 0.48 | 3.72 | 740:0.93, 151:0.01, 382:0.01, 400:0.01 |
+| MID | 390 | 98 | 2.86 | 0.46 | 4.16 | E:0.49, 740:0.18, 2:0.07, 741:0.06 |
+| MID | 840 | 20 | 4.05 | 0.43 | 5.86 | 32:0.34, E:0.14, 740:0.14, 760:0.08 |
+| MID | 368 | 23 | 5.87 | 0.42 | 5.91 | E:0.32, 1:0.12, 2:0.11, 690:0.05 |
+| MID | 3 | 54 | 6.57 | 0.36 | 8.31 | 390:0.17, 220:0.12, 156:0.11, 900:0.08 |
+| MID | 142 | 22 | 2.36 | 0.36 | 6.38 | 617:0.40, 740:0.18, 400:0.16, 156:0.04 |
+| MID | 861 | 18 | 2.98 | 0.33 | 4.70 | 2:0.77, 368:0.06, 740:0.05, E:0.04 |
+| MK | 60 | 27 | 5.29 | 0.32 | 7.29 | 741:0.17, 235:0.07, 240:0.04, 32:0.04 |
+tokens where KN2 is better by > 0.5 bit: 1189 (0.327); structural better by > 0.5 bit: 1124 (0.309)
+slot x previous-class contexts (n >= 20), structural - KN2 bits (positive = chain knows more):
+  TITLE<-OTHER n=47 +1.59; SUFFIX<-C740 n=30 +1.47; NAME<-FISH n=42 +1.47; CLOSER<-NUMt n=24 +0.55; TITLE<-FISHQ n=38 +0.52; TITLE<-CONN n=24 +0.48; NAME<-FISHQ n=53 +0.46; NAME<-NUMt n=98 +0.41; END<-TREE n=63 +0.40; NAME<-TREE n=34 +0.40; CLOSER<-TITLE n=80 +0.36; NAME<-TITLE n=90 +0.36; CLOSER<-OTHER n=128 +0.34; NAME<-CONN n=123 +0.25; COUNT<-OTHER n=83 +0.21; TITLE<-- n=31 +0.18; NAME<-OTHER n=516 +0.13; END<-NUMt n=36 +0.13; NAME<-C740 n=35 +0.07; NAME<-NUMs n=128 +0.07; MARKER<-OPEN n=96 +0.05; NAME<-OPEN n=46 -0.00; END<-SUF n=49 -0.01; NAME<-MJAR n=30 -0.02; COUNT<-- n=120 -0.07; END<-C520 n=46 -0.16; OPENER<-- n=126 -0.16; NAME<-- n=466 -0.18; END<-C740 n=186 -0.19; END<-C151 n=22 -0.20; CLOSER<-FISHQ n=22 -0.21; END<-C156 n=20 -0.30; COUNT<-CONN n=43 -0.37; END<-TITLE n=24 -0.47; END<-OTHER n=200 -0.50; CLOSER<-C617 n=28 -0.64; COUNT<-NUMt n=21 -0.72; END<-C617 n=26 -1.01
+
+(b) irreducible tokens (no model beats the unigram by 0.25 bit): 590 of 3634 (0.162)
+  by slot: OPENER 0/126 (0.00), MARKER 0/96 (0.00), COUNT 44/324 (0.14), NAME 353/1724 (0.20), TITLE 20/210 (0.10), CLOSER 69/365 (0.19), SUFFIX 0/41 (0.00), END 104/748 (0.14)
+  contexts (slot <- previous class) with >= 70% irreducible tokens, n >= 20: 
+  mean fit-set frequency of the sign at irreducible tokens 474 vs reducible 567 (of 10478 tokens)
+
+(c) bits per text under combined (and under the unigram), by slot group and object type:
+| object type | texts | bits/text best | frame | qualifiers | counts | middle | unigram bits/text | explained share | middle share of remaining |
+|---|---|---|---|---|---|---|---|---|---|
+| ALL | 748 | 25.3 | 4.3 | 1.5 | 2.6 | 16.8 | 31.2 | 19% | 67% |
+| SEAL | 461 | 27.9 | 4.5 | 1.6 | 2.7 | 19.1 | 33.4 | 17% | 69% |
+| TAB | 68 | 21.9 | 5.2 | 1.2 | 2.5 | 13.0 | 28.4 | 23% | 59% |
+| OTHER | 219 | 20.8 | 3.8 | 1.6 | 2.4 | 13.1 | 27.4 | 24% | 63% |
+
+slot-level summary (pooled over object types): bits under unigram -> best; gap closed vs unigram; vs uniform (log2(|V|+2))
+  frame      n= 1376  unigram 3.84 -> best 2.35; gap closed 39% of unigram, 75% of uniform
+  qualifiers n=  210  unigram 7.19 -> best 5.49; gap closed 24% of unigram, 40% of uniform
+  counts     n=  324  unigram 6.62 -> best 5.99; gap closed 10% of unigram, 35% of uniform
+  middle     n= 1724  unigram 8.36 -> best 7.29; gap closed 13% of unigram, 21% of uniform
+
+(d) share of tokens predicted with P >= 0.5 (<= 1 bit) under the best model, by slot:
+  OPENER 0/126 (0.00), MARKER 76/96 (0.79), COUNT 6/324 (0.02), NAME 52/1724 (0.03), TITLE 15/210 (0.07), CLOSER 94/365 (0.26), SUFFIX 0/41 (0.00), END 421/748 (0.56)
+
+## held: 2019 tokens
+(a) contexts (zone, previous sign) where Markov-2 beats the structural model, n >= 12; fit-set continuations of the previous sign:
+| zone | prev | n | KN2 bits | structural - KN2 | unigram bits | fit-set top continuations P(next|prev) |
+|---|---|---|---|---|---|---|
+| MID | 3 | 24 | 6.04 | 1.31 | 8.20 | 390:0.17, 220:0.12, 156:0.11, 900:0.08 |
+| MID | 32 | 44 | 4.99 | 0.93 | 6.60 | 220:0.20, 740:0.15, E:0.09, 226:0.05 |
+| MID | 220 | 39 | 6.75 | 0.84 | 7.33 | 520:0.17, 740:0.12, E:0.07, 240:0.06 |
+| MID | 590 | 26 | 4.45 | 0.68 | 6.21 | 390:0.39, 405:0.16, 892:0.08, 407:0.05 |
+| MID | 840 | 14 | 3.26 | 0.59 | 5.55 | 32:0.34, E:0.14, 740:0.14, 760:0.08 |
+| MID | 390 | 50 | 2.40 | 0.54 | 3.75 | E:0.49, 740:0.18, 2:0.07, 741:0.06 |
+| MID | 233 | 21 | 5.74 | 0.49 | 6.75 | 520:0.15, 705:0.12, 176:0.04, 550:0.04 |
+| MID | 705 | 13 | 4.90 | 0.45 | 6.22 | 33:0.61, 255:0.07, 167:0.03, 740:0.03 |
+| MID | 240 | 20 | 6.32 | 0.42 | 6.97 | 520:0.07, 233:0.07, 740:0.06, 636:0.05 |
+| MID | 1 | 23 | 7.81 | 0.38 | 8.21 | E:0.08, 4:0.05, 235:0.04, 821:0.04 |
+| OP | 820 | 17 | 3.44 | 0.36 | 6.18 | 2:0.45, 60:0.14, E:0.11, 1:0.10 |
+| OP | 920 | 14 | 0.94 | 0.34 | 6.08 | 60:0.44, 740:0.11, E:0.03, 1:0.03 |
+tokens where KN2 is better by > 0.5 bit: 668 (0.331); structural better by > 0.5 bit: 631 (0.313)
+slot x previous-class contexts (n >= 20), structural - KN2 bits (positive = chain knows more):
+  TITLE<-OTHER n=22 +1.49; NAME<-FISH n=23 +1.33; NAME<-TITLE n=36 +0.72; TITLE<-FISHQ n=21 +0.58; END<-TREE n=38 +0.55; CLOSER<-OTHER n=71 +0.45; CLOSER<-TITLE n=44 +0.41; NAME<-FISHQ n=28 +0.33; NAME<-NUMs n=61 +0.30; NAME<-NUMt n=60 +0.27; TITLE<-- n=21 +0.24; NAME<-OTHER n=294 +0.24; COUNT<-CONN n=28 +0.21; MARKER<-OPEN n=64 +0.20; COUNT<-OTHER n=50 +0.18; END<-NUMt n=25 +0.04; OPENER<-- n=83 -0.04; COUNT<-- n=62 -0.12; NAME<-CONN n=83 -0.16; END<-C740 n=113 -0.23; END<-C520 n=28 -0.24; NAME<-- n=253 -0.32; NAME<-OPEN n=25 -0.36; END<-OTHER n=122 -0.39
+
+(b) irreducible tokens (no model beats the unigram by 0.25 bit): 365 of 2019 (0.181)
+  by slot: OPENER 0/83 (0.00), MARKER 0/64 (0.00), COUNT 35/186 (0.19), NAME 219/938 (0.23), TITLE 11/112 (0.10), CLOSER 35/198 (0.18), SUFFIX 0/14 (0.00), END 65/424 (0.15)
+  contexts (slot <- previous class) with >= 70% irreducible tokens, n >= 20: 
+  mean fit-set frequency of the sign at irreducible tokens 475 vs reducible 581 (of 10478 tokens)
+
+(c) bits per text under combined (and under the unigram), by slot group and object type:
+| object type | texts | bits/text best | frame | qualifiers | counts | middle | unigram bits/text | explained share | middle share of remaining |
+|---|---|---|---|---|---|---|---|---|---|
+| ALL | 424 | 25.3 | 4.2 | 1.4 | 2.7 | 17.0 | 30.2 | 16% | 67% |
+| SEAL | 297 | 28.1 | 4.4 | 1.5 | 2.8 | 19.4 | 33.7 | 17% | 69% |
+| TAB | 18 | 20.5 | 5.8 | 0.7 | 1.3 | 12.8 | 24.1 | 15% | 62% |
+| OTHER | 109 | 18.3 | 3.4 | 1.2 | 2.5 | 11.1 | 21.7 | 16% | 61% |
+
+slot-level summary (pooled over object types): bits under unigram -> best; gap closed vs unigram; vs uniform (log2(|V|+2))
+  frame      n=  783  unigram 3.79 -> best 2.27; gap closed 40% of unigram, 75% of uniform
+  qualifiers n=  112  unigram 7.12 -> best 5.40; gap closed 24% of unigram, 42% of uniform
+  counts     n=  186  unigram 6.63 -> best 6.15; gap closed 7% of unigram, 33% of uniform
+  middle     n=  938  unigram 8.33 -> best 7.66; gap closed 8% of unigram, 17% of uniform
+
+(d) share of tokens predicted with P >= 0.5 (<= 1 bit) under the best model, by slot:
+  OPENER 0/83 (0.00), MARKER 54/64 (0.84), COUNT 3/186 (0.02), NAME 24/938 (0.03), TITLE 7/112 (0.06), CLOSER 51/198 (0.26), SUFFIX 0/14 (0.00), END 236/424 (0.56)
+
+## im: 1615 tokens
+(a) contexts (zone, previous sign) where Markov-2 beats the structural model, n >= 12; fit-set continuations of the previous sign:
+| zone | prev | n | KN2 bits | structural - KN2 | unigram bits | fit-set top continuations P(next|prev) |
+|---|---|---|---|---|---|---|
+| MID | 140 | 13 | 6.28 | 2.04 | 7.82 | 920:0.13, 100:0.08, 706:0.05, 136:0.05 |
+| MID | 233 | 18 | 6.37 | 0.91 | 7.69 | 520:0.15, 705:0.12, 176:0.04, 550:0.04 |
+| MID | 32 | 34 | 6.60 | 0.79 | 7.70 | 220:0.20, 740:0.15, E:0.09, 226:0.05 |
+| MID | 705 | 17 | 5.97 | 0.66 | 7.56 | 33:0.61, 255:0.07, 167:0.03, 740:0.03 |
+| MID | 220 | 39 | 5.93 | 0.64 | 6.88 | 520:0.17, 740:0.12, E:0.07, 240:0.06 |
+| MID | 235 | 12 | 5.78 | 0.60 | 6.85 | 240:0.21, 233:0.11, 590:0.07, 220:0.05 |
+| MID | 760 | 14 | 0.14 | 0.59 | 3.87 | 740:0.93, 151:0.01, 382:0.01, 400:0.01 |
+| MID | 2 | 39 | 6.67 | 0.39 | 7.68 | 240:0.07, 32:0.06, 803:0.06, 235:0.05 |
+| MID | 390 | 48 | 3.33 | 0.38 | 4.58 | E:0.49, 740:0.18, 2:0.07, 741:0.06 |
+| MID | 595 | 15 | 3.77 | 0.36 | 5.54 | E:0.27, 1:0.17, 850:0.17, 2:0.13 |
+| MID | 33 | 14 | 4.30 | 0.34 | 6.30 | 520:0.24, E:0.15, 700:0.08, 550:0.03 |
+tokens where KN2 is better by > 0.5 bit: 521 (0.323); structural better by > 0.5 bit: 493 (0.305)
+slot x previous-class contexts (n >= 20), structural - KN2 bits (positive = chain knows more):
+  TITLE<-OTHER n=25 +1.67; NAME<-CONN n=40 +1.11; NAME<-NUMt n=38 +0.62; NAME<-FISHQ n=25 +0.60; NAME<-OPEN n=21 +0.42; CLOSER<-TITLE n=36 +0.30; COUNT<-OTHER n=33 +0.25; CLOSER<-OTHER n=57 +0.20; END<-TREE n=25 +0.18; NAME<-TITLE n=54 +0.11; END<-SUF n=32 +0.02; NAME<-OTHER n=222 -0.00; COUNT<-- n=58 -0.00; NAME<-- n=213 -0.01; END<-C740 n=73 -0.12; NAME<-NUMs n=67 -0.15; MARKER<-OPEN n=32 -0.25; OPENER<-- n=43 -0.40; CLOSER<-C617 n=28 -0.64; END<-OTHER n=78 -0.68; END<-C617 n=24 -1.07
+
+(b) irreducible tokens (no model beats the unigram by 0.25 bit): 225 of 1615 (0.139)
+  by slot: OPENER 0/43 (0.00), MARKER 0/32 (0.00), COUNT 9/138 (0.07), NAME 134/786 (0.17), TITLE 9/98 (0.09), CLOSER 34/167 (0.20), SUFFIX 0/27 (0.00), END 39/324 (0.12)
+  contexts (slot <- previous class) with >= 70% irreducible tokens, n >= 20: 
+  mean fit-set frequency of the sign at irreducible tokens 472 vs reducible 551 (of 10478 tokens)
+
+(c) bits per text under combined (and under the unigram), by slot group and object type:
+| object type | texts | bits/text best | frame | qualifiers | counts | middle | unigram bits/text | explained share | middle share of remaining |
+|---|---|---|---|---|---|---|---|---|---|
+| ALL | 324 | 25.2 | 4.5 | 1.7 | 2.5 | 16.6 | 32.5 | 22% | 66% |
+| SEAL | 164 | 27.4 | 4.6 | 1.6 | 2.5 | 18.7 | 33.0 | 17% | 68% |
+| TAB | 50 | 22.3 | 4.9 | 1.4 | 2.9 | 13.1 | 30.0 | 26% | 59% |
+| OTHER | 110 | 23.4 | 4.1 | 2.0 | 2.2 | 15.1 | 33.0 | 29% | 65% |
+
+slot-level summary (pooled over object types): bits under unigram -> best; gap closed vs unigram; vs uniform (log2(|V|+2))
+  frame      n=  593  unigram 3.92 -> best 2.46; gap closed 37% of unigram, 73% of uniform
+  qualifiers n=   98  unigram 7.27 -> best 5.61; gap closed 23% of unigram, 39% of uniform
+  counts     n=  138  unigram 6.61 -> best 5.77; gap closed 13% of unigram, 38% of uniform
+  middle     n=  786  unigram 8.38 -> best 6.84; gap closed 18% of unigram, 26% of uniform
+
+(d) share of tokens predicted with P >= 0.5 (<= 1 bit) under the best model, by slot:
+  OPENER 0/43 (0.00), MARKER 22/32 (0.69), COUNT 3/138 (0.02), NAME 28/786 (0.04), TITLE 8/98 (0.08), CLOSER 43/167 (0.26), SUFFIX 0/27 (0.00), END 185/324 (0.57)
