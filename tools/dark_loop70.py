@@ -1,228 +1,167 @@
-"""S-DARK-70: DO LINE BREAKS FALL AT WORD BOUNDARIES?
+#!/usr/bin/env python3
+"""Loop 70: do scribes' line breaks fall at word boundaries? (see dark_loop70_common.py for data/units)
 
-Shared loader + unit definitions for loop 70. Cycle scripts: tools/dark_loop70_c1.py (split rates per unit), _c2.py (break-learned
-segmentation), _c3.py (replication: Wells vs IM77 on linked objects, three merge levels, Harappa tablets, held-out sites).
-
-Data conventions (checked 3 Oct 2026):
-- data/raw/inscriptions.csv: `text` is the Wells string in PHYSICAL order left->right, '/' = line/register break on one face, 000 = unread,
-  '[' / ']' = damaged end. Canonical reading order (merged-corpus-canonical.json `seq_*`) = the whole string reversed with 000 dropped,
-  i.e. the segment AFTER '/' (B) is read first, then the segment before it (A), each reversed (verified on Ad-7 and on IM77 1001 =
-  M-1005 through loop24_pairs.json). S-DARK-8.2: a trigram model cannot tell the Wells segment order (tie), so results are given for
-  the stored (B then A) order and for the order-free version (break sign pair taken either way). Multi-sided objects (id n.1, n.2 ...)
-  are SEPARATE texts (S-DARK-37 arrow C) and are kept apart as 'side boundaries'.
-- merged-corpus-canonical.json `seq` fields DROP the line break (lists of ints); the raw->strong / raw->all sign maps are learned from
-  its zipped seq_raw/seq_strong/seq_all columns (both are functions) and applied to the raw text here, so the 5,680-row csv is used.
-- data/im77/im77_corpus_lines.csv: one row per line; (text_no, side) with lines 1..3 is a multi-line side; line order 1 -> 2 is the
-  supported reading order (S-DARK-8.2). Mahadevan numbers; units are mapped W -> M through bridge_extended.json + S-DARK-27 proposals.
+Cycle 1: rate of breaks INSIDE each candidate unit vs three nulls (uniform random interior cut of the same
+         text; ink-midpoint cut; ink-balance-matched cut), Wells canonical + order-agnostic at three merge
+         levels, IM77 known order + agnostic, home (MD+HP) vs other sites. Controls: Ur III seal legends
+         (word-internal pairs; true line breaks vs random re-breaks), planted Indus breaks (random vs
+         unit-avoiding, same sizes as the Wells texts) for power.
+Usage: python3 tools/dark_loop70.py 1
 """
-import csv, json, collections, re, random, math, sys
-ROOT = '/home/user/Indus-/'
-OUT = ROOT + 'data/derived/dark/'
+import sys, json, random, collections, itertools
+import numpy as np
+sys.path.insert(0, '/home/user/Indus-/tools')
+from dark_loop70_common import *
 
-BR = json.load(open(ROOT + 'data/derived/bridge_extended.json'))
-PROP = json.load(open(ROOT + 'data/derived/dark/bridge_proposals.json'))
-W2M = {int(w): set(ms) for w, ms in BR.items()}
-M2W = collections.defaultdict(set)
-for w, ms in BR.items():
-    for m in ms: M2W[m].add(int(w))
-PROPM2W = collections.defaultdict(set)
-for p in PROP['proposals']:
-    PROPM2W[p['M']].add(p['W'])
-    W2M.setdefault(p['W'], set()).add(p['M'])
-M2W_ALL = collections.defaultdict(set)
-for m, ws in M2W.items(): M2W_ALL[m] |= ws
-for m, ws in PROPM2W.items(): M2W_ALL[m] |= ws
+rng = random.Random(70)
+LOG = []
+def P(*a):
+    s = ' '.join(str(x) for x in a); print(s, flush=True); LOG.append(s)
 
-WID = json.load(open(OUT + 'loop38_glyph_widths.json'))['signs']
-def width(w):
-    s = WID.get(str(w)); return s['w_rel'] if s else None
-MEDW = sorted(v['w_rel'] for v in WID.values())[len(WID) // 2]
 
-# ---- merge maps learned from the canonical corpus ----
-_CAN = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
-MAP = {'seq_raw': {}, 'seq_strong': {}, 'seq_all': {}}
-for r in _CAN:
-    for a, b, c in zip(r['seq_raw'], r['seq_strong'], r['seq_all']):
-        MAP['seq_strong'][a] = b; MAP['seq_all'][a] = c
-def lv(seq, level):
-    m = MAP[level]; return [m.get(a, a) for a in seq]
-
-# ---- frame sets (S310/S331, as tools/dark_loop61.py) ----
-OPEN = {817, 861, 820, 920, 692}; MARK = {2, 60}; MJAR = {741, 742, 745}; SUF = {400, 90}
-CL = [740, 520, 151, 156, 527, 226, 617, 154, 158, 236, 700]
-HEADS = set(CL) | {595}
-FISH = {235, 240, 233, 231, 220}
-NUM = {1, 3, 4, 5, 16, 17, 18, 31, 32, 33, 34, 55, 56}
-NUMALL = set(range(3, 8)) | set(range(12, 21)) | set(range(25, 30)) | set(range(32, 40)) | {1, 2, 31, 55, 56}
-# S-DARK-26.4 deduplicated frozen pairs (unordered adjacency) + 26.1 genuine compounds
-FROZEN = [(33, 705), (255, 435), (60, 550), (176, 740), (4, 390), (3, 900), (17, 575), (415, 798), (407, 845), (35, 171),
-          (220, 415), (503, 615), (405, 501), (413, 575), (13, 840)]
-FROZEN_SET = {frozenset(p) for p in FROZEN}
-# S303 named qualifier -> head pairs (W numbers)
-S303 = {(760, 740), (100, 740), (176, 740), (33, 520), (220, 520), (233, 520), (550, 527), (555, 527), (142, 617), (806, 154), (806, 158), (3, 156)}
-
-def otype(t):
-    t = t.split(':')[0]
-    return {'SEAL': 'seal', 'TAB': 'tablet', 'POT': 'pot', 'TAG': 'sealing'}.get(t, 'other')
-BIG = ('Mohenjo-daro', 'Harappa', 'Mohenjodaro')
-
-# ---------------- Wells ----------------
-def parse_wells_text(t):
-    """-> (segments in canonical reading order, each a list of ints with 0 = unread, damaged flag). None if unparsable."""
-    damaged = '[' in t or ']' in t
-    core = t.strip('+[] ')
-    segs = [s for s in core.split('/') if s.strip()]
-    try:
-        segs = [[int(x) for x in s.split('-') if x.strip() != ''] for s in segs]
-    except ValueError:
-        return None
-    segs = [list(reversed(s)) for s in reversed(segs)]   # canonical: later physical segment first, each reversed
-    return segs, damaged
-
-def load_wells():
-    rows = list(csv.DictReader(open(ROOT + 'data/raw/inscriptions.csv')))
-    objs = []
-    for r in rows:
-        t = r['text'] or ''
-        p = parse_wells_text(t)
-        if p is None: continue
-        segs, dam = p
-        oid, face = (r['id'].split('.') + ['1'])[:2]
-        objs.append(dict(src='wells', id=r['id'], obj=oid, face=int(face), cisi=r['cisi'], site=r['site'], type=r['type'], ot=otype(r['type']),
-                         complete=r['complete'] == 'Y' and not dam, dir=r['dir.'], segs=segs, H=r['horizontal(mm)'], V=r['vertical(mm)'],
-                         nsides=r['sides']))
-    return objs
-
-# ---------------- IM77 ----------------
-def load_im77():
-    rows = list(csv.DictReader(open(ROOT + 'data/im77/im77_corpus_lines.csv')))
-    by = collections.defaultdict(list)
-    for r in rows: by[(r['text_no'], r['side'])].append(r)
-    objs = []
-    for (tn, side), v in by.items():
-        v = [x for x in v if x['line'] != '9']
-        if not v: continue
-        v.sort(key=lambda x: int(x['line']))
-        segs = [[int(s) for s in x['signs_clean'].split()] for x in v]
-        o = v[0]
-        objs.append(dict(src='im77', id=f'{tn}.{side}', obj=tn, face=int(side), site=o['site'], ot={'seal': 'seal', 'sealing': 'sealing',
-                         'miniature tablet': 'tablet', 'copper tablet': 'tablet', 'pottery graffito': 'pot'}.get(o['object_type'], 'other'),
-                         type=o['object_type'], complete=all(0 not in s for s in segs), dirs=[x['direction'] for x in v], segs=segs,
-                         doubt=[x['doubtful_positions'] for x in v]))
-    return objs
-
-def flat(o):
-    """full sequence and the set of gap indices (gap g = between sign g and g+1, 0-based) that are line breaks."""
-    seq = []; breaks = set()
-    for i, s in enumerate(o['segs']):
-        if i > 0: breaks.add(len(seq) - 1)
-        seq.extend(s)
-    return seq, breaks
-
-# ---------------- qualifier sets (S-DARK-61 build_qual) from a training set of sequences ----------------
-def build_qual(seqs):
-    left = collections.defaultdict(collections.Counter)
-    for s in seqs:
-        s = list(s)
-        while len(s) > 1 and s[-1] in SUF: s.pop()
-        if len(s) >= 2 and s[-1] in CL: left[s[-1]][s[-2]] += 1
-    Q = {}
-    for c, cnt in left.items():
-        tot = sum(cnt.values()); acc = 0; q = set()
-        for a, n in cnt.most_common():
-            if acc / tot >= 0.6: break
-            q.add(a); acc += n
-        Q[c] = q
-    return Q
-
-def parse(s, QUAL):
-    lab = ['NAME'] * len(s); i = 0; j = len(s)
-    if not s: return lab
-    if s[0] in OPEN:
-        lab[0] = 'OPENER'; i = 1
-        if len(s) > 1 and s[1] in MARK:
-            lab[1] = 'MARKER'; i = 2
-            if s[0] == 920 and len(s) > 2 and s[2] in MJAR: lab[2] = 'MARKER'; i = 3
-    while j - 1 > i and s[j - 1] in SUF and j >= 2 and (s[j - 2] in CL or s[j - 2] in SUF): lab[j - 1] = 'SUFFIX'; j -= 1
-    if j - 1 >= i and s[j - 1] in CL:
-        c = s[j - 1]; lab[j - 1] = 'CLOSER'; j -= 1
-        if c == 520:
-            if j - 2 >= i and s[j - 1] == 33 and s[j - 2] in (705, 706): lab[j - 1] = lab[j - 2] = 'TITLE'; j -= 2
-            while j - 1 >= i and s[j - 1] in FISH: lab[j - 1] = 'TITLE'; j -= 1
-        elif c == 740:
-            if j - 1 >= i and s[j - 1] == 100: lab[j - 1] = 'TITLE'; j -= 1
-            if j - 1 >= i and s[j - 1] in QUAL.get(c, ()): lab[j - 1] = 'TITLE'; j -= 1
-        elif j - 1 >= i and s[j - 1] in QUAL.get(c, ()): lab[j - 1] = 'TITLE'; j -= 1
-        if j - 1 >= i and s[j - 1] in NUM and lab[j] == 'TITLE': lab[j - 1] = 'TITLE'; j -= 1
-    for k in range(i, j - 1):
-        if s[k] in NUM and lab[k] == 'NAME' and lab[k + 1] == 'NAME': lab[k] = lab[k + 1] = 'COUNT'
-    for k in range(i, j):
-        if s[k] in NUM and lab[k] == 'NAME': lab[k] = 'COUNT'
-    return lab
-
-# ---------------- unit gap classification (W numbering) ----------------
-def gap_units(seq, lab, QUAL, loyal=None):
-    """For each gap g (between seq[g] and seq[g+1]) return the set of unit classes the gap is INSIDE of."""
-    n = len(seq); U = [set() for _ in range(n - 1)]
-    for g in range(n - 1):
-        a, b = seq[g], seq[g + 1]
-        if a == 0 or b == 0: U[g].add('UNREAD'); continue
-        la, lb = lab[g], lab[g + 1]
-        # opener phrase: opener + marker (+ marked jar)
-        if la == 'OPENER' and lb == 'MARKER' or la == 'MARKER' and lb == 'MARKER': U[g].add('opener_phrase')
-        if (a, b) in ((920, 60), (817, 2), (861, 2), (692, 60)) or (a == 60 and b in MJAR and g >= 1 and seq[g - 1] == 920): U[g].add('opener_phrase_fixed')
-        # qualifier + head (parser TITLE -> CLOSER, or TITLE -> TITLE inside the closing phrase)
-        if la == 'TITLE' and lb in ('CLOSER', 'TITLE'): U[g].add('qual_head')
-        if lb in HEADS and a in QUAL.get(b, ()): U[g].add('qual_head_loyal60')
-        if (a, b) in S303: U[g].add('qual_head_S303')
-        if loyal and (a, b) in loyal: U[g].add('qual_head_loyal80')
-        # head + suffix
-        if la in ('CLOSER', 'SUFFIX') and lb == 'SUFFIX': U[g].add('head_suffix')
-        # frozen pairs (unordered)
-        if frozenset((a, b)) in FROZEN_SET: U[g].add('frozen_pair')
-        # fish words: numeral + fish, fish + fish, marker 2 + fish, fish + arrow
-        if (a in NUM and b in FISH) or (a in FISH and b in FISH) or (a == 2 and b in FISH): U[g].add('fish_word')
-        if a in FISH and b == 520: U[g].add('fish_arrow')
-        # numeral + item (COUNT pair in the middle, not followed by head)
-        if la == 'COUNT' and lb == 'COUNT': U[g].add('num_item')
-        if a in NUM and b not in NUM and lb == 'NAME' and la == 'COUNT': U[g].add('num_item')
-        # middle NAME-NAME gap (the 'single-sign element' hypothesis says these are all word edges)
-        if la == 'NAME' and lb == 'NAME' and a not in NUM and b not in NUM: U[g].add('name_name')
-        # any-unit summary
-        if U[g] - {'name_name'}: U[g].add('ANY_UNIT')
-    return U
-
-def loyal_pairs(seqs, minn=5, thr=0.8):
-    """penultimate -> head pairs where the penultimate sign (when penultimate before a head) picks one head >= thr of the time."""
-    pen = collections.defaultdict(collections.Counter)
-    for s in seqs:
-        s = list(s)
-        while len(s) > 1 and s[-1] in SUF: s.pop()
-        if len(s) >= 2 and s[-1] in HEADS: pen[s[-2]][s[-1]] += 1
-    out = set()
-    for a, c in pen.items():
-        tot = sum(c.values())
-        if tot >= minn:
-            h, k = c.most_common(1)[0]
-            if k / tot >= thr: out.add((a, h))
-    return out
-
-def to_W(seq_m):
-    """IM77 Mahadevan sequence -> list of candidate W sets (0 stays 0)."""
-    return [({0} if m == 0 else set(M2W_ALL.get(m, ()))) for m in seq_m]
-
-def wells_view_of_im77(seq_m):
-    """Pick one W per M (bridge first, commonest W-frame member preferred) for frame parsing; None when unmapped."""
+def ur3_legends():
     out = []
-    for m in seq_m:
-        if m == 0: out.append(0); continue
-        ws = M2W.get(m) or PROPM2W.get(m)
-        if not ws: out.append(-m); continue   # negative = unmapped M (unique, non-frame)
-        pref = [w for w in ws if w in HEADS or w in OPEN or w in MARK or w in NUM or w in FISH or w in SUF]
-        out.append(sorted(pref)[0] if pref else sorted(ws)[0])
+    for line in open(OUT + 'loop61_corpora/ur3_legend_fields.jsonl'):
+        d = json.loads(line)
+        segs, wordpos = [], []
+        for ln in d['lines']:
+            seg = []; wp = []
+            for wi, w in enumerate(ln.split()):
+                sg = [x for x in w.split('-') if x]
+                for si, s in enumerate(sg):
+                    seg.append(s); wp.append(si > 0)   # True = this sign continues the previous sign's word
+            if seg:
+                segs.append(tuple(seg)); wordpos.append(wp)
+        if len(segs) >= 2:
+            out.append(dict(segs=segs, wp=wordpos))
     return out
 
-def wilson(k, n, z=1.96):
-    if n == 0: return (float('nan'), float('nan'))
-    p = k / n; d = 1 + z * z / n; c = p + z * z / (2 * n); s = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
-    return ((c - s) / d, (c + s) / d)
+
+def ur3_sets(legs):
+    inw = collections.Counter(); tot = collections.Counter()
+    big = collections.Counter(); lc = collections.Counter(); rc = collections.Counter(); tw = collections.Counter()
+    for L in legs:
+        T = sum(L['segs'], ()); WP = sum(L['wp'], [])
+        # within-line adjacency word status (line breaks are not used: cross-line pairs are excluded here
+        # only for the WORD label; they are rare and would bias the label toward 'not in word')
+        for seg, wp in zip(L['segs'], L['wp']):
+            for i in range(1, len(seg)):
+                p = (seg[i - 1], seg[i]); tot[p] += 1; inw[p] += wp[i]
+        for p in set(zip(T, T[1:])):
+            tw[p] += 1
+        for a, b in zip(T, T[1:]):
+            big[(a, b)] += 1; lc[a] += 1; rc[b] += 1
+    word = {p for p in tot if inw[p] / tot[p] >= 0.8}
+    frozen = {p for p, n in tw.items() if n >= 5 and big[p] / lc[p[0]] >= 0.4 and big[p] / rc[p[1]] >= 0.4}
+    return dict(QH=set(), OPEN=set(), NUM=set(), FISH=word, FROZEN=frozen, UNIT=word | frozen), set()
+
+
+def planted(one, sets, frame, W, sizes, n, avoid, reps=200):
+    """Indus single-line texts of the right length, broken at random (avoid=False) or only at positions
+    not inside a UNIT pair (avoid=True); returns O/E (uniform) and P_low for UNIT over reps."""
+    bylen = collections.defaultdict(list)
+    for t in one:
+        bylen[len(t['seq'])].append(t['seq'])
+    oes, sig = [], 0
+    for _ in range(reps):
+        texts = []
+        for k in rng.sample(sizes, min(n, len(sizes))):
+            pool = bylen.get(sum(k), [])
+            if not pool:
+                continue
+            s = rng.choice(pool)
+            cuts = list(range(1, len(s)))
+            if avoid:
+                ok = [c for c in cuts if (s[c - 1], s[c]) not in sets['UNIT']]
+                cuts = ok or cuts
+            c = rng.choice(cuts)
+            texts.append(dict(segs=[s[:c], s[c:]]))
+        r = category_test(texts, 'known', sets, frame, W, cats=['UNIT'])['UNIT']
+        oes.append(r['uniform']['OE']); sig += r['uniform']['p_low'] < 0.05
+    return float(np.median(oes)), sig / reps
+
+
+def cycle1():
+    W = widths()
+    br = bridge(True)
+    P('LOOP 70 cycle 1: break rate inside candidate units vs random / ink-midpoint / ink-balance nulls')
+    res = {}
+    for lv in LEVELS:
+        one, multi = wells(lv)
+        sets, frame = unit_sets(one)
+        if lv == 'seq_raw':
+            P(f'Wells: {len(one)} single-line complete texts (deduplicated), {len(multi)} multi-segment texts '
+              f'({collections.Counter(len(t["segs"]) for t in multi)}), home {sum(is_home(t["site"]) for t in multi)}')
+            P('Unit set sizes: ' + ', '.join(f'{c} {len(sets[c])}' for c in ('QH', 'OPEN', 'NUM', 'FISH', 'FROZEN', 'UNIT')))
+            P('FROZEN pairs: ' + ' '.join(f'{a}-{b}' for a, b in sorted(sets['FROZEN'])))
+            P('Observed Wells junctions (canonical order, reading order: last of segment | first of next) with category:')
+            jc = collections.Counter()
+            for t in multi:
+                for p in junctions_known(t['segs']):
+                    jc[(p, '/'.join(pair_cat(p, sets, frame)))] += 1
+            P('  ' + '; '.join(f'{a}|{b} [{c}] x{n}' for ((a, b), c), n in jc.most_common()))
+            P('Segment sizes: ' + str(collections.Counter(tuple(len(s) for s in t['segs']) for t in multi).most_common()))
+        for mode in ('canon', 'agnostic'):
+            for sub, f in (('all', lambda t: True), ('home', lambda t: is_home(t['site'])), ('other', lambda t: not is_home(t['site']))):
+                tx = [t for t in multi if f(t)]
+                r = category_test(tx, mode, sets, frame, W)
+                res[f'wells|{lv}|{mode}|{sub}'] = r
+                P(f'-- Wells {lv} {mode} {sub} (n={len(tx)})')
+                for c in CATS:
+                    P('   ' + fmt_row(c, r[c]))
+    # IM77
+    one, multi = im77()
+    smap = lambda w: br.get(w, [])
+    sets, frame = unit_sets(one, smap)
+    P(f'IM77: {len(one)} one-line sides, {len(multi)} multi-line sides (lines: {collections.Counter(len(t["segs"]) for t in multi)}); '
+      f'home {sum(is_home(t["site"]) for t in multi)}. Unit sizes: ' + ', '.join(f'{c} {len(sets[c])}' for c in ('QH', 'OPEN', 'NUM', 'FISH', 'FROZEN', 'UNIT')))
+    jc = collections.Counter()
+    for t in multi:
+        for p in junctions_known(t['segs']):
+            jc[(p, '/'.join(pair_cat(p, sets, frame)))] += 1
+    P('IM77 junctions (line i last | line i+1 first): ' + '; '.join(f'{a}|{b} [{c}] x{n}' for ((a, b), c), n in jc.most_common(60)))
+    for mode in ('known', 'agnostic'):
+        for sub, f in (('all', lambda t: True), ('home', lambda t: is_home(t['site'])), ('other', lambda t: not is_home(t['site']))):
+            tx = [t for t in multi if f(t)]
+            r = category_test(tx, mode, sets, frame, {})
+            res[f'im77|{mode}|{sub}'] = r
+            P(f'-- IM77 {mode} {sub} (n={len(tx)})  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]')
+            for c in CATS:
+                P('   ' + fmt_row(c, r[c]))
+    # Ur III positive control
+    legs = ur3_legends()
+    usets, uframe = ur3_sets(legs)
+    P(f'Ur III control: {len(legs)} distinct legends with >= 2 lines; WORD pairs {len(usets["FISH"])} (label FISH below = WORD), FROZEN {len(usets["FROZEN"])}')
+    sample = rng.sample(legs, 400)
+    for mode in ('known', 'agnostic'):
+        r = category_test(sample, mode, usets, uframe, {}, cats=['FISH', 'FROZEN', 'UNIT', 'BOUND'])
+        res[f'ur3|{mode}'] = r
+        for c in ('FISH', 'FROZEN', 'UNIT', 'BOUND'):
+            P(f'   Ur III {mode} ' + fmt_row('WORD' if c == 'FISH' else c, r[c]))
+    # Ur III random re-break (negative control)
+    rb = []
+    for L in sample:
+        T = sum(L['segs'], ()); k = len(L['segs'])
+        cuts = sorted(rng.sample(range(1, len(T)), k - 1)) if len(T) > k - 1 else None
+        if not cuts:
+            continue
+        b = [0] + cuts + [len(T)]
+        rb.append(dict(segs=[T[b[i]:b[i + 1]] for i in range(k)]))
+    r = category_test(rb, 'known', usets, uframe, {}, cats=['FISH', 'UNIT'])
+    P('   Ur III RANDOM re-break ' + fmt_row('WORD', r['FISH'])); P('   Ur III RANDOM re-break ' + fmt_row('UNIT', r['UNIT']))
+    res['ur3|rebreak'] = r
+    # Planted Indus power
+    one, multi = wells('seq_raw'); sets, frame = unit_sets(one)
+    sizes = [tuple(len(s) for s in t['segs']) for t in multi if len(t['segs']) == 2]
+    for avoid in (False, True):
+        med, power = planted(one, sets, frame, W, sizes, len(sizes), avoid)
+        P(f'Planted Indus breaks ({"unit-avoiding" if avoid else "random"}; n={len(sizes)} single-line texts with the Wells size mix): '
+          f'median O/E(UNIT, uniform) {med:.2f}; share of 200 replicates with P_low < 0.05: {power:.2f}')
+        res[f'planted|avoid={avoid}'] = dict(median_OE=med, power=power)
+    json.dump(res, open(OUT + 'loop70_cycle1.json', 'w'), indent=0, default=str)
+    open(OUT + 'loop70_cycle1_log.txt', 'w').write('\n'.join(LOG) + '\n')
+
+
+if __name__ == '__main__':
+    for c in sys.argv[1:] or ['1']:
+        {'1': cycle1}.get(c, lambda: globals()['cycle' + c]())()

@@ -393,6 +393,7 @@ def load_fcc(min_n=8000, max_states=20):
 def run_design(G, dist, unit, tok, whole, ns, out, R, finite=False, noise_target=None, label=''):
     """G: label -> Counter(text -> count) (counts mode) or list of texts (finite). runs every pair at each n and the noise-matched n"""
     vocab = {}
+    dist = dict(dist); dist.update({' vs '.join(k.split(' vs ')[::-1]): v for k, v in list(dist.items())})   # either order
     if finite: pops = {g: Pop([tok(x) for x in v if tok(x)], vocab, finite=True) for g, v in G.items()}
     else: pops = {g: Pop(collections.Counter({tok(k): c for k, c in v.items() if tok(k)}), vocab) for g, v in G.items()}
     groups = sorted(pops, key=lambda g: -pops[g].N)

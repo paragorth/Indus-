@@ -1,0 +1,50 @@
+S-DARK-63 FINAL: ARE INDUS MIDDLES INDISTINGUISHABLE FROM LOGOGRAPHICALLY WRITTEN PERSONAL NAMES? (four cycles; rows in
+loop63_cycle1-4.txt; scripts tools/dark_loop63_prep.py, dark_loop63_prep_ko.py, dark_loop63.py <1|2|3|4>; corpora
+data/derived/dark/loop63_corpora/ with SOURCES.txt (jsonl gitignored, rebuildable from the URLs / Wikidata query there); numbers
+loop63_cycle*.json, logs loop63_cycle*_log.txt). Nothing committed. Data: merged-corpus-canonical.json (S-DARK-23 caution: older
+inscriptions.csv build), complete Wells texts only; IM77 via bridge_extended.json + S-DARK-27 proposals (results that use IM77 depend on
+proposed bridge entries). Indus middle = S-DARK-26 parser, deduplicated, >= 2 signs.
+
+Comparators: modern Chinese given names (131,735 distinct), ancient Chinese full names (254,630), Japanese kanji given names
+(141,252) and given parts of real people's names (18,944), Vietnamese given names (12,265, Sino-Vietnamese syllables), Korean given
+names (11,583, Wikidata CC0, Hangul syllable = Sino-Korean morpheme; no open hanja list exists), plus the S-DARK-56 phonetic lists
+(Ur III, OB, Linear B, Latin), each with its own frequency-matched random-string null.
+
+(1) Frequency shape and capacity (S-DARK-53 / 56). Logographic given names use 650-5,500 signs more evenly (element Gini 0.46-0.70)
+    than Indus (0.74); but the Indus random null has the same Gini (0.72; 0.64 at length 2-4), so this is the small Indus sign
+    inventory, not name structure. Capacity utilisation is uninformative for 2-element names (Chinese +0.9, Korean +1.4 log10).
+(2) Slot binding: inside the logographic range at every n, length and level (pos_excess Indus 0.17-0.19 vs Chinese 0.16, Korean
+    0.15, Japanese 0.16-0.23; held-out Indus 0.09-0.10 vs 0.06-0.20 at the same n). The S-DARK-56.2 phrase 'weaker slot structure
+    than any attested name system' is retracted: it held only for inflecting-language names.
+(3) Pair structure (bigram reuse, MI, pair predictability): the cycle-1 gap (Indus more structured than any logographic list) was a
+    length and Mohenjo-daro-seal effect. At the exact Indus length 2-4 distribution Japanese names carry MORE pair structure than
+    Indus (MI 0.10-0.31 vs 0.005), and held-out Indus middles carry less than any list but Chinese. Retracted.
+(4) Closed edge set (S-DARK-56.3d): modern Chinese and Korean given names are as edge-free as Indus (strongest edge over own null
+    0.96 / 1.05 vs Indus 1.09, variants 0.95-1.25). The 56.3d killer 'no closed edge set, therefore not names' does not apply to
+    logographic given names. Japanese (finals 1.8x), Vietnamese (initials 1.7x), ancient Chinese (initials 2.1x, surname inside) and
+    all phonetic lists (1.6-1.8x) do have one edge.
+(5) Gendered sub-inventories: the spectral two-pool test fires on Japanese (z 12) and Vietnamese (z 8) gender, not on Chinese or Korean
+    (z -0.1 / -0.6); it also fires on every structured non-gendered list (z 4-7). Indus z 4.8-6.0 (2.0 at length 2-4, -2.4 to +3.8 at
+    held-out sites) and its minority pool is frame signs (M86, M176, M162/169, M391) plus numerals: no second name inventory.
+    Absence is not evidence against names (Chinese and Korean show none either).
+(6) Surname slot: every logographic surname is independent of its given name (MI excess -1.9% to -0.1%, no exclusive elements). The
+    Indus closer (+3.8 to +4.9%, z 4.8-6.5) and the closer-agnostic last sign (+2.9 to +3.1%, z 8.6-10.4) are bound to the middle at
+    all four levels, like phonetic affix slots (+3.0 to +6.5%). The Indus head set is not a surname slot.
+
+ANSWER. On frequency shape, positional binding, pair structure, edge openness and free combination of common elements, Indus
+middles are statistically indistinguishable from logographically written given names of the Chinese / Korean type; every S-DARK-56
+argument that relied on those statistics ('not names') is withdrawn for the logographic case. ONE statistic still separates them
+from every logographic list, in all 20 Indus variants (seq_raw / strong / all, IM77, MD, Harappa, held-out sites, numerals removed):
+the SUBSTRING SHARE. About 10-12% of 2-4-sign Indus middles recur inside a longer middle, twice the shuffle rate (excess +0.03 to
++0.09); logographic given-name lists sit at or below their shuffle (-0.02 to 0.00). Phonetic name lists share the Indus property
+(+0.01 to +0.07: hypocoristics and compounds), so it does not separate Indus from names in general, only from one-word-sign-per-
+morpheme given names. A second statistic separates Indus from Japanese, Vietnamese and ancient Chinese but not from modern Chinese
+or Korean: no edge of the Indus middle is closed. The structural difference outside the middle remains: the Indus head is chosen with
+the middle (affix- or term-like, S-DARK-61), never like a surname.
+Caveats: Chinese and Korean given names are almost all 2 elements, so their zero substring share is near-forced and the substring
+result rests on Japanese, Vietnamese and ancient Chinese; substrings could partly be parser residue; 76% of Indus texts are
+Mohenjo-daro + Harappa (held-out n = 186-261 replicates substring share and open edges, not pair statistics); lists are one copy per
+distinct name, Indus middles one per distinct middle.
+Would remove the last separator: a logographic name list of 3-4 elements with substring share > 0 at Indus length. Would
+kill 'middle = logographic name': new Indus material (post-1977 sites) with substring share <= 0, or a closed edge appearing.
+Not 'cracked'; no sign value proposed.
