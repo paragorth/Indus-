@@ -1,0 +1,40 @@
+S-DARK-48 FINAL: a centralization index for the Indus system (3 cycles; rows in loop48_cycle1-3.txt, ready to paste before "## Summary")
+Scripts: tools/dark_loop48_prep.py (provenance-tagged corpora -> data/derived/dark/loop48_corpora/), tools/dark_loop48.py <1|2|3> <level> 300 60
+Logs: loop48_c1_{seq_raw,seq_strong,seq_all}.txt/.json, loop48_c2.txt/.json, loop48_c3_{seq_raw,seq_strong,seq_all}.txt/.json
+Data caution: Wells texts from merged-corpus-canonical.json (older build, S-DARK-23); IM77 from data/im77/im77_corpus_lines.csv.
+
+METHOD. One per distinct text per site x type; n texts per side; 17 divergence components (unigram / bigram / initial / final /
+middle / length / frame-30 / rest JSD, 1 - Spearman, frozen-pair Jaccard, whole-text reuse; parser-based opener menu, closer menu,
+slot rates, NAME, numerals, TITLE); null = one site split into two random halves of n texts (300x); report between / within.
+Identical code on Ur III seal legends by city, Linear B by palace, proto-cuneiform by site, Proto-Elamite, Latin EDH by region,
+and four synthetic anchors fitted on Indus seals (shared chain = central; relabelled per site = local; half; perturbed frequencies).
+
+LADDER (unigram JSD, between / within, n = 200; final menu, middle inventory, reuse in brackets)
+  SYN_central            x1.04  (0.90 / 1.08 / 1.5)
+  Latin EDH Lazio-Roma   x1.04  (1.00 / 1.04 / 1.2)
+  INDUS seals MD-H       x1.07  (1.06 / 1.01 / 0.75)    IM77 x1.05 (1.03 / 1.02 / 0.91); strong/all x1.03
+  Ur III words           x1.53  (1.31 / 1.53 / 22)      syllables x2.08
+  Linear B sign groups   x1.72  (1.26 / 1.93 / 2.1)     syllables x2.64
+  proto-cuneiform        x1.86  (1.32 / 1.51 / 3.6)
+  SYN_half               x1.87  (2.25 / 1.54 / 3.3)
+  SYN_perturbed          x3.49  (1.45 / 3.16 / 1.5)
+  SYN_local              x3.55  (3.85 / 2.61 / 8.6)
+  n = 30 design: Indus seal pairs median x1.05; Latin regions x1.16; Ur III x1.28-1.51; Linear B x1.30-1.38; proto-cuneiform x1.28; PE x1.24-1.31.
+
+DECOMPOSITION (Indus seals MD vs H, n = 200): NAME x1.04, numerals x0.99, frozen pairs x1.01, middle inventory x1.01, bigrams x1.01;
+  closer menu x1.42 (0.009 bits), opener menu x1.50 (0.005 bits), slot rates x1.12; reuse x0.75 (shared MORE across cities than within).
+  Ur III: title menu x1.9-7.2, names x1.2-1.6, legend reuse x9-47. Linear B: ideograms x2.2-8.0, syllables x2.0-2.7, line reuse x2.1.
+  All types pooled: Indus MD-H unigram x1.26, length x3.3, closer x2.15, reuse x5.6 (P 0.002) = object-type mix + site-local tablet stock texts (S-DARK-6.4, S-DARK-12.3).
+  Area-sections (all types, n = 30): same-city section pairs x1.05 unigram / x1.14 closer / x1.03 NAME; cross-city x1.14 / x1.27 / x1.07; reuse 1.9 vs 6.4.
+
+PREDICTION (registered): held-out sites' opener-menu, closer-menu and slot-rate divergence from MD inside the MD-H band.
+  Band test 32/32 IN (seals, seq_raw), 31/32 (strong/all), 32/32 (all types, every level). Pooled held-out seals vs MD (n = 90):
+  unigram x1.07, closer x1.22 (P 0.31), opener x1.09, rates x1.50 (P 0.13), NAME x1.06, numerals x0.96; only non-seal whole-text reuse is local (x3.9, P 0.01).
+
+VERDICT. On seals the Indus system is as uniform across cities as one generator sampled twice: on the perfectly-central anchor,
+below Ur III (one dynasty, one chancery formula, yet 1.5-2x divergence, 2-7x in the title menu, 20x in legend reuse) and Linear B.
+The components other systems localise (title / commodity menu, whole-text stock) are the ones Indus holds constant or even shares
+across cities. Who issued the texts: one menu, one inventory, one convention supplied the seal credentials in every city and at the
+small sites; local scribes show only in the tablets (vouchers). Not 'cracked': nothing read; this bounds the administrative model.
+Caveats: cross-system JSD ratios depend on inventory size (anchors are the exact calibration); IM77 = same objects read twice;
+MD + H carry the n = 200 results; a <= 10% unigram excess at n = 25-90 is near the detection limit.

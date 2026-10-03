@@ -486,9 +486,10 @@ def load_im77():
             lab[j - 1] = 'CLOSER'; ci = j - 1
             if ci - 1 >= i: lab[ci - 1] = 'TITLE'
         ell = [s[k] for k in range(n) if lab[k] == 'NAME']
-        room = (o['locus'],) if o['locus'] not in ('', '0', '-') else None
+        area = o['locus'] if o['locus'] not in ('', '0', '-') else None          # Mahadevan locus code = area / section grain
+        room = (o['locus'], o['level']) if area and o['level'] not in ('', '0', '-') else None   # locus x level = spot grain
         T.append(dict(cisi=o['cisi'], site=o['site'], oc=tmap[o['ot']], typ=o['ot'], seq=tuple(s), lab=lab, ell=ell, el=frozenset(ell), L=n,
-                      area=o['level'] if o['level'] not in ('', '-') else None, room=room, emb=o['emb'] or None, mat=None, head=None))
+                      area=area, room=room, emb=o['emb'] or None, mat=None, head=None))
     return T
 def small_site(pool, allsite, label):
     F = freq_table(allsite); ntexts = len({o['seq'] for o in allsite})

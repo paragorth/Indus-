@@ -12,11 +12,12 @@ Cycle 3: replication on held-out sites, Mohenjo-daro vs Harappa, IM77, seq_raw /
 Usage: python3 tools/dark_loop63.py <1|2|3> [ndraw]
 """
 import sys,os
-CY=int(sys.argv[1]) if len(sys.argv)>1 else 0; NB=int(sys.argv[2]) if len(sys.argv)>2 else 40
+_CY=int(sys.argv[1]) if len(sys.argv)>1 else 0; _NB=int(sys.argv[2]) if len(sys.argv)>2 else 40
 sys.argv=['x','0']; sys.path.insert(0,'tools')
 import dark_loop56 as L56
 from dark_loop56 import *            # parser, load_indus, im77_objects, indus_names, metrics, draws, boot, H, gini, zipf, KEYS, LADDER, P, LOG, q
 import dark_loop53 as L53            # capacity statistics (metrics -> uniq, chao1, gini_id, heaps, lutil_ent ...)
+CY=_CY; NB=_NB
 import numpy as np
 C63='data/derived/dark/loop63_corpora/'
 def jl63(name,minlen=1,maxlen=99):
@@ -84,13 +85,13 @@ if CY==1:
         nm=indus_names(LV,2); IND[LV]=nm
         P(f'\n##### Indus {LV}: {len(nm)} distinct middles >= 2 elements; lengths {sorted(collections.Counter(len(n) for n in nm).items())}')
         R['indus_'+LV]=dict(bat=boot(nm,f'Indus {LV} middles',nboot=NB),cov=cov_boot(nm,NB))
-        nm1=indus_names(LV,1); R['indus_'+LV]['cap']=cap_boot(nm1,NB); R['indus_'+LV]['n1']=len(nm1)
+        objs=load_indus(LV) if LV!='im77' else im77_objects(); nm1=[o['mid'] for o in objs if len(o['mid'])>=1]  # object level (S-DARK-53), not deduplicated by middle
+        R['indus_'+LV]['cap']=cap_boot(nm1,NB); R['indus_'+LV]['n1']=len(nm1)
         P('    closed-slot: '+'; '.join(f'{k} {t3(R["indus_"+LV]["cov"][k])}' for k in COVK))
         P('    capacity (>=1 el, n=%d): '%len(nm1)+'; '.join(f'{k} {t3(R["indus_"+LV]["cap"][k])}' for k in CAPK))
     base=IND['seq_raw']; n0=len(base); L0=[len(n) for n in base]; n1=R['indus_seq_raw']['n1']
-    L1=[len(n) for n in indus_names('seq_raw',1)]
     # logographic names
-    P(f'\n##### logographic name lists, one per distinct name, drawn to n={n0} (>=2 elements; order battery) and n={n1} (>=1 element; capacity); also LENGTH-MATCHED to the Indus middle lengths where the list allows')
+    P(f'\n##### logographic name lists, one per distinct name, drawn to n={n0} (>=2 elements; order battery) and n={n1} (>=1 element; capacity; name lists are one-per-distinct so uniq/Gini_id/Heaps are 1/0/1 by construction and only the element-level capacity statistics are comparable); also LENGTH-MATCHED to the Indus middle lengths where the list allows')
     for nm in LOGO+['cn_full','jp_person','vi_full']:
         rows=jl63(nm); pool2=[s for s in seqs(rows) if len(s)>=2]; pool1=seqs(rows)
         R[nm]=dict(bat=draws(pool2,n0,nm,ndraw=NB),cov=cov_draws(pool2,n0,NB),cap=cap_draws(pool1,n1,NB),k_pool=len(set(a for s in pool1 for a in s)),pool=len(pool1))
