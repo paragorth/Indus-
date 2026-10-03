@@ -1,0 +1,55 @@
+LOOP15 cycle1 seqkey=seq_raw nsyn=20 emin=5.0 eheld=2.0 mintok=15 home=4411 held=930
+vocab size 119
+REAL gaps (E>=5, O=0): {'ord': 9, 'tri': 25, 'co': 6, 'skip': 2} total 42 patterns with E>=emin: 2200
+  synthetic null co: mean 0.8 p95 1 max 3  | real 6
+  synthetic null ord: mean 0.8 p95 2 max 3  | real 9
+  synthetic null skip: mean 0.1 p95 1 max 1  | real 2
+  synthetic null tri: mean 0.6 p95 2 max 2  | real 25
+  shuffled-within-text corpus (refit) gaps: {'ord': 4, 'tri': 30, 'skip': 2, 'co': 5}
+held-out: 5 real gaps have E_held>=2.0; 2 persist (O_held=0)
+  chance persistence (20 synthetic held-out corpora): mean 0.1 max 1
+PERSISTENT GAPS (pattern, E_home, E_held, obs in all sites incl. Unknown):
+   ('ord', 2, 741) E_home=8.2 E_held=4.5 O_all=0
+   ('tri', 861, 2, 2) E_home=6.6 E_held=2.4 O_all=0
+TOP 40 home gaps by expected count:
+   ('ord', 2, 2) E=23.4 E_held=9.5 O_held=1
+   ('tri', 741, 740, 400) E=9.9 E_held=0.6 O_held=0
+   ('tri', 2, 2, 740) E=9.8 E_held=2.7 O_held=1
+   ('co', 501, 740) E=8.6 E_held=0.0 O_held=0
+   ('ord', 501, 740) E=8.6 E_held=0.0 O_held=0
+   ('tri', 501, 405, 740) E=8.4 E_held=0.0 O_held=0
+   ('tri', 501, 2, 740) E=8.2 E_held=0.0 O_held=0
+   ('ord', 2, 741) E=8.2 E_held=4.5 O_held=0
+   ('tri', 501, 240, 740) E=7.8 E_held=0.0 O_held=0
+   ('ord', 705, 700) E=6.8 E_held=0.2 O_held=0
+   ('ord', 240, 900) E=6.6 E_held=0.3 O_held=0
+   ('ord', 240, 2) E=6.6 E_held=1.7 O_held=0
+   ('tri', 861, 2, 2) E=6.6 E_held=2.4 O_held=0
+   ('tri', 231, 17, 740) E=6.6 E_held=0.0 O_held=0
+   ('skip', 2, 2) E=6.5 E_held=3.1 O_held=1
+   ('tri', 705, 33, 700) E=6.4 E_held=0.0 O_held=0
+   ('tri', 231, 585, 740) E=6.3 E_held=0.3 O_held=1
+   ('tri', 741, 176, 400) E=6.0 E_held=0.0 O_held=0
+   ('tri', 240, 407, 740) E=6.0 E_held=0.1 O_held=0
+   ('co', 240, 850) E=5.9 E_held=0.5 O_held=0
+   ('co', 405, 482) E=5.9 E_held=0.1 O_held=0
+   ('tri', 405, 240, 482) E=5.8 E_held=0.0 O_held=0
+   ('tri', 405, 2, 482) E=5.8 E_held=0.0 O_held=0
+   ('ord', 405, 482) E=5.8 E_held=0.0 O_held=0
+   ('tri', 2, 240, 400) E=5.8 E_held=0.1 O_held=0
+   ('tri', 240, 900, 740) E=5.7 E_held=0.1 O_held=0
+   ('tri', 235, 33, 550) E=5.6 E_held=0.0 O_held=0
+   ('tri', 2, 2, 240) E=5.6 E_held=0.3 O_held=0
+   ('ord', 240, 850) E=5.5 E_held=0.1 O_held=0
+   ('skip', 705, 700) E=5.5 E_held=0.2 O_held=0
+   ('tri', 235, 705, 550) E=5.5 E_held=0.0 O_held=0
+   ('tri', 220, 176, 400) E=5.5 E_held=0.0 O_held=0
+   ('co', 482, 501) E=5.3 E_held=0.0 O_held=0
+   ('tri', 501, 240, 482) E=5.3 E_held=0.0 O_held=0
+   ('tri', 501, 405, 482) E=5.3 E_held=0.0 O_held=0
+   ('ord', 501, 482) E=5.3 E_held=0.0 O_held=0
+   ('tri', 501, 2, 482) E=5.3 E_held=0.0 O_held=0
+   ('tri', 240, 61, 740) E=5.2 E_held=0.0 O_held=0
+   ('co', 235, 700) E=5.2 E_held=0.2 O_held=0
+   ('co', 60, 861) E=5.0 E_held=1.6 O_held=1
+time 690s

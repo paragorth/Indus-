@@ -270,6 +270,18 @@ if CYCLE == 3:
         arrows += 1
         P(f'   {name:15s} (n used {na}, dead {nb}): {fmt_p(obs, sims)}')
     P(f' arrows {arrows}; Bonferroni alpha {0.05/arrows:.4f}')
+    P('\n# length-controlled: used label permuted within site x seal type x text length (2,3,4,5,>=6)')
+    strata2 = collections.defaultdict(list)
+    for i, r in enumerate(seals): strata2[(r['site'], r['type'], min(len(r['t']), 6))].append(i)
+    for name in [n for n in NF if n != 'len']:
+        obs, na, nb = stat(lab, name); sims = []
+        for _ in range(NPERM):
+            sh = lab[:]
+            for ids in strata2.values():
+                vals = [sh[i] for i in ids]; random.shuffle(vals)
+                for i, v in zip(ids, vals): sh[i] = v
+            sims.append(stat(sh, name)[0])
+        P(f'   {name:15s}: {fmt_p(obs, sims)}')
     P('\n# held-out: same stats per site (Mohenjo-daro, Harappa, rest) for len, jar_final, any_numeral, area_mm2, cond, unicorn, no_emblem')
     for grp, sel in (('Mohenjo-daro', lambda r: r['site'] == 'Mohenjo-daro'), ('Harappa', lambda r: r['site'] == 'Harappa'), ('other sites', lambda r: r['site'] not in ('Mohenjo-daro', 'Harappa'))):
         ids = [i for i, r in enumerate(seals) if sel(r)]

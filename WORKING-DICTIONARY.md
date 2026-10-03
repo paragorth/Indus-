@@ -200,3 +200,12 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - W407 = a medium variant of W390 (grade B).
 - W525 ~ W526/527 (grade C).
 - Would support: the pairs keep swapping at new sites. Would kill: one member taking a different slot or qualifier set.
+
+
+### Grade-C leads from the random-ontology swarm (S-DARK-10, Oct 2026)
+- W803/806: a pre-fish element.
+- W368: sits between opener and connective (861-368-2).
+- W550: opener companion.
+- W55 + W415: one class.
+- Independent support for the S268 allograph merges: a description-length criterion on seq_raw recovers all 13 strong pairs and not the doubtful 156–151.
+- Would support: the same placements on new sites. Would kill: a slot change on held-out texts.

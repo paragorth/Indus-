@@ -1,9 +1,34 @@
 LOOP 10 FINAL: stable co-category pairs per run and their overlap
   cycle1         stable pairs   1  components [['W154', 'W156']]
   cycle2         stable pairs   0  components []
+  cycle3_md      stable pairs   0  components []
+  cycle3_ha      stable pairs   0  components []
+  cycle3_other   stable pairs   0  components []
+  cycle4_raw     stable pairs   1  components [['W405', 'W900']]
+  cycle4_strong  stable pairs   1  components [['W31', 'W55']]
 
 Jaccard overlap of stable pair sets:
   cycle1         cycle2         J=0.00  shared=0
+  cycle1         cycle3_md      J=0.00  shared=0
+  cycle1         cycle3_ha      J=0.00  shared=0
+  cycle1         cycle3_other   J=0.00  shared=0
+  cycle1         cycle4_raw     J=0.00  shared=0
+  cycle1         cycle4_strong  J=0.00  shared=0
+  cycle2         cycle3_md      J=0.00  shared=0
+  cycle2         cycle3_ha      J=0.00  shared=0
+  cycle2         cycle3_other   J=0.00  shared=0
+  cycle2         cycle4_raw     J=0.00  shared=0
+  cycle2         cycle4_strong  J=0.00  shared=0
+  cycle3_md      cycle3_ha      J=0.00  shared=0
+  cycle3_md      cycle3_other   J=0.00  shared=0
+  cycle3_md      cycle4_raw     J=0.00  shared=0
+  cycle3_md      cycle4_strong  J=0.00  shared=0
+  cycle3_ha      cycle3_other   J=0.00  shared=0
+  cycle3_ha      cycle4_raw     J=0.00  shared=0
+  cycle3_ha      cycle4_strong  J=0.00  shared=0
+  cycle3_other   cycle4_raw     J=0.00  shared=0
+  cycle3_other   cycle4_strong  J=0.00  shared=0
+  cycle4_raw     cycle4_strong  J=0.00  shared=0
 
 CONSENSUS (stable in both full-corpus seeds, cycle1 & cycle2): 0 pairs; chance overlap 0.0
   replicated at >=1 held-out site split: 0; at all sequence levels: 0
@@ -11,23 +36,23 @@ CONSENSUS (stable in both full-corpus seeds, cycle1 & cycle2): 0 pairs; chance o
 CONSENSUS CLASSES:
 
 HELD-OUT: ontologies beating the max of both controls, per criterion, summed over full-corpus runs (cycle1, cycle2, cycle4_*):
-  fact/emblem      n=  3  real mean 0.022 max 0.044 | P mean -0.045 max -0.011 | S mean 0.028 max 0.047 | real > max(all controls): 0
-  fact/material    n=  4  real mean 0.007 max 0.052 | P mean -0.037 max -0.027 | S mean 0.032 max 0.056 | real > max(all controls): 0
-  fact/period      n=  4  real mean -0.094 max -0.029 | P mean -0.042 max -0.019 | S mean -0.087 max -0.043 | real > max(all controls): 0
-  fact/size        n=  9  real mean 0.030 max 0.107 | P mean -0.054 max -0.006 | S mean 0.045 max 0.078 | real > max(all controls): 2
-  fact/type        n=  6  real mean 0.286 max 0.331 | P mean -0.018 max -0.011 | S mean 0.216 max 0.301 | real > max(all controls): 1
-  mdl              n= 27  real mean -82.961 max -80.402 | P mean -82.961 max -80.402 | S mean -85.870 max -85.100 | real > max(all controls): 0
-  quantity         n= 30  real mean 0.391 max 0.542 | P mean 0.308 max 0.450 | S mean 0.418 max 0.555 | real > max(all controls): 0
-  reuse            n= 25  real mean 0.684 max 0.847 | P mean 0.759 max 0.902 | S mean 0.645 max 0.853 | real > max(all controls): 0
+  fact/emblem      n= 11  real mean 0.005 max 0.044 | P mean -0.041 max -0.011 | S mean 0.039 max 0.064 | real > max(all controls): 0
+  fact/material    n= 10  real mean 0.034 max 0.066 | P mean -0.031 max -0.010 | S mean 0.031 max 0.056 | real > max(all controls): 2
+  fact/period      n=  6  real mean -0.078 max 0.001 | P mean -0.038 max -0.019 | S mean -0.098 max 0.019 | real > max(all controls): 0
+  fact/size        n= 11  real mean 0.030 max 0.107 | P mean -0.054 max -0.006 | S mean 0.045 max 0.078 | real > max(all controls): 2
+  fact/type        n= 14  real mean 0.283 max 0.331 | P mean -0.029 max -0.011 | S mean 0.237 max 0.301 | real > max(all controls): 2
+  mdl              n= 53  real mean -82.329 max -79.095 | P mean -82.329 max -79.095 | S mean -85.490 max -84.221 | real > max(all controls): 0
+  quantity         n= 46  real mean 0.391 max 0.542 | P mean 0.336 max 0.498 | S mean 0.435 max 0.623 | real > max(all controls): 0
+  reuse            n= 37  real mean 0.710 max 0.871 | P mean 0.777 max 0.902 | S mean 0.675 max 0.860 | real > max(all controls): 0
 
 PER-CRITERION STABLE PAIRS pooled over full-corpus runs (rate >= 0.70, >= 0.20 above both controls):
-  mdl       n=27 ontologies, 79 stable pairs: 231-240(1.00;P1.00,S0.78)[fish|fish]  240-803(1.00;P1.00,S0.74)[fish|new]  235-803(1.00;P1.00,S0.70)[mid-initial,fish|new]  235-240(1.00;P1.00,S0.67)[mid-initial,fish|fish]  231-235(1.00;P1.00,S0.67)[fish|mid-initial,fish]  231-803(1.00;P1.00,S0.56)[fish|new]  90-400(0.96;P0.96,S0.56)[suffix|suffix]  3-31(0.93;P0.93,S0.26)[short numeral|mid-initial,tall numeral]  31-140(0.89;P0.89,S0.67)[mid-initial,tall numeral|new]  550-920(0.89;P0.89,S0.59)[new|opener,name-initial]  550-692(0.89;P0.89,S0.59)[new|opener,name-initial]  1-368(0.89;P0.89,S0.59)[connective,short numeral|new]  390-407(0.89;P0.89,S0.41)[closer,counted item|counted item]  60-527(0.89;P0.89,S0.37)[connective|closer]  3-140(0.89;P0.89,S0.30)[short numeral|new]  2-368(0.85;P0.85,S0.63)[connective,short numeral|new]  55-415(0.85;P0.85,S0.56)[short numeral|new]  31-235(0.85;P0.85,S0.56)[mid-initial,tall numeral|mid-initial,fish]  100-176(0.85;P0.85,S0.52)[pre-jar title|pre-jar title]  31-803(0.85;P0.85,S0.48)[mid-initial,tall numeral|new]  31-240(0.85;P0.85,S0.48)[mid-initial,tall numeral|fish]  31-231(0.85;P0.85,S0.48)[mid-initial,tall numeral|fish]  3-803(0.85;P0.85,S0.41)[short numeral|new]  390-892(0.85;P0.85,S0.30)[closer,counted item|new]  3-240(0.85;P0.85,S0.26)[short numeral|fish]  3-235(0.85;P0.85,S0.26)[short numeral|mid-initial,fish]  3-231(0.85;P0.85,S0.22)[short numeral|fish]  820-920(0.81;P0.81,S0.59)[opener|opener,name-initial]  140-803(0.81;P0.81,S0.59)[new|new]  140-235(0.81;P0.81,S0.59)[new|mid-initial,fish]  100-900(0.81;P0.81,S0.59)[pre-jar title|counted item]  61-590(0.81;P0.81,S0.59)[pre-jar title|new]  760-900(0.81;P0.81,S0.56)[pre-jar title|counted item]  368-741(0.81;P0.81,S0.56)[new|new]  140-240(0.81;P0.81,S0.56)[new|fish]  140-231(0.81;P0.81,S0.56)[new|fish]  55-235(0.81;P0.81,S0.56)[short numeral|mid-initial,fish]  861-920(0.81;P0.81,S0.52)[opener|opener,name-initial]  1-60(0.81;P0.81,S0.52)[connective,short numeral|connective]  55-231(0.81;P0.81,S0.44)[short numeral|fish]
-  reuse     n=25 ontologies, 0 stable pairs: 
-  fact      n=26 ontologies, 4 stable pairs: 1-585(0.81;P0.38,S0.31)[connective,short numeral|new]  760-840(0.77;P0.42,S0.46)[pre-jar title|new]  415-892(0.77;P0.19,S0.38)[new|new]  4-798(0.73;P0.23,S0.35)[short numeral|new]
-  quantity  n=30 ontologies, 10 stable pairs: 617-740(1.00;P0.03,S0.60)[closer|closer,counted item]  617-892(1.00;P0.03,S0.07)[closer|new]  156-892(0.80;P0.50,S0.43)[closer|new]  156-740(0.80;P0.50,S0.37)[closer|closer,counted item]  156-617(0.80;P0.20,S0.30)[closer|closer]  415-820(0.73;P0.30,S0.27)[new|opener]  154-156(0.73;P0.27,S0.43)[new|closer]  154-617(0.70;P0.37,S0.40)[new|closer]  154-892(0.70;P0.07,S0.23)[new|new]  154-740(0.70;P0.03,S0.37)[new|closer,counted item]
-  overlap mdl/reuse: 0 shared of 79/0
-  overlap mdl/fact: 0 shared of 79/4
-  overlap mdl/quantity: 1 shared of 79/10
-  overlap reuse/fact: 0 shared of 0/4
-  overlap reuse/quantity: 0 shared of 0/10
-  overlap fact/quantity: 0 shared of 4/10
+  mdl       n=53 ontologies, 100 stable pairs: 817-820(1.00;P1.00,S0.77)[opener|opener]  705-706(1.00;P1.00,S0.77)[new|new]  231-235(1.00;P1.00,S0.74)[fish|mid-initial,fish]  803-806(1.00;P1.00,S0.54)[new|new]  390-405(1.00;P1.00,S0.54)[closer,counted item|closer,counted item]  240-806(1.00;P1.00,S0.54)[fish|new]  31-806(1.00;P1.00,S0.23)[mid-initial,tall numeral|new]  235-240(0.98;P0.98,S0.75)[mid-initial,fish|fish]  90-400(0.98;P0.98,S0.57)[suffix|suffix]  235-803(0.96;P0.96,S0.75)[mid-initial,fish|new]  231-803(0.96;P0.96,S0.74)[fish|new]  550-920(0.94;P0.94,S0.64)[new|opener,name-initial]  550-692(0.94;P0.94,S0.64)[new|opener,name-initial]  60-527(0.94;P0.94,S0.42)[connective|closer]  2-368(0.92;P0.92,S0.58)[connective,short numeral|new]  3-140(0.92;P0.92,S0.36)[short numeral|new]  405-900(0.92;P0.92,S0.69)[closer,counted item|counted item]  231-806(0.92;P0.92,S0.62)[fish|new]  235-806(0.92;P0.92,S0.54)[mid-initial,fish|new]  692-817(0.92;P0.92,S0.46)[opener,name-initial|opener]  817-920(0.92;P0.92,S0.31)[opener|opener,name-initial]  550-817(0.92;P0.92,S0.31)[new|opener]  140-806(0.92;P0.92,S0.31)[new|new]  31-803(0.91;P0.91,S0.57)[mid-initial,tall numeral|new]  31-240(0.89;P0.89,S0.53)[mid-initial,tall numeral|fish]  31-140(0.89;P0.89,S0.53)[mid-initial,tall numeral|new]  140-231(0.89;P0.89,S0.45)[new|fish]  140-235(0.89;P0.89,S0.43)[new|mid-initial,fish]  3-31(0.89;P0.89,S0.23)[short numeral|mid-initial,tall numeral]  3-235(0.89;P0.89,S0.21)[short numeral|mid-initial,fish]  3-231(0.89;P0.89,S0.17)[short numeral|fish]  31-231(0.87;P0.87,S0.53)[mid-initial,tall numeral|fish]  31-235(0.87;P0.87,S0.51)[mid-initial,tall numeral|mid-initial,fish]  1-368(0.87;P0.87,S0.51)[connective,short numeral|new]  140-803(0.87;P0.87,S0.45)[new|new]  140-240(0.87;P0.87,S0.43)[new|fish]  3-803(0.87;P0.87,S0.28)[short numeral|new]  3-240(0.87;P0.87,S0.21)[short numeral|fish]  690-760(0.85;P0.85,S0.64)[pre-jar title|pre-jar title]  1-2(0.85;P0.85,S0.58)[connective,short numeral|connective,short numeral]
+  reuse     n=37 ontologies, 0 stable pairs: 
+  fact      n=52 ontologies, 3 stable pairs: 760-840(0.83;P0.33,S0.58)[pre-jar title|new]  4-798(0.75;P0.35,S0.48)[short numeral|new]  1-585(0.73;P0.33,S0.38)[connective,short numeral|new]
+  quantity  n=46 ontologies, 6 stable pairs: 617-740(1.00;P0.37,S0.52)[closer|closer,counted item]  617-892(0.98;P0.35,S0.17)[closer|new]  156-617(0.80;P0.46,S0.33)[closer|closer]  390-520(0.72;P0.48,S0.46)[closer,counted item|closer]  154-156(0.71;P0.37,S0.47)[new|closer]  154-892(0.71;P0.18,S0.26)[new|new]
+  overlap mdl/reuse: 0 shared of 100/0
+  overlap mdl/fact: 0 shared of 100/3
+  overlap mdl/quantity: 1 shared of 100/6
+  overlap reuse/fact: 0 shared of 0/3
+  overlap reuse/quantity: 0 shared of 0/6
+  overlap fact/quantity: 0 shared of 3/6

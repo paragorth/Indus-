@@ -1,0 +1,156 @@
+
+== cycle 4  level=seq_raw dedup=False  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         267   17   435 |        0.513         0.776  -0.263  -0.158  0.957  0.044 |        0.192         0.307  -0.114  0.583
+Kalibangan       89   23    56 |        0.416         0.752  -0.335  -0.056  0.997  0.004 |        0.183         0.209  -0.026  0.596
+Lothal           18   87    92 |        0.390         0.464  -0.073  -0.002  0.997  0.004 |        0.146         0.104  +0.043  0.016
+Mohenjo-daro     71   17  1341 |        0.573         0.740  -0.168  -0.139  0.729  0.272 |        0.253         0.149  +0.104  0.130
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -7.87
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 267 has_tree=0.03 has_bracket=0.01 has_fish=0.10 any_numeral=0.34 jar_final=0.14 opener_first=0.04 meanlen=1.73
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 435 has_tree=0.14 has_bracket=0.03 has_fish=0.29 any_numeral=0.37 jar_final=0.32 opener_first=0.18 meanlen=3.95
+    Kalibangan     POT  n=  89 has_tree=0.07 has_bracket=0.00 has_fish=0.08 any_numeral=0.28 jar_final=0.20 opener_first=0.06 meanlen=1.64
+    Kalibangan     TAG  n=  23 has_tree=0.09 has_bracket=0.00 has_fish=0.00 any_numeral=0.26 jar_final=0.22 opener_first=0.22 meanlen=4.09
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  18 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.22 jar_final=0.11 opener_first=0.06 meanlen=1.72
+    Lothal         TAG  n=  87 has_tree=0.06 has_bracket=0.01 has_fish=0.33 any_numeral=0.28 jar_final=0.28 opener_first=0.26 meanlen=3.47
+    Lothal         SEAL n=  92 has_tree=0.12 has_bracket=0.00 has_fish=0.28 any_numeral=0.32 jar_final=0.25 opener_first=0.20 meanlen=3.60
+    Mohenjo-daro   POT  n=  71 has_tree=0.04 has_bracket=0.04 has_fish=0.07 any_numeral=0.41 jar_final=0.24 opener_first=0.06 meanlen=2.35
+    Mohenjo-daro   TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.12 any_numeral=0.53 jar_final=0.35 opener_first=0.35 meanlen=3.82
+    Mohenjo-daro   SEAL n=1341 has_tree=0.13 has_bracket=0.02 has_fish=0.32 any_numeral=0.35 jar_final=0.35 opener_first=0.24 meanlen=4.36
+
+== cycle 4  level=seq_raw dedup=True  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         172   17   411 |        0.524         0.775  -0.251  -0.157  0.941  0.059 |        0.192         0.307  -0.114  0.626
+Kalibangan       65   15    56 |        0.635         0.749  -0.114  -0.117  0.527  0.474 |        0.183         0.209  -0.026  0.331
+Lothal           17   61    89 |        0.334         0.390  -0.057  -0.008  0.918  0.083 |        0.146         0.104  +0.043  0.060
+Mohenjo-daro     66   15  1244 |        0.568         0.706  -0.138  -0.144  0.492  0.508 |        0.253         0.149  +0.104  0.100
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -2.91
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 172 has_tree=0.04 has_bracket=0.01 has_fish=0.10 any_numeral=0.34 jar_final=0.13 opener_first=0.06 meanlen=2.10
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 411 has_tree=0.14 has_bracket=0.03 has_fish=0.30 any_numeral=0.38 jar_final=0.32 opener_first=0.19 meanlen=4.06
+    Kalibangan     POT  n=  65 has_tree=0.06 has_bracket=0.00 has_fish=0.11 any_numeral=0.29 jar_final=0.14 opener_first=0.08 meanlen=1.86
+    Kalibangan     TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.00 any_numeral=0.40 jar_final=0.27 opener_first=0.33 meanlen=3.40
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  17 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.24 jar_final=0.06 opener_first=0.06 meanlen=1.76
+    Lothal         TAG  n=  61 has_tree=0.08 has_bracket=0.02 has_fish=0.31 any_numeral=0.21 jar_final=0.21 opener_first=0.18 meanlen=2.84
+    Lothal         SEAL n=  89 has_tree=0.12 has_bracket=0.00 has_fish=0.28 any_numeral=0.33 jar_final=0.24 opener_first=0.20 meanlen=3.66
+    Mohenjo-daro   POT  n=  66 has_tree=0.05 has_bracket=0.05 has_fish=0.08 any_numeral=0.42 jar_final=0.21 opener_first=0.06 meanlen=2.39
+    Mohenjo-daro   TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.13 any_numeral=0.47 jar_final=0.33 opener_first=0.33 meanlen=3.87
+    Mohenjo-daro   SEAL n=1244 has_tree=0.13 has_bracket=0.02 has_fish=0.34 any_numeral=0.36 jar_final=0.35 opener_first=0.25 meanlen=4.54
+
+== cycle 4  level=seq_strong dedup=False  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         267   17   435 |        0.541         0.774  -0.232  -0.146  0.924  0.077 |        0.192         0.299  -0.108  0.644
+Kalibangan       89   23    56 |        0.424         0.757  -0.332  -0.054  0.998  0.002 |        0.177         0.200  -0.023  0.626
+Lothal           18   87    92 |        0.408         0.474  -0.066  -0.002  0.993  0.008 |        0.152         0.108  +0.044  0.014
+Mohenjo-daro     71   17  1341 |        0.596         0.744  -0.148  -0.132  0.645  0.356 |        0.272         0.150  +0.122  0.126
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -7.24
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 267 has_tree=0.04 has_bracket=0.01 has_fish=0.10 any_numeral=0.34 jar_final=0.14 opener_first=0.04 meanlen=1.73
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 435 has_tree=0.14 has_bracket=0.03 has_fish=0.29 any_numeral=0.37 jar_final=0.32 opener_first=0.18 meanlen=3.95
+    Kalibangan     POT  n=  89 has_tree=0.08 has_bracket=0.00 has_fish=0.08 any_numeral=0.28 jar_final=0.20 opener_first=0.06 meanlen=1.64
+    Kalibangan     TAG  n=  23 has_tree=0.09 has_bracket=0.00 has_fish=0.00 any_numeral=0.26 jar_final=0.22 opener_first=0.22 meanlen=4.09
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  18 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.22 jar_final=0.11 opener_first=0.06 meanlen=1.72
+    Lothal         TAG  n=  87 has_tree=0.07 has_bracket=0.01 has_fish=0.33 any_numeral=0.28 jar_final=0.28 opener_first=0.26 meanlen=3.47
+    Lothal         SEAL n=  92 has_tree=0.13 has_bracket=0.00 has_fish=0.28 any_numeral=0.32 jar_final=0.25 opener_first=0.20 meanlen=3.60
+    Mohenjo-daro   POT  n=  71 has_tree=0.06 has_bracket=0.04 has_fish=0.07 any_numeral=0.41 jar_final=0.24 opener_first=0.06 meanlen=2.35
+    Mohenjo-daro   TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.12 any_numeral=0.53 jar_final=0.35 opener_first=0.35 meanlen=3.82
+    Mohenjo-daro   SEAL n=1341 has_tree=0.13 has_bracket=0.02 has_fish=0.32 any_numeral=0.35 jar_final=0.35 opener_first=0.24 meanlen=4.36
+
+== cycle 4  level=seq_strong dedup=True  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         171   17   409 |        0.544         0.775  -0.230  -0.148  0.934  0.066 |        0.192         0.299  -0.108  0.665
+Kalibangan       65   15    56 |        0.654         0.756  -0.102  -0.117  0.425  0.575 |        0.177         0.200  -0.023  0.393
+Lothal           17   61    89 |        0.340         0.403  -0.064  -0.008  0.938  0.062 |        0.152         0.108  +0.044  0.059
+Mohenjo-daro     66   15  1227 |        0.591         0.713  -0.121  -0.140  0.398  0.603 |        0.272         0.150  +0.122  0.093
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -2.60
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 171 has_tree=0.04 has_bracket=0.01 has_fish=0.11 any_numeral=0.35 jar_final=0.13 opener_first=0.06 meanlen=2.11
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 409 has_tree=0.14 has_bracket=0.03 has_fish=0.30 any_numeral=0.38 jar_final=0.33 opener_first=0.19 meanlen=4.08
+    Kalibangan     POT  n=  65 has_tree=0.08 has_bracket=0.00 has_fish=0.11 any_numeral=0.29 jar_final=0.14 opener_first=0.08 meanlen=1.86
+    Kalibangan     TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.00 any_numeral=0.40 jar_final=0.27 opener_first=0.33 meanlen=3.40
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  17 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.24 jar_final=0.06 opener_first=0.06 meanlen=1.76
+    Lothal         TAG  n=  61 has_tree=0.10 has_bracket=0.02 has_fish=0.31 any_numeral=0.21 jar_final=0.21 opener_first=0.18 meanlen=2.84
+    Lothal         SEAL n=  89 has_tree=0.13 has_bracket=0.00 has_fish=0.28 any_numeral=0.33 jar_final=0.24 opener_first=0.20 meanlen=3.66
+    Mohenjo-daro   POT  n=  66 has_tree=0.06 has_bracket=0.05 has_fish=0.08 any_numeral=0.42 jar_final=0.21 opener_first=0.06 meanlen=2.39
+    Mohenjo-daro   TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.13 any_numeral=0.47 jar_final=0.33 opener_first=0.33 meanlen=3.87
+    Mohenjo-daro   SEAL n=1227 has_tree=0.13 has_bracket=0.02 has_fish=0.34 any_numeral=0.36 jar_final=0.34 opener_first=0.25 meanlen=4.55
+
+== cycle 4  level=seq_all dedup=False  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         267   17   435 |        0.541         0.773  -0.232  -0.152  0.899  0.102 |        0.192         0.301  -0.110  0.640
+Kalibangan       89   23    56 |        0.424         0.754  -0.330  -0.055  0.996  0.005 |        0.177         0.203  -0.026  0.660
+Lothal           18   87    92 |        0.408         0.477  -0.069  -0.001  0.998  0.003 |        0.154         0.116  +0.038  0.045
+Mohenjo-daro     71   17  1341 |        0.596         0.743  -0.147  -0.136  0.611  0.389 |        0.272         0.151  +0.120  0.124
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -7.07
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 267 has_tree=0.04 has_bracket=0.01 has_fish=0.10 any_numeral=0.34 jar_final=0.14 opener_first=0.04 meanlen=1.73
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 435 has_tree=0.14 has_bracket=0.03 has_fish=0.29 any_numeral=0.37 jar_final=0.32 opener_first=0.18 meanlen=3.95
+    Kalibangan     POT  n=  89 has_tree=0.08 has_bracket=0.00 has_fish=0.08 any_numeral=0.28 jar_final=0.20 opener_first=0.06 meanlen=1.64
+    Kalibangan     TAG  n=  23 has_tree=0.09 has_bracket=0.00 has_fish=0.00 any_numeral=0.26 jar_final=0.22 opener_first=0.22 meanlen=4.09
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  18 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.22 jar_final=0.11 opener_first=0.06 meanlen=1.72
+    Lothal         TAG  n=  87 has_tree=0.07 has_bracket=0.01 has_fish=0.33 any_numeral=0.28 jar_final=0.28 opener_first=0.26 meanlen=3.47
+    Lothal         SEAL n=  92 has_tree=0.13 has_bracket=0.00 has_fish=0.28 any_numeral=0.32 jar_final=0.25 opener_first=0.20 meanlen=3.60
+    Mohenjo-daro   POT  n=  71 has_tree=0.06 has_bracket=0.04 has_fish=0.07 any_numeral=0.41 jar_final=0.24 opener_first=0.06 meanlen=2.35
+    Mohenjo-daro   TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.12 any_numeral=0.53 jar_final=0.35 opener_first=0.35 meanlen=3.82
+    Mohenjo-daro   SEAL n=1341 has_tree=0.13 has_bracket=0.02 has_fish=0.33 any_numeral=0.35 jar_final=0.35 opener_first=0.24 meanlen=4.36
+
+== cycle 4  level=seq_all dedup=True  sites=['Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+site           nPot nTag nSeal | cos(pot,tag) cos(pot,seal)    diff    null   p_hi   p_lo | jac(pot,tag) jac(pot,seal)    diff   p_hi
+Harappa         171   17   409 |        0.544         0.774  -0.230  -0.147  0.938  0.062 |        0.192         0.301  -0.110  0.667
+Kalibangan       65   15    56 |        0.654         0.754  -0.100  -0.115  0.410  0.591 |        0.177         0.203  -0.026  0.396
+Lothal           17   61    89 |        0.339         0.407  -0.067  -0.008  0.960  0.040 |        0.154         0.116  +0.038  0.125
+Mohenjo-daro     66   15  1227 |        0.591         0.712  -0.121  -0.139  0.391  0.609 |        0.272         0.151  +0.120  0.082
+  summed z over sites (pot closer to sealings than to seals, beyond the size-matched null): -2.70
+
+  share of texts with tree / bracket / fish / numeral / jar-final, by site and object type:
+    Harappa        POT  n= 171 has_tree=0.04 has_bracket=0.01 has_fish=0.11 any_numeral=0.35 jar_final=0.13 opener_first=0.06 meanlen=2.11
+    Harappa        TAG  n=  17 has_tree=0.12 has_bracket=0.00 has_fish=0.29 any_numeral=0.29 jar_final=0.12 opener_first=0.12 meanlen=3.00
+    Harappa        SEAL n= 409 has_tree=0.14 has_bracket=0.03 has_fish=0.30 any_numeral=0.38 jar_final=0.33 opener_first=0.19 meanlen=4.08
+    Kalibangan     POT  n=  65 has_tree=0.08 has_bracket=0.00 has_fish=0.11 any_numeral=0.29 jar_final=0.14 opener_first=0.08 meanlen=1.86
+    Kalibangan     TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.00 any_numeral=0.40 jar_final=0.27 opener_first=0.33 meanlen=3.40
+    Kalibangan     SEAL n=  56 has_tree=0.09 has_bracket=0.04 has_fish=0.25 any_numeral=0.38 jar_final=0.25 opener_first=0.11 meanlen=3.86
+    Lothal         POT  n=  17 has_tree=0.06 has_bracket=0.06 has_fish=0.06 any_numeral=0.24 jar_final=0.06 opener_first=0.06 meanlen=1.76
+    Lothal         TAG  n=  61 has_tree=0.10 has_bracket=0.02 has_fish=0.31 any_numeral=0.21 jar_final=0.21 opener_first=0.18 meanlen=2.84
+    Lothal         SEAL n=  89 has_tree=0.13 has_bracket=0.00 has_fish=0.28 any_numeral=0.33 jar_final=0.24 opener_first=0.20 meanlen=3.66
+    Mohenjo-daro   POT  n=  66 has_tree=0.06 has_bracket=0.05 has_fish=0.08 any_numeral=0.42 jar_final=0.21 opener_first=0.06 meanlen=2.39
+    Mohenjo-daro   TAG  n=  15 has_tree=0.13 has_bracket=0.00 has_fish=0.13 any_numeral=0.47 jar_final=0.33 opener_first=0.33 meanlen=3.87
+    Mohenjo-daro   SEAL n=1227 has_tree=0.13 has_bracket=0.02 has_fish=0.34 any_numeral=0.36 jar_final=0.34 opener_first=0.25 meanlen=4.55
+
+== cycle 4b  Lothal sealings with fastening type: 83 (level seq_raw)
+  pottery          n= 18 distinct= 15 has_tree=0.11 has_fish=0.22 any_numeral=0.50 jar_final=0.06 arrow_final=0.06 opener_first=0.17 meanlen=2.7
+      texts: 705-500-741-1-55-220-740-90 x2; 861-2 x2; 32 x2; 820-2 x1
+  wooden boxes     n= 15 distinct=  6 has_tree=0.00 has_fish=0.27 any_numeral=0.13 jar_final=0.87 arrow_final=0.00 opener_first=0.73 meanlen=4.3
+      texts: 817-2-48-740 x10; 705-500-741-1-55-220-740-90 x1; 692-31-1-15-140 x1; 231-100-740 x1
+  undiagnostic     n= 15 distinct= 13 has_tree=0.07 has_fish=0.47 any_numeral=0.13 jar_final=0.13 arrow_final=0.00 opener_first=0.13 meanlen=3.1
+      texts: 705-500-741-1-55-220-740-90 x2; 861-2-236 x2; 226 x1; 838 x1
+  structures       n= 15 distinct= 13 has_tree=0.13 has_fish=0.33 any_numeral=0.33 jar_final=0.20 arrow_final=0.07 opener_first=0.20 meanlen=4.0
+      texts: 705-500-741-1-55-220-740-90 x3; 861-2-236 x1; 2-70-520 x1; 700-31-552-740 x1
+  lockers          n=  7 distinct=  7 has_tree=0.00 has_fish=0.29 any_numeral=0.00 jar_final=0.14 arrow_final=0.00 opener_first=0.14 meanlen=2.4
+      texts: 617-2 x1; 220-706-320 x1; 820-60 x1; 798 x1
+  parallel canes   n=  5 distinct=  5 has_tree=0.00 has_fish=0.40 any_numeral=0.40 jar_final=0.40 arrow_final=0.40 opener_first=0.20 meanlen=4.0
+      texts: 617-2-240-220-233-520 x1; 740-151 x1; 920-60-4-220-388-740 x1; 705-33-520 x1
+  pegs-on-wall     n=  3 distinct=  3 has_tree=0.00 has_fish=0.33 any_numeral=0.33 jar_final=0.33 arrow_final=0.00 opener_first=0.00 meanlen=3.3
+      texts: 740 x1; 892 x1; 705-500-741-1-55-220-740-90 x1
+  on single rope   n=  2 distinct=  2 has_tree=0.00 has_fish=0.50 any_numeral=0.00 jar_final=0.00 arrow_final=0.00 opener_first=0.50 meanlen=2.5
+      texts: 2 x1; 820-2-220-234 x1
+  woven straw      n=  1 distinct=  1 has_tree=0.00 has_fish=1.00 any_numeral=1.00 jar_final=0.00 arrow_final=0.00 opener_first=0.00 meanlen=8.0
+      texts: 705-500-741-1-55-220-740-90 x1
+  leather sacks    n=  1 distinct=  1 has_tree=0.00 has_fish=1.00 any_numeral=1.00 jar_final=0.00 arrow_final=0.00 opener_first=0.00 meanlen=8.0
+      texts: 705-500-741-1-55-220-740-90 x1
+  on wicker        n=  1 distinct=  1 has_tree=0.00 has_fish=0.00 any_numeral=0.00 jar_final=0.00 arrow_final=0.00 opener_first=0.00 meanlen=1.0
+      texts: 575 x1

@@ -1,0 +1,33 @@
+LOOP 10 (RANDOM ONTOLOGIES) - FINAL   tools/strat_dark_loop10.py, tools/strat_dark_loop10_final.py
+Outputs: data/derived/dark/loop10_cycle1.txt, loop10_cycle2.txt, loop10_cycle3_{md,ha,other}.txt, loop10_cycle4_{raw,strong}.txt (+ .json), loop10_final_tables.txt
+
+DESIGN. 7 runs, 308 random ontologies (K = 2..6, random decorative semantics), 60 commonest signs assigned by random start + bounded hill-climb on one
+of four criteria: outside-fact prediction (type/emblem/size/material/period; optimised Mohenjo-daro <-> Harappa, scored once on all other sites),
+quantity-seal + voucher count consistency, cross-site reuse of category sequences, description length (Brown objective). Controls with the same search:
+P = facts/sites/counts permuted across texts; S = sign order shuffled within texts. Statistic: label-invariant co-category rate per sign pair across
+ontologies; 'stable' = >= 0.70 and >= 0.20 above both controls. Different from tools/strat_anneal.py (fixed 16-label ontology, 80 signs, annealing).
+
+VERDICT: NULL for the family's premise. No sign pair stays in one class regardless of the ontology's purpose.
+  - Cross-criterion stable pairs per run: 1, 0, 0, 0, 0, 1, 1 of 1,770; Jaccard between any two runs 0.00 (three different one-off pairs).
+  - Known GRAMMAR classes co-cluster at chance + 0.1-0.25 in real AND in both controls (opener 0.50-0.52 vs P 0.46-0.57).
+  - Held-out facts (177 full-corpus ontologies): only object type beats the order-shuffled control (0.28 vs 0.24 bits/text), which the 740/700
+    seal-tablet split already gives; emblem 0/11, period 0/6, size 2/11, material 2/10, quantity 0/46, reuse 0/37 above the control maximum.
+    Cross-site reuse is HIGHER with sites permuted (0.78 vs 0.71): one site's duplicate texts then count as cross-site.
+
+WHAT IS STABLE (within one criterion only): the sequence (MDL) objective gives rock-stable classes, 100 pairs over 53 ontologies, which are the
+GRAMMAR.md slots again: openers {817, 861, 820, 920, 692} (+ W550), suffixes {400, 90}, fish {240, 235, 231} (+ 803, 806, 31, 140, 3 = the signs
+sharing the START / after-W2 left context), items {390, 405, 407, 900}, pre-jar titles {690, 760} (Mohenjo-daro adds 760-923; Harappa gives the
+tablet title class {176, 630, 904, 482}), connective {1, 2, 368}.
+  Held-out replication of the 11 full-corpus MDL consensus pairs: Mohenjo-daro 5/11, other sites (958 texts, ~30 sites) 4/11, Harappa 1/10
+  (tablet-heavy sign list). Sequence levels: unchanged on seq_raw and seq_strong.
+  Blind merge recovery (seq_raw): the S268 strong allograph pairs 861-817, 820-817, 803-806, 705-706, 390-405 are one MDL class in 13/13 ontologies
+  (S control 0.54-0.85); the doubtful 156-151 is not (0.46 vs 0.38). Independent support for the S268 list from a sequence objective.
+
+NEW (grade C leads, not results): W803/W806 = the element before the fish stack (text-initial 126x, then 235/233/240 68x, 154 35x) -> extend the
+fish template of S289 to 803 -> hat -> whiskers -> bar; W368 is inserted between opener and connective (861-368 32x, then 2/1 22x) and is also
+text-final 41/119; W550 travels with the opener companions 920/692/817 (0.92-0.94); W55 ('12') + W415 one class (both precede W220/W100 and the jar).
+CORRECTION made during the loop: the first draft of row 10.3 read 2-368 as a sequence; it is shared left context (861-368-2).
+CAVEATS: 76-82% of texts are Mohenjo-daro + Harappa; fact-based criteria have no held-out set inside a single city (scored 0 there by design);
+P control equals the real run for MDL (no facts used), so MDL pairs are judged against S only.
+
+READY-TO-PASTE ROWS: see the end of loop10_cycle1.txt, loop10_cycle2.txt, loop10_cycle3_other.txt, loop10_cycle4_strong.txt (S-DARK-10.1 .. 10.4).
