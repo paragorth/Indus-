@@ -401,3 +401,19 @@ This looks like a structured record per line. For example, each line could be on
 **Next tests (not yet run):**
 - Do the line classes follow the illustration on the page (plant, star, bath)?
 - Do the a-words and q-words take different positions inside the line, like a two-column table?
+
+## 8. Novelty check (web, 3 Oct 2026)
+- **V3 (junction coupling resets at line breaks): not new.**
+  - "Evidence of Layered Positional and Directional Constraints in the Voynich Manuscript" (arXiv 2604.19762) reports that cross-word suffix dependency works within lines and collapses across line boundaries. Example: before k-initial words, -l is 71.3% within lines and 22.2% across lines. It also finds the left-to-right boundary dependency absent in English, French, Hebrew and Arabic.
+  - The "line as a functional unit" idea goes back to Vogt (2012).
+  - arXiv 2608.17096 ("A Glyph Is Not a Letter, a Token Is Not a Word, a Space Is Not a Space") covers related ground.
+  - Our V2/V3 is therefore an **independent replication**, with prose and verse controls and both transcriptions.
+- **N3 (two line modes), partly known.**
+  - Two dominant word communities at paragraph level: arXiv 1806.08467.
+  - qokaiin-type and daiin-type word clusters: Viridis Green's part-of-speech posts.
+- **May be new, but needs a deeper literature check before any claim:**
+  - Mode clustering *within* paragraphs against a word re-dealing null (N1, N3).
+  - The ch↔e trade-off by line.
+  - m/g as a one-per-line quota.
+  - The failure of glyph swaps to merge the modes (N5).
+  - The verbose-cipher merge test, with encrypted-language positive controls (V1).
