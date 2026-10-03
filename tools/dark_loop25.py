@@ -326,10 +326,16 @@ def determinative_stats(objs,minn=30,slot=None,nm=str,nperm=200,verbose=True,nam
             if fix<0.9 or len(hosts)<8 or H(T[a])<3.0: continue
             # coherence: hosts' profile on the side AWAY from a (a precedes -> host's right context; excluding a itself)
             far=ctxR if side=='R' else ctxL
+            hosts=sorted(hosts,key=lambda h:-T[a][h])[:25]   # cap at the 25 commonest hosts (speed)
+            memo={}
+            def cc(x,y):
+                k=(x,y) if str(x)<=str(y) else (y,x)
+                if k not in memo: memo[k]=cos(far[x],far[y])
+                return memo[k]
             def coh(hs):
-                vs=[far[h] for h in hs if sum(far[h].values())>=3]
-                if len(vs)<3: return float('nan')
-                ps=[cos(vs[i],vs[j]) for i in range(len(vs)) for j in range(i+1,len(vs))]
+                hs=[h for h in hs if sum(far[h].values())>=3]
+                if len(hs)<3: return float('nan')
+                ps=[cc(hs[i],hs[j]) for i in range(len(hs)) for j in range(i+1,len(hs))]
                 return sum(ps)/len(ps)
             obs=coh(hosts)
             if obs!=obs: continue
