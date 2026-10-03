@@ -132,3 +132,12 @@ REAL minlen=2: n=1168 2-way 61 (0.052) 2-or-3-way 63 (0.054) cut at frame bounda
   S366 best (textreuse+closerdep+type+open+site) (10 corpora, 1096 long texts each) minlen=2: decomposable share 0.011 [0.004-0.020] (2-way 0.010) vs REAL MD+H 0.039 (2-way 0.039); cut-at-boundary 0.19 vs real 0.21
   S366 M0 slot grammar (no reuse) (10 corpora, 1254 long texts each) minlen=1: decomposable share 0.048 [0.031-0.058] (2-way 0.014) vs REAL MD+H 0.082 (2-way 0.061); cut-at-boundary 0.10 vs real 0.22
   S366 M0 slot grammar (no reuse) (10 corpora, 1254 long texts each) minlen=2: decomposable share 0.014 [0.010-0.019] (2-way 0.011) vs REAL MD+H 0.039 (2-way 0.039); cut-at-boundary 0.22 vs real 0.21
+  order-2 chain, no slots (10 corpora, 1001 long texts each) minlen=1: decomposable share 0.121 [0.103-0.137] (2-way 0.078) vs REAL MD+H 0.082 (2-way 0.061); cut-at-boundary 0.12 vs real 0.22
+  order-2 chain, no slots (10 corpora, 1001 long texts each) minlen=2: decomposable share 0.051 [0.039-0.061] (2-way 0.048) vs REAL MD+H 0.039 (2-way 0.039); cut-at-boundary 0.09 vs real 0.21
+
+### random-concatenation control: join two attested short texts (2-4 signs, drawn by object count)
+  join point: {'closer': 3113, 'both': 262, 'none': 1493, 'opener': 132} -> frame boundary share 0.70; joined text itself attested 4/5000 = 0.0008
+  real decomposable long texts: cut kinds {'none': 35, 'closer': 8}
+  base rate: share of 2-4-sign complete texts ending in a paradigm closer or suffix = 0.68; starting with an opener 0.08
+
+# done

@@ -1,3 +1,154 @@
 == calibration corpus Ur III legends (syllables): 4400 texts, 34158 tokens, 597 distinct signs; nulls 50x (shuffle within position class)
 [Ur III legends (syllables)] REAL rule4: links 4269, pairs linked 4972, stars 1963, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 529 holding 1722 pairs; sharp (cos >= 0.7) 105, big (>= 5 disjoint) 19, sharp+big 0  (35.4s)
 [Ur III legends (syllables)] REAL rule2: links 24836, pairs linked 14506, stars 2556, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 804 holding 4910 pairs; sharp (cos >= 0.7) 83, big (>= 5 disjoint) 116, sharp+big 1  (43.6s)
+[Ur III legends (syllables)] NULL pos rule4 (50x): n_links real 4269 vs null median 4444 [5-95% 4233-4689] P(>=) 0.863 P(<=) 0.157; n_classes real 529 vs null median 351 [5-95% 320-379] P(>=) 0.020 P(<=) 1.000; n_sharp real 105 vs null median 10 [5-95% 4-14] P(>=) 0.020 P(<=) 1.000; n_big real 19 vs null median 13 [5-95% 9-22] P(>=) 0.216 P(<=) 0.863; n_sharp_big real 0 vs null median 0 [5-95% 0-0] P(>=) 1.000 P(<=) 1.000  (1609s)
+[Ur III legends (syllables)] NULL pos rule2 (50x): n_links real 24836 vs null median 28834 [5-95% 27561-30067] P(>=) 1.000 P(<=) 0.020; n_classes real 804 vs null median 296 [5-95% 266-339] P(>=) 0.020 P(<=) 1.000; n_sharp real 83 vs null median 2 [5-95% 0-6] P(>=) 0.020 P(<=) 1.000; n_big real 116 vs null median 23 [5-95% 15-31] P(>=) 0.020 P(<=) 1.000; n_sharp_big real 1 vs null median 0 [5-95% 0-0] P(>=) 0.020 P(<=) 1.000  (1609s)
+-- Ur III legends (syllables) offset classes rule 4:
+  class 1: 7 pairs, 7 disjoint, offset cos 0.64: nanna:inim, zu:ka5, ba6:engar, li2:sza3, su:ab, tu:al, mar:he2
+  class 2: 6 pairs, 6 disjoint, offset cos 0.53: ba:de2, da:bar, zi:gir2, ab:dingir, sza3:lil2, giri3:gu3
+  class 3: 6 pairs, 6 disjoint, offset cos 0.51: ab:engar, da:ge, i3:ti, dingir:szubur, suen:nigar, er3:gur8
+  class 4: 6 pairs, 6 disjoint, offset cos 0.51: dam:usz, ki:he2, su:nanna, gudu4:inim, kuruszda:sar, szusz3:du11
+  class 5: 5 pairs, 5 disjoint, offset cos 0.63: e2:gigir, arad2:ni, dingir:tu, szul:mes, inim:ezem
+  class 6: 5 pairs, 5 disjoint, offset cos 0.61: ti:ka5, la:utu, za:inim, ha:szesz, ma2:nam
+  class 7: 5 pairs, 5 disjoint, offset cos 0.61: ig:mah, e2:sag, gu:gal, ku3:lagar, gigir:gal2
+  class 8: 5 pairs, 5 disjoint, offset cos 0.58: ti:ne2, dam:sukkal, me:nansze, di3:su, lal3:mes
+  class 9: 5 pairs, 5 disjoint, offset cos 0.58: sar:lal3, gar3:li2, giri3:bu, lah5:dar, gaba:bi2
+  class 10: 5 pairs, 5 disjoint, offset cos 0.57: dingir:ab, gir2:lagar, iszkur:gu4, szubur:engar, lal3:ag2
+  class 11: 5 pairs, 5 disjoint, offset cos 0.57: kal:usz, ku3:e2, tu:nanna, du11:szul, lu5:szu
+  class 12: 5 pairs, 5 disjoint, offset cos 0.56: ba6:dar, e:bu, ge:lil2, gal2:ra, ag2:lal3
+  class 13: 5 pairs, 5 disjoint, offset cos 0.55: szara2:ig, lugal:ba, zu:de2, ka:he2, gal:kal
+  class 14: 5 pairs, 5 disjoint, offset cos 0.55: e:sa12, mah:szusz3, la2:aga3, ge:dub, gal2:gaba
+  class 15: 5 pairs, 5 disjoint, offset cos 0.52: li2:si, ra:sa12, e3:ezem, ha:he2, li:nig2
+-- Ur III legends (syllables) offset classes rule 2:
+  class 1: 16 pairs, 12 disjoint, offset cos 0.57: inim:ezem, dumu:kam, ur:su, lu2:mes, lugal:mes, e2:dun, ab:da, szesz:tu, za:la, al:tu, sza3:gigir, giri3:da ...
+  class 2: 22 pairs, 10 disjoint, offset cos 0.51: ha:ne2, a:su, ma:sag, szu:mes, i3:lamma, en:mes, suen:mes, gu:gigir, gu:isztaran, gu:dun, szesz:utu, du:gigir ...
+  class 3: 27 pairs, 10 disjoint, offset cos 0.51: gu:ag2, a:gal2, ba:gal2, kal:gal2, e2:sag, i3:gal2, en:gal2, en:du5, du10:gal2, du:gal2, ha:mah, ha:gal2 ...
+  class 4: 16 pairs, 9 disjoint, offset cos 0.52: zi:ne2, ba:utu, sa6:nansze, sa6:mes, ra:sukkal, du10:nansze, ku3:lamma, mah:nansze, ta:mes, sag:lamma, du11:utu, du11:dun ...
+  class 5: 11 pairs, 8 disjoint, offset cos 0.59: gesz:kam, nin:mes, nin:isztaran, nin:dun, szu:ni, en:dun, gi:ga, gir2:ba6, ma2:mu, inanna:dun, usz:gaba
+  class 6: 12 pairs, 8 disjoint, offset cos 0.56: nigar:engar, szara2:an, suen:ab, suen:pa, lamma:uri5, utu:sza3, utu:he2, iszkur:ab, mes:ba, mes:szabra, isztaran:ku3, dun:ku3
+  class 7: 17 pairs, 8 disjoint, offset cos 0.54: de2:lal3, ba:dun, sa6:ag2, kal:ag2, gi:nigar, ku3:ag2, a2:nigar, gesz:szara2, sza3:e3, nun:nansze, ig:nigar, he2:nigar ...
+  class 8: 12 pairs, 8 disjoint, offset cos 0.53: lamma:mar, ni:zu, nigar:szubur, nansze:zu, mes:nanna, ig:gir2, sukkal:lil2, li9:gir2, kam:gir2, dun:li, dun:sza, ag2:gal
+  class 9: 15 pairs, 8 disjoint, offset cos 0.51: nig2:sza3, da:ra, na:ra, sa6:lagar, mu:ra, szara2:arad2, lamma:si4, nigar:re, su:ra, gigir:re, utu:ra, utu:e3 ...
+  class 10: 15 pairs, 7 disjoint, offset cos 0.59: nigar:ne, ga:lagar, la:lagar, ba6:lagar, lamma:la2, gigir:lagar, utu:ab, utu:u3, nansze:lagar, mes:ti, mes:bi, mes:lagar ...
+  class 11: 11 pairs, 7 disjoint, offset cos 0.58: dub:ezem, dumu:nigar, dumu:gigir, dumu:utu, nu:ne2, ugula:mes, sipa:nigar, szabra:gigir, gudu4:nigar, sagi:gal2, muhaldim:gigir
+  class 12: 13 pairs, 7 disjoint, offset cos 0.58: ti:ne2, szu:su, za:nansze, me:nansze, bi2:su, bi2:tu, bi2:kam, di3:su, di3:alim, di3:ezem, de2:gigir, lal3:mes ...
+  class 13: 18 pairs, 7 disjoint, offset cos 0.57: sar:ezem, banda3:si, banda3:gal2, gar3:da, gar3:mu, gar3:su, giri3:nig2, us2:sukkal, du5:e, du5:gigir, du5:utu, du5:mes ...
+  class 14: 30 pairs, 7 disjoint, offset cos 0.56: a:la, dumu:ga, dingir:szubur, dingir:kam, dingir:mar, szesz:ga, szesz:sa6, szesz:zu, szesz:ba6, szesz:li2, szesz:e3, szesz:la2 ...
+  class 15: 10 pairs, 7 disjoint, offset cos 0.54: mes:inanna, la:lu, ba6:gi, lamma:nin, nigar:szara2, gigir:nin, utu:nin, isztaran:du5, ezem:gudu4, ezem:lunga
+== calibration corpus Linear B lines (words+ideograms): 2643 texts, 12719 tokens, 2675 distinct signs; nulls 50x (shuffle within position class)
+[Linear B lines (words+ideograms)] REAL rule4: links 3411, pairs linked 4229, stars 1964, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 228 holding 703 pairs; sharp (cos >= 0.7) 191, big (>= 5 disjoint) 2, sharp+big 2  (15.9s)
+[Linear B lines (words+ideograms)] REAL rule2: links 15812, pairs linked 13044, stars 3154, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 1139 holding 5811 pairs; sharp (cos >= 0.7) 712, big (>= 5 disjoint) 114, sharp+big 25  (18.9s)
+[Linear B lines (words+ideograms)] NULL pos rule4 (50x): n_links real 3411 vs null median 4527 [5-95% 4236-4861] P(>=) 1.000 P(<=) 0.020; n_classes real 228 vs null median 446 [5-95% 413-496] P(>=) 1.000 P(<=) 0.020; n_sharp real 191 vs null median 40 [5-95% 29-60] P(>=) 0.020 P(<=) 1.000; n_big real 2 vs null median 31 [5-95% 20-39] P(>=) 1.000 P(<=) 0.020; n_sharp_big real 2 vs null median 0 [5-95% 0-2] P(>=) 0.098 P(<=) 0.980  (898s)
+[Linear B lines (words+ideograms)] NULL pos rule2 (50x): n_links real 15812 vs null median 26878 [5-95% 25675-28238] P(>=) 1.000 P(<=) 0.020; n_classes real 1139 vs null median 542 [5-95% 495-605] P(>=) 0.020 P(<=) 1.000; n_sharp real 712 vs null median 20 [5-95% 6-29] P(>=) 0.020 P(<=) 1.000; n_big real 114 vs null median 64 [5-95% 45-80] P(>=) 0.020 P(<=) 1.000; n_sharp_big real 25 vs null median 0 [5-95% 0-1] P(>=) 0.020 P(<=) 1.000  (898s)
+-- Linear B lines (words+ideograms) offset classes rule 4:
+  class 1: 5 pairs, 5 disjoint, offset cos 0.80: I:KE:I:MA, I:M:I:Z, I:AES:I:SA, w:e-ru-ta-ra:w:ko-no, w:ka-na-ko:I:FAR
+  class 2: 5 pairs, 5 disjoint, offset cos 0.80: I:MA:I:KE, I:Z:I:M, I:SA:I:AES, I:FAR:w:ka-na-ko, w:ko-no:w:e-ru-ta-ra
+  class 3: 4 pairs, 4 disjoint, offset cos 0.90: w:a-ko-da-mo:w:ri-jo, I:MA:w:me-ta-pa, w:ko-no:w:a-ke-re-wa, w:zo-wa:w:pa-ki-ja-si
+  class 4: 4 pairs, 4 disjoint, offset cos 0.88: I:OVIS+TA:w:a-pu-do-si, I:T:w:ka-pa, I:TELA+TE:w:wa-no-jo, w:pe-i:w:ti-mi-to
+  class 5: 4 pairs, 4 disjoint, offset cos 0.85: I:E:I:CERV, I:AROM:w:a-pu-do-si, I:PA:I:TA, w:ka-na-ko:w:pa-i-ti-ja
+  class 6: 4 pairs, 4 disjoint, offset cos 0.83: I:M:I:S, I:AES:I:OLE+PA, I:N:w:me-ri, I:ME:I:OLE
+  class 7: 4 pairs, 4 disjoint, offset cos 0.82: I:OVIS+TA:w:a-ta-o, I:TELA+TE:w:me-ta-qe, I:WE:w:ka-wi-jo, I:L:w:to-sa
+  class 8: 4 pairs, 4 disjoint, offset cos 0.82: w:a-ta-o:I:OVIS+TA, w:to-sa:I:L, w:ka-wi-jo:I:WE, w:me-ta-qe:I:TELA+TE
+  class 9: 4 pairs, 4 disjoint, offset cos 0.80: I:OVIS:w:wa-no-jo, I:ME:w:po-ti-ni-ja, I:TELA+TE:w:o-pi, I:WE:w:zo-wa
+  class 10: 4 pairs, 4 disjoint, offset cos 0.79: I:V:I:OLE, I:T:I:OLE+PA, I:Z:I:VIN, I:OLIV:I:OLE+A
+  class 11: 4 pairs, 4 disjoint, offset cos 0.75: I:FAR:I:CERV, I:HORD:NUM, I:KU:I:E, w:ka-na-ko:I:L
+  class 12: 4 pairs, 4 disjoint, offset cos 0.73: I:NI:w:qa-si-re-wi-ja, I:HORD:w:te-re-ta, w:zo-wa:w:ra-pte-re, I:OLIV+A:w:ri-zo
+  class 13: 4 pairs, 4 disjoint, offset cos 0.72: I:ME:I:VIN, I:N:I:MA, I:O:I:FAR, w:po-ro-ko-re-te:w:po-ti-ni-ja
+  class 14: 4 pairs, 4 disjoint, offset cos 0.64: I:NI:w:ka-ma, I:T:w:pe-re, I:SA:w:ta-ra-si-ja, w:ko-no:w:ko-to-na
+  class 15: 4 pairs, 4 disjoint, offset cos 0.63: w:we-da-ne-wo:I:A, w:ma-ro-pi:w:me-wi-jo, w:o-ka:I:OLIV+A, w:a-ko-so-ta-o:I:OVIS+TA
+-- Linear B lines (words+ideograms) offset classes rule 2:
+  class 1: 20 pairs, 10 disjoint, offset cos 0.70: I:T:w:ka-pa, I:VIR:w:to-sa, I:M:w:ta-ra-nu, I:LANA:w:wa-no-jo, I:ME:w:po-ti-ni-ja, I:P:w:to-pe-za, I:OVIS+TA:w:o-ka, I:OVIS+TA:w:me-ta-qe, I:OVIS+TA:w:we-ka-ta, I:OVIS+TA:w:pa-i-ti-ja, I:OVIS+TA:w:a-pu-do-si, I:E:w:a-pu-do-si ...
+  class 2: 18 pairs, 10 disjoint, offset cos 0.68: I:AES:w:pa-i-ti-ja, NUM:w:a-pu-do-si, I:M:w:ti-mi-to, I:M:w:pa-ki-ja-si, I:X:w:me-ta-qe, I:N:w:ta-ra-nu, I:N:w:wa-no-jo, I:ME:w:o-pe-ro, I:RI:w:to-sa, I:O:w:a-pu-do-si, I:P:w:ta-ra-nu, w:po-ro-ko-re-te:w:pu-ro ...
+  class 3: 18 pairs, 10 disjoint, offset cos 0.67: I:FAR:I:CERV, I:HORD:NUM, I:HORD:w:we-ka-ta, I:VIN:I:OVIS, I:OLIV:I:OVIS, I:AUR:I:OVIS, I:KE:I:P, I:NI:I:OVIS, I:MA:I:OVIS, I:MA:w:me-wi-jo-e, I:MA:I:CAP, I:MA:I:A ...
+  class 4: 24 pairs, 10 disjoint, offset cos 0.66: I:NI:w:qa-si-re-wi-ja, I:V:w:ke-ki-de, I:GRA:w:e-qe-ta, I:HORD:w:te-re-ta, I:Z:w:ke-ki-de, I:VIN:w:a-mi-ni-so, I:OLIV:w:o-pe-ro, I:OLIV:w:e-qe-ta, I:OLIV:w:ke-ki-de, I:SA:w:ke-ki-de, I:FAR:w:ke-ro-si-ja, I:KO:w:ke-ki-de ...
+  class 5: 13 pairs, 9 disjoint, offset cos 0.67: I:KU:I:CAP, I:HORD:w:ri-zo, I:FAR:w:me-wi-jo, I:AROM:I:OVIS+TA, I:PA:I:TELA+TE, I:ROTA:w:me-wi-jo, w:o-ka:w:a-no-wo-to, w:e-ru-ta-ra:I:N, w:di-pa:I:MUL, w:ka-na-ko:I:OVIS+TA, w:ka-na-ko:w:me-wi-jo-e, w:ka-na-ko:I:A ...
+  class 6: 14 pairs, 8 disjoint, offset cos 0.71: I:E:I:KU, I:VIR:I:HORD, I:V:I:MA, I:T:I:MA, I:LANA:w:ka-na-ko, I:DA:I:FAR, w:me-zo-e:w:zo-wa, I:OVIS:w:zo-wa, I:OVIS+TA:I:MA, I:OVIS+TA:I:OLE+A, I:TELA+TE:w:ka-na-ko, I:CERV:w:a-ko-da-mo ...
+  class 7: 21 pairs, 8 disjoint, offset cos 0.64: I:T:I:FAR, I:VIR:w:pa-i-ti-ja, I:V:w:zo-wa, I:M:w:ma-ro-pi, I:M:I:ROTA, I:M:I:KO, I:M:w:ka-ko, I:LANA:w:pa-i-ti-ja, I:ME:I:OLE+A, I:OVIS:w:to-sa, I:OVIS:w:pa-i-ti-ja, I:OVIS:w:wa-no-jo ...
+  class 8: 17 pairs, 8 disjoint, offset cos 0.61: I:AROM:I:FAR, I:M:w:wo-wo, I:M:w:po-ti-ni-ja, I:M:w:a-si-ja-ti-ja, I:M:w:me-ri, I:N:w:me-ri, I:ME:w:me-ri, I:OVIS:w:me-ta-qe, I:LUNA:w:ka-pa, I:LUNA:w:wa-no-jo, I:E:w:o-ka, I:E:w:o-no ...
+  class 9: 9 pairs, 8 disjoint, offset cos 0.58: I:HORD:I:WE, w:o-ka:w:me-wi-jo-e, w:to-sa:w:me-wi-jo, I:TA:I:MUL, I:OLE+A:I:ME, w:te-re-ta:I:OVIS+TA, w:me-ri:I:ME, w:pa-i-ti-ja:I:P, w:wa-na-ka-te-ro:I:M
+  class 10: 11 pairs, 8 disjoint, offset cos 0.55: I:M:I:AROM, I:MUL:w:di-pa, I:N:w:e-ru-ta-ra, I:N:I:KU, w:do-e-ro:I:HORD, I:ME:I:KU, I:ZE:I:KU, w:te-re-ta:I:HORD, w:me-ri:I:FAR, w:e-re-ta:w:a-ko-da-mo, I:L:w:ka-na-ko
+  class 11: 11 pairs, 7 disjoint, offset cos 0.77: I:TELA+TE:w:ke-ki-de, I:V:w:a-ko-da-mo, I:M:w:ku-re-we, I:MUL:w:e-re-ta, I:OVIS:w:ra-pte-re, I:OVIS:w:a-mi-ni-so, I:OVIS:w:ku-re-we, I:OVIS:w:ri-zo, I:OVIS:w:e-re-ta, I:LUNA:w:ke-ro-si-ja, I:E:w:te-re-ta
+  class 12: 7 pairs, 7 disjoint, offset cos 0.75: I:FAR:I:WE, I:HORD:I:OVIS+TA, w:o-no:I:TELA+TE, w:ka-ma:I:M, w:zo-wa:I:CAP, w:ka-pa:w:me-wi-jo-e, w:wa-no-jo:I:OVIS
+  class 13: 15 pairs, 7 disjoint, offset cos 0.72: I:TELA+TE:w:ri-zo, I:T:w:a-ta-o, I:M:w:ra-pte-re, I:Z:w:a-ko-da-mo, I:LANA:w:ke-ro-si-ja, I:ZE:w:ra-pte-re, I:DA:w:ke-ro-si-ja, I:OVIS:w:a-ta-o, I:OVIS+TA:w:ra-pte-re, I:OVIS+TA:w:e-re-ta, I:LUNA:w:a-ta-o, I:E:w:ra-pte-re ...
+  class 14: 12 pairs, 7 disjoint, offset cos 0.71: I:OVIS:w:ka-pa, I:VIR:I:FAR, I:M:I:FAR, I:X:w:ka-wi-jo, I:N:I:MA, I:LANA:I:FAR, I:ME:I:MA, I:P:w:zo-wa, I:P:w:wa-na-ta-jo, I:LUNA:I:FAR, I:CAP:w:a-ko-da-mo, I:WE:w:ko-no
+  class 15: 11 pairs, 7 disjoint, offset cos 0.68: I:V:I:M, I:T:I:N, I:Z:I:ZE, I:Z:I:L, I:FAR:I:ROTA, I:MA:I:AES, I:MA:I:RI, I:MA:I:O, I:MA:I:KE, w:ko-no:w:e-ru-ta-ra, w:ka-pa:w:ka-ko
+== calibration corpus Linear B lines (syllabic signs): 2643 texts, 25627 tokens, 187 distinct signs; nulls 50x (shuffle within position class)
+[Linear B lines (syllabic signs)] REAL rule4: links 4379, pairs linked 5073, stars 2144, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 425 holding 1396 pairs; sharp (cos >= 0.7) 105, big (>= 5 disjoint) 25, sharp+big 0  (13.0s)
+[Linear B lines (syllabic signs)] REAL rule2: links 22466, pairs linked 14281, stars 2880, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 940 holding 5305 pairs; sharp (cos >= 0.7) 163, big (>= 5 disjoint) 92, sharp+big 1  (16.7s)
+[Linear B lines (syllabic signs)] NULL pos rule4 (50x): n_links real 4379 vs null median 2892 [5-95% 2688-3045] P(>=) 0.020 P(<=) 1.000; n_classes real 425 vs null median 232 [5-95% 212-266] P(>=) 0.020 P(<=) 1.000; n_sharp real 105 vs null median 24 [5-95% 16-33] P(>=) 0.020 P(<=) 1.000; n_big real 25 vs null median 16 [5-95% 11-24] P(>=) 0.039 P(<=) 1.000; n_sharp_big real 0 vs null median 0 [5-95% 0-1] P(>=) 1.000 P(<=) 0.941  (770s)
+[Linear B lines (syllabic signs)] NULL pos rule2 (50x): n_links real 22466 vs null median 23044 [5-95% 22007-23945] P(>=) 0.824 P(<=) 0.196; n_classes real 940 vs null median 356 [5-95% 320-407] P(>=) 0.020 P(<=) 1.000; n_sharp real 163 vs null median 33 [5-95% 25-49] P(>=) 0.020 P(<=) 1.000; n_big real 92 vs null median 57 [5-95% 43-72] P(>=) 0.020 P(<=) 1.000; n_sharp_big real 1 vs null median 4 [5-95% 1-8] P(>=) 0.980 P(<=) 0.078  (770s)
+-- Linear B lines (syllabic signs) offset classes rule 4:
+  class 1: 7 pairs, 7 disjoint, offset cos 0.52: tu:qi, ko:ki, sa:so, pu:me, nu:si, su:de, *35:au
+  class 2: 7 pairs, 7 disjoint, offset cos 0.52: qi:tu, so:sa, me:pu, si:nu, de:su, ki:ko, au:*35
+  class 3: 6 pairs, 6 disjoint, offset cos 0.62: qe:a, ke:pu, te:sa, re:*63, no:*49, *79:*35
+  class 4: 5 pairs, 5 disjoint, offset cos 0.65: po:ze, pa:te, tu:*79, pu:a2, du:*65
+  class 5: 5 pairs, 5 disjoint, offset cos 0.65: ro:sa, ra:*56, re:ka, qe:pa, *79:tu
+  class 6: 5 pairs, 5 disjoint, offset cos 0.61: e:qe, ka:u, pu:ra, je:jo, pte:te
+  class 7: 5 pairs, 5 disjoint, offset cos 0.59: re:*34, to:a3, ra:mu, ta:ko, di:*35
+  class 8: 5 pairs, 5 disjoint, offset cos 0.57: ke:mo, ko:*22, ta:I:GRA, pi:i, qe:I:OLE+A
+  class 9: 5 pairs, 5 disjoint, offset cos 0.57: qe:da, ro:de, ke:pe, me:qa, a2:*22
+  class 10: 5 pairs, 5 disjoint, offset cos 0.55: pe:I:LUNA, i:I:BOS, pi:I:TUN+KI, da:I:VIR, de:I:SUS+SI
+  class 11: 5 pairs, 5 disjoint, offset cos 0.55: pa:I:PYC, e:pe, ka:I:GRA, ma:mo, pu:I:CYP+O
+  class 12: 5 pairs, 5 disjoint, offset cos 0.54: po:I:MA, ko:I:CYP, pa:I:CYP+O, ku:I:Z, I:TELA+TE:I:SA
+  class 13: 5 pairs, 5 disjoint, offset cos 0.54: I:TA:I:OLIV+TI, I:VIR:I:AROM, I:AUR:I:NI, I:OLE+PA:I:GRA, I:RE:I:CYP+KU
+  class 14: 5 pairs, 5 disjoint, offset cos 0.54: I:OLIV+TI:I:TA, I:GRA:I:OLE+PA, I:NI:I:AUR, I:AROM:I:VIR, I:CYP+KU:I:RE
+  class 15: 5 pairs, 5 disjoint, offset cos 0.53: mo:a2, pe:e, I:GRA:qo, de:o, I:CYP+O:*63
+-- Linear B lines (syllabic signs) offset classes rule 2:
+  class 1: 26 pairs, 7 disjoint, offset cos 0.57: a:dwo, e:ti, o:ni, ko:*64, pa:ni, ka:ni, u:ri, wa:ni, pi:nwa, do:ri, po:ni, ki:*64 ...
+  class 2: 14 pairs, 7 disjoint, offset cos 0.53: *34:dwo, ke:ri, ko:*56, re:ri, pi:wi, ne:wi, nu:ni, mu:ni, *65:ni, two:ni, two:*64, *79:ni ...
+  class 3: 10 pairs, 7 disjoint, offset cos 0.53: *64:I:SUS+KA, ri:I:MO, ri:*49, i:I:CYP+O, ti:I:PYC+O, ne:*63, ni:I:TUN+KI, ni:I:PYC+O, mi:I:TUN+KI, *22:I:CYP+KU
+  class 4: 9 pairs, 7 disjoint, offset cos 0.53: to:po, ro:da, te:pa, ra:ko, u:du, wo:du, me:pu, a2:pu, a2:pu2
+  class 5: 21 pairs, 7 disjoint, offset cos 0.52: sa:I:P, to:I:N, o:I:N, ko:I:N, te:I:M, pa:I:M, pa:I:TUN+KI, ka:I:M, wo:I:M, wo:I:L, so:I:N, si:I:M ...
+  class 6: 15 pairs, 7 disjoint, offset cos 0.51: pa:I:PYC, e:pe, ka:I:GRA, ka:I:OLIV+TI, wo:I:GRA, po:I:AROM, ma:mo, ku:I:AROM, ku:I:A, qo:I:GRA, pu:I:CYP+O, du:I:GRA ...
+  class 7: 25 pairs, 7 disjoint, offset cos 0.51: ta:I:MO, ko:*35, te:I:N, te:I:P, te:I:A, te:I:L, te:I:ARB, te:I:RE, te:I:DE, te:I:TUN+KI, te:I:PYC+O, ja:dwo ...
+  class 8: 16 pairs, 6 disjoint, offset cos 0.63: ke:I:OLE+A, ro:I:OLE, ko:I:MA, re:I:OLE, na:I:OLE+PA, so:I:OLE, pi:I:OLE, qe:I:OLE, ki:I:OLE, a2:I:OLE, ra2:I:HORD, ra2:I:FAR ...
+  class 9: 10 pairs, 6 disjoint, offset cos 0.61: ro:I:OLIV, ra:I:OLIV+A, re:I:OLIV+A, re:I:GRA+PE, na:I:OLIV+A, so:I:OLIV+A, do:I:PYC+O, qe:I:T, qe:I:OLIV+A, ne:I:HORD
+  class 10: 9 pairs, 6 disjoint, offset cos 0.60: sa:I:RI, wo:I:KO, wa:I:KE, do:I:N, ru:I:KE, qa:I:ME, su:I:KE, *49:I:N, *49:I:O
+  class 11: 14 pairs, 6 disjoint, offset cos 0.59: pi:I:N, e:I:M, ta:I:L, i:I:O, da:I:ME, da:I:O, da:I:P, do:I:M, qe:I:L, po:I:O, ku:I:O, du:I:RI ...
+  class 12: 12 pairs, 6 disjoint, offset cos 0.57: e:je, a:jo, a:qo, a:*65, ka:jo, so:jo, pi:jo, qe:jo, ki:ni, sa:jo, qa:ja, pu:*65
+  class 13: 7 pairs, 6 disjoint, offset cos 0.56: ri:ra2, i:two, ti:ko, ti:*79, wi:*65, ni:ze, qa:*35
+  class 14: 16 pairs, 6 disjoint, offset cos 0.56: I:AES:I:SUS+SI, I:ME:I:S, I:RI:I:P, I:O:I:Z, I:O:I:P, I:KE:I:AUR, I:KE:I:DA, I:KE:ze, I:KE:au, I:KE:I:NI, I:KE:mu, I:KE:*34 ...
+  class 15: 22 pairs, 6 disjoint, offset cos 0.56: to:*63, ro:*34, o:*35, te:*35, wo:*35, me:*35, si:I:ARB, si:*35, do:*35, qe:*34, po:*35, ki:pu ...
+== calibration corpus Proto-Elamite lines: 2792 texts, 9757 tokens, 554 distinct signs; nulls 50x (shuffle within position class)
+[Proto-Elamite lines] REAL rule4: links 4878, pairs linked 5385, stars 2117, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 453 holding 1450 pairs; sharp (cos >= 0.7) 46, big (>= 5 disjoint) 9, sharp+big 0  (6.1s)
+[Proto-Elamite lines] REAL rule2: links 23309, pairs linked 14404, stars 2647, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 615 holding 3420 pairs; sharp (cos >= 0.7) 70, big (>= 5 disjoint) 35, sharp+big 1  (7.6s)
+[Proto-Elamite lines] NULL pos rule4 (50x): n_links real 4878 vs null median 4958 [5-95% 4784-5129] P(>=) 0.745 P(<=) 0.275; n_classes real 453 vs null median 378 [5-95% 348-411] P(>=) 0.020 P(<=) 1.000; n_sharp real 46 vs null median 22 [5-95% 15-32] P(>=) 0.020 P(<=) 1.000; n_big real 9 vs null median 10 [5-95% 5-18] P(>=) 0.686 P(<=) 0.373; n_sharp_big real 0 vs null median 0 [5-95% 0-1] P(>=) 1.000 P(<=) 0.941  (384s)
+[Proto-Elamite lines] NULL pos rule2 (50x): n_links real 23309 vs null median 27196 [5-95% 25908-28370] P(>=) 1.000 P(<=) 0.020; n_classes real 615 vs null median 369 [5-95% 331-404] P(>=) 0.020 P(<=) 1.000; n_sharp real 70 vs null median 12 [5-95% 4-23] P(>=) 0.020 P(<=) 1.000; n_big real 35 vs null median 34 [5-95% 28-44] P(>=) 0.471 P(<=) 0.627; n_sharp_big real 1 vs null median 0 [5-95% 0-1] P(>=) 0.216 P(<=) 0.980  (384s)
+-- Proto-Elamite lines offset classes rule 4:
+  class 1: 6 pairs, 6 disjoint, offset cos 0.51: M003:M254, M219:M262, M072:M320, M005:M247, M373:M325, M220:M230
+  class 2: 5 pairs, 5 disjoint, offset cos 0.59: M387:M265, M352:M354, M157:M297, M125:M036, M384:M105
+  class 3: 5 pairs, 5 disjoint, offset cos 0.55: M386:M367, M263:M072, M295:M269, M110:M362, M332:M348
+  class 4: 5 pairs, 5 disjoint, offset cos 0.53: M297:M329, M288:M101, M072:M373, M002:M220, M039:M384
+  class 5: 5 pairs, 5 disjoint, offset cos 0.53: M243:M128, M010:M338, M002:M260, M075:M109, M319:M246
+  class 6: 5 pairs, 5 disjoint, offset cos 0.52: M388:M269, M124:M032, M305:M365, M377:M075, M352:M304
+  class 7: 5 pairs, 5 disjoint, offset cos 0.52: M218:M390, M263:M251, M223:M314, M101:M102, M329:M006
+  class 8: 5 pairs, 5 disjoint, offset cos 0.52: M288:M302, M218:M149, M010:|M305+X|, n:|M351+1(N14)|, M220:M384
+  class 9: 5 pairs, 5 disjoint, offset cos 0.51: M097:M109, M004:M230, M352:M242, M259:M223, M390:M338
+  class 10: 4 pairs, 4 disjoint, offset cos 0.76: N:N39B:M251, N:N14:M024, N:N24:M318, N:N30D:M193
+  class 11: 4 pairs, 4 disjoint, offset cos 0.66: M338:|M351+1(N14)|, M314:M105, M110:M384, M390:M193
+  class 12: 4 pairs, 4 disjoint, offset cos 0.66: M251:M010, M386:M243, M318:M002, M024:n
+  class 13: 4 pairs, 4 disjoint, offset cos 0.64: N:N39B:M295, N:N14:M048, N:N24:M341, N:N30D:M332
+  class 14: 4 pairs, 4 disjoint, offset cos 0.64: M251:M230, M263:M223, M024:M004, M390:M240
+  class 15: 4 pairs, 4 disjoint, offset cos 0.64: M230:M251, M004:M024, M240:M390, M223:M263
+-- Proto-Elamite lines offset classes rule 2:
+  class 1: 27 pairs, 8 disjoint, offset cos 0.50: M009:M373, M004:M329, M262:M219, M262:M128, M262:M340, M097:M101, M318:M317, M024:M329, M099:M376, M099:M003, M099:M240, M099:M131 ...
+  class 2: 19 pairs, 7 disjoint, offset cos 0.57: N:N23:M105, N:N01:M288, N:N01:M056, N:N01:M206, N:N01:n, N:N01:M041, N:N01:M369, N:N14:M243, N:N14:M075, N:N14:M325, N:N30C:M297, N:N30C:M036 ...
+  class 3: 9 pairs, 7 disjoint, offset cos 0.55: M297:M109, M288:M240, M288:M230, M346:M242, M376:M230, M072:M242, M072:M281, M010:M254, M002:M097
+  class 4: 9 pairs, 7 disjoint, offset cos 0.53: M259:M002, M004:M036, M032:M288, M219:M288, M219:M010, M295:M297, M295:M265, M102:M105, |M131+M388|:n
+  class 5: 14 pairs, 7 disjoint, offset cos 0.52: N:N01:M362, N:N14:M054, N:N39B:M054, N:N30C:M347, N:N24:M254, N:N23:M383, N:N08A:M346, N:N08A:M003, N:N08A:M072, N:N08A:M206, N:N08A:M348, N:N08A:M041 ...
+  class 6: 10 pairs, 6 disjoint, offset cos 0.59: M097:M002, M004:M297, M352:n, M347:M297, M259:M010, M146:M243, M099:M010, M102:M010, M102:n, M102:M041
+  class 7: 14 pairs, 6 disjoint, offset cos 0.57: N:N51:M006, N:N01:M005, N:N14:M005, N:N14:M291, N:N14:M247, N:N14:M341, N:N14:M323, N:N39B:M005, N:N39B:M319, N:N34:M001, N:N45:M005, N:N23:M146 ...
+  class 8: 13 pairs, 6 disjoint, offset cos 0.55: M371:N:N08A, M218:N:N14, M346:N:N14, M004:N:N01, M377:N:N14, M097:N:N23, M318:N:N01, M318:N:N45, M380:N:N14, M260:N:N14, M033:N:N01, M105:N:N23 ...
+  class 9: 15 pairs, 6 disjoint, offset cos 0.54: M072:M373, M297:M329, M354:M122, M056:M340, M056:M122, M010:M340, M206:M149, M206:M384, M206:M340, M206:M369, |M036+1(N30D)|:M122, M292:M340 ...
+  class 10: 11 pairs, 6 disjoint, offset cos 0.51: M101:N:N08A, M218:N:N34, M371:N:N34, M004:N:N34, M032:N:N34, M219:N:N39B, M131:N:N14, M338:N:N34, M301:N:N14, M329:N:N01, |M351+1(N14)|:|M153+M342|
+  class 11: 8 pairs, 6 disjoint, offset cos 0.51: M295:M251, M048:M024, M048:M099, M223:M314, M223:M110, M075:M318, M332:M390, M341:M193
+  class 12: 10 pairs, 6 disjoint, offset cos 0.51: M054:M072, M387:M010, M387:M206, M175:M296, M110:M314, M340:n, M122:M243, M122:M105, M122:|M153+M342|, M122:M369
+  class 13: 14 pairs, 6 disjoint, offset cos 0.51: M281:M365, M048:M291, M240:M373, M240:M384, M242:M387, M247:M319, M109:M075, M109:M325, M109:M105, M109:M383, M109:M195, M109:|M218+M288| ...
+  class 14: 18 pairs, 6 disjoint, offset cos 0.50: M006:N:N51, M001:N:N34, M376:N:N39B, M377:N:N39B, M370:N:N08A, M304:N:N14, M243:N:N39B, M266:N:N30C, M203:N:N14, M005:N:N08A, M139:N:N39B, M175:N:N39B ...
+  class 15: 7 pairs, 5 disjoint, offset cos 0.72: N:N39B:M251, N:N14:M024, N:N14:M390, N:N30C:M009, N:N24:M318, N:N24:M099, N:N30D:M193
+== Indus seq_raw MD+H with position-only labels (no S310 slots): 2840 texts
+[indus-pos] REAL rule4: links 4754, pairs linked 5336, stars 2156, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 451 holding 1484 pairs; sharp (cos >= 0.7) 92, big (>= 5 disjoint) 25, sharp+big 0  (5.8s)
+[indus-pos] REAL rule2: links 24547, pairs linked 14754, stars 2848, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) 848 holding 4619 pairs; sharp (cos >= 0.7) 128, big (>= 5 disjoint) 86, sharp+big 0  (7.9s)
+[indus-pos] NULL pos rule4 (50x): n_links real 4754 vs null median 4956 [5-95% 4695-5242] P(>=) 0.882 P(<=) 0.137; n_classes real 451 vs null median 409 [5-95% 367-462] P(>=) 0.098 P(<=) 0.922; n_sharp real 92 vs null median 20 [5-95% 12-31] P(>=) 0.020 P(<=) 1.000; n_big real 25 vs null median 21 [5-95% 14-32] P(>=) 0.353 P(<=) 0.745; n_sharp_big real 0 vs null median 0 [5-95% 0-1] P(>=) 1.000 P(<=) 0.863  (364s)
+[indus-pos] NULL pos rule2 (50x): n_links real 24547 vs null median 28771 [5-95% 27510-30149] P(>=) 1.000 P(<=) 0.020; n_classes real 848 vs null median 367 [5-95% 326-396] P(>=) 0.020 P(<=) 1.000; n_sharp real 128 vs null median 4 [5-95% 1-9] P(>=) 0.020 P(<=) 1.000; n_big real 86 vs null median 33 [5-95% 23-47] P(>=) 0.020 P(<=) 1.000; n_sharp_big real 0 vs null median 0 [5-95% 0-1] P(>=) 1.000 P(<=) 0.902  (364s)
+done

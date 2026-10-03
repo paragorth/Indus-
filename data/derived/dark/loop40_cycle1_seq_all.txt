@@ -98,3 +98,46 @@ REAL minlen=1: n=1168 2-way 88 (0.075) 2-or-3-way 157 (0.134) cut at frame bound
   null slot-shuffle (200x): 2-way median 25 [19-32] P=0.0050; 2-or-3-way median 52 [41-63] P=0.0050; ratio real/null 3.02; cut-at-boundary share null 0.11 vs real 0.12
   null text-shuffle (200x): 2-way median 1 [0-5] P=0.0050; 2-or-3-way median 8 [3-14] P=0.0050; ratio real/null 19.62; cut-at-boundary share null 0.27 vs real 0.12
 REAL minlen=2: n=1168 2-way 62 (0.053) 2-or-3-way 64 (0.055) cut at frame boundary 8/64
+  null slot-shuffle (200x): 2-way median 21 [15-27] P=0.0050; 2-or-3-way median 23 [15-30] P=0.0050; ratio real/null 2.78; cut-at-boundary share null 0.09 vs real 0.12
+  null text-shuffle (200x): 2-way median 1 [0-3] P=0.0050; 2-or-3-way median 1 [0-3] P=0.0050; ratio real/null 64.00; cut-at-boundary share null 0.52 vs real 0.12
+  examples (text | units | copies of each unit as a complete text):
+    33-700-176-740-400 = 89-328(x120) | 48-342-176(x38)  boundary: closer
+    861-368-690-32-700 = 267-402-149(x7) | 87-328(x88)  boundary: none
+    861-368-690-34-700 = 267-402-149(x7) | 34-328(x103)  boundary: none
+    861-2-705-33-520 = 267-99(x7) | 336-89-211(x5)  boundary: none
+    861-2-255-435-690-740 = 267-99(x7) | 51-130-149-342(x5)  boundary: none
+    861-2-240-630-740 = 267-99(x7) | 67-244-342(x3)  boundary: none
+    3-220-740-90-400 = 102-59-342(x5) | 1-176(x3)  boundary: closer
+    861-2-590-390-740 = 267-99(x7) | 249-161-342(x3)  boundary: none
+    415-100-740-90-400 = 171-8-342(x3) | 1-176(x3)  boundary: closer
+    861-2-240-643-740 = 267-99(x7) | 67-244-342(x3)  boundary: none
+    861-2-235-555-527 = 267-99(x7) | 65-222-254(x3)  boundary: none
+    861-2-503-460-740 = 267-99(x7) | 204-230-342(x3)  boundary: none
+    861-2-415-100-740 = 267-99(x7) | 171-8-342(x3)  boundary: none
+    840-32-740-90-400 = 403-87-342(x8) | 1-176(x3)  boundary: closer
+    861-2-235-590-390-740 = 267-99(x7) | 65-249-161-342(x3)  boundary: none
+    861-2-240-904-740 = 267-99(x7) | 67-294-342(x2)  boundary: none
+    861-2-3-220-590-390-740 = 267-99(x7) | 102-59-249-161-342(x2)  boundary: none
+    861-2-17-585-740 = 267-99(x7) | 110-194-342(x2)  boundary: none
+    861-2-792-740-90 = 267-99(x7) | 375-342-1(x2)  boundary: none
+    861-2-840-32-844-390 = 267-99(x7) | 403-87(x1) | 406-161(x1)  boundary: none,none
+    861-2-803-235-520 = 267-99(x7) | 387-65-211(x1)  boundary: none
+    820-2-5-900-740 = 391-99(x1) | 106-287-342(x4)  boundary: none
+    550-60-590-390-740 = 216-123(x1) | 249-161-342(x3)  boundary: none
+    388-740-400-33-700 = 327-342-176(x1) | 89-328(x120)  boundary: closer
+    550-525-400-34-700 = 216-525-176(x1) | 34-328(x103)  boundary: closer
+
+### generated corpora as null (exact matching; units = REAL attested texts)
+  S366 best (textreuse+closerdep+type+open+site) (10 corpora, 1096 long texts each) minlen=1: decomposable share 0.056 [0.047-0.070] (2-way 0.019) vs REAL MD+H 0.128 (2-way 0.081); cut-at-boundary 0.09 vs real 0.15
+  S366 best (textreuse+closerdep+type+open+site) (10 corpora, 1096 long texts each) minlen=2: decomposable share 0.015 [0.010-0.021] (2-way 0.013) vs REAL MD+H 0.055 (2-way 0.054); cut-at-boundary 0.14 vs real 0.15
+  S366 M0 slot grammar (no reuse) (10 corpora, 1238 long texts each) minlen=1: decomposable share 0.059 [0.050-0.073] (2-way 0.018) vs REAL MD+H 0.128 (2-way 0.081); cut-at-boundary 0.06 vs real 0.15
+  S366 M0 slot grammar (no reuse) (10 corpora, 1238 long texts each) minlen=2: decomposable share 0.017 [0.011-0.024] (2-way 0.013) vs REAL MD+H 0.055 (2-way 0.054); cut-at-boundary 0.11 vs real 0.15
+  order-2 chain, no slots (10 corpora, 1006 long texts each) minlen=1: decomposable share 0.167 [0.156-0.185] (2-way 0.109) vs REAL MD+H 0.128 (2-way 0.081); cut-at-boundary 0.10 vs real 0.15
+  order-2 chain, no slots (10 corpora, 1006 long texts each) minlen=2: decomposable share 0.074 [0.065-0.087] (2-way 0.070) vs REAL MD+H 0.055 (2-way 0.054); cut-at-boundary 0.07 vs real 0.15
+
+### random-concatenation control: join two attested short texts (2-4 signs, drawn by object count)
+  join point: {'closer': 3141, 'both': 265, 'none': 1465, 'opener': 129} -> frame boundary share 0.71; joined text itself attested 4/5000 = 0.0008
+  real decomposable long texts: cut kinds {'none': 53, 'closer': 8}
+  base rate: share of 2-4-sign complete texts ending in a paradigm closer or suffix = 0.68; starting with an opener 0.08
+
+# done

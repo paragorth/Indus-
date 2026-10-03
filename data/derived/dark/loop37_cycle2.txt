@@ -1,0 +1,35 @@
+S-DARK-37 cycle 2 (arrow B: the sides are paraphrases / abbreviations / grade-swaps of one message)
+Scripts: tools/dark_loop37_c2.py <level> 500 (face-pair similarity vs matched null), tools/dark_loop37_c2b.py <level> 1000 (repeated face-SETS)
+Outputs: data/derived/dark/loop37_c2_<level>.txt, loop37_c2b.txt. 766 collapsed multi-sided objects, 914 face pairs.
+Null for every pair statistic: face 2 replaced by a face of ANOTHER object of the same site x type x length (500x).
+
+Pair statistics (all 914 pairs | 459 pairs after removing count faces | Mohenjo-daro 138 | seals 74 | Harappa tablets without count faces 264):
+  any shared sign           0.150 vs null 0.197 (P_lo = 0.002) | 0.261 vs 0.208 (P = 0.002) | 0.268 vs 0.221 | 0.230 vs 0.142 | 0.205 vs 0.188 (P = 0.25)
+  mean Jaccard              0.063 vs 0.070 | 0.114 vs 0.060 | 0.161 vs 0.045 | 0.114 vs 0.029 | 0.074 vs 0.063 (P = 0.12)
+  shared middle sign        0.123 vs 0.076 (P = 0.002) | 0.209 vs 0.082 | 0.254 vs 0.102 | 0.230 vs 0.045 | 0.178 vs 0.067
+  identical face texts      27 vs 19.7 | 26 vs 7.9 | 16 vs 1.0 | 3 vs 0.2 | 7 vs 4.8
+  same middle (any closer)  28 vs 19.6 | 26 vs 5.5 | 16 vs 0.8 | 3 vs 0 | 7 vs 2.5   -> 27 of the 28 are the identical-text pairs
+  GRADE SWAP (same middle, different closer)  1 vs 0.5 | 0 | 0 | 0 | 0   (the one: H-1321 32-226-400 vs 32-700, a count variant)
+  ABBREVIATION (shorter face a subsequence of the longer, >= 2 signs)  12 vs 5.6 (P = 0.008) | 11 vs 1.6 (P = 0.002) | 5 vs 0.3 | 5 vs 0.2 | 1 vs 0.7
+  same closer, different middle  21 vs 78 (P_lo = 0.002): two closed faces on one object are rare (cycle 1), and when both are closed the closer is the same in 35/45 (null 29, P_lo = 0.99)
+  mean normalised edit distance 0.932 vs 0.908 (faces are LESS alike than random same-length faces, all pairs); 0.878 vs 0.898 without count faces
+Three merge levels agree (seq_all: abbrev 12 vs 6.0, P = 0.018; grade 1 vs 0.4; identical 25 vs 20).
+
+The 12 abbreviation pairs (recorded order face 1 | face 2):
+  H-2015 TAB:B 235-705-33 | 817-2-832-235-705-33-520 ; H-2211 TAB:I 32-700 | 741-32-840-700 ; H-102 SEAL:S 861-741 | 861-741-240-630-740 ; H-689 SEAL:S 575-407-746 | 575-407 ;
+  M-1989 SEAL:R 798-17-575-740-679 | 575-740-679 ; M-1927 SEAL:S 817-2-5-390 | 817-2-5 ; M-318 SEAL:S 575-31 | 575-31-2-3-390 ; M-1397 TAB:B 705-167 | 360-705-167 ;
+  M-2021 TAB:B 927-740-31-95 | 927-740 ; Lothal TAG 820-2-520 | 820-2 ; TAG 820-2-520 | 2-520 ; TAG 55-740-90 | 740-90.
+  Six of twelve are on seals (5 of 74 seal pairs vs 0.2 expected): a two-sided seal often carries a long legend and a shortened form of it (opener kept: 817-2-5-390 / 817-2-5; 861-741 / 861-741-...-740).
+Which signs are shared between faces (no count faces, obs vs null): W3 22 vs 3.6, W33 11 vs 2.8, W2 13 vs 6.3, W220 9 vs 3.6, W575 4 vs 0.3, W817 4 vs 0.3; W740 35 vs 45 (below chance).
+  The W3 excess is one hand-incised Harappa series, '3-156 | 3-861 (| 34-700)', 20-21 copies; the W33 excess is the '413-575-335-711-33-700 | 240-705-33-550-525-400' moulds.
+
+Face-SETS recur as units (tools/dark_loop37_c2b.py; uncollapsed, null = face texts reassigned among objects of the same site x type, 1,000x):
+  Harappa TAB:I (hand-incised, so not mould copies): 125 of 342 objects carry a whole face-set seen on another object (35 sets) vs 56 expected (P < 0.001):
+     3-156 | 3-861 | 34-700 x20 ; 33-700 | 176-740-400 x17 ; 34-700 | 176-740-400 x8 ; 255-435-156-400 | 590-706-868 x5 (x8 at seq_strong/all) ; 34-700 | 416-861-2 x5.
+  Harappa TAB:B 79 vs 35 (P < 0.001); Mohenjo-daro 27 vs 0.4 (P < 0.001; 231-17-585-95-520-32-407 | 777 x4; 323-690 | 550-60-690-740 x3; 5-706 | 233-585-407 x3);
+  incised objects with count faces removed 68 of 168 vs 13 (P < 0.001). Same at all three levels.
+
+Verdict: arrow B is dead as paraphrase. No grade-swap pairs (0-1 vs 0.4 expected) and faces are on average LESS alike than random same-type faces; the excess similarity is (i) the same text repeated on two sides (27 pairs, mostly Mohenjo-daro moulded tablets and tags), (ii) 12 abbreviation pairs, half of them on seals (5 vs 0.2), the one real B-type signal, and (iii) fixed multi-face stock sets.
+Against pure C: the pairing of face texts is itself a stock unit, repeated on 125 hand-incised Harappa tablets (vs 56) and 27 Mohenjo-daro objects (vs 0.4): the faces are not entries drawn independently from a ledger but fixed fields of one object type.
+
+| S-DARK-37.2 | **Multi-sided objects, arrow B (sides as paraphrases). For the 914 face pairs of the 766 collapsed multi-sided objects: any shared sign, Jaccard, shared middle sign (S310 parser), identical text, same middle, grade swap (same middle, different closer), abbreviation (shorter face a subsequence of the longer, >= 2 signs), same closer with different middle, normalised edit distance; null = face 2 replaced by a face of another object of the same site x type x length (500x); subsets without count faces, Mohenjo-daro, seals, sealings, Harappa tablets. Plus (2b) do whole face-SETS recur on other objects more than if face texts were assigned independently within site x type (1,000x), on hand-incised Harappa TAB:I, moulded TAB:B and Mohenjo-daro separately. seq_raw / seq_strong / seq_all (`tools/dark_loop37_c2.py`, `tools/dark_loop37_c2b.py`; `data/derived/dark/loop37_c2_<level>.txt`, `loop37_c2b.txt`)** | Grade swaps 1 of 914 vs 0.5 expected (the one is a count variant, 32-226-400 / 32-700); same middle 28 vs 19.6 but 27 of them are identical texts repeated on two sides (26 vs 7.9 without count faces; Mohenjo-daro 16 vs 1.0); abbreviation pairs 12 vs 5.6 (P = 0.008; without count faces 11 vs 1.6; seals 5 of 74 pairs vs 0.2: 817-2-5-390 / 817-2-5, 861-741 / 861-741-240-630-740, 575-407-746 / 575-407, 798-17-575-740-679 / 575-740-679, 575-31 / 575-31-2-3-390); any shared sign 0.150 vs 0.197 and edit distance 0.932 vs 0.908, i.e. faces are LESS alike than random same-length faces; same closer with different middle 21 vs 78. The shared-middle excess (0.123 vs 0.076) is two stock series (hand-incised '3-156 | 3-861 | 34-700' x20; moulds '413-575-335-711-33-700 | 240-705-33-550-525-400'). (2b) whole face-sets recur on 125 of 342 hand-incised Harappa tablets vs 56 expected (P < 0.001; 35 sets), 79 of 326 moulded vs 35, 27 of 104 Mohenjo-daro objects vs 0.4 (231-17-585-95-520-32-407 | 777 x4; 323-690 | 550-60-690-740 x3; 5-706 | 233-585-407 x3). All three levels agree | **B dead as paraphrase: no synonym or grade-swap pairs; the sides never restate one message with another closer.** Two side-effects survive: (i) 12 abbreviation pairs, concentrated on two-sided seals (a legend and its shortened form, opener kept), a small lexical lead worth a photo check; (ii) the face-set is a stock unit even when hand-incised, so the sides are not independent ledger entries (against pure C) but fixed fields of one object type, the S93 voucher being the commonest. Harappa + Mohenjo-daro only; MD prisms 60 pairs, no abbreviation, 7 identical |
