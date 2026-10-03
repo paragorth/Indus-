@@ -1,0 +1,42 @@
+S-DARK-34 cycle 1: THE CHECKSUM HUNT, sign targets (3 Oct 2026)
+Engine: tools/dark_loop34.py; driver tools/dark_loop34_c1.py (+ dark_loop34_cs.py for the class-sign plant); per-level
+logs in the scratchpad (loop34_c1_<level>.txt/json). Data: data/derived/merged-corpus-canonical.json (built from the
+older inscriptions.csv, see CLAUDE.md data caution; counts below come from that file) + data/raw/inscriptions.csv
+(boss) + data/im77/im77_corpus_lines.csv + im77_field_symbols.csv + data/derived/dark/loop27_sets.json ('new' = the
+324 IM77-only texts; 319 with >= 2 readable signs: 162 seals, 77 sealings, 47 tablets, 21 pots, 12 misc; mapped M -> W
+through the completed loop-27 bridge, 0 of 1,286 tokens unmapped).
+
+Design. Train = Mohenjo-daro + Harappa seals (1,224 complete, direction-recorded, >= 2 signs). Held-out (a) = seals
+from every other site (291); (b) = the 319 IM77-only texts. For each target the predictor sees everything else on
+the object: counts of the 120 commonest other signs, the sign before and after the hidden position (40 commonest),
+first/last remaining sign, text length, n distinct, n fish, n numerals, numeral-value sum, has opener / marker /
+suffix, object sub-type, and ARITHMETIC features (sum of W indices mod 2..13; sum of frequency ranks mod 2..13) so
+that a modular checksum is learnable. Models: decision tree (depth 8), random forest (80 trees), 5-NN (cosine).
+Labels reduced to the 12 commonest classes + OTHER. Baselines: modal class; slot-grammar baseline = modal class
+given the frame class of the rest (opener? marker? suffix? jar present? numeral present? length bucket).
+Planted controls through the same pipeline and the same hold-outs: (P1) target := class[(sum of other sign indices)
+mod 8] (a checksum); (P2) target := class[rank of first other sign mod 8] over the 40 commonest signs (a class sign
+fixed by content); (P3) training labels shuffled. P-values: one-sided binomial of the best model vs the slot rate.
+
+DETERMINISM TABLE, sign targets (seq_raw / seq_strong / seq_all; held-out accuracy of the best model)
+target        | sites: real        modal  slot   | IM77: real         modal  slot  | plant P1 (checksum) | plant P2 (class sign) | shuffled | top features
+first sign    | 0.68/0.71/0.70    0.64   0.60   | 0.71/0.70/0.70    0.69   0.68  | 1.00 / 1.00         | 0.94 / 0.94           | 0.63/0.68| next=W2, first=W2, has_marker  (= the opener slot: if the 2nd sign is the connective W2 the 1st is an opener)
+second sign   | 0.71/0.73/0.73    0.53   0.63   | 0.75/0.74/0.74    0.65   0.70  | 1.00 / 1.00         | 0.96 / 0.92           | 0.52/0.64| has_opener, first=W817/W861  (= opener -> connective W2, S18)
+penultimate   | 0.73/0.74/0.74    0.68   0.69   | 0.68/0.69/0.67    0.63   0.63  | 1.00 / 1.00         | 0.91 / 0.86           | 0.68/0.63| last=W90, prev=W590/W705 (= frozen pre-jar titles S229, arrow phrase S299)
+last sign     | 0.51/0.56/0.54    0.31   0.40   | 0.38/0.42/0.39    0.23   0.25  | 1.00 / 1.00         | 0.91 / 0.89           | 0.34/0.26| n_distinct, count_W740 (jar elsewhere -> not jar-final), length, sumW_mod13 (noise)
+which closer  | 0.69/0.69/0.69    0.61   0.63   | 0.60/0.60/0.59    0.54   0.52  | 1.00 / 1.00         | 0.90 / 0.90           | 0.61/0.54| prev=W33 (tall 3 -> arrow W520), last=W220 (fish -> arrow), prev=W550 (-> W527): S289/S299 closer units
+closer vs name| 0.68/0.73/0.71    0.56   0.65   | 0.66/0.65/0.67    0.52   0.60  | 1.00 / 1.00         | 0.96 / 0.95           | 0.56/0.53| n_fish, count_W740, length
+(which closer: the closer position is hidden and only closer-ended texts are scored, n = 802 train / 163 sites /
+167 IM77; closer vs name: the last non-suffix position is hidden on every text. An earlier run that left the closer
+visible scored 0.96 and was discarded as a leak.)
+
+Reading. The machine works: a planted modular checksum is recovered at 1.00 on both hold-outs by the depth-8 tree
+(5-NN cannot see it, 0.3-0.4), a planted class-sign lookup at 0.86-0.96, and shuffled labels fall to the modal rate.
+No real target comes near either planted level. The gains over the slot baseline are real but small (sites +0.04 to
++0.14, IM77 0 to +0.13) and every carrying feature is a frame rule already in GRAMMAR.md: opener -> connective,
+tall-3 / fish -> arrow closer, W550 -> W527, jar elsewhere -> no jar at the end, W590/W705 before the end. The
+arithmetic features (sum mod k) never carry a real target; they appear among the top features only with
+importances of 0.02-0.03, the level of noise (they are the top features for the label-shuffled runs as well).
+Transcription-robust across the three merge levels (all numbers within 0.05).
+
+| S-DARK-34.1 | **Checksum hunt, sign targets.** For each hidden position (first, second, penultimate, last, the closer with its position hidden, closer-vs-name-final) train a decision tree / random forest / 5-NN on Mohenjo-daro + Harappa seals (1,224) from everything else on the object (counts of the other signs, neighbours of the hidden slot, length, sub-type, emblem/material/boss/shape, and sum-of-sign-indices mod 2..13 so a modular check is learnable); score on seals of the other sites (291) and the 319 IM77-only texts of S-DARK-27.3 (M -> W through the completed bridge). Baselines: modal class and slot-grammar modal (frame class of the rest). Planted controls through the same pipeline: target := class[sum of other indices mod 8] (checksum), target := lookup[first other sign] (class sign), labels shuffled. Three merge levels (`tools/dark_loop34.py`, `dark_loop34_c1.py`) | Planted checksum recovered 1.00 / 1.00 (sites / IM77) for every target; planted class sign 0.86-0.96; shuffled labels fall to the modal rate (0.3-0.7). Real targets, best model vs slot baseline, sites then IM77: first sign 0.68-0.71 vs 0.60 (IM77 0.70 vs 0.68, P = 0.2); second sign 0.71-0.73 vs 0.63 (0.74 vs 0.70); penultimate 0.73 vs 0.69 (0.68 vs 0.63); last sign 0.51-0.56 vs 0.40 (0.38-0.42 vs 0.25); which closer 0.69 vs 0.63 (0.60 vs 0.52); closer-vs-name 0.68-0.73 vs 0.65 (0.65 vs 0.60). Carrying features are all frame rules: next sign = W2 -> opener; opener -> W2; tall-3 or fish before the end -> arrow W520; W550 -> W527; jar elsewhere -> not jar-final. The sum-mod-k features never rank above noise (importance 0.02-0.03, same as in the shuffled runs). Levels agree within 0.05 | **No check sign and no class sign among the sign positions.** Every position is predictable from the rest only to the extent that GRAMMAR.md already says (opener-connective pairing, the ten closer units), i.e. 4-14 points above the slot baseline against a planted ceiling of 100. The last sign is the most 'determined' slot (0.51-0.56) and that determination is lexical (which closer unit), not arithmetic (data/derived/dark/loop34_cycle1.txt) |
