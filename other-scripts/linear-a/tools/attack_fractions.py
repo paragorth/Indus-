@@ -130,7 +130,7 @@ def is_cyclic(pairs):
 
 
 def solve(comps, secs, direction, family='any', hard_sum=True, require=(), priority='sum',
-          topk=1, by_group=False, objective='cost', fixed=None, time_limit=20, distinct=False):
+          topk=1, by_group=False, objective='cost', fixed=None, time_limit=20, distinct=False, mod1=False, drop=()):
     """Return up to topk systems ranked by priority:
          'sum' : fewest compounds >= 1, then most balanced sections, then lowest cost
          'bal' : most balanced, then fewest compounds >= 1, then lowest cost
@@ -138,6 +138,7 @@ def solve(comps, secs, direction, family='any', hard_sum=True, require=(), prior
        objective=('min'|'max', letter): bound search instead of cost."""
     P = pool(family)
     nv = len(P)
+    comps = [c for k, c in enumerate(comps) if (c['id'], '+'.join(c['f'])) not in drop]
     lname = lambda l, g: f'{l}@{g}' if by_group else l
     comps2 = [dict(c, f=[lname(l, c['grp']) for l in c['f']]) for c in comps]
     secs2 = [dict(s, coef={lname(l, SEC_GRP.get(s['id'], 'unknown')): c for l, c in s['coef'].items()}) for s in secs]
@@ -148,7 +149,8 @@ def solve(comps, secs, direction, family='any', hard_sum=True, require=(), prior
     nx = nL * nv
     ns = 0 if hard_sum else len(comps2)
     nb = len(secs2)
-    N = nx + ns + nb
+    nk = nb if mod1 else 0                  # integer slack: balance only the fractional part
+    N = nx + ns + nb + nk
     vals = np.array([p[0] for p in P], float)
     costs = np.array([p[1] for p in P], float)
     rows, lo, hi = [], [], []
@@ -170,10 +172,13 @@ def solve(comps, secs, direction, family='any', hard_sum=True, require=(), prior
         if hard_sum: rows.append(r); lo.append(-np.inf); hi.append(U - 1)
         else:
             r[nx + k] = -4 * U; rows.append(r); lo.append(-np.inf); hi.append(U - 1)
+    if mod1:                                # integer part is irrelevant mod 1
+        secs2 = [dict(s, const=0) for s in secs2]
     for k, s in enumerate(secs2):           # balanced indicator
-        M = (abs(s['const']) + sum(abs(c) for c in s['coef'].values()) + 1) * U
+        M = (abs(s['const']) + 2 * sum(abs(c) for c in s['coef'].values()) + 2) * U
         r = row()
         for l, c in s['coef'].items(): valrow(l, c, r)
+        if mod1: r[nx + ns + nb + k] = -U
         req = s['id'] in require
         r1 = r.copy(); r1[nx + ns + k] = M; rows.append(r1); lo.append(-np.inf); hi.append(-s['const'] * U + M)
         r2 = r.copy(); r2[nx + ns + k] = -M; rows.append(r2); lo.append(-s['const'] * U - M); hi.append(np.inf)
@@ -186,13 +191,16 @@ def solve(comps, secs, direction, family='any', hard_sum=True, require=(), prior
                 r = valrow(l, 1); rows.append(r); lo.append(v); hi.append(v)
     lb = np.zeros(N); ub = np.ones(N)
     for k, s in enumerate(secs2):
+        if mod1:
+            m = sum(abs(c) for c in s['coef'].values()); lb[nx + ns + nb + k] = -m; ub[nx + ns + nb + k] = m
+    for k, s in enumerate(secs2):
         if s['id'] in require: lb[nx + ns + k] = 1
     obj = np.zeros(N)
     if objective == 'cost':
         for l in letters: obj[li[l] * nv: li[l] * nv + nv] = costs
         W1, W2 = (1e6, 1e4) if priority == 'sum' else (1e4, 1e6)
         obj[nx:nx + ns] = W1
-        obj[nx + ns:] = -W2
+        obj[nx + ns:nx + ns + nb] = -W2
     else:
         sgn, l = objective
         if l not in li: return []
@@ -209,7 +217,7 @@ def solve(comps, secs, direction, family='any', hard_sum=True, require=(), prior
             j = int(np.argmax(x[li[l] * nv: li[l] * nv + nv])); val[l] = int(vals[j]); cost += costs[j]
             chosen.append(li[l] * nv + j)
         sv = len([c for c in comps2 if sum(val[l] for l in c['f']) >= U])
-        bal = [s['id'] for s in secs2 if s['coef'] and s['const'] * U + sum(c * val[l] for l, c in s['coef'].items()) == 0]
+        bal = [s['id'] for s in secs2 if s['coef'] and (s['const'] * U + sum(c * val[l] for l, c in s['coef'].items())) % (U if mod1 else 10**9) == 0]
         out.append({'values': val, 'sum_violations': sv, 'balanced': bal, 'cost': round(cost, 2),
                     'optimal': res.status == 0})
         cut = np.zeros(N); cut[chosen] = 1

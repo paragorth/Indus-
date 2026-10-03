@@ -1,0 +1,77 @@
+ATTACK 3: Do Proto-Elamite name-like strings read as Elamite names under Linear Elamite values?
+Scripts: tools/build_elamite_list.py (step 1), tools/attack_names.py (steps 2-4).
+Numbers: data/attack_names.json. Name lists: data/elamite_name_list_frozen.json, data/control_name_list_frozen.json.
+
+VERDICT
+No. The LE values do not make PE strings read as Elamite names more often than shuffled values do.
+This test gives no support for a phonetic (name-spelling) layer in Proto-Elamite.
+It does not rule one out either: the value set is a set of other people's graphic guesses, and most hits are too short to discriminate.
+
+STEP 1. FROZEN NAME LIST (built before any matching)
+Sources (public only):
+- R. Zadok, The Elamite Onomasticon (1984). Full OCR text on archive.org (TheElamiteOnomasticon1984).
+  Gives 300+ element headwords and the cited name spellings. OCR is noisy; š is often lost.
+- CDLI bulk ATF: all texts whose catalogue language includes Elamite. Words with {disz}/{m} (people) and {d}/{dingir} (gods).
+  Pre-Achaemenid: the Naram-Sin treaty god list, Middle Elamite royal bricks, Shutruk-Nahhunte on the Naram-Sin stele.
+- Wikipedia 'List of Elamite kings': royal names, Awan to Neo-Elamite. Akkadian governors and later rulers dropped.
+- Task-brief elements: kutir, šilhak, untaš, hutelutuš, kuk, temti, attahušu, inšušinak, napiriša, humban, kiririša, šimut, pinikir, nahhunte, etc.
+Counts: 2,448 name forms and 448 elements.
+- Dated names: OAkk/Old Akkadian 47, Ur III 10, OB 37, Middle Elamite/MB 72, Neo-Elamite 84, Awan/Old/Middle royal 64.
+- Achaemenid/RAE/NA/N-LB/SB: 363. These are mostly Iranian or foreign, so they are excluded from the test.
+- Undated (Zadok, period tag not parsed): 1,771. These are kept.
+Test set: 1,661 names and 322 elements with 2 or more vowels (N1 spelling).
+Control onomasticon: 5,887 syllabic {disz}/{m} names from CDLI Akkadian (4,889) and Sumerian (998) texts.
+
+DECLARED SPELLING RULES (same for PE and for names)
+- N1, Elamite phonology as Zadok states it: e=i, o=u, b=p, d=t, g=k, z=s.
+- Syllable breaks are removed and doubled letters are collapsed, so CV-VC 'ba-an' = 'ban'.
+- A dead final vowel is allowed, because matching is by substring.
+- N2: N1 plus š=s.
+
+STEP 2. PE STRINGS
+- Units: distinct sign strings from entry lines and header lines.
+- Kept if they have 2 or more signs, no 'x', at least 70% of signs with an LE value, and at least 2 valued signs.
+- 'Lenient' maps variants to the base sign: 318 strings, 55 signs.
+- 'Strict' keeps only the exact variant forms: 146 strings.
+- 'Middle' strips the opener/prefix (M387, M157, M370, M124...) and the final class sign (M288, M297, M263...): 224 (lenient) or 108 (strict) strings.
+- Only 32 of the 318 strings occur on 2 or more tablets.
+
+STEP 3-4. RESULTS (strings with at least one element hit; p = share of control runs scoring as high or higher)
+Lenient, full, N1: observed 107 of 318.
+  value shuffle (1,000)           mean 90.9  p=0.24
+  frequency-matched shuffle       mean 83.6  p=0.02
+  sign-order shuffle (300)        mean 89.0  p=0.003
+  Akkadian/Sumerian list (200)    mean 76.6  p=0.055
+  Exact whole-name hits: 21, against 15.1 under value shuffle (p=0.12) and 12.7 under the list control (p=0.005).
+Lenient, middle, N1 (the name-like middles themselves): observed 53 of 224.
+  value shuffle mean 61.4 p=0.65; frequency-matched p=0.37; order shuffle p=0.63; list control mean 43.3 p=0.19.
+Strict runs (full and middle, N1 and N2): all value-shuffle p between 0.11 and 0.85.
+N2 gives the same picture.
+Long hits: no string matched any element of 5 or more phonemes under N1, in any run.
+  Shuffled values give about 2 such hits on average.
+List x value interaction: the Elamite list beats the Akkadian/Sumerian list by about 30 strings with real values.
+  It beats it by 4 with shuffled values (p=0.14). The Elamite list wins partly whatever values are used,
+  because the LE values were themselves worked out from Elamite words (circularity).
+
+What the hits are: short 2-syllable chunks such as aha, api, upu, asu, ata, iki, kuri, napi.
+Many come from the frame grammar, not from middles:
+- M387 'na' + M263 'ha' = naha, which contains 'aha' (11 tablets).
+- Final M288 'pu' gives '...upu'.
+That is why the full-string run beats the frequency and order shuffles, while the middles do not.
+The best single item: M218 M259 M371 M223 = a-ha-ru-ra (variants on P008005, P008271, P008438). It contains 'ahar' (cf. Tepti-Ahar).
+That is one 4-phoneme match, well within chance.
+
+(c) FAMOUS CLAIM (Inšušinak / šu-ši)
+- No PE string reads in-šu-ši-na-ak, šušinak or anything close.
+- The LE value set has no plain n sign, so 'in-' cannot even be spelled.
+- šu = M226~c occurs only 6 times in the PE corpus.
+- The šu+še/ši bigram M226~c M032 occurs 3 times: M226~c M032 M218~b = šu-še-a on P008069, the same plus a prefix on P008628, and inside a long string on P008692.
+- That reads 'šuši-a' at best and is not followed by -na-ak.
+- Under N2, M220 M032 M032 (P008964) reads su-si-si.
+- These are 2-3 tablets. Not evidence.
+
+CAVEATS
+- 95% Susa. Sign values are read by eye from Desset et al. 2026 plates.
+- The Zadok OCR loses š, which lowers Elamite hits under N1.
+- 'Never/0 of n' results are upper bounds. Absence of a name says nothing about whether it existed.
+- A fair next test: a blind LE-to-PE match list made without PE distributions, and longer elements (5+ phonemes) as the only scored unit.

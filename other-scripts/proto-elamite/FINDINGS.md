@@ -131,3 +131,30 @@ Rules: data and sign lists from anyone; nobody's readings used as evidence. Ever
    - Success: a consistent amount shift with permutation p < 0.01 across at least 3 class signs.
 6. **Weak spot to fix first: data quality.** About half the totals fail, there are 2,640 `x` tokens, and Susa is 95% of the data.
    - Fix: check failing totals against photos and line art (CDLI has images for many MDP tablets) before using arithmetic as evidence. Report all results as Susa results.
+
+## Attack 1: do the name-like middles read as Elamite names with Linear Elamite values? (`tools/attack_names.py`; report in `data/attack_names_report.txt`)
+- **Name list, frozen before matching** (`data/elamite_name_list_frozen.json`): 2,448 names and 448 elements.
+  - Sources: Zadok 1984 OCR (noisy), CDLI Elamite texts, and royal and divine names.
+  - Achaemenid-era forms (mostly Iranian) were left out.
+  - 1,661 names and 322 elements of 2+ syllables were used.
+- **Control list:** 5,887 Akkadian and Sumerian names from CDLI.
+- **Spelling rules, fixed in advance:** e=i, b=p, d=t, g=k, z=s, double letters merged. A strict variant also merges š and s.
+
+| strings | hits | value shuffle (1,000×) | Akkadian/Sumerian list |
+|---|---|---|---|
+| full strings (318) | 107 | mean 91, p = 0.24 | mean 77, p = 0.055 |
+| name-like middles (224) | 53 | mean 61, **p = 0.65** | p = 0.19 |
+
+- With strict matching, value-shuffle p ranges from 0.11 to 0.85.
+- **No hit of 5+ letters** (shuffled values give about 2). Every hit is a short pair (aha, api, ata…).
+- The weak full-string signal comes from fixed opener and closer signs. For example, M387+M263 reads "na-ha" on 11 tablets.
+- Best single match: a-ha-ru-ra on 3 tablets ("ahar", as in Tepti-Ahar). That is within chance.
+- **Inšušinak:** never found. The value set has no plain "n" sign, and šu + še/ši occurs on only 3 tablets.
+
+**Verdict: null.** The Linear Elamite values do not make the Proto-Elamite middles read as Elamite names any better than shuffled values. There is no support for a phonetic layer from this test, but this does not rule one out.
+
+Caveats:
+- 95% of the tablets are from Susa.
+- The values were read by eye from the Desset plates.
+- The Elamite-vs-control comparison is partly circular, because the Linear Elamite values were themselves derived from Elamite words.
+- The varied middles (test e) still fit one-off names, but this attack found no route to reading them.
