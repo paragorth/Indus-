@@ -78,14 +78,13 @@ def rho(x,y):
     if np.std(x)==0 or np.std(y)==0: return float('nan')
     return spearmanr(x,y).statistic
 
-def kw_stat(groups_labels):
-    def f(x,y):
-        g=collections.defaultdict(list)
-        for xi,yi in zip(x,y): g[yi].append(xi)
-        if len(g)<2 or any(len(v)<2 for v in g.values()): return float('nan')
-        try: return kruskal(*g.values()).statistic
-        except ValueError: return float('nan')
-    return f
+def KW(x,y):
+    g=collections.defaultdict(list)
+    for xi,yi in zip(x,y): g[yi].append(xi)
+    if len(g)<2 or any(len(v)<2 for v in g.values()): return float('nan')
+    try: return kruskal(*g.values()).statistic
+    except ValueError: return float('nan')
+def kw_stat(_): return KW
 
 def bh(pvals):
     p=np.asarray(pvals,float); n=len(p); order=np.argsort(p); q=np.empty(n); prev=1.0

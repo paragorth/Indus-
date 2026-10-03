@@ -124,14 +124,16 @@ def kruskal_H(groups_idx, y):
     ry = rank(y); n = len(y); gm = ry.mean()
     return float(sum(len(ix) * (ry[ix].mean() - gm) ** 2 for ix in groups_idx))
 def strat_perm(y, strata, nperm):
-    """yield permuted y with values shuffled within strata"""
+    """(nperm, n) matrix of y permuted within strata (vectorised)"""
     idx = collections.defaultdict(list)
     for i, s in enumerate(strata): idx[s].append(i)
-    idx = [np.array(v) for v in idx.values()]
-    for _ in range(nperm):
-        yy = y.copy()
-        for ix in idx: yy[ix] = y[nrng.permutation(ix)]
-        yield yy
+    out = np.tile(y, (nperm, 1))
+    for v in idx.values():
+        ix = np.array(v)
+        if len(ix) < 2: continue
+        order = np.argsort(nrng.random((nperm, len(ix))), axis=1)
+        out[:, ix] = y[ix][order]
+    return out
 def within_area_rho(x, y, strata):
     xs = np.array(x, float); ys = np.array(y, float); st = np.array(strata)
     xr, yr = rank(xs), rank(ys)
@@ -144,16 +146,26 @@ def test(kind, xs, ys, strata, nperm):
     if kind == 'num':
         xs = np.array(xs, float)
         if len(set(xs)) < 2: return None
-        obs = spearman(xs, ys); ge = 0
-        for yy in strat_perm(ys, strata, nperm): ge += abs(spearman(xs, yy)) >= abs(obs) - 1e-12
+        obs = spearman(xs, ys)
+        rx = rank(xs); rx = (rx - rx.mean()) / (rx.std() + 1e-12)
+        RY = strat_perm(rank(ys), strata, nperm)
+        RY = (RY - RY.mean(1, keepdims=True)) / (RY.std(1, keepdims=True) + 1e-12)
+        rhos = RY @ rx / len(xs)
+        ge = int((np.abs(rhos) >= abs(obs) - 1e-12).sum())
         return dict(stat=obs, within=within_area_rho(xs, ys, strata), p=(ge + 1) / (nperm + 1), n=len(xs))
     cnt = collections.Counter(xs); xs = [x if cnt[x] >= 5 else 'other' for x in xs]
     groups = collections.defaultdict(list)
     for i, x in enumerate(xs): groups[x].append(i)
     if len(groups) < 2: return None
     gi = [np.array(v) for v in groups.values()]
-    obs = kruskal_H(gi, ys); ge = 0
-    for yy in strat_perm(ys, strata, nperm): ge += kruskal_H(gi, yy) >= obs - 1e-9
+    obs = kruskal_H(gi, ys)
+    RY = strat_perm(rank(ys), strata, nperm)  # ranks of permuted y = permuted ranks
+    G = np.zeros((len(gi), len(xs)))
+    for j, ix in enumerate(gi): G[j, ix] = 1.0 / len(ix)
+    means = RY @ G.T                               # (nperm, k)
+    ng = np.array([len(ix) for ix in gi])
+    H = ((means - RY.mean(1, keepdims=True)) ** 2 * ng).sum(1)
+    ge = int((H >= obs - 1e-9).sum())
     # direction summary: group with highest / lowest mean rank
     ry = rank(ys); means = {k: ry[np.array(v)].mean() for k, v in groups.items()}
     hi = max(means, key=means.get); lo = min(means, key=means.get)
