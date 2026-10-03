@@ -1,0 +1,38 @@
+S-DARK-32 cycle 2: can the typology be learned at all? Nested feature selection (ANOVA F over corpus means, computed inside each
+leave-one-corpus-out fold), k = 3 / 5 / 8 / 12 features, L2 = 1 / 10 / 50, 3-class and binary (language writing vs not), with and
+without the three numeral features (annotation-dependent, see cycle 1), label-permutation null with the SAME nested selection,
+reliability of the held-out probabilities, feature-family ablation. Tool: tools/dark_loop32_c2.py; tables loop32_c2_nonum.txt,
+loop32_c2_withnum.txt. 16 training corpora (runes_words test-only), 8 length-matched subsamples each.
+
+Results
+1. Three classes (L / D / A). Numerals dropped: best LOCO accuracy 9/16 = 0.56 (chance 0.44), permutation null mean 0.37, 95th pct
+   0.56, P = 0.19; 3-NN on corpus means 0.56, P = 0.26. Numerals kept: 12/16 = 0.75, null mean 0.38, 95th pct 0.56, max 0.75,
+   P = 0.065; selected every fold: anagram_rate, bigram_MI/H1, h2/H1, H_penult/H_mid, num_run_share. Still wrong with numerals:
+   Proto-Elamite -> L, heraldry -> A, Unicode names -> L, Ur III words -> D. Reliability: 10 of 14 held-out corpora given P >= 0.80
+   were right (i.e. a P of 0.9 from this model is worth about 0.7).
+2. Binary (L vs not). Best 11/16 = 0.69 against a 0.62 majority baseline; null mean 0.56-0.57, 95th pct 0.75-0.81, P = 0.23-0.29.
+   Not significant. Chosen features: h2/H1, bigram_MI/H1, det_loy50_max, smallset_share (+ num_run_share when allowed).
+   Feature-family ablation (binary, LOCO): order 0.75, adjacency (MI, h2/H1) 0.75, complement/determinative 0.69, lexicon 0.56,
+   ends/slots 0.44. So the only families that beat the 0.62 baseline are pair order and adjacency, and by 2 corpora.
+3. Indus under the best configurations (all three merge levels and IM77 agree within 0.05 everywhere):
+     3-class, numerals dropped : P(L) 0.26-0.27, P(D) 0.07, P(A) 0.66-0.67  -> A   (nearest: Linear B syllables 0.3, proto-cuneiform 0.5)
+     3-class, numerals kept    : P(L) 0.67-0.72, P(D) 0.03-0.06, P(A) 0.25-0.27 -> L (nearest: Linear B syllables 0.5, Ur III syllables 0.8)
+     binary, either way        : P(L) 0.31-0.38 -> not language                  (nearest: proto-cuneiform 0.7, khipu 1.2 / chess 0.9)
+   The verdict flips with one annotation-dependent feature, and the probabilities are not calibrated (point 1).
+4. Controls, the decisive part. In EVERY configuration the Markov-2 and bigram synthetic Indus receive the same class as the real
+   Indus with similar or higher confidence (3-class with numerals: Markov-2 P(L) 0.73, bigram 0.76 vs Indus 0.67-0.72; without:
+   both -> A 0.52-0.54 vs Indus 0.67; binary: 0.42-0.53 vs 0.31-0.38). The slot-shuffled Indus is the only control that separates:
+   it goes to A / N (P(N) 0.94-0.99), nearest khipu / HTS / chords / chess, i.e. 'designed or tally', as required. The required
+   control outcome (Markov-2 -> designed / synthetic) FAILS: the features that place Indus near the syllabic language corpora are
+   sequence statistics that an order-2 Markov chain fitted to Indus reproduces (adjacency MI, h2/H1, anagram rate, numeral runs).
+5. Runes (613 texts, test-only) -> L with P 0.98-1.00 in every run; the only L hit that is not shared with a synthetic control, but
+   it is driven by its 0.94 bigram MI (almost every text unique in a 1,542-type vocabulary), a size artefact.
+
+Reading. With 16 heterogeneous corpora the 'known type' is at best weakly learnable (3-class with numerals P = 0.065, everything
+else P > 0.19), the Indus class flips with one feature, and the synthetic controls are classified like Indus. The battery places
+Indus, its Markov surrogates, Linear B syllables, Ur III syllables and proto-cuneiform in one neighbourhood; it does not say which
+of these Indus IS. What it does say robustly: Indus is not a character-level code (ICD / HTS / aircraft registrations are far,
+P(D) <= 0.07 everywhere) and not a free-order blazon-like description; and the slot-shuffled control shows that the frame-internal
+ORDER (dark_loop19) is what keeps Indus out of the tally / designed corner.
+
+| S-DARK-32.2 | **Typology classifier, cycle 2: nested feature selection inside leave-one-corpus-out, with / without numeral features, 3-class and binary, same-selection permutation null (30), reliability, feature-family ablation** (`tools/dark_loop32_c2.py`; loop32_c2_nonum.txt, loop32_c2_withnum.txt). 16 reference corpora x 8 length-matched subsamples; controls slot-shuffled, Markov-2 and bigram Indus; Indus seq_raw / seq_strong / seq_all / IM77 | 3-class LOCO accuracy **0.56 (P = 0.19) without numeral features, 0.75 (P = 0.065) with them**; binary L-vs-not 0.69 vs 0.62 baseline (P = 0.23-0.29); P >= 0.80 right in 10 of 14 held-out corpora. Family ablation (binary): order 0.75, adjacency 0.75, complement / determinative 0.69, lexicon 0.56, ends / slots 0.44. Indus (all levels and IM77 within 0.05): 3-class -> A 0.67 without numerals, -> L 0.67-0.72 with them; binary P(L) 0.31-0.38 -> not language. **Markov-2 and bigram Indus get the same class as Indus in every run** (P(L) 0.73-0.76 with numerals; A 0.52-0.54 without); slot-shuffled Indus alone separates (-> A / N, P(N) 0.94-0.99, nearest khipu / HTS / chords). P(D) for Indus <= 0.07 everywhere; runes test corpus -> L 0.98-1.00 (bigram-MI size artefact) | **The required control fails: the joint battery cannot tell Indus from an order-2 Markov chain fitted to Indus, so its class label for Indus (A or L, flipping on one numeral feature) carries no information.** Robust only: Indus is not a character-level designed code and not a free-order description, and the within-frame order (S-DARK-19) is what keeps it out of the tally corner (slot-shuffle control). Cycle 3: granularity-matched library and Indus-vs-Markov feature audit. Nothing read, nothing 'cracked'. |

@@ -36,8 +36,8 @@ def facts(o, hide):
     if hide == 'closer': f = {x for x in f if x[0] not in ('last', 'closer') and not (x[0] == 'has' and x[1] == cl) and not x[0].startswith('summod')}
     if hide == 'first_sign': f = {x for x in f if x[0] != 'first' and not (x[0] == 'has' and x[1] == s[0] and s.count(s[0]) == 1) and not x[0].startswith('summod')}
     if hide in ('emblem', 'material', 'boss', 'shape'): f = {x for x in f if x[0] != hide}
-    if hide == 'numeral': f = {x for x in f if x[0] not in ('numeral', 'numval') and not (x[0] == 'has' and x[1] in NUMER) and not x[0].startswith('summod')}
-    if hide == 'numval': f = {x for x in f if x[0] not in ('numval',) and not (x[0] == 'has' and x[1] in NUMER) and not x[0].startswith('summod')}
+    if hide == 'numeral': f = {x for x in f if x[0] not in ('numeral', 'numval') and not (x[0] in ('has', 'first', 'last', 'before_closer') and x[1] in NUMER) and not x[0].startswith('summod')}
+    if hide == 'numval': f = {x for x in f if x[0] not in ('numval',) and not (x[0] in ('has', 'first', 'last', 'before_closer') and x[1] in NUMER) and not x[0].startswith('summod')}
     return f
 
 def target(o, name):

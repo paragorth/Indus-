@@ -1,0 +1,62 @@
+S-DARK-32 cycle 3 audit: real Indus vs its surrogates, feature by feature (Indus = mean of seq_raw/strong/all; IM77 shown apart)
+
+== Indus vs indus_markov2: z = (Indus - control mean) / control sd over 8 rows; sorted by |z|; class ranges over corpus means ==
+  H_last/H_mid             Indus   0.721 IM77   0.699 | markov2     0.964 z  -176.8 | L [0.53-1.51] D [0.61-1.26] A [0.45-0.97] L-range
+  top10_last_share         Indus   0.642 IM77   0.707 | markov2     0.424 z   +96.6 | L [0.12-0.68] D [0.10-0.90] A [0.32-0.87] L-range
+  top10_frame_share        Indus   0.162 IM77   0.145 | markov2     0.084 z   +43.3 | L [0.03-0.31] D [0.05-0.62] A [0.10-0.24] L-range
+  fixed_pair_share         Indus   0.712 IM77   0.651 | markov2     0.446 z   +36.7 | L [0.40-0.89] D [0.03-0.91] A [0.16-0.86] L-range
+  fixed_inst_share         Indus   0.838 IM77   0.797 | markov2     0.661 z   +35.4 | L [0.60-0.93] D [0.10-0.95] A [0.23-0.94] L-range
+  slot_minus_bigram_bits   Indus   0.211 IM77   0.472 | markov2     0.783 z   -33.3 | L [-0.11-0.82] D [-0.22-0.51] A [0.02-0.76] L-range
+  n80_last/n80_all         Indus   0.405 IM77   0.289 | markov2     0.805 z   -33.2 | L [0.11-0.94] D [0.13-2.07] A [0.04-1.00] L-range
+  num_end_bias             Indus  -0.287 IM77  -0.177 | markov2    -0.147 z   -29.2 | L [0.00-0.63] D [0.00-0.29] A [-0.32-0.58] outside L
+  H_first/H_mid            Indus   1.021 IM77   0.996 | markov2     1.060 z   -24.3 | L [0.75-1.61] D [0.28-1.30] A [0.68-1.14] L-range
+  h2/H1                    Indus   0.516 IM77   0.514 | markov2     0.465 z   +23.7 | L [0.19-0.55] D [0.36-0.95] A [0.43-0.61] L-range
+  bigram_MI/H1             Indus   0.484 IM77   0.486 | markov2     0.535 z   -23.7 | L [0.45-0.81] D [0.05-0.64] A [0.39-0.57] L-range
+  uniq_vs_bigram           Indus   0.830 IM77   0.867 | markov2     0.942 z   -22.8 | L [0.53-1.08] D [0.85-1.22] A [0.85-1.04] L-range
+  nest_share               Indus   0.411 IM77   0.368 | markov2     0.578 z   -19.5 | L [0.01-0.41] D [0.00-0.58] A [0.25-0.46] L-range
+  frames_per_text          Indus   0.439 IM77   0.488 | markov2     0.603 z   -19.0 | L [0.30-0.96] D [0.16-0.87] A [0.29-0.60] L-range
+
+== Indus vs indus_bigram: z = (Indus - control mean) / control sd over 8 rows; sorted by |z|; class ranges over corpus means ==
+  top10_last_share         Indus   0.642 IM77   0.707 | bigram      0.456 z  +102.8 | L [0.12-0.68] D [0.10-0.90] A [0.32-0.87] L-range
+  top10_frame_share        Indus   0.162 IM77   0.145 | bigram      0.067 z   +93.1 | L [0.03-0.31] D [0.05-0.62] A [0.10-0.24] L-range
+  H_last/H_mid             Indus   0.721 IM77   0.699 | bigram      0.967 z   -83.8 | L [0.53-1.51] D [0.61-1.26] A [0.45-0.97] L-range
+  fixed_inst_share         Indus   0.838 IM77   0.797 | bigram      0.538 z   +38.8 | L [0.60-0.93] D [0.10-0.95] A [0.23-0.94] L-range
+  fixed_pair_share         Indus   0.712 IM77   0.651 | bigram      0.341 z   +35.3 | L [0.40-0.89] D [0.03-0.91] A [0.16-0.86] L-range
+  slot_minus_bigram_bits   Indus   0.211 IM77   0.472 | bigram      0.806 z   -34.2 | L [-0.11-0.82] D [-0.22-0.51] A [0.02-0.76] L-range
+  unique_share             Indus   0.677 IM77   0.805 | bigram      0.823 z   -31.6 | L [0.38-1.00] D [0.75-1.00] A [0.68-0.88] L-range
+  H_second/H_mid           Indus   0.905 IM77   0.925 | bigram      0.984 z   -31.3 | L [0.54-1.05] D [0.60-0.99] A [0.91-1.01] L-range
+  n80_last/n80_all         Indus   0.405 IM77   0.289 | bigram      0.796 z   -28.3 | L [0.11-0.94] D [0.13-2.07] A [0.04-1.00] L-range
+  frames_per_text          Indus   0.439 IM77   0.488 | bigram      0.627 z   -25.6 | L [0.30-0.96] D [0.16-0.87] A [0.29-0.60] L-range
+  num_end_bias             Indus  -0.287 IM77  -0.177 | bigram     -0.137 z   -25.6 | L [0.00-0.63] D [0.00-0.29] A [-0.32-0.58] outside L
+  H_first/H_mid            Indus   1.021 IM77   0.996 | bigram      1.091 z   -25.4 | L [0.75-1.61] D [0.28-1.30] A [0.68-1.14] L-range
+  free_inst_share          Indus   0.071 IM77   0.079 | bigram      0.193 z   -22.6 | L [0.01-0.20] D [0.01-0.58] A [0.02-0.42] L-range
+  hub_mobility             Indus   0.384 IM77   0.532 | bigram      0.709 z   -21.4 | L [0.00-0.55] D [0.00-0.46] A [0.23-0.54] L-range
+
+== Indus vs indus_slotshuf: z = (Indus - control mean) / control sd over 8 rows; sorted by |z|; class ranges over corpus means ==
+  hub_free_median          Indus   0.636 IM77   0.772 | slotshuf    0.000 z +635634656.5 | L [0.00-0.94] D [0.00-0.82] A [0.33-0.59] L-range
+  hub_mobility             Indus   0.384 IM77   0.532 | slotshuf    0.000 z +383802434.3 | L [0.00-0.55] D [0.00-0.46] A [0.23-0.54] L-range
+  hubs_per_sign            Indus   0.034 IM77   0.072 | slotshuf    0.000 z +33556215.9 | L [0.00-0.19] D [0.00-0.22] A [0.01-0.07] L-range
+  fixed_pair_share         Indus   0.712 IM77   0.651 | slotshuf    0.254 z  +116.1 | L [0.40-0.89] D [0.03-0.91] A [0.16-0.86] L-range
+  fixed_inst_share         Indus   0.838 IM77   0.797 | slotshuf    0.522 z  +105.4 | L [0.60-0.93] D [0.10-0.95] A [0.23-0.94] L-range
+  slot_minus_bigram_bits   Indus   0.211 IM77   0.472 | slotshuf   -0.150 z   +98.3 | L [-0.11-0.82] D [-0.22-0.51] A [0.02-0.76] L-range
+  unique_share             Indus   0.677 IM77   0.805 | slotshuf    0.847 z   -64.2 | L [0.38-1.00] D [0.75-1.00] A [0.68-0.88] L-range
+  smallset_share           Indus   0.153 IM77   0.194 | slotshuf    0.002 z   +57.9 | L [0.09-0.47] D [0.00-0.31] A [0.07-0.22] L-range
+  num_run_share            Indus   0.073 IM77   0.066 | slotshuf    0.202 z   -44.2 | L [0.00-0.02] D [0.00-0.71] A [0.31-0.63] outside L
+  h2/H1                    Indus   0.516 IM77   0.514 | slotshuf    0.695 z   -38.7 | L [0.19-0.55] D [0.36-0.95] A [0.43-0.61] L-range
+  bigram_MI/H1             Indus   0.484 IM77   0.486 | slotshuf    0.305 z   +38.7 | L [0.45-0.81] D [0.05-0.64] A [0.39-0.57] L-range
+  uniq_vs_bigram           Indus   0.830 IM77   0.867 | slotshuf    0.956 z   -36.8 | L [0.53-1.08] D [0.85-1.22] A [0.85-1.04] L-range
+  nest_share               Indus   0.411 IM77   0.368 | slotshuf    0.251 z   +30.9 | L [0.01-0.41] D [0.00-0.58] A [0.25-0.46] L-range
+  num_end_bias             Indus  -0.287 IM77  -0.177 | slotshuf   -0.117 z   -27.4 | L [0.00-0.63] D [0.00-0.29] A [-0.32-0.58] outside L
+
+== Full-space distances (z over corpus means, all structural features): Indus to its surrogates vs to the nearest references ==
+  indus_seq_raw  indus_im77[I] 2.0, indus_markov2[X] 3.8, proto_cuneiform[A] 4.3, indus_bigram[X] 4.4, indus_slotshuf[X] 4.8, linb_syll[L] 4.8, ur3_names_syll[L] 5.1, proto_elamite[A] 5.2
+  indus_seq_all  indus_im77[I] 1.9, indus_markov2[X] 3.7, indus_bigram[X] 4.3, proto_cuneiform[A] 4.4, linb_syll[L] 4.9, indus_slotshuf[X] 4.9, ur3_names_syll[L] 5.0, proto_elamite[A] 5.2
+  indus_im77     indus_markov2[X] 3.0, indus_bigram[X] 3.5, ur3_syll[L] 4.8, proto_cuneiform[A] 4.8, linb_syll[L] 4.9, proto_elamite[A] 5.2, ur3_names_syll[L] 5.3, indus_slotshuf[X] 5.5
+  (an Indus level to another Indus level: 0.4; raw to IM77: 2.0)
+
+== Features where Indus lies outside the range of every language corpus (corpus means) ==
+  det_loy50_max            Indus   0.353 (IM77 0.302) vs L [0.461-0.838]; D in, A in; markov2 0.356 slotshuf 0.032
+  n80_first/n80_all        Indus   1.107 (IM77 0.973) vs L [0.256-1.013]; D in, A in; markov2 1.107 slotshuf 1.093
+  num_end_bias             Indus  -0.287 (IM77 -0.177) vs L [0.000-0.631]; D out, A in; markov2 -0.147 slotshuf -0.117
+  num_run_share            Indus   0.073 (IM77 0.066) vs L [0.000-0.021]; D in, A out; markov2 0.074 slotshuf 0.202
+  slot_exclusivity         Indus   0.071 (IM77 0.089) vs L [0.096-0.349]; D in, A out; markov2 0.017 slotshuf 0.018
