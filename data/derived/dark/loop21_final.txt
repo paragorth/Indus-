@@ -1,0 +1,46 @@
+# LOOP 21 FINAL: true replication on material Wells never transcribed (3 cycles; engine data/derived/dark/loop21_engine.py)
+
+## The held-out set
+IM77 texts (one per text_no+side, lines joined in reading order): 3,445; 703 damaged (sign 0), 2,742 complete.
+Matching to the Wells/ICIT merged corpus (audit_overlap.py extended: bridge W->M, site-aware, unbridged W signs as wildcards
+capped at 2 with >= 3 concrete agreeing positions, NEAR = edit distance 1 or exact reverse). Shuffle control on the matcher:
+0.3% false exact, 1.1% false near (unlimited wildcards would give 9.7% / 10.3%, which is why the rule was capped).
+  exact 1,685 (61.5%) | near 157 (5.7%) | indeterminate (unbridged M sign, no match) 690 (25.2%) | NEW 210 (7.7%)
+The task's '~30% IM77-only' expectation does not survive: with wildcards the audit-style overlap is 82% (not 69%), and the
+certainly-new material is 210 texts: MD 91, Harappa 67, Lothal 27, Kalibangan 12, Chanhu-daro 7, other 3, West Asia 3;
+117 seals, 51 sealings, 16 tablets, 15 pots, 11 rods/implements/misc; mean 3.6 signs (123 texts of 2-3 signs).
+Spot-checked: these sequences are absent from the merged corpus at any site (e.g. M48-342-130 = W176-740-435).
+
+## Findings on the 210 new texts (controls computed on the same set)
+(1) slot frame ............ REPLICATED   opener first 34/209 vs 12.7 shuffled; connective initial 4/46 tokens vs 10; closer last 49% vs 19%;
+                                         opener before closer 25/28; two closer-class signs in one text 3 vs 17 permuted (P = 0.005);
+                                         per-sign finality M12 10/11, M15 12/13, M211 14/16, M254 4/4, M342 57/73 (M328 2/10: tablet closer)
+(2) fish-qualifier order .. UNDERPOWERED 4 : 1 (P = 0.38); only 5 texts with two modified fish. (STRICT set incl. near matches: 28 : 4)
+(3) minimum-lot rule ...... NOT REPLICATED 3 of 19 counted goods take short-1 (M97/98) directly before them (2929:3 pot, 3044:0 seal,
+                                         1471:2 misc) + one tall-1 + arrow; depletion vs permuted values only P = 0.056. Overlap set: 0 short-1,
+                                         5 short-2 (all the W2 connective after an opener, read the same by Wells), P = 0.0005. Glyphs checked
+                                         on the IM77 sign drawings: M97/98 are short single strokes, M86 tall. Prereg-5 P5.2 kill rate (> 5%)
+                                         is exceeded (16%) but on 19 goods, not 200 texts: demote 15.3 to 'strong tendency on seals'.
+(4) name calibration ...... UNDERPOWERED n = 94 seal middles: Indus 1.08 vs Ur III 1.02 at the same n (both drift to 1 below n ~ 200);
+                                         the gap re-opens at n = 261 (0.99 vs 0.84) and n = 479 STRICT (0.94 vs 0.76). Homonymy 9.6%.
+(5) quantity-seal type .... UNDERPOWERED/consistent  one case, Kalibangan sealing 8106:1 = 267-99-4-tree vs 0.04 shuffled.
+(6) nesting ............... REPLICATED   new shorts in new hosts 5.2% vs 0.8% (6.5x); in all IM77 hosts 17.8% vs 3.2% (5.5x);
+                                         known shorts in new hosts 3.1% vs 0.5% (5.9x). Prereg-4 P1 (> 2x) passes.
+(P2) reuse of known runs .. REPLICATED   30.5% of new texts carry a >= 3-sign run known from the overlap set vs 5.9% shuffled (5.2x).
+Splits (cycle 3): frame, exclusivity, nesting and reuse hold for seals and non-seals and for MD / Harappa / small sites separately.
+
+## Verdict
+About half of the grammar is now confirmed on texts that Wells never transcribed: the opener-connective-middle-closer frame, the
+never-initial connective, the mutually exclusive closer paradigm, and the credential structure (shared parts, nesting, reuse).
+The fish order, the name calibration and the quantity-seal type are not refuted but cannot be tested at n = 210 (they stay
+'transcription-robust'). The minimum-lot rule is the one claim that the new material contradicts, at a rate above its own kill line.
+
+## Caveats
+- 'New' means no exact or near counterpart in the bridged Wells corpus at the same site; Wells may have read the same object with
+  two or more signs the bridge does not cover (690 texts are indeterminate for exactly that reason), so some of the 210 are re-readings.
+- The two inventories differ: Mahadevan splits strokes by placement (M97 vs M98, M99 vs M100) and merges some Wells allographs;
+  all tests here were run in M numbers with the GRAMMAR.md sign sets mapped through bridge_extended.json.
+- The new set is short-text-heavy (mean 3.6 signs vs 4.1 in the overlap) and 44% non-seal, which lowers closer rates and makes
+  'nesting' partly a re-measurement of the closer units.
+- 158 of 210 are Mohenjo-daro + Harappa (75%), as always.
+- Doubtful readings (41 of 210 texts) were kept; the engine has --nodoubt for a re-run.
