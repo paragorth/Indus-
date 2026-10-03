@@ -1,0 +1,49 @@
+S-DARK-24 cycle 3: fragility audit of the main results on transcriber-agreed objects; disagreement vs object condition
+Script: tools/dark24_cycle3.py; log data/derived/dark/loop24_cycle3_log.txt
+
+SUBSETS: FULL Wells corpus 5,369 objects (2,250 seals); MATCHED = read by both transcribers and aligned 1,223 (1,101 seals);
+AGREED = identical readings 642 (582 seals); DIFF = matched with at least one difference 581 (519 seals). The matched set is a seal
+sample (90%); Wells's Harappa tablets (post-1986 finds) have no Mahadevan reading at all.
+
+T1  S289 closer paradigm (final rate >= 0.4, jar co-occurrence <= 0.5x; null = signs shuffled within texts)
+  FULL (>= 15 tokens): 12 pass vs null median 7, max 10 (100x); complete texts only 11 vs max 9. (S289's own null gave median 1,
+  so the paradigm is real but my within-text shuffle is a harder null; 12 of the 12 includes all 10 S289 signs plus W167, W824.)
+  MATCHED (>= 10 tokens): 6 pass [151, 154, 156, 226, 520, 527] vs null max 2; W617 (final 0.41, jar 0.51, n = 22) and W700
+  (n = 13, final 0.46, jar 0.65) FAIL. AGREED: 4 pass [151, 156, 520, 527] vs null max 2; 154/158/226/236/617/700 have < 10 tokens.
+  DIFF: 3 pass [151, 520, 527]; W617 fails again (0.41 / 0.60).
+  -> HOLDS for the core closers 151, 154, 156, 520, 527, 226 on transcriber-agreed objects. W617 is fragile (and is Mahadevan's
+  '245 245', so its tokenization differs between readers); W700 is a Harappa-tablet closer that the Mahadevan sample barely covers.
+T2  S296 fish family (mean pairwise context cosine of 6 fish signs vs 2,000 frequency-matched 6-sets)
+  FULL 0.468 vs null 0.140 (P = 0.0005); MATCHED 0.422 vs 0.132 (0.0005); AGREED 0.323 vs 0.106 (P = 0.0025); DIFF 0.415 (0.0005).
+  -> HOLDS. The fish-mark confusions (220/233/231/235, 11 texts) are inside the family and cannot create it.
+T3  S-DARK-15.3 minimum-lot rule: rests on the numerals and on W1/W2 being markers. Numerals are read identically by both
+  transcribers on 1,031 of 1,048 aligned tokens; short-vs-tall confusion 2 tokens; W2 378/378. Pre-item numerals in AGREED:
+  short 1-2 50 (34 directly after an opener), 3+ 52; tall 1-2 38, 3+ 32; proportions as in FULL (203 / 159 / 110 / 115).
+  -> TRANSCRIPTION-ROBUST by construction: the numeral and marker readings do not differ between the two readers.
+T4  S321 / S-DARK-18 name test (seal middles: unique share / bigram-null unique share; Ur III names 0.43-0.62)
+  FULL 0.966 (n = 1,748); MATCHED 0.967 (n = 1,050; FULL subsampled to the same n 0.986); AGREED 0.978 (n = 555; size-matched FULL
+  1.009 +- 0.016); DIFF 1.008 (n = 495; matched 1.014).
+  -> HOLDS: middles behave like random strings (ratio ~ 1) on identical-reading seals too; no subset moves toward the Ur III range.
+T5  S29 opener vs suffix exclusion (suffix = final W400/W90; opener = initial W817/861/820; texts >= 3 signs)
+  FULL: suffix after opener 4.3% (20/465) vs 17.3% (436/2,515) without, P = 0.0005; seals 6.8% vs tablets+sealings 28.7%.
+  MATCHED: 6.5% vs 9.3% (P = 0.11); AGREED: 6.7% (12/180) vs 12.3% (57/462), P = 0.021; seals 7.7% vs tablets+sealings 38.5% (20/52).
+  DIFF: 6.1% vs 6.3% (P = 0.58).
+  -> HOLDS in direction and on the seal/tablet contrast, but most of the FULL effect (17.3% suffix without opener) comes from
+  Wells-only Harappa tablets, which no second transcriber has read. Mark S29 'transcription-robust on seals; tablet half unreplicated'.
+
+(d) DISAGREEMENT vs CONDITION (all 1,363 accepted pairs; permutation null stratified by site x object class, 1,000x)
+  Any difference between the readings: Poor 58.9% (n = 453), Fair 48.7%, Good 34.5%, Fine 32.7% (spread 26 pts vs null 8, P = 0.002);
+    fragment 76.2% vs complete 37.5% (P = 0.001); Clay 58% > Steatite 46% > Faience 28% > Copper 15% (P = 0.011); Kalibangan 70%,
+    Lothal 56%, Harappa 53%, Chanhu-daro 47%, Mohenjo-daro 42% (P = 0.038); by length L3-4 33%, L5-6 50%, L7-8 59%, L9+ 64%.
+  Lost-vs-read positions: Poor 24.7% vs Good 3.4% / Fine 1.8% (P = 0.001); fragment 30% vs complete 6% (P = 0.001); TAG sealings 50%
+    vs seals 11% (P = 0.002); Clay 44% (P = 0.009). Site not significant once object class is controlled (P = 0.13).
+  Substitutions + insertions: condition only weakly (Fair 21% > Poor 13% > Good 9%, P = 0.04; preservation P = 0.55; material P = 0.46);
+    object type TAB 28% vs SEAL 12% (P = 0.008); site Harappa 21% vs MD 12% (P = 0.16; substitutions alone P = 0.04, the W388 tablet);
+    IM77 source: texts from 'Other' publications 20% / 16% substitutions vs MIC 11% / FEM 12% (P = 0.14 / 0.033).
+  Mahadevan's own doubtful marks (independent of Wells's labels): Poor 19.4%, Fair 9.1%, Good 3.0%, Fine 0% (P = 0.001); fragment 22%
+    vs complete 6% (P = 0.008). The two transcribers' condition judgements agree.
+  -> Disagreement about whether a sign is THERE is a condition effect (damage, clay sealings, fragments); disagreement about WHICH
+  sign it is is not: it is a property of the sign pair (shape-similar families) and of the object class (tablets, secondary
+  publications), not of damage.
+
+| S-DARK-24.3 | Fragility audit: S289 closer paradigm, S296 fish family, S-DARK-15.3 minimum-lot, S321/S-DARK-18 name ratio and S29 opener/suffix exclusion recomputed on MATCHED (1,223 objects read by both transcribers), AGREED (642 identical readings) and DIFF (581 with a difference) vs FULL, each with its own null; disagreement flags per object vs Wells condition / preservation / material / site / object type / IM77 source volume, permutation null stratified by site x object class (`tools/dark24_cycle3.py`) | **All five results hold on identical-reading objects:** closers 151/154/156/520/527/226 pass on MATCHED (6 vs null max 2) and AGREED (4 vs max 2), W617 and W700 fail (617 = Mahadevan's '245 245'; 700 = Harappa tablets, unsampled); fish family cosine 0.32 vs null 0.11 on AGREED (P = 0.0025); numerals read identically on 1,031/1,048 tokens so the minimum-lot rule cannot be a transcription artefact; name ratio 0.98 on AGREED vs size-matched 1.01 (random-string-like everywhere); suffix after opener 6.7% vs 12.3% without on AGREED (P = 0.02; FULL 4.3% vs 17.3%). Condition: any difference Poor 59% vs Fine 33% (P = 0.002), fragments 76% vs complete 38%; lost-vs-read Poor 25% vs Good 3% (P = 0.001), clay sealings 50%; substitutions depend on condition only weakly (P = 0.04-0.05) and more on object class (tablets 18% vs seals 6%, P = 0.045) and site (Harappa 15%, P = 0.04); Mahadevan's doubtful marks track Wells's condition labels (19% Poor vs 0% Fine, P = 0.001) | **None of the audited findings is transcription-fragile; the transcription-fragile elements are specific signs, not results: W617 as a closer (tokenization differs), W700 and the whole tablet half of S29 (Wells-only Harappa material, no second reader), W388 at Harappa, and any count that separates jar 740 from marked jar 741 at the 0.5% level.** The 'read by both' set is 90% seals, so tablet-based results (S29's 28.7% suffix on tablets, S-DARK-18's Harappa tablet repeats) have one transcription only. Condition drives presence/absence disagreement, not identity disagreement: use the Wells 'condition' field as a weight when counting lost signs, and the agreement rate table (loop24_sign_reliability.json) when a result hangs on a fish-mark, marked-jar or leaf-tree distinction. |

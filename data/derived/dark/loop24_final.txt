@@ -1,0 +1,26 @@
+S-DARK-24 final: transcriber disagreement as data (loop 24, 3 cycles)
+Files: loop24_cycle1.txt, loop24_cycle2.txt, loop24_cycle3.txt (each with a ready-to-paste STRATEGIES row), logs loop24_*_log.txt,
+data loop24_pairs.json / loop24_pairs_null.json / loop24_corr.json / loop24_systematic.json / loop24_positions.json / loop24_sign_reliability.json.
+Scripts: tools/dark24_align.py, dark24_analyze.py, dark24_cycle2.py, dark24_cycle3.py.
+
+WHAT WAS DONE
+1,363 IM77 texts were matched to Wells objects within site by bridge-aware edit distance with object-type and field-symbol checks
+(wrong-site control 4.3%, field-symbol agreement 90% at identical readings). 7,390 sign positions were aligned and classified.
+
+WHAT CAME OUT
+- The two transcriptions agree on 98.3% of sign-to-sign positions (99.1% on one-difference-or-identical pairs). Disagreement about
+  presence (lost vs read: 186 + 34 positions) is a condition effect, validated by Mahadevan's own doubtful marks (26% vs 1%).
+  Disagreement about identity (109 substitutions, 87 distinct) is confined to shape-similar pairs that recur above chance
+  (glyph 0.73 vs 0.56, P = 0.001) and are mostly grammatically interchangeable (fish marks, marked jars, strokes, markers).
+- Two bridge errors: W798 = M53, not M216 (51/51 tokens); W806 = M389, not M387 (31/34). Fix bridge_extended.json
+  (not done here: other loops are running on the current bridge).
+- Merge list: add W156 to the 154/158 class (Mahadevan M15 + context P <= 0.017); demote 803/806 strong -> probable; W617 is W615
+  doubled (segmentation convention, Mahadevan '245 245'); W384/W388 one slot but split by an independent reader; W27 = W28 and
+  525/526/527 confirmed; 390/405 keeps distributional support though Mahadevan splits plain from branched tree.
+- Unreliable signs: W388 (one duplicated Harappa tablet read as W176), and at the 1-3% level W220 plain fish, W550, W1, W455.
+  Frame signs and numerals are read identically (jar 677/678, W2 378/378, numerals 1,031/1,048).
+- Fragility audit: S289 (core closers), S296, S-DARK-15.3, S321/S-DARK-18 and S29 all hold on identical-reading objects.
+  Transcription-fragile: W617 as closer, W700 and the tablet half of S29 (Wells-only Harappa tablets, no second reader),
+  anything separating 740 from 741 at the 0.5% level, anything using W388 at Harappa.
+- Caveats: 76% of matched pairs are Mohenjo-daro seals; pairs with >= 2 differences are up to one-third chance object matches
+  (used only for the condition analysis); bridge coverage leaves 5% of Wells tokens without a Mahadevan counterpart.

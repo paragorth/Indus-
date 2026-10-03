@@ -167,13 +167,15 @@ def cycle2():
     P('\n## precision / recall of the top candidate by confidence threshold (gate P < 0.01, k >= 2); n held out = %d, of which aligned %d' % (len(allres), sum(r['aligned'] for r in allres)))
     P('  thr   proposed  correct  precision  recall(all held out)  recall(aligned only)')
     best = None
+    nrows = json.load(open(HERE + 'loop27_candidates.json'))['null_rows']
     for thr in [0.0, 0.1, 0.2, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7, 0.8]:
         prop = [r for r in allres if r['aligned'] and r['lb'] >= thr and r['P'] < 0.01 and r['k'] >= 2]
         cor = sum(r['correct'] for r in prop)
         prec = cor / len(prop) if prop else float('nan')
-        P(f'  {thr:.2f}  {len(prop):6d}   {cor:6d}   {prec:.3f}      {cor / len(allres):.3f}                 {cor / sum(r["aligned"] for r in allres):.3f}')
-        if prop and prec >= 0.95 and best is None: best = thr
-    P(f'\nlowest threshold with precision >= 0.95: {best}')
+        nnull = sum(1 for r in nrows if r['lb'] >= thr and r['P'] < 0.01 and r['k'] >= 2)
+        P(f'  {thr:.2f}  {len(prop):6d}   {cor:6d}   {prec:.3f}      {cor / len(allres):.3f}                 {cor / sum(r["aligned"] for r in allres):.3f}   wrong-site null pairs passing: {nnull}')
+        if prop and prec >= 0.95 and nnull == 0 and best is None: best = thr
+    P(f'\nlowest threshold with hold-out precision >= 0.95 AND zero wrong-site null pairs: {best}')
     bad = [r for r in allres if r['aligned'] and not r['correct'] and r['lb'] >= (best or 0.5)]
     P('errors above that threshold: ' + '; '.join(f"W{r['W']} true {r['true']} got M{r['top']} (lb {r['lb']:.2f}, k {r['k']}/{r['nW']})" for r in bad))
     json.dump(dict(results=allres, threshold=best), open(HERE + 'loop27_validation.json', 'w'))
