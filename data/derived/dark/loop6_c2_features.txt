@@ -1,0 +1,117 @@
+
+=== all objects: 3478 texts, 20 sites, 63 features, 504 arrows
+arrows 488; min p 0.0000; q<0.10: 8; p<0.01: 8 (expected 4.9)
+top 20:
+                    value_mean ~ lat                      n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ lon                      n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ dist_coast_harappan_km   n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ dist_coast_modern_km     n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ dist_md_km               n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ dist_hp_km               n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ elev_m                   n=20 stat=+nan p=0.0000 q=0.003
+                    value_mean ~ river                    n=20 stat=+nan p=0.0000 q=0.003
+                  numeral_tall ~ river                    n=20 stat=+8.625 p=0.0191 q=0.891
+                closer_690-740 ~ dist_hp_km               n=20 stat=-0.492 p=0.0240 q=0.891
+                   type_tablet ~ dist_hp_km               n=20 stat=-0.506 p=0.0242 q=0.891
+                   type_tablet ~ dist_coast_modern_km     n=20 stat=+0.495 p=0.0279 q=0.891
+                       len_ge5 ~ elev_m                   n=20 stat=-0.500 p=0.0281 q=0.891
+                       fam_box ~ dist_hp_km               n=20 stat=+0.476 p=0.0350 q=0.891
+              alt_closer_final ~ dist_md_km               n=20 stat=-0.472 p=0.0363 q=0.891
+                       fam_box ~ river                    n=20 stat=+7.428 p=0.0370 q=0.891
+                       len_ge5 ~ dist_coast_modern_km     n=20 stat=-0.472 p=0.0381 q=0.891
+                    repeat_any ~ dist_hp_km               n=20 stat=-0.471 p=0.0395 q=0.891
+              doubled_adjacent ~ dist_hp_km               n=20 stat=-0.468 p=0.0398 q=0.891
+                       len_ge5 ~ lon                      n=20 stat=-0.464 p=0.0412 q=0.891
+re-test of top 12 without MD + HP:
+              value_mean ~ lat                      full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ lon                      full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ dist_coast_harappan_km   full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ dist_coast_modern_km     full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ dist_md_km               full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ dist_hp_km               full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ elev_m                   full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+              value_mean ~ river                    full=+nan p=0.0000 | dropMDHP=+nan p=0.0000
+            numeral_tall ~ river                    full=+8.625 p=0.0191 | dropMDHP=+7.964 p=0.0268
+          closer_690-740 ~ dist_hp_km               full=-0.492 p=0.0240 | dropMDHP=-0.471 p=0.0565
+             type_tablet ~ dist_hp_km               full=-0.506 p=0.0242 | dropMDHP=-0.447 p=0.0644
+             type_tablet ~ dist_coast_modern_km     full=+0.495 p=0.0279 | dropMDHP=+0.484 p=0.0454
+  per-site value_mean vs lat:
+     Lothal                 n= 166 rate=3.108 lat=22.52
+     Gola Dhoro (Bagasra)   n=   5 rate=3.333 lat=23.07
+     Shikarpur              n=   6 rate=nan lat=23.17
+     Kanmer                 n=   7 rate=nan lat=23.37
+     Dholavira              n= 190 rate=3.363 lat=23.89
+     Allahdino              n=  12 rate=4.000 lat=24.93
+     Bala-kot               n=   7 rate=3.000 lat=25.42
+     Amri                   n=   5 rate=4.000 lat=26.17
+     Chanhu-daro            n=  70 rate=2.809 lat=26.17
+     Mohenjo-daro           n=1537 rate=3.475 lat=27.33
+     Kot-Diji               n=   9 rate=3.000 lat=27.34
+     Lakhanjo-daro          n=  11 rate=4.250 lat=27.72
+     Farmana                n=   7 rate=2.000 lat=29.04
+     Rakhigarhi             n=  11 rate=2.500 lat=29.28
+     Nausharo               n=  36 rate=3.045 lat=29.45
+     Kalibangan             n= 154 rate=3.787 lat=29.47
+     Bhirrana               n=   5 rate=4.500 lat=29.55
+     Banawali               n=  22 rate=4.500 lat=29.6
+     Harappa                n=1209 rate=3.472 lat=30.63
+     Rupar                  n=   5 rate=4.000 lat=30.97
+  per-site value_mean vs lon:
+     Bala-kot               n=   7 rate=3.000 lon=66.73
+     Allahdino              n=  12 rate=4.000 lon=67.42
+     Nausharo               n=  36 rate=3.045 lon=67.63
+     Amri                   n=   5 rate=4.000 lon=68.01
+     Mohenjo-daro           n=1537 rate=3.475 lon=68.14
+     Chanhu-daro            n=  70 rate=2.809 lon=68.33
+     Kot-Diji               n=   9 rate=3.000 lon=68.71
+     Lakhanjo-daro          n=  11 rate=4.250 lon=68.85
+     Dholavira              n= 190 rate=3.363 lon=70.21
+     Shikarpur              n=   6 rate=nan lon=70.43
+     Gola Dhoro (Bagasra)   n=   5 rate=3.333 lon=70.62
+     Kanmer                 n=   7 rate=nan lon=70.87
+     Lothal                 n= 166 rate=3.108 lon=72.25
+     Harappa                n=1209 rate=3.472 lon=72.87
+     Kalibangan             n= 154 rate=3.787 lon=74.13
+     Banawali               n=  22 rate=4.500 lon=75.39
+     Bhirrana               n=   5 rate=4.500 lon=75.55
+     Rakhigarhi             n=  11 rate=2.500 lon=76.11
+     Farmana                n=   7 rate=2.000 lon=76.31
+     Rupar                  n=   5 rate=4.000 lon=76.53
+  per-site value_mean vs dist_coast_harappan_km:
+     Bala-kot               n=   7 rate=3.000 dist_coast_harappan_km=13.0
+     Kanmer                 n=   7 rate=nan dist_coast_harappan_km=14.0
+     Dholavira              n= 190 rate=3.363 dist_coast_harappan_km=28.0
+     Shikarpur              n=   6 rate=nan dist_coast_harappan_km=28.0
+     Gola Dhoro (Bagasra)   n=   5 rate=3.333 dist_coast_harappan_km=35.0
+     Allahdino              n=  12 rate=4.000 dist_coast_harappan_km=43.0
+     Lothal                 n= 166 rate=3.108 dist_coast_harappan_km=44.0
+     Amri                   n=   5 rate=4.000 dist_coast_harappan_km=164.0
+     Chanhu-daro            n=  70 rate=2.809 dist_coast_harappan_km=192.0
+     Mohenjo-daro           n=1537 rate=3.475 dist_coast_harappan_km=262.0
+     Kot-Diji               n=   9 rate=3.000 dist_coast_harappan_km=300.0
+     Lakhanjo-daro          n=  11 rate=4.250 dist_coast_harappan_km=340.0
+     Nausharo               n=  36 rate=3.045 dist_coast_harappan_km=459.0
+     Kalibangan             n= 154 rate=3.787 dist_coast_harappan_km=702.0
+     Harappa                n=1209 rate=3.472 dist_coast_harappan_km=771.0
+     Banawali               n=  22 rate=4.500 dist_coast_harappan_km=778.0
+     Bhirrana               n=   5 rate=4.500 dist_coast_harappan_km=783.0
+     Farmana                n=   7 rate=2.000 dist_coast_harappan_km=787.0
+     Rakhigarhi             n=  11 rate=2.500 dist_coast_harappan_km=793.0
+     Rupar                  n=   5 rate=4.000 dist_coast_harappan_km=966.0
+  per-site value_mean vs dist_coast_modern_km:
+     Bala-kot               n=   7 rate=3.000 dist_coast_modern_km=13.0
+     Shikarpur              n=   6 rate=nan dist_coast_modern_km=28.0
+     Gola Dhoro (Bagasra)   n=   5 rate=3.333 dist_coast_modern_km=35.0
+     Allahdino              n=  12 rate=4.000 dist_coast_modern_km=43.0
+     Lothal                 n= 166 rate=3.108 dist_coast_modern_km=44.0
+     Kanmer                 n=   7 rate=nan dist_coast_modern_km=75.0
+     Dholavira              n= 190 rate=3.363 dist_coast_modern_km=105.0
+     Amri                   n=   5 rate=4.000 dist_coast_modern_km=164.0
+     Chanhu-daro            n=  70 rate=2.809 dist_coast_modern_km=192.0
+     Mohenjo-daro           n=1537 rate=3.475 dist_coast_modern_km=262.0
+     Kot-Diji               n=   9 rate=3.000 dist_coast_modern_km=300.0
+     Lakhanjo-daro          n=  11 rate=4.250 dist_coast_modern_km=340.0
+     Nausharo               n=  36 rate=3.045 dist_coast_modern_km=459.0
+     Kalibangan             n= 154 rate=3.787 dist_coast_modern_km=812.0
+     Farmana                n=   7 rate=2.000 dist_coast_modern_km=836.0
+     Harappa                n=1209 rate=3.472 dist_coast_modern_km=845.0

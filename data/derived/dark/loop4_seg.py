@@ -278,8 +278,36 @@ def report(res, label):
     P(f'    segmentations beating sign level on bits AND (uniq or rep): {len(joint)} of {len(res) - 1}: ' + ', '.join(k for k, _ in joint[:12]))
     return joint
 
+def null_run(R, rng):
+    """Arrows-fired null: synthetic corpora from the sign-level bigram of the real fit set (seq_raw), same lengths and
+    split; the whole search is re-run and the best improvement per statistic recorded."""
+    fit_raw, test_raw = indus('seq_raw'); m = Bigram(identity(fit_raw)); QUAL = learn_qual(fit_raw)
+    out = []
+    for r in range(R):
+        def gen(src): return [[u[0] for u in m.sample(len(s), rng)] for s in src]
+        f2 = gen(fit_raw); t2 = gen(test_raw)
+        res = search(f2, t2, rng, f'null{r}', fams=('bpe', 'sub'), allo=(f2, t2, AL['merges']), QUAL=QUAL, verbose=False)
+        b = res['sign']; row = {}
+        for key, lower in (('bits', True), ('uniq', True), ('rep', True), ('gram', False)):
+            bb = best(res, key, lower); row[key] = bb[0] - b[key] if bb else float('nan')
+        row['joint'] = sum(1 for k, v in res.items() if k != 'sign' and v['bits'] < b['bits'] and (v['uniq'] < b['uniq'] or v['rep'] < b['rep']))
+        row['bpe_bits'] = best({k: v for k, v in res.items() if k.startswith('bpe')}, 'bits')[0] - b['bits']
+        row['sub_bits'] = best({k: v for k, v in res.items() if k.startswith('sub')}, 'bits')[0] - b['bits']
+        row['allo_bits'] = best({k: v for k, v in res.items() if k.startswith('allo') and 'FAKE' not in k}, 'bits')[0] - b['bits']
+        row['base_bits'] = b['bits']; row['base_uniq'] = b['uniq']; row['base_rep'] = b['rep']
+        out.append(row); P(f'  null replicate {r}: ' + ' '.join(f'{k}={v:+.3f}' if isinstance(v, float) else f'{k}={v}' for k, v in row.items()))
+    return out
+
 if __name__ == '__main__':
     import datetime
+    if 'null' in sys.argv:
+        R = int(sys.argv[sys.argv.index('null') + 1])
+        P(f'# loop4 cycle {CYCLE} NULL ({datetime.datetime.now().isoformat(timespec="minutes")}) replicates={R} fast={FAST}')
+        rows = null_run(R, random.Random(500 + int(CYCLE)))
+        json.dump(rows, open(ROOT + f'data/derived/dark/loop4_cycle{CYCLE}_null.json', 'w'))
+        for key in ('bits', 'uniq', 'rep', 'gram', 'bpe_bits', 'sub_bits', 'allo_bits', 'joint'):
+            v = sorted(r[key] for r in rows); P(f'  null best-delta {key}: median {v[len(v)//2]:+.3f} min {v[0]:+.3f} max {v[-1]:+.3f}')
+        sys.exit()
     P(f'# loop4 cycle {CYCLE} ({datetime.datetime.now().isoformat(timespec="minutes")}) fast={FAST}')
     P('MARK pairs:', len(MARKS), 'ligatures:', len(LIGS))
     rng = random.Random(int(CYCLE) if CYCLE.isdigit() else 1)

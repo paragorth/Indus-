@@ -21,6 +21,8 @@ Usage: python3 tools/strat_dark_loop10.py --cycle N [--n 48] [--seed S] [--level
 Writes data/derived/dark/loop10_cycleN.txt and .json.
 """
 import json, csv, re, os, sys, random, argparse, collections, time
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'):
+    os.environ[_v] = '1'
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
