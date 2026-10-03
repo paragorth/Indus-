@@ -1,0 +1,76 @@
+# loop 46 cycle 1: variant co-selection across sign pairs (hands?)  nperm=1000  dedup=True  texts=3545  file=merged-corpus-canonical.json (S-DARK-23 caution)
+
+## level=strong subset=all-classes  usable classes: W154[154x40/158x26], W390[390x240/405x69/406x11], W630[630x26/632x30/636x12], W705[704x3/705x162/706x73], W803[803x118/806x100], W861[817x177/861x202]
+pairs with >= 20 shared texts: 6  (texts with >= 2 usable classes: 182)
+N1 site x type: G=10.18 null 7.74+/-3.58 z=+0.68 P=0.223; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N2 site x type x period: G=10.18 null 7.33+/-3.70 z=+0.77 P=0.196; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N3 site x type x area: G=10.18 null 7.50+/-3.18 z=+0.84 P=0.206; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W154 x W803  n=25  9/0/16/0  LO=-0.55  MI=0.000  0.807 0.771 0.773
+  W390 x W803  n=22  11/2/2/7  LO=+2.62  MI=0.297  0.102 0.096 0.291
+  W390 x W861  n=43  3/5/16/19  LO=-0.28  MI=0.003  0.693 0.712 0.672
+  W705 x W803  n=33  5/5/6/17  LO=+0.99  MI=0.038  0.170 0.179 0.087
+  W705 x W861  n=27  6/3/6/12  LO=+1.27  MI=0.073  0.130 0.115 0.135
+  W803 x W861  n=23  3/3/6/11  LO=+0.57  MI=0.012  0.462 0.479 0.362
+within-text consistency: 20 texts carry >= 2 tokens of one class; all the same form in 17 (expected 15.3 if forms were drawn independently from the site x type form mix); inconsistent texts: H-1930 W861 [861, 817]; L-37 W390 [406, 390]; M-855 W861 [817, 861]
+
+## level=strong subset=robust  usable classes: W390[390x240/405x69/406x11], W803[803x118/806x100]
+pairs with >= 10 shared texts: 1  (texts with >= 2 usable classes: 22)
+N1 site x type: G=6.54 null 3.07+/-2.63 z=+1.32 P=0.113; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+N2 site x type x period: G=6.54 null 2.50+/-2.31 z=+1.75 P=0.073; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+N3 site x type x area: G=6.54 null 4.69+/-2.64 z=+0.70 P=0.244; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W390 x W803  n=22  11/2/2/7  LO=+2.62  MI=0.297  0.128 0.079 0.284
+within-text consistency: 15 texts carry >= 2 tokens of one class; all the same form in 14 (expected 12.9 if forms were drawn independently from the site x type form mix); inconsistent texts: L-37 W390 [406, 390]
+
+## level=all subset=all-classes  usable classes: W154[154x40/158x26], W390[390x240/405x69/406x11], W630[630x26/632x30/636x12], W705[704x3/705x162/706x73], W803[803x118/806x100/838x16], W861[817x177/861x202]
+pairs with >= 20 shared texts: 6  (texts with >= 2 usable classes: 189)
+N1 site x type: G=7.25 null 7.99+/-3.96 z=-0.19 P=0.519; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N2 site x type x period: G=7.25 null 7.13+/-3.57 z=+0.03 P=0.424; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N3 site x type x area: G=7.25 null 8.20+/-3.35 z=-0.28 P=0.579; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W154 x W803  n=26  10/0/16/0  LO=-0.45  MI=0.000  0.835 0.783 0.748
+  W390 x W803  n=25  11/2/5/7  LO=+1.84  MI=0.150  0.343 0.280 0.693
+  W390 x W861  n=43  3/5/16/19  LO=-0.28  MI=0.003  0.709 0.715 0.709
+  W705 x W803  n=35  5/5/8/17  LO=+0.72  MI=0.020  0.299 0.315 0.227
+  W705 x W861  n=27  6/3/6/12  LO=+1.27  MI=0.073  0.116 0.118 0.131
+  W803 x W861  n=24  4/3/6/11  LO=+0.82  MI=0.029  0.324 0.298 0.246
+within-text consistency: 20 texts carry >= 2 tokens of one class; all the same form in 17 (expected 15.2 if forms were drawn independently from the site x type form mix); inconsistent texts: H-1930 W861 [861, 817]; L-37 W390 [406, 390]; M-855 W861 [817, 861]
+
+## level=all subset=robust  usable classes: W390[390x240/405x69/406x11], W803[803x118/806x100/838x16]
+pairs with >= 10 shared texts: 1  (texts with >= 2 usable classes: 25)
+N1 site x type: G=3.76 null 2.94+/-2.50 z=+0.32 P=0.314; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+N2 site x type x period: G=3.76 null 2.84+/-2.62 z=+0.35 P=0.287; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+N3 site x type x area: G=3.76 null 5.46+/-3.15 z=-0.54 P=0.690; pairs |log-odds| beyond own null 95%: 0/1 (exp 0.1, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W390 x W803  n=25  11/2/5/7  LO=+1.84  MI=0.150  0.322 0.295 0.692
+within-text consistency: 15 texts carry >= 2 tokens of one class; all the same form in 14 (expected 12.8 if forms were drawn independently from the site x type form mix); inconsistent texts: L-37 W390 [406, 390]
+
+## level=ext subset=all-classes  usable classes: W154[154x40/158x26], W156[151x79/156x48], W390[390x240/405x69/406x11], W630[630x26/632x30/636x12], W705[704x3/705x162/706x73], W803[803x118/806x100/838x16], W861[817x177/861x202]
+pairs with >= 20 shared texts: 6  (texts with >= 2 usable classes: 208)
+N1 site x type: G=7.25 null 7.90+/-3.88 z=-0.17 P=0.525; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N2 site x type x period: G=7.25 null 7.00+/-3.62 z=+0.07 P=0.398; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+N3 site x type x area: G=7.25 null 8.23+/-3.53 z=-0.28 P=0.561; pairs |log-odds| beyond own null 95%: 0/6 (exp 0.3, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W154 x W803  n=26  10/0/16/0  LO=-0.45  MI=0.000  0.832 0.759 0.741
+  W390 x W803  n=25  11/2/5/7  LO=+1.84  MI=0.150  0.318 0.275 0.707
+  W390 x W861  n=43  3/5/16/19  LO=-0.28  MI=0.003  0.698 0.691 0.667
+  W705 x W803  n=35  5/5/8/17  LO=+0.72  MI=0.020  0.296 0.311 0.203
+  W705 x W861  n=27  6/3/6/12  LO=+1.27  MI=0.073  0.141 0.128 0.123
+  W803 x W861  n=24  4/3/6/11  LO=+0.82  MI=0.029  0.316 0.305 0.217
+within-text consistency: 21 texts carry >= 2 tokens of one class; all the same form in 17 (expected 15.8 if forms were drawn independently from the site x type form mix); inconsistent texts: H-1930 W861 [861, 817]; L-37 W390 [406, 390]; M-1901 W156 [156, 151]; M-855 W861 [817, 861]
+
+## level=ext subset=robust  usable classes: W156[151x79/156x48], W390[390x240/405x69/406x11], W803[803x118/806x100/838x16]
+pairs with >= 10 shared texts: 2  (texts with >= 2 usable classes: 38)
+N1 site x type: G=3.76 null 3.92+/-2.82 z=-0.06 P=0.434; pairs |log-odds| beyond own null 95%: 1/2 (exp 0.1, P=0.111)
+N2 site x type x period: G=3.76 null 3.30+/-2.60 z=+0.18 P=0.345; pairs |log-odds| beyond own null 95%: 1/2 (exp 0.1, P=0.118)
+N3 site x type x area: G=3.76 null 6.23+/-3.20 z=-0.77 P=0.767; pairs |log-odds| beyond own null 95%: 0/2 (exp 0.1, P=1.000)
+pair table: A x B  n  n11/n10/n01/n00  log-odds  MI  p(N1) p(N2) p(N3)
+  W156 x W390  n=11  0/11/0/0  LO=-3.14  MI=0.000  0.015 0.017 0.071
+  W390 x W803  n=25  11/2/5/7  LO=+1.84  MI=0.150  0.340 0.285 0.684
+within-text consistency: 16 texts carry >= 2 tokens of one class; all the same form in 14 (expected 13.3 if forms were drawn independently from the site x type form mix); inconsistent texts: L-37 W390 [406, 390]; M-1901 W156 [156, 151]
+
+W390 x W803 co-occurring texts by site, type, forms: Chanhu-daro/TAB 390+803 x1; Harappa/SEAL 405+806 x5; Harappa/TAB 390+803 x1; Harappa/TAB 390+806 x1; Harappa/TAB 405+806 x1; Mohenjo-daro/SEAL 390+803 x4; Mohenjo-daro/SEAL 390+806 x1; Mohenjo-daro/SEAL 390+838 x2; Mohenjo-daro/SEAL 405+803 x1; Mohenjo-daro/SEAL 405+806 x4; Mohenjo-daro/SEAL 406+803 x1; Mohenjo-daro/TAB 390+838 x1; Mohenjo-daro/TAB 405+806 x1; Surkotada/SEAL 390+803 x1
+planted two hands (non-head rate = stratum rate +/- 0.4, random hand per text): detected (P<0.05, N1) in 30/30 plants, mean z +9.27
+planted two hands (non-head rate = stratum rate +/- 0.3, random hand per text): detected (P<0.05, N1) in 24/30 plants, mean z +4.30
+planted two hands (non-head rate = stratum rate +/- 0.2, random hand per text): detected (P<0.05, N1) in 4/30 plants, mean z +0.83

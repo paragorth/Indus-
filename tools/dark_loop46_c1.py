@@ -15,12 +15,21 @@ sys.path.insert(0, '/home/user/Indus-/tools')
 from dark_loop46_common import *
 
 NPERM = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
+DEDUP = len(sys.argv) > 2 and sys.argv[2] == 'dedup'
+SUFFIX = '_dedup' if DEDUP else ''
 MINPAIR = 20
 MINPAIR_ROBUST = 10
 rng = np.random.default_rng(46)
 corpus = load_corpus()
+if DEDUP:
+    seen = set(); kept = []
+    for r in corpus:
+        key = (tuple(r['seq_all']), r['site'])
+        if key not in seen:
+            seen.add(key); kept.append(r)
+    corpus = kept
 N = len(corpus)
-lines = [f'# loop 46 cycle 1: variant co-selection across sign pairs (hands?)  nperm={NPERM}  texts={N}  file=merged-corpus-canonical.json (S-DARK-23 caution)']
+lines = [f'# loop 46 cycle 1: variant co-selection across sign pairs (hands?)  nperm={NPERM}  dedup={DEDUP}  texts={N}  file=merged-corpus-canonical.json (S-DARK-23 caution)']
 summary = {}
 
 NULLS = {'N1 site x type': ['site', 'type'],
@@ -163,6 +172,6 @@ for delta in (0.4, 0.3, 0.2):
         det += pv < 0.05
     lines.append(f'planted two hands (non-head rate = stratum rate +/- {delta}, random hand per text): detected (P<0.05, N1) in {det}/{NPLANT} plants, mean z {np.mean(zs):+.2f}')
 
-json.dump(summary, open(OUT + 'loop46_cycle1.json', 'w'), indent=1)
-open(OUT + 'loop46_cycle1_log.txt', 'w').write('\n'.join(lines) + '\n')
+json.dump(summary, open(OUT + f'loop46_cycle1{SUFFIX}.json', 'w'), indent=1)
+open(OUT + f'loop46_cycle1{SUFFIX}_log.txt', 'w').write('\n'.join(lines) + '\n')
 print('\n'.join(lines))

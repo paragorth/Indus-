@@ -132,3 +132,52 @@ summary['copies'] = dict(n=len(cp), obs=float(obs), null=float(null.mean()), sd=
 json.dump(summary, open(OUT + 'loop46_cycle4.json', 'w'), indent=1, default=float)
 open(OUT + 'loop46_cycle4_log.txt', 'w').write('\n'.join(lines) + '\n')
 print('\n'.join(lines))
+
+# ---- follow-up: are the significant pairs carried by repeated formulae? by-site breakdown, text listing, dedup rerun
+lines.append('\n## follow-up: by-site breakdown and deduplication (one text per distinct normalised sequence per site)')
+for (a, b, ia, ib) in pairs:
+    x = cls_lab[a][ia]; y = cls_lab[b][ib]
+    if abs(log_odds(x, y)) < 1.5:
+        continue
+    shared = [cls_idx[a][j] for j in ia]
+    bysite = collections.Counter((T[i]['site'], T[i]['otype'], labels[i][a], labels[i][b]) for i in shared)
+    lines.append(f'[{a}] x [{b}]: ' + '; '.join(f'{s}/{o} a={la} b={lb} x{n}' for (s, o, la, lb), n in sorted(bysite.items())))
+    if len(shared) <= 60:
+        lines.append('   texts: ' + '; '.join(f"{list(texts)[i]}({T[i]['site']}/{T[i]['otype'][:4]}) {'-'.join(map(str, T[i]['seq']))}" for i in shared))
+# dedup: keep the first text of each (normalised sequence, site)
+seen = set(); keep = []
+for i, t in enumerate(T):
+    key = (norm(t), t['site'])
+    if key in seen:
+        continue
+    seen.add(key); keep.append(i)
+keepset = set(keep)
+cls_idx_d = {k: np.array([i for i in cls_idx[k] if i in keepset]) for k in keys}
+cls_lab_d = {k: np.array([labels[i][k] for i in cls_idx_d[k]]) for k in keys}
+pairs_d = []
+for a, b in itertools.combinations(keys, 2):
+    shared = sorted(set(cls_idx_d[a].tolist()) & set(cls_idx_d[b].tolist()))
+    if len(shared) >= MINPAIR:
+        pa = {t: j for j, t in enumerate(cls_idx_d[a].tolist())}; pb = {t: j for j, t in enumerate(cls_idx_d[b].tolist())}
+        pairs_d.append((a, b, np.array([pa[t] for t in shared]), np.array([pb[t] for t in shared])))
+def stats_d(lab):
+    g = 0.0; lo = []
+    for a, b, ia, ib in pairs_d:
+        x = lab[a][ia]; y = lab[b][ib]; g += len(x) * mi_bits(x, y); lo.append(log_odds(x, y))
+    return g, np.array(lo)
+Gd, LOd = stats_d(cls_lab_d)
+st_d = {k: np.array([hash((T[i]['site'], T[i]['otype'])) for i in cls_idx_d[k]]) for k in keys}
+nullG = np.zeros(NPERM); nullLO = np.zeros((NPERM, len(pairs_d)))
+for p in range(NPERM):
+    g, lo = stats_d({k: permute_within(cls_lab_d[k], st_d[k], rng) for k in keys}); nullG[p] = g; nullLO[p] = lo
+P = (np.sum(nullG >= Gd) + 1) / (NPERM + 1); z = (Gd - nullG.mean()) / (nullG.std() + 1e-12)
+pp = [(np.sum(np.abs(nullLO[:, j]) >= abs(LOd[j])) + 1) / (NPERM + 1) for j in range(len(pairs_d))]
+lines.append(f'DEDUP ({len(keep)} of {len(T)} texts kept): pairs {len(pairs_d)}; G={Gd:.2f} null {nullG.mean():.2f}+/-{nullG.std():.2f} z={z:+.2f} P={P:.3f}; pairs beyond own null {sum(1 for q in pp if q < 0.05)}/{len(pairs_d)}')
+for j, (a, b, ia, ib) in enumerate(pairs_d):
+    x = cls_lab_d[a][ia]; y = cls_lab_d[b][ib]
+    n11 = int(np.sum((x == 1) & (y == 1))); n10 = int(np.sum((x == 1) & (y == 0))); n01 = int(np.sum((x == 0) & (y == 1))); n00 = int(np.sum((x == 0) & (y == 0)))
+    lines.append(f'  [{a}] x [{b}] n={len(x)} {n11}/{n10}/{n01}/{n00} LO={LOd[j]:+.2f} p={pp[j]:.3f}')
+summary['dedup'] = dict(G=Gd, null=float(nullG.mean()), z=float(z), P=float(P))
+json.dump(summary, open(OUT + 'loop46_cycle4.json', 'w'), indent=1, default=float)
+open(OUT + 'loop46_cycle4_log.txt', 'w').write('\n'.join(lines) + '\n')
+print('\n'.join(lines[lines.index('\n## follow-up: by-site breakdown and deduplication (one text per distinct normalised sequence per site)'):]))

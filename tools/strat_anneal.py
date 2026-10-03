@@ -340,8 +340,12 @@ def main():
     ap.add_argument('--restarts', type=int, default=50); ap.add_argument('--steps', type=int, default=3000)
     ap.add_argument('--level', default='seq'); ap.add_argument('--quick', action='store_true')
     ap.add_argument('--procs', type=int, default=4); ap.add_argument('--seed', type=int, default=11)
+    ap.add_argument('--restarts_b', type=int, default=None, help='restarts for the cross-city stages B/Bp (default: --restarts)')
+    ap.add_argument('--steps_b', type=int, default=None, help='steps for the cross-city stages B/Bp (default: --steps)')
     A = ap.parse_args()
     if A.quick: A.restarts, A.steps = 4, 200
+    if A.restarts_b is None: A.restarts_b = A.restarts
+    if A.steps_b is None: A.steps_b = A.steps
     t0 = time.time()
     suffix = '' if A.level == 'seq' else '_' + A.level
     if A.quick: suffix += '_quick'
@@ -409,16 +413,18 @@ def main():
     results['C2_shuffled_order'] = dict(best=sC2, detail=dC2, scores=[r[0] for r in resC2])
 
     # ---- objective B: anneal on cross-city score, report held-out once (honest out-of-sample)
-    P(f'\n[B] anneal on Mohenjo-daro <-> Harappa cross-prediction (held-out never seen by the search)')
+    P(f'\n[B] anneal on Mohenjo-daro <-> Harappa cross-prediction (held-out never seen by the search), '
+      f'{A.restarts_b} restarts x {A.steps_b} steps')
+    J['restarts_b'] = A.restarts_b; J['steps_b'] = A.steps_b
     FS_mh = FactSet(T, S, md, ha); FS_hm = FactSet(T, S, ha, md)
     for fs in (FS_mh, FS_hm): fs.facts.pop('region', None)   # one region per city: undefined
-    resB = run_search(S, [FS_mh, FS_hm], A.restarts, A.steps, A.seed + 3000, A.procs, 'B')
+    resB = run_search(S, [FS_mh, FS_hm], A.restarts_b, A.steps_b, A.seed + 3000, A.procs, 'B')
     bestB = np.array(resB[0][1]); sB, dB = FS_held.score(bestB, detail=True)
     P(f'  best cross-city {resB[0][0]:.3f}; its held-out score {sB:.3f}  per fact {dB}')
     hb = [FS_held.score(np.array(r[1])) for r in resB[:10]]
     P(f'  held-out scores of top-10 cross-city solutions: median {np.median(hb):.3f}, range {min(hb):.3f}..{max(hb):.3f}')
     # control 1 for B
-    resBp = run_search(S, [FactSet(T, S, md, ha, perm_seed=7), FactSet(T, S, ha, md, perm_seed=7)], A.restarts, A.steps, A.seed + 4000, A.procs, 'Bp')
+    resBp = run_search(S, [FactSet(T, S, md, ha, perm_seed=7), FactSet(T, S, ha, md, perm_seed=7)], A.restarts_b, A.steps_b, A.seed + 4000, A.procs, 'Bp')
     sBp = FS_held.score(np.array(resBp[0][1])); hbp = [FS_held.score(np.array(r[1])) for r in resBp[:10]]
     P(f'  [B-C1] permuted-fact cross-city search: best cross-city {resBp[0][0]:.3f}; its true held-out score {sBp:.3f}; '
       f'held-out scores of its top-10: median {np.median(hbp):.3f}, max {max(hbp):.3f}')
