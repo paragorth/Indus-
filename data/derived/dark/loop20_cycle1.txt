@@ -33,3 +33,30 @@ set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
 861	817	strong	66	38	+0.069	0.4793	0.599
 390x407	407	cand	49	16	+0.320	0.0405	0.201
 survivors q<0.1: 0 of 5; p<0.05: 1 (expected 0.2)
+
+## Harappa vs period: 4 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	30	13	+0.248	0.5727	0.790
+803	806	strong	37	22	+0.138	0.5927	0.790
+861	817	strong	40	21	-0.049	0.8686	0.869
+390x407	407	cand	30	13	+0.158	0.3598	0.790
+survivors q<0.1: 0 of 4; p<0.05: 0 (expected 0.2)
+
+## Cross-city agreement (sets testable in both cities)
+
+### depth: 5 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.112	0.137	+0.383	0.080	same
+705	706	+0.143	0.024	-0.026	0.848	opp
+803	806	+0.111	0.297	+0.185	0.367	same
+861	817	+0.052	0.478	+0.069	0.479	same
+390x407	407	+0.139	0.328	+0.320	0.040	same
+same-direction 4 of 5 (binomial P(>= 4) = 0.188); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.01)
+
+### period: 4 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.112	0.407	+0.248	0.573	same
+803	806	+0.283	0.147	+0.138	0.593	same
+861	817	-0.074	0.392	-0.049	0.869	same
+390x407	407	+0.354	0.011	+0.158	0.360	same
+same-direction 4 of 4 (binomial P(>= 4) = 0.062); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.01)
