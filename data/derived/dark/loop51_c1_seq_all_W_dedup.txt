@@ -1,0 +1,97 @@
+# S-DARK-51 cycle 1, level seq_all, mode W HOME DEDUPED (one copy per distinct text per site): origin tracing of foreign-found texts
+foreign objects with >= 1 sign: 34 (sites: [('Altyn Depe', 1), ('Dilmun', 1), ('Failaka', 2), ('Girsu', 1), ('Gonur Depe', 1), ('Hajar', 1), ('Janabiyah', 1), ('Kalba', 1), ('Karzakan', 3), ('Kish', 2), ('Luristan', 1), ('Nippur', 1), ("Qala'at al-Bahrain", 1), ("Ra's al-Junayz", 3), ('Saar', 1), ('Salut', 2), ('Shortughai', 1), ('Susa', 2), ('Tell Umma', 1), ('Tello', 1), ('Tepe Yahya', 1), ('Ur', 5)])
+analysis set: 31 distinct foreign texts of >= 2 signs; home population 3481 texts; by site {'other-Indus': 207, 'Chanhu-daro': 70, 'Dholavira': 187, 'Harappa': 1190, 'Mohenjo-daro': 1509, 'Kalibangan': 152, 'Lothal': 166}
+
+== per-text scores (log LR vs pooled corpus; NN = normalised edit distance to nearest text at the site; copies = exact copies at home sites)
+  casia Altyn Depe           square   415-390                          -> Lothal       (margin 2.44; LR Mohe:-2.0 Hara:-1.6 Loth:+2.5 Kali:-2.6 Dhol:-0.7 Chan:-2.3 othe:+0.0) | NN Lothal 0.50 tied-sites 6 [390] | copies -
+  casia Gonur Depe           square   285-2-235-220-125-590-390-740    -> Mohenjo-daro (margin 0.39; LR Mohe:-2.9 Hara:-7.0 Loth:-5.0 Kali:-6.2 Dhol:-4.8 Chan:-3.3 othe:-5.1) | NN Mohenjo-daro 0.38 tied-sites 2 [861-2-235-590-390-740] | copies -
+  casia Shortughai           square   3-426                            -> other-Indus  (margin 1.37; LR Mohe:-0.4 Hara:+0.0 Loth:-1.4 Kali:+0.2 Dhol:-0.5 Chan:-0.5 othe:+1.5) | NN Harappa 0.50 tied-sites 6 [3-3] | copies -
+  gulf  Dilmun               round    415-803-1-717-354                -> other-Indus  (margin 0.44; LR Mohe:-8.3 Hara:-6.4 Loth:-1.7 Kali:-3.8 Dhol:-2.1 Chan:-3.1 othe:-1.2) | NN Mohenjo-daro 0.60 tied-sites 1 [415-220-717-740] | copies -
+  gulf  Failaka              round    90-861-317                       -> Dholavira    (margin 2.98; LR Mohe:-3.2 Hara:-3.4 Loth:-4.4 Kali:-4.0 Dhol:-0.2 Chan:-3.1 othe:-4.7) | NN Lothal 0.60 tied-sites 1 [626-861-2-317-520] | copies -
+  gulf  Failaka              round    716-350-1-90                     -> Harappa      (margin 0.42; LR Mohe:-8.8 Hara:-1.1 Loth:-3.5 Kali:-1.5 Dhol:-4.1 Chan:-2.5 othe:-4.2) | NN Mohenjo-daro 0.67 tied-sites 1 [545-31-350-400-740-90] | copies -
+  gulf  Hajar                tablet   117-617                          -> Harappa      (margin 0.08; LR Mohe:+0.1 Hara:+0.2 Loth:-3.0 Kali:-2.8 Dhol:-3.0 Chan:-2.1 othe:-3.1) | NN Mohenjo-daro 0.50 tied-sites 3 [142-617] | copies -
+  gulf  Janabiyah            round    71-31-831-55-121-99-55           -> Kalibangan   (margin 0.24; LR Mohe:-10.2 Hara:-7.9 Loth:-3.3 Kali:-3.0 Dhol:-4.4 Chan:-3.4 othe:-3.9) | NN other-Indus 0.86 tied-sites 7 [31-520] | copies -
+  gulf  Karzakan             round    91-31-455-220                    -> Kalibangan   (margin 0.01; LR Mohe:-4.1 Hara:-1.7 Loth:-3.4 Kali:+0.6 Dhol:+0.6 Chan:-2.4 othe:-3.4) | NN Mohenjo-daro 0.50 tied-sites 1 [31-125-455-220] | copies -
+  gulf  Karzakan             round    91-32-1-33                       -> Harappa      (margin 2.85; LR Mohe:-6.6 Hara:+3.2 Loth:-4.4 Kali:+0.4 Dhol:-1.1 Chan:-3.6 othe:-4.0) | NN Harappa 0.50 tied-sites 1 [91-32-700] | copies -
+  gulf  Karzakan             round    740-740                          -> Dholavira    (margin 3.50; LR Mohe:-5.2 Hara:+0.0 Loth:-1.4 Kali:-1.4 Dhol:+3.5 Chan:-3.5 othe:-0.3) | NN Dholavira 0.33 tied-sites 1 [742-740-740] | copies -
+  gulf  Qala'at al-Bahrain   round    190-60-55-90-160                 -> Chanhu-daro  (margin 0.76; LR Mohe:-5.7 Hara:-9.0 Loth:-4.6 Kali:-3.7 Dhol:-4.6 Chan:-2.9 othe:-4.3) | NN Lothal 0.80 tied-sites 7 [920-60-741-821-740] | copies -
+  gulf  Ra's al-Junayz       pot      220-29-740                       -> Dholavira    (margin 0.10; LR Mohe:-3.3 Hara:-2.4 Loth:-0.5 Kali:-1.1 Dhol:-0.4 Chan:-1.0 othe:-1.0) | NN Dholavira 0.33 tied-sites 4 [220-740] | copies -
+  gulf  Ra's al-Junayz       pot      4-390                            -> Kalibangan   (margin 0.64; LR Mohe:-0.1 Hara:+0.2 Loth:-0.2 Kali:+0.8 Dhol:-3.0 Chan:-2.2 othe:-0.1) | NN other-Indus 0.00 tied-sites 3 [4-390] | copies {'Mohenjo-daro': 1, 'Kalibangan': 1, 'other-Indus': 1}
+  gulf  Ra's al-Junayz       pot      517-892-740                      -> Chanhu-daro  (margin 0.62; LR Mohe:-6.0 Hara:-4.1 Loth:-3.0 Kali:-3.0 Dhol:-3.4 Chan:-2.4 othe:-3.5) | NN Harappa 0.33 tied-sites 1 [892-740] | copies -
+  gulf  Saar                 round    55-220-91-1-90-31                -> Chanhu-daro  (margin 0.78; LR Mohe:-6.8 Hara:-7.0 Loth:-0.4 Kali:-1.0 Dhol:-1.7 Chan:+0.4 othe:-4.9) | NN Mohenjo-daro 0.57 tied-sites 1 [705-220-440-1-350-90-353] | copies -
+  gulf  Salut                square   595-278-2-4-392                  -> Harappa      (margin 0.13; LR Mohe:-2.4 Hara:-2.3 Loth:-5.1 Kali:-4.5 Dhol:-3.3 Chan:-3.1 othe:-3.0) | NN Harappa 0.60 tied-sites 3 [125-861-2-4-390] | copies -
+  iran  Luristan             round    91-840-413-831                   -> Dholavira    (margin 0.01; LR Mohe:-3.8 Hara:-0.4 Loth:-3.2 Kali:+0.4 Dhol:+0.4 Chan:-2.3 othe:-3.9) | NN Harappa 0.60 tied-sites 1 [61-740-840-413-682] | copies -
+  iran  Susa                 round    365-90-407-604-700               -> other-Indus  (margin 0.15; LR Mohe:-9.6 Hara:-3.2 Loth:-3.8 Kali:-3.1 Dhol:+0.5 Chan:-2.4 othe:+0.7) | NN Harappa 0.60 tied-sites 2 [90-700] | copies -
+  iran  Susa                 cylinder 924-1-319-31-55-2-150-416        -> Chanhu-daro  (margin 0.85; LR Mohe:-5.6 Hara:-7.1 Loth:-6.1 Kali:-5.3 Dhol:-6.8 Chan:-4.5 othe:-5.9) | NN Dholavira 0.75 tied-sites 6 [575-31-2-226-231] | copies -
+  iran  Tepe Yahya           pot      95-2                             -> other-Indus  (margin 0.64; LR Mohe:-1.4 Hara:-0.5 Loth:+1.1 Kali:-2.4 Dhol:+0.4 Chan:-2.2 othe:+1.8) | NN Chanhu-daro 0.50 tied-sites 7 [820-2] | copies -
+  meso  Girsu                round    255-13-745-740                   -> Chanhu-daro  (margin 1.16; LR Mohe:-3.6 Hara:-2.9 Loth:-3.6 Kali:-1.0 Dhol:-0.7 Chan:+0.5 othe:-0.6) | NN Kalibangan 0.50 tied-sites 4 [13-840-740] | copies -
+  meso  Kish                 square   240-643                          -> Harappa      (margin 0.35; LR Mohe:-0.2 Hara:+0.5 Loth:-0.7 Kali:-3.0 Dhol:-0.9 Chan:+0.1 othe:-1.8) | NN Mohenjo-daro 0.33 tied-sites 1 [240-643-740] | copies -
+  meso  Kish                 square   416-840-60-3-220-590-390-740     -> Lothal       (margin 0.37; LR Mohe:-2.3 Hara:-1.1 Loth:+0.2 Kali:-4.6 Dhol:-0.2 Chan:-3.9 othe:-0.9) | NN Mohenjo-daro 0.38 tied-sites 2 [3-220-590-390-740] | copies -
+  meso  Tell Umma            sealing  127-705-2-4-390                  -> Kalibangan   (margin 2.38; LR Mohe:-5.4 Hara:-1.4 Loth:-5.1 Kali:+1.1 Dhol:-1.3 Chan:-3.7 othe:-3.3) | NN Harappa 0.40 tied-sites 3 [125-861-2-4-390] | copies -
+  meso  Tello                square   384-440-390-220                  -> Kalibangan   (margin 3.50; LR Mohe:-4.8 Hara:-8.2 Loth:-3.8 Kali:+1.1 Dhol:-3.6 Chan:-2.4 othe:-4.1) | NN Harappa 0.75 tied-sites 7 [3-390] | copies -
+  meso  Ur                   round    528-220-924-340-90               -> Harappa      (margin 1.26; LR Mohe:-8.3 Hara:-1.6 Loth:-3.8 Kali:-3.5 Dhol:-4.0 Chan:-2.8 othe:-4.3) | NN Harappa 0.60 tied-sites 2 [220-240-740-90] | copies -
+  meso  Ur                   round    415-803-1-328-4-2                -> other-Indus  (margin 0.45; LR Mohe:-9.4 Hara:-6.0 Loth:-1.2 Kali:-3.1 Dhol:-2.4 Chan:-2.9 othe:-0.8) | NN Mohenjo-daro 0.67 tied-sites 1 [139-1-4-390] | copies -
+  meso  Ur                   round    350-90-4                         -> other-Indus  (margin 0.25; LR Mohe:-1.0 Hara:-7.2 Loth:-3.7 Kali:-0.0 Dhol:-3.7 Chan:-2.3 othe:+0.2) | NN Mohenjo-daro 0.67 tied-sites 6 [4] | copies -
+  meso  Ur                   round    90-1                             -> Harappa      (margin 0.23; LR Mohe:-2.6 Hara:+1.3 Loth:-3.5 Kali:-2.7 Dhol:+1.1 Chan:-1.7 othe:-3.1) | NN Harappa 0.33 tied-sites 1 [90-1-520] | copies -
+  meso  Ur                   round    90-390                           -> Harappa      (margin 0.12; LR Mohe:-0.3 Hara:+0.7 Loth:-3.3 Kali:-2.9 Dhol:+0.6 Chan:-2.3 othe:-3.4) | NN Mohenjo-daro 0.00 tied-sites 1 [90-390] | copies {'Mohenjo-daro': 1}
+
+assignment counts (bigram LR): {'Lothal': 2, 'Mohenjo-daro': 1, 'other-Indus': 6, 'Dholavira': 4, 'Harappa': 8, 'Kalibangan': 5, 'Chanhu-daro': 5}
+assignment counts (NN):        {'Lothal': 3, 'Mohenjo-daro': 11, 'Harappa': 10, 'other-Indus': 2, 'Dholavira': 3, 'Chanhu-daro': 1, 'Kalibangan': 1}
+LR and NN agree on 8/31 texts
+  group gulf  n=14: LR {'other-Indus': 1, 'Dholavira': 3, 'Harappa': 4, 'Kalibangan': 3, 'Chanhu-daro': 3}; NN {'Mohenjo-daro': 5, 'Lothal': 2, 'other-Indus': 2, 'Harappa': 3, 'Dholavira': 2}
+  group meso  n=10: LR {'Chanhu-daro': 1, 'Harappa': 4, 'Lothal': 1, 'Kalibangan': 2, 'other-Indus': 2}; NN {'Kalibangan': 1, 'Mohenjo-daro': 5, 'Harappa': 4}
+  group iran  n= 4: LR {'Dholavira': 1, 'other-Indus': 2, 'Chanhu-daro': 1}; NN {'Harappa': 2, 'Dholavira': 1, 'Chanhu-daro': 1}
+  group casia n= 3: LR {'Lothal': 1, 'Mohenjo-daro': 1, 'other-Indus': 1}; NN {'Lothal': 1, 'Mohenjo-daro': 1, 'Harappa': 1}
+  shape round    n=17: LR {'other-Indus': 4, 'Dholavira': 3, 'Harappa': 5, 'Kalibangan': 2, 'Chanhu-daro': 3}; NN {'Mohenjo-daro': 7, 'Lothal': 2, 'other-Indus': 1, 'Harappa': 5, 'Dholavira': 1, 'Kalibangan': 1}
+  shape square   n= 7: LR {'Lothal': 2, 'Mohenjo-daro': 1, 'other-Indus': 1, 'Harappa': 2, 'Kalibangan': 1}; NN {'Lothal': 1, 'Mohenjo-daro': 3, 'Harappa': 3}
+  shape cylinder n= 1: LR {'Chanhu-daro': 1}; NN {'Dholavira': 1}
+  shape pot      n= 4: LR {'Dholavira': 1, 'Kalibangan': 1, 'Chanhu-daro': 1, 'other-Indus': 1}; NN {'Dholavira': 1, 'other-Indus': 1, 'Harappa': 1, 'Chanhu-daro': 1}
+  shape sealing  n= 1: LR {'Kalibangan': 1}; NN {'Harappa': 1}
+
+== leave-one-out calibration (bigram LR), every home text of >= 2 signs
+  [object removed] accuracy 0.230 vs chance (marginal product) 0.149; assigned marginal {'other-Indus': 353, 'Dholavira': 348, 'Harappa': 466, 'Chanhu-daro': 572, 'Lothal': 397, 'Kalibangan': 470, 'Mohenjo-daro': 483}
+     true Mohenjo-daro n= 1413: Mohe 0.22 Hara 0.11 Loth 0.12 Kali 0.15 Dhol 0.10 Chan 0.20 othe 0.09  (recall 0.22)
+     true Harappa      n= 1060: Mohe 0.10 Hara 0.24 Loth 0.12 Kali 0.14 Dhol 0.12 Chan 0.16 othe 0.12  (recall 0.24)
+     true Lothal       n=  134: Mohe 0.09 Hara 0.08 Loth 0.25 Kali 0.13 Dhol 0.11 Chan 0.16 othe 0.17  (recall 0.25)
+     true Kalibangan   n=  110: Mohe 0.11 Hara 0.13 Loth 0.13 Kali 0.23 Dhol 0.16 Chan 0.16 othe 0.08  (recall 0.23)
+     true Dholavira    n=  155: Mohe 0.08 Hara 0.09 Loth 0.13 Kali 0.22 Dhol 0.16 Chan 0.17 othe 0.15  (recall 0.16)
+     true Chanhu-daro  n=   65: Mohe 0.15 Hara 0.06 Loth 0.09 Kali 0.12 Dhol 0.08 Chan 0.35 othe 0.14  (recall 0.35)
+     true other-Indus  n=  152: Mohe 0.11 Hara 0.11 Loth 0.14 Kali 0.14 Dhol 0.12 Chan 0.18 othe 0.20  (recall 0.20)
+     precision: Mohe 0.65 Hara 0.55 Loth 0.09 Kali 0.05 Dhol 0.07 Chan 0.04 othe 0.08
+  [all copies of the text removed] accuracy 0.211 vs chance (marginal product) 0.157; assigned marginal {'other-Indus': 346, 'Kalibangan': 451, 'Dholavira': 349, 'Harappa': 501, 'Chanhu-daro': 542, 'Lothal': 389, 'Mohenjo-daro': 511}
+     true Mohenjo-daro n= 1413: Mohe 0.21 Hara 0.13 Loth 0.12 Kali 0.14 Dhol 0.10 Chan 0.19 othe 0.10  (recall 0.21)
+     true Harappa      n= 1060: Mohe 0.13 Hara 0.23 Loth 0.11 Kali 0.14 Dhol 0.12 Chan 0.15 othe 0.12  (recall 0.23)
+     true Lothal       n=  134: Mohe 0.12 Hara 0.10 Loth 0.24 Kali 0.12 Dhol 0.13 Chan 0.13 othe 0.16  (recall 0.24)
+     true Kalibangan   n=  110: Mohe 0.15 Hara 0.13 Loth 0.13 Kali 0.22 Dhol 0.16 Chan 0.15 othe 0.07  (recall 0.22)
+     true Dholavira    n=  155: Mohe 0.11 Hara 0.11 Loth 0.12 Kali 0.20 Dhol 0.14 Chan 0.16 othe 0.15  (recall 0.14)
+     true Chanhu-daro  n=   65: Mohe 0.22 Hara 0.08 Loth 0.08 Kali 0.09 Dhol 0.08 Chan 0.34 othe 0.12  (recall 0.34)
+     true other-Indus  n=  152: Mohe 0.13 Hara 0.15 Loth 0.15 Kali 0.15 Dhol 0.11 Chan 0.16 othe 0.14  (recall 0.14)
+     precision: Mohe 0.57 Hara 0.48 Loth 0.08 Kali 0.05 Dhol 0.06 Chan 0.04 othe 0.06
+
+== null: 1000 draws of 31 home texts, length-matched to the foreign set, assigned leave-one-out (object removed)
+observed: top-site share 0.26 (Harappa), top-2 share 0.45
+  corpus-mix null: top share 0.25 [0.19-0.35] P(obs >=) = 0.528; top-2 0.45 P = 0.548
+  uniform-site null: top share 0.26 P = 0.541
+  per-site assignment counts, observed vs corpus-mix null mean [2.5-97.5%] P_hi P_lo; uniform null mean P_hi P_lo:
+    Mohenjo-daro obs  1 | mix  4.95 [2-9] P_hi 0.998 P_lo 0.025 | uniform  3.66 P_hi 0.984 P_lo 0.099
+    Harappa      obs  8 | mix  4.48 [1-9] P_hi 0.070 P_lo 0.962 | uniform  3.57 P_hi 0.020 P_lo 0.995
+    Lothal       obs  2 | mix  3.87 [1-8] P_hi 0.916 P_lo 0.237 | uniform  4.45 P_hi 0.945 P_lo 0.164
+    Kalibangan   obs  5 | mix  4.86 [1-9] P_hi 0.576 P_lo 0.643 | uniform  5.25 P_hi 0.632 P_lo 0.561
+    Dholavira    obs  4 | mix  3.46 [1-7] P_hi 0.454 P_lo 0.741 | uniform  3.58 P_hi 0.480 P_lo 0.707
+    Chanhu-daro  obs  5 | mix  5.90 [2-10] P_hi 0.717 P_lo 0.450 | uniform  6.54 P_hi 0.812 P_lo 0.336
+    other-Indus  obs  6 | mix  3.48 [0-7] P_hi 0.128 P_lo 0.944 | uniform  3.95 P_hi 0.192 P_lo 0.915
+
+mean LR margin (best - second): foreign 0.951 vs length-matched home 0.994 [0.683-1.371] P_lo 0.428
+
+== NN calibration: 30 home texts per site (>= 2 signs), nearest neighbour with the object itself excluded
+  NN accuracy 0.167 (uniform chance 0.143); assigned marginal {'Mohenjo-daro': 83, 'Harappa': 61, 'Dholavira': 12, 'Chanhu-daro': 13, 'Lothal': 14, 'other-Indus': 18, 'Kalibangan': 9}
+     true Mohenjo-daro n= 30: Mohe 0.40 Hara 0.23 Loth 0.07 Kali 0.03 Dhol 0.07 Chan 0.10 othe 0.10
+     true Harappa      n= 30: Mohe 0.43 Hara 0.30 Loth 0.00 Kali 0.13 Dhol 0.00 Chan 0.03 othe 0.10
+     true Lothal       n= 30: Mohe 0.57 Hara 0.10 Loth 0.13 Kali 0.07 Dhol 0.03 Chan 0.00 othe 0.10
+     true Kalibangan   n= 30: Mohe 0.40 Hara 0.27 Loth 0.10 Kali 0.00 Dhol 0.07 Chan 0.07 othe 0.10
+     true Dholavira    n= 30: Mohe 0.27 Hara 0.27 Loth 0.03 Kali 0.03 Dhol 0.20 Chan 0.10 othe 0.10
+     true Chanhu-daro  n= 30: Mohe 0.30 Hara 0.53 Loth 0.03 Kali 0.03 Dhol 0.00 Chan 0.07 othe 0.03
+     true other-Indus  n= 30: Mohe 0.40 Hara 0.33 Loth 0.10 Kali 0.00 Dhol 0.03 Chan 0.07 othe 0.07
+  NN foreign top-site share 0.35 (Mohenjo-daro) vs uniform-site null 0.42 P = 0.889
+
+written data/derived/dark/loop51_c1_seq_all_W_dedup.txt

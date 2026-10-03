@@ -1,0 +1,37 @@
+# LOOP 50 (S-DARK-50): PICTORIALITY BY SLOT — final summary (3 Oct 2026)
+
+Question. A code meant to be read across languages should put recognisable pictures in the shared,
+meaning-bearing slots (openers, markers, heads) and arbitrary shapes in the identifier slot (the middle).
+A phonetic script shows no such split. Does the Indus repertoire split?
+
+Answer: NO. The sign repertoire shows no pictorial / abstract split by slot.
+
+Cycle 1  Two blind measures: a six-part glyph shape index (holes, outline-orientation spread, asymmetry,
+         perimetric complexity, skeleton segments, distance from the stroke cluster) and a keyword label from the
+         dossier shape descriptions (84 signs). Agreement AUC 0.84 (0.76 without numerals). The shape index is
+         partly a complexity index: plain tree / fish / arrow score 'abstract', hatched triangles 'pictorial'.
+Cycle 2  Roles from the S310/S331 parser, roles permuted inside frequency bins (1,000x), three merge levels.
+         Heads above the far middle on the shape index (P 0.002-0.015), but perimetric complexity alone gives the
+         same result (P <= 0.003) and the curvature-only index and the hand labels give nothing (P 0.18-0.53,
+         0.28). Openers, markers, suffixes are the LEAST picture-like signs. Token-weighted: head = middle.
+Cycle 3  Calibration. Egyptian living-things vs strokes AUC 0.97 (the meter works). Linear B ideograms vs
+         syllabograms AUC 0.74, frequency-matched P 0.003. Egyptian uniliteral phonograms are still pictures
+         (AUC 0.75 vs strokes). Cuneiform signs vs numerals 0.82 (the meter also reads complexity). Indus heads vs
+         far middle on the same scale 0.66, 0.63 without W617 (P 0.14); the Indus contrast is the complexity
+         component, not the curvature component that carries Linear B and Egyptian.
+Cycle 4  IM77 through the bridge: heads vs middle P 0.45-0.85 on every measure (W617 is a middle sign there).
+         S-DARK-27 prediction on 129 newly bridged rare signs: 51/115 middle-slot signs abstract (0.44, chance
+         0.5, P 0.26); 8/14 head-slot signs pictorial. No split.
+
+Implication for the 'business code / no language' thesis (PAPER-DRAFT). The repertoire does not behave like a
+code designed for non-speakers: the shared frame signs are plain strokes and simple figures (W2, W60, W400, jar,
+arrow), the identifier middle is as picture-rich as the heads, and the only graphic regularity is the
+frequency-driven simplification already seen in S164, which operates alike in every slot and in Linear B and
+cuneiform. This neither proves language nor kills the code reading; it removes one predicted signature of a
+cross-language code. If the system was readable by non-speakers, it was so by convention (learned signs), not
+by pictures. Not 'cracked'. Caveats: lipi glyphs are modern normalisations; dossier labels cover 84 signs;
+Proto-Elamite not measurable (no glyphs); Wells and IM77 are ~70% the same objects (S312).
+
+Files: tools/dark_loop50_c1.py, _c2.py, _c3.py, _c4.py, dark_loop50_shape.py;
+data/derived/dark/loop50_signs.json, loop50_roles_{seq_raw,seq_strong,seq_all}.json, loop50_calib_signs.json,
+loop50_cycle1_log.txt, loop50_cycle2_*.txt, loop50_cycle3.txt, loop50_cycle4.txt, loop50_row_c1..c4.txt.

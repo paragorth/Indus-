@@ -21,8 +21,9 @@ LV = sys.argv[1] if len(sys.argv) > 1 else 'seq_raw'
 MODE = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else 'W'
 NPERM = int(sys.argv[sys.argv.index('--nperm') + 1]) if '--nperm' in sys.argv else 1000
 NNPS = int(sys.argv[sys.argv.index('--nn-per-site') + 1]) if '--nn-per-site' in sys.argv else 80
+DEDUP = '--dedup-home' in sys.argv      # one copy per distinct text per site (stock texts collapsed)
 rnd = random.Random(51)
-OUT = f'data/derived/dark/loop51_c1_{LV}_{MODE}.txt'
+OUT = f'data/derived/dark/loop51_c1_{LV}_{MODE}{"_dedup" if DEDUP else ""}.txt'
 LOG = open(OUT, 'w')
 def P(*a):
     s = ' '.join(str(x) for x in a); print(s); LOG.write(s + '\n'); LOG.flush()
@@ -31,10 +32,11 @@ M = mapper(MODE)
 objs = load(LV)
 for o in objs: o['m'] = M(o['seq'])
 home = [o for o in objs if not o['foreign'] and not o['border'] and o['site'] != 'Unknown' and len(o['seq']) >= 1]
+if DEDUP: home = dedup(home)
 foreign_all = [o for o in objs if o['foreign']]
 F = dedup([o for o in foreign_all if len(o['seq']) >= 2])
 LAB = HOME_SITES + ['other-Indus']
-P(f'# S-DARK-51 cycle 1, level {LV}, mode {MODE}: origin tracing of foreign-found texts')
+P(f'# S-DARK-51 cycle 1, level {LV}, mode {MODE}{" HOME DEDUPED (one copy per distinct text per site)" if DEDUP else ""}: origin tracing of foreign-found texts')
 P(f'foreign objects with >= 1 sign: {len(foreign_all)} (sites: {sorted(collections.Counter(o["site"] for o in foreign_all).items())})')
 P(f'analysis set: {len(F)} distinct foreign texts of >= 2 signs; home population {len(home)} texts; '
   f'by site {dict(collections.Counter(home_label(o["site"]) for o in home))}')
