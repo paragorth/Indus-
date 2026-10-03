@@ -13,7 +13,9 @@ ZCRIT = norm.isf(0.025 / m)          # Bonferroni over statistics, two-sided
 ZAGREE = 2.0
 
 mu = {k: np.nanmean(v, 0) for k, v in R.items()}
-sd = {k: np.nanstd(v, 0) + 1e-12 for k, v in R.items()}
+sd = {k: np.maximum(np.nanstd(v, 0), 1e-3 * np.maximum(np.abs(np.nanmean(v, 0)), 1e-6) + 1e-4) for k, v in R.items()}
+NUMPROPS = ('is_num', 'next_is_num', 'prev_is_num', 'dist_to_nearest_num')
+isnum = np.array([any(t in nm for t in NUMPROPS) for nm in names])
 
 
 def z(a, b):
@@ -76,9 +78,13 @@ def main(ind='IND_raw', tag='cycle1'):
     for a in keys:
         fh.write(f'{a[:9]:>9} ' + ' '.join(f'{np.nanmean(np.abs(z(a, b)) > ZCRIT):9.2f}' for b in keys) + '\n')
     cols = [ind, 'PE', 'LA', 'LB_words', 'LB_syll', 'UR3_words', 'UR3_syll', 'VOY_words', 'VOY_chars']
-    report(fh, 'Accounting-notation fingerprint (strict: Indus~PE~LA agree; each differs from LB and Ur III at both granularities, same direction)', fp, cols)
+    fh.write(f'\nNumeral-involving statistics: {int(isnum.sum())}/{m}. Fingerprint strict: {sum(isnum[j] for j in fp)} numeral-based, {sum(not isnum[j] for j in fp)} not; '
+             f'loose: {sum(isnum[j] for j in fp_loose)} / {sum(not isnum[j] for j in fp_loose)}; residue: {sum(isnum[j] for j in resid)} / {sum(not isnum[j] for j in resid)}\n')
+    report(fh, 'Accounting-notation fingerprint, NON-numeral statistics (strict)', [j for j in fp if not isnum[j]], cols)
+    report(fh, 'Accounting-notation fingerprint, numeral-based statistics (strict)', [j for j in fp if isnum[j]], cols)
     report(fh, 'Accounting-notation fingerprint (loose: Indus differs from all four language corpora; PE and LA from at least one each, same direction)', fp_loose[:40], cols)
-    report(fh, 'Indus-specific residue (Indus differs from PE, LA, LB x2, Ur III x2, all same direction)', resid, cols)
+    report(fh, 'Indus-specific residue, NON-numeral (Indus differs from PE, LA, LB x2, Ur III x2, all same direction)', [j for j in resid if not isnum[j]], cols)
+    report(fh, 'Indus-specific residue, numeral-based', [j for j in resid if isnum[j]], cols)
     report(fh, 'Indus-specific residue (mixed directions)', resid_loose[:40], cols)
     # order dependence for the fingerprint / residue
     fh.write('\n## Order dependence (statistic changes when tokens are shuffled within texts; |z|>z_crit) for fingerprint and residue statistics\n')
