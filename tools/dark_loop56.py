@@ -362,3 +362,121 @@ if CY==2:
         m=v['med']; P(f'  {k:34s} '+' '.join(f'{m[x]:10.3f}' for x in LADDER)+f'   n={m["n"]} k={m["k"]} meanL={m["meanL"]:.2f}')
     R2['_verdict']=verd
     save('loop56_cycle2',R2)
+
+if CY==3:
+    P(f'== S-DARK-56 cycle 3: whole-text control, held-out positional transfer, seal-sealing sharing; ndraw {NB}')
+    R3={}
+    # (a) WHOLE texts vs WHOLE legends (removes the parser-stripping asymmetry)
+    P('\n##### (a) whole texts, deduplicated, >= 2 elements')
+    for LV in ['seq_raw','seq_all']:
+        objs=load_indus(LV); wt=sorted(set(tuple(o['seq']) for o in objs if len(o['seq'])>=2))
+        R3['indus_whole_'+LV]=boot(wt,f'Indus WHOLE texts {LV} dedup',nboot=max(20,NB//2))
+    n0=R3['indus_whole_seq_raw']['n']
+    def ur3_whole():
+        out=[]
+        for l in open('data/derived/dark/loop48_corpora/ur3_words.jsonl'):
+            s=json.loads(l)['seq']
+            toks=[]
+            for w in s:
+                w=w.replace('_','')
+                if 'x' in w.split('-') or '...' in w: toks=None; break
+                toks+= [t for t in w.split('-') if t]
+            if toks and 2<=len(toks)<=14: out.append(tuple(toks))
+        return sorted(set(out))
+    R3['ur3_whole_legends']=draws(ur3_whole(),n0,'Ur III WHOLE legends dedup, sign tokens',ndraw=max(20,NB//2))
+    # Linear B whole personnel lines (As/B/An/Jn etc.), one line = one text, syllabograms + ideograms, dedup
+    import re as _re
+    items=[json.loads(l) for l in open('other-scripts/linear-a/data/damos_items.jsonl')]
+    lbl=set()
+    for it in items:
+        h=it.get('heading','')
+        m=_re.match(r'(KN|PY|TH|MY)\s+([A-Z][a-z]?)(?:\(\d+\))?\s',h)
+        if not m or m.group(2) not in('As','B','An','Jn','Ap','Ad','Ae','Cn','Da','Db','Dc','Dd','De','Df','Dg','Dk','Dl','Dm','Dn','Dq','Dv','Ea','Eb','En','Eo','Ep','Es','V','Vc'): continue
+        for ln in it['content'].split('\n'):
+            toks=[t.strip(",'/") for t in ln.split()]
+            toks=[t for t in toks if t and not _re.match(r'^\.?[0-9AaBbv]+[ab]?$',t)]
+            if any(ch in ''.join(toks) for ch in '[]?*'): continue
+            seq=[]
+            for t in toks:
+                if _re.fullmatch(r'[a-z0-9-]+',t) and '-' in t: seq+=t.split('-')
+                elif _re.fullmatch(r'[A-Z]+[0-9]*',t): seq.append(t)
+                elif _re.fullmatch(r'[0-9]+',t): seq.append('NUM')
+            if 2<=len(seq)<=14: lbl.add(tuple(seq))
+    R3['linb_whole_personnel_lines']=draws(sorted(lbl),n0,'Linear B WHOLE personnel-series lines dedup',ndraw=max(20,NB//2))
+    # (b) held-out positional transfer: fit initial/final preference on a training split, test on a held-out split
+    P('\n##### (b) positional morphology transfer: preference fitted on split A, scored on split B (share of frequent-element tokens in B at their A-preferred edge; null = within-name shuffle of B)')
+    def pos_pref(names,fmin=5):
+        pos=collections.defaultdict(lambda:[0,0,0])
+        for n in names:
+            L=len(n)
+            for i,a in enumerate(n): pos[a][0 if i==0 else 2 if i==L-1 else 1]+=1
+        pref={}
+        for a,v in pos.items():
+            if sum(v)>=fmin and v[0]!=v[2]: pref[a]=0 if v[0]>v[2] else 2
+        return pref
+    def score(names,pref):
+        hit=0; tot=0
+        for n in names:
+            L=len(n)
+            for i,a in enumerate(n):
+                if a in pref:
+                    p=0 if i==0 else 2 if i==L-1 else 1
+                    tot+=1; hit+=(p==pref[a])
+        return hit/tot if tot else float('nan')
+    def transfer(A,B,label,r=random.Random(3)):
+        pref=pos_pref(A); obs=score(B,pref)
+        nul=[score(shuffle_names(B,r,'shuf'),pref) for _ in range(200)]
+        mu=sum(nul)/len(nul); sd=(sum((x-mu)**2 for x in nul)/len(nul))**0.5
+        # also: how many preferences REVERSE between A and B among elements frequent in both
+        pb=pos_pref(B); both=[a for a in pref if a in pb]; agree=sum(1 for a in both if pref[a]==pb[a])/len(both) if both else float('nan')
+        P(f'  {label}: train n={len(A)} ({len(pref)} elements with an edge preference), test n={len(B)}: edge agreement {obs:.3f} vs shuffle {mu:.3f} +- {sd:.3f} (z={(obs-mu)/sd if sd else float("nan"):.1f}); elements frequent in both {len(both)}, same preferred edge {agree:.3f} (chance 0.5)')
+        return dict(train=len(A),test=len(B),npref=len(pref),obs=obs,null=mu,sd=sd,z=(obs-mu)/sd if sd else None,nboth=len(both),agree=agree)
+    for LV in ['seq_raw','seq_all','im77']:
+        objs=load_indus(LV) if LV!='im77' else im77_objects()
+        A=sorted(set(o['mid'] for o in objs if o['big'] and len(o['mid'])>=2)); B=sorted(set(o['mid'] for o in objs if not o['big'] and len(o['mid'])>=2))
+        R3[f'transfer_indus_{LV}_MDH_to_heldout']=transfer(A,B,f'Indus {LV} middles MD+H -> other sites')
+        A2=sorted(set(o['mid'] for o in objs if o['site']=='Mohenjo-daro' and len(o['mid'])>=2)); B2=sorted(set(o['mid'] for o in objs if o['site']=='Harappa' and len(o['mid'])>=2))
+        R3[f'transfer_indus_{LV}_MD_to_H']=transfer(A2,B2,f'Indus {LV} middles Mohenjo-daro -> Harappa')
+    KN=[s for s in jl('linb_personnel_KN') if len(s)>=2]; PY=[s for s in jl('linb_personnel_PY') if len(s)>=2]
+    R3['transfer_linb_KN_to_PY']=transfer(KN,PY,'Linear B personnel names Knossos -> Pylos')
+    # Ur III by site from loop48
+    TITLE={'dumu','dub-sar','lugal','arad2','arad2-zu','arad','lu2','ensi2','ugula','nu-banda3','gudu4','dam-gar3','sanga','sukkal','szabra','agrig','sipa','lunga','simug','aszgab','nagar','kuruszda','szagina','ra2-gab','gal5-la2','muhaldim','kiszib3','dam','szesz','nin','ama','ab-ba','i3-du8','sagi','gal','nar','azlag2','ma2-lah5','szu-i','ad-kup4','bahar2','szitim','engar','mu'}
+    bysite=collections.defaultdict(set)
+    for l in open('data/derived/dark/loop48_corpora/ur3_words.jsonl'):
+        d=json.loads(l); w=d['seq'][0].replace('_','')
+        if w in TITLE or 'x' in w.split('-') or '...' in w: continue
+        t=tuple(x for x in w.split('-') if x)
+        if len(t)>=2: bysite[d['site']].add(t)
+    R3['transfer_ur3_Umma_to_Girsu']=transfer(sorted(bysite['Umma']),sorted(bysite['Girsu']),'Ur III names Umma -> Girsu')
+    R3['transfer_ur3_Umma_to_PuzrisDagan']=transfer(sorted(bysite['Umma']),sorted(bysite['Puzriš-Dagan']),'Ur III names Umma -> Puzris-Dagan')
+    icd=[s for s in jl('icd10')]; r=random.Random(5); r.shuffle(icd)
+    R3['transfer_icd_split']=transfer(icd[:3000],icd[3000:6000],'ICD-10 random split (designed code control)')
+    pe=[s for s in jl('proto_elamite_mid') if len(s)>=2]; r.shuffle(pe)
+    R3['transfer_pe_split']=transfer(pe[:1500],pe[1500:3000],'Proto-Elamite middles random split')
+    # which Indus elements are edge-bound, and do they agree across the split (listing)
+    objs=load_indus('seq_raw'); A=sorted(set(o['mid'] for o in objs if o['big'] and len(o['mid'])>=2)); B=sorted(set(o['mid'] for o in objs if not o['big'] and len(o['mid'])>=2))
+    pa=pos_pref(A,10); pb=pos_pref(B,5)
+    P('  Indus seq_raw elements with >= 10 tokens in MD+H middles and an edge preference, with held-out preference: '+', '.join(f'W{a}:{"init" if p==0 else "final"}{"/same" if pb.get(a)==p else "/rev" if a in pb else ""}' for a,p in sorted(pa.items())))
+    # (c) seal-sealing sharing by site
+    P('\n##### (c) sealings vs seals: share of sealing middles (>= 2 elements) found verbatim on a seal from the SAME site vs from OTHER sites; element-level: share of sealing-middle element tokens attested in same-site seal middles; null = permute site labels of seals (200x)')
+    for LV in ['seq_raw','seq_all']:
+        objs=load_indus(LV)
+        seals=[o for o in objs if o['ot']=='seal' and len(o['mid'])>=2]; tags=[o for o in objs if o['ot']=='sealing' and len(o['mid'])>=2]
+        sites=sorted(set(o['site'] for o in tags))
+        res={}
+        for st in sites:
+            T=[o['mid'] for o in tags if o['site']==st]
+            if len(T)<10: continue
+            Sm=set(o['mid'] for o in seals if o['site']==st); So=set(o['mid'] for o in seals if o['site']!=st)
+            same=sum(1 for m in T if m in Sm)/len(T); other=sum(1 for m in T if m in So)/len(T)
+            Es=set(a for o in seals if o['site']==st for a in o['mid'])
+            el_same=sum(1 for m in T for a in m if a in Es)/sum(len(m) for m in T)
+            labs=[o['site'] for o in seals]; r=random.Random(9); nul=[]; nule=[]
+            for _ in range(200):
+                r.shuffle(labs); Sp=set(o['mid'] for o,l in zip(seals,labs) if l==st); Ep=set(a for o,l in zip(seals,labs) if l==st for a in o['mid'])
+                nul.append(sum(1 for m in T if m in Sp)/len(T)); nule.append(sum(1 for m in T for a in m if a in Ep)/sum(len(m) for m in T))
+            mu=sum(nul)/200; mue=sum(nule)/200
+            P(f'  {LV} {st}: sealings {len(T)}, seals here {len(Sm)}: verbatim on same-site seal {same:.3f} (permuted sites {mu:.3f}; max {max(nul):.3f}), on other-site seal {other:.3f}; element coverage by same-site seals {el_same:.3f} (permuted {mue:.3f})')
+            res[st]=dict(n=len(T),seals=len(Sm),same=same,null=mu,nullmax=max(nul),other=other,el_same=el_same,el_null=mue)
+        R3['sealing_'+LV]=res
+    save('loop56_cycle3',R3)
