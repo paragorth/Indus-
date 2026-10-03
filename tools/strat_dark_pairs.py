@@ -94,8 +94,8 @@ print('train objects',len(TR),'pairs',len(PTR),'| held-out objects',len(TE),'pai
 surv=[]
 for h in range(NH):
     kind,p,fact=make(rng)
-    r=evaluate(kind,p,fact,TR,PTR,'raw',200)
-    if not r or r[1]>=0.001: continue
+    r=evaluate(kind,p,fact,TR,PTR,'raw',500)
+    if not r or r[1]>0.0021: continue
     r2=evaluate(kind,p,fact,TE,PTE,'raw',500); r3=evaluate(kind,p,fact,TR,PTR,'all',200)
     ok=(r2 is not None and r2[1]<0.01) and (r3 is not None and r3[1]<0.01)
     surv.append(dict(kind=kind,p=p,fact=fact,train=r,held=r2,all=r3,ok=ok))

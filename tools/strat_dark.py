@@ -120,9 +120,9 @@ surv=[]; tried=0
 for h in range(NH):
     kind,p=make_reading(rng); fact=rng.choice(FACTS)
     if fact in ('site','region','area') and kind in ('contains',): pass
-    r=evaluate(kind,p,fact,TRAIN,'seq_raw',200,rng)
+    r=evaluate(kind,p,fact,TRAIN,"seq_raw",500,rng)
     tried+=1
-    if not r or r[1]>=0.001: continue
+    if not r or r[1]>0.0021: continue
     # held-out replication
     r2=evaluate(kind,p,fact,TEST,'seq_raw',1000,rng,minn=60) if fact not in ('site','region') else None
     ok_held = (r2 is not None and r2[1]<0.01)
