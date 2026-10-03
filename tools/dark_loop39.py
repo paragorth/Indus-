@@ -20,6 +20,16 @@ import numpy as np
 import strat_adequacy as SA                        # identical battery, parser, Cat, CRP, fit_theta, compare, summary
 OUTD = 'data/derived/dark/'
 LOG = []
+import bisect, itertools
+def _fast_sample(self, rng):
+    """same distribution as strat_adequacy.Cat.sample (shrinkage to parent, then categorical), cumulative weights cached"""
+    if self.parent is not None and self.n + self.lam > 0 and rng.random() < self.lam / (self.n + self.lam):
+        return self.parent.sample(rng)
+    if self.n == 0: return self.parent.sample(rng)
+    if self.keys is None:
+        self.keys = list(self.c.keys()); self.w = [self.c[k] for k in self.keys]; self.cw = list(itertools.accumulate(self.w))
+    return self.keys[bisect.bisect(self.cw, rng.random() * self.cw[-1])]
+SA.Cat.sample = _fast_sample
 def log(*a):
     s = ' '.join(str(x) for x in a); print(s, flush=True); LOG.append(s)
 
@@ -113,9 +123,60 @@ class Form:
             g['rank'] = (g['rank'] * g['w'] + f['rank'] * f['w']) / (g['w'] + f['w']); g['w'] += f['w']; g['members'] |= f['members']
             fields.pop(small)
         fields.sort(key=lambda f: f['rank'])
-        self.fields = [sorted(f['members'], key=lambda x: -has[x]) for f in fields]
+        fo = {x: i for i, f in enumerate(fields) for x in f['members']}
+        K = len(fields)
+        # ---- refinement: coordinate descent on the number of violated pair instances
+        #      (x before y but field(x) > field(y); x, y co-occurring in one field), alternating with a
+        #      re-ordering of the fields (insertion local search on the field-level before/after matrix)
+        nb_bef = collections.defaultdict(dict); nb_aft = collections.defaultdict(dict); co = collections.defaultdict(dict)
+        for (x, y), c in before.items(): nb_bef[x][y] = c; nb_aft[y][x] = c
+        for (x, y), c in both.items(): co[x][y] = c; co[y][x] = c
+        signs = sorted(has, key=lambda v: (-has[v], v))
+        def cost(x, g):
+            c = 0
+            for y, v in nb_bef[x].items():
+                if g > fo[y]: c += v
+            for y, v in nb_aft[x].items():
+                if g < fo[y]: c += v
+            for y, v in co[x].items():
+                if fo[y] == g: c += v
+            return c
+        def reorder():
+            B = [[0] * K for _ in range(K)]
+            for (x, y), c in before.items():
+                if fo[x] != fo[y]: B[fo[x]][fo[y]] += c
+            perm = list(range(K))
+            def back(perm):
+                return sum(B[perm[i]][perm[j]] for i in range(K) for j in range(i))
+            cur = back(perm); improved = True
+            while improved:
+                improved = False
+                for i in range(K):
+                    for j in range(K):
+                        if i == j: continue
+                        p = perm[:]; f = p.pop(i); p.insert(j, f); c = back(p)
+                        if c < cur - 1e-9: perm, cur, improved = p, c, True
+            newpos = {f: i for i, f in enumerate(perm)}
+            for x in fo: fo[x] = newpos[fo[x]]
+        self.moves = []
+        for rnd in range(4):
+            reorder(); moved = 0
+            for x in signs:
+                g0 = fo[x]; c0 = cost(x, g0); best = (c0, g0)
+                for g in range(K):
+                    if g != g0:
+                        c = cost(x, g)
+                        if c < best[0] - 1e-9: best = (c, g)
+                if best[1] != g0: fo[x] = best[1]; moved += 1
+            self.moves.append(moved)
+            if moved == 0: break
+        reorder()
+        used = sorted(set(fo.values())); remap = {g: i for i, g in enumerate(used)}
+        self.fields = [[] for _ in used]
+        for x in signs: self.fields[remap[fo[x]]].append(x)
         self.K = len(self.fields)
         self.field_of = {x: i for i, f in enumerate(self.fields) for x in f}
+        self.rank = {x: statistics.mean(v) for x, v in pos.items()}
         # order of fields re-estimated from the actual before/after counts (field i before field j)
         self.order_ok = self.order_stats()
     def order_stats(self):
@@ -317,7 +378,7 @@ def keyline(rows):
 
 def describe_form(F, texts, model=None, topn=8):
     has = F.has
-    log(f"form: {F.K} fields; fixed-order consistency of sign pairs with the field order: {F.order_ok:.3f}")
+    log(f"form: {F.K} fields; fixed-order consistency of sign pairs with the field order: {F.order_ok:.3f}; refinement moves per round {F.moves}")
     for i, f in enumerate(F.fields):
         toks = sum(has[x] for x in f)
         menu = ', '.join(f"{x}({has[x]})" for x in f[:topn]) + (f" ... +{len(f) - topn}" if len(f) > topn else '')
