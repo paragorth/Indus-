@@ -133,7 +133,7 @@ def ub(n): return f'< {3/n:.2f}' if n>0 else 'n=0'
 def report(name,texts):
     print(f'\n===== {name}: {len(texts)} texts =====')
     for id_,tier,t in texts: print('  ',tier,id_,'-'.join('?' if x is None else str(x) for x in t))
-    obs=stats(texts); REPS=2000
+    obs=stats(texts); REPS=500
     sh=[stats(shuffled(texts)) for _ in range(REPS)]
     model=bigram_model(); bg=[stats(synth(texts,model)) for _ in range(REPS)]
     def null(key,pool): v=[s[key] for s in pool]; return sum(v)/len(v), sum(1 for x in v if x>=obs[key])/len(v), sum(1 for x in v if x<=obs[key])/len(v)

@@ -1,0 +1,30 @@
+LOOP 33 FINAL: induce the whole code as a finite-state machine (4 cycles + control cycle 5; tools/dark_loop33.py; all three merge levels)
+Files: loop33_cycle1.txt .. loop33_cycle4.txt (one STRATEGIES.md row each), per-level logs loop33_cycle{1,2,3,4}_seq_{raw,strong,all}.txt,
+loop33_cycle5_seq_raw.txt (control corpora), tables loop33_c{1,2,5}_<level>.json, automata loop33_automaton_{seals,all+type}_<level>.{json,dot}.
+
+QUESTION. If the Indus texts are a designed business code, the whole grammar should be a small probabilistic finite automaton that is learnable from
+Mohenjo-daro + Harappa, accepts nearly all genuine new texts, rejects their shuffles, and licenses a listable set of messages.
+
+ANSWER (same on seq_raw, seq_strong, seq_all): a small automaton is learnable, but it is the frame, and it fails every test that would make it a code.
+ 1. Learnability (33.1). ALERGIA on seals gives 8-16 states; shuffled texts give 2-4 states and no predictive gain, so the structure is real. But two thirds
+    of the gain survives a within-slot shuffle (frame positions only), a Markov-2 clone is learned as well as the real corpus, the best automaton for all
+    object types has ~105 states and only equals Markov-1, and the gain per sign (0.4-0.8 nats) is Linear B / Proto-Elamite level, half of Ur III legends.
+ 2. Held-out acceptance (33.2). Genuine new texts accepted: held-out sites 0.94-0.97, the 324 IM77-only texts 0.77-0.82 (seals). Shuffles of the same
+    texts accepted 0.62-0.86; AUC genuine vs shuffle 0.72-0.77 (0.82-0.85 for 3+ signs), vs slot shuffle 0.53-0.62. Calibration: a strict designed code
+    0.97-0.99 (rejects 93-96% of shuffles), planted frame 0.91-0.94, Ur III legends 0.90-0.95, Markov-2 clone of Indus 0.82-0.85, Proto-Elamite 0.79-0.82,
+    Linear B 0.71-0.76, shuffled Indus 0.50.
+ 3. Reading (33.3). States = START, after-OPENER, MIDDLE HUB (fish-mark loop, numeral phrases, lexicon run, leaf), PRE-CLOSER (free titles) and a separate
+    PRE-CLOSER for fixed terms (w142/w575/w585 -> jar), END HUB (end 0.79, suffix loop). Form: [opener connective]? phrases* [titles | fixed term] closer
+    suffix* [second unit]?. New vs the hand grammar: second-unit loops (END -> numeral phrase 27x, -> opener 13x, -> connective 11x; lexicon -> opener 60x)
+    and 18-31 forbidden class bigrams (jar->jar, jar->title, opener->fish mark, connective->tree, jar<->arrow ...), which hold on held-out sites (5/969) and
+    IM77-new (4/534) at ~1/7 of the shuffle rate (39, 20). Class order generalises with Kendall tau 0.51-0.59. The middle is a hub that returns to itself:
+    any phrase type may follow any other (S-DARK-26's result from a different method).
+ 4. Size (33.4). At P >= 1e-4 the seal automaton generates ~600-770 texts, 18-28% seen, holding only 27-42% of its mass; P(next seal text new) 0.90 (raw)
+    agrees with Good-Turing 0.82 and S309's 95%. The generator is open-ended, not a listable message set.
+
+VERDICT. NULL for the premise 'the whole code is a compact automaton'. What is compact is the frame (opener-connective ... closer-suffix) plus about ten
+phrase types; what fills the hub is unpredictable to any finite-state model we can fit, as unpredictable as a second-order chain of itself, and the new
+IM77 texts confirm it. New facts worth keeping: the forbidden-transition list and the second-unit loops generalise to new sites and new texts (candidate
+GRAMMAR.md addition); the fixed pre-jar terms occupy a state of their own. Nothing here is a reading; no sign values.
+Caveats: fit set from the older merged-corpus-canonical.json (CLAUDE.md data caution); 77% of the 'new' IM77 texts are MD + Harappa; texts of 2 signs
+cannot be separated from their reverses by any model, which lowers all AUCs (3+-sign AUCs are given alongside).

@@ -337,9 +337,32 @@ def cycle3(rows, W):
             fr = np.array([lo_rate(r) for r in S])
             # width of the last sign and 'last sign is wide'
             wl = np.array([W[r[lv][-1]] for r in S])
-            feats = [('ink/H density', dens), ('face width H (mm)', H), ('log area H*V', area), ('final rate of last sign (LOO, >= 5 other tokens)', fr),
-                     ('last sign normally non-final (rate < 0.25)', (fr < 0.25).astype(float) * np.where(np.isnan(fr), np.nan, 1)), ('width of last sign', wl)]
+            feats = [('ink/H density', dens), ('face width H (mm)', H), ('log area H*V', area), ('width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness)', wl)]
             rep.append(f'variant {variant}: closer-less {lab.sum()} vs closer-bearing {(1-lab).sum()}')
+            # the ending of closer-less texts: (i) within closer-less texts, do crowded faces end in less-final signs (space truncation)?
+            m1 = (lab == 1) & ~np.isnan(fr)
+            rho_cr = spearman(dens[m1], fr[m1])
+            idx1 = np.nonzero(m1)[0]; st1 = [strata[i] for i in idx1]
+            def perm_within(x, st):
+                g = collections.defaultdict(list)
+                for i, s in enumerate(st): g[s].append(i)
+                xp = x.copy()
+                for ii in g.values():
+                    ii = np.array(ii); xp[ii] = x[ii][rng.permutation(len(ii))]
+                return xp
+            nullc = np.array([spearman(perm_within(dens[m1], st1), fr[m1]) for _ in range(NPERM)])
+            rep.append(f'  within closer-less texts ({m1.sum()}): rho(ink/H crowding, LOO final rate of the last sign) = {rho_cr:+.3f}; crowding permuted within site x length: [{np.percentile(nullc,2.5):+.3f},{np.percentile(nullc,97.5):+.3f}], P (one-sided, negative = crowded faces end in non-final signs) {pval(nullc, rho_cr, "less"):.3f}')
+            rep.append(f'    mean LOO final rate of the last sign: closer-less {np.nanmean(fr[lab==1]):.3f} (crowded top quartile {np.nanmean(fr[(lab==1) & (dens > np.nanpercentile(dens,75))]):.3f}, rest {np.nanmean(fr[(lab==1) & (dens <= np.nanpercentile(dens,75))]):.3f}) vs closer-bearing {np.nanmean(fr[lab==0]):.3f} (the latter is high by construction)')
+            out[(lv, variant, 'crowd-final')] = (rho_cr, pval(nullc, rho_cr, 'less'))
+            # (ii) does the last sign of a closer-less text look like the pre-closer sign of a closer-bearing text, or like a random sign of the text?
+            last_cl = collections.Counter(r[lv][-1] for r, l in zip(S, lab) if l == 1)
+            pre_cb = collections.Counter(r[lv][-2] for r, l in zip(S, lab) if l == 0 and len(r[lv]) >= 3)
+            rand_cl = collections.Counter(t for r, l in zip(S, lab) if l == 1 for t in r[lv][:-1])
+            def cos(a, b):
+                ks = set(a) | set(b); va = np.array([a.get(k, 0) for k in ks], float); vb = np.array([b.get(k, 0) for k in ks], float)
+                return float(va @ vb / np.sqrt((va @ va) * (vb @ vb)))
+            rep.append(f'  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine {cos(last_cl, pre_cb):.3f}; vs the non-final signs of the closer-less texts themselves: {cos(last_cl, rand_cl):.3f}; vs the pre-closer sign of closer-bearing texts, non-final signs: {cos(pre_cb, rand_cl):.3f}')
+            rep.append('    commonest last signs of closer-less texts: ' + ', '.join(f'W{s} {c}' for s, c in last_cl.most_common(10)) + ' | commonest pre-closer signs: ' + ', '.join(f'W{s} {c}' for s, c in pre_cb.most_common(10)))
             for name, x in feats:
                 ok = ~np.isnan(x)
                 def stat(l, x=x, ok=ok):
@@ -358,11 +381,26 @@ def cycle3(rows, W):
         Sg = [r for r in rows if r['type'].startswith('SEAL') and r['nlines'] == 1 and r['complete'] and not r['broken'] and not r['has000'] and len(r[lv]) >= 2 and r['dir'] not in ('BUS', 'T/B', 'SYM')]
         both = Wr + Sg; labw = np.array([1] * len(Wr) + [0] * len(Sg))
         strata = [(r['site'], min(len(r[lv]), 8)) for r in both]
+        def seg_ends(r):
+            """Last sign of each '/' segment in reading order (segment order itself unknown, S-DARK-8.2)."""
+            core = r['text'].strip('+[] ').split('/')
+            segs = [[int(t) for t in l.split('-') if t.strip().isdigit()] for l in core]
+            segs = [[maps_lv.get(t, t) for t in reversed(s)] for s in segs if s]
+            return [s[-1] for s in segs]
+        maps_lv = {}
+        for r in rows:   # recover this level's merge map from the rows (raw -> level)
+            for a, b in zip(r['seq_raw'], r[lv]):
+                if a != b: maps_lv[a] = b
         clos_rate = np.array([1.0 if r[lv][-1] in CLOSERS else 0.0 for r in both])
-        obs = clos_rate[labw == 1].mean() - clos_rate[labw == 0].mean()
-        null = strata_perm(labw, strata, NPERM, lambda l: clos_rate[l == 1].mean() - clos_rate[l == 0].mean())
+        clos_any = np.array([1.0 if any(e in CLOSERS for e in seg_ends(r)) else 0.0 for r in both])
         Lw = np.array([len(r[lv]) for r in Wr]); Ls = np.array([len(r[lv]) for r in Sg])
-        rep.append(f'wrapped two-line seals: {len(Wr)} (L mean {Lw.mean():.2f}) vs single-line {len(Sg)} (L mean {Ls.mean():.2f}); closer rate wrapped {clos_rate[labw==1].mean():.3f} vs single {clos_rate[labw==0].mean():.3f}; length-and-site-matched diff {obs:+.3f} [null {np.percentile(null,2.5):+.3f},{np.percentile(null,97.5):+.3f}], P {pval(null, obs, "two"):.3f}')
+        rep.append(f'wrapped two-line seals: {len(Wr)} (L mean {Lw.mean():.2f}) vs single-line {len(Sg)} (L mean {Ls.mean():.2f})')
+        for nm, cr in [('closer = last sign in the stored order', clos_rate), ('closer at the end of either segment', clos_any)]:
+            obs = cr[labw == 1].mean() - cr[labw == 0].mean()
+            null = strata_perm(labw, strata, NPERM, lambda l, cr=cr: cr[l == 1].mean() - cr[l == 0].mean())
+            rep.append(f'  {nm}: wrapped {cr[labw==1].mean():.3f} vs single {cr[labw==0].mean():.3f}; length-and-site-matched diff {obs:+.3f} [null {np.percentile(null,2.5):+.3f},{np.percentile(null,97.5):+.3f}], P {pval(null, obs, "two"):.3f}')
+        obs = clos_any[labw == 1].mean() - clos_any[labw == 0].mean()
+        null = strata_perm(labw, strata, NPERM, lambda l: clos_any[l == 1].mean() - clos_any[l == 0].mean())
         hw = [r['H'] for r in Wr if r['H'] and 5 <= r['H'] <= 70]; hs = [r['H'] for r in Sg if r['H'] and 5 <= r['H'] <= 70]
         # H of wrapped vs single at matched length
         bothH = [r for r in both if r['H'] and 5 <= r['H'] <= 70]; labH = np.array([1 if r['nlines'] >= 2 else 0 for r in bothH]); Hb = np.array([r['H'] for r in bothH])
@@ -372,14 +410,11 @@ def cycle3(rows, W):
         # where does the break fall? share of wrapped seals whose first line ends in a closer-class sign / whose second line is a closer unit
         ends_first = collections.Counter()
         for r in Wr:
-            core = r['text'].strip('+[] ').split('/')
-            # object order: first element of the string is the rightmost = last read? text reversed = reading order, so last line in string = first read line
-            lines = [[int(t) for t in re.split('-', l) if t.strip().isdigit()] for l in core]
-            lines = [list(reversed(l)) for l in reversed(lines)]
-            if lines and lines[0]:
-                ends_first['line1 ends in closer' if lines[0][-1] in CLOSERS else 'line1 ends elsewhere'] += 1
-                ends_first[f'line1 {len(lines[0])} / line2 {len(lines[1]) if len(lines)>1 else 0}'] += 1
-        rep.append('  wrapped seals, line split: ' + str(ends_first.most_common(12)))
+            e = seg_ends(r); k = sum(1 for x in e if x in CLOSERS)
+            ends_first[f'{k} segment end(s) in a closer'] += 1
+            core = [s for s in r['text'].strip('+[] ').split('/') if s]
+            ends_first['segment sizes ' + '/'.join(str(len([t for t in s.split("-") if t.strip().isdigit()])) for s in core)] += 1
+        rep.append('  wrapped seals, segment ends and sizes (stored order): ' + str(ends_first.most_common(14)))
         out[(lv, 'wrapped')] = (obs, pval(null, obs, 'two'), obsH, pval(nullH, obsH, 'two'), len(Wr))
 
         # wide signs avoided on narrow faces? per-sign mean residual H (log H on log n, within site) vs sign width
@@ -402,7 +437,7 @@ def cycle3(rows, W):
         rep.append(f'wide signs on narrow faces: {len(signs)} signs with >= 20 texts; rho(sign width, mean residual log H of texts containing it) = {obs:+.3f}; width-shuffle null [{np.percentile(null,2.5):+.3f},{np.percentile(null,97.5):+.3f}], P (one-sided, positive = wide signs on wider faces) {pval(null, obs, "greater"):.3f}')
         top = sorted(zip(eff, signs, wv), reverse=True)[:6]; bot = sorted(zip(eff, signs, wv))[:6]
         rep.append('  signs on the widest faces (residual, width): ' + ', '.join(f'W{s} {e:+.3f} ({w:.2f})' for e, s, w in top) + ' | narrowest: ' + ', '.join(f'W{s} {e:+.3f} ({w:.2f})' for e, s, w in bot))
-        for s, name in [(220, 'plain fish'), (240, 'whisker fish'), (235, 'hat fish'), (740, 'jar'), (2, 'tall 2'), (817, 'opener 817'), (861, 'opener 861'), (1, 'man W1' )]:
+        for s, name in [(220, 'plain fish'), (240, 'whisker fish'), (235, 'hat fish'), (740, 'jar'), (2, 'tall 2'), (817, 'opener 817'), (861, 'opener 861'), (90, 'man W90 (M1)'), (33, 'tall 3'), (400, 'W400'), (125, 'W125 widest')]:
             if s in signs:
                 i = signs.index(s); rep.append(f'  W{s} {name}: width {wv[i]:.2f}, residual log H {eff[i]:+.3f} ({cnt[s]} texts)')
         out[(lv, 'wide')] = (obs, pval(null, obs, 'greater'))

@@ -1,0 +1,45 @@
+LOOP 36, CYCLE 2 (2026-10-03): transcriptions of the candidate objects (data/derived/dark/loop36_newfinds.csv).
+Sign numbers are Wells numbers read against the lipi font glyph sheets (rendered from tools/indus_font.ttf, all 729 codepoints).
+Confidence per sign: A = unmistakable, B = likely, C = guess; ? = unread/lost. Reading direction stated per row.
+Reading-order convention: a seal FACE is read left to right, a modern impression right to left (= corpus seq_raw order).
+Calibration (cycle 1): ~75% per-sign accuracy on good photographs; fish/oval family and the tall/short stroke
+distinction are the main confusions.
+
+Tier A (excavated after the corpus cut-off, provenance known):
+  UMMA TJ17-PRO-S56 (2017 survey): ?-803-? ; one unlisted arch-on-legs sign + leaf-tree W803; rest broken. 2 signs, 1 at B.
+  BINJOR 4MSR terracotta seal (2014-17): 90-32-93 ; figure, tall-2 (or an unlisted two-stroke form), figure. 3 signs, 2 at B.
+  BINJOR 4MSR unicorn seal: unreadable (photo ~900 px of a blurred brochure scan): ?-?-32-?-?.
+  SALUT ST1 jar impression: 861-362 = Mohenjo-daro M-1367 design; a duplicate, excluded from the test set.
+  RAKHIGARHI RGR-4 lead ingot: one fish sign; excluded.
+  GADD 1932 Ur nos. 3 and 15 (BM 122946 and a round seal): genuinely absent from the corpus but no image obtainable
+  (archive.org scan plates blank; BM and Commons downloads refused with HTTP 429/403). Logged with museum numbers for a
+  human to fetch: https://www.britishmuseum.org/collection/object/W_1931-1010-15 (and BM 122946).
+  Tier A readable total: 2 texts, 5 signs, 3 at B. The target of >= 40 excavated texts is not met and cannot be met from
+  open sources today.
+
+Tier B (museum pieces with open photographs, provenance unknown; none among the corpus's 28 'Unknown' texts):
+  CMA 1973.161  ?-435-923-415-690-740   (C C B A B A)  face L->R; jar last. No corpus match; 415-690 and 923-415 are
+                                        unattested bigrams, 690-740 is attested 59 times.
+  CMA 1964.104  645-700-33-790-?        (C B B B ?)    face L->R; corner lost. No match; 700-33 attested 34 times (the
+                                        Harappa voucher pair in its reversed order), 33-790 unattested.
+  CMA 1973.160  617-90-617-838-423      (B A B C C)    face L->R. No match; a repeated grid sign flanks the person sign.
+  MET 49.40.1   1-503-861-1             (B A A B)      impression R->L. No match; 503-861 attested once.
+  MET 49.40.2   811-?-?-741             (C ? ? C)      indeterminate (two unlisted sign forms).
+  MET 49.40.3   ?-1-680-452-400         (? B C C B)    impression R->L; comb last. No match.
+  MET 49.40.4   680-1-441-745           (C B C C)      bar seal, impression R->L. No match.
+  SINDH Mohenjo-daro museum seal  371-435-520-64-435  (C C A C C)  face L->R. No match, but the object is almost certainly
+                                        a CISI piece; with four C-grade signs this is as likely my misreading as a new text.
+  V&A IS.8A-1951: 3-sign fragment, photo unreadable.
+  Tier B readable total: 7 texts, 31 signs (16 at A/B).
+
+Tier C (Shinde & Willis 2014 copper plates, private collections, authenticity untested; mirrored characters):
+  Plate 3 (9 chars, two rows): ?-615-690-503/400-?-?-700-923 (all C); plate 4 (7 chars): ?-?-625-?-645-923-415 (all C);
+  plate 9 (elephant, ~9 chars): 790-?-?-371-200-495-?-?-435; plate 6 (zebu, ~6 chars): 904-34-?-?-790-?; plate 1 (34 chars)
+  not transcribable at 813 px. Several forms (hatched box with a cross, crossed box with arrow, stemmed hatched cross)
+  have no Wells counterpart. Row order and line direction on the two-row plates are unknown, so order-based predictions
+  cannot be scored on them; they enter only the unseen-sign share.
+
+What a reader can and cannot claim from this set: 14 objects with >= 2 signs, 9 with >= 3 signs, 7 with >= 3 signs where at
+least two signs are at grade B or better. Every 'NEW' verdict carries the 25% per-text misreading risk measured in cycle 1.
+
+| S-DARK-36.2 | **Out-of-corpus test set, part 2: transcription.** Every candidate read sign by sign against the Wells glyph sheets with a per-sign grade and a stated reading direction; overlap re-checked with the wildcard cap (`loop36_overlap_check.txt`). Control: the same reader's blind readings of two corpus objects (cycle 1) | 14 readable texts: tier A (excavated, post-corpus) 2 texts / 5 signs (Umma 2017 surface seal ?-803-?, Binjor terracotta 90-32-93); tier B (museum, unprovenanced) 7 texts / 31 signs (Cleveland 1973.161 ?-435-923-415-690-740, 1964.104 645-700-33-790-?, 1973.160 617-90-617-838-423; Met 49.40.1 1-503-861-1, 49.40.3 ?-1-680-452-400, 49.40.4 680-1-441-745; Sindh museum 371-435-520-64-435); tier C (private copper plates) 5 texts, all C-grade, order unknown. All tier A/B texts with >= 3 concrete signs are NEW to Wells and IM77 (no exact, reverse or edit-1 match); Gadd 1932 nos. 3 and 15 are known-new but un-imaged | **The set is 14 texts, not 40; only 2 are excavated. The museum pieces are new to the corpus by sequence, with the caveat that 4 C-grade signs in a 5-sign text give a ~25% chance that a 'new' text is a misread known one.** Every row carries publication, figure and URL; images that could not be fetched are named by museum number for a human. |

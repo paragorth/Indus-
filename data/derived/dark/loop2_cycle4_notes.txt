@@ -1,0 +1,77 @@
+CYCLE 4 NOTES (seed 404; new relation family: combo = random and/or/xor of two boolean relations, 40 families active).
+265 train hits (2.9 expected), 64 replicated distinct, 10 pass z-Bonferroni:
+  closepair  {}                                                           x type      z 11.87 bonf True  strict p 0.0010 held p 0.0020
+  lensum     {}                                                           x h         z  6.34 bonf True  strict p 0.0010 held p 0.0020
+  frameclass {}                                                           x complete  z  5.51 bonf True  strict p 0.0010 held p 0.0080
+  frameclass {}                                                           x emblem    z  4.87 bonf True  strict p 0.0010 held p 0.0080
+  jacc       {}                                                           x type      z  4.59 bonf True  strict p 0.0010 held p 0.0020
+  lensum     {}                                                           x complete  z  4.36 bonf True  strict p 0.0010 held p 0.0020
+  lcs2       {}                                                           x type      z  4.23 bonf True  strict p 0.0010 held p 0.0020
+  anypos     {}                                                           x h         z  4.10 bonf True  strict p 0.0010 held p 0.0060
+  bothopen   {}                                                           x v         z  4.04 bonf True  strict p 0.0010 held p 0.0080
+  closepair  {}                                                           x shape     z  4.01 bonf True  strict p 0.0010 held p 0.0020
+  ident      {}                                                           x v         z  3.73 bonf False strict p 0.0010 held p 0.0040
+  midjacc    {}                                                           x complete  z  3.65 bonf False strict p 0.0010 held p 0.0020
+  jacc       {}                                                           x complete  z  3.63 bonf False strict p 0.0010 held p 0.0020
+  closepair  {}                                                           x sides     z  3.63 bonf False strict p 0.0010 held p 0.0060
+  orderkept  {}                                                           x type      z  3.61 bonf False strict p 0.0010 held p 0.0020
+  lcs2       {}                                                           x typefull  z  3.53 bonf False strict p 0.0010 held p 0.0020
+  xorsign    {"s": 34}                                                    x v         z  3.47 bonf False strict p 0.0081 held p 0.0020
+  orderkept  {}                                                           x typefull  z  3.44 bonf False strict p 0.0010 held p 0.0020
+  lensum     {}                                                           x type      z  3.33 bonf False strict p 0.0010 held p 0.0020
+  jacc       {}                                                           x typefull  z  3.15 bonf False strict p 0.0010 held p 0.0020
+  samelast2  {}                                                           x v         z  2.98 bonf False strict p 0.0010 held p 0.0020
+  posk       {"k": 1}                                                     x type      z  2.70 bonf False strict p 0.0010 held p 0.0080
+  sharek     {"k": 2}                                                     x type      z  2.70 bonf False strict p 0.0010 held p 0.0060
+  lcs2       {}                                                           x material  z  2.68 bonf False strict p 0.1091 held p 0.0040
+  sharepair  {}                                                           x type      z  2.67 bonf False strict p 0.0010 held p 0.0020
+  anypos     {}                                                           x type      z  2.62 bonf False strict p 0.0010 held p 0.0020
+  combo      {"a": "first", "b": "sharepair", "op": "and", "pa": {}, "pb" x type      z  2.51 bonf False strict p 0.0010 held p 0.0040
+  sharek     {"k": 2}                                                     x typefull  z  2.49 bonf False strict p 0.0010 held p 0.0020
+  combo      {"a": "posk", "b": "ident", "op": "and", "pa": {"k": 3}, "pb x material  z  2.41 bonf False strict p 0.0010 held p 0.0020
+  sharemidsign {}                                                           x shape     z  2.38 bonf False strict p 0.0659 held p 0.0060
+  ident      {}                                                           x type      z  2.38 bonf False strict p 0.0010 held p 0.0020
+  lensum     {}                                                           x cond      z  2.38 bonf False strict p 0.0020 held p 0.0020
+  sharepair  {}                                                           x typefull  z  2.36 bonf False strict p 0.0010 held p 0.0020
+  disjoint   {}                                                           x type      z  2.32 bonf False strict p 0.0010 held p 0.0020
+  sharesign  {"s": 55}                                                    x complete  z  2.29 bonf False strict p 0.0010 held p 0.0040
+  sharemidsign {}                                                           x type      z  2.29 bonf False strict p 0.0010 held p 0.0020
+  ident      {}                                                           x complete  z  2.29 bonf False strict p 0.0010 held p 0.0020
+  combo      {"a": "ident", "b": "suffix1", "op": "xor", "pa": {}, "pb":  x complete  z  2.27 bonf False strict p 0.0010 held p 0.0020
+  combo      {"a": "ident", "b": "suffix1", "op": "or", "pa": {}, "pb": { x complete  z  2.26 bonf False strict p 0.0010 held p 0.0020
+  sharemidsign {}                                                           x typefull  z  2.26 bonf False strict p 0.0010 held p 0.0020
+  last       {}                                                           x type      z  2.25 bonf False strict p 0.0010 held p 0.0020
+  sharesign  {"s": 2}                                                     x material  z  2.21 bonf False strict p 0.0833 held p 0.0040
+  orderkept  {}                                                           x shape     z  2.19 bonf False strict p 0.1111 held p 0.0020
+  second     {}                                                           x typefull  z  2.17 bonf False strict p 0.0010 held p 0.0100
+  second     {}                                                           x type      z  2.11 bonf False strict p 0.0010 held p 0.0020
+  combo      {"a": "suffix1", "b": "second", "op": "or", "pa": {}, "pb":  x type      z  2.11 bonf False strict p 0.0010 held p 0.0020
+  samelast2  {}                                                           x type      z  2.10 bonf False strict p 0.0010 held p 0.0020
+  posk       {"k": 2}                                                     x type      z  2.09 bonf False strict p 0.0010 held p 0.0020
+  anypos     {}                                                           x material  z  2.09 bonf False strict p 0.0040 held p 0.0020
+  disjoint   {}                                                           x typefull  z  2.09 bonf False strict p 0.0010 held p 0.0040
+  samelast2  {}                                                           x typefull  z  2.06 bonf False strict p 0.0010 held p 0.0040
+  sharemidsign {}                                                           x material  z  2.05 bonf False strict p 0.0343 held p 0.0020
+  combo      {"a": "nest", "b": "disjoint", "op": "or", "pa": {}, "pb": { x typefull  z  2.04 bonf False strict p 0.0010 held p 0.0020
+  midlen     {}                                                           x cond      z  2.04 bonf False strict p 0.0030 held p 0.0020
+  second     {}                                                           x material  z  2.02 bonf False strict p 0.0172 held p 0.0020
+  last       {}                                                           x typefull  z  2.01 bonf False strict p 0.0010 held p 0.0080
+  posk       {"k": 1}                                                     x material  z  1.98 bonf False strict p 0.0063 held p 0.0020
+  openunit   {}                                                           x typefull  z  1.97 bonf False strict p 0.0010 held p 0.0060
+  combo      {"a": "rotation", "b": "openunit", "op": "xor", "pa": {}, "p x typefull  z  1.97 bonf False strict p 0.0010 held p 0.0040
+  ident      {}                                                           x typefull  z  1.85 bonf False strict p 0.0010 held p 0.0020
+  posk       {"k": 2}                                                     x typefull  z  1.80 bonf False strict p 0.0010 held p 0.0020
+  sharek     {"k": 2}                                                     x shape     z  1.80 bonf False strict p 0.0909 held p 0.0040
+  first      {}                                                           x material  z  1.75 bonf False strict p 0.0020 held p 0.0060
+  sharesign  {"s": 741}                                                   x typefull  z  1.65 bonf False strict p 0.0010 held p 0.0080
+
+Facts: Counter({'type': 18, 'typefull': 16, 'material': 8, 'complete': 8, 'v': 4, 'shape': 4, 'h': 2, 'cond': 2, 'sides': 1, 'emblem': 1})
+combo arrows among train hits: 27, replicated: 7 (posk3 AND ident x material: identical tablets again, z 2.4, below Bonferroni)
+
+READING: the 10 Bonferroni survivors are closepair x type (z 11.9: tablets carry a fixed small set of closers, so two tablets share
+a closer pair), closepair x shape, lensum/anypos x size, frameclass x emblem/completeness, jacc/lcs2 x type, bothopen x v, lensum x
+completeness. Same three confounds as cycles 1-3: object type, breakage, size. Material/shape arrows below Bonferroni again die or
+weaken under the within-site-x-type null. The combo family produced nothing new.
+SET stage: 3 MD hits vs 1.2 expected (sign_richness -, any_samemid_diffclose +, all_middles_differ -), none replicate at Harappa
+(Harappa same raw value but equally high null). The MD find-groups are slightly more internally repetitive than a within-site x type
+re-deal predicts; this is the known house-level clustering (S62/S63) and the tablet-hoard effect, not a new relation.
