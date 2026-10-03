@@ -1,0 +1,2979 @@
+[
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adult inpatients have their drug allergy status recorded using one of the three standard categories (drug allergy / none known / unable to ascertain) before their first drug is prescribed?",
+  "why": "Unclear or missing allergy status is a recurrent cause of prescribing error and delayed antibiotic administration. No closed-loop audit of the specific three-category recording standard has been published in the library, although related allergy-documentation audits exist [1892].",
+  "standard": {
+   "source": "NICE CG183 Drug allergy: diagnosis and management, rec 1.2.1 (2014)",
+   "wording": "Document people's drug allergy status in their medical records using 1 of the following: 'drug allergy' 'none known' 'unable to ascertain' (document it as soon as the information is available).",
+   "url": "https://www.nice.org.uk/guidance/cg183/chapter/Recommendations"
+  },
+  "pass": "One of the three standard categories is recorded in the drug chart or EPR allergy field before the first drug is administered",
+  "population": "Inclusion: 40 consecutive adult medical or surgical admissions. Exclusion: patients transferred from another ward with allergy status already recorded there and unchanged.",
+  "sample": "40 consecutive adult admissions over the last 4 weeks",
+  "data_source": "Drug chart or EPR allergy field, admission clerking note",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "allergy_field_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": "any entry present, blank or free text only counts as no"
+   },
+   {
+    "field": "category_used",
+    "type": "choice",
+    "options": [
+     "drug allergy",
+     "none known",
+     "unable to ascertain",
+     "none of these"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_to_completion_hours",
+    "type": "number",
+    "options": [],
+    "note": "hours from admission to field completion"
+   },
+   {
+    "field": "first_drug_given_before_completion",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the three-category allergy field mandatory (hard stop) in the EPR admission clerking template, so the first drug order cannot be signed until it is completed.",
+  "target": "≥95%",
+  "reaudit": "8 weeks after the hard stop is switched on, same template, same sample size",
+  "close_loop": "Present at the medicines safety or junior doctor forum; embed the mandatory field in the EPR build if the re-audit meets target.",
+  "evidence": [
+   "[1892] before: allergy status frequently absent on admission → after: structured allergy box introduced (partial improvement)"
+  ],
+  "pitfalls": [
+   "EPR build changes need informatics sign-off → agree the mandatory-field change with the CCIO before cycle 1 ends, not after",
+   "Junior doctors rotate before the fix embeds → nominate a pharmacist as the fixed point of contact",
+   "Free-text entries can be miscounted as complete → agree the definition of 'category used' with all data collectors before starting",
+   "Small numbers in a single specialty → collect from at least two wards to reach 40 cases"
+  ],
+  "pearls": [
+   "Recruit the admissions unit pharmacist as co-lead; they see the chart first",
+   "Agree the three-category wording with informatics before cycle 1 so re-audit uses the same EPR field",
+   "Present the before/after screenshots of the EPR field change at handover teaching",
+   "Keep the data collection tool to a single tick-box sheet so FY1s can complete it in under a minute per patient"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated in hospital for suspected anaphylaxis are offered a referral to a specialist allergy service before discharge?",
+  "why": "Adult referral after anaphylaxis is under-audited in the library; existing entries cover children [see NNA-188] and adrenaline auto-injector supply [see NNA-085], leaving the adult referral step unmeasured.",
+  "standard": {
+   "source": "NICE NG258 Anaphylaxis: assessment and referral after emergency treatment, rec 1.1.12 (2011, updated 2026, replaces CG134)",
+   "wording": "After emergency treatment for suspected anaphylaxis, offer the adult, young person or child a referral to a specialist allergy service (age-appropriate, where possible) consisting of healthcare professionals with the skills and competencies necessary to accurately investigate, diagnose, monitor and provide ongoing management of, and patient education about, anaphylaxis.",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Referral-to-a-specialist-allergy-service"
+  },
+  "pass": "A referral to a specialist allergy service is documented as offered (accepted or declined) in the discharge letter",
+  "population": "Inclusion: adults (16 and over) treated for suspected anaphylaxis in the emergency department or on a ward. Exclusion: patients who die before discharge.",
+  "sample": "30 consecutive adults over the last 6 months (from anaphylaxis coding or adrenaline administration records)",
+  "data_source": "ED/ward notes, discharge summary, adrenaline administration record used to identify cases",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adrenaline_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_to_allergy_service_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_outcome",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_letter_mentions_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'specialist allergy referral offered: yes/no/declined' field to the ED and ward anaphylaxis discharge template, linked to a one-click referral.",
+  "target": "≥90%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at the ED or acute medicine governance meeting; embed the mandatory field in the discharge template if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of adult allergy service referral after anaphylaxis has been published in the library]"
+  ],
+  "pitfalls": [
+   "Cases are hard to identify from coding alone → cross-check against adrenaline dispensing or resuscitation trolley records",
+   "Allergy clinic capacity may not match referral volume → agree an interim GP-led pathway with commissioners before cycle 1",
+   "Referral marked 'offered' without evidence in the letter → require the referral letter itself as the evidence source, not staff recall",
+   "Locum staff unaware of the pathway → include the referral step in ED induction"
+  ],
+  "pearls": [
+   "Identify a named allergy clinic contact before starting so the referral has somewhere real to go",
+   "Use the same anaphylaxis case list as any tryptase or auto-injector audit already running, to avoid re-searching notes",
+   "Show the ED consultant body the presenting numbers first, since they set the pathway",
+   "Keep the referral field as a single tick-box so it does not add time to a busy discharge"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED/EPR notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults discharged after emergency treatment for suspected anaphylaxis receive a brand-specific demonstration of their adrenaline auto-injector before they leave?",
+  "why": "Prescribing two auto-injectors is separately audited [see NNA-085], but whether the patient is actually shown how to use the specific device they are given is not measured anywhere in the library.",
+  "standard": {
+   "source": "NICE NG258 Anaphylaxis: assessment and referral after emergency treatment, rec 1.1.14 (2011, updated 2026, replaces CG134)",
+   "wording": "a brand-specific demonstration of the correct use of the adrenaline auto-injector and when to use it, including advice that the person should lie down after using the injector (or sit up if they are struggling to breathe) and should not stand up or change position suddenly, even if they feel better",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Discharge-from-AE-or-inpatient-care"
+  },
+  "pass": "A brand-specific auto-injector demonstration, including the lie-down/sit-up advice, is documented as given before discharge",
+  "population": "Inclusion: adults and young people discharged after emergency treatment for suspected or known anaphylaxis and prescribed an adrenaline auto-injector. Exclusion: patients discharged directly to another hospital.",
+  "sample": "30 consecutive discharges over the last 6 months",
+  "data_source": "ED/ward discharge documentation, patient information leaflet record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auto_injector_brand_prescribed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "brand_specific_demonstration_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trainer_device_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "positioning_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "lie down / sit up advice"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock a trainer device for each auto-injector brand at the ED discharge desk and add a 'training given (brand, trainer device used)' tick-box to the discharge checklist.",
+  "target": "≥90%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at ED nursing governance; keep the trainer devices restocked as part of the discharge checklist if the re-audit meets target.",
+  "evidence": [
+   "[no closed-loop audit of brand-specific adrenaline auto-injector training at discharge has been published in the library]"
+  ],
+  "pitfalls": [
+   "Trainer devices go missing or expire → assign restocking to a named nurse each month",
+   "Training documented as 'device explained' without naming the brand → define 'brand-specific' clearly for data collectors before cycle 1",
+   "Night shifts may lack trainer devices → check stock across all shifts, not just daytime",
+   "Patients too unwell at discharge to retain training → offer a follow-up call or allergy clinic re-demonstration"
+  ],
+  "pearls": [
+   "Get free trainer devices from the manufacturers' websites before cycle 1, at no cost",
+   "Recruit the ED discharge nurses as co-auditors; they already do the training",
+   "Link the audit to the two-auto-injector prescribing audit so the same case list serves both",
+   "Laminate a one-page technique card per brand for the discharge desk"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults discharged after emergency treatment for suspected anaphylaxis are given written information about the risk of a biphasic reaction?",
+  "why": "Biphasic reaction risk is one of the six required discharge information items in NG258 but is not separately measured by any audit in the library; related items (auto-injector supply, allergy referral) are audited elsewhere.",
+  "standard": {
+   "source": "NICE NG258 Anaphylaxis: assessment and referral after emergency treatment, rec 1.1.14 (2011, updated 2026, replaces CG134)",
+   "wording": "information about the risk of a biphasic reaction",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Discharge-from-AE-or-inpatient-care"
+  },
+  "pass": "Written information about the risk of a biphasic reaction is documented as given at discharge",
+  "population": "Inclusion: adults discharged after emergency treatment for suspected anaphylaxis. Exclusion: patients admitted to critical care.",
+  "sample": "30 consecutive discharges over the last 6 months",
+  "data_source": "ED/ward discharge documentation, patient information leaflet issued",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biphasic_reaction_info_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "leaflet_name_or_code",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safety_netting_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "when and where to seek help if symptoms recur"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a single anaphylaxis discharge leaflet that already contains the biphasic reaction warning, printed automatically from the ED discharge template.",
+  "target": "≥90%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at ED governance; keep the leaflet as a fixed print-out in the discharge pathway if the target is met.",
+  "evidence": [
+   "[no audit of biphasic reaction information-giving at anaphylaxis discharge has been published in the library]"
+  ],
+  "pitfalls": [
+   "Verbal advice given but not documented → require a tick-box, not free text, for this item",
+   "Leaflet given but not the anaphylaxis-specific one → check the leaflet code, not just 'leaflet given: yes'",
+   "Patients who leave against advice are missed → exclude self-discharges from the denominator with a documented reason",
+   "Paediatric and adult leaflets get mixed up in a shared ED → colour-code them"
+  ],
+  "pearls": [
+   "Print the leaflet directly from the discharge template so giving it is the path of least resistance",
+   "Ask the allergy clinic to review the leaflet wording before cycle 1",
+   "Combine this data collection round with the auto-injector training audit to save time",
+   "Keep a spare stock check as part of the daily ED safety huddle"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from discharge notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated for anaphylaxis who receive a single dose of adrenaline with a good response are observed for at least 2 hours before discharge, and what proportion needing two or more doses are observed for at least 6 hours?",
+  "why": "The minimum safe observation period after anaphylaxis has never been separately audited in the library; existing entries focus on tryptase timing [see NNA-084] rather than the length of observation itself.",
+  "standard": {
+   "source": "NICE NG258 Anaphylaxis: assessment and referral after emergency treatment, recs 1.1.7 and 1.1.8 (2026)",
+   "wording": "A suitably qualified and experienced healthcare professional should consider discharging the adult, young person or child after 2 hours of observation... if there was a good response (within 5 to 10 minutes) to a single dose of intramuscular (IM) adrenaline... Observe the adult, young person or child for a minimum of 6 hours after resolution of all symptoms if: 2 doses of intramuscular (IM) adrenaline were needed to treat the anaphylaxis or there is a history of biphasic reaction.",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Period-of-observation"
+  },
+  "pass": "Documented observation time meets or exceeds the 2-hour (single good-response dose) or 6-hour (two or more doses, or biphasic history) minimum before discharge",
+  "population": "Inclusion: adults treated for suspected anaphylaxis with at least one dose of IM adrenaline. Exclusion: patients admitted to a ward or critical care rather than discharged from the assessment area.",
+  "sample": "30 consecutive cases over the last 6 months",
+  "data_source": "ED observations chart, drug chart (adrenaline doses and times), discharge time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_adrenaline_doses",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_symptoms_resolved",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observation_meets_minimum",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 'earliest safe discharge time' calculation to the ED anaphylaxis pathway, driven by the number of adrenaline doses given.",
+  "target": "≥90%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at ED governance; embed the automatic calculation in the ED tracking system if the re-audit meets target.",
+  "evidence": [
+   "[no audit of anaphylaxis observation-period compliance has been published in the library]"
+  ],
+  "pitfalls": [
+   "Department pressure to discharge quickly → make the earliest-safe-discharge time visible on the tracking board so it is a system prompt, not a request",
+   "Symptom resolution time is often not documented precisely → agree a definition (last recorded abnormal observation) before cycle 1",
+   "Biphasic reaction history may be missed if old notes are unavailable → check the summary care record as well as ED notes",
+   "Small numbers if anaphylaxis presentations are infrequent → extend the sampling period to 6–9 months if needed"
+  ],
+  "pearls": [
+   "Recruit the ED sister in charge of patient flow, who controls the discharge decision",
+   "Use the same cases already being collected for the tryptase and referral audits",
+   "Present the observation-time calculation change alongside the current tracking board build, so it is one change, not two",
+   "Keep a laminated observation-time table at each ED bay as an interim measure while the system change is built"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults on a repeat prescription for an adrenaline auto-injector have documented, device-specific training within the last 12 months?",
+  "why": "Auto-injector training at initial ED discharge is covered above, but ongoing training for the much larger group of patients on repeat community prescriptions is not audited anywhere in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, 'Adrenaline auto-injectors: updated advice after European review' (August 2017)",
+   "wording": "ensure that people with allergies and their carers have been trained to use the particular auto-injector that they have been prescribed—technique varies between injectors... You should review with the patient and their carers the instructions and operation of the adrenaline auto-injector.",
+   "url": "https://www.gov.uk/drug-safety-update/adrenaline-auto-injectors-updated-advice-after-european-review"
+  },
+  "pass": "A documented device-specific technique review within the last 12 months for the auto-injector brand currently prescribed",
+  "population": "Inclusion: adults with an active repeat prescription for an adrenaline auto-injector in general practice. Exclusion: patients newly prescribed within the last 3 months (still within their initial review window).",
+  "sample": "40 consecutive patients on the practice's adrenaline auto-injector repeat list",
+  "data_source": "GP clinical system repeat prescription list, consultation notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "auto_injector_brand",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_technique_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_in_date_devices_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an annual adrenaline auto-injector review recall (coded template) to the practice's chronic disease recall system, run alongside asthma or allergy reviews.",
+  "target": "≥85%",
+  "reaudit": "6 months after the recall is switched on, same template, same sample size",
+  "close_loop": "Present at the practice clinical governance meeting; keep the recall running if the target is met.",
+  "evidence": [
+   "[no audit of ongoing adrenaline auto-injector training in general practice has been published in the library]"
+  ],
+  "pitfalls": [
+   "Auto-injector brand changes between reviews (supply issues) → check the brand on each review, not just that a review happened",
+   "Recall letters go unanswered → combine the review with an existing annual review (asthma, allergy) already attended",
+   "Practice nurse time is limited → use a short standardised checklist rather than a full consultation",
+   "Patients moving practice are lost to follow-up → check the repeat list is current before each recall round"
+  ],
+  "pearls": [
+   "Use free trainer devices from manufacturers so nurses do not need to buy them",
+   "Recruit the practice's allergy or asthma lead nurse to run the recall",
+   "Combine the review with the annual flu or asthma clinic to raise attendance",
+   "Keep the checklist to under 5 minutes per patient so it is realistic in a nurse clinic"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from GP clinical system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with a new genetic diagnosis of familial hypercholesterolaemia are referred to a specialist for confirmation of diagnosis and initiation of cascade testing?",
+  "why": "Familial hypercholesterolaemia cascade testing has no closed-loop audit in the library; related lipid-monitoring audits exist [1892] but do not measure the referral step itself.",
+  "standard": {
+   "source": "NICE CG71 Familial hypercholesterolaemia: identification and management, rec 1.2.2 (2008)",
+   "wording": "Healthcare professionals should offer all people with FH a referral to a specialist with expertise in FH for confirmation of diagnosis and initiation of cascade testing.",
+   "url": "https://www.nice.org.uk/guidance/cg71/chapter/Recommendations"
+  },
+  "pass": "A referral to an FH specialist for cascade testing is documented within 4 weeks of the diagnosis being made or confirmed",
+  "population": "Inclusion: adults newly identified with a clinical or genetic diagnosis of FH in primary or secondary care over the last 12 months. Exclusion: patients already known to a lipid or FH clinic.",
+  "sample": "30 consecutive new FH diagnoses over the last 12 months",
+  "data_source": "Primary care clinical system, lipid clinic referral log, laboratory FH genetic test results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis_type",
+    "type": "choice",
+    "options": [
+     "clinical (Simon Broome/Dutch Lipid Network)",
+     "genetic mutation confirmed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_referral_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic FH specialist referral prompt to the primary care template that fires when a total cholesterol above the NICE search threshold or a compatible family history is coded.",
+  "target": "≥90%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at the practice or lipid clinic governance meeting; keep the automatic prompt live if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of FH specialist referral for cascade testing has been published in the library]"
+  ],
+  "pitfalls": [
+   "FH may be diagnosed but not coded consistently → agree a single Read/SNOMED code with the practice before starting",
+   "Regional cascade testing services have long waits → record referral made, not seen, as the pass criterion",
+   "Patients decline referral → record as a documented decline, not a failure of the process",
+   "Small numbers in an individual practice → collect across a PCN if a single practice has too few cases"
+  ],
+  "pearls": [
+   "Agree the FH coding search with the practice's clinical informatics lead before cycle 1",
+   "Contact the regional genetics/lipid service to confirm their referral pathway and turnaround",
+   "Present the case for automation with real delayed-referral examples from cycle 1",
+   "Keep a running FH register so future new diagnoses are captured prospectively, not retrospectively"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from clinical system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "Of first- and second-degree relatives of a confirmed familial hypercholesterolaemia index case, what proportion complete DNA cascade testing within 6 months of the index case's genetic diagnosis?",
+  "why": "This measures completion of cascade testing itself, distinct from the referral audit above; no audit of cascade testing completion rates exists in the library.",
+  "standard": {
+   "source": "NICE CG71 Familial hypercholesterolaemia: identification and management, rec 1.2.1 (2017)",
+   "wording": "Carry out cascade testing using DNA testing to identify affected first- and second- and, when possible, third-degree biological relatives of people with a genetic diagnosis of FH.",
+   "url": "https://www.nice.org.uk/guidance/cg71/chapter/Recommendations"
+  },
+  "pass": "DNA test result recorded for the relative within 6 months of the index case's genetic diagnosis",
+  "population": "Inclusion: first- and second-degree relatives identified and contactable for cascade testing following an index FH genetic diagnosis in the last 2 years. Exclusion: relatives who are deceased or cannot be traced.",
+  "sample": "30 consecutive relatives identified for cascade testing over the last 2 years",
+  "data_source": "FH/lipid clinic cascade testing register, genetics laboratory results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "index_case_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "relationship_to_index_case",
+    "type": "choice",
+    "options": [
+     "first-degree",
+     "second-degree"
+    ],
+    "note": ""
+   },
+   {
+    "field": "relative_contacted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dna_test_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_test_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Give the FH clinic a standard cascade testing pack (letter, appointment slot, DNA kit) to send directly to named relatives once consent is given by the index case, rather than relying on the index case to pass on information.",
+  "target": "≥70%",
+  "reaudit": "12 months later, same register, same sample size",
+  "close_loop": "Present at the lipid or genetics service governance meeting; embed the direct-contact pack if the target is met.",
+  "evidence": [
+   "[no audit of familial hypercholesterolaemia cascade testing completion has been published in the library]"
+  ],
+  "pitfalls": [
+   "Family communication of risk is inconsistent → offer direct clinic-to-relative contact rather than relying on the index patient alone",
+   "Relatives live out of area → agree a shared-care pathway with neighbouring genetics services before cycle 1",
+   "Data protection concerns about contacting relatives directly → confirm consent processes with the clinic's information governance lead first",
+   "Long lead times for genetic results → record 'test sent' and 'result received' separately"
+  ],
+  "pearls": [
+   "Build the register prospectively from cycle 1 so future cohorts are easy to track",
+   "Involve the genetic counsellor early; they already manage family communication",
+   "Track by family, not just by relative, to spot families where uptake is systematically low",
+   "Share the six-month completion rate with the index patient's GP to prompt local encouragement"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 relatives from clinic register"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of newly diagnosed colorectal cancers have mismatch repair (immunohistochemistry) or microsatellite instability testing for Lynch syndrome performed as part of the diagnostic pathway?",
+  "why": "Universal Lynch syndrome testing in colorectal cancer is not currently measured in the library; existing colorectal cancer audits focus on treatment pathways rather than germline risk identification.",
+  "standard": {
+   "source": "NICE HealthTech guidance HTG430 (formerly DG27), Molecular testing strategies for Lynch syndrome in people with colorectal cancer, rec 1.1 (2017, moved to HTG430)",
+   "wording": "Offer testing to all people with colorectal cancer, when first diagnosed, using immunohistochemistry for mismatch repair proteins or microsatellite instability testing to identify tumours with deficient DNA mismatch repair, and to guide further sequential testing for Lynch syndrome. Do not wait for the results before starting treatment.",
+   "url": "https://www.nice.org.uk/guidance/htg430/chapter/1-Recommendations"
+  },
+  "pass": "Mismatch repair immunohistochemistry or microsatellite instability testing is recorded on the pathology report for the index colorectal cancer",
+  "population": "Inclusion: all adults with a new histological diagnosis of colorectal cancer over the last 6 months. Exclusion: patients with a prior confirmed Lynch syndrome diagnosis already under surveillance.",
+  "sample": "40 consecutive new colorectal cancer diagnoses over the last 6 months",
+  "data_source": "Pathology report, colorectal MDT outcome form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mmr_or_msi_testing_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_method",
+    "type": "choice",
+    "options": [
+     "IHC",
+     "MSI",
+     "both",
+     "neither"
+    ],
+    "note": ""
+   },
+   {
+    "field": "abnormal_result",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_for_germline_testing_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make mismatch repair immunohistochemistry a reflex (automatic) test on every colorectal cancer resection and biopsy specimen in the pathology laboratory information system, rather than requiring a separate clinician request.",
+  "target": "≥95%",
+  "reaudit": "6 months after reflex testing is switched on, same template, same sample size",
+  "close_loop": "Present at the colorectal MDT and pathology governance meeting; keep reflex testing switched on if the target is met.",
+  "evidence": [
+   "[no audit of universal Lynch syndrome testing in colorectal cancer has been published in the library]"
+  ],
+  "pitfalls": [
+   "Reflex testing needs pathology IT and funding agreement → secure sign-off from the trust's cancer alliance before cycle 1",
+   "Biopsies with limited tissue may fail testing → record 'test attempted but inadequate sample' separately from 'not tested'",
+   "Abnormal results can be missed without a clear referral pathway → build the germline genetics referral into the MDT outcome form",
+   "Small numbers in a low-volume unit → extend to 9–12 months of cases if needed"
+  ],
+  "pearls": [
+   "Agree the reflex testing protocol with pathology, genetics and the colorectal MDT together before cycle 1",
+   "Use the existing MDT outcome form as the single source of truth for both testing and referral data",
+   "Present national uptake figures alongside local data to strengthen the case for reflex testing",
+   "Keep a running log of BRAF/MLH1 methylation results, since these determine whether germline testing is needed"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pathology/MDT records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of newly diagnosed endometrial cancers have mismatch repair immunohistochemistry testing for Lynch syndrome performed?",
+  "why": "Endometrial cancer is often the first cancer in people with Lynch syndrome, but no audit in the library measures whether this testing pathway is actually followed locally.",
+  "standard": {
+   "source": "NICE HealthTech guidance HTG557 (formerly DG42), Testing strategies for Lynch syndrome in people with endometrial cancer, rec 1.1 (2020, moved to HTG557)",
+   "wording": "Offer testing for Lynch syndrome to people who are diagnosed with endometrial cancer. Use immunohistochemistry (IHC) to identify tumours with mismatch repair (MMR) deficiency.",
+   "url": "https://www.nice.org.uk/guidance/htg557/chapter/1-Recommendations"
+  },
+  "pass": "Mismatch repair immunohistochemistry testing is recorded on the pathology report for the index endometrial cancer",
+  "population": "Inclusion: all women with a new histological diagnosis of endometrial cancer over the last 6 months. Exclusion: women with a prior confirmed Lynch syndrome diagnosis already under surveillance.",
+  "sample": "30 consecutive new endometrial cancer diagnoses over the last 6 months",
+  "data_source": "Pathology report, gynaecological oncology MDT outcome form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mmr_ihc_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abnormal_result",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mlh1_methylation_tested_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_for_germline_testing_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make mismatch repair immunohistochemistry a reflex test on every endometrial cancer specimen in the pathology laboratory information system.",
+  "target": "≥95%",
+  "reaudit": "6 months after reflex testing is switched on, same template, same sample size",
+  "close_loop": "Present at the gynaecological oncology MDT and pathology governance meeting; keep reflex testing switched on if the target is met.",
+  "evidence": [
+   "[no audit of universal Lynch syndrome testing in endometrial cancer has been published in the library]"
+  ],
+  "pitfalls": [
+   "Endometrial cancer is sometimes diagnosed on a small biopsy with limited tissue → record inadequate samples separately from untested cases",
+   "Genetics referral pathway differs between gynaecology and colorectal teams → agree a single shared pathway before cycle 1",
+   "Informing patients about hereditary implications needs trained staff → check rec 1.2 (informed consent and support) is followed alongside testing",
+   "Low case numbers in a smaller unit → extend the sampling period if fewer than 30 cases arise in 6 months"
+  ],
+  "pearls": [
+   "Align the endometrial and colorectal reflex testing changes into a single pathology laboratory business case",
+   "Involve the clinical geneticist in agreeing the referral trigger criteria before cycle 1",
+   "Use the gynae-oncology MDT coordinator as the single point of data collection",
+   "Share results with colorectal pathology, since the reflex testing infrastructure can be shared"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pathology/MDT records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people referred to a specialist genetics service with a combined BRCA1/BRCA2 mutation carrier probability of 10% or more are offered genetic testing?",
+  "why": "BRCA referral thresholds are quoted in the library only for triple-negative breast cancer under 50 [see NNA-009]; the general carrier-probability referral criterion for anyone with a personal or family history of breast or ovarian cancer is not separately audited.",
+  "standard": {
+   "source": "NICE CG164 Familial breast cancer, recs 1.5.11 and 1.5.12 (2013)",
+   "wording": "Offer genetic testing in specialist genetic clinics to a relative with a personal history of breast and/or ovarian cancer if that relative has a combined BRCA1 and BRCA2 mutation carrier probability of 10% or more... Offer genetic testing in specialist genetic clinics to a person with no personal history of breast or ovarian cancer if their combined BRCA1 and BRCA2 mutation carrier probability is 10% or more and an affected relative is unavailable for testing.",
+   "url": "https://www.nice.org.uk/guidance/cg164/chapter/recommendations"
+  },
+  "pass": "Genetic testing is documented as offered when the recorded carrier probability is 10% or more",
+  "population": "Inclusion: all new referrals to the specialist genetics/cancer genetics service with a calculated BRCA1/BRCA2 carrier probability over the last 12 months. Exclusion: referrals for a condition other than breast/ovarian cancer risk.",
+  "sample": "40 consecutive referrals over the last 12 months",
+  "data_source": "Genetics clinic referral letter, carrier probability calculation tool output (CanRisk/BOADICEA or Manchester score), clinic letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "carrier_probability_tool_used",
+    "type": "choice",
+    "options": [
+     "CanRisk/BOADICEA",
+     "Manchester scoring system",
+     "other",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "carrier_probability_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "genetic_testing_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build the carrier probability calculation into the genetics clinic referral template so the score and the testing decision are recorded together, rather than in separate free-text letters.",
+  "target": "≥95%",
+  "reaudit": "6 months later, same template, same sample size",
+  "close_loop": "Present at the clinical genetics governance meeting; keep the combined template if the target is met.",
+  "evidence": [
+   "[9] related BRCA referral criterion for triple-negative breast cancer under 50: proportion offered testing measured at MDT [1892 nearest related entry]"
+  ],
+  "pitfalls": [
+   "Different calculators give different probabilities → agree a single approved tool with the genetics service before cycle 1",
+   "Older referral letters may not record a numerical probability at all → capture this as 'not recorded' rather than assuming non-compliance",
+   "Waiting list pressure may delay the offer beyond the clinic visit being audited → record 'offered' as the pass criterion, not 'tested'",
+   "Referrals from multiple specialties (breast, gynae-oncology, primary care) vary in quality → sample across all referral sources"
+  ],
+  "pearls": [
+   "Agree with the genetics service which calculator is their local standard before starting",
+   "Use the referral triage log as the single source for identifying cases",
+   "Present findings alongside the existing TNBC BRCA audit for a fuller genetics picture",
+   "Recruit a genetic counsellor as co-author for credibility with the service"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from genetics clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people found to carry a high-risk predisposing gene mutation (for example BRCA1, BRCA2 or TP53) incidentally or on tumour testing are directly referred to a specialist genetics service?",
+  "why": "Direct referral on identification of a high-risk mutation is a distinct step from the carrier-probability referral audited above and is not currently measured anywhere in the library.",
+  "standard": {
+   "source": "NICE CG164 Familial breast cancer, rec 1.3.6 (2004)",
+   "wording": "Direct referral to a specialist genetics service should take place where a high-risk predisposing gene mutation has been identified (for example, BRCA1, BRCA2 or TP53).",
+   "url": "https://www.nice.org.uk/guidance/cg164/chapter/recommendations"
+  },
+  "pass": "A direct referral to the specialist genetics service is documented within 4 weeks of the mutation result being reported",
+  "population": "Inclusion: all patients with a new high-risk predisposing gene mutation result (germline or somatic/tumour-based) reported over the last 12 months. Exclusion: patients already under active genetics follow-up.",
+  "sample": "30 consecutive new high-risk mutation results over the last 12 months",
+  "data_source": "Molecular pathology/genetics laboratory report, MDT outcome form, genetics referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "result_report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gene_identified",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_referral_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic genetics service alert triggered by the laboratory information system whenever a high-risk predisposing gene result is authorised.",
+  "target": "≥95%",
+  "reaudit": "6 months after the automatic alert is switched on, same template, same sample size",
+  "close_loop": "Present at the molecular pathology and clinical genetics joint governance meeting; keep the automatic alert if the target is met.",
+  "evidence": [
+   "[no audit of direct genetics referral on identification of a high-risk mutation has been published in the library]"
+  ],
+  "pitfalls": [
+   "Tumour (somatic) mutation results can be mistaken for germline and missed for referral → clarify in the laboratory report whether germline testing is also needed",
+   "Results reported to a non-genetics team who are unfamiliar with the referral pathway → include a referral prompt on the report itself",
+   "Patients who die or are lost to follow-up before referral → record as an exclusion with a documented reason",
+   "Multiple laboratories report to the same trust → check all reporting routes, not just the main cancer genetics lab"
+  ],
+  "pearls": [
+   "Work with the molecular pathology lab to build the alert directly into result authorisation",
+   "Agree with oncology and surgical teams who owns the referral action when a result comes back",
+   "Track time from result to referral, not result to genetics appointment, since waiting lists are outside the referring team's control",
+   "Share early results with the cancer genetics MDT to build momentum for the system change"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from laboratory/genetics records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults admitted to hospital with heart failure are offered a referral to a personalised, exercise-based cardiac rehabilitation programme?",
+  "why": "Cardiac rehabilitation referral after coronary artery bypass grafting is already audited [see NNA-048], but referral for the much larger heart failure population is a distinct recommendation not measured anywhere in the library.",
+  "standard": {
+   "source": "NICE NG106 Chronic heart failure in adults: diagnosis and management, rec 1.11.1 (2018, amended 2025)",
+   "wording": "Offer people with heart failure a personalised, exercise-based cardiac rehabilitation programme. The programme: should be preceded by an assessment to ensure that it is suitable for the person should be provided in a format and setting (at home, in the community or in the hospital) that is easily accessible for the person should include a psychological and educational component.",
+   "url": "https://www.nice.org.uk/guidance/ng106/chapter/recommendations"
+  },
+  "pass": "A referral to an exercise-based cardiac rehabilitation programme is documented as offered before or shortly after discharge",
+  "population": "Inclusion: adults admitted with a primary diagnosis of heart failure over the last 3 months. Exclusion: patients receiving end-of-life or palliative care only.",
+  "sample": "30 consecutive heart failure admissions over the last 3 months",
+  "data_source": "Discharge summary, cardiac rehabilitation service referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suitability_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehabilitation_referral_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_format",
+    "type": "choice",
+    "options": [
+     "hospital",
+     "community",
+     "home-based",
+     "not offered"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory exercise-based cardiac rehabilitation referral field to the heart failure discharge bundle, defaulting to 'referred' with a documented reason required if not.",
+  "target": "≥90%",
+  "reaudit": "6 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at cardiology/heart failure MDT governance; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[48 nearest related entry: cardiac rehabilitation referral after CABG for myocardial infarction]"
+  ],
+  "pitfalls": [
+   "Cardiac rehabilitation services may be commissioned mainly for post-MI/CABG patients, with heart failure referral pathways less established → confirm the local service accepts heart failure referrals before cycle 1",
+   "Frail or very elderly patients may be wrongly assumed unsuitable without a formal assessment → require a documented suitability assessment, not clinician judgement alone",
+   "Community or home-based options may not exist locally → record the format offered so gaps in provision are visible",
+   "Patients declining rehabilitation should be recorded as offered-declined, not as a system failure"
+  ],
+  "pearls": [
+   "Involve the heart failure specialist nurse, who already coordinates much of this discharge planning",
+   "Agree with the cardiac rehabilitation service in advance how they will handle a rise in heart failure referrals",
+   "Use the same discharge bundle build as the CABG rehabilitation referral audit already running, for efficiency",
+   "Report referral rate by referral format to identify where local provision needs to expand"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients with a new traumatic or non-traumatic spinal cord injury are referred to the linked Spinal Cord Injury Centre within 12 hours of injury via the National Spinal Cord Injury Database, or telephoned within 4 hours where no agreed protocol exists?",
+  "why": "Timely specialist rehabilitation referral after spinal cord injury is a distinct national service standard not currently measured in the library, which covers spinal trauma from an orthopaedic/surgical rather than rehabilitation perspective.",
+  "standard": {
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "Referral is made through the National Spinal Cord Injury Database (NSCID) within 12 hours of injury. If agreed protocols do not exist the SCIC should also be telephoned within 4 hours.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
+  },
+  "pass": "Referral is documented via the NSCID within 12 hours of injury, with telephone contact within 4 hours recorded where no agreed local protocol exists",
+  "population": "Inclusion: adults and children with a new traumatic or non-traumatic spinal cord injury presenting to a major trauma centre or acute hospital over the last 12 months. Exclusion: patients who die before referral could be made.",
+  "sample": "20 consecutive new spinal cord injury presentations over the last 12 months (a smaller, targeted sample given expected low case numbers)",
+  "data_source": "NSCID referral record, trauma team notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "injury_or_presentation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nscid_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_nscid_referral",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "telephone_contact_within_4h_if_no_protocol",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an NSCID referral step, timed from presentation, to the trauma team's spinal injury checklist, with a direct telephone number for the linked Spinal Cord Injury Centre displayed on the checklist.",
+  "target": "≥90%",
+  "reaudit": "12 months after the checklist change, same template, same sample size",
+  "close_loop": "Present at the major trauma network and Spinal Cord Injury Centre joint governance meeting; keep the checklist step if the target is met.",
+  "evidence": [
+   "[no audit of NSCID referral timing after spinal cord injury has been published in the library]"
+  ],
+  "pitfalls": [
+   "Spinal cord injury presentations are infrequent in a single centre → extend the sampling period to 12–24 months if needed",
+   "Non-traumatic cases (for example from compressive pathology) may be referred later, from neurology or spinal surgery rather than the trauma team → include both referral routes",
+   "Staff unfamiliar with the NSCID system may default to informal telephone contact only → check both are properly recorded, not just one",
+   "Referral timing may be recorded on NSCID but not cross-checked locally → keep a parallel local log during the audit"
+  ],
+  "pearls": [
+   "Contact the linked Spinal Cord Injury Centre to confirm the agreed local referral protocol before cycle 1",
+   "Display the NSCID referral pathway and the direct SCIC telephone number in the emergency department trauma bay",
+   "Recruit the trauma coordinator or major trauma network rehabilitation lead as audit champion",
+   "Present findings to the regional trauma network, since this is a network-wide rather than single-hospital standard"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 cases from trauma/NSCID records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients admitted to a Spinal Cord Injury Centre have their first documented MDT goal-planning meeting within 3 weeks of mobilisation?",
+  "why": "Timeliness of structured goal-planning after admission to specialist spinal injury rehabilitation is not measured anywhere in the library.",
+  "standard": {
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "documented goal-planning meetings should be held between the MDT staff and the patient. Family and significant others should be encouraged to participate and contribute to goals set. Following acute injury, the first meeting should take place within 3 weeks of mobilisation and subsequent meetings no less often than 4-weekly thereafter.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
+  },
+  "pass": "A documented MDT goal-planning meeting takes place within 3 weeks of mobilisation, with subsequent meetings no more than 4 weeks apart",
+  "population": "Inclusion: adults and children admitted to the Spinal Cord Injury Centre over the last 12 months who have reached mobilisation. Exclusion: patients transferred out before mobilisation.",
+  "sample": "20 consecutive admissions reaching mobilisation over the last 12 months",
+  "data_source": "SCIC MDT goal-planning meeting record, mobilisation date in therapy notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "mobilisation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_goal_planning_meeting_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_weeks_of_mobilisation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "subsequent_meeting_interval_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic goal-planning meeting booking, timed from the mobilisation date recorded in therapy notes, to the SCIC's weekly MDT diary.",
+  "target": "≥90%",
+  "reaudit": "12 months after automatic booking is switched on, same template, same sample size",
+  "close_loop": "Present at the SCIC's own MDT and BSRM-aligned service governance meeting; keep automatic booking if the target is met.",
+  "evidence": [
+   "[no audit of spinal cord injury goal-planning meeting timing has been published in the library]"
+  ],
+  "pitfalls": [
+   "Mobilisation date can be recorded inconsistently across therapy disciplines → agree a single definition (first out-of-bed sitting/standing) before cycle 1",
+   "Small numbers in a single specialist centre → extend the sampling period if fewer than 20 admissions reach mobilisation in a year",
+   "Weekly MDT diary pressure may push meetings later than planned → protect goal-planning meeting slots in the diary rather than fitting them around other business",
+   "Family/significant other participation may not be recorded even when the meeting itself happens on time → check both timing and participation"
+  ],
+  "pearls": [
+   "Use the SCIC's own MDT coordinator, who already runs the weekly meeting diary, as audit lead",
+   "Cross-check this audit against the referral-timing audit above to build a full picture of the SCI pathway from injury to rehabilitation",
+   "Present results alongside UKROC outcome data already collected by the centre",
+   "Keep a simple wall planner of mobilisation dates and due goal-planning meetings visible to the MDT"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from SCIC MDT records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of spinal cord injury patients' MDT goal-planning meetings have documented evidence that family or significant others were invited to participate?",
+  "why": "Family involvement in goal-planning is a distinct requirement from the timing of the meeting itself, and is not measured anywhere in the library.",
+  "standard": {
+   "source": "NHS England Service Specification, Spinal Cord Injury Services (all ages), 2019",
+   "wording": "Family and significant others should be encouraged to participate and contribute to goals set.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2019/04/service-spec-spinal-cord-injury-services-all-ages.pdf"
+  },
+  "pass": "The goal-planning meeting record documents that family or significant others were invited, whether or not they were able to attend",
+  "population": "Inclusion: adults and children with a documented MDT goal-planning meeting at the SCIC over the last 12 months. Exclusion: patients with no identifiable family or significant other, documented as such.",
+  "sample": "20 consecutive goal-planning meetings over the last 12 months",
+  "data_source": "SCIC MDT goal-planning meeting record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "meeting_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_or_significant_other_invited",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_or_significant_other_attended",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_invited",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'family/significant other invited: yes (who) / no (why not)' field to the goal-planning meeting record template.",
+  "target": "≥90%",
+  "reaudit": "12 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at the SCIC MDT governance meeting; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[no audit of family involvement in spinal cord injury goal-planning meetings has been published in the library]"
+  ],
+  "pitfalls": [
+   "Family may live far from the specialist centre, making attendance difficult → accept telephone or video participation as equivalent to invitation and involvement",
+   "Patients may decline family involvement, which should be recorded as a valid patient choice rather than non-compliance",
+   "Small numbers of meetings in a specialist centre → extend the sampling period if needed",
+   "Invitation may happen informally by phone without being logged → require the invitation itself, not just attendance, to be documented"
+  ],
+  "pearls": [
+   "Combine data collection with the goal-planning meeting timing audit, since both use the same meeting records",
+   "Offer video-link attendance as standard for family members who cannot travel",
+   "Ask the SCIC's clinical psychologist or family liaison worker to help design the invitation record",
+   "Share this audit with the trust's patient experience team, since family involvement is closely linked to reported patient experience"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 meetings from SCIC MDT records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults admitted to a major trauma centre and found to need rehabilitation have their first rehabilitation assessment within 48–72 hours of admission?",
+  "why": "Rehabilitation prescription timing for major trauma is a distinct national standard not currently measured in the library, which covers major trauma from a surgical rather than rehabilitation perspective.",
+  "standard": {
+   "source": "NHS England Major Trauma Rehabilitation Prescription 2019, Adult patients (2019 guidance)",
+   "wording": "A first rehabilitation assessment should take place within 48-72 hours of the patient's admission and the Rehabilitation Prescription (2019) will have to be completed for all major trauma patients who need rehabilitation at discharge.",
+   "url": "https://www.c4ts.qmul.ac.uk/downloads/mt-rehabilitation-prescription-2019-guidance.pdf"
+  },
+  "pass": "A documented first rehabilitation assessment within 48–72 hours of admission for patients identified as needing rehabilitation",
+  "population": "Inclusion: adults admitted to a major trauma centre and recorded on TARN as needing rehabilitation at discharge over the last 6 months. Exclusion: patients who die within 72 hours of admission.",
+  "sample": "30 consecutive major trauma patients needing rehabilitation over the last 6 months",
+  "data_source": "TARN rehabilitation dataset, rehabilitation prescription record, ward notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "admission_date",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_rehabilitation_assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_first_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehabilitation_prescription_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic rehabilitation assessment referral, timed from admission, to the major trauma centre's trauma team activation checklist.",
+  "target": "≥90%",
+  "reaudit": "6 months after the automatic referral is switched on, same template, same sample size",
+  "close_loop": "Present at the major trauma network governance meeting and TARN peer review; keep the automatic referral if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of the 48 to 72 hour first rehabilitation assessment window has been published in the library]"
+  ],
+  "pitfalls": [
+   "Weekend admissions may have reduced therapy staffing → audit weekday versus weekend admissions separately",
+   "Patients with fluctuating consciousness may be hard to assess within the window → record a documented reason for delay where clinically necessary",
+   "TARN data entry lags behind clinical events → cross-check TARN records against ward notes for accuracy",
+   "Multiple specialties (orthopaedics, neurosurgery, general surgery) may each assume another team owns the referral → name a single responsible role in the trauma pathway"
+  ],
+  "pearls": [
+   "Use the existing trauma team activation checklist as the natural place to add the rehabilitation referral trigger",
+   "Recruit the trauma rehabilitation coordinator, who already tracks TARN data, as audit lead",
+   "Present the audit as part of the annual TARN peer review submission for extra visibility",
+   "Keep the assessment threshold simple (48–72 hours) rather than adding local variations that complicate re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from TARN/ward records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of major trauma patients with a completed rehabilitation prescription have documented evidence that it was developed with the involvement of the patient and/or their family or carers?",
+  "why": "Co-production of the rehabilitation prescription with the patient and family is a distinct required action from the timing of the first assessment audited above, and is not measured anywhere in the library.",
+  "standard": {
+   "source": "NHS England Major Trauma Rehabilitation Prescription 2019, Adult patients (2019 guidance)",
+   "wording": "The Rehabilitation Prescription must be developed with the involvement of the patient and/or their family/carers.",
+   "url": "https://www.c4ts.qmul.ac.uk/downloads/mt-rehabilitation-prescription-2019-guidance.pdf"
+  },
+  "pass": "The completed rehabilitation prescription documents patient and/or family/carer involvement in its development",
+  "population": "Inclusion: adults with a completed major trauma rehabilitation prescription over the last 6 months. Exclusion: patients who lack capacity with no available family or carer to involve.",
+  "sample": "30 consecutive completed rehabilitation prescriptions over the last 6 months",
+  "data_source": "Rehabilitation prescription document, TARN rehabilitation dataset",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "rehabilitation_prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_involvement_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_or_carer_involvement_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_neither_involved",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'patient/family involvement in developing this prescription: yes (how) / no (why not)' field to the rehabilitation prescription template, so the form cannot be signed off without it.",
+  "target": "≥90%",
+  "reaudit": "6 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at the major trauma network governance meeting; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[no audit of patient/family involvement in developing the major trauma rehabilitation prescription has been published in the library]"
+  ],
+  "pitfalls": [
+   "Involvement may happen verbally at the bedside but go unrecorded → require a specific field, not reliance on general ward round notes",
+   "Family may be geographically distant or unavailable → accept telephone or video involvement as documented evidence",
+   "Junior staff completing the form may not know who was involved in earlier discussions → make involvement a discussion point at the rehabilitation MDT itself",
+   "Patients who decline family involvement should not be marked as non-compliant → record explicit patient choice as a valid reason"
+  ],
+  "pearls": [
+   "Add the involvement field alongside the timing field from the previous audit so both are checked in one form review",
+   "Ask the trauma rehabilitation coordinator to prompt involvement documentation at the weekly MDT",
+   "Share example wording of a well-documented involvement note with staff before cycle 1",
+   "Feed both rehabilitation prescription audits into the same annual TARN peer review submission"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from rehabilitation prescription records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of grassroots sport participants with a suspected concussion are immediately removed from play, with no same-day return?",
+  "why": "Concussion management is not represented in the library at all; immediate removal from play is the single most important and highest-volume first step, applicable across every contact and collision sport.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024, endorsed across UK sport and government)",
+   "wording": "As with anyone who suffers a concussion, disabled people who have a suspected concussion must be removed from play. The principles of “If In Doubt Sit Them Out” apply.",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "The player is recorded as removed from play immediately on suspicion of concussion, with no return to play that same session",
+  "population": "Inclusion: all recorded suspected concussion incidents in club first-aid or matchday records over the last playing season. Exclusion: incidents where no head impact or suspected concussion was recorded at all.",
+  "sample": "30 consecutive suspected concussion incidents over the last season (from club first-aid/incident logs)",
+  "data_source": "Club matchday first-aid log, incident report form, welfare officer records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "incident_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sport",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "player_age_group",
+    "type": "choice",
+    "options": [
+     "under 18",
+     "18 and over"
+    ],
+    "note": ""
+   },
+   {
+    "field": "removed_from_play_immediately",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "returned_to_play_same_session",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make a documented 'if in doubt, sit them out' incident form a mandatory part of every club's first-aid kit, with copies logged centrally by the club welfare officer.",
+  "target": "100%",
+  "reaudit": "One season later, same log, same sample size",
+  "close_loop": "Present at the club or league safeguarding/welfare committee; embed the incident form as a permanent first-aid kit item if compliance is maintained.",
+  "evidence": [
+   "[no audit of concussion management in grassroots or amateur sport has been published in the library]"
+  ],
+  "pitfalls": [
+   "Incidents are under-reported when there is no injury log at all → introduce a simple paper or app-based log before cycle 1",
+   "Coaches and parents may pressure a return to play → back the pitch-side decision-maker with written club policy signed by all coaches",
+   "Volunteers may not recognise all concussion signs → provide a short recognition card as part of first-aid kit",
+   "Data collection depends on volunteers completing forms consistently → assign a single welfare officer to own the log"
+  ],
+  "pearls": [
+   "Adopt the free downloadable UK Concussion Guidelines pocket card as the pitch-side reference before cycle 1",
+   "Recruit the club or league welfare/safeguarding officer as audit lead, since they already handle incident reporting",
+   "Run the audit across a whole league or club network rather than a single team, to get a realistic sample",
+   "Share the 'if in doubt, sit them out' message at the pre-season coaches' briefing to embed the standard from the start"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 incidents from club first-aid logs"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of players with a suspected concussion are assessed by an appropriate healthcare professional before beginning the graduated return to activity and sport programme?",
+  "why": "No audit in the library covers medical clearance before starting graduated return to sport after concussion.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024)",
+   "wording": "Return to play should not be permitted until after evaluation by an appropriate Healthcare Professional and the successful completion of a graduated return to activity (education/work) and sport programme.",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "A documented assessment by an appropriate healthcare professional (for example GP, sport and exercise medicine physician or physiotherapist with concussion training) before the graduated return programme begins",
+  "population": "Inclusion: players with a suspected concussion in the last season who returned to any training or play. Exclusion: players who did not return to sport that season.",
+  "sample": "30 consecutive concussion cases with a return to sport over the last season",
+  "data_source": "Club incident log, GP or sports medicine clinic letter, return-to-play sign-off form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "incident_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "healthcare_professional_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessor_role",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "graduated_programme_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_before_programme_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Require a signed healthcare professional clearance form before a player's name can be entered onto the graduated return-to-sport log kept by the club.",
+  "target": "≥90%",
+  "reaudit": "One season later, same log, same sample size",
+  "close_loop": "Present at the club/league welfare committee; keep the clearance form requirement if compliance is maintained.",
+  "evidence": [
+   "[no audit of medical clearance before graduated return to sport after concussion has been published in the library]"
+  ],
+  "pitfalls": [
+   "Access to a healthcare professional with concussion training can be limited in rural or amateur settings → agree a referral pathway to a local GP or sports medicine clinic in advance",
+   "Assessment happens but is not documented in a form the club can check → provide a simple one-page clearance certificate",
+   "Financial or time barriers to seeing a healthcare professional → make clubs aware of NHS and GP routes, not only private sports medicine",
+   "Players self-declare recovery without assessment → make the clearance form a condition of registration for that fixture"
+  ],
+  "pearls": [
+   "Partner with a local sport and exercise medicine clinic or GP practice willing to provide concussion clearance letters",
+   "Use the same incident log built for the removal-from-play audit to identify cases",
+   "Publicise the clearance requirement to parents and players, not only coaches, so it is understood league-wide",
+   "Keep the clearance form short so it does not become a barrier to a genuinely recovered player returning"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from club/clinic records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of players with a confirmed or suspected concussion have no return to a contact/competitive fixture before 21 days from the date of injury?",
+  "why": "The minimum 21-day exclusion from contact competition is a specific, checkable national standard that is not currently audited anywhere in the library.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024)",
+   "wording": "All concussions should be managed individually, but there should be no return to competition before 21 days from injury.",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "The recorded date of return to competitive/contact fixtures is 21 days or more after the recorded injury date",
+  "population": "Inclusion: players with a documented concussion who returned to competitive play during the audited season. Exclusion: players who did not return to competitive play that season.",
+  "sample": "30 consecutive concussion cases with a documented return to competition over the last season",
+  "data_source": "Club/league team sheets, incident log, return-to-play sign-off record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "return_to_competition_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_to_return",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_21_day_minimum",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 21-day 'earliest eligible return date' calculation to the club's team registration/selection system, blocking selection before that date.",
+  "target": "100%",
+  "reaudit": "One season later, same records, same sample size",
+  "close_loop": "Present at the league management committee; keep the automatic selection block if compliance is maintained.",
+  "evidence": [
+   "[no audit of the 21-day minimum exclusion from contact competition after concussion has been published in the library]"
+  ],
+  "pitfalls": [
+   "Team sheets are not always retained systematically by amateur clubs → agree with the league to keep a central selection record",
+   "Competitive pressure (finals, promotion deciders) may tempt an early return → make the 21-day rule a league regulation, not just guidance, with a stated sanction",
+   "Cross-checking injury date against team sheets is time-consuming → digitise team sheet submission where possible",
+   "Players who play for multiple teams may return early via a different team → check league-wide registration, not just one club"
+  ],
+  "pearls": [
+   "Ask the league to formally adopt the 21-day rule as a playing regulation, giving the audit real teeth",
+   "Use existing fixture and team sheet records already kept for other purposes (discipline, results) to minimise new data collection",
+   "Share results with coaches at end-of-season meetings to reinforce the standard for the following season",
+   "Combine this audit with the medical-clearance audit above, since both use the same case list"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 cases from team sheets/incident log"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of players with concussion symptoms lasting longer than 28 days are referred for assessment by an appropriate healthcare professional such as their GP?",
+  "why": "Prolonged concussion symptoms requiring medical referral are not currently measured by any audit in the library.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024)",
+   "wording": "Anyone with symptoms that last longer than 28 days should be assessed and managed by an appropriate Healthcare Professional (e.g. their General Practitioner [GP]).",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "A documented referral for medical assessment is made for players whose symptoms are recorded as still present at 28 days",
+  "population": "Inclusion: players with a documented concussion in the last season whose symptom status was followed up. Exclusion: players lost to follow-up before 28 days for reasons unrelated to concussion.",
+  "sample": "20 consecutive concussion cases with symptoms tracked to 28 days over the last season (a smaller, targeted sample given expected low case numbers)",
+  "data_source": "Club welfare officer follow-up log, GP referral letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_status_at_28_days",
+    "type": "choice",
+    "options": [
+     "resolved",
+     "ongoing",
+     "not followed up"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gp_or_healthcare_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Give the club welfare officer a structured 28-day symptom check-in call template, with an automatic prompt to refer to the GP if symptoms persist.",
+  "target": "≥90%",
+  "reaudit": "One season later, same log, same sample size",
+  "close_loop": "Present at the league welfare committee; keep the 28-day check-in call if compliance is maintained.",
+  "evidence": [
+   "[no audit of GP referral for concussion symptoms persisting beyond 28 days has been published in the library]"
+  ],
+  "pitfalls": [
+   "Follow-up beyond the playing season can be lost if the player stops attending training → agree a follow-up method that does not depend on continued attendance (phone call, text)",
+   "Symptom self-report may be under-reported due to fear of missing further games → reassure players the check-in is about their health, not selection",
+   "Small numbers of persistent cases make percentages unstable → report raw numbers alongside the percentage",
+   "GPs unfamiliar with sport-specific return-to-play advice → provide GPs with a simple referral information sheet"
+  ],
+  "pearls": [
+   "Give welfare officers a simple three-question symptom check script to use at day 28",
+   "Build a relationship with a local sports medicine or GP clinic willing to see referred players promptly",
+   "Track persistent symptoms across a season to identify whether any single team or sport has a cluster",
+   "Feed this audit into the same welfare committee reporting cycle as the other concussion audits"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from welfare officer records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of players advised to rest after a suspected concussion have documentation that they were told to avoid intense exercise, challenging work or sport for the first 24–48 hours?",
+  "why": "Early post-injury rest advice, distinct from the later graduated return programme, has not been separately audited in the library.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024)",
+   "wording": "Anyone with concussion should generally rest for 24-48 hours but can undertake easy activities of daily living and walking, but must avoid intense exercise, challenging work, or sport.",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "Documented advice given at the time of injury includes the 24–48 hour rest period and avoidance of intense exercise, challenging work and sport",
+  "population": "Inclusion: players with a suspected concussion recorded in the club incident log over the last season. Exclusion: players who required emergency hospital transfer, whose advice is given by hospital staff.",
+  "sample": "30 consecutive suspected concussion incidents over the last season",
+  "data_source": "Club incident log, concussion information card given to player",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "incident_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rest_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "information_card_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_given_to_player_and_parent_carer",
+    "type": "yes/no",
+    "options": [],
+    "note": "for under-18s"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock a standard concussion information card, with the 24–48 hour rest advice pre-printed, in every club first-aid kit alongside the removal-from-play form.",
+  "target": "≥95%",
+  "reaudit": "One season later, same log, same sample size",
+  "close_loop": "Present at the club/league welfare committee; keep the information card in the first-aid kit if compliance is maintained.",
+  "evidence": [
+   "[no audit of documented initial rest advice after suspected concussion has been published in the library]"
+  ],
+  "pitfalls": [
+   "Advice given verbally pitch-side is easily forgotten without a take-home card → make the printed card, not verbal advice alone, the pass criterion",
+   "Volunteers may not have the card to hand on the day → check kit stock as part of the pre-season safety check",
+   "Under-18s need advice given to both player and parent/carer → record this separately from adult cases",
+   "Cards go out of date if guidance is updated → check the card version matches the current national guidance at each audit"
+  ],
+  "pearls": [
+   "Download the free UK Concussion Guidelines information card rather than designing a new one",
+   "Combine information-card distribution with the removal-from-play form so both happen at the same pitch-side moment",
+   "Ask parents/carers directly (brief survey) whether they received and understood the advice",
+   "Refresh first-aid kit stock checks at the start of each new season, not only when an incident occurs"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 incidents from club records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of under-18 players with a suspected concussion have their parent or carer informed and involved in the return-to-play decision, alongside the player themselves?",
+  "why": "Youth-specific concussion safeguarding is a distinct population from adult return-to-play audited above, and is not covered anywhere in the library.",
+  "standard": {
+   "source": "UK Concussion Guidelines for Grassroots Sport (Sport and Recreation Alliance, updated November 2024)",
+   "wording": "Following a suspected concussion, what's your role? ... Anyone with a suspected concussion should ... [be] removed from play ... the guidance ... is intended for the general public and for individuals participating in all grassroots sports – primary school age and upwards.",
+   "url": "https://sportandrecreation.org.uk/campaigns-and-policy/concussion/concussion-guidelines-for-grassroots-sport-html-version"
+  },
+  "pass": "Documented evidence that the player's parent or carer was informed of the suspected concussion on the day, and involved in the subsequent return-to-play discussion",
+  "population": "Inclusion: players under 18 with a suspected concussion recorded in the club incident log over the last season. Exclusion: 16 and 17 year olds registered as adults in an open-age competition.",
+  "sample": "30 consecutive under-18 suspected concussion incidents over the last season",
+  "data_source": "Club incident log, parental contact record, return-to-play sign-off form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "incident_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "player_age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "parent_or_carer_informed_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "parent_or_carer_involved_in_return_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make same-day parental contact a mandatory field on the club's youth incident report form, signed off by the coach before the form is filed.",
+  "target": "100%",
+  "reaudit": "One season later, same log, same sample size",
+  "close_loop": "Present at the club junior section/safeguarding committee; keep the mandatory field if compliance is maintained.",
+  "evidence": [
+   "[no audit of parental involvement in youth concussion management has been published in the library]"
+  ],
+  "pitfalls": [
+   "Contact details for parents/carers may be out of date → verify emergency contact details at the start of each season",
+   "Away fixtures make same-day face-to-face contact harder → accept a documented phone call as equivalent",
+   "Coaches may assume another adult (a relative at the match) has informed the parent → make the coach personally responsible for confirming this",
+   "Player embarrassment may lead to under-reporting to parents → frame the policy as standard practice for every knock, not a special report"
+  ],
+  "pearls": [
+   "Build parental contact into the same incident form used for the removal-from-play audit",
+   "Brief parents at the start of the season on what to expect if their child is suspected of a concussion",
+   "Use the club's existing safeguarding lead, who already holds emergency contact responsibilities",
+   "Share a simple parent-facing information sheet alongside the player-facing concussion card"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 incidents from club records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of new healthcare staff who complete a primary course of hepatitis B vaccine have their antibody titre checked 1 to 4 months after completing the course?",
+  "why": "Staff hepatitis B immunity checking has no audit in the library; existing hepatitis B entries concern patient screening in pregnancy [see NNA-189] rather than occupational health follow-up.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 12, Immunisation of healthcare and laboratory staff",
+   "wording": "Antibody titres for hepatitis B should be checked one to four months after the completion of a primary course of vaccine. Such information allows appropriate decisions to be made concerning post-exposure prophylaxis following known or suspected exposure to the virus.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a7abc09e5274a319e77a5b9/Green-Book-Chapter-12.pdf"
+  },
+  "pass": "An anti-HBs antibody titre result is recorded in the occupational health record 1–4 months after the primary vaccine course is completed",
+  "population": "Inclusion: staff with direct patient contact who completed a primary hepatitis B vaccine course in the last 12 months. Exclusion: staff who declined vaccination.",
+  "sample": "40 consecutive staff completing a primary course over the last 12 months",
+  "data_source": "Occupational health immunisation record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "primary_course_completion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibody_titre_check_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "checked_within_1_to_4_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "responder_status",
+    "type": "choice",
+    "options": [
+     "responder (anti-HBs ≥10 mIU/mL)",
+     "non-responder",
+     "not checked"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic recall for antibody titre testing to the occupational health vaccination database, triggered at the point the final primary-course dose is recorded.",
+  "target": "≥90%",
+  "reaudit": "6 months after the automatic recall is switched on, same template, same sample size",
+  "close_loop": "Present at the occupational health service governance meeting; keep the automatic recall if the target is met.",
+  "evidence": [
+   "[no audit of hepatitis B antibody titre checking timing in healthcare staff has been published in the library]"
+  ],
+  "pitfalls": [
+   "Staff move between departments or trusts before the check is due → flag the pending check in a shared occupational health system rather than a single department log",
+   "Blood test uptake among busy staff is often poor → offer testing at the workplace or during an existing appointment",
+   "Non-responder status is not always acted on → link this audit to a booster/re-testing pathway for non-responders",
+   "New starters may complete the course at a previous employer → confirm completion dates carefully before including a case"
+  ],
+  "pearls": [
+   "Use the occupational health vaccination database's own recall function rather than a manual spreadsheet",
+   "Offer drop-in phlebotomy sessions timed to when most staff are due their check",
+   "Report responder/non-responder rates separately, since non-responders need a distinct pathway",
+   "Recruit the occupational health nurse manager as audit lead, since they already run the vaccination programme"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 staff records from occupational health system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of healthcare staff identified as non-responders to a primary hepatitis B vaccine course have a documented further management plan (for example a second course or confirmation of non-infection status)?",
+  "why": "Follow-up of hepatitis B non-responders is a distinct step from the antibody check itself and is not measured anywhere in the library.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 18, Hepatitis B (updated 5 February 2026)",
+   "wording": "Reinforcing doses should be considered for people in the following categories: ... healthcare and laboratory workers who have not responded to the primary course (see Testing for evidence of immunity after vaccination).",
+   "url": "https://assets.publishing.service.gov.uk/media/68385046e0f10eed80aafad9/Hepatitis-B-green_book-chapter-18-06-03-2025.pdf"
+  },
+  "pass": "A documented further management plan (repeat course, further testing, or confirmed non-infectious status recorded) exists for each identified non-responder",
+  "population": "Inclusion: staff identified as non-responders to a primary hepatitis B vaccine course in occupational health records over the last 2 years. Exclusion: staff who have since left employment.",
+  "sample": "20 consecutive non-responders identified over the last 2 years (a smaller, targeted sample given expected low case numbers)",
+  "data_source": "Occupational health immunisation and serology record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "non_responder_identified_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_management_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_type",
+    "type": "choice",
+    "options": [
+     "repeat course offered",
+     "further serology arranged",
+     "hepatitis B surface antigen status confirmed",
+     "none documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a mandatory non-responder pathway into the occupational health database, so a non-responder result cannot be filed without a follow-up plan being recorded at the same time.",
+  "target": "100%",
+  "reaudit": "12 months after the mandatory pathway is switched on, same template, same sample size",
+  "close_loop": "Present at the occupational health service governance meeting; keep the mandatory pathway if the target is met.",
+  "evidence": [
+   "[no audit of hepatitis B non-responder follow-up in healthcare staff has been published in the library]"
+  ],
+  "pitfalls": [
+   "Non-responders may be a small, scattered group → collect over 2 years to reach a meaningful sample",
+   "Staff may not attend for a repeat course once already vaccinated → explain the individual risk of remaining a non-responder clearly",
+   "Some non-responders are never confirmed as HBsAg-negative → include this as an acceptable alternative management outcome",
+   "Occupational health records may be split across paper and electronic systems → check both sources before concluding a plan is missing"
+  ],
+  "pearls": [
+   "Base the pathway design on the Green Book's own guidance on further doses and testing",
+   "Recruit the occupational health physician for clinical sign-off of the pathway",
+   "Track outcomes long-term (does a repeat course convert non-responders?) as a natural extension of this audit",
+   "Share anonymised non-responder numbers with the trust's infection prevention team, who share an interest in exposure risk"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 records from occupational health system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of staff with a significant occupational needlestick injury from a known hepatitis B surface antigen-positive source, in whom hepatitis B immunoglobulin is indicated, receive it within 24 hours of the first vaccine dose?",
+  "why": "Needlestick post-exposure prophylaxis timing has no audit in the library; existing entries relate to patient-facing screening rather than staff post-exposure management.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 18, Hepatitis B (updated 5 February 2026)",
+   "wording": "If HBIG is also indicated, it should be given as soon as possible, ideally at the same time or within 24 hours of the first dose of vaccine, but not after seven days have elapsed since exposure or vaccine.",
+   "url": "https://assets.publishing.service.gov.uk/media/68385046e0f10eed80aafad9/Hepatitis-B-green_book-chapter-18-06-03-2025.pdf"
+  },
+  "pass": "HBIG, when indicated, is given at the same time as or within 24 hours of the first vaccine dose, and always within 7 days of exposure",
+  "population": "Inclusion: staff with a significant percutaneous or mucocutaneous exposure to a known HBsAg-positive source over the last 2 years, in whom HBIG was indicated. Exclusion: exposures to a source of unknown or negative HBsAg status.",
+  "sample": "20 consecutive eligible exposures over the last 2 years (a smaller, targeted sample given expected low case numbers)",
+  "data_source": "Occupational health/emergency department needlestick injury record, pharmacy HBIG dispensing log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "exposure_date",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_vaccine_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbig_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbig_within_24h_of_vaccine",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbig_within_7_days_of_exposure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock HBIG in the emergency department (rather than only in occupational health, which is often closed out of hours) and add a needlestick post-exposure pathway card to ED triage.",
+  "target": "100%",
+  "reaudit": "12 months after HBIG stocking and the pathway card are introduced, same template, same sample size",
+  "close_loop": "Present at the occupational health/infection control governance meeting; keep the ED stocking arrangement if compliance is maintained.",
+  "evidence": [
+   "[no audit of hepatitis B immunoglobulin timing after occupational needlestick injury has been published in the library]"
+  ],
+  "pitfalls": [
+   "Out-of-hours exposures are the highest-risk group for delay, since occupational health is usually closed → ensure the ED pathway covers all hours",
+   "HBIG needs a same-day source patient hepatitis B test where status is unknown → build rapid testing into the pathway",
+   "Small numbers of eligible exposures → extend the sampling period to the last 2–3 years",
+   "Staff may delay reporting an injury out of embarrassment or workload pressure → reinforce a no-blame reporting culture"
+  ],
+  "pearls": [
+   "Base the local pathway directly on the Green Book's own post-exposure timing wording",
+   "Agree HBIG stock-holding and rapid access with pharmacy and the ED lead before cycle 1",
+   "Recruit the infection control team, who already investigate needlestick incidents, as co-auditors",
+   "Track time-to-first-vaccine-dose as a secondary measure, since this drives the 24-hour HBIG window"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 records from occupational health/ED"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of staff with a significant occupational exposure to blood or body fluids (for example a needlestick injury) have documented evidence that advice was sought immediately, either from occupational health, the emergency department or the local Health Protection Team?",
+  "why": "Timeliness of first-line advice-seeking after a needlestick injury, as distinct from HBIG administration itself, is not currently audited in the library.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 18, Hepatitis B (updated 5 February 2026)",
+   "wording": "Individuals who sustain such exposures should wash the affected area well with soap and warm water and seek medical advice. Advice about prophylaxis after such incidents should be obtained by telephone from the nearest Emergency Department, NHS 111, or from the local Health Protection Team.",
+   "url": "https://assets.publishing.service.gov.uk/media/68385046e0f10eed80aafad9/Hepatitis-B-green_book-chapter-18-06-03-2025.pdf"
+  },
+  "pass": "Documented evidence that first aid (washing) was performed and advice was sought on the same day as the exposure",
+  "population": "Inclusion: staff reporting an occupational needlestick or splash injury over the last 6 months. Exclusion: exposures reported more than 7 days after the event.",
+  "sample": "30 consecutive reported needlestick/splash injuries over the last 6 months",
+  "data_source": "Incident reporting system (Datix or equivalent), occupational health record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "exposure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_aid_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_sought_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_source",
+    "type": "choice",
+    "options": [
+     "occupational health",
+     "emergency department",
+     "NHS 111",
+     "Health Protection Team",
+     "none recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put a laminated needlestick first-response card (wash, seek advice, report) at every clinical area sink and sharps disposal point, with the out-of-hours contact number printed on it.",
+  "target": "≥95%",
+  "reaudit": "6 months after the cards are introduced, same template, same sample size",
+  "close_loop": "Present at the infection control/occupational health governance meeting; keep the cards in place if compliance is maintained.",
+  "evidence": [
+   "[no audit of same-day advice-seeking after occupational needlestick injury has been published in the library]"
+  ],
+  "pitfalls": [
+   "Incident reporting systems capture what happened but not always when advice was first sought → cross-check with occupational health call logs",
+   "Staff may assume a low-risk source means advice is unnecessary → make advice-seeking mandatory regardless of perceived risk",
+   "Night-shift staff may not know who to call → ensure the out-of-hours contact is on the card, not only daytime numbers",
+   "Under-reporting remains a barrier even with cards in place → reinforce reporting culture alongside the practical change"
+  ],
+  "pearls": [
+   "Involve ward and theatre staff in designing the card so the wording is clear and short",
+   "Place cards exactly where sharps injuries happen (sinks, sharps bins), not only in notice boards",
+   "Use the same incident case list as the HBIG-timing audit to cover the whole needlestick pathway in one data collection round",
+   "Report near-miss data (advice sought quickly even without HBIG) as a positive indicator alongside the compliance rate"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 incidents from Datix/occupational health records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of new starters with direct patient contact have a pre-employment health assessment that includes a documented review of immunisation needs?",
+  "why": "Pre-employment occupational health screening is not audited anywhere in the library, despite being the entry point for every subsequent staff immunisation and infection-control safeguard.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 12, Immunisation of healthcare and laboratory staff",
+   "wording": "All new employees should undergo a pre-employment health assessment, which should include a review of immunisation needs.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a7abc09e5274a319e77a5b9/Green-Book-Chapter-12.pdf"
+  },
+  "pass": "A documented pre-employment health assessment includes a specific review of immunisation needs, completed before or on the first day of clinical duties",
+  "population": "Inclusion: new starters with direct patient contact in the last 6 months. Exclusion: internal transfers with an existing, current occupational health record.",
+  "sample": "30 consecutive new starters over the last 6 months",
+  "data_source": "Occupational health pre-employment assessment record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_employment_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunisation_needs_reviewed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_completed_before_first_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make immunisation needs review a mandatory, separately signed-off section of the electronic pre-employment health questionnaire, rather than a single general health tick-box.",
+  "target": "≥95%",
+  "reaudit": "6 months after the mandatory section is added, same template, same sample size",
+  "close_loop": "Present at the occupational health service governance meeting; keep the mandatory section if the target is met.",
+  "evidence": [
+   "[no audit of pre-employment immunisation needs review has been published in the library]"
+  ],
+  "pitfalls": [
+   "Agency and bank staff may bypass the trust's own pre-employment process → check the pathway covers all staff groups, not only substantive posts",
+   "Assessments completed but the immunisation section left blank → treat a blank section as a fail, not an assumed pass",
+   "Starting before the assessment is complete under service pressure → agree an escalation process for urgent starts with HR",
+   "COSHH risk assessment by role (which pathogens staff are exposed to) needs to inform which immunisations are offered → check this link is made, not assumed"
+  ],
+  "pearls": [
+   "Use the Green Book's own COSHH risk-assessment framework to structure which immunisations are checked by role",
+   "Recruit HR/recruitment alongside occupational health, since start dates are set jointly",
+   "Present a simple 'before and after' comparison of the questionnaire form to show the change clearly",
+   "Track time from job offer to completed assessment as a secondary measure to catch late starts"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 records from occupational health system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of healthcare workers directly involved in patient care are offered influenza immunisation on an annual basis?",
+  "why": "Staff influenza vaccination uptake campaigns are common, but whether every eligible member of staff is actually offered the vaccine (as distinct from uptake rate) is not measured in the library.",
+  "standard": {
+   "source": "UKHSA Green Book chapter 12, Immunisation of healthcare and laboratory staff",
+   "wording": "Influenza vaccination is therefore recommended for healthcare workers directly involved in patient care, who should be offered influenza immunisation on an annual basis.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a7abc09e5274a319e77a5b9/Green-Book-Chapter-12.pdf"
+  },
+  "pass": "A documented offer of influenza immunisation (accepted or declined) is recorded for the current season",
+  "population": "Inclusion: all staff with direct patient contact on a sample ward/department roster during the current flu vaccination season. Exclusion: staff on long-term leave for the whole season.",
+  "sample": "40 staff sampled from rosters across 3 clinical areas during the current flu season",
+  "data_source": "Occupational health flu vaccination campaign record, ward staff roster",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "clinical_area",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "offer_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "accepted and vaccinated",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_decline_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Use peer vaccinators to visit every clinical area on the roster during the flu campaign, with a named staff-by-staff checklist so no one is missed, rather than relying on staff to attend a central clinic.",
+  "target": "≥95% offered (uptake target set locally)",
+  "reaudit": "Following flu season, same sampling method, same sample size",
+  "close_loop": "Present at occupational health and infection prevention governance; keep the peer vaccinator ward-round model if the offer rate improves.",
+  "evidence": [
+   "[no audit of universal offer of annual influenza immunisation to patient-facing staff has been published in the library]"
+  ],
+  "pitfalls": [
+   "Bank, agency and night staff are often missed by daytime campaigns → schedule peer vaccinator visits across all shifts",
+   "Staff who move between departments during the season may be double-counted or missed → use a single trust-wide tracker, not ward-level lists alone",
+   "Declining staff should have this recorded, not left blank → treat a blank record as 'not offered', not 'declined'",
+   "Campaign timing (early in the season) affects the denominator if staff join partway through → clarify the eligible cohort before cycle 1"
+  ],
+  "pearls": [
+   "Use the trust's existing flu campaign peer vaccinator network as the audit's data collectors",
+   "Present ward-by-ward offer rates to identify areas needing extra visits",
+   "Report offer rate and uptake rate separately, since this audit is about the offer being made, not just uptake",
+   "Time the audit to coincide with the mid-campaign review point so results can still influence that season's efforts"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 staff from roster/occupational health records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients on maintenance lithium therapy have a lithium blood level checked at least once every 3 months?",
+  "why": "Lithium monitoring for physical health parameters is not audited in the library, unlike related psychiatric monitoring topics; this is the single highest-harm, highest-volume medicines-safety gap named in the underlying national alert.",
+  "standard": {
+   "source": "NPSA Patient Safety Alert NPSA/2009/PSA005, Safer lithium therapy (1 December 2009)",
+   "wording": "one in 10 patients had no documented lithium blood level. (National Institute for Health and Clinical Excellence (NICE) standard: one blood level measurement every three months. Not met for 70 per cent of patients)",
+   "url": "https://www.cas.mhra.gov.uk/ViewandAcknowledgment/ViewAttachment.aspx?Attachment_id=101024"
+  },
+  "pass": "At least one lithium level result is recorded in the preceding 3 months",
+  "population": "Inclusion: adults on established (more than 6 months) maintenance lithium therapy under primary or secondary mental health care. Exclusion: patients newly starting lithium (still in initial titration monitoring).",
+  "sample": "40 consecutive patients on the lithium monitoring register over the last 3 months",
+  "data_source": "Lithium monitoring register (practice or trust), laboratory results system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "last_lithium_level_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lithium_level_result",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "dose_adjusted_if_indicated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 3-month lithium level recall to the lithium monitoring register, with a hard stop on repeat prescribing if the level is overdue, as recommended in the original NPSA alert.",
+  "target": "≥90%",
+  "reaudit": "6 months after the recall/hard stop is switched on, same register, same sample size",
+  "close_loop": "Present at the medicines safety or mental health pharmacy governance meeting; keep the hard stop if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of the 3-month lithium level monitoring standard has been published in the library]"
+  ],
+  "pitfalls": [
+   "Patients under shared care between GP and mental health services can fall between the two → agree who owns the recall before cycle 1",
+   "Patients who avoid blood tests are hardest to reach → offer a point-of-care or home phlebotomy option where available",
+   "A hard stop on prescribing needs pharmacy system changes → involve pharmacy IT from the outset",
+   "Register accuracy depends on all lithium patients being correctly coded → check the register against a full drug search before starting"
+  ],
+  "pearls": [
+   "Base the recall directly on the original NPSA alert's own 3-month standard so the audit maps onto a nationally recognised benchmark",
+   "Use the NPSA lithium record book (patient-held) as a low-cost extra safety net alongside the electronic recall",
+   "Recruit a mental health pharmacist to lead, since they typically run the lithium register already",
+   "Report separately for primary and secondary care patients, since the fix may differ by setting"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from lithium register"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients on maintenance lithium therapy have renal and thyroid function checked at least once every 6 months?",
+  "why": "Renal and thyroid monitoring is a distinct national standard from the lithium level itself, and non-compliance with it was even more marked than lithium level monitoring in the original national audit that founded this alert.",
+  "standard": {
+   "source": "NPSA Patient Safety Alert NPSA/2009/PSA005, Safer lithium therapy (1 December 2009)",
+   "wording": "one in five patients had no renal function tests documented (NICE standard: assessment every six months. Not met for 46 per cent of patients); one in six patients had no thyroid function tests documented (NICE standard: assessment every six months. Not met for 51 per cent of patients)",
+   "url": "https://www.cas.mhra.gov.uk/ViewandAcknowledgment/ViewAttachment.aspx?Attachment_id=101024"
+  },
+  "pass": "Both a renal function test (U&E/eGFR) and a thyroid function test are recorded within the preceding 6 months",
+  "population": "Inclusion: adults on established maintenance lithium therapy over the last 6 months. Exclusion: patients newly starting lithium (still in initial titration monitoring).",
+  "sample": "40 consecutive patients on the lithium monitoring register over the last 6 months",
+  "data_source": "Lithium monitoring register, laboratory results system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "last_renal_function_test_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_thyroid_function_test_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add renal and thyroid function to the same automatic 6-month recall used for the lithium level check, as a single combined blood test request, rather than a separate process.",
+  "target": "≥90%",
+  "reaudit": "6 months after the combined recall is switched on, same register, same sample size",
+  "close_loop": "Present at the medicines safety or mental health pharmacy governance meeting; keep the combined recall if the target is met.",
+  "evidence": [
+   "[no closed-loop audit of 6-month renal and thyroid monitoring on lithium therapy has been published in the library]"
+  ],
+  "pitfalls": [
+   "Renal and thyroid tests are sometimes requested separately from the lithium level, causing extra venepuncture visits → combine them on one request form",
+   "Deteriorating renal function may not trigger a dose review → link abnormal results to a documented lithium dose review action",
+   "Test results filed but not reviewed by a prescriber → require a clinician sign-off field, not just a filed result",
+   "Register may not distinguish patients newly started from established patients → exclude the first 6 months, which has its own more frequent monitoring schedule"
+  ],
+  "pearls": [
+   "Combine data collection with the lithium level audit above, since both use the same register and time period",
+   "Ask the laboratory to bundle lithium, renal and thyroid tests under a single 'lithium monitoring panel' order code",
+   "Recruit the same mental health pharmacist leading the lithium level audit",
+   "Track abnormal results and the action taken as a secondary measure of monitoring quality, not just test completion"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from lithium register"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of patients starting lithium therapy are given a patient information booklet and a record book to track their lithium blood levels and relevant clinical tests?",
+  "why": "Providing patients with the tools to self-monitor lithium therapy is a distinct structural requirement of the national alert, separate from whether clinicians order the tests, and is not audited in the library.",
+  "standard": {
+   "source": "NPSA Patient Safety Alert NPSA/2009/PSA005, Safer lithium therapy (1 December 2009)",
+   "wording": "at the start of lithium therapy and throughout their treatment patients receive appropriate ongoing verbal and written information and a record book to track lithium blood levels and relevant clinical tests",
+   "url": "https://www.cas.mhra.gov.uk/ViewandAcknowledgment/ViewAttachment.aspx?Attachment_id=101024"
+  },
+  "pass": "Documented evidence that a patient information booklet and a record book (or patient-held equivalent) were given at the start of treatment",
+  "population": "Inclusion: adults starting lithium therapy over the last 12 months. Exclusion: patients restarting lithium who already hold a current record book.",
+  "sample": "20 consecutive lithium initiations over the last 12 months (a smaller, targeted sample given expected low volumes of new starts)",
+  "data_source": "Initiation clinic letter, pharmacy dispensing record, patient-held record book",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "initiation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "information_booklet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "record_book_or_alert_card_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Include the patient information booklet, alert card and record book as a fixed item in the lithium initiation prescribing checklist, so the prescription and the pack are issued together.",
+  "target": "100%",
+  "reaudit": "12 months after the checklist change, same template, same sample size",
+  "close_loop": "Present at the mental health pharmacy governance meeting; keep the combined checklist if compliance is maintained.",
+  "evidence": [
+   "[no audit of lithium initiation information-giving has been published in the library]"
+  ],
+  "pitfalls": [
+   "Booklets and alert cards can run out of stock → assign restocking responsibility to a named pharmacist",
+   "Patients started as inpatients may be discharged before receiving the pack → check discharge as well as initiation records",
+   "Record books can be lost by the patient over time → check for a record book at each subsequent review, not just at initiation",
+   "Digital patient-held records are increasingly used instead of paper → accept an equivalent digital record as a pass"
+  ],
+  "pearls": [
+   "Order NPSA-format record books/alert cards in bulk so they are always available at initiation",
+   "Give the pharmacist dispensing the first lithium prescription responsibility for checking the pack is complete",
+   "Ask patients at their first follow-up review whether they still have their record book, as a simple ongoing check",
+   "Present this audit alongside the monitoring-frequency audits for a complete picture of the lithium safety pathway"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from initiation records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults with a single acute paracetamol overdose and a plasma-paracetamol concentration on or above the treatment line start acetylcysteine within 8 hours of ingestion?",
+  "why": "Timeliness of acetylcysteine within the effective treatment window for a single acute overdose (as distinct from staggered overdose, already audited elsewhere [see NNA-092]) is not measured in the library.",
+  "standard": {
+   "source": "Oxford University Hospitals NHS Foundation Trust Medicines Information Leaflet, Guideline for the Management of Paracetamol Overdose (March 2024), based on TOXBASE/National Poisons Information Service guidance",
+   "wording": "It is most effective if given within 8 hours of paracetamol ingestion, after which effectiveness declines... a plasma-paracetamol concentration on or above the treatment line should be regarded as carrying a serious risk of liver damage.",
+   "url": "https://ouh.quris.com/media/qw0hejoa/milv11n8.pdf"
+  },
+  "pass": "Acetylcysteine is started within 8 hours of the recorded time of ingestion",
+  "population": "Inclusion: adults presenting with a single acute paracetamol overdose and a plasma-paracetamol concentration on or above the treatment line over the last 6 months. Exclusion: staggered or uncertain-time overdoses.",
+  "sample": "30 consecutive eligible presentations over the last 6 months",
+  "data_source": "ED notes, drug chart (acetylcysteine start time), laboratory paracetamol level and time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "ingestion_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paracetamol_level_result",
+    "type": "number",
+    "options": [],
+    "note": "mg/L"
+   },
+   {
+    "field": "on_or_above_treatment_line",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acetylcysteine_start_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_within_8_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic paracetamol overdose pathway to the ED system that calculates the 8-hour treatment deadline from the recorded ingestion time and flags it on the tracking board.",
+  "target": "≥90%",
+  "reaudit": "6 months after the automatic pathway is switched on, same template, same sample size",
+  "close_loop": "Present at ED governance; keep the automatic deadline flag if the target is met.",
+  "evidence": [
+   "[92 nearest related entry: staggered/uncertain-time paracetamol overdose acetylcysteine timing within 1 hour of arrival]"
+  ],
+  "pitfalls": [
+   "Ingestion time is often uncertain even in 'single acute' presentations → verify with ambulance or collateral history where possible",
+   "Laboratory turnaround for the paracetamol level can itself delay treatment → consider point-of-care testing if turnaround exceeds 1 hour",
+   "Patients presenting very close to 8 hours may be missed if the level result is delayed → treat empirically if delay risks missing the window, per local policy",
+   "Excluding staggered overdoses accurately requires a clear definition agreed with data collectors before cycle 1"
+  ],
+  "pearls": [
+   "Agree with the laboratory a rapid turnaround target for paracetamol levels, since this is often the rate-limiting step",
+   "Use the same case-finding method (toxicology coding) as the existing staggered-overdose audit to build a complete paracetamol overdose picture",
+   "Recruit the ED pharmacist to review flagged cases in real time during cycle 1",
+   "Present findings alongside the NPIS/TOXBASE contact audit below, since both use the same case list"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of adults treated for paracetamol overdose have documented contact with the National Poisons Information Service (via TOXBASE or telephone) for risk assessment and management advice?",
+  "why": "Use of NPIS/TOXBASE for paracetamol poisoning risk assessment is not audited in the library, despite being the explicit first step recommended before management decisions are made.",
+  "standard": {
+   "source": "Oxford University Hospitals NHS Foundation Trust Medicines Information Leaflet, Guideline for the Management of Paracetamol Overdose (March 2024), based on TOXBASE/National Poisons Information Service guidance",
+   "wording": "This MIL should be used in conjunction with TOXBASE guidance. In all cases of intravenous paracetamol poisoning, clinicians are encouraged to contact the National Poisons Information Service (NPIS) for advice on risk assessment and management.",
+   "url": "https://ouh.quris.com/media/qw0hejoa/milv11n8.pdf"
+  },
+  "pass": "Documented evidence of a TOXBASE search or telephone contact with NPIS for the case",
+  "population": "Inclusion: adults treated in the ED for paracetamol overdose over the last 3 months. Exclusion: patients who are asymptomatic with a sub-toxic accidental ingestion managed by protocol alone.",
+  "sample": "30 consecutive paracetamol overdose presentations over the last 3 months",
+  "data_source": "ED notes, TOXBASE access log (if available locally), ED clerking proforma",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "presentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "toxbase_or_npis_contact_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_method",
+    "type": "choice",
+    "options": [
+     "TOXBASE search",
+     "NPIS telephone",
+     "both",
+     "neither"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'TOXBASE reference number/NPIS call time' field to the ED paracetamol overdose proforma, so documentation is built into the standard clerking process.",
+  "target": "≥95%",
+  "reaudit": "6 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at ED governance and toxicology teaching; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[no audit of NPIS/TOXBASE contact documentation for paracetamol overdose has been published in the library]"
+  ],
+  "pitfalls": [
+   "Staff may check TOXBASE but not record having done so → require the reference number, not just a tick-box, as evidence",
+   "TOXBASE guidance changes periodically → confirm which version was current at the time of each case if discrepancies arise",
+   "Complex or unusual cases may need a telephone call in addition to TOXBASE → capture both contact methods separately",
+   "Locum or agency ED staff may be unfamiliar with local access arrangements → include TOXBASE access in induction"
+  ],
+  "pearls": [
+   "Combine this audit with the acetylcysteine-timing audit above, using the same case list",
+   "Display the TOXBASE login and NPIS phone number prominently at every ED workstation",
+   "Recruit the ED toxicology or pharmacy lead as audit champion",
+   "Use real anonymised cases from cycle 1 as teaching examples for induction of new ED staff"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from ED notes"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of valproate-containing medicines dispensed from the pharmacy are supplied in the manufacturer's original full pack, complete with the warning labelling and patient card?",
+  "why": "Valproate pregnancy prevention audits in the library focus on the Annual Risk Acknowledgement Form and two-specialist sign-off [see NNA-159, NNA-186, NNA-323]; the separate community/hospital pharmacy dispensing requirement for original packaging has not been audited.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, 'Valproate: dispense full packs of valproate-containing medicines' (31 October 2023)",
+   "wording": "Unless there are exceptional circumstances, valproate-containing medicines must always be dispensed in the manufacturer's original full pack.",
+   "url": "https://www.gov.uk/drug-safety-update/valproate-dispense-full-packs-of-valproate-containing-medicines"
+  },
+  "pass": "The dispensing record confirms an original full manufacturer's pack was supplied, or documents the exceptional-circumstances risk assessment if not",
+  "population": "Inclusion: all valproate-containing medicine dispensing episodes from the pharmacy over the last 4 weeks. Exclusion: inpatient doses supplied from ward stock rather than an individual dispensed pack.",
+  "sample": "40 consecutive valproate dispensing episodes over the last 4 weeks",
+  "data_source": "Pharmacy dispensing system record, dispensing label/pack used",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "dispensing_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "original_full_pack_supplied",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_card_provided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exceptional_circumstances_risk_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "only if original pack not supplied"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a hard stop into the pharmacy dispensing system that requires the dispenser to confirm 'original pack: yes' or record the exceptional-circumstances reason before the label can be printed.",
+  "target": "≥95%",
+  "reaudit": "3 months after the hard stop is switched on, same template, same sample size",
+  "close_loop": "Present at the pharmacy medicines safety governance meeting; keep the hard stop if the target is met.",
+  "evidence": [
+   "[159 nearest related entry: two-specialist sign-off for new valproate starts under 55; 323 nearest related entry: Annual Risk Acknowledgement Form for repeat valproate]"
+  ],
+  "pitfalls": [
+   "Monitored dosage systems (dosette boxes) are a recognised exception → record these separately, not as non-compliance",
+   "Pack sizes may not match the prescribed quantity exactly, tempting repackaging → stock a range of licensed pack sizes to reduce this pressure",
+   "Patient cards can run out at the pharmacy → check stock as part of the audit",
+   "Dispensing software may not have a field for this at all → this audit's main output may be the business case for adding one"
+  ],
+  "pearls": [
+   "Use this audit to build the business case for a dispensing-system hard stop, even if the first cycle result is poor",
+   "Recruit the chief pharmacist and a community pharmacy contractor (if auditing primary care dispensing) as co-leads",
+   "Reference the specific MHRA safety update number when briefing dispensing staff, so the requirement is clearly not just local policy",
+   "Check patient card stock alongside pack compliance, since one often reveals the other"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 dispensing episodes from pharmacy system"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of children, young people and adults newly diagnosed with epilepsy have their MRI scan carried out within 6 weeks of the MRI referral?",
+  "why": "Referral timing to a first-seizure clinic is already audited [see NNA-127], but the timeliness of the neuroimaging itself, once referred, is not measured anywhere in the library.",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 1.3.1 (2022)",
+   "wording": "Offer an MRI scan to children, young people and adults diagnosed with epilepsy, unless they have idiopathic generalised epilepsy or self-limited epilepsy with centrotemporal spikes. The MRI should be carried out: within 6 weeks of the MRI referral and following regionally agreed epilepsy MRI protocols.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/1-Diagnosis-and-assessment-of-epilepsy"
+  },
+  "pass": "The MRI scan is performed within 6 weeks of the date the MRI referral was made",
+  "population": "Inclusion: children, young people and adults newly diagnosed with epilepsy and referred for MRI over the last 6 months, excluding idiopathic generalised epilepsy or self-limited epilepsy with centrotemporal spikes. Exclusion: patients for whom MRI is contraindicated.",
+  "sample": "30 consecutive epilepsy MRI referrals over the last 6 months",
+  "data_source": "Radiology information system, epilepsy clinic letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "mri_referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_scan_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_to_scan",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_6_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "epilepsy_mri_protocol_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a ring-fenced weekly epilepsy MRI protocol slot in radiology, booked directly from the first-seizure/epilepsy clinic referral rather than joining the general neuroimaging waiting list.",
+  "target": "≥90%",
+  "reaudit": "6 months after the ring-fenced slot is introduced, same template, same sample size",
+  "close_loop": "Present at the neurology/radiology joint governance meeting; keep the ring-fenced slot if the target is met.",
+  "evidence": [
+   "[127 nearest related entry: first seizure specialist assessment within 2 weeks of ED referral]"
+  ],
+  "pitfalls": [
+   "General radiology waiting lists can push epilepsy MRIs beyond 6 weeks → a ring-fenced slot needs radiology capacity agreement, not just a policy statement",
+   "Regionally agreed epilepsy MRI protocols may not be locally documented → confirm the protocol exists and is used before starting",
+   "Excluded epilepsy syndromes (idiopathic generalised, self-limited with centrotemporal spikes) must be correctly identified to avoid skewing the denominator",
+   "Children may need a general anaesthetic for MRI, adding delay → record this as a distinct, expected cause of delay"
+  ],
+  "pearls": [
+   "Agree the ring-fenced slot numbers with radiology using cycle 1 referral volume data",
+   "Recruit the epilepsy specialist nurse to track referrals and flag approaching deadlines",
+   "Use the same case list as the first-seizure clinic audit to build a complete diagnostic pathway picture",
+   "Report scan-to-diagnosis-confirmed time as a secondary measure of overall pathway speed"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from radiology/clinic records"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people newly diagnosed with epilepsy have a documented discussion of the impact of their epilepsy on driving at their first specialist appointment?",
+  "why": "Driving advice at epilepsy diagnosis is a distinct, safety-critical recommendation not currently measured by any audit in the library.",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 2.1.6 (2022)",
+   "wording": "Discuss the following issues with them during their first appointment: ... impact on daily activities, including driving ... their epilepsy syndrome or seizure types. The discussion may be reiterated at an information and care-planning session with an epilepsy specialist nurse.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/2-Information-and-support"
+  },
+  "pass": "The clinic letter for the first appointment documents that driving was discussed",
+  "population": "Inclusion: people newly diagnosed with epilepsy attending their first specialist appointment over the last 6 months who are of an age to hold or be approaching driving age. Exclusion: children well below driving age at diagnosis (under 15).",
+  "sample": "30 consecutive first appointments over the last 6 months",
+  "data_source": "First epilepsy clinic letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "first_appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "driving_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dvla_notification_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'driving discussed, including DVLA notification' field to the first epilepsy appointment clinic letter template.",
+  "target": "≥95%",
+  "reaudit": "6 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at neurology governance; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[no audit of documented driving discussion at first epilepsy appointment has been published in the library]"
+  ],
+  "pitfalls": [
+   "Discussion may happen verbally but not be recorded in the letter → require the field to be in the templated letter, not left to free text",
+   "Patients below driving age at diagnosis still need future advice → record this as 'deferred, to be discussed before driving age' rather than a straightforward fail",
+   "Letters dictated and typed later may lag behind the consultation, delaying documentation → use a same-day templated letter where possible",
+   "DVLA rules change periodically → check the letter template references current DVLA guidance at each audit"
+  ],
+  "pearls": [
+   "Build the driving field into the same templated letter build as the care-plan-copy audit below, so both changes happen together",
+   "Provide clinicians with a one-line DVLA notification prompt card to use during the consultation",
+   "Recruit the epilepsy specialist nurse, who often reiterates this discussion at follow-up",
+   "Share DVLA's own patient information leaflet at the same appointment to reinforce the discussion"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people with epilepsy are given a copy of their care plan after their first specialist appointment?",
+  "why": "Providing patients with a written copy of their agreed care plan is a distinct, checkable recommendation not currently measured by any audit in the library.",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 2.1.7 (2022)",
+   "wording": "Provide the person with epilepsy, and their family or carers if appropriate, with a copy of their care plan, which includes details of their care and support as discussed and agreed with the person, and their family or carers if appropriate.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/2-Information-and-support"
+  },
+  "pass": "Documented evidence that a copy of the care plan was given to the patient (and family/carer if appropriate) after the appointment",
+  "population": "Inclusion: people with epilepsy attending a first or care-planning specialist appointment over the last 6 months. Exclusion: telephone-only appointments where a plan could not be finalised.",
+  "sample": "30 consecutive appointments over the last 6 months",
+  "data_source": "Clinic letter, care plan copy sent record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "care_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_given_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_given_to_family_or_carer",
+    "type": "yes/no",
+    "options": [],
+    "note": "where appropriate"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Print the care plan copy automatically at the end of the consultation from the clinic letter template, so it is given at the appointment rather than posted later (or not at all).",
+  "target": "≥90%",
+  "reaudit": "6 months after the automatic printing change, same template, same sample size",
+  "close_loop": "Present at neurology governance; keep automatic printing if the target is met.",
+  "evidence": [
+   "[no audit of care plan copies given to people with epilepsy has been published in the library]"
+  ],
+  "pitfalls": [
+   "Letters typed and posted after the appointment may never explicitly confirm a copy reached the patient → track 'given at appointment' separately from 'posted later'",
+   "Care plans for children may need a version appropriate for the child as well as the parent → check both were considered",
+   "Clinic time pressure can make same-visit printing impractical → agree realistic clinic template time with the service before cycle 1",
+   "Patients who prefer a digital copy should still be offered one, recorded as an equivalent pass"
+  ],
+  "pearls": [
+   "Combine this audit's data collection with the driving-discussion audit, since both use the same clinic letters",
+   "Ask reception or clinic support staff to print and hand over the plan at check-out, taking pressure off clinicians",
+   "Offer an electronic copy via the patient portal as an alternative to a paper copy",
+   "Use patient feedback (a short survey) to confirm plans given were actually understood, not just handed over"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of women and girls with epilepsy of childbearing potential have a documented discussion of the risks of their anti-seizure medication in pregnancy within the last 12 months?",
+  "why": "This measures the broader pregnancy-risk discussion for any anti-seizure medication, distinct from the valproate-specific Annual Risk Acknowledgement Form audits already in the library [see NNA-159, NNA-186, NNA-323].",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 4.3.7 (2022)",
+   "wording": "Discuss with women and girls with epilepsy who are able to have children (including young girls who are likely to need treatment when they are able to have children), and their families or carers if appropriate, the risks to an unborn child of taking antiseizure medications during pregnancy, such as congenital malformations, neurodevelopmental impairments and fetal growth restriction.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/4-Principles-of-treatment-safety-monitoring-and-withdrawal"
+  },
+  "pass": "A documented discussion of pregnancy risks of anti-seizure medication within the last 12 months in the clinic letter",
+  "population": "Inclusion: women and girls of childbearing potential (12 and over) with epilepsy under active neurology or paediatric neurology follow-up. Exclusion: women who have had a permanent sterilisation procedure documented.",
+  "sample": "30 consecutive women/girls of childbearing potential on the epilepsy clinic caseload",
+  "data_source": "Epilepsy clinic letters from the last 12 months",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "last_clinic_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "current_anti_seizure_medication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_risk_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory annual 'pregnancy risk of current anti-seizure medication discussed' field to the epilepsy clinic letter template for all women and girls of childbearing potential.",
+  "target": "≥90%",
+  "reaudit": "12 months after the mandatory field is added, same template, same sample size",
+  "close_loop": "Present at neurology governance; keep the mandatory field if the target is met.",
+  "evidence": [
+   "[159 nearest related entry: two-specialist sign-off for valproate under 55; 323 nearest related entry: Annual Risk Acknowledgement Form for repeat valproate]"
+  ],
+  "pitfalls": [
+   "This applies to all anti-seizure medications, not only valproate, so existing valproate-specific systems will not fully capture it → build a medication-agnostic field",
+   "Young girls not yet needing contraception discussions may still need age-appropriate risk information → include this group explicitly, not just adult women",
+   "Discussions at GP-led reviews (rather than specialist clinic) may be missed if only specialist letters are checked → clarify which setting is in scope before cycle 1",
+   "Patients seen only by telephone may have shorter, less complete documentation → check both face-to-face and telephone clinic letters"
+  ],
+  "pearls": [
+   "Use the same clinic caseload list as any existing valproate ARAF audit to avoid duplicating case-finding work",
+   "Recruit the epilepsy specialist nurse, who often leads these discussions in practice",
+   "Provide clinicians with a short structured prompt card covering all anti-seizure medications with teratogenic risk, not only valproate",
+   "Report findings by medication class to show where risk communication is strongest and weakest"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people of childbearing potential prescribed an enzyme-inducing anti-seizure medication (carbamazepine, oxcarbazepine, phenytoin or topiramate) have documented advice about reduced hormonal contraceptive effectiveness?",
+  "why": "Interaction advice for enzyme-inducing anti-seizure medications and hormonal contraception is a distinct recommendation from the valproate-specific pregnancy prevention audits already in the library, and is not measured anywhere.",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 4.3.10 (2022)",
+   "wording": "Be aware that some antiseizure medications, for example, carbamazepine, oxcarbazepine, phenytoin and topiramate, can impair the effectiveness of hormonal contraceptives. Refer to the summary of product characteristics (SPC) and BNF or BNF for children for individual drug advice on the interactions between antiseizure medications and contraception.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/4-Principles-of-treatment-safety-monitoring-and-withdrawal"
+  },
+  "pass": "Documented advice about reduced hormonal contraceptive effectiveness and the need for an alternative or additional method",
+  "population": "Inclusion: people of childbearing potential prescribed carbamazepine, oxcarbazepine, phenytoin or topiramate for epilepsy, under active follow-up. Exclusion: patients using a copper intrauterine device or another method unaffected by enzyme induction, if already documented.",
+  "sample": "30 consecutive eligible patients on the epilepsy clinic caseload",
+  "data_source": "Epilepsy clinic letters, GP contraception review records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "current_anti_seizure_medication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraceptive_interaction_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraceptive_method_reviewed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a drug-interaction alert to the epilepsy prescribing system that fires when one of the four enzyme-inducing medications is prescribed to a person of childbearing potential, prompting a documented contraception discussion.",
+  "target": "≥90%",
+  "reaudit": "6 months after the alert is switched on, same template, same sample size",
+  "close_loop": "Present at neurology and sexual health/contraception joint governance; keep the alert if the target is met.",
+  "evidence": [
+   "[324 nearest related entry: topiramate Pregnancy Prevention Programme highly effective contraception recorded]"
+  ],
+  "pitfalls": [
+   "This standard covers four specific drugs, not all anti-seizure medications, so the alert must be drug-specific to avoid unnecessary prompts",
+   "Contraception method may be managed entirely in primary care and not visible to the neurology clinic → check both GP and specialist records",
+   "Non-hormonal or copper IUD users need this explicitly recorded as 'not applicable' rather than being marked as a fail",
+   "Topiramate's own separate Pregnancy Prevention Programme requirements (already audited) may overlap with this general interaction advice → keep the pass criteria distinct"
+  ],
+  "pearls": [
+   "Coordinate with the existing topiramate Pregnancy Prevention Programme audit to avoid double data collection on the same patients",
+   "Provide a simple interaction quick-reference card (drug name, effect on contraception, alternative advice) for clinicians",
+   "Recruit a contraception/sexual health lead as an occasional co-reviewer for complex cases",
+   "Report by individual drug, since carbamazepine, phenytoin, oxcarbazepine and topiramate caseloads may differ in size"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Acute and specialty medicine",
+  "question": "What proportion of people with epilepsy who continue to have seizures despite treatment are offered an epilepsy specialist nurse session after each emergency department attendance for a seizure?",
+  "why": "Epilepsy specialist nurse contact after an ED attendance is a specific, checkable recommendation not currently measured by any audit in the library.",
+  "standard": {
+   "source": "NICE NG217 Epilepsies in children, young people and adults, rec 11.1.3 (2022)",
+   "wording": "For people with epilepsy who continue to have seizures, offer epilepsy specialist nurse sessions: at least twice a year and after emergency department visits.",
+   "url": "https://www.nice.org.uk/guidance/ng217/chapter/11-Service-provision-and-transition"
+  },
+  "pass": "An epilepsy specialist nurse contact (session, call or clinic appointment) is documented within 2 weeks of the ED attendance",
+  "population": "Inclusion: people with known epilepsy and ongoing seizures who attend the ED with a seizure over the last 6 months. Exclusion: ED attendances for a reason unrelated to epilepsy in a person who happens to have the condition.",
+  "sample": "30 consecutive epilepsy-related ED attendances over the last 6 months",
+  "data_source": "ED attendance record, epilepsy specialist nurse contact log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "local pseudonymised ID, never the real hospital number"
+   },
+   {
+    "field": "ed_attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "epilepsy_specialist_nurse_contact_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_weeks_of_attendance",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic epilepsy specialist nurse referral to the ED discharge system, triggered whenever a seizure-related attendance is coded in a patient with known epilepsy.",
+  "target": "≥90%",
+  "reaudit": "6 months after the automatic referral is switched on, same template, same sample size",
+  "close_loop": "Present at the joint ED/neurology governance meeting; keep the automatic referral if the target is met.",
+  "evidence": [
+   "[no audit of epilepsy specialist nurse contact after emergency department attendance has been published in the library]"
+  ],
+  "pitfalls": [
+   "ED coding may not clearly distinguish a seizure-related attendance from other reasons → cross-check with the triage complaint as well as the diagnosis code",
+   "Epilepsy specialist nurse capacity may not match ED attendance volume → agree a realistic response model (call-back, not always a face-to-face session) with the service before cycle 1",
+   "Attendances out of hours or at weekends may be harder to flag for follow-up → build the referral into the discharge process itself, not a manual daily list",
+   "Patients who decline contact should be recorded as offered but declined, not as non-compliance"
+  ],
+  "pearls": [
+   "Base the automatic referral trigger on the same seizure-related attendance coding used for existing seizure audits",
+   "Recruit the epilepsy specialist nurse team directly, since they are best placed to say what response is realistic",
+   "Track whether ED re-attendance rates change over time as a secondary outcome of better specialist nurse contact",
+   "Present this alongside the referral-to-first-seizure-clinic audit for a fuller picture of the epilepsy urgent care pathway"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 attendances from ED/specialist nurse records"
+ }
+]

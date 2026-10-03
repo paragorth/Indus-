@@ -1,0 +1,2568 @@
+[
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "radiopharmaceutical_and_indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_question_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "answer_recorded",
+    "type": "choice",
+    "options": [
+     "not pregnant",
+     "possibly pregnant",
+     "pregnant",
+     "declined to answer"
+    ],
+    "note": ""
+   },
+   {
+    "field": "documented_before_administration",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_administration",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of females of childbearing potential are asked whether they are or might be pregnant before a diagnostic nuclear medicine radiopharmaceutical is administered?",
+  "why": "No closed-loop audit of pregnancy enquiry before radiopharmaceutical administration has been published in the library, despite the department holding zero audits overall; the nearest related work covers pregnancy testing in emergency surgery, not nuclear medicine [7712][6008].",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 11(1)(f); ARSAC Notes for Guidance on the Clinical Administration of Radiopharmaceuticals and Use of Sealed Radioactive Sources (January 2016), paragraph 7.3",
+   "wording": "a person must not carry out an exposure unless... in the case of an individual of childbearing potential, the person has enquired whether that individual is pregnant or breastfeeding, if relevant. [IR(ME)R reg 11(1)(f)] Any female of childbearing potential undergoing procedures involving radiopharmaceuticals should therefore be asked whether she is or might be pregnant. A policy should be established on the age range of females involved (eg 12 to 55 years) and followed unless there are known exceptional circumstances applying to an individual patient. [ARSAC 7.3]",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/11/made"
+  },
+  "population": "Inclusion: all female patients aged 12-55 having a diagnostic radiopharmaceutical administration in the nuclear medicine department. Exclusion: males, females outside the age policy, therapy administrations (audited separately).",
+  "sample": "40 consecutive eligible female attendances over the last 2-3 months, from the nuclear medicine booking system.",
+  "data_source": "Nuclear medicine request form and radiographer/technologist pre-administration checklist; RIS/PACS administration record.",
+  "change": "Add a mandatory, hard-stop 'pregnancy/breastfeeding status' field to the electronic nuclear medicine request and the radiographer's pre-administration checklist for all females aged 12-55, which must be completed before the radiopharmaceutical can be released from the hot lab electronically.",
+  "target": "100%",
+  "reaudit": "At 3 months, same template and sample size, after the hard-stop field goes live.",
+  "close_loop": "Present at the nuclear medicine/radiology governance meeting; if the target is met, keep the field mandatory in the RIS build specification so it survives system upgrades.",
+  "evidence": [
+   "[7712] pregnancy testing in acute abdominal pain: 41.8% before intervention -> 80% after a teaching and poster intervention (nearest comparable pregnancy-status audit)",
+   "[6008] pregnancy status documented in emergency surgical admissions: 30% -> 75% after a clerking prompt (form change)",
+   "No nuclear medicine-specific pregnancy enquiry audit exists in the library"
+  ],
+  "pitfalls": [
+   "Staff assume the referring clinician already asked → make the nuclear medicine department's own record the audited item, not the referral letter.",
+   "Postmenopausal-looking patients are skipped without a documented reason → require the field for every patient in the age band regardless of appearance.",
+   "'Not applicable' is used as a default tick with no real enquiry → spot-check 10 records against the radiographer's verbal recollection where possible.",
+   "Emergency or inpatient scans bypass the checklist out of hours → include an out-of-hours pathway in the hard stop, not just outpatient bookings.",
+   "Gains fade when the checklist is a paper sticker that runs out → build the field into the RIS/hot lab release step so it cannot be skipped."
+  ],
+  "pearls": [
+   "Recruit the ARSAC certificate holder and radiation protection supervisor as co-authors; they own the justification process.",
+   "Pair this with an audit of what happens after a positive or uncertain answer, to show the safety net works end to end.",
+   "Use the hot lab's own dispensing log as a ready-made sample frame.",
+   "Keep the field mandatory in any future RIS or EPR migration by writing it into the system specification, not just local policy."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the RIS and nuclear medicine request forms",
+  "pass": "A dated entry made before administration records that the patient was asked whether she is or might be pregnant, with the answer, for every female aged 12-55."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "radiopharmaceutical",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "breastfeeding_status_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interruption_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interruption_duration_specified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "Before administering a diagnostic radiopharmaceutical to a breastfeeding woman, what proportion of patients have documented advice on any need to interrupt breastfeeding and for how long?",
+  "why": "Nuclear medicine has no audits at all in the library; breastfeeding advice after radiopharmaceutical administration is a recognised radiation-protection duty that is easy to miss under time pressure.",
+  "standard": {
+   "source": "ARSAC Notes for Guidance on the Clinical Administration of Radiopharmaceuticals and Use of Sealed Radioactive Sources (January 2016), Section 7, paragraph 7.8",
+   "wording": "Specific instructions must be given to the mother of an infant in order to minimise irradiation to the latter.",
+   "url": "https://www.e-lactancia.org/media/papers/Radiofarmacos-Englns2016ARSAC_NfG_2016.pdf"
+  },
+  "population": "Inclusion: all breastfeeding women having a diagnostic radiopharmaceutical administration. Exclusion: therapy administrations (audited separately, see companion audit).",
+  "sample": "All eligible cases over the last 12 months (expect 15-30 in most departments); identify from the nuclear medicine booking system 'breastfeeding' flag or free-text notes.",
+  "data_source": "Nuclear medicine request form, pre-administration checklist, patient information leaflet given, RIS record.",
+  "change": "Add a radiopharmaceutical-specific breastfeeding interruption table (built from the ARSAC appendix) to the department protocol, with a mandatory 'breastfeeding advice given: yes/no, duration' field in the pre-administration checklist and a matching printed patient leaflet.",
+  "target": "100%",
+  "reaudit": "At 4 months, same sample source.",
+  "close_loop": "Present to the radiation protection committee; if achieved, add the table to the RIS order comments so it prints automatically on the patient information sheet.",
+  "evidence": [
+   "No breastfeeding-advice audit for nuclear medicine exists in the library; nearest related work is general pregnancy-status documentation in emergency admissions [6008]"
+  ],
+  "pitfalls": [
+   "Small numbers make a single missed case swing the percentage sharply → report a running total across 12 months rather than a single quarter.",
+   "Staff give verbal-only advice with nothing written → count only advice that is documented, since undocumented advice cannot be checked later.",
+   "Interruption times vary between local guides and can be quoted inconsistently → agree one reference table with the radiation protection adviser before cycle 1.",
+   "Bottle-fed top-ups are missed when only 'breastfeeding: yes/no' is recorded → capture whether expressed milk in advance was discussed.",
+   "The checklist prompt is answered from memory without checking the table → require the specific duration to be written, not just 'advised'."
+  ],
+  "pearls": [
+   "Recruit the radiation protection supervisor to build and maintain the interruption-time table.",
+   "Laminate the table at the hot lab dispensing point so staff use it in real time.",
+   "Audit alongside the pregnancy-enquiry audit using the same data collection visit.",
+   "Hand the finished table to the infant feeding team so ward staff give consistent advice too."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from RIS and department records",
+  "pass": "For every breastfeeding patient, the notes or discharge information record whether breastfeeding needs to be interrupted, and if so for how long, using the department's agreed radiopharmaceutical-specific interruption times."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "radionuclide_and_activity_mbq",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "avoid_pregnancy_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_specified_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "matches_table_71_duration",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of women given a therapeutic dose of a long-lived radionuclide (for example radioactive iodine-131 or strontium-89) have documented advice on the period for which they should avoid pregnancy?",
+  "why": "No audit of contraception advice after radionuclide therapy exists in the library; the harm from a fetal exposure during this period is well described but the advice step is easy to omit in a busy therapy list.",
+  "standard": {
+   "source": "ARSAC Notes for Guidance on the Clinical Administration of Radiopharmaceuticals and Use of Sealed Radioactive Sources (January 2016), paragraphs 7.11-7.12 and Table 7.1",
+   "wording": "In some circumstances it will be necessary to advise females not to become pregnant for a period following the administration of long-lived radiopharmaceuticals. The female patient should be advised to avoid pregnancy for a period following therapy administration as given in Table 7.1.",
+   "url": "https://www.e-lactancia.org/media/papers/Radiofarmacos-Englns2016ARSAC_NfG_2016.pdf"
+  },
+  "population": "Inclusion: all female patients of childbearing potential given a therapeutic radionuclide administration (e.g. I-131, Sr-89, Y-90). Exclusion: males, post-menopausal women with documented reason for exemption.",
+  "sample": "All eligible cases over the last 12-18 months (expect 15-30 in a typical unit) from the ARSAC therapy administration log.",
+  "data_source": "ARSAC therapy certificate administration record, nuclear medicine physician's clinic letter, patient discharge information.",
+  "change": "Add the Table 7.1 avoid-pregnancy durations to the therapy consent form as a pre-printed line specific to each radionuclide, completed and signed as part of the consent discussion.",
+  "target": "100%",
+  "reaudit": "At 6 months, same sample source.",
+  "close_loop": "Present to the nuclear medicine/oncology therapy governance meeting; if met, keep the durations on the consent form template used for every future therapy patient.",
+  "evidence": [
+   "No radionuclide therapy contraception-advice audit exists in the library; nearest related nuclear medicine quality audit is myocardial perfusion imaging technique [3998]"
+  ],
+  "pitfalls": [
+   "Small therapy numbers make percentages unstable → report counts as well as percentages and extend the sample window if needed.",
+   "Advice is given verbally at a busy clinic and not written down → count only documented advice.",
+   "Different radionuclides have very different durations (0 to 24 months in Table 7.1) → check the duration against the correct nuclide and activity, not a single blanket figure.",
+   "Male patients are wrongly included → apply sex- and radionuclide-specific inclusion criteria strictly.",
+   "The consent form pre-printed line is not updated when ARSAC guidance changes → assign the radiation protection adviser to review the form annually."
+  ],
+  "pearls": [
+   "Recruit the clinical oncologist or nuclear medicine physician who runs the therapy list as co-lead.",
+   "Combine data collection with the existing consent-form audit visit to save time.",
+   "Ask the ARSAC certificate holder to check the table wording used on the form before cycle 1.",
+   "Keep a laminated Table 7.1 summary in the therapy suite for quick reference."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the ARSAC therapy log",
+  "pass": "The notes or a signed patient information sheet record the specific avoid-pregnancy period given for the radionuclide and activity used, matching the department's Table 7.1-based policy."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "estimated_fetal_dose_mgy",
+    "type": "number",
+    "options": [],
+    "note": "from ARSAC Appendix I dose tables"
+   },
+   {
+    "field": "arsac_holder_justification_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referring_clinician_consulted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "proceed",
+     "defer until after delivery",
+     "alternative non-ionising test used"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_decision",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "Where a nuclear medicine referral is for a procedure resulting in a fetal dose that could exceed 1 mGy and pregnancy cannot be excluded, what proportion of cases have documented consideration of the justification by the ARSAC certificate holder in consultation with the responsible clinician?",
+  "why": "This decision point protects the fetus in the highest-risk nuclear medicine scenario and has no audit anywhere in the library; the department currently holds no nuclear medicine audits at all.",
+  "standard": {
+   "source": "ARSAC Notes for Guidance on the Clinical Administration of Radiopharmaceuticals and Use of Sealed Radioactive Sources (January 2016), paragraphs 7.4-7.5",
+   "wording": "Where a patient is probably or definitely pregnant, the justification for the procedure should be considered by the ARSAC certificate holder following consultation with the clinician responsible for the patient... The principle adopted here is that the absorbed dose to a foetus should not exceed 1 mGy.",
+   "url": "https://www.e-lactancia.org/media/papers/Radiofarmacos-Englns2016ARSAC_NfG_2016.pdf"
+  },
+  "population": "Inclusion: all nuclear medicine referrals in probably or definitely pregnant patients over the audit period. Exclusion: procedures with an estimated fetal dose below 1 mGy where a lower-tier justification applies.",
+  "sample": "All eligible cases over the last 18-24 months (expect a small number, 5-15, in most departments); identify from the nuclear medicine incident log and booking system pregnancy flags.",
+  "data_source": "Nuclear medicine referral, ARSAC certificate holder's clinical note, multidisciplinary discussion record.",
+  "change": "Create a one-page 'pregnant patient nuclear medicine justification' proforma that the ARSAC certificate holder must complete and file before any such administration proceeds, replacing informal verbal sign-off.",
+  "target": "100%",
+  "reaudit": "At 12 months given the small expected caseload, same template.",
+  "close_loop": "Present at the radiation protection committee; embed the proforma as a mandatory step in the department's IR(ME)R employer procedures.",
+  "evidence": [
+   "No comparable pregnant-patient nuclear medicine justification audit exists in the library"
+  ],
+  "pitfalls": [
+   "Very small numbers mean a single case can dominate the percentage → report as a narrative case review alongside the rate, and pool data over a longer period.",
+   "Verbal-only sign-off leaves no auditable trail → require the proforma to be filed in the patient record, not just discussed at handover.",
+   "Urgent out-of-hours requests bypass the process → give the on-call ARSAC deputy the same proforma and authority.",
+   "Dose estimates are looked up inconsistently → agree one reference dose table (ARSAC Appendix I) for all staff to use.",
+   "The audit is seen as too rare to matter → frame it as a never-event-equivalent check, since a missed fetal dose review is a serious incident."
+  ],
+  "pearls": [
+   "Recruit the ARSAC certificate holder and radiation protection adviser together; both are needed to define 'probable pregnancy'.",
+   "Use any radiation incident or Datix reports from the same period as a cross-check for missed cases.",
+   "Keep the case log so future re-audits do not start from zero.",
+   "Report this as a standing item at the quarterly radiation safety committee even between formal audit cycles."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case, using existing incident and booking records",
+  "pass": "For every case where pregnancy is probable or confirmed and the standard fetal dose estimate for the requested study could exceed 1 mGy, the notes show the ARSAC certificate holder's documented justification decision made in consultation with the referring clinician before administration."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "study_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referrer_clinical_information_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_practitioner_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "justification_decision_recorded",
+    "type": "choice",
+    "options": [
+     "justified as requested",
+     "justified with modification",
+     "not justified/declined"
+    ],
+    "note": ""
+   },
+   {
+    "field": "decision_dated_before_administration",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of nuclear medicine requests have a documented justification statement, recording the referrer's clinical information and the practitioner's net-benefit decision, before the radiopharmaceutical is administered?",
+  "why": "Justification is the cornerstone of IR(ME)R but nuclear medicine has zero audits in the library, so there is no evidence this step is reliably documented rather than assumed.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulations 10(2), 10(5) and 11(1)(b)",
+   "wording": "A person must not carry out an exposure unless... it has been justified by the practitioner as showing a sufficient net benefit giving appropriate weight to the matters set out in paragraph (2) [reg 11(1)(b)]. The referrer must supply the practitioner with sufficient medical data... to enable the practitioner to decide whether there is a sufficient net benefit as required by regulation 11(1)(b) [reg 10(5)].",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/11/made"
+  },
+  "population": "Inclusion: all nuclear medicine studies performed over the sample period. Exclusion: none.",
+  "sample": "40 consecutive studies over the last month, from the RIS worklist.",
+  "data_source": "RIS request and authorisation record, referral letter.",
+  "change": "Configure the RIS so a study cannot move to 'ready for administration' status until a named practitioner has completed a structured justification field, and reject referrals lacking minimum clinical information back to the referrer electronically.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same sample size.",
+  "close_loop": "Present at the imaging governance meeting; if achieved, lock the RIS workflow change so it cannot be bypassed by new starters.",
+  "evidence": [
+   "No nuclear medicine justification-documentation audit exists in the library; the nearest general imaging justification work concerns intravascular contrast media use [9190]"
+  ],
+  "pitfalls": [
+   "'Justified' is ticked as a default without a real clinical review → spot-check a sample against the referral letter for evidence of genuine review.",
+   "Referrers give minimal clinical information and practitioners justify anyway under time pressure → track the proportion of referrals returned for more information as a balancing measure.",
+   "Locum or out-of-hours practitioners are unfamiliar with the workflow → include them explicitly in training before cycle 1.",
+   "The audit is seen as a paperwork exercise → link it explicitly to the IR(ME)R employer procedures the department must hold under regulation 6.",
+   "Gains fade after a RIS upgrade resets defaults → re-check the build after any system change."
+  ],
+  "pearls": [
+   "Recruit the lead nuclear medicine physician and RIS administrator together.",
+   "Use the RIS audit trail (who authorised, when) rather than manual note review, to make data collection fast.",
+   "Present alongside the employer's regulation 7 clinical audit requirement so it counts towards statutory compliance.",
+   "Keep a simple one-page justification checklist at each workstation as a visual reminder."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 studies from the RIS audit trail",
+  "pass": "The RIS record shows a named practitioner's justification decision (accepted, modified or rejected) linked to the clinical information supplied by the referrer, dated before the administration."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "non_ionising_alternative_exists",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_considered_and_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "nuclear medicine proceeded (reason given)",
+     "switched to non-ionising alternative"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "When a scan modality using ionising radiation and one not using ionising radiation would give equivalent diagnostic information and both are available in the required timeframe, what proportion of nuclear medicine referrals in females of childbearing potential record that the non-ionising alternative was considered?",
+  "why": "ARSAC explicitly requires this comparison but no audit of it exists anywhere in the library, and nuclear medicine has no audits at all to build on.",
+  "standard": {
+   "source": "ARSAC Notes for Guidance on the Clinical Administration of Radiopharmaceuticals and Use of Sealed Radioactive Sources (January 2016), paragraph 3.12",
+   "wording": "Where two imaging investigations exist that give equivalent information and both are available to the patient within the timeframe of their clinical management, then on radiation protection grounds the investigation not utilising ionising radiation should be used.",
+   "url": "https://www.e-lactancia.org/media/papers/Radiofarmacos-Englns2016ARSAC_NfG_2016.pdf"
+  },
+  "population": "Inclusion: nuclear medicine referrals in females aged 12-55 for indications with a recognised non-ionising alternative (e.g. hepatobiliary, renal, some cardiac indications). Exclusion: indications with no equivalent non-ionising test (e.g. bone scan for metastases, most oncology PET).",
+  "sample": "30-40 consecutive eligible referrals over the last 3-4 months, identified at vetting.",
+  "data_source": "RIS vetting record, referral letter.",
+  "change": "Add a vetting prompt 'is there an equivalent non-ionising test available in time?' to the RIS vetting screen for the defined indication list, requiring a documented reason if nuclear medicine proceeds anyway.",
+  "target": "≥90%",
+  "reaudit": "At 4 months, same indication list.",
+  "close_loop": "Present at the imaging vetting governance meeting; embed the prompt list in the department's referral guidelines if it reduces avoidable ionising studies.",
+  "evidence": [
+   "No audit of ARSAC 3.12 alternative-modality consideration exists in the library"
+  ],
+  "pitfalls": [
+   "Vetting radiologists disagree on which indications have a true equivalent → agree the indication list with nuclear medicine and radiology leads before cycle 1.",
+   "The prompt is answered reflexively without genuine review → sample-check against actual imaging availability that week.",
+   "Urgent cases are wrongly excluded by reviewers who assume urgency overrides the rule → clarify that urgency is a valid documented reason, not an exemption from documenting.",
+   "Small numbers for rarer indications → pool similar indications rather than analysing each separately.",
+   "The change is not kept once the auditor rotates → give ownership to the vetting radiologist rota, not one individual."
+  ],
+  "pearls": [
+   "Recruit both a nuclear medicine physician and a radiologist who vets ultrasound/MRI requests.",
+   "Start with the highest-volume indication with a real alternative (e.g. some hepatobiliary or renal referrals) rather than trying to cover everything at once.",
+   "Track downstream outcomes (was the alternative test diagnostic?) as a simple balancing measure.",
+   "Share results with GPs/referrers to reduce inappropriate initial requests, not just at the vetting stage."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from RIS vetting notes",
+  "pass": "For referrals in females aged 12-55 where a non-ionising alternative (e.g. ultrasound or MRI) could answer the same clinical question within the required timeframe, the vetting practitioner's note records that this was considered."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "finding_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "flagged_by_reporter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "communication_method",
+    "type": "choice",
+    "options": [
+     "telephone",
+     "electronic alert",
+     "both",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_to_communication_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_in_report_or_addendum",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of nuclear medicine reports flagged by the reporting physician as containing an unexpected significant finding unrelated to the clinical question have a documented fail-safe communication to the referring team within 24 hours?",
+  "why": "Nuclear medicine holds no audits in the library despite reporting incidental findings (for example unexpected uptake suggesting malignancy on a bone or cardiac scan) that need the same fail-safe pathway as other imaging.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for the communication of radiological reports and fail-safe alert notification (2016)",
+   "wording": "Critical and urgent findings: Where emergency action is required as soon as possible, or medical evaluation is required within 24 hours... Radiologist should inform verbally (by telephone) the appropriate referring clinician/team of an unexpected acute life- or limb-threatening finding which requires emergency clinical action. He/she should document that this was done, (when and to who) within the radiology report or via an addendum.",
+   "url": "https://rad-alert.co.uk/Standards.pdf"
+  },
+  "population": "Inclusion: all nuclear medicine reports over the audit period coded or flagged by the reporting physician as containing an unexpected significant finding. Exclusion: findings that are the direct subject of the requested study.",
+  "sample": "All flagged cases over the last 6-12 months (expect a small number in most departments; extend the window if fewer than 20 are found).",
+  "data_source": "RIS/PACS flagged report list, fail-safe communication log.",
+  "change": "Add a 'fail-safe alert' flag to the nuclear medicine reporting template that, when selected, opens a mandatory field for the name, role and time of the person notified, matching the RCR fail-safe categories.",
+  "target": "100%",
+  "reaudit": "At 6 months, same flagged-case source.",
+  "close_loop": "Present at the imaging governance meeting; keep the flag mandatory in the RIS reporting template if the target is met.",
+  "evidence": [
+   "No fail-safe communication audit for nuclear medicine exists in the library; the RCR standard already underpins related imaging fail-safe audits for other modalities"
+  ],
+  "pitfalls": [
+   "Reporting physicians under-flag borderline findings to avoid extra work → agree explicit example cases with the department before cycle 1.",
+   "Manual telephone calls are not documented when busy → make documentation, not the call itself, the audited step, and stress both matter equally.",
+   "Small numbers make the percentage swing on one case → report counts as well as percentages.",
+   "Out-of-hours reporting (teleradiology) has a different communication pathway → check that pathway is covered by the same standard.",
+   "Once the flag is added, staff use it inconsistently between reporters → include the flag definition in reporter induction."
+  ],
+  "pearls": [
+   "Recruit the lead nuclear medicine physician and PACS administrator to build the flag together.",
+   "Cross-check against the Datix/incident system for any delayed-communication incidents in the same period.",
+   "Share results with the wider imaging fail-safe alert audit so nuclear medicine is not reported separately from other modalities.",
+   "Keep a running log so this becomes a rolling rather than one-off measure, given the low case numbers."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per flagged case from RIS and communication logs",
+  "pass": "For each report flagged as containing an unexpected significant finding, the report or an addendum documents that the referring team was informed, by whom, when and how (verbal call, electronic alert or both), within 24 hours of report verification."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "study_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "administered_activity_mbq",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_local_drl_range",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_outside_range",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adult diagnostic nuclear medicine administrations use activities that are, on review, the minimum consistent with obtaining the required diagnostic information, as documented against the department's local diagnostic reference level for that study?",
+  "why": "Optimisation of administered activity is a specific ARSAC and IR(ME)R duty, and nuclear medicine has no audits in the library to show whether local reference levels are actually reviewed and used.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 12 (Optimisation); ARSAC Notes for Guidance (January 2016), paragraph 3.11",
+   "wording": "In some cases, if the patient is healthy and cooperative, activity might be reduced and scan times increased... it is important that the diagnostic information produced is not compromised by reduction in activity.",
+   "url": "https://www.e-lactancia.org/media/papers/Radiofarmacos-Englns2016ARSAC_NfG_2016.pdf"
+  },
+  "population": "Inclusion: all adult diagnostic nuclear medicine administrations of a defined, high-volume study type (for example bone scan or DMSA) over the audit period. Exclusion: paediatric and therapy administrations.",
+  "sample": "40 consecutive administrations of the chosen study type over the last 2-3 months, from the hot lab dispensing log.",
+  "data_source": "Hot lab dispensing record, department local diagnostic reference level document.",
+  "change": "Publish or update the department's local diagnostic reference levels for its highest-volume studies and build the expected activity range into the hot lab dispensing checklist so any deviation must be justified at the point of dispensing.",
+  "target": "≥95% within range or with a documented reason",
+  "reaudit": "At 6 months, same study type and sample size.",
+  "close_loop": "Present at the radiation protection committee; if achieved, submit the reviewed local diagnostic reference levels for medical physics expert sign-off and keep them under the department's regulation 13 population dose review.",
+  "evidence": [
+   "No nuclear medicine activity-optimisation audit exists in the library"
+  ],
+  "pitfalls": [
+   "Activity is rounded up 'to be safe' without review → require the reason field to be completed whenever the range is exceeded, not just for underdosing.",
+   "Weight-banding is applied inconsistently between staff → agree one banding table before cycle 1.",
+   "Small numbers for less common studies → start with the highest-volume study type only.",
+   "The local diagnostic reference level itself may be outdated → check it was reviewed within the last 3 years as part of this audit.",
+   "Gains fade if the range is only in a policy document nobody reads → put it directly on the dispensing screen or log sheet."
+  ],
+  "pearls": [
+   "Recruit the medical physics expert to confirm the local diagnostic reference levels used.",
+   "Compare local levels with the national diagnostic reference levels where published, as a sense check.",
+   "Use the hot lab's electronic dispensing log to pull data quickly rather than manual note review.",
+   "Report administered activity trends over time as a simple run chart at the radiation safety meeting."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 administrations from the hot lab log",
+  "pass": "The administered activity for each case is within the department's written local diagnostic reference level range for that study and patient size/weight band, or a documented clinical reason is given for exceeding it."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "test_type",
+    "type": "choice",
+    "options": [
+     "FBC",
+     "U&E",
+     "LFT"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_sample_received",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_result_verified",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "turnaround_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of full blood count, urea and electrolyte, and liver function test requests from the emergency department are reported and available to the requestor within 1 hour of the sample reaching the laboratory?",
+  "why": "No audit of this specific RCPath key performance indicator for emergency biochemistry and haematology turnaround exists in the library.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of renal function, liver function tests and full blood counts requested by A&E completed and available to the requestor within 1 hour of receipt including out-of-hours... Challenge: 99% within 12 hours by April 2012 and 99% within 8 hours by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all FBC, U&E and LFT requests from the emergency department over the sample period, including out-of-hours. Exclusion: samples rejected for quality reasons (audited separately).",
+  "sample": "60 consecutive ED requests (20 of each test type) over the last 2 weeks, from the LIMS.",
+  "data_source": "Laboratory information management system (LIMS) sample-received and result-verified timestamps.",
+  "change": "Move ED FBC/U&E/LFT samples to a dedicated fast-track analyser lane with automated exception reporting for any sample not verified within 1 hour, flagged live to the duty biomedical scientist.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same sample specification.",
+  "close_loop": "Present at the pathology and ED joint governance meeting; keep the fast-track lane and exception report as standard if the target is met.",
+  "evidence": [
+   "[8290] laboratory turnaround time: GP reports reaching destination within 1-2 days improved from 13%/68% to a faster courier-based service (nearest comparable turnaround audit)",
+   "No ED 1-hour biochemistry/haematology turnaround audit against this specific RCPath KPI exists in the library"
+  ],
+  "pitfalls": [
+   "'Receipt' time is defined inconsistently (sample taken vs sample scanned into the lab) → fix one definition in writing before cycle 1.",
+   "Overnight staffing dips slow turnaround → report day and night separately.",
+   "Repeat or duplicate requests inflate the denominator → count unique clinical episodes, not every repeat.",
+   "Analyser downtime distorts one week's data → extend the sample window if an outage occurred.",
+   "Gains fade once the fast-track lane is deprioritised at busy times → make the exception report a standing agenda item, not a one-off fix."
+  ],
+  "pearls": [
+   "Recruit the ED lead and the biomedical scientist in charge of the analyser floor together.",
+   "Use the LIMS exception report as an ongoing dashboard rather than manual timestamp pulling each cycle.",
+   "Share turnaround data at the ED's own quality meeting, since delays there drive breaches of the 4-hour target.",
+   "Keep a rolling 3-month view rather than a single-point audit, given daily variation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 samples from LIMS timestamps",
+  "pass": "The laboratory information system timestamp shows the verified result available to the requestor within 1 hour of the sample being received in the laboratory."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "discipline",
+    "type": "choice",
+    "options": [
+     "biochemistry",
+     "haematology",
+     "microbiology",
+     "virology"
+    ],
+    "note": ""
+   },
+   {
+    "field": "result_and_value",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_result_available",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_actively_communicated",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recipient_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of biochemistry, haematology, microbiology and virology results meeting the laboratory's agreed critical-result definitions are actively communicated (telephoned or otherwise directly notified) to the requesting clinical team within 2 hours of the result becoming available?",
+  "why": "This overall cross-discipline RCPath key performance indicator for critical result communication has not been audited across all four disciplines together in the library; existing entries focus on single analytes.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of biochemistry, haematology, medical microbiology and virology critical requests phoned/actively communicated by laboratory within 2 hours of result being available to the laboratory (includes out of hours)... Challenge: 90% by April 2012 increasing to 97% by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all results meeting the laboratory's written critical-result list across biochemistry, haematology, microbiology and virology over the audit period. Exclusion: results generated for research or non-clinical purposes.",
+  "sample": "40 consecutive critical results (10 per discipline where possible) over the last month, from the LIMS critical-result log.",
+  "data_source": "LIMS critical-result flag and communication log.",
+  "change": "Set a LIMS timer on every result flagged against the critical-result list that escalates to the duty biomedical scientist if it is not marked 'communicated' within 90 minutes, with a defined out-of-hours contact route for each clinical area.",
+  "target": "≥95%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the pathology quality meeting; if achieved, keep the LIMS escalation timer as a permanent safety-net feature.",
+  "evidence": [
+   "No cross-discipline critical-result communication audit against this RCPath KPI exists in the library; single-analyte examples (potassium) are proposed separately"
+  ],
+  "pitfalls": [
+   "Different disciplines define 'critical' differently → agree and publish one combined list before cycle 1.",
+   "Electronic release alone is wrongly counted as 'communicated' → define communication strictly as an active, direct contact.",
+   "Out-of-hours calls to a switchboard rather than a named clinician are hard to verify → require the recipient's name and role to be logged.",
+   "Repeated critical results in the same patient inflate the count → count the first critical result per admission per analyte unless a new episode occurs.",
+   "The escalation timer is muted when busy → review timer override logs monthly."
+  ],
+  "pearls": [
+   "Recruit a biomedical scientist lead from each discipline so the definition list has buy-in across the whole laboratory.",
+   "Use the existing LIMS critical-result flag as the sample frame rather than manual case-finding.",
+   "Pair this audit with the out-of-hours GP reporting audit, since both use the same escalation pathway.",
+   "Report separately for in-hours and out-of-hours performance, as they usually differ."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 flagged results from the LIMS",
+  "pass": "The LIMS shows the critical result was actively communicated (phone call or equivalent direct notification, not just electronic release) within 2 hours, with the recipient's name and time recorded."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_biopsy_taken",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_report_authorised",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calendar_days_to_report",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reflex_test_required",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of diagnostic (non-excision) histopathology biopsies are reported, confirmed and electronically authorised within 7 calendar days of the biopsy being taken?",
+  "why": "No audit against this specific RCPath key performance indicator for diagnostic biopsy turnaround exists in the library; the closest entries show much longer turnaround (median 35-44 days) [8233] with no re-audit reported.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of all biopsy cases (excluding those requiring decalcification) reported, confirmed, electronically authorised and electronically available to the requestor within 7 calendar days of biopsy being taken... Challenge: 80% by April 2012 increasing to 90% by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all diagnostic biopsy specimens (not excision biopsies) received by histopathology over the sample period, identified by SNOMED/SNOMED-CT procedure code. Exclusion: specimens requiring decalcification.",
+  "sample": "40 consecutive eligible biopsy cases over the last 4-6 weeks, from the LIMS.",
+  "data_source": "LIMS specimen-received date, report-authorised date, procedure code.",
+  "change": "Introduce a documented system to flag and manage outstanding diagnostic biopsy cases approaching day 5, with a named consultant reviewing the outstanding-case list weekly, and prioritise diagnostic biopsy cassette processing ahead of larger resection specimens.",
+  "target": "≥80%, rising to ≥90% at re-audit",
+  "reaudit": "At 6 months, same specimen definition and sample size.",
+  "close_loop": "Present at the cellular pathology quality meeting; embed the weekly outstanding-case review permanently if the target is sustained.",
+  "evidence": [
+   "[8233] inflammatory dermatosis histopathology: only 5/43 (11.6%) reported within 7 days, mean 44.4 days, median 35 days, with no re-audit reported",
+   "[5151] method for auditing histopathology turnaround against clinicians' stated requirements (no percentage given)"
+  ],
+  "pitfalls": [
+   "Decalcified and reflex-test cases are wrongly included, understating performance → apply the exclusion strictly and record reflex-test cases separately.",
+   "'Biopsy date' is recorded inconsistently (theatre date vs receipt date) → define it as the date the biopsy was taken, not received.",
+   "Staff shortages or a single absent reporter skew short samples → extend the window if a locum gap occurred.",
+   "Gains fade once the outstanding-case review stops being weekly → keep it on a fixed governance meeting agenda.",
+   "SNOMED coding errors misclassify excision biopsies as diagnostic biopsies → spot-check the procedure codes against the request form."
+  ],
+  "pearls": [
+   "Recruit the cellular pathology clinical lead and a biomedical scientist who manages cut-up allocation.",
+   "Use the LIMS turnaround report rather than manual date extraction to make re-audit quick.",
+   "Share the outstanding-case list at the weekly departmental meeting, not just at audit time.",
+   "Track the proportion needing reflex tests separately, since these legitimately take longer and should not be blamed on the core process."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 cases from the LIMS turnaround report",
+  "pass": "The LIMS shows the diagnostic biopsy report (needle core, endoscopic, colposcopic or punch biopsy, excluding decalcified specimens) authorised within 7 calendar days of the biopsy date."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_report_authorised",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calendar_days_to_report",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_10_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cancer_resection",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of all histopathology and diagnostic cytology cases (excluding those requiring decalcification) are reported, confirmed and electronically authorised within 10 calendar days of resection or procedure?",
+  "why": "No audit against this overall RCPath turnaround key performance indicator exists in the library, separate from the narrower diagnostic-biopsy indicator.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of all histopathology (excluding those requiring decalcification) and diagnostic cytology cases reported, confirmed, electronically authorised and electronically available to the requestor within 10 calendar days of resection or procedure... Challenge: 80% by April 2012 increasing to 90% by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all histopathology resection specimens and diagnostic cytology cases over the sample period. Exclusion: decalcified specimens and cases covered by the separate 7-day diagnostic biopsy indicator.",
+  "sample": "40 consecutive eligible cases over the last 4-6 weeks, from the LIMS.",
+  "data_source": "LIMS procedure date and report-authorised date.",
+  "change": "Set up a documented, monitored system for prospective identification of outstanding cases (per RCPath KPI ix) so that any case unreported beyond the expected time is flagged and actioned, with exception reporting for cases still unreported after 20 calendar days.",
+  "target": "≥80%, rising to ≥90% at re-audit",
+  "reaudit": "At 6 months, same specimen definition and sample size.",
+  "close_loop": "Present at the cellular pathology and cancer MDT governance meeting; if met, keep the outstanding-case monitoring system as standard practice.",
+  "evidence": [
+   "[8233] a related histopathology reporting audit found only 11.6% within 7 days for diagnostic biopsies, indicating turnaround is likely to be a live problem for overall reporting too"
+  ],
+  "pitfalls": [
+   "Major cancer resections needing multiple reflex tests are penalised unfairly → report cancer resections and benign resections separately.",
+   "'Procedure date' definitions differ between theatre and pathology systems → agree one source of truth before cycle 1.",
+   "A backlog from staff leave distorts a single sample window → extend the audit period if cover was reduced.",
+   "Gains fade once the exception report for 20-day-plus cases is not reviewed → assign a named consultant to review it weekly.",
+   "Integrated haematological malignancy reports needing multidisciplinary input may need a separate, longer target → agree this exclusion explicitly."
+  ],
+  "pearls": [
+   "Recruit the cellular pathology lead and MDT coordinator, since delayed reports directly affect cancer MDT timelines.",
+   "Use the same LIMS report as the 7-day diagnostic biopsy audit, run for a different case set, to save data collection time.",
+   "Report the proportion of cases still outstanding beyond 20 days as a headline safety metric alongside the main percentage.",
+   "Track any downstream MDT delay caused by late reports as a balancing measure."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 cases from the LIMS turnaround report",
+  "pass": "The LIMS shows the report authorised within 10 calendar days of the resection or procedure date, for non-decalcified specimens."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topography_code_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "morphology_code_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_code_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of authorised histopathology reports use SNOMED or SNOMED-CT procedure, topography and morphology codes rather than free text?",
+  "why": "No audit of pathology report coding completeness exists in the library, even though this RCPath key performance indicator underpins cancer registration, national audits and case-finding for other pathology KPIs.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Challenge: 95% SNOMED or SNOMED-CT T, M and P codes by April 2012, 100% SNOMED OR SNOMED-CT T, M and P codes by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all histopathology reports authorised over the sample period. Exclusion: none.",
+  "sample": "50 consecutive reports over the last 2 weeks, from the LIMS.",
+  "data_source": "LIMS coding fields.",
+  "change": "Make all three SNOMED code fields mandatory before a report can be electronically authorised in the LIMS, with a picklist rather than free text to reduce coding errors.",
+  "target": "100%",
+  "reaudit": "At 3 months, same sample size.",
+  "close_loop": "Present at the cellular pathology quality meeting; if met, keep the mandatory coding fields switched on permanently, since they also support other KPIs and cancer registration.",
+  "evidence": [
+   "No SNOMED coding-completeness audit exists in the library"
+  ],
+  "pitfalls": [
+   "Coding is completed but with the wrong code (miscoding) rather than missing entirely → this audit measures completeness only; pair with a separate coding-accuracy spot check if resources allow.",
+   "Legacy reports migrated from an old LIMS may lack codes and skew a retrospective sample → restrict the sample to reports authorised after the current LIMS went live.",
+   "Coders default to a generic code to satisfy the mandatory field → monitor for a spike in one non-specific code after the change.",
+   "Rare specimen types may lack a specific SNOMED code → agree a documented fallback process with the coding team.",
+   "The mandatory-field change is reversed during a system upgrade → re-check after every LIMS update."
+  ],
+  "pearls": [
+   "Recruit the LIMS administrator and a biomedical scientist responsible for coding.",
+   "This is a quick, high-yield audit since it needs no manual clinical judgement, only a data extract.",
+   "Present the result alongside cancer registration data quality, since coding gaps affect national cancer statistics.",
+   "Use the audit as a trigger to refresh coding training for new starters."
+  ],
+  "novelty": "new",
+  "effort": "~5 min per 10 reports from a LIMS data extract",
+  "pass": "The authorised report carries a complete SNOMED or SNOMED-CT topography, morphology and procedure code set in the LIMS coding field."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_received",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_outstanding_at_day_20",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_or_escalation_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of histopathology cases remaining unreported beyond 20 calendar days are identified and actioned through the department's exception-reporting system?",
+  "why": "No audit of outstanding-case exception reporting exists in the library, even though RCPath specifically requires a documented system for this as a safety net beyond the routine turnaround KPIs.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Each histopathology service is to have a documented system to identify cases remaining unreported longer than is anticipated, and to have a documented system to manage and report these cases. Exception reporting should be undertaken of all cases (including decalcified cases) remaining unreported after 20 calendar days.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all histopathology cases (including decalcified cases) received over the audit period that remain unreported at 20 calendar days. Exclusion: none.",
+  "sample": "All such cases over the last 3 months (typically a small number; extend the window if fewer than 15 are found).",
+  "data_source": "LIMS outstanding-case report, departmental exception log.",
+  "change": "Set the LIMS to generate an automatic 20-day outstanding-case report every week, sent to a named consultant and the laboratory manager, with a required reason and action field for every case on it.",
+  "target": "100%",
+  "reaudit": "At 6 months, same source.",
+  "close_loop": "Present at the cellular pathology quality meeting; keep the automatic weekly report running permanently if it is being acted on.",
+  "evidence": [
+   "No outstanding-case exception-reporting audit exists in the library"
+  ],
+  "pitfalls": [
+   "Cases are removed from the outstanding list once reported without recording why they were late → require the reason to be logged before removal.",
+   "The report is generated but nobody is assigned to act on it → name an individual, not a team, as owner.",
+   "Reflex or referred-out cases dominate the list for legitimate reasons → record these separately from avoidable delays.",
+   "Small numbers make month-to-month variation look dramatic → track a rolling quarterly total.",
+   "The automatic report duplicates other workload lists and is ignored → integrate it into the single laboratory manager's daily dashboard rather than a separate email."
+  ],
+  "pearls": [
+   "Recruit the laboratory manager and a consultant histopathologist as joint owners.",
+   "Use this audit to also surface any capacity or staffing gaps driving the delays, not just to check the paperwork exists.",
+   "Report the commonest reasons for delay to help target the fix (for example, a single bottleneck reporter or a specific reflex test).",
+   "Keep the exception log as a standing item at the departmental meeting even between formal audit cycles."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per month reviewing the exception log",
+  "pass": "Every case still unreported at day 20 appears on a documented exception report, with a recorded reason and a named action or escalation."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "time_first_troponin_taken",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_second_troponin_taken",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_protocol_window",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_outside_window",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adults presenting with suspected acute coronary syndrome and managed on a high-sensitivity troponin early rule-out pathway have their second troponin sample taken at 3 hours (plus or minus 30 minutes) after the first, as the pathway specifies?",
+  "why": "No audit of adherence to the specific NICE-recommended high-sensitivity troponin sampling interval exists in the library; related audits cover 6-month risk scoring and HbA1c testing after ACS, not the troponin timing protocol itself [in NNA-383/385].",
+  "standard": {
+   "source": "NICE Diagnostics Guidance DG15, Myocardial infarction (acute): early rule out using high-sensitivity troponin tests (October 2014)",
+   "wording": "The Elecsys Troponin T high-sensitive and ARCHITECT STAT High Sensitive Troponin-I assays are recommended as options for exclusion of non-ST-segment-elevation myocardial infarction (NSTEMI) in people presenting to an emergency department with chest pain and suspected acute coronary syndrome, when used with early-rule out protocols.",
+   "url": "https://labmed.org.uk/static/ef51d57c-0f63-4363-aaafdd12b485457c/dg15-myocardial-infarction-acute-early-rule-out-using-high-sensitivity-troponin-tests.pdf"
+  },
+  "population": "Inclusion: all adults presenting to the emergency department with suspected ACS placed on the high-sensitivity troponin early rule-out pathway over the sample period. Exclusion: patients with an obvious STEMI bypassing the pathway.",
+  "sample": "40 consecutive eligible ED patients over the last month, from the ED chest pain pathway log.",
+  "data_source": "LIMS sample-collection timestamps, ED electronic chest pain pathway record.",
+  "change": "Build an automatic timed reminder into the ED electronic chest pain pathway that alerts nursing staff when the second troponin is due, and flags on the results screen if it falls outside the 2.5-3.5 hour window.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same pathway log.",
+  "close_loop": "Present at the ED and cardiology joint governance meeting; keep the automatic reminder live if the target is met.",
+  "evidence": [
+   "No audit of troponin sampling-interval protocol adherence exists in the library; related work covers post-diagnosis GRACE scoring and HbA1c testing after ACS, not the sampling protocol itself"
+  ],
+  "pitfalls": [
+   "ED overcrowding delays the second sample beyond the window → report separately for high-occupancy and normal-occupancy shifts.",
+   "Nursing handover loses track of the due time → the electronic reminder should persist across shift changes, not reset.",
+   "Patients who leave before the second sample are miscounted as protocol failures → record 'left before due' as a separate outcome.",
+   "Point-of-care and laboratory troponin results are mixed inconsistently → specify which assay platform counts for this pathway.",
+   "The reminder is silenced when the ED is busy → review alert-override logs periodically."
+  ],
+  "pearls": [
+   "Recruit the ED chest pain pathway lead and a biomedical scientist from the biochemistry laboratory.",
+   "Use the ED electronic whiteboard's existing timers if one exists, rather than building a new system from scratch.",
+   "Report the proportion of patients successfully ruled out at 3 hours as a related outcome measure, to show the benefit of protocol adherence.",
+   "Keep the audit result visible on the ED results board so staff see their own performance in real time."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from LIMS and ED pathway timestamps",
+  "pass": "For every patient on the pathway, the second troponin sample is drawn between 2.5 and 3.5 hours after the first, as timestamped by the laboratory information system."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rejection_reason",
+    "type": "choice",
+    "options": [
+     "no NHS number/identifier",
+     "identifier mismatch with request",
+     "unlabelled sample",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "requesting_area",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "resampling_delay_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of samples sent to the laboratory are rejected because the patient identifiers on the sample do not match, or are missing from, the request?",
+  "why": "No audit of overall sample-labelling rejection rate exists in the library, despite this being the single most common preventable cause of transfusion and other laboratory sample rejection nationally.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final), item viii Primary identifier",
+   "wording": "The NHS number or in Scotland the Community Health Index (CHI) to be used as the primary identifier.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all samples received by the core laboratory (biochemistry, haematology, microbiology) over the sample period. Exclusion: samples from services with a separate, already-audited labelling standard (for example transfusion, audited nationally).",
+  "sample": "All rejected samples over the last month, plus a denominator of total samples received in the same period, from the LIMS rejection log.",
+  "data_source": "LIMS sample-rejection log and total accession count.",
+  "change": "Introduce point-of-collection barcode or electronic positive-patient-identification labelling in the two clinical areas generating the most labelling rejections, so labels are printed and applied at the bedside as a single continuous step.",
+  "target": "Rejection rate below 1% of samples received",
+  "reaudit": "At 4 months, same clinical areas.",
+  "close_loop": "Present at the pathology and nursing/phlebotomy joint governance meeting; expand electronic labelling to further wards if the pilot areas show a sustained fall.",
+  "evidence": [
+   "[7693] transfusion sample mislabelling and wrong blood in tube: rejection rate rose from 2.99% to 4.4% between the 2012 and 2022 national comparative audits despite more sites introducing bedside electronic labelling (23% of sites, up 224%)"
+  ],
+  "pitfalls": [
+   "Rejection reasons are recorded inconsistently between shifts → agree one coded reason list before cycle 1.",
+   "Areas with the highest rejection rates resist being singled out → present rates by ward without individual staff names to keep the focus on the system.",
+   "A resampling delay from a rejected sample can itself cause harm (for example delayed antibiotics) → track this delay as a balancing measure.",
+   "Electronic labelling pilots stall without dedicated project support → assign a named implementation lead before starting.",
+   "Gains fade once new staff are not trained on the labelling process → include it in ward induction."
+  ],
+  "pearls": [
+   "Recruit a biomedical scientist and a ward sister from the pilot area together.",
+   "Use the national transfusion comparative audit findings [7693] to show this is a recognised, worsening national problem, which helps secure support for change.",
+   "Report the resampling delay in hours as a tangible harm measure alongside the rejection rate.",
+   "Keep the barcode/electronic labelling pilot data live on a ward dashboard to sustain engagement."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per week from the LIMS rejection log",
+  "pass": "Every sample accepted by the laboratory carries the patient's NHS number (or CHI in Scotland) along with name and date of birth, matching the request form exactly; any mismatch results in rejection and a logged reason."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "test_type",
+    "type": "choice",
+    "options": [
+     "FBC",
+     "U&E"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hours_between_requests",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_result_normal_or_unchanged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ordering_grade",
+    "type": "choice",
+    "options": [
+     "FY1/FY2",
+     "registrar",
+     "consultant",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adult inpatients have the same blood test (full blood count or urea and electrolytes) requested and performed twice within a 24-hour period without a new clinical indication documented?",
+  "why": "No audit of unnecessary duplicate ward blood test ordering exists in the library; related work shows unnecessary preoperative testing is common and responds well to a simple system change [7076][6456].",
+  "standard": {
+   "source": "Local standard, informed by NICE guideline NG45 on routine preoperative tests for elective surgery and Choosing Wisely UK principles on avoiding unnecessary repeat testing",
+   "wording": "Local standard: a repeat full blood count or urea and electrolytes test within 24 hours of a normal or unchanged previous result should have a documented new clinical indication (for example a change in condition, a new treatment started, or a scheduled monitoring protocol).",
+   "url": "https://www.nice.org.uk/guidance/ng45"
+  },
+  "population": "Inclusion: adult general medical or surgical inpatients with two or more requests for the same FBC or U&E panel within a 24-hour period. Exclusion: patients on a recognised monitoring protocol requiring daily or more frequent testing (e.g. acute kidney injury, electrolyte replacement).",
+  "sample": "40 consecutive eligible duplicate-test episodes over the last month, identified from the LIMS by matching patient and test type within 24 hours.",
+  "data_source": "LIMS request history, medical and nursing notes.",
+  "change": "Add a soft-stop alert to the electronic ordering system that flags when the same test has been requested within the last 24 hours and asks the ordering clinician to confirm the reason before the request is submitted.",
+  "target": "≥85% of repeats with a documented reason (equivalently, ≤15% unexplained duplicate requests)",
+  "reaudit": "At 3 months, same identification method.",
+  "close_loop": "Present at the medical directorate quality meeting; if repeats fall, report the laboratory cost and phlebotomy time saved to sustain support for the alert.",
+  "evidence": [
+   "[7076] routine preoperative blood tests for elective breast surgery: education and a poster cut inappropriate tests and produced a 71% reduction in spend",
+   "[6456] reducing unnecessary liver function tests on the paediatric intensive care unit (related unnecessary-testing audit, different population)"
+  ],
+  "pitfalls": [
+   "Genuine monitoring protocols (e.g. daily U&E on IV fluids) are wrongly flagged as unnecessary duplicates → build an explicit exclusion list before cycle 1.",
+   "Junior doctors order repeats defensively out of habit → pair the alert with a short teaching session on when repeat testing adds value.",
+   "The soft-stop is clicked through without real thought → sample-check a subset of overridden alerts for a genuine reason.",
+   "Reducing tests could delay detection of real deterioration → monitor a balancing measure such as unplanned escalations to ensure safety is not compromised.",
+   "Savings are hard to attribute without a clear baseline → record baseline test volume and cost before the alert goes live."
+  ],
+  "pearls": [
+   "Recruit a biochemistry or haematology lead and a ward-based junior doctor educational supervisor.",
+   "Present the laboratory cost per avoided test as a concrete number for the business case.",
+   "Use existing LIMS request-pattern reports rather than manual note review to identify duplicate episodes quickly.",
+   "Share results with the trust's phlebotomy service, since fewer unnecessary requests reduce patient venepuncture burden too."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 duplicate episodes from the LIMS and notes",
+  "pass": "Where the same test is repeated within 24 hours, the request or notes record a specific new clinical reason (deterioration, new treatment, scheduled protocol); a repeat with no reason documented fails."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "specimen_or_study_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unexpected_finding",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fail_safe_alert_sent_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "method",
+    "type": "choice",
+    "options": [
+     "telephone",
+     "electronic flag",
+     "both",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "recipient_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of unexpected malignant findings identified by pathology from a specimen taken for a benign or unrelated indication are actively flagged to the requesting clinician by telephone or an equivalent direct alert, in addition to the standard report?",
+  "why": "No audit specifically of the active flagging step (as opposed to the eventual clinical action) for unexpected malignancy exists in the library; the corpus entry on this topic measures action within 14 days of the report, not whether an active alert was sent at the time of reporting [NNA-264].",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for the communication of radiological reports and fail-safe alert notification (2016)",
+   "wording": "Local policies of the referring institution will also define the need to send fail-safe alerts, for example, where there is a suspected but unexpected cancer on imaging... Significant, important, unexpected and actionable findings: Cases where the reporting radiologist feels that the findings are important and a fail-safe alert should be added to the normal communication method to ensure that they are acted upon in a timely manner.",
+   "url": "https://rad-alert.co.uk/Standards.pdf"
+  },
+  "population": "Inclusion: all pathology and imaging reports over the audit period coded as containing an unexpected malignant finding unrelated to the original clinical question. Exclusion: findings that are the expected subject of the request (e.g. a cancer resection specimen).",
+  "sample": "All eligible cases over the last 6 months (expect a small number; extend the window if fewer than 20 are found).",
+  "data_source": "LIMS/RIS unexpected-finding flag, fail-safe communication log.",
+  "change": "Add a mandatory 'unexpected malignancy - fail-safe alert sent' field, with recipient name, role and time, to the LIMS/RIS reporting template whenever the unexpected-finding code is used.",
+  "target": "100%",
+  "reaudit": "At 6 months, same source.",
+  "close_loop": "Present at the joint pathology/radiology/MDT governance meeting; keep the mandatory field permanently if it is being reliably completed.",
+  "evidence": [
+   "No audit of the active fail-safe alerting step (distinct from downstream action) for unexpected malignancy exists in the library"
+  ],
+  "pitfalls": [
+   "Reporters assume the standard report is enough and skip the extra alert → make the extra step explicit and separately auditable.",
+   "Small numbers make percentages swing on one case → report a running total across the audit period.",
+   "The alert is sent but not documented → count only documented alerts, since undocumented ones cannot be relied on later.",
+   "Weekend and out-of-hours cases have a different, less reliable alerting pathway → check this specifically as a sub-group.",
+   "Teams push back that this duplicates the MDT listing process → clarify that the alert is the immediate safety net, separate from and faster than the next MDT."
+  ],
+  "pearls": [
+   "Recruit both a pathologist and a radiologist, since unexpected malignancy can arise from either specialty.",
+   "Cross-check against the MDT tracking list to find any cases that were never alerted at all.",
+   "Use this audit as a template for other 'significant, important, unexpected and actionable' findings beyond malignancy.",
+   "Report the time from authorisation to alert as well as whether an alert happened, to show speed as well as completeness."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from LIMS/RIS and communication logs",
+  "pass": "For every pathology or imaging report containing an unexpected malignant finding unrelated to the requested indication, a fail-safe alert (telephone call, electronic flag or equivalent) is documented as sent, separate from the routine report, on the day of authorisation."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "organism",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_discharged",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_result_available",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_clinician_contacted",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contacted_team",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "Of positive blood cultures that grow after a patient has already been discharged from hospital, what proportion are telephoned within 2 hours of the result becoming available to a named clinician in the last team that cared for the patient?",
+  "why": "No audit of post-discharge positive blood culture communication timeliness exists in the library, even though this is a recognised patient-safety gap distinct from the pre-discharge critical-result pathway.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of biochemistry, haematology, medical microbiology and virology critical requests phoned/actively communicated by laboratory within 2 hours of result being available to the laboratory (includes out of hours)... Local agreements must be in place to cover patient pathways defining critical results and providing clear lines of communication and failsafe systems.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all blood cultures that flag positive after the patient's discharge date over the audit period. Exclusion: contaminants agreed as not clinically significant by the reporting microbiologist.",
+  "sample": "All eligible cases over the last 3 months (expect a small but important number in most trusts).",
+  "data_source": "Microbiology LIMS positive-culture flag, on-call communication log.",
+  "change": "Add a 'patient discharged' flag to the microbiology LIMS positive-culture screen that automatically shows the last ward and the agreed emergency contact route (ED results clinician or ward team bleep), so the on-call biomedical scientist does not need to search manually.",
+  "target": "100%",
+  "reaudit": "At 6 months, same source.",
+  "close_loop": "Present at the microbiology and acute medicine joint governance meeting; keep the automatic flag permanently if the target is met.",
+  "evidence": [
+   "No post-discharge positive blood culture communication audit exists in the library; related work on blood cultures covers pre-discharge use in pyrexial surgical patients [1975]"
+  ],
+  "pitfalls": [
+   "The patient's GP is contacted instead of a hospital clinician with no documented handover of responsibility → require a named hospital clinician contact as the primary route, with GP notification as a secondary step.",
+   "Contact details for the discharging team are out of date → build the flag from the live bed management system, not a static ward list.",
+   "Small numbers make a single missed case very visible → use this as a positive, since even one miss should trigger a review.",
+   "Weekend discharges create a longer gap before someone reads the flag → check weekday/weekend performance separately.",
+   "Staff assume 'it will be picked up at GP follow-up' → make clear the 2-hour standard applies regardless of onward care plans."
+  ],
+  "pearls": [
+   "Recruit the microbiology on-call lead and the acute medicine discharge team.",
+   "Use the existing critical-result LIMS infrastructure as the base and add the discharge-specific flag on top, rather than building something new.",
+   "Report each case as a mini case review at the microbiology governance meeting, given the low numbers and high stakes.",
+   "Share results with the ED, since it often becomes the default contact point for discharged patients."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from LIMS and on-call logs",
+  "pass": "For each positive blood culture that turns positive after discharge, the microbiology on-call record shows a named clinician contacted by telephone within 2 hours, with the patient's last ward or team and the contact route documented."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "result_and_value",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_result_available",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "communication_route",
+    "type": "choice",
+    "options": [
+     "telephone to GP",
+     "telephone to out-of-hours GP service",
+     "fax/secure email to practice",
+     "none documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "successful_contact_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_before_next_opening",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of out-of-hours laboratory results requiring urgent clinical action are successfully communicated to primary care before the practice next opens?",
+  "why": "No audit of out-of-hours critical-result communication specifically to primary care (as opposed to hospital teams) exists in the library.",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final), guidance reference: Out-of-hours reporting of laboratory results requiring urgent clinical action to primary care: Advice to pathologists and those that work in laboratory medicine (RCPath, 2010)",
+   "wording": "Out-of-hours reporting of laboratory results requiring urgent clinical action to primary care: Advice to pathologists and those that work in laboratory medicine, The Royal College of Pathologists, 2010.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all GP-requested critical results generated out of hours (evenings, nights, weekends) over the sample period. Exclusion: results on hospital inpatients, audited under the hospital critical-result pathway.",
+  "sample": "All eligible cases over the last 2-3 months (expect a modest number; extend the window if fewer than 20 are found).",
+  "data_source": "LIMS out-of-hours critical-result log, GP communication record.",
+  "change": "Agree a single, published out-of-hours contact route (a named number covering the local out-of-hours GP service) with primary care commissioners, and make it the default option on the LIMS critical-result communication screen for GP-requested tests.",
+  "target": "100%",
+  "reaudit": "At 4 months, same source.",
+  "close_loop": "Present jointly at the laboratory governance meeting and the primary care/CCG-equivalent quality meeting; keep the agreed contact route live and review it annually.",
+  "evidence": [
+   "No out-of-hours primary care critical-result communication audit exists in the library"
+  ],
+  "pitfalls": [
+   "GP practice contact numbers on requests are out of date → validate contact details against a current practice directory rather than the request form alone.",
+   "Out-of-hours GP services change provider without the laboratory being told → build a review of the contact route into the annual service review.",
+   "Small numbers make a single failure look large → report cumulatively over a longer period.",
+   "Biomedical scientists are unsure whom to call and default to 'no action' → give a clear escalation script and contact list at each workstation.",
+   "Gains fade if the agreed number is not kept up to date after staff turnover → assign ownership to a named laboratory manager."
+  ],
+  "pearls": [
+   "Recruit a GP with an interest in patient safety, plus the laboratory out-of-hours lead, as joint authors.",
+   "Use this audit to formalise a route that may currently be informal or ad hoc.",
+   "Share results at a primary care network or locality meeting, since GPs are the direct beneficiaries.",
+   "Keep a simple laminated escalation card at the out-of-hours bench with the current contact numbers."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from LIMS and communication logs",
+  "pass": "For every GP-requested result meeting the local critical-result list generated out of hours, the LIMS shows a documented, successful communication route to the GP practice (or the out-of-hours GP service) before the practice's next opening time."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "date_screening_outcome",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_attended",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_to_attendance",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "did_not_attend_first_appointment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_28_days_or_corrected_age",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of babies referred after newborn hearing screening actually attend their audiological assessment appointment within 4 weeks of the screening outcome (or by the corrected equivalent age if born prematurely)?",
+  "why": "No audit of the national newborn hearing screening attendance standard exists in the library; this measures a different step from the appointment-offered standard, since offering an appointment on time does not guarantee attendance.",
+  "standard": {
+   "source": "NHS Newborn Hearing Screening Programme, Newborn hearing screening programme standards (NHSP-S05)",
+   "wording": "NHSP-S05: time from screening outcome to attendance at an audiological assessment appointment. Babies should attend appointments within less than 4 weeks (28 days), or corrected age if born prematurely. Acceptable level: greater than or equal to 90.0%; achievable level: greater than or equal to 95.0%.",
+   "url": "https://www.gov.uk/government/publications/newborn-hearing-screening-programme-quality-standards"
+  },
+  "population": "Inclusion: all babies referred for audiological assessment following newborn hearing screening over the sample period. Exclusion: babies referred through other routes outside the screening programme.",
+  "sample": "40 consecutive eligible referrals over the last 3 months, from the audiology booking and attendance system.",
+  "data_source": "Audiology appointment attendance record, newborn hearing screening programme IT system.",
+  "change": "Introduce a structured DNA-recovery process: any family who does not attend the first offered appointment is telephoned within 48 hours and offered a new slot within the remaining part of the 28-day window, rather than waiting for the next routine recall letter.",
+  "target": "≥90%, rising to ≥95% at re-audit",
+  "reaudit": "At 4 months, same sample source.",
+  "close_loop": "Present at the newborn hearing screening quarterly quality assurance meeting alongside the NHSP-S04 result, and report against the national standard.",
+  "evidence": [
+   "No attendance-specific audit against NHSP-S05 exists in the library; the companion offer-timeliness audit (NHSP-S04) is the nearest related measure"
+  ],
+  "pitfalls": [
+   "Families who move or change contact details between screening and the appointment are hard to trace, inflating apparent DNA rates → cross-check against the child health information system for a current address before counting a DNA.",
+   "Interpreter needs are not flagged at booking, leading to avoidable non-attendance → record whether an interpreter was booked when needed.",
+   "Transport or distance to the audiology clinic is a common but unrecorded barrier → add a free-text reason field for non-attendance.",
+   "Rebooked appointments outside the 28-day window are still recorded as 'attended' without flagging the delay → capture both dates in the template.",
+   "Gains fade if the 48-hour DNA callback is only done when staff have spare capacity → make it a defined task on the audiology admin rota."
+  ],
+  "pearls": [
+   "Recruit an audiology administrator who manages DNAs day to day as co-author.",
+   "Use health visitor contacts as an additional route to encourage attendance for families who are hard to reach by phone.",
+   "Report DNA reasons thematically to target the fix (for example, transport support for families without a car).",
+   "Share the combined NHSP-S04/S05 results with the regional newborn hearing screening quality assurance coordinator, since these feed national reporting."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 referrals from the audiology system",
+  "pass": "The audiology system shows attendance at the assessment appointment within 28 days of the screening outcome date, or by the equivalent corrected age."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "date_of_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drop_in_db_across_3_frequencies",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "onset_within_72_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_baa_definition",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "same_day_urgent_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_route",
+    "type": "choice",
+    "options": [
+     "ENT emergency clinic",
+     "emergency department",
+     "routine ENT referral",
+     "none"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adults assessed in routine adult hearing aid audiology clinics with sudden or rapid sensorineural hearing loss (a drop of more than 30 dB across at least three adjacent audiometric frequencies within 72 hours, or rapid progressive loss) are referred the same day for urgent medical assessment rather than continued on the routine pathway?",
+  "why": "No audit exists in the library of whether audiology staff correctly identify and fast-track this specific non-routine presentation using the defined clinical criteria, as distinct from the ENT-side referral-to-treatment time audits already in the corpus.",
+  "standard": {
+   "source": "British Academy of Audiology, Guidance on Identifying Non-Routine Cases of Hearing Loss in Adults (April 2015)",
+   "wording": "Sudden or rapid hearing loss: Either a greater than 30 dB deterioration in sensorineural hearing loss occurring in at least three adjacent audiometric frequencies over 72 hours or less, or rapid onset of hearing loss or rapid deterioration in hearing.",
+   "url": "https://www.baaudiology.org/wp-content/uploads/2019/07/BAA_Guidance_on_Identifying_Cases_of_Non_Routine_Hearing_Loss_in_Adults_April_2015.pdf"
+  },
+  "population": "Inclusion: all adults assessed in routine adult audiology clinics whose audiogram and history meet the BAA sudden/rapid hearing loss definition over the sample period. Exclusion: patients already under active ENT follow-up for the same episode.",
+  "sample": "All eligible cases identified over the last 6-12 months (expect a small number; extend the window if fewer than 15 are found), cross-checked against clinic audiograms flagged for a sudden asymmetric or rapid change.",
+  "data_source": "Audiology clinic record, audiogram comparison with any prior test, referral letter.",
+  "change": "Add the BAA sudden/rapid hearing loss criteria as a mandatory check to the audiology assessment template, with an automatic same-day referral pathway (a single agreed phone number or e-referral route) triggered whenever the criteria are met.",
+  "target": "100%",
+  "reaudit": "At 6 months, same identification method.",
+  "close_loop": "Present at the audiology and ENT joint governance meeting; keep the mandatory check and referral pathway live if the target is sustained.",
+  "evidence": [
+   "No audit of audiology-side identification of sudden/rapid hearing loss against this BAA definition exists in the library; related ENT-side pathway audits measure time from referral to steroid treatment once the diagnosis is already made"
+  ],
+  "pitfalls": [
+   "Audiologists are unfamiliar with the precise BAA numerical definition and under- or over-refer → include worked examples in training before cycle 1.",
+   "No prior audiogram exists for comparison, making 'sudden' hard to confirm from a single visit → use the history (rate of symptom onset) as an equally valid trigger per the BAA definition.",
+   "Same-day referral pathways differ between weekday and weekend clinics → check both separately.",
+   "Small numbers make a single missed case dominate → review each miss individually as a case review, not just a percentage.",
+   "The urgent referral pathway exists on paper but the phone number is out of date → test the pathway before cycle 1 begins."
+  ],
+  "pearls": [
+   "Recruit a hearing aid audiologist and an ENT consultant together, since the fix crosses both services.",
+   "Use existing audiogram comparison software, if available, to flag a sudden drop automatically at the point of testing.",
+   "Share the BAA definition as a laminated quick-reference card in each audiology test room.",
+   "Track time from same-day referral to first ENT contact as a natural follow-on audit."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per identified case from audiology and referral records",
+  "pass": "Where the audiogram and history meet the BAA definition of sudden or rapid hearing loss, the audiology record shows a same-day referral for urgent medical assessment (ENT or emergency department), not a routine hearing aid pathway appointment."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "date_of_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_first_fitting",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_referral_to_fitting",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_18_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adults referred to a hearing aid service with confirmed sensorineural hearing loss suitable for amplification are fitted with their first hearing aid within 18 weeks of referral?",
+  "why": "No audit of hearing aid fitting waiting times exists in the library, even though prolonged waits are a recognised access issue and the routine adult hearing aid pathway is explicitly funded to provide this service.",
+  "standard": {
+   "source": "Local standard, informed by the NHS Constitution 18-week referral-to-treatment standard and British Academy of Audiology description of the routine adult hearing aid pathway",
+   "wording": "Local standard: adults referred into the routine, direct-referral adult hearing aid pathway who are assessed as suitable for amplification should have their first hearing aid fitted within 18 weeks of referral, in line with the NHS referral-to-treatment standard, since (as the British Academy of Audiology notes) 'Routine, direct referral adult care pathways in the UK specifically fund hearing aid fitting'.",
+   "url": "https://www.baaudiology.org/wp-content/uploads/2019/07/BAA_Guidance_on_Identifying_Cases_of_Non_Routine_Hearing_Loss_in_Adults_April_2015.pdf"
+  },
+  "population": "Inclusion: adults referred to the routine adult hearing aid pathway, assessed and found suitable for amplification, over the sample period. Exclusion: patients identified as non-routine/complex under BAA criteria (audited separately) and those who decline or delay fitting by choice.",
+  "sample": "40 consecutive eligible patients who completed fitting in the last 3 months, from the audiology patient administration system.",
+  "data_source": "Audiology patient administration system referral and fitting dates.",
+  "change": "Introduce a 'straight to fit' pathway for straightforward, symmetrical age-related hearing loss, combining assessment and fitting in a single appointment where clinically appropriate, to reduce the number of separate visits driving the wait.",
+  "target": "≥92%",
+  "reaudit": "At 6 months, same sample specification.",
+  "close_loop": "Present at the audiology service and commissioner quality meeting; if achieved, embed the combined assessment-and-fit appointment as the default booking template.",
+  "evidence": [
+   "No hearing aid fitting waiting-time audit exists in the library"
+  ],
+  "pitfalls": [
+   "Patients who decline an offered earlier appointment are wrongly counted as breaches → record patient-choice delays separately from service delays.",
+   "Hearing aid stock shortages for a particular model cause a spike in delays → track stock-related delays as a distinct reason code.",
+   "Complex or non-routine cases referred on to ENT are wrongly included, understating true routine-pathway performance → apply the exclusion consistently.",
+   "Waiting list data quality varies between clinics using different booking systems → validate a sample manually where systems differ.",
+   "Gains fade once waiting lists grow again after a temporary staffing boost → track the wait as a rolling monthly metric, not a one-off snapshot."
+  ],
+  "pearls": [
+   "Recruit the audiology service manager and a senior hearing aid audiologist as co-authors.",
+   "Use the 'straight to fit' pathway pilot data to make a business case for wider rollout if it shortens waits without compromising quality.",
+   "Report waiting times alongside patient-reported outcome measures (for example hearing aid use at 3 months) to show waits are not just a numbers exercise.",
+   "Share results with commissioners, since hearing aid waiting times are often a locally monitored access metric."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from the audiology patient administration system",
+  "pass": "The audiology record shows the date of first hearing aid fitting within 18 weeks of the original referral date, for patients assessed as routine and suitable for amplification."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "modality",
+    "type": "choice",
+    "options": [
+     "plain X-ray",
+     "CT",
+     "fluoroscopy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_question_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "answer_recorded",
+    "type": "choice",
+    "options": [
+     "not pregnant",
+     "possibly pregnant",
+     "pregnant",
+     "declined to answer"
+    ],
+    "note": ""
+   },
+   {
+    "field": "documented_before_exposure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of females aged 12 to 55 attending the general (non-obstetric, non-orthopaedic-theatre) radiology department for a CT or fluoroscopic examination have a documented pregnancy status enquiry before the exposure?",
+  "why": "No audit of pregnancy enquiry for general outpatient and inpatient radiology attendances exists in the library; existing entries cover orthopaedic theatre fluoroscopy and emergency surgical admissions, not the general radiology department pathway.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 11(1)(f)",
+   "wording": "A person must not carry out an exposure unless... in the case of an individual of childbearing potential, the person has enquired whether that individual is pregnant or breastfeeding, if relevant.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/11/made"
+  },
+  "population": "Inclusion: all females aged 12-55 attending general radiology (X-ray, CT, fluoroscopy) as outpatients or inpatients over the sample period. Exclusion: obstetric ultrasound and orthopaedic theatre exposures (audited under separate department-specific pathways).",
+  "sample": "40 consecutive eligible attendances over the last month, from the RIS.",
+  "data_source": "RIS pre-exposure checklist, radiographer's exposure record.",
+  "change": "Add a mandatory pregnancy-status field to the RIS pre-exposure checklist for all females aged 12-55, which the radiographer must complete before the exposure can be recorded as performed.",
+  "target": "100%",
+  "reaudit": "At 3 months, same sample specification.",
+  "close_loop": "Present at the radiology governance meeting; keep the mandatory RIS field permanently if the target is sustained, and include it in the department's written employer's procedures under IR(ME)R regulation 6.",
+  "evidence": [
+   "No general radiology department pregnancy-enquiry audit exists in the library; related work covers orthopaedic theatre fluoroscopy (a proposed audit) and pregnancy testing in emergency surgical admissions [7712][6008]"
+  ],
+  "pitfalls": [
+   "Reception staff, not radiographers, ask the question and it is not passed on → clarify in the written procedure who is responsible and where it must be recorded.",
+   "The question is skipped for 'obviously' post-menopausal-looking patients → apply the age-band policy strictly regardless of appearance.",
+   "Urgent inpatient and out-of-hours exposures bypass the outpatient checklist → build the same mandatory field into the inpatient/urgent request workflow.",
+   "Patients decline to answer and this is recorded as 'not pregnant' by default → give 'declined to answer' as its own option requiring an escalation to the practitioner.",
+   "Gains fade after a RIS upgrade resets the field to optional → re-check after every system change."
+  ],
+  "pearls": [
+   "Recruit the radiology superintendent radiographer and radiation protection supervisor together.",
+   "Use the RIS audit trail to pull data quickly rather than manual note review.",
+   "Cross-check the CT/fluoroscopy subgroup separately from plain film, since the fetal dose stakes differ.",
+   "Present this alongside the department's IR(ME)R regulation 7 clinical audit programme so it counts towards the statutory requirement."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 attendances from the RIS",
+  "pass": "A dated entry, made by the radiographer or radiology reception before the exposure, records that the patient was asked whether she is or might be pregnant, with the answer given."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "modality",
+    "type": "choice",
+    "options": [
+     "CT",
+     "MRI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "clinical_question_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vetting_practitioner_contacted_referrer_for_more_information",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requesting_grade",
+    "type": "choice",
+    "options": [
+     "FY1/FY2",
+     "registrar",
+     "consultant",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of CT and MRI requests from general medical and surgical wards (excluding fracture clinic, already audited separately) state a specific clinical question that the imaging is expected to answer?",
+  "why": "No audit of referrer information quality for general ward CT/MRI requests exists in the library; the corpus contains a related audit for fracture clinic X-ray requests only.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 10(5)",
+   "wording": "The referrer must supply the practitioner with sufficient medical data (such as previous diagnostic information or medical records) relevant to the exposure requested by the referrer to enable the practitioner to decide whether there is a sufficient net benefit as required by regulation 11(1)(b).",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/10/made"
+  },
+  "population": "Inclusion: all CT and MRI requests from general adult medical and surgical inpatient wards over the sample period. Exclusion: fracture clinic and orthopaedic theatre requests (covered elsewhere), emergency department requests (a distinct high-volume pathway).",
+  "sample": "40 consecutive requests over the last 2 weeks, from the RIS.",
+  "data_source": "RIS request record, vetting comments.",
+  "change": "Make a free-text 'clinical question this scan should answer' field mandatory on the electronic CT/MRI request form, separate from the diagnosis field, so vetting radiologists can justify the request without chasing the ward.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same sample specification.",
+  "close_loop": "Present at the radiology and medical/surgical directorate joint governance meeting; keep the mandatory field if it reduces vetting queries.",
+  "evidence": [
+   "No general ward CT/MRI clinical-question audit exists in the library; the corpus's comparable fracture clinic X-ray request audit uses the same IR(ME)R regulation 10(5) standard"
+  ],
+  "pitfalls": [
+   "Requesters paste the working diagnosis into the clinical question field without a real question → sample-check for genuine, specific questions versus copied diagnoses.",
+   "Junior doctors under time pressure default to brief text → pair the mandatory field with a short example bank of good clinical questions.",
+   "Vetting practitioners approve requests anyway despite a vague question, masking the true problem → track the proportion of requests returned for more information as a balancing measure.",
+   "The field becomes a free-text box that is easy to leave blank if the system allows it → make it a genuine hard stop, not just a labelled box.",
+   "Out-of-hours or verbal requests bypass the electronic form → include a parallel requirement for the on-call radiologist to document the clinical question when accepting a verbal request."
+  ],
+  "pearls": [
+   "Recruit a vetting radiologist and a ward-based junior doctor educational lead.",
+   "Use the RIS audit trail to identify requests quickly rather than manual chart review.",
+   "Publish a one-page 'how to write a good imaging request' guide alongside the change.",
+   "Track vetting turnaround time as a related outcome measure, since clear requests should be justified faster."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 requests from the RIS",
+  "pass": "The electronic request includes a specific clinical question or working diagnosis (not just a test name), sufficient for the vetting practitioner to make a justification decision without contacting the referrer."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "date_of_xray",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_confirmed_correct_patient_and_current",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interpretation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feeding_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interpreter_competency_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_before_first_feed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "For nasogastric tubes checked by X-ray because pH testing failed or aspirate could not be obtained, what proportion have documentation confirming the X-ray viewed was the correct, most current image for that patient, how the tube position was interpreted, and the resulting decision on feeding, recorded before any feed or medication was given?",
+  "why": "No audit of the specific NPSA/2011/PSA002 documentation requirements for X-ray-confirmed nasogastric tube position exists in the library, distinct from the corpus's existing sticker-completion audit which does not test all three documentation elements together against the original alert wording.",
+  "standard": {
+   "source": "National Patient Safety Agency, Patient Safety Alert NPSA/2011/PSA002, Reducing the risk of harm caused by misplaced nasogastric feeding tubes in adults, children and infants (10 March 2011)",
+   "wording": "Documentation of the tube placement checking process includes confirmation that any x-ray viewed was the most current x-ray for the correct patient, how placement was interpreted, and clear instructions as to required actions. Any tubes identified to be in the lung are removed immediately, whether in the x-ray department or clinical area.",
+   "url": "https://www.cas.mhra.gov.uk/ViewandAcknowledgment/ViewAttachment.aspx?Attachment_id=101341"
+  },
+  "population": "Inclusion: all adult inpatients whose nasogastric tube position was confirmed by X-ray (as a second-line test after pH testing failed or no aspirate was obtained) over the sample period. Exclusion: tubes confirmed by pH testing alone.",
+  "sample": "40 consecutive eligible X-ray-confirmed tube placements over the last 2-3 months, from radiology and ward records.",
+  "data_source": "NG tube bedside documentation chart, radiology report, ward nursing notes.",
+  "change": "Redesign the NG tube bedside chart so the three documentation elements (correct/current X-ray confirmed, interpretation, feeding decision) are a single mandatory sequence that must be completed and signed by a competency-assessed individual before the 'feed commenced' box can be ticked.",
+  "target": "100%",
+  "reaudit": "At 3 months, same sample size.",
+  "close_loop": "Present at the trust patient safety/never events group, since misplaced NG tube feeding remains a Never Event category; keep the redesigned chart as the trust standard if the target is met.",
+  "evidence": [
+   "[2329] closed-loop audit of NGT documentation using a sticker: sticker use 42.1% to 85%, position documented 63.1% to 75%, confirming staff recorded 60.5% to 75% after teaching and posters",
+   "[5472] avoiding never events in nasogastric intubation: interpretation errors fell from 7 to 1 and documentation improved by 22% after a mixed intervention"
+  ],
+  "pitfalls": [
+   "A sticker or chart is used but not fully completed, as shown in the corpus's own re-audit plateauing at 75-85% rather than 100% [2329] → require full completion, not partial, as the pass criterion.",
+   "Out-of-hours or agency staff are not trained in the competency framework → include NG tube X-ray interpretation competency in mandatory induction for all temporary staff.",
+   "The X-ray report and the bedside chart are completed by different people who do not cross-check each other → require the bedside documenter to state which X-ray (date/time) they reviewed.",
+   "Gains plateau rather than reach 100%, as seen in comparable audits [2329] → treat any gap as a live risk requiring a further PDSA cycle, not a finished project.",
+   "Feeding is started based on a verbal 'it looks fine' from radiology without full documentation → make the written record, not a verbal assurance, the requirement."
+  ],
+  "pearls": [
+   "Recruit a ward sister, a radiographer/radiologist and the trust's patient safety lead together, since the corpus shows a mixed intervention (documentation, training and radiology involvement) works best [5472].",
+   "Use the trust's Never Events log as an early-warning cross-check for missed cases.",
+   "Reference the free e-learning tool for X-ray interpretation (as recommended in the alert) in staff training.",
+   "Report the audit at the same governance forum that reviews Never Events, to keep visibility high."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per case from NG tube charts and radiology reports",
+  "pass": "The notes or NG tube chart record, before any feed or medication is given: confirmation the X-ray viewed was the current image for the correct patient, the interpreted position, and the resulting feeding decision, all signed and timed by a person assessed as competent."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "scanner_id",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_weight_band",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_length_product_mgy_cm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "protocol_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "below_national_drl",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of adult CT pulmonary angiogram examinations for suspected pulmonary embolism have a dose-length product at or below the national diagnostic reference level for that examination?",
+  "why": "No audit of CT pulmonary angiogram dose optimisation against the national diagnostic reference level exists in the library; a comparable audit exists for CT head in suspected stroke, but CTPA is a distinct high-volume examination with its own reference level.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 12(3)(c) (Optimisation); UKHSA National Diagnostic Reference Levels",
+   "wording": "Regulation 12(3)(c) requires the employer to establish diagnostic reference levels for standard radiodiagnostic examinations and to ensure they are used as part of the optimisation of exposures; UKHSA publishes the National Diagnostic Reference Levels used to benchmark local practice.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/12/made"
+  },
+  "population": "Inclusion: all adult CTPA examinations performed for suspected pulmonary embolism over the sample period on each scanner. Exclusion: paediatric examinations and CTPA performed for other indications (e.g. pre-procedural planning) where a different protocol may apply.",
+  "sample": "20 consecutive examinations per scanner over the last month, from the CT dose-recording system.",
+  "data_source": "CT scanner dose report (DLP), medical physics expert's dose audit records.",
+  "change": "Review the CTPA scan protocol on each scanner with the medical physics expert (tube current modulation, scan range, iterative reconstruction settings) and lock the optimised protocol so individual radiographers cannot alter key dose-determining parameters.",
+  "target": "Median dose-length product at or below the national diagnostic reference level",
+  "reaudit": "At 6 months, same scanners and sample size.",
+  "close_loop": "Present at the radiation protection committee and imaging governance meeting; if achieved, extend the locked-protocol approach to other high-volume CT examinations.",
+  "evidence": [
+   "No CTPA-specific diagnostic reference level audit exists in the library; a related proposed audit covers CT head dose in suspected stroke against the national diagnostic reference level"
+  ],
+  "pitfalls": [
+   "Scan range is extended unnecessarily beyond the chest, inflating dose without diagnostic benefit → check scan range against the protocol as a specific data point, not just overall dose.",
+   "Obese or very large patients are compared against the same reference level without size adjustment → report by weight band, since diagnostic reference levels are typically set for a standard adult.",
+   "A single scanner with an outdated protocol skews the trust-wide average → report per scanner, not just an overall trust figure.",
+   "The medical physics expert review takes months to complete → set an interim manual check while the formal review is under way.",
+   "Gains fade after a software or protocol upgrade resets settings → re-verify dose data after any scanner software update."
+  ],
+  "pearls": [
+   "Recruit the medical physics expert and CT superintendent radiographer as joint leads.",
+   "Use the scanner's automatic dose-recording software to pull data quickly rather than manual review of each study.",
+   "Compare results across all CT scanners in the department to identify and share best practice from the lowest-dose scanner.",
+   "Report dose trends over time on a simple run chart at the radiation protection committee."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 examinations from the CT dose-recording system",
+  "pass": "The median dose-length product for the audited sample of adult CTPA examinations is at or below the current UKHSA national diagnostic reference level for CT pulmonary angiography."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "guidance_modality",
+    "type": "choice",
+    "options": [
+     "fluoroscopy",
+     "CT"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_metric_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recorded_in_patient_record",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of interventional radiology procedures carried out under fluoroscopic or CT guidance have the total dose-area product or dose-length product for the procedure documented in the patient record?",
+  "why": "No audit of interventional radiology procedure dose documentation (as distinct from diagnostic CT dose optimisation) exists in the library, despite interventional procedures often delivering the highest doses in a department.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, Schedule 2, paragraph 1(j)",
+   "wording": "Schedule 2 sets out the data to be recorded for each exposure, including the radiation dose delivered, which for interventional procedures includes the dose-area product or equivalent dose metric for the procedure.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/15/made"
+  },
+  "population": "Inclusion: all interventional radiology procedures using fluoroscopic or CT guidance over the sample period. Exclusion: diagnostic-only fluoroscopy studies (e.g. barium studies) without an interventional component.",
+  "sample": "40 consecutive eligible procedures over the last 2-3 months, from the interventional radiology procedure log.",
+  "data_source": "Interventional radiology procedure note, RIS/dose-tracking system.",
+  "change": "Configure the interventional radiology system to automatically populate the total procedure dose into the electronic procedure note at the point the procedure is closed, removing reliance on manual transcription.",
+  "target": "100%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the interventional radiology and radiation protection joint governance meeting; keep the automatic dose transfer if the target is met.",
+  "evidence": [
+   "No interventional radiology procedure dose-documentation audit exists in the library; a related proposed audit covers trauma theatre fluoroscopy dose recording in the operation note"
+  ],
+  "pitfalls": [
+   "Long or complex procedures with multiple fluoroscopy runs have the dose recorded only for the final run, understating the true total → confirm the figure used is the cumulative procedure total, not a single exposure.",
+   "Manual transcription from the fluoroscopy unit display to the notes introduces transcription errors → prefer automatic electronic transfer wherever the system allows it.",
+   "Skin-dose alert thresholds are confused with the routine dose-documentation requirement → keep this audit focused on documentation completeness, with skin-dose alerts as a separate, higher-threshold safety check.",
+   "Complex cases performed by visiting or locum interventionalists are more likely to have incomplete documentation → include this explicitly in visiting-practitioner induction.",
+   "Gains fade if the automatic transfer is not tested after an equipment software update → re-verify after any upgrade."
+  ],
+  "pearls": [
+   "Recruit the interventional radiology lead and radiation protection adviser together.",
+   "Use this audit to also identify any procedures approaching or exceeding local skin-dose alert thresholds, as a valuable by-product.",
+   "Report dose trends by procedure type to support future protocol optimisation work.",
+   "Present alongside the department's regulation 13 population dose estimate work, since procedure-level data feeds that wider requirement."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from the procedure log",
+  "pass": "The patient record (procedure note, RIS record or electronic dose report) documents the total dose-area product (fluoroscopy) or dose-length product (CT-guided) for the completed interventional procedure."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "test_panel",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_sample_taken",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_result_authorised",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calendar_days_to_result",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_6_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_communicated_to_midwifery_team",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of routine antenatal screening samples for hepatitis B, HIV, syphilis and rubella susceptibility are reported, confirmed and electronically available to the requestor within 6 calendar days of the sample being taken?",
+  "why": "No audit against this specific RCPath antenatal infection screening turnaround key performance indicator exists in the library, despite the direct harm from delayed hepatitis B and HIV results (missed opportunity for timely maternal and neonatal intervention).",
+  "standard": {
+   "source": "Royal College of Pathologists, Key Performance Indicators in Pathology (CEff 090413, version 4, final)",
+   "wording": "Percentage of routine antenatal screening tests for Hepatitis B, HIV, Syphilis, and Rubella susceptibility reported, confirmed, authorised and electronically available to requestor within 6 calendar days from sample being taken... Challenge: 90% by April 2012 increasing to 97% by April 2014.",
+   "url": "https://www.rcpath.org/static/e7b7b680-a957-4f48-aa78e601e42816de/Key-Performance-Indicators-in-Pathology-Recommendations-from-the-Royal-College-of-Pathologists.pdf"
+  },
+  "population": "Inclusion: all routine antenatal screening samples for hepatitis B, HIV, syphilis and rubella susceptibility taken at booking over the sample period. Exclusion: samples taken in labour or at late presentation.",
+  "sample": "40 consecutive eligible samples over the last 4-6 weeks, from the LIMS antenatal screening worklist.",
+  "data_source": "LIMS sample-received and result-authorised timestamps, maternity booking record.",
+  "change": "Route all antenatal booking bloods through a dedicated, prioritised antenatal screening batch on the analyser and serology platform, with an automatic exception report for any sample not authorised within 6 days sent to the lead biomedical scientist and named midwifery screening coordinator.",
+  "target": "≥90%, rising to ≥97% at re-audit",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present jointly at the pathology and maternity screening governance meeting; keep the prioritised batch and exception report permanently if the target is met.",
+  "evidence": [
+   "No audit against this specific antenatal screening turnaround KPI exists in the library"
+  ],
+  "pitfalls": [
+   "Late bookings and presentation in labour wrongly inflate the denominator → apply the exclusion criteria exactly as the KPI defines them.",
+   "Results are authorised on time but not passed to the midwifery team promptly, so the clinical benefit is lost even when the KPI is met → add the communication step as its own template field.",
+   "Repeat testing after an equivocal result is counted as a fresh breach → track repeats separately from the initial screen.",
+   "Serology platform downtime causes a batch delay affecting many samples at once → note any platform outage dates when interpreting results.",
+   "Gains fade once the dedicated batch is deprioritised during staff shortages → make the exception report, not just the batch process, the sustained safety net."
+  ],
+  "pearls": [
+   "Recruit the antenatal screening coordinator midwife and a biomedical scientist from serology/virology together.",
+   "This maps to the National Infectious Diseases in Pregnancy Screening Programme's own quality requirements, so the data has a second use beyond this audit.",
+   "Use the LIMS exception report as a live dashboard rather than a one-off manual pull.",
+   "Report separately for each of the four infections, since some (e.g. syphilis serology) may have different processing times than others."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 samples from the LIMS antenatal worklist",
+  "pass": "The LIMS shows the antenatal hepatitis B, HIV, syphilis and rubella result set authorised and available to the requestor within 6 calendar days of the sample being taken, excluding presentation in labour or late presentation."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "staff_role",
+    "type": "choice",
+    "options": [
+     "practitioner",
+     "operator",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "training_record_on_file",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_training_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nature_of_training_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "record_retrievable_within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of practitioners and operators carrying out exposures in the imaging department have an up-to-date training record, held by the employer, showing the dates and nature of the IR(ME)R training they have completed?",
+  "why": "No audit of employer training-record completeness under IR(ME)R exists in the library, even though this is the specific, named record the enforcing authority may inspect.",
+  "standard": {
+   "source": "Ionising Radiation (Medical Exposure) Regulations 2017, regulation 17(4)",
+   "wording": "The employer must keep and have available for inspection by the relevant enforcing authority an up-to-date record of all relevant training undertaken by all practitioners and operators engaged by the employer to carry out any exposures or any practical aspect of such exposures showing the date or dates on which training qualifying as adequate training was completed and the nature of the training.",
+   "url": "https://www.legislation.gov.uk/uksi/2017/1322/regulation/17/made"
+  },
+  "population": "Inclusion: all staff currently acting as a practitioner or operator under IR(ME)R in the imaging and nuclear medicine departments. Exclusion: staff whose role does not involve carrying out exposures or practical aspects of exposures.",
+  "sample": "30 named staff sampled from the current departmental staff list, cross-checked against the training record system.",
+  "data_source": "Employer's IR(ME)R training record system, staff list.",
+  "change": "Consolidate all IR(ME)R training evidence into the trust's single electronic learning management system, replacing paper certificates and local spreadsheets, with a standard record template capturing date and nature of training for every practitioner and operator.",
+  "target": "100%",
+  "reaudit": "At 6 months, same staff sample.",
+  "close_loop": "Present at the radiation protection committee, since this record is a specific statutory duty subject to enforcing authority inspection; keep the consolidated system if the target is met.",
+  "evidence": [
+   "No audit of IR(ME)R employer training-record completeness exists in the library"
+  ],
+  "pitfalls": [
+   "Training certificates are held by individual staff members rather than centrally by the employer, failing the regulation's requirement → require submission of a copy to the central record as a condition of the training counting.",
+   "New starters and locums are not added to the training record promptly → build training-record creation into the pre-employment/induction checklist.",
+   "Records show that training happened but not what it covered, failing the 'nature of training' requirement → require a brief description or course title, not just a date.",
+   "Staff who have moved role (e.g. from operator to also acting as practitioner) are not flagged for additional training → cross-check role changes against training records annually.",
+   "Gains fade after a learning management system migration loses historical records → export and archive records before any system change."
+  ],
+  "pearls": [
+   "Recruit the radiation protection supervisor and trust education/learning management system administrator together.",
+   "Use this audit to also identify any staff whose training has lapsed and needs urgent renewal.",
+   "Report the audit result to the trust's statutory and mandatory training compliance dashboard, since it likely already has a reporting mechanism.",
+   "Keep a simple named list of practitioners and operators, updated whenever the rota changes, to make future audits quick."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 staff records from the training system",
+  "pass": "The employer's training record system holds, for each named practitioner and operator, the date and nature of their IR(ME)R training, and the record is available for inspection without needing to be reconstructed from memory or scattered files."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_initial_information_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "separate_confirmation_by_performing_radiologist_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location_of_confirmation_discussion",
+    "type": "choice",
+    "options": [
+     "ward/office/outpatient area",
+     "immediate procedure room only",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "For planned (non-emergency) interventional radiology procedures, what proportion of patients have their informed consent confirmed at a separate discussion with the radiologist actually performing the procedure, distinct from the initial information-giving discussion?",
+  "why": "No audit of this specific two-stage consent process for interventional radiology exists in the library; the corpus's extensive consent-documentation topic focuses on written risk completeness on consent forms generally, not this process step unique to radiology.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for patient consent particular to radiology, second edition",
+   "wording": "Interventional or invasive radiological procedures require particular attention in obtaining the express consent of the patient. In a planned procedure, the patient should receive information, verbally or in writing, in sufficient time before the procedure to consider it and to consult others if they so wish. The patient should have their informed consent confirmed at a separate discussion with the radiologist performing the procedure.",
+   "url": "https://www.bsgar.org/media/BFCR(12)8_consent.pdf"
+  },
+  "population": "Inclusion: all planned (non-emergency) interventional radiology procedures over the sample period. Exclusion: emergency, unplanned procedures where the standard explicitly allows clinical judgement on timing.",
+  "sample": "40 consecutive planned procedures over the last 2-3 months, from the interventional radiology booking system.",
+  "data_source": "Pre-procedure clinic letter or information-giving record, procedure day consent confirmation note.",
+  "change": "Add a mandatory 'consent confirmed by performing radiologist' field, with date, time and location, to the interventional radiology electronic procedure record, separate from the initial information-giving documentation.",
+  "target": "≥90%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the interventional radiology governance meeting; keep the mandatory field permanently if the target is met.",
+  "evidence": [
+   "The corpus's consent-documentation topic card describes this area as heavily over-audited for generic risk completeness (45 audits) but notes that whether consent starts in clinic rather than on the day is one of the under-explored angles the consultant advice recommends auditing instead"
+  ],
+  "pitfalls": [
+   "The 'separate discussion' happens in the procedure room immediately before sedation, which the standard specifically discourages → record the physical location, not just that a discussion happened.",
+   "Same-day add-on cases blur the distinction between initial information and confirmation → apply the emergency/unplanned exclusion strictly rather than stretching it to cover convenience add-ons.",
+   "A generic consent form is signed without evidence of a genuine second discussion → look for narrative evidence of the discussion, not just a signature.",
+   "Patients seen only briefly by a different radiologist than the one performing the procedure may not meet the standard's intent → record whether the confirming radiologist was the same person who performed the procedure.",
+   "Gains fade once the mandatory field becomes a box ticked without a real discussion → spot-check a sample against patient-reported experience where feasible."
+  ],
+  "pearls": [
+   "Recruit the interventional radiology lead and a specialist nurse who runs pre-procedure clinics.",
+   "Use existing pre-assessment clinic letters as the source for the 'initial information' half of the audit.",
+   "Present findings alongside patient experience feedback on how well-prepared they felt for the procedure.",
+   "Keep this as a standing item in the interventional radiology multidisciplinary team meeting, not just a one-off project."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 procedures from booking and consent records",
+  "pass": "The notes record two distinct consent-related contacts: an initial information-giving discussion in advance of the procedure, and a separate confirmation of consent with the performing radiologist, both documented with dates."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_complex_risk_list",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_consent_form_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "signed_before_procedure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_specific_form_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of interventional radiology procedures classified locally as complex or carrying significant risk have written consent (a signed consent form), rather than verbal consent alone, documented before the procedure?",
+  "why": "No audit specifically of the written-versus-verbal consent threshold for complex interventional radiology procedures exists in the library, separate from the general consent-completeness topic already heavily covered for surgical specialties.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for patient consent particular to radiology, second edition, citing General Medical Council guidance",
+   "wording": "The General Medical Council (GMC) suggests that written consent should be taken in cases where: the treatment or procedure is complex and involves significant risk and/or side-effects... With planned procedures, consideration should be given to asking the patient to sign a written consent form for those examinations and procedures which are recognised to be more complex to undertake or which potentially carry a more serious risk of complication.",
+   "url": "https://www.bsgar.org/media/BFCR(12)8_consent.pdf"
+  },
+  "population": "Inclusion: all interventional radiology procedures on the department's agreed complex/significant-risk list over the sample period. Exclusion: procedures not on the list, where verbal consent with a documented discussion may be sufficient.",
+  "sample": "40 consecutive eligible procedures over the last 2-3 months, from the interventional radiology log.",
+  "data_source": "Interventional radiology procedure log, consent form archive.",
+  "change": "Publish an agreed department list of procedures requiring written consent (built from the GMC/RCR criteria) and introduce procedure-specific consent forms for the highest-volume complex procedures, since the corpus shows procedure-specific forms are the fix that reliably works for consent completeness.",
+  "target": "100%",
+  "reaudit": "At 4 months, same list and sample size.",
+  "close_loop": "Present at the interventional radiology governance meeting; keep the published list and procedure-specific forms if the target is met.",
+  "evidence": [
+   "The corpus's consent-documentation topic card reports that pre-printed or procedure-specific consent forms reach close to 100% completeness of documented risks, compared with teaching alone which gives only partial gains"
+  ],
+  "pitfalls": [
+   "Staff disagree on which procedures count as 'complex' without a published list → agree and publish the list with radiology leadership before cycle 1.",
+   "A generic hospital consent form is used instead of a procedure-specific one, missing procedure-relevant risks → track use of the correct, procedure-specific form as a separate data point.",
+   "Verbal consent is documented in detail but no form is signed, technically failing the standard despite good practice → count only signed forms as meeting 'written consent' for this audit.",
+   "Emergency conversions from a planned to an urgent procedure blur the consent pathway → record these separately rather than excluding them silently.",
+   "Gains plateau below 100% once the list is published but not enforced → build the list into the booking system so a procedure on it cannot be booked without a linked consent form."
+  ],
+  "pearls": [
+   "Recruit the interventional radiology lead and a specialist nurse or consent lead as co-authors.",
+   "Reuse procedure-specific consent form templates from surgical specialties as a starting point where suitable.",
+   "Present the audit alongside the corpus's own consent-documentation learning (procedure-specific forms work; teaching alone does not) to justify the chosen fix.",
+   "Track patient understanding of risks as a longer-term follow-on measure once form completeness is achieved."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from the consent form archive",
+  "pass": "For every procedure on the department's locally agreed 'complex/significant risk' list, a signed written consent form is present in the record before the procedure starts."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sign_in_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_out_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sign_out_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of interventional radiology procedures have a completed Sign In, Time Out and Sign Out safety checklist, adapted from the WHO Surgical Safety Checklist for radiological interventions, on file before, during and after the procedure?",
+  "why": "No audit of WHO-style checklist completion specifically for interventional radiology procedures exists in the library, distinct from the theatre-based WHO checklist audits already covered for surgical specialties.",
+  "standard": {
+   "source": "Royal College of Radiologists, WHO Surgical Safety Checklist: for Radiological Interventions Only (adapted from the WHO Surgical Safety Checklist)",
+   "wording": "The Royal College of Radiologists adapted the checklist of Safe Surgery from the World Health Organization for use in radiological interventions in England and Wales, entitled 'WHO Surgical Safety Checklist: for Radiological Interventions ONLY', with the three phases of Sign In, Team Time Out and Sign Out.",
+   "url": "https://www.rcr.ac.uk/our-services/all-our-publications/standards/"
+  },
+  "population": "Inclusion: all interventional radiology procedures performed in the interventional suite over the sample period. Exclusion: bedside procedures performed outside the interventional suite (audited under a separate ward-based safety process).",
+  "sample": "40 consecutive procedures over the last month, from the interventional radiology log.",
+  "data_source": "Interventional radiology WHO checklist form, procedure log.",
+  "change": "Designate a named 'checklist champion' for each interventional radiology session, responsible for leading and confirming all three checklist phases out loud, with the checklist itself made a mandatory field in the electronic procedure record rather than a paper form that can be left incomplete.",
+  "target": "≥95%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the interventional radiology and theatre safety governance meeting; keep the checklist champion role and electronic mandatory field if the target is met.",
+  "evidence": [
+   "No interventional radiology-specific WHO checklist completion audit exists in the library"
+  ],
+  "pitfalls": [
+   "The checklist is completed retrospectively rather than in real time, defeating its safety purpose → spot-check timing against the procedure start time where the electronic system logs it.",
+   "Staff view the checklist as a barrier for 'quick' procedures and skip it → apply it to all procedures on the interventional list regardless of expected duration.",
+   "A paper checklist is easily lost or left blank → prefer an electronic mandatory field that blocks progression to the next step.",
+   "The general anaesthetic section, largely irrelevant to most interventional cases, causes staff to disengage with the whole checklist → confirm the department is using the RCR-adapted version, not the unmodified surgical version.",
+   "Champions rotate without a clear handover, and the role lapses → build champion allocation into the weekly interventional list planning."
+  ],
+  "pearls": [
+   "Recruit an interventional radiology consultant and the lead interventional radiology nurse/radiographer together.",
+   "Designate a champion for each list as recommended in published implementation experience with this checklist.",
+   "Use a clipboard or fixed location for the checklist so it is always available at the point of use.",
+   "Report near-miss catches attributed to the checklist (e.g. wrong side identified at Time Out) as a powerful qualitative measure alongside completion rates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from the checklist archive",
+  "pass": "All three phases of the checklist (Sign In, Time Out, Sign Out) are completed and filed in the procedure record for the case."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "examination_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "express_consent_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "chaperone_offer_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "chaperone_outcome",
+    "type": "choice",
+    "options": [
+     "offered and accepted",
+     "offered and declined",
+     "not applicable with reason",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "What proportion of patients undergoing an intimate radiological examination or procedure (for example transrectal or transvaginal procedures) have express consent and the offer of a chaperone documented before the examination?",
+  "why": "No audit of chaperone offer and express consent documentation for intimate radiological examinations exists in the library.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for patient consent particular to radiology, second edition",
+   "wording": "Intimate examinations require particular attention and understanding to establish trust and mutual confidence between patient and doctor... Express consent, either verbally or in writing, should be obtained for intimate examinations and serious consideration should be given to the need to provide a chaperone.",
+   "url": "https://www.bsgar.org/media/BFCR(12)8_consent.pdf"
+  },
+  "population": "Inclusion: all patients having an intimate radiological examination or procedure (e.g. transrectal ultrasound-guided biopsy, transvaginal ultrasound where performed by radiology) over the sample period. Exclusion: none.",
+  "sample": "30-40 consecutive eligible examinations over the last 2-3 months, from the department booking system.",
+  "data_source": "Procedure note, department booking/checklist record.",
+  "change": "Add a mandatory 'chaperone offered: outcome' field, alongside the express consent field, to the booking or procedure checklist for all examinations coded as intimate, so the step cannot be skipped or forgotten.",
+  "target": "100%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the department governance meeting; keep the mandatory field if the target is met.",
+  "evidence": [
+   "No chaperone/express-consent documentation audit for intimate radiological examinations exists in the library"
+  ],
+  "pitfalls": [
+   "Staff assume a chaperone is 'obviously' not needed for certain examinations and skip documenting the offer → require the field to be completed for every examination on the intimate-examination list, with 'not applicable' as an explicit, reasoned option rather than a blank.",
+   "Patients decline a chaperone and this is not distinguished from 'not offered' → give both options explicitly in the template.",
+   "Locum or visiting staff are unaware which examinations are classified as intimate locally → publish and circulate the local list.",
+   "The field exists on paper but not in the electronic system used for most bookings → prioritise adding it to whichever system captures the majority of these examinations.",
+   "Gains are not sustained after a staff rotation → include the requirement in departmental induction for new radiographers, sonographers and radiologists."
+  ],
+  "pearls": [
+   "Recruit a radiographer or sonographer who regularly performs these examinations as co-author.",
+   "Publish a simple, agreed list of which examinations count as 'intimate' locally to reduce ambiguity.",
+   "Present alongside patient experience feedback, since chaperone offer is a well-recognised patient dignity marker.",
+   "Keep the audit brief and focused, since this is a quick, high-value dignity-of-care check rather than a complex clinical audit."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 examinations from booking records",
+  "pass": "The record shows express consent obtained (verbally or in writing) and documented consideration of a chaperone (offered and accepted, offered and declined, or not applicable with reason) before the examination."
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "template": [
+   {
+    "field": "procedure_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_booked",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_procedure",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_information_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_at_least_24h_before",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "question": "For planned interventional radiology procedures, what proportion of patients are given written, procedure-specific information in sufficient time before the procedure to consider it and consult others if they wish?",
+  "why": "No audit of the timing and adequacy of written pre-procedure information for interventional radiology exists in the library; the consent-documentation topic card in the corpus focuses on risks recorded on the form itself, not on information given in advance.",
+  "standard": {
+   "source": "Royal College of Radiologists, Standards for patient consent particular to radiology, second edition",
+   "wording": "In a planned procedure, the patient should receive information, verbally or in writing, in sufficient time before the procedure to consider it and to consult others if they so wish.",
+   "url": "https://www.bsgar.org/media/BFCR(12)8_consent.pdf"
+  },
+  "population": "Inclusion: all planned (non-emergency) interventional radiology procedures booked at least 48 hours in advance over the sample period. Exclusion: emergency or same-day add-on procedures.",
+  "sample": "40 consecutive eligible planned procedures over the last 2-3 months, from the interventional radiology booking system.",
+  "data_source": "Booking system record of information sent, pre-procedure clinic letter, patient information leaflet log.",
+  "change": "Create a library of procedure-specific written information leaflets for the department's highest-volume interventional procedures, sent automatically (by post or patient portal) as soon as the procedure is booked, rather than being handed over only on the day.",
+  "target": "≥90%",
+  "reaudit": "At 4 months, same sample specification.",
+  "close_loop": "Present at the interventional radiology governance meeting; keep the automatic leaflet dispatch if the target is met.",
+  "evidence": [
+   "The corpus's consent-documentation topic card notes that written information given to patients before surgery/procedures 'stayed 8-14%' in some audited settings even after a teaching-only intervention, suggesting this step is commonly under-delivered across specialties"
+  ],
+  "pitfalls": [
+   "A generic hospital leaflet is sent instead of a procedure-specific one, technically meeting a loose definition of 'written information' but not its intent → require the leaflet to name the specific procedure and its specific risks.",
+   "Late-booked planned procedures (booked less than 48 hours ahead) are wrongly included and unfairly counted as failures → apply the inclusion criterion strictly.",
+   "Patients report not receiving or not reading the leaflet despite a record that one was sent → consider a simple patient-reported cross-check for a subset of cases.",
+   "Leaflets are only available in English, disadvantaging patients needing another language or an accessible format → record whether an alternative format was needed and provided.",
+   "Gains fade once the automatic dispatch process is not checked after an IT system change → re-verify the automation after any booking system update."
+  ],
+  "pearls": [
+   "Recruit a interventional radiology specialist nurse who manages pre-procedure information as co-author.",
+   "Start with the two or three highest-volume procedures to build the leaflet library quickly, then expand.",
+   "Ask patients directly (a brief survey) whether they felt they had enough information and time to decide, as a complementary patient experience measure.",
+   "Share the leaflet library with the pre-assessment or referring team so information can be given even earlier, at the point of referral."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from the booking system",
+  "pass": "The patient record shows written, procedure-specific information was given (posted, emailed or handed over in clinic) at least 24 hours before a planned interventional radiology procedure, excluding same-day emergency or urgent add-on cases."
+ }
+]

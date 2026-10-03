@@ -1,0 +1,2024 @@
+[
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult ward inpatients with a NEWS2 score of 5 or more have their next full set of observations recorded within 1 hour?",
+  "why": "Missed or late repeat observations after a raised score are a leading theme in deterioration incidents. Library audits of NEWS2 monitoring come mainly from old age psychiatry [3352][3458] and electronic dashboards [7443]; no closed-loop audit of the 1-hour repeat on acute adult wards has been published in the library.",
+  "standard": {
+   "source": "Royal College of Physicians, NEWS2 Chart 4: Clinical response to the NEWS trigger thresholds (2017)",
+   "wording": "Total 5 or more — Urgent response threshold — Frequency of monitoring: Minimum 1 hourly",
+   "url": "https://www.rcp.ac.uk/media/mrllczrj/news2-chart-4_clinical-response-to-news-trigger-thresholds_0.pdf"
+  },
+  "pass": "The next complete NEWS2 set (all seven parameters) is timed within 60 minutes of the first score of 5 or more.",
+  "population": "Adults on acute medical and surgical wards with a first NEWS2 score of 5 or more during the audit period. Exclude patients on end-of-life care with an agreed plan to stop routine observations, and patients in critical care, theatre or recovery.",
+  "sample": "40 consecutive episodes of a first NEWS2 score of 5 or more across 3–4 wards over the last 4 weeks (one episode per patient).",
+  "data_source": "Electronic observations system (e.g. Nervecentre, VitalPAC) trigger report for cases and timings; notes for exclusions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trigger_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First NEWS2 of 5 or more"
+   },
+   {
+    "field": "news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_parameter_3",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_full_obs_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_next_obs",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_obs_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "all_seven_parameters_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_day",
+    "type": "choice",
+    "options": [
+     "08:00–17:59",
+     "18:00–07:59"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the electronic observations system to schedule and alert the next set at 1 hour automatically whenever NEWS2 is 5 or more, with an overdue alert to the nurse in charge.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive first NEWS2 scores of 5 or more on the same wards, same template.",
+  "close_loop": "Present at the deteriorating patient group and ward sisters' meeting. If it works, keep the automatic schedule and add the 1-hour repeat rate to the monthly ward quality dashboard.",
+  "evidence": [
+   "[3127] older adult wards: raised NEWS escalated and reviewed 0% → 80% (electronic observations system)",
+   "[7443] acute trust: NEWS2 recording 64% → 83% (real-time dashboard of NEWS2 above 5)",
+   "[3352] old age wards: re-audit of NEWS2 monitoring frequency (nearest related entry)"
+  ],
+  "pitfalls": [
+   "Paper and electronic records both in use → audit one ward type only, or confirm every ward uses the electronic system before cycle 1.",
+   "Night-time repeats look worse because of staffing → report day and night separately so the fix is aimed correctly.",
+   "Nurses object that the alert adds noise → set the alert only for scores of 5 or more, not for every set.",
+   "A partial set (e.g. saturations only) gets counted as a repeat → define 'full set' as all seven NEWS2 parameters before cycle 1.",
+   "Gains fade when the alert is switched off after an upgrade → name the system owner who keeps the setting."
+  ],
+  "pearls": [
+   "Recruit the critical care outreach lead; they already review these reports.",
+   "Pull the trigger list from the observations system; it takes minutes, not hours.",
+   "Agree what counts as 'next set' with the ward sisters before collecting.",
+   "Share each ward's result with its own sister, not just the trust total."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 episodes from the electronic observations system"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult ward inpatients at high risk from sepsis (suspected infection and NEWS2 of 7 or more) have NEWS2 recalculated within 30 minutes?",
+  "why": "NICE NG253 sets a 30-minute re-score for high-risk sepsis so that non-response triggers senior and critical care input. Library sepsis audits measure time to antibiotics [6876][6435]; none measures the 30-minute re-score after ward deterioration.",
+  "standard": {
+   "source": "NICE NG253 rec 1.6.5 (2024; guideline published 2025, updated 2026)",
+   "wording": "Recalculate the NEWS2 score and re-evaluate risk of sepsis periodically, in line with the AoMRC statement on the initial antimicrobial treatment of sepsis (2022): every 30 minutes, for those at high risk of severe illness or death from sepsis",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Evaluating-risk"
+  },
+  "pass": "A complete NEWS2 is recorded within 30 minutes of the first qualifying score of 7 or more.",
+  "population": "Adults (16 or over) on inpatient wards with suspected or confirmed infection and a first NEWS2 of 7 or more on ward deterioration. Exclude patients on end-of-life care and those moved to critical care within 30 minutes.",
+  "sample": "30–40 consecutive episodes over the last 2–3 months.",
+  "data_source": "Electronic observations system for NEWS2 of 7 or more; notes or sepsis screening tool to confirm suspected infection; observation timestamps.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trigger_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First NEWS2 of 7 or more with suspected infection"
+   },
+   {
+    "field": "news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_infection_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_news2_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_repeat",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_score_same_or_higher",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "senior_informed_if_no_response",
+    "type": "yes/no",
+    "options": [],
+    "note": "Context field"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 30-minute repeat observation timer to the sepsis screening tool in the electronic observations system that starts when a high-risk screen is completed.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 30–40 consecutive high-risk episodes, same template.",
+  "close_loop": "Present at the sepsis steering group. If it works, keep the timer in the tool and report the 30-minute repeat rate with the existing time-to-antibiotics data.",
+  "evidence": [
+   "[6876] hospital-wide sepsis QI: median time to antibiotics 3.6 h → 1.7 h (targeted fixes to causes of delay)",
+   "[6435] neutropenic sepsis: antibiotics within 60 min 15% → 95% (care pathway with ward documentation)",
+   "[5681] general wards: small changes only after guidance, teaching and feedback (fix that fails)"
+  ],
+  "pitfalls": [
+   "Suspected infection is not always written down → use the sepsis screen or the first antibiotic prescription as the marker, agreed before cycle 1.",
+   "Patients moved to ED resus or critical care drop out of the ward record → exclude transfers within 30 minutes and count them.",
+   "Small numbers per ward → pool all adult wards.",
+   "Staff see the re-score as a nursing task only → make the timer visible to the doctor reviewing the patient too."
+  ],
+  "pearls": [
+   "Recruit the sepsis nurse or outreach team; they already hold the list of high-risk screens.",
+   "Collect time-to-antibiotics as a context field, but keep the re-score as the single measure.",
+   "Agree that the first qualifying score is time zero before starting."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from the observations system and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients started on intravenous antibiotics for suspected sepsis have blood cultures taken before the first dose?",
+  "why": "Cultures taken after antibiotics often grow nothing, which blocks later narrowing of treatment. The one closed-loop blood culture audit in the library rose only from 58.7% to 65% after a presentation [1975].",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.1 (2016, amended 2024; guideline published 2025, updated 2026)",
+   "wording": "For people in hospital who have suspected infections: start looking for the source of infection (see the section on finding and controlling the source of infection) take microbiological and blood samples before giving an antimicrobial.",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "Blood culture collection time is earlier than or the same as the first antibiotic administration time.",
+  "population": "Adults (16 or over) in ED or on wards given a first dose of IV antibiotics for suspected sepsis. Exclude patients who had antibiotics before arrival and those transferred on antibiotics from another hospital.",
+  "sample": "40 consecutive adults over the last 4–6 weeks.",
+  "data_source": "Electronic prescribing (first dose time); laboratory system (blood culture collection time); sepsis screening tool for cases.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "Medical ward",
+     "Surgical ward",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_culture_taken",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_culture_collection_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_before_antibiotic",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "number_of_culture_sets",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_result",
+    "type": "choice",
+    "options": [
+     "No growth",
+     "Pathogen",
+     "Contaminant",
+     "Not sent"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_of_day",
+    "type": "choice",
+    "options": [
+     "08:00–17:59",
+     "18:00–07:59"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add blood culture bottles and a 'cultures taken? time' box to the sepsis grab bag and the electronic sepsis screen, so the antibiotic order set asks for the culture time before the first dose is signed.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive adults, same template.",
+  "close_loop": "Present at the sepsis steering group and antimicrobial stewardship meeting. If it works, keep the order-set prompt and add culture-before-antibiotic to the sepsis dashboard.",
+  "evidence": [
+   "[1975] surgical patients: blood culture adherence 58.7% → 65% (departmental presentation alone)",
+   "[6435] neutropenic sepsis: antibiotics within 60 min 15% → 95% (pathway plus nurse-led first dose)",
+   "[6876] sepsis programme: median time to antibiotics 3.6 h → 1.7 h (targeted fixes)"
+  ],
+  "pitfalls": [
+   "Staff fear delaying antibiotics → state that culture must not delay the first dose beyond the NICE time limit.",
+   "Collection time on the lab system is the label print time → check a few against the notes before cycle 1.",
+   "Out-of-hours shortages of culture bottles → check stock in the grab bags as part of the fix.",
+   "Contamination rises when cultures are rushed → record contaminants so the fix does not trade one problem for another."
+  ],
+  "pearls": [
+   "Recruit a microbiologist; they can pull collection times in bulk.",
+   "Pair with the pharmacy antibiotic report to find cases fast.",
+   "Keep the grab bag checklist owned by the ward sister, not the audit team."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and lab system"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult ward inpatients at medium risk from sepsis (suspected infection and NEWS2 of 5 or 6) who are given antibiotics receive the first dose within 3 hours?",
+  "why": "NICE now allows a deferral of up to 3 hours at medium risk, but the 3 hours is a maximum, not a target. Library audits of sepsis timing use the 1-hour standard [6876][2656]; none measures the 3-hour limit for medium risk.",
+  "standard": {
+   "source": "NICE NG253 rec 1.8.17 (2024; guideline published 2025, updated 2026)",
+   "wording": "For people at medium risk of severe illness or death from sepsis, a clinician with core competencies in the care of acutely ill patients (FY2 level or above) should consider: deferring administration of a broad-spectrum antibiotic treatment for up to 3 hours after calculating the person's first NEWS2 score on initial assessment in the emergency department or on ward deterioration and using this time to gather information for a more specific diagnosis (see recommendations on finding and controlling the source of infection and choice of antibiotic therapy) discussing with a senior clinical decision maker. Once a decision is made to give antibiotics, do not delay administration any further.",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Managing-suspected-sepsis"
+  },
+  "pass": "First antibiotic dose given within 3 hours of the first NEWS2 of 5 or 6 with suspected infection.",
+  "population": "Adults (16 or over) on inpatient wards with suspected infection and a first NEWS2 of 5 or 6 on ward deterioration who were given antibiotics for that episode. Exclude those already on antibiotics for the same infection and those whose score rose to 7 or more before a decision.",
+  "sample": "40 consecutive episodes over the last 2–3 months.",
+  "data_source": "Electronic observations system for time zero; electronic prescribing for administration time; notes for suspected infection.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_zero_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First NEWS2 of 5 or 6 with suspected infection"
+   },
+   {
+    "field": "news2_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fy2_or_senior_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_time_zero_to_dose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_within_3_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision_to_dose_minutes",
+    "type": "number",
+    "options": [],
+    "note": "Context: delay after decision"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the first antibiotic dose for suspected sepsis a 'stat' order in electronic prescribing that alerts the nurse in charge if not given within 30 minutes of prescribing.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive medium-risk episodes, same template.",
+  "close_loop": "Present at the sepsis steering group. If it works, keep the stat alert and add the 3-hour measure to the sepsis dashboard beside the 1-hour high-risk measure.",
+  "evidence": [
+   "[6876] hospital sepsis programme: median time to antibiotics 3.6 h → 1.7 h (targeted fixes)",
+   "[6111] ICU: significant fall in first-dose delay (e-prescribing default dose times removed)",
+   "[2656] acute abdomen: antibiotics within 1 h 80% → 50% (pathway update alone; fix that fails)"
+  ],
+  "pitfalls": [
+   "Time zero is unclear when the score drifts up and down → use the first 5 or 6 with a documented infection concern, agreed before cycle 1.",
+   "Clinicians read 3 hours as a target → present the delay after decision as a second number.",
+   "Patients who never needed antibiotics get included → only include those given antibiotics.",
+   "The stat alert is ignored → route it to the nurse in charge, not a generic inbox."
+  ],
+  "pearls": [
+   "Recruit an antimicrobial pharmacist; they can pull first-dose times.",
+   "Show the result as a run chart of minutes, not only a percentage.",
+   "Keep medium and high risk separate so each gets its own standard."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from EPR and e-prescribing"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of inpatients aged 65 or over with a postural drop in blood pressure have a documented medication review within 48 hours of the reading?",
+  "why": "Library audits of lying and standing blood pressure mostly measure whether it is done [1685][1596][1168]. Acting on an abnormal result is rarely measured; one project found medication review in 0% at baseline [1824].",
+  "standard": {
+   "source": "NICE NG249 rec 1.2.3 (2025)",
+   "wording": "Ensure that the person's individual risk factors identified in the comprehensive falls assessment are promptly addressed with appropriate interventions to reduce their risk of falls. These interventions can be offered in the same service or involve an appropriate referral.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "pass": "Within 48 hours of the reading, the notes record a review of blood-pressure-lowering and other falls-risk medicines, with each stopped, reduced or kept with a reason.",
+  "population": "Inpatients aged 65 or over with a recorded postural drop (systolic fall of 20 mmHg or more, diastolic fall of 10 mmHg or more, or symptoms on standing). Exclude patients in the last days of life.",
+  "sample": "40 consecutive patients with a postural drop over the last 2–3 months on care of older people and acute medical wards.",
+  "data_source": "Observation charts or EPR for lying and standing readings; medical notes and drug chart for the review.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postural_drop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "systolic_drop_mmhg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptomatic_on_standing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_bp_lowering_or_falls_risk_drugs",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medication_review_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "drug_changed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic 'postural drop: medication review needed' task to the doctors' ward task list when a postural drop is entered on the electronic observations chart.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 consecutive patients with a postural drop, same template.",
+  "close_loop": "Present at the falls steering group and care of older people governance. If it works, keep the automatic task and add it to the inpatient falls dashboard.",
+  "evidence": [
+   "[1824] older people wards: medication review after postural hypotension 0% → 87.5% (sticker, teaching and displayed guidance)",
+   "[1685] care of the elderly: lying and standing BP recorded 34% → 68% (teaching, huddle reminders)",
+   "[1937] geriatric inpatients: RCP method compliance 93.33% at re-audit (dedicated recording sheet in observation folders)"
+  ],
+  "pitfalls": [
+   "Readings taken with the wrong technique create false drops → record the standing time and exclude readings without it.",
+   "Doctors say review happened but was not written → count only written reviews and agree this before cycle 1.",
+   "Pharmacist and doctor reviews overlap → accept either, as long as a decision per drug is recorded.",
+   "The automatic task is dismissed without action → audit the notes, not the task completion log."
+  ],
+  "pearls": [
+   "Recruit the ward pharmacist; they often do the review anyway.",
+   "Pull cases from the observations system rather than reading every chart.",
+   "Keep the 48-hour window; same-day is unrealistic at weekends."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of inpatients who fall have a documented check for fracture and spinal injury before they are moved from the floor?",
+  "why": "Moving a patient with a hip or spinal fracture without checks causes avoidable harm. The National Audit of Inpatient Falls found checks before moving in 69% rising to only 77% over five years [1169]. The library holds audits of post-fall medical review [1171][6153] but not of the pre-move check on its own.",
+  "standard": {
+   "source": "NICE QS86 statement 4 (2015, updated 2025)",
+   "wording": "People who fall during a hospital stay are checked for signs or symptoms of fracture and potential for spinal injury before they are moved. [2015]",
+   "url": "https://www.nice.org.uk/guidance/qs86/chapter/Quality-statement-4-Checks-for-injury-after-an-inpatient-fall"
+  },
+  "pass": "Nursing post-fall record states that the patient was checked for signs of fracture and spinal injury before being moved.",
+  "population": "All adult inpatient falls reported on the incident system. Exclude falls where the patient got up alone before staff arrived (record the number).",
+  "sample": "40 consecutive reported inpatient falls over the last 2–3 months.",
+  "data_source": "Incident reporting system (Datix or equivalent) for cases; nursing post-fall record and medical notes for the check.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fall_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "witnessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "found_on_floor",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "check_for_fracture_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "check_for_spinal_injury_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_checks_before_moving",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "signs_of_injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "flat_lifting_equipment_used_if_injury",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free-text post-fall notes with a one-page post-fall nursing checklist (paper or EPR) whose first two tick boxes are fracture check and spinal check before moving.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive reported falls, same template.",
+  "close_loop": "Present at the falls steering group and nursing and midwifery board. If it works, make the checklist mandatory in the incident form and include it in ward induction.",
+  "evidence": [
+   "[1169] national inpatient falls audit: checked for injury before moving 69% → 77% (national audit and resources)",
+   "[6153] inpatient falls: musculoskeletal examination 54% → 77%, 100% where the falls proforma was used (proforma)",
+   "[1171] older inpatients: post-fall review pro forma and CT decision tool (nearest related entry)"
+  ],
+  "pitfalls": [
+   "Incident reports are completed late and by a different person → use the contemporaneous nursing note as the source.",
+   "Unwitnessed falls where the patient is already standing → record separately and exclude from the denominator.",
+   "Nurses feel audited as individuals → present by ward, never by name.",
+   "Checklist becomes one more form → replace the existing post-fall note rather than add to it."
+  ],
+  "pearls": [
+   "Recruit the falls prevention nurse lead early.",
+   "Agree with the ward sisters exactly what counts as a documented check.",
+   "Put the checklist in the post-fall grab folder on each ward."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 falls from the incident system and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of inpatients who hit their head in a fall have neurological observations recorded half-hourly for the first 2 hours?",
+  "why": "Missed deterioration after an inpatient head strike is a recurring serious incident, especially in people on anticoagulants. The library audit of post-fall reviews focused on CT decisions [1171]; no audit of the early observation schedule after an inpatient head injury has been published in the library.",
+  "standard": {
+   "source": "NICE NG232 rec 1.9.11 (2003, current guideline 2023); applied to inpatients by the local post-fall protocol",
+   "wording": "Carry out and record observations on a half-hourly basis until there is a GCS score of 15. Observations for people with a GCS score of 15 should start after the initial assessment in the emergency department and the minimum frequency should be: half-hourly for 2 hours, then 1 hourly for 4 hours, then 2 hourly. [2003]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "Four recorded neurological observation sets (GCS, pupils, limb movements) in the first 2 hours after the fall, none more than 40 minutes apart.",
+  "population": "Adult inpatients with a witnessed head strike or an unwitnessed fall where head injury cannot be excluded. Exclude patients on end-of-life care.",
+  "sample": "30–40 consecutive falls with head strike or unwitnessed falls over the last 3 months.",
+  "data_source": "Incident system for cases; neurological observation chart or electronic observations system for timings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fall_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "witnessed_head_strike",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_anticoagulant_or_antiplatelet",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude aspirin alone"
+   },
+   {
+    "field": "first_neuro_obs_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "neuro_obs_sets_first_2h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_gap_minutes_first_2h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "half_hourly_for_2h_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ct_head_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Context field"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a neurological observation schedule (half-hourly for 2 hours, then hourly for 4 hours) to the electronic observations system that is started from the post-fall checklist.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 30–40 consecutive qualifying falls, same template.",
+  "close_loop": "Present at the falls steering group and patient safety committee. If it works, keep the electronic schedule and add it to the post-fall protocol.",
+  "evidence": [
+   "[1171] older inpatients: 6% met NICE CT criteria but had no CT (post-fall pro forma and CT tool planned)",
+   "[6153] inpatient falls: examination 54% → 77% (falls proforma)",
+   "[1169] national falls audit: medical assessment within 30 min 52% → 60% (national audit)"
+  ],
+  "pitfalls": [
+   "Paper neuro charts get lost → confirm where charts are filed before cycle 1.",
+   "Night falls with one nurse per bay → report night falls separately.",
+   "Unwitnessed falls without clear head injury inflate the denominator → apply one definition in both cycles.",
+   "Staff wake patients repeatedly and families object → explain why the first 6 hours matter; frequency drops after that."
+  ],
+  "pearls": [
+   "Recruit the falls lead and a ward sister from a high-falls ward.",
+   "Use the incident system's 'head injury' tick box to find cases quickly.",
+   "Record anticoagulant use; it makes the case for the fix."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 falls from charts and incident system"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults admitted to hospital have a pressure ulcer risk assessment completed within 6 hours of arriving on the ward?",
+  "why": "Hospital-acquired pressure ulcers remain a major harm measure. Library audits of risk assessment report completion but not the 6-hour time limit [5876][7760].",
+  "standard": {
+   "source": "NICE QS89 statement 1 (2015)",
+   "wording": "People admitted to hospital or a care home with nursing have a pressure ulcer risk assessment within 6 hours of admission.",
+   "url": "https://www.nice.org.uk/guidance/qs89/chapter/Quality-statement-1-Pressure-ulcer-risk-assessment-in-hospitals-and-care-homes-with-nursing"
+  },
+  "pass": "A validated risk assessment (e.g. Waterlow, Braden or PURPOSE-T) is time-stamped within 6 hours of ward arrival.",
+  "population": "Adults admitted to acute medical and surgical wards (including assessment units). Exclude day cases and patients discharged within 6 hours.",
+  "sample": "40 consecutive admissions across 3–4 wards over 2 weeks.",
+  "data_source": "EPR nursing assessment timestamps; bed management system for ward arrival time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_tool",
+    "type": "choice",
+    "options": [
+     "Waterlow",
+     "Braden",
+     "PURPOSE-T",
+     "Other",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessed_within_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_category",
+    "type": "choice",
+    "options": [
+     "Not at risk",
+     "At risk",
+     "High risk"
+    ],
+    "note": ""
+   },
+   {
+    "field": "admitted_via_ed_over_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Context: long ED waits"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the pressure ulcer risk assessment a mandatory field in the EPR nursing admission document, with a ward-level overdue list at 4 hours.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive admissions on the same wards, same template.",
+  "close_loop": "Present at the tissue viability group and ward sisters' meeting. If it works, keep the overdue list and report the 6-hour rate on the ward quality dashboard.",
+  "evidence": [
+   "[5876] London teaching hospital: nursing Waterlow recorded 81% → 100% (education, posters)",
+   "[7760] community nursing: improved PURPOSE-T completion at first visit (aSSKINg template in the EPR)",
+   "[1822] geriatric assessment: skin assessment by doctors 15.8% → 8.8% (teaching and poster alone; fix that fails)"
+  ],
+  "pitfalls": [
+   "Patients waiting many hours in ED → decide before cycle 1 whether the clock starts at ED arrival or ward arrival, and keep it the same.",
+   "Assessments copied from the ED record → accept an ED assessment only if timed within the window.",
+   "Nurses see it as a tick box → show the ulcer incidence alongside the result.",
+   "Mandatory field filled with defaults → spot-check 5 scores against the patient's condition."
+  ],
+  "pearls": [
+   "Recruit the tissue viability nurse; they often hold ward data.",
+   "EPR timestamps make this a 1-hour data pull.",
+   "Feed results back to each ward sister within a week."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from EPR timestamps"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults at high risk of pressure ulcers who cannot reposition themselves are repositioned at least every 4 hours?",
+  "why": "Missed turns are the most direct cause of hospital-acquired pressure ulcers. The library holds audits of risk scoring [5876] and EPR frameworks [7760] but no closed-loop audit of the 4-hour repositioning interval on repositioning charts.",
+  "standard": {
+   "source": "NICE CG179 rec 1.1.9 (2014)",
+   "wording": "Encourage adults who have been assessed as being at high risk of developing a pressure ulcer to change their position frequently and at least every 4 hours. If they are unable to reposition themselves, offer help to do so, using appropriate equipment if needed. Document the frequency of repositioning required.",
+   "url": "https://www.nice.org.uk/guidance/cg179/chapter/Recommendations"
+  },
+  "pass": "Over a 24-hour period, no gap longer than 4 hours between recorded repositions, and the required frequency is documented.",
+  "population": "Adult inpatients assessed as high risk who need help to reposition. Exclude patients in the last hours of life with a documented comfort-only plan, and patients who decline (record the number).",
+  "sample": "40 patients on 3–4 wards: one 24-hour period each, over 2 weeks.",
+  "data_source": "Repositioning (SSKIN) charts in EPR or paper; risk assessment for eligibility.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_period_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "required_frequency_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repositions_recorded_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "longest_gap_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "no_gap_over_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pressure_redistributing_mattress",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "declined_repositioning_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a repositioning due-time alert to the electronic SSKIN chart that shows on the ward whiteboard or handheld devices when a turn is overdue.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: 40 new high-risk patients on the same wards, same 24-hour method.",
+  "close_loop": "Present at the tissue viability group and ward sisters' meeting. If it works, keep the alert and add the 4-hour compliance to the monthly ward quality round.",
+  "evidence": [
+   "[7760] community nursing: better repositioning advice recorded (aSSKINg template in the EPR)",
+   "[5876] teaching hospital: Waterlow recorded 81% → 100% (education, posters)",
+   "[1822] geriatric wards: skin assessment by doctors 15.8% → 8.8% (teaching and poster alone; fix that fails)"
+  ],
+  "pitfalls": [
+   "Charts completed retrospectively at shift end → look for identical times and flag them.",
+   "Night gaps to let patients sleep → the pass criterion allows a documented clinical reason; agree this before cycle 1.",
+   "Air mattresses used as a reason not to turn → record mattress type but do not exempt.",
+   "Healthcare assistants feel blamed → present by ward and involve them in designing the alert."
+  ],
+  "pearls": [
+   "Recruit a healthcare assistant champion on each ward.",
+   "Pick one fixed 24-hour window per patient to keep collection fast.",
+   "Ask the tissue viability nurse to co-present the results."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from SSKIN charts"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients with a MUST score of 2 or more have a nutrition care plan documented within 48 hours?",
+  "why": "Library MUST audits mainly measure screening; referral of high-risk patients stayed poor (1/9 to 2/4 after training) [7359]. No closed-loop audit of the care plan for high-risk patients on general wards has been published in the library.",
+  "standard": {
+   "source": "NICE QS24 statement 2 (2012)",
+   "wording": "People who are malnourished or at risk of malnutrition have a management care plan that aims to meet their complete nutritional requirements.",
+   "url": "https://www.nice.org.uk/guidance/qs24/chapter/Quality-statement-2-Treatment"
+  },
+  "pass": "Within 48 hours of the MUST score of 2 or more, a written nutrition care plan is in the notes (e.g. food record chart, fortified diet or supplements prescribed, with a review date).",
+  "population": "Adult inpatients on medical and surgical wards with a MUST score of 2 or more. Exclude patients on end-of-life care and those already under the dietitian for this admission.",
+  "sample": "40 consecutive patients with MUST 2 or more over the last 4–6 weeks.",
+  "data_source": "EPR MUST score; nursing care plan, drug chart for supplements and dietetic referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "food_chart_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "supplements_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietitian_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Context field"
+   },
+   {
+    "field": "care_plan_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "weight_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the EPR so that a MUST score of 2 or more automatically sends a dietitian referral and opens a nutrition care plan for the nurse to complete.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive patients with MUST 2 or more, same template.",
+  "close_loop": "Present at the nutrition steering group. If it works, keep the automatic referral and add the 48-hour rate to the nutrition dashboard.",
+  "evidence": [
+   "[6137] elderly care: dietitian referral 62% → 86% (weekly dietitian ward rounds)",
+   "[7359] acute medicine: high-risk referral 1/9 → 2/4 (training and booklets)",
+   "[1848] older patients: weekly MUST 48% → 80% ('MUST Mondays')"
+  ],
+  "pitfalls": [
+   "MUST scores calculated wrongly → check a sample of scores against weight and BMI.",
+   "Dietitian capacity worries → agree triage with the dietetic lead before switching on referrals.",
+   "Supplements prescribed but not given → record administration as a context field.",
+   "Weekend admissions miss the 48-hour window → report weekend admissions separately."
+  ],
+  "pearls": [
+   "Recruit the lead dietitian; they can pull referral times.",
+   "Use the EPR MUST report to find cases.",
+   "Share results at the ward nurse huddle."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult inpatients at high risk of refeeding problems receive thiamine before or on the day nutrition support starts?",
+  "why": "Refeeding syndrome can be fatal and thiamine is cheap. Library audits cover thiamine in alcohol withdrawal (e.g. 25% in [3603]) but no audit of refeeding prescribing on general wards has been published in the library.",
+  "standard": {
+   "source": "NICE CG32 rec 1.4.8 (2006, updated 2017)",
+   "wording": "providing immediately before and during the first 10 days of feeding: oral thiamin 200 to 300 mg daily, vitamin B co strong 1 or 2 tablets, 3 times a day (or full dose daily intravenous vitamin B preparation, if necessary) and a balanced multivitamin or trace element supplement once daily",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "Thiamine (oral 200–300 mg daily or IV vitamin B preparation) given on or before the day nutrition support (supplements, enteral or parenteral feed) starts.",
+  "population": "Adults starting nutrition support who meet the NICE box 1 high-risk refeeding criteria. Exclude those already on thiamine for another reason.",
+  "sample": "30–40 consecutive patients over the last 3 months.",
+  "data_source": "Dietetic records and feeding team referrals for cases; e-prescribing for thiamine; EPR for weight, BMI and electrolytes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feeding_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feed_type",
+    "type": "choice",
+    "options": [
+     "Oral supplements",
+     "Enteral tube",
+     "Parenteral"
+    ],
+    "note": ""
+   },
+   {
+    "field": "high_risk_criteria_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thiamine_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thiamine_before_or_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "phosphate_checked_before_feeding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "starting_kcal_per_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a refeeding risk screen to the enteral and oral supplement order set that pre-selects thiamine and vitamin B co strong for high-risk patients.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 30–40 consecutive high-risk patients, same template.",
+  "close_loop": "Present at the nutrition steering group and drugs and therapeutics committee. If it works, keep the order set and include refeeding risk in junior doctor induction.",
+  "evidence": [
+   "[3603] general adult wards: thiamine started in 25% of patients with alcohol misuse (re-audit)",
+   "[7300] mental health: CIWA documentation 39% → 91% (EPR changes)",
+   "[9529] regional parenteral nutrition audit (nearest related entry)"
+  ],
+  "pitfalls": [
+   "High-risk status not recorded → apply the NICE box 1 criteria yourself from the notes, the same way in both cycles.",
+   "Thiamine prescribed but doses missed → count administration, not prescription.",
+   "Feeding start date unclear for oral supplements → use the first supplement administration.",
+   "Small numbers → include all wards and a 3-month window."
+  ],
+  "pearls": [
+   "Recruit the nutrition support nurse or dietitian; they know every tube-fed patient.",
+   "Ask pharmacy for a thiamine administration report.",
+   "Keep the refeeding order set short: three drugs, one tick box."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from dietetic records and e-prescribing"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults with delirium started on an antipsychotic in hospital have it stopped within 7 days, or a documented reason to continue?",
+  "why": "Antipsychotics started for delirium are often continued after discharge, with risk of falls, stroke and death. One library audit found only 54% stopped before discharge [3216]; no closed-loop audit of the 7-day limit has been published in the library.",
+  "standard": {
+   "source": "NICE CG103 rec 1.7.4 (2010, guideline updated 2023)",
+   "wording": "If a person with delirium is distressed or considered a risk to themselves or others, and verbal and non-verbal de-escalation techniques are ineffective or inappropriate, consider giving short-term haloperidol (usually for 1 week or less). Start at the lowest clinically appropriate dose and titrate cautiously according to symptoms.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "The antipsychotic is stopped by day 7, or the notes on day 7 record a senior review with a reason to continue and a stop date.",
+  "population": "Adults with a documented delirium diagnosis newly started on haloperidol or another antipsychotic in hospital. Exclude people already on an antipsychotic before admission and people in the last days of life.",
+  "sample": "30–40 consecutive patients over the last 3 months.",
+  "data_source": "E-prescribing for new antipsychotic starts; notes for delirium diagnosis and reviews; discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antipsychotic",
+    "type": "choice",
+    "options": [
+     "Haloperidol",
+     "Risperidone",
+     "Olanzapine",
+     "Quetiapine",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "regular_or_prn",
+    "type": "choice",
+    "options": [
+     "Regular",
+     "As required",
+     "Both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_by_day_7",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_and_stop_date_if_continued",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_7_day_rule",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "on_discharge_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a default 7-day stop date on antipsychotic prescriptions with the indication 'delirium' in e-prescribing, so continuing needs an active re-prescription with a reason.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 30–40 consecutive new starts, same template.",
+  "close_loop": "Present at the drugs and therapeutics committee and care of older people governance. If it works, keep the default stop date and add antipsychotic starts to the delirium dashboard.",
+  "evidence": [
+   "[3216] medical wards: antipsychotic stopped before discharge in 54% (single audit)",
+   "[6732] non-consultant hospital doctors: higher than recommended starting doses common (survey audit)",
+   "[1879] dementia-friendly ward: overall dementia care compliance 69% → 87% (ward redesign)"
+  ],
+  "pitfalls": [
+   "Delirium not written as the indication → search e-prescribing for all new antipsychotic starts in people aged 65 or over and confirm from notes.",
+   "Psychiatry liaison continued the drug → accept their documented reason and stop date as a pass.",
+   "As-required doses never given are counted → record doses given, but judge the prescription.",
+   "Default stop dates annoy prescribers → allow a one-click extension with a reason."
+  ],
+  "pearls": [
+   "Recruit a ward pharmacist and a liaison psychiatrist.",
+   "Include the discharge prescription; that is where harm spreads.",
+   "Report the number still on an antipsychotic at discharge as a second figure."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from e-prescribing and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult ward inpatients on intravenous fluids have a fluid balance chart totalled for the previous 24 hours?",
+  "why": "Untotalled charts hide fluid overload and acute kidney injury. Library audits show 24-hour balance completion of 12–32% [9398] and gains that fade after teaching.",
+  "standard": {
+   "source": "NICE CG174 rec 1.2.4 (2013, updated 2017)",
+   "wording": "All patients continuing to receive IV fluids need regular monitoring. This should initially include at least daily reassessments of clinical fluid status, laboratory values (urea, creatinine and electrolytes) and fluid balance charts, along with weight measurement twice weekly.",
+   "url": "https://www.nice.org.uk/guidance/cg174/chapter/Recommendations"
+  },
+  "pass": "The chart for the previous full 24 hours shows a total input, a total output and a net balance.",
+  "population": "Adult inpatients on medical and surgical wards who have received IV fluids for 24 hours or more. Exclude critical care and patients on end-of-life care.",
+  "sample": "40 patients on 4 wards on 2 separate audit days (point prevalence).",
+  "data_source": "Fluid balance charts (paper or EPR) and drug chart for IV fluids.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_fluids_started_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "input_totalled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "output_totalled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "net_balance_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "chart_24h_totalled",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "weight_in_last_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Context field"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Switch to an electronic fluid balance chart that totals input, output and net balance automatically at a set time each day (or, on paper, add a printed 24-hour total box signed by the night nurse in charge).",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: same wards, 2 audit days, 40 patients, same template.",
+  "close_loop": "Present at the AKI group and nursing quality forum. If it works, keep the automatic totals and add 24-hour totals to the ward accreditation checklist.",
+  "evidence": [
+   "[9398] AKI prevention: 24-hour balance 12% → 32% (peaked at 72% then fell; gains fading)",
+   "[6189] fluid monitoring: 93% fewer unnecessary charts, completion up 40% (daily medical review and education)",
+   "[2360] safe IV fluid therapy: regular hydration assessment 10% at baseline (teaching only)"
+  ],
+  "pitfalls": [
+   "Charts started for patients who do not need them dilute effort → audit only patients on IV fluids.",
+   "Oral intake is not recorded, so totals look low → note if oral intake is missing but still count the total.",
+   "Night staff blamed → agree who totals the chart before cycle 1.",
+   "Gains fade after the audit [9398] → build the total into the chart itself, not into reminders."
+  ],
+  "pearls": [
+   "Recruit the AKI nurse specialist.",
+   "Audit on two different weekdays to avoid one bad day skewing results.",
+   "Photograph paper charts (no identifiers) to show what 'totalled' looks like."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients at the bedside chart"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of inpatients with an indwelling urinary catheter have a documented reason for it that is still valid on the audit day?",
+  "why": "Catheter-associated urinary infection rises with every day a catheter stays in. Library catheter audits focus on insertion records in ED [6829][2278]; the ongoing need on the ward is rarely measured.",
+  "standard": {
+   "source": "NICE CG139 rec 1.2.2.2 (2003, guideline updated 2017)",
+   "wording": "The patient's clinical need for catheterisation should be reviewed regularly and the urinary catheter removed as soon as possible. [2003]",
+   "url": "https://www.nice.org.uk/guidance/cg139/chapter/Recommendations"
+  },
+  "pass": "The notes or catheter care plan record an indication from an agreed list (e.g. retention, hourly output monitoring in unstable patients, sacral wound healing, end-of-life comfort, urology plan), and that indication still applies on the audit day.",
+  "population": "All adult inpatients with an indwelling urethral or suprapubic catheter on the audit day. Exclude long-term catheters managed in the community with a documented plan.",
+  "sample": "40 catheterised patients across medical and surgical wards on 2 audit days (point prevalence).",
+  "data_source": "Ward walk-round to identify catheters; catheter care plan or passport and medical notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "insertion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_in_situ",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "Retention",
+     "Output monitoring",
+     "Sacral wound",
+     "End of life",
+     "Urology plan",
+     "Other",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication_still_valid",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "valid_indication_on_audit_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "removal_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a daily 'catheter still needed?' question to the nursing care rounds in the EPR, with a nurse-led removal protocol when no valid indication is ticked.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: same wards, 2 audit days, 40 patients, same template.",
+  "close_loop": "Present at the infection prevention committee. If it works, keep the daily question and the nurse-led removal protocol, and report catheter days on the infection dashboard.",
+  "evidence": [
+   "[8178] neurosurgery: indwelling catheter use 25.6% → 11%; TWOC within 24 h 3% → 93% (removal pathway)",
+   "[6829] ED: catheter insertion documented 8% → 30% (single intervention)",
+   "[2278] urology ED: little change after a documentation campaign (fix that fails)"
+  ],
+  "pitfalls": [
+   "Doctors and nurses disagree on what counts as valid → agree the indication list with urology and infection prevention before cycle 1.",
+   "Nurses worry about removing catheters without a doctor → the protocol must name who can remove.",
+   "Point prevalence misses short catheters → run two audit days a week apart.",
+   "Retention after removal worries staff → include a bladder scan step in the protocol."
+  ],
+  "pearls": [
+   "Recruit the continence nurse and an infection prevention nurse.",
+   "A ward walk-round finds catheters faster than the EPR.",
+   "Use the catheter passport if the trust already has one."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients on a ward walk-round"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adults with an indwelling urinary catheter and suspected urinary infection are diagnosed without using a urine dipstick?",
+  "why": "Dipsticks are almost always positive in catheterised patients and drive unneeded antibiotics. No audit of dipstick use in catheterised inpatients has been published in the library; the nearest entries address catheter care and UTI prescribing [6140][8178].",
+  "standard": {
+   "source": "NICE QS90 statement 2 (2015, updated 2023)",
+   "wording": "Adults with indwelling urinary catheters do not have dipstick testing to diagnose urinary tract infections (UTIs). [2015, updated 2023]",
+   "url": "https://www.nice.org.uk/guidance/qs90/chapter/Quality-statement-2-Diagnosing-urinary-tract-infections-in-adults-with-catheters"
+  },
+  "pass": "No urine dipstick result is recorded or cited in the decision to diagnose or treat the suspected UTI.",
+  "population": "Adult inpatients with an indwelling catheter who had a urine sample sent or antibiotics started for suspected UTI. Exclude patients with intermittent self-catheterisation.",
+  "sample": "40 consecutive episodes over the last 2–3 months.",
+  "data_source": "Laboratory catheter urine sample list for cases; nursing observations for dipstick results; notes and e-prescribing.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "episode_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dipstick_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dipstick_cited_in_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "no_dipstick_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "symptoms_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Fever, loin pain, delirium, rigors etc."
+   },
+   {
+    "field": "sample_from_sampling_port",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_result",
+    "type": "choice",
+    "options": [
+     "No growth",
+     "Single organism",
+     "Mixed growth",
+     "Not sent"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a hard stop to the EPR urinalysis entry for patients flagged as catheterised ('Dipstick not valid with a catheter: send culture if symptomatic'), and remove dipsticks from the catheter trolley.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes, same template.",
+  "close_loop": "Present at the antimicrobial stewardship and infection prevention committees. If it works, keep the EPR stop and add it to nursing induction.",
+  "evidence": [
+   "[6140] acute medical unit UTI prescribing: compliance with local policy 100% and stop dates 100% at re-audit (CQUIN audit)",
+   "[8178] neurosurgery: CAUTI rate 94% → 45.5% (catheter removal pathway)",
+   "[5393] catheter care audit (nearest related entry)"
+  ],
+  "pitfalls": [
+   "Dipsticks done but not written down → ask nurses on the audit wards and record 'unknown' honestly.",
+   "Doctors worry about missing sepsis → the fix sends a culture; it does not stop treatment.",
+   "Catheter status not flagged in the EPR → the fix needs a catheter flag first.",
+   "Result improves only on the pilot ward → roll out the EPR stop trust-wide once shown to work."
+  ],
+  "pearls": [
+   "Recruit an antimicrobial pharmacist and the continence nurse.",
+   "Pull cases from the lab 'catheter specimen' list.",
+   "Record antibiotic starts; the saving makes the case to managers."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from lab list and EPR"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of peripheral cannulas in place on adult wards have been used in the previous 24 hours?",
+  "why": "Idle cannulas cause phlebitis and Staphylococcus aureus bloodstream infection. Library cannula audits look at insertion date and care bundles [4746][9478]; the idle cannula rate itself is rarely the measure.",
+  "standard": {
+   "source": "NICE QS61 statement 5 (2014)",
+   "wording": "People who need a vascular access device have their risk of infection minimised by the completion of specified procedures necessary for the safe insertion and maintenance of the device and its removal as soon as it is no longer needed.",
+   "url": "https://www.nice.org.uk/guidance/qs61/chapter/Quality-statement-5-Vascular-access-devices"
+  },
+  "pass": "The cannula has been used for an IV drug, fluid or blood product in the previous 24 hours, or a documented reason to keep it (e.g. high risk of deterioration) is recorded.",
+  "population": "All peripheral cannulas in adult inpatients on medical and surgical wards on the audit day. Exclude critical care and patients on end-of-life care with a comfort plan.",
+  "sample": "40–50 cannulas across 4 wards on 2 audit days (point prevalence).",
+  "data_source": "Ward walk-round; cannula care record (VIP chart); drug chart and fluid chart for use in last 24 hours.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "insertion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_in_situ",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "used_last_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_to_keep",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cannula_justified",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "vip_score_today",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vip_score_recorded_today",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a daily 'cannula needed?' prompt to the VIP score entry in the EPR, with nurse-led removal if unused for 24 hours and no reason recorded.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: same wards, 2 audit days, same template.",
+  "close_loop": "Present at the infection prevention committee and vascular access group. If it works, keep the prompt and report idle cannula rate with the Staphylococcus aureus bacteraemia data.",
+  "evidence": [
+   "[9478] peripheral cannula bundle: compliance 54% → 82% (weekly feedback on care bundle)",
+   "[7792] cannula bacteraemia: incidence down 54.5% (daily review of cannula need, feedback, new dressings and care plans)",
+   "[4746] insertion date: 13.8% of cannulas in place over 72 hours (single audit)"
+  ],
+  "pitfalls": [
+   "Doctors keep cannulas 'just in case' → allow a documented reason; the aim is conscious decisions.",
+   "Oral switch not done, so cannula looks used → note IV antibiotics that could have been switched as a context finding.",
+   "Point prevalence misses short stays → use two days a week apart.",
+   "Nurses unsure they may remove cannulas → confirm the trust policy allows nurse-led removal."
+  ],
+  "pearls": [
+   "Recruit the infection prevention nurse; they may already run a cannula audit.",
+   "Do the walk-round at mid-morning after drug rounds.",
+   "Show the number of idle cannula days per month; it is a striking figure."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 cannulas on a ward walk-round"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of adult ward inpatients receiving oxygen have it signed for on the drug chart at every drug round?",
+  "why": "Signing oxygen at each drug round is how staff check the patient is within target. In the library, signing at drug rounds rose only from 0% to 18% after a new chart [6130]; audits otherwise measure the prescription itself [8052][7745].",
+  "standard": {
+   "source": "British Thoracic Society guideline for oxygen use in adults in healthcare and emergency settings, summary of recommendations (2017), section 4",
+   "wording": "Oxygen should be prescribed and a signature should be entered on the drug chart on each drug round.",
+   "url": "https://www.brit-thoracic.org.uk/document-library/guidelines/emergency-oxygen/bts-guideline-for-oxygen-use-in-healthcare-and-emergency-settings-summary-of-recommendations/"
+  },
+  "pass": "Oxygen signed (or electronically recorded as administered, with device and flow) at every drug round in the previous 24 hours.",
+  "population": "Adult inpatients receiving supplemental oxygen on medical and surgical wards on the audit day. Exclude critical care, theatre recovery and patients on home oxygen self-managed.",
+  "sample": "40 patients across 4–5 wards on 2 audit days (point prevalence).",
+  "data_source": "Drug chart or e-prescribing administration record; bedside check of device and flow.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_range_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_rounds_last_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_rounds_signed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "signed_every_round",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "spo2_within_target_at_audit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "device_matches_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make oxygen a scheduled administration on e-prescribing at each drug round (or a pre-printed oxygen box on the paper chart) so it appears on the nurse's medicines round list.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: same wards, 2 audit days, 40 patients, same template.",
+  "close_loop": "Present at the medicines safety group and respiratory directorate. If it works, keep the scheduled administration and add oxygen signing to the medicines safety dashboard.",
+  "evidence": [
+   "[6130] ward oxygen use: signed at drug rounds 0% → 18%; valid prescription 55% → 94% (new oxygen chart, alert stickers, education)",
+   "[7745] surgical inpatients: oxygen prescribed 18% → 54.8% (QI project)",
+   "[5035] acute medicine: oxygen prescribed 0% → 49% (nurse-facilitated reminder)"
+  ],
+  "pitfalls": [
+   "Oxygen treated as 'not a drug' by staff → show the BTS wording at ward huddles.",
+   "E-prescribing lists oxygen as 'as required', so it never appears on the round → change it to scheduled with the pharmacy system team.",
+   "Patients who stopped oxygen mid-day confuse counts → count only rounds while on oxygen.",
+   "Gains fade after the audit → build it into the system, not a poster."
+  ],
+  "pearls": [
+   "Recruit a respiratory nurse specialist and the e-prescribing pharmacist.",
+   "Collect device and target range as context; they show the wider picture.",
+   "Audit on two different weekdays."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients at the bedside and drug chart"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of DNACPR decisions made in hospital record a discussion with the patient or those close to them, or the reason no discussion took place?",
+  "why": "Failures to discuss DNACPR decisions have led to legal challenges and national reviews. Library DNACPR audits mostly measure form completion [1798][2039]; the discussion item on its own is rarely measured.",
+  "standard": {
+   "source": "BMA, Resuscitation Council UK and RCN, Decisions relating to cardiopulmonary resuscitation, 3rd edition (1st revision) 2016, section 15",
+   "wording": "Good documentation includes the following, on the CPR decision form or in the main health record or in some cases both: … details of any discussions about the decision with the patient, with those close to them, and (for a person who does not have capacity) with any person with authority to make decisions on their behalf and/ or with an IMCA • where no discussions have taken place the reasons for this",
+   "url": "https://www.resus.org.uk/sites/default/files/2020-05/20160123%20Decisions%20Relating%20to%20CPR%20-%202016.pdf"
+  },
+  "pass": "The form or notes record who the decision was discussed with and when, or state a specific reason why no discussion took place (e.g. patient lacks capacity and no family reachable, with a plan to contact them).",
+  "population": "New DNACPR decisions (or ReSPECT forms with a CPR recommendation of 'not for CPR') made for adult inpatients. Exclude decisions made in the community and brought in.",
+  "sample": "40 consecutive new decisions over the last 4–6 weeks.",
+  "data_source": "Electronic DNACPR/ReSPECT register or resuscitation team list; forms and medical notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_has_capacity",
+    "type": "choice",
+    "options": [
+     "Yes",
+     "No",
+     "Not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discussed_with_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_with_family_or_attorney",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_no_discussion_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_or_reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "form_type",
+    "type": "choice",
+    "options": [
+     "DNACPR",
+     "ReSPECT"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'discussed with' and 'reason not discussed' mandatory fields that must be completed before an electronic DNACPR or ReSPECT form can be signed.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive new decisions, same template.",
+  "close_loop": "Present at the resuscitation committee and end-of-life care group. If it works, keep the mandatory fields and include this item in the resuscitation team's regular DNACPR audit.",
+  "evidence": [
+   "[7508] DNACPR QI: clearer documentation of discussions and of reasons conversations had not happened (form redesign and teaching)",
+   "[8001] geriatric medicine: DNACPR documentation 55% → 73% (treatment escalation plan QI)",
+   "[2039] acute surgery: escalation status 42% → 46.6% (re-audit)"
+  ],
+  "pitfalls": [
+   "Discussions happen but are written in a different part of the notes → check both the form and the notes.",
+   "Decisions made at night with family unreachable → a clear reason and plan counts as a pass.",
+   "Clinicians feel their judgement is being questioned → audit the record, not the decision.",
+   "Mandatory fields filled with 'N/A' → spot-check 5 forms for meaningful content."
+  ],
+  "pearls": [
+   "Recruit the resuscitation officer; they hold the register.",
+   "Involve a palliative care consultant in presenting the results.",
+   "Share one anonymised good example with every audited team."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 forms from the register and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of DNACPR decisions made by a doctor other than the responsible consultant are endorsed by that consultant within 24 hours?",
+  "why": "Decisions made out of hours by junior doctors need prompt senior review. Library treatment escalation audits found consultant involvement of 12% rising to 27% [8001]; no closed-loop audit of endorsement timing has been published in the library.",
+  "standard": {
+   "source": "BMA, Resuscitation Council UK and RCN, Decisions relating to cardiopulmonary resuscitation, 3rd edition (1st revision) 2016, section 15",
+   "wording": "if that is not the senior responsible clinician, the name and position of the senior responsible clinician, who should review and if appropriate endorse the decision at the earliest opportunity",
+   "url": "https://www.resus.org.uk/sites/default/files/2020-05/20160123%20Decisions%20Relating%20to%20CPR%20-%202016.pdf"
+  },
+  "pass": "Consultant endorsement (signature or documented review) dated within 24 hours of the decision (local operational limit for 'at the earliest opportunity').",
+  "population": "New inpatient DNACPR decisions made by a clinician who is not the responsible consultant. Exclude decisions reversed within 24 hours.",
+  "sample": "40 consecutive qualifying decisions over the last 1–2 months.",
+  "data_source": "DNACPR/ReSPECT register; forms and notes for endorsement signature and time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_maker_grade",
+    "type": "choice",
+    "options": [
+     "FY1–FY2",
+     "CT/IMT",
+     "Registrar",
+     "SAS",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "made_out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_endorsed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endorsement_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_endorsement",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endorsed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision_changed_at_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add unendorsed DNACPR decisions to the daily post-take and board-round list generated by the EPR, so the consultant sees and signs them on the next ward round.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 qualifying decisions, same template.",
+  "close_loop": "Present at the resuscitation committee and medical directorate governance. If it works, keep the board-round list and add endorsement time to the regular DNACPR audit.",
+  "evidence": [
+   "[8001] geriatric medicine: consultant involvement 12% → 27% (treatment escalation plan QI)",
+   "[1798] DNACPR form quality: sustained gains in most of 7 standards (form redesign)",
+   "[3800] old age psychiatry: resuscitation decisions 4% → 40% (re-audit)"
+  ],
+  "pitfalls": [
+   "Weekend decisions wait until Monday → report weekday and weekend separately; agree 24 hours includes weekends.",
+   "Endorsement recorded only as a signature without a date → count undated signatures as fail and fix the form.",
+   "Consultants feel second-guessed → frame it as protecting junior colleagues.",
+   "ReSPECT and DNACPR forms coexist → include both and record which."
+  ],
+  "pearls": [
+   "Recruit an acute medicine consultant as sponsor.",
+   "The resuscitation officer's register makes case-finding quick.",
+   "Present decisions changed at review; they show why endorsement matters."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 forms from the register and notes"
+ },
+ {
+  "area": "Patient safety and nursing care",
+  "question": "What proportion of infants who are not independently mobile and attend the emergency department with a bruise have a safeguarding assessment by a paediatrician before discharge?",
+  "why": "Bruising in a baby who cannot move independently is a sentinel injury before serious abuse. No audit of this pathway has been published in the library; the nearest entries address safeguarding recording and burns checklists [5947][4091].",
+  "standard": {
+   "source": "NICE CG89 rec 1.1.2 (2009, updated 2025)",
+   "wording": "Suspect child maltreatment if there is bruising or petechiae (tiny red or purple spots) that are not caused by a medical condition (for example, a causative coagulation disorder) and if the explanation for the bruising is unsuitable. Examples include: bruising in a child who is not independently mobile",
+   "url": "https://www.nice.org.uk/guidance/cg89/chapter/Recommendations"
+  },
+  "pass": "A paediatrician's safeguarding assessment (history, full skin examination and documented outcome, including social care check or referral) is recorded before the infant leaves the ED or paediatric unit.",
+  "population": "Infants who are not independently mobile (usually under 6 months, or older infants not yet crawling or cruising) attending ED with any bruise, whether or not it is the reason for attendance. Exclude bruises from documented birth injury or a known bleeding disorder under specialist care.",
+  "sample": "All qualifying attendances over the last 6 months (expect 20–40 in a district general hospital).",
+  "data_source": "ED system search for age under 12 months with 'bruise' in triage or diagnosis codes; ED and paediatric notes; social care referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "independently_mobile",
+    "type": "choice",
+    "options": [
+     "No",
+     "Yes",
+     "Not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "bruise_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paediatric_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paediatric_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_skin_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_assessment_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "social_care_checked_or_referred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'mobile? bruise?' question to ED triage for children under 12 months that auto-refers any bruise in a non-mobile infant to the paediatric registrar.",
+  "target": "100%",
+  "reaudit": "Wk 13–14 onward: all qualifying attendances for the next 3 months, same template.",
+  "close_loop": "Present at the hospital safeguarding committee and paediatric and ED governance. If it works, keep the triage question and add the pathway to ED and paediatric induction.",
+  "evidence": [
+   "[4091] preschool burns: referral for further opinion 0% → 3%, checklist completed in 97% of notes where used (NAI checklist)",
+   "[5947] primary care: maltreatment-related coding up 1.4-fold (simple coding strategy)",
+   "[6983] safeguarding training audit: new training did not improve reporting (fix that fails)"
+  ],
+  "pitfalls": [
+   "Small numbers → use a 6-month window and report every case, not just a percentage.",
+   "Bruise mentioned only in the examination, not triage → search free text as well as codes.",
+   "Mobility not recorded → record 'not recorded' as its own category; it is a finding.",
+   "Parents' distress makes staff reluctant to refer → the triage rule removes individual judgement."
+  ],
+  "pearls": [
+   "Recruit the named doctor for safeguarding children as co-lead.",
+   "Ask the ED IT lead for a free-text search of 'bruise' in under-1s.",
+   "Use the local safeguarding partnership bruising protocol for the referral steps."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 attendances from ED and paediatric notes"
+ }
+]

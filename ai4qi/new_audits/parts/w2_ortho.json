@@ -1,0 +1,1989 @@
+[
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients taking warfarin with an INR above 1.5 on arrival receive intravenous vitamin K within 4 hours of arrival?",
+  "why": "Warfarin reversal is a common, avoidable cause of delay to hip fracture surgery. Published loops [1131][1506] cut delay with an ED vitamin K trigger, but few units measure how fast reversal actually starts.",
+  "standard": {
+   "source": "NICE CG124 Hip fracture: management, rec 1.2.2 (2011, last updated January 2023)",
+   "wording": "Identify and treat correctable comorbidities immediately so that surgery is not delayed by: anaemia anticoagulation volume depletion electrolyte imbalance uncontrolled diabetes uncontrolled heart failure correctable cardiac arrhythmia or ischaemia acute chest infection exacerbation of chronic chest conditions. [2011]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "Intravenous vitamin K (any dose) given within 4 hours of arrival at hospital, recorded on the drug chart or ED record. The 4-hour window is the local definition of 'immediately'. A documented reason not to reverse (for example a metallic heart valve plan agreed with haematology) also passes.",
+  "population": "Adults aged 60 and over with a hip fracture who were taking warfarin on admission and had an INR above 1.5 on the first sample. Exclude patients managed without surgery and those taking a DOAC only.",
+  "sample": "All eligible patients over the last 18 months (usually 20–40 in a district general hospital); re-audit uses all eligible patients in the following 6 months.",
+  "data_source": "NHFD extract for the case list; EPR medicines reconciliation or GP record for warfarin; laboratory system for INR; electronic prescribing or ED drug chart for vitamin K time; ED system for arrival time; theatre system for surgery time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "ED arrival"
+   },
+   {
+    "field": "first_inr",
+    "type": "number",
+    "options": [],
+    "note": "First INR after arrival"
+   },
+   {
+    "field": "indication_for_warfarin",
+    "type": "choice",
+    "options": [
+     "atrial fibrillation",
+     "VTE",
+     "metallic valve",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vitamin_k_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vitamin_k_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not given"
+   },
+   {
+    "field": "vitamin_k_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "documented_reason_not_reversed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Theatre system"
+   },
+   {
+    "field": "anticoagulation_cited_as_delay",
+    "type": "yes/no",
+    "options": [],
+    "note": "NHFD reason for delay"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Taking warfarin? Give vitamin K IV now' line to the ED hip fracture pathway order set, so the dose is prescribed by the ED clinician before the INR result returns.",
+  "target": "≥90%",
+  "reaudit": "After 6 months: all eligible patients in that period, same template.",
+  "close_loop": "Present at the hip fracture MDT and ED governance meetings. If it works, keep the order-set line permanently and add 'time to vitamin K' to the monthly hip fracture dashboard.",
+  "evidence": [
+   "[1131] hip fracture: median time to theatre 49.7 h → 33.9 h (nurse-led 2 mg IV vitamin K in ED before clotting results)",
+   "[1506] hip fracture: mean time to theatre 53.7 h → 37.6 h; anticoagulation breaches 79% → 34% (early-trigger IV vitamin K protocol)",
+   "[1452] hip fracture: single 1 mg IV vitamin K on admission shortened INR reversal and pre-operative delay",
+   "[1339] hip fracture on warfarin: median 8 h from fracture confirmation to IV vitamin K (baseline only)"
+  ],
+  "pitfalls": [
+   "Small numbers make percentages jumpy → use all eligible patients over a long window and report counts as well as percentages.",
+   "Haematology or cardiology may object for metallic valves → agree a named exception route with haematology before cycle 1 and count a documented plan as a pass.",
+   "Arrival time is unclear for transfers → use the time of arrival at your hospital and state this in the method.",
+   "The order-set line is ignored at night → ask the ED nurse in charge to prompt it at triage for every suspected hip fracture."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and the orthogeriatrician as co-leads so the change sits in both pathways.",
+   "Pull INR and warfarin status from the laboratory system rather than notes; it is faster and more complete.",
+   "Report the time to surgery for these patients alongside the pass rate; the delay saved is the message that keeps the change alive.",
+   "Hand the monthly check to the hip fracture nurse so it survives trainee rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and laboratory system"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients have a pressure ulcer risk assessment recorded within 6 hours of admission?",
+  "why": "Hip fracture patients lie immobile on trolleys and are among the highest-risk groups for hospital-acquired pressure ulcers. No closed-loop audit of timely risk assessment in hip fracture has been published in the library.",
+  "standard": {
+   "source": "NICE QS89 Pressure ulcers, quality statement 1 (2015)",
+   "wording": "People admitted to hospital or a care home with nursing have a pressure ulcer risk assessment within 6 hours of admission.",
+   "url": "https://www.nice.org.uk/guidance/qs89/chapter/Quality-statement-1-Pressure-ulcer-risk-assessment-in-hospitals-and-care-homes-with-nursing"
+  },
+  "pass": "A completed validated pressure ulcer risk score (for example Waterlow, Braden or PURPOSE-T) timed within 6 hours of the decision to admit, in the ED or ward record.",
+  "population": "Adults aged 60 and over admitted with a hip fracture. Exclude patients transferred from another hospital's inpatient ward.",
+  "sample": "40 consecutive hip fracture admissions over the last 2 months.",
+  "data_source": "NHFD extract for the case list; ED system for arrival and decision-to-admit times; electronic nursing assessment for the time the risk score was completed; nursing notes for any pressure ulcer during the admission.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_to_admit_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_tool_used",
+    "type": "choice",
+    "options": [
+     "Waterlow",
+     "Braden",
+     "PURPOSE-T",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "assessed_within_6h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_category",
+    "type": "choice",
+    "options": [
+     "low",
+     "at risk",
+     "high",
+     "very high",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pressure_ulcer_during_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "Category 2 or above"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the pressure ulcer risk score a mandatory field in the ED hip fracture nursing pathway document, completed before the patient leaves the ED.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive hip fracture admissions, same template.",
+  "close_loop": "Present at the hip fracture MDT and the tissue viability group. If it works, keep the mandatory field and report the 6-hour rate on the ward safety board.",
+  "evidence": [
+   "[5876] London teaching hospital: Waterlow recorded 81% → 100% (education, posters, risk-stratification teaching)",
+   "[7760] EPR: aSSKINg template built into the record improved first-visit risk tool completion (system change)",
+   "[4173] palliative care: incidence did not improve despite many unspecified changes (vague fixes fail)"
+  ],
+  "pitfalls": [
+   "Decision-to-admit time is missing for some patients → use ED arrival plus 4 hours as a fallback and apply the same rule in both cycles.",
+   "Scores are recorded but not timed on paper → use the electronic nursing record, or the time of the next set of observations if the form is untimed, and say so.",
+   "ED nurses see this as a ward task → agree with the ED matron that the hip fracture pathway owns it, before cycle 1.",
+   "A mandatory field gets ticked without assessment → spot-check 5 records per cycle for a matching skin check."
+  ],
+  "pearls": [
+   "Recruit a tissue viability nurse; they own the standard and will champion the change.",
+   "Pair the audit with the ward's pressure ulcer incidents so the harm is visible.",
+   "Present results to ED nurses at their huddle, not just at the orthopaedic meeting.",
+   "Ask the hip fracture nurse to include the 6-hour rate in the monthly NHFD review."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of older adults having surgery for a fragility fracture have a consultant-level decision about resuscitation and treatment escalation documented before surgery?",
+  "why": "Older patients with fragility fractures have a high early mortality, yet escalation decisions are often made in a crisis. Library audits of escalation plans come from general surgery [2673][2694]; none has targeted fragility fracture surgery.",
+  "standard": {
+   "source": "BOAST The Care of the Older or Frail Orthopaedic Trauma Patient (May 2019)",
+   "wording": "Ceilings of treatment, including transfer, escalation and the appropriateness of cardiopulmonary resuscitation (CPR), should be discussed jointly by the treating teams. This should be documented and include the patient and those close to them, considering advanced directives, lasting powers of attorney and safeguarding issues. These decisions should be made at consultant level and prior to any surgery.",
+   "url": "https://www.boa.ac.uk/resource/boast-frailty.html"
+  },
+  "pass": "A treatment escalation plan, ReSPECT form or DNACPR decision (for or against CPR) signed or endorsed by a consultant, dated and timed before the start of anaesthesia.",
+  "population": "Adults aged 65 and over having surgery for a fragility fracture (hip, femur, pelvis, humerus, wrist or ankle). Exclude day-case wrist fixation.",
+  "sample": "40 consecutive eligible operated patients over the last 2 months.",
+  "data_source": "Theatre system for the case list and anaesthetic start time; EPR alerts or scanned forms for TEP, ReSPECT or DNACPR; ward round entries for consultant endorsement.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "hip",
+     "femur other",
+     "pelvis",
+     "humerus",
+     "wrist",
+     "ankle",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anaesthetic_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Theatre system"
+   },
+   {
+    "field": "escalation_document_type",
+    "type": "choice",
+    "options": [
+     "TEP",
+     "ReSPECT",
+     "DNACPR only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "escalation_decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_endorsed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_before_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_or_family_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Escalation plan / ReSPECT completed and consultant-endorsed' tick-box to the pre-operative trauma list checklist, checked at the morning trauma meeting.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible operated patients, same template.",
+  "close_loop": "Present at the trauma governance and orthogeriatric meetings. If it works, keep the trauma-meeting checkpoint and add escalation-plan completion to the hip fracture dashboard.",
+  "evidence": [
+   "[2673] major trauma centre surgical patients: completed TEP 58% → 83% (frailty consultant reviews)",
+   "[9333] end-of-life inpatients: ceiling of care in notes 41% → 100% (advance care planning proforma)",
+   "[2694] general surgery: 6.2% → 5% (email reminder only; fails)"
+  ],
+  "pitfalls": [
+   "Staff equate escalation planning with DNACPR and avoid it → frame the audit as 'a documented decision either way' and count 'for full escalation' as a pass.",
+   "Consultant endorsement is hard to see in notes → accept a ward round entry naming the consultant who agreed the plan.",
+   "Out-of-hours surgery leaves no time → the morning trauma meeting check catches most patients the day before.",
+   "Email reminders fail → use the list checklist, not messages."
+  ],
+  "pearls": [
+   "Recruit an orthogeriatrician and an anaesthetist; both already discuss risk before surgery.",
+   "Agree before cycle 1 which forms count (TEP, ReSPECT, DNACPR) and keep that fixed.",
+   "Share one anonymised case where an unplanned crash call followed an undocumented decision.",
+   "Give the checklist item to the trauma coordinator so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR and theatre system"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with an open fracture have tetanus prophylaxis given or withheld in line with UKHSA guidance?",
+  "why": "Open fractures are tetanus-prone wounds by definition. One ED audit found tetanus assessment documented in under 5% of open fractures [1274]; no closed loop in orthopaedics has been published in the library.",
+  "standard": {
+   "source": "UKHSA Guidance on the management of suspected tetanus cases and the assessment and management of tetanus-prone wounds, section 7.2–7.3 and Table 4 (updated 12 August 2026)",
+   "wording": "Tetanus-prone wounds are likely to foster anaerobic conditions and consideration should be given to the depth of the wound and degree of tissue damage: ... compound fractures ... A reinforcing dose of tetanus-containing vaccine is recommended (see Table 4). ... Table 4: Received adequate priming course of tetanus vaccine but last dose more than 10 years ago ... Immediate treatment: tetanus prone: Immediate reinforcing dose of vaccine ... Not received adequate priming course of tetanus vaccine. Includes uncertain immunisation status and/or born before 1961. ... Immediate reinforcing dose of vaccine One dose of human tetanus immunoglobulin in a different site.",
+   "url": "https://www.gov.uk/government/publications/tetanus-advice-for-health-professionals/guidance-on-the-management-of-suspected-tetanus-cases-and-the-assessment-and-management-of-tetanus-prone-wounds"
+  },
+  "pass": "Tetanus immunisation status recorded and the action matches UKHSA Table 4 for that status and wound risk (vaccine, vaccine plus immunoglobulin, or none required), given before or during the first operation.",
+  "population": "Adults aged 16 and over with an open fracture of any bone. Exclude open hand fractures of the distal phalanx treated in ED only.",
+  "sample": "All open fractures over the last 12 months (usually 30–50), then all in the next 6 months.",
+  "data_source": "Theatre system and trauma list for the case list; ED record for immunisation history; drug chart and ED record for vaccine and immunoglobulin; operation note for contamination and delay to debridement.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunisation_status_recorded",
+    "type": "choice",
+    "options": [
+     "up to date within 10 years",
+     "primed but last dose over 10 years",
+     "not primed or uncertain",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "high_risk_wound",
+    "type": "yes/no",
+    "options": [],
+    "note": "Heavy contamination, devitalised tissue or surgery delayed over 6 h"
+   },
+   {
+    "field": "vaccine_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunoglobulin_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "managed_per_table4",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a tetanus section with the UKHSA Table 4 decision grid to the ED open-fracture proforma, with vaccine and immunoglobulin on the open-fracture order set.",
+  "target": "≥95%",
+  "reaudit": "After 6 months: all open fractures in that period, same template.",
+  "close_loop": "Present at ED and trauma governance. If it works, keep the proforma section and add tetanus to the open-fracture BOAST dashboard.",
+  "evidence": [
+   "[1274] ED open fractures: tetanus prophylaxis 48.8%, tetanus assessment documented 4.9% (baseline)",
+   "[4170] plastic surgery trauma: 27% needed further tetanus action on arrival (baseline)",
+   "[4748] English EDs: 46% would give an unnecessary booster; local guideline followed 'always' in 29%"
+  ],
+  "pitfalls": [
+   "Immunisation history is often not asked → the proforma must force a status choice, including 'uncertain'.",
+   "Immunoglobulin supply worries → confirm with pharmacy where stock is held before cycle 1.",
+   "Over-treatment counts as a fail but staff see it as safe → show the UKHSA table and count unnecessary boosters separately.",
+   "Small annual numbers → include all open fractures and report counts."
+  ],
+  "pearls": [
+   "Recruit an ED consultant; most doses are given in ED.",
+   "Check the Summary Care Record for vaccination history when patients cannot recall.",
+   "Put the decision grid on the back of the open-fracture photograph consent sheet or proforma.",
+   "Ask the orthoplastic coordinator to check tetanus at the first trauma meeting."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ED record and drug chart"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults with a reduced shoulder dislocation have axillary nerve function documented after reduction?",
+  "why": "Nerve injury follows up to 28% of shoulder dislocations [1694]. A post-reduction nerve check is needed to show whether a deficit came from the injury or the reduction; no library audit has measured it.",
+  "standard": {
+   "source": "BOAST Peripheral Nerve Injury (December 2021), standards 1.1.1–1.1.2",
+   "wording": "1. An examination to assess and document all the functions of a peripheral nerve: 1.1. should be carried out and recorded: 1.1.1. at the first opportunity after injury 1.1.2. after any intervention to the limb such as injection, manipulation or application of cast",
+   "url": "https://www.boa.ac.uk/resource/boast-peripheral-nerve-injury.html"
+  },
+  "pass": "A post-reduction entry that records axillary nerve sensation (regimental badge area) and deltoid function, timed after the reduction.",
+  "population": "Adults aged 16 and over with an anterior or posterior glenohumeral dislocation reduced in ED or theatre. Exclude fracture-dislocations needing fixation.",
+  "sample": "40 consecutive reduced shoulder dislocations over the last 3 months.",
+  "data_source": "ED system coding for the case list; ED notes for pre- and post-reduction examination; PACS for reduction time (post-reduction X-ray).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reduction_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Sedation record or procedure note"
+   },
+   {
+    "field": "pre_reduction_axillary_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_reduction_axillary_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "deltoid_motor_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Part of pass"
+   },
+   {
+    "field": "deficit_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "deficit_referred",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if deficit"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a post-reduction nerve box (axillary sensation, deltoid contraction) to the ED shoulder reduction procedure note in the EPR.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive reduced dislocations, same template.",
+  "close_loop": "Present at ED and trauma governance. If it works, make the box mandatory before the procedure note can be saved.",
+  "evidence": [
+   "[1694] trauma unit: nerve injury in 28% of 100 shoulder dislocations (baseline)",
+   "[1728] acute fractures: detailed neurological findings 38.8% → 54.2% (single education session; not significant)",
+   "[1710] post-reduction orthogonal radiographs adequate in 22.7% (baseline)"
+  ],
+  "pitfalls": [
+   "Deltoid is hard to test after sedation or in pain → accept a documented isometric contraction and sensation, and note 'unable to assess' separately.",
+   "Post-reduction checks are written before the X-ray and not timed → ask for a timed entry.",
+   "ED staff see the audit as orthopaedic criticism → co-present with an ED lead.",
+   "Education alone gave small gains [1728] → rely on the template."
+  ],
+  "pearls": [
+   "Agree the minimum examination (sensation plus deltoid) before cycle 1.",
+   "Recruit the ED emergency nurse practitioners; they perform many reductions.",
+   "Use the ED code list for 'dislocation of shoulder' to find cases fast.",
+   "Keep the procedure-note change after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ED record"
+ },
+ {
+  "area": "Adult trauma",
+  "question": "What proportion of adults aged 65 and over who have surgery for a fragility fracture other than hip fracture are seen by a physiotherapist on the day after surgery?",
+  "why": "Hip fracture patients have NHFD targets for next-day mobilisation, but older patients with other fractures do not. One major trauma centre found full weight-bearing in only 54.5% of non-hip fragility fractures [1286].",
+  "standard": {
+   "source": "BOAST The Care of the Older or Frail Orthopaedic Trauma Patient (May 2019)",
+   "wording": "All surgery in the frail patient should be performed to allow full weight-bearing for activities required for daily living and within 36 hours of admission, in line with current hip fracture care. Patients should be seen by a physiotherapist on postoperative day one with early identification of functional rehabilitation goals as detailed in the rehabilitation BOAST.",
+   "url": "https://www.boa.ac.uk/resource/boast-frailty.html"
+  },
+  "pass": "A physiotherapy entry dated postoperative day one (the calendar day after surgery), or earlier, that records a functional assessment or goals.",
+  "population": "Adults aged 65 and over having surgery for a low-energy fracture of the femur (not hip), pelvis, humerus, elbow, tibia or ankle. Exclude day-case surgery and patients on critical care on day one.",
+  "sample": "40 consecutive eligible operated patients over the last 3 months.",
+  "data_source": "Theatre system for the case list and surgery date; therapy notes or therapy activity system for first contact; operation note for weight-bearing instruction.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_weekday",
+    "type": "choice",
+    "options": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri",
+     "Sat",
+     "Sun"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_bearing_instruction",
+    "type": "choice",
+    "options": [
+     "full",
+     "partial",
+     "touch",
+     "non-weight-bearing",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_physio_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_by_day1",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_not_seen",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add all operated patients aged 65 and over (not only hip fractures) to the daily therapy trauma referral list produced from the theatre system.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible operated patients, same template.",
+  "close_loop": "Present at trauma governance with the therapy lead. If it works, keep the automatic referral list and report day-one rates by weekday.",
+  "evidence": [
+   "[1639] femoral fractures: mobilised by day after surgery 60% → 79% (therapy-led healthcare assistant training)",
+   "[1286] major trauma centre: full weight-bearing 98.5% hip vs 54.5% non-hip fragility fractures (baseline)",
+   "[1667] hip fractures: 93% seen day 0–1, but 40% had delayed mobilisation (baseline)"
+  ],
+  "pitfalls": [
+   "Weekend therapy cover is thin → report weekday and weekend rates separately so staffing is the visible issue.",
+   "Therapists may say non-hip patients are lower priority → share the BOAST wording with the therapy lead before cycle 1.",
+   "Surgery late at night makes 'day one' short → keep the calendar-day definition fixed in both cycles.",
+   "Restricted weight-bearing is used as a reason not to see → count these as fails; rehabilitation goals still apply."
+  ],
+  "pearls": [
+   "Recruit the trauma therapy lead as co-author.",
+   "Pull the case list from the theatre system by age and procedure, not from memory.",
+   "Record length of stay; it helps the business case for weekend therapy.",
+   "Add the metric to the existing hip fracture therapy report so it continues."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from theatre system and therapy notes"
+ },
+ {
+  "area": "Foot and ankle, hand and wrist, spine",
+  "question": "What proportion of adults aged 65 and over with a head injury and suspected neck injury have a CT cervical spine scan within 1 hour of the risk factor being identified?",
+  "why": "Older people have cervical fractures from low falls, and missed injuries cause cord damage. Library audits [1147][1304] looked at whether the scan was done, not how quickly; NICE set a 1-hour limit in 2023.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.6.2 (May 2023)",
+   "wording": "For people 16 and over who have sustained a head injury (including people with delayed presentation), do a CT cervical spine scan within 1 hour of the risk factor being identified if any of these high-risk factors apply: ... there is clinical suspicion of a cervical spine injury and any of these factors: age 65 or over ... [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "CT cervical spine acquisition time within 60 minutes of the time the risk factor was first documented (triage or first clinician note recording neck pain, tenderness or suspicion of neck injury).",
+  "population": "Adults aged 65 and over attending ED with a head injury whose notes record suspicion of cervical spine injury (neck pain, midline tenderness or reduced movement). Exclude patients transferred with imaging already done.",
+  "sample": "40 consecutive eligible patients over the last 2 months.",
+  "data_source": "RIS for CT cervical spine scans in patients aged 65 and over; ED record for triage and first clinician times and the risk factor; RIS for acquisition time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor_documented_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First note of neck pain, tenderness or suspected injury"
+   },
+   {
+    "field": "anticoagulated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_acquired_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "RIS"
+   },
+   {
+    "field": "ct_within_1h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fracture_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a combined 'CT head and cervical spine – NICE 1-hour' option to the electronic imaging request for people aged 65 and over, flagged to CT as urgent.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at ED, radiology and trauma governance. If it works, keep the combined request and report the 1-hour rate monthly with the CT head metric.",
+  "evidence": [
+   "[1304] head injury: cervical clearance compliance 23–37% → 53% (single ICE request tab for CT brain and C-spine)",
+   "[3753] head injury CT: all three NICE standards 52% → 83% (ICE request changed to include NICE criteria)",
+   "[1147] over-65 head injury: CT C-spine 16% → 38% (teaching and posters)"
+  ],
+  "pitfalls": [
+   "The time the risk factor was identified is vague → use the first timed note of neck symptoms and keep the rule fixed.",
+   "Radiology may push back on workload → show that most scans are added to a CT head already booked.",
+   "Patients scanned without a risk factor inflate the denominator → include only those whose notes record neck suspicion.",
+   "Delays in porters or CT access are not the requester's fault → record the request time too, so the bottleneck is visible."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and a CT superintendent radiographer.",
+   "Pull cases from RIS by age and examination code; it is quicker than ED coding.",
+   "Present the time from request to scan separately from time to request.",
+   "Link to the CT head 1-hour audit so both run together."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from RIS and ED record"
+ },
+ {
+  "area": "Foot and ankle, hand and wrist, spine",
+  "question": "What proportion of patients with a hand or wrist laceration and a documented sensory or motor deficit receive specialist hand advice within 24 hours?",
+  "why": "Missed or late-referred nerve injuries in hand lacerations lead to poor recovery and claims. Library audits of hand wounds [2494][2340] measured documentation and repair, not timely specialist advice.",
+  "standard": {
+   "source": "BOAST Peripheral Nerve Injury (December 2021), standard 6.1",
+   "wording": "6. Formal advice should be sought: 6.1. Within twenty-four hours when a laceration or penetrating injury is associated with a neurological deficit.",
+   "url": "https://www.boa.ac.uk/resource/boast-peripheral-nerve-injury.html"
+  },
+  "pass": "A documented discussion with, referral to, or review by the hand service (orthopaedic hand or plastic surgery) within 24 hours of arrival.",
+  "population": "Patients of any age attending ED or minor injuries with a laceration or penetrating injury of the hand or wrist and a documented altered sensation or motor weakness. Exclude injuries admitted directly to theatre.",
+  "sample": "40 consecutive eligible patients over the last 3 months.",
+  "data_source": "ED system coding for hand and wrist lacerations; ED notes for neurological findings; referral system or hand trauma clinic list for advice time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_site",
+    "type": "choice",
+    "options": [
+     "finger",
+     "thumb",
+     "palm",
+     "wrist",
+     "dorsum of hand"
+    ],
+    "note": ""
+   },
+   {
+    "field": "deficit_type",
+    "type": "choice",
+    "options": [
+     "digital sensory",
+     "median",
+     "ulnar",
+     "radial",
+     "motor",
+     "mixed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "advice_sought",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "advice_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "seen_in_hand_clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nerve_repair_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a rule to the ED hand-wound template: any recorded sensory or motor deficit triggers an electronic referral to the hand trauma service before discharge.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at ED and hand service governance. If it works, keep the automatic referral and add it to the hand trauma dashboard.",
+  "evidence": [
+   "[2494] open hand wounds: BSSH compliance 74% → 72%; digital nerve 76% → 62.5% (no fix reported; fails)",
+   "[2340] ED lacerations: wound documentation gaps, e.g. wound care instructions 36% (baseline; template planned)",
+   "[1728] acute fractures: detailed neurological findings 38.8% → 54.2% (education only; small gain)"
+  ],
+  "pitfalls": [
+   "Deficits are not examined, so cases are missed → report the proportion of hand lacerations with any sensory examination as a secondary count.",
+   "Minor injuries units use a different record → include them or state clearly that you have not.",
+   "Hand service may worry about referral volume → most cases can be handled by a telephone discussion, which counts.",
+   "Referral time is not recorded → use the timed entry in the referral system."
+  ],
+  "pearls": [
+   "Recruit a hand therapist or hand surgeon who runs the hand trauma clinic.",
+   "Search ED coding for 'laceration hand' and 'laceration wrist' and screen for deficit words.",
+   "Share one missed-nerve case to show why it matters.",
+   "Keep the template rule after the audit; it costs nothing."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED record and referral system"
+ },
+ {
+  "area": "Foot and ankle, hand and wrist, spine",
+  "question": "What proportion of adults whose distal radius fracture is manipulated in the ED have median nerve function documented after the manipulation?",
+  "why": "Acute carpal tunnel syndrome after manipulation needs urgent release. A national paediatric audit found post-manipulation nerve checks in 35% [1739]; adult ED audits show similar gaps [1245].",
+  "standard": {
+   "source": "BOAST Peripheral Nerve Injury (December 2021), standard 1.1.2",
+   "wording": "1. An examination to assess and document all the functions of a peripheral nerve: 1.1. should be carried out and recorded: ... 1.1.2. after any intervention to the limb such as injection, manipulation or application of cast",
+   "url": "https://www.boa.ac.uk/resource/boast-peripheral-nerve-injury.html"
+  },
+  "pass": "A timed entry after the manipulation (and after plaster) that records median nerve sensation and function, for example index fingertip sensation and thumb opposition or abductor pollicis brevis.",
+  "population": "Adults aged 16 and over with a distal radius fracture manipulated in ED or a minor injuries unit. Exclude fractures taken straight to theatre.",
+  "sample": "40 consecutive eligible patients over the last 3 months.",
+  "data_source": "ED system or fracture clinic list for the case list; ED procedure note for pre- and post-manipulation examination; PACS for time of check X-ray.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "manipulation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthesia_type",
+    "type": "choice",
+    "options": [
+     "Bier's block",
+     "haematoma block",
+     "sedation",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pre_manipulation_median_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_manipulation_median_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "post_check_timed_after_plaster",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "median_deficit_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acute_carpal_tunnel_release",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory post-manipulation nerve section (median, ulnar and radial, with median first) to the ED Bier's block or manipulation procedure note.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive manipulated fractures, same template.",
+  "close_loop": "Present at ED and trauma governance. If it works, keep the mandatory section and include it in Bier's block training sign-off.",
+  "evidence": [
+   "[1245] Bier's block for distal radius fracture: vascular check after block 22% → 39.7% (unspecified intervention)",
+   "[1739] CURFFED national paediatric audit: post-manipulation NV assessment 35% (baseline)",
+   "[1634] paediatric forearm: pre-manipulation NV 93% but before discharge 64% (pathway and education)"
+  ],
+  "pitfalls": [
+   "The only examination is written before the manipulation → require a separate timed post-procedure entry.",
+   "'NV intact' is written without naming nerves → define in advance that the median nerve must be named or tested.",
+   "Minor injuries units use paper → include them or state they are excluded.",
+   "Numbers fall when Bier's block is paused → use a longer window rather than changing the definition."
+  ],
+  "pearls": [
+   "Recruit the ED lead for Bier's block training.",
+   "Use the check X-ray time on PACS to confirm when the manipulation ended.",
+   "Show an acute carpal tunnel case to make the risk real.",
+   "Keep the mandatory section when the audit team rotates."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from ED record"
+ },
+ {
+  "area": "Foot and ankle, hand and wrist, spine",
+  "question": "What proportion of adults with diabetes admitted with a limb-threatening foot problem have the multidisciplinary foot care service informed within 24 hours of admission?",
+  "why": "Delay in involving the diabetic foot team increases major amputation. The library's diabetic foot audits [2364][2362] measured sampling, not how quickly the foot team is involved.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems, rec 1.4.1 (2015, last updated October 2019)",
+   "wording": "If a person has a limb-threatening or life-threatening diabetic foot problem, refer them immediately to acute services and inform the multidisciplinary foot care service (according to local protocols and pathways; also see the recommendation on services and protocols commissioners and service providers should ensure are in place), so they can be assessed and an individualised treatment plan put in place. Examples of limb-threatening and life-threatening diabetic foot problems include the following: Ulceration with fever or any signs of sepsis. Ulceration with limb ischaemia (see the NICE guideline on peripheral arterial disease). Clinical concern that there is a deep-seated soft tissue or bone infection (with or without ulceration). Gangrene (with or without ulceration). [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "A documented contact with, referral to, or review by the multidisciplinary foot care service (diabetes foot team, podiatry-led MDT or equivalent) within 24 hours of admission. 'Immediately' is defined locally as within 24 hours.",
+  "population": "Adults with diabetes admitted under trauma and orthopaedics (or orthopaedic foot and ankle) with a foot ulcer with sepsis or ischaemia, deep infection, osteomyelitis or gangrene.",
+  "sample": "All eligible admissions over the last 6 months (usually 30–40).",
+  "data_source": "PAS and coding for the case list; admission clerking for the problem; EPR referral system and foot team entries for contact time; theatre system for amputation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "problem_type",
+    "type": "choice",
+    "options": [
+     "ulcer with sepsis",
+     "ulcer with ischaemia",
+     "deep infection or osteomyelitis",
+     "gangrene"
+    ],
+    "note": ""
+   },
+   {
+    "field": "foot_team_informed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "foot_team_contact_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "informed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "vascular_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "amputation_this_admission",
+    "type": "choice",
+    "options": [
+     "none",
+     "minor",
+     "major"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic electronic referral to the diabetic foot MDT when a diabetic foot admission is booked under orthopaedics (PAS diagnosis or admission reason), with a daily list to the foot team.",
+  "target": "≥90%",
+  "reaudit": "After 3 months: all eligible admissions in that period, same template.",
+  "close_loop": "Present at orthopaedic and diabetes governance. If it works, keep the automatic referral and share the rate with the foot MDT each quarter.",
+  "evidence": [
+   "[2364] tertiary vascular centre diabetic foot infections: microbiology sent 56.8% → 74.2% (podiatrist-led Hot Foot Clinic)",
+   "[2362] diabetic foot surgery: clean bone samples 68% → 89% (teaching then online operation note proforma)",
+   "[5972] community podiatry: extra staff shortened waits, but emergency diabetic foot still waited long (staffing alone insufficient)"
+  ],
+  "pitfalls": [
+   "The foot team is not on site at weekends → count a documented referral to the service's inbox as a pass and record weekend admissions separately.",
+   "Coding misses diabetic foot admissions → also search the orthopaedic handover list.",
+   "Medical teams may own some patients → include only those admitted under orthopaedics.",
+   "The foot team may fear extra workload → agree the referral criteria with them first."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist podiatrist as co-lead.",
+   "Use NG19's four examples as the fixed inclusion list.",
+   "Track major amputations as a balancing outcome.",
+   "Hand the daily list to the foot team's coordinator after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children who have a forearm fracture manipulated in the Emergency Department have a neurovascular assessment recorded before discharge?",
+  "why": "Swelling after manipulation can cause compartment syndrome or nerve compromise at home. Library audits show pre-discharge checks in 35–64% of cases [1739][1634] with no closed loop for this item.",
+  "standard": {
+   "source": "BOAST Early Management of the Paediatric Forearm Fracture (May 2021), standards 2 and 9",
+   "wording": "A documented assessment of the limb, performed on presentation, should include the status of the radial pulse, digital capillary refill time and the individual function of the radial, median and ulnar nerves. ... Before discharge a recorded assessment of the neurovascular status of the limb should be repeated as described in standard two.",
+   "url": "https://www.boa.ac.uk/resource/boast-early-management-of-the-paediatric-forearm-fracture.html"
+  },
+  "pass": "A timed entry after the manipulation and before discharge recording radial pulse, capillary refill and the radial, median and ulnar nerves individually.",
+  "population": "Children under 16 with a forearm or distal radius fracture manipulated in ED. Exclude those admitted or taken to theatre.",
+  "sample": "40 consecutive eligible children over the last 3 months.",
+  "data_source": "ED system or fracture clinic list for the case list; ED procedure notes and discharge entry; PACS for check X-ray time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "manipulation_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presentation_nv_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "All five elements"
+   },
+   {
+    "field": "pre_discharge_nv_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "all_three_nerves_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "return_with_complication",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 7 days"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'pre-discharge neurovascular check' box to the paediatric forearm manipulation pathway document, required before the discharge letter can be completed.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive manipulated children, same template.",
+  "close_loop": "Present at paediatric ED and trauma governance. If it works, keep the required box and include it in ED sedation training.",
+  "evidence": [
+   "[1739] CURFFED national audit: post-manipulation NV assessment 35% (baseline)",
+   "[1634] DGH paediatric forearm: before-discharge NV 64% after pathway and education",
+   "[1728] acute fractures: detailed neurological findings 38.8% → 54.2% (education only)"
+  ],
+  "pitfalls": [
+   "Children are hard to examine after sedation → document when the child was assessed and use play-based tests; 'unable' still needs a later repeat.",
+   "Checks written with the manipulation note are not separate → require a timed entry after the check X-ray.",
+   "Parents leave before the check → do the check before the discharge letter is printed.",
+   "Different ED areas use different documents → align both paediatric and adult ED records."
+  ],
+  "pearls": [
+   "Recruit a paediatric ED nurse; they discharge most children.",
+   "Agree what 'complete' means (pulse, capillary refill, three nerves) before cycle 1.",
+   "Pair the check with the red-flag leaflet already given.",
+   "Keep the required box when the team rotates."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 children from ED record"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "In children under 16 who have a CT cervical spine scan after a head injury, is one of the NICE risk factors for CT documented before the scan?",
+  "why": "CT of the neck gives children a meaningful thyroid radiation dose, and NICE restricts it to named risk factors. No library audit has checked the indication for paediatric neck CT.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.6.4 (May 2023)",
+   "wording": "For people under 16 who have sustained a head injury (including those with delayed presentation), only do a CT cervical spine scan if any of these risk factors apply: the GCS score is 12 or less on initial assessment the person has been intubated there are focal peripheral neurological signs there is paraesthesia in the upper or lower limbs a definitive diagnosis of a cervical spine injury is needed urgently (for example, if manipulation of the cervical spine is needed during surgery or anaesthesia) the person is having other body areas scanned for head injury or multisystem trauma, and there is clinical suspicion of a cervical spine injury there is strong clinical suspicion of injury despite normal X‑rays plain X‑rays are technically difficult or inadequate plain X‑rays identify a significant bony injury. Do the scan within 1 hour of the risk factor being identified. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "At least one of the NG232 rec 1.6.4 risk factors is documented in the notes or on the CT request before the scan time.",
+  "population": "Children under 16 who had a CT cervical spine after a head injury. Exclude penetrating neck injury.",
+  "sample": "All eligible scans over the last 12 months (usually 30–50 in a trauma unit).",
+  "data_source": "RIS for CT cervical spine in under-16s; CT request text; ED and trauma notes for GCS, neurology and plain X-ray findings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "RIS"
+   },
+   {
+    "field": "plain_xray_before_ct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_factor_named",
+    "type": "choice",
+    "options": [
+     "GCS 12 or less",
+     "intubated",
+     "focal neurology",
+     "paraesthesia",
+     "urgent definitive diagnosis",
+     "other areas scanned with suspicion",
+     "strong suspicion despite normal X-ray",
+     "X-ray inadequate",
+     "X-ray shows bony injury",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the CT cervical spine request for under-16s require selection of one NICE 1.6.4 risk factor in the electronic request, with radiologist vetting if none applies.",
+  "target": "≥95%",
+  "reaudit": "After 6 months: all eligible scans in that period, same template.",
+  "close_loop": "Present at paediatric ED, radiology and trauma governance. If it works, keep the forced-choice request and report the rate to the radiation protection committee.",
+  "evidence": [
+   "[3753] head injury CT: all three NICE standards 52% → 83% (NICE criteria built into the ICE request)",
+   "[1304] cervical clearance: 23–37% → 53% (single ICE tab for CT brain and C-spine)",
+   "[5091] multiply injured patients: seven had plain films when CT was already certain (baseline)"
+  ],
+  "pitfalls": [
+   "Trauma team scans are hard to challenge → the 'other areas scanned with suspicion' factor covers most; count only those with no factor as fails.",
+   "Risk factors are known but not written → accept any timed note or request text before the scan.",
+   "Numbers are small → use 12 months and report counts.",
+   "Radiologists may fear delays → vetting only applies when no factor is selected."
+  ],
+  "pearls": [
+   "Recruit a paediatric radiologist and the radiation protection supervisor.",
+   "Pull all under-16 CT C-spine scans from RIS; screening takes minutes.",
+   "Record whether any injury was found; it frames the radiation discussion.",
+   "Link with the adult C-spine 1-hour audit so both use the same request form."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 scans from RIS and ED notes"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "In children aged 8 to 16 who attend the Emergency Department with non-traumatic hip, thigh or knee pain or a limp, what proportion have frog-leg lateral X-rays of both hips before discharge?",
+  "why": "Slipped upper femoral epiphysis often presents as knee or thigh pain and is missed when only the knee is X-rayed; delay leads to severe slips and avascular necrosis. No library audit has measured hip imaging in this group.",
+  "standard": {
+   "source": "Local standard",
+   "wording": "Children and young people aged 8 to 16 years who present with hip, thigh or knee pain, or a limp, without a clear alternative cause, have an anteroposterior pelvis and frog-leg lateral X-rays of both hips before discharge from the Emergency Department.",
+   "url": ""
+  },
+  "pass": "AP pelvis and frog-leg lateral views of both hips done before ED discharge, or a clear alternative cause documented (for example a clinically diagnosed soft-tissue knee injury with normal hip examination).",
+  "population": "Children aged 8 to 16 with non-traumatic or minor-trauma hip, thigh or knee pain or a limp. Exclude known SUFE, cerebral palsy hip surveillance, and clear knee injuries with an effusion.",
+  "sample": "40 consecutive eligible children over the last 3 months.",
+  "data_source": "ED system coding (limp, hip pain, knee pain) for the case list; ED notes for history and hip examination; PACS and RIS for views taken.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_complaint",
+    "type": "choice",
+    "options": [
+     "hip pain",
+     "thigh pain",
+     "knee pain",
+     "limp"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hip_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_views",
+    "type": "choice",
+    "options": [
+     "both hips AP and frog lateral",
+     "AP pelvis only",
+     "knee only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "alternative_cause_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "sufe_diagnosed_later",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 3 months"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'Age 8–16 with hip, thigh or knee pain or limp' prompt to the paediatric ED limp pathway and X-ray request, defaulting to AP pelvis plus frog-leg lateral of both hips.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible children, same template.",
+  "close_loop": "Present at paediatric ED and paediatric orthopaedic governance. If it works, keep the pathway prompt and add SUFE delays to the incident review list.",
+  "evidence": [
+   "[1690] ED foot and ankle: X-ray request compliance with decision rules 43% → 57% (handout and teaching)",
+   "[1695] Ottawa knee rules documentation 41% → 91% (posters, teaching, emails)",
+   "[1303] cerebral palsy hip surveillance: hip X-rays in the right timeframe 68% (baseline)"
+  ],
+  "pitfalls": [
+   "Radiographers may question pelvic X-rays for knee pain → agree the request wording with the radiology lead first.",
+   "Radiation worries from parents → one pelvis and frog-lateral view pair is low dose; explain the risk of a missed slip.",
+   "ED coding is inconsistent → search several complaint codes and keep the same list in both cycles.",
+   "Clear knee injuries inflate the fail rate → the alternative-cause pass handles this."
+  ],
+  "pearls": [
+   "Recruit a paediatric orthopaedic surgeon and a paediatric ED consultant.",
+   "Use a missed-SUFE incident from your own Trust, anonymised, to open the presentation.",
+   "Track later SUFE diagnoses as the outcome measure.",
+   "Keep the X-ray request default after the audit ends."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 children from ED record and PACS"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of ED X-rays for suspected fracture have a definitive written report before the patient leaves the Emergency Department?",
+  "why": "Missed fractures on ED X-rays are a leading cause of recalls and claims; NICE asks for the definitive report before discharge. No library audit has measured this 'hot reporting' standard.",
+  "standard": {
+   "source": "NICE NG38 Fractures (non-complex): assessment and management, rec 1.1.9 (February 2016)",
+   "wording": "A radiologist, radiographer or other trained reporter should deliver the definitive written report of emergency department X‑rays of suspected fractures before the patient is discharged from the emergency department.",
+   "url": "https://www.nice.org.uk/guidance/ng38/chapter/Recommendations"
+  },
+  "pass": "The verified RIS report time is earlier than the ED discharge time.",
+  "population": "Adults and children having a limb, pelvis or spine X-ray for suspected fracture requested by the ED. Exclude chest and abdominal films and patients admitted.",
+  "sample": "50 consecutive ED musculoskeletal X-rays over one fortnight, split by in-hours (08:00–20:00) and out-of-hours.",
+  "data_source": "RIS for request, acquisition and verified report times and reporter type; ED system for discharge time; later recalls from the ED discrepancy log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "xray_acquired_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "RIS"
+   },
+   {
+    "field": "body_part",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_verified_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "RIS"
+   },
+   {
+    "field": "reporter_type",
+    "type": "choice",
+    "options": [
+     "radiologist",
+     "reporting radiographer",
+     "other",
+     "not reported"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reported_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "in_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": "08:00–20:00"
+   },
+   {
+    "field": "recall_for_missed_finding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Route all ED musculoskeletal X-rays to a dedicated hot-reporting worklist covered by a reporting radiographer during 08:00–20:00.",
+  "target": "≥80% in hours",
+  "reaudit": "Wk 13–14: 50 consecutive ED musculoskeletal X-rays over one fortnight, same template.",
+  "close_loop": "Present at ED, radiology and fracture clinic governance. If it works, make the hot-reporting worklist part of the radiographer rota and report the rate monthly.",
+  "evidence": [
+   "[1327] virtual fracture clinic: inappropriate referrals 80 → 24; 30% had no fracture before the fix (joint ED–orthopaedic referral guidelines)",
+   "[1484] suspected scaphoid: early MRI replaced repeat films and bone scans (pathway change)",
+   "[7069] abdominal CT: registrar major discrepancy 6.9% vs consultant 2.8% (baseline)"
+  ],
+  "pitfalls": [
+   "Radiology capacity is the barrier → present in-hours and out-of-hours rates separately so the ask is realistic.",
+   "ED discharge time can be the 'left department' time → use the same ED field in both cycles.",
+   "The change needs a service decision → take the baseline to the radiology manager early.",
+   "Preliminary 'red dot' comments are not definitive reports → count only verified reports."
+  ],
+  "pearls": [
+   "Recruit a reporting radiographer and the radiology service manager as co-leads.",
+   "Pull all times from RIS and the ED system in one query; it takes minutes.",
+   "Include recall numbers; they show the cost of late reports.",
+   "Build the rate into the radiology dashboard so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 X-rays from RIS and ED system"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of patients with a first-time patellar dislocation have a skyline patellar view X-ray after reduction?",
+  "why": "Osteochondral fractures after patellar dislocation are missed on AP and lateral views alone. The BOAST published in December 2024 requires a skyline view; no library audit has measured it.",
+  "standard": {
+   "source": "BOAST Assessment and Management of First Time Lateral Patellar Dislocation (December 2024)",
+   "wording": "Following reduction, all patients should have an AP and lateral radiograph of the knee, including skyline patellar view.",
+   "url": "https://www.boa.ac.uk/resource/boast-assessment-and-management-of-first-time-lateral-patellar-dislocation.html"
+  },
+  "pass": "A skyline (axial) patellar view taken after reduction, in ED or at first fracture clinic, within 2 weeks of injury.",
+  "population": "Patients of any age with a first-time lateral patellar dislocation (reduced or spontaneously reduced). Exclude recurrent dislocations.",
+  "sample": "All eligible patients over the last 12 months (usually 30–50).",
+  "data_source": "ED coding and fracture clinic list for the case list; ED notes for first-time status; PACS for views and dates; clinic letters for MRI and follow-up.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ap_lateral_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "skyline_view_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "skyline_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "osteochondral_fragment_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_in_knee_clinic_within_2_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Patellar dislocation – AP, lateral and skyline' protocol button to the ED and fracture clinic X-ray request.",
+  "target": "≥90%",
+  "reaudit": "After 6 months: all eligible patients in that period, same template.",
+  "close_loop": "Present at ED, radiology and knee service governance. If it works, keep the request protocol and add it to radiographer protocols.",
+  "evidence": [
+   "[1710] shoulder dislocation: adequate orthogonal post-reduction films 22.7% (baseline)",
+   "[1695] Ottawa knee rules: criteria documented 41% → 91% (multi-modal reminders)",
+   "[1690] ED foot and ankle X-ray decision-rule compliance 43% → 57% (handout and teaching)"
+  ],
+  "pitfalls": [
+   "Pain limits knee flexion for the skyline view → a view at first fracture clinic within 2 weeks also passes.",
+   "First-time status is not recorded → count unknown status as first-time and keep the rule fixed.",
+   "Radiographers may use a different name (axial, Merchant) → search all names on PACS.",
+   "Small numbers → use 12 months and report counts."
+  ],
+  "pearls": [
+   "Recruit a knee surgeon and the lead MSK radiographer.",
+   "Record osteochondral fragments found; they justify the view.",
+   "Link to the knee clinic 2-week review in the same BOAST for a later audit.",
+   "Keep the request button permanently."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS and ED record"
+ },
+ {
+  "area": "Fracture clinic, outpatients, imaging, bone health and infection",
+  "question": "What proportion of adults with a manipulated distal radius fracture treated in a cast have a repeat X-ray between 1 and 2 weeks after manipulation?",
+  "why": "Redisplacement after manipulation is common, and surgery after 2–3 weeks is harder. Library audits [1305][1721] focus on reduction quality and time to surgery, not on catching redisplacement in time.",
+  "standard": {
+   "source": "BOAST The Management of Distal Radial Fractures (December 2017)",
+   "wording": "Repeat radiographs of the wrist between 1-2 weeks after injury (or manipulation) where it is thought that the fracture pattern is unstable AND when subsequent displacement will lead to surgical intervention.",
+   "url": "https://www.boa.ac.uk/resource/boast-16-pdf.html"
+  },
+  "pass": "A wrist X-ray dated 7 to 14 days after the manipulation, or a documented decision that surgery would not be offered if the fracture redisplaced.",
+  "population": "Adults aged 16 and over with a distal radius fracture manipulated in ED and treated in a cast. Exclude those fixed within 7 days.",
+  "sample": "40 consecutive eligible patients over the last 3 months.",
+  "data_source": "Fracture clinic list or ED procedure log for the case list; PACS for X-ray dates; clinic letters for decisions and later surgery.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "manipulation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_xray_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "repeat_xray_day_7_to_14",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "no_surgery_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "redisplacement_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "surgery_within_72h_of_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the virtual fracture clinic outcome for manipulated distal radius fractures to book a fracture clinic slot with X-ray on day 7–10 by default.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at fracture clinic and hand service governance. If it works, keep the default booking and report redisplacement found on time.",
+  "evidence": [
+   "[1305] distal radius: operative reduction rate 24% → 17% (ED training on BOAST and moulding)",
+   "[1721] distal radius surgery timing compliance 11.6% after teaching and a pathway (fails)",
+   "[1526] virtual fracture clinic improved BOAST compliance (system change)"
+  ],
+  "pitfalls": [
+   "Older patients who would not have surgery do not need the X-ray → the documented no-surgery decision counts as a pass.",
+   "Clinic capacity may push appointments beyond day 14 → report the median day and share it with the clinic manager.",
+   "X-ray at day 3–6 is too early to judge → count it as a fail and explain why.",
+   "Patients who do not attend → record as a separate category and keep them in the denominator."
+  ],
+  "pearls": [
+   "Recruit the fracture clinic manager; the booking rule is theirs.",
+   "Pull X-ray dates from PACS rather than clinic letters.",
+   "Track late redisplacement and surgery; it shows harm avoided.",
+   "Keep the default booking after the audit ends."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from PACS and clinic letters"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "In adults taking prednisolone 5 mg a day or more (or equivalent) for 4 weeks or longer who have orthopaedic surgery, what proportion receive intravenous steroid cover at induction?",
+  "why": "Missed steroid cover risks peri-operative adrenal crisis. A national audit found only 9% of patients on therapeutic steroids had fully compliant prescribing [2946]; no orthopaedic audit is in the library.",
+  "standard": {
+   "source": "Association of Anaesthetists, RCP and Society for Endocrinology UK. Guidelines for the management of glucocorticoids during the peri-operative period for patients with adrenal insufficiency (Anaesthesia 2020), recommendation 1 and Table 2",
+   "wording": "Prescribed glucocorticoid therapy (prednisolone ≥ 5 mg per day in adults or hydrocortisone-equivalent dose of 10–15 mg.m−2 per day in children) across all routes of administration (oral, inhaled, topical, intranasal, intra-articular), can cause suppression of the hypothalamo–pituitary–adrenal axis, and is the most common cause of adrenal insufficiency that anaesthetists will encounter. ... Table 2 Recommended doses for intra- and postoperative steroid cover in adults receiving adrenosuppresive doses of steroids (prednisolone equivalent ≥ 5 mg for 4 weeks or longer). Major surgery: Hydrocortisone 100 mg intravenously at induction, followed by immediate initiation of a continuous infusion of hydrocortisone at 200 mg.24 h−1; Alternatively, dexamethasone 6–8 mg intravenously, if used, will suffice for 24 h",
+   "url": "https://doi.org/10.1111/anae.14963"
+  },
+  "pass": "Hydrocortisone 100 mg IV or dexamethasone 6–8 mg IV given at induction, recorded on the anaesthetic chart.",
+  "population": "Adults having elective or trauma orthopaedic surgery under general or regional anaesthesia who were taking prednisolone 5 mg or more daily (or equivalent) for at least 4 weeks before surgery.",
+  "sample": "All eligible patients over the last 6 months (usually 30–50).",
+  "data_source": "Electronic prescribing or medicines reconciliation search for oral steroids; theatre system for procedures; anaesthetic chart for induction drugs; drug chart for post-operative steroid.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_and_daily_dose_mg",
+    "type": "text",
+    "options": [],
+    "note": "Prednisolone equivalent"
+   },
+   {
+    "field": "duration_4_weeks_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "induction_steroid",
+    "type": "choice",
+    "options": [
+     "hydrocortisone 100 mg IV",
+     "dexamethasone 6–8 mg IV",
+     "other dose",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cover_at_induction",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "post_op_steroid_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Double dose or infusion"
+   },
+   {
+    "field": "hypotension_or_crisis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Steroid ≥5 mg for ≥4 weeks: give hydrocortisone 100 mg IV at induction' flag to the pre-operative checklist and the anaesthetic e-record when medicines reconciliation shows a long-term steroid.",
+  "target": "≥90%",
+  "reaudit": "After 6 months: all eligible patients in that period, same template.",
+  "close_loop": "Present at the joint anaesthetic and orthopaedic governance meeting. If it works, keep the checklist flag and add it to pre-assessment documentation.",
+  "evidence": [
+   "[2946] PREdS national audit: guideline-compliant peri-operative steroid prescribing 9% (baseline)",
+   "[2892] giant cell arteritis: steroid emergency cards and sick day rules rarely given at first visit (baseline, then clinic redesign)"
+  ],
+  "pitfalls": [
+   "Dexamethasone given for nausea (4 mg) may be mistaken for cover → only 6–8 mg or hydrocortisone 100 mg counts.",
+   "Steroid duration is unclear in trauma admissions → use GP records and the Summary Care Record.",
+   "Anaesthetists may argue low doses need no cover → the guideline threshold is 5 mg; show the wording before cycle 1.",
+   "Inhaled and topical steroids are hard to quantify → include oral prednisolone-equivalent doses only and state this."
+  ],
+  "pearls": [
+   "Recruit an anaesthetist and a ward pharmacist; pharmacy can run the steroid search.",
+   "Record post-operative dosing as a secondary measure for the next cycle.",
+   "Keep the population fixed to oral steroids for both cycles.",
+   "Place the flag where it is seen at the WHO sign-in."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR and anaesthetic chart"
+ },
+ {
+  "area": "Orthopaedic perioperative, theatre and ward care",
+  "question": "What proportion of adults aged 65 and over admitted with a fracture are not given an oral or intravenous NSAID during their admission?",
+  "why": "NSAIDs in older people with fractures cause kidney injury and bleeding, and NICE advises against them. No library audit has measured NSAID use in older fracture inpatients.",
+  "standard": {
+   "source": "NICE NG38 Fractures (non-complex): assessment and management, rec 1.1.6 (February 2016)",
+   "wording": "Do not offer non-steroidal anti-inflammatory drugs (NSAIDs) to frail or older adults with fractures.",
+   "url": "https://www.nice.org.uk/guidance/ng38/chapter/Recommendations"
+  },
+  "pass": "No dose of a systemic NSAID (for example ibuprofen, naproxen, diclofenac, parecoxib or ketorolac) administered during the admission. Topical NSAIDs and low-dose aspirin are not counted.",
+  "population": "Adults aged 65 and over admitted under trauma and orthopaedics with a fracture of any site. Local definition of 'older' is 65 and over.",
+  "sample": "50 consecutive eligible admissions over the last 6 weeks.",
+  "data_source": "PAS for the case list; electronic prescribing and administration records for NSAID doses; laboratory system for creatinine to flag AKI.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nsaid_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nsaid_administered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "no_systemic_nsaid",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "prescriber_setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "ward",
+     "theatre or recovery",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "aki_during_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "KDIGO stage 1 or above"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an electronic prescribing alert for systemic NSAIDs in patients aged 65 and over on trauma wards, and remove NSAIDs from the default trauma analgesia order set for this age group.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 consecutive eligible admissions, same template.",
+  "close_loop": "Present at trauma governance and the drugs and therapeutics committee. If it works, keep the alert and order-set change and report NSAID use quarterly.",
+  "evidence": [
+   "[6477] primary care CKD: total NSAIDs −75%, repeat NSAIDs −90% (automated alert on at-risk records)",
+   "[2173] renal colic: NSAID first line 38% → 50% (pathway, emails, posters; shows NSAID habits change slowly)",
+   "[1916] over-65 rehabilitation: education alone did not reduce inappropriate PPI prescribing (fails)"
+  ],
+  "pitfalls": [
+   "Anaesthetists give parecoxib or ketorolac in theatre → include theatre doses and involve anaesthetists from the start.",
+   "Younger fit 65-year-olds may benefit from NSAIDs → the NICE wording says 'frail or older'; agree the age cut-off before cycle 1 and keep it.",
+   "Alert fatigue → target the alert only to trauma wards and patients aged 65 and over.",
+   "Prescribed but not given doses → count administration, not prescription, for the pass."
+  ],
+  "pearls": [
+   "Recruit a ward pharmacist; they can run the NSAID search in minutes.",
+   "Report AKI rates alongside NSAID use to show harm.",
+   "Ask the acute pain team to update the trauma analgesia protocol.",
+   "Keep the order-set change after the audit ends."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from electronic prescribing"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults having primary elective hip or knee replacement, what proportion start physiotherapy or occupational therapy rehabilitation on the day of surgery?",
+  "why": "Rehabilitation on the day of surgery shortens stay and reduces complications. Library audits [1730][1167] measured the 24-hour limit; few units measure day-of-surgery starts, which NICE asks for where possible.",
+  "standard": {
+   "source": "NICE NG157 Joint replacement (primary): hip, knee and shoulder, rec 1.10.1 (June 2020)",
+   "wording": "A physiotherapist or occupational therapist should offer rehabilitation, on the day of surgery if possible and no more than 24 hours after surgery, to people who have had a primary elective hip, knee or shoulder replacement. Rehabilitation should include: advice on managing activities of daily living and home exercise programmes and mobilisation for people who have had knee or hip replacement or ambulation for people who have had shoulder replacement.",
+   "url": "https://www.nice.org.uk/guidance/ng157/chapter/Recommendations"
+  },
+  "pass": "A therapy entry dated the same calendar day as the surgery recording rehabilitation (mobilisation or exercises).",
+  "population": "Adults having primary elective total or unicompartmental hip or knee replacement. Exclude revisions and patients admitted to critical care.",
+  "sample": "40 consecutive eligible patients over the last 6 weeks.",
+  "data_source": "Theatre system for the case list and end-of-surgery time; therapy notes or therapy activity system for first rehabilitation; EPR for discharge date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "end_of_surgery_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Theatre system"
+   },
+   {
+    "field": "list_session",
+    "type": "choice",
+    "options": [
+     "morning",
+     "afternoon",
+     "all day"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_therapy_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_on_day_of_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "rehab_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_delayed",
+    "type": "choice",
+    "options": [
+     "pain",
+     "nausea or hypotension",
+     "motor block",
+     "no therapist",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Schedule a named therapist on the arthroplasty ward until 19:00 on operating days, with patients from the morning list automatically added to the day-0 therapy list.",
+  "target": "≥70%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at the arthroplasty and therapy governance meeting. If it works, keep the extended therapy shift and report day-0 rates with length of stay.",
+  "evidence": [
+   "[1591] hip and knee replacement: all patients mobilised on day 0, length of stay 3.6 → 2.0–2.4 days (MDT rapid recovery group with nurse-led mobilisation)",
+   "[1730] knee replacement: mobilised within 24 h 66% → 90.5% (MDT presentation, escalation of pain and nausea)",
+   "[1167] hip replacement: mobilised within a day 65% → 74% (analgesia advice; small gain)"
+  ],
+  "pitfalls": [
+   "Afternoon-list patients return too late → report by list session so the fix targets the right cases.",
+   "Spinal anaesthesia motor block delays standing → record the reason and discuss spinal dose with anaesthetists.",
+   "Therapy staffing costs → pair the audit with length-of-stay data to support the business case.",
+   "Rehabilitation 'offered' but refused → count a documented offer as a pass and record refusals."
+  ],
+  "pearls": [
+   "Recruit the arthroplasty therapy lead and the ward manager.",
+   "Nurse-led first mobilisation can count if the local pathway allows; agree this before cycle 1.",
+   "Report the 24-hour rate too, for comparison with NICE's upper limit.",
+   "Keep the extended shift in the rota after the audit."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from theatre system and therapy notes"
+ },
+ {
+  "area": "Elective arthroplasty, knee and shoulder",
+  "question": "In adults aged 65 and over listed for primary elective hip or knee replacement, what proportion have a validated risk stratification score recorded at pre-operative assessment?",
+  "why": "Older patients deserve an objective estimate of surgical risk to support shared decisions and plan post-operative care. Library audits of risk scores come from emergency laparotomy [2038] and hip fracture ASA grading [1185]; none from elective arthroplasty.",
+  "standard": {
+   "source": "NICE NG180 Perioperative care in adults, rec 1.3.1 (August 2020)",
+   "wording": "Use a validated risk stratification tool to supplement clinical assessment when planning surgery, including dental surgery. Discuss the person's risks and surgical options with them to allow for informed shared decision making.",
+   "url": "https://www.nice.org.uk/guidance/ng180/chapter/Recommendations"
+  },
+  "pass": "A named validated risk tool score (for example SORT, NSQIP surgical risk calculator or P-POSSUM) recorded in the pre-assessment record before the day of surgery.",
+  "population": "Adults aged 65 and over attending pre-operative assessment for primary elective hip or knee replacement.",
+  "sample": "40 consecutive eligible patients over the last 6 weeks.",
+  "data_source": "Pre-assessment clinic list and electronic pre-assessment record; clinic letters or consent form for any documented risk discussion; theatre system for surgery date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "pre_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "asa_grade",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_tool_used",
+    "type": "choice",
+    "options": [
+     "SORT",
+     "NSQIP",
+     "P-POSSUM",
+     "other validated",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_discussed_with_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_frailty_scale",
+    "type": "number",
+    "options": [],
+    "note": "Blank if not recorded"
+   },
+   {
+    "field": "post_op_level_of_care_planned",
+    "type": "choice",
+    "options": [
+     "ward",
+     "enhanced care",
+     "critical care",
+     "not stated"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a SORT calculator field (auto-populated from pre-assessment data) to the electronic pre-assessment record for patients aged 65 and over.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at the pre-assessment and arthroplasty governance meeting. If it works, keep the field and extend it to all ages.",
+  "evidence": [
+   "[2038] emergency laparotomy: NELA risk score documented 26%; discussed with patient 14% (baseline)",
+   "[1185] hip fracture: ASA underestimated 25.6% → 14.9% (Clinical Frailty Scale added to ASA assessment)"
+  ],
+  "pitfalls": [
+   "Staff see ASA as a risk tool → agree before cycle 1 that ASA alone does not count.",
+   "Nurses may lack time → an auto-populated calculator avoids extra work.",
+   "A score without discussion has little value → record discussion as a secondary measure for the next cycle.",
+   "Different tools give different numbers → pick one tool locally and keep it fixed."
+  ],
+  "pearls": [
+   "Recruit the pre-assessment lead anaesthetist and nurse.",
+   "Record the Clinical Frailty Scale alongside to support a later frailty audit.",
+   "Use results to plan enhanced care beds for high-risk patients.",
+   "Keep the field in the template after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from the pre-assessment record"
+ }
+]

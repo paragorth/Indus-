@@ -1,0 +1,3401 @@
+[
+ {
+  "question": "What proportion of adults with cirrhosis without hepatitis B have an ultrasound (with or without alpha-fetoprotein) for hepatocellular carcinoma surveillance at least every 6 months?",
+  "why": "Late detection of hepatocellular carcinoma (HCC) in cirrhosis loses the window for curative treatment. Surveillance interval is rarely measured directly in the library; the closest related audit found only 9% liver imaging and 8% alpha-fetoprotein testing in a comparable surveillance population [7348]. No closed-loop audit of 6-monthly HCC surveillance timing in cirrhosis has been published in the library.",
+  "standard": {
+   "source": "NICE NG50 rec 1.3.1 (2016)",
+   "wording": "Offer ultrasound (with or without measurement of serum alpha-fetoprotein) every 6 months as surveillance for hepatocellular carcinoma (HCC) for people with cirrhosis who do not have hepatitis B virus infection.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Monitoring"
+  },
+  "population": "Adults with a coded diagnosis of cirrhosis (any cause other than hepatitis B) under hepatology follow-up who have had at least 2 surveillance scans. Exclude patients on end-of-life/palliative care and those with hepatitis B.",
+  "sample": "40 consecutive adults with cirrhosis on the hepatology HCC surveillance list, looking at their last 2 scheduled scans.",
+  "data_source": "Hepatology surveillance database or clinic letters for the diagnosis and surveillance list; radiology system (PACS/RIS) for ultrasound dates; biochemistry system for alpha-fetoprotein dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only"
+   },
+   {
+    "field": "cirrhosis_aetiology",
+    "type": "choice",
+    "options": [
+     "alcohol",
+     "MASLD/NAFLD",
+     "hepatitis C",
+     "autoimmune/PBC/PSC",
+     "other/unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_penultimate_surveillance_scan",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_surveillance_scan",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_months",
+    "type": "number",
+    "options": [],
+    "note": "Calculated: months between the two scans"
+   },
+   {
+    "field": "within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "afp_checked_alongside_scan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_overdue",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_a_recall_or_reminder_system",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Put every eligible patient on a single electronic 6-monthly HCC surveillance recall list (radiology or hepatology database) that books the next scan automatically when one is reported, instead of relying on the clinician to remember to re-request.",
+  "target": "\u226590%",
+  "reaudit": "Repeat at 6 months using the same recall list and sample size.",
+  "close_loop": "Present at the hepatology or gastroenterology clinical governance meeting; if the recall list works, hand ownership to the hepatology administrative team as standard practice.",
+  "evidence": [
+   "[7348] end-organ liver surveillance: liver imaging done in only 9% and alpha-fetoprotein in 8% despite a surveillance recommendation, showing surveillance intervals are not reliably met without a system",
+   "no audit in the library measures 6-monthly HCC surveillance interval adherence directly"
+  ],
+  "pitfalls": [
+   "Scans done elsewhere (private, another trust) are missed on PACS search: cross-check with the patient at clinic.",
+   "Small numbers if the surveillance list is short: pool 2-3 clinics.",
+   "Definition of 'on surveillance' can drift between cycles: fix the inclusion list before cycle 1.",
+   "Patients who died or transplanted in the interval should be excluded, not counted as failures.",
+   "A recall list only helps if someone actions the alert: name an owner."
+  ],
+  "pearls": [
+   "Ask the hepatology secretary or specialist nurse to hold the surveillance list; they are often the best placed to run the recall.",
+   "Agree the definition of 'surveillance patient' (cirrhosis, not palliative, no transplant) with the consultant before starting.",
+   "Link AFP requesting to the same recall so both come as one task.",
+   "Re-audit before the surveillance list changes hands with rotation, and write the SOP into the department induction pack."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from PACS and the hepatology database",
+  "pass": "The interval between the patient's last two surveillance ultrasound scans is 6 months or less (allowing up to 8 weeks' slippage), and this is documented in the hepatology follow-up record.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults newly diagnosed with cirrhosis are offered an upper GI endoscopy to look for oesophageal varices, unless already planned on carvedilol or propranolol?",
+  "why": "Undetected varices carry a high first-bleed mortality. No audit in the library measures whether screening endoscopy is offered at the point of cirrhosis diagnosis; the nearest related work only measured endoscopy timing after a bleed had already happened [2283], [2744].",
+  "standard": {
+   "source": "NICE NG50 rec 1.4.1 (2016, amended 2023)",
+   "wording": "After a diagnosis of cirrhosis, offer the person an upper gastrointestinal endoscopy to detect oesophageal varices unless they are planning to take carvedilol or propranolol to prevent decompensation.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Monitoring"
+  },
+  "population": "Adults with a new diagnosis of cirrhosis (any cause) in the last 12 months, identified from the hepatology new-patient list or MDT. Exclude patients who already had a variceal screen for another indication.",
+  "sample": "40 consecutive adults with a new cirrhosis diagnosis over the last 6-12 months.",
+  "data_source": "Hepatology clinic letters and MDT outcome for the diagnosis date; endoscopy reporting system for the OGD; drug chart/GP record for carvedilol or propranolol.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_cirrhosis_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ogd_for_varices_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion, unless beta-blocker chosen instead"
+   },
+   {
+    "field": "ogd_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "varices_found",
+    "type": "choice",
+    "options": [
+     "none",
+     "small",
+     "medium/large",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "started_carvedilol_or_propranolol_instead",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_diagnosis_to_ogd_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_if_neither_done",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'variceal screen or beta-blocker' prompt to the new-cirrhosis MDT outcome template, which auto-generates either an endoscopy referral or a carvedilol-initiation plan before the patient leaves the meeting.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6 months with the next 40 new diagnoses on the same template.",
+  "close_loop": "Present at the hepatology MDT; embed the outcome template as the default new-cirrhosis pathway if it works.",
+  "evidence": [
+   "[2283] a district general hospital audit of upper GI bleeding found gaps in structured bleed-risk management, showing variceal risk is not systematically tracked before a bleed occurs",
+   "no audit in the library measures screening endoscopy uptake at the point of cirrhosis diagnosis"
+  ],
+  "pitfalls": [
+   "Patients diagnosed with cirrhosis incidentally (e.g. on imaging for another reason) can be missed from the hepatology new-patient list: cross-check radiology reports too.",
+   "Endoscopy waiting lists can push the true 6-month window out: record the referral date as well as the scan date.",
+   "Counting a beta-blocker started for another reason (e.g. hypertension) as meeting the standard is a common error: it must be started for this indication.",
+   "Losing patients to follow-up before the scan is done should be recorded, not silently excluded."
+  ],
+  "pearls": [
+   "Agree with endoscopy in advance that new-cirrhosis referrals get a 'surveillance' priority code so they are not queued behind routine OGDs.",
+   "Have the MDT coordinator flag every new cirrhosis diagnosis in real time rather than searching retrospectively.",
+   "Present early results to the endoscopy unit, since they control the main bottleneck.",
+   "Keep the same 6-month reporting window across cycles so trends are comparable."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from clinic letters and the endoscopy system",
+  "pass": "Within 6 months of a new cirrhosis diagnosis, the patient either has an upper GI endoscopy looking for varices, or a documented decision to start carvedilol/propranolol instead.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "Of adults having a surveillance upper GI endoscopy for cirrhosis in whom medium or large oesophageal varices are found, what proportion have endoscopic variceal band ligation performed at the same procedure?",
+  "why": "A second procedure to treat varices found at screening means a second sedation, a second bowel-prep-equivalent and a delay during which the patient can bleed. No audit in the library measures same-session banding at variceal screening.",
+  "standard": {
+   "source": "NICE NG50 rec 1.4.3 (2023)",
+   "wording": "Consider simultaneous endoscopic variceal band ligation if medium or large varices are detected during upper gastrointestinal endoscopy.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Monitoring"
+  },
+  "population": "Adults having a surveillance (not emergency) OGD for varices in cirrhosis, in whom medium or large varices are found. Exclude emergency bleeds.",
+  "sample": "All surveillance OGDs with medium/large varices found over 3-6 months (expect 15-30 cases in most endoscopy units).",
+  "data_source": "Endoscopy reporting system (e.g. Unisoft/Endobase) for the procedure and findings; endoscopist's report for whether banding was done and why not, if omitted.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "surveillance for varices",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "varices_size",
+    "type": "choice",
+    "options": [
+     "none",
+     "small",
+     "medium",
+     "large"
+    ],
+    "note": ""
+   },
+   {
+    "field": "banding_performed_same_session",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "endoscopist_trained_in_banding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_banded",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "beta_blocker_started_instead",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "List which endoscopists are trained in variceal band ligation on the surveillance-list booking screen, so surveillance OGDs for cirrhosis are only booked with a banding-trained endoscopist, or with rescue banding equipment and a second operator on standby.",
+  "target": "\u226580% of eligible cases",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the endoscopy unit's quality meeting and the hepatology MDT; if it works, fix the booking rule as unit policy.",
+  "evidence": [
+   "no audit in the library measures same-session banding at variceal surveillance endoscopy"
+  ],
+  "pitfalls": [
+   "Numbers will be small in a single centre; consider a longer collection window or combining with a neighbouring unit.",
+   "Endoscopist availability for banding is a genuine, recordable constraint, not a data-collection failure: capture it as a reason, not a blank.",
+   "Distinguish surveillance procedures from emergency bleeds, which follow a different pathway and should not be pooled.",
+   "A drop in banding rates after a trained endoscopist leaves or retires needs a rota fix, not just re-teaching."
+  ],
+  "pearls": [
+   "Agree the criteria for 'trained in banding' with the endoscopy lead before cycle 1.",
+   "Build the booking rule into the endoscopy referral form so it happens automatically rather than depending on memory.",
+   "Track which endoscopists most often defer banding, to target support rather than blanket teaching.",
+   "Keep the beta-blocker-instead option visible in the template, since NICE treats banding and beta-blockade as alternatives, not banding as mandatory."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the endoscopy report",
+  "pass": "If medium or large varices are found at a surveillance OGD, band ligation is performed in the same procedure, or a documented reason is given for not doing so (for example, no trained endoscopist available).",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with cirrhosis and clinically significant portal hypertension (medium/large varices or ascites) are offered carvedilol or propranolol to prevent decompensation?",
+  "why": "Primary prevention of decompensation with a non-selective beta-blocker is a 2023 addition to NICE guidance that is not yet embedded in most cirrhosis pathways; no audit in the library measures its uptake.",
+  "standard": {
+   "source": "NICE NG50 rec 1.6.1 (2023)",
+   "wording": "For people who have cirrhosis and confirmed, or suspected, clinically significant portal hypertension (for example, as indicated by a hepatic venous pressure gradient of more than 10 mmHg or the presence of oesophageal varices), consider the following options for the primary prevention of decompensation: carvedilol as the first-choice treatment ... or propranolol as the second-choice treatment, if carvedilol is contraindicated.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "population": "Adults with cirrhosis and documented varices (any size) or ascites, seen in hepatology clinic in the last 6 months. Exclude those already on a beta-blocker for another indication only if not explicitly for this purpose.",
+  "sample": "40 consecutive adults with cirrhosis and varices or ascites seen in hepatology outpatients.",
+  "data_source": "Clinic letters and drug chart/GP shared record for the prescription; endoscopy/imaging reports for evidence of portal hypertension.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "evidence_of_portal_hypertension",
+    "type": "choice",
+    "options": [
+     "varices",
+     "ascites",
+     "both",
+     "HVPG >10mmHg"
+    ],
+    "note": ""
+   },
+   {
+    "field": "on_carvedilol_or_propranolol",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "drug_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented_if_not_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_with_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "heart_rate_bp_monitored_after_starting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'clinically significant portal hypertension: carvedilol/propranolol offered? yes/no/why not' field to the hepatology clinic template, triggered whenever varices or ascites are coded in the notes.",
+  "target": "\u226570%",
+  "reaudit": "Repeat in 6 months, same template and sample size.",
+  "close_loop": "Present at the hepatology governance meeting; embed the clinic template field if uptake improves.",
+  "evidence": [
+   "no audit in the library measures uptake of beta-blockers for primary prevention of decompensation in cirrhosis"
+  ],
+  "pitfalls": [
+   "This is a 2023 recommendation: some clinicians may not yet know it applies beyond variceal bleeding prevention, so expect a low baseline and plan teaching alongside the template.",
+   "Carvedilol needs caution in severe hepatic impairment (see the related safe-prescribing audit): don't count inappropriate starts as passes.",
+   "Distinguishing 'clinically significant' portal hypertension from cirrhosis in general needs a clear, agreed definition before data collection starts.",
+   "Heart rate/blood pressure intolerance stopping the drug should be recorded as a valid reason, not a failure."
+  ],
+  "pearls": [
+   "Pair this audit with the safe-prescribing check (avoid carvedilol in severe hepatic impairment) so the same data collection covers both.",
+   "Brief the hepatology team on the 2023 change before cycle 1 so the low baseline reflects true practice, not confusion about the recommendation.",
+   "Use a pharmacist to help identify eligible patients from the clinic list in advance.",
+   "Track discontinuation rates at re-audit, since tolerability is the main barrier."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from clinic letters",
+  "pass": "Carvedilol (first choice) or propranolol (if carvedilol contraindicated) is prescribed, or a documented reason is given for not offering either, in patients with cirrhosis and evidence of clinically significant portal hypertension.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with compensated cirrhosis under hepatology follow-up have a MELD score calculated at least every 6 months?",
+  "why": "A rising MELD score is the main early warning of deterioration in compensated cirrhosis, but there is no audit in the library of whether it is actually calculated at the recommended interval.",
+  "standard": {
+   "source": "NICE NG50 rec 1.2.2 (2016)",
+   "wording": "Calculate the Model for End-Stage Liver Disease (MELD) score every 6 months for people with compensated cirrhosis.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Monitoring"
+  },
+  "population": "Adults with compensated cirrhosis (no ascites, encephalopathy or variceal bleed) attending hepatology follow-up for at least 12 months. Exclude decompensated patients and those on the transplant list (who have MELD calculated more often for other reasons).",
+  "sample": "40 consecutive adults with compensated cirrhosis with at least 2 hepatology reviews in the last 12 months.",
+  "data_source": "Clinic letters/EPR for MELD documentation; laboratory system for the bilirubin, creatinine and INR used to calculate it.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_2_clinic_reviews",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meld_documented_review_1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meld_documented_review_2",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: both within 6 months of each other"
+   },
+   {
+    "field": "meld_value_most_recent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meld_12_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE 1.2.3: indicates high risk of complications"
+   },
+   {
+    "field": "action_if_meld_12_or_more",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic MELD calculator to the hepatology clinic letter template that pulls the latest bilirubin, creatinine and INR and flags when the last MELD is more than 6 months old.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6 months, same template and sample.",
+  "close_loop": "Present at hepatology governance; keep the auto-calculator live in the clinic template if it works.",
+  "evidence": [
+   "no audit in the library measures MELD scoring interval adherence in compensated cirrhosis"
+  ],
+  "pitfalls": [
+   "Bloods done close to, but not attached to, a clinic letter can be missed: search the laboratory system directly, not just letters.",
+   "Patients who miss appointments will have gaps that are not the team's fault: record DNA separately from a true miss.",
+   "A MELD score without an explicit action plan for a value of 12 or more is a silent gap: capture the 'so what' as well as the number.",
+   "Manual MELD calculation is error-prone: check a sample against an online calculator."
+  ],
+  "pearls": [
+   "An auto-calculating field in the EPR template removes the main source of missed scores.",
+   "Ask biochemistry whether the LIMS can flag a MELD-relevant panel automatically for coded cirrhosis patients.",
+   "Use the audit to also check that a rising MELD triggers a specific action (more frequent review, transplant discussion), not just a recorded number.",
+   "Keep the definition of 'compensated' consistent between cycles to avoid population drift."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters and lab results",
+  "pass": "A MELD score is documented in the clinic letter or EPR at least once in each 6-month period for the last 12 months of follow-up.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with cirrhosis and large-volume or refractory ascites who are prescribed a non-selective beta-blocker are prescribed propranolol rather than carvedilol?",
+  "why": "Carvedilol's added alpha-blocking effect can worsen hypotension and precipitate renal impairment in advanced cirrhosis; no audit in the library checks this medicines-safety point in ascitic patients.",
+  "standard": {
+   "source": "NICE NG50 rec 1.5.1 (2023)",
+   "wording": "carvedilol should be avoided in people with severe hepatic impairment (for example, in those with large-volume or refractory ascites).",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "population": "Adults with cirrhosis and large-volume or refractory ascites (on the paracentesis list or coded as refractory) currently prescribed a non-selective beta-blocker. Exclude patients on beta-blockers for a cardiac indication only, at a cardiologist's direction.",
+  "sample": "All patients on the paracentesis/refractory ascites list who are on a beta-blocker (typically 20-40 in a DGH hepatology service over 3-6 months).",
+  "data_source": "Hepatology paracentesis list and drug chart/e-prescribing for the current beta-blocker and dose.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ascites_category",
+    "type": "choice",
+    "options": [
+     "large-volume (regular paracentesis)",
+     "refractory"
+    ],
+    "note": ""
+   },
+   {
+    "field": "current_beta_blocker",
+    "type": "choice",
+    "options": [
+     "carvedilol",
+     "propranolol",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "appropriate_for_ascites_severity",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blood_pressure_at_last_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "renal_function_at_last_review",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_reason_if_carvedilol_continued",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an e-prescribing alert that fires when carvedilol is prescribed to a patient coded with large-volume or refractory ascites, prompting a switch to propranolol or a documented reason to continue.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6 months, same list and sample.",
+  "close_loop": "Present at hepatology governance and to pharmacy; keep the e-prescribing alert live if it reduces inappropriate carvedilol use.",
+  "evidence": [
+   "no audit in the library checks carvedilol avoidance in cirrhosis with large-volume or refractory ascites"
+  ],
+  "pitfalls": [
+   "GP-issued prescriptions may lag behind a hospital switch: check the most recent dispensed item, not just the hospital letter.",
+   "Some patients are on carvedilol for a genuine cardiac reason agreed with cardiology: exclude these, don't count them as failures.",
+   "A single low blood pressure reading is not proof of harm: look for a pattern (hypotension, worsening renal function) alongside the drug choice.",
+   "This is a 2023 change: expect resistance from teams used to carvedilol as first-line for variceal prevention generally."
+  ],
+  "pearls": [
+   "Run the alert past pharmacy before switching it on, since carvedilol/propranolol substitution needs a dose-equivalent plan, not a straight swap.",
+   "Use the hepatology specialist nurse to flag ascites severity accurately, since coding alone under-detects refractory ascites.",
+   "Combine data collection with the paracentesis/albumin audit, since it is the same patient list.",
+   "Re-check blood pressure and renal function trends at re-audit, not just the drug name, to show the change actually protects patients."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the paracentesis list and drug chart",
+  "pass": "Patients with large-volume (needing regular paracentesis) or refractory ascites who are on a non-selective beta-blocker are prescribed propranolol, not carvedilol, unless a documented specialist reason is given.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with severe or moderately severe acute pancreatitis start enteral nutrition within 72 hours of presentation?",
+  "why": "Late feeding in severe pancreatitis is linked to worse infective outcomes. The library's pancreatitis topic card shows nutrition is rarely measured at all, with the consultant advice naming it as 'worth doing' [2578, 2680, 2857].",
+  "standard": {
+   "source": "NICE NG104 rec 1.2.6 (2018)",
+   "wording": "Offer enteral nutrition to anyone with severe or moderately severe acute pancreatitis. Start within 72 hours of presentation and aim to meet their nutritional requirements as soon as possible.",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute pancreatitis classified as severe or moderately severe (organ failure, transient or persistent, or local/systemic complications). Exclude mild pancreatitis managed on a normal diet.",
+  "sample": "30 consecutive adults with severe or moderately severe acute pancreatitis over the last 6-12 months (identify via ITU/HDU admissions and coded pancreatitis with organ support).",
+  "data_source": "Admission clerking and dietitian notes for severity classification and feeding start time; nursing fluid balance charts for nasogastric feed start.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severity_category",
+    "type": "choice",
+    "options": [
+     "moderately severe",
+     "severe"
+    ],
+    "note": ""
+   },
+   {
+    "field": "route_of_nutrition",
+    "type": "choice",
+    "options": [
+     "oral",
+     "nasogastric",
+     "nasojejunal",
+     "parenteral only",
+     "none by 72h"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nutrition_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dietitian_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'nutrition plan by 72 hours' step to the severe pancreatitis care bundle/ITU admission checklist, with an automatic dietitian referral triggered by the severity score.",
+  "target": "\u226580%",
+  "reaudit": "Repeat in 6 months, same bundle and sample size.",
+  "close_loop": "Present at the upper GI/ITU joint governance meeting; keep the bundle step if enteral feeding starts earlier.",
+  "evidence": [
+   "[2578] a weekly benign upper GI MDT pathway improved imaging and escalation timeliness in pancreatitis but did not report nutrition timing",
+   "the library's pancreatitis topic card names nutrition and fluid volumes as rarely measured and worth auditing"
+  ],
+  "pitfalls": [
+   "Severity classification (moderately severe vs severe) can be applied retrospectively and inconsistently: agree the Atlanta criteria definition with the audit team before starting.",
+   "Vomiting or ileus is a valid reason to delay feeding: record it as a reason, not a failure.",
+   "ITU and ward notes are often separate systems: check both for the true nutrition start time.",
+   "A dietitian referral made is not the same as feed actually starting: capture both timestamps."
+  ],
+  "pearls": [
+   "Recruit the ITU dietitian to help identify eligible severe cases and confirm start times.",
+   "Agree the Atlanta severity definitions with the audit team in writing before collecting data.",
+   "Build the 72-hour target into the same proforma as antibiotic and fluid decisions, since these patients are seen together on ward rounds.",
+   "Re-audit after any nutrition team staffing change, since dietitian availability is the main driver of delay."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ITU/ward notes and dietitian records",
+  "pass": "Enteral nutrition (oral, nasogastric or nasojejunal) is started within 72 hours of presentation in patients classified as severe or moderately severe acute pancreatitis.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with acute pancreatitis without confirmed or suspected infected pancreatic necrosis are NOT started on prophylactic antibiotics?",
+  "why": "Routine antibiotics in pancreatitis do not prevent infection and drive resistance, but the library's pancreatitis topic card records inappropriate antibiotic use in 42% and 22 of 56 cases in published audits [2680].",
+  "standard": {
+   "source": "NICE NG104 rec 1.2.3 (2018)",
+   "wording": "Do not offer prophylactic antimicrobials to people with acute pancreatitis.",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults admitted with a primary diagnosis of acute pancreatitis. Exclude patients with confirmed cholangitis, infected necrosis or another clear infective indication at admission.",
+  "sample": "40 consecutive adults admitted with acute pancreatitis over the last 3 months.",
+  "data_source": "Admission clerking, drug chart/e-prescribing and microbiology requests for antibiotic starts and stated indications.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_started_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stated_indication",
+    "type": "choice",
+    "options": [
+     "prophylaxis (no infection)",
+     "suspected infected necrosis",
+     "cholangitis",
+     "other confirmed infection",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "no_antibiotic_or_indicated_only",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotic_name_and_duration",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "microbiology_review_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Remove 'prophylactic antibiotics' as a default order-set item on the acute pancreatitis admission bundle and require a coded indication (necrosis/cholangitis/other infection) before an antibiotic can be prescribed electronically.",
+  "target": "\u226590% appropriate (no unindicated antibiotic)",
+  "reaudit": "Repeat in 3 months, same admission bundle.",
+  "close_loop": "Present at the acute medicine/surgery antimicrobial stewardship meeting; keep the order-set change if inappropriate prescribing falls.",
+  "evidence": [
+   "the library's pancreatitis topic card records inappropriate antibiotic prescribing in 42% of one audit and 22 of 56 patients in another, both without a reported system fix"
+  ],
+  "pitfalls": [
+   "Distinguishing a genuine early infective complication from reflex prophylaxis needs the clinical picture, not just the drug chart: review the indication written at the time.",
+   "Antibiotics started for a co-existing infection (e.g. chest, urine) should not count against the standard: capture the stated reason.",
+   "A drop in appropriate use after a locum rotation suggests the order-set change needs repeating at induction.",
+   "Retrospective note review can under-detect verbal, unwritten justification: flag unclear cases rather than guessing."
+  ],
+  "pearls": [
+   "Get antimicrobial pharmacy involved early; they usually already track inappropriate starts informally.",
+   "Make the order-set change the single fix, since the topic card shows teaching alone reached only 65% risk-stratification gains and no reported re-audit for antibiotics specifically.",
+   "Feed results back to the acute take induction so new doctors don't reintroduce reflex prescribing.",
+   "Track antibiotic duration as well as whether one was started, since stopping a wrongly-started course late is a second failure mode."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the drug chart",
+  "pass": "No antibiotic is started in the first 48 hours of admission unless there is a documented indication other than prophylaxis (for example, suspected infected necrosis, cholangitis, or a non-pancreatic infection).",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults who develop necrotic, infective, haemorrhagic or systemic complications of acute pancreatitis have advice sought from a specialist pancreatic centre?",
+  "why": "Complicated pancreatitis needs specialist input for decisions on drainage, debridement and timing; no audit in the library checks whether this referral step happens.",
+  "standard": {
+   "source": "NICE NG104 rec 1.2.14 (2018)",
+   "wording": "If a person develops necrotic, infective, haemorrhagic or systemic complications of acute pancreatitis: seek advice from a specialist pancreatic centre within the referral network and discuss whether to move the person to the specialist centre for treatment of the complications.",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute pancreatitis who develop a coded local complication (necrosis, pseudocyst, haemorrhage, abscess) or persistent organ failure. Exclude uncomplicated mild pancreatitis.",
+  "sample": "All complicated pancreatitis cases identified over 6-12 months in a non-specialist centre (typically 15-30 cases).",
+  "data_source": "Ward notes, MDT records and referral letters/phone log to the regional specialist pancreatic centre.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "complication_type",
+    "type": "choice",
+    "options": [
+     "necrosis",
+     "infected necrosis",
+     "pseudocyst",
+     "haemorrhage",
+     "persistent organ failure",
+     "other systemic complication"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_complication_identified",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_centre_advice_sought",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_advice_sought",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_advice_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_of_discussion",
+    "type": "choice",
+    "options": [
+     "managed locally with advice",
+     "transferred",
+     "not discussed"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'specialist pancreatic centre discussed: yes/date, or why not' field to the ward round proforma whenever a local complication of pancreatitis is coded, with the regional centre's referral hotline number printed on the form.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6-12 months given likely small numbers.",
+  "close_loop": "Present at the upper GI surgery and regional pancreatic network governance meeting; keep the proforma prompt if referral rates improve.",
+  "evidence": [
+   "no audit in the library checks whether specialist pancreatic centre advice is sought for complicated acute pancreatitis"
+  ],
+  "pitfalls": [
+   "Numbers will be small in most DGHs; a longer collection window or combining a few years' cases may be needed.",
+   "Verbal advice given informally (consultant-to-consultant phone call) may not be documented: ask staff to write even brief advice calls in the notes.",
+   "Retrospective identification of 'complicated' cases relies on coding accuracy: cross-check with the radiology report for necrosis/collections.",
+   "Delayed recognition of the complication itself (not just delayed referral) is a separate problem worth flagging separately."
+  ],
+  "pearls": [
+   "Agree the regional referral pathway and contact route with the specialist centre before starting, so 'discussed' has one clear definition.",
+   "Use the upper GI MDT as a backstop: any complicated case not yet discussed externally should be flagged there.",
+   "Keep a shared log of specialist centre discussions so this audit can be repeated quickly from existing records.",
+   "Feed learning back to acute surgical take doctors, who are often the first to see these patients out of hours."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ward notes and referral logs",
+  "pass": "Advice from a specialist pancreatic centre is documented as sought (by phone, MDT or referral letter) within 48 hours of the complication being identified.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with chronic pancreatitis have an HbA1c checked at least every 6 months to monitor for type 3c diabetes?",
+  "why": "Up to 80% of people with chronic pancreatitis develop diabetes, but there is no audit in the library of whether HbA1c monitoring at the recommended interval actually happens.",
+  "standard": {
+   "source": "NICE NG104 rec 1.3.25 (2018)",
+   "wording": "Offer people with chronic pancreatitis monitoring of HbA1c for diabetes at least every 6 months.",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults with a coded diagnosis of chronic pancreatitis under specialist or GP shared-care follow-up for at least 12 months. Exclude those already on insulin under a separate diabetes monitoring pathway if that already meets the interval.",
+  "sample": "40 consecutive adults with chronic pancreatitis with at least 12 months of follow-up.",
+  "data_source": "Clinic letters and GP/hospital laboratory system for HbA1c results and dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_date_1",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_date_2",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_6_months_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "most_recent_hba1c_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_diabetes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_if_overdue",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add chronic pancreatitis to the practice/clinic's recall system for 6-monthly HbA1c, with a letter to the GP specifying the interval if follow-up is shared.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 12 months, same sample criteria.",
+  "close_loop": "Present at the pancreatico-biliary MDT and share with primary care liaison; keep the recall system if adherence improves.",
+  "evidence": [
+   "no audit in the library measures 6-monthly HbA1c monitoring adherence in chronic pancreatitis"
+  ],
+  "pitfalls": [
+   "Shared care with the GP means results may sit outside the hospital record: check the GP-shared record, not just hospital letters.",
+   "New-onset diabetes diagnosed opportunistically should be recorded and cross-checked against the recommended interval going forward.",
+   "A recent hospital admission with unrelated bloods can create a false sense that HbA1c is being monitored: check it is specifically HbA1c, not just glucose.",
+   "Patients who move between hospital and GP-only follow-up need the recall responsibility made explicit."
+  ],
+  "pearls": [
+   "Write the monitoring interval explicitly into the GP discharge/shared-care letter (NICE also expects HbA1c and DEXA frequency communicated to GPs, rec 1.1.7).",
+   "Combine this audit's data collection with the bone density audit below, since both come from the same patient list and letters.",
+   "A single shared spreadsheet or database recall (hospital or practice-run) is more reliable than depending on individual clinicians remembering.",
+   "Re-audit after any change of pancreatico-biliary consultant or specialist nurse, since personal recall systems do not survive rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters and lab results",
+  "pass": "An HbA1c result is recorded at least once in each 6-month period over the last 12 months of follow-up.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with chronic pancreatitis have a bone density (DEXA) assessment at least every 2 years?",
+  "why": "Chronic pancreatitis causes malabsorption and steroid-independent bone loss, but there is no audit in the library of DEXA interval adherence in this group.",
+  "standard": {
+   "source": "NICE NG104 rec 1.3.21 (2018)",
+   "wording": "Offer adults with chronic pancreatitis a bone density assessment every 2 years.",
+   "url": "https://www.nice.org.uk/guidance/ng104/chapter/Recommendations"
+  },
+  "population": "Adults with a coded diagnosis of chronic pancreatitis under follow-up for at least 2 years.",
+  "sample": "40 consecutive adults with chronic pancreatitis and at least 2 years of follow-up.",
+  "data_source": "DEXA/imaging reporting system for scan dates; clinic letters for the diagnosis date and follow-up duration.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "most_recent_dexa_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_years",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dexa_result",
+    "type": "choice",
+    "options": [
+     "normal",
+     "osteopenia",
+     "osteoporosis",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "action_taken_if_abnormal",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_overdue",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add chronic pancreatitis patients to a 2-yearly DEXA recall list, requested directly by the pancreatico-biliary team rather than relying on a GP referral.",
+  "target": "\u226580%",
+  "reaudit": "Repeat in 12 months, same sample criteria.",
+  "close_loop": "Present at the pancreatico-biliary MDT; keep the direct-request recall if scan uptake improves.",
+  "evidence": [
+   "no audit in the library measures 2-yearly DEXA interval adherence in chronic pancreatitis"
+  ],
+  "pitfalls": [
+   "DEXA scans done at another hospital or via a GP osteoporosis pathway can be missed on hospital PACS: ask the patient and check the national image exchange if available.",
+   "A DEXA report without a documented follow-up action for osteopenia/osteoporosis is an incomplete pass: capture both.",
+   "Waiting-list delays for DEXA are a system issue, not a data error: record the request date as well as the scan date.",
+   "Long gaps between clinic reviews can hide overdue scans: check the DEXA system directly rather than only clinic letters."
+  ],
+  "pearls": [
+   "A direct hospital-requested DEXA recall avoids the extra step (and drop-off) of asking the GP to refer.",
+   "Pair this with the HbA1c audit, since both are follow-up-completeness measures on the same chronic pancreatitis list.",
+   "Agree with radiology a standing protocol for chronic pancreatitis DEXA requests so referrals are accepted without individual justification each time.",
+   "Feed abnormal results into a bone health pathway (calcium/vitamin D, bisphosphonate referral) so the scan itself changes management."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the DEXA and clinic systems",
+  "pass": "A DEXA scan report is dated within the last 2 years for the patient's current period of follow-up.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with a positive coeliac serology test are referred to a gastrointestinal specialist for endoscopic biopsy within 6 weeks of the result?",
+  "why": "Positive serology needs biopsy confirmation before a gluten-free diet starts. The library shows a related process (adequate biopsy sampling) improving from 21.9% to 60.8% after an awareness intervention [6474], but no audit measures referral timeliness after a positive result.",
+  "standard": {
+   "source": "NICE NG20 rec 1.3.1 (2015)",
+   "wording": "Refer young people and adults with positive serological test results to a gastrointestinal specialist for endoscopic intestinal biopsy to confirm or exclude coeliac disease.",
+   "url": "https://www.nice.org.uk/guidance/ng20/chapter/Recommendations"
+  },
+  "population": "Adults (16+) with a positive coeliac serology (tTG or EMA) result in primary or secondary care over the last 6-12 months. Exclude children (paediatric pathway differs) and patients already diagnosed with coeliac disease.",
+  "sample": "40 consecutive adults with a new positive coeliac serology result.",
+  "data_source": "Laboratory system for the serology result and date; GP/gastroenterology referral system for the referral date; endoscopy system for the biopsy date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serology_result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serology_result",
+    "type": "choice",
+    "options": [
+     "weakly positive",
+     "positive",
+     "strongly positive"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_6_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "advised_to_continue_gluten",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biopsy_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the laboratory system to auto-generate a gastroenterology 2-week-equivalent referral (or a direct-access endoscopy booking) whenever a positive coeliac serology result is authorised, rather than relying on the requesting clinician to refer.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the gastroenterology and primary care interface meeting; keep the automatic referral trigger if timeliness improves.",
+  "evidence": [
+   "[6474] a duodenal biopsy adequacy audit found only 21.9% of biopsies met the 4-specimen standard, rising to 60.8% after an awareness intervention, showing the coeliac diagnostic pathway needs active management at more than one step",
+   "no audit in the library measures time from positive serology to biopsy referral"
+  ],
+  "pitfalls": [
+   "Patients who have already started a gluten-free diet before referral will have unreliable biopsies: flag and exclude or record separately.",
+   "GP referrals sent by letter rather than an electronic pathway are harder to trace: agree one referral route before starting.",
+   "A weakly positive result needing EMA confirmation (NICE 1.2.2) adds a step that can be mistaken for delay: record the confirmatory test date too.",
+   "Waiting-list pressure on endoscopy is a genuine constraint: separate 'referral made' (clinician-controlled) from 'biopsy done' (partly system-controlled) in the results."
+  ],
+  "pearls": [
+   "An automatic referral trigger from the lab removes the main point of failure (a positive result filed without action).",
+   "Brief primary care on the 'keep eating gluten until biopsy' message, since this is a common patient safety-netting gap.",
+   "Track both referral and biopsy timeliness so any bottleneck (referral vs endoscopy capacity) is clearly identified.",
+   "Share results with the endoscopy unit, since a rise in referrals may need a dedicated slot allocation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the lab and referral systems",
+  "pass": "A referral for endoscopic biopsy is made within 6 weeks of a positive coeliac serology result, and the patient is advised to continue eating gluten until the biopsy.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with confirmed coeliac disease have a documented annual review that includes weight, symptom review and consideration of dietetic input?",
+  "why": "Ongoing coeliac care depends on a structured annual review, not just the initial diagnosis; no audit in the library checks whether this review is complete each year.",
+  "standard": {
+   "source": "NICE NG20 rec 1.4.3 (2015)",
+   "wording": "Offer an annual review to people with coeliac disease. During the review: measure weight and height, review symptoms, consider the need for assessment of diet and adherence to the gluten-free diet, consider the need for specialist dietetic and nutritional advice.",
+   "url": "https://www.nice.org.uk/guidance/ng20/chapter/Recommendations"
+  },
+  "population": "Adults with a confirmed diagnosis of coeliac disease under hospital or GP follow-up for at least 12 months.",
+  "sample": "40 consecutive adults with confirmed coeliac disease due, or having had, their annual review.",
+  "data_source": "Gastroenterology or GP annual review clinic letters/EPR template.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_annual_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_review_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietetic_input_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "serology_repeated_if_symptomatic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pneumococcal_vaccination_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE 1.6.5"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a structured coeliac annual review template (weight, symptoms, dietetic-input decision, vaccination check) into the GP or gastroenterology system, replacing free-text review notes.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 12 months, same template and sample.",
+  "close_loop": "Present at the gastroenterology-primary care interface meeting; keep the template as the standard annual review record if completeness improves.",
+  "evidence": [
+   "[9569] an invitational letter increased vaccine uptake in coeliac disease from 38.6% to 49.2%, showing structured recall improves an under-performing part of coeliac follow-up",
+   "no audit in the library checks completeness of the coeliac annual review itself"
+  ],
+  "pitfalls": [
+   "Many coeliac annual reviews happen in general practice, sometimes without a distinct template: check GP records, not just hospital letters.",
+   "Weight alone without a comparison to a previous value misses faltering weight gain or loss: record trend, not just a single figure.",
+   "'Considered' dietetic input can be interpreted loosely: agree what counts as documented consideration before starting (for example, an explicit yes/no with reason).",
+   "Patients discharged from hospital follow-up to GP-only care can fall out of any recall system: check both settings for the relevant year."
+  ],
+  "pearls": [
+   "A single shared template usable in both primary and secondary care avoids duplicated or missed reviews.",
+   "Use the coeliac patient group/dietitian list, if one exists locally, to identify the full eligible population rather than relying on clinic attendance alone.",
+   "Bundle the pneumococcal vaccination check into the same template, since NICE links it to coeliac care specifically.",
+   "Re-audit after any change to the GP recall system or dietetic staffing, since these reviews often depend on one named clinician."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters or GP records",
+  "pass": "In the last 12 months, the patient has a review documenting weight, a symptom review, and a decision about dietetic input.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults newly diagnosed with type 1 diabetes have coeliac serology testing at or shortly after diagnosis?",
+  "why": "Coeliac disease is more common in type 1 diabetes and is easy to miss without proactive testing; no audit in the library checks serology testing rates at diabetes diagnosis.",
+  "standard": {
+   "source": "NICE NG20 rec 1.1.1 (2015)",
+   "wording": "Offer serological testing for coeliac disease to: people with ... type 1 diabetes, at diagnosis.",
+   "url": "https://www.nice.org.uk/guidance/ng20/chapter/Recommendations"
+  },
+  "population": "Adults with a new diagnosis of type 1 diabetes in the last 12-24 months, identified from the diabetes team's new-patient register.",
+  "sample": "40 consecutive adults with a new type 1 diabetes diagnosis.",
+  "data_source": "Diabetes clinic letters/EPR and laboratory system for coeliac serology requests and results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_t1dm_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "coeliac_serology_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_requested",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_months_of_diagnosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result",
+    "type": "choice",
+    "options": [
+     "negative",
+     "positive",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referred_for_biopsy_if_positive",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add coeliac serology as a pre-selected item on the new type 1 diabetes diagnosis blood panel in the diabetes clinic order set.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months, same register and sample size.",
+  "close_loop": "Present at the diabetes and gastroenterology joint governance meeting; keep the order-set item if testing rates improve.",
+  "evidence": [
+   "no audit in the library checks coeliac serology testing rates at type 1 diabetes diagnosis"
+  ],
+  "pitfalls": [
+   "Serology requested by the GP rather than the diabetes team can be missed if only hospital systems are checked.",
+   "Symptomatic coeliac disease may have already prompted testing before the diabetes diagnosis: record timing relative to diagnosis, not just whether it was ever done.",
+   "A negative result does not exclude future risk: NICE also recommends re-testing if symptoms develop later (rec 1.3.4), which is worth a separate note in results.",
+   "New diagnoses made as an inpatient (e.g. with diabetic ketoacidosis) may have this step deprioritised: check both inpatient and outpatient pathways."
+  ],
+  "pearls": [
+   "Adding the test to the admission/diagnosis order set is far more reliable than relying on individual clinicians to remember an easily-missed association.",
+   "Use the paediatric-to-adult transition list as an additional source of newly diagnosed young adults.",
+   "Share results with the diabetes specialist nurses, who often run the new-diagnosis pathway day to day.",
+   "Track outcome of positive results through to biopsy referral, not just whether the test was requested."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the diabetes register and lab system",
+  "pass": "Coeliac serology (tTG-IgA with total IgA) is requested within 3 months of a new type 1 diabetes diagnosis.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults started on azathioprine or mercaptopurine for Crohn's disease have thiopurine methyltransferase (TPMT) activity checked before the first dose?",
+  "why": "Starting a thiopurine without checking TPMT risks severe, potentially fatal myelosuppression in deficient patients. A related paediatric audit found TPMT measured in 97% but late (after starting) in 46% of cases [2966], showing timing, not just testing, is the gap.",
+  "standard": {
+   "source": "NICE NG129 rec 1.2.8 (2012)",
+   "wording": "Assess thiopurine methyltransferase (TPMT) activity before offering azathioprine or mercaptopurine. Do not offer azathioprine or mercaptopurine if TPMT activity is deficient (very low or absent). Consider azathioprine or mercaptopurine at a lower dose if TPMT activity is below normal but not deficient.",
+   "url": "https://www.nice.org.uk/guidance/ng129/chapter/Recommendations"
+  },
+  "population": "Adults with Crohn's disease newly started on azathioprine or mercaptopurine in the last 12 months. Exclude patients already established on a thiopurine before the audit period.",
+  "sample": "30-40 consecutive adults newly started on azathioprine or mercaptopurine for Crohn's disease.",
+  "data_source": "Gastroenterology clinic letters, e-prescribing and laboratory system for the TPMT request, result and first-dose date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_started",
+    "type": "choice",
+    "options": [
+     "azathioprine",
+     "mercaptopurine"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tpmt_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tpmt_result_available_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "tpmt_category",
+    "type": "choice",
+    "options": [
+     "normal",
+     "intermediate/below normal",
+     "deficient",
+     "not known"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_adjusted_for_result",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make TPMT a mandatory, hard-stop pre-requisite field on the electronic thiopurine prescription for IBD, so the first dose cannot be authorised without a documented result.",
+  "target": "\u226595%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the gastroenterology and pharmacy governance meeting; keep the hard-stop prescribing rule if pre-dose testing improves.",
+  "evidence": [
+   "[2966] a paediatric gastroenterology azathioprine audit found TPMT measured in 97% of patients but returned late (after starting) in 46%, and shared-care guidelines with order sets were proposed as the fix",
+   "no audit in the library measures TPMT-before-first-dose timing in adult Crohn's disease"
+  ],
+  "pitfalls": [
+   "A TPMT sent on the same day as the first prescription, before the result is back, is a common near-miss: define 'before' as result available, not just sample sent.",
+   "Urgent starts (for example, at discharge) are the highest-risk point for skipping the check: flag these specifically.",
+   "Local laboratory turnaround time affects feasibility: know the turnaround before setting a hard-stop rule.",
+   "GP-initiated repeat prescriptions after a hospital start need the same rule applied, or risk restarting without a recent result after a long gap."
+  ],
+  "pearls": [
+   "A pharmacy-enforced hard stop is more reliable than a reminder, since this is a genuine patient-safety risk, not just a documentation gap.",
+   "Agree an urgent same-day TPMT turnaround with the laboratory for planned starts, so timeliness does not become an excuse to skip the check.",
+   "Audit alongside the ongoing FBC monitoring measure below, since both come from the same thiopurine-start list.",
+   "Flag any deficient result found to the whole team immediately, not just recorded, given the severity of the risk it avoids."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from e-prescribing and lab results",
+  "pass": "TPMT activity is checked and the result is available and acted on (standard dose, reduced dose, or drug avoided) before the first dose of azathioprine or mercaptopurine is given.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults on ongoing infliximab or adalimumab for Crohn's disease have a documented reassessment of continued need within the last 12 months?",
+  "why": "Biologics should only continue with evidence of ongoing benefit, but no audit in the library checks whether the 12-monthly reassessment NICE requires is actually done and recorded.",
+  "standard": {
+   "source": "NICE NG129 rec 1.2.16 (2010)",
+   "wording": "People who continue treatment with infliximab or adalimumab should have their disease reassessed at least every 12 months to determine whether ongoing treatment is still clinically appropriate.",
+   "url": "https://www.nice.org.uk/guidance/ng129/chapter/Recommendations"
+  },
+  "population": "Adults with Crohn's disease on infliximab or adalimumab for at least 12 months, identified from the biologics/homecare prescribing list.",
+  "sample": "40 consecutive adults on ongoing infliximab or adalimumab for Crohn's disease.",
+  "data_source": "Gastroenterology clinic letters/EPR and the biologics prescribing or homecare database.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biologic_drug",
+    "type": "choice",
+    "options": [
+     "infliximab",
+     "adalimumab"
+    ],
+    "note": ""
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_reassessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "evidence_used",
+    "type": "choice",
+    "options": [
+     "symptoms only",
+     "biomarker (calprotectin/CRP)",
+     "endoscopy",
+     "combination"
+    ],
+    "note": ""
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "continue",
+     "trial withdrawal discussed",
+     "stop",
+     "switch"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 12-monthly reassessment alert to the biologics prescribing/homecare system that flags any patient approaching 12 months since their last documented review, before the next prescription is authorised.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months, same list and sample.",
+  "close_loop": "Present at the IBD service governance meeting; keep the prescribing-system alert if reassessment rates improve.",
+  "evidence": [
+   "no audit in the library measures 12-monthly reassessment completion for ongoing biologic therapy in Crohn's disease"
+  ],
+  "pitfalls": [
+   "Biologics given via homecare can be continued on a repeat-prescription basis with limited direct clinical contact: check the homecare database as well as hospital clinic letters.",
+   "A telephone or virtual review counts if it is documented with the required content; define this before starting so virtual clinics are not under- or over-counted.",
+   "Faecal calprotectin results sitting in a different IT system from the clinic letter can be missed: search the laboratory system directly.",
+   "Patients who are stable and rarely seen in person are at highest risk of an undocumented, assumed 'still working' continuation."
+  ],
+  "pearls": [
+   "A prescribing-system alert tied to the homecare/biologics pharmacy record catches patients who might otherwise coast without face-to-face review.",
+   "Use IBD specialist nurses to run virtual reassessments by phone with a structured symptom and biomarker check, rather than requiring a clinic slot for every patient.",
+   "Track the decision made at reassessment (continue/stop/switch), not just whether one happened, to show it changes practice.",
+   "Re-audit after any biologics service reconfiguration, since responsibility for review can become unclear during service changes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the biologics database and clinic letters",
+  "pass": "A documented reassessment of clinical symptoms, biomarkers (for example, faecal calprotectin or CRP) or investigation is recorded within the last 12 months for each patient continuing infliximab or adalimumab.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults admitted with acute severe ulcerative colitis have a documented daily assessment of the likelihood of needing surgery, including stool frequency and CRP?",
+  "why": "Daily reassessment identifies patients failing medical therapy early enough to escalate safely. The library's topic cards do not include a specific audit of this daily assessment step in acute severe UC.",
+  "standard": {
+   "source": "NICE NG130 rec 1.2.26 (2013)",
+   "wording": "Assess and document on admission, and then daily, the likelihood of needing surgery for people admitted to hospital with acute severe ulcerative colitis.",
+   "url": "https://www.nice.org.uk/guidance/ng130/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute severe ulcerative colitis (meeting Truelove and Witts' severe criteria). Exclude mild/moderate flares managed as outpatients.",
+  "sample": "All admissions with acute severe ulcerative colitis over the last 12 months (typically 15-30 cases in a DGH).",
+  "data_source": "Inpatient ward notes/EPR and laboratory system for daily stool frequency and CRP documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_with_stool_frequency_and_crp_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_expected",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "daily_assessment_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: recorded on every inpatient day"
+   },
+   {
+    "field": "iv_steroids_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "discharged on oral steroids",
+     "escalated to ciclosporin/biologic",
+     "surgery",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a dedicated acute severe UC daily monitoring chart (stool frequency, CRP, pulse, temperature, albumin) kept at the bedside or in the EPR, separate from the general observation chart.",
+  "target": "\u226590% of inpatient days complete",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the gastroenterology and colorectal surgery joint IBD meeting; keep the monitoring chart if daily completeness improves.",
+  "evidence": [
+   "no audit in the library measures daily surgical-likelihood assessment completeness in acute severe ulcerative colitis"
+  ],
+  "pitfalls": [
+   "Weekend and night documentation is the most likely gap: check whether missed days cluster on weekends before proposing a fix.",
+   "Retrospective note review can undercount verbal ward-round assessments not written down: only count what is documented, and say so.",
+   "Small numbers are expected; consider a rolling collection over 12 months rather than a fixed short window.",
+   "A patient transferred to a tertiary centre mid-admission should have their local-stay days counted, not penalised for the transfer."
+  ],
+  "pearls": [
+   "A single-page bedside chart used by both medical and nursing staff is easier to complete reliably than relying on free-text ward-round notes.",
+   "Involve the IBD clinical nurse specialist, who often already tracks these patients closely.",
+   "Pair this with the 72-hour escalation-decision audit below, since both use the same admission cohort and monitoring chart.",
+   "Feed missed weekend days back to the acute medical take handover process, not just the gastroenterology team, since cover changes at weekends."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ward notes and lab results",
+  "pass": "Stool frequency and CRP (or another documented surgical-likelihood assessment) are recorded at least once every 24 hours from admission until discharge or surgery.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults admitted with acute severe ulcerative colitis who have little or no improvement after 72 hours of intravenous corticosteroids have a documented escalation decision (rescue therapy or surgery) made at that point?",
+  "why": "Delaying escalation in steroid-refractory acute severe colitis increases the risk of emergency colectomy and complications; no audit in the library measures whether the 72-hour decision point is actually acted on.",
+  "standard": {
+   "source": "NICE NG130 rec 1.2.24 (2013)",
+   "wording": "Consider adding intravenous ciclosporin to intravenous corticosteroids or consider surgery for people: who have little or no improvement within 72 hours of starting intravenous corticosteroids or whose symptoms worsen at any time despite corticosteroid treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng130/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute severe ulcerative colitis started on IV corticosteroids. Exclude those who clearly improve before 72 hours.",
+  "sample": "All acute severe UC admissions over 12 months not improving by day 3 (typically 10-20 cases).",
+  "data_source": "Inpatient ward notes/EPR, including gastroenterology and colorectal surgery joint review entries.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_steroid_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "day_3_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "improving_by_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "escalation_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion, if not improving"
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "ciclosporin",
+     "biologic rescue",
+     "surgery",
+     "continue steroids with reason",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_from_72h_to_decision_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'day 3 acute severe colitis decision' prompt to the joint gastroenterology/colorectal ward round proforma, due exactly 72 hours after IV steroids start.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the gastroenterology and colorectal surgery joint IBD meeting; keep the day-3 prompt if timely escalation improves.",
+  "evidence": [
+   "no audit in the library measures the timeliness of the 72-hour escalation decision in steroid-refractory acute severe ulcerative colitis"
+  ],
+  "pitfalls": [
+   "The '72 hours' point can fall on a weekend when senior IBD input is less available: check whether delays cluster there.",
+   "A verbal decision to 'wait and see' without written reasoning is a common near-miss: require an explicit written plan even if the plan is to continue watching.",
+   "Small numbers are expected; combine data over 12 months rather than a short window.",
+   "Distinguish patients who improved (correctly not escalated) from those who did not improve but were still not escalated, since only the latter are failures."
+  ],
+  "pearls": [
+   "A joint gastroenterology/colorectal ward round on or around day 3 for every acute severe UC admission is the single most effective fix reported for this kind of delay.",
+   "Build the 72-hour trigger from the steroid start time recorded in e-prescribing, so the prompt is automatic rather than manually tracked.",
+   "Share results with both specialties, since the decision genuinely needs both to be involved (NICE rec 1.2.21).",
+   "Track outcomes (colectomy rate, length of stay) at re-audit to show timely escalation is not just paperwork."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ward notes",
+  "pass": "For patients not clearly improving by 72 hours of IV corticosteroids, a documented decision (escalate to ciclosporin/biologic rescue therapy, proceed to surgery, or continue with explicit reasoning) is recorded on day 3 of treatment.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults admitted with acute severe ulcerative colitis have a joint gastroenterology and colorectal surgery review documented within 24 hours of admission?",
+  "why": "NICE requires collaborative gastroenterology-surgical management from the start of an acute severe UC admission; no audit in the library checks whether this joint review happens early enough.",
+  "standard": {
+   "source": "NICE NG130 rec 1.2.21 (2013)",
+   "wording": "For people admitted to hospital with acute severe ulcerative colitis: ensure that a gastroenterologist and a colorectal surgeon collaborate to provide treatment and management.",
+   "url": "https://www.nice.org.uk/guidance/ng130/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute severe ulcerative colitis (Truelove and Witts' severe criteria).",
+  "sample": "All acute severe UC admissions over 12 months (typically 15-30 cases).",
+  "data_source": "Inpatient ward notes/EPR for gastroenterology and colorectal surgery entries and timestamps.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gastroenterology_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "colorectal_surgery_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "joint_ward_round_or_separate",
+    "type": "choice",
+    "options": [
+     "joint ward round",
+     "separate reviews",
+     "surgery not involved"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_surgery_not_involved",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set an automatic referral to colorectal surgery, alongside the gastroenterology referral, whenever 'acute severe colitis' is coded on admission, so both specialties are alerted from the outset rather than surgery being added later.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the joint gastroenterology and colorectal surgery IBD meeting; keep the dual-referral rule if joint input improves.",
+  "evidence": [
+   "no audit in the library measures how quickly colorectal surgery is involved in acute severe ulcerative colitis admissions"
+  ],
+  "pitfalls": [
+   "Surgical input may be genuinely not needed in every case: only count 'surgery not involved' as a failure if there is no documented reason it was safe to omit.",
+   "Out-of-hours admissions may only reach the on-call medical team initially: check whether delays cluster overnight or at weekends.",
+   "A surgical opinion recorded as a brief note rather than a full review still counts if it reflects genuine awareness and input: agree the definition in advance.",
+   "This audit works best combined with the daily-assessment and 72-hour-escalation audits, since they share the same patient cohort; avoid re-collecting the same admission list three separate times without coordinating."
+  ],
+  "pearls": [
+   "A single combined data-collection sheet covering all three acute severe UC audits (this one, daily assessment, and 72-hour escalation) saves duplicate note review.",
+   "An automatic dual referral removes reliance on the medical team remembering to involve surgery early.",
+   "Use the IBD nurse specialist to flag every acute severe UC admission in real time so both teams are alerted immediately.",
+   "Present colectomy rate and length of stay alongside process measures, since joint working is intended to improve these outcomes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ward notes",
+  "pass": "Both a gastroenterologist and a colorectal surgeon document a review (jointly or separately but within the same 24-hour window) within 24 hours of admission with acute severe ulcerative colitis.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults newly diagnosed with MASLD (fatty liver on imaging) have an enhanced liver fibrosis (ELF) test done to check for advanced fibrosis?",
+  "why": "Without fibrosis testing, MASLD patients at high risk of progression to cirrhosis are not identified for specialist referral; no audit in the library measures ELF testing uptake in MASLD.",
+  "standard": {
+   "source": "NICE NG49 recs 1.3.1-1.3.2 (2016, updated 2026)",
+   "wording": "Offer testing for advanced liver fibrosis to people with MASLD. Consider using the enhanced liver fibrosis (ELF) test in people who have been diagnosed with MASLD to test for advanced liver fibrosis.",
+   "url": "https://www.nice.org.uk/guidance/ng49/chapter/Assessment-for-advanced-liver-fibrosis-in-people-with-MASLD"
+  },
+  "population": "Adults with a new diagnosis of MASLD (steatosis on ultrasound or other imaging plus type 2 diabetes/metabolic syndrome, alcohol excluded) in the last 12 months, identified via radiology reports or GP/hepatology records.",
+  "sample": "40 consecutive adults with a new MASLD diagnosis.",
+  "data_source": "Radiology reports for the steatosis diagnosis; laboratory system for the ELF request and result; GP/hepatology clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_masld_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "elf_test_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "elf_request_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "elf_result",
+    "type": "number",
+    "options": [],
+    "note": "Threshold 10.51 for advanced fibrosis"
+   },
+   {
+    "field": "advanced_fibrosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_hepatology_if_advanced",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic ELF test order (or reflex laboratory pathway) whenever a radiology report codes hepatic steatosis with a coded diagnosis of type 2 diabetes or metabolic syndrome.",
+  "target": "\u226570%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the primary care-hepatology interface or metabolic liver disease governance meeting; keep the reflex pathway if testing uptake improves.",
+  "evidence": [
+   "no audit in the library measures ELF testing uptake in newly diagnosed MASLD"
+  ],
+  "pitfalls": [
+   "MASLD is often diagnosed incidentally on imaging done for another reason (e.g. gallstones): a purely GP-list-based search will miss these cases, so also check radiology reports.",
+   "ELF may not be available in every laboratory: confirm local availability and, if using an alternative (e.g. FIB-4), record which test was actually used.",
+   "A steatosis report without a documented diagnosis of MASLD in the notes can under-count the true denominator: define inclusion criteria carefully with the audit team.",
+   "Following up on an abnormal ELF result (referral to hepatology) is a separate step from testing itself: capture both."
+  ],
+  "pearls": [
+   "A reflex laboratory pathway (steatosis + diabetes coded \u2192 automatic ELF) avoids relying on individual GPs or hospital clinicians remembering the test.",
+   "Engage radiology to standardise wording that flags steatosis clearly in reports, since ambiguous wording is a common cause of missed follow-up.",
+   "Use this as an opportunity to build a simple MASLD register, which also supports the HCC/cirrhosis surveillance audits above if advanced fibrosis is confirmed.",
+   "Track the proportion referred on for advanced fibrosis, not just tested, to show the pathway works end to end."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from radiology and lab systems",
+  "pass": "An ELF test (or another advanced fibrosis test used consistently with local pathway) is requested within 6 months of a new MASLD diagnosis being recorded.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults diagnosed with advanced liver fibrosis on ELF testing (score \u226510.51) are referred to a hepatology specialist?",
+  "why": "An abnormal ELF result only helps the patient if it leads to specialist assessment; no audit in the library checks this referral step.",
+  "standard": {
+   "source": "NICE NG49 rec 1.3.5 (2016, updated 2026)",
+   "wording": "Refer adults and young people diagnosed with advanced liver fibrosis to a relevant specialist in hepatology.",
+   "url": "https://www.nice.org.uk/guidance/ng49/chapter/Assessment-for-advanced-liver-fibrosis-in-people-with-MASLD"
+  },
+  "population": "Adults with an ELF result of 10.51 or above in the last 12-24 months, identified from the laboratory system.",
+  "sample": "All patients with an ELF \u226510.51 over the last 12-24 months (likely 15-30 in a typical laboratory catchment).",
+  "data_source": "Laboratory system for the ELF result; GP/hospital referral system for the hepatology referral date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "elf_result",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "elf_result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_hepatology",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_referred",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the laboratory system to flag any ELF result \u226510.51 directly to the ordering clinician and to a hepatology virtual clinic inbox, so an abnormal result cannot be filed without a referral decision.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months, same criteria.",
+  "close_loop": "Present at the primary care-hepatology interface meeting; keep the laboratory flagging system if referral rates improve.",
+  "evidence": [
+   "no audit in the library checks referral rates after an abnormal ELF result for advanced fibrosis"
+  ],
+  "pitfalls": [
+   "A raised ELF result filed in primary care without hospital visibility is the main risk: a shared alert to both GP and a hepatology inbox closes this gap.",
+   "Local availability of ELF is limited to some laboratories: numbers may be small, so extend the collection period if needed.",
+   "A patient who declines referral should be recorded as such, not as a system failure.",
+   "Distinguish a new ELF-based diagnosis of advanced fibrosis from a result in a patient already known to hepatology for another reason."
+  ],
+  "pearls": [
+   "A direct laboratory-to-hepatology inbox alert for abnormal ELF results is more reliable than relying on primary care to always act on an unfamiliar test.",
+   "Agree a simple 'MASLD-advanced fibrosis' virtual clinic pathway with hepatology so referrals do not need a lengthy standard outpatient wait.",
+   "Combine with the ELF-testing audit above as two stages of the same pathway.",
+   "Publicise the ELF threshold and referral pathway to GPs, since MASLD referral criteria are still unfamiliar to many."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from lab and referral systems",
+  "pass": "A referral to a hepatology specialist is made within 3 months of an ELF result of 10.51 or above.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults started on corticosteroids for severe alcohol-related hepatitis (discriminant function \u226532) have active infection and gastrointestinal bleeding excluded or treated first?",
+  "why": "Corticosteroids in alcoholic hepatitis increase infection risk if given before sepsis is controlled; no audit in the library checks whether this safety step is followed before starting steroids.",
+  "standard": {
+   "source": "NICE CG100 rec 1.3.3.1 (2017)",
+   "wording": "Offer corticosteroid treatment to people with severe alcohol-related hepatitis and a discriminant function of 32 or more, only after: effectively treating any active infection or gastrointestinal bleeding that may be present, controlling any renal impairment, discussing the potential benefits and risks with the person.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults with severe alcohol-related hepatitis (Maddrey discriminant function \u226532) started on corticosteroids in the last 12 months.",
+  "sample": "All patients started on corticosteroids for severe alcoholic hepatitis over 12 months (typically 10-25 cases).",
+  "data_source": "Inpatient ward notes/EPR, microbiology results and drug chart for the steroid start date and preceding infection/bleeding assessment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discriminant_function_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_screen_documented_before_steroids",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blood_cultures_ascitic_tap_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "active_infection_found",
+    "type": "choice",
+    "options": [
+     "none found",
+     "treated before steroids",
+     "steroids started despite untreated infection"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gi_bleeding_excluded_or_controlled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "renal_impairment_addressed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory pre-steroid checklist (blood cultures, ascitic tap if ascites present, chest X-ray, GI bleeding assessment) to the severe alcoholic hepatitis order set, which must be completed before the steroid prescription can be signed.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the hepatology governance meeting; keep the pre-steroid checklist if compliance improves.",
+  "evidence": [
+   "no audit in the library checks infection or bleeding screening before starting corticosteroids for severe alcoholic hepatitis"
+  ],
+  "pitfalls": [
+   "Retrospective identification of 'active infection' can be difficult without a systematic screen: define what counts as an adequate screen (cultures, ascitic tap, chest X-ray) before starting.",
+   "Numbers are likely to be small: extend the collection period to 12 months or pool across a network.",
+   "Steroids sometimes started urgently out of hours before a full screen returns: capture whether the screen was at least sent, even if results were pending.",
+   "A documented discussion of risks and benefits with the patient (also required by NICE) is a separate item worth tracking alongside the safety screen."
+  ],
+  "pearls": [
+   "Build the checklist into the same order set as the discriminant function calculation, so the safety steps and the treatment decision happen together.",
+   "Involve microbiology/infection specialists in agreeing what counts as an adequate pre-steroid screen.",
+   "Track 3-month and 1-month mortality alongside process measures, since this is the clinical outcome the safety check protects.",
+   "Re-audit after any change in the on-call hepatology or gastroenterology rota, since urgent decisions often fall to whoever is on call."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ward notes and results",
+  "pass": "Before the first dose of corticosteroid, there is documented evidence that infection has been screened for and treated (or excluded) and any GI bleeding has been controlled.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with abnormal liver blood tests and a history of harmful or hazardous drinking are referred to a specialist experienced in alcohol-related liver disease to confirm the diagnosis?",
+  "why": "A clinical diagnosis of alcohol-related liver disease should be confirmed by a specialist rather than assumed from drinking history alone; no audit in the library checks this referral step. The library shows abnormal LFT follow-up more broadly is under-audited (1 related entry only).",
+  "standard": {
+   "source": "NICE CG100 rec 1.3.1.2 (2010)",
+   "wording": "Refer people to a specialist experienced in the management of alcohol-related liver disease to confirm a clinical diagnosis of alcohol-related liver disease.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults with newly abnormal liver blood tests and a documented history of harmful or hazardous drinking, identified in primary or secondary care over the last 12 months.",
+  "sample": "40 consecutive adults meeting these criteria.",
+  "data_source": "GP/hospital records for the abnormal LFT result, alcohol history and the referral letter/date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_abnormal_lft",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_causes_excluded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_specialist",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_of_specialist_assessment",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic prompt to the GP or hospital results system: abnormal LFTs plus a coded harmful/hazardous drinking history triggers a suggested hepatology referral rather than a repeat-and-wait approach.",
+  "target": "\u226570%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the primary care-hepatology interface meeting; keep the prompt if referral rates improve.",
+  "evidence": [
+   "no audit in the library checks specialist referral rates to confirm a diagnosis of alcohol-related liver disease"
+  ],
+  "pitfalls": [
+   "Alcohol history documentation is often incomplete, making the denominator hard to define: agree a minimum threshold (for example, an AUDIT-C score or explicit units/week) with the audit team.",
+   "Repeat LFTs without referral is a common default: distinguish 'LFTs repeated' from 'referred' clearly in the data.",
+   "Other causes of abnormal LFTs (viral hepatitis, drugs, MASLD) need to be genuinely excluded, not assumed, before this pathway applies.",
+   "Patients who decline referral or engagement should be recorded as such, not as a service failure."
+  ],
+  "pearls": [
+   "A shared primary care-hepatology pathway document, agreed in advance, avoids ambiguity about who refers and when.",
+   "Use the alcohol care team or liaison nurse, where one exists, to support engagement with referral for patients who may be ambivalent about it.",
+   "Track outcome of the specialist assessment (confirmed ArLD, alternative diagnosis, fibrosis staging) to show the referral changes management.",
+   "Re-audit after any change to community alcohol or liver pathway commissioning, since these referral routes can change."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from GP/hospital records",
+  "pass": "A referral to a hepatology or gastroenterology specialist is made within 3 months of abnormal liver blood tests being identified in a person with harmful or hazardous drinking, once other causes have been excluded.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with pain from chronic alcohol-related pancreatitis are referred to a specialist centre for multidisciplinary assessment?",
+  "why": "Chronic pancreatitis pain management benefits from specialist multidisciplinary input (pain team, dietetics, endoscopic/surgical options); no audit in the library checks this referral step.",
+  "standard": {
+   "source": "NICE CG100 rec 1.4.2.1 (2010)",
+   "wording": "Refer people with pain from chronic alcohol-related pancreatitis to a specialist centre for multidisciplinary assessment.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults with a diagnosis of chronic alcohol-related pancreatitis and documented ongoing pain, seen in gastroenterology or pain clinic over the last 12 months.",
+  "sample": "30 consecutive adults with chronic alcohol-related pancreatitis and pain.",
+  "data_source": "Gastroenterology/pain clinic letters for the pain assessment and referral to a specialist pancreatic centre.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "analgesia_escalation_tried_locally",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_specialist_pancreatic_centre",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mdt_outcome",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_referred",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'persistent pain in chronic pancreatitis: specialist pancreatic centre referral considered' prompt to the gastroenterology clinic template, triggered when pain is coded as ongoing at two consecutive reviews.",
+  "target": "\u226570%",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the pancreatico-biliary and pain management joint meeting; keep the clinic template prompt if referral rates improve.",
+  "evidence": [
+   "no audit in the library checks referral rates to a specialist pancreatic centre for painful chronic alcohol-related pancreatitis"
+  ],
+  "pitfalls": [
+   "Pain management is often escalated informally through primary care analgesia rather than referral: capture what was tried locally before assuming referral was appropriate.",
+   "Numbers in a single DGH will be small: extend the collection period or combine with neighbouring units.",
+   "Ongoing alcohol use complicates referral acceptance and outcome: record engagement with alcohol support as context, not as a reason to withhold referral.",
+   "A referral made but not yet seen (long waiting list) should be recorded as 'referred', with the wait time as a separate issue to escalate."
+  ],
+  "pearls": [
+   "Agree the regional specialist pancreatic centre referral route and typical waiting time before starting, so expectations are realistic.",
+   "Loop in the chronic pain team locally as a bridge while a specialist centre referral is pending.",
+   "Track whether alcohol support was also offered alongside pain referral, since ongoing drinking undermines both problems.",
+   "Use this audit to also flag whether surgical options (see NICE NG104 on duct obstruction) were considered at the specialist assessment."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from clinic letters",
+  "pass": "A referral to a specialist pancreatic centre for multidisciplinary assessment is made and documented for patients with ongoing pain from chronic alcohol-related pancreatitis not controlled by simple analgesia.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults treated for delirium tremens in hospital are prescribed oral lorazepam as first-line treatment before parenteral treatment?",
+  "why": "First-line drug choice for delirium tremens affects both safety and the ability to reassess response; the library's alcohol withdrawal topic card shows scoring and specialist oversight are weak points, but does not track first-line drug choice for delirium tremens specifically.",
+  "standard": {
+   "source": "NICE CG100 rec 1.1.4.1 (2010, amended 2017)",
+   "wording": "In people with delirium tremens, offer oral lorazepam as first-line treatment. If symptoms persist or oral medication is declined, offer parenteral lorazepam or haloperidol.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults diagnosed with delirium tremens during an inpatient admission for alcohol withdrawal in the last 6-12 months.",
+  "sample": "30 consecutive adults with a documented diagnosis of delirium tremens.",
+  "data_source": "Inpatient ward notes/EPR and drug chart for the sequence of drugs given.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_dt_diagnosed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_line_drug_route",
+    "type": "choice",
+    "options": [
+     "oral lorazepam",
+     "parenteral lorazepam",
+     "parenteral haloperidol",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "oral_tried_first",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_parenteral_if_first_line",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "withdrawal_drug_regimen_reviewed",
+    "type": "yes/no",
+    "options": [],
+    "note": "NICE 1.1.4.2"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add delirium tremens as a specific pathway on the alcohol withdrawal order set, with oral lorazepam pre-selected as the default first step and parenteral options only unlocked after a documented reason.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the alcohol care/liaison psychiatry governance meeting; keep the order-set default if first-line prescribing improves.",
+  "evidence": [
+   "the library's alcohol withdrawal topic card shows addiction specialist oversight on acute wards was as low as 4%, suggesting structured prescribing pathways are needed rather than relying on individual clinical judgement for complications like delirium tremens"
+  ],
+  "pitfalls": [
+   "Patients too agitated to safely take oral medication are a genuine reason to start parenteral treatment first: record this as a valid reason, not a failure.",
+   "Out-of-hours decisions may default to whatever is easiest to draw up (often parenteral): check whether time of day predicts drug choice.",
+   "A general alcohol withdrawal order set without a specific delirium tremens pathway can blur the distinction between routine and DT management: confirm the diagnosis is explicit before including a case.",
+   "Reviewing the withdrawal regimen after DT develops (1.1.4.2) is a second, separate standard worth capturing alongside first-line drug choice."
+  ],
+  "pearls": [
+   "A default order-set option removes the need for staff to recall the correct sequence under pressure.",
+   "Loop in liaison psychiatry or an alcohol care team, if one exists, since delirium tremens often triggers a specialist review anyway.",
+   "Use ward pharmacy to spot-check compliance in real time, not just retrospectively.",
+   "Track whether the withdrawal regimen is actively reviewed after DT develops, since this is often forgotten once acute treatment is given."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ward notes and drug chart",
+  "pass": "Oral lorazepam is tried first, with parenteral treatment reserved for persistent symptoms or where oral medication is declined or not possible.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults treated for suspected Wernicke's encephalopathy receive parenteral thiamine for a minimum of 5 days before switching to oral thiamine?",
+  "why": "Stopping parenteral thiamine too early risks permanent Korsakoff's psychosis. The library's alcohol topic card shows Pabrinex timing is measured, but not treatment duration once started; no audit checks the 5-day minimum specifically.",
+  "standard": {
+   "source": "NICE CG100 rec 1.2.1.4 (2010)",
+   "wording": "Offer parenteral thiamine to people with suspected Wernicke's encephalopathy ... Parenteral treatment should be given for a minimum of 5 days, unless Wernicke's encephalopathy is excluded. Oral thiamine treatment should follow parenteral therapy.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults treated for suspected Wernicke's encephalopathy (any one or more of the classic triad, or high clinical risk with prophylactic-dose escalation to treatment dose) in the last 6-12 months.",
+  "sample": "30 consecutive adults treated for suspected Wernicke's encephalopathy.",
+  "data_source": "Inpatient ward notes/EPR and drug chart for the parenteral thiamine start and stop dates and the switch to oral thiamine.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_parenteral_thiamine_started",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_parenteral_thiamine_stopped",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_of_parenteral_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "5_days_or_more_or_documented_exclusion",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "oral_thiamine_followed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_stopped_early",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 5-day course length to the parenteral thiamine (Pabrinex) prescription for suspected Wernicke's encephalopathy in e-prescribing, requiring a documented reason to stop earlier.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the alcohol care/hepatology governance meeting; keep the 5-day prescribing default if course completion improves.",
+  "evidence": [
+   "no audit in the library checks whether parenteral thiamine for suspected Wernicke's encephalopathy is continued for the recommended minimum 5 days"
+  ],
+  "pitfalls": [
+   "Early discharge is a common reason parenteral thiamine is stopped prematurely: a discharge plan should include continuing IM thiamine or an alternative if inpatient days fall short of 5.",
+   "'Suspected' Wernicke's is subjective: agree a working definition (any one of the triad, or high risk plus a clinical decision to treat) with the audit team.",
+   "Drug chart gaps (missed doses) should be distinguished from a deliberate early stop.",
+   "A switch straight to oral thiamine without any parenteral treatment at all is a different, more serious failure than stopping parenteral treatment slightly early: capture both separately."
+  ],
+  "pearls": [
+   "Build a 5-day default course into the e-prescribing order, since manual daily re-prescribing is the main point where doses get missed or stopped early.",
+   "Arrange IM thiamine continuation in the community or via an alcohol liaison team for patients who could otherwise be discharged before day 5.",
+   "Use this audit's data collection to also spot-check that the correct high dose (BNF upper range) is used, not just that thiamine was given.",
+   "Share results with the emergency department and acute medical take, since under-treatment often starts at first presentation, not on the specialist ward."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the drug chart",
+  "pass": "Parenteral thiamine (for example, IV/IM Pabrinex) is continued for at least 5 days, or is stopped earlier only with a documented reason that Wernicke's encephalopathy has been excluded, followed by oral thiamine.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with acute upper GI bleeding have a full Rockall score documented after endoscopy?",
+  "why": "A published local audit found the related pre-endoscopy Blatchford score was used in only 12.5% of cases, improving to 50% after teaching [2283]; a second audit found post-OGD full Rockall scoring only improved after an electronic action set was introduced [5670]. No audit in the library measures full post-endoscopy Rockall documentation as its own standard.",
+  "standard": {
+   "source": "NICE CG141 rec 1.1.1 (2012, updated 2016)",
+   "wording": "Use the following formal risk assessment scores for all patients with acute upper gastrointestinal bleeding: the Blatchford score at first assessment, and the full Rockall score after endoscopy.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults admitted with acute upper GI bleeding who have an endoscopy during the admission. Exclude patients who die or are too unstable for endoscopy.",
+  "sample": "40 consecutive adults with acute upper GI bleeding who had an endoscopy over the last 3 months.",
+  "data_source": "Endoscopy report and ward notes/EPR for the documented Rockall score.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_rockall_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "full_rockall_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "used_to_guide_discharge_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_documented",
+    "type": "choice",
+    "options": [
+     "endoscopist",
+     "medical team",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory full Rockall score field to the endoscopy reporting system template for all upper GI bleed procedures, calculated from pre-filled clinical and endoscopic findings.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 3 months, same sample size.",
+  "close_loop": "Present at the endoscopy unit and acute medicine governance meeting; keep the mandatory template field if documentation improves.",
+  "evidence": [
+   "[2283] a district general hospital audit of upper GI bleeding found low use of formal risk scores at baseline, improving only partially after teaching alone",
+   "[5670] an electronic 'action set' significantly improved post-OGD full Rockall documentation compared with teaching and guidelines alone"
+  ],
+  "pitfalls": [
+   "A pre-endoscopy (admission) Rockall score is sometimes recorded instead of the full post-endoscopy score: check the field explicitly includes endoscopic findings.",
+   "Patients who have emergency surgery instead of endoscopy should be excluded, not counted as missing data.",
+   "Teaching-only interventions have repeatedly shown only partial, non-durable gains in this exact measure [2283]; plan for an electronic or template fix from the outset rather than teaching alone.",
+   "Endoscopists working across multiple sites may use different reporting systems: confirm the field is mandatory in all systems used locally."
+  ],
+  "pearls": [
+   "An electronic action set embedded in the endoscopy reporting system has already been shown to work for this exact measure [5670]; replicate that approach rather than starting from teaching.",
+   "Auto-calculate the score from fields already entered (age, comorbidity, shock, diagnosis, stigmata) so completion does not add extra work.",
+   "Use the score to also verify safe early discharge of low-risk patients, not just as a box-ticking exercise.",
+   "Re-audit promptly after the template change, since electronic fixes in this specific measure have shown fast, large gains."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from the endoscopy system",
+  "pass": "A full (post-endoscopy) Rockall score, including endoscopic findings, is calculated and documented in the notes or endoscopy report after the index endoscopy.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults admitted with upper GI bleeding who are taking a regular NSAID (excluding low-dose aspirin) have it stopped during the acute admission?",
+  "why": "Continuing NSAIDs during active or recent GI bleeding increases rebleeding risk; no audit in the library checks NSAID discontinuation specifically, as opposed to aspirin continuation.",
+  "standard": {
+   "source": "NICE CG141 rec 1.6.2 (2012, updated 2016)",
+   "wording": "Stop other non-steroidal anti-inflammatory drugs (including cyclooxygenase-2 [COX-2] inhibitors) during the acute phase in patients presenting with upper gastrointestinal bleeding.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults admitted with upper GI bleeding who were taking a regular NSAID or COX-2 inhibitor before admission. Exclude low-dose aspirin taken for secondary cardiovascular prevention.",
+  "sample": "30 consecutive adults with upper GI bleeding on a regular NSAID at admission, over the last 6 months.",
+  "data_source": "Admission drug history, drug chart/e-prescribing and discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nsaid_or_coxib_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_for_nsaid",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_during_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "stated_on_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_analgesia_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "restarted_after_discharge_if_known",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic e-prescribing alert that flags any regular NSAID or COX-2 inhibitor on the drug chart of a patient coded with upper GI bleeding, prompting the prescriber to stop it or document a reason to continue.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the acute medicine and pharmacy governance meeting; keep the e-prescribing alert if discontinuation rates improve.",
+  "evidence": [
+   "no audit in the library checks NSAID discontinuation rates in acute upper GI bleeding, as distinct from aspirin management"
+  ],
+  "pitfalls": [
+   "NSAIDs prescribed by a GP but not listed clearly on the hospital drug chart can be missed: check the admission medicines reconciliation carefully.",
+   "Distinguishing regular NSAID use from occasional over-the-counter use needs a clear history, which is not always well documented.",
+   "The discharge summary is the last safety-net point: a drug stopped on the ward but restarted by default on discharge (because it was on a repeat list) is still a failure.",
+   "Alternative analgesia not being offered can drive patients to restart NSAIDs themselves after discharge: consider tracking this too."
+  ],
+  "pearls": [
+   "An e-prescribing alert linked to the GI bleed diagnosis code is more reliable than expecting every prescriber to remember on a busy take.",
+   "Make sure the discharge summary explicitly states the NSAID was stopped and why, so GPs do not restart it on a routine medication review.",
+   "Offer a paracetamol/weak-opioid alternative pathway alongside stopping the NSAID, to reduce the temptation to restart it for pain.",
+   "Distinguish and separately report low-dose aspirin (which NICE says to continue) so the two messages are not confused by staff."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the drug chart",
+  "pass": "Any regular NSAID or COX-2 inhibitor (other than low-dose aspirin for secondary prevention) is stopped by the time of discharge from the acute admission.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults who rebleed after initial endoscopic treatment for upper GI bleeding have a repeat endoscopy offered, with a view to further treatment or surgery?",
+  "why": "Rebleeding after endoscopic haemostasis is a recognised high-risk event; no audit in the library checks whether repeat endoscopy is offered as recommended when it happens.",
+  "standard": {
+   "source": "NICE CG141 rec 1.4.6 (2012, updated 2016)",
+   "wording": "Offer a repeat endoscopy to patients who re-bleed with a view to further endoscopic treatment or emergency surgery.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults who had endoscopic treatment for non-variceal upper GI bleeding and then had a clinically confirmed rebleed during the same admission, over the last 12 months.",
+  "sample": "All confirmed rebleeds after endoscopic treatment over 12 months (typically 10-20 cases in a DGH).",
+  "data_source": "Ward notes/EPR and endoscopy reporting system for the rebleed event, subsequent endoscopy, and any surgical or interventional radiology referral.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_endoscopy_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rebleed_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_endoscopy_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_endoscopy_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "haemostasis achieved endoscopically",
+     "referred for surgery",
+     "referred for interventional radiology",
+     "none of the above"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_from_rebleed_to_repeat_procedure_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'confirmed rebleed' escalation pathway to the GI bleed proforma that automatically prompts an urgent repeat endoscopy request (or direct surgical/interventional radiology referral if endoscopy is not appropriate) rather than a routine re-referral.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 12 months given likely small numbers.",
+  "close_loop": "Present at the upper GI bleed governance meeting (gastroenterology, surgery, interventional radiology); keep the escalation pathway if timely repeat treatment improves.",
+  "evidence": [
+   "no audit in the library checks whether repeat endoscopy is offered to patients who rebleed after initial endoscopic treatment"
+  ],
+  "pitfalls": [
+   "Numbers are likely to be small in a single centre; extend the collection period to 12 months.",
+   "Rebleeding can be missed or delayed in recognition if nursing observations are not escalated promptly: consider auditing recognition time as well as treatment time.",
+   "Out-of-hours rebleeds may default to surgical referral without repeat endoscopy being considered first, which may be appropriate but should be a documented decision, not a default.",
+   "Distinguish a genuine rebleed from ongoing slow bleeding not yet controlled, which follows a different initial pathway."
+  ],
+  "pearls": [
+   "Agree a clear definition of 'rebleed' (for example, further melaena/haematemesis with a haemodynamic change) with the audit team before starting.",
+   "A single-page escalation pathway readily available on the acute take and gastroenterology on-call phone line helps out-of-hours decision-making.",
+   "Track the interval from rebleed recognition to repeat procedure, not just whether one happened, since speed matters clinically.",
+   "Share results with interventional radiology, since they are part of the same escalation pathway for unstable rebleeds."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ward notes and endoscopy reports",
+  "pass": "A repeat endoscopy is offered (and performed, or a documented reason given for proceeding straight to surgery or interventional radiology) for patients who rebleed after initial endoscopic treatment.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults given terlipressin for suspected variceal bleeding have it stopped once definitive haemostasis is achieved, or by 5 days, whichever is sooner?",
+  "why": "Terlipressin causes ischaemic complications and should not be continued longer than needed; no audit in the library checks course duration, as distinct from whether it was started before endoscopy.",
+  "standard": {
+   "source": "NICE CG141 rec 1.5.1 (2012, updated 2016)",
+   "wording": "Offer terlipressin to patients with suspected variceal bleeding at presentation. Stop treatment after definitive haemostasis has been achieved, or after 5 days, unless there is another indication for its use.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults started on terlipressin for suspected or confirmed variceal bleeding in the last 6-12 months.",
+  "sample": "30 consecutive adults started on terlipressin for suspected variceal bleeding.",
+  "data_source": "Drug chart/e-prescribing for start and stop dates; endoscopy report for confirmation of haemostasis.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "terlipressin_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_confirms_haemostasis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "terlipressin_stop_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_appropriately",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: at haemostasis or by day 5"
+   },
+   {
+    "field": "continued_for_other_indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ischaemic_complication_noted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 5-day maximum duration and a 'stop if haemostasis confirmed' prompt to the terlipressin prescription in e-prescribing, requiring a documented reason to continue beyond either trigger.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the hepatology and pharmacy governance meeting; keep the e-prescribing duration limit if appropriate stopping improves.",
+  "evidence": [
+   "no audit in the library checks terlipressin course duration or stopping practice after variceal bleeding"
+  ],
+  "pitfalls": [
+   "Terlipressin sometimes continues by default on a drug chart after endoscopy has confirmed haemostasis, simply because no one actively stops it: this is the main failure mode to look for.",
+   "A small number of patients need terlipressin continued for hepatorenal syndrome, a valid separate indication: exclude or flag these clearly.",
+   "Weekend handovers are a common point where a 'stop by day 5' plan is lost: check whether stop delays cluster around weekends.",
+   "Ischaemic side effects (digital, cardiac, mesenteric) are a rare but serious outcome worth recording if found, even though numbers will be small."
+  ],
+  "pearls": [
+   "An e-prescribing hard stop at day 5 is a simple, durable fix that does not depend on staff remembering.",
+   "Make the endoscopy report a trigger: a 'terlipressin can stop now' flag when haemostasis is confirmed, linked to the drug chart.",
+   "Brief nursing and junior medical staff that terlipressin is not a default 3-5 day course regardless of endoscopy findings.",
+   "Track ischaemic adverse events over time as a secondary outcome measure, even if numbers are too small for statistics."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the drug chart",
+  "pass": "Terlipressin is stopped once definitive haemostasis is documented at endoscopy, or by day 5 at the latest, unless another indication (for example, hepatorenal syndrome) is documented.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults started on acid-suppression therapy for stress ulcer prophylaxis in critical care have its ongoing need reviewed when they recover or are discharged from critical care?",
+  "why": "Acid-suppression started for critical illness is commonly continued unreviewed on the ward and after hospital discharge; no audit in the library checks this specific review step.",
+  "standard": {
+   "source": "NICE CG141 rec 1.7.2 (2012, updated 2016)",
+   "wording": "Review the ongoing need for acid-suppression drugs for primary prevention of upper gastrointestinal bleeding in acutely ill patients when they recover or are discharged from critical care.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "population": "Adults started on a PPI or H2-receptor antagonist for stress ulcer prophylaxis (not for another indication such as known peptic ulcer disease) during a critical care admission in the last 3 months.",
+  "sample": "40 consecutive adults started on acid-suppression prophylaxis in critical care.",
+  "data_source": "Critical care and ward drug charts/e-prescribing, and the critical care outreach or discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_prophylaxis_started_in_critical_care",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_critical_care_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_documented_at_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "stopped",
+     "continued for stated reason",
+     "not reviewed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "still_on_drug_at_hospital_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'stress ulcer prophylaxis: stop or continue with reason' field to the critical care discharge/step-down checklist, so the decision is made before the patient leaves the unit.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 3 months, same criteria.",
+  "close_loop": "Present at the critical care and pharmacy governance meeting; keep the discharge checklist field if review rates improve.",
+  "evidence": [
+   "no audit in the library checks review of stress ulcer prophylaxis at critical care discharge"
+  ],
+  "pitfalls": [
+   "Acid-suppression started for a genuine indication (known peptic ulcer disease, reflux) should be excluded from the denominator, since ongoing treatment is then appropriate rather than a review failure.",
+   "Ward teams receiving the patient after critical care discharge may not know the drug was started as prophylaxis rather than for an established indication: make the reason for starting visible on the drug chart from the outset.",
+   "The drug can continue unreviewed all the way to hospital discharge and onto a GP repeat prescription: track this endpoint too, not just critical care discharge.",
+   "A documented review that concludes 'continue' without a stated reason is a partial pass at best: require an explicit reason."
+  ],
+  "pearls": [
+   "A structured critical care discharge checklist is the natural place for this review, since it already covers other medicines reconciliation items.",
+   "Label the indication ('stress ulcer prophylaxis') clearly on the drug chart at the time of starting, so it is not mistaken for a standing indication later.",
+   "Loop in ward pharmacists to review stress ulcer prophylaxis specifically on step-down wards, as a safety net if the critical care checklist is missed.",
+   "Track whether the drug is still being taken at hospital discharge and, ideally, at a GP medication review, to close the loop fully."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from drug charts and discharge summaries",
+  "pass": "A documented decision to continue or stop acid-suppression prophylaxis is made at the point of critical care discharge (or recovery from the acute illness if remaining on the unit).",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults aged 40 and over presenting with jaundice are referred using a suspected cancer pathway referral for pancreatic cancer within 2 working days?",
+  "why": "Delayed recognition of jaundice as a possible pancreatic cancer symptom delays diagnosis and treatment. A related audit of delays in managing suspected pancreatic malignancy found a median of 9 days from presentation to referral for specialist MDT discussion [2287], showing this step is not yet reliably timely.",
+  "standard": {
+   "source": "NICE NG12 rec 1.2.4 (2015)",
+   "wording": "Refer people using a suspected cancer pathway referral for pancreatic cancer if they are aged 40 and over and have jaundice.",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "population": "Adults aged 40 and over presenting to primary care, the emergency department or an acute medical take with new jaundice, over the last 6-12 months. Exclude patients with a known, already-investigated benign cause (for example, known gallstones on prior imaging).",
+  "sample": "30-40 consecutive adults aged 40+ presenting with new jaundice.",
+  "data_source": "GP/ED/acute medicine records for the jaundice presentation and the 2-week-wait referral system for the referral date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_jaundice_identified",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_cancer_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_benign_cause_already_established",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "final_diagnosis",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add jaundice in a patient aged 40+ as a hard-coded trigger on the GP and ED referral systems that pre-populates a suspected cancer pathway referral for pancreatic (and biliary) cancer, rather than relying on the clinician to remember the age/symptom combination.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the primary care-cancer services interface meeting and the upper GI cancer MDT; keep the referral trigger if timeliness improves.",
+  "evidence": [
+   "[2287] an audit of delays in managing suspected pancreatic malignancy found a median 9-day delay from presentation to MDT referral, with no reported system fix to close this specific gap"
+  ],
+  "pitfalls": [
+   "Jaundice identified incidentally on blood tests (rather than clinically obvious) can be missed if only clinical documentation is searched: also check bilirubin results directly.",
+   "A clear, recently confirmed benign cause (known gallstone disease already under active management) should be excluded from the denominator, but this exclusion needs to be genuinely documented, not assumed.",
+   "ED presentations out of hours may default to 'admit and investigate' without an explicit 2-week-wait referral being made in parallel: check both routes.",
+   "Referral timeliness is only useful if the pathway itself is fast: also track time from referral to first MDT discussion, as the related audit found this step is also delayed [2287]."
+  ],
+  "pearls": [
+   "A hard-coded age-plus-symptom prompt in the referral system removes reliance on individual clinicians recalling the NICE criterion.",
+   "Agree with radiology/hepatobiliary surgery a fast-track imaging slot for suspected pancreatic cancer referrals, since imaging is usually the next rate-limiting step.",
+   "Present results to both primary care and the acute take, since jaundice can present in either setting.",
+   "Track the full pathway (presentation to referral to first MDT discussion to treatment) over time, since referral speed alone will not fix downstream delays shown in [2287]."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from referral and results systems",
+  "pass": "A suspected cancer pathway (2-week-wait) referral for pancreatic cancer is made within 2 working days of jaundice being identified in a patient aged 40 or over, unless an alternative, clearly benign cause is already established.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with cirrhosis given prophylactic intravenous antibiotics for upper GI bleeding have the antibiotic reviewed (continued, switched or stopped) by 72 hours?",
+  "why": "Prophylactic antibiotics for GI bleeding in cirrhosis are often started appropriately but then continued by default; the existing library and proposed audits cover starting antibiotics before endoscopy, but no audit checks the review step once started.",
+  "standard": {
+   "source": "NICE NG50 rec 1.9.2 (2016)",
+   "wording": "Review the use of intravenous antibiotics prescribed for upper gastrointestinal bleeding in line with the section on prescribing intravenous antimicrobials in NICE's guideline on antimicrobial stewardship.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "population": "Adults with cirrhosis started on IV antibiotics for upper GI bleeding in the last 6 months.",
+  "sample": "30 consecutive adults with cirrhosis started on IV antibiotics for GI bleeding.",
+  "data_source": "Drug chart/e-prescribing and microbiology ward round notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_documented_by_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_outcome",
+    "type": "choice",
+    "options": [
+     "stopped",
+     "switched to oral",
+     "continued IV with reason",
+     "not reviewed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "total_duration_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "microbiology_or_pharmacy_input",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 72-hour IV antibiotic review alert (forcing a continue/switch/stop decision) to the e-prescribing system for any antibiotic started under a GI bleed indication code.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6 months, same criteria.",
+  "close_loop": "Present at the antimicrobial stewardship and hepatology joint meeting; keep the 72-hour alert if review rates improve.",
+  "evidence": [
+   "no audit in the library checks the 72-hour antibiotic review step for GI bleeding in cirrhosis, as distinct from whether antibiotics were started at all"
+  ],
+  "pitfalls": [
+   "An antibiotic continued because the patient develops a new, separate infection should be recorded as an appropriate continuation, not a stewardship failure.",
+   "Weekend cover can cause reviews to slip past 72 hours: check whether delays cluster there.",
+   "Distinguish antibiotics started specifically for GI bleed prophylaxis from those started for spontaneous bacterial peritonitis or another confirmed infection, which follow different courses.",
+   "Retrospective note review can miss brief verbal ward-round decisions: only count what is documented, and note this limitation."
+  ],
+  "pearls": [
+   "A 72-hour hard-stop-style alert is consistent with the same principle already used successfully for surgical prophylaxis elsewhere; adapt that model.",
+   "Involve the antimicrobial pharmacist to review these patients proactively rather than relying on the medical team alone.",
+   "Pair data collection with the existing IV-antibiotics-before-endoscopy measure, since both use the same patient list.",
+   "Track total antibiotic duration as an outcome measure alongside whether a review happened."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per case from the drug chart",
+  "pass": "A documented antimicrobial review (continue, switch to oral, or stop) is recorded within 72 hours of starting IV antibiotics for GI bleeding in a patient with cirrhosis.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with refractory ascites due to cirrhosis have a documented assessment for a transjugular intrahepatic portosystemic shunt (TIPS)?",
+  "why": "Refractory ascites carries a poor prognosis without TIPS or transplant assessment; no audit in the library checks whether TIPS is actively considered in this group, beyond related audits of paracentesis technique.",
+  "standard": {
+   "source": "NICE NG50 rec 1.10.1 (2016)",
+   "wording": "Consider a TIPS procedure for people with cirrhosis who have refractory ascites.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Managing-complications"
+  },
+  "population": "Adults with cirrhosis coded as having refractory ascites (needing large-volume paracentesis at least every 2 weeks, or diuretic-unresponsive/intolerant ascites) in the last 12 months.",
+  "sample": "All patients meeting refractory ascites criteria over 12 months (typically 15-30 in a DGH hepatology service).",
+  "data_source": "Hepatology clinic letters/EPR and the paracentesis list for frequency of large-volume paracentesis.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paracentesis_frequency_per_month",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_refractory_ascites_criteria",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tips_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "referred for TIPS",
+     "not suitable, reason given",
+     "not considered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "transplant_assessment_also_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add refractory ascites (based on paracentesis frequency) as an automatic flag on the hepatology paracentesis list that prompts a TIPS/transplant suitability discussion at the next MDT.",
+  "target": "\u226580%",
+  "reaudit": "Repeat in 12 months, same criteria.",
+  "close_loop": "Present at the hepatology MDT and interventional radiology joint meeting; keep the automatic flag if assessment rates improve.",
+  "evidence": [
+   "no audit in the library checks TIPS assessment rates in refractory ascites, as distinct from paracentesis technique itself"
+  ],
+  "pitfalls": [
+   "Some patients are clearly unsuitable for TIPS (severe encephalopathy, advanced heart failure) and this should count as meeting the standard if documented, not as a missed opportunity.",
+   "Refractory ascites definitions vary; agree a clear, paracentesis-frequency-based definition with the audit team before starting.",
+   "Patients already listed for or having had a liver transplant assessment may reasonably have TIPS deprioritised: capture this context.",
+   "Retrospective identification from the paracentesis list may miss patients managed with fewer, larger-volume taps: cross-check with clinic letters too."
+  ],
+  "pearls": [
+   "Use the paracentesis list itself as the simplest way to identify the eligible population, since these patients are already being tracked for another reason.",
+   "Build the TIPS/transplant discussion into an existing regular MDT rather than creating a new meeting.",
+   "Loop in interventional radiology early, since they will need to give a technical suitability opinion alongside the hepatology assessment.",
+   "Track outcomes (TIPS performed, transplant listed, or neither with reason) at re-audit to show the assessment step leads to a real decision."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from the paracentesis list and clinic letters",
+  "pass": "A documented decision about TIPS suitability (referred for assessment, or a specific reason why not suitable, for example advanced encephalopathy or severe liver failure) is recorded for patients meeting criteria for refractory ascites.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults drinking above the high-risk threshold (men >50, women >35 units/week for several months) have transient elastography offered to check for cirrhosis?",
+  "why": "Early detection of cirrhosis in heavy drinkers allows earlier intervention, but no audit in the library checks whether transient elastography is offered at the recommended drinking threshold, as distinct from general alcohol screening.",
+  "standard": {
+   "source": "NICE NG50 rec 1.1.3 (2016)",
+   "wording": "Offer transient elastography to diagnose cirrhosis for: ... men and people registered male at birth who drink over 50 units of alcohol per week and have done so for several months; women and people registered female at birth who drink over 35 units of alcohol per week and have done so for several months; people diagnosed with alcohol-related liver disease.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Diagnosis"
+  },
+  "population": "Adults with a documented alcohol history meeting the NICE high-risk threshold (men >50, women >35 units/week for several months), identified from alcohol liaison, GP or gastroenterology records over the last 12 months.",
+  "sample": "40 consecutive adults meeting the high-risk drinking threshold.",
+  "data_source": "Alcohol liaison/GP/gastroenterology records for the drinking history; radiology/hepatology system for the transient elastography referral and result.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "units_per_week_documented",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_of_heavy_drinking",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "elastography_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_kpa",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cirrhosis_diagnosed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic transient elastography referral prompt to the alcohol liaison and GP alcohol-history template whenever units/week above the NICE threshold are recorded.",
+  "target": "\u226570%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the alcohol care team and hepatology interface meeting; keep the referral prompt if uptake improves.",
+  "evidence": [
+   "no audit in the library checks transient elastography offer rates at the specific high-risk drinking threshold defined by NICE"
+  ],
+  "pitfalls": [
+   "A full, quantified drinking history (units/week and duration) is often missing from records, making the denominator hard to define: agree a minimum documentation standard before starting.",
+   "Some services already scan all heavy drinkers routinely and this may look like a ceiling effect: check local pathway assumptions before assuming a gap exists.",
+   "Elastography referred but not attended should be recorded separately from not offered, since these need different fixes (engagement support versus system prompts).",
+   "Patients already known to have cirrhosis do not need this specific test again: exclude them from the denominator."
+  ],
+  "pearls": [
+   "Use the alcohol care team, where one exists, as the most reliable route to both take a full drinking history and refer for elastography in one contact.",
+   "A community-based (rather than hospital-only) scanning service increases uptake for patients reluctant to attend hospital appointments.",
+   "Track attendance as well as referral, since engagement is often the bigger barrier in this population.",
+   "Feed positive findings into the wider cirrhosis surveillance pathway audited elsewhere in this set."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from alcohol liaison and hepatology records",
+  "pass": "Transient elastography is offered (referral made, whether or not the patient attends) within 3 months of a documented drinking history meeting the high-risk threshold.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with alcohol-related liver disease, or MASLD with advanced fibrosis, who do not have cirrhosis are retested for cirrhosis at least every 2 years?",
+  "why": "People at ongoing risk of progressing to cirrhosis need periodic retesting, not a one-off negative result; no audit in the library checks this retesting interval.",
+  "standard": {
+   "source": "NICE NG50 rec 1.1.10 (2016)",
+   "wording": "Offer retesting for cirrhosis every 2 years for: people diagnosed with alcohol-related liver disease, people with hepatitis C virus infection who have not shown a sustained virological response to antiviral therapy, people with MASLD and advanced liver fibrosis.",
+   "url": "https://www.nice.org.uk/guidance/ng50/chapter/Diagnosis"
+  },
+  "population": "Adults with alcohol-related liver disease or MASLD with advanced fibrosis, previously tested for cirrhosis and found not to have it, under follow-up for at least 2 years.",
+  "sample": "40 consecutive eligible adults with at least 2 years since their last negative cirrhosis test.",
+  "data_source": "Hepatology/gastroenterology clinic letters and the elastography/imaging system for test dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "underlying_diagnosis",
+    "type": "choice",
+    "options": [
+     "alcohol-related liver disease",
+     "MASLD with advanced fibrosis",
+     "HCV non-responder"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_negative_test",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "retest_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_2_years",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "result_of_retest",
+    "type": "choice",
+    "options": [
+     "still no cirrhosis",
+     "cirrhosis now diagnosed",
+     "not yet retested"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 2-yearly recall for cirrhosis retesting to the hepatology or GP chronic liver disease register for eligible patients, rather than relying on ad hoc re-referral.",
+  "target": "\u226580%",
+  "reaudit": "Repeat in 12 months, same criteria.",
+  "close_loop": "Present at the hepatology governance meeting; keep the recall register if retesting adherence improves.",
+  "evidence": [
+   "no audit in the library measures 2-yearly cirrhosis retesting adherence in patients at ongoing risk"
+  ],
+  "pitfalls": [
+   "Patients who stop attending follow-up (including due to ongoing alcohol use) are the group most likely to miss retesting, and also the group at highest risk: flag non-attendance rather than silently excluding these patients.",
+   "A retest done for another reason (e.g. incidental imaging) may satisfy the standard even if not labelled as a 'retest': check imaging history broadly, not just labelled follow-up scans.",
+   "Local availability of transient elastography devices limits capacity: record whether delay reflects service capacity rather than a process failure.",
+   "Patients who progress to cirrhosis between scheduled retests should be picked up by symptoms/blood tests, not solely by the fixed interval: note any such cases separately."
+  ],
+  "pearls": [
+   "A chronic liver disease register with an automatic recall function is the most reliable fix; building this once benefits several of the audits in this set.",
+   "Community alcohol and liver clinics can help retain patients who might otherwise disengage from hospital follow-up.",
+   "Use this audit as an opportunity to build or refine a shared hepatology-primary care register, since retesting often depends on GP-hospital communication.",
+   "Report retesting adherence separately by diagnosis group (ArLD vs MASLD vs HCV), since engagement patterns often differ."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters and imaging records",
+  "pass": "A repeat test for cirrhosis (transient elastography or equivalent) is documented within 2 years of the previous negative test in eligible patients.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults with decompensated alcohol-related liver disease, still decompensated after best management and 3 months' abstinence, are referred for assessment for liver transplantation?",
+  "why": "Liver transplant referral criteria for alcohol-related liver disease are specific and time-defined; no audit in the library checks whether eligible patients are actually referred once they meet them.",
+  "standard": {
+   "source": "NICE CG100 rec 1.3.2.1 (2010, amended 2017)",
+   "wording": "Refer patients with decompensated liver disease to be considered for assessment for liver transplantation if they: still have decompensated liver disease after best management and 3 months' abstinence from alcohol and are otherwise suitable candidates for liver transplantation.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults with alcohol-related decompensated liver disease under hepatology follow-up, documented as abstinent for 3 months or more, and still decompensated, over the last 12-24 months.",
+  "sample": "All patients meeting these criteria over 12-24 months (typically 10-20 cases in a DGH hepatology service).",
+  "data_source": "Hepatology clinic letters/EPR for decompensation status, abstinence duration, and the transplant centre referral letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abstinence_duration_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "still_decompensated_at_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_for_transplant_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_referred",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_of_transplant_centre_assessment",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a '3-month abstinence and still decompensated: transplant referral considered' prompt to the hepatology follow-up template, triggered automatically once 3 months of documented abstinence is reached in a decompensated patient.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 12-24 months given likely small numbers.",
+  "close_loop": "Present at the hepatology MDT and regional transplant network meeting; keep the follow-up template prompt if referral rates improve.",
+  "evidence": [
+   "no audit in the library checks referral rates for liver transplant assessment against the specific NICE 3-month abstinence criterion"
+  ],
+  "pitfalls": [
+   "Confirming '3 months' abstinence' reliably (self-report versus biochemical markers) is itself inconsistent between clinicians: agree a documentation standard before starting.",
+   "Some patients are correctly not referred due to other contraindications (severe cardiac or psychiatric comorbidity): capture these as valid reasons, not failures.",
+   "Numbers will be small; extend the collection period or audit retrospectively over 24 months.",
+   "A patient who relapses during the 3-month period restarts the clock under most local pathways: record this clearly rather than treating it as an audit exclusion only."
+  ],
+  "pearls": [
+   "A structured alcohol-abstinence tracking field (rather than free text) makes this measurable and repeatable.",
+   "Engage the regional transplant centre early to confirm the exact local interpretation of 'suitable candidate' criteria used alongside the NICE recommendation.",
+   "Loop in the alcohol liaison or addiction service, since abstinence support is central to whether patients ever reach the 3-month point at all.",
+   "Present outcomes of transplant centre assessments (accepted, declined, further tests needed) to close the loop beyond referral alone."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per patient from clinic letters",
+  "pass": "A referral to a liver transplant centre for assessment is made and documented for patients who remain decompensated after best medical management and 3 months' confirmed abstinence, and who have no other clear contraindication.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults on azathioprine or mercaptopurine for Crohn's disease have a full blood count checked at the locally agreed monitoring interval, even when TPMT activity is normal?",
+  "why": "Neutropenia can occur on thiopurines despite normal TPMT activity, so ongoing monitoring remains essential; a related paediatric audit found only 24.5% of patients were fully compliant with blood monitoring frequency [2966]. No audit in the library measures this in adult IBD.",
+  "standard": {
+   "source": "NICE NG129 rec 1.2.10 (2012)",
+   "wording": "Monitor the effects of azathioprine, mercaptopurine and methotrexate as advised in the BNF or BNFC. Consult the monographs of individual drugs for advice on monitoring immunosuppressives. Monitor for neutropenia in people taking azathioprine or mercaptopurine even if they have normal TPMT activity.",
+   "url": "https://www.nice.org.uk/guidance/ng129/chapter/Recommendations"
+  },
+  "population": "Adults on ongoing azathioprine or mercaptopurine for Crohn's disease for at least 6 months, identified from the biologics/immunosuppressant prescribing list.",
+  "sample": "40 consecutive adults on ongoing azathioprine or mercaptopurine.",
+  "data_source": "Laboratory system for FBC dates and results; shared-care monitoring record if monitoring is done in primary care.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "agreed_monitoring_interval",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_fbc_checks_in_last_6_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "expected_number_per_interval",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "compliant_with_interval",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "neutropenia_detected",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_taken_if_neutropenic",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up a shared-care monitoring template (hospital or GP-run) with an automatic reminder when an FBC becomes overdue for any patient on ongoing thiopurine therapy for IBD.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6-12 months, same list and sample.",
+  "close_loop": "Present at the IBD and shared-care governance meeting; keep the reminder system if compliance improves.",
+  "evidence": [
+   "[2966] a paediatric azathioprine monitoring audit found only 24.5% of patients fully compliant with the recommended blood monitoring frequency, and proposed a shared-care guideline with a tick-box proforma as the fix"
+  ],
+  "pitfalls": [
+   "Shared-care monitoring split between GP and hospital can create gaps where each assumes the other is checking: agree and document one named responsible party per patient.",
+   "Missed appointments for blood tests are common and should be flagged for active follow-up, not just recorded as a gap.",
+   "A late-but-eventually-done blood test still represents a period of unmonitored risk: report both 'ever done' and 'done on time'.",
+   "Dose changes reset or alter the expected monitoring frequency; make sure the expected interval used in the audit matches current, not historical, dosing."
+  ],
+  "pearls": [
+   "Use the exact structure that worked in a related paediatric audit: a shared-care guideline plus a tick-box monitoring proforma with all parameters listed together [2966].",
+   "A laboratory-generated automatic reminder is more durable than relying on either GP or hospital memory alone.",
+   "Make the responsible party for monitoring (GP vs hospital) explicit in every new thiopurine-start letter.",
+   "Track outcomes of any neutropenia detected, to show the monitoring system actually catches and acts on the risk it exists to prevent."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the laboratory system",
+  "pass": "A full blood count is checked at the locally agreed interval (typically weekly for the first month, then monthly, per BNF monographs) throughout the audit period, with no gap longer than the agreed interval.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults newly diagnosed with coeliac disease have a documented discussion about pneumococcal vaccination?",
+  "why": "Coeliac disease is associated with functional hyposplenism and increased pneumococcal infection risk. A related audit found overall vaccine uptake in coeliac disease was only 38.6% at baseline, improving to 49.2% with an invitation letter [9569], but no audit checks whether the vaccination discussion itself is documented at diagnosis.",
+  "standard": {
+   "source": "NICE NG20 rec 1.6.5 (2015)",
+   "wording": "Explain to people with coeliac disease and their family members or carers (as appropriate) that the Department of Health's Green Book recommends immunisation against pneumococcus.",
+   "url": "https://www.nice.org.uk/guidance/ng20/chapter/Recommendations"
+  },
+  "population": "Adults with a new diagnosis of coeliac disease in the last 12 months.",
+  "sample": "40 consecutive adults with a new diagnosis of coeliac disease.",
+  "data_source": "Gastroenterology clinic letters/EPR and, where available, GP vaccination records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vaccination_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_of_discussion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pneumococcal_vaccine_given_or_planned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_discussed",
+    "type": "choice",
+    "options": [
+     "gastroenterologist",
+     "specialist nurse",
+     "GP",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'pneumococcal vaccination discussed' tick box with a pre-written information line to the coeliac disease diagnosis clinic letter template, sent to both the patient and the GP.",
+  "target": "\u226590%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the gastroenterology-primary care interface meeting; keep the clinic letter template field if documentation improves.",
+  "evidence": [
+   "[9569] a coeliac disease vaccine uptake audit found only 38.6% uptake at baseline, improving to 49.2% with a single invitation letter, showing this step needs an active system prompt rather than relying on the diagnosis conversation alone"
+  ],
+  "pitfalls": [
+   "The discussion may happen verbally at diagnosis but not be written down: this audit measures documentation, and should say so plainly rather than assuming the conversation never happened.",
+   "GPs, not gastroenterology, usually administer the vaccine: the audit should track the discussion (specialist's responsibility) separately from vaccine administration (usually primary care's).",
+   "Patients already vaccinated for another indication (for example, age-related pneumococcal vaccination) should still have the coeliac-specific discussion recorded, since guidance and eligibility can differ.",
+   "A generic coeliac information leaflet mentioning vaccination in passing is not the same as a documented individual discussion: define the standard clearly before starting."
+  ],
+  "pearls": [
+   "A single sentence and tick box in the standard diagnosis letter, copied to the GP, is a low-effort fix that also prompts GP action.",
+   "Pair the vaccination discussion with the annual review audit above so both draw on the same diagnosis-clinic dataset.",
+   "Consider adapting the invitation-letter approach already shown to work in the library [9569] as the mechanism for actually getting patients vaccinated once discussed.",
+   "Track vaccine uptake as well as discussion rates at re-audit to confirm discussion translates into action."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinic letters",
+  "pass": "A documented discussion about pneumococcal vaccination is recorded at, or within 3 months of, the diagnosis of coeliac disease.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ },
+ {
+  "question": "What proportion of adults admitted with acute alcohol-related hepatitis have a documented nutritional assessment, with nutritional support started if indicated?",
+  "why": "Malnutrition is near-universal in acute alcoholic hepatitis and affects survival, but no audit in the library checks whether nutritional assessment is systematically done and acted on in this specific group.",
+  "standard": {
+   "source": "NICE CG100 rec 1.3.4.1 (2010)",
+   "wording": "Assess the nutritional requirements of people with acute alcohol-related hepatitis. Offer nutritional support if needed and consider using nasogastric tube feeding.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Adults admitted with a clinical diagnosis of acute alcohol-related hepatitis in the last 6-12 months.",
+  "sample": "30 consecutive adults admitted with acute alcohol-related hepatitis.",
+  "data_source": "Admission clerking, nursing nutritional screening records and dietitian referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nutritional_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "assessment_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietitian_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nutritional_support_started",
+    "type": "choice",
+    "options": [
+     "oral supplements",
+     "nasogastric feeding",
+     "none needed",
+     "none despite need"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add acute alcohol-related hepatitis as a trigger diagnosis for an automatic same-day dietitian referral and MUST scoring on the hepatology/gastroenterology admission bundle.",
+  "target": "\u226585%",
+  "reaudit": "Repeat in 6-12 months, same criteria.",
+  "close_loop": "Present at the hepatology and nutrition and dietetics governance meeting; keep the automatic referral trigger if assessment completeness improves.",
+  "evidence": [
+   "no audit in the library checks nutritional assessment completeness specifically in acute alcohol-related hepatitis"
+  ],
+  "pitfalls": [
+   "General ward MUST scoring may be completed routinely but not specifically prompt dietitian input for this high-risk group: check whether a score is acted on, not just recorded.",
+   "Nasogastric feeding can be difficult in patients with encephalopathy or agitation: a documented reason not to feed enterally should count as a valid clinical decision, not a failure.",
+   "Weekend admissions may have delayed dietitian input due to staffing: check whether delays cluster there.",
+   "Poor oral intake due to nausea or ongoing alcohol withdrawal symptoms needs separate management alongside nutrition, and should be recorded as context."
+  ],
+  "pearls": [
+   "An automatic dietitian referral triggered by the diagnosis code removes reliance on the ward team remembering a nutrition-specific step amid other urgent decisions (steroids, infection screen).",
+   "Weekend and out-of-hours dietitian cover (or a clear escalation plan) is often the main practical barrier: check this with dietetics before proposing a fix.",
+   "Combine data collection with the pre-steroid infection screening audit above, since both draw from the same acute alcoholic hepatitis admission list.",
+   "Track nutritional status trends (weight, albumin) through the admission as an outcome measure at re-audit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from admission and dietitian records",
+  "pass": "A nutritional assessment (for example, MUST score or dietitian review) is documented within 48 hours of admission with acute alcohol-related hepatitis, with nutritional support started if indicated.",
+  "area": "Gastroenterology, hepatology, renal and diabetes"
+ }
+]

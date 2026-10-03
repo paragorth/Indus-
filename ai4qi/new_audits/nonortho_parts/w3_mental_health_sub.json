@@ -1,0 +1,2580 @@
+[
+ {
+  "question": "What proportion of children and young people assessed by CAMHS or crisis services after self-harm are referred to an age-appropriate crisis response service (or equivalent specialist mental health professional) for a psychosocial assessment as soon as possible after arrival?",
+  "why": "No closed-loop audit of psychosocial assessment referral for self-harm restricted to under-18s in a crisis or CAMHS pathway has been published in the library; existing self-harm audits in children and young people measure assessment content and timing at a single site rather than whether the crisis pathway referral itself happens.",
+  "standard": {
+   "source": "NICE NG225 Self-harm: assessment, management and preventing recurrence, rec 1.7.13 (September 2022)",
+   "wording": "When a person attends the emergency department or minor injury unit following an episode of self-harm, offer referral to age-appropriate liaison psychiatry services, or for children and young people, crisis response service (or an equivalent specialist mental health service or a suitably skilled mental health professional) as soon as possible after arrival, for a psychosocial assessment ... and support and assistance alongside physical healthcare.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients aged under 18 attending the emergency department or minor injuries unit after an episode of self-harm. Exclusion: attendances for accidental injury only, or where the person left before triage.",
+  "sample": "30 consecutive under-18 self-harm attendances to the emergency department over the last 3 months, identified from the ED self-harm coding list",
+  "data_source": "ED electronic record (triage note, referral log) cross-checked against the CAMHS/crisis team referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "note": "Study ID, not the real hospital number"
+   },
+   {
+    "field": "date_of_attendance",
+    "type": "date"
+   },
+   {
+    "field": "age_years",
+    "type": "number"
+   },
+   {
+    "field": "time_of_arrival",
+    "type": "datetime"
+   },
+   {
+    "field": "crisis_response_referral_made",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_of_referral",
+    "type": "datetime"
+   },
+   {
+    "field": "time_seen_by_mental_health_professional",
+    "type": "datetime"
+   },
+   {
+    "field": "left_before_assessment",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'crisis response/CAMHS referral made: time' field to the ED self-harm triage template, which cannot be closed without either a referral time or a documented reason none was needed",
+  "target": "100%",
+  "reaudit": "At 3 months, same template and sample size, from the ED self-harm coding list",
+  "close_loop": "Present at the paediatric emergency department and CAMHS joint governance meeting; if the change works, embed the mandatory field as a permanent build in the ED electronic record and add it to ED junior doctor induction",
+  "evidence": [
+   "[3174] Paediatric psychosocial emergencies audit against NICE self-harm quality standards: 93% seen within 24 hours of referral, 97% had a documented risk assessment, showing referral pathways can be measured and improved with a dedicated crisis liaison nurse",
+   "[3392] National student-led SPARC audit of ED management of self-harm in under-18s: a quarter of records were excluded for data quality issues, showing referral documentation is often incomplete and worth auditing directly"
+  ],
+  "pitfalls": [
+   "Referral may happen by phone/bleep with no written record: agree with the crisis team in advance that every referral is also logged electronically",
+   "Patients who abscond before triage or assessment are not comparable: exclude them explicitly and report the number excluded",
+   "Staff may push back that 'we always refer everyone': collect a baseline before assuming this, since local card CR-3174/3392 show gaps even where staff believe compliance is high",
+   "A single term for the crisis service may not match every trust's naming: agree the exact service name with the ED and CAMHS leads before data collection starts",
+   "Out-of-hours attendances may use a different on-call pathway: capture time of day so out-of-hours performance can be reported separately"
+  ],
+  "pearls": [
+   "Recruit an ED consultant and a CAMHS/crisis team consultant as joint audit leads so the fix can be built into both systems",
+   "Agree before cycle 1 exactly what counts as 'referral made' (a bleep call, an electronic referral, or both)",
+   "Use the ED's existing self-harm coding list to identify the sample quickly rather than manually screening all attendances",
+   "Present the baseline to both teams together so the fix is owned jointly, not seen as an ED-only or CAMHS-only problem",
+   "Hand the audit and the mandatory-field build to the incoming CAMHS liaison trainee at rotation, with the re-audit date fixed in the departmental audit calendar"
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 attendances from the ED record and referral log",
+  "area": "Psychiatry",
+  "pass": "Referral to the crisis response service (or equivalent) is documented as made, with the time of referral recorded, for every under-18 self-harm attendance"
+ },
+ {
+  "question": "What proportion of children and young people are seen and spoken to by an age-appropriate liaison psychiatry professional or a suitably skilled mental health professional at every attendance to the emergency department following an episode of self-harm?",
+  "why": "Existing self-harm audits in the library report overall assessment rates at a single attendance; none in the library measure whether this happens at every attendance for young people who self-harm repeatedly, which NICE specifically requires.",
+  "standard": {
+   "source": "NICE NG225 Self-harm: assessment, management and preventing recurrence, rec 1.7.14 (September 2022)",
+   "wording": "An age-appropriate liaison psychiatry professional or a suitably skilled mental health professional should see and speak to the person at every attendance after an episode of self-harm.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients aged under 18 with two or more ED attendances for self-harm in the audit period. Exclusion: patients with a single attendance only (nothing to compare).",
+  "sample": "All under-18 patients with 2 or more self-harm attendances in the last 6 months (typically 30-40 attendances across a district general hospital), identified from the ED self-harm coding list",
+  "data_source": "ED electronic record and mental health liaison team notes for each attendance",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "attendance_number",
+    "type": "number",
+    "note": "1st, 2nd, 3rd attendance in the period"
+   },
+   {
+    "field": "date_of_attendance",
+    "type": "date"
+   },
+   {
+    "field": "seen_by_mental_health_professional",
+    "type": "yes/no"
+   },
+   {
+    "field": "grade_of_professional",
+    "type": "choice",
+    "options": [
+     "liaison psychiatry consultant/trainee",
+     "CAMHS practitioner",
+     "crisis team practitioner",
+     "none recorded"
+    ]
+   },
+   {
+    "field": "reason_not_seen",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic flag on the ED tracking board for any patient with a previous self-harm attendance in the last 6 months, prompting mandatory liaison review even if the presentation looks minor",
+  "target": "100%",
+  "reaudit": "At 4 months, same template and sample definition",
+  "close_loop": "Present at the CAMHS/liaison psychiatry governance meeting; if effective, build the repeat-attendance flag permanently into the ED electronic patient record",
+  "evidence": [
+   "[3403] Multicentre UK audit of clinical management of self-harming children and adolescents against the NICE self-harm guideline for young people aged 8 and over, showing management of repeat presentations is an established audit focus but not yet closed-loop in the library"
+  ],
+  "pitfalls": [
+   "Repeat attenders may be seen by different professionals each time, fragmenting the record: search by patient identifier across all attendances, not by single episode",
+   "'Suitably skilled mental health professional' is not defined locally: agree a short list of qualifying roles with CAMHS before data collection",
+   "Attendances that end in the young person leaving before assessment will look like a 'fail' for reasons outside the team's control: record and report separately",
+   "Staff may see repeat self-harm as 'attention seeking' and be less thorough: present the data without individual blame and focus on the system flag",
+   "Six months may be too short to find repeat attenders in a small unit: extend the window rather than lowering the sample size"
+  ],
+  "pearls": [
+   "Ask the ED data team to run the repeat-attendance search electronically rather than manually cross-referencing notes",
+   "Recruit the CAMHS lead nurse to help define 'suitably skilled' before cycle 1 so there is no dispute at analysis",
+   "Share the individual (anonymised) attendance timelines with the team, not just the percentage, as this is the most persuasive way to show gaps",
+   "Agree with IT in advance whether the repeat-attendance flag can be built as an automatic alert, since this is what worked in comparable services",
+   "Keep the audit with the liaison team rather than a rotating CAMHS trainee, since continuity of care is the point being measured"
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 attendances, more if cross-referencing across services",
+  "area": "Psychiatry",
+  "pass": "A note from an age-appropriate liaison psychiatry professional or suitably skilled mental health professional is present for that specific attendance"
+ },
+ {
+  "question": "What proportion of children and young people assessed by mental health services after self-harm have a written safety plan for future episodes, developed and agreed with them, documented before they leave the assessment?",
+  "why": "No audit in the library measures whether a collaborative written safety plan (as opposed to a generic risk score or care plan) is produced for children and young people who self-harm.",
+  "standard": {
+   "source": "NICE NG225 Self-harm: assessment, management and preventing recurrence, rec 1.5.14 (September 2022)",
+   "wording": "developing a safety plan for future episodes of self-harm, which should be written with and agreed by the person who self-harms.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients aged under 18 assessed by CAMHS, crisis or liaison services after an episode of self-harm. Exclusion: assessments that were not completed (patient left, or admitted for medical reasons before assessment could finish).",
+  "sample": "30 consecutive completed self-harm psychosocial assessments in under-18s over the last 3 months",
+  "data_source": "CAMHS/crisis team electronic assessment record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "safety_plan_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "safety_plan_dated",
+    "type": "yes/no"
+   },
+   {
+    "field": "documented_as_agreed_with_young_person",
+    "type": "yes/no"
+   },
+   {
+    "field": "family_or_carer_involved",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text 'plan' box in the self-harm assessment template with a structured safety plan template (warning signs, coping strategies, contacts, means restriction) that must be completed and printed or shared with the young person before the assessment can be closed",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size",
+  "close_loop": "Present at the CAMHS clinical governance meeting; if the template raises completion, make it the mandatory default in the electronic record",
+  "evidence": [
+   "[3174] Paediatric psychosocial emergencies audit against NICE self-harm quality standards found 92% had a 7-day follow-up review after a dedicated crisis liaison model was introduced, showing structured follow-up processes are achievable but a dedicated safety-plan-specific audit has not been published"
+  ],
+  "pitfalls": [
+   "A generic 'risk management plan' may be wrongly counted as a safety plan: define the required elements (triggers, coping strategies, contacts) in the data collection tool",
+   "Assessments completed out of hours by a duty worker may use a paper safety plan that is not scanned into the electronic record: check both paper and electronic sources",
+   "Families may decline to be involved: record this as a valid reason rather than a failure of the young person's own agreement",
+   "Clinicians may feel a template is too rigid for individual presentations: pilot the template with two or three clinicians and gather feedback before full rollout",
+   "Improvement may fade once the pilot team's enthusiasm wears off: build the template into the mandatory record rather than relying on a reminder poster"
+  ],
+  "pearls": [
+   "Base the template on an existing published safety-planning tool (e.g. a suicide safety plan format) rather than designing one from scratch",
+   "Involve a young person or family representative in reviewing the template wording before rollout",
+   "Agree with reception/admin that the safety plan can be printed on the spot so families leave with a physical copy",
+   "Present both the completion rate and a couple of anonymised examples of good versus poor plans to help clinicians see what 'good' looks like",
+   "Hand ownership of the re-audit to the CAMHS or crisis team's own quality improvement lead rather than a single trainee, since teams rotate"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 assessments from the CAMHS record",
+  "area": "Psychiatry",
+  "pass": "A safety plan document exists in the record for that assessment, is dated, and states it was agreed with the young person"
+ },
+ {
+  "question": "What proportion of children and young people on ADHD medication have their height and weight measured at the intervals specified by NICE (height every 6 months; weight every 3 months if aged 10 or under, or at 3 and 6 months then every 6 months if older)?",
+  "why": "No closed-loop audit in the library measures compliance with the exact NICE NG87 growth-monitoring schedule for children and young people on ADHD medication; existing CAMHS prescribing audits in the corpus measure prescribing quality generally, not this specific monitoring interval.",
+  "standard": {
+   "source": "NICE NG87 Attention deficit hyperactivity disorder: diagnosis and management, rec 1.8.5 (2018)",
+   "wording": "For people taking medication for ADHD: measure height every 6 months in children and young people measure weight every 3 months in children 10 years and under measure weight at 3 and 6 months after starting treatment in children over 10 years and young people, and every 6 months thereafter, or more often if concerns arise ... plot height and weight of children and young people on a growth chart and ensure review by the healthcare professional responsible for treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng87/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients aged under 18 currently prescribed a stimulant or non-stimulant ADHD medication for at least 6 months. Exclusion: patients started on medication in the last 3 months (too early to judge the schedule).",
+  "sample": "40 consecutive children and young people on ADHD medication for at least 6 months, from the CAMHS/paediatric ADHD clinic caseload",
+  "data_source": "CAMHS or paediatric ADHD clinic electronic record and growth chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_birth",
+    "type": "date"
+   },
+   {
+    "field": "date_medication_started",
+    "type": "date"
+   },
+   {
+    "field": "most_recent_height_date",
+    "type": "date"
+   },
+   {
+    "field": "most_recent_weight_date",
+    "type": "date"
+   },
+   {
+    "field": "height_within_nice_interval",
+    "type": "yes/no"
+   },
+   {
+    "field": "weight_within_nice_interval",
+    "type": "yes/no"
+   },
+   {
+    "field": "plotted_on_growth_chart",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build an automatic reminder into the ADHD clinic appointment system that flags when height or weight is due, and require the growth chart to auto-populate from the recorded measurements",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the CAMHS or community paediatrics governance meeting; if effective, embed the automatic reminder as a permanent build",
+  "evidence": [
+   "Topic card 'ADHD medication monitoring' (11 audits in the library): six-monthly weight, pulse and blood pressure are the weak point, with recording as low as 8-19% [3198] and only 30.9% monitored within NICE intervals [3622]; a dedicated ADHD clinic and shared-care process raised annual BP monitoring from 62.0% to 90.4% and weight from 56.7% to 80.3% [3527]"
+  ],
+  "pitfalls": [
+   "Height and weight recorded at a GP or school nurse visit outside the ADHD clinic may be missed: agree a single source of truth for measurements before starting",
+   "A telephone or video review cannot include physical measurements: record whether the appointment was face-to-face and exclude remote reviews from the numerator",
+   "The interval differs by age band (under 10 vs over 10): pre-sort the sample by age so the correct schedule is applied to each patient",
+   "Teaching alone rarely moves this measure, as the library shows an electronic record change is needed to convert centiles automatically",
+   "Non-attendance at review appointments will look like a monitoring gap: record DNAs separately from measurements not taken at an attended appointment"
+  ],
+  "pearls": [
+   "Recruit the ADHD clinic administrator to help build the automatic reminder, since they control the appointment system",
+   "Agree the exact NICE interval definitions with the clinic team before data collection to avoid disputes at analysis",
+   "Use the growth chart itself (not just a text entry) as the source of truth, since a plotted point is easy to verify",
+   "Share the topic card's finding that a dedicated clinic model (not teaching) achieved the biggest gains, to set expectations for the fix",
+   "Timetable the re-audit for after the reminder system has been running for a full monitoring cycle (6 months), not sooner"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the ADHD clinic record",
+  "area": "Psychiatry",
+  "pass": "Height and weight are both recorded at the NICE-specified interval for the child's age and plotted on a growth chart"
+ },
+ {
+  "question": "What proportion of children, young people and adults on ADHD medication have their heart rate and blood pressure measured and compared with the normal range for age before and after each dose change, and at least every 6 months?",
+  "why": "No closed-loop audit in the library isolates cardiovascular monitoring at dose change specifically (as opposed to routine periodic monitoring); the topic card for ADHD medication monitoring shows this remains the weakest single measure in the corpus.",
+  "standard": {
+   "source": "NICE NG87 Attention deficit hyperactivity disorder: diagnosis and management, rec 1.8.9 (2018)",
+   "wording": "Monitor heart rate and blood pressure and compare with the normal range for age before and after each dose change and every 6 months.",
+   "url": "https://www.nice.org.uk/guidance/ng87/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients of any age on ADHD medication with at least one dose change in the last 12 months. Exclusion: patients with no dose change in that period, audited under the routine 6-monthly measure only.",
+  "sample": "40 consecutive patients on ADHD medication with a dose change in the last 12 months, from the ADHD clinic caseload (CAMHS, adult ADHD service or shared care)",
+  "data_source": "ADHD clinic electronic record, dose change log and observation chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_dose_change",
+    "type": "date"
+   },
+   {
+    "field": "heart_rate_bp_before_change_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "heart_rate_bp_after_change_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "compared_with_age_normal_range",
+    "type": "yes/no"
+   },
+   {
+    "field": "six_monthly_review_up_to_date",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Link the ADHD e-prescribing dose-change order to a mandatory observation set, so the prescription cannot be finalised without a recorded heart rate and blood pressure compared against the age-normal range",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the ADHD service governance meeting; if the mandatory link works, extend it to all ADHD prescribers including shared-care GPs",
+  "evidence": [
+   "Topic card 'ADHD medication monitoring': centiles are rarely used (BP 10%, HR 0% in one sample [3525]); presenting results alone raised weight monitoring from 15% to 45% and HR from 8% to 40% [3198], but teaching and posters did not move BP or HR centiles because the record could not convert them automatically [3525]"
+  ],
+  "pitfalls": [
+   "Recording a raw heart rate/BP without comparing to the age-normal range should not count as a pass: define 'compared' as an explicit centile or normal/abnormal statement in the data tool",
+   "Dose changes made by a shared-care GP may not be visible to the specialist service: include a data-sharing check with primary care before starting",
+   "The library shows posters and teaching failed here because the electronic system could not calculate centiles: budget for an IT change, not just an education session",
+   "Patients who decline monitoring should be recorded as a specific category, not counted as a system failure",
+   "Multiple small dose titrations in a short period could be double-counted: use the most recent dose change in the audit period as the index event"
+  ],
+  "pearls": [
+   "Involve the electronic prescribing/IT team from the outset, since the library shows a system fix (not teaching) is what worked elsewhere",
+   "Use an age-appropriate blood pressure centile calculator built into or linked from the record, rather than a paper chart",
+   "Present the topic card evidence (teaching failed, system change worked) to secure sign-off for an IT change request",
+   "Pilot the mandatory link with one prescriber before rolling out trust-wide, to catch workflow problems early",
+   "Fix the re-audit date at 6 months so at least one full monitoring cycle has passed since the change"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the ADHD clinic record and dose change log",
+  "area": "Psychiatry",
+  "pass": "Heart rate and blood pressure are recorded and compared with the normal range for age, both at the most recent dose change and at the most recent 6-monthly review"
+ },
+ {
+  "question": "What proportion of children and young people on ADHD medication whose blood pressure is consistently above the 95th centile for age and height are referred to a paediatric hypertension specialist before medication is continued?",
+  "why": "No audit in the library links an abnormal blood pressure finding on ADHD medication to the specific referral action NICE requires; the ADHD monitoring topic card shows measurement is already poor, and no audit in the corpus checks what happens once a high reading is found.",
+  "standard": {
+   "source": "NICE NG87 Attention deficit hyperactivity disorder: diagnosis and management, rec 1.7.6 (2018)",
+   "wording": "Refer to a paediatric hypertension specialist before starting medication for ADHD if blood pressure is consistently above the 95th centile for age and height for children and young people.",
+   "url": "https://www.nice.org.uk/guidance/ng87/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients aged under 18 on ADHD medication with at least one blood pressure reading above the 95th centile for age/height in the last 12 months, confirmed on a repeat reading. Exclusion: an isolated single high reading not repeated.",
+  "sample": "All identified cases in the last 12 months from the ADHD clinic caseload (expect approximately 15-25 cases in a typical CAMHS/paediatric ADHD service, given the low rate of BP centile use found elsewhere in the corpus)",
+  "data_source": "ADHD clinic electronic record and hypertension/cardiology referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_bp_confirmed_high",
+    "type": "date"
+   },
+   {
+    "field": "centile_recorded",
+    "type": "number"
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date"
+   },
+   {
+    "field": "medication_continued_pending_referral",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic alert in the electronic record that fires when a blood pressure centile is entered above the 95th centile for an ADHD patient, prompting an immediate referral order",
+  "target": "100%",
+  "reaudit": "At 12 months, same template, widened sample if fewer than 15 cases found",
+  "close_loop": "Present at the ADHD/paediatric cardiology joint meeting; if the alert works, keep it as a permanent build",
+  "evidence": [
+   "Topic card 'ADHD medication monitoring': centiles are rarely used at all (BP 10%, HR 0% in one sample [3525]), so an audit specifically of the referral pathway once a high reading is found has not been done in the library"
+  ],
+  "pitfalls": [
+   "If BP centiles are rarely calculated in the first place (as the library shows), the true denominator of 'confirmed high BP' may be undercounted: report the number of patients with any BP centile recorded alongside the audit result",
+   "A single high reading without repeat measurement should not count towards the denominator: require a second confirmatory reading before counting a case",
+   "Referral pathways to paediatric hypertension services vary between trusts: confirm the correct local referral route before data collection",
+   "Cases may be too few for a stable percentage: report as a proportion with the raw numerator and denominator, not just a percentage",
+   "Prescribers may continue medication while awaiting referral without recording a reason: capture this explicitly rather than assuming an oversight"
+  ],
+  "pearls": [
+   "Work with the ADHD clinic's admin team to search the record for any BP centile entries above the 95th centile, since these cases are rare and easy to miss manually",
+   "Agree the referral pathway and target response time with paediatric cardiology/hypertension before cycle 1",
+   "Because numbers will be small, present individual case summaries (anonymised) alongside the percentage to make the point clearly",
+   "Build the alert as a hard stop or strong prompt in the electronic record, since a soft reminder is unlikely to succeed given how rarely centiles are used",
+   "Keep this audit running continuously (rather than a single cycle) since new high-BP cases will appear slowly over time"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per identified case from the clinic record and referral log",
+  "area": "Psychiatry",
+  "pass": "A referral to a paediatric hypertension specialist is documented within 4 weeks of the blood pressure being confirmed as consistently above the 95th centile"
+ },
+ {
+  "question": "What proportion of adults with a learning disability newly started on a psychotropic medication for behaviour that challenges have a documented plan for reducing or stopping the medication, with a target timescale?",
+  "why": "The STOMP topic card (13 audits in the library) shows a reduce/stop plan is recorded in only 10-17% of cases [3685] and a stopping timescale in 29% [3445]; the consultant advice is to audit whether a reduce-or-stop plan with a timescale exists, which no library audit currently isolates as its own question.",
+  "standard": {
+   "source": "NICE NG11 Challenging behaviour and learning disabilities, rec 1.8.5 (2015)",
+   "wording": "Ensure that the following are documented: a rationale for medication (explained to the person with a learning disability and everyone involved in their care, including their family members and carers) how long the medication should be taken for a strategy for reviewing the prescription and stopping the medication.",
+   "url": "https://www.nice.org.uk/guidance/ng11/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a learning disability newly started (in the last 12 months) on an antipsychotic, antidepressant, anticonvulsant used as a mood stabiliser, benzodiazepine or hypnotic for behaviour that challenges. Exclusion: medication started for a diagnosed mental illness rather than behaviour that challenges.",
+  "sample": "30 consecutive adults with a learning disability newly started on a psychotropic for behaviour that challenges in the last 12 months, from the community learning disability team or STOMP register",
+  "data_source": "Community learning disability team electronic record and medication review documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_medication_started",
+    "type": "date"
+   },
+   {
+    "field": "medication_class",
+    "type": "choice",
+    "options": [
+     "antipsychotic",
+     "antidepressant",
+     "anticonvulsant/mood stabiliser",
+     "benzodiazepine/hypnotic",
+     "other"
+    ]
+   },
+   {
+    "field": "duration_specified",
+    "type": "yes/no"
+   },
+   {
+    "field": "review_and_stopping_strategy_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "target_review_date_set",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'planned duration and stopping strategy' field to the STOMP medication initiation template, which must be completed before the prescription can be signed",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the community learning disability team governance meeting; if the mandatory field works, adopt it trust-wide for all STOMP-relevant prescriptions",
+  "evidence": [
+   "[3685] STOMP audit found a documented reduce/stop plan in only 10-17% of cases",
+   "[3445] STOMP audit found a timescale for stopping medication documented in 29% of cases",
+   "[3268] Repeated audit cycles in one intellectual disability team raised metabolic monitoring from 0% to 95% and risk assessment from 68% to 100%, showing repeated cycles with a fixed template can close this gap"
+  ],
+  "pitfalls": [
+   "A generic 'review in clinic' note without a specific date or trigger should not count as a pass: define this precisely in the data tool",
+   "New starters may be prescribed by an out-of-area or private provider whose notes are not available: exclude and record these separately",
+   "Staff may see stopping plans as unrealistic for long-standing behaviour: present the audit as measuring documentation of intent, not a requirement to actually stop",
+   "The library shows side-effect discussion fell after criteria changed between cycles in one service [3416]: keep the same criteria across both cycles",
+   "Family or paid carers may not be present at review to discuss stopping: record whether they were consulted, as this affects the quality of the plan"
+  ],
+  "pearls": [
+   "Base the mandatory field on the exact NG11 1.8.5 wording so there is no ambiguity about what counts as a strategy",
+   "Recruit the learning disability pharmacist to help design and monitor the field, since they typically run the STOMP register",
+   "Share the topic card's consultant advice (count actual dose reductions, not just plans) directly with the team to set the improvement target",
+   "Time the re-audit to align with the annual STOMP reporting cycle already required by NHS England, so data collection is not duplicated",
+   "Keep the audit register with the learning disability team pharmacist rather than a rotating psychiatry trainee, for continuity"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the STOMP register and clinic notes",
+  "area": "Psychiatry",
+  "pass": "The record states how long the medication should be taken for and a strategy for reviewing and stopping it, with a specific target date or trigger"
+ },
+ {
+  "question": "Of adults with a learning disability prescribed an antipsychotic for behaviour that challenges with a documented review of effectiveness, what proportion with no indication of response by 6 weeks have the medication actually stopped or the decision to continue explicitly justified in writing?",
+  "why": "The STOMP topic card explicitly advises counting actual dose reductions and stopping, not just whether a review plan exists; no audit in the library measures the real-world action taken once the 6-week review point is reached.",
+  "standard": {
+   "source": "NICE NG11 Challenging behaviour and learning disabilities, rec 1.8.4 (2015)",
+   "wording": "stop the medication if there is no indication of a response at 6 weeks, reassess the behaviour that challenges and consider further psychological or environmental interventions.",
+   "url": "https://www.nice.org.uk/guidance/ng11/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a learning disability on an antipsychotic for behaviour that challenges, with a documented 6-week (or later) effectiveness review. Exclusion: patients on antipsychotics for a diagnosed psychotic illness.",
+  "sample": "30 consecutive adults with a learning disability on antipsychotics for behaviour that challenges who have passed their 6-week review point, from the community learning disability team caseload",
+  "data_source": "Community learning disability team electronic record and medication review notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_six_week_review",
+    "type": "date"
+   },
+   {
+    "field": "response_documented",
+    "type": "choice",
+    "options": [
+     "clear response",
+     "no clear response",
+     "not assessed"
+    ]
+   },
+   {
+    "field": "medication_stopped_if_no_response",
+    "type": "yes/no"
+   },
+   {
+    "field": "written_justification_for_continuing",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a hard-stop prompt in the electronic prescribing system at the 6-week point for any antipsychotic coded as 'for behaviour that challenges', requiring either a stop order or a written justification before the prescription can be continued",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the community learning disability team and pharmacy governance meeting; if effective, extend the 6-week prompt to all STOMP-relevant prescriptions",
+  "evidence": [
+   "[3584] STOMP audit found no clear indication for 50.6% of antipsychotics prescribed for behaviour that challenges",
+   "[3416] Side-effect discussion at initiation fell from 73% to 38% after review criteria changed between cycles, showing the review process itself needs a fixed template to hold gains"
+  ],
+  "pitfalls": [
+   "'No clear response' may be under-recorded because staff default to continuing rather than actively reassessing: define the audit to flag any review note lacking an explicit response statement as a fail",
+   "Environmental or psychological interventions may be tried without being recorded as linked to the medication review: cross-check care plans as well as prescription notes",
+   "Carers and care home staff may resist stopping medication they believe is working: record any documented carer view as part of the justification, not as an automatic pass",
+   "A change of prescriber partway through the period could mean the 6-week review was never formally handed over: check for a gap in responsibility",
+   "Numbers may be small in a single team: consider a longer collection window or pooling across neighbouring learning disability teams"
+  ],
+  "pearls": [
+   "Use the exact NG11 wording ('no indication of a response at 6 weeks') as the pass/fail definition to avoid subjective judgement calls",
+   "Involve a learning disability nurse or support worker who knows the person well in the review, since they can describe real behavioural change",
+   "Present the finding alongside the topic card's headline gap (50.6% with no clear indication [3584]) to show this is a known, high-harm, fixable problem",
+   "Agree the pharmacy hard-stop build with IT and pharmacy governance before cycle 1 so the change can go live immediately after presentation",
+   "Track actual dose reductions and stops at re-audit, not just documentation, as this is what the topic card identifies as missing from every existing audit"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the STOMP register and prescribing record",
+  "area": "Psychiatry",
+  "pass": "The medication is stopped by 6 weeks if there is no indication of response, or, if continued, a specific written justification for continuing is present in the notes"
+ },
+ {
+  "question": "What proportion of adults with a learning disability have an annual health check that includes a review of mental health problems?",
+  "why": "No audit in the library measures the mental health component of the learning disability annual health check specifically, despite this being a distinct NICE quality statement; existing corpus audits on learning disability focus on medication (STOMP) and physical monitoring, not the annual check itself.",
+  "standard": {
+   "source": "NICE QS142 Learning disability: identifying and managing mental health problems, quality statement 1 (10 January 2017)",
+   "wording": "Young people and adults with a learning disability have an annual health check that includes a review of mental health problems.",
+   "url": "https://www.nice.org.uk/guidance/qs142/chapter/quality-statements"
+  },
+  "population": "Inclusion: adults on the GP learning disability register who had an annual health check in the last 12 months. Exclusion: people who declined the annual health check.",
+  "sample": "40 consecutive annual health checks completed in the last 12 months, from the GP learning disability register at one or two participating practices",
+  "data_source": "GP electronic record (annual health check template)",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_annual_health_check",
+    "type": "date"
+   },
+   {
+    "field": "mental_health_review_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "screening_tool_used",
+    "type": "text"
+   },
+   {
+    "field": "referral_made_if_concern",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory mental health review section to the GP annual health check template (already used for the learning disability DES), which cannot be marked complete without an entry",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample, timed to the next annual health check cycle",
+  "close_loop": "Present at the primary care network or practice clinical governance meeting; if effective, embed the mandatory field trust/practice-wide",
+  "evidence": [
+   "No audit of the mental health component of the learning disability annual health check is recorded in the library; the closest related entries concern STOMP medication review [3685] and antipsychotic physical health monitoring, not the annual check itself"
+  ],
+  "pitfalls": [
+   "Annual health checks are often nurse-led using a template that may not prompt for mental health explicitly: check the template itself as well as individual entries",
+   "A tick-box 'mental health: normal' with no detail may be too weak to count as a real review: agree with the primary care team what counts as adequate detail before data collection",
+   "People who decline or do not attend are excluded from this audit but should be tracked separately, since non-attendance is itself a known access problem",
+   "GP data systems vary (EMIS, SystmOne): the exact template location for annual health checks will differ between practices",
+   "A learning disability nurse or GP may feel this adds to an already long consultation: build the change into the existing template rather than adding a separate step"
+  ],
+  "pearls": [
+   "Work with the practice's learning disability register lead, who already runs the annual health check DES, to make this change with minimal extra burden",
+   "Use a short, validated question (for example, a simple mood and behaviour change screen) rather than a lengthy new tool",
+   "Present the audit to the primary care network learning disability lead, since a template change there can spread across several practices at once",
+   "Agree in advance how referral for a mental health concern found at the check will be actioned (to the community learning disability team), so the change closes a real loop",
+   "Fix the re-audit to the next annual health check cycle so the same patients can be tracked over time"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 records from the GP annual health check template",
+  "area": "Psychiatry",
+  "pass": "The annual health check record includes an explicit mental health review (a question, screening tool result, or narrative comment on mental state), not just physical health items"
+ },
+ {
+  "question": "What proportion of adults with a learning disability referred for a mental health assessment are seen by a professional with specific expertise in mental health problems in people with a learning disability?",
+  "why": "No audit in the library measures whether learning disability mental health referrals reach an appropriately expert assessor, as opposed to generic community mental health team triage.",
+  "standard": {
+   "source": "NICE QS142 Learning disability: identifying and managing mental health problems, quality statement 2 (10 January 2017)",
+   "wording": "People with a learning disability who need a mental health assessment are referred to a professional with expertise in mental health problems in people with learning disabilities.",
+   "url": "https://www.nice.org.uk/guidance/qs142/chapter/quality-statements"
+  },
+  "population": "Inclusion: adults with a learning disability referred for a mental health assessment in the last 12 months. Exclusion: referrals for a physical health problem only.",
+  "sample": "30 consecutive learning disability mental health referrals in the last 12 months, from the community learning disability team or generic community mental health team referral log",
+  "data_source": "Community mental health/learning disability team referral and assessment records",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date"
+   },
+   {
+    "field": "referred_to_specialist_ld_team",
+    "type": "yes/no"
+   },
+   {
+    "field": "assessing_clinician_grade",
+    "type": "text"
+   },
+   {
+    "field": "ld_expertise_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_to_assessment_days",
+    "type": "number"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic flag on the community mental health team referral system that redirects any referral coded 'learning disability' to the specialist learning disability team, or requires documented learning disability liaison input if seen elsewhere",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the joint community learning disability/mental health team governance meeting; if effective, keep the automatic redirect as a permanent build",
+  "evidence": [
+   "Related entries concern STOMP medication review [3685] and metabolic monitoring in one intellectual disability team [3268], but no library audit yet measures the referral-to-specialist-assessor pathway itself"
+  ],
+  "pitfalls": [
+   "A generic community mental health team may see the person without recognising the learning disability, especially if mild: check the referral coding as well as the outcome",
+   "Rural or smaller services may have no dedicated learning disability specialist and rely on liaison input: define what counts as adequate liaison before data collection",
+   "Referral letters may not state the person has a learning disability if it is not the presenting reason: cross-check against the GP learning disability register",
+   "Waiting times to a specialist team may be longer than to a generic team, creating pressure to bypass the specialist route: record time to assessment for both",
+   "Historic referrals may predate a service reorganisation: use only referrals from the last 12 months to reflect current pathways"
+  ],
+  "pearls": [
+   "Cross-reference the referral list against the GP learning disability register to make sure no relevant referral is missed",
+   "Agree a single definition of 'learning disability expertise' with both teams before starting, to avoid disputes over borderline cases",
+   "Recruit a joint audit lead from both the learning disability and generic mental health teams so the fix is owned by both",
+   "Use the audit findings to support a business case for a formal liaison arrangement if none currently exists",
+   "Keep the referral log query script so the re-audit can be run quickly by whoever holds the audit next"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from the referral and assessment record",
+  "area": "Psychiatry",
+  "pass": "The assessing clinician is a psychiatrist, nurse or psychologist with a learning disability specialism (community learning disability team, or a generic mental health service with documented learning disability liaison input)"
+ },
+ {
+  "question": "What proportion of adults with a learning disability and a serious mental illness have a named key worker recorded in their care plan to coordinate their care?",
+  "why": "No audit in the library measures whether people with a learning disability and serious mental illness have a single named key worker, despite this being a specific NICE quality statement distinct from general care planning audits already in the corpus.",
+  "standard": {
+   "source": "NICE QS142 Learning disability: identifying and managing mental health problems, quality statement 3 (10 January 2017)",
+   "wording": "People with a learning disability and a serious mental illness have a key worker to coordinate their care.",
+   "url": "https://www.nice.org.uk/guidance/qs142/chapter/quality-statements"
+  },
+  "population": "Inclusion: adults with a learning disability and a diagnosed serious mental illness (psychosis, bipolar disorder or severe depression) open to community learning disability or mental health services. Exclusion: people not currently open to a community team.",
+  "sample": "30 consecutive adults with a learning disability and serious mental illness on the current community learning disability/mental health caseload",
+  "data_source": "Community learning disability/mental health team electronic care plan",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "diagnosis",
+    "type": "text"
+   },
+   {
+    "field": "named_key_worker_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "key_worker_role",
+    "type": "text"
+   },
+   {
+    "field": "contact_details_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "care_plan_review_date",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'named key worker' field to the community learning disability team's care plan template, which must be completed and updated at every care plan review",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the community learning disability team governance meeting; if effective, embed as a mandatory field trust-wide",
+  "evidence": [
+   "Related entries in the corpus concern general care plan documentation in mental health (topic: Care plan documentation in mental health), but no audit specifically checks the learning disability key worker requirement in QS142"
+  ],
+  "pitfalls": [
+   "A team may be named as 'key worker' rather than an individual, which does not meet the intent of the standard: define 'named' as a specific person in the data tool",
+   "Key workers may change with staff turnover without the care plan being updated: check the last care plan review date alongside the named worker",
+   "People open to both a community learning disability team and a separate community mental health team may have two different named workers, causing confusion: record and flag this as a fail",
+   "Caseload lists may be out of date: verify the current caseload with the team manager before sampling",
+   "Care plans stored only on paper in some services will need manual review alongside the electronic record"
+  ],
+  "pearls": [
+   "Agree the definition of 'serious mental illness' (psychosis, bipolar disorder, severe depression) with the team before sampling to keep the population consistent",
+   "Ask the team manager for an up-to-date caseload list rather than relying on a historic report",
+   "Present the audit alongside the QS142 statement wording so the standard is unambiguous to the team",
+   "Build the key worker field into whatever care planning software is already in use, rather than a separate document",
+   "Repeat the audit after the next round of staff changes, since key worker continuity is most at risk during turnover"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 records from the care plan",
+  "area": "Psychiatry",
+  "pass": "A single named key worker is documented in the current care plan, with their role and contact details"
+ },
+ {
+  "question": "What proportion of adults with a learning disability who remain on an antipsychotic medication that has not been reduced or stopped have the reasons for continuing it documented at least once in the last 12 months?",
+  "why": "The antipsychotic physical health monitoring topic card in the library (39 audits) focuses on physical monitoring; no audit isolates this specific NICE requirement to justify ongoing antipsychotic use annually in learning disability, which is the STOMP overmedication review question at its core.",
+  "standard": {
+   "source": "NICE QS142 Learning disability: identifying and managing mental health problems, quality statement 5 (10 January 2017)",
+   "wording": "People with a learning disability who are taking antipsychotic drugs that are not reduced or stopped have annual documentation on reasons for continuing this prescription.",
+   "url": "https://www.nice.org.uk/guidance/qs142/chapter/quality-statements"
+  },
+  "population": "Inclusion: adults with a learning disability on a continuous antipsychotic prescription for more than 12 months, with no dose reduction in that period. Exclusion: patients whose dose has been reduced or who have been switched or stopped in the period.",
+  "sample": "30 consecutive adults with a learning disability on an unchanged antipsychotic dose for more than 12 months, from the community learning disability team or STOMP register",
+  "data_source": "Community learning disability team electronic record and STOMP register",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "antipsychotic_name_and_dose",
+    "type": "text"
+   },
+   {
+    "field": "date_last_dose_change",
+    "type": "date"
+   },
+   {
+    "field": "annual_reason_for_continuing_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_documentation",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an annual STOMP review reminder to the electronic record for every patient on an unchanged antipsychotic dose, which must be completed with an explicit reason for continuing before it can be dismissed",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample",
+  "close_loop": "Present at the STOMP steering group or community learning disability team governance meeting; if effective, embed the reminder trust-wide",
+  "evidence": [
+   "Topic card 'Psychotropic prescribing in learning disability (STOMP)': timescale for stopping documented in 29% of cases [3445] and a reduce/stop plan in 10-17% [3685]; consultant advice highlights that documenting a rationale at initiation is common but ongoing justification for continuing is not routinely checked"
+  ],
+  "pitfalls": [
+   "A brief 'continue as before' note should not count as a pass: define the required content (specific clinical reason) in the data tool",
+   "Patients seen only by a GP on a shared-care basis may not have specialist review documented at all: check both specialist and GP records",
+   "Long-stay patients with decades of unchanged prescribing may have no recent documented rationale anywhere: report this finding directly rather than assuming it exists",
+   "Staff may resist a formal reminder as bureaucratic if they know the patient well: frame the change as a safeguard against unexamined long-term prescribing, per LeDeR-type learning",
+   "A dose reduction attempted and reversed due to relapse should still count as active review, not treated the same as no review at all"
+  ],
+  "pearls": [
+   "Use the STOMP register (already required by NHS England) as the sampling frame so the audit does not duplicate existing data collection",
+   "Recruit the learning disability pharmacist to lead the annual reminder build and review the findings",
+   "Present the QS142 statement 5 wording directly to prescribers so the annual documentation requirement is unambiguous",
+   "Track whether annual review leads to any actual dose changes over time, not just documentation, to show real impact",
+   "Align the re-audit date with the trust's existing annual STOMP reporting deadline to avoid duplicate data pulls"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the STOMP register and clinic notes",
+  "area": "Psychiatry",
+  "pass": "A dated entry in the last 12 months explicitly states the reason for continuing the antipsychotic"
+ },
+ {
+  "question": "What proportion of women of childbearing potential newly assessed by adult or perinatal mental health services while already prescribed valproate for a mental health condition have a documented discussion of switching to an alternative medication?",
+  "why": "The valproate pregnancy prevention topic card in the library (6 audits) shows documentation of the pregnancy prevention programme is poor, but the consultant advice notes that whether patients were switched to an alternative treatment is not yet audited; NICE specifically restricts valproate use in this group unless alternatives are ineffective.",
+  "standard": {
+   "source": "NICE CG192 Antenatal and postnatal mental health, rec 1.2.3 (2014, amended 2020)",
+   "wording": "Do not offer valproate for acute or long-term treatment of a mental health problem in women or girls of childbearing potential (including young girls who are likely to need treatment into their childbearing years), unless other options are ineffective or not tolerated and the pregnancy prevention programme is in place.",
+   "url": "https://www.nice.org.uk/guidance/cg192/chapter/Recommendations"
+  },
+  "population": "Inclusion: women aged 12-55 of childbearing potential newly assessed by adult or perinatal mental health services who are already prescribed valproate for a mental health condition. Exclusion: valproate prescribed solely for epilepsy under neurology.",
+  "sample": "All identified cases in the last 12 months from the mental health service valproate register (typically 15-25 women in a district general hospital catchment)",
+  "data_source": "Mental health service electronic record and valproate/pregnancy prevention programme register",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "alternative_treatment_discussed",
+    "type": "yes/no"
+   },
+   {
+    "field": "alternative_treatment_tried",
+    "type": "yes/no"
+   },
+   {
+    "field": "pregnancy_prevention_programme_in_place",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_alternatives_not_used",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'alternative treatment considered' field to the mental health service's valproate register review template, which must be completed at every review of a woman of childbearing potential",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template, using the updated valproate register",
+  "close_loop": "Present at the trust medicines safety or perinatal mental health governance meeting; if effective, embed the mandatory field in the valproate register template trust-wide",
+  "evidence": [
+   "Topic card 'Valproate pregnancy prevention programme': Annual Risk Acknowledgement Form completed in only 3% [3196] and 0% dual-signed [3656] of cases, with contraception advice as low as 0-15% [3418][3656]; consultant advice notes the gap in auditing whether patients were switched to alternatives has not yet been closed"
+  ],
+  "pitfalls": [
+   "Women may already be stable on valproate after multiple failed alternatives, making a switch clinically inappropriate: record this as a documented, reasoned decision rather than a fail",
+   "Perinatal and adult mental health teams may hold separate valproate registers: reconcile both before sampling to avoid double counting or missed cases",
+   "Small numbers are likely given how few women of childbearing potential remain on valproate once the pregnancy prevention programme is enforced: report raw numbers alongside any percentage",
+   "A woman may not disclose she is sexually active or planning pregnancy, affecting the urgency of the discussion: record what was asked, not assumed",
+   "Switching medication carries its own relapse risk: frame the change as ensuring the discussion happens, not mandating a switch"
+  ],
+  "pearls": [
+   "Use the mental health pharmacist-held valproate register as the single source of truth for the sampling frame",
+   "Involve both perinatal and adult mental health pharmacy leads, since patients often move between these services",
+   "Present the topic card's consultant advice directly to the team to justify why this specific angle (switching, not just ARAF completion) is the audit focus",
+   "Agree with the team in advance what counts as an acceptable 'alternatives ineffective or not tolerated' justification",
+   "Keep the valproate register under pharmacy ownership so the re-audit can be run without waiting for a trainee rotation"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per identified case from the valproate register and clinical record",
+  "area": "Psychiatry",
+  "pass": "The record shows either that valproate was not used, or, if it was continued, a documented trial or consideration of at least one alternative and that the pregnancy prevention programme is in place"
+ },
+ {
+  "question": "What proportion of women with a current or past severe mental health problem who are planning a pregnancy are referred to a secondary mental health service, preferably a specialist perinatal mental health service, for preconception counselling?",
+  "why": "No audit in the library measures preconception counselling referral for women with severe mental illness planning pregnancy; existing perinatal audits in the corpus concern administrative recording and GP referral processes, not this specific preconception pathway.",
+  "standard": {
+   "source": "NICE CG192 Antenatal and postnatal mental health, rec 1.4.2 (2014)",
+   "wording": "Consider referring a woman to a secondary mental health service (preferably a specialist perinatal mental health service) for preconception counselling if she has a current or past severe mental health problem and is planning a pregnancy.",
+   "url": "https://www.nice.org.uk/guidance/cg192/chapter/Recommendations"
+  },
+  "population": "Inclusion: women aged 16-45 with a current or past severe mental health problem (psychosis, bipolar disorder, severe depression) under mental health services who document they are planning a pregnancy. Exclusion: women already pregnant at first mention (covered by antenatal pathways instead).",
+  "sample": "All identified cases in the last 12 months from mental health service records (typically 15-30 women across a community mental health team caseload)",
+  "data_source": "Community mental health team and perinatal mental health service electronic records",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_pregnancy_planning_documented",
+    "type": "date"
+   },
+   {
+    "field": "referral_for_preconception_counselling_made",
+    "type": "yes/no"
+   },
+   {
+    "field": "referred_to_specialist_perinatal_service",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory prompt to the community mental health team electronic care plan review: 'planning a pregnancy: yes/no', which triggers an automatic preconception counselling referral suggestion when answered yes",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the perinatal mental health network governance meeting; if effective, embed the mandatory prompt trust-wide",
+  "evidence": [
+   "[3337] Audit of perinatal assessment documentation found gaps in basic recording during initial assessment in a community perinatal mental health service, showing documentation quality in this pathway is an established but incompletely audited concern",
+   "[6309] Audit of GP referrals to perinatal mental health services during a period of service austerity, showing referral pathway quality is a recognised but under-audited issue"
+  ],
+  "pitfalls": [
+   "Pregnancy planning may be discussed informally in a routine appointment without a specific documented field: agree with clinicians to actively ask and record this at every relevant review",
+   "Women may not disclose pregnancy plans to a mental health worker they see infrequently: report the number of women asked as well as the number referred",
+   "Specialist perinatal services may have geographic or capacity limits, making referral to a generic secondary service the only option: record this as a partial pass with the reason given",
+   "Retrospective identification of 'planning a pregnancy' entries may be difficult if not coded: consider prospective data collection over a fixed window instead of retrospective search",
+   "The record may show a referral made but never actioned by the receiving service: check the perinatal team's own referral log for confirmation, not just the sending note"
+  ],
+  "pearls": [
+   "Recruit the perinatal mental health service lead as a joint audit lead with the adult community mental health team",
+   "Use a structured yes/no prompt rather than free text so future searches are reliable",
+   "Agree a simple referral pathway and response time standard with the perinatal service before starting, so the change has somewhere to route referrals",
+   "Present the finding to the trust's perinatal mental health network (many now exist under the NHS Long Term Plan), which can support scaling the change",
+   "Keep prospective data collection running via the new prompt so the re-audit is a simple data pull rather than a fresh manual search"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per identified case from the mental health electronic record",
+  "area": "Psychiatry",
+  "pass": "A referral for preconception counselling is documented as made, or offered and declined, when a woman with a current or past severe mental health problem states she is planning a pregnancy"
+ },
+ {
+  "question": "Do women with sudden onset of symptoms suggesting postpartum psychosis have a documented referral to a secondary mental health service (preferably specialist perinatal) with assessment completed within 4 hours of referral?",
+  "why": "No audit in the library measures the 4-hour assessment standard for suspected postpartum psychosis; this is a specific, time-critical, high-harm NICE recommendation that has not yet been audited in the corpus.",
+  "standard": {
+   "source": "NICE CG192 Antenatal and postnatal mental health, rec 1.5.12 (2014)",
+   "wording": "If a woman has sudden onset of symptoms suggesting postpartum psychosis, refer her to a secondary mental health service (preferably a specialist perinatal mental health service) for immediate assessment (within 4 hours of referral).",
+   "url": "https://www.nice.org.uk/guidance/cg192/chapter/Recommendations"
+  },
+  "population": "Inclusion: women referred urgently to mental health services in the postnatal period (within 12 months of delivery) with suspected postpartum psychosis. Exclusion: routine (non-urgent) postnatal mental health referrals.",
+  "sample": "All identified urgent postpartum psychosis referrals in the last 12 months (typically a small number, 10-20 cases, given the rarity of the presentation; extend the window if fewer than 10 are found)",
+  "data_source": "Mental health crisis team/perinatal mental health service referral and assessment records",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_and_time_of_referral",
+    "type": "datetime"
+   },
+   {
+    "field": "referred_to_specialist_perinatal_service",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_and_time_of_assessment",
+    "type": "datetime"
+   },
+   {
+    "field": "assessed_within_4_hours",
+    "type": "yes/no"
+   },
+   {
+    "field": "admission_outcome",
+    "type": "choice",
+    "options": [
+     "admitted mother and baby unit",
+     "admitted general psychiatric ward",
+     "managed at home with crisis team",
+     "other"
+    ]
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'suspected postpartum psychosis' flag to the crisis team referral triage system, which starts a 4-hour countdown timer and pages the on-call perinatal or general psychiatry consultant automatically",
+  "target": "100%",
+  "reaudit": "At 12 months, same template, widened data collection window if numbers remain small",
+  "close_loop": "Present at the perinatal mental health network and crisis team governance meeting; if effective, embed the flag and countdown timer permanently",
+  "evidence": [
+   "[3337] Audit of perinatal assessment documentation in a community perinatal mental health service found gaps in basic recording, indicating documentation and timeliness of perinatal assessments is an area needing closer measurement",
+   "No audit specific to the 4-hour postpartum psychosis assessment standard exists in the library"
+  ],
+  "pitfalls": [
+   "Postpartum psychosis is rare, so numbers will be very small: report raw numerators/denominators and consider a rolling collection over 12-24 months rather than a single 3-month window",
+   "Out-of-hours referrals may go through a different crisis pathway with less clear time-stamping: check both in-hours and out-of-hours logs",
+   "A woman may present to a general adult crisis team unfamiliar with the postpartum psychosis red flags and be triaged as routine: check for missed or delayed recognition, not just delay after correct triage",
+   "Referral and assessment times may be recorded inconsistently (referral received vs. referral accepted): agree a single time-stamp definition before starting",
+   "A perinatal mental health service may not operate 24/7 in smaller areas, meaning the target route is unavailable out of hours: record and report this system gap"
+  ],
+  "pearls": [
+   "Work with the crisis team and perinatal mental health service together, since the referral usually crosses between them",
+   "Use the rarity of the condition as an argument for prospective, continuous data collection via the new flag, rather than a fixed 3-month audit window",
+   "Base the change on a simple, recognisable red-flag checklist for postpartum psychosis so referrers do not need specialist perinatal knowledge",
+   "Present any near-miss or delayed case (even outside the identified events) as a case study to strengthen the argument for the timer system",
+   "Escalate any finding that the specialist perinatal service is unavailable out-of-hours to commissioners, as this is a systemic, not just documentation, gap"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per identified case from the crisis/perinatal team referral and assessment record",
+  "area": "Psychiatry",
+  "pass": "Assessment by a secondary mental health service is documented as completed within 4 hours of the referral being made"
+ },
+ {
+  "question": "What proportion of women who may need to take psychotropic medication in pregnancy or the postnatal period have a documented discussion of the benefits of breastfeeding and the risks of the specific medication with breastfeeding?",
+  "why": "No audit in the library measures this specific breastfeeding and medication discussion, which is distinct from general medication counselling audits already in the corpus.",
+  "standard": {
+   "source": "NICE CG192 Antenatal and postnatal mental health, rec 1.4.4 (2014)",
+   "wording": "Discuss breastfeeding with all women who may need to take psychotropic medication in pregnancy or in the postnatal period. Explain to them the benefits of breastfeeding, the potential risks associated with taking psychotropic medication while breastfeeding...",
+   "url": "https://www.nice.org.uk/guidance/cg192/chapter/Recommendations"
+  },
+  "population": "Inclusion: women under perinatal or maternal mental health services prescribed a psychotropic medication in pregnancy or within 12 months postnatally. Exclusion: women who are not breastfeeding and have documented no intention to breastfeed.",
+  "sample": "30 consecutive women under perinatal mental health services prescribed a psychotropic medication in the last 12 months",
+  "data_source": "Perinatal mental health service electronic record",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "medication_name",
+    "type": "text"
+   },
+   {
+    "field": "breastfeeding_status",
+    "type": "choice",
+    "options": [
+     "breastfeeding",
+     "planning to breastfeed",
+     "not breastfeeding",
+     "undecided"
+    ]
+   },
+   {
+    "field": "discussion_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_discussion",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'breastfeeding and medication discussed' checkbox with a free-text summary field to the perinatal mental health medication review template",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the perinatal mental health service governance meeting; if effective, embed the mandatory field permanently",
+  "evidence": [
+   "[3337] Audit of perinatal assessment documentation found basic recording gaps at initial assessment in a community perinatal mental health service, the nearest related entry in the library to structured perinatal discussion documentation"
+  ],
+  "pitfalls": [
+   "A discussion may happen verbally without being recorded: agree with the team that this is a documentation standard, and undocumented discussions still count as a fail",
+   "Specialist perinatal pharmacy advice (e.g. from UKTIS or a specialist pharmacist) may be sought but not linked in the main note: check pharmacy correspondence as well as the clinical note",
+   "Women who are not breastfeeding and have no plans to should be excluded, but this needs to be explicitly documented, not assumed",
+   "The discussion needs to be specific to the medication prescribed, not a generic breastfeeding leaflet: define this distinction in the data tool",
+   "Views may change over the postnatal period (a woman may start breastfeeding after initially not planning to): capture the date of the woman's current status alongside the discussion date"
+  ],
+  "pearls": [
+   "Recruit the perinatal mental health pharmacist to help build and monitor the mandatory field",
+   "Use an established resource (such as a specialist medicines-in-pregnancy/breastfeeding information service) as the reference point for what a 'complete' discussion covers",
+   "Present the change as reducing legal and clinical risk from undocumented advice, which helps secure clinical engagement",
+   "Time the re-audit for 6 months to capture a full cohort of women moving through pregnancy to the postnatal period",
+   "Keep a simple log of specialist pharmacy queries made, as this is a useful secondary marker that the discussion is happening"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 records from the perinatal mental health record",
+  "area": "Psychiatry",
+  "pass": "A dated note records that breastfeeding and the specific medication's risks/benefits were discussed with the woman"
+ },
+ {
+  "question": "What proportion of patients in seclusion have a nursing review recorded at least every 2 hours, undertaken by two registered nurses, at least one of whom was not involved in the decision to seclude?",
+  "why": "The seclusion practice and review topic card in the library (16 audits) shows medical review timing is well studied, but the consultant advice specifically flags out-of-hours timing and independent review as the more useful, currently under-measured angle; nursing review frequency itself is not isolated as its own audit in the corpus.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 26.134",
+   "wording": "Nursing reviews of the secluded patient should take place at least every two hours following the commencement of seclusion. These should be undertaken by two individuals who are registered nurses, and at least one of whom should not have been involved directly in the decision to seclude.",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all seclusion episodes on adult acute or secure/forensic wards in the audit period lasting 2 hours or more. Exclusion: episodes lasting under 2 hours (no review due).",
+  "sample": "All seclusion episodes of 2 hours or more in the last 3 months (typically 20-40 episodes across a secure or acute inpatient service)",
+  "data_source": "Seclusion record/observation chart and incident reporting system",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "seclusion_start_datetime",
+    "type": "datetime"
+   },
+   {
+    "field": "seclusion_end_datetime",
+    "type": "datetime"
+   },
+   {
+    "field": "number_of_2hr_intervals",
+    "type": "number"
+   },
+   {
+    "field": "number_of_intervals_with_review_recorded",
+    "type": "number"
+   },
+   {
+    "field": "independence_of_second_nurse_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory seclusion nursing review proforma with a built-in 2-hourly timer and a field confirming the second reviewer's independence, replacing free-text observation entries",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the ward or secure service clinical governance meeting; if effective, adopt the proforma trust-wide across all wards using seclusion",
+  "evidence": [
+   "Topic card 'Seclusion practice and review': medical review within 1 hour is poor at 20-44% across several audits [3273][3188][3281][3459][3380]; a seclusion review template plus teaching achieved 95-100% compliance [3128], and an integrated care pathway raised compliance from 3-100% to 69-100% [3040]"
+  ],
+  "pitfalls": [
+   "Nursing reviews may be recorded in general nursing notes rather than a dedicated seclusion record, making them hard to find: search both sources",
+   "The 'independence' requirement may be poorly understood by staff: provide clear guidance on what counts as involvement in the original decision",
+   "Overnight and asleep-patient reviews may follow a modified schedule under local policy: record these separately rather than counting them as missed reviews",
+   "A template alone gave only modest gains in one service (75% to 83%) with minimal further change on a statistical process control chart [3552]: plan for ongoing monitoring, not a single fix",
+   "Staff may see 2-hourly review as excessive during long seclusion episodes: reinforce the safeguarding rationale in training, not just the form"
+  ],
+  "pearls": [
+   "Base the proforma directly on Mental Health Act Code of Practice paragraph 26.134 wording so staff can see exactly what is required",
+   "Use a physical or electronic timer/alert to prompt the 2-hourly review, since the corpus shows structural prompts outperform teaching alone",
+   "Recruit a senior ward nurse as the audit lead, since they can identify realistic barriers to documenting independence",
+   "Present the topic card's finding that huddles and weekly meetings raised consultant review compliance from under 70% to over 90% [3105], to support a similar nursing huddle model",
+   "Track average seclusion duration alongside review compliance, since the corpus shows a huddle model also reduced average seclusion time from 30 to 20 hours [3105]"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per seclusion episode from the seclusion record",
+  "area": "Psychiatry",
+  "pass": "Every 2-hour interval of the seclusion episode has a nursing review recorded by two registered nurses, with at least one independent of the original decision to seclude"
+ },
+ {
+  "question": "Where a patient has been secluded for 8 hours continuously or 12 hours intermittently within a 48-hour period, is an independent multidisciplinary team review carried out promptly, including a doctor, a nurse and other professionals not involved in the incident?",
+  "why": "The seclusion topic card's consultant advice specifically identifies independent Approved Clinician/MDT review as an under-measured area, distinct from the routine medical and nursing reviews already well audited in the corpus.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 26.141",
+   "wording": "An independent MDT review should be promptly undertaken where a patient has either been secluded for eight hours consecutively or for 12 hours intermittently during a 48-hour period.",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all seclusion episodes reaching 8 hours continuous or 12 hours intermittent within 48 hours in the audit period. Exclusion: shorter episodes not reaching this trigger.",
+  "sample": "All qualifying episodes in the last 6 months (numbers will be small in most services; extend the window if fewer than 10 are found)",
+  "data_source": "Seclusion record and independent MDT review minutes",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "trigger_reached_datetime",
+    "type": "datetime"
+   },
+   {
+    "field": "independent_review_carried_out",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_from_trigger_to_review_hours",
+    "type": "number"
+   },
+   {
+    "field": "iмha_involved_if_applicable",
+    "type": "yes/no"
+   },
+   {
+    "field": "members_independent_of_original_decision",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic alert to the seclusion record that fires at the 8-hour continuous or 12-hour intermittent trigger, notifying the site manager to convene the independent MDT review",
+  "target": "100%",
+  "reaudit": "At 6 months, same template, widened window if numbers remain small",
+  "close_loop": "Present at the trust-wide Mental Health Act or restrictive practice governance meeting; if effective, embed the automatic alert across all wards using seclusion",
+  "evidence": [
+   "Topic card 'Seclusion practice and review' notes independent reviews by an Approved Clinician are often missing [3256]; consultant advice specifically names Approved Clinician independent review as a more useful audit focus than repeating medical review timing"
+  ],
+  "pitfalls": [
+   "Long or intermittent seclusion episodes reaching the 12-hour-in-48-hours trigger may be harder to track than continuous episodes: build a running total into the seclusion record, not a manual calculation",
+   "'Independent' membership may be compromised if the same small on-call team covers both the original decision and the review: record and flag this explicitly",
+   "IMHA involvement may not be arranged in time, especially out of hours: track whether the patient has an IMHA and whether they were invited",
+   "Numbers will be small: consider extending data collection to 6-12 months and pooling with other wards in the same secure service if needed",
+   "A review that happens late may still be recorded as 'done' without the delay being visible: always capture the time from trigger to review, not just yes/no"
+  ],
+  "pearls": [
+   "Build the 8-hour/12-hour trigger calculation into the seclusion record software so staff do not need to calculate it manually",
+   "Involve the trust's Mental Health Act administrator, who is well placed to track prolonged seclusion episodes across wards",
+   "Use this audit to also check IMHA involvement, since the two safeguards are meant to work together",
+   "Present near-miss cases (episodes close to but not reaching the trigger) to show the alert would have helped, even with a small confirmed sample",
+   "Since this trigger is rare, keep it as a standing, continuously monitored indicator rather than a one-off audit"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per qualifying episode from the seclusion record and MDT minutes",
+  "area": "Psychiatry",
+  "pass": "An independent MDT review, with the required minimum membership and none of them involved in the original seclusion decision, is documented as carried out on reaching the 8-hour/12-hour trigger"
+ },
+ {
+  "question": "Does the seclusion care plan for every patient in seclusion include, as a minimum, a statement of clinical needs and risks, a plan for meeting needs and de-escalation, and details of bedding, clothing and dietary provision, as required by the Mental Health Act Code of Practice?",
+  "why": "No audit in the library checks the specific minimum content of a seclusion care plan as set out in the Code of Practice; existing seclusion audits in the corpus focus on review timing, not care plan content.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 26.147",
+   "wording": "As a minimum the seclusion care plan should include: a statement of clinical needs (including any physical or mental health problems), risks and treatment objectives; a plan as to how needs are to be met, how de-escalation attempts will continue and how risks will be managed; details of bedding and clothing to be provided; details as to how the patient's dietary needs are to be provided for.",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all seclusion episodes lasting more than 2 hours in the audit period. Exclusion: very brief episodes ended before a care plan would normally be completed.",
+  "sample": "All seclusion episodes over 2 hours in the last 3 months (typically 20-40 episodes)",
+  "data_source": "Seclusion care plan documentation",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "clinical_needs_and_risks_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "de_escalation_plan_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "bedding_clothing_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "dietary_needs_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_four_elements_present",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text seclusion care plan section with a structured proforma with the four mandatory headings from the Code of Practice, so none can be skipped",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the ward or secure service clinical governance meeting; if effective, adopt the structured proforma trust-wide",
+  "evidence": [
+   "Topic card 'Seclusion practice and review': content gaps in seclusion reviews include medication side effects documented in 0% [3627] and risk to self in 5% [3380] of reviews, and no review met all eight assessed criteria in one audit [3627], showing structured content (not just timing) is a known weak point"
+  ],
+  "pitfalls": [
+   "Staff may complete a generic care plan template not specific to seclusion, missing the required elements: check against the exact four headings, not a general impression of completeness",
+   "Bedding/clothing and dietary needs may be managed verbally by nursing staff without being written into the plan: this should still count as a fail, since the standard requires documentation",
+   "Care plans may be updated as seclusion continues, so audit the most recent version, but also check the plan was in place from early in the episode, not only by the time it ended",
+   "A well-intentioned but generic 'as per care plan' note without specific content should not count as a pass",
+   "Fatigue during very long seclusion episodes may mean updates lapse over time: sample from both early and later points in longer episodes if resources allow"
+  ],
+  "pearls": [
+   "Base the structured proforma exactly on Code of Practice paragraph 26.147 so nothing required is left to interpretation",
+   "Recruit ward matrons/senior nurses to pilot the new proforma before a full rollout, since they complete these plans in practice",
+   "Link this audit with the seclusion review audits (nursing/medical/independent) so a single data collection exercise can gather several linked measures",
+   "Share examples of complete versus incomplete plans anonymised from the audit findings, to help staff see what 'good' looks like",
+   "Keep the proforma under the ward's own clinical documentation folder so it survives staff rotation"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per episode from the seclusion care plan record",
+  "area": "Psychiatry",
+  "pass": "All four minimum elements (clinical needs/risks, de-escalation plan, bedding/clothing, dietary needs) are present in the seclusion care plan"
+ },
+ {
+  "question": "Before section 17 leave is first granted to a detained patient, is a documented risk assessment carried out and any necessary safeguards put in place, as required by the Mental Health Act Code of Practice?",
+  "why": "An existing library audit found no updated risk assessment before leave in 83% of cases at one old age psychiatric ward [3245], but no audit in the library has since tested whether a mandatory risk assessment step closes this specific gap.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 27.10",
+   "wording": "When considering and planning leave of absence, responsible clinicians should: ... undertake a risk assessment and put in place any necessary safeguards ...",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all detained patients newly granted section 17 leave for the first time in the audit period. Exclusion: routine ward-based leave that does not require a section 17 form (e.g. informal patients).",
+  "sample": "30 consecutive first-time section 17 leave authorisations in the last 3 months, across acute and secure/forensic wards",
+  "data_source": "Section 17 leave form and risk assessment documentation",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_leave_first_authorised",
+    "type": "date"
+   },
+   {
+    "field": "risk_assessment_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_risk_assessment",
+    "type": "date"
+   },
+   {
+    "field": "safeguards_specified",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory risk assessment field to the electronic section 17 leave form, which cannot be submitted for signature without a completed, dated risk assessment attached",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the Mental Health Act or ward clinical governance meeting; if effective, adopt the mandatory field trust-wide",
+  "evidence": [
+   "[3245] Application of Section 17 Leave on an old age psychiatric ward found no updated risk assessment before leave in 83% of cases (5/6) and no S17 form uploaded in 25%",
+   "[3505] Section 17 Leave Utilisation and Outcomes in Acute Adult Psychiatric Inpatients: a closed-loop audit, showing this topic is auditable and re-auditable in the corpus",
+   "[7449] National audit of NHS mental health leave policies found domain consistency as low as 41.9% for types of leave, showing local policy variation is a known contributing factor"
+  ],
+  "pitfalls": [
+   "A generic ward risk assessment done on admission may be wrongly counted as the leave-specific risk assessment: require it to be dated at or after the leave decision and to reference the leave itself",
+   "Escorted vs unescorted leave carry different risk profiles: record which type of leave was granted, since a blanket risk assessment may not address both",
+   "For patients on long-term leave with periodic short extensions, distinguish the first grant (audited here) from routine extensions",
+   "Forensic/secure wards may already do this well due to existing MDT risk review processes: report results by ward type to identify where the gap is greatest",
+   "A documented risk assessment that is a copy-paste from a previous one without genuine reassessment should not count as a pass"
+  ],
+  "pearls": [
+   "Use the existing library audit [3245] baseline (83% missing) as the starting comparison point to show the scale of the problem",
+   "Recruit the Mental Health Act administrator, who processes every section 17 form, to help identify the sample and enforce the mandatory field",
+   "Agree with ward consultants in advance what counts as an adequate risk assessment specific to leave (not just a general admission risk assessment)",
+   "Present the [3505] closed-loop audit's approach as a template for how to structure the re-audit",
+   "Fix ownership of the audit with the Mental Health Act office, which has continuous oversight of every section 17 form issued"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per authorisation from the section 17 form and risk assessment record",
+  "area": "Psychiatry",
+  "pass": "A documented risk assessment, dated before or on the date leave is first authorised, is present with any safeguards specified"
+ },
+ {
+  "question": "In secure or smoke-free mental health units, do patients taking clozapine or olanzapine who stop or significantly reduce smoking have a documented dose review or plasma level check within 1 week of the change in smoking status?",
+  "why": "Secure units and prisons are smoke-free environments, creating a sudden change in smoking status for patients on clozapine; no audit in the library links this specific, high-harm interaction (smoking cessation raising clozapine levels through reduced enzyme induction) to a documented monitoring response, despite the general clozapine monitoring topic card (8 audits) covering routine blood monitoring only.",
+  "standard": {
+   "source": "NICE CG178 Psychosis and schizophrenia in adults: prevention and management, rec 1.1.2.3 (2014)",
+   "wording": "Offer people with psychosis or schizophrenia who smoke help to stop smoking, even if previous attempts have been unsuccessful. Be aware of the potential significant impact of reducing cigarette smoking on the metabolism of other drugs, particularly clozapine and olanzapine.",
+   "url": "https://www.nice.org.uk/guidance/cg178/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients in a secure or smoke-free mental health unit on clozapine or olanzapine who have a documented reduction or cessation of smoking in the audit period. Exclusion: patients who were already non-smokers before admission.",
+  "sample": "All identified cases of smoking reduction/cessation on clozapine or olanzapine in the last 12 months across the secure service (numbers will vary; expect roughly 10-25 cases given typical smoke-free unit admission rates)",
+  "data_source": "Secure unit electronic prescribing record, smoking cessation service records and clozapine monitoring log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_smoking_status_changed",
+    "type": "date"
+   },
+   {
+    "field": "medication",
+    "type": "choice",
+    "options": [
+     "clozapine",
+     "olanzapine"
+    ]
+   },
+   {
+    "field": "dose_review_or_level_check_within_1_week",
+    "type": "yes/no"
+   },
+   {
+    "field": "dose_changed",
+    "type": "yes/no"
+   },
+   {
+    "field": "toxicity_symptoms_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic alert to the electronic prescribing record that fires when a patient on clozapine or olanzapine is flagged as reducing or stopping smoking (via the smoking cessation service record), prompting an urgent dose review and plasma level request",
+  "target": "100%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the secure service pharmacy and medicines safety governance meeting; if effective, embed the automatic alert across all smoke-free mental health units",
+  "evidence": [
+   "Topic card 'Clozapine monitoring' (8 audits): FBC monitoring is consistently near 100% [3226][3386][3465], but cardiovascular and initiation-related monitoring (troponin, CRP) is poor, and no audit in the corpus covers the smoking-cessation dose interaction specifically, despite this being a well-recognised safety issue in smoke-free secure settings"
+  ],
+  "pitfalls": [
+   "Smoking status changes may not be formally recorded outside the smoking cessation service, especially if a patient simply cannot smoke on a secure ward without a documented cessation attempt: cross-check ward observation notes as well",
+   "A patient may relapse and restart smoking during a leave period, requiring the reverse adjustment: track both directions of change, not just cessation",
+   "Some units may already build in an automatic clozapine level check on admission to a smoke-free ward regardless of prior smoking status: record baseline unit practice before assuming a gap exists",
+   "Toxicity symptoms (sedation, hypersalivation, seizures) may be misattributed to other causes: prompt staff to consider the smoking-clozapine interaction explicitly in the proforma",
+   "Numbers will be small in a single unit: consider pooling data across a regional secure services network"
+  ],
+  "pearls": [
+   "Involve the secure unit's pharmacist and smoking cessation lead jointly, since this crosses both services",
+   "Use national forensic pharmacy network guidance (where available) alongside the CG178 recommendation to design the alert threshold",
+   "Present real (anonymised) cases of clozapine toxicity linked to smoking cessation from national safety alerts to support the case for change",
+   "Build the alert to also flag e-cigarette or vaping changes, since nicotine (not smoke) is not the enzyme-inducing component, and confusion here is common",
+   "Keep monitoring live rather than a single cycle, since a secure ward's smoke-free policy affects every new admission who smokes"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per identified case from the prescribing and smoking cessation record",
+  "area": "Psychiatry",
+  "pass": "A dose review (with or without a change) or a clozapine plasma level check is documented within 1 week of a recorded reduction or stop in smoking"
+ },
+ {
+  "question": "What proportion of patients with an eating disorder admitted to a medical or paediatric ward have a physical risk assessment that includes nutritional status, disordered eating behaviours, physical examination, blood tests and electrocardiography, as recommended by MEED?",
+  "why": "No audit in the library measures compliance with the MEED (Medical Emergencies in Eating Disorders) risk assessment framework at the point of medical admission, despite this being the central recommendation of RCPsych CR233 and a recognised high-harm gap (patients can appear well with normal bloods yet be at high risk).",
+  "standard": {
+   "source": "Royal College of Psychiatrists CR233 Medical emergencies in eating disorders: guidance on recognition and management, recommendation 3 (2022)",
+   "wording": "Physical risk assessment in primary and secondary settings should include nutritional status (including current intake), disordered eating behaviours, physical examination, blood tests and electrocardiography.",
+   "url": "https://www.rcpsych.ac.uk/improving-care/campaigning-for-better-mental-health-policy/college-reports/2022-college-reports/cr233"
+  },
+  "population": "Inclusion: patients of any age admitted to a medical, paediatric or psychiatric ward with a known or suspected eating disorder. Exclusion: patients admitted for an unrelated acute condition with an incidental historical eating disorder diagnosis not currently active.",
+  "sample": "30 consecutive eating disorder-related medical/paediatric admissions over the last 6 months",
+  "data_source": "Medical/paediatric admission clerking and nursing assessment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date"
+   },
+   {
+    "field": "age_years",
+    "type": "number"
+   },
+   {
+    "field": "nutritional_status_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "disordered_eating_behaviours_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "physical_examination_recorded",
+    "type": "yes/no"
+   },
+   {
+    "field": "bloods_taken",
+    "type": "yes/no"
+   },
+   {
+    "field": "ecg_performed",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a MEED-based eating disorder admission proforma with all five elements as mandatory fields, triggered automatically by an eating disorder diagnosis code or referral",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the joint medical/paediatric and eating disorder service governance meeting; if effective, embed the proforma as the standard admission document",
+  "evidence": [
+   "Related entries in the library concern eating disorder physical risk monitoring in community CAMHS [3306] and day-care settings [3340], which show monitoring completeness varies widely (e.g. temperature recorded in only 5-30% of cases [3306]), but no audit yet targets the specific MEED admission risk assessment bundle on a medical or paediatric ward"
+  ],
+  "pitfalls": [
+   "Medical and paediatric teams unfamiliar with MEED may not recognise the need for the full bundle if the patient appears clinically well: include awareness training alongside the proforma",
+   "ECG may be delayed or deferred if the patient is thought to be 'medically stable': define the audit standard as within 24 hours regardless of apparent stability",
+   "Disordered eating behaviours may be under-documented due to patient reluctance to disclose: record what was asked, not just what was found",
+   "A generic 'bloods taken' entry without specifying which tests (including phosphate, magnesium) may overstate compliance: specify the required panel in the data tool",
+   "Small numbers in a single hospital: consider pooling data across a regional eating disorder network if fewer than 20 cases are found in 6 months"
+  ],
+  "pearls": [
+   "Base the proforma on the CR233 summary sheets (Annexe 1), which are designed as quick-reference guides for non-specialist medical and paediatric staff",
+   "Involve the eating disorder service's specialist dietitian and physician in designing the proforma so it fits real ward workflow",
+   "Present the CR233 finding that patients can appear well with normal bloods but still be high risk, to build buy-in from medical/paediatric teams who may otherwise underestimate risk",
+   "Link the proforma trigger to the eating disorder referral or diagnosis code so it activates automatically rather than relying on staff to remember",
+   "Share results with both the medical/paediatric directorate and the eating disorder service, since both need to act on gaps"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 admissions from the clerking record",
+  "area": "Psychiatry",
+  "pass": "All five elements (nutritional status, disordered eating behaviours, physical examination, blood tests, ECG) are recorded within 24 hours of admission"
+ },
+ {
+  "question": "What proportion of patients under 18 admitted with an eating disorder have their physical risk assessed using age-adjusted thresholds for BMI and blood pressure, rather than adult reference ranges?",
+  "why": "No audit in the library checks whether age-adjusted (centile-based) thresholds are used for under-18s with eating disorders, despite MEED explicitly requiring this and adult thresholds being known to underestimate risk in children and adolescents.",
+  "standard": {
+   "source": "Royal College of Psychiatrists CR233 Medical emergencies in eating disorders: guidance on recognition and management, recommendation 4 (2022)",
+   "wording": "Assessment measures (such as body mass index [BMI] or blood pressure [BP]) for patients under 18 years must be age-adjusted.",
+   "url": "https://www.rcpsych.ac.uk/improving-care/campaigning-for-better-mental-health-policy/college-reports/2022-college-reports/cr233"
+  },
+  "population": "Inclusion: patients aged under 18 admitted to a paediatric or CAMHS eating disorder service. Exclusion: patients admitted primarily for another condition with an eating disorder as an incidental past history.",
+  "sample": "30 consecutive under-18 eating disorder admissions over the last 12 months",
+  "data_source": "Paediatric/CAMHS eating disorder admission and risk assessment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "age_years",
+    "type": "number"
+   },
+   {
+    "field": "bmi_recorded_as_centile_or_percent_median",
+    "type": "yes/no"
+   },
+   {
+    "field": "bp_compared_to_age_adjusted_range",
+    "type": "yes/no"
+   },
+   {
+    "field": "risk_grading_used_age_appropriate_tool",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build an automatic BMI centile and age-adjusted blood pressure calculator into the paediatric eating disorder admission proforma, replacing free-text adult BMI entry",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample",
+  "close_loop": "Present at the CAMHS/paediatric eating disorder service governance meeting; if effective, embed the calculator permanently",
+  "evidence": [
+   "[3306] Assessment and management of eating disorders at community CAMHS found variable recording of key physical parameters (weight change 40%, temperature 5%), showing physical risk documentation in CAMHS eating disorder services is an established but incompletely closed gap"
+  ],
+  "pitfalls": [
+   "Staff trained primarily in adult eating disorder services may default to adult BMI thresholds out of habit: highlight this explicitly in training",
+   "A centile chart may be available on paper but not transferred into the electronic record: check both sources",
+   "Growth faltering in younger adolescents can be missed if only a single BMI centile is checked rather than trend over time: consider capturing a growth trajectory as a secondary measure",
+   "Some electronic systems may not support automatic centile calculation, requiring a manual chart: budget for this if an IT fix is not immediately available",
+   "Transitional-age patients (17-18) moving between CAMHS and adult services may have inconsistent practice: flag these cases separately"
+  ],
+  "pearls": [
+   "Use the RCPCH UK-WHO growth charts (or trust-approved equivalent) as the reference standard for age-adjustment",
+   "Involve a paediatrician or paediatric dietitian in building the calculator to ensure clinical accuracy",
+   "Present the CR233 rationale (adult thresholds underestimate risk in the young) directly to staff to explain why this matters",
+   "Pilot the automatic calculator with one admitting team before wider rollout to catch usability issues",
+   "Align the re-audit with the CAMHS eating disorder service's existing annual quality review cycle"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 admissions from the paediatric/CAMHS record",
+  "area": "Psychiatry",
+  "pass": "BMI is recorded as a centile or percentage of median BMI for age, and blood pressure is compared against an age-adjusted (not adult) reference range"
+ },
+ {
+  "question": "What proportion of patients identified as high risk of refeeding syndrome on eating disorder admission receive thiamine before enteral or oral refeeding begins?",
+  "why": "No audit in the library applies the MEED refeeding risk framework specifically to eating disorder admissions; a related general refeeding audit exists for enteral/parenteral nutrition patients generally, but not one grounded in MEED's eating-disorder-specific risk criteria.",
+  "standard": {
+   "source": "Royal College of Psychiatrists CR233 Medical emergencies in eating disorders: guidance on recognition and management, section 4 Safe refeeding of malnourished patients with restrictive eating disorders (2022)",
+   "wording": "avoid refeeding syndrome caused by too rapid refeeding ... safely refeed the patient",
+   "url": "https://www.rcpsych.ac.uk/improving-care/campaigning-for-better-mental-health-policy/college-reports/2022-college-reports/cr233"
+  },
+  "population": "Inclusion: patients admitted with a restrictive eating disorder identified as high risk of refeeding syndrome (using MEED criteria such as very low BMI, minimal recent intake, or rapid weight loss). Exclusion: patients assessed as low risk of refeeding syndrome.",
+  "sample": "20-30 consecutive high-refeeding-risk eating disorder admissions over the last 12 months (a longer window may be needed given lower admission volumes for this specific risk group)",
+  "data_source": "Eating disorder/medical admission drug chart and dietitian assessment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date"
+   },
+   {
+    "field": "refeeding_risk_level",
+    "type": "choice",
+    "options": [
+     "high",
+     "moderate",
+     "low"
+    ]
+   },
+   {
+    "field": "thiamine_given_before_refeeding",
+    "type": "yes/no"
+   },
+   {
+    "field": "time_thiamine_given_relative_to_feeding",
+    "type": "text"
+   },
+   {
+    "field": "refeeding_syndrome_occurred",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a MEED-based refeeding risk grid to the eating disorder admission and drug chart, which pre-selects thiamine on the drug chart automatically when high risk is ticked",
+  "target": "100%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the eating disorder service and pharmacy governance meeting; if effective, embed the pre-selected order set permanently",
+  "evidence": [
+   "No audit in the library applies the MEED-specific refeeding risk framework to eating disorder admissions; the nearest related entry, a general refeeding audit for enteral/parenteral nutrition patients using NICE CG32, shows a comparable gap exists in the general medical population"
+  ],
+  "pitfalls": [
+   "Eating disorder patients may start oral intake gradually without a formal 'refeeding start' order, making the index time unclear: define the start point as the first recorded increase in calorie intake",
+   "Risk grading may be done informally by the dietitian without a documented score: require the MEED risk grid to be completed and filed",
+   "Community/day-care patients starting a structured meal plan at home are harder to audit than inpatients: restrict this cycle to inpatient admissions only",
+   "Thiamine given after feeding has already started should count as a fail even if given the same day: capture the exact timing relative to the first feed",
+   "A patient may already be on oral thiamine from a GP for unrelated reasons: check that the dose and timing meet the refeeding-specific protocol, not just any thiamine prescription"
+  ],
+  "pearls": [
+   "Use the MEED refeeding decision tree (CR233 Figure 4) directly as the basis for the risk grid",
+   "Involve the eating disorder service dietitian, who typically leads on refeeding risk grading, as a joint audit lead",
+   "Present the audit alongside the existing general refeeding syndrome audit findings in the corpus to show the gap is consistent across settings",
+   "Build the thiamine pre-selection into the electronic drug chart order set so the fix does not depend on staff memory",
+   "Track any refeeding syndrome events (electrolyte derangement) alongside compliance, to show clinical impact at re-audit"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per admission from the drug chart and dietitian record",
+  "area": "Psychiatry",
+  "pass": "Thiamine (oral or intravenous, per local protocol) is given before or at the start of refeeding for every patient identified as high risk using the MEED risk factors for refeeding"
+ },
+ {
+  "question": "What proportion of patients with an eating disorder taking medication that could compromise cardiac function (including medication that could cause electrolyte imbalance, bradycardia below 40 beats per minute, hypokalaemia, or a prolonged QT interval) are offered ECG monitoring?",
+  "why": "No audit in the library links eating disorder medication choice to the specific NICE-recommended ECG monitoring requirement; existing eating disorder physical monitoring audits in the corpus measure general ECG completion rates, not this medication-triggered indication.",
+  "standard": {
+   "source": "NICE NG69 Eating disorders: recognition and treatment, rec 1.8.17 (2017)",
+   "wording": "Offer electrocardiogram (ECG) monitoring for people with an eating disorder who are taking medication that could compromise cardiac functioning (including medication that could cause electrolyte imbalance, bradycardia below 40 beats per minute, hypokalaemia, or a prolonged QT interval).",
+   "url": "https://www.nice.org.uk/guidance/ng69/chapter/Recommendations"
+  },
+  "population": "Inclusion: patients with an active eating disorder prescribed a medication with a known cardiac risk (e.g. certain antipsychotics, some antidepressants, stimulant laxatives affecting potassium). Exclusion: patients on no such medication.",
+  "sample": "30 consecutive patients with an active eating disorder on a cardiac-risk medication, identified from the eating disorder service caseload over the last 12 months",
+  "data_source": "Eating disorder service electronic record and ECG department log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "medication_name",
+    "type": "text"
+   },
+   {
+    "field": "cardiac_risk_reason",
+    "type": "choice",
+    "options": [
+     "QT prolongation",
+     "bradycardia risk",
+     "electrolyte imbalance risk",
+     "other"
+    ]
+   },
+   {
+    "field": "ecg_offered",
+    "type": "yes/no"
+   },
+   {
+    "field": "ecg_performed",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_ecg",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic ECG-offer prompt to the eating disorder service e-prescribing system, triggered whenever a medication on a defined cardiac-risk list is prescribed to a patient with an active eating disorder",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample",
+  "close_loop": "Present at the eating disorder service and pharmacy governance meeting; if effective, embed the automatic prompt permanently",
+  "evidence": [
+   "[3340] Re-audit of physical health monitoring of day-care eating disorder patients found ECG and bloods fell by 11.1% at all monitoring points despite good BMI/BP/pulse compliance, showing ECG specifically is the weaker element even where general monitoring improves",
+   "[3306] Community CAMHS eating disorder audit found ECG recording at 75% in cycle 1, falling to 40% in cycle 2, showing this measure can worsen without a structural fix"
+  ],
+  "pitfalls": [
+   "The defined list of 'cardiac-risk medications' needs pharmacy input, since risk varies by dose and individual patient factors: agree this list before data collection",
+   "Patients may decline ECG monitoring, especially if needle- or procedure-anxious: record declines as a distinct category rather than a system failure",
+   "A historical ECG from before the medication was started should not count as current monitoring: require the ECG to be after the medication was started or at a defined interval",
+   "The corpus shows ECG completion can fall between cycles even after a documented improvement: build monitoring into a permanent system change, not a one-off intervention",
+   "Community and day-care patients may need to travel for ECG access, creating a practical barrier: consider community ECG provision as part of the change"
+  ],
+  "pearls": [
+   "Agree the specific cardiac-risk medication list with eating disorder pharmacy and cardiology input before starting",
+   "Use the corpus finding that ECG/bloods worsened after an initial improvement [3306] to argue for an automatic system prompt rather than a reminder poster",
+   "Recruit the eating disorder service's medical lead to champion the change, since they will need to interpret ECG results",
+   "Track the reason for any ECG not performed (declined, access issue, clinical decision) so the fix can be targeted correctly",
+   "Repeat the audit at 12 months to check the automatic prompt has not faded in effect, as seen elsewhere in the corpus"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the eating disorder and ECG department records",
+  "area": "Psychiatry",
+  "pass": "ECG monitoring is documented as offered (and either accepted and performed, or declined) for every patient on a medication with cardiac risk while an eating disorder is active"
+ },
+ {
+  "question": "Does the written record of a mental capacity assessment name the specific decision the person is being asked to make, rather than a general statement that the person 'lacks capacity'?",
+  "why": "The mental capacity assessment documentation topic card in the library (5 audits) shows the specific decision is named in only 37% of cases [3641]; the consultant advice specifically recommends auditing whether the decision is specific, which this audit targets directly rather than repeating whether a capacity assessment exists at all.",
+  "standard": {
+   "source": "NICE NG108 Decision-making and mental capacity, rec 1.1.28 (2018)",
+   "wording": "Practitioners should make a written record of the decision-making process, which is proportionate to the decision being made. ... Include: what the person is being asked to decide ... whether on the balance of probabilities a person lacks capacity to make a decision.",
+   "url": "https://www.nice.org.uk/guidance/ng108/chapter/Recommendations"
+  },
+  "population": "Inclusion: liaison psychiatry mental capacity assessments carried out on general medical, surgical or emergency department patients in the audit period. Exclusion: capacity assessments carried out solely under the Mental Health Act for treatment refusal already covered by other legislation.",
+  "sample": "30 consecutive liaison psychiatry mental capacity assessments over the last 3 months",
+  "data_source": "Liaison psychiatry electronic record and mental capacity assessment proforma",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "specific_decision_named",
+    "type": "yes/no"
+   },
+   {
+    "field": "decision_description",
+    "type": "text"
+   },
+   {
+    "field": "capacity_conclusion_specific_to_decision",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text capacity assessment note with a structured proforma that requires the specific decision to be typed into a mandatory field before the assessment can be saved",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the liaison psychiatry governance meeting; if effective, embed the structured proforma trust-wide for all capacity assessments",
+  "evidence": [
+   "Topic card 'Mental capacity assessment documentation': the specific decision is named in only 37% of assessments [3641]; a 30-minute teaching session on a structured MCA template raised the diagnostic test element from 77.5% to 95% and functional test parts from 70% to 90-100% [3531]"
+  ],
+  "pitfalls": [
+   "Clinicians may write 'capacity for discharge' as a decision when the actual decision is narrower (e.g. capacity to consent to a specific treatment): define 'specific' clearly in the data tool with examples",
+   "Multiple decisions may be assessed in one encounter (e.g. treatment and discharge): record each decision separately rather than as one combined entry",
+   "A well-completed proforma from one liaison clinician does not guarantee trust-wide uptake: monitor variation between individual assessors, not just an overall average",
+   "The MCA teaching intervention in the corpus [3531] was not stated to have been re-audited beyond the immediate cycle: build in the mandatory field so gains are not teaching-dependent",
+   "Time pressure in acute settings may lead to brief, non-specific entries: consider a very short mandatory field rather than a lengthy form to protect completion rates"
+  ],
+  "pearls": [
+   "Base the mandatory field wording directly on NG108 1.1.28 so there is no ambiguity about what 'specific' means",
+   "Recruit the liaison psychiatry service's own quality lead to pilot the proforma before wider rollout",
+   "Use the corpus finding that teaching alone raised compliance from 77.5% to 95% [3531] to show the size of gain possible, then aim to lock this in structurally",
+   "Present anonymised examples of vague versus specific decision statements in a short teaching session alongside the proforma launch",
+   "Track completion by individual assessor at re-audit to identify anyone needing extra support, without naming individuals in the wider report"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 records from the liaison psychiatry proforma",
+  "area": "Psychiatry",
+  "pass": "The record states the specific decision in question (e.g. 'to consent to insertion of a nasogastric tube', not just 'capacity') and a specific conclusion about capacity for that decision"
+ },
+ {
+  "question": "Does the written record of a mental capacity assessment include the reasoning for the conclusion under each of the four functional test elements (understand, retain, weigh up, communicate), rather than a bare conclusion?",
+  "why": "The mental capacity assessment topic card's consultant advice highlights that functional tests lack evidence in 40-50% of assessments [3641] and recommends auditing the quality of the four functional tests rather than repeating whether a capacity assessment exists.",
+  "standard": {
+   "source": "NICE NG108 Decision-making and mental capacity, rec 1.1.28 (2018)",
+   "wording": "Practitioners should make a written record of the decision-making process... Include: ... steps taken to help the person make the decision ... key considerations for the person in making the decision ... needs identified as a result of the decision.",
+   "url": "https://www.nice.org.uk/guidance/ng108/chapter/Recommendations"
+  },
+  "population": "Inclusion: liaison psychiatry mental capacity assessments concluding the person lacks capacity for a specific decision, carried out in the audit period. Exclusion: assessments concluding the person has capacity, where the standard of detail required differs.",
+  "sample": "30 consecutive liaison psychiatry mental capacity assessments concluding a lack of capacity, over the last 6 months",
+  "data_source": "Liaison psychiatry electronic record and mental capacity assessment proforma",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_assessment",
+    "type": "date"
+   },
+   {
+    "field": "understand_evidenced",
+    "type": "yes/no"
+   },
+   {
+    "field": "retain_evidenced",
+    "type": "yes/no"
+   },
+   {
+    "field": "weigh_up_evidenced",
+    "type": "yes/no"
+   },
+   {
+    "field": "communicate_evidenced",
+    "type": "yes/no"
+   },
+   {
+    "field": "all_four_elements_evidenced",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add four mandatory free-text boxes to the capacity proforma, one per functional test element, each requiring a specific entry (not a repeated tick) before the assessment can be saved",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the liaison psychiatry governance meeting; if effective, embed the four-box structure trust-wide",
+  "evidence": [
+   "Topic card 'Mental capacity assessment documentation': functional tests lack evidence in 40-50% of assessments [3641]; a structured MCA template with teaching raised the functional test elements from 70% to 90-100% [3531]"
+  ],
+  "pitfalls": [
+   "Clinicians experienced in capacity assessment may feel a four-box structure is unnecessarily rigid for a clear-cut case: pilot with a senior clinician first to refine wording",
+   "A single sentence covering all four elements together may be entered into one box: require each box to be completed individually",
+   "Assessments done jointly with another specialty (e.g. surgery) may be recorded in a different note format outside liaison psychiatry's own system: check both sources",
+   "Retrospective identification of 'lacks capacity' conclusions may need a coded search: agree the search term with the liaison team's data administrator",
+   "A well-completed proforma at initiation does not guarantee ongoing quality: monitor a rolling sample rather than a single cycle only"
+  ],
+  "pearls": [
+   "Reuse and adapt the structured MCA template already shown to work in the corpus [3531] rather than designing a new one from scratch",
+   "Recruit a liaison psychiatry consultant to co-design the four-box wording so it captures genuine clinical reasoning, not just a repeated tick",
+   "Present the 40-50% baseline finding from the topic card to secure buy-in for the change",
+   "Track whether the quality improvement is sustained six months after the initial teaching seen in [3531], since teaching effects can fade",
+   "Keep an example bank of well-reasoned, anonymised entries to use in ongoing induction for new liaison trainees"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 records from the liaison psychiatry proforma",
+  "area": "Psychiatry",
+  "pass": "Evidence or reasoning is recorded for each of the four functional test elements (understanding, retaining, weighing up, communicating the decision), not just a yes/no conclusion"
+ },
+ {
+  "question": "What proportion of liaison psychiatry referrals for acute confusion in general hospital inpatients have a 4AT assessment completed before or as part of the liaison assessment?",
+  "why": "The delirium screening topic card in the library (17 audits) is described as heavily overdone for general ward screening rates; the consultant advice recommends auditing whether a positive 4AT leads to a formal diagnosis, which requires first establishing 4AT use specifically within the liaison psychiatry referral pathway, not yet isolated in the corpus.",
+  "standard": {
+   "source": "NICE CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, rec 1.6.1 (2010, updated 2023)",
+   "wording": "If indicators of delirium are identified, a health or social care practitioner who is competent to do so should carry out an assessment using the 4AT tool.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: liaison psychiatry referrals for acute confusion, agitation or query delirium on general medical/surgical wards (excluding orthopaedic wards, already separately audited in the corpus). Exclusion: referrals for pre-existing dementia with no acute change.",
+  "sample": "30 consecutive liaison psychiatry referrals for acute confusion over the last 3 months",
+  "data_source": "Liaison psychiatry referral and assessment record, cross-checked against ward observation charts",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_referral",
+    "type": "date"
+   },
+   {
+    "field": "referring_ward_type",
+    "type": "text"
+   },
+   {
+    "field": "4at_completed_by_referrer",
+    "type": "yes/no"
+   },
+   {
+    "field": "4at_completed_by_liaison_team",
+    "type": "yes/no"
+   },
+   {
+    "field": "4at_score",
+    "type": "number"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make a 4AT score a mandatory field on the liaison psychiatry referral form, which cannot be submitted without either a score or a documented reason it could not be completed",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the liaison psychiatry and general medicine joint governance meeting; if effective, adopt the mandatory referral field trust-wide",
+  "evidence": [
+   "Topic card 'Delirium screening and management' (heavily overdone at ward level, 17 audits): screening rates as low as 2.7% [1806] and 3% [1847]; an electronic notes system with a compulsory switch to 4AT raised screening from 3% to 87% [1847], and a champions group with a 4AT sticker proforma raised it from 0% to 92% [1790]"
+  ],
+  "pitfalls": [
+   "This audit targets the liaison referral pathway specifically, not general ward screening: exclude referrals where 4AT was clearly not indicated (e.g. clear acute stroke referral) to avoid repeating the overdone ward-level measure",
+   "A 4AT may be completed but not communicated to the liaison team at referral: check both the ward chart and the liaison referral form",
+   "The library shows gains from stickers and lanyard cards faded over a few weeks [1781][1875][3442]: plan for a mandatory field, not a passive reminder",
+   "Referrals made verbally or by phone before a formal written referral may bypass the mandatory field: agree that all referrals must be confirmed in writing with the field completed",
+   "Non-orthopaedic wards vary widely in delirium awareness: report results by ward type to target further work"
+  ],
+  "pearls": [
+   "Frame this specifically as a liaison-referral-pathway audit to avoid duplicating the corpus's already extensive ward-level delirium screening audits",
+   "Use the corpus's clear finding that only a compulsory electronic field held gains, to justify a mandatory (not optional) referral field",
+   "Recruit the liaison psychiatry team's referral coordinator to monitor and enforce the mandatory field",
+   "Present the audit alongside the follow-on diagnosis audit (see the linked liaison audit on final diagnosis) as a two-part quality improvement package",
+   "Track whether the referring ward type predicts poor compliance, to target teaching where it is most needed"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 referrals from the referral and ward observation record",
+  "area": "Psychiatry",
+  "pass": "A 4AT score is recorded either by the referring ward before liaison psychiatry assessment, or by the liaison psychiatry team at the point of assessment"
+ },
+ {
+  "question": "Where a liaison psychiatry 4AT assessment score is 4 or more (suggesting delirium), is a final diagnosis of delirium confirmed or excluded by a clinician with the relevant expertise, rather than left recorded only as 'query delirium'?",
+  "why": "The delirium topic card's consultant advice specifically recommends auditing whether a positive 4AT leads to a formal diagnosis and management plan, rather than repeating the well-established finding that ward-level 4AT screening rates are poor.",
+  "standard": {
+   "source": "NICE CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, rec 1.6.2 (2010, updated 2023)",
+   "wording": "If the assessment described in recommendation 1.6.1 indicates delirium, a healthcare professional with the relevant expertise should make the final diagnosis. This could be the same person who made the assessment.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: liaison psychiatry assessments where the 4AT score was 4 or more. Exclusion: 4AT scores under 4 (delirium unlikely).",
+  "sample": "All liaison psychiatry assessments with a 4AT score of 4 or more in the last 6 months (typically 20-30 cases in a general hospital with an active liaison service)",
+  "data_source": "Liaison psychiatry assessment record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "4at_score",
+    "type": "number"
+   },
+   {
+    "field": "final_diagnosis_recorded",
+    "type": "choice",
+    "options": [
+     "delirium confirmed",
+     "delirium excluded",
+     "delirium superimposed on dementia",
+     "left as query delirium"
+    ]
+   },
+   {
+    "field": "management_plan_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "diagnosis_communicated_to_ward_team",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'final diagnosis' field to the liaison psychiatry assessment template for any 4AT score of 4 or more, which cannot be left as 'query delirium' without an explicit plan to review and confirm within 48 hours",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the liaison psychiatry clinical governance meeting; if effective, embed the mandatory field permanently",
+  "evidence": [
+   "Topic card 'Delirium screening and management': formal diagnosis and management stayed low even where screening improved; antipsychotics were started without a diagnosis in one audit [1870]; bedside CAM-ICU training cut misdiagnosed 'psychosis' from 63% to 31% [1365], showing formal diagnosis (not just screening) is the genuine remaining gap"
+  ],
+  "pitfalls": [
+   "'Query delirium' may persist in the notes even after a clear diagnosis is later made verbally: require the final diagnosis to be a discrete, searchable entry",
+   "Delirium superimposed on dementia can be genuinely difficult to distinguish: this audit should record 'delirium superimposed on dementia' as a valid, positive answer, not a fail",
+   "A patient discharged or transferred before a final diagnosis is reached should be recorded separately, since resolution may happen elsewhere",
+   "Antipsychotic prescribing without a documented diagnosis is a red flag identified in the corpus [1870]: capture this as a linked secondary measure",
+   "Liaison psychiatry may see the patient only once and rely on the ward team for follow-up: track who is responsible for confirming the diagnosis if not resolved at first assessment"
+  ],
+  "pearls": [
+   "Pair this audit with the referral-stage 4AT audit above so the full pathway from referral to diagnosis is covered by one data collection exercise",
+   "Use the corpus finding on misdiagnosed 'psychosis' [1365] to illustrate the harm of an unresolved 'query delirium' label",
+   "Recruit a liaison psychiatry consultant to define what counts as 'relevant expertise' for the final diagnosis in the local service",
+   "Track whether an antipsychotic was started without a documented diagnosis, as a secondary safety indicator",
+   "Present the two linked audits (referral 4AT and final diagnosis) together to the ward teams so the whole pathway, not just liaison psychiatry, understands its role"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per identified case from the liaison psychiatry record",
+  "area": "Psychiatry",
+  "pass": "A final diagnosis (delirium confirmed, delirium excluded, or delirium superimposed on dementia) is documented by a clinician with relevant expertise, and a management plan follows"
+ },
+ {
+  "question": "Where a person's presentation makes it difficult to distinguish between delirium, dementia or delirium superimposed on dementia, is the delirium managed first, as required by NICE, rather than management being deferred pending a definitive diagnosis?",
+  "why": "No audit in the library specifically tests NICE's explicit instruction to manage delirium first when diagnosis is unclear; existing delirium and dementia audits in the corpus measure screening and diagnosis rates but not this specific management-priority rule.",
+  "standard": {
+   "source": "NICE CG103 Delirium: prevention, diagnosis and management in hospital and long-term care, rec 1.6.3 (2010)",
+   "wording": "If there is difficulty distinguishing between the diagnoses of delirium, dementia or delirium superimposed on dementia, manage the delirium first.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "population": "Inclusion: liaison psychiatry or general medical assessments where the notes explicitly record diagnostic uncertainty between delirium and dementia. Exclusion: cases with a clear, undisputed diagnosis from the outset.",
+  "sample": "All identified cases of documented diagnostic uncertainty in the last 6 months (typically 15-25 cases in a general hospital with an active liaison service)",
+  "data_source": "Liaison psychiatry and general medical/elderly care assessment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_uncertainty_documented",
+    "type": "date"
+   },
+   {
+    "field": "delirium_management_started",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_management_started",
+    "type": "date"
+   },
+   {
+    "field": "reversible_causes_reviewed",
+    "type": "yes/no"
+   },
+   {
+    "field": "medication_review_undertaken",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a short delirium management checklist (reversible causes, medication review, environment) directly to the liaison psychiatry proforma, triggered automatically whenever 'diagnostic uncertainty' is selected as an outcome",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the liaison psychiatry and elderly care governance meeting; if effective, embed the automatic checklist trigger permanently",
+  "evidence": [
+   "Topic card 'Delirium screening and management' notes formal diagnosis and management stayed low even where screening improved, and that PINCH-ME risk factor management was documented in only 8.5-28% of cases, showing management action (as opposed to diagnosis alone) is the recognised remaining gap"
+  ],
+  "pitfalls": [
+   "Diagnostic uncertainty may not be recorded as a discrete, searchable phrase: agree a short list of equivalent phrases (e.g. 'query delirium on dementia', 'difficult to distinguish') with the coding team",
+   "Teams may wait for cognitive testing results before starting any management, believing this is safer: reinforce in training that NICE recommends managing delirium first specifically because waiting can cause harm",
+   "A delirium management plan may be started informally (e.g. verbally asking to stop a medication) without being documented: this should still count as a fail if not written down",
+   "Elderly care and liaison psychiatry may each assume the other team is leading management: clarify ownership in the proforma",
+   "Retrospective case-finding for 'uncertainty' will be slower than for a coded diagnosis: budget more time for data collection than for a straightforward yes/no audit"
+  ],
+  "pearls": [
+   "Use the exact NICE wording ('manage the delirium first') as the standard so there is no room for a 'wait and see' interpretation",
+   "Recruit a liaison old age psychiatrist and a geriatrician jointly, since this decision typically sits between the two specialties",
+   "Frame training around the harm of delay (worsening delirium, falls, increased length of stay) rather than just the documentation requirement",
+   "Build the checklist to be quick to complete (a handful of tick boxes) so it does not become a barrier to fast action",
+   "Present real (anonymised) cases where delay caused harm, if available locally, to strengthen buy-in"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per identified case from the joint liaison/elderly care record",
+  "area": "Psychiatry",
+  "pass": "Where the notes record diagnostic uncertainty between delirium and dementia, a delirium management plan (addressing reversible causes, environment, medication review) is started without waiting for a definitive diagnosis"
+ },
+ {
+  "question": "What proportion of people newly diagnosed with dementia are given oral and written information at diagnosis explaining their dementia subtype, expected changes, and which professionals will be involved in their care and how to contact them?",
+  "why": "No audit in the library measures compliance with this specific NICE post-diagnostic information requirement; existing corpus entries on old age psychiatry assessment quality focus on the diagnostic process itself, not what is given to the patient once a diagnosis is made.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support for people living with dementia and their carers, rec 1.1.6 (2018)",
+   "wording": "At diagnosis, offer the person and their family members or carers (as appropriate) oral and written information that explains: what their dementia subtype is and the changes to expect as the condition progresses; which healthcare professionals and social care teams will be involved in their care and how to contact them.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults given a new diagnosis of dementia by an old age psychiatry or memory assessment service in the audit period. Exclusion: diagnoses confirmed by another specialty (e.g. neurology) outside old age psychiatry.",
+  "sample": "30 consecutive new dementia diagnoses over the last 6 months, from the memory assessment service or old age psychiatry clinic",
+  "data_source": "Memory assessment service/old age psychiatry electronic record",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date"
+   },
+   {
+    "field": "dementia_subtype",
+    "type": "text"
+   },
+   {
+    "field": "oral_discussion_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no"
+   },
+   {
+    "field": "contact_details_given",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a standard post-diagnostic information pack (one per dementia subtype) with a named team contact sheet, and make handing it out a mandatory step in the diagnosis appointment template",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the memory assessment service or old age psychiatry governance meeting; if effective, embed the information pack as standard practice",
+  "evidence": [
+   "Related library entries concern old age psychiatry new patient assessment quality and memory service referral quality, but no audit yet checks what information is given once a diagnosis is confirmed"
+  ],
+  "pitfalls": [
+   "A verbal explanation without a written record of what was said or given should not count as a pass: define this clearly in the data tool",
+   "Subtype-specific information (e.g. Lewy body versus Alzheimer's) may not be readily available as separate leaflets: check whether generic information was used and whether this meets the standard",
+   "Diagnoses given jointly with a GP or via a letter rather than a face-to-face appointment need a different process for delivering information: record the diagnosis method",
+   "Family members may be given the information while the patient with reduced capacity is not directly addressed: record who received the information",
+   "Contact information may go out of date if staff change: build a review step into how often the pack's contact sheet is updated"
+  ],
+  "pearls": [
+   "Involve the Admiral Nurse or dementia support worker (where available) in designing and distributing the information pack",
+   "Use nationally available dementia information resources (e.g. from a recognised dementia charity) rather than creating leaflets from scratch",
+   "Present the audit to the memory service's multidisciplinary team so the change is owned by whoever gives the diagnosis, not just doctors",
+   "Track whether patients/carers can name their named contact at a follow-up appointment, as a simple outcome check",
+   "Repeat the audit after any change of memory service staff or information pack version"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 records from the memory service record",
+  "area": "Psychiatry",
+  "pass": "Both oral discussion and a written information resource covering subtype, expected changes and contact details are documented as given at the diagnosis appointment"
+ },
+ {
+  "question": "Do people living with dementia have a single named health or social care professional recorded who is responsible for coordinating their care?",
+  "why": "No audit in the library measures whether a single named care coordinator is documented for people with dementia, despite this being an explicit NICE requirement and a recognised driver of fragmented care in old age psychiatry.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support for people living with dementia and their carers, rec 1.3.1 (2018)",
+   "wording": "Provide people living with dementia with a single named health or social care professional who is responsible for coordinating their care.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a confirmed dementia diagnosis open to old age psychiatry or memory service follow-up. Exclusion: patients discharged back to primary care with no ongoing specialist follow-up.",
+  "sample": "30 consecutive patients with dementia currently open to the old age psychiatry/memory service caseload",
+  "data_source": "Old age psychiatry/memory service electronic care record",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "named_coordinator_present",
+    "type": "yes/no"
+   },
+   {
+    "field": "coordinator_role",
+    "type": "text"
+   },
+   {
+    "field": "contact_method_given",
+    "type": "yes/no"
+   },
+   {
+    "field": "last_reviewed_date",
+    "type": "date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'named care coordinator' field to the dementia care plan template, updated automatically whenever the case is transferred between workers",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the old age psychiatry/memory service governance meeting; if effective, embed the mandatory field permanently",
+  "evidence": [
+   "Related library entries concern old age psychiatry new patient assessment quality, but no audit yet checks the specific named-coordinator requirement in NG97"
+  ],
+  "pitfalls": [
+   "A team name (e.g. 'memory service') rather than an individual should not count as a pass: define 'named' strictly as a specific person",
+   "Coordinators may change with staff turnover without a corresponding record update: check the last reviewed date, not just presence of a name",
+   "Patients under both a GP and a specialist service may have two different coordinators without either being aware: flag and record this as a fail",
+   "Caseload lists may include patients who have moved out of area or died: verify the current caseload with the team manager before sampling",
+   "A coordinator listed only on paper records, not the electronic system, may be missed: check both if the service uses hybrid records"
+  ],
+  "pearls": [
+   "Work with the memory service's care coordinator role holders (often community psychiatric nurses) to design the mandatory field",
+   "Use a case transfer checklist that requires updating the named coordinator field whenever a case moves between workers",
+   "Present the audit alongside the annual health check and key worker audits for learning disability, since the underlying principle (a single accountable named person) is shared",
+   "Track patient/carer awareness of who their named coordinator is at a follow-up visit, as a simple outcome check",
+   "Repeat the audit after any staffing changes in the service, since this is when coordination is most likely to be lost"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 records from the memory service record",
+  "area": "Psychiatry",
+  "pass": "A single named individual (not a team name) with a role and contact method is documented as the care coordinator in the current care record"
+ },
+ {
+  "question": "Do adults referred to a memory assessment service have anticholinergic burden from their current medicines documented as part of the reversible-causes work-up before a diagnosis of dementia is confirmed?",
+  "why": "The anticholinergic burden review topic card in the library (5 audits) shows scores are calculated but action rarely follows; no audit in the library checks anticholinergic burden specifically as part of the pre-diagnosis reversible-causes assessment that NICE requires before confirming dementia.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support for people living with dementia and their carers, rec 1.2.6 (2018)",
+   "wording": "...refer them to a specialist dementia diagnostic service (such as a memory clinic or community old age psychiatry service) if: reversible causes of cognitive decline (including delirium, depression, sensory impairment [such as sight or hearing loss] or cognitive impairment from medicines associated with increased anticholinergic burden) have been investigated and dementia is still suspected.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults assessed by the memory assessment service in the audit period, ending in a confirmed dementia diagnosis. Exclusion: assessments where dementia was excluded (reversible cause found and treated).",
+  "sample": "30 consecutive new dementia diagnoses over the last 6 months, from the memory assessment service",
+  "data_source": "Memory assessment service electronic record and medication review documentation",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date"
+   },
+   {
+    "field": "acb_score_or_review_documented",
+    "type": "yes/no"
+   },
+   {
+    "field": "high_risk_medicines_identified",
+    "type": "yes/no"
+   },
+   {
+    "field": "medication_change_or_reason_to_continue_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic anticholinergic burden score calculation to the memory assessment service's pre-diagnosis work-up template, pulling from the current medication list, with a mandatory action field when the score is high",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the memory assessment service and pharmacy governance meeting; if effective, embed the automatic calculation permanently",
+  "evidence": [
+   "Topic card 'Anticholinergic burden review': 75.4% of patients with an ACB score of 3 or more had no documented intervention [3536]; 24% with ACB over 3 had no assessment at all [3428]; consultant advice recommends building the score into the workflow and auditing whether a medication change follows a high score, rather than measuring the score alone again"
+  ],
+  "pitfalls": [
+   "A high ACB score with no action documented should count as a fail, even if the score itself was calculated: audit the action, not just the calculation, per consultant advice",
+   "Some anticholinergic medicines may be prescribed by another specialty (e.g. urology, gastroenterology) and not visible to the memory service: request a full GP medication list, not just psychiatric medicines",
+   "Stopping a medicine started for a good clinical reason may not be appropriate: a documented reason for continuing should count as a pass, not just a stop or switch",
+   "The library shows the only closed loop for this topic got worse at re-audit [3388]: monitor closely after any change rather than assuming a single intervention will hold",
+   "Retrospective identification of anticholinergic burden calculations may be difficult if not consistently coded: consider prospective data collection via the new automatic field instead"
+  ],
+  "pearls": [
+   "Build the ACB calculator directly into the memory assessment pre-diagnosis template so it is not a separate, easily skipped step",
+   "Involve a memory service pharmacist to review any high-score cases and recommend action, closing the loop the corpus shows is currently missing",
+   "Use the topic card's finding that a previous closed loop got worse at re-audit [3388] to argue for embedding the fix in the system rather than relying on a single education cycle",
+   "Present both the ACB score and the resulting action rate together, since scoring alone (without action) is already common practice",
+   "Repeat the audit at 6 months specifically to check whether action rates (not just scoring rates) have genuinely improved"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 records from the memory assessment record",
+  "area": "Psychiatry",
+  "pass": "An anticholinergic burden score (or explicit medication review for anticholinergic drugs) is documented before a dementia diagnosis is confirmed"
+ },
+ {
+  "question": "Are adults in acute alcohol withdrawal assessed immediately on admission to hospital by a healthcare professional skilled in the management of alcohol withdrawal?",
+  "why": "The alcohol withdrawal management topic card in the library (8 audits) shows scoring tool use is the well-studied weak point; no audit in the library isolates the separate, more basic requirement that a skilled professional assesses the patient immediately on admission, which is a precondition for using any scoring tool correctly.",
+  "standard": {
+   "source": "NICE CG100 Alcohol-use disorders: diagnosis and management of physical complications, rec 1.1.2.3 (2010)",
+   "wording": "People in acute alcohol withdrawal should be assessed immediately on admission to hospital by a healthcare professional skilled in the management of alcohol withdrawal.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults admitted to a medical or surgical ward with acute alcohol withdrawal or a high risk of it, identified by alcohol history or admission coding. Exclusion: patients admitted primarily for another condition with no withdrawal risk identified.",
+  "sample": "30 consecutive adults admitted with acute alcohol withdrawal risk over the last 3 months",
+  "data_source": "Admission clerking record and addiction/alcohol liaison team referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_time_of_admission",
+    "type": "datetime"
+   },
+   {
+    "field": "date_time_of_skilled_assessment",
+    "type": "datetime"
+   },
+   {
+    "field": "assessor_role",
+    "type": "text"
+   },
+   {
+    "field": "assessed_within_4_hours",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic referral to the alcohol/addiction liaison team triggered by any admission coded with an alcohol withdrawal risk flag, with a target response time built into the referral system",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the addiction liaison and acute medicine governance meeting; if effective, embed the automatic referral trigger permanently",
+  "evidence": [
+   "Topic card 'Alcohol withdrawal management': addiction specialist oversight on acute wards was as low as 4% [3275], showing that specialist/skilled assessment itself (not just scoring) is a recognised gap; a ward SOP with nurse-administered CIWA-Ar after team training achieved full risk stratification and symptom-triggered dosing at re-audit [3299]"
+  ],
+  "pitfalls": [
+   "A generic admitting doctor with no specific alcohol withdrawal training may be wrongly counted as 'skilled': define this role explicitly with the addiction liaison team before data collection",
+   "Out-of-hours admissions may have no immediate access to a specialist assessor: record and report out-of-hours performance separately",
+   "Alcohol withdrawal risk may not be identified at all on admission if the history is incomplete: this audit should separately note where risk was missed entirely, as a more serious finding",
+   "A busy acute medical unit may triage alcohol withdrawal as lower priority than other presentations: highlight the safety rationale (risk of seizures, delirium tremens) in any change",
+   "Small numbers in a quieter unit: extend the collection window if fewer than 20 cases are found in 3 months"
+  ],
+  "pearls": [
+   "Use the existing alcohol liaison team's own referral log as a secondary data source to cross-check ward documentation",
+   "Present the corpus finding that a ward SOP with training (not just a scoring tool) achieved full compliance [3299], to support investment in a similar local SOP",
+   "Recruit an acute medicine consultant alongside the addiction liaison lead, since assessment timing depends on acute take processes",
+   "Track out-of-hours versus in-hours compliance separately, since this is likely to reveal the biggest gap",
+   "Fix the re-audit date at 3 months to check whether an automatic referral trigger, once built, is being used consistently"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 admissions from the clerking and liaison referral record",
+  "area": "Psychiatry",
+  "pass": "An assessment by a professional documented as skilled in alcohol withdrawal management (e.g. addiction liaison nurse, specialist doctor) is recorded within 4 hours of admission"
+ },
+ {
+  "question": "What proportion of adults treated for acute alcohol withdrawal have their withdrawal severity monitored using a structured, validated tool (such as CIWA-Ar or GMAWS), completed and scored at the frequency specified in the local protocol?",
+  "why": "The alcohol withdrawal management topic card in the library shows CIWA-Ar completion rates as low as 1% within 24 hours [3603] and correctly scored in only 24% [3286]; this audit targets whether the tool is actually completed and scored at the required frequency, distinct from the existing corpus focus on whether a symptom-triggered benzodiazepine regimen is prescribed.",
+  "standard": {
+   "source": "NICE CG100 Alcohol-use disorders: diagnosis and management of physical complications, rec 1.1.2.2 (2010)",
+   "wording": "Follow locally specified protocols to assess and monitor patients in acute alcohol withdrawal. Consider using a tool (such as the Clinical Institute Withdrawal Assessment - Alcohol, revised [CIWA-Ar] scale) as an adjunct to clinical judgement.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults admitted with acute alcohol withdrawal and started on a symptom-triggered or fixed-dose benzodiazepine regimen. Exclusion: patients managed entirely in a specialist inpatient detoxification unit with a different established protocol already closely audited.",
+  "sample": "30 consecutive adults treated for acute alcohol withdrawal on a general medical/surgical ward over the last 3 months",
+  "data_source": "Ward observation chart and drug chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_time_of_admission",
+    "type": "datetime"
+   },
+   {
+    "field": "ciwa_ar_or_equivalent_used",
+    "type": "yes/no"
+   },
+   {
+    "field": "expected_number_of_scores_in_48hrs",
+    "type": "number"
+   },
+   {
+    "field": "actual_number_of_scores_recorded",
+    "type": "number"
+   },
+   {
+    "field": "correctly_calculated",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text withdrawal observation chart with an integrated electronic CIWA-Ar/GMAWS chart that calculates the score automatically from entered items and flags missed or overdue scores",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the addiction liaison and ward nursing governance meeting; if effective, adopt the electronic chart trust-wide",
+  "evidence": [
+   "Topic card 'Alcohol withdrawal management': CIWA within 24 hours was 1% in one trust [3603], CIWA-Ar completed in 23.97% [3551], and applied with correct scoring in only 24% [3286]; repeated re-audits at one trust barely moved (1%, then 4%, then 17%) [3603], showing teaching alone is insufficient and a structural (electronic) fix is needed"
+  ],
+  "pitfalls": [
+   "A withdrawal scoring tool used inconsistently (e.g. only at night) may look complete on a single spot-check: audit the full expected schedule over 48 hours, not a single time point",
+   "Incorrect scoring (miscounted items) is common per the library findings: sample a subset for scoring accuracy by an independent reviewer, not just presence of a score",
+   "Ward staff turnover and unfamiliarity with the tool contribute to poor completion: pair any electronic chart rollout with brief mandatory training",
+   "The library shows repeated re-audits with teaching alone made only small gains: do not repeat a teaching-only cycle without a structural change",
+   "Patients transferred to a specialist detox unit partway through admission should have their general ward period audited separately from the specialist unit period"
+  ],
+  "pearls": [
+   "Use the corpus finding that a ward SOP with nurse-administered CIWA-Ar and team training achieved full risk stratification at re-audit [3299] as the template for the local change",
+   "Build automatic scoring calculation into the electronic system so nurses do not need to add up items manually, reducing the correct-scoring gap found in the corpus",
+   "Recruit ward nursing leads as co-audit leads, since they complete the chart in practice",
+   "Present the corpus's repeated-failure finding [3603] to justify prioritising an electronic fix over another teaching cycle",
+   "Track whether correct, frequent scoring changes the benzodiazepine dose given (symptom-triggered dosing), linking this audit to safer prescribing"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 admissions from the ward observation and drug chart",
+  "area": "Psychiatry",
+  "pass": "A CIWA-Ar (or locally approved equivalent) score is recorded at the frequency specified in the local protocol for at least the first 48 hours of admission or until withdrawal resolves"
+ },
+ {
+  "question": "What proportion of adults with decompensated liver disease being treated for acute alcohol withdrawal have a documented plan agreed with, or advice sought from, a healthcare professional experienced in liver disease?",
+  "why": "No audit in the library checks this specific NICE safety requirement for the highest-risk subgroup of alcohol withdrawal patients (those with decompensated liver disease), despite general alcohol withdrawal management being audited extensively.",
+  "standard": {
+   "source": "NICE CG100 Alcohol-use disorders: diagnosis and management of physical complications, rec 1.1.3.2 (2010, amended 2021)",
+   "wording": "People with decompensated liver disease who are being treated for acute alcohol withdrawal should be offered advice from a healthcare professional experienced in the management of liver disease...",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a diagnosis of decompensated liver disease (ascites, jaundice, encephalopathy or variceal bleeding) treated for acute alcohol withdrawal. Exclusion: patients with alcohol-related liver disease but no current decompensation.",
+  "sample": "All identified cases in the last 12 months (numbers are likely to be small, 10-20 cases, in a district general hospital; extend the window if fewer are found)",
+  "data_source": "Medical admission and hepatology/gastroenterology referral records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_decompensation_identified",
+    "type": "date"
+   },
+   {
+    "field": "liver_specialist_advice_sought",
+    "type": "yes/no"
+   },
+   {
+    "field": "date_of_advice",
+    "type": "date"
+   },
+   {
+    "field": "joint_withdrawal_plan_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic hepatology/gastroenterology referral trigger to the electronic alcohol withdrawal order set whenever decompensated liver disease is coded alongside alcohol withdrawal treatment",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template, widened window if numbers remain small",
+  "close_loop": "Present at the joint hepatology/addiction liaison governance meeting; if effective, embed the automatic referral trigger permanently",
+  "evidence": [
+   "No audit specific to liver specialist involvement in alcohol withdrawal with decompensated liver disease is recorded in the library; the nearest related entries concern general alcohol withdrawal scoring and symptom-triggered regimens, which do not address this specific high-risk subgroup"
+  ],
+  "pitfalls": [
+   "Decompensated liver disease may not be clearly coded, especially if the presentation is dominated by withdrawal symptoms: cross-check liver function tests and clinical notes, not just the coding system",
+   "Advice may be given informally by phone without a written record: require the advice or plan to be documented in the notes regardless of how it was obtained",
+   "Choice of sedative may need adjustment in liver failure (e.g. shorter-acting benzodiazepines): record whether the medication choice reflects this, as a secondary marker of specialist input",
+   "Numbers will be small: consider a 12-month or longer collection window and report raw numbers alongside any percentage",
+   "Weekend and out-of-hours presentations may have delayed access to liver specialist advice: record and report time-of-week separately"
+  ],
+  "pearls": [
+   "Recruit a hepatology or gastroenterology liaison consultant as a joint audit lead with addiction liaison psychiatry",
+   "Use liver function tests and coding together to build a more complete case-finding search than either alone",
+   "Present the audit as protecting a small, very high-risk group, to secure engagement despite the modest case numbers",
+   "Build the electronic referral trigger to also suggest a liver-safe benzodiazepine choice, closing two safety gaps at once",
+   "Keep this as an ongoing, rolling audit given the low case volume, rather than a single fixed 3-month cycle"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per identified case from the medical and hepatology record",
+  "area": "Psychiatry",
+  "pass": "Advice from, or a joint plan with, a healthcare professional experienced in liver disease (hepatology, gastroenterology or a liver-specialist nurse) is documented within 24 hours of decompensated liver disease being identified during alcohol withdrawal treatment"
+ },
+ {
+  "question": "What proportion of patients discharged from inpatient drug treatment services (including specialist community and inpatient detoxification services) after treatment for opioid use are supplied with take-home naloxone, or have a documented reason why not?",
+  "why": "No audit in the library measures naloxone supply on discharge from inpatient drug treatment settings, despite national guidance permitting a wide range of drug treatment services, including inpatient services, to supply naloxone without a prescription to reduce overdose deaths.",
+  "standard": {
+   "source": "GOV.UK Supplying take home naloxone without a prescription (Human Medicines Regulations 2012, regulation 238; guidance updated 12 September 2025)",
+   "wording": "The types of drug treatment services that can supply naloxone include, but may not be limited to: drug services provided by primary care services; drug services provided by secondary care services (including a range of specialised community and inpatient drug services)...",
+   "url": "https://www.gov.uk/guidance/supplying-take-home-naloxone-without-a-prescription"
+  },
+  "population": "Inclusion: adults discharged from an inpatient drug/alcohol treatment unit or psychiatric ward following treatment where opioid use was part of the presentation. Exclusion: patients with no history of opioid use in the current or past 12 months.",
+  "sample": "30 consecutive discharges with a history of opioid use from the inpatient drug treatment or dual diagnosis service over the last 6 months",
+  "data_source": "Inpatient drug treatment service discharge record and pharmacy dispensing log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date"
+   },
+   {
+    "field": "naloxone_supplied",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_not_supplied",
+    "type": "text"
+   },
+   {
+    "field": "patient_or_carer_trained_in_use",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'naloxone supplied or reason not supplied' field to the inpatient drug treatment discharge checklist, which cannot be completed without an entry, and stock take-home naloxone kits on the ward",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the drug treatment service and pharmacy governance meeting; if effective, embed the mandatory field and ward stock as standard practice",
+  "evidence": [
+   "[1341] Audit of safe opioid prescribing across surgical departments found naloxone co-prescribing improved from below 50% to over 70% in several departments after education and reminders, showing naloxone supply is a modifiable, auditable practice even though this specific audit is in a surgical rather than drug treatment context"
+  ],
+  "pitfalls": [
+   "Patients may already hold a naloxone kit from a community drug service: record this as a valid reason for non-supply rather than a fail",
+   "Ward staff may be unfamiliar with the legal basis for supplying naloxone without an individual prescription: provide brief training alongside the mandatory field",
+   "Family members or carers present at discharge may also need training in use, which is easy to miss if only the patient is addressed",
+   "Stock and expiry management of naloxone kits on the ward needs a named responsible person, or supply will lapse",
+   "A patient who leaves against medical advice before formal discharge may miss the opportunity for supply: consider a rapid-access naloxone offer earlier in the admission for high-risk patients"
+  ],
+  "pearls": [
+   "Partner with the local community drug and alcohol service, which will already have a naloxone supply protocol that can be adapted for inpatient use",
+   "Use the gov.uk guidance's explicit inclusion of inpatient drug services to reassure ward staff of the legal basis for supply without an individual prescription",
+   "Build training on naloxone use into existing discharge planning conversations rather than as a separate appointment",
+   "Track whether kits supplied are ever used (via ambulance service or community data, where locally available) as a longer-term outcome measure",
+   "Keep a standing stock of naloxone kits on the ward with a named pharmacy lead responsible for restocking and expiry checks"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 discharges from the discharge checklist and pharmacy log",
+  "area": "Psychiatry",
+  "pass": "A take-home naloxone kit is documented as supplied at discharge, or a specific reason for not supplying it (e.g. already holds a kit, clinically inappropriate, declined) is recorded"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "When a multidisciplinary, medical or independent review determines that seclusion is no longer warranted, does the patient leave seclusion without unnecessary delay?",
+  "why": "No audit in the library measures the time between a review decision to end seclusion and the patient actually being allowed free and unrestricted access to the ward, despite this being a specific Mental Health Act Code of Practice requirement distinct from the well-audited review-timing measures already in the corpus.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraphs 26.144-26.145",
+   "wording": "Seclusion should immediately end when a MDT review, a medical review or the independent MDT review determines it is no longer warranted... Seclusion ends when a patient is allowed free and unrestricted access to the normal ward environment or transfers or returns to conditions of long-term segregation.",
+   "url": "https://www.gov.uk/government/publications/code-of-practice-mental-health-act-1983"
+  },
+  "population": "Inclusion: all seclusion episodes ended by a documented review decision in the audit period. Exclusion: episodes ended by the patient absconding or being transferred for an unrelated reason.",
+  "sample": "All seclusion episodes ended in the last 3 months (typically 20-40 episodes across a secure or acute inpatient service)",
+  "data_source": "Seclusion record, showing the time of the review decision and the time seclusion actually ended",
+  "template": [
+   {
+    "field": "episode_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "datetime_review_decision_made",
+    "type": "datetime"
+   },
+   {
+    "field": "datetime_seclusion_actually_ended",
+    "type": "datetime"
+   },
+   {
+    "field": "delay_minutes",
+    "type": "number"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'time of review decision' and 'time seclusion ended' pair of fields to the seclusion record, both time-stamped by the system rather than handwritten, so any delay is automatically visible",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample",
+  "close_loop": "Present at the ward or secure service clinical governance meeting; if effective, adopt the dual time-stamp field trust-wide",
+  "evidence": [
+   "Topic card 'Seclusion practice and review' notes that huddles and weekly meetings reduced average seclusion duration from 30 to 20 hours in one service [3105], showing seclusion duration (including the tail end of an episode) is a measurable and improvable indicator"
+  ],
+  "pitfalls": [
+   "Staff may record the review decision time and the ending time as the same moment out of habit, masking a real delay: use system time-stamps rather than staff-entered times where possible",
+   "A delay may be clinically justified (e.g. arranging safe staffing to support the patient leaving seclusion): capture the reason for any delay rather than treating all delay as a failure",
+   "Night shifts with lower staffing may show longer delays: report results by time of day",
+   "Ending seclusion for a toilet or food break should not be confused with a genuine end of seclusion: apply the Code of Practice definition (free and unrestricted access) strictly",
+   "A patient may be reviewed as 'no longer warranted' by one professional but a second required reviewer disagrees: record how such disagreements are resolved and timed"
+  ],
+  "pearls": [
+   "Use existing seclusion review audit infrastructure (already common in the corpus) to add these two extra time fields rather than building a new audit from scratch",
+   "Recruit ward nursing staff to identify realistic causes of delay (e.g. arranging support) so the fix addresses real barriers, not just recording",
+   "Present the corpus finding that a huddle model cut average seclusion duration by a third [3105], to support a similar staffing/planning change here",
+   "Track the reason for delay over time to see if a particular cause (e.g. staffing) dominates and needs a separate fix",
+   "Keep this as a standing indicator on the ward's seclusion dashboard rather than a single-cycle audit"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per episode from the seclusion record",
+  "pass": "The time recorded for the end of seclusion is within 30 minutes of the review decision that seclusion is no longer warranted"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "Do people living with dementia prescribed an antipsychotic for behaviour and psychological symptoms of dementia have the medication reassessed at least every 6 weeks, with the decision to continue or stop documented at that review?",
+  "why": "No audit in the library isolates the specific 6-weekly reassessment interval and continuation decision required by NICE for antipsychotics in dementia; the existing 'Antipsychotic prescribing in dementia (BPSD)' topic in the corpus is heavily audited for physical health monitoring, but the reassessment interval and stopping decision itself has not been separately measured.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support for people living with dementia and their carers, rec 1.7.6 (2018)",
+   "wording": "When using antipsychotics: use the lowest effective dose and use them for the shortest possible time reassess the person at least every 6 weeks, to check whether they still need medication.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "population": "Inclusion: people with dementia currently prescribed an antipsychotic for behavioural and psychological symptoms of dementia, under old age psychiatry follow-up. Exclusion: antipsychotics prescribed for a co-existing psychotic illness diagnosed independently of dementia.",
+  "sample": "30 consecutive people with dementia on an antipsychotic for behavioural and psychological symptoms, from the old age psychiatry or memory service caseload",
+  "data_source": "Old age psychiatry electronic record and medication review notes",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "date_antipsychotic_started",
+    "type": "date"
+   },
+   {
+    "field": "dates_of_reviews_in_last_6_months",
+    "type": "text"
+   },
+   {
+    "field": "longest_gap_between_reviews_weeks",
+    "type": "number"
+   },
+   {
+    "field": "continue_or_stop_decision_documented",
+    "type": "yes/no"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 6-weekly review reminder to the electronic record for every patient coded as being on an antipsychotic for behavioural and psychological symptoms of dementia, which must be actioned with a continue/stop decision before it can be dismissed",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the old age psychiatry governance meeting; if effective, embed the automatic reminder permanently",
+  "evidence": [
+   "Topic card 'Antipsychotic prescribing in dementia (BPSD)' (15 audits) focuses on physical health monitoring rather than the specific 6-weekly reassessment interval; this audit targets a distinct, currently unmeasured requirement (the reassessment interval and stop/continue decision) rather than repeating physical monitoring measures already extensively covered"
+  ],
+  "pitfalls": [
+   "A general medication review note that does not specifically address whether the antipsychotic is still needed should not count as a pass: require an explicit continue/stop statement",
+   "Community-dwelling patients seen less frequently than every 6 weeks by a specialist may be reviewed jointly with a GP: check both records for the review",
+   "Some patients may be on a long-standing, stable dose with an implicit assumption that stopping is unsafe: this should be recorded as an explicit, reasoned decision to continue, not an omission",
+   "This audit should be framed around the reassessment interval and action, not repeat existing physical health monitoring audits, to avoid the corpus's identified overdone territory",
+   "A short administrative gap (e.g. patient in hospital) may extend the interval for a valid reason: record and report these separately from true gaps in follow-up"
+  ],
+  "pearls": [
+   "Frame this audit explicitly as measuring the reassessment interval and stop/continue decision, not repeating overdone physical health monitoring measures",
+   "Recruit the old age psychiatry pharmacist to help identify the current antipsychotic-for-BPSD caseload and build the reminder system",
+   "Use the NICE wording directly ('reassess... to check whether they still need medication') as the pass criterion to keep the standard unambiguous",
+   "Track the proportion of reviews resulting in an actual dose reduction or stop over successive re-audits, as the ultimate measure of impact",
+   "Align the re-audit timing with the service's existing dementia care review cycle to avoid extra data collection burden"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the old age psychiatry record",
+  "pass": "A documented reassessment, with an explicit decision to continue or stop, is present at an interval of 6 weeks or less throughout the prescribing period"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "Do adults with a learning disability prescribed medication for behaviour that challenges receive only a single psychotropic drug at a time, rather than two or more used concurrently for the same target behaviour?",
+  "why": "The STOMP topic card notes single drug therapy fell from 19% to 34% in one repeated-cycle audit [3268], but no audit in the library specifically measures polypharmacy for behaviour that challenges as its own single, plain question distinct from rationale, review or monitoring audits already covered.",
+  "standard": {
+   "source": "NICE NG11 Challenging behaviour and learning disabilities, rec 1.8.3 (2015)",
+   "wording": "start with a low dose and use the minimum effective dose needed only prescribe a single drug monitor side effects as recommended in the NICE guidelines on psychosis and schizophrenia...",
+   "url": "https://www.nice.org.uk/guidance/ng11/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a learning disability currently prescribed at least one psychotropic medication for behaviour that challenges. Exclusion: patients with a co-existing diagnosed mental illness requiring its own separate treatment (e.g. an antidepressant for depression alongside an antipsychotic for a separate diagnosed psychotic illness).",
+  "sample": "30 consecutive adults with a learning disability on psychotropic medication for behaviour that challenges, from the community learning disability team or STOMP register",
+  "data_source": "Community learning disability team electronic record and current drug chart/repeat prescription list",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text"
+   },
+   {
+    "field": "number_of_psychotropics_for_target_behaviour",
+    "type": "number"
+   },
+   {
+    "field": "single_drug_only",
+    "type": "yes/no"
+   },
+   {
+    "field": "reason_for_combination_documented",
+    "type": "text"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic polypharmacy alert to the electronic prescribing system, triggered when a second psychotropic is added for a patient already coded as being treated for behaviour that challenges, prompting a mandatory documented reason",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the community learning disability team and pharmacy governance meeting; if effective, embed the polypharmacy alert trust-wide",
+  "evidence": [
+   "[3268] Repeated cycles of audit in one intellectual disability team found single drug therapy stayed low, moving from 19% to only 34% despite improvements in metabolic monitoring (0% to 95%) and risk assessment (68% to 100%), showing polypharmacy specifically resists the general improvements seen elsewhere"
+  ],
+  "pitfalls": [
+   "Distinguishing 'for the same target behaviour' from legitimate separate diagnoses requires careful case-by-case review: use a learning disability psychiatrist to adjudicate ambiguous cases",
+   "Historic long-term polypharmacy may be well established and difficult to safely change quickly: record whether a reduction plan exists even where combination therapy continues",
+   "PRN (as-needed) medication used occasionally alongside a regular psychotropic should be recorded separately, since NG11 addresses this differently",
+   "The library shows this measure resisted improvement even when other measures improved sharply [3268]: expect this to be a harder change and plan a longer improvement timeline",
+   "Switching directly from one drug to another (a brief overlap during a cross-taper) should not be wrongly counted as ongoing combination therapy: define a minimum overlap duration before counting as polypharmacy"
+  ],
+  "pearls": [
+   "Use the STOMP register as the sampling frame, since it should already list current psychotropic prescriptions for this population",
+   "Present the corpus finding that single drug therapy resisted improvement even where other STOMP measures improved sharply [3268], to justify a dedicated focus on this specific measure",
+   "Recruit the learning disability pharmacist to review combination cases and support tapering plans where appropriate",
+   "Track the number of patients on 2 or more psychotropics for the same behaviour over successive audits as the key outcome measure, not just documentation of a reason",
+   "Keep the audit register with the learning disability pharmacist for continuity across trainee rotations"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the STOMP register and prescribing record",
+  "pass": "Only one psychotropic drug is prescribed for the target behaviour at any one time, or, where more than one is used, a specific documented clinical reason for combination therapy is present"
+ }
+]

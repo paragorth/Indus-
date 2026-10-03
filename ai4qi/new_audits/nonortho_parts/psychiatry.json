@@ -1,0 +1,2254 @@
+[
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of adults seen by liaison psychiatry after self-harm are given a copy of their care plan before they leave the emergency department or ward?",
+  "why": "Liaison self-harm audits measure timeliness and assessment content [3686] [3322] [3125]; whether the person leaves with their own copy of the plan has not been measured in a closed loop in the library.",
+  "standard": {
+   "source": "NICE NG225 Self-harm: assessment, management and preventing recurrence, rec 1.5.16 (2022)",
+   "wording": "Give the person a copy of their care plan, and share the plan as soon as possible with relevant healthcare professionals and social care practitioners involved in the person's care.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "pass": "The liaison record states that a written or printed care plan (including crisis contacts) was given to the person before discharge from the emergency department or ward.",
+  "population": "Adults (18+) who had a liaison psychiatry psychosocial assessment after self-harm. Exclude people admitted to a mental health bed straight from assessment and people who left before assessment finished.",
+  "sample": "40 consecutive eligible assessments over the last 2 months",
+  "data_source": "Liaison psychiatry electronic record (assessment and outcome entry); emergency department discharge record; GP letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "emergency department",
+     "acute medical ward",
+     "other ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "care_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Plan agreed with the person recorded"
+   },
+   {
+    "field": "copy_given_to_person",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "crisis_contacts_in_copy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Out-of-hours number included"
+   },
+   {
+    "field": "plan_shared_with_gp_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_copy_not_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'print patient copy' step and a mandatory 'copy given: yes/no/declined' tick box to the liaison electronic assessment template.",
+  "target": "≥90% given a copy or documented as declined",
+  "reaudit": "Wk 13–14, 40 consecutive assessments, same template",
+  "close_loop": "Present at the liaison team business meeting and the trust self-harm or suicide prevention group; if it works, make the tick box permanent and add the rate to the liaison monthly dashboard.",
+  "evidence": [
+   "[3125] Newcastle liaison team: 58% → 98% of notes with at least half the NCEPOD elements, discharge plan 2% → 29% (e-template, training and named guardians)",
+   "[3523] West London liaison service: driving status recorded 5% → 50% (template prompt and reminders)",
+   "[3322] Dorset liaison: carer or parent understanding recorded in 40% of self-harm assessments (single cycle)"
+  ],
+  "pitfalls": [
+   "Out-of-hours assessors cannot print in the emergency department → allow a copy by text or email, or a handwritten crisis card, to count as a pass.",
+   "Notes say 'plan discussed' but not 'copy given' → define the pass wording before cycle 1 and keep it the same in cycle 2.",
+   "People who leave soon after assessment skew the rate → record 'left before copy could be given' separately.",
+   "Staff see the tick box as more paperwork → show them the NG225 wording and keep the box to one click."
+  ],
+  "pearls": [
+   "Recruit the liaison team manager and one band 6 nurse as co-leads; they own the template.",
+   "Agree with IT a one-page printable plan built from fields already in the assessment.",
+   "Keep a stock of printed crisis cards in the emergency department mental health room.",
+   "Hand the monthly count to the team manager so it survives the trainee rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 assessments from the liaison record"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of liaison psychiatry self-harm assessments give a reason for discharge that does not rest on a 'low/medium/high' risk rating?",
+  "why": "NG225 (2022) moved away from risk scoring, but liaison notes still often end with a risk category [3686] [3322]; no audit in the library measures whether discharge decisions rest on a risk grade.",
+  "standard": {
+   "source": "NICE NG225 Self-harm, rec 1.6.2 (2022)",
+   "wording": "Do not use risk assessment tools and scales to determine who should and should not be offered treatment or who should be discharged.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "pass": "The outcome section gives the reason for the disposal in terms of needs, formulation and safety plan, and does not use a risk score or a 'low/medium/high' category as the stated reason.",
+  "population": "People aged 16+ assessed by liaison psychiatry after self-harm and discharged from the emergency department or ward. Exclude those admitted to a mental health bed.",
+  "sample": "40 consecutive eligible discharges over the last 2 months",
+  "data_source": "Liaison psychiatry electronic assessment (risk and outcome sections)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Any low/medium/high grade or score anywhere in the note"
+   },
+   {
+    "field": "risk_tool_or_scale_used",
+    "type": "choice",
+    "options": [
+     "none",
+     "SAD PERSONS or similar",
+     "local scale",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_reason_uses_risk_category",
+    "type": "yes/no",
+    "options": [],
+    "note": "Fail if the stated reason is the grade"
+   },
+   {
+    "field": "formulation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safety_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_reason_needs_based",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the 'overall risk: low/medium/high' drop-down in the liaison template with a free-text 'risk formulation and safety plan' box and a 'reason for this disposal' box.",
+  "target": "≥90% with a needs-based reason and no risk grade used as the reason",
+  "reaudit": "Wk 13–14, 40 consecutive discharges, same template",
+  "close_loop": "Present at the liaison and crisis teams' governance meeting; if it works, ask the trust to remove the risk drop-down from all acute mental health assessment templates.",
+  "evidence": [
+   "[3125] Newcastle liaison team: formulation 0% → 8%, risk management 18% → 53% (e-template, training and named guardians)",
+   "[3686] Countess of Chester: risk formulation and full psychosocial assessment gaps after overdose (single cycle)",
+   "[3322] Dorset liaison: psychiatric formulation 92%, risk summary 98% on a structured template (single cycle)"
+  ],
+  "pitfalls": [
+   "Some staff and commissioners still expect a risk grade → agree with the clinical director before cycle 1 that the grade is being removed on NG225 grounds.",
+   "Recording a grade is not a fail if it is not the reason → audit the reason, not the presence of the word.",
+   "The drop-down is part of a trust-wide form → pilot a liaison-only version first.",
+   "Judging 'needs-based' is subjective → two auditors score the first 10 cases and agree the rule."
+  ],
+  "pearls": [
+   "Bring the trust suicide prevention lead on side; they usually want this change.",
+   "Use real anonymised notes to show the difference between a grade and a formulation.",
+   "Pair the template change with the safety plan audit so the box is not left empty.",
+   "Ask the governance team to keep the monthly score after the audit team moves on."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 assessments"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of patients physically restrained on an adult inpatient ward are offered a documented chance to talk about the incident within 72 hours?",
+  "why": "Restraint work in the library focuses on reduction and seclusion reviews; patient involvement in post-incident reflection was 12% before a QI programme [3240], and no audit measures the patient debrief offer itself.",
+  "standard": {
+   "source": "NICE NG10 Violence and aggression: short-term management in mental health, health and community settings, rec 1.4.58 (2015)",
+   "wording": "Ensure that the service user involved has the opportunity to discuss the incident in a supportive environment with a member of staff or an advocate or carer. Offer the service user the opportunity to write their perspective of the event in the notes.",
+   "url": "https://www.nice.org.uk/guidance/ng10/chapter/Recommendations"
+  },
+  "pass": "The notes show that, within 72 hours of the restraint, the patient was offered a discussion of the incident with staff, an advocate or a carer (accepted or declined).",
+  "population": "Restraint incidents on adult acute and PICU wards. One incident per patient (the first in the period). Exclude patients transferred out within 72 hours.",
+  "sample": "40 consecutive restraint incidents over the last 3 months",
+  "data_source": "Incident reporting system (restraint log); nursing and medical notes for 72 hours after each incident",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "incident_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "acute",
+     "PICU",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "restraint_type",
+    "type": "choice",
+    "options": [
+     "standing",
+     "seated",
+     "supine",
+     "prone",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "staff_debrief_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG10 rec 1.4.55 staff debrief"
+   },
+   {
+    "field": "patient_offered_discussion",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_discussion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "offered_to_write_own_account",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_response",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'patient debrief offered' field with a 72-hour due time to the restraint incident form, which triggers a task for the named nurse.",
+  "target": "≥80% offered within 72 hours",
+  "reaudit": "Wk 13–14, 40 consecutive incidents, same template",
+  "close_loop": "Present at the reducing restrictive practice group and ward managers' meeting; if it works, add the rate to the monthly restrictive practice report to the board.",
+  "evidence": [
+   "[3240] Lincolnshire inpatient wards: patient involvement in post-incident reflection 12% at baseline, rose by 60% (training, restrictive practice hub, root cause analysis)",
+   "[3105] Adolescent PICU, London: consultant seclusion review within 24 h under 70% → over 90% (safety huddles, incident reduction meetings)",
+   "[3188] Secure learning disability wards: seclusion risk assessment 48% → 89% (education)"
+  ],
+  "pitfalls": [
+   "Debriefs happen but are not written down → count only what is documented and say so when presenting.",
+   "Staff debrief is confused with patient debrief → keep them as separate fields.",
+   "Patients who remain very unwell for days → allow 'deferred, reason recorded' but report it separately.",
+   "Ward staff feel judged → frame it as a patient-experience measure and share results by ward, not by name."
+  ],
+  "pearls": [
+   "Recruit a ward manager, the restrictive practice lead and a peer support worker.",
+   "Ask advocacy services to accept debrief referrals directly.",
+   "Put the debrief prompt on the safety huddle board for patients restrained in the last 72 hours.",
+   "The incident form field keeps the change after the audit team rotates."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 incidents"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "Among detained patients who did not understand their rights at the first explanation, what proportion had their rights explained again within 7 days?",
+  "why": "Mental Health Act audits in the library cover detention paperwork, section 5(2) forms and consent to treatment [3095] [3398] [3049]; follow-up of patients who did not understand their section 132 rights has not been audited.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 4.28",
+   "wording": "Those with responsibility for patient care should ensure that patients are reminded from time to time of their rights and the effects of the Act. It may be necessary to give the same information on a number of different occasions or in different formats and to check regularly that the patient has fully understood it. Information given to a patient who is unwell may need to be repeated when their condition has improved.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a80a774e5274a2e87dbb0f0/MHA_Code_of_Practice.PDF"
+  },
+  "pass": "A further section 132 explanation (with understanding recorded) is documented within 7 days of the first explanation that was recorded as not understood, declined or not possible.",
+  "population": "Patients newly detained under section 2 or 3 whose first rights record says 'not understood', 'partly understood', 'declined' or 'unable'. Exclude patients discharged or regraded within 7 days.",
+  "sample": "40 eligible detentions from the last 4 months (use the Mental Health Act office list to find them)",
+  "data_source": "Mental Health Act office register; section 132 rights forms; nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "detention_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "section",
+    "type": "choice",
+    "options": [
+     "2",
+     "3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_rights_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_outcome",
+    "type": "choice",
+    "options": [
+     "not understood",
+     "partly understood",
+     "declined",
+     "unable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_rights_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "understanding_recorded_at_repeat",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imha_mentioned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the electronic section 132 form create an automatic 'repeat rights due' task at 7 days whenever the outcome is anything other than 'fully understood'.",
+  "target": "≥90% repeated within 7 days",
+  "reaudit": "Wk 13–14, 40 eligible detentions, same template",
+  "close_loop": "Present to the Mental Health Act governance committee and hospital managers; if it works, keep the automated task and add it to the Mental Health Act office monthly report.",
+  "evidence": [
+   "[3049] High-dependency rehabilitation unit: Mental Health Act documentation compliance 77% → 98% (medication management committee, PDSA cycles, nurse self-audit)",
+   "[3568] NHS Tayside out-of-hours admissions: Mental Health Act status recorded 82.7% → 75.9%, leave status 1.9% → 65.5% (posters)",
+   "[3095] Derby: detention justification poorly documented (single cycle)"
+  ],
+  "pitfalls": [
+   "Paper rights forms are filed but not scanned → agree with the Mental Health Act office to use their tracker as the source.",
+   "Repeat explanations are done but written only in nursing notes → search nursing notes as well as forms.",
+   "Small numbers on one ward → pool all adult acute wards.",
+   "Nurses see it as an administrative task → show the Code wording and the Care Quality Commission focus on rights."
+  ],
+  "pearls": [
+   "The Mental Health Act administrator is the key ally; they already track rights.",
+   "Agree what 'understood' means (patient can say it back in their own words) before cycle 1.",
+   "Easy-read and translated leaflets should be at the nursing station, not in an office.",
+   "Hand the monthly report to the Mental Health Act office manager."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of detained patients recorded as lacking capacity to decide about advocacy are referred to an independent mental health advocate within 7 days?",
+  "why": "No audit in the library measures access to independent mental health advocates; detained patients who lack capacity cannot ask for one themselves.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 6.16",
+   "wording": "If a patient lacks capacity to decide whether or not to obtain help from an IMHA, the hospital manager should ask an IMHA to attend the patient so that the IMHA can explain what they can offer to the patient directly.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a80a774e5274a2e87dbb0f0/MHA_Code_of_Practice.PDF"
+  },
+  "pass": "An IMHA referral (or IMHA visit) is documented within 7 days of the record that the patient lacked capacity to decide about advocacy or did not understand their rights.",
+  "population": "Patients detained under section 2 or 3 whose rights or capacity record shows they could not decide about IMHA help. Exclude patients discharged within 7 days.",
+  "sample": "30–40 eligible patients from the last 6 months across adult and older adult wards",
+  "data_source": "Section 132 forms; capacity records; advocacy referral log (from the advocacy provider); nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "detention_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "adult acute",
+     "older adult",
+     "PICU",
+     "learning disability",
+     "forensic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lacks_capacity_record_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imha_referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "imha_visit_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made_by",
+    "type": "choice",
+    "options": [
+     "nurse",
+     "doctor",
+     "Mental Health Act office",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up an automatic ('opt-out') IMHA referral: the Mental Health Act office emails the advocacy provider for every patient whose rights form records lack of capacity.",
+  "target": "≥90% referred within 7 days",
+  "reaudit": "Wk 13–14, same sample size, same template",
+  "close_loop": "Present to the Mental Health Act governance committee and the advocacy provider's contract review; if it works, write the opt-out step into the rights procedure.",
+  "evidence": [
+   "[3049] High-dependency rehabilitation unit: Mental Health Act documentation compliance 77% → 98% (committee, PDSA cycles, self-audit)",
+   "[3474] Cygnet Churchill wards: Triangle of Care compliance 68–87% → 100% (carer leads, communication forms, logs)",
+   "[3399] Drug and alcohol outreach referrals: completeness improved on all items after an auto-reply referral form"
+  ],
+  "pitfalls": [
+   "Capacity for advocacy is rarely recorded as such → accept 'did not understand rights' as the trigger and define it before cycle 1.",
+   "The advocacy provider keeps its own records → ask them for a referral list for the audit period.",
+   "Older adult and learning disability wards may have few cases → pool across wards.",
+   "Concern that opt-out referral breaches consent → the Code allows it for patients who lack capacity; confirm with the Mental Health Act lead."
+  ],
+  "pearls": [
+   "Invite the advocacy service manager to the planning meeting; they often want this data.",
+   "Use the Mental Health Act office as the single point that sends referrals.",
+   "Include older adult wards, where lack of capacity is most common.",
+   "Add the referral date to the rights tracker so it is checked every month."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of section 17 leave authorisations have a documented copy given to the patient?",
+  "why": "Leave audits in the library look at leave risk discussion and leave status in admission plans [3204] [3568]; whether patients receive a copy of their leave form has not been audited.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 27.22",
+   "wording": "Copies of the authorisation should be given to the patient and to any carers, professionals and other people in the community who need to know. A copy should also be kept in the patient's notes.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a80a774e5274a2e87dbb0f0/MHA_Code_of_Practice.PDF"
+  },
+  "pass": "The leave form or notes record that a copy was given to the patient (or offered and declined).",
+  "population": "New or changed section 17 leave authorisations on adult acute, rehabilitation and forensic wards. Exclude leave to another hospital for physical care.",
+  "sample": "40 consecutive leave authorisations over the last 2 months",
+  "data_source": "Section 17 leave forms (electronic or scanned); nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "leave_form_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "adult acute",
+     "rehabilitation",
+     "low secure",
+     "medium secure",
+     "older adult"
+    ],
+    "note": ""
+   },
+   {
+    "field": "conditions_specified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_in_notes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_given_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "copy_given_to_carer_when_relevant",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "patient_signature_or_note",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'copy given to patient: yes/declined' box and a patient signature line to the section 17 form, completed by the nurse who explains the leave.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 40 consecutive authorisations, same template",
+  "close_loop": "Present to the Mental Health Act governance committee and ward managers; if it works, make the box a required field on the trust form.",
+  "evidence": [
+   "[3568] NHS Tayside out-of-hours admissions: leave status documented 1.9% → 65.5% (posters)",
+   "[3204] Tees, Esk and Wear Valleys: leave risk discussion 73% → 100%",
+   "[3049] Rehabilitation unit: Mental Health Act documentation 77% → 98% (PDSA cycles, nurse self-audit)"
+  ],
+  "pitfalls": [
+   "Copies are given but not recorded → the new box makes it visible; do not count cycle 1 as bad practice without explanation.",
+   "Forms are scanned late → check the ward folder as well as the electronic record.",
+   "Responsible clinicians change forms often → count each new authorisation as one case.",
+   "Staff worry patients will lose the form → offer a copy kept in the patient's room or locker."
+  ],
+  "pearls": [
+   "Recruit the Mental Health Act administrator and one ward manager.",
+   "Agree that 'offered and declined' counts as a pass.",
+   "Ask responsible clinicians to hand the form to the named nurse straight after the ward round.",
+   "Add the item to the existing Mental Health Act office spot checks."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 forms"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of people brought to the section 136 place of safety are seen by both the doctor and the AMHP within 3 hours of arrival?",
+  "why": "One single-cycle s136 audit used a 4-hour local target (60% met) [3635]; another found slow documentation [3420]; no closed-loop audit uses the Code's 3-hour standard.",
+  "standard": {
+   "source": "Mental Health Act 1983 Code of Practice (2015), paragraph 16.47",
+   "wording": "Assessment by the doctor and AMHP should begin as soon as possible after the arrival of the individual at the place of safety. In cases where there are no clinical grounds to delay assessment, it is good practice for the doctor and AMHP to attend within three hours; this is in accordance with best practice recommendations made by the Royal College of Psychiatrists.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a80a774e5274a2e87dbb0f0/MHA_Code_of_Practice.PDF"
+  },
+  "pass": "Both the doctor and the approved mental health professional (AMHP) attended within 3 hours of arrival, or a clinical reason for delay (for example, intoxication) is recorded.",
+  "population": "All adults detained under section 136 and brought to the health-based place of safety. Exclude people moved to the emergency department for physical care before assessment.",
+  "sample": "40 consecutive s136 detentions (usually 1–2 months in a typical suite)",
+  "data_source": "Section 136 monitoring form; place of safety log; AMHP records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doctor_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "amhp_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_reason_for_delay",
+    "type": "choice",
+    "options": [
+     "none",
+     "intoxication",
+     "physical illness",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "both_within_3h_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "joint_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": "17:00–09:00 or weekend"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "admitted informal",
+     "detained",
+     "discharged with follow-up",
+     "discharged no follow-up"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Send an automatic page to both the section 12 doctor rota and the AMHP hub when the place of safety records arrival, with a 2-hour escalation to the on-call consultant.",
+  "target": "≥80% within 3 hours or with a recorded reason",
+  "reaudit": "Wk 13–14, 40 consecutive detentions, same template",
+  "close_loop": "Present at the joint s136 multi-agency group (police, AMHP service, trust); if it works, add the 3-hour rate to the s136 quarterly report.",
+  "evidence": [
+   "[3635] Wakefield s136 suite: 60% assessed within 4 hours, 90% within 12 hours (single cycle)",
+   "[3420] Doncaster s136 assessments: documentation took over 1 day in 61% (single cycle)",
+   "[3526] District general liaison team: one-hour breaches 33% → 45.5% after a proforma change alone (breach coding without extra staffing)"
+  ],
+  "pitfalls": [
+   "The AMHP service is run by the local authority → involve the AMHP lead from the start; they own half of the target.",
+   "Arrival time is recorded differently by police and staff → use the place of safety log time only.",
+   "Intoxicated patients inflate breaches → record the clinical reason and report both rates.",
+   "Staffing shortages at night → split results by in-hours and out-of-hours to target the fix."
+  ],
+  "pearls": [
+   "Get the s136 multi-agency meeting to sign off the audit in advance.",
+   "Record the reason for each breach using fixed codes.",
+   "Keep the escalation rule simple: 2 hours without a doctor or AMHP means a call to the consultant.",
+   "Hand the monthly rate to the place of safety manager."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 detentions"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of people with schizophrenia who have not responded to two antipsychotics have a documented offer of clozapine?",
+  "why": "Clozapine audits in the library cover monitoring, levels and constipation [3090] [3555]; whether eligible people are offered clozapine at all has not been audited.",
+  "standard": {
+   "source": "NICE CG178 Psychosis and schizophrenia in adults, rec 1.5.7.2 (2014, updated 2026)",
+   "wording": "Offer clozapine to people with schizophrenia whose illness has not responded adequately to treatment despite the sequential use of adequate doses of at least 2 different antipsychotic drugs. At least 1 of the drugs should be a non-clozapine second-generation antipsychotic.",
+   "url": "https://www.nice.org.uk/guidance/cg178/chapter/Recommendations"
+  },
+  "pass": "The notes record that clozapine was offered (accepted or declined) or give a documented contraindication.",
+  "population": "Adults with schizophrenia on a community team caseload, with records showing at least 2 adequate antipsychotic trials (one a second-generation drug) and not on clozapine. Exclude first contact within the last 3 months.",
+  "sample": "30–40 eligible people from 2 community teams (find them by searching prescribing history)",
+  "data_source": "Electronic record (medication history, clinic letters, care plans); pharmacy dispensing records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_reviewed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_adequate_trials",
+    "type": "number",
+    "options": [],
+    "note": "Adequate dose for at least 6 weeks"
+   },
+   {
+    "field": "date_second_trial_ended",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clozapine_offer_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_response",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "months_from_second_trial_to_offer",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adherence_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": "Levels, depot or pill counts"
+   }
+  ],
+  "timeline": "Wk 1–3 collect; Wk 4 analyse and present; Wk 5 change; Wk 6–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'treatment resistance check' line to the annual care plan review template: number of adequate trials, and 'clozapine offered: yes/no/declined/contraindicated'.",
+  "target": "≥80% offered or contraindication recorded",
+  "reaudit": "Wk 13–14, new eligible sample from the same teams, same template",
+  "close_loop": "Present at the community psychiatry medical staff meeting and drugs and therapeutics committee; if it works, keep the template line and run a yearly caseload search.",
+  "evidence": [
+   "[3657] Pennine Care community team: high-dose antipsychotic compliance 60.6% → 77% (local register with twice-yearly review)",
+   "[3555] North Cornwall community team: accurate clozapine dose on GP records 33% → 80% (liaison with practices)",
+   "[3090] Nottingham community team: clozapine levels checked on average every 10 months (single cycle)"
+  ],
+  "pitfalls": [
+   "Defining 'adequate trial' is contentious → agree dose and duration with the lead consultant before cycle 1.",
+   "Old records are incomplete → accept clinic letters as evidence of past trials.",
+   "Consultants may feel criticised → present as a caseload opportunity, not individual failure.",
+   "Offers are made verbally and not written → the template line makes it visible."
+  ],
+  "pearls": [
+   "Recruit the clozapine clinic pharmacist; they can search dispensing records quickly.",
+   "Share a patient leaflet on clozapine to support the discussion.",
+   "Present anonymised examples of people who waited years for clozapine.",
+   "Ask the pharmacy team to run the caseload search yearly after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~40 min per 10 patients (history review)"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of families of people in early intervention in psychosis services have a documented offer of family intervention?",
+  "why": "Early intervention audits in the library cover waiting times, body mass index and physical health [3269] [3577] [3594]; offers of family intervention have not been audited.",
+  "standard": {
+   "source": "NICE CG178 Psychosis and schizophrenia in adults, rec 1.4.4.2 (2014, updated 2026)",
+   "wording": "Offer family intervention to all families of people with psychosis or schizophrenia who live with or are in close contact with the service user (delivered as described in recommendation 1.3.7.2). This can be started either during the acute phase or later, including in inpatient settings.",
+   "url": "https://www.nice.org.uk/guidance/cg178/chapter/Recommendations"
+  },
+  "pass": "The notes record that family intervention was offered to the family (accepted or declined) within 6 months of acceptance to the service.",
+  "population": "People accepted by the early intervention in psychosis team who live with or are in close contact with family. Exclude those with no family contact or who refuse any family involvement.",
+  "sample": "40 consecutive people accepted 6–12 months ago",
+  "data_source": "Electronic record (care plan, psychology and family work entries); team caseload list",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "acceptance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_contact_status",
+    "type": "choice",
+    "options": [
+     "lives with family",
+     "close contact",
+     "no contact"
+    ],
+    "note": ""
+   },
+   {
+    "field": "family_intervention_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "offer_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_response",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sessions_attended",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "carer_assessment_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'family intervention offered: yes/declined/not applicable' field to the 3-month early intervention care plan review.",
+  "target": "≥90% offered",
+  "reaudit": "Wk 13–14, 40 consecutive people accepted in the next period, same template",
+  "close_loop": "Present at the early intervention team meeting and the trust psychological therapies group; if it works, keep the field and report offer and uptake rates to the team every quarter.",
+  "evidence": [
+   "[3351] South community services: supported employment offered 35% → 38% (no structural change)",
+   "[3474] Cygnet Churchill wards: Triangle of Care compliance 68–87% → 100% (carer leads, communication forms)",
+   "[3510] South West London CAMHS: clinician confidence improved after teaching on psychological and family interventions"
+  ],
+  "pitfalls": [
+   "Too few trained family therapists → audit the offer, not delivery; report waiting time separately.",
+   "Family work is recorded in a separate psychology system → check both systems.",
+   "The service user refuses family involvement → record and exclude.",
+   "The field is ticked without a real offer → ask for the offer date and who made it."
+  ],
+  "pearls": [
+   "Recruit the team psychologist and a family work-trained care coordinator.",
+   "Agree a standard family intervention leaflet to hand over at the offer.",
+   "Link the field to the carer assessment offer so both happen at one visit.",
+   "Hand quarterly reporting to the team manager."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of adults admitted with psychosis have a documented offer of individual cognitive behavioural therapy for psychosis before discharge?",
+  "why": "Inpatient psychosis audits in the library focus on physical health and prescribing; offers of psychological therapy for psychosis on the ward have not been audited [3351] [3510].",
+  "standard": {
+   "source": "NICE CG178 Psychosis and schizophrenia in adults, rec 1.4.4.1 (2014, updated 2026)",
+   "wording": "Offer CBT to all people with psychosis or schizophrenia (delivered as described in recommendation 1.3.7.1). This can be started either during the acute phase or later, including in inpatient settings.",
+   "url": "https://www.nice.org.uk/guidance/cg178/chapter/Recommendations"
+  },
+  "pass": "The notes or discharge summary record that cognitive behavioural therapy for psychosis (CBTp) was offered (accepted, declined or referral made), either on the ward or through the community team.",
+  "population": "Adults discharged from acute wards with a diagnosis of psychosis or schizophrenia. Exclude admissions under 7 days.",
+  "sample": "40 consecutive discharges over the last 3 months",
+  "data_source": "Discharge summaries; ward psychology notes; referral records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "schizophrenia",
+     "first-episode psychosis",
+     "schizoaffective",
+     "other psychosis"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cbtp_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "offer_setting",
+    "type": "choice",
+    "options": [
+     "ward",
+     "community referral",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "patient_response",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cbtp_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'psychological therapy (CBTp) offered or referred' line to the discharge summary template.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14, 40 consecutive discharges, same template",
+  "close_loop": "Present at the inpatient medical staff meeting and the psychological therapies group; if it works, keep the discharge template line.",
+  "evidence": [
+   "[3168] Mid Essex ECT clinic: legal status 5% → 100% and outcome scales 0% → 100% (discharge summary template)",
+   "[3274] Betsi Cadwaladr GP letters: follow-up plan 80.2% → 98.6% (letter template with headings and teaching)",
+   "[3351] Community services: supported employment offered 35% → 38% (no template change)"
+  ],
+  "pitfalls": [
+   "No ward psychologist → a referral to the community team counts; agree this before cycle 1.",
+   "Short, chaotic admissions → exclude stays under 7 days.",
+   "Psychology notes kept separately → include them in the search.",
+   "Offers without capacity to deliver → report waiting lists to the psychological therapies lead."
+  ],
+  "pearls": [
+   "Recruit the ward psychologist as co-lead.",
+   "Keep the discharge summary line short with fixed options.",
+   "Link with the family intervention audit so both are offered together.",
+   "Ask the discharge coordinator to check the line."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 discharges"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of 18–25 year olds started on an antidepressant by a mental health team are reviewed within 7 days?",
+  "why": "Antidepressant audits in the library concern children, older adults and indications [3456] [3589] [3334]; the NG222 one-week review for young adults has not been audited.",
+  "standard": {
+   "source": "NICE NG222 Depression in adults: treatment and management, rec 1.4.11 (2022)",
+   "wording": "When prescribing antidepressant medication, ensure people have information about: ... when their first review will be; this will usually be within 2 weeks to check their symptoms are improving and for side effects, or 1 week after starting antidepressant medication if a new prescription is for a person aged 18 to 25 years or if there is a particular concern for risk of suicide",
+   "url": "https://www.nice.org.uk/guidance/ng222/chapter/Recommendations"
+  },
+  "pass": "A documented review (face-to-face, video or telephone) by the prescriber or team within 7 days of the start date.",
+  "population": "People aged 18–25 newly started on an antidepressant by a community mental health, crisis or home treatment team. Exclude inpatients and dose changes of existing antidepressants.",
+  "sample": "30–40 consecutive new starts over the last 4 months",
+  "data_source": "Electronic record (prescribing, clinic letters, contact log); electronic prescribing if available",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "team",
+    "type": "choice",
+    "options": [
+     "community",
+     "crisis/home treatment",
+     "early intervention",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_date_booked_at_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "side_effects_and_suicidality_asked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an age check to the prescribing entry template: if 18–25 and a new antidepressant, book a 7-day contact before the appointment ends.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14, 30–40 consecutive new starts, same template",
+  "close_loop": "Present at the community and crisis teams' medical meeting; if it works, keep the prompt and add it to trust prescribing guidance.",
+  "evidence": [
+   "[3456] Tonteg CAMHS: psychological therapy before antidepressants 63% → 82% (recommendation and GP letters)",
+   "[3537] Eastbourne psychiatry: documented indication and reducing plan for discharge benzodiazepines 40% → 100% (teaching at rotation start)",
+   "[3334] Hailsham early intervention: medical review within 6 months 84% (single cycle)"
+  ],
+  "pitfalls": [
+   "Few new starts in one team → pool community, crisis and early intervention teams.",
+   "Reviews done by care coordinators are not always recorded as medication reviews → accept any contact that asks about side effects and mood.",
+   "Start date unclear → use the date of the first prescription.",
+   "GP-started antidepressants muddy the sample → include only team-started prescriptions."
+  ],
+  "pearls": [
+   "Recruit a team pharmacist to pull new antidepressant starts.",
+   "Agree that a telephone call counts.",
+   "Put the 7-day rule on the crisis team whiteboard.",
+   "Hand the monthly check to the team's lead nurse."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of young people started on fluoxetine for depression in CAMHS are receiving psychological therapy at the same time?",
+  "why": "One closed loop measured therapy before antidepressants (63% → 82%) [3456] and one tracked the pathway [3155]; therapy running alongside the medicine has not been audited.",
+  "standard": {
+   "source": "NICE NG134 Depression in children and young people, rec 1.6.14 (2019)",
+   "wording": "Do not offer antidepressant medication to a child or young person with moderate to severe depression except in combination with a concurrent psychological therapy.",
+   "url": "https://www.nice.org.uk/guidance/ng134/chapter/Recommendations"
+  },
+  "pass": "A psychological therapy session is recorded within 4 weeks before or after the antidepressant start date, or the notes record that therapy was declined.",
+  "population": "Children and young people (5–17) started on an antidepressant for depression by CAMHS. Exclude antidepressants started for OCD or anxiety alone.",
+  "sample": "30–40 consecutive new starts over the last 6 months",
+  "data_source": "CAMHS electronic record (prescribing, therapy contacts, clinic letters)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antidepressant",
+    "type": "choice",
+    "options": [
+     "fluoxetine",
+     "sertraline",
+     "citalopram",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "therapy_type",
+    "type": "choice",
+    "options": [
+     "CBT",
+     "IPT-A",
+     "family therapy",
+     "psychodynamic",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "therapy_session_within_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (or declined recorded)"
+   },
+   {
+    "field": "therapy_declined_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekly_contact_first_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG134 example of monitoring"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'current psychological therapy (type, therapist) or declined' field to the CAMHS medication start form.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 30–40 new starts, same template",
+  "close_loop": "Present at the CAMHS clinical governance meeting; if it works, keep the required field and share results with the psychological therapies lead.",
+  "evidence": [
+   "[3456] Tonteg CAMHS: psychological therapy before antidepressants 63% → 82% (recommendation and GP letters)",
+   "[3155] Tees, Esk and Wear Valleys children's teams: symptom tracking under 40% → over 50% (action plan)",
+   "[3547] Swansea mother and baby unit: side-effect discussion 22.4% → 98% (weekly review and documentation change)"
+  ],
+  "pitfalls": [
+   "Long therapy waits → record 'on waiting list' separately and report it.",
+   "Therapy delivered by schools or charities is not in the record → ask families at review and record it.",
+   "Small numbers → pool teams or extend to 6 months.",
+   "Prescribers feel blamed for service gaps → frame it as a capacity measure."
+  ],
+  "pearls": [
+   "Recruit a CAMHS psychiatrist and the psychological therapies lead.",
+   "Agree what counts as therapy before cycle 1 (named, structured therapy).",
+   "Present both prescribing and waiting-list data.",
+   "Make the field part of the prescribing template so it survives rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of young people moving from CAMHS to adult mental health services have a named transition worker recorded?",
+  "why": "One single-cycle transition audit found a joint CAMHS–adult meeting in 29% and a doctor allocated in 14% [3433]; the named worker has not been measured in a closed loop.",
+  "standard": {
+   "source": "NICE NG43 Transition from children's to adults' services for young people using health or social care services, rec 1.2.5 (2016)",
+   "wording": "Help the young person to identify a single practitioner – who should act as a 'named worker' – to coordinate their transition care and support. This person could be supported by an administrator.",
+   "url": "https://www.nice.org.uk/guidance/ng43/chapter/Recommendations"
+  },
+  "pass": "The notes name one practitioner as the transition or named worker before the date of transfer.",
+  "population": "Young people transferred from CAMHS to adult mental health services. Exclude transfers to GP only.",
+  "sample": "30–40 consecutive transfers over the last 6–12 months",
+  "data_source": "CAMHS and adult electronic records (transition plan, referral, first adult appointment)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "transfer_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_at_transfer",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_worker_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "named_worker_role",
+    "type": "choice",
+    "options": [
+     "CAMHS care coordinator",
+     "adult care coordinator",
+     "transition worker",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "joint_meeting_before_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "planning_started_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_by_adult_service_within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'named transition worker' field to the CAMHS transition referral form, which the adult team must accept by name.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (or after 6 months if transfers are few), same template",
+  "close_loop": "Present at the joint CAMHS–adult transition meeting; if it works, make the field part of the transition protocol.",
+  "evidence": [
+   "[3433] North Devon: joint CAMHS–adult meeting documented in 29%, doctor allocated in 14% (single cycle)",
+   "[3274] Betsi Cadwaladr letters: care coordinator details recorded 8.3% → 54.3% (template with headings)",
+   "[3263] Darlington ward interface: community team invited to meetings in 96% after re-audit"
+  ],
+  "pitfalls": [
+   "Transfers are few → collect over 12 months and keep a running list.",
+   "Two services with different records → get access to both before cycle 1.",
+   "Arguments over who is the named worker → the protocol should say who by default.",
+   "Young people disengage before transfer → record them separately."
+  ],
+  "pearls": [
+   "Recruit one CAMHS and one adult team manager.",
+   "Invite a young person with lived experience to comment on the form.",
+   "Start with a list of all 17.5-year-olds on the CAMHS caseload.",
+   "Hand the list to the transition lead to keep it current."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 transfers"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of adults with a learning disability prescribed an antipsychotic for behaviour that challenges have a current behaviour support plan or psychological intervention recorded?",
+  "why": "STOMP audits in the library focus on reviews, monitoring and indications [3192] [3251] [3445]; a current psychosocial intervention alongside the antipsychotic has been checked once in children [3359] but not in adults.",
+  "standard": {
+   "source": "NICE NG11 Challenging behaviour and learning disabilities, rec 1.8.2 (2015)",
+   "wording": "Only offer antipsychotic medication in combination with psychological or other interventions.",
+   "url": "https://www.nice.org.uk/guidance/ng11/chapter/Recommendations"
+  },
+  "pass": "A behaviour support plan (or other named psychological intervention) dated within the last 12 months is in the record.",
+  "population": "Adults on a community learning disability team caseload prescribed an antipsychotic for behaviour that challenges. Exclude those with a psychotic illness or bipolar disorder as the indication.",
+  "sample": "30–40 eligible adults (full caseload search if smaller)",
+  "data_source": "Community learning disability team record; prescribing list; psychology and behaviour support records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_reviewed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antipsychotic",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "behaviour_support_plan_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "other_psychological_intervention",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "functional_assessment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'current behaviour support plan (date and author)' as a required field in the STOMP medication review template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, same caseload, same template",
+  "close_loop": "Present at the learning disability services governance meeting; if it works, keep the template field and link the plan into the medication review letter.",
+  "evidence": [
+   "[3359] Warrington CAMHS: STOMP compliance 98%; 6% had no behavioural support plan before medication (single cycle)",
+   "[3192] Specialist support team: indication and rationale 50%, review of continuation under 10% (single cycle)",
+   "[3251] Community learning disability teams: medication review within 6 months 85% (re-audit)"
+  ],
+  "pitfalls": [
+   "Behaviour plans are held by care providers → ask providers for a copy and record where it is kept.",
+   "Out-of-date plans → define 'current' as dated in the last 12 months.",
+   "Few psychologists → accept plans from trained care-provider staff.",
+   "Overlap with other STOMP audits → state clearly that this measures the plan only."
+  ],
+  "pearls": [
+   "Recruit the team psychologist or positive behaviour support lead.",
+   "Use the STOMP register as the sampling frame.",
+   "Send a standard letter to providers asking for the current plan.",
+   "Keep the field in the review template so it is checked at every review."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of patients under 55 newly started on valproate by mental health services have two specialists' agreement documented?",
+  "why": "Valproate audits in the library focus on women's pregnancy prevention and men's risk counselling [3656] [3504] [3054]; the two-specialist rule for new starts under 55 has not been audited.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, February 2025: Valproate – review by two specialists is required for initiating valproate",
+   "wording": "valproate must not be started in new patients (male or female) younger than 55 years unless two specialists independently consider and document that there is no other effective or tolerated treatment, or there are compelling reasons that the reproductive risks do not apply.",
+   "url": "https://www.gov.uk/drug-safety-update/valproate-belvo-convulex-depakote-dyzantil-epilim-epilim-chrono-or-chronosphere-episenta-epival-and-syonellv-review-by-two-specialists-is-required-for-initiating-valproate-but-not-for-male-patients-already-taking-valproate"
+  },
+  "pass": "Two separate specialist entries (or a signed initiation form) are on record before or at the start of valproate, each stating no other effective or tolerated treatment or a compelling reason.",
+  "population": "Patients of any sex aged under 55 newly started on valproate (any formulation) by trust services. Exclude continuation of valproate started elsewhere.",
+  "sample": "All new starts in the last 12 months (usually 20–40 in a mid-sized trust)",
+  "data_source": "Pharmacy dispensing records; electronic prescribing; valproate initiation forms; clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sex",
+    "type": "choice",
+    "options": [
+     "female",
+     "male"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_specialist_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_specialist_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_before_start",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_stated",
+    "type": "choice",
+    "options": [
+     "no other effective treatment",
+     "compelling reason risks do not apply",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "risk_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make pharmacy unable to supply a first valproate prescription for anyone under 55 until the trust two-specialist form is attached in the electronic record.",
+  "target": "100%",
+  "reaudit": "Wk 13–14 onwards, all new starts since the change, same template",
+  "close_loop": "Present at the drugs and therapeutics committee and the medicines safety group; if it works, keep the pharmacy check and report quarterly.",
+  "evidence": [
+   "[3656] East Bromley case management team: male risk discussions 17% → 87%, eligible females reviewed for second-consultant sign-off 0% → 100% (education, structured reviews, tracking system)",
+   "[3413] Inpatient wards: deprescribing standards under 33.88% → 100% (electronic prescribing system)",
+   "[3054] Birmingham early intervention: 93% of off-licence valproate without documented discussion (single cycle)"
+  ],
+  "pitfalls": [
+   "Few new starts → include the whole trust and 12 months.",
+   "Unclear who counts as a specialist → use the MHRA list and agree it with pharmacy.",
+   "Inpatient starts at night → allow a second opinion within a set time and audit that time.",
+   "Pharmacy block delays treatment → agree an urgent route through the on-call consultant."
+  ],
+  "pearls": [
+   "The chief pharmacist is the key ally; they can pull every new start.",
+   "Keep a single trust form for the two opinions.",
+   "Report men and women separately.",
+   "Keep the pharmacy check after the audit ends."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of psychiatric inpatients co-prescribed a benzodiazepine and an opioid have a documented reason and monitoring plan?",
+  "why": "Benzodiazepine audits in the library look at duration, PRN use and discharge [3435] [3537] [3572]; co-prescription with opioids, including methadone, has not been audited on psychiatric wards.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, March 2020: Benzodiazepines and opioids – reminder of risk of potentially fatal respiratory depression",
+   "wording": "only prescribe benzodiazepines (or benzodiazepine-like drugs) and opioids together if there is no alternative; if a decision is made to co-prescribe, use the lowest doses possible for the shortest duration of time and carefully monitor patients for signs of respiratory depression",
+   "url": "https://www.gov.uk/drug-safety-update/benzodiazepines-and-opioids-reminder-of-risk-of-potentially-fatal-respiratory-depression"
+  },
+  "pass": "The notes record why co-prescription is needed and a monitoring plan (for example, observations or sedation checks), within 24 hours of the second drug being charted.",
+  "population": "Adult psychiatric inpatients with a regular or PRN benzodiazepine or Z-drug and a regular or PRN opioid (including methadone, buprenorphine, codeine, tramadol) charted at the same time.",
+  "sample": "30–40 consecutive co-prescribed patients over the last 3–6 months",
+  "data_source": "Electronic prescribing or drug charts; medical and nursing notes; observation charts",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "co_prescription_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "benzodiazepine_or_z_drug",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "monitoring_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "methadone_monitoring_2_weeks",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not on methadone"
+    ],
+    "note": ""
+   },
+   {
+    "field": "respiratory_depression_or_oversedation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an electronic prescribing alert when a benzodiazepine and an opioid are charted together, requiring a reason and a monitoring plan before the second drug is saved.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 30–40 consecutive patients, same template",
+  "close_loop": "Present at the drugs and therapeutics committee; if it works, keep the alert and add co-prescription counts to the medicines safety dashboard.",
+  "evidence": [
+   "[3413] Inpatient wards: deprescribing standards under 33.88% → 100% (electronic prescribing system)",
+   "[3537] Eastbourne psychiatry: indication and reducing plan for discharge benzodiazepines 40% → 100% (teaching)",
+   "[3435] North Wales acute unit: only 12 of 38 PRN benzodiazepines reviewed within a week (single cycle)"
+  ],
+  "pitfalls": [
+   "PRN opioids for pain are often forgotten → search the full chart, not just regular items.",
+   "Alert fatigue → limit the alert to the benzodiazepine–opioid pair.",
+   "Paper charts on some wards → use a pharmacist ward round to find cases.",
+   "Addictions teams feel second-guessed → agree the monitoring template with them."
+  ],
+  "pearls": [
+   "Recruit a ward pharmacist; they see every chart.",
+   "Include Z-drugs and gabapentinoids as a secondary field if the team wants.",
+   "Use a simple sedation scale on the observation chart.",
+   "Report methadone cases separately because of the 2-week delay in effect."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of olanzapine long-acting injections are followed by a documented 3-hour observation period?",
+  "why": "Depot audits in the library cover prescribing standards and side-effect scales [3199] [3596] [3678]; the post-injection observation required for olanzapine embonate has not been audited.",
+  "standard": {
+   "source": "ZypAdhera (olanzapine pamoate) Summary of Product Characteristics, section 4.2 (EMA product information)",
+   "wording": "After each injection, patients should be observed in a health care facility by appropriately qualified personnel for at least 3 hours for signs and symptoms consistent with olanzapine overdose. Immediately prior to leaving the health care facility, it should be confirmed that the patient is alert, oriented, and absent of any signs and symptoms of overdose.",
+   "url": "https://www.ema.europa.eu/en/documents/product-information/zypadhera-epar-product-information_en.pdf"
+  },
+  "pass": "The injection record shows observation for at least 3 hours after the injection and a documented check that the patient was alert and oriented before leaving.",
+  "population": "All olanzapine embonate injections given in depot clinics, community teams or wards. Exclude none.",
+  "sample": "40 consecutive injections (several per patient allowed) over the last 3 months",
+  "data_source": "Depot administration records; clinic observation sheets; nursing notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "injection_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "depot clinic",
+     "ward",
+     "home visit",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "observation_end_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observed_at_least_3h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alert_oriented_check_before_leaving",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_criteria_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "post_injection_syndrome_signs",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "advice_not_to_drive_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a one-page olanzapine embonate observation sheet with timed checks at 0, 1, 2 and 3 hours and a discharge sign-off, filed with each injection.",
+  "target": "100%",
+  "reaudit": "Wk 13–14, 40 consecutive injections, same template",
+  "close_loop": "Present at the depot clinic team meeting and the medicines safety group; if it works, make the sheet part of the depot procedure.",
+  "evidence": [
+   "[3596] Swale community team: six-monthly side-effect scale use 5% → 75% (pharmacy team and awareness)",
+   "[3199] Wolverhampton older adult teams: depot prescribing standard 7 19% → 31% (memory aid on folders)",
+   "[3678] North Tyneside team: yearly side-effect scale 88% → 53% without a structured change"
+  ],
+  "pitfalls": [
+   "Few patients on this drug → include every injection over 3–6 months.",
+   "Patients leave early → record it as a fail and note the reason.",
+   "Home visits cannot meet the rule → flag any home injection as a safety incident.",
+   "Timings recorded loosely → the timed sheet fixes this."
+  ],
+  "pearls": [
+   "Recruit the depot clinic lead nurse.",
+   "Book a 3-hour clinic slot for each injection.",
+   "Give patients a leaflet about the observation and not driving that day.",
+   "Keep the sheet in the depot procedure."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 injections"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of patients on community methadone or buprenorphine admitted to a psychiatric ward have their dose and last dispensing confirmed before the first inpatient dose?",
+  "why": "Opioid substitution audits in the library are set in community addiction services [3390] [3436]; confirmation of the dose on psychiatric admission has not been audited.",
+  "standard": {
+   "source": "Drug misuse and dependence: UK guidelines on clinical management (2017), section 7.5.4.2",
+   "wording": "The hospital doctor should ascertain, by independent means, the likely dose of methadone or buprenorphine to which the patient is tolerant, by confirming: the daily dose prescribed; when the last dose was dispensed; whether recently the medication has been collected regularly; the time the last dose was observed to be taken by supervised consumption.",
+   "url": "https://assets.publishing.service.gov.uk/media/5a821e3340f0b62305b92945/clinical_guidelines_2017.pdf"
+  },
+  "pass": "Before the first inpatient dose, the notes record the prescribed dose and the date of the last dispensed dose confirmed with the community pharmacy or prescriber.",
+  "population": "Adults admitted to psychiatric wards while on community methadone or buprenorphine. Exclude transfers from another ward where the dose was already confirmed.",
+  "sample": "30–40 consecutive admissions over the last 6 months",
+  "data_source": "Admission clerking; drug chart or electronic prescribing; pharmacy notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug",
+    "type": "choice",
+    "options": [
+     "methadone",
+     "buprenorphine"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_confirmed_source",
+    "type": "choice",
+    "options": [
+     "community pharmacy",
+     "prescriber",
+     "patient only",
+     "not confirmed"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_dispensed_date_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "confirmed_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "first_inpatient_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "community_prescription_cancelled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "naloxone_offered_at_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an opioid substitution section to the admission clerking template with fields for pharmacy name, confirmed dose, last dispensed date and time, and prescription cancelled.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14, 30–40 admissions, same template",
+  "close_loop": "Present at the medicines safety group and dual diagnosis meeting; if it works, keep the clerking section.",
+  "evidence": [
+   "[3399] Drug and alcohol outreach referrals: community addictions input recorded 30% → 80% (referral form with prompts)",
+   "[3522] Acute psychiatric admissions: physical health checks within 72 hours 62.4% → 96.6% (active handover to the physical health nurse and junior doctors)",
+   "[3390] Newcastle addictions service: 46% maintained below 60 mg methadone, 15 with no advice recorded (single cycle)"
+  ],
+  "pitfalls": [
+   "Out-of-hours admissions when pharmacies are closed → allow a 'withhold until confirmed' plan and record it.",
+   "Patient report alone used → count it as a fail.",
+   "Few cases → pool all adult wards over 6 months.",
+   "Double supply risk if community prescription not cancelled → include this field."
+  ],
+  "pearls": [
+   "Recruit the dual diagnosis lead and a ward pharmacist.",
+   "Keep a list of local pharmacy opening hours and the out-of-hours addictions contact.",
+   "Build the section into the clerking template, not a separate form.",
+   "Ask the pharmacist to check the section on the next working day."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of pregnant women with a severe mental illness under mental health services have a written perinatal care plan shared with maternity and the GP?",
+  "why": "One perinatal clinic recorded a plan in 74% (single cycle) [3614]; pregnancy planning in psychosis services was low [3045]; no closed loop measures whether the plan reaches maternity and GP notes.",
+  "standard": {
+   "source": "NICE CG192 Antenatal and postnatal mental health, rec 1.6.6 (2014, updated 2020)",
+   "wording": "Professionals in secondary mental health services, including specialist perinatal mental health services, should develop a written care plan in collaboration with a woman who has or has had a severe mental illness. ... The care plan should be recorded in all versions of the woman's notes (her own records and maternity, primary care and mental health notes) and a copy given to the woman and all involved professionals.",
+   "url": "https://www.nice.org.uk/guidance/cg192/chapter/Recommendations"
+  },
+  "pass": "A written care plan covering pregnancy, birth and the postnatal period is on record by 32 weeks and has been sent to both maternity and the GP.",
+  "population": "Women with current or past severe mental illness (bipolar disorder, psychosis, severe depression, previous postpartum psychosis) under perinatal or community teams who reached 32 weeks' gestation. Exclude women first referred after 32 weeks.",
+  "sample": "30–40 consecutive women over the last 6–12 months",
+  "data_source": "Perinatal team record; maternity record; letters to GP",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "estimated_due_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "bipolar",
+     "psychosis",
+     "severe depression",
+     "previous postpartum psychosis",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "care_plan_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_by_32_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sent_to_maternity",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sent_to_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_written_and_shared",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all three"
+   },
+   {
+    "field": "copy_given_to_woman",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–16 embed; Wk 17–18 re-audit",
+  "change": "Use a single perinatal care plan template with a built-in distribution list (woman, maternity, GP, health visitor) sent from the electronic record.",
+  "target": "≥90%",
+  "reaudit": "Wk 17–18, next consecutive women reaching 32 weeks, same template",
+  "close_loop": "Present at the perinatal mental health and maternity joint governance meeting; if it works, make the template the only route for perinatal plans.",
+  "evidence": [
+   "[3614] Milton Keynes joint perinatal clinic: perinatal plan recorded in 74% (single cycle)",
+   "[3547] Swansea mother and baby unit: safety assessment 44.9% → 92% (weekly review and documentation change)",
+   "[3337] Community perinatal service: baby's age and due date recorded 36% → 58% (MDT presentation)"
+  ],
+  "pitfalls": [
+   "Maternity records are in a different system → ask the maternity mental health midwife to check receipt.",
+   "Plans made late → track 32 weeks as the deadline.",
+   "Small numbers → allow 6–12 months.",
+   "Different templates across teams → agree one before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the specialist mental health midwife.",
+   "Use a caseload list with due dates.",
+   "Ask maternity to flag the plan on the booking record.",
+   "Make the distribution list automatic."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 women"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of adults with anorexia nervosa who have been underweight for 2 years have had a bone density scan considered?",
+  "why": "Eating disorder audits in the library cover referral data and physical risk recording [3229] [3306]; bone health in anorexia nervosa has not been audited.",
+  "standard": {
+   "source": "NICE NG69 Eating disorders: recognition and treatment, rec 1.10.15 (2017, updated 2020)",
+   "wording": "Consider a bone mineral density scan: after 1 year of underweight in children and young people, or earlier if they have bone pain or recurrent fractures; after 2 years of underweight in adults, or earlier if they have bone pain or recurrent fractures.",
+   "url": "https://www.nice.org.uk/guidance/ng69/chapter/Recommendations"
+  },
+  "pass": "A bone density (DXA) scan has been done or requested, or the notes record a decision not to scan with a reason.",
+  "population": "Adults on the eating disorder service caseload with anorexia nervosa and 2 years or more of underweight. For CAMHS, use 1 year.",
+  "sample": "30–40 eligible patients from the caseload",
+  "data_source": "Eating disorder service record; radiology system; GP letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_reviewed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "underweight_since_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "years_underweight",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dxa_done_or_requested",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_not_to_scan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dxa_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fracture_or_bone_pain_history",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'bone health: DXA due/done/decided against' line to the eating disorder annual review template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, same caseload, same template",
+  "close_loop": "Present at the eating disorder service governance meeting; if it works, keep the template line and share with the GP shared-care guide.",
+  "evidence": [
+   "[3229] West Glasgow CAMHS: height and weight on referrals 73.1% → 82.1% (screening and weekly physical health clinic)",
+   "[3306] South Lanarkshire CAMHS: weight change recording 40% → 80%",
+   "[3534] Prospect Park memory clinic: complete bloods in proforma referrals 80% (proforma)"
+  ],
+  "pitfalls": [
+   "Duration of underweight hard to find → accept the date of first recorded low BMI.",
+   "DXA requested by GP or endocrinology → search radiology and GP letters.",
+   "'Consider' is soft wording → the pass counts a reasoned decision either way.",
+   "Few patients in adult services → include CAMHS with the 1-year rule."
+  ],
+  "pearls": [
+   "Recruit the service's physical health lead or dietitian.",
+   "Agree the underweight definition before cycle 1.",
+   "Explain results to patients as NG69 advises.",
+   "Keep the template line to maintain the change."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of people newly diagnosed with dementia by the memory service have a named care coordinator recorded in the diagnosis letter?",
+  "why": "Memory service audits in the library cover diagnosis recording, referral bloods and post-diagnosis information [3367] [3534] [3279]; a named coordinator after diagnosis has not been audited.",
+  "standard": {
+   "source": "NICE NG97 Dementia: assessment, management and support, rec 1.3.1 (2018)",
+   "wording": "Provide people living with dementia with a single named health or social care professional who is responsible for coordinating their care.",
+   "url": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+  },
+  "pass": "The diagnosis letter (to the person and GP) names one professional, with contact details, who coordinates care.",
+  "population": "People newly diagnosed with dementia by the memory service. Exclude people discharged to a care home with an existing coordinator.",
+  "sample": "40 consecutive new diagnoses over the last 3 months",
+  "data_source": "Memory service record; diagnosis letters to the person and GP",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dementia_subtype",
+    "type": "choice",
+    "options": [
+     "Alzheimer's",
+     "vascular",
+     "mixed",
+     "Lewy body",
+     "frontotemporal",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "named_coordinator_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "coordinator_role",
+    "type": "choice",
+    "options": [
+     "memory nurse",
+     "dementia adviser",
+     "GP",
+     "social worker",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contact_details_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "carer_assessment_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'your named care coordinator' box with name and phone number to the diagnosis letter template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 40 consecutive diagnoses, same template",
+  "close_loop": "Present at the older adult services governance meeting; if it works, keep the letter box and share with local dementia adviser services.",
+  "evidence": [
+   "[3274] Betsi Cadwaladr letters: care coordinator details 8.3% → 54.3% (template with headings and teaching)",
+   "[3279] Tees older adult teams: carer's assessment offered 26% → 18% (action plans without a template change)",
+   "[3534] Prospect Park memory clinic: complete bloods 11.9% → 80% in proforma referrals (proforma)"
+  ],
+  "pitfalls": [
+   "Services discharge to GP after diagnosis → the GP or dementia adviser can be the named person; agree this before cycle 1.",
+   "Letters have a team phone number only → a team number without a name is a fail.",
+   "Dementia adviser services run by charities → include them as coordinators.",
+   "Letter templates owned by admin staff → involve the admin lead."
+  ],
+  "pearls": [
+   "Recruit the memory service lead nurse.",
+   "Check both the patient and GP letters.",
+   "Use the dementia adviser service as the default coordinator where available.",
+   "Make the box mandatory in the template."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 letters"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of people with bipolar disorder discharged from secondary care to their GP have a crisis plan with early warning signs in the discharge letter?",
+  "why": "Bipolar audits in the library focus on lithium and valproate monitoring; the content of discharge-to-GP plans has only been examined for relapse signatures in older adults on depots (39.7%) [3430].",
+  "standard": {
+   "source": "NICE CG185 Bipolar disorder: assessment and management, rec 1.9.4 (2014, updated 2025)",
+   "wording": "When making transfer arrangements for a return to primary care, agree a care plan with the person, which includes: ... a crisis plan indicating early warning symptoms and triggers of both mania and depression relapse and preferred response during relapse, including liaison and referral pathways ... Give the person and their GP a copy of the plan, and encourage the person to share it with their carers.",
+   "url": "https://www.nice.org.uk/guidance/cg185/chapter/Recommendations"
+  },
+  "pass": "The discharge letter or attached plan lists early warning signs and triggers for both mania and depression, and says how to re-refer.",
+  "population": "Adults with bipolar disorder discharged from community mental health teams to GP care. Exclude deaths and moves out of area.",
+  "sample": "30–40 consecutive discharges over the last 6 months",
+  "data_source": "Discharge letters; care plans; electronic record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mania_warning_signs_listed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "depression_warning_signs_listed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "re_referral_route_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crisis_plan_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: all three"
+   },
+   {
+    "field": "medication_review_date_for_gp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "copy_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a bipolar crisis plan section (mania signs, depression signs, triggers, how to re-refer) to the community discharge letter template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, 30–40 discharges, same template",
+  "close_loop": "Present at the community teams' governance meeting and to the local GP forum; if it works, keep the template section.",
+  "evidence": [
+   "[3430] Black Country older adult depot audit: crisis plan in care plan 89.7%, relapse signature 39.7%",
+   "[3274] Betsi Cadwaladr GP letters: follow-up plan 80.2% → 98.6% (template with headings)",
+   "[3168] Mid Essex ECT: key items 0–5% → 100% (discharge summary template)"
+  ],
+  "pitfalls": [
+   "Plans exist in care plans but not in letters → the pass is in the letter sent to the GP.",
+   "Warning signs written for one pole only → require both.",
+   "Few discharges → pool teams over 6 months.",
+   "Template changes need IT time → start with a Word template if needed."
+  ],
+  "pearls": [
+   "Recruit a consultant and a care coordinator from one team.",
+   "Ask a GP for feedback on the new section.",
+   "Reuse the relapse signature from the care plan.",
+   "Keep the section in the letter template."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 letters"
+ },
+ {
+  "area": "Psychiatry",
+  "question": "What proportion of people in out-of-area rehabilitation placements have had placement reviews at 3 months and then every 6 months?",
+  "why": "Rehabilitation audits in the library focus on medicines management and physical health [3049] [3621]; reviews of out-of-area placements have not been audited.",
+  "standard": {
+   "source": "NICE NG181 Rehabilitation for adults with complex psychosis, rec 1.5.13 (2020)",
+   "wording": "A designated care manager (or 'out-of-area placement review officer') based within the community mental health rehabilitation team, should review the person's placement after the first 3 months and then every 6 months, to ensure it still meets their needs.",
+   "url": "https://www.nice.org.uk/guidance/ng181/chapter/Recommendations"
+  },
+  "pass": "Documented placement reviews at 3 months (±4 weeks) after placement and then at intervals of no more than 6 months.",
+  "population": "Adults with complex psychosis in out-of-area rehabilitation placements funded by the trust or commissioner for at least 3 months.",
+  "sample": "All current out-of-area placements (usually 20–40)",
+  "data_source": "Placement tracker; community rehabilitation team record; review reports",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code only; key kept separately on a trust drive"
+   },
+   {
+    "field": "placement_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "placement_type",
+    "type": "choice",
+    "options": [
+     "inpatient rehabilitation",
+     "locked rehabilitation",
+     "supported accommodation",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_by_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_last_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_subsequent_within_6_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviews_on_schedule",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "plan_to_return_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up a shared out-of-area placement tracker with review due dates that flags overdue reviews to the rehabilitation team manager each month.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (or 6 months), same cohort, same template",
+  "close_loop": "Present to the rehabilitation service and commissioners; if it works, keep the tracker as the placement review register.",
+  "evidence": [
+   "[3657] Pennine Care community team: high-dose antipsychotic compliance 60.6% → 77% (register with scheduled reviews)",
+   "[3049] High-dependency rehabilitation unit: Mental Health Act compliance 77% → 98% (PDSA cycles)",
+   "[3474] Rehabilitation and acute wards: Triangle of Care compliance 87% → 100% (carer leads and logs)"
+  ],
+  "pitfalls": [
+   "Placements managed by commissioners → agree data sharing before cycle 1.",
+   "Reviews done by phone and not written → ask for review reports.",
+   "Small numbers → include all current placements.",
+   "No designated reviewer → name one as part of the change."
+  ],
+  "pearls": [
+   "Recruit the rehabilitation consultant and the placement commissioner.",
+   "Use the tracker to show time spent out of area.",
+   "Share results with families.",
+   "Keep the tracker with the team manager."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 placements"
+ }
+]

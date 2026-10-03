@@ -1,0 +1,3188 @@
+[
+ {
+  "question": "What proportion of adults with a hip fracture have a physiotherapy assessment and are mobilised the day after surgery, unless medically or surgically contraindicated?",
+  "why": "Early mobilisation after hip fracture reduces chest infection, pressure damage and loss of independence, but delayed first mobilisation is common when therapy staffing does not cover weekends. No closed-loop audit of day-after-surgery physiotherapy mobilisation for hip fracture inpatients has been published in the library; related fragility-fracture physiotherapy timing has been audited [ONA-157] but that audit explicitly excludes hip fracture.",
+  "standard": {
+   "source": "NICE CG124 Hip fracture: management, recommendation 1.7.1 (2011)",
+   "wording": "Offer people a physiotherapy assessment and, unless medically or surgically contraindicated, mobilisation on the day after surgery.",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "Physiotherapy assessment documented and mobilisation attempted on the calendar day after surgery, or a documented medical/surgical contraindication recorded that day",
+  "population": "Inclusion: all adults admitted with a hip fracture who had surgery. Exclusion: patients managed non-operatively, patients who died before day 1, patients discharged before day 1",
+  "sample": "40 consecutive adults having hip fracture surgery over the last 2-3 months, from the hip fracture register/NHFD extract",
+  "data_source": "Physiotherapy notes, NHFD/trauma database, nursing observations, EPR mobility entries",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "physio_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mobilised_day_after_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "if not mobilised"
+   },
+   {
+    "field": "contraindication_reason",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekend_surgery",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "orthogeriatric_ward",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'day-1 physiotherapy assessment and mobilisation attempt: yes/no, reason if no' field to the hip fracture pathway proforma, and extend weekend physiotherapy cover to match the day-of-week distribution of surgery.",
+  "target": "≥90%",
+  "reaudit": "8-10 weeks later, same template and sample size, after the weekend cover change",
+  "close_loop": "Present at the trauma/orthogeriatric MDT meeting and the therapy department governance meeting; if the change works, embed the field permanently in the hip fracture EPR pathway and report day-1 mobilisation rates alongside other NHFD key performance indicators.",
+  "evidence": [
+   "[ONA-157] fragility fractures other than hip: BOAST day-after-surgery physiotherapy standard used as a comparable, unaudited-for-hip-fracture criterion",
+   "[ONA-008] hip fracture nerve block within 4 hours: shows the corpus already tracks other NHFD-linked timing indicators for this population"
+  ],
+  "pitfalls": [
+   "Weekend and bank holiday surgery has no physiotherapy cover → negotiate 7-day therapy rotas with the therapy lead before cycle 1",
+   "Contraindications are recorded inconsistently or not at all → add a mandatory free-text reason field so 'not mobilised' always has an explanation",
+   "Small numbers if only complete NHFD-linked cases are used → include all operated hip fractures, not just those with full NHFD data",
+   "Definitions of 'mobilised' vary between a sit-out and a walk → agree and print one operational definition before data collection starts",
+   "Gains fade once weekend cover reverts → make the rota change permanent in the therapy job plan, not a temporary trial"
+  ],
+  "pearls": [
+   "Recruit a physiotherapy team lead and the orthogeriatrician as joint audit leads so the change survives staff rotation",
+   "Agree the operational definition of 'mobilised' (sit to stand, transfer, or walk) with therapy staff before collecting data",
+   "Use the existing NHFD extract to identify the sample quickly rather than searching EPR from scratch",
+   "Feed results back to individual consultants and therapy shifts, not just as a trust-wide average, to drive local ownership"
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from the NHFD extract and physiotherapy notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of hip fracture inpatients are mobilised at least once a day with regular physiotherapy review throughout their acute stay?",
+  "why": "A single day-1 assessment does not guarantee ongoing rehabilitation; patients can be assessed once and then left without daily mobilisation, especially over busy weekends. No closed-loop audit of ongoing (beyond day 1) daily mobilisation frequency for hip fracture inpatients has been published in the library.",
+  "standard": {
+   "source": "NICE CG124 Hip fracture: management, recommendation 1.7.2 (2011)",
+   "wording": "Offer people mobilisation at least once a day and ensure regular physiotherapy review.",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "Documented mobilisation attempt on every day of the acute admission and at least 3 physiotherapy reviews per week until discharge or rehabilitation-ready",
+  "population": "Inclusion: adults who had hip fracture surgery and remained an inpatient for at least 5 days. Exclusion: patients who died, were transferred out, or were discharged within 4 days",
+  "sample": "40 consecutive hip fracture inpatients with a length of stay of 5 days or more over the last 3 months",
+  "data_source": "Physiotherapy daily entries, nursing mobility charts, EPR therapy task list",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_with_documented_mobilisation",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_with_physio_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekend_gap_in_mobilisation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_any_missed_day",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a daily 'mobilised today: yes/no, reason if no' task to the hip fracture ward's electronic therapy list so a missed day is visible on the ward board round, and set a weekend physiotherapy rota matched to the ward's bed numbers.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the orthogeriatric MDT and therapy governance meeting; embed the daily task list permanently if missed-day rates fall.",
+  "evidence": [
+   "[ONA-157] day-after-surgery physiotherapy for other fragility fractures: comparable single-timepoint indicator, not the ongoing-frequency question asked here"
+  ],
+  "pitfalls": [
+   "Weekend staffing gaps are the commonest cause of missed days → confirm weekend rotas before starting",
+   "Patients who become medically unwell mid-stay may appropriately miss a day → record a reason rather than counting every miss as a failure",
+   "Documentation of 'seen but not mobilised' is easy to miss in free-text notes → use a structured daily tick box, not narrative notes, for data extraction",
+   "Staff may see this as a workload-driven target rather than a patient outcome → present length-of-stay and discharge-destination data alongside mobilisation rates",
+   "Long lengths of stay reduce the eligible sample → extend the collection window if fewer than 40 eligible patients are found in 3 months"
+  ],
+  "pearls": [
+   "Link this audit to the existing hip fracture pathway audit so both cycles use the same case list",
+   "Ask ward physiotherapists to flag missed days themselves during data collection rather than relying on retrospective note review",
+   "Present results by day of week to show where gaps cluster",
+   "Keep the daily task list active after the project team disbands by building it into the ward's standard operating procedure"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from daily therapy and nursing records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of COPD inpatients with excessive sputum production are taught active cycle of breathing techniques or positive expiratory pressure device use by a physiotherapist?",
+  "why": "Sputum retention prolongs COPD exacerbations and increases the risk of further infection, but airway clearance teaching is easily missed when respiratory physiotherapy capacity is limited. No audit of airway clearance technique teaching for COPD inpatients with excessive sputum has been published in the library; pulmonary rehabilitation referral after discharge has been audited separately [NNA-395].",
+  "standard": {
+   "source": "NICE NG115 Chronic obstructive pulmonary disease in over 16s, recommendation 1.2.101 (2004, amended 2018)",
+   "wording": "If people have excessive sputum, they should be taught: how to use positive expiratory pressure devices, active cycle of breathing techniques.",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "Documented physiotherapy teaching of active cycle of breathing techniques and/or a positive expiratory pressure device before discharge, for a patient with recorded excessive sputum",
+  "population": "Inclusion: adults admitted with an acute exacerbation of COPD and a nursing or medical note of excessive/purulent sputum. Exclusion: patients unable to participate (for example, reduced consciousness) or who die before physiotherapy review",
+  "sample": "40 consecutive COPD exacerbation admissions with documented excessive sputum over the last 3 months",
+  "data_source": "Admission clerking, nursing notes, physiotherapy referral and treatment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "excessive_sputum_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "physio_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "airway_clearance_technique_taught",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pep_device_issued",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_teaching_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'excessive sputum: yes/no' to the COPD admission bundle so a yes automatically generates a same-day respiratory physiotherapy referral, with airway clearance teaching and a PEP device as the default action.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the respiratory directorate and physiotherapy governance meetings; embed the automatic referral trigger in the COPD admission order set if it works.",
+  "evidence": [
+   "[NNA-395] pulmonary rehabilitation referral after COPD exacerbation discharge: an adjacent but distinct COPD physiotherapy indicator, not airway clearance teaching during the admission"
+  ],
+  "pitfalls": [
+   "Sputum volume/purulence is not always documented in a structured field → agree a simple nursing prompt ('sputum: none/scant/moderate/copious') before starting",
+   "Weekend admissions may wait 2-3 days for physiotherapy review → record the referral-to-teaching interval, not just whether teaching ever happened",
+   "Patients too breathless or drowsy to learn a technique are wrongly counted as failures → add an exclusion/deferred category with a reason",
+   "Teaching without device issue undermines the fix → audit both teaching and equipment provision separately",
+   "Staff may see this as duplicating existing physiotherapy referral practice → show baseline data first to demonstrate the gap"
+  ],
+  "pearls": [
+   "Involve the respiratory physiotherapy team lead in designing the sputum documentation prompt so it fits their existing workflow",
+   "Keep a small stock of PEP devices on the respiratory ward so teaching is not delayed by equipment ordering",
+   "Use the same COPD admission cohort as any existing pulmonary rehabilitation referral audit to save data collection time",
+   "Report results to the wider medical team, since sputum documentation is a doctor and nurse responsibility as much as a physiotherapy one"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from admission and physiotherapy notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of hospital inpatients assessed as being at risk of falls are encouraged and supported to remain physically active during their admission?",
+  "why": "Bed rest and reduced activity during a hospital stay increase deconditioning and paradoxically raise falls risk after discharge, yet 'stay in bed to be safe' remains common ward practice. No audit of inpatient physical activity promotion as part of falls prevention has been published in the library; falls medication review and comprehensive assessment referral have been audited separately [ONA-014, ONA-016, ONA-130].",
+  "standard": {
+   "source": "NICE NG249 Falls in older people: assessing risk and prevention, recommendation 1.3.19 (2025)",
+   "wording": "Encourage people to remain active during their hospital stay by: reassuring them that they can still get up and do not need to restrict their activity (unless they have been advised not to) and helping them to be less sedentary and more active, for example, encouraging them to get out of bed, get dressed and regularly stand up and walk around and for people able to exercise, look for opportunities to encourage physical activity that addresses the person's risk of falls, such as balance, coordination, strength and power.",
+   "url": "https://www.nice.org.uk/guidance/ng249"
+  },
+  "pass": "Documented physiotherapy or nursing encouragement of activity (getting up, walking, or an exercise component) on at least 3 of the first 5 inpatient days for a patient identified as at risk of falls",
+  "population": "Inclusion: adults aged 65 and over admitted to a general medical or older people's ward with a documented falls risk. Exclusion: patients on strict bed rest for a documented clinical reason, patients discharged within 48 hours",
+  "sample": "40 consecutive falls-risk inpatients over the last 2-3 months",
+  "data_source": "Nursing mobility charts, physiotherapy notes, ward activity boards",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_risk_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_1_to_5_activity_encouraged",
+    "type": "number",
+    "options": [],
+    "note": "out of 5"
+   },
+   {
+    "field": "out_of_bed_daily",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bed_rest_clinical_reason",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "balance_strength_exercise_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a daily 'up and active today: yes/no, reason if no' box to the ward activity/mobility chart, with a prompt for a balance or strength exercise when appropriate, replacing any blanket 'bed rest for safety' default.",
+  "target": "≥80%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the ward safety huddle and falls steering group; if activity rates improve, embed the daily prompt in the standard nursing and therapy documentation.",
+  "evidence": [
+   "[ONA-014] falls medicines review before discharge, [ONA-016] comprehensive falls assessment referral, [ONA-130] FLS falls risk assessment: related falls-prevention audits that do not measure inpatient activity promotion"
+  ],
+  "pitfalls": [
+   "'Falls risk' documentation is inconsistent across wards → agree a single falls risk flag (for example, a falls risk assessment score) before starting",
+   "Staff may equate encouraging activity with increased falls, causing reluctance → share evidence that inactivity, not appropriate mobilisation, drives post-discharge falls and deconditioning",
+   "Bed rest reasons are not always documented → make a reason mandatory whenever activity is withheld",
+   "Ward staffing pressure limits time for supervised walking → recruit ward-based therapy assistants for regular short mobilisation rounds",
+   "Improvement may not be sustained once the audit team stops checking → build the prompt into existing nursing handover checklists"
+  ],
+  "pearls": [
+   "Frame this as a deconditioning-prevention project, which tends to get more staff buy-in than a pure falls-prevention framing",
+   "Recruit a ward sister and a physiotherapist as joint champions before cycle 1",
+   "Use existing 'sit up, get dressed, keep moving' campaign materials rather than creating new posters from scratch",
+   "Track length of stay alongside activity rates, since the intervention is expected to reduce it"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from nursing and therapy charts",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients receive at least 3 hours of needs-based, multidisciplinary rehabilitation therapy on at least 5 days of the week?",
+  "why": "Rehabilitation intensity is strongly linked to functional recovery after stroke, but therapy staffing and weekend cover often fall short of the recommended intensity. No closed-loop audit of stroke rehabilitation intensity against the current NICE standard has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.2.16 (2023)",
+   "wording": "Offer needs-based rehabilitation to people after stroke. This should be for at least 3 hours a day, on at least 5 days of the week, and cover a range of multidisciplinary therapy including physiotherapy, occupational therapy and speech and language therapy.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "Total documented therapy time (physiotherapy, occupational therapy and speech and language therapy combined) is at least 3 hours on at least 5 of 7 days during a defined week of the stroke unit stay, or a documented reason recorded when the person is unable or unwilling to participate at that level",
+  "population": "Inclusion: adults on the acute or rehabilitation stroke unit for at least 7 days. Exclusion: patients receiving end-of-life care, patients transferred within the first week",
+  "sample": "40 consecutive stroke unit patients with a stay of 7 days or more over the last 3 months",
+  "data_source": "Physiotherapy, occupational therapy and speech and language therapy timed treatment logs, SSNAP data extract",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "audit_week_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_meeting_3_hours",
+    "type": "number",
+    "options": [],
+    "note": "out of 7"
+   },
+   {
+    "field": "physio_minutes_total",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ot_minutes_total",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "salt_minutes_total",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_met",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a shared electronic therapy timesheet across physiotherapy, occupational therapy and speech and language therapy that automatically totals daily minutes per patient and flags days below the 3-hour target for review at the daily board round.",
+  "target": "≥70% of days meeting the 3-hour, 5-day standard",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT meeting and to SSNAP data leads; embed the shared timesheet permanently and report intensity rates as a standing SSNAP-linked local metric if it improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Each therapy discipline may record time in a different system, making totals hard to combine → agree one shared recording format before starting",
+   "Weekend and bank holiday staffing typically falls below weekday levels → report weekday and weekend rates separately",
+   "Patients who genuinely cannot tolerate 3 hours (fatigue, reduced consciousness) are miscounted as failures → record a clinical reason field",
+   "Recording therapy time without documenting content risks gaming the metric → also spot-check that time reflects active, needs-based rehabilitation, not passive contact",
+   "Improvement may fade if extra weekend staffing is temporary → secure a recurring weekend therapy rota, not a short-term trial"
+  ],
+  "pearls": [
+   "Use the stroke unit's existing SSNAP data collection processes to avoid duplicating data entry",
+   "Agree the shared timesheet format with all three therapy disciplines before cycle 1 so ownership is shared, not imposed",
+   "Present intensity data alongside length of stay and functional outcome scores to show the clinical case for investment",
+   "Nominate a stroke unit therapy lead to keep the timesheet running after the initial audit team moves on"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from combined therapy timesheets",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients receiving a structured rehabilitation programme on the ward after critical illness have a functional assessment covering physical, sensory, communication and activities-of-daily-living dimensions completed before hospital discharge?",
+  "why": "Physical and cognitive problems after critical illness are easy to miss once patients move to a general ward, and unassessed needs are not referred on after discharge. No audit of the pre-discharge functional assessment for post-critical-illness rehabilitation has been published in the library; ICU rehabilitation goal-setting and ward handover have been audited separately [NNA-056, NNA-057].",
+  "standard": {
+   "source": "NICE CG83 Rehabilitation after critical illness in adults, recommendation 1.20 (2009)",
+   "wording": "Before discharging patients who were receiving the individualised structured rehabilitation programme during ward-based care (recommendation 1.15): perform a functional assessment which should include the following physical and non-physical dimensions... assess the impact of the outcomes from the functional assessment on the patient's activities of daily living and participation; based on the functional assessment, review, update and agree the rehabilitation goals with the patient.",
+   "url": "https://www.nice.org.uk/guidance/cg83/chapter/Recommendations"
+  },
+  "pass": "A documented functional assessment covering physical, sensory, communication, and activities-of-daily-living dimensions, completed and the rehabilitation goals reviewed, within 72 hours before discharge from hospital",
+  "population": "Inclusion: adults who had a critical care stay of 4 days or more and received a ward-based structured rehabilitation programme. Exclusion: patients who died before discharge, patients discharged directly from critical care without a ward stay",
+  "sample": "40 consecutive eligible patients discharged from hospital over the last 3-4 months, identified from the critical care outreach or follow-up log",
+  "data_source": "Physiotherapy and occupational therapy functional assessment notes, ward discharge documentation, critical care follow-up records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "critical_care_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hospital_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "functional_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_functional_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adl_impact_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehabilitation_goals_updated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "onward_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory pre-discharge functional assessment template (covering physical, sensory, communication and ADL dimensions) to the EPR for any patient flagged as having received ICU-linked ward rehabilitation, which must be completed before the discharge summary can be finalised.",
+  "target": "≥85%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the critical care outreach and rehabilitation MDT meeting; embed the mandatory template in the discharge workflow if completion rates improve.",
+  "evidence": [
+   "[NNA-056] rehabilitation goals agreed within 4 days of ICU admission, [NNA-057] rehabilitation plan included in ward handover: related but earlier-stage CG83 indicators that do not audit the pre-discharge functional assessment"
+  ],
+  "pitfalls": [
+   "Patients who move wards or hospitals before discharge are hard to track → use the critical care outreach follow-up list as the sampling frame",
+   "ADL impact is often assessed informally without documentation → provide a short structured template rather than relying on free text",
+   "Busy discharge processes can push the assessment out of the pre-discharge window → set a hard 72-hour trigger on the EPR",
+   "Onward referral (community rehabilitation, GP, outpatient follow-up) is easy to omit even when the assessment is done → audit referral completion as a separate field",
+   "Staff turnover on rotating ward teams may not know which patients had a critical care stay → flag ICU-linked patients on the ward handover board"
+  ],
+  "pearls": [
+   "Use the critical care follow-up service, where one exists, to help identify the sample and check onward referrals were received",
+   "Involve both physiotherapy and occupational therapy in designing the shared functional assessment template so it captures both disciplines' domains",
+   "Present findings jointly to critical care and general ward teams, since responsibility is shared between them",
+   "Keep the mandatory EPR trigger active permanently rather than as a time-limited pilot"
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from therapy and discharge notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients at risk of long-term physical or psychological problems after critical illness are offered a structured, supported self-directed rehabilitation manual for at least 6 weeks after critical care discharge?",
+  "why": "Many patients leave critical care with unmet rehabilitation needs that only become apparent weeks later, when formal therapy contact has usually stopped. No audit of self-directed rehabilitation manual provision after critical illness has been published in the library.",
+  "standard": {
+   "source": "NICE CG83 Rehabilitation after critical illness in adults, recommendation 1.18 (2009)",
+   "wording": "Based on clinical judgement and the individual patient's rehabilitation needs, consider offering a structured and supported self-directed rehabilitation manual for at least 6 weeks after discharge from critical care, as part of the individualised, structured rehabilitation programme.",
+   "url": "https://www.nice.org.uk/guidance/cg83/chapter/Recommendations"
+  },
+  "pass": "Documented offer of a structured, supported self-directed rehabilitation manual, with a named coordinating healthcare professional, for a patient identified as at risk of physical or non-physical morbidity",
+  "population": "Inclusion: adults identified as at risk of physical or non-physical morbidity on the short clinical assessment during or after critical care. Exclusion: patients who died, patients discharged directly to end-of-life or palliative care",
+  "sample": "30-40 consecutive at-risk patients discharged from critical care over the last 3-4 months",
+  "data_source": "Critical care discharge summary, ward and outreach follow-up notes, rehabilitation programme documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "critical_care_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "at_risk_on_short_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "manual_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "coordinating_professional_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_offered_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_offered",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add 'self-directed rehabilitation manual offered: yes/no, coordinator named' as a mandatory field on the critical care discharge summary template, with the manual and coordinator contact details included in the discharge pack as standard.",
+  "target": "≥70% of at-risk patients",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the critical care follow-up clinic and outreach team meeting; embed the discharge pack change permanently if offer rates rise.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Which patients count as 'at risk' is subjective without a documented short clinical assessment → use table 1 of CG83 as a structured checklist",
+   "The manual may be offered but not actually coordinated for 6 weeks → audit both the offer and the presence of a named coordinator",
+   "Patients discharged out of area lose follow-up continuity → record discharge destination and adapt the coordination plan accordingly",
+   "Staff may not know the manual exists if it has not previously been used locally → confirm a manual is available and staff are briefed before cycle 1",
+   "Low baseline awareness can make the first cycle very low, discouraging staff → present it as a baseline-setting exercise, not a failure"
+  ],
+  "pearls": [
+   "Base the manual on a published, validated self-directed rehabilitation programme rather than creating one from scratch",
+   "Identify a single named critical care outreach practitioner to coordinate all manual referrals so responsibility does not diffuse",
+   "Combine this with the pre-discharge functional assessment audit, since both draw on the same discharge population",
+   "Ask patients or carers at the 2-3 month functional reassessment whether they received and used the manual, to check the fix is actually working, not just documented"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from discharge documentation",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people having a comprehensive falls assessment have their gait, balance, mobility and muscle strength formally assessed as part of it?",
+  "why": "Comprehensive falls assessments are often completed as a tick-box medical review without the physical components that identify a treatable cause, particularly muscle weakness and balance impairment. No audit of physiotherapy-relevant domains within the comprehensive falls assessment has been published in the library; falls medication review and FLS falls screening have been audited separately [ONA-014, ONA-130].",
+  "standard": {
+   "source": "NICE NG249 Falls in older people: assessing risk and prevention, recommendation 1.2.2 (2025)",
+   "wording": "Include the following assessments and examinations (where appropriate) in the comprehensive falls assessment to identify the person's individual fall risk factors: ...Gait, balance and mobility, and muscle strength assessment...",
+   "url": "https://www.nice.org.uk/guidance/ng249"
+  },
+  "pass": "Documented assessment of gait, balance, mobility and muscle strength (for example, using a timed up-and-go, Berg balance score, or equivalent structured tool) recorded as part of the comprehensive falls assessment",
+  "population": "Inclusion: adults having a comprehensive falls assessment in hospital or in a community falls service. Exclusion: assessments explicitly limited to a single domain by clinical necessity (for example, acute medical instability)",
+  "sample": "40 consecutive comprehensive falls assessments over the last 2-3 months",
+  "data_source": "Falls clinic or ward comprehensive falls assessment documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "inpatient",
+     "community falls service",
+     "outpatient clinic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gait_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "balance_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "muscle_strength_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "structured_tool_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "physiotherapy_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add mandatory gait, balance and muscle strength fields, with a named structured tool, to the comprehensive falls assessment template, and route any assessment lacking physiotherapy input to a physiotherapist before it is signed off as complete.",
+  "target": "≥90%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the falls steering group and therapy governance meeting; embed the mandatory fields permanently if completion rates improve.",
+  "evidence": [
+   "[ONA-014] falls-focused medicines review, [ONA-130] FLS falls risk screen: related falls assessment components that do not audit the physical/physiotherapy domains specifically"
+  ],
+  "pitfalls": [
+   "Non-physiotherapy staff completing the assessment may skip physical domains they feel less confident measuring → provide a simple, validated tool with brief training",
+   "Different services may use different tools, making results hard to compare over time → agree one tool trust-wide before cycle 1",
+   "Acutely unwell patients cannot safely be assessed for gait or balance → record a deferred/not-yet-safe category rather than a fail",
+   "Duplication of effort if physiotherapy and medical teams assess separately without sharing results → use one shared assessment form",
+   "Improvement gained during the audit period may lapse without an embedded prompt → build the fields into the permanent electronic template, not a paper checklist"
+  ],
+  "pearls": [
+   "Recruit a falls service physiotherapist as joint audit lead alongside the geriatrician or falls coordinator",
+   "Choose a quick, validated tool (for example, timed up-and-go) that non-specialist staff can be trained to use in one session",
+   "Present results split by setting (ward versus falls clinic) since completion rates often differ",
+   "Use the audit as an opportunity to formalise physiotherapy input into every comprehensive falls assessment pathway, not just document it"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from falls assessment documentation",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults identified through a comprehensive falls assessment as needing a home hazard assessment have one carried out using a validated tool, by an occupational therapist or a supervised trained assistant?",
+  "why": "Home hazards are a modifiable falls risk factor, but home visits are resource-intensive and can be skipped when occupational therapy capacity is stretched. No audit of home hazard assessment completion against the current NICE falls standard has been published in the library.",
+  "standard": {
+   "source": "NICE NG249 Falls in older people: assessing risk and prevention, recommendations 1.3.5-1.3.6 (2025)",
+   "wording": "Offer a home hazard assessment and intervention using a validated tool. Consider having the home hazard assessment and intervention from recommendation 1.3.5 carried out by an occupational therapist. If an occupational therapist does not carry out the assessment and intervention, it may be done by: an appropriately trained healthcare professional or an appropriately trained therapy assistant or technician, with supervision from an appropriately trained healthcare professional.",
+   "url": "https://www.nice.org.uk/guidance/ng249"
+  },
+  "pass": "A home hazard assessment using a named validated tool, completed by an occupational therapist or a supervised trained assistant, with documented intervention where hazards were found",
+  "population": "Inclusion: adults offered comprehensive falls management following a comprehensive falls assessment. Exclusion: people who decline the assessment, people who move into 24-hour care before it can be arranged",
+  "sample": "40 consecutive adults referred for a home hazard assessment over the last 3 months",
+  "data_source": "Occupational therapy referral and home visit records, falls service caseload",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "validated_tool_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessor_role",
+    "type": "choice",
+    "options": [
+     "occupational therapist",
+     "trained assistant with supervision",
+     "other trained professional"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hazards_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "intervention_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set a target referral-to-home-visit interval on the occupational therapy caseload system, with an automated overdue flag, and train falls-service therapy assistants to deliver supervised home hazard assessments using a single named validated tool.",
+  "target": "≥85% completed within 4 weeks of referral",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the falls service and occupational therapy team meetings; embed the caseload overdue flag permanently if waiting times fall.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Home visits are cancelled if the patient is not in, wasting capacity → confirm appointments by phone the day before",
+   "Different therapists may use different or no validated tools → agree and print a single tool before cycle 1",
+   "Long waiting lists mean many referrals are still open at audit close → report both completion rate and median waiting time",
+   "Assistants delivering the assessment without documented supervision breaches the standard even if the visit happens → make supervision sign-off a mandatory field",
+   "Gains from extra capacity may be temporary if funded only for the audit period → seek a recurring establishment change if waiting times improve"
+  ],
+  "pearls": [
+   "Use the falls service's existing caseload system rather than building a new tracking spreadsheet",
+   "Agree with occupational therapy leadership which validated tool to standardise on before starting data collection",
+   "Recruit a therapy assistant champion, since much of the extra capacity this audit is likely to need will come from supervised assistants",
+   "Report waiting time trends monthly to keep momentum after the formal audit report is presented"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from occupational therapy caseload records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people in the community who have fallen once in the last year, with a gait or balance impairment but no other risk factor, are offered a home hazard assessment using a validated tool?",
+  "why": "People with a single fall and a gait or balance impairment do not meet criteria for full comprehensive falls management, so their home hazard risk can be overlooked entirely. No audit of home hazard assessment for this single-fall community population has been published in the library; comprehensive inpatient falls management has been audited elsewhere in the library [ONA-016].",
+  "standard": {
+   "source": "NICE NG249 Falls in older people: assessing risk and prevention, recommendations 1.3.13-1.3.14 (2025)",
+   "wording": "Consider a home hazard assessment and intervention using a validated tool. Consider having the home hazard assessment and intervention from recommendation 1.3.13 carried out by an occupational therapist. If an occupational therapist does not carry out the assessment and intervention, it may be done by: an appropriately trained healthcare professional or an appropriately trained therapy assistant or technician, with supervision from an appropriately trained healthcare professional.",
+   "url": "https://www.nice.org.uk/guidance/ng249"
+  },
+  "pass": "Documented offer of a home hazard assessment using a validated tool for a person with a single fall in the last year and a documented gait or balance impairment, who does not otherwise meet comprehensive falls management criteria",
+  "population": "Inclusion: adults aged 65 and over in community or primary care settings with one fall in the last year and a documented gait or balance impairment on assessment. Exclusion: people meeting comprehensive falls management criteria",
+  "sample": "30-40 consecutive people identified from GP falls searches or community falls service referrals over the last 3-4 months",
+  "data_source": "GP records, community falls service referral log, gait/balance assessment notes",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fall_recorded_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gait_balance_impairment_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "home_hazard_assessment_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessor_role",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'single fall with gait/balance impairment: home hazard assessment offered?' prompt to the GP falls template so this group is not missed between comprehensive falls management and no action at all.",
+  "target": "≥70%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the primary care network falls meeting and community occupational therapy service; embed the GP template prompt permanently if uptake improves.",
+  "evidence": [
+   "[ONA-016] comprehensive falls assessment referral for fracture patients: audits a different, higher-risk falls population than the single-fall group considered here"
+  ],
+  "pitfalls": [
+   "This population is easy to miss because it falls between 'no action needed' and 'full comprehensive assessment' → make the eligibility criteria explicit on the GP template",
+   "GPs may not routinely document gait or balance impairment structurally → provide a simple one-line documentation prompt",
+   "Community occupational therapy capacity for lower-priority referrals may be limited → agree a realistic waiting time target with the service before cycle 1",
+   "Patients may decline a home visit they see as unnecessary after a single fall → record declines separately from missed offers",
+   "Findings may not generalise if only one GP practice is audited → sample from more than one practice within the primary care network"
+  ],
+  "pearls": [
+   "Work with the primary care network falls lead to identify the sample via a coded search rather than manual note review",
+   "Keep the referral pathway simple (a single click or form) to make it easy for GPs to use during a routine consultation",
+   "Track whether hazards found at these lower-risk assessments still lead to meaningful interventions, not just a completed form",
+   "Share results with the practice, since GPs are the ones who need to change referral behaviour"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from GP and community therapy records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients with documented communication or cognitive needs have joint occupational therapy, physiotherapy or speech and language therapy sessions arranged, rather than separate uncoordinated therapy contacts?",
+  "why": "People with communication or cognitive impairment after stroke can struggle to engage with therapy delivered by a single discipline in isolation, but joint sessions require active coordination that is easy to lose amid competing caseloads. No audit of joint therapy session arrangements for stroke patients with communication or cognitive needs has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.2.21 (2023)",
+   "wording": "Make special arrangements for people after stroke who have communication or cognitive needs (for example, by holding joint speech and language therapy and physiotherapy sessions for those with communication difficulties).",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "At least one documented joint therapy session (two or more disciplines present together) recorded in the multidisciplinary notes for a stroke patient with a documented communication or cognitive need",
+  "population": "Inclusion: adults on the stroke unit with a documented communication or cognitive impairment on initial assessment. Exclusion: patients discharged or who die within 72 hours of admission",
+  "sample": "30-40 consecutive eligible stroke unit patients over the last 3 months",
+  "data_source": "Multidisciplinary team notes, physiotherapy, occupational therapy and speech and language therapy treatment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "communication_cognitive_need_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "joint_session_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "disciplines_present",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_joint_sessions",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a weekly 'joint session planned: which disciplines, when' slot to the stroke MDT therapy timetable for every patient flagged with a communication or cognitive need, agreed at the weekly MDT meeting.",
+  "target": "≥70% of eligible patients having at least one joint session per week",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT meeting; embed the weekly joint-session planning slot permanently in the MDT agenda if uptake improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Coordinating diaries across three disciplines is logistically difficult → fix a single weekly slot in advance rather than arranging ad hoc",
+   "Joint sessions may happen informally without being documented as such → add a specific joint-session tick box to the shared MDT note",
+   "Staff shortages in any one discipline can cancel joint sessions first → monitor cancellation reasons separately from non-arrangement",
+   "Patients who are too fatigued for a longer joint session may be excluded inappropriately → allow a shorter, still-joint session to count",
+   "The fix may lapse once the weekly MDT champion moves on → build the joint-session slot into the standing MDT meeting template"
+  ],
+  "pearls": [
+   "Agree the joint-session slot with all three therapy leads before cycle 1, not just the audit team",
+   "Use the stroke unit's existing weekly MDT meeting to plan the following week's joint sessions rather than a separate coordination meeting",
+   "Track patient and carer feedback on joint sessions, since this is often the strongest driver of continued staff engagement",
+   "Keep the documentation simple (a tick box plus disciplines present) so it does not become a burden that gets skipped"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from stroke unit MDT and therapy notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of hip fracture patients considered for early supported discharge have their medical stability, mental capacity to participate, and ability to transfer and mobilise short distances formally assessed and documented before the decision is made?",
+  "why": "Early supported discharge after hip fracture depends on occupational therapy and physiotherapy jointly confirming specific functional criteria, but the decision can be made informally without all criteria being checked and recorded. No audit of documented early supported discharge criteria for hip fracture patients has been published in the library.",
+  "standard": {
+   "source": "NICE CG124 Hip fracture: management, recommendation 1.8.4 (2011)",
+   "wording": "Consider early supported discharge as part of the Hip Fracture Programme, provided the Hip Fracture Programme multidisciplinary team remains involved, and the person: is medically stable and has the mental ability to participate in continued rehabilitation and is able to transfer and mobilise short distances and has not yet achieved their full rehabilitation potential, as discussed with the person, carer and family.",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "All four criteria (medical stability, mental ability to participate, ability to transfer/mobilise short distances, discussion with patient/carer/family) documented as assessed before an early supported discharge decision is recorded",
+  "population": "Inclusion: adults with a hip fracture discharged via an early supported discharge pathway. Exclusion: patients discharged to their normal place of residence without early supported discharge, patients who die as an inpatient",
+  "sample": "30-40 consecutive hip fracture patients discharged via early supported discharge over the last 4-6 months",
+  "data_source": "Orthogeriatric MDT notes, occupational therapy and physiotherapy assessment records, discharge planning documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medical_stability_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mental_capacity_to_participate_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transfer_mobilise_short_distance_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussion_with_patient_carer_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_criteria_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory four-item checklist (medical stability, mental capacity, transfer/mobility, discussion) to the early supported discharge decision form, which must be completed by occupational therapy and physiotherapy jointly before the discharge is booked.",
+  "target": "≥90%",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the orthogeriatric MDT and community early supported discharge team meeting; embed the checklist permanently in the discharge decision workflow if documentation improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Criteria may be genuinely assessed but not documented in one place → create a single decision form rather than relying on scattered entries",
+   "Time pressure to free beds can lead to the decision being made before all four criteria are checked → make the checklist a hard stop on the discharge order",
+   "Mental capacity to participate in rehabilitation can be confused with formal mental capacity for decision-making → define the term clearly in the checklist",
+   "Family discussion may happen by phone and go unrecorded → add a simple 'discussed with: date, method' field",
+   "Early supported discharge teams outside the acute trust may not see this audit as their responsibility → involve the community team from the outset"
+  ],
+  "pearls": [
+   "Design the four-item checklist jointly with occupational therapy, physiotherapy and the early supported discharge team so all parties recognise it",
+   "Pilot the checklist on a small number of patients before full rollout to iron out practical problems",
+   "Use the same case list as any hip fracture length-of-stay or readmission audit to show the checklist does not increase early readmission",
+   "Keep the checklist short (one page) so it is completed rather than bypassed under time pressure"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from MDT and discharge records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients receiving a pre-discharge functional assessment after critical illness have the impact on their activities of daily living formally assessed as part of it?",
+  "why": "Physical recovery from critical illness is often tracked, but the day-to-day functional impact on washing, dressing, cooking and mobility at home is less consistently assessed, delaying appropriate occupational therapy support after discharge. No audit of the activities-of-daily-living component of the pre-discharge functional assessment after critical illness has been published in the library.",
+  "standard": {
+   "source": "NICE CG83 Rehabilitation after critical illness in adults, recommendation 1.20 (2009)",
+   "wording": "Before discharging patients who were receiving the individualised structured rehabilitation programme during ward-based care...perform a functional assessment...assess the impact of the outcomes from the functional assessment on the patient's activities of daily living and participation.",
+   "url": "https://www.nice.org.uk/guidance/cg83/chapter/Recommendations"
+  },
+  "pass": "Documented assessment of the impact on activities of daily living (for example, washing, dressing, cooking, mobility at home) as part of the pre-discharge functional assessment, with any identified need referred on",
+  "population": "Inclusion: adults who had a critical care stay of 4 days or more and a ward-based structured rehabilitation programme. Exclusion: patients discharged directly from critical care, patients who die before discharge",
+  "sample": "30-40 consecutive eligible patients over the last 3-4 months",
+  "data_source": "Occupational therapy functional assessment notes, ward discharge documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hospital_discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "functional_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adl_impact_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adl_need_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made_for_adl_need",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "occupational_therapist_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory occupational-therapy-led ADL impact section to the pre-discharge functional assessment template, with a built-in referral pathway for any identified need.",
+  "target": "≥85%",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the critical care follow-up and occupational therapy team meetings; embed the mandatory ADL section permanently if completion rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "ADL impact may be assumed rather than formally assessed → require a structured tool or checklist, not a general impression",
+   "Occupational therapy capacity may be limited on general wards → prioritise ICU-linked patients on the daily occupational therapy referral list",
+   "Identified needs may not lead to an actual referral → audit referral completion as a separate outcome, not just assessment completion",
+   "Patients discharged to a care home may have needs met differently → record discharge destination to interpret results correctly",
+   "A low baseline in the first cycle may discourage staff → present it as identifying an opportunity, not blaming individuals"
+  ],
+  "pearls": [
+   "Combine this audit with the wider CG83 functional assessment audit to avoid double data collection",
+   "Involve ward-based occupational therapists directly in designing the ADL section so it matches their normal assessment style",
+   "Track discharge destination and any early readmission alongside ADL assessment completion to show the clinical value of the fix",
+   "Keep a named occupational therapy lead responsible for the mandatory field after the initial project ends"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from occupational therapy and discharge notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of hospital inpatients diagnosed with delirium have documented reorientation, effective communication and a suitable care environment provided as part of their initial management?",
+  "why": "Reorientation and environmental measures are the first-line, non-drug treatment for delirium, but they are easy to omit from documentation compared with medication changes, and occupational therapy input into a suitable environment is often absent. No audit of the reorientation and environment component of delirium management has been published in the library; delirium documentation in discharge summaries has been audited separately [NNA-134, ONA-005].",
+  "standard": {
+   "source": "NICE CG103 Delirium: prevention, diagnosis and management, recommendation 1.7.2 (2010)",
+   "wording": "Ensure effective communication and reorientation (for example explaining where the person is, who they are and what your role is) and provide reassurance for people diagnosed with delirium. Consider involving family, friends and carers to help with this. Provide a suitable care environment.",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "Documented reorientation and communication measures and a suitable care environment (for example, clear signage, visible clock, consistent staff, reduced noise or a side room where appropriate) recorded within 24 hours of a delirium diagnosis",
+  "population": "Inclusion: adults with a new diagnosis of delirium during the admission. Exclusion: patients who die or are transferred within 24 hours of diagnosis",
+  "sample": "40 consecutive inpatients newly diagnosed with delirium over the last 3 months",
+  "data_source": "Nursing and medical notes, delirium care bundle documentation, occupational therapy notes where involved",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delirium_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reorientation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_carer_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suitable_environment_measures_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "occupational_therapy_input",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a delirium care bundle to the EPR that is triggered automatically by a positive delirium screening tool, with mandatory reorientation, family involvement and environment fields, and a same-day occupational therapy referral option.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the delirium/dementia steering group and ward safety huddle; embed the automatic care bundle trigger permanently if documentation rates improve.",
+  "evidence": [
+   "[NNA-134] delirium recorded in discharge summary, [ONA-005] delirium written in orthogeriatric discharge summary: audit documentation of the diagnosis at discharge, not the reorientation and environment management during the admission"
+  ],
+  "pitfalls": [
+   "Reorientation is often done verbally but never written down → provide a simple tick-box bundle rather than relying on narrative notes",
+   "Ward layout and side-room availability may limit what environmental changes are realistically possible → record what was feasible given bed availability",
+   "Occupational therapy may not routinely be involved in delirium care on general wards → create a clear referral trigger rather than assuming automatic involvement",
+   "Family involvement is harder to document when visiting hours or distance limit contact → record attempts to involve family, not only successful involvement",
+   "Care bundle completion can become a box-ticking exercise disconnected from actual care → spot-check a sample against direct observation or family feedback"
+  ],
+  "pearls": [
+   "Build on any existing delirium screening tool already used on the ward rather than introducing a separate process",
+   "Involve a ward-based occupational therapist in designing the environment checklist items so they are practical for the ward layout",
+   "Present results alongside length of stay and falls data, since delirium management affects both",
+   "Nominate delirium link nurses on each ward to keep the care bundle embedded after the audit team's involvement ends"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from nursing and medical notes",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults at high risk of a heel pressure ulcer have an individualised offloading strategy discussed with them and documented in their care plan?",
+  "why": "Heel pressure ulcers are common, painful and slow to heal, but offloading strategies (heel-lift devices, boots, positioning) are less consistently planned and documented than general repositioning schedules. No audit of individualised heel offloading strategy documentation has been published in the library; general pressure ulcer risk assessment and whole-body repositioning frequency have been audited separately [NNA-272, NNA-273, ONA-153].",
+  "standard": {
+   "source": "NICE CG179 Pressure ulcers: prevention and management, recommendation 1.1.15 (2014)",
+   "wording": "Discuss with adults at high risk of developing a heel pressure ulcer and, where appropriate, their family or carers, a strategy to offload heel pressure, as part of their individualised care plan.",
+   "url": "https://www.nice.org.uk/guidance/cg179/chapter/Recommendations"
+  },
+  "pass": "A documented, individualised heel offloading strategy (device named or positioning plan described) in the care plan of an adult identified as high risk of a heel pressure ulcer, with evidence of discussion with the patient or family",
+  "population": "Inclusion: adults with a pressure ulcer risk assessment recording high risk and a documented heel-specific risk factor (for example, reduced mobility, diabetes, vascular disease). Exclusion: patients with an existing heel pressure ulcer already under active wound management with its own plan",
+  "sample": "40 consecutive high-risk adults identified over the last 2-3 months",
+  "data_source": "Pressure ulcer risk assessment (SSKIN or equivalent), nursing and occupational therapy/tissue viability care plans",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "heel_offloading_strategy_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "offloading_device_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_with_patient_family",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'heel offloading strategy: device/plan, discussed with patient/family' field to the electronic SSKIN pressure ulcer care plan, triggered automatically when the risk assessment records high risk.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the tissue viability and ward safety huddle; embed the automatic SSKIN trigger permanently if documentation improves.",
+  "evidence": [
+   "[NNA-272] pressure ulcer risk assessment within 6 hours of admission, [NNA-273] repositioning every 4 hours for high-risk adults: cover risk assessment and whole-body repositioning, not the heel-specific offloading strategy audited here"
+  ],
+  "pitfalls": [
+   "Heel offloading equipment (boots, wedges) may not be readily available on every ward → confirm equipment stock levels before cycle 1",
+   "General repositioning may be documented without a heel-specific plan → make heel offloading a distinct field, not implied by general repositioning notes",
+   "Patients may decline or remove offloading devices for comfort → record attempts and reasons for non-use rather than counting these as documentation failures",
+   "Occupational therapy or tissue viability capacity to review complex cases may be limited → prioritise review for the highest-risk patients first",
+   "Improvement may not be sustained if equipment runs out → agree a recurring equipment budget line with the tissue viability service"
+  ],
+  "pearls": [
+   "Involve tissue viability and occupational therapy jointly in designing the offloading field, since both disciplines contribute to equipment decisions",
+   "Use ward equipment champions to check heel-offloading device availability alongside data collection",
+   "Present pressure ulcer incidence data alongside documentation rates to show the clinical case for the change",
+   "Keep a simple picture-based guide at the bedside showing correct heel offloading positioning to support consistent practice"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from pressure ulcer care plans",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people having a comprehensive falls assessment have their footwear and foot condition assessed, with referral to podiatry when a problem is found?",
+  "why": "Poor-fitting footwear and untreated foot problems are a recognised, easily-missed falls risk factor, and assessment of this domain is often skipped in favour of medical causes of falling. No audit of footwear and foot condition assessment with podiatry referral has been published in the library.",
+  "standard": {
+   "source": "NICE NG249 Falls in older people: assessing risk and prevention, recommendation 1.2.2 (2025)",
+   "wording": "Include the following assessments and examinations (where appropriate) in the comprehensive falls assessment to identify the person's individual fall risk factors: ...Footwear and foot condition...",
+   "url": "https://www.nice.org.uk/guidance/ng249"
+  },
+  "pass": "Documented assessment of footwear and foot condition as part of the comprehensive falls assessment, with a podiatry referral made when a problem is identified",
+  "population": "Inclusion: adults having a comprehensive falls assessment in hospital or a community falls service. Exclusion: assessments explicitly limited to a single domain by clinical necessity",
+  "sample": "40 consecutive comprehensive falls assessments over the last 2-3 months",
+  "data_source": "Falls clinic or ward comprehensive falls assessment documentation, podiatry referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "footwear_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "foot_condition_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "problem_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "podiatry_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory footwear and foot condition field, with a direct one-click podiatry referral option, to the comprehensive falls assessment template.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the falls steering group, with podiatry service representation; embed the mandatory field and referral link permanently if completion rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Staff without podiatry training may feel unqualified to assess foot condition → provide a simple visual checklist (skin, nails, deformity, ulceration) rather than requiring specialist skills",
+   "Footwear may be assessed but not foot condition, or vice versa → record both as separate fields",
+   "Podiatry referral pathways may be unclear to non-podiatry staff → build a direct referral link into the assessment template",
+   "Referrals made may not be tracked to completion → add a follow-up field for whether the podiatry appointment happened",
+   "Low staff confidence in the first cycle may underestimate true completion → pair the audit with a short training session on the checklist"
+  ],
+  "pearls": [
+   "Ask the podiatry service to help design the simple foot-condition checklist so referrals are appropriately targeted",
+   "Combine this with the physiotherapy-led gait/balance/muscle strength audit, since both use the same comprehensive falls assessment template",
+   "Track how many referrals lead to a completed podiatry appointment, not just how many are made",
+   "Keep the referral link visible and easy to use so it survives staff turnover"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from falls assessment and podiatry referral records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients admitted to hospital with a stroke have their swallowing function screened before any oral food, fluid or medication is given, with action taken if a problem is identified?",
+  "why": "Aspiration pneumonia is a leading cause of death and prolonged stay after stroke, and delayed or absent swallow screening before oral intake remains a common preventable failure. No closed-loop audit of pre-oral-intake dysphagia screening after stroke has been published in the library; enteral tube placement timing after a failed swallow screen has been audited separately [NNA-125].",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.2.1 (2013)",
+   "wording": "When a person is admitted to hospital after stroke, screen for the following and, if problems are identified, take action as soon as possible to ensure their safety and comfort: signs of disorientation, how they should be positioned, swallowing function, how they move (for example, from a bed to a chair), pressure area risk, their continence, their communication, including their ability to understand and follow instructions and to convey their needs and wishes, their nutritional status and hydration.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "Documented swallow screen completed before any oral food, fluid or oral medication is given, and, if the screen is abnormal, a documented action (nil by mouth, modified diet, or referral for a specialist swallow assessment) recorded the same day",
+  "population": "Inclusion: all adults admitted to hospital with a confirmed stroke. Exclusion: patients who are already nil by mouth for another reason on admission, patients receiving end-of-life care from arrival",
+  "sample": "40 consecutive stroke admissions over the last 2-3 months",
+  "data_source": "Admission clerking, nursing observation charts, swallow screening tool documentation, drug chart timing",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "swallow_screen_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screen_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_oral_intake_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screen_before_first_oral_intake",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abnormal_screen_action_taken",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make swallow screening a mandatory hard stop on the stroke admission order set, so no oral food, fluid or medication can be prescribed as 'oral' until the screen result is entered, with an automatic alert to speech and language therapy for any abnormal result.",
+  "target": "≥95%",
+  "reaudit": "8 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT meeting and SSNAP data review; embed the hard stop permanently in the EPR admission pathway if compliance improves.",
+  "evidence": [
+   "[NNA-125] nasogastric tube placement within 24 hours of a failed swallow screen: audits the next step in the pathway, assuming a screen has already been done, not the screening step itself"
+  ],
+  "pitfalls": [
+   "Out-of-hours admissions may lack trained staff to perform the screen promptly → ensure all admitting nursing staff, not just stroke-unit staff, are trained in the screening tool",
+   "Medication is sometimes given orally before food or fluid screening is considered, and gets missed from data collection → explicitly define 'oral intake' to include medicines",
+   "A pass on a validated screening tool is not the same as a full speech and language therapy assessment → audit the screen, and separately track specialist assessment for those who fail",
+   "Staff may screen but delay recording the result, making timing hard to verify → use time-stamped electronic entries rather than paper charts where possible",
+   "Compliance may fall out of hours or at weekends → report weekday/weekend and in-hours/out-of-hours rates separately"
+  ],
+  "pearls": [
+   "Recruit the stroke unit matron and a speech and language therapist as joint audit leads",
+   "Use the trust's existing validated swallow screening tool rather than introducing a new one",
+   "Build the screening prompt into the same admission bundle used for other early stroke standards (glucose, positioning) to reduce duplication of effort",
+   "Report results at the same MDT meeting that reviews SSNAP performance so the audit becomes part of routine stroke unit governance"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from admission and nursing records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients are screened for communication difficulties within 72 hours of the onset of stroke symptoms?",
+  "why": "Communication problems after stroke affect a person's ability to consent to care and participate in rehabilitation, but screening is easy to overlook when it competes with physical assessments in the first days after stroke. No audit of the 72-hour communication screening standard after stroke has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.12.1 (2013)",
+   "wording": "Screen people for communication difficulties within 72 hours of onset of stroke symptoms.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "A documented communication screen, using the stroke service's standardised protocol, completed within 72 hours of the recorded onset of stroke symptoms",
+  "population": "Inclusion: adults admitted with a confirmed stroke and a documented onset time. Exclusion: patients with an unknown or unwitnessed onset time, patients who die within 72 hours",
+  "sample": "40 consecutive stroke admissions with a documented onset time over the last 2-3 months",
+  "data_source": "Stroke admission proforma, speech and language therapy assessment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "onset_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "communication_screen_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screened_within_72_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "standardised_protocol_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "problem_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 72-hour 'communication screen due' automated reminder to the stroke unit's electronic task list, triggered from the recorded onset time, with the screen built into the standard admission proforma.",
+  "target": "≥90%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT meeting; embed the automated 72-hour reminder permanently in the EPR if compliance rises.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Onset time is often estimated or unwitnessed, complicating the 72-hour calculation → record onset time precision (exact, estimated, unknown) as a separate field",
+   "Speech and language therapy weekend cover may be limited → report weekday versus weekend screening rates separately",
+   "Communication screening may be recorded informally in ward round notes rather than the standardised protocol → audit for use of the named protocol specifically, not any communication comment",
+   "Patients with severe dysphasia may be hard to screen definitively → record 'screen attempted, inconclusive' as a distinct category rather than a straightforward pass or fail",
+   "The 72-hour deadline can be missed simply through delayed transfer to the stroke unit → track time from onset to stroke unit arrival as well as to screening"
+  ],
+  "pearls": [
+   "Use the same stroke admission cohort as the swallow screening audit to minimise duplicate data collection",
+   "Agree a single standardised communication screening protocol with speech and language therapy before starting",
+   "Display the 72-hour deadline visibly on the stroke unit's patient board so nursing staff can prompt therapy teams",
+   "Report results alongside SSNAP communication indicators so the audit reinforces existing national reporting"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from stroke admission and therapy records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients with dysphagia who are having modified food or fluids are regularly monitored and reassessed by a speech and language therapist until they are clinically stable?",
+  "why": "Swallowing function often changes during a stroke admission, but once a modified diet is set, ongoing speech and language therapy reassessment can lapse, leaving patients on an outdated, overly restrictive or unsafe plan. No audit of ongoing dysphagia reassessment frequency for stroke patients on modified diets has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.11.9 (2013)",
+   "wording": "Healthcare professionals with relevant skills and training in the diagnosis, assessment and management of swallowing disorders should regularly monitor and reassess people with dysphagia after stroke who are having modified food and liquid until they are stable.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "At least one documented speech and language therapy reassessment per week for a patient on modified food or fluids, continuing until the diet is upgraded or the patient is discharged",
+  "population": "Inclusion: adults after stroke on a modified (texture-modified or thickened fluid) diet for 7 days or more. Exclusion: patients on end-of-life comfort feeding, patients discharged within 7 days of starting modified diet",
+  "sample": "30-40 consecutive eligible patients over the last 3-4 months",
+  "data_source": "Speech and language therapy reassessment notes, dietary chart, MDT stroke round notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "modified_diet_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_on_modified_diet",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_salt_reassessments",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekly_reassessment_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diet_upgraded_during_stay",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic weekly speech and language therapy reassessment task to the stroke unit's electronic caseload for any patient on a modified diet, visible on the unit's therapy whiteboard until discontinued.",
+  "target": "≥85%",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT and speech and language therapy team meetings; embed the automatic weekly task permanently if reassessment rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Patients transferred to a rehabilitation ward may lose continuity of speech and language therapy follow-up → include a handover trigger for modified-diet patients on transfer",
+   "Staff shortages can deprioritise reassessment in favour of new patient screening → protect reassessment capacity as a distinct caseload category",
+   "'Stable' is not clearly defined, so reassessment may stop prematurely → agree a working definition (for example, no diet change for 2 consecutive reviews) before cycle 1",
+   "Weekly reassessment may be recorded informally without a clear date → use a structured, dated reassessment note",
+   "Long lengths of stay create a large caseload that can overwhelm capacity → monitor caseload size alongside compliance to identify staffing gaps"
+  ],
+  "pearls": [
+   "Use the stroke unit's existing dietary chart as a simple prompt for when reassessment is due",
+   "Agree a shared definition of 'stable' with the speech and language therapy team before starting data collection",
+   "Present caseload numbers alongside compliance rates to support any staffing business case that follows the audit",
+   "Track diet upgrades as a positive outcome measure, showing the reassessment process is clinically meaningful, not just procedural"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from speech and language therapy caseload records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people with head and neck cancer having radiotherapy are offered a swallowing-exercise programme?",
+  "why": "Radiotherapy to the head and neck causes progressive swallowing muscle stiffness, and pre-emptive exercise programmes can reduce long-term dysphagia, but referral is easily missed when speech and language therapy input is not built into the radiotherapy pathway. No audit of swallowing-exercise programme offer rates for head and neck radiotherapy patients has been published in the library; pre-treatment enteral nutrition assessment for this population has been audited separately [NNA-033].",
+  "standard": {
+   "source": "NICE NG36 Cancer of the upper aerodigestive tract: assessment and management, recommendation 1.8.3 (2016)",
+   "wording": "Consider swallowing-exercise programmes for people having radiotherapy.",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "Documented offer of a swallowing-exercise programme by speech and language therapy, made before or at the start of radiotherapy",
+  "population": "Inclusion: adults with head and neck cancer starting radical or adjuvant radiotherapy. Exclusion: patients having palliative radiotherapy only, patients with pre-existing total laryngectomy",
+  "sample": "30-40 consecutive patients starting head and neck radiotherapy over the last 4-6 months",
+  "data_source": "Head and neck MDT outcome form, speech and language therapy referral and assessment records, oncology treatment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "radiotherapy_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "salt_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "swallowing_exercise_programme_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_offered",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "programme_started_before_radiotherapy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'pre-radiotherapy swallowing exercise programme offered: yes/no' field to the head and neck MDT outcome form, completed by the MDT speech and language therapist before the radiotherapy planning appointment.",
+  "target": "≥90%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the head and neck cancer MDT meeting; embed the mandatory MDT form field permanently if offer rates improve.",
+  "evidence": [
+   "[NNA-033] enteral nutrition need assessed at head and neck cancer diagnosis: audits nutrition assessment, not the swallowing-exercise programme audited here"
+  ],
+  "pitfalls": [
+   "Referral may happen but the exercise programme itself may not start before treatment begins → audit programme start date against radiotherapy start date, not referral alone",
+   "Patients may decline the programme due to treatment burden → record declines separately from the service failing to offer it",
+   "Speech and language therapy capacity in oncology services may be limited → identify capacity gaps as part of the audit's pitfalls, not just documentation gaps",
+   "MDT outcome forms may not have a dedicated field, making the offer hard to trace retrospectively → create the field before, not after, data collection begins",
+   "Patients treated at a different centre for radiotherapy may fall outside local documentation → clarify pathway responsibility for shared-care patients"
+  ],
+  "pearls": [
+   "Work with the head and neck cancer nurse specialist to identify the patient cohort quickly from MDT records",
+   "Time the swallowing-exercise programme offer to coincide with the pre-treatment dental and nutrition assessments already built into the pathway",
+   "Present long-term dysphagia outcome data alongside offer rates to strengthen the case for embedding the change",
+   "Keep a simple patient information leaflet ready so the offer can be made and accepted at the same appointment"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from MDT and speech and language therapy records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people with head and neck cancer whose voice has changed because of treatment are offered voice therapy?",
+  "why": "Voice changes after surgery or radiotherapy for head and neck cancer have a major impact on quality of life and return to work, but voice therapy referral depends on the change being actively asked about and recorded at follow-up. No audit of voice therapy offer rates for treatment-related voice change has been published in the library.",
+  "standard": {
+   "source": "NICE NG36 Cancer of the upper aerodigestive tract: assessment and management, recommendation 1.8.5 (2016)",
+   "wording": "Consider voice therapy for people whose voice has changed because of their treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "Documented assessment of voice change at the post-treatment follow-up appointment, with voice therapy offered when a change is identified",
+  "population": "Inclusion: adults treated surgically or with radiotherapy for head and neck cancer, attending their first post-treatment follow-up appointment. Exclusion: patients with total laryngectomy already under voice rehabilitation, patients with recurrent disease requiring further treatment before follow-up",
+  "sample": "30-40 consecutive patients at their first post-treatment follow-up over the last 4-6 months",
+  "data_source": "Oncology and ENT follow-up clinic letters, speech and language therapy referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "voice_change_assessed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "voice_change_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "voice_therapy_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'voice change: yes/no, therapy offered' field to the post-treatment follow-up clinic letter template, with a direct speech and language therapy referral link.",
+  "target": "≥85%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the head and neck cancer MDT and follow-up clinic governance meeting; embed the mandatory field permanently if offer rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Voice change may not be actively asked about unless prompted → use a direct question in the follow-up template rather than relying on the patient to raise it",
+   "Patients may not recognise a gradual voice change as treatment-related → provide a simple patient-facing prompt or questionnaire before the appointment",
+   "Voice therapy referral pathways may differ between ENT and oncology-led follow-up → clarify a single referral route before cycle 1",
+   "Some voice change may be expected and temporary, leading staff to under-refer → offer therapy for persistent change beyond an agreed time point (for example, 3 months)",
+   "Low clinic time may limit thorough voice assessment → consider a brief validated voice-related quality-of-life screening tool"
+  ],
+  "pearls": [
+   "Use a short, validated voice-related quality-of-life question set to standardise assessment across clinicians",
+   "Involve the ENT and oncology follow-up clinic teams jointly, since patients may attend either",
+   "Track referral-to-first-appointment time for voice therapy as a secondary outcome",
+   "Keep the referral link in the clinic letter template so it survives staff rotation"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from follow-up clinic records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients with communication difficulties suspected after stroke are referred to a speech and language therapist for detailed assessment?",
+  "why": "Suspected communication difficulties identified by nursing or medical staff on the ward do not always translate into a formal speech and language therapy referral, particularly for patients with mild or fluctuating symptoms. No audit of referral completion for suspected post-stroke communication difficulties has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.12.3 (2013)",
+   "wording": "Refer people with suspected communication difficulties after stroke to a speech and language therapist for detailed analysis of any impairments and assessment of their impact.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "A documented speech and language therapy referral made within 24 hours of a suspected communication difficulty being recorded",
+  "population": "Inclusion: adults after stroke with a documented suspicion of a communication difficulty (from screening or ward observation). Exclusion: patients already known to have a pre-existing communication impairment unrelated to the stroke",
+  "sample": "40 consecutive stroke patients with a documented suspected communication difficulty over the last 3 months",
+  "data_source": "Nursing and medical notes, communication screening results, speech and language therapy referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspicion_documented_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "detailed_assessment_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Link the stroke unit's communication screening tool directly to an automatic speech and language therapy referral in the EPR whenever a suspected difficulty is recorded, removing the need for a separate manual referral step.",
+  "target": "≥90%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT meeting; embed the automatic referral link permanently if compliance improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "A suspicion noted informally in ward round notes may not be recognised as needing referral → tie referral directly to the structured screening tool result, not free-text impressions",
+   "Weekend suspicion may wait until Monday for referral → report weekday/weekend referral timing separately",
+   "Referral may be made but the detailed assessment delayed by caseload pressure → audit both referral and completed assessment as separate steps",
+   "Mild or fluctuating symptoms may be under-recognised by non-specialist staff → provide brief training on recognising subtle communication difficulties",
+   "Duplicate referrals from multiple staff members may distort the true referral rate → count time-to-first-referral, not total referrals"
+  ],
+  "pearls": [
+   "Build the automatic referral into the same screening tool used for the 72-hour communication screening audit",
+   "Agree an escalation route for referrals not actioned within 24 hours with the speech and language therapy team lead",
+   "Report referral-to-assessment interval as well as referral rate to show the whole pathway working",
+   "Use ward-based posters or prompts to help non-specialist staff recognise subtle communication difficulties"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ward and referral records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients with severe communication difficulties are assessed by a speech and language therapist for their potential to benefit from a communication aid or technology?",
+  "why": "Communication aids can restore a degree of independence and participation for people with severe aphasia or dysarthria, but assessment for aids is easily overlooked once initial rehabilitation therapy is under way. No audit of communication aid assessment completion for stroke patients with severe communication difficulties has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.12.7 (2013)",
+   "wording": "Speech and language therapists should assess people experiencing severe communication difficulties after stroke to see if they could benefit from using a communication aid or other technologies (for example, home-based computer therapies or mobile apps).",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "A documented speech and language therapy assessment for communication aid or technology suitability, completed within 4 weeks of a severe communication difficulty being confirmed",
+  "population": "Inclusion: adults after stroke with a speech and language therapy diagnosis of severe aphasia or dysarthria. Exclusion: patients who die or are discharged to end-of-life care before assessment could reasonably occur",
+  "sample": "30-40 consecutive eligible patients over the last 4-6 months",
+  "data_source": "Speech and language therapy assessment and treatment records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severe_difficulty_confirmed_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "communication_aid_assessment_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessed_within_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aid_or_technology_provided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'communication aid assessment due' flag to the speech and language therapy caseload system for any patient coded with severe aphasia or dysarthria, reviewed weekly at the therapy team meeting.",
+  "target": "≥80%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the speech and language therapy and stroke MDT meetings; embed the caseload flag permanently if assessment rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Severity of aphasia or dysarthria may not be consistently graded, making the eligible population hard to define → agree a clear severity threshold or tool before cycle 1",
+   "Assessment may be deprioritised in favour of more immediate rehabilitation goals → build a caseload flag so it is not forgotten, not competing informally for attention",
+   "Aids assessed as suitable may not be provided promptly due to funding or equipment delays → audit provision as well as assessment",
+   "Patients discharged to community speech and language therapy may lose continuity → include a handover field confirming the assessment need is passed on",
+   "Family or carer engagement is often needed for technology use, and its absence can be mistaken for the patient's inability to benefit → record carer involvement separately"
+  ],
+  "pearls": [
+   "Agree a shared definition of 'severe' communication difficulty with the whole speech and language therapy team before starting",
+   "Use the caseload flag system already in place for other therapy follow-up tasks rather than creating a new one",
+   "Track aid uptake and use at follow-up, not just assessment completion, to show the change is meaningful",
+   "Involve community speech and language therapy early so continuity is maintained after hospital discharge"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from speech and language therapy caseload records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of stroke patients with dysphagia who cannot, or find it difficult to, follow a mouth care regimen have a suitably trained healthcare professional, family member or carer delivering or supervising their mouth care?",
+  "why": "Poor oral hygiene in dysphagia increases the risk of aspiration pneumonia, but mouth care is often left to whichever staff member is available rather than someone trained and briefed by speech and language therapy. No audit of supervised mouth care provision for stroke patients with dysphagia has been published in the library.",
+  "standard": {
+   "source": "NICE NG236 Stroke rehabilitation in adults, recommendation 1.10.3 (2023)",
+   "wording": "Ensure that a suitably trained healthcare professional, family member or carer delivers or supervises mouth care for people after stroke who cannot, or find it difficult to, follow a mouth care regimen.",
+   "url": "https://www.nice.org.uk/guidance/ng236/chapter/Recommendations"
+  },
+  "pass": "Documented mouth care delivered or supervised at least twice daily by a named trained healthcare professional, family member or carer, for a patient with dysphagia unable to independently follow a mouth care regimen",
+  "population": "Inclusion: adults after stroke with dysphagia and a documented difficulty following a mouth care regimen independently. Exclusion: patients independent with mouth care, patients receiving end-of-life comfort care with a separate mouth care plan",
+  "sample": "30-40 consecutive eligible patients over the last 3 months",
+  "data_source": "Nursing mouth care charts, speech and language therapy dysphagia management plan",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dysphagia_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_regimen_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trained_supervisor_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mouth_care_frequency_per_day",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "family_carer_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a structured mouth care chart to the dysphagia management plan, naming the trained staff member or family/carer responsible for each shift, with speech and language therapy providing brief training as part of the initial dysphagia assessment.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the stroke MDT and tissue viability/infection prevention meetings, given the aspiration pneumonia link; embed the structured mouth care chart permanently if compliance improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Mouth care is often delegated informally without checking staff training → build a simple training checklist into ward induction for stroke unit staff",
+   "Family involvement can be inconsistent if visiting hours are limited → record attempts to involve family separately from successful involvement",
+   "Mouth care charts may exist but not be completed consistently → use a structured chart requiring a signature at each episode",
+   "Patients who resist mouth care because of reduced consciousness or agitation are miscounted as failures → record refusals and adapted approaches as a distinct category",
+   "Aspiration pneumonia rates may have multiple causes, complicating outcome attribution → present mouth care compliance as a process measure alongside, not instead of, pneumonia rates"
+  ],
+  "pearls": [
+   "Ask speech and language therapy to provide a short, standard mouth care training session for ward staff as part of stroke unit induction",
+   "Use a simple laminated mouth care chart at the bedside rather than relying on the general nursing care plan",
+   "Track aspiration pneumonia rates over the audit period as a secondary outcome to strengthen the clinical case",
+   "Involve family members proactively by giving them a simple mouth care information leaflet on admission"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from nursing mouth care charts",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adult inpatients are screened for the risk of malnutrition using a validated screening tool within 24 hours of admission?",
+  "why": "Malnutrition on admission is common and worsens outcomes, but screening can be delayed or skipped entirely on busy admission wards. No closed-loop audit of the timeliness of malnutrition screening on admission (as opposed to weekly re-screening for a single surgical specialty) has been published in the library; weekly re-screening for hip fracture inpatients has been audited separately [ONA-007], and documentation of a care plan after a high MUST score has been audited separately [NNA-274].",
+  "standard": {
+   "source": "NICE Quality standard QS24, Nutrition support in adults, statement 1 (2012)",
+   "wording": "All hospital inpatients on admission and all outpatients at their first clinic appointment should be screened. Screening should be repeated weekly for inpatients and for outpatients if there is clinical concern.",
+   "url": "https://www.nice.org.uk/guidance/qs24/chapter/quality-statement-1-screening-for-the-risk-of-malnutrition"
+  },
+  "pass": "A documented MUST (or other validated tool) screening score completed within 24 hours of hospital admission",
+  "population": "Inclusion: all adults admitted as an emergency or elective inpatient. Exclusion: patients who die or are discharged within 24 hours of admission, patients admitted for less than an overnight stay",
+  "sample": "40 consecutive adult admissions across 2-3 general medical and surgical wards over the last 2-3 months",
+  "data_source": "Nursing admission assessment, MUST screening tool documentation in the EPR",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_screen_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_screen_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screened_within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "medical",
+     "surgical",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make MUST screening a mandatory field in the electronic nursing admission assessment that cannot be saved as complete until entered, with an overdue alert visible on the ward safety board after 24 hours.",
+  "target": "≥95%",
+  "reaudit": "8-10 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition steering group and ward safety huddles; embed the mandatory EPR field permanently if screening rates improve.",
+  "evidence": [
+   "[ONA-007] weekly MUST re-screening for hip fracture inpatients, [NNA-274] nutrition care plan documented within 48 hours of a high MUST score: audit later steps in the nutrition pathway, not initial screening timeliness across general admissions"
+  ],
+  "pitfalls": [
+   "Screening may be attempted but not fully completed (for example, weight recorded but height missing) → count only fully completed, scoreable screens as a pass",
+   "Patients unable to be weighed (bed-bound, confused) may be recorded as 'not screened' when an alternative method should be used → record use of alternative MUST methods (ulna length, mid-upper arm circumference) as a valid pass",
+   "Night admissions may be screened just after the 24-hour window due to shift patterns → report the distribution of screening times, not just a pass/fail cut-off",
+   "Screening completed but not scored or acted on undermines the purpose → pair this audit with monitoring of action taken on high-risk scores",
+   "Improvement may not be sustained without an EPR hard stop → avoid relying on a paper reminder alone"
+  ],
+  "pearls": [
+   "Use the trust's existing MUST screening field in the EPR rather than creating a new one",
+   "Recruit ward-based nutrition link nurses to champion the mandatory field change",
+   "Present results by ward and by day of week to identify where gaps cluster",
+   "Feed screening completion rates into the same dashboard used for other admission-bundle metrics so it becomes part of routine ward governance"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from admission records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adult inpatients with a MUST score indicating high risk have a dietitian referral, or another defined local nutrition action, made on the same day as the screen?",
+  "why": "Identifying high malnutrition risk has no benefit unless it triggers timely action, but referral can be delayed while a patient waits for a ward round or is missed altogether. No audit of same-day action following a high-risk MUST score has been published in the library; documentation of a nutrition care plan within 48 hours has been audited separately [NNA-274].",
+  "standard": {
+   "source": "BAPEN MUST (Malnutrition Universal Screening Tool)",
+   "wording": "Refer to dietitian, Nutritional Support Team or implement local policy. Set goals, improve and increase overall nutritional intake. Monitor and review care plan.",
+   "url": "https://www.bapen.org.uk/must-and-self-screening/must-calculator/"
+  },
+  "pass": "A documented dietitian referral or defined local nutrition action taken on the same day as a MUST score of 2 or more is recorded",
+  "population": "Inclusion: adult inpatients with a MUST score of 2 or more. Exclusion: patients already under active dietetic review for another reason at the time of screening, patients receiving end-of-life comfort care only",
+  "sample": "40 consecutive adults with a MUST score of 2 or more over the last 2-3 months",
+  "data_source": "MUST screening record, dietitian referral log, nursing care plan",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screen_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_or_action_taken",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_type",
+    "type": "choice",
+    "options": [
+     "dietitian referral",
+     "nutrition support team referral",
+     "local policy action",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "action_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "same_day_action",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the EPR to automatically generate a dietitian referral and pre-populate a basic local nutrition action plan whenever a MUST score of 2 or more is entered.",
+  "target": "≥85%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition steering group meeting; embed the automatic referral trigger permanently if same-day action rates improve.",
+  "evidence": [
+   "[NNA-274] nutrition care plan documented within 48 hours of a high MUST score: audits documentation completeness at 48 hours rather than whether action is taken on the same day as screening"
+  ],
+  "pitfalls": [
+   "High-scoring patients may be seen by the dietitian eventually but not on the same day → record the exact interval, not just whether action ever happened",
+   "Weekend screening may have no same-day dietetic cover → report weekday versus weekend rates separately and consider a nursing-led interim action for weekends",
+   "Some wards may have an informal local policy (for example, fortified diet menu) that is not documented as a formal action → make 'local policy action' an explicit, codeable option",
+   "Automatic referrals may generate an unmanageable volume for the dietetic service → monitor referral volume and dietetic capacity alongside compliance",
+   "Duplicate referrals for patients already known to dietetics may inflate apparent non-compliance → exclude patients already under active review"
+  ],
+  "pearls": [
+   "Agree the same-day interim nursing action (for example, starting food record charts and fortified diet) with dietetics before the automatic referral is built",
+   "Use the existing MUST screening EPR field as the trigger point rather than creating a parallel system",
+   "Track dietetic referral volume weekly during the pilot to catch capacity problems early",
+   "Report same-day action rates to ward sisters as well as dietetics, since nursing staff often make the first move"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from screening and referral records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults identified as high risk of refeeding syndrome have nutrition support introduced at no more than 50% of their estimated requirements for the first 2 days?",
+  "why": "Starting nutrition support too quickly in patients at high risk of refeeding syndrome can precipitate dangerous electrolyte shifts and cardiac complications, but the cautious starting rate is easy to overlook when a patient appears simply malnourished rather than acutely at risk. No audit of the initial feeding rate for high-refeeding-risk patients has been published in the library; thiamine provision before feeding starts has been audited separately [NNA-382].",
+  "standard": {
+   "source": "NICE CG32 Nutrition support for adults, recommendation 1.4.5 (2006)",
+   "wording": "People who have eaten little or nothing for more than 5 days should have nutrition support introduced at no more than 50% of requirements for the first 2 days, before increasing feed rates to meet full needs if clinical and biochemical monitoring reveals no refeeding problems.",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "Documented nutrition support prescription at no more than 50% of estimated requirements for the first 2 days in a patient meeting the high-refeeding-risk criteria, with biochemical monitoring recorded",
+  "population": "Inclusion: adults starting enteral or parenteral nutrition support who meet the high-risk refeeding criteria (for example, little or no intake for more than 5 days, or the CG32 box 1 criteria). Exclusion: patients started on nutrition support in a critical care setting with a separate unit-specific protocol",
+  "sample": "30-40 consecutive high-refeeding-risk patients starting nutrition support over the last 4-6 months",
+  "data_source": "Dietetic assessment and feeding plan, nutrition prescription chart, biochemistry results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_criteria_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feed_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "estimated_requirement_kcal",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "day_1_2_feed_rate_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biochemical_monitoring_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietetic_review_within_48_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory refeeding risk box to the enteral and parenteral nutrition prescription form that, when ticked, pre-sets the feed rate to no more than 50% of requirements for the first 2 days and prompts daily biochemical monitoring.",
+  "target": "≥90%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition support team and pharmacy governance meeting; embed the prescription form default permanently if compliance improves.",
+  "evidence": [
+   "[NNA-382] thiamine given before tube feeding or parenteral nutrition in high refeeding risk: audits a related but distinct element of the same CG32 refeeding pathway"
+  ],
+  "pitfalls": [
+   "High-risk criteria may not be systematically checked before feeding starts → build a structured criteria checklist into the dietetic assessment",
+   "Estimated requirements may be calculated inconsistently between staff → use a standard calculation method agreed with dietetics",
+   "Out-of-hours feeding may start before dietetic review, at full rate by default → provide a simple out-of-hours prescribing guide for medical and nursing staff",
+   "Biochemical monitoring may be requested but results not reviewed promptly → audit both request and same-day review of results",
+   "Feed rate may be recorded on a nursing chart but not cross-checked against the prescription → use one shared, agreed feeding rate record"
+  ],
+  "pearls": [
+   "Provide a quick-reference refeeding risk card for out-of-hours medical staff, since risk is often first identified outside normal dietetic hours",
+   "Agree the standard requirement calculation and prescribing defaults with the nutrition support team and pharmacy together",
+   "Track biochemical abnormalities and complications as a secondary outcome to demonstrate the safety benefit of compliance",
+   "Keep a small dietetic on-call or telephone advice service, where feasible, to support out-of-hours refeeding decisions"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from dietetic and prescribing records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults screened for malnutrition risk have their screening result and any nutrition support goals documented and communicated in writing within and between care settings?",
+  "why": "A completed malnutrition screen is of little value if the result and any nutrition support plan are not passed on when a patient moves ward, is transferred, or is discharged, risking nutrition support stopping unexpectedly. No audit of written communication of nutrition screening results between settings has been published in the library.",
+  "standard": {
+   "source": "NICE Quality standard QS24, Nutrition support in adults, statement 3 (2012)",
+   "wording": "All people who are screened for the risk of malnutrition have their screening results and nutrition support goals (if applicable), documented and communicated in writing within and between settings.",
+   "url": "https://www.nice.org.uk/guidance/qs24/chapter/quality-statement-3-documentation-and-communication-of-results-and-nutrition-support-goals"
+  },
+  "pass": "The most recent MUST score and any nutrition support goals are documented in the discharge summary or transfer letter for a patient moving between wards, hospitals, or to community/primary care",
+  "population": "Inclusion: adults with a documented MUST screen who are discharged or transferred during the audit period. Exclusion: patients who die as an inpatient, patients transferred to another department within the same ward round without a formal handover document",
+  "sample": "40 consecutive discharges or transfers with a prior MUST screen over the last 2-3 months",
+  "data_source": "Discharge summary, transfer letter, MUST screening record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_or_transfer_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "most_recent_must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nutrition_goals_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "goals_communicated_to_next_setting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'most recent MUST score and nutrition support goals' field to the electronic discharge summary and transfer letter templates, auto-populated from the current MUST record.",
+  "target": "≥90%",
+  "reaudit": "10 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition steering group and discharge planning governance meeting; embed the auto-populated field permanently if communication rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Screening results may be documented in the EPR but not carried into the discharge letter, which is what primary care and care homes actually see → audit the discharge letter specifically, not the EPR record alone",
+   "Nutrition goals may be informal (for example, verbal advice) and not written down → require a structured goals field, not free text alone",
+   "Auto-population may fail if the discharge letter is generated before the final MUST score is entered → sequence the discharge workflow so nutrition data is finalised first",
+   "Community and care home recipients may not act on the information even when it is communicated → consider tracking whether GP or care home nutrition action follows, as a stretch outcome",
+   "High volume of standard discharge letters may make manual auditing slow → use a coded search for the mandatory field once implemented"
+  ],
+  "pearls": [
+   "Work with the IT/EPR team to auto-populate the discharge letter from the existing MUST record rather than requiring manual entry",
+   "Include this as a checklist item in the trust's standard discharge safety checklist",
+   "Present results alongside readmission data, since unclear nutrition handover is a recognised contributor to early readmission",
+   "Share results with community dietetics and care home liaison teams, who are the ultimate recipients of this information"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge documentation",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of new outpatients are screened for the risk of malnutrition using a validated tool at their first clinic appointment?",
+  "why": "Malnutrition screening is well established for hospital inpatients but far less consistently applied in outpatient clinics, where at-risk patients (for example, with cancer, gastrointestinal or respiratory disease) can go unidentified for months. No audit of first-appointment outpatient malnutrition screening has been published in the library.",
+  "standard": {
+   "source": "NICE Quality standard QS24, Nutrition support in adults, statement 1 (2012)",
+   "wording": "All hospital inpatients on admission and all outpatients at their first clinic appointment should be screened. Screening should be repeated weekly for inpatients and for outpatients if there is clinical concern.",
+   "url": "https://www.nice.org.uk/guidance/qs24/chapter/quality-statement-1-screening-for-the-risk-of-malnutrition"
+  },
+  "pass": "A documented MUST or other validated malnutrition screening score recorded at the patient's first attendance at the clinic",
+  "population": "Inclusion: adults attending their first appointment at a named outpatient clinic (for example, gastroenterology, oncology, respiratory). Exclusion: follow-up appointments, telephone or video-only consultations where weight cannot be obtained",
+  "sample": "40 consecutive new outpatient attendances at 1-2 clinics over the last 2-3 months",
+  "data_source": "Outpatient clinic letter, nursing pre-clinic assessment, EPR screening field",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_type",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_screen_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietitian_referral_if_high_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a MUST screening step (weight, height or alternative measure, and unintentional weight loss question) to the pre-clinic nursing check-in for new outpatient appointments in the selected specialties, feeding directly into the clinic letter.",
+  "target": "≥80%",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the specialty clinic governance meeting and nutrition steering group; embed the pre-clinic screening step permanently if uptake improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Outpatient clinics often lack scales or a private space to weigh patients → confirm basic equipment is available before cycle 1",
+   "Nursing or clinic support staff capacity to add a new screening step may be limited → pilot in 1-2 high-yield clinics first, not trust-wide",
+   "Patients attending by telephone or video cannot be physically screened → exclude these from the denominator or use a self-reported alternative",
+   "A positive screen may not lead to a dietitian referral if no clear pathway exists in outpatients → agree the outpatient referral route before starting data collection",
+   "Clinics with high patient turnover may see screening as adding unacceptable time → use the shortest validated tool and involve clinic staff in timing it before rollout"
+  ],
+  "pearls": [
+   "Start with a clinic where malnutrition risk is clinically plausible and staff are receptive (for example, oncology or gastroenterology) to build a strong case study",
+   "Provide a simple self-completion weight-loss question card that patients can fill in the waiting room to save clinic time",
+   "Agree the outpatient dietitian referral pathway with the dietetic service before starting, so a positive screen has somewhere to go",
+   "Report time-per-patient added by screening, to reassure clinic managers ahead of wider rollout"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic and screening records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults at high risk of refeeding problems are cared for by staff with documented expert knowledge of nutritional requirements and nutrition support?",
+  "why": "Managing high refeeding risk safely requires specific expertise in fluid, electrolyte and micronutrient management, but out-of-hours or general ward staff without this training sometimes manage these patients without specialist input. No audit of whether high-refeeding-risk patients are cared for by appropriately trained staff has been published in the library.",
+  "standard": {
+   "source": "NICE CG32 Nutrition support for adults, recommendation 1.4.7 (2006)",
+   "wording": "People at high risk of developing refeeding problems (box 1) should be cared for by healthcare professionals who are appropriately skilled and trained and have expert knowledge of nutritional requirements and nutrition support.",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "Documented dietitian or nutrition support team involvement in the care of a high-refeeding-risk patient from the point of identification until they are stable",
+  "population": "Inclusion: adults meeting the high-risk refeeding criteria (CG32 box 1) starting nutrition support. Exclusion: patients managed in a critical care unit with a dedicated intensivist-led nutrition protocol",
+  "sample": "30-40 consecutive high-risk patients over the last 4-6 months",
+  "data_source": "Dietetic referral and review notes, nutrition support team involvement records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_identified_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dietitian_or_nst_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_specialist_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_review_within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ongoing_specialist_review_until_stable",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic same-day dietitian and nutrition support team referral trigger to the EPR whenever high refeeding risk criteria are documented, with a weekend on-call dietetic advice line for urgent queries.",
+  "target": "≥85%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition support team governance meeting; embed the automatic referral trigger and on-call advice line permanently if compliance improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "High risk may be identified out of hours when specialist dietetic cover is unavailable → provide a documented on-call or telephone advice route",
+   "General ward staff may feel confident managing 'mild' malnutrition without recognising true refeeding risk → provide brief training on the box 1 high-risk criteria",
+   "Specialist involvement may be a single initial review without ongoing follow-up until stability → audit ongoing review, not just the first contact",
+   "Locum or rotating junior medical staff may be unfamiliar with the referral pathway → include it in induction materials",
+   "Nutrition support team capacity may be limited, especially out of hours → monitor referral volume and capacity as part of the fix, not just compliance"
+  ],
+  "pearls": [
+   "Provide a simple laminated card of the box 1 high-risk criteria for admission areas and out-of-hours teams",
+   "Agree an on-call dietetic advice arrangement (even a telephone rota) before rolling out the automatic referral trigger",
+   "Track biochemical complications as a secondary outcome to show the safety value of specialist involvement",
+   "Include the referral pathway in trust induction for new medical and nursing staff so knowledge does not depend on individual experience"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from dietetic and nutrition support team records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients receiving complex enteral or parenteral nutrition support are reviewed by the multidisciplinary nutrition support team?",
+  "why": "Complex nutrition support, particularly parenteral nutrition, carries risks that are best managed with input from doctors, dietitians, specialist nurses and pharmacists working together, but individual disciplines can end up managing these patients in parallel rather than through the team. No audit of multidisciplinary nutrition support team review completion has been published in the library.",
+  "standard": {
+   "source": "NICE CG32 Nutrition support for adults (2006)",
+   "wording": "All acute hospital trusts should have a multidisciplinary nutrition support team, which may include: doctors...dietitians, a specialist nutrition nurse, other nurses, pharmacists, biochemistry and microbiology laboratory support staff, and other allied healthcare professionals.",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "Documented review by the multidisciplinary nutrition support team (or, where a formal team does not exist, joint documented input from a dietitian, doctor and pharmacist) within 3 working days of starting parenteral nutrition or complex enteral feeding",
+  "population": "Inclusion: adults starting parenteral nutrition, or enteral feeding via a surgically placed tube, or feeding expected to continue for more than 4 weeks. Exclusion: patients on short-term nasogastric feeding expected to last less than 2 weeks",
+  "sample": "30-40 consecutive eligible patients over the last 4-6 months",
+  "data_source": "Nutrition support team referral and review documentation, prescribing records for parenteral nutrition",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feed_type",
+    "type": "choice",
+    "options": [
+     "parenteral nutrition",
+     "surgically placed enteral tube",
+     "long-term nasogastric/nasojejunal"
+    ],
+    "note": ""
+   },
+   {
+    "field": "feed_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nst_review_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_3_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set an automatic nutrition support team referral whenever parenteral nutrition or a complex enteral feeding tube is prescribed, with a standing weekly nutrition support team ward round to review all open referrals.",
+  "target": "≥90%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the nutrition support team and pharmacy governance meeting; embed the automatic referral and standing ward round permanently if review rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Some trusts may not have a formally constituted nutrition support team, making 'review' hard to define → agree a minimum joint-input definition (dietitian, doctor, pharmacist) before starting where no formal team exists",
+   "Parenteral nutrition may be started out of hours before the team can review → audit the interval to first review, not same-day review alone",
+   "Referral may happen without a documented outcome → require a written review note, not just a referral entry",
+   "Complex feeding started on a surgical ward may not be flagged to the nutrition support team if ownership is unclear → clarify referral responsibility with surgical teams before cycle 1",
+   "Capacity of the nutrition support team may limit how many reviews can happen within 3 working days → monitor team capacity alongside compliance"
+  ],
+  "pearls": [
+   "Use parenteral nutrition prescribing records as the simplest way to identify the sample",
+   "Agree the automatic referral trigger with pharmacy, since parenteral nutrition prescriptions usually pass through pharmacy first",
+   "Present line-related and metabolic complication rates alongside review compliance to show the clinical value of the change",
+   "Keep the weekly nutrition support team ward round visible on the hospital's clinical governance calendar so it does not quietly lapse"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from nutrition support team records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of patients discharged home on enteral tube feeding have a coordinated community multidisciplinary follow-up plan, including a named dietitian, GP and district nursing contact, arranged before discharge?",
+  "why": "Enteral tube feeding at home depends on a well-coordinated community team, but discharge planning can focus on the equipment and miss arranging the ongoing multidisciplinary follow-up itself, risking feeding interruptions or unrecognised complications after discharge. No audit of community multidisciplinary follow-up arrangements for home enteral tube feeding has been published in the library.",
+  "standard": {
+   "source": "NICE CG32 Nutrition support for adults (2006)",
+   "wording": "All people in the community having enteral tube feeding should be supported by a coordinated multidisciplinary team, which includes dietitians, district, care home or homecare company nurses, GPs, community pharmacists and other allied healthcare professionals... Close liaison between the multidisciplinary team and patients and carers regarding diagnoses, prescription, arrangements and potential problems is essential.",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "A documented discharge plan naming a community dietitian, GP and district/homecare nursing contact for ongoing enteral feeding support, completed before the patient leaves hospital",
+  "population": "Inclusion: adults discharged home or to a care home on enteral tube feeding. Exclusion: patients discharged to another acute hospital or hospice, patients whose tube feeding is expected to stop before discharge",
+  "sample": "30-40 consecutive patients discharged on home enteral tube feeding over the last 4-6 months",
+  "data_source": "Discharge summary, dietetic discharge planning notes, community referral forms",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "community_dietitian_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_informed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "district_homecare_nursing_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_mdt_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_carer_given_contact_details",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory home enteral feeding discharge checklist to the EPR, requiring named community dietitian, GP and district/homecare nursing contacts before the discharge summary can be finalised.",
+  "target": "≥90%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the dietetics and discharge planning governance meeting; embed the mandatory checklist permanently if completion rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Community dietetic and homecare services may vary in how referrals are received, causing delays → map the local referral routes before cycle 1",
+   "Discharge may be expedited under bed pressure before all community contacts are confirmed → make the checklist a hard stop on the discharge summary",
+   "GP notification may happen via a generic discharge letter without a specific enteral feeding flag → add an explicit enteral feeding section to the discharge letter template",
+   "Care home residents may have different notification pathways than those discharged to their own home → record discharge destination and adapt accordingly",
+   "Patients or carers may not retain the contact details given → provide a printed, single-page 'who to contact' card in addition to the discharge letter"
+  ],
+  "pearls": [
+   "Work with the homecare feeding company (where one is used) to build a standard discharge checklist together",
+   "Involve the community dietetic service in designing the checklist so referrals arrive in the format they need",
+   "Give patients and carers a simple laminated contact card, not just a paragraph buried in a longer discharge letter",
+   "Track unplanned readmissions related to feeding problems as a secondary outcome to show the value of coordinated discharge"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from discharge and dietetic records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults with diabetes and a new active (non-limb-threatening) foot problem are referred to the multidisciplinary foot care service or foot protection service within 1 working day, with triage completed within 1 further working day?",
+  "why": "Active diabetic foot problems can progress rapidly to limb-threatening infection or ulceration if referral is delayed, but referral timing outside the inpatient setting (for example, from primary care, podiatry clinics or the emergency department) is rarely tracked. No audit of the 1-working-day referral and triage standard for new active diabetic foot problems has been published in the library; inpatient admission foot examination timing has been audited separately [ONA-078, NNA-114].",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.4.2 (2015)",
+   "wording": "For all other active diabetic foot problems, refer the person within 1 working day to the multidisciplinary foot care service or foot protection service (according to local protocols and pathways...) for triage within 1 further working day.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Documented referral to the multidisciplinary foot care service or foot protection service within 1 working day of a new active (non-limb-threatening) diabetic foot problem being identified, with triage recorded within 1 further working day",
+  "population": "Inclusion: adults with diabetes presenting with a new active foot problem (ulceration, infection, or suspected Charcot arthropathy) that is not immediately limb- or life-threatening, identified in primary care, community podiatry, the emergency department or outpatient clinics. Exclusion: limb- or life-threatening presentations requiring immediate acute referral, patients already under active multidisciplinary foot care service follow-up",
+  "sample": "30-40 consecutive new active diabetic foot problems identified over the last 4-6 months",
+  "data_source": "Podiatry, GP and emergency department referral records, multidisciplinary foot care service triage log",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "problem_identified_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triage_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triaged_within_1_further_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_source",
+    "type": "choice",
+    "options": [
+     "primary care",
+     "community podiatry",
+     "emergency department",
+     "outpatient clinic"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single, well-publicised electronic referral route (fax-free, one form) to the multidisciplinary foot care service accessible from primary care, community podiatry and the emergency department, with a same-day triage response built into the podiatry team's daily workflow.",
+  "target": "≥85%",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the diabetic foot multidisciplinary team and primary care network meeting; embed the single referral route permanently if timeliness improves.",
+  "evidence": [
+   "[ONA-078] diabetic foot examination within 24 hours of orthopaedic admission, [NNA-114] diabetic foot risk assessment within 24 hours of medical admission: audit inpatient admission foot examination, not referral and triage timing for new active problems identified outside the inpatient admission pathway"
+  ],
+  "pitfalls": [
+   "Referrers outside the acute trust (GPs, community podiatrists) may not know the correct referral route → publicise a single, simple referral pathway across primary and community care",
+   "Weekend or bank holiday presentations may miss the 1-working-day target through no fault of the referrer → report working-day compliance rather than calendar-day compliance",
+   "Referral date may be recorded as the date the letter is typed rather than the date the problem was identified → clarify the start point as clinical identification, not paperwork",
+   "Triage delay may occur even when referral is prompt, if the foot service is under-resourced → audit referral and triage timeliness as separate steps",
+   "Different definitions of 'active' foot problem may be applied inconsistently → use the NG19 risk stratification definitions explicitly in the audit template"
+  ],
+  "pearls": [
+   "Agree a single, shared referral form and route with primary care, the emergency department and community podiatry before starting data collection",
+   "Recruit a podiatry team lead and a GP with an interest in diabetes as joint audit leads to bridge primary and secondary care",
+   "Track referral source to identify where delays cluster and target the fix accordingly",
+   "Report results to the local diabetes network, not just the acute trust, since most referrals originate outside hospital"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from referral and triage records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults with diabetes have their risk of developing a foot problem formally assessed at diagnosis and at least annually thereafter?",
+  "why": "Annual diabetic foot risk assessment identifies people who need referral to podiatry before problems develop, but recall systems can lapse, particularly for patients who do not attend routine diabetes reviews. No audit of the annual foot risk assessment standard itself (as distinct from inpatient admission foot checks) has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.3.3 (2015)",
+   "wording": "For adults with diabetes, assess their risk of developing a diabetic foot problem at the following times: When diabetes is diagnosed, and at least annually thereafter...",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "A documented foot risk assessment (both feet examined, risk stratified as low, moderate, high or active) recorded within the last 12 months for a patient with an established diagnosis of diabetes",
+  "population": "Inclusion: adults with a diabetes diagnosis of 12 months or more registered with the practice or diabetes service. Exclusion: patients who have had a bilateral lower limb amputation, patients who declined the assessment despite being offered it",
+  "sample": "40 consecutive adults with diabetes due an annual review over the last 3 months",
+  "data_source": "GP or diabetes clinic annual review template, podiatry/foot risk assessment record",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_foot_risk_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessed_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_recorded",
+    "type": "choice",
+    "options": [
+     "low",
+     "moderate",
+     "high",
+     "active",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "onward_referral_if_moderate_high",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automated 12-monthly recall to the practice or diabetes service's electronic register that flags any patient overdue a foot risk assessment, generating a reminder letter or text message.",
+  "target": "≥90%",
+  "reaudit": "3-4 months later (allowing time for recalls to take effect), same template and sample size",
+  "close_loop": "Present at the diabetes network and primary care network meeting; embed the automated recall permanently if assessment rates improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Patients who do not attend routine diabetes reviews are systematically missed → track non-attendance rates and consider opportunistic assessment at any contact",
+   "Foot risk assessment may be recorded without formal risk stratification, making the record hard to audit → require the risk category as a discrete, codeable field",
+   "Care home residents or housebound patients may be excluded from clinic-based recall systems → arrange domiciliary foot assessment as an alternative pathway",
+   "Multiple providers (GP, diabetes clinic, podiatry) may each believe the other completed the assessment → agree a single named responsible service",
+   "A high proportion of 'not recorded' risk categories can mask assessments that were actually done but poorly documented → review free-text notes as well as coded fields where discrepancies arise"
+  ],
+  "pearls": [
+   "Use the practice's existing diabetes register and recall system rather than building a new one from scratch",
+   "Agree a single coded risk-category field with the clinical system supplier so the data is auditable going forward",
+   "Prioritise recall for patients not seen in the last 15 months to catch those falling furthest behind",
+   "Report results back to individual GP practices within the network to drive local ownership"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from GP and diabetes clinic records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults newly referred to the foot protection service are assessed within the recommended timeframe for their risk category: 2 to 4 weeks for high risk and 6 to 8 weeks for moderate risk?",
+  "why": "Foot protection service waiting times directly affect whether a moderate- or high-risk foot is assessed before it deteriorates, but waiting list pressures can push assessment beyond the recommended window without this being routinely tracked. No audit of foot protection service assessment timeliness by risk category has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.3.9 (2015)",
+   "wording": "The foot protection service should assess newly referred people as follows: Within 2 to 4 weeks for people who are at high risk of developing a diabetic foot problem. Within 6 to 8 weeks for people who are at moderate risk of developing a diabetic foot problem.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "First foot protection service assessment completed within 4 weeks of referral for high-risk patients, or within 8 weeks for moderate-risk patients",
+  "population": "Inclusion: adults newly referred to the foot protection service with a stated risk category of moderate or high. Exclusion: patients referred with an active or limb-threatening foot problem (managed via a different, faster pathway)",
+  "sample": "40 consecutive new foot protection service referrals over the last 3-4 months",
+  "data_source": "Podiatry referral and appointment booking system",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_at_referral",
+    "type": "choice",
+    "options": [
+     "moderate",
+     "high"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_to_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "met_target_for_risk_category",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce risk-stratified booking slots in the podiatry appointment system, so high-risk referrals are automatically offered an appointment within 4 weeks and moderate-risk referrals within 8 weeks, with a waiting list review meeting if targets are at risk of being breached.",
+  "target": "≥85% of referrals meeting the timeframe for their risk category",
+  "reaudit": "12 weeks later, same template and sample size",
+  "close_loop": "Present at the podiatry service governance and diabetes network meeting; embed risk-stratified booking permanently if waiting times improve.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Risk category may not be clearly stated on the referral, defaulting patients to a lower-priority slot → make risk category a mandatory referral field",
+   "Capacity constraints may mean the whole service is over target, not just poorly prioritised → report absolute waiting times alongside risk-stratified compliance to distinguish the two problems",
+   "Patients may cancel or rearrange their first appointment, extending the apparent wait → record patient-caused delays separately from service delays",
+   "Referrals from different sources (GP, hospital, self-referral) may use inconsistent risk terminology → provide a simple risk-category reference for all referrers",
+   "Improvement gained by re-prioritising existing capacity may simply shift delays to lower-risk patients → monitor low-risk waiting times too, to avoid an unintended consequence"
+  ],
+  "pearls": [
+   "Use the podiatry booking system's existing data fields to build the risk-stratified reporting rather than a manual log",
+   "Share risk-category definitions with all major referrers (GP practices, diabetes clinics, hospital wards) before making risk category mandatory",
+   "Present waiting time data by risk category monthly to the podiatry team so slippage is caught early, not only at re-audit",
+   "Use the audit to support any business case for additional podiatry capacity if absolute waiting times, not just prioritisation, are the underlying problem"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the podiatry booking system",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of adults known to the foot protection service are reassessed at the interval appropriate to their risk category (annually for low risk, every 3-6 months for moderate risk, every 1-2 months for high risk)?",
+  "why": "Ongoing surveillance intervals matter as much as the initial assessment, but recall systems can allow moderate- and high-risk patients to drift onto a less frequent review cycle than their risk warrants. No audit of ongoing reassessment interval compliance by diabetic foot risk category has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.3.11 (2015, updated 2023)",
+   "wording": "Depending on the person's risk of developing a diabetic foot problem, carry out reassessments at the following intervals: Annually for people who are at low risk, as part of their annual diabetes review. Frequently (for example, every 3 to 6 months) for people who are at moderate risk. More frequently (for example, every 1 to 2 months) for people who are at high risk, if there is no immediate concern.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "The interval between the two most recent foot risk reassessments is within the recommended range for the patient's documented risk category at the earlier assessment",
+  "population": "Inclusion: adults with diabetes known to the foot protection service with a documented risk category of moderate or high, and at least two recorded assessments. Exclusion: patients discharged from the foot protection service, patients whose risk category changed to active (managed via the active foot pathway) between assessments",
+  "sample": "30-40 consecutive moderate- or high-risk patients with two recent assessments over the last 6 months",
+  "data_source": "Podiatry/foot protection service assessment records",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category",
+    "type": "choice",
+    "options": [
+     "moderate",
+     "high"
+    ],
+    "note": ""
+   },
+   {
+    "field": "previous_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "most_recent_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_within_recommended_range",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automated recall reminder to the podiatry caseload system that flags patients approaching or exceeding their risk-appropriate reassessment interval, reviewed weekly by the administrative team.",
+  "target": "≥85%",
+  "reaudit": "3-4 months later, same template and sample size",
+  "close_loop": "Present at the podiatry service governance meeting; embed the automated recall reminder permanently if interval compliance improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Risk category can change between assessments, complicating which interval applies → use the risk category recorded at the earlier of the two assessments",
+   "Patients who miss or cancel appointments extend the interval through no fault of the service → record patient non-attendance separately from service delay",
+   "High-risk patients needing very frequent review (every 1-2 months) generate a large recall workload → ensure administrative capacity matches the recall volume before rollout",
+   "Recall systems may not distinguish moderate from high risk automatically → build risk category into the recall system as a discrete field, not a free-text note",
+   "Patients discharged and re-referred may show an artificially long interval → exclude re-referred patients or flag them separately"
+  ],
+  "pearls": [
+   "Build the recall system on the podiatry service's existing caseload database rather than a standalone spreadsheet",
+   "Agree recall administrative responsibility explicitly, since this task is easy to lose between clinical and administrative staff",
+   "Report interval compliance by risk category separately, since high-risk patients are most vulnerable to slippage",
+   "Use missed and rearranged appointment data to identify patients who may need a different reminder method (text message, phone call)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from podiatry caseload records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of hospital inpatients at moderate or high risk of a diabetic foot problem are given a pressure redistribution device to offload heel pressure, and referred or notified to the foot protection service on discharge?",
+  "why": "Inpatients with diabetes at moderate or high foot risk are vulnerable to heel pressure damage during a hospital stay, and the transition to community foot care surveillance after discharge is easily missed if notification is not built into the discharge process. No audit of heel offloading device provision and discharge notification to the foot protection service has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.3.12 (2015)",
+   "wording": "People in hospital who are at moderate or high risk of developing a diabetic foot problem should be given a pressure redistribution device to offload heel pressure. On discharge they should be referred or notified to the foot protection service.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Documented provision of a heel pressure redistribution device during the admission, and a documented referral or notification to the foot protection service recorded in the discharge summary",
+  "population": "Inclusion: adults with diabetes admitted to hospital with a documented moderate or high diabetic foot risk category. Exclusion: patients with an active foot problem already under multidisciplinary foot care service follow-up, patients who die as an inpatient",
+  "sample": "30-40 consecutive eligible inpatients over the last 4-6 months",
+  "data_source": "Nursing pressure area care records, tissue viability equipment log, discharge summary",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category_documented",
+    "type": "choice",
+    "options": [
+     "moderate",
+     "high"
+    ],
+    "note": ""
+   },
+   {
+    "field": "heel_offloading_device_provided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fps_referral_or_notification_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'diabetic foot risk: moderate/high → heel offloading device provided, FPS notified on discharge' prompt to the diabetes inpatient nursing bundle and the electronic discharge summary template.",
+  "target": "≥85%",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the tissue viability and diabetes inpatient team meeting; embed the discharge summary prompt permanently if compliance improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Heel offloading devices may not be readily stocked on general wards → confirm equipment availability with tissue viability before cycle 1",
+   "Foot risk category may not be documented for inpatients unless specifically prompted → link this audit to any existing inpatient foot risk assessment process",
+   "Discharge summaries may mention diabetes generally without a specific foot protection service notification → require an explicit, separate field",
+   "Patients transferred between wards may lose their heel offloading device without it being reordered → include a ward-transfer equipment check",
+   "Notification to the foot protection service may happen verbally or informally and go unrecorded → require a written notification, ideally electronic"
+  ],
+  "pearls": [
+   "Combine this with any existing inpatient diabetic foot risk assessment audit to use the same case list",
+   "Work with tissue viability to ensure heel offloading equipment is readily available on wards with high numbers of diabetes admissions",
+   "Build the foot protection service notification into the same discharge workflow as other community referrals, rather than a separate process",
+   "Track heel pressure ulcer incidence in this population as a secondary outcome to demonstrate impact"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from nursing and discharge records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "When diabetic foot ulcer debridement is carried out in hospital, is it done only by a healthcare professional from the multidisciplinary foot care service?",
+  "why": "Debridement of diabetic foot ulcers by staff without specialist foot care training can damage healthy tissue or miss deeper infection, but ad hoc debridement by general surgical or ward staff can occur when the multidisciplinary foot care service is not readily available. No audit of who performs inpatient diabetic foot ulcer debridement has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.5.7 (2015)",
+   "wording": "When treating diabetic foot ulcers, debridement in hospital should only be done by healthcare professionals from the multidisciplinary foot care service, using the technique that best matches their specialist expertise and clinical experience, the site of the diabetic foot ulcer and the person's preference.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Documented record that every debridement episode for a diabetic foot ulcer during the hospital stay was performed by a named member of the multidisciplinary foot care service",
+  "population": "Inclusion: adults with diabetes admitted to hospital with a foot ulcer requiring debridement during the stay. Exclusion: debridement performed as part of a major surgical procedure (for example, formal surgical debridement under general anaesthetic led by the surgical team as part of an agreed multidisciplinary foot care service plan)",
+  "sample": "30 consecutive inpatient diabetic foot ulcer debridement episodes over the last 4-6 months",
+  "data_source": "Wound care and podiatry treatment notes, theatre records where relevant",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "debridement_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "performed_by_role",
+    "type": "choice",
+    "options": [
+     "podiatrist",
+     "tissue viability nurse",
+     "surgeon (as part of MDT plan)",
+     "ward nurse",
+     "other non-MDT staff"
+    ],
+    "note": ""
+   },
+   {
+    "field": "performer_part_of_mdt_foot_service",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "technique_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'debridement performed by' field, restricted to named multidisciplinary foot care service staff, to the wound care documentation for diabetic foot ulcers, with an alert if a non-specialist attempts to document a debridement episode.",
+  "target": "100% of debridement episodes performed by multidisciplinary foot care service staff",
+  "reaudit": "10-12 weeks later, same template and sample size",
+  "close_loop": "Present at the diabetic foot multidisciplinary team and tissue viability governance meeting; embed the restricted documentation field permanently if compliance reaches target.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Ward nursing staff may perform minor debridement as part of routine dressing changes without recognising this as 'debridement' → define debridement clearly (sharp, mechanical, larval, enzymatic) in staff training",
+   "Out-of-hours or weekend gaps in multidisciplinary foot care service cover may lead to non-specialist staff stepping in → establish an on-call or escalation pathway for urgent debridement needs",
+   "Surgical debridement under a formal operative plan may be wrongly flagged as non-compliant → exclude debridement performed by the surgical team as part of an agreed multidisciplinary foot care service plan",
+   "Documentation may record 'wound cleaned' without specifying who did what, obscuring true practice → require role and technique to be recorded explicitly",
+   "Staff may be unaware of the restriction if it has not previously been enforced locally → communicate the standard clearly before starting data collection, to avoid appearing punitive"
+  ],
+  "pearls": [
+   "Provide brief training to ward nursing staff on recognising debridement and escalating to the multidisciplinary foot care service rather than proceeding themselves",
+   "Agree an urgent escalation or on-call route for debridement needs identified out of hours",
+   "Use wound photography, where available, alongside documentation to support quality review of debridement episodes",
+   "Present results supportively, focusing on system gaps (access to the specialist service) rather than individual blame"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 episodes from wound care documentation",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people with suspected acute Charcot arthropathy are referred within 1 working day to the multidisciplinary foot care service for triage within 1 further working day, with non-weight-bearing treatment offered in the meantime?",
+  "why": "Acute Charcot arthropathy can cause severe, irreversible foot deformity if weight-bearing continues during the diagnostic delay, but the condition is easily mistaken for a simple sprain or cellulitis, delaying the urgent referral it needs. No audit of the 1-working-day Charcot referral standard has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.7.3 (2015)",
+   "wording": "To confirm the diagnosis of acute Charcot arthropathy, refer the person within 1 working day to the multidisciplinary foot care service for triage within 1 further working day. Offer non-weight-bearing treatment until definitive treatment can be started by the multidisciplinary foot care service.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Documented referral to the multidisciplinary foot care service within 1 working day of suspected acute Charcot arthropathy being identified, triage within 1 further working day, and non-weight-bearing advice or a device offered from the point of suspicion",
+  "population": "Inclusion: adults with diabetes presenting with a red, warm, swollen or deformed foot in whom acute Charcot arthropathy is suspected. Exclusion: patients with a confirmed alternative diagnosis (for example, cellulitis or acute gout) made at first presentation",
+  "sample": "20-30 consecutive suspected acute Charcot presentations over the last 6-12 months (a low-volume but high-harm presentation)",
+  "data_source": "Emergency department, podiatry, orthopaedic and diabetes clinic records",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspicion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "non_weight_bearing_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triage_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triaged_within_1_further_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'suspected acute Charcot foot' pathway alert to the emergency department and diabetes clinic systems that triggers an immediate non-weight-bearing advice sheet and a same-day fast-track referral to the multidisciplinary foot care service.",
+  "target": "≥85%",
+  "reaudit": "6-12 months later, given the low case volume, same template and sample size",
+  "close_loop": "Present at the diabetic foot multidisciplinary team meeting and emergency department governance meeting; embed the fast-track pathway alert permanently if timeliness improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Acute Charcot arthropathy is rare, making a 2-week sample impossible → extend the collection window to 6-12 months to reach a meaningful sample",
+   "The condition is commonly misdiagnosed as cellulitis or a sprain at first presentation, delaying the referral clock → audit time from first presentation with red flag features, not only from confirmed diagnosis",
+   "Non-weight-bearing advice may be given verbally without being documented → provide a printed advice sheet that is given and filed as evidence",
+   "Emergency department staff may be unfamiliar with the condition → provide a simple red-flag recognition card for diabetic foot presentations",
+   "Small numbers mean a single delayed case has a large effect on the reported percentage → present individual case narratives alongside the overall rate"
+  ],
+  "pearls": [
+   "Use a multi-year or multi-site case series if the local trust sees very few cases in a short window",
+   "Provide emergency department and GP education on the classic 'hot, swollen, red foot with intact skin' presentation of acute Charcot arthropathy",
+   "Keep printed non-weight-bearing advice sheets and offloading devices readily available in the emergency department",
+   "Review every case as an individual learning event with the diabetic foot multidisciplinary team, given how rare and high-harm delayed diagnosis is"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from multi-department records",
+  "area": "Allied health professions"
+ },
+ {
+  "question": "What proportion of people with a foot deformity resulting from previous Charcot arthropathy are under ongoing care with the foot protection service?",
+  "why": "A healed Charcot foot with residual deformity remains at high, lifelong risk of new ulceration, but once the acute episode has resolved, patients can be discharged from specialist follow-up and lost to ongoing foot protection service surveillance. No audit of ongoing foot protection service care for patients with a previous Charcot deformity has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recommendation 1.7.8 (2015)",
+   "wording": "People who have a foot deformity that may be the result of a previous Charcot arthropathy are at high risk of ulceration and should be cared for by the foot protection service.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Documented current, active registration with the foot protection service at high-risk review frequency for a patient with a known previous Charcot deformity",
+  "population": "Inclusion: adults with a documented diagnosis of previous Charcot arthropathy and residual foot deformity. Exclusion: patients who have had a below-knee or higher amputation of the affected limb",
+  "sample": "20-30 patients with a coded history of Charcot arthropathy identified from podiatry or orthopaedic records over the last 12 months",
+  "data_source": "Podiatry/foot protection service caseload records, orthopaedic and diabetes clinic letters",
+  "template": [
+   {
+    "field": "patient_id_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "charcot_diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "currently_on_fps_caseload",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_frequency_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_frequency_matches_high_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_discharged",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Flag every confirmed Charcot arthropathy diagnosis with a permanent 'high-risk, do not discharge from foot protection service' marker on the podiatry caseload system.",
+  "target": "100% of patients with a previous Charcot deformity remaining on active foot protection service review",
+  "reaudit": "6-9 months later, same template and sample size",
+  "close_loop": "Present at the diabetic foot multidisciplinary team meeting; embed the permanent high-risk marker in the podiatry caseload system if retention improves.",
+  "evidence": [
+   "no audit in library"
+  ],
+  "pitfalls": [
+   "Patients may be discharged from acute Charcot follow-up once the episode resolves, without recognising ongoing high risk → make the high-risk marker permanent, distinct from acute-phase follow-up",
+   "Coding of 'Charcot arthropathy' may be inconsistent across systems, making the population hard to identify → cross-check podiatry, orthopaedic and diabetes clinic records",
+   "Patients who move house or transfer care may fall out of the local foot protection service without formal discharge being recorded → record transfer of care as a distinct category from discharge",
+   "Long time since the acute episode may mean deformity is under-recognised as Charcot-related by newer staff → ensure the permanent marker carries a clear diagnostic note",
+   "Small numbers make the percentage sensitive to a single lost-to-follow-up case → review each case individually rather than relying on the percentage alone"
+  ],
+  "pearls": [
+   "Use a permanent, clearly labelled flag in the podiatry electronic record rather than relying on staff memory of individual cases",
+   "Cross-reference orthopaedic, diabetes and podiatry records when building the initial case list, since Charcot patients may be seen by any of these services",
+   "Review flagged patients annually at a diabetic foot multidisciplinary team meeting to confirm ongoing appropriate review",
+   "Communicate the permanent high-risk status clearly in any discharge or transfer letter if the patient does move areas"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per patient from podiatry and clinic records",
+  "area": "Allied health professions"
+ }
+]

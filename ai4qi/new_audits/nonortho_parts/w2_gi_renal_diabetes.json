@@ -1,0 +1,2059 @@
+[
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults admitted with acute upper GI bleeding have a Glasgow-Blatchford score documented at their first assessment?",
+  "why": "The Blatchford score decides who can go home safely and who needs urgent endoscopy, yet it was used in 12.5% of bleeds in one DGH and in 50% after teaching [2283]; the national audit found no pre-endoscopy risk score in 42% [3018]. No audit in the library has fixed this with a system change.",
+  "standard": {
+   "source": "NICE CG141 rec 1.1.1 (2012, updated 2016)",
+   "wording": "Use the following formal risk assessment scores for all patients with acute upper gastrointestinal bleeding: the Blatchford score at first assessment, and the full Rockall score after endoscopy.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "pass": "A numeric Glasgow-Blatchford score is written in the ED or admission clerking (or EPR score field) before the decision to admit, discharge or refer for endoscopy.",
+  "population": "Adults (18+) presenting to ED or the acute medical/surgical take with haematemesis, coffee-ground vomit or melaena. Exclude patients already inpatients when the bleed started and those on end-of-life care.",
+  "sample": "40 consecutive adults with suspected upper GI bleeding over the last 2–3 months.",
+  "data_source": "ED system and endoscopy request list or clinical coding (K92.0–K92.2, I85) for cases; ED and clerking notes or EPR for the score and decision time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_feature",
+    "type": "choice",
+    "options": [
+     "haematemesis",
+     "coffee-ground vomit",
+     "melaena",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "blatchford_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "blatchford_value",
+    "type": "number",
+    "options": [],
+    "note": "0–23; blank if not recorded"
+   },
+   {
+    "field": "documented_before_disposition_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_documented",
+    "type": "choice",
+    "options": [
+     "ED clinician",
+     "medical team",
+     "surgical team",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "disposition",
+    "type": "choice",
+    "options": [
+     "discharged",
+     "admitted",
+     "transferred"
+    ],
+    "note": ""
+   },
+   {
+    "field": "blatchford_0_discharged",
+    "type": "yes/no",
+    "options": [],
+    "note": "Discharge of score-0 patients, for context"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory Glasgow-Blatchford calculator to the ED and acute take GI-bleed proforma (EPR form or printed sticker), so the score auto-calculates from the bloods and observations already entered.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive adults with suspected upper GI bleeding, same template.",
+  "close_loop": "Present at the joint ED/gastroenterology governance meeting. If it works, keep the calculator in the proforma and add the score to the endoscopy request so requests without it are returned.",
+  "evidence": [
+   "[2283] DGH upper GI bleeds: Blatchford used 12.5% → 50% (teaching alone)",
+   "[3018] UK national UGIB audit 2022: no pre-endoscopy risk stratification in 42%",
+   "[2357] lower GI bleeding: Oakland score 10% → 42% (teaching with e-calculator link)",
+   "[2744] Irish UGIB audit: Blatchford not documented in most cases (baseline only)"
+  ],
+  "pitfalls": [
+   "Score calculated but written only in the endoscopy request → search ED notes, clerking and the request, and count it only if it is timed before the disposition decision.",
+   "ED staff see the score as the medical team's job → agree before cycle 1 which team owns it (usually the first clinician) and put that on the proforma.",
+   "Missing urea or haemoglobin at first assessment → allow a score recorded once the first bloods return, and note the time.",
+   "Small numbers of score-0 patients → report score-0 discharges as context only, not as a pass criterion.",
+   "Gains fade when the proforma is bypassed → track use of the proforma alongside the pass rate."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and a gastroenterologist as joint sponsors before cycle 1.",
+   "Build the calculator so it fills from the observations and blood results already in the EPR; manual scoring is where it fails.",
+   "Ask the endoscopy booking team to return requests without a score: this keeps the change alive after the audit team rotates.",
+   "Feed back monthly run charts to the ED huddle for the first 3 months."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with suspected variceal bleeding receive terlipressin before endoscopy?",
+  "why": "Terlipressin lowers portal pressure and saves lives in variceal bleeding, yet 19% of variceal bleeds in a regional audit did not receive it [3012] and only 44% of UK patients had a vasopressor before endoscopy [5714]. No closed-loop audit of this step has been published in the library.",
+  "standard": {
+   "source": "NICE CG141 rec 1.5.1 (2012, updated 2016)",
+   "wording": "Offer terlipressin to patients with suspected variceal bleeding at presentation. Stop treatment after definitive haemostasis has been achieved, or after 5 days, unless there is another indication for its use.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "pass": "First dose of terlipressin given (administration time on the drug chart) before the start of endoscopy, in a patient in whom variceal bleeding was suspected at presentation.",
+  "population": "Adults with known or suspected cirrhosis or portal hypertension presenting with upper GI bleeding, where varices were suspected in the notes or found at endoscopy. Exclude documented contraindication (e.g. active ischaemic heart or peripheral vascular disease) and patients on end-of-life care; record exclusions.",
+  "sample": "30–40 consecutive adults with suspected variceal bleeding over the last 6–12 months (variceal bleeds are less frequent).",
+  "data_source": "Endoscopy reporting system (varices found or banding done) and ED/admission notes for cases; electronic drug chart for terlipressin time; endoscopy report for start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_cirrhosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "varices_suspected_at_presentation",
+    "type": "yes/no",
+    "options": [],
+    "note": "Documented in ED or clerking notes"
+   },
+   {
+    "field": "terlipressin_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "terlipressin_first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endoscopy_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "terlipressin_before_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Excluded if yes"
+   },
+   {
+    "field": "varices_confirmed_at_endoscopy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add terlipressin as a pre-selected item in a 'suspected variceal bleed' EPR order set (with IV antibiotic) and stock it in the ED emergency drug cupboard so the first dose is not delayed by pharmacy supply.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, or after the next 30 suspected variceal bleeds if numbers are low; same template.",
+  "close_loop": "Present at the gastroenterology and ED governance meetings. If it works, keep the order set, keep terlipressin in ED stock and add a check to the monthly GI-bleed dashboard.",
+  "evidence": [
+   "[3012] regional decompensated liver disease audit: 19% of variceal bleeds did not receive terlipressin (baseline; care bundle planned)",
+   "[5714] UK variceal haemorrhage audit: vasopressor before endoscopy 44% (baseline only)",
+   "[2744] Irish UGIB audit: variceal bleeds missed terlipressin and antibiotics (baseline only)"
+  ],
+  "pitfalls": [
+   "Suspected variceal bleed is judged after the event → define 'suspected' before cycle 1 as known cirrhosis, portal hypertension or stigmata of chronic liver disease in the clerking.",
+   "Drug given in endoscopy is recorded late → use the endoscopy start time from the endoscopy system and the administration time on the drug chart, not the prescription time.",
+   "Small numbers → extend the look-back window rather than dropping below 30 cases, and keep the same window length in cycle 2.",
+   "Pharmacy objects to ED stock because of cost → show the cost of one extra ITU day; agree a small stock with expiry checks."
+  ],
+  "pearls": [
+   "Recruit a hepatology consultant and the ED pharmacist before cycle 1.",
+   "Pair terlipressin with antibiotics in one order set so both happen together.",
+   "Put a laminated 'suspected variceal bleed' action card on the ED resus wall.",
+   "Ask endoscopy nurses to check terlipressin status at the pre-procedure safety pause."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from EPR and endoscopy system"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults taking low-dose aspirin for secondary prevention who are admitted with upper GI bleeding have aspirin continued once bleeding has stopped?",
+  "why": "Stopping aspirin after a bleed raises the risk of heart attack and stroke; one DGH audit counted stopping aspirin as good practice and raised it from 60% to 80% [2283]. No audit in the library has measured continuation of secondary-prevention aspirin after haemostasis.",
+  "standard": {
+   "source": "NICE CG141 rec 1.6.1 (2012, updated 2016)",
+   "wording": "Continue low-dose aspirin for secondary prevention of vascular events in patients with upper gastrointestinal bleeding in whom haemostasis has been achieved.",
+   "url": "https://www.nice.org.uk/guidance/cg141/chapter/Recommendations"
+  },
+  "pass": "Aspirin is on the inpatient drug chart or discharge prescription once haemostasis is documented (endoscopic or clinical), or a documented reason not to restart is recorded by the responsible consultant.",
+  "population": "Adults admitted with upper GI bleeding who were taking low-dose aspirin (75–150 mg) before admission for secondary prevention (previous MI, stroke/TIA, stent, peripheral arterial disease). Exclude aspirin for primary prevention only, deaths before haemostasis and patients on end-of-life care.",
+  "sample": "30–40 consecutive eligible adults over the last 6 months.",
+  "data_source": "Endoscopy reporting system and coding for cases; admission medicines reconciliation for pre-admission aspirin and indication; EPR drug chart and discharge prescription for continuation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_indication",
+    "type": "choice",
+    "options": [
+     "ischaemic heart disease",
+     "stroke/TIA",
+     "coronary stent",
+     "peripheral arterial disease",
+     "other secondary prevention"
+    ],
+    "note": ""
+   },
+   {
+    "field": "haemostasis_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Endoscopy report or clinical note that bleeding has stopped"
+   },
+   {
+    "field": "aspirin_on_chart_after_haemostasis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_on_discharge_prescription",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_restarted_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: continued, or documented reason"
+   },
+   {
+    "field": "rebleed_in_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "For safety context"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'secondary-prevention aspirin: continue once haemostasis achieved (NICE CG141 1.6.1)' tick box to the endoscopy report template and the GI-bleed post-endoscopy plan.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 30–40 eligible adults, same template.",
+  "close_loop": "Present at gastroenterology and cardiology/stroke governance meetings. If it works, keep the endoscopy report prompt and add it to the pharmacist discharge check.",
+  "evidence": [
+   "[2283] DGH upper GI bleeds: 'aspirin stopped' rose 60% → 80% (teaching alone; standard opposite to NICE)",
+   "[2240] lower GI bleeding: antiplatelets suspended appropriately in 10 of 14 (checklist)",
+   "[5556] epistaxis: withholding of aspirin and clopidogrel fell after a treatment algorithm (system change)"
+  ],
+  "pitfalls": [
+   "Primary-prevention aspirin mixed in → record the indication from medicines reconciliation and exclude primary prevention.",
+   "Clinicians fear rebleeding → record rebleeding as a safety measure and share it with the endoscopists.",
+   "Haemostasis time unclear → agree before cycle 1 that the endoscopy report or first 'no further bleeding' note is the time point.",
+   "Aspirin restarted in hospital but dropped from the discharge letter → check both the inpatient chart and the discharge prescription."
+  ],
+  "pearls": [
+   "Recruit the endoscopy lead and a ward pharmacist.",
+   "Put the prompt where the decision is made: the endoscopy report.",
+   "Share the rebleeding data; it usually reassures sceptical colleagues.",
+   "Ask pharmacists to flag stopped secondary-prevention aspirin at discharge screening."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with harmful or dependent drinking admitted with an acute illness receive parenteral thiamine within 24 hours of admission?",
+  "why": "Wernicke's encephalopathy is preventable but often missed; audits show thiamine given in 25–58% of at-risk drinkers [3603][3286] and 34% on discharge [9262]. No closed-loop audit of parenteral thiamine timing has been published in the library.",
+  "standard": {
+   "source": "NICE CG100 rec 1.2.1.3 (2010, updated 2017)",
+   "wording": "Offer prophylactic parenteral thiamine followed by oral thiamine to harmful or dependent drinkers: if they are malnourished or at risk of malnourishment or if they have decompensated liver disease and in addition they attend an emergency department or are admitted to hospital with an acute illness or injury.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "pass": "First dose of parenteral thiamine (e.g. Pabrinex) administered within 24 hours of admission, as shown by the administration record.",
+  "population": "Adults admitted to medical or surgical wards with harmful or dependent drinking (documented in notes, AUDIT score ≥16 or alcohol-related diagnosis) who are malnourished or at risk (MUST ≥1 or poor intake) or have decompensated liver disease. Exclude those already on parenteral thiamine for suspected Wernicke's and patients on end-of-life care.",
+  "sample": "40 consecutive eligible adults over the last 2–3 months.",
+  "data_source": "Alcohol care team referral list or coding (F10, K70) for cases; EPR/drug chart administration record for thiamine; admission notes and MUST for eligibility.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alcohol_status",
+    "type": "choice",
+    "options": [
+     "harmful",
+     "dependent",
+     "not clear"
+    ],
+    "note": ""
+   },
+   {
+    "field": "eligibility_reason",
+    "type": "choice",
+    "options": [
+     "malnourished or at risk",
+     "decompensated liver disease",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "parenteral_thiamine_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_parenteral_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "oral_thiamine_followed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alcohol_care_team_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build an 'alcohol admission' EPR order set that pre-selects IV Pabrinex followed by oral thiamine whenever alcohol dependence is recorded in the clerking.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible adults, same template.",
+  "close_loop": "Present with the alcohol care team at the medical governance meeting. If it works, keep the order set and add thiamine administration to the alcohol care team's monthly report.",
+  "evidence": [
+   "[3603] re-audit of alcohol misuse admissions: thiamine 25% (no system fix)",
+   "[3286] UK alcohol withdrawal audit: oral thiamine 58% (baseline; teaching planned)",
+   "[9262] acute alcohol withdrawal: thiamine on discharge 34% (baseline only)",
+   "[7300] mental health detox: CIWA documentation 39% → 91% (EPR change)"
+  ],
+  "pitfalls": [
+   "Prescribed but not given → count administration time, not prescription time.",
+   "Eligibility unclear from notes → agree the malnourishment definition (MUST ≥1 or intake poor) before cycle 1 and keep it for cycle 2.",
+   "Pharmacy supply delays on wards → check ward stock of Pabrinex before cycle 1.",
+   "Order set used for everyone, including low-risk drinkers → report total use as a balancing measure."
+  ],
+  "pearls": [
+   "Recruit the alcohol care team nurse as co-lead; they already track these patients.",
+   "Link the order set to the alcohol question in the clerking so it fires automatically.",
+   "Put Pabrinex in the acute medical unit and ED stock lists.",
+   "Re-brief each new FY1 intake at induction with a one-slide reminder."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults treated in hospital for acute alcohol withdrawal are prescribed a symptom-triggered benzodiazepine regimen?",
+  "why": "Fixed regimens without scoring lead to over-sedation and longer stays; a symptom-triggered regimen shortened withdrawal in [4548], but correct regimens were given in only 23% of patients in [9262] and CIWA-Ar was used in 14–44% [3286][3551].",
+  "standard": {
+   "source": "NICE CG100 rec 1.1.3.4 (2010, updated 2017)",
+   "wording": "Follow a symptom-triggered regimen for drug treatment for people in acute alcohol withdrawal who are: in hospital or in other settings where 24‑hour assessment and monitoring are available.",
+   "url": "https://www.nice.org.uk/guidance/cg100/chapter/Recommendations"
+  },
+  "pass": "Benzodiazepine for withdrawal is prescribed as doses linked to a withdrawal score (e.g. CIWA-Ar or GMAWS), and at least one score is recorded before the first as-needed dose.",
+  "population": "Adults admitted to medical, surgical or ED observation wards and treated with a benzodiazepine for acute alcohol withdrawal. Exclude delirium tremens managed on critical care, planned elective detoxification and patients on end-of-life care.",
+  "sample": "40 consecutive adults over the last 2–3 months.",
+  "data_source": "Alcohol care team list or pharmacy report of chlordiazepoxide/diazepam issues for cases; drug chart for regimen type; observation chart or EPR for withdrawal scores.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "benzodiazepine",
+    "type": "choice",
+    "options": [
+     "chlordiazepoxide",
+     "diazepam",
+     "lorazepam",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "regimen_type",
+    "type": "choice",
+    "options": [
+     "symptom-triggered",
+     "fixed reducing",
+     "fixed plus as-needed",
+     "unclear"
+    ],
+    "note": ""
+   },
+   {
+    "field": "withdrawal_tool_used",
+    "type": "choice",
+    "options": [
+     "CIWA-Ar",
+     "GMAWS",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_before_first_prn_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_triggered_pass",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "total_benzodiazepine_mg_first_72h",
+    "type": "number",
+    "options": [],
+    "note": "Diazepam-equivalent; balancing measure"
+   },
+   {
+    "field": "oversedation_or_naloxone_flumazenil",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the free-text withdrawal prescription with a symptom-triggered EPR order set linked to a CIWA-Ar or GMAWS observation chart that tells nurses the dose for each score.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 adults treated for withdrawal, same template.",
+  "close_loop": "Present with the alcohol care team and ward nursing leads. If it works, make the linked chart the only withdrawal prescription in the EPR and add it to nursing induction.",
+  "evidence": [
+   "[4548] symptom-triggered chlordiazepoxide: shorter symptom duration after new regimen (system change)",
+   "[9262] acute alcohol withdrawal: correct reducing regimen 23%, CIWA-Ar 4-hourly 14% (baseline only)",
+   "[7300] mental health detox: CIWA documentation 39% → 91% (EPR change)",
+   "[3551] alcohol dependence QI: CIWA-Ar completed 24% (teaching and EPR prompts; no cycle 2 figures)"
+  ],
+  "pitfalls": [
+   "Nurses unfamiliar with scoring → train ward nursing leads before the change, not doctors alone.",
+   "Fixed regimens still appropriate for some (e.g. history of seizures) → allow 'fixed with documented reason' as a separate category and report it.",
+   "Scores recorded on paper and not in EPR → agree before cycle 1 where scores are found and search both.",
+   "Over-sedation fears → track total benzodiazepine dose and sedation events as balancing measures."
+  ],
+  "pearls": [
+   "Make the alcohol care team and a ward matron co-owners.",
+   "Choose one tool (CIWA-Ar or GMAWS) Trust-wide and keep it.",
+   "Put the score-to-dose table on the chart itself.",
+   "Show the drop in total benzodiazepine dose; it wins over sceptical staff."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from drug chart and observation chart"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with cirrhosis and ascites admitted as an emergency have a diagnostic ascitic tap within 24 hours of admission?",
+  "why": "Spontaneous bacterial peritonitis is often silent, and each hour of delay in the diagnostic tap raises in-hospital mortality; a regional audit found 62% tapped within 24 hours and 17% never tapped [3012]. No closed-loop audit of tap timing has been published in the library.",
+  "standard": {
+   "source": "BSG/BASL guidelines on the management of ascites in cirrhosis, Gut 2021;70:9–29, recommendation 2.1",
+   "wording": "Diagnostic paracentesis should be carried out without a delay to rule out spontaneous bacterial peritonitis (SBP) in all cirrhotic patients with ascites on hospital admission.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7788190/"
+  },
+  "pass": "Ascitic fluid sample taken (neutrophil count sent) within 24 hours of the admission time. The 24-hour limit is the local measure of 'without a delay'.",
+  "population": "Adults with cirrhosis and clinically or radiologically confirmed ascites admitted as an emergency for any reason. Exclude planned day-case paracentesis, ascites too small to tap on ultrasound (record) and patients on end-of-life care.",
+  "sample": "40 consecutive eligible admissions over the last 3–4 months.",
+  "data_source": "Coding (K70–K74 with R18) or hepatology ward list for cases; laboratory system for ascitic fluid sample time and neutrophil count; admission notes for the reason for admission.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_reason",
+    "type": "choice",
+    "options": [
+     "GI bleeding",
+     "fever or infection",
+     "encephalopathy",
+     "worsening liver or kidney function",
+     "tense ascites",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ascitic_tap_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ascitic_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "From laboratory receipt time"
+   },
+   {
+    "field": "tap_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "neutrophil_count_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sbp_diagnosed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Neutrophils >250/mm3"
+   },
+   {
+    "field": "antibiotic_started_if_sbp",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'diagnostic ascitic tap within 24 hours' step with a pre-filled ascitic fluid order set to the decompensated cirrhosis admission bundle in the EPR.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible admissions, same template.",
+  "close_loop": "Present at the gastroenterology/hepatology governance meeting. If it works, keep the bundle as the default admission document for decompensated cirrhosis and add tap timing to the unit dashboard.",
+  "evidence": [
+   "[3012] regional decompensated liver disease audit: tap within 24 h 62%, never tapped 17% (baseline; care bundle planned)",
+   "[6037] SBP management: more ascitic samples sent after electronic request prompts and teaching (system change)",
+   "[6131] care bundle QI: compliance 20% → 100% (electronic checklist and education)"
+  ],
+  "pitfalls": [
+   "Taps done in ED not linked to the admission → search laboratory records by patient number from the ED arrival time.",
+   "Ascites too small to tap → record ultrasound findings and exclude only when documented.",
+   "Clinicians worry about bleeding with a high INR → share the BSG advice that routine clotting checks and blood products are not needed before paracentesis.",
+   "Weekend admissions dominate failures → report weekday and weekend results separately."
+  ],
+  "pearls": [
+   "Recruit a hepatology consultant and the acute medicine lead.",
+   "Keep ascitic tap packs and blood-culture bottles on the acute medical unit.",
+   "Offer a short supervised tap session for resident doctors in the first month.",
+   "Make the bundle the default admission document for anyone coded with decompensated cirrhosis."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and lab system"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with cirrhosis having a large-volume paracentesis of more than 5 litres receive 8 g of albumin per litre drained?",
+  "why": "Too little albumin after a large drain causes kidney injury and low sodium, while too much wastes an expensive blood product; audits outside the UK show appropriate albumin use at 30–50% [3004]. No UK audit of albumin dosing after paracentesis has been published in the library.",
+  "standard": {
+   "source": "BSG/BASL guidelines on the management of ascites in cirrhosis, Gut 2021;70:9–29, recommendation 6.1",
+   "wording": "Albumin (as 20% or 25% solution) should be infused after paracentesis of >5 L is completed at a dose of 8 g albumin/L of ascites removed.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7788190/"
+  },
+  "pass": "Total 20% or 25% albumin given for the procedure is within ±10% of 8 g per litre of the total volume drained (e.g. 7 L drained → 50–62 g).",
+  "population": "Adults with cirrhosis having therapeutic paracentesis with more than 5 L drained on the ward or day unit. Exclude malignant ascites, drains removed before 5 L and patients on end-of-life care.",
+  "sample": "40 consecutive large-volume paracenteses over the last 2–3 months.",
+  "data_source": "Day unit or ward procedure log for cases; fluid balance chart for volume drained; drug chart or blood bank issue record for albumin dose.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "day unit",
+     "inpatient ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "volume_drained_litres",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "albumin_concentration",
+    "type": "choice",
+    "options": [
+     "20%",
+     "25%",
+     "4.5%",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "albumin_grams_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_grams",
+    "type": "number",
+    "options": [],
+    "note": "8 × litres drained"
+   },
+   {
+    "field": "dose_within_10pct",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "aki_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Safety measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a dose table (litres drained → grams and bottles of 20% albumin) to the paracentesis procedure record so the dose is read off, not calculated.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 large-volume paracenteses, same template.",
+  "close_loop": "Present at hepatology governance and the hospital transfusion committee. If it works, keep the dose table in the procedure record and add albumin grams per litre to the transfusion committee report.",
+  "evidence": [
+   "[3004] Canadian albumin stewardship: appropriate use 30% → 50% (electronic order set and education)",
+   "[8519] US albumin stewardship: monthly albumin spend down 61% (cost transparency and audit feedback)",
+   "[3016] UK blood component use in cirrhosis: prophylactic transfusion without a planned procedure 61% (baseline only)"
+  ],
+  "pitfalls": [
+   "Volume drained not recorded when the drain is removed → make total volume a required field in the procedure record.",
+   "Albumin given in 100 ml bottles makes exact dosing impossible → allow ±10% and round to whole bottles.",
+   "Albumin given for drains under 5 L (in ACLF or high renal risk) → record separately; BSG allows it in these cases.",
+   "Blood bank issues recorded but not given → use the administration record, not issue data."
+  ],
+  "pearls": [
+   "Recruit the day unit sister; they own the procedure record.",
+   "Pre-print the dose table on the drain chart.",
+   "Involve the transfusion practitioner; albumin usage data are already collected.",
+   "Show the cost saved, not only compliance, at the transfusion committee."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 procedures from procedure log and drug chart"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with acute kidney injury and no identified cause have a urinary tract ultrasound within 24 hours?",
+  "why": "Missed obstruction turns reversible kidney injury into permanent damage; the national AKI audit found timely imaging in only 37.2% [7623]. No closed-loop audit of AKI ultrasound timing has been published in the library.",
+  "standard": {
+   "source": "NICE NG148 rec 1.4.6 (2019, updated 2024)",
+   "wording": "When adults, children and young people have no identified cause of their acute kidney injury or are at risk of urinary tract obstruction, offer urgent ultrasound of the urinary tract (to be performed within 24 hours of assessment). [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "Ultrasound of the urinary tract performed (PACS time) within 24 hours of the first medical assessment of the AKI.",
+  "population": "Adults on medical or surgical wards with a laboratory AKI alert (stage 1–3) where no cause is recorded in the notes within 24 hours, or with risk factors for obstruction (prostate disease, pelvic malignancy, single kidney, stones, anuria). Exclude patients on dialysis and those on end-of-life care.",
+  "sample": "40 consecutive eligible AKI alerts over the last 4–8 weeks.",
+  "data_source": "Laboratory AKI alert list for cases; clerking and ward-round notes for cause and assessment time; PACS/RIS for request and scan time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "aki_alert_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aki_stage",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_assessment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "eligibility",
+    "type": "choice",
+    "options": [
+     "no cause identified",
+     "risk of obstruction",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_requested_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_performed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h_of_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hydronephrosis_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an 'AKI – no cause found / risk of obstruction' ultrasound request option in the RIS that radiology books into a protected next-day slot.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 eligible AKI alerts, same template.",
+  "close_loop": "Present at the joint medicine/radiology governance meeting. If it works, keep the request category and the protected slot, and report its use quarterly.",
+  "evidence": [
+   "[7623] national AKI audit England and Wales: timely imaging 37.2% (baseline only)",
+   "[7158] inpatient AKI e-alerts: AKI recognised 15% → 43% (laboratory e-alert with pathway)",
+   "[6038] hospital AKI care bundle: all measures met 3.7% → 8.4% of patient-days (bundle with education)"
+  ],
+  "pitfalls": [
+   "'No cause identified' is judged in hindsight → decide eligibility from notes written in the first 24 hours only.",
+   "Radiology pushes back on extra urgent scans → show the numbers (usually 2–5 a week) and agree the slot in advance.",
+   "Scans requested but not done at weekends → report weekday and weekend separately.",
+   "Over-requesting when the cause is clear (NICE 1.4.4) → track scans in patients with a clear cause as a balancing measure."
+  ],
+  "pearls": [
+   "Recruit a nephrologist and an ultrasound lead radiographer before cycle 1.",
+   "Use the laboratory AKI alert list; it gives every case with a time stamp.",
+   "Put the NICE wording in the RIS request option so vetting radiologists accept it.",
+   "Include catheter status; a bladder scan may answer the question first."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and PACS"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults discharged after stage 2 or 3 acute kidney injury have a discharge letter that states when their creatinine should be rechecked?",
+  "why": "After AKI, kidney function often does not recover and the GP needs to know when to check it; AKI was mentioned on the discharge letter in 8.7% of surgical patients [2824], and full AKI follow-up information rose from 22% to 92% only with a mandatory letter field [6571].",
+  "standard": {
+   "source": "NICE NG148 rec 1.5.16 (2019, updated 2024)",
+   "wording": "Monitor serum creatinine after an episode of acute kidney injury. Base the frequency of monitoring on the stability and degree of renal function at the time of discharge. Consider referral to a nephrologist or paediatric nephrologist when eGFR is 30 ml/min/1.73 m2 or less in adults, children and young people who have recovered from an acute kidney injury. [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "The discharge letter names AKI (with stage) and gives a date or time frame for the next creatinine check and who will do it.",
+  "population": "Adults discharged alive from medical or surgical wards after an AKI episode that reached stage 2 or 3. Exclude patients on dialysis before admission, those discharged under renal follow-up with a booked clinic blood test (record) and patients discharged for end-of-life care.",
+  "sample": "40 consecutive eligible discharges over the last 4–8 weeks.",
+  "data_source": "Laboratory AKI alert list (stage 2–3) linked to discharge date for cases; electronic discharge letter for content; results system for discharge creatinine.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "peak_aki_stage",
+    "type": "choice",
+    "options": [
+     "2",
+     "3"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_creatinine",
+    "type": "number",
+    "options": [],
+    "note": "µmol/L"
+   },
+   {
+    "field": "aki_named_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recheck_timeframe_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "responsible_for_recheck",
+    "type": "choice",
+    "options": [
+     "GP",
+     "hospital clinic",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "medicines_stopped_or_changed_listed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_30_or_less_at_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Renal referral considered?"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make an 'AKI during admission' section with a required 'recheck creatinine by (date)' field in the electronic discharge letter, triggered automatically when an AKI stage 2–3 alert occurred during the stay.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at the medical directorate governance meeting and share with the local GP forum. If it works, keep the triggered field and report completion on the AKI dashboard.",
+  "evidence": [
+   "[6571] AKI follow-up information in discharge letters: 22% → 92% (mandatory AKI annotation in the electronic letter)",
+   "[2824] surgical AKI: AKI mentioned on discharge 8.7% → 26.9% (no system fix)",
+   "[7113] primary care post-AKI care: AKI coding 28% → 50% (incentivised service with feedback)"
+  ],
+  "pitfalls": [
+   "Letters say 'repeat bloods' without a date → count only a date or a time frame as a pass.",
+   "Stage 1 AKI would swamp the sample → restrict to stage 2–3 and keep the same rule in cycle 2.",
+   "The trigger fires for patients who died or were transferred → exclude them in both cycles.",
+   "GPs receive the date but no one books the test → add a line asking the patient to book it, and ask the GP forum for feedback."
+  ],
+  "pearls": [
+   "Recruit the EPR team early; the trigger is the hard part.",
+   "Agree default time frames with the renal team (e.g. 1–2 weeks for stage 3).",
+   "Invite a GP to the presentation; they will champion the change.",
+   "Use the lab AKI alert list for cases: it is complete and time-stamped."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adult inpatients with a potassium of 6.0 mmol/L or above have a 12-lead ECG recorded within 1 hour of the result?",
+  "why": "Severe hyperkalaemia can cause fatal arrhythmias without warning, and the ECG decides whether IV calcium is needed. No audit of ECG timing in hyperkalaemia has been published in the library.",
+  "standard": {
+   "source": "UK Kidney Association Clinical Practice Guideline: Management of Hyperkalaemia in Adults (updated July 2026), guideline 14.1",
+   "wording": "We recommend that all hospitalised patients with a serum K+ level ≥ 6.0 mmol/L have an urgent 12-lead ECG (electrocardiogram) performed and assessed for changes of hyperkalaemia. (1B)",
+   "url": "https://ukkidney.org/sites/default/files/documents/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAEMIA%20IN%20ADULTS%20-%20UPDATED%20JULY%202026_0.pdf"
+  },
+  "pass": "A 12-lead ECG is recorded (ECG machine or EPR time stamp) within 1 hour of the potassium result being available, and the notes state whether hyperkalaemic changes are present. The 1-hour limit is the local definition of 'urgent'.",
+  "population": "Adults in ED or on inpatient wards with a laboratory or blood-gas potassium ≥6.0 mmol/L. Exclude haemolysed samples later shown to be spurious, patients on end-of-life care, and repeat results in the same episode (first result only).",
+  "sample": "40 consecutive episodes over the last 4–6 weeks.",
+  "data_source": "Laboratory critical-result log for cases (time result available and phoned); ECG management system or scanned ECGs for time; notes for interpretation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "potassium_value",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "result_available_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "medical ward",
+     "surgical ward",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ecg_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_within_1h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ecg_interpretation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hyperkalaemic_changes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_calcium_given_if_changes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'record a 12-lead ECG now' to the laboratory critical-result phone script and to the EPR hyperkalaemia alert, so the nurse who takes the call records the ECG.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 episodes, same template.",
+  "close_loop": "Present at the medical and ED governance meetings with the biochemistry lead. If it works, keep the phone script and alert wording and add ECG timing to the critical-results audit.",
+  "evidence": [
+   "[6626] US hyperkalaemia protocol: protocol ordering 62% → 74%, hypoglycaemia 28% → 11% (education on an order-set protocol)",
+   "[3257] psychiatric inpatients: ECG within 24 h 52% → 62% (recommendations only)",
+   "[1880] falls assessment: ECG 60% → 90% (checklist and education)"
+  ],
+  "pitfalls": [
+   "ECG done but not time-stamped in the notes → use the ECG machine or ECG system time.",
+   "Pseudo-hyperkalaemia from haemolysed samples → exclude only if the report or repeat confirms it.",
+   "Nurses unsure whether they may record an ECG without a doctor → agree before cycle 1 that the ECG is a nurse-initiated step.",
+   "Out-of-hours delays → report day and night separately."
+  ],
+  "pearls": [
+   "Recruit the biochemistry duty lead; the critical-results log gives every case.",
+   "Agree a nurse-initiated ECG policy with nursing leadership.",
+   "Keep an ECG machine on each acute ward charged and stocked.",
+   "Use the same ECG for the calcium decision and write the finding in one line."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from lab log and ECG system"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults treated for a potassium of 6.0 mmol/L or above have their potassium rechecked within 2 hours of treatment?",
+  "why": "Insulin-glucose lowers potassium only for a few hours, and rebound is common; without an early recheck, failed treatment and rebound go unseen. No audit of potassium recheck timing has been published in the library.",
+  "standard": {
+   "source": "UK Kidney Association Clinical Practice Guideline: Management of Hyperkalaemia in Adults (updated July 2026), guideline 17.1.2",
+   "wording": "We suggest that serum K+ is assessed at least 1, 2, 4, 6 and 24 hours after identification and treatment of moderate or severe hyperkalaemia. (2C)",
+   "url": "https://ukkidney.org/sites/default/files/documents/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAEMIA%20IN%20ADULTS%20-%20UPDATED%20JULY%202026_0.pdf"
+  },
+  "pass": "A potassium value (laboratory or blood gas) is available within 2 hours of the first potassium-lowering treatment (insulin-glucose or salbutamol).",
+  "population": "Adults in ED or on inpatient wards with potassium ≥6.0 mmol/L who receive insulin-glucose or nebulised salbutamol. Exclude patients started on dialysis within 2 hours, cardiac arrest and patients on end-of-life care.",
+  "sample": "40 consecutive treated episodes over the last 1–2 months.",
+  "data_source": "Laboratory critical-result log and pharmacy/EPR records of insulin-glucose for cases; drug chart administration time; laboratory and blood-gas analyser records for repeat potassium times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "initial_potassium",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "treatment_given",
+    "type": "choice",
+    "options": [
+     "insulin-glucose",
+     "salbutamol",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "treatment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First administration"
+   },
+   {
+    "field": "repeat_potassium_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First value after treatment"
+   },
+   {
+    "field": "repeat_within_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_potassium_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "potassium_at_4_to_6h_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": "Rebound check"
+   },
+   {
+    "field": "rebound_6_or_above",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a pre-timed potassium recheck (blood gas at 1 and 2 hours) to the hyperkalaemia treatment order set, printed on the insulin-glucose prescription.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 treated episodes, same template.",
+  "close_loop": "Present at the medical and ED governance meetings. If it works, keep the timed checks in the order set and include them in the hyperkalaemia treatment chart used Trust-wide.",
+  "evidence": [
+   "[6626] US hyperkalaemia protocol: protocol ordering 62% → 74% (education on an order-set protocol)",
+   "[6157] hypokalaemia: adequate treatment 22% → 63% (treatment algorithm)",
+   "[7311] VRIII QI: hypoglycaemic events per infusion 0.73 → 0.28 (mixed, including prescription redesign)"
+  ],
+  "pitfalls": [
+   "Blood-gas potassium not in the EPR → agree before cycle 1 how to retrieve analyser results and search both.",
+   "Treatment time unclear → use the administration time on the drug chart, not the prescription time.",
+   "Patients moved from ED to a ward mid-treatment → follow the patient, not the location.",
+   "Staff treat the 2-hour check as the last one → also record the 4–6 hour check as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit the point-of-care testing lead to help pull blood-gas data.",
+   "Put the recheck times on the prescription so nurses can act without a doctor.",
+   "Combine the timed potassium and glucose checks on one hyperkalaemia chart.",
+   "Present rebound cases as short stories; they persuade better than percentages."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPR and blood-gas records"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults treated for hyperkalaemia in hospital leave with a community potassium check arranged?",
+  "why": "Hyperkalaemia often recurs after discharge, especially when RAAS drugs are restarted; no audit of post-discharge potassium monitoring has been published in the library.",
+  "standard": {
+   "source": "UK Kidney Association Clinical Practice Guideline: Management of Hyperkalaemia in Adults (updated July 2026), guideline 21.3",
+   "wording": "We recommend that community blood monitoring is arranged on discharge for all patients who have required treatment for hyperkalaemia during hospital admission. (1B)",
+   "url": "https://ukkidney.org/sites/default/files/documents/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAEMIA%20IN%20ADULTS%20-%20UPDATED%20JULY%202026_0.pdf"
+  },
+  "pass": "The discharge letter states a date or time frame for a potassium check after discharge and who will do it (GP, hospital clinic or community team).",
+  "population": "Adults discharged alive after needing treatment for hyperkalaemia (insulin-glucose, salbutamol, a potassium binder or IV calcium) during the admission. Exclude patients on maintenance dialysis and those discharged for end-of-life care.",
+  "sample": "40 consecutive eligible discharges over the last 2–3 months.",
+  "data_source": "Pharmacy or EPR records of hyperkalaemia treatment for cases; electronic discharge letter for follow-up bloods; drug chart for RAAS drugs and binders at discharge.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "peak_potassium",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "treatment_type",
+    "type": "choice",
+    "options": [
+     "insulin-glucose",
+     "salbutamol",
+     "potassium binder",
+     "IV calcium",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hyperkalaemia_named_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "community_potassium_check_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "check_timeframe",
+    "type": "choice",
+    "options": [
+     "within 1 week",
+     "1–2 weeks",
+     "later",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "raas_drug_restarted_or_continued",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "readmitted_hyperkalaemia_30d",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'hyperkalaemia treated: potassium check by (date)' field to the electronic discharge letter, triggered when a hyperkalaemia treatment was given during the stay.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at medical governance and share with the GP forum. If it works, keep the triggered field and review 30-day readmissions with hyperkalaemia each quarter.",
+  "evidence": [
+   "[6571] AKI follow-up information in discharge letters: 22% → 92% (mandatory field in the electronic letter)",
+   "[2824] surgical AKI: AKI mentioned on discharge 8.7% → 26.9% (no system fix)",
+   "[1814] DAPT letters: 12% gave no duration (baseline; clinical system warnings planned)"
+  ],
+  "pitfalls": [
+   "Identifying treated patients is hard → use pharmacy issues of potassium binders and insulin-glucose order sets, not coding.",
+   "'Bloods with GP' written with no date → count only a date or a time frame.",
+   "Hospital clinic follow-up without bloods → check the clinic letter or booking before counting as a pass.",
+   "Readmission numbers are small → report them as context, not as the pass measure."
+  ],
+  "pearls": [
+   "Recruit the renal pharmacist; they already track binder use.",
+   "Link the trigger to the same order set used for treatment.",
+   "Suggest default time frames (e.g. within 1 week if a RAAS drug is restarted).",
+   "Tell the GP which drugs were stopped or changed in the same section."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults starting planned haemodialysis start with an arteriovenous fistula or graft rather than a catheter?",
+  "why": "Starting dialysis on a catheter brings more bloodstream infections and deaths; the UK Renal Registry found only 27.8% started on a fistula, ranging 10–54% between centres [5759]. No local closed-loop audit of first dialysis access has been published in the library.",
+  "standard": {
+   "source": "UK Renal Association Clinical Practice Guideline: Vascular Access for Haemodialysis, 6th edition (2015), guideline 1.1",
+   "wording": "We recommend that all patients with end stage kidney disease who commence haemodialysis or are on long-term haemodialysis should dialyse with an arteriovenous fistula as first choice, an arteriovenous graft as second choice, a tunnelled venous catheter as third choice and a non-tunnelled temporary catheter as an option of necessity (1A).",
+   "url": "https://ukkidney.org/sites/default/files/vascular-access.pdf"
+  },
+  "pass": "The first haemodialysis session uses a working arteriovenous fistula or graft.",
+  "population": "Adults starting maintenance haemodialysis who were known to the renal service for at least 90 days before their first session. Exclude acute kidney injury dialysis that later became maintenance, and patients switching from peritoneal dialysis or a failed transplant (record separately).",
+  "sample": "All planned haemodialysis starters in the last 12 months (typically 30–60 in a renal unit).",
+  "data_source": "Renal database (first dialysis date, access used at first session, date first known to renal service, access referral and surgery dates).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_known_to_renal_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_haemodialysis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "access_at_first_session",
+    "type": "choice",
+    "options": [
+     "AV fistula",
+     "AV graft",
+     "tunnelled catheter",
+     "non-tunnelled catheter"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fistula_or_graft_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "access_surgery_referral_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if never referred"
+   },
+   {
+    "field": "access_creation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_at_referral",
+    "type": "number",
+    "options": [],
+    "note": "ml/min/1.73 m2"
+   },
+   {
+    "field": "reason_catheter_start",
+    "type": "choice",
+    "options": [
+     "no referral",
+     "referred late",
+     "access not mature",
+     "access failed",
+     "patient choice",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic prompt in the renal database that lists every patient whose eGFR falls below 15 ml/min/1.73 m2 (or who has chosen haemodialysis) without a vascular access referral, reviewed at the weekly low-clearance MDT.",
+  "target": "≥65% of planned starters (UK Renal Registry benchmark)",
+  "reaudit": "After a further 6 months: all planned haemodialysis starters in that period, same template.",
+  "close_loop": "Present at the renal unit governance meeting with the vascular access surgeons. If it works, keep the MDT list as a standing agenda item and report the rate quarterly.",
+  "evidence": [
+   "[5759] UK Renal Registry dialysis access audit: first access AVF 27.8%, range 10–54% between centres (baseline only)",
+   "[8446] dialysis option decisions: late presenters 80:20 haemodialysis (baseline only)",
+   "[6825] vascular access device care: standards raised and infections reduced (training and standardisation)"
+  ],
+  "pitfalls": [
+   "Late referrals from primary care inflate catheter starts → the 90-day rule excludes true late presenters; keep it for both cycles.",
+   "Fistula created but not mature → record the reason; it points to surgical waiting times, not referral.",
+   "Small numbers per quarter → use 12 months for cycle 1 and 6 months for cycle 2, and report counts with percentages.",
+   "Surgeons see the audit as blame → co-present with them and focus on the referral step."
+  ],
+  "pearls": [
+   "Recruit the vascular access nurse; they hold most of the dates.",
+   "Agree the eGFR trigger with the low-clearance clinic lead before cycle 1.",
+   "Track time from referral to surgery as a secondary measure.",
+   "Share each catheter start at MDT as a short case review."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from renal database"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults treated for diabetic ketoacidosis have 10% glucose started within 1 hour of their blood glucose falling below 14 mmol/L?",
+  "why": "While the fixed-rate insulin keeps clearing ketones, glucose falls fast; without 10% glucose patients become hypoglycaemic or have insulin wrongly stopped. No audit in the library measures this step.",
+  "standard": {
+   "source": "JBDS 02: The Management of Diabetic Ketoacidosis in Adults (revised March 2023)",
+   "wording": "If the glucose falls below 14.0 mmol/L, commence 10% glucose given at 125 ml/hour alongside the 0.9% sodium chloride solution. In addition consider reducing the rate of intravenous insulin infusion to 0.05 units/kg/hr.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_02_DKA_Guideline_with_QR_code_March_2023.pdf"
+  },
+  "pass": "10% glucose infusion running (fluid chart start time) within 1 hour of the first capillary or laboratory glucose below 14.0 mmol/L while on the fixed-rate insulin infusion.",
+  "population": "Adults (18+) treated for DKA with a fixed-rate intravenous insulin infusion in ED, AMU, wards or HDU. Exclude patients whose glucose never fell below 14 mmol/L during the infusion and those transferred out within 2 hours.",
+  "sample": "30–40 consecutive DKA episodes over the last 6–12 months.",
+  "data_source": "Diabetes team DKA log or coding (E10.1, E11.1) for cases; DKA care pathway chart for hourly glucose; fluid chart for 10% glucose start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "friii_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_glucose_below_14_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glucose_10pct_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glucose_10pct_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_1h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "insulin_rate_reduced_to_0_05",
+    "type": "yes/no",
+    "options": [],
+    "note": "Optional, per JBDS 'consider'"
+   },
+   {
+    "field": "glucose_below_4_during_friii",
+    "type": "yes/no",
+    "options": [],
+    "note": "Harm measure"
+   },
+   {
+    "field": "insulin_infusion_stopped_before_resolution",
+    "type": "yes/no",
+    "options": [],
+    "note": "Harm measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Pre-print (or pre-build in the EPR) a 10% glucose 125 ml/hour prescription on the DKA pathway, marked 'start when glucose <14 mmol/L', so nurses can start it without waiting for a doctor.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14, or after the next 30 DKA episodes if numbers are low; same template.",
+  "close_loop": "Present at the diabetes and acute medicine governance meetings. If it works, keep the pre-printed prescription and add hypoglycaemia during DKA treatment to the diabetes team dashboard.",
+  "evidence": [
+   "[6507] DKA QI: mean DKA duration 22.0 h → 10.2 h (monthly feedback of specific criteria)",
+   "[7635] DKA re-audit: 11 of 18 standards improved (education, updated guideline, 7-day DSN service)",
+   "[7311] VRIII QI: hypoglycaemic events per infusion 0.73 → 0.28 (mixed, including prescription redesign)"
+  ],
+  "pitfalls": [
+   "Glucose readings recorded on paper and in the meter but not the EPR → agree before cycle 1 which source is used and keep it.",
+   "10% glucose prescribed but not hung → use the fluid chart start time, not the prescription.",
+   "Small numbers of DKA → extend the look-back to 12 months and keep the window the same in cycle 2.",
+   "Nurses unsure they can start a pre-prescribed fluid → get nursing policy sign-off before the change."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient specialist nurse as co-lead.",
+   "Put the 14 mmol/L trigger in bold on the hourly monitoring chart.",
+   "Count hypoglycaemia during treatment; it shows why the step matters.",
+   "Brief ED and AMU nurse leads, as most delays happen at handover."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 episodes from DKA charts"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults admitted with diabetic ketoacidosis are seen by the diabetes specialist team within 1 working day of admission?",
+  "why": "Specialist review cuts length of stay and repeat DKA by finding the cause and teaching sick-day rules; one unit reached 98.4% only after starting a 7-day specialist nurse service [7635]. No other closed-loop audit of review timing has been published in the library.",
+  "standard": {
+   "source": "JBDS 02: The Management of Diabetic Ketoacidosis in Adults (revised March 2023), Best Practice Tariff standards table",
+   "wording": "People admitted to hospital with diabetic ketoacidosis should be seen by member of the diabetes specialist team within 1 working day of admission",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_02_DKA_Guideline_with_QR_code_March_2023.pdf"
+  },
+  "pass": "A documented review by a diabetes consultant, specialist registrar or diabetes inpatient specialist nurse by the end of the first working day after admission.",
+  "population": "Adults (18+) admitted with DKA. Exclude those who died or were discharged within 24 hours without specialist input possible (record separately) and patients on end-of-life care.",
+  "sample": "30–40 consecutive DKA admissions over the last 6–12 months.",
+  "data_source": "Coding (E10.1, E11.1, E13.1) or diabetes team DKA log for cases; EPR notes and diabetes team referral system for referral and review times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_day",
+    "type": "choice",
+    "options": [
+     "weekday",
+     "weekend or bank holiday"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer",
+    "type": "choice",
+    "options": [
+     "diabetes consultant",
+     "diabetes registrar",
+     "DISN",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "within_1_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "precipitating_cause_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "readmitted_dka_90d",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up an automatic referral to the diabetes inpatient team when a DKA order set or fixed-rate insulin infusion is started in the EPR.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14, or after the next 30 DKA admissions if numbers are low; same template.",
+  "close_loop": "Present at the diabetes governance meeting. If it works, keep the automatic referral and report review timing in the Best Practice Tariff return.",
+  "evidence": [
+   "[7635] DKA re-audit: 98.4% reviewed by DSN after education, updated guideline and 7-day DSN service",
+   "[6674] surgical wards diabetes: specialist input under 15% at baseline; hypoglycaemia halved after in-reach service",
+   "[6507] DKA QI: mean DKA duration 22.0 h → 10.2 h (monthly feedback of specific criteria)"
+  ],
+  "pitfalls": [
+   "Friday and weekend admissions fail by design → report weekday and weekend separately, and agree how 'working day' is counted before cycle 1.",
+   "Reviews not written in the main notes → search the diabetes team's own system too.",
+   "Referral happens but review is by phone → count only a face-to-face or documented virtual review.",
+   "Short stays discharged before review → record them and give them a follow-up call as part of the fix."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient lead nurse; they can report their referral log.",
+   "Build the referral into the fixed-rate insulin order so it cannot be missed.",
+   "Show readmission data to support a business case for weekend cover.",
+   "Keep the same working-day rule in both cycles."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults with hyperosmolar hyperglycaemic state and blood ketones of 1.0 mmol/L or less have intravenous insulin held until glucose stops falling on fluids alone?",
+  "why": "Starting insulin too early in HHS drops osmolality fast and risks cerebral oedema and circulatory collapse; HHS is often treated with the DKA protocol by mistake. No audit of HHS management has been published in the library.",
+  "standard": {
+   "source": "JBDS 06: The Management of the Hyperosmolar Hyperglycaemic State (HHS) in Adults (February 2022), Insulin Dose and Timing",
+   "wording": "if significant ketonaemia is not present do NOT start an intravenous insulin infusion",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_06_The_Management_of_Hyperosmolar_Hyperglycaemic_State_HHS_%20in_Adults_FINAL_0.pdf"
+  },
+  "pass": "No intravenous insulin started until the glucose has stopped falling on intravenous fluids alone, as shown on the hourly glucose chart (or a documented senior reason to start earlier).",
+  "population": "Adults treated for HHS (glucose ≥30 mmol/L, osmolality ≥320 mOsm/kg, no significant ketonaemia) with blood ketones ≤1.0 mmol/L at presentation. Exclude mixed DKA/HHS and patients on end-of-life care.",
+  "sample": "All eligible HHS episodes over the last 12–24 months (HHS is less common; aim for 20–30).",
+  "data_source": "Coding (E11.0, E87.0 with diabetes) or diabetes team log for cases; blood gas and laboratory results for ketones and osmolality; drug chart for insulin start time; hourly glucose chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_glucose",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "initial_ketones",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "initial_osmolality",
+    "type": "number",
+    "options": [],
+    "note": "Measured or calculated"
+   },
+   {
+    "field": "iv_fluids_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "insulin_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "insulin_held_until_glucose_plateau",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "osmolality_fall_over_8_per_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": "Harm measure"
+   },
+   {
+    "field": "managed_on_dka_pathway",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a separate HHS pathway document (paper or EPR) that opens with 'Ketones ≤1.0: do NOT start insulin; fluids first' and replaces use of the DKA pathway for HHS.",
+  "target": "≥90%",
+  "reaudit": "After a further 6 months, or after 15 more episodes; same template.",
+  "close_loop": "Present at the diabetes and acute medicine governance meetings. If it works, keep the HHS pathway in ED and AMU, and add HHS episodes to the diabetes team's case review.",
+  "evidence": [
+   "[6507] DKA QI: mean DKA duration 22.0 h → 10.2 h (monthly feedback of specific criteria)",
+   "[7311] VRIII QI: hypoglycaemic events per infusion 0.73 → 0.28 (mixed, including prescription redesign)",
+   "[3839] VRIII audit: hypoglycaemia 27% (baseline; education only)"
+  ],
+  "pitfalls": [
+   "HHS miscoded as DKA or hyperglycaemia → search both codes and the diabetes team log.",
+   "Small numbers → use 12–24 months of cases and report counts, not only percentages.",
+   "Senior clinicians start insulin for good reasons (e.g. ketones rising during fluid treatment) → accept a documented senior reason as a pass and report it.",
+   "Calculated osmolality not recorded → calculate it from the results as (2×Na) + glucose + urea."
+  ],
+  "pearls": [
+   "Recruit a diabetes consultant and the ED lead nurse.",
+   "Put the HHS pathway next to the DKA pathway in ED so the right one is picked.",
+   "Include an osmolality calculator on the chart.",
+   "Review every HHS case at the diabetes team meeting for the first 6 months."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 episodes from charts and results"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults treated for hyperosmolar hyperglycaemic state receive prophylactic low molecular weight heparin within 24 hours of admission?",
+  "why": "People with HHS have a higher risk of venous thrombosis than those with DKA because of dehydration and immobility; no audit of thromboprophylaxis in HHS has been published in the library.",
+  "standard": {
+   "source": "JBDS 06: The Management of the Hyperosmolar Hyperglycaemic State (HHS) in Adults (February 2022)",
+   "wording": "Everyone with HHS should receive prophylactic low molecular weight heparin (LMWH) for the full duration of admission unless contraindicated.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_06_The_Management_of_Hyperosmolar_Hyperglycaemic_State_HHS_%20in_Adults_FINAL_0.pdf"
+  },
+  "pass": "First prophylactic LMWH dose given within 24 hours of admission, or a documented contraindication.",
+  "population": "Adults treated for HHS or mixed DKA/HHS. Exclude patients already on therapeutic anticoagulation and those on end-of-life care.",
+  "sample": "All eligible HHS episodes over the last 12–24 months (aim for 20–30).",
+  "data_source": "Coding or diabetes team log for cases; drug chart administration record for LMWH; notes for contraindications.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hhs_type",
+    "type": "choice",
+    "options": [
+     "HHS",
+     "mixed DKA/HHS"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lmwh_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_lmwh_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: given within 24 h or contraindication documented"
+   },
+   {
+    "field": "vte_during_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add prophylactic LMWH (weight- and renal-adjusted) as a pre-selected item in the HHS order set, with a required reason field if it is deselected.",
+  "target": "≥95%",
+  "reaudit": "After a further 6 months, or after 15 more episodes; same template.",
+  "close_loop": "Present at the diabetes and thrombosis committee meetings. If it works, keep the order set default and include HHS in the Trust VTE audit.",
+  "evidence": [
+   "[2502] surgical ward round template: VTE compliance 70% → 98% (template with teaching)",
+   "[6131] care bundle QI: compliance 20% → 100% (electronic checklist and education)",
+   "[6507] DKA QI: mean DKA duration 22.0 h → 10.2 h (monthly feedback of specific criteria)"
+  ],
+  "pitfalls": [
+   "LMWH withheld because of AKI → use renal-adjusted dosing, not omission; record the eGFR.",
+   "Given the next evening after a late admission → measure from admission time, not the date.",
+   "Small numbers → report counts with percentages and extend the look-back if needed.",
+   "Generic VTE assessment scores HHS as low risk → the order set should override the generic tool."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation pharmacist.",
+   "Pair this with the HHS insulin-timing audit and one HHS pathway.",
+   "Add 'daily foot check' to the same order set; HHS patients are also at high risk of heel ulcers.",
+   "Share any VTE events as case stories."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 episodes from drug chart"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adult inpatients on insulin or a sulfonylurea have an as-needed hypoglycaemia rescue treatment prescribed?",
+  "why": "Delays in treating hypoglycaemia cause harm when nurses must find a doctor to prescribe glucose or glucagon; rescue treatment was prescribed in 0% of perioperative insulin infusions and 65% after a redesign [7468]. No ward-based audit of rescue prescribing has been published in the library.",
+  "standard": {
+   "source": "JBDS 01: The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023)",
+   "wording": "Promote the prescription of hypoglycaemia “rescue” treatment for all people with diabetes in hospital on insulin or sulfonylurea therapy. This could involve a “PRN (pro re nata)” or “as needed” prescription of intravenous (IV) glucose and/or intramuscular (IM) glucagon.",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "pass": "An as-needed prescription for IV glucose (10% or 20%) and/or IM glucagon is active on the drug chart on the audit day, or the Trust hypoglycaemia protocol allows nurses to give it without prescription (record which).",
+  "population": "Adult inpatients on medical and surgical wards prescribed insulin or a sulfonylurea on the audit day. Exclude patients on end-of-life care, maternity and critical care.",
+  "sample": "50 consecutive eligible inpatients identified by a point-prevalence sweep across 4–6 wards on one day.",
+  "data_source": "EPR report of inpatients prescribed insulin or sulfonylureas; electronic drug chart for as-needed prescriptions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "glucose_lowering_drug",
+    "type": "choice",
+    "options": [
+     "basal insulin",
+     "basal-bolus insulin",
+     "mixed insulin",
+     "insulin infusion",
+     "sulfonylurea",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prn_iv_glucose_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prn_glucagon_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hypo_in_last_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_treatment_minutes_if_hypo",
+    "type": "number",
+    "options": [],
+    "note": "Optional; from glucose record"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add IV glucose and IM glucagon as-needed items that are pre-selected whenever insulin or a sulfonylurea is prescribed in the EPR (a linked 'diabetes order set').",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: repeat the point-prevalence sweep on the same wards, same template.",
+  "close_loop": "Present at the medicines safety committee and diabetes governance. If it works, keep the linked order set and add rescue prescribing to the monthly ward diabetes safety check.",
+  "evidence": [
+   "[7468] perioperative VRIII QI: rescue medication prescribed 0% → 65% (mixed, including prescription changes)",
+   "[6674] surgical wards diabetes: hypoglycaemia halved and insulin errors down 70% (education, guidelines, in-reach, alert system)",
+   "[9271] Irish insulin prescribing re-audit: prescribing errors 78% → 63% (mixed)"
+  ],
+  "pitfalls": [
+   "Some Trusts allow nurses to give glucose under a patient group direction → record this and agree before cycle 1 whether it counts as a pass.",
+   "Order sets create alert fatigue → keep the rescue items quiet (pre-selected, no pop-up).",
+   "Point-prevalence results vary by ward → sweep the same wards in both cycles.",
+   "Glucagon stocks short on some wards → check ward stock alongside prescribing."
+  ],
+  "pearls": [
+   "Recruit the diabetes inpatient specialist nurse and the medicines safety pharmacist.",
+   "Link the rescue items to the insulin prescription itself.",
+   "Check that each ward has an in-date hypo box on the same day.",
+   "Report results by ward on one slide; wards compete to improve."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPR drug chart"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adult inpatients who have a severe hypoglycaemic episode have their glucose-lowering treatment reviewed by a doctor or diabetes nurse within 24 hours?",
+  "why": "Most inpatient hypos repeat when the insulin or sulfonylurea dose that caused them is not changed; the library holds audits of treating the hypo but none of reviewing its cause.",
+  "standard": {
+   "source": "JBDS 01: The Hospital Management of Hypoglycaemia in Adults with Diabetes Mellitus (revised January 2023), 'When hypoglycaemia has been successfully treated'",
+   "wording": "Unless the cause is easily identifiable and both the nursing staff and the person with diabetes is confident steps can be taken to avoid future events, a medical or Diabetes Inpatient Specialist Nurse (DISN) review should be considered. If the hypoglycaemia event was severe or recurrent, or if the person voices concerns then a review is indicated",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "pass": "A documented medical or DISN review within 24 hours of the episode that states the likely cause and a decision on the glucose-lowering dose (changed, or kept with a reason).",
+  "population": "Adult inpatients with diabetes on medical and surgical wards with a severe hypoglycaemic episode (needing help from another person, IV glucose or glucagon, or glucose below 3.0 mmol/L). Exclude critical care, maternity and patients on end-of-life care.",
+  "sample": "40 consecutive severe episodes over the last 1–2 months.",
+  "data_source": "Point-of-care glucose system report of readings below 3.0 mmol/L and incident reports for cases; drug chart for rescue treatment; EPR notes for the review.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "hypo_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lowest_glucose",
+    "type": "number",
+    "options": [],
+    "note": "mmol/L"
+   },
+   {
+    "field": "severity_reason",
+    "type": "choice",
+    "options": [
+     "glucose <3.0",
+     "third-party help",
+     "IV glucose or glucagon"
+    ],
+    "note": ""
+   },
+   {
+    "field": "glucose_lowering_drug",
+    "type": "choice",
+    "options": [
+     "insulin",
+     "sulfonylurea",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer",
+    "type": "choice",
+    "options": [
+     "doctor",
+     "DISN",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cause_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "repeat_hypo_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the point-of-care glucose system to send an automatic electronic referral to the diabetes inpatient team for every reading below 3.0 mmol/L.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 severe episodes, same template.",
+  "close_loop": "Present at the diabetes governance and patient safety meetings. If it works, keep the automatic referral and report repeat hypos within 48 hours on the diabetes dashboard.",
+  "evidence": [
+   "[6674] surgical wards diabetes: hypoglycaemia down by more than 50% (education, guidelines, in-reach, whiteboard alerts)",
+   "[3839] VRIII audit: hypoglycaemia 27% (baseline; education only)",
+   "[7311] VRIII QI: hypoglycaemic events per infusion 0.73 → 0.28 (mixed, including prescription redesign)"
+  ],
+  "pitfalls": [
+   "Readings below 3.0 from poor technique → exclude only if a repeat within 5 minutes was normal and documented.",
+   "Reviews that say 'noted' without a dose decision → count only reviews that state cause and decision.",
+   "DISN notes held in a separate system → search it and agree access before cycle 1.",
+   "Workload fears from the diabetes team → estimate weekly numbers from cycle 1 before switching on the referral."
+  ],
+  "pearls": [
+   "Recruit the point-of-care testing manager; the glucose system already holds every reading.",
+   "Ask the DISN team to co-own the referral rule.",
+   "Track repeat hypos within 48 hours; it shows the benefit quickly.",
+   "Add the review to the ward's morning huddle list."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from glucose system and EPR"
+ },
+ {
+  "area": "Gastroenterology, hepatology, renal and diabetes",
+  "question": "What proportion of adults at high risk of refeeding syndrome receive thiamine before tube feeding or parenteral nutrition starts?",
+  "why": "Refeeding syndrome can cause heart failure, arrhythmia and Wernicke's; a regional audit found refeeding risk identified in 75% of parenteral nutrition patients and avoidable metabolic complications in 13% [9529]. No audit of thiamine before feeding has been published in the library.",
+  "standard": {
+   "source": "NICE CG32 rec 1.4.8 (2006, updated 2017)",
+   "wording": "The prescription for people at high risk of developing refeeding problems should consider: … providing immediately before and during the first 10 days of feeding: oral thiamin 200 to 300 mg daily, vitamin B co strong 1 or 2 tablets, 3 times a day (or full dose daily intravenous vitamin B preparation, if necessary) and a balanced multivitamin or trace element supplement once daily",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "First dose of thiamine (oral, enteral or IV vitamin B preparation) given on or before the day enteral tube feeding or parenteral nutrition starts, as shown by the administration record.",
+  "population": "Adults starting nasogastric, nasojejunal, gastrostomy or parenteral feeding in hospital who meet NICE CG32 box 1 high-risk criteria (e.g. BMI <16, weight loss >15%, little or no intake >10 days, low potassium, phosphate or magnesium before feeding, or two lesser criteria). Exclude patients on end-of-life care.",
+  "sample": "40 consecutive high-risk patients starting feeding over the last 3 months.",
+  "data_source": "Dietetic referral list and nutrition team PN list for cases; dietetic assessment for risk criteria; drug chart for thiamine; feeding chart for feed start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "feed_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feed_route",
+    "type": "choice",
+    "options": [
+     "nasogastric",
+     "nasojejunal",
+     "gastrostomy",
+     "parenteral"
+    ],
+    "note": ""
+   },
+   {
+    "field": "refeeding_risk_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_criteria_met",
+    "type": "choice",
+    "options": [
+     "one major criterion",
+     "two minor criteria"
+    ],
+    "note": ""
+   },
+   {
+    "field": "thiamine_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_thiamine_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thiamine_before_or_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "phosphate_below_0_6_first_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Harm measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a refeeding-risk box to the enteral feeding and PN prescription forms that pre-selects thiamine and vitamin B compound strong for 10 days when any high-risk criterion is ticked.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 high-risk patients starting feeding, same template.",
+  "close_loop": "Present at the nutrition steering committee. If it works, keep the risk box on the feeding forms and include thiamine timing in the nutrition team's quarterly audit.",
+  "evidence": [
+   "[9529] North of England PN audit: refeeding risk identified in 75%, avoidable metabolic complications 13% (baseline only)",
+   "[2048] Irish surgical electrolytes: magnesium, phosphate or calcium not measured before dietetic input in 17% (baseline only)",
+   "[2834] surgical PN closed-loop audit: MUST recorded 9/14 → 17/18"
+  ],
+  "pitfalls": [
+   "Risk criteria assessed after feeding starts → use the dietetic assessment and admission data to judge risk as it was on the start day.",
+   "Thiamine prescribed but not given because the patient is nil by mouth → allow IV vitamin B preparation and count administration, not prescription.",
+   "Feed started out of hours before dietetic review → report out-of-hours starts separately.",
+   "Doctors assume the dietitian prescribes → agree before cycle 1 who prescribes (usually the medical team on dietetic advice)."
+  ],
+  "pearls": [
+   "Recruit a nutrition support dietitian and the nutrition nurse as co-leads.",
+   "Put the risk criteria as tick boxes on the feed prescription, not in a separate document.",
+   "Add the same prompt to the out-of-hours NG feeding protocol.",
+   "Report phosphate falls; they make the risk real to ward teams."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from dietetic records and drug chart"
+ }
+]

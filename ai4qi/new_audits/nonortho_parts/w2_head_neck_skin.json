@@ -1,0 +1,2056 @@
+[
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of adults with sudden hearing loss that began within the last 30 days are seen by ENT within 24 hours of referral?",
+  "why": "Steroid treatment works best early, but referral-to-review times drift: one UK rapid access clinic found a mean of 3.8 days to first ENT review [2268]. Library audits of sudden hearing loss focus on steroids and imaging [2458][2428]; none closes the loop on the 24-hour review standard.",
+  "standard": {
+   "source": "NICE NG98 rec 1.1.2 (2018, updated 2023)",
+   "wording": "Refer adults with sudden onset or rapid worsening of hearing loss in one or both ears, which is not explained by external or middle ear causes, as follows. If the hearing loss developed suddenly (over a period of 3 days or less) within the past 30 days, refer immediately (to be seen within 24 hours) to an ear, nose and throat service or an emergency department.",
+   "url": "https://www.nice.org.uk/guidance/ng98/chapter/Recommendations"
+  },
+  "pass": "Seen face to face by an ENT clinician (any grade) within 24 hours of the time the referral was made (GP, emergency department, optometrist, NHS 111 or other).",
+  "population": "Adults (≥18) referred to ENT with hearing loss that developed over 3 days or less and began within the previous 30 days, not explained by wax, otitis externa or middle ear disease. Exclude hearing loss after head injury or barotrauma, patients already under ENT follow-up for the same ear, and patients who declined an earlier appointment.",
+  "sample": "All eligible adults over the last 12 months (aim for 30–40; sudden hearing loss is uncommon).",
+  "data_source": "ENT on-call referral log and e-referral timestamps for referral time; emergency department system; ENT clinic letters for review time; audiology system for audiogram date; drug chart or letter for steroid start.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "referral_source",
+    "type": "choice",
+    "options": [
+     "GP",
+     "emergency department",
+     "optometrist",
+     "NHS 111",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "onset_date",
+    "type": "date",
+    "options": [],
+    "note": "Date hearing loss began"
+   },
+   {
+    "field": "referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Clock start"
+   },
+   {
+    "field": "ent_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First face-to-face ENT review"
+   },
+   {
+    "field": "seen_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "audiogram_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oral_steroid_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "no clinic slot",
+     "referral not received",
+     "weekend or bank holiday",
+     "patient choice",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month look-back); Wk 3 analyse/present; Wk 4 change; Months 2–7 embed and collect prospectively; Month 8 re-audit",
+  "change": "Create a 'sudden hearing loss' hot slot in the daily ENT emergency clinic that GPs and the emergency department book directly through one bleep or email, with a same-day audiogram request built into the booking.",
+  "target": "≥90%",
+  "reaudit": "Month 8: all eligible adults referred since the change (aim for at least 20), same template and same clock start.",
+  "close_loop": "Present at ENT governance and to GP and optometry leads. If it works, fix the hot slot in the clinic template, publish the pathway on the local referral guidance site and report the 24-hour rate yearly.",
+  "evidence": [
+   "[2268] ENT rapid access clinic, Aberdeen: mean 3.82 days from referral to first ENT review → pathway reinforced (re-audit not reported)",
+   "[2458] ENT, West Middlesex DGH: updated pathway presented → second cycle 92% same-day audiograms and all given oral steroids (pathway and teaching)",
+   "[2428] ENT emergency clinic, St George's: 50% of referrals confirmed on audiogram, 83% given oral prednisolone (single cycle)"
+  ],
+  "pitfalls": [
+   "Referral time missing for telephone referrals → log the time of the first call in the ENT referral book and use the same source in both cycles.",
+   "Small numbers make percentages jump → use a 12-month look-back first, re-audit prospectively over 6 months and report counts as well as percentages.",
+   "Conductive or middle ear causes included by mistake → confirm otoscopy and audiogram findings before counting a case.",
+   "Hot slot filled with routine cases → print the NG98 criteria on the booking form and let the ENT registrar veto misuse."
+  ],
+  "pearls": [
+   "Recruit the audiology lead early: a same-day audiogram is usually the bottleneck.",
+   "Agree with the emergency department that out-of-hours cases get the next-morning slot, not a routine letter.",
+   "Put the pathway on the GP referral guidance page so it survives trainee rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the referral log and EPR"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "When adults or children in the emergency department are given an oral antibiotic for sore throat or tonsillitis, what proportion receive phenoxymethylpenicillin (or clarithromycin or erythromycin if allergic to penicillin)?",
+  "why": "Amoxicillin and co-amoxiclav are still used for tonsillitis; they add no benefit, widen resistance and cause rash in glandular fever. Emergency department audits found the correct antibiotic in only 20–60% [7959][4531], and most library projects measure scoring rather than choice.",
+  "standard": {
+   "source": "NICE NG84 rec 1.3.1 and table 1 (2018)",
+   "wording": "When prescribing an antibiotic for acute sore throat: follow table 1 for adults aged 18 years and over; follow table 2 for children and young people under 18 years. [Table 1] First-choice oral antibiotic: Phenoxymethylpenicillin: 500 mg four times a day or 1,000 mg twice a day for 5 to 10 days … Alternative first choice for penicillin allergy or intolerance (for people who are not pregnant): Clarithromycin: 250 mg to 500 mg twice a day for 5 days.",
+   "url": "https://www.nice.org.uk/guidance/ng84/chapter/Recommendations"
+  },
+  "pass": "The oral antibiotic given is phenoxymethylpenicillin; or clarithromycin (erythromycin in pregnancy) when a penicillin allergy or intolerance is recorded. Any other antibiotic is a fail.",
+  "population": "All ages discharged from the emergency department, urgent treatment centre or ENT emergency clinic with an oral antibiotic for sore throat, pharyngitis or tonsillitis. Exclude quinsy or other abscess, patients admitted for intravenous antibiotics, scarlet fever, and immunosuppressed patients.",
+  "sample": "50 consecutive eligible attendances over the last 2 months.",
+  "data_source": "Emergency department system (diagnosis code and discharge prescription or pre-pack issue); EPR allergy record; pregnancy status from the clinical notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_group",
+    "type": "choice",
+    "options": [
+     "adult (≥18)",
+     "child (<18)"
+    ],
+    "note": ""
+   },
+   {
+    "field": "penicillin_allergy_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnant",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "choice",
+    "options": [
+     "phenoxymethylpenicillin",
+     "clarithromycin",
+     "erythromycin",
+     "amoxicillin",
+     "co-amoxiclav",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "course_length_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_choice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "prescriber_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "junior doctor",
+     "ANP/ACP",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a 'sore throat' order set in the emergency department discharge prescribing system that defaults to phenoxymethylpenicillin at the NG84 dose, and shows clarithromycin or erythromycin only when an allergy is recorded.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 50 consecutive eligible attendances, same template.",
+  "close_loop": "Present at emergency department and antimicrobial stewardship meetings. If it works, keep the order set, stock only phenoxymethylpenicillin pre-packs for sore throat and add the measure to the stewardship dashboard.",
+  "evidence": [
+   "[4531] Adult emergency department, Bristol: correct antibiotic 60% → 100% (proforma with scoring system and teaching)",
+   "[7959] Emergency department, Fairfield General: appropriate antibiotic 20% → 56% (teaching and guidance)",
+   "[6436] General practice, Harrow: antibiotic choice 94% → 100% and Centor recorded 2% → 42% (automated EMIS template)",
+   "[8293] ENT unit, Edinburgh: wide range of antibiotics with no rationale → protocol with cost savings"
+  ],
+  "pitfalls": [
+   "Parents object to four-times-daily liquid → offer the twice-daily regimen NG84 allows and explain it on the leaflet.",
+   "Pre-pack cupboard holds amoxicillin only → agree stock with pharmacy before cycle 1.",
+   "Unverified penicillin allergy labels → count clarithromycin as a pass only when an allergy is recorded; report the label rate separately.",
+   "Order set bypassed by free-text prescribing → check in week 6 how many prescriptions used it and remind the team."
+  ],
+  "pearls": [
+   "Recruit the emergency department pharmacist; they own the pre-pack stock and the order set.",
+   "Agree the diagnosis codes to search with the coding team before cycle 1 and keep them the same.",
+   "Ask the stewardship team to report the measure quarterly so it outlives the audit team."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 attendances from the ED system"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of suspected skin cancer referrals for a pigmented lesion record a weighted 7-point checklist score?",
+  "why": "NICE bases melanoma referral on the 7-point score, yet free-text referrals often omit it and fill clinics with benign lesions; one UK skin cancer clinic found cancer in only 16–24% of biopsied patients [2094]. No closed-loop audit of checklist use in referrals is in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.7.1 (2015, updated 2026)",
+   "wording": "Refer people using a suspected cancer pathway referral for melanoma if they have a suspicious pigmented skin lesion with a weighted 7‑point checklist score of 3 or more.",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations"
+  },
+  "pass": "The referral records a total weighted 7-point checklist score (or each feature scored so the total can be read).",
+  "population": "Suspected cancer pathway referrals from primary care to dermatology or plastic surgery for a pigmented skin lesion, all ages. Exclude referrals for suspected squamous or basal cell carcinoma, non-pigmented lesions and internal hospital referrals.",
+  "sample": "50 consecutive referrals over the last 2 months.",
+  "data_source": "e-Referral Service forms and attached letters; dermatology triage records; clinic outcome and histology system for the final diagnosis.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_format",
+    "type": "choice",
+    "options": [
+     "regional proforma",
+     "free-text letter"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "score_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "image_attached",
+    "type": "yes/no",
+    "options": [],
+    "note": "Dermoscopic or clinical photograph"
+   },
+   {
+    "field": "clinic_outcome",
+    "type": "choice",
+    "options": [
+     "discharged",
+     "biopsy or excision",
+     "follow-up"
+    ],
+    "note": ""
+   },
+   {
+    "field": "final_diagnosis",
+    "type": "choice",
+    "options": [
+     "melanoma",
+     "other skin cancer",
+     "benign",
+     "not applicable"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free-text skin cancer referrals with a regional e-referral form on which the 7-point checklist is a required field that calculates the score.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 50 consecutive pigmented-lesion referrals, same template.",
+  "close_loop": "Present at the skin cancer MDT and to primary care leads through the cancer alliance. If it works, keep the form mandatory and send practices a yearly report of scores against final diagnoses.",
+  "evidence": [
+   "[2094] Plastic surgery skin cancer clinic, Salisbury: cancer in 24% → 16% of biopsied patients (image-based triage during the pandemic)",
+   "[2330] Royal Free melanoma SLNB referrals: criteria not met 6.5% → 3% (standard referral letters)",
+   "[5347] 516 Scottish practices: 90.9% of urgent cancer referrals met guidelines (single cycle)"
+  ],
+  "pitfalls": [
+   "The form needs primary care agreement → take it through the cancer alliance or ICB clinical lead, not the hospital alone.",
+   "Scores ticked without real assessment → compare referral scores with the clinic findings in a sample of cases.",
+   "Referrals arrive by several routes → agree one extraction route before cycle 1 and keep it the same.",
+   "Worry that a low score will stop urgent referral → state on the form that clinical concern can still override the score."
+  ],
+  "pearls": [
+   "Recruit a GP with a special interest in dermatology to champion the form.",
+   "Feed back each practice's scores and diagnoses; it motivates more than reminders.",
+   "Add a prompt to attach a dermoscopic photograph; it also supports teledermatology triage."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 referrals from e-RS"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of wide local excisions for stage I or II melanoma use the NICE clinical margin (1 cm for stage I, 2 cm for stage II)?",
+  "why": "Margins that are too narrow raise recurrence risk; margins that are too wide cause avoidable scarring and grafts. Library margin audits cover lentigo maligna and non-melanoma skin cancer [2041][6879]; none audits wide local excision margins against NG14.",
+  "standard": {
+   "source": "NICE NG14 rec 1.5.3 (2015, updated 2022)",
+   "wording": "Use a clinical margin of: 1 cm when excising stage I melanoma or when a 2 cm excision margin would cause unacceptable disfigurement or morbidity; 2 cm when excising stage II melanoma. The clinical margin should be around the histological biopsy scar and take into account the primary melanoma margin.",
+   "url": "https://www.nice.org.uk/guidance/ng14/chapter/Recommendations"
+  },
+  "pass": "The operation note records a clinical margin around the biopsy scar of 1 cm for stage I or 2 cm for stage II; or 1 cm for stage II with a documented reason that 2 cm would cause unacceptable disfigurement or morbidity.",
+  "population": "Adults having wide local excision after diagnostic excision of invasive melanoma, stage I or II on the MDT outcome. Exclude stage 0 (in situ), stage III or IV, lentigo maligna treated with staged margin-controlled surgery, and re-excisions for involved diagnostic margins only.",
+  "sample": "40 consecutive wide local excisions over the last 6–12 months.",
+  "data_source": "Skin MDT outcomes for stage; histopathology reports; operation notes in the theatre system or clinic procedure notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnostic_excision_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stage",
+    "type": "choice",
+    "options": [
+     "IA",
+     "IB",
+     "IIA",
+     "IIB",
+     "IIC"
+    ],
+    "note": ""
+   },
+   {
+    "field": "site",
+    "type": "choice",
+    "options": [
+     "head and neck",
+     "trunk",
+     "limb",
+     "acral"
+    ],
+    "note": ""
+   },
+   {
+    "field": "wle_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "margin_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "margin_cm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reduced_margin_reason",
+    "type": "text",
+    "options": [],
+    "note": "Only if stage II excised at 1 cm"
+   },
+   {
+    "field": "nice_margin_met",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "operating_specialty",
+    "type": "choice",
+    "options": [
+     "dermatology",
+     "plastic surgery",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'stage and planned clinical margin (cm)' box to the skin surgery operation note template, pre-filled from the MDT outcome.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 or once 40 new excisions are done: same template and same staging source.",
+  "close_loop": "Present at the skin cancer MDT and plastic surgery governance. If it works, keep the op-note box and add the margin rate to the annual skin MDT report.",
+  "evidence": [
+   "[2041] Plastic surgery, Bedford (lentigo maligna): mean first margin 2.3 mm, 55% needed a second excision (single cycle)",
+   "[6879] BAD national non-melanoma excision audit: all margins clear in 97.0% (national re-audit)",
+   "[2495] Royal Free SLNB: compliance with NICE indications 91.4% → 92.6% (results presented only)"
+  ],
+  "pitfalls": [
+   "Stage not known at the time of the op note → take stage from the MDT outcome and record it before listing.",
+   "Margin written as 'WLE' without a number → make the numeric field required in the template.",
+   "Face and hand cases pull the rate down → count a documented reason for a reduced margin as a pass, as NICE allows.",
+   "Different surgeons read 'margin' differently → define it as the distance from the scar edge, agreed before cycle 1."
+  ],
+  "pearls": [
+   "Recruit one dermatologic surgeon and one plastic surgeon as joint leads so both services own it.",
+   "Ask the MDT coordinator to add the recommended margin to the MDT outcome letter.",
+   "Record the site; head and neck cases usually explain most variation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from MDT records and op notes"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "For isotretinoin prescriptions issued to patients who can get pregnant, what proportion have a negative pregnancy test documented 3 days or less before the prescription is issued?",
+  "why": "Isotretinoin is a potent teratogen. The national BAD re-audit found pregnancy tests before and during treatment in 93.3% [6400], short of a never-miss standard, and the MHRA expects services to take part in a new national audit of risk minimisation measures from 2026.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, Oral retinoids: pregnancy prevention – reminder of measures to minimise teratogenic risk (2013, republished 2014; read with the 2023 and 2026 isotretinoin updates)",
+   "wording": "Pregnancy must be excluded before treatment with oral retinoids … Pregnancy test results (with a minimum sensitivity of 25 mIU/mL) must be documented 3 days or less before the prescription is issued",
+   "url": "https://www.gov.uk/drug-safety-update/oral-retinoids-pregnancy-prevention-reminder-of-measures-to-minimise-teratogenic-risk"
+  },
+  "pass": "A negative, medically supervised pregnancy test (in person or remote) with its date and result recorded, dated 3 days or less before the prescription date.",
+  "population": "All isotretinoin prescriptions (first and repeat) issued by the dermatology service to patients of childbearing potential on the Pregnancy Prevention Programme. Exclude patients documented as not of childbearing potential.",
+  "sample": "50 consecutive prescriptions over the last 3 months.",
+  "data_source": "Dermatology EPR and clinic letters; pregnancy test log in the nurse-led clinic; pharmacy or homecare dispensing records for prescription dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescription_type",
+    "type": "choice",
+    "options": [
+     "first",
+     "repeat"
+    ],
+    "note": ""
+   },
+   {
+    "field": "test_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_result",
+    "type": "choice",
+    "options": [
+     "negative",
+     "positive",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "test_supervised",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_test_to_prescription",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_within_3_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_form_current",
+    "type": "yes/no",
+    "options": [],
+    "note": "Current Acknowledgement of Risk Form on file"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the isotretinoin prescription form (paper or electronic) require the pregnancy test date and result, with pharmacy screening set to refuse to dispense if the test is more than 3 days older than the prescription.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: next 50 consecutive prescriptions, same template.",
+  "close_loop": "Present at dermatology governance and the medicines safety committee. If it works, keep the required fields and submit the data to the BAD national isotretinoin audit.",
+  "evidence": [
+   "[6400] BAD national isotretinoin re-audit: pregnancy tests before and during treatment 93.3%, post-treatment test 54.7% (national re-audit)",
+   "[7712] General surgery, DGH: pregnancy testing 41.8% → 80% (teaching, posters and nursing huddle)",
+   "[7775] Emergency surgical admissions: pregnancy status documented 14% → significant improvement (teaching)"
+  ],
+  "pitfalls": [
+   "Remote tests make dates unclear → record the date the test was done, not the date the result was uploaded.",
+   "Prescriptions are signed days before the clinic → define the prescription date as the date it is issued to the patient or pharmacy.",
+   "Childbearing status mislabelled → review the PPP status in every case, not only those on the PPP list.",
+   "Pharmacy pushback on refusing to dispense → agree the rule with the chief pharmacist before the change."
+  ],
+  "pearls": [
+   "Recruit the dermatology specialist nurse who runs the PPP clinic; they hold the test log.",
+   "Align fields with the BAD national audit so one data set serves both.",
+   "Check homecare and community pharmacy prescriptions as well as hospital ones."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 prescriptions from EPR and pharmacy records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of adults who have taken hydroxychloroquine for more than 5 years, what proportion had retinal monitoring in the last 12 months?",
+  "why": "Hydroxychloroquine retinopathy is irreversible and silent until late. A national English audit found only 21.1% of eligible patients seen in ophthalmology in the previous year [2929]; local audits have not closed the loop [2890][6909].",
+  "standard": {
+   "source": "Royal College of Ophthalmologists, Hydroxychloroquine and Chloroquine Retinopathy: Recommendations on Monitoring (December 2020), section 2.2",
+   "wording": "All individuals who have taken hydroxychloroquine for greater than five years should receive annual monitoring for retinopathy. … It is the responsibility of the prescribing physician (as per GMC guidelines) to refer patients eligible for monitoring to the local hospital eye service.",
+   "url": "https://www.rcophth.ac.uk/wp-content/uploads/2026/06/Hydroxychloroquine-and-Chloroquine-Retinopathy-.pdf"
+  },
+  "pass": "A retinal monitoring visit (SD-OCT, with fundus autofluorescence or visual fields as the local protocol requires) recorded in the hospital eye service within the last 12 months (allow up to 13 months).",
+  "population": "Adults currently taking hydroxychloroquine for more than 5 years, prescribed or supervised by rheumatology or dermatology. Exclude patients who stopped hydroxychloroquine, those who declined monitoring, and those in the eye service for known retinopathy.",
+  "sample": "50 patients randomly selected from the rheumatology and dermatology hydroxychloroquine lists.",
+  "data_source": "Rheumatology DMARD database, homecare or shared-care lists for start date; ophthalmology imaging system and clinic letters for monitoring dates; eye service referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "hcq_start_date",
+    "type": "date",
+    "options": [],
+    "note": "Earliest prescription found"
+   },
+   {
+    "field": "years_on_hcq",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescribing_specialty",
+    "type": "choice",
+    "options": [
+     "rheumatology",
+     "dermatology",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referred_for_monitoring",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_monitoring_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "monitored_in_last_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dose_mg_per_kg",
+    "type": "number",
+    "options": [],
+    "note": "Actual body weight; context only"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Run a monthly report from the DMARD database of patients reaching 5 years on hydroxychloroquine and send each an RCOphth-style standard referral to the eye service.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: a fresh random 50 from the same lists, same template.",
+  "close_loop": "Present jointly at rheumatology and ophthalmology governance. If it works, keep the monthly report as a named nurse's task and report the monitored proportion yearly.",
+  "evidence": [
+   "[2929] National English prescribing data: 21.1% of eligible patients seen in ophthalmology in 365 days (national, single cycle)",
+   "[2890] Rheumatology, Salford: 29 of 86 eligible patients attended screening (single cycle)",
+   "[6909] Rheumatology, Oxford: 10% on doses above recommendations; counselling documented in one third (single cycle)"
+  ],
+  "pitfalls": [
+   "Start dates unknown when GPs started treatment → use the earliest prescription found and state the rule.",
+   "Eye service capacity objects to a surge of referrals → agree numbers and imaging slots with the medical retina lead before sending.",
+   "Patients monitored elsewhere are counted as fails → check community optometry or other trusts before scoring.",
+   "Lists miss patients on homecare or shared care → merge DMARD, homecare and pharmacy lists."
+  ],
+  "pearls": [
+   "Recruit a rheumatology specialist nurse to own the monthly report.",
+   "Use a standard referral proforma with dose, weight, eGFR and tamoxifen use so the eye service can risk-stratify.",
+   "Include dermatology and lupus clinics, which are often missed."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from DMARD and imaging records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of adults with chronic open angle glaucoma are seen within the review interval their clinician set at the previous visit?",
+  "why": "Delayed glaucoma follow-up causes preventable sight loss. One UK unit found 24% of appointments delayed beyond the requested interval and cut this to 9% with an electronic tracker [6556]; no other closed-loop audit of follow-up timeliness is in the library.",
+  "standard": {
+   "source": "NICE NG81 rec 1.5.13 and table 3 (2017, updated 2022)",
+   "wording": "For people with COAG: use clinical judgement to assess risk of COAG progression to sight loss, and reassess according to table 3. … Use clinical judgement to decide when the next appointment should take place within the recommended interval, including the need to assess the impact of any new treatments started.",
+   "url": "https://www.nice.org.uk/guidance/ng81/chapter/Recommendations"
+  },
+  "pass": "Seen by the date requested at the previous visit plus a tolerance of 15% of the requested interval (for example, a 6-month interval is met by 6.9 months).",
+  "population": "Adults with established chronic open angle glaucoma under hospital eye service follow-up whose requested review date fell in a 3-month period. Exclude ocular hypertension and suspected glaucoma, patients discharged, and those under acute review for another eye condition.",
+  "sample": "50 patients randomly selected from those due in the last 3 months.",
+  "data_source": "Patient administration system follow-up list (due dates); glaucoma EPR or clinic outcome forms (requested interval); appointment history for cancellations and non-attendance.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "previous_visit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requested_interval_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "due_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_visit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_overdue",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_within_tolerance",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "iop_controlled_last_visit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "hospital cancellation",
+     "not booked or no capacity",
+     "patient cancelled or did not attend",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required risk-of-harm rating (high, medium, low) to the glaucoma clinic outcome form and run a weekly overdue report that books high-risk patients first.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: random 50 from those due in the 3 months after the change, same template and tolerance.",
+  "close_loop": "Present at ophthalmology governance and to the outpatient service manager. If it works, keep the weekly report as a booking-team task and add overdue glaucoma follow-ups to the divisional risk register metrics.",
+  "evidence": [
+   "[6556] Glaucoma clinics, Birmingham: appointments delayed beyond 15% of the requested period 24% → 9% (electronic tracker and extra clinics)",
+   "[4889] Glaucoma clinic, Portsmouth: DVLA advice documented 11.4% → 97% (driver sticker at field testing)"
+  ],
+  "pitfalls": [
+   "Patients who did not attend are counted as service failures → record the reason and report both rates.",
+   "Requested interval not recorded → make the interval a required field on the outcome form.",
+   "Capacity limits make the target look impossible → pair the audit with a capacity-and-demand count so managers see the gap.",
+   "Tolerance changed between cycles → fix the 15% rule before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the outpatient booking lead and the service manager; they own the fix.",
+   "Present the number of patients now overdue, not only the percentage.",
+   "Use nurse-led or virtual glaucoma clinics for stable, low-risk patients to free consultant slots."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from PAS and EPR"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of ward patients with a tracheostomy or laryngectomy have a complete emergency airway equipment set at the bedside?",
+  "why": "Blocked or displaced tubes on general wards cause avoidable deaths, and missing bedside equipment delays rescue. The library holds bedhead-sign and tube-change projects [82][8828] but no UK closed-loop audit of bedside emergency equipment.",
+  "standard": {
+   "source": "NCEPOD, Tracheostomy Care: On the Right Trach? (2014), recommendation 14",
+   "wording": "All hospitals should adhere to recommendations already made by the National Tracheostomy Safety Project to maintain an essential box of equipment which is sufficiently portable to be moved around with the patient.",
+   "url": "https://www.ncepod.org.uk/2014report1/downloads/OnTheRightTrach_Summary.pdf"
+  },
+  "pass": "Every item on the hospital's tracheostomy or laryngectomy bedside checklist (based on the National Tracheostomy Safety Project list) is present and in date, including spare tubes of the same size and one size smaller for tracheostomies.",
+  "population": "All adult inpatients outside critical care and theatres with a tracheostomy or laryngectomy on the day of the check.",
+  "sample": "Point-prevalence checks twice a week for 2 weeks until at least 30 patient-checks are made (a patient may be checked more than once).",
+  "data_source": "Bedside inspection by the audit team with the patient's nurse (no patient contact needed); tracheostomy register or outreach list to find patients; EPR for tube type and size.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "check_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "airway_type",
+    "type": "choice",
+    "options": [
+     "tracheostomy",
+     "laryngectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tube_details_at_bedside",
+    "type": "yes/no",
+    "options": [],
+    "note": "Type and size displayed"
+   },
+   {
+    "field": "spare_same_size",
+    "type": "yes/no",
+    "options": [],
+    "note": "Tracheostomy only"
+   },
+   {
+    "field": "spare_smaller_size",
+    "type": "yes/no",
+    "options": [],
+    "note": "Tracheostomy only"
+   },
+   {
+    "field": "suction_working",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_and_connector",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "full_set_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "capnography_available_on_ward",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a sealed, tagged tracheostomy 'grab box' issued by critical care outreach with every ward transfer, with a once-a-shift check line added to the nursing safety checklist.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: same point-prevalence method until 30 patient-checks, same checklist.",
+  "close_loop": "Present at the tracheostomy safety group, critical care and nursing governance. If it works, make the grab box standard with every tracheostomy discharge from critical care and include box checks in ward accreditation.",
+  "evidence": [
+   "[82] Maxillofacial wards, UHBW: all patients had bedhead signs; documentation improved with anaesthesia (annual report)",
+   "[8828] Rehabilitation wards: aspiration pneumonia 43.8% → 27.8% (tube-change bundle, workflow and training)",
+   "[9378] ICU, Royal Liverpool: confidence with difficult airway equipment 70% → 60% while training reached 100% (teaching alone)"
+  ],
+  "pitfalls": [
+   "Checklist differs between wards → agree one hospital list with the tracheostomy lead before cycle 1.",
+   "Staff feel policed at the bedside → check with the nurse in charge and report by ward, not by name.",
+   "Very few patients on some days → spread checks across the fortnight and report counts.",
+   "Box emptied after use and not restocked → use numbered tags so an opened box is easy to spot."
+  ],
+  "pearls": [
+   "Recruit critical care outreach; they see every ward tracheostomy and can issue the boxes.",
+   "Include laryngectomy patients; they are often on ENT or oncology wards without trache-trained staff.",
+   "Pair with the bedhead-sign check so one visit covers both."
+  ],
+  "novelty": "under-audited",
+  "effort": "~5 min per bedside check plus EPR lookup"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of patients discharged from critical care to a ward with a cuffed tracheostomy tube, what proportion have the reason for keeping a cuffed tube documented?",
+  "why": "Cuffed tubes on wards add risk of obstruction and need cuff-pressure skills that many wards lack. NCEPOD asked for a documented decision at critical care discharge; library tracheostomy projects focus on tube changes and bedside signs [8828][82].",
+  "standard": {
+   "source": "NCEPOD, Tracheostomy Care: On the Right Trach? (2014), recommendation 12",
+   "wording": "Particularly careful consideration should be made at discharge from the critical care unit as to whether a cuffed tube is still indicated, and reasons must be documented. If it is, then there must be equipment and competences available on the ward for cuff pressure measurement.",
+   "url": "https://www.ncepod.org.uk/2014report1/downloads/OnTheRightTrach_Summary.pdf"
+  },
+  "pass": "The critical care discharge summary or ward-transfer note states why a cuffed tube is still needed (for example aspiration risk or need for ventilation).",
+  "population": "Adults discharged alive from critical care to a ward with a tracheostomy tube with a cuff in place. Exclude transfers to another critical care unit and discharges home or to another hospital.",
+  "sample": "All eligible discharges over the last 12 months (aim for 30–40).",
+  "data_source": "Critical care discharge summaries and transfer notes; tracheostomy register; outreach follow-up records for cuff-pressure checks on the ward.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "receiving_ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tube_type",
+    "type": "choice",
+    "options": [
+     "cuffed",
+     "cuffed with subglottic port",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_cuff_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_text",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cuff_manometer_on_ward",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cuff_pressure_recorded_first_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "night_time_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "22:00–07:00"
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month look-back); Wk 3 analyse/present; Wk 4 change; Months 2–7 embed and collect prospectively; Month 8 re-audit",
+  "change": "Add a required 'cuffed tube still needed? yes/no and reason' field to the critical care discharge summary template for any patient with a tracheostomy.",
+  "target": "≥95%",
+  "reaudit": "Month 8: all eligible discharges since the change, same template.",
+  "close_loop": "Present at critical care governance and the tracheostomy safety group. If it works, keep the field and add cuffed-tube discharges to the outreach review list.",
+  "evidence": [
+   "[8828] Rehabilitation wards: aspiration pneumonia 43.8% → 27.8% (tube-change bundle and workflow)",
+   "[82] Maxillofacial wards, UHBW: bedhead signs present in all; documentation improved with anaesthesia (annual report)",
+   "[5455] ICU, Barnet: intubation practice improved against NAP4 standards (training, resources and new practices)"
+  ],
+  "pitfalls": [
+   "Small numbers → use a 12-month look-back and report counts.",
+   "Reason given in the ward round note but not in the discharge summary → agree before cycle 1 which documents count and keep them fixed.",
+   "Staff see it as paperwork → show the NCEPOD ward-death findings when presenting cycle 1.",
+   "Field filled with 'as per plan' → define acceptable reasons in the template note."
+  ],
+  "pearls": [
+   "Recruit the critical care tracheostomy lead and outreach team as co-leads.",
+   "Link the field to an automatic outreach referral so the ward gets support on day 1.",
+   "Record whether a cuff manometer was on the receiving ward; it often explains ward incidents."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 discharges from critical care records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "In children under 5 attending the emergency department with a burn or scald, what proportion have the notes record whether the explanation fits the injury?",
+  "why": "Burns are a common presentation of maltreatment in young children and the explanation is the key test. A Gloucestershire audit found poor documentation that improved with a checklist [4091]; no recent closed-loop audit is in the library.",
+  "standard": {
+   "source": "NICE CG89 rec 1.1.6 (2009, updated 2025)",
+   "wording": "Suspect child maltreatment if a child has burn or scald injuries: if the explanation for the injury is absent or unsuitable or if the child is not independently mobile or on any soft tissue area that would not be expected to come into contact with a hot object in an accident (for example, the backs of hands, soles of feet, buttocks, back) or in the shape of an implement (for example, cigarette, iron) or that indicate forced immersion …",
+   "url": "https://www.nice.org.uk/guidance/cg89/chapter/Recommendations"
+  },
+  "pass": "The emergency department notes contain an explicit statement that the explanation is, or is not, consistent with the injury and the child's development (a completed burns safeguarding checklist counts).",
+  "population": "Children under 5 attending the emergency department or urgent treatment centre with any burn or scald. Exclude children transferred straight to a burns centre without emergency department assessment.",
+  "sample": "50 consecutive attendances over the last 3 months.",
+  "data_source": "Emergency department records and burns proforma; safeguarding referral log; paediatric liaison records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "independently_mobile",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mechanism_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "explanation_consistency_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "warning_feature_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Any CG89 1.1.6 feature"
+   },
+   {
+    "field": "safeguarding_action",
+    "type": "choice",
+    "options": [
+     "none needed",
+     "discussed with senior or paediatrics",
+     "referral to children's social care",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "senior_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required five-question burns safeguarding box (explanation, consistency, mobility, site and pattern, previous attendances) to the emergency department paediatric burns template.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 consecutive children under 5 with a burn, same template.",
+  "close_loop": "Present at emergency department and safeguarding governance. If it works, keep the box mandatory and add it to the paediatric liaison nurse's daily review.",
+  "evidence": [
+   "[4091] A&E, Gloucestershire Royal: referral for further opinion 0% → 3%; checklist included in 60% of notes and completed in 97% of those (checklist and education)",
+   "[2009] Regional burns unit, Whiston: 95% of proforma fields improved (flowchart proforma)",
+   "[6983] Surrey and Sussex: new safeguarding training reduced reporting experience 64% → 51% (training alone fails)"
+  ],
+  "pitfalls": [
+   "Staff fear that asking implies blame → use neutral wording in the box and explain it is asked of every child.",
+   "Checklist in paper notes gets lost → build it into the electronic template.",
+   "Paediatric liaison already reviews cases → agree that their note does not count unless it is made during the attendance.",
+   "Changing the age range between cycles → fix under 5 before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the named safeguarding nurse or doctor as co-lead.",
+   "Use the child's development stage (mobility) prompt; it catches most non-mobile scalds.",
+   "Include urgent treatment centres, where many small scalds are seen."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 attendances from the ED system"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of patients who reach the emergency department within 3 hours of a thermal burn, what proportion have 20 minutes of cool running water documented?",
+  "why": "Twenty minutes of cool running water reduces burn depth and the need for grafting, yet an ambulance service audit found adequate cooling in only 35% [7134]. No emergency department audit of burn cooling is in the library.",
+  "standard": {
+   "source": "London and South East of England Burn Network (LSEBN), Initial management of burn wounds (2026)",
+   "wording": "Cool with running tap water for 20 minutes within 3 hours of injury. If limited water supply, apply a cool compress, change frequently over 20-minute period. … Do not use ice/iced water/ice packs",
+   "url": "https://www.lsebn.nhs.uk/clinical-guidelines"
+  },
+  "pass": "The notes record at least 20 minutes of cool running water in total (before arrival plus in the department), started within 3 hours of injury.",
+  "population": "All ages with a thermal burn (scald, flame or contact) arriving within 3 hours of injury. Exclude chemical and electrical burns, burns over 20% of body surface area, and patients whose cooling was stopped for hypothermia or resuscitation (record the reason).",
+  "sample": "50 consecutive eligible attendances over the last 2–3 months.",
+  "data_source": "Emergency department triage and nursing notes; ambulance electronic patient record for pre-hospital cooling; burns proforma.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "injury_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prehospital_cooling_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_cooling_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "total_cooling_20_minutes",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cooling_method",
+    "type": "choice",
+    "options": [
+     "running water",
+     "cool compress",
+     "hydrogel only",
+     "ice",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tbsa_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_group",
+    "type": "choice",
+    "options": [
+     "adult",
+     "child"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'cooling' section to the emergency department triage burns template (minutes before arrival, time cooling started and stopped in the department), with triage sending any patient short of 20 minutes to a designated sink or shower.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 50 consecutive eligible attendances, same template.",
+  "close_loop": "Present at emergency department governance and to the regional burn network. If it works, keep the triage section and share the pre-hospital cooling data with the ambulance service.",
+  "evidence": [
+   "[7134] South East Coast Ambulance Service: adequate cooling 35% (single cycle)",
+   "[2009] Regional burns unit, Whiston: TBSA recorded 83% → 93% (flowchart admission proforma)",
+   "[6911] Paediatric burn centre, Baltimore: TBSA recorded at transfer 56% → 94% (standard Lund and Browder form)"
+  ],
+  "pitfalls": [
+   "Pre-hospital cooling not written down → ask about it at triage and record 'unknown' rather than guessing.",
+   "Children get cold → cool the burn and keep the child warm, as the guidance says; exclude large burns.",
+   "Busy triage skips cooling → make the sink location and a timer part of the triage step.",
+   "Hydrogel used instead of water → record it separately; it does not count as cooling."
+  ],
+  "pearls": [
+   "Recruit the triage nurse lead; they own the template.",
+   "Put a clock and a laminated '20 minutes' sign above the designated sink.",
+   "Share results with the ambulance service; they can change the handover template too."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 attendances from the ED system"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "In patients with a chemical injury to the eye, what proportion have the eye pH rechecked both straight after irrigation stops and again 30 minutes later?",
+  "why": "Stopping irrigation too early leaves chemical in the eye and risks permanent corneal damage. Library eye audits address red eyes and corneal abrasions [6126][4633][7608]; none measures pH checks after chemical injury.",
+  "standard": {
+   "source": "LSEBN, Initial management of ocular burns (2026, developed with Moorfields Eye Hospital)",
+   "wording": "Check corneal ph (mean ph of tears is 7.6) … In chemical injuries, repeat the pH test soon after the irrigation has ceased and again 30 minutes later",
+   "url": "https://www.lsebn.nhs.uk/clinical-guidelines"
+  },
+  "pass": "Two post-irrigation pH readings are documented with times: one soon after irrigation stops (within 5 minutes) and one at least 30 minutes later.",
+  "population": "All ages attending the emergency department with a liquid or solid chemical splash to one or both eyes. Exclude irritant sprays (CS or pepper spray) with no liquid contact and patients transferred directly to an eye unit.",
+  "sample": "40 consecutive attendances over the last 6–12 months.",
+  "data_source": "Emergency department records and nursing observation charts; ophthalmology referral and eye casualty notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "chemical_type",
+    "type": "choice",
+    "options": [
+     "alkali",
+     "acid",
+     "other or unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "initial_ph",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "irrigation_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "irrigation_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ph_after_irrigation",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ph_30_minutes_later",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_rechecks_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ophthalmology_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month look-back); Wk 3 analyse/present; Wk 4 change; Months 2–7 embed and collect prospectively; Month 8 re-audit",
+  "change": "Stock a chemical eye injury pack at triage (pH strips, topical anaesthetic, Morgan lens or giving set, fluorescein) with a sticker chart for pH before irrigation, at the end of irrigation and 30 minutes later.",
+  "target": "≥90%",
+  "reaudit": "Month 8: all chemical eye injuries since the change, same template.",
+  "close_loop": "Present at emergency department and ophthalmology governance. If it works, keep the pack at triage with a weekly stock check and add the sticker chart to the eye injury template.",
+  "evidence": [
+   "[4633] A&E, King's College Hospital: visual acuity documented to 93% and contact lens enquiry 35.3% → 71.9% (local guideline)",
+   "[6126] Emergency department, King's College Hospital: eye proforma used for 28% but raised documentation of all items (proforma)",
+   "[7608] Primary care: chemical injury asked about 10% → 84% (EMIS red eye template and teaching)"
+  ],
+  "pitfalls": [
+   "pH strips not stocked → check stock before cycle 1 and add them to the pack list.",
+   "Patient leaves or moves to eye casualty before the 30-minute check → allow the eye unit's documented check to count.",
+   "Small numbers → use a 12-month look-back and report counts.",
+   "Staff unsure what 'normal' is → print the target pH range on the sticker."
+  ],
+  "pearls": [
+   "Recruit an emergency nurse practitioner who sees most minor eye injuries.",
+   "Keep the pack sealed and tagged so used packs are easy to spot and restock.",
+   "Include industrial and cleaning-product injuries from occupational health reports to find cases."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ED records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of children discharged after a burn, what proportion have toxic shock syndrome safety-netting advice documented?",
+  "why": "Toxic shock syndrome is the leading cause of death after burns in children and most cases follow small burns treated at home. No audit of toxic shock safety-netting is in the library.",
+  "standard": {
+   "source": "LSEBN, Toxic Shock guideline (January 2026), section 2.3",
+   "wording": "Provide TSS safety netting advice (verbal and written where possible)",
+   "url": "https://www.lsebn.nhs.uk/clinical-guidelines"
+  },
+  "pass": "The discharge note records that toxic shock advice was given (verbally or with a leaflet) covering fever, rash, diarrhoea or vomiting, and when to return.",
+  "population": "Children under 16 discharged from the emergency department, urgent treatment centre or burns dressing clinic after a burn or scald with skin loss or blistering. Exclude erythema-only burns and children admitted.",
+  "sample": "50 consecutive discharges over the last 3 months.",
+  "data_source": "Emergency department discharge notes and discharge letters; nursing notes; leaflet issue log if kept.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tbsa_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "burn_depth",
+    "type": "choice",
+    "options": [
+     "superficial partial",
+     "deep partial",
+     "full thickness",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "burns_unit_contacted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outpatient_follow_up_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tss_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "written_leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add toxic shock advice to the emergency department paediatric burns discharge template as a required tick-box that prints the network toxic shock leaflet.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 consecutive paediatric burn discharges, same template.",
+  "close_loop": "Present at emergency department and paediatric governance and to the regional burn network. If it works, keep the required tick-box and add the leaflet to the paediatric discharge pack.",
+  "evidence": [
+   "[4534] A&E, St George's (epistaxis): written advice 2% → 54% (leaflets placed in the department and teaching)",
+   "[4091] A&E, Gloucestershire Royal: checklist completed in 97% of notes where included (reminder checklist)",
+   "[2009] Regional burns unit, Whiston: 95% of proforma fields improved (flowchart proforma)"
+  ],
+  "pitfalls": [
+   "Advice given but not written down → make the tick-box part of the discharge template, not free text.",
+   "Leaflet not stocked → print it from the template instead of relying on paper stock.",
+   "Children seen again in dressing clinic are double-counted → count the first discharge only.",
+   "Parents with limited English → include translated or pictorial versions of the leaflet."
+  ],
+  "pearls": [
+   "Recruit the paediatric emergency nurse lead and the burns outreach nurse.",
+   "Ask the burns unit to check advice was given at their follow-up call.",
+   "Keep the advice short: fever, rash, diarrhoea or vomiting, drowsiness, return straight away."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 discharges from the ED system"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of patients with a facial burn seen in the emergency department, what proportion have a fluorescein eye examination documented?",
+  "why": "Corneal burns hide under swollen lids and are easily missed. Library eye audits in emergency care measure red-eye and abrasion documentation [4633][6126]; none checks eye examination after facial burns.",
+  "standard": {
+   "source": "LSEBN, Facial Burns management (March 2026)",
+   "wording": "Check eyes with fluorescein … Consider ophthalmology review if required",
+   "url": "https://www.lsebn.nhs.uk/clinical-guidelines"
+  },
+  "pass": "A fluorescein staining result is documented for each eye (or a documented reason it could not be done, with ophthalmology review arranged).",
+  "population": "All ages with a burn involving the face, including eyelids and forehead (flame, flash, scald, contact or chemical). Exclude sunburn and patients transferred to a burns centre before emergency department assessment.",
+  "sample": "40 consecutive attendances over the last 6 months.",
+  "data_source": "Emergency department records and burns proforma body map; ophthalmology referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism",
+    "type": "choice",
+    "options": [
+     "flame",
+     "flash",
+     "scald",
+     "contact",
+     "chemical"
+    ],
+    "note": ""
+   },
+   {
+    "field": "eyelid_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "visual_acuity_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluorescein_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "corneal_injury_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ophthalmology_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'eyes: fluorescein result right and left' to the emergency department burns template, triggered whenever the face is shaded on the body map, and keep fluorescein strips and a blue light in the burns bay.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (or after 40 new cases): same template.",
+  "close_loop": "Present at emergency department governance and to the burn network. If it works, keep the trigger in the template and add eye examination to the facial burns teaching for new starters.",
+  "evidence": [
+   "[6128] General practice, Lincolnshire: visual acuity recorded 35% → 69% (memory aids and an eye examination kit in each room)",
+   "[4633] A&E, King's College Hospital: visual acuity documented to 93% (local guideline)",
+   "[6126] Emergency department, King's College Hospital: eye proforma used for 28% (proforma alone rarely used)"
+  ],
+  "pitfalls": [
+   "Swollen lids make examination hard → allow a documented reason plus ophthalmology review to count as a pass.",
+   "Equipment kept only in the eye room → stock strips and a blue light in the burns bay.",
+   "Face shaded on the body map but not coded as facial burn → search the body map as well as diagnosis codes.",
+   "Intubated patients missed → include them; eye checks matter most when patients cannot report symptoms."
+  ],
+  "pearls": [
+   "Recruit an ophthalmology registrar to give a 10-minute demonstration at the start.",
+   "Link the fluorescein field to the facial burn leaflet so both are done together.",
+   "Report corneal injuries found; they persuade staff more than percentages."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from ED records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of patients with a burn and at least one sign of inhalation injury, what proportion are reviewed by a senior anaesthetist in the emergency department?",
+  "why": "Airway swelling after inhalation injury can close the airway within hours, and delayed intubation is harder and riskier. No audit of airway review in suspected inhalation injury is in the library.",
+  "standard": {
+   "source": "LSEBN, Burn Inhalation Injury protocol (2026)",
+   "wording": "Review by senior anaesthetist and consider early intubation if there is a suspicion of BII: early intubation may decrease pulmonary-related mortality in patients with inhalation injury.",
+   "url": "https://www.lsebn.nhs.uk/clinical-guidelines"
+  },
+  "pass": "A documented airway assessment by a senior anaesthetist (grade agreed locally before cycle 1, for example ST5 or above, specialty doctor or consultant) while the patient is in the emergency department.",
+  "population": "All ages with a burn or smoke exposure and at least one history or examination feature in the protocol (enclosed-space fire, loss of consciousness, facial or neck burns, oedema of lips or tongue, stridor, hoarseness, carbonaceous secretions, SpO2 below 94% on air). Exclude patients intubated before arrival.",
+  "sample": "All eligible patients over the last 12–24 months (aim for 30).",
+  "data_source": "Emergency department records; anaesthetic records; blood gas system for carboxyhaemoglobin; trauma call log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inhalation_features",
+    "type": "text",
+    "options": [],
+    "note": "List features present"
+   },
+   {
+    "field": "facial_or_neck_burn",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "carboxyhaemoglobin_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "senior_anaesthetist_review",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "specialty doctor",
+     "ST5 or above",
+     "below ST5",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "intubated_in_ed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12-month look-back); Wk 3 analyse/present; Wk 4 change; Months 2–7 embed and collect prospectively; Month 8 re-audit",
+  "change": "Add 'suspected inhalation injury' to the emergency department burns template and trauma call criteria as an automatic trigger for a senior anaesthetist call.",
+  "target": "≥95%",
+  "reaudit": "Month 8: all eligible patients since the change, same template and grade definition.",
+  "close_loop": "Present at emergency department and anaesthetic governance and to the regional burn network. If it works, keep the trigger in the trauma call criteria and add a burns airway scenario to joint simulation training.",
+  "evidence": [
+   "[9378] ICU, Royal Liverpool: all staff airway trained but confidence with difficult airway equipment only 60% (teaching and simulation)",
+   "[5455] ICU, Barnet: intubation practice improved against NAP4 standards (training, resources and new practices)",
+   "[7134] South East Coast Ambulance Service thermal burns: adequate cooling 35%, pain reassessed 54% (single cycle)"
+  ],
+  "pitfalls": [
+   "Few cases each year → use a 24-month look-back if needed and report counts.",
+   "'Senior' means different grades → fix the definition before cycle 1 and keep it.",
+   "Anaesthetist review happens but is written only on the anaesthetic chart → search both records.",
+   "Burn team asks for a review only when stridor appears → the trigger must use the full feature list, not stridor alone."
+  ],
+  "pearls": [
+   "Recruit an anaesthetic consultant as co-lead; they can change the call criteria.",
+   "Measure carboxyhaemoglobin in every enclosed-space fire; it helps identify cases.",
+   "Share each case in joint emergency and anaesthetic morbidity meetings."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED and anaesthetic records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of patients taking warfarin who have a tooth extraction, what proportion have their INR checked no more than 24 hours before (or 72 hours if their INR is stable)?",
+  "why": "An out-of-date INR risks serious post-extraction bleeding, while unnecessary warfarin interruption risks clots. Surveys and minor-surgery audits show INR timing is inconsistent [4989][2442]; no closed-loop audit against the SDCEP standard in oral surgery is in the library.",
+  "standard": {
+   "source": "SDCEP, Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs, 2nd edition (2022), section 6",
+   "wording": "Ensure that the patient’s INR has been checked, ideally no more than 24 hours before the procedure. If the patient has a stable INR, checking the INR no more than 72 hours before is acceptable.",
+   "url": "https://www.sdcep.org.uk/media/4gslzda1/sdcep-management-of-dental-patients-taking-anticoagulants-or-antiplatelet-drugs-2nd-edition.pdf"
+  },
+  "pass": "An INR result with its date and time is recorded no more than 24 hours before the extraction, or no more than 72 hours before if the INR is stable (no weekly monitoring and no INR above 4 in the last 2 months).",
+  "population": "Adults taking warfarin or another vitamin K antagonist who have a dental extraction or other procedure likely to cause bleeding in oral surgery, maxillofacial or community dental clinics. Exclude procedures under general anaesthesia with inpatient anticoagulation management.",
+  "sample": "40 consecutive procedures over the last 3–6 months.",
+  "data_source": "Dental or maxillofacial clinic records; point-of-care INR log; anticoagulation clinic records for INR history and stability.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_type",
+    "type": "choice",
+    "options": [
+     "single extraction",
+     "multiple extractions",
+     "surgical extraction",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "inr_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inr_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_inr_to_procedure",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inr_stable",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "within_time_window",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "warfarin_interrupted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_op_bleed_reported",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Use a point-of-care INR meter in the oral surgery clinic on the day of the procedure, with the result entered in a required field on the extraction safety checklist.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive procedures in patients on warfarin, same template.",
+  "close_loop": "Present at oral and maxillofacial surgery governance and to community dental services. If it works, keep the meter with a named owner for quality control and add the INR field to the checklist for all sites.",
+  "evidence": [
+   "[2442] Minor operations, Sandwell: pre-operative INR for warfarin 75% → 100% (poster 'cheat sheet' in the department)",
+   "[4989] Dental practitioners, South West Wales: 84% would check INR before treatment, 65% within 24 hours (re-survey)",
+   "[2004] Maxillofacial clinic, Worcester: wrong teeth listed on TCI forms → none after form change (form redesign)"
+  ],
+  "pitfalls": [
+   "INR from the anticoagulation clinic has no time → record date and time from the pathology system or meter log.",
+   "Stability is unknown → count as unstable unless the anticoagulation record shows otherwise.",
+   "Meter quality control lapses → assign one named nurse and follow the manufacturer's checks.",
+   "Patients told by others to stop warfarin → record interruptions separately; they are a harm too."
+  ],
+  "pearls": [
+   "Recruit the clinic nurse lead, who will run the meter.",
+   "Send patients the SDCEP warfarin instruction sheet with their appointment letter.",
+   "Agree with the anticoagulation clinic how to share recent INR results."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 procedures from clinic records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of adults starting radiotherapy for head and neck cancer had a specialist dental assessment before treatment began?",
+  "why": "Dental extractions after head and neck radiotherapy risk osteoradionecrosis, so teeth must be assessed and treated first. One UK centre found only 72% assessed before radiotherapy [7282]; library audits of pre-radiotherapy dental care are single-cycle [7295][2001].",
+  "standard": {
+   "source": "Royal College of Surgeons of England, Faculty of Dental Surgery, The Oral & Dental Management of Patients Before, During and After Cancer Therapy (February 2026), section 5.2",
+   "wording": "Patients who are due to undergo surgery and/or radiotherapy to the head and neck region, should be assessed by the specialist dental team that works with the head and neck surgeon and oncologist in the multidisciplinary team",
+   "url": "https://www.rcseng.ac.uk/-/media/Files/RCS/FDS/Publications/The-oral-and-dental-management-of-patients-before-during-and-after-cancer-therapy.pdf"
+  },
+  "pass": "A documented assessment by the specialist (restorative or hospital) dental team dated before the first radiotherapy fraction.",
+  "population": "Adults starting radical or adjuvant radiotherapy (with or without chemotherapy) to the head and neck region, dentate or edentulous. Exclude palliative short-course radiotherapy and skin-only fields.",
+  "sample": "40 consecutive patients over the last 6 months.",
+  "data_source": "Radiotherapy booking system for start date; head and neck MDT records; restorative dentistry or oral surgery notes; PACS for dental radiographs.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "mdt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rt_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dental_status",
+    "type": "choice",
+    "options": [
+     "dentate",
+     "edentulous"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dental_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dental_radiograph_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessed_before_rt",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "days_assessment_to_rt",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "extractions_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_extraction_to_rt",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'referred to specialist dental team' a required outcome field on the head and neck MDT form for any patient with radiotherapy in the plan, generating the referral automatically.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 (or after 40 new patients): same template.",
+  "close_loop": "Present at the head and neck MDT business meeting and to oncology governance. If it works, keep the required MDT field and report the rate in the MDT annual report.",
+  "evidence": [
+   "[7282] Regional oncology centre, Liverpool: 72% had a pre-radiotherapy dental assessment (single cycle)",
+   "[7295] Restorative dentistry, Portsmouth: 125 of 154 assessed before radiotherapy; 1.3% breached the 10-day extraction protocol (single cycle)",
+   "[2001] Dublin Dental University Hospital: 15 of 147 had extractions less than 2 weeks before radiotherapy (single cycle)"
+  ],
+  "pitfalls": [
+   "Edentulous patients skipped → include them; dentures and bone still need checking.",
+   "Assessment done at another hospital → accept any specialist dental record if it is in the notes before radiotherapy.",
+   "Fast-tracked treatment starts before dental review → flag these at MDT and record the reason.",
+   "Dental team capacity → agree a ring-fenced weekly slot for MDT referrals before the change."
+  ],
+  "pearls": [
+   "Recruit the restorative dentistry consultant who sits on the MDT.",
+   "Ask the MDT coordinator to add dental status to the MDT outcome letter.",
+   "Record days from extraction to radiotherapy too; it shows whether the pathway is early enough."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from MDT and dental records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of adults treated in the emergency department for nosebleeds that did not stop with first aid, what proportion have nasal cautery attempted before a nasal pack is inserted?",
+  "why": "Nasal packs are uncomfortable, often lead to admission and are often used without anyone looking for a bleeding point: a London audit found no documented cautery attempts in the emergency department [5694]. Emergency department pathways with a stocked trolley reduced re-bleeding [7110].",
+  "standard": {
+   "source": "Local standard",
+   "wording": "Adults with an anterior nosebleed that continues after 10–15 minutes of first-aid pressure should have the nose examined with a headlight after topical vasoconstrictor and local anaesthetic, and have silver nitrate cautery of any visible bleeding point attempted before a nasal pack is inserted. If a pack is inserted without cautery, the reason is documented.",
+   "url": ""
+  },
+  "pass": "Cautery attempted before any pack; or a documented reason for packing without cautery (no bleeding point seen after examination with a headlight and vasoconstrictor, or bleeding too heavy to see).",
+  "population": "Adults (≥16) with spontaneous nosebleed needing emergency department treatment beyond first aid. Exclude trauma or facial fracture, bleeding after nasal surgery, known hereditary haemorrhagic telangiectasia, and patients sent straight to ENT without emergency department treatment.",
+  "sample": "50 consecutive eligible attendances over the last 3 months.",
+  "data_source": "Emergency department records; ENT referral and admission records; drug chart for anticoagulant or antiplatelet use.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_or_antiplatelet",
+    "type": "choice",
+    "options": [
+     "none",
+     "antiplatelet",
+     "DOAC",
+     "warfarin",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_aid_pressure_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "headlight_examination_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vasoconstrictor_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cautery_before_pack",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_no_cautery",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cautery_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pack_inserted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admitted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock an emergency department nosebleed trolley (headlight, nasal speculum, co-phenylcaine, silver nitrate sticks, packs) with a laminated step-by-step pathway attached, checked daily.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 50 consecutive eligible attendances, same template.",
+  "close_loop": "Present at emergency department and ENT governance with admission numbers. If it works, keep the trolley on the daily equipment checklist and add the pathway to the emergency department induction pack.",
+  "evidence": [
+   "[5694] Guy's Hospital: suitable nasal examination in the emergency department 8% and no documented cautery → continued improvement (teaching and best-practice algorithm)",
+   "[7110] Emergency department with off-site ENT, Connolly Hospital: re-bleed after packing 39% → 14% (stocked trolley, pathway and teaching)",
+   "[2788] Emergency department, Hereford: correct epistaxis steps 33% → 84% (joint teaching, proformas and intranet flowcharts)"
+  ],
+  "pitfalls": [
+   "No headlight or silver nitrate available → stock the trolley before cycle 1 and check it daily.",
+   "Doctors unsure how to cauterise → pair the trolley with a short hands-on session from ENT.",
+   "Posterior bleeds counted as failures → accept 'no bleeding point seen' as a pass when examination is documented.",
+   "ENT and emergency department disagree on who treats first → agree the pathway jointly before the change."
+  ],
+  "pearls": [
+   "Recruit an ENT registrar and an emergency department nurse practitioner as joint leads.",
+   "Report packs and admissions avoided; managers care about bed days.",
+   "Keep the pathway on the trolley itself so it survives staff rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 attendances from ED records"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "Of adults attending the emergency department with an eye problem, what proportion have visual acuity recorded for each eye?",
+  "why": "Visual acuity is the vital sign of the eye; without it sight-threatening conditions are missed and later change cannot be judged. Emergency department audits found it recorded in 77% or less before change [6126][4633], and no closed-loop audit links it to the triage template.",
+  "standard": {
+   "source": "Local standard",
+   "wording": "Every adult attending the emergency department with an eye complaint or eye injury has visual acuity recorded for each eye (with glasses or a pinhole) at triage or at first clinician assessment, before any dilating or anaesthetic drops, unless a documented reason prevents it.",
+   "url": ""
+  },
+  "pass": "Visual acuity recorded for both eyes (Snellen or equivalent, with glasses or pinhole), or a documented reason why it could not be measured.",
+  "population": "Adults (≥16) attending the emergency department or urgent treatment centre with an eye presenting complaint (red eye, eye pain, eye injury, foreign body, visual disturbance). Exclude patients with reduced consciousness and those sent straight to eye casualty from triage without assessment.",
+  "sample": "50 consecutive eligible attendances over the last month.",
+  "data_source": "Emergency department triage and clinician notes; presenting complaint codes; eye casualty referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "complaint_category",
+    "type": "choice",
+    "options": [
+     "red or painful eye",
+     "eye injury",
+     "foreign body",
+     "visual disturbance",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "right_va_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "left_va_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "va_both_eyes_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "recorded_by",
+    "type": "choice",
+    "options": [
+     "triage nurse",
+     "clinician",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fluorescein_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_to_eye_service",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make right and left visual acuity required fields in the emergency department triage template whenever the presenting complaint is an eye problem, and mount a Snellen chart at a marked distance in triage.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 consecutive eligible attendances, same template.",
+  "close_loop": "Present at emergency department governance and to the eye service. If it works, keep the required fields and add visual acuity to the emergency department nursing competency list.",
+  "evidence": [
+   "[4633] A&E, King's College Hospital: visual acuity documentation rose to 93% (local corneal abrasion guideline)",
+   "[6126] Emergency department, King's College Hospital: visual acuity 77%; proforma used in only 28% (paper proforma)",
+   "[6128] General practice, Lincolnshire: visual acuity 35% → 69% (memory aids and an eye examination kit in each room)"
+  ],
+  "pitfalls": [
+   "Paper proformas are ignored → build the field into the electronic triage screen instead.",
+   "No chart or pinhole at triage → install both before cycle 1.",
+   "Near-vision cards used without recording → accept any recorded method but note which.",
+   "Busy periods lead to 'not done' → allow a documented reason, then track how often it is used."
+  ],
+  "pearls": [
+   "Recruit the triage nurse lead and the IT template owner early.",
+   "Mark the floor at the correct distance for the chart; it removes an excuse.",
+   "Share one missed diagnosis case at the start; it convinces staff."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 attendances from the ED system"
+ },
+ {
+  "area": "Head, neck, eye and skin",
+  "question": "What proportion of adults listed for cataract surgery have their chosen refractive outcome (for example distance, near or monovision) recorded before the day of surgery?",
+  "why": "Unrecorded lens choices lead to refractive surprises and contribute to wrong-lens never events. Cataract consent audits in the library show poor patient understanding [4475]; none measures NG77's record of the chosen refractive outcome.",
+  "standard": {
+   "source": "NICE NG77 rec 1.5.3 (2017)",
+   "wording": "At the preoperative assessment: discuss the refractive implications of different intraocular lenses with the person; base the choice of intraocular lens on the person's chosen refractive outcome; record the discussion and the person's choices in their medical notes.",
+   "url": "https://www.nice.org.uk/guidance/ng77/chapter/Recommendations"
+  },
+  "pass": "The notes record the agreed refractive target for the eye being operated on (for example emmetropia for distance, a myopic target for near, or monovision), dated before the day of surgery.",
+  "population": "Adults having routine cataract surgery (phacoemulsification with intraocular lens). Exclude combined procedures with vitreoretinal or corneal surgery, traumatic cataract and emergency surgery.",
+  "sample": "50 consecutive operations over the last month.",
+  "data_source": "Cataract pre-assessment form or ophthalmology EPR; biometry record; operation note and lens record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "preop_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "eye",
+    "type": "choice",
+    "options": [
+     "right",
+     "left"
+    ],
+    "note": ""
+   },
+   {
+    "field": "refractive_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "target_type",
+    "type": "choice",
+    "options": [
+     "distance",
+     "near",
+     "intermediate",
+     "monovision",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "lens_matches_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biometry_uploaded_electronically",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required 'agreed refractive target' field to the cataract pre-assessment e-form that carries through to the lens selection screen and the WHO cataract checklist.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 consecutive operations, same template.",
+  "close_loop": "Present at ophthalmology governance and the theatre safety meeting. If it works, keep the required field and include it in the cataract WHO checklist sign-in.",
+  "evidence": [
+   "[4475] Birmingham and Midland Eye Centre: understanding of surgery 48% → 28% (new consent forms; consent change alone failed)",
+   "[8357] Four East Anglian units: 88.6% achieved 6/12 or better; sight-threatening complications 4.2% (single cycle)",
+   "[2004] Maxillofacial clinic, Worcester: wrong teeth on TCI forms → none (form change after root cause analysis)"
+  ],
+  "pitfalls": [
+   "Target written only on the biometry printout → agree before cycle 1 which records count.",
+   "Surgeons assume 'distance' by default → the field should force an explicit choice.",
+   "Second-eye surgery copies the first-eye target without discussion → count each eye separately.",
+   "Independent-sector records not accessible → limit the sample to in-house lists."
+  ],
+  "pearls": [
+   "Recruit the cataract lead nurse or optometrist who runs pre-assessment.",
+   "Link the field to the lens-ordering step so it cannot be skipped.",
+   "Audit the second eye separately if numbers allow; errors cluster there."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 operations from the EPR"
+ }
+]

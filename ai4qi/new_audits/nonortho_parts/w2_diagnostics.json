@@ -1,0 +1,1962 @@
+[
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of imaging reports carrying a CANCER alert have a documented action by the referring team within 7 days of the report?",
+  "why": "Unread imaging reports of new cancer are a recurring cause of serious harm. Only 17% of UK departments could track whether reports had been read [6164]. No closed-loop audit of alert acknowledgement has been published in the library.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges and RCR, Alerts and notification of imaging reports: recommendations (October 2022), recommendations on cancer imaging alerts 1 and 2",
+   "wording": "1. All imaging reports with expected or unexpected new cancer diagnosis or newly detected cancer recurrence should be notified to the referrers with a CANCER alert in the report via a digital platform immediately upon completion of the reports. 2. Referring teams must ensure a valid contact detail (or through a pre-agreed system) is available, including out of hours, on all imaging referrals. They must also ensure that all reports are read, acknowledged and acted upon (or plan to act).",
+   "url": "https://www.rcr.ac.uk/media/44sfqlbi/rcr-publications_alerts-and-notification-of-imaging-reports-recommendations_october-2022.pdf"
+  },
+  "pass": "The report is electronically acknowledged by the referring team and an action or plan (referral, clinic, MDT, patient told) is recorded within 7 calendar days of report authorisation.",
+  "population": "All imaging reports (any modality, any referrer: inpatient, outpatient, ED, GP) that carry a CANCER alert code. Exclude reports on patients who died before the report was issued.",
+  "sample": "40 consecutive CANCER-alert reports from the last 2 months.",
+  "data_source": "RIS/PACS alert report (alert code, authorisation date); EPR results acknowledgement log; clinic letters and MDT lists for the action.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "report_authorised_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "modality",
+    "type": "choice",
+    "options": [
+     "CT",
+     "MRI",
+     "ultrasound",
+     "plain film",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referrer_setting",
+    "type": "choice",
+    "options": [
+     "inpatient",
+     "outpatient",
+     "ED",
+     "GP"
+    ],
+    "note": ""
+   },
+   {
+    "field": "acknowledged_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if never acknowledged"
+   },
+   {
+    "field": "acknowledged_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_recorded",
+    "type": "choice",
+    "options": [
+     "cancer pathway referral",
+     "MDT listing",
+     "clinic booked",
+     "patient informed only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "action_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_acknowledged_and_actioned_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "escalation_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": "Did the fail-safe system chase the report?"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Switch on automatic escalation: an unacknowledged CANCER-alert report triggers a daily reminder to the referrer and, at 96 hours, an email to the clinical lead and the results coordinator.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 consecutive CANCER-alert reports, same template.",
+  "close_loop": "Present at radiology governance and the Trust patient safety group; embed the escalation rule in the RIS/EPR and name a results coordinator as owner.",
+  "evidence": [
+   "[6164] UK radiology departments: 34% had automated alerts and 17% could track reports (national survey, no re-audit)",
+   "[7670] General surgery, appendix histology: reports reviewed within 15 days 49.5% → 77.6% (agreed review protocol)",
+   "[2604] Primary care, gallbladder polyps: 41.6% lost to follow-up → 100% back in surveillance (recall invitations)"
+  ],
+  "pitfalls": [
+   "Acknowledgement is clicked without action → count a pass only when an action or plan is recorded.",
+   "Reports on GP patients sit outside the EPR → include GP-referred cases and ask the practice or use the ICE/GP results log.",
+   "Alert codes applied inconsistently by reporters → agree the code list with radiologists before cycle 1 and keep it fixed.",
+   "Escalation emails go to a generic inbox → route them to named leads and the results coordinator."
+  ],
+  "pearls": [
+   "Recruit the RIS manager early; most systems can export alert and acknowledgement times.",
+   "Show two or three real delayed cases (anonymised) at governance; they move people more than percentages.",
+   "Give the results coordinator ownership of the monthly figure so it survives trainee rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 reports from RIS and EPR"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of imaging reports with a CRITICAL alert record the name of the person who received the verbal message?",
+  "why": "Critical findings (e.g. pneumothorax, bowel perforation, misplaced tube) need a phone call, and an unrecorded call cannot be checked. Library audits look at report content [7491] but none measures documentation of the call.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges and RCR, Alerts and notification of imaging reports: recommendations (October 2022), recommendations on critical imaging alerts 2 and 4",
+   "wording": "2. If immediate intervention is required, the alert should be supplemented by direct verbal communication. 4. The verbal communication including the name of the person who receives the results should be documented in the imaging report or patient record.",
+   "url": "https://www.rcr.ac.uk/media/44sfqlbi/rcr-publications_alerts-and-notification-of-imaging-reports-recommendations_october-2022.pdf"
+  },
+  "pass": "The report or patient record names the person who received the verbal message and the time of the call.",
+  "population": "All imaging reports carrying a CRITICAL alert code, any modality and setting. Exclude examinations where the radiologist was physically present with the treating team (e.g. trauma CT read in the scanner room) if that is recorded.",
+  "sample": "40 consecutive CRITICAL-alert reports from the last 1–2 months.",
+  "data_source": "RIS free-text search of the report addendum; EPR notes for the call record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "report_authorised_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "finding_category",
+    "type": "choice",
+    "options": [
+     "pneumothorax",
+     "free gas",
+     "haemorrhage",
+     "misplaced tube or line",
+     "vascular",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reported_by",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "reporting radiographer",
+     "outsourced"
+    ],
+    "note": ""
+   },
+   {
+    "field": "verbal_call_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "receiver_named",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "call_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_report_to_call",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "where_documented",
+    "type": "choice",
+    "options": [
+     "report addendum",
+     "EPR note",
+     "both",
+     "neither"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Critical result phoned to: name / role / time' field that appears when a reporter selects the CRITICAL alert code in the RIS.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 consecutive CRITICAL-alert reports.",
+  "close_loop": "Present at radiology governance and the discrepancy meeting; embed the RIS field and include outsourced reporters in the contract requirement.",
+  "evidence": [
+   "[7491] Major trauma centre radiology: 95/100 → 97/100 reports met RCR actionable reporting criteria",
+   "[6134] Neurosurgery referrals: documentation improved with a structured telephone referral record form",
+   "[6164] UK radiology departments: 88% had a critical-findings policy but few monitored it (national survey, no re-audit)"
+  ],
+  "pitfalls": [
+   "Outsourced reporters use a different template → agree the field with the teleradiology provider before cycle 1.",
+   "Calls made but written only on paper → accept the EPR or report addendum only, and say so in advance.",
+   "Radiologists see it as extra typing → make the field a short pick-list plus a name box.",
+   "Small numbers in one month → pool 2 months if fewer than 40 alerts."
+  ],
+  "pearls": [
+   "Recruit a consultant radiologist who chairs the discrepancy meeting as co-lead.",
+   "Also record minutes from report to call; it is a useful secondary measure.",
+   "Ask the PACS team to build a monthly report of CRITICAL alerts without a named receiver."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 reports from RIS"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of inpatient and ED imaging requests include a working contact number for the referring team that covers out of hours?",
+  "why": "Radiologists lose time and critical results are delayed when a request lists a consultant name only. Library request audits check clinical details [1898] [8254]; none checks contact details against the 2022 alerts standard.",
+  "standard": {
+   "source": "Academy of Medical Royal Colleges and RCR, Alerts and notification of imaging reports: recommendations (October 2022), recommendation on critical imaging alerts 7",
+   "wording": "7. Referrers must ensure a valid contact detail is available, including out of hours, on all imaging referrals. They must also ensure that all reports are read, acknowledged and acted upon (or plan to act).",
+   "url": "https://www.rcr.ac.uk/media/44sfqlbi/rcr-publications_alerts-and-notification-of-imaging-reports-recommendations_october-2022.pdf"
+  },
+  "pass": "The request shows a bleep, extension or team phone number that is answered 24 hours a day (or a pre-agreed out-of-hours route), and the number works when tested.",
+  "population": "CT and ultrasound requests from inpatient wards and the ED. Exclude outpatient and GP requests (covered by a pre-agreed results system).",
+  "sample": "50 consecutive requests over 1 week, split across day and night.",
+  "data_source": "RIS/ICE request form; switchboard list to check that the number is live and 24-hour.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requesting_area",
+    "type": "choice",
+    "options": [
+     "ED",
+     "medical ward",
+     "surgical ward",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contact_number_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_type",
+    "type": "choice",
+    "options": [
+     "bleep",
+     "team phone",
+     "extension",
+     "mobile",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "covers_out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_valid_when_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_valid_24h_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make a 24-hour team contact a mandatory field on the electronic imaging request, pre-filled from the ward or specialty on-call bleep list kept by switchboard.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, 50 requests, same day/night split.",
+  "close_loop": "Present at radiology and ED governance; embed the mandatory field and ask switchboard to update the bleep list with each rotation.",
+  "evidence": [
+   "[3399] Drug and alcohol referrals: contact number 55% → 100% (referral form with prompts)",
+   "[1972] Surgery, antibiotic prescriptions: prescriber contact details 69% → 100% (electronic prescribing)",
+   "[8254] Major trauma CT requests: trauma team leader contact 0% at baseline; RCR criteria met 57% → 96% (electronic request proforma)"
+  ],
+  "pitfalls": [
+   "Personal mobile numbers entered → count only numbers that switch with the rota.",
+   "Pre-filled numbers go out of date at changeover → give switchboard ownership of the list.",
+   "Checking numbers is slow → test a random 10 by phone, not all 50.",
+   "IT change takes months → use a hard-stop free-text field as an interim step."
+  ],
+  "pearls": [
+   "Ask radiologists how many calls failed last week; it wins support quickly.",
+   "Agree what counts as 'valid' with the radiology lead before cycle 1.",
+   "Include night requests; that is where the gap usually is."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 requests from RIS plus spot phone checks"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of abnormal radiology reports on patients discharged from the ED have a recorded clinician review within 72 hours of the report?",
+  "why": "Missed fractures and missed incidental findings after ED discharge cause harm and complaints. The library has no audit of the ED results-review process against the RCEM standard.",
+  "standard": {
+   "source": "RCEM Best Practice Guideline: Management of Investigation Results in the Emergency Department (revised May 2020), summary of recommendations",
+   "wording": "a. The process of review and action taken should be identifiable and traceable, and completed in a timely fashion. This should be ‘real-time’ for time critical investigation results, and within 72 hours for non-urgent results. ... All reports of abnormal radiological investigations requested by the Emergency Department team must be reviewed by a clinician, taking the clinical scenario into account, and necessary actions that may be required.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2021/10/RCEM_BPC_InvestigationResults_200520.pdf"
+  },
+  "pass": "An ED clinician's review is recorded (e-sign-off or note) with the action taken (recall, letter, fracture clinic, no action with reason) within 72 hours of report authorisation.",
+  "population": "Adults and children discharged from the ED whose X-ray or CT report (requested by ED) was abnormal or discordant with the ED interpretation. Exclude patients admitted under another team.",
+  "sample": "40 consecutive abnormal reports over 2 weeks.",
+  "data_source": "RIS list of ED-requested reports flagged abnormal; ED results review log or EPR sign-off; ED notes and letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_authorised_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "finding_type",
+    "type": "choice",
+    "options": [
+     "missed fracture",
+     "incidental finding",
+     "other abnormality"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_recorded_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_report_to_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_taken",
+    "type": "choice",
+    "options": [
+     "patient recalled",
+     "fracture clinic",
+     "GP letter",
+     "no action with reason",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "patient_informed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_reviewed_and_actioned_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a daily ED results work-list in the EPR that shows every unsigned abnormal report older than 24 hours, owned by a named senior clinician on the rota.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 consecutive abnormal reports.",
+  "close_loop": "Present at ED governance and radiology discrepancy meeting; embed the work-list and the named daily slot in the ED rota.",
+  "evidence": [
+   "[7258] ED point-of-care ultrasound: 0% → up to 90% of scans stored on PACS (network link, e-requests, proforma)",
+   "[7670] General surgery histology: reports reviewed within 15 days 49.5% → 77.6% (agreed review protocol)",
+   "[6164] UK radiology: only 17% had service-wide report tracking (national survey, no re-audit)"
+  ],
+  "pitfalls": [
+   "Weekend reports wait until Monday → include weekend days in the rota slot or the 72 hours will fail.",
+   "Reviews done but not recorded → count only EPR sign-off or a written note.",
+   "Radiology and ED disagree on what is 'abnormal' → use the radiology alert or discrepancy code as the definition.",
+   "Work-list grows at busy times → report backlog size weekly to the ED lead."
+  ],
+  "pearls": [
+   "Recruit an ED consultant who already does results review; they know the pain points.",
+   "Record patient contact outcome; it supports Duty of Candour reporting.",
+   "Keep the work-list slot in the rota, not in a person's goodwill, so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 reports from RIS and EPR"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of critical potassium results (6.5 mmol/L or more, or 2.5 mmol/L or less) are phoned to the clinical team within 2 hours of the result being available?",
+  "why": "Delayed hyperkalaemia and hypokalaemia results can cause fatal arrhythmias. The library has lab e-alert audits [7158] but no audit of phoning times against the updated 2026 RCPath limits.",
+  "standard": {
+   "source": "RCPath G158 Best practice recommendations: the communication of critical and unexpected pathology results (version 2, May 2026), biochemistry table and notes",
+   "wording": "A = rapid communication within 2 hours, usually by telephone ... K mmol/L 2.5 6.5 A A Exclude haemolysis/old samples/EDTA contamination first.",
+   "url": "https://www.rcpath.org/resourceLibrary/g158-bpr-the-communication-of-critical-and-unexpected-pathology-results.html"
+  },
+  "pass": "The LIMS records a call to a named clinician (or agreed receiver) within 2 hours of result validation.",
+  "population": "All serum/plasma potassium results at or beyond the critical limits from hospital and GP samples. Exclude haemolysed, old or EDTA-contaminated samples, and patients with an agreed higher local threshold (e.g. dialysis).",
+  "sample": "50 consecutive critical potassium results over 2 weeks.",
+  "data_source": "LIMS critical result log (validation time, call time, receiver name and role).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "result_validated_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "potassium_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "source",
+    "type": "choice",
+    "options": [
+     "inpatient",
+     "ED",
+     "GP in hours",
+     "GP out of hours",
+     "outpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "call_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_call",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "receiver_named_with_role",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "escalation_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Could not reach the team first time"
+   },
+   {
+    "field": "pass_phoned_within_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a LIMS timer that flags any critical result not marked as phoned within 60 minutes to the duty biomedical scientist, with a named out-of-hours GP route on the flag.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, 50 consecutive critical potassium results.",
+  "close_loop": "Present at pathology quality meeting and the Trust patient safety group; embed the LIMS timer and add the measure to the lab's KPI dashboard.",
+  "evidence": [
+   "[7158] AKI e-alerts from the laboratory system: AKI recognition 15% → 43% (e-alert with management pathway)",
+   "[6344] Microbiology, positive blood cultures: 50% had a Gram stain reported within 2 hours (prospective audit, no re-audit)",
+   "[8294] Microbiology laboratory internal audit: performance scores improved after review at audit meetings"
+  ],
+  "pitfalls": [
+   "GP results out of hours cannot be phoned → agree the out-of-hours GP route before cycle 1 and count calls to it.",
+   "Call time not typed into the LIMS → make the call record a required step to release the comment.",
+   "Different thresholds for renal patients → list agreed exceptions in advance and exclude them in both cycles.",
+   "Lab staff feel blamed → present the data as a system measure with the biochemistry lead."
+  ],
+  "pearls": [
+   "Recruit the duty biochemist and a senior biomedical scientist.",
+   "Report time to call by hour of day; night-time delays usually show a staffing issue.",
+   "Use the same 2026 limits in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 results from the LIMS log"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of blood cultures that turn positive after the patient has left hospital are telephoned to a clinician in the last team that cared for them?",
+  "why": "Patients discharged before a blood culture grows a pathogen can deteriorate at home. Library audits show culture results are often not reviewed [2818] [2718]; none audits the post-discharge call.",
+  "standard": {
+   "source": "RCPath G158 Best practice recommendations: the communication of critical and unexpected pathology results (version 2, May 2026), recommendations for microbiology and virology departments",
+   "wording": "Blood cultures that become positive after a patient has been discharged must be telephoned to the last team to care for that patient. For example, if a patient was discharged from a medical ward, then that team must be notified of the blood culture. If the patient had a blood culture taken in the emergency department (ED) and subsequently discharged without admission, then a clinician in ED must be telephoned of the result.",
+   "url": "https://www.rcpath.org/resourceLibrary/g158-bpr-the-communication-of-critical-and-unexpected-pathology-results.html"
+  },
+  "pass": "The LIMS or EPR records a telephone call to a named clinician from the last team (or ED) that cared for the patient.",
+  "population": "Adults and children with a first positive blood culture (likely pathogen) flagged after discharge from the ED or a ward. Exclude organisms agreed locally as probable skin contaminants.",
+  "sample": "40 consecutive episodes over the last 2–3 months.",
+  "data_source": "LIMS positive culture list and call log; PAS for discharge time; EPR for recall or treatment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_positive_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharged_from",
+    "type": "choice",
+    "options": [
+     "ED",
+     "medical ward",
+     "surgical ward",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "organism_group",
+    "type": "choice",
+    "options": [
+     "Gram-negative",
+     "Staphylococcus aureus",
+     "streptococcus",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "call_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "receiver_in_last_team",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "call_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_recalled_or_treated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'patient discharged' flag to the LIMS positive-culture screen that shows the last ward and the agreed contact (ED results clinician or ward team bleep).",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 consecutive episodes.",
+  "close_loop": "Present at microbiology and ED governance; embed the LIMS flag and add a named ED results clinician to the rota.",
+  "evidence": [
+   "[2818] Surgery, perianal abscess pus swabs: only 6% of cultures reviewed (education cut swabs 70% → 23%)",
+   "[2718] Surgery, abscess drainage: results acted on in 5/76 (6.6%) swabs (no re-audit)",
+   "[6344] Microbiology, positive blood cultures: 30-day mortality 10.9% (prospective audit, no re-audit)"
+  ],
+  "pitfalls": [
+   "Microbiology phones the consultant's secretary → count only calls to a clinician in the last team.",
+   "Discharge time missing in the LIMS → pull it from PAS.",
+   "Contaminants inflate the denominator → agree the contaminant list before cycle 1.",
+   "Ward teams have rotated → use the team bleep, not an individual."
+  ],
+  "pearls": [
+   "Recruit a microbiology registrar; they make these calls.",
+   "Record what happened to the patient; recalled cases make a strong governance story.",
+   "Ask the ED to name one clinician per shift as the results contact."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 episodes from LIMS and PAS"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of adult blood culture sets taken in the ED grow a likely skin contaminant?",
+  "why": "Contaminated blood cultures lead to extra antibiotics, repeat tests and longer stays. The library holds one contamination rate [6344] but no closed-loop audit of ED contamination.",
+  "standard": {
+   "source": "UK SMI S 12: Sepsis and systemic or disseminated infections (UKHSA, issue 1.1, April 2025), blood culture contamination",
+   "wording": "Contamination of blood cultures complicates interpretation and may lead to unnecessary antimicrobial therapy and increased costs. In general, contamination target rates are set at less than 3%.",
+   "url": "https://www.rcpath.org/resourceLibrary/uk-smi-s-12i1-1-sepsis-and-systemic-or-disseminated-infection-april-2025-pdf.html"
+  },
+  "pass": "The set does not grow a likely contaminant (coagulase-negative staphylococci, Cutibacterium, Micrococcus, Bacillus species other than B. anthracis, or diphtheroids in one set only).",
+  "population": "All adult blood culture sets taken in the ED. Exclude sets from central lines.",
+  "sample": "All ED sets over 2 weeks (usually 150–300); a full count comes straight from the LIMS.",
+  "data_source": "LIMS culture results by requesting location; microbiology comment for contaminant; ED notes for site and collector.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "collection_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "collected_by",
+    "type": "choice",
+    "options": [
+     "doctor",
+     "nurse",
+     "HCA or phlebotomist",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "site",
+    "type": "choice",
+    "options": [
+     "fresh venepuncture",
+     "from cannula at insertion",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "result",
+    "type": "choice",
+    "options": [
+     "no growth",
+     "pathogen",
+     "likely contaminant"
+    ],
+    "note": ""
+   },
+   {
+    "field": "organism",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_not_contaminated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotics_started_for_contaminant",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a standard ED blood culture pack (chlorhexidine applicator, bottle-top wipes, checklist sticker) with collector name and site recorded on the label.",
+  "target": "<3% of sets contaminated",
+  "reaudit": "Week 13–14, all ED sets over 2 weeks.",
+  "close_loop": "Present at ED and microbiology governance; embed the pack as the only stocked method and feed back monthly contamination rates by area.",
+  "evidence": [
+   "[6344] Microbiology, positive blood cultures: 69 of 211 (3.1%) contaminated (prospective audit, no re-audit)",
+   "[1975] Surgery, blood culture use: adherence 58.7% → 65% (departmental presentation only)",
+   "[1718] Orthopaedics, INR samples: rejection 16.5% → 11.1% (education plus stocking short-tubing collection devices)"
+  ],
+  "pitfalls": [
+   "Denominator is small if you use only positives → count all sets taken, not just positive ones.",
+   "Definition of contaminant drifts between cycles → fix the organism list with microbiology before cycle 1.",
+   "Packs not restocked at night → give ownership to the ED stock manager.",
+   "Teaching alone fades → rely on the pack and feedback rather than sessions."
+  ],
+  "pearls": [
+   "Recruit a microbiologist and an ED nurse educator together.",
+   "Show the cost and extra antibiotic days per contaminated set.",
+   "Feed back rates by shift or area monthly; it keeps the change alive."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min in total from a LIMS extract, plus 10 min per 10 notes for site data"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of adults with suspected sepsis have two blood culture sets taken within 24 hours?",
+  "why": "A single set misses bacteraemia and cannot tell a contaminant from a true infection. Library sepsis audits focus on timing [1975] [5681]; none measures single-set cultures.",
+  "standard": {
+   "source": "UK SMI S 12: Sepsis and systemic or disseminated infections (UKHSA, issue 1.1, April 2025), section 5.3 number",
+   "wording": "Take 2 consecutive sets from 2 separate venepuncture sites during any 24 hour period for each septic episode.",
+   "url": "https://www.rcpath.org/resourceLibrary/uk-smi-s-12i1-1-sepsis-and-systemic-or-disseminated-infection-april-2025-pdf.html"
+  },
+  "pass": "Two sets (each one aerobic and one anaerobic bottle) received by the lab within 24 hours of the first set.",
+  "population": "Adults with blood cultures sent from the ED or acute medical unit for suspected sepsis. Exclude suspected endocarditis (3 sets needed) and patients on end-of-life care.",
+  "sample": "50 consecutive episodes over 2 weeks.",
+  "data_source": "LIMS blood culture requests by patient and time; ED/AMU notes for the sepsis indication.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_set_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "area",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "number_of_sets_in_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_bottles_per_set",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "separate_venepuncture_sites",
+    "type": "yes/no",
+    "options": [],
+    "note": "If recorded"
+   },
+   {
+    "field": "pass_two_sets_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "antibiotic_before_second_set",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the EPR sepsis order set to request two blood culture sets by default, printing two labels.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, 50 consecutive episodes.",
+  "close_loop": "Present at ED, acute medicine and microbiology governance; embed the order set default.",
+  "evidence": [
+   "[1975] Surgery, blood culture use: adherence 58.7% → 65% (departmental presentation only)",
+   "[8087] Acute medicine, coagulation screens: inappropriate tests 34–39% → 10–20% (condition-specific electronic order sets)",
+   "[5681] General wards, sepsis care: small improvements only (guidance, education and monthly feedback)"
+  ],
+  "pitfalls": [
+   "Second set delays antibiotics → state that both sets can be taken in one draw, as SMI S 12 allows, and antibiotics must not wait.",
+   "Lab counts bottles, not sets → agree how the LIMS shows a set before cycle 1.",
+   "Contamination may rise with more sets → track contamination as a balancing measure.",
+   "Order set change needs IT time → start with a printed two-label pack."
+  ],
+  "pearls": [
+   "Pair with the contamination audit; both use the same LIMS extract.",
+   "Recruit an ED sepsis nurse lead.",
+   "Show single-set cases later labelled 'possible contaminant' to explain why two sets matter."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 episodes from LIMS and notes"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of blood culture bottles are loaded onto the analyser within 4 hours of collection?",
+  "why": "Delayed loading slows detection and can miss some organisms, especially where samples travel to a hub lab. The library has no audit of collection-to-loading time.",
+  "standard": {
+   "source": "UK SMI S 12: Sepsis and systemic or disseminated infections (UKHSA, issue 1.1, April 2025), section 5.4 optimal transport and storage conditions",
+   "wording": "Specimens should be transported and processed as soon as possible. Inoculated bottles should be loaded onto automated blood culture analyser (or incubated in the case of non-automated analysers) without delay and ideally within a maximum of 4 hours from time of collection.",
+   "url": "https://www.rcpath.org/resourceLibrary/uk-smi-s-12i1-1-sepsis-and-systemic-or-disseminated-infection-april-2025-pdf.html"
+  },
+  "pass": "Analyser loading time is 4 hours or less after the collection time on the request.",
+  "population": "All blood culture bottles from the hospital (ED, wards, ICU). Exclude bottles with no collection time recorded (count them separately).",
+  "sample": "All bottles over 1 week (usually 300+), from the LIMS and analyser log.",
+  "data_source": "Request collection time (EPR/ICE label); LIMS receipt time; analyser loading log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "collection_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lab_receipt_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "analyser_load_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_collection_to_load",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "ward",
+     "ICU",
+     "satellite site"
+    ],
+    "note": ""
+   },
+   {
+    "field": "collected_out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "collection_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_loaded_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Place a blood culture analyser module (or 24-hour loading point) at the site with the longest delays, or add a timed courier run for blood cultures overnight.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, all bottles over 1 week.",
+  "close_loop": "Present at the pathology network board and microbiology governance; embed the loading point or courier schedule and add the measure to the lab KPI set.",
+  "evidence": [
+   "[6344] Microbiology, positive blood cultures: 50% had a Gram stain within 2 hours of flagging (prospective audit, no re-audit)",
+   "[7895] Acute medicine, urine samples: sample errors fell by 50% (easier collection and labelling)",
+   "[3976] Haematology clinic: waiting-time standard met only after point-of-care testing replaced sample transport"
+  ],
+  "pitfalls": [
+   "Collection time missing or defaulted to label print time → report missing times separately and fix the label workflow.",
+   "Hub-and-spoke labs blame transport → split delays into collection-to-receipt and receipt-to-load.",
+   "Capital cost of a new module → start with courier timing, which is cheaper.",
+   "Seasonal volume changes → re-audit in the same season if possible."
+  ],
+  "pearls": [
+   "Recruit the microbiology laboratory manager; they own the analyser log.",
+   "Plot delays by hour of collection; the night peak is usually obvious.",
+   "Use the same week-day pattern in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~1 hour in total from a LIMS and analyser extract"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of adults with an incidental lung nodule of 5 mm or more on CT have follow-up arranged in line with BTS guidance?",
+  "why": "Incidental nodules on CT done for other reasons are often lost when the patient leaves the requesting team. Library audits of incidental findings cover gallbladder polyps [2604] [2780], not lung nodules.",
+  "standard": {
+   "source": "BTS quality standards for the investigation and management of pulmonary nodules (BMJ Open Resp Res 2018), quality statement 4",
+   "wording": "People with pulmonary nodules confirmed on CT are offered discharge, further surveillance, further workup or treatment according to BTS Guidelines",
+   "url": "https://www.brit-thoracic.org.uk/document-library/quality-standards/pulmonary-nodules/bts-quality-standards-for-the-investigation-and-management-of-pulmonary-nodules/"
+  },
+  "pass": "Within 4 weeks of the report, a surveillance CT is requested at the BTS interval or the patient is referred to the nodule/lung clinic, as matches the nodule size and risk.",
+  "population": "Adults with a new solid or subsolid lung nodule of 5 mm or more (or 80 mm³ or more) reported on CT done for another reason (ED, inpatient, outpatient). Exclude known cancer under follow-up, lung screening programme patients and palliative patients.",
+  "sample": "40 consecutive reports over the last 3 months.",
+  "data_source": "RIS free-text search for 'nodule'; RIS for follow-up CT requests; EPR for nodule clinic referrals and letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requesting_setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "inpatient",
+     "outpatient",
+     "GP"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nodule_size_mm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_recommends_follow_up",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_arranged",
+    "type": "choice",
+    "options": [
+     "surveillance CT",
+     "nodule clinic referral",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_arranged_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_bts_follow_up_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_told",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Use a standard nodule code in the report that auto-refers the case to the lung nodule MDT list, so follow-up does not depend on the requesting team.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next 40 consecutive nodule reports.",
+  "close_loop": "Present at radiology and respiratory governance; embed the coded auto-referral and the nodule clinic's tracking list.",
+  "evidence": [
+   "[2604] Primary care, gallbladder polyps: 41.6% lost to follow-up → 100% returned to surveillance (recall invitations)",
+   "[9431] Acute medicine, follow-up imaging after pneumonia: 22/42 → 37/50 had repeat imaging (emails, posters, leaflets)",
+   "[2780] Surgery, gallbladder polyp surveillance: 17% of pathways followed guidance (no re-audit)"
+  ],
+  "pitfalls": [
+   "Free-text search misses nodules → search several terms and check a sample of chest CTs by hand.",
+   "Reports do not state size → ask radiologists to use the BTS size bands in the code.",
+   "Respiratory team fears extra workload → show that most small nodules are discharged by the MDT, not seen in clinic.",
+   "Follow-up requested but never done → record whether the CT happened as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit the lung nodule MDT lead and a chest radiologist.",
+   "Fix the size cut-offs to the BTS guideline in both cycles.",
+   "Give the nodule nurse the tracking list; it survives trainee rotation."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from RIS and EPR"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of adults whose chest X-ray report suggests lung cancer are referred on a suspected lung cancer pathway?",
+  "why": "A suspicious chest X-ray is the commonest route to lung cancer diagnosis, and delays worsen stage. No audit in the library measures referral after a suspicious chest X-ray report.",
+  "standard": {
+   "source": "NICE NG12 Suspected cancer: recognition and referral, rec 1.1.1 (2015, updated April 2026)",
+   "wording": "Refer people using a suspected cancer pathway referral for lung cancer if they: have chest X‑ray findings that suggest lung cancer, or are aged 40 and over with unexplained haemoptysis. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "A suspected lung cancer pathway referral is sent, or a pathway CT is booked directly by radiology, after the report. Days from report to referral are recorded.",
+  "population": "Adults whose chest X-ray report states findings suggestive of lung cancer (CANCER alert or agreed wording), from any referrer. Exclude people with known lung cancer or already under the lung cancer team.",
+  "sample": "40 consecutive reports over the last 3 months.",
+  "data_source": "RIS alert codes and free text; cancer pathway tracking system for referral date; GP or EPR letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referrer_setting",
+    "type": "choice",
+    "options": [
+     "GP",
+     "ED",
+     "inpatient",
+     "outpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "cancer_alert_applied",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_type",
+    "type": "choice",
+    "options": [
+     "suspected cancer pathway referral",
+     "direct pathway CT",
+     "routine referral",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_report_to_referral",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_pathway_referral",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up a 'straight to CT' rule: a chest X-ray report coded as suspicious for lung cancer triggers a CT booking and cancer pathway registration by radiology, with the referrer copied in.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 40 consecutive reports.",
+  "close_loop": "Present at the lung cancer MDT business meeting and radiology governance; embed the straight-to-CT rule in the pathway SOP.",
+  "evidence": [
+   "[9431] Acute medicine, follow-up imaging after pneumonia: 22/42 → 37/50 had repeat imaging; cancers found (emails, posters, leaflets)",
+   "[6164] UK radiology: only 34% had automated alerts for urgent and unexpected findings (national survey, no re-audit)",
+   "[2604] Primary care, gallbladder polyps: 41.6% lost to follow-up → 100% returned to surveillance (recall invitations)"
+  ],
+  "pitfalls": [
+   "Reports hedge ('cannot exclude') → agree which phrases count as suggestive before cycle 1.",
+   "GP referrals are hard to trace → use the cancer tracking system, not GP records.",
+   "Direct CT may duplicate a GP referral → the cancer tracker should link them.",
+   "Small monthly numbers → pool 3 months."
+  ],
+  "pearls": [
+   "Recruit the lung cancer nurse specialist; they hold the tracking list.",
+   "Record days to referral even though the pass is referral itself.",
+   "Include ED and inpatient X-rays; they are missed more often than GP ones."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 reports from RIS and cancer tracker"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of inpatients with an eGFR below 30 who receive iodine-based contrast have a documented decision about intravenous volume expansion?",
+  "why": "Inpatients with severe kidney disease have the highest risk of contrast-associated kidney injury. National audits found poor risk assessment [7543] [6487]; no closed-loop audit of the prevention step is in the library.",
+  "standard": {
+   "source": "NICE NG148 Acute kidney injury: prevention, detection and management, rec 1.2.8 (2019, updated October 2024)",
+   "wording": "For inpatients having iodine-based contrast media, consider intravenous volume expansion with either isotonic sodium bicarbonate or 0.9% sodium chloride if they are at particularly high risk, for example, if: they have an eGFR less than 30 ml/min/1.73 m2; they have had a renal transplant; a large volume of contrast medium is being used (for example, higher than the standard diagnostic dose or repeat administration within 24 hours); intra-arterial administration of contrast medium with first-pass renal exposure is being used. [2019]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "IV volume expansion is prescribed around the scan, or the notes record a reason not to give it (e.g. fluid overload, emergency scan).",
+  "population": "Adult inpatients with an eGFR below 30 (latest before the scan) having contrast-enhanced CT or angiography. Exclude patients on dialysis.",
+  "sample": "40 consecutive scans over the last 2–3 months.",
+  "data_source": "RIS contrast scans linked to LIMS eGFR; EPMA for fluids; EPR for documented decisions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_before_scan",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_urgency",
+    "type": "choice",
+    "options": [
+     "emergency",
+     "urgent inpatient",
+     "routine inpatient"
+    ],
+    "note": ""
+   },
+   {
+    "field": "iv_volume_expansion_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_documented_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "creatinine_48_72h_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aki_after_scan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'eGFR under 30: IV fluids plan (give / not giving because...)' prompt to the RIS vetting screen, visible to the vetting radiologist and the ward.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next 40 consecutive scans.",
+  "close_loop": "Present at radiology and renal governance; embed the vetting prompt and a ward order-set line for pre-scan fluids.",
+  "evidence": [
+   "[7543] UK national contrast audit: 41% of inpatients had the recommended risk assessment (no re-audit)",
+   "[6487] RCR national audit: poor compliance; clinically significant post-contrast AKI in 0.4% of inpatients (no re-audit)",
+   "[6038] Hospital-wide AKI care: all measures met 3.7% → 8.4% of patient-days (care bundle with education)"
+  ],
+  "pitfalls": [
+   "Emergency scans cannot wait for fluids → accept a documented 'not given: emergency' as a pass.",
+   "Clinicians argue the evidence is weak → NICE says 'consider', so the pass is a documented decision, not fluid itself.",
+   "eGFR from months earlier → use the latest eGFR before the scan and state this rule in advance.",
+   "Heart failure patients → record the reason; do not push fluids."
+  ],
+  "pearls": [
+   "Recruit a renal registrar and a CT vetting radiologist.",
+   "Report AKI after scans as a secondary measure; it keeps the audit balanced.",
+   "Keep the prompt short; a one-line pick list is used, a paragraph is not."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from RIS, LIMS and EPMA"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of inpatient and ED MRI requests have the referrer's MRI safety screening questions fully completed?",
+  "why": "Pacemakers, metal fragments and other implants missed at referral cause cancellations and serious incidents. No audit of referrer MRI safety screening is in the library.",
+  "standard": {
+   "source": "MHRA Safety guidelines for magnetic resonance imaging equipment in clinical use (version 5.0, July 2026), section 5.3.4 screening prior to examination, figure 5 stage 1",
+   "wording": "Referrer completes targeted MRI screening questions as part of the MRI referral, designed to highlight any potential contraindications to MRI.",
+   "url": "https://www.gov.uk/government/publications/safety-guidelines-for-magnetic-resonance-imaging-equipment-in-clinical-use"
+  },
+  "pass": "Every targeted MRI safety question on the request (e.g. pacemaker or other implant, metal fragments, previous surgery, pregnancy) is answered, none left blank or 'unknown' without a plan.",
+  "population": "MRI requests for adult inpatients and ED patients. Exclude requests made by radiologists.",
+  "sample": "50 consecutive requests over 2 weeks.",
+  "data_source": "RIS/ICE MRI request form; MRI department log of delays or cancellations for safety queries.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requesting_specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_questions_answered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "unknown_answers",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "implant_declared",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_delayed_for_safety_query",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_delay",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "implant_found_at_radiographer_screen_not_on_request",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the MRI safety questions mandatory fields on the electronic MRI request, with 'unknown' allowed only when a named person is chasing the information.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next 50 consecutive requests.",
+  "close_loop": "Present at the MR safety committee and radiology governance; embed the mandatory fields and report monthly via the MR safety expert.",
+  "evidence": [
+   "[7133] Theatres, WHO checklist: Sign In compliance 55% → 99% (wall-mounted redesigned checklist)",
+   "[7271] ED intubation checklist: use 16.7% → 84% (prompts at the point of use)",
+   "[9433] ED renal colic: STONE score recorded 5.3% → 78.9% (mandatory prompts in ICE/iRefer requests)"
+  ],
+  "pitfalls": [
+   "Mandatory fields invite ticking 'no' without asking → compare the request answers with the radiographer's full screen.",
+   "Unconscious patients cannot answer → allow 'unknown: collateral being sought' and record who is chasing.",
+   "IT change is slow → use a required free-text line as an interim.",
+   "MRI staff and referrers blame each other → present the data jointly with the MR safety expert."
+  ],
+  "pearls": [
+   "Recruit the MR safety expert and a senior MRI radiographer.",
+   "Measure delays caused by safety queries; they show the cost.",
+   "Keep the question list identical in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 requests from RIS"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "Is the median dose-length product of adult CT head scans for suspected stroke at or below the national diagnostic reference level of 790 mGy cm?",
+  "why": "CT head for stroke is one of the highest-volume CT examinations, so small excess doses add up. Library dose audits cover CT KUB, CTPA and colonography [9422] [5555] [7163]; none covers stroke CT head against the current national level.",
+  "standard": {
+   "source": "IR(ME)R 2017 regulation 12(3)(c) and UKHSA National Diagnostic Reference Levels (updated 11 December 2025), table 1 adult CT",
+   "wording": "(3) Without prejudice to paragraphs (1) and (2), the operator must select equipment and methods to ensure that for each exposure the dose of ionising radiation to the individual undergoing the exposure is as low as reasonably practicable and consistent with the intended diagnostic or therapeutic purpose and in doing so must have regard, in particular to— ... (c) adherence to such diagnostic reference levels for radiodiagnostic examinations falling within regulation 3(a), (b), (e) and (f) as the employer may have established, as set out in the employer’s procedures. UKHSA table 1: Head, Acute stroke, All sequences, CTDIvol 47 mGy, DLP 790 mGy cm, adopted 2022.",
+   "url": "https://www.gov.uk/government/publications/diagnostic-radiology-national-diagnostic-reference-levels-ndrls/ndrl"
+  },
+  "pass": "Department level: median DLP ≤790 mGy cm per scanner. Patient level: DLP ≤790 mGy cm for the whole examination.",
+  "population": "Adults having non-contrast CT head for suspected acute stroke. Exclude CT angiography and perfusion sequences done in the same visit, and repeat scans for movement (count those separately).",
+  "sample": "50 consecutive examinations per scanner over 2 weeks.",
+  "data_source": "RIS or dose-monitoring software (DLP, CTDIvol, scanner, protocol); PACS dose sheet if no software.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scanner_id",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "protocol_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dlp_mgy_cm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ctdivol_mgy",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_series_for_movement",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dlp_at_or_below_790",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (patient level)"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Review the stroke CT head protocol with the medical physics expert (tube current modulation, scan length, iterative reconstruction) and lock the optimised protocol on every scanner.",
+  "target": "Median ≤790 mGy cm on every scanner",
+  "reaudit": "Week 13–14, 50 consecutive examinations per scanner.",
+  "close_loop": "Present at the radiation protection committee; embed the protocol, update local DRLs and add the median to the annual IR(ME)R audit programme.",
+  "evidence": [
+   "[6899] Radiology, CT dose audits: median DLP reduced by up to 43% (scanner exposure control optimised)",
+   "[9422] Urology/radiology, CT KUB: scans starting above T10 48% → 21.9% (new protocol)",
+   "[7585] Radiology, CT brain lens exclusion: 0% → 14.5% (radiographer re-education only)"
+  ],
+  "pitfalls": [
+   "Mixing stroke and trauma protocols → filter by clinical indication, not protocol name alone.",
+   "Repeat series inflate DLP → record them separately so the protocol is judged fairly.",
+   "One scanner drives the result → report per scanner.",
+   "Re-education alone gives small gains → change the protocol, not only behaviour."
+  ],
+  "pearls": [
+   "Recruit the medical physics expert first; they can pull dose data quickly.",
+   "Use the NDRL version adopted in 2022 in both cycles.",
+   "Check image quality with a neuroradiologist after any protocol change."
+  ],
+  "novelty": "new",
+  "effort": "~30 min in total from dose-monitoring software"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of CT aortograms for suspected acute aortic dissection from the ED are ECG-gated?",
+  "why": "Non-gated scans blur the aortic root and can miss or mimic type A dissection, a condition with high mortality and frequent delay [2947]. No audit of CT aortogram protocol is in the library.",
+  "standard": {
+   "source": "RCEM Best Practice Guideline: Diagnosis of Thoracic Aortic Dissection in the Emergency Department (March 2025), introduction",
+   "wording": "The diagnostic modality of choice is CT Aortogram (CTA) which has high diagnostic accuracy in discriminating the various components of TAD. Initial non-contrast acquisition should form part of the scanning protocol for its value in assessment of intramural haematoma. ... Arterial phase acquisition should routinely be performed with ECG synchronisation (ECG-gated scan) with the aim of producing motion-free images of the aortic root.",
+   "url": "https://www.rcr.ac.uk/media/hwubc3le/diagnosis-of-thoracic-aortic-dissection-in-the-ed-_updated-march-2025.pdf"
+  },
+  "pass": "The arterial phase is ECG-gated (prospective or retrospective) as recorded in the scan protocol or DICOM series description.",
+  "population": "Adults having CT aortogram from the ED for suspected acute aortic dissection or acute aortic syndrome, in and out of hours.",
+  "sample": "40 consecutive scans over the last 3 months.",
+  "data_source": "RIS protocol field and PACS series descriptions; report for motion artefact comment.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "out_of_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "non_contrast_phase_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arterial_phase_ecg_gated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "aortic_root_motion_artefact_reported",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "dissection",
+     "other acute aortic syndrome",
+     "alternative diagnosis",
+     "normal"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_scan_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a single 'CT aorta – suspected dissection' protocol on every scanner that is ECG-gated by default, with gating leads stocked in the CT room.",
+  "target": "≥90%",
+  "reaudit": "Week 13–14, next 40 consecutive scans.",
+  "close_loop": "Present at radiology and ED governance and the regional aortic network; embed the default protocol and out-of-hours radiographer training record.",
+  "evidence": [
+   "[2947] UK type A aortic dissection: delays in diagnosis or transfer in 47.3%, initial misdiagnosis in 15.6% (national audit, no re-audit)",
+   "[5555] Radiology, CTPA: excess scan length 39.1 → 19.5 mm (protocol change with extra topogram)",
+   "[9422] Radiology, CT KUB: scans starting above T10 48% → 21.9% (new protocol)"
+  ],
+  "pitfalls": [
+   "Out-of-hours radiographers unfamiliar with gating → include night scans and give them a one-page set-up card.",
+   "Fast or irregular heart rates → record the reason when gating is not possible and accept it as a documented exception.",
+   "Series names vary by scanner → agree how gating is identified with the CT superintendent before cycle 1.",
+   "Small numbers → pool 3 months."
+  ],
+  "pearls": [
+   "Recruit a cardiothoracic or vascular radiologist and the CT superintendent.",
+   "Report motion artefact as a secondary measure; it shows why gating matters.",
+   "Make the gated protocol the default so it survives staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 scans from RIS and PACS"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of blood gas analyser tests in the ED are run under an operator ID with in-date recorded competence?",
+  "why": "Shared or expired log-ins hide untrained users and wrong results on devices used for time-critical decisions. The library has one POCT governance survey [5563] and no audit of operator competence.",
+  "standard": {
+   "source": "MHRA Management and use of IVD point of care test devices (updated 14 July 2026), section 4.2 training",
+   "wording": "Only staff whose training and competence has been established and recorded should be permitted to carry out POCT. They should also receive continued support and regular updates.",
+   "url": "https://www.gov.uk/government/publications/in-vitro-diagnostic-point-of-care-test-devices/management-and-use-of-ivd-point-of-care-test-devices"
+  },
+  "pass": "The test was run under a personal operator ID that is on the POCT training register with an in-date competence on the test date.",
+  "population": "All patient tests on ED blood gas analysers. Exclude quality control runs.",
+  "sample": "All patient tests over 1 week (usually several hundred), from middleware.",
+  "data_source": "POCT middleware operator log; POCT training register; staff rota for shared IDs.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "test_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "analyser_id",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operator_id_type",
+    "type": "choice",
+    "options": [
+     "personal",
+     "shared or generic",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "operator_on_training_register",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "competence_in_date",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_personal_in_date_operator",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "staff_group",
+    "type": "choice",
+    "options": [
+     "doctor",
+     "nurse",
+     "ACP",
+     "HCA",
+     "unknown"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove all shared operator IDs and switch on middleware lock-out for expired competence, with a 30-day reminder email to the user.",
+  "target": "≥98%",
+  "reaudit": "Week 13–14, all patient tests over 1 week.",
+  "close_loop": "Present at the POCT committee and ED governance; embed the lock-out and report monthly to the POCT committee.",
+  "evidence": [
+   "[5563] Irish hospitals, POCT governance: only a quarter had POCT committees (survey, no re-audit)",
+   "[7258] ED point-of-care ultrasound: 0% → up to 90% stored on PACS (network link and electronic requests)",
+   "[3976] Haematology clinic: waiting-time standard met after POCT by trained nurse specialists"
+  ],
+  "pitfalls": [
+   "Lock-out blocks a doctor during an emergency → keep a short-term emergency ID that is audited weekly.",
+   "Training capacity cannot meet demand → agree extra training sessions with the POCT team before the lock-out date.",
+   "Doctors rotating in without training → add POCT training to ED induction.",
+   "Middleware data unfamiliar to clinicians → ask the POCT coordinator to run the extract."
+  ],
+  "pearls": [
+   "Recruit the POCT coordinator; they own the register and middleware.",
+   "Announce the lock-out date early and publish weekly counts of expired users.",
+   "Keep the same analysers in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~30 min in total from middleware and register"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of urine pregnancy tests done in the ED have a complete point-of-care test record in the patient notes?",
+  "why": "Pregnancy tests guide imaging, drugs and surgery, and a faulty batch can only be recalled if batch and patient are recorded. Library audits measure whether a test is done [7712] [6008], not whether it is traceable.",
+  "standard": {
+   "source": "MHRA Management and use of IVD point of care test devices (updated 14 July 2026), section 4.10 record keeping",
+   "wording": "It is imperative to keep accurate records of patient results from POCT devices. These records should include: date; device type; batch numbers; result; operator identity; patient identity",
+   "url": "https://www.gov.uk/government/publications/in-vitro-diagnostic-point-of-care-test-devices/management-and-use-of-ivd-point-of-care-test-devices"
+  },
+  "pass": "The patient record shows all six items: date, test type, batch number, result, tester identity and patient identity.",
+  "population": "Patients aged 12–55 who had a urine pregnancy test in the ED. Exclude tests sent to the laboratory.",
+  "sample": "50 consecutive tests over 2 weeks.",
+  "data_source": "ED EPR or paper record; ED pregnancy test register if one exists.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "test_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_type_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "batch_number_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tester_identity_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_all_six_items",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "test_before_imaging_or_drug",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a structured 'urine pregnancy test' entry in the ED EPR with required fields for result, batch number and tester, and move testing to one area with the kits.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, 50 consecutive tests.",
+  "close_loop": "Present at the POCT committee and ED governance; embed the structured entry and consider a connected reader for pregnancy tests.",
+  "evidence": [
+   "[7712] General surgery, pregnancy testing in abdominal pain: 41.8% → 80% (education, posters, nursing huddle)",
+   "[6008] Surgical admissions, pregnancy status documented: 30% → 75% (prompt in the clerking document)",
+   "[2745] Paediatric abdominal pain: documented pregnancy test in 13.3% (no re-audit)"
+  ],
+  "pitfalls": [
+   "Tests done but not documented → count only what is in the record; say so in advance.",
+   "Batch number seen as bureaucracy → share the MHRA recall case study.",
+   "Kits in several places → put them in one place next to the EPR terminal.",
+   "Paper and electronic records mixed → check both in cycle 1 and cycle 2."
+  ],
+  "pearls": [
+   "Recruit an ED senior nurse and the POCT coordinator.",
+   "Use the same age band and exclusion rules in both cycles.",
+   "Stick the batch number label on the kit box to make copying easy."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 tests from ED records"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of repeat liver function test requests on adult inpatients are made less than 72 hours after the previous one?",
+  "why": "Daily routine liver tests add cost, blood loss and lab workload without changing care. Library audits show reductions are possible [8036] [8087]; none uses the RCPath minimum retesting interval as the standard.",
+  "standard": {
+   "source": "RCPath G147 National minimum retesting intervals in pathology (version 2, March 2021), B-L2 liver, acute inpatient setting",
+   "wording": "B-L2 Acute inpatient setting — Testing at 72-hour intervals in acute setting (apart from those in L4). B-L4 Acute poisoning (e.g. paracetamol), TPN, liver unit, acute liver injury and ITU patients — May require more frequent monitoring.",
+   "url": "https://www.rcpath.org/resourceLibrary/g147-minimum-retesting-intervals-in-pathology.html"
+  },
+  "pass": "The repeat LFT is 72 hours or more after the previous LFT, or the patient is in a B-L4 group.",
+  "population": "Adult inpatients on medical and surgical wards with a repeat LFT. Exclude ICU, liver unit, TPN, acute poisoning and acute liver injury patients (B-L4).",
+  "sample": "100 consecutive repeat LFT requests over 1 week (from the LIMS).",
+  "data_source": "LIMS request history by patient; EPR for B-L4 exclusions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_lft_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_since_previous",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_lft_normal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "b_l4_exception",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_interval_72h_or_exception",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ward_specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a minimum retesting interval rule in the electronic order system: a repeat LFT within 72 hours shows the last result and needs a reason from a pick-list.",
+  "target": "≥80% of repeat requests at 72 hours or more (or an exception)",
+  "reaudit": "Week 13–14, 100 consecutive repeat requests.",
+  "close_loop": "Present at the laboratory users' group and medical governance; embed the order rule and report monthly LFT volumes.",
+  "evidence": [
+   "[8036] District general hospital, LFTs: inappropriate tests 28.0% → 18.4% (education-led PDSA cycles)",
+   "[8087] Acute medicine, coagulation screens: inappropriate 34–39% → 10–20% (order sets and a digital indication prompt)",
+   "[6456] Paediatric ICU, LFTs: sustained fall in daily LFTs (request form and nurse champions)"
+  ],
+  "pitfalls": [
+   "LFTs bundled in a 'daily bloods' order set → change the order set as well as the rule.",
+   "Hard blocks anger clinicians → use a soft stop with a reason, not a block.",
+   "Exception groups not flagged in the LIMS → check exclusions against the EPR for a sample.",
+   "Gains fade after rotation → keep the rule, not only teaching."
+  ],
+  "pearls": [
+   "Recruit the duty biochemist and a digital clinical safety officer.",
+   "Show the cost and carbon of avoidable tests per month.",
+   "Report by ward; it makes the change local."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min in total from a LIMS extract plus exclusion checks"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of ED blood samples for urea and electrolytes are reported as haemolysed?",
+  "why": "Haemolysis gives false high potassium, forces repeat blood tests and delays decisions in the ED. Library sample rejection audits cover transfusion [7693] and INR [1718]; none covers ED haemolysis.",
+  "standard": {
+   "source": "Local standard",
+   "wording": "No more than 5% of ED urea and electrolyte samples should be reported as haemolysed (haemolysis index above the laboratory's potassium reporting limit).",
+   "url": ""
+  },
+  "pass": "The sample is not flagged as haemolysed above the potassium reporting limit.",
+  "population": "All ED urea and electrolyte samples from adults. Exclude samples taken in resuscitation during cardiac arrest.",
+  "sample": "All ED samples over 1 week (from the LIMS), with a notes review of 50 haemolysed samples for collection method.",
+  "data_source": "LIMS haemolysis index flags by location; ED notes for collection method, device and collector.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "collection_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haemolysed_above_k_limit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "collection_method",
+    "type": "choice",
+    "options": [
+     "venepuncture needle",
+     "from new cannula",
+     "butterfly",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "collected_by",
+    "type": "choice",
+    "options": [
+     "doctor",
+     "nurse",
+     "HCA or phlebotomist",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_sample_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_delay_to_valid_result",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_not_haemolysed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stock and default to vacuum tube collection through a needle or butterfly (no syringe transfer), and send ED samples by pneumatic tube at the lower speed setting agreed with the lab.",
+  "target": "≤5%",
+  "reaudit": "Week 13–14, all ED samples over 1 week.",
+  "close_loop": "Present at ED and pathology users' governance; embed the stock change and monthly haemolysis rate feedback by ED area.",
+  "evidence": [
+   "[1718] Orthopaedics, INR samples: rejection 16.5% → 11.1% (education and stocking short-tubing collection devices)",
+   "[7693] UK transfusion samples: rejection 2.99% → 4.4% between national audits (no single intervention)",
+   "[7895] Acute medicine, urine samples: sample errors fell by 50% (easier collection and labelling)"
+  ],
+  "pitfalls": [
+   "Lab changes the haemolysis threshold between cycles → fix the threshold before cycle 1.",
+   "Collection method rarely documented → use a short 2-week sticker on the request to capture it.",
+   "Pneumatic tube settings are outside ED control → involve estates and the lab early.",
+   "Staff feel blamed → report by area, not by person."
+  ],
+  "pearls": [
+   "Recruit the lab quality manager and an ED nurse educator.",
+   "Measure delay to a valid potassium; it shows the patient impact.",
+   "Feed back the rate monthly on the ED safety board."
+  ],
+  "novelty": "new",
+  "effort": "~30 min from a LIMS extract plus 15 min per 10 notes"
+ },
+ {
+  "area": "Radiology, pathology and diagnostics",
+  "question": "What proportion of unexpected cancers found in routine surgical specimens have a documented action by the requesting team within 14 days of the report?",
+  "why": "Unexpected cancers in appendix, gallbladder and other routine specimens are easily missed after discharge. One library audit found only half of appendix reports reviewed within 15 days [7670]; no audit targets unexpected malignancy across specialties.",
+  "standard": {
+   "source": "RCPath G133 Best practice recommendations: communication of unexpected findings, urgent reports, delayed reports and the use of alert systems in diagnostic cellular pathology (version 2, February 2026), sections 2 and 4",
+   "wording": "Service users sending specimens should have systems in place to ensure that all histopathology reports are read by someone who is suitably trained and qualified to read and interpret them correctly, in the context of the patient’s clinical details. ... In participating in the use of a coding or alert system, pathologists and their employing authorities should make it clear that it is the responsibility of the requesting clinician to have systems in place to ensure timely reading and acting upon of a laboratory report.",
+   "url": "https://www.rcpath.org/resourceLibrary/g133-bpr-communication-of-unexpected-findings-urgent-reports-delayed-reports-and-the-use-of-alert-systems-.html"
+  },
+  "pass": "Within 14 days of report authorisation the notes show an action: MDT referral, clinic appointment, or letter to patient and GP with a plan.",
+  "population": "Adults whose routine surgical specimen (e.g. appendix, gallbladder, hernia sac, uterus, prostate chips, skin excised as benign) shows a malignant or pre-malignant neoplasm not suspected before surgery. Exclude specimens sent as suspected cancer.",
+  "sample": "40 consecutive cases over the last 6–12 months (SNOMED search).",
+  "data_source": "LIMS SNOMED codes for malignancy by specimen type; EPR, MDT lists and clinic letters for the action.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "report_authorised_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specimen_type",
+    "type": "choice",
+    "options": [
+     "appendix",
+     "gallbladder",
+     "hernia sac",
+     "uterus",
+     "prostate",
+     "skin",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pathologist_urgent_communication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_type",
+    "type": "choice",
+    "options": [
+     "MDT referral",
+     "clinic",
+     "letter with plan",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "action_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_report_to_action",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_action_within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Pathologists add an 'unexpected malignancy' alert code that places the case on the relevant MDT list automatically and sends a copy to the MDT coordinator.",
+  "target": "≥95%",
+  "reaudit": "Week 13–14, next consecutive cases (pool 3 months if fewer than 20).",
+  "close_loop": "Present at cellular pathology and surgical governance; embed the alert code and MDT auto-listing in the LIMS.",
+  "evidence": [
+   "[7670] General surgery, appendix histology: reviewed within 15 days 49.5% → 77.6%; communication documented 16% at baseline (agreed protocol)",
+   "[2818] Surgery, perianal abscess cultures: only 6% reviewed at baseline (education and guideline)",
+   "[8427] Breast histopathology: 0/10 → 10/10 reports complete (reporting proforma)"
+  ],
+  "pitfalls": [
+   "Small numbers per month → use a 6–12 month retrospective window for cycle 1.",
+   "Pre-malignant lesions debated → list the included diagnoses with a pathologist before cycle 1.",
+   "Surgeon on leave when report arrives → auto-listing to the MDT removes the single point of failure.",
+   "Letters sent but no plan → count only actions that state what happens next."
+  ],
+  "pearls": [
+   "Recruit a consultant histopathologist and an MDT coordinator.",
+   "Include specialties beyond general surgery; gynaecology and urology specimens are often forgotten.",
+   "Track the time to MDT discussion as a secondary measure."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 cases from LIMS and EPR"
+ }
+]

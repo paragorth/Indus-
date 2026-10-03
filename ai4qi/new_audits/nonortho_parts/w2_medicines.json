@@ -1,0 +1,2112 @@
+[
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults on IV antibiotics who meet the national IV-to-oral switch criteria at 48 hours are switched to oral antibiotics within the next 24 hours?",
+  "why": "IV antibiotics often continue after patients are well enough to switch: 17% of eligible patients were not switched at 72 hours [6681] and only 33% of eligible children were switched [2979]. No closed-loop audit of switching against the 2024 national IVOS criteria has been published in the library.",
+  "standard": {
+   "source": "UKHSA National antimicrobial intravenous-to-oral switch (IVOS) criteria for prompt switch for adults (updated October 2024)",
+   "wording": "IVOS should be considered within 48 hours of the first dose of IV antimicrobial being administered. If no IVOS within first 48 hours, review daily thereafter. [...] Clinical signs and symptoms of infection are improving. [...] Temperature has been between 36 to 38°C for the past 24 hours. [...] Gastrointestinal tract must be functioning with no evidence of malabsorption. Safe swallow or enteral tube administration.",
+   "url": "https://www.gov.uk/government/publications/antimicrobial-intravenous-to-oral-switch-criteria-for-early-switch/national-antimicrobial-intravenous-to-oral-switch-ivos-criteria-for-early-switch"
+  },
+  "pass": "Oral antibiotic given (or IV stopped) within 24 hours of the first time the patient met all IVOS criteria at or after 48 hours, or a documented special consideration (e.g. endocarditis, meningitis, undrained abscess) or microbiology advice to stay IV.",
+  "population": "Adults (≥18) on medical and surgical wards on IV antibiotics for at least 48 hours who met all IVOS criteria at 48 hours or on a later daily check. Exclude critical care, neutropenic sepsis, and the IVOS special-consideration infections.",
+  "sample": "40 consecutive eligible adults from the pharmacy or EPMA IV antibiotic list over the last 4–6 weeks.",
+  "data_source": "EPMA for antibiotic start, route and switch times; observation chart or e-obs for temperature and NEWS2; lab system for WCC and CRP; notes for swallow, vomiting and reasons to stay IV.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_iv_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_source",
+    "type": "choice",
+    "options": [
+     "chest",
+     "urine",
+     "skin/soft tissue",
+     "abdominal",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "special_consideration_infection",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "datetime_all_ivos_criteria_first_met",
+    "type": "datetime",
+    "options": [],
+    "note": "Temperature 36–38°C for 24 h, improving signs, NEWS2 falling, swallow safe, no vomiting 24 h"
+   },
+   {
+    "field": "switch_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First oral dose or IV stopped"
+   },
+   {
+    "field": "hours_criteria_met_to_switch",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "switched_within_24h_of_meeting_criteria",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "documented_reason_to_stay_iv",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_days_total",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an IVOS prompt to the EPMA IV antibiotic order that fires at 48 hours and asks the prescriber to switch, continue with a reason, or stop.",
+  "target": "≥80% switched within 24 hours of meeting criteria",
+  "reaudit": "Week 13–14, same template, next 40 consecutive eligible adults.",
+  "close_loop": "Present to the antimicrobial stewardship committee and medical and surgical governance; if it works, keep the 48-hour EPMA prompt and add IVOS compliance to the stewardship dashboard.",
+  "evidence": [
+   "[6681] Infectious diseases: 17% of patients eligible for IV-to-oral switch at 72 h not switched (single cycle, CQUIN audit)",
+   "[2979] Paediatric pharmacy: 46% eligible to switch at 72 h, 33% of these switched → IVOS guideline and EPMA hard stops recommended",
+   "[1972] General surgery: appropriate IV duration 63% → 93% (electronic prescribing, weekly microbiology round and teaching)",
+   "[4726] Scottish point prevalence: IV route appropriate in 84% of 381 IV courses (single survey)"
+  ],
+  "pitfalls": [
+   "Criteria judged loosely from notes → pull temperature and NEWS2 straight from e-obs and agree the exact criteria list before cycle 1.",
+   "Senior clinicians object that the patient 'looks unwell' → accept a documented reason as a pass; count only undocumented delays as fails.",
+   "Weekend gaps inflate delays → record the day of week and report weekday and weekend separately.",
+   "Oral option not stocked on the ward → check the formulary oral equivalents with pharmacy before the change goes live.",
+   "The EPMA prompt gets clicked through → audit the reason text in cycle 2, not just prompt completion."
+  ],
+  "pearls": [
+   "Recruit an antimicrobial pharmacist; they already review IV lists daily.",
+   "Report IV days saved and cannulas avoided; managers respond to bed-days and line infections.",
+   "Use the national IVOS decision aid as the poster so wording matches the standard.",
+   "Hand the monthly IVOS report to the stewardship team so it outlives your rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from EPMA and e-obs"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults given once-daily IV gentamicin have a gentamicin level result available before the second dose is given?",
+  "why": "Gentamicin levels are often late or missing: 55% [2631], 74% [3706] and 44% [9281] were taken at the right time. Education alone moved results little [3706]. No closed-loop audit of level-before-second-dose using a system fix has been published in the library.",
+  "standard": {
+   "source": "Gentamicin 40 mg/ml Solution for Injection or Infusion, Summary of Product Characteristics section 4.2 (Wockhardt UK, revised April 2024)",
+   "wording": "Serum concentration monitoring of gentamicin is recommended, especially in elderly, in newborns and in patients with impaired renal function. Samples are taken at the end of a dosing interval (trough level). Trough levels should not exceed 2 µg/ml administering gentamicin twice daily and 1 µg/ml for a once daily dose.",
+   "url": "https://www.medicines.org.uk/emc/product/2394/smpc"
+  },
+  "pass": "A gentamicin level taken at the time set by the local protocol after the first dose, with the result documented or acknowledged before the second dose is given.",
+  "population": "Adults (≥18) given at least one dose of once-daily IV gentamicin for treatment on any ward. Exclude single-dose surgical prophylaxis, patients on renal replacement therapy, and courses stopped after one dose.",
+  "sample": "40 consecutive gentamicin courses from the pharmacy or EPMA list over the last 6–8 weeks.",
+  "data_source": "EPMA for dose times; lab system for level sample and result times; EPMA or notes for acknowledgement before dose 2.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg_used_for_dose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level_in_protocol_window",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level_result_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not given"
+   },
+   {
+    "field": "level_result_before_second_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "second_dose_held_for_high_level",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_checked_before_second_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a gentamicin order set in EPMA that auto-requests the level at the protocol time and blocks the second dose until the result is acknowledged.",
+  "target": "≥90% with a result before the second dose",
+  "reaudit": "Week 13–14, same template, next 40 consecutive courses.",
+  "close_loop": "Present at the antimicrobial stewardship and drugs and therapeutics committees; if it works, keep the order set and add gentamicin level timing to the pharmacy monthly report.",
+  "evidence": [
+   "[3706] Acute medicine: levels in the window 74% → 78% (bay labels only)",
+   "[2631] General surgery: timely levels 55% → 78% (posters and teaching)",
+   "[9281] Pharmacy: levels at the right time 44% of 134 (calculator, warnings and pathology flag planned)",
+   "[5434] Pharmacy: gentamicin dose errors in obese patients 43% → 20% (electronic dose calculator)"
+  ],
+  "pitfalls": [
+   "Local protocols use different sampling windows (e.g. 6–14 hours) → quote your Trust protocol in the report and keep it fixed between cycles.",
+   "Lab turnaround is the real delay at night → record sample and result times separately so ward and lab delays are not confused.",
+   "Doses delayed to wait for levels harm septic patients → count a dose held for a pending level as a pass only if documented.",
+   "EPMA build takes months → use a gentamicin chart sticker with a level time box in the interim.",
+   "Small numbers on one ward → pool courses across the hospital."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist and a lab lead; both own part of the pathway.",
+   "Agree the exact protocol window with microbiology before cycle 1.",
+   "Record renal function too; it explains most high levels.",
+   "Ask pharmacy to run the report monthly after you rotate."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 courses from EPMA and lab system"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults on intermittent IV vancomycin have their first level taken on the second day of treatment, immediately before the next dose?",
+  "why": "First vancomycin levels are often mistimed: the initial trough was on time in only 32% of 150 adults [9276]. No closed-loop audit of first-level timing in adults has been published in the library.",
+  "standard": {
+   "source": "Vancomycin 1000 mg powder for concentrate for solution for infusion, Summary of Product Characteristics section 4.2 (hameln pharma, revised January 2026)",
+   "wording": "In patients with normal renal function, the serum concentration of vancomycin should be monitored on the second day of treatment immediately prior to the next dose.",
+   "url": "https://www.medicines.org.uk/emc/product/15737/smpc"
+  },
+  "pass": "First vancomycin level sampled on day 2 of treatment within 1 hour before the next scheduled dose.",
+  "population": "Adults (≥18) started on intermittent IV vancomycin on any ward. Exclude continuous infusions, renal replacement therapy, creatinine clearance below 50 ml/min, and courses stopped before day 2.",
+  "sample": "40 consecutive vancomycin courses from pharmacy or EPMA over the last 2–3 months.",
+  "data_source": "EPMA for dose times; lab system for sample times and results; lab creatinine for Cockcroft–Gault clearance.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_clearance_ml_min",
+    "type": "number",
+    "options": [],
+    "note": "Cockcroft–Gault"
+   },
+   {
+    "field": "first_level_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_dose_scheduled_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level_on_day_2",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "level_within_1h_before_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (with day 2)"
+   },
+   {
+    "field": "first_level_mg_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_adjusted_after_level",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no, in range",
+     "no, out of range"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic day-2 pre-dose level request to the vancomycin EPMA order, linked to the second-day dose time.",
+  "target": "≥85% of first levels on day 2 within 1 hour before the dose",
+  "reaudit": "Week 13–14, same template, next 40 consecutive courses.",
+  "close_loop": "Present at the antimicrobial stewardship committee; if it works, keep the linked level request and report timing quarterly with gentamicin.",
+  "evidence": [
+   "[9276] Pharmacy: initial trough on time 32%, correct loading dose 65% (EPMA prompts and TDM teaching planned)",
+   "[2948] Paediatrics: levels at correct time 90%, only 33% of first levels in range (single cycle)",
+   "[3706] Acute medicine: gentamicin levels in window 74% → 78% (bay labels only)"
+  ],
+  "pitfalls": [
+   "Phlebotomy rounds miss the pre-dose slot → agree that nurses take the level at dose time before cycle 1.",
+   "Dose times move after the first dose → record the actual next scheduled time, not the planned one.",
+   "Units move to continuous infusion mid-audit → exclude continuous infusions in both cycles.",
+   "The request fires but the sample is not labelled 'pre-dose' → add sample time to the lab request."
+  ],
+  "pearls": [
+   "Recruit ward nurses early; they give the dose and can take the level.",
+   "Pair with the gentamicin audit to share one EPMA build.",
+   "Report days with an out-of-range level; it links timing to harm.",
+   "Leave the monthly search in the pharmacy TDM report."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 courses from EPMA and lab system"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults started on IV vancomycin receive a first dose that matches the weight-based dose in the local guideline?",
+  "why": "Under-dosing the first dose delays effective levels: only 65% had a correct loading dose [9276] and 70% of gentamicin first doses matched weight [2631]. No closed-loop audit of the first vancomycin dose has been published in the library.",
+  "standard": {
+   "source": "Vancomycin 1000 mg powder for concentrate for solution for infusion, Summary of Product Characteristics section 4.2 (hameln pharma, revised January 2026)",
+   "wording": "The initial dose should be based on total body weight. Subsequent dose adjustments should be based on serum concentrations to achieve targeted therapeutic concentrations. [...] In seriously ill patients, a loading dose of 25-30 mg/kg of body weight can be used to facilitate rapid attainment of target trough serum vancomycin concentration.",
+   "url": "https://www.medicines.org.uk/emc/product/15737/smpc"
+  },
+  "pass": "A weight recorded in this admission before the first dose, and a first dose within the local guideline band for that weight (rounded as the guideline allows).",
+  "population": "Adults (≥18) given a first dose of IV vancomycin for treatment on any ward. Exclude surgical prophylaxis and oral vancomycin.",
+  "sample": "40 consecutive new vancomycin courses over the last 2–3 months.",
+  "data_source": "EPMA for first dose and prescribed weight; observations chart for measured weight; local vancomycin guideline dose table.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_recorded_this_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_source",
+    "type": "choice",
+    "options": [
+     "measured",
+     "patient stated",
+     "estimated",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "guideline_dose_mg_for_weight",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_matches_guideline",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "prescriber_grade",
+    "type": "choice",
+    "options": [
+     "FY1",
+     "FY2/CT",
+     "registrar",
+     "consultant",
+     "non-medical"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put a vancomycin dose calculator in EPMA that pulls the recorded weight and suggests the guideline first dose.",
+  "target": "≥90% of first doses match the guideline",
+  "reaudit": "Week 13–14, same template, next 40 new courses.",
+  "close_loop": "Present at the antimicrobial stewardship committee; if it works, keep the calculator and add first-dose accuracy to pharmacy screening checks.",
+  "evidence": [
+   "[9276] Pharmacy: correct loading dose 65%, maintenance 65% of 150 (digital prompts planned)",
+   "[2631] General surgery: gentamicin first doses matching weight 70% → 92% (posters and teaching)",
+   "[5434] Pharmacy: gentamicin dose errors in obese patients 43% → 20% (electronic calculator)"
+  ],
+  "pitfalls": [
+   "Stated or estimated weights hide the error → record the weight source and report it.",
+   "Obese patients need capped doses → apply the guideline cap and do not count capped doses as fails.",
+   "ED gives the first dose before weighing → include ED doses and involve the ED pharmacist.",
+   "Calculator is bypassed with free text → check free-text orders in cycle 2."
+  ],
+  "pearls": [
+   "Recruit ED and acute medicine; most first doses start there.",
+   "Put chair or bed scales where the first dose is given.",
+   "Agree the dose table with microbiology before cycle 1 so it does not change.",
+   "Pharmacist screening can keep the check alive after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 courses from EPMA"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adult inpatients started on a DOAC receive the licensed dose for their Cockcroft–Gault creatinine clearance?",
+  "why": "DOAC doses are often chosen from eGFR, which overestimates kidney function in older people. In primary care an accurate creatinine clearance could be calculated in only 46% and 19% of rivaroxaban doses were wrong [3022]. No closed-loop hospital audit of DOAC dosing by creatinine clearance has been published in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update volume 13 issue 3 (October 2019): Prescribing medicines in renal impairment",
+   "wording": "creatinine clearance (CrCl) should be calculated using the Cockcroft-Gault formula (see below) to determine dosage adjustments for: direct-acting oral anticoagulants (DOACs) [...] In particular, CrCl should always be used to guide dose adjustment for direct-acting oral anticoagulants (DOACs; apixaban, dabigatran etexilate, edoxaban▼, and rivaroxaban▼). Use of eGFR for dosing of DOACs is known to increase risk of bleeding events as a consequence of overestimating renal function.",
+   "url": "https://www.gov.uk/drug-safety-update/prescribing-medicines-in-renal-impairment-using-the-appropriate-estimate-of-renal-function-to-avoid-the-risk-of-adverse-drug-reactions"
+  },
+  "pass": "Creatinine clearance calculated by Cockcroft–Gault (actual body weight, current creatinine) and the prescribed dose matches the product licence for the indication, age, weight and clearance.",
+  "population": "Adults (≥18) newly started on apixaban, rivaroxaban, edoxaban or dabigatran in hospital for AF or VTE. Exclude VTE prophylaxis after joint replacement and patients on dialysis.",
+  "sample": "40 consecutive new DOAC starts from pharmacy or EPMA over the last 2 months.",
+  "data_source": "EPMA for drug, dose and indication; lab system for creatinine; observations for weight; notes for any documented clearance.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug",
+    "type": "choice",
+    "options": [
+     "apixaban",
+     "rivaroxaban",
+     "edoxaban",
+     "dabigatran"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "AF",
+     "VTE treatment",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_umol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crcl_documented_by_prescriber",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crcl_calculated_by_auditor_ml_min",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "licensed_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescribed_dose_matches_licence",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "error_type",
+    "type": "choice",
+    "options": [
+     "none",
+     "too high",
+     "too low"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory Cockcroft–Gault calculator and licensed-dose table to the EPMA DOAC order sentence.",
+  "target": "≥95% at the licensed dose",
+  "reaudit": "Week 13–14, same template, next 40 new DOAC starts.",
+  "close_loop": "Present at the thrombosis committee and drugs and therapeutics committee; if it works, keep the calculator and add DOAC dose checks to the anticoagulant pharmacist's monthly report.",
+  "evidence": [
+   "[3022] General practice: accurate CrCl possible in 46%, 81% of rivaroxaban doses correct (single cycle)",
+   "[9265] Pharmacy: 98% of DOAC doses right for renal function after VTE; 23% continued without indication (single cycle)",
+   "[9678] Acute medicine: DOAC initiation errors fell to no major dosing errors (paper DOAC initiation form and training)"
+  ],
+  "pitfalls": [
+   "No weight recorded → count as a fail; the clearance cannot be calculated.",
+   "Deliberate off-licence dosing by haematology → accept a documented specialist reason.",
+   "Creatinine changes during the stay → use the value nearest the first dose and keep that rule in both cycles.",
+   "Staff object to extra clicks → show how many patients were under- or over-dosed."
+  ],
+  "pearls": [
+   "Recruit the anticoagulation pharmacist; they know the licence criteria by heart.",
+   "Report under-dosing as well as over-dosing; strokes persuade as much as bleeds.",
+   "Use one printed dose table for all four DOACs.",
+   "Build the check into pharmacy screening so it survives rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from EPMA and lab system"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults prescribed treatment-dose enoxaparin have the dose calculated from a weight measured during this admission?",
+  "why": "Treatment-dose low molecular weight heparin is weight-based, but weights are often estimated or old: 27% of amputees were never reweighed and 6 of 11 needing dose changes got the wrong dose [1338]. No closed-loop audit of measured weight for treatment-dose enoxaparin has been published in the library.",
+  "standard": {
+   "source": "Clexane pre-filled syringes, Summary of Product Characteristics section 4.2 (Sanofi, revised February 2022)",
+   "wording": "Enoxaparin sodium can be administered SC either as a once daily injection of 150 IU/kg (1.5 mg/kg) or as twice daily injections of 100 IU/kg (1 mg/kg). The regimen should be selected by the physician based on an individual assessment including evaluation of the thromboembolic risk and of the risk of bleeding.",
+   "url": "https://www.medicines.org.uk/emc/product/4499/smpc"
+  },
+  "pass": "A measured (not stated or estimated) weight recorded this admission before the first treatment dose, and the dose within the local dose band for that weight.",
+  "population": "Adults (≥18) newly prescribed treatment-dose enoxaparin (VTE, ACS, bridging) on any ward. Exclude prophylactic doses and critical care.",
+  "sample": "40 consecutive new treatment-dose courses over the last 6–8 weeks.",
+  "data_source": "EPMA for dose and weight used; observations chart for measured weight and date; local dose-banding table.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "DVT/PE",
+     "ACS",
+     "bridging",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "weight_source",
+    "type": "choice",
+    "options": [
+     "measured this admission",
+     "measured before admission",
+     "stated",
+     "estimated",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "weight_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "measured_weight_before_first_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_within_band",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2"
+   },
+   {
+    "field": "creatinine_clearance_ml_min",
+    "type": "number",
+    "options": [],
+    "note": "Cockcroft–Gault"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'measured weight and date' a mandatory field on the EPMA treatment-dose enoxaparin order, pre-filled from the observations chart.",
+  "target": "≥90% dosed from a measured weight",
+  "reaudit": "Week 13–14, same template, next 40 new courses.",
+  "close_loop": "Present at the thrombosis committee and nursing governance; if it works, keep the mandatory field and add weight capture to the admission nursing bundle.",
+  "evidence": [
+   "[1338] Vascular surgery: reweighed within a week 36% → 60% and all dose changes correct (weighing amputated limbs in theatre)",
+   "[6116] Pharmacy: weight on drug chart 27% → 53%, paracetamol overdosing 25% → 6% (awareness campaign)",
+   "[2525] General surgery: weight- and renal-adjusted thromboprophylaxis 86.0% → 90.7% (posters and teaching)"
+  ],
+  "pitfalls": [
+   "Immobile patients cannot stand on scales → list where hoist or bed scales are kept before cycle 1.",
+   "ED gives the first dose before weighing → include ED starts and agree a weigh-in-ED rule.",
+   "Dose-banding tables differ between wards → use the single Trust table in both cycles.",
+   "Mandatory field filled with a guessed number → record the weight source in cycle 2."
+  ],
+  "pearls": [
+   "Recruit a ward sister; nurses own the weighing.",
+   "Report how many doses were more than 10% off; it makes the risk concrete.",
+   "Link to the paracetamol weight audit; one weighing fix serves both.",
+   "Ask the thrombosis nurse to keep the monthly check."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPMA and observations"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults starting anticoagulation for a DVT or PE in hospital are given an anticoagulant alert card before discharge?",
+  "why": "Patients on new anticoagulants who carry no alert card are at risk if they bleed or need surgery elsewhere. Anticoagulant counselling improved only when a structured initiation form was used [9678]. No audit of alert card issue has been published in the library.",
+  "standard": {
+   "source": "NICE NG158 rec 1.5.2 (2012, guideline updated August 2023)",
+   "wording": "Give people who are having anticoagulation treatment information and an 'anticoagulant alert card' that is specific to their treatment. Advise them to carry the 'anticoagulant alert card' at all times. [2012]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "Documented issue of an alert card specific to the anticoagulant prescribed (DOAC, warfarin or LMWH) before or at discharge.",
+  "population": "Adults (≥18) newly started on an anticoagulant for confirmed DVT or PE and discharged from hospital or ambulatory care. Exclude those already on an anticoagulant and deaths.",
+  "sample": "40 consecutive eligible patients from the anticoagulation or ambulatory care list over the last 2–3 months.",
+  "data_source": "Discharge letter, pharmacy counselling record and nursing discharge checklist; EPMA for the anticoagulant.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "DVT",
+     "PE",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant",
+    "type": "choice",
+    "options": [
+     "apixaban",
+     "rivaroxaban",
+     "edoxaban",
+     "dabigatran",
+     "warfarin",
+     "LMWH"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "inpatient",
+     "ambulatory/same day"
+    ],
+    "note": ""
+   },
+   {
+    "field": "counselling_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alert_card_issued_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "card_matches_drug",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "who_issued",
+    "type": "choice",
+    "options": [
+     "pharmacist",
+     "nurse",
+     "doctor",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'anticoagulant alert card given' tick box to the discharge letter template, linked to any new anticoagulant on the discharge prescription.",
+  "target": "≥90% with an alert card documented",
+  "reaudit": "Week 13–14, same template, next 40 eligible patients.",
+  "close_loop": "Present at the thrombosis committee; if it works, keep the tick box and stock cards on every ward and in the ambulatory unit.",
+  "evidence": [
+   "[9678] Acute medicine: counselling and monitoring documentation rose substantially (DOAC initiation form plus training)",
+   "[9265] Pharmacy: DOAC duration documented in 81% after VTE (single cycle)",
+   "[6107] Haematology: warfarin chart errors and incomplete referrals fell (warfarin management algorithm)"
+  ],
+  "pitfalls": [
+   "Cards are given but not documented → accept a pharmacy counselling record as evidence.",
+   "Ambulatory patients leave without a discharge letter → include the ambulatory proforma as a data source.",
+   "Wards run out of cards → check stock on each ward before cycle 1.",
+   "Drug changes after discharge → record the drug at discharge only."
+  ],
+  "pearls": [
+   "Recruit the thrombosis nurse and ward pharmacists; they already counsel.",
+   "Keep cards with the discharge medicines, not in an office.",
+   "Ask a few patients at follow-up if they still carry the card; it strengthens the report.",
+   "Leave the tick box report with the thrombosis team."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults discharged on prednisolone 5 mg a day or more (or equivalent) for 4 weeks or longer have a Steroid Emergency Card documented as issued or already held?",
+  "why": "Steroid-dependent patients without a card risk fatal adrenal crisis when unwell. No patients with giant cell arteritis were given a card at first visit [2892], and no steroid plan reached discharge letters in a hospice [9294]. No closed-loop audit of card issue at hospital discharge has been published in the library.",
+  "standard": {
+   "source": "NHS England National Patient Safety Alert NatPSA/2020/005/NHSPS (13 August 2020), with the eligibility criteria in the Society for Endocrinology and RCP guidance (Clin Med 2020)",
+   "wording": "All organisations that initiate steroid prescriptions should review their processes/policies and their digital systems/software and prompts to ensure that prescribers issue a Steroid Emergency Card to all eligible patients, as outlined in new guidance. [...] Patients taking prednisolone 5 mg/day or equivalent for 4 weeks or longer across all routes of administration (oral, topical, inhaled or intranasal) should be issued with an NHS Steroid Emergency Card.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2020/08/NPSA-Emergency-Steroid-Card-FINAL-2.3.pdf"
+  },
+  "pass": "Discharge letter or notes record that a Steroid Emergency Card was issued, or that the patient already holds one.",
+  "population": "Adults (≥18) discharged on oral prednisolone ≥5 mg/day (or equivalent) that they have taken, or are planned to take, for 4 weeks or longer. Exclude deaths and transfers to another hospital.",
+  "sample": "40 consecutive eligible discharges from EPMA over the last 4–6 weeks.",
+  "data_source": "EPMA discharge prescriptions for steroid dose; drug history for duration; discharge letter and notes for card documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_and_daily_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prednisolone_equivalent_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_4_weeks_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "card_issued_or_held_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "sick_day_rules_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharging_specialty",
+    "type": "choice",
+    "options": [
+     "respiratory",
+     "rheumatology",
+     "gastroenterology",
+     "general medicine",
+     "surgery",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an EPMA prompt that fires when a qualifying steroid dose is on the discharge prescription and asks the prescriber to confirm the card was issued.",
+  "target": "≥90% of eligible discharges",
+  "reaudit": "Week 13–14, same template, next 40 eligible discharges.",
+  "close_loop": "Present at the medication safety committee and to respiratory and rheumatology; if it works, keep the prompt and stock cards on every ward and in pharmacy.",
+  "evidence": [
+   "[2892] Rheumatology: no steroid cards at first GCA visit, 4 of 90 during follow-up (standard written steroid information planned)",
+   "[9294] Palliative care: planned steroid duration 40/60, no steroid plan in discharge letters (re-audit after recommendations)",
+   "[4949] Endocrinology: insulin device identification 11% → 100% (new prescribing chart)"
+  ],
+  "pitfalls": [
+   "Duration is unclear from notes → use the GP record or drug history and keep the same rule in both cycles.",
+   "Short COPD courses are counted by mistake → exclude courses under 4 weeks unless repeated.",
+   "Staff assume the GP will issue it → agree with pharmacy that the card is given before discharge.",
+   "Cards run out → check ward and pharmacy stock before the change."
+  ],
+  "pearls": [
+   "Recruit respiratory and rheumatology; they discharge most eligible patients.",
+   "Ask pharmacy to hand the card with the medicines at discharge.",
+   "Add inhaled high-dose steroids in a later cycle once oral is reliable.",
+   "Leave the EPMA report with the medication safety officer."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPMA and letters"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults admitted as an emergency on long-term oral steroids receive every due dose of their steroid in the first 72 hours?",
+  "why": "Missed steroid doses in hospital cause adrenal crisis and death; national incidents cite omitted doses and patients left nil by mouth. In one audit only 39% of preoperative patients received their usual medicines correctly [1630]. No audit of steroid dose omission in the library has closed the loop.",
+  "standard": {
+   "source": "NHS England National Patient Safety Alert NatPSA/2020/005/NHSPS (13 August 2020), action 3",
+   "wording": "Omission of steroids for patients with adrenal insufficiency can lead to adrenal crisis; a medical emergency which if left untreated can be fatal. [...] Providers that treat patients with acute physical illness or trauma, or who may require emergency or elective surgical or other invasive procedures, including day patients, should review their admission/assessment/examination/clerking documentation to ensure it includes prompts to check for risk of adrenal crisis and to establish if the patient has a Steroid Emergency Card.",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2020/08/NPSA-Emergency-Steroid-Card-FINAL-2.3.pdf"
+  },
+  "pass": "Every dose of the usual steroid (or a prescribed higher or parenteral equivalent) due in the first 72 hours after arrival was given, with none omitted or delayed by more than 2 hours.",
+  "population": "Adults (≥18) admitted as an emergency who take oral prednisolone ≥5 mg/day or equivalent for 4 weeks or longer, or hydrocortisone replacement. Exclude deaths within 72 hours and patients whose steroid was stopped on purpose with a documented reason.",
+  "sample": "40 consecutive eligible emergency admissions over the last 4–6 weeks.",
+  "data_source": "EPMA administration record for doses due, given, omitted and codes; drug history and clerking for steroid use; notes for nil-by-mouth periods.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "usual_steroid_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_given_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_due_first_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_omitted_or_delayed_over_2h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_doses_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "omission_reason",
+    "type": "choice",
+    "options": [
+     "none",
+     "not prescribed",
+     "nil by mouth",
+     "not in stock",
+     "patient refused",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "steroid_card_status_documented_at_clerking",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'on long-term steroids? card held?' question to the admission clerking template that triggers a steroid prescription prompt with the IV/IM alternative when nil by mouth.",
+  "target": "≥90% receive every due dose",
+  "reaudit": "Week 13–14, same template, next 40 eligible admissions.",
+  "close_loop": "Present at the medication safety committee and acute medicine governance; if it works, keep the clerking question and add hydrocortisone to the critical medicines list on the omitted-doses report.",
+  "evidence": [
+   "[1630] Trauma: medicines given correctly before surgery 39% → 61% (posters on drug trolleys and staff meetings)",
+   "[8037] Neurology: all Parkinson's doses given 56% of 50 before and after electronic prescribing",
+   "[5691] Pharmacy: 13% of antimicrobial doses affected by omission (single cycle)"
+  ],
+  "pitfalls": [
+   "Steroid use missed at clerking → search EPMA for any steroid on the drug history as well as the chart.",
+   "Nurses record 'nil by mouth' and omit → include an IV/IM alternative on the prompt.",
+   "Deliberate stops look like omissions → accept a documented clinical decision.",
+   "EPMA delay codes are used loosely → agree what counts as an omission before cycle 1."
+  ],
+  "pearls": [
+   "Recruit acute medicine nursing leads; omissions happen on the first night.",
+   "Use the Trust omitted-doses report if one exists to find cases fast.",
+   "Tell one real near-miss story at the presentation; it changes practice.",
+   "Put the check into the ward pharmacist's daily screening."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from EPMA"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults on a variable rate intravenous insulin infusion who normally take a long-acting insulin continue to receive it while on the infusion?",
+  "why": "Stopping basal insulin during an infusion causes rebound hyperglycaemia and ketoacidosis when the infusion ends. Only 45% received appropriate long-acting insulin on an infusion [2758] and 13% had none before it was stopped [3839]. No closed-loop audit of basal insulin continuation on VRIII has been published in the library.",
+  "standard": {
+   "source": "JBDS-IP guideline JBDS 09: The use of variable rate intravenous insulin infusion (VRIII) in medical inpatients (current version, October 2014), Chapter 3 key message 2",
+   "wording": "Continue patients' usual basal* subcutaneous insulin whilst on VRIII and stop rapid acting or mixed insulins",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_09_IP_VRIII.pdf"
+  },
+  "pass": "Every dose of the usual basal insulin due while the VRIII was running was prescribed and given.",
+  "population": "Adult (≥18) medical inpatients with diabetes started on a VRIII who were taking a basal insulin (glargine, detemir, degludec or isophane) before admission. Exclude DKA and HHS (fixed-rate protocols) and critical care.",
+  "sample": "30–40 consecutive VRIII episodes over the last 2–3 months.",
+  "data_source": "EPMA or VRIII chart for infusion start and stop times; EPMA administration record for basal insulin; drug history for usual insulin.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "vriii_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vriii_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "usual_basal_insulin",
+    "type": "choice",
+    "options": [
+     "glargine",
+     "detemir",
+     "degludec",
+     "isophane",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "basal_doses_due_during_vriii",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "basal_doses_given_during_vriii",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_basal_doses_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "rapid_or_mixed_insulin_stopped",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hyperglycaemia_over_14_within_24h_after_stop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diabetes_team_involved",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'continue usual basal insulin' line with a prescribing prompt to the VRIII order set or chart.",
+  "target": "≥90% of eligible episodes",
+  "reaudit": "Week 13–14, same template, next 30–40 episodes.",
+  "close_loop": "Present at the diabetes inpatient safety group; if it works, keep the order-set line and add basal continuation to the diabetes specialist nurse ward checks.",
+  "evidence": [
+   "[2758] Endocrinology: appropriate long-acting insulin on VRII 45% (targeted education planned)",
+   "[3839] Endocrinology: 13% had no long-acting insulin before stopping VRIII (awareness planned)",
+   "[7311] Endocrinology: hypoglycaemic events per VRIII 0.73 → 0.28 (balanced fluid, rewritten guideline, education)"
+  ],
+  "pitfalls": [
+   "Surgical patients follow a different pathway → keep to medical inpatients in both cycles, or audit surgery separately.",
+   "Nurses hold basal insulin when the patient is nil by mouth → include this in ward teaching and on the chart line.",
+   "Small numbers → extend the look-back period rather than mixing in DKA.",
+   "Prompt added but insulin not prescribed → check prescription and administration separately in cycle 2."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist nurses; they see most VRIIIs.",
+   "Use the NaDIA harms data if your Trust submits it.",
+   "Record rebound hyperglycaemia after stopping; it shows the harm.",
+   "Hand the audit to the inpatient diabetes team for yearly repeat."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 episodes from EPMA and charts"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults on a variable rate intravenous insulin infusion on a general ward have a glucose-containing substrate fluid running throughout the infusion?",
+  "why": "Insulin running without glucose substrate causes hypoglycaemia; hypoglycaemic events per VRIII fell by more than half once balanced substrate fluid was procured [7311]. No audit of substrate fluid use on general wards has been published in the library.",
+  "standard": {
+   "source": "JBDS-IP guideline JBDS 09: The use of variable rate intravenous insulin infusion (VRIII) in medical inpatients (current version, October 2014), sections 3.7 and 3.7.1",
+   "wording": "Avoid hypoglycaemia by providing substrate at a steady rate for the insulin infusion [...] Do not infuse insulin without substrate unless in HDU/ITU setting",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_09_IP_VRIII.pdf"
+  },
+  "pass": "A glucose-containing substrate fluid prescribed from the start of the VRIII and recorded as running on the fluid chart at every check while the insulin ran.",
+  "population": "Adult (≥18) inpatients on a VRIII on a general (non-critical care) ward. Exclude DKA and HHS (fixed-rate protocols).",
+  "sample": "30–40 consecutive VRIII episodes over the last 2–3 months.",
+  "data_source": "VRIII chart or EPMA for infusion times; fluid prescription and fluid balance chart for substrate fluid; CBG chart for hypoglycaemia.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "vriii_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vriii_stop_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "substrate_prescribed_at_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "substrate_fluid_type",
+    "type": "choice",
+    "options": [
+     "0.45% saline + 5% glucose + KCl",
+     "5% glucose + KCl",
+     "10% glucose",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gaps_without_substrate",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "substrate_running_throughout",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cbg_below_4_during_vriii",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the separate fluid prescription with a combined VRIII and substrate fluid order set so the insulin cannot be prescribed alone.",
+  "target": "≥95% of episodes",
+  "reaudit": "Week 13–14, same template, next 30–40 episodes.",
+  "close_loop": "Present at the diabetes inpatient safety group and nursing governance; if it works, keep the combined order set and include substrate checks in the VRIII competency.",
+  "evidence": [
+   "[7311] Endocrinology: hypoglycaemic events per VRIII 0.73 → 0.28, hyponatraemia 26% → 12% (balanced fluid, new guideline, education)",
+   "[7468] Vascular surgery: VRIII rescue medication prescribed 0% → 65% (checklist, teaching, EPMA updates)",
+   "[3839] Endocrinology: 27% had hypoglycaemia on VRIII (awareness planned)"
+  ],
+  "pitfalls": [
+   "Fluid charts are incomplete → treat unrecorded periods as fails and agree this before cycle 1.",
+   "Fluid-overloaded patients need less volume → accept 10% glucose at a lower rate as a pass.",
+   "Pumps run out overnight → record gaps and their length, not just yes/no.",
+   "Order-set change needs IT time → use a printed combined chart in the interim."
+  ],
+  "pearls": [
+   "Recruit the diabetes nurses and the IV fluids lead.",
+   "Check that the recommended bag is actually stocked on each ward.",
+   "Pair with the basal insulin audit; one data pull covers both.",
+   "Ask the diabetes team to repeat it yearly."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 episodes from charts"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adult inpatients with diabetes who have a severe or recurrent hypoglycaemia have a documented medical or diabetes specialist nurse review of their glucose-lowering treatment within 24 hours?",
+  "why": "After a hypo the next insulin dose is often given unchanged or wrongly omitted. Hypoglycaemia and insulin errors affected 75% of vascular inpatients before a diabetes in-reach service [6674]. No audit of post-hypo treatment review has been published in the library.",
+  "standard": {
+   "source": "JBDS-IP guideline JBDS 01: The hospital management of hypoglycaemia in adults with diabetes mellitus (revised January 2023), follow-up actions",
+   "wording": "Unless the cause is easily identifiable and both the nursing staff and the person with diabetes is confident steps can be taken to avoid future events, a medical or Diabetes Inpatient Specialist Nurse (DISN) review should be considered. If the hypoglycaemia event was severe or recurrent, or if the person voices concerns then a review is indicated",
+   "url": "https://abcd.care/sites/default/files/site_uploads/JBDS_Guidelines_Current/JBDS_01_Hypo_Guideline_with_QR_code_January_2023.pdf"
+  },
+  "pass": "A documented review by a doctor or diabetes inpatient specialist nurse of insulin or sulfonylurea treatment within 24 hours of the index hypo.",
+  "population": "Adult (≥18) inpatients with diabetes on insulin or a sulfonylurea with a severe hypo (needed another person's help, IV glucose or glucagon) or recurrent hypos (2 or more CBG below 4.0 mmol/L in 24 hours). Exclude patients on end-of-life care.",
+  "sample": "40 consecutive eligible episodes from the glucose meter data system over the last 2–3 months.",
+  "data_source": "Networked glucometer download for CBG values and times; EPMA for insulin and sulfonylurea doses; notes for review documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "index_hypo_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lowest_cbg_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypo_type",
+    "type": "choice",
+    "options": [
+     "severe",
+     "recurrent",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "glucose_lowering_treatment",
+    "type": "choice",
+    "options": [
+     "basal-bolus insulin",
+     "mixed insulin",
+     "basal only",
+     "sulfonylurea",
+     "insulin + sulfonylurea"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer",
+    "type": "choice",
+    "options": [
+     "doctor",
+     "DISN",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "treatment_changed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_hypo_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the networked glucometer to send an automatic referral to the diabetes inpatient team for any CBG below 3.0 mmol/L or a second value below 4.0 mmol/L in 24 hours.",
+  "target": "≥90% reviewed within 24 hours",
+  "reaudit": "Week 13–14, same template, next 40 eligible episodes.",
+  "close_loop": "Present at the diabetes inpatient safety group; if it works, keep the automatic referral and report monthly hypo-review rates to the ward sisters.",
+  "evidence": [
+   "[6674] Vascular surgery: hypoglycaemia fell by more than half and insulin errors by 70% (education, diabetes in-reach service, whiteboard alert)",
+   "[9271] Pharmacy: insulin prescribing errors 78% → 63% (diabetes pharmacist, new insulin record, eLearning)",
+   "[4949] Endocrinology: hypoglycaemic control 85% → 94% (new insulin prescribing chart)"
+  ],
+  "pitfalls": [
+   "Hypos not recorded on paper → use the networked glucometer as the source.",
+   "Referral alerts overwhelm the diabetes team → agree the threshold with them before cycle 1.",
+   "Reviews happen but are not written → count only documented reviews in both cycles.",
+   "Recurrent is defined differently by different people → fix the definition and keep it."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist nurses and point-of-care testing lead.",
+   "Report repeat hypos within 48 hours; it links review to harm.",
+   "Share ward-level league tables with ward sisters.",
+   "Leave the monthly report with the point-of-care testing team."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 episodes from glucometer data and notes"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults discharged from general surgical wards with a newly started opioid have a planned stop date or duration in the discharge letter?",
+  "why": "Opioids started after surgery often continue in the community because no end date is given. Nurse-assembled discharge prescriptions had errors in half [6432], and laxative and naloxone co-prescribing needed repeated cycles to improve [1341]. No closed-loop audit of stop dates for discharge opioids outside orthopaedics has been published in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update: Opioids: risk of dependence and addiction (23 September 2020)",
+   "wording": "opioid medicines (opioids) provide relief from serious short-term pain; however long-term use in non-cancer pain (longer than 3 months) carries an increased risk of dependence and addiction [...] before starting treatment with opioids, agree with the patient a treatment strategy and plan for end of treatment",
+   "url": "https://www.gov.uk/drug-safety-update/opioids-risk-of-dependence-and-addiction"
+  },
+  "pass": "The discharge letter to the GP states a stop date, number of days, or a tapering plan for the new opioid.",
+  "population": "Adults (≥18) discharged from general surgery, urology, vascular or gynaecology wards with an opioid (codeine, tramadol, morphine, oxycodone or similar) not taken before admission. Exclude palliative and cancer pain, and patients on opioid substitution.",
+  "sample": "40 consecutive eligible discharges over the last 4–6 weeks.",
+  "data_source": "EPMA discharge prescription; discharge letter; drug history for pre-admission opioids.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "choice",
+    "options": [
+     "general surgery",
+     "urology",
+     "vascular",
+     "gynaecology",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "opioid_and_formulation",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "modified_release",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "quantity_supplied_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_date_or_duration_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "gp_told_to_review_or_stop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "laxative_co_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make 'planned duration / stop date' a mandatory field on the discharge prescription when an opioid not on the admission drug history is added.",
+  "target": "≥90% with a stop date or duration",
+  "reaudit": "Week 13–14, same template, next 40 eligible discharges.",
+  "close_loop": "Present at the surgical governance meeting and to primary care prescribing leads; if it works, keep the mandatory field and add discharge opioid duration to the pharmacy discharge check.",
+  "evidence": [
+   "[1341] Surgery: antiemetic co-prescribing >75%; laxative and naloxone prescribing improved over cycles (education and posters)",
+   "[6432] Pharmacy: discharge prescription errors 28/56 → 9/44 (checklist with education)",
+   "[1298] Orthopaedics: regular oral opioid prescribing on day 0 up 30% (NICE posters and teaching)"
+  ],
+  "pitfalls": [
+   "Pre-admission opioid use is unclear → check the GP record before counting as new.",
+   "Short supply implies a stop but no date is written → count only an explicit plan as a pass.",
+   "Surgeons object to extra fields → keep it to one mandatory line.",
+   "Mandatory fields are filled with 'as required' → review free text in cycle 2."
+  ],
+  "pearls": [
+   "Recruit a surgical pharmacist and one consultant champion.",
+   "Share the result with the local primary care prescribing team; they see the downstream harm.",
+   "Record modified-release supplies; they are the highest risk.",
+   "Build the check into the pharmacy discharge screen so it outlasts the rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 discharges from EPMA and letters"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of inpatient 'when required' opioid prescriptions state a maximum dose or number of doses in 24 hours?",
+  "why": "Open-ended 'when required' opioid orders allow repeated doses and opioid toxicity. As-required prescribing was complete in only 35% before and 33% after teaching [1889], and two thirds of as-required opioid doses were inadequate [9293]. No closed-loop audit of maximum daily amounts on as-required opioids has been published in the library.",
+  "standard": {
+   "source": "NICE NG46 rec 1.5.3 (2016)",
+   "wording": "When prescribing 'when required' controlled drugs: • document clear instructions for when and how to take or use the drug in the person's care record • include dosage instructions on the prescription (with the maximum daily amount or frequency of doses) so that this can be included on the label when dispensed • ask about and take into account any existing supplies the person has of 'when required' controlled drugs.",
+   "url": "https://www.nice.org.uk/guidance/ng46/chapter/Recommendations"
+  },
+  "pass": "The prescription states a maximum total dose in 24 hours or a maximum number of doses in 24 hours, plus a minimum interval.",
+  "population": "All active 'when required' strong or weak opioid prescriptions (morphine, oxycodone, codeine, tramadol, dihydrocodeine) for adult inpatients on the audit day. Exclude syringe drivers and patient-controlled analgesia.",
+  "sample": "50 consecutive as-required opioid prescriptions across medical and surgical wards, collected over 2–3 audit days.",
+  "data_source": "EPMA or paper drug charts on the audit day.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "audit_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid",
+    "type": "choice",
+    "options": [
+     "morphine",
+     "oxycodone",
+     "codeine",
+     "tramadol",
+     "dihydrocodeine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "route",
+    "type": "choice",
+    "options": [
+     "oral",
+     "subcutaneous",
+     "intravenous",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "minimum_interval_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "maximum_in_24h_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (with interval)"
+   },
+   {
+    "field": "indication_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_given_last_24h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Change the EPMA 'when required' opioid order sentences so a maximum dose in 24 hours and a minimum interval are mandatory.",
+  "target": "≥95% of as-required opioid prescriptions",
+  "reaudit": "Week 13–14, same template, 50 prescriptions over 2–3 audit days.",
+  "close_loop": "Present at the medication safety committee and controlled drugs accountable officer meeting; if it works, keep the order sentences and add a quarterly spot check to the pharmacy controlled drugs audit.",
+  "evidence": [
+   "[1889] Pharmacy: as-required prescribing completeness 35% → 33% (education session only)",
+   "[8403] Anaesthesia: correct opioid dose and frequency 40% → 61% (hospital analgesic prescribing guidelines)",
+   "[9295] Palliative care: 65% met the PRN standard, 21% had no breakthrough analgesia (guidance cards issued)"
+  ],
+  "pitfalls": [
+   "Order sentences already include a maximum but are free-texted over → audit free-text orders separately.",
+   "Palliative teams object to caps → exclude end-of-life anticipatory prescriptions or allow a stated range.",
+   "Paper charts on some wards → include them and note the chart type.",
+   "Snapshot days miss weekend prescribing → collect across different days of the week."
+  ],
+  "pearls": [
+   "Recruit the controlled drugs pharmacist; they run CD audits already.",
+   "Agree the order sentences with the acute pain team before the change.",
+   "Show one example where repeated doses caused sedation.",
+   "Leave the spot check with the CD accountable officer's team."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 prescriptions on the ward"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of discharge prescriptions for Schedule 2 or 3 controlled drugs state the total quantity in both words and figures?",
+  "why": "Discharge controlled drug prescriptions that break the legal rules are returned by pharmacy and delay discharge; 89% of end-of-life discharge prescriptions had errors before a standard form [6127]. No closed-loop audit of the legal quantity requirement on discharge prescriptions has been published in the library.",
+  "standard": {
+   "source": "The Misuse of Drugs Regulations 2001, regulation 15(1)(f)",
+   "wording": "(f)specify the dose to be taken and— (i)in the case of a prescription containing a controlled drug which is a preparation, the form and, where appropriate, the strength of the preparation, and either the total quantity (in both words and figures) of the preparation or the number (in both words and figures) of dosage units, as appropriate, to be supplied; (ii)in any other case, the total quantity (in both words and figures ) of the controlled drug to be supplied;",
+   "url": "https://www.legislation.gov.uk/uksi/2001/3998/regulation/15"
+  },
+  "pass": "Total quantity or number of dosage units written in both words and figures on the discharge prescription as first submitted to pharmacy.",
+  "population": "All adult discharge prescriptions containing a Schedule 2 or 3 controlled drug (e.g. morphine, oxycodone, fentanyl, buprenorphine, tramadol, pregabalin, gabapentin). Exclude outpatient FP10 prescriptions.",
+  "sample": "50 consecutive discharge controlled drug prescriptions from the pharmacy dispensary over the last 4 weeks.",
+  "data_source": "Pharmacy dispensary records and returned-prescription log; EPMA discharge prescription as first submitted.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drug_and_schedule",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "form_and_strength_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "quantity_in_words_and_figures",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "returned_by_pharmacy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_delay_if_returned",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescriber_grade",
+    "type": "choice",
+    "options": [
+     "FY1",
+     "FY2/CT",
+     "registrar",
+     "consultant",
+     "non-medical"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Configure the EPMA discharge template so controlled drug items auto-generate the total quantity in words and figures.",
+  "target": "100% legally complete on first submission",
+  "reaudit": "Week 13–14, same template, next 50 prescriptions.",
+  "close_loop": "Present at the controlled drugs local intelligence meeting and junior doctor induction; if it works, keep the EPMA auto-text and monitor the returned-prescription log monthly.",
+  "evidence": [
+   "[6127] Palliative care: end-of-life discharge prescription errors 89% → 11% (standard pre-written chart and flow chart)",
+   "[3190] Psychiatry: prescription writing errors increased after re-training alone",
+   "[6432] Pharmacy: discharge prescription errors 28/56 → 9/44 (checklist with education)"
+  ],
+  "pitfalls": [
+   "Pharmacy corrects errors silently → use the prescription as first submitted, not the dispensed version.",
+   "Gabapentinoids are missed as Schedule 3 → give auditors a schedule list.",
+   "IT cannot auto-generate words → use an EPMA pop-up reminder in the interim.",
+   "Different pharmacists record returns differently → agree the returned-prescription log fields first."
+  ],
+  "pearls": [
+   "Recruit the dispensary lead; they keep the returns log.",
+   "Report discharge delay hours; bed managers will back the fix.",
+   "Add a one-slide example to FY1 induction.",
+   "Ask pharmacy to keep the monthly returns metric."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 prescriptions in pharmacy"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of hospital discharge letters record the patient's drug allergy status?",
+  "why": "GPs need allergy status on discharge letters to prescribe safely. Allergy status was complete in only 27% of discharge letters [1856] and 40% of drug cards lacked allergy information [4771]. No closed-loop audit of allergy status on discharge letters has been published in the library.",
+  "standard": {
+   "source": "NICE CG183 recs 1.2.1 and 1.2.7 (2014)",
+   "wording": "1.2.1 Document people's drug allergy status in their medical records using 1 of the following: • 'drug allergy' • 'none known' • 'unable to ascertain' (document it as soon as the information is available). 1.2.7 Ensure that information about drug allergy status is updated and included in all: • GP referral letters • hospital discharge letters.",
+   "url": "https://www.nice.org.uk/guidance/cg183/chapter/1-Recommendations"
+  },
+  "pass": "The discharge letter states 'drug allergy' (naming the drug and reaction), 'none known' or 'unable to ascertain', and it matches the inpatient drug chart.",
+  "population": "Adults (≥18) discharged from any inpatient ward. Exclude deaths and transfers to another hospital.",
+  "sample": "50 consecutive discharge letters across medical and surgical wards over the last 2 weeks.",
+  "data_source": "Electronic discharge letters; EPMA or drug chart allergy field for comparison.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialty",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "allergy_status_in_letter",
+    "type": "choice",
+    "options": [
+     "drug allergy",
+     "none known",
+     "unable to ascertain",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "drug_and_reaction_named_if_allergy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "matches_drug_chart",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "status_recorded_and_matches",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "new_allergy_during_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_allergy_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the discharge letter template pull allergy status automatically from the EPMA allergy record as a locked field.",
+  "target": "≥95% of letters",
+  "reaudit": "Week 13–14, same template, next 50 letters.",
+  "close_loop": "Present at the medication safety committee and to the GP liaison group; if it works, keep the automatic field and add allergy status to the discharge letter quality dashboard.",
+  "evidence": [
+   "[1856] Care of the elderly: allergy status in discharge letters 27% (single cycle)",
+   "[4771] Pharmacy: allergy information absent in 40% of drug cards, slight improvement after refresher",
+   "[3234] Psychiatry: allergy status on EPR 62% (electronic clerking prompt, stickers and pharmacy updates)"
+  ],
+  "pitfalls": [
+   "Letters say 'see drug chart' → count this as a fail; GPs cannot see it.",
+   "Allergy recorded in EPMA but not pulled through → check the IT mapping before cycle 1.",
+   "New allergies during admission are missed → record these separately; they matter most.",
+   "Specialties use different templates → sample across specialties in both cycles."
+  ],
+  "pearls": [
+   "Recruit the EPR team early; the fix is an IT change.",
+   "Ask two local GPs how often letters lack allergies; quote them.",
+   "Record new in-hospital reactions as a sub-measure.",
+   "Hand the dashboard measure to the discharge quality lead."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 letters from the EPR"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults admitted as an emergency at the weekend have medicines reconciliation completed within 24 hours of admission?",
+  "why": "Medicines reconciliation within 24 hours reached 77–93% in weekday audits [9389] [7873], but weekend admissions depend on thinner pharmacy cover. No audit of weekend medicines reconciliation has been published in the library.",
+  "standard": {
+   "source": "NICE NG5 rec 1.3.1 (2015)",
+   "wording": "In an acute setting, accurately list all of the person's medicines (including prescribed, over‑the‑counter and complementary medicines) and carry out medicines reconciliation within 24 hours or sooner if clinically necessary, when the person moves from one care setting to another – for example, if they are admitted to hospital.",
+   "url": "https://www.nice.org.uk/guidance/ng5/chapter/1-Recommendations"
+  },
+  "pass": "A documented medicines reconciliation (at least two sources, with discrepancies resolved or noted) completed by a pharmacist, pharmacy technician or doctor within 24 hours of the admission time.",
+  "population": "Adults (≥18) admitted as an emergency between Friday 17:00 and Sunday 23:59 who stay at least 24 hours. Exclude patients who die or are discharged within 24 hours.",
+  "sample": "40 consecutive weekend emergency admissions over the last 4 weekends; optionally 40 weekday admissions for comparison.",
+  "data_source": "EPMA medicines reconciliation record and timestamp; admission time from the patient administration system; notes for sources used.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_day",
+    "type": "choice",
+    "options": [
+     "Friday",
+     "Saturday",
+     "Sunday"
+    ],
+    "note": ""
+   },
+   {
+    "field": "med_rec_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_by",
+    "type": "choice",
+    "options": [
+     "pharmacist",
+     "pharmacy technician",
+     "doctor",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sources_used",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "med_rec_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "discrepancies_found",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "critical_medicine_omitted_before_med_rec",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Give the weekend on-call pharmacy team an EPMA worklist of admissions without a reconciliation, sorted by time since admission.",
+  "target": "≥80% within 24 hours at weekends",
+  "reaudit": "Week 13–14, same template, next 40 weekend admissions.",
+  "close_loop": "Present at the medication safety committee and to pharmacy management; if it works, keep the worklist and report weekend reconciliation rates alongside weekday rates each quarter.",
+  "evidence": [
+   "[7873] Acute medicine: documented reconciliation 75.3% → 92.8% (personalised feedback and posters)",
+   "[9389] General surgery: reconciliation within 24 h 77% → 84% (Emergency Care Summary access and teaching)",
+   "[2017] General surgery: incomplete reconciliation 38.0% → 2.8% (pharmacist flags and a reconciliation ward round)"
+  ],
+  "pitfalls": [
+   "Doctors' drug histories are counted as reconciliation → agree the definition (two sources, discrepancies addressed) before cycle 1.",
+   "Pharmacy managers see it as a staffing complaint → frame it as prioritising the highest-risk patients.",
+   "Timestamps are missing on paper → use EPMA only, or record time from notes consistently.",
+   "Bank holiday weekends skew data → note them and exclude or report separately."
+  ],
+  "pearls": [
+   "Recruit the chief pharmacist early and share weekday data too.",
+   "Record critical medicines missed before reconciliation; that shows harm.",
+   "Use the Summary Care Record as a second source to speed it up.",
+   "Leave the weekend worklist report with the pharmacy duty manager."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 admissions from EPMA"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of adults admitted with sepsis, vomiting or diarrhoea who take an ACE inhibitor or ARB have a documented decision to withhold or continue it within 24 hours of admission?",
+  "why": "Continuing ACE inhibitors and ARBs during dehydrating illness worsens acute kidney injury. Stopping nephrotoxic drugs improved only with a bundle [6038], and a sticker was used in 7% of cases [6115]. No audit of the ACE inhibitor or ARB decision at admission has been published in the library.",
+  "standard": {
+   "source": "NICE NG148 rec 1.2.14 (2013, guideline updated October 2024)",
+   "wording": "Consider temporarily stopping ACE inhibitors and ARBs in adults, children and young people with diarrhoea, vomiting or sepsis until their clinical condition has improved and stabilised. [2013]",
+   "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations"
+  },
+  "pass": "Within 24 hours of admission the notes or EPMA record a decision to withhold the ACE inhibitor or ARB, or to continue it with a stated reason.",
+  "population": "Adults (≥18) admitted as an emergency with sepsis, vomiting or diarrhoea who were taking an ACE inhibitor or ARB before admission. Exclude those admitted to critical care.",
+  "sample": "40 consecutive eligible admissions to acute medicine over the last 4–6 weeks.",
+  "data_source": "EPMA drug history and administration record; clerking notes for diagnosis and decision; lab system for creatinine.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_problem",
+    "type": "choice",
+    "options": [
+     "sepsis",
+     "vomiting",
+     "diarrhoea",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "drug",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_creatinine_umol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "withheld",
+     "continued with reason",
+     "no decision"
+    ],
+    "note": ""
+   },
+   {
+    "field": "decision_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "doses_given_before_decision",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aki_stage_within_72h",
+    "type": "choice",
+    "options": [
+     "none",
+     "1",
+     "2",
+     "3"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'sick day medicines' line to the acute medical clerking template listing ACE inhibitors, ARBs, diuretics, metformin, SGLT2 inhibitors and NSAIDs with a withhold/continue choice.",
+  "target": "≥90% with a decision within 24 hours",
+  "reaudit": "Week 13–14, same template, next 40 eligible admissions.",
+  "close_loop": "Present at acute medicine governance and the AKI group; if it works, keep the clerking line and add it to the AKI e-alert pathway.",
+  "evidence": [
+   "[6038] Renal: all AKI measures met 3.7% → 8.4%; stopping nephrotoxic drugs improved (AKI care bundle and education)",
+   "[6115] Renal: full AKI bundle 8% → 17%; sticker used in 7% (DONUT sticker and teaching)",
+   "[7158] Renal: AKI recognition 15% → 43% (laboratory e-alerts with pathway)"
+  ],
+  "pitfalls": [
+   "Heart failure teams object to stopping → a documented reason to continue is a pass.",
+   "'Held' in notes but still given → check the administration record, not only the plan.",
+   "Sepsis diagnosis is vague → use the clerking diagnosis and keep the rule in both cycles.",
+   "Template line is ignored → check completion rate in cycle 2."
+  ],
+  "pearls": [
+   "Recruit an acute physician and the AKI nurse.",
+   "Record AKI at 72 hours; even small differences make the case.",
+   "Keep the line short so it is filled in.",
+   "Ask the AKI team to repeat it yearly."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPMA and notes"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of intravenous potassium doses given on general wards are given as a ready-mixed (pre-diluted) infusion bag?",
+  "why": "Giving concentrated potassium by mistake is a Never Event and can cause cardiac arrest. Potassium replacement was prescribed correctly in only 50% of surgical patients [2137] and adequately in 22% of medical inpatients [6157]. No audit of the product used for IV potassium has been published in the library.",
+  "standard": {
+   "source": "NHS England Never Events list 2018 (updated February 2021), Never Event 4: Mis-selection of a strong potassium solution",
+   "wording": "Mis-selection refers to: when a patient is intravenously given a strong potassium solution rather than the intended medication. Setting: All settings providing NHS-funded care. National safety requirement: Patient Safety Alert – Potassium chloride concentrate solutions (2002; updated 2003). [...] ≥10% potassium w/v (eg ≥0.1 g/mL potassium chloride, 1.3 mmol/mL potassium chloride).",
+   "url": "https://www.england.nhs.uk/wp-content/uploads/2020/11/2018-Never-Events-List-updated-February-2021.pdf"
+  },
+  "pass": "The IV potassium dose was given from a ready-mixed bag; no strong potassium concentrate (≥10% w/v) was used on a general ward.",
+  "population": "All IV potassium doses given to adults on general (non-critical care) wards. Exclude critical care, theatres and renal units with separate protocols.",
+  "sample": "50 consecutive IV potassium administrations over the last 4 weeks, plus a stock check of every general ward.",
+  "data_source": "EPMA administration record for product selected; ward stock lists and pharmacy issue data for potassium concentrate; controlled stock register where used.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "administration_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "serum_potassium_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "product_used",
+    "type": "choice",
+    "options": [
+     "ready-mixed bag",
+     "concentrate added on ward",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ready_mixed_bag_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "rate_mmol_per_hour",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infusion_via_pump",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_potassium_checked_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "concentrate_in_ward_stock",
+    "type": "yes/no",
+    "options": [],
+    "note": "From stock check"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Remove potassium concentrate from all general ward stock and list the ready-mixed bags as the only EPMA options for ward prescribing.",
+  "target": "100% ready-mixed on general wards",
+  "reaudit": "Week 13–14, same template, next 50 administrations and a repeat stock check.",
+  "close_loop": "Present at the medication safety committee; if it works, keep concentrate restricted and add a yearly ward stock check to the pharmacy audit plan.",
+  "evidence": [
+   "[2137] General surgery: potassium replacement prescribed correctly in 50%, correct prescription and administration 27% (local hypokalaemia guideline)",
+   "[6157] Acute medicine: adequate treatment 22% → 63% (hypokalaemia treatment algorithm)",
+   "[7311] Endocrinology: hypokalaemic events per VRIII 0.15 → 0.05 (balanced fluid and new guideline)"
+  ],
+  "pitfalls": [
+   "Product not recorded in the administration record → combine EPMA with ward stock and issue data.",
+   "Some wards need higher strength bags → agree a restricted list with pharmacy before cycle 1.",
+   "Concentrate reappears in stock after the audit → add it to the yearly stock check.",
+   "Staff fear running out of bags → confirm top-up levels with pharmacy."
+  ],
+  "pearls": [
+   "Recruit the medication safety officer; this is a Never Event area.",
+   "Do the stock check with a ward pharmacist.",
+   "Report the stock check as a simple ward list.",
+   "Leave the yearly check with pharmacy."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 doses plus a half-day stock check"
+ },
+ {
+  "area": "Medicines safety and antimicrobial stewardship",
+  "question": "What proportion of IV paracetamol prescriptions for adults weighing under 50 kg use a weight-based dose of no more than 15 mg/kg?",
+  "why": "Adults with low body weight have died from IV paracetamol overdose. Only 27% had a weight on the drug chart and 25% on paracetamol were wrongly dosed before a campaign [6116]. No closed-loop audit of IV paracetamol dosing in low-weight adults with a system fix has been published in the library.",
+  "standard": {
+   "source": "SPS: Prescribing and administering intravenous paracetamol safely (updated June 2026), with MHRA Drug Safety Update (July 2010) dose table",
+   "wording": "Deaths have occurred in adults with low body weight due to incorrect IV paracetamol dosing. [...] Use actual body weight when calculating IV paracetamol doses in very low weight children and adults. [MHRA:] Children, adolescents, and adults weighing >33 kg and <50 kg Dose (per administration): 1 intravenous infusion of 15 mg/kg; i.e., 1·5 mL solution per kg Maximum daily dose: 60 mg/kg (i.e., 6 mL/kg) without exceeding 3 g (i.e., 300 mL) in total",
+   "url": "https://www.sps.nhs.uk/articles/prescribing-and-administering-intravenous-paracetamol-safely/"
+  },
+  "pass": "A weight recorded this admission, each IV dose ≤15 mg/kg of actual body weight, and a total daily dose ≤60 mg/kg (and ≤3 g).",
+  "population": "Adults (≥18) weighing under 50 kg (or with no weight recorded) prescribed IV paracetamol on any ward. Exclude critical care.",
+  "sample": "40 consecutive eligible prescriptions over the last 2–3 months (search EPMA for IV paracetamol and weight <50 kg or blank).",
+  "data_source": "EPMA for dose, frequency and recorded weight; observations for measured weight.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_recorded_this_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_mg_per_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "max_daily_mg_prescribed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_15mg_per_kg_or_less",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "risk_factors_for_hepatotoxicity",
+    "type": "text",
+    "options": [],
+    "note": "e.g. malnutrition, alcohol, liver disease"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the EPMA IV paracetamol order to require a current weight and default to 15 mg/kg when the weight is under 50 kg.",
+  "target": "100% of low-weight adults dosed at ≤15 mg/kg",
+  "reaudit": "Week 13–14, same template, next 40 eligible prescriptions.",
+  "close_loop": "Present at the medication safety committee; if it works, keep the EPMA rule and add low-weight paracetamol dosing to the pharmacist screening checklist.",
+  "evidence": [
+   "[6116] Pharmacy: weight on drug chart 27% → 53%, inappropriate paracetamol dosing 25% → 6% (awareness campaign)",
+   "[7923] Emergency medicine: IV paracetamol about 38% of 1 g doses, no fall after informal teaching",
+   "[1338] Vascular surgery: reweighed within a week 36% → 60% (weighing amputated limbs)"
+  ],
+  "pitfalls": [
+   "Patients with no weight recorded are missed by the search → include blank weights and count them as fails.",
+   "Oral and IV doses are added together → record the total from all routes.",
+   "Elderly frail patients just over 50 kg are also at risk → note hepatotoxicity risk factors for later cycles.",
+   "Default dose rule is overridden → check overrides in cycle 2."
+  ],
+  "pearls": [
+   "Recruit ward pharmacists; they catch most errors now.",
+   "Pair with the enoxaparin weight audit to share one weighing fix.",
+   "Show the SPS safety wording on one slide.",
+   "Leave the EPMA report with the medication safety officer."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 prescriptions from EPMA"
+ }
+]
