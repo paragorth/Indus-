@@ -1,0 +1,88 @@
+S-DARK-62 FINAL: a functional profile for every opener, marker and fish word (loop 62, 3 Oct 2026)
+Files: tools/dark_loop62.py; data/derived/dark/loop62_cycle1.txt, loop62_cycle2.txt, loop62_cycle3.txt (each with a ready-to-paste
+STRATEGIES.md row); logs loop62_c{1,2,3}_seq_{raw,strong,all}.txt (seq_raw logs carry the IM77 replication);
+loop62_opener_profiles.csv (74 rows: 20 elements x Wells seq_raw/strong/all + 16 IM77 elements; one row per element with type
+composition, per-type penetration, head shares, suffix, numeral, quantity, fish, marked-jar, second-unit rates, lengths, width).
+Robustness: seq_strong and seq_all merge 817 into 861 (n = 278-281) and change nothing else that is reported here; every cell quoted
+in the three rows holds at all three levels; IM77 agrees on every cell checked (transcription-robust, S312: not a replication).
+Nulls: element indicator permuted among texts within site x length-bin (object type), type x length-bin (sites), site x type x
+length-bin (companions, areas, phases, emblem, material, size), 1,000x. Not duplicated: head profiles (S-DARK-60), minimal texts
+(S-DARK-58).
+
+HOW MANY FUNCTIONALLY DISTINCT OPENERS AND MARKERS THE DATA SUPPORT
+- Openers: FOUR seal openers behave as ONE element. W817 (leaf), W861 (diamond), W820 (wheel) and W692 (X) are interchangeable in
+  object type (seal 0.74-0.86, tablet 0.13-0.26, copper 0), per-site penetration (Harappa seals .07/.05/.05/.03 = Mohenjo-daro
+  .07/.07/.08/.02), Mohenjo-daro quarter, phase, animal, material, size, head (jar 0.41-0.49, none 0.31-0.38, arrow 0.06-0.11, all
+  at null), suffix (W400 excluded), counts, length (4.8-5.4, middle of 2 signs) and impression rate (matched by sealings at null,
+  3-6%). Pairwise p = 0.007-0.25 at every level (IM77 0.22-0.74); the only trace of difference is the preferred first middle sign
+  (817 -> 368/48; 861 -> 240/235; 820 -> 1/32/803; 692 -> 240) and that W1 follows 820 directly 15 times. W920 is DIFFERENT: an
+  opening phrase 920-60-741 (41 of 69) that carries the marked jar (0.62 vs 0.18), is longer (6.0), takes no W2, and is distinct
+  from each seal opener in both corpora (driver: the marked jar as 'second unit'). The text-initial signs W501, W413 (Harappa
+  moulded tablets) and W503 (Mohenjo-daro copper tablets) are tablet openers: head-locked (501 -> arrow 29/29; 413 -> none/W700;
+  503 -> jar 45/49), one-site, batch-copied stock texts (W501 = one text in 29 copies), never on seals (0-2 of 1,647). So: 1 seal
+  opener class (4 signs), 1 opening phrase (920-60-741), 3 tablet stock-text openers = 5 functional openers; within the seal class
+  the four signs are indistinguishable.
+- Markers: FOUR functional markers. (i) The connective W2 = W60: both positions of W2 (after an opener; after a tree/W368/W31 deep
+  in a long text) take the same hosts (240, 32, 235, 803, 3 in both transcriptions), are written once per text (603:1), never
+  together (0 vs 50), exclude W400 and the marked jar, and are told apart only by object type and site (p 0.027 Wells, 0.88 IM77);
+  W60 is the same connective (W60_free indistinguishable from W2_free, p 0.04-0.75) except inside the frozen 920-60-741 phrase.
+  (ii) W1: a between-unit marker after the jar / marked jar / wheel / W480 (multi-unit texts 0.48 vs 0.34; headless texts 0.52;
+  long middles 0.81), the one marker that travels with the non-square register (bar seals 30 vs 18, round seals 6/16, foreign
+  5/23 = 22%, copper tablets 13/171; Lothal 16 vs 6.7). (iii) W31: text-initial (0.35) or after the connective = the middle-opener
+  of S24/S38; never with a quantity phrase (5 vs 15.7; IM77 2 vs 14); the pot marker (18/123 pots) and Chanhu-daro's (13 vs 4).
+  (iv) W32: the voucher count (W700 head 95 vs 66; 53% on tablets; 1.0 'numeral' by definition). W1, W31, W32 are pairwise
+  distinct at p <= 0.001 at every level; the union-find grouping merges them only through the small W60_free class (n 57-68,
+  p 0.003-0.013), so the stable statement is 4 markers: connective, W1, W31, W32.
+- Fish words: THREE classes of five. {F220} plain fish = the counted fish (numeral + fish 96 vs 37) and the arrow's fish
+  (65 vs 25.5), on sealings (18%) and abroad (26%), absent from the HARP 3B/C moulded phase (4 vs 16). {F240} whiskered fish =
+  the Harappa moulded-tablet fish (89 vs 71; 134 vs 111 Harappa), jar + arrow heads, not counted (51 vs 104). {F235, F233, F231}
+  hat / bar / stroke = seal and copper-tablet fish (8-13% of copper texts), not counted, choosing jar + box527 (235), arrow +
+  box527 (233), arrow (231); F235 vs F233 p 0.06-0.08, F233 vs F231 p 0.04-0.08, F220 vs F231 p 0.009-0.01 (merge at seq_strong).
+  Same three groups in IM77.
+
+PLAIN-WORD FUNCTIONAL READINGS (grade; would support / would kill)
+op817 = op861 = op820 = op692  'SEAL-LEGEND OPENER': the mark that a text is a one-unit seal legend (seal 80-86%; 0 copper tablets;
+  excludes the tablet suffix W400 and the 920 phrase; head-blind; city-blind; animal-blind). Grade A for the function, A for the
+  equivalence of the four signs (all correlates, all levels, IM77). The four signs are variants or synonyms of one word (C: four
+  issuing houses or four 'kinds of seal' cannot be told apart by anything outside the text). Would support a 'synonym' reading:
+  a seal re-cut from one opener to another, or the same middle under two openers at one site (now 0 found). Would kill the
+  equivalence: a new site where one opener takes a head or object type the others do not.
+op920 (920-60-741)  'THE MARKED-JAR OPENING PHRASE': a fixed three-sign opening that replaces opener + W2 and carries its own
+  jar-word; longer texts, no counts, no W2. Grade A as a distinct opening unit (S331-S334 confirmed, both corpora). C gloss: a
+  second kind of credential ('of the store/office of 741') rather than an owner legend. Would support: 920-60-741 on sealings
+  from storerooms; would kill: 920-60-741 found with W2 or with W817-type openers in one text (now 0 of 69).
+op501 / op413 / op503  'TABLET STOCK-TEXT OPENERS' (Harappa moulded, Harappa moulded/incised, Mohenjo-daro copper): the first
+  sign of a mass-copied formula (501-405-2-240-520 x29; 413-575/892-...; 503-615-... x32), not a frame sign. Grade A as
+  tablet-only, head-locked texts; C that the first sign is an 'opener' at all (it may be the first word of a name-like formula).
+  Would kill the opener reading: W501/W413/W503 found text-initial on seals with varying heads (now 0-2 of 1,647).
+W2 (both positions) = W60 (free)  'THE CONNECTIVE OF': one word written once per text, introducing a fish word, a numeral + good,
+  or the leaf-tree; after the opener or after the first noun-like element of a long text. Grade A for one-sign-one-job (hosts
+  identical, exclusive positions, both corpora). C: the free position is the same 'of' inside a two-part designation
+  ('N tree OF fish-word'). Would support: new texts keep W2 to one token and to the same hosts; would kill: a text with W2 before
+  a marked jar or two W2s with different hosts (now 1-5 of ~600).
+W1  'UNIT-JOINER / SECOND-UNIT MARKER': stands after a closed unit (jar, marked jar, wheel, W480) and before the next part; the
+  marker of the long, multi-unit, bar/round/copper/foreign register. Grade B (replicated in IM77; S234 agreed it is not 'one').
+  C gloss: 'and / also' or 'item'. Would support: W1 at the join of two independently attested short texts; would kill: W1
+  before a counted good at > 5% of its tokens in new material (S-DARK-21 found 3 of 19 on IM77-only texts, so this is at risk).
+W31  'MIDDLE-OPENER': text-initial or right after the connective, before the individual element; not a count (no quantity phrases),
+  the lone mark on pots; tied to the W156 head (12 vs 3.9; IM77 16 vs 5.3). Grade B. C gloss: a determinative ('the one of /
+  person') before the name part, and on pots a single lot/batch stroke. Would kill: W31 regularly before a counted good.
+W32  'THE VOUCHER COUNT TWO': tall-2 before W700 on Harappa tablets and in frozen seal terms (32-226, 32-740). Grade A (S216).
+F220  'FISH (commodity)': the counted fish and the arrow's fish; Grade B as 'counted good', C as the thing 'fish'. Would support:
+  a count + F220 on a storeroom sealing; would kill: F220 counted only in frozen pairs (tall 2) on new material.
+F240  'WHISKERED FISH = the Harappa tablet title-word': the modified fish of the moulded tablets, with the jar and arrow heads,
+  never counted. Grade B function, C word. F235/F233/F231 'HAT/BAR/STROKE FISH = seal title-words' sorted by head (jar + box;
+  arrow + box; arrow), on seals and copper tablets, not counted; Grade B function (S296-S303 confirmed), C word. Would support
+  the title reading: a seal re-cut changing only the fish qualifier; would kill: a modified fish counted with a varying numeral.
+
+WHO WRITES IT
+Openers are a seal phenomenon in every city (26% of square and 24% of bar seals; 1-2% of tablets; 0/171 copper tablets), impressed
+at the ordinary seal rate (S318 stands), and NOT a batch phenomenon: on Harappa tablets an opener marks a one-off copy (1.1-1.8
+copies per text vs 2.9 for other tablet texts); the batch items are the tablet openers (W413 4.5 copies/text), W32 (3.5) and F240
+(2.9). Openers are absent abroad (0/23, 0/13 IM77) and on pots as marks (12 pots carry one, 9 of them as full seal legends on a
+vessel); the potters'-mark reading of S-DARK-23.2 is not supported by this corpus.
+
+CAVEATS
+76% of texts are Mohenjo-daro + Harappa; moulded-vs-incised rests on Wells alone; W60_free (57-68 texts) and F231 (55-73) are at
+the limit of the pairwise test and drive every unstable grouping; the F220 'impressed' excess of cycle 1 is a fragment-matching
+artefact (220-740-90, 415-220-520); 'never' = < 3/n. Wells and IM77 read 70% of the same objects.

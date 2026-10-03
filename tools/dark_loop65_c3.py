@@ -116,7 +116,13 @@ def im_sealings(site):
             if any(f == g or (len(f) >= 1 and len(f) < len(g) and any(g[i:i + len(f)] == f for i in range(len(g) - len(f) + 1))) for g in imps): continue
             imps = [g for g in imps if not (len(g) < len(f) and any(f[i:i + len(g)] == g for i in range(len(f) - len(g) + 1)))] + [f]
         if imps: res.append(dict(oid=o['oid'], imps=imps))
-    return res
+    # S-DARK-13: identical side-sets at one site = one object read twice (e.g. IM77 1623 = 2847)
+    seen = set(); out = []
+    for s in res:
+        key = tuple(sorted(tuple(i) for i in s['imps']))
+        if len(s['imps']) >= 2 and key in seen: continue
+        seen.add(key); out.append(s)
+    return out
 for site in ('Lothal', 'Kalibangan', 'Mohenjodaro'):
     network(site, im_sealings(site), 'IM77', M_OPEN)
 # ---- Kalibangan detail: are K-87/K-88 one seal stamped twice? ----
