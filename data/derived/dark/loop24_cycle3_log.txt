@@ -1,0 +1,65 @@
+(c) FRAGILITY AUDIT. Subsets: FULL Wells corpus 5369 objects; MATCHED (read by both) 1223; AGREED (identical readings) 642; DIFF (matched, some difference) 581
+   seals in each: FULL 2250, MATCHED 1101, AGREED 582, DIFF 519
+
+T1  S289 closer paradigm (final rate >= 0.4 before an optional W400/W90 suffix, jar co-occurrence <= 0.5x expected; signs with >= 10 tokens). Null: signs shuffled within texts, 200x
+  FULL: 18 signs pass [137, 151, 154, 156, 158, 161, 167, 226, 236, 241, 520, 525, 526, 527, 617, 700, 824, 868]; null median 10, 95% 14, max 18; S289 signs present with >= 10 tokens: W154 final 0.95 jar 0.27 n=44 PASS, W151 final 0.92 jar 0.40 n=86 PASS, W158 final 0.92 jar 0.15 n=39 PASS, W527 final 0.87 jar 0.24 n=63 PASS, W520 final 0.87 jar 0.07 n=309 PASS, W156 final 0.93 jar 0.17 n=96 PASS, W226 final 0.73 jar 0.12 n=37 PASS, W617 final 0.62 jar 0.44 n=76 PASS, W236 final 0.68 jar 0.27 n=25 PASS, W700 final 0.77 jar 0.08 n=501 PASS
+  MATCHED: 6 signs pass [151, 154, 156, 226, 520, 527]; null median 0, 95% 2, max 2; S289 signs present with >= 10 tokens: W154 final 0.93 jar 0.29 n=14 PASS, W151 final 0.94 jar 0.23 n=35 PASS, W527 final 0.87 jar 0.29 n=38 PASS, W520 final 0.83 jar 0.10 n=133 PASS, W156 final 0.81 jar 0.26 n=16 PASS, W226 final 0.86 jar 0.00 n=14 PASS, W617 final 0.41 jar 0.51 n=22 fail, W700 final 0.46 jar 0.65 n=13 fail
+  AGREED: 4 signs pass [151, 156, 520, 527]; null median 0, 95% 2, max 2; S289 signs present with >= 10 tokens: W151 final 0.95 jar 0.23 n=22 PASS, W527 final 0.91 jar 0.21 n=23 PASS, W520 final 0.92 jar 0.02 n=85 PASS, W156 final 0.73 jar 0.34 n=11 PASS
+  DIFF: 3 signs pass [151, 520, 527]; null median 0, 95% 2, max 2; S289 signs present with >= 10 tokens: W151 final 0.92 jar 0.20 n=13 PASS, W527 final 0.80 jar 0.42 n=15 PASS, W520 final 0.69 jar 0.24 n=48 PASS, W617 final 0.41 jar 0.60 n=22 fail
+
+T2  S296 fish family: mean pairwise context cosine of W220/240/235/233/231/226 vs 2000 frequency-matched random 6-sets
+  FULL: fish present [220, 240, 235, 233, 231, 226] (tokens [474, 354, 249, 192, 95, 41]); mean cosine 0.468 vs null median 0.140, 95% 0.271 (P=0.0005)
+  MATCHED: fish present [220, 240, 235, 233, 231, 226] (tokens [192, 145, 124, 114, 49, 14]); mean cosine 0.422 vs null median 0.132, 95% 0.245 (P=0.0005)
+  AGREED: fish present [220, 240, 235, 233, 231, 226] (tokens [94, 89, 78, 68, 22, 5]); mean cosine 0.323 vs null median 0.106, 95% 0.209 (P=0.0025)
+  DIFF: fish present [220, 240, 235, 233, 231, 226] (tokens [98, 56, 46, 46, 27, 9]); mean cosine 0.415 vs null median 0.131, 95% 0.253 (P=0.0005)
+
+T3  S-DARK-15.3 minimum-lot: numeral immediately before a counted item; short strokes W1..W9 (value = W number), tall W31..W39 (value = W-30). Rule: short 1 and 2 (grammar markers) do not count goods; counts start at 3
+  FULL: short-stroke counts before items: value 1-2 203 (of which directly after an opener = the W2 marker: 92), value 3+ 159; tall: 1-2 110, 3+ 115
+  MATCHED: short-stroke counts before items: value 1-2 104 (of which directly after an opener = the W2 marker: 54), value 3+ 73; tall: 1-2 67, 3+ 47
+  AGREED: short-stroke counts before items: value 1-2 50 (of which directly after an opener = the W2 marker: 34), value 3+ 52; tall: 1-2 38, 3+ 32
+  DIFF: short-stroke counts before items: value 1-2 54 (of which directly after an opener = the W2 marker: 20), value 3+ 21; tall: 1-2 29, 3+ 15
+
+T4  S321/S-DARK-18 name test: seal middles (frame stripped), unique share / bigram-null unique share (ratio ~1 = behaves like random strings; Ur III names 0.43-0.62)
+  FULL: middles 1748; unique 0.846 vs bigram 0.875, ratio 0.966; FULL corpus subsampled to the same n: ratio 0.966 (sd 0.002)
+  MATCHED: middles 1050; unique 0.905 vs bigram 0.935, ratio 0.967; FULL corpus subsampled to the same n: ratio 0.986 (sd 0.008)
+  AGREED: middles 555; unique 0.861 vs bigram 0.881, ratio 0.978; FULL corpus subsampled to the same n: ratio 1.009 (sd 0.016)
+  DIFF: middles 495; unique 0.990 vs bigram 0.982, ratio 1.008; FULL corpus subsampled to the same n: ratio 1.014 (sd 0.014)
+
+T5  S29 opener vs suffix: suffix = final W400/W90; opener = initial W817/861/820. P(suffix | opener) vs P(suffix | no opener), texts >= 3 signs; and suffix rate seals vs tablets/sealings. Null: suffix labels permuted across texts (2000x)
+  FULL: suffix after opener 20/465 (4.3%) vs without opener 436/2515 (17.3%), one-sided permutation P=0.0005; suffix on seals 113/1659 (6.8%) vs tablets+sealings 326/1136 (28.7%)
+  MATCHED: suffix after opener 16/246 (6.5%) vs without opener 87/938 (9.3%), one-sided permutation P=0.1069; suffix on seals 68/1076 (6.3%) vs tablets+sealings 28/89 (31.5%)
+  AGREED: suffix after opener 12/180 (6.7%) vs without opener 57/462 (12.3%), one-sided permutation P=0.0210; suffix on seals 45/582 (7.7%) vs tablets+sealings 20/52 (38.5%)
+  DIFF: suffix after opener 4/66 (6.1%) vs without opener 30/476 (6.3%), one-sided permutation P=0.5812; suffix on seals 23/494 (4.7%) vs tablets+sealings 8/37 (21.6%)
+
+(d) DISAGREEMENT vs OBJECT CONDITION (Wells metadata) on all accepted pairs; flags per pair: any substitution / insertion, any lost-vs-read position, any difference at all; Mahadevan doubtful mark on the object (independent of Wells condition)
+  condition / flag any: Poor 58.9% (n=453), Fair 48.7% (n=384), Good 34.5% (n=470), Fine 32.7% (n=55); spread 26.2 pts vs stratified null median 8.3 (P=0.002)
+  preservation / flag any: fragment 76.2% (n=223), partly damaged 65.5% (n=58), chipped 53.4% (n=73), slightly chipped 50.0% (n=74), complete 37.5% (n=935); spread 38.7 pts vs stratified null median 12.1 (P=0.001)
+  material / flag any: Clay 58.2% (n=55), Steatite 46.3% (n=1036), Faience 27.8% (n=36), Copper 15.1% (n=53); spread 43.1 pts vs stratified null median 30.2 (P=0.011)
+  site / flag any: KB 69.7% (n=33), LL 56.2% (n=64), HP 53.2% (n=310), CD 47.2% (n=36), MD 42.3% (n=904); spread 27.4 pts vs stratified null median 13.8 (P=0.038)
+  object type / flag any: TAG 63.3% (n=30), SEAL 46.6% (n=1134), TAB 41.5% (n=176); spread 21.9 pts vs stratified null median 12.9 (P=0.106)
+  IM77 source volume / flag any: EH vol II 53.3% (n=227), CE 47.2% (n=36), FEM vol II 45.9% (n=451), Other 43.2% (n=185), MIC vol III 39.6% (n=351); spread 13.7 pts vs stratified null median 9.5 (P=0.238)
+  condition / flag lost: Poor 24.7% (n=453), Fair 9.4% (n=384), Good 3.4% (n=470), Fine 1.8% (n=55); spread 22.9 pts vs stratified null median 5.7 (P=0.001)
+  preservation / flag lost: partly damaged 31.0% (n=58), fragment 30.0% (n=223), slightly chipped 16.2% (n=74), chipped 15.1% (n=73), complete 6.2% (n=935); spread 24.8 pts vs stratified null median 8.5 (P=0.001)
+  material / flag lost: Clay 43.6% (n=55), Faience 13.9% (n=36), Steatite 10.0% (n=1036), Copper 5.7% (n=53); spread 38.0 pts vs stratified null median 27.0 (P=0.009)
+  site / flag lost: LL 29.7% (n=64), KB 27.3% (n=33), HP 13.2% (n=310), MD 9.7% (n=904), CD 8.3% (n=36); spread 21.4 pts vs stratified null median 15.9 (P=0.134)
+  object type / flag lost: TAG 50.0% (n=30), TAB 13.6% (n=176), SEAL 10.6% (n=1134); spread 39.4 pts vs stratified null median 15.9 (P=0.002)
+  IM77 source volume / flag lost: EH vol II 13.2% (n=227), FEM vol II 12.2% (n=451), Other 10.8% (n=185), CE 8.3% (n=36), MIC vol III 6.8% (n=351); spread 6.4 pts vs stratified null median 6.0 (P=0.441)
+  condition / flag subins: Fair 21.4% (n=384), Poor 13.2% (n=453), Fine 10.9% (n=55), Good 8.9% (n=470); spread 12.4 pts vs stratified null median 7.1 (P=0.042)
+  preservation / flag subins: slightly chipped 18.9% (n=74), partly damaged 15.5% (n=58), complete 14.1% (n=935), chipped 13.7% (n=73), fragment 11.2% (n=223); spread 7.7 pts vs stratified null median 8.0 (P=0.548)
+  material / flag subins: Steatite 12.5% (n=1036), Clay 9.1% (n=55), Copper 7.5% (n=53), Faience 5.6% (n=36); spread 6.9 pts vs stratified null median 6.6 (P=0.456)
+  site / flag subins: HP 20.6% (n=310), LL 15.6% (n=64), KB 15.2% (n=33), MD 11.6% (n=904), CD 5.6% (n=36); spread 15.1 pts vs stratified null median 10.9 (P=0.156)
+  object type / flag subins: TAB 27.8% (n=176), SEAL 12.0% (n=1134), TAG 10.0% (n=30); spread 17.8 pts vs stratified null median 6.5 (P=0.008)
+  IM77 source volume / flag subins: Other 20.5% (n=185), EH vol II 17.6% (n=227), FEM vol II 11.8% (n=451), MIC vol III 10.8% (n=351), CE 5.6% (n=36); spread 15.0 pts vs stratified null median 10.5 (P=0.140)
+  condition / flag sub: Fair 13.3% (n=384), Poor 8.2% (n=453), Good 3.8% (n=470), Fine 3.6% (n=55); spread 9.6 pts vs stratified null median 5.7 (P=0.050)
+  preservation / flag sub: complete 9.0% (n=935), slightly chipped 6.8% (n=74), fragment 6.3% (n=223), chipped 5.5% (n=73), partly damaged 1.7% (n=58); spread 7.3 pts vs stratified null median 5.8 (P=0.285)
+  material / flag sub: Steatite 6.1% (n=1036), Clay 3.6% (n=55), Faience 0.0% (n=36), Copper 0.0% (n=53); spread 6.1 pts vs stratified null median 6.0 (P=0.360)
+  site / flag sub: HP 15.2% (n=310), KB 9.1% (n=33), LL 7.8% (n=64), MD 5.4% (n=904), CD 2.8% (n=36); spread 12.4 pts vs stratified null median 7.9 (P=0.041)
+  object type / flag sub: TAB 18.2% (n=176), TAG 10.0% (n=30), SEAL 6.3% (n=1134); spread 11.9 pts vs stratified null median 5.9 (P=0.045)
+  IM77 source volume / flag sub: Other 16.2% (n=185), EH vol II 11.5% (n=227), MIC vol III 6.0% (n=351), FEM vol II 4.2% (n=451), CE 2.8% (n=36); spread 13.4 pts vs stratified null median 8.0 (P=0.033)
+  condition / flag doubt: Poor 19.4% (n=453), Fair 9.1% (n=384), Good 3.0% (n=470), Fine 0.0% (n=55); spread 19.4 pts vs stratified null median 4.2 (P=0.001)
+  preservation / flag doubt: partly damaged 22.4% (n=58), fragment 22.0% (n=223), slightly chipped 16.2% (n=74), chipped 13.7% (n=73), complete 5.8% (n=935); spread 16.6 pts vs stratified null median 6.7 (P=0.008)
+  material / flag doubt: Clay 12.7% (n=55), Steatite 9.9% (n=1036), Faience 8.3% (n=36), Copper 5.7% (n=53); spread 7.1 pts vs stratified null median 5.4 (P=0.372)
+  site / flag doubt: LL 15.6% (n=64), HP 12.3% (n=310), KB 12.1% (n=33), MD 8.7% (n=904), CD 8.3% (n=36); spread 7.3 pts vs stratified null median 8.1 (P=0.619)
+  object type / flag doubt: TAG 16.7% (n=30), TAB 10.2% (n=176), SEAL 10.0% (n=1134); spread 6.7 pts vs stratified null median 6.8 (P=0.532)
+  IM77 source volume / flag doubt: EH vol II 13.2% (n=227), MIC vol III 9.4% (n=351), FEM vol II 8.6% (n=451), CE 8.3% (n=36), Other 8.1% (n=185); spread 5.1 pts vs stratified null median 5.5 (P=0.565)
+  disagreement by text length: L3-4 any 32.8% subins 4.3% (n=466), L5-6 any 50.2% subins 15.2% (n=566), L7-8 any 58.5% subins 20.6% (n=248), L9-30 any 63.9% subins 39.8% (n=83)

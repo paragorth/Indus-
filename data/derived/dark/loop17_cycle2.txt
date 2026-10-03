@@ -1,0 +1,45 @@
+LOOP 17, cycle 2: CONTROL FIRST. Can the ABC recover KNOWN parameters from synthetic credential corpora? (bank0 = 8,000 prior
+simulations, 21 parameters, 34 statistics; rejection n_acc = 200 + local-linear regression adjustment clipped to the prior box.
+Script: tools/dark_loop17.py control / truth.)
+
+(a) Leave-one-out coverage: 60 bank simulations treated in turn as the observed corpus, fitted with the other 7,999.
+    Nominal 90% credible intervals. cov = share of truths inside; CIw/prior = posterior 90% width / prior 90% width (1 = learned nothing).
+    param      cov_adj cov_rej  CIw_adj CIw_rej      param      cov_adj cov_rej  CIw_adj CIw_rej
+    A            0.82   1.00     0.79    1.10        p_open       0.82   0.97     0.28    0.80
+    O            0.80   0.90     0.62    0.95        p_comm       0.90   0.93     0.20    0.79
+    zO           0.72   0.87     0.59    0.93        p_off        0.83   0.92     0.38    0.74
+    C            0.85   0.93     0.72    0.97        p_ext        0.87   0.95     0.64    0.95
+    H            0.65   0.90     0.30    0.63        p_reissue    0.77   0.93     0.24    0.70
+    k            0.70   0.95     0.83    0.98        z_copy       0.88   0.95     0.48    0.89
+    p_mid        0.92   0.92     0.35    0.73        p_batch      0.80   0.87     0.69    0.95
+    lam_mid      0.78   0.88     0.43    0.87        p_travel     0.77   0.88     0.65    0.96
+    V_mid        0.87   0.97     0.45    0.89        p_suf        0.88   0.93     0.28    0.80
+    z_mid        0.73   0.90     0.58    0.89        p_potcred    0.67   0.87     0.26    0.84
+    p_share      0.83   0.90     0.89    1.03
+    Reading: the rejection posterior is calibrated (coverage 0.87-1.00) but with 8,000 draws in 21 dimensions it learns little
+    about A, O, zO, C, k, p_share, p_ext, p_batch, p_travel (width ratio > 0.9). The regression-adjusted posterior is 2-4x
+    tighter but over-confident (coverage 0.65-0.92 for a nominal 0.90), worst for H (0.65), p_potcred, k, zO and z_mid.
+    Well-identified by the statistics (adjusted width <= 0.35 of prior): H, p_mid, p_open, p_comm, p_reissue, p_suf, p_potcred.
+    Barely identified: A (number of authorities), p_share (middle = holder's name vs per-credential qualification), k.
+
+(b) Three named synthetic truths (one simulated corpus each, seed 424242), adjusted posterior, 90% CI:
+    'institution' (A=3, O=40, C=6, H=8,000, k=1.5, p_share=0.2, p_reissue=0.5, p_travel=0.9): 20 of 21 inside; the miss is
+        p_travel (true 0.9, posterior 0.28 [0.04, 0.88]) -- the sealing->seal statistics rest on 69 complete tags, so the travel
+        probability is weakly identified from this corpus size. H recovered (8,900 [3,300, 27,000]); O 96 [21, 373].
+    'names' (A=1, O=15, C=3, H=1,500, k=3, p_mid=0.95, p_share=0.95: every holder carries one personal middle on all his seals):
+        14 of 21 inside. Misses: A (posterior 4.8, true 1), p_share (0.52 [0.09, 0.88], true 0.95), V_mid, z_mid, p_comm, p_ext.
+        => a NAME world is NOT recognised as such: the statistics do not separate 'shared middle per holder' from
+        'fresh middle per credential' at this corpus size, even when planted at 0.95.
+    'bureau' (A=6, O=200, zO=0.6, C=20, H=30,000, k=1.1, p_reissue=0.8, p_batch=0.9): 14 of 21 inside. Misses: A (1.3, true 6),
+        O (63, true 200), H (9,400, true 30,000) with k (5.6, true 1.1): H and k trade off -- their product H*k = distinct
+        credentials at the largest city (33,000 true vs 52,000 recovered) is what the data see; lam_mid, V_mid, z_mid also off.
+        p_reissue 0.80 [0.74, 0.88], z_copy 1.84 [1.55, 2.08], p_batch 0.86 [0.64, 0.97], p_potcred, p_suf recovered.
+
+VERDICT for the method: with 8,000 prior draws, the robustly recoverable parameters are the re-issue and deposit mechanics
+(p_reissue, z_copy, p_batch), the display probabilities (p_open, p_comm, p_off, p_suf, p_potcred), and the credential stock
+H*k (order of magnitude). NOT identifiable from the 34 statistics: the number of authorities A, the split of H*k into holders x
+credentials-per-holder, whether the middle is a holder's name (p_share), and the exact office count O beyond a factor ~3.
+Any 'posterior for A' reported in cycle 3 must be read against this control. Cycle 3 adds 16,000 more prior draws and a second,
+posterior-centred generation to tighten the fit on the real corpus.
+
+| S-DARK-17.2 | **Recovery control for the institution ABC** (bank of 8,000 prior simulations; leave-one-out coverage over 60 pseudo-observed corpora; three planted worlds 'institution', 'names' (every holder one personal middle on all seals, p_share=0.95), 'bureau' (6 authorities, 200 offices, 30,000 holders); `tools/dark_loop17.py control/truth`, `data/derived/dark/loop17_cycle2.txt`) | Rejection posterior calibrated (90% CI coverage 0.87-1.00) but uninformative for A, O, k, p_share, p_batch, p_travel (width 0.9-1.1 of prior); regression-adjusted posterior 2-4x tighter but over-confident (coverage 0.65-0.92). Planted worlds: 'institution' 20/21 recovered (miss p_travel; 69 complete sealings); 'names' 14/21 (A, p_share missed: 0.52 for a planted 0.95); 'bureau' 14/21 (A 1.3 for 6, O 63 for 200, H x k traded: 52,000 vs 33,000 credentials) | **Identifiable: tablet re-issue rate and popularity slope, batch deposit, the display probabilities, and the credential stock H x k to within a factor ~2. NOT identifiable: the number of authorities, holders vs credentials per holder, whether the middle is a personal name, and O beyond a factor ~3.** The ABC on the real corpus (17.3) can only claim what this control recovers |

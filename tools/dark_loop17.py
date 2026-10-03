@@ -259,6 +259,19 @@ def from_z(z):
         else: th[p] = float(v)
     return th
 
+ZLO = np.array([to_z({q: (PRIOR[q][1] if q != pp else PRIOR[q][1]) for q in PARAMS})[i] for i, pp in enumerate(PARAMS)])
+ZHI = np.array([to_z({q: PRIOR[q][2] for q in PARAMS})[i] for i, pp in enumerate(PARAMS)])
+
+def prior_logpdf_z(z):
+    """log prior density on the working scale (uniform on the natural scale for 'u' params -> Jacobian p(1-p) on logit; flat for log/int/linear)"""
+    lp = 0.0
+    for j, pq in enumerate(PARAMS):
+        kind, lo, hi = PRIOR[pq]
+        if z[j] < ZLO[j] - 1e-9 or z[j] > ZHI[j] + 1e-9: return -np.inf
+        if kind == 'u' and lo == 0 and hi == 1:
+            pr = 1 / (1 + math.exp(-z[j])); lp += math.log(pr * (1 - pr) + 1e-300)
+    return lp
+
 def zipf_p(n, z):
     w = np.arange(1, n + 1, dtype=float) ** (-z); return w / w.sum()
 
@@ -373,16 +386,19 @@ def sim_stats(th, skel, seed):
     return summary(objs, sim_is_num(), np.random.default_rng(seed + 1))
 
 # ---------------------------------------------------------------------------------------------- ABC
-def abc_fit(bank_theta, bank_stats, obs, n_acc=400, use=None):
+def abc_fit(bank_theta, bank_stats, obs, n_acc=400, use=None, logw=None):
     """rejection + local-linear regression adjustment (Beaumont et al. 2002) on the working scale."""
+    import builtins
+    if logw is None: logw = getattr(builtins, 'LOGW_GLOBAL', None)
+    if logw is None or len(logw) != len(bank_theta): logw = np.zeros(len(bank_theta))
     S = bank_stats.copy(); ok = np.all(np.isfinite(S), axis=1)
-    S = S[ok]; T = bank_theta[ok]
+    S = S[ok]; T = bank_theta[ok]; logw = logw[ok]
     if use is not None: S = S[:, use]; o = obs[use]
     else: o = obs
     scale = np.median(np.abs(S - np.median(S, axis=0)), axis=0) * 1.4826 + 1e-9
     d = np.sqrt((((S - o) / scale) ** 2).sum(axis=1))
     order = np.argsort(d); acc = order[:n_acc]; h = d[acc[-1]]
-    w = 1 - (d[acc] / h) ** 2
+    w = (1 - (d[acc] / h) ** 2) * np.exp(logw[acc] - logw[acc].max()); w = w / w.max()
     X = np.c_[np.ones(n_acc), (S[acc] - o) / scale]
     W = np.diag(w)
     try:
@@ -390,6 +406,7 @@ def abc_fit(bank_theta, bank_stats, obs, n_acc=400, use=None):
         adj = T[acc] - X[:, 1:] @ beta[1:]
     except np.linalg.LinAlgError:
         adj = T[acc]
+    adj = np.clip(adj, ZLO, ZHI)
     return dict(acc=acc, w=w, rej=T[acc], adj=adj, dist=d[acc], h=h)
 
 def wquant(x, w, q):
@@ -411,6 +428,11 @@ def describe(post, w):
         else: pw = 0.9 * (hi - lo)
         shrink = (u95 - l5) / pw
         lines.append((p, back(med), back(l5), back(u95), shrink))
+    # derived: log(H*k) = distinct credentials at the largest city; H*k/seals of the largest city
+    iH = PARAMS.index('H'); ik = PARAMS.index('k')
+    hk = post[:, iH] + np.log(np.maximum(post[:, ik], 1.0))
+    pw = 0.9 * (math.log(PRIOR['H'][2] * PRIOR['k'][2]) - math.log(PRIOR['H'][1] * PRIOR['k'][1]))
+    lines.append(('H*k', math.exp(wquant(hk, w, 0.5)), math.exp(wquant(hk, w, 0.05)), math.exp(wquant(hk, w, 0.95)), (wquant(hk, w, 0.95) - wquant(hk, w, 0.05)) / pw))
     return lines
 
 def fmt_post(lines):
@@ -451,11 +473,37 @@ def main():
         print('saved', out, T.shape, S.shape)
         return
     if cmd in ('fit', 'control', 'ppc', 'truth'):
-        Ts = []; Ss = []
+        Ts = []; Ss = []; LW = []
         for f in sys.argv[2].split(','):
-            b = np.load(f); Ts.append(b['theta']); Ss.append(b['stats'])
-        T = np.vstack(Ts); S = np.vstack(Ss); print('bank', T.shape, S.shape)
+            b = np.load(f); Ts.append(b['theta']); Ss.append(b['stats']); LW.append(b['logw'] if 'logw' in b else np.zeros(len(b['theta'])))
+        T = np.vstack(Ts); S = np.vstack(Ss); LOGW = np.concatenate(LW); print('bank', T.shape, S.shape, 'gen2 rows', int((LOGW != 0).sum()))
+        import builtins; builtins.LOGW_GLOBAL = LOGW
         n_acc = int(os.environ.get('NACC', '400'))
+        if cmd == 'gen2':
+            # second ABC generation: propose from the first-round (adjusted, clipped) posterior with a Gaussian kernel, simulate,
+            # and store importance weights prior/proposal so that rejection on the combined table is a valid ABC posterior.
+            key = sys.argv[3]; N2 = int(sys.argv[4]); out = sys.argv[5]
+            ob = load_real(key); obs = summary(ob, REAL_NUM, np.random.default_rng(1)); r = abc_fit(T, S, obs, n_acc=n_acc)
+            Z = r['adj']; w = r['w'] / r['w'].sum(); mu = (Z * w[:, None]).sum(0); cov = np.cov(Z.T, aweights=w) * 2.0 + 1e-6 * np.eye(Z.shape[1])
+            rng = np.random.default_rng(2024); L = np.linalg.cholesky(cov); props = []; logq = []
+            from scipy.stats import multivariate_normal as mvn
+            comp = mvn(mean=np.zeros(Z.shape[1]), cov=cov)
+            while len(props) < N2:
+                c = rng.choice(len(Z), p=w); z = Z[c] + L @ rng.standard_normal(Z.shape[1])
+                if not np.isfinite(prior_logpdf_z(z)): continue
+                props.append(z)
+            props = np.array(props)
+            # mixture proposal density q(z) = sum_c w_c N(z; Z_c, cov)
+            dens = np.zeros(len(props))
+            for c in range(len(Z)): dens += w[c] * comp.pdf(props - Z[c])
+            logw = np.array([prior_logpdf_z(z) for z in props]) - np.log(dens + 1e-300)
+            import multiprocessing as mp
+            jobs = [(from_z(z), skel, 5 * 10 ** 6 + i) for i, z in enumerate(props)]
+            for i, (th, _, _) in enumerate(jobs): th['A'] = int(round(th['A'])); jobs[i] = (th, skel, 5 * 10 ** 6 + i)
+            with mp.Pool(mp.cpu_count()) as pool: S2 = np.array(pool.starmap(sim_stats, jobs, chunksize=10))
+            np.savez(out, theta=props, stats=S2, logw=logw, params=np.array(PARAMS), stat_names=np.array(STAT_NAMES))
+            print('saved gen2', out, props.shape)
+            return
         if cmd == 'ppc':
             # posterior predictive: re-simulate from accepted (rejection) draws, compare each statistic with the observed value
             key = sys.argv[3] if len(sys.argv) > 3 else 'seq_all'; npp = int(sys.argv[4]) if len(sys.argv) > 4 else 150
@@ -489,7 +537,7 @@ def main():
                 obs = sim_stats(th, skel, 424242); r = abc_fit(T, S, obs, n_acc=n_acc); tz = to_z(th)
                 print('=== synthetic truth:', name)
                 print('%-10s %10s %10s %10s %10s %6s' % ('param', 'true', 'post_med', '5%', '95%', 'in90'))
-                for j, (pn, m, l, u, sh) in enumerate(describe(r['adj'], r['w'])):
+                for j, (pn, m, l, u, sh) in enumerate(describe(r['adj'], r['w'])[:len(PARAMS)]):
                     l5 = wquant(r['adj'][:, j], r['w'], 0.05); u95 = wquant(r['adj'][:, j], r['w'], 0.95)
                     print('%-10s %10.3g %10.3g %10.3g %10.3g %6s' % (pn, th[pn], m, l, u, 'yes' if l5 <= tz[j] <= u95 else 'NO'))
             return
@@ -511,7 +559,7 @@ def main():
                     for j in range(len(PARAMS)):
                         l5 = wquant(mode[:, j], r['w'], 0.05); u95 = wquant(mode[:, j], r['w'], 0.95)
                         key[j] += l5 <= T[i, j] <= u95
-                shr.append([x[4] for x in describe(r['adj'], r['w'])]); shr_r.append([x[4] for x in describe(r['rej'], r['w'])])
+                shr.append([x[4] for x in describe(r['adj'], r['w'])[:len(PARAMS)]]); shr_r.append([x[4] for x in describe(r['rej'], r['w'])[:len(PARAMS)]])
             print('coverage of 90%% CI over %d pseudo-observed corpora (leave-one-out from the bank):' % n_test)
             print('%-10s %8s %8s %10s %10s' % ('param', 'cov_adj', 'cov_rej', 'CIw/prior_adj', 'CIw/prior_rej'))
             for j, p in enumerate(PARAMS):

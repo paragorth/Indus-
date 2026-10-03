@@ -286,6 +286,9 @@ def run_cycle1(objs,name,nperm,slot,nm,minn=30,keep_slot=False):
     hubsigns={k for k in [(r['c'],r['side']) for r in rows]}
     expl=sum(1 for (a,side),core in S['small'].items() if any((c,side) in hubsigns for c in core))
     print(f'  small-set (sign,side) pairs whose core contains a hub: {expl} of {S["n_small"]}')
+    if name.startswith('Indus') and not keep_slot:
+        for (a,side),core in sorted(S['small'].items(),key=lambda kv:str(kv[0])):
+            print(f'    small set: {nm(a)} {side} -> [{" ".join(nm(c) for c in core)}]  slot {(slot or {}).get(a,"?")}')
     return S
 
 # =========================== cycle 2: determinative signature ===========================

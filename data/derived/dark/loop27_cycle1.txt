@@ -2,3 +2,416 @@
 bridge: 142 Wells signs -> 138 M signs. Wells inventory 713 signs (571 unbridged, 17% of tokens); IM77 418 signs (279 uncovered, 13% of tokens).
 pass 1 (bridge only): accepted aligned object pairs 1178 (cost 0: 459)
 aligned sign-to-sign positions 5660; candidate (W, M) pairs not in bridge: 391; by kind {'D disagreement': 33, 'A new': 223, 'B Wells-split': 116, 'C Mahadevan-split': 19}
+wrong-site null: accepted pairs 106; candidate pairs 99; aligned positions 391
+
+## confidence distribution (Wilson 90% lower bound of consW, k >= 2, P < 0.01): home vs wrong-site null
+  threshold  home pairs  null pairs  null share of home
+  0.2          113           1       0.009
+  0.3          112           1       0.009
+  0.4          109           0       0.000
+  0.5          105           0       0.000
+  0.6           53           0       0.000
+  0.7           28           0       0.000
+  0.8            9           0       0.000
+
+## pass 2: add pairs with lb >= 0.5 (provisional), re-align, recount
+provisional additions 105 on 105 Wells signs; pass 2 accepted pairs 1369 (cost 0: 767)
+pass 2 candidate pairs not in the original bridge: 435; by kind {'C Mahadevan-split': 24, 'D disagreement': 42, 'A new': 241, 'B Wells-split': 128}
+
+## all candidates with k >= 2, sorted by confidence (lb)
+  W798  -> M53   k= 78 nW= 78 nM= 81 consW=1.00 consM=0.96 lb=0.98 P=1.8e-148 texts=78 C Mahadevan-split bridgeW=[216] bridgeM=[] e.g. M-22=1023, M-1809=1044, M-786=1107
+  W585  -> M194  k= 29 nW= 29 nM= 30 consW=1.00 consM=0.97 lb=0.95 P=3.6e-68 texts=29 A new            bridgeW=[] bridgeM=[] e.g. M-722=1014, M-1679=1020, M-798=1084
+  W617  -> M245  k= 22 nW= 22 nM= 47 consW=1.00 consM=0.47 lb=0.93 P=1.3e-47 texts=22 A new            bridgeW=[] bridgeM=[] e.g. M-627=1004, M-1710=1101, M-1731=1159
+  W892  -> M307  k= 20 nW= 20 nM= 21 consW=1.00 consM=0.95 lb=0.92 P=2.5e-50 texts=20 A new            bridgeW=[] bridgeM=[] e.g. M-1766=1077, M-258=1340, M-1189=1396
+  W832  -> M375  k= 16 nW= 16 nM= 26 consW=1.00 consM=0.62 lb=0.91 P=6.3e-39 texts=16 B Wells-split    bridgeW=[] bridgeM=[808] e.g. M-1676=1049, M-1732=1125, M-205=1221
+  W165  -> M319  k= 16 nW= 16 nM= 16 consW=1.00 consM=1.00 lb=0.91 P=2.7e-42 texts=16 A new            bridgeW=[] bridgeM=[] e.g. M-1747=1106, M-211=1214, M-828=2114
+  W154  -> M15   k= 15 nW= 15 nM= 38 consW=1.00 consM=0.39 lb=0.90 P=4.5e-34 texts=15 B Wells-split    bridgeW=[] bridgeM=[156] e.g. M-670=1030, M-102=1129, M-1334=1436
+  W806  -> M389  k= 53 nW= 56 nM= 60 consW=0.95 consM=0.88 lb=0.89 P=1.4e-103 texts=52 C Mahadevan-split bridgeW=[387] bridgeM=[] e.g. M-10=1006, M-678=1066, M-171=1149
+  W742  -> M344  k= 25 nW= 26 nM= 28 consW=0.96 consM=0.89 lb=0.88 P=3.4e-58 texts=24 A new            bridgeW=[] bridgeM=[] e.g. M-59=1029, M-754=1145, M-892=1247
+  W615  -> M245  k= 24 nW= 25 nM= 47 consW=0.96 consM=0.51 lb=0.88 P=1.8e-50 texts=24 A new            bridgeW=[] bridgeM=[] e.g. M-627=1004, M-849=1121, M-881=1242
+  W752  -> M358  k= 10 nW= 10 nM= 10 consW=1.00 consM=1.00 lb=0.86 P=9.4e-29 texts=10 B Wells-split    bridgeW=[] bridgeM=[760] e.g. M-678=1066, M-397=1415, -=1708
+  W384  -> M326  k= 10 nW= 10 nM= 11 consW=1.00 consM=0.91 lb=0.86 P=2.4e-28 texts=10 A new            bridgeW=[] bridgeM=[] e.g. M-889=1126, M-213=1150, M-258=1340
+  W243  -> M75   k=  9 nW=  9 nM=  9 consW=1.00 consM=1.00 lb=0.85 P=2.3e-26 texts=9 A new            bridgeW=[] bridgeM=[] e.g. M-627=1004, M-748=1135, M-928=1202
+  W463  -> M230  k=  9 nW=  9 nM= 36 consW=1.00 consM=0.25 lb=0.85 P=6.1e-21 texts=9 B Wells-split    bridgeW=[] bridgeM=[460] e.g. M-665=1139, M-48=1186, M-892=1247
+  W921  -> M301  k=  9 nW=  9 nM=  9 consW=1.00 consM=1.00 lb=0.85 P=2.3e-26 texts=9 A new            bridgeW=[] bridgeM=[] e.g. M-1826=1225, M-1272=1457, M-1737=2056
+  W904  -> M294  k= 18 nW= 19 nM= 23 consW=0.95 consM=0.78 lb=0.84 P=2.2e-43 texts=18 A new            bridgeW=[] bridgeM=[] e.g. M-22=1023, M-205=1221, M-1985=1419
+  W353  -> M175  k=  7 nW=  7 nM= 37 consW=1.00 consM=0.19 lb=0.81 P=2.3e-16 texts=7 B Wells-split    bridgeW=[] bridgeM=[350] e.g. M-1679=1020, M-1129=1302, M-1972=1420
+  W510  -> M253  k=  7 nW=  7 nM= 12 consW=1.00 consM=0.58 lb=0.81 P=8.6e-20 texts=7 A new            bridgeW=[] bridgeM=[] e.g. M-1730=1130, M-1820=1201, M-723=2054
+  W794  -> M58   k=  7 nW=  7 nM=  7 consW=1.00 consM=1.00 lb=0.81 P=2.0e-21 texts=7 A new            bridgeW=[] bridgeM=[] e.g. M-1116=1329, M-396=1421, M-852=2413
+  W831  -> M379  k=  6 nW=  6 nM=  6 consW=1.00 consM=1.00 lb=0.79 P=7.1e-19 texts=6 A new            bridgeW=[] bridgeM=[] e.g. M-798=1084, M-824=1164, M-1081=2129
+  W605  -> M258  k=  6 nW=  6 nM=  7 consW=1.00 consM=0.86 lb=0.79 P=1.8e-18 texts=6 A new            bridgeW=[] bridgeM=[] e.g. M-372=1438, M-390=1444, M-1704=2051
+  W480  -> M134  k=  6 nW=  6 nM=  6 consW=1.00 consM=1.00 lb=0.79 P=7.1e-19 texts=6 A new            bridgeW=[] bridgeM=[] e.g. M-1386=1602, M-1765=2111, M-1892=2119
+  W552  -> M217  k=  6 nW=  6 nM=  6 consW=1.00 consM=1.00 lb=0.79 P=7.1e-19 texts=6 A new            bridgeW=[] bridgeM=[] e.g. M-126=2311, M-1120=2362, M-198=2363
+  W519  -> M153  k=  5 nW=  5 nM=  5 consW=1.00 consM=1.00 lb=0.75 P=3.0e-16 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-650=1032, M-1753=2224, M-327=2631
+  W161  -> M14   k=  5 nW=  5 nM=  8 consW=1.00 consM=0.62 lb=0.75 P=3.2e-15 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-1728=1079, M-990=2472, H-412=4036
+  W97   -> M2    k=  5 nW=  5 nM=  6 consW=1.00 consM=0.83 lb=0.75 P=7.5e-16 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-1703=1117, M-915=1218, M-2104=1532
+  W222  -> M62   k=  5 nW=  5 nM=  5 consW=1.00 consM=1.00 lb=0.75 P=3.0e-16 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-200=1148, M-1674=2068, M-82=2451
+  W158  -> M15   k=  5 nW=  5 nM= 38 consW=1.00 consM=0.13 lb=0.75 P=7.7e-12 texts=5 B Wells-split    bridgeW=[] bridgeM=[156] e.g. M-961=1163, M-1180=1303, M-1846=2540
+  W111  -> M32   k=  5 nW=  5 nM=  5 consW=1.00 consM=1.00 lb=0.75 P=3.0e-16 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-721=1165, M-67=2264, M-95=2657
+  W702  -> M329  k=  5 nW=  5 nM=  6 consW=1.00 consM=0.83 lb=0.75 P=7.5e-16 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-192=1206, M-1785=1209, M-27=2084
+  W746  -> M345  k=  5 nW=  5 nM= 26 consW=1.00 consM=0.19 lb=0.75 P=1.2e-12 texts=5 B Wells-split    bridgeW=[] bridgeM=[745] e.g. M-378=1402, M-1333=1434, M-668=2032
+  W495  -> M205  k=  5 nW=  5 nM= 10 consW=1.00 consM=0.50 lb=0.75 P=9.7e-15 texts=5 B Wells-split    bridgeW=[] bridgeM=[491] e.g. M-1726=2079, M-894=2393, M-196=2474
+  W236  -> M66   k=  9 nW= 10 nM=  9 consW=0.90 consM=1.00 lb=0.72 P=2.3e-25 texts=9 A new            bridgeW=[] bridgeM=[] e.g. M-959=1147, M-354=1403, M-1978=1425
+  W850  -> M261  k=  9 nW= 10 nM= 13 consW=0.90 consM=0.69 lb=0.72 P=6.3e-24 texts=9 B Wells-split    bridgeW=[] bridgeM=[625, 790] e.g. M-172=1071, M-667=1111, M-306=2086
+  W65   -> M125  k=  9 nW= 10 nM= 11 consW=0.90 consM=0.82 lb=0.72 P=1.4e-24 texts=9 B Wells-split    bridgeW=[] bridgeM=[61] e.g. M-108=1110, M-1730=1130, M-856=1211
+  W72   -> M155  k=  9 nW= 10 nM= 34 consW=0.90 consM=0.26 lb=0.72 P=3.6e-20 texts=9 B Wells-split    bridgeW=[] bridgeM=[70] e.g. M-1826=1225, M-1961=1451, M-1169=2024
+  W267  -> M81   k=  4 nW=  4 nM= 14 consW=1.00 consM=0.29 lb=0.71 P=2.4e-11 texts=4 B Wells-split    bridgeW=[] bridgeM=[269] e.g. M-10=1006, M-920=1219, M-214=2571
+  W101  -> M9    k=  4 nW=  4 nM=  6 consW=1.00 consM=0.67 lb=0.71 P=8.0e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-7=1011, M-1685=1072, M-184=2634
+  W842  -> M404  k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-626=1012, M-234=1321, M-1014=1397
+  W391  -> M163  k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-40=1051, M-1014=1397, M-1892=2119
+  W502  -> M210  k=  4 nW=  4 nM=  6 consW=1.00 consM=0.67 lb=0.71 P=8.0e-13 texts=4 B Wells-split    bridgeW=[] bridgeM=[501] e.g. M-678=1066, M-358=2297, M-1284=2477
+  W201  -> M412  k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-1739=1174, H-386=4025, H-17=4052
+  W244  -> M83   k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-222=1194, M-1188=2228, M-6=2422
+  W521  -> M212  k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-192=1206, M-1974=2038, M-3=2225
+  W204  -> M56   k=  4 nW=  4 nM=  4 consW=1.00 consM=1.00 lb=0.71 P=1.6e-13 texts=4 A new            bridgeW=[] bridgeM=[] e.g. M-396=1421, M-1975=2125, M-1285=2204
+  W821  -> M391  k=  4 nW=  4 nM=132 consW=1.00 consM=0.03 lb=0.71 P=1.9e-07 texts=4 B Wells-split    bridgeW=[] bridgeM=[820] e.g. M-111=2029, M-1892=2119, M-933=2160
+  W192  -> M55   k=  3 nW=  3 nM=  4 consW=1.00 consM=0.75 lb=0.65 P=2.5e-10 texts=3 B Wells-split    bridgeW=[] bridgeM=[190] e.g. M-1662=1003, M-23=2398, H-90=4227
+  W263  -> M76   k=  3 nW=  3 nM= 10 consW=1.00 consM=0.30 lb=0.65 P=3.9e-09 texts=3 B Wells-split    bridgeW=[] bridgeM=[260] e.g. M-631=1008, M-366=2077, H-659=5074
+  W564  -> M223  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-628=1033, M-1104=1335, M-4=3109
+  W560  -> M219  k=  3 nW=  3 nM=  8 consW=1.00 consM=0.38 lb=0.65 P=2.0e-09 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-628=1033, M-17=1035, M-1186=2430
+  W36   -> M89   k=  3 nW=  3 nM=119 consW=1.00 consM=0.03 lb=0.65 P=6.6e-06 texts=3 B Wells-split    bridgeW=[] bridgeM=[33] e.g. M-20=1054, M-1426=1621, K-4=8026
+  W786  -> M371  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-172=1071, M-414=2004, M-758=2184
+  W279  -> M84   k=  3 nW=  3 nM=  6 consW=1.00 consM=0.50 lb=0.65 P=8.4e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1864=1289, M-71=3083, K-45=8054
+  W324  -> M182  k=  3 nW=  3 nM= 20 consW=1.00 consM=0.15 lb=0.65 P=3.1e-08 texts=3 B Wells-split    bridgeW=[] bridgeM=[320] e.g. M-416=1309, M-1116=1329, Dlp-1=9071
+  W603  -> M238  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-240=1324, M-714=2446, M-1273=2679
+  W511  -> M253  k=  3 nW=  3 nM= 12 consW=1.00 consM=0.25 lb=0.65 P=6.8e-09 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1907=1346, M-31=2576, H-426=4153
+  W308  -> M180  k=  3 nW=  3 nM= 33 consW=1.00 consM=0.09 lb=0.65 P=1.4e-07 texts=3 B Wells-split    bridgeW=[] bridgeM=[297, 298] e.g. M-314=1400, B-17=9201, B-28=9221
+  W468  -> M178  k=  3 nW=  3 nM= 12 consW=1.00 consM=0.25 lb=0.65 P=6.8e-09 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1334=1436, M-1334=2170, H-58=4105
+  W81   -> M160  k=  3 nW=  3 nM=  5 consW=1.00 consM=0.60 lb=0.65 P=4.9e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-203=1556, M-1744=2190, M-85=2365
+  W252  -> M302  k=  3 nW=  3 nM= 10 consW=1.00 consM=0.30 lb=0.65 P=3.9e-09 texts=3 B Wells-split    bridgeW=[] bridgeM=[250] e.g. M-143=2002, M-1901=2611, M-2078=3512
+  W216  -> M417  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 B Wells-split    bridgeW=[] bridgeM=[215] e.g. M-636=2019, H-446=4034, H-155=4630
+  W136  -> M38   k=  3 nW=  3 nM=  4 consW=1.00 consM=0.75 lb=0.65 P=2.5e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1160=2057, M-142=2630, M-488=2802
+  W531  -> M228  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-26=2074, M-1911=2684, C-75=6120
+  W423  -> M190  k=  3 nW=  3 nM=  8 consW=1.00 consM=0.38 lb=0.65 P=2.0e-09 texts=3 B Wells-split    bridgeW=[] bridgeM=[421] e.g. M-366=2077, M-1322=3079, L-90=7032
+  W93   -> M3    k=  3 nW=  3 nM=  4 consW=1.00 consM=0.75 lb=0.65 P=2.5e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1765=2111, M-980=2317, M-123=2702
+  W365  -> M402  k=  3 nW=  3 nM= 64 consW=1.00 consM=0.05 lb=0.65 P=1.0e-06 texts=3 B Wells-split    bridgeW=[] bridgeM=[368] e.g. M-226=2152, H-31=4103, H-659=5074
+  W792  -> M375  k=  3 nW=  3 nM= 26 consW=1.00 consM=0.12 lb=0.65 P=6.9e-08 texts=3 B Wells-split    bridgeW=[] bridgeM=[808] e.g. M-926=2219, M-853=2255, M-1429=3246
+  W611  -> M256  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-56=2406, H-3=4002, H-1076=5085
+  W159  -> M14   k=  3 nW=  3 nM=  8 consW=1.00 consM=0.38 lb=0.65 P=2.0e-09 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1276=2428, M-874=3092, H-103=4254
+  W296  -> M180  k=  3 nW=  3 nM= 33 consW=1.00 consM=0.09 lb=0.65 P=1.4e-07 texts=3 B Wells-split    bridgeW=[] bridgeM=[297, 298] e.g. M-1767=2466, K-146=8060, C-57=6229
+  W380  -> M323  k=  3 nW=  3 nM=  3 consW=1.00 consM=1.00 lb=0.65 P=1.1e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-407=2643, M-1666=3094, B-24=9211
+  W193  -> M54   k=  3 nW=  3 nM= 12 consW=1.00 consM=0.25 lb=0.65 P=6.8e-09 texts=3 B Wells-split    bridgeW=[] bridgeM=[190] e.g. H-5=4004, H-144=4280, H-151=5057
+  W927  -> M294  k=  5 nW=  6 nM= 23 consW=0.83 consM=0.22 lb=0.57 P=3.7e-12 texts=5 A new            bridgeW=[] bridgeM=[] e.g. M-951=1263, M-1882=1323, M-890=2117
+  W354  -> M174  k=  5 nW=  6 nM=  5 consW=0.83 consM=1.00 lb=0.57 P=1.8e-15 texts=5 B Wells-split    bridgeW=[] bridgeM=[350] e.g. M-413=2319, H-8=4001, H-385=4045
+  W112  -> M34   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-33=1042, M-239=2238
+  W309  -> M181  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-66=1052, M-1724=2191
+  W513  -> M253  k=  2 nW=  2 nM= 12 consW=1.00 consM=0.17 lb=0.55 P=3.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-20=1054, M-1133=1343
+  W195  -> M54   k=  2 nW=  2 nM= 12 consW=1.00 consM=0.17 lb=0.55 P=3.6e-06 texts=2 B Wells-split    bridgeW=[] bridgeM=[190] e.g. M-735=1060, H-843=5326
+  W610  -> M257  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1665=1065, H-74=4135
+  W304  -> M180  k=  2 nW=  2 nM= 33 consW=1.00 consM=0.06 lb=0.55 P=2.7e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[297, 298] e.g. M-13=1069, H-642=4266
+  W908  -> M298  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1685=1072, M-136=2233
+  W346  -> M50   k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-120=1099, M-213=1150
+  W710  -> M331  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-784=1128, M-316=2408
+  W643  -> M244  k=  2 nW=  2 nM= 43 consW=1.00 consM=0.05 lb=0.55 P=4.6e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[630, 632, 636] e.g. M-665=1139, H-51=4090
+  W277  -> M49   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-222=1194, M-168=2442
+  W286  -> M395  k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-976=1203, M-1688=2109
+  W544  -> M214  k=  2 nW=  2 nM=  8 consW=1.00 consM=0.25 lb=0.55 P=1.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1129=1302, M-855=2473
+  W543  -> M214  k=  2 nW=  2 nM=  8 consW=1.00 consM=0.25 lb=0.55 P=1.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1116=1329, M-235=2689
+  W285  -> M395  k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1895=1330, K-28=8038
+  W924  -> M297  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1111=1333, M-1333=1434
+  W680  -> M140  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1342=1393, M-975=2295
+  W472  -> M178  k=  2 nW=  2 nM= 12 consW=1.00 consM=0.17 lb=0.55 P=3.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-357=1401, H-158=4297
+  W420  -> M189  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-356=1406, H-271=4069
+  W272  -> M80   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-411=1431, M-85=2365
+  W483  -> M259  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1266=1470, M-1366=2094
+  W683  -> M146  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-241=1536, M-1674=2068
+  W401  -> M176  k=  2 nW=  2 nM= 85 consW=1.00 consM=0.02 lb=0.55 P=1.8e-04 texts=2 B Wells-split    bridgeW=[] bridgeM=[400] e.g. M-317=2016, M-311=2347
+  W825  -> M380  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-982=2021, L-87=7021
+  W600  -> M87   k=  2 nW=  2 nM=157 consW=1.00 consM=0.01 lb=0.55 P=6.1e-04 texts=2 B Wells-split    bridgeW=[] bridgeM=[32] e.g. M-1692=2027, M-257=2314
+  W689  -> M143  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-655=2098, M-61=3119
+  W905  -> M295  k=  2 nW=  2 nM=  3 consW=1.00 consM=0.67 lb=0.55 P=2.2e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1274=2106, H-1047=4114
+  W540  -> M214  k=  2 nW=  2 nM=  8 consW=1.00 consM=0.25 lb=0.55 P=1.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-393=2120, L-112=7020
+  W278  -> M84   k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-226=2152, M-1690=2614
+  W361  -> M203  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-139=2185, M-648=3104
+  W807  -> M390  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-675=2197, M-1328=2392
+  W301  -> M180  k=  2 nW=  2 nM= 33 consW=1.00 consM=0.06 lb=0.55 P=2.7e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[297, 298] e.g. M-242=2216, M-115=3087
+  W345  -> M50   k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-926=2219, M-93=2305
+  W426  -> M190  k=  2 nW=  2 nM=  8 consW=1.00 consM=0.25 lb=0.55 P=1.6e-06 texts=2 B Wells-split    bridgeW=[] bridgeM=[421] e.g. M-948=2250, B-21=9205
+  W561  -> M219  k=  2 nW=  2 nM=  8 consW=1.00 consM=0.25 lb=0.55 P=1.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1262=2301, H-756=4669
+  W103  -> M9    k=  2 nW=  2 nM=  6 consW=1.00 consM=0.33 lb=0.55 P=8.9e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1107=2306, H-1030=4035
+  W579  -> M198  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-159=2355, C-8=6227
+  W367  -> M402  k=  2 nW=  2 nM= 64 consW=1.00 consM=0.03 lb=0.55 P=1.0e-04 texts=2 B Wells-split    bridgeW=[] bridgeM=[368] e.g. M-316=2408, H-155=4630
+  W534  -> M229  k=  2 nW=  2 nM=  5 consW=1.00 consM=0.40 lb=0.55 P=6.2e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-304=2420, M-1186=2430
+  W150  -> M10   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=1 A new            bridgeW=[] bridgeM=[] e.g. M-252=2423, M-252=2423
+  W865  -> M272  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1769=2456, L-48=7025
+  W467  -> M178  k=  2 nW=  2 nM= 12 consW=1.00 consM=0.17 lb=0.55 P=3.6e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-371=2461, H-146=4628
+  W322  -> M182  k=  2 nW=  2 nM= 20 consW=1.00 consM=0.10 lb=0.55 P=9.9e-06 texts=2 B Wells-split    bridgeW=[] bridgeM=[320] e.g. M-380=2470, M-1955=2528
+  W622  -> M242  k=  2 nW=  2 nM= 17 consW=1.00 consM=0.12 lb=0.55 P=7.2e-06 texts=2 B Wells-split    bridgeW=[] bridgeM=[621] e.g. M-747=2471, K-6=8020
+  W940  -> M64   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-107=2593, H-468=4087
+  W311  -> M180  k=  2 nW=  2 nM= 33 consW=1.00 consM=0.06 lb=0.55 P=2.7e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[297, 298] e.g. M-9=2616, H-390=4024
+  W132  -> M22   k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. H-76=4241, K-25=8037
+  W409  -> M169  k=  2 nW=  2 nM= 82 consW=1.00 consM=0.02 lb=0.55 P=1.7e-04 texts=2 B Wells-split    bridgeW=[] bridgeM=[390, 405, 406, 407] e.g. H-129=4269, H-130=5096
+  W685  -> M141  k=  2 nW=  2 nM=  2 consW=1.00 consM=1.00 lb=0.55 P=9.9e-08 texts=2 A new            bridgeW=[] bridgeM=[] e.g. L-48=7025, L-14=7094
+  W392  -> M162  k=  2 nW=  2 nM=115 consW=1.00 consM=0.02 lb=0.55 P=3.3e-04 texts=2 B Wells-split    bridgeW=[] bridgeM=[390, 405] e.g. L-46=7107, Lh-1=9011
+  W411  -> M167  k=  2 nW=  2 nM=  4 consW=1.00 consM=0.50 lb=0.55 P=4.0e-07 texts=2 B Wells-split    bridgeW=[] bridgeM=[390, 405] e.g. K-28=8038, K-98=8201
+  W241  -> M68   k=  3 nW=  4 nM=  3 consW=0.75 consM=1.00 lb=0.43 P=4.2e-10 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1673=1036, M-305=2235, M-202=2625
+  W703  -> M330  k=  3 nW=  4 nM=  4 consW=0.75 consM=0.75 lb=0.43 P=1.0e-09 texts=3 A new            bridgeW=[] bridgeM=[] e.g. M-1794=1248, M-1815=2560, H-3=4002
+  W747  -> M345  k=  3 nW=  4 nM= 26 consW=0.75 consM=0.12 lb=0.43 P=2.7e-07 texts=3 B Wells-split    bridgeW=[] bridgeM=[745] e.g. M-1336=2515, M-521=3407, H-639=5061
+  W168  -> M322  k=  2 nW=  3 nM=  3 consW=0.67 consM=0.67 lb=0.32 P=6.7e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-101=1537, M-1159=2171
+  W556  -> M219  k=  2 nW=  3 nM=  8 consW=0.67 consM=0.25 lb=0.32 P=4.8e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1879=2334, M-715=2681
+  W515  -> M155  k=  2 nW=  3 nM= 34 consW=0.67 consM=0.06 lb=0.32 P=8.6e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[70] e.g. M-1095=2495, C-37=6304
+  W903  -> M290  k=  2 nW=  3 nM=  2 consW=0.67 consM=1.00 lb=0.32 P=3.0e-07 texts=1 A new            bridgeW=[] bridgeM=[] e.g. M-1736=3016, M-1736=3016
+  W770  -> M359  k=  2 nW=  3 nM=  2 consW=0.67 consM=1.00 lb=0.32 P=3.0e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-360=3102, H-478=4088
+  W232  -> M71   k=  2 nW=  4 nM=  2 consW=0.50 consM=1.00 lb=0.23 P=6.0e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1159=2171, H-2=4012
+  W63   -> M125  k=  2 nW=  4 nM= 11 consW=0.50 consM=0.18 lb=0.23 P=1.8e-05 texts=2 B Wells-split    bridgeW=[] bridgeM=[61] e.g. M-1841=1237, M-1843=3067
+  W63   -> M126  k=  2 nW=  4 nM=  2 consW=0.50 consM=1.00 lb=0.23 P=6.0e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-403=1410, L-88=7017
+  W66   -> M129  k=  2 nW=  4 nM=  2 consW=0.50 consM=1.00 lb=0.23 P=6.0e-07 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-881=1242, M-1758=2532
+  W891  -> M305  k=  2 nW=  4 nM=  3 consW=0.50 consM=0.67 lb=0.23 P=1.3e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-1695=2157, M-1793=2316
+  W838  -> M389  k=  2 nW=  6 nM= 60 consW=0.33 consM=0.03 lb=0.15 P=1.3e-03 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-306=2086, K-7=8043
+  W838  -> M386  k=  2 nW=  6 nM=  2 consW=0.33 consM=1.00 lb=0.15 P=1.5e-06 texts=2 A new            bridgeW=[] bridgeM=[] e.g. M-900=2335, M-1821=2418
+  W838  -> M387  k=  2 nW=  6 nM= 67 consW=0.33 consM=0.03 lb=0.15 P=1.6e-03 texts=2 B Wells-split    bridgeW=[] bridgeM=[803, 806] e.g. M-1690=2614, C-64=6215
+  W13   -> M98   k=  2 nW=  9 nM= 41 consW=0.22 consM=0.05 lb=0.10 P=1.5e-03 texts=2 D disagreement   bridgeW=[103] bridgeM=[1] e.g. M-266=1306, Dlp-1=9071
+  W91   -> M287  k=  2 nW= 12 nM= 42 consW=0.17 consM=0.05 lb=0.07 P=2.8e-03 texts=2 B Wells-split    bridgeW=[] bridgeM=[900] e.g. H-1862=4502, H-1862=5418
+  W803  -> M389  k=  4 nW= 67 nM= 60 consW=0.06 consM=0.07 lb=0.03 P=3.8e-03 texts=4 C Mahadevan-split bridgeW=[387] bridgeM=[] e.g. M-117=1105, M-128=2284, M-656=2491
+  W900  -> M293  k=  2 nW= 40 nM= 88 consW=0.05 consM=0.02 lb=0.02 P=1.1e-01 texts=2 D disagreement   bridgeW=[287] bridgeM=[920] e.g. M-173=1161, M-1821=2418
+  W550  -> M53   k=  2 nW= 42 nM= 81 consW=0.05 consM=0.02 lb=0.02 P=1.0e-01 texts=2 C Mahadevan-split bridgeW=[216] bridgeM=[] e.g. M-849=1121, M-1973=3096
+  W231  -> M59   k=  2 nW= 50 nM=192 consW=0.04 consM=0.01 lb=0.02 P=4.5e-01 texts=2 D disagreement   bridgeW=[70] bridgeM=[220] e.g. M-57=2340, H-1027=4015
+  W220  -> M72   k=  4 nW=192 nM=115 consW=0.02 consM=0.03 lb=0.01 P=4.6e-01 texts=4 D disagreement   bridgeW=[59] bridgeM=[233] e.g. M-249=2378, M-1741=2588, H-423=4056
+  W31   -> M87   k=  2 nW= 82 nM=157 consW=0.02 consM=0.01 lb=0.01 P=6.0e-01 texts=2 D disagreement   bridgeW=[86] bridgeM=[32] e.g. M-1894=3151, H-129=4269
+  W1    -> M240  k=  2 nW= 98 nM=  2 consW=0.02 consM=1.00 lb=0.01 P=4.6e-04 texts=2 C Mahadevan-split bridgeW=[97, 98] bridgeM=[] e.g. M-1292=1461, M-1052=3100
+  W741  -> M342  k=  2 nW=111 nM=636 consW=0.02 consM=0.00 lb=0.01 P=1.0e+00 texts=2 D disagreement   bridgeW=[343] bridgeM=[740] e.g. M-625=1027, M-1129=1302
+  W32   -> M186  k=  2 nW=157 nM= 21 consW=0.01 consM=0.10 lb=0.01 P=9.6e-02 texts=2 D disagreement   bridgeW=[87] bridgeM=[315, 317] e.g. M-1737=2056, M-1391=2826
+  W220  -> M65   k=  2 nW=192 nM=123 consW=0.01 consM=0.02 lb=0.00 P=8.9e-01 texts=2 D disagreement   bridgeW=[59] bridgeM=[235] e.g. M-1189=1396, H-149=4275
+  W740  -> M343  k=  4 nW=636 nM=114 consW=0.01 consM=0.04 lb=0.00 P=1.0e+00 texts=4 D disagreement   bridgeW=[342] bridgeM=[741] e.g. M-665=1139, H-645=4265, K-28=8038
+  W2    -> M97   k=  2 nW=406 nM= 56 consW=0.00 consM=0.04 lb=0.00 P=8.7e-01 texts=2 D disagreement   bridgeW=[99, 100] bridgeM=[1] e.g. M-1055=2529, L-112=7020
+
+## uncovered M signs (>= 5 IM77 tokens) and their best Wells partner
+  M245  tokens  207 aligned  47  partners [('W615', 24), ('W617', 22), ('W122', 1)]
+  M389  tokens  134 aligned  60  partners [('W806', 53), ('W803', 4), ('W838', 2)]
+  M53   tokens  130 aligned  81  partners [('W798', 78), ('W550', 2), ('W32', 1)]
+  M307  tokens   69 aligned  21  partners [('W892', 20), ('W760', 1)]
+  M95   tokens   64 aligned   2  partners [('W34', 1), ('W33', 1)]
+  M194  tokens   58 aligned  30  partners [('W585', 29), ('W586', 1)]
+  M294  tokens   53 aligned  23  partners [('W904', 18), ('W927', 5)]
+  M344  tokens   35 aligned  28  partners [('W742', 25), ('W744', 1), ('W741', 1)]
+  M178  tokens   35 aligned  12  partners [('W468', 3), ('W472', 2), ('W467', 2)]
+  M326  tokens   35 aligned  11  partners [('W384', 10), ('W385', 1)]
+  M319  tokens   27 aligned  16  partners [('W165', 16)]
+  M153  tokens   26 aligned   5  partners [('W519', 5)]
+  M253  tokens   21 aligned  12  partners [('W510', 7), ('W511', 3), ('W513', 2)]
+  M2    tokens   21 aligned   6  partners [('W97', 5), ('W143', 1)]
+  M258  tokens   20 aligned   7  partners [('W605', 6), ('W604', 1)]
+  M66   tokens   19 aligned   9  partners [('W236', 9)]
+  M379  tokens   17 aligned   6  partners [('W831', 6)]
+  M113  tokens   17 aligned   1  partners [('W48', 1)]
+  M214  tokens   16 aligned   8  partners [('W544', 2), ('W543', 2), ('W540', 2)]
+  M134  tokens   14 aligned   6  partners [('W480', 6)]
+  M75   tokens   13 aligned   9  partners [('W243', 9)]
+  M14   tokens   13 aligned   8  partners [('W161', 5), ('W159', 3)]
+  M62   tokens   13 aligned   5  partners [('W222', 5)]
+  M301  tokens   13 aligned   9  partners [('W921', 9)]
+  M250  tokens   13 aligned   1  partners [('W592', 1)]
+  M321  tokens   13 aligned   1  partners [('W167', 1)]
+  M9    tokens   12 aligned   6  partners [('W101', 4), ('W103', 2)]
+  M386  tokens   12 aligned   2  partners [('W838', 2)]
+  M219  tokens   11 aligned   8  partners [('W560', 3), ('W561', 2), ('W556', 2)]
+  M94   tokens   11 aligned   0  partners []
+  M32   tokens   11 aligned   5  partners [('W111', 5)]
+  M183  tokens   11 aligned   1  partners [('W321', 1)]
+  M304  tokens   11 aligned   1  partners [('W890', 1)]
+  M277  tokens   11 aligned   2  partners [('W872', 1), ('W861', 1)]
+  M93   tokens   11 aligned   0  partners []
+  M323  tokens   10 aligned   3  partners [('W380', 3)]
+  M63   tokens   10 aligned   0  partners []
+  M217  tokens   10 aligned   6  partners [('W552', 6)]
+  M68   tokens    9 aligned   3  partners [('W241', 3)]
+  M201  tokens    9 aligned   2  partners [('W362', 1), ('W91', 1)]
+  M295  tokens    9 aligned   3  partners [('W905', 2), ('W928', 1)]
+  M367  tokens    8 aligned   1  partners [('W776', 1)]
+  M237  tokens    8 aligned   2  partners [('W32', 1), ('W31', 1)]
+  M50   tokens    8 aligned   6  partners [('W346', 2), ('W345', 2), ('W347', 1)]
+  M292  tokens    8 aligned   2  partners [('W912', 1), ('W910', 1)]
+  M78   tokens    8 aligned   3  partners [('W260', 1), ('W264', 1), ('W268', 1)]
+  M73   tokens    8 aligned   1  partners [('W226', 1)]
+  M330  tokens    8 aligned   4  partners [('W703', 3), ('W60', 1)]
+  M56   tokens    8 aligned   4  partners [('W204', 4)]
+  M84   tokens    8 aligned   6  partners [('W279', 3), ('W278', 2), ('W280', 1)]
+  M388  tokens    8 aligned   1  partners [('W804', 1)]
+  M7    tokens    8 aligned   0  partners []
+  M172  tokens    8 aligned   0  partners []
+  M393  tokens    7 aligned   1  partners [('W930', 1)]
+  M395  tokens    7 aligned   6  partners [('W286', 2), ('W285', 2), ('W287', 1)]
+  M71   tokens    7 aligned   2  partners [('W232', 2)]
+  M57   tokens    7 aligned   5  partners [('W209', 1), ('W205', 1), ('W208', 1)]
+  M329  tokens    7 aligned   6  partners [('W702', 5), ('W700', 1)]
+  M58   tokens    7 aligned   7  partners [('W794', 7)]
+  M263  tokens    7 aligned   1  partners [('W849', 1)]
+  M384  tokens    7 aligned   0  partners []
+  M142  tokens    7 aligned   0  partners []
+  M223  tokens    6 aligned   3  partners [('W564', 3)]
+  M297  tokens    6 aligned   2  partners [('W924', 2)]
+  M212  tokens    6 aligned   4  partners [('W521', 4)]
+  M10   tokens    6 aligned   2  partners [('W150', 2)]
+  M160  tokens    6 aligned   5  partners [('W81', 3), ('W958', 1), ('W82', 1)]
+  M38   tokens    6 aligned   4  partners [('W136', 3), ('W94', 1)]
+  M184  tokens    6 aligned   3  partners [('W342', 1), ('W348', 1), ('W343', 1)]
+  M3    tokens    6 aligned   4  partners [('W93', 3), ('W90', 1)]
+  M404  tokens    5 aligned   4  partners [('W842', 4)]
+  M163  tokens    5 aligned   4  partners [('W391', 4)]
+  M289  tokens    5 aligned   0  partners []
+  M331  tokens    5 aligned   2  partners [('W710', 2)]
+  M129  tokens    5 aligned   2  partners [('W66', 2)]
+  M229  tokens    5 aligned   5  partners [('W534', 2), ('W535', 1), ('W455', 1)]
+  M380  tokens    5 aligned   2  partners [('W825', 2)]
+  M228  tokens    5 aligned   3  partners [('W531', 3)]
+  M337  tokens    5 aligned   0  partners []
+  M6    tokens    5 aligned   0  partners []
+
+## unbridged Wells signs (>= 5 tokens in seq_raw) and their best M partner
+  W34   tokens  177 aligned   2  partners [('M104', 1), ('M95', 1)]
+  W892  tokens   90 aligned  20  partners [('M307', 20)]
+  W617  tokens   77 aligned  22  partners [('M245', 22)]
+  W615  tokens   70 aligned  25  partners [('M245', 24), ('M89', 1)]
+  W904  tokens   64 aligned  19  partners [('M294', 18), ('M287', 1)]
+  W585  tokens   60 aligned  29  partners [('M194', 29)]
+  W850  tokens   56 aligned  10  partners [('M261', 9), ('M373', 1)]
+  W742  tokens   53 aligned  26  partners [('M344', 25), ('M342', 1)]
+  W752  tokens   50 aligned  10  partners [('M358', 10)]
+  W154  tokens   45 aligned  15  partners [('M15', 15)]
+  W832  tokens   45 aligned  16  partners [('M375', 16)]
+  W480  tokens   43 aligned   6  partners [('M134', 6)]
+  W158  tokens   39 aligned   5  partners [('M15', 5)]
+  W824  tokens   32 aligned   1  partners [('M284', 1)]
+  W384  tokens   31 aligned  10  partners [('M326', 10)]
+  W165  tokens   31 aligned  16  partners [('M319', 16)]
+  W495  tokens   30 aligned   5  partners [('M205', 5)]
+  W463  tokens   28 aligned   9  partners [('M230', 9)]
+  W91   tokens   28 aligned  12  partners [('M287', 2), ('M1', 1), ('M178', 1)]
+  W236  tokens   26 aligned  10  partners [('M66', 9), ('M60', 1)]
+  W540  tokens   22 aligned   2  partners [('M214', 2)]
+  W97   tokens   20 aligned   5  partners [('M2', 5)]
+  W838  tokens   19 aligned   6  partners [('M389', 2), ('M386', 2), ('M387', 2)]
+  W530  tokens   19 aligned   3  partners [('M225', 1), ('M229', 1), ('M149', 1)]
+  W66   tokens   18 aligned   4  partners [('M129', 2), ('M178', 1), ('M124', 1)]
+  W515  tokens   18 aligned   3  partners [('M155', 2), ('M1', 1)]
+  W831  tokens   18 aligned   6  partners [('M379', 6)]
+  W48   tokens   18 aligned   1  partners [('M113', 1)]
+  W222  tokens   17 aligned   5  partners [('M62', 5)]
+  W365  tokens   17 aligned   3  partners [('M402', 3)]
+  W519  tokens   17 aligned   5  partners [('M153', 5)]
+  W436  tokens   17 aligned   1  partners [('M130', 1)]
+  W999  tokens   17 aligned   0  partners []
+  W167  tokens   16 aligned   1  partners [('M321', 1)]
+  W921  tokens   16 aligned   9  partners [('M301', 9)]
+  W354  tokens   16 aligned   6  partners [('M174', 5), ('M107', 1)]
+  W72   tokens   15 aligned  10  partners [('M155', 9), ('M43', 1)]
+  W605  tokens   15 aligned   6  partners [('M258', 6)]
+  W111  tokens   15 aligned   5  partners [('M32', 5)]
+  W321  tokens   15 aligned   1  partners [('M183', 1)]
+  W65   tokens   15 aligned  10  partners [('M125', 9), ('M402', 1)]
+  W821  tokens   14 aligned   4  partners [('M391', 4)]
+  W510  tokens   13 aligned   7  partners [('M253', 7)]
+  W161  tokens   13 aligned   5  partners [('M14', 5)]
+  W63   tokens   13 aligned   4  partners [('M125', 2), ('M126', 2)]
+  W905  tokens   13 aligned   2  partners [('M295', 2)]
+  W318  tokens   13 aligned   0  partners []
+  W792  tokens   13 aligned   3  partners [('M375', 3)]
+  W794  tokens   13 aligned   7  partners [('M58', 7)]
+  W511  tokens   12 aligned   3  partners [('M253', 3)]
+  W703  tokens   12 aligned   4  partners [('M330', 3), ('M123', 1)]
+  W890  tokens   12 aligned   1  partners [('M304', 1)]
+  W243  tokens   12 aligned   9  partners [('M75', 9)]
+  W241  tokens   12 aligned   4  partners [('M68', 3), ('M60', 1)]
+  W411  tokens   11 aligned   2  partners [('M167', 2)]
+  W592  tokens   11 aligned   1  partners [('M250', 1)]
+  W776  tokens   11 aligned   1  partners [('M367', 1)]
+  W525  tokens   11 aligned   0  partners []
+  W927  tokens   11 aligned   6  partners [('M294', 5), ('M389', 1)]
+  W136  tokens   11 aligned   3  partners [('M38', 3)]
+  W232  tokens   10 aligned   4  partners [('M71', 2), ('M59', 1), ('M60', 1)]
+  W702  tokens   10 aligned   5  partners [('M329', 5)]
+  W552  tokens   10 aligned   6  partners [('M217', 6)]
+  W697  tokens   10 aligned   0  partners []
+  W257  tokens   10 aligned   1  partners [('M187', 1)]
+  W98   tokens   10 aligned   0  partners []
+  W924  tokens   10 aligned   2  partners [('M297', 2)]
+  W556  tokens   10 aligned   3  partners [('M219', 2), ('M221', 1)]
+  W347  tokens   10 aligned   1  partners [('M50', 1)]
+  W56   tokens   10 aligned   1  partners [('M121', 1)]
+  W468  tokens   10 aligned   3  partners [('M178', 3)]
+  W353  tokens   10 aligned   7  partners [('M175', 7)]
+  W391  tokens   10 aligned   4  partners [('M163', 4)]
+  W234  tokens    9 aligned   0  partners []
+  W698  tokens    9 aligned   0  partners []
+  W467  tokens    9 aligned   2  partners [('M178', 2)]
+  W408  tokens    9 aligned   0  partners []
+  W746  tokens    9 aligned   5  partners [('M345', 5)]
+  W417  tokens    9 aligned   0  partners []
+  W597  tokens    9 aligned   0  partners []
+  W14   tokens    8 aligned   1  partners [('M105', 1)]
+  W380  tokens    8 aligned   3  partners [('M323', 3)]
+  W67   tokens    8 aligned   2  partners [('M284', 1), ('M124', 1)]
+  W101  tokens    8 aligned   4  partners [('M9', 4)]
+  W15   tokens    8 aligned   0  partners []
+  W804  tokens    8 aligned   1  partners [('M388', 1)]
+  W155  tokens    8 aligned   1  partners [('M15', 1)]
+  W36   tokens    8 aligned   3  partners [('M89', 3)]
+  W642  tokens    8 aligned   0  partners []
+  W849  tokens    8 aligned   1  partners [('M263', 1)]
+  W204  tokens    8 aligned   4  partners [('M56', 4)]
+  W930  tokens    8 aligned   1  partners [('M393', 1)]
+  W426  tokens    7 aligned   2  partners [('M190', 2)]
+  W6    tokens    7 aligned   2  partners [('M108', 1), ('M59', 1)]
+  W93   tokens    7 aligned   3  partners [('M3', 3)]
+  W603  tokens    7 aligned   3  partners [('M238', 3)]
+  W219  tokens    7 aligned   0  partners []
+  W851  tokens    7 aligned   0  partners []
+  W942  tokens    7 aligned   0  partners []
+  W326  tokens    7 aligned   1  partners [('M188', 1)]
+  W323  tokens    7 aligned   1  partners [('M182', 1)]
+  W267  tokens    7 aligned   4  partners [('M81', 4)]
+  W777  tokens    7 aligned   0  partners []
+  W747  tokens    7 aligned   4  partners [('M345', 3), ('M99', 1)]
+  W252  tokens    7 aligned   3  partners [('M302', 3)]
+  W422  tokens    7 aligned   1  partners [('M190', 1)]
+  W423  tokens    7 aligned   3  partners [('M190', 3)]
+  W401  tokens    7 aligned   2  partners [('M176', 2)]
+  W150  tokens    7 aligned   2  partners [('M10', 2)]
+  W7    tokens    6 aligned   1  partners [('M110', 1)]
+  W791  tokens    6 aligned   1  partners [('M373', 1)]
+  W221  tokens    6 aligned   1  partners [('M81', 1)]
+  W521  tokens    6 aligned   4  partners [('M212', 4)]
+  W825  tokens    6 aligned   2  partners [('M380', 2)]
+  W611  tokens    6 aligned   3  partners [('M256', 3)]
+  W869  tokens    6 aligned   0  partners []
+  W110  tokens    6 aligned   0  partners []
+  W420  tokens    6 aligned   2  partners [('M189', 2)]
+  W242  tokens    6 aligned   0  partners []
+  W604  tokens    6 aligned   2  partners [('M176', 1), ('M258', 1)]
+  W49   tokens    6 aligned   0  partners []
+  W159  tokens    6 aligned   3  partners [('M14', 3)]
+  W472  tokens    6 aligned   2  partners [('M178', 2)]
+  W465  tokens    6 aligned   1  partners [('M178', 1)]
+  W392  tokens    6 aligned   2  partners [('M162', 2)]
+  W263  tokens    6 aligned   3  partners [('M76', 3)]
+  W564  tokens    6 aligned   3  partners [('M223', 3)]
+  W346  tokens    6 aligned   2  partners [('M50', 2)]
+  W749  tokens    6 aligned   0  partners []
+  W634  tokens    5 aligned   1  partners [('M244', 1)]
+  W842  tokens    5 aligned   4  partners [('M404', 4)]
+  W531  tokens    5 aligned   3  partners [('M228', 3)]
+  W19   tokens    5 aligned   1  partners [('M116', 1)]
+  W244  tokens    5 aligned   4  partners [('M83', 4)]
+  W160  tokens    5 aligned   1  partners [('M11', 1)]
+  W710  tokens    5 aligned   2  partners [('M331', 2)]
+  W578  tokens    5 aligned   0  partners []
+  W200  tokens    5 aligned   1  partners [('M154', 1)]
+  W103  tokens    5 aligned   2  partners [('M9', 2)]
+  W687  tokens    5 aligned   0  partners []
+  W352  tokens    5 aligned   0  partners []
+  W637  tokens    5 aligned   1  partners [('M244', 1)]
+  W153  tokens    5 aligned   0  partners []
+  W681  tokens    5 aligned   0  partners []
+  W201  tokens    5 aligned   4  partners [('M412', 4)]
+  W272  tokens    5 aligned   2  partners [('M80', 2)]
+  W139  tokens    5 aligned   1  partners [('M40', 1)]
+  W132  tokens    5 aligned   2  partners [('M22', 2)]
+  W362  tokens    5 aligned   1  partners [('M201', 1)]
+  W871  tokens    5 aligned   2  partners [('M282', 1), ('M279', 1)]
+  W600  tokens    5 aligned   2  partners [('M87', 2)]
+  W442  tokens    5 aligned   1  partners [('M127', 1)]
+  W285  tokens    5 aligned   2  partners [('M395', 2)]
+  W279  tokens    5 aligned   3  partners [('M84', 3)]
+  W744  tokens    5 aligned   2  partners [('M344', 1), ('M345', 1)]
+
+written loop27_candidates.json (435 candidate rows, 99 null rows)

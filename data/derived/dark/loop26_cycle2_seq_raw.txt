@@ -22,3 +22,129 @@
 --- Ur III names
     Ur III names: MI(first,last) 2.527 bits vs within-position shuffle 1.402 [1.369,1.434] P=0.005; excess 1.125 = 25.0% of H(first) (4.50 bits); n=2643
     Ur III names (len>=3): MI(first,last) 2.416 bits vs within-position shuffle 1.242 [1.210,1.278] P=0.005; excess 1.174 = 27.4% of H(first) (4.28 bits); n=2286
+    Ur III names: 173 elements with >= 15 partner tokens; mean z 12.73; share with partner-KL above Bonferroni null (P<=0.0003 or z>4 at floor) 0.740 (128/173); mean KL excess 1.546 bits
+      strongest partner-predictors: d z=116.9, suen z=75.4, ur z=71.8, lugal z=66.5, la z=62.8, kal z=54.5, a z=51.2, lu2 z=49.1, ga z=42.4, da z=39.8
+      weakest: szar2 z=-1.2, urta z=-0.9, su4 z=-0.5, ru2 z=-0.3, banda3 z=-0.0, nam2 z=0.0
+
+--- planted attribute code
+    planted attribute code: MI(first,last) 3.387 bits vs within-position shuffle 3.408 [3.375,3.439] P=0.876; excess -0.021 = -0.3% of H(first) (6.86 bits); n=2077
+    planted attribute code (len>=3): MI(first,last) 3.182 bits vs within-position shuffle 3.203 [3.159,3.254] P=0.841; excess -0.021 = -0.3% of H(first) (6.29 bits); n=1268
+    planted attribute code: 357 elements with >= 15 partner tokens; mean z -0.00; share with partner-KL above Bonferroni null (P<=0.0001 or z>4 at floor) 0.000 (0/357); mean KL excess -0.028 bits
+      strongest partner-predictors: 399 z=5.3, 410 z=3.5, 306 z=3.3, 486 z=2.9, 496 z=2.6, 23 z=2.6, 210 z=2.3, 29 z=2.1, 442 z=2.1, 126 z=2.0
+      weakest: 288 z=-2.9, 6 z=-2.8, 248 z=-2.4, 266 z=-2.4, 331 z=-2.1, 480 z=-2.0
+
+--- planted lexicon
+    planted lexicon: MI(first,last) 2.117 bits vs within-position shuffle 1.458 [1.423,1.493] P=0.005; excess 0.658 = 11.9% of H(first) (5.52 bits); n=2329
+    planted lexicon (len>=3): MI(first,last) 2.084 bits vs within-position shuffle 1.861 [1.820,1.906] P=0.005; excess 0.223 = 4.0% of H(first) (5.58 bits); n=1473
+    planted lexicon: 138 elements with >= 15 partner tokens; mean z 6.54; share with partner-KL above Bonferroni null (P<=0.0004 or z>4 at floor) 0.399 (55/138); mean KL excess 0.394 bits
+      strongest partner-predictors: 7 z=53.1, 57 z=45.7, 3 z=45.2, 89 z=41.3, 11 z=40.0, 1 z=39.1, 6 z=31.5, 15 z=27.8, 64 z=25.4, 14 z=25.0
+      weakest: 62 z=-1.2, 88 z=-1.0, 129 z=-0.9, 61 z=-0.7, 103 z=-0.7, 82 z=-0.6
+
+=== SUMMARY cycle 2 (MI(first,last) excess as % of H(first), len>=2 / len>=3; share of elements predicting partners; mean z)
+    Indus seq_raw                  9.9% /   6.4%   partner-predictors 0.266  mean z 2.83
+    Indus frame-purged             8.8% /   5.7%   partner-predictors 0.234  mean z 2.71
+    Ur III names                  25.0% /  27.4%   partner-predictors 0.740  mean z 12.73
+    planted attribute code        -0.3% /  -0.3%   partner-predictors 0.000  mean z -0.00
+    planted lexicon               11.9% /   4.0%   partner-predictors 0.399  mean z 6.54
+
+--- (d) Indus subsets
+  [all seals] 1369 middles, 1147 with >=2 elements
+    all seals: MI(first,last) 4.278 bits vs within-position shuffle 4.116 [4.084,4.151] P=0.005; excess 0.162 = 2.3% of H(first) (7.17 bits); n=1147
+    all seals: 219 elements with >= 12 partner tokens; mean z 0.72; share with partner-KL above Bonferroni null (P<=0.0002 or z>4 at floor) 0.078 (17/219); mean KL excess 0.121 bits
+      strongest partner-predictors: W390(M161/162/167/168/169) z=12.6, W400(M176) z=8.2, W3(M102/103) z=7.3, W4(M104/105) z=7.2, W35(M96) z=7.1, W840(M403) z=7.0, W503(M204) z=6.0, W13(M103) z=5.8, W171(M409) z=5.6, W741(M343) z=5.3
+      weakest: W632(M244) z=-2.4, W12 z=-2.3, W409 z=-2.2, W812(M381) z=-2.0, W760(M347/358) z=-2.0, W520(M211) z=-1.9
+
+--- all seals: pair census. 4957 distinct observed pairs; 427 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.405 vs permuted corpora 0.140 [0.099,0.174]  P=0.016
+    mean |log2(O/E)|:     0.991 vs permuted 0.535 [0.487,0.592]  P=0.016
+    share O > 4E (compound-like): 0.070 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.040 vs permuted 0.012
+    strong compounds (O>=5, O>=4E): 47 pairs covering 0.168 of element tokens in >=2-element middles
+    top compounds: W255(M51)+W435(M130) 22:0.8, W33(M89)+W705(M336) 21:2.8, W60(M123)+W550(M216) 18:1.7, W4(M104/105)+W390(M161/162/167/168/169) 17:3.7, W176(M48)+W740(M342) 14:2.4, W33(M89)+W706(M336) 13:1.7, W16(M108/109)+W390(M161/162/167/168/169) 12:2.2, W415(M171)+W798(M216) 11:2.6, W13(M103)+W840(M403) 10:1.0, W17(M110/112)+W575(M197) 10:0.7, W3(M102/103)+W900(M287) 10:2.2, W220(M59)+W455(M233) 10:2.4
+    strong exclusions (E>=6, O=0): 1 of 99 pairs with E>=6
+    top exclusions: W32(M87)|W415(M171) 0:6.3
+  [quantity seals (COUNT in middle)] 497 middles, 488 with >=2 elements
+    quantity seals (COUNT in middle): MI(first,last) 3.844 bits vs within-position shuffle 3.790 [3.728,3.848] P=0.035; excess 0.054 = 0.9% of H(first) (6.07 bits); n=488
+    quantity seals (COUNT in middle): 138 elements with >= 12 partner tokens; mean z 0.87; share with partner-KL above Bonferroni null (P<=0.0004 or z>4 at floor) 0.065 (9/138); mean KL excess 0.138 bits
+      strongest partner-predictors: W390(M161/162/167/168/169) z=15.0, W3(M102/103) z=12.7, W4(M104/105) z=12.1, W16(M108/109) z=9.0, W17(M110/112) z=8.3, W407(M169) z=7.9, W5(M106/107) z=7.8, W31(M86) z=5.7, W32(M87) z=4.9, W400(M176) z=3.8
+      weakest: W12 z=-2.1, W235(M65) z=-2.1, W760(M347/358) z=-1.8, W690(M149) z=-1.8, W409 z=-1.8, W520(M211) z=-1.8
+
+--- quantity seals (COUNT in middle): pair census. 3009 distinct observed pairs; 242 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.397 vs permuted corpora 0.112 [0.078,0.145]  P=0.016
+    mean |log2(O/E)|:     1.052 vs permuted 0.491 [0.440,0.552]  P=0.016
+    share O > 4E (compound-like): 0.033 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.099 vs permuted 0.010
+    strong compounds (O>=5, O>=4E): 15 pairs covering 0.094 of element tokens in >=2-element middles
+    top compounds: W33(M89)+W705(M336) 21:3.3, W33(M89)+W706(M336) 13:2.0, W17(M110/112)+W575(M197) 10:0.7, W4(M104/105)+W407(M169) 8:1.6, W233(M72)+W705(M336) 7:1.3, W255(M51)+W435(M130) 7:0.2, W220(M59)+W455(M233) 7:1.6, W32(M87)+W877(M284) 6:1.3, W233(M72)+W803(M387) 5:0.7, W32(M87)+W226(M60) 5:1.0, W33(M89)+W61(M124/125) 5:1.1, W679(M139)+W740(M342) 5:0.4
+    strong exclusions (E>=6, O=0): 2 of 55 pairs with E>=6
+    top exclusions: W3(M102/103)|W33(M89) 0:8.9, W17(M110/112)|W32(M87) 0:6.4
+  [office seals (jar closer, no count)] 412 middles, 286 with >=2 elements
+    office seals (jar closer, no count): MI(first,last) 4.348 bits vs within-position shuffle 4.117 [4.073,4.158] P=0.005; excess 0.231 = 3.7% of H(first) (6.23 bits); n=286
+    office seals (jar closer, no count): 51 elements with >= 12 partner tokens; mean z 0.52; share with partner-KL above Bonferroni null (P<=0.0010 or z>4 at floor) 0.039 (2/51); mean KL excess 0.160 bits
+      strongest partner-predictors: W840(M403) z=7.2, W503(M204) z=5.7, W61(M124/125) z=3.5, W35(M96) z=3.2, W142(M25) z=2.7, W60(M123) z=2.5, W900(M287) z=2.4, W171(M409) z=2.2, W741(M343) z=2.2, W615 z=2.0
+      weakest: W2(M99/100) z=-3.5, W798(M216) z=-1.9, W125(M28) z=-1.5, W175(M47) z=-1.3, W806(M387) z=-1.3, W530 z=-1.3
+
+--- office seals (jar closer, no count): pair census. 1056 distinct observed pairs; 44 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.545 vs permuted corpora 0.148 [0.037,0.300]  P=0.016
+    mean |log2(O/E)|:     1.289 vs permuted 0.566 [0.390,0.742]  P=0.016
+    share O > 4E (compound-like): 0.227 vs permuted 0.000;  share O < E/4 (exclusion-like): 0.000 vs permuted 0.015
+    strong compounds (O>=5, O>=4E): 13 pairs covering 0.162 of element tokens in >=2-element middles
+    top compounds: W255(M51)+W435(M130) 13:0.9, W220(M59)+W415(M171) 12:2.4, W415(M171)+W798(M216) 8:1.3, W2(M99/100)+W140(M17) 7:1.8, W220(M59)+W798(M216) 7:0.9, W390(M161/162/167/168/169)+W741(M343) 7:1.2, W61(M124/125)+W142(M25) 6:0.3, W13(M103)+W840(M403) 6:0.4, W705(M336)+W803(M387) 6:1.4, W142(M25)+W400(M176) 5:0.1, W60(M123)+W550(M216) 5:0.3, W35(M96)+W171(M409) 5:0.1
+    strong exclusions (E>=6, O=0): 0 of 3 pairs with E>=6
+    top exclusions: 
+  [other seals (no jar, no count)] 460 middles, 373 with >=2 elements
+    other seals (no jar, no count): MI(first,last) 5.063 bits vs within-position shuffle 5.003 [4.976,5.035] P=0.005; excess 0.060 = 0.9% of H(first) (7.05 bits); n=373
+    other seals (no jar, no count): 93 elements with >= 12 partner tokens; mean z -0.13; share with partner-KL above Bonferroni null (P<=0.0005 or z>4 at floor) 0.011 (1/93); mean KL excess -0.107 bits
+      strongest partner-predictors: W400(M176) z=7.2, W390(M161/162/167/168/169) z=3.8, W111 z=2.4, W235(M65) z=2.3, W555(M222) z=2.0, W706(M336) z=2.0, W415(M171) z=2.0, W595(M252) z=1.4, W368(M402) z=1.4, W741(M343) z=1.2
+      weakest: W740(M342) z=-2.5, W904 z=-2.4, W798(M216) z=-2.2, W374(M400) z=-2.2, W236 z=-2.0, W518(M398) z=-2.0
+
+--- other seals (no jar, no count): pair census. 1719 distinct observed pairs; 30 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.567 vs permuted corpora 0.213 [0.000,0.450]  P=0.033
+    mean |log2(O/E)|:     1.309 vs permuted 0.668 [0.401,1.017]  P=0.033
+    share O > 4E (compound-like): 0.200 vs permuted 0.005;  share O < E/4 (exclusion-like): 0.000 vs permuted 0.010
+    strong compounds (O>=5, O>=4E): 9 pairs covering 0.091 of element tokens in >=2-element middles
+    top compounds: W176(M48)+W740(M342) 12:2.3, W60(M123)+W550(M216) 10:0.8, W740(M342)+W840(M403) 6:1.2, W390(M161/162/167/168/169)+W844(M406) 6:0.6, W233(M72)+W235(M65) 6:1.3, W233(M72)+W798(M216) 6:0.9, W595(M252)+W820(M391) 5:0.6, W368(M402)+W861(M267) 5:1.0, W679(M139)+W740(M342) 5:0.8
+    strong exclusions (E>=6, O=0): 0 of 1 pairs with E>=6
+    top exclusions: 
+  [seals without closer] 546 middles, 537 with >=2 elements
+    seals without closer: MI(first,last) 4.351 bits vs within-position shuffle 4.192 [4.141,4.242] P=0.005; excess 0.159 = 2.3% of H(first) (6.95 bits); n=537
+    seals without closer: 158 elements with >= 12 partner tokens; mean z 0.48; share with partner-KL above Bonferroni null (P<=0.0003 or z>4 at floor) 0.032 (5/158); mean KL excess 0.071 bits
+      strongest partner-predictors: W390(M161/162/167/168/169) z=15.0, W3(M102/103) z=9.0, W400(M176) z=6.8, W4(M104/105) z=6.3, W16(M108/109) z=4.2, W5(M106/107) z=3.8, W407(M169) z=3.3, W555(M222) z=3.2, W892 z=3.0, W820(M391) z=2.9
+      weakest: W409 z=-2.4, W70(M155) z=-2.1, W760(M347/358) z=-2.0, W520(M211) z=-1.8, W812(M381) z=-1.7, W236 z=-1.7
+
+--- seals without closer: pair census. 3299 distinct observed pairs; 154 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.481 vs permuted corpora 0.143 [0.089,0.203]  P=0.016
+    mean |log2(O/E)|:     1.122 vs permuted 0.544 [0.467,0.623]  P=0.016
+    share O > 4E (compound-like): 0.091 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.084 vs permuted 0.013
+    strong compounds (O>=5, O>=4E): 19 pairs covering 0.107 of element tokens in >=2-element middles
+    top compounds: W176(M48)+W740(M342) 13:2.4, W679(M139)+W740(M342) 10:2.0, W60(M123)+W550(M216) 9:0.7, W390(M161/162/167/168/169)+W844(M406) 7:1.3, W220(M59)+W520(M211) 7:1.3, W595(M252)+W820(M391) 7:1.0, W33(M89)+W705(M336) 7:0.7, W368(M402)+W861(M267) 7:1.7, W4(M104/105)+W407(M169) 7:1.6, W31(M86)+W705(M336) 6:1.1, W233(M72)+W240(M67) 5:0.7, W590(M249)+W892 5:1.0
+    strong exclusions (E>=6, O=0): 0 of 26 pairs with E>=6
+    top exclusions: 
+  [tablets] 1102 middles, 785 with >=2 elements
+    tablets: MI(first,last) 4.473 bits vs within-position shuffle 2.998 [2.953,3.048] P=0.005; excess 1.476 = 24.4% of H(first) (6.04 bits); n=785
+    tablets: 97 elements with >= 12 partner tokens; mean z 6.93; share with partner-KL above Bonferroni null (P<=0.0005 or z>4 at floor) 0.546 (53/97); mean KL excess 1.411 bits
+      strongest partner-predictors: W615 z=45.5, W503(M204) z=42.4, W700(M328) z=22.6, W32(M87) z=21.5, W3(M102/103) z=18.2, W861(M267) z=16.5, W235(M65) z=15.9, W501(M210) z=15.1, W806(M387) z=14.9, W2(M99/100) z=14.5
+      weakest: W920(M293) z=-1.0, W318 z=-0.4, W436 z=-0.2, W142(M25) z=0.6, W365 z=0.8, W820(M391) z=1.1
+
+--- tablets: pair census. 1073 distinct observed pairs; 265 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.879 vs permuted corpora 0.147 [0.084,0.200]  P=0.016
+    mean |log2(O/E)|:     2.376 vs permuted 0.555 [0.487,0.640]  P=0.016
+    share O > 4E (compound-like): 0.509 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.143 vs permuted 0.010
+    strong compounds (O>=5, O>=4E): 149 pairs covering 0.588 of element tokens in >=2-element middles
+    top compounds: W2(M99/100)+W405(M161/162/167/168/169) 31:1.6, W3(M102/103)+W861(M267) 30:1.8, W33(M89)+W700(M328) 29:4.7, W405(M161/162/167/168/169)+W501(M210) 29:1.0, W2(M99/100)+W501(M210) 29:1.1, W503(M204)+W615 29:3.5, W33(M89)+W705(M336) 26:4.1, W61(M124/125)+W845(M407) 20:2.8, W235(M65)+W590(M249) 19:3.5, W235(M65)+W705(M336) 18:4.1, W220(M59)+W590(M249) 17:3.4, W255(M51)+W690(M149) 17:1.9
+    strong exclusions (E>=6, O=0): 5 of 20 pairs with E>=6
+    top exclusions: W32(M87)|W33(M89) 0:10.2, W407(M169)|W615 0:7.9, W407(M169)|W503(M204) 0:7.6, W32(M87)|W235(M65) 0:7.5, W32(M87)|W705(M336) 0:6.3
+  [held-out sites (all types)] 358 middles, 292 with >=2 elements
+    held-out sites (all types): MI(first,last) 5.006 bits vs within-position shuffle 4.808 [4.767,4.856] P=0.005; excess 0.197 = 3.1% of H(first) (6.46 bits); n=292
+    held-out sites (all types): 88 elements with >= 12 partner tokens; mean z 0.61; share with partner-KL above Bonferroni null (P<=0.0006 or z>4 at floor) 0.011 (1/88); mean KL excess 0.159 bits
+      strongest partner-predictors: W390(M161/162/167/168/169) z=4.0, W892 z=3.6, W890 z=3.6, W741(M343) z=3.5, W5(M106/107) z=3.4, W417 z=3.2, W56 z=3.0, W111 z=3.0, W500(M209) z=2.9, W705(M336) z=2.5
+      weakest: W297(M180) z=-2.0, W740(M342) z=-1.6, W530 z=-1.6, W104(M41) z=-1.6, W407(M169) z=-1.4, W717(M341) z=-1.4
+
+--- held-out sites (all types): pair census. 1569 distinct observed pairs; 51 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.608 vs permuted corpora 0.184 [0.037,0.321]  P=0.016
+    mean |log2(O/E)|:     1.274 vs permuted 0.602 [0.407,0.815]  P=0.016
+    share O > 4E (compound-like): 0.216 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.020 vs permuted 0.012
+    strong compounds (O>=5, O>=4E): 14 pairs covering 0.085 of element tokens in >=2-element middles
+    top compounds: W500(M209)+W741(M343) 12:2.4, W500(M209)+W705(M336) 11:2.5, W56+W91 8:1.3, W417+W892 8:1.5, W56+W890 8:1.6, W2(M99/100)+W890 8:2.0, W417+W890 8:1.3, W890+W892 8:1.4, W56+W417 8:1.4, W91+W890 8:1.2, W56+W892 8:1.4, W91+W417 8:1.3
+    strong exclusions (E>=6, O=0): 0 of 3 pairs with E>=6
+    top exclusions: 
+  [Mohenjo-daro] 1171 middles, 992 with >=2 elements
+    Mohenjo-daro: MI(first,last) 4.444 bits vs within-position shuffle 4.029 [3.998,4.066] P=0.005; excess 0.415 = 6.0% of H(first) (6.91 bits); n=992

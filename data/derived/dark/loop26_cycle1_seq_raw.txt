@@ -37,3 +37,38 @@
     5-fold 3: held-out bits/element independence 7.561 vs pair(bigram) 6.803; gain 0.757 bits = 10.0%  (n=1272 tokens, 516 middles)
     5-fold 4: held-out bits/element independence 7.454 vs pair(bigram) 6.486; gain 0.968 bits = 13.0%  (n=1216 tokens, 516 middles)
     5-fold mean gain 11.8%
+    adjacent-pair MI 3.935 bits vs shuffle 3.210 [3.169,3.259]; excess 0.725
+
+--- Ur III names: pair census. 2669 distinct observed pairs; 795 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.772 vs permuted corpora 0.113 [0.095,0.138]  P=0.016
+    mean |log2(O/E)|:     2.187 vs permuted 0.478 [0.446,0.520]  P=0.016
+    share O > 4E (compound-like): 0.269 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.264 vs permuted 0.010
+    strong compounds (O>=5, O>=4E): 231 pairs covering 0.488 of element tokens in >=2-element middles
+    top compounds: suen+szu 107:13.0, kal+la 106:6.2, ba+ba6 69:3.8, gi+szul 54:2.0, bi2+i 47:1.8, i+suen 46:5.4, bi2+suen 46:4.8, da+zi 44:4.3, ga+sa6 44:4.3, dub+sar 43:0.7, gesz+ur 43:9.2, e+lugal 42:5.5
+    strong exclusions (E>=6, O=0): 38 of 244 pairs with E>=6
+    top exclusions: d|e 0:22.2, d|li2 0:20.9, lu2|szu 0:18.8, i|ur 0:14.9, da|suen 0:13.4, bi2|ur 0:13.2, d|szesz 0:12.5, i3|ur 0:12.3, li2|ur 0:12.1, lu2|ni 0:11.9
+    fit big / test held-out: held-out bits/element independence 6.592 vs pair(bigram) 4.272; gain 2.319 bits = 35.2%  (n=2765 tokens, 798 middles)
+    5-fold 0: held-out bits/element independence 6.622 vs pair(bigram) 4.350; gain 2.273 bits = 34.3%  (n=1817 tokens, 529 middles)
+    5-fold 1: held-out bits/element independence 6.570 vs pair(bigram) 4.305; gain 2.265 bits = 34.5%  (n=1844 tokens, 529 middles)
+    5-fold 2: held-out bits/element independence 6.596 vs pair(bigram) 4.211; gain 2.385 bits = 36.2%  (n=1821 tokens, 529 middles)
+    5-fold 3: held-out bits/element independence 6.618 vs pair(bigram) 4.400; gain 2.218 bits = 33.5%  (n=1799 tokens, 528 middles)
+    5-fold 4: held-out bits/element independence 6.577 vs pair(bigram) 4.201; gain 2.376 bits = 36.1%  (n=1818 tokens, 528 middles)
+    5-fold mean gain 34.9%
+    adjacent-pair MI 3.851 bits vs shuffle 1.795 [1.769,1.817]; excess 2.056
+
+--- planted attribute code: pair census. 8708 distinct observed pairs; 416 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.291 vs permuted corpora 0.145 [0.114,0.175]  P=0.016
+    mean |log2(O/E)|:     0.839 vs permuted 0.544 [0.490,0.587]  P=0.016
+    share O > 4E (compound-like): 0.002 vs permuted 0.002;  share O < E/4 (exclusion-like): 0.079 vs permuted 0.013
+    strong compounds (O>=5, O>=4E): 5 pairs covering 0.009 of element tokens in >=2-element middles
+    top compounds: 204+318 9:2.0, 211+409 7:1.7, 1+214 6:1.2, 3+517 6:1.1, 9+409 5:1.0
+    strong exclusions (E>=6, O=0): 3 of 117 pairs with E>=6
+    top exclusions: 306|307 0:10.5, 306|308 0:7.7, 204|206 0:6.7
+    fit big / test held-out: held-out bits/element independence 7.962 vs pair(bigram) 7.888; gain 0.074 bits = 0.9%  (n=2280 tokens, 756 middles)
+    5-fold 0: held-out bits/element independence 8.005 vs pair(bigram) 7.948; gain 0.057 bits = 0.7%  (n=1655 tokens, 529 middles)
+    5-fold 1: held-out bits/element independence 7.972 vs pair(bigram) 7.935; gain 0.037 bits = 0.5%  (n=1645 tokens, 529 middles)
+    5-fold 2: held-out bits/element independence 8.016 vs pair(bigram) 7.984; gain 0.031 bits = 0.4%  (n=1489 tokens, 529 middles)
+    5-fold 3: held-out bits/element independence 7.882 vs pair(bigram) 7.794; gain 0.088 bits = 1.1%  (n=1601 tokens, 528 middles)
+    5-fold 4: held-out bits/element independence 7.973 vs pair(bigram) 7.884; gain 0.088 bits = 1.1%  (n=1597 tokens, 528 middles)
+    5-fold mean gain 0.8%
+    adjacent-pair MI 3.721 bits vs shuffle 3.632 [3.599,3.669]; excess 0.089
