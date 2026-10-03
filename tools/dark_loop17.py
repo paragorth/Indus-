@@ -81,18 +81,19 @@ def bigram_uniqueness_ratio(mids, rng):
         for a, b in zip(m, m[1:]): trans[a][b] += 1
     lens = [len(m) for m in mids]
     sk, sw = zip(*start.items()); sw = np.array(sw, float); sw /= sw.sum()
-    tk = {a: (list(c.keys()), np.array(list(c.values()), float) / sum(c.values())) for a, c in trans.items()}
+    tk = {a: (list(c.keys()), np.cumsum(np.array(list(c.values()), float) / sum(c.values()))) for a, c in trans.items()}
     allk = list(set(x for m in mids for x in m))
     out = []
     firsts = rng.choice(len(sk), size=len(mids), p=sw)
+    us = rng.random(sum(lens)); ui = 0
     for L, f in zip(lens, firsts):
         cur = sk[f]; m = [cur]
         for _ in range(L - 1):
             if cur in tk:
-                ks, p = tk[cur]; cur = ks[rng.choice(len(ks), p=p)]
+                ks, cp = tk[cur]; cur = ks[min(len(ks) - 1, int(np.searchsorted(cp, us[ui])))]
             else:
-                cur = allk[rng.integers(len(allk))]
-            m.append(cur)
+                cur = allk[int(us[ui] * len(allk))]
+            ui += 1; m.append(cur)
         out.append(tuple(m))
     u2 = len([m for m, c in collections.Counter(out).items() if c == 1]) / len(out)
     return uniq / max(u2, 1e-6)
@@ -154,15 +155,15 @@ def summary(objs, is_num, rng):
     same, tot = same_area_rate(objs)
     if tot >= 5:
         nulls = []
-        for _ in range(3):
-            perm = [dict(o) for o in objs]
-            grp = collections.defaultdict(list)
-            for i, o in enumerate(perm):
-                if o['area'] is not None: grp[(o['site'], o['cls'])].append(i)
+        grp = collections.defaultdict(list)
+        for i, o in enumerate(objs):
+            if o['area'] is not None and len(o['seq']) >= 2: grp[(o['site'], o['cls'])].append(i)
+        light = [dict(site=o['site'], seq=o['seq'], area=o['area']) for o in objs]
+        for _ in range(2):
             for idx in grp.values():
-                ar = [perm[i]['area'] for i in idx]; rng.shuffle(ar)
-                for i, a in zip(idx, ar): perm[i]['area'] = a
-            s2, t2 = same_area_rate(perm); nulls.append(s2 / max(1, t2))
+                ar = [light[i]['area'] for i in idx]; rng.shuffle(ar)
+                for i, a in zip(idx, ar): light[i]['area'] = a
+            s2, t2 = same_area_rate(light); nulls.append(s2 / max(1, t2))
         area_ratio = (same / tot) / max(1e-3, np.mean(nulls))
     else:
         area_ratio = 1.0
@@ -222,13 +223,13 @@ def summary(objs, is_num, rng):
     return np.array(v, float)
 
 # ---------------------------------------------------------------------------------------------- generator
-PARAMS = ['A', 'O', 'zO', 'C', 'H', 'k', 'p_mid', 'lam_mid', 'V_mid', 'p_share', 'p_open', 'p_comm', 'p_off', 'p_ext',
-          'p_reissue', 'z_copy', 'p_batch', 'p_travel']
+PARAMS = ['A', 'O', 'zO', 'C', 'H', 'k', 'p_mid', 'lam_mid', 'V_mid', 'z_mid', 'p_share', 'p_open', 'p_comm', 'p_off', 'p_ext',
+          'p_reissue', 'z_copy', 'p_batch', 'p_travel', 'p_suf', 'p_potcred']
 # prior: (type, lo, hi); 'int' uniform integer, 'log' log-uniform, 'u' uniform
-PRIOR = {'A': ('int', 1, 8), 'O': ('log', 3, 400), 'zO': ('u', 0.3, 2.0), 'C': ('log', 1, 40), 'H': ('log', 20, 6000),
-         'k': ('u', 1.0, 6.0), 'p_mid': ('u', 0, 1), 'lam_mid': ('u', 0, 2.5), 'V_mid': ('log', 30, 800), 'p_share': ('u', 0, 1),
+PRIOR = {'A': ('int', 1, 8), 'O': ('log', 3, 400), 'zO': ('u', 0.3, 2.0), 'C': ('log', 1, 40), 'H': ('log', 50, 60000),
+         'k': ('u', 1.0, 6.0), 'p_mid': ('u', 0, 1), 'lam_mid': ('u', 0, 2.5), 'V_mid': ('log', 30, 3000), 'z_mid': ('u', 0.3, 1.3), 'p_share': ('u', 0, 1),
          'p_open': ('u', 0, 1), 'p_comm': ('u', 0, 1), 'p_off': ('u', 0, 1), 'p_ext': ('u', 0, 1), 'p_reissue': ('u', 0, 1),
-         'z_copy': ('u', 0.3, 2.5), 'p_batch': ('u', 0, 1), 'p_travel': ('u', 0, 1)}
+         'z_copy': ('u', 0.3, 2.5), 'p_batch': ('u', 0, 1), 'p_travel': ('u', 0, 1), 'p_suf': ('u', 0, 1), 'p_potcred': ('u', 0, 1)}
 
 def draw_prior(rng):
     th = {}
@@ -283,93 +284,92 @@ class Skeleton:
 def sim_is_num(): return set(range(20, 33))
 
 def simulate(th, skel, seed):
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng(seed); U = rng.random
     A = int(round(th['A'])); O = max(1, int(round(th['O']))); C = max(1, int(round(th['C'])))
-    V = max(5, int(round(th['V_mid'])))
-    pA = zipf_p(A, 1.0); pO = zipf_p(O, th['zO']); pC = zipf_p(C, 1.0); pV = zipf_p(V, 1.0)
+    V = max(5, int(round(th['V_mid']))); k = max(1.0, th['k'])
+    cA = np.cumsum(zipf_p(A, 1.0)); cO = np.cumsum(zipf_p(O, th['zO'])); cC = np.cumsum(zipf_p(C, 1.0)); cV = np.cumsum(zipf_p(V, th['z_mid']))
+    pick = lambda cum: int(min(len(cum) - 1, np.searchsorted(cum, U())))
     OPEN_ID = [1 + a for a in range(A)]; CONN_ID = [10 + (a % 2) for a in range(A)]
     NUM_ID = {v: 19 + v for v in range(1, 9)}; TALL_ID = {2: 30, 3: 31, 4: 32}
     VOUCH = 40; SUF = 41
-    FIN = [50 + i for i in range(12)]; pFIN = zipf_p(12, 1.0)
-    off_final = rng.choice(12, size=O, p=pFIN)
-    off_title = [100 + o if rng.random() < 0.6 else None for o in range(O)]
-    item_id = [500 + c for c in range(C)]
-    mode = rng.choice([2, 3, 4], size=C, p=[0.25, 0.45, 0.30])
-    QUAL = [600 + i for i in range(30)]; pQ = zipf_p(30, 1.0)
-    mid_base = 1000
+    FIN = [50 + i for i in range(12)]; cFIN = np.cumsum(zipf_p(12, 1.0))
+    off_final = [FIN[pick(cFIN)] for _ in range(O)]
+    off_title = [100 + o if U() < 0.6 else None for o in range(O)]
+    mode = [int(np.searchsorted([0.25, 0.70, 1.0], U())) + 2 for _ in range(C)]
+    cQ = np.cumsum(zipf_p(30, 1.0))
+    DEV = [-1, 0, 1, 2]; cDEV = np.cumsum([0.2, 0.4, 0.25, 0.15]); cTALL = np.cumsum([0.3, 0.4, 0.3])
 
     def fresh_mid():
         L = 1 + rng.poisson(th['lam_mid'])
-        return tuple(int(mid_base + x) for x in rng.choice(V, size=L, p=pV))
+        return tuple(1000 + pick(cV) for _ in range(L))
 
-    def count_for(c):
-        d = rng.choice([-1, 0, 1, 2], p=[0.2, 0.4, 0.25, 0.15]); return int(min(8, max(1, mode[c] + d)))
+    def office():
+        o = pick(cO); return tuple(x for x in (off_title[o], off_final[o]) if x is not None)
 
     def credential(hmid):
-        a = int(rng.choice(A, p=pA)); parts = []
-        if rng.random() < th['p_open']: parts += [OPEN_ID[a], CONN_ID[a]]
-        if rng.random() < th['p_mid']:
-            parts += list(hmid if rng.random() < th['p_share'] else fresh_mid())
-        if rng.random() < th['p_comm']:
-            c = int(rng.choice(C, p=pC)); parts += [NUM_ID[count_for(c)], item_id[c]]
-        if rng.random() < th['p_ext']: parts.append(int(QUAL[rng.choice(30, p=pQ)]))
-        if rng.random() < th['p_off'] or len(parts) == 0:
-            o = int(rng.choice(O, p=pO))
-            if off_title[o] is not None: parts.append(off_title[o])
-            parts.append(FIN[off_final[o]])
+        a = pick(cA); parts = []
+        if U() < th['p_open']: parts += [OPEN_ID[a], CONN_ID[a]]
+        if U() < th['p_mid']: parts += list(hmid if U() < th['p_share'] else fresh_mid())
+        if U() < th['p_comm']:
+            c = pick(cC); n = min(8, max(1, mode[c] + DEV[int(np.searchsorted(cDEV, U()))])); parts += [NUM_ID[n], 500 + c]
+        if U() < th['p_ext']: parts.append(600 + pick(cQ))
+        if U() < th['p_off'] or not parts: parts += list(office())
         return tuple(parts)
 
-    # holders and credentials per site
-    creds = {}; cred_area = {}; cred_pop = {}
-    for s in skel.sites:
-        Hs = max(1, int(round(th['H'] * skel.site_rel[s])))
-        ks_, aw = skel.areas[s]
-        cl = []; ar = []
-        for h in range(Hs):
-            K = 1 + rng.poisson(max(0.0, th['k'] - 1)); hm = fresh_mid(); a = ks_[rng.choice(len(ks_), p=aw)]
-            for _ in range(K): cl.append(credential(hm)); ar.append(a)
-        creds[s] = cl; cred_area[s] = ar
-        pop = zipf_p(len(cl), th['z_copy']); rng.shuffle(pop); cred_pop[s] = pop
+    # lazily generated credentials: site s has N_s = round(H * rel_s * k) credentials, credential i belongs to holder i // k
+    N = {s: max(1, int(round(th['H'] * skel.site_rel[s] * k))) for s in skel.sites}
+    cum_pop = {s: np.cumsum(zipf_p(N[s], th['z_copy'])) for s in skel.sites}
+    cred = {}; holder = {}
+    def get_cred(s, i):
+        key = (s, i)
+        if key not in cred:
+            h = (s, int(i // k))
+            if h not in holder:
+                ks_, aw = skel.areas[s]; holder[h] = (fresh_mid(), ks_[int(min(len(ks_) - 1, np.searchsorted(aw, U())))])
+            cred[key] = (credential(holder[h][0]), holder[h][1])
+        return cred[key]
+    for s in skel.sites:  # cumulative area weights
+        ks_, aw = skel.areas[s]; skel.areas[s] = (ks_, np.cumsum(aw) if aw[-1] < 0.999 or len(aw) == 1 and aw[0] != 1.0 or not np.isclose(aw[-1], 1.0) or True else aw)
+    rand_area = lambda s: skel.areas[s][0][int(min(len(skel.areas[s][0]) - 1, np.searchsorted(skel.areas[s][1], U())))]
+    site_list = skel.sites; sw = np.array([skel.site_w[s] for s in site_list]); csw = np.cumsum(sw / sw.sum())
+    tall = lambda: TALL_ID[2 + int(np.searchsorted(cTALL, U()))]
 
     out = []
-    site_list = skel.sites; sw = np.array([skel.site_w[s] for s in site_list]); sw = sw / sw.sum()
     for o in skel.objs:
-        s = o['site']; cl = creds[s]; ks_, aw = skel.areas[s]
-        known = o['area'] is not None
-        area = None
+        s = o['site']; known = o['area'] is not None; area = None
         if o['cls'] == 'SEAL':
-            i = int(rng.integers(len(cl))) if len(cl) >= 1 else 0
-            seq = cl[i]; area = cred_area[s][i]
+            seq, area = get_cred(s, int(rng.integers(N[s])))
         elif o['cls'] == 'TAB':
-            if rng.random() < th['p_reissue']:
-                i = int(rng.choice(len(cl), p=cred_pop[s])); seq = cl[i]
-                if rng.random() < 0.5: seq = seq + (SUF,)
-                area = cred_area[s][i] if rng.random() < th['p_batch'] else ks_[rng.choice(len(ks_), p=aw)]
+            if U() < th['p_reissue']:
+                seq, ha = get_cred(s, pick(cum_pop[s]))
+                if U() < th['p_suf']: seq = seq + (SUF,)
+                area = ha if U() < th['p_batch'] else rand_area(s)
             else:
-                if rng.random() < 0.5:
-                    seq = (TALL_ID[int(rng.choice([2, 3, 4], p=[0.3, 0.4, 0.3]))], VOUCH)
+                if U() < 0.5: seq = (tall(), VOUCH)
                 else:
-                    oo = int(rng.choice(O, p=pO)); seq = tuple(x for x in (off_title[oo], FIN[off_final[oo]]) if x is not None)
-                    if rng.random() < 0.6: seq = seq + (SUF,)
-                area = ks_[rng.choice(len(ks_), p=aw)]
+                    seq = office()
+                    if U() < th['p_suf']: seq = seq + (SUF,)
+                area = rand_area(s)
         elif o['cls'] == 'TAG':
-            if rng.random() < th['p_travel'] and len(site_list) > 1:
+            if U() < th['p_travel'] and len(site_list) > 1:
                 while True:
-                    s2 = site_list[int(rng.choice(len(site_list), p=sw))]
+                    s2 = site_list[int(min(len(site_list) - 1, np.searchsorted(csw, U())))]
                     if s2 != s: break
-                cl2 = creds[s2]; i = int(rng.choice(len(cl2), p=cred_pop[s2])); seq = cl2[i]
+                seq, _ = get_cred(s2, pick(cum_pop[s2]))
             else:
-                i = int(rng.choice(len(cl), p=cred_pop[s])); seq = cl[i]
-            area = ks_[rng.choice(len(ks_), p=aw)]
+                seq, _ = get_cred(s, pick(cum_pop[s]))
+            area = rand_area(s)
         else:  # POT
-            u = rng.random()
-            if u < 0.35: seq = (TALL_ID[int(rng.choice([2, 3, 4], p=[0.3, 0.4, 0.3]))],) if rng.random() < 0.8 else (NUM_ID[1],)
-            elif u < 0.65:
-                oo = int(rng.choice(O, p=pO)); seq = (FIN[off_final[oo]],) if rng.random() < 0.6 or off_title[oo] is None else (off_title[oo], FIN[off_final[oo]])
+            u = U()
+            if u < th['p_potcred']: seq, _ = get_cred(s, pick(cum_pop[s]))
+            elif u < th['p_potcred'] + (1 - th['p_potcred']) / 2: seq = (tall(),) if U() < 0.8 else (NUM_ID[1],)
             else:
-                i = int(rng.choice(len(cl), p=cred_pop[s])); seq = cl[i]
-            area = ks_[rng.choice(len(ks_), p=aw)]
+                oo = office(); seq = oo[-1:] if U() < 0.6 else oo
+            area = rand_area(s)
         out.append(dict(site=s, cls=o['cls'], area=(area if known else None), seq=seq))
+    # restore skeleton area weights (they were replaced by cumulative sums above)
+    for s in skel.sites:
+        ks_, cw = skel.areas[s]; skel.areas[s] = (ks_, np.diff(np.r_[0.0, cw]))
     return out
 
 def sim_stats(th, skel, seed):
