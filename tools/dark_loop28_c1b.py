@@ -31,7 +31,7 @@ M = json.load(open('data/derived/merged-corpus-canonical.json'))
 FREQ = collections.Counter(x for r in M for x in r['seq_raw'] if x not in (0, 999))
 G = {w: render(w, size=192, out=R) for w in SIGNS}
 BASES = [w for w in SIGNS if w not in NUMERAL and FREQ[w] >= 2 and G[w].sum() > 40]
-SCALES = [0.55, 0.65, 0.75, 0.85, 0.95, 1.0]
+SCALES = [0.55, 0.67, 0.8, 0.9, 1.0]
 
 def bbox(m):
     ys, xs = np.nonzero(m); return ys.min(), ys.max(), xs.min(), xs.max()
@@ -64,8 +64,16 @@ for w in BASES:
         sc = np.array(Image.fromarray(c.astype(np.uint8) * 255).resize((W, H), Image.BILINEAR)) > 100
         if sc.sum() >= 10: BC[w].append((s, sc))
 
-def place(Dd, sc):
-    """best position of template sc on dilated D: returns coverage and (y, x) offset"""
+def half(m):
+    h, w = m.shape; h2, w2 = h // 2 * 2, w // 2 * 2
+    return m[:h2, :w2].reshape(h2 // 2, 2, w2 // 2, 2).max(axis=(1, 3))
+HALF = {w: [(s, half(sc)) for s, sc in lst] for w, lst in BC.items()}
+def place(Dd, sc, Dh=None, sch=None):
+    """best position of template sc on dilated D: returns coverage and (y, x) offset.
+    coarse-to-fine: a half-resolution pass must reach 0.8 coverage before the full pass runs"""
+    if Dh is not None and sch is not None and sch.sum() > 0:
+        c = fftconvolve(Dh.astype(np.float32), sch[::-1, ::-1].astype(np.float32), mode='valid')
+        if c.max() / sch.sum() < 0.8: return 0.0, (0, 0)
     corr = fftconvolve(Dd.astype(np.float32), sc[::-1, ::-1].astype(np.float32), mode='valid')
     k = int(np.argmax(corr)); y, x = np.unravel_index(k, corr.shape)
     return corr[y, x] / sc.sum(), (y, x)
@@ -75,16 +83,16 @@ def components(mask, minpix=4):
     return [lab == i for i in range(1, k + 1) if (lab == i).sum() >= minpix]
 
 def analyse(D, self_w, COV, bases=None):
-    ink = D.sum(); Dd = ndi.binary_dilation(D, iterations=1)
+    ink = D.sum(); Dd = ndi.binary_dilation(D, iterations=1); Dh = ndi.binary_dilation(half(Dd), iterations=1)
     hits = []
     for b in (bases or BASES):
         if b == self_w: continue
         ib = G[b].sum()
         if not (0.25 * ink <= ib * 1.0 and ib <= 1.3 * ink): continue  # base ink bound (scale can shrink it)
         best = None
-        for s, sc in BC[b]:
+        for (s, sc), (_, sch) in zip(BC[b], HALF[b]):
             if sc.sum() < 0.2 * ink or sc.sum() > 0.97 * ink: continue
-            cov, (y, x) = place(Dd, sc)
+            cov, (y, x) = place(Dd, sc, Dh, sch)
             if cov >= COV and (best is None or sc.sum() > best[1].sum()): best = (cov, sc, y, x, s)
         if best is None: continue
         cov, sc, y, x, s = best
@@ -158,15 +166,15 @@ def work_real(args):
     return (w, analyse(G[w], w, COV))
 def work_cov(w):
     """coverage of WRONG bases on an unmodified glyph (random-pair control): max coverage per base"""
-    D = G[w]; Dd = ndi.binary_dilation(D, iterations=1); ink = D.sum(); out = []
-    for b in random.sample(BASES, 40):
+    D = G[w]; Dd = ndi.binary_dilation(D, iterations=1); Dh = ndi.binary_dilation(half(Dd), iterations=1); ink = D.sum(); out = []
+    for b in random.sample(BASES, 30):
         if b == w: continue
         ib = G[b].sum()
         if not (0.25 * ink <= ib and ib <= 1.3 * ink): continue
         m = 0
-        for s, sc in BC[b]:
+        for (s, sc), (_, sch) in zip(BC[b], HALF[b]):
             if sc.sum() < 0.2 * ink or sc.sum() > 0.97 * ink: continue
-            m = max(m, place(Dd, sc)[0])
+            m = max(m, place(Dd, sc, Dh, sch)[0])
         out.append((w, b, m))
     return out
 
@@ -175,7 +183,7 @@ if __name__ == '__main__':
     rep.append(f'bases {len(BASES)} (non-numeral, freq >= 2); scales {SCALES}; derived = all {len([w for w in SIGNS if w not in NUMERAL])} non-numeral signs')
     with Pool(4) as pool:
         # 1. wrong-base coverage distribution on 150 random real glyphs
-        cov = [x for lst in pool.map(work_cov, random.sample([w for w in SIGNS if w not in NUMERAL and G[w].sum() > 60], 150)) for x in lst]
+        cov = [x for lst in pool.map(work_cov, random.sample([w for w in SIGNS if w not in NUMERAL and G[w].sum() > 60], 100)) for x in lst]
         cv = np.array([c[2] for c in cov])
         COV = float(np.quantile(cv, 0.98))
         rep.append(f'random (derived, wrong base) best coverage: median {np.median(cv):.3f}, 95th {np.quantile(cv,.95):.3f}, 98th {COV:.3f} (n={len(cv)}); threshold COV = 98th pct = {COV:.3f}')
@@ -184,7 +192,7 @@ if __name__ == '__main__':
         NONNUM = [w for w in BASES if G[w].sum() > 80]
         jobs = []
         for kind in KM:
-            for w in random.sample(NONNUM, 40):
+            for w in random.sample(NONNUM, 30):
                 jobs.append((w, kind, random.choice([x for x in NONNUM if x != w]) if kind == 'fusedlig' else None, COV))
         res = pool.map(work_plant, jobs)
         rec = collections.Counter(); tot = collections.Counter(); wrongb = collections.Counter(); anytype = collections.Counter()

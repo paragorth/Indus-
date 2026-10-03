@@ -39,10 +39,11 @@ for e in list(A2):
         top = float(s.max())
         for bi in np.argsort(-s):
             b = SIGNS[bi]
+            if s[bi] < THR or s[bi] < top - 0.10: break
             if b == e['derived'] or FREQ[b] < 3: continue
-            if s[bi] >= THR and s[bi] >= top - 0.10 and (best is None or s[bi] > best[1]):
+            # among passing frequent bases prefer the most frequent (bases are frequent, derivatives rare)
+            if best is None or FREQ[b] > FREQ[best[0]]:
                 best = (b, float(s[bi]), c)
-            break
     if best and not any(x['derived'] == e['derived'] and x['base'] == best[0] for x in A2):
         b, sc, c = best
         ne = dict(e, base=b, score=sc, fine=float(SIM_FINE[IDX[e['derived']], IDX[b]]), conf=('mid' if sc >= THR + 0.04 else 'low'), alt_of=e['base'])

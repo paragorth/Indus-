@@ -1,0 +1,45 @@
+S-DARK-3 cycle 3: whole-machine controls -- the same 16 transformations x 4 tests on (a) a bigram-generated Indus
+corpus and (b) Ur III seal legends (owner names as syllables; whole legends as words)
+Code: tools/strat_dark3_run.py control 20 7 (loop3_control_bigram.txt); tools/strat_dark3_run.py ur3 0 5 (loop3_ur3_control.txt).
+
+(a) Bigram-generated Indus (data/codelib/indus_bigram.jsonl: bigram model trained on seq_raw, same text lengths,
+5,369 texts). This corpus has no frame beyond what a first-order Markov chain carries and no exact recurring
+formulae (namecalib base 1.04, repeat 0.83-0.90, slot -0.19). Question: how many arrows would the machine
+'hit' (|z| >= 3) on a corpus we know has no hidden reading?
+  Hits on the bigram corpus (|z| >= 3): reverse/namecalib -6.0; interleave/repeat +8.0; middleout/namecalib
+  -19.7 and /slot +5.1; sort/namecalib -12.9 and /slot +5.4; family/repeat +3.4 and /slot +8.9; nonnum/slot
+  -3.1; dropframe/slot -4.9; bpe/slot +11.8; splitnum/namecalib -4.4 and /repeat -3.0; rotate/namecalib -19.9
+  and /slot +4.2; emblem/slot +15.8; objtype/slot +14.0; randfamily/slot +5.4; dropsign/namecalib +5.3.
+  That is 19 of 68 arrows at |z| >= 3 on a corpus with nothing to find. The screening bar |z| >= 3 is therefore
+  only a screening bar: the arrows that survive it on the real corpus but not here are the ones worth a look.
+  Real-corpus survivors absent from this list: family/namecalib (-5.2; killed by randfamily in cycle 2),
+  numonly/namecalib (+6.4 vs +2.6 here; died on held-out), dropframe/repeat (+4.7 vs +1.8 here; suggestive),
+  bpe/repeat (+5.3 vs +1.1), bpe/arith (+4.4 vs -0.2; died on held-out), emblem/repeat (+4.1 vs +0.5),
+  objtype/repeat (+5.6 vs +0.3), interleave/slot (-6.8 vs -2.1), dropsign/slot (-16.3 vs -0.6).
+  Sign flips between real and bigram corpus (the informative ones): reverse/namecalib (+5.4 real, -6.0 bigram:
+  real texts are end-anchored, the Markov corpus is start-anchored by construction); middleout/slot and
+  rotate/slot (negative real, positive bigram: the real edges are low-entropy, the Markov corpus's are not).
+  emblem/repeat and objtype/repeat: adding the emblem or object type as a sign lowers the real repetition ratio
+  less than the shuffled null (z +4 to +6) but not on the bigram corpus -- i.e. texts on the same emblem/object
+  type share signs more than shuffles do; this is S15/S28's small 'form-text' dependence, already known to be weak.
+
+(b) Ur III control: do names stay name-like under the same transformations? (values only, no permutation null;
+syllable tokens of the owner's name, 6,040 names; namecalib band for names < 0.7)
+  identity 0.43 | reverse 0.42 | interleave 1.05 | middleout 0.32 | sort 0.36 | bpe 0.49 | rotate 0.39 |
+  relabel 0.43 | dropsign (10-30%) 0.68.
+  Names stay in the name band under every order-changing transformation except interleaving (which makes two
+  pseudo-names out of one, 1.05, exactly as it does to Indus, 0.95) and heavy random deletion (0.68, edge of band).
+  Whole legends as words: identity 1.13, everything 1.09-1.19 except interleave 1.43. So the name statistic is
+  robust to misreading the ORDER of a name but not to splitting it in two. Consequence for Indus: if Indus texts
+  were names misread in order (reversed, rotated, middle-out), the ratio would still sit near its true value;
+  no order transformation of Indus reaches 0.43-0.62 (best 0.70 by middle-out, which lowers Ur III names by the
+  same 0.11, so middle-out is a generic artefact). The 'names' hypothesis cannot be rescued by a reading-order
+  error; it is not that we are reading names backwards.
+
+Verdict: the machine fires 28% of its arrows at |z| >= 3 on a null corpus, so cycle-1 hits were expected to be
+mostly noise; cycle 2 confirmed that. Ur III names keep their statistic under 7 of 8 order transformations,
+Indus does not reach the name band under any of them.
+Arrows fired: 68 (bigram control) + 24 (Ur III values, no null) -> running total 168.
+
+Ready-to-paste row:
+| S-DARK-3.3 | Whole-machine control: the transformation screen run on a bigram-generated Indus corpus (no hidden reading) and on Ur III owner names/legends | Null corpus: expected survivors known to be artefacts; Ur III: name statistic should survive order transformations | 19 of 68 arrows reach |z| >= 3 on the null corpus (middle-out, rotate, sort, emblem/object-type-as-sign, BPE and family all 'hit' the slot or uniqueness test there), so the cycle-1 screen bar is not evidence. Sign flips between real and null corpus isolate the real structure: Indus texts are END-anchored (reverse raises the uniqueness ratio on real texts, lowers it on the Markov corpus) and have low-entropy EDGES; both are GRAMMAR.md frame facts. Ur III names keep 0.32-0.49 under reverse/rotate/middle-out/sort/BPE and only leave the name band when interleaved (1.05) or 10-30% deleted (0.68); Indus under the same transformations stays 0.70-0.95. A reading-order error cannot turn Indus texts into names. | controls behaved; the 'misread names' idea is closed |
