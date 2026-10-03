@@ -211,7 +211,7 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - Would support: the same placements on new sites. Would kill: a slot change on held-out texts.
 
 
-### Numerals: the minimum-lot rule (S-DARK-15.3, Oct 2026; grade B)
+### Numerals: the minimum-lot rule (S-DARK-15.3, Oct 2026; grade B on the home corpus, DEMOTED to C 'tendency on seals' by S-DARK-21.1: 3 of 19 counted goods on IM77-only texts carry a short 1 before the good)
 - Short-stroke 1 (W31), short-stroke 2 (W2) and tall 1 are grammar markers, not counts: they never stand before a counted good.
 - Counts before goods start at 3 (3-8). '1' and '2' as counts are tall strokes inside fixed terms.
 - The plain person sign is never counted; figure ligatures carry fixed numerals.
