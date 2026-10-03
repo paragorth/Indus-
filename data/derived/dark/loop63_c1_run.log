@@ -15,3 +15,28 @@
     capacity (>=1 el, n=1950): uniq 0.798 [0.790,0.809]; gt_new 0.716 [0.704,0.730]; gini_id 0.190 [0.182,0.197]; heaps 0.935 [0.931,0.941]; gini_el 0.751 [0.747,0.753]; zipf_el -1.297 [-1.305,-1.283]; even_pos 0.911 [0.910,0.913]; lutil_ent -7.419 [-7.585,-7.097]; top10 0.071 [0.064,0.074]
 
 ##### Indus seq_all: 1402 distinct middles >= 2 elements; lengths [(2, 395), (3, 333), (4, 256), (5, 175), (6, 100), (7, 62), (8, 41), (9, 18), (10, 10), (11, 5), (12, 6), (15, 1)]
+  [Indus seq_all middles] n=1402
+    n=1402 k=564 T=5454 meanL=3.890 el_ttr=0.103 el_reuse=0.960 el_gini=0.744 el_zipf=-1.280 el_heaps=0.499 pos_excess=0.155 pos_bound=0.376 big_reuse=0.244 rev_pairs=-0.330 mi_ex=0.432 pair_pred=0.074 substr=0.048 cmp_share=0.998
+    CI(0.8-subsample spread centred on full-n): el_ttr 0.103 [0.101,0.107]; el_reuse 0.960 [0.957,0.963]; el_gini 0.744 [0.740,0.749]; el_zipf -1.280 [-1.290,-1.272]; el_heaps 0.499 [0.481,0.513]; pos_excess 0.155 [0.139,0.171]; pos_bound 0.376 [0.339,0.421]; big_reuse 0.244 [0.232,0.255]; rev_pairs -0.330 [-0.351,-0.306]; mi_ex 0.432 [0.404,0.471]; pair_pred 0.074 [0.070,0.080]; substr 0.048 [0.039,0.060]
+    closed-slot: init10 0.260 [0.251,0.272]; fin10 0.298 [0.285,0.312]; mid10 0.353 [0.343,0.361]; Hinit 0.866 [0.862,0.872]; Hfin 0.856 [0.852,0.861]; top10el 0.272 [0.265,0.277]
+    capacity (>=1 el, n=1950): uniq 0.797 [0.788,0.808]; gt_new 0.716 [0.702,0.729]; gini_id 0.191 [0.182,0.199]; heaps 0.936 [0.932,0.942]; gini_el 0.752 [0.748,0.755]; zipf_el -1.302 [-1.310,-1.289]; even_pos 0.911 [0.910,0.913]; lutil_ent -7.400 [-7.565,-7.064]; top10 0.072 [0.066,0.075]
+  IM77: 2218 distinct objects; unbridged M tokens 456/11720=0.039 kept as opaque elements
+
+##### Indus im77: 1505 distinct middles >= 2 elements; lengths [(2, 370), (3, 373), (4, 280), (5, 220), (6, 96), (7, 71), (8, 53), (9, 16), (10, 13), (11, 6), (12, 3), (13, 2), (14, 1), (15, 1)]
+  [Indus im77 middles] n=1505
+    n=1505 k=371 T=6007 meanL=3.991 el_ttr=0.062 el_reuse=0.982 el_gini=0.735 el_zipf=-1.443 el_heaps=0.379 pos_excess=0.147 pos_bound=0.413 big_reuse=0.256 rev_pairs=-0.351 mi_ex=0.829 pair_pred=0.132 substr=0.092 cmp_share=1.000
+    CI(0.8-subsample spread centred on full-n): el_ttr 0.062 [0.059,0.064]; el_reuse 0.982 [0.980,0.984]; el_gini 0.735 [0.731,0.742]; el_zipf -1.443 [-1.456,-1.430]; el_heaps 0.379 [0.359,0.397]; pos_excess 0.147 [0.133,0.164]; pos_bound 0.413 [0.370,0.468]; big_reuse 0.256 [0.241,0.270]; rev_pairs -0.351 [-0.373,-0.324]; mi_ex 0.829 [0.798,0.870]; pair_pred 0.132 [0.126,0.137]; substr 0.092 [0.083,0.103]
+  IM77: 2218 distinct objects; unbridged M tokens 456/11720=0.039 kept as opaque elements
+    closed-slot: init10 0.272 [0.264,0.288]; fin10 0.330 [0.316,0.344]; mid10 0.367 [0.361,0.377]; Hinit 0.863 [0.857,0.866]; Hfin 0.851 [0.844,0.858]; top10el 0.289 [0.284,0.294]
+    capacity (>=1 el, n=2038): uniq 0.789 [0.780,0.799]; gt_new 0.707 [0.695,0.720]; gini_id 0.199 [0.191,0.207]; heaps 0.928 [0.924,0.932]; gini_el 0.741 [0.736,0.746]; zipf_el -1.475 [-1.486,-1.458]; even_pos 0.909 [0.907,0.911]; lutil_ent -7.563 [-7.760,-7.284]; top10 0.067 [0.062,0.071]
+
+##### logographic name lists, one per distinct name, drawn to n=1431 (>=2 elements; order battery) and n=1971 (>=1 element; capacity; name lists are one-per-distinct so uniq/Gini_id/Heaps are 1/0/1 by construction and only the element-level capacity statistics are comparable); also LENGTH-MATCHED to the Indus middle lengths where the list allows
+  [cn_given] pool=58901 draw n=1431 x40
+    median n=1431 k=841 T=2862 meanL=2.000 el_ttr=0.294 el_reuse=0.890 el_gini=0.456 el_zipf=-0.773 el_heaps=0.609 pos_excess=0.156 pos_bound=0.281 big_reuse=-0.005 rev_pairs=nan mi_ex=-0.267 pair_pred=-0.019 substr=0.000 cmp_share=0.990
+    CI: el_ttr 0.294 [0.287,0.302]; el_reuse 0.890 [0.880,0.899]; el_gini 0.456 [0.446,0.466]; el_zipf -0.773 [-0.786,-0.757]; el_heaps 0.609 [0.598,0.621]; pos_excess 0.156 [0.121,0.193]; pos_bound 0.281 [0.233,0.332]; big_reuse -0.005 [-0.007,-0.003]; rev_pairs nan [nan,nan]; mi_ex -0.267 [-0.315,-0.218]; pair_pred -0.019 [-0.025,-0.014]; substr 0.000 [0.000,0.000]
+    closed-slot: init10 0.076 [0.070,0.085]; fin10 0.073 [0.066,0.082]; mid10 nan [nan,nan]; Hinit 0.957 [0.953,0.960]; Hfin 0.958 [0.954,0.961]; top10el 0.060 [0.056,0.066]
+    capacity: uniq 1.000 [1.000,1.000]; gt_new 1.000 [1.000,1.000]; gini_id 0.000 [0.000,0.000]; heaps 1.000 [1.000,1.000]; gini_el 0.488 [0.481,0.496]; zipf_el -0.841 [-0.850,-0.825]; even_pos 0.951 [0.949,0.953]; lutil_ent 0.912 [0.894,0.931]; top10 0.005 [0.005,0.005]
+  [cn_given freq-matched random] pool=98683 draw n=1431 x20
+    median n=1431 k=884 T=2862 meanL=2.000 el_ttr=0.309 el_reuse=0.889 el_gini=0.432 el_zipf=-0.731 el_heaps=0.619 pos_excess=-0.002 pos_bound=0.093 big_reuse=-0.004 rev_pairs=nan mi_ex=-0.007 pair_pred=-0.001 substr=0.000 cmp_share=0.988
+    CI: el_ttr 0.309 [0.297,0.316]; el_reuse 0.889 [0.880,0.903]; el_gini 0.432 [0.425,0.441]; el_zipf -0.731 [-0.745,-0.718]; el_heaps 0.619 [0.603,0.633]; pos_excess -0.002 [-0.034,0.026]; pos_bound 0.093 [0.058,0.124]; big_reuse -0.004 [-0.005,-0.002]; rev_pairs nan [nan,nan]; mi_ex -0.007 [-0.038,0.036]; pair_pred -0.001 [-0.006,0.004]; substr 0.000 [0.000,0.000]
+    closed-slot (freq-random): init10 0.058 [0.053,0.063]; fin10 0.057 [0.050,0.064]; mid10 nan [nan,nan]; Hinit 0.966 [0.964,0.968]; Hfin 0.967 [0.963,0.969]; top10el 0.049 [0.046,0.056]
