@@ -49,7 +49,7 @@ def load_ur3():
                 if in_seal: flush()
                 in_seal = False
             continue
-        seal_obj = per[pid] == 'seal'
+        seal_obj = per[pid].startswith('seal (')
         if not (in_seal or seal_obj): continue
         m = re.match(r"^\d+'?\.\s+(.*)", line)
         if not m: continue
@@ -93,6 +93,7 @@ def load_indus():
 
 # ---------------- statistics ----------------
 def uniq(ms):
+    if not ms: return float('nan')
     c = collections.Counter(ms); return sum(1 for m in ms if c[m] == 1) / len(ms)
 def bigram(ms):
     b = collections.defaultdict(collections.Counter)
@@ -173,7 +174,7 @@ def ur3_sets(U, mode='line1'):
         if n: leg.append(n)
     seen = set(); sobj = []
     for r in U:
-        if r['obj'] != 'seal': continue
+        if not r['obj'].startswith('seal ('): continue
         if r['pid'] in seen: continue
         seen.add(r['pid']); n = ur3_name(r, mode)
         if n: sobj.append(n)
@@ -184,7 +185,7 @@ def cycle1():
     P(f'# loop18 cycle 1: matched granularity, uniqueness ratio and Zipf slope ({datetime.datetime.now().isoformat(timespec="minutes")})')
     d = load_indus(); U = load_ur3()
     P(f'Ur III records: {len(U)} impressions/sections; distinct legends {len({tuple(tuple(w) for w in r["legend"]) for r in U})}; '
-      f'seal objects {len({r["pid"] for r in U if r["obj"]=="seal"})}; tablets {len({r["pid"] for r in U if r["obj"]!="seal"})}')
+      f'seal objects {len({r["pid"] for r in U if r["obj"].startswith("seal (")})}; tablets {len({r["pid"] for r in U if not r["obj"].startswith("seal (")})}')
     I = indus_sets(d); R = ur3_sets(U)
     for k, v in I.items(): P(f'Indus {k:12s} n={len(v)} distinct={len(set(v))}')
     for k, v in R.items(): P(f'Ur III {k:12s} n={len(v)} distinct={len(set(v))}')
@@ -195,6 +196,7 @@ def cycle1():
     res = {}
     for label, ik, rk in pairs:
         im = I[ik]; rm = R[rk]; n = min(len(im), len(rm))
+        if n < 50: P(f'\n## {label}: skipped, n={n}'); continue
         ui = uniq_ratio(im, n, rnd); ur = uniq_ratio(rm, n, rnd)
         zi = zipf_slope(im); zr = zipf_slope(rm); zi100 = zipf_slope(im, 100); zr100 = zipf_slope(rm, 100)
         P(f'\n## {label}: matched n={n}')
