@@ -1,0 +1,44 @@
+S-DARK-68 FINAL: how uniform are real name pools across cities ~600 km apart, and where does Indus sit?
+Tool: tools/dark_loop68.py (cycles 1-4; S-DARK-48 statistic: between-group divergence / within-group random-halves divergence,
+equal-n draws). Rows: loop68_cycle1.txt .. loop68_cycle4.txt. Logs: loop68_c{1,2,3,4}_log.txt / _run.log; numbers: loop68_c{1..4}.json.
+Sources and licences: loop68_corpora/SOURCES.txt (SSA, FCC ULS: public domain; EDH: CC BY-SA 4.0; ONS regional tables are top-10 only, not used;
+US Census surnames are national only, not used).
+
+LADDER (unigram JSD multiple, 350-900 km band, all designs at the Indus noise level: within-group JSD ~0.14 bits)
+  x1.01  FCC call-sign suffix (central code, no geographic field), 41 state pairs
+  x1.03  US given names 2010s (letter bigrams, n = 200, within 0.11)
+  x1.04  INDUS seals MD vs H, collapsed, all three merge levels (excess 0.005-0.006 bits, P 0.19-0.33)
+  x1.05  US given names 1950s (noise-matched n = 122; 80% of 85 pairs <= x1.10, none significant)
+  x1.05  US surnames (FCC licensees, noise-matched n = 199; 41 pairs, none significant)
+  x1.06-1.10  INDUS seals MD vs H, uncollapsed (all / strong / raw; raw P 0.06)
+  x1.14  US given names 1910s (n = 200, within 0.10; 35% of pairs significant)
+  x1.24-1.32  Latin cognomina by Roman province (EDH, noise-matched n = 105; 59% of 99 pairs significant; <350 km x1.18)
+  x1.5-2.1  Ur III seal legends by city; x1.7-2.6 Linear B by palace (S-DARK-48.2)
+  x1.9  FCC call signs with the call-district digit (central code WITH a geographic field; x12 at n = 200)
+Excess in bits at ~600 km: US given names 0.004-0.014, US surnames 0.006, Indus 0.005-0.014, Latin cognomina 0.033.
+
+WHOLE-NAME / WHOLE-TEXT REUSE (within / between; > 1 = local)
+  US given names x1.05 (0 of 85 pairs < 0.88; 1 < 1); US surnames x1.29 (0 of 41 < 1); Latin cognomina x1.50, nomina x1.53,
+  full Latin names x3.4 (0 of 99 < 1). INDUS seal texts (uncollapsed) x0.77 raw / x0.85 strong / x0.88 all: shared across the
+  two cities MORE than within one (S-DARK-48.1 found the same, x0.75). Caveat: names reuse at 5-60%, seal texts at 2-3%, so the
+  regimes differ; the closest regime (full Latin names, mostly unique) is the most local of all (x3.4).
+
+ANSWER
+1. The sign-level uniformity of Indus seals (x1.04-1.10) does NOT require central issuance. Two independent modern naming populations
+   (US given names, US surnames) sampled ~600 km apart give the same multiple at the same noise level, and a centrally issued code
+   can be far less uniform (call signs with a district digit, x1.9-12). Uniformity of the inventory = one naming / writing
+   population across two cities, which is what a shared language and a shared name stock produce without any issuing office.
+2. Indus is tighter than an ancient multi-ethnic empire (Latin provinces x1.24-1.32) and than every administered multi-city
+   script in the library (Ur III, Linear B); it matches only the most homogeneous modern naming populations (20th-century USA)
+   and central codes without a geographic field.
+3. The one feature no naming population shows is whole-text reuse below 1. Real names are always somewhat local (x1.05-3.4,
+   0 of 225 pairs below 0.88). If seal texts were personal names drawn from one population, MD-H reuse should be >= 1; it is
+   0.77-0.88 at every merge level. That feature, not the inventory uniformity, is the residual argument for texts supplied from
+   a shared stock (formulae, offices or titles copied across cities rather than names coined locally). Its strength is limited:
+   the reuse rates are 2-3%, the Indus P for locality is 0.7-0.8 (no test of 'more shared than within' is significant beyond the
+   draw-bootstrap CI), and it rests on Mohenjo-daro + Harappa only.
+
+VERDICT: the inventory-level uniformity is what one naming population across two cities looks like; central issuance is not
+required to explain it. The whole-text reuse inversion remains unexplained by any name population and is the only signal that
+points beyond 'one population' toward shared stock texts. Data caution: Indus counts from merged-corpus-canonical.json (older
+build, S-DARK-23), seals only; FCC licensees are not a random population sample; SSA drops names < 5 births per state-year.

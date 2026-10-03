@@ -1,0 +1,84 @@
+LOOP 79 FRONTIER: ten untried strategies, ranked (planning file, no new statistics; 3 Oct 2026)
+Criteria: answers a question loop79_ledger.txt leaves open; data in the repo or open sources reachable from this container; a control that can kill it; not a repeat of any S or S-DARK row.
+Repeat check: keyword search of STRATEGIES.md (hits by row in brackets). Zero hits for: collision, Hamming, registrar, BnF, Gallica, hectare, site area, wood account, Ras al-Jinz, length unit, quantiz/quantis, floor area.
+Run every statistic at seq_raw / seq_strong / seq_all and in IM77 where possible; report MD+HP dependence and 'n of 0' as < 3/n.
+
+1. NEAR-COLLISION AVOIDANCE IN THE DESIGNATION SLOT (registry vs names)  [designation slot]
+   Method: deduplicated seal designations (S-DARK-26 middles, >= 2 signs, one per die); count same-length pairs at edit distance 1 (one substitution) within a site and between sites.
+           Compare with the held-out-calibrated bigram chain of S-DARK-74.5, refitted within site, and with draws from the pooled designation distribution.
+   Control: same code on Ur III one-per-seal owner names, Linear B personnel, Chinese/Japanese given names (no avoidance expected), and a planted generator that rejects edit-1 neighbours (positive).
+   Kill: registry reading dies if within-site O/E(edit-1 | chain) >= 0.9 at all levels; name reading dies if O/E <= 0.5 with upper CI < 0.8 at MD+HP and held-out sites agree.
+   Decisive number: within-site O/E of edit-1 pairs (MD, then pooled small sites), plus the graphic distance of the substituted signs (registry predicts distant shapes).
+   Nearest rows: S-DARK-76.1 (exact recurrence; 'deliberately distinct'), S-DARK-74 (containment, different length), S-DARK-11.1 (edit-1 to frequent texts, mostly frame swaps), S320. Differs: near, not exact, distinctness between different seals' designations, against name and registry poles.
+
+2. IDENTIFY AND READ THE BnF 'INDUS-TYPE SEAL WITH CUNEIFORM' (Frenez 2023 fig. 3F)  [outside anchor, bilingual]
+   Method: headless Chromium (proxy CA in nssdb) on collections.bnf.fr, medaillesetantiques.bnf.fr and Gallica ('cachet', 'sceau', 'Indus', 'harappéen', 'taureau', 'stéatite'); Crossref for the fig. 3F photo credit.
+           If found: read the cuneiform against the CDLI sign list and any Indus signs against the Wells sheets with a mirrored blind pass at full resolution (S-DARK-47 rule).
+   Control: BM 120573 precedent (cuneiform + short-horned bull, NO Indus signs; ANCHORS sec. 7, 14); the frozen frame (head last, designation 2-3 signs) scored blind before the cuneiform is read.
+   Kill: no Indus signs on the object, or the cuneiform is not a personal name. If the catalogue blocks scripts, add a HUMAN-ACTIONS item (museum number + link) and stop.
+   Decisive number: >= 2 grade-B Indus signs beside >= 3 cuneiform signs of a personal name = the first name-sign pairing for the designation slot.
+   Nearest rows: S146 (YBC 5447, pictorial only), S153 (Europeana/Commons sweep), ANCHORS sec. 21 (lead noted, 'to identify'; BnF server errors 27 Sept). Never identified or read.
+
+3. RARE-SIGN LOCALITY OF DESIGNATION ELEMENTS  [designation slot; Ur III calibration]
+   Method: signs with 2-5 tokens that occur in the designation slot; share whose tokens all sit at one site, against a null permuting tokens across sites with per-site and per-object-type totals fixed.
+           Require Wells and IM77 to agree on the sign (bridge, strict entries) to remove single-reader artefacts.
+   Control: Ur III rare name words at city grain (S-DARK-64.2 found 88 city-bound vs 2.7 expected: positive pole); rare frame and count signs in the same corpus (pan-Indus expected).
+   Kill: site-confined O/E <= 1.2 (rare designation signs as pan-Indus as common ones: a central register); support for local names or cults: O/E >= 2 at all levels.
+   Decisive number: site-confined share of rare designation signs vs the null and vs rare frame signs.
+   Nearest rows: S-DARK-45 (well-attested elements, 97% at >= 2 sites), S-DARK-64.2 (element loyalty to a dig area inside MD), S-DARK-6.1 (signs >= 30 tokens), S11. Differs: rare signs, site grain, the place where local name signal would live (S-DARK-64.1).
+
+4. WHAT MESOPOTAMIA COUNTS FROM MELUHHA: CDLI QUANTITIES vs INDUS COUNTED ITEMS  [outside fact; kills or keeps W390 = timber]
+   Method: parse cdli.atf (CDLI dump in the session scratchpad) for every line naming a Meluhha good (gesz ab-ba / gesz mes me-luh-ha, na4 gug, dar, ma2) and control woods (gesz-esi, gesz-ha-lu-ub2, gesz-asal2);
+           extract numeral + unit (piece, bundle, gu2/ma-na weight) and compare with the Indus N before the tree family (3x23, 4x22, 6x9, 5x6) and before W900 (3, 4, 5).
+   Control: the same parse on native woods and on non-Meluhha imports at the same archives (Umma, Girsu, Ur).
+   Kill: Meluhha wood appears only as finished objects counted 1-2 or by weight (a feasibility grep already shows '1(disz) {gesz}guzza {gesz}ab-ba me-luh-ha'), so raw-timber counts of 3-6 do not exceed the control woods: W390 'timber' drops from C.
+   Decisive number: share of raw-material Meluhha-wood entries with counts 3-6 vs control woods (n is small, about 8-20 lines: this is a kill test, not a proof).
+   Nearest rows: S346 (goods named, no quantities), S350-S351 (Indus counts), S353 (textile back). No row extracts the Mesopotamian numbers.
+
+5. SAME-OBJECT ABBREVIATION PAIRS AS KNOWN CO-REFERENT SHORT/FULL FORMS  [designation slot]
+   Method: the 12 abbreviation pairs on two-sided seals (S-DARK-37.2) plus seal/sealing and seal/tablet pairs of one die where one face is shorter; classify what the short form drops
+           (head, qualifier, opener, designation-initial, designation-final, infix).
+   Control: the S-DARK-74.5 calibrated chain deriving short forms from long ones; Ur III owners with a short and a long legend (name kept, title or 'dumu PN' dropped).
+   Kill: the designation is never cut (only frame parts drop): then the short form says nothing about the designation; or cuts are infix at the chain rate.
+   Decisive number: share of pairs whose cut falls at one designation edge (needs >= 10 of 12, binomial P < 0.02); a photo check of the pairs (HUMAN) before grading.
+   Nearest rows: S-DARK-37.2 (pairs found, 'lead worth a photo check'), S-DARK-74.2-74.3 (containment across different objects, no edge bias), S34. Differs: co-reference is known from the object, not inferred.
+
+6. EDGE-SWITCH CHAINS: A 'SON OF' LINK WITHOUT A 'SON OF' SIGN  [designation slot; counter-intuitive]
+   Method: ordered pairs of distinct seal designations where the FINAL element of A is the INITIAL element of B (the patronym on one seal is the owner on another),
+           within site vs between sites, against the S-DARK-74.5 chain refitted within each site; rare elements (< 10 tokens) reported separately.
+   Control: Ur III legends flattened to one string 'PN1 dumu PN2' (positive: PN2 recurs as an owner); Chinese given names and PE middles (negative).
+   Kill: within-site O/E <= 1.1 for rare elements at all levels while Ur III shows the effect at the same n.
+   Decisive number: within-site / between-site O/E for rare-element edge switches.
+   Nearest rows: S12 (no 'son of' word), S34 (long middles = two short ones), S-DARK-64 (rare elements shared in rooms 0 of 218), S-DARK-74.2 (prefix/suffix containment). None counts an element moving from final to initial position.
+
+7. POT CAPACITY FROM PUBLISHED VESSEL DRAWINGS  [weights and measures; object function]
+   Method: harappa.com and archive.org PDFs (tools/pdf_page_shot.py under xvfb-run) for inscribed vessels drawn to scale (HARP, Mackay 1938, Vats 1940); compute capacity from the drawn profile;
+           relate to the lone tall numeral (S-DARK-23.4: mode tall 2) and to the jar sign on pots.
+   Control: uninscribed vessels of the same form from the same plates; value permuted within form.
+   Kill: rho(value, capacity) <= 0.1 with >= 30 complete inscribed vessels (lot/batch reading stands); capacity label supported at rho >= 0.5.
+   Decisive number: rank correlation numeral value vs capacity within form. Stop and file a HUMAN item if fewer than 30 vessels have both.
+   Nearest rows: S-DARK-23.1-23.4 (untestable without sizes), S354-S355. Differs: takes sizes from published drawings, not registers.
+
+8. HELD-OUT SCORING ON THE ROWS NEW IN corpus v2 (coordinate with S-DARK-75)  [prediction outside the fitted corpus]
+   Method: the 164 rows entering merged-corpus-canonical.v2.json (loop75_rebuild_diff.txt: mostly HARP sherds, 35 tablets, 15 seals) scored against predictions frozen before v2 existed:
+           S-DARK-23.4 (pot tall-2 mode), S-DARK-57.3 (pot founder share > seal share), S-DARK-58 (one-sign seal = designation sign 0.86), S-DARK-62 (no opener on tablets/pots), prereg R1-R13, and 'new signs fall in the designation slot' (S-DARK-52.3, 58).
+   Control: the same scoring on random v1 subsets with the same site x type mix.
+   Kill: two or more predictions fail outside their stated intervals.
+   Decisive number: pass/fail count with binomial bounds per prediction. Caveat: S-DARK-41.1 already recomputed aggregates on 5,533 texts; same transcriber, mostly Harappa.
+   Nearest rows: S-DARK-41.1, 21, 27.4, 36.3. Differs: prospective scoring of named predictions on rows never used to fit them.
+
+9. WEIGHTS FOUND WITH QUANTITY SEALS  [weights and measures; object function]
+   Method: Marshall 1931 and Mackay 1938 weight catalogues (archive.org full text) give find-spots of cubical weights at Mohenjo-daro; map them to area-section / block-house in inscriptions.csv;
+           compare the share of blocks with weights for quantity seals ('opener W2 N tree', 'N bracket') vs jar-headed office seals.
+   Control: seal class permuted within area-section; unicorn vs other emblems as a no-prediction contrast.
+   Kill: odds ratio <= 1.2, or CI includes 1, with >= 20 quantity seals that have a block. Support: OR >= 2.
+   Decisive number: odds ratio quantity vs office seal, weights-in-block.
+   Nearest rows: S-DARK-5.4b (weight-series arithmetic), S359 (arithmetic closure by find-group), S-DARK-29/64 (room co-deposition of seals). Differs: the outside variable is a weighing tool, not the text.
+
+10. ARE SEAL FACES CUT TO AN INDUS LENGTH UNIT?  [measures]
+   Method: v and h (mm) of ~1,200 complete square seals; Rayleigh/periodogram of size modulo units scanned 1-40 mm, with units fixed in advance from excavated rulers (Lothal ivory scale ~1.7 mm divisions, Mohenjo-daro shell scale ~6.7 mm; check both values against the excavation reports before the run);
+           if a unit wins, test whether size class predicts head or designation length beyond the length effect of S-DARK-38.
+   Control: maximum over the scanned grid on jittered sizes; sealings (shrinkage) and Gulf round seals as negative comparators.
+   Kill: no fixed unit beats the scan-maximum null at P < 0.05 in both MD and HP.
+   Decisive number: Rayleigh z at the fixed units vs the null maximum; then the partial R2 of size class on designation length.
+   Nearest rows: S-DARK-35 (closers by face area), S-DARK-38 (space budget), S179. Differs: tests a measurement standard, not a ranking.
