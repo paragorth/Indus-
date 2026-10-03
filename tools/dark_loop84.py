@@ -16,7 +16,7 @@ Usage: python3 tools/dark_loop84.py <cycle 1|2|3> [NP]
   3: robustness: corpus v2 (merged-corpus-canonical.v2.json); token bands 2 / 3-5 / 6-10; Wells-IM77 agreement of confined
      elements through the bridge; MD + Harappa only vs third sites.
 """
-import json, sys, random, collections, math, csv, gzip, os, glob
+import json, sys, random, collections, math, csv, gzip, os, glob, re
 import numpy as np
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DK = ROOT + 'data/derived/dark/'
@@ -130,7 +130,7 @@ def load_ur3():
     objs = []
     for t in T:
         if t['site'] == 'uncertain': continue
-        els = [w for w in t['seq'] if w not in UR3_TITLES and 'x' not in w.replace('uszurx', '')]
+        els = [w for w in t['seq'] if w not in UR3_TITLES and not re.search(r'(^|[-}])x($|[-{(])', w)]   # drop broken words (x = unread sign)
         objs.append((t['site'], 'legend', t['seq'], els, len(t['seq'])))
     return collapse(objs)
 def load_fcc(states, rng, cap=None, unit='surname'):
