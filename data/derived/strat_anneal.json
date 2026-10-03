@@ -1,0 +1,3326 @@
+{
+ "level": "seq",
+ "restarts": 50,
+ "steps": 3000,
+ "n_texts": 3545,
+ "n_heldout": 458,
+ "heldout_sites": [
+  [
+   "Dholavira",
+   187
+  ],
+  [
+   "Nausharo",
+   36
+  ],
+  [
+   "Unknown",
+   28
+  ],
+  [
+   "Banawali",
+   21
+  ],
+  [
+   "Allahdino",
+   12
+  ],
+  [
+   "Rakhigarhi",
+   11
+  ],
+  [
+   "Lakhanjo-daro",
+   10
+  ],
+  [
+   "Kot-Diji",
+   9
+  ],
+  [
+   "Bala-kot",
+   7
+  ],
+  [
+   "Farmana",
+   7
+  ],
+  [
+   "Kanmer",
+   7
+  ],
+  [
+   "Shikarpur",
+   6
+  ],
+  [
+   "Amri",
+   5
+  ],
+  [
+   "Bhirrana",
+   5
+  ],
+  [
+   "Gola Dhoro (Bagasra)",
+   5
+  ],
+  [
+   "Rupar",
+   5
+  ],
+  [
+   "Ur",
+   5
+  ],
+  [
+   "Karanpura",
+   4
+  ],
+  [
+   "Rodji",
+   4
+  ],
+  [
+   "Khirsara",
+   4
+  ],
+  [
+   "Surkotada",
+   4
+  ],
+  [
+   "Nuhato",
+   4
+  ],
+  [
+   "Chandigarh",
+   3
+  ],
+  [
+   "Desalpur",
+   3
+  ],
+  [
+   "Naru-Waro-dharo",
+   3
+  ],
+  [
+   "Ra's al-Junayz",
+   3
+  ],
+  [
+   "Tarkhanewala-dera",
+   3
+  ],
+  [
+   "Karzakan",
+   3
+  ],
+  [
+   "Alamgirpur",
+   2
+  ],
+  [
+   "Daimabad",
+   2
+  ],
+  [
+   "Failaka",
+   2
+  ],
+  [
+   "Ganweriwala",
+   2
+  ],
+  [
+   "Gumla",
+   2
+  ],
+  [
+   "Rahman-deri",
+   2
+  ],
+  [
+   "Kish",
+   2
+  ],
+  [
+   "Nindowari-damb",
+   2
+  ],
+  [
+   "Susa",
+   2
+  ],
+  [
+   "Salut",
+   2
+  ],
+  [
+   "Miri Qalat",
+   2
+  ],
+  [
+   "Altyn Depe",
+   1
+  ],
+  [
+   "Bakkar Buthi",
+   1
+  ],
+  [
+   "Gharo Bhiro",
+   1
+  ],
+  [
+   "Hajar",
+   1
+  ],
+  [
+   "Baror",
+   1
+  ],
+  [
+   "Hissam-dheri",
+   1
+  ],
+  [
+   "Hulas",
+   1
+  ],
+  [
+   "Jhukar",
+   1
+  ],
+  [
+   "Lohumjo-daro",
+   1
+  ],
+  [
+   "Luristan",
+   1
+  ],
+  [
+   "Nippur",
+   1
+  ],
+  [
+   "Pabumath",
+   1
+  ],
+  [
+   "Pirak",
+   1
+  ],
+  [
+   "Qala'at al-Bahrain",
+   1
+  ],
+  [
+   "Shortughai",
+   1
+  ],
+  [
+   "Tell Umma",
+   1
+  ],
+  [
+   "Tello",
+   1
+  ],
+  [
+   "Tepe Yahya",
+   1
+  ],
+  [
+   "Wattoowala",
+   1
+  ],
+  [
+   "Gonur Depe",
+   1
+  ],
+  [
+   "Rajanpur",
+   1
+  ],
+  [
+   "Girsu",
+   1
+  ],
+  [
+   "Saar",
+   1
+  ],
+  [
+   "Janabiyah",
+   1
+  ],
+  [
+   "Sibri",
+   1
+  ],
+  [
+   "Ornach area",
+   1
+  ],
+  [
+   "Rappwala Ther",
+   1
+  ],
+  [
+   "Guddal A",
+   1
+  ],
+  [
+   "Tigrana",
+   1
+  ],
+  [
+   "Kalba",
+   1
+  ],
+  [
+   "Juna Khatiya",
+   1
+  ],
+  [
+   "Dilmun",
+   1
+  ]
+ ],
+ "facts": {
+  "type": {
+   "classes": [
+    "POT",
+    "SEAL",
+    "TAB",
+    "TAG",
+    "other"
+   ],
+   "n_train": 2699,
+   "n_test": 458,
+   "tau": 0.3
+  },
+  "emblem": {
+   "classes": [
+    "Bult",
+    "Elep",
+    "Gaur",
+    "Zebu",
+    "other",
+    "unicorn"
+   ],
+   "n_train": 1199,
+   "n_test": 185,
+   "tau": 0.05
+  },
+  "region": {
+   "classes": [
+    "Gujarat/Kutch",
+    "Inter-Riverine",
+    "Lower Indus"
+   ],
+   "n_train": 3087,
+   "n_test": 328,
+   "tau": 0.3
+  },
+  "size": {
+   "classes": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "n_train": 1406,
+   "n_test": 150,
+   "tau": 0.3
+  },
+  "material": {
+   "classes": [
+    "clay",
+    "copper",
+    "faience",
+    "other",
+    "steatite"
+   ],
+   "n_train": 2385,
+   "n_test": 261,
+   "tau": 0.3
+  },
+  "period": {
+   "classes": [
+    "early",
+    "late",
+    "middle"
+   ],
+   "n_train": 1113,
+   "n_test": 106,
+   "tau": 0.1
+  }
+ },
+ "baselines": {
+  "raw": 0.32310987208356384,
+  "raw_detail": {
+   "type": {
+    "gain_bits": 0.0835,
+    "acc": 0.561,
+    "majority_acc": 0.57,
+    "n_test": 458
+   },
+   "emblem": {
+    "gain_bits": 0.0123,
+    "acc": 0.584,
+    "majority_acc": 0.584,
+    "n_test": 185
+   },
+   "region": {
+    "gain_bits": -0.0864,
+    "acc": 0.171,
+    "majority_acc": 0.277,
+    "n_test": 328
+   },
+   "size": {
+    "gain_bits": 0.1048,
+    "acc": 0.48,
+    "majority_acc": 0.153,
+    "n_test": 150
+   },
+   "material": {
+    "gain_bits": 0.2297,
+    "acc": 0.479,
+    "majority_acc": 0.464,
+    "n_test": 261
+   },
+   "period": {
+    "gain_bits": -0.0208,
+    "acc": 0.755,
+    "majority_acc": 0.755,
+    "n_test": 106
+   }
+  },
+  "length": 0.24175000686127016,
+  "length_detail": {
+   "type": {
+    "gain_bits": 0.0632,
+    "acc": 0.57
+   },
+   "emblem": {
+    "gain_bits": 0.0053,
+    "acc": 0.584
+   },
+   "region": {
+    "gain_bits": 0.0087,
+    "acc": 0.226
+   },
+   "size": {
+    "gain_bits": 0.0582,
+    "acc": 0.407
+   },
+   "material": {
+    "gain_bits": 0.1099,
+    "acc": 0.464
+   },
+   "period": {
+    "gain_bits": -0.0035,
+    "acc": 0.755
+   }
+  },
+  "random_median": 0.1362571831694745,
+  "random_max": 0.264696022745236
+ },
+ "restarts_b": 8,
+ "steps_b": 1000,
+ "results": {
+  "A_heldout": {
+   "best": 0.9035152070530651,
+   "detail": {
+    "type": {
+     "gain_bits": 0.1762,
+     "acc": 0.552,
+     "majority_acc": 0.57,
+     "n_test": 458
+    },
+    "emblem": {
+     "gain_bits": 0.0169,
+     "acc": 0.584,
+     "majority_acc": 0.584,
+     "n_test": 185
+    },
+    "region": {
+     "gain_bits": 0.1213,
+     "acc": 0.159,
+     "majority_acc": 0.277,
+     "n_test": 328
+    },
+    "size": {
+     "gain_bits": 0.222,
+     "acc": 0.573,
+     "majority_acc": 0.153,
+     "n_test": 150
+    },
+    "material": {
+     "gain_bits": 0.3608,
+     "acc": 0.467,
+     "majority_acc": 0.464,
+     "n_test": 261
+    },
+    "period": {
+     "gain_bits": 0.0065,
+     "acc": 0.755,
+     "majority_acc": 0.755,
+     "n_test": 106
+    }
+   },
+   "scores": [
+    0.9035152070530651,
+    0.8995557837109917,
+    0.8966148066809646,
+    0.8956840420638219,
+    0.8893191004033815,
+    0.8857016588198715,
+    0.875645097471423,
+    0.8735307122767828,
+    0.8711502246636973,
+    0.8707095978745903,
+    0.8705030115302065,
+    0.8703189863436764,
+    0.8686401884569989,
+    0.8681271651596025,
+    0.8645126746778827,
+    0.8640905472603657,
+    0.8634688686079158,
+    0.8595165913598837,
+    0.8584452551204725,
+    0.8577207158794714,
+    0.856736832680186,
+    0.8562548122363673,
+    0.8529280162556874,
+    0.8495149825387189,
+    0.8486143188977149,
+    0.8474140120439988,
+    0.8465534700170422,
+    0.8465215859152968,
+    0.8444788992922774,
+    0.8444192472602653,
+    0.8435768611910265,
+    0.8370630937526116,
+    0.8358001435559365,
+    0.8357633089891625,
+    0.8347075203998819,
+    0.8344498990797306,
+    0.8287330418352284,
+    0.8285955076293966,
+    0.8285258665932026,
+    0.8231329284526523,
+    0.8211583682752859,
+    0.8209389803275576,
+    0.8199438843549524,
+    0.8129707807738875,
+    0.812430617682557,
+    0.8075419606958729,
+    0.8074681285500507,
+    0.8055458436313825,
+    0.7929786703943481,
+    0.7823605639084626
+   ]
+  },
+  "C1_permuted": {
+   "best": 0.05394127508043403,
+   "detail": {
+    "type": {
+     "gain_bits": -0.0128,
+     "acc": 0.57,
+     "majority_acc": 0.57,
+     "n_test": 458
+    },
+    "emblem": {
+     "gain_bits": 0.0166,
+     "acc": 0.584,
+     "majority_acc": 0.584,
+     "n_test": 185
+    },
+    "region": {
+     "gain_bits": 0.0026,
+     "acc": 0.277,
+     "majority_acc": 0.277,
+     "n_test": 328
+    },
+    "size": {
+     "gain_bits": 0.0153,
+     "acc": 0.24,
+     "majority_acc": 0.153,
+     "n_test": 150
+    },
+    "material": {
+     "gain_bits": 0.0125,
+     "acc": 0.464,
+     "majority_acc": 0.464,
+     "n_test": 261
+    },
+    "period": {
+     "gain_bits": 0.0197,
+     "acc": 0.755,
+     "majority_acc": 0.755,
+     "n_test": 106
+    }
+   },
+   "scores": [
+    0.05394127508043403,
+    0.051532386250595336,
+    0.05109005362155765,
+    0.051026366778074025,
+    0.05006683923436743,
+    0.048390965265350555,
+    0.04679432568814815,
+    0.04677853333576501,
+    0.04632283483543975,
+    0.046232252144727946,
+    0.045822495558887566,
+    0.044568794702664734,
+    0.04449543731607003,
+    0.04419791952607699,
+    0.043907102723518554,
+    0.043601513972838166,
+    0.04322242709121861,
+    0.04317408219684347,
+    0.04202087778079856,
+    0.04124058164093216,
+    0.041113620298072584,
+    0.04028117086561109,
+    0.0399578359148207,
+    0.03984359362924378,
+    0.039759136761467945,
+    0.03925861484435466,
+    0.03917080193691562,
+    0.03862317564421409,
+    0.03828032435532466,
+    0.038031362714291195,
+    0.03790494315864554,
+    0.037694378506459486,
+    0.03766328424326516,
+    0.03746545479492373,
+    0.03738951325113328,
+    0.03715603926726774,
+    0.037045529777368205,
+    0.0355626663228872,
+    0.0355623479555028,
+    0.03510027482262023,
+    0.03423163644179663,
+    0.034087509211904565,
+    0.033107208140004646,
+    0.032966900665121444,
+    0.03244982772028836,
+    0.031868083519240566,
+    0.03168521364405778,
+    0.03153024131410563,
+    0.030130284349441462,
+    0.029771764084868646
+   ],
+   "raw": -0.02000034850539276
+  },
+  "C2_shuffled_order": {
+   "best": 0.7693421880545636,
+   "detail": {
+    "type": {
+     "gain_bits": 0.1163,
+     "acc": 0.576,
+     "majority_acc": 0.57,
+     "n_test": 458
+    },
+    "emblem": {
+     "gain_bits": 0.0153,
+     "acc": 0.584,
+     "majority_acc": 0.584,
+     "n_test": 185
+    },
+    "region": {
+     "gain_bits": 0.0636,
+     "acc": 0.18,
+     "majority_acc": 0.277,
+     "n_test": 328
+    },
+    "size": {
+     "gain_bits": 0.257,
+     "acc": 0.56,
+     "majority_acc": 0.153,
+     "n_test": 150
+    },
+    "material": {
+     "gain_bits": 0.3089,
+     "acc": 0.487,
+     "majority_acc": 0.464,
+     "n_test": 261
+    },
+    "period": {
+     "gain_bits": 0.0083,
+     "acc": 0.755,
+     "majority_acc": 0.755,
+     "n_test": 106
+    }
+   },
+   "scores": [
+    0.7693421880545636,
+    0.7494756514650885,
+    0.7472951083659816,
+    0.744420181833702,
+    0.7443223565266006,
+    0.7431262665790525,
+    0.7430085352970083,
+    0.7393655240491371,
+    0.7387557724886267,
+    0.737928150530469,
+    0.7366618451537406,
+    0.7356804177182258,
+    0.7351743662084785,
+    0.7330389363394363,
+    0.7315052485459611,
+    0.7306578795589463,
+    0.7298283911905765,
+    0.7285241981770502,
+    0.7276436080612626,
+    0.7244231995907979,
+    0.7232729384543728,
+    0.7208234092564322,
+    0.7194991502482476,
+    0.7182574882552988,
+    0.7155826001420983,
+    0.7151016016835792,
+    0.7147658384699822,
+    0.7137648154518341,
+    0.7121613116557457,
+    0.7095655993349071,
+    0.7078061559963278,
+    0.7071437326646073,
+    0.7070509340922786,
+    0.7065475711105621,
+    0.7058545574578484,
+    0.7047199187716546,
+    0.7026380261793227,
+    0.7017587910445217,
+    0.6979912976082034,
+    0.6969364082574906,
+    0.6932041196253967,
+    0.689469799309987,
+    0.6891043343599121,
+    0.6890275583823504,
+    0.6890174145343467,
+    0.6871916214986327,
+    0.6838182649741625,
+    0.6827944013980747,
+    0.6797794045678318,
+    0.6785584201014657
+   ]
+  },
+  "B_crosscity": {
+   "best_cross": 0.32754557814994656,
+   "heldout": 0.26178583473968575,
+   "detail": {
+    "type": {
+     "gain_bits": 0.0158,
+     "acc": 0.559,
+     "majority_acc": 0.57,
+     "n_test": 458
+    },
+    "emblem": {
+     "gain_bits": 0.0128,
+     "acc": 0.584,
+     "majority_acc": 0.584,
+     "n_test": 185
+    },
+    "region": {
+     "gain_bits": -0.0846,
+     "acc": 0.155,
+     "majority_acc": 0.277,
+     "n_test": 328
+    },
+    "size": {
+     "gain_bits": 0.0905,
+     "acc": 0.48,
+     "majority_acc": 0.153,
+     "n_test": 150
+    },
+    "material": {
+     "gain_bits": 0.2428,
+     "acc": 0.49,
+     "majority_acc": 0.464,
+     "n_test": 261
+    },
+    "period": {
+     "gain_bits": -0.0154,
+     "acc": 0.755,
+     "majority_acc": 0.755,
+     "n_test": 106
+    }
+   },
+   "heldout_top10": [
+    0.26178583473968575,
+    0.2280604594485256,
+    0.25239476270923267,
+    0.21699575406850158,
+    0.28700225388352524,
+    0.17275530229979583,
+    0.23359143769779184,
+    0.22080551659157294
+   ],
+   "permuted_best_cross": -0.02991129722310539,
+   "permuted_heldout": 0.2293880954520781,
+   "permuted_heldout_top10": [
+    0.2293880954520781,
+    0.08741922535351622,
+    0.20153298373851866,
+    0.2007878580157565,
+    0.1735138170620821,
+    0.16650503257396526,
+    0.31458171780693256,
+    0.07419950603186491
+   ]
+  }
+ },
+ "stability_A": [
+  {
+   "W": 390,
+   "M": [
+    161,
+    162,
+    167,
+    168,
+    169
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.9,
+   "n": 320,
+   "initial": 0.07,
+   "final": 0.46
+  },
+  {
+   "W": 400,
+   "M": [
+    176
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.8,
+   "n": 286,
+   "initial": 0.01,
+   "final": 0.86
+  },
+  {
+   "W": 240,
+   "M": [
+    67
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.8,
+   "n": 257,
+   "initial": 0.24,
+   "final": 0.07
+  },
+  {
+   "W": 34,
+   "M": null,
+   "label": "QUALIFIER",
+   "stability": 0.8,
+   "n": 33,
+   "initial": 0.33,
+   "final": 0.36
+  },
+  {
+   "W": 740,
+   "M": [
+    342
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.7,
+   "n": 1337,
+   "initial": 0.02,
+   "final": 0.7
+  },
+  {
+   "W": 820,
+   "M": [
+    391
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.7,
+   "n": 221,
+   "initial": 0.73,
+   "final": 0.1
+  },
+  {
+   "W": 741,
+   "M": [
+    343
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.7,
+   "n": 201,
+   "initial": 0.14,
+   "final": 0.04
+  },
+  {
+   "W": 900,
+   "M": [
+    287
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.7,
+   "n": 84,
+   "initial": 0.21,
+   "final": 0.05
+  },
+  {
+   "W": 407,
+   "M": [
+    169
+   ],
+   "label": "OFFICE-2",
+   "stability": 0.7,
+   "n": 73,
+   "initial": 0.03,
+   "final": 0.63
+  },
+  {
+   "W": 690,
+   "M": [
+    149
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.7,
+   "n": 70,
+   "initial": 0.17,
+   "final": 0.17
+  },
+  {
+   "W": 617,
+   "M": null,
+   "label": "OFFICE-2",
+   "stability": 0.7,
+   "n": 61,
+   "initial": 0.21,
+   "final": 0.56
+  },
+  {
+   "W": 13,
+   "M": [
+    103
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.7,
+   "n": 40,
+   "initial": 0.28,
+   "final": 0.03
+  },
+  {
+   "W": 16,
+   "M": [
+    108,
+    109
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.7,
+   "n": 38,
+   "initial": 0.37,
+   "final": 0.08
+  },
+  {
+   "W": 2,
+   "M": [
+    99,
+    100
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.6,
+   "n": 724,
+   "initial": 0.09,
+   "final": 0.06
+  },
+  {
+   "W": 861,
+   "M": [
+    267
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.6,
+   "n": 379,
+   "initial": 0.76,
+   "final": 0.06
+  },
+  {
+   "W": 32,
+   "M": [
+    87
+   ],
+   "label": "PLACE",
+   "stability": 0.6,
+   "n": 365,
+   "initial": 0.28,
+   "final": 0.1
+  },
+  {
+   "W": 31,
+   "M": [
+    86
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.6,
+   "n": 229,
+   "initial": 0.33,
+   "final": 0.16
+  },
+  {
+   "W": 90,
+   "M": [
+    1
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.6,
+   "n": 154,
+   "initial": 0.12,
+   "final": 0.6
+  },
+  {
+   "W": 100,
+   "M": [
+    8
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.6,
+   "n": 111,
+   "initial": 0.05,
+   "final": 0.1
+  },
+  {
+   "W": 255,
+   "M": [
+    51
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.6,
+   "n": 102,
+   "initial": 0.35,
+   "final": 0.08
+  },
+  {
+   "W": 61,
+   "M": [
+    124,
+    125
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.6,
+   "n": 64,
+   "initial": 0.25,
+   "final": 0.06
+  },
+  {
+   "W": 717,
+   "M": [
+    341
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.6,
+   "n": 58,
+   "initial": 0.29,
+   "final": 0.1
+  },
+  {
+   "W": 455,
+   "M": [
+    233
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.6,
+   "n": 43,
+   "initial": 0.21,
+   "final": 0.14
+  },
+  {
+   "W": 220,
+   "M": [
+    59
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.5,
+   "n": 368,
+   "initial": 0.16,
+   "final": 0.14
+  },
+  {
+   "W": 520,
+   "M": [
+    211
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.5,
+   "n": 235,
+   "initial": 0.02,
+   "final": 0.8
+  },
+  {
+   "W": 803,
+   "M": [
+    387
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.5,
+   "n": 234,
+   "initial": 0.32,
+   "final": 0.06
+  },
+  {
+   "W": 590,
+   "M": [
+    249
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.5,
+   "n": 164,
+   "initial": 0.24,
+   "final": 0.13
+  },
+  {
+   "W": 760,
+   "M": [
+    347,
+    358
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.5,
+   "n": 109,
+   "initial": 0.06,
+   "final": 0.05
+  },
+  {
+   "W": 368,
+   "M": [
+    402
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.5,
+   "n": 106,
+   "initial": 0.09,
+   "final": 0.32
+  },
+  {
+   "W": 550,
+   "M": [
+    216
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.5,
+   "n": 102,
+   "initial": 0.39,
+   "final": 0.12
+  },
+  {
+   "W": 700,
+   "M": [
+    328
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.5,
+   "n": 97,
+   "initial": 0.27,
+   "final": 0.47
+  },
+  {
+   "W": 4,
+   "M": [
+    104,
+    105
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.5,
+   "n": 82,
+   "initial": 0.33,
+   "final": 0.13
+  },
+  {
+   "W": 154,
+   "M": null,
+   "label": "CONNECTIVE",
+   "stability": 0.5,
+   "n": 66,
+   "initial": 0.03,
+   "final": 0.65
+  },
+  {
+   "W": 575,
+   "M": [
+    197
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.5,
+   "n": 66,
+   "initial": 0.47,
+   "final": 0.03
+  },
+  {
+   "W": 892,
+   "M": null,
+   "label": "OFFICE-1",
+   "stability": 0.5,
+   "n": 59,
+   "initial": 0.24,
+   "final": 0.22
+  },
+  {
+   "W": 125,
+   "M": [
+    28
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.5,
+   "n": 56,
+   "initial": 0.3,
+   "final": 0.12
+  },
+  {
+   "W": 388,
+   "M": [
+    327
+   ],
+   "label": "COUNT",
+   "stability": 0.5,
+   "n": 55,
+   "initial": 0.31,
+   "final": 0.09
+  },
+  {
+   "W": 156,
+   "M": [
+    15
+   ],
+   "label": "COUNT",
+   "stability": 0.5,
+   "n": 48,
+   "initial": 0.02,
+   "final": 0.75
+  },
+  {
+   "W": 226,
+   "M": [
+    60
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.5,
+   "n": 38,
+   "initial": 0.08,
+   "final": 0.61
+  },
+  {
+   "W": 33,
+   "M": [
+    89
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.4,
+   "n": 242,
+   "initial": 0.24,
+   "final": 0.12
+  },
+  {
+   "W": 705,
+   "M": [
+    336
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.4,
+   "n": 238,
+   "initial": 0.24,
+   "final": 0.08
+  },
+  {
+   "W": 60,
+   "M": [
+    123
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.4,
+   "n": 207,
+   "initial": 0.03,
+   "final": 0.03
+  },
+  {
+   "W": 1,
+   "M": [
+    97,
+    98
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.4,
+   "n": 188,
+   "initial": 0.09,
+   "final": 0.11
+  },
+  {
+   "W": 798,
+   "M": [
+    216
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.4,
+   "n": 133,
+   "initial": 0.23,
+   "final": 0.08
+  },
+  {
+   "W": 415,
+   "M": [
+    171
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.4,
+   "n": 127,
+   "initial": 0.25,
+   "final": 0.09
+  },
+  {
+   "W": 17,
+   "M": [
+    110,
+    112
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.4,
+   "n": 68,
+   "initial": 0.22,
+   "final": 0.03
+  },
+  {
+   "W": 527,
+   "M": [
+    254
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.4,
+   "n": 68,
+   "initial": 0.04,
+   "final": 0.84
+  },
+  {
+   "W": 692,
+   "M": [
+    150
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.4,
+   "n": 67,
+   "initial": 0.73,
+   "final": 0.06
+  },
+  {
+   "W": 435,
+   "M": [
+    130
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.4,
+   "n": 54,
+   "initial": 0.09,
+   "final": 0.13
+  },
+  {
+   "W": 350,
+   "M": [
+    174,
+    175
+   ],
+   "label": "COUNT",
+   "stability": 0.4,
+   "n": 47,
+   "initial": 0.21,
+   "final": 0.04
+  },
+  {
+   "W": 832,
+   "M": [],
+   "label": "COUNT",
+   "stability": 0.4,
+   "n": 45,
+   "initial": 0.29,
+   "final": 0.33
+  },
+  {
+   "W": 585,
+   "M": null,
+   "label": "OFFICE-2",
+   "stability": 0.4,
+   "n": 45,
+   "initial": 0.07,
+   "final": 0.11
+  },
+  {
+   "W": 460,
+   "M": [
+    230
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.4,
+   "n": 39,
+   "initial": 0.13,
+   "final": 0.05
+  },
+  {
+   "W": 416,
+   "M": [
+    173
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.4,
+   "n": 39,
+   "initial": 0.46,
+   "final": 0.18
+  },
+  {
+   "W": 480,
+   "M": null,
+   "label": "PERSON-MARK",
+   "stability": 0.4,
+   "n": 36,
+   "initial": 0.31,
+   "final": 0.11
+  },
+  {
+   "W": 235,
+   "M": [
+    65
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.3,
+   "n": 199,
+   "initial": 0.35,
+   "final": 0.06
+  },
+  {
+   "W": 233,
+   "M": [
+    72
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.3,
+   "n": 172,
+   "initial": 0.21,
+   "final": 0.08
+  },
+  {
+   "W": 3,
+   "M": [
+    102,
+    103
+   ],
+   "label": "PLACE",
+   "stability": 0.3,
+   "n": 164,
+   "initial": 0.37,
+   "final": 0.09
+  },
+  {
+   "W": 920,
+   "M": [
+    293
+   ],
+   "label": "PLACE",
+   "stability": 0.3,
+   "n": 133,
+   "initial": 0.62,
+   "final": 0.05
+  },
+  {
+   "W": 176,
+   "M": [
+    48
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.3,
+   "n": 120,
+   "initial": 0.24,
+   "final": 0.07
+  },
+  {
+   "W": 140,
+   "M": [
+    17
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.3,
+   "n": 102,
+   "initial": 0.43,
+   "final": 0.09
+  },
+  {
+   "W": 840,
+   "M": [
+    403
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.3,
+   "n": 99,
+   "initial": 0.2,
+   "final": 0.1
+  },
+  {
+   "W": 231,
+   "M": [
+    70
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.3,
+   "n": 83,
+   "initial": 0.23,
+   "final": 0.07
+  },
+  {
+   "W": 151,
+   "M": [
+    12
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.3,
+   "n": 79,
+   "initial": 0.01,
+   "final": 0.82
+  },
+  {
+   "W": 630,
+   "M": [
+    244
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.3,
+   "n": 68,
+   "initial": 0.41,
+   "final": 0.01
+  },
+  {
+   "W": 142,
+   "M": [
+    25
+   ],
+   "label": "PLACE",
+   "stability": 0.3,
+   "n": 64,
+   "initial": 0.33,
+   "final": 0.06
+  },
+  {
+   "W": 904,
+   "M": null,
+   "label": "OFFICE-3",
+   "stability": 0.3,
+   "n": 55,
+   "initial": 0.18,
+   "final": 0.15
+  },
+  {
+   "W": 55,
+   "M": [
+    121
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.3,
+   "n": 52,
+   "initial": 0.38,
+   "final": 0.08
+  },
+  {
+   "W": 595,
+   "M": [
+    252
+   ],
+   "label": "OFFICE-2",
+   "stability": 0.3,
+   "n": 45,
+   "initial": 0.09,
+   "final": 0.31
+  },
+  {
+   "W": 440,
+   "M": [
+    127
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.3,
+   "n": 43,
+   "initial": 0.23,
+   "final": 0.07
+  },
+  {
+   "W": 5,
+   "M": [
+    106,
+    107
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.3,
+   "n": 41,
+   "initial": 0.44,
+   "final": 0.05
+  },
+  {
+   "W": 615,
+   "M": null,
+   "label": "UNKNOWN",
+   "stability": 0.3,
+   "n": 39,
+   "initial": 0.18,
+   "final": 0.1
+  },
+  {
+   "W": 824,
+   "M": null,
+   "label": "OFFICE-3",
+   "stability": 0.3,
+   "n": 37,
+   "initial": 0.46,
+   "final": 0.22
+  },
+  {
+   "W": 70,
+   "M": [
+    155
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.3,
+   "n": 37,
+   "initial": 0.16,
+   "final": 0.0
+  },
+  {
+   "W": 745,
+   "M": [
+    345
+   ],
+   "label": "PLACE",
+   "stability": 0.3,
+   "n": 31,
+   "initial": 0.35,
+   "final": 0.0
+  },
+  {
+   "W": 742,
+   "M": null,
+   "label": "OFFICE-2",
+   "stability": 0.2,
+   "n": 50,
+   "initial": 0.2,
+   "final": 0.14
+  },
+  {
+   "W": 503,
+   "M": [
+    204
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.2,
+   "n": 47,
+   "initial": 0.49,
+   "final": 0.02
+  },
+  {
+   "W": 790,
+   "M": [
+    261,
+    373,
+    374
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.2,
+   "n": 43,
+   "initial": 0.28,
+   "final": 0.33
+  },
+  {
+   "W": 850,
+   "M": null,
+   "label": "QUALIFIER",
+   "stability": 0.2,
+   "n": 39,
+   "initial": 0.28,
+   "final": 0.18
+  },
+  {
+   "W": 923,
+   "M": [
+    296
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.2,
+   "n": 32,
+   "initial": 0.12,
+   "final": 0.0
+  }
+ ],
+ "robust_A": [
+  [
+   390,
+   "QUALIFIER",
+   0.9
+  ]
+ ],
+ "stability_B": [
+  {
+   "W": 400,
+   "M": [
+    176
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.88,
+   "n": 286,
+   "initial": 0.01,
+   "final": 0.86
+  },
+  {
+   "W": 740,
+   "M": [
+    342
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.75,
+   "n": 1337,
+   "initial": 0.02,
+   "final": 0.7
+  },
+  {
+   "W": 31,
+   "M": [
+    86
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.75,
+   "n": 229,
+   "initial": 0.33,
+   "final": 0.16
+  },
+  {
+   "W": 3,
+   "M": [
+    102,
+    103
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.75,
+   "n": 164,
+   "initial": 0.37,
+   "final": 0.09
+  },
+  {
+   "W": 700,
+   "M": [
+    328
+   ],
+   "label": "OFFICE-3",
+   "stability": 0.75,
+   "n": 97,
+   "initial": 0.27,
+   "final": 0.47
+  },
+  {
+   "W": 435,
+   "M": [
+    130
+   ],
+   "label": "OFFICE-2",
+   "stability": 0.75,
+   "n": 54,
+   "initial": 0.09,
+   "final": 0.13
+  },
+  {
+   "W": 33,
+   "M": [
+    89
+   ],
+   "label": "OFFICE-2",
+   "stability": 0.62,
+   "n": 242,
+   "initial": 0.24,
+   "final": 0.12
+  },
+  {
+   "W": 741,
+   "M": [
+    343
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.62,
+   "n": 201,
+   "initial": 0.14,
+   "final": 0.04
+  },
+  {
+   "W": 798,
+   "M": [
+    216
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.62,
+   "n": 133,
+   "initial": 0.23,
+   "final": 0.08
+  },
+  {
+   "W": 920,
+   "M": [
+    293
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.62,
+   "n": 133,
+   "initial": 0.62,
+   "final": 0.05
+  },
+  {
+   "W": 415,
+   "M": [
+    171
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.62,
+   "n": 127,
+   "initial": 0.25,
+   "final": 0.09
+  },
+  {
+   "W": 550,
+   "M": [
+    216
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.62,
+   "n": 102,
+   "initial": 0.39,
+   "final": 0.12
+  },
+  {
+   "W": 4,
+   "M": [
+    104,
+    105
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.62,
+   "n": 82,
+   "initial": 0.33,
+   "final": 0.13
+  },
+  {
+   "W": 407,
+   "M": [
+    169
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.62,
+   "n": 73,
+   "initial": 0.03,
+   "final": 0.63
+  },
+  {
+   "W": 125,
+   "M": [
+    28
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.62,
+   "n": 56,
+   "initial": 0.3,
+   "final": 0.12
+  },
+  {
+   "W": 55,
+   "M": [
+    121
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.62,
+   "n": 52,
+   "initial": 0.38,
+   "final": 0.08
+  },
+  {
+   "W": 5,
+   "M": [
+    106,
+    107
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.62,
+   "n": 41,
+   "initial": 0.44,
+   "final": 0.05
+  },
+  {
+   "W": 2,
+   "M": [
+    99,
+    100
+   ],
+   "label": "COMMODITY-5",
+   "stability": 0.5,
+   "n": 724,
+   "initial": 0.09,
+   "final": 0.06
+  },
+  {
+   "W": 861,
+   "M": [
+    267
+   ],
+   "label": "COUNT",
+   "stability": 0.5,
+   "n": 379,
+   "initial": 0.76,
+   "final": 0.06
+  },
+  {
+   "W": 520,
+   "M": [
+    211
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.5,
+   "n": 235,
+   "initial": 0.02,
+   "final": 0.8
+  },
+  {
+   "W": 820,
+   "M": [
+    391
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.5,
+   "n": 221,
+   "initial": 0.73,
+   "final": 0.1
+  },
+  {
+   "W": 590,
+   "M": [
+    249
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.5,
+   "n": 164,
+   "initial": 0.24,
+   "final": 0.13
+  },
+  {
+   "W": 176,
+   "M": [
+    48
+   ],
+   "label": "PLACE",
+   "stability": 0.5,
+   "n": 120,
+   "initial": 0.24,
+   "final": 0.07
+  },
+  {
+   "W": 140,
+   "M": [
+    17
+   ],
+   "label": "COUNT",
+   "stability": 0.5,
+   "n": 102,
+   "initial": 0.43,
+   "final": 0.09
+  },
+  {
+   "W": 840,
+   "M": [
+    403
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.5,
+   "n": 99,
+   "initial": 0.2,
+   "final": 0.1
+  },
+  {
+   "W": 17,
+   "M": [
+    110,
+    112
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.5,
+   "n": 68,
+   "initial": 0.22,
+   "final": 0.03
+  },
+  {
+   "W": 575,
+   "M": [
+    197
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.5,
+   "n": 66,
+   "initial": 0.47,
+   "final": 0.03
+  },
+  {
+   "W": 617,
+   "M": null,
+   "label": "COMMODITY-2",
+   "stability": 0.5,
+   "n": 61,
+   "initial": 0.21,
+   "final": 0.56
+  },
+  {
+   "W": 156,
+   "M": [
+    15
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.5,
+   "n": 48,
+   "initial": 0.02,
+   "final": 0.75
+  },
+  {
+   "W": 350,
+   "M": [
+    174,
+    175
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.5,
+   "n": 47,
+   "initial": 0.21,
+   "final": 0.04
+  },
+  {
+   "W": 585,
+   "M": null,
+   "label": "COMMODITY-5",
+   "stability": 0.5,
+   "n": 45,
+   "initial": 0.07,
+   "final": 0.11
+  },
+  {
+   "W": 440,
+   "M": [
+    127
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.5,
+   "n": 43,
+   "initial": 0.23,
+   "final": 0.07
+  },
+  {
+   "W": 16,
+   "M": [
+    108,
+    109
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.5,
+   "n": 38,
+   "initial": 0.37,
+   "final": 0.08
+  },
+  {
+   "W": 480,
+   "M": null,
+   "label": "OFFICE-3",
+   "stability": 0.5,
+   "n": 36,
+   "initial": 0.31,
+   "final": 0.11
+  },
+  {
+   "W": 220,
+   "M": [
+    59
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.38,
+   "n": 368,
+   "initial": 0.16,
+   "final": 0.14
+  },
+  {
+   "W": 390,
+   "M": [
+    161,
+    162,
+    167,
+    168,
+    169
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.38,
+   "n": 320,
+   "initial": 0.07,
+   "final": 0.46
+  },
+  {
+   "W": 240,
+   "M": [
+    67
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.38,
+   "n": 257,
+   "initial": 0.24,
+   "final": 0.07
+  },
+  {
+   "W": 705,
+   "M": [
+    336
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.38,
+   "n": 238,
+   "initial": 0.24,
+   "final": 0.08
+  },
+  {
+   "W": 1,
+   "M": [
+    97,
+    98
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.38,
+   "n": 188,
+   "initial": 0.09,
+   "final": 0.11
+  },
+  {
+   "W": 90,
+   "M": [
+    1
+   ],
+   "label": "COMMODITY-1",
+   "stability": 0.38,
+   "n": 154,
+   "initial": 0.12,
+   "final": 0.6
+  },
+  {
+   "W": 100,
+   "M": [
+    8
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.38,
+   "n": 111,
+   "initial": 0.05,
+   "final": 0.1
+  },
+  {
+   "W": 368,
+   "M": [
+    402
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.38,
+   "n": 106,
+   "initial": 0.09,
+   "final": 0.32
+  },
+  {
+   "W": 900,
+   "M": [
+    287
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.38,
+   "n": 84,
+   "initial": 0.21,
+   "final": 0.05
+  },
+  {
+   "W": 231,
+   "M": [
+    70
+   ],
+   "label": "COUNT",
+   "stability": 0.38,
+   "n": 83,
+   "initial": 0.23,
+   "final": 0.07
+  },
+  {
+   "W": 151,
+   "M": [
+    12
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.38,
+   "n": 79,
+   "initial": 0.01,
+   "final": 0.82
+  },
+  {
+   "W": 690,
+   "M": [
+    149
+   ],
+   "label": "PLACE",
+   "stability": 0.38,
+   "n": 70,
+   "initial": 0.17,
+   "final": 0.17
+  },
+  {
+   "W": 630,
+   "M": [
+    244
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.38,
+   "n": 68,
+   "initial": 0.41,
+   "final": 0.01
+  },
+  {
+   "W": 692,
+   "M": [
+    150
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.38,
+   "n": 67,
+   "initial": 0.73,
+   "final": 0.06
+  },
+  {
+   "W": 142,
+   "M": [
+    25
+   ],
+   "label": "PERSON-MARK",
+   "stability": 0.38,
+   "n": 64,
+   "initial": 0.33,
+   "final": 0.06
+  },
+  {
+   "W": 892,
+   "M": null,
+   "label": "QUALIFIER",
+   "stability": 0.38,
+   "n": 59,
+   "initial": 0.24,
+   "final": 0.22
+  },
+  {
+   "W": 388,
+   "M": [
+    327
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.38,
+   "n": 55,
+   "initial": 0.31,
+   "final": 0.09
+  },
+  {
+   "W": 742,
+   "M": null,
+   "label": "COUNT",
+   "stability": 0.38,
+   "n": 50,
+   "initial": 0.2,
+   "final": 0.14
+  },
+  {
+   "W": 503,
+   "M": [
+    204
+   ],
+   "label": "COUNT",
+   "stability": 0.38,
+   "n": 47,
+   "initial": 0.49,
+   "final": 0.02
+  },
+  {
+   "W": 455,
+   "M": [
+    233
+   ],
+   "label": "UNKNOWN",
+   "stability": 0.38,
+   "n": 43,
+   "initial": 0.21,
+   "final": 0.14
+  },
+  {
+   "W": 13,
+   "M": [
+    103
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.38,
+   "n": 40,
+   "initial": 0.28,
+   "final": 0.03
+  },
+  {
+   "W": 850,
+   "M": null,
+   "label": "OFFICE-4",
+   "stability": 0.38,
+   "n": 39,
+   "initial": 0.28,
+   "final": 0.18
+  },
+  {
+   "W": 226,
+   "M": [
+    60
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.38,
+   "n": 38,
+   "initial": 0.08,
+   "final": 0.61
+  },
+  {
+   "W": 824,
+   "M": null,
+   "label": "COMMODITY-1",
+   "stability": 0.38,
+   "n": 37,
+   "initial": 0.46,
+   "final": 0.22
+  },
+  {
+   "W": 34,
+   "M": null,
+   "label": "OFFICE-2",
+   "stability": 0.38,
+   "n": 33,
+   "initial": 0.33,
+   "final": 0.36
+  },
+  {
+   "W": 923,
+   "M": [
+    296
+   ],
+   "label": "QUALIFIER",
+   "stability": 0.38,
+   "n": 32,
+   "initial": 0.12,
+   "final": 0.0
+  },
+  {
+   "W": 32,
+   "M": [
+    87
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.25,
+   "n": 365,
+   "initial": 0.28,
+   "final": 0.1
+  },
+  {
+   "W": 803,
+   "M": [
+    387
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.25,
+   "n": 234,
+   "initial": 0.32,
+   "final": 0.06
+  },
+  {
+   "W": 60,
+   "M": [
+    123
+   ],
+   "label": "COMMODITY-6",
+   "stability": 0.25,
+   "n": 207,
+   "initial": 0.03,
+   "final": 0.03
+  },
+  {
+   "W": 235,
+   "M": [
+    65
+   ],
+   "label": "OFFICE-1",
+   "stability": 0.25,
+   "n": 199,
+   "initial": 0.35,
+   "final": 0.06
+  },
+  {
+   "W": 233,
+   "M": [
+    72
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 172,
+   "initial": 0.21,
+   "final": 0.08
+  },
+  {
+   "W": 760,
+   "M": [
+    347,
+    358
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.25,
+   "n": 109,
+   "initial": 0.06,
+   "final": 0.05
+  },
+  {
+   "W": 255,
+   "M": [
+    51
+   ],
+   "label": "COMMODITY-2",
+   "stability": 0.25,
+   "n": 102,
+   "initial": 0.35,
+   "final": 0.08
+  },
+  {
+   "W": 527,
+   "M": [
+    254
+   ],
+   "label": "COUNT",
+   "stability": 0.25,
+   "n": 68,
+   "initial": 0.04,
+   "final": 0.84
+  },
+  {
+   "W": 154,
+   "M": null,
+   "label": "UNKNOWN",
+   "stability": 0.25,
+   "n": 66,
+   "initial": 0.03,
+   "final": 0.65
+  },
+  {
+   "W": 61,
+   "M": [
+    124,
+    125
+   ],
+   "label": "COMMODITY-4",
+   "stability": 0.25,
+   "n": 64,
+   "initial": 0.25,
+   "final": 0.06
+  },
+  {
+   "W": 717,
+   "M": [
+    341
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 58,
+   "initial": 0.29,
+   "final": 0.1
+  },
+  {
+   "W": 904,
+   "M": null,
+   "label": "OFFICE-4",
+   "stability": 0.25,
+   "n": 55,
+   "initial": 0.18,
+   "final": 0.15
+  },
+  {
+   "W": 595,
+   "M": [
+    252
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 45,
+   "initial": 0.09,
+   "final": 0.31
+  },
+  {
+   "W": 832,
+   "M": [],
+   "label": "COMMODITY-2",
+   "stability": 0.25,
+   "n": 45,
+   "initial": 0.29,
+   "final": 0.33
+  },
+  {
+   "W": 790,
+   "M": [
+    261,
+    373,
+    374
+   ],
+   "label": "OFFICE-4",
+   "stability": 0.25,
+   "n": 43,
+   "initial": 0.28,
+   "final": 0.33
+  },
+  {
+   "W": 460,
+   "M": [
+    230
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 39,
+   "initial": 0.13,
+   "final": 0.05
+  },
+  {
+   "W": 615,
+   "M": null,
+   "label": "CONNECTIVE",
+   "stability": 0.25,
+   "n": 39,
+   "initial": 0.18,
+   "final": 0.1
+  },
+  {
+   "W": 416,
+   "M": [
+    173
+   ],
+   "label": "CONNECTIVE",
+   "stability": 0.25,
+   "n": 39,
+   "initial": 0.46,
+   "final": 0.18
+  },
+  {
+   "W": 70,
+   "M": [
+    155
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 37,
+   "initial": 0.16,
+   "final": 0.0
+  },
+  {
+   "W": 745,
+   "M": [
+    345
+   ],
+   "label": "COMMODITY-3",
+   "stability": 0.25,
+   "n": 31,
+   "initial": 0.35,
+   "final": 0.0
+  }
+ ],
+ "robust_B": [
+  [
+   400,
+   "OFFICE-3",
+   0.875
+  ]
+ ],
+ "robust_in_permuted_control": 0,
+ "partition_agreement_A_B": 0.8876582278481012,
+ "partition_agreement_random": 0.8837025316455698,
+ "blocks_A": {
+  "COMMODITY-1": {
+   "members": [
+    100,
+    700,
+    790
+   ],
+   "loss_total": 0.06,
+   "loss_by_fact": {
+    "type": 0.017,
+    "emblem": -0.0,
+    "region": 0.021,
+    "size": 0.009,
+    "material": 0.012,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-2": {
+   "members": [
+    31,
+    840,
+    4
+   ],
+   "loss_total": 0.055,
+   "loss_by_fact": {
+    "type": 0.013,
+    "emblem": 0.001,
+    "region": 0.027,
+    "size": 0.01,
+    "material": 0.003,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-3": {
+   "members": [
+    220,
+    760,
+    125
+   ],
+   "loss_total": 0.057,
+   "loss_by_fact": {
+    "type": 0.014,
+    "emblem": 0.001,
+    "region": 0.029,
+    "size": 0.007,
+    "material": 0.005,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-4": {
+   "members": [
+    240,
+    176,
+    255,
+    690,
+    717,
+    595
+   ],
+   "loss_total": 0.059,
+   "loss_by_fact": {
+    "type": 0.006,
+    "emblem": 0.001,
+    "region": 0.031,
+    "size": 0.009,
+    "material": 0.01,
+    "period": 0.003
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-5": {
+   "members": [
+    233,
+    590,
+    900,
+    151,
+    416
+   ],
+   "loss_total": 0.082,
+   "loss_by_fact": {
+    "type": 0.013,
+    "emblem": 0.0,
+    "region": 0.034,
+    "size": 0.025,
+    "material": 0.007,
+    "period": 0.003
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-6": {
+   "members": [
+    2,
+    741,
+    550,
+    142
+   ],
+   "loss_total": 0.07,
+   "loss_by_fact": {
+    "type": 0.03,
+    "emblem": -0.0,
+    "region": 0.018,
+    "size": 0.01,
+    "material": 0.012,
+    "period": 0.0
+   },
+   "predicts": "type"
+  },
+  "COUNT": {
+   "members": [
+    17,
+    388,
+    156,
+    350,
+    832,
+    5
+   ],
+   "loss_total": 0.07,
+   "loss_by_fact": {
+    "type": 0.013,
+    "emblem": 0.0,
+    "region": 0.018,
+    "size": 0.025,
+    "material": 0.011,
+    "period": 0.002
+   },
+   "predicts": "size"
+  },
+  "OFFICE-1": {
+   "members": [
+    803,
+    798,
+    415,
+    692,
+    892,
+    16
+   ],
+   "loss_total": 0.047,
+   "loss_by_fact": {
+    "type": 0.008,
+    "emblem": 0.001,
+    "region": 0.029,
+    "size": 0.003,
+    "material": 0.008,
+    "period": -0.001
+   },
+   "predicts": "region"
+  },
+  "OFFICE-2": {
+   "members": [
+    231,
+    407,
+    617,
+    742,
+    585
+   ],
+   "loss_total": 0.056,
+   "loss_by_fact": {
+    "type": 0.016,
+    "emblem": 0.002,
+    "region": 0.032,
+    "size": 0.004,
+    "material": 0.002,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "OFFICE-3": {
+   "members": [
+    861,
+    520,
+    60,
+    3,
+    90,
+    368,
+    527,
+    440,
+    824,
+    70
+   ],
+   "loss_total": 0.076,
+   "loss_by_fact": {
+    "type": 0.026,
+    "emblem": 0.002,
+    "region": 0.018,
+    "size": 0.009,
+    "material": 0.017,
+    "period": 0.005
+   },
+   "predicts": "type"
+  },
+  "OFFICE-4": {
+   "members": [
+    820,
+    1,
+    55,
+    13
+   ],
+   "loss_total": 0.087,
+   "loss_by_fact": {
+    "type": 0.02,
+    "emblem": 0.006,
+    "region": 0.044,
+    "size": 0.0,
+    "material": 0.014,
+    "period": 0.002
+   },
+   "predicts": "region"
+  },
+  "PLACE": {
+   "members": [
+    32,
+    920,
+    61,
+    745
+   ],
+   "loss_total": 0.037,
+   "loss_by_fact": {
+    "type": 0.013,
+    "emblem": 0.001,
+    "region": 0.017,
+    "size": 0.003,
+    "material": 0.003,
+    "period": 0.0
+   },
+   "predicts": "region"
+  },
+  "QUALIFIER": {
+   "members": [
+    390,
+    33,
+    455,
+    460,
+    850,
+    480,
+    34,
+    923
+   ],
+   "loss_total": 0.074,
+   "loss_by_fact": {
+    "type": 0.019,
+    "emblem": 0.002,
+    "region": 0.023,
+    "size": 0.011,
+    "material": 0.018,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "PERSON-MARK": {
+   "members": [
+    740,
+    226
+   ],
+   "loss_total": 0.094,
+   "loss_by_fact": {
+    "type": 0.026,
+    "emblem": 0.005,
+    "region": 0.035,
+    "size": 0.008,
+    "material": 0.018,
+    "period": 0.002
+   },
+   "predicts": "region"
+  },
+  "CONNECTIVE": {
+   "members": [
+    400,
+    235,
+    154,
+    904,
+    435,
+    503
+   ],
+   "loss_total": 0.09,
+   "loss_by_fact": {
+    "type": 0.025,
+    "emblem": 0.001,
+    "region": 0.046,
+    "size": 0.006,
+    "material": 0.011,
+    "period": 0.002
+   },
+   "predicts": "region"
+  },
+  "UNKNOWN": {
+   "members": [
+    705,
+    140,
+    630,
+    575,
+    615
+   ],
+   "loss_total": 0.0,
+   "loss_by_fact": {
+    "type": 0.0,
+    "emblem": 0.0,
+    "region": 0.0,
+    "size": 0.0,
+    "material": 0.0,
+    "period": 0.0
+   },
+   "predicts": "type"
+  }
+ },
+ "blocks_B": {
+  "COMMODITY-1": {
+   "members": [
+    741,
+    90,
+    350,
+    824
+   ],
+   "loss_total": 0.054,
+   "loss_by_fact": {
+    "type": 0.021,
+    "emblem": 0.003,
+    "region": 0.027,
+    "size": -0.003,
+    "material": 0.006,
+    "period": -0.0
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-2": {
+   "members": [
+    240,
+    820,
+    798,
+    368,
+    255,
+    617
+   ],
+   "loss_total": 0.094,
+   "loss_by_fact": {
+    "type": 0.032,
+    "emblem": 0.002,
+    "region": 0.026,
+    "size": 0.002,
+    "material": 0.031,
+    "period": 0.003
+   },
+   "predicts": "type"
+  },
+  "COMMODITY-3": {
+   "members": [
+    233,
+    920,
+    760,
+    4,
+    527,
+    595,
+    460,
+    745
+   ],
+   "loss_total": 0.016,
+   "loss_by_fact": {
+    "type": -0.012,
+    "emblem": 0.005,
+    "region": -0.002,
+    "size": 0.009,
+    "material": 0.016,
+    "period": 0.0
+   },
+   "predicts": "material"
+  },
+  "COMMODITY-4": {
+   "members": [
+    3,
+    61,
+    5,
+    16
+   ],
+   "loss_total": 0.021,
+   "loss_by_fact": {
+    "type": -0.003,
+    "emblem": 0.003,
+    "region": 0.017,
+    "size": -0.003,
+    "material": 0.005,
+    "period": 0.003
+   },
+   "predicts": "region"
+  },
+  "COMMODITY-5": {
+   "members": [
+    2,
+    55,
+    585
+   ],
+   "loss_total": 0.046,
+   "loss_by_fact": {
+    "type": 0.018,
+    "emblem": 0.003,
+    "region": 0.008,
+    "size": 0.005,
+    "material": 0.012,
+    "period": 0.001
+   },
+   "predicts": "type"
+  },
+  "COMMODITY-6": {
+   "members": [
+    390,
+    60,
+    1,
+    17,
+    125,
+    226,
+    70
+   ],
+   "loss_total": 0.054,
+   "loss_by_fact": {
+    "type": 0.011,
+    "emblem": 0.002,
+    "region": 0.019,
+    "size": 0.014,
+    "material": 0.005,
+    "period": 0.004
+   },
+   "predicts": "region"
+  },
+  "COUNT": {
+   "members": [
+    861,
+    140,
+    231,
+    742,
+    503
+   ],
+   "loss_total": 0.033,
+   "loss_by_fact": {
+    "type": -0.007,
+    "emblem": 0.002,
+    "region": 0.02,
+    "size": 0.0,
+    "material": 0.017,
+    "period": 0.001
+   },
+   "predicts": "region"
+  },
+  "OFFICE-1": {
+   "members": [
+    705,
+    100,
+    840,
+    575
+   ],
+   "loss_total": 0.039,
+   "loss_by_fact": {
+    "type": 0.025,
+    "emblem": 0.003,
+    "region": 0.012,
+    "size": -0.003,
+    "material": 0.003,
+    "period": 0.0
+   },
+   "predicts": "type"
+  },
+  "OFFICE-2": {
+   "members": [
+    33,
+    435,
+    34
+   ],
+   "loss_total": 0.016,
+   "loss_by_fact": {
+    "type": 0.011,
+    "emblem": 0.002,
+    "region": 0.009,
+    "size": -0.005,
+    "material": -0.001,
+    "period": 0.001
+   },
+   "predicts": "type"
+  },
+  "OFFICE-3": {
+   "members": [
+    400,
+    700,
+    480
+   ],
+   "loss_total": 0.047,
+   "loss_by_fact": {
+    "type": 0.039,
+    "emblem": 0.002,
+    "region": 0.003,
+    "size": -0.004,
+    "material": 0.013,
+    "period": -0.006
+   },
+   "predicts": "type"
+  },
+  "OFFICE-4": {
+   "members": [
+    520,
+    151,
+    904,
+    790,
+    850
+   ],
+   "loss_total": 0.025,
+   "loss_by_fact": {
+    "type": 0.01,
+    "emblem": 0.0,
+    "region": 0.025,
+    "size": -0.002,
+    "material": -0.006,
+    "period": -0.001
+   },
+   "predicts": "region"
+  },
+  "PLACE": {
+   "members": [
+    176,
+    690
+   ],
+   "loss_total": 0.043,
+   "loss_by_fact": {
+    "type": 0.012,
+    "emblem": 0.002,
+    "region": 0.015,
+    "size": 0.01,
+    "material": 0.006,
+    "period": -0.002
+   },
+   "predicts": "region"
+  },
+  "QUALIFIER": {
+   "members": [
+    590,
+    900,
+    407,
+    892,
+    156,
+    832,
+    13,
+    923
+   ],
+   "loss_total": 0.042,
+   "loss_by_fact": {
+    "type": 0.01,
+    "emblem": 0.005,
+    "region": 0.043,
+    "size": 0.005,
+    "material": -0.01,
+    "period": -0.011
+   },
+   "predicts": "region"
+  },
+  "PERSON-MARK": {
+   "members": [
+    32,
+    803,
+    235,
+    550,
+    630,
+    142,
+    440
+   ],
+   "loss_total": 0.066,
+   "loss_by_fact": {
+    "type": 0.04,
+    "emblem": 0.003,
+    "region": 0.007,
+    "size": -0.004,
+    "material": 0.021,
+    "period": -0.0
+   },
+   "predicts": "type"
+  },
+  "CONNECTIVE": {
+   "members": [
+    220,
+    415,
+    692,
+    717,
+    388,
+    615,
+    416
+   ],
+   "loss_total": 0.042,
+   "loss_by_fact": {
+    "type": 0.017,
+    "emblem": 0.003,
+    "region": 0.006,
+    "size": -0.001,
+    "material": 0.015,
+    "period": 0.002
+   },
+   "predicts": "type"
+  },
+  "UNKNOWN": {
+   "members": [
+    740,
+    31,
+    154,
+    455
+   ],
+   "loss_total": 0.0,
+   "loss_by_fact": {
+    "type": 0.0,
+    "emblem": 0.0,
+    "region": 0.0,
+    "size": 0.0,
+    "material": 0.0,
+    "period": 0.0
+   },
+   "predicts": "type"
+  }
+ },
+ "best_A": {
+  "740": "PERSON-MARK",
+  "2": "COMMODITY-6",
+  "861": "OFFICE-3",
+  "220": "COMMODITY-3",
+  "32": "PLACE",
+  "390": "QUALIFIER",
+  "400": "CONNECTIVE",
+  "240": "COMMODITY-4",
+  "33": "QUALIFIER",
+  "705": "UNKNOWN",
+  "520": "OFFICE-3",
+  "803": "OFFICE-1",
+  "31": "COMMODITY-2",
+  "820": "OFFICE-4",
+  "60": "OFFICE-3",
+  "741": "COMMODITY-6",
+  "235": "CONNECTIVE",
+  "1": "OFFICE-4",
+  "233": "COMMODITY-5",
+  "590": "COMMODITY-5",
+  "3": "OFFICE-3",
+  "90": "OFFICE-3",
+  "798": "OFFICE-1",
+  "920": "PLACE",
+  "415": "OFFICE-1",
+  "176": "COMMODITY-4",
+  "100": "COMMODITY-1",
+  "760": "COMMODITY-3",
+  "368": "OFFICE-3",
+  "550": "COMMODITY-6",
+  "140": "UNKNOWN",
+  "255": "COMMODITY-4",
+  "840": "COMMODITY-2",
+  "700": "COMMODITY-1",
+  "900": "COMMODITY-5",
+  "231": "OFFICE-2",
+  "4": "COMMODITY-2",
+  "151": "COMMODITY-5",
+  "407": "OFFICE-2",
+  "690": "COMMODITY-4",
+  "17": "COUNT",
+  "527": "OFFICE-3",
+  "630": "UNKNOWN",
+  "692": "OFFICE-1",
+  "154": "CONNECTIVE",
+  "575": "UNKNOWN",
+  "142": "COMMODITY-6",
+  "61": "PLACE",
+  "617": "OFFICE-2",
+  "892": "OFFICE-1",
+  "717": "COMMODITY-4",
+  "125": "COMMODITY-3",
+  "904": "CONNECTIVE",
+  "388": "COUNT",
+  "435": "CONNECTIVE",
+  "55": "OFFICE-4",
+  "742": "OFFICE-2",
+  "156": "COUNT",
+  "503": "CONNECTIVE",
+  "350": "COUNT",
+  "595": "COMMODITY-4",
+  "832": "COUNT",
+  "585": "OFFICE-2",
+  "440": "OFFICE-3",
+  "455": "QUALIFIER",
+  "790": "COMMODITY-1",
+  "5": "COUNT",
+  "13": "OFFICE-4",
+  "460": "QUALIFIER",
+  "850": "QUALIFIER",
+  "615": "UNKNOWN",
+  "416": "COMMODITY-5",
+  "226": "PERSON-MARK",
+  "16": "OFFICE-1",
+  "824": "OFFICE-3",
+  "70": "OFFICE-3",
+  "480": "QUALIFIER",
+  "34": "QUALIFIER",
+  "923": "QUALIFIER",
+  "745": "PLACE"
+ },
+ "best_B": {
+  "740": "UNKNOWN",
+  "2": "COMMODITY-5",
+  "861": "COUNT",
+  "220": "CONNECTIVE",
+  "32": "PERSON-MARK",
+  "390": "COMMODITY-6",
+  "400": "OFFICE-3",
+  "240": "COMMODITY-2",
+  "33": "OFFICE-2",
+  "705": "OFFICE-1",
+  "520": "OFFICE-4",
+  "803": "PERSON-MARK",
+  "31": "UNKNOWN",
+  "820": "COMMODITY-2",
+  "60": "COMMODITY-6",
+  "741": "COMMODITY-1",
+  "235": "PERSON-MARK",
+  "1": "COMMODITY-6",
+  "233": "COMMODITY-3",
+  "590": "QUALIFIER",
+  "3": "COMMODITY-4",
+  "90": "COMMODITY-1",
+  "798": "COMMODITY-2",
+  "920": "COMMODITY-3",
+  "415": "CONNECTIVE",
+  "176": "PLACE",
+  "100": "OFFICE-1",
+  "760": "COMMODITY-3",
+  "368": "COMMODITY-2",
+  "550": "PERSON-MARK",
+  "140": "COUNT",
+  "255": "COMMODITY-2",
+  "840": "OFFICE-1",
+  "700": "OFFICE-3",
+  "900": "QUALIFIER",
+  "231": "COUNT",
+  "4": "COMMODITY-3",
+  "151": "OFFICE-4",
+  "407": "QUALIFIER",
+  "690": "PLACE",
+  "17": "COMMODITY-6",
+  "527": "COMMODITY-3",
+  "630": "PERSON-MARK",
+  "692": "CONNECTIVE",
+  "154": "UNKNOWN",
+  "575": "OFFICE-1",
+  "142": "PERSON-MARK",
+  "61": "COMMODITY-4",
+  "617": "COMMODITY-2",
+  "892": "QUALIFIER",
+  "717": "CONNECTIVE",
+  "125": "COMMODITY-6",
+  "904": "OFFICE-4",
+  "388": "CONNECTIVE",
+  "435": "OFFICE-2",
+  "55": "COMMODITY-5",
+  "742": "COUNT",
+  "156": "QUALIFIER",
+  "503": "COUNT",
+  "350": "COMMODITY-1",
+  "595": "COMMODITY-3",
+  "832": "QUALIFIER",
+  "585": "COMMODITY-5",
+  "440": "PERSON-MARK",
+  "455": "UNKNOWN",
+  "790": "OFFICE-4",
+  "5": "COMMODITY-4",
+  "13": "QUALIFIER",
+  "460": "COMMODITY-3",
+  "850": "OFFICE-4",
+  "615": "CONNECTIVE",
+  "416": "CONNECTIVE",
+  "226": "COMMODITY-6",
+  "16": "COMMODITY-4",
+  "824": "COMMODITY-1",
+  "70": "COMMODITY-6",
+  "480": "OFFICE-3",
+  "34": "OFFICE-2",
+  "923": "QUALIFIER",
+  "745": "COMMODITY-3"
+ },
+ "verdict": {
+  "gap_A": 0.8495739319726311,
+  "gap_B": 0.03239773928760764,
+  "identifiable": false
+ }
+}

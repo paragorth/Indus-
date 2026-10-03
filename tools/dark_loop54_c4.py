@@ -9,7 +9,7 @@ from dark_loop54_common import *
 
 level = sys.argv[1] if len(sys.argv) > 1 else 'seq_all'
 C = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
-ABROAD = {'Ur', 'Kish', 'Susa', 'Bahrain', 'Failaka', 'Tell Asmar', 'Nippur', 'Umma', 'Tepe Yahya', 'Shahr-i Sokhta', 'Gonur', 'Altyn-depe', 'Lagash', 'Qala\'at al-Bahrain', 'Saar', 'Ras al-Jinz', 'Maysar', 'Tell Abraq', 'Hili', 'Mesopotamia', 'Iran', 'Oman', 'Nineveh', 'Tello', 'Girsu'}
+ABROAD = {'Ur', 'Kish', 'Susa', 'Bahrain', 'Failaka', 'Tell Asmar', 'Nippur', 'Umma', 'Tepe Yahya', 'Shahr-i Sokhta', 'Gonur', 'Altyn-depe', 'Lagash', 'Qala\'at al-Bahrain', 'Saar', 'Ras al-Jinz', 'Maysar', 'Tell Abraq', 'Hili', 'Mesopotamia', 'Iran', 'Oman', 'Nineveh', 'Tello', 'Girsu', 'Karzakan', 'Salut', 'Hajar', 'Janabiyah', 'Dilmun', 'Luristan', 'Shortughai', 'Altyn Depe', 'Gonur Depe', "Ra's al-Junayz", 'Kalba', 'Tell Umma', 'Miri Qalat', 'West Asian finds'}
 def cls(t):
     o = otype(t)
     return 'SEAL' if o == 'SEAL' else 'TAG' if o == 'TAG' else 'TAB' if o == 'TAB' else 'POT' if o == 'POT' else 'BNGL' if o == 'BNGL' else 'OTHER'

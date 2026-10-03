@@ -113,8 +113,13 @@ def sample_indus_shaped(src, rnd, hist, copies=None, n=3000, dup='natural', minl
                 out.append(t)
     rnd.shuffle(out)
     if len(out) > n * 1.15: out = out[:int(n * 1.15)]
-    meta = {'n': len(out), 'shortfall': short, 'distinct_share': len(set(s for _, _, s in out)) / max(1, len(out)),
-            'median_len': st.median(len(s) for _, _, s in out) if out else 0}
+    ach = collections.Counter(len(s) for _, _, s in out)
+    # shape mismatch: total variation distance between achieved and target length histograms (0 = exact Indus shape)
+    na = max(1, sum(ach.values())); nt = max(1, sum(want.values()))
+    tvd = 0.5 * sum(abs(ach.get(L, 0) / na - want.get(L, 0) / nt) for L in set(ach) | set(want))
+    meta = {'n': len(out), 'shortfall0': short0 / max(1, sum(int(round(w)) for w in want.values())), 'len_tvd': tvd,
+            'distinct_share': len(set(s for _, _, s in out)) / max(1, len(out)),
+            'median_len': st.median([len(s) for _, _, s in out]) if out else 0}
     return out, meta
 
 

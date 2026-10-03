@@ -1,0 +1,131 @@
+strat_anneal: level=seq texts=3545 (deduplicated per site), held-out=458 texts from 71 non-IM77 sites; top 80 signs cover 80.1% of tokens
+  fact type: classes ['POT', 'SEAL', 'TAB', 'TAG', 'other'], train n=2699, held-out n=458, majority=SEAL, NB temperature 0.3
+  fact emblem: classes ['Bult', 'Elep', 'Gaur', 'Zebu', 'other', 'unicorn'], train n=1199, held-out n=185, majority=unicorn, NB temperature 0.05
+  fact region: classes ['Gujarat/Kutch', 'Inter-Riverine', 'Lower Indus'], train n=3087, held-out n=328, majority=Lower Indus, NB temperature 0.3
+  fact size: classes ['large', 'medium', 'small'], train n=1406, held-out n=150, majority=large, NB temperature 0.3
+  fact material: classes ['clay', 'copper', 'faience', 'other', 'steatite'], train n=2385, held-out n=261, majority=steatite, NB temperature 0.3
+  fact period: classes ['early', 'late', 'middle'], train n=1113, held-out n=106, majority=middle, NB temperature 0.1
+
+Baselines on held-out (sum over facts of bits/text gained over prior):
+  raw sign identity classifier: 0.323   per fact {'type': {'gain_bits': 0.0835, 'acc': 0.561, 'majority_acc': 0.57, 'n_test': 458}, 'emblem': {'gain_bits': 0.0123, 'acc': 0.584, 'majority_acc': 0.584, 'n_test': 185}, 'region': {'gain_bits': -0.0864, 'acc': 0.171, 'majority_acc': 0.277, 'n_test': 328}, 'size': {'gain_bits': 0.1048, 'acc': 0.48, 'majority_acc': 0.153, 'n_test': 150}, 'material': {'gain_bits': 0.2297, 'acc': 0.479, 'majority_acc': 0.464, 'n_test': 261}, 'period': {'gain_bits': -0.0208, 'acc': 0.755, 'majority_acc': 0.755, 'n_test': 106}}
+  length-only classifier:       0.242   per fact {'type': {'gain_bits': 0.0632, 'acc': 0.57}, 'emblem': {'gain_bits': 0.0053, 'acc': 0.584}, 'region': {'gain_bits': 0.0087, 'acc': 0.226}, 'size': {'gain_bits': 0.0582, 'acc': 0.407}, 'material': {'gain_bits': 0.1099, 'acc': 0.464}, 'period': {'gain_bits': -0.0035, 'acc': 0.755}}
+  random reading (50 draws):    median 0.136, max 0.265
+
+[A] anneal on held-out score, 50 restarts x 3000 steps
+  best 0.904  top-10 range 0.871..0.904  per fact {'type': {'gain_bits': 0.1762, 'acc': 0.552, 'majority_acc': 0.57, 'n_test': 458}, 'emblem': {'gain_bits': 0.0169, 'acc': 0.584, 'majority_acc': 0.584, 'n_test': 185}, 'region': {'gain_bits': 0.1213, 'acc': 0.159, 'majority_acc': 0.277, 'n_test': 328}, 'size': {'gain_bits': 0.222, 'acc': 0.573, 'majority_acc': 0.153, 'n_test': 150}, 'material': {'gain_bits': 0.3608, 'acc': 0.467, 'majority_acc': 0.464, 'n_test': 261}, 'period': {'gain_bits': 0.0065, 'acc': 0.755, 'majority_acc': 0.755, 'n_test': 106}}
+
+[C1] control: outside facts permuted across texts (within train and within held-out), same search
+  best 0.054  top-10 range 0.046..0.054  per fact {'type': {'gain_bits': -0.0128, 'acc': 0.57, 'majority_acc': 0.57, 'n_test': 458}, 'emblem': {'gain_bits': 0.0166, 'acc': 0.584, 'majority_acc': 0.584, 'n_test': 185}, 'region': {'gain_bits': 0.0026, 'acc': 0.277, 'majority_acc': 0.277, 'n_test': 328}, 'size': {'gain_bits': 0.0153, 'acc': 0.24, 'majority_acc': 0.153, 'n_test': 150}, 'material': {'gain_bits': 0.0125, 'acc': 0.464, 'majority_acc': 0.464, 'n_test': 261}, 'period': {'gain_bits': 0.0197, 'acc': 0.755, 'majority_acc': 0.755, 'n_test': 106}}
+  raw-sign classifier on permuted facts: -0.020
+
+[C2] control: sign order shuffled within each text, same search
+  best 0.769  top-10 range 0.738..0.769  per fact {'type': {'gain_bits': 0.1163, 'acc': 0.576, 'majority_acc': 0.57, 'n_test': 458}, 'emblem': {'gain_bits': 0.0153, 'acc': 0.584, 'majority_acc': 0.584, 'n_test': 185}, 'region': {'gain_bits': 0.0636, 'acc': 0.18, 'majority_acc': 0.277, 'n_test': 328}, 'size': {'gain_bits': 0.257, 'acc': 0.56, 'majority_acc': 0.153, 'n_test': 150}, 'material': {'gain_bits': 0.3089, 'acc': 0.487, 'majority_acc': 0.464, 'n_test': 261}, 'period': {'gain_bits': 0.0083, 'acc': 0.755, 'majority_acc': 0.755, 'n_test': 106}}
+
+[B] anneal on Mohenjo-daro <-> Harappa cross-prediction (held-out never seen by the search), 8 restarts x 1000 steps
+  best cross-city 0.328; its held-out score 0.262  per fact {'type': {'gain_bits': 0.0158, 'acc': 0.559, 'majority_acc': 0.57, 'n_test': 458}, 'emblem': {'gain_bits': 0.0128, 'acc': 0.584, 'majority_acc': 0.584, 'n_test': 185}, 'region': {'gain_bits': -0.0846, 'acc': 0.155, 'majority_acc': 0.277, 'n_test': 328}, 'size': {'gain_bits': 0.0905, 'acc': 0.48, 'majority_acc': 0.153, 'n_test': 150}, 'material': {'gain_bits': 0.2428, 'acc': 0.49, 'majority_acc': 0.464, 'n_test': 261}, 'period': {'gain_bits': -0.0154, 'acc': 0.755, 'majority_acc': 0.755, 'n_test': 106}}
+  held-out scores of top-10 cross-city solutions: median 0.231, range 0.173..0.287
+  [B-C1] permuted-fact cross-city search: best cross-city -0.030; its true held-out score 0.229; held-out scores of its top-10: median 0.187, max 0.315
+
+[A] stability across top-10 solutions (labels aligned to the best; names are cluster ids, see note):
+  signs with the same label in >80% of top-10: 1 of 80; mean agreement 0.46; 10 random assignments aligned the same way: mean 0.34, >80%: 0
+  W390  M[161, 162, 167, 168, 169] QUALIFIER    stab 0.90  n=320  initial 0.07 final 0.46
+  W400  M[176]        CONNECTIVE   stab 0.80  n=286  initial 0.01 final 0.86
+  W240  M[67]         COMMODITY-4  stab 0.80  n=257  initial 0.24 final 0.07
+  W34   MNone         QUALIFIER    stab 0.80  n=33   initial 0.33 final 0.36
+  W740  M[342]        PERSON-MARK  stab 0.70  n=1337 initial 0.02 final 0.70
+  W820  M[391]        OFFICE-4     stab 0.70  n=221  initial 0.73 final 0.10
+  W741  M[343]        COMMODITY-6  stab 0.70  n=201  initial 0.14 final 0.04
+  W900  M[287]        COMMODITY-5  stab 0.70  n=84   initial 0.21 final 0.05
+  W407  M[169]        OFFICE-2     stab 0.70  n=73   initial 0.03 final 0.63
+  W690  M[149]        COMMODITY-4  stab 0.70  n=70   initial 0.17 final 0.17
+  W617  MNone         OFFICE-2     stab 0.70  n=61   initial 0.21 final 0.56
+  W13   M[103]        OFFICE-4     stab 0.70  n=40   initial 0.28 final 0.03
+  W16   M[108, 109]   OFFICE-1     stab 0.70  n=38   initial 0.37 final 0.08
+  W2    M[99, 100]    COMMODITY-6  stab 0.60  n=724  initial 0.09 final 0.06
+  W861  M[267]        OFFICE-3     stab 0.60  n=379  initial 0.76 final 0.06
+  W32   M[87]         PLACE        stab 0.60  n=365  initial 0.28 final 0.10
+  W31   M[86]         COMMODITY-2  stab 0.60  n=229  initial 0.33 final 0.16
+  W90   M[1]          OFFICE-3     stab 0.60  n=154  initial 0.12 final 0.60
+  W100  M[8]          COMMODITY-1  stab 0.60  n=111  initial 0.05 final 0.10
+  W255  M[51]         COMMODITY-4  stab 0.60  n=102  initial 0.35 final 0.08
+  W61   M[124, 125]   COMMODITY-4  stab 0.60  n=64   initial 0.25 final 0.06
+  W717  M[341]        COMMODITY-4  stab 0.60  n=58   initial 0.29 final 0.10
+  W455  M[233]        QUALIFIER    stab 0.60  n=43   initial 0.21 final 0.14
+  W220  M[59]         COMMODITY-3  stab 0.50  n=368  initial 0.16 final 0.14
+  W520  M[211]        OFFICE-3     stab 0.50  n=235  initial 0.02 final 0.80
+
+[B] stability across top-10 solutions (labels aligned to the best; names are cluster ids, see note):
+  signs with the same label in >80% of top-10: 1 of 80; mean agreement 0.43; 10 random assignments aligned the same way: mean 0.34, >80%: 0
+  W400  M[176]        OFFICE-3     stab 0.88  n=286  initial 0.01 final 0.86
+  W740  M[342]        UNKNOWN      stab 0.75  n=1337 initial 0.02 final 0.70
+  W31   M[86]         UNKNOWN      stab 0.75  n=229  initial 0.33 final 0.16
+  W3    M[102, 103]   COMMODITY-4  stab 0.75  n=164  initial 0.37 final 0.09
+  W700  M[328]        OFFICE-3     stab 0.75  n=97   initial 0.27 final 0.47
+  W435  M[130]        OFFICE-2     stab 0.75  n=54   initial 0.09 final 0.13
+  W33   M[89]         OFFICE-2     stab 0.62  n=242  initial 0.24 final 0.12
+  W741  M[343]        COMMODITY-1  stab 0.62  n=201  initial 0.14 final 0.04
+  W798  M[216]        COMMODITY-2  stab 0.62  n=133  initial 0.23 final 0.08
+  W920  M[293]        COMMODITY-3  stab 0.62  n=133  initial 0.62 final 0.05
+  W415  M[171]        CONNECTIVE   stab 0.62  n=127  initial 0.25 final 0.09
+  W550  M[216]        PERSON-MARK  stab 0.62  n=102  initial 0.39 final 0.12
+  W4    M[104, 105]   COMMODITY-3  stab 0.62  n=82   initial 0.33 final 0.13
+  W407  M[169]        QUALIFIER    stab 0.62  n=73   initial 0.03 final 0.63
+  W125  M[28]         COMMODITY-6  stab 0.62  n=56   initial 0.30 final 0.12
+  W55   M[121]        COMMODITY-5  stab 0.62  n=52   initial 0.38 final 0.08
+  W5    M[106, 107]   COMMODITY-4  stab 0.62  n=41   initial 0.44 final 0.05
+  W2    M[99, 100]    COMMODITY-5  stab 0.50  n=724  initial 0.09 final 0.06
+  W861  M[267]        COUNT        stab 0.50  n=379  initial 0.76 final 0.06
+  W520  M[211]        OFFICE-4     stab 0.50  n=235  initial 0.02 final 0.80
+  W820  M[391]        COMMODITY-2  stab 0.50  n=221  initial 0.73 final 0.10
+  W590  M[249]        QUALIFIER    stab 0.50  n=164  initial 0.24 final 0.13
+  W176  M[48]         PLACE        stab 0.50  n=120  initial 0.24 final 0.07
+  W140  M[17]         COUNT        stab 0.50  n=102  initial 0.43 final 0.09
+  W840  M[403]        OFFICE-1     stab 0.50  n=99   initial 0.20 final 0.10
+
+Partition agreement between best A and best B: 0.888 of sign pairs co-assigned alike (random 0.884)
+Permuted-fact control: 0 signs reach >80% stability (same statistic), so stability alone is not evidence
+
+Which outside fact each label block predicts (best A reading; held-out gain lost when that block is merged into UNKNOWN):
+  COMMODITY-1   3 signs W[100, 700, 790]  total loss +0.060  most for: region (+0.021)
+  COMMODITY-2   3 signs W[31, 840, 4]  total loss +0.055  most for: region (+0.027)
+  COMMODITY-3   3 signs W[220, 760, 125]  total loss +0.057  most for: region (+0.029)
+  COMMODITY-4   6 signs W[240, 176, 255, 690, 717, 595]  total loss +0.059  most for: region (+0.031)
+  COMMODITY-5   5 signs W[233, 590, 900, 151, 416]  total loss +0.082  most for: region (+0.034)
+  COMMODITY-6   4 signs W[2, 741, 550, 142]  total loss +0.070  most for: type (+0.030)
+  COUNT         6 signs W[17, 388, 156, 350, 832, 5]  total loss +0.070  most for: size (+0.025)
+  OFFICE-1      6 signs W[803, 798, 415, 692, 892, 16]  total loss +0.047  most for: region (+0.029)
+  OFFICE-2      5 signs W[231, 407, 617, 742, 585]  total loss +0.056  most for: region (+0.032)
+  OFFICE-3     10 signs W[861, 520, 60, 3, 90, 368, 527, 440, 824, 70]  total loss +0.076  most for: type (+0.026)
+  OFFICE-4      4 signs W[820, 1, 55, 13]  total loss +0.087  most for: region (+0.044)
+  PLACE         4 signs W[32, 920, 61, 745]  total loss +0.037  most for: region (+0.017)
+  QUALIFIER     8 signs W[390, 33, 455, 460, 850, 480, 34, 923]  total loss +0.074  most for: region (+0.023)
+  PERSON-MARK   2 signs W[740, 226]  total loss +0.094  most for: region (+0.035)
+  CONNECTIVE    6 signs W[400, 235, 154, 904, 435, 503]  total loss +0.090  most for: region (+0.046)
+  UNKNOWN       5 signs W[705, 140, 630, 575, 615]  total loss +0.000  most for: type (+0.000)
+
+Which outside fact each label block predicts (best B reading; held-out gain lost when that block is merged into UNKNOWN):
+  COMMODITY-1   4 signs W[741, 90, 350, 824]  total loss +0.054  most for: region (+0.027)
+  COMMODITY-2   6 signs W[240, 820, 798, 368, 255, 617]  total loss +0.094  most for: type (+0.032)
+  COMMODITY-3   8 signs W[233, 920, 760, 4, 527, 595, 460, 745]  total loss +0.016  most for: material (+0.016)
+  COMMODITY-4   4 signs W[3, 61, 5, 16]  total loss +0.021  most for: region (+0.017)
+  COMMODITY-5   3 signs W[2, 55, 585]  total loss +0.046  most for: type (+0.018)
+  COMMODITY-6   7 signs W[390, 60, 1, 17, 125, 226, 70]  total loss +0.054  most for: region (+0.019)
+  COUNT         5 signs W[861, 140, 231, 742, 503]  total loss +0.033  most for: region (+0.020)
+  OFFICE-1      4 signs W[705, 100, 840, 575]  total loss +0.039  most for: type (+0.025)
+  OFFICE-2      3 signs W[33, 435, 34]  total loss +0.016  most for: type (+0.011)
+  OFFICE-3      3 signs W[400, 700, 480]  total loss +0.047  most for: type (+0.039)
+  OFFICE-4      5 signs W[520, 151, 904, 790, 850]  total loss +0.025  most for: region (+0.025)
+  PLACE         2 signs W[176, 690]  total loss +0.043  most for: region (+0.015)
+  QUALIFIER     8 signs W[590, 900, 407, 892, 156, 832, 13, 923]  total loss +0.042  most for: region (+0.043)
+  PERSON-MARK   7 signs W[32, 803, 235, 550, 630, 142, 440]  total loss +0.066  most for: type (+0.040)
+  CONNECTIVE    7 signs W[220, 415, 692, 717, 388, 615, 416]  total loss +0.042  most for: type (+0.017)
+  UNKNOWN       4 signs W[740, 31, 154, 455]  total loss +0.000  most for: type (+0.000)
+
+VERDICT
+  Held-out-annealed reading: 0.904 bits/text vs permuted-fact control 0.054 (gap +0.850); raw-sign classifier 0.323; length-only 0.242; random reading median 0.136.
+  Cross-city-annealed reading scored once on held-out: 0.262 (top-10 median 0.231) vs its permuted control 0.229 (top-10 max 0.315); gap +0.032.
+  Order-shuffled control: 0.769 (order contributes +0.134).
+  Identifiable? no: the honest out-of-sample gain over permuted facts / length-only is within noise.
+  Does the 16-label reading add anything over raw sign identity? no (raw 0.323 vs reading 0.262); a reading is a coarsening, so at best it matches the raw ceiling.
+  Note: the ontology names (COMMODITY, OFFICE ...) carry no meaning in an outside-fact-only scorer; labels are exchangeable clusters. What the search can identify is which signs behave alike for object type, material, emblem, region, size and period, i.e. genre blocks (S270), not word meanings.
+  elapsed 2250s

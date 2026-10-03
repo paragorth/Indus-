@@ -2,8 +2,8 @@
 | entry | claim | kind | observed | M1 med [band] | M1 | M2 | M1E | verdict |
 |---|---|---|---|---|---|---|---|---|
 | W1-W5,W16-W18 numerals 1-8 | short numeral followed by a counted item (next in COUNTED) | adjacency | 0.266 | 0.297 [0.213-0.421] | in | in | in | adjacency fact |
-| W1-W5,W16-W18 numerals 1-8 | distinct numerals before the tree (counted = many) | adjacency | 0 | 0 [0-0] | in | in | in | adjacency fact |
-| W1-W5,W16-W18 numerals 1-8 | two numeral tokens in one text, non-adjacent (numerals mutually exclusive: low) | distance | 0.000 | 0.000 [0.000-0.000] | in | in | in | chain-explained |
+| W1-W5,W16-W18 numerals 1-8 | distinct numerals before the tree (counted = many) | adjacency | 6 | 5 [3-6] | in | in | in | adjacency fact |
+| W1-W5,W16-W18 numerals 1-8 | two numeral tokens in one text, non-adjacent (numerals mutually exclusive: low) | distance | 0.088 | 0.069 [0.050-0.097] | in | in | in | chain-explained |
 | W31-W34 tall strokes | tall numeral followed by W700 (voucher count) | adjacency | 0.037 | 0.103 [0.038-0.186] | below | in | in | adjacency fact (outside M1: below) |
 | W31-W34 tall strokes | W700 preceded by a tall numeral | adjacency | 0.154 | 0.312 [0.111-0.667] | in | in | in | adjacency fact |
 | W55 twelve | W55 followed by the jar or by 255 (title slot), not by a counted good | adjacency | 0.167 | 0.167 [0.000-1.000] | in | in | in | adjacency fact |
@@ -70,15 +70,15 @@
 | W100 three-headed man | W100 preceded by another person sign (176/140) | adjacency | 0.077 | 0.050 [0.000-0.250] | in | in | in | adjacency fact |
 | W760, W923, W690, W482, W752, W48 pre-jar titles | followed by the jar | adjacency | 0.944 | 0.875 [0.615-1.000] | in | in | in | adjacency fact |
 | W923 title | W923 preceded by tall 3 (33-923 fixed) | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
-| W390/W405 tree | tree preceded by a numeral | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
-| W390/W405 tree | distinct numerals before the tree | adjacency | 0 | 0 [0-0] | in | in | in | adjacency fact |
+| W390/W405 tree | tree preceded by a numeral | adjacency | 0.292 | 0.290 [0.161-0.469] | in | in | in | adjacency fact |
+| W390/W405 tree | distinct numerals before the tree | adjacency | 6 | 5 [3-6] | in | in | in | adjacency fact |
 | W390/W405 tree | tree final (suffix stripped; self-closing) | position | 0.542 | 0.326 [0.208-0.467] | above | above | in | beyond both chains (above) |
-| W390/W405 tree | numeral-tree pair preceded by W2 (opener-of-N-tree seal type), i.e. run 2-NUM-tree per 1000 | trigram | 0.000 | 0.000 [0.000-0.000] | in | in | in | chain-explained |
-| W220 plain fish | W220 preceded by a numeral | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
-| W900 bracket | W900 preceded by a numeral | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
+| W390/W405 tree | numeral-tree pair preceded by W2 (opener-of-N-tree seal type), i.e. run 2-NUM-tree per 1000 | trigram | 6.173 | 3.086 [0.000-12.346] | in | in | in | chain-explained |
+| W220 plain fish | W220 preceded by a numeral | adjacency | 0.256 | 0.244 [0.139-0.417] | in | in | in | adjacency fact |
+| W900 bracket | W900 preceded by a numeral | adjacency | 0.222 | 0.167 [0.000-0.462] | in | in | in | adjacency fact |
 | W900 bracket | W900 followed by the jar | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
-| W575 seven-X | modal numeral share before W575 (always 7) | adjacency | nan | nan [nan-nan] | - | - | - | no tokens |
-| W585 seven-X | modal numeral share before W585 | adjacency | nan | nan [nan-nan] | - | - | - | no tokens |
+| W575 seven-X | modal numeral share before W575 (always 7) | adjacency | 1.000 | 1.000 [1.000-1.000] | in | in | in | adjacency fact |
+| W585 seven-X | modal numeral share before W585 | adjacency | 1.000 | 1.000 [1.000-1.000] | in | in | in | adjacency fact |
 | W632 two-X | modal numeral share before W632 | adjacency | nan | nan [nan-nan] | - | - | - | no tokens |
 | W632 two-X | W632 preceded by a numeral at all | adjacency | 0.000 | 0.000 [0.000-0.000] | in | in | in | adjacency fact |
 | fish family W220/240/235/233/231 | two modified fish adjacent: predicted order share (hat>whiskers>bar>stroke) | adjacency | 0.667 | 0.750 [0.000-1.000] | in | in | in | adjacency fact |
@@ -129,6 +129,6 @@
 | GRAMMAR sequence rigidity (S-DARK-19.1) | anagram share among copy pairs of the same multiset | corpus | 0.000 | 0.000 [0.000-0.080] | in | in | in | chain-explained |
 | GRAMMAR no-repeat rule (S88) | share of texts (>=3) repeating a sign non-adjacently (low) | distance | 0.085 | 0.151 [0.114-0.184] | below | in | below | beyond M1, within M2 |
 | GRAMMAR two-closer exclusion | share of texts with two distinct closers | distance | 0.041 | 0.069 [0.047-0.100] | below | below | below | beyond both chains (below) |
-| GRAMMAR two numerals (S366) | share of texts with two non-adjacent numeral tokens | distance | 0.000 | 0.000 [0.000-0.000] | in | in | in | chain-explained |
+| GRAMMAR two numerals (S366) | share of texts with two non-adjacent numeral tokens | distance | 0.088 | 0.069 [0.050-0.097] | in | in | in | chain-explained |
 | GRAMMAR long-range attraction (S51, S67, S366) | count of sign pairs attracting at distance >= 2 (z >= 3, E >= 3) | corpus | 0 | 0 [0-1] | in | in | in | chain-explained |
 | GRAMMAR length distribution (S366) | sd of text length | corpus | 1.791 | 1.791 [1.791-1.791] | in | in | below | chain-explained |
