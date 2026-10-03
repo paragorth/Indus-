@@ -1,0 +1,45 @@
+LOOP 17 FINAL: institution inference by approximate Bayesian computation (S-DARK-17.1 to 17.5).
+Script tools/dark_loop17.py; cycle files data/derived/dark/loop17_cycle1-5.txt. Total simulations: 16,000 base-model prior
+draws + 4,000 posterior-centred draws + 8,000 extended-model (mould mode) prior draws + ~1,000 control/PPC/truth re-simulations
+= ~29,000 synthetic corpora, each laid over the real excavation skeleton (3,520 complete texts: site, object class, find area),
+compared on 34 data-driven summary statistics, at all three merge levels (seq_raw / seq_strong / seq_all: identical to the second
+decimal throughout, so nothing here depends on a sign merge).
+
+WHAT THE POSTERIOR SUPPORTS (identifiable by the recovery controls; adjusted 90% intervals from the extended fit, cycle 5, with
+the base-model fits of cycles 3-4 inside the same ranges)
+ - A credential stock of order 10^4.5-10^5 distinct credentials at the largest city (H*k 39,000-194,000 adjusted; 6,300-164,000
+   rejection). The 1,341 Mohenjo-daro seals are a few per cent of what was issued (consistent with S309's unseen-text estimate).
+ - Office classes (title + final sign) of order 10^1.5-10^2 (O 8-156 extended; 43-400 base), under a Zipf law of slope ~1-1.6;
+   an office word on about half of credentials (p_off 0.13-0.70).
+ - Commodity classes: a few to a few tens (C 4-40), shown with a count on 28-45% of credentials.
+ - An opener (authority sign + connective) on 10-23% of credentials.
+ - A holder-specific middle on 59-82% of credentials, ~3 signs long (1 + Poisson 1.7-2.35), drawn from a vocabulary of
+   several hundred signs (V_mid 330-1,200), i.e. most middle signs that existed are never seen.
+ - Tablets: 42-75% are re-issues of local credentials, struck in mould runs of mean ~8 tablets (m_mould 3.5-15; the real Harappa
+   series of 89-120 copies show the run length is heavy-tailed), with a suffix on 18-46%; the remainder are vouchers (count +
+   unit sign) or office chits. About 20-50% of pot marks copy a local credential.
+ - Posterior-predictive check: 32 of 34 statistics inside the 90% band (base model 31 of 34). Every seal statistic (nesting,
+   cross-site 3-run sharing, middle uniqueness vs bigram, stock texts, locality, closer inventory and Zipf, quantity seals,
+   opener share, duplicates, sign richness, lengths) is reproduced; the tablet mass-copying and locality failures of the base
+   model are repaired by the mould mode; the two remaining misses are the dominance of the single top tablet text (z -1.4) and
+   the all-cross-site sealing->seal matches (tag_cross 0.96, z +1.4, 69 complete sealings).
+
+WHAT IS NOT IDENTIFIABLE (flat posterior in every fit AND missed or flat in the planted-truth worlds, cycles 2, 4, 5)
+ - The number of issuing authorities A: posterior 1-8 = prior; planted A = 1 recovered as 6, planted A = 6 as 1.3-2.3.
+ - The split of the credential stock into holders x credentials per holder (H ~ k ridge r = -0.52 to -0.56): only H*k is seen.
+ - Whether the middle is the holder's NAME (shared by all his credentials) or a per-credential QUALIFICATION: p_share flat
+   (0.06-0.95) on the real corpus and 0.22-0.98 for a planted 0.95. This is S321-S322 from the generative side.
+ - Batch deposit of tablets in the holder's find area (p_batch): the area clustering of same-text pairs is already produced by
+   the holders' own seals.
+ - Seal travel (p_travel): pushed high (0.74-1.0 adjusted) by the cross-site sealing matches but weakly measured with 69 sealings.
+
+METHOD VERDICT: the rejection posterior is calibrated (leave-one-out coverage 0.87-1.00 at nominal 0.90) but wide; the
+regression-adjusted posterior is 2-4x tighter but over-confident (coverage 0.68-0.92), so the adjusted intervals above should be
+read as roughly 80% intervals. Doubling the bank (8,000 -> 16,000) did not change which parameters are identifiable: the
+limit is the corpus (3,520 complete texts, 76% Harappa + Mohenjo-daro, tablets almost all Harappa), not the simulation budget.
+
+RELATION TO THE DECIPHERMENT GOAL: nothing in loop 17 reads a sign; it constrains the institution that produced the texts
+(a credential system of tens of thousands of holders' credentials, ~100 office classes, a few commodity classes, mould-struck
+tablet re-issues) and says which further questions the corpus cannot answer by distribution alone (how many authorities, names
+vs qualifications). Any proposed sign value must still pass anchor_test.py and the calibrated controls; not 'cracked'.
+Data caveat: skeleton built from the older inscriptions.csv (S-DARK-23); counts should be re-run after the corpus rebuild.

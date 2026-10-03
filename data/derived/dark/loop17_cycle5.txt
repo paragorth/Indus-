@@ -1,0 +1,95 @@
+LOOP 17, cycle 5: the EXTENDED model (22nd parameter m_mould = mean number of tablets struck from one mould, log-uniform 1-40;
+a re-issued tablet text and its find area are now repeated 1+Poisson(m_mould-1) times at that site before a new credential is
+drawn; m_mould = 1 is the base model). Bank2 = 8,000 prior draws of the extended model (the restart of the third base chunk).
+A further 8,000-draw extended bank was started this session but stopped: the container is shared by ~10 sibling loops (load 40 on
+4 cores) and it would have taken hours; 8,000 extended draws are enough for the analyses below. Scratch files: fit_bank2ext.txt,
+ppc_bank2ext.txt, control_bank2ext.txt, truth_bank2ext.txt, fit_all24k.txt.
+
+(a) FIT, extended model, 8,000 draws, n_acc 200 (seq_raw / seq_strong / seq_all agree to the second decimal; seq_all shown):
+ param        rejection median [5%, 95%]   adjusted median [5%, 95%]   cycle 4 (base, 16k, adjusted)   agreement
+ m_mould      5.1  [1.3, 20.6]             8.0 [3.5, 15.2]             (fixed 1)                       NEW: > 1 clearly
+ p_reissue    0.47 [0.23, 0.89]            0.57 [0.42, 0.75]           0.69 [0.56, 0.84]               lower: fewer, longer runs
+ z_copy       1.13 [0.35, 2.05]            0.38 [0.30, 0.78]           1.41 [1.04, 1.79]               CHANGED: popularity slope
+                                                                                                        absorbed by the mould runs
+ H*k          31,000 [6,300, 164,000]      77,000 [39,000, 194,000]    40,000 [17,000, 150,000]        10^4.5-10^5
+ H            10,400 [1,800, 54,000]       37,000 [14,000, 60,000]     19,000 [5,900, 55,000]          10^4
+ k            3.6 [1.3, 5.8]               2.6 [1, 4.3]                2.7 [1, 4.7]                    flat (r(H,k) = -0.52)
+ O            62 [5.6, 333]                33 [8, 156]                 251 [43, 400]                   order 10^1.5-10^2, weak
+ zO           1.06 [0.46, 1.81]            1.62 [1.01, 2.0]            1.08 [0.60, 1.61]               ~1-1.6
+ C            9 [1.2, 37]                  20 [5.8, 40]                15 [3.3, 40]                    few to tens
+ p_mid        0.60 [0.31, 0.90]            0.71 [0.59, 0.82]           0.69 [0.51, 0.86]               ~0.7
+ lam_mid      1.45 [0.47, 2.38]            2.0 [1.7, 2.35]             1.82 [1.48, 2.28]               middle ~3 signs
+ V_mid        417 [60, 2,530]              681 [328, 1,220]            383 [169, 846]                  hundreds
+ p_open       0.32 [0.05, 0.67]            0.17 [0.10, 0.23]           0.13 [0.04, 0.21]               0.1-0.25
+ p_comm       0.42 [0.07, 0.78]            0.37 [0.28, 0.45]           0.39 [0.30, 0.48]               0.3-0.45
+ p_off        0.53 [0.04, 0.88]            0.46 [0.13, 0.66]           0.44 [0.14, 0.73]               ~0.5
+ p_suf        0.36 [0.06, 0.89]            0.32 [0.18, 0.46]           0.26 [0.13, 0.40]               0.2-0.45
+ p_potcred    0.43 [0.07, 0.93]            0.32 [0.20, 0.50]           0.30 [0.12, 0.46]               0.2-0.5
+ p_travel     0.68 [0.06, 0.98]            0.96 [0.74, 1.0]            0.37 [0.04, 0.90]               weak (69 sealings)
+ A            5 [1, 8]                     6.3 [3.2, 8]                3.8 [1, 6.9]                    FLAT
+ p_share      0.53 [0.08, 0.94]            0.51 [0.10, 0.90]           0.45 [0.05, 0.95]               FLAT
+ p_batch      0.51 [0.06, 0.97]            0.15 [0.02, 0.68]           0.41 [0.12, 0.84]               not identified
+ Combined fit on all 24,000 draws (base banks entered with m_mould = 1): the extended draws are over-represented among the 400
+ closest (160 of 400 against 133 expected), the rejection posterior of m_mould is 1 [1, 12.8] (the 16,000 m_mould = 1 draws
+ dominate the count) and the adjusted one 4.9 [2.2, 12.5]; p_reissue 0.60 [0.46, 0.76], z_copy 0.66 [0.3, 1.1]; every other
+ parameter as above. Reachable distance (34 statistics, MAD units of the combined bank): base 16k best 4.95, 1% 7.86;
+ extended 8k best 5.85, 1% 7.58, 5% 8.82 vs 8.88: the mould mode does not make the closest corpus closer, it widens the
+ reachable region on the tablet side (see b).
+
+(b) POSTERIOR-PREDICTIVE CHECK, extended model (150 re-simulations from the rejection posterior, seq_all): 32 of 34 inside the 90%
+ band (cycle 3 base: 31 of 34). The two structural misses of the base model on tablets are GONE:
+   stock_tab_per1000   obs 66.3   base 37.7-56.6 (z +3.2)  ->  extended 31.0-91.2, median 60.2 (z +0.34)
+   loc_tab             obs 0.844  base 0.53-0.84 (z +1.5)  ->  extended 0.40-0.90, median 0.73 (z +0.90)
+ Among the 200 accepted draws: base-model stock_tab median 45 (90% 29-61, never reaching 66); extended 55 (30-91); loc_tab base
+ 0.59 (0.35-0.78), extended 0.70 (0.38-0.88). Remaining misses: topcopy_share 0.034 vs 0.036-0.109 (z -1.44: the model's single
+ most-copied tablet text is still too dominant relative to the real top text) and tag_cross 0.964 vs 0.38-0.94 (z +1.44; the
+ all-cross-site sealing->seal matches, S324, 69 complete sealings). Near-misses: tab_in_seal_same 0.49 vs 0.46-0.88 (z -1.15),
+ top_final_share 0.368 vs 0.14-0.45 (z +1.12), top10_share (z -1.03), tab_suffix_share (z -1.0). All seal statistics reproduced,
+ as in cycle 3. Posterior ridges: H ~ k r = -0.52; V_mid ~ z_mid r = +0.48; nothing else above |0.4|.
+
+(c) CONTROL 1: leave-one-out coverage, extended bank, 100 pseudo-observed corpora, nominal 90% CI:
+ param   cov_adj cov_rej CIw_adj CIw_rej   param     cov_adj cov_rej CIw_adj CIw_rej   param      cov_adj cov_rej CIw_adj CIw_rej
+ A        0.73   1.00    0.81    1.11      p_share    0.79   0.87    0.89    1.05      p_batch     0.73   0.89    0.79    0.98
+ O        0.81   0.88    0.62    0.94      p_open     0.82   0.91    0.29    0.80      p_travel    0.85   0.93    0.68    0.96
+ zO       0.77   0.93    0.62    0.94      p_comm     0.74   0.91    0.19    0.77      p_suf       0.80   0.98    0.32    0.83
+ C        0.81   0.92    0.69    0.97      p_off      0.85   0.98    0.41    0.76      p_potcred   0.82   0.97    0.27    0.86
+ H        0.82   0.99    0.31    0.64      p_ext      0.88   0.93    0.62    0.95      m_mould     0.83   0.90    0.60    0.94
+ k        0.77   0.93    0.79    0.98      p_reissue  0.79   0.94    0.25    0.68
+ p_mid    0.92   0.97    0.34    0.71      z_copy     0.78   0.91    0.55    0.88
+ lam_mid  0.86   0.93    0.43    0.88      V_mid      0.83   0.90    0.45    0.87      z_mid       0.68   0.93    0.58    0.91
+ Same picture as the base model with 8,000 draws: rejection calibrated (0.87-1.00), adjusted over-confident (0.68-0.92).
+ m_mould: adjusted width 0.60 of the prior = a factor ~9 out of the prior's factor 40 on the log scale -> partly identified from
+ one corpus; A, k, p_share, p_batch stay unidentified (width >= 0.79).
+
+(d) CONTROL 2: planted truths, extended bank, adjusted posterior, 90% CI (seed 424242):
+ world         m_mould true -> posterior            other misses (of 22)
+ institution   1    -> 1.14 [1, 2.98]   in         p_share (0.68 for 0.2), p_open                 20/22 in
+ names         1    -> 1.00 [1, 2.26]   in         A (6.1 for 1), zO, p_mid, p_ext, z_copy        17/22 in
+ bureau        1    -> 2.8  [1, 6.2]    in         A (2.3 for 6), z_mid, z_copy                   19/22 in
+ mould1.5      1.5  -> 1.7  [1, 4.2]    in         p_open                                         21/22 in
+ mould8        8    -> 6.9  [3.5, 12.9] in         A, p_open                                      20/22 in
+ mould25       25   -> 29   [18, 40]    in         p_comm, p_suf                                  20/22 in
+ (the three mould worlds = 'institution' with H 20,000, k 3, p_reissue 0.6, z_copy 0.5 and the planted m_mould)
+ m_mould is recovered in 6 of 6 worlds and the posterior separates 1 / 1.5 from 8 from 25; a base-model world (m_mould = 1) is
+ never mistaken for a moulded one (upper 95% <= 6.2). The real corpus's m_mould 8 [3.5, 15] is therefore a measurement, not a
+ prior artefact. As before: A is missed in 3 of 6 worlds, p_share in 1 of 6 but with a flat interval in all, H*k recovered
+ (institution 8,000 x 1.5 = 12,000 -> 4,050 x 3.25 = 13,000; bureau 33,000 -> 67,000; mould worlds 60,000 -> 79,000 / 63,000 /
+ 79,000), p_reissue in 6 of 6, z_copy in 3 of 6 (it trades against m_mould: both make a few texts common).
+
+PLAIN WORDS. With a mould mode the credential-institution model reproduces the tablet corpus as well as the seal corpus: 32 of
+34 statistics, the two base-model failures (too few mass-copied tablet texts, tablet stock not local enough) repaired by
+m_mould ~ 8 (3.5-15) tablets per mould with ~55-60% (42-75%) of tablets being re-issues of local credentials. The real Harappa
+moulded series run to 89-120 copies of one face (cycle 3): a Poisson run of mean 8 does not produce such tails, so m_mould is a
+mean over a heavy-tailed mixture, and the remaining miss on topcopy_share (the model's top text is now too common in relative
+terms) is the price of fitting the bulk with one Poisson mean. Everything the base model said about the institution stands:
+credential stock at the largest city 10^4.5-10^5 (adjusted 39,000-194,000; rejection 6,300-164,000), office classes of order
+10^1.5-10^2 under a Zipf slope ~1-1.6, a few to a few tens of commodity classes on 30-45% of credentials, an opener on 10-25%,
+an office word on ~half, a holder-specific middle of ~3 signs on ~70% of credentials from a vocabulary of several hundred signs.
+Not identifiable at this corpus size (controls c, d, and cycles 2 and 4): the number of issuing authorities A (1-8 flat in every
+fit and missed in half the planted worlds), the split of the credential stock into holders x credentials per holder (r = -0.52
+ridge), whether the middle is a holder's NAME shared across his credentials or a per-credential qualification (p_share flat,
+the 'names' world with p_share 0.95 recovers 0.72 [0.22, 0.98]), batch deposit of tablets, and (69 complete sealings) seal travel.
+Caveats as in cycles 1-4: skeleton from the older inscriptions.csv build (S-DARK-23), 76% Harappa + Mohenjo-daro, tablets almost
+all Harappa so m_mould and p_reissue describe Harappa; nothing here reads a sign.
+
+| S-DARK-17.5 | **Extended institution ABC with a tablet mould mode** (22nd parameter m_mould, log-uniform 1-40; 8,000 extended prior draws; fit at seq_raw/strong/all; PPC with 150 re-simulations; leave-one-out control on 100 pseudo-corpora; six planted worlds incl. m_mould = 1, 1.5, 8, 25; `tools/dark_loop17.py`, `data/derived/dark/loop17_cycle5.txt`) | m_mould 8.0 [3.5, 15.2] adjusted (rejection 5 [1.3, 21]), p_reissue 0.57 [0.42, 0.75]; all other identifiable parameters as in 17.3-17.4 (H*k 39,000-194,000; O ~10^1.5-10^2; p_mid 0.59-0.82; lam_mid 1.7-2.35; p_open 0.10-0.23; p_comm 0.28-0.45; p_suf 0.18-0.46; p_potcred 0.20-0.50). PPC 32/34 inside the 90% band: stock_tab 66 now inside 31-91 (base z +3.2 -> +0.3), loc_tab 0.84 inside 0.40-0.90; remaining misses topcopy_share (z -1.4) and tag_cross (z +1.4). Control: m_mould recovered in 6/6 planted worlds (1 -> 1.1/1.0/2.8, 1.5 -> 1.7, 8 -> 6.9 [3.5, 12.9], 25 -> 29 [18, 40]); leave-one-out adjusted width 0.60 of prior, coverage 0.83; A, k, p_share, p_batch still >= 0.79 of prior | **With a mould mode (~8 tablets per mould, heavy-tailed in reality) the credential-institution model reproduces both the seal and the tablet corpus. Identifiable and stable across 28,000 simulations: a credential stock of 10^4.5-10^5 at the largest city, ~30-250 office classes under a Zipf law, a few to tens of commodity classes, middles of ~3 signs on ~70% of credentials, tablets ~40-75% re-issues of local credentials struck in mould runs. NOT identifiable from this corpus: the number of issuing authorities, holders vs credentials per holder, name vs qualification, batch deposit, seal travel.** No sign is read; not 'cracked' |

@@ -27,8 +27,12 @@ def cdli_prov():
     prov = {}; per = {}
     for row in r:
         if len(row) > max(ip, ii, iper):
-            p = row[ip].split(' (')[0].strip()
+            full = row[ip]
+            p = full.split(' (')[0].strip()
             if p.endswith('?'): p = 'uncertain'
+            if p == 'uncertain' and 'mod. ' in full:
+                m = full.split('mod. ')[-1].rstrip(') ?').strip()
+                if m and m != 'uncertain': p = 'mod.' + m
             prov[row[ii]] = p or 'uncertain'; per[row[ii]] = row[iper]
     return prov, per
 
