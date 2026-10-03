@@ -1,0 +1,45 @@
+# Loop 4 final: "the UNITS may be wrong" (4 cycles, 2026-10-03)
+
+Question. Does any re-segmentation of the Indus corpus (merged sign pairs/triples, allograph merge levels, sub-sign
+components) make it simultaneously MORE predictable out of sample AND more name-like / lexicon-like than the sign level,
+i.e. is there a hidden lexicon under a wrong segmentation?
+
+Answer: no. Four independent tests, all three sequence levels (seq_raw / seq_strong / seq_all), held-out sites
+(all other named sites; Dholavira, Lothal, Kalibangan separately; MD<->Harappa swap), arrows-fired nulls (the whole
+search re-run on bigram-generated corpora), and two positive controls (Ur III seal legends with known word boundaries;
+a planted Tamil logo-syllabic corpus).
+
+Best segmentation per statistic (Indus, seq_raw, held-out sites; others in loop4_rows.txt):
+  bits/sign          BPE k=60: 7.588 vs 7.633 (-0.6%)   [null: BPE never helps; Ur III BPE -3.3% = true word level]
+  uniqueness ratio   sub-sign 'all'/'marks': 1.015-1.03 vs 1.03 (null gives the same drop; splitting signs lowers it trivially)
+  within-text rep.   allograph levels 0.267-0.274 vs 0.274 (no change)
+  grammar coverage   sign level or allograph levels 0.444-0.446; BPE cuts it to 0.29 (merged units straddle slots)
+  joint (bits AND uniq-or-rep)  7 of 29 segmentations on seq_raw, 4/29 strong, 8/29 all; bigram null 3-7 of 29.
+  MDL                bigram code: best k = 0-10, gain <= 0.09%; unigram code +5.5% vs null +4.0-4.5%, no interior minimum.
+  cross-site chunks  0 of 90 rows above the bigram null; NAME-residue chunk recurrence 0.54x chaining.
+
+What the merges that do help are: 100+740, 817+2, 760+740, 176+740, 740+400, 705+33+520, 920+60(+741), 692+60 -
+the opener+marker, qualifier+jar, arrow-phrase and S331 opener units already in GRAMMAR.md. The small real gain over
+the bigram null (~0.04 bits, ~1 MDL point) is this frame, not a lexicon.
+
+Sign-identity level (allographs): merging the real list lowers held-out bits by 0.150, shape-blind frequency-matched
+fake lists by 0.068 (median) / 0.097 (best), and the real list on bigram-null data by 0.110. A ~0.04-0.05 bit vote
+that the allograph list is better than chance, nothing more; results do not depend on the merge level.
+
+Sub-sign components (41 base+mark pairs, 13 ligatures): decomposition hurts predictability (+0.08 bits median);
+ligatures alone neutral. The components are not the alphabet.
+
+Key caveat (cycle 3). Ur III seal-owner names WITH repeats show the lexicon signal strongly (uniqueness 0.278, BPE
+-5.4%); the same names counted ONCE each look like the Indus name residue (uniqueness 1.105 vs 1.04-1.07, BPE -0.053
+vs -0.02). The Indus corpus is deduplicated by site+text, so every test here runs on the version of the data in which a
+real onomasticon would also be invisible. The planted control adds that a large Zipf lexicon (3,000 words) does not pay
+under MDL at 13k tokens. These tests therefore exclude a SMALL hidden lexicon (hundreds of recurring multi-sign words)
+and a wrong unit level for the frame, not thousands of rare multi-sign names.
+
+Leads for other loops: (1) rerun the uniqueness and BPE tests on undeduplicated impression counts (Lothal and
+Kalibangan sealings, Harappa tablets, the S149 twins) where the same text genuinely recurs; (2) add the S331 opener
+units 920+60 / 692+60 / 920+60+741 to the S310 parser - they still sit in the 'name residue'.
+
+Files: loop4_rows.txt (4 STRATEGIES rows), loop4_seg.py, loop4_controls.py, loop4_chunks.py, loop4_names.py,
+loop4_mdl.py, loop4_ur3_extract.py, loop4_ur3_legends.json, loop4_cycle{1..4}*.txt/.json/.log.
+Nothing committed. No model names in files.
