@@ -24,3 +24,39 @@ set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
 861	817	strong	109	50	+0.045	0.6022	0.979
 390x407	407	cand	80	19	-0.112	0.7801	0.979
 survivors q<0.1: 0 of 7; p<0.05: 0 (expected 0.4)
+
+## Harappa vs depth (age): 6 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+156	151	doubtful	31	13	+0.289	0.1709	0.909
+390	405	strong	57	23	-0.108	0.9085	0.909
+705	706	strong	44	17	-0.017	0.8981	0.909
+803	806	strong	47	25	-0.156	0.5297	0.909
+861	817	strong	69	41	-0.034	0.7421	0.909
+390x407	407	cand	48	16	+0.070	0.7291	0.909
+survivors q<0.1: 0 of 6; p<0.05: 0 (expected 0.3)
+
+## Harappa vs period: 3 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	33	12	-0.159	0.9705	0.971
+861	817	strong	39	22	-0.055	0.7891	0.971
+390x407	407	cand	30	9	-0.017	0.9425	0.971
+survivors q<0.1: 0 of 3; p<0.05: 0 (expected 0.2)
+
+## Cross-city agreement (sets testable in both cities)
+
+### depth: 6 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+156	151	+0.185	0.097	+0.289	0.171	same
+390	405	-0.037	0.712	-0.108	0.909	same
+705	706	+0.131	0.037	-0.017	0.898	opp
+803	806	-0.059	0.657	-0.156	0.530	same
+861	817	+0.024	0.723	-0.034	0.742	opp
+390x407	407	-0.083	0.747	+0.070	0.729	opp
+same-direction 3 of 6 (binomial P(>= 3) = 0.656); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.01)
+
+### period: 3 shared arrows
+set	form	MD rho	MD p	HP rho	HP p	agree
+390	405	+0.011	0.944	-0.159	0.971	opp
+861	817	+0.045	0.602	-0.055	0.789	opp
+390x407	407	-0.112	0.780	-0.017	0.943	same
+same-direction 1 of 3 (binomial P(>= 1) = 0.875); both q<0.1 same sign: 0; both p<0.05 same sign: 0 (expected under null ~0.00)

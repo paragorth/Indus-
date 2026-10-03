@@ -111,10 +111,14 @@ def count(corpus, voc):
         for p in patterns(s, voc): cnt[p] += 1
     return cnt
 
-def expected(model, meta, voc, n, rng):
+def expected(model, meta, voc, n, seed, keys=None):
+    """mean presence count over n synthetic corpora (corpus i generated with seed+i, so it can be regenerated).
+    With keys: also return per-corpus counts restricted to those keys (memory-safe)."""
     tot = collections.Counter(); per = []
-    for _ in range(n):
-        c = count(model.corpus(meta, rng), voc); per.append(c); tot.update(c)
+    for i in range(n):
+        c = count(model.corpus(meta, random.Random(seed + i)), voc); tot.update(c)
+        if keys is not None: per.append({k: c[k] for k in keys if c[k]})
+        del c
     return {k: v / n for k, v in tot.items()}, per
 
 def gaps(exp, obs, emin):
@@ -140,17 +144,16 @@ def run():
     meta = [(a, b) for a, b, _ in HOME]
     M = Model(HOME)
     obs = count(HOME, voc)
-    exp, per = expected(M, meta, voc, NSYN, rng)
+    exp, _ = expected(M, meta, voc, NSYN, SEED * 1000)
     G = gaps(exp, obs, EMIN)
     bykind = collections.Counter(k[0] for k, _ in G)
     P('REAL gaps (E>=%.0f, O=0):' % EMIN, dict(bykind), 'total', len(G), 'patterns with E>=emin:', sum(1 for e in exp.values() if e >= EMIN))
-    # control 1: synthetic corpora scored against the leave-one-out expectation
+    # control 1: synthetic corpora scored against the leave-one-out expectation (regenerate, keep only candidate keys)
+    keys = [k for k, e in exp.items() if e * NSYN / (NSYN - 1) >= EMIN]
+    _, per = expected(M, meta, voc, min(NCTRL, NSYN), SEED * 1000, keys)
     ctrl = []
-    tot = collections.Counter()
-    for c in per: tot.update(c)
-    for i in range(min(NCTRL, NSYN)):
-        c = per[i]
-        exp_i = {k: (v - c.get(k, 0)) / (NSYN - 1) for k, v in tot.items()}
+    for c in per:
+        exp_i = {k: (exp[k] * NSYN - c.get(k, 0)) / (NSYN - 1) for k in keys}
         g = gaps(exp_i, c, EMIN); ctrl.append(collections.Counter(k[0] for k, _ in g))
     for kind in ('co', 'ord', 'skip', 'tri'):
         xs = sorted(x[kind] for x in ctrl)
