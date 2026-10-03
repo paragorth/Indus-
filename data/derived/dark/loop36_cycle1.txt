@@ -1,0 +1,41 @@
+LOOP 36, CYCLE 1 (2026-10-03): where can a truly out-of-corpus test set come from, and what did the sweep find?
+Scripts: tools/dark_loop36_match.py (corpus-overlap checker, Wells + IM77 via the bridge, S-DARK-21.1 wildcard cap).
+Predictions frozen first: data/derived/dark/loop36_predictions.txt (written before any new object was looked at).
+
+Source sweep (all open; every call logged here):
+- Prior loops had already consumed: ASI Indian Archaeology - A Review 2001-02 to 2013-14 (S171: every published inscription is in
+  ICIT/Wells), the Dholavira 2015 preliminary report (S172, S176: 225 seals + 60 sealings all already in the corpus), Nath's
+  Rakhigarhi 1997-2000 report (S159, S162: graffiti drawings missing from the PDF; one lead ingot, unreadable), Farmana 2007-08
+  (S247: in corpus), Laursen 2010 Gulf-type seals (S276/S278: 24 of 29 matched; nos. 6, 17, 20, 25 missing), Salut, Binjor,
+  Tigrana, Kalba (S257/S258), Shinde & Willis 2014 copper plates (S170: unprovenanced), CDLI (S190).
+- New this cycle:
+  * Cleveland Museum of Art open-access API (openaccess-api.clevelandart.org): three inscribed Indus seals (1973.161, 1964.104,
+    1973.160) with CC0 3400-px photographs. Dealer provenance (W. H. Wolff; MFA Boston exchange). Not among the corpus's 28
+    'Unknown'-site texts.
+  * Metropolitan Museum API (v1.1 search; v1 objects): 49.40.1-4 (Dodge Fund 1949), four inscribed seals, open-access photos
+    (one at 2000/3783 px, three at ~350 px). Not in the corpus's Unknown set.
+  * Victoria and Albert API: IS.8A-1951 script-only fragment (3 signs), IIIF image too small to read; O25161 is Mohenjo-daro (CISI).
+  * Directorate General of Antiquities Sindh online exhibition (antiquities.sindhculture.gov.pk, 364 records; 9 seal records,
+    3 with real photographs): Mohenjo-daro museum seals, most probably CISI objects.
+  * archive.org: Gadd 1932 'Seals of ancient Indian style found at Ur' (in.gov.ignca.33779) downloaded; the OCR text gives
+    museum numbers (no. 3 = BM 122946 = U.17342; no. 4 = BM 122188; no. 5 = Penn U.17341; no. 6 = BM 122947) but the plate
+    pages of the scan are blank/black, so nos. 3 and 15 (known missing from the corpus) still cannot be read.
+  * Wikimedia Commons (category pages fetched as HTML; the API and upload server returned HTTP 429 for every image download,
+    even at 45-s spacing): identified but could not download BM 1932,0308.1 (bought in Baghdad by Gadd; Laursen's no. 23/24
+    family), BM cylinder 1960,0718.1.1 (fragmentary, Indus signs), BM 1912,0629.1 ('north-west Pakistan'), a Harappa sherd.
+  * Shinde & Willis 2014 (Ancient Asia 5, open access) PDF fetched from the journal's upload server; embedded figures at
+    813-1201 px; plates 3 and 4 (bold two-row texts) partly readable, plate 1 (34 signs) not.
+  * Chanhu-daro French mission (HAL): landing pages only; HAL and harappa.com images are behind anti-bot checks (Cloudflare
+    'just a moment' / Anubis) in both curl and Chromium; harappa.com HTML pages load but image requests return 403.
+  * Penn Museum Chanhu-daro seals (L-141-xx): pages load, no image URLs exposed; all are Mackay 1935-36 objects (CISI).
+  * Web search for post-2015 excavated seals (Rakhigarhi 2013-16 and 2022-24, Dholavira, Kotada Bhadli, Lothal, Khirsara,
+    Lakhan-jo-daro, Mohenjo-daro, Oman, Bahrain, Failaka al-Khidr, Konar Sandal): descriptions only (e.g. the Rakhigarhi
+    cylinder seal 'five Harappan characters and an alligator'); no open photograph or drawing with legible signs.
+
+Blind calibration of my own reading (needed before any 'NEW' verdict is trusted): Dholavira 2015 photo of acc. 2393 read
+blind as 824-706-33-520 vs the corpus 233-706-33-520 (3 of 4 signs right; the fish/oval family is the confusion). Acc. 80 read as
+400-465(+1 lost): no corpus match found, i.e. my 2-sign reading fails to find a text that IS in the corpus. So a single-reader
+transcription from a photo has roughly 75% per-sign accuracy on good images, and a 'NEW' verdict for a 5-sign text has a
+~25% chance of being a misreading even when the object is in the corpus.
+
+| S-DARK-36.1 | **Truly out-of-corpus test set, part 1: source sweep + overlap engine.** Open sources only (Cleveland and Met open-access APIs, V&A API, Sindh antiquities site, archive.org Gadd 1932, Commons category HTML, Ancient Asia PDF, HAL, Penn, harappa.com via Chromium, web search for 2015-2026 finds). Overlap checker `tools/dark_loop36_match.py`: Wells (5,680 rows, all sites, exact / reverse / edit-1 / subsequence) + IM77 through the bridge and loop-27 proposals, with the S-DARK-21.1 wildcard cap. Control: two Dholavira 2015 photographs of corpus objects read blind | 25 candidate objects logged (`loop36_newfinds.csv`), of which 14 have >= 2 readable signs: 3 Cleveland + 4 Met seals (unprovenanced museum pieces, not among the corpus's 28 'Unknown' texts), 1 Sindh museum seal, 1 Umma survey seal (2 signs), 1 Binjor terracotta seal (3 signs), 5 Shinde-Willis copper plates (private, authenticity untested). Gadd 1932 nos. 3 and 15 (Ur, genuinely absent from the corpus) and four BM objects on Commons could not be imaged (blank scan; HTTP 429). Blind control: 3 of 4 signs right on a 4-sign Dholavira seal, 0 of 1 corpus hits on a 2-sign one | **No open source published after the corpus cut-off yields excavated texts with legible signs; the post-2014 finds (Rakhigarhi cylinder seal, Binjor unicorn seal, Dholavira 2019-24) exist only as verbal descriptions or sub-100-px photos.** The only material genuinely outside Wells/IM77 that can be read today is unprovenanced museum and private pieces, so the 'first truly out-of-corpus test' becomes a museum-piece test with a ~25% per-text misreading risk. Target of 40 texts not met (14 readable, 7 with >= 3 signs at grade B). |
