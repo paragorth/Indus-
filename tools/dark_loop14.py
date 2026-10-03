@@ -29,14 +29,15 @@ def load():
     rows = list(csv.DictReader(open(ROOT + 'data/raw/inscriptions.csv')))
     canon = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
     by = collections.defaultdict(list)
+    norm = lambda v: '' if v in ('None', '-', '') else v
     for t in canon:
-        by[tuple(t.get(f, '') for f in KEY)].append(t)
+        by[tuple(norm(t.get(f, '')) for f in KEY)].append(t)
     seals, nseal = [], 0
     for r in rows:
         if not r['type'].startswith('SEAL'):
             continue
         nseal += 1
-        k = tuple(r.get(f, '') for f in KEY)
+        k = tuple(norm(r.get(f, '')) for f in KEY)
         nums = sorted(int(x) for x in NUMRE.findall(r['text']))
         hit = None
         for t in by.get(k, []):
@@ -72,9 +73,9 @@ def features(r, with_emblem=False):
         v = fnum(r['vertical(mm)']) / 10
     if np.isnan(th) and fnum(r['thickness(mm)']) > 0:
         th = fnum(r['thickness(mm)']) / 10
-    num = {'h': math.log(h) if not np.isnan(h) else np.nan,
-           'v': math.log(v) if not np.isnan(v) else np.nan,
-           'th': math.log(th) if not np.isnan(th) else np.nan}
+    def lg(x):  # seals are 0.5-6 cm; anything outside is a unit error -> missing
+        return math.log(x) if (not np.isnan(x) and 0.3 <= x <= 8) else np.nan
+    num = {'h': lg(h), 'v': lg(v), 'th': lg(th)}
     if with_emblem:
         sym = r['symbol']
         cat['emblem'] = None if sym in ('-', '', 'None') else sym.split(':')[0]
@@ -117,7 +118,7 @@ def cluster_city(seals, k, with_emblem=False, min_known=3):
             items.append((cat, num)); keep.append(i)
     if len(keep) < 20:
         return None, None
-    Z = linkage(gower(items), method='average')
+    Z = linkage(gower(items), method='ward')
     return np.array(keep), fcluster(Z, k, criterion='maxclust')
 
 

@@ -1,0 +1,52 @@
+LOOP 11 cycle 2  level=seq_raw nperm=500 seed=22
+(i) SITE/AREA CLUSTERING of confusion-pair objects
+  all objects, strata (type,len): same site 0.634 (n 1758) null 0.568 P=0.0175 | same area 0.167 (n 815) null 0.113 P=0.0075
+  excluding Harappa TAB objects: same site 0.415 (n 366) null 0.467 P=0.8853 | same area 0.203 (n 143) null 0.173 P=0.2195
+  SEAL objects only: same site 0.497 (n 159) null 0.516 P=0.6110 | same area 0.205 (n 78) null 0.166 P=0.2244
+  area, labels permuted within (site,type,len): obs 0.167 (n 813) null 0.111 (95% 0.081..0.149) P=0.0025
+    Harappa only: same area 0.160 (n 673) null 0.099 P=0.0025
+    Mohenjo-daro only: same area 0.200 (n 140) null 0.165 P=0.1845
+  reference: identical-text duplicates share find area 0.417 (n 1440)
+(ii) HELD-OUT REPLICATION: fit Mohenjo-daro + Harappa, test on all other sites
+  train: 1993 objects, 152 substitution frames, 142 distinct (a,b)
+  test (minfreq 2): 312 objects, 7 substitution frames; object sites {'Lothal': 20, 'Chanhu-daro': 2, 'Kalibangan': 2, 'Allahdino': 1, 'Hulas': 1, 'Bhirrana': 1}
+    frames whose (a,b) was seen in train: obs 1 null 0.2 P=0.1677
+    already-merged pairs: obs 2 null 0.2 P=0.0100
+    slot agreement: obs 1.000 of 2 null 0.393 P=0.2060
+    glyph similarity: obs 0.714 null 0.559 P=0.0020
+  test (minfreq 1): 312 objects, 28 substitution frames; object sites {'Lothal': 24, 'Dholavira': 14, 'Kalibangan': 10, 'Chanhu-daro': 9, 'Nausharo': 4, 'Bhirrana': 2}
+    frames whose (a,b) was seen in train: obs 8 null 2.1 P=0.0020
+    already-merged pairs: obs 7 null 1.6 P=0.0020
+    slot agreement: obs 0.889 of 9 null 0.571 P=0.0519
+    glyph similarity: obs 0.647 null 0.538 P=0.0020
+    held-out substitutions seen in train: 820<->861, 817<->861, 817<->820, 861<->820, 3<->4, 705<->33, 705<->706, 33<->706
+    held-out recurrent pairs (>=2 frames): 820<->861 x2
+(iii) MISSED-ALLOGRAPH SCAN: non-merged substitution pairs (all sites, minfreq 2), glyph similarity and slot
+  non-merged frames 302 of 345; mean glyph similarity obs 0.560 null 0.535 (95% 0.520..0.549) P=0.0020
+  non-merged frames with glyph similarity >= 0.85: obs 20 null 9.3 (max 19) P=0.0020
+  candidates (non-merged, glyph >= 0.80), with frames, slot agreement, token counts, M numbers:
+    233<->235 frames 3 glyph 0.88 slot -/mid-initial tokens 140/188 M[72]/M[65] e.g. 817-2-803-233-520 vs 817-2-803-235-520
+    390<->407 frames 2 glyph 0.80 slot closer/closer tokens 181/121 M[161, 162, 167, 168, 169]/M[169] e.g. 590-390-740 vs 590-407-740
+    235<->240 frames 2 glyph 0.92 slot mid-initial/- tokens 188/273 M[65]/M[67] e.g. 235-176-740-400 vs 240-176-740-400
+    240<->445 frames 1 glyph 0.80 slot -/- tokens 273/1 M[67]/M? e.g. 445-760-740 vs 240-760-740
+    32<->240 frames 1 glyph 0.90 slot numeral/- tokens 287/273 M[87]/M[67] e.g. 240-760-740 vs 32-760-740
+    220<->235 frames 1 glyph 0.86 slot -/mid-initial tokens 295/188 M[59]/M[65] e.g. 220-240-740-90 vs 235-240-740-90
+    824<->876 frames 1 glyph 0.90 slot -/- tokens 23/1 M?/M? e.g. 415-578-32-824 vs 415-578-32-876
+    714<->760 frames 1 glyph 0.82 slot -/- tokens 1/89 M?/M[347, 358] e.g. 799-840-714-740 vs 799-840-760-740
+    140<->233 frames 1 glyph 0.82 slot -/- tokens 74/140 M[17]/M[72] e.g. 3-140-100-740 vs 3-233-100-740
+    850<->851 frames 1 glyph 0.94 slot -/- tokens 40/6 M?/M? e.g. 851-741-48-740 vs 850-741-48-740
+    783<->785 frames 1 glyph 0.92 slot -/- tokens 2/2 M?/M? e.g. 4-785-740 vs 4-783-740
+    525<->526 frames 1 glyph 0.88 slot -/closer tokens 10/12 M?/M[254] e.g. 220-550-525 vs 220-550-526
+    100<->152 frames 1 glyph 0.88 slot -/- tokens 96/1 M[8]/M? e.g. 240-100-740-400 vs 240-152-740-400
+    384<->388 frames 1 glyph 0.87 slot -/- tokens 19/35 M?/M[327] e.g. 31-384-740 vs 31-388-740
+    27<->28 frames 1 glyph 0.93 slot numeral/numeral tokens 5/4 M[119]/M[119] e.g. 28-32-740-400 vs 27-32-740-400
+    25<->28 frames 1 glyph 0.82 slot numeral/numeral tokens 3/4 M?/M[119] e.g. 28-32-740-400 vs 25-32-740-400
+    14<->27 frames 1 glyph 0.86 slot numeral/numeral tokens 4/5 M?/M[119] e.g. 27-32-740-400 vs 14-32-740-400
+    32<->235 frames 1 glyph 0.87 slot numeral/mid-initial tokens 287/188 M[87]/M[65] e.g. 235-220-176-740 vs 32-220-176-740
+    472<->475 frames 1 glyph 0.81 slot -/- tokens 5/2 M?/M? e.g. 475-806-158-400 vs 472-806-158-400
+    470<->472 frames 1 glyph 0.85 slot -/- tokens 3/5 M?/M? e.g. 470-806-158-400 vs 472-806-158-400
+    276<->491 frames 1 glyph 0.82 slot -/- tokens 1/15 M?/M[205] e.g. 491-817-740-400 vs 276-817-740-400
+    803<->806 frames 1 glyph 0.99 slot -/- tokens 103/110 M[387]/M[387] e.g. 803-233-176-740 vs 806-233-176-740
+    806<->831 frames 1 glyph 0.96 slot -/- tokens 110/13 M[387]/M? e.g. 806-233-176-740 vs 831-233-176-740
+    17<->615 frames 1 glyph 0.82 slot numeral/- tokens 58/58 M[110, 112]/M? e.g. 503-615-740 vs 503-17-740
+    61<->63 frames 1 glyph 0.99 slot -/- tokens 70/9 M[124, 125]/M? e.g. 798-240-845-63-407 vs 798-240-845-61-407
