@@ -20,6 +20,7 @@ import numpy as np
 import strat_adequacy as SA                        # identical battery, parser, Cat, CRP, fit_theta, compare, summary
 OUTD = 'data/derived/dark/'
 LOG = []
+CHAIN_LAM = 1.0   # shrinkage of P(element | field, previous written element) to the field's pooled menu
 import bisect, itertools
 def _fast_sample(self, rng):
     """same distribution as strat_adequacy.Cat.sample (shrinkage to parent, then categorical), cumulative weights cached"""
@@ -358,9 +359,49 @@ class FormModel:
             if x[f] > 0:
                 e = self.pick(f, site, cls, prev, rng); out.append(e); prev = e
         return out
+    def order_items(self, items, rng):
+        """items: list of field indices (a field may occur twice). Sequential draw: P(i first) ∝ Π_j p_ij over the rest."""
+        R = list(items); out = []
+        while len(R) > 1:
+            lw = []
+            for a, i in enumerate(R):
+                l = 0.0
+                for b, j in enumerate(R):
+                    if a != b and i != j: l += self.logp[i, j]
+                lw.append(l)
+            m = max(lw); w = [math.exp(l - m) for l in lw]; r = rng.random() * sum(w); acc = 0.0
+            for a, v in enumerate(w):
+                acc += v
+                if r <= acc: break
+            out.append(R.pop(a))
+        return out + R
+    def text_from_fields(self, x, site, cls, rng):
+        items = []
+        for f in range(self.K):
+            if x[f] > 0:
+                m = self.multcat[f].sample(rng) if f in self.multcat else 1
+                items += [f] * m
+        if not items: return []
+        out = []; prev = 'S'
+        for f in self.order_items(items, rng):
+            e = self.pick(f, site, cls, prev, rng); out.append(e); prev = e
+        return out
     def generate_corpus(self, meta, rng):
         rng_np = np.random.default_rng(rng.randrange(1 << 30))
         N = len(meta)
+        if 'partial' in self.mech:
+            Z1 = np.array([self.cov(site, cls, 0) for site, cls in meta]); X1 = self.sample_fields_batch(Z1, rng_np)
+            crps = collections.defaultdict(lambda: SA.CRP(getattr(self, 'theta', 1.0))); out = []
+            for i, (site, cls) in enumerate(meta):
+                def one():
+                    s = self.text_from_fields(X1[i], site, cls, rng)
+                    for _ in range(20):
+                        if s: break
+                        s = self.text_from_fields(self.sample_fields(self.cov(site, cls, 0), rng), site, cls, rng)
+                    return tuple(s) if s else (740,)
+                s = crps[site].draw(rng, one) if 'reuse' in self.mech else one()
+                out.append((site, cls, s))
+            return out
         nu = [self.n_units[self.tkey(cls)].sample(rng) if 'units' in self.mech else 1 for _, cls in meta]
         # pre-sample field vectors for unit 1 and unit 2 in batch
         Z1 = np.array([self.cov(site, cls, 0) for site, cls in meta]); X1 = self.sample_fields_batch(Z1, rng_np)
@@ -401,6 +442,21 @@ def keyline(rows):
     d = {r['stat']: r for r in rows}
     return '; '.join(f"{k} {d[k]['real']:.3f} vs {d[k]['mean']:.3f} z {d[k]['z']:.1f}{'*' if d[k]['outside'] else ''}" for k in KEYSTATS if k in d)
 
+def field_diag(F, data):
+    """share of texts with a repeated field; share of tokens whose field already occurred earlier in the text; repeat-sign share"""
+    rt = rf = rs = tok = 0
+    for _, _, s in data:
+        fs = [F.field_of.get(x, ('?', x)) for x in s]
+        seenf = set(); seens = set(); rep = False
+        for f, x in zip(fs, s):
+            tok += 1
+            if f in seenf: rf += 1; rep = True
+            if x in seens: rs += 1
+            seenf.add(f); seens.add(x)
+        rt += rep
+    n = len(data)
+    return f"texts with a repeated field {rt/n:.3f}, tokens in an already-used field {rf/tok:.3f}, repeated-sign tokens {rs/tok:.3f}"
+
 def describe_form(F, texts, model=None, topn=8):
     has = F.has
     log(f"form: {F.K} fields; fixed-order consistency of sign pairs with the field order: {F.order_ok:.3f}; refinement moves per round {F.moves}")
@@ -436,20 +492,25 @@ def main():
                         ('ablation: no second units', [m for m in base if m != 'units']),
                         ('ablation: no whole-text reuse', [m for m in base if m != 'reuse'])]
         else:
-            configs += [('FORM + elemchain (element given previous selected element)', base + ['elemchain']),
-                        ('FORM + elemchain, no reuse', [m for m in base if m != 'reuse'] + ['elemchain']),
-                        ('FORM + elemchain, K=15', 'K15'), ('FORM + elemchain, K=40', 'K40')]
+            part = ['ising', 'type', 'site', 'reuse', 'open', 'partial', 'elemchain']
+            configs += [('FORM + elemchain (element given previous written element)', base + ['elemchain']),
+                        ('PARTIAL (one field set per text, pairwise field order, elemchain, reuse, open)', part),
+                        ('PARTIAL control: independent fields (no co-selection)', [m for m in part if m != 'ising']),
+                        ('PARTIAL ablation: strict linear field order', part + ['strictorder']),
+                        ('PARTIAL ablation: no element chain', [m for m in part if m != 'elemchain']),
+                        ('PARTIAL ablation: no whole-text reuse', [m for m in part if m != 'reuse'])]
         res = {}
         for name, mech in configs:
             t1 = time.time()
-            if mech == 'K15': M = FormModel(FIT, mech=base + ['elemchain'], form=Form(texts, kmax=15))
-            elif mech == 'K40': M = FormModel(FIT, mech=base + ['elemchain'], form=Form(texts, kmax=40))
-            else: M = FormModel(FIT, mech=mech, form=F if 'shuffleorder' not in mech else None)
+            M = FormModel(FIT, mech=mech, form=F if 'shuffleorder' not in mech else None)
             rows = run(M, meta, real, NSYN)
             log(f"\n## {name}  (fit {time.time()-t1:.0f} s)")
             res[name] = show(name, rows); J[name] = rows
             log("key stats: " + keyline(rows))
-            if name.startswith('FORM (') or 'elemchain (' in name:
+            if 'partial' in M.mech:
+                g = M.generate_corpus(meta, random.Random(21))
+                log(f"field-level check (real vs one synthetic corpus): " + field_diag(F, FIT) + " | " + field_diag(F, g) + f"; pair-order agreement with the linear field order {M.order_agree:.3f}")
+            if name.startswith('FORM (') or name.startswith('PARTIAL ('):
                 # held-out sites
                 meta_h = [(s, c) for s, c, _ in HELD]; real_h = battery(HELD)
                 rows_h = run(M, meta_h, real_h, NSYN, seed=7); J[name + ' heldout'] = rows_h

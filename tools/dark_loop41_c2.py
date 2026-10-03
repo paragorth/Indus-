@@ -40,14 +40,4 @@ for lvl in ('seq_raw', 'seq_all'):
             for key, k in need.items(): ctrl += rnd.sample(pool[key], min(k, len(pool[key])))
             res2 = all_stats(ctrl, rnd, nnull=40, label=f'{lvl} FULL matched to AGREED mix'); rows.append(res2); P(line(res2))
         rows.append(res); P(line(res))
-# S349 nulls
-P('\n# S349 P1/P2 on the die regime: original null (R fixed, held-out shuffled) vs both-shuffled vs Markov order-1 (fitted on held-out, per class)')
-for lvl in ('seq_raw', 'seq_all'):
-    for name, T in (('FULL', dedup(C, lvl, 'die')), ('defragile', defragile(dedup(C, lvl, 'die')))):
-        o, nm, nx, n = p1p2_fixedR(T, rnd, nnull=50)
-        h = p1p2(T, rnd, nnull=30)
-        om, mm, mx = p2_markov(T, rnd, nnull=30, order=1)
-        om2, mm2, mx2 = p2_markov(T, rnd, nnull=30, order=2)
-        o1, n1, x1, ns = nest_markov(T, rnd, nnull=20, order=1)
-        P(f'{lvl} {name:10s} held-out n={n}: P2 {o:.3f} vs R-fixed shuffle {nm:.3f} (max {nx:.3f}) = {o/nm:.1f}x | both-shuffled {h["P2_null"]:.3f} = {o/h["P2_null"]:.1f}x | Markov-1 {mm:.3f} (max {mx:.3f}) = {om/mm:.1f}x | Markov-2 {mm2:.3f} (max {mx2:.3f}) = {om2/mm2:.1f}x || P1 {h["P1"]:.3f} vs shuffle {h["P1_null"]:.3f} = {h["P1x"]:.1f}x || nesting all-corpus {o1:.3f} vs Markov-1 {n1:.3f} (max {x1:.3f}) = {o1/n1:.2f}x')
 json.dump(rows, open(DARK + 'loop41_cycle2.json', 'w'), indent=1, default=str)

@@ -1,0 +1,39 @@
+LOOP 42 FINAL (2026-10-03): the grammar as an authenticity scorer. Three cycles (loop42_cycle1-3.txt, rows ready to paste before
+'## Summary' in STRATEGIES.md); per-level logs loop42_cycle{1,2,3}_seq_{raw,strong,all}.txt; rule tables loop42_rules_<level>.json;
+script tools/dark_loop42.py (cycle 1|2|3, level). Nothing committed.
+
+QUESTION. If GRAMMAR.md is a real convention, a text that breaks it should be rarer among excavated objects than among forgeries, and
+objects without a find-spot (museum, dealer, surface, no context, foreign) should break it more often if some of them are modern.
+
+METHOD. Eight rules fitted on excavated Mohenjo-daro + Harappa only (register number present; 4,377 texts): non-adjacent repeat, mutual
+exclusion (S360), W2 placement (S-DARK-15.2), forbidden adjacent bigrams (S-DARK-33.3), fixed pair direction (S-DARK-19), never-final /
+never-initial edges (S289), frozen pairs (S229), fish-qualifier order (S296). Score = rules broken. Calibrated by 5-fold CV, held-out
+excavated sites, within-text shuffles and S366-type order-1/order-2 chain forgers; weak classes matched to excavated controls on site,
+object class and length with a permutation null; loop 36 museum pieces and the doubtful objects scored against per-rule false alarms;
+forgery share by a two-component mixture with bootstrap CI. All three merge levels; results identical within rounding.
+
+ANSWER.
+ 1. Calibration (42.1). False alarm, >= 3 signs, >= 1 rule: 0.13 (CV MD+H), 0.21 (held-out sites: W2 placement and frozen pairs are
+    partly regional); >= 2 rules: 0.01-0.03. Power: shuffles 0.69-0.71, order-2 chain forger 0.37-0.40, unigram copier 0.64-0.67.
+    A flagged text is 2.5-3x (one rule) or 4-10x (two rules) more likely forged than genuine; 60% of skilled forgeries pass.
+ 2. Collection history (42.2). Unknown-site (museum/dealer) 0.125 vs 0.10 matched (P 0.41); no-context 0.146 vs 0.115 (P 0.19-0.26);
+    surface 0.17-0.22 vs 0.16-0.18; partial context 0.167 vs 0.10 (P 0.11); foreign 0.18-0.23 vs 0.15 (P 0.3-0.4). Held-out excavated
+    sites give 0.214 vs 0.19 through the same pipeline. The rules are robust across collection histories.
+ 3. Doubtful objects (42.3). Umma bulla 1931.120: score 0 on all levels. Ashmolean Kish seal 1931.119: score 1 (frozen 3-390 split;
+    false alarm 0.04-0.06). Shinde-Willis plates: 1 of 4 readable, at the false-alarm rate. Ur U17649 and Janabiyah: score 2 each, on
+    Gulf-seal conventions (S149), not evidence of forgery. Highest corpus score: Nausharo no-context pot graffito Ns-66, 4 rules (above
+    every excavated text; probably two texts run together or the pot register, S-DARK-23).
+    The loop 36 museum seals (Cleveland, Met, Sindh museum) FAIL: 3/4 strict, 4/7 lenient flagged vs 0.08-0.10 expected (P 0.002-0.003),
+    entirely through non-adjacent repetition (2/4, 3/7 vs 0.6-1.0%; P <= 0.0002), a rule that 0 of the corpus's own 24 museum texts break.
+ 4. Forgery share. Against the CV reference f = 0.08-0.10 for all 194 weak-provenance texts pooled [95% CI 0, 0.28-0.29]; against the
+    held-out-site reference f <= 0 (raw CI upper bound <= +0.01). Per class: Unknown 0.01-0.02 [0, 0.45-0.49], no-context 0.08-0.09
+    [0, 0.33], surface and foreign too small to bound (CI 0-1).
+
+VERDICT. The grammar is a calibrated authenticity flag, not a certificate: it rejects most shuffles and a third of skilled chain forgeries
+at a 13% (home) / 21% (other sites) false-alarm rate, and >= 2 rules or a repeat at 1-3%. The corpus's unprovenanced material passes:
+the forgery share is consistent with zero and bounded below ~0.3. The only population that fails is the seven photographed museum seals of
+loop 36, on the repetition rule alone; they are either modern copies or a register the excavated corpus does not sample, and the CISI 3.1
+concordance for Cleveland/Met would decide. Nothing here is a reading; no sign values.
+Caveats: fit set from data/raw/inscriptions.csv (5,680 rows), not merged-corpus-canonical.json (S-DARK-23); 'Unknown' n = 24 and
+foreign n = 22 bound f only loosely; the order-2 chain is one forger model (a copyist of whole genuine texts would score 0 by construction);
+W2 placement (R3) is a Mohenjo-daro/Harappa convention and inflates the held-out false alarm.
