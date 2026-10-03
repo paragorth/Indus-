@@ -1,0 +1,37 @@
+# S-DARK-45 cycle 2: block structure of element x head and element x site (tools/dark_loop45.py 2 LEVEL NPERM)
+Logs: loop45_c2_seq_raw.txt (40 permutations; P floor 0.024) / _seq_strong.txt / _seq_all.txt (20 each; floor 0.048) + .json.
+Permutation counts were cut from the planned 200 because the machine is shared by ten loops (load average 35 on 4 cores); the
+statistics of interest (gain ratio, purity vs null) are stable across the three levels and the smoke run at 10, so this does not change a verdict.
+Method: count matrix of non-adjacent middle elements (>= 5 tokens) x labels (>= 20 texts); spectral co-clustering (sklearn SpectralCoclustering,
+k = 2..8, k chosen by the largest gain of 'diagonal concentration' = share of tokens inside blocks where element cluster = label cluster, over its
+independence expectation); element purity = share of an element's tokens under the labels of its own block; null = labels permuted among texts within
+length x type (same k, re-clustered). Controls through the same code: Ur III seal legends (one per distinct legend; owner-name SYLLABLES x profession
+title, and whole NAME x profession; 20 titles with >= 20 legends) and Proto-Elamite entry lines (non-final signs x final numeral class, 11 classes).
+
+## Wells (seq_raw; strong / all in brackets)
+mid x HEAD, texts with a closer: 93 elements x 8 heads, 2,329 tokens; best k = 5 (6 / 6); gain +0.088 (+0.095 / +0.095) vs null +0.041 +- 0.013 (+0.038 / +0.039),
+  ratio 2.1x, P = 0.024 (0.048 / 0.048); **element purity 0.551 vs null 0.559, P = 0.51 (0.53 vs 0.49, P = 0.38; 0.53 vs 0.49, P = 0.38)**.
+  Blocks: {jar, 151, 156} 44 elements, 51% of tokens (590, 235, 33, 741, 510, 125, 2, 550, 32, 31, 920, 790 ...); {arrow 520, 527} 28 elements, 37% (705, 495, 350, 297,
+  892, 240, 803, 233, 220, 706, 838, 798: the fish words, 705/706 and the 350-798-415 chain = the arrow phrase of S299); {700} 5 elements (368, 690, 575, 335, 388:
+  the Harappa tablet words); {617, 154} 3 elements (407, 467, 595); 13 elements in no block. So the only structure is the two big frame phrases
+  (fish/arrow vs jar) that the grammar already names, and it does not sharpen any element's distribution beyond chance (purity at null).
+ADJACENT qualifier x HEAD (positive control): 65 x 8; k = 8 (5 / 5); gain +0.336 (+0.350 / +0.350) vs null +0.053 (6.3x, P = 0.024); purity 0.766 vs 0.358 (P = 0.024). The S303
+  partition is recovered; the non-adjacent middle shows nothing like it.
+mid x SITE: all texts 191 x 7, k = 5: gain +0.079 vs +0.046 (1.7x, P = 0.049; strong 1.5x P = 0.048; all 1.7x P = 0.048); purity 0.419 vs 0.447 (P = 0.66; 0.71 / 0.62).
+  Texts with a closer 96 x 7, k = 2: {Mohenjo-daro, Lothal, Kalibangan, Chanhu-daro, other} vs {Harappa, Dholavira} (the bar-seal / tablet axis, S157), gain +0.091 vs
+  +0.027 (P = 0.024), purity 0.634 vs 0.795 (P = 0.85). Seals only 154 x 7, k = 4: gain +0.052 vs +0.033 (P = 0.049; strong/all P = 0.29), purity at or below null.
+mid x TYPE: 191 x 5, k = 3: {seal, sealing} 139 elements 84% of tokens, {tablet, other} 48 elements 15%, {pot} 4 elements; gain +0.076 vs +0.054 (1.4x, P = 0.049; all P = 0.095);
+  purity 0.745 vs 0.647 (P = 0.10 / 0.095 / 0.24). The tablet block is the Harappa voucher vocabulary (495, 413, 550, 4, 700, 151, 100, 526 ...).
+Head-blocks vs site-blocks of the same 91-93 elements: adjusted MI 0.001 (0.013 / 0.017): the two weak partitions are unrelated to each other.
+
+## Controls (same code)
+Ur III owner-name syllables x profession (240 x 20): k = 8, gain +0.089 vs null +0.024 (3.7x, P = 0.024), **purity 0.546 vs 0.370 (P = 0.024)**. The blocks are the
+  Akkadian-syllable names (a, mu, ni, li2, bu, dingir, um, wa, qar ...) under arad2 / aga3-us2 / dam-gar3 / sukkal vs the Sumerian-syllable names (kal, la, zi, ba, lu2, ur ...)
+  under dub-sar / gudu4 / lunga / sagi / nu-banda3: a real sociolinguistic partition of the name stock by office. MI excess +7.2% of H(title).
+Ur III whole NAME x profession (152 x 20): gain +0.134 vs +0.086 (1.6x), purity 0.745 vs 0.552 (P = 0.024); MI excess +14% of H(title) (common names recur with one title).
+Proto-Elamite signs x final numeral class (357 x 11): gain +0.208 vs +0.024 (8.7x, P = 0.024), purity 0.565 vs 0.590 (P = 0.44); MI excess +18% of H(class): commodity signs
+  select their counting system (block {N14, N08A, N45} = the grain/discrete system vs {N01, N34} vs {N39B, N30C, N24}), a known accounting structure.
+Indus non-adjacent middle x head: gain ratio 2.1x, purity at null, MI excess +8.7% (1.6–2.3% beyond the adjacent sign, cycle 1).
+
+## Ready-to-paste STRATEGIES.md row
+| S-DARK-45.2 | **Loop 45, cycle 2: is there block structure in element x head or element x site?** `tools/dark_loop45.py 2 LEVEL` (logs `loop45_c2_*.txt/.json`; 40 permutations at seq_raw, 20 at seq_strong/seq_all because the machine was shared, P floors 0.024 / 0.048). Count matrices of non-adjacent middle elements (>= 5 tokens) x heads / sites / types (>= 20 texts), spectral co-clustering k = 2..8 (k by the largest gain of diagonal concentration over independence), element purity, null = labels permuted within length x type and re-clustered at the same k; adjusted MI between the head-partition and the site-partition of the same elements. Positive control: adjacent qualifier x head (S303). Outside controls through the same code: Ur III legends (owner-name syllables x profession title; whole name x title) and Proto-Elamite (non-final signs x final numeral class) | **Indus non-adjacent middle x head (93 x 8):** k = 5, gain +0.088 vs null +0.041 (2.1x, P = 0.02–0.05) but **element purity 0.551 vs null 0.559 (P = 0.51; strong/all P = 0.38)**: the blocks are {jar, 151, 156} (51% of tokens), {arrow, 527} = the fish words, 705/706 and 350-798-415 (the S299 arrow phrase), {700} = the Harappa tablet words, {617, 154} with 3 elements; i.e. the frame's own phrases, nothing finer. Adjacent qualifier x head: gain +0.336 vs +0.053 (6.3x), purity 0.77 vs 0.36 (P = 0.024): the S303 partition is recovered. Element x site: gain 1.5–1.7x null (P = 0.05), purity 0.42 vs 0.45 (P = 0.6–0.7); closed texts split {Mohenjo-daro + small sites} vs {Harappa, Dholavira} (the bar-seal/tablet axis), seals alone P = 0.05–0.29. Element x type: 1.4x, purity P = 0.10–0.24 (the tablet voucher words). Head-blocks vs site-blocks: adjusted MI 0.001–0.017. **Controls:** Ur III name syllables x profession gain 3.7x null with purity 0.55 vs 0.37 (P = 0.024): Akkadian-syllable names under arad2/aga3-us2/dam-gar3, Sumerian under dub-sar/gudu4/lunga, a real partition of the name stock by office; whole names 1.6x, purity P = 0.024; Proto-Elamite 8.7x (commodity signs choose the numeral system), purity at null. Same picture at all three levels | **No block structure beyond the frame.** The Indus middle does not divide into office registers (purity at chance; the only blocks are the known arrow and jar phrases) nor into city registers (purity at chance; the one split is Harappa/Dholavira bar-seals vs the rest), and the two weak partitions ignore each other. Ur III shows what a partitioned identifier stock looks like (ethnic name types by office, purity far above null); Proto-Elamite shows what commodity-class structure looks like (8.7x); the Indus sits at 2x with no purity gain, below both. Next: cycle 3 replication and the new-text prediction |

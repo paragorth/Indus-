@@ -295,3 +295,70 @@ if CY==1:
     for k,v in RES.items():
         m=v['med']; P(f'  {k:28s} '+' '.join(f'{m[x]:10.3f}' for x in LADDER)+f'   n={m["n"]} k={m["k"]} meanL={m["meanL"]:.2f}')
     save('loop56_cycle1',RES)
+
+if CY==2:
+    P(f'== S-DARK-56 cycle 2: non-name poles, nulls, length-matched draws, NAME-only field; ndraw {NB}')
+    RES=json.load(open('data/derived/dark/loop56_cycle1.json'))
+    R2={}
+    base=indus_names('seq_raw',2); n0=len(base); L0=[len(n) for n in base]
+    k0=len(set(a for n in base for a in n))
+    # Indus NAME-only field (COUNT numerals removed) and seals only
+    for LV in ['seq_raw','seq_all']:
+        nm=indus_names(LV,2,field='name'); R2['indus_'+LV+'_NAMEonly']=boot(nm,f'Indus {LV} NAME-only (no COUNT) >=2 dedup',nboot=max(20,NB//2))
+    nm=indus_names('seq_raw',2,subset=lambda o:o['ot']=='seal'); R2['indus_seq_raw_seals']=boot(nm,'Indus seq_raw seals only >=2 dedup',nboot=max(20,NB//2))
+    # non-name poles
+    P('\n##### non-name poles at n=%d'%n0)
+    for nmn in ['icd10','hts','proto_elamite_mid']:
+        pool=[s for s in jl(nmn) if len(s)>=2]; R2[nmn]=draws(pool,n0,nmn,ndraw=max(20,NB//2))
+    pc=[tuple(json.loads(l)['seq']) for l in open('data/derived/dark/loop32_corpora/proto_cuneiform.jsonl')]
+    pc=sorted(set(tuple(t for t in s if not (t.startswith('N') and len(t)>1 and t[1].isdigit())) for s in pc)); pc=[s for s in pc if len(s)>=2]
+    R2['proto_cuneiform_mid']=draws(pc,n0,'proto_cuneiform entry lines minus numerals, dedup',ndraw=max(20,NB//2))
+    r=random.Random(7)
+    uni=sorted(set(tuple(r.randrange(k0) for _ in range(r.choice(L0))) for _ in range(6*n0)))
+    R2['uniform_ids']=draws(uni,n0,f'uniform IDs k={k0}, Indus lengths',ndraw=max(20,NB//2))
+    pool=[a for n in base for a in n]
+    fr=sorted(set(tuple(r.choice(pool) for _ in range(r.choice(L0))) for _ in range(6*n0)))
+    R2['freq_matched_random']=draws(fr,n0,'frequency-matched random strings (Indus element unigram, Indus lengths)',ndraw=max(20,NB//2))
+    # Zipfian iid generator with Indus k (a=1)
+    w=[1/(i+1) for i in range(k0)]
+    zp=sorted(set(tuple(r.choices(range(k0),weights=w,k=r.choice(L0))) for _ in range(6*n0)))
+    R2['zipf_iid']=draws(zp,n0,f'Zipf(a=1) iid elements k={k0}, Indus lengths',ndraw=max(20,NB//2))
+    # planted name lexicon (S-DARK-26 style): stock of 150 'elements' each 1-2 signs, names = 2-3 elements with slot preference
+    # (prefix set / stem set / suffix set), Indus alphabet; one copy per distinct name.
+    r=random.Random(26); signs=list(range(k0))
+    pref=[tuple(r.sample(signs,r.choice([1,1,2]))) for _ in range(25)]; stem=[tuple(r.sample(signs,r.choice([1,2,2]))) for _ in range(90)]; suf=[tuple(r.sample(signs,r.choice([1,1,2]))) for _ in range(25)]
+    def plant():
+        parts=[]
+        if r.random()<0.6: parts.append(r.choices(pref,weights=[1/(i+1) for i in range(len(pref))])[0])
+        parts.append(r.choices(stem,weights=[1/(i+1)**0.8 for i in range(len(stem))])[0])
+        if r.random()<0.7: parts.append(r.choices(suf,weights=[1/(i+1) for i in range(len(suf))])[0])
+        if r.random()<0.25: parts.append(r.choices(stem,weights=[1/(i+1)**0.8 for i in range(len(stem))])[0])
+        return tuple(a for p in parts for a in p)
+    pl=sorted(set(plant() for _ in range(8*n0))); pl=[s for s in pl if len(s)>=2]
+    R2['planted_lexicon_names']=draws(pl,n0,'planted lexicon names (prefix/stem/suffix slots, Indus alphabet)',ndraw=max(20,NB//2))
+    # length-matched name lists
+    P('\n##### name lists LENGTH-MATCHED to the Indus middle length distribution (shortfall at long lengths filled by nothing)')
+    for nmn in ['ur3_names_dedup','ob_names_dedup','linb_personnel_dedup']:
+        pool=[s for s in jl(nmn) if len(s)>=2]; R2[nmn+'_lenmatch']=draws(pool,n0,nmn+' length-matched',ndraw=max(20,NB//2),lens=L0)
+    # Indus restricted to lengths 2-5 (the range the name lists cover)
+    nm=[n for n in base if len(n)<=5]; R2['indus_seq_raw_len2to5']=boot(nm,'Indus seq_raw middles length 2-5 dedup',nboot=max(20,NB//2))
+    # ladder placement
+    ALL={**RES,**R2}
+    NAMES=['ur3_names_dedup','ob_names_dedup','linb_personnel_dedup','latin_names_dedup','ur3_names_elem','linb_personnel_KN','linb_personnel_PY','planted_lexicon_names']
+    CODES=['icd10','hts','uniform_ids','freq_matched_random','zipf_iid']
+    ACCT=['proto_elamite_mid','proto_cuneiform_mid']
+    P('\n=== cycle 2 ladder (median; Indus seq_raw with 95% CI); verdict per statistic: NAMES if Indus CI overlaps the name-list range and not the code range, CODES if the reverse, BOTH / NEITHER otherwise')
+    verd={}
+    for k in LADDER:
+        iv=ALL['indus_seq_raw']['med'][k]; lo=ALL['indus_seq_raw']['lo'][k]; hi=ALL['indus_seq_raw']['hi'][k]
+        nr=[ALL[c]['med'][k] for c in NAMES if c in ALL]; cr=[ALL[c]['med'][k] for c in CODES if c in ALL]; ar=[ALL[c]['med'][k] for c in ACCT if c in ALL]
+        inN=min(nr)-0.01<=hi and lo<=max(nr)+0.01; inC=min(cr)-0.01<=hi and lo<=max(cr)+0.01
+        v='NAMES' if inN and not inC else 'CODES' if inC and not inN else 'BOTH' if inN and inC else 'NEITHER'
+        verd[k]=v
+        P(f'  {k:11s} Indus {iv:7.3f} [{lo:.3f},{hi:.3f}]  names {min(nr):7.3f}..{max(nr):7.3f}  codes {min(cr):7.3f}..{max(cr):7.3f}  accounting {min(ar):7.3f}..{max(ar):7.3f}  -> {v}')
+    P('\n  full table')
+    P('  corpus                             '+' '.join(f'{k:>10s}' for k in LADDER))
+    for k,v in ALL.items():
+        m=v['med']; P(f'  {k:34s} '+' '.join(f'{m[x]:10.3f}' for x in LADDER)+f'   n={m["n"]} k={m["k"]} meanL={m["meanL"]:.2f}')
+    R2['_verdict']=verd
+    save('loop56_cycle2',R2)

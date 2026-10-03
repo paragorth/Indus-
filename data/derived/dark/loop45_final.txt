@@ -1,0 +1,51 @@
+# LOOP 45 FINAL: who owns the middle inventory? (3 cycles; tools/dark_loop45.py; logs loop45_c{1,2,3}_{seq_raw,seq_strong,seq_all}.txt)
+Rows to paste: loop45_cycle1.txt (S-DARK-45.1), loop45_cycle2.txt (S-DARK-45.2), loop45_cycle3.txt (S-DARK-45.3).
+Corpus: merged-corpus-canonical.json (older build, S-DARK-23), complete direction-recorded texts >= 2 signs, collapsed to one per distinct
+text per site x type (3,155 -> 2,167). Head = S310/S331 closer unit; middle split into the ADJACENT qualifier (sign before the closer, S303)
+and the NON-ADJACENT rest, which is what the question is about. Three merge levels throughout; no result depends on a merge.
+
+## Answer
+The non-adjacent middle vocabulary is ONE SHARED PAN-INDUS POOL. It is not partitioned by head (office), not by site (city), and only
+weakly by object type (the Harappa tablet voucher words).
+1. Information. In texts with a closer the non-adjacent elements carry 31.9% of H(head), of which the permutation null already gives 23.2%
+   (an element's head is mostly fixed by text length and type); the excess is +8.7% (8.7 / 8.8). Holding the ADJACENT sign (S366 chain null)
+   leaves +1.6% (2.0 / 2.3); on held-out sites +0.3–0.5% (P = 0.08–0.22); in IM77 +2.2%. The adjacent qualifier alone carries +36% (S303).
+   Site: +1.5% of H(site) (P = 0.007–0.027); Mohenjo-daro vs Harappa +2.1%. Type: +3.5% (P = 0.001), +5.8% once the unclosed tablets are in.
+2. Loyalty (>= 80% of >= 5 tokens under one label). Head: 0.365 vs 0.296–0.355 under the nulls (P = 0.06–0.77); exactly 1 element in 93–96
+   is loyal to a non-jar head (W468 -> 154, 4/5); 90% of well-attested elements occur under >= 2 heads. The 35 'jar-loyal' elements
+   (W590, W255, W806, W840, W17, W503, W176, W435 ...) are members of frozen pre-jar titles standing one slot left (S229) and the jar is the
+   67% default. Site: 0.156 vs 0.105 (P = 0.05–0.06), 97% of elements at >= 2 sites. Type: 0.60 vs 0.56 (P = 0.11), all to 'seal'.
+3. Blocks. Spectral co-clustering of element x head: gain 2.1x null but element purity 0.551 vs 0.559 (P = 0.4–0.5); the blocks are the
+   arrow phrase (fish words, 705/706, 350-798-415) vs the jar, the Harappa tablet words, and 3 elements with 617/154 — the frame's own phrases.
+   Element x site: purity at chance; the one split is {Harappa, Dholavira} bar-seals/tablets vs the rest. Head-blocks and site-blocks of the
+   same elements: adjusted MI 0.001–0.017. Ur III name syllables x profession through the same code: 3.7x null with purity 0.55 vs 0.37
+   (Akkadian-type names under arad2/aga3-us2, Sumerian under dub-sar/gudu4: a real office-partitioned name stock); Proto-Elamite signs x
+   numeral class 8.7x (commodity classes). The Indus sits at 2x with no purity gain, below both.
+4. Prediction (frozen before the run: a head-loyal element should keep its head on the 324 IM77-only texts). FAILED, as the shared reading
+   expects: Wells-fitted loyal elements keep their head in 33 of 65 tokens (0.51) vs base rate 0.54, permutation null 32.8 +- 3.8, P = 0.54
+   (0.56 / 0.47); without the inflated C617 (= M245 = W615 + W617) heads 0.66 vs 0.61, P = 0.30; IM77-fitted set 48/81 = 0.59 vs 0.55,
+   P = 0.16; site-loyal elements at their own city 50/77 = 0.65 vs 0.57, null 53.4, P = 0.88. The MD/H jar-loyal set does score 0.84 vs 0.64
+   on held-out Wells sites (P = 0.005–0.014), but 17 of 52 hits are W590 of the frozen 590-390-jar title and all hits are the default closer.
+
+## What it implies for the referent of the middle
+- The middle is drawn from one inventory used under every closer at every city: whatever it denotes is independent of the office (closer) and
+  of the place of issue. That is how personal names behave in Ur III legends (the same name stock under every title) — but Ur III names are
+  not fully shared either: their ETHNIC type is partitioned by office (purity 0.55 vs 0.37), and the Indus shows no such partition at all.
+  Combined with S321/S-DARK-18 (middles almost never repeat, unlike real names) the middle looks like an individual description built from a
+  pan-Indus element inventory (S-DARK-26: a closed ~860-element set in free combination), not a stock of recurring names and not a register.
+- The ~9% head information in the non-adjacent middle is real but almost all of it is the frozen title phrases next to the closer; once the
+  adjacent sign is known the rest of the middle says nothing about the office (0.3–2.3%). This is the S366 chain model exactly: a text is
+  a middle + a closer phrase chosen with reference to the last middle sign, and the middle itself is office-blind.
+- City: the only partition is the Harappa/Dholavira bar-seal and tablet vocabulary (S157, S216), a genre effect, not a city register of identifiers.
+- Consequence for decipherment: any reading that makes the middle a title, rank, office or place-name list must explain why its elements are
+  shared across all closers and cities with no block structure; readings that make it an individual designation (name, patronymic string,
+  descriptive epithet string) are consistent with this result.
+
+## Caveats
+- 76% of texts are Mohenjo-daro + Harappa; held-out sites have 22 well-attested elements and 203 closed texts, power only for large effects.
+- The 324 new texts give 155 closed texts, power for a > 15-point loyalty effect; 77% of them are MD + Harappa; M245 inflates the C617 head.
+- Cycle 2 permutation counts were cut to 40 / 20 (shared machine); P floors 0.024 / 0.048; the verdict rests on purity being AT null, not on a P value.
+- IM77 and Wells are ~70% the same objects (S312): the IM77 agreement is transcription-robust, not a replication; the held-out sites and the
+  new texts are the independent evidence.
+- Heads are the parser's closer units; a text with no closer ('none', 38%) was treated as a head class in the all-texts runs and excluded in
+  the closed-text runs; both agree.
