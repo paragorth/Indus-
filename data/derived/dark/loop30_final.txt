@@ -1,0 +1,22 @@
+LOOP 30 FINAL: display seals vs working seals (4 cycles, tools/dark_loop30.py; rows in loop30_cycle1-4.txt)
+Source for every count: data/raw/inscriptions.csv (5,680 lines; one row per inscribed line). Merge levels rebuilt from
+data/derived/sign_allographs_levels.json; results identical at seq_raw / seq_strong / seq_all.
+
+1. Flag set: 61 seal lines (60 objects) with non-standard recorded direction (L/R 49, BUS 9, T/B 2, SYM 1) vs 2,022 R/L.
+   Assumption: Wells' dir. = normalised impression direction, so L/R = un-mirrored face. NOT photo-checked.
+   Mohenjo-daro 22, Dholavira 6, Harappa 6, Lothal 6, Kalibangan 5; steatite 39/50; 6 are S46 foreign-format.
+   Bossed/perforated like ordinary seals (87% vs 84%). 33 of 61 are 2-sign texts. 8 of 60 have an exact TAG/TAB match
+   (expected 5.3 at the ordinary 8.9% rate, P = 0.92): the 'no impressions' prediction fails.
+2. Anomalous vs ordinary R/L seals: shorter by 1 sign (p 0.01-0.02, Mohenjo-daro-driven); every other text feature
+   (opener, closer class, numerals, stock status, nested credentials), area and boss on its null once length is held.
+3. Working (TAG/TAB copy) vs dead seals: working texts are <= 4-5 signs, closer-bearing, smaller (length-held p 0.001).
+   Anomalous seals sit nearer the dead mean (distance 1.1 vs 2.0) because they are ordinary seals, not a class.
+4. Credential model: 'long nested texts are dead, short frame texts are working' holds in sign at all sites and merge
+   levels but is entirely a length effect (length-held p = 1.0); only 'closer-bearing short texts get copied' survives
+   (restates S-DARK-16.3 / S344). TAG-only working seals show nothing beyond length.
+
+Verdict: no evidence for a display-seal class; the direction flag is most likely photo-orientation noise on 2-sign
+texts. Next step needing a human or hi-res CISI scans: photo check of the 60 flagged objects (list in loop30_cycle1.txt),
+starting with the 7 that have matching tablets/sealings and the 9 long BUS seals.
+
+ROWS (paste before '## Summary' in STRATEGIES.md): see 'READY-TO-PASTE ROW' at the end of loop30_cycle1.txt .. loop30_cycle4.txt.

@@ -50,3 +50,25 @@
       weakest: W773(M348) z=-2.6, W812(M381) z=-2.3, W504(M206) z=-2.1, W409 z=-2.1, W371(M397) z=-2.0, W632(M244) z=-2.0
 
 ##### Indus seals: 1369 -> 1231 distinct (site, middle)
+
+--- Indus seals DEDUP: pair census. 4957 distinct observed pairs; 406 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.372 vs permuted corpora 0.139 [0.105,0.176]  P=0.016
+    mean |log2(O/E)|:     0.942 vs permuted 0.535 [0.492,0.590]  P=0.016
+    share O > 4E (compound-like): 0.071 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.030 vs permuted 0.011
+    strong compounds (O>=5, O>=4E): 39 pairs covering 0.140 of element tokens in >=2-element middles
+    top compounds: W33(M89)+W705(M336) 21:2.7, W255(M51)+W435(M130) 18:0.8, W60(M123)+W550(M216) 16:1.6, W176(M48)+W740(M342) 14:2.5, W4(M104/105)+W390(M161/162/167/168/169) 13:3.2, W33(M89)+W706(M336) 13:1.8, W415(M171)+W798(M216) 11:2.0, W17(M110/112)+W575(M197) 10:0.7, W3(M102/103)+W900(M287) 10:1.7, W220(M59)+W455(M233) 10:2.4, W679(M139)+W740(M342) 10:1.2, W35(M96)+W171(M409) 9:0.1
+    strong exclusions (E>=6, O=0): 0 of 93 pairs with E>=6
+    top exclusions: 
+    fit big / test held-out: held-out bits/element independence 7.654 vs pair(bigram) 7.450; gain 0.203 bits = 2.7%  (n=919 tokens, 261 middles)
+    5-fold 0: held-out bits/element independence 7.579 vs pair(bigram) 6.931; gain 0.648 bits = 8.6%  (n=931 tokens, 247 middles)
+    5-fold 1: held-out bits/element independence 7.560 vs pair(bigram) 7.052; gain 0.507 bits = 6.7%  (n=911 tokens, 246 middles)
+    5-fold 2: held-out bits/element independence 7.684 vs pair(bigram) 7.188; gain 0.496 bits = 6.5%  (n=925 tokens, 246 middles)
+    5-fold 3: held-out bits/element independence 7.620 vs pair(bigram) 6.972; gain 0.648 bits = 8.5%  (n=903 tokens, 246 middles)
+    5-fold 4: held-out bits/element independence 7.484 vs pair(bigram) 6.924; gain 0.560 bits = 7.5%  (n=861 tokens, 246 middles)
+    adjacent-pair MI 3.730 bits vs shuffle 3.438 [3.378,3.484]; excess 0.293
+    Indus seals DEDUP: MI(first,last) 4.339 bits vs within-position shuffle 4.298 [4.273,4.331] P=0.010; excess 0.041 = 0.6% of H(first) (7.23 bits); n=1086
+    Indus seals DEDUP: 179 elements with >= 15 partner tokens; mean z 0.63; share with partner-KL above Bonferroni null (P<=0.0003 or z>4 at floor) 0.045 (8/179); mean KL excess 0.108 bits
+      strongest partner-predictors: W390(M161/162/167/168/169) z=8.9, W400(M176) z=7.1, W741(M343) z=5.9, W171(M409) z=5.3, W840(M403) z=5.2, W35(M96) z=5.2, W3(M102/103) z=4.8, W4(M104/105) z=4.5, W545(M215) z=4.0, W16(M108/109) z=3.7
+      weakest: W632(M244) z=-2.5, W409 z=-2.4, W520(M211) z=-2.3, W504(M206) z=-2.2, W812(M381) z=-2.2, W95(M18) z=-2.1
+
+##### Indus tablets: 1102 -> 447 distinct (site, middle)
