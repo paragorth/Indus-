@@ -14,28 +14,18 @@ split MD vs Harappa: common closers 7; counts A [385, 87, 30, 23, 24, 11, 15] B 
   Spearman rho between splits = -0.107
 
 split steatite vs other-material: too few closers shared (common=['W740/M342'])
-Traceback (most recent call last):
-  File "/home/user/Indus-/tools/dark_loop35.py", line 245, in <module>
-    rho,common,effs,Vis,cc=split_rho(S,y,fa,fb,lam)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/user/Indus-/tools/dark_loop35.py", line 241, in split_rho
-    eb,sb,_,lb,Vib,_,_,_=closer_effects(ob,yv[B],common,lamfix,None if Vis is None else Vis[1])
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/user/Indus-/tools/dark_loop35.py", line 165, in closer_effects
-    if Vi is None: b,se,lam,s2,Vi=reml_fit(y,X,Z,lam)
-                                  ^^^^^^^^^^^^^^^^^^^
-  File "/home/user/Indus-/tools/dark_loop35.py", line 158, in reml_fit
-    else: ll,b,s2,A=crit(lam)
-                    ^^^^^^^^^
-  File "/home/user/Indus-/tools/dark_loop35.py", line 149, in crit
-    b,A,rVr=_solve(P,lm); s2=rVr/(n-p)
-            ^^^^^^^^^^^^
-  File "/home/user/Indus-/tools/dark_loop35.py", line 140, in _solve
-    b=np.linalg.solve(A,bv)
-      ^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/numpy/linalg/_linalg.py", line 451, in solve
-    r = gufunc(a, b, signature=signature)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/numpy/linalg/_linalg.py", line 144, in _raise_linalgerror_singular
-    raise LinAlgError("Singular matrix")
-numpy.linalg.LinAlgError: Singular matrix
+
+split unicorn vs other-emblem: common closers 7; counts A [334, 78, 28, 21, 19, 9, 9] B [156, 29, 6, 8, 9, 15, 9]
+  A: W617 +0.057 [-0.270,+0.384]; W520/M211 +0.017 [-0.104,+0.139]; W740/M342 +0.000; W527/M254 -0.000 [-0.227,+0.227]; W151/M12 -0.012 [-0.206,+0.181]; W156/M15 -0.040 [-0.266,+0.187]; W154 -0.086 [-0.412,+0.240]
+  B: W156/M15 +0.141 [-0.216,+0.498]; W520/M211 +0.083 [-0.113,+0.280]; W740/M342 +0.000; W617 -0.129 [-0.467,+0.209]; W154 -0.169 [-0.445,+0.106]; W527/M254 -0.245 [-0.580,+0.090]; W151/M12 -0.253 [-0.663,+0.157]
+  Spearman rho between splits = +0.179
+
+split square vs non-square shape: common closers 5; counts A [415, 99, 23, 9, 10] B [76, 6, 5, 15, 8]
+  A: W617 +0.088 [-0.223,+0.398]; W520/M211 +0.007 [-0.101,+0.114]; W740/M342 +0.000; W527/M254 -0.060 [-0.267,+0.146]; W154 -0.094 [-0.420,+0.232]
+  B: W740/M342 +0.000; W617 -0.127 [-0.463,+0.209]; W520/M211 -0.142 [-0.510,+0.226]; W527/M254 -0.188 [-0.589,+0.213]; W154 -0.227 [-0.488,+0.034]
+  Spearman rho between splits = +0.700
+
+split random halves: common closers 8; counts A [257, 49, 12, 15, 14, 12, 7, 7] B [235, 59, 22, 14, 14, 12, 11, 4]
+  A: W226/M60 +0.284 [-0.102,+0.671]; W527/M254 +0.113 [-0.164,+0.390]; W154 +0.112 [-0.188,+0.412]; W156/M15 +0.043 [-0.235,+0.320]; W520/M211 +0.026 [-0.132,+0.184]; W740/M342 +0.000; W151/M12 -0.013 [-0.314,+0.288]; W617 -0.079 [-0.465,+0.307]
+  B: W226/M60 +0.126 [-0.346,+0.597]; W617 +0.062 [-0.228,+0.353]; W520/M211 +0.023 [-0.113,+0.159]; W740/M342 +0.000; W156/M15 -0.072 [-0.337,+0.192]; W151/M12 -0.155 [-0.366,+0.055]; W527/M254 -0.295 [-0.553,-0.038]; W154 -0.531 [-0.825,-0.238]
+  Spearman rho between splits = -0.143

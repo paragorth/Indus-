@@ -275,7 +275,11 @@ def precedence(cuts, label, bigonly=None):
             for j in range(i + 1, len(cl)):
                 pairs[(cl[i], cl[j])] += 1
                 upairs[(units[i], units[j])] += 1
-    P(f'\n### {label}: {len(cuts)} decomposable texts; unit classes by position (0 = first):')
+    CLOSED = lambda x: x.startswith('JAR') or x.startswith('ARROW') or x.startswith('C')
+    two_cred = sum(1 for s, t, c in cuts if sum(CLOSED(unit_class(t[a:b])) for a, b in zip((0,) + c, c + (len(t),))) >= 2)
+    op_plus = sum(1 for s, t, c in cuts if unit_class(t[:c[0]]) == 'OPENER-unit')
+    P(f'\n### {label}: {len(cuts)} decomposable texts; with >= 2 closer-bearing units (true stacks) {two_cred}; '
+      f'opener-phrase + one text {op_plus}; unit classes by position (0 = first):')
     for x, cnt in sorted(cls_pos.items(), key=lambda kv: -sum(kv[1].values())):
         P(f'    {x:12s} ' + ' '.join(f'pos{k}:{cnt[k]}' for k in sorted(cnt)))
     # order consistency per class pair
