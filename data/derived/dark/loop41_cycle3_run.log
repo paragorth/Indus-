@@ -45,3 +45,21 @@
 ## (f) Name-calibration ratio (unique share observed / unique share under a generator trained on the same strings), Indus side, every defensible choice
 
 ## (f) Name-calibration ratio (unique share observed / unique share under a generator trained on the same strings), Indus side, every defensible choice
+  1656 combinations; ratio range 0.599-1.199; median 0.971
+  by level: seq_all: 0.60-1.20 (med 0.97); seq_raw: 0.61-1.19 (med 0.98)
+  by regime: die: 0.82-1.19 (med 0.98); rows: 0.60-1.17 (med 0.93); site_text: 0.86-1.20 (med 1.00)
+  by types: ALL: 0.60-1.20 (med 0.95); SEAL: 0.83-1.17 (med 0.98); SEAL+TAG: 0.81-1.18 (med 0.98)
+  by strip: closer_only: 0.68-1.17 (med 0.99); frame11: 0.65-1.14 (med 0.97); frame18: 0.65-1.13 (med 0.97); frame18_drop: 0.67-1.20 (med 0.99); none: 0.63-1.14 (med 0.97); opener_only: 0.60-1.10 (med 0.93)
+  by minlen: 1: 0.62-1.17 (med 0.98); 2: 0.60-1.16 (med 0.97); 3: 0.67-1.20 (med 0.97)
+  by order: 0: 0.60-1.00 (med 0.89); 1: 0.73-1.08 (med 0.98); 2: 0.84-1.20 (med 1.07)
+  lowest ratios: seq_all/rows/ALL/opener_only/min2/order0/n4345 u=0.53 b=0.89 r=0.60 | seq_raw/rows/ALL/opener_only/min2/order0/n4345 u=0.55 b=0.90 r=0.61 | seq_all/rows/ALL/opener_only/min1/order0/n5288 u=0.46 b=0.75 r=0.62 | seq_raw/rows/ALL/opener_only/min1/order0/n5288 u=0.48 b=0.76 r=0.63 | seq_all/rows/ALL/none/min2/order0/n4457 u=0.57 b=0.90 r=0.63 | seq_raw/rows/ALL/none/min2/order0/n4457 u=0.59 b=0.91 r=0.64
+  headline choice (rows/SEAL/frame18/min2/bigram): n1744 u=0.844 b=0.872 r=0.967
+
+## (f) Ur III side (loop18 cache, 25,291 CDLI seal impressions with a legend): same generators, same granularity choices, n matched to Indus (1,744) and full
+  impressions_line1        min1 order0 n= 1744: unique 0.184 vs null 0.936 ratio 0.197
+  impressions_line1        min1 order0 n=25291: unique 0.020 vs null 0.774 ratio 0.025
+  impressions_line1        min1 order1 n= 1744: unique 0.192 vs null 0.464 ratio 0.414
+  impressions_line1        min1 order1 n=25291: unique 0.020 vs null 0.216 ratio 0.090
+  impressions_line1        min1 order2 n= 1744: unique 0.187 vs null 0.402 ratio 0.464
+  impressions_line1        min1 order2 n=25291: unique 0.020 vs null 0.178 ratio 0.110
+  impressions_line1        min2 order0 n= 1744: unique 0.184 vs null 0.943 ratio 0.195
