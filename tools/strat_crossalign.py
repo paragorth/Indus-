@@ -114,9 +114,13 @@ def indus_stream(key='seq_raw', shuffle=False, rnd=None):
     return docs, sites, -1
 
 # ----------------------------------------------------------------------------- behaviour vectors
-FEATS = ['doc_first', 'doc_last', 'doc_relpos', 'line_first', 'line_last', 'line_alone', 'adj_num', 'takes_num',
+ALL_FEATS = ['doc_first', 'doc_last', 'doc_relpos', 'line_first', 'line_last', 'line_alone', 'adj_num', 'takes_num',
          'num_small', 'num_large', 'num_other', 'num_variety', 'prevalence', 'repeat', 'ctx_entropy', 'offsite',
          'logfreq', 'doc_len', 'is_numeral']
+# corpus-size-dependent features (prevalence, offsite, logfreq, doc_len) are dropped: 95% of PE is Susa and the three
+# corpora differ in size; a sweep showed they only add noise to the PE<->LinA transfer.
+DROP_FEATS = {'prevalence', 'offsite', 'logfreq', 'doc_len'}
+FEATS = [f for f in ALL_FEATS if f not in DROP_FEATS]
 
 def entropy_norm(counter):
     n = sum(counter.values())
@@ -197,6 +201,7 @@ def vectors(docs, sites, item_side, framing, min_tok):
              entropy_norm(nval[k]), docs_with[k] / ndocs, docs_rep[k] / docs_with[k], entropy_norm(ctx[k]),
              offsite[k] / n, math.log(n) / math.log(maxtok), math.log(np.mean(dlen[k]) / mean_len),
              1.0 if k[0] == 'N' else 0.0]
+        v = [x for f, x in zip(ALL_FEATS, v) if f not in DROP_FEATS]
         vec[k] = (np.array(v), n)
     return vec
 
@@ -244,7 +249,7 @@ def lina_labels(vec, docs, supports):
 
 # ----------------------------------------------------------------------------- classifier
 class Clf:
-    def __init__(self, C=1.0, iters=3000, lr=0.1):
+    def __init__(self, C=0.3, iters=3000, lr=0.1):
         self.C = C; self.iters = iters; self.lr = lr
     def fit(self, X, y, roles):
         self.roles = roles; self.mu = X.mean(0); self.sd = X.std(0) + 1e-6
@@ -267,7 +272,7 @@ class Clf:
         Z = (X - self.mu) / self.sd; Z = np.hstack([Z, np.ones((len(Z), 1))])
         return self.predict_Z(Z, self.W)
 
-def evaluate(train, test, roles, C=1.0):
+def evaluate(train, test, roles, C=0.3):
     Xtr = np.array([v for v, _ in train]); ytr = [r for _, r in train]
     Xte = np.array([v for v, _ in test]); yte = [r for _, r in test]
     clf = Clf(C=C).fit(Xtr, ytr, roles)

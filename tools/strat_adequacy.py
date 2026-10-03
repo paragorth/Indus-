@@ -170,7 +170,7 @@ class Markov:
             v = rng.choices(keys, wts)[0]
             if v == Markov.END: break
             if v == Markov.NEW:
-                self.fresh += 1; out.append(f'new{self.fresh}'); hist = (hist + [v])[-max(self.k, 1):]; continue
+                self.fresh += 1; out.append(-self.fresh); hist = (hist + [v])[-max(self.k, 1):]; continue
             out.append(v); hist = (hist + [v])[-max(self.k, 1):]
         return tuple(out)
     def p_empty(self):
