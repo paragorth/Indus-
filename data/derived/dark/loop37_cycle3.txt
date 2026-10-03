@@ -1,0 +1,35 @@
+S-DARK-37 cycle 3 (arrow C: independent entries; S-DARK-19 pair-order statistics across the side boundary)
+Script: tools/dark_loop37_c3.py <level> 100 ; full output data/derived/dark/loop37_c3_<level>.txt (seq_raw / seq_strong / seq_all)
+Fixed-order sign pairs (A before B, one-sided binomial, BH 0.05, >= 5 co-occurrences) fitted on the 3,029 SINGLE-face texts only (no circularity):
+688 of 1,020 tested pairs fixed (strong 7xx/1,0xx similar). Within the faces of the 766 multi-sided objects these pairs agree 0.941 (2,061/2,191), the S-DARK-19 rate.
+Three statistics on every fixed pair that straddles a face boundary (sign a on face i, sign b on face j, i < j in recorded order):
+  (i)  agreement with the recorded face order (A read in recorded order => ~0.94; C => 0.50),
+  (ii) orientability: is there ANY face order under which every cross-face fixed pair agrees (A in some unknown order => high),
+  (iii) density: how many fixed pairs straddle the boundary at all.
+Nulls: face order permuted within object (100x); model C = later faces replaced by faces of other objects of the same site x type x length (100x);
+model A reference = real single-face texts of the same total length cut at the recorded face lengths (100x).
+
+seq_raw, all 766 objects: 1,549 cross-boundary fixed pairs on 522 objects.
+  (i)   agreement with recorded order 727/1,549 = 0.469; permuted null 0.500 (P_hi = 0.98); model C 0.512; model A 0.941.
+  (ii)  orientable 368/522 = 0.705; model C 0.675 (P_hi = 0.05); model A 0.881.  Without count faces: 150/254 = 0.591 vs C 0.594 vs A 0.860.
+  (iii) density 1,549 vs model C 1,747 (P_lo = 0.01) vs model A 2,771: the faces share FEWER fixed pairs than random faces of the same type and length.
+Subsets (agreement | orientable obs / C / A):
+  Harappa tablets 621: 0.469 (null 0.501) | 0.747 / 0.704 / 0.890 (P_hi = 0.03, the one above-C value; the voucher pairing 700-400, 33-740, 32-740 is orientable by construction when one face is a count)
+  Mohenjo-daro all 90: 0.545 (null 0.506, P = 0.22) | 0.500 / 0.530 / 0.848
+  Mohenjo-daro >= 3 faces (6 prisms, 4 four-sided seals, 2 tags) 12: 0.472 (null 0.487) | 4/11 = 0.364 / 0.214 / 0.689; density 180 vs C 255 (P_lo = 0.01)
+  Mohenjo-daro two-faced 78: 0.650 (null 0.501, P_hi = 0.02; 123 pairs on 37 objects) | 0.541 / 0.598 / 0.862  (the one recorded-order signal; C itself gives 0.585 there, so it is at most weak)
+  seals 37: 0.474 | 0.478 / 0.535 / 0.807 ; sealings 28: 0.382 (P_hi = 0.99) | 0.462 / 0.460 / 0.802 ; non-MD-Harappa 40: 0.345 (P_hi = 0.98) | 0.515 / 0.580 / 0.858
+  complete faces >= 2 signs 463: 0.486 | 0.710 / 0.646 / 0.860
+seq_strong (764): agreement 0.468 (null 0.503), orientable 0.685 vs C 0.661 vs A 0.873, density 1,648 vs 1,845 (P_lo = 0.01); seals orientable 8/24 = 0.333 vs C 0.479 (P_lo = 0.02).
+seq_all (764): 0.472 (null 0.502); 0.682 vs 0.661 vs 0.871; 1,681 vs 1,875 (P_lo = 0.01). The three levels agree within 0.02.
+Commonest straddling pairs: 700->400 (99 against recorded order, 74 with), 33->740 (83 against, 34 with), 32->740 (50 / 40), 32->400 (30 / 20), 861->3 (22 with), 3->156 (21 with):
+  the voucher's count face and its text face sit in either recorded order, and the only consistently ordered pairs are those inside one stock face-set (3-156 | 3-861).
+
+Verdict: C. The recorded side order carries no sequence information (0.47 vs 0.50; a single text cut in two gives 0.94), no hidden order rescues it
+(orientable 0.70 vs 0.68 for random faces vs 0.88 for one text; without count faces 0.59 vs 0.59), and the faces share fewer fixed pairs than random faces
+of the same type. This is the pair-order analogue of cycle 1 and it holds on Harappa tablets, seals, sealings and other sites alike; the 12 Mohenjo-daro
+>= 3-face objects behave the same way (0.36 orientable vs 0.69 for one text) but are too few on their own. The one deviation, Mohenjo-daro two-faced
+objects at 0.65 agreement (P = 0.02, 123 pairs, 37 objects), is small, is partly produced by model C itself (0.585) and is worth a photo check of face
+numbering, not a model change.
+
+| S-DARK-37.3 | **Multi-sided objects, arrow C (independent entries), tested with the S-DARK-19 pair-order statistics across the side boundary. Fixed-order sign pairs (BH 0.05, >= 5 co-occurrences) fitted on the 3,029 single-face texts only; on the 766 collapsed multi-sided objects every fixed pair with one sign on face i and the other on face j (recorded order) is scored for (i) agreement with the recorded face order, (ii) orientability (some face order satisfies every cross pair), (iii) density; nulls: face order permuted (100x), model C = later faces replaced by faces of other objects of the same site x type x length (100x), model A reference = real single texts of the same total length cut at the face boundary (100x); subsets without count faces, Harappa tablets, Mohenjo-daro two-faced and >= 3-faced, seals, sealings, other sites, complete faces. seq_raw / seq_strong / seq_all (`tools/dark_loop37_c3.py`, `data/derived/dark/loop37_c3_<level>.txt`)** | Within-face agreement of the fixed pairs on these objects 0.941 (the S-DARK-19 rate). Across the boundary: 1,549 fixed pairs on 522 objects; agreement with recorded order 0.469 vs 0.500 permuted (P_hi = 0.98) vs 0.941 for one text cut in two; orientable 0.705 vs model C 0.675 vs model A 0.881 (without count faces 0.591 vs 0.594 vs 0.860); density 1,549 vs 1,747 for random faces (P_lo = 0.01) vs 2,771 for one text. Harappa tablets 0.469 / orientable 0.747 vs 0.704 (P = 0.03, from the count-face pairing 700-400, 33-740, 32-740, which sit in either recorded order: 99 against vs 74 with, 83 vs 34, 50 vs 40); Mohenjo-daro >= 3 faces 0.472 / 0.364 vs 0.214 vs 0.689; seals 0.474 / 0.478 vs 0.535; sealings 0.382; other sites 0.345; Mohenjo-daro two-faced 0.650 (P = 0.02, 123 pairs, model C 0.585). seq_strong 0.468 / 0.685 vs 0.661 vs 0.873; seq_all 0.472 / 0.682 vs 0.661 vs 0.871 | **Arrow C holds: the sides are separate entries.** The recorded side order carries no sequence information, no hidden order recovers one, and the faces share fewer fixed pairs than random faces of the same type and length. Same on Harappa tablets, seals, sealings and the held-out sites; the Mohenjo-daro prisms agree but are 12 objects. The only consistently ordered cross-face pairs are those inside the stock face-sets of S-DARK-37.2 (3-156 | 3-861) |
