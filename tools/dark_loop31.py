@@ -291,15 +291,20 @@ def max_disjoint(pairs):
 def offset_stats(E, links, min_disjoint=3, min_cos=0.5):
     """Offset classes by greedy stars: the pair with most links seeds a class = seed + every pair linked to it (all of
     them share the seed's offset direction, cos >= TAU_OFF); the class counts if it holds >= min_disjoint mutually disjoint
-    pairs and the mean pairwise offset cosine over all its members is >= min_cos. Members are removed and the next seed taken."""
+    pairs and the mean pairwise offset cosine over all its members is >= min_cos. Members are removed and the next seed taken.
+    Also reports sharper counts: classes with mean cos >= 0.7, and with >= 5 disjoint pairs."""
+    import heapq
     adj = collections.defaultdict(set)
     for p, q in links:
         adj[p].add(q); adj[q].add(p)
-    alive = set(adj); classes = []; stars = 0
-    while alive:
-        seed = max(alive, key=lambda p: len(adj[p] & alive))
+    deg = {p: len(v) for p, v in adj.items()}
+    heap = [(-d, p) for p, d in deg.items()]; heapq.heapify(heap)
+    alive = set(adj); classes = []; stars = 0; sharp = 0; big = 0; sharp_big = 0
+    while heap:
+        d, seed = heapq.heappop(heap)
+        if seed not in alive or -d != deg[seed]: continue
         mem = [seed] + sorted(adj[seed] & alive)
-        if len(mem) < 2: break
+        if len(mem) < 2: alive.discard(seed); continue
         O = np.array([E[a] - E[b] for a, b in mem]); On = O / np.linalg.norm(O, axis=1, keepdims=True)
         cs = On @ On.T; m = len(mem)
         meancos = float((cs.sum() - m) / (m * (m - 1)))
@@ -307,10 +312,17 @@ def offset_stats(E, links, min_disjoint=3, min_cos=0.5):
         stars += 1
         if md >= min_disjoint and meancos >= min_cos:
             classes.append(dict(pairs=mem, n_pairs=m, disjoint=md, meancos=meancos))
-        alive -= set(mem)
+            if meancos >= 0.7: sharp += 1
+            if md >= 5: big += 1
+            if meancos >= 0.7 and md >= 5: sharp_big += 1
+        for x in mem: alive.discard(x)
+        for x in mem:
+            for y in adj[x]:
+                if y in alive:
+                    deg[y] -= 1; heapq.heappush(heap, (-deg[y], y))
     comps = components(links)
-    return dict(n_links=len(links), n_comps=len(comps), n_stars=stars, n_classes=len(classes),
-                n_pairs_linked=len(adj), n_pairs_in_classes=sum(c['n_pairs'] for c in classes),
+    return dict(n_links=len(links), n_comps=len(comps), n_stars=stars, n_classes=len(classes), n_sharp=sharp, n_big=big,
+                n_sharp_big=sharp_big, n_pairs_linked=len(adj), n_pairs_in_classes=sum(c['n_pairs'] for c in classes),
                 classes=sorted(classes, key=lambda c: (-c['disjoint'], -c['meancos'])))
 
 # ---------------- nulls ----------------
@@ -379,7 +391,7 @@ def summarize(E, vocab, links, label=''):
     st['vocab'] = vocab
     return st
 
-def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), top=150, dim=30, log=print):
+def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), top=150, dim=30, log=print, nrep_by=None):
     t0 = time.time()
     vocab, E = embed(objs, top=top, dim=dim)
     res = {}
@@ -388,12 +400,13 @@ def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), t
         links, _, _ = mine(E, rule, NN=NN)
         st = offset_stats(E, links); st['vocab'] = vocab
         res[f'real_rule{rule}'] = st
-        log(f'[{tag}] REAL rule{rule}: links {st["n_links"]}, pairs linked {st["n_pairs_linked"]}, stars {st["n_stars"]}, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) {st["n_classes"]} holding {st["n_pairs_in_classes"]} pairs  ({time.time()-t0:.1f}s)')
+        log(f'[{tag}] REAL rule{rule}: links {st["n_links"]}, pairs linked {st["n_pairs_linked"]}, stars {st["n_stars"]}, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) {st["n_classes"]} holding {st["n_pairs_in_classes"]} pairs; sharp (cos >= 0.7) {st["n_sharp"]}, big (>= 5 disjoint) {st["n_big"]}, sharp+big {st["n_sharp_big"]}  ({time.time()-t0:.1f}s)')
     nullres = {}
     for nt in nulls:
         stats = collections.defaultdict(list)
         G = SlotGrammar(objs, rnd) if nt == 'grammar' else None
-        for r in range(nrep):
+        nrep_t = (nrep_by or {}).get(nt, nrep)
+        for r in range(nrep_t):
             if nt == 'slot': syn = shuffle_within(objs, rnd, 'lab')
             elif nt == 'pos':
                 for o in objs: o['pos'] = [posclass(i, len(o['seq'])) for i in range(len(o['seq']))]
@@ -404,13 +417,15 @@ def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), t
             NN2 = nn_tensor(E2)
             for rule in (4, 2):
                 links2, _, _ = mine(E2, rule, NN=NN2); st2 = offset_stats(E2, links2)
-                for k in ('n_links', 'n_comps', 'n_classes', 'n_pairs_linked', 'n_pairs_in_classes'): stats[(rule, k)].append(st2[k])
+                for k in ('n_links', 'n_comps', 'n_classes', 'n_sharp', 'n_big', 'n_sharp_big', 'n_pairs_linked', 'n_pairs_in_classes'): stats[(rule, k)].append(st2[k])
         nullres[nt] = {f'rule{r}_{k}': v for (r, k), v in stats.items()}
         for rule in (4, 2):
-            a = stats[(rule, 'n_classes')]; b = stats[(rule, 'n_links')]
-            realc = res[f'real_rule{rule}']['n_classes']; reall = res[f'real_rule{rule}']['n_links']
-            pc = (sum(1 for x in a if x >= realc) + 1) / (len(a) + 1); pl = (sum(1 for x in b if x >= reall) + 1) / (len(b) + 1)
-            log(f'[{tag}] NULL {nt} rule{rule} ({nrep}x): classes median {np.median(a):.0f} 95% {np.percentile(a,95):.0f} max {max(a)} (real {realc}, P {pc:.3f}); links median {np.median(b):.0f} 95% {np.percentile(b,95):.0f} max {max(b)} (real {reall}, P {pl:.3f})  ({time.time()-t0:.0f}s)')
+            parts = []
+            for k in ('n_links', 'n_classes', 'n_sharp', 'n_big', 'n_sharp_big'):
+                a = stats[(rule, k)]; realv = res[f'real_rule{rule}'][k]
+                p_hi = (sum(1 for x in a if x >= realv) + 1) / (len(a) + 1); p_lo = (sum(1 for x in a if x <= realv) + 1) / (len(a) + 1)
+                parts.append(f'{k} real {realv} vs null median {np.median(a):.0f} [5-95% {np.percentile(a,5):.0f}-{np.percentile(a,95):.0f}] P(>=) {p_hi:.3f} P(<=) {p_lo:.3f}')
+            log(f'[{tag}] NULL {nt} rule{rule} ({nrep_t}x): ' + '; '.join(parts) + f'  ({time.time()-t0:.0f}s)')
     res['nulls'] = nullres
     return res, vocab, E
 
@@ -434,7 +449,7 @@ if __name__ == '__main__':
             s = ' '.join(str(x) for x in a); print(s, flush=True); fo.write(s + '\n'); fo.flush()
         log(f'== S-DARK-31 cycle 1, level {LV}: Indus Mohenjo-daro + Harappa complete texts >= 2 signs: {len(objs)} objects, '
             f'{sum(len(o["seq"]) for o in objs)} tokens; embeddings PPMI+SVD dim 30 over L1/R1/L2/R2/position/slot/object; vocab 150; nulls {NREP}x')
-        res, vocab, E = run_real_and_nulls(objs, LV, NREP, rnd, log=log)
+        res, vocab, E = run_real_and_nulls(objs, LV, NREP, rnd, log=log, nrep_by={'pos': max(50, NREP // 2)})
         for rule in (4, 2):
             log(f'-- real offset classes, rule {rule}:')
             describe_classes(res[f'real_rule{rule}'], vocab, log=log)

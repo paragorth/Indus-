@@ -1,0 +1,64 @@
+LOOP 17, cycle 3: the FIT. Second ABC generation centred on the first-round posterior, importance-weighted (prior/proposal, weights
+capped at their 95th percentile, ESS 66-70 of 400 accepted), fitted to the real corpus at seq_all; the three merge levels give
+the same posterior to the first decimal (seq_raw, seq_strong in scratch fit_gen2.txt). Then a posterior-predictive check.
+Files: tools/dark_loop17.py gen2 / fit / ppc. Reference tables: bank0 (8,000 prior draws) -> gen2 (4,000 draws proposed around
+the bank0 posterior). Distance to the observed vector (34 statistics, MAD units): prior bank median 8.56, 5% 6.13, best 3.44;
+gen2 median 5.76, 5% 4.19, best 3.21. The best reachable distance barely moves (3.4 -> 3.2): the remaining misfit is structural.
+
+POSTERIOR (seq_all; rejection = calibrated but wide; adjusted = local-linear regression, tighter, over-confident per cycle 2)
+ param        rejection median [5%, 95%]      adjusted median [5%, 95%]    identifiable? (cycle 2)
+ A            4.2  [1.3, 7.5]                 6.4 [3.9, 8]                 NO (prior width ~1)
+ O            179  [60, 342]                  94  [56, 199]                factor ~3
+ zO           1.18 [0.47, 1.80]               1.15 [0.77, 1.45]            weak
+ C            7.2  [1.4, 37]                  5.1 [1.6, 12]                weak
+ H            15,000 [3,500, 43,000]          29,000 [14,000, 51,000]      only with k
+ k            3.1  [1.2, 5.8]                 4.7 [3.0, 6.0]               only with H (posterior r(H,k) = -0.56)
+ H*k          41,000 [8,400, 156,000]         136,000 [76,000, 194,000]    yes, order of magnitude
+ p_mid        0.63 [0.40, 0.90]               0.78 [0.73, 0.86]            yes
+ lam_mid      1.6  [1.1, 2.4]                 1.4 [1.2, 1.7]               yes (middle length 1+Poisson -> ~2.4 signs)
+ V_mid        530  [100, 2,070]               650 [500, 860]               yes-ish
+ z_mid        0.84 [0.32, 1.15]               1.01 [0.84, 1.13]            weak
+ p_share      0.50 [0.04, 0.92]               0.55 [0.13, 0.95]            NO (name vs qualification undecidable)
+ p_open       0.15 [0.04, 0.32]               0.19 [0.10, 0.27]            yes
+ p_comm       0.39 [0.13, 0.63]               0.31 [0.28, 0.33]            yes
+ p_off        0.59 [0.11, 0.86]               0.66 [0.43, 0.77]            yes-ish
+ p_ext        0.72 [0.11, 0.97]               0.29 [0.14, 0.67]            weak (r(p_off, p_ext) = -0.51)
+ p_reissue    0.75 [0.48, 0.87]               0.87 [0.81, 0.91]            yes
+ z_copy       1.19 [0.92, 1.48]               1.11 [1.00, 1.24]            yes
+ p_batch      0.52 [0.06, 0.90]               0.06 [0.03, 0.20]            NO (area clustering is reproduced by holders' seals alone)
+ p_travel     0.57 [0.05, 0.96]               0.80 [0.32, 0.95]            weak (69 complete sealings)
+ p_suf        0.23 [0.09, 0.54]               0.17 [0.13, 0.22]            yes
+ p_potcred    0.41 [0.08, 0.67]               0.50 [0.41, 0.58]            yes
+
+POSTERIOR PREDICTIVE CHECK (150 corpora re-simulated from the rejection posterior): 31 of 34 observed statistics inside the 90%
+ predictive band. The three MISSES, i.e. what the best credential-institution model still cannot produce:
+   stock_tab_per1000   obs 66.3 vs predictive 37.7-56.6 (z = +3.2): the real tablets carry MORE mass-copied texts than a Zipf
+                        re-issue of local credentials gives -- the Harappa moulded series (89-120 copies of one face) are a
+                        production mode of their own (moulds), not single re-issues.
+   loc_tab             obs 0.844 vs 0.53-0.84 (z = +1.5): real tablet stock texts are more strictly local than copies of local
+                        credentials predict, because in the model a short credential formula can recur in two cities by chance.
+   tag_cross           obs 0.964 vs 0.22-0.94 (z = +1.2): the all-cross-site sealing->seal matches (S324) push p_travel to its
+                        upper edge; the model with 69 complete sealings cannot be as extreme as the data.
+ Near-misses (|z| 1.2-1.4): topcopy_share (model's top text too common), tag_match (model matches too few sealings to seals),
+ len_tab_sd (model tablets too variable in length). Everything about SEALS is reproduced: nesting 0.13 (pred 0.09-0.22), cross-site
+ run sharing 0.50 (0.32-0.66), middle uniqueness 0.75 (0.60-0.84), seal stock texts 20/1000 (11-36), seal locality 0.16 (0.06-0.31),
+ closer units 68 (32-96), final-sign Zipf -1.29 (-1.54..-0.79), quantity-seal share 0.40 (0.20-0.63), opener share 0.26 (0.08-0.37),
+ same-site seal duplicates 0.05 (0.03-0.13), sign richness 48 (18-72), within-text repetition 0.038 (0.004-0.10).
+
+PLAIN WORDS (what the posterior describes, within what cycle 2 says is identifiable):
+ A system in which the largest city holds of the order of 10^4-10^5 distinct credentials (H*k 40,000-140,000; the 1,341
+ Mohenjo-daro seals are a few per cent of them, consistent with S309), issued by an undetermined number of authorities (A is
+ not identifiable), with of the order of 100 office classes (O 60-200) under a Zipf law of slope ~1.2, a handful of commodity
+ classes (C ~ 2-12) shown on about 30% of credentials, an opener on 15-25%, an office word on 60-75%, and a holder-specific
+ middle of about 2-3 signs on 65-85% of credentials drawn from a vocabulary of ~500-900 signs (most never seen). Tablets are
+ mostly (75-90%) re-issues of local credentials with a popularity slope ~1.1-1.2, plus a suffix on ~20%; about half the pot marks
+ copy a local credential. Sealings travel: the travel probability is pushed high (0.6-0.95) but is weakly measured.
+ What the data CANNOT tell: how many authorities; whether a holder had 1 or 5 credentials (only the stock H*k is seen); whether
+ the middle is the holder's name or a per-credential qualification (p_share flat: this is S321-S322 again, from the generative
+ side); whether tablet copies were deposited in batches (p_batch flat once holders have find areas).
+
+CONTROL for this cycle: cycle 2 (recovery of planted parameters with the same statistics); plus the three merge levels agree.
+Caveats: the skeleton is the complete-text corpus built from the older inscriptions.csv (S-DARK-23 caution); 76% Harappa +
+Mohenjo-daro; tablets are almost all Harappa, so the tablet parameters describe Harappa.
+
+| S-DARK-17.3 | **ABC fit of the institution generator to the real corpus**: 8,000 prior + 4,000 posterior-centred simulations (importance-weighted, ESS ~68/400), 34 statistics, seq_all (seq_raw/strong identical to 1 decimal); posterior-predictive check with 150 re-simulations (`data/derived/dark/loop17_cycle3.txt`) | Identifiable posteriors (adjusted, 90%): credential stock at the largest city H*k 76,000-194,000 (rejection 8,400-156,000); offices O 56-199, Zipf slope 1.15; commodities C 1.6-12 on 28-33% of credentials; opener on 10-27%; office word on 43-77%; middle on 73-86%, ~2.4 signs, vocabulary 500-860; tablets 81-91% re-issues of local credentials (popularity slope 1.0-1.24), suffix 13-22%; pots 41-58% credential copies. Flat: A (1-8), p_share (0.1-0.95), p_batch, k vs H (r = -0.56). PPC: 31/34 statistics inside the 90% band; misses stock_tab (66 vs <=57, z=3.2), loc_tab (0.84 vs <=0.84), tag_cross (0.96 vs <=0.94); every seal statistic reproduced | **The seal corpus is fully reproduced by a credential institution of ~10^5 credentials, ~100 office classes and a few commodity classes; the tablets are not: Harappa's moulded series are a separate mass-production mode, more copied and more local than re-issued credentials.** Not identifiable: number of authorities, holders vs credentials per holder, name vs qualification, batch deposit. Nothing reads a sign; not 'cracked' |

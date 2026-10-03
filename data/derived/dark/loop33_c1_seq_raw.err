@@ -12,3 +12,35 @@
   indus-seals-CLASS                  hmm5           states     5 trans    290 MDL      23405 bits (model     1805)  fit 2.598  dev 2.666 nats/sign
   indus-seals-CLASS                  hmm10          states    10 trans    630 MDL      23274 bits (model     3929)  fit 2.326  dev 2.423 nats/sign
   indus-seals-CLASS                  hmm20          states    20 trans   1460 MDL      27697 bits (model     9114)  fit 2.235  dev 2.336 nats/sign
+  indus-seals-CLASS                  hmm40          states    40 trans   3720 MDL      41554 bits (model    23230)  fit 2.204  dev 2.346 nats/sign
+-- control shuffle (805 train)
+  ctrl-shuffle-seals-CLASS           unigram        states     1 trans     53 MDL      20321 bits (model      679)  fit 2.972  dev 3.033 nats/sign
+  ctrl-shuffle-seals-CLASS           markov1        states    53 trans    789 MDL      31581 bits (model    13836)  fit 2.685  dev 3.221 nats/sign
+  ctrl-shuffle-seals-CLASS           markov2        states   743 trans   2272 MDL      61557 bits (model    48498)  fit 1.976  dev 3.333 nats/sign
+  ctrl-shuffle-seals-CLASS           alergia@0.5    states    14 trans    436 MDL      24833 bits (model     6809)  fit 2.727  dev 3.266 nats/sign
+  ctrl-shuffle-seals-CLASS           alergia@0.1    states     6 trans    215 MDL      22019 bits (model     3095)  fit 2.863  dev 3.068 nats/sign
+  ctrl-shuffle-seals-CLASS           alergia@0.01   states     4 trans    175 MDL      21510 bits (model     2417)  fit 2.889  dev 3.021 nats/sign
+  ctrl-shuffle-seals-CLASS           alergia@0.001  states     3 trans    151 MDL      21207 bits (model     2022)  fit 2.903  dev 3.024 nats/sign
+  ctrl-shuffle-seals-CLASS           mdl-merge      states     2 trans    102 MDL      20664 bits (model     1306)  fit 2.929  dev 3.008 nats/sign
+  ctrl-shuffle-seals-CLASS           hmm10          states    10 trans    630 MDL      23388 bits (model     3825)  fit 2.960  dev 3.042 nats/sign
+  ctrl-shuffle-seals-CLASS           hmm20          states    20 trans   1460 MDL      28422 bits (model     8872)  fit 2.958  dev 3.039 nats/sign
+-- control slotshuf (805 train)
+  ctrl-slotshuf-seals-CLASS          unigram        states     1 trans     53 MDL      20321 bits (model      679)  fit 2.972  dev 3.033 nats/sign
+  ctrl-slotshuf-seals-CLASS          markov1        states    53 trans    737 MDL      28528 bits (model    12924)  fit 2.361  dev 2.895 nats/sign
+  ctrl-slotshuf-seals-CLASS          markov2        states   697 trans   1975 MDL      53610 bits (model    41976)  fit 1.760  dev 3.027 nats/sign
+  ctrl-slotshuf-seals-CLASS          alergia@0.5    states    12 trans    370 MDL      21716 bits (model     5696)  fit 2.424  dev 2.894 nats/sign
+  ctrl-slotshuf-seals-CLASS          alergia@0.1    states     7 trans    279 MDL      20578 bits (model     4078)  fit 2.497  dev 2.808 nats/sign
+  ctrl-slotshuf-seals-CLASS          alergia@0.01   states     5 trans    186 MDL      19587 bits (model     2628)  fit 2.566  dev 2.784 nats/sign
+  ctrl-slotshuf-seals-CLASS          alergia@0.001  states     5 trans    181 MDL      19492 bits (model     2558)  fit 2.562  dev 2.727 nats/sign
+  ctrl-slotshuf-seals-CLASS          mdl-merge      states     3 trans    135 MDL      19401 bits (model     1808)  fit 2.662  dev 2.763 nats/sign
+  ctrl-slotshuf-seals-CLASS          hmm10          states    10 trans    630 MDL      20399 bits (model     3825)  fit 2.508  dev 2.630 nats/sign
+  ctrl-slotshuf-seals-CLASS          hmm20          states    20 trans   1460 MDL      25301 bits (model     8872)  fit 2.486  dev 2.620 nats/sign
+-- control markov2 (805 train)
+  ctrl-markov2-seals-CLASS           unigram        states     1 trans     53 MDL      20388 bits (model      679)  fit 2.952  dev 2.991 nats/sign
+  ctrl-markov2-seals-CLASS           markov1        states    53 trans    497 MDL      22363 bits (model     8719)  fit 2.043  dev 2.353 nats/sign
+  ctrl-markov2-seals-CLASS           markov2        states   469 trans   1210 MDL      35149 bits (model    25034)  fit 1.515  dev 2.349 nats/sign
+  ctrl-markov2-seals-CLASS           alergia@0.5    states    30 trans    452 MDL      20792 bits (model     7559)  fit 1.982  dev 2.554 nats/sign
+  ctrl-markov2-seals-CLASS           alergia@0.1    states    16 trans    339 MDL      19628 bits (model     5362)  fit 2.137  dev 2.582 nats/sign
+  ctrl-markov2-seals-CLASS           alergia@0.01   states     8 trans    241 MDL      18988 bits (model     3571)  fit 2.309  dev 2.523 nats/sign
+  ctrl-markov2-seals-CLASS           alergia@0.001  states     7 trans    214 MDL      18722 bits (model     3129)  fit 2.335  dev 2.522 nats/sign
+  ctrl-markov2-seals-CLASS           mdl-merge      states    10 trans    246 MDL      18937 bits (model     3724)  fit 2.279  dev 2.554 nats/sign
