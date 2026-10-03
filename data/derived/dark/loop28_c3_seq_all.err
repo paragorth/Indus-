@@ -1,0 +1,62 @@
+# LOOP 28 cycle 3 (seq_all): do derivatives appear where their base appears? (2026-10-03T12:46)
+texts 3538; edges 410; bases with >= 10 tokens 149
+
+## (a) rare derived signs (1-4 tokens) in the contexts of their base (edges of mid/high confidence)
+type         n | left-ctx hit obs/null | right-ctx obs/null | position obs/null | P (perm, mean of 3)
+enclosure    3 | 0.67/0.54 | 0.00/0.03 | 0.00/0.49 | P = 0.943 (obs 0.22, null 0.35)
+roof         2 | 1.00/0.65 | 0.00/0.08 | 0.50/0.31 | P = 0.310 (obs 0.50, null 0.34)
+strokes     20 | 0.62/0.44 | 0.24/0.16 | 0.50/0.39 | P = 0.017 (obs 0.45, null 0.33)
+doubling    11 | 0.44/0.33 | 0.09/0.17 | 0.52/0.43 | P = 0.297 (obs 0.35, null 0.31)
+ligature     2 | 0.50/0.37 | 0.50/0.53 | 0.00/0.40 | P = 0.913 (obs 0.33, null 0.48)
+ALL        139 | 0.50/0.40 | 0.21/0.18 | 0.45/0.43 | P = 0.003 (obs 0.39, null 0.34)
+   detail: derived <- base (freq) left/right/pos hit vs null
+   enclosure W834  <- W1    (1) 1.00/0.79 0.00/0.00 0.00/0.34 ctx: #_495
+   enclosure W833  <- W413  (1) 0.00/0.00 0.00/0.00 0.00/0.84 ctx: 528_111
+   enclosure W856  <- W617  (1) 1.00/0.84 0.00/0.09 0.00/0.29 ctx: #_1
+   roof      W678  <- W906  (2) 1.00/0.55 0.00/0.11 1.00/0.32 ctx: #_400 #_400
+   roof      W458  <- W455  (1) 1.00/0.75 0.00/0.04 0.00/0.30 ctx: #_390
+   strokes   W828  <- W790  (1) 1.00/0.82 0.00/0.00 0.00/0.29 ctx: #_66
+   strokes   W842  <- W845  (4) 0.00/0.03 0.00/0.40 0.00/0.17 ctx: 32_# 868_# 535_# 374_#
+   strokes   W854  <- W850  (1) 0.00/0.17 0.00/0.07 1.00/0.85 ctx: 32_400
+   strokes   W895  <- W892  (1) 0.00/0.00 0.00/0.04 1.00/0.79 ctx: 785_350
+   strokes   W481  <- W480  (1) 0.00/0.10 1.00/0.42 0.00/0.16 ctx: 740_#
+   strokes   W822  <- W820  (2) 0.50/0.40 1.00/0.46 0.00/0.07 ctx: 140_# #_#
+   strokes   W542  <- W540  (1) 0.00/0.00 0.00/0.01 1.00/0.69 ctx: 250_1
+   strokes   W443  <- W440  (4) 0.00/0.02 1.00/0.48 1.00/0.81 ctx: 388_740 388_740 60_740 388_740
+   strokes   W815  <- W831  (1) 1.00/0.60 0.00/0.00 1.00/0.33 ctx: #_718
+   strokes   W834  <- W790  (1) 1.00/0.81 0.00/0.00 0.00/0.28 ctx: #_495
+   strokes   W144  <- W142  (4) 1.00/0.81 0.00/0.37 0.00/0.07 ctx: #_# #_# #_# #_2
+   strokes   W830  <- W832  (1) 1.00/0.12 0.00/0.01 1.00/0.83 ctx: 2_840
+   strokes   W229  <- W231  (3) 1.00/0.76 0.00/0.00 0.00/0.23 ctx: #_151 #_151 #_151
+   strokes   W57   <- W32   (1) 1.00/0.61 0.00/0.00 1.00/0.28 ctx: #_159
+   strokes   W47   <- W32   (1) 1.00/0.66 1.00/0.65 0.00/0.00 ctx: #_#
+   strokes   W412  <- W33   (1) 1.00/0.70 0.00/0.00 1.00/0.41 ctx: #_741
+   strokes   W910  <- W900  (4) 1.00/0.77 0.75/0.37 0.00/0.26 ctx: #_740 #_740 #_740 #_741
+   strokes   W57   <- W33   (1) 1.00/0.66 0.00/0.00 1.00/0.31 ctx: #_159
+   strokes   W57   <- W55   (1) 1.00/0.70 0.00/0.00 0.00/0.23 ctx: #_159
+   strokes   W192  <- W190  (2) 0.00/0.01 0.00/0.00 1.00/0.66 ctx: 440_280 368_868
+   doubling  W69   <- W70   (1) 1.00/0.73 0.00/0.07 0.00/0.34 ctx: #_2
+   doubling  W699  <- W705  (1) 1.00/0.71 0.00/0.62 0.00/0.00 ctx: #_#
+   doubling  W191  <- W190  (2) 0.50/0.37 0.00/0.07 1.00/0.47 ctx: #_740 2_415
+   doubling  W893  <- W892  (3) 0.33/0.31 0.00/0.00 0.67/0.64 ctx: 861_140 #_31 1_590
+   doubling  W919  <- W920  (2) 0.00/0.00 0.00/0.12 1.00/0.81 ctx: 140_520 140_520
+   doubling  W479  <- W480  (2) 1.00/0.63 0.00/0.00 1.00/0.28 ctx: #_749 #_749
+   doubling  W629  <- W630  (1) 0.00/0.00 0.00/0.04 1.00/0.79 ctx: 279_2
+   doubling  W461  <- W463  (1) 0.00/0.01 1.00/0.44 0.00/0.24 ctx: 840_#
+   doubling  W552  <- W555  (3) 0.00/0.07 0.00/0.04 1.00/0.73 ctx: 60_520 3_840 2_840
+   doubling  W799  <- W798  (4) 1.00/0.82 0.00/0.06 0.00/0.29 ctx: #_840 #_840 #_840 #_840
+   doubling  W907  <- W900  (1) 0.00/0.00 0.00/0.46 0.00/0.15 ctx: 161_#
+   ligature  W50   <- W617  (1) 0.00/0.03 0.00/0.54 0.00/0.81 ctx: 705_740
+   ligature  W945  <- W820  (1) 1.00/0.71 1.00/0.51 0.00/0.00 ctx: #_#
+
+## (b) holes: frequent bases (>= 30 tokens) without an attested derivative of each type, and rare signs that contain them graphically
+   enclosure: 63 of 67 frequent bases have no attested enclosure derivative: W60 W61 W90 W100 W125 W140 W142 W151 W154 W156 W176 W220 W226 W231 W233 W235 W240 W255 W350 W368 W388 W390 W400 W407 W415 W416 W435 W440 W455 W482 W501 W503 W520 W527 W550 W575 W585 W590 W595 W615 ...
+   strokes: 47 of 67 frequent bases have no attested strokes derivative: W60 W61 W100 W125 W140 W151 W154 W156 W176 W220 W226 W240 W255 W350 W368 W388 W390 W400 W407 W413 W415 W416 W435 W455 W482 W501 W520 W527 W550 W575 W585 W615 W690 W692 W700 W705 W717 W742 W752 W798 ...
+   doubling: 56 of 67 frequent bases have no attested doubling derivative: W60 W61 W90 W100 W125 W140 W142 W151 W154 W156 W176 W226 W231 W233 W235 W240 W255 W350 W368 W388 W390 W407 W413 W415 W416 W435 W440 W455 W482 W501 W503 W527 W550 W575 W585 W590 W595 W615 W617 W690 ...
+   ligature: 64 of 67 frequent bases have no attested ligature derivative: W60 W61 W90 W100 W125 W140 W151 W154 W156 W176 W220 W226 W231 W233 W235 W240 W255 W350 W368 W388 W390 W400 W407 W413 W415 W416 W435 W440 W455 W482 W501 W503 W520 W527 W550 W575 W585 W590 W595 W615 ...
+   rare signs that the component detector (threshold relaxed to 0.80) derives from a frequent base in a hole: 2
+   their context hit rates (left/right/pos) 1.00/0.00/0.00 vs null 0.79/0.27/0.12
+
+## (c) IM77 signs with no Wells counterpart: do they take the contexts of their shape-family neighbours (|dM| <= 2)?
+   128 unbridged IM77 signs (2-10 tokens), 162 (sign, adjacent-number base) pairs: context hits 0.39/0.22/0.50 vs random bases 0.37/0.18/0.49
+   pairs where the adjacent base beats the random base on the mean of 3: 0.56 (sign test P = 0.133)

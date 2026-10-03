@@ -109,3 +109,10 @@
     5-fold 2: held-out bits/element independence 7.257 vs pair(bigram) 6.192; gain 1.066 bits = 14.7%  (n=751 tokens, 213 middles)
     5-fold 3: held-out bits/element independence 7.366 vs pair(bigram) 6.413; gain 0.952 bits = 12.9%  (n=719 tokens, 213 middles)
     5-fold 4: held-out bits/element independence 7.220 vs pair(bigram) 6.025; gain 1.195 bits = 16.6%  (n=739 tokens, 213 middles)
+    adjacent-pair MI 4.065 bits vs shuffle 3.210 [3.154,3.255]; excess 0.855
+    Ur III names DEDUP: MI(first,last) 2.923 bits vs within-position shuffle 2.826 [2.784,2.869] P=0.005; excess 0.098 = 1.8% of H(first) (5.40 bits); n=1065
+    Ur III names DEDUP: 123 elements with >= 15 partner tokens; mean z 2.38; share with partner-KL above Bonferroni null (P<=0.0004 or z>4 at floor) 0.195 (24/123); mean KL excess 0.416 bits
+      strongest partner-predictors: d z=15.7, lugal z=13.7, a z=10.7, ur z=10.4, li2 z=10.2, ga z=8.5, ki z=8.5, la z=8.4, u2 z=7.7, da z=6.9
+      weakest: tu z=-1.3, mi z=-1.2, utu z=-1.0, inim z=-1.0, lamma z=-1.0, a2 z=-0.8
+
+##### planted attribute code: 2648 -> 2231 distinct (site, middle)

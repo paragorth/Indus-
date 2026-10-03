@@ -202,11 +202,11 @@ def pair_sim(a,b):
                 holder1=float(a['mid']==b['mid'] and len(a['mid'])>=1 and a['clo']!=b['clo'] and a['seq']!=b['seq']),
                 minpair=float(a['L']==b['L'] and a['L']>=3 and sum(x!=y for x,y in zip(a['seq'],b['seq']))==1))
 STATS=['jac','mid','mid2','clo','opn','ident','holder','holder1','minpair']
-def room_stats(groups):
+def room_stats(groups,cap=6000):
     acc=collections.defaultdict(float); n=0
-    for g in groups:
-        for a,b in itertools.combinations(g,2):
-            if a['cisi']==b['cisi'] and a['cisi']!='-': continue
+    allp=[(a,b) for g in groups for a,b in itertools.combinations(g,2) if not (a['cisi']==b['cisi'] and a['cisi']!='-')]
+    if len(allp)>cap: allp=rnd.sample(allp,cap)   # big groups (area level): sample pairs, same cap for observed and null
+    for a,b in allp:
             s=pair_sim(a,b); n+=1
             for k in STATS: acc[k]+=s[k]
     return {k:(acc[k]/n if n else float('nan')) for k in STATS},n

@@ -315,12 +315,17 @@ class Pool:
         ra = r[ok]; ya = y[ok]
         if len(set(ya.tolist())) < 2 or len(set(ra.tolist())) < 2: return None
         ny = 4 if fact in NUMERIC else 2
-        o = mi_codes(ra, ya, nr, ny); ge = 0
+        o = mi_codes(ra, ya, nr, ny); ge = 0; null = []
         for k in range(nperm):
             c2 = site_perm(self.codes[fact], strata)
             y2, _ = pairfact(fact, c2, self.a, self.b)
-            ge += mi_codes(ra, y2[ok], nr, ny) >= o
+            m = mi_codes(ra, y2[ok], nr, ny); ge += m >= o
             if early and ge >= 5 and k >= 20: return o, (ge + 1) / (k + 2), int(ok.sum())
+            if not early: null.append(m)
+        if not early:  # z-approximation (log-MI is roughly normal under the null) for tail probabilities below the permutation floor
+            ln = np.log(np.array(null) + 1e-12); z = (math.log(o + 1e-12) - ln.mean()) / (ln.std() + 1e-12)
+            from scipy.stats import norm
+            return o, (ge + 1) / (nperm + 1), int(ok.sum()), float(z), float(norm.sf(z))
         return o, (ge + 1) / (nperm + 1), int(ok.sum())
 
 _PTR = None
@@ -504,7 +509,11 @@ def main():
     # ---- PAIR arrows (train stage in parallel)
     global _PTR
     _PTR = PTR
-    specs = [make_arrow() for _ in range(NPAIR)]
+    specs = []; seen = set()
+    while len(specs) < NPAIR:
+        a = make_arrow(); key = (a[0], json.dumps(a[1], sort_keys=True), a[2])
+        if key in seen: continue
+        seen.add(key); specs.append(a)
     groups = collections.OrderedDict()
     for h, (kind, p, fact) in enumerate(specs):
         groups.setdefault((kind, json.dumps(p, sort_keys=True)), []).append((h, fact))
@@ -522,11 +531,11 @@ def main():
         follow = pool.map(_follow_eval, hits, chunksize=1)
     for (h, (kind, p, fact), r), (r2, r3, rstrict, rfine) in zip(hits, follow):
         ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
-        bonf = rfine is not None and rfine[1] <= 0.05 / NPAIR  # with 5000 perms the floor is 2e-4: 'bonf' here means no permutation reached the observed MI
+        bonf = rfine is not None and len(rfine) > 4 and rfine[4] < 0.05 / NPAIR  # z-approximate tail below the permutation floor
         strict_ok = rstrict is not None and rstrict[1] < 0.01
         surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, strict=rstrict, held=r2, all=r3, ok=ok, bonf=bonf, strict_ok=strict_ok))
-        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %s (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (
-            h, kind, p, fact, r[0], r[1], r[2], ('%.5f' % rfine[1]) if rfine else 'na', bonf, rstrict[1] if rstrict else -1,
+        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %s z %s (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (
+            h, kind, p, fact, r[0], r[1], r[2], ('%.5f' % rfine[1]) if rfine else 'na', ('%.2f' % rfine[3]) if rfine and len(rfine) > 4 else 'na', bonf, rstrict[1] if rstrict else -1,
             tuple(round(x, 4) for x in r2[:2]) if r2 else None, tuple(round(x, 4) for x in r3[:2]) if r3 else None,
             'REPLICATED' if ok else 'train-only'))
     tested = sum(1 for a in arrows if a['train'])

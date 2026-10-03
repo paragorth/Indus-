@@ -1,0 +1,52 @@
+cycle 1 seed 101 | new relations: complementary, samemid_diffclose, prefix1, suffix1, numeq, numdiff, summod, sameopen_diffmid, sharek, revmatch, sameclose_diffmid, bothopen, bothjar, lendiff, ident
+PAIR real: {'pair_fired': 1500, 'pair_testable': 1472, 'pair_hits': 300, 'pair_rep': 44, 'pair_bonf': 0, 'pair_strict': 40, 'pair_all': 0, 'set_fired': 500, 'set_testable': 279, 'set_hits': 1, 'set_rep': 0, 'set_bonf': 0}
+PAIR control (facts scrambled within site, room within site x type): None
+replicated pair arrows (held-out sites p<0.01 AND seq_all p<0.01):
+  jacc {} x typefull | train MI 0.0012 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0018 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharepair {} x complete | train MI 0.0004 p 0.0020 n 16528 | fine p 0.00060 | strict(site x type) p 0.0060 | held MI 0.0009 p 0.0040 n 8127 | seq_all p 0.0066 | bonf=False strict=True
+  bothopen {} x v | train MI 0.0115 p 0.0020 n 12613 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0116 p 0.0080 n 4018 | seq_all p 0.0033 | bonf=False strict=True
+  jacc {} x typefull | train MI 0.0012 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0018 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharek {'k': 2} x shape | train MI 0.0005 p 0.0020 n 16242 | fine p 0.00060 | strict(site x type) p 0.2000 | held MI 0.0032 p 0.0080 n 4338 | seq_all p 0.0033 | bonf=False strict=False
+  ident {} x complete | train MI 0.0023 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0028 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  first {} x complete | train MI 0.0007 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0011 p 0.0020 n 8127 | seq_all p 0.0066 | bonf=False strict=True
+  sharepair {} x typefull | train MI 0.0014 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0021 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x complete | train MI 0.0064 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0064 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x complete | train MI 0.0023 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0028 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  jacc {} x complete | train MI 0.0034 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0031 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x cond | train MI 0.0010 p 0.0020 n 18978 | fine p 0.00120 | strict(site x type) p 0.0010 | held MI 0.0098 p 0.0020 n 6626 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharepair {} x type | train MI 0.0027 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0019 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  bothopen {} x v | train MI 0.0115 p 0.0020 n 12613 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0116 p 0.0020 n 4018 | seq_all p 0.0033 | bonf=False strict=True
+  posk {'k': 1} x material | train MI 0.0007 p 0.0020 n 14667 | fine p 0.00020 | strict(site x type) p 0.0153 | held MI 0.0027 p 0.0020 n 6173 | seq_all p 0.0033 | bonf=False strict=False
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x cond | train MI 0.0010 p 0.0020 n 18978 | fine p 0.00140 | strict(site x type) p 0.0020 | held MI 0.0098 p 0.0020 n 6626 | seq_all p 0.0033 | bonf=False strict=True
+  sharepair {} x type | train MI 0.0027 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0019 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  posk {'k': 3} x complete | train MI 0.0006 p 0.0020 n 16528 | fine p 0.00040 | strict(site x type) p 0.0050 | held MI 0.0012 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x typefull | train MI 0.0006 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0012 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  jacc {} x type | train MI 0.0058 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0025 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x type | train MI 0.0022 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0032 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharek {'k': 2} x shape | train MI 0.0005 p 0.0020 n 16242 | fine p 0.00080 | strict(site x type) p 0.1622 | held MI 0.0032 p 0.0040 n 4338 | seq_all p 0.0033 | bonf=False strict=False
+  posk {'k': 1} x type | train MI 0.0040 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0010 p 0.0040 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  first {} x complete | train MI 0.0007 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0011 p 0.0040 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x h | train MI 0.0164 p 0.0020 n 12648 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0159 p 0.0080 n 4095 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x typefull | train MI 0.0039 p 0.0020 n 20000 | fine p 0.00080 | strict(site x type) p 0.0010 | held MI 0.0096 p 0.0040 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharepair {} x type | train MI 0.0027 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0019 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  first {} x complete | train MI 0.0007 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0011 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  jacc {} x complete | train MI 0.0034 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0031 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x complete | train MI 0.0023 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0028 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  bothopen {} x v | train MI 0.0115 p 0.0020 n 12613 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0116 p 0.0040 n 4018 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x typefull | train MI 0.0039 p 0.0020 n 20000 | fine p 0.00040 | strict(site x type) p 0.0020 | held MI 0.0096 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  sharek {'k': 2} x shape | train MI 0.0005 p 0.0020 n 16242 | fine p 0.00060 | strict(site x type) p 0.0779 | held MI 0.0032 p 0.0020 n 4338 | seq_all p 0.0033 | bonf=False strict=False
+  sharepair {} x typefull | train MI 0.0014 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0021 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  jacc {} x complete | train MI 0.0034 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0031 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  first {} x complete | train MI 0.0007 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0011 p 0.0040 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x complete | train MI 0.0023 p 0.0020 n 16528 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0028 p 0.0020 n 8127 | seq_all p 0.0033 | bonf=False strict=True
+  lensum {} x type | train MI 0.0021 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0121 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+  ident {} x type | train MI 0.0022 p 0.0020 n 20000 | fine p 0.00020 | strict(site x type) p 0.0010 | held MI 0.0032 p 0.0020 n 10000 | seq_all p 0.0033 | bonf=False strict=True
+replicated set arrows (Harappa same direction p<0.05 AND seq_all p<0.01):
+
+READY-TO-PASTE ROW:
+| S-DARK-2.1 | Arrow-in-the-dark, pair+set machine (tools/strat_dark_pairs2.py, seed 101). Pair arrows: random text-pair relation (30 families incl. new: complementary, samemid_diffclose, prefix1, suffix1, numeq, numdiff, summod, sameopen_diffmid, sharek, revmatch, sameclose_diffmid, bothopen, bothjar, lendiff, ident) x random object-pair fact (type, emblem, material, shape, boss, area, room, time, period, size h/v, depth, cult, color, completeness, direction, condition, sides); MI statistic; null = object-level permutation of the fact within site (and within site x type as a second null); train MD+Harappa, replicate on held-out sites (p<0.01) and seq_all; Bonferroni over arrows fired. Set arrows: find-groups (site, area, block, room) >= 3 objects, 29 set statistics x size band x type filter x dedup; null = re-deal objects among groups of same sizes within site x type; train MD, replicate Harappa (same direction) + seq_all. Control: whole machine on facts scrambled within site | PAIR 1500 fired (1472 testable), 300 train hits p<0.002 (44 replicated on held-out sites + seq_all, 0 also Bonferroni at 1500 arrows AND within-site-x-type null). SET 500 fired (279 testable), 1 MD hits p<0.004 (0 replicated at Harappa + seq_all) | pending control |

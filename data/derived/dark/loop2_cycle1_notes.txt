@@ -1,0 +1,39 @@
+CYCLE 1 NOTES (seed 101). 300 train hits, 44 replicated arrows, 20 DISTINCT replicated arrows:
+  bothopen           {}         x v         trainMI 0.0115 heldMI 0.0116 held p 0.0080 strict p 0.0010
+  first              {}         x complete  trainMI 0.0007 heldMI 0.0011 held p 0.0020 strict p 0.0010
+  ident              {}         x complete  trainMI 0.0023 heldMI 0.0028 held p 0.0020 strict p 0.0010
+  ident              {}         x type      trainMI 0.0022 heldMI 0.0032 held p 0.0020 strict p 0.0010
+  ident              {}         x typefull  trainMI 0.0006 heldMI 0.0012 held p 0.0020 strict p 0.0010
+  jacc               {}         x complete  trainMI 0.0034 heldMI 0.0031 held p 0.0020 strict p 0.0010
+  jacc               {}         x type      trainMI 0.0058 heldMI 0.0025 held p 0.0020 strict p 0.0010
+  jacc               {}         x typefull  trainMI 0.0012 heldMI 0.0018 held p 0.0020 strict p 0.0010
+  lensum             {}         x complete  trainMI 0.0064 heldMI 0.0064 held p 0.0020 strict p 0.0010
+  lensum             {}         x cond      trainMI 0.0010 heldMI 0.0098 held p 0.0020 strict p 0.0010
+  lensum             {}         x h         trainMI 0.0164 heldMI 0.0159 held p 0.0080 strict p 0.0010
+  lensum             {}         x type      trainMI 0.0021 heldMI 0.0121 held p 0.0020 strict p 0.0010
+  lensum             {}         x typefull  trainMI 0.0039 heldMI 0.0096 held p 0.0040 strict p 0.0010
+  posk               {"k": 1}   x material  trainMI 0.0007 heldMI 0.0027 held p 0.0020 strict p 0.0153
+  posk               {"k": 1}   x type      trainMI 0.0040 heldMI 0.0010 held p 0.0040 strict p 0.0010
+  posk               {"k": 3}   x complete  trainMI 0.0006 heldMI 0.0012 held p 0.0020 strict p 0.0050
+  sharek             {"k": 2}   x shape     trainMI 0.0005 heldMI 0.0032 held p 0.0080 strict p 0.2000
+  sharepair          {}         x complete  trainMI 0.0004 heldMI 0.0009 held p 0.0040 strict p 0.0060
+  sharepair          {}         x type      trainMI 0.0027 heldMI 0.0019 held p 0.0020 strict p 0.0010
+  sharepair          {}         x typefull  trainMI 0.0014 heldMI 0.0021 held p 0.0020 strict p 0.0010
+
+Facts in distinct replicated arrows: Counter({'complete': 6, 'type': 5, 'typefull': 4, 'v': 1, 'shape': 1, 'cond': 1, 'material': 1, 'h': 1})
+Relations: Counter({'lensum': 5, 'jacc': 3, 'sharepair': 3, 'ident': 3, 'posk': 3, 'bothopen': 1, 'sharek': 1, 'first': 1})
+
+Direction of the type/completeness effects (random within-site pairs, MD+H, seq_raw):
+  identical texts: P(same type | relation true)=0.950 (n=694) vs | false=0.577 (n=119306)
+  share a bigram: P(same type | relation true)=0.821 (n=3070) vs | false=0.572 (n=116930)
+  length sum>=10: P(same type | relation true)=0.582 (n=28456) vs | false=0.578 (n=91544)
+  length sum<=4: P(same complete | relation true)=0.692 (n=10488) vs | false=0.731 (n=89106)
+  identical texts: P(same complete | relation true)=0.994 (n=662) vs | false=0.725 (n=98932)
+  opener status equal (fact: same v within 5mm): P(same v | relation true)=0.021 (n=56867) vs | false=0.013 (n=19201)
+  identical-text pairs by type pair: [(('TAB', 'TAB'), 654), (('TAB', 'SEAL'), 12), (('SEAL', 'TAB'), 10), (('POT', 'TAB'), 7), (('SEAL', 'SEAL'), 4), (('TAB', 'POT'), 3)]
+  mean text length by (type,complete): {"('TAB', 'Y')": (3.41, 1445), "('POT', 'N')": (2.65, 55), "('POT', 'Y')": (2.65, 78), "('POT', '?')": (2.85, 39), "('TAB', 'N')": (2.74, 193), "('SEAL', 'Y')": (4.85, 1242), "('TAB', '?')": (2.45, 159), "('SEAL', 'N')": (3.69, 278), "('SEAL', '?')": (3.13, 123)}
+  identical-text pairs are 94% TAB-TAB (654/694): the "ident x type" and "sharepair x type" arrows are the mass-produced tablet duplicates.
+
+SET stage: 1 MD hit (mean_pair_jaccard, mid-size groups, +) vs 1.1 expected under null; Harappa goes the other way. Nothing.
+
+READING: every replicated pair arrow pairs a text-form relation (identity, shared bigram, length sum, Jaccard, first sign, opener presence) with object TYPE, completeness/condition or size. These are the known confounds: tablets/sealings carry repeated short texts, broken objects carry truncated texts, bigger seals carry longer texts (S179 family). No arrow linking two texts to find-spot (area/room), emblem, material, boss, period or depth replicated. Two arrows (sharek=2 x shape, posk1 x material) fail the within-site-x-type null, i.e. they were type-mediated. Bonferroni (z-approx) unavailable this cycle (added for cycle 2+). Control run pending.
