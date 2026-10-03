@@ -440,5 +440,47 @@ P()
 # ---------------------------------------------------------------------------------------------
 # 8. Verdict
 # ---------------------------------------------------------------------------------------------
-P('## 7. Verdict (see the final section of the report for the strategy row text)')
+P('## 7. Verdict')
+P('''(a) NULL. 29 abroad round/cylinder objects carry Indus signs; 23 have a recorded motif; 17 of the 23 show the plain
+short-horned bull. Every non-bull ANIMAL motif is attested on exactly one inscribed seal (antelope L6, rhinoceros L8,
+peacock L27, scorpion+footprint L20, mating pair L24, empty field L9); only the manger (4) and an unspecified scene (2)
+recur. So no sign can co-occur twice with any non-bull animal: the maximum evidence for a 'scorpion word' or
+'antelope word' in this material is one object, an upper bound of < 3/1 by the sampling rule. Of 23 testable sign x motif
+pairs the best is NUMERAL x manger (4 of 11 numeral texts vs 0 of 12 without; p = 0.037), BH q = 0.51, and a smallest
+p this small arises in 30% of label shuffles. Nothing survives.
+(c) The twins sign W91 sits beside an antelope, a rhinoceros, an empty field, three bulls and a mating scene; the man
+sign W90 beside bulls, a peacock, a scorpion+footprint and the Failaka scene. Person signs show no preference for
+non-bull motifs (8 of 15 person texts vs 6 of 8 others, p = 0.93). The twins is therefore NOT a label for the animal
+drawn; it is independent of the picture, which fits S275/S314 (a marker of the overseas seal-using community).
+(d) The numeral+person unit (S98b) occurs in 8 of 20 abroad person texts (12, 1, 1, 1, 1, 4, 12, 12/1). Its motifs: bull 4,
+bull+manger 1, empty field 1, unrecorded 3. The four person texts beside a non-bull animal (antelope, rhino, peacock,
+scorpion/footprint) all lack the numeral (0 of 4 vs 5 of 11; one-sided p = 0.15, n.s.). Reported as an upper bound only.
+(b) HOME. 18 pre-registered sign x emblem pairs on 1,536 home seals with an emblem (site+text dedup; the Gulf-type
+pieces of unknown provenance removed). Two reach p < 0.05, none BH q < 0.1 (q = 0.19):
+  - PERSON x scene/anthropomorph emblem: 3 of 12 scene seals carry a person sign (M-1918 90-390, M-304, M-1186, all
+    Mohenjo-daro) vs 81 of 1,524 other seals (5.3%); p = 0.024, site-permutation P = 0.022, identical on seq, seq_raw
+    and seq_strong. Abroad the matching cases are L13 (Failaka scene, 90-861-317) and L20 (Ur, man sign beside a
+    footprint). Rests on Mohenjo-daro alone (3 of 3).
+  - W55 '12' x gaur emblem: 4 of 106 gaur seals vs 14 of 1,430 others (p = 0.031, perm P = 0.029). Abroad, 12 stands on
+    three bull seals (L7, L10, Susa cylinder X1). The two home seals with a numeral next to a person sign both carry the
+    gaur (M-234 Mohenjo-daro; the Dholavira round seal 255-368-1-91-803; 2 of 106 vs 0 of 1,430, p = 0.005, but one is
+    itself a Gulf-type round seal, so this is S46 again: the format, not the picture).
+  Exploratory scan of 175 sign x emblem pairs (signs >= 15 seal texts, emblems >= 20 seals): 0 at BH q < 0.05. The Indus
+  emblem does not select the signs on the text band, at home any more than abroad.
+GRADE-C CANDIDATE (one, weak): W90 (M1, standing man) = 'person / human figure', pictorially motivated. Abroad and
+at home it is the one sign that appears beside human-figure scenes above chance (3 of 12 home scene seals; Failaka
+scene; Ur footprint seal), while the twins W91 does not (0 of 12 at home). It adds a pictorial argument to the B gloss
+'man, person' already in WORKING-DICTIONARY.md rather than a new reading.
+  Would support: in new or held-out scene/anthropomorph-emblem seals, W90 present in > 15% (base 5.3%); W90 beside
+  further human-figure motifs abroad (drinking scene, footprint) on inscribed Gulf seals.
+  Would kill: the next 20 scene-emblem seals carrying W90 at the base rate (<= 1 of 20), or W90 turning up as often beside
+  non-human motifs on new Gulf-type seals.
+NULL RESULTS, plainly: no 'scorpion', 'antelope', 'peacock', 'footprint' or 'bull' sign can be isolated; the Gulf-type
+corpus has one inscribed seal per non-bull motif, and at home no sign tracks its emblem (175 pairs, 0 hits). The
+hypothesis that Indus signs are picture-labels for the motif beside them is not supported by anything in this material,
+and the motif-independence of the twins is positive evidence against it for that sign. Sample caveats: 23 objects,
+76% of the home seals come from Mohenjo-daro and Harappa, and the home scene hit is Mohenjo-daro only.
+
+## 8. Proposed STRATEGIES.md row (insert before "## Summary"; next free number after S359)
+| S360 | **Counter-intuitive anchor: do Indus signs track the PICTORIAL motif beside them on Gulf-type / Near-East seals (scorpion, footprint, antelope, peacock, manger, mating scene), and the matching emblem at home?** Object table of 29 abroad round/cylinder seals + 10 square/tags abroad + 5 Gulf-type at home, each row cited (gulf_seals.csv, Laursen 2010 pp. 111-114 and n. 11, Al-Sindi 1999, Gadd 1932 via ANCHORS sec. 9, Parpola 1994 facts). (a) sign x motif Fisher + BH + label-shuffle; (b) 18 pre-registered sign x emblem pairs on 1,536 home seals, site-permutation, all three merge levels; exploratory 175 pairs; (c) twins/man vs scenes; (d) numeral+person unit vs motif. `tools/strat_gulfmotif.py`, `data/derived/strat_gulfmotif.txt` | **(a) 23 objects with a motif, 17 plain bull; every non-bull animal occurs on ONE inscribed seal, so no sign can recur beside it (upper bound < 3/1). 23 pairs: best NUMERAL x manger 4/11 vs 0/12, p = 0.037, q = 0.51, shuffle P = 0.30. (c) twins W91 sits beside antelope, rhino, empty field, 3 bulls, mating pair: motif-independent (p = 0.93). (d) numeral+person in 8/20 person texts, never beside a non-bull animal (0/4 vs 5/11, p = 0.15). (b) PERSON x scene/anthropomorph emblem 3/12 vs 81/1,524 (p = 0.024, perm 0.022, q = 0.19; Mohenjo-daro only); W55 x gaur 4/106 vs 14/1,430 (p = 0.031); exploratory 0/175 at q < 0.05.** | **Not supported.** Signs do not label the picture beside them, abroad or at home; the twins is positively independent of the animal. Only W90 keeps weak pictorial company with human-figure scenes (home 3/12 + Failaka scene + Ur footprint seal), which adds a C-grade pictorial argument to its existing B gloss 'man, person'. Would support: W90 > 15% on new scene-emblem seals. Would kill: base rate (<= 1/20) on the next 20. The gaur-emblem/12/numbered-person package recurs at home only on Gulf-format seals (S46: format, not picture). |''')
 open(f'{ROOT}/data/derived/strat_gulfmotif.txt', 'w').write('\n'.join(out) + '\n')
