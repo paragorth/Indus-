@@ -3,3 +3,18 @@ IM77 texts (text_no+side): 3445; status: {'damaged': 703, 'none': 349, 'indet': 
   rule tuning (shuffled texts >= 4 signs, n=1497, 10x): maxwild minconc -> real exact% / shuffled exact% ; real near% / shuffled near%
     maxwild=99 minconc=1: exact 77.3% / 10.1% ; near 15.9% / 17.7%
     maxwild= 2 minconc=3: exact 66.5% / 0.4% ; near 8.4% / 1.0%
+    maxwild= 1 minconc=3: exact 59.3% / 0.1% ; near 6.1% / 0.9%
+    maxwild= 1 minconc=4: exact 51.2% / 0.0% ; near 3.5% / 0.1%
+    maxwild= 0 minconc=3: exact 33.1% / 0.0% ; near 3.9% / 0.7%
+    maxwild= 0 minconc=4: exact 33.1% / 0.0% ; near 2.0% / 0.1%
+  indeterminate (>1 unbridged M sign or <3 bridged signs, no match): 1183
+complete texts 2742: exact 1119 (40.8%), near 91, none 349 (12.7%)
+  length 1: n=137 exact 0 near 0 none 0 indet 137
+  length 2: n=612 exact 0 near 0 none 0 indet 612
+  length 3: n=496 exact 231 near 0 none 90 indet 175
+  length 4: n=443 exact 311 near 2 none 82 indet 48
+  length 5+: n=1054 exact 577 near 89 none 177 indet 211
+  by site (complete texts): Mohenjodaro: none 180/1347; Harappa: none 96/1103; Lothal: none 31/112; Kalibangan: none 20/80; Chanhudaro: none 10/58; Other sites: none 8/29; West Asian finds: none 4/13
+  by object type (complete): seal: none 204/1471; sealing: none 83/558; miniature tablet: none 19/438; copper tablet: none 18/140; pottery graffito: none 14/84; ivory/bone rod: none 4/21
+  audit_overlap-style (len>=4, fully bridgeable, any site, exact): 585/724 = 80.8%
+  exact matches that use NO wildcard position: 727 of 1119; IM77 texts containing an unbridged M sign: 1173

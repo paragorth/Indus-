@@ -84,3 +84,50 @@
    Markov-2                            2.516            2.474
    Markov-2 + L,rem                    2.532            2.487
    Offset-from-END                     4.308            4.278
+   Offset-from-START                   4.149            4.126
+   Offset-both (i,L)                   4.308            4.278
+   Slot-class bigram                   4.362            4.355
+   Slot-class + END off                4.363            4.355
+   Markov-1                            2.602            2.560
+   Markov-1 + END off                  2.594            2.548
+   held-out difference Offset-from-END - Markov-2: 95% CI [+1.754, +1.832] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [-0.093, -0.018] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.013, +0.019] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [+0.128, +0.189] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [-0.001, +0.005] nats/tok
+
+-- (b) PREDICTIVE MODELS [Linear B lines] V 2675; held-out split fit 1804 / test 839 texts; plus 5-fold on all 2643
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            4.659            4.571
+   Markov-2 + L,rem                    4.774            4.681
+   Offset-from-END                     5.520            5.447
+   Offset-from-START                   5.492            5.420
+   Offset-both (i,L)                   5.520            5.447
+   Slot-class bigram                   5.274            5.203
+   Slot-class + END off                5.426            5.351
+   Markov-1                            4.564            4.483
+   Markov-1 + END off                  4.677            4.596
+   held-out difference Offset-from-END - Markov-2: 95% CI [+0.787, +0.939] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [+0.192, +0.304] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.106, +0.126] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [-0.011, +0.068] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [+0.126, +0.180] nats/tok
+
+   NOTE: for Indus the slot-class model uses the S310 frame slots; for the controls a crude first/mid/last majority class.
+
+-- (b) PREDICTIVE MODELS [Indus (crude first/mid/last classes, for comparability)] V 594; held-out split fit 2751 / test 404 texts; plus 5-fold on all 3155
+   model                   held-out nats/tok  5-fold nats/tok
+   Markov-2                            4.649            3.609
+   Markov-2 + L,rem                    4.755            3.644
+   Offset-from-END                     5.102            4.411
+   Offset-from-START                   5.074            4.505
+   Offset-both (i,L)                   5.102            4.411
+   Slot-class bigram                   4.928            4.468
+   Slot-class + END off                5.026            4.465
+   Markov-1                            4.506            3.632
+   Markov-1 + END off                  4.678            3.618
+   held-out difference Offset-from-END - Markov-2: 95% CI [+0.352, +0.550] nats/tok
+   held-out difference Offset-from-END - Slot-class bigram: 95% CI [+0.104, +0.243] nats/tok
+   held-out difference Markov-2 + L,rem - Markov-2: 95% CI [+0.092, +0.122] nats/tok
+   held-out difference Offset-from-END - Offset-from-START: 95% CI [-0.038, +0.101] nats/tok
+   held-out difference Slot-class + END off - Slot-class bigram: 95% CI [+0.074, +0.125] nats/tok

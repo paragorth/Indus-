@@ -52,8 +52,13 @@ class KN2:
         self.vocab = sorted(self.cont); self.V = len(self.vocab); self.cache = {}; self.ccache = {}
         if parent is not None:
             self.vocab = sorted(set(self.vocab) | set(parent.vocab)); self.V = len(self.vocab)
+    def ckey(self, h):
+        # the distribution depends on the full bigram history only if some table has seen it; else on h[1] alone
+        if h in self.c2 or (self.parent is not None and h in self.parent.c2): return h
+        return ('u', h[1])
     def dist(self, h):
-        if h in self.cache: return self.cache[h]
+        ck = self.ckey(h)
+        if ck in self.cache: return self.cache[ck]
         tot = sum(self.cont.values())
         p = {v: (self.cont[v] + 0.5) / (tot + 0.5 * self.V) for v in self.vocab}
         for ctx in ((h[1],), h):
@@ -66,12 +71,13 @@ class KN2:
             n = sum(self.c2.get(h, {}).values()); w = n / (n + self.lam)
             p = {v: w * p.get(v, 0) + (1 - w) * pp.get(v, 0) for v in self.vocab}
         keys = list(p); wts = [p[v] for v in keys]
-        self.cache[h] = (keys, wts); return self.cache[h]
+        self.cache[ck] = (keys, wts); return self.cache[ck]
     def cum(self, h):
-        if h in self.ccache: return self.ccache[h]
+        ck = self.ckey(h)
+        if ck in self.ccache: return self.ccache[ck]
         k, w = self.dist(h); acc = 0.0; cw = []
         for x in w: acc += x; cw.append(acc)
-        self.ccache[h] = (k, cw, acc); return self.ccache[h]
+        self.ccache[ck] = (k, cw, acc); return self.ccache[ck]
     def gen(self, rng):
         import bisect
         out = []; h = (S, S)
