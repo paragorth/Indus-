@@ -415,3 +415,26 @@ if CY==3:
             slots_from_avoidance([o for o in objs if o['ot']=='seal'],'Indus seals',min(NP,60),True)
     print('\n=== SUMMARY cycle 3 (groups, groups>=3, one-per-group share obs/null, avoidance share obs/null)')
     for k,v in R.items(): print(f'    {k:28s} groups {v[0]:3d} big {v[1]:2d}  one-per-group {v[2]:.3f}/{v[3]:.3f}  avoidance {v[4]:.3f}/{v[5]:.3f}')
+
+# =========================== cycle 4: deduplicated populations (one copy per distinct site + middle) ===========================
+def dedup(objs):
+    seen=set(); out=[]
+    for o in objs:
+        k=(o.get('site'),tuple(o['mid']))
+        if k in seen: continue
+        seen.add(k); out.append(o)
+    return out
+if CY==4:
+    R={}
+    pops=[(MID,'Indus '+LV,True),(PUR,'Indus frame-purged',True),([o for o in MID if o['ot']=='seal'],'Indus seals',True),([o for o in MID if o['ot']=='tablet'],'Indus tablets',True),(UR3,'Ur III names',False),(ATTR,'planted attribute code',False),(LEX,'planted lexicon',False)]
+    for objs,label,ind in pops:
+        d=dedup(objs); print(f'\n##### {label}: {len(objs)} -> {len(d)} distinct (site, middle)')
+        so,sn,E,obs=census(d,label+' DEDUP',NP,ind)
+        g1=heldout([o['mid'] for o in d if o['big']],[o['mid'] for o in d if not o['big']],'fit big / test held-out')
+        r=random.Random(3); idx=list(range(len(d))); r.shuffle(idx); gs=[]
+        for f in range(5):
+            te_i=set(idx[f::5]); gs.append(heldout([d[i]['mid'] for i in idx if i not in te_i],[d[i]['mid'] for i in te_i],f'5-fold {f}')[1])
+        mi=adj_mi(d,min(NP,100)); a=mi_fl(d,NP,label+' DEDUP',ind); c=partner_pred(d,min(NP,100),label+' DEDUP',ind)
+        R[label]=(so[0]-sum(x[0] for x in sn)/len(sn),so[2],so[3],g1[1],sum(gs)/5,mi,a,c[0],c[1],len(d))
+    print('\n=== SUMMARY cycle 4 DEDUP (n; share|log2|>1 excess; compounds; exclusions; held-out gain; 5-fold gain; adj MI excess; MI(first,last) %; partner-predictors; mean z)')
+    for k,v in R.items(): print(f'    {k:24s} n={v[9]:5d} share {v[0]:+.3f} comp {v[1]:.3f} excl {v[2]:.3f} gain {v[3]*100:5.1f}% / {v[4]*100:5.1f}%  MI {v[5]:+.3f}  MI(f,l) {v[6]*100:5.1f}%  partners {v[7]:.3f} z {v[8]:.2f}')
