@@ -34,3 +34,54 @@ Residue found independently in other-sites-only Indus (800 texts): 31; in MD+H o
       halves ok; sites ok; z(MDH,other)=-2.9; min|z|(Indus,X)=4.1; otherSites=0.813 MDH=0.797
 
 Statistics where BOTH MD+H and other sites separate from all six others (same direction) but full-corpus did not: 0
+
+Unigram-null control (tokens drawn iid from each corpus unigram distribution, same lengths).
+For each residue statistic: does the Indus value differ from its own unigram null (|z|>zc)? Does Indus_UNI still differ from all six other _UNI corpora (=> inventory/Zipf effect, not sequence/composition)?
+  [9] Indus vs own unigram null z=-2.8; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0663
+  [95] Indus vs own unigram null z=+2.3; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.377
+  [164] Indus vs own unigram null z=+10.1; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0698
+  [177] Indus vs own unigram null z=+2.9; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0638
+  [178] Indus vs own unigram null z=+3.1; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0904
+  [206] Indus vs own unigram null z=+4.2; residue survives in unigram nulls: YES (inventory effect); Indus_UNI=0.0982
+  [246] Indus vs own unigram null z=+3.4; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.179
+  [344] Indus vs own unigram null z=+7.9; residue survives in unigram nulls: YES (inventory effect); Indus_UNI=0.0698
+  [361] Indus vs own unigram null z=+2.4; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0857
+  [363] Indus vs own unigram null z=+3.9; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.24
+  [374] Indus vs own unigram null z=+5.4; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.303
+  [389] Indus vs own unigram null z=+2.6; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.0942
+  [430] Indus vs own unigram null z=+1.7; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.199
+  [485] Indus vs own unigram null z=+5.3; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.135
+  [557] Indus vs own unigram null z=-0.4; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.8
+  [599] Indus vs own unigram null z=-0.4; residue survives in unigram nulls: no (needs real texts); Indus_UNI=0.8
+
+Fraction of 600 statistics on which each real corpus differs from its own unigram null (sequence+composition structure):
+  IND_raw: 0.24 (median |z| 1.42)
+  PE: 0.47 (median |z| 3.93)
+  LA: 0.46 (median |z| 3.64)
+  LB_words: 0.36 (median |z| 2.00)
+  LB_syll: 0.29 (median |z| 1.84)
+  UR3_words: 0.38 (median |z| 1.78)
+  UR3_syll: 0.22 (median |z| 0.56)
+  VOY_words: 0.20 (median |z| 0.68)
+
+Median |z| between UNIGRAM nulls (inventory-only distances):
+        IND_raw        PE        LA  LB_words   LB_syll UR3_words  UR3_syll VOY_words
+  IND_raw      0.00      3.13      1.29      1.10      0.34      3.21      1.61      3.61
+       PE      3.13      0.00      1.96      3.01      3.50      1.58      3.68      6.19
+       LA      1.29      1.96      0.00      1.12      3.02      1.27      2.53      5.81
+ LB_words      1.10      3.01      1.12      0.00      2.45      0.67      3.33      2.64
+  LB_syll      0.34      3.50      3.02      2.45      0.00      3.62      1.30      3.95
+UR3_words      3.21      1.58      1.27      0.67      3.62      0.00      2.17      1.02
+ UR3_syll      1.61      3.68      2.53      3.33      1.30      2.17      0.00      1.42
+VOY_words      3.61      6.19      5.81      2.64      3.95      1.02      1.42      0.00
+
+Median |z| between corpora on "structure residuals" (real minus own unigram null, per statistic; bootstrap sds combined):
+        IND_raw        PE        LA  LB_words   LB_syll UR3_words  UR3_syll VOY_words
+  IND_raw      0.00      2.81      1.39      1.51      0.79      2.20      1.30      1.60
+       PE      2.81      0.00      1.59      1.79      2.57      1.67      3.56      2.90
+       LA      1.39      1.59      0.00      1.32      1.68      2.28      2.36      2.62
+ LB_words      1.51      1.79      1.32      0.00      1.02      1.72      1.99      1.49
+  LB_syll      0.79      2.57      1.68      1.02      0.00      2.03      1.50      1.53
+UR3_words      2.20      1.67      2.28      1.72      2.03      0.00      1.45      1.33
+ UR3_syll      1.30      3.56      2.36      1.99      1.50      1.45      0.00      0.74
+VOY_words      1.60      2.90      2.62      1.49      1.53      1.33      0.74      0.00

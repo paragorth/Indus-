@@ -122,3 +122,41 @@ Indus: fit (MD+Harappa) 2746 texts, test (other named sites) 825 texts, 2627 tes
 ## Indus level seq_all
   [seq_all] baseline sign level: bits=7.511 uniq=1.031 rep=0.271 gram=0.441 units=643
   null replicate 5: bits=-0.116 uniq=-0.039 rep=-0.019 gram=+0.005 joint=7 bpe_bits=+0.061 sub_bits=+0.045 allo_bits=-0.116 base_bits=+6.581 base_uniq=+1.028 base_rep=+0.681
+  null replicate 6: bits=-0.105 uniq=-0.039 rep=-0.014 gram=+0.001 joint=5 bpe_bits=+0.052 sub_bits=+0.039 allo_bits=-0.105 base_bits=+6.551 base_uniq=+1.023 base_rep=+0.686
+    bpe k=60 T=5 s=0             bits=7.466 uniq=1.049 rep=0.560 gram=0.289 units=702
+    bpe k=60 T=5 s=2             bits=7.469 uniq=1.051 rep=0.556 gram=0.284 units=702
+    bpe k=20 T=5 s=0             bits=7.470 uniq=1.035 rep=0.416 gram=0.326 units=663
+    bpe k=20 T=5 s=2             bits=7.471 uniq=1.036 rep=0.422 gram=0.321 units=663
+    bpe k=60 T=1 s=0             bits=7.473 uniq=1.049 rep=0.569 gram=0.287 units=702
+    bpe k=60 T=5 s=1             bits=7.473 uniq=1.052 rep=0.556 gram=0.285 units=702
+    bpe k=40 T=5 s=0             bits=7.474 uniq=1.041 rep=0.478 gram=0.297 units=682
+    bpe k=20 T=5 s=1             bits=7.475 uniq=1.033 rep=0.393 gram=0.337 units=663
+    bpe k=40 T=1 s=0             bits=7.477 uniq=1.045 rep=0.482 gram=0.297 units=682
+    bpe k=10 T=5 s=1             bits=7.477 uniq=1.022 rep=0.349 gram=0.360 units=653
+    bpe k=20 T=1 s=0             bits=7.478 uniq=1.034 rep=0.425 gram=0.320 units=663
+    bpe k=40 T=5 s=1             bits=7.478 uniq=1.039 rep=0.493 gram=0.297 units=682
+    bpe k=40 T=5 s=2             bits=7.478 uniq=1.038 rep=0.493 gram=0.296 units=682
+    bpe k=10 T=5 s=2             bits=7.479 uniq=1.026 rep=0.347 gram=0.356 units=653
+    bpe k=10 T=1 s=0             bits=7.487 uniq=1.025 rep=0.353 gram=0.347 units=653
+    bpe k=5 T=5 s=1              bits=7.490 uniq=1.026 rep=0.274 gram=0.412 units=648
+    bpe k=5 T=5 s=2              bits=7.495 uniq=1.026 rep=0.341 gram=0.383 units=648
+    bpe k=10 T=5 s=0             bits=7.498 uniq=1.028 rep=0.364 gram=0.347 units=653
+    bpe k=5 T=5 s=0              bits=7.501 uniq=1.026 rep=0.340 gram=0.369 units=648
+    bpe k=5 T=1 s=0              bits=7.504 uniq=1.020 rep=0.349 gram=0.371 units=648
+    sign                         bits=7.511 uniq=1.031 rep=0.271 gram=0.441 units=643
+    sub ligs                     bits=7.532 uniq=1.031 rep=0.352 gram=0.441 units=632
+    sub rand3                    bits=7.577 uniq=1.029 rep=0.335 gram=0.441 units=631
+    sub rand5                    bits=7.587 uniq=1.018 rep=0.405 gram=0.441 units=625
+    sub rand0                    bits=7.601 uniq=1.020 rep=0.426 gram=0.441 units=626
+    sub rand4                    bits=7.602 uniq=1.025 rep=0.384 gram=0.441 units=627
+    sub rand1                    bits=7.612 uniq=1.024 rep=0.424 gram=0.441 units=623
+    sub rand2                    bits=7.615 uniq=1.025 rep=0.417 gram=0.441 units=629
+    sub marks                    bits=7.626 uniq=1.015 rep=0.497 gram=0.441 units=614
+    sub all                      bits=7.650 uniq=1.017 rep=0.530 gram=0.441 units=610
+  [seq_all] best per statistic (delta vs sign level):
+    bits  bpe k=60 T=5 s=0             7.466  (sign 7.511, delta -0.046)  bits/sign lower=more predictable
+    uniq  sub marks                    1.015  (sign 1.031, delta -0.016)  uniq ratio lower=texts recur more than bigram
+    rep   bpe k=5 T=5 s=1              0.274  (sign 0.271, delta +0.003)  within-text repetition ratio
+    gram  sub rand5                    0.441  (sign 0.441, delta +0.000)  grammar-covered token share
+    segmentations beating sign level on bits AND (uniq or rep): 8 of 29: bpe k=5 T=1 s=0, bpe k=10 T=1 s=0, bpe k=5 T=5 s=0, bpe k=5 T=5 s=1, bpe k=5 T=5 s=2, bpe k=10 T=5 s=0, bpe k=10 T=5 s=1, bpe k=10 T=5 s=2
+    first merges of best BPE: 760+740 (M347/358+M342); 740+90 (M342+M1); 100+740 (M8+M342); 705+33 (M336+M89); 861+2 (M267+M99/100); 390+740 (M161/162/167/168/169+M342); 32+220 (M87+M59); 820+2 (M391+M99/100); 176+740 (M48+M342); 590+390+740 (M249+M161/162/167/168/169+M342); 740+400 (M342+M176); 705+33+520 (M336+M89+M211)
