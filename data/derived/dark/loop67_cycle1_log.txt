@@ -71,6 +71,40 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
   images with >1 text: 8/21 (goat-antelope: 389-72-48-342 | 389-72-326-342 | 70-112-194-18-211-87-169 | 102-190-48-8-342-373 | 59-112-194-18-211-87-169; two-headed: 112-194-327-342 | 295-87-97-252-97-25-245-245 | 298-99-104-169-295-87-97-252-97-25-245-245 | 345-341-18-252-97-25-245-245; horned-tiger: 336-89-296-342-98 | 53-67-407-124-169; rhino: 204-245-342 | 389-65-72-336-89-194-169 | 65-72-62-342 | 267-402-97-25-245-245-65-72-62-342; ox-antelope: 204-245-358-342 | 53-67-407-124-169 | 245-184-252; elephant: 336-89-296-342 | 336-89-296-342-98; shorthorn-bull: 87-155-169 | 102-59-8-342; Msign363: 59-112-194-18-211-87-169 | 389-407-124-169-373-287-342)
   die-level binding type: many-to-many
 
+## IM77 fs80-only (tablets whose image is a recorded field symbol; image-as-sign faces Msign* dropped), coarse class
+  [IM77 fs80-only class] 88 tablets with complete text and known image; 25 distinct texts; 14 distinct images; 29 distinct text x image pairs
+    204-245-358-342                               n= 19  images: ox-antelope x19
+    65-336-89-407-169-183-169                     n=  9  images: hare x9
+    53-67-407-124-169                             n=  6  images: ox-antelope x3, horned-tiger x2, tiger x1
+    389-407-124-169-373-287-342                   n=  5  images: personage x5
+    389-72-48-342                                 n=  4  images: goat-antelope x4
+    336-89-296-342-98                             n=  4  images: elephant x3, horned-tiger x1
+    345-341-18-252-97-25-245-245                  n=  4  images: unicorn x3, two-headed x1
+    102-190-48-8-342-373                          n=  4  images: goat-antelope x4
+    389-72-326-342                                n=  3  images: goat-antelope x3
+    112-194-327-342                               n=  3  images: two-headed x3
+    336-89-296-342                                n=  3  images: elephant x3
+    70-112-194-18-211-87-169                      n=  3  images: goat-antelope x3
+    171-59-407-169                                n=  3  images: endless-knot x3
+    295-87-97-252-97-25-245-245                   n=  3  images: two-headed x3
+    87-155-169                                    n=  2  images: shorthorn-bull x2
+    65-72-62-342                                  n=  2  images: rhino x2
+    59-112-194-18-211-87-169                      n=  2  images: goat-antelope x2
+    267-402-97-25-245-245-65-72-62-342            n=  2  images: rhino x2
+    204-245-342                                   n=  1  images: rhino x1
+    51-130-149-342-123-102-190                    n=  1  images: buffalo x1
+    389-65-72-336-89-194-169                      n=  1  images: rhino x1
+    87-59-348-342                                 n=  1  images: composite x1
+    298-99-104-169-295-87-97-252-97-25-245-245    n=  1  images: two-headed x1
+    102-59-8-342                                  n=  1  images: shorthorn-bull x1
+    245-184-252                                   n=  1  images: ox-antelope x1
+  texts with >1 image: 3/25 (336-89-296-342-98, 53-67-407-124-169, 345-341-18-252-97-25-245-245)
+  images with >1 text: 7/14 (goat-antelope: 389-72-48-342 | 389-72-326-342 | 70-112-194-18-211-87-169 | 102-190-48-8-342-373 | 59-112-194-18-211-87-169; two-headed: 112-194-327-342 | 295-87-97-252-97-25-245-245 | 298-99-104-169-295-87-97-252-97-25-245-245 | 345-341-18-252-97-25-245-245; horned-tiger: 336-89-296-342-98 | 53-67-407-124-169; rhino: 204-245-342 | 389-65-72-336-89-194-169 | 65-72-62-342 | 267-402-97-25-245-245-65-72-62-342; ox-antelope: 204-245-358-342 | 53-67-407-124-169 | 245-184-252; elephant: 336-89-296-342 | 336-89-296-342-98; shorthorn-bull: 87-155-169 | 102-59-8-342)
+  die-level binding type: many-to-many
+  die-level test (one row per distinct text x image pair; images shuffled among dies): does an image predict its text beyond copying?
+    H(text|image) over 29 dies = 1.323 bits vs null 1.298 [1.185,1.323], P(lower) = 0.9780
+    H(image|text) over 29 dies = 0.302 bits vs null 0.280, P(lower) = 1.0000
+
 ## find-spots per text (IM77 locus = MIC/FEM locus code, level = depth code)
     204-245-358-342                          n=19 loci: 33x5, 17x2, 22x2, 31x2, 36x2, 20x1, 13x1, 30x1, 18x1, 8x1, 39x1
     65-336-89-407-169-183-169                n=10 loci: 33x5, 25x1, 22x1, 30x1, 15x1, 5x1
@@ -99,18 +133,18 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     287-319                                  n= 2 loci: 33x2
 
 ## binding test: image labels shuffled among tablets (1000 x)
-  IM77 fine: MI(text;image) = 3.738 bits, null 2.273 [2.162,2.390], P = 0.0010; H(image)=4.344, H(text)=4.295
-  IM77 fine: H(image|text) = 0.605 bits, null 2.073, P = 0.0010
+  IM77 fine: MI(text;image) = 3.738 bits, null 2.271 [2.170,2.394], P = 0.0010; H(image)=4.344, H(text)=4.295
+  IM77 fine: H(image|text) = 0.605 bits, null 2.072, P = 0.0010
   IM77 fine: identical-text tablet pairs sharing the image: 177/311 = 0.569, null 0.051 [0.029,0.080], P = 0.0010
-  IM77 class: MI(text;image) = 3.342 bits, null 1.840 [1.709,1.980], P = 0.0010; H(image)=3.714, H(text)=4.295
-  IM77 class: H(image|text) = 0.372 bits, null 1.876, P = 0.0010
+  IM77 class: MI(text;image) = 3.342 bits, null 1.837 [1.701,1.973], P = 0.0010; H(image)=3.714, H(text)=4.295
+  IM77 class: H(image|text) = 0.372 bits, null 1.877, P = 0.0010
   IM77 class: identical-text tablet pairs sharing the image: 265/311 = 0.852, null 0.100 [0.064,0.145], P = 0.0010
 
 ## seal baseline (S-DARK-34 / S325): identical-text SEAL pairs sharing the emblem, IM77 seals with a field symbol
-  seals Mohenjodaro fine: 968 seals, 93 seals whose text has >= 2 copies (40 texts): pairs sharing emblem 45/74 = 0.608, null 0.588 [0.500,0.689], P = 0.3816; MI 1.046 vs null 1.020, P = 0.2637
-  seals Mohenjodaro class: 968 seals, 93 seals whose text has >= 2 copies (40 texts): pairs sharing emblem 56/74 = 0.757, null 0.758 [0.676,0.838], P = 0.5684; MI 0.684 vs null 0.657, P = 0.1359
-  seals all fine: 1375 seals, 158 seals whose text has >= 2 copies (65 texts): pairs sharing emblem 83/144 = 0.576, null 0.519 [0.444,0.604], P = 0.1059; MI 1.434 vs null 1.373, P = 0.0430
-  seals all class: 1375 seals, 158 seals whose text has >= 2 copies (65 texts): pairs sharing emblem 102/144 = 0.708, null 0.680 [0.604,0.764], P = 0.2627; MI 0.937 vs null 0.891, P = 0.0509
+  seals Mohenjodaro fine: 968 seals, 93 seals whose text has >= 2 copies (40 texts): pairs sharing emblem 45/74 = 0.608, null 0.590 [0.500,0.689], P = 0.3936; MI 1.046 vs null 1.019, P = 0.2577
+  seals Mohenjodaro class: 968 seals, 93 seals whose text has >= 2 copies (40 texts): pairs sharing emblem 56/74 = 0.757, null 0.756 [0.662,0.838], P = 0.5524; MI 0.684 vs null 0.658, P = 0.1658
+  seals all fine: 1375 seals, 158 seals whose text has >= 2 copies (65 texts): pairs sharing emblem 83/144 = 0.576, null 0.518 [0.438,0.604], P = 0.1049; MI 1.434 vs null 1.373, P = 0.0480
+  seals all class: 1375 seals, 158 seals whose text has >= 2 copies (65 texts): pairs sharing emblem 102/144 = 0.708, null 0.679 [0.604,0.757], P = 0.2557; MI 0.937 vs null 0.892, P = 0.0599
 
 ## Wells (inscriptions.csv TAB:C): symbol field + image-sign faces (W749/753/777/781/782/841/957 occur only on copper tablets)
   level seq_raw: 187 objects; image known 96, "Othr" 51, none 40
@@ -124,7 +158,7 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     3-421-176-100-740-790                         n=  3  images: goat-antelope x3
     798-240-845-61-407                            n=  3  images: tiger x2, gaur x1
     806-235-233-705-33-585-407                    n=  2  images: composite x2
-    744-760-95-595-1-142-617                      n=  2  images: shorthorn-bull x2
+    744-760-95-595-1-142-617                      n=  2  images: unicorn x2
     32-71-407                                     n=  2  images: gaur x2
     806-233-384-740                               n=  2  images: Wsign749 x2
     798-231-705-33-904-100-740                    n=  2  images: Wsign957 x2
@@ -141,13 +175,13 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     806-845-407-850-900-740                       n=  1  images: Wsign777 x1
     3-220-590-405-740                             n=  1  images: Wsign841 x1
     590-405-100-740-790                           n=  1  images: endless-knot x1
-    747-717-95-595-1-142-617                      n=  1  images: shorthorn-bull x1
+    747-717-95-595-1-142-617                      n=  1  images: unicorn x1
     255-435-690-740-900-1-3-424                   n=  1  images: buffalo x1
     255-435-690-740-900-3-422                     n=  1  images: buffalo x1
     904-32-597-142-617                            n=  1  images: composite x1
     503-615-752-740                               n=  1  images: gaur x1
   texts with >1 image: 4/31 (235-705-33-845-407-321-407, 231-17-585-95-520-32-407, 798-240-845-61-407, 806-845-61-407-850-900-740)
-  images with >1 text: 12/18 (Wsign782: 220-17-585-95-520-32-407 | 806-845-61-407-850-900-740; composite: 705-33-923-740-1 | 806-235-233-705-33-585-407 | 3-233-100-740 | 32-220-773-740 | 17-585-388-740 | 904-32-597-142-617; rhino: 503-615-740 | 235-233-222-740; endless-knot: 415-220-845-407 | 590-405-100-740-790; shorthorn-bull: 744-760-95-595-1-142-617 | 747-717-95-595-1-142-617; gaur: 615-343-595 | 32-71-407 | 255-435-690-740-900-1-3-423 | 798-240-845-61-407 | 503-615-752-740; elephant: 706-33-923-740-1 | 706-33-923-740; goat-antelope: 3-421-176-100-740-790 | 231-17-585-95-520-32-407; tiger: 798-240-845-61-407 | 231-17-585-95-520-32-407; Wsign781: 220-17-585-95-520-32-408 | 806-845-61-407-850-900-740; Wsign777: 806-845-407-850-900-740 | 806-845-61-407-850-900-740 | 231-17-585-95-520-32-407; buffalo: 255-435-690-740-900-1-3-424 | 255-435-690-740-900-3-422)
+  images with >1 text: 12/18 (Wsign782: 220-17-585-95-520-32-407 | 806-845-61-407-850-900-740; composite: 705-33-923-740-1 | 806-235-233-705-33-585-407 | 3-233-100-740 | 32-220-773-740 | 17-585-388-740 | 904-32-597-142-617; rhino: 503-615-740 | 235-233-222-740; endless-knot: 415-220-845-407 | 590-405-100-740-790; unicorn: 744-760-95-595-1-142-617 | 747-717-95-595-1-142-617; gaur: 615-343-595 | 32-71-407 | 255-435-690-740-900-1-3-423 | 798-240-845-61-407 | 503-615-752-740; elephant: 706-33-923-740-1 | 706-33-923-740; goat-antelope: 3-421-176-100-740-790 | 231-17-585-95-520-32-407; tiger: 798-240-845-61-407 | 231-17-585-95-520-32-407; Wsign781: 220-17-585-95-520-32-408 | 806-845-61-407-850-900-740; Wsign777: 806-845-407-850-900-740 | 806-845-61-407-850-900-740 | 231-17-585-95-520-32-407; buffalo: 255-435-690-740-900-1-3-424 | 255-435-690-740-900-3-422)
   die-level binding type: many-to-many
   (with Othr as a label)
   [Wells raw, Othr kept] 128 tablets with complete text and known image; 41 distinct texts; 19 distinct images; 54 distinct text x image pairs
@@ -165,7 +199,7 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     3-421-176-100-740-790                         n=  3  images: goat-antelope x3
     235-233-222-740                               n=  3  images: rhino x2, Othr x1
     806-235-233-705-33-585-407                    n=  2  images: composite x2
-    744-760-95-595-1-142-617                      n=  2  images: shorthorn-bull x2
+    744-760-95-595-1-142-617                      n=  2  images: unicorn x2
     32-71-407                                     n=  2  images: gaur x2
     798-231-705-33-904-100-740                    n=  2  images: Wsign957 x2
     220-17-585-95-520-32-407                      n=  1  images: Wsign782 x1
@@ -185,7 +219,7 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     806-233-176-740                               n=  1  images: Othr x1
     806-231-176-740                               n=  1  images: Othr x1
     590-405-100-740-790                           n=  1  images: endless-knot x1
-    747-717-95-595-1-142-617                      n=  1  images: shorthorn-bull x1
+    747-717-95-595-1-142-617                      n=  1  images: unicorn x1
     255-435-690-740-900-1-3-424                   n=  1  images: buffalo x1
     255-435-690-740-900-3-422                     n=  1  images: buffalo x1
     3-422-176-100-740                             n=  1  images: Othr x1
@@ -193,13 +227,35 @@ IM77: 135 copper tablets (all Mohenjodaro); with an image side (fs80): 96; with 
     904-32-597-142-617                            n=  1  images: composite x1
     495-460-365-2-4-407                           n=  1  images: Othr x1
   texts with >1 image: 8/41 (503-615-752-740, 806-233-384-740, 235-705-33-845-407-321-407, 231-17-585-95-520-32-407, 798-240-845-61-407, 235-233-222-740, 17-585-388-740, 806-845-61-407-850-900-740)
-  images with >1 text: 13/19 (Othr: 503-615-752-740 | 806-233-384-740 | 231-17-585-95-520-32-407 | 235-233-222-740 | 861-368-1-142-617-235-233-222-740 | 861-368-1-142-617 | 905-32-597-142-617 | 495-460-365-2-4-407-905-32-597-142-617 | 17-585-388-740 | 831-233-176-740 | 806-233-176-740 | 806-231-176-740 | 3-422-176-100-740 | 798-240-845-61-407 | 235-220-222-740 | 495-460-365-2-4-407; Wsign782: 220-17-585-95-520-32-407 | 806-845-61-407-850-900-740; composite: 705-33-923-740-1 | 806-235-233-705-33-585-407 | 3-233-100-740 | 32-220-773-740 | 17-585-388-740 | 904-32-597-142-617; rhino: 503-615-740 | 235-233-222-740; endless-knot: 415-220-845-407 | 590-405-100-740-790; shorthorn-bull: 744-760-95-595-1-142-617 | 747-717-95-595-1-142-617; gaur: 615-343-595 | 32-71-407 | 255-435-690-740-900-1-3-423 | 798-240-845-61-407 | 503-615-752-740; elephant: 706-33-923-740-1 | 706-33-923-740; goat-antelope: 3-421-176-100-740-790 | 231-17-585-95-520-32-407; tiger: 798-240-845-61-407 | 231-17-585-95-520-32-407; Wsign781: 220-17-585-95-520-32-408 | 806-845-61-407-850-900-740; Wsign777: 806-845-407-850-900-740 | 806-845-61-407-850-900-740 | 231-17-585-95-520-32-407; buffalo: 255-435-690-740-900-1-3-424 | 255-435-690-740-900-3-422)
+  images with >1 text: 13/19 (Othr: 503-615-752-740 | 806-233-384-740 | 231-17-585-95-520-32-407 | 235-233-222-740 | 861-368-1-142-617-235-233-222-740 | 861-368-1-142-617 | 905-32-597-142-617 | 495-460-365-2-4-407-905-32-597-142-617 | 17-585-388-740 | 831-233-176-740 | 806-233-176-740 | 806-231-176-740 | 3-422-176-100-740 | 798-240-845-61-407 | 235-220-222-740 | 495-460-365-2-4-407; Wsign782: 220-17-585-95-520-32-407 | 806-845-61-407-850-900-740; composite: 705-33-923-740-1 | 806-235-233-705-33-585-407 | 3-233-100-740 | 32-220-773-740 | 17-585-388-740 | 904-32-597-142-617; rhino: 503-615-740 | 235-233-222-740; endless-knot: 415-220-845-407 | 590-405-100-740-790; unicorn: 744-760-95-595-1-142-617 | 747-717-95-595-1-142-617; gaur: 615-343-595 | 32-71-407 | 255-435-690-740-900-1-3-423 | 798-240-845-61-407 | 503-615-752-740; elephant: 706-33-923-740-1 | 706-33-923-740; goat-antelope: 3-421-176-100-740-790 | 231-17-585-95-520-32-407; tiger: 798-240-845-61-407 | 231-17-585-95-520-32-407; Wsign781: 220-17-585-95-520-32-408 | 806-845-61-407-850-900-740; Wsign777: 806-845-407-850-900-740 | 806-845-61-407-850-900-740 | 231-17-585-95-520-32-407; buffalo: 255-435-690-740-900-1-3-424 | 255-435-690-740-900-3-422)
   die-level binding type: many-to-many
-  Wells seq_raw: 82 tablets, MI = 3.423 vs null 2.095, P = 0.0010; identical-text pairs sharing image 158/226 = 0.699 vs null 0.074, P = 0.0010
+  Wells seq_raw: 82 tablets, MI = 3.423 vs null 2.090, P = 0.0010; identical-text pairs sharing image 158/226 = 0.699 vs null 0.074, P = 0.0010
   level seq_strong: 187 objects; image known 96, "Othr" 51, none 40
-  Wells seq_strong: 82 tablets, MI = 3.379 vs null 2.057, P = 0.0010; identical-text pairs sharing image 158/230 = 0.687 vs null 0.073, P = 0.0010
+  Wells seq_strong: 82 tablets, MI = 3.379 vs null 2.053, P = 0.0010; identical-text pairs sharing image 158/230 = 0.687 vs null 0.074, P = 0.0010
   level seq_all: 187 objects; image known 96, "Othr" 51, none 40
-  Wells seq_all: 82 tablets, MI = 3.379 vs null 2.057, P = 0.0010; identical-text pairs sharing image 158/230 = 0.687 vs null 0.073, P = 0.0010
-  Wells MD seals seq_raw: 825 seals with emblem, 58 with a duplicated text: pairs sharing emblem 37/40 = 0.925 vs null 0.898, P = 0.4336
-  Wells MD seals seq_all: 825 seals with emblem, 77 with a duplicated text: pairs sharing emblem 50/54 = 0.926 vs null 0.898, P = 0.2458
-  Harappa miniature tablets with a field symbol (IM77): 78 tablets, images [('symbol', 51), ('gharial', 12), ('object/tree', 8), ('hare', 5), ('goat-antelope', 1), ('personage', 1)]; identical-text pairs sharing image 88/94 = 0.936 vs null 0.462, P = 0.0010; MI 1.482 vs 1.061, P = 0.0010
+  Wells seq_all: 82 tablets, MI = 3.379 vs null 2.052, P = 0.0010; identical-text pairs sharing image 158/230 = 0.687 vs null 0.074, P = 0.0010
+
+## Wells find-spots per copper text (area-section prefix: DK, HR, VS, L, SD; depth where given)
+    503-615-752-740                          n=26 areas {'DK': 14, 'VS': 1, 'HR': 5, 'L-': 1, '?': 5} depth ft 1.5-5.8 (n=7)
+    806-845-61-407-850-900-740               n=14 areas {'DK': 8, 'SD': 2, '?': 3, 'VS': 1} depth ft 2.0-10.0 (n=5)
+    235-705-33-845-407-321-407               n=14 areas {'DK': 9, 'SD': 1, '?': 3, 'VS': 1} depth ft 6.0-8.0 (n=2)
+    231-17-585-95-520-32-407                 n= 8 areas {'DK': 2, 'HR': 1, '?': 5} depth ft 4.7-4.7 (n=1)
+    706-33-923-740                           n= 7 areas {'DK': 5, 'VS': 2} depth ft 1.0-5.0 (n=2)
+    798-240-845-61-407                       n= 6 areas {'DK': 4, 'HR': 1, '?': 1} depth ft 6.9-6.9 (n=1)
+    905-32-597-142-617                       n= 6 areas {'DK': 3, 'VS': 1, '?': 2} depth ft 7.0-7.0 (n=1)
+    415-220-845-407                          n= 4 areas {'DK': 3, 'VS': 1} depth ft 7.0-8.0 (n=2)
+    706-33-923-740-1                         n= 4 areas {'DK': 3, 'VS': 1} depth ft 3.0-6.0 (n=2)
+    235-233-222-740                          n= 4 areas {'DK': 3, '?': 1}
+    17-585-388-740                           n= 4 areas {'DK': 3, 'VS': 1} depth ft 4.0-9.9 (n=2)
+    503-615-740                              n= 3 areas {'VS': 2, 'DK': 1} depth ft 3.0-4.5 (n=2)
+    806-235-233-705-33-585-407               n= 3 areas {'VS': 2, '?': 1} depth ft 2.0-4.4 (n=2)
+    806-233-384-740                          n= 3 areas {'DK': 3}
+    900-165                                  n= 3 areas {'DK': 2, '?': 1}
+    5-706                                    n= 3 areas {'DK': 3} depth ft 3.0-5.0 (n=2)
+    233-585-407                              n= 3 areas {'DK': 3} depth ft 3.0-5.0 (n=2)
+    3-421-176-100-740-790                    n= 3 areas {'DK': 3} depth ft 5.6-5.6 (n=1)
+    255-435-690-740-900-3-422                n= 3 areas {'DK': 1, '?': 2}
+    all copper faces by area: {'?': 56, 'DK': 127, 'HR': 15, 'L-': 4, 'VS': 19, 'SD': 5, 'KL': 1}
+  Wells MD seals seq_raw: 825 seals with emblem, 58 with a duplicated text: pairs sharing emblem 37/40 = 0.925 vs null 0.899, P = 0.4416
+  Wells MD seals seq_all: 825 seals with emblem, 77 with a duplicated text: pairs sharing emblem 50/54 = 0.926 vs null 0.899, P = 0.2338
+  Harappa miniature tablets with a field symbol (IM77): 78 tablets, images [('symbol', 51), ('gharial', 12), ('object/tree', 8), ('hare', 5), ('goat-antelope', 1), ('personage', 1)]; identical-text pairs sharing image 88/94 = 0.936 vs null 0.457, P = 0.0010; MI 1.482 vs 1.070, P = 0.0010

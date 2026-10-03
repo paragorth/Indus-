@@ -266,6 +266,15 @@ def cycle1(nperm):
     by_t, by_i = binding_table(it_fine, 'IM77 fine')
     P('\n## IM77 text x image (coarse animal class)')
     binding_table(it_cls, 'IM77 class')
+    P('\n## IM77 fs80-only (tablets whose image is a recorded field symbol; image-as-sign faces Msign* dropped), coarse class')
+    it_fs = [(t, im, oid) for t, im, oid in it_cls if not str(im).startswith('Msign')]
+    binding_table(it_fs, 'IM77 fs80-only class')
+    P('  die-level test (one row per distinct text x image pair; images shuffled among dies): does an image predict its text beyond copying?')
+    dies = sorted(set((t, im) for t, im, _ in it_fs))
+    o, p, mu, lo, hi = shuffle_test(dies, lambda ps: -cond_entropy([(im, t) for t, im in ps]), nperm)
+    P(f'    H(text|image) over {len(dies)} dies = {-o:.3f} bits vs null {-mu:.3f} [{-hi:.3f},{-lo:.3f}], P(lower) = {p:.4f}')
+    o, p, mu, lo, hi = shuffle_test(dies, lambda ps: -cond_entropy(ps), nperm)
+    P(f'    H(image|text) over {len(dies)} dies = {-o:.3f} bits vs null {-mu:.3f}, P(lower) = {p:.4f}')
     # dies and find-spots
     P('\n## find-spots per text (IM77 locus = MIC/FEM locus code, level = depth code)')
     byt = collections.defaultdict(list)
@@ -326,6 +335,18 @@ def cycle1(nperm):
         s, n = pair_agree(pairs)
         o2, p2, mu2, lo2, hi2 = shuffle_test(pairs, lambda ps: pair_agree(ps)[0] / max(1, pair_agree(ps)[1]), nperm)
         P(f'  Wells {level}: {len(pairs)} tablets, MI = {o:.3f} vs null {mu:.3f}, P = {p:.4f}; identical-text pairs sharing image {s}/{n} = {s / max(1, n):.3f} vs null {mu2:.3f}, P = {p2:.4f}')
+    # Wells find-spots (area-section) per text
+    P('\n## Wells find-spots per copper text (area-section prefix: DK, HR, VS, L, SD; depth where given)')
+    wc = wells_copper(W, 'seq_raw'); byt = collections.defaultdict(list)
+    for o in wc:
+        for t in o['texts']:
+            if t['complete']: byt[tuple(t['seq'])].append((o['area'][:2] if o['area'] and o['area'] != '--' else '?', o['depth'], o['cls']))
+    for t, L in sorted(byt.items(), key=lambda kv: -len(kv[1])):
+        if len(L) >= 3:
+            dep = [float(re.sub(r'[^0-9.]', '', d)) for _, d, _ in L if re.search(r'\d', d or '')]
+            P(f'    {fmt(t):40s} n={len(L):2d} areas {dict(collections.Counter(a for a, _, _ in L))}' + (f' depth ft {min(dep):.1f}-{max(dep):.1f} (n={len(dep)})' if dep else ''))
+    areas_all = collections.Counter((f['area'][:2] if f['area'] and f['area'] != '--' else '?') for f in W if f['type'] == 'TAB:C')
+    P(f'    all copper faces by area: {dict(areas_all)}')
     # Wells seal baseline
     seals = [f for f in W if f['type'].startswith('SEAL') and f['site'] == 'Mohenjo-daro' and f['complete'] and wsym_seal(f['symbol'])]
     for level in ('seq_raw', 'seq_all'):
@@ -396,7 +417,11 @@ def cycle2(nperm):
             c2 = collections.Counter(emb(f) for f in l2 if otype(f['type']) == 'SEAL')
             P(f'      last-2 unit {fmt(t[-2:])} elsewhere: {len(l2)} types {dict(collections.Counter(otype(f["type"]) for f in l2))}; seal emblems {dict(c2.most_common(6))}')
         summary.append((t, len(objs), ims, cls, len(ex), len(l3), len(l2)))
-    P('\n## class totals (faces): ' + ', '.join(f'{k}: {v}' for k, v in classes.most_common()))
+    n407 = sum(1 for s in summary if s[0][-1] in (407, 408)); n845 = sum(1 for s in summary if 845 in s[0])
+    f407 = sum(s[1] for s in summary if s[0][-1] in (407, 408)); f845 = sum(s[1] for s in summary if 845 in s[0])
+    P(f'\n## the parser has no W407 closer: distinct copper texts ending in W407/408 (the S306 copper ending): {n407}/{len(summary)} texts, {f407} faces; containing W845: {n845} texts, {f845} faces; '
+      f'name-only texts that end in 407: {sum(1 for s in summary if s[3].startswith("name-only") and s[0][-1] in (407, 408))}/{sum(1 for s in summary if s[3].startswith("name-only"))}')
+    P('## class totals (faces): ' + ', '.join(f'{k}: {v}' for k, v in classes.most_common()))
     P('## distinct texts: ' + ', '.join(f'{k}: {v}' for k, v in collections.Counter(s[3] for s in summary).most_common()))
     # how many copper texts recur exactly on seals / other tablets?
     nex = sum(1 for s in summary if s[4] > 0)
@@ -554,12 +579,12 @@ def cycle4(nperm):
     IM = load_im77(); W = load_wells()
     pairs = json.load(open(DARK + 'loop24_pairs.json'))
     cu = {o['id']: o for o in IM if o['ot'] == 'copper tablet'}
-    wc_raw = {o['cisi']: o for o in wells_copper(W, 'seq_raw')}
-    # alignment via loop24 pairs (text matched; accept 'ok' and 'symbol differ')
+    wc_raw = {o['id']: o for o in wells_copper(W, 'seq_raw')}   # keyed by Wells object id (CISI-less objects share cisi '-')
+    # alignment via loop24 pairs (text matched; accept 'ok' and 'symbol differ'); widx indexes the canonical list = W faces
     agree = disagree = unk = 0; rows = []
     for p in pairs:
         if p['wells']['type'] != 'TAB:C' or p['reason'] not in ('ok', 'symbol differ'): continue
-        o = cu.get(p['text_no']); w = wc_raw.get(p['cisi'])
+        o = cu.get(p['text_no']); w = wc_raw.get(W[p['widx']]['obj'])
         if not o or not w: continue
         wl = w['cls']; il = o['cls']
         if not wl or not il or wl == 'Othr' or str(wl).startswith('Wsign'): unk += 1; rows.append((p['cisi'], p['text_no'], wl, il, 'unk')); continue

@@ -184,9 +184,13 @@ for name, cls in CLS.items():
     r = float(np.corrcoef(za, zb)[0, 1]) if len(za) > 3 else float('nan')
     agree = float(np.mean(np.sign(za) == np.sign(zb))) if len(za) else float('nan')
     strong = [(classes[i], classes[j], Z[i, j], Z[j, i]) for i, j in zip(*iu) if max(abs(Z[i, j]), abs(Z[j, i])) > 2.5]
+    vsym = float(np.var((za + zb) / 2)); vanti = float(np.var((za - zb) / 2))
+    # the same decomposition on null tables (z of one null table against the others): calibration ~ 0.5 / 0.5
+    ZN = (N[0] - N[1:].mean(0)) / (N[1:].std(0) + 1e-9); zna = ZN[iu][m]; znb = ZN.T[iu][m]
+    P(f'   {name}: variance of the symmetric part of z {vsym:.2f} vs antisymmetric (order) part {vanti:.2f} (one null table gives {np.var((zna + znb) / 2):.2f} / {np.var((zna - znb) / 2):.2f})')
     P(f'   {name}: {m.sum()} off-diagonal cell pairs with E >= 3 both ways; corr(z(A->B), z(B->A)) = {r:+.2f}, sign agreement {agree:.2f}; '
       f'cells with |z| > 2.5 in either direction: ' + '; '.join(f'{a}->{b} {z1:+.1f} / {b}->{a} {z2:+.1f}' for a, b, z1, z2 in strong[:10]))
-    SYM[name] = dict(r=r, agree=agree, n=int(m.sum()))
+    SYM[name] = dict(r=r, agree=agree, n=int(m.sum()), vsym=vsym, vanti=vanti)
 
 # ---------------------------------------------------------------- (c) transitivity of the attraction graph
 P('\n## (c) Transitivity: attraction graph among signs (distance >= 2 co-occurrence, die regime, MD+H) vs degree-preserving rewiring')
@@ -231,6 +235,11 @@ for label, mc, ratio in (('S366 (count >= 5, O/E >= 3)', 5, 3.0), ('relaxed (cou
     for v, nb in adj.items():
         for x, y in itertools.combinations(nb, 2):
             if y in adj[x]: tris.add(tuple(sorted((v, x, y))))
+    texts_with = lambda tri: sum(1 for t in TD if all(w in t['seq'] for w in tri))
+    distinct_with = lambda tri: len(set(tuple(t['seq']) for t in TD if all(w in t['seq'] for w in tri)))
+    tw = [(tri, texts_with(tri), distinct_with(tri)) for tri in tris]
+    P(f'      triangles: {len(tw)}; carried by ONE distinct text (all three members co-occur only in copies of a single text): {sum(1 for _, a, d in tw if d == 1)}; '
+      + '; '.join(f'{"-".join(map(str, tri))} {a} texts / {d} distinct' for tri, a, d in sorted(tw, key=lambda x: -x[1])[:12]))
     for name, cls in CLS.items():
         ct = [t for t in tris if all(w in cls for w in t)]
         if not ct: continue
