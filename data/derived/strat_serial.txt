@@ -1,0 +1,164 @@
+Seals with parsed slots: 1996 (corpus seals 2250)
+  Mohenjo-daro: 1191 seals; time-field dated 609; Vats strata 0; MD period 612
+  Harappa: 357 seals; time-field dated 255; Vats strata 205; MD period 0
+Ur III/OB seal-owner names loaded: 23029
+
+================ variant seq_raw ================
+seals with a non-empty middle: 1527; mean middle length 2.95
+
+-- a. same-closer pairs: |delta strat| when middles share first sign (or first two) vs not --
+  Mohenjo-daro [time] n=307 seals, 43 closer groups; prefix1: sharing pairs 66 mean|dt|=2.17 vs non-sharing 4124 mean|dt|=2.07; diff=-0.10; P(sharing closer in time | shuffle)=0.673
+  Mohenjo-daro [time] n=307 seals, 43 closer groups; prefix2: sharing pairs 16 mean|dt|=2.22 vs non-sharing 4174 mean|dt|=2.07; diff=-0.15; P(sharing closer in time | shuffle)=0.634
+  Mohenjo-daro [mdper] n=309 seals, 43 closer groups; prefix1: sharing pairs 69 mean|dt|=0.62 vs non-sharing 4208 mean|dt|=0.58; diff=-0.04; P(sharing closer in time | shuffle)=0.703
+  Mohenjo-daro [mdper] n=309 seals, 43 closer groups; prefix2: sharing pairs 19 mean|dt|=0.58 vs non-sharing 4258 mean|dt|=0.58; diff=+0.01; P(sharing closer in time | shuffle)=0.469
+  Harappa [time] n=117 seals, 20 closer groups; prefix1: sharing pairs 12 mean|dt|=1.67 vs non-sharing 393 mean|dt|=1.83; diff=+0.17; P(sharing closer in time | shuffle)=0.352
+  Harappa [time] prefix2: only 1 sharing pairs, skipped
+  Harappa [strata] n=95 seals, 17 closer groups; prefix1: sharing pairs 8 mean|dt|=1.00 vs non-sharing 281 mean|dt|=1.74; diff=+0.74; P(sharing closer in time | shuffle)=0.042
+  Harappa [strata] prefix2: only 1 sharing pairs, skipped
+
+-- b. per-slot sign distributions: entropy / max entropy, vs uniform null and Ur III syllables --
+  OPENER    n=  253 k=   3 H/Hmax=0.999 (uniform digits with same n,k: 0.996) top1=0.35 top5=1.00 singleton signs=0.00
+  MARKER    n=  204 k=   2 H/Hmax=0.342 (uniform digits with same n,k: 0.996) top1=0.94 top5=1.00 singleton signs=0.00
+  NAME      n= 4512 k= 538 H/Hmax=0.805 (uniform digits with same n,k: 0.990) top1=0.06 top5=0.18 singleton signs=0.41
+  MID-pos1  n= 1527 k= 371 H/Hmax=0.861 (uniform digits with same n,k: 0.978) top1=0.04 top5=0.17 singleton signs=0.52
+  MID-pos2  n= 1183 k= 256 H/Hmax=0.838 (uniform digits with same n,k: 0.979) top1=0.09 top5=0.25 singleton signs=0.45
+  MID-last  n= 1183 k= 265 H/Hmax=0.861 (uniform digits with same n,k: 0.979) top1=0.06 top5=0.18 singleton signs=0.49
+  TITLE     n=  613 k=  50 H/Hmax=0.897 (uniform digits with same n,k: 0.989) top1=0.10 top5=0.34 singleton signs=0.12
+  CLOSER    n=  853 k=  16 H/Hmax=0.428 (uniform digits with same n,k: 0.997) top1=0.70 top5=0.93 singleton signs=0.38
+  SUFFIX    n=   54 k=   2 H/Hmax=0.729 (uniform digits with same n,k: 0.985) top1=0.80 top5=1.00 singleton signs=0.00
+  UrIII syllables all n=71634 k= 761 H/Hmax=0.732 (uniform: 0.999) top1=0.07 top5=0.23 singleton=0.25
+  UrIII 1st syllable  n=23029 k= 333 H/Hmax=0.588 (uniform: 0.999) top1=0.22 top5=0.58 singleton=0.29
+  Zipf slope (top 50): Indus NAME slot -0.70; Ur III syllables -0.75; uniform digits (same n,k) -0.09  [near 0 = flat digits; about -1 = Zipfian words]
+
+-- c. rarefaction: distinct middles vs seals sampled (Indus, Ur III names, planted serials) --
+  n seals   Indus middles   UrIII names   serials(single counter)   serials(per-closer counters)
+     100        96.1           81.7           99.7                      88.0
+     250       233.5          171.6          248.2                     201.5
+     500       447.4          278.4          492.3                     372.3
+    1000       850.3          443.4          971.1                     684.0
+    1527      1248.0          584.0         1459.0                     982.0
+  unique fraction: Indus middles 0.739; Ur III names 0.246; serials 0.914; per-closer serials 0.549
+  final-segment slope (new distinct per added seal): Indus 0.755; Ur III 0.267; serials 0.926; per-closer serials 0.565
+  full seal texts repeated on 2+ distinct seals: 21 texts, 45 seals (2.9%); middles reused under a DIFFERENT closer: 82
+  middles with a repeated sign: observed 25 vs sign-shuffled control 89 (ratio 0.28); serials give ratio about 1
+
+-- d. within-closer Spearman(middle value as mixed-radix number, stratigraphic rank), permutation within closer --
+  Mohenjo-daro [time]: 16 closer groups, 201 seals; pooled Spearman rho=-0.022, two-sided P=0.778; groups with rho>0: 8, rho<0: 8
+      first-middle-sign value rho=-0.054; middle length rho=-0.014 (serials: longer numbers later)
+  Mohenjo-daro [mdper]: 16 closer groups, 202 seals; pooled Spearman rho=-0.050, two-sided P=0.515; groups with rho>0: 7, rho<0: 8
+      first-middle-sign value rho=-0.026; middle length rho=-0.026 (serials: longer numbers later)
+  Harappa [time]: 6 closer groups, 51 seals; pooled Spearman rho=+0.069, two-sided P=0.663; groups with rho>0: 3, rho<0: 2
+      first-middle-sign value rho=-0.201; middle length rho=+0.225 (serials: longer numbers later)
+  Harappa [strata]: 4 closer groups, 38 seals; pooled Spearman rho=-0.008, two-sided P=0.965; groups with rho>0: 2, rho<0: 1
+      first-middle-sign value rho=-0.239; middle length rho=+0.241 (serials: longer numbers later)
+
+================ variant seq_strong ================
+seals with a non-empty middle: 1527; mean middle length 2.95
+
+-- a. same-closer pairs: |delta strat| when middles share first sign (or first two) vs not --
+  Mohenjo-daro [time] n=307 seals, 42 closer groups; prefix1: sharing pairs 71 mean|dt|=2.06 vs non-sharing 4136 mean|dt|=2.07; diff=+0.01; P(sharing closer in time | shuffle)=0.469
+  Mohenjo-daro [time] n=307 seals, 42 closer groups; prefix2: sharing pairs 17 mean|dt|=2.09 vs non-sharing 4190 mean|dt|=2.07; diff=-0.02; P(sharing closer in time | shuffle)=0.502
+  Mohenjo-daro [mdper] n=309 seals, 42 closer groups; prefix1: sharing pairs 74 mean|dt|=0.59 vs non-sharing 4220 mean|dt|=0.58; diff=-0.01; P(sharing closer in time | shuffle)=0.546
+  Mohenjo-daro [mdper] n=309 seals, 42 closer groups; prefix2: sharing pairs 20 mean|dt|=0.55 vs non-sharing 4274 mean|dt|=0.58; diff=+0.03; P(sharing closer in time | shuffle)=0.416
+  Harappa [time] n=117 seals, 20 closer groups; prefix1: sharing pairs 14 mean|dt|=1.71 vs non-sharing 411 mean|dt|=1.81; diff=+0.09; P(sharing closer in time | shuffle)=0.430
+  Harappa [time] prefix2: only 1 sharing pairs, skipped
+  Harappa [strata] n=95 seals, 18 closer groups; prefix1: sharing pairs 9 mean|dt|=1.00 vs non-sharing 290 mean|dt|=1.71; diff=+0.71; P(sharing closer in time | shuffle)=0.040
+  Harappa [strata] prefix2: only 1 sharing pairs, skipped
+
+-- b. per-slot sign distributions: entropy / max entropy, vs uniform null and Ur III syllables --
+  OPENER    n=  253 k=   2 H/Hmax=0.921 (uniform digits with same n,k: 0.997) top1=0.66 top5=1.00 singleton signs=0.00
+  MARKER    n=  204 k=   2 H/Hmax=0.342 (uniform digits with same n,k: 0.997) top1=0.94 top5=1.00 singleton signs=0.00
+  NAME      n= 4512 k= 522 H/Hmax=0.796 (uniform digits with same n,k: 0.991) top1=0.06 top5=0.18 singleton signs=0.42
+  MID-pos1  n= 1527 k= 361 H/Hmax=0.853 (uniform digits with same n,k: 0.979) top1=0.05 top5=0.19 singleton signs=0.53
+  MID-pos2  n= 1183 k= 244 H/Hmax=0.830 (uniform digits with same n,k: 0.980) top1=0.09 top5=0.27 singleton signs=0.44
+  MID-last  n= 1183 k= 254 H/Hmax=0.849 (uniform digits with same n,k: 0.980) top1=0.06 top5=0.20 singleton signs=0.50
+  TITLE     n=  613 k=  48 H/Hmax=0.890 (uniform digits with same n,k: 0.990) top1=0.10 top5=0.35 singleton signs=0.12
+  CLOSER    n=  853 k=  15 H/Hmax=0.434 (uniform digits with same n,k: 0.997) top1=0.70 top5=0.93 singleton signs=0.40
+  SUFFIX    n=   54 k=   2 H/Hmax=0.729 (uniform digits with same n,k: 0.986) top1=0.80 top5=1.00 singleton signs=0.00
+  UrIII syllables all n=71634 k= 761 H/Hmax=0.732 (uniform: 0.999) top1=0.07 top5=0.23 singleton=0.25
+  UrIII 1st syllable  n=23029 k= 333 H/Hmax=0.588 (uniform: 0.999) top1=0.22 top5=0.58 singleton=0.29
+  Zipf slope (top 50): Indus NAME slot -0.74; Ur III syllables -0.75; uniform digits (same n,k) -0.12  [near 0 = flat digits; about -1 = Zipfian words]
+
+-- c. rarefaction: distinct middles vs seals sampled (Indus, Ur III names, planted serials) --
+  n seals   Indus middles   UrIII names   serials(single counter)   serials(per-closer counters)
+     100        96.6           80.2           99.5                      88.6
+     250       231.7          167.7          248.1                     201.0
+     500       443.4          277.5          493.3                     372.6
+    1000       844.2          448.3          972.4                     682.2
+    1527      1238.0          596.0         1464.0                     983.0
+  unique fraction: Indus middles 0.731; Ur III names 0.254; serials 0.921; per-closer serials 0.548
+  final-segment slope (new distinct per added seal): Indus 0.747; Ur III 0.280; serials 0.933; per-closer serials 0.571
+  full seal texts repeated on 2+ distinct seals: 33 texts, 70 seals (4.6%); middles reused under a DIFFERENT closer: 82
+  middles with a repeated sign: observed 27 vs sign-shuffled control 99 (ratio 0.27); serials give ratio about 1
+
+-- d. within-closer Spearman(middle value as mixed-radix number, stratigraphic rank), permutation within closer --
+  Mohenjo-daro [time]: 16 closer groups, 204 seals; pooled Spearman rho=-0.021, two-sided P=0.762; groups with rho>0: 7, rho<0: 9
+      first-middle-sign value rho=-0.085; middle length rho=-0.010 (serials: longer numbers later)
+  Mohenjo-daro [mdper]: 16 closer groups, 205 seals; pooled Spearman rho=-0.052, two-sided P=0.498; groups with rho>0: 7, rho<0: 8
+      first-middle-sign value rho=-0.069; middle length rho=-0.029 (serials: longer numbers later)
+  Harappa [time]: 7 closer groups, 57 seals; pooled Spearman rho=+0.073, two-sided P=0.627; groups with rho>0: 4, rho<0: 2
+      first-middle-sign value rho=-0.218; middle length rho=+0.217 (serials: longer numbers later)
+  Harappa [strata]: 4 closer groups, 39 seals; pooled Spearman rho=-0.011, two-sided P=0.951; groups with rho>0: 2, rho<0: 1
+      first-middle-sign value rho=-0.238; middle length rho=+0.236 (serials: longer numbers later)
+
+================ variant seq_all ================
+seals with a non-empty middle: 1527; mean middle length 2.95
+
+-- a. same-closer pairs: |delta strat| when middles share first sign (or first two) vs not --
+  Mohenjo-daro [time] n=307 seals, 42 closer groups; prefix1: sharing pairs 72 mean|dt|=2.08 vs non-sharing 4135 mean|dt|=2.07; diff=-0.00; P(sharing closer in time | shuffle)=0.499
+  Mohenjo-daro [time] n=307 seals, 42 closer groups; prefix2: sharing pairs 17 mean|dt|=2.09 vs non-sharing 4190 mean|dt|=2.07; diff=-0.02; P(sharing closer in time | shuffle)=0.499
+  Mohenjo-daro [mdper] n=309 seals, 42 closer groups; prefix1: sharing pairs 75 mean|dt|=0.60 vs non-sharing 4219 mean|dt|=0.58; diff=-0.02; P(sharing closer in time | shuffle)=0.590
+  Mohenjo-daro [mdper] n=309 seals, 42 closer groups; prefix2: sharing pairs 20 mean|dt|=0.55 vs non-sharing 4274 mean|dt|=0.58; diff=+0.03; P(sharing closer in time | shuffle)=0.386
+  Harappa [time] n=117 seals, 20 closer groups; prefix1: sharing pairs 14 mean|dt|=1.71 vs non-sharing 415 mean|dt|=1.82; diff=+0.10; P(sharing closer in time | shuffle)=0.413
+  Harappa [time] prefix2: only 1 sharing pairs, skipped
+  Harappa [strata] n=95 seals, 18 closer groups; prefix1: sharing pairs 9 mean|dt|=1.00 vs non-sharing 290 mean|dt|=1.71; diff=+0.71; P(sharing closer in time | shuffle)=0.042
+  Harappa [strata] prefix2: only 1 sharing pairs, skipped
+
+-- b. per-slot sign distributions: entropy / max entropy, vs uniform null and Ur III syllables --
+  OPENER    n=  253 k=   2 H/Hmax=0.921 (uniform digits with same n,k: 0.997) top1=0.66 top5=1.00 singleton signs=0.00
+  MARKER    n=  204 k=   2 H/Hmax=0.342 (uniform digits with same n,k: 0.996) top1=0.94 top5=1.00 singleton signs=0.00
+  NAME      n= 4512 k= 518 H/Hmax=0.795 (uniform digits with same n,k: 0.991) top1=0.06 top5=0.18 singleton signs=0.42
+  MID-pos1  n= 1527 k= 359 H/Hmax=0.852 (uniform digits with same n,k: 0.979) top1=0.05 top5=0.19 singleton signs=0.53
+  MID-pos2  n= 1183 k= 243 H/Hmax=0.830 (uniform digits with same n,k: 0.980) top1=0.09 top5=0.27 singleton signs=0.44
+  MID-last  n= 1183 k= 252 H/Hmax=0.849 (uniform digits with same n,k: 0.980) top1=0.06 top5=0.20 singleton signs=0.50
+  TITLE     n=  613 k=  47 H/Hmax=0.893 (uniform digits with same n,k: 0.990) top1=0.10 top5=0.35 singleton signs=0.11
+  CLOSER    n=  853 k=  15 H/Hmax=0.434 (uniform digits with same n,k: 0.997) top1=0.70 top5=0.93 singleton signs=0.40
+  SUFFIX    n=   54 k=   2 H/Hmax=0.729 (uniform digits with same n,k: 0.986) top1=0.80 top5=1.00 singleton signs=0.00
+  UrIII syllables all n=71634 k= 761 H/Hmax=0.732 (uniform: 0.999) top1=0.07 top5=0.23 singleton=0.25
+  UrIII 1st syllable  n=23029 k= 333 H/Hmax=0.588 (uniform: 0.999) top1=0.22 top5=0.58 singleton=0.29
+  Zipf slope (top 50): Indus NAME slot -0.74; Ur III syllables -0.75; uniform digits (same n,k) -0.09  [near 0 = flat digits; about -1 = Zipfian words]
+
+-- c. rarefaction: distinct middles vs seals sampled (Indus, Ur III names, planted serials) --
+  n seals   Indus middles   UrIII names   serials(single counter)   serials(per-closer counters)
+     100        95.6           82.3           99.7                      88.4
+     250       231.0          169.5          248.4                     200.3
+     500       444.5          283.9          492.7                     372.8
+    1000       838.7          457.7          970.3                     678.3
+    1527      1235.0          608.0         1460.0                     976.0
+  unique fraction: Indus middles 0.728; Ur III names 0.260; serials 0.915; per-closer serials 0.542
+  final-segment slope (new distinct per added seal): Indus 0.752; Ur III 0.285; serials 0.929; per-closer serials 0.565
+  full seal texts repeated on 2+ distinct seals: 33 texts, 71 seals (4.6%); middles reused under a DIFFERENT closer: 83
+  middles with a repeated sign: observed 27 vs sign-shuffled control 105 (ratio 0.26); serials give ratio about 1
+
+-- d. within-closer Spearman(middle value as mixed-radix number, stratigraphic rank), permutation within closer --
+  Mohenjo-daro [time]: 16 closer groups, 204 seals; pooled Spearman rho=-0.007, two-sided P=0.929; groups with rho>0: 8, rho<0: 8
+      first-middle-sign value rho=-0.082; middle length rho=-0.010 (serials: longer numbers later)
+  Mohenjo-daro [mdper]: 16 closer groups, 205 seals; pooled Spearman rho=-0.041, two-sided P=0.574; groups with rho>0: 7, rho<0: 8
+      first-middle-sign value rho=-0.058; middle length rho=-0.029 (serials: longer numbers later)
+  Harappa [time]: 7 closer groups, 58 seals; pooled Spearman rho=+0.092, two-sided P=0.527; groups with rho>0: 4, rho<0: 2
+      first-middle-sign value rho=-0.242; middle length rho=+0.236 (serials: longer numbers later)
+  Harappa [strata]: 4 closer groups, 39 seals; pooled Spearman rho=-0.011, two-sided P=0.950; groups with rho>0: 2, rho<0: 1
+      first-middle-sign value rho=-0.236; middle length rho=+0.236 (serials: longer numbers later)
+
+================ VERDICT ================
+Coverage: 1,996 of 2,250 seals have parsed slots; 1,527 have a non-empty middle (NAME slot). Dated seals: Mohenjo-daro 609 (HARP-style 'time') / 612 (Early-Intermediate-Late); Harappa 255 ('time') / 205 (Vats strata). Same-closer dated seals with a middle: Mohenjo-daro 307, Harappa 95-117. Results are the same on seq_raw, seq_strong and seq_all (no merge dependence).
+
+Prediction 1 (closers/openers = few-valued high digits, middles = many-valued low digits): the SHAPE holds trivially (15 closers vs ~520 middle signs) but the closer digit is not used as a digit: one value (jar) takes 70% of closers (H/Hmax 0.43 vs 0.997 for uniform digits). A counter does not spend 70% of its issues on one high-order value.
+Prediction 2 (shared middle prefix = issued close in time): FAILS. Mohenjo-daro, 43 closer groups, 66-75 prefix-sharing pairs vs ~4,200 others: diff in |delta time| -0.10 to +0.03 levels, P = 0.42-0.70 on both dating schemes, first-sign and two-sign prefixes alike. Harappa 'time': P = 0.35-0.43. Harappa Vats strata: P = 0.04 on 8-9 sharing pairs (1 of 8 tests at 0.05, not robust to the other Harappa scheme; not evidence).
+Prediction 3 (near-uniform digits): FAILS. Middle signs H/Hmax 0.80 (uniform digits: 0.99); Zipf slope of the middle-sign ranks -0.74, identical to Ur III name syllables (-0.75) and far from flat digits (-0.09 to -0.12). 41% of middle signs are singletons; uniform digits would have none.
+Prediction 4 (open class, near-linear growth): PARTLY. Indus middles grow at 0.75 new per added seal, between Ur III names (0.27-0.29) and planted single-counter serials (0.93); a per-office counter model gives 0.57. Unique fraction 0.73 vs names 0.25 vs serials 0.91. But 82 middles recur under DIFFERENT closers and 33 full texts repeat on 70 seals (4.6%); serials forbid both. Middles avoid repeated signs (25-27 vs 89-105 in the sign-shuffled control, ratio 0.27), as words and names do and as counters cannot.
+Test d (issue order): FAILS. Within-closer Spearman of mixed-radix middle value against stratigraphic rank: Mohenjo-daro rho -0.05 to -0.01 (P = 0.5-0.9, 16 groups, 201-205 seals); Harappa rho -0.01 to +0.09 (P = 0.5-0.97). Middle length vs time: Mohenjo-daro -0.01 to -0.03.
+
+Serial-number hypothesis: KILLED. Middles are an open, non-repeating class (the one serial-like trait, already known from S85/S312 and equally expected of names), but their digits are Zipfian with the exact slope of Mesopotamian name syllables, they avoid sign repetition, they recur under different closers, and nothing about them tracks stratigraphic time at either city.
+Strongest single number: Zipf slope of Indus middle signs -0.74 vs Ur III name syllables -0.75 vs uniform digits -0.1 (Mohenjo-daro issue-order rho = -0.02, P = 0.78).
+Caveats: dated material is 76% Mohenjo-daro + Harappa by construction; stratigraphic ranks are coarse (7-8 levels) and Marshall/Mackay periods are known to be unreliable; a time signal finer than one level could not be seen. Wells and IM77 transcriptions were not both run (slot labels exist only for the Wells-based canonical corpus).

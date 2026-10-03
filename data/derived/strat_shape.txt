@@ -1,0 +1,197 @@
+# strat_shape: does form encode function?  (2026-10-03)
+
+## Family check against the Wells shape descriptions (top-200 dossiers)
+stroke          described= 16 keyword-match= 14 misses=[(60, 'A single small vertical line, then anoth'), (61, 'Simple lambda but reversed horizontally,')]
+person          described= 10 keyword-match=  9 misses=[(190, 'Squashed spider, with right two legs sli')]
+fish/animal     described= 10 keyword-match=  7 misses=[(297, 'Prismed light rays, with opposite slanti'), (269, 'Large left and right parentheses surroun'), (215, 'Three stacked leaves, possibly with vert')]
+plant/misc3     described=  8 keyword-match=  5 misses=[(368, 'Vertical stroke with a triangular wing a'), (350, 'Horizontal line with multiple lines out '), (336, 'M with the bottom of the legs connected ')]
+comb/fork/tri4  described=  8 keyword-match=  7 misses=[(405, 'Simple tree with branches at the top')]
+arrow/box5      described=  8 keyword-match=  8 misses=[]
+rect/6          described=  2 keyword-match=  2 misses=[]
+U/jar/leaf7     described= 10 keyword-match=  7 misses=[(798, "The 'pincer' motif. Right-pointing isoco"), (790, 'Simple leaf or diamond, possibly rotated'), (794, 'Leaf with small strokes coming out diago')]
+leaf/diamond8   described=  9 keyword-match=  8 misses=[(840, 'Two vertical leaves, slightly overlappin')]
+bracket9        described=  3 keyword-match=  3 misses=[]
+
+## (a) slot x shape family
+MI(family, slot) = 0.3923 bits*ln; token-shuffle null mean 0.0021, P = 0.0005 (trivial: signs are slot-pure)
+Sign-level control (shuffle family labels over the 684 signs): observed 0.3923, null mean 0.2942, 95th 0.3428, P = 0.0005
+Sign-level, one vote per sign (dominant slot): observed 0.0492, null mean 0.0332, P = 0.0035
+
+family        tokens  CLOSER   COUNT  MARKER    NAME  OPENER  SUFFIX   TITLE   purity  n_signs  signs>=10 with dominant slot
+stroke           2788    0.00    0.45    0.13    0.31    0.00    0.00    0.11   0.45     62    {'COUNT': 11, 'NAME': 11}
+person           1144    0.15    0.06    0.00    0.57    0.00    0.08    0.14   0.57     82    {'SUFFIX': 1, 'NAME': 14, 'TITLE': 2, 'CLOSER': 4}
+fish/animal      1486    0.02    0.09    0.00    0.75    0.00    0.00    0.13   0.75     75    {'NAME': 11, 'CLOSER': 2}
+plant/misc3       782    0.00    0.15    0.00    0.73    0.00    0.00    0.12   0.73     73    {'NAME': 15, 'TITLE': 1}
+comb/fork/tri4   1092    0.00    0.09    0.00    0.72    0.00    0.15    0.04   0.72     72    {'SUFFIX': 1, 'NAME': 15, 'TITLE': 1}
+arrow/box5       1043    0.24    0.09    0.00    0.61    0.00    0.00    0.06   0.61     66    {'NAME': 15, 'CLOSER': 2, 'TITLE': 2}
+rect/6            477    0.07    0.07    0.00    0.77    0.00    0.00    0.09   0.77     56    {'NAME': 9, 'CLOSER': 1}
+U/jar/leaf7      2476    0.48    0.03    0.00    0.40    0.00    0.00    0.09   0.48     77    {'CLOSER': 2, 'NAME': 10, 'TITLE': 2}
+leaf/diamond8    1327    0.00    0.07    0.00    0.55    0.35    0.00    0.04   0.55     81    {'NAME': 15, 'OPENER': 3}
+bracket9          430    0.00    0.08    0.00    0.74    0.00    0.00    0.17   0.74     40    {'NAME': 7, 'TITLE': 1}
+baseline        13045    0.13    0.15    0.03    0.54    0.04    0.02    0.10
+
+Per-family slot purity (max slot share of tokens) vs 2000 random sign sets of the same number of signs:
+  stroke         purity 0.45  null 0.60  P(>=) = 0.881
+  person         purity 0.57  null 0.59  P(>=) = 0.540
+  fish/animal    purity 0.75  null 0.58  P(>=) = 0.088
+  plant/misc3    purity 0.73  null 0.59  P(>=) = 0.130
+  comb/fork/tri4 purity 0.72  null 0.59  P(>=) = 0.139
+  arrow/box5     purity 0.61  null 0.59  P(>=) = 0.415
+  rect/6         purity 0.77  null 0.60  P(>=) = 0.103
+  U/jar/leaf7    purity 0.48  null 0.59  P(>=) = 0.816
+  leaf/diamond8  purity 0.55  null 0.58  P(>=) = 0.618
+  bracket9       purity 0.74  null 0.62  P(>=) = 0.215
+
+## glyph containment (lipi font; base B inside marked M after scale/translation search)
+17127 candidate (base, marked) pairs with >= 90% of the base ink inside the marked sign (freq base >= 8, marked >= 5)
+curated Wells-variant list: 31 pairs, 13 also found by containment
+41 base->marked pairs (extra ink 8-40%, scale>=0.7, base>=55% of ink); 4 ligature candidates (two disjoint components)
+base->marked pairs (W numbers, M via bridge), kind of mark:
+   220(M59) ->  240(M67)  mark=above  extra=0.15 fam=fish/animal->fish/animal n_base=361 n_marked=254
+    95(M18) ->   33(M89)  mark=inside extra=0.36 fam=person->stroke n_base=21 n_marked=241
+   803(M387) ->  820(M391)  mark=inside extra=0.10 fam=leaf/diamond8->leaf/diamond8 n_base=118 n_marked=216
+   850(-) ->  861(M267)  mark=inside extra=0.13 fam=leaf/diamond8->leaf/diamond8 n_base=36 n_marked=209
+   702(-) ->  741(M343)  mark=above  extra=0.27 fam=U/jar/leaf7->U/jar/leaf7 n_base=9 n_marked=195
+    90(M1) ->  100(M8)  mark=inside extra=0.09 fam=person->person n_base=146 n_marked=112
+   702(-) ->  760(M347/M358)  mark=above  extra=0.14 fam=U/jar/leaf7->U/jar/leaf7 n_base=9 n_marked=109
+   705(M336) ->  706(M336)  mark=above  extra=0.13 fam=U/jar/leaf7->U/jar/leaf7 n_base=160 n_marked=80
+   158(-) ->  151(M12)  mark=inside extra=0.40 fam=person->person n_base=28 n_marked=75
+   111(-) ->  125(M28)  mark=inside extra=0.16 fam=person->person n_base=14 n_marked=56
+   790(M261/M373/M374) ->  832(-)  mark=inside extra=0.10 fam=U/jar/leaf7->leaf/diamond8 n_base=41 n_marked=44
+   220(M59) ->  226(M60)  mark=inside extra=0.28 fam=fish/animal->fish/animal n_base=361 n_marked=36
+    33(M89) ->   34(-)  mark=inside extra=0.32 fam=stroke->stroke n_base=241 n_marked=29
+   790(M261/M373/M374) ->  165(-)  mark=inside extra=0.15 fam=U/jar/leaf7->person n_base=41 n_marked=25
+   705(M336) ->  621(M242)  mark=inside extra=0.21 fam=U/jar/leaf7->rect/6 n_base=160 n_marked=22
+    90(M1) ->   95(M18)  mark=inside extra=0.10 fam=person->person n_base=146 n_marked=21
+   702(-) ->  752(-)  mark=above  extra=0.26 fam=U/jar/leaf7->U/jar/leaf7 n_base=9 n_marked=21
+   850(-) ->  877(M284)  mark=inside extra=0.28 fam=leaf/diamond8->leaf/diamond8 n_base=36 n_marked=19
+   838(-) ->  831(-)  mark=inside extra=0.09 fam=leaf/diamond8->leaf/diamond8 n_base=14 n_marked=17
+   790(M261/M373/M374) ->  824(-)  mark=inside extra=0.33 fam=U/jar/leaf7->leaf/diamond8 n_base=41 n_marked=16
+   104(M41) ->  111(-)  mark=inside extra=0.35 fam=person->person n_base=19 n_marked=14
+   630(M244) ->  636(M244)  mark=inside extra=0.20 fam=rect/6->rect/6 n_base=25 n_marked=14
+    61(M124/M125) ->   63(-)  mark=below  extra=0.09 fam=stroke->stroke n_base=64 n_marked=13
+   702(-) ->  703(-)  mark=above  extra=0.16 fam=U/jar/leaf7->U/jar/leaf7 n_base=9 n_marked=12
+   850(-) ->  853(M264)  mark=inside extra=0.33 fam=leaf/diamond8->leaf/diamond8 n_base=36 n_marked=11
+   440(M127) ->  360(M202)  mark=inside extra=0.24 fam=comb/fork/tri4->plant/misc3 n_base=42 n_marked=10
+   850(-) ->  880(M286)  mark=inside extra=0.28 fam=leaf/diamond8->leaf/diamond8 n_base=36 n_marked=10
+   741(M343) ->  746(-)  mark=inside extra=0.12 fam=U/jar/leaf7->U/jar/leaf7 n_base=195 n_marked=9
+   101(-) ->  155(-)  mark=inside extra=0.24 fam=person->person n_base=8 n_marked=8
+   555(M222) ->  556(-)  mark=inside extra=0.12 fam=arrow/box5->arrow/box5 n_base=23 n_marked=8
+   803(M387) ->  804(-)  mark=inside extra=0.16 fam=leaf/diamond8->leaf/diamond8 n_base=118 n_marked=8
+   590(M249) ->  592(-)  mark=inside extra=0.22 fam=arrow/box5->arrow/box5 n_base=168 n_marked=7
+    17(M110/M112) ->   18(M114)  mark=inside extra=0.12 fam=stroke->stroke n_base=69 n_marked=6
+    95(M18) ->  137(M40)  mark=inside extra=0.20 fam=person->person n_base=21 n_marked=6
+   702(-) ->  642(-)  mark=inside extra=0.17 fam=U/jar/leaf7->rect/6 n_base=9 n_marked=6
+   850(-) ->  849(-)  mark=inside extra=0.09 fam=leaf/diamond8->leaf/diamond8 n_base=36 n_marked=6
+    95(M18) ->  132(-)  mark=inside extra=0.18 fam=person->person n_base=21 n_marked=5
+   233(M72) ->  234(-)  mark=inside extra=0.22 fam=fish/animal->fish/animal n_base=172 n_marked=5
+   455(M233) ->  456(M234)  mark=above  extra=0.23 fam=comb/fork/tri4->comb/fork/tri4 n_base=40 n_marked=5
+   527(M254) ->  603(-)  mark=inside extra=0.36 fam=arrow/box5->rect/6 n_base=59 n_marked=5
+   845(M407) ->  842(-)  mark=inside extra=0.09 fam=leaf/diamond8->leaf/diamond8 n_base=21 n_marked=5
+
+## (b) modifier rule: does the added mark shift use in one direction?
+--- pair set: auto (41 pairs)
+[seq_raw] mean pairwise cosine of offsets over 41 pairs = 0.035; within-family random partner null mean 0.032, 95th 0.090, P = 0.4073
+   mean offset (marked - base): CLOSER=-0.00, COUNT=-0.02, MARKER=+0.00, NAME=-0.01, OPENER=+0.04, SUFFIX=-0.03, TITLE=+0.02, initial=+0.08, medial=-0.15, final=+0.07
+   share of pairs moving the same way as the mean, per feature: CLOSER=0.02, COUNT=0.66, MARKER=1.00, NAME=0.37, OPENER=0.05, SUFFIX=0.05, TITLE=0.15, initial=0.51, medial=0.59, final=0.56
+   mark=inside n=33 offset cosine 0.070 vs null 0.033 P=0.156; mean shift initial=+0.11, medial=-0.20, final=+0.09
+   mark=above  n= 7 offset cosine -0.067 vs null 0.075 P=0.881; mean shift NAME=-0.19, TITLE=+0.25
+   mark=below: only 1 pairs
+   mark=side: only 0 pairs
+   per family of the base: n pairs, mean final-share shift, mean NAME-share shift
+     fish/animal    n= 3 final +0.25 NAME +0.00 CLOSER +0.24 COUNT -0.11
+     person         n= 9 final +0.03 NAME -0.07 CLOSER +0.00 COUNT +0.08
+     leaf/diamond8  n= 9 final +0.13 NAME -0.07 CLOSER +0.00 COUNT -0.08
+     U/jar/leaf7    n=11 final +0.09 NAME -0.05 CLOSER +0.00 COUNT -0.08
+     stroke         n= 3 final +0.10 NAME +0.11 CLOSER +0.00 COUNT +0.08
+     rect/6         n= 1 final +0.07 NAME +0.04 CLOSER +0.00 COUNT -0.04
+     comb/fork/tri4 n= 2 final -0.06 NAME -0.06 CLOSER +0.00 COUNT +0.06
+     arrow/box5     n= 3 final -0.15 NAME +0.42 CLOSER -0.29 COUNT +0.09
+   allograph reference (18 strong/probable merges, seq_raw): mean |offset| 0.89 vs modifier pairs 1.30; offset cosine -0.045
+[seq_strong] mean pairwise cosine of offsets over 41 pairs = 0.054; within-family random partner null mean 0.042, 95th 0.103, P = 0.3258
+[seq] mean pairwise cosine of offsets over 41 pairs = 0.045; within-family random partner null mean 0.043, 95th 0.103, P = 0.4193
+--- pair set: curated (31 pairs)
+[seq_raw] mean pairwise cosine of offsets over 31 pairs = 0.109; within-family random partner null mean 0.091, 95th 0.171, P = 0.3243
+   mean offset (marked - base): CLOSER=-0.12, COUNT=-0.05, MARKER=+0.00, NAME=+0.24, OPENER=-0.03, SUFFIX=-0.02, TITLE=-0.02, initial=+0.08, medial=-0.01, final=-0.08
+   share of pairs moving the same way as the mean, per feature: CLOSER=0.19, COUNT=0.71, MARKER=1.00, NAME=0.77, OPENER=0.03, SUFFIX=0.03, TITLE=0.42, initial=0.55, medial=0.52, final=0.65
+   mark=inside n=17 offset cosine 0.009 vs null 0.039 P=0.642; mean shift NAME=+0.17, initial=+0.10, medial=-0.11
+   mark=above  n= 6 offset cosine 0.301 vs null 0.025 P=0.022; mean shift CLOSER=-0.17, NAME=+0.21, initial=+0.11, final=-0.18
+   mark=below  n= 3 offset cosine -0.101 vs null 0.127 P=0.761; mean shift COUNT=-0.15, NAME=+0.16, medial=+0.10, final=-0.10
+   mark=side: only 1 pairs
+   per family of the base: n pairs, mean final-share shift, mean NAME-share shift
+     fish/animal    n= 5 final +0.04 NAME +0.13 CLOSER +0.14 COUNT -0.19
+     U/jar/leaf7    n= 8 final -0.37 NAME +0.45 CLOSER -0.45 COUNT -0.04
+     leaf/diamond8  n= 5 final +0.23 NAME +0.20 CLOSER +0.00 COUNT -0.03
+     comb/fork/tri4 n= 2 final -0.02 NAME +0.05 CLOSER +0.00 COUNT +0.06
+     arrow/box5     n= 3 final -0.15 NAME +0.42 CLOSER -0.29 COUNT +0.08
+     plant/misc3    n= 2 final +0.12 NAME +0.31 CLOSER +0.00 COUNT -0.20
+     person         n= 3 final -0.10 NAME +0.24 CLOSER +0.00 COUNT -0.04
+     rect/6         n= 1 final -0.20 NAME +0.00 CLOSER +0.00 COUNT +0.00
+     bracket9       n= 2 final +0.03 NAME -0.21 CLOSER +0.00 COUNT -0.06
+   allograph reference (18 strong/probable merges, seq_raw): mean |offset| 0.89 vs modifier pairs 1.50; offset cosine -0.045
+[seq_strong] mean pairwise cosine of offsets over 31 pairs = 0.104; within-family random partner null mean 0.093, 95th 0.167, P = 0.3858
+[seq] mean pairwise cosine of offsets over 31 pairs = 0.104; within-family random partner null mean 0.095, 95th 0.171, P = 0.3808
+
+## (c) ligatures: sequence of components or new atom?
+4 glyph-detected + description list -> 13 ligatures tested: 705=700+31, 803=790+390, 806=790+390, 706=700+31, 226=220+32, 335=625+257, 130=90+415, 269=906+255, 880=861+820, 772=700+415, 353=215+34, 518=515+390, 14=440+72
+[seq_raw] lig   comps   seq-score(best order)  seq-null(random comps)  P   full-context cos with best comp  null  P   A-B adjacent?
+   705  700+31   0.56 (31-700)   0.47  0.047      0.54   0.45  0.080   5/4
+   803  790+390   0.57 (790-390)   0.55  0.416      0.51   0.54  0.553   3/0
+   806  790+390   0.55 (790-390)   0.51  0.395      0.53   0.49  0.324   3/0
+   706  700+31   0.57 (31-700)   0.46  0.050      0.54   0.46  0.076   5/4
+   226  220+32   0.65 (220-32)   0.48  0.092      0.77   0.47  0.014   5/67
+   335  625+257   0.41 (625-257)   0.46  0.562      0.33   0.45  0.788   0/0
+   130  90+415   0.30 (415-90)   0.27  0.282      0.24   0.26  0.555   0/0
+   269  906+255   0.21 (906-255)   0.31  0.848      0.20   0.32  0.857   0/0
+   880  861+820   0.95 (861-820)   0.56  0.006      0.95   0.55  0.018   0/1
+   772  700+415   0.37 (415-700)   0.38  0.474      0.28   0.40  0.641   1/0
+   353  215+34   0.82 (215-34)   0.62  0.068      0.80   0.58  0.025   0/0
+   518  515+390   0.43 (515-390)   0.42  0.515      0.40   0.42  0.680   0/0
+    14  440+72   0.45 (72-440)   0.51  0.756      0.43   0.50  0.797   0/0
+  summary [seq_raw]: 3/13 ligatures read as their component sequence (P<0.05); 3/13 share context with a component at all
+[seq] lig   comps   seq-score(best order)  seq-null(random comps)  P   full-context cos with best comp  null  P   A-B adjacent?
+   705  700+31   0.56 (31-700)   0.46  0.045      0.53   0.45  0.084   5/4
+   803  790+390   0.58 (790-390)   0.55  0.389      0.54   0.54  0.479   3/0
+   226  220+32   0.65 (220-32)   0.49  0.100      0.77   0.46  0.013   5/67
+   335  625+257   0.41 (625-257)   0.45  0.516      0.33   0.46  0.841   0/0
+   130  90+415   0.31 (415-90)   0.26  0.270      0.25   0.26  0.531   0/0
+   269  906+255   0.21 (906-255)   0.32  0.854      0.20   0.32  0.863   0/0
+   880  861+820   0.95 (861-820)   0.56  0.004      0.95   0.55  0.025   0/1
+   772  700+415   0.31 (415-700)   0.38  0.533      0.26   0.37  0.636   1/0
+   353  215+34   0.82 (215-34)   0.62  0.080      0.80   0.59  0.032   0/0
+   518  515+390   0.43 (515-390)   0.42  0.547      0.40   0.42  0.687   0/0
+    14  440+72   0.45 (72-440)   0.52  0.772      0.43   0.51  0.817   0/0
+  summary [seq]: 2/11 ligatures read as their component sequence (P<0.05); 3/11 share context with a component at all
+
+## (d) complexity vs frequency, slot, family
+Spearman rho(log freq, complexity) = -0.141 (n=452, p=0.0027); S164 found -0.13
+Rank-frequency fit over 684 signs: slope -1.48, R^2 0.961 (Zipf-like slope ~ -1 would be R^2 near 1 with slope -1)
+complexity by dominant slot (signs with >= 5 tokens):
+  CLOSER  n= 11 median 15.1 mean 18.6
+  COUNT   n= 14 median 18.3 mean 16.6
+  NAME    n=217 median 12.8 mean 14.1
+  OPENER  n=  3 median 10.8 mean 11.2
+  SUFFIX  n=  2 median 9.7 mean 9.7
+  TITLE   n=  9 median 11.1 mean 12.3
+  Kruskal H = 5.84, permutation P = 0.2164
+  after regressing out log frequency: H = 10.55, P = 0.0310; residual medians CLOSER=+1.5, COUNT=+4.4, NAME=-1.3, OPENER=-1.1, SUFFIX=-2.0, TITLE=-2.3
+complexity by family (signs >= 5 tokens): stroke=11.6, person=12.8, fish/animal=13.8, plant/misc3=13.4, comb/fork/tri4=11.6, arrow/box5=12.8, rect/6=19.9, U/jar/leaf7=15.3, leaf/diamond8=12.3, bracket9=9.8
+
+## Verdict: does form encode function?
+(a) Shape family does carry slot information beyond chance grouping of signs (sign-level MI P = 0.0005; one vote per sign P = 0.0035),
+    but no family is slot-pure: purity 0.45-0.77 vs 0.58-0.62 for random sign sets, no family significant (best fish 0.75, P = 0.09).
+    The family signal is carried by a few frequent signs that happen to be frame words: the jar (closer) in the 700s, the
+    diamond/leaf openers in the 800s, stroke numerals in 1-89. Remove those three and the families are ordinary mixed vocabularies.
+(b) FAILS. The added mark does not do one job across families: offset-cosine 0.035 (auto, 41 pairs) and 0.109 (curated, 31 pairs),
+    P = 0.32-0.42 against random within-family partners, on all three merge levels. The one sub-result, mark above the base
+    (fish hat/whiskers, U + tall stroke, 455->456, 702->703; 6 pairs, P = 0.022), is uncorrected and is the known fish qualifier effect (S296).
+    The weak trend of S147/S323 (marked sign -> NAME element, 77% of curated pairs) repeats but is not stronger than drift to the baseline.
+(c) MOSTLY FAILS. 3 of 13 ligatures read as their component sequence (880 = 861+820 is an opener variant; 705/706 = U + tall stroke,
+    P = 0.05); 10 of 13, including leaf+tree 803/806, person+pitchfork 130, U+fork 772, share no context with either component (new atoms).
+    226 = fish + 2 strokes resembles the plain fish (cos 0.77, P = 0.014) but not the sequence 220-32 (S3 found 220-520 instead).
+(d) Script-like, not code-like: frequent signs are simpler (rho = -0.14, P = 0.003, as S164), rank-frequency is a straight log-log line
+    (slope -1.48, R^2 0.96). Complexity by slot is weak (P = 0.22 raw; P = 0.03 only after removing frequency, driven by 14 COUNT signs).
+Overall: form encodes function only where shape and frame word coincide (jar, diamond openers, numerals). The designed-code predictions
+(slot-pure families, one modifier = one job, ligature = component sequence) fail their controls. The inventory looks like an evolved
+pictographic script: shape families are semantic/iconic groups, not grammatical slots. Caveat: lipi font drawings are modern normalisations,
+and 76% of tokens are Mohenjo-daro + Harappa.

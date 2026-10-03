@@ -1,0 +1,855 @@
+
+##################### field seq #####################
+
+=== Harappa HARP tablets [seq] ===
+  texts per phase: 3B 172, 3B/C 359, 3C 101 (total 632)
+  tokens per phase: 3B 414, 3B/C 961, 3C 269
+  signs with n>=8: 43 (distinct signs overall 185)
+  switches per boundary: 3B->3B/C 3, 3B/C->3C 4; total 7; signs switching 7/43
+  concentration index (share at biggest boundary): 0.571
+  JSD adjacent phases: 3B->3B/C 0.069, 3B/C->3C 0.049
+  (i) shuffle control: switches 4.3 (95% 1-9), real 7, p(real>=null) = 0.144
+      per-boundary expected: 3B->3B/C 0.8, 3B/C->3C 3.5
+      concentration null 0.842, real 0.571, p = 0.908; max-JSD null 0.053, real 0.069, p = 0.122
+  (ii) drift simulation calibrated at sigma=0.4: switches 7.7 (real 7); concentration null 0.770, p = 0.925
+       drift per-boundary expected: 3B->3B/C 1.9, 3B/C->3C 5.8
+  biggest boundary 3B/C->3C: 4 switching signs
+    W690 (M149, NAME) - counts [11, 5, 0] n=16
+    W630 (M244, NAME) - counts [2, 6, 0] n=8
+    W435 (M130, NAME) - counts [2, 6, 0] n=8
+    W347 (M?, NAME) - counts [4, 4, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 43 tested signs:
+      OPENER: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.712)
+      TITLE: 0/3 signs switch (expected 0.5; p_high 1.000, p_low 0.590)
+      CLOSER: 0/5 signs switch (expected 0.8; p_high 1.000, p_low 0.406)
+      SUFFIX: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.697)
+      COUNT: 1/6 signs switch (expected 1.0; p_high 0.678, p_low 0.742)
+      NAME: 6/25 signs switch (expected 4.1; p_high 0.103, p_low 0.983)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 1/1, not co-occurring 8/20; profile permutation expected 0.4, p = 0.430
+
+=== Harappa HARP all objects [seq] ===
+  texts per phase: 3B 183, 3B/C 383, 3C 157 (total 723)
+  tokens per phase: 3B 442, 3B/C 1041, 3C 409
+  signs with n>=8: 51 (distinct signs overall 212)
+  switches per boundary: 3B->3B/C 4, 3B/C->3C 3; total 7; signs switching 7/51
+  concentration index (share at biggest boundary): 0.571
+  JSD adjacent phases: 3B->3B/C 0.066, 3B/C->3C 0.068
+  (i) shuffle control: switches 3.2 (95% 0-7), real 7, p(real>=null) = 0.039
+      per-boundary expected: 3B->3B/C 1.3, 3B/C->3C 2.0
+      concentration null 0.760, real 0.571, p = 0.776; max-JSD null 0.044, real 0.068, p = 0.010
+  (ii) drift simulation calibrated at sigma=0.4: switches 7.5 (real 7); concentration null 0.684, p = 0.818
+       drift per-boundary expected: 3B->3B/C 2.7, 3B/C->3C 4.8
+  biggest boundary 3B->3B/C: 4 switching signs
+    W803 (M387, NAME) + counts [0, 8, 7] n=15
+    W717 (M341, NAME) + counts [0, 12, 2] n=14
+    W440 (M127, NAME) + counts [0, 3, 10] n=13
+    W140 (M17, NAME) + counts [0, 10, 2] n=12
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 51 tested signs:
+      OPENER: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.741)
+      TITLE: 0/3 signs switch (expected 0.4; p_high 1.000, p_low 0.629)
+      CLOSER: 0/5 signs switch (expected 0.7; p_high 1.000, p_low 0.470)
+      SUFFIX: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.739)
+      COUNT: 0/7 signs switch (expected 1.0; p_high 1.000, p_low 0.333)
+      NAME: 7/32 signs switch (expected 4.4; p_high 0.029, p_low 1.000)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 0/0, not co-occurring 9/21; profile permutation expected 0.0, p = 1.000
+
+=== Harappa Vats-strata tablets [seq] ===
+  texts per phase: VI+VII 137, V 118, IV 105, III 79, II 70, I 37 (total 546)
+  tokens per phase: VI+VII 355, V 292, IV 301, III 255, II 231, I 123
+  signs with n>=8: 40 (distinct signs overall 176)
+  switches per boundary: VI+VII->V 10, V->IV 8, IV->III 2, III->II 7, II->I 7; total 34; signs switching 20/40
+  concentration index (share at biggest boundary): 0.294
+  JSD adjacent phases: VI+VII->V 0.051, V->IV 0.088, IV->III 0.074, III->II 0.079, II->I 0.088
+  (i) shuffle control: switches 35.4 (95% 23-48), real 34, p(real>=null) = 0.612
+      per-boundary expected: VI+VII->V 2.9, V->IV 4.0, IV->III 6.4, III->II 8.6, II->I 13.5
+      concentration null 0.394, real 0.294, p = 0.919; max-JSD null 0.146, real 0.088, p = 0.987
+  (ii) drift simulation calibrated at sigma=0.4: switches 38.2 (real 34); concentration null 0.321, p = 0.666
+       drift per-boundary expected: VI+VII->V 4.7, V->IV 6.0, IV->III 7.3, III->II 8.5, II->I 11.7
+  biggest boundary VI+VII->V: 10 switching signs
+    W803 (M387, NAME) + counts [0, 1, 3, 6, 3, 4] n=17
+    W2 (M99/100, NAME) - counts [2, 0, 4, 5, 2, 2] n=15
+    W920 (M293, NAME) - counts [1, 0, 2, 4, 3, 3] n=13
+    W320 (M182, NAME) - counts [1, 0, 2, 4, 2, 1] n=10
+    W436 (M?, NAME) + counts [0, 1, 1, 5, 2, 1] n=10
+    W407 (M169, NAME) - counts [1, 0, 1, 5, 2, 1] n=10
+    W413 (M177, NAME) - counts [3, 0, 1, 2, 4, 0] n=10
+    W235 (M65, NAME) + counts [0, 3, 2, 1, 2, 1] n=9
+    W741 (M343, NAME) - counts [2, 0, 2, 2, 2, 0] n=8
+    W798 (M216, NAME) - counts [1, 0, 3, 1, 1, 2] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 40 tested signs:
+      OPENER: 0/1 signs switch (expected 0.5; p_high 1.000, p_low 0.489)
+      TITLE: 1/3 signs switch (expected 1.5; p_high 0.889, p_low 0.490)
+      CLOSER: 1/5 signs switch (expected 2.6; p_high 0.973, p_low 0.160)
+      SUFFIX: 0/1 signs switch (expected 0.5; p_high 1.000, p_low 0.503)
+      COUNT: 2/4 signs switch (expected 2.0; p_high 0.695, p_low 0.700)
+      NAME: 16/26 signs switch (expected 13.0; p_high 0.047, p_low 0.987)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 7/19, not co-occurring 14/171; profile permutation expected 2.1, p = 0.003
+
+=== Harappa Vats-strata seals [seq] ===
+  texts per phase: VI+VII 26, V 32, IV 51, III 54, II 60, I 26 (total 249)
+  tokens per phase: VI+VII 87, V 111, IV 202, III 216, II 262, I 116
+  signs with n>=8: 33 (distinct signs overall 198)
+  switches per boundary: VI+VII->V 12, V->IV 7, IV->III 4, III->II 3, II->I 4; total 30; signs switching 20/33
+  concentration index (share at biggest boundary): 0.400
+  JSD adjacent phases: VI+VII->V 0.239, V->IV 0.129, IV->III 0.101, III->II 0.062, II->I 0.113
+  (i) shuffle control: switches 27.6 (95% 18-37), real 30, p(real>=null) = 0.341
+      per-boundary expected: VI+VII->V 9.1, V->IV 5.9, IV->III 3.0, III->II 2.4, II->I 7.2
+      concentration null 0.357, real 0.400, p = 0.242; max-JSD null 0.187, real 0.239, p = 0.089
+  (ii) drift simulation calibrated at sigma=0.4: switches 31.1 (real 30); concentration null 0.310, p = 0.067
+       drift per-boundary expected: VI+VII->V 8.3, V->IV 6.2, IV->III 4.5, III->II 4.4, II->I 7.8
+  biggest boundary VI+VII->V: 12 switching signs
+    W803 (M387, NAME) + counts [0, 2, 2, 5, 10, 2] n=21
+    W33 (M89, COUNT) + counts [0, 4, 5, 5, 5, 1] n=20
+    W705 (M336, NAME) + counts [0, 1, 3, 7, 6, 2] n=19
+    W741 (M343, NAME) + counts [0, 4, 6, 4, 3, 1] n=18
+    W400 (M176, SUFFIX) + counts [0, 7, 4, 1, 2, 1] n=15
+    W233 (M72, NAME) - counts [1, 0, 2, 3, 6, 3] n=15
+    W900 (M287, NAME) + counts [0, 2, 0, 4, 2, 4] n=12
+    W798 (M216, NAME) + counts [0, 1, 4, 2, 1, 4] n=12
+    W595 (M252, NAME) - counts [1, 0, 1, 2, 5, 1] n=10
+    W368 (M402, NAME) + counts [0, 1, 2, 2, 5, 0] n=10
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 1, 2, 2] n=9
+    W1 (M97/98, COUNT) + counts [0, 2, 1, 4, 2, 0] n=9
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 33 tested signs:
+      OPENER: 0/2 signs switch (expected 1.2; p_high 1.000, p_low 0.154)
+      TITLE: 3/3 signs switch (expected 1.8; p_high 0.197, p_low 1.000)
+      CLOSER: 1/3 signs switch (expected 1.8; p_high 0.942, p_low 0.343)
+      SUFFIX: 2/2 signs switch (expected 1.2; p_high 0.349, p_low 1.000)
+      COUNT: 3/6 signs switch (expected 3.6; p_high 0.859, p_low 0.440)
+      NAME: 11/17 signs switch (expected 10.3; p_high 0.437, p_low 0.808)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 8/27, not co-occurring 18/163; profile permutation expected 3.7, p = 0.042
+
+=== Mohenjo-daro seals (7 levels) [seq] ===
+  texts per phase: Early 36, Int III 119, Int II 91, Int I 134, Late III 144, Late II 72, Late I 66 (total 662)
+  tokens per phase: Early 150, Int III 533, Int II 414, Int I 585, Late III 603, Late II 353, Late I 297
+  signs with n>=8: 74 (distinct signs overall 366)
+  switches per boundary: Early->Int III 23, Int III->Int II 11, Int II->Int I 10, Int I->Late III 3, Late III->Late II 8, Late II->Late I 14; total 69; signs switching 39/74
+  concentration index (share at biggest boundary): 0.333
+  JSD adjacent phases: Early->Int III 0.126, Int III->Int II 0.067, Int II->Int I 0.066, Int I->Late III 0.064, Late III->Late II 0.083, Late II->Late I 0.118
+  (i) shuffle control: switches 83.3 (95% 68-99), real 69, p(real>=null) = 0.970
+      per-boundary expected: Early->Int III 25.0, Int III->Int II 11.0, Int II->Int I 10.3, Int I->Late III 5.9, Late III->Late II 13.0, Late II->Late I 18.1
+      concentration null 0.303, real 0.333, p = 0.250; max-JSD null 0.155, real 0.126, p = 0.918
+  (ii) drift simulation calibrated at sigma=0.0: switches 67.2 (real 69); concentration null 0.332, p = 0.499
+       drift per-boundary expected: Early->Int III 22.1, Int III->Int II 8.2, Int II->Int I 7.9, Int I->Late III 5.3, Late III->Late II 9.7, Late II->Late I 13.9
+  biggest boundary Early->Int III: 23 switching signs
+    W100 (M8, TITLE) + counts [0, 4, 8, 6, 1, 3, 1] n=23
+    W176 (M48, TITLE) + counts [0, 4, 3, 2, 8, 2, 1] n=20
+    W156 (M15, CLOSER) + counts [0, 7, 2, 7, 1, 2, 1] n=20
+    W692 (M150, NAME) + counts [0, 4, 2, 2, 4, 2, 5] n=19
+    W630 (M244, NAME) + counts [0, 1, 3, 2, 6, 3, 2] n=17
+    W840 (M403, NAME) + counts [0, 1, 2, 4, 5, 2, 1] n=15
+    W142 (M25, NAME) + counts [0, 1, 3, 5, 2, 4, 0] n=15
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 2, 1, 2, 6] n=15
+    W617 (M?, CLOSER) + counts [0, 1, 1, 5, 3, 2, 2] n=14
+    W892 (M?, NAME) + counts [0, 2, 3, 6, 2, 0, 0] n=13
+    W388 (M327, NAME) + counts [0, 2, 1, 2, 3, 2, 2] n=12
+    W575 (M197, NAME) + counts [0, 5, 1, 2, 2, 1, 1] n=12
+    W226 (M60, CLOSER) + counts [0, 2, 2, 3, 1, 0, 3] n=11
+    W923 (M296, TITLE) + counts [0, 2, 2, 2, 4, 0, 0] n=10
+    W416 (M173, NAME) + counts [0, 3, 1, 2, 4, 0, 0] n=10
+    W70 (M155, NAME) + counts [0, 2, 2, 2, 3, 0, 1] n=10
+    W5 (M106/107, COUNT) + counts [0, 2, 1, 2, 2, 2, 0] n=9
+    W717 (M341, NAME) + counts [0, 3, 0, 2, 1, 2, 1] n=9
+    W455 (M233, NAME) + counts [0, 2, 1, 1, 2, 1, 1] n=8
+    W555 (M222, TITLE) + counts [0, 1, 0, 2, 2, 1, 2] n=8
+    W171 (M409, NAME) + counts [0, 2, 0, 4, 2, 0, 0] n=8
+    W772 (M348, NAME) + counts [0, 2, 0, 2, 2, 1, 1] n=8
+    W297 (M180, NAME) + counts [0, 1, 2, 1, 3, 1, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 74 tested signs:
+      OPENER: 0/2 signs switch (expected 1.1; p_high 1.000, p_low 0.214)
+      TITLE: 4/5 signs switch (expected 2.6; p_high 0.217, p_low 0.967)
+      CLOSER: 3/7 signs switch (expected 3.7; p_high 0.817, p_low 0.445)
+      SUFFIX: 0/2 signs switch (expected 1.1; p_high 1.000, p_low 0.235)
+      COUNT: 6/10 signs switch (expected 5.2; p_high 0.433, p_low 0.812)
+      NAME: 26/48 signs switch (expected 25.3; p_high 0.472, p_low 0.718)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 7/25, not co-occurring 80/716; profile permutation expected 2.9, p = 0.017
+
+=== Mohenjo-daro seals (3 periods) [seq] ===
+  texts per phase: Early 36, Intermediate 344, Late 288 (total 668)
+  tokens per phase: Early 150, Intermediate 1532, Late 1275
+  signs with n>=8: 74 (distinct signs overall 366)
+  switches per boundary: Early->Intermediate 25, Intermediate->Late 0; total 25; signs switching 25/74
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.123, Intermediate->Late 0.030
+  (i) shuffle control: switches 25.1 (95% 18-32), real 25, p(real>=null) = 0.554
+      per-boundary expected: Early->Intermediate 25.0, Intermediate->Late 0.2
+      concentration null 0.993, real 1.000, p = 0.827; max-JSD null 0.135, real 0.123, p = 0.693
+  (ii) drift simulation calibrated at sigma=0.2: switches 25.3 (real 25); concentration null 0.953, p = 0.299
+       drift per-boundary expected: Early->Intermediate 24.1, Intermediate->Late 1.2
+  biggest boundary Early->Intermediate: 25 switching signs
+    W100 (M8, TITLE) + counts [0, 18, 5] n=23
+    W176 (M48, TITLE) + counts [0, 9, 11] n=20
+    W156 (M15, CLOSER) + counts [0, 16, 4] n=20
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W630 (M244, NAME) + counts [0, 6, 11] n=17
+    W840 (M403, NAME) + counts [0, 7, 10] n=17
+    W142 (M25, NAME) + counts [0, 9, 6] n=15
+    W17 (M110/112, COUNT) + counts [0, 6, 9] n=15
+    W617 (M?, CLOSER) + counts [0, 7, 7] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W388 (M327, NAME) + counts [0, 5, 7] n=12
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W407 (M169, NAME) + counts [0, 6, 5] n=11
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W70 (M155, NAME) + counts [0, 6, 4] n=10
+    W5 (M106/107, COUNT) + counts [0, 5, 4] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W455 (M233, NAME) + counts [0, 4, 4] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+    W171 (M409, NAME) + counts [0, 6, 2] n=8
+    W772 (M348, NAME) + counts [0, 4, 4] n=8
+    W297 (M180, NAME) + counts [0, 4, 4] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 74 tested signs:
+      OPENER: 0/2 signs switch (expected 0.6; p_high 1.000, p_low 0.462)
+      TITLE: 4/5 signs switch (expected 1.7; p_high 0.037, p_low 0.996)
+      CLOSER: 3/7 signs switch (expected 2.4; p_high 0.443, p_low 0.820)
+      SUFFIX: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.435)
+      COUNT: 2/10 signs switch (expected 3.3; p_high 0.909, p_low 0.274)
+      NAME: 16/48 signs switch (expected 16.3; p_high 0.651, p_low 0.558)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 10/10, not co-occurring 290/290; profile permutation expected 10.0, p = 1.000
+
+=== Mohenjo-daro all objects (3 periods) [seq] ===
+  texts per phase: Early 47, Intermediate 416, Late 326 (total 789)
+  tokens per phase: Early 191, Intermediate 1759, Late 1405
+  signs with n>=8: 83 (distinct signs overall 389)
+  switches per boundary: Early->Intermediate 28, Intermediate->Late 0; total 28; signs switching 28/83
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.138, Intermediate->Late 0.032
+  (i) shuffle control: switches 25.6 (95% 19-33), real 28, p(real>=null) = 0.303
+      per-boundary expected: Early->Intermediate 25.4, Intermediate->Late 0.2
+      concentration null 0.991, real 1.000, p = 0.796; max-JSD null 0.121, real 0.138, p = 0.173
+  (ii) drift simulation calibrated at sigma=0.4: switches 28.4 (real 28); concentration null 0.874, p = 0.035
+       drift per-boundary expected: Early->Intermediate 24.7, Intermediate->Late 3.6
+  biggest boundary Early->Intermediate: 28 switching signs
+    W100 (M8, TITLE) + counts [0, 22, 6] n=28
+    W176 (M48, TITLE) + counts [0, 14, 13] n=27
+    W156 (M15, CLOSER) + counts [0, 20, 4] n=24
+    W840 (M403, NAME) + counts [0, 12, 10] n=22
+    W630 (M244, NAME) + counts [0, 6, 14] n=20
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W17 (M110/112, COUNT) + counts [0, 7, 12] n=19
+    W142 (M25, NAME) + counts [0, 11, 7] n=18
+    W407 (M169, NAME) + counts [0, 7, 11] n=18
+    W617 (M?, CLOSER) + counts [0, 9, 8] n=17
+    W388 (M327, NAME) + counts [0, 6, 8] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W70 (M155, NAME) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W455 (M233, NAME) + counts [0, 6, 4] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W772 (M348, NAME) + counts [0, 5, 5] n=10
+    W904 (M?, NAME) + counts [0, 7, 3] n=10
+    W154 (M?, CLOSER) + counts [0, 3, 6] n=9
+    W171 (M409, NAME) + counts [0, 6, 3] n=9
+    W700 (M328, CLOSER) + counts [0, 6, 3] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W35 (M96, NAME) + counts [0, 5, 3] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+    W297 (M180, NAME) + counts [0, 4, 4] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 83 tested signs:
+      OPENER: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.428)
+      TITLE: 4/6 signs switch (expected 2.0; p_high 0.093, p_low 0.985)
+      CLOSER: 5/9 signs switch (expected 3.0; p_high 0.140, p_low 0.961)
+      SUFFIX: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.439)
+      COUNT: 1/10 signs switch (expected 3.3; p_high 0.991, p_low 0.086)
+      NAME: 18/54 signs switch (expected 18.2; p_high 0.626, p_low 0.562)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 13/13, not co-occurring 365/365; profile permutation expected 13.0, p = 1.000
+
+=== Dholavira seals [seq] ===
+  texts per phase: 4 32, 5 26, 6 15 (total 73)
+  tokens per phase: 4 108, 5 87, 6 47
+  signs with n>=8: 3 (distinct signs overall 99)
+  too small for the switch test; coverage only
+
+##################### field seq_strong #####################
+
+=== Harappa HARP tablets [seq_strong] ===
+  texts per phase: 3B 172, 3B/C 359, 3C 101 (total 632)
+  tokens per phase: 3B 414, 3B/C 961, 3C 269
+  signs with n>=8: 43 (distinct signs overall 186)
+  switches per boundary: 3B->3B/C 3, 3B/C->3C 4; total 7; signs switching 7/43
+  concentration index (share at biggest boundary): 0.571
+  JSD adjacent phases: 3B->3B/C 0.069, 3B/C->3C 0.049
+  (i) shuffle control: switches 4.3 (95% 1-9), real 7, p(real>=null) = 0.140
+      per-boundary expected: 3B->3B/C 0.7, 3B/C->3C 3.6
+      concentration null 0.856, real 0.571, p = 0.925; max-JSD null 0.054, real 0.069, p = 0.127
+  (ii) drift simulation calibrated at sigma=0.4: switches 7.9 (real 7); concentration null 0.753, p = 0.935
+       drift per-boundary expected: 3B->3B/C 2.0, 3B/C->3C 5.9
+  biggest boundary 3B/C->3C: 4 switching signs
+    W690 (M149, NAME) - counts [11, 5, 0] n=16
+    W630 (M244, NAME) - counts [2, 6, 0] n=8
+    W435 (M130, NAME) - counts [2, 6, 0] n=8
+    W347 (M?, NAME) - counts [4, 4, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 43 tested signs:
+      OPENER: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.701)
+      TITLE: 0/3 signs switch (expected 0.5; p_high 1.000, p_low 0.577)
+      CLOSER: 0/5 signs switch (expected 0.8; p_high 1.000, p_low 0.390)
+      SUFFIX: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.692)
+      COUNT: 1/6 signs switch (expected 1.0; p_high 0.685, p_low 0.753)
+      NAME: 6/25 signs switch (expected 4.1; p_high 0.121, p_low 0.985)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 1/1, not co-occurring 8/20; profile permutation expected 0.4, p = 0.445
+
+=== Harappa HARP all objects [seq_strong] ===
+  texts per phase: 3B 183, 3B/C 383, 3C 157 (total 723)
+  tokens per phase: 3B 442, 3B/C 1041, 3C 409
+  signs with n>=8: 51 (distinct signs overall 214)
+  switches per boundary: 3B->3B/C 4, 3B/C->3C 3; total 7; signs switching 7/51
+  concentration index (share at biggest boundary): 0.571
+  JSD adjacent phases: 3B->3B/C 0.067, 3B/C->3C 0.068
+  (i) shuffle control: switches 3.3 (95% 0-7), real 7, p(real>=null) = 0.044
+      per-boundary expected: 3B->3B/C 1.3, 3B/C->3C 2.1
+      concentration null 0.767, real 0.571, p = 0.797; max-JSD null 0.044, real 0.068, p = 0.010
+  (ii) drift simulation calibrated at sigma=0.4: switches 7.5 (real 7); concentration null 0.684, p = 0.786
+       drift per-boundary expected: 3B->3B/C 2.6, 3B/C->3C 4.9
+  biggest boundary 3B->3B/C: 4 switching signs
+    W717 (M341, NAME) + counts [0, 12, 2] n=14
+    W440 (M127, NAME) + counts [0, 3, 10] n=13
+    W803 (M387, NAME) + counts [0, 7, 6] n=13
+    W140 (M17, NAME) + counts [0, 10, 2] n=12
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 51 tested signs:
+      OPENER: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.730)
+      TITLE: 0/3 signs switch (expected 0.4; p_high 1.000, p_low 0.651)
+      CLOSER: 0/5 signs switch (expected 0.7; p_high 1.000, p_low 0.472)
+      SUFFIX: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.726)
+      COUNT: 0/7 signs switch (expected 1.0; p_high 1.000, p_low 0.328)
+      NAME: 7/32 signs switch (expected 4.4; p_high 0.029, p_low 1.000)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 0/0, not co-occurring 9/21; profile permutation expected 0.0, p = 1.000
+
+=== Harappa Vats-strata tablets [seq_strong] ===
+  texts per phase: VI+VII 137, V 118, IV 105, III 79, II 70, I 37 (total 546)
+  tokens per phase: VI+VII 355, V 292, IV 301, III 255, II 231, I 123
+  signs with n>=8: 40 (distinct signs overall 176)
+  switches per boundary: VI+VII->V 10, V->IV 8, IV->III 2, III->II 7, II->I 7; total 34; signs switching 20/40
+  concentration index (share at biggest boundary): 0.294
+  JSD adjacent phases: VI+VII->V 0.051, V->IV 0.088, IV->III 0.074, III->II 0.079, II->I 0.088
+  (i) shuffle control: switches 35.0 (95% 23-48), real 34, p(real>=null) = 0.601
+      per-boundary expected: VI+VII->V 2.9, V->IV 4.0, IV->III 6.3, III->II 8.5, II->I 13.4
+      concentration null 0.396, real 0.294, p = 0.929; max-JSD null 0.144, real 0.088, p = 0.981
+  (ii) drift simulation calibrated at sigma=0.4: switches 38.0 (real 34); concentration null 0.317, p = 0.606
+       drift per-boundary expected: VI+VII->V 4.6, V->IV 6.1, IV->III 7.4, III->II 8.4, II->I 11.4
+  biggest boundary VI+VII->V: 10 switching signs
+    W803 (M387, NAME) + counts [0, 1, 3, 6, 3, 4] n=17
+    W2 (M99/100, NAME) - counts [2, 0, 4, 5, 2, 2] n=15
+    W920 (M293, NAME) - counts [1, 0, 2, 4, 3, 3] n=13
+    W320 (M182, NAME) - counts [1, 0, 2, 4, 2, 1] n=10
+    W436 (M?, NAME) + counts [0, 1, 1, 5, 2, 1] n=10
+    W407 (M169, NAME) - counts [1, 0, 1, 5, 2, 1] n=10
+    W413 (M177, NAME) - counts [3, 0, 1, 2, 4, 0] n=10
+    W235 (M65, NAME) + counts [0, 3, 2, 1, 2, 1] n=9
+    W741 (M343, NAME) - counts [2, 0, 2, 2, 2, 0] n=8
+    W798 (M216, NAME) - counts [1, 0, 3, 1, 1, 2] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 40 tested signs:
+      OPENER: 0/1 signs switch (expected 0.5; p_high 1.000, p_low 0.511)
+      TITLE: 1/3 signs switch (expected 1.5; p_high 0.886, p_low 0.510)
+      CLOSER: 1/5 signs switch (expected 2.5; p_high 0.983, p_low 0.174)
+      SUFFIX: 0/1 signs switch (expected 0.5; p_high 1.000, p_low 0.501)
+      COUNT: 2/4 signs switch (expected 2.0; p_high 0.709, p_low 0.710)
+      NAME: 16/26 signs switch (expected 13.0; p_high 0.049, p_low 0.990)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 7/19, not co-occurring 14/171; profile permutation expected 2.1, p = 0.004
+
+=== Harappa Vats-strata seals [seq_strong] ===
+  texts per phase: VI+VII 26, V 32, IV 51, III 54, II 60, I 26 (total 249)
+  tokens per phase: VI+VII 87, V 111, IV 202, III 216, II 262, I 116
+  signs with n>=8: 33 (distinct signs overall 198)
+  switches per boundary: VI+VII->V 12, V->IV 7, IV->III 4, III->II 3, II->I 4; total 30; signs switching 20/33
+  concentration index (share at biggest boundary): 0.400
+  JSD adjacent phases: VI+VII->V 0.239, V->IV 0.129, IV->III 0.101, III->II 0.062, II->I 0.113
+  (i) shuffle control: switches 27.5 (95% 18-38), real 30, p(real>=null) = 0.344
+      per-boundary expected: VI+VII->V 9.0, V->IV 5.9, IV->III 3.0, III->II 2.4, II->I 7.1
+      concentration null 0.357, real 0.400, p = 0.236; max-JSD null 0.187, real 0.239, p = 0.090
+  (ii) drift simulation calibrated at sigma=0.4: switches 30.5 (real 30); concentration null 0.312, p = 0.097
+       drift per-boundary expected: VI+VII->V 8.2, V->IV 6.2, IV->III 4.5, III->II 4.3, II->I 7.4
+  biggest boundary VI+VII->V: 12 switching signs
+    W803 (M387, NAME) + counts [0, 2, 2, 5, 10, 2] n=21
+    W33 (M89, COUNT) + counts [0, 4, 5, 5, 5, 1] n=20
+    W705 (M336, NAME) + counts [0, 1, 3, 7, 6, 2] n=19
+    W741 (M343, NAME) + counts [0, 4, 6, 4, 3, 1] n=18
+    W400 (M176, SUFFIX) + counts [0, 7, 4, 1, 2, 1] n=15
+    W233 (M72, NAME) - counts [1, 0, 2, 3, 6, 3] n=15
+    W900 (M287, NAME) + counts [0, 2, 0, 4, 2, 4] n=12
+    W798 (M216, NAME) + counts [0, 1, 4, 2, 1, 4] n=12
+    W595 (M252, NAME) - counts [1, 0, 1, 2, 5, 1] n=10
+    W368 (M402, NAME) + counts [0, 1, 2, 2, 5, 0] n=10
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 1, 2, 2] n=9
+    W1 (M97/98, COUNT) + counts [0, 2, 1, 4, 2, 0] n=9
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 33 tested signs:
+      OPENER: 0/2 signs switch (expected 1.2; p_high 1.000, p_low 0.140)
+      TITLE: 3/3 signs switch (expected 1.8; p_high 0.217, p_low 1.000)
+      CLOSER: 1/3 signs switch (expected 1.8; p_high 0.946, p_low 0.337)
+      SUFFIX: 2/2 signs switch (expected 1.2; p_high 0.380, p_low 1.000)
+      COUNT: 3/6 signs switch (expected 3.6; p_high 0.855, p_low 0.447)
+      NAME: 11/17 signs switch (expected 10.3; p_high 0.440, p_low 0.798)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 8/27, not co-occurring 18/163; profile permutation expected 3.7, p = 0.039
+
+=== Mohenjo-daro seals (7 levels) [seq_strong] ===
+  texts per phase: Early 36, Int III 119, Int II 91, Int I 134, Late III 144, Late II 72, Late I 66 (total 662)
+  tokens per phase: Early 150, Int III 533, Int II 414, Int I 585, Late III 603, Late II 353, Late I 297
+  signs with n>=8: 73 (distinct signs overall 370)
+  switches per boundary: Early->Int III 23, Int III->Int II 11, Int II->Int I 10, Int I->Late III 3, Late III->Late II 8, Late II->Late I 13; total 68; signs switching 38/73
+  concentration index (share at biggest boundary): 0.338
+  JSD adjacent phases: Early->Int III 0.128, Int III->Int II 0.070, Int II->Int I 0.066, Int I->Late III 0.064, Late III->Late II 0.083, Late II->Late I 0.118
+  (i) shuffle control: switches 81.0 (95% 66-97), real 68, p(real>=null) = 0.957
+      per-boundary expected: Early->Int III 24.3, Int III->Int II 10.6, Int II->Int I 9.9, Int I->Late III 5.8, Late III->Late II 12.6, Late II->Late I 17.7
+      concentration null 0.304, real 0.338, p = 0.199; max-JSD null 0.154, real 0.128, p = 0.890
+  (ii) drift simulation calibrated at sigma=0.0: switches 63.8 (real 68); concentration null 0.346, p = 0.551
+       drift per-boundary expected: Early->Int III 21.8, Int III->Int II 7.8, Int II->Int I 7.3, Int I->Late III 4.8, Late III->Late II 8.7, Late II->Late I 13.3
+  biggest boundary Early->Int III: 23 switching signs
+    W100 (M8, TITLE) + counts [0, 4, 8, 6, 1, 3, 1] n=23
+    W176 (M48, TITLE) + counts [0, 4, 3, 2, 8, 2, 1] n=20
+    W156 (M15, CLOSER) + counts [0, 7, 2, 7, 1, 2, 1] n=20
+    W692 (M150, NAME) + counts [0, 4, 2, 2, 4, 2, 5] n=19
+    W630 (M244, NAME) + counts [0, 1, 3, 2, 6, 3, 2] n=17
+    W840 (M403, NAME) + counts [0, 1, 2, 4, 5, 2, 1] n=15
+    W142 (M25, NAME) + counts [0, 1, 3, 5, 2, 4, 0] n=15
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 2, 1, 2, 6] n=15
+    W617 (M?, CLOSER) + counts [0, 1, 1, 5, 3, 2, 2] n=14
+    W892 (M?, NAME) + counts [0, 2, 3, 6, 2, 0, 0] n=13
+    W388 (M327, NAME) + counts [0, 2, 1, 2, 3, 2, 2] n=12
+    W575 (M197, NAME) + counts [0, 5, 1, 2, 2, 1, 1] n=12
+    W226 (M60, CLOSER) + counts [0, 2, 2, 3, 1, 0, 3] n=11
+    W923 (M296, TITLE) + counts [0, 2, 2, 2, 4, 0, 0] n=10
+    W416 (M173, NAME) + counts [0, 3, 1, 2, 4, 0, 0] n=10
+    W70 (M155, NAME) + counts [0, 2, 2, 2, 3, 0, 1] n=10
+    W5 (M106/107, COUNT) + counts [0, 2, 1, 2, 2, 2, 0] n=9
+    W717 (M341, NAME) + counts [0, 3, 0, 2, 1, 2, 1] n=9
+    W455 (M233, NAME) + counts [0, 2, 1, 1, 2, 1, 1] n=8
+    W555 (M222, TITLE) + counts [0, 1, 0, 2, 2, 1, 2] n=8
+    W171 (M409, NAME) + counts [0, 2, 0, 4, 2, 0, 0] n=8
+    W772 (M348, NAME) + counts [0, 2, 0, 2, 2, 1, 1] n=8
+    W297 (M180, NAME) + counts [0, 1, 2, 1, 3, 1, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 73 tested signs:
+      OPENER: 0/2 signs switch (expected 1.0; p_high 1.000, p_low 0.227)
+      TITLE: 4/5 signs switch (expected 2.6; p_high 0.185, p_low 0.965)
+      CLOSER: 3/7 signs switch (expected 3.7; p_high 0.828, p_low 0.460)
+      SUFFIX: 0/2 signs switch (expected 1.0; p_high 1.000, p_low 0.216)
+      COUNT: 6/10 signs switch (expected 5.2; p_high 0.426, p_low 0.811)
+      NAME: 25/47 signs switch (expected 24.5; p_high 0.503, p_low 0.688)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 7/25, not co-occurring 75/678; profile permutation expected 2.9, p = 0.022
+
+=== Mohenjo-daro seals (3 periods) [seq_strong] ===
+  texts per phase: Early 36, Intermediate 344, Late 288 (total 668)
+  tokens per phase: Early 150, Intermediate 1532, Late 1275
+  signs with n>=8: 73 (distinct signs overall 370)
+  switches per boundary: Early->Intermediate 25, Intermediate->Late 0; total 25; signs switching 25/73
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.124, Intermediate->Late 0.030
+  (i) shuffle control: switches 24.6 (95% 18-32), real 25, p(real>=null) = 0.505
+      per-boundary expected: Early->Intermediate 24.4, Intermediate->Late 0.2
+      concentration null 0.993, real 1.000, p = 0.841; max-JSD null 0.134, real 0.124, p = 0.682
+  (ii) drift simulation calibrated at sigma=0.2: switches 24.4 (real 25); concentration null 0.952, p = 0.279
+       drift per-boundary expected: Early->Intermediate 23.2, Intermediate->Late 1.2
+  biggest boundary Early->Intermediate: 25 switching signs
+    W100 (M8, TITLE) + counts [0, 18, 5] n=23
+    W176 (M48, TITLE) + counts [0, 9, 11] n=20
+    W156 (M15, CLOSER) + counts [0, 16, 4] n=20
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W630 (M244, NAME) + counts [0, 6, 11] n=17
+    W840 (M403, NAME) + counts [0, 7, 10] n=17
+    W142 (M25, NAME) + counts [0, 9, 6] n=15
+    W17 (M110/112, COUNT) + counts [0, 6, 9] n=15
+    W617 (M?, CLOSER) + counts [0, 7, 7] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W388 (M327, NAME) + counts [0, 5, 7] n=12
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W407 (M169, NAME) + counts [0, 6, 5] n=11
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W70 (M155, NAME) + counts [0, 6, 4] n=10
+    W5 (M106/107, COUNT) + counts [0, 5, 4] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W455 (M233, NAME) + counts [0, 4, 4] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+    W171 (M409, NAME) + counts [0, 6, 2] n=8
+    W772 (M348, NAME) + counts [0, 4, 4] n=8
+    W297 (M180, NAME) + counts [0, 4, 4] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 73 tested signs:
+      OPENER: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.456)
+      TITLE: 4/5 signs switch (expected 1.7; p_high 0.041, p_low 0.997)
+      CLOSER: 3/7 signs switch (expected 2.4; p_high 0.444, p_low 0.824)
+      SUFFIX: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.430)
+      COUNT: 2/10 signs switch (expected 3.4; p_high 0.917, p_low 0.272)
+      NAME: 16/47 signs switch (expected 16.1; p_high 0.639, p_low 0.563)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 10/10, not co-occurring 290/290; profile permutation expected 10.0, p = 1.000
+
+=== Mohenjo-daro all objects (3 periods) [seq_strong] ===
+  texts per phase: Early 47, Intermediate 416, Late 326 (total 789)
+  tokens per phase: Early 191, Intermediate 1759, Late 1405
+  signs with n>=8: 83 (distinct signs overall 394)
+  switches per boundary: Early->Intermediate 28, Intermediate->Late 0; total 28; signs switching 28/83
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.138, Intermediate->Late 0.033
+  (i) shuffle control: switches 25.6 (95% 18-33), real 28, p(real>=null) = 0.301
+      per-boundary expected: Early->Intermediate 25.3, Intermediate->Late 0.2
+      concentration null 0.992, real 1.000, p = 0.811; max-JSD null 0.121, real 0.138, p = 0.178
+  (ii) drift simulation calibrated at sigma=0.4: switches 28.5 (real 28); concentration null 0.876, p = 0.032
+       drift per-boundary expected: Early->Intermediate 24.9, Intermediate->Late 3.6
+  biggest boundary Early->Intermediate: 28 switching signs
+    W100 (M8, TITLE) + counts [0, 22, 6] n=28
+    W176 (M48, TITLE) + counts [0, 14, 13] n=27
+    W156 (M15, CLOSER) + counts [0, 20, 4] n=24
+    W840 (M403, NAME) + counts [0, 12, 10] n=22
+    W630 (M244, NAME) + counts [0, 6, 14] n=20
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W17 (M110/112, COUNT) + counts [0, 7, 12] n=19
+    W142 (M25, NAME) + counts [0, 11, 7] n=18
+    W407 (M169, NAME) + counts [0, 7, 11] n=18
+    W617 (M?, CLOSER) + counts [0, 9, 8] n=17
+    W388 (M327, NAME) + counts [0, 6, 8] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W70 (M155, NAME) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W455 (M233, NAME) + counts [0, 6, 4] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W772 (M348, NAME) + counts [0, 5, 5] n=10
+    W904 (M?, NAME) + counts [0, 7, 3] n=10
+    W154 (M?, CLOSER) + counts [0, 3, 6] n=9
+    W171 (M409, NAME) + counts [0, 6, 3] n=9
+    W700 (M328, CLOSER) + counts [0, 6, 3] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W35 (M96, NAME) + counts [0, 5, 3] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+    W297 (M180, NAME) + counts [0, 4, 4] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 83 tested signs:
+      OPENER: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.429)
+      TITLE: 4/6 signs switch (expected 2.0; p_high 0.085, p_low 0.984)
+      CLOSER: 5/9 signs switch (expected 3.0; p_high 0.132, p_low 0.968)
+      SUFFIX: 0/2 signs switch (expected 0.7; p_high 1.000, p_low 0.452)
+      COUNT: 1/10 signs switch (expected 3.3; p_high 0.989, p_low 0.106)
+      NAME: 18/54 signs switch (expected 18.2; p_high 0.637, p_low 0.558)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 13/13, not co-occurring 365/365; profile permutation expected 13.0, p = 1.000
+
+=== Dholavira seals [seq_strong] ===
+  texts per phase: 4 32, 5 26, 6 15 (total 73)
+  tokens per phase: 4 108, 5 87, 6 47
+  signs with n>=8: 3 (distinct signs overall 99)
+  too small for the switch test; coverage only
+
+##################### field seq_raw #####################
+
+=== Harappa HARP tablets [seq_raw] ===
+  texts per phase: 3B 172, 3B/C 359, 3C 101 (total 632)
+  tokens per phase: 3B 414, 3B/C 961, 3C 269
+  signs with n>=8: 41 (distinct signs overall 195)
+  switches per boundary: 3B->3B/C 2, 3B/C->3C 4; total 6; signs switching 6/41
+  concentration index (share at biggest boundary): 0.667
+  JSD adjacent phases: 3B->3B/C 0.067, 3B/C->3C 0.053
+  (i) shuffle control: switches 3.9 (95% 1-8), real 6, p(real>=null) = 0.204
+      per-boundary expected: 3B->3B/C 0.7, 3B/C->3C 3.2
+      concentration null 0.856, real 0.667, p = 0.861; max-JSD null 0.052, real 0.067, p = 0.150
+  (ii) drift simulation calibrated at sigma=0.4: switches 6.7 (real 6); concentration null 0.781, p = 0.823
+       drift per-boundary expected: 3B->3B/C 1.6, 3B/C->3C 5.1
+  biggest boundary 3B/C->3C: 4 switching signs
+    W690 (M149, NAME) - counts [11, 5, 0] n=16
+    W817 (M267, OPENER) - counts [4, 7, 0] n=11
+    W435 (M130, NAME) - counts [2, 6, 0] n=8
+    W347 (M?, NAME) - counts [4, 4, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 41 tested signs:
+      OPENER: 1/3 signs switch (expected 0.4; p_high 0.384, p_low 0.951)
+      TITLE: 0/3 signs switch (expected 0.4; p_high 1.000, p_low 0.620)
+      CLOSER: 0/4 signs switch (expected 0.6; p_high 1.000, p_low 0.515)
+      SUFFIX: 0/2 signs switch (expected 0.3; p_high 1.000, p_low 0.718)
+      COUNT: 1/6 signs switch (expected 0.9; p_high 0.659, p_low 0.789)
+      NAME: 4/23 signs switch (expected 3.4; p_high 0.461, p_low 0.837)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 2/2, not co-occurring 5/13; profile permutation expected 0.9, p = 0.217
+
+=== Harappa HARP all objects [seq_raw] ===
+  texts per phase: 3B 183, 3B/C 383, 3C 157 (total 723)
+  tokens per phase: 3B 442, 3B/C 1041, 3C 409
+  signs with n>=8: 51 (distinct signs overall 224)
+  switches per boundary: 3B->3B/C 4, 3B/C->3C 2; total 6; signs switching 6/51
+  concentration index (share at biggest boundary): 0.667
+  JSD adjacent phases: 3B->3B/C 0.070, 3B/C->3C 0.065
+  (i) shuffle control: switches 3.4 (95% 1-7), real 6, p(real>=null) = 0.130
+      per-boundary expected: 3B->3B/C 1.3, 3B/C->3C 2.1
+      concentration null 0.763, real 0.667, p = 0.719; max-JSD null 0.046, real 0.070, p = 0.014
+  (ii) drift simulation calibrated at sigma=0.4: switches 7.5 (real 6); concentration null 0.692, p = 0.616
+       drift per-boundary expected: 3B->3B/C 2.6, 3B/C->3C 5.0
+  biggest boundary 3B->3B/C: 4 switching signs
+    W440 (M127, NAME) + counts [0, 3, 10] n=13
+    W140 (M17, NAME) + counts [0, 10, 2] n=12
+    W711 (M341, NAME) + counts [0, 10, 2] n=12
+    W806 (M387, NAME) + counts [0, 6, 3] n=9
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 51 tested signs:
+      OPENER: 0/3 signs switch (expected 0.3; p_high 1.000, p_low 0.688)
+      TITLE: 0/3 signs switch (expected 0.3; p_high 1.000, p_low 0.699)
+      CLOSER: 0/4 signs switch (expected 0.5; p_high 1.000, p_low 0.591)
+      SUFFIX: 0/2 signs switch (expected 0.2; p_high 1.000, p_low 0.776)
+      COUNT: 0/7 signs switch (expected 0.8; p_high 1.000, p_low 0.393)
+      NAME: 6/32 signs switch (expected 3.8; p_high 0.045, p_low 1.000)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 0/0, not co-occurring 7/15; profile permutation expected 0.0, p = 1.000
+
+=== Harappa Vats-strata tablets [seq_raw] ===
+  texts per phase: VI+VII 137, V 118, IV 105, III 79, II 70, I 37 (total 546)
+  tokens per phase: VI+VII 355, V 292, IV 301, III 255, II 231, I 123
+  signs with n>=8: 38 (distinct signs overall 187)
+  switches per boundary: VI+VII->V 8, V->IV 9, IV->III 2, III->II 8, II->I 8; total 35; signs switching 21/38
+  concentration index (share at biggest boundary): 0.257
+  JSD adjacent phases: VI+VII->V 0.048, V->IV 0.087, IV->III 0.078, III->II 0.084, II->I 0.099
+  (i) shuffle control: switches 34.8 (95% 23-48), real 35, p(real>=null) = 0.508
+      per-boundary expected: VI+VII->V 2.9, V->IV 4.1, IV->III 6.3, III->II 8.4, II->I 13.0
+      concentration null 0.391, real 0.257, p = 0.980; max-JSD null 0.143, real 0.099, p = 0.925
+  (ii) drift simulation calibrated at sigma=0.4: switches 35.2 (real 35); concentration null 0.329, p = 0.898
+       drift per-boundary expected: VI+VII->V 4.4, V->IV 5.5, IV->III 6.5, III->II 7.8, II->I 11.0
+  biggest boundary V->IV: 9 switching signs
+    W2 (M99/100, NAME) + counts [2, 0, 4, 5, 2, 2] n=15
+    W920 (M293, NAME) + counts [1, 0, 2, 4, 3, 3] n=13
+    W705 (M336, NAME) - counts [2, 3, 0, 1, 4, 1] n=11
+    W803 (M387, NAME) + counts [0, 0, 1, 5, 3, 1] n=10
+    W407 (M169, NAME) + counts [1, 0, 1, 5, 2, 1] n=10
+    W413 (M177, NAME) + counts [3, 0, 1, 2, 4, 0] n=10
+    W741 (M343, NAME) + counts [2, 0, 2, 2, 2, 0] n=8
+    W318 (M?, NAME) + counts [0, 0, 1, 4, 2, 1] n=8
+    W798 (M216, NAME) + counts [1, 0, 3, 1, 1, 2] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 38 tested signs:
+      OPENER: 0/1 signs switch (expected 0.6; p_high 1.000, p_low 0.431)
+      TITLE: 1/3 signs switch (expected 1.7; p_high 0.923, p_low 0.385)
+      CLOSER: 2/5 signs switch (expected 2.8; p_high 0.901, p_low 0.394)
+      SUFFIX: 0/1 signs switch (expected 0.5; p_high 1.000, p_low 0.460)
+      COUNT: 2/4 signs switch (expected 2.2; p_high 0.762, p_low 0.646)
+      NAME: 16/24 signs switch (expected 13.2; p_high 0.061, p_low 0.988)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 3/16, not co-occurring 16/194; profile permutation expected 1.4, p = 0.148
+
+=== Harappa Vats-strata seals [seq_raw] ===
+  texts per phase: VI+VII 26, V 32, IV 51, III 54, II 60, I 26 (total 249)
+  tokens per phase: VI+VII 87, V 111, IV 202, III 216, II 262, I 116
+  signs with n>=8: 36 (distinct signs overall 206)
+  switches per boundary: VI+VII->V 12, V->IV 9, IV->III 5, III->II 3, II->I 6; total 35; signs switching 24/36
+  concentration index (share at biggest boundary): 0.343
+  JSD adjacent phases: VI+VII->V 0.239, V->IV 0.147, IV->III 0.115, III->II 0.069, II->I 0.135
+  (i) shuffle control: switches 34.1 (95% 24-45), real 35, p(real>=null) = 0.466
+      per-boundary expected: VI+VII->V 11.1, V->IV 7.3, IV->III 3.9, III->II 3.0, II->I 8.8
+      concentration null 0.348, real 0.343, p = 0.516; max-JSD null 0.211, real 0.239, p = 0.224
+  (ii) drift simulation calibrated at sigma=2.0: switches 36.5 (real 35); concentration null 0.327, p = 0.332
+       drift per-boundary expected: VI+VII->V 10.9, V->IV 8.2, IV->III 6.8, III->II 5.7, II->I 4.9
+  biggest boundary VI+VII->V: 12 switching signs
+    W33 (M89, COUNT) + counts [0, 4, 5, 5, 5, 1] n=20
+    W741 (M343, NAME) + counts [0, 4, 6, 4, 3, 1] n=18
+    W400 (M176, SUFFIX) + counts [0, 7, 4, 1, 2, 1] n=15
+    W233 (M72, NAME) - counts [1, 0, 2, 3, 6, 3] n=15
+    W900 (M287, NAME) + counts [0, 2, 0, 4, 2, 4] n=12
+    W798 (M216, NAME) + counts [0, 1, 4, 2, 1, 4] n=12
+    W705 (M336, NAME) + counts [0, 1, 1, 3, 5, 1] n=11
+    W595 (M252, NAME) - counts [1, 0, 1, 2, 5, 1] n=10
+    W368 (M402, NAME) + counts [0, 1, 2, 2, 5, 0] n=10
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 1, 2, 2] n=9
+    W1 (M97/98, COUNT) + counts [0, 2, 1, 4, 2, 0] n=9
+    W803 (M387, NAME) + counts [0, 2, 2, 1, 3, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 36 tested signs:
+      OPENER: 1/3 signs switch (expected 2.0; p_high 0.973, p_low 0.249)
+      TITLE: 3/3 signs switch (expected 2.0; p_high 0.285, p_low 1.000)
+      CLOSER: 1/3 signs switch (expected 2.0; p_high 0.970, p_low 0.260)
+      SUFFIX: 2/2 signs switch (expected 1.3; p_high 0.430, p_low 1.000)
+      COUNT: 3/6 signs switch (expected 4.0; p_high 0.926, p_low 0.316)
+      NAME: 14/19 signs switch (expected 12.7; p_high 0.277, p_low 0.908)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 5/37, not co-occurring 25/239; profile permutation expected 4.0, p = 0.371
+
+=== Mohenjo-daro seals (7 levels) [seq_raw] ===
+  texts per phase: Early 36, Int III 119, Int II 91, Int I 134, Late III 144, Late II 72, Late I 66 (total 662)
+  tokens per phase: Early 150, Int III 533, Int II 414, Int I 585, Late III 603, Late II 353, Late I 297
+  signs with n>=8: 75 (distinct signs overall 384)
+  switches per boundary: Early->Int III 21, Int III->Int II 12, Int II->Int I 10, Int I->Late III 3, Late III->Late II 9, Late II->Late I 13; total 68; signs switching 37/75
+  concentration index (share at biggest boundary): 0.309
+  JSD adjacent phases: Early->Int III 0.129, Int III->Int II 0.069, Int II->Int I 0.065, Int I->Late III 0.065, Late III->Late II 0.086, Late II->Late I 0.130
+  (i) shuffle control: switches 81.5 (95% 66-98), real 68, p(real>=null) = 0.957
+      per-boundary expected: Early->Int III 25.2, Int III->Int II 10.5, Int II->Int I 9.7, Int I->Late III 5.6, Late III->Late II 12.6, Late II->Late I 17.9
+      concentration null 0.312, real 0.309, p = 0.498; max-JSD null 0.162, real 0.130, p = 0.934
+  (ii) drift simulation calibrated at sigma=0.0: switches 63.3 (real 68); concentration null 0.346, p = 0.778
+       drift per-boundary expected: Early->Int III 21.7, Int III->Int II 7.7, Int II->Int I 7.4, Int I->Late III 4.6, Late III->Late II 8.6, Late II->Late I 13.3
+  biggest boundary Early->Int III: 21 switching signs
+    W100 (M8, TITLE) + counts [0, 4, 8, 6, 1, 3, 1] n=23
+    W176 (M48, TITLE) + counts [0, 4, 3, 2, 8, 2, 1] n=20
+    W156 (M15, CLOSER) + counts [0, 7, 2, 7, 1, 2, 1] n=20
+    W692 (M150, NAME) + counts [0, 4, 2, 2, 4, 2, 5] n=19
+    W840 (M403, NAME) + counts [0, 1, 2, 4, 5, 2, 1] n=15
+    W142 (M25, NAME) + counts [0, 1, 3, 5, 2, 4, 0] n=15
+    W17 (M110/112, COUNT) + counts [0, 1, 3, 2, 1, 2, 6] n=15
+    W617 (M?, CLOSER) + counts [0, 1, 1, 5, 3, 2, 2] n=14
+    W892 (M?, NAME) + counts [0, 2, 3, 6, 2, 0, 0] n=13
+    W388 (M327, NAME) + counts [0, 2, 1, 2, 3, 2, 2] n=12
+    W575 (M197, NAME) + counts [0, 5, 1, 2, 2, 1, 1] n=12
+    W226 (M60, CLOSER) + counts [0, 2, 2, 3, 1, 0, 3] n=11
+    W923 (M296, TITLE) + counts [0, 2, 2, 2, 4, 0, 0] n=10
+    W416 (M173, NAME) + counts [0, 3, 1, 2, 4, 0, 0] n=10
+    W70 (M155, NAME) + counts [0, 2, 2, 2, 3, 0, 1] n=10
+    W405 (M161/162/167/168/169, NAME) + counts [0, 2, 0, 1, 4, 0, 2] n=9
+    W5 (M106/107, COUNT) + counts [0, 2, 1, 2, 2, 2, 0] n=9
+    W717 (M341, NAME) + counts [0, 3, 0, 2, 1, 2, 1] n=9
+    W455 (M233, NAME) + counts [0, 2, 1, 1, 2, 1, 1] n=8
+    W555 (M222, TITLE) + counts [0, 1, 0, 2, 2, 1, 2] n=8
+    W171 (M409, NAME) + counts [0, 2, 0, 4, 2, 0, 0] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 75 tested signs:
+      OPENER: 0/3 signs switch (expected 1.5; p_high 1.000, p_low 0.128)
+      TITLE: 4/5 signs switch (expected 2.5; p_high 0.174, p_low 0.974)
+      CLOSER: 3/7 signs switch (expected 3.5; p_high 0.792, p_low 0.506)
+      SUFFIX: 0/2 signs switch (expected 1.0; p_high 1.000, p_low 0.266)
+      COUNT: 6/10 signs switch (expected 5.0; p_high 0.355, p_low 0.858)
+      NAME: 24/48 signs switch (expected 23.6; p_high 0.529, p_low 0.661)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 8/22, not co-occurring 62/644; profile permutation expected 2.3, p = 0.000
+
+=== Mohenjo-daro seals (3 periods) [seq_raw] ===
+  texts per phase: Early 36, Intermediate 344, Late 288 (total 668)
+  tokens per phase: Early 150, Intermediate 1532, Late 1275
+  signs with n>=8: 75 (distinct signs overall 384)
+  switches per boundary: Early->Intermediate 24, Intermediate->Late 0; total 24; signs switching 24/75
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.123, Intermediate->Late 0.033
+  (i) shuffle control: switches 25.0 (95% 18-32), real 24, p(real>=null) = 0.659
+      per-boundary expected: Early->Intermediate 24.9, Intermediate->Late 0.1
+      concentration null 0.994, real 1.000, p = 0.863; max-JSD null 0.141, real 0.123, p = 0.787
+  (ii) drift simulation calibrated at sigma=0.0: switches 23.7 (real 24); concentration null 0.975, p = 0.549
+       drift per-boundary expected: Early->Intermediate 23.1, Intermediate->Late 0.6
+  biggest boundary Early->Intermediate: 24 switching signs
+    W100 (M8, TITLE) + counts [0, 18, 5] n=23
+    W176 (M48, TITLE) + counts [0, 9, 11] n=20
+    W156 (M15, CLOSER) + counts [0, 16, 4] n=20
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W840 (M403, NAME) + counts [0, 7, 10] n=17
+    W142 (M25, NAME) + counts [0, 9, 6] n=15
+    W17 (M110/112, COUNT) + counts [0, 6, 9] n=15
+    W617 (M?, CLOSER) + counts [0, 7, 7] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W388 (M327, NAME) + counts [0, 5, 7] n=12
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W407 (M169, NAME) + counts [0, 6, 5] n=11
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W70 (M155, NAME) + counts [0, 6, 4] n=10
+    W632 (M244, NAME) + counts [0, 2, 7] n=9
+    W405 (M161/162/167/168/169, NAME) + counts [0, 3, 6] n=9
+    W5 (M106/107, COUNT) + counts [0, 5, 4] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W455 (M233, NAME) + counts [0, 4, 4] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+    W171 (M409, NAME) + counts [0, 6, 2] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 75 tested signs:
+      OPENER: 0/3 signs switch (expected 1.0; p_high 1.000, p_low 0.308)
+      TITLE: 4/5 signs switch (expected 1.6; p_high 0.032, p_low 0.998)
+      CLOSER: 3/7 signs switch (expected 2.2; p_high 0.396, p_low 0.864)
+      SUFFIX: 0/2 signs switch (expected 0.6; p_high 1.000, p_low 0.473)
+      COUNT: 2/10 signs switch (expected 3.2; p_high 0.898, p_low 0.323)
+      NAME: 15/48 signs switch (expected 15.3; p_high 0.664, p_low 0.543)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 10/10, not co-occurring 266/266; profile permutation expected 10.0, p = 1.000
+
+=== Mohenjo-daro all objects (3 periods) [seq_raw] ===
+  texts per phase: Early 47, Intermediate 416, Late 326 (total 789)
+  tokens per phase: Early 191, Intermediate 1759, Late 1405
+  signs with n>=8: 84 (distinct signs overall 408)
+  switches per boundary: Early->Intermediate 26, Intermediate->Late 0; total 26; signs switching 26/84
+  concentration index (share at biggest boundary): 1.000
+  JSD adjacent phases: Early->Intermediate 0.135, Intermediate->Late 0.034
+  (i) shuffle control: switches 25.4 (95% 18-34), real 26, p(real>=null) = 0.487
+      per-boundary expected: Early->Intermediate 25.2, Intermediate->Late 0.2
+      concentration null 0.992, real 1.000, p = 0.821; max-JSD null 0.126, real 0.135, p = 0.294
+  (ii) drift simulation calibrated at sigma=0.2: switches 24.2 (real 26); concentration null 0.951, p = 0.289
+       drift per-boundary expected: Early->Intermediate 23.0, Intermediate->Late 1.2
+  biggest boundary Early->Intermediate: 26 switching signs
+    W100 (M8, TITLE) + counts [0, 22, 6] n=28
+    W176 (M48, TITLE) + counts [0, 14, 13] n=27
+    W156 (M15, CLOSER) + counts [0, 20, 4] n=24
+    W840 (M403, NAME) + counts [0, 12, 10] n=22
+    W692 (M150, NAME) + counts [0, 8, 11] n=19
+    W17 (M110/112, COUNT) + counts [0, 7, 12] n=19
+    W142 (M25, NAME) + counts [0, 11, 7] n=18
+    W407 (M169, NAME) + counts [0, 7, 11] n=18
+    W617 (M?, CLOSER) + counts [0, 9, 8] n=17
+    W388 (M327, NAME) + counts [0, 6, 8] n=14
+    W892 (M?, NAME) + counts [0, 11, 2] n=13
+    W575 (M197, NAME) + counts [0, 8, 4] n=12
+    W405 (M161/162/167/168/169, NAME) + counts [0, 4, 7] n=11
+    W226 (M60, CLOSER) + counts [0, 7, 4] n=11
+    W70 (M155, NAME) + counts [0, 7, 4] n=11
+    W125 (M28, NAME) + counts [0, 2, 8] n=10
+    W455 (M233, NAME) + counts [0, 6, 4] n=10
+    W923 (M296, TITLE) + counts [0, 6, 4] n=10
+    W416 (M173, NAME) + counts [0, 6, 4] n=10
+    W904 (M?, NAME) + counts [0, 7, 3] n=10
+    W632 (M244, NAME) + counts [0, 2, 7] n=9
+    W171 (M409, NAME) + counts [0, 6, 3] n=9
+    W700 (M328, CLOSER) + counts [0, 6, 3] n=9
+    W717 (M341, NAME) + counts [0, 5, 4] n=9
+    W35 (M96, NAME) + counts [0, 5, 3] n=8
+    W555 (M222, TITLE) + counts [0, 3, 5] n=8
+  (c) slot of switching signs (any boundary) vs slot labels shuffled among the 84 tested signs:
+      OPENER: 0/3 signs switch (expected 0.9; p_high 1.000, p_low 0.326)
+      TITLE: 4/6 signs switch (expected 1.8; p_high 0.071, p_low 0.993)
+      CLOSER: 4/8 signs switch (expected 2.5; p_high 0.194, p_low 0.939)
+      SUFFIX: 0/2 signs switch (expected 0.6; p_high 1.000, p_low 0.481)
+      COUNT: 1/10 signs switch (expected 3.1; p_high 0.982, p_low 0.117)
+      NAME: 17/55 signs switch (expected 17.0; p_high 0.598, p_low 0.587)
+  (d) co-switching: pairs of switching signs with the same profile: co-occurring (>=2 texts) 13/13, not co-occurring 312/312; profile permutation expected 13.0, p = 1.000
+
+=== Dholavira seals [seq_raw] ===
+  texts per phase: 4 32, 5 26, 6 15 (total 73)
+  tokens per phase: 4 108, 5 87, 6 47
+  signs with n>=8: 3 (distinct signs overall 104)
+  too small for the switch test; coverage only
+
+=== (e) cross-check with known changes ===
+S95: voucher value 4->3 across HARP 3A/B -> 3C (moulded tablets mainly; S95b weakened).
+S49: tablet texts lengthen 3A/B -> 3C; jar-final rate flat.
+S45/S175/S181: Dholavira stage 6 drops the jar closer and long texts; sign inventory not shrunk.
+  Harappa HARP tablets: biggest boundary 3B/C->3C with 4 of 7 switches (expected total under shuffle 4.3); concentration p (shuffle) 0.908, p (drift) 0.925
+  Harappa HARP all objects: biggest boundary 3B->3B/C with 4 of 7 switches (expected total under shuffle 3.2); concentration p (shuffle) 0.776, p (drift) 0.818
+  Harappa Vats-strata tablets: biggest boundary VI+VII->V with 10 of 34 switches (expected total under shuffle 35.4); concentration p (shuffle) 0.919, p (drift) 0.666
+  Harappa Vats-strata seals: biggest boundary VI+VII->V with 12 of 30 switches (expected total under shuffle 27.6); concentration p (shuffle) 0.242, p (drift) 0.067
+  Mohenjo-daro seals (7 levels): biggest boundary Early->Int III with 23 of 69 switches (expected total under shuffle 83.3); concentration p (shuffle) 0.250, p (drift) 0.499
+  Mohenjo-daro seals (3 periods): biggest boundary Early->Intermediate with 25 of 25 switches (expected total under shuffle 25.1); concentration p (shuffle) 0.827, p (drift) 0.299
+  Mohenjo-daro all objects (3 periods): biggest boundary Early->Intermediate with 28 of 28 switches (expected total under shuffle 25.6); concentration p (shuffle) 0.796, p (drift) 0.035
+
+=== Summary across fields ===
+  Harappa HARP tablets                     seq         switches   7 (exp   4.3, p 0.144) conc 0.57 p_shuf 0.908 p_drift 0.925 JSDmax 0.069 at 3B->3B/C
+  Harappa HARP all objects                 seq         switches   7 (exp   3.2, p 0.039) conc 0.57 p_shuf 0.776 p_drift 0.818 JSDmax 0.068 at 3B/C->3C
+  Harappa Vats-strata tablets              seq         switches  34 (exp  35.4, p 0.612) conc 0.29 p_shuf 0.919 p_drift 0.666 JSDmax 0.088 at V->IV
+  Harappa Vats-strata seals                seq         switches  30 (exp  27.6, p 0.341) conc 0.40 p_shuf 0.242 p_drift 0.067 JSDmax 0.239 at VI+VII->V
+  Mohenjo-daro seals (7 levels)            seq         switches  69 (exp  83.3, p 0.970) conc 0.33 p_shuf 0.250 p_drift 0.499 JSDmax 0.126 at Early->Int III
+  Mohenjo-daro seals (3 periods)           seq         switches  25 (exp  25.1, p 0.554) conc 1.00 p_shuf 0.827 p_drift 0.299 JSDmax 0.123 at Early->Intermediate
+  Mohenjo-daro all objects (3 periods)     seq         switches  28 (exp  25.6, p 0.303) conc 1.00 p_shuf 0.796 p_drift 0.035 JSDmax 0.138 at Early->Intermediate
+  Harappa HARP tablets                     seq_strong  switches   7 (exp   4.3, p 0.140) conc 0.57 p_shuf 0.925 p_drift 0.935 JSDmax 0.069 at 3B->3B/C
+  Harappa HARP all objects                 seq_strong  switches   7 (exp   3.3, p 0.044) conc 0.57 p_shuf 0.797 p_drift 0.786 JSDmax 0.068 at 3B/C->3C
+  Harappa Vats-strata tablets              seq_strong  switches  34 (exp  35.0, p 0.601) conc 0.29 p_shuf 0.929 p_drift 0.606 JSDmax 0.088 at V->IV
+  Harappa Vats-strata seals                seq_strong  switches  30 (exp  27.5, p 0.344) conc 0.40 p_shuf 0.236 p_drift 0.097 JSDmax 0.239 at VI+VII->V
+  Mohenjo-daro seals (7 levels)            seq_strong  switches  68 (exp  81.0, p 0.957) conc 0.34 p_shuf 0.199 p_drift 0.551 JSDmax 0.128 at Early->Int III
+  Mohenjo-daro seals (3 periods)           seq_strong  switches  25 (exp  24.6, p 0.505) conc 1.00 p_shuf 0.841 p_drift 0.279 JSDmax 0.124 at Early->Intermediate
+  Mohenjo-daro all objects (3 periods)     seq_strong  switches  28 (exp  25.6, p 0.301) conc 1.00 p_shuf 0.811 p_drift 0.032 JSDmax 0.138 at Early->Intermediate
+  Harappa HARP tablets                     seq_raw     switches   6 (exp   3.9, p 0.204) conc 0.67 p_shuf 0.861 p_drift 0.823 JSDmax 0.067 at 3B->3B/C
+  Harappa HARP all objects                 seq_raw     switches   6 (exp   3.4, p 0.130) conc 0.67 p_shuf 0.719 p_drift 0.616 JSDmax 0.070 at 3B->3B/C
+  Harappa Vats-strata tablets              seq_raw     switches  35 (exp  34.8, p 0.508) conc 0.26 p_shuf 0.980 p_drift 0.898 JSDmax 0.099 at II->I
+  Harappa Vats-strata seals                seq_raw     switches  35 (exp  34.1, p 0.466) conc 0.34 p_shuf 0.516 p_drift 0.332 JSDmax 0.239 at VI+VII->V
+  Mohenjo-daro seals (7 levels)            seq_raw     switches  68 (exp  81.5, p 0.957) conc 0.31 p_shuf 0.498 p_drift 0.778 JSDmax 0.130 at Late II->Late I
+  Mohenjo-daro seals (3 periods)           seq_raw     switches  24 (exp  25.0, p 0.659) conc 1.00 p_shuf 0.863 p_drift 0.549 JSDmax 0.123 at Early->Intermediate
+  Mohenjo-daro all objects (3 periods)     seq_raw     switches  26 (exp  25.4, p 0.487) conc 1.00 p_shuf 0.821 p_drift 0.289 JSDmax 0.135 at Early->Intermediate
+
+=== Verdict (step vs drift) ===
+Harappa (HARP 3B | 3B/C | 3C, tablets 632 texts; Vats strata VI-I, tablets 579 and seals 249): DRIFT/NULL.
+  Switch counts match the phase-label shuffle (7 vs 4.3 expected for HARP tablets, 34 vs 35 Vats tablets, 30 vs 28 Vats seals);
+  no boundary carries more switches than shuffle or drift expects (concentration p 0.24-0.98). No opener, closer or suffix
+  sign with n>=8 switches at any HARP boundary; the 7 HARP switchers are all middle/name signs (690, 630, 435, 347 lost at
+  3B/C->3C; 803, 717, 440, 140 first seen at 3B->3B/C in the all-object series), i.e. rare name vocabulary at the sampling floor.
+  Only weak hint: Vats seals VI+VII->V has the largest adjacent-level JSD (0.239; shuffle p 0.09, drift p 0.07) and co-occurring
+  switchers share a profile slightly more than chance (8/27 vs 3.7, p 0.04) - but the oldest level has 26 seals, and the
+  switchers are names, numerals (33, 17, 1) and the tablet suffix 400, not a closer/opener package. Not replicated in seq_raw (p 0.5).
+Mohenjo-daro (seals, 7 levels Early..Late I, 672 texts; 3 periods): DRIFT/NULL.
+  Switches 69 vs 83 expected (fewer than chance), concentration p 0.20-0.50; 3-period series puts all switches at
+  Early->Intermediate only because Early has 47 texts (shuffle puts 25.2 of 25 there too). The drift p 0.035 for all-objects is
+  this same sampling artefact (shuffle p 0.80). The S45 result (frame stable through the sequence) extends to the sign inventory.
+Dholavira seals: 73 texts, 3 signs with n>=8; cannot be tested (S181 already found no inventory change at stage 6).
+Slot clustering (c): no slot's switch rate departs from shuffled slot labels except TITLE at Mohenjo-daro 3-period (4/5, p 0.03-0.07),
+  driven by W100, W176, W923, W555 absent from the 47 Early texts; expected under sampling. Closers and openers never switch as a set.
+Co-switching (d): no package replacement (p 0.43-1.0), except the weak Vats-seal case above.
+Known changes (e): the voucher value 4->3 (S95) and tablet lengthening (S49) at 3A/B->3C are not accompanied by any inventory switch
+  of frame signs; they are changes in quantity and formula, not in the code. Sign-level turnover looks gradual and sampling-limited.
+Robustness: identical across seq / seq_strong / seq_raw. Rests on Harappa and Mohenjo-daro only (the only sites with stratified n).
+Caveat: phase attributions are the excavators' data; Vats strata and HARP phases are not aligned; absence in a phase is an upper bound (<3/n).
