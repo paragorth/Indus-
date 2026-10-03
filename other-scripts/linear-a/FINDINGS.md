@@ -114,3 +114,14 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
   - **HT 123+124b:** "*188-*308 11" is probably a heading.
 
 **Verdict.** The values could not be solved: there are too few clean totals. One hard constraint emerges: either J < 1/2, or three published readings (PH 9b, PH 22a, ZA 8) are wrong. Checking those three tablets and HT 104 on photographs would settle J.
+
+## Photo check of the J+J readings (3 Oct 2026; GORILA photos and drawings via lineara.xyz, © École française d'Athènes, viewed only, not committed)
+- **PH 9b.** The corpus reads `*412-VS-VIN 1 J J`. The drawing shows the sign group, then **one vertical stroke and one L-shaped fraction sign**, with a dot beside the L. I see **one** J, not two. The stroke is the unit "1".
+- **PH 22a.** A fragment. The drawing shows **two L-shaped signs**, then a dotted (restored) sign. Read left to right, the "fractions" come **before** the commodity sign, which is unusual for a quantity. The commodity sign is restored, not seen.
+- **Consequence.** Both J+J cases are weak:
+  - PH 9b looks like a single J in the drawing.
+  - PH 22a is a damaged fragment with an odd order.
+
+  The constraint "J < 1/2" (attack 1) rests on these two readings. **It is not secure.**
+
+**Verdict (my visual read, grade C).** The conventional J = 1/2 cannot be ruled out. The fraction order stays real (0 of 500 random). To settle J, the next step is a specialist re-reading of PH 9b and PH 22a in GORILA vol. 1 (pp. 334, 346), and of HT 104, where the drawing is too faint to tell J from a larger sign.
