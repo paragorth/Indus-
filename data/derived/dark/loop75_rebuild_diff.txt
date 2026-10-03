@@ -1,0 +1,332 @@
+Loop 75 rebuild diff: data/raw/inscriptions.csv (sha256 in data/raw/SOURCES.txt) -> merged-corpus-canonical.v2.json
+csv rows 5680; old canonical 5369; v2 5533 (= csv rows with >=1 legible sign)
+old canonical is an ORDERED SUBSEQUENCE of the current csv: all 5369 old rows matched on cisi + reading-order text.
+field-by-field mismatches on the 5369 shared rows (all 19 fields incl. seq, seq_raw, seq_strong, seq_all): 0
+csv rows not in old file: 311; of these illegible (all-zero text, dropped by the S268 parser as before): 147; entering v2: 164
+class counts (enters_v2, class):
+  (False, 'new_object_cisi'): 35
+  (False, 'new_object_cisi_pot'): 4
+  (False, 'new_object_nocisi'): 19
+  (False, 'new_object_nocisi_pot'): 4
+  (False, 'resplit_line'): 85
+  (True, 'new_object_nocisi'): 43
+  (True, 'new_object_nocisi_pot'): 81
+  (True, 'resplit_line'): 40
+  resplit_line = another line/side of an object id already in v1; resplit_cisi = new object id carrying a CISI number already in v1;
+  new_object_cisi = CISI number absent from v1; new_object_nocisi = no CISI number (cisi "-") and no sibling line in v1 (a separate object, e.g. a HARP sherd)
+entering rows by site: {'Harappa': 98, 'Dholavira': 23, 'Mohenjo-daro': 23, 'Karanpura': 4, 'Lakhanjo-daro': 4, 'Kanmer': 3, 'Rakhigarhi': 2, 'Shikarpur': 2, 'Farmana': 1, 'Rajanpur': 1, 'Nuhato': 1, 'Derawar Ther': 1, 'Banawali': 1}
+entering rows by object class: {'POT': 82, 'TAB': 35, 'TAG': 18, 'SEAL': 15, 'MISC': 6, 'BNGL': 4, 'IMPL': 2, 'BEAD': 1, 'ROD': 1}
+pot rows: csv 635; old canonical 543; v2 625 (+82); illegible pot rows dropped 10
+
+id	cisi	site	type	text	status	class	ref
+25.1	-	Harappa	POT:T:g	+000+	illegible(dropped)	new_object_nocisi_pot	 
+49.1	-	Bhirrana	MISC	+000-000-000+	illegible(dropped)	new_object_nocisi	 
+153.2	-	Farmana	SEAL:S	+390-371+	ENTERS	resplit_line	ref:153.1 ref-same-text
+203.1	H-1426	Harappa	POT:T:g	]000-000-000[	illegible(dropped)	new_object_cisi_pot	 
+211.2	H-1193	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+212.2	-	Harappa	TAB:B	+000-000-000-000+	illegible(dropped)	resplit_line	 
+225.2	-	Harappa	TAB:B	+700-033+	ENTERS	resplit_line	ref:212.1 ref-same-text
+226.1	H-1119	Harappa	TAB:B	+000-000-000+	illegible(dropped)	resplit_line	 
+239.2	H-1339	Harappa	TAB:B	]000-000-000[	illegible(dropped)	resplit_line	 
+243.2	H-1175	Harappa	TAB:I	+000+	illegible(dropped)	resplit_line	 
+247.2	H-1147	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+252.2	H-1174	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+260.1	-	Harappa	TAB:I	+700-033+	ENTERS	resplit_line	ref:212.1 ref-same-text
+267.1	-	Harappa	TAB:I	+400-740-176+	ENTERS	resplit_line	ref:260.2 ref-same-text
+271.2	H-1289	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+275.1	-	Harappa	TAB:I	+000+	illegible(dropped)	resplit_line	 
+287.1	H-1179	Harappa	TAB:I	+000-000[	illegible(dropped)	resplit_line	 
+298.2	-	Harappa	TAB:I	+000-000-000+	illegible(dropped)	resplit_line	 
+308.1	-	Harappa	TAB:I	+700-033+	ENTERS	resplit_line	ref:212.1 ref-same-text
+328.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+332.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+333.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+340.1	-	Harappa	POT:T:g	+001+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+342.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+343.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+346.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+347.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+348.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+349.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+350.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+352.1	-	Harappa	POT:T:g	+031+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+353.1	-	Harappa	POT:T:g	+004+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-other-text
+354.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+356.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+357.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+358.1	-	Harappa	POT:T:g	+031+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+359.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+360.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+361.1	-	Harappa	POT:T:g	+004+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-other-text
+363.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+366.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+367.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+381.1	H-1900	Harappa	TAB:B	+000[	illegible(dropped)	resplit_line	 
+387.2	H-1847	Harappa	TAB:B	]000-000-000+	illegible(dropped)	resplit_line	 
+428.1	-	Harappa	BEAD	+700+	ENTERS	new_object_nocisi	ref:26.1 ref-other-text
+435.1	-	Harappa	ROD	+031+	ENTERS	new_object_nocisi	ref:179.1 ref-other-text
+442.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+443.1	-	Harappa	POT:T:g	+031+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+444.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+445.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+446.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+450.1	H-1918	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+465.1	H-2254	Harappa	TAB:B	+000-000[	illegible(dropped)	resplit_line	 
+470.3	H-2215	Harappa	TAB:I	+000+	illegible(dropped)	resplit_line	 
+475.3	H-1948	Harappa	TAB:B	]000[	illegible(dropped)	resplit_line	 
+486.2	H-2060	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+493.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+495.1	H-1798	Harappa	TAB:B	+000-000-000-000+	illegible(dropped)	resplit_line	 
+529.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+535.2	H-1977	Harappa	TAB:B	+740-032-840+	ENTERS	resplit_line	ref:535.1 ref-same-text
+553.1	-	Harappa	TAB:B	+000+	illegible(dropped)	resplit_line	 
+566.1	H-2087	Harappa	TAB:I	]000-000-000[	illegible(dropped)	new_object_cisi	 
+566.2	H-2087	Harappa	TAB:I	]000-000[	illegible(dropped)	new_object_cisi	 
+568.2	H-1777	Harappa	TAB:B	]000-000-000[	illegible(dropped)	resplit_line	 
+571.2	H-1852	Harappa	TAB:B	]000-000+	illegible(dropped)	resplit_line	 
+572.1	-	Harappa	TAG:L	+000+	illegible(dropped)	new_object_nocisi	 
+579.2	H-2068	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+583.1	M-718	Mohenjo-daro	SEAL:S	]000+	illegible(dropped)	new_object_cisi	 
+610.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+612.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+614.1	-	Harappa	POT:T:g	+700+	ENTERS	new_object_nocisi_pot	ref:26.1 ref-other-text
+615.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+621.2	-	Harappa	TAB:I	+700-034+	ENTERS	resplit_line	ref:198.2 ref-same-text
+639.2	H-2241	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+667.1	H-2196	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+684.1	-	Harappa	TAB:B	+700-000+	ENTERS	new_object_nocisi	 
+706.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+710.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+711.1	-	Harappa	POT:T:g	+034+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-same-text
+712.1	-	Harappa	POT:T:g	+003+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-other-text
+714.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+717.1	-	Harappa	POT:T:g	+033-700+	ENTERS	new_object_nocisi_pot	ref:290.1 ref-same-text
+720.1	-	Harappa	POT:T:g	+000-700+	ENTERS	new_object_nocisi_pot	 
+721.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+723.1	-	Harappa	POT:T:g	+000-740+	ENTERS	new_object_nocisi_pot	 
+728.1	-	Harappa	POT:T:g	+000-000-000+	illegible(dropped)	new_object_nocisi_pot	 
+728.2	-	Harappa	POT:T:g	+034+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-same-text
+734.1	H-2157	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+740.2	-	Harappa	TAB:I	+700-034+	ENTERS	resplit_line	ref:198.2 ref-same-text
+748.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+750.2	H-2101	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+754.1	H-2038	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+761.1	H-2075	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+764.2	H-2199	Harappa	TAB:I	+000-000+	illegible(dropped)	resplit_line	 
+779.1	H-2162	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+782.1	H-2203	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+795.1	H-2080	Harappa	TAB:I	]000-000[	illegible(dropped)	resplit_line	 
+796.1	M-233	Mohenjo-daro	SEAL:S	]000+	illegible(dropped)	new_object_cisi	 
+802.1	-	Harappa	MISC	+033+	ENTERS	new_object_nocisi	ref:337.1 ref-same-text
+813.1	H-1885	Harappa	TAB:B	+000[	illegible(dropped)	resplit_line	 
+821.1	-	Harappa	POT:T:g	+700+	ENTERS	new_object_nocisi_pot	ref:26.1 ref-other-text
+822.1	-	Harappa	POT:T:g	+001+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+826.1	H-2156	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+828.1	H-2153	Harappa	TAB:I	]000[	illegible(dropped)	new_object_cisi	 
+828.2	H-2153	Harappa	TAB:I	]000-000[	illegible(dropped)	new_object_cisi	 
+837.2	H-2124	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+839.1	H-2072	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+849.1	H-2163	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+893.2	H-2118	Harappa	TAB:I	]000-000+	illegible(dropped)	resplit_line	 
+913.2	H-1992	Harappa	TAB:B	+520-220-415+	ENTERS	resplit_line	ref:221.1 ref-same-text
+914.1	H-2116	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+935.1	-	Ra's al-Junayz	SEAL:S	+000+	illegible(dropped)	new_object_nocisi	 
+936.1	H-1887	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+961.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+962.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+963.1	-	Harappa	POT:T:g	+000-740+	ENTERS	new_object_nocisi_pot	 
+965.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+967.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+968.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+970.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+971.1	-	Harappa	POT:T:g	+004+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-other-text
+972.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+973.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+974.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+975.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+976.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+977.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+978.1	-	Harappa	POT:T:g	+698+	ENTERS	new_object_nocisi_pot	ref:365.1 ref-same-text
+980.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+981.1	-	Harappa	POT:T:g	+003+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-other-text
+982.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+983.1	-	Harappa	POT:T:g	+003+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-other-text
+984.1	-	Harappa	POT:T:g	+220+	ENTERS	new_object_nocisi_pot	ref:250.1 ref-same-text
+985.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+986.1	-	Harappa	POT:T:g	+004+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-other-text
+987.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+988.1	-	Harappa	POT:T:g	+001+	ENTERS	new_object_nocisi_pot	ref:179.1 ref-other-text
+992.1	-	Harappa	POT:T:g	+740-000+	ENTERS	new_object_nocisi_pot	 
+996.1	-	Harappa	POT:T:g	+002+	ENTERS	new_object_nocisi_pot	ref:341.1 ref-same-text
+997.1	-	Harappa	POT:T:g	+033+	ENTERS	new_object_nocisi_pot	ref:337.1 ref-same-text
+1043.1	-	Harappa	POT:T:s	+416+	ENTERS	new_object_nocisi_pot	ref:24.1 ref-other-text
+1048.1	-	Harappa	POT:T:g	+700+	ENTERS	new_object_nocisi_pot	ref:26.1 ref-other-text
+1052.2	-	Harappa	TAB:I	+700-034+	ENTERS	resplit_line	ref:198.2 ref-same-text
+1156.2	H-1001	Harappa	POT:T:g	]000-000[	illegible(dropped)	resplit_line	 
+1214.2	H-180	Harappa	TAB:B	+151-390-590-741-330-368+	ENTERS	resplit_line	ref:1214.1 ref-same-text
+1215.2	H-182	Harappa	TAB:B	+740-032-840+	ENTERS	resplit_line	ref:535.1 ref-same-text
+1360.1	H-339	Harappa	MISC	+000-000+	illegible(dropped)	resplit_line	 
+1368.1	H-348	Harappa	TAB:I	]000-000+	illegible(dropped)	resplit_line	 
+1374.3	H-355	Harappa	TAB:I	+700-033+	ENTERS	resplit_line	ref:212.1 ref-same-text
+1411.1	H-406	Harappa	SEAL:S	+000[	illegible(dropped)	new_object_cisi	 
+1464.1	H-746	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+1540.2	H-597	Harappa	SEAL:S	+740-390-590-070-032-002-861+	ENTERS	resplit_line	ref:1540.1 ref-same-text
+1688.1	H-797	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+1713.1	H-1741	Harappa	TAG	+000+	illegible(dropped)	new_object_cisi	 
+1716.2	H-827	Harappa	TAB:B	+000-000-000+	illegible(dropped)	resplit_line	 
+1737.2	H-851	Harappa	TAB:B	+000-000-000+	illegible(dropped)	resplit_line	 
+1757.1	-	Karanpura	MISC	+390+	ENTERS	new_object_nocisi	ref:35.1 ref-other-text
+1760.1	H-877	Harappa	TAB:B	+000-000+	illegible(dropped)	resplit_line	 
+1761.2	H-878	Harappa	TAB:B	]000+	illegible(dropped)	resplit_line	 
+1795.2	H-915	Harappa	TAB:I	+000-000-000+	illegible(dropped)	resplit_line	 
+1811.1	H-931	Harappa	TAB:I	+000-000-000+	illegible(dropped)	resplit_line	 
+1812.2	H-932	Harappa	TAB:I	+000-000+	illegible(dropped)	resplit_line	 
+1835.2	H-955	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+1862.1	H-986	Harappa	TAB:I	+000-000-000-000-000-000+	illegible(dropped)	resplit_line	 
+1862.3	H-986	Harappa	TAB:I	+000-000-000+	illegible(dropped)	resplit_line	 
+1941.2	K-86	Kalibangan	TAG:L	]000[	illegible(dropped)	resplit_line	 
+1941.3	K-86	Kalibangan	TAG:L	]000[	illegible(dropped)	resplit_line	 
+1941.4	K-86	Kalibangan	TAG:L	]000[	illegible(dropped)	resplit_line	 
+1943.3	K-88	Kalibangan	TAG:L	+000-000[	illegible(dropped)	resplit_line	 
+1943.4	K-88	Kalibangan	TAG:L	+000-000-000-000[	illegible(dropped)	resplit_line	 
+1979.2	Kd-15	Kot-Diji	POT:T:g	]000[	illegible(dropped)	resplit_line	 
+1982.2	-	Lothal	TAG	+000-000-000[	illegible(dropped)	resplit_line	 
+2032.3	L-66	Lothal	SEAL:S	+000+	illegible(dropped)	resplit_line	 
+2111.2	L-189	Lothal	TAG	+000-000-000[	illegible(dropped)	resplit_line	 
+2115.2	L-193	Lothal	TAG	+000+	illegible(dropped)	resplit_line	 
+2120.2	L-200	Lothal	TAG	]000-000-000[	illegible(dropped)	resplit_line	 
+2295.1	B-33	Banawali	POT:T:g	+000+	illegible(dropped)	new_object_cisi_pot	 
+2308.1	-	Mohenjo-daro	TAB:C	+740-752-615-503+	ENTERS	new_object_nocisi	ref:2275.1 ref-same-text
+2367.2	M-2020	Mohenjo-daro	TAB:B	+167-705+	ENTERS	resplit_line	ref:250.2 ref-same-text
+2424.1	-	Mohenjo-daro	MISC	+000+	illegible(dropped)	new_object_nocisi	 
+2425.1	-	Mohenjo-daro	SEAL:S	+000-000-000[	illegible(dropped)	new_object_nocisi	 
+2433.2	M-2017	Mohenjo-daro	TAB:B	+942+	ENTERS	resplit_line	ref:528.1 ref-same-text
+2456.2	M-2018	Mohenjo-daro	TAB:B	+942+	ENTERS	resplit_line	ref:528.1 ref-same-text
+2458.1	-	Mohenjo-daro	TAB:C	+740-752-615-503+	ENTERS	new_object_nocisi	ref:2275.1 ref-same-text
+2492.1	C-31	Chanhu-daro	SEAL:S	+000-000-000+	illegible(dropped)	new_object_cisi	 
+2494.1	-	Mohenjo-daro	BNGL	+840+	ENTERS	new_object_nocisi	ref:159.1 ref-same-text
+2496.1	-	Mohenjo-daro	BNGL	+840+	ENTERS	new_object_nocisi	ref:159.1 ref-same-text
+2502.1	-	Mohenjo-daro	BNGL	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+2503.1	-	Mohenjo-daro	BNGL	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+2520.1	-	Mohenjo-daro	TAB:C	+740-752-615-503+	ENTERS	new_object_nocisi	ref:2275.1 ref-same-text
+2842.2	M-324	Mohenjo-daro	SEAL:S	+740-215+	ENTERS	resplit_line	ref:2842.1 ref-same-text
+2920.2	M-426	Mohenjo-daro	TAG:W	+595-705-000[	ENTERS	resplit_line	 
+2933.2	M-447	Mohenjo-daro	TAB:B	+942+	ENTERS	resplit_line	ref:528.1 ref-same-text
+2934.2	M-449	Mohenjo-daro	TAB:B	+167-706+	ENTERS	resplit_line	ref:250.2 ref-other-text
+2935.2	M-450	Mohenjo-daro	TAB:B	]740-100-415+	ENTERS	resplit_line	 
+2937.2	M-452	Mohenjo-daro	TAB:B	+000-000+	illegible(dropped)	resplit_line	 
+2959.2	M-474	Mohenjo-daro	TAB:B	+000+	illegible(dropped)	resplit_line	 
+3555.3	M-1205	Mohenjo-daro	SEAL:S	+000+	illegible(dropped)	resplit_line	 
+3565.2	M-1233	Mohenjo-daro	SEAL:S	+000+	illegible(dropped)	resplit_line	 
+3566.2	M-1235	Mohenjo-daro	MISC	+156-031+	ENTERS	resplit_line	ref:1493.1 ref-same-text
+3681.3	M-1385	Mohenjo-daro	TAG:P	+740-760-032-002-817+	ENTERS	resplit_line	ref:594.2 ref-other-text
+3681.4	M-1385	Mohenjo-daro	TAG:P	]000-000[	illegible(dropped)	resplit_line	 
+3690.2	M-1399	Mohenjo-daro	TAB:B	+167-704+	ENTERS	resplit_line	ref:250.2 ref-other-text
+3714.2	M-1430	Mohenjo-daro	TAB:B	+740-384+	ENTERS	resplit_line	ref:58.1 ref-other-text
+3714.3	M-1430	Mohenjo-daro	TAB:B	+740-384+	ENTERS	resplit_line	ref:58.1 ref-other-text
+3820.2	M-1626	Mohenjo-daro	POT:T:g	+151-033+	ENTERS	resplit_line	ref:85.1 ref-other-text
+3846.2	M-436	Mohenjo-daro	TAB:B	+390-370+	ENTERS	resplit_line	ref:153.1 ref-other-text
+3868.2	Rgr-3	Rakhigarhi	TAG:W	+130-032-820+	ENTERS	resplit_line	ref:3868.1 ref-same-text
+3901.1	-	Kanmer	IMPL	+136-031+	ENTERS	new_object_nocisi	ref:1493.1 ref-other-text
+3902.1	-	Kanmer	IMPL	+136-031+	ENTERS	resplit_line	ref:1493.1 ref-other-text
+3949.2	H-1126	Harappa	TAB:B	+740-850+	ENTERS	resplit_line	ref:57.1 ref-other-text
+3972.2	H-1132	Harappa	TAB:B	+000-000-000-000[	illegible(dropped)	resplit_line	 
+3980.2	H-1150	Harappa	TAB:B	+742+	ENTERS	resplit_line	ref:26.1 ref-other-text
+3980.3	H-1150	Harappa	TAB:B	+742+	ENTERS	resplit_line	ref:26.1 ref-other-text
+4053.2	H-1180	Harappa	TAB:I	]000-000[	illegible(dropped)	resplit_line	 
+4055.1	H-1185	Harappa	TAB:I	]000[	illegible(dropped)	resplit_line	 
+4058.2	H-1197	Harappa	TAB:I	]000-000[	illegible(dropped)	resplit_line	 
+4064.2	H-1262	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+4065.1	H-1269	Harappa	TAB:I	]000-000[	illegible(dropped)	resplit_line	 
+4067.2	H-1279	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+4068.2	H-1281	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+4070.2	H-1286	Harappa	TAB:I	]000+	illegible(dropped)	resplit_line	 
+4074.1	H-1295	Harappa	TAB:I	+000-000-000+	illegible(dropped)	resplit_line	 
+4078.2	H-1305	Harappa	TAB:I	+000-000+	illegible(dropped)	resplit_line	 
+4093.1	H-1361	Harappa	POT:T:g	+000[	illegible(dropped)	new_object_cisi_pot	 
+4158.1	-	Dholavira	TAG	+000-000-000[	illegible(dropped)	new_object_nocisi	 
+4160.1	-	Dholavira	SEAL:S	+740-000[	ENTERS	new_object_nocisi	 
+4178.1	-	Dholavira	SEAL:S	+740-000[	ENTERS	new_object_nocisi	 
+4202.1	-	Dholavira	SEAL:S	+416+	ENTERS	new_object_nocisi	ref:24.1 ref-other-text
+4214.1	-	Dholavira	SEAL:S	+000[	illegible(dropped)	new_object_nocisi	 
+4217.1	-	Dholavira	SEAL	]000-000-000-000+	illegible(dropped)	new_object_nocisi	 
+4225.1	-	Dholavira	SEAL:S	+156-019+	ENTERS	new_object_nocisi	ref:128.1 ref-same-text
+4230.1	-	Dholavira	SEAL:S	]000+	illegible(dropped)	new_object_nocisi	 
+4232.1	-	Dholavira	SEAL:S	+520-235+	ENTERS	new_object_nocisi	ref:613.1 ref-same-text
+4248.1	-	Dholavira	SEAL:S	+740-000-000[	ENTERS	new_object_nocisi	 
+4255.1	-	Dholavira	SEAL	+000-740-000[	ENTERS	new_object_nocisi	 
+4260.1	-	Dholavira	SEAL:R	+390-016-002-861+	ENTERS	new_object_nocisi	ref:136.1 ref-same-text
+4267.1	-	Dholavira	TAB:I	+000-000+	illegible(dropped)	new_object_nocisi	 
+4268.1	-	Dholavira	SEAL:R	]000-032+	ENTERS	new_object_nocisi	 
+4269.1	-	Dholavira	SEAL:R	+422-003+	ENTERS	new_object_nocisi	ref:85.1 ref-other-text
+4273.1	-	Dholavira	TAB:I	+000-000[	illegible(dropped)	new_object_nocisi	 
+4279.1	-	Dholavira	TAB:I	+033+	ENTERS	new_object_nocisi	ref:337.1 ref-same-text
+4285.1	-	Dholavira	SEAL	+000[	illegible(dropped)	new_object_nocisi	 
+4290.2	-	Rajanpur	TAB:B	+700-033+	ENTERS	resplit_line	ref:212.1 ref-same-text
+4293.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+4295.1	-	Dholavira	TAG	]000-000+	illegible(dropped)	new_object_nocisi	 
+4297.1	-	Dholavira	TAG	+740-000[	ENTERS	new_object_nocisi	 
+4311.1	-	Dholavira	TAG	]820+	ENTERS	new_object_nocisi	ref:35.1 ref-other-text
+4314.1	-	Dholavira	TAG	+520-000-002-820+	ENTERS	resplit_line	 
+4331.2	-	Dholavira	TAG	+090-740-000[	ENTERS	resplit_line	 
+4332.1	-	Dholavira	TAG	+090-740-000[	ENTERS	resplit_line	 
+4335.1	-	Dholavira	TAG:PC	+000[	illegible(dropped)	resplit_line	 
+4337.1	-	Dholavira	TAG:PC	+740[	ENTERS	new_object_nocisi	ref:26.1 ref-other-text
+4340.1	-	Dholavira	TAG	]000+	illegible(dropped)	new_object_nocisi	 
+4343.1	-	Dholavira	TAG	+000-000-000-000[	illegible(dropped)	new_object_nocisi	 
+4350.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+4351.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+4352.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+4353.1	-	Dholavira	TAG	+032+	ENTERS	new_object_nocisi	ref:34.1 ref-other-text
+4409.2	-	Harappa	TAB:B	+742+	ENTERS	resplit_line	ref:26.1 ref-other-text
+4409.3	-	Harappa	TAB:B	+742+	ENTERS	resplit_line	ref:26.1 ref-other-text
+4413.1	H-173	Harappa	TAB:B	]000+	illegible(dropped)	new_object_cisi	 
+4436.1	-	Harappa	SEAL:S	+000-000+	illegible(dropped)	new_object_nocisi	 
+4532.1	H-1127	Harappa	TAB:I	+000-000[	illegible(dropped)	new_object_cisi	 
+4532.2	H-1127	Harappa	TAB:I	+000+	illegible(dropped)	new_object_cisi	 
+4533.1	-	Harappa	TAB:I	+000-000+	illegible(dropped)	new_object_nocisi	 
+4549.1	H-193	Harappa	TAB:B	+000-000-000[	illegible(dropped)	new_object_cisi	 
+4551.1	H-490	Harappa	SEAL:S	+000-000[	illegible(dropped)	new_object_cisi	 
+4558.1	H-575	Harappa	SEAL	+000+	illegible(dropped)	new_object_cisi	 
+4578.1	H-732	Harappa	TAB:B	+000-000-000-000+	illegible(dropped)	new_object_cisi	 
+4606.1	H-1013	Harappa	MISC	+000+	illegible(dropped)	new_object_cisi	 
+4716.1	-	Harappa	POT:D	]000[	illegible(dropped)	new_object_nocisi_pot	 
+4952.1	-	Mohenjo-daro	TAG:C	+034-000+	ENTERS	new_object_nocisi	 
+5203.1	M-1877	Mohenjo-daro	SEAL:S	+000-000-000-000+	illegible(dropped)	new_object_cisi	 
+5217.1	-	Gola Dhoro (Bagasra)	SEAL:S	+000-000-000+	illegible(dropped)	new_object_nocisi	 
+5239.1	-	Lakhanjo-daro	SEAL:R	+740-000-000[	ENTERS	new_object_nocisi	 
+5241.1	-	Lakhanjo-daro	TAB:B	+740+	ENTERS	new_object_nocisi	ref:26.1 ref-other-text
+5245.1	-	Lakhanjo-daro	TAG	+740-706+	ENTERS	new_object_nocisi	ref:365.1 ref-other-text
+5247.1	-	Lakhanjo-daro	TAG	+740-706-365-000[	ENTERS	new_object_nocisi	 
+5255.1	-	Nuhato	POT:T:g	+700+	ENTERS	new_object_nocisi_pot	ref:26.1 ref-other-text
+5259.1	K-21	Kalibangan	SEAL:S	+000[	illegible(dropped)	new_object_cisi	 
+5261.1	L-24	Lothal	SEAL:S	+000-000-000+	illegible(dropped)	new_object_cisi	 
+5270.1	C-73	Chanhu-daro	SEAL:S	]000-000-000-000+	illegible(dropped)	new_object_cisi	 
+5322.1	K-403	Kalibangan	POT:T:g	]000+	illegible(dropped)	new_object_cisi_pot	 
+5394.1	M-883	Mohenjo-daro	SEAL:S	]000+	illegible(dropped)	new_object_cisi	 
+5399.1	-	Harappa	POT:T:g	+032+	ENTERS	new_object_nocisi_pot	ref:34.1 ref-other-text
+5419.1	-	Derawar Ther	POT:T:g	+034+	ENTERS	new_object_nocisi_pot	ref:334.1 ref-same-text
+5441.1	-	Banawali	SEAL:S	+520-001+	ENTERS	new_object_nocisi	ref:26.1 ref-same-text
+5445.2	H-1314	Harappa	TAB:I	+000[	illegible(dropped)	resplit_line	 
+5446.1	M-913	Mohenjo-daro	SEAL:S	+000-000-000[	illegible(dropped)	new_object_cisi	 
+5447.1	M-1428	Mohenjo-daro	TAB:B	+000-000-000-000+	illegible(dropped)	new_object_cisi	 
+5450.1	M-1185	Mohenjo-daro	SEAL:S	+000+	illegible(dropped)	new_object_cisi	 
+5452.1	-	Kanmer	POT:T:g	+220+	ENTERS	new_object_nocisi_pot	ref:250.1 ref-same-text
+5471.1	H-1351	Harappa	TAB:I	+000-000+	illegible(dropped)	new_object_cisi	 
+5480.1	K-35	Kalibangan	SEAL:S	+000+	illegible(dropped)	new_object_cisi	 
+5497.1	K-456	Kalibangan	MISC	+000+	illegible(dropped)	new_object_cisi	 
+5498.1	K-466	Kalibangan	MISC	+000+	illegible(dropped)	new_object_cisi	 
+5499.1	K-467	Kalibangan	MISC	+000+	illegible(dropped)	new_object_cisi	 
+5500.1	K-468	Kalibangan	MISC	+000+	illegible(dropped)	new_object_cisi	 
+5502.1	K-471	Kalibangan	MISC	+000+	illegible(dropped)	new_object_cisi	 
+5515.1	M-891	Mohenjo-daro	SEAL:S	+000-000[	illegible(dropped)	new_object_cisi	 
+5531.1	M-2035	Mohenjo-daro	TAG:C	+000-000-000+	illegible(dropped)	new_object_cisi	 
+5531.2	M-2035	Mohenjo-daro	TAG:C	+000-000-000+	illegible(dropped)	new_object_cisi	 
+5549.1	-	Shikarpur	POT:T:p	]820[	ENTERS	new_object_nocisi_pot	ref:35.1 ref-other-text
+5555.1	-	Shikarpur	POT:T:g	+740-000[	ENTERS	new_object_nocisi_pot	 
+5556.1	-	Murda Sang	POT:T:g	+000+	illegible(dropped)	new_object_nocisi_pot	 
+5561.1	-	Rakhigarhi	TAB:I	+400-520-000[	ENTERS	new_object_nocisi	 
+5568.1	-	Karanpura	MISC	+390+	ENTERS	new_object_nocisi	ref:35.1 ref-other-text
+5569.1	-	Karanpura	MISC	+390+	ENTERS	new_object_nocisi	ref:35.1 ref-other-text
+5570.1	-	Karanpura	MISC	+390+	ENTERS	new_object_nocisi	ref:35.1 ref-other-text
+5581.1	-	Dholavira	TAG	+000+	illegible(dropped)	new_object_nocisi	 

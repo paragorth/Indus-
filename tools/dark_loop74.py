@@ -115,15 +115,19 @@ class Chain:
         self.memo[key] = v; return v
     def sample(self, L, r):
         st = (BOS,) * self.k; out = []
+        if not hasattr(self, 'cc'): self.cc = {}
+        import bisect
         for p in range(L):
             rem = L - p - 1
-            cand = [(a, n / self.tot[st] * self.beta((st + (a,))[-self.k:], rem)) for a, n in self.T[st].items() if a != EOS]
-            tw = sum(w for _, w in cand)
-            if tw <= 0: return None
-            x = r.random() * tw; acc = 0
-            for a, w in cand:
-                acc += w
-                if acc >= x: break
+            key = (st, rem)
+            if key not in self.cc:
+                cand = [(a, n / self.tot[st] * self.beta((st + (a,))[-self.k:], rem)) for a, n in self.T[st].items() if a != EOS]
+                cum = []; acc = 0
+                for _, w in cand: acc += w; cum.append(acc)
+                self.cc[key] = ([a for a, _ in cand], cum)
+            al, cum = self.cc[key]
+            if not cum or cum[-1] <= 0: return None
+            a = al[min(len(al) - 1, bisect.bisect_left(cum, r.random() * cum[-1]))]
             out.append(a); st = (st + (a,))[-self.k:]
         return tuple(out)
 def chain_names(names, k, r, chain=None, lens=None):
@@ -257,7 +261,9 @@ if CY == 2:
                 tot = sum(E.values()); t3 = sum(n for _, n in E.most_common(3)) / tot if tot else float('nan')
                 P(f'    {lab}: {tot} pairs, {len(E)} distinct extension signs, top-3 share {t3:.2f}; middle-token top-3 share {sum(n for _, n in el.most_common(3)) / sum(el.values()):.2f}')
     # comparators
-    base = names; L0 = [len(n) for n in base]
+    base = names; L0 = [len(n) for n in base]; NDC = 10
+    ind_m1 = mean([d['share'] for d in run_nulls(names, 20, None, seed=745)[0]['markov1']])
+    P(f'\n  Indus {LV} mid: substring share {cstats(names)["share"]:.3f}, Markov-1 {ind_m1:.3f}, obs/M1 {cstats(names)["share"] / ind_m1:.2f}')
     P(f'\n  comparators, length-matched to the Indus {LV} middle lengths (n={len(base)}), 20 draws; each with its own slot shuffle')
     C63 = 'data/derived/dark/loop63_corpora/'
     lists = [('jp_given', C63), ('jp_person_given', C63), ('vi_given', C63), ('cn_ancient', C63), ('cn_given', C63), ('ko_given', C63)] + [(x, L56.CORP) for x in ['ur3_names_dedup', 'ob_names_dedup', 'linb_personnel_dedup', 'latin_names_dedup']]
@@ -266,14 +272,17 @@ if CY == 2:
         if not os.path.exists(fn): P(f'    {nmx}: missing'); continue
         pool = sorted(set(tuple(json.loads(l)['seq']) for l in open(fn)))
         pool = [s for s in pool if len(s) >= 2]
-        obsd = []; nulld = []; shorts = []
-        for b in range(20):
+        obsd = []; nulld = []; shorts = []; m1 = []; m2 = []
+        for b in range(NDC):
             r = random.Random(7400 + b)
             sub, sh = L56.length_match(pool, L0, len(base), r); shorts.append(sh); sub = sorted(set(sub))
             obsd.append(cstats(sub)); nulld.append(cstats(sorted(set(shuf_slot(sub, r)))))
-        A = agg(obsd); N = agg(nulld)
+            m1.append(cstats(sorted(set(chain_names(sub, 1, r)[0])))); m2.append(cstats(sorted(set(chain_names(sub, 2, r)[0]))))
+        A = agg(obsd); N = agg(nulld); A1 = agg(m1)
         ex = mean([o['share'] - n['share'] for o, n in zip(obsd, nulld)])
-        P(f'    {nmx:22s} short {mean(shorts):.0f}; substring share {mean([o["share"] for o in obsd]):.3f} (slot-null {mean([o["share"] for o in nulld]):.3f}, excess {ex:+.3f}); all pairs {pfmt(A["all"])} PI {pref_index(A["all"]):+.2f} | slot-null {pfmt(N["all"])} PI {pref_index(N["all"]):+.2f}; 2-in-4 {pfmt(A[(2, 4)])}; 3-in-4 {pfmt(A[(3, 4)])}; 2-in-3 {pfmt(A[(2, 3)])}')
+        sh_o = mean([o['share'] for o in obsd])
+        P(f'    {nmx:22s} short {mean(shorts):.0f}; substring share {sh_o:.3f} | slot-null {mean([o["share"] for o in nulld]):.3f} (excess {ex:+.3f}) | Markov-1 {mean([o["share"] for o in m1]):.3f} (obs/M1 {sh_o / max(1e-9, mean([o["share"] for o in m1])):.2f}) | Markov-2 {mean([o["share"] for o in m2]):.3f} (obs/M2 {sh_o / max(1e-9, mean([o["share"] for o in m2])):.2f})')
+        P(f'        positions: all pairs {pfmt(A["all"])} PI {pref_index(A["all"]):+.2f} | slot-null {pfmt(N["all"])} PI {pref_index(N["all"]):+.2f} | Markov-1 {pfmt(A1["all"])} PI {pref_index(A1["all"]):+.2f}; 2-in-3 {pfmt(A[(2, 3)])}; 2-in-4 {pfmt(A[(2, 4)])}; 3-in-4 {pfmt(A[(3, 4)])}')
     save('')
 
 # ================================================================== cycle 3

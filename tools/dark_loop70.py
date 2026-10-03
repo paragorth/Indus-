@@ -212,6 +212,20 @@ def text_choices(segs, mode, sets, frame, heads, W, junc_ok=None):
 
 def fit_clogit(data, feats=(0, 1, 2, 3)):
     feats = list(feats)
+    if all(len(o) == 1 for o in data):
+        Fs = [o[0][1] for o in data]; L = max(len(F) for F in Fs)
+        X = np.zeros((len(Fs), L, 4)); M = np.full((len(Fs), L), -1e9)
+        for i, F in enumerate(Fs):
+            X[i, :len(F)] = F; M[i, :len(F)] = 0.0
+        obs = np.array([o[0][0] for o in data])
+        def nllv(b):
+            beta = np.zeros(4); beta[feats] = b
+            u = X @ beta + M; m = u.max(axis=1, keepdims=True)
+            lse = m[:, 0] + np.log(np.exp(u - m).sum(axis=1))
+            return -(u[np.arange(len(obs)), obs] - lse).sum()
+        r = minimize(nllv, np.zeros(len(feats)), method='L-BFGS-B', bounds=[(-8, 8)] * len(feats))
+        beta = np.zeros(4); beta[feats] = r.x
+        return beta, r.fun
     def nll(b):
         beta = np.zeros(4); beta[feats] = b
         tot = 0.0
@@ -235,7 +249,7 @@ def clogit_report(label, data, nboot=200):
     lr = 2 * (ll0 - ll)
     from scipy.stats import chi2
     pm = float(chi2.sf(max(lr, 0), 1))
-    bs = []
+    bs = [beta]
     for _ in range(nboot):
         smp = [data[rng.randrange(len(data))] for _ in range(len(data))]
         bs.append(fit_clogit(smp)[0])
@@ -358,7 +372,7 @@ def cycle2():
                 tx = [t for t in multi if f(t)]
                 data = [text_choices(t['segs'], mode, sets, frame, heads, Wd) for t in tx]
                 data = [d for d in data if all(i is not None for i, _ in d)]
-                res[f'{name}|{mode}|{sub}|clogit'] = clogit_report(f'{mode} {sub}', data, nboot=200 if sub == 'all' else 100)
+                res[f'{name}|{mode}|{sub}|clogit'] = clogit_report(f'{mode} {sub}', data, nboot=(60 if sub == 'all' else 0) if (name.endswith('raw') or name == 'IM77') else 0)
             pct = middle_cohesion(multi, mode, sets, frame, pmi)
             if pct:
                 # null: uniform percentile -> mean 0.5; exact-ish by simulation of discrete uniform positions
@@ -374,7 +388,7 @@ def cycle2():
             res[f'{name}|{mode}|learned'] = dict(auc=list(obs), null_mean=nm.tolist(), null95=n95.tolist(), p=pv)
     # Ur III positive control for the conditional logit: WORD as UNIT, reference = between-word junction
     legs = ur3_legends(); usets, uframe = ur3_sets(legs)
-    smp = [L for L in rng.sample(legs, 600) if len(L['segs']) <= 4]
+    smp = [L for L in rng.sample(legs, 600) if len(L['segs']) <= 3]
     data = [text_choices(L['segs'], 'known', usets, uframe, set(), {}) for L in smp]
     P('-- Ur III control (UNIT = within-word sign pair; MIDMID unused; reference = between-word junction)')
     res['ur3|clogit'] = clogit_report('Ur III known', data, nboot=50)

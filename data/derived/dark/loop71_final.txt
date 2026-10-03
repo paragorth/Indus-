@@ -1,0 +1,52 @@
+S-DARK-71 (loop 71): REBUILDING THE LOTHAL WAREHOUSE SEALING ARCHIVE -- final summary
+Rows ready to paste into STRATEGIES.md (insert before "## Summary"): loop71_cycle1.txt .. loop71_cycle3.txt
+Scripts: tools/dark_loop71_common.py (data layer: Rao 1985 plate table, FT 2005 notes, die assignment),
+         tools/dark_loop71.py (cycle 1, writes the catalogue), tools/dark_loop71_c2.py, tools/dark_loop71_c3.py
+Outputs: loop71_lothal_sealings.csv (catalogue, 97 rows, 'source' column), loop71_c<N>_<level>.txt
+
+(1) Catalogue. 93 sealings (Frenez & Tosi 2005 Table 1 + text) joined with Rao 1985 vol. II plate entries
+    (pp. 325-327, archive.org scan: 36 plates, find-spot / layer / depth / reverse / no. of impressions),
+    Wells faces (72 sealings) and IM77 sides (15 unique links; 75 IM77 sealings analysed on their own).
+    Rao's register numbers check the reconstruction: 22/23 printed warehouse (SRG 3 GX 10) find-spots have
+    numbers 1830-2077 vs 0/12 elsewhere; Frenez & Tosi's seal-linked W1 group is 12/14 in that range vs 6/13 for
+    the '?' group (P = 0.046). Six '?' sealings (L-143, 181, 182, 184, 187, 213) are probably warehouse;
+    L-153 and L-188 have printed find-spots in SRG 2. Back types cannot be checked (Rao: 'reed mark' everywhere).
+    Transcriptions are a lower bound: 25 of 93 sealings absent from Wells; FT count 130-133 impressions.
+(2) Network. IM77: a fixed team that recurs in the same combinations (4 repeated pairs vs 1.2, P = 0.017;
+    heaviest pair x5 vs 1.9, P = 0.002; fewer distinct pairs than chance, P = 0.001). Team: hub 705-500-741-1-55-
+    220-740-90 (M336-209-343-98-121-59-342-1) + 880-2-32-590-390-(740) (M286-99-87-249-162-342) + M186-293-99-258-
+    347-342 + 861-2-236 (M267-99-66); a separate fish-arrow pair 617-2-240-220-233-520 + M150-123-67-72-211.
+    Wells too thin (0 repeated pairs). Team members share the jar head weakly (0.40 vs 0.27, P = 0.07), no names
+    and not the opener+marker frame. Back type predicts seal/head ONLY through the elephant (10/10 boxes);
+    without it P = 0.49 (die), 0.26 (head). The hub sits on 7 fastening types.
+(3) Seal matching. 0 Lothal sealing dies match any Lothal seal text (0/29 Wells, 0/22 complete IM77; < 10%).
+    Exact matches only with Mohenjo-daro seals (elephant text = M-895, 705-33-520 = M-122/M-1359, 861-2-235 =
+    M-1778; 6 vs 0.8 under shuffling, P = 0.003); emblems differ where checkable (elephant vs unicorn), so same
+    text on a different die. The whole warehouse team matches no seal anywhere.
+(4) What the archive shows about heads and users.
+    - Roles: no head marks a kind of container or good (apart from the single elephant/box seal); the hub is a
+      general-duty seal used alone (7-8x) and with others (4-8x). Co-sealers are a standing team of 3-4
+      jar-headed holders who appear together repeatedly, not a fixed consignor/inspector pair.
+    - Users: different people/offices holding same-class (jar) titles with different names; the texts recur as
+      offices between cities (same text, different emblem at Mohenjo-daro), but no Lothal seal stamped any
+      surviving sealing, so the holders' seals are unrecovered (ghost issuers, S-DARK-16.2).
+    - Same direction as S-DARK-65 (D, collegial co-sealing) and S325-S330 (text = office, emblem = house).
+    Rests on Lothal alone; IM77 vs Wells = transcription-robust, not replicated. Not 'cracked'.
+Seq levels: identical at seq_raw / seq_strong / seq_all (except W817 -> 861 label; 705-33-520 gains Harappa
+    H-53 and a Dholavira seal at strong/all).
+
+WHAT A HUMAN MUST FETCH (all blocked to scripts: paywall, Cloudflare or CAPTCHA; not clicked through)
+  1. Frenez D. 2024, 'Were the cretulae (clay sealings) from the Indus port town of Lothal part of an
+     administrative archive?', South Asian Studies 40(2): https://doi.org/10.1080/02666030.2024.2401206
+     (tandfonline 403; closed access) -- likely the updated per-sealing seal-identity table.
+  2. Frenez D. 2018, 'Private person or public persona?', in Walking with the Unicorn (Archaeopress):
+     https://www.jstor.org/stable/j.ctv19vbgkc.16 (JSTOR CAPTCHA).
+  3. Frenez D. 2026, 'Branding Authority: ... Oligopolistic Nature of the Indus Seal-Based Administrative
+     System', SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6103846 (Cloudflare check).
+  4. Parpola A. 1986, World Archaeology 17(3): 399-419, Fig. 1 (Lothal co-impression diagram):
+     https://doi.org/10.1080/00438243.1986.9979979
+  5. Rao 1985 Lothal vol. II plates CLXI-CLXIV (photographs, sealing reverses); the archive.org scan
+     (masi78lothalaharappanporttownraos.r.part2_531_D) has text pp. 251-892 but no plates.
+  6. A sharper scan of CISI vol. 1 p. 373 (DATA L-99 to L-266: concordance numbers, excavation and museum
+     numbers for every sealing); the session scan is too blurred to read reliably.
+  Licensed PDFs used (Frenez & Tosi 2005 text, CISI 1 scan) stay in the session scratchpad, not committed.

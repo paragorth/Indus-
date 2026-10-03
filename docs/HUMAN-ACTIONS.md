@@ -32,3 +32,12 @@ Collected from `data/derived/dark/loop*_final.txt`, `loop*_cycle*.txt`, STRATEGI
 17. **Harappa HARP pottery register** behind the H98-/H99-/H2000- numbers in `excavation-idno` (vessel form, rim diameter), **Kalibangan KLB2 sherd register**, **Mohenjo-daro UPM pot records**. Why: the lone-numeral-on-pot test (lot number vs capacity, grade C) is untestable without vessel volumes; would kill if value tracks volume in 30 or more complete vessels (S-DARK-23.1 to 23.4).
 18. **Letterform measurement from photographs** (stroke order, proportions) for the "who cut the seals" question; the transcribers' sign numbers encode spelling, not handwriting (S-DARK-46).
 19. **Qala'at al-Bahrain Indus sherd graffiti** (Hojlund 1994, figs 337, 374, 378) and Parpola 1994 catalogue in the same volume: library Scan & Deliver ref. 1128053 (S278, S353).
+
+## E. Lothal sealing archive sources (added after S-DARK-71)
+The Lothal warehouse sealings are the one Indus administrative archive found in place. These six sources would complete its catalogue (`data/derived/dark/loop71_lothal_sealings.csv`, 97 rows; Wells lacks 25 of the 93). Each was blocked to scripts by a paywall, Cloudflare check or CAPTCHA.
+- [ ] **Frenez 2024**, 'Were the cretulae from Lothal part of an administrative archive?', *South Asian Studies* 40(2): https://doi.org/10.1080/02666030.2024.2401206. Likely the updated per-sealing seal-identity table; would test the four-seal 'team' of S-DARK-71.2.
+- [ ] **Frenez 2018**, 'Private person or public persona?', in *Walking with the Unicorn*: https://www.jstor.org/stable/j.ctv19vbgkc.16
+- [ ] **Frenez 2026**, 'Branding Authority' (SSRN): https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6103846
+- [ ] **Parpola 1986**, *World Archaeology* 17(3): 399–419, Fig. 1 (the Lothal co-impression diagram): https://doi.org/10.1080/00438243.1986.9979979
+- [ ] **Rao 1985**, *Lothal* vol. II, plates CLXI–CLXIV (sealing photographs and reverses). The archive.org scan of part 2 has the text pages but no plates.
+- [ ] **CISI vol. 1 p. 373** (concordance for L-99 to L-266): a sharper scan; the one used was too blurred to read reliably.

@@ -1,0 +1,54 @@
+Loop 73 final: THE PROTO-ELAMITE MIDDLE AS A CALIBRATION FOR THE INDUS DESIGNATION (3 Oct 2026)
+
+Scripts: tools/dark_loop73_common.py (PE middle / header extraction with frame sets fixed from PE test a; Indus via
+tools/dark_loop56.py parser; Ur III and Linear B comparators), dark_loop73_c1.py (battery), dark_loop73_c1b.py
+(information share), dark_loop73_c2.py (within-tablet, recurrence), dark_loop73_c3.py + c3b.py (length-matched ladder,
+placement t), dark_loop73_c4.py (head binding, PE headers).
+Rows: loop73_cycle1.txt .. loop73_cycle4.txt (S-DARK-73.1 .. 73.4), each ready to paste before '## Summary'.
+Data notes: PE = CDLI subset in other-scripts/proto-elamite (95% Susa); Indus = merged-corpus-canonical.json
+(older inscriptions.csv build, S-DARK-23 caution) at seq_raw / seq_strong / seq_all, plus IM77 via bridge_extended +
+S-DARK-27 proposals (3.9% unbridged tokens kept opaque; IM77 results that depend on proposed bridge entries are the
+MI / predictability values, which the bridge inflates).
+
+WHICH STATISTICS PUT INDUS WITH THE PE DESIGNATION SLOT
+- Designation-frequency profile at equal lengths: uniqueness, Gini, Zipf slope, Heaps, top-10 share. Indus t = 0.13-0.28
+  (0 = PE, 1 = nearest name list) at all three merge levels, 0.26-0.33 in IM77. At >= 2 elements, unmatched:
+  PE 0.918 / 0.078 / 0.974 vs Indus 0.913-0.922 / 0.075-0.083 / 0.972-0.975 vs Ur III 0.61 / 0.34 / 0.85, Linear B 0.72 / 0.25 / 0.90.
+- No closed initial set (PE -0.047, Indus +0.01, names +0.08 to +0.19; t ~ 0.45) and no large closed final set.
+- Adjacent MI at equal lengths (Wells levels t -0.15 to 0.31; IM77 apart).
+- Designation share of the entry's bits: PE 0.53 (0.69 for middles >= 2), Indus 0.60-0.62; the comparators' frames are
+  longer word strings (0.37).
+- Cross-document recurrence of the whole designation: PE 0.10, Indus seals 0.11-0.12, vs Linear B 0.34 and Ur III 0.51.
+- Binding of a recurring designation to its head: PE 0.49, Indus 0.42-0.47 (ratio of multi-head share to null) - but
+  Linear B names show the same (0.41), so this one is shared by all three.
+
+WHICH SEPARATE THEM
+- Substring share: Indus 0.057-0.060 (IM77 0.091) vs PE 0.010 (Ur III 0.032, Linear B 0.011): whole Indus middles
+  reappear inside longer ones; the Indus slot is built compositionally, the PE slot is not.
+- Length: PE middles are short (53% of entries have a 1-sign middle, 21% none; mean 2.99 at >= 2); Indus 3.87.
+- Lone sign: a lone Indus seal sign is hapax-rich (0.16 vs 0.02 null) and from the middle inventory; a lone PE entry sign
+  is often the class sign (29%) with no hapax excess. But a lone PE HEADER sign (no opener) is a middle-inventory or
+  unseen sign (85%), class sign 1.4% - the Indus 1-sign-seal profile.
+- Within-document structure: PE middles on one tablet share elements 3x (adjacent entries 5x, rare elements 31x) and
+  repeat whole middles 14x - a tablet-local list vocabulary; Linear B names on a tablet share nothing (1.0x);
+  Indus same-room seals 1.6-1.9x, frequent elements only (different unit; rare-element zero underpowered).
+
+STATED PLAINLY
+The Indus designation slot behaves like the Proto-Elamite designation slot on the statistics that tell a designation
+slot from a name list. Measured the same way, the PE middle (the field most specialists read as a person or
+household designation inside a readable accounting frame) is MORE unique, flatter and less name-like than Ur III or
+Linear B personnel names, and the Indus middle sits beside it, about a fifth of the way towards the name lists. So the
+'code-like, not names' profile of S-DARK-53/56 is exactly what a real accounting designation slot looks like when it
+is written partly with logograms. It does not count against person or household designations; on the calibration it
+fits them. If PE middles are person / unit designations, the Indus middle fits the same reading at the same strength.
+Indus differs from PE in two ways. Its designations are longer, and they are built by extension (whole designations
+reused inside longer ones). This fits a more developed or multi-part designation (e.g. person + affiliation) more than
+the short ad hoc PE list labels. Neither system shows the 'same named person recurring across an archive' signature
+that Linear B has (x4.4). That absence in PE warns against reading the Indus absence (S-DARK-64) as evidence that the
+middles are not persons.
+Limits: PE is 95% Susa; Indus rests mainly on Mohenjo-daro + Harappa (76% of texts) and Wells/IM77 agreement is
+transcription-robust, not replication; PE's 'person designation' status is itself an interpretation by others, used
+here only as the hypothesis being calibrated, not as evidence. Nothing is read; nothing is 'cracked'.
+WORKING-DICTIONARY suggestion (grade C): Indus middle = person/unit designation of the PE-middle kind. Would support:
+a new PE-like archive where the same middle recurs with different heads. Would kill: an accounting designation corpus
+with known person designations that sits at the name-list end of the frequency ladder.
