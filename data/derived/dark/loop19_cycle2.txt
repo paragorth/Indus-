@@ -1,0 +1,48 @@
+LOOP 19 CYCLE 2: (b) order entropy per multiset, (c) fixed vs free pair order and the partial order it builds.
+Engine: tools/dark_loop19.py 2 <level> 1000. Full output: loop19_cycle2_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Data: merged-corpus-canonical.json, complete objects with a recorded direction (dir '-' excluded per S-DARK-8.4), >= 2 signs: 3,155 objects
+(seals 1,515, tablets 1,434, pots 80, sealings 67, other 59). Frame labels from the S310 parser extended with the S331 openers (920, 692)
+and the S334 opening phrase 920-60-741. Arrows fired this cycle: 6 (b: pots-vs-seals; c: fixed-pair count vs two nulls, same-slot count vs
+within-slot null, held-out agreement, same-slot held-out agreement); Bonferroni threshold P < 0.008.
+
+(b) ORDER ENTROPY. Multisets of >= 3 distinct signs attested on >= 2 objects: 186 / 200 / 200 groups (raw / strong / all), 717-760 objects.
+  Distinct-order excess (k-1)/(n-1), i.e. the share of extra copies that bring a new order: all 0.012-0.013; whole-shuffle null 0.79 (free
+  order), within-slot-shuffle null 0.35-0.38. Order retained vs a free set: 0.98. Summed entropy of attested orders 5.8 bits over all
+  186-200 groups (most groups have one order).
+  By type: tablets 0.011-0.012 (null 0.78), seals 0.012-0.018 (null 0.81-0.83), sealings 0.000 (null 0.93). By site: Harappa 0.017 (null
+  0.75), Mohenjo-daro 0.000 (null 0.87), Lothal 0.04 (n = 6 groups).
+  Pots: 0 groups with >= 3 distinct signs on >= 2 objects among the 80 complete direction-recorded pots; pot-vs-seal difference P = 0.70 at
+  all levels. UNDERPOWERED: the 'pots are freer' prediction cannot be tested on this corpus. (Pots with no recorded direction were excluded
+  because 21-30% of them are stored backwards, S-DARK-8.4, which would manufacture anagrams.)
+
+(c) PAIR ORDER CENSUS (distinct (site, text), 2,105-2,131 texts; a pair counts once per text, at any distance, no repeated sign).
+  Pairs co-occurring in >= 5 texts: 794 / 783 / 789. Fixed order (one-sided binomial p <= .05): 511 / 507 / 508; after BH(0.05): 395 / 397 /
+  399. Free (minority order >= 30%, n >= 8): 63 / 68 / 68. Ambiguous: 220 / 208 / 213.
+  Null, whole-text shuffle (set model): BH-fixed pairs median 0, max 1 (1,000 reps... 100 refits). Null, within-slot shuffle (frame fixed,
+  order inside each slot free): BH-fixed median 261-273, max 280-288; of these, pairs with both signs in the same majority frame slot median
+  20, max 27-31. OBSERVED same-majority-slot BH-fixed pairs: 84 / 96 / 98, i.e. 3-4x the frame-only null maximum (P < 0.01).
+  Per-text slot relation of the 395-399 fixed edges: explained by the frame's slot order 293 / 284 / 285 (74%); both signs in the same frame
+  slot 102 / 113 / 114 (26%); AGAINST the frame 0 / 0 / 0. Of the same-slot edges, 40-44 are already documented (fish chain S296, arrow
+  phrase S299, seated person S301, frozen titles S229, numeral-before-item, 920-60-741), 62-70 are NEW, mostly NAME-NAME (31-40) plus
+  MARKER-NAME (6-7) and NAME-COUNT (6-7).
+  Partial order (Hasse) of the BH-fixed edges: 110-117 signs, 395-399 edges, ONE cycle only (741 -> 820, 6:0, dropped). Longest chain 16 / 18
+  / 19 signs: 320 -> 920 -> 60 -> 741 -> 2 -> 803 -> 32 -> 350 -> 798 -> 415 -> 220 -> 233 -> 705 -> 255 -> 435 -> 690 -> 740 -> 400/90.
+  So the order needs far more than the frame's 6 slots: the middle itself is a chain of ordered positions (leaf-tree 803 -> 32 -> 350 ->
+  798 -> 415 -> fish -> 705/33 -> title 255-435-690 -> closer).
+  Share of all pair instances: in BH-fixed pairs 0.40-0.43; in free pairs 0.037-0.040; in pairs seen < 5 times (untestable) 0.43-0.46.
+  HELD-OUT replication: 435-441 BH-fixed pairs learned on Mohenjo-daro + Harappa, tested on the other sites (370-372 texts): direction agrees
+  0.904-0.910 (994-1058 vs 98-112) against a within-slot-shuffle null of 0.833-0.841 (95th 0.848-0.855); same-frame-slot pairs alone agree
+  0.829-0.834 (118-141 vs 24-29) against a null of 0.59-0.60 (95th 0.65-0.66). Replicates at all three levels.
+
+NEW same-slot ordering rules (seq_all, counts A-before-B : B-before-A), the strongest:
+  415 -> 220 39:0 (M171 before the plain fish); 803 (leaf-tree, M387) -> 233 27:4, -> 220 26:6, -> 705 22:5, -> 240 20:6, -> 390 20:4,
+  -> 235 18:5, -> 32 16:4, -> 415 13:2, -> 798 11:2, -> 590 11:1: the leaf-tree stands before everything else in the middle (a second
+  middle-initial after 65/86 of S24/S38); 741 (marked jar) -> 803 13:0, -> 220 14:2, -> 235 10:1, -> 32 14:4: the marked jar is
+  middle-initial too; 798 -> 415 14:2, 798 -> 240 14:2; 220 -> 590 16:3, 235 -> 590 13:3, 705 -> 390 13:1: the fish words come before the
+  590-390 title; 550 -> 60 21:5, 125 -> 2 18:5, 455 -> 2 10:2: these hosts take the connective after them (they are opener-like hosts for
+  W2/W60); 2 -> 61 18:0, 2 -> 590 25:11; 240 -> 100 12:0; 171 -> 35 12:0; 13 -> 840 11:1; 125 -> 390 13:0.
+Free pairs (both orders common) are few and specific: 2 <-> 31 (19:17), 220 <-> 240 (15:12), 220 <-> 235 (7:13), 390 <-> 741 (8:13),
+  407 <-> 740 (10:9), 1/31/32 numerals among themselves, and W2 with many name signs (W2's two uses: post-opener connective vs numeral '2').
+
+Ready-to-paste row:
+| S-DARK-19.2 | Sequence or set, part 2. (b) For every sign multiset (>= 3 distinct signs) on >= 2 objects, the share of extra copies that bring a new order, split by object type and site; nulls: shuffle every text (free set) and shuffle within frame slots; pots vs seals by type-label permutation within site. (c) Every unordered sign pair co-occurring in >= 5 distinct texts: A-before-B vs B-before-A at any distance; fixed = one-sided binomial with BH(0.05); null counts from whole-text and within-slot shuffles; the fixed pairs assembled into a partial order (cycle check, longest chain); each fixed edge classed by the per-text frame slots (frame-explained / same slot / against); held-out: fixed pairs fitted on Mohenjo-daro + Harappa, direction tested on the other sites. seq_raw / seq_strong / seq_all (tools/dark_loop19.py 2) | (b) 186-200 multiset groups, 717-760 objects: new-order share 0.012-0.013 vs 0.79 if the text were a set and 0.35-0.38 if order were free inside the frame slots; tablets 0.011, seals 0.012-0.018, Mohenjo-daro 0.000, Harappa 0.017. Pots: 0 testable groups (80 complete direction-recorded pots), P = 0.70. (c) 783-794 pairs tested; BH-fixed 395-399 (null 0-1 for a set; 261-273 with the frame kept), free 63-68, ambiguous 208-220. Fixed edges: 74% follow the frame slot order, 26% (102-114) order two signs INSIDE one slot, 0 go against the frame. Same-slot fixed pairs 84-98 vs a frame-only null max of 27-31. 40-44 of the same-slot edges are documented rules (fish chain, arrow phrase, frozen titles, numeral before item); 62-70 are new, mostly name-name: leaf-tree 803 first in the middle (27:4 before 233, 26:6 before 220, 20:4 before 390, 16:4 before 32), marked jar 741 first (13:0 before 803, 14:2 before 220), 415 -> 220 39:0, 798 -> 415 14:2, fish -> 590 (16:3, 13:3), 550 -> 60 21:5, 125 -> 2 18:5. Partial order: 110-117 signs, one cycle (741/820, 6 texts), longest chain 16-19 signs: 320 -> 920 -> 60 -> 741 -> 2 -> 803 -> 32 -> 350 -> 798 -> 415 -> 220 -> 233 -> 705 -> 255 -> 435 -> 690 -> 740 -> 400. Pair instances: 40-43% in fixed pairs, 4% in free pairs, 43-46% too rare to test. Held-out sites: fixed directions agree 0.90-0.91 (vs frame-only null 0.83-0.84, 95th 0.85); same-slot pairs alone 0.83 (vs 0.59-0.60, 95th 0.66). | **Supported, replicated on held-out sites at all three levels: the text is a sequence, and the order is rule-governed well inside the frame slots.** Where a pair's order is testable it is fixed ten times more often than free; the middle is not a bag of name signs but a chain of ordered positions (marked jar / leaf-tree first, then numerals, then 350-798-415, then the fish words, then 705-33 or the 255-435-690 title, then the closer), about 16-19 positions long. The free residue (4% of pair instances) sits in the numerals (1/31/32/2), plain fish vs modified fish, and W2's two uses. The pot prediction is untestable here (no multiset of >= 3 signs recurs on direction-recorded pots). Caveat: 43-46% of pair instances are too rare to classify, and 'fixed' is an upper bound on the pairs seen (S309). |

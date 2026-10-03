@@ -1,0 +1,42 @@
+# S-DARK-20 final (loop 20: ALLOGRAPH CLOCK). Tool: tools/dark_loop20.py. Rows: data/derived/dark/loop20_rows.txt (S-DARK-20.1 .. 20.4).
+# Tables: loop20_cycle1.txt, loop20_cycle1_control1/2/3.txt, loop20_cycle1_SEAL.txt, loop20_cycle1_TAB.txt, loop20_cycle2.txt, loop20_cycle3.txt, loop20_clock.json
+
+Question: do sign-form variants drift with time like letterforms, in the same direction at Mohenjo-daro and Harappa; if so, can they
+date undated texts, and does anything that was null against depth alone (S-DARK-9: W390 quota, length, closer mix, tablet reuse) move
+along such a clock?
+
+Data limit found first: data/raw/inscriptions.csv has no Wells ~a/~b/~c variant letters (0 of 5,680 text fields). The only variant
+structure available is the S268 merge classes (23 sets; strong, probable and doubtful all used, seq_raw forms) plus the five S-DARK-11.3
+candidate pairs (384/388, 27/28, 525/526, 850/851, 390/407). Only seven sets have >= 30 dated tokens with both forms in a city:
+390/405/406, 705/706, 803/806/838, 861/817, 156/151, 384/388, 390/407. A real letterform clock needs a variant-level transcription.
+
+Design: time = depth (ft below datum, flipped so larger = later) and period (HARP fine period at Harappa, Marshall Early/Int/Late at
+Mohenjo-daro), residualised on its stratum mean (site x excavation area x object type) so the seal-shallower-than-tablet confound cannot
+enter; permutation 2,000x within the same strata; BH per city x axis; replication = q < 0.1 same sign in the other city; whole-machine
+control = time labels shuffled within strata (3 seeds); clock control = features shuffled within strata (500x). 59 arrows fired in all.
+
+Results
+(a) Drift: no variant form drifts with depth or period in both cities (0 replicated survivors of 25 arrows; sign agreement 4/5 depth,
+    1/4 period, both chance). Single-city hits: Mohenjo-daro W706 (vs 705) later, rho +0.19, q 0.036, Harappa +0.12 ns; Harappa W407
+    (vs 390, unmerged candidate pair, 16 tokens) later, rho +0.54, q 0.002, Mohenjo-daro +0.04 ns. The shuffled-label controls give
+    7 of 66 arrows at p < 0.05 (real data 2 of 25), so these are within what the machine produces by chance.
+(b) Clock: ridge clock on 28 set-features has no out-of-sample power: within-city 5-fold CV Spearman +0.015 / -0.02 (MD depth / period),
+    -0.02 / -0.11 (HP), pooled -0.01, all P >= 0.25 against the shuffled-variant clock; cross-city MD -> HP depth +0.065 (P 0.018, Holm
+    0.14, not mirrored HP -> MD +0.03 P 0.16); the two cross-city weight vectors disagree on every leading set.
+(c) Undated texts (860): along the clock score only arrow-final (+0.23) and length (+0.10) move; W390 quota, jar-final, other closers and
+    tablet reuse do not. The arrow-final 'trend' decomposes into the fish set W240 and W390 presence, i.e. the S296 fish + arrow formula:
+    the clock with no time power is a formula detector, so this is not a time result.
+(d) Object class: seals only, Mohenjo-daro 0 survivors; Harappa seals 405 and 817 'later' (q 0.02 / 0.04, two arrows, n 38 / 40), flat
+    at Mohenjo-daro (+0.02 both) = the Harappa Vats-depth single-city pattern seen in S-DARK-9. Tablets untestable (no set reaches 30
+    dated tokens with both forms).
+
+Verdict: NULL for the allograph-clock family. No variant drifts in time in both cities; the clock has no out-of-sample power; nothing
+changes along it except a known formula. Consistent with S-DARK-9 (no reading feature moves with depth/period once area and object type
+are stratified), S-DARK-14.2 (variant choice follows city, not workshop) and S357 (drift, not reform). Nothing to change in
+WORKING-DICTIONARY.md or GRAMMAR.md.
+
+Caveats: rests on Mohenjo-daro + Harappa by construction; Harappa depth is the Vats ft sample and period the HARP sample, two different
+sets of objects; token counts are small (16-87 minority tokens per set) so only a drift of |rho| >~ 0.25 was detectable per city; the
+variant sets themselves were accepted in S268 partly for being split by site x medium, which does not bias a within-city time test but
+limits the sets to those that survived that filter; absence of drift here is an upper bound (< ~3/25 sets), not proof of stability.
+Open: a variant-level transcription (CISI allograph set of S22, 179 MD objects; or new material) would allow a real letterform test.

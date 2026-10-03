@@ -1,0 +1,17 @@
+LOOP 14 FINAL: WORKSHOP SIGNATURES (4 cycles; tools/dark_loop14.py, _c1.py, _c2.py, _c3.py; cycle 4 inline in loop14_cycle4.txt)
+Data: data/raw/inscriptions.csv physical fields joined to merged-corpus-canonical.json (2,248 of 2,291 seals; join key = CISI fields + sign multiset).
+Clusters: Gower distance on boss / material / colour / shape / cross-section / log h,v,th, Ward linkage, within Mohenjo-daro, Harappa, and the pooled other sites; k = 4, 6, 8. Text never used in clustering. Nulls: labels permuted within site x object type, and again with coarse emblem class also fixed. 1,000-3,000 permutations; Holm over arrows per cycle; seq_raw / seq_strong / seq_all (results never depend on a merge).
+
+WHAT HOLDS
+- Nothing in favour of workshop scribal schools. 63 + 14 + 30 + 9 = 116 arrows fired; the only Holm-safe results are (i) allograph variant ~ SITE (cycle 2; partly built into the S268 merge rule, condition 3) and (ii) physical cluster ~ FIND AREA (cycle 1), which on inspection is excavator recording practice at Mohenjo-daro (Marshall's DK- vs Mackay's DKG differ in which fields are filled) and seal type by mound at Harappa.
+- Physical clusters do not differ in vocabulary (all cities, all k, all levels), closer, or shared middles. Unicorn carving-style letters (W/J/S/I/L/U) do not differ in vocabulary, closer, length, shared text or find area.
+- Allograph variants (390/405, 803/806, 705/706, 861/817...) do not follow physical clusters (P 0.09-0.21) or carving style (MD P 0.07, Harappa P 0.005 unreplicated, others P 0.39). They follow city: Harappa prefers 405 and 806, Mohenjo-daro 390 and 803.
+- The one text effect, grooved-boss (PBSG) seals carrying longer texts at Mohenjo-daro (P 0.02), reverses at Harappa and is null elsewhere.
+
+READING
+Seal-making and text-writing were separate layers. The cutter's choices (stone, boss, size, animal, carving style) leave no trace in the sign sequence beyond the emblem and seal-type links already known (S326, S329, S352). The script on seals was a central standard across workshops within a city; the only workshop-like variation is a city-level habit in which allograph of a sign is cut. This is consistent with the credential model (S347-S349): the text was dictated by an office, the seal made by whoever.
+
+CAVEATS
+Rests on Mohenjo-daro + Harappa (80% of joined seals). Physical fields are incompletely and unevenly recorded by excavator; this is exactly what produced the one false positive. Variant letters of Wells (a/b forms) are not in the raw text field, so the variant test uses the S268 merge classes only. 'Null' here means < about 3/n at the sample sizes given, not proof of absence.
+
+Ready-to-paste rows are at the end of loop14_cycle1.txt, loop14_cycle2.txt, loop14_cycle3.txt, loop14_cycle4.txt (S-DARK-14.1 to 14.4).
