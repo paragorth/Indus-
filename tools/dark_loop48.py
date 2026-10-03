@@ -442,13 +442,15 @@ def cycle2():
         G = groups(C, 'site', None, min_n=n); raw = raw_groups(T, 'site')
         out.append(f'\n== {name}: {len(T)} texts, {len(Tc)} collapsed; groups >= {n}: {dict((str(g), len(i)) for g, i in G.items())}')
         keys = GENERIC + ['reuse'] + (['title', 'name'] if C.kind == 'ur3' else []) + (['ideo', 'syl'] if C.kind == 'linb' else [])
-        # Proto-Elamite small sites: n = 30 design
-        nn = n if len(G) >= 2 else 30
-        if nn != n:
-            G = groups(C, 'site', None, min_n=nn); out.append(f'   (small sites: n = {nn}; groups {dict((str(g), len(i)) for g, i in G.items())})')
-        Rn = run_pairs(C, G, nn, out, name, raw, keys)
+        Rn = run_pairs(C, G, n, out, name, raw, keys)
         summary_table(Rn, keys, out, name)
         R[name] = Rn
+        # the Indus small-site design (n = 30) on every reference corpus, sites with >= 60 collapsed texts
+        G30 = groups(C, 'site', None, min_n=60)
+        out.append(f'\n-- {name} at n = 30 (sites >= 60): {dict((str(g), len(i)) for g, i in G30.items())}')
+        R30 = run_pairs(C, G30, 30, out, name + ' n=30', raw, keys)
+        summary_table(R30, keys, out, name + ' n=30')
+        R[name + '|n30'] = R30
     # synthetic anchors fitted on Indus seals (MD + H, seq_raw), sizes = MD / H seal counts
     Tw = load_wells('seq_raw'); parse = make_parser(learn_qual([t['seq'] for t in Tw])); add_labels(Tw, parse)
     Tc = [t for t in collapse(Tw) if t['type'] == 'seal' and t['site'] in ('Mohenjo-daro', 'Harappa')]
@@ -524,6 +526,17 @@ def cycle3():
                     inside = (c['P'] > 0.025) and (c['ratio'] <= rc['ratio'] * 1.5 if np.isfinite(rc['ratio']) else True)
                     row.append(f"{p.split(' vs ')[1][:11]} x{c['ratio']:.2f} P{c['P']:.2f} {'IN' if inside else 'OUT'}")
                 out.append(f"    {k:7s} MD-H x{ref['comp'][k]['ratio']:.2f} | " + '; '.join(row))
+    # pooled held-out sites (all Wells sites other than MD + H) vs Mohenjo-daro and vs Harappa at n = 90 / 60: the sharper prediction test
+    for types, tl in ((('seal',), 'seals'), (None, 'all types')):
+        pool = np.where(~np.isin(Cw.site, ['Mohenjo-daro', 'Harappa', 'Unknown']) & (np.ones(len(Cw.T), bool) if types is None else np.isin(Cw.type, list(types))))[0]
+        G = groups(Cw, 'site', types, min_n=25); G['HELDOUT-pool'] = pool
+        raw = raw_groups(Tw, 'site', types); raw['HELDOUT-pool'] = [t['seq'] for t in Tw if t['site'] not in ('Mohenjo-daro', 'Harappa', 'Unknown') and (types is None or t['type'] in types)]
+        n = min(90, len(pool) // 2)
+        out.append(f'\n== Wells {tl}: pooled held-out sites ({len(pool)} collapsed texts) vs Mohenjo-daro and vs Harappa, n = {n}; plus MD vs H at the same n')
+        pairs = [('Mohenjo-daro', 'HELDOUT-pool'), ('Harappa', 'HELDOUT-pool'), ('Mohenjo-daro', 'Harappa')]
+        Rn = run_pairs(Cw, G, n, out, f'Wells {tl} pooled n={n}', raw, INDUS_KEYS, pairs=pairs)
+        summary_table(Rn, INDUS_KEYS, out, f'Wells {tl} pooled held-out n={n}')
+        R[f'Wells pooled|{tl}'] = Rn
     json.dump(R, open(DARK + f'loop48_c3_{LV}.json', 'w'), indent=0, default=float)
     open(DARK + f'loop48_c3_{LV}.txt', 'w').write('\n'.join(out) + '\n')
     print('\n'.join(out))

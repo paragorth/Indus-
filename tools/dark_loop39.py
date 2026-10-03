@@ -485,7 +485,7 @@ def main():
 
     if CY in (1, 2):
         base = ['ising', 'type', 'site', 'reuse', 'open', 'units']
-        configs = [('FORM (ising+type+site+reuse+open+units)', base)]
+        configs = [('FORM (ising+type+site+reuse+open+units)', base)] if CY == 1 else []
         if CY == 1:
             configs += [('control: independent fields (no co-selection)', [m for m in base if m != 'ising']),
                         ('control: shuffled field order', base + ['shuffleorder']),
@@ -493,8 +493,7 @@ def main():
                         ('ablation: no whole-text reuse', [m for m in base if m != 'reuse'])]
         else:
             part = ['ising', 'type', 'site', 'reuse', 'open', 'partial', 'elemchain']
-            configs += [('FORM + elemchain (element given previous written element)', base + ['elemchain']),
-                        ('PARTIAL (one field set per text, pairwise field order, elemchain, reuse, open)', part),
+            configs += [('PARTIAL (one field set per text, pairwise field order, elemchain, reuse, open)', part),
                         ('PARTIAL control: independent fields (no co-selection)', [m for m in part if m != 'ising']),
                         ('PARTIAL ablation: strict linear field order', part + ['strictorder']),
                         ('PARTIAL ablation: no element chain', [m for m in part if m != 'elemchain']),

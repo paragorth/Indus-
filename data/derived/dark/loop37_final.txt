@@ -1,0 +1,31 @@
+S-DARK-37 final: multi-sided objects. Are the sides (A) one long text read across the sides, (B) paraphrases / alternates of one message, or (C) independent entries?
+Cycles 1-4: tools/dark_loop37*.py, rows in data/derived/dark/loop37_cycle1-4.txt (37.1 and 37.2 already in STRATEGIES.md).
+Data: inscriptions.csv (827 objects with >= 2 inscribed faces, 766 after collapsing identical moulded face-sets: Harappa tablets 621, Mohenjo-daro 104, seals 37, sealings 28,
+12 MD objects with >= 3 faces); IM77 482 multi-sided texts (370 collapsed); 7 objects read as multi-sided by both.
+
+Answer: C, with two riders.
+A (one text) is dead three ways: openers fall on any face at chance and closers on the last recorded face at chance (37.1 A1); a concatenation in recorded order parses
+like random faces glued together (0.58 frame violations vs 0.60 random vs 0.19 for a real long text, 37.1 A3); and the S-DARK-19 fixed-order pairs, which agree 0.94
+inside a face, agree with the recorded face order 0.47 across the boundary (0.50 permuted; 0.94 for one text cut in two), no hidden face order recovers them
+(orientable 0.70 vs 0.68 random vs 0.88 one text), and the faces share FEWER fixed pairs than random faces of the same type and length (1,549 vs 1,747, P = 0.01) (37.3).
+B (paraphrase) is dead: 0-1 grade-swap pairs of 914 (0.5 expected), faces are on average less alike than random same-length faces (37.2).
+C holds, but the sides are not entries drawn independently from a ledger: (i) the Harappa two-field voucher (one closed text + one count or short label; two closed faces
+39 vs 107 expected, 37.1 A2), (ii) whole face-sets recur as stock units even when hand-incised (125 of 342 TAB:I vs 56; 27 of 104 MD objects vs 0.4, 37.2b), and
+(iii) the same text is repeated on two sides (27 pairs vs 20; 26 vs 8 without count faces) and, on two-sided seals, a legend and its abbreviation (5 of 74 seal pairs vs 0.2).
+So: fixed fields of one object type, written as separate texts, not one text and not restatements.
+
+Controls: face labels permuted within object; faces reassigned within site x type; model C (random same site x type x length faces); model A (real single texts cut at the
+boundary); within-face agreement as the positive reference (0.94). Merge levels: seq_raw / seq_strong / seq_all agree within 0.02 (one object) on every statistic in cycles 1-3.
+Not Mohenjo-daro-prism-dependent: the C result holds separately on 621 Harappa tablets, 37 seals, 28 sealings, 40 non-MD-Harappa objects and in IM77's own side recording
+(recorded order 0.465, orientable at model C, 37.4); the 12 MD >= 3-face objects (6 TAB:B prisms, 4 four-sided seals, 2 tags) behave the same way (orientable 4/11 vs 0.69
+for one text; 0.83 frame violations vs 0.81 random) but are too few to carry any result alone. Transcription: the direction is transcription-robust (IM77 alone gives the same
+pattern, and identical-text + seal-abbreviation are the only excesses there too) but the overlap is 7 objects and IM77 omits count faces, so the voucher complementarity
+(37.1 A2) rests on Wells / CISI. Pots and bangles: 4 two-text objects in Wells, 5 in IM77, 0 shared; each file's own cases (a repeat, a short label beside a closed text,
+IM77 2930 with the opener on side 2 after a closed side 1) fit C. Sampling: 76% of the multi-sided objects are Harappa tablets, so 'C' is above all a statement about the
+Harappa voucher; the seal and MD results are the same direction at n = 37 / 104.
+
+Consequences for the reading: a multi-sided object must be entered as several texts, never joined (as merged-corpus-canonical.json already does per record); the recorded
+face number carries no reading order; the two-sided seal abbreviation pairs (817-2-5-390 / 817-2-5; 861-741 / 861-741-240-630-740; 575-407-746 / 575-407; 575-31 /
+575-31-2-3-390; 798-17-575-740-679 / 575-740-679) are a short lexical lead: the shorter face keeps the opener and drops the closer and part of the middle, which is what an
+abbreviated owner formula would do. Leads to log: photo check of face numbering on MD two-faced objects (0.65 agreement, P = 0.02) and of obverse/reverse convention on
+the 16 IM77 copper tablets (0.78, P = 0.003), the one class where recorded side order follows sign order.
