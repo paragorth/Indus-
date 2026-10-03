@@ -64,3 +64,37 @@ REAL minlen=1: n=1168 2-way 88 (0.075) 2-or-3-way 146 (0.125) cut at frame bound
   null slot-shuffle (200x): 2-way median 25 [18-32] P=0.0050; 2-or-3-way median 50 [40-60] P=0.0050; ratio real/null 2.92; cut-at-boundary share null 0.12 vs real 0.14
   null text-shuffle (200x): 2-way median 1 [0-5] P=0.0050; 2-or-3-way median 7 [2-12] P=0.0050; ratio real/null 20.86; cut-at-boundary share null 0.28 vs real 0.14
 REAL minlen=2: n=1168 2-way 61 (0.052) 2-or-3-way 63 (0.054) cut at frame boundary 8/63
+  null slot-shuffle (200x): 2-way median 21 [15-27] P=0.0050; 2-or-3-way median 23 [15-30] P=0.0050; ratio real/null 2.74; cut-at-boundary share null 0.09 vs real 0.13
+  null text-shuffle (200x): 2-way median 1 [0-3] P=0.0050; 2-or-3-way median 1 [0-3] P=0.0050; ratio real/null 63.00; cut-at-boundary share null 0.51 vs real 0.13
+  examples (text | units | copies of each unit as a complete text):
+    33-700-176-740-400 = 33-700(x117) | 176-740-400(x38)  boundary: closer
+    861-368-690-32-700 = 861-368-690(x6) | 32-700(x88)  boundary: none
+    861-368-690-34-700 = 861-368-690(x6) | 34-700(x103)  boundary: none
+    861-2-590-390-740 = 861-2(x7) | 590-390-740(x5)  boundary: none
+    861-2-705-33-520 = 861-2(x7) | 705-33-520(x5)  boundary: none
+    861-2-255-435-690-740 = 861-2(x7) | 255-435-690-740(x5)  boundary: none
+    3-220-740-90-400 = 3-220-740(x5) | 90-400(x3)  boundary: closer
+    415-100-740-90-400 = 415-100-740(x3) | 90-400(x3)  boundary: closer
+    861-2-235-555-527 = 861-2(x7) | 235-555-527(x3)  boundary: none
+    861-2-415-100-740 = 861-2(x7) | 415-100-740(x3)  boundary: none
+    840-32-740-90-400 = 840-32-740(x8) | 90-400(x3)  boundary: closer
+    861-2-235-590-390-740 = 861-2(x7) | 235-590-390-740(x3)  boundary: none
+    861-2-240-630-740 = 861-2(x7) | 240-630-740(x2)  boundary: none
+    861-2-240-904-740 = 861-2(x7) | 240-904-740(x2)  boundary: none
+    861-2-3-220-590-390-740 = 861-2(x7) | 3-220-590-390-740(x2)  boundary: none
+    861-2-17-585-740 = 861-2(x7) | 17-585-740(x2)  boundary: none
+    861-2-792-740-90 = 861-2(x7) | 792-740-90(x2)  boundary: none
+    861-2-840-32-844-390 = 861-2(x7) | 840-32(x1) | 844-390(x1)  boundary: none,none
+    861-2-803-235-520 = 861-2(x7) | 803-235-520(x1)  boundary: none
+    820-2-5-900-740 = 820-2(x1) | 5-900-740(x4)  boundary: none
+    550-60-590-390-740 = 550-60(x1) | 590-390-740(x5)  boundary: none
+    388-740-400-33-700 = 388-740-400(x1) | 33-700(x117)  boundary: closer
+    550-525-400-34-700 = 550-527-400(x1) | 34-700(x103)  boundary: closer
+    861-2-470-803-154 = 861-2(x7) | 470-803-154(x1)  boundary: none
+    32-220-240-233-520 = 32-220(x2) | 240-233-520(x1)  boundary: none
+
+### matching mode M: 2082 distinct complete texts as unit inventory
+REAL minlen=1: n=1168 2-way 88 (0.075) 2-or-3-way 157 (0.134) cut at frame boundary 19/157
+  null slot-shuffle (200x): 2-way median 25 [19-32] P=0.0050; 2-or-3-way median 52 [41-63] P=0.0050; ratio real/null 3.02; cut-at-boundary share null 0.11 vs real 0.12
+  null text-shuffle (200x): 2-way median 1 [0-5] P=0.0050; 2-or-3-way median 8 [3-14] P=0.0050; ratio real/null 19.62; cut-at-boundary share null 0.27 vs real 0.12
+REAL minlen=2: n=1168 2-way 62 (0.053) 2-or-3-way 64 (0.055) cut at frame boundary 8/64
