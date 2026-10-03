@@ -235,6 +235,7 @@ def complement_stats(objs,minn=30,kmax=4,minnb=20,minhosts=3,slot=None,verbose=F
     rows=[]; Ntok=sum(toks.values())
     for (c,side),hosts in sorted(hubs.items(),key=lambda kv:-len(kv[1])):
         att=0; free=0; far_att=collections.Counter(); far_free=collections.Counter(); pos_att=collections.Counter(); pos_free=collections.Counter(); alone=0
+        st_att=collections.Counter(); st_free=collections.Counter(); unif=collections.Counter(); ustart=collections.Counter()
         for o in objs:
             s=o['seq']; L=len(s)
             for k,a in enumerate(s):
@@ -243,14 +244,17 @@ def complement_stats(objs,minn=30,kmax=4,minnb=20,minhosts=3,slot=None,verbose=F
                 farpos=k+1 if side=='R' else k-1
                 attached=0<=hostpos<L and s[hostpos] in hosts
                 far=s[farpos] if 0<=farpos<L else '#'
-                if attached: att+=1; far_att[far]+=1; pos_att[L-1-k]+=1
-                else: free+=1; far_free[far]+=1; pos_free[L-1-k]+=1
+                if attached:
+                    att+=1; far_att[far]+=1; pos_att[L-1-k]+=1; st_att[k]+=1
+                    for j in range(L): unif[L-1-j]+=1; ustart[j]+=1   # uniform-position baseline over the same texts
+                else: free+=1; far_free[far]+=1; pos_free[L-1-k]+=1; st_free[k]+=1
         tot=att+free; ff=free/tot if tot else 0
         cs=cos(far_att,far_free) if att>=10 and free>=10 else float('nan')
-        js=jsd(pos_att,pos_free) if att>=10 and free>=10 else float('nan')
+        js=max(jsd(pos_att,pos_free),jsd(st_att,st_free)) if att>=10 and free>=10 else float('nan')
+        hu=min(H(unif),H(ustart)); mob=min(H(pos_att),H(st_att))/hu if hu else float('nan')
         hs=collections.Counter((slot or {}).get(h,'?') for h in hosts); hse=H(hs)
         rows.append(dict(c=c,side=side,nhost=len(hosts),hosts=sorted(hosts,key=lambda h:-toks[h]),tok=tot,free=ff,cos=cs,jsd=js,hslotH=hse,hslots=dict(hs),
-                         pairendH=H(pos_att),share=tot/Ntok))
+                         pairendH=H(pos_att),mob=mob,share=tot/Ntok))
     return dict(n_signs=len(signs),n_small=n_small,n_hubs=n_hubs,n_att=n_att,hubs=rows,small=small)
 def fmt_hub(r,nm):
     cs='nan' if r['cos']!=r['cos'] else '%.2f'%r['cos']; js='nan' if r['jsd']!=r['jsd'] else '%.2f'%r['jsd']
@@ -272,11 +276,11 @@ def run_cycle1(objs,name,nperm,slot,nm,minn=30,keep_slot=False):
     for r in rows[:25]: print(fmt_hub(r,nm))
     # summary signature numbers
     if rows:
-        ff=[r['free'] for r in rows]; hs=[r['hslotH'] for r in rows]; pe=[r['pairendH'] for r in rows]
+        ff=[r['free'] for r in rows]; hs=[r['hslotH'] for r in rows]; pe=[r['pairendH'] for r in rows]; mb=[r['mob'] for r in rows if r['mob']==r['mob']]
         cs=[r['cos'] for r in rows if r['cos']==r['cos']]
         nfree=sum(1 for r in rows if r['free']>=0.3)
         print(f'  SIGNATURE: hubs {len(rows)}; median free fraction {sorted(ff)[len(ff)//2]:.2f}; hubs with free >= 0.3: {nfree}; '
-              f'mean host-slot entropy {sum(hs)/len(hs):.2f} bits; mean pair end-offset entropy {sum(pe)/len(pe):.2f} bits; '
+              f'mean host-slot entropy {sum(hs)/len(hs):.2f} bits; mean pair end-offset entropy {sum(pe)/len(pe):.2f} bits; mean mobility (nearer-edge offset entropy / uniform) {sum(mb)/len(mb) if mb else float("nan"):.2f}; '
               f'mean far-side cosine attached vs free {sum(cs)/len(cs) if cs else float("nan"):.2f} (n={len(cs)})')
     # small-set hosts: how many are explained by hubs
     hubsigns={k for k in [(r['c'],r['side']) for r in rows]}

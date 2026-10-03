@@ -1,0 +1,45 @@
+LOOP 15 (NEGATIVE SPACE) cycle 1: gaps = patterns the grammar's own generative model expects >= 5 times but the corpus never shows
+Script: data/derived/dark/loop15_engine.py ; outputs loop15_c1_<seqkey>.{txt,json} (all texts) and loop15_c1d_<seqkey>.{txt,json} (one copy per distinct text per site and object class)
+
+Model: order-2 Markov chain over whole texts (START START ... END), absolute discounting with Kneser-Ney continuation backoff,
+one table per object class (SEAL / TAB / OTHER) shrunk to a pooled table; fitted on Mohenjo-daro + Harappa (home) and, separately,
+on the held-out sites (own model).  Expected count of a pattern = mean presence count over 100 synthetic corpora of the same size
+and object mix.  Patterns over signs with >= 15 home tokens (105-119 signs; triples over signs with >= 30 tokens, 77-89):
+  co   {X,Y} in one text at any distance          ord  X ... Y with >= 1 sign between          skip  X _ Y          tri  X ... Y ... Z, any gaps
+Gap: E >= 5 and observed 0 at home.  Controls: (1) each of 100 synthetic corpora scored against the leave-one-out expectation of the
+other 99 (how many gaps arise by chance); (2) the home corpus shuffled within each text, model refitted, same search (co gaps are
+unchanged by construction, so this control speaks only to ord/skip/tri); (3) held-out sites (842-930 texts): persistent = E_held >= 2
+and O_held = 0, with the chance persistence from 20 synthetic held-out corpora.
+
+Results (seq_raw / seq_strong / seq_all):
+  all texts (4,411 home):      34 / 27 / 27 gaps  (co 6/3/3, ord 9/8/7, skip 2/2/2, tri 17/14/15); synthetic null per kind: mean <= 1.0, max 3 (co), 3-4 (ord), 2 (skip), 4-7 (tri)
+  shuffled-within-text refit:  43 / 55 / 53 gaps  (tri 32-38, ord 4-9, co 7-8)  -> triple gaps are NOT an order signal; they come from which signs share a text
+  dedup (2,873 home):          17 / 12 / 15 gaps  (co 3/1/1, ord 7/7/8, skip 1/1/1, tri 6/3/5); synthetic null max 3 (co), 3-4 (ord), 2 (skip), 3-6 (tri)
+  held-out testable (E_held >= 2): 5-7 gaps; persistent 1-3 (chance persistence mean 0.1-0.6, max 2)
+
+What deduplication removed (mass-produced tablets had made single formulae look like rules):
+  W501 never with the jar (E 8.9): W501 occurs in 29 identical Harappa tablets 501-405-2-240-520 and twice elsewhere
+  W850 never with W240 (E 6.2): 14 copies of 806-845-61-407-850-900-740
+  W705 never before W700 (E 7.4): 705-33-845-407 x14 and the 705-500-741-1-55-220-740-90 series
+  235-33-923 / 235-705-923 (E 6.4) and 240-900-740, 240-407-740, 231-17-740, 231-585-740, 220-176-400, 741-176-400: all vanish after dedup
+  -> any gap search on this corpus must deduplicate; otherwise the negative space is full of ghosts of one tablet mould.
+
+Gaps that survive dedup in all three sign-identity levels (home E_model >= 5, observed 0; E_held and O_held in brackets):
+  ('ord', 2, 2)      E 26-28  W2 never twice in a text                         [held 10.6-11.6, O 1: Ns-66 2-892-2-100-740-90-400-999-33]
+  ('tri', 2, 2, 740) E 10-12  same, with the jar                                [held 3.0, O 1]
+  ('skip', 2, 2)     E 6-7                                                      [held 3.3-4.0, O 1]
+  ('ord', 2, 741)    E 11-13  W2 never before the marked jar W741 with a gap    [held 3.4-3.6, O 0]  PERSISTENT in all three levels
+  ('ord', 240, 2)    E 9-10   fish-mark W240 never before W2 with a gap (W2 before 240: 29 ord + 40 adjacent)   [held 1.6-1.8, O 0]
+  ('ord', 233, 2)    E 5-6    fish-mark W233 never before W2 with a gap (reverse 24 + 18)                       [held 1.2-1.3, O 0]
+  ('ord', 740, 2)    E 5-6    the jar never before W2 with a gap (reverse 263-270)                              [held 1.8-2.2, O 1: Desalpur tag Dlp-3 740-892-2-32-394]
+  ('co', 240, 240)   E 6      W240 never twice                                  [held 0.5-0.6, O 0]
+  ('tri', 741, 740, 400) E 5  marked jar ... jar ... suffix never (741 & 400 share only 4 texts)
+  seq_raw only: ('co', 2, 742) E 5.3 (W2 never with marked jar W742), ('co', 60, 861) E 5.1 (S360 clique), ('ord', 233, 220) E 5.1-5.2 (233 before 220 only adjacent: 233-220 x7), ('tri', 820, 2, 2), ('tri', 2, 220, 2)
+  seq_strong/all only: ('ord', 861, 741) E 6.7-6.9 (opener W861 never before the marked jar with a gap; 861-741 adjacent 4x) [held 1.8-2.0, O 0; persistent in seq_all]
+
+Reading: after deduplication and the chance control, the negative space of the 105 commonest signs is small and almost entirely about
+one sign, the marker W2 (M99): it is written at most once, it stands before the words it introduces (fish marks, the jar), never after
+them, and it never shares a text with the marked jars W741/W742 (the 920-60-741 opening phrase, S334).  Triples add nothing that is not
+already a pair rule.  No new multi-sign paradigm class appears.
+
+| S-DARK-15.1 | Negative space: patterns the slot grammar's own generative model (order-2 KN chain per object class, fitted on MD+H; 100 synthetic corpora) expects >= 5 times but the corpus never shows: co-occurrence, ordered pair with gap, skip-bigram, ordered triple over the 105-119 commonest signs. Controls: 100 synthetic corpora scored leave-one-out (chance gaps), within-text shuffle + refit, held-out sites with their own model (E_held >= 2), and one copy per distinct text per site x object class (`data/derived/dark/loop15_engine.py`; seq_raw/strong/all) | All texts: 34/27/27 gaps vs synthetic max 3-7 per kind, but the within-text shuffle gives 43-55 (tri 32-38): triple gaps are co-membership, not order. Dedup: 17/12/15 gaps; the W501-jar (29 copies of 501-405-2-240-520), W850-W240 (14 copies), 705-700, 235-33-923 and all other triple gaps vanish. Survivors in all three levels: W2 twice (E 26-28, O 0; held-out E 11, O 1), W2 ... marked jar W741 (E 11-13, O 0; held-out E 3.5, O 0, persistent; chance persistence max 2), fish marks W240/W233 never before W2 with a gap (E 9-10 / 5-6, reverse 29+40 / 24+18), jar never before W2 (E 5-6, reverse 263), W240 twice (E 6). IM77 (1,809 dedup lines, stratified permutation 300x): M99 twice 1 vs 55.7, M99 .. M343 3 vs 16.2, M67 ... M99 0 vs 13.4, M67 twice 0 vs 7.2 (all P(0) < 0.001) | **The negative space of the common signs is one sign's grammar.** Beyond pairwise exclusion (S36/S37/S360) the only gaps that survive deduplication, chance and held-out controls are rules about the marker W2 (M99): written once per text, always before the words it introduces (fish marks, the jar), never with the marked jars of the 920-60-741 phrase. The repetition ban is the general S88 effect at its strongest single sign; the 2 .. 741 exclusion extends S333/S334 from adjacency to the whole text. No new paradigm class and no triple rule. Method lesson: gap searches must deduplicate the moulded tablets or they report ghosts |
