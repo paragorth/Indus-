@@ -51,7 +51,7 @@ def network(site, sealings, label, open_set, fmtf=fmt):
                 on_n[a].add(s['oid'])
                 for b in pick:
                     if b != a: pn[a].add(b)
-        nd.append(len(on_n)); hub.append(max(len(v) for v in on_n.values())); hubp.append(max(len(v) for v in pn.values()))
+        nd.append(len(on_n)); hub.append(max((len(v) for v in on_n.values()), default=0)); hubp.append(max((len(v) for v in pn.values()), default=0))
     P(f'   distinct texts among the {slots} multi slots: {nd_obs} vs null {sum(nd)/NP:.1f} (P_lo = {pval(nd_obs, nd, "lo"):.3f}, P_hi = {pval(nd_obs, nd):.3f})')
     P(f'   hub: max sealings for one text {hub_obs} vs null {sum(hub)/NP:.1f} (P = {pval(hub_obs, hub):.3f}); max distinct partners {hubp_obs} vs {sum(hubp)/NP:.1f} (P = {pval(hubp_obs, hubp):.3f})')
     # (b) partner features: for the hub text, its partners vs all other impressions at the site
