@@ -1,2 +1,35 @@
 # S-DARK-20.1 drift test: variant form share vs time, per city; token level, permutation 2000x of time labels across texts within site x area x object type; Spearman(form indicator, time); larger time = later (age = -depth ft; period = HARP fine period at Harappa, Marshall Early/Int/Late at Mohenjo-daro when fine missing)
 # texts: MD 1883, HP 2528; with depth MD 1325 HP 934; with period MD 780 HP 431
+
+## Mohenjo-daro vs depth (age): 9 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+156	151	doubtful	63	35	+0.168	0.1294	0.309
+390	405	strong	142	22	+0.112	0.1374	0.309
+390	406	strong	142	6	-0.028	0.6327	0.712
+705	706	strong	110	39	+0.143	0.0245	0.110
+803	806	strong	117	47	+0.111	0.2969	0.493
+803	838	probable	117	9	-0.304	0.0150	0.110
+861	817	strong	183	87	+0.052	0.4778	0.614
+384x388	388	cand	30	22	-0.057	0.9080	0.908
+390x407	407	cand	156	42	+0.139	0.3283	0.493
+survivors q<0.1: 0 of 9; p<0.05: 2 (expected 0.5)
+
+## Mohenjo-daro vs period: 7 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+156	151	doubtful	49	25	+0.128	0.2969	0.475
+390	405	strong	76	10	+0.112	0.4068	0.475
+705	706	strong	54	19	-0.047	0.7186	0.719
+803	806	strong	67	28	+0.283	0.1474	0.344
+803	838	probable	67	8	-0.311	0.0125	0.044
+861	817	strong	109	49	-0.074	0.3923	0.475
+390x407	407	cand	81	18	+0.354	0.0115	0.044
+survivors q<0.1: 2 of 7; p<0.05: 2 (expected 0.4)
+
+## Harappa vs depth (age): 5 arrows
+set	form	level	n_tok	n_form	rho(form,later)	p	q_BH
+390	405	strong	56	21	+0.383	0.0805	0.201
+705	706	strong	42	16	-0.026	0.8476	0.848
+803	806	strong	44	23	+0.185	0.3668	0.599
+861	817	strong	66	38	+0.069	0.4793	0.599
+390x407	407	cand	49	16	+0.320	0.0405	0.201
+survivors q<0.1: 0 of 5; p<0.05: 1 (expected 0.2)
