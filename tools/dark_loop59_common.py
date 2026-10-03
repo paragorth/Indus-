@@ -263,7 +263,7 @@ class Frame:
         return p
     def psign(self, x, c, z, ot):
         if c == 'OTHER': return self.pool.p(x, ot) / self.pool_other_mass(ot)
-        if c.startswith('C'): return 1.0 if ('C' + str(x)) == c else 0.0
+        if c.startswith('C') and c[1:].isdigit(): return 1.0 if ('C' + str(x)) == c else 0.0
         cnt = self.sign_tab.get((c, z)); allc = self.sign_all.get(c)
         if not allc: return 0.0
         Na = sum(allc.values()); Ta = len(allc)

@@ -1,0 +1,42 @@
+S-DARK-58 THE MINIMAL TEXT: final note (4 cycles; tools/dark_loop58.py, tools/dark_loop58_calib.py; rows in loop58_cycle1-4.txt)
+
+Question. When only one or two signs are written, which part of the message survives: the head (title/closer), the identifier
+(middle), or the opener (issuer mark)?
+
+Answer, in one line. The individual element survives; the head is restored first; the opener goes first.
+
+Numbers (seq_all; seq_raw and seq_strong identical within one token; current inscriptions.csv rebuilt, one copy per die,
+complete texts with no lost sign only).
+1. 1-sign seals (57): 86% middle-inventory or never-in-a-long-text signs (16 UNSEEN vs 1.0 expected, P < 0.001; 9 hapaxes =
+   16% vs 2-3% in longer seals); head 4 (7%: jar x3, W226 x1); opener 1; marker 0; title 0. 1-sign tablets (31): the same
+   (84% middle/UNSEEN, head 3). 1-sign pots (159, Harappa 122): numerals 57% vs 12-13% expected; opener 0, title 0.
+2. 2-sign seals (246): the frame in miniature. Closers 135 tokens vs 70-75 expected (P < 0.001), openers 12 vs 31-37, markers
+   5 vs 34-43; 130 of 246 end in a head; 93% keep frame order (null 65%, reversed 35%); 60% are attested long-text bigrams
+   (null 29-32%). Recurring 2-sign dies (197 of 467): a third are the frozen numeral + item / pre-jar pairs of GRAMMAR.md and
+   S-DARK-26 (3-390, 3-156, 33-700, 16-390, 31-156, 142-617, 176-740 ...), the rest X + jar with a fresh X and 861-2 alone.
+3. Impressions: every seal-to-sealing match rate is a function of text length (1-sign 4-19%, 2-sign 3-8%, 3-sign 0-2%,
+   4+ < 0.3-0.6%); the lone-jar seal that matches a sealing is one object. "Closer-bearing short texts get copied" (S-DARK-16)
+   is a length effect first; no evidence that a lone-head seal was used more than a long one.
+4. Calibration (identical position-class code): Indus 1-sign seals have the Latin 1-word (names) and Ur III 2-word (name +
+   title) profile, RARE class 0.47 vs 0.05 null and hapax 8x null, with the LAST (head) class at its frequency rate; they do
+   not have the Linear B single-entry profile (ideograms/NUM, LAST class over). Indus 2-sign seals are the only minimal class
+   with the LAST class doubled (0.33 vs 0.20): name + title. Indus 1-sign pots match the Linear B count-entry profile.
+5. Replication: held-out sites (1-sign seals 10 of 12 middle/UNSEEN; 2-sign seals closers 21 vs 12, P = 0.01) and IM77
+   (24 of 27; closers 103 vs 55-59, P < 0.001), all three levels. IM77 pots do not show the numeral excess: that finding is a
+   Harappa HARP-sherd phenomenon.
+
+Prediction (frozen here). A new complete 1-sign seal carries a head sign with p = 0.07 [0.03, 0.17] and a middle-inventory /
+long-text-unseen sign with p = 0.86 [0.75, 0.93]; a new 2-sign seal ends in a head with p = 0.53 [0.47, 0.59]; a new 1-sign
+pot mark is a numeral with p = 0.57 [0.49, 0.64] (Harappa-weighted). Kill: >= 10 head signs among the next 30 complete
+1-sign seals.
+
+What the minimal texts say the essential content of a seal is. The unique, name-like element. The seal was cut down to the
+part that identifies one holder, not to the office word or the issuing formula; the office word (head) is the first thing
+added back, the opener + marker the last. This is the Ur III / Latin owner-legend order of importance and the opposite of a
+commodity-label order (which keeps the class sign, as Linear B does). It does not give a reading of any sign.
+
+Caveats. n = 57 / 31 / 12 / 27 for the seal and tablet classes; 1-sign seals are half Mohenjo-daro; "UNSEEN" is partly
+definitional (a sign confined to short texts is unseen in long ones), so the hapax share is the cleaner statistic; Wells and
+IM77 are ~70% the same objects (S312), so "replicated" here means transcription-robust plus 12 held-out objects.
+Files: data/derived/dark/loop58_c1_<level>.txt/.json, loop58_c2_<level>.txt/.json, loop58_c3_calib.txt/.json,
+loop58_c4_<level>.txt. No git commit made (loop rule).

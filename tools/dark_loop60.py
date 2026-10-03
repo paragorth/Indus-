@@ -137,7 +137,10 @@ def parse_head(seq, head_group, suf_map, openers, conn, nums, mark, fish, goods,
     return f
 
 # ---------------- load Wells ----------------
-def load_wells(level):
+def complete_only_types_ok(ty):
+    """end-intact fragments are admitted only for sealings (TAG), where whole texts are rare (S-DARK-16)"""
+    return ty.startswith('TAG')
+def load_wells(level, complete_only=False):
     C = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
     rows = list(csv.DictReader(open(ROOT + 'data/raw/inscriptions.csv')))
     g = lambda r, k: (r.get(k) or '')
@@ -147,23 +150,36 @@ def load_wells(level):
             lothal[r[0]] = r[2]
     except Exception:
         pass
+    by_cisi = collections.defaultdict(list)
+    for r in rows: by_cisi[r['cisi']].append(r)
+    def parsed(r): return [x for x in (int(y) for y in re.findall(r'\d{3}', r['text'])) if x != 0]
     j = 0; T = []
     for c in C:
         while rows[j]['cisi'] != c['cisi']: j += 1
         r = rows[j]; j += 1
         s = c[level]
-        if not s or c['complete'] != 'Y': continue
+        if not s: continue
+        raw = c['seq_raw']
+        if list(reversed(parsed(r))) != raw:
+            alt = [x for x in by_cisi[c['cisi']] if list(reversed(parsed(x))) == raw]
+            r = alt[0] if alt else r
+        text_ok = list(reversed(parsed(r))) == raw
+        # seq is stored in reading order = reverse of the displayed text, so the reading END is the displayed LEFT end
+        endok = (c['complete'] == 'Y') or (text_ok and r['text'].startswith('+'))
+        if not endok: continue
+        if c['complete'] != 'Y' and not complete_only_types_ok(c['type']): continue
         tf = type_fine(c['type'])
         foreign = g(r, 'region') in FOREIGN_REGIONS
         try: h = float(g(r, 'horizontal(mm)') or 0)
         except ValueError: h = 0.0
-        t = dict(id=g(r, 'id'), cisi=c['cisi'], site=c['site'], type=c['type'], tf=tf, tc=type_coarse(tf), foreign=foreign,
+        t = dict(id=g(r, 'id'), cisi=c['cisi'], site=c['site'], complete=c['complete'] == 'Y', type=c['type'], tf=tf, tc=type_coarse(tf), foreign=foreign,
                  carrier=(c['type'].split(':')[1] if c['type'].startswith('TAG') and ':' in c['type'] else ('TAG' if tf == 'sealing' else None)),
                  back=lothal.get(c['cisi']) if tf == 'sealing' else None,
                  emblem=emblem_group(c['symbol']), material=material_group(c['material']), size=h if h > 0 else None,
                  area=md_area(c['area-section']) if c['site'] == 'Mohenjo-daro' else None,
                  phase=phase_of(c['site'], c['period'], c['phase']), seq=list(s), big=c['site'] in ('Mohenjo-daro', 'Harappa'))
         t.update(parse_head(t['seq'], HEAD_GROUP, SUF, OPENERS, CONN, NUMS, MARK, FISH, GOODS, FIXED12, VAL, TALL))
+        if complete_only and not t['complete']: continue
         T.append(t)
     return T
 
@@ -265,7 +281,7 @@ def report(title, res, nh, heads, min_n=10, show_all=False):
 # ---------------- cycles ----------------
 def cycle1(T, heads, nperm):
     P(f'# S-DARK-60 cycle 1 ({LV}): object-type profile, carriers, impression match, mould/incised; nperm={nperm}')
-    P(f'texts (complete) {len(T)}; head counts: ' + ', '.join(f'{h} {sum(1 for t in T if t["head"] == h)}' for h in heads))
+    P(f'texts (complete, plus end-intact sealing fragments: {sum(1 for t in T if not t["complete"])}) {len(T)}; head counts: ' + ', '.join(f'{h} {sum(1 for t in T if t["head"] == h)}' for h in heads))
     SA = lambda t: (t['site'], lenbin(t['n']))
     res, nh = perm_profile(T, heads, lambda t: 'foreign' if t['foreign'] else t['tc'], lambda t: (t['foreign'], lenbin(t['n'])) if t['foreign'] else SA(t), nperm)
     report('Object type (coarse; foreign finds as one class; null: heads shuffled within site x length-bin)', res, nh, heads)
@@ -284,22 +300,23 @@ def cycle1(T, heads, nperm):
     for t in T:
         if t['tc'] == 'seal' and t['n'] >= 2: seal_texts[tuple(t['seq'])].add(t['site'])
         if t['tf'] == 'sealing' and t['n'] >= 2: tag_texts[tuple(t['seq'])].add(t['site'])
+    def tag_match(s): return s in tag_texts or any(len(u) >= 2 and s[-len(u):] == u for u in tag_texts)
     D = []
     for s, sites in seal_texts.items():
         h = parse_head(list(s), HEAD_GROUP, SUF, OPENERS, CONN, NUMS, MARK, FISH, GOODS, FIXED12, VAL, TALL)['head']
-        D.append(dict(head=h, n=len(s), site=sorted(sites)[0], matched='yes' if s in tag_texts else 'no',
+        D.append(dict(head=h, n=len(s), site=sorted(sites)[0], matched='yes' if tag_match(s) else 'no',
                       tab_match='yes' if any(tuple(t['seq']) == s for t in T if t['tc'] == 'tablet') else 'no'))
     res, nh = perm_profile(D, heads, lambda t: t['matched'], lambda t: lenbin(t['n']), nperm)
-    report(f'Distinct seal texts (>=2 signs, {len(D)}): exact match on a sealing anywhere (null within length-bin)', res, nh, heads)
+    report(f'Distinct complete seal texts (>=2 signs, {len(D)}): matched by a sealing anywhere (exact, or the end-intact sealing fragment is the seal text\'s end; null within length-bin)', res, nh, heads)
     res, nh = perm_profile(D, heads, lambda t: t['tab_match'], lambda t: lenbin(t['n']), nperm)
     report('Distinct seal texts: exact match on a tablet anywhere', res, nh, heads)
     # sealings: share of sealing texts with a seal anywhere
     E = []
     for s, sites in tag_texts.items():
         h = parse_head(list(s), HEAD_GROUP, SUF, OPENERS, CONN, NUMS, MARK, FISH, GOODS, FIXED12, VAL, TALL)['head']
-        E.append(dict(head=h, n=len(s), matched='yes' if s in seal_texts else 'no'))
+        E.append(dict(head=h, n=len(s), matched='yes' if (s in seal_texts or any(u[-len(s):] == s for u in seal_texts)) else 'no'))
     res, nh = perm_profile(E, heads, lambda t: t['matched'], lambda t: lenbin(t['n']), nperm)
-    report(f'Distinct sealing texts (>=2 signs, {len(E)}): exact seal match anywhere (ghost rate per head, cf. S-DARK-16)', res, nh, heads, min_n=3)
+    report(f'Distinct sealing texts incl. end-intact fragments (>=2 signs, {len(E)}): a seal text anywhere ends with it (ghost rate per head, cf. S-DARK-16)', res, nh, heads, min_n=3)
     # 1-sign texts share per head (flag for S-DARK-58 overlap)
     P('\n### Share of each head on 1-sign texts (reported only; S-DARK-58 covers minimal texts)')
     for h in heads:
@@ -479,7 +496,7 @@ if __name__ == '__main__':
         T = load_wells(LV); cycle1(T, heads, NP)
         open(OUT + f'loop60_c1_{LV}.txt', 'w').write('\n'.join(LOG))
     elif CY == 2:
-        T = load_wells(LV); cycle2(T, heads, NP, 'Wells')
+        T = load_wells(LV, complete_only=True); cycle2(T, heads, NP, 'Wells')
         if LV == 'seq_raw':
             TI = load_im77(); hi = ['jar', 'mjar', 'arrow', 'W151', 'W156+154/158', 'box527', 'W226', 'W615/617', 'W236', 'W700', 'W595', 'W400', 'W90/91', 'none']
             P('\n\n########## IM77 replication (M numbers; W154/156/158 all = M15; W615/617 = M245 and W236 = M66 are proposed bridge entries) ##########')
@@ -493,7 +510,7 @@ if __name__ == '__main__':
             cycle2(TI, hi, NP, 'IM77')
         open(OUT + f'loop60_c2_{LV}.txt', 'w').write('\n'.join(LOG))
     elif CY == 3:
-        T = load_wells(LV); pairs, comps = cycle3(T, heads, NP)
+        T = load_wells(LV, complete_only=True); pairs, comps = cycle3(T, heads, NP)
         rows = write_profiles(T, heads)
         fn = OUT + 'loop60_head_profiles.csv'
         old = []

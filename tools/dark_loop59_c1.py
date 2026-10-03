@@ -129,7 +129,9 @@ class PFA33:
     def p(self, x, o, h):
         q = 0; q = self.nxt(q, 'T:' + o['ot'])
         for y in h: q = self.nxt(q, self.sym(y))
-        if x == END: return self.psym(q, '#')
+        if x == END:
+            if q == -1: return self.uni.get('#', 1e-6)
+            return (self.final[q] + 0.5 * self.uni.get('#', 1e-6)) / (self.n[q] + 0.5)
         a = self.sym(x); ps = self.psym(q, a)
         cnt = self.sc.get(a)
         if a == 'OTHER':
@@ -144,7 +146,7 @@ if os.path.exists(p33): A33 = PFA33(p33, FIT); log(f'loop 33 automaton loaded: {
 
 # ---------------------------------------------------------------- evaluate
 def models_for(setname):
-    M = {'unigram': lambda x, o, h: UNI.p(x, o['ot']), 'KN1': KN1.p, 'KN2': KN2.p, 'KN3': KN3.p,
+    M = {'uniform': lambda x, o, h: 1.0 / (len(V) + 2), 'unigram': lambda x, o, h: UNI.p(x, o['ot']), 'KN1': KN1.p, 'KN2': KN2.p, 'KN3': KN3.p,
          'frame_only': ABL['frame_only'].p, 'frame+rules': ABL['frame+rules'].p, 'frame+rules+cache': ABL['frame+rules+cache'].p,
          'structural': STR.p, 'combined': combo_p}
     if S366: M['S366gen'] = S366[setname].p
