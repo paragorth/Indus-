@@ -1,0 +1,31 @@
+# loop 42 cycle 1  level=seq_strong  (source: data/raw/inscriptions.csv, 5,680 rows; texts with >= 1 known sign: 5530)
+provenance classes (texts): FOREIGN 34, FULL 4968, NOCTX 285, PART 167, SURFACE 48, UNKNOWN 28
+  texts >= 3 signs: FOREIGN 22, FULL 2729, NOCTX 130, PART 66, SURFACE 18, UNKNOWN 24
+  how provenance is recorded: excavation-idno (register number; "-" = none), area-section ("--" = none), depth ("surface -" = surface find; "- -" = none), site "Unknown" = museum/dealer object (CISI "Un-" / "?-" numbers). No purchase/dealer field exists in the CSV; the Umma tag carries the Ashmolean number 1931.120 as its idno.
+FIT set (MD+H with register number): 4377 texts, 2416 with >= 3 signs; held-out excavated sites with register number: 591 / 313
+rules fitted: repeatable signs [31, 32, 220, 390, 400, 407, 740, 820, 904]; exclusion pairs 114; forbidden bigrams 36; fixed-direction pairs 209; never-final [5, 17, 55, 61, 70, 97, 171, 231, 320, 335, 337, 460, 463, 495, 501, 575, 630, 745, 752, 760, 798, 803, 923]; never-initial [335, 407, 463, 585, 845]; frozen pairs 74
+  forbidden bigrams: 1-740 2-60 2-400 2-700 2-741 3-400 3-740 4-740 32-2 34-740 176-2 220-220 220-390 235-2 235-400 240-2 240-400 240-700 415-740 435-740 692-740 700-740 705-700 740-2 740-33 740-220 740-390 740-520 740-700 741-740 803-700 820-740 861-220 861-390 861-400 861-700
+  exclusion pairs: 2|34 2|154 2|400 2|700 2|742 2|745 3|33 3|34 3|415 4|240 5|700 13|700 16|32 16|700 31|690 31|760 32|34 32|503 32|615 33|34 33|90 33|156 33|440 33|690 33|742 34|90 34|100 34|176 34|220 34|233 34|235 34|240 34|255 34|400 34|407 34|415 34|590 34|705 34|740 34|760 34|798 34|803 34|820 34|840 34|920 60|700 61|520 61|700 100|520 100|700 142|700 151|520 154|240 154|700 156|235 156|390 156|520 156|700 176|368 176|407 176|520 176|700 176|760 233|700 235|700 240|700 255|700 350|700 390|407 390|615 390|700 400|407 400|413 400|742 400|752 400|845 400|850 407|700 413|861 416|700 435|700 440|700 455|700 482|700 501|740 503|700 520|630 520|690 520|700 520|740 520|760 520|840 520|900 527|700 550|700 585|700 590|700 595|700 615|700 617|700 630|700 700|705 700|740 700|741 700|752 700|760 700|790 700|798 700|803 700|820 700|832 700|840 700|845 700|923
+in-sample FIT violation rate (>=1 rule) by length: 2: 14/1226 (0.011)  3: 32/736 (0.043)  4: 41/619 (0.066)  5: 42/466 (0.090)  6+: 92/1330 (0.069)
+  rules broken in FIT (in-sample): {'R2_EXCL': 44, 'R7_FROZEN': 93, 'R3_W2': 51, 'R1_REPEAT': 27, 'R8_FISH': 18}
+5-fold CV false alarm on excavated MD+H (>=1 rule): 2: 35/1226 (0.029)  3: 48/736 (0.065)  4: 57/619 (0.092)  5: 63/466 (0.135)  6+: 147/1330 (0.111)
+   >=2 rules: 2: 3/1226 (0.002)  3: 7/736 (0.010)  4: 6/619 (0.010)  5: 13/466 (0.028)  6+: 42/1330 (0.032)
+   rules broken (CV): {'R6_EDGE': 28, 'R5_ORDER': 84, 'R1_REPEAT': 38, 'R2_EXCL': 86, 'R7_FROZEN': 109, 'R4_BIGRAM': 14, 'R3_W2': 51, 'R8_FISH': 18}
+5-fold CV power on within-text SHUFFLES of the same texts (>=1): 2: 185/1226 (0.151)  3: 414/736 (0.562)  4: 430/619 (0.695)  5: 372/466 (0.798)  6+: 528/1330 (0.397)
+   >=2 rules: 2: 48/1226 (0.039)  3: 173/736 (0.235)  4: 240/619 (0.388)  5: 261/466 (0.560)  6+: 403/1330 (0.303)
+held-out excavated sites false alarm (>=1): 2: 4/128 (0.031)  3: 22/101 (0.218)  4: 13/73 (0.178)  5: 10/53 (0.189)  6+: 23/236 (0.097)
+   >=2 rules: 2: 1/128 (0.008)  3: 2/101 (0.020)  4: 1/73 (0.014)  5: 0/53 (0.000)  6+: 2/236 (0.008)
+   rules broken (held-out): {'R3_W2': 19, 'R1_REPEAT': 5, 'R7_FROZEN': 20, 'R5_ORDER': 13, 'R4_BIGRAM': 3, 'R2_EXCL': 15, 'R6_EDGE': 4}
+   by site (>= 3 signs): Lothal 24/124, Chanhu-daro 14/57, Kalibangan 16/55, Dholavira 5/26, Nausharo 2/14
+held-out SHUFFLE power (>=1): 2: 29/128 (0.227)  3: 47/101 (0.465)  4: 58/73 (0.795)  5: 40/53 (0.755)  6+: 68/236 (0.288)
+order-2 chain (skilled forger) power (>=1): 2: 40/640 (0.062)  3: 100/505 (0.198)  4: 112/365 (0.307)  5: 120/265 (0.453)  6+: 291/1180 (0.247)
+   >=2 rules: 2: 1/640 (0.002)  3: 6/505 (0.012)  4: 19/365 (0.052)  5: 34/265 (0.128)  6+: 141/1180 (0.119)
+   rules broken: {'R2_EXCL': 309, 'R1_REPEAT': 118, 'R7_FROZEN': 181, 'R5_ORDER': 104, 'R3_W2': 38, 'R6_EDGE': 131, 'R8_FISH': 11, 'R4_BIGRAM': 9}
+order-1 chain power (>=1): 2: 51/640 (0.080)  3: 104/505 (0.206)  4: 124/365 (0.340)  5: 129/265 (0.487)  6+: 302/1180 (0.256)
+   >=2 rules: 2: 5/640 (0.008)  3: 4/505 (0.008)  4: 25/365 (0.068)  5: 39/265 (0.147)  6+: 142/1180 (0.120)
+   rules broken: {'R7_FROZEN': 148, 'R1_REPEAT': 108, 'R2_EXCL': 312, 'R5_ORDER': 178, 'R4_BIGRAM': 18, 'R3_W2': 49, 'R6_EDGE': 163, 'R8_FISH': 10}
+unigram sign-copier power (>=1): 2: 176/640 (0.275)  3: 233/505 (0.461)  4: 219/365 (0.600)  5: 195/265 (0.736)  6+: 369/1180 (0.313)
+   >=2 rules: 2: 31/640 (0.048)  3: 60/505 (0.119)  4: 96/365 (0.263)  5: 92/265 (0.347)  6+: 270/1180 (0.229)
+   rules broken: {'R5_ORDER': 492, 'R6_EDGE': 258, 'R2_EXCL': 495, 'R4_BIGRAM': 275, 'R1_REPEAT': 89, 'R8_FISH': 16, 'R7_FROZEN': 274, 'R3_W2': 126}
+SUMMARY (>= 3 signs, >=1 rule): false alarm CV 315/2416 = 0.130; held-out sites 68/313 = 0.217; shuffle sensitivity CV 1744/2416 = 0.722, held-out 213/313 = 0.681
+   forger sensitivity (>= 3 signs, >=1 rule): order-2 0.402; order-1 0.436; unigram 0.639

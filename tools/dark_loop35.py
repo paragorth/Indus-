@@ -365,6 +365,26 @@ if CY==3:
         for cname,cv in (('mean cost rank',[cost[c] for c in CLASSES]),('area effect',[area[c] for c in CLASSES])):
             rho,p2=exact_p(v,cv)
             print(f'  rho({stat}, {cname}) = {rho:+.3f}; exact two-sided P over {len(PERM)} orders = {p2:.3f}')
+    # Kendall W: do the six cost measures and the seven qualifier statistics agree on ONE order of the closers?
+    # null: the qualifier block keeps its internal structure but its closer labels are permuted (exact, m! orders), so the
+    # cost block's own agreement (35.2) is held fixed and only cost-vs-qualifier agreement is tested.
+    QS=('title_len','qual_types','ttr','rarity','bare','text_len','top_share')
+    # orient every statistic so that + = 'higher grade' under the credential reading (longer title, more qualifier types,
+    # rarer partner, more bare texts, longer text, less dominated by one partner); ttr same sign as qual_types
+    sign={'title_len':1,'qual_types':1,'ttr':1,'rarity':1,'bare':1,'text_len':1,'top_share':-1}
+    qual=np.array([[sign[s]*Q[c][s] for c in CLASSES] for s in QS],float)
+    try: costrows=[[J['table'][m][str(c)] for c in CLASSES] for m,_ in MEASURES]
+    except Exception: costrows=[[area[c] for c in CLASSES]]
+    Wall=kendall_w(costrows+[list(r) for r in qual]); Wq=kendall_w([list(r) for r in qual])
+    Wcq=kendall_w([[cost[c] for c in CLASSES]]+[list(r) for r in qual])
+    nullW=[]; nullWcq=[]
+    for p in PERM:
+        qp=qual[:,p]
+        nullW.append(kendall_w(costrows+[list(r) for r in qp])); nullWcq.append(kendall_w([[cost[c] for c in CLASSES]]+[list(r) for r in qp]))
+    nullW=np.array(nullW); nullWcq=np.array(nullWcq)
+    print(f'\nKendall W, qualifier statistics alone ({len(QS)} rankings) = {Wq:.3f}')
+    print(f'Kendall W, 6 cost measures + 7 qualifier statistics = {Wall:.3f}; exact null (qualifier labels permuted, {len(PERM)} orders) median {np.median(nullW):.3f}, 95% {np.percentile(nullW,95):.3f}; P = {(nullW>=Wall-1e-12).mean():.3f}')
+    print(f'Kendall W, mean cost rank + 7 qualifier statistics = {Wcq:.3f}; null median {np.median(nullWcq):.3f}, 95% {np.percentile(nullWcq,95):.3f}; P = {(nullWcq>=Wcq-1e-12).mean():.3f}')
 
 # =====================================================================================================================
 if CY==4:

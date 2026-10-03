@@ -278,7 +278,15 @@ class FormModel:
         if 'type' in self.mech:
             if cls == 'SEAL': z[1] = 1
             elif cls == 'TAB': z[2] = 1
-        if 'site' in self.mech and site in self.sites: z[3 + self.sites.index(site)] = 1
+        if 'site' in self.mech:
+            if site in self.sites: z[3 + self.sites.index(site)] = 1
+            else:
+                # held-out site: the intercept and the two site dummies are collinear, so an all-zero site block
+                # is an arbitrary extrapolation (cycle 1 bug: held-out len_mean 5.8 vs 3.1). Use the fit-site mixture.
+                if not hasattr(self, 'site_mix'):
+                    c = collections.Counter(s for s, _, _, _ in self.units); t = sum(c.values())
+                    self.site_mix = [c[s] / t for s in self.sites]
+                for k, p in enumerate(self.site_mix): z[3 + k] = p
         z[-1] = 1 if ui > 0 else 0
         return z
     def fit_ising(self, X, Z, lam=1.0, iters=25):

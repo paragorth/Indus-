@@ -1,0 +1,104 @@
+# loop 42 cycle 2  level=seq_raw: weak-provenance objects vs matched excavated ones
+UNKNOWN: n=24 texts >= 3 signs; violation rate 0.125 vs matched excavated 0.098 (diff +0.027, permutation P(>=) = 0.411); rules: {'R4_BIGRAM': 1, 'R7_FROZEN': 1, 'R3_W2': 1}
+SURFACE: n=18 texts >= 3 signs; violation rate 0.167 vs matched excavated 0.177 (diff -0.011, permutation P(>=) = 0.578); rules: {'R7_FROZEN': 1, 'R2_EXCL': 1, 'R6_EDGE': 1, 'R3_W2': 1}
+NOCTX: n=130 texts >= 3 signs; violation rate 0.146 vs matched excavated 0.116 (diff +0.030, permutation P(>=) = 0.261); rules: {'R4_BIGRAM': 3, 'R5_ORDER': 6, 'R7_FROZEN': 7, 'R2_EXCL': 4, 'R3_W2': 4, 'R1_REPEAT': 1, 'R6_EDGE': 1}
+PART: n=66 texts >= 3 signs; violation rate 0.167 vs matched excavated 0.100 (diff +0.067, permutation P(>=) = 0.119); rules: {'R2_EXCL': 1, 'R7_FROZEN': 3, 'R5_ORDER': 4, 'R1_REPEAT': 3, 'R3_W2': 2, 'R6_EDGE': 1, 'R4_BIGRAM': 1}
+FOREIGN: n=22 texts >= 3 signs; violation rate 0.227 vs matched excavated 0.148 (diff +0.080, permutation P(>=) = 0.292); rules: {'R7_FROZEN': 2, 'R2_EXCL': 1, 'R5_ORDER': 2, 'R1_REPEAT': 1, 'R6_EDGE': 1}
+NOCTX at MD+H only: n=69 texts >= 3 signs; violation rate 0.043 vs matched excavated 0.064 (diff -0.020, permutation P(>=) = 0.722); rules: {'R7_FROZEN': 3, 'R2_EXCL': 1, 'R5_ORDER': 1}
+NOCTX seals: n=36 texts >= 3 signs; violation rate 0.194 vs matched excavated 0.147 (diff +0.048, permutation P(>=) = 0.317); rules: {'R5_ORDER': 3, 'R7_FROZEN': 3, 'R2_EXCL': 2, 'R6_EDGE': 1}
+UNKNOWN square seals: n=15 texts >= 3 signs; violation rate 0.133 vs matched excavated 0.110 (diff +0.024, permutation P(>=) = 0.373); rules: {'R7_FROZEN': 1, 'R3_W2': 1}
+held-out excavated (reference, matched to itself/MD+H): n=313 texts >= 3 signs; violation rate 0.214 vs matched excavated 0.189 (diff +0.025, permutation P(>=) = 0.217); rules: {'R3_W2': 18, 'R1_REPEAT': 5, 'R5_ORDER': 13, 'R4_BIGRAM': 4, 'R7_FROZEN': 18, 'R2_EXCL': 12, 'R6_EDGE': 4}
+  NOCTX Dholavira: n=18 texts >= 3 signs; violation rate 0.167 vs matched excavated 0.161 (diff +0.006, permutation P(>=) = 0.402); rules: {'R5_ORDER': 1, 'R2_EXCL': 1, 'R3_W2': 1}
+  NOCTX Mohenjo-daro: n=41 texts >= 3 signs; violation rate 0.049 vs matched excavated 0.045 (diff +0.003, permutation P(>=) = 0.397); rules: {'R2_EXCL': 1, 'R7_FROZEN': 2, 'R5_ORDER': 1}
+  NOCTX Harappa: n=28 texts >= 3 signs; violation rate 0.036 vs matched excavated 0.089 (diff -0.053, permutation P(>=) = 0.801); rules: {'R7_FROZEN': 1}
+  NOCTX Rakhigarhi: n=7 texts >= 3 signs; violation rate 0.143 vs matched excavated 0.111 (diff +0.032, permutation P(>=) = 0.360); rules: {'R2_EXCL': 1}
+
+objects with weak or no provenance, ranked by score (>= 1 rule), with the rule broken:
+  NOCTX    Nausharo       Ns-66      POT:T:g  2-892-2-100-740-90-400-999-33            score 4  R1_REPEAT:[2]; R2_EXCL:[(2, 400), (33, 90)]; R3_W2:['W2x2', 'W2-initial']; R7_FROZEN:[(740, 400)]
+  NOCTX    Mohenjo-daro   M-623      SEAL:S   820-530-299-2-798-415-220-176-175-760-740 score 2  R2_EXCL:[(176, 760)]; R7_FROZEN:[(820, 2)]
+  SURFACE  Kalibangan     K-40       SEAL:S   717-440-791-861-2-31-760                 score 2  R2_EXCL:[(31, 760)]; R6_EDGE:[('final', 760)]
+  NOCTX    Mohenjo-daro   M-1346     SEAL:R   820-2-803-233-32-861-740                 score 2  R5_ORDER:[(233, 861)]; R7_FROZEN:[(861, 2)]
+  FOREIGN  Janabiyah      -          SEAL:C   71-31-831-55-121-99-55                   score 2  R1_REPEAT:[55]; R6_EDGE:[('final', 55)]
+  FOREIGN  Ur             -          SEAL:C   415-803-1-328-4-2                        score 2  R5_ORDER:[(415, 2), (415, 803)]; R7_FROZEN:[(2, 4)]
+  NOCTX    Chandigarh     Ch-1       POT:T:g  705-550-740-220                          score 2  R4_BIGRAM:[(740, 220)]; R5_ORDER:[(740, 220)]
+  NOCTX    Nausharo       Ns-67      POT:T:g  2-390-151                                score 2  R3_W2:['W2-initial']; R4_BIGRAM:[(2, 390)]
+  NOCTX    Khirsara       Krs-1      SEAL:R   706-346-413-60-33-813-306-480-1-215      score 1  R7_FROZEN:[(706, 33)]
+  NOCTX    Nindowari-damb Nd-1       SEAL:S   257-60-26-760-740-66-632-220-817         score 1  R5_ORDER:[(740, 220), (220, 817)]
+  FOREIGN  Kish           -          SEAL:S   416-840-60-3-220-590-390-740             score 1  R7_FROZEN:[(3, 390)]
+  NOCTX    Ganweriwala    -          TAG      176-125-350-299-61-400-740               score 1  R7_FROZEN:[(740, 400)]
+  UNKNOWN  Unknown        -          SEAL:S   31-920-60-927-415-100-740                score 1  R7_FROZEN:[(927, 740)]
+  NOCTX    Rakhigarhi     -          SEAL:S   33-267-2-255-435-690-740                 score 1  R2_EXCL:[(33, 690)]
+  SURFACE  Kalibangan     K-14       SEAL:S   632-703-741-220-3-31                     score 1  R7_FROZEN:[(3, 220)]
+  NOCTX    Harappa        H-2584     TAG:R    705-33-95-520-468-806                    score 1  R7_FROZEN:[(33, 520)]
+  NOCTX    Desalpur       Dlp-3      TAG      740-892-2-32-394                         score 1  R5_ORDER:[(740, 2)]
+  FOREIGN  Susa           -          SEAL:C   365-90-407-604-700                       score 1  R2_EXCL:[(407, 700)]
+  UNKNOWN  Unknown        -          SEAL:C   467-550-1-740-740                        score 1  R4_BIGRAM:[(1, 740)]
+  NOCTX    Dholavira      -          TAB:I    231-226-2-31-575                         score 1  R5_ORDER:[(231, 2)]
+  NOCTX    Shikarpur      -          SEAL:S   861-921-98-220-335                       score 1  R6_EDGE:[('final', 335)]
+  FOREIGN  Dilmun         BM-123208  SEAL:C   415-803-1-717-354                        score 1  R5_ORDER:[(415, 803)]
+  NOCTX    Desalpur       Dlp-2      SEAL:R   440-790-407-590                          score 1  R5_ORDER:[(407, 590)]
+  UNKNOWN  Unknown        -          SEAL:S   741-298-2-136                            score 1  R3_W2:['W2+marked-jar']
+  SURFACE  Kalibangan     K-89       TAG:L    2-705-33                                 score 1  R3_W2:['W2-initial']
+  NOCTX    Dholavira      -          TAG      740-617-700                              score 1  R2_EXCL:[(617, 700), (700, 740)]
+  NOCTX    Dholavira      -          TAG      2-840-32                                 score 1  R3_W2:['W2-initial']
+  NOCTX    Lakhanjo-daro  -          TAG      365-706-740                              score 1  R4_BIGRAM:[(706, 740)]
+  NOCTX    Nausharo       Ns-65      POT:T:g  413-90-740                               score 1  R7_FROZEN:[(740, 90)]
+  NOCTX    Nausharo       Ns-79      POT:T:g  2-480-32                                 score 1  R3_W2:['W2-initial']
+  NOCTX    Harappa        -          MISC     34-33                                    score 1  R2_EXCL:[(33, 34)]
+  NOCTX    Harappa        H-895      TAB:I    390-700                                  score 1  R2_EXCL:[(390, 700)]
+  SURFACE  Kalibangan     K-30       SEAL:S   906-55                                   score 1  R6_EDGE:[('final', 55)]
+  NOCTX    Dholavira      -          TAG      2-520                                    score 1  R3_W2:['W2-initial']
+  NOCTX    Lakhanjo-daro  -          TAG      706-740                                  score 1  R4_BIGRAM:[(706, 740)]
+  SURFACE  Kalibangan     K-387      POT:T:g  2-231                                    score 1  R3_W2:['W2-initial']
+
+for comparison, the 20 excavated FIT texts with the highest score (in-sample):
+  FULL     Mohenjo-daro   M-355      SEAL:R   140-919-520-360-861-2-235-231-705-33-32-877-740 score 2  R2_EXCL:[(520, 740)]; R7_FROZEN:[(33, 520)]
+  FULL     Mohenjo-daro   M-626      SEAL:S   692-60-255-435-690-740-692-60-803-125-374-842 score 2  R1_REPEAT:[692, 60]; R3_W2:['W60x2']
+  FULL     Mohenjo-daro   M-682      SEAL:S   692-60-255-435-690-740-692-60-803        score 2  R1_REPEAT:[692, 60]; R3_W2:['W60x2']
+  FULL     Mohenjo-daro   M-1772     SEAL:S   705-255-435-798-2-61-142-400-740         score 2  R2_EXCL:[(2, 400)]; R7_FROZEN:[(740, 400)]
+  FULL     Mohenjo-daro   M-41       SEAL:S   820-125-405-2-235-233-240-636-740        score 2  R7_FROZEN:[(820, 2)]; R8_FISH:[(233, 240)]
+  FULL     Harappa        H-1720     TAG:L    326-405-90-405-893-413-33                score 2  R1_REPEAT:[405]; R2_EXCL:[(33, 90)]
+  FULL     Harappa        H-177      TAB:B    817-2-31-706-151-33-700                  score 2  R2_EXCL:[(2, 700), (700, 706)]; R7_FROZEN:[(706, 33)]
+  FULL     Harappa        -          POT:T:g  861-3-2-64-3-480                         score 2  R1_REPEAT:[3]; R7_FROZEN:[(861, 2)]
+  FULL     Mohenjo-daro   M-315      SEAL:S   741-228-374-2-34-390                     score 2  R2_EXCL:[(2, 34)]; R3_W2:['W2+marked-jar']
+  FULL     Harappa        H-1906     TAB:B    90-400-740-90-400                        score 2  R1_REPEAT:[90]; R7_FROZEN:[(740, 400)]
+  FULL     Mohenjo-daro   M-1135     SEAL:S   703-400-2-61-740                         score 2  R2_EXCL:[(2, 400)]; R7_FROZEN:[(740, 400)]
+  FULL     Harappa        H-2211     TAB:I    741-32-840-700                           score 2  R2_EXCL:[(700, 741), (700, 840)]; R7_FROZEN:[(840, 32)]
+  FULL     Mohenjo-daro   M-1233     SEAL:S   2-850-700-33                             score 2  R2_EXCL:[(2, 700)]; R3_W2:['W2-initial']
+  FULL     Mohenjo-daro   M-314      SEAL:S   820-2-235-240-231-466-706-760-33-809-308-125-390-817-953 score 1  R7_FROZEN:[(706, 33), (817, 2)]
+  FULL     Harappa        H-1657     SEAL:S   921-690-2-32-220-235-806-3-900-32-590-405-740 score 1  R7_FROZEN:[(3, 220), (2, 806)]
+  FULL     Mohenjo-daro   M-1954     SEAL:R   861-2-798-415-220-705-33-752-31-590-407-740 score 1  R7_FROZEN:[(752, 740)]
+  FULL     Mohenjo-daro   M-677      SEAL:S   901-861-2-242-231-706-33-32-70-923-740   score 1  R7_FROZEN:[(33, 923)]
+  FULL     Harappa        H-8        SEAL:S   921-690-2-706-33-590-405-740-1-354       score 1  R2_EXCL:[(33, 690)]
+  FULL     Mohenjo-daro   M-396      SEAL:R   550-60-235-630-794-904-832-233-630-204   score 1  R1_REPEAT:[630]
+  FULL     Mohenjo-daro   M-494      TAB:B    741-904-740-820-32-17-904-415-100-921    score 1  R7_FROZEN:[(100, 740)]
+
+all site="Unknown" (museum/dealer) texts:
+  321.1   -       SEAL:S   66-741-103-740-90                        complete=True score 0  
+  3118.1  -       SEAL:S   853-3-220-832-255-70-520                 complete=True score 0  
+  3335.1  -       SEAL:S   32-590-390-2-32-205-740                  complete=True score 0  
+  3887.1  -       SEAL:C   190-91-603                               complete=False score 0  
+  3888.1  -       SEAL:CY  32-132-55-90                             complete=False score 0  
+  3889.1  -       SEAL:C   467-550-1-740-740                        complete=True score 1  R4_BIGRAM:[(1, 740)]
+  3890.1  -       SEAL:S   820-60-240-231-585-740                   complete=True score 0  
+  3891.1  -       SEAL:S   31-920-60-927-415-100-740                complete=True score 1  R7_FROZEN:[(927, 740)]
+  3892.1  ?-3     SEAL:S   900-590-368-2                            complete=True score 0  
+  3893.1  ?-4     TAB:B    240-233                                  complete=False score 0  
+  3894.1  ?-5     TAB:B    820-2-233-555                            complete=True score 0  
+  3895.1  ?-6     TAB:B    817-2-61-702-740                         complete=True score 0  
+  3895.2  ?-6     TAB:B    32-700                                   complete=True score 0  
+  3896.1  -       SEAL:S   820-2-235-222-740                        complete=True score 0  
+  5223.1  -       SEAL:C   160-384-133-1-90                         complete=False score 0  
+  5224.1  -       SEAL:C   33-220-1-32-61                           complete=False score 0  
+  5226.1  -       SEAL:C   725-90-2                                 complete=False score 0  
+  5428.1  -       SEAL:S   142-400-151                              complete=True score 0  
+  5464.1  -       SEAL:S   817-2-140-840                            complete=False score 0  
+  5465.1  -       SEAL:S   370-31-741-840-390                       complete=True score 0  
+  5557.1  -       SEAL:CY  139-145                                  complete=False score 0  
+  5572.1  -       SEAL:S   741-298-2-136                            complete=True score 1  R3_W2:['W2+marked-jar']
+  5573.1  -       SEAL:S   368-572-741-33-33-520                    complete=True score 0  
+  5574.1  -       SEAL:S   741-877-861-740                          complete=False score 0  
+  5575.1  -       SEAL:S   861-2-136                                complete=True score 0  
+  5576.1  -       SEAL:S   824-2-104-415-368                        complete=True score 0  
+  5585.1  -       SEAL:S   142-176                                  complete=False score 0  
+  5586.1  -       SEAL:R   171-35-130-60-17-154-740                 complete=True score 0  
