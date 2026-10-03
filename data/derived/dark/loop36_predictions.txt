@@ -1,0 +1,59 @@
+LOOP 36 - FROZEN PREDICTIONS FOR A TRULY OUT-OF-CORPUS TEST SET
+Frozen: 2026-10-03, before any new text was transcribed or any statistic on the new set was computed.
+Source of each prediction: GRAMMAR.md and the S-DARK rows named. Sign numbers are Wells (W) numbers; IM77 Mahadevan (M)
+equivalents via data/derived/bridge_extended.json where given.
+
+Scoring rules (fixed now):
+- Test set = texts transcribed in loop36_newfinds.csv that pass the corpus-overlap check (no exact, reverse or edit-distance-1 match
+  to any text at any site in inscriptions.csv or, via the bridge, in IM77), with >= 2 signs read at confidence >= B.
+- Null 1 (as S-DARK-21.1): within-text shuffle of the new texts, 2,000 reps; P = share of reps with a statistic at least as extreme.
+- Null 2 (as S-DARK-21.1 / S312): a bigram model fitted on the home corpus (seq_raw) generating length-matched synthetic texts, 2,000 reps,
+  used for the rates that a within-text shuffle cannot test (unseen-sign share, nesting, reuse).
+- Zero counts are reported as upper bounds by the rule of three: 0 of n means < 3/n (95%).
+- A prediction PASSES when the observed statistic lies on the predicted side of the shuffle null at P < 0.05 (or, for 'rate' predictions,
+  within the stated band); it is UNDERPOWERED when n is below the stated minimum; it FAILS when the observed value crosses the kill line.
+
+P1  Frame slot order (GRAMMAR template; S36-S38, S-DARK-21.1, S-DARK-27.4).
+    Openers W817/W861/W820 (M267/391), W920, W692 stand text-initial. Prediction: >= 70% of their tokens in the new set are initial
+    (home: 465 opener texts, initial ~95%; IM77-only set 43/319 texts opener-first vs 16.6 shuffled). Kill: < 50% initial with n >= 10 tokens.
+P2  Connective W2 (M99) and W60 (M123) are never text-initial (home 0 of 839 for W2). Prediction: 0 initial of n tokens; report < 3/n.
+    Kill: >= 3 initial tokens.
+P3  Opener directly followed by connective (817/861/820-2, 920-60, 692-60) above the within-text shuffle (S331). Kill: observed <= shuffle mean.
+P4  Closer-final rate. Closer set = W740 (jar, M342), W520 (M211), W400 (comb; tablets), W154/156/158 (M15), W527, W151, W236, W700 (tablet unit),
+    W12 (M12) family, W595, W690, W840 (name-final). Core test: W740 final when present. Prediction: jar final in >= 60% of texts that contain it
+    (home 70%, IM77-only 90/112 = 80%); comb W400 final in >= 60% when present. Kill: jar final < 40% with n >= 10 jar texts.
+    Secondary: closer-last share of all texts >= 2 signs is 40-55% (IM77-only 45%) and above the within-text shuffle.
+P5  Closer exclusivity (S289, S291): two closer-class signs (740, 520, 154/156/158, 527, 151, 236, 595) in one text below the
+    cross-text permutation expectation (P < 0.05 given n >= 30 texts). Kill: observed >= expected with n >= 30.
+P6  No repeated sign within a text (S9, S16, S88, R1): share of texts (>= 3 signs) with a repeated sign <= 0.35x the within-text-permutation
+    (sign tokens permuted across texts within length class) expectation. Adjacent doubles counted as in Wells (W2 twice allowed as marker+numeral).
+    Kill: ratio > 0.7 (language-like).
+P7  Minimum-lot rule (S-DARK-15.3; demoted S-DARK-21.1): short-stroke 1 (W31) or short 2 (W2/W32-short) directly before a counted good
+    (W390/405/407, W520, W900, W845, W923, W550) in <= 20% of numeral+good pairs (the demoted version; the original 5% line is reported too).
+    Depletion vs numeral values permuted among numeral slots, P < 0.05 if n >= 20 pairs. Counts before goods otherwise 3-8.
+P8  Partial-order chain direction (S-DARK-19.2): for every pair of signs in the frozen chain
+    320 > 920 > 60 > 741 > 2 > 803 > 32 > 350 > 798 > 415 > 220 > 233 > 705 > 255 > 435 > 690 > 740 > 400
+    that co-occur in a new text, the earlier chain member comes first. Prediction: >= 85% of co-occurring chain pairs in chain order
+    (home 95-100%; shuffle 50%). Kill: < 65% with n >= 10 pairs.
+P9  Fish qualifier order (S296-S297): W235 (hat) > W240 (whiskers) > W233 (bar) > W231 (stroke) when two co-occur; >= 80% (binomial vs 0.5).
+    Underpowered if < 5 pairs.
+P10 Nesting (S-DARK-21.2, S349 P1): share of new short texts (3-5 signs) that occur whole and contiguous inside a longer corpus text,
+    and share of new texts (>= 3 signs) containing a >= 3-sign run attested in the home corpus (reuse, S349 P2) are each >= 2x the within-text
+    shuffle expectation. Kill: ratio < 1.2.
+P11 Frozen pairs (S229, S197-S199, S273): when the fixed terms occur they keep their partner and order: 590-390/405, 435-690, 255-435-690,
+    840-32(‖), 17-585, 3-156 (comb count), 33-520 (tall 3 + arrow), 32-226, 12 (W55) before jar or 255-435-690 (never before a counted good).
+    Prediction: >= 80% of occurrences of a member sign that has its partner in the text keep the frozen adjacency and order. Kill: < 50%, n >= 8.
+P12 Seated-person phrase (S301-S302): W100 (M8) after W176 (M48), never before (0 of n).
+P13 Middle uniqueness (S17, S309): every new text of >= 6 signs has a middle unattested in the home corpus (prediction: 100%, i.e. 0 recurrences
+    of a >= 6-sign text; < 3/n). Note S312: this is not evidence for names, only a sampling check.
+P14 Unseen signs (S309): share of sign TOKENS in the new set that are not among the 713 Wells sign types of the merged corpus = about 1.7%
+    (Good-Turing), band 0.5-5%; share of new TEXTS (>= 3 signs) not already in the corpus = about 95% (band 85-100%); the number of unseen
+    sign TYPES is consistent with a total inventory ~950 (i.e. new types appear at a rate consistent with ~240 unseen).
+    Kill (for the Good-Turing estimate): token share of unseen signs > 10% among confidently read signs.
+P15 Abroad (S20, S42, S46, S74, S276): round/Gulf-type seals found abroad lack the home opener (0 of n, < 3/n) and carry the person sign
+    W90/W91 more often than home square seals (>= 25% of texts vs 5%). Square seals and pots abroad keep the home grammar (jar final if present).
+P16 Site-independence: predictions P1-P12 hold on texts from sites other than Mohenjo-daro and Harappa, i.e. the new set is expected to be
+    mostly non-big-city; a failure confined to one site or object type is reported as such, not as a grammar failure.
+
+Power statement: with the ~40 texts targeted, P1, P4 (jar), P6, P8, P10, P13, P14 are testable; P2, P5, P7, P9, P11, P12, P15 are expected
+to be underpowered (reported with upper bounds, not as passes).

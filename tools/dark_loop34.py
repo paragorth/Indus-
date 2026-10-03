@@ -92,7 +92,7 @@ for r in C:
 
 # IM77-only texts in W space
 WFREQ = collections.Counter(t for o in OBJ for t in o['seq'])
-RANK = {s: i for i, (s, _) in enumerate(WFREQ.most_common(120))}
+RANK = {s: i for i, (s, _) in enumerate(WFREQ.most_common(40))}   # class-sign plant: lookup on the 40 commonest signs, the rest one class
 M2W = {}
 for w, ms in BR.items():
     for m in ms:
@@ -241,7 +241,7 @@ def evaluate(tname, train, tests, use_facts, plant=None, shuffle=False, report_f
         def f(o, e):
             rest = [t for i, t in enumerate(o['seq']) if i != e]
             if plant == 'checksum': return classes[sum(abs(t) for t in rest) % kk]
-            return classes[RANK.get(rest[0], 120) % kk if rest else 0]   # class sign: fixed by the identity of the first other sign
+            return classes[RANK.get(rest[0], 40) % kk if rest else 0]   # class sign: fixed by the identity of the first other sign
         ytr = [f(o, e) for o, e in zip(train, etr)]
         ytes = {k: ([f(o, e) for o, e in zip(tests[k], ytes[k][1])], ytes[k][1]) for k in tests}
     if shuffle:
