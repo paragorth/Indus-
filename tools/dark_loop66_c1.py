@@ -81,12 +81,16 @@ def markov_mid(T, rnd, order=2):
             for pos, x in zip(t['midpos'], gen): s[pos] = x
         new.append(s)
     return new
-NULLB = {n: [] for n in CLS}
+NULLB = {n: [] for n in CLS}; NULLM1 = {n: [] for n in CLS}
 for r in range(NM):
     seqs = markov_mid(T, rnd, 2)
     tb = tables(pairs_from_seqs(seqs))
     for n in CLS: NULLB[n].append(tb[n])
+    seqs = markov_mid(T, rnd, 1)
+    tb = tables(pairs_from_seqs(seqs))
+    for n in CLS: NULLM1[n].append(tb[n])
 P(f'   nulls done at {time.time() - T0:.0f}s')
+NUMCLASS = {'DESC': 'numeral', 'WBLOCK': 'num'}
 
 RES = {}
 for name, cls in CLS.items():
@@ -99,6 +103,7 @@ for name, cls in CLS.items():
         return float((((Ot - E) ** 2 / np.where(m, E, 1))[m]).sum())
     chiA = chi(O, EA); chiA_null = [chi(a, EA) for a in A]
     chiB = chi(O, EB); chiB_null = [chi(b, EB) for b in B]
+    M1 = np.array(NULLM1[name]); EM1 = M1.mean(0); chiM1 = chi(O, EM1); chiM1_null = [chi(m, EM1) for m in M1]
     # G statistic of class table vs expected (information in class pairing)
     def G(Ot, E):
         m = (E >= 2) & (Ot > 0)
@@ -109,7 +114,13 @@ for name, cls in CLS.items():
     P(f'\n## {name}: {int(tot)} classed pairs in {k} classes')
     P(f'   chi2 vs permutation: {chiA:.0f} vs null {np.mean(chiA_null):.0f} [{np.percentile(chiA_null, 2.5):.0f}, {np.percentile(chiA_null, 97.5):.0f}] P = {pval(chiA, chiA_null):.3f}; '
       f'G {GA:.0f} vs {np.mean(GA_null):.0f} P = {pval(GA, GA_null):.3f}')
+    P(f'   chi2 vs Markov-1 middle: {chiM1:.0f} vs null {np.mean(chiM1_null):.0f} [{np.percentile(chiM1_null, 2.5):.0f}, {np.percentile(chiM1_null, 97.5):.0f}] P = {pval(chiM1, chiM1_null):.3f}')
     P(f'   chi2 vs Markov-2 middle: {chiB:.0f} vs null {np.mean(chiB_null):.0f} [{np.percentile(chiB_null, 2.5):.0f}, {np.percentile(chiB_null, 97.5):.0f}] P = {pval(chiB, chiB_null):.3f}')
+    if name in NUMCLASS and NUMCLASS[name] in classes:
+        ni = classes.index(NUMCLASS[name]); keep = [i for i in range(k) if i != ni]
+        d2 = float(sum(O[i, i] for i in keep)); t2 = float(sum(O[i, j] for i in keep for j in keep if i <= j))
+        d2A = [float(sum(a[i, i] for i in keep)) for a in A]; d2B = [float(sum(b[i, i] for i in keep)) for b in B]
+        P(f'   same-class pairs WITHOUT the numeral class: {d2:.0f} ({d2 / t2:.3f}) vs permutation {np.mean(d2A):.1f} ({np.mean(d2A) / t2:.3f}) P(hi) = {pval(d2, d2A):.3f} P(lo) = {pval(d2, d2A, "lo"):.3f}; vs Markov-2 {np.mean(d2B):.1f} P(lo) = {pval(d2, d2B, "lo"):.3f}')
     P(f'   same-class pairs: {diag:.0f} ({diag / tot:.3f}) vs permutation {np.mean(diagA):.1f} ({np.mean(diagA) / tot:.3f}) P(hi) = {pval(diag, diagA):.3f} P(lo) = {pval(diag, diagA, "lo"):.3f}; '
       f'vs Markov-2 {np.mean(diagB):.1f} P(hi) = {pval(diag, diagB):.3f} P(lo) = {pval(diag, diagB, "lo"):.3f}')
     # cell-level
@@ -128,14 +139,17 @@ for name, cls in CLS.items():
     for c in cells[:12]:
         P(f'      {c[0]:>10s} x {c[1]:<10s} O {c[2]:4d}  E_perm {c[3]:6.1f} z {c[4]:+5.1f}   E_mk2 {c[5]:6.1f} z {c[6]:+5.1f}  log2 O/E {math.log2((c[2] + 0.5) / (c[3] + 0.5)):+.2f}')
     RES[name] = dict(classes=classes, O=O.tolist(), EA=EA.tolist(), sdA=sdA.tolist(), EB=EB.tolist(), sdB=sdB.tolist(),
-                     chiA=chiA, chiA_P=pval(chiA, chiA_null), chiB=chiB, chiB_P=pval(chiB, chiB_null), GA_P=pval(GA, GA_null),
+                     chiA=chiA, chiA_P=pval(chiA, chiA_null), chiM1=chiM1, chiM1_P=pval(chiM1, chiM1_null), chiB=chiB, chiB_P=pval(chiB, chiB_null), GA_P=pval(GA, GA_null),
                      diag=diag, diag_share=diag / tot, diagA=float(np.mean(diagA)), diagB=float(np.mean(diagB)),
                      diag_Phi=pval(diag, diagA), diag_Plo=pval(diag, diagA, 'lo'), ncell=ncell, nsig=nsig, nsigB=nsigB, fa=float(np.mean(fa)))
 
 # ---------------------------------------------------------------- beyond-chain pairs (S366 / S-DARK-41 statistic)
 P('\n## Beyond-chain attraction pairs (S366 statistic: distance >= 2, count >= 5, O/E >= 3) at Mohenjo-daro + Harappa, whole texts')
-TB = [t for t in T if t['site'] in BIG]
+TD = load_wells_die(LV); TB = [t for t in TD if t['site'] in BIG]
+P(f'   die regime (S-DARK-41): {len(TD)} texts, MD+H {len(TB)} (collapsed MD+H would be {sum(1 for t in T if t["site"] in BIG)})')
 att, both, has = attraction_pairs([t['seq'] for t in TB], all_nonadj_pairs)
+attC, _, _ = attraction_pairs([t['seq'] for t in T if t['site'] in BIG], all_nonadj_pairs)
+P(f'   attraction pairs on the collapsed corpus: {len(attC)}')
 # Markov-2 whole-text null: count distribution of each pair
 mk_counts = collections.defaultdict(list)
 for r in range(NM):
@@ -148,9 +162,9 @@ for r in range(min(NM, 100)):
 beyond = {p: v for p, v in att.items() if v[0] > np.percentile(mk_counts[p], 97.5)}
 P(f'   attraction pairs {len(att)} (Markov-2 corpora give {np.mean(natt_mk):.1f} [{min(natt_mk)}, {max(natt_mk)}]); beyond Markov-2 (count > 97.5th pct of {NM} chains): {len(beyond)}')
 midset = set(ELEM)
-mid_beyond = {p: v for p, v in beyond.items() if p[0] in midset and p[1] in midset}
 fr_beyond = {p: v for p, v in beyond.items() if p[0] in FRAME or p[1] in FRAME}
-P(f'   of these, both signs middle elements: {len(mid_beyond)}; involving a frame sign: {len(fr_beyond)}; other: {len(beyond) - len(mid_beyond) - len(fr_beyond)}')
+mid_beyond = {p: v for p, v in beyond.items() if p not in fr_beyond and p[0] in midset and p[1] in midset}
+P(f'   of these, involving a frame sign (opener/marker/closer/suffix): {len(fr_beyond)}; both signs middle elements: {len(mid_beyond)}; other (rare signs): {len(beyond) - len(mid_beyond) - len(fr_beyond)}')
 P('   beyond-chain pairs: ' + ', '.join(f'{a}-{b} ({c}:{e:.1f})' for (a, b), (c, e) in sorted(beyond.items(), key=lambda kv: -kv[1][0])))
 # concentration in class cells
 def concentration(pairset, cls, nullpool, nullw, nrep=1000):

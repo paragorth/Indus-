@@ -41,6 +41,19 @@ def load_wells(level):
         seen.add(k); out.append(t)
     return out
 
+def load_wells_die(level):
+    """die regime (S-DARK-41): moulded objects (TAB, TAG, POT) one copy per site x type x text, everything else one per cisi x text"""
+    C = json.load(open(ROOT + 'data/derived/merged-corpus-canonical.json'))
+    T = []; seen = set()
+    for r in C:
+        s = r[level]
+        if not s or len(s) < 2 or r['complete'] != 'Y' or r['dir.'].strip() == '-': continue
+        ot = otype(r['type'])
+        k = (r['site'], ot, tuple(s)) if ot in ('tablet', 'sealing', 'pot') else (r['cisi'], tuple(s))
+        if k in seen: continue
+        seen.add(k); T.append(dict(id=r['cisi'], site=sgroup(r['site']), rawsite=r['site'], ot=ot, seq=list(s)))
+    return T
+
 def parse_all(T):
     Q = learn_qual([t['seq'] for t in T]); parse = make_parser(Q)
     for t in T:

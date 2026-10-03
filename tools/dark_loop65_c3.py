@@ -17,8 +17,31 @@ def P(*a):
     s = ' '.join(str(x) for x in a); print(s); out.append(s)
 P(f'== S-DARK-65 cycle 3 ({LV}, nperm {NP}): office stamp at Lothal / Kalibangan?')
 
-def network(site, sealings, label, open_set, fmtf=fmt):
+def merge_fragments(sealings):
+    """a fragment impression that is a contiguous substring of exactly ONE longer distinct text at the site is read as
+    that seal (IM77 marks lost signs 0, Wells 000; both are dropped, so a fragment looks like a shorter text)."""
+    texts = collections.Counter(tuple(i) for s in sealings for i in s['imps'])
+    longer = sorted(texts, key=len, reverse=True)
+    rep = {}
+    for t in texts:
+        cands = [u for u in longer if len(u) > len(t) and any(u[i:i + len(t)] == t for i in range(len(u) - len(t) + 1))]
+        if len(set(cands)) == 1: rep[t] = cands[0]
+    for t in list(rep):
+        while rep[t] in rep: rep[t] = rep[rep[t]]
+    out = []
+    for s in sealings:
+        imps = []
+        for i in s['imps']:
+            j = list(rep.get(tuple(i), tuple(i)))
+            if j not in imps: imps.append(j)
+        out.append(dict(s, imps=imps))
+    return out, rep
+
+def network(site, sealings, label, open_set, fmtf=fmt, merge=True):
     """sealings: list of dict(oid, imps=[seq,...]) with >= 2 distinct legible impressions; plus all impressions at site"""
+    if merge:
+        sealings, rep = merge_fragments(sealings)
+        if rep: P(f'   [{label} {site}] fragments read as their unique longer site text: ' + '; '.join(f'{fmtf(a)} -> {fmtf(b)}' for a, b in rep.items()))
     multi = [s for s in sealings if len(s['imps']) >= 2]
     allimp = [tuple(i) for s in sealings for i in s['imps']]
     slots = sum(len(s['imps']) for s in multi)
