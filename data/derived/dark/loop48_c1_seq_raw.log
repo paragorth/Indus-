@@ -2,3 +2,1196 @@
   bm = float(np.nanmean(bt)); wm = float(np.nanmean(wt)); wsd = float(np.nanstd(wt))
 /usr/local/lib/python3.11/dist-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
   var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+# S-DARK-48 cycle 1, level seq_raw, nperm 300, nsub 60: Indus between-city divergence as a multiple of within-city
+Wells complete texts >= 2 signs: 3155; collapsed one per distinct text per site x type: 2168
+
+== seals: groups {'Chanhu-daro': 42, 'Dholavira': 62, 'Harappa': 254, 'Lothal': 49, 'Mohenjo-daro': 916}
+
+-- seals, n = 200
+
+  [seals n=200] Harappa (254) vs Mohenjo-daro (916), n = 200 per side, within from B
+    uni     between 0.1514  within 0.1420 (sd 0.0083)  excess +0.0094  x1.07  z +1.1  P 0.150
+    bi      between 0.5934  within 0.5869 (sd 0.0153)  excess +0.0066  x1.01  z +0.4  P 0.309
+    rho     between 0.3095  within 0.2717 (sd 0.0406)  excess +0.0378  x1.14  z +0.9  P 0.213
+    init    between 0.3779  within 0.3628 (sd 0.0261)  excess +0.0151  x1.04  z +0.6  P 0.279
+    fin     between 0.1960  within 0.1854 (sd 0.0186)  excess +0.0107  x1.06  z +0.6  P 0.312
+    midinv  between 0.1692  within 0.1682 (sd 0.0117)  excess +0.0011  x1.01  z +0.1  P 0.488
+    len     between 0.0187  within 0.0186 (sd 0.0088)  excess +0.0001  x1.00  z +0.0  P 0.455
+    top30   between 0.0200  within 0.0166 (sd 0.0045)  excess +0.0034  x1.20  z +0.8  P 0.219
+    rest    between 0.3339  within 0.3221 (sd 0.0187)  excess +0.0117  x1.04  z +0.6  P 0.276
+    frozen  between 0.7273  within 0.7211 (sd 0.0594)  excess +0.0063  x1.01  z +0.1  P 0.468
+    reuse   between 0.0274  within 0.0200 (sd 0.0092)  excess -0.0073  x0.75  z +nan  P 0.811
+    opener  between 0.0136  within 0.0091 (sd 0.0057)  excess +0.0045  x1.50  z +0.8  P 0.233
+    closer  between 0.0296  within 0.0209 (sd 0.0083)  excess +0.0087  x1.42  z +1.0  P 0.169
+    rates   between 0.0365  within 0.0325 (sd 0.0138)  excess +0.0040  x1.12  z +0.3  P 0.342
+    title   between 0.1688  within 0.1658 (sd 0.0332)  excess +0.0029  x1.02  z +0.1  P 0.458
+    name    between 0.2655  within 0.2556 (sd 0.0160)  excess +0.0098  x1.04  z +0.6  P 0.302
+    num     between 0.2610  within 0.2641 (sd 0.0256)  excess -0.0031  x0.99  z -0.1  P 0.512
+
+  SUMMARY seals n=200: ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Harappa vs Mohenjo-daro                         1.07    1.01    1.14    1.04    1.06    1.01    1.00    1.20    1.04    1.01    0.75    1.50    1.42    1.12    1.02    1.04    0.99
+  excess (bits / units)                       
+  Harappa vs Mohenjo-daro                        0.009   0.007   0.038   0.015   0.011   0.001   0.000   0.003   0.012   0.006  -0.007   0.005   0.009   0.004   0.003   0.010  -0.003
+
+-- seals, n = 30
+
+  [seals n=30] Chanhu-daro (42) vs Dholavira (62), n = 30 per side, within from B
+    uni     between 0.4190  within 0.3903 (sd 0.0333)  excess +0.0288  x1.07  z +0.9  P 0.186
+    bi      between 0.8740  within 0.8498 (sd 0.0278)  excess +0.0242  x1.03  z +0.9  P 0.196
+    rho     between 0.9779  within 0.7579 (sd 0.1705)  excess +0.2200  x1.29  z +1.3  P 0.063
+    init    between 0.7081  within 0.6871 (sd 0.0550)  excess +0.0210  x1.03  z +0.4  P 0.385
+    fin     between 0.4322  within 0.4080 (sd 0.0560)  excess +0.0243  x1.06  z +0.4  P 0.362
+    midinv  between 0.5005  within 0.4715 (sd 0.0427)  excess +0.0290  x1.06  z +0.7  P 0.252
+    len     between 0.0886  within 0.0961 (sd 0.0404)  excess -0.0075  x0.92  z -0.2  P 0.555
+    top30   between 0.1513  within 0.1650 (sd 0.0429)  excess -0.0137  x0.92  z -0.3  P 0.611
+    rest    between 0.8666  within 0.6945 (sd 0.0461)  excess +0.1721  x1.25  z +3.7  P 0.003
+    frozen  between 0.9044  within 0.8651 (sd 0.2479)  excess +0.0394  x1.05  z +0.2  P 0.714
+    reuse   between 0.0000  within 0.0000 (sd 0.0000)  excess +0.0000  x1.00  z +nan  P 1.000
+    opener  between 0.0497  within 0.0448 (sd 0.0338)  excess +0.0049  x1.11  z +0.1  P 0.435
+    closer  between 0.0798  within 0.0922 (sd 0.0420)  excess -0.0123  x0.87  z -0.3  P 0.575
+    rates   between 0.0911  within 0.0778 (sd 0.0332)  excess +0.0133  x1.17  z +0.4  P 0.319
+    title   between 0.7196  within 0.5788 (sd 0.1314)  excess +0.1407  x1.24  z +1.1  P 0.126
+    name    between 0.6259  within 0.5955 (sd 0.0437)  excess +0.0304  x1.05  z +0.7  P 0.272
+    num     between 0.4816  within 0.5377 (sd 0.0898)  excess -0.0561  x0.90  z -0.6  P 0.721
+
+  [seals n=30] Chanhu-daro (42) vs Harappa (254), n = 30 per side, within from B
+    uni     between 0.4293  within 0.3660 (sd 0.0391)  excess +0.0634  x1.17  z +1.6  P 0.047
+    bi      between 0.8829  within 0.8341 (sd 0.0391)  excess +0.0488  x1.06  z +1.2  P 0.103
+    rho     between 0.9045  within 0.9353 (sd 0.1928)  excess -0.0308  x0.97  z -0.2  P 0.598
+    init    between 0.7122  within 0.6693 (sd 0.0759)  excess +0.0429  x1.06  z +0.6  P 0.229
+    fin     between 0.5207  within 0.3724 (sd 0.0641)  excess +0.1483  x1.40  z +2.3  P 0.020
+    midinv  between 0.5019  within 0.4316 (sd 0.0533)  excess +0.0703  x1.16  z +1.3  P 0.140
+    len     between 0.0856  within 0.1145 (sd 0.0522)  excess -0.0289  x0.75  z -0.6  P 0.718
+    top30   between 0.1967  within 0.1389 (sd 0.0406)  excess +0.0578  x1.42  z +1.4  P 0.090
+    rest    between 0.7730  within 0.6983 (sd 0.0619)  excess +0.0748  x1.11  z +1.2  P 0.133
+    frozen  between 0.9586  within 0.9517 (sd 0.1648)  excess +0.0069  x1.01  z +0.0  P 0.854
+    reuse   between 0.0050  within 0.0089 (sd 0.0161)  excess +0.0039  x1.18  z +nan  P 0.751
+    opener  between 0.1007  within 0.0716 (sd 0.0377)  excess +0.0291  x1.41  z +0.8  P 0.206
+    closer  between 0.1390  within 0.1056 (sd 0.0400)  excess +0.0335  x1.32  z +0.8  P 0.199
+    rates   between 0.1351  within 0.0821 (sd 0.0362)  excess +0.0530  x1.65  z +1.5  P 0.080
+    title   between 0.7812  within 0.5923 (sd 0.1244)  excess +0.1890  x1.32  z +1.5  P 0.060
+    name    between 0.6052  within 0.5700 (sd 0.0589)  excess +0.0352  x1.06  z +0.6  P 0.276
+    num     between 0.5384  within 0.5192 (sd 0.0941)  excess +0.0191  x1.04  z +0.2  P 0.402
+
+  [seals n=30] Chanhu-daro (42) vs Lothal (49), n = 30 per side, within from none
+    uni     between 0.4170  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    bi      between 0.8758  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rho     between 0.9139  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    init    between 0.6285  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    fin     between 0.5054  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    midinv  between 0.4855  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    len     between 0.0776  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    top30   between 0.1704  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rest    between 0.8567  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    frozen  between 0.8828  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    reuse   between 0.0180  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    opener  between 0.0794  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    closer  between 0.1381  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rates   between 0.0931  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    title   between 0.7755  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    name    between 0.6086  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    num     between 0.4605  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+
+  [seals n=30] Chanhu-daro (42) vs Mohenjo-daro (916), n = 30 per side, within from B
+    uni     between 0.4271  within 0.3666 (sd 0.0348)  excess +0.0605  x1.17  z +1.7  P 0.033
+    bi      between 0.8634  within 0.8265 (sd 0.0379)  excess +0.0370  x1.04  z +1.0  P 0.140
+    rho     between 0.9233  within 0.8487 (sd 0.2040)  excess +0.0746  x1.09  z +0.4  P 0.395
+    init    between 0.7005  within 0.6589 (sd 0.0742)  excess +0.0416  x1.06  z +0.6  P 0.326
+    fin     between 0.4641  within 0.3669 (sd 0.0685)  excess +0.0973  x1.27  z +1.4  P 0.080
+    midinv  between 0.4836  within 0.4314 (sd 0.0503)  excess +0.0522  x1.12  z +1.0  P 0.150
+    len     between 0.0928  within 0.1146 (sd 0.0502)  excess -0.0219  x0.81  z -0.4  P 0.621
+    top30   between 0.1847  within 0.1282 (sd 0.0361)  excess +0.0565  x1.44  z +1.6  P 0.076
+    rest    between 0.7973  within 0.7101 (sd 0.0589)  excess +0.0872  x1.12  z +1.5  P 0.076
+    frozen  between 0.9500  within 0.8771 (sd 0.2076)  excess +0.0728  x1.08  z +0.4  P 0.638
+    reuse   between 0.0023  within 0.0032 (sd 0.0102)  excess +0.0010  x1.05  z +nan  P 0.907
+    opener  between 0.0962  within 0.0643 (sd 0.0384)  excess +0.0319  x1.50  z +0.8  P 0.229
+    closer  between 0.1163  within 0.0935 (sd 0.0400)  excess +0.0227  x1.24  z +0.6  P 0.296
+    rates   between 0.1242  within 0.0829 (sd 0.0373)  excess +0.0413  x1.50  z +1.1  P 0.150
+    title   between 0.7957  within 0.6059 (sd 0.1251)  excess +0.1899  x1.31  z +1.5  P 0.060
+    name    between 0.6248  within 0.5713 (sd 0.0623)  excess +0.0534  x1.09  z +0.9  P 0.173
+    num     between 0.4945  within 0.5317 (sd 0.1056)  excess -0.0372  x0.93  z -0.4  P 0.608
+
+  [seals n=30] Dholavira (62) vs Harappa (254), n = 30 per side, within from AB
+    uni     between 0.3829  within 0.3760 (sd 0.0380)  excess +0.0069  x1.02  z +0.2  P 0.463
+    bi      between 0.8693  within 0.8410 (sd 0.0361)  excess +0.0283  x1.03  z +0.8  P 0.191
+    rho     between 0.9526  within 0.8460 (sd 0.1953)  excess +0.1066  x1.13  z +0.5  P 0.223
+    init    between 0.6939  within 0.6778 (sd 0.0675)  excess +0.0161  x1.02  z +0.2  P 0.346
+    fin     between 0.4040  within 0.3877 (sd 0.0619)  excess +0.0163  x1.04  z +0.3  P 0.354
+    midinv  between 0.4709  within 0.4499 (sd 0.0530)  excess +0.0210  x1.05  z +0.4  P 0.300
+    len     between 0.1236  within 0.1060 (sd 0.0471)  excess +0.0176  x1.17  z +0.4  P 0.401
+    top30   between 0.1516  within 0.1588 (sd 0.0450)  excess -0.0072  x0.95  z -0.2  P 0.559
+    rest    between 0.6923  within 0.6700 (sd 0.0616)  excess +0.0223  x1.03  z +0.4  P 0.326
+    frozen  between 0.9470  within 0.9159 (sd 0.2034)  excess +0.0311  x1.03  z +0.2  P 0.795
+    reuse   between 0.0039  within 0.0053 (sd 0.0128)  excess +0.0013  x1.06  z +nan  P 0.850
+    opener  between 0.0895  within 0.0582 (sd 0.0402)  excess +0.0313  x1.54  z +0.8  P 0.196
+    closer  between 0.1058  within 0.0971 (sd 0.0408)  excess +0.0087  x1.09  z +0.2  P 0.386
+    rates   between 0.0764  within 0.0784 (sd 0.0330)  excess -0.0019  x0.98  z -0.1  P 0.466
+    title   between 0.6417  within 0.5804 (sd 0.1339)  excess +0.0613  x1.11  z +0.5  P 0.381
+    name    between 0.6097  within 0.5808 (sd 0.0525)  excess +0.0289  x1.05  z +0.5  P 0.314
+    num     between 0.5169  within 0.5340 (sd 0.0938)  excess -0.0170  x0.97  z -0.2  P 0.579
+
+  [seals n=30] Dholavira (62) vs Lothal (49), n = 30 per side, within from A
+    uni     between 0.3867  within 0.3847 (sd 0.0342)  excess +0.0020  x1.01  z +0.1  P 0.475
+    bi      between 0.8795  within 0.8498 (sd 0.0294)  excess +0.0297  x1.03  z +1.0  P 0.140
+    rho     between 0.8643  within 0.7449 (sd 0.1802)  excess +0.1194  x1.16  z +0.7  P 0.239
+    init    between 0.7158  within 0.6914 (sd 0.0598)  excess +0.0244  x1.04  z +0.4  P 0.352
+    fin     between 0.4117  within 0.4024 (sd 0.0569)  excess +0.0092  x1.02  z +0.2  P 0.412
+    midinv  between 0.4979  within 0.4664 (sd 0.0423)  excess +0.0315  x1.07  z +0.7  P 0.199
+    len     between 0.0955  within 0.0997 (sd 0.0450)  excess -0.0042  x0.96  z -0.1  P 0.548
+    top30   between 0.1368  within 0.1502 (sd 0.0412)  excess -0.0134  x0.91  z -0.3  P 0.585
+    rest    between 0.7579  within 0.7060 (sd 0.0508)  excess +0.0519  x1.07  z +1.0  P 0.213
+    frozen  between 0.8079  within 0.8703 (sd 0.2592)  excess -0.0624  x0.93  z -0.2  P 0.744
+    reuse   between 0.0000  within 0.0000 (sd 0.0000)  excess +0.0000  x1.00  z +nan  P 1.000
+    opener  between 0.0667  within 0.0463 (sd 0.0365)  excess +0.0204  x1.44  z +0.6  P 0.236
+    closer  between 0.1158  within 0.0891 (sd 0.0410)  excess +0.0267  x1.30  z +0.7  P 0.289
+    rates   between 0.0638  within 0.0800 (sd 0.0346)  excess -0.0162  x0.80  z -0.5  P 0.734
+    title   between 0.7270  within 0.5719 (sd 0.1353)  excess +0.1551  x1.27  z +1.1  P 0.140
+    name    between 0.6025  within 0.5910 (sd 0.0421)  excess +0.0114  x1.02  z +0.3  P 0.402
+    num     between 0.5257  within 0.5341 (sd 0.0930)  excess -0.0084  x0.98  z -0.1  P 0.555
+
+  [seals n=30] Dholavira (62) vs Mohenjo-daro (916), n = 30 per side, within from AB
+    uni     between 0.3828  within 0.3786 (sd 0.0359)  excess +0.0042  x1.01  z +0.1  P 0.448
+    bi      between 0.8799  within 0.8412 (sd 0.0342)  excess +0.0387  x1.05  z +1.1  P 0.101
+    rho     between 0.9339  within 0.8280 (sd 0.1922)  excess +0.1058  x1.13  z +0.6  P 0.270
+    init    between 0.7103  within 0.6799 (sd 0.0712)  excess +0.0304  x1.04  z +0.4  P 0.321
+    fin     between 0.3851  within 0.3886 (sd 0.0667)  excess -0.0035  x0.99  z -0.1  P 0.556
+    midinv  between 0.4718  within 0.4506 (sd 0.0468)  excess +0.0211  x1.05  z +0.5  P 0.326
+    len     between 0.1159  within 0.1088 (sd 0.0494)  excess +0.0072  x1.07  z +0.1  P 0.517
+    top30   between 0.1488  within 0.1495 (sd 0.0399)  excess -0.0008  x0.99  z -0.0  P 0.494
+    rest    between 0.6966  within 0.6881 (sd 0.0569)  excess +0.0084  x1.01  z +0.1  P 0.448
+    frozen  between 0.8974  within 0.8834 (sd 0.2166)  excess +0.0140  x1.02  z +0.1  P 0.692
+    reuse   between 0.0006  within 0.0018 (sd 0.0075)  excess +0.0012  x1.07  z +nan  P 0.947
+    opener  between 0.0887  within 0.0590 (sd 0.0408)  excess +0.0297  x1.50  z +0.7  P 0.231
+    closer  between 0.0967  within 0.0969 (sd 0.0411)  excess -0.0002  x1.00  z -0.0  P 0.474
+    rates   between 0.0749  within 0.0821 (sd 0.0335)  excess -0.0072  x0.91  z -0.2  P 0.514
+    title   between 0.6672  within 0.5978 (sd 0.1372)  excess +0.0694  x1.12  z +0.5  P 0.331
+    name    between 0.6079  within 0.5800 (sd 0.0526)  excess +0.0279  x1.05  z +0.5  P 0.318
+    num     between 0.5184  within 0.5405 (sd 0.1042)  excess -0.0221  x0.96  z -0.2  P 0.572
+
+  [seals n=30] Harappa (254) vs Lothal (49), n = 30 per side, within from A
+    uni     between 0.3822  within 0.3682 (sd 0.0358)  excess +0.0140  x1.04  z +0.4  P 0.389
+    bi      between 0.8709  within 0.8330 (sd 0.0367)  excess +0.0379  x1.05  z +1.0  P 0.163
+    rho     between 0.9538  within 0.9569 (sd 0.1694)  excess -0.0031  x1.00  z -0.0  P 0.485
+    init    between 0.6490  within 0.6710 (sd 0.0761)  excess -0.0220  x0.97  z -0.3  P 0.654
+    fin     between 0.4455  within 0.3774 (sd 0.0685)  excess +0.0681  x1.18  z +1.0  P 0.159
+    midinv  between 0.4348  within 0.4333 (sd 0.0524)  excess +0.0014  x1.00  z +0.0  P 0.465
+    len     between 0.0860  within 0.1183 (sd 0.0462)  excess -0.0323  x0.73  z -0.7  P 0.774
+    top30   between 0.1623  within 0.1377 (sd 0.0355)  excess +0.0246  x1.18  z +0.7  P 0.292
+    rest    between 0.6831  within 0.7067 (sd 0.0615)  excess -0.0236  x0.97  z -0.4  P 0.551
+    frozen  between 0.8983  within 0.9546 (sd 0.1303)  excess -0.0564  x0.94  z -0.4  P 0.834
+    reuse   between 0.0056  within 0.0099 (sd 0.0180)  excess +0.0044  x1.20  z +nan  P 0.741
+    opener  between 0.0610  within 0.0746 (sd 0.0430)  excess -0.0136  x0.82  z -0.3  P 0.568
+    closer  between 0.1166  within 0.1050 (sd 0.0414)  excess +0.0116  x1.11  z +0.3  P 0.419
+    rates   between 0.0834  within 0.0819 (sd 0.0357)  excess +0.0015  x1.02  z +0.0  P 0.468
+    title   between 0.7120  within 0.5907 (sd 0.1244)  excess +0.1213  x1.21  z +1.0  P 0.130
+    name    between 0.5598  within 0.5773 (sd 0.0600)  excess -0.0176  x0.97  z -0.3  P 0.601
+    num     between 0.5233  within 0.5283 (sd 0.0906)  excess -0.0050  x0.99  z -0.1  P 0.555
+
+  [seals n=30] Harappa (254) vs Mohenjo-daro (916), n = 30 per side, within from AB
+    uni     between 0.3707  within 0.3676 (sd 0.0372)  excess +0.0032  x1.01  z +0.1  P 0.486
+    bi      between 0.8415  within 0.8297 (sd 0.0390)  excess +0.0118  x1.01  z +0.3  P 0.374
+    rho     between 0.8671  within 0.8863 (sd 0.2039)  excess -0.0193  x0.98  z -0.1  P 0.576
+    init    between 0.6877  within 0.6647 (sd 0.0790)  excess +0.0231  x1.03  z +0.3  P 0.454
+    fin     between 0.3889  within 0.3743 (sd 0.0707)  excess +0.0146  x1.04  z +0.2  P 0.468
+    midinv  between 0.4373  within 0.4333 (sd 0.0531)  excess +0.0040  x1.01  z +0.1  P 0.474
+    len     between 0.1187  within 0.1209 (sd 0.0540)  excess -0.0023  x0.98  z -0.0  P 0.458
+    top30   between 0.1360  within 0.1390 (sd 0.0380)  excess -0.0030  x0.98  z -0.1  P 0.494
+    rest    between 0.6899  within 0.6858 (sd 0.0611)  excess +0.0041  x1.01  z +0.1  P 0.464
+    frozen  between 0.8962  within 0.9271 (sd 0.1701)  excess -0.0309  x0.97  z -0.2  P 0.765
+    reuse   between 0.0050  within 0.0070 (sd 0.0158)  excess +0.0020  x1.09  z +nan  P 0.814
+    opener  between 0.0729  within 0.0700 (sd 0.0366)  excess +0.0029  x1.04  z +0.1  P 0.478
+    closer  between 0.1092  within 0.1022 (sd 0.0417)  excess +0.0071  x1.07  z +0.2  P 0.459
+    rates   between 0.0863  within 0.0845 (sd 0.0353)  excess +0.0018  x1.02  z +0.1  P 0.542
+    title   between 0.6165  within 0.5880 (sd 0.1304)  excess +0.0284  x1.05  z +0.2  P 0.413
+    name    between 0.5680  within 0.5725 (sd 0.0566)  excess -0.0045  x0.99  z -0.1  P 0.561
+    num     between 0.5287  within 0.5253 (sd 0.1004)  excess +0.0034  x1.01  z +0.0  P 0.486
+
+  [seals n=30] Lothal (49) vs Mohenjo-daro (916), n = 30 per side, within from B
+    uni     between 0.3902  within 0.3677 (sd 0.0349)  excess +0.0225  x1.06  z +0.6  P 0.316
+    bi      between 0.8473  within 0.8260 (sd 0.0394)  excess +0.0213  x1.03  z +0.5  P 0.312
+    rho     between 0.8542  within 0.8617 (sd 0.1876)  excess -0.0074  x0.99  z -0.0  P 0.515
+    init    between 0.6392  within 0.6662 (sd 0.0736)  excess -0.0270  x0.96  z -0.4  P 0.628
+    fin     between 0.4574  within 0.3722 (sd 0.0728)  excess +0.0852  x1.23  z +1.2  P 0.116
+    midinv  between 0.4493  within 0.4267 (sd 0.0488)  excess +0.0226  x1.05  z +0.5  P 0.286
+    len     between 0.1037  within 0.1203 (sd 0.0515)  excess -0.0166  x0.86  z -0.3  P 0.641
+    top30   between 0.1494  within 0.1326 (sd 0.0343)  excess +0.0168  x1.13  z +0.5  P 0.346
+    rest    between 0.7338  within 0.7077 (sd 0.0630)  excess +0.0261  x1.04  z +0.4  P 0.319
+    frozen  between 0.8557  within 0.8758 (sd 0.2067)  excess -0.0201  x0.98  z -0.1  P 0.645
+    reuse   between 0.0073  within 0.0037 (sd 0.0121)  excess -0.0036  x0.85  z +nan  P 0.907
+    opener  between 0.0505  within 0.0672 (sd 0.0400)  excess -0.0167  x0.75  z -0.4  P 0.641
+    closer  between 0.1242  within 0.1018 (sd 0.0444)  excess +0.0224  x1.22  z +0.5  P 0.252
+    rates   between 0.0627  within 0.0803 (sd 0.0349)  excess -0.0176  x0.78  z -0.5  P 0.771
+    title   between 0.6816  within 0.6082 (sd 0.1433)  excess +0.0734  x1.12  z +0.5  P 0.259
+    name    between 0.5841  within 0.5675 (sd 0.0552)  excess +0.0165  x1.03  z +0.3  P 0.498
+    num     between 0.5194  within 0.5225 (sd 0.1011)  excess -0.0031  x0.99  z -0.0  P 0.442
+
+  SUMMARY seals n=30: ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Chanhu-daro vs Dholavira                        1.07    1.03    1.29    1.03    1.06    1.06    0.92    0.92    1.25    1.05    1.00    1.11    0.87    1.17    1.24    1.05    0.90
+  Chanhu-daro vs Harappa                          1.17    1.06    0.97    1.06    1.40    1.16    0.75    1.42    1.11    1.01    1.18    1.41    1.32    1.65    1.32    1.06    1.04
+  Chanhu-daro vs Lothal                              -       -       -       -       -       -       -       -       -       -       -       -       -       -       -       -       -
+  Chanhu-daro vs Mohenjo-daro                     1.17    1.04    1.09    1.06    1.27    1.12    0.81    1.44    1.12    1.08    1.05    1.50    1.24    1.50    1.31    1.09    0.93
+  Dholavira vs Harappa                            1.02    1.03    1.13    1.02    1.04    1.05    1.17    0.95    1.03    1.03    1.06    1.54    1.09    0.98    1.11    1.05    0.97
+  Dholavira vs Lothal                             1.01    1.03    1.16    1.04    1.02    1.07    0.96    0.91    1.07    0.93    1.00    1.44    1.30    0.80    1.27    1.02    0.98
+  Dholavira vs Mohenjo-daro                       1.01    1.05    1.13    1.04    0.99    1.05    1.07    0.99    1.01    1.02    1.07    1.50    1.00    0.91    1.12    1.05    0.96
+  Harappa vs Lothal                               1.04    1.05    1.00    0.97    1.18    1.00    0.73    1.18    0.97    0.94    1.20    0.82    1.11    1.02    1.21    0.97    0.99
+  Harappa vs Mohenjo-daro                         1.01    1.01    0.98    1.03    1.04    1.01    0.98    0.98    1.01    0.97    1.09    1.04    1.07    1.02    1.05    0.99    1.01
+  Lothal vs Mohenjo-daro                          1.06    1.03    0.99    0.96    1.23    1.05    0.86    1.13    1.04    0.98    0.85    0.75    1.22    0.78    1.12    1.03    0.99
+  excess (bits / units)                       
+  Chanhu-daro vs Dholavira                       0.029   0.024   0.220   0.021   0.024   0.029  -0.007  -0.014   0.172   0.039   0.000   0.005  -0.012   0.013   0.141   0.030  -0.056
+  Chanhu-daro vs Harappa                         0.063   0.049  -0.031   0.043   0.148   0.070  -0.029   0.058   0.075   0.007   0.004   0.029   0.033   0.053   0.189   0.035   0.019
+  Chanhu-daro vs Lothal                              -       -       -       -       -       -       -       -       -       -       -       -       -       -       -       -       -
+  Chanhu-daro vs Mohenjo-daro                    0.061   0.037   0.075   0.042   0.097   0.052  -0.022   0.057   0.087   0.073   0.001   0.032   0.023   0.041   0.190   0.053  -0.037
+  Dholavira vs Harappa                           0.007   0.028   0.107   0.016   0.016   0.021   0.018  -0.007   0.022   0.031   0.001   0.031   0.009  -0.002   0.061   0.029  -0.017
+  Dholavira vs Lothal                            0.002   0.030   0.119   0.024   0.009   0.031  -0.004  -0.013   0.052  -0.062   0.000   0.020   0.027  -0.016   0.155   0.011  -0.008
+  Dholavira vs Mohenjo-daro                      0.004   0.039   0.106   0.030  -0.003   0.021   0.007  -0.001   0.008   0.014   0.001   0.030  -0.000  -0.007   0.069   0.028  -0.022
+  Harappa vs Lothal                              0.014   0.038  -0.003  -0.022   0.068   0.001  -0.032   0.025  -0.024  -0.056   0.004  -0.014   0.012   0.002   0.121  -0.018  -0.005
+  Harappa vs Mohenjo-daro                        0.003   0.012  -0.019   0.023   0.015   0.004  -0.002  -0.003   0.004  -0.031   0.002   0.003   0.007   0.002   0.028  -0.004   0.003
+  Lothal vs Mohenjo-daro                         0.022   0.021  -0.007  -0.027   0.085   0.023  -0.017   0.017   0.026  -0.020  -0.004  -0.017   0.022  -0.018   0.073   0.017  -0.003
+
+== all types: groups {'Chanhu-daro': 47, 'Dholavira': 72, 'Harappa': 709, 'Kalibangan': 58, 'Lothal': 65, 'Mohenjo-daro': 1087}
+
+-- all types, n = 200
+
+  [all types n=200] Harappa (709) vs Mohenjo-daro (1087), n = 200 per side, within from AB
+    uni     between 0.1925  within 0.1529 (sd 0.0121)  excess +0.0396  x1.26  z +3.3  P 0.003
+    bi      between 0.6575  within 0.6076 (sd 0.0217)  excess +0.0499  x1.08  z +2.3  P 0.010
+    rho     between 0.4004  within 0.3068 (sd 0.0563)  excess +0.0937  x1.31  z +1.7  P 0.088
+    init    between 0.4183  within 0.3700 (sd 0.0260)  excess +0.0483  x1.13  z +1.9  P 0.040
+    fin     between 0.2795  within 0.1937 (sd 0.0213)  excess +0.0858  x1.44  z +4.0  P 0.002
+    midinv  between 0.2173  within 0.1880 (sd 0.0225)  excess +0.0293  x1.16  z +1.3  P 0.115
+    len     between 0.0618  within 0.0187 (sd 0.0084)  excess +0.0431  x3.31  z +5.1  P 0.002
+    top30   between 0.0481  within 0.0199 (sd 0.0061)  excess +0.0282  x2.41  z +4.6  P 0.002
+    rest    between 0.3852  within 0.3303 (sd 0.0223)  excess +0.0549  x1.17  z +2.5  P 0.010
+    frozen  between 0.7821  within 0.7619 (sd 0.0699)  excess +0.0202  x1.03  z +0.3  P 0.323
+    reuse   between 0.0214  within 0.1310 (sd 0.0675)  excess +0.1096  x5.58  z +nan  P 0.002
+    opener  between 0.0209  within 0.0096 (sd 0.0056)  excess +0.0113  x2.19  z +2.0  P 0.052
+    closer  between 0.0454  within 0.0211 (sd 0.0084)  excess +0.0243  x2.15  z +2.9  P 0.013
+    rates   between 0.0787  within 0.0323 (sd 0.0129)  excess +0.0464  x2.44  z +3.6  P 0.005
+    title   between 0.2080  within 0.1820 (sd 0.0399)  excess +0.0260  x1.14  z +0.7  P 0.265
+    name    between 0.3212  within 0.2840 (sd 0.0316)  excess +0.0373  x1.13  z +1.2  P 0.108
+    num     between 0.2818  within 0.2642 (sd 0.0276)  excess +0.0176  x1.07  z +0.6  P 0.253
+
+  SUMMARY all types n=200: ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Harappa vs Mohenjo-daro                         1.26    1.08    1.31    1.13    1.44    1.16    3.31    2.41    1.17    1.03    5.58    2.19    2.15    2.44    1.14    1.13    1.07
+  excess (bits / units)                       
+  Harappa vs Mohenjo-daro                        0.040   0.050   0.094   0.048   0.086   0.029   0.043   0.028   0.055   0.020   0.110   0.011   0.024   0.046   0.026   0.037   0.018
+
+-- all types, n = 30
+
+  [all types n=30] Chanhu-daro (47) vs Dholavira (72), n = 30 per side, within from B
+    uni     between 0.4346  within 0.4028 (sd 0.0354)  excess +0.0319  x1.08  z +0.9  P 0.196
+    bi      between 0.8922  within 0.8785 (sd 0.0289)  excess +0.0138  x1.02  z +0.5  P 0.385
+    rho     between 0.9429  within 0.9038 (sd 0.1696)  excess +0.0391  x1.04  z +0.2  P 0.385
+    init    between 0.7667  within 0.6923 (sd 0.0631)  excess +0.0744  x1.11  z +1.2  P 0.133
+    fin     between 0.4481  within 0.4847 (sd 0.0591)  excess -0.0366  x0.92  z -0.6  P 0.678
+    midinv  between 0.5059  within 0.4881 (sd 0.0449)  excess +0.0178  x1.04  z +0.4  P 0.362
+    len     between 0.0809  within 0.0994 (sd 0.0479)  excess -0.0185  x0.81  z -0.4  P 0.585
+    top30   between 0.1714  within 0.1704 (sd 0.0434)  excess +0.0011  x1.01  z +0.0  P 0.452
+    rest    between 0.8392  within 0.7108 (sd 0.0505)  excess +0.1284  x1.18  z +2.5  P 0.013
+    frozen  between 0.9339  within 0.9309 (sd 0.2279)  excess +0.0030  x1.00  z +0.0  P 0.867
+    reuse   between 0.0000  within 0.0000 (sd 0.0000)  excess +0.0000  x1.00  z +nan  P 1.000
+    opener  between 0.0641  within 0.0603 (sd 0.0343)  excess +0.0038  x1.06  z +0.1  P 0.485
+    closer  between 0.0713  within 0.0909 (sd 0.0413)  excess -0.0197  x0.78  z -0.5  P 0.671
+    rates   between 0.0803  within 0.0746 (sd 0.0338)  excess +0.0057  x1.08  z +0.2  P 0.439
+    title   between 0.7634  within 0.6552 (sd 0.1527)  excess +0.1082  x1.17  z +0.7  P 0.259
+    name    between 0.6318  within 0.5901 (sd 0.0479)  excess +0.0417  x1.07  z +0.9  P 0.189
+    num     between 0.4835  within 0.5108 (sd 0.0943)  excess -0.0273  x0.95  z -0.3  P 0.608
+
+  [all types n=30] Chanhu-daro (47) vs Harappa (709), n = 30 per side, within from B
+    uni     between 0.4648  within 0.4104 (sd 0.0426)  excess +0.0544  x1.13  z +1.3  P 0.116
+    bi      between 0.9041  within 0.8573 (sd 0.0398)  excess +0.0467  x1.05  z +1.2  P 0.130
+    rho     between 1.0150  within 0.7503 (sd 0.2574)  excess +0.2647  x1.35  z +1.0  P 0.136
+    init    between 0.7557  within 0.7307 (sd 0.0781)  excess +0.0250  x1.03  z +0.3  P 0.339
+    fin     between 0.5533  within 0.3853 (sd 0.0715)  excess +0.1680  x1.44  z +2.4  P 0.013
+    midinv  between 0.5486  within 0.5203 (sd 0.0648)  excess +0.0284  x1.05  z +0.4  P 0.282
+    len     between 0.1358  within 0.0980 (sd 0.0445)  excess +0.0378  x1.39  z +0.8  P 0.213
+    top30   between 0.2202  within 0.1740 (sd 0.0442)  excess +0.0462  x1.27  z +1.0  P 0.239
+    rest    between 0.8056  within 0.7383 (sd 0.0669)  excess +0.0673  x1.09  z +1.0  P 0.143
+    frozen  between 0.9859  within 0.9087 (sd 0.2414)  excess +0.0772  x1.08  z +0.3  P 0.748
+    reuse   between 0.0036  within 0.1602 (sd 0.0537)  excess +0.1566  x8.72  z +nan  P 0.003
+    opener  between 0.1034  within 0.0682 (sd 0.0330)  excess +0.0352  x1.52  z +1.1  P 0.219
+    closer  between 0.1358  within 0.1151 (sd 0.0449)  excess +0.0207  x1.18  z +0.5  P 0.326
+    rates   between 0.1617  within 0.0823 (sd 0.0324)  excess +0.0794  x1.96  z +2.4  P 0.033
+    title   between 0.7201  within 0.6551 (sd 0.1389)  excess +0.0650  x1.10  z +0.5  P 0.326
+    name    between 0.6726  within 0.6582 (sd 0.0695)  excess +0.0144  x1.02  z +0.2  P 0.409
+    num     between 0.5411  within 0.5517 (sd 0.1111)  excess -0.0106  x0.98  z -0.1  P 0.595
+
+  [all types n=30] Chanhu-daro (47) vs Kalibangan (58), n = 30 per side, within from none
+    uni     between 0.4187  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    bi      between 0.9007  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rho     between 0.8535  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    init    between 0.7623  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    fin     between 0.4163  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    midinv  between 0.4911  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    len     between 0.1479  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    top30   between 0.1741  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rest    between 0.8097  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    frozen  between 0.9828  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    reuse   between 0.0000  within 0.0364 (sd 0.0030)  excess +0.0364  x3.19  z +nan  P 0.010
+    opener  between 0.0889  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    closer  between 0.0556  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    rates   between 0.1032  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    title   between 0.7990  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    name    between 0.6470  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+    num     between 0.4815  within nan (sd nan)  excess +nan  xnan  z +nan  P nan
+
+  [all types n=30] Chanhu-daro (47) vs Lothal (65), n = 30 per side, within from B
+    uni     between 0.4008  within 0.3462 (sd 0.0303)  excess +0.0545  x1.16  z +1.8  P 0.050
+    bi      between 0.8793  within 0.8522 (sd 0.0258)  excess +0.0272  x1.03  z +1.1  P 0.133
+    rho     between 0.8573  within 0.9515 (sd 0.1399)  excess -0.0942  x0.90  z -0.7  P 0.741
+    init    between 0.6580  within 0.6242 (sd 0.0582)  excess +0.0338  x1.05  z +0.6  P 0.219
+    fin     between 0.5031  within 0.4049 (sd 0.0573)  excess +0.0982  x1.24  z +1.7  P 0.076
+    midinv  between 0.4735  within 0.4476 (sd 0.0416)  excess +0.0259  x1.06  z +0.6  P 0.296
+    len     between 0.0868  within 0.1013 (sd 0.0473)  excess -0.0145  x0.86  z -0.3  P 0.595
+    top30   between 0.1715  within 0.1343 (sd 0.0336)  excess +0.0372  x1.28  z +1.1  P 0.110
+    rest    between 0.7929  within 0.7238 (sd 0.0525)  excess +0.0691  x1.10  z +1.3  P 0.086
+    frozen  between 0.9278  within 1.0000 (sd 0.0000)  excess -0.0722  x0.93  z +nan  P 0.997
+    reuse   between 0.0062  within 0.1016 (sd 0.0260)  excess +0.0954  x5.18  z +nan  P 0.003
+    opener  between 0.0822  within 0.0725 (sd 0.0403)  excess +0.0098  x1.13  z +0.2  P 0.319
+    closer  between 0.1413  within 0.1048 (sd 0.0449)  excess +0.0365  x1.35  z +0.8  P 0.213
+    rates   between 0.0960  within 0.0864 (sd 0.0363)  excess +0.0096  x1.11  z +0.3  P 0.405
+    title   between 0.7890  within 0.7464 (sd 0.0976)  excess +0.0425  x1.06  z +0.4  P 0.385
+    name    between 0.5995  within 0.5678 (sd 0.0426)  excess +0.0317  x1.06  z +0.7  P 0.256
+    num     between 0.4466  within 0.4267 (sd 0.0877)  excess +0.0198  x1.05  z +0.2  P 0.425
+
+  [all types n=30] Chanhu-daro (47) vs Mohenjo-daro (1087), n = 30 per side, within from B
+    uni     between 0.4443  within 0.3749 (sd 0.0389)  excess +0.0694  x1.19  z +1.8  P 0.040
+    bi      between 0.8788  within 0.8341 (sd 0.0396)  excess +0.0447  x1.05  z +1.1  P 0.100
+    rho     between 0.9473  within 0.8791 (sd 0.2041)  excess +0.0683  x1.08  z +0.3  P 0.319
+    init    between 0.7258  within 0.6754 (sd 0.0827)  excess +0.0504  x1.07  z +0.6  P 0.299
+    fin     between 0.4768  within 0.3909 (sd 0.0744)  excess +0.0858  x1.22  z +1.2  P 0.169
+    midinv  between 0.5071  within 0.4428 (sd 0.0539)  excess +0.0643  x1.15  z +1.2  P 0.140
+    len     between 0.1027  within 0.1159 (sd 0.0517)  excess -0.0131  x0.89  z -0.3  P 0.561
+    top30   between 0.1950  within 0.1383 (sd 0.0406)  excess +0.0568  x1.41  z +1.4  P 0.106
+    rest    between 0.8020  within 0.6946 (sd 0.0641)  excess +0.1073  x1.15  z +1.7  P 0.050
+    frozen  between 0.9561  within 0.9039 (sd 0.1971)  excess +0.0522  x1.06  z +0.3  P 0.724
+    reuse   between 0.0028  within 0.0229 (sd 0.0249)  excess +0.0201  x2.03  z +nan  P 0.465
+    opener  between 0.0886  within 0.0687 (sd 0.0381)  excess +0.0199  x1.29  z +0.5  P 0.272
+    closer  between 0.1109  within 0.0976 (sd 0.0441)  excess +0.0133  x1.14  z +0.3  P 0.365
+    rates   between 0.1210  within 0.0793 (sd 0.0367)  excess +0.0417  x1.53  z +1.1  P 0.176
+    title   between 0.7772  within 0.6150 (sd 0.1308)  excess +0.1622  x1.26  z +1.2  P 0.150
+    name    between 0.6403  within 0.5712 (sd 0.0574)  excess +0.0691  x1.12  z +1.2  P 0.110
+    num     between 0.5083  within 0.5435 (sd 0.1072)  excess -0.0352  x0.94  z -0.3  P 0.621
+
+  [all types n=30] Dholavira (72) vs Harappa (709), n = 30 per side, within from AB
+    uni     between 0.4357  within 0.4031 (sd 0.0376)  excess +0.0327  x1.08  z +0.9  P 0.175
+    bi      between 0.8879  within 0.8667 (sd 0.0370)  excess +0.0212  x1.02  z +0.6  P 0.304
+    rho     between 1.0600  within 0.8352 (sd 0.2272)  excess +0.2248  x1.27  z +1.0  P 0.125
+    init    between 0.7173  within 0.7082 (sd 0.0758)  excess +0.0091  x1.01  z +0.1  P 0.469
+    fin     between 0.5171  within 0.4287 (sd 0.0841)  excess +0.0884  x1.21  z +1.1  P 0.131
+    midinv  between 0.5336  within 0.5032 (sd 0.0598)  excess +0.0303  x1.06  z +0.5  P 0.275
+    len     between 0.1177  within 0.0950 (sd 0.0473)  excess +0.0226  x1.24  z +0.5  P 0.311
+    top30   between 0.2146  within 0.1723 (sd 0.0431)  excess +0.0423  x1.25  z +1.0  P 0.198
+    rest    between 0.7264  within 0.7015 (sd 0.0670)  excess +0.0248  x1.04  z +0.4  P 0.316
+    frozen  between 0.9717  within 0.9080 (sd 0.2391)  excess +0.0637  x1.07  z +0.3  P 0.767
+    reuse   between 0.0030  within 0.0817 (sd 0.0900)  excess +0.0786  x4.99  z +nan  P 0.501
+    opener  between 0.0792  within 0.0615 (sd 0.0352)  excess +0.0177  x1.29  z +0.5  P 0.343
+    closer  between 0.1195  within 0.1030 (sd 0.0462)  excess +0.0164  x1.16  z +0.4  P 0.389
+    rates   between 0.0954  within 0.0810 (sd 0.0328)  excess +0.0145  x1.18  z +0.4  P 0.348
+    title   between 0.6546  within 0.6446 (sd 0.1400)  excess +0.0100  x1.02  z +0.1  P 0.428
+    name    between 0.6720  within 0.6255 (sd 0.0674)  excess +0.0464  x1.07  z +0.7  P 0.303
+    num     between 0.5167  within 0.5234 (sd 0.1076)  excess -0.0067  x0.99  z -0.1  P 0.547
+
+  [all types n=30] Dholavira (72) vs Kalibangan (58), n = 30 per side, within from A
+    uni     between 0.4016  within 0.3993 (sd 0.0354)  excess +0.0023  x1.01  z +0.1  P 0.432
+    bi      between 0.9094  within 0.8771 (sd 0.0291)  excess +0.0322  x1.04  z +1.1  P 0.126
+    rho     between 0.7580  within 0.9101 (sd 0.1696)  excess -0.1521  x0.83  z -0.9  P 0.748
+    init    between 0.6630  within 0.6884 (sd 0.0660)  excess -0.0254  x0.96  z -0.4  P 0.628
+    fin     between 0.4374  within 0.4787 (sd 0.0516)  excess -0.0413  x0.91  z -0.8  P 0.854
+    midinv  between 0.5294  within 0.4896 (sd 0.0452)  excess +0.0398  x1.08  z +0.9  P 0.209
+    len     between 0.1076  within 0.0980 (sd 0.0470)  excess +0.0096  x1.10  z +0.2  P 0.445
+    top30   between 0.1256  within 0.1670 (sd 0.0452)  excess -0.0414  x0.75  z -0.9  P 0.874
+    rest    between 0.8167  within 0.7176 (sd 0.0532)  excess +0.0990  x1.14  z +1.9  P 0.033
+    frozen  between 0.9817  within 0.9062 (sd 0.2549)  excess +0.0754  x1.08  z +0.3  P 0.831
+    reuse   between 0.0000  within 0.0181 (sd 0.0184)  excess +0.0181  x2.09  z +nan  P 0.507
+    opener  between 0.0466  within 0.0585 (sd 0.0345)  excess -0.0118  x0.80  z -0.3  P 0.668
+    closer  between 0.0749  within 0.0874 (sd 0.0377)  excess -0.0125  x0.86  z -0.3  P 0.571
+    rates   between 0.0630  within 0.0799 (sd 0.0318)  excess -0.0169  x0.79  z -0.5  P 0.701
+    title   between 0.7596  within 0.6382 (sd 0.1375)  excess +0.1215  x1.19  z +0.9  P 0.206
+    name    between 0.6644  within 0.5883 (sd 0.0473)  excess +0.0761  x1.13  z +1.6  P 0.086
+    num     between 0.4309  within 0.5135 (sd 0.0917)  excess -0.0826  x0.84  z -0.9  P 0.844
+
+  [all types n=30] Dholavira (72) vs Lothal (65), n = 30 per side, within from AB
+    uni     between 0.3887  within 0.3754 (sd 0.0420)  excess +0.0133  x1.04  z +0.3  P 0.341
+    bi      between 0.8865  within 0.8652 (sd 0.0306)  excess +0.0213  x1.02  z +0.7  P 0.236
+    rho     between 0.8345  within 0.9238 (sd 0.1562)  excess -0.0893  x0.90  z -0.6  P 0.666
+    init    between 0.7131  within 0.6560 (sd 0.0696)  excess +0.0571  x1.09  z +0.8  P 0.231
+    fin     between 0.4300  within 0.4437 (sd 0.0676)  excess -0.0137  x0.97  z -0.2  P 0.614
+    midinv  between 0.4785  within 0.4688 (sd 0.0488)  excess +0.0097  x1.02  z +0.2  P 0.384
+    len     between 0.1162  within 0.0964 (sd 0.0458)  excess +0.0197  x1.20  z +0.4  P 0.354
+    top30   between 0.1422  within 0.1521 (sd 0.0406)  excess -0.0099  x0.93  z -0.2  P 0.547
+    rest    between 0.7662  within 0.7160 (sd 0.0513)  excess +0.0502  x1.07  z +1.0  P 0.183
+    frozen  between 0.8655  within 0.9534 (sd 0.1895)  excess -0.0879  x0.91  z -0.5  P 0.905
+    reuse   between 0.0000  within 0.0504 (sd 0.0535)  excess +0.0504  x4.02  z +nan  P 0.501
+    opener  between 0.0715  within 0.0650 (sd 0.0390)  excess +0.0065  x1.10  z +0.2  P 0.359
+    closer  between 0.1217  within 0.0966 (sd 0.0411)  excess +0.0251  x1.26  z +0.6  P 0.271
+    rates   between 0.0937  within 0.0811 (sd 0.0353)  excess +0.0126  x1.15  z +0.4  P 0.426
+    title   between 0.7395  within 0.6913 (sd 0.1276)  excess +0.0482  x1.07  z +0.4  P 0.364
+    name    between 0.6070  within 0.5783 (sd 0.0481)  excess +0.0287  x1.05  z +0.6  P 0.270
+    num     between 0.5132  within 0.4759 (sd 0.0986)  excess +0.0373  x1.08  z +0.4  P 0.366
+
+  [all types n=30] Dholavira (72) vs Mohenjo-daro (1087), n = 30 per side, within from AB
+    uni     between 0.3997  within 0.3885 (sd 0.0384)  excess +0.0112  x1.03  z +0.3  P 0.389
+    bi      between 0.8791  within 0.8548 (sd 0.0409)  excess +0.0243  x1.03  z +0.6  P 0.281
+    rho     between 0.9003  within 0.8965 (sd 0.1857)  excess +0.0038  x1.00  z +0.0  P 0.474
+    init    between 0.7214  within 0.6819 (sd 0.0690)  excess +0.0395  x1.06  z +0.6  P 0.246
+    fin     between 0.4527  within 0.4360 (sd 0.0759)  excess +0.0167  x1.04  z +0.2  P 0.443
+    midinv  between 0.4762  within 0.4654 (sd 0.0560)  excess +0.0108  x1.02  z +0.2  P 0.444
+    len     between 0.1170  within 0.1066 (sd 0.0476)  excess +0.0104  x1.10  z +0.2  P 0.461
+    top30   between 0.1506  within 0.1519 (sd 0.0440)  excess -0.0013  x0.99  z -0.0  P 0.483
+    rest    between 0.7216  within 0.6952 (sd 0.0572)  excess +0.0265  x1.04  z +0.5  P 0.339
+    frozen  between 0.8936  within 0.9159 (sd 0.2075)  excess -0.0223  x0.98  z -0.1  P 0.785
+    reuse   between 0.0034  within 0.0124 (sd 0.0238)  excess +0.0091  x1.45  z +nan  P 0.735
+    opener  between 0.0785  within 0.0640 (sd 0.0368)  excess +0.0145  x1.23  z +0.4  P 0.321
+    closer  between 0.1130  within 0.0920 (sd 0.0405)  excess +0.0210  x1.23  z +0.5  P 0.278
+    rates   between 0.0904  within 0.0782 (sd 0.0339)  excess +0.0123  x1.16  z +0.4  P 0.388
+    title   between 0.6479  within 0.6313 (sd 0.1395)  excess +0.0166  x1.03  z +0.1  P 0.424
+    name    between 0.6104  within 0.5830 (sd 0.0494)  excess +0.0274  x1.05  z +0.6  P 0.326
+    num     between 0.5299  within 0.5217 (sd 0.1050)  excess +0.0082  x1.02  z +0.1  P 0.486
+
+  [all types n=30] Harappa (709) vs Kalibangan (58), n = 30 per side, within from A
+    uni     between 0.4448  within 0.4084 (sd 0.0423)  excess +0.0364  x1.09  z +0.9  P 0.206
+    bi      between 0.8808  within 0.8566 (sd 0.0391)  excess +0.0241  x1.03  z +0.6  P 0.319
+    rho     between 0.9823  within 0.7609 (sd 0.2632)  excess +0.2214  x1.29  z +0.8  P 0.219
+    init    between 0.7100  within 0.7338 (sd 0.0764)  excess -0.0237  x0.97  z -0.3  P 0.618
+    fin     between 0.4799  within 0.3791 (sd 0.0702)  excess +0.1008  x1.27  z +1.4  P 0.073
+    midinv  between 0.5454  within 0.5151 (sd 0.0599)  excess +0.0303  x1.06  z +0.5  P 0.262
+    len     between 0.1254  within 0.0988 (sd 0.0459)  excess +0.0267  x1.27  z +0.6  P 0.243
+    top30   between 0.2030  within 0.1729 (sd 0.0429)  excess +0.0301  x1.17  z +0.7  P 0.266
+    rest    between 0.7737  within 0.7390 (sd 0.0643)  excess +0.0347  x1.05  z +0.5  P 0.346
+    frozen  between 0.9789  within 0.8705 (sd 0.2848)  excess +0.1084  x1.12  z +0.4  P 0.701
+    reuse   between 0.0208  within 0.1007 (sd 0.0742)  excess +0.0799  x3.13  z +nan  P 0.008
+    opener  between 0.0577  within 0.0707 (sd 0.0361)  excess -0.0130  x0.82  z -0.4  P 0.648
+    closer  between 0.1101  within 0.1137 (sd 0.0445)  excess -0.0035  x0.97  z -0.1  P 0.502
+    rates   between 0.0917  within 0.0836 (sd 0.0363)  excess +0.0081  x1.10  z +0.2  P 0.372
+    title   between 0.7143  within 0.6412 (sd 0.1387)  excess +0.0731  x1.11  z +0.5  P 0.243
+    name    between 0.7181  within 0.6632 (sd 0.0656)  excess +0.0550  x1.08  z +0.8  P 0.203
+    num     between 0.5059  within 0.5476 (sd 0.1101)  excess -0.0417  x0.92  z -0.4  P 0.691
+
+  [all types n=30] Harappa (709) vs Lothal (65), n = 30 per side, within from AB
+    uni     between 0.4314  within 0.3789 (sd 0.0495)  excess +0.0525  x1.14  z +1.1  P 0.203
+    bi      between 0.8851  within 0.8575 (sd 0.0331)  excess +0.0276  x1.03  z +0.8  P 0.176
+    rho     between 1.0478  within 0.8525 (sd 0.2215)  excess +0.1954  x1.23  z +0.9  P 0.181
+    init    between 0.6697  within 0.6737 (sd 0.0849)  excess -0.0040  x0.99  z -0.0  P 0.517
+    fin     between 0.5439  within 0.3923 (sd 0.0656)  excess +0.1516  x1.39  z +2.3  P 0.015
+    midinv  between 0.4994  within 0.4873 (sd 0.0651)  excess +0.0120  x1.02  z +0.2  P 0.333
+    len     between 0.1148  within 0.0972 (sd 0.0453)  excess +0.0176  x1.18  z +0.4  P 0.363
+    top30   between 0.2279  within 0.1568 (sd 0.0455)  excess +0.0710  x1.45  z +1.6  P 0.085
+    rest    between 0.7171  within 0.6952 (sd 0.0703)  excess +0.0219  x1.03  z +0.3  P 0.423
+    frozen  between 0.9673  within 0.9387 (sd 0.2074)  excess +0.0286  x1.03  z +0.1  P 0.830
+    reuse   between 0.0079  within 0.1326 (sd 0.0504)  excess +0.1247  x6.09  z +nan  P 0.002
+    opener  between 0.0805  within 0.0711 (sd 0.0378)  excess +0.0094  x1.13  z +0.2  P 0.398
+    closer  between 0.1549  within 0.1119 (sd 0.0438)  excess +0.0430  x1.38  z +1.0  P 0.198
+    rates   between 0.1110  within 0.0873 (sd 0.0370)  excess +0.0237  x1.27  z +0.6  P 0.314
+    title   between 0.6966  within 0.6964 (sd 0.1257)  excess +0.0002  x1.00  z +0.0  P 0.479
+    name    between 0.6378  within 0.6132 (sd 0.0759)  excess +0.0246  x1.04  z +0.3  P 0.339
+    num     between 0.5353  within 0.4912 (sd 0.1150)  excess +0.0441  x1.09  z +0.4  P 0.356
+
+  [all types n=30] Harappa (709) vs Mohenjo-daro (1087), n = 30 per side, within from AB
+    uni     between 0.4176  within 0.3921 (sd 0.0454)  excess +0.0255  x1.06  z +0.6  P 0.301
+    bi      between 0.8624  within 0.8467 (sd 0.0423)  excess +0.0158  x1.02  z +0.4  P 0.341
+    rho     between 1.0522  within 0.8147 (sd 0.2456)  excess +0.2376  x1.29  z +1.0  P 0.216
+    init    between 0.7310  within 0.6995 (sd 0.0805)  excess +0.0315  x1.05  z +0.4  P 0.356
+    fin     between 0.4525  within 0.3831 (sd 0.0695)  excess +0.0695  x1.18  z +1.0  P 0.155
+    midinv  between 0.4885  within 0.4806 (sd 0.0745)  excess +0.0078  x1.02  z +0.1  P 0.401
+    len     between 0.1536  within 0.1075 (sd 0.0472)  excess +0.0461  x1.43  z +1.0  P 0.155
+    top30   between 0.1821  within 0.1580 (sd 0.0476)  excess +0.0241  x1.15  z +0.5  P 0.316
+    rest    between 0.7302  within 0.7054 (sd 0.0642)  excess +0.0249  x1.04  z +0.4  P 0.359
+    frozen  between 0.9550  within 0.9066 (sd 0.2160)  excess +0.0484  x1.05  z +0.2  P 0.725
+    reuse   between 0.0067  within 0.0929 (sd 0.0801)  excess +0.0862  x4.69  z +nan  P 0.248
+    opener  between 0.0871  within 0.0667 (sd 0.0362)  excess +0.0205  x1.31  z +0.6  P 0.304
+    closer  between 0.1224  within 0.1067 (sd 0.0417)  excess +0.0157  x1.15  z +0.4  P 0.326
+    rates   between 0.1048  within 0.0811 (sd 0.0334)  excess +0.0237  x1.29  z +0.7  P 0.230
+    title   between 0.6301  within 0.6254 (sd 0.1360)  excess +0.0047  x1.01  z +0.0  P 0.536
+    name    between 0.6341  within 0.6205 (sd 0.0766)  excess +0.0135  x1.02  z +0.2  P 0.451
+    num     between 0.5548  within 0.5432 (sd 0.1113)  excess +0.0116  x1.02  z +0.1  P 0.344
+
+  [all types n=30] Kalibangan (58) vs Lothal (65), n = 30 per side, within from B
+    uni     between 0.4234  within 0.3462 (sd 0.0328)  excess +0.0772  x1.22  z +2.4  P 0.017
+    bi      between 0.8716  within 0.8534 (sd 0.0267)  excess +0.0182  x1.02  z +0.7  P 0.326
+    rho     between 0.7562  within 0.9484 (sd 0.1509)  excess -0.1922  x0.80  z -1.3  P 0.907
+    init    between 0.6929  within 0.6303 (sd 0.0662)  excess +0.0626  x1.10  z +0.9  P 0.173
+    fin     between 0.4746  within 0.4056 (sd 0.0591)  excess +0.0690  x1.17  z +1.2  P 0.100
+    midinv  between 0.4859  within 0.4457 (sd 0.0422)  excess +0.0402  x1.09  z +1.0  P 0.176
+    len     between 0.1565  within 0.1001 (sd 0.0489)  excess +0.0565  x1.56  z +1.2  P 0.173
+    top30   between 0.1756  within 0.1398 (sd 0.0377)  excess +0.0357  x1.26  z +0.9  P 0.196
+    rest    between 0.7956  within 0.6943 (sd 0.0545)  excess +0.1012  x1.15  z +1.9  P 0.033
+    frozen  between 0.9722  within 1.0000 (sd 0.0000)  excess -0.0278  x0.97  z +nan  P 0.993
+    reuse   between 0.0083  within 0.0682 (sd 0.0372)  excess +0.0598  x3.39  z +nan  P 0.012
+    opener  between 0.0646  within 0.0784 (sd 0.0451)  excess -0.0138  x0.82  z -0.3  P 0.568
+    closer  between 0.1349  within 0.1029 (sd 0.0449)  excess +0.0320  x1.31  z +0.7  P 0.276
+    rates   between 0.1027  within 0.0900 (sd 0.0395)  excess +0.0126  x1.14  z +0.3  P 0.409
+    title   between 0.7536  within 0.7380 (sd 0.1043)  excess +0.0156  x1.02  z +0.1  P 0.375
+    name    between 0.6471  within 0.5645 (sd 0.0424)  excess +0.0826  x1.15  z +1.9  P 0.033
+    num     between 0.5043  within 0.4340 (sd 0.0919)  excess +0.0702  x1.16  z +0.8  P 0.219
+
+  [all types n=30] Kalibangan (58) vs Mohenjo-daro (1087), n = 30 per side, within from B
+    uni     between 0.4166  within 0.3746 (sd 0.0396)  excess +0.0420  x1.11  z +1.1  P 0.133
+    bi      between 0.8731  within 0.8335 (sd 0.0413)  excess +0.0395  x1.05  z +1.0  P 0.156
+    rho     between 0.7697  within 0.8668 (sd 0.2102)  excess -0.0971  x0.89  z -0.5  P 0.688
+    init    between 0.7060  within 0.6837 (sd 0.0834)  excess +0.0224  x1.03  z +0.3  P 0.419
+    fin     between 0.4505  within 0.3898 (sd 0.0696)  excess +0.0607  x1.16  z +0.9  P 0.203
+    midinv  between 0.4961  within 0.4414 (sd 0.0506)  excess +0.0547  x1.12  z +1.1  P 0.120
+    len     between 0.1621  within 0.1154 (sd 0.0506)  excess +0.0467  x1.40  z +0.9  P 0.226
+    top30   between 0.1589  within 0.1405 (sd 0.0396)  excess +0.0184  x1.13  z +0.5  P 0.329
+    rest    between 0.7550  within 0.6933 (sd 0.0644)  excess +0.0617  x1.09  z +1.0  P 0.183
+    frozen  between 0.9358  within 0.8990 (sd 0.1821)  excess +0.0368  x1.04  z +0.2  P 0.678
+    reuse   between 0.0058  within 0.0314 (sd 0.0201)  excess +0.0256  x2.14  z +nan  P 0.221
+    opener  between 0.0591  within 0.0725 (sd 0.0380)  excess -0.0134  x0.82  z -0.4  P 0.595
+    closer  between 0.0958  within 0.0978 (sd 0.0390)  excess -0.0020  x0.98  z -0.1  P 0.555
+    rates   between 0.0944  within 0.0818 (sd 0.0352)  excess +0.0126  x1.15  z +0.4  P 0.399
+    title   between 0.6727  within 0.6108 (sd 0.1388)  excess +0.0618  x1.10  z +0.4  P 0.395
+    name    between 0.6619  within 0.5747 (sd 0.0579)  excess +0.0872  x1.15  z +1.5  P 0.070
+    num     between 0.5074  within 0.5420 (sd 0.1047)  excess -0.0346  x0.94  z -0.3  P 0.658
+
+  [all types n=30] Lothal (65) vs Mohenjo-daro (1087), n = 30 per side, within from AB
+    uni     between 0.3883  within 0.3584 (sd 0.0356)  excess +0.0298  x1.08  z +0.8  P 0.200
+    bi      between 0.8574  within 0.8425 (sd 0.0333)  excess +0.0149  x1.02  z +0.4  P 0.304
+    rho     between 0.8249  within 0.9137 (sd 0.1813)  excess -0.0889  x0.90  z -0.5  P 0.765
+    init    between 0.6406  within 0.6508 (sd 0.0751)  excess -0.0102  x0.98  z -0.1  P 0.498
+    fin     between 0.4772  within 0.3975 (sd 0.0676)  excess +0.0796  x1.20  z +1.2  P 0.165
+    midinv  between 0.4429  within 0.4408 (sd 0.0465)  excess +0.0020  x1.00  z +0.0  P 0.572
+    len     between 0.1183  within 0.1058 (sd 0.0507)  excess +0.0125  x1.12  z +0.2  P 0.413
+    top30   between 0.1441  within 0.1386 (sd 0.0357)  excess +0.0055  x1.04  z +0.2  P 0.394
+    rest    between 0.7263  within 0.6728 (sd 0.0640)  excess +0.0536  x1.08  z +0.8  P 0.171
+    frozen  between 0.8587  within 0.9625 (sd 0.1234)  excess -0.1037  x0.89  z -0.8  P 0.880
+    reuse   between 0.0033  within 0.0633 (sd 0.0462)  excess +0.0601  x4.02  z +nan  P 0.223
+    opener  between 0.0702  within 0.0741 (sd 0.0407)  excess -0.0039  x0.95  z -0.1  P 0.479
+    closer  between 0.1295  within 0.1036 (sd 0.0447)  excess +0.0260  x1.25  z +0.6  P 0.280
+    rates   between 0.0813  within 0.0866 (sd 0.0364)  excess -0.0053  x0.94  z -0.1  P 0.551
+    title   between 0.6468  within 0.6666 (sd 0.1344)  excess -0.0198  x0.97  z -0.1  P 0.572
+    name    between 0.5901  within 0.5690 (sd 0.0519)  excess +0.0211  x1.04  z +0.4  P 0.396
+    num     between 0.4872  within 0.4944 (sd 0.1163)  excess -0.0072  x0.99  z -0.1  P 0.522
+
+  SUMMARY all types n=30: ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Chanhu-daro vs Dholavira                        1.08    1.02    1.04    1.11    0.92    1.04    0.81    1.01    1.18    1.00    1.00    1.06    0.78    1.08    1.17    1.07    0.95
+  Chanhu-daro vs Harappa                          1.13    1.05    1.35    1.03    1.44    1.05    1.39    1.27    1.09    1.08    8.72    1.52    1.18    1.96    1.10    1.02    0.98
+  Chanhu-daro vs Kalibangan                          -       -       -       -       -       -       -       -       -       -    3.19       -       -       -       -       -       -
+  Chanhu-daro vs Lothal                           1.16    1.03    0.90    1.05    1.24    1.06    0.86    1.28    1.10    0.93    5.18    1.13    1.35    1.11    1.06    1.06    1.05
+  Chanhu-daro vs Mohenjo-daro                     1.19    1.05    1.08    1.07    1.22    1.15    0.89    1.41    1.15    1.06    2.03    1.29    1.14    1.53    1.26    1.12    0.94
+  Dholavira vs Harappa                            1.08    1.02    1.27    1.01    1.21    1.06    1.24    1.25    1.04    1.07    4.99    1.29    1.16    1.18    1.02    1.07    0.99
+  Dholavira vs Kalibangan                         1.01    1.04    0.83    0.96    0.91    1.08    1.10    0.75    1.14    1.08    2.09    0.80    0.86    0.79    1.19    1.13    0.84
+  Dholavira vs Lothal                             1.04    1.02    0.90    1.09    0.97    1.02    1.20    0.93    1.07    0.91    4.02    1.10    1.26    1.15    1.07    1.05    1.08
+  Dholavira vs Mohenjo-daro                       1.03    1.03    1.00    1.06    1.04    1.02    1.10    0.99    1.04    0.98    1.45    1.23    1.23    1.16    1.03    1.05    1.02
+  Harappa vs Kalibangan                           1.09    1.03    1.29    0.97    1.27    1.06    1.27    1.17    1.05    1.12    3.13    0.82    0.97    1.10    1.11    1.08    0.92
+  Harappa vs Lothal                               1.14    1.03    1.23    0.99    1.39    1.02    1.18    1.45    1.03    1.03    6.09    1.13    1.38    1.27    1.00    1.04    1.09
+  Harappa vs Mohenjo-daro                         1.06    1.02    1.29    1.05    1.18    1.02    1.43    1.15    1.04    1.05    4.69    1.31    1.15    1.29    1.01    1.02    1.02
+  Kalibangan vs Lothal                            1.22    1.02    0.80    1.10    1.17    1.09    1.56    1.26    1.15    0.97    3.39    0.82    1.31    1.14    1.02    1.15    1.16
+  Kalibangan vs Mohenjo-daro                      1.11    1.05    0.89    1.03    1.16    1.12    1.40    1.13    1.09    1.04    2.14    0.82    0.98    1.15    1.10    1.15    0.94
+  Lothal vs Mohenjo-daro                          1.08    1.02    0.90    0.98    1.20    1.00    1.12    1.04    1.08    0.89    4.02    0.95    1.25    0.94    0.97    1.04    0.99
+  excess (bits / units)                       
+  Chanhu-daro vs Dholavira                       0.032   0.014   0.039   0.074  -0.037   0.018  -0.019   0.001   0.128   0.003   0.000   0.004  -0.020   0.006   0.108   0.042  -0.027
+  Chanhu-daro vs Harappa                         0.054   0.047   0.265   0.025   0.168   0.028   0.038   0.046   0.067   0.077   0.157   0.035   0.021   0.079   0.065   0.014  -0.011
+  Chanhu-daro vs Kalibangan                          -       -       -       -       -       -       -       -       -       -   0.036       -       -       -       -       -       -
+  Chanhu-daro vs Lothal                          0.055   0.027  -0.094   0.034   0.098   0.026  -0.014   0.037   0.069  -0.072   0.095   0.010   0.037   0.010   0.043   0.032   0.020
+  Chanhu-daro vs Mohenjo-daro                    0.069   0.045   0.068   0.050   0.086   0.064  -0.013   0.057   0.107   0.052   0.020   0.020   0.013   0.042   0.162   0.069  -0.035
+  Dholavira vs Harappa                           0.033   0.021   0.225   0.009   0.088   0.030   0.023   0.042   0.025   0.064   0.079   0.018   0.016   0.014   0.010   0.046  -0.007
+  Dholavira vs Kalibangan                        0.002   0.032  -0.152  -0.025  -0.041   0.040   0.010  -0.041   0.099   0.075   0.018  -0.012  -0.012  -0.017   0.121   0.076  -0.083
+  Dholavira vs Lothal                            0.013   0.021  -0.089   0.057  -0.014   0.010   0.020  -0.010   0.050  -0.088   0.050   0.006   0.025   0.013   0.048   0.029   0.037
+  Dholavira vs Mohenjo-daro                      0.011   0.024   0.004   0.039   0.017   0.011   0.010  -0.001   0.026  -0.022   0.009   0.015   0.021   0.012   0.017   0.027   0.008
+  Harappa vs Kalibangan                          0.036   0.024   0.221  -0.024   0.101   0.030   0.027   0.030   0.035   0.108   0.080  -0.013  -0.004   0.008   0.073   0.055  -0.042
+  Harappa vs Lothal                              0.053   0.028   0.195  -0.004   0.152   0.012   0.018   0.071   0.022   0.029   0.125   0.009   0.043   0.024   0.000   0.025   0.044
+  Harappa vs Mohenjo-daro                        0.025   0.016   0.238   0.031   0.069   0.008   0.046   0.024   0.025   0.048   0.086   0.020   0.016   0.024   0.005   0.014   0.012
+  Kalibangan vs Lothal                           0.077   0.018  -0.192   0.063   0.069   0.040   0.056   0.036   0.101  -0.028   0.060  -0.014   0.032   0.013   0.016   0.083   0.070
+  Kalibangan vs Mohenjo-daro                     0.042   0.040  -0.097   0.022   0.061   0.055   0.047   0.018   0.062   0.037   0.026  -0.013  -0.002   0.013   0.062   0.087  -0.035
+  Lothal vs Mohenjo-daro                         0.030   0.015  -0.089  -0.010   0.080   0.002   0.013   0.006   0.054  -0.104   0.060  -0.004   0.026  -0.005  -0.020   0.021  -0.007
+
+== area-sections (seals, >= 60 collapsed texts): {'Mohenjo-daro|DK-': 82, 'Mohenjo-daro|DKC': 65, 'Mohenjo-daro|DKG. (N)': 82, 'Mohenjo-daro|DKG. (S)': 345}
+
+  [sections seals n=30] Mohenjo-daro|DK- (82) vs Mohenjo-daro|DKC (65), n = 30 per side, within from AB
+    uni     between 0.3821  within 0.3691 (sd 0.0304)  excess +0.0130  x1.04  z +0.4  P 0.291
+    bi      between 0.8487  within 0.8148 (sd 0.0309)  excess +0.0339  x1.04  z +1.1  P 0.128
+    rho     between 0.8437  within 0.9202 (sd 0.1692)  excess -0.0765  x0.92  z -0.5  P 0.659
+    init    between 0.6543  within 0.6827 (sd 0.0726)  excess -0.0284  x0.96  z -0.4  P 0.569
+    fin     between 0.4018  within 0.3763 (sd 0.0805)  excess +0.0255  x1.07  z +0.3  P 0.386
+    midinv  between 0.4444  within 0.4287 (sd 0.0390)  excess +0.0158  x1.04  z +0.4  P 0.308
+    len     between 0.1258  within 0.1178 (sd 0.0510)  excess +0.0079  x1.07  z +0.2  P 0.416
+    top30   between 0.1302  within 0.1344 (sd 0.0354)  excess -0.0043  x0.97  z -0.1  P 0.576
+    rest    between 0.7672  within 0.7261 (sd 0.0567)  excess +0.0411  x1.06  z +0.7  P 0.243
+    frozen  between 0.8381  within 0.7940 (sd 0.1802)  excess +0.0441  x1.06  z +0.2  P 0.391
+    reuse   between 0.0089  within 0.0087 (sd 0.0165)  excess -0.0002  x0.99  z +nan  P 0.765
+    opener  between 0.0692  within 0.0711 (sd 0.0398)  excess -0.0018  x0.97  z -0.0  P 0.474
+    closer  between 0.0914  within 0.0755 (sd 0.0386)  excess +0.0159  x1.21  z +0.4  P 0.368
+    rates   between 0.0959  within 0.0829 (sd 0.0367)  excess +0.0130  x1.16  z +0.4  P 0.379
+    title   between 0.6148  within 0.5537 (sd 0.1619)  excess +0.0611  x1.11  z +0.4  P 0.373
+    name    between 0.5799  within 0.5542 (sd 0.0463)  excess +0.0257  x1.05  z +0.6  P 0.343
+    num     between 0.5374  within 0.5768 (sd 0.0952)  excess -0.0395  x0.93  z -0.4  P 0.634
+
+  [sections seals n=30] Mohenjo-daro|DK- (82) vs Mohenjo-daro|DKG. (N) (82), n = 30 per side, within from AB
+    uni     between 0.3855  within 0.3721 (sd 0.0311)  excess +0.0135  x1.04  z +0.4  P 0.280
+    bi      between 0.8349  within 0.8293 (sd 0.0279)  excess +0.0056  x1.01  z +0.2  P 0.421
+    rho     between 0.9399  within 0.8065 (sd 0.1721)  excess +0.1334  x1.17  z +0.8  P 0.221
+    init    between 0.7315  within 0.7170 (sd 0.0638)  excess +0.0145  x1.02  z +0.2  P 0.304
+    fin     between 0.3731  within 0.3210 (sd 0.0566)  excess +0.0521  x1.16  z +0.9  P 0.185
+    midinv  between 0.4411  within 0.4222 (sd 0.0393)  excess +0.0189  x1.04  z +0.5  P 0.313
+    len     between 0.1173  within 0.1216 (sd 0.0540)  excess -0.0043  x0.96  z -0.1  P 0.556
+    top30   between 0.1348  within 0.1284 (sd 0.0338)  excess +0.0063  x1.05  z +0.2  P 0.471
+    rest    between 0.7493  within 0.7278 (sd 0.0587)  excess +0.0215  x1.03  z +0.4  P 0.371
+    frozen  between 0.9040  within 0.8527 (sd 0.1846)  excess +0.0513  x1.06  z +0.3  P 0.531
+    reuse   between 0.0000  within 0.0085 (sd 0.0167)  excess +0.0085  x1.51  z +nan  P 0.775
+    opener  between 0.0765  within 0.0697 (sd 0.0389)  excess +0.0068  x1.10  z +0.2  P 0.403
+    closer  between 0.0965  within 0.0758 (sd 0.0397)  excess +0.0206  x1.27  z +0.5  P 0.333
+    rates   between 0.0748  within 0.0825 (sd 0.0367)  excess -0.0077  x0.91  z -0.2  P 0.569
+    title   between 0.5205  within 0.4932 (sd 0.1292)  excess +0.0273  x1.06  z +0.2  P 0.498
+    name    between 0.5972  within 0.5753 (sd 0.0454)  excess +0.0220  x1.04  z +0.5  P 0.369
+    num     between 0.5271  within 0.5749 (sd 0.0762)  excess -0.0478  x0.92  z -0.6  P 0.707
+
+  [sections seals n=30] Mohenjo-daro|DK- (82) vs Mohenjo-daro|DKG. (S) (345), n = 30 per side, within from AB
+    uni     between 0.3827  within 0.3803 (sd 0.0319)  excess +0.0024  x1.01  z +0.1  P 0.512
+    bi      between 0.8470  within 0.8387 (sd 0.0315)  excess +0.0083  x1.01  z +0.3  P 0.361
+    rho     between 0.9374  within 0.8702 (sd 0.1861)  excess +0.0672  x1.08  z +0.4  P 0.368
+    init    between 0.7274  within 0.6988 (sd 0.0709)  excess +0.0286  x1.04  z +0.4  P 0.383
+    fin     between 0.3844  within 0.3546 (sd 0.0720)  excess +0.0299  x1.08  z +0.4  P 0.278
+    midinv  between 0.4357  within 0.4332 (sd 0.0449)  excess +0.0025  x1.01  z +0.1  P 0.471
+    len     between 0.1166  within 0.1214 (sd 0.0535)  excess -0.0048  x0.96  z -0.1  P 0.531
+    top30   between 0.1381  within 0.1328 (sd 0.0337)  excess +0.0052  x1.04  z +0.2  P 0.396
+    rest    between 0.7385  within 0.7403 (sd 0.0580)  excess -0.0018  x1.00  z -0.0  P 0.449
+    frozen  between 0.9193  within 0.8591 (sd 0.1975)  excess +0.0602  x1.07  z +0.3  P 0.569
+    reuse   between 0.0011  within 0.0124 (sd 0.0190)  excess +0.0113  x1.63  z +nan  P 0.674
+    opener  between 0.0594  within 0.0681 (sd 0.0379)  excess -0.0088  x0.87  z -0.2  P 0.624
+    closer  between 0.0952  within 0.0872 (sd 0.0447)  excess +0.0080  x1.09  z +0.2  P 0.468
+    rates   between 0.0763  within 0.0808 (sd 0.0372)  excess -0.0045  x0.94  z -0.1  P 0.537
+    title   between 0.6257  within 0.5560 (sd 0.1625)  excess +0.0696  x1.13  z +0.4  P 0.339
+    name    between 0.5922  within 0.5760 (sd 0.0477)  excess +0.0162  x1.03  z +0.3  P 0.414
+    num     between 0.5176  within 0.5595 (sd 0.1072)  excess -0.0419  x0.93  z -0.4  P 0.671
+
+  [sections seals n=30] Mohenjo-daro|DKC (65) vs Mohenjo-daro|DKG. (N) (82), n = 30 per side, within from AB
+    uni     between 0.3898  within 0.3649 (sd 0.0310)  excess +0.0249  x1.07  z +0.8  P 0.230
+    bi      between 0.8199  within 0.8130 (sd 0.0323)  excess +0.0069  x1.01  z +0.2  P 0.428
+    rho     between 0.9455  within 0.8914 (sd 0.1753)  excess +0.0541  x1.06  z +0.3  P 0.444
+    init    between 0.6375  within 0.6762 (sd 0.0729)  excess -0.0387  x0.94  z -0.5  P 0.631
+    fin     between 0.3738  within 0.3754 (sd 0.0731)  excess -0.0016  x1.00  z -0.0  P 0.551
+    midinv  between 0.4645  within 0.4289 (sd 0.0397)  excess +0.0357  x1.08  z +0.9  P 0.228
+    len     between 0.1476  within 0.1188 (sd 0.0507)  excess +0.0288  x1.24  z +0.6  P 0.228
+    top30   between 0.1509  within 0.1315 (sd 0.0374)  excess +0.0194  x1.15  z +0.5  P 0.311
+    rest    between 0.7586  within 0.7162 (sd 0.0528)  excess +0.0424  x1.06  z +0.8  P 0.215
+    frozen  between 0.8517  within 0.8604 (sd 0.1836)  excess -0.0086  x0.99  z -0.0  P 0.549
+    reuse   between 0.0072  within 0.0000 (sd 0.0000)  excess -0.0072  x0.70  z +nan  P 1.000
+    opener  between 0.0607  within 0.0733 (sd 0.0429)  excess -0.0126  x0.83  z -0.3  P 0.559
+    closer  between 0.0845  within 0.0781 (sd 0.0354)  excess +0.0064  x1.08  z +0.2  P 0.428
+    rates   between 0.0932  within 0.0863 (sd 0.0397)  excess +0.0069  x1.08  z +0.2  P 0.411
+    title   between 0.5652  within 0.6093 (sd 0.1229)  excess -0.0440  x0.93  z -0.4  P 0.707
+    name    between 0.6048  within 0.5585 (sd 0.0502)  excess +0.0463  x1.08  z +0.9  P 0.191
+    num     between 0.6290  within 0.5631 (sd 0.0859)  excess +0.0659  x1.12  z +0.8  P 0.200
+
+  [sections seals n=30] Mohenjo-daro|DKC (65) vs Mohenjo-daro|DKG. (S) (345), n = 30 per side, within from AB
+    uni     between 0.3832  within 0.3720 (sd 0.0366)  excess +0.0111  x1.03  z +0.3  P 0.443
+    bi      between 0.8333  within 0.8214 (sd 0.0398)  excess +0.0119  x1.01  z +0.3  P 0.346
+    rho     between 0.8674  within 0.9514 (sd 0.1579)  excess -0.0840  x0.91  z -0.5  P 0.749
+    init    between 0.6527  within 0.6611 (sd 0.0719)  excess -0.0084  x0.99  z -0.1  P 0.582
+    fin     between 0.4126  within 0.4064 (sd 0.0683)  excess +0.0062  x1.02  z +0.1  P 0.451
+    midinv  between 0.4435  within 0.4378 (sd 0.0461)  excess +0.0057  x1.01  z +0.1  P 0.419
+    len     between 0.1294  within 0.1177 (sd 0.0503)  excess +0.0118  x1.10  z +0.2  P 0.451
+    top30   between 0.1275  within 0.1447 (sd 0.0356)  excess -0.0172  x0.88  z -0.5  P 0.699
+    rest    between 0.7401  within 0.6942 (sd 0.0646)  excess +0.0459  x1.07  z +0.7  P 0.230
+    frozen  between 0.8466  within 0.8600 (sd 0.1853)  excess -0.0134  x0.98  z -0.1  P 0.544
+    reuse   between 0.0056  within 0.0032 (sd 0.0104)  excess -0.0023  x0.90  z +nan  P 0.908
+    opener  between 0.0595  within 0.0729 (sd 0.0433)  excess -0.0134  x0.82  z -0.3  P 0.594
+    closer  between 0.1107  within 0.0901 (sd 0.0436)  excess +0.0206  x1.23  z +0.5  P 0.278
+    rates   between 0.0918  within 0.0846 (sd 0.0371)  excess +0.0072  x1.08  z +0.2  P 0.411
+    title   between 0.6930  within 0.6775 (sd 0.1177)  excess +0.0155  x1.02  z +0.1  P 0.444
+    name    between 0.5611  within 0.5554 (sd 0.0567)  excess +0.0058  x1.01  z +0.1  P 0.509
+    num     between 0.5573  within 0.5516 (sd 0.1074)  excess +0.0057  x1.01  z +0.1  P 0.524
+
+  [sections seals n=30] Mohenjo-daro|DKG. (N) (82) vs Mohenjo-daro|DKG. (S) (345), n = 30 per side, within from AB
+    uni     between 0.3827  within 0.3743 (sd 0.0339)  excess +0.0085  x1.02  z +0.3  P 0.408
+    bi      between 0.8261  within 0.8358 (sd 0.0344)  excess -0.0097  x0.99  z -0.3  P 0.566
+    rho     between 0.8836  within 0.8363 (sd 0.1875)  excess +0.0473  x1.06  z +0.3  P 0.369
+    init    between 0.7066  within 0.6930 (sd 0.0717)  excess +0.0136  x1.02  z +0.2  P 0.441
+    fin     between 0.3697  within 0.3579 (sd 0.0687)  excess +0.0118  x1.03  z +0.2  P 0.403
+    midinv  between 0.4275  within 0.4331 (sd 0.0445)  excess -0.0056  x0.99  z -0.1  P 0.524
+    len     between 0.1068  within 0.1211 (sd 0.0534)  excess -0.0143  x0.88  z -0.3  P 0.564
+    top30   between 0.1352  within 0.1339 (sd 0.0354)  excess +0.0013  x1.01  z +0.0  P 0.498
+    rest    between 0.7257  within 0.7078 (sd 0.0569)  excess +0.0179  x1.03  z +0.3  P 0.436
+    frozen  between 0.8710  within 0.9121 (sd 0.1740)  excess -0.0411  x0.95  z -0.2  P 0.724
+    reuse   between 0.0039  within 0.0030 (sd 0.0105)  excess -0.0009  x0.96  z +nan  P 0.917
+    opener  between 0.0809  within 0.0702 (sd 0.0413)  excess +0.0108  x1.15  z +0.3  P 0.406
+    closer  between 0.1024  within 0.0923 (sd 0.0408)  excess +0.0101  x1.11  z +0.2  P 0.353
+    rates   between 0.0688  within 0.0807 (sd 0.0360)  excess -0.0119  x0.85  z -0.3  P 0.616
+    title   between 0.6115  within 0.6062 (sd 0.1330)  excess +0.0052  x1.01  z +0.0  P 0.499
+    name    between 0.5882  within 0.5790 (sd 0.0523)  excess +0.0092  x1.02  z +0.2  P 0.419
+    num     between 0.5380  within 0.5371 (sd 0.0920)  excess +0.0009  x1.00  z +0.0  P 0.544
+
+  SUMMARY sections seals n=30 (same-city pairs vs cross-city pairs): ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKC            1.04    1.04    0.92    0.96    1.07    1.04    1.07    0.97    1.06    1.06    0.99    0.97    1.21    1.16    1.11    1.05    0.93
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (N)       1.04    1.01    1.17    1.02    1.16    1.04    0.96    1.05    1.03    1.06    1.51    1.10    1.27    0.91    1.06    1.04    0.92
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (S)       1.01    1.01    1.08    1.04    1.08    1.01    0.96    1.04    1.00    1.07    1.63    0.87    1.09    0.94    1.13    1.03    0.93
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (N)       1.07    1.01    1.06    0.94    1.00    1.08    1.24    1.15    1.06    0.99    0.70    0.83    1.08    1.08    0.93    1.08    1.12
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (S)       1.03    1.01    0.91    0.99    1.02    1.01    1.10    0.88    1.07    0.98    0.90    0.82    1.23    1.08    1.02    1.01    1.01
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|DKG. (    1.02    0.99    1.06    1.02    1.03    0.99    0.88    1.01    1.03    0.95    0.96    1.15    1.11    0.85    1.01    1.02    1.00
+  excess (bits / units)                       
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKC           0.013   0.034  -0.076  -0.028   0.025   0.016   0.008  -0.004   0.041   0.044  -0.000  -0.002   0.016   0.013   0.061   0.026  -0.039
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (N)      0.013   0.006   0.133   0.014   0.052   0.019  -0.004   0.006   0.021   0.051   0.009   0.007   0.021  -0.008   0.027   0.022  -0.048
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (S)      0.002   0.008   0.067   0.029   0.030   0.003  -0.005   0.005  -0.002   0.060   0.011  -0.009   0.008  -0.004   0.070   0.016  -0.042
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (N)      0.025   0.007   0.054  -0.039  -0.002   0.036   0.029   0.019   0.042  -0.009  -0.007  -0.013   0.006   0.007  -0.044   0.046   0.066
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (S)      0.011   0.012  -0.084  -0.008   0.006   0.006   0.012  -0.017   0.046  -0.013  -0.002  -0.013   0.021   0.007   0.015   0.006   0.006
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|DKG. (   0.008  -0.010   0.047   0.014   0.012  -0.006  -0.014   0.001   0.018  -0.041  -0.001   0.011   0.010  -0.012   0.005   0.009   0.001
+
+== area-sections (all types, >= 60 collapsed texts): {'Harappa|F-': 84, 'Harappa|FTrench I': 61, 'Mohenjo-daro|DK-': 126, 'Mohenjo-daro|DKC': 65, 'Mohenjo-daro|DKG. (N)': 87, 'Mohenjo-daro|DKG. (S)': 389, 'Mohenjo-daro|HRB': 60}
+
+  [sections all types n=30] Harappa|F- (84) vs Harappa|FTrench I (61), n = 30 per side, within from AB
+    uni     between 0.3983  within 0.4007 (sd 0.0355)  excess -0.0023  x0.99  z -0.1  P 0.532
+    bi      between 0.8501  within 0.8516 (sd 0.0309)  excess -0.0015  x1.00  z -0.0  P 0.449
+    rho     between 0.5107  within 0.6238 (sd 0.2184)  excess -0.1131  x0.82  z -0.5  P 0.614
+    init    between 0.7731  within 0.7389 (sd 0.0757)  excess +0.0342  x1.05  z +0.5  P 0.300
+    fin     between 0.3278  within 0.3383 (sd 0.0968)  excess -0.0105  x0.97  z -0.1  P 0.512
+    midinv  between 0.4868  within 0.5061 (sd 0.0501)  excess -0.0193  x0.96  z -0.4  P 0.651
+    len     between 0.0874  within 0.1061 (sd 0.0437)  excess -0.0187  x0.82  z -0.4  P 0.666
+    top30   between 0.1778  within 0.1609 (sd 0.0414)  excess +0.0169  x1.11  z +0.4  P 0.338
+    rest    between 0.7351  within 0.7707 (sd 0.0698)  excess -0.0356  x0.95  z -0.5  P 0.676
+    frozen  between 0.7749  within 0.9245 (sd 0.2346)  excess -0.1496  x0.84  z -0.6  P 0.855
+    reuse   between 0.1609  within 0.1800 (sd 0.0813)  excess +0.0192  x1.11  z +nan  P 0.483
+    opener  between 0.0590  within 0.0710 (sd 0.0310)  excess -0.0120  x0.83  z -0.4  P 0.644
+    closer  between 0.1281  within 0.1318 (sd 0.0434)  excess -0.0037  x0.97  z -0.1  P 0.498
+    rates   between 0.0796  within 0.0823 (sd 0.0324)  excess -0.0027  x0.97  z -0.1  P 0.506
+    title   between 0.6484  within 0.6148 (sd 0.1314)  excess +0.0336  x1.05  z +0.3  P 0.419
+    name    between 0.6285  within 0.6530 (sd 0.0555)  excess -0.0245  x0.96  z -0.4  P 0.707
+    num     between 0.6277  within 0.5353 (sd 0.0856)  excess +0.0924  x1.17  z +1.1  P 0.130
+
+  [sections all types n=30] Harappa|F- (84) vs Mohenjo-daro|DK- (126), n = 30 per side, within from AB
+    uni     between 0.4305  within 0.3857 (sd 0.0335)  excess +0.0448  x1.12  z +1.3  P 0.058
+    bi      between 0.8773  within 0.8401 (sd 0.0371)  excess +0.0372  x1.04  z +1.0  P 0.186
+    rho     between 1.1580  within 0.8447 (sd 0.2284)  excess +0.3134  x1.37  z +1.4  P 0.055
+    init    between 0.7326  within 0.7243 (sd 0.0742)  excess +0.0083  x1.01  z +0.1  P 0.474
+    fin     between 0.4976  within 0.4082 (sd 0.0612)  excess +0.0894  x1.22  z +1.5  P 0.078
+    midinv  between 0.5152  within 0.4644 (sd 0.0580)  excess +0.0508  x1.11  z +0.9  P 0.220
+    len     between 0.1612  within 0.1116 (sd 0.0481)  excess +0.0496  x1.44  z +1.0  P 0.258
+    top30   between 0.2097  within 0.1532 (sd 0.0395)  excess +0.0565  x1.37  z +1.4  P 0.093
+    rest    between 0.7447  within 0.7134 (sd 0.0554)  excess +0.0313  x1.04  z +0.6  P 0.271
+    frozen  between 0.9828  within 0.8912 (sd 0.2514)  excess +0.0915  x1.10  z +0.4  P 0.755
+    reuse   between 0.0019  within 0.1250 (sd 0.0479)  excess +0.1231  x7.64  z +nan  P 0.005
+    opener  between 0.0573  within 0.0646 (sd 0.0325)  excess -0.0073  x0.89  z -0.2  P 0.602
+    closer  between 0.1144  within 0.1100 (sd 0.0469)  excess +0.0044  x1.04  z +0.1  P 0.507
+    rates   between 0.0974  within 0.0795 (sd 0.0332)  excess +0.0180  x1.23  z +0.5  P 0.265
+    title   between 0.6363  within 0.5067 (sd 0.1322)  excess +0.1296  x1.26  z +1.0  P 0.170
+    name    between 0.6436  within 0.6054 (sd 0.0576)  excess +0.0383  x1.06  z +0.7  P 0.218
+    num     between 0.5891  within 0.5444 (sd 0.0935)  excess +0.0447  x1.08  z +0.5  P 0.301
+
+  [sections all types n=30] Harappa|F- (84) vs Mohenjo-daro|DKC (65), n = 30 per side, within from AB
+    uni     between 0.4361  within 0.3747 (sd 0.0351)  excess +0.0614  x1.16  z +1.7  P 0.063
+    bi      between 0.8835  within 0.8246 (sd 0.0383)  excess +0.0590  x1.07  z +1.5  P 0.078
+    rho     between 1.1500  within 0.8434 (sd 0.2439)  excess +0.3067  x1.36  z +1.3  P 0.032
+    init    between 0.7073  within 0.6692 (sd 0.0697)  excess +0.0382  x1.06  z +0.5  P 0.271
+    fin     between 0.4720  within 0.4250 (sd 0.0589)  excess +0.0470  x1.11  z +0.8  P 0.186
+    midinv  between 0.5183  within 0.4660 (sd 0.0518)  excess +0.0523  x1.11  z +1.0  P 0.168
+    len     between 0.1336  within 0.1129 (sd 0.0447)  excess +0.0207  x1.18  z +0.5  P 0.334
+    top30   between 0.2089  within 0.1542 (sd 0.0411)  excess +0.0547  x1.35  z +1.3  P 0.101
+    rest    between 0.7853  within 0.7059 (sd 0.0530)  excess +0.0794  x1.11  z +1.5  P 0.103
+    frozen  between 0.9917  within 0.8306 (sd 0.2600)  excess +0.1611  x1.19  z +0.6  P 0.569
+    reuse   between 0.0000  within 0.0575 (sd 0.0643)  excess +0.0575  x4.45  z +nan  P 0.504
+    opener  between 0.0964  within 0.0715 (sd 0.0382)  excess +0.0249  x1.35  z +0.7  P 0.246
+    closer  between 0.1172  within 0.1060 (sd 0.0489)  excess +0.0112  x1.11  z +0.2  P 0.451
+    rates   between 0.1586  within 0.0873 (sd 0.0399)  excess +0.0713  x1.82  z +1.8  P 0.072
+    title   between 0.7205  within 0.6162 (sd 0.1352)  excess +0.1043  x1.17  z +0.8  P 0.231
+    name    between 0.6270  within 0.5807 (sd 0.0712)  excess +0.0463  x1.08  z +0.6  P 0.261
+    num     between 0.5430  within 0.5500 (sd 0.0969)  excess -0.0070  x0.99  z -0.1  P 0.546
+
+  [sections all types n=30] Harappa|F- (84) vs Mohenjo-daro|DKG. (N) (87), n = 30 per side, within from AB
+    uni     between 0.3981  within 0.3857 (sd 0.0326)  excess +0.0124  x1.03  z +0.4  P 0.384
+    bi      between 0.8421  within 0.8416 (sd 0.0312)  excess +0.0005  x1.00  z +0.0  P 0.551
+    rho     between 0.8902  within 0.7300 (sd 0.2011)  excess +0.1602  x1.22  z +0.8  P 0.201
+    init    between 0.7678  within 0.7120 (sd 0.0683)  excess +0.0558  x1.08  z +0.8  P 0.161
+    fin     between 0.3988  within 0.3733 (sd 0.0739)  excess +0.0255  x1.07  z +0.3  P 0.364
+    midinv  between 0.4618  within 0.4651 (sd 0.0519)  excess -0.0033  x0.99  z -0.1  P 0.501
+    len     between 0.1765  within 0.1159 (sd 0.0441)  excess +0.0607  x1.52  z +1.4  P 0.110
+    top30   between 0.1599  within 0.1541 (sd 0.0422)  excess +0.0058  x1.04  z +0.1  P 0.483
+    rest    between 0.7459  within 0.7159 (sd 0.0541)  excess +0.0299  x1.04  z +0.6  P 0.351
+    frozen  between 0.9799  within 0.8872 (sd 0.2628)  excess +0.0927  x1.10  z +0.4  P 0.780
+    reuse   between 0.0000  within 0.0664 (sd 0.0553)  excess +0.0664  x4.98  z +nan  P 0.223
+    opener  between 0.0875  within 0.0687 (sd 0.0353)  excess +0.0187  x1.27  z +0.5  P 0.396
+    closer  between 0.1040  within 0.1169 (sd 0.0444)  excess -0.0129  x0.89  z -0.3  P 0.646
+    rates   between 0.1283  within 0.0858 (sd 0.0372)  excess +0.0425  x1.50  z +1.1  P 0.123
+    title   between 0.5484  within 0.5603 (sd 0.1157)  excess -0.0119  x0.98  z -0.1  P 0.529
+    name    between 0.6063  within 0.6136 (sd 0.0532)  excess -0.0073  x0.99  z -0.1  P 0.581
+    num     between 0.6166  within 0.5541 (sd 0.0883)  excess +0.0625  x1.11  z +0.7  P 0.270
+
+  [sections all types n=30] Harappa|F- (84) vs Mohenjo-daro|DKG. (S) (389), n = 30 per side, within from AB
+    uni     between 0.4271  within 0.3880 (sd 0.0349)  excess +0.0391  x1.10  z +1.1  P 0.126
+    bi      between 0.8767  within 0.8507 (sd 0.0354)  excess +0.0260  x1.03  z +0.7  P 0.210
+    rho     between 1.0819  within 0.8001 (sd 0.2183)  excess +0.2817  x1.35  z +1.3  P 0.037
+    init    between 0.7279  within 0.6909 (sd 0.0741)  excess +0.0369  x1.05  z +0.5  P 0.295
+    fin     between 0.4933  within 0.4070 (sd 0.0620)  excess +0.0862  x1.21  z +1.4  P 0.115
+    midinv  between 0.5035  within 0.4750 (sd 0.0585)  excess +0.0285  x1.06  z +0.5  P 0.313
+    len     between 0.1791  within 0.1123 (sd 0.0501)  excess +0.0668  x1.60  z +1.3  P 0.118
+    top30   between 0.1978  within 0.1572 (sd 0.0398)  excess +0.0407  x1.26  z +1.0  P 0.243
+    rest    between 0.7383  within 0.7064 (sd 0.0579)  excess +0.0319  x1.05  z +0.6  P 0.261
+    frozen  between 0.9940  within 0.8723 (sd 0.2772)  excess +0.1218  x1.14  z +0.4  P 0.745
+    reuse   between 0.0023  within 0.0618 (sd 0.0606)  excess +0.0594  x4.13  z +nan  P 0.374
+    opener  between 0.0736  within 0.0661 (sd 0.0365)  excess +0.0076  x1.11  z +0.2  P 0.504
+    closer  between 0.1090  within 0.1175 (sd 0.0431)  excess -0.0085  x0.93  z -0.2  P 0.656
+    rates   between 0.1194  within 0.0824 (sd 0.0338)  excess +0.0370  x1.45  z +1.1  P 0.150
+    title   between 0.6569  within 0.6010 (sd 0.1387)  excess +0.0559  x1.09  z +0.4  P 0.316
+    name    between 0.6399  within 0.6066 (sd 0.0611)  excess +0.0332  x1.05  z +0.5  P 0.285
+    num     between 0.5453  within 0.5213 (sd 0.1059)  excess +0.0239  x1.05  z +0.2  P 0.446
+
+  [sections all types n=30] Harappa|F- (84) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.4103  within 0.3647 (sd 0.0372)  excess +0.0455  x1.12  z +1.2  P 0.148
+    bi      between 0.8833  within 0.8268 (sd 0.0382)  excess +0.0565  x1.07  z +1.5  P 0.092
+    rho     between 1.0109  within 0.6534 (sd 0.2040)  excess +0.3575  x1.55  z +1.8  P 0.050
+    init    between 0.7123  within 0.6680 (sd 0.0725)  excess +0.0444  x1.07  z +0.6  P 0.250
+    fin     between 0.4970  within 0.3926 (sd 0.0534)  excess +0.1043  x1.27  z +2.0  P 0.043
+    midinv  between 0.4856  within 0.4586 (sd 0.0562)  excess +0.0270  x1.06  z +0.5  P 0.324
+    len     between 0.1691  within 0.1113 (sd 0.0464)  excess +0.0578  x1.52  z +1.2  P 0.105
+    top30   between 0.1897  within 0.1445 (sd 0.0416)  excess +0.0452  x1.31  z +1.1  P 0.148
+    rest    between 0.7484  within 0.7001 (sd 0.0527)  excess +0.0483  x1.07  z +0.9  P 0.178
+    frozen  between 0.9586  within 0.8816 (sd 0.2581)  excess +0.0770  x1.09  z +0.3  P 0.710
+    reuse   between 0.0047  within 0.0689 (sd 0.0550)  excess +0.0641  x4.00  z +nan  P 0.160
+    opener  between 0.0720  within 0.0709 (sd 0.0337)  excess +0.0011  x1.02  z +0.0  P 0.431
+    closer  between 0.1161  within 0.1125 (sd 0.0383)  excess +0.0037  x1.03  z +0.1  P 0.391
+    rates   between 0.1499  within 0.0830 (sd 0.0356)  excess +0.0669  x1.81  z +1.9  P 0.060
+    title   between 0.6271  within 0.5176 (sd 0.1213)  excess +0.1095  x1.21  z +0.9  P 0.163
+    name    between 0.6324  within 0.5842 (sd 0.0617)  excess +0.0481  x1.08  z +0.8  P 0.240
+    num     between 0.5835  within 0.6185 (sd 0.1339)  excess -0.0350  x0.94  z -0.3  P 0.616
+
+  [sections all types n=30] Harappa|FTrench I (61) vs Mohenjo-daro|DK- (126), n = 30 per side, within from AB
+    uni     between 0.4748  within 0.3973 (sd 0.0355)  excess +0.0776  x1.20  z +2.2  P 0.032
+    bi      between 0.8803  within 0.8363 (sd 0.0343)  excess +0.0440  x1.05  z +1.3  P 0.067
+    rho     between 1.0381  within 0.7532 (sd 0.2655)  excess +0.2850  x1.38  z +1.1  P 0.140
+    init    between 0.7877  within 0.7609 (sd 0.0662)  excess +0.0268  x1.04  z +0.4  P 0.393
+    fin     between 0.4616  within 0.3231 (sd 0.0850)  excess +0.1386  x1.43  z +1.6  P 0.083
+    midinv  between 0.5242  within 0.4686 (sd 0.0577)  excess +0.0556  x1.12  z +1.0  P 0.175
+    len     between 0.1340  within 0.1101 (sd 0.0470)  excess +0.0239  x1.22  z +0.5  P 0.414
+    top30   between 0.2136  within 0.1561 (sd 0.0448)  excess +0.0574  x1.37  z +1.3  P 0.135
+    rest    between 0.8363  within 0.7286 (sd 0.0541)  excess +0.1077  x1.15  z +2.0  P 0.017
+    frozen  between 0.9896  within 0.9575 (sd 0.1140)  excess +0.0321  x1.03  z +0.3  P 0.849
+    reuse   between 0.0117  within 0.1949 (sd 0.0786)  excess +0.1832  x7.46  z +nan  P 0.002
+    opener  between 0.0551  within 0.0737 (sd 0.0327)  excess -0.0186  x0.75  z -0.6  P 0.714
+    closer  between 0.1770  within 0.1046 (sd 0.0477)  excess +0.0724  x1.69  z +1.5  P 0.077
+    rates   between 0.1116  within 0.0814 (sd 0.0344)  excess +0.0302  x1.37  z +0.9  P 0.211
+    title   between 0.6905  within 0.5745 (sd 0.1571)  excess +0.1160  x1.20  z +0.7  P 0.191
+    name    between 0.7046  within 0.6281 (sd 0.0646)  excess +0.0765  x1.12  z +1.2  P 0.123
+    num     between 0.5775  within 0.5551 (sd 0.0843)  excess +0.0224  x1.04  z +0.3  P 0.398
+
+  [sections all types n=30] Harappa|FTrench I (61) vs Mohenjo-daro|DKC (65), n = 30 per side, within from AB
+    uni     between 0.4592  within 0.3848 (sd 0.0374)  excess +0.0744  x1.19  z +2.0  P 0.038
+    bi      between 0.8771  within 0.8216 (sd 0.0346)  excess +0.0555  x1.07  z +1.6  P 0.053
+    rho     between 1.0732  within 0.7778 (sd 0.2749)  excess +0.2954  x1.38  z +1.1  P 0.113
+    init    between 0.7389  within 0.7137 (sd 0.0885)  excess +0.0252  x1.04  z +0.3  P 0.426
+    fin     between 0.5093  within 0.3418 (sd 0.0975)  excess +0.1675  x1.49  z +1.7  P 0.037
+    midinv  between 0.4951  within 0.4694 (sd 0.0519)  excess +0.0257  x1.05  z +0.5  P 0.303
+    len     between 0.0944  within 0.1063 (sd 0.0462)  excess -0.0119  x0.89  z -0.3  P 0.559
+    top30   between 0.2389  within 0.1493 (sd 0.0394)  excess +0.0896  x1.60  z +2.3  P 0.025
+    rest    between 0.8098  within 0.7591 (sd 0.0795)  excess +0.0507  x1.07  z +0.6  P 0.323
+    frozen  between 0.9764  within 0.9026 (sd 0.1525)  excess +0.0738  x1.08  z +0.5  P 0.657
+    reuse   between 0.0000  within 0.1257 (sd 0.1310)  excess +0.1257  x8.54  z +nan  P 0.501
+    opener  between 0.0700  within 0.0787 (sd 0.0405)  excess -0.0086  x0.89  z -0.2  P 0.664
+    closer  between 0.1995  within 0.1015 (sd 0.0502)  excess +0.0980  x1.97  z +2.0  P 0.060
+    rates   between 0.1733  within 0.0846 (sd 0.0361)  excess +0.0887  x2.05  z +2.5  P 0.023
+    title   between 0.7367  within 0.6687 (sd 0.1048)  excess +0.0681  x1.10  z +0.6  P 0.251
+    name    between 0.6534  within 0.6032 (sd 0.0830)  excess +0.0502  x1.08  z +0.6  P 0.356
+    num     between 0.5559  within 0.5536 (sd 0.0916)  excess +0.0022  x1.00  z +0.0  P 0.519
+
+  [sections all types n=30] Harappa|FTrench I (61) vs Mohenjo-daro|DKG. (N) (87), n = 30 per side, within from AB
+    uni     between 0.4334  within 0.3944 (sd 0.0332)  excess +0.0390  x1.10  z +1.2  P 0.073
+    bi      between 0.8813  within 0.8370 (sd 0.0279)  excess +0.0444  x1.05  z +1.6  P 0.073
+    rho     between 0.7900  within 0.6524 (sd 0.2027)  excess +0.1376  x1.21  z +0.7  P 0.285
+    init    between 0.7467  within 0.7551 (sd 0.0620)  excess -0.0085  x0.99  z -0.1  P 0.554
+    fin     between 0.3541  within 0.2898 (sd 0.0597)  excess +0.0643  x1.22  z +1.1  P 0.146
+    midinv  between 0.5146  within 0.4681 (sd 0.0494)  excess +0.0465  x1.10  z +0.9  P 0.161
+    len     between 0.1501  within 0.1106 (sd 0.0487)  excess +0.0396  x1.36  z +0.8  P 0.226
+    top30   between 0.1915  within 0.1472 (sd 0.0397)  excess +0.0444  x1.30  z +1.1  P 0.140
+    rest    between 0.7986  within 0.7713 (sd 0.0718)  excess +0.0272  x1.04  z +0.4  P 0.381
+    frozen  between 0.9693  within 0.9646 (sd 0.1193)  excess +0.0046  x1.00  z +0.0  P 0.870
+    reuse   between 0.0000  within 0.1304 (sd 0.1178)  excess +0.1304  x8.83  z +nan  P 0.258
+    opener  between 0.0654  within 0.0775 (sd 0.0381)  excess -0.0121  x0.84  z -0.3  P 0.667
+    closer  between 0.1436  within 0.1108 (sd 0.0452)  excess +0.0329  x1.30  z +0.7  P 0.225
+    rates   between 0.1098  within 0.0844 (sd 0.0347)  excess +0.0254  x1.30  z +0.7  P 0.263
+    title   between 0.6086  within 0.6161 (sd 0.1066)  excess -0.0076  x0.99  z -0.1  P 0.499
+    name    between 0.6651  within 0.6339 (sd 0.0613)  excess +0.0312  x1.05  z +0.5  P 0.341
+    num     between 0.5553  within 0.5624 (sd 0.0835)  excess -0.0071  x0.99  z -0.1  P 0.493
+
+  [sections all types n=30] Harappa|FTrench I (61) vs Mohenjo-daro|DKG. (S) (389), n = 30 per side, within from AB
+    uni     between 0.4499  within 0.3971 (sd 0.0372)  excess +0.0528  x1.13  z +1.4  P 0.080
+    bi      between 0.8922  within 0.8459 (sd 0.0340)  excess +0.0463  x1.05  z +1.4  P 0.088
+    rho     between 0.9878  within 0.7071 (sd 0.2424)  excess +0.2808  x1.40  z +1.2  P 0.150
+    init    between 0.7609  within 0.7311 (sd 0.0869)  excess +0.0298  x1.04  z +0.3  P 0.414
+    fin     between 0.4605  within 0.3240 (sd 0.0890)  excess +0.1365  x1.42  z +1.5  P 0.082
+    midinv  between 0.5194  within 0.4745 (sd 0.0566)  excess +0.0449  x1.09  z +0.8  P 0.291
+    len     between 0.1458  within 0.1058 (sd 0.0497)  excess +0.0400  x1.38  z +0.8  P 0.241
+    top30   between 0.2183  within 0.1558 (sd 0.0409)  excess +0.0626  x1.40  z +1.5  P 0.077
+    rest    between 0.7449  within 0.7116 (sd 0.0543)  excess +0.0333  x1.05  z +0.6  P 0.304
+    frozen  between 0.9818  within 0.9572 (sd 0.1315)  excess +0.0247  x1.03  z +0.2  P 0.854
+    reuse   between 0.0014  within 0.1301 (sd 0.1276)  excess +0.1287  x8.12  z +nan  P 0.373
+    opener  between 0.0684  within 0.0750 (sd 0.0369)  excess -0.0066  x0.91  z -0.2  P 0.536
+    closer  between 0.1706  within 0.1143 (sd 0.0452)  excess +0.0563  x1.49  z +1.2  P 0.146
+    rates   between 0.1164  within 0.0832 (sd 0.0339)  excess +0.0333  x1.40  z +1.0  P 0.188
+    title   between 0.7102  within 0.6679 (sd 0.1138)  excess +0.0423  x1.06  z +0.4  P 0.308
+    name    between 0.6447  within 0.6308 (sd 0.0675)  excess +0.0138  x1.02  z +0.2  P 0.449
+    num     between 0.5577  within 0.5321 (sd 0.0984)  excess +0.0257  x1.05  z +0.3  P 0.443
+
+  [sections all types n=30] Harappa|FTrench I (61) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.4528  within 0.3751 (sd 0.0424)  excess +0.0777  x1.21  z +1.8  P 0.037
+    bi      between 0.8852  within 0.8219 (sd 0.0338)  excess +0.0634  x1.08  z +1.9  P 0.047
+    rho     between 0.9980  within 0.5757 (sd 0.1626)  excess +0.4223  x1.73  z +2.6  P 0.003
+    init    between 0.7588  within 0.7104 (sd 0.0942)  excess +0.0484  x1.07  z +0.5  P 0.353
+    fin     between 0.4084  within 0.3110 (sd 0.0692)  excess +0.0974  x1.31  z +1.4  P 0.070
+    midinv  between 0.5335  within 0.4600 (sd 0.0561)  excess +0.0735  x1.16  z +1.3  P 0.125
+    len     between 0.1522  within 0.1096 (sd 0.0453)  excess +0.0426  x1.39  z +0.9  P 0.173
+    top30   between 0.2178  within 0.1448 (sd 0.0374)  excess +0.0730  x1.50  z +2.0  P 0.048
+    rest    between 0.8151  within 0.7380 (sd 0.1003)  excess +0.0770  x1.10  z +0.8  P 0.324
+    frozen  between 0.9889  within 0.9637 (sd 0.1012)  excess +0.0252  x1.03  z +0.2  P 0.819
+    reuse   between 0.0092  within 0.1364 (sd 0.1210)  excess +0.1271  x5.91  z +nan  P 0.166
+    opener  between 0.0572  within 0.0799 (sd 0.0321)  excess -0.0228  x0.72  z -0.7  P 0.827
+    closer  between 0.1341  within 0.1087 (sd 0.0423)  excess +0.0254  x1.23  z +0.6  P 0.266
+    rates   between 0.1254  within 0.0835 (sd 0.0341)  excess +0.0419  x1.50  z +1.2  P 0.141
+    title   between 0.6181  within 0.5791 (sd 0.1357)  excess +0.0390  x1.07  z +0.3  P 0.343
+    name    between 0.6997  within 0.6080 (sd 0.0782)  excess +0.0918  x1.15  z +1.2  P 0.131
+    num     between 0.5969  within 0.6361 (sd 0.1200)  excess -0.0391  x0.94  z -0.3  P 0.602
+
+  [sections all types n=30] Mohenjo-daro|DK- (126) vs Mohenjo-daro|DKC (65), n = 30 per side, within from AB
+    uni     between 0.3931  within 0.3749 (sd 0.0344)  excess +0.0182  x1.05  z +0.5  P 0.285
+    bi      between 0.8468  within 0.8143 (sd 0.0347)  excess +0.0326  x1.04  z +0.9  P 0.165
+    rho     between 0.9212  within 0.9826 (sd 0.1615)  excess -0.0615  x0.94  z -0.4  P 0.654
+    init    between 0.6842  within 0.6977 (sd 0.0858)  excess -0.0135  x0.98  z -0.2  P 0.551
+    fin     between 0.4066  within 0.4075 (sd 0.0625)  excess -0.0009  x1.00  z -0.0  P 0.559
+    midinv  between 0.4464  within 0.4348 (sd 0.0427)  excess +0.0115  x1.03  z +0.3  P 0.379
+    len     between 0.1278  within 0.1164 (sd 0.0499)  excess +0.0113  x1.10  z +0.2  P 0.444
+    top30   between 0.1525  within 0.1446 (sd 0.0388)  excess +0.0079  x1.05  z +0.2  P 0.446
+    rest    between 0.7278  within 0.6963 (sd 0.0563)  excess +0.0314  x1.05  z +0.6  P 0.298
+    frozen  between 0.9313  within 0.8693 (sd 0.1758)  excess +0.0620  x1.07  z +0.4  P 0.566
+    reuse   between 0.0227  within 0.0704 (sd 0.0798)  excess +0.0477  x2.21  z +nan  P 0.504
+    opener  between 0.0842  within 0.0738 (sd 0.0399)  excess +0.0105  x1.14  z +0.3  P 0.381
+    closer  between 0.0794  within 0.0795 (sd 0.0370)  excess -0.0001  x1.00  z -0.0  P 0.557
+    rates   between 0.1087  within 0.0819 (sd 0.0375)  excess +0.0268  x1.33  z +0.7  P 0.298
+    title   between 0.6110  within 0.5732 (sd 0.1555)  excess +0.0378  x1.07  z +0.2  P 0.408
+    name    between 0.5893  within 0.5588 (sd 0.0529)  excess +0.0305  x1.05  z +0.6  P 0.314
+    num     between 0.5426  within 0.5672 (sd 0.0955)  excess -0.0247  x0.96  z -0.3  P 0.619
+
+  [sections all types n=30] Mohenjo-daro|DK- (126) vs Mohenjo-daro|DKG. (N) (87), n = 30 per side, within from AB
+    uni     between 0.4089  within 0.3839 (sd 0.0345)  excess +0.0250  x1.07  z +0.7  P 0.190
+    bi      between 0.8509  within 0.8302 (sd 0.0320)  excess +0.0207  x1.02  z +0.6  P 0.201
+    rho     between 0.9762  within 0.8572 (sd 0.2020)  excess +0.1189  x1.14  z +0.6  P 0.210
+    init    between 0.7429  within 0.7387 (sd 0.0655)  excess +0.0042  x1.01  z +0.1  P 0.486
+    fin     between 0.3987  within 0.3557 (sd 0.0696)  excess +0.0430  x1.12  z +0.6  P 0.261
+    midinv  between 0.4688  within 0.4341 (sd 0.0410)  excess +0.0347  x1.08  z +0.8  P 0.191
+    len     between 0.0994  within 0.1190 (sd 0.0504)  excess -0.0197  x0.83  z -0.4  P 0.636
+    top30   between 0.1615  within 0.1397 (sd 0.0373)  excess +0.0218  x1.16  z +0.6  P 0.241
+    rest    between 0.7458  within 0.7108 (sd 0.0572)  excess +0.0350  x1.05  z +0.6  P 0.309
+    frozen  between 0.9215  within 0.9311 (sd 0.1438)  excess -0.0096  x0.99  z -0.1  P 0.765
+    reuse   between 0.0202  within 0.0802 (sd 0.0711)  excess +0.0601  x2.63  z +nan  P 0.218
+    opener  between 0.0717  within 0.0714 (sd 0.0378)  excess +0.0003  x1.00  z +0.0  P 0.506
+    closer  between 0.1026  within 0.0892 (sd 0.0392)  excess +0.0133  x1.15  z +0.3  P 0.348
+    rates   between 0.0827  within 0.0843 (sd 0.0370)  excess -0.0016  x0.98  z -0.0  P 0.531
+    title   between 0.5918  within 0.5202 (sd 0.1237)  excess +0.0716  x1.14  z +0.6  P 0.321
+    name    between 0.6270  within 0.5936 (sd 0.0514)  excess +0.0334  x1.06  z +0.7  P 0.288
+    num     between 0.5784  within 0.5775 (sd 0.0818)  excess +0.0009  x1.00  z +0.0  P 0.501
+
+  [sections all types n=30] Mohenjo-daro|DK- (126) vs Mohenjo-daro|DKG. (S) (389), n = 30 per side, within from AB
+    uni     between 0.4023  within 0.3870 (sd 0.0344)  excess +0.0153  x1.04  z +0.4  P 0.304
+    bi      between 0.8590  within 0.8378 (sd 0.0363)  excess +0.0212  x1.03  z +0.6  P 0.276
+    rho     between 0.9895  within 0.9151 (sd 0.1888)  excess +0.0745  x1.08  z +0.4  P 0.339
+    init    between 0.7281  within 0.7166 (sd 0.0786)  excess +0.0115  x1.02  z +0.1  P 0.453
+    fin     between 0.4198  within 0.3945 (sd 0.0681)  excess +0.0253  x1.06  z +0.4  P 0.321
+    midinv  between 0.4571  within 0.4423 (sd 0.0477)  excess +0.0148  x1.03  z +0.3  P 0.389
+    len     between 0.1127  within 0.1154 (sd 0.0499)  excess -0.0027  x0.98  z -0.1  P 0.536
+    top30   between 0.1533  within 0.1449 (sd 0.0361)  excess +0.0085  x1.06  z +0.2  P 0.399
+    rest    between 0.7214  within 0.7011 (sd 0.0614)  excess +0.0204  x1.03  z +0.3  P 0.369
+    frozen  between 0.9094  within 0.9392 (sd 0.1428)  excess -0.0298  x0.97  z -0.2  P 0.782
+    reuse   between 0.0131  within 0.0766 (sd 0.0759)  excess +0.0635  x3.14  z +nan  P 0.354
+    opener  between 0.0716  within 0.0682 (sd 0.0361)  excess +0.0034  x1.05  z +0.1  P 0.453
+    closer  between 0.1150  within 0.0938 (sd 0.0397)  excess +0.0212  x1.23  z +0.5  P 0.295
+    rates   between 0.0903  within 0.0805 (sd 0.0337)  excess +0.0099  x1.12  z +0.3  P 0.403
+    title   between 0.6153  within 0.5682 (sd 0.1571)  excess +0.0471  x1.08  z +0.3  P 0.409
+    name    between 0.5990  within 0.5864 (sd 0.0523)  excess +0.0126  x1.02  z +0.2  P 0.501
+    num     between 0.5327  within 0.5416 (sd 0.0974)  excess -0.0090  x0.98  z -0.1  P 0.486
+
+  [sections all types n=30] Mohenjo-daro|DK- (126) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.3915  within 0.3637 (sd 0.0361)  excess +0.0278  x1.08  z +0.8  P 0.238
+    bi      between 0.8405  within 0.8136 (sd 0.0350)  excess +0.0269  x1.03  z +0.8  P 0.213
+    rho     between 0.9243  within 0.7799 (sd 0.2495)  excess +0.1444  x1.19  z +0.6  P 0.326
+    init    between 0.6961  within 0.6896 (sd 0.0831)  excess +0.0065  x1.01  z +0.1  P 0.454
+    fin     between 0.4079  within 0.3788 (sd 0.0519)  excess +0.0291  x1.08  z +0.6  P 0.280
+    midinv  between 0.4664  within 0.4281 (sd 0.0409)  excess +0.0383  x1.09  z +0.9  P 0.220
+    len     between 0.1066  within 0.1137 (sd 0.0484)  excess -0.0071  x0.94  z -0.1  P 0.557
+    top30   between 0.1611  within 0.1287 (sd 0.0366)  excess +0.0323  x1.25  z +0.9  P 0.156
+    rest    between 0.7183  within 0.6914 (sd 0.0524)  excess +0.0269  x1.04  z +0.5  P 0.301
+    frozen  between 0.8989  within 0.9323 (sd 0.1207)  excess -0.0334  x0.96  z -0.3  P 0.717
+    reuse   between 0.0272  within 0.0770 (sd 0.0664)  excess +0.0498  x2.13  z +nan  P 0.504
+    opener  between 0.0631  within 0.0711 (sd 0.0335)  excess -0.0080  x0.89  z -0.2  P 0.614
+    closer  between 0.1091  within 0.0904 (sd 0.0367)  excess +0.0187  x1.21  z +0.5  P 0.271
+    rates   between 0.0826  within 0.0819 (sd 0.0356)  excess +0.0007  x1.01  z +0.0  P 0.552
+    title   between 0.5742  within 0.4765 (sd 0.1106)  excess +0.0977  x1.21  z +0.9  P 0.173
+    name    between 0.5886  within 0.5612 (sd 0.0492)  excess +0.0274  x1.05  z +0.6  P 0.273
+    num     between 0.6048  within 0.6456 (sd 0.1117)  excess -0.0408  x0.94  z -0.4  P 0.614
+
+  [sections all types n=30] Mohenjo-daro|DKC (65) vs Mohenjo-daro|DKG. (N) (87), n = 30 per side, within from AB
+    uni     between 0.3960  within 0.3733 (sd 0.0334)  excess +0.0227  x1.06  z +0.7  P 0.221
+    bi      between 0.8281  within 0.8158 (sd 0.0335)  excess +0.0123  x1.02  z +0.4  P 0.433
+    rho     between 0.9508  within 0.8929 (sd 0.1867)  excess +0.0579  x1.06  z +0.3  P 0.403
+    init    between 0.6485  within 0.6882 (sd 0.0765)  excess -0.0397  x0.94  z -0.5  P 0.696
+    fin     between 0.3963  within 0.3781 (sd 0.0767)  excess +0.0181  x1.05  z +0.2  P 0.389
+    midinv  between 0.4725  within 0.4369 (sd 0.0399)  excess +0.0357  x1.08  z +0.9  P 0.170
+    len     between 0.1302  within 0.1157 (sd 0.0477)  excess +0.0145  x1.12  z +0.3  P 0.364
+    top30   between 0.1444  within 0.1412 (sd 0.0368)  excess +0.0031  x1.02  z +0.1  P 0.424
+    rest    between 0.7723  within 0.7115 (sd 0.0552)  excess +0.0607  x1.09  z +1.1  P 0.131
+    frozen  between 0.8826  within 0.8784 (sd 0.1626)  excess +0.0042  x1.00  z +0.0  P 0.587
+    reuse   between 0.0017  within 0.0116 (sd 0.0191)  excess +0.0100  x1.54  z +nan  P 0.704
+    opener  between 0.0651  within 0.0757 (sd 0.0421)  excess -0.0106  x0.86  z -0.3  P 0.619
+    closer  between 0.0983  within 0.0844 (sd 0.0370)  excess +0.0139  x1.17  z +0.4  P 0.364
+    rates   between 0.0971  within 0.0837 (sd 0.0366)  excess +0.0134  x1.16  z +0.4  P 0.356
+    title   between 0.5994  within 0.6233 (sd 0.1235)  excess -0.0239  x0.96  z -0.2  P 0.564
+    name    between 0.6038  within 0.5685 (sd 0.0572)  excess +0.0353  x1.06  z +0.6  P 0.281
+    num     between 0.6217  within 0.5846 (sd 0.0918)  excess +0.0371  x1.06  z +0.4  P 0.351
+
+  [sections all types n=30] Mohenjo-daro|DKC (65) vs Mohenjo-daro|DKG. (S) (389), n = 30 per side, within from AB
+    uni     between 0.3867  within 0.3754 (sd 0.0356)  excess +0.0112  x1.03  z +0.3  P 0.378
+    bi      between 0.8416  within 0.8246 (sd 0.0412)  excess +0.0170  x1.02  z +0.4  P 0.314
+    rho     between 0.9058  within 0.9429 (sd 0.1748)  excess -0.0371  x0.96  z -0.2  P 0.574
+    init    between 0.6593  within 0.6611 (sd 0.0727)  excess -0.0019  x1.00  z -0.0  P 0.501
+    fin     between 0.4182  within 0.4098 (sd 0.0665)  excess +0.0084  x1.02  z +0.1  P 0.461
+    midinv  between 0.4540  within 0.4449 (sd 0.0444)  excess +0.0091  x1.02  z +0.2  P 0.404
+    len     between 0.1311  within 0.1164 (sd 0.0481)  excess +0.0147  x1.13  z +0.3  P 0.393
+    top30   between 0.1368  within 0.1438 (sd 0.0375)  excess -0.0070  x0.95  z -0.2  P 0.532
+    rest    between 0.7212  within 0.6905 (sd 0.0645)  excess +0.0307  x1.04  z +0.5  P 0.303
+    frozen  between 0.8908  within 0.8559 (sd 0.1989)  excess +0.0349  x1.04  z +0.2  P 0.537
+    reuse   between 0.0033  within 0.0059 (sd 0.0151)  excess +0.0025  x1.13  z +nan  P 0.852
+    opener  between 0.0707  within 0.0674 (sd 0.0406)  excess +0.0033  x1.05  z +0.1  P 0.404
+    closer  between 0.1062  within 0.0887 (sd 0.0445)  excess +0.0176  x1.20  z +0.4  P 0.288
+    rates   between 0.0951  within 0.0843 (sd 0.0369)  excess +0.0108  x1.13  z +0.3  P 0.338
+    title   between 0.6875  within 0.6703 (sd 0.1167)  excess +0.0172  x1.03  z +0.1  P 0.461
+    name    between 0.5603  within 0.5631 (sd 0.0578)  excess -0.0028  x1.00  z -0.0  P 0.572
+    num     between 0.5474  within 0.5381 (sd 0.1077)  excess +0.0093  x1.02  z +0.1  P 0.429
+
+  [sections all types n=30] Mohenjo-daro|DKC (65) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.3880  within 0.3538 (sd 0.0289)  excess +0.0342  x1.10  z +1.2  P 0.181
+    bi      between 0.8007  within 0.8003 (sd 0.0275)  excess +0.0004  x1.00  z +0.0  P 0.473
+    rho     between 0.9207  within 0.8069 (sd 0.2297)  excess +0.1139  x1.14  z +0.5  P 0.366
+    init    between 0.6294  within 0.6389 (sd 0.0603)  excess -0.0095  x0.99  z -0.2  P 0.516
+    fin     between 0.4395  within 0.3994 (sd 0.0547)  excess +0.0401  x1.10  z +0.7  P 0.235
+    midinv  between 0.4707  within 0.4309 (sd 0.0383)  excess +0.0398  x1.09  z +1.0  P 0.141
+    len     between 0.1605  within 0.1158 (sd 0.0505)  excess +0.0447  x1.39  z +0.9  P 0.213
+    top30   between 0.1451  within 0.1284 (sd 0.0332)  excess +0.0167  x1.13  z +0.5  P 0.354
+    rest    between 0.7596  within 0.6965 (sd 0.0485)  excess +0.0631  x1.09  z +1.3  P 0.100
+    frozen  between 0.9351  within 0.8594 (sd 0.1618)  excess +0.0757  x1.09  z +0.5  P 0.489
+    reuse   between 0.0056  within 0.0111 (sd 0.0159)  excess +0.0055  x1.25  z +nan  P 0.672
+    opener  between 0.0618  within 0.0780 (sd 0.0409)  excess -0.0162  x0.79  z -0.4  P 0.661
+    closer  between 0.1045  within 0.0848 (sd 0.0333)  excess +0.0197  x1.23  z +0.6  P 0.364
+    rates   between 0.1177  within 0.0865 (sd 0.0393)  excess +0.0311  x1.36  z +0.8  P 0.178
+    title   between 0.6323  within 0.5835 (sd 0.1375)  excess +0.0488  x1.08  z +0.4  P 0.295
+    name    between 0.5878  within 0.5388 (sd 0.0416)  excess +0.0490  x1.09  z +1.2  P 0.148
+    num     between 0.6725  within 0.6464 (sd 0.1154)  excess +0.0261  x1.04  z +0.2  P 0.469
+
+  [sections all types n=30] Mohenjo-daro|DKG. (N) (87) vs Mohenjo-daro|DKG. (S) (389), n = 30 per side, within from AB
+    uni     between 0.3975  within 0.3837 (sd 0.0352)  excess +0.0138  x1.04  z +0.4  P 0.353
+    bi      between 0.8305  within 0.8407 (sd 0.0342)  excess -0.0102  x0.99  z -0.3  P 0.559
+    rho     between 0.8631  within 0.8240 (sd 0.1999)  excess +0.0392  x1.05  z +0.2  P 0.429
+    init    between 0.7415  within 0.7075 (sd 0.0755)  excess +0.0340  x1.05  z +0.4  P 0.283
+    fin     between 0.3999  within 0.3602 (sd 0.0722)  excess +0.0397  x1.11  z +0.5  P 0.336
+    midinv  between 0.4456  within 0.4438 (sd 0.0462)  excess +0.0018  x1.00  z +0.0  P 0.486
+    len     between 0.1009  within 0.1175 (sd 0.0515)  excess -0.0167  x0.86  z -0.3  P 0.632
+    top30   between 0.1417  within 0.1385 (sd 0.0381)  excess +0.0032  x1.02  z +0.1  P 0.426
+    rest    between 0.7375  within 0.7147 (sd 0.0554)  excess +0.0228  x1.03  z +0.4  P 0.314
+    frozen  between 0.9136  within 0.9197 (sd 0.1786)  excess -0.0062  x0.99  z -0.0  P 0.760
+    reuse   between 0.0039  within 0.0163 (sd 0.0205)  excess +0.0124  x1.60  z +nan  P 0.577
+    opener  between 0.0853  within 0.0720 (sd 0.0415)  excess +0.0132  x1.18  z +0.3  P 0.388
+    closer  between 0.1193  within 0.0970 (sd 0.0408)  excess +0.0222  x1.23  z +0.5  P 0.280
+    rates   between 0.0854  within 0.0831 (sd 0.0346)  excess +0.0023  x1.03  z +0.1  P 0.522
+    title   between 0.6009  within 0.6126 (sd 0.1282)  excess -0.0116  x0.98  z -0.1  P 0.536
+    name    between 0.5937  within 0.5919 (sd 0.0535)  excess +0.0018  x1.00  z +0.0  P 0.483
+    num     between 0.5488  within 0.5574 (sd 0.1015)  excess -0.0087  x0.98  z -0.1  P 0.552
+
+  [sections all types n=30] Mohenjo-daro|DKG. (N) (87) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.3718  within 0.3649 (sd 0.0371)  excess +0.0069  x1.02  z +0.2  P 0.391
+    bi      between 0.8136  within 0.8165 (sd 0.0317)  excess -0.0029  x1.00  z -0.1  P 0.463
+    rho     between 0.8187  within 0.6854 (sd 0.1915)  excess +0.1333  x1.19  z +0.7  P 0.228
+    init    between 0.7108  within 0.6842 (sd 0.0793)  excess +0.0266  x1.04  z +0.3  P 0.401
+    fin     between 0.3554  within 0.3449 (sd 0.0488)  excess +0.0105  x1.03  z +0.2  P 0.394
+    midinv  between 0.4368  within 0.4323 (sd 0.0377)  excess +0.0045  x1.01  z +0.1  P 0.526
+    len     between 0.0927  within 0.1135 (sd 0.0513)  excess -0.0208  x0.82  z -0.4  P 0.652
+    top30   between 0.1191  within 0.1271 (sd 0.0350)  excess -0.0080  x0.94  z -0.2  P 0.617
+    rest    between 0.7508  within 0.7250 (sd 0.0498)  excess +0.0258  x1.04  z +0.5  P 0.308
+    frozen  between 0.8199  within 0.9198 (sd 0.1462)  excess -0.0999  x0.89  z -0.7  P 0.710
+    reuse   between 0.0000  within 0.0231 (sd 0.0187)  excess +0.0231  x2.39  z +nan  P 0.361
+    opener  between 0.0775  within 0.0767 (sd 0.0399)  excess +0.0008  x1.01  z +0.0  P 0.501
+    closer  between 0.0913  within 0.0928 (sd 0.0319)  excess -0.0014  x0.98  z -0.0  P 0.507
+    rates   between 0.0748  within 0.0830 (sd 0.0351)  excess -0.0082  x0.90  z -0.2  P 0.587
+    title   between 0.4995  within 0.5272 (sd 0.1128)  excess -0.0277  x0.95  z -0.2  P 0.609
+    name    between 0.5867  within 0.5714 (sd 0.0513)  excess +0.0153  x1.03  z +0.3  P 0.343
+    num     between 0.5938  within 0.6559 (sd 0.0992)  excess -0.0621  x0.91  z -0.6  P 0.740
+
+  [sections all types n=30] Mohenjo-daro|DKG. (S) (389) vs Mohenjo-daro|HRB (60), n = 30 per side, within from AB
+    uni     between 0.3801  within 0.3641 (sd 0.0387)  excess +0.0160  x1.04  z +0.4  P 0.316
+    bi      between 0.8265  within 0.8258 (sd 0.0401)  excess +0.0007  x1.00  z +0.0  P 0.438
+    rho     between 0.8813  within 0.7414 (sd 0.2213)  excess +0.1399  x1.19  z +0.6  P 0.318
+    init    between 0.6642  within 0.6643 (sd 0.0764)  excess -0.0001  x1.00  z -0.0  P 0.507
+    fin     between 0.3939  within 0.3834 (sd 0.0568)  excess +0.0105  x1.03  z +0.2  P 0.389
+    midinv  between 0.4402  within 0.4355 (sd 0.0437)  excess +0.0047  x1.01  z +0.1  P 0.423
+    len     between 0.1137  within 0.1132 (sd 0.0496)  excess +0.0005  x1.00  z +0.0  P 0.469
+    top30   between 0.1321  within 0.1352 (sd 0.0358)  excess -0.0031  x0.98  z -0.1  P 0.512
+    rest    between 0.7351  within 0.6896 (sd 0.0543)  excess +0.0455  x1.07  z +0.8  P 0.216
+    frozen  between 0.9248  within 0.9279 (sd 0.1456)  excess -0.0031  x1.00  z -0.0  P 0.722
+    reuse   between 0.0050  within 0.0163 (sd 0.0178)  excess +0.0113  x1.52  z +nan  P 0.531
+    opener  between 0.0598  within 0.0736 (sd 0.0376)  excess -0.0138  x0.81  z -0.4  P 0.597
+    closer  between 0.1166  within 0.0962 (sd 0.0349)  excess +0.0204  x1.21  z +0.6  P 0.266
+    rates   between 0.0866  within 0.0806 (sd 0.0374)  excess +0.0060  x1.07  z +0.2  P 0.428
+    title   between 0.6071  within 0.5797 (sd 0.1462)  excess +0.0274  x1.05  z +0.2  P 0.409
+    name    between 0.5742  within 0.5610 (sd 0.0513)  excess +0.0132  x1.02  z +0.3  P 0.396
+    num     between 0.5998  within 0.6183 (sd 0.1404)  excess -0.0184  x0.97  z -0.1  P 0.601
+
+  SUMMARY sections all types n=30 (same-city pairs vs cross-city pairs): ratio (between/within) per component; reuse = within/between
+  pair                                             uni      bi     rho    init     fin  midinv     len   top30    rest  frozen   reuse  opener  closer   rates   title    name     num
+  Harappa|F- vs Harappa|FTrench I                 0.99    1.00    0.82    1.05    0.97    0.96    0.82    1.11    0.95    0.84    1.11    0.83    0.97    0.97    1.05    0.96    1.17
+  Harappa|F- vs Mohenjo-daro|DK-                  1.12    1.04    1.37    1.01    1.22    1.11    1.44    1.37    1.04    1.10    7.64    0.89    1.04    1.23    1.26    1.06    1.08
+  Harappa|F- vs Mohenjo-daro|DKC                  1.16    1.07    1.36    1.06    1.11    1.11    1.18    1.35    1.11    1.19    4.45    1.35    1.11    1.82    1.17    1.08    0.99
+  Harappa|F- vs Mohenjo-daro|DKG. (N)             1.03    1.00    1.22    1.08    1.07    0.99    1.52    1.04    1.04    1.10    4.98    1.27    0.89    1.50    0.98    0.99    1.11
+  Harappa|F- vs Mohenjo-daro|DKG. (S)             1.10    1.03    1.35    1.05    1.21    1.06    1.60    1.26    1.05    1.14    4.13    1.11    0.93    1.45    1.09    1.05    1.05
+  Harappa|F- vs Mohenjo-daro|HRB                  1.12    1.07    1.55    1.07    1.27    1.06    1.52    1.31    1.07    1.09    4.00    1.02    1.03    1.81    1.21    1.08    0.94
+  Harappa|FTrench I vs Mohenjo-daro|DK-           1.20    1.05    1.38    1.04    1.43    1.12    1.22    1.37    1.15    1.03    7.46    0.75    1.69    1.37    1.20    1.12    1.04
+  Harappa|FTrench I vs Mohenjo-daro|DKC           1.19    1.07    1.38    1.04    1.49    1.05    0.89    1.60    1.07    1.08    8.54    0.89    1.97    2.05    1.10    1.08    1.00
+  Harappa|FTrench I vs Mohenjo-daro|DKG. (N)      1.10    1.05    1.21    0.99    1.22    1.10    1.36    1.30    1.04    1.00    8.83    0.84    1.30    1.30    0.99    1.05    0.99
+  Harappa|FTrench I vs Mohenjo-daro|DKG. (S)      1.13    1.05    1.40    1.04    1.42    1.09    1.38    1.40    1.05    1.03    8.12    0.91    1.49    1.40    1.06    1.02    1.05
+  Harappa|FTrench I vs Mohenjo-daro|HRB           1.21    1.08    1.73    1.07    1.31    1.16    1.39    1.50    1.10    1.03    5.91    0.72    1.23    1.50    1.07    1.15    0.94
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKC            1.05    1.04    0.94    0.98    1.00    1.03    1.10    1.05    1.05    1.07    2.21    1.14    1.00    1.33    1.07    1.05    0.96
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (N)       1.07    1.02    1.14    1.01    1.12    1.08    0.83    1.16    1.05    0.99    2.63    1.00    1.15    0.98    1.14    1.06    1.00
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (S)       1.04    1.03    1.08    1.02    1.06    1.03    0.98    1.06    1.03    0.97    3.14    1.05    1.23    1.12    1.08    1.02    0.98
+  Mohenjo-daro|DK- vs Mohenjo-daro|HRB            1.08    1.03    1.19    1.01    1.08    1.09    0.94    1.25    1.04    0.96    2.13    0.89    1.21    1.01    1.21    1.05    0.94
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (N)       1.06    1.02    1.06    0.94    1.05    1.08    1.12    1.02    1.09    1.00    1.54    0.86    1.17    1.16    0.96    1.06    1.06
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (S)       1.03    1.02    0.96    1.00    1.02    1.02    1.13    0.95    1.04    1.04    1.13    1.05    1.20    1.13    1.03    1.00    1.02
+  Mohenjo-daro|DKC vs Mohenjo-daro|HRB            1.10    1.00    1.14    0.99    1.10    1.09    1.39    1.13    1.09    1.09    1.25    0.79    1.23    1.36    1.08    1.09    1.04
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|DKG. (    1.04    0.99    1.05    1.05    1.11    1.00    0.86    1.02    1.03    0.99    1.60    1.18    1.23    1.03    0.98    1.00    0.98
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|HRB       1.02    1.00    1.19    1.04    1.03    1.01    0.82    0.94    1.04    0.89    2.39    1.01    0.98    0.90    0.95    1.03    0.91
+  Mohenjo-daro|DKG. (S) vs Mohenjo-daro|HRB       1.04    1.00    1.19    1.00    1.03    1.01    1.00    0.98    1.07    1.00    1.52    0.81    1.21    1.07    1.05    1.02    0.97
+  excess (bits / units)                       
+  Harappa|F- vs Harappa|FTrench I               -0.002  -0.002  -0.113   0.034  -0.010  -0.019  -0.019   0.017  -0.036  -0.150   0.019  -0.012  -0.004  -0.003   0.034  -0.025   0.092
+  Harappa|F- vs Mohenjo-daro|DK-                 0.045   0.037   0.313   0.008   0.089   0.051   0.050   0.056   0.031   0.092   0.123  -0.007   0.004   0.018   0.130   0.038   0.045
+  Harappa|F- vs Mohenjo-daro|DKC                 0.061   0.059   0.307   0.038   0.047   0.052   0.021   0.055   0.079   0.161   0.058   0.025   0.011   0.071   0.104   0.046  -0.007
+  Harappa|F- vs Mohenjo-daro|DKG. (N)            0.012   0.001   0.160   0.056   0.025  -0.003   0.061   0.006   0.030   0.093   0.066   0.019  -0.013   0.043  -0.012  -0.007   0.062
+  Harappa|F- vs Mohenjo-daro|DKG. (S)            0.039   0.026   0.282   0.037   0.086   0.028   0.067   0.041   0.032   0.122   0.059   0.008  -0.008   0.037   0.056   0.033   0.024
+  Harappa|F- vs Mohenjo-daro|HRB                 0.046   0.057   0.358   0.044   0.104   0.027   0.058   0.045   0.048   0.077   0.064   0.001   0.004   0.067   0.110   0.048  -0.035
+  Harappa|FTrench I vs Mohenjo-daro|DK-          0.078   0.044   0.285   0.027   0.139   0.056   0.024   0.057   0.108   0.032   0.183  -0.019   0.072   0.030   0.116   0.077   0.022
+  Harappa|FTrench I vs Mohenjo-daro|DKC          0.074   0.055   0.295   0.025   0.167   0.026  -0.012   0.090   0.051   0.074   0.126  -0.009   0.098   0.089   0.068   0.050   0.002
+  Harappa|FTrench I vs Mohenjo-daro|DKG. (N)     0.039   0.044   0.138  -0.008   0.064   0.047   0.040   0.044   0.027   0.005   0.130  -0.012   0.033   0.025  -0.008   0.031  -0.007
+  Harappa|FTrench I vs Mohenjo-daro|DKG. (S)     0.053   0.046   0.281   0.030   0.137   0.045   0.040   0.063   0.033   0.025   0.129  -0.007   0.056   0.033   0.042   0.014   0.026
+  Harappa|FTrench I vs Mohenjo-daro|HRB          0.078   0.063   0.422   0.048   0.097   0.074   0.043   0.073   0.077   0.025   0.127  -0.023   0.025   0.042   0.039   0.092  -0.039
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKC           0.018   0.033  -0.061  -0.014  -0.001   0.012   0.011   0.008   0.031   0.062   0.048   0.010  -0.000   0.027   0.038   0.031  -0.025
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (N)      0.025   0.021   0.119   0.004   0.043   0.035  -0.020   0.022   0.035  -0.010   0.060   0.000   0.013  -0.002   0.072   0.033   0.001
+  Mohenjo-daro|DK- vs Mohenjo-daro|DKG. (S)      0.015   0.021   0.074   0.012   0.025   0.015  -0.003   0.008   0.020  -0.030   0.063   0.003   0.021   0.010   0.047   0.013  -0.009
+  Mohenjo-daro|DK- vs Mohenjo-daro|HRB           0.028   0.027   0.144   0.006   0.029   0.038  -0.007   0.032   0.027  -0.033   0.050  -0.008   0.019   0.001   0.098   0.027  -0.041
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (N)      0.023   0.012   0.058  -0.040   0.018   0.036   0.014   0.003   0.061   0.004   0.010  -0.011   0.014   0.013  -0.024   0.035   0.037
+  Mohenjo-daro|DKC vs Mohenjo-daro|DKG. (S)      0.011   0.017  -0.037  -0.002   0.008   0.009   0.015  -0.007   0.031   0.035   0.003   0.003   0.018   0.011   0.017  -0.003   0.009
+  Mohenjo-daro|DKC vs Mohenjo-daro|HRB           0.034   0.000   0.114  -0.010   0.040   0.040   0.045   0.017   0.063   0.076   0.005  -0.016   0.020   0.031   0.049   0.049   0.026
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|DKG. (   0.014  -0.010   0.039   0.034   0.040   0.002  -0.017   0.003   0.023  -0.006   0.012   0.013   0.022   0.002  -0.012   0.002  -0.009
+  Mohenjo-daro|DKG. (N) vs Mohenjo-daro|HRB      0.007  -0.003   0.133   0.027   0.010   0.004  -0.021  -0.008   0.026  -0.100   0.023   0.001  -0.001  -0.008  -0.028   0.015  -0.062
+  Mohenjo-daro|DKG. (S) vs Mohenjo-daro|HRB      0.016   0.001   0.140  -0.000   0.011   0.005   0.000  -0.003   0.046  -0.003   0.011  -0.014   0.020   0.006   0.027   0.013  -0.018
+  uni     mean ratio same-city sections 1.05 (11 pairs)  cross-city sections 1.14 (10 pairs)
+  bi      mean ratio same-city sections 1.01 (11 pairs)  cross-city sections 1.05 (10 pairs)
+  rho     mean ratio same-city sections 1.07 (11 pairs)  cross-city sections 1.40 (10 pairs)
+  init    mean ratio same-city sections 1.01 (11 pairs)  cross-city sections 1.04 (10 pairs)
+  fin     mean ratio same-city sections 1.05 (11 pairs)  cross-city sections 1.28 (10 pairs)
+  midinv  mean ratio same-city sections 1.04 (11 pairs)  cross-city sections 1.09 (10 pairs)
+  len     mean ratio same-city sections 1.00 (11 pairs)  cross-city sections 1.35 (10 pairs)
+  top30   mean ratio same-city sections 1.06 (11 pairs)  cross-city sections 1.35 (10 pairs)
+  rest    mean ratio same-city sections 1.04 (11 pairs)  cross-city sections 1.07 (10 pairs)
+  frozen  mean ratio same-city sections 0.99 (11 pairs)  cross-city sections 1.08 (10 pairs)
+  reuse   mean ratio same-city sections 1.88 (11 pairs)  cross-city sections 6.41 (10 pairs)
+  opener  mean ratio same-city sections 0.97 (11 pairs)  cross-city sections 0.97 (10 pairs)
+  closer  mean ratio same-city sections 1.14 (11 pairs)  cross-city sections 1.27 (10 pairs)
+  rates   mean ratio same-city sections 1.10 (11 pairs)  cross-city sections 1.54 (10 pairs)
+  title   mean ratio same-city sections 1.05 (11 pairs)  cross-city sections 1.11 (10 pairs)
+  name    mean ratio same-city sections 1.03 (11 pairs)  cross-city sections 1.07 (10 pairs)
+  num     mean ratio same-city sections 1.00 (11 pairs)  cross-city sections 1.02 (10 pairs)
