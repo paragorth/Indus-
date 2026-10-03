@@ -15,7 +15,7 @@ CORPORA = ['ur3_words', 'ur3_syll', 'ur3_names_syll', 'linb_syll', 'linb_words',
            'icd10', 'hts', 'aircraft_reg', 'unicode_names', 'heraldry', 'chess_eco', 'chords',
            'proto_cuneiform', 'proto_elamite', 'khipu',
            'indus_seq_raw', 'indus_seq_strong', 'indus_seq_all']
-NULLS = ('SH', 'M1', 'M2')
+NULLS = ('SH', 'M1', 'M2', 'M2E')
 
 
 def job(args):
@@ -59,8 +59,8 @@ def summary(dup='natural', out=None):
     lines = []
     P = lines.append
     P(f'# Loop 55 cycle 1 (dup={dup}): statistics beyond chain per corpus. beyond = |z| >= 3 and outside the null range; mean over resamples [min-max].')
-    P('| corpus | class | n | med len | distinct | len TVD | beyond SH | beyond M1 | beyond M2 | beyond M1&M2 | sum|z| M2 (cap 20) |')
-    P('|---|---|---|---|---|---|---|---|---|---|---|')
+    P('| corpus | class | n | med len | distinct | len TVD | beyond SH | beyond M1 | beyond M2 | beyond M2E | beyond all chains | sum|z| M2 (cap 20) |')
+    P('|---|---|---|---|---|---|---|---|---|---|---|---|')
     per_stat = collections.defaultdict(lambda: collections.defaultdict(list))   # stat -> corpus -> [beyond M2 flags]
     zvals = collections.defaultdict(lambda: collections.defaultdict(list))
     agg = {}
@@ -68,17 +68,17 @@ def summary(dup='natural', out=None):
         if name not in rows: continue
         R = rows[name]
         def cnt(d, nm): return sum(1 for k in C.STATS if d['nulls'][nm][k]['beyond'])
-        def both(d): return sum(1 for k in C.STATS if d['nulls']['M1'][k]['beyond'] and d['nulls']['M2'][k]['beyond'])
+        def both(d): return sum(1 for k in C.STATS if all(d['nulls'][nm][k]['beyond'] for nm in NULLS if nm != 'SH'))
         def sz(d, nm): return sum(min(abs(d['nulls'][nm][k]['z']), 20) for k in C.STATS if not math.isnan(d['nulls'][nm][k]['z']))
         def rng(v): return f'{st.mean(v):.1f} [{min(v)}-{max(v)}]'
         cs = {nm: [cnt(d, nm) for d in R] for nm in NULLS}; b = [both(d) for d in R]; s2 = [sz(d, 'M2') for d in R]
         m = R[0]['meta']
         P(f"| {name} | {C.TYPE[name]} | {int(st.mean(d['meta']['n'] for d in R))} | {st.mean(d['meta']['median_len'] for d in R):.1f} | {st.mean(d['meta']['distinct_share'] for d in R):.2f} | {m['len_tvd']:.2f} | "
-          f"{rng(cs['SH'])} | {rng(cs['M1'])} | {rng(cs['M2'])} | {rng(b)} | {st.mean(s2):.0f} |")
+          f"{rng(cs['SH'])} | {rng(cs['M1'])} | {rng(cs['M2'])} | {rng(cs['M2E'])} | {rng(b)} | {st.mean(s2):.0f} |")
         agg[name] = {'class': C.TYPE[name], 'nres': len(R), 'beyond': {nm: cs[nm] for nm in NULLS}, 'both': b}
         for d in R:
             for k in C.STATS:
-                per_stat[k][name].append(d['nulls']['M2'][k]['beyond'])
+                per_stat[k][name].append(all(d['nulls'][nm][k]['beyond'] for nm in NULLS if nm != 'SH'))
                 zvals[k][name].append(d['nulls']['M2'][k]['z'])
     # detection rate by class
     P('')
@@ -86,10 +86,12 @@ def summary(dup='natural', out=None):
     for cls in 'LDGAI':
         vals = [x for n, a in agg.items() if a['class'] == cls for x in a['beyond']['M2']]
         v1 = [x for n, a in agg.items() if a['class'] == cls for x in a['beyond']['M1']]
-        if vals: P(f'- {cls}: beyond M1 {st.mean(v1):.1f}/55, beyond M2 {st.mean(vals):.1f}/55 (range {min(vals)}-{max(vals)}; {len(vals)} samples)')
+        ve = [x for n, a in agg.items() if a['class'] == cls for x in a['beyond']['M2E']]
+        vb = [x for n, a in agg.items() if a['class'] == cls for x in a['both']]
+        if vals: P(f'- {cls}: beyond M1 {st.mean(v1):.1f}/55, beyond M2 {st.mean(vals):.1f}/55 (range {min(vals)}-{max(vals)}), beyond M2E {st.mean(ve):.1f}/55, beyond all three chains {st.mean(vb):.1f}/55 ({len(vals)} samples)')
     # per statistic: which beat M2 in language but not in codes
     P('')
-    P('## Per statistic: share of samples beyond M2, by class (L language, D code, A accounting, I Indus); z of Indus seq_all (mean over resamples)')
+    P('## Per statistic: share of samples beyond ALL chains (M1, M2, M2E), by class (L language, D code, A accounting, I Indus); z of Indus seq_all (mean over resamples)')
     P('| statistic | family | L | D | G | A | Indus raw/strong/all | mean z Indus(all) vs M2 |')
     P('|---|---|---|---|---|---|---|---|')
     fam = {k: f for f, ks in C.FAMILY.items() for k in ks}
