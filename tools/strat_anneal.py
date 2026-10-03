@@ -136,10 +136,11 @@ def build(T, nsel):
 def features(S, assign):
     """assign: int array of length NTOP+1 (sign index -> label, last entry OTHER)."""
     N = S['N']; lab = assign[S['tok_sign']]
-    F1 = np.zeros((N, LT)); np.add.at(F1, (S['tok_text'], lab), 1)
+    F1 = np.bincount(S['tok_text'] * LT + lab, minlength=N * LT).reshape(N, LT).astype(float)
     F2 = np.zeros((N, LT)); F2[np.arange(N), assign[S['first']]] = 1
     F3 = np.zeros((N, LT)); F3[np.arange(N), assign[S['last']]] = 1
-    F4 = np.zeros((N, LT * LT)); np.add.at(F4, (S['big_text'], assign[S['big_a']] * LT + assign[S['big_b']]), 1)
+    F4 = np.bincount(S['big_text'] * (LT * LT) + assign[S['big_a']] * LT + assign[S['big_b']],
+                     minlength=N * LT * LT).reshape(N, LT * LT).astype(float)
     return np.hstack([F1, F2, F3, F4, S['lenF']])
 
 
@@ -290,10 +291,19 @@ def anneal(args):
     return best, besta.tolist(), seed
 
 
-def run_search(S, factsets, restarts, steps, seed0, procs):
+CKPT = {}
+
+
+def run_search(S, factsets, restarts, steps, seed0, procs, name=None):
+    """Each stage's restarts are checkpointed to data/derived/strat_anneal_ckpt*.json so a killed run resumes."""
+    if name and name in CKPT and len(CKPT[name]) == restarts:
+        return [tuple(r) for r in CKPT[name]]
     with Pool(procs, initializer=init_worker, initargs=(S, factsets)) as p:
         res = p.map(anneal, [(seed0 + i, steps, 0.03, 0.0005) for i in range(restarts)])
     res.sort(key=lambda r: -r[0])
+    if name:
+        CKPT[name] = [list(r) for r in res]
+        json.dump(CKPT, open(CKPT['_path'], 'w'))
     return res
 
 
@@ -333,6 +343,11 @@ def main():
     A = ap.parse_args()
     if A.quick: A.restarts, A.steps = 4, 200
     t0 = time.time()
+    suffix = '' if A.level == 'seq' else '_' + A.level
+    if A.quick: suffix += '_quick'
+    CKPT['_path'] = os.path.join(ROOT, f'data/derived/strat_anneal_ckpt{suffix}.json')
+    if os.path.exists(CKPT['_path']):
+        old = json.load(open(CKPT['_path'])); old.pop('_path', None); CKPT.update(old)
     T = load(A.level); N = len(T)
     held = np.array([t['held'] for t in T]); big = np.array([t['big'] for t in T])
     md = np.array([t['site'] == 'Mohenjo-daro' for t in T]); ha = np.array([t['site'] == 'Harappa' for t in T])
@@ -368,7 +383,7 @@ def main():
     results = {}
     # ---- objective A: anneal on held-out score directly (as specified)
     P(f'\n[A] anneal on held-out score, {A.restarts} restarts x {A.steps} steps')
-    resA = run_search(S, [FS_held], A.restarts, A.steps, A.seed, A.procs)
+    resA = run_search(S, [FS_held], A.restarts, A.steps, A.seed, A.procs, 'A')
     bestA = np.array(resA[0][1]); sA, dA = FS_held.score(bestA, detail=True)
     P(f'  best {sA:.3f}  top-10 range {resA[min(9, len(resA) - 1)][0]:.3f}..{resA[0][0]:.3f}  per fact {dA}')
     results['A_heldout'] = dict(best=sA, detail=dA, scores=[r[0] for r in resA])
@@ -377,7 +392,7 @@ def main():
     P(f'\n[C1] control: outside facts permuted across texts (within train and within held-out), same search')
     FS_perm = FactSet(T, S, big, held, perm_seed=7)
     FS_perm.facts['region'] = FactSet(T, S, train_all, held, perm_seed=7).facts.get('region')
-    resC1 = run_search(S, [FS_perm], A.restarts, A.steps, A.seed + 1000, A.procs)
+    resC1 = run_search(S, [FS_perm], A.restarts, A.steps, A.seed + 1000, A.procs, 'C1')
     sC1, dC1 = FS_perm.score(np.array(resC1[0][1]), detail=True)
     P(f'  best {sC1:.3f}  top-10 range {resC1[min(9, len(resC1) - 1)][0]:.3f}..{resC1[0][0]:.3f}  per fact {dC1}')
     P(f'  raw-sign classifier on permuted facts: {FS_perm.score(None, raw=True):.3f}')
@@ -388,7 +403,7 @@ def main():
     T2 = [dict(t, seq=random.Random(100 + i).sample(t['seq'], len(t['seq']))) for i, t in enumerate(T)]
     S2 = build(T2, NTOP)   # same sign set (counts unchanged by shuffling), order destroyed
     FS2 = FactSet(T2, S2, big, held); FS2.facts['region'] = FactSet(T2, S2, train_all, held).facts.get('region')
-    resC2 = run_search(S2, [FS2], A.restarts, A.steps, A.seed + 2000, A.procs)
+    resC2 = run_search(S2, [FS2], A.restarts, A.steps, A.seed + 2000, A.procs, 'C2')
     sC2, dC2 = FS2.score(np.array(resC2[0][1]), detail=True)
     P(f'  best {sC2:.3f}  top-10 range {resC2[min(9, len(resC2) - 1)][0]:.3f}..{resC2[0][0]:.3f}  per fact {dC2}')
     results['C2_shuffled_order'] = dict(best=sC2, detail=dC2, scores=[r[0] for r in resC2])
@@ -397,13 +412,13 @@ def main():
     P(f'\n[B] anneal on Mohenjo-daro <-> Harappa cross-prediction (held-out never seen by the search)')
     FS_mh = FactSet(T, S, md, ha); FS_hm = FactSet(T, S, ha, md)
     for fs in (FS_mh, FS_hm): fs.facts.pop('region', None)   # one region per city: undefined
-    resB = run_search(S, [FS_mh, FS_hm], A.restarts, A.steps, A.seed + 3000, A.procs)
+    resB = run_search(S, [FS_mh, FS_hm], A.restarts, A.steps, A.seed + 3000, A.procs, 'B')
     bestB = np.array(resB[0][1]); sB, dB = FS_held.score(bestB, detail=True)
     P(f'  best cross-city {resB[0][0]:.3f}; its held-out score {sB:.3f}  per fact {dB}')
     hb = [FS_held.score(np.array(r[1])) for r in resB[:10]]
     P(f'  held-out scores of top-10 cross-city solutions: median {np.median(hb):.3f}, range {min(hb):.3f}..{max(hb):.3f}')
     # control 1 for B
-    resBp = run_search(S, [FactSet(T, S, md, ha, perm_seed=7), FactSet(T, S, ha, md, perm_seed=7)], A.restarts, A.steps, A.seed + 4000, A.procs)
+    resBp = run_search(S, [FactSet(T, S, md, ha, perm_seed=7), FactSet(T, S, ha, md, perm_seed=7)], A.restarts, A.steps, A.seed + 4000, A.procs, 'Bp')
     sBp = FS_held.score(np.array(resBp[0][1])); hbp = [FS_held.score(np.array(r[1])) for r in resBp[:10]]
     P(f'  [B-C1] permuted-fact cross-city search: best cross-city {resBp[0][0]:.3f}; its true held-out score {sBp:.3f}; '
       f'held-out scores of its top-10: median {np.median(hbp):.3f}, max {max(hbp):.3f}')
@@ -488,8 +503,6 @@ def main():
              blocks_A=blocks, blocks_B=blocksB, best_A=dict(zip([str(w) for w in S['top']], [LABELS[x] for x in bestA[:NTOP]])),
              best_B=dict(zip([str(w) for w in S['top']], [LABELS[x] for x in bestB[:NTOP]])),
              verdict=dict(gap_A=gapA, gap_B=gapB, identifiable=bool(ident)))
-    suffix = '' if A.level == 'seq' else '_' + A.level
-    if A.quick: suffix += '_quick'
     open(os.path.join(ROOT, f'data/derived/strat_anneal{suffix}.txt'), 'w').write('\n'.join(out) + '\n')
     json.dump(J, open(os.path.join(ROOT, f'data/derived/strat_anneal{suffix}.json'), 'w'), indent=1, default=float)
 
