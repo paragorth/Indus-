@@ -296,27 +296,30 @@ def cycle1(T, heads, nperm):
     res, nh = perm_profile(T, heads, lambda t: t['tf'], SA, nperm, subset=lambda t: t['tc'] == 'tablet')
     report('Tablets only: moulded (TAB:B) vs incised (TAB:I) vs copper (TAB:C)', res, nh, heads)
     # seal <-> impression matching: distinct seal texts with an exact sealing match anywhere
-    seal_texts = collections.defaultdict(set); tag_texts = collections.defaultdict(set)
+    seal_texts = collections.defaultdict(set); tag_texts = collections.defaultdict(set); tag_complete = collections.defaultdict(bool)
     for t in T:
         if t['tc'] == 'seal' and t['n'] >= 2: seal_texts[tuple(t['seq'])].add(t['site'])
-        if t['tf'] == 'sealing' and t['n'] >= 2: tag_texts[tuple(t['seq'])].add(t['site'])
-    def tag_match(s): return s in tag_texts or any(len(u) >= 2 and s[-len(u):] == u for u in tag_texts)
+        if t['tf'] == 'sealing' and t['n'] >= 2:
+            tag_texts[tuple(t['seq'])].add(t['site']); tag_complete[tuple(t['seq'])] |= t['complete']
+    # a sealing matches a seal text if it is complete and identical, or an end-intact fragment of >= 3 signs that is the seal text's end
+    def tag_match(s): return any((u == s) if tag_complete[u] else (len(u) >= 3 and s[-len(u):] == u) for u in tag_texts)
+    def seal_match(u): return (u in seal_texts) if tag_complete[u] else (len(u) >= 3 and any(v[-len(u):] == u for v in seal_texts))
     D = []
     for s, sites in seal_texts.items():
         h = parse_head(list(s), HEAD_GROUP, SUF, OPENERS, CONN, NUMS, MARK, FISH, GOODS, FIXED12, VAL, TALL)['head']
         D.append(dict(head=h, n=len(s), site=sorted(sites)[0], matched='yes' if tag_match(s) else 'no',
                       tab_match='yes' if any(tuple(t['seq']) == s for t in T if t['tc'] == 'tablet') else 'no'))
     res, nh = perm_profile(D, heads, lambda t: t['matched'], lambda t: lenbin(t['n']), nperm)
-    report(f'Distinct complete seal texts (>=2 signs, {len(D)}): matched by a sealing anywhere (exact, or the end-intact sealing fragment is the seal text\'s end; null within length-bin)', res, nh, heads)
+    report(f'Distinct complete seal texts (>=2 signs, {len(D)}): matched by a sealing anywhere (exact for complete sealings; an end-intact fragment of >= 3 signs must be the seal text\'s end; null within length-bin)', res, nh, heads)
     res, nh = perm_profile(D, heads, lambda t: t['tab_match'], lambda t: lenbin(t['n']), nperm)
     report('Distinct seal texts: exact match on a tablet anywhere', res, nh, heads)
     # sealings: share of sealing texts with a seal anywhere
     E = []
     for s, sites in tag_texts.items():
         h = parse_head(list(s), HEAD_GROUP, SUF, OPENERS, CONN, NUMS, MARK, FISH, GOODS, FIXED12, VAL, TALL)['head']
-        E.append(dict(head=h, n=len(s), matched='yes' if (s in seal_texts or any(u[-len(s):] == s for u in seal_texts)) else 'no'))
+        E.append(dict(head=h, n=len(s), matched='yes' if seal_match(s) else 'no'))
     res, nh = perm_profile(E, heads, lambda t: t['matched'], lambda t: lenbin(t['n']), nperm)
-    report(f'Distinct sealing texts incl. end-intact fragments (>=2 signs, {len(E)}): a seal text anywhere ends with it (ghost rate per head, cf. S-DARK-16)', res, nh, heads, min_n=3)
+    report(f'Distinct sealing texts incl. end-intact fragments (>=2 signs, {len(E)}): matched by a seal anywhere (same rule; ghost rate per head, cf. S-DARK-16)', res, nh, heads, min_n=3)
     # 1-sign texts share per head (flag for S-DARK-58 overlap)
     P('\n### Share of each head on 1-sign texts (reported only; S-DARK-58 covers minimal texts)')
     for h in heads:
