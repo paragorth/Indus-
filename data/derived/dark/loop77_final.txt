@@ -1,0 +1,31 @@
+LOOP 77 FINAL: THE PROTO-ELAMITE TABLET SIGNATURE IN INDUS (3 Oct 2026; 5 cycles, rows S-DARK-77.1 .. 77.5 in loop77_cycle1-5.txt, ready to paste before '## Summary')
+Scripts: tools/dark_loop77_common.py (pair_stats copied verbatim from dark_loop73_c2.py; permutation + Markov-2 nulls; S310/S331 parser; FULL / MID / DES element sets),
+         dark_loop77_c1.py (calibration + multi-sided), _c2.py (find-groups), _c3.py (Lothal), _c4.py (power + elements), _c5.py (repeat-controlled multi-sided).
+Data: inscriptions.csv faces with canonical merge maps (loop37 loader; S-DARK-23 caution: merged-corpus-canonical.json is the older build), IM77 bridged to W (9.4% of tokens on proposed
+S-DARK-27 entries), loop71 Lothal catalogue + die assignment, PE / Linear B from the loop73 loaders.
+
+CALIBRATION (same code): PE middles on one tablet 6.5% vs 2.2% (x3.0, P 0.001; Markov-2 x3.7; rare-element pairs x45; identical middles 2,138 vs 149). Linear B names on a tablet x1.01.
+
+INDUS, designation-only (DES) sharing between DIFFERENT designations in one group (permutation ratio; Markov-2 agrees unless stated):
+ (a) faces of one multi-sided object: x1.3-1.4 raw (n.s.); with repeats (abbreviation / one-sign variant of the same text) counted as identical: 2/87 pairs, x0.78-0.92. IM77 x0.63.
+ (b) find-groups: Harappa tablets same spot 0/44-47 (identical copies 6x); same area x0.86-0.91; Mohenjo-daro tablets x0.85-0.94; Mohenjo-daro same-room seals x1.7-2.5 on frequent formula-adjacent
+     signs only, rare 0/104 (= S-DARK-64). IM77 x0.96-0.98.
+ (c) Lothal: several dies on one sealing 0/4 (Wells), 0/15 (IM77); warehouse dies 0/15. The FULL-text excess (x1.35, IM77 P 0.013) is the shared jar head (S-DARK-71 team).
+ Frame vs designation: FULL faces share LESS than chance on one object (x0.55, the voucher's complementary fields); every Indus excess found is in frame / formula signs or in repeats of one designation.
+ Power: refilling the same Indus group structures with real PE tablets detects the PE signature in 87-99% of refills (seals + sealings 55%); different-tablet control 1-5%.
+ Elements (question 3): no Indus group type shows PE-like sharing, so there is no team or household element to name. The handful of shared DES elements are W679, W706, W850/W803/W241 (a one-sign
+ variant), W899, W368, W140, W705, W350, W130: frequent, spread in position, or the same designation repeated. None is rare and in a fixed slot.
+ Merge levels: identical conclusions at seq_raw / seq_strong / seq_all (ratios move <= 0.2). IM77: same direction everywhere (transcription-robust, not replicated; ~70% the same objects).
+
+STATED PLAINLY
+No Indus document type behaves like a Proto-Elamite list of related persons. Put through the identical statistic, the PE tablet gives 3x element sharing among its entries. Indus faces of one object,
+tablets found together, seals from one room and seals stamped on one sealing give chance-level designation sharing, the Linear B 'unrelated individuals' value. They share only (i) the formula: jar
+head, titles, fish-phrase signs; and (ii) the same designation repeated, as a copy, an abbreviation or a stock series. So the Indus groups look like several records about ONE designation
+(multi-sided object, tablet series) or like independent office-holders under a shared title (room, Lothal team), not like a household or work-team list. With S-DARK-64 (no lineage element) and
+S-DARK-73 (the Indus middle fits a PE-type designation slot on frequency statistics), this narrows the reading: if the middles are person or unit designations, they are individual ones, written
+one per document, never listed together with relatives or teammates in a way the script would mark.
+Limits: Mohenjo-daro + Harappa carry almost all groups (Lothal only for c); 'never' = upper bounds (Harappa same-spot tablets 0/44 < 7%; Lothal 0/19 < 16%); the corpus is a small fraction of what
+was written (S309), so an Indus list genre (e.g. perishable ledgers) may exist unseen. PE's 'related persons' reading is others' interpretation, used only as the hypothesis being calibrated.
+Would revive a PE-like list in Indus: a newly found multi-text Indus tablet or prism whose different designations share a rare element at >= 2x the permutation null.
+WORKING-DICTIONARY suggestion (grade C): Indus middle = one designation per document; groups of documents repeat it or share only its title. Would kill: the revival case above.
+Nothing is read; not 'cracked'.
