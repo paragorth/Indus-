@@ -51,7 +51,7 @@ for city in ['Mohenjo-daro', 'Harappa', 'OTHER']:
         # style codes on unicorn (Bull1) seals
         uni = np.array([r['symbol'].startswith('Bull1:') for r in R])
         if uni.sum() >= 40:
-            style = np.array([r['symbol'].split(':')[1] for r in R])[uni]
+            style = np.array([r['symbol'].split(':')[1] if ':' in r['symbol'] else '' for r in R])[uni]
             st = strata[uni]
             idx = np.where(uni)[0]
             JACu = JAC[np.ix_(idx, idx)]; EQu = EQ[np.ix_(idx, idx)]

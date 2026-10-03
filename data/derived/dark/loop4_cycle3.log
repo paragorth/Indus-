@@ -129,3 +129,33 @@
 
 ## Ur III seal-owner names (syllables): fit 16120, test 6909; distinct 3364
   [Ur3 names] baseline sign level: bits=4.389 uniq=0.278 rep=0.890 units=686
+    bpe k=60 T=5 s=2             bits=4.149 uniq=0.315 rep=1.244 units=740
+    bpe k=60 T=1 s=0             bits=4.153 uniq=0.312 rep=1.227 units=741
+    bpe k=60 T=5 s=0             bits=4.156 uniq=0.314 rep=1.268 units=740
+    bpe k=60 T=5 s=1             bits=4.157 uniq=0.311 rep=1.215 units=740
+    bpe k=40 T=1 s=0             bits=4.204 uniq=0.298 rep=1.345 units=724
+    bpe k=40 T=5 s=0             bits=4.212 uniq=0.302 rep=1.368 units=723
+    bpe k=40 T=5 s=2             bits=4.214 uniq=0.299 rep=1.319 units=724
+    bpe k=40 T=5 s=1             bits=4.214 uniq=0.298 rep=1.344 units=724
+    bpe k=20 T=5 s=1             bits=4.276 uniq=0.297 rep=1.380 units=706
+    bpe k=20 T=1 s=0             bits=4.279 uniq=0.294 rep=1.392 units=706
+    bpe k=20 T=5 s=2             bits=4.294 uniq=0.291 rep=1.344 units=706
+    bpe k=20 T=5 s=0             bits=4.307 uniq=0.286 rep=1.260 units=705
+    bpe k=10 T=5 s=0             bits=4.334 uniq=0.282 rep=1.146 units=696
+    bpe k=10 T=1 s=0             bits=4.336 uniq=0.285 rep=1.196 units=696
+    bpe k=10 T=5 s=2             bits=4.336 uniq=0.283 rep=1.154 units=696
+    bpe k=10 T=5 s=1             bits=4.338 uniq=0.284 rep=1.135 units=696
+    bpe k=5 T=5 s=1              bits=4.350 uniq=0.282 rep=0.990 units=691
+    bpe k=5 T=1 s=0              bits=4.351 uniq=0.282 rep=1.081 units=691
+    bpe k=5 T=5 s=2              bits=4.361 uniq=0.285 rep=1.098 units=691
+    bpe k=5 T=5 s=0              bits=4.368 uniq=0.282 rep=1.037 units=691
+    sign                         bits=4.389 uniq=0.278 rep=0.890 units=686
+  [Ur3 names] best per statistic (delta vs sign level):
+    bits  bpe k=60 T=5 s=2             4.149  (sign 4.389, delta -0.239)  bits/sign lower=more predictable
+    uniq  bpe k=5 T=1 s=0              0.282  (sign 0.278, delta +0.003)  uniq ratio lower=texts recur more than bigram
+    rep   bpe k=5 T=5 s=1              0.990  (sign 0.890, delta +0.100)  within-text repetition ratio
+    segmentations beating sign level on bits AND (uniq or rep): 0 of 20: 
+    first merges of best BPE: e2+mah; kal+la; lu2+{d}nin; a+kal+la; ur+mes; e2+mah+e; ur+{d}szara2; pa+e3; lugal+e2+mah+e; i3+li2; {d}ba+ba6; sa6+ga
+
+## Ur III names, distinct only: fit 2354, test 1010
+  [Ur3 distinct names] baseline sign level: bits=7.536 uniq=1.105 rep=1.527 units=662

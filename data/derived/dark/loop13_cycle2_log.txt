@@ -68,3 +68,35 @@ len                              -1.548 p= 0.001+      -1.076 p= 0.037+      -0.
   * = Bonferroni over 60 tests;  + = raw p<0.05
 
 == cycle 2  level=seq_all dedup=False  sites=['Dholavira', 'Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+feature (TAG mean - SEAL mean)             Dholavira               Harappa            Kalibangan                Lothal          Mohenjo-daro
+has_tree                         -0.098 p= 0.053       -0.023 p= 1.116       -0.002 p= 1.294       -0.061 p= 0.261       -0.011 p= 1.217      <<< same sign at L,K,H held-out same
+has_bracket                      -0.016 p= 0.945       -0.032 p= 1.194       -0.036 p= 0.983       +0.011 p= 0.974       -0.025 p= 1.327    
+has_fish                         -0.034 p= 0.733       +0.004 p= 1.191       -0.250 p= 0.013+      +0.051 p= 0.560       -0.207 p= 0.108    
+N_tree                           -0.033 p= 0.421       -0.046 p= 0.903       -0.010 p= 1.345       -0.043 p= 0.146       +0.011 p= 1.151      <<< same sign at L,K,H held-out mixed
+N_bracket                        -0.008 p= 1.358       -0.025 p= 1.320       +0.000 p= 2.000       +0.000 p= 2.000       -0.011 p= 1.656    
+N_fish                           -0.008 p= 1.337       -0.060 p= 0.744       -0.054 p= 0.702       -0.020 p= 0.758       -0.062 p= 0.683      <<< same sign at L,K,H held-out same
+any_numeral                      -0.180 p= 0.017+      -0.081 p= 0.707       -0.114 p= 0.498       -0.039 p= 0.646       +0.176 p= 0.206      <<< same sign at L,K,H held-out mixed
+jar_final                        -0.108 p= 0.156       -0.204 p= 0.108       -0.033 p= 0.985       +0.026 p= 0.803       +0.002 p= 1.176    
+arrow_final                      -0.055 p= 0.341       +0.001 p= 1.281       -0.028 p= 1.123       +0.002 p= 1.205       -0.078 p= 0.515    
+tree_final                       -0.041 p= 0.309       -0.019 p= 1.214       -0.028 p= 1.091       +0.002 p= 1.204       -0.013 p= 1.277    
+opener_first                     -0.060 p= 0.400       -0.066 p= 0.732       +0.110 p= 0.316       +0.069 p= 0.342       +0.112 p= 0.440    
+len                              -1.586 p= 0.001+      -0.949 p= 0.088       +0.230 p= 0.659       -0.127 p= 0.708       -0.538 p= 0.328    
+  sites n (seal,tag): Dholavira=(122,58), Harappa=(435,17), Kalibangan=(56,23), Lothal=(92,87), Mohenjo-daro=(1341,17)
+  * = Bonferroni over 60 tests;  + = raw p<0.05
+
+== cycle 2  level=seq_all dedup=True  sites=['Dholavira', 'Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro']  nperm=2000
+feature (TAG mean - SEAL mean)             Dholavira               Harappa            Kalibangan                Lothal          Mohenjo-daro
+has_tree                         -0.091 p= 0.060       -0.027 p= 1.056       +0.044 p= 0.927       -0.036 p= 0.701       +0.006 p= 1.143    
+has_bracket                      -0.015 p= 1.015       -0.034 p= 1.108       -0.036 p= 1.246       +0.016 p= 0.822       -0.024 p= 1.394    
+has_fish                         -0.028 p= 0.797       -0.007 p= 1.200       -0.250 p= 0.049+      +0.031 p= 0.847       -0.208 p= 0.127    
+N_tree                           -0.025 p= 0.686       -0.044 p= 0.957       +0.013 p= 1.272       -0.045 p= 0.253       +0.026 p= 0.927    
+N_bracket                        -0.008 p= 1.406       -0.027 p= 1.256       +0.000 p= 2.000       +0.000 p= 2.000       -0.010 p= 1.726    
+N_fish                           -0.008 p= 1.409       -0.064 p= 0.690       -0.054 p= 0.980       -0.012 p= 1.034       -0.066 p= 0.726      <<< same sign at L,K,H held-out same
+any_numeral                      -0.159 p= 0.046+      -0.087 p= 0.650       +0.025 p= 1.090       -0.113 p= 0.202       +0.106 p= 0.539    
+jar_final                        -0.114 p= 0.116       -0.208 p= 0.102       +0.017 p= 1.129       -0.023 p= 0.870       -0.011 p= 1.174    
+arrow_final                      -0.054 p= 0.399       +0.000 p= 1.304       -0.005 p= 1.400       +0.021 p= 0.860       -0.077 p= 0.589    
+tree_final                       -0.034 p= 0.442       -0.019 p= 1.230       -0.005 p= 1.390       +0.021 p= 0.824       +0.001 p= 1.255    
+opener_first                     -0.049 p= 0.542       -0.071 p= 0.687       +0.226 p= 0.103       -0.022 p= 0.908       +0.088 p= 0.626    
+len                              -1.548 p= 0.001+      -1.076 p= 0.049+      -0.457 p= 0.522       -0.827 p= 0.008+      -0.679 p= 0.236      <<< same sign at L,K,H held-out same
+  sites n (seal,tag): Dholavira=(119,54), Harappa=(409,17), Kalibangan=(56,15), Lothal=(89,61), Mohenjo-daro=(1227,15)
+  * = Bonferroni over 60 tests;  + = raw p<0.05

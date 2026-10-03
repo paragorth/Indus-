@@ -1,0 +1,67 @@
+
+== cycle 3  level=seq_raw  seals(>= 3)=1659 sealings=116  nperm=1000
+
+-- near=False: sealings matched 18 (exact 18)
+  flow cells (seal-site -> sealing-site : weight):
+    Mohenjo-daro   -> Lothal         13.00
+    Mohenjo-daro   -> Harappa         1.00
+    Mohenjo-daro   -> Hulas           1.00
+    Mohenjo-daro   -> Kalibangan      1.00
+    Harappa        -> Lothal          1.00
+    Mohenjo-daro   -> Rupar           1.00
+  observed: total=18.000, recip=0.000, gini_out=0.977, hub_share=0.944, out_in_corr=-0.025, self=0.000
+  null A (seal site labels permuted within length): total=17.169 [p_lo=1.000 p_hi=0.479], recip=0.004 [p_lo=0.956 p_hi=1.000], gini_out=0.964 [p_lo=0.977 p_hi=0.030], hub_share=0.763 [p_lo=0.977 p_hi=0.037], out_in_corr=-0.002 [p_lo=0.454 p_hi=0.550], self=0.831 [p_lo=0.479 p_hi=1.000]
+  cells vs null A (obs, null mean, p_hi):
+    Mohenjo-daro   -> Lothal         obs=13.00 null= 8.81 p_hi=0.226 p_lo=0.896
+    Mohenjo-daro   -> Harappa        obs= 1.00 null= 0.60 p_hi=0.596 p_lo=1.000
+    Mohenjo-daro   -> Hulas          obs= 1.00 null= 0.58 p_hi=0.577 p_lo=1.000
+    Mohenjo-daro   -> Kalibangan     obs= 1.00 null= 0.59 p_hi=0.348 p_lo=1.000
+    Harappa        -> Lothal         obs= 1.00 null= 2.49 p_hi=0.562 p_lo=0.634
+    Mohenjo-daro   -> Rupar          obs= 1.00 null= 0.57 p_hi=0.568 p_lo=1.000
+  null B (degree-preserving rewiring): recip=0.000 [p_lo=1.000 p_hi=1.000], gini_out=0.977 [p_lo=1.000 p_hi=1.000], hub_share=0.944 [p_lo=1.000 p_hi=1.000], out_in_corr=-0.025 [p_lo=1.000 p_hi=1.000]
+  held-out (no Mohenjo-daro seals): matched 1 (exact 1); cells: Harappa->Lothal 1.00
+
+-- near=True: sealings matched 47 (exact 18)
+  flow cells (seal-site -> sealing-site : weight):
+    Mohenjo-daro   -> Lothal         16.43
+    Harappa        -> Lothal          4.43
+    Mohenjo-daro   -> Kalibangan      2.64
+    Mohenjo-daro   -> Mohenjo-daro    2.00   (self)
+    Mohenjo-daro   -> Dholavira       1.67
+    Harappa        -> Mohenjo-daro    1.50
+    Mohenjo-daro   -> Rupar           1.50
+    Harappa        -> Dholavira       1.50
+    Lothal         -> Dholavira       1.25
+    Harappa        -> Kalibangan      1.14
+    Mohenjo-daro   -> Harappa         1.00
+    Lothal         -> Harappa         1.00
+    Mohenjo-daro   -> Hulas           1.00
+    Mohenjo-daro   -> Rakhigarhi      1.00
+    Kalibangan     -> Dholavira       0.67
+    Dholavira      -> Kalibangan      0.64
+    Dholavira      -> Mohenjo-daro    0.50
+    Harappa        -> Rupar           0.50
+    Lothal         -> Lothal          0.43   (self)
+    Kalibangan     -> Lothal          0.43
+    Chanhu-daro    -> Lothal          0.43
+    Unknown        -> Lothal          0.43
+    Bhirrana       -> Lothal          0.43
+    Kalibangan     -> Banawali        0.33
+    Mohenjo-daro   -> Banawali        0.33
+    Harappa        -> Banawali        0.33
+    Mohenjo-daro   -> Farmana         0.33
+    Harappa        -> Farmana         0.33
+    Nausharo       -> Farmana         0.33
+    Dholavira      -> Dholavira       0.33   (self)
+    Bhirrana       -> Dholavira       0.25
+    Bhirrana       -> Kanmer          0.25
+    Kalibangan     -> Kanmer          0.25
+    Mohenjo-daro   -> Kanmer          0.25
+    Harappa        -> Kanmer          0.25
+    Chanhu-daro    -> Dholavira       0.17
+    Unknown        -> Dholavira       0.17
+    Lothal         -> Kalibangan      0.14
+    Kalibangan     -> Kalibangan      0.14   (self)
+    Chanhu-daro    -> Kalibangan      0.14
+    Unknown        -> Kalibangan      0.14
+  observed: total=44.095, recip=0.149, gini_out=0.940, hub_share=0.593, out_in_corr=0.157, self=2.905
