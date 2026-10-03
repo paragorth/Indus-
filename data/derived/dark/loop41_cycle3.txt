@@ -13,3 +13,33 @@
   fish_rev_share  obs    0.154 | shuffle 0.513 [0.410,0.581] | strata 0.500 [0.392,0.625] | strata_pos 0.359 [0.241,0.481] | markov1 0.198 [0.108,0.260] | markov2 0.206 [0.120,0.280]
   qual_ov         obs    0.094 | shuffle 0.157 [0.116,0.190] | strata 0.237 [0.176,0.311] | strata_pos 0.267 [0.238,0.309] | markov1 0.084 [0.055,0.133] | markov2 0.126 [0.098,0.165]
   name_u          obs    0.844 | shuffle 0.944 [0.929,0.954] | strata 0.983 [0.975,0.987] | strata_pos 0.978 [0.971,0.983] | markov1 0.902 [0.886,0.928] | markov2 0.837 [0.824,0.865]
+
+## seq_all die regime n=4015: observed | null median [min,max] for shuffle / strata(site x type x length) / strata position-kept / Markov-1 / Markov-2 (site x type, lengths kept)
+  closers         obs       10 | shuffle 4 [3,7] | strata 0 [0,2] | strata_pos 7 [5,10] | markov1 2 [1,4] | markov2 3 [0,6]
+  nest            obs    0.163 | shuffle 0.046 [0.039,0.053] | strata 0.021 [0.017,0.027] | strata_pos 0.027 [0.020,0.038] | markov1 0.159 [0.141,0.175] | markov2 0.242 [0.226,0.262]
+  anagram_diff    obs    0.049 | shuffle 0.882 [0.844,0.924] | strata 0.706 [0.444,0.929] | strata_pos 0.316 [0.125,0.529] | markov1 0.087 [0.043,0.152] | markov2 0.035 [0.010,0.069]
+  fixed_share     obs    0.478 | shuffle 0.000 [0.000,0.000] | strata 0.000 [0.000,0.000] | strata_pos 0.325 [0.314,0.342] | markov1 0.243 [0.227,0.315] | markov2 0.196 [0.177,0.245]
+  mid_chg         obs    0.116 | shuffle 0.250 [0.091,0.714] | strata 0.545 [0.200,0.909] | strata_pos 0.571 [0.400,0.735] | markov1 0.288 [0.134,0.420] | markov2 0.096 [0.031,0.176]
+  w2_twice        obs        3 | shuffle 3 [3,3] | strata 84 [75,97] | strata_pos 64 [52,73] | markov1 34 [27,45] | markov2 26 [17,34]
+  w2_741          obs       11 | shuffle 11 [11,11] | strata 55 [45,63] | strata_pos 47 [38,61] | markov1 27 [17,33] | markov2 21 [14,31]
+  opener_first    obs    0.144 | shuffle 0.043 [0.037,0.047] | strata 0.043 [0.037,0.051] | strata_pos 0.144 [0.144,0.144] | markov1 0.132 [0.119,0.148] | markov2 0.133 [0.121,0.141]
+  closer_last     obs    0.541 | shuffle 0.187 [0.179,0.197] | strata 0.183 [0.172,0.193] | strata_pos 0.490 [0.487,0.494] | markov1 0.267 [0.258,0.287] | markov2 0.223 [0.213,0.241]
+  fish_rev_share  obs    0.153 | shuffle 0.517 [0.424,0.585] | strata 0.500 [0.354,0.667] | strata_pos 0.367 [0.288,0.443] | markov1 0.179 [0.126,0.287] | markov2 0.198 [0.150,0.348]
+  qual_ov         obs    0.092 | shuffle 0.155 [0.117,0.199] | strata 0.263 [0.202,0.306] | strata_pos 0.323 [0.290,0.344] | markov1 0.078 [0.058,0.100] | markov2 0.126 [0.072,0.151]
+  name_u          obs    0.827 | shuffle 0.939 [0.931,0.954] | strata 0.980 [0.971,0.986] | strata_pos 0.974 [0.967,0.984] | markov1 0.898 [0.877,0.922] | markov2 0.829 [0.803,0.844]
+
+## S349 held-out P1/P2: generators fitted on Mohenjo-daro + Harappa only (no held-out leakage), held-out lengths kept
+  seq_raw held-out n=239 Markov-1 fitted on MD+H: P1 0.136 vs 0.185 [0.130,0.250] = 0.7x | P2 0.402 vs 0.603 [0.548,0.682] = 0.7x
+  seq_raw held-out n=239 Markov-2 fitted on MD+H: P1 0.136 vs 0.516 [0.473,0.565] = 0.3x | P2 0.402 vs 1.000 [1.000,1.000] = 0.4x
+  seq_raw in-sample small site Lothal n=103: P2 reuse of MD+H runs 0.485
+  seq_raw in-sample small site Kalibangan n=68: P2 reuse of MD+H runs 0.426
+  seq_raw in-sample small site Chanhu-daro n=57: P2 reuse of MD+H runs 0.526
+  seq_all held-out n=239 Markov-1 fitted on MD+H: P1 0.147 vs 0.196 [0.125,0.239] = 0.8x | P2 0.427 vs 0.619 [0.556,0.665] = 0.7x
+  seq_all held-out n=239 Markov-2 fitted on MD+H: P1 0.147 vs 0.533 [0.451,0.609] = 0.3x | P2 0.427 vs 1.000 [1.000,1.000] = 0.4x
+  seq_all in-sample small site Lothal n=103: P2 reuse of MD+H runs 0.505
+  seq_all in-sample small site Kalibangan n=68: P2 reuse of MD+H runs 0.426
+  seq_all in-sample small site Chanhu-daro n=57: P2 reuse of MD+H runs 0.526
+
+## (f) Name-calibration ratio (unique share observed / unique share under a generator trained on the same strings), Indus side, every defensible choice
+
+## (f) Name-calibration ratio (unique share observed / unique share under a generator trained on the same strings), Indus side, every defensible choice

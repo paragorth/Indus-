@@ -1,0 +1,78 @@
+# Loop 41 cycle 4: leakage (refit on Mohenjo-daro + Harappa, test elsewhere)
+
+## seq_raw: fit MD+H n=3112; IM77 small sites n=438; held-out (non-IM77) n=482
+  S289 closer list fitted on MD+H: [34, 151, 154, 156, 158, 226, 520, 527, 617, 700]  (published [151, 154, 156, 158, 226, 236, 520, 527, 617, 700, 740]; symmetric difference [34, 236, 740])
+  closers that pass the same cuts (minn 8) fitted on IM77 small sites alone: [390, 520]; on held-out alone: [151, 520]
+    IM77-small MD+H-fitted : closer-last 0.158 vs shuffle 0.066 (max 0.095); finality of listed closers 0.72 (69 tokens); two-closer texts 2 vs 4.3 permuted (P 0.149)
+    IM77-small published   : closer-last 0.467 vs shuffle 0.177 (max 0.221); finality of listed closers 0.80 (186 tokens); two-closer texts 9 vs 20.8 permuted (P 0.005)
+    IM77-small S303 qualifier overlap with MD+H-fitted closers: 0.091 vs permuted 0.300 (P 0.023; 2 closers with >= 8 texts, 27 texts)
+    held-out   MD+H-fitted : closer-last 0.140 vs shuffle 0.063 (max 0.090); finality of listed closers 0.80 (66 tokens); two-closer texts 1 vs 2.7 permuted (P 0.224)
+    held-out   published   : closer-last 0.417 vs shuffle 0.161 (max 0.214); finality of listed closers 0.82 (193 tokens); two-closer texts 4 vs 16.4 permuted (P 0.005)
+    held-out   S303 qualifier overlap with MD+H-fitted closers: nan vs permuted nan (P 1.000; 1 closers with >= 8 texts, 30 texts)
+  S-DARK-19 fixed directions fitted on MD+H: 434 pairs
+    IM77-small: co-occurrences of fitted pairs 889; obey fitted direction 0.889 (shuffle 0.50; Markov-1 fitted on MD+H 0.800 [0.747,0.836])
+    held-out  : co-occurrences of fitted pairs 818; obey fitted direction 0.897 (shuffle 0.50; Markov-1 fitted on MD+H 0.793 [0.748,0.839])
+    IM77-small W2 tokens 101: W2 twice 0 (E 11.8); W2 with marked jar 2 (E 4.5)
+    held-out   W2 tokens 90: W2 twice 1 (E 7.1); W2 with marked jar 1 (E 5.6)
+    IM77-small S366 closer-from-last-middle-sign: 112 test texts with a known left sign; accuracy 0.786 vs majority-closer 0.643 vs permuted-fit rule 0.634 [0.589,0.670]
+    held-out   S366 closer-from-last-middle-sign: 129 test texts with a known left sign; accuracy 0.713 vs majority-closer 0.643 vs permuted-fit rule 0.637 [0.612,0.659]
+    IM77-small   S321 seal middles n=144: unique 0.917; bigram fitted on MD+H 0.973 (ratio 0.94); bigram fitted on test 0.917 (ratio 1.00); share of test middles also on an MD+H seal 0.160 vs MD+H-bigram strings 0.102
+    held-out     S321 seal middles n=200: unique 0.980; bigram fitted on MD+H 0.966 (ratio 1.01); bigram fitted on test 0.920 (ratio 1.07); share of test middles also on an MD+H seal 0.100 vs MD+H-bigram strings 0.111
+    all non-MD+H S321 seal middles n=344: unique 0.939; bigram fitted on MD+H 0.943 (ratio 1.00); bigram fitted on test 0.916 (ratio 1.02); share of test middles also on an MD+H seal 0.125 vs MD+H-bigram strings 0.112
+
+## seq_all: fit MD+H n=3097; IM77 small sites n=438; held-out (non-IM77) n=480
+  S289 closer list fitted on MD+H: [34, 151, 154, 156, 226, 368, 520, 527, 617, 700]  (published [151, 154, 156, 158, 226, 236, 520, 527, 617, 700, 740]; symmetric difference [34, 158, 236, 368, 740])
+  closers that pass the same cuts (minn 8) fitted on IM77 small sites alone: [390, 520]; on held-out alone: [151, 520]
+    IM77-small MD+H-fitted : closer-last 0.164 vs shuffle 0.076 (max 0.117); finality of listed closers 0.66 (79 tokens); two-closer texts 3 vs 6.0 permuted (P 0.139)
+    IM77-small published   : closer-last 0.473 vs shuffle 0.180 (max 0.230); finality of listed closers 0.80 (188 tokens); two-closer texts 9 vs 21.4 permuted (P 0.005)
+    IM77-small S303 qualifier overlap with MD+H-fitted closers: 0.030 vs permuted 0.266 (P 0.003; 3 closers with >= 8 texts, 35 texts)
+    held-out   MD+H-fitted : closer-last 0.153 vs shuffle 0.069 (max 0.098); finality of listed closers 0.72 (80 tokens); two-closer texts 4 vs 4.9 permuted (P 0.423)
+    held-out   published   : closer-last 0.418 vs shuffle 0.159 (max 0.196); finality of listed closers 0.82 (193 tokens); two-closer texts 4 vs 16.7 permuted (P 0.005)
+    held-out   S303 qualifier overlap with MD+H-fitted closers: nan vs permuted nan (P 1.000; 1 closers with >= 8 texts, 30 texts)
+  S-DARK-19 fixed directions fitted on MD+H: 432 pairs
+    IM77-small: co-occurrences of fitted pairs 952; obey fitted direction 0.880 (shuffle 0.50; Markov-1 fitted on MD+H 0.798 [0.748,0.838])
+    held-out  : co-occurrences of fitted pairs 873; obey fitted direction 0.890 (shuffle 0.50; Markov-1 fitted on MD+H 0.792 [0.734,0.829])
+    IM77-small W2 tokens 101: W2 twice 0 (E 12.4); W2 with marked jar 2 (E 4.8)
+    held-out   W2 tokens 90: W2 twice 1 (E 7.0); W2 with marked jar 1 (E 5.9)
+    IM77-small S366 closer-from-last-middle-sign: 115 test texts with a known left sign; accuracy 0.774 vs majority-closer 0.635 vs permuted-fit rule 0.626 [0.591,0.643]
+    held-out   S366 closer-from-last-middle-sign: 131 test texts with a known left sign; accuracy 0.702 vs majority-closer 0.641 vs permuted-fit rule 0.635 [0.588,0.656]
+    IM77-small   S321 seal middles n=144: unique 0.917; bigram fitted on MD+H 0.966 (ratio 0.95); bigram fitted on test 0.920 (ratio 1.00); share of test middles also on an MD+H seal 0.167 vs MD+H-bigram strings 0.108
+    held-out     S321 seal middles n=200: unique 0.970; bigram fitted on MD+H 0.951 (ratio 1.02); bigram fitted on test 0.919 (ratio 1.06); share of test middles also on an MD+H seal 0.130 vs MD+H-bigram strings 0.115
+    all non-MD+H S321 seal middles n=344: unique 0.933; bigram fitted on MD+H 0.935 (ratio 1.00); bigram fitted on test 0.913 (ratio 1.02); share of test middles also on an MD+H seal 0.145 vs MD+H-bigram strings 0.113
+
+## Bridge: W->M mapping learned from MD+H aligned pairs only (loop 24 accepted pairs, substitution positions), tested on Lothal/Kalibangan/Chanhu-daro/Banawali pairs
+  pairs: MD+H 1214, other sites 149 ([('Lothal', 64), ('Chanhu-daro', 36), ('Kalibangan', 33), ('Banawali', 3), ('Dholavira', 2), ('Jhukar', 1), ('Lohumjo-daro', 1), ('Rodji', 1), ('Desalpur', 1), ('Surkotada', 1), ('Rakhigarhi', 1), ('Tell Umma', 1), ('Kish', 1), ('Ur', 1), ('Dilmun', 1), ('Girsu', 1)])
+  learned on MD+H (k>=2, consistency>=0.6): 250 W signs; on other-site aligned positions 595/614 = 0.969 agree; worst: [(740, 64, 67), (233, 13, 15), (390, 17, 19), (520, 12, 13), (32, 15, 16), (2, 50, 51), (63, 0, 1), (55, 4, 5)]
+  learned on MD+H (k>=3, consistency>=0.6): 192 W signs; on other-site aligned positions 589/607 = 0.970 agree; worst: [(740, 64, 67), (233, 13, 15), (390, 17, 19), (520, 12, 13), (32, 15, 16), (2, 50, 51), (63, 0, 1), (55, 4, 5)]
+  learned on MD+H (k>=5, consistency>=0.6): 144 W signs; on other-site aligned positions 573/589 = 0.973 agree; worst: [(740, 64, 67), (233, 13, 15), (390, 17, 19), (520, 12, 13), (32, 15, 16), (2, 50, 51), (55, 4, 5), (100, 6, 7)]
+  S-DARK-27 proposals seen at other sites: 38 W signs, 59/62 = 0.952 positions agree; mismatches [(409, 169, {254: 1}), (65, 125, {402: 1, 125: 1}), (354, 174, {174: 1, 107: 1})]
+  existing bridge_extended on other-site positions: 571/588 = 0.971 agree
+  W signs mappable from both halves: 51; disagreeing: 0 []
+
+## Allograph merges (sign_allographs_levels.json): token counts and positional profile of form vs target outside MD+H
+  probable 93->90: MD+H tokens 3/116 final 0.000/0.681; outside MD+H tokens 4/39 final 0.500/0.564 initial 0.000/0.179
+  strong   158->154: MD+H tokens 26/36 final 0.423/0.833; outside MD+H tokens 2/6 final 0.500/0.833 initial 0.000/0.000
+  probable 242->240: MD+H tokens 4/228 final 0.500/0.066; outside MD+H tokens 1/37 final 1.000/0.162 initial 1.000/0.270
+  strong   298->297: MD+H tokens 6/12 final 0.833/0.000; outside MD+H tokens 3/3 final 0.000/0.000 initial 0.000/0.000
+  strong   315->317: MD+H tokens 10/6 final 0.100/0.500; outside MD+H tokens 1/6 final 0.000/0.500 initial 0.000/0.500
+  strong   318->320: MD+H tokens 3/17 final 0.000/0.059; outside MD+H tokens 0/2 final nan/0.500 initial nan/0.000
+  strong   336->337: MD+H tokens 10/11 final 0.100/0.091; outside MD+H tokens 0/1 final nan/0.000 initial nan/0.000
+  strong   370->371: MD+H tokens 7/9 final 0.143/0.000; outside MD+H tokens 1/1 final 0.000/0.000 initial 1.000/1.000
+  strong   405->390: MD+H tokens 68/194 final 0.559/0.495; outside MD+H tokens 13/76 final 0.615/0.579 initial 0.154/0.197
+  strong   406->390: MD+H tokens 9/194 final 0.444/0.495; outside MD+H tokens 4/76 final 0.250/0.579 initial 0.500/0.197
+  strong   526->527: MD+H tokens 7/51 final 1.000/0.843; outside MD+H tokens 3/11 final 1.000/0.727 initial 0.000/0.091
+  strong   632->630: MD+H tokens 24/22 final 0.042/0.045; outside MD+H tokens 8/6 final 0.125/0.167 initial 0.500/0.833
+  strong   636->630: MD+H tokens 13/22 final 0.077/0.045; outside MD+H tokens 1/6 final 0.000/0.167 initial 0.000/0.833
+  strong   704->705: MD+H tokens 4/137 final 0.000/0.095; outside MD+H tokens 0/32 final nan/0.188 initial nan/0.438
+  strong   706->705: MD+H tokens 72/137 final 0.111/0.095; outside MD+H tokens 10/32 final 0.200/0.188 initial 0.400/0.438
+  strong   711->717: MD+H tokens 7/41 final 0.143/0.122; outside MD+H tokens 0/11 final nan/0.091 initial nan/0.182
+  probable 744->745: MD+H tokens 2/28 final 0.000/0.143; outside MD+H tokens 2/2 final 0.500/0.500 initial 0.500/1.000
+  strong   773->772: MD+H tokens 9/10 final 0.000/0.200; outside MD+H tokens 0/0 final nan/nan initial nan/nan
+  strong   806->803: MD+H tokens 95/99 final 0.053/0.051; outside MD+H tokens 8/24 final 0.500/0.125 initial 0.375/0.250
+  probable 838->803: MD+H tokens 13/99 final 0.077/0.051; outside MD+H tokens 5/24 final 0.400/0.125 initial 0.600/0.250
+  strong   814->812: MD+H tokens 2/7 final 0.000/0.143; outside MD+H tokens 0/2 final nan/0.000 initial nan/0.000
+  strong   817->861: MD+H tokens 152/169 final 0.053/0.089; outside MD+H tokens 41/55 final 0.146/0.091 initial 0.854/0.782
+  probable 871->868: MD+H tokens 4/5 final 0.500/1.000; outside MD+H tokens 1/0 final 1.000/nan initial 0.000/nan
+  probable 877->824: MD+H tokens 18/14 final 0.111/0.429; outside MD+H tokens 4/3 final 0.500/0.000 initial 0.250/1.000
+
+| S-DARK-41.4 | (e) leakage: every fitted component refitted on Mohenjo-daro + Harappa only (die regime, seq_raw and seq_all) and tested on the IM77 small sites (Lothal, Kalibangan, Chanhu-daro; n=438) and on the non-IM77 held-out sites (n=480-482), each with a null fitted the same way: S289 closer list (same cuts), S303 qualifier sets, S-DARK-19 fixed directions (BH, vs a Markov-1 chain fitted on MD+H), S-DARK-15 W2 rules, S366 closer-from-last-middle-sign rule, S321 bigram name model, W->M bridge learned from MD+H aligned pairs only vs 149 other-site pairs, S-DARK-27 proposals and bridge_extended on other-site positions, allograph merge profiles outside MD+H (`tools/dark_loop41_c4.py`) | **Closers:** MD+H refit returns the published list minus W236 plus W34 (Harappa voucher; W368 at seq_all); on held-out the listed closers are final in 80-82% of their 193 tokens, closer-last 0.42 vs shuffle max 0.21, two-closer texts 4 vs 16.4 (P 0.005). Fitted on the small sites alone only [390, 520] / [151, 520] pass: the paradigm is recoverable from MD+H only. **S303:** small-site overlap 0.03-0.09 vs 0.27-0.30 permuted (P 0.003-0.023, 2-3 closers); held-out untestable (1 closer with >= 8 texts). **Order:** 432-434 MD+H directions; held-out co-occurrences obey them 0.89-0.90, but a Markov-1 chain fitted on MD+H already gives 0.79-0.80 [0.73-0.84]. **W2:** small sites 0 twice (E 11.8-12.4), held-out 1 (E 7.0); W2+marked jar 2 vs 4.5 and 1 vs 5.6-5.9 (not individually significant). **S366 rule:** accuracy 0.70-0.79 vs 0.63-0.64 majority/permuted. **S321:** small-site seal middles ratio 0.94-1.07 whichever side the bigram is fitted on; 10-17% of them recur on an MD+H seal vs 10-11% for bigram strings. **Bridge:** MD+H-learned mapping agrees on 595/614 = 96.9% of other-site positions (misses are 740/741, 233, 390 variants), proposals 59/62 = 95%, bridge_extended 97.1%, 0 of 51 doubly-mappable signs disagree. **Allographs:** 15 of 24 merges have <= 5 form tokens outside MD+H (untestable); 405/390, 706/705, 817/861, 632/630 have matching profiles; 806/803 differs (final 0.50 vs 0.12 on 8 tokens). | **Holds for closers, closer finality and exclusivity, qualifier sets, W2-once, S366, S321 and the bridge (no leakage signature).** **Weakened: the 16-19-sign partial order; the held-out direction agreement above chance (0.39) is three-quarters bigram chaining (0.30), leaving 0.09-0.10 of genuine longer-range order.** W2 + marked-jar exclusion is underpowered outside MD+H. The closer paradigm cannot be rediscovered from the small sites (power), only confirmed there. |

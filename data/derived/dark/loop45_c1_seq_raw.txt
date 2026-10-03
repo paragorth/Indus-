@@ -1,0 +1,146 @@
+# S-DARK-45 cycle 1, level seq_raw, nperm 5: who owns the middle inventory? element x head / site / type
+Wells complete texts >= 2 signs: 3155; collapsed to one per distinct text per site x type: 2167
+
+== Wells all sites: 2167 collapsed texts; heads {'C740': 896, 'none': 822, 'C520': 162, 'C151': 58, 'C156': 41, 'C527': 41, 'C700': 35, 'C617': 34, 'C154': 31, 'C158': 19, 'C226': 18, 'C236': 10}
+   sites {'Mohenjo-daro': 1087, 'Harappa': 709, 'other': 129, 'Dholavira': 72, 'Lothal': 65, 'Kalibangan': 58, 'Chanhu-daro': 47}; types {'seal': 1456, 'tablet': 544, 'pot': 75, 'other': 53, 'sealing': 39}
+
+-- NON-ADJACENT middle elements
+  mid x HEAD: 5986 tokens, 579 elements (191 with >= 5 tokens), 12 labels; MI 0.4505 bits (= 26.0% of H(label) 1.730); loyal 0.293 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.885
+     null [len x type] (5x): MI 0.3167 +- 0.0087 (P = 0.167; excess +0.1338 bits = +7.7% of H(label)); loyal 0.055 (P = 0.167); non-dominant loyal 4.00 (P = 0.833); >= 2 labels 0.990 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3124 +- 0.0076 (P = 0.167; excess +0.1382 bits = +8.0% of H(label)); loyal 0.062 (P = 0.167); non-dominant loyal 4.60 (P = 0.833); >= 2 labels 0.990 (P_lo = 0.167)
+     null [S366 chain: len x type x adjacent sign] (5x): MI 0.4410 +- 0.0029 (P = 0.167; excess +0.0096 bits = +0.6% of H(label)); loyal 0.292 (P = 0.500); non-dominant loyal 2.80 (P = 0.500); >= 2 labels 0.885 (P_lo = 1.000)
+  mid x SITE: 5986 tokens, 579 elements (191 with >= 5 tokens), 7 labels; MI 0.3236 bits (= 18.0% of H(label) 1.795); loyal 0.136 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.979
+     null [len x type] (5x): MI 0.2809 +- 0.0072 (P = 0.167; excess +0.0428 bits = +2.4% of H(label)); loyal 0.101 (P = 0.167); non-dominant loyal 2.60 (P = 0.667); >= 2 labels 0.980 (P_lo = 0.667)
+     null [len x type x head] (5x): MI 0.2891 +- 0.0039 (P = 0.167; excess +0.0345 bits = +1.9% of H(label)); loyal 0.104 (P = 0.167); non-dominant loyal 3.20 (P = 0.667); >= 2 labels 0.979 (P_lo = 0.667)
+  mid x TYPE: 5986 tokens, 579 elements (191 with >= 5 tokens), 5 labels; MI 0.2377 bits (= 21.5% of H(label) 1.106); loyal 0.482 (loyal to a NON-dominant label: 5); seen under >= 2 labels 0.864
+     null [len x site] (5x): MI 0.1744 +- 0.0051 (P = 0.167; excess +0.0633 bits = +5.7% of H(label)); loyal 0.408 (P = 0.167); non-dominant loyal 0.20 (P = 0.167); >= 2 labels 0.915 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.1887 +- 0.0042 (P = 0.167; excess +0.0490 bits = +4.4% of H(label)); loyal 0.400 (P = 0.167); non-dominant loyal 0.60 (P = 0.167); >= 2 labels 0.919 (P_lo = 0.167)
+
+-- ADJACENT qualifier (sign before the closer)
+  adjq x HEAD: 1337 tokens, 213 elements (65 with >= 5 tokens), 12 labels; MI 1.2464 bits (= 66.9% of H(label) 1.864); loyal 0.677 (loyal to a NON-dominant label: 5); seen under >= 2 labels 0.646
+     null [len x type] (5x): MI 0.6294 +- 0.0095 (P = 0.167; excess +0.6170 bits = +33.1% of H(label)); loyal 0.025 (P = 0.167); non-dominant loyal 0.60 (P = 0.167); >= 2 labels 0.997 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.5999 +- 0.0219 (P = 0.167; excess +0.6464 bits = +34.7% of H(label)); loyal 0.043 (P = 0.167); non-dominant loyal 0.20 (P = 0.167); >= 2 labels 0.997 (P_lo = 0.167)
+  adjq x SITE: 1337 tokens, 213 elements (65 with >= 5 tokens), 7 labels; MI 0.4671 bits (= 26.6% of H(label) 1.759); loyal 0.154 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.969
+     null [len x type] (5x): MI 0.4528 +- 0.0120 (P = 0.167; excess +0.0143 bits = +0.8% of H(label)); loyal 0.068 (P = 0.167); non-dominant loyal 1.00 (P = 0.833); >= 2 labels 0.994 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.4440 +- 0.0104 (P = 0.167; excess +0.0232 bits = +1.3% of H(label)); loyal 0.086 (P = 0.167); non-dominant loyal 2.00 (P = 1.000); >= 2 labels 0.972 (P_lo = 0.667)
+  adjq x TYPE: 1337 tokens, 213 elements (65 with >= 5 tokens), 5 labels; MI 0.3045 bits (= 25.9% of H(label) 1.178); loyal 0.308 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.923
+     null [len x site] (5x): MI 0.2990 +- 0.0067 (P = 0.333; excess +0.0055 bits = +0.5% of H(label)); loyal 0.225 (P = 0.167); non-dominant loyal 0.40 (P = 0.500); >= 2 labels 0.985 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.2897 +- 0.0092 (P = 0.167; excess +0.0148 bits = +1.3% of H(label)); loyal 0.280 (P = 0.500); non-dominant loyal 1.00 (P = 1.000); >= 2 labels 0.969 (P_lo = 0.167)
+
+-- all middle tokens
+  allmid x HEAD: 7323 tokens, 618 elements (215 with >= 5 tokens), 12 labels; MI 0.5207 bits (= 27.0% of H(label) 1.931); loyal 0.228 (loyal to a NON-dominant label: 16); seen under >= 2 labels 0.916
+     null [len x type] (5x): MI 0.2987 +- 0.0103 (P = 0.167; excess +0.2221 bits = +11.5% of H(label)); loyal 0.040 (P = 0.167); non-dominant loyal 4.20 (P = 0.167); >= 2 labels 0.993 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3054 +- 0.0039 (P = 0.167; excess +0.2153 bits = +11.1% of H(label)); loyal 0.051 (P = 0.167); non-dominant loyal 4.60 (P = 0.167); >= 2 labels 0.996 (P_lo = 0.167)
+  allmid x SITE: 7323 tokens, 618 elements (215 with >= 5 tokens), 7 labels; MI 0.2876 bits (= 16.1% of H(label) 1.791); loyal 0.140 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.991
+     null [len x type] (5x): MI 0.2480 +- 0.0063 (P = 0.167; excess +0.0396 bits = +2.2% of H(label)); loyal 0.087 (P = 0.167); non-dominant loyal 2.40 (P = 0.500); >= 2 labels 0.982 (P_lo = 1.000)
+     null [len x type x head] (5x): MI 0.2557 +- 0.0039 (P = 0.167; excess +0.0319 bits = +1.8% of H(label)); loyal 0.098 (P = 0.167); non-dominant loyal 2.60 (P = 0.500); >= 2 labels 0.986 (P_lo = 0.833)
+  allmid x TYPE: 7323 tokens, 618 elements (215 with >= 5 tokens), 5 labels; MI 0.2141 bits (= 19.1% of H(label) 1.123); loyal 0.437 (loyal to a NON-dominant label: 5); seen under >= 2 labels 0.870
+     null [len x site] (5x): MI 0.1596 +- 0.0015 (P = 0.167; excess +0.0545 bits = +4.9% of H(label)); loyal 0.336 (P = 0.167); non-dominant loyal 1.20 (P = 0.167); >= 2 labels 0.932 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.1695 +- 0.0053 (P = 0.167; excess +0.0446 bits = +4.0% of H(label)); loyal 0.334 (P = 0.167); non-dominant loyal 0.40 (P = 0.167); >= 2 labels 0.933 (P_lo = 0.167)
+
+== Wells, texts WITH a closer only: 1345 collapsed texts; heads {'C740': 896, 'C520': 162, 'C151': 58, 'C156': 41, 'C527': 41, 'C700': 35, 'C617': 34, 'C154': 31, 'C158': 19, 'C226': 18, 'C236': 10}
+   sites {'Mohenjo-daro': 692, 'Harappa': 450, 'other': 68, 'Lothal': 41, 'Dholavira': 39, 'Kalibangan': 31, 'Chanhu-daro': 24}; types {'seal': 923, 'tablet': 351, 'pot': 28, 'sealing': 25, 'other': 18}
+
+-- NON-ADJACENT middle elements
+  mid x HEAD: 2813 tokens, 356 elements (96 with >= 5 tokens), 11 labels; MI 0.4977 bits (= 31.9% of H(label) 1.559); loyal 0.365 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.896
+     null [len x type] (5x): MI 0.3615 +- 0.0130 (P = 0.167; excess +0.1363 bits = +8.7% of H(label)); loyal 0.292 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.954 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3677 +- 0.0098 (P = 0.167; excess +0.1300 bits = +8.3% of H(label)); loyal 0.331 (P = 0.333); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.942 (P_lo = 0.167)
+     null [S366 chain: len x type x adjacent sign] (5x): MI 0.4703 +- 0.0093 (P = 0.167; excess +0.0274 bits = +1.8% of H(label)); loyal 0.360 (P = 0.667); non-dominant loyal 0.60 (P = 0.667); >= 2 labels 0.921 (P_lo = 0.500)
+  mid x SITE: 2813 tokens, 356 elements (96 with >= 5 tokens), 7 labels; MI 0.3378 bits (= 20.5% of H(label) 1.649); loyal 0.156 (loyal to a NON-dominant label: 2); seen under >= 2 labels 0.969
+     null [len x type] (5x): MI 0.3052 +- 0.0054 (P = 0.167; excess +0.0326 bits = +2.0% of H(label)); loyal 0.106 (P = 0.167); non-dominant loyal 0.40 (P = 0.333); >= 2 labels 0.988 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.3187 +- 0.0080 (P = 0.167; excess +0.0191 bits = +1.2% of H(label)); loyal 0.125 (P = 0.333); non-dominant loyal 0.60 (P = 0.333); >= 2 labels 0.981 (P_lo = 0.500)
+  mid x TYPE: 2813 tokens, 356 elements (96 with >= 5 tokens), 5 labels; MI 0.2086 bits (= 23.8% of H(label) 0.876); loyal 0.604 (loyal to a NON-dominant label: 0); seen under >= 2 labels 0.854
+     null [len x site] (5x): MI 0.1773 +- 0.0057 (P = 0.167; excess +0.0313 bits = +3.6% of H(label)); loyal 0.565 (P = 0.333); non-dominant loyal 0.00 (P = 1.000); >= 2 labels 0.848 (P_lo = 1.000)
+     null [len x site x head] (5x): MI 0.1889 +- 0.0057 (P = 0.167; excess +0.0197 bits = +2.2% of H(label)); loyal 0.550 (P = 0.167); non-dominant loyal 0.20 (P = 1.000); >= 2 labels 0.875 (P_lo = 0.500)
+
+-- ADJACENT qualifier (sign before the closer)
+  adjq x HEAD: 1337 tokens, 213 elements (65 with >= 5 tokens), 11 labels; MI 1.2464 bits (= 66.9% of H(label) 1.864); loyal 0.677 (loyal to a NON-dominant label: 5); seen under >= 2 labels 0.646
+     null [len x type] (5x): MI 0.5757 +- 0.0162 (P = 0.167; excess +0.6706 bits = +36.0% of H(label)); loyal 0.252 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.957 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.5695 +- 0.0161 (P = 0.167; excess +0.6768 bits = +36.3% of H(label)); loyal 0.188 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.951 (P_lo = 0.167)
+  adjq x SITE: 1337 tokens, 213 elements (65 with >= 5 tokens), 7 labels; MI 0.4671 bits (= 26.6% of H(label) 1.759); loyal 0.154 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.969
+     null [len x type] (5x): MI 0.4358 +- 0.0180 (P = 0.167; excess +0.0313 bits = +1.8% of H(label)); loyal 0.055 (P = 0.167); non-dominant loyal 1.20 (P = 0.833); >= 2 labels 0.997 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.4467 +- 0.0161 (P = 0.333; excess +0.0204 bits = +1.2% of H(label)); loyal 0.108 (P = 0.167); non-dominant loyal 2.00 (P = 1.000); >= 2 labels 0.969 (P_lo = 0.667)
+  adjq x TYPE: 1337 tokens, 213 elements (65 with >= 5 tokens), 5 labels; MI 0.3045 bits (= 25.9% of H(label) 1.178); loyal 0.308 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.923
+     null [len x site] (5x): MI 0.2922 +- 0.0119 (P = 0.333; excess +0.0123 bits = +1.0% of H(label)); loyal 0.268 (P = 0.333); non-dominant loyal 0.80 (P = 0.667); >= 2 labels 0.972 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.2908 +- 0.0122 (P = 0.333; excess +0.0137 bits = +1.2% of H(label)); loyal 0.292 (P = 0.500); non-dominant loyal 1.20 (P = 1.000); >= 2 labels 0.948 (P_lo = 0.333)
+
+-- all middle tokens
+  allmid x HEAD: 4150 tokens, 433 elements (130 with >= 5 tokens), 11 labels; MI 0.5651 bits (= 33.9% of H(label) 1.666); loyal 0.438 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.862
+     null [len x type] (5x): MI 0.3400 +- 0.0090 (P = 0.167; excess +0.2251 bits = +13.5% of H(label)); loyal 0.246 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.954 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3473 +- 0.0098 (P = 0.167; excess +0.2177 bits = +13.1% of H(label)); loyal 0.231 (P = 0.167); non-dominant loyal 0.20 (P = 0.167); >= 2 labels 0.963 (P_lo = 0.167)
+  allmid x SITE: 4150 tokens, 433 elements (130 with >= 5 tokens), 7 labels; MI 0.2956 bits (= 17.5% of H(label) 1.689); loyal 0.138 (loyal to a NON-dominant label: 2); seen under >= 2 labels 0.977
+     null [len x type] (5x): MI 0.2838 +- 0.0068 (P = 0.167; excess +0.0118 bits = +0.7% of H(label)); loyal 0.077 (P = 0.167); non-dominant loyal 0.80 (P = 0.333); >= 2 labels 0.986 (P_lo = 0.333)
+     null [len x type x head] (5x): MI 0.2792 +- 0.0060 (P = 0.167; excess +0.0163 bits = +1.0% of H(label)); loyal 0.085 (P = 0.167); non-dominant loyal 1.00 (P = 0.333); >= 2 labels 0.985 (P_lo = 0.333)
+  allmid x TYPE: 4150 tokens, 433 elements (130 with >= 5 tokens), 5 labels; MI 0.2017 bits (= 20.5% of H(label) 0.985); loyal 0.438 (loyal to a NON-dominant label: 0); seen under >= 2 labels 0.885
+     null [len x site] (5x): MI 0.1719 +- 0.0036 (P = 0.167; excess +0.0298 bits = +3.0% of H(label)); loyal 0.422 (P = 0.167); non-dominant loyal 0.20 (P = 1.000); >= 2 labels 0.912 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.1795 +- 0.0082 (P = 0.167; excess +0.0222 bits = +2.3% of H(label)); loyal 0.443 (P = 0.833); non-dominant loyal 0.20 (P = 1.000); >= 2 labels 0.918 (P_lo = 0.167)
+
+== Wells seals with a closer: 923 collapsed texts; heads {'C740': 607, 'C520': 135, 'C151': 46, 'C527': 35, 'C156': 29, 'C154': 23, 'C617': 21, 'C226': 14, 'C236': 6, 'C158': 4, 'C700': 3}
+   sites {'Mohenjo-daro': 599, 'Harappa': 163, 'other': 52, 'Dholavira': 37, 'Lothal': 31, 'Chanhu-daro': 21, 'Kalibangan': 20}; types {'seal': 923}
+
+-- NON-ADJACENT middle elements
+  mid x HEAD: 2242 tokens, 305 elements (80 with >= 5 tokens), 11 labels; MI 0.4539 bits (= 29.9% of H(label) 1.520); loyal 0.400 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.863
+     null [len x type] (5x): MI 0.3532 +- 0.0098 (P = 0.167; excess +0.1006 bits = +6.6% of H(label)); loyal 0.292 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.950 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3557 +- 0.0075 (P = 0.167; excess +0.0982 bits = +6.5% of H(label)); loyal 0.253 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.953 (P_lo = 0.167)
+     null [S366 chain: len x type x adjacent sign] (5x): MI 0.4354 +- 0.0047 (P = 0.167; excess +0.0185 bits = +1.2% of H(label)); loyal 0.390 (P = 0.667); non-dominant loyal 0.60 (P = 0.667); >= 2 labels 0.890 (P_lo = 0.333)
+  mid x SITE: 2242 tokens, 305 elements (80 with >= 5 tokens), 7 labels; MI 0.3455 bits (= 21.8% of H(label) 1.582); loyal 0.175 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.950
+     null [len x type] (5x): MI 0.3220 +- 0.0203 (P = 0.333; excess +0.0235 bits = +1.5% of H(label)); loyal 0.193 (P = 0.833); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.970 (P_lo = 0.333)
+     null [len x type x head] (5x): MI 0.3291 +- 0.0045 (P = 0.167; excess +0.0164 bits = +1.0% of H(label)); loyal 0.220 (P = 0.833); non-dominant loyal 0.40 (P = 0.333); >= 2 labels 0.968 (P_lo = 0.333)
+
+-- ADJACENT qualifier (sign before the closer)
+  adjq x HEAD: 920 tokens, 172 elements (52 with >= 5 tokens), 11 labels; MI 1.2764 bits (= 70.8% of H(label) 1.802); loyal 0.615 (loyal to a NON-dominant label: 4); seen under >= 2 labels 0.673
+     null [len x type] (5x): MI 0.5995 +- 0.0326 (P = 0.167; excess +0.6769 bits = +37.6% of H(label)); loyal 0.177 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.965 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.5985 +- 0.0275 (P = 0.167; excess +0.6779 bits = +37.6% of H(label)); loyal 0.165 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.973 (P_lo = 0.167)
+  adjq x SITE: 920 tokens, 172 elements (52 with >= 5 tokens), 7 labels; MI 0.5106 bits (= 30.7% of H(label) 1.665); loyal 0.231 (loyal to a NON-dominant label: 0); seen under >= 2 labels 0.942
+     null [len x type] (5x): MI 0.4890 +- 0.0142 (P = 0.333; excess +0.0216 bits = +1.3% of H(label)); loyal 0.208 (P = 0.333); non-dominant loyal 0.20 (P = 1.000); >= 2 labels 0.973 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.5208 +- 0.0257 (P = 0.667; excess -0.0102 bits = -0.6% of H(label)); loyal 0.200 (P = 0.333); non-dominant loyal 0.00 (P = 1.000); >= 2 labels 0.973 (P_lo = 0.333)
+
+-- all middle tokens
+  allmid x HEAD: 3162 tokens, 366 elements (105 with >= 5 tokens), 11 labels; MI 0.5338 bits (= 33.1% of H(label) 1.610); loyal 0.390 (loyal to a NON-dominant label: 2); seen under >= 2 labels 0.867
+     null [len x type] (5x): MI 0.3442 +- 0.0022 (P = 0.167; excess +0.1896 bits = +11.8% of H(label)); loyal 0.221 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.962 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3465 +- 0.0040 (P = 0.167; excess +0.1873 bits = +11.6% of H(label)); loyal 0.215 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.950 (P_lo = 0.167)
+  allmid x SITE: 3162 tokens, 366 elements (105 with >= 5 tokens), 7 labels; MI 0.3089 bits (= 19.2% of H(label) 1.607); loyal 0.210 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.981
+     null [len x type] (5x): MI 0.2952 +- 0.0053 (P = 0.167; excess +0.0136 bits = +0.8% of H(label)); loyal 0.181 (P = 0.167); non-dominant loyal 0.00 (P = 0.167); >= 2 labels 0.954 (P_lo = 1.000)
+     null [len x type x head] (5x): MI 0.3023 +- 0.0118 (P = 0.333; excess +0.0066 bits = +0.4% of H(label)); loyal 0.185 (P = 0.333); non-dominant loyal 0.80 (P = 0.833); >= 2 labels 0.970 (P_lo = 0.833)
+
+== Mohenjo-daro + Harappa: 1796 collapsed texts; heads {'C740': 767, 'none': 654, 'C520': 132, 'C151': 44, 'C527': 34, 'C156': 34, 'C700': 33, 'C617': 32, 'C154': 27, 'C158': 19, 'C226': 14, 'C236': 6}
+   sites {'Mohenjo-daro': 1087, 'Harappa': 709}; types {'seal': 1170, 'tablet': 526, 'pot': 51, 'other': 39, 'sealing': 10}
+
+-- NON-ADJACENT middle elements
+  mid x HEAD: 4959 tokens, 536 elements (160 with >= 5 tokens), 12 labels; MI 0.4838 bits (= 27.4% of H(label) 1.763); loyal 0.206 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.931
+     null [len x type] (5x): MI 0.3541 +- 0.0127 (P = 0.167; excess +0.1297 bits = +7.4% of H(label)); loyal 0.048 (P = 0.167); non-dominant loyal 3.60 (P = 1.000); >= 2 labels 0.999 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3399 +- 0.0057 (P = 0.167; excess +0.1439 bits = +8.2% of H(label)); loyal 0.050 (P = 0.167); non-dominant loyal 4.20 (P = 1.000); >= 2 labels 0.994 (P_lo = 0.167)
+     null [S366 chain: len x type x adjacent sign] (5x): MI 0.4700 +- 0.0034 (P = 0.167; excess +0.0138 bits = +0.8% of H(label)); loyal 0.202 (P = 0.500); non-dominant loyal 2.40 (P = 0.500); >= 2 labels 0.931 (P_lo = 1.000)
+  mid x SITE: 4959 tokens, 536 elements (160 with >= 5 tokens), 2 labels; MI 0.1281 bits (= 14.1% of H(label) 0.908); loyal 0.287 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.894
+     null [len x type] (5x): MI 0.1125 +- 0.0036 (P = 0.167; excess +0.0156 bits = +1.7% of H(label)); loyal 0.259 (P = 0.333); non-dominant loyal 2.60 (P = 0.500); >= 2 labels 0.926 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.1072 +- 0.0026 (P = 0.167; excess +0.0209 bits = +2.3% of H(label)); loyal 0.239 (P = 0.167); non-dominant loyal 3.00 (P = 0.667); >= 2 labels 0.950 (P_lo = 0.167)
+  mid x TYPE: 4959 tokens, 536 elements (160 with >= 5 tokens), 5 labels; MI 0.2433 bits (= 22.8% of H(label) 1.067); loyal 0.450 (loyal to a NON-dominant label: 4); seen under >= 2 labels 0.869
+     null [len x site] (5x): MI 0.1761 +- 0.0035 (P = 0.167; excess +0.0672 bits = +6.3% of H(label)); loyal 0.352 (P = 0.167); non-dominant loyal 1.00 (P = 0.167); >= 2 labels 0.921 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.1906 +- 0.0068 (P = 0.167; excess +0.0527 bits = +4.9% of H(label)); loyal 0.362 (P = 0.167); non-dominant loyal 0.40 (P = 0.167); >= 2 labels 0.933 (P_lo = 0.167)
+
+-- ADJACENT qualifier (sign before the closer)
+  adjq x HEAD: 1139 tokens, 193 elements (60 with >= 5 tokens), 12 labels; MI 1.2935 bits (= 69.7% of H(label) 1.856); loyal 0.650 (loyal to a NON-dominant label: 6); seen under >= 2 labels 0.650
+     null [len x type] (5x): MI 0.6602 +- 0.0145 (P = 0.167; excess +0.6333 bits = +34.1% of H(label)); loyal 0.043 (P = 0.167); non-dominant loyal 0.20 (P = 0.167); >= 2 labels 0.993 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.6693 +- 0.0085 (P = 0.167; excess +0.6243 bits = +33.6% of H(label)); loyal 0.033 (P = 0.167); non-dominant loyal 0.40 (P = 0.167); >= 2 labels 0.997 (P_lo = 0.167)
+  adjq x SITE: 1139 tokens, 193 elements (60 with >= 5 tokens), 2 labels; MI 0.1865 bits (= 19.3% of H(label) 0.966); loyal 0.300 (loyal to a NON-dominant label: 3); seen under >= 2 labels 0.950
+     null [len x type] (5x): MI 0.1678 +- 0.0079 (P = 0.167; excess +0.0187 bits = +1.9% of H(label)); loyal 0.167 (P = 0.167); non-dominant loyal 1.80 (P = 0.333); >= 2 labels 0.973 (P_lo = 0.333)
+     null [len x type x head] (5x): MI 0.1874 +- 0.0099 (P = 0.500; excess -0.0009 bits = -0.1% of H(label)); loyal 0.230 (P = 0.333); non-dominant loyal 3.20 (P = 0.833); >= 2 labels 0.957 (P_lo = 0.833)
+  adjq x TYPE: 1139 tokens, 193 elements (60 with >= 5 tokens), 5 labels; MI 0.2883 bits (= 25.5% of H(label) 1.131); loyal 0.267 (loyal to a NON-dominant label: 1); seen under >= 2 labels 0.917
+     null [len x site] (5x): MI 0.2916 +- 0.0090 (P = 0.667; excess -0.0034 bits = -0.3% of H(label)); loyal 0.240 (P = 0.167); non-dominant loyal 0.40 (P = 0.333); >= 2 labels 0.980 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.2750 +- 0.0082 (P = 0.167; excess +0.0133 bits = +1.2% of H(label)); loyal 0.273 (P = 0.667); non-dominant loyal 1.20 (P = 0.833); >= 2 labels 0.967 (P_lo = 0.167)
+
+-- all middle tokens
+  allmid x HEAD: 6098 tokens, 574 elements (186 with >= 5 tokens), 12 labels; MI 0.5525 bits (= 28.3% of H(label) 1.952); loyal 0.194 (loyal to a NON-dominant label: 15); seen under >= 2 labels 0.935
+     null [len x type] (5x): MI 0.3263 +- 0.0064 (P = 0.167; excess +0.2263 bits = +11.6% of H(label)); loyal 0.033 (P = 0.167); non-dominant loyal 2.20 (P = 0.167); >= 2 labels 0.996 (P_lo = 0.167)
+     null [len x type x site] (5x): MI 0.3311 +- 0.0031 (P = 0.167; excess +0.2215 bits = +11.3% of H(label)); loyal 0.044 (P = 0.167); non-dominant loyal 3.60 (P = 0.167); >= 2 labels 0.996 (P_lo = 0.167)
+  allmid x SITE: 6098 tokens, 574 elements (186 with >= 5 tokens), 2 labels; MI 0.1141 bits (= 12.4% of H(label) 0.921); loyal 0.290 (loyal to a NON-dominant label: 6); seen under >= 2 labels 0.919
+     null [len x type] (5x): MI 0.0991 +- 0.0011 (P = 0.167; excess +0.0150 bits = +1.6% of H(label)); loyal 0.234 (P = 0.167); non-dominant loyal 4.40 (P = 0.333); >= 2 labels 0.947 (P_lo = 0.167)
+     null [len x type x head] (5x): MI 0.0995 +- 0.0036 (P = 0.167; excess +0.0146 bits = +1.6% of H(label)); loyal 0.252 (P = 0.167); non-dominant loyal 4.20 (P = 0.333); >= 2 labels 0.952 (P_lo = 0.167)
+  allmid x TYPE: 6098 tokens, 574 elements (186 with >= 5 tokens), 5 labels; MI 0.2201 bits (= 20.3% of H(label) 1.082); loyal 0.425 (loyal to a NON-dominant label: 4); seen under >= 2 labels 0.876
+     null [len x site] (5x): MI 0.1619 +- 0.0016 (P = 0.167; excess +0.0581 bits = +5.4% of H(label)); loyal 0.303 (P = 0.167); non-dominant loyal 0.80 (P = 0.167); >= 2 labels 0.934 (P_lo = 0.167)
+     null [len x site x head] (5x): MI 0.1686 +- 0.0033 (P = 0.167; excess +0.0515 bits = +4.8% of H(label)); loyal 0.297 (P = 0.167); non-dominant loyal 1.40 (P = 0.167); >= 2 labels 0.937 (P_lo = 0.167)
+
+== loyal NON-ADJACENT elements (>= 5 tokens, >= 80% under one label), all sites, texts with a closer
+  head: 35 loyal elements: W590->C740 69/79, W255->C740 32/40, W806->C740 29/36, W840->C740 32/34, W17->C740 30/30, W503->C740 27/30, W176->C740 24/26, W435->C740 24/24, W550->C740 19/23, W61->C740 22/22, W140->C740 18/20, W742->C740 12/14, W320->C740 10/11, W142->C740 9/11, W171->C740 10/10, W175->C740 10/10, W460->C740 9/10, W920->C740 9/9, W70->C740 8/9, W904->C740 7/8, W5->C740 8/8, W90->C740 6/7, W703->C740 7/7, W484->C740 6/7, W838->C740 5/6, W315->C740 5/6, W630->C740 5/6, W463->C740 5/6, W850->C740 5/6, W530->C740 6/6, W605->C740 5/5, W468->C154 4/5, W845->C740 4/5, W65->C740 4/5, W374->C740 4/5
+  site: 26 loyal elements: W520->Mohenjo-daro 20/23, W621->Mohenjo-daro 15/18, W679->Mohenjo-daro 11/13, W460->Mohenjo-daro 11/12, W241->Mohenjo-daro 10/11, W585->Mohenjo-daro 11/11, W374->Mohenjo-daro 9/11, W190->Mohenjo-daro 8/10, W853->Mohenjo-daro 9/10, W545->Mohenjo-daro 7/8, W906->Mohenjo-daro 8/8, W260->Mohenjo-daro 6/7, W880->Mohenjo-daro 6/7, W905->Mohenjo-daro 5/6, W525->Harappa 5/6, W518->Mohenjo-daro 5/6, W323->Mohenjo-daro 5/6, W252->Mohenjo-daro 5/6, W923->Mohenjo-daro 6/6, W137->Harappa 4/5, W156->Mohenjo-daro 4/5, W201->Harappa 4/5, W269->Mohenjo-daro 4/5, W215->Mohenjo-daro 4/5, W401->Mohenjo-daro 5/5, W150->Mohenjo-daro 4/5
+  ot: 92 loyal elements: W2->seal 225/249, W390->seal 127/155, W740->seal 117/146, W235->seal 114/140, W1->seal 107/132, W741->seal 100/119, W233->seal 86/107, W368->seal 64/80, W803->seal 64/79, W60->seal 59/71, W140->seal 55/64, W806->seal 47/57, W706->seal 47/55, W231->seal 41/49, W125->seal 41/45, W861->seal 38/43, W820->seal 35/41, W61->seal 29/36, W350->seal 31/35, W503->seal 29/35, W55->seal 24/27, W920->seal 23/27, W717->seal 22/26, W90->seal 20/25, W520->seal 20/23, W440->seal 19/23, W742->seal 18/19, W621->seal 17/18, W632->seal 15/16, W921->seal 11/13, W679->seal 12/13, W297->seal 11/12, W745->seal 11/12, W320->seal 10/12, W817->seal 10/11, W463->seal 9/11, W241->seal 10/11, W65->seal 10/11, W374->seal 11/11, W161->seal 10/10, W190->seal 10/10, W853->seal 9/10, W72->seal 8/9, W130->seal 8/9, W510->seal 8/8, W844->seal 7/8, W298->seal 7/8, W250->seal 8/8, W232->seal 7/8, W371->seal 7/8, W703->seal 7/8, W877->seal 7/8, W545->seal 8/8, W236->seal 8/8, W906->seal 7/8, W93->seal 7/7, W804->seal 6/7, W605->seal 6/7, W315->seal 7/7, W504->seal 6/7

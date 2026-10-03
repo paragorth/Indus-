@@ -33,6 +33,7 @@ VAL = {**{i: i for i in range(3, 8)}, **{i: i - 10 for i in range(12, 21)}, **{i
 NUMS = SHORT | TALL
 CL = [740, 520, 151, 156, 527, 226, 617, 154, 158, 236, 700, 595]   # closer paradigm S289/S288 (+ W700 voucher unit)
 SUF = {400, 90}
+GOODS = {390, 405, 407, 900, 220, 161, 162, 167, 168, 169, 287, 59}   # variably counted goods (S198): trees, bracket, plain fish (W and M numbers)
 BR = json.load(open(ROOT + 'data/derived/bridge_extended.json'))
 def Mname(w):
     m = BR.get(str(w)); return f'W{w}/M{"-".join(map(str, m))}' if m else f'W{w}'
@@ -122,6 +123,7 @@ def pairs_of(recs, key, sel, headmap=None):
         for t in r['toks']:
             if sel == 'ADJ' and not t['adj']: continue
             if sel == 'FAR' and t['adj']: continue
+            if sel == 'GOODS' and (t['adj'] or t['item'] not in GOODS): continue
             v = t[key]
             if key == 'value': v = v if v <= 7 else 8   # 8 = '8 or more'
             if key == 'item' and t['adj']: v = 'HEAD'
@@ -182,6 +184,7 @@ def profile(recs, name=lambda h: str(h), sel='ALL', minn=5):
         for t in r['toks']:
             if sel == 'ADJ' and not t['adj']: continue
             if sel == 'FAR' and t['adj']: continue
+            if sel == 'GOODS' and (t['adj'] or t['item'] not in GOODS): continue
             p = prof[r['head']]; p[t['series']] += 1; p['vals'][(t['series'], t['value'])] += 1
             p['items']['HEAD' if t['adj'] else t['item']] += 1; used = True
         if used: prof[r['head']]['texts'] += 1
@@ -237,7 +240,7 @@ def pe_control(nperm):
                                                    for h, c in sorted(prof.items(), key=lambda kv: -sum(kv[1].values()))[:16]))
     return res, res2
 
-def run_block(recs, label, nperm, name, keys=('series', 'value', 'item'), sels=('ALL', 'ADJ', 'FAR')):
+def run_block(recs, label, nperm, name, keys=('series', 'value', 'item'), sels=('ALL', 'ADJ', 'FAR', 'GOODS')):
     out = []
     P(f'-- {label}: {len(recs)} texts with a head and a counted numeral; heads {dict(collections.Counter(name(r["head"]) for r in recs).most_common())}')
     P(f'   object types {dict(collections.Counter(r["ot"] for r in recs))}; numeral tokens: adjacent-to-head '
@@ -259,6 +262,7 @@ if __name__ == '__main__':
         T = load_wells(LV, 'big'); recs = make_records(T, NUMS, VAL, set(CL), SUF, MARK, FIXED12)
         res = run_block(recs, 'MD+H all media', NP, W)
         P('  head profiles (all numerals in the text):'); profile(recs, W, 'ALL')
+        P('  head profiles (counts of goods: trees, bracket, plain fish, not before the head):'); profile(recs, W, 'GOODS', 3)
         P('  head profiles (numeral directly before the head):'); profile(recs, W, 'ADJ')
         P('  head profiles (count elsewhere in the text):'); profile(recs, W, 'FAR')
         seals = [r for r in recs if r['ot'] == 'seal']
@@ -274,11 +278,11 @@ if __name__ == '__main__':
         P(f'== S-DARK-44 cycle 2, level {LV}, nperm {NP}: replication on held-out Wells sites and IM77')
         T = load_wells(LV, 'heldout'); recs = make_records(T, NUMS, VAL, set(CL), SUF, MARK, FIXED12)
         P('   held-out sites: ' + str(dict(collections.Counter(r['site'] for r in recs).most_common())))
-        res = run_block(recs, 'Wells held-out sites', NP, W, sels=('ALL', 'FAR'))
+        res = run_block(recs, 'Wells held-out sites', NP, W, sels=('ALL', 'FAR', 'GOODS'))
         P('  held-out head profiles (ALL):'); profile(recs, W, 'ALL', 3)
         P('  held-out head profiles (FAR):'); profile(recs, W, 'FAR', 3)
         I = load_im77(); irecs = make_records(I, set(M_TALL) | set(M_SHORT), {**M_TALL, **M_SHORT}, set(M_CL), M_SUF, set(), ())
-        res += run_block(irecs, 'IM77 all sites', NP, Mn, sels=('ALL', 'FAR'))
+        res += run_block(irecs, 'IM77 all sites', NP, Mn, sels=('ALL', 'FAR', 'GOODS'))
         P('  IM77 head profiles (ALL):'); profile(irecs, Mn, 'ALL')
         P('  IM77 head profiles (FAR):'); profile(irecs, Mn, 'FAR')
         In = load_im77('new'); nrecs = make_records(In, set(M_TALL) | set(M_SHORT), {**M_TALL, **M_SHORT}, set(M_CL), M_SUF, set(), ())

@@ -116,6 +116,53 @@ for level in ['strong', 'all', 'ext']:
     run(level, None, MINPAIR, 'all-classes')
     run(level, ROBUST_HEADS, MINPAIR_ROBUST, 'robust')
 
+# --- breakdown of the one suggestive pair, W390 x W803, by site and type (seq_raw forms)
+classes = load_classes('all')
+vt = variant_tokens(corpus, classes)
+tab = collections.Counter()
+for i, toks in enumerate(vt):
+    f390 = [f for h, f in toks if h == 390]; f803 = [f for h, f in toks if h == 803]
+    if f390 and f803:
+        tab[(corpus[i]['site'], corpus[i]['type'].split(':')[0], f390[0], f803[0])] += 1
+lines.append('\nW390 x W803 co-occurring texts by site, type, forms: ' + '; '.join(f'{k[0]}/{k[1]} {k[2]}+{k[3]} x{v}' for k, v in sorted(tab.items())))
+
+# --- power control: plant two hands per site x type stratum and see whether G detects them (level=all, N1 null)
+NPLANT = 30; PPERM = 200
+classes = load_classes('all'); use = usable_classes(corpus, classes)
+labels, _, _ = text_labels(corpus, classes, use)
+heads_used = sorted(use)
+cls_idx = {h: np.array([i for i in range(N) if h in labels[i]]) for h in heads_used}
+cls_lab = {h: np.array([labels[i][h] for i in cls_idx[h]]) for h in heads_used}
+pairs = []
+for a, b in itertools.combinations(heads_used, 2):
+    shared = sorted(set(cls_idx[a].tolist()) & set(cls_idx[b].tolist()))
+    if len(shared) >= MINPAIR:
+        pa = {t: k for k, t in enumerate(cls_idx[a].tolist())}; pb = {t: k for k, t in enumerate(cls_idx[b].tolist())}
+        pairs.append((a, b, np.array([pa[t] for t in shared]), np.array([pb[t] for t in shared])))
+st = strata(corpus, ['site', 'type'])
+st_codes = {h: np.array([hash(st[i]) for i in cls_idx[h]]) for h in heads_used}
+def Gstat(lab):
+    return sum(len(lab[a][ia]) * mi_bits(lab[a][ia], lab[b][ib]) for a, b, ia, ib in pairs)
+for delta in (0.4, 0.3, 0.2):
+    det = 0; zs = []
+    for q in range(NPLANT):
+        hand = rng.integers(0, 2, N)            # two hands per text, independent of stratum
+        lab = {}
+        for h in heads_used:
+            idx = cls_idx[h]; base = cls_lab[h]
+            # stratum rate of non-head form
+            rate = {}
+            for code in np.unique(st_codes[h]):
+                m = st_codes[h] == code; rate[code] = base[m].mean()
+            r = np.array([rate[c] for c in st_codes[h]])
+            p = np.clip(np.where(hand[idx] == 1, r + delta, r - delta), 0.02, 0.98)
+            lab[h] = (rng.random(len(idx)) < p).astype(int)
+        g = Gstat(lab)
+        nullg = np.array([Gstat({h: permute_within(lab[h], st_codes[h], rng) for h in heads_used}) for _ in range(PPERM)])
+        pv = (np.sum(nullg >= g) + 1) / (PPERM + 1); zs.append((g - nullg.mean()) / (nullg.std() + 1e-12))
+        det += pv < 0.05
+    lines.append(f'planted two hands (non-head rate = stratum rate +/- {delta}, random hand per text): detected (P<0.05, N1) in {det}/{NPLANT} plants, mean z {np.mean(zs):+.2f}')
+
 json.dump(summary, open(OUT + 'loop46_cycle1.json', 'w'), indent=1)
 open(OUT + 'loop46_cycle1_log.txt', 'w').write('\n'.join(lines) + '\n')
 print('\n'.join(lines))
