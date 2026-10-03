@@ -40,3 +40,18 @@ Ur III syllables aligned to words: 19643 of 19955; distinct 5608
 bits per text under combined: 41.1 (unigram 65.9; explained 38%); by slot: NAME 29.0 bits (71% of remaining; 5.89 tokens/text), TITLE 9.6 bits (23% of remaining; 3.26 tokens/text), END 2.5 bits (6% of remaining; 1.00 tokens/text)
 irreducible tokens (no model beats the unigram by 0.25 bit): 0.215; by slot NAME 0.23, TITLE 0.19, END 0.22
 share predicted with P >= 0.5 under best: NAME 0.17, TITLE 0.40, END 0.14
+
+## Linear B lines, sign-groups vs ideograms/numerals, fit KN test PY/TH/MY: fit 4000 texts (13665 tokens, |V| 2485) on ['KN']; held-out 1500 texts from other sites; OOV 0.350
+| model | bits/token (95% CI) | gap closed vs unigram | WORD bits [gap] | FORMULA bits [gap] | END bits [gap] |
+|---|---|---|---|---|---|
+| uniform | 11.280 [11.280, 11.280] | -109.6% | 11.28 [-88%] | 11.28 [-86%] | 11.28 [-394%] |
+| unigram | 5.383 [5.310, 5.461] | 0.0% | 6.00 [0%] | 6.06 [0%] | 2.29 [0%] |
+| KN1 | 5.402 [5.319, 5.490] | -0.4% | 7.91 [-32%] | 5.14 [15%] | 1.24 [46%] |
+| KN2 | 5.394 [5.309, 5.490] | -0.2% | 7.96 [-33%] | 5.09 [16%] | 1.24 [46%] |
+| KN3 | 5.444 [5.359, 5.540] | -1.1% | 8.08 [-35%] | 5.09 [16%] | 1.27 [44%] |
+| combined | 5.252 [5.164, 5.343] | 2.4% | 7.75 [-29%] | 4.94 [19%] | 1.24 [46%] |
+bits per text under combined: 30.1 (unigram 30.8; explained 2%); by slot: WORD 15.1 bits (50% of remaining; 1.95 tokens/text), FORMULA 13.7 bits (46% of remaining; 2.77 tokens/text), END 1.2 bits (4% of remaining; 1.00 tokens/text)
+irreducible tokens (no model beats the unigram by 0.25 bit): 0.479; by slot WORD 0.80, FORMULA 0.34, END 0.24
+share predicted with P >= 0.5 under best: WORD 0.01, FORMULA 0.27, END 0.54
+
+done in 65s
