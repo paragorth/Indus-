@@ -114,3 +114,35 @@
       W2(M99/100) [MARKER] <-> W690(M149) [NAME] 6:4
       W235(M65) [NAME] <-> W390(M161/162/167/168/169) [NAME] 7:3
    pair instances: total 20358; in BH-fixed pairs 8129 (0.399); in free pairs 761 (0.037); in pairs seen <5 times 0.455
+
+-- (d) co-occurrence vs a sign permutation null stratified by site x object type (100 reps), distinct texts 2131
+   fixed-order pairs: 395 pairs; median O/E co-occurrence 1.62; pairs above null 97.5% 206, below 2.5% 3 (expected ~9.9 each); mean log2 O/E 0.85
+   free-order pairs: 63 pairs; median O/E co-occurrence 1.21; pairs above null 97.5% 12, below 2.5% 3 (expected ~1.6 each); mean log2 O/E 0.29
+   adjacency when co-occurring: fixed pairs 0.41 (n 8296), free pairs 0.38 (n 792)
+   free pairs in the same frame slot 33 of 63; slot pairs: [(('NAME', 'NAME'), 16), (('COUNT', 'NAME'), 13), (('MARKER', 'NAME'), 12), (('CLOSER', 'NAME'), 4), (('COUNT', 'COUNT'), 3), (('COUNT', 'MARKER'), 3), (('NAME', 'OPENER'), 3), (('COUNT', 'TITLE'), 2), (('COUNT', 'OPENER'), 1), (('MARKER', 'OPENER'), 1), (('CLOSER', 'SUFFIX'), 1), (('CLOSER', 'COUNT'), 1), (('NAME', 'TITLE'), 1), (('CLOSER', 'CLOSER'), 1), (('MARKER', 'TITLE'), 1)]
+   free pairs with O/E (top 25 by observed):
+      W2(M99/100) [MARKER] ~ W31(M86) [COUNT]: obs 38 exp 31.2 O/E 1.22
+      W220(M59) [NAME] ~ W240(M67) [NAME]: obs 28 exp 19.8 O/E 1.41
+      W390(M161/162/167/168/169) [NAME] ~ W741(M343) [NAME]: obs 24 exp 12.8 O/E 1.84
+      W407(M169) [NAME] ~ W740(M342) [CLOSER]: obs 20 exp 21.0 O/E 0.95
+      W220(M59) [NAME] ~ W235(M65) [NAME]: obs 20 exp 17.1 O/E 1.16
+      W31(M86) [COUNT] ~ W32(M87) [COUNT]: obs 19 exp 15.8 O/E 1.20
+      W2(M99/100) [MARKER] ~ W550(M216) [NAME]: obs 18 exp 14.9 O/E 1.20
+      W1(M97/98) [COUNT] ~ W31(M86) [COUNT]: obs 18 exp 10.4 O/E 1.70
+      W2(M99/100) [MARKER] ~ W368(M402) [NAME]: obs 17 exp 17.3 O/E 0.98
+      W2(M99/100) [MARKER] ~ W350(M174/175) [NAME]: obs 17 exp 9.7 O/E 1.71
+      W32(M87) [COUNT] ~ W390(M161/162/167/168/169) [NAME]: obs 16 exp 19.1 O/E 0.84
+      W1(M97/98) [COUNT] ~ W32(M87) [COUNT]: obs 16 exp 13.6 O/E 1.17
+      W2(M99/100) [MARKER] ~ W900(M287) [NAME]: obs 16 exp 12.5 O/E 1.27
+      W590(M249) [NAME] ~ W741(M343) [NAME]: obs 15 exp 8.5 O/E 1.72
+      W32(M87) [COUNT] ~ W33(M89) [TITLE]: obs 14 exp 17.5 O/E 0.81
+      W1(M97/98) [COUNT] ~ W220(M59) [NAME]: obs 14 exp 15.9 O/E 0.89
+      W32(M87) [COUNT] ~ W233(M72) [NAME]: obs 14 exp 14.6 O/E 0.96
+      W2(M99/100) [MARKER] ~ W920(M293) [OPENER]: obs 13 exp 24.6 O/E 0.54
+      W31(M86) [COUNT] ~ W741(M343) [NAME]: obs 13 exp 10.0 O/E 1.29
+      W2(M99/100) [MARKER] ~ W717(M341) [NAME]: obs 13 exp 9.2 O/E 1.39
+      W220(M59) [NAME] ~ W550(M216) [NAME]: obs 13 exp 7.4 O/E 1.72
+      W2(M99/100) [MARKER] ~ W416(M173) [NAME]: obs 13 exp 6.3 O/E 1.98
+      W705(M336) [NAME] ~ W803(M387) [NAME]: obs 13 exp 4.5 O/E 2.67
+      W31(M86) [COUNT] ~ W220(M59) [NAME]: obs 12 exp 14.6 O/E 0.83
+      W400(M176) [SUFFIX] ~ W520(M211) [CLOSER]: obs 12 exp 12.5 O/E 0.96
