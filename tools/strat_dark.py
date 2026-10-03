@@ -238,15 +238,28 @@ def cmi(xi,yi,si,nx,ny,ns):
         ts=ts/m; px=ts.sum(1,keepdims=True); py=ts.sum(0,keepdims=True); nz=ts>0
         tot+=m/n*float((ts[nz]*np.log(ts[nz]/(px@py)[nz])).sum()); df+=(int((px>0).sum())-1)*(int((py>0).sum())-1)
     return tot,max(df,1)
-def perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=None,stop=10):
-    o,_=cmi(xi,yi,si,nx,ny,ns); r=np.random.default_rng(rng.randint(0,10**9)); yy=yi.copy(); ge=0
+def cmi_batch(xi,YY,si,nx,ny,ns):
+    """CMI for a batch of B permuted y vectors (B,n) -> (B,)"""
+    B,n=YY.shape; base=(si*nx+xi)*ny
+    codes=(np.arange(B)[:,None]*(ns*nx*ny)+base[None,:]+YY).ravel()
+    t=np.bincount(codes,minlength=B*ns*nx*ny).reshape(B,ns,nx,ny).astype(float)
+    m=t.sum((2,3),keepdims=True); m[m==0]=1; ts=t/m
+    px=ts.sum(3,keepdims=True); py=ts.sum(2,keepdims=True); pxy=px*py
+    with np.errstate(divide='ignore',invalid='ignore'):
+        term=np.where(ts>0,ts*np.log(ts/np.where(pxy>0,pxy,1)),0.0)
+    return (term.sum((2,3))*(m[:,:,0,0]/n)).sum(1)
+def perm_p(xi,yi,si,nx,ny,ns,nperm,rng,strata=None,stop=10,B=250):
+    """within-strata permutation p for CMI; strata default to site; early stop once `stop` exceedances seen."""
+    o,_=cmi(xi,yi,si,nx,ny,ns); r=np.random.default_rng(rng.randint(0,10**9))
     strata=si if strata is None else strata
     groups=[np.where(strata==g)[0] for g in np.unique(strata)]
-    for k in range(nperm):
-        for g in groups: yy[g]=yy[r.permutation(g)]
-        ge+=cmi(xi,yy,si,nx,ny,ns)[0]>=o
-        if ge>=stop and k>=50: return o,(ge+1)/(k+2),k+1
-    return o,(ge+1)/(nperm+1),nperm
+    ge=0; done=0
+    while done<nperm:
+        b=min(B,nperm-done); YY=np.tile(yi,(b,1))
+        for g in groups: YY[:,g]=r.permuted(YY[:,g],axis=1)
+        ge+=int((cmi_batch(xi,YY,si,nx,ny,ns)>=o-1e-12).sum()); done+=b
+        if ge>=stop: break
+    return o,(ge+1)/(done+1),done
 def collect(kind,p,fact,objs,level,minn=40,strat=False):
     xs=[];ys=[];st=[];st2=[]
     for o in objs:

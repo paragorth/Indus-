@@ -14,6 +14,7 @@ Writes data/derived/dark/loop2_cycle<CYCLE>.txt and .json.
 """
 import json, csv, random, sys, collections, math, time
 import numpy as np
+import multiprocessing as mp
 
 CYCLE = int(sys.argv[1]); SEED = int(sys.argv[2])
 NPAIR = int(sys.argv[3]) if len(sys.argv) > 3 else 1500
@@ -322,6 +323,12 @@ class Pool:
             if early and ge >= 5 and k >= 20: return o, (ge + 1) / (k + 2), int(ok.sum())
         return o, (ge + 1) / (nperm + 1), int(ok.sum())
 
+_PTR = None
+def _train_eval(x):
+    global nrng
+    h, (kind, p, fact) = x; nrng = np.random.default_rng(SEED * 100000 + h)
+    return _PTR.evaluate(kind, p, fact, 'raw', 500)
+
 def make_arrow():
     kind = rng.choice(ACTIVE); p = REL[kind][2](rng); return kind, p, rng.choice(FACTS)
 
@@ -475,18 +482,20 @@ def main():
     TR = [o for o in OBJ if o['f']['site'] in ('Mohenjo-daro', 'Harappa')]; TE = [o for o in OBJ if o['f']['site'] not in ('Mohenjo-daro', 'Harappa')]
     PTR = Pool(TR, 40000); PTE = Pool(TE, 20000)
     say('objects %d | train %d (pairs %d) | held-out %d (pairs %d; sites %s)' % (len(OBJ), len(TR), len(PTR.a), len(TE), len(PTE.a), ','.join(PTE.sites)))
-    # ---- PAIR arrows
-    arrows = []; surv = []
-    for h in range(NPAIR):
-        kind, p, fact = make_arrow()
-        r = PTR.evaluate(kind, p, fact, 'raw', 500)
-        arrows.append(dict(kind=kind, p=p, fact=fact, train=r))
+    # ---- PAIR arrows (train stage in parallel)
+    global _PTR
+    _PTR = PTR
+    specs = [make_arrow() for _ in range(NPAIR)]
+    with mp.get_context('fork').Pool(4) as pool:
+        trains = pool.map(_train_eval, list(enumerate(specs)), chunksize=8)
+    arrows = [dict(kind=k, p=p, fact=f, train=r) for (k, p, f), r in zip(specs, trains)]; surv = []
+    for h, ((kind, p, fact), r) in enumerate(zip(specs, trains)):
         if not r or r[1] > 0.0021: continue
         r2 = PTE.evaluate(kind, p, fact, 'raw', 1000)
         r3 = PTR.evaluate(kind, p, fact, 'all', 500)
-        rfine = PTR.evaluate(kind, p, fact, 'raw', 20000, early=False)
         rstrict = PTR.evaluate(kind, p, fact, 'raw', 2000, strict=True)
         ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
+        rfine = PTR.evaluate(kind, p, fact, 'raw', 20000 if ok else 3000, early=False)
         bonf = rfine is not None and rfine[1] < 0.05 / NPAIR
         strict_ok = rstrict is not None and rstrict[1] < 0.01
         surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, strict=rstrict, held=r2, all=r3, ok=ok, bonf=bonf, strict_ok=strict_ok))

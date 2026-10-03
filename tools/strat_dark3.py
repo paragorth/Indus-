@@ -194,7 +194,7 @@ def draw_theta(name,rng,signs):
     if name=='dropframe':
         lead=set(s for s in OPEN|MARK|MIDINIT if rng.random()<0.8); trail=set(s for s in CLOSE|SUFFIX if rng.random()<0.8)
         return {'lead':lead,'trail':trail}
-    if name=='bpe': return {'k':rng.choice([5,10,20,40,80,160])}
+    if name=='bpe': return {'k':rng.choice([5,10,20,40,80])}
     if name=='splitnum': return {'with2':rng.random()<0.5,'mode':rng.choice(['left','right','drop'])}
     if name=='rotate': return {'r':rng.choice([1,1,2,0])}
     if name in ('emblem','objtype'): return {'pos':rng.choice(['start','end'])}
@@ -211,22 +211,27 @@ def shuffle_within(T,rng):
     for t in T:
         t=list(t); rng.shuffle(t); out.append(t)
     return out
-def arrow(tname,sname,X,M,thetas,P,rng):
-    """Return (median D over thetas, null Ds (len P), S(T(X)) per theta, S(X))."""
-    f=TRANS[tname]; S=TESTS[sname]
-    base=S(X,rng)
-    vals=[S(f(X,M,rng,th),rng) for th in thetas]
-    vals_ok=[v for v in vals if v is not None]
-    if base is None or len(vals_ok)<len(thetas)//2: return None
-    D=st.median(v-base for v in vals_ok)
-    null=[]
-    shuf=shuffle_within if sname=='slot' else shuffle_cross
+def arrow_multi(tname,tests,X,M,thetas,P,rng):
+    """One transformation, several tests. Returns {test: (median D over thetas, null Ds, S(T(X)) per theta, S(X))}.
+    The transformed corpora are computed once per theta and shared by the tests."""
+    f=TRANS[tname]; out={}
+    TX=[f(X,M,rng,th) for th in thetas]
+    base={sn:TESTS[sn](X,rng) for sn in tests}
+    vals={sn:[v for v in (TESTS[sn](T,rng) for T in TX) if v is not None] for sn in tests}
+    null={sn:[] for sn in tests}
     for _ in range(P):
-        Xs=shuf(X,rng); b=S(Xs,rng)
-        vs=[S(f(Xs,M,rng,th),rng) for th in thetas]; vs=[v for v in vs if v is not None]
-        if b is None or not vs: continue
-        null.append(st.median(v-b for v in vs))
-    return D,null,vals_ok,base
+        for shuf,group in ((shuffle_cross,[sn for sn in tests if sn!='slot']),(shuffle_within,[sn for sn in tests if sn=='slot'])):
+            if not group: continue
+            Xs=shuf(X,rng); TXs=[f(Xs,M,rng,th) for th in thetas]
+            for sn in group:
+                b=TESTS[sn](Xs,rng); vs=[v for v in (TESTS[sn](T,rng) for T in TXs) if v is not None]
+                if b is None or not vs: continue
+                null[sn].append(st.median(v-b for v in vs))
+    for sn in tests:
+        if base[sn] is None or len(vals[sn])<len(thetas)//2: out[sn]=None; continue
+        out[sn]=(st.median(v-base[sn] for v in vals[sn]),null[sn],vals[sn],base[sn])
+    return out
+def arrow(tname,sname,X,M,thetas,P,rng): return arrow_multi(tname,[sname],X,M,thetas,P,rng)[sname]
 def pval(D,null):
     if not null: return 1.0
     return (1+sum(1 for d in null if abs(d)>=abs(D)))/(len(null)+1)

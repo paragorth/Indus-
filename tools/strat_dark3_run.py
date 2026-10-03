@@ -16,8 +16,9 @@ def run_split(split,var,P,rng,tr_names,tests,log,data=None):
     res={}
     for tn in tr_names:
         thetas=[D.draw_theta(tn,rng,signs) for _ in range(NTH)]
+        t0=time.time(); RR=D.arrow_multi(tn,tests,seqs,X,thetas,P,rng)
         for sn in tests:
-            t0=time.time(); r=D.arrow(tn,sn,seqs,X,thetas,P,rng)
+            r=RR[sn]
             if r is None: log(f'{split} {var} {tn:11s} {sn:9s} n/a'); continue
             Dm,null,vals,base=r; p=D.pval(Dm,null); z=D.zval(Dm,null)
             res[(tn,sn)]={'D':Dm,'p':p,'z':z,'base':base,'val_med':st.median(vals),'val_min':min(vals),'val_max':max(vals),'null_mean':st.mean(null) if null else None,'null_sd':st.pstdev(null) if len(null)>1 else None,'n':len(seqs)}
