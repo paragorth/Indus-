@@ -167,9 +167,6 @@ def cycle1():
     json.dump(res, open(OUT + 'loop70_cycle1.json', 'w'), indent=0, default=str)
 
 
-if __name__ == '__main__':
-    for c in sys.argv[1:] or ['1']:
-        {'1': cycle1}.get(c, lambda: globals()['cycle' + c]())()
 
 
 # ====================================================================== cycle 2
@@ -413,3 +410,147 @@ def cycle2():
           f'median estimate {np.median(ests):+.2f}, detected (P < 0.05, negative) in {hits}/40')
         res[f'power|{bm}'] = dict(median=float(np.median(ests)), hits=hits)
     json.dump(res, open(OUT + 'loop70_cycle2.json', 'w'), indent=0, default=str)
+
+
+# ====================================================================== cycle 3
+def norm_site(s):
+    s = s.lower().replace('-', '').replace(' ', '')
+    return s
+
+
+def to_m_options(seq, br, cap=64):
+    opts = [br.get(w, []) for w in seq]
+    if any(not o for o in opts):
+        return []
+    out = [()]
+    for o in opts:
+        out = [x + (m,) for x in out for m in o][:cap]
+    return out
+
+
+def cycle3():
+    LOGFILE[0] = OUT + 'loop70_cycle3_log.txt'; open(LOGFILE[0], 'w').close()
+    W = widths()
+    P('LOOP 70 cycle 3: Wells vs IM77 break agreement on matched objects; true held-out sites; junction anatomy; bridge dependence')
+    res = {}
+    for use_prop in (False, True):
+        br = bridge(use_prop)
+        # all Wells texts incl. single-line, canonical order, raw level, with damage-free signs
+        one_w, multi_w = wells('seq_raw')
+        # need single-line Wells texts regardless of 'complete' flag for matching: rebuild quickly
+        wl = []
+        for t in one_w:
+            wl.append(dict(site=t['site'], segs=[t['seq']]))
+        for t in multi_w:
+            wl.append(dict(site=t['site'], segs=t['segs']))
+        one_m, multi_m = im77()
+        ml = [dict(site=t['site'], segs=[t['seq']]) for t in one_m] + [dict(site=t['site'], segs=t['segs']) for t in multi_m]
+        idx = collections.defaultdict(list)
+        for i, t in enumerate(ml):
+            T = sum((tuple(s) for s in t['segs']), ())
+            if len(T) >= 3:
+                idx[(norm_site(t['site'])[:6], tuple(sorted(T)))].append(i)
+        pairs = []
+        for t in wl:
+            T = sum((tuple(s) for s in t['segs']), ())
+            if len(T) < 3:
+                continue
+            hits = set()
+            for mT in to_m_options(T, br):
+                for i in idx.get((norm_site(t['site'])[:6], tuple(sorted(mT))), []):
+                    hits.add(i)
+            if len(hits) >= 1:
+                pairs.append((t, [ml[i] for i in hits]))
+        wm = [(t, ms) for t, ms in pairs if len(t['segs']) > 1]
+        mm_ = [(t, ms) for t, ms in pairs if any(len(m['segs']) > 1 for m in ms)]
+        both = [(t, ms) for t, ms in pairs if len(t['segs']) > 1 and any(len(m['segs']) > 1 for m in ms)]
+        P(f'-- bridge {"with" if use_prop else "WITHOUT"} S-DARK-27 proposals: Wells texts (>= 3 signs) matched to an IM77 side of the same site '
+          f'and M multiset: {len(pairs)}; Wells multi-segment among them {len(wm)}, of which IM77 also multi-line {sum(1 for t, ms in wm if any(len(m["segs"]) > 1 for m in ms))}; '
+          f'IM77 multi-line among them {len(mm_)}, of which Wells also has "/" {sum(1 for t, ms in mm_ if len(t["segs"]) > 1)}')
+        # junction agreement
+        agree = 0; tot = 0; chance = 0.0; order_same = 0; order_rev = 0; ex = []
+        for t, ms in both:
+            m = [x for x in ms if len(x['segs']) > 1][0]
+            if len(t['segs']) != 2 or len(m['segs']) != 2:
+                continue
+            tot += 1
+            wsz = sorted(len(s) for s in t['segs']); msz = sorted(len(s) for s in m['segs'])
+            n = sum(wsz)
+            same = wsz == msz
+            agree += same
+            chance += 2.0 / (n - 1) if wsz[0] != wsz[1] else 1.0 / (n - 1)
+            if same:
+                if [len(s) for s in t['segs']] == [len(s) for s in m['segs']]:
+                    order_same += 1
+                else:
+                    order_rev += 1
+            else:
+                ex.append((t['site'], t['segs'], m['segs']))
+        P(f'   both transcriptions record a break: {tot} two-line pairs; the break falls at the same place (same segment sizes) in {agree} '
+          f'(chance if the second transcription broke at a random position: {chance:.1f}); Wells canonical segment order = IM77 line order '
+          f'in {order_same}, reversed in {order_rev}; disagreements: ' + '; '.join(f'{s} W{a} M{b}' for s, a, b in ex[:8]))
+        res[f'match|prop={use_prop}'] = dict(pairs=len(pairs), wells_multi=len(wm), im77_multi=len(mm_), both=tot, agree=agree,
+                                             chance=chance, order_same=order_same, order_rev=order_rev)
+        # IM77 unit test with/without proposals
+        smap = lambda w: br.get(w, [])
+        sets, frame = unit_sets(one_m, smap)
+        r = category_test(multi_m, 'known', sets, frame, {}, cats=['QH', 'NUM', 'UNIT', 'MIDMID', 'BOUND'])
+        for c in ('QH', 'NUM', 'UNIT', 'MIDMID', 'BOUND'):
+            P('   IM77 known ' + fmt_row(c, r[c]))
+        res[f'im77|prop={use_prop}'] = r
+    # true held-out: Wells multi-line texts at sites absent from IM77 (post-1977 finds etc.)
+    one_m, multi_m = im77()
+    im_sites = {norm_site(t['site'])[:6] for t in one_m + multi_m}
+    for lv in LEVELS:
+        one, multi = wells(lv); sets, frame = unit_sets(one)
+        ho = [t for t in multi if norm_site(t['site'])[:6] not in im_sites]
+        if lv == 'seq_raw':
+            P(f'-- held-out sites (not in IM77): {len(ho)} Wells multi-segment texts: ' + str(collections.Counter(t['site'] for t in ho).most_common()))
+        for mode in ('canon', 'agnostic'):
+            r = category_test(ho, mode, sets, frame, W, cats=['UNIT', 'MIDMID', 'BOUND'])
+            for c in ('UNIT', 'MIDMID', 'BOUND'):
+                P(f'   held-out {lv} {mode} ' + fmt_row(c, r[c]))
+            res[f'heldout|{lv}|{mode}'] = r
+        # also Wells home-fit units applied to other sites: units learned on MD+HP only
+        one_h = [t for t in one if is_home(t['site'])]
+        sets_h, frame_h = unit_sets(one_h)
+        oth = [t for t in multi if not is_home(t['site'])]
+        r = category_test(oth, 'canon', sets_h, frame_h, W, cats=['UNIT', 'MIDMID', 'BOUND'])
+        P(f'   units learned on MD+HP single-line texts only, other-site multi-line texts (n={len(oth)}), {lv} canon: ' +
+          ' || '.join(fmt_row(c, r[c]) for c in ('UNIT', 'MIDMID')))
+        res[f'homefit_other|{lv}'] = r
+    # junction anatomy (Wells canonical, raw; IM77 known)
+    br = bridge(True)
+    for name, (one, multi), smap, mode, Wd in (('Wells seq_raw canon', wells('seq_raw'), None, 'canon', W),
+                                               ('IM77 known', im77(), (lambda w: br.get(w, [])), 'known', {})):
+        sets, frame = unit_sets(one, smap)
+        S = (lambda ws: set().union(*[set(smap(w)) for w in ws])) if smap else (lambda ws: set(ws))
+        heads = S(CLOSERS | SUFFIX); opens = S(OPENERS | CONNECT); nums = S(NUMERALS | MARKERS)
+        def kind(p):
+            c = pair_cat(p, sets, frame)
+            if 'UNIT' in c: return 'inside unit'
+            if 'MIDMID' in c: return 'middle|middle'
+            if p[0] in heads: return 'after closer/suffix'
+            if p[1] in heads: return 'before closer (non-qualifier)'
+            if p[0] in opens: return 'after opener/connective'
+            if p[0] in nums or p[1] in nums: return 'numeral edge'
+            return 'other frame edge'
+        obs = collections.Counter(); exp = collections.Counter()
+        for t in multi:
+            segs = t['segs']; k = len(segs)
+            for p in junctions_known(segs):
+                obs[kind(p)] += 1
+            T = sum((tuple(s) for s in segs), ())
+            confs = list(cut_configs(T, k))
+            for c in confs:
+                for p in junctions_known(c):
+                    exp[kind(p)] += 1.0 / len(confs)
+        P(f'-- junction anatomy, {name} (uniform-cut expectation in brackets): ' + '; '.join(
+            f'{kk} {obs[kk]} ({exp[kk]:.1f}, O/E {obs[kk] / exp[kk] if exp[kk] else float("nan"):.2f})' for kk in sorted(exp, key=lambda x: -exp[x])))
+        res[f'anatomy|{name}'] = dict(obs=dict(obs), exp=dict(exp))
+    json.dump(res, open(OUT + 'loop70_cycle3.json', 'w'), indent=0, default=str)
+
+
+if __name__ == '__main__':
+    for c in sys.argv[1:] or ['1']:
+        globals()['cycle' + c]()
