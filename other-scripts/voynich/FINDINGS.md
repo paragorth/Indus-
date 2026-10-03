@@ -417,3 +417,45 @@ This looks like a structured record per line. For example, each line could be on
   - m/g as a one-per-line quota.
   - The failure of glyph swaps to merge the modes (N5).
   - The verbose-cipher merge test, with encrypted-language positive controls (V1).
+
+## 9. Line-type structure (`tools/attack_linetype.py`, `tools/attack_linetype_extra.py`; full report `data/results/attack_linetype_report.txt`)
+Both transcriptions were used. Agreement between them is transcription-robust, not replication.
+
+1. **Mode follows the page. This corrects N3/N4.**
+   - The illustration section explains 12% of the variance in line mode (null 1%, z = 18).
+   - The page within its section explains another 13% (null 4%).
+   - The paragraph adds about 4%.
+   - Bio pages and quire M are q-heavy. The effect sits in Currier B (0.15 of variance) and hardly in A (0.03).
+   - Scribe hand adds little.
+   - With page means removed, the two halves of a line barely share a mode (r = 0.06–0.07; Italian 0.08).
+   - **So "each line picks one of two word classes" overstates it.** Mode is mainly a page and section property. The within-paragraph clumping (N1, N3) is real but small.
+2. **Order within a line: real but small.** In mixed lines, q-words sit about 5% of the line length earlier than a-words (z = −7 in both transcriptions). That is not a two-column table.
+3. **Line templates fail.** Once first and last words are fixed, the order of word classes is nearly free: 0.02–0.03 bits below a shuffle. Dante's verse, as a control, gives 0.075.
+4. **The first and last words of a line come from special vocabularies** (z ≈ 30), at 2–4× the prose level.
+   - Openers: dshedy, sho, shor.
+   - Closers: dy, oly, dal.
+   - Lines rarely end in a q-word (8.7% against 16%).
+   - The word before a final -m word is an a-word 33–35% of the time (shuffle 24%, z = 6–7).
+5. **The self-citation generator reproduces none of this.**
+
+### Does the line-break reset survive once edge vocabulary is accounted for? (`tools/attack_reset_edges.py`)
+Junction MI (last glyph → next word's first glyph), n = 1,500 per set, against 200 shuffles:
+
+| pair type | ZL | IT |
+|---|---|---|
+| across a line break | 0.005 (p = 0.24) | 0.004 (p = 0.28) |
+| across a line break, **ordinary words only** (neither in the 60 most edge-enriched openers or closers) | **0.007 (p = 0.14)** | **−0.010 (p = 0.91)** |
+| within a line, touching the first or last word | **0.197** | **0.180** |
+| within a line, inner pairs | 0.173 | 0.165 |
+
+**Verdict.** The reset is not an artefact of edge vocabulary:
+- Inside a line, pairs that involve the opener or the closer are coupled as strongly as inner pairs.
+- Across the break, coupling is zero even between ordinary words.
+
+The line is a real production unit (this replicates arXiv 2604.19762 with stronger controls).
+
+**Updated model.** Each line is written as a unit:
+- It opens with a word from an opener vocabulary and closes with a word from a closer vocabulary (often an m/g glyph).
+- Word junctions are coupled inside the line and not across the break.
+- The mix of word classes is set mainly by the page and section, not by the line.
+- The order of words in the middle is nearly free.

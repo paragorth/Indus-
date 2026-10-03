@@ -1,0 +1,114 @@
+ATTACK: LINE TYPES (N6-N9)
+Scripts: tools/attack_linetype.py, tools/attack_linetype_extra.py
+Numbers: data/results/attack_linetype.json (verdicts under "_verdicts", extra checks under "extra")
+Data: paragraph lines only, words with uncertain glyphs dropped. ZL3b 4130 lines, IT2a 4117 lines.
+Agreement between ZL3b and IT2a is transcription-robust, not replication.
+
+Word classes (by the word's own form)
+- q = starts with q.
+- a = contains ai or ar (not q-initial).
+- o = everything else (about 63% of words).
+- Line mode score = (number of q-words - number of a-words) / line length.
+Controls
+- Italian (Manzoni prose, Dante verse): q = ends -o/-i, a = ends -a/-e.
+- Latin (Caesar): q = -us/-um/-o, a = -a/-ae/-am/-is/-as.
+- Reference texts get pseudo pages (20 lines) and pseudo sections (10 pages).
+- self_citation output from ZL3b, scored with the Voynich classes (it keeps page labels).
+- 300 permutations unless stated.
+
+T1. Does line mode follow the page?
+Method: nested variance shares (section > page > paragraph > line).
+Each level has its own null: shuffle whole pages between sections; shuffle lines between pages inside a section; shuffle lines between paragraphs inside a page.
+Results (ZL3b; IT2a within 0.01):
+- Section (illustration type): 12.0% of variance, null 1.1%, z 18.
+- Page within section: 13.0%, null 4.2%, z 22.
+- Paragraph within page: 15.1%, null 11.0%, z 7.
+- Line residual: 60%.
+- Italian prose: section 2.2%, page 7.2% (null 4.6%). Latin: no effect. Dante: page 9.3% (null 4.5%).
+- Self-citation: page 49% (window drift), no section effect.
+Which factor:
+- Illustration type: eta2 0.12 (z 18). Bio pages are q-heavy (mean +0.12). All others are a-leaning (-0.05 to -0.20).
+- Quire: 0.14 (z 11), driven by quire M (bio, +0.11).
+- Within Currier B, illustration type explains 0.15. Within Currier A, only 0.03.
+- Scribe hand: nothing within A (z -0.4). Small effect within B (0.045, z 3-4).
+- Currier language alone: 0.014 (weak).
+Extra split-half check (does a line have its own mode beyond its page?):
+- Correlate the mode of the first half of a line with the mode of its second half, after removing the page mean.
+- ZL3b r = 0.057, IT2a 0.069 (null 0.00, z 3-4).
+- Italian 0.083, Latin 0.009, self-citation 0.073.
+- Before removing the page mean, the Voynich r is 0.17-0.19.
+- So about two thirds of the shared mode signal belongs to the page, not the line.
+- A first try with odd vs even word positions gave a higher r, but adjacent-word agreement inflates it (Italian 0.25). It was discarded.
+VERDICT: HOLDS for page and section. Mode is mostly a property of the page and section (bio vs the rest, in Currier B).
+The "each line picks one of two classes" model is too strong. Line-level coherence beyond the page is weak, about the level of Italian prose.
+
+T2. Do q-words and a-words take different positions inside a line?
+Method: 2119 mixed lines (at least one q-word and one a-word, length >= 4).
+Mean relative position of q-words minus that of a-words, against a within-line shuffle.
+Also run with first and last words excluded, against a shuffle of the interior only.
+Results:
+- ZL3b: gap -0.044 (z -7.0). Interior only: -0.046 (z -7.4).
+- IT2a: -0.046 (z -6.9). Interior only: -0.046 (z -7.5).
+- q-words peak in the 2nd fifth of the line and fade toward the end.
+- a-words rise toward the end. They are also common in first position.
+- Currier A: -0.14 (z -9). Currier B: -0.02 to -0.04 (z -2 to -6).
+- Controls: Italian +0.014, Dante +0.016, Latin 0.00, self-citation -0.016 (ns).
+VERDICT: HOLDS but small. q-words drift early and a-words drift late, in both transcriptions and both languages.
+It is not a two-column table: the shift is about 5% of the line length.
+
+T3. Line templates
+Method: write each line as a class string (e.g. "ooaoq"), using lines of 5-10 words.
+Measure template entropy given length, and top-20 coverage.
+Nulls: within-line shuffle; interior shuffle (first and last kept); Markov-3 over classes.
+Results with 3 classes (ZL3b / IT2a):
+- Entropy deficit vs full shuffle: 0.054 / 0.037 bits.
+- Deficit vs interior shuffle: 0.028 / 0.016 bits (z 3.0 / 1.6). Top-20 coverage is the same as the null.
+- Top templates are all-"o" strings, at exactly their shuffle expectation (ooooo 57/57, oooooo 42/42).
+- The Markov-3 deficit (0.14-0.16 bits) only reflects mode clumping by line and page, which Markov-3 cannot model.
+Results with 5 classes (q, a, ch/sh-initial, other -y, other):
+- Deficit 0.000-0.005 bits (z < 1.6). No enriched template.
+Controls:
+- Dante verse: 0.075 bits vs interior shuffle (z 7). Its rhyme slot makes real templates.
+- Manzoni 0.017, Caesar 0.020, self-citation 0.
+VERDICT: FAILS. Once the edge words are fixed, word-class order inside a Voynich line is close to free. No small set of templates exists.
+
+T4. Special first and last words
+Method: mutual information between "is first (last) word" and word identity, stratified by first (last) glyph.
+Null: permute the position label within each glyph stratum.
+Results:
+- First words: z 30 / 33. Excess MI 0.057 / 0.061 bits.
+- Last words: z 29 / 33. Excess MI 0.067 / 0.064 bits.
+- Controls, excess MI first / last: Italian 0.014 / 0.030; Latin 0.024 / 0.009; Dante 0.051 / 0.210 (rhyme); self-citation 0 / 0.
+- Over-represented first words: dshedy (29 vs 6 expected), sho (31 vs 7), shor, dchedy, dcheey, oaiin, qotchor, qotchy.
+- Over-represented last words: dy (87 vs 27), oly (39 vs 6), dal (48 vs 18), ldy, ary, lol, sy, lo.
+- First words are more often a-class (27% vs 21% elsewhere).
+- Last words are rarely q-class (8.7% vs 16%).
+Lines ending in -m (617 / 662 lines):
+- The word before the final -m word is a-class 33% / 35%. Within-line shuffle gives 24%. z +6 / +7.
+- q-class in that slot: 11% vs 16% (z -3.5).
+- Lines with -m endings lean slightly toward the a-mode (-0.073 vs -0.048).
+VERDICT: HOLDS. Line edges have their own vocabularies, beyond the edge-glyph rules, at 2-4x the prose level.
+There is a closing pattern "a-word + -m word". Only verse has a stronger edge effect.
+
+T5. Controls summary
+- Prose shows small page effects, no position split, no templates and weak edge vocabularies.
+- Verse shows strong templates and line-end vocabularies.
+- The Voynich has prose-like order inside the line, plus verse-like edges, plus strong page and section modes.
+- The self-citation generator matches none of these patterns. It only makes local drift.
+
+WHAT HOLDS
+- Mode follows the illustration and section: bio is q-heavy, mainly in Currier B.
+- Mode is largely a page property. Line-level mode beyond the page is weak.
+- q-words come slightly early in a line and a-words slightly late.
+- Special first and last words. "a-word, then -m word" closes lines.
+WHAT FAILS
+- Fixed line templates.
+- A per-line two-class switch as the main source of mode.
+- Hand as an independent driver within Currier A.
+
+BEST NEXT ATTACK
+The line is not a template. It has a frame: a special opener, a free middle, and a special closer ("a-word + -m", dy, oly, dal).
+The vocabulary of the middle is set by the page and section.
+Next: build a "frame and filler" model. Fit edge vocabularies and a page-level mode mixture, generate synthetic lines, then check which N1-N5 and V2-V3 statistics the model fails to reproduce.
+The key test is whether the sealed-line junction reset (V3) survives once the edge vocabularies are modelled. If it does not survive, the "sealed unit" is just edge vocabulary. If it does, there is a real per-line process.
+Do this on held-out sections (fit on herbal, test on bio and stars) to avoid fitting the page modes.
