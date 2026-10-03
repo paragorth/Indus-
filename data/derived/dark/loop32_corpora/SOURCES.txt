@@ -1,0 +1,34 @@
+S-DARK-32 reference library (tools/dark_loop32_prep.py). Types: L language writing, D designed code, G grammar without language, A accounting/tally, I Indus.
+
+indus_seq_raw [I]: 5369 texts, 17829 tokens, 713 types, median len 3. data/derived/merged-corpus-canonical.json seq_raw, all inscribed objects (S-DARK-23 caution: older inscriptions.csv build)
+indus_seq_strong [I]: 5369 texts, 17829 tokens, 695 types, median len 3. data/derived/merged-corpus-canonical.json seq_strong, all inscribed objects (S-DARK-23 caution: older inscriptions.csv build)
+indus_seq_all [I]: 5369 texts, 17829 tokens, 689 types, median len 3. data/derived/merged-corpus-canonical.json seq_all, all inscribed objects (S-DARK-23 caution: older inscriptions.csv build)
+indus_im77 [I]: 2813 texts, 13238 tokens, 413 types, median len 4. data/im77/im77_corpus_lines.csv: Mahadevan 1977 texts, lines joined in reading order, sign 0 dropped
+ur3_words [L]: 6381 texts, 24927 tokens, 4487 types, median len 4. CDLI @seal legends (lang sux), words; one copy per distinct legend (codelib)
+ur3_syll [L]: 20392 texts, 194428 tokens, 797 types, median len 9. CDLI @seal legends, syllable signs, one text per impression (not deduplicated), 2-20 signs
+ur3_names_syll [L]: 24494 texts, 79485 tokens, 882 types, median len 3. CDLI seal legends line 1 (owner names), syllable signs, one per impression (tools/strat_namecalib.py data)
+linb_words [L]: 13170 texts, 42595 tokens, 7464 types, median len 2. DAMOS Linear B tablet lines: sign groups, ideograms, NUM (codelib)
+linb_syll [L]: 13170 texts, 72996 tokens, 1114 types, median len 4. DAMOS Linear B tablet lines split into syllabic signs; ideograms and NUM kept whole
+latin_edh [L]: 6000 texts, 99284 tokens, 18374 types, median len 12. EDH (Heidelberg) Italy, Latin inscriptions, words, abbreviations expanded (codelib)
+runes_words [L]: 613 texts, 3089 tokens, 1542 types, median len 2. RunesDB.de inscription data (Zenodo 21788307, CC BY-SA 4.0), rune words split at separators; SMALL (< 1,000), test-only
+heraldry [D]: 31814 texts, 497696 tokens, 3344 types, median len 12. Rietstap Armorial general, blazon words (codelib)
+khipu [A]: 6561 texts, 38854 tokens, 229 types, median len 4. Open Khipu Repository 2.1.0 cord clusters: colour:magnitude (codelib)
+proto_elamite [A]: 10836 texts, 27072 tokens, 1737 types, median len 2. CDLI Proto-Elamite entry lines, signs + numeral type (codelib)
+proto_cuneiform [A]: 53295 texts, 134363 tokens, 4385 types, median len 2. CDLI ATF lang qpc (Uruk III/IV proto-cuneiform) entry lines, signs + numeral sign type
+icd10 [D]: 74260 texts, 478216 tokens, 36 types, median len 7. CMS ICD-10-CM FY2025 code list (US government, public domain), one code = one text, characters as signs
+hts [D]: 29861 texts, 135378 tokens, 100 types, median len 5. USITC Harmonized Tariff Schedule 2025 numbers (US government), 2-digit groups as signs (chapter, heading, subheading, statistical suffix)
+unicode_names [D]: 20000 texts, 74449 tokens, 11382 types, median len 3. UnicodeData.txt character names (Unicode licence), words as signs, random 20,000 of 41,232
+aircraft_reg [D]: 20000 texts, 118665 tokens, 41 types, median len 6. OpenSky Network aircraft database (free for research use), registration marks, characters as signs (hyphen kept), random 20,000 of the first 20 MB
+chess_eco [G]: 3815 texts, 36997 tokens, 420 types, median len 9. lichess-org/chess-openings (CC0), ECO opening lines, SAN moves as signs
+chords [G]: 20000 texts, 252020 tokens, 921 types, median len 10. Chordonomicon v2 (Hugging Face ailsntua/Chordonomicon, CC BY-NC 4.0), one song section = one text, chord symbols as signs, random 20,000 sections from the first 25 MB
+
+SOURCES: CDLI ATF dump (github cdli-gh/data; seal legends lang sux, proto-cuneiform lang qpc; CC BY); DAMOS Linear B (other-scripts/linear-a/data/damos_items.jsonl);
+EDH API https://edh.ub.uni-heidelberg.de (CC BY-SA); RunesDB.de TEI https://zenodo.org/records/21788307 (CC BY-SA 4.0); Rietstap Armorial general (archive.org, public domain);
+Open Khipu Repository 2.1.0 https://doi.org/10.5281/zenodo.5037551; CDLI Proto-Elamite ATF; CMS ICD-10-CM 2025 https://www.cms.gov/files/zip/2025-code-descriptions-tabular-order.zip (US gov);
+USITC HTS https://hts.usitc.gov/reststop/exportList (US gov); Unicode UnicodeData.txt https://www.unicode.org/Public/UCD/latest/ucd/ (Unicode licence);
+OpenSky aircraftDatabase.csv https://opensky-network.org/datasets/metadata/ (free for research); lichess chess-openings https://github.com/lichess-org/chess-openings (CC0);
+Chordonomicon https://huggingface.co/datasets/ailsntua/Chordonomicon (CC BY-NC 4.0); IM77 data/im77 (Mahadevan 1977 via indusscript.in).
+NOT OBTAINED (no open machine-readable source found, skipped): Egyptian royal titularies, Old Persian / Aramaic seal legends, Phoenician / Punic stamp seals,
+Chinese oracle-bone / bronze short texts, medieval merchant and masons marks, Mesopotamian potters / brick marks, ISBN / EAN real-number lists, vehicle plates, Dewey call numbers;
+Rundata (Uppsala, Viking-Age runic) could not be downloaded here (GitHub mirror not reachable from this session; FAA registry returned 403), RunesDB used instead.
+Raw downloads larger than 5 MB were deleted after prep to keep the repository small; the URLs above re-create them.

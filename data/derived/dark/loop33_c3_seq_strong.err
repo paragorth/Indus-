@@ -1,0 +1,231 @@
+== S-DARK-33 cycle 3 level seq_strong: fit (MD+H complete, direction recorded) 2946 texts [seals 1259, tablets 1472]; held-out sites 451; IM77 certainly-new 324 texts (0/1291 tokens unbridged -> OTHER)
+
+## ALERGIA automaton, Indus seals, CLASS alphabet, fitted on all 1259 MD+H texts: 14 states, 414 transitions
+  s1   visits  1335 end 0.10 meanpos 2.7 | in: OTHER(980), NUMt(68), w140(37), w590(31) | out: OTHER->s1(305), C740->s5(174), CONN->s3(116), OPEN->s9(65), MJAR->s3(60), TREE->s9(47)
+  s0   visits  1259 end 0.00 meanpos 0.0 | in:  | out: OTHER->s1(369), OPEN->s2(327), NUMt->s3(91), NUMs->s4(76), FISHQ->s3(63), LEAF->s3(38)
+  s5   visits  1247 end 0.80 meanpos 4.8 | in: C740(596), C520(132), SUF(107), OTHER(93) | out: OTHER->s5(68), SUF->s5(60), NUMs->s3(23), OPEN->s2(10), C740->s5(10), TITLE->s7(9)
+  s3   visits  1212 end 0.02 meanpos 2.8 | in: CONN(530), FISHQ(335), MJAR(95), NUMt(93) | out: OTHER->s1(221), FISHQ->s3(214), NUMs->s4(100), NUMt->s6(79), w705->s8(65), TITLE->s7(59)
+  s7   visits   527 end 0.04 meanpos 4.1 | in: TITLE(224), TREE(51), w61(34), TABTITLE(26) | out: C740->s5(324), OTHER->s1(41), TITLE->s11(39), CONN->s3(12), C151->s5(9), w142->s9(8)
+  s2   visits   403 end 0.02 meanpos 1.3 | in: OPEN(351), w550(23), w595(12), w615(4) | out: CONN->s3(323), OTHER->s1(19), NUMs->s3(17), MJAR->s10(3), C740->s8(3), NUMt->s1(3)
+  s4   visits   238 end 0.03 meanpos 2.8 | in: NUMs(231), TABTITLE(2), w503(2), w413(1) | out: TREE->s5(76), FISH->s7(22), OTHER->s5(22), BRACKET->s7(20), C156->s5(14), w585->s7(12)
+  s11  visits   222 end 0.05 meanpos 4.6 | in: NUMt(94), FISH(45), TITLE(39), OTHER(17) | out: C520->s5(58), TITLE->s7(36), C740->s5(27), OTHER->s11(17), NUMt->s1(9), w590->s12(7)
+  s9   visits   205 end 0.24 meanpos 3.6 | in: OPEN(71), OTHER(54), TREE(51), FISH(21) | out: CONN->s3(50), C740->s5(26), OTHER->s1(17), MJAR->s10(10), SUF->s7(9), OPEN->s1(6)
+  s6   visits   184 end 0.02 meanpos 3.7 | in: NUMt(82), w415(54), C740(25), w350(15) | out: FISH->s3(58), OTHER->s9(44), TITLE->s7(18), SUF->s5(12), C226->s5(7), FISHQ->s11(4)
+  s8   visits   175 end 0.03 meanpos 3.6 | in: w705(101), w550(18), BRACKET(14), C700(10) | out: NUMt->s11(94), TITLE->s7(13), C527->s5(11), OTHER->s9(10), C740->s5(8), C617->s5(5)
+  s10  visits   170 end 0.01 meanpos 3.6 | in: LEAF(57), w798(52), MJAR(18), FISHQ(16) | out: FISHQ->s3(57), C740->s5(20), NUMt->s7(19), w415->s6(13), OTHER->s1(8), w705->s8(7)
+  s12  visits    53 end 0.00 meanpos 4.9 | in: w590(38), w845(5), w61(4), w125(4) | out: TREE->s7(48), MJAR->s3(1), w350->s1(1), C151->s5(1), OTHER->s2(1), C740->s5(1)
+  s13  visits    30 end 0.00 meanpos 3.1 | in: LEAF(21), TREE(5), NUMs(2), C527(1) | out: C154->s5(16), MJAR->s3(6), OTHER->s5(3), SUF->s5(1), w415->s6(1), TITLE->s7(1)
+  LOOP self: s1 --OTHER--> s1  (305x)
+  LOOP self: s3 --FISHQ--> s3  (214x)
+  LOOP self: s5 --OTHER--> s5  (68x)
+  LOOP self: s5 --SUF--> s5  (60x)
+  LOOP back: s6 --FISH--> s3  (58x)
+  LOOP back: s10 --FISHQ--> s3  (57x)
+  LOOP back: s9 --CONN--> s3  (50x)
+  LOOP back: s12 --TREE--> s7  (48x)
+  LOOP self: s1 --NUMt--> s1  (43x)
+  LOOP back: s7 --OTHER--> s1  (41x)
+  LOOP self: s3 --MJAR--> s3  (28x)
+  LOOP back: s5 --NUMs--> s3  (23x)
+  LOOP back: s9 --OTHER--> s1  (17x)
+  LOOP self: s11 --OTHER--> s11  (17x)
+  LOOP self: s3 --CONN--> s3  (16x)
+  LOOP self: s1 --w705--> s1  (14x)
+  LOOP self: s1 --w125--> s1  (12x)
+  LOOP back: s1 --w595--> s2  (12x)
+  LOOP back: s7 --CONN--> s3  (12x)
+  LOOP self: s1 --w590--> s1  (11x)
+  top strings by automaton probability:
+    0.0304  OTHER C740
+    0.0294  OTHER
+    0.0153  NUMs TREE
+    0.0113  TITLE C740
+    0.0069  OTHER OTHER C740
+    0.0067  OTHER OTHER
+    0.0058  w61 C740
+    0.0055  OPEN CONN C520
+    0.0052  OPEN
+    0.0051  OTHER SUF
+    0.0049  OPEN CONN TITLE C740
+    0.0044  NUMs OTHER
+    0.0044  OPEN CONN NUMs TREE
+    0.0043  OPEN CONN
+    0.0042  OTHER TITLE C740
+    0.0040  OTHER C520
+    0.0039  OPEN CONN OTHER C740
+    0.0038  OPEN CONN OTHER
+    0.0035  w416 C740
+    0.0035  OTHER OPEN
+    0.0028  NUMs C156
+    0.0027  NUMs FISH C740
+    0.0025  OTHER TREE
+    0.0025  NUMs BRACKET C740
+    0.0023  OTHER NUMs TREE
+  forbidden bigrams (E >= 8, observed 0 in fit): 18
+    heldsites: forbidden bigrams observed 5 of 969 (0.0052); within-text shuffle median 39 [30-48]
+          C740 -> C740     E_fit  51.8  heldsites 1
+          C740 -> TITLE    E_fit  21.7  heldsites 0
+          OPEN -> FISHQ    E_fit  20.7  heldsites 1
+         FISHQ -> OPEN     E_fit  20.7  heldsites 0
+          C740 -> TREE     E_fit  16.2  heldsites 0
+          CONN -> TREE     E_fit  14.0  heldsites 0
+          C740 -> FISH     E_fit  13.1  heldsites 0
+         TITLE -> FISHQ    E_fit  12.5  heldsites 0
+          C740 -> C520     E_fit  11.1  heldsites 0
+          C520 -> C740     E_fit  11.1  heldsites 0
+          MJAR -> C740     E_fit  11.1  heldsites 2
+          C740 -> LEAF     E_fit  10.3  heldsites 1
+    im77new: forbidden bigrams observed 4 of 534 (0.0075); within-text shuffle median 20 [12-26]
+          C740 -> C740     E_fit  51.8  im77new 0
+          C740 -> TITLE    E_fit  21.7  im77new 1
+          OPEN -> FISHQ    E_fit  20.7  im77new 0
+         FISHQ -> OPEN     E_fit  20.7  im77new 0
+          C740 -> TREE     E_fit  16.2  im77new 0
+          CONN -> TREE     E_fit  14.0  im77new 0
+          C740 -> FISH     E_fit  13.1  im77new 0
+         TITLE -> FISHQ    E_fit  12.5  im77new 1
+          C740 -> C520     E_fit  11.1  im77new 0
+          C520 -> C740     E_fit  11.1  im77new 0
+          MJAR -> C740     E_fit  11.1  im77new 0
+          C740 -> LEAF     E_fit  10.3  im77new 0
+  class order by mean relative position (fit): OPEN(0.13) > w125(0.29) > w140(0.29) > w503(0.31) > w575(0.33) > CONN(0.33) > MJAR(0.33) > w550(0.35) > LEAF(0.35) > w717(0.35) > w415(0.38) > FISHQ(0.41) > w840(0.41) > NUMs(0.41) > w388(0.42) > w705(0.42) > OTHER(0.42) > w61(0.43) > NUMt(0.43) > w590(0.43) > w798(0.44) > w142(0.46) > w440(0.46) > w350(0.48) > TABTITLE(0.51) > FISH(0.52) > BRACKET(0.52) > w595(0.59) > TITLE(0.59) > w892(0.60) > C617(0.72) > TREE(0.78) > C154(0.90) > SUF(0.90) > C740(0.91) > C520(0.92) > C156(0.94) > C527(0.94) > C151(1.00)
+  held-out (sites + IM77 new) class order Kendall tau vs fit: 0.508 over 34 classes
+
+## ALERGIA automaton, Indus all+type, CLASS alphabet, fitted on all 2946 MD+H texts: 64 states, 1023 transitions
+  s0   visits  2946 end 0.00 meanpos 0.0 | in:  | out: T:TAB->s1(1472), T:SEAL->s2(1259), T:OTHER->s8(215)
+  s6   visits  2349 end 0.86 meanpos 4.9 | in: C740(622), SUF(423), C700(358), C520(172) | out: SUF->s6(96), OTHER->s6(54), C740->s11(25), NUMt->s6(23), NUMs->s37(17), C520->s17(12)
+  s1   visits  1512 end 0.00 meanpos 1.1 | in: T:TAB(1472), w575(14), MJAR(10), w705(6) | out: NUMt->s4(356), OTHER->s3(301), FISHQ->s9(118), NUMs->s10(105), OPEN->s12(81), TITLE->s13(79)
+  s2   visits  1279 end 0.00 meanpos 1.0 | in: T:SEAL(1259), MJAR(14), w140(6) | out: OTHER->s3(376), OPEN->s5(331), NUMt->s8(92), NUMs->s14(76), FISHQ->s7(63), LEAF->s7(39)
+  s11  visits   887 end 0.49 meanpos 4.4 | in: C740(295), OTHER(257), NUMt(81), NUMs(59) | out: OTHER->s11(93), SUF->s6(66), C740->s6(40), NUMs->s11(30), CONN->s9(27), NUMt->s11(26)
+  s3   visits   873 end 0.11 meanpos 2.3 | in: OTHER(851), MJAR(11), C700(7), NUMs(4) | out: OTHER->s3(155), CONN->s7(83), C740->s11(76), NUMt->s13(57), MJAR->s8(54), OPEN->s18(45)
+  s7   visits   832 end 0.01 meanpos 3.5 | in: CONN(444), FISHQ(270), LEAF(42), MJAR(31) | out: FISHQ->s7(156), OTHER->s15(132), NUMs->s14(65), NUMt->s10(56), LEAF->s27(48), TITLE->s15(48)
+  s8   visits   440 end 0.02 meanpos 1.9 | in: T:OTHER(215), NUMt(92), MJAR(54), w140(23) | out: OTHER->s11(135), NUMt->s11(53), NUMs->s11(27), OPEN->s12(21), FISHQ->s7(21), TITLE->s13(16)
+  s15  visits   421 end 0.11 meanpos 4.1 | in: OTHER(263), TITLE(86), w590(17), w840(16) | out: C740->s6(157), OTHER->s15(40), TITLE->s18(37), TREE->s11(18), C520->s6(15), C527->s6(10)
+  s5   visits   390 end 0.00 meanpos 2.2 | in: OPEN(336), w550(28), w615(4), w415(3) | out: CONN->s7(327), OTHER->s3(19), NUMs->s7(15), MJAR->s27(3), C740->s31(3), NUMt->s54(3)
+  s4   visits   380 end 0.02 meanpos 2.3 | in: NUMt(372), w125(6), w840(1), w850(1) | out: C700->s6(322), OTHER->s15(12), NUMt->s25(7), FISH->s48(5), TITLE->s55(4), NUMs->s34(3)
+  s28  visits   322 end 0.02 meanpos 5.1 | in: TITLE(60), TABTITLE(46), w752(45), OTHER(34) | out: C740->s6(269), TITLE->s13(11), SUF->s15(7), NUMt->s33(5), CONN->s24(4), C154->s6(3)
+  s17  visits   285 end 0.31 meanpos 4.5 | in: C740(201), C154(16), C156(12), C520(12) | out: SUF->s6(175), OTHER->s11(8), OPEN->s16(2), NUMt->s11(2), w590->s26(1), w413->s6(1)
+  s9   visits   265 end 0.00 meanpos 2.8 | in: FISHQ(171), LEAF(61), CONN(28), w717(2) | out: FISHQ->s9(42), w705->s31(35), TITLE->s28(22), OTHER->s28(19), TABTITLE->s13(16), w845->s36(16)
+  s10  visits   263 end 0.05 meanpos 3.1 | in: NUMs(105), CONN(100), NUMt(56), w140(1) | out: OTHER->s15(50), OPEN->s6(32), FISH->s7(28), FISHQ->s34(25), C156->s6(24), C700->s37(13)
+  s13  visits   254 end 0.06 meanpos 3.0 | in: TITLE(152), NUMt(57), TABTITLE(23), w416(9) | out: C740->s17(109), TITLE->s18(43), OTHER->s15(29), NUMt->s6(8), CONN->s7(8), C156->s6(6)
+  s33  visits   212 end 0.02 meanpos 4.9 | in: TITLE(104), NUMt(35), TREE(18), OTHER(17) | out: C740->s11(156), OTHER->s6(22), TITLE->s55(9), OPEN->s17(5), w590->s6(3), C527->s6(3)
+  s25  visits   211 end 0.02 meanpos 4.9 | in: FISH(75), FISHQ(68), NUMt(64), OTHER(4) | out: C520->s6(99), OTHER->s33(17), TITLE->s33(9), NUMt->s48(9), FISHQ->s25(9), w705->s31(7)
+  s55  visits   201 end 0.21 meanpos 5.4 | in: OTHER(135), TITLE(13), w798(13), MJAR(11) | out: TITLE->s56(43), C740->s38(31), OTHER->s52(12), SUF->s11(9), w798->s49(8), MJAR->s35(7)
+  s54  visits   183 end 0.04 meanpos 5.0 | in: TITLE(30), w350(26), CONN(16), NUMs(13) | out: OTHER->s55(135), C740->s11(17), SUF->s6(5), NUMt->s28(3), w140->s54(2), C226->s6(2)
+  s14  visits   173 end 0.02 meanpos 3.3 | in: NUMs(172), C236(1) | out: TREE->s6(68), FISH->s15(16), BRACKET->s33(14), OTHER->s11(12), C156->s6(12), w140->s55(8)
+  s12  visits   161 end 0.12 meanpos 2.9 | in: OPEN(123), TREE(19), FISH(13), w550(6) | out: CONN->s10(97), OTHER->s37(11), NUMs->s24(7), C740->s11(3), OPEN->s11(3), FISH->s26(2)
+  s18  visits   147 end 0.06 meanpos 3.9 | in: TITLE(80), OPEN(45), w61(16), w840(6) | out: C740->s6(52), TITLE->s33(28), CONN->s7(21), C156->s17(12), OTHER->s37(9), w142->s28(4)
+  s37  visits   127 end 0.07 meanpos 4.4 | in: w575(21), OTHER(20), NUMs(18), C700(13) | out: OTHER->s38(51), NUMs->s41(35), C740->s6(8), FISH->s6(3), NUMt->s21(3), BRACKET->s54(2)
+  s27  visits   115 end 0.02 meanpos 3.9 | in: LEAF(48), w798(28), w705(28), CONN(6) | out: FISHQ->s7(30), NUMt->s20(24), C740->s6(14), OTHER->s6(13), w415->s39(8), NUMs->s45(3)
+  s48  visits   115 end 0.03 meanpos 4.5 | in: FISH(44), TABTITLE(17), FISHQ(11), NUMt(9) | out: OTHER->s50(48), C740->s17(20), TITLE->s33(12), C520->s6(5), NUMt->s34(3), w705->s29(3)
+  s20  visits   110 end 0.01 meanpos 3.2 | in: w415(65), NUMt(24), FISH(10), MJAR(5) | out: TITLE->s33(44), FISH->s25(42), OTHER->s58(12), FISHQ->s34(3), C226->s6(2), w590->s21(2)
+  s24  visits   104 end 0.05 meanpos 4.3 | in: CONN(50), MJAR(12), FISH(11), LEAF(10) | out: FISHQ->s25(59), C527->s6(5), C740->s11(4), NUMs->s59(4), TITLE->s13(3), LEAF->s13(3)
+  s29  visits    92 end 0.07 meanpos 3.8 | in: w705(77), w840(5), w892(4), C151(3) | out: NUMt->s25(55), TITLE->s28(11), OTHER->s11(9), TREE->s23(2), MJAR->s24(2), C740->s6(1)
+  s16  visits    91 end 0.01 meanpos 3.2 | in: C700(59), w705(9), w840(4), w850(2) | out: NUMt->s6(87), OTHER->s6(1), w840->s16(1), w501->s5(1)
+  s38  visits    89 end 0.29 meanpos 5.4 | in: OTHER(51), C740(31), TREE(4), w142(3) | out: SUF->s6(16), C740->s11(14), w717->s47(13), OTHER->s54(4), LEAF->s30(3), CONN->s24(3)
+  s23  visits    82 end 0.24 meanpos 5.0 | in: TREE(71), FISH(4), w550(3), OPEN(2) | out: CONN->s24(38), C740->s6(16), w798->s48(2), C151->s6(2), w350->s16(1), NUMs->s37(1)
+  s50  visits    77 end 0.08 meanpos 5.3 | in: OTHER(54), w595(5), BRACKET(4), w892(2) | out: OPEN->s53(28), C740->s6(10), w595->s6(7), OTHER->s6(5), CONN->s10(3), TITLE->s28(3)
+  s34  visits    71 end 0.00 meanpos 4.3 | in: FISHQ(40), w590(19), NUMs(3), NUMt(3) | out: TABTITLE->s28(22), w705->s52(12), OTHER->s28(11), TREE->s15(6), FISHQ->s9(4), C740->s24(3)
+  s21  visits    70 end 0.00 meanpos 4.4 | in: w501(29), w590(18), w61(7), w585(6) | out: TREE->s23(67), NUMt->s28(1), C154->s6(1), w142->s28(1)
+  s41  visits    70 end 0.01 meanpos 5.0 | in: NUMs(35), w61(25), w125(5), w503(3) | out: TREE->s43(33), OTHER->s6(11), NUMs->s54(5), w142->s47(4), C740->s17(3), TITLE->s28(2)
+  s52  visits    68 end 0.04 meanpos 3.8 | in: w892(15), w705(12), OTHER(12), BRACKET(10) | out: OTHER->s6(41), CONN->s6(9), C617->s6(2), C527->s6(2), NUMt->s25(2), NUMs->s11(2)
+  s53  visits    66 end 0.09 meanpos 5.5 | in: OPEN(32), w550(10), w415(7), w705(5) | out: TITLE->s54(30), C527->s6(9), C740->s54(6), CONN->s48(4), C151->s29(3), OTHER->s50(2)
+  s49  visits    61 end 0.00 meanpos 4.8 | in: TREE(18), FISHQ(11), w61(9), w798(8) | out: C740->s17(47), w142->s28(3), C151->s6(2), C520->s37(2), w415->s53(2), TREE->s6(1)
+  s35  visits    60 end 0.00 meanpos 3.1 | in: w798(28), FISHQ(21), MJAR(7), TABTITLE(2) | out: FISHQ->s35(21), w415->s39(13), w845->s36(7), w705->s31(5), OTHER->s50(4), LEAF->s34(3)
+  s39  visits    58 end 0.02 meanpos 4.0 | in: w415(38), w416(15), FISHQ(3), NUMt(2) | out: FISH->s48(39), OPEN->s61(6), TITLE->s33(5), C740->s6(2), w840->s53(2), FISHQ->s16(1)
+  s31  visits    50 end 0.02 meanpos 4.5 | in: w705(47), C740(3) | out: NUMt->s32(42), OTHER->s6(2), TABTITLE->s50(2), SUF->s6(1), w892->s26(1), w590->s6(1)
+  s32  visits    48 end 0.00 meanpos 5.4 | in: NUMt(42), w140(2), C236(2), w798(1) | out: w845->s40(16), w550->s37(8), C520->s6(6), OTHER->s25(4), w585->s21(3), NUMt->s54(3)
+  s47  visits    48 end 0.00 meanpos 4.4 | in: w142(27), w717(13), w550(6), w798(2) | out: C617->s6(25), NUMt->s4(15), C151->s17(1), NUMs->s6(1), C740->s6(1), C156->s6(1)
+  s56  visits    48 end 0.02 meanpos 5.8 | in: TITLE(43), w142(5) | out: C740->s6(26), w590->s57(13), TITLE->s33(6), C617->s6(2)
+  s26  visits    46 end 0.02 meanpos 2.9 | in: w413(30), NUMs(7), TABTITLE(5), FISH(2) | out: w575->s37(21), w892->s52(15), w125->s41(3), OTHER->s6(2), w585->s28(2), NUMs->s6(1)
+  s44  visits    45 end 0.00 meanpos 5.7 | in: OTHER(22), NUMt(10), NUMs(8), w845(5) | out: TREE->s6(31), w705->s53(3), w142->s47(2), SUF->s55(2), FISH->s28(1), w575->s28(1)
+  s43  visits    41 end 0.39 meanpos 5.2 | in: TREE(34), w595(5), w140(2) | out: w850->s45(21), CONN->s24(3), MJAR->s7(1)
+  s19  visits    40 end 0.00 meanpos 2.4 | in: w503(35), w440(4), NUMs(1) | out: w615->s22(31), NUMs->s49(5), NUMt->s28(1), OPEN->s54(1), TITLE->s28(1), C740->s6(1)
+  s40  visits    40 end 0.00 meanpos 4.0 | in: w845(16), w590(11), w125(10), CONN(3) | out: TREE->s42(20), FISHQ->s63(10), OPEN->s23(2), OTHER->s5(2), SUF->s6(2), w705->s54(1)
+  s42  visits    40 end 0.03 meanpos 4.2 | in: TREE(20), C617(6), w440(4), C156(3) | out: OTHER->s44(20), MJAR->s55(11), w350->s54(5), C740->s6(1), w440->s42(1), TITLE->s28(1)
+  s22  visits    37 end 0.03 meanpos 3.7 | in: w615(31), OTHER(2), NUMs(2), w440(2) | out: w752->s28(29), C740->s6(4), MJAR->s54(1), OTHER->s53(1), C151->s6(1)
+  s30  visits    35 end 0.00 meanpos 3.5 | in: LEAF(29), w440(3), BRACKET(2), NUMs(1) | out: C154->s11(30), SUF->s6(1), OTHER->s6(1), w705->s16(1), TITLE->s28(1), CONN->s16(1)
+  s36  visits    35 end 0.03 meanpos 3.5 | in: w845(23), w140(7), OTHER(5) | out: w61->s41(22), NUMs->s54(7), OTHER->s44(2), TREE->s43(1), SUF->s6(1), NUMt->s28(1)
+  s45  visits    31 end 0.06 meanpos 5.4 | in: w850(21), NUMs(9), TABTITLE(1) | out: BRACKET->s28(21), OTHER->s36(5), NUMt->s39(1), TITLE->s28(1), TREE->s6(1)
+  s58  visits    31 end 0.03 meanpos 3.7 | in: w840(16), OTHER(12), OPEN(3) | out: NUMt->s33(21), C740->s6(5), OTHER->s16(2), FISH->s25(1), w61->s21(1)
+  s60  visits    21 end 0.00 meanpos 4.8 | in: w585(11), C617(6), w590(4) | out: OTHER->s61(10), w892->s49(6), C740->s6(3), TREE->s28(2)
+  s46  visits    20 end 0.00 meanpos 4.4 | in: w590(20) | out: TREE->s49(18), w892->s15(2)
+  s51  visits    19 end 0.00 meanpos 4.5 | in: w590(19) | out: TREE->s33(18), MJAR->s42(1)
+  s57  visits    19 end 0.00 meanpos 7.2 | in: w590(13), w585(4), w717(2) | out: TREE->s28(11), w388->s28(6), OTHER->s6(2)
+  LOOP self: s7 --FISHQ--> s7  (156x)
+  LOOP back: s33 --C740--> s11  (156x)
+  LOOP self: s3 --OTHER--> s3  (155x)
+  LOOP self: s6 --SUF--> s6  (96x)
+  LOOP self: s11 --OTHER--> s11  (93x)
+  LOOP self: s6 --OTHER--> s6  (54x)
+  LOOP self: s9 --FISHQ--> s9  (42x)
+  LOOP self: s15 --OTHER--> s15  (40x)
+  LOOP back: s23 --CONN--> s24  (38x)
+  LOOP back: s44 --TREE--> s6  (31x)
+  LOOP self: s11 --NUMs--> s11  (30x)
+  LOOP back: s53 --TITLE--> s54  (30x)
+  LOOP self: s7 --MJAR--> s7  (27x)
+  LOOP back: s11 --CONN--> s9  (27x)
+  LOOP self: s11 --NUMt--> s11  (26x)
+  LOOP back: s56 --C740--> s6  (26x)
+  LOOP back: s6 --C740--> s11  (25x)
+  LOOP back: s27 --NUMt--> s20  (24x)
+  LOOP self: s6 --NUMt--> s6  (23x)
+  LOOP back: s7 --C740--> s8  (21x)
+  top strings by automaton probability:
+    0.0854  T:TAB NUMt C700
+    0.0159  T:TAB C700 NUMt
+    0.0132  T:SEAL OTHER
+    0.0110  T:OTHER OTHER
+    0.0105  T:TAB OTHER
+    0.0085  T:SEAL NUMs TREE
+    0.0059  T:TAB TITLE C740 SUF
+    0.0054  T:SEAL OTHER C740
+    0.0051  T:SEAL OTHER SUF
+    0.0050  T:TAB FISH
+    0.0049  T:TAB w503 w615 w752 C740
+    0.0047  T:SEAL OPEN CONN OTHER C740
+    0.0046  T:SEAL NUMt OTHER
+    0.0043  T:OTHER NUMt
+    0.0043  T:TAB OTHER C740
+    0.0040  T:TAB OTHER SUF
+    0.0036  T:TAB NUMs OPEN
+    0.0035  T:TAB NUMt C700 SUF
+    0.0034  T:TAB TITLE C740
+    0.0033  T:TAB OPEN
+    0.0032  T:SEAL TITLE C740
+    0.0030  T:SEAL OPEN CONN C520
+    0.0028  T:TAB TABTITLE C740
+    0.0027  T:TAB NUMs C156
+    0.0024  T:SEAL OPEN CONN NUMs TREE
+  forbidden bigrams (E >= 8, observed 0 in fit): 30
+    heldsites: forbidden bigrams observed 6 of 1305 (0.0046); within-text shuffle median 34 [25-45]
+          C740 -> C740     E_fit  91.6  heldsites 1
+          C740 -> C700     E_fit  34.1  heldsites 0
+          C700 -> C740     E_fit  34.1  heldsites 0
+         FISHQ -> OPEN     E_fit  24.1  heldsites 0
+          OPEN -> FISHQ    E_fit  24.1  heldsites 1
+         TITLE -> FISHQ    E_fit  23.5  heldsites 0
+          C740 -> FISH     E_fit  20.5  heldsites 0
+          CONN -> C700     E_fit  20.1  heldsites 0
+          C700 -> CONN     E_fit  20.1  heldsites 0
+         FISHQ -> SUF      E_fit  18.1  heldsites 0
+           SUF -> FISHQ    E_fit  18.1  heldsites 0
+         FISHQ -> C700     E_fit  17.7  heldsites 0
+    im77new: forbidden bigrams observed 9 of 967 (0.0093); within-text shuffle median 32 [24-40]
+          C740 -> C740     E_fit  91.6  im77new 0
+          C740 -> C700     E_fit  34.1  im77new 0
+          C700 -> C740     E_fit  34.1  im77new 0
+         FISHQ -> OPEN     E_fit  24.1  im77new 0
+          OPEN -> FISHQ    E_fit  24.1  im77new 0
+         TITLE -> FISHQ    E_fit  23.5  im77new 1
+          C740 -> FISH     E_fit  20.5  im77new 1
+          CONN -> C700     E_fit  20.1  im77new 0
+          C700 -> CONN     E_fit  20.1  im77new 0
+         FISHQ -> SUF      E_fit  18.1  im77new 1
+           SUF -> FISHQ    E_fit  18.1  im77new 0
+         FISHQ -> C700     E_fit  17.7  im77new 0
+  class order by mean relative position (fit): T:OTHER(0.00) > T:SEAL(0.00) > T:TAB(0.00) > w501(0.23) > OPEN(0.35) > w503(0.36) > LEAF(0.41) > w413(0.42) > w415(0.43) > w140(0.44) > w575(0.45) > w125(0.46) > MJAR(0.46) > CONN(0.48) > w798(0.48) > FISHQ(0.49) > w705(0.50) > w550(0.52) > w615(0.53) > w717(0.54) > w845(0.54) > w416(0.55) > w590(0.55) > NUMs(0.56) > w61(0.56) > w350(0.57) > FISH(0.57) > OTHER(0.58) > w388(0.58) > NUMt(0.58) > w840(0.59) > w850(0.60) > TABTITLE(0.61) > w595(0.62) > TITLE(0.62) > w440(0.64) > w142(0.65) > w892(0.65) > BRACKET(0.65) > w585(0.67) > w752(0.74) > C617(0.78) > TREE(0.80) > C226(0.83) > C154(0.88) > C700(0.90) > C740(0.91) > C156(0.91) > C520(0.93) > C151(0.95) > SUF(0.95) > C527(0.96)
+  held-out (sites + IM77 new) class order Kendall tau vs fit: 0.567 over 40 classes
+
+[25s]

@@ -209,41 +209,49 @@ def embed(objs, top=150, dim=30, ctx_min=3, use_lab=True, use_ot=True, vocab=Non
     return vocab, E
 
 # ---------------- analogy mining ----------------
+TAU_SIM = 0.5     # a and b (and c and d) must not be near-synonyms: cos < TAU_SIM, so the offset is not ~0
+TAU_OFF = 0.5     # the two offsets must point the same way: cos(a-b, c-d) >= TAU_OFF
+
 def nn_tensor(E):
-    """NN[a,b,c] = argmax_x cos(E_a - E_b + E_c, E_x) over x not in {a,b,c}; also the cosine. a,b,c distinct else -1."""
+    """NN[a,b,c] = argmax_x cos(E_a - E_b + E_c, E_x) over x not in {a,b,c}; -1 where a,b,c not distinct."""
     n = E.shape[0]
-    NN = np.full((n, n, n), -1, dtype=np.int16); SC = np.zeros((n, n, n), dtype=np.float32)
+    NN = np.full((n, n, n), -1, dtype=np.int16)
+    idx = np.arange(n)
     for a in range(n):
         Q = E[a][None, None, :] - E[:, None, :] + E[None, :, :]          # b, c, k
         Q = Q.reshape(n * n, -1)
         qn = np.linalg.norm(Q, axis=1, keepdims=True); qn[qn == 0] = 1
-        S = (Q / qn) @ E.T                                              # (b c), x
-        S = S.reshape(n, n, n)
-        S[:, :, a] = -2
-        idx = np.arange(n)
-        S[idx, :, idx] = -2      # x == b
-        S[:, idx, idx] = -2      # x == c
-        NN[a] = S.argmax(2); SC[a] = S.max(2)
+        S = ((Q / qn) @ E.T).reshape(n, n, n)
+        S[:, :, a] = -2; S[idx, :, idx] = -2; S[:, idx, idx] = -2
+        NN[a] = S.argmax(2)
         NN[a, a, :] = -1; NN[a, :, a] = -1; NN[a, idx, idx] = -1
-    return NN, SC
+    return NN
 
-def mine(E, rule=4):
-    """Return list of linked ordered-pair pairs ((a,b),(c,d)) with a,b,c,d distinct, and the pair graph components."""
+def mine(E, rule=4, tau_sim=TAU_SIM, tau_off=TAU_OFF, nontrivial=True):
+    """Linked pairs ((a,b),(d,c)) with a - b = d - c: a,b,c,d distinct, a < c; cos(a,b) < tau_sim and cos(c,d) < tau_sim;
+    NN(a-b+c) = d and NN(c-d+a) = b (rule 2), plus NN(b-a+d) = c and NN(d-c+b) = a (rule 4);
+    d != NN1(c) and b != NN1(a) (the offset must beat plain similarity); cos(a-b, c-d) >= tau_off."""
     n = E.shape[0]
-    NN, SC = nn_tensor(E)
-    links = []
-    for a in range(n):
-        for b in range(n):
-            if a == b: continue
-            for c in range(n):
-                if c == a or c == b: continue
-                d = int(NN[a, b, c])
-                if d < 0 or d == a or d == b or d == c: continue
-                if a >= c: continue                       # each pair-of-pairs once (ordered by first element)
-                if NN[c, d, a] != b: continue             # 2-corner reciprocity
-                if rule == 4 and (NN[b, a, d] != c or NN[d, c, b] != a): continue
-                links.append(((a, b), (c, d)))
-    return links, NN, SC
+    NN = nn_tensor(E)
+    cs = E @ E.T
+    nn1 = (cs - 2 * np.eye(n, dtype=np.float32)).argmax(1)
+    A, B, Cc = np.indices((n, n, n), dtype=np.int32)
+    D = NN.astype(np.int32)
+    ok = (D >= 0) & (A < Cc) & (D != A) & (D != B) & (D != Cc)
+    ok &= cs[A, B] < tau_sim
+    Dc = np.where(ok, D, 0)
+    ok &= cs[Cc, Dc] < tau_sim
+    ok &= NN[Cc, Dc, A] == B
+    if rule == 4:
+        ok &= (NN[B, A, Dc] == Cc) & (NN[Dc, Cc, B] == A)
+    if nontrivial:
+        ok &= (nn1[Cc] != Dc) & (nn1[A] != B)
+    a, b, c = np.nonzero(ok); d = D[a, b, c]
+    O1 = E[a] - E[b]; O2 = E[d] - E[c]          # a - b + c = d  <=>  a - b = d - c : the parallel pair is (d, c)
+    agree = (O1 * O2).sum(1) / (np.linalg.norm(O1, axis=1) * np.linalg.norm(O2, axis=1) + 1e-9)
+    keep = agree >= tau_off
+    links = [((int(x), int(y)), (int(w), int(z))) for x, y, z, w in zip(a[keep], b[keep], c[keep], d[keep])]
+    return links, NN, None
 
 def components(links):
     adj = collections.defaultdict(set)

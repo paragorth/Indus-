@@ -32,3 +32,5 @@ train seq_all reverse     namecalib base 0.767 -> 0.808 [0.785,0.823] D +0.041 n
 train seq_all numonly     namecalib base 0.764 -> 1.228 [1.032,1.571] D +0.464 null +0.189±0.046 z +6.0 p 0.016 (37s)
 train seq_all dropframe   repeat    base 0.240 -> 0.342 [0.202,0.479] D +0.102 null -0.016±0.040 z +3.0 p 0.033 (65s)
 train seq_all dropsign    namecalib base 0.748 -> 0.908 [0.835,0.977] D +0.160 null +0.015±0.008 z +18.8 p 0.016 (77s)
+train seq_all bpe         arith     base 0.253 -> 0.317 [0.304,0.333] D +0.064 null -0.003±0.008 z +8.1 p 0.016 (1505s)
+train seq_all bpe         repeat    base 0.236 -> 0.338 [0.272,0.500] D +0.102 null -0.056±0.042 z +3.8 p 0.115 (1505s)
