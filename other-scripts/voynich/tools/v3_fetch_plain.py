@@ -56,7 +56,10 @@ if 'la' in which:   # Isidore, Etymologiae (7th c., copied throughout the 15th);
     open(os.path.join(OUT, 'la.txt'), 'w').write(t)
     src.write(f"la\thttps://la.wikisource.org/wiki/Etymologiae_(Isidorus) [from LIBER XVI]\t{len(t.split())}\n")
 if 'de' in which:   # Johannes von Tepl, Der Ackermann aus Boehmen (c. 1400, Early New High German)
-    save('de', 'de.wikisource.org', ['Der Ackermann aus Böhmen (Handschrift 14. Jh.)'])
+    # diplomatic transcription of Cod. Pal. germ. 76 (Heidelberg, c. 1470); text sits on transcluded Seite: pages
+    t = raw('de.wikisource.org', 'Der Ackermann aus Böhmen (Handschrift 14. Jh.)')
+    pages = ['Seite:' + m.replace('_', ' ') for m in re.findall(r'SeitePR\|[^|]*\|([^}]+)\}\}', t)]
+    save('de', 'de.wikisource.org', pages)
 if 'it' in which:   # Cennino Cennini, Il libro dell'arte (c. 1400, Tuscan recipes)
     d = api('it.wikisource.org', action='query', list='allpages', apprefix="Il libro dell'arte/Capitolo", aplimit=500)
     ts = [x['title'] for x in d['query']['allpages']]

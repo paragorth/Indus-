@@ -122,7 +122,7 @@ def gen_words(kind, months, rng, pool=None):
             ws = rng.sample(src, n) if n <= len(src) else [rng.choice(src) for _ in range(n)]
         elif kind == 'vlabels': ws = [rng.choice(pool) for _ in range(n)]
         elif kind == 'markov': ws = [pool(rng) for _ in range(n)]
-        out.append([w.replace(' ', '') for w in ws])
+        out.append([w.replace(' ', '') if isinstance(w, str) else w for w in ws])
     return out
 
 SYM = list('oaeydklrchstpinmfgqABCDEFGHIJ')

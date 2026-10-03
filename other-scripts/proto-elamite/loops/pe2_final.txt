@@ -1,0 +1,11 @@
+PE2 final: distributional (role) bridge Proto-Elamite <-> proto-cuneiform
+Tools: tools/pe2_build_pc.py, pe2_common.py, pe2_cycle1.py, pe2_cycle2.py, pe2_cycle3.py. Data: data/pe2_pc_corpus.json (5,257 Uruk IV/III administrative tablets from the CDLI ATF dump), data/pe2_cycle{1,2,3}.json. Logs: loops/pe2_cycle{1,2,3}.txt.
+
+| PE-1.F | Whole bridge: Hungarian assignment of 60 PE signs into 200 PC signs by z-scored role profiles; controls: column shuffle within script, within-tablet numeral shuffle, planted relabelled PC half | beats column shuffle (0.702 vs 0.657) but not the within-tablet shuffle (0.704, p = 0.70); planted recovery inside PC 25% (chance 0.5%), cross-site inside PC only 7%; PE partners stable across PE halves for 12.7% of signs (PC self-halves 72.5%) | NO sign-level bridge. The method works inside one archive but cannot carry identities across sites, let alone across scripts |
+| PE-2.F | Held-out commodity prediction (pair without system features, predict number system on unseen PE tablets), per-sign null | 0/60 signs p < 0.01 in all three settings (all PC K=200, Uruk III only, K=100); 0-2 p < 0.05 (chance ~3) | NULL |
+| PE-3.F | Known-function partners (grain, bread, cattle, sheep, persons, bird, oil, textile) | no named partner stable across settings; none predicts held-out behaviour beyond null (M354-GAR direction 0/7) | NULL |
+| PE-4.F | Class-level residue | PE capacity-class signs (M036, M002, M243, M010, M297) pair with signs from PC capacity/grain tablets and predict held-out capacity use, but shuffled-system pairings do equally well | restates the known PE capacity class (FINDINGS test b) via tablet context; no new gloss |
+
+Signs gaining a functional gloss from this bridge: A 0, B 0, C 0. Signs passing all controls: 0 of 60.
+Caveats: 95% of PE is Susa, 73% of PC is Uruk; capacity notation is not fully commensurable (PC grain entries often use plain N01/N14/N34/N45, so PC SZE is only 16% 'capacity' by notation); conventional PC sign names are the only outside key used.
+Next, if pursued: match on notation-level units (shared N-codes) inside entries rather than on sign roles, or restrict both sides to one commodity domain (e.g. grain-ration tablets) where the cross-site planted test first reaches > 20% recovery.
