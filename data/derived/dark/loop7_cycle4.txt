@@ -1,0 +1,45 @@
+S-DARK-7.4  Whole-space geometry: clustering, principal axes, Voynich placement
+================================================================================
+Tools: tools/dark7_cycle4.py; tables in loop7_cycle4_tables.txt. 13 corpora (Indus all/seals/non-seals, PE, LA,
+LB words/syllables, Ur III legends words/syllables, Ur III names, Linear Elamite, Voynich words/chars), 600
+statistics, distance = median |z| over statistics.
+
+1. Average-linkage clustering, all statistics:
+   {Indus all, seals, non-seals} (0.5-0.7) + {LB words, LB syll} at 1.88, then + {PE, LA} at 2.33.
+   Other branch: {Ur III names + Linear Elamite} 0.90, {Ur III words + Voynich words} 1.12, {Ur III syll + Voynich
+   chars} 1.95, joined at 1.7-2.1. The two branches meet at ~3.4.
+   Plain words: the 600 random statistics split the corpora into 'short administrative lines with numerals'
+   (Indus, Linear B, Linear A, Proto-Elamite) and 'name / royal / unknown text without numerals' (Ur III, Linear
+   Elamite, Voynich). Indus is in the first group, but its nearest member is Linear B (a language), not PE or LA.
+2. Non-numeral statistics only (477): same picture; Indus -> LB_syll 1.27-1.33; PE's nearest is Indus seals (1.81);
+   Ur III names' nearest is Indus (1.54). Removing the numerals does not move Indus toward PE/LA.
+3. Order-dependent, non-numeral statistics (99; the sequence-syntax part): {Indus, LB} at 5.6, then + {Ur III words,
+   names} at 7.5; {PE, LA} join each other only at 8.5 and everything else later; {Linear Elamite, Voynich words} 5.4.
+   Sequence-wise, Indus is with Linear B lines and Ur III legends (name + title + patronym strings), not with the
+   accounting entries.
+4. PCA of z-standardised profiles: PC1 (28%) = 'bigram surprise / rarity / inventory richness' (loadings: bigram
+   surprise in middle and penult, rare signs early, slot entropy). Voynich words +21, Ur III words +13, LB words +11
+   (large open vocabularies) vs Ur III syll -10, LA -8, Voynich chars -21 (closed inventories); Indus -2.6, seals -0.2,
+   non-seals -4.2 -- Indus sits at the inventory-richness of LB syllables (+2.2) and Linear Elamite (+0.8), i.e. like a
+   syllabary-sized sign list in use, not like a word list and not like a 26-letter alphabet. PC2 (23%) = numeral
+   placement (next-is-numeral early vs distance to numeral late): PE -17, LA -10, Indus -7/-4.6/-9.5, LB -5/-1.5 vs
+   the numeral-free corpora +2.5 to +12. On PC2 Indus is on the accounting side (it has numerals) but less extreme
+   than PE/LA because its numerals are not line-final. PC3 (12%) separates Indus (+6.9, +5.5, +6.6) with Voynich
+   words (+7.8) and names (+4.7) from Ur III words (-15.9), UR3 syll (-7.6), PE (-6.1): the 'number first / few
+   repeats' residue axis.
+5. Voynich (unknown) placement: words -> Linear Elamite 1.08, Ur III legend words 1.12, Ur III names 2.14; far from
+   Indus (3.50) and PE (3.58). Chars -> Ur III names 1.85, Ur III syll 1.95, Linear Elamite 1.93; Indus 3.13. On the
+   non-numeral Indus-residue axes Voynich words are the extreme opposite of the accounting corpora (document
+   frequency of late words z -30, evenness z +33): an open vocabulary with almost no repeated line-final words.
+   Plain words: the Voynich lines behave like running text in a language with a large word stock (Linear Elamite
+   dedications, Ur III legends), not like Indus seals and not like accounting entries. It does not share the Indus
+   numeral residue (it has no numerals) and it is not Indus-like on any order-dependent axis (median |z| 9.2).
+
+Verdict (what the random statistics say the Indus texts are): short texts drawn from a syllabary-sized inventory
+used flatly, with the sequence behaviour of Linear B lines and Ur III seal legends (name/title strings), carrying
+numerals that precede their item and open rather than close the text. They are not Proto-Elamite-like entries
+(item + closing number, rigid template, most beyond-unigram structure) and not Linear A-like. No 'accounting-notation'
+fingerprint uniting Indus with PE and LA exists at this level of description.
+
+STRATEGIES.md row (ready to paste):
+| S-DARK-7.4 | Geometry of 13 corpora in the 600-statistic space (median |z| clustering, PCA of z-profiles, order-dependent subset); Voynich placed as unknown. | Two branches: {Indus, Linear B, then PE+LA} vs {Ur III legends/names, Linear Elamite, Voynich}. Indus's nearest neighbour is Linear B at every level (all 1.34; non-numeral 1.27; order-dependent 5.6); PE and LA are a separate pair. PC1 (28%) = inventory richness: Indus at the level of a syllabary in use (LB syllables, Linear Elamite), between word lists and alphabets. PC2 (23%) = numeral placement: Indus on the accounting side but less extreme because its numerals are not line-final. Voynich words sit with Linear Elamite (1.08) and Ur III legend words (1.12), far from Indus (3.50): running language text with an open word stock, not Indus-like. Reading: Indus texts = short name/title-type strings with prefixed numerals, not PE-type accounting entries. | tools/dark7_cycle4.py, data/derived/dark/loop7_cycle4.txt |

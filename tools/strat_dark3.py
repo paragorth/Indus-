@@ -174,13 +174,15 @@ def t_type(T,M,rng,th):
         c=code.setdefault(m['type'],300000+len(code))
         out.append([c]+list(t) if th['pos']=='start' else list(t)+[c])
     return out
+def t_randfamily(T,M,rng,th):
+    fm=th['map']; return [[fm.get(s,0) for s in t] for t in T]
 def t_relabel(T,M,rng,th):
     p=th['perm']; return [[p.get(s,s) for s in t] for t in T]
 def t_dropsign(T,M,rng,th):
     p=th['p']; r=random.Random(th['seed']); return [[s for s in t if r.random()>p] for t in T]
 TRANS={'identity':t_identity,'reverse':t_reverse,'interleave':t_interleave,'middleout':t_middleout,'sort':t_sort,
  'family':t_family,'numonly':t_numonly,'nonnum':t_nonnum,'dropframe':t_dropframe,'bpe':t_bpe,'splitnum':t_splitnum,
- 'rotate':t_rotate,'emblem':t_emblem,'objtype':t_type,'relabel':t_relabel,'dropsign':t_dropsign}
+ 'rotate':t_rotate,'emblem':t_emblem,'objtype':t_type,'relabel':t_relabel,'randfamily':t_randfamily,'dropsign':t_dropsign}
 def draw_theta(name,rng,signs):
     if name=='interleave': return {'off':rng.randrange(2)}
     if name=='middleout': return {'start':rng.choice(['floor','ceil']),'left_first':rng.random()<0.5}
@@ -198,6 +200,13 @@ def draw_theta(name,rng,signs):
     if name=='splitnum': return {'with2':rng.random()<0.5,'mode':rng.choice(['left','right','drop'])}
     if name=='rotate': return {'r':rng.choice([1,1,2,0])}
     if name in ('emblem','objtype'): return {'pos':rng.choice(['start','end'])}
+    if name=='randfamily':
+        # control for 'family': random partition of the signs into classes with the SAME sizes as the W-hundreds
+        k=list(signs); sizes=collections.Counter((s//100 if s>=100 else 0) for s in k); rng.shuffle(k); mp={}; i=0
+        for fam,n in sizes.items():
+            for s in k[i:i+n]: mp[s]=fam
+            i+=n
+        return {'map':mp}
     if name=='relabel':
         k=list(signs); v=list(signs); rng.shuffle(v); return {'perm':dict(zip(k,v))}
     if name=='dropsign': return {'p':rng.choice([0.1,0.2,0.3]),'seed':rng.randrange(10**9)}

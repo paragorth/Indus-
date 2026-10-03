@@ -58,3 +58,7 @@ train seq_raw relabel     namecalib base 0.796 -> 0.780 [0.763,0.793] D -0.016 n
 train seq_raw relabel     repeat    base 0.231 -> 0.234 [0.217,0.241] D +0.003 null -0.014±0.044 z +0.4 p 1.000 (57s)
 train seq_raw relabel     slot      base 1.134 -> 1.134 [1.134,1.134] D +0.000 null +0.000±0.000 z +0.0 p 1.000 (57s)
 train seq_raw relabel     arith     n/a
+train seq_raw dropsign    namecalib base 0.788 -> 0.922 [0.837,0.987] D +0.134 null +0.012±0.010 z +12.5 p 0.048 (60s)
+train seq_raw dropsign    repeat    base 0.242 -> 0.231 [0.209,0.261] D -0.011 null -0.006±0.031 z -0.2 p 0.810 (60s)
+train seq_raw dropsign    slot      base 1.134 -> 0.927 [0.745,1.045] D -0.207 null +0.011±0.013 z -16.3 p 0.048 (60s)
+train seq_raw dropsign    arith     base 0.253 -> 0.248 [0.212,0.315] D -0.005 null -0.003±0.006 z -0.4 p 0.381 (60s)

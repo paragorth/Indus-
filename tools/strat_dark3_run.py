@@ -52,6 +52,17 @@ def main():
                     r=run_split(split,var,P,rng,[tn],[sn],log)
                     for k,v in r.items(): allres[f'{split}|{var}|{k[0]}|{k[1]}']=v
         json.dump(allres,open(D.OUT+'loop3_confirm.json','w'),indent=1)
+    elif mode=='confirm1':
+        # python3 tools/strat_dark3_run.py confirm1 P seed SPLIT trans:test1,test2 ...
+        split=sys.argv[4]; specs=[a.split(':') for a in sys.argv[5:]]
+        f=open(D.OUT+f'loop3_confirm_{split}.txt','w')
+        def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
+        allres={}
+        for var in ('seq_raw','seq_strong','seq_all'):
+            for tn,tests in specs:
+                r=run_split(split,var,P,rng,[tn],tests.split(','),log)
+                for k,v in r.items(): allres[f'{split}|{var}|{k[0]}|{k[1]}']=v
+                json.dump(allres,open(D.OUT+f'loop3_confirm_{split}.json','w'),indent=1)
     elif mode=='ur3':
         R=D.refs(); f=open(D.OUT+'loop3_ur3_control.txt','w')
         def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
