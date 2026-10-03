@@ -1,0 +1,90 @@
+"""Compare the stable co-category graphs from the loop-10 cycles (data/derived/dark/loop10_*.json): Jaccard of stable
+pair sets across seeds, sites (Mohenjo-daro / Harappa / other) and sequence levels; consensus classes; a STRATEGIES row.
+Usage: python3 tools/strat_dark_loop10_final.py
+"""
+import json, os, glob, collections, itertools
+import numpy as np
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+D = os.path.join(ROOT, 'data/derived/dark')
+import sys; sys.path.insert(0, os.path.join(ROOT, 'tools'))
+from strat_dark_loop10 import KNOWN
+
+def load(tag):
+    p = os.path.join(D, 'loop10_%s.json' % tag)
+    return json.load(open(p)) if os.path.exists(p) else None
+
+def pairset(J, thr=0.70, margin=0.20):
+    top = J['top']; G = np.array(J['G']); GP = np.array(J['GP']); GS = np.array(J['GS'])
+    s = set()
+    for i in range(len(top)):
+        for j in range(i + 1, len(top)):
+            if G[i, j] >= thr and G[i, j] - max(GP[i, j], GS[i, j]) >= margin: s.add((min(top[i], top[j]), max(top[i], top[j])))
+    return s
+
+def rate(J, x, y):
+    top = J['top']
+    if x not in top or y not in top: return None
+    return np.array(J['G'])[top.index(x), top.index(y)]
+
+def jacc(a, b): return len(a & b) / max(1, len(a | b))
+
+tags = ['cycle1', 'cycle2', 'cycle3_md', 'cycle3_ha', 'cycle3_other', 'cycle4_raw', 'cycle4_strong']
+J = {t: load(t) for t in tags}; J = {t: v for t, v in J.items() if v}
+P = {t: pairset(v) for t, v in J.items()}
+out = []
+out.append('LOOP 10 FINAL: stable co-category pairs per run and their overlap')
+for t in J: out.append('  %-14s stable pairs %3d  components %s' % (t, len(P[t]), [['W%d' % x for x in c] for c in J[t]['comps']][:8]))
+out.append('')
+out.append('Jaccard overlap of stable pair sets:')
+for a, b in itertools.combinations(J, 2):
+    out.append('  %-14s %-14s J=%.2f  shared=%d' % (a, b, jacc(P[a], P[b]), len(P[a] & P[b])))
+# consensus: pairs stable in both full-corpus seed runs and in at least one of each other split
+full = P.get('cycle1', set()) & P.get('cycle2', set())
+site_rep = {p for p in full if sum(p in P.get(t, set()) for t in ('cycle3_md', 'cycle3_ha', 'cycle3_other')) >= 1}
+lvl_rep = {p for p in full if all(p in P.get(t, set()) for t in ('cycle4_raw', 'cycle4_strong') if t in P)}
+# also: random-expectation of overlap between two runs = (|A||B|)/1770
+def label(x): return ','.join(k for k, v in KNOWN.items() if x in v) or 'new'
+out.append('')
+out.append('CONSENSUS (stable in both full-corpus seeds, cycle1 & cycle2): %d pairs; chance overlap %.1f' %
+           (len(full), len(P.get('cycle1', set())) * len(P.get('cycle2', set())) / 1770))
+for x, y in sorted(full, key=lambda p: -(rate(J['cycle1'], *p) or 0)):
+    reps = ''.join('M' if (x, y) in P.get('cycle3_md', set()) else '-', ) + ('H' if (x, y) in P.get('cycle3_ha', set()) else '-') + \
+           ('O' if (x, y) in P.get('cycle3_other', set()) else '-') + ('r' if (x, y) in P.get('cycle4_raw', set()) else '-') + \
+           ('s' if (x, y) in P.get('cycle4_strong', set()) else '-')
+    r = [rate(J[t], x, y) for t in J]
+    out.append('  W%-4d W%-4d  rates %s  rep[MD,Ha,other,raw,strong]=%s  [%s | %s]' %
+               (x, y, ' '.join('%.2f' % v if v is not None else ' -- ' for v in r), reps, label(x), label(y)))
+out.append('  replicated at >=1 held-out site split: %d; at all sequence levels: %d' % (len(site_rep), len(lvl_rep)))
+# consensus components
+adj = collections.defaultdict(set)
+for x, y in full: adj[x].add(y); adj[y].add(x)
+seen = set(); comps = []
+for v in adj:
+    if v in seen: continue
+    st = [v]; c = set()
+    while st:
+        u = st.pop()
+        if u in c: continue
+        c.add(u); st.extend(adj[u] - c)
+    seen |= c; comps.append(sorted(c))
+out.append('')
+out.append('CONSENSUS CLASSES:')
+for c in sorted(comps, key=len, reverse=True):
+    out.append('  {%s}  known: %s' % (', '.join('W%d' % x for x in c), '; '.join('W%d=%s' % (x, label(x)) for x in c)))
+# held-out beat summary across runs
+out.append('')
+out.append('HELD-OUT: ontologies beating the max of both controls, per criterion, summed over full-corpus runs (cycle1, cycle2, cycle4_*):')
+agg = collections.defaultdict(lambda: [0, 0, [], [], []])
+for t in ('cycle1', 'cycle2', 'cycle4_raw', 'cycle4_strong'):
+    if t not in J: continue
+    for r, p, s in zip(J[t]['real'], J[t]['ctlP'], J[t]['ctlS']):
+        k = r['crit'][0] + ('/' + r['crit'][1] if r['crit'][1] else '')
+        a = agg[k]; a[1] += 1; a[2].append(r['held']); a[3].append(p['held']); a[4].append(s['held'])
+for k, a in sorted(agg.items()):
+    mx = max(a[3] + a[4]); beats = sum(1 for v in a[2] if v > mx)
+    out.append('  %-16s n=%3d  real mean %.3f max %.3f | P mean %.3f max %.3f | S mean %.3f max %.3f | real > max(all controls): %d'
+               % (k, a[1], np.mean(a[2]), np.max(a[2]), np.mean(a[3]), np.max(a[3]), np.mean(a[4]), np.max(a[4]), beats))
+txt = '\n'.join(out)
+open(os.path.join(D, 'loop10_final_tables.txt'), 'w').write(txt + '\n')
+print(txt)

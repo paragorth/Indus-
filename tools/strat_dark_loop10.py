@@ -127,8 +127,10 @@ def load(level, subset):
 
 
 class Data:
-    def __init__(self, texts, vouchers, quantity, rng, permute=False, shuffle=False):
+    def __init__(self, texts, vouchers, quantity, rng, permute=False, shuffle=False, subset='all'):
         self.rng = rng
+        if subset != 'all':   # single-city subsets: 'site' becomes the excavation area, train/test = random halves
+            texts = [dict(t, site=(t['area'] if subset in ('md', 'ha') else t['site'])) for t in texts]
         cnt = collections.Counter(x for t in texts for x in t['seq'])
         self.top = [s for s, _ in cnt.most_common(NTOP)]
         self.idx = {s: i for i, s in enumerate(self.top)}
@@ -158,7 +160,10 @@ class Data:
             self.facts[f] = np.array([levels.index(x) if x else -1 for x in v])
         if permute:
             sites = list(self.site); rng.shuffle(sites); self.site = np.array(sites)
-        self.md = self.site == 'Mohenjo-daro'; self.ha = self.site == 'Harappa'; self.other = ~(self.md | self.ha)
+        if subset == 'all':
+            self.md = self.site == 'Mohenjo-daro'; self.ha = self.site == 'Harappa'; self.other = ~(self.md | self.ha)
+        else:
+            h = np.array([rng.random() < 0.5 for _ in range(n)]); self.md = h; self.ha = ~h; self.other = np.zeros(n, bool)
         # reuse: texts of 3-8 signs padded
         keep = [i for i, s in enumerate(seqs) if 3 <= len(s) <= 8]
         self.R = np.full((len(keep), 8), -1, dtype=np.int64)
@@ -343,9 +348,9 @@ def main():
     rng = random.Random(seed)
     texts, vouchers, quantity = load(a.level, a.subset)
     t0 = time.time()
-    D = Data(texts, vouchers, quantity, random.Random(seed))
-    DP = Data(texts, vouchers, quantity, random.Random(seed + 1), permute=True)
-    DS = Data(texts, vouchers, quantity, random.Random(seed + 2), shuffle=True)
+    D = Data(texts, vouchers, quantity, random.Random(seed), subset=a.subset)
+    DP = Data(texts, vouchers, quantity, random.Random(seed), permute=True, subset=a.subset)
+    DS = Data(texts, vouchers, quantity, random.Random(seed), shuffle=True, subset=a.subset)
     crit_kinds = a.crits.split(',')
     facts = [f for f in ('type', 'emblem', 'material', 'period', 'size')
              if (D.facts[f] >= 0).sum() > 200 and len(set(D.facts[f].tolist()) - {-1}) > 1]
