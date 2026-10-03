@@ -1,0 +1,20 @@
+LOOP 6 - CYCLE 2: reading features vs geographic gradients
+Script: data/derived/dark/loop6_c2_features.py; full output loop6_c2_features.txt
+62 features per text: length (mean, >=5, =1), opener initial/any (W817/861/820, W920/692), markers W2/W60, jar any/final,
+suffix W400, person W90 any/final, twins W91, arrow closer final, alternative closers final, numerals (any/short/tall/W1),
+numeral values 2-8 and 12, doubling/repetition, initial opener identity, 14 shape families (dossier shape words), the 10
+commonest X-jar closers, object type shares (seal/tablet/pot/tag/bangle). Two passes: all objects (20 sites) and seals only
+(13 sites with >=5 seals). Same site-permutation null and geographic variables as cycle 1; BH-FDR joint over both passes.
+
+RESULT: all objects, 480 arrows: 0 at q<0.10, 0 at p<0.01 (4.8 expected). Best numeral_tall ~ river H=8.6 p=0.019 (Harappa's
+tablet vouchers, S216), closer 690-740 ~ dist-Harappa rho=-0.49 p=0.024, tablet share ~ dist-Harappa rho=-0.51 (known: tablets
+are a Harappa genre). Seals only, 440 arrows: 0 at q<0.10; 3 at p<0.01 (4.4 expected). Best fam_leaf ~ river H=10.0 p=0.0008
+(q=0.36): the 'Coast' class is two tiny sites (Allahdino 0/7, Bala-kot 0/5) with no leaf-family sign, all other sites 14-33%.
+A two-site category with 12 seals is not a gradient. Pitchfork family ~ elevation rho=-0.73 p=0.007 (q=0.86): survives dropping
+MD+HP (rho=-0.82) but is 4 sites with 1 text each at the low end. JOINT FDR over 920 arrows: min q = 0.74.
+IM77 (5 named sites, 2,382 distinct texts): jar-final 34/27/26/26/26% (MD/HP/Lothal/Kalibangan/Chanhu-daro), opener-initial
+18/11/16/15/20%, marker M99 26/15/30/27/32%, length>=5 50/29/37/32/58%: no monotone coastal or river order (exact p>=0.13 for all,
+n=5 so the floor is p=0.017). The frame is used at the same rate everywhere; Harappa is the one outlier (shorter texts, fewer
+openers and markers), which is its tablet genre, not its position.
+
+| S-DARK-6.2 | Geography as plaintext, reading features: 62 per-text features (length, frame slots: opener/marker/closer/suffix, person and twins signs, numeral series and values 2-8/12, doubling, 14 shape families, the 10 commonest X-jar closers, object-type shares) vs the 7 geographic variables + river class, 20 Indus sites (all objects) and 13 sites (seals only). Unit = site; Spearman/Kruskal-Wallis; site-label permutation 20,000x; BH-FDR joint over 920 arrows; re-test without MD + HP; IM77 direction check on its 5 named sites. `data/derived/dark/loop6_c2_features.py` | **Null. 0 of 920 arrows at q < 0.10 (min q 0.74); p < 0.01: 0 of 480 (all objects) and 3 of 440 (seals; 4.4 expected).** Best seals arrow, leaf family ~ river (p 0.0008), is the two-site 'Coast' class (Allahdino 0/7, Bala-kot 0/5 vs 14-33% everywhere else). Known genre effects reappear uncorrected (tablet share and tall numerals follow distance to Harappa). IM77 5-site rates of jar-final (34/27/26/26/26%), opener-initial (18/11/16/15/20%) and marker M99 (26/15/30/27/32%) show no coastal or river order (exact p >= 0.13). | **No reading feature follows geography.** Frame, closers, numeral values and sign families are used at the same rates from the Makran coast to the Ghaggar. Together with S-DARK-6.1 this rules out 'the script encodes where the seal was made' at the level of common signs and slots; whatever varies by site (S11: W31 at Chanhu-daro, W405/806 at Harappa) is a local scribal hand, not a gradient. |

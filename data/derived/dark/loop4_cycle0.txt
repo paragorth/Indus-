@@ -4,3 +4,30 @@ Indus: fit (MD+Harappa) 2746 texts, test (other named sites) 825 texts, 2627 tes
 
 ## Indus level seq_raw
   [seq_raw] baseline sign level: bits=7.633 uniq=1.033 rep=0.275 gram=0.444 units=667
+    allo all incl doubtful       bits=7.483 uniq=1.009 rep=0.276 gram=0.444 units=640
+    allo strong+probable         bits=7.499 uniq=1.010 rep=0.267 gram=0.446 units=643
+    allo strong                  bits=7.526 uniq=1.008 rep=0.272 gram=0.446 units=649
+    allo rand1                   bits=7.533 uniq=1.013 rep=0.273 gram=0.442 units=653
+    allo FAKEpairs0              bits=7.554 uniq=1.031 rep=0.311 gram=0.461 units=643
+    allo rand0                   bits=7.560 uniq=1.020 rep=0.273 gram=0.445 units=655
+    allo FAKEpairs1              bits=7.586 uniq=1.031 rep=0.322 gram=0.445 units=645
+    bpe k=40 T=5 s=0             bits=7.593 uniq=1.048 rep=0.498 gram=0.303 units=707
+    bpe k=40 T=1 s=0             bits=7.599 uniq=1.044 rep=0.517 gram=0.304 units=707
+    bpe k=10 T=1 s=0             bits=7.621 uniq=1.032 rep=0.359 gram=0.353 units=677
+    bpe k=10 T=5 s=0             bits=7.626 uniq=1.032 rep=0.355 gram=0.351 units=677
+    sub ligs                     bits=7.631 uniq=1.028 rep=0.330 gram=0.444 units=654
+    sign                         bits=7.633 uniq=1.033 rep=0.275 gram=0.444 units=667
+    sub rand1                    bits=7.707 uniq=1.024 rep=0.394 gram=0.444 units=643
+    sub rand0                    bits=7.716 uniq=1.032 rep=0.411 gram=0.444 units=648
+    sub all                      bits=7.736 uniq=1.018 rep=0.500 gram=0.444 units=628
+    sub marks                    bits=7.746 uniq=1.019 rep=0.487 gram=0.444 units=633
+  [seq_raw] best per statistic (delta vs sign level):
+    bits  allo all incl doubtful       7.483  (sign 7.633, delta -0.150)  bits/sign lower=more predictable
+    uniq  allo strong                  1.008  (sign 1.033, delta -0.025)  uniq ratio lower=texts recur more than bigram
+    rep   allo strong+probable         0.267  (sign 0.275, delta -0.008)  within-text repetition ratio
+    gram  allo FAKEpairs0              0.461  (sign 0.444, delta +0.017)  grammar-covered token share
+    segmentations beating sign level on bits AND (uniq or rep): 10 of 16: bpe k=10 T=1 s=0, bpe k=10 T=5 s=0, sub ligs, allo strong, allo strong+probable, allo all incl doubtful, allo rand0, allo rand1, allo FAKEpairs0, allo FAKEpairs1
+    first merges of best BPE: 100+740 (M8+M342); 817+2 (M267+M99/100); 760+740 (M347/358+M342); 861+2 (M267+M99/100); 705+33 (M336+M89); 176+740 (M48+M342); 740+400 (M342+M176); 820+2 (M391+M99/100); 920+60 (M293+M123); 220+520 (M59+M211); 255+435 (M51+M130); 740+90 (M342+M1)
+
+## Indus level seq_strong
+  [seq_strong] baseline sign level: bits=7.538 uniq=1.028 rep=0.274 gram=0.441 units=649
