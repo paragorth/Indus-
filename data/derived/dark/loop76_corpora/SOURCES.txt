@@ -1,0 +1,11 @@
+S-DARK-76 prep: comparator corpora with DOCUMENT ids, for the per-object-kind recurrence profile.
+Source: CDLI ATF dump + catalogue in the session scratchpad (same files as tools/dark_loop48_prep.py; CC BY).
+Writes data/derived/dark/loop76_corpora/
+  ur3_seal_impr.jsonl  one row per Ur III @seal impression on a tablet: pid (tablet = archival act), site,
+                       legend (words), owner (first word, the seal owner's name unless it is a title / royal formula)
+  ur3_admin_names.jsonl  one row per personal-name slot in Ur III administrative tablet bodies (lang sux,
+                       period Ur III, @seal excluded): pid, site, slot, name. Slots (closed formula positions,
+                       no lemmatisation used): 'giri3 PN', 'kiszib3 PN', 'ki PN-ta' (from), 'PN i3-dab5' (received),
+                       'PN szu ba-ti' (received), 'mu-kux(DU) PN' (delivery by). A name = one word, determinatives kept.
+
+Counts: seal impressions 20126; admin name slots 88676 on 47485 tablets; slots {'ki-ta': 32571, 'szu-ba-ti': 10690, 'kiszib3': 23075, 'giri3': 14364, 'i3-dab5': 5444, 'mu-kux(du)': 2532}

@@ -130,8 +130,70 @@ class Chain:
             a = al[min(len(al) - 1, bisect.bisect_left(cum, r.random() * cum[-1]))]
             out.append(a); st = (st + (a,))[-self.k:]
         return tuple(out)
+class SChain:
+    """interpolated Markov-1: Q(y|x) = lam * P_MLE(y|x) + (1 - lam) * P_uni(y), y over signs + EOS (start likewise);
+    lam fitted by 2-fold held-out log-likelihood (grid), then the chain is refit on all strings. Exact-length sampling."""
+    def __init__(self, strings, r=None, lam=None):
+        import numpy as np
+        self.np = np
+        r = r or random.Random(1)
+        if lam is None:
+            idx = list(range(len(strings))); r.shuffle(idx); h = len(idx) // 2
+            A = [strings[i] for i in idx[:h]]; B = [strings[i] for i in idx[h:]]
+            best = None
+            for l in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95]:
+                ll = self._ll(A, B, l) + self._ll(B, A, l)
+                if best is None or ll > best[0]: best = (ll, l)
+            lam = best[1]
+        self.lam = lam; self._fit(strings)
+    @staticmethod
+    def _counts(S):
+        T = collections.defaultdict(collections.Counter); U = collections.Counter()
+        for s in S:
+            prev = BOS
+            for a in list(s) + [EOS]:
+                T[prev][a] += 1; U[a] += 1; prev = a
+        return T, U
+    def _ll(self, train, test, lam):
+        T, U = self._counts(train); V = set(U) | set(a for s in test for a in s) | {EOS}
+        tu = sum(U.values()) + len(V)
+        ll = 0.0
+        for s in test:
+            prev = BOS
+            for a in list(s) + [EOS]:
+                pu = (U[a] + 1) / tu; c = T.get(prev); pm = c[a] / sum(c.values()) if c else 0.0
+                ll += math.log(lam * pm + (1 - lam) * pu); prev = a
+        return ll
+    def _fit(self, S):
+        np = self.np
+        T, U = self._counts(S); syms = sorted(set(U) - {EOS}, key=str)
+        self.syms = syms; ix = {a: i for i, a in enumerate(syms)}; K = len(syms)
+        tu = sum(U.values())
+        self.pu = np.array([U[a] / tu for a in syms]); self.pue = U[EOS] / tu
+        def row(c):
+            t = sum(c.values()); v = np.zeros(K)
+            for a, n in c.items():
+                if a != EOS: v[ix[a]] = n / t
+            return v, c.get(EOS, 0) / t
+        M = np.zeros((K, K)); E = np.zeros(K)
+        for a in syms:
+            if a in T: M[ix[a]], E[ix[a]] = row(T[a])
+        self.M = self.lam * M + (1 - self.lam) * self.pu[None, :]
+        self.E = self.lam * E + (1 - self.lam) * self.pue
+        s0, _ = row(T[BOS]); self.S = self.lam * s0 + (1 - self.lam) * self.pu
+        self.beta = [self.E]
+    def _b(self, m):
+        while len(self.beta) <= m: self.beta.append(self.M @ self.beta[-1])
+        return self.beta[m]
+    def sample(self, L, r):
+        np = self.np; w = self.S * self._b(L - 1); out = []
+        for p in range(L):
+            c = np.cumsum(w); i = int(np.searchsorted(c, r.random() * c[-1])); i = min(i, len(c) - 1)
+            out.append(self.syms[i])
+            if p < L - 1: w = self.M[i] * self._b(L - p - 2)
+        return tuple(out)
 def chain_names(names, k, r, chain=None, lens=None):
-    ch = chain or Chain(names, k)
+    ch = chain or (SChain(names, r) if k == 's' else Chain(names, k))
     need = collections.Counter(len(n) for n in names) if lens is None else collections.Counter(lens)
     out = []; short = 0
     for L, c in need.items():
@@ -438,7 +500,7 @@ if CY == 4:
         X = sorted(set(x for x in X if len(x) >= 2)); R = sorted(set(R))
         obs = cross(X, R)
         lens = [len(x) for x in X]; POOLR = [a for n in R for a in n]
-        ch1 = Chain(R, 1); ch2 = Chain(R, 2)
+        ch1 = Chain(R, 1); ch2 = Chain(R, 2); chs = SChain(R, random.Random(3))
         res = collections.defaultdict(list)
         for b in range(nn):
             r = random.Random(7440 + b)
@@ -447,6 +509,7 @@ if CY == 4:
             if b < max(20, nn // 2):
                 res['markov1(R)'].append(cross(chain_names(X, 1, r, ch1, lens)[0], R))
                 res['markov2(R)'].append(cross(chain_names(X, 2, r, ch2, lens)[0], R))
+                res['calib(R)'].append(cross(chain_names(X, 's', r, chs, lens)[0], R))
         P(f'\n  {label}: X {len(X)} distinct middles (len 2-4: {obs["n24"]}, >=3: {obs["n3"]}), reference R {len(R)}')
         out = {}
         for k, kk in (('inside', 'kin'), ('contains', 'kc')):
@@ -475,4 +538,49 @@ if CY == 4:
             for i in range(len(t) - l + 1): subsR[t[i:i + l]].append(t)
     ex = [(o['id'], o['site'], o['mid'], subsR[o['mid']][:3]) for o in new if 2 <= len(o['mid']) <= 4 and o['mid'] in subsR]
     P(f'  IM77-only middles found inside Wells middles: {len(ex)}; e.g. ' + '; '.join(f'{i[0]}:{s} {fm(m)} in {",".join(fm(t) for t in ts)}' for i, s, m, ts in ex[:8]))
+    save('')
+
+# ================================================================== cycle 5 (= cycle 1b): calibrated chain + frame strip
+if CY == 5:
+    """The MLE chains regenerate the training bigrams (on a one-copy-per-name list most bigram types occur once), so they
+    inflate the substring share even for lists with zero excess. Calibrated chain = interpolated Markov-1 with the mixing
+    weight fitted by held-out likelihood (SChain). Run on Indus (mid, name, frame-stripped) and on every comparator."""
+    FR = L56.NUM | L56.OPEN | L56.MARK | L56.MJAR | L56.SUF | set(L56.CL)
+    objs = wells_objects()
+    def strip(n): return tuple(a for a in n if a not in FR)
+    sets = [('mid', distinct(objs, 'mid')), ('name', distinct(objs, 'name')),
+            ('stripped', sorted(set(strip(o['mid']) for o in objs if len(strip(o['mid'])) >= 2)))]
+    P(f'##### S-DARK-74 cycle 5 (1b), {LV}: substring share vs a CALIBRATED chain (interpolated Markov-1, lambda by 2-fold held-out likelihood), {NN} draws')
+    def block(label, names, nn):
+        r0 = random.Random(75); ch = SChain(names, r0)
+        obs = cstats(names); sh = []; ms = []; sl = []
+        for b in range(nn):
+            r = random.Random(7500 + b)
+            ms.append(cstats(sorted(set(chain_names(names, 's', r, ch)[0]))))
+            sl.append(cstats(sorted(set(shuf_slot(names, r)))))
+        out = dict(lam=ch.lam, obs=obs['share'], chain=mean([d['share'] for d in ms]), slot=mean([d['share'] for d in sl]))
+        line = f'  {label:28s} n={len(names)} lambda={ch.lam:.2f} share {obs["share"]:.3f} | slot ' + zline(obs['share'], sl, 'share')[0] + ' | chain ' + zline(obs['share'], ms, 'share')[0]
+        for k in ('f23', 'f24', 'f34'):
+            line += f' | {k} {obs[k]:.3f} vs chain ' + zline(obs[k], ms, k)[0].split(' p=')[0]
+        P(line)
+        return out
+    R = {}
+    for lab, nm in sets: R['indus_' + lab] = block(f'Indus {lab}', nm, NN)
+    # frame-only extension pairs
+    pr = contain_pairs(sets[0][1])
+    fo = [(s, t) for s, t, i in pr if all(a in FR for a in t[:i] + t[i + len(s):])]
+    P(f'  Indus mid: containment pairs whose extension is ONLY frame/numeral signs: {len(fo)}/{len(pr)} = {len(fo) / len(pr):.2f}')
+    if LV == 'seq_raw':
+        base = sets[0][1]; L0 = [len(n) for n in base]
+        C63 = 'data/derived/dark/loop63_corpora/'
+        lists = [('jp_given', C63), ('jp_person_given', C63), ('vi_given', C63), ('cn_ancient', C63), ('ko_given', C63)] + [(x, L56.CORP) for x in ['ur3_names_dedup', 'ob_names_dedup', 'linb_personnel_dedup', 'latin_names_dedup']]
+        for nmx, d in lists:
+            pool = sorted(set(tuple(json.loads(l)['seq']) for l in open(d + nmx + '.jsonl'))); pool = [s for s in pool if len(s) >= 2]
+            vals = []
+            for b in range(5):
+                r = random.Random(7600 + b); sub = sorted(set(L56.length_match(pool, L0, len(base), r)[0]))
+                vals.append(block(f'{nmx} draw {b}', sub, max(5, NN // 10)))
+            R[nmx] = {k: mean([v[k] for v in vals]) for k in vals[0]}
+            P(f'  == {nmx}: lambda {R[nmx]["lam"]:.2f}, share {R[nmx]["obs"]:.3f}, chain {R[nmx]["chain"]:.3f} (obs/chain {R[nmx]["obs"] / max(1e-9, R[nmx]["chain"]):.2f}), slot {R[nmx]["slot"]:.3f}')
+    json.dump(R, open(f'data/derived/dark/loop74_c5_{LV}.json', 'w'), indent=1)
     save('')

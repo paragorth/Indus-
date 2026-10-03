@@ -235,3 +235,65 @@ if __name__=='__main__' and CY==3:
     for lab,a,b in comp:
         R['comp '+lab]=t=transfer(a,b); ptr(lab,t)
     save('cycle3',R)
+
+# ======================= cycle 4 =======================
+def triads(strings,minn=2,maj=2/3):
+    """Decisive pairs: co-occur in >= minn strings with majority share >= maj. Among triads whose three pairs are all
+    decisive, share that are cyclic (a>b, b>c, c>a). Sorted list 0; a random tournament 0.25."""
+    strings=clean(strings); W=pair_table(strings); D=collections.defaultdict(set); dec={}
+    for (a,b),x in W.items():
+        y=W.get((b,a),0)
+        if x+y>=minn and x/(x+y)>=maj: D[a].add(b); dec[frozenset((a,b))]=(a,b)
+    nb=collections.defaultdict(set)
+    for k in dec:
+        a,b=tuple(k); nb[a].add(b); nb[b].add(a)
+    tot=cyc=0; ex=collections.Counter()
+    for a in nb:
+        for b in nb[a]:
+            if str(b)<=str(a): continue
+            for c in nb[a]&nb[b]:
+                if str(c)<=str(b): continue
+                tot+=1
+                win=collections.Counter(dec[frozenset(p)][0] for p in ((a,b),(b,c),(a,c)))
+                if max(win.values())==1:
+                    cyc+=1; ex[(a,b,c)]=min(W.get((x,y),0)+W.get((y,x),0) for x,y in ((a,b),(b,c),(a,c)))
+    return dict(n_dec=len(dec),triads=tot,cyc=cyc/tot if tot else float('nan'),top=ex.most_common(8))
+def _tri_null(args):
+    kind,strings,b=args; r=random.Random(1300+b)
+    s={'shuffle':shuffle_null,'markov2':lambda x,r:markov2(x,r,len(x)),'sorted':sorted_anchor,'pername':pername_anchor}[kind](strings,r)
+    return kind,triads(s)
+def _tri_draw(args):
+    name,n,lens,b=args; r=random.Random(5000+b); pool=clean(load_comp(name))
+    sub=length_match(pool,lens,n,r) if len(pool)>n else pool
+    return name,triads(sub)
+
+if __name__=='__main__' and CY==4:
+    P('== S-DARK-72 cycle 4: transitivity of decisive triads (pairs in >= 2 strings, majority >= 2/3) and the NAME-only frequency effect')
+    R={}
+    IND=indus_levels(); base=clean(IND['seq_raw']); n0=len(base); L0=[len(s) for s in base]
+    with Pool(3) as pool:
+        for LV in IND:
+            t=triads(IND[LV]); R['indus_'+LV]=t
+            P(f'  Indus {LV:10s}: decisive pairs {t["n_dec"]}, decisive triads {t["triads"]}, cyclic share {t["cyc"]:.3f}')
+        tn=triads(L56.indus_names('seq_raw',2,'name')); R['indus_name']=tn; P(f'  Indus seq_raw NAME only: {tn["n_dec"]} / {tn["triads"]} / {tn["cyc"]:.3f}')
+        P('    strongest cyclic triads (min pair support): '+'; '.join(f'W{a}-W{b}-W{c} ({n})' for (a,b,c),n in t['top'][:0]+R['indus_seq_raw']['top']))
+        nul=pool.map(_tri_null,[(k,base,b) for k in ['shuffle','markov2','sorted','pername'] for b in range(10)])
+        for kind in ['shuffle','markov2','sorted','pername']:
+            v=[x['cyc'] for k,x in nul if k==kind]; tr=[x['triads'] for k,x in nul if k==kind]
+            R['null_'+kind]=(q(v,0.5),q(v,0.025),q(v,0.975)); P(f'  null {kind:8s}: cyclic share {q(v,0.5):.3f} [{q(v,0.025):.3f},{q(v,0.975):.3f}], triads ~{int(np.median(tr))}')
+        res=pool.map(_tri_draw,[(c,n0,L0,b) for c in COMPS for b in range(5)])
+        for c in COMPS:
+            v=[x['cyc'] for k,x in res if k==c]; tr=[x['triads'] for k,x in res if k==c]
+            R[c]=(q(v,0.5),q(v,0.025),q(v,0.975),int(np.median(tr))); P(f'  {c:22s} (length-matched): cyclic share {q(v,0.5):.3f} [{q(v,0.025):.3f},{q(v,0.975):.3f}] of ~{int(np.median(tr))} triads')
+        # Indus bootstrap CI
+        bs=[triads(random.Random(77+b).sample(base,int(0.8*len(base))))['cyc'] for b in range(20)]
+        md=q(bs,0.5); R['indus_ci']=(R['indus_seq_raw']['cyc']+q(bs,0.025)-md,R['indus_seq_raw']['cyc']+q(bs,0.975)-md)
+        P(f'  Indus seq_raw cyclic share CI [{R["indus_ci"][0]:.3f},{R["indus_ci"][1]:.3f}]')
+        P('\n=== NAME-only field: does the global order track frequency? (shuffle / Markov-2 nulls, 20x)')
+        for LV in ['seq_raw','seq_strong','seq_all','im77']:
+            nm=clean(L56.indus_names(LV,2,'name')); t=track(nm)
+            nul=pool.map(_track_null,[(k,nm,b) for k in ['shuffle','markov2'] for b in range(20)])
+            s={kind:[x for k,x in nul if k==kind] for kind in ['shuffle','markov2']}
+            P(f'  {LV} NAME: '+'; '.join(f'{k} {t[k]:.3f} (shuffle {q([x[k] for x in s["shuffle"]],0.5):.3f} [{q([x[k] for x in s["shuffle"]],0.025):.3f},{q([x[k] for x in s["shuffle"]],0.975):.3f}], markov2 {q([x[k] for x in s["markov2"]],0.5):.3f} [{q([x[k] for x in s["markov2"]],0.025):.3f},{q([x[k] for x in s["markov2"]],0.975):.3f}])' for k in ['rho_freq','rho_cpx','eta_band']))
+            R['name_track_'+LV]={k:t[k] for k in TK}
+    save('cycle4',R)
