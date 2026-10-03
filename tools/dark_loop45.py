@@ -462,13 +462,16 @@ def main3():
     newkeys = set(tuple(x) for x in json.load(open(DARK + 'loop27_sets.json'))['new'])
     IN = [t for t in I if t['key'] in newkeys]
     out.append(f'   324 IM77-only new texts present after collapse and >= 2 signs: {len(IN)}; with a closer {sum(t["head"] != "none" for t in IN)}')
+    out.append(f'   new-text heads: {dict(collections.Counter(t["head"] for t in IN).most_common())}; CAUTION: M245 = W615 + W617 (S-DARK-27 one-to-many; W615 is final in only 9 of 70 Wells texts), so C617 heads in M space are inflated')
     test_loyal(LHm, [t for t in IN if t['head'] != 'none'], 'IM77 NEW texts (prediction)')
+    test_loyal(LHm, [t for t in IN if t['head'] not in ('none', 'C617')], 'IM77 NEW texts without the C617 (M245) heads')
     test_loyal(LHm, IH, 'IM77 all texts with a closer (70% overlap with Wells, transcription-robust only)')
     # with the IM77-loyal set from IM77 non-new texts, tested on new texts (within-corpus, truly held out)
     I_old = [t for t in IH if t['key'] not in newkeys]
     LI = loyal_elements(I_old, 'mid', 'head')
     out.append(f'\n== loyal elements fitted on IM77 non-new texts ({len(I_old)}): {len(LI)}: ' + ', '.join(f'M{e}->{l} {k}/{n}' for e, (l, k, n) in sorted(LI.items(), key=lambda kv: -kv[1][2])))
     test_loyal(LI, [t for t in IN if t['head'] != 'none'], 'IM77 NEW texts, IM77-fitted loyal set')
+    test_loyal(LI, [t for t in IN if t['head'] not in ('none', 'C617')], 'IM77 NEW texts without C617, IM77-fitted loyal set')
     # site-loyal elements -> do they appear at their site in the new texts?
     LS = loyal_elements([t for t in T if t['site'] in BIG], 'mid', 'site')
     LSm = {wm[e]: v for e, v in LS.items() if e in wm}

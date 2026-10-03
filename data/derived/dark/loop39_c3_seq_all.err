@@ -84,3 +84,44 @@ IM77 certainly-new texts: 324 (0/1291 tokens unbridged -> skipped in the parse)
   IM77-new seals, merged single unit  : valid 69/159 = 0.434; within-text shuffle 0.154 [0.082,0.214]; cross-text permutation 0.139 [0.082,0.226]
   IM77-new seals, merged <= 2 units   : valid 122/159 = 0.767; within-text shuffle 0.541 [0.472,0.616]; cross-text permutation 0.508 [0.440,0.579]
   IM77-new seals, merged partial order: valid 85/159 = 0.535; within-text shuffle 0.222 [0.151,0.296]; cross-text permutation 0.232 [0.157,0.308]
+  Markov-2 clone         single unit  : valid 2429/3681 = 0.660; within-text shuffle 0.211 [0.199,0.227]; cross-text permutation 0.197 [0.190,0.204]
+  Markov-2 clone         <= 2 units   : valid 3318/3681 = 0.901; within-text shuffle 0.618 [0.609,0.626]; cross-text permutation 0.573 [0.557,0.584]
+  Markov-2 clone         partial order: valid 2817/3681 = 0.765; within-text shuffle 0.262 [0.251,0.269]; cross-text permutation 0.277 [0.262,0.287]
+  PARTIAL own output     single unit  : valid 2065/3809 = 0.542; within-text shuffle 0.171 [0.163,0.180]; cross-text permutation 0.161 [0.151,0.173]
+  PARTIAL own output     <= 2 units   : valid 3356/3809 = 0.881; within-text shuffle 0.579 [0.570,0.589]; cross-text permutation 0.539 [0.526,0.547]
+  PARTIAL own output     partial order: valid 2677/3809 = 0.703; within-text shuffle 0.233 [0.221,0.241]; cross-text permutation 0.243 [0.233,0.252]
+  IM77-new breakdown (partial-order test): {'unlicensed pair order': 65, 'valid': 152, 'repeated field': 102}
+  order-model AUC genuine vs within-text shuffle, fit set (first 1500) (texts >= 3 form signs, n=658): 0.819
+  order-model AUC genuine vs within-text shuffle, held-out sites (texts >= 3 form signs, n=463): 0.709
+  order-model AUC genuine vs within-text shuffle, IM77-new (texts >= 3 form signs, n=272): 0.709
+  order-model AUC genuine vs within-text shuffle, Markov-2 clone (texts >= 3 form signs, n=807): 0.794
+
+## FORM SPECIFICATION (candidate 'whole code', fitted on MD+H, level seq_all)
+A text = one subset of the 25 fields below (fields per text: 1: 0.16, 2: 0.28, 3: 0.17, 4: 0.15, 5: 0.11, 6: 0.06, 7: 0.04, 8: 0.01, 9: 0.01, 10: 0.00, 11: 0.00, 12: 0.00, 13: 0.00), one element per field (a field is used twice in 0.067 of texts), written in the pairwise order below (agreement with the linear order 0.85).
+  F00 P=0.12 menu(192; top10 cover 0.36): 692 501 371 491 905 347 545 853 556 698 | attracts ['F03']
+  F01 P=0.18 menu(27; top10 cover 0.91): 861 820 140 165 65 66 511 91 468 703 | attracts ['F03'] | order free with ['F08', 'F19']
+  F02 P=0.09 menu(36; top10 cover 0.76): 920 125 455 171 104 317 831 530 374 906 | attracts ['F03', 'F04'] | order free with ['F05', 'F06', 'F08', 'F10', 'F13']
+  F03 P=0.19 menu(6; top10 cover 1.00): 2 60 500 353 326 81 | attracts ['F00', 'F01', 'F02'] | order free with ['F14']
+  F04 P=0.12 menu(20; top10 cover 0.94): 31 741 742 745 13 645 540 605 812 465 | attracts ['F02'] | order free with ['F08', 'F12', 'F13', 'F14', 'F17', 'F19']
+  F05 P=0.12 menu(13; top10 cover 0.98): 803 798 413 5 382 519 130 136 518 28 | order free with ['F02', 'F07', 'F14']
+  F06 P=0.11 menu(14; top10 cover 0.99): 235 415 575 98 155 391 103 221 322 604 | attracts ['F11'] | order free with ['F02', 'F14', 'F16']
+  F07 P=0.06 menu(6; top10 cover 1.00): 368 231 503 175 267 578 | repels ['F11'] | order free with ['F05', 'F09', 'F11', 'F12', 'F18', 'F19']
+  F08 P=0.15 menu(15; top10 cover 0.99): 32 3 49 145 192 516 531 791 720 899 | order free with ['F01', 'F02', 'F04', 'F10', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19']
+  F09 P=0.10 menu(17; top10 cover 0.97): 240 16 480 137 219 552 362 421 426 775 | order free with ['F07', 'F11', 'F14', 'F20']
+  F10 P=0.07 menu(9; top10 cover 1.00): 233 630 416 63 101 637 825 152 466 | order free with ['F02', 'F08', 'F11', 'F15', 'F18']
+  F11 P=0.11 menu(49; top10 cover 0.90): 220 335 110 19 143 300 782 856 37 117 | attracts ['F06'] | repels ['F07'] | order free with ['F07', 'F09', 'F10', 'F14', 'F16']
+  F12 P=0.10 menu(15; top10 cover 0.99): 705 717 440 495 236 792 510 794 600 797 | attracts ['F13'] | order free with ['F04', 'F07', 'F08', 'F20']
+  F13 P=0.15 menu(17; top10 cover 0.98): 33 615 350 320 226 243 776 420 710 6 | attracts ['F12'] | order free with ['F02', 'F04', 'F08']
+  F14 P=0.08 menu(10; top10 cover 1.00): 550 892 388 595 923 460 215 504 234 367 | repels ['F21'] | order free with ['F03', 'F04', 'F05', 'F06', 'F08', 'F09', 'F11', 'F16', 'F20', 'F21']
+  F15 P=0.12 menu(13; top10 cover 0.99): 176 1 845 824 384 484 927 36 442 521 | order free with ['F08', 'F10', 'F18']
+  F16 P=0.08 menu(13; top10 cover 0.99): 61 4 17 790 55 554 456 46 264 286 | order free with ['F06', 'F08', 'F11', 'F14']
+  F17 P=0.07 menu(12; top10 cover 0.99): 255 904 850 482 95 844 597 626 472 783 | attracts ['F18'] | order free with ['F04', 'F08', 'F21']
+  F18 P=0.07 menu(10; top10 cover 1.00): 840 142 435 832 436 921 821 18 543 392 | attracts ['F17', 'F19'] | order free with ['F07', 'F08', 'F10', 'F15']
+  F19 P=0.08 menu(26; top10 cover 0.90): 690 900 70 35 463 321 72 525 204 515 | attracts ['F18'] | order free with ['F01', 'F04', 'F07', 'F08', 'F21']
+  F20 P=0.16 menu(19; top10 cover 0.96): 590 34 156 617 585 752 337 555 999 354 | order free with ['F09', 'F12', 'F14']
+  F21 P=0.29 menu(24; top10 cover 0.97): 700 390 407 100 760 772 297 222 269 642 | repels ['F14', 'F23', 'F24'] | order free with ['F14', 'F17', 'F19']
+  F22 P=0.43 menu(11; top10 cover 1.00): 740 520 97 592 869 153 279 494 194 471
+  F23 P=0.10 menu(17; top10 cover 0.96): 90 154 151 527 679 868 565 241 804 159 | repels ['F21']
+  F24 P=0.14 menu(51; top10 cover 0.93): 400 621 167 64 161 697 930 401 842 423 | repels ['F21']
+
+(elapsed 97 s)

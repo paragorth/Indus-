@@ -23,9 +23,22 @@ def mid_factory(strip):
             if strip == 'frame18_drop': s = [x for x in s if x not in CLOSE18 | OP18 | SUF18 | MARK]
         return tuple(s)
     return f
+# fast n-gram generator: per-state (keys, weights) precomputed, 'E' excluded
+def fast_model(ms, order):
+    m = markov_fit(ms, order); tab = {}
+    for h, cnt in m.items():
+        items = [(k, v) for k, v in cnt.items() if k != 'E']
+        if items: tab[h] = (tuple(k for k, _ in items), tuple(v for _, v in items))
+    uni = collections.Counter(x for s in ms for x in s); U = (tuple(uni), tuple(uni.values()))
+    return tab, U
+def fast_gen(model, L, rnd, order):
+    tab, U = model; out = []; h = ('S',) * order
+    for _ in range(L):
+        ks, ws = tab.get(h, U); x = rnd.choices(ks, ws)[0]; out.append(x); h = (h + (x,))[1:]
+    return tuple(out)
 def ngram_null(ms, order, rnd):
-    m = markov_fit(ms, order); uni = collections.Counter(x for s in ms for x in s)
-    return [markov_gen(m, len(s), rnd, order, uni) for s in ms]
+    model = fast_model(ms, order)
+    return [fast_gen(model, len(s), rnd, order) for s in ms]
 def unigram_null(ms, rnd):
     pool = [x for s in ms for x in s]
     return [tuple(rnd.choice(pool) for _ in s) for s in ms]
