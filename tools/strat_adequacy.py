@@ -1,4 +1,4 @@
-"""S359: a Turing test for the credential grammar.
+"""S360: a Turing test for the credential grammar.
 
 Fit the best generative model we have of a seal text, a slot grammar
     P(opener) x P(connective | opener) x P(middle: Markov chain of order k over middle signs)

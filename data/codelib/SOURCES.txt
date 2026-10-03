@@ -1,0 +1,20 @@
+Code library for tools/strat_codelibrary.py. One JSONL per system; each line {"id", "seq"}.
+
+indus_raw: 5369 texts, 17829 tokens, 713 types. all inscribed objects, Wells numbers (seq_raw)
+indus_strong: 5369 texts, 17829 tokens, 695 types. strong merges
+indus_all: 5369 texts, 17829 tokens, 689 types. strong+probable merges
+indus_seals: 2250 texts, 9409 tokens, 611 types. seals only, seq_raw
+indus_bigram: 5369 texts, 17829 tokens, 598 types. control: bigram generator trained on indus_raw, same lengths
+heraldry: 31814 texts, 497696 tokens, 3344 types. Rietstap Armorial general (2 vols, archive.org OCR): blazon words after function words removed; forms seen <5 times dropped as OCR noise
+khipu: 6561 texts, 38854 tokens, 229 types. OKR khipu.db: text = one cord cluster (pendant cords, level 1, in order); sign = Ascher colour code : magnitude class (number of knot clusters, i.e. decimal places: 0, 1, 2, 3+)
+ur3_legends: 6381 texts, 24927 tokens, 4487 types. CDLI @seal legends, lang sux, one copy per distinct legend; words (name, title, patronym) as signs
+latin_edh: 6000 texts, 99284 tokens, 18374 types. EDH Italy, 6,000 inscriptions, abbreviations expanded, words as signs
+linear_b: 13170 texts, 42595 tokens, 7464 types. DAMOS Linear B: text = one tablet line; sign groups, ideograms, NUM
+proto_elamite: 10836 texts, 27072 tokens, 1737 types. CDLI Proto-Elamite ATF: text = one entry line; signs plus numeral-sign type (count dropped)
+
+Raw sources: Rietstap Armorial general vols 1-2 (archive.org armorialgnra01rietuoft, armorialgnra02rietuoft, djvu OCR);
+Open Khipu Repository 2.1.0 (https://doi.org/10.5281/zenodo.5037551, record 18025748, data/khipu.db);
+CDLI ATF dump (github cdli-gh/data) @seal sections; CDLI Proto-Elamite ATF; EDH API
+(https://edh.ub.uni-heidelberg.de/data/api/inschrift/suche?land=it, offsets 0-5000); DAMOS Linear B via other-scripts/linear-a.
+Not obtained: RGZM Samian (names on terra sigillata) needs a login; no machine-readable merchants or masons marks corpus found
+(Zenodo search gave only scanned articles); GitHub API search returned no blazon dataset; DrawShield has no bulk catalogue.

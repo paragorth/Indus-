@@ -88,23 +88,14 @@ def prep_khipu():
     col = {}
     for cid, cc in c.execute("select CORD_ID, COLOR_CD_1 from ascher_cord_color where PCORD_FLAG=0"):
         col.setdefault(cid, (cc or '').strip() or '?')
-    val = collections.defaultdict(float)
-    for cid, v in c.execute("select CORD_ID, TOTAL_VALUE from knot_cluster"):
-        try:
-            val[cid] += float(v or 0)
-        except (TypeError, ValueError):
-            pass
+    # magnitude class = number of knot clusters (decimal places) on the cord: 0, 1, 2, 3+ digits
+    digs = collections.defaultdict(set)
+    for cid, cl in c.execute("select CORD_ID, CLUSTER_ID from knot"):
+        digs[cid].add(cl)
 
-    def vclass(v):
-        if v <= 0:
-            return '0'
-        if v < 10:
-            return '1'
-        if v < 100:
-            return '10'
-        if v < 1000:
-            return '100'
-        return '1000'
+    def vclass(cid):
+        k = len(digs.get(cid, ()))
+        return str(min(k, 3)) + ('+' if k >= 3 else '')
     clusters = collections.defaultdict(list)
     for kid, cid, clid, co, lvl in c.execute(
             "select KHIPU_ID, CORD_ID, CLUSTER_ID, CORD_ORDINAL, CORD_LEVEL from cord where CORD_LEVEL=1"):
@@ -112,7 +103,7 @@ def prep_khipu():
     seqs = []
     for k, cords in clusters.items():
         cords.sort()
-        seqs.append(tuple(f'{col.get(cid, "?")}:{vclass(val.get(cid, 0))}' for _, cid in cords))
+        seqs.append(tuple(f'{col.get(cid, "?")}:{vclass(cid)}' for _, cid in cords))
     return seqs
 
 
@@ -139,7 +130,7 @@ def prep_ur3():
             parts = l.split(None, 1)
             toks = parts[1] if len(parts) > 1 else ''
             toks = re.sub(r'[\[\]#?!<>*]', '', toks).lower().split()
-            cur.extend(t for t in toks if t not in ('x', '...', '($', 'blank)'))
+            cur.extend(t for t in toks if t not in ('x', '(x)', '...', '($', 'blank)') and '...' not in t)
     L = {tuple(c) for l, c in legs if l == 'sux' and 2 <= len(c) <= 20}   # one copy per distinct legend
     return sorted(L)
 
@@ -162,7 +153,7 @@ def prep_linearb():
     seqs = []
     for l in open(os.path.join(ROOT, 'other-scripts/linear-a/data/damos_items.jsonl')):
         it = json.loads(l)
-        for line in it['content'].split('\n'):
+        for line in (it.get('content') or '').split('\n'):
             line = re.sub(r'^\s*\.?\d+[a-z]?\s+', ' ', line)
             if 'vac' in line or 'vest' in line:
                 continue
@@ -236,7 +227,7 @@ def prep():
     notes.append(dump('indus_seals', seals, 'seals only, seq_raw'))
     notes.append(dump('indus_bigram', bigram_gen(ind['seq_raw']), 'control: bigram generator trained on indus_raw, same lengths'))
     notes.append(dump('heraldry', prep_heraldry(), 'Rietstap Armorial general (2 vols, archive.org OCR): blazon words after function words removed; forms seen <5 times dropped as OCR noise'))
-    notes.append(dump('khipu', prep_khipu(), 'OKR khipu.db: text = one cord cluster (pendant cords, level 1, in order); sign = Ascher colour code : value class (0, 1-9, 10-99, 100-999, 1000+)'))
+    notes.append(dump('khipu', prep_khipu(), 'OKR khipu.db: text = one cord cluster (pendant cords, level 1, in order); sign = Ascher colour code : magnitude class (number of knot clusters, i.e. decimal places: 0, 1, 2, 3+)'))
     notes.append(dump('ur3_legends', prep_ur3(), 'CDLI @seal legends, lang sux, one copy per distinct legend; words (name, title, patronym) as signs'))
     notes.append(dump('latin_edh', prep_latin(), 'EDH Italy, 6,000 inscriptions, abbreviations expanded, words as signs'))
     notes.append(dump('linear_b', prep_linearb(), 'DAMOS Linear B: text = one tablet line; sign groups, ideograms, NUM'))
@@ -262,10 +253,11 @@ def match_lengths(texts, target, rnd, cap=3000):
     by = collections.defaultdict(list)
     for t in texts:
         L = min(len(t), MAXLEN)
-        by[L].append(t)
-    tot = sum(target.values())
-    p = {L: n / tot for L, n in target.items()}
-    n = min(cap, min(int(len(by[L]) / p[L]) for L in p if p[L] > 0.01))
+        if L >= 2:
+            by[L].append(t)
+    tot = sum(v for L, v in target.items() if L >= 2)
+    p = {L: n / tot for L, n in target.items() if L >= 2}
+    n = min(cap, int(st.median(len(by[L]) / p[L] for L in p if p[L] > 0.02)))
     out = []
     for L, pl in p.items():
         k = round(n * pl)
@@ -390,9 +382,12 @@ def run():
     for ind_key in ('indus_raw', 'indus_strong', 'indus_all', 'indus_seals'):
         tgt = collections.Counter(min(len(t), MAXLEN) for t in indus[ind_key])
         matched = {s: match_lengths(v, tgt, rnd) for s, v in data.items()}
-        matched[ind_key] = indus[ind_key]
+        matched[ind_key] = [t for t in indus[ind_key] if len(t) >= 2]
+        singles = {s: sum(1 for t in v if len(t) == 1) / len(v) for s, v in list(data.items()) + [(ind_key, indus[ind_key])]}
         names = [ind_key] + SYSTEMS
         full = {s: battery(matched[s], rnd) for s in names}
+        for s in names:
+            full[s]['single_share'] = singles[s]   # from the full corpus, before length matching
         P(f'=== Indus version: {ind_key} (n={len(indus[ind_key])}); matched sample sizes: ' + ', '.join(f'{s}={len(matched[s])}' for s in SYSTEMS))
         # table
         P('stat'.ljust(20) + ''.join(s[:13].rjust(14) for s in names))
