@@ -296,19 +296,16 @@ for h in range(NH):
     arrows.append(dict(kind=kind,p=p,fact=fact,mi=mi,n=len(xi),nx=nx,ny=ny,p_screen=ps))
 fired=sum(a['p_screen'] is not None for a in arrows); alpha_b=0.05/max(fired,1)
 say(f'arrows fired (evaluable) {fired} of {NH}; Bonferroni alpha {alpha_b:.2e}')
-cands=[a for a in arrows if a['p_screen'] is not None and a['p_screen']<0.01]
-nperm=min(A.maxperm,int(math.ceil(20/alpha_b)))
-say(f'candidates after G-test screen (p<0.01): {len(cands)} (null expectation ~{0.01*fired:.0f}); within-site permutations per candidate up to {nperm}')
-for a in cands:
-    xi,yi,si,nx,ny,ns,_=collect(a['kind'],a['p'],a['fact'],TRAIN,'seq_raw')
-    o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,nperm,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
-    if ge==0 and pp>alpha_b: a['p_perm']=min(pp,a['p_screen']); a['p_note']='0 exceedances in %d perms; asymptotic G-test p used for the correction'%k
+# The G-test screen is calibrated on scrambled facts (1.3% at p<0.01 in a 300-arrow control), so the Bonferroni and
+# BH corrections use the G-test p over all arrows; every corrected survivor must then also pass a within-site
+# permutation null (2000 perms, p<0.005), the within site x type x length-bin null (rediscovery filter), held-out
+# replication and the three merge levels.
 evalu=[a for a in arrows if a['p_screen'] is not None]
-pv=np.array([a.get('p_perm',a['p_screen']) for a in evalu]); order=np.argsort(pv); m=len(pv); bh=np.zeros(m,bool); thr=0.05*np.arange(1,m+1)/m
+pv=np.array([a['p_screen'] for a in evalu]); order=np.argsort(pv); m=len(pv); bh=np.zeros(m,bool); thr=0.05*np.arange(1,m+1)/m
 ok=np.where(pv[order]<=thr)[0]
 if len(ok): bh[order[:ok.max()+1]]=True
-for a,b in zip(evalu,bh): a['bh']=bool(b); a['bonf']=a.get('p_perm',a['p_screen'])<alpha_b
-say(f'Bonferroni survivors {sum(a["bonf"] for a in evalu)}; BH-FDR(q=0.05) survivors {sum(a["bh"] for a in evalu)}')
+for a,b in zip(evalu,bh): a['bh']=bool(b); a['bonf']=a['p_screen']<alpha_b
+say(f'Bonferroni survivors {sum(a["bonf"] for a in evalu)}; BH-FDR(q=0.05) survivors {sum(a["bh"] for a in evalu)} (G-test p; scrambled-fact null expectation for p<0.01 is ~{0.01*fired:.0f}, observed {sum(a["p_screen"]<0.01 for a in evalu)})')
 surv=[a for a in evalu if a['bonf'] or a['bh']]
 def rediscovery_flag(a):
     k=a['kind']; f=a['fact']
@@ -319,25 +316,41 @@ def rediscovery_flag(a):
     if frame_pos and objclass: tags.append('frame-slot x object-class (opener/closer->seal/tablet?)')
     if lenlike and objclass: tags.append('length-like x object-class (length->type?)')
     return tags
+# stage A: rediscovery filter = permutation within site x type x length bin
+redis=[]; keep=[]
 for a in surv:
+    kind,p,fact=a['kind'],a['p'],a['fact']; a['flags']=rediscovery_flag(a)
+    if fact in ('type','type2'):
+        a['within_type']=None; a['flags'].append('fact is object type: text structure vs object type (GRAMMAR frame rules)'); redis.append(a); continue
+    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',1000,rng,strat=True)
+    if a['within_type'] is None or a['within_type']['p']>0.05:
+        a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure'); redis.append(a)
+    else: keep.append(a)
+say(f'stage A: {len(surv)} corrected survivors -> {len(redis)} are type/length rediscoveries (fact=type or vanish within site x type x length); {len(keep)} carry information beyond type and length')
+# stage B: permutation confirmation + replication for the rest
+for a in keep:
     kind,p,fact=a['kind'],a['p'],a['fact']
+    xi,yi,si,nx,ny,ns,_=collect(kind,p,fact,TRAIN,'seq_raw'); o,pp,k,ge=perm_p(xi,yi,si,nx,ny,ns,2000,rng); a['p_perm']=pp; a['nperm']=k; a['ge']=ge
     a['held']=evaluate(kind,p,fact,TEST,'seq_raw',3000,rng,minn=60)
     a['held_strong']=evaluate(kind,p,fact,TEST,'seq_strong',2000,rng,minn=60); a['held_all']=evaluate(kind,p,fact,TEST,'seq_all',2000,rng,minn=60)
     a['train_strong']=evaluate(kind,p,fact,TRAIN,'seq_strong',2000,rng); a['train_all']=evaluate(kind,p,fact,TRAIN,'seq_all',2000,rng)
-    a['within_type']=evaluate(kind,p,fact,TRAIN,'seq_raw',3000,rng,strat=True) if fact not in ('type','type2') else None
+    a['ok_perm']=pp<0.005
     a['ok_held']=bool(a['held'] and a['held']['p']<0.01)
     a['ok_levels']=all(x and x['p']<0.01 for x in (a['train_strong'],a['train_all'],a['held_strong'],a['held_all']))
-    a['flags']=rediscovery_flag(a)
-    if a['within_type'] and a['within_type']['p']>0.05: a['flags'].append('vanishes within site x type x length strata -> rediscovery of type/length structure')
-    if fact in ('type','type2'): a['flags'].append('fact is object type: compare against GRAMMAR frame rules')
-full=[a for a in surv if a['ok_held'] and a['ok_levels']]
-for a in surv:
-    if a.get('p_note'): a['flags'].append(a['p_note'])
+    if not a['ok_perm']: a['flags'].append('fails within-site permutation (asymptotic artefact)')
+    if a['held'] is None: a['flags'].append('held-out n<60: cannot replicate')
+    elif not a['ok_held']: a['flags'].append('fails held-out sites')
+    if not a['ok_levels']: a['flags'].append('depends on merge level')
+full=[a for a in keep if a['ok_perm'] and a['ok_held'] and a['ok_levels']]
 say(f'full survivors (corrected + held-out p<0.01 + all three levels train and held-out): {len(full)}')
 def fmt(r): return 'n/a' if r is None else 'CMI %.3f p %.2e n %d'%(r['mi'],r['p'],r['n'])
-surv.sort(key=lambda a:a.get('p_perm',a['p_screen']))
-for a in surv:
-    say(('FULL ' if a in full else 'part ')+f"{a['kind']} {a['p']} -> {a['fact']} | train {fmt(dict(mi=a['mi'],p=a.get('p_perm',a['p_screen']),n=a['n']))} bonf {a['bonf']} bh {a['bh']} | held-out {fmt(a['held'])} | levels train {fmt(a['train_strong'])}; {fmt(a['train_all'])} | held levels {fmt(a['held_strong'])}; {fmt(a['held_all'])} | within site x type x len {fmt(a['within_type'])} | flags {a['flags'] or 'none'}")
+keep.sort(key=lambda a:a['p_screen'])
+for a in keep:
+    say(('FULL ' if a in full else 'part ')+f"{a['kind']} {a['p']} -> {a['fact']} | train G-p {a['p_screen']:.2e} perm {fmt(dict(mi=a['mi'],p=a['p_perm'],n=a['n']))} bonf {a['bonf']} bh {a['bh']} | held-out {fmt(a['held'])} | levels train {fmt(a['train_strong'])}; {fmt(a['train_all'])} | held levels {fmt(a['held_strong'])}; {fmt(a['held_all'])} | within site x type x len {fmt(a['within_type'])} | flags {a['flags'] or 'none'}")
+redis.sort(key=lambda a:a['p_screen'])
+rc=collections.Counter((a['kind'],a['fact']) for a in redis)
+say(f'rediscoveries by (reading, fact), top 15 of {len(rc)}: '+'; '.join(f'{k[0]}->{k[1]} x{v}' for k,v in rc.most_common(15)))
+for a in redis[:10]: say(f"  rediscovery {a['kind']} {a['p']} -> {a['fact']} G-p {a['p_screen']:.1e} n {a['n']} within-strata {fmt(a['within_type'])} | {a['flags']}")
 byk=collections.defaultdict(list)
 for a in evalu: byk[a['kind']].append(a['p_screen'])
 say('family: arrows / frac screen p<0.01 (null 0.01):')
