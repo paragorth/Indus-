@@ -1,0 +1,76 @@
+S-DARK-3 cycle 1: 'maybe we are reading it wrong' -- screening run
+Code: tools/strat_dark3.py (engine), tools/strat_dark3_run.py screen 20 3. Raw log: loop3_screen_raw.txt / .json.
+
+Design. 16 transformations x 4 tests = 64 arrows, 20 random parameterisations each (1,280 transformed corpora).
+Train split = Mohenjo-daro + Harappa, seq_raw, n = 4,411 texts. Arrow statistic = median over parameterisations
+of D = S(T(X)) - S(X). Null = 20 sign-shuffles across texts with lengths kept (for the slot test: shuffle within
+text), the SAME transformation and parameterisations applied to each shuffle. With P = 20 the empirical p floors
+at 0.048, so screening uses z = (D - mean null)/sd null; |z| >= 3 goes to cycle 2 (P = 60, held-out, three
+transcription variants). Bonferroni for 64 arrows means a confirmed arrow needs p < 0.0008 (|z| > 3.4 if the null
+is roughly normal; it is, see null sd columns).
+Tests. namecalib = uniqueness of 2-6-sign texts / uniqueness under a bigram model trained on the same texts
+(whole texts here, not middles: Indus train 0.78; the S321/S322 value 0.97 is for middles). repeat = share of
+>=3-sign texts with a repeated sign / same under slot-preserving shuffle (S88). slot = H(interior signs) -
+mean(H(first), H(last)) in bits, positive = low-entropy edges (frame). arith = among texts with >= 2 valued
+numerals (W1,3,4,5,16,17,18 = 1,3,4,5,6,7,8; W31-34 = 1-4 tall; W55 = 12), share where two values add to a
+third or all-but-max add to the max.
+Known systems (same statistics, data/codelib): Ur III owner names (syllables) namecalib 0.43, repeat 1.19, slot
+1.0; Ur III legends (words) 1.13 / 0.11 / -3.6; Linear B lines 1.10 / 0.96 / 2.0; Latin EDH 1.05 / 1.29 / 2.9;
+Proto-Elamite entries 1.00 / 0.22 / 1.5; khipu cord clusters 0.72 / 1.63 / 0.2; heraldic blazons 0.72 / 0.85 / 4.0.
+
+Controls behaved. identity: all four D = 0, z in [-0.5, 0.4]. relabel (random sign-identity permutation): z -2.1,
++0.4, 0, n/a (namecalib has sampling noise from the bigram generator; the identity arrow shows its size, sd 0.007).
+
+Screen results (train, seq_raw; value = median over 20 parameterisations; z vs shuffled null):
+transform   | namecalib            | repeat               | slot                 | arith
+identity    | 0.78 -> 0.78  z -0.5 | 0.22 -> 0.23  z +0.4 | 1.13 -> 1.13  z 0    | 0.25 -> 0.25 z 0
+reverse     | 0.78 -> 0.83  z +5.4 | 0.25 -> 0.27  z +0.8 | unchanged (symmetric)| unchanged
+interleave  | 0.78 -> 0.95  z +2.5 | 0.23 -> 0.43  z +2.8 | 1.13 -> 0.58  z -6.8 | z 0
+middleout   | 0.77 -> 0.70  z -12.2| 0.22 -> 0.24  z +0.5 | 1.13 -> 0.55  z -11.2| unchanged
+sort        | 0.78 -> 0.78  z -2.7 | 0.23 -> 0.24  z -1.2 | 1.13 -> 1.32  z -18.4 (null +1.14) | unchanged
+family      | 0.79 -> 0.67  z -5.2 | 0.24 -> 0.97  z +14.6| 1.13 -> 0.16  z -16.8| 0.25 -> 0.21 z -2.2
+numonly     | 0.80 -> 1.36  z +6.4 | n/a                  | n/a                  | unchanged
+nonnum      | 0.79 -> 0.78  z -1.0 | 0.23 -> 0.18  z -1.5 | 1.13 -> 1.12  z -0.2 | n/a
+dropframe   | 0.80 -> 0.81  z +1.1 | 0.23 -> 0.42  z +4.7 | 1.13 -> -0.12 z -32.6| 0.25 -> 0.25 z -1.2
+bpe (k 5-80)| 0.78 -> 0.80  z +1.9 | 0.24 -> 0.35  z +5.3 | 1.13 -> 1.10  z -8.0 | 0.25 -> 0.29 z +4.4
+splitnum    | 0.78 -> 0.80  z -0.9 | 0.24 -> 0.17  z -1.8 | 1.13 -> 1.16  z +0.1 | n/a
+rotate      | 0.79 -> 0.74  z -5.5 | 0.22 -> 0.23  z +0.2 | 1.13 -> 0.17  z -14.7| unchanged
+emblem as 0 | 0.79 -> 0.72  z +2.5 | 0.23 -> 0.19  z +4.1 | 1.13 -> 2.48  z -20.7 (null +1.94) | unchanged
+objtype as 0| 0.80 -> 0.70  z -1.7 | 0.23 -> 0.18  z +5.6 | 1.13 -> 3.17  z -15.7 (null +2.63) | unchanged
+relabel     | 0.80 -> 0.78  z -2.1 | 0.23 -> 0.23  z +0.4 | unchanged            | n/a
+dropsign    | 0.79 -> 0.92  z +12.5| 0.24 -> 0.23  z -0.2 | 1.13 -> 0.93  z -16.3| 0.25 -> 0.25 z -0.4
+
+Reading the screen.
+1. Slot-test 'hits' for interleave, middleout, sort, dropframe, rotate, emblem, objtype, dropsign are the known
+frame (GRAMMAR.md opener/closer slots) being destroyed or moved by the transformation; the within-text shuffle
+null has no frame to lose. They re-state S17-S40, they do not make the corpus look like a new known system.
+Same for middleout/rotate on namecalib: the Ur III names control (loop3_ur3_control.txt) drops the same way
+(0.43 -> 0.32 and 0.39), so any corpus with positional structure does this.
+2. Genuine candidates (shift beyond the null AND landing in or near a known band):
+ a. family (collapse to Wells hundreds = graphic shape families): namecalib 0.67 (khipu/heraldry 0.72 band),
+    repeat 0.97 (Linear B 0.96; 'language-like' 0.7-0.8 of S88), slot 0.16 (khipu 0.20). The collapsed corpus
+    looks like khipu on all three. Needed control: a random partition of the signs into classes of the SAME
+    sizes (randfamily) -- if that does the same, the effect is class-count, not shape. Ur III control not
+    applicable (syllables have no shape families).
+ b. reverse: forward bigram model fits text recurrence better than backward (ratio 0.78 -> 0.83); Ur III names
+    move the other way (0.43 -> 0.42). A reading-direction asymmetry; worth confirming.
+ c. numonly: numeral strings are MORE unique than their bigram model (1.36, like word-level corpora >1), not
+    count-book-like. Wide spread over parameterisations [1.07, 1.69] (with/without W2).
+ d. bpe/arith: after 5-80 pair merges (fixed numeral+sign terms fuse), the remaining numerals are more often
+    arithmetically closed (0.25 -> 0.29, z +4.4). Small base (texts with >= 2 valued numerals ~ 100).
+ e. dropsign/namecalib: random deletion of 10-30% of signs raises the ratio 0.79 -> 0.92 (null +0.01); the
+    recurring short texts (closer formulae) are what keeps Indus below 1. Ur III names also rise (0.44 -> 0.68)
+    but stay in the name band; Indus leaves the sub-1 band. Interpretation: Indus 'recurrence' is carried by a
+    few exact formulae, names by many near-repeats.
+ f. dropframe/repeat: middles alone repeat at 0.42 of chance vs 0.23 for whole texts (z +4.7) -- part of the
+    repetition avoidance is frame-vs-middle complementarity.
+3. Nothing pushes whole-text Indus to the Ur III name value (0.43-0.62) except collapsing to shape families,
+and that is to be tested against random classes in cycle 2.
+
+Arrows fired this cycle: 64 (plus 20 parameterisations each). Confirmation list for cycle 2: family x 3 tests,
+randfamily x 3 (control), reverse/namecalib, numonly/namecalib, dropframe/repeat, dropsign/namecalib,
+bpe/arith + bpe/repeat. Held-out = all sites other than Mohenjo-daro and Harappa (n ~ 930 texts); seq_raw,
+seq_strong, seq_all; P = 60.
+
+Ready-to-paste row:
+| S-DARK-3.1 | Transformation screen: 16 transformations (reverse, interleave, middle-out, sort, shape families, numerals only, non-numerals, drop frame, BPE 5-80, split at numerals, rotate, emblem/object type as sign, relabel, random deletion) x 4 tests (name-calibration ratio, repetition vs shuffle, slot-entropy edge drop, arithmetic closure), 20 random parameterisations each, train = Mohenjo-daro + Harappa, seq_raw | Null: 20 sign-shuffles with the same transformation; identity and relabel arrows give z in [-2.1, 0.4]; Ur III names and legends under the same transformations (loop3_ur3_control.txt) | Frame-destroying transformations 'hit' the slot test trivially (re-states S17-S40). Non-trivial shifts: shape-family collapse makes the corpus look like khipu (uniqueness ratio 0.67, repetition 0.97 of chance, flat slots); reverse raises the ratio 0.78 -> 0.83 (direction asymmetry); numeral strings are more unique than their bigram model (1.36); random 10-30% deletion lifts the ratio to 0.92 (recurrence is carried by a few exact formulae). Nothing moves whole texts to the Ur III name value (0.43-0.62). All sent to cycle 2 with the random-class control. 64 arrows fired. | screen only |
