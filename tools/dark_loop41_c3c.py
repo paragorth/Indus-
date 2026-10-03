@@ -38,11 +38,12 @@ ur = json.load(open(DARK + 'loop18_ur3_impressions.json'))
 units = {'impressions_line1': [tuple(l['line1'][0]) for l in ur if l.get('line1')],
          'impressions_fulllegend': [tuple(x for ln in l['legend'] for x in ln) for l in ur],
          'legends_line1': list({tuple(x for ln in l['legend'] for x in ln): tuple(l['line1'][0]) for l in ur if l.get('line1')}.values()),
-         'legends_full': list({tuple(x for ln in l['legend'] for x in ln) for l in ur}),
-         'seal_objects_line1': [tuple(l['line1'][0]) for l in ur if l.get('line1') and l['obj'] == 'seal']}
+         }
+P(f'  (one copy per distinct full legend is unique by construction, so that unit is not a test; cache object kinds: {collections.Counter(l["obj"] for l in ur).most_common(4)})')
 urres = []
 for uname, ms in units.items():
     ms = [m for m in ms if len(m) >= 1]
+    if not ms: continue
     for minlen in (1, 2):
         mm = [m for m in ms if len(m) >= minlen]
         for order in (0, 1, 2):

@@ -71,3 +71,47 @@
   impressions_fulllegend   min1 order0 n= 1744: unique 0.514 vs null 1.000 ratio 0.514
   impressions_fulllegend   min1 order0 n=25291: unique 0.083 vs null 0.999 ratio 0.083
   impressions_fulllegend   min1 order1 n= 1744: unique 0.517 vs null 0.988 ratio 0.523
+  impressions_fulllegend   min1 order1 n=25291: unique 0.083 vs null 0.944 ratio 0.088
+  impressions_fulllegend   min1 order2 n= 1744: unique 0.506 vs null 0.939 ratio 0.539
+  impressions_fulllegend   min1 order2 n=25291: unique 0.083 vs null 0.808 ratio 0.103
+  impressions_fulllegend   min2 order0 n= 1744: unique 0.517 vs null 1.000 ratio 0.517
+  impressions_fulllegend   min2 order0 n=25291: unique 0.083 vs null 0.999 ratio 0.083
+  impressions_fulllegend   min2 order1 n= 1744: unique 0.514 vs null 0.988 ratio 0.521
+  impressions_fulllegend   min2 order1 n=25291: unique 0.083 vs null 0.943 ratio 0.088
+  impressions_fulllegend   min2 order2 n= 1744: unique 0.508 vs null 0.937 ratio 0.543
+  impressions_fulllegend   min2 order2 n=25291: unique 0.083 vs null 0.806 ratio 0.103
+  legends_line1            min1 order0 n= 1744: unique 0.337 vs null 0.926 ratio 0.364
+  legends_line1            min1 order0 n= 6648: unique 0.203 vs null 0.865 ratio 0.235
+  legends_line1            min1 order1 n= 1744: unique 0.340 vs null 0.568 ratio 0.598
+  legends_line1            min1 order1 n= 6648: unique 0.203 vs null 0.436 ratio 0.466
+  legends_line1            min1 order2 n= 1744: unique 0.337 vs null 0.487 ratio 0.693
+  legends_line1            min1 order2 n= 6648: unique 0.203 vs null 0.336 ratio 0.604
+  legends_line1            min2 order0 n= 1744: unique 0.334 vs null 0.957 ratio 0.349
+  legends_line1            min2 order0 n= 6280: unique 0.208 vs null 0.904 ratio 0.230
+  legends_line1            min2 order1 n= 1744: unique 0.336 vs null 0.575 ratio 0.585
+  legends_line1            min2 order1 n= 6280: unique 0.208 vs null 0.450 ratio 0.461
+  legends_line1            min2 order2 n= 1744: unique 0.336 vs null 0.485 ratio 0.694
+  legends_line1            min2 order2 n= 6280: unique 0.208 vs null 0.338 ratio 0.614
+  legends_full             min1 order0 n= 1744: unique 1.000 vs null 1.000 ratio 1.000
+  legends_full             min1 order0 n= 6648: unique 1.000 vs null 0.999 ratio 1.001
+  legends_full             min1 order1 n= 1744: unique 1.000 vs null 0.992 ratio 1.008
+  legends_full             min1 order1 n= 6648: unique 1.000 vs null 0.980 ratio 1.021
+  legends_full             min1 order2 n= 1744: unique 1.000 vs null 0.962 ratio 1.040
+  legends_full             min1 order2 n= 6648: unique 1.000 vs null 0.935 ratio 1.070
+  legends_full             min2 order0 n= 1744: unique 1.000 vs null 1.000 ratio 1.000
+  legends_full             min2 order0 n= 6648: unique 1.000 vs null 0.999 ratio 1.001
+  legends_full             min2 order1 n= 1744: unique 1.000 vs null 0.991 ratio 1.009
+  legends_full             min2 order1 n= 6648: unique 1.000 vs null 0.978 ratio 1.022
+  legends_full             min2 order2 n= 1744: unique 1.000 vs null 0.965 ratio 1.036
+  legends_full             min2 order2 n= 6648: unique 1.000 vs null 0.934 ratio 1.071
+Traceback (most recent call last):
+  File "/home/user/Indus-/tools/dark_loop41_c3c.py", line 51, in <module>
+    u, b, ratio = ratio_for(mm, n, order, rnd, draws=8 if n > 5000 else 12)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop41_c3c.py", line 32, in ratio_for
+    rs.append(uniq(sub))
+              ^^^^^^^^^
+  File "/home/user/Indus-/tools/dark_loop41_common.py", line 208, in uniq
+    c = collections.Counter(ms); return sum(1 for m in ms if c[m] == 1) / len(ms)
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+ZeroDivisionError: division by zero

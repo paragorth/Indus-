@@ -1,0 +1,97 @@
+# LOOP 50 cycle 3: calibration on Linear B, Egyptian, cuneiform (2026-10-03T17:01)
+
+== Linear B: 205 glyphs; with a DAMOS frequency: syllabograms 87, ideograms 34
+  Linear B: 117 ideogram vs 88 syllabogram
+     AUC(ideogram > syllabogram) by holes        = 0.739   means +2.137 / +0.716
+     AUC(ideogram > syllabogram) by curv         = 0.664   means +0.431 / +0.347
+     AUC(ideogram > syllabogram) by asym         = 0.501   means +0.331 / +0.308
+     AUC(ideogram > syllabogram) by perim        = 0.693   means +11.353 / +9.165
+     AUC(ideogram > syllabogram) by logstrokes   = 0.682   means +2.562 / +2.285
+     AUC(ideogram > syllabogram) by pict_shape5  = 0.741   means +0.221 / -0.293
+     AUC(ideogram > syllabogram) by pict_curv    = 0.610   means +0.133 / -0.177
+     frequency-matched permutation, pict_shape5: n=121 (34 ideogram), diff +0.415, null [-0.075,+0.335], P 0.003
+     frequency-matched permutation, pict_curv: n=121 (34 ideogram), diff +0.283, null [-0.152,+0.340], P 0.075
+     frequency-matched permutation, perim: n=121 (34 ideogram), diff +1.078, null [-0.543,+1.363], P 0.072
+  ideograms with a Unicode object name (pictorial by label): 41, mean pict_shape5 +0.210; syllabograms -0.293
+  commonest 10 syllabograms: TO:-1.2, JO:-0.2, KO:-0.2, E:-0.3, O:-0.4, RO:-1.5, A:-1.1, KE:-0.0, JA:-0.5, RA:-0.8, TA:-0.8, TE:-0.7, NA:-0.9, WE:-0.2, WO:-0.1, RE:-0.6, PA:-1.1, KA:+0.5, U:-0.2, RI:-0.2, SI:-0.5, SO:-0.2, WA:-0.
+  commonest 10 ideograms:    B106F EWE:+0.2, B100 MAN:-0.8, B120 WHEAT:-0.1, B145 WOOL:+0.2, B159 CLOTH:-1.1, B102 WOMAN:+0.0, B140 BRONZE:-0.7, B121 BARLEY:-0.9, B130 OIL:+0.3, B107F SHE-GOAT:+0.1, B146:-0.0, B240 WHEELED CHARIOT:+2.0, B109F COW:+0
+  Spearman(pict_shape5, log freq) over signs with freq>0: -0.354 (n=121)
+
+== Egyptian: 1072 glyphs; classes {'living': 419, 'uniliteral': 25, 'other': 588, 'strokes': 40}
+  Egyptian positive control: 419 living vs 40 strokes
+     AUC(living > strokes) by holes        = 0.896   means +5.983 / +1.050
+     AUC(living > strokes) by curv         = 0.898   means +0.549 / +0.180
+     AUC(living > strokes) by asym         = 0.830   means +0.716 / +0.208
+     AUC(living > strokes) by perim        = 0.776   means +38.283 / +24.745
+     AUC(living > strokes) by logstrokes   = 0.929   means +3.055 / +1.703
+     AUC(living > strokes) by pict_shape5  = 0.971   means +0.349 / -1.126
+     AUC(living > strokes) by pict_curv    = 0.940   means +0.556 / -1.351
+  Egyptian phonetic vs pictorial-semantic: 25 uniliteral vs 419 living
+     AUC(uniliteral > living) by holes        = 0.233   means +2.680 / +5.983
+     AUC(uniliteral > living) by curv         = 0.174   means +0.349 / +0.549
+     AUC(uniliteral > living) by asym         = 0.286   means +0.442 / +0.716
+     AUC(uniliteral > living) by perim        = 0.257   means +28.067 / +38.283
+     AUC(uniliteral > living) by logstrokes   = 0.152   means +1.971 / +3.055
+     AUC(uniliteral > living) by pict_shape5  = 0.135   means -0.600 / +0.349
+     AUC(uniliteral > living) by pict_curv    = 0.171   means -0.474 / +0.556
+  Egyptian phonetic vs strokes: 25 uniliteral vs 40 strokes
+     AUC(uniliteral > strokes) by holes        = 0.746   means +2.680 / +1.050
+     AUC(uniliteral > strokes) by curv         = 0.762   means +0.349 / +0.180
+     AUC(uniliteral > strokes) by asym         = 0.692   means +0.442 / +0.208
+     AUC(uniliteral > strokes) by perim        = 0.544   means +28.067 / +24.745
+     AUC(uniliteral > strokes) by logstrokes   = 0.609   means +1.971 / +1.703
+     AUC(uniliteral > strokes) by pict_shape5  = 0.751   means -0.600 / -1.126
+     AUC(uniliteral > strokes) by pict_curv    = 0.763   means -0.474 / -1.351
+  uniliterals by shape index: N037:-2.0, Q003:-2.0, D021:-1.4, O034:-1.3, X001:-1.1, V013:-1.1, S029:-0.9, M017:-0.9, D036:-0.9, V028:-0.6, F032:-0.6, Z004:-0.6, N029:-0.5, D046:-0.5, AA001:-0.4, I009:-0.4, W011:-0.4, D058:-0.4, O004:-0.3, V031:-0.2, N035:-0.1, I010:+0.2, G001:+0.4, G043:+0.4, G017:+0.7
+
+== Cuneiform: 1034 glyphs; classes {'sign': 922, 'numeric': 112}
+  Cuneiform signs vs numerals: 922 sign vs 112 numeric
+     AUC(sign > numeric) by holes        = 0.784   means +5.504 / +1.750
+     AUC(sign > numeric) by curv         = 0.795   means +0.528 / +0.381
+     AUC(sign > numeric) by asym         = 0.647   means +0.482 / +0.354
+     AUC(sign > numeric) by perim        = 0.750   means +15.577 / +11.378
+     AUC(sign > numeric) by logstrokes   = 0.752   means +3.137 / +2.633
+     AUC(sign > numeric) by pict_shape5  = 0.823   means +0.094 / -0.777
+     AUC(sign > numeric) by pict_curv    = 0.794   means +0.098 / -0.807
+
+== Indus on the same 5-part scale (seq_raw modal roles, >= 5 tokens)
+  Indus heads vs far middle: 11 CLOSER vs 140 NAME_FAR
+     AUC(CLOSER > NAME_FAR) by holes        = 0.606   means +4.455 / +1.829
+     AUC(CLOSER > NAME_FAR) by curv         = 0.677   means +0.455 / +0.369
+     AUC(CLOSER > NAME_FAR) by asym         = 0.517   means +0.345 / +0.366
+     AUC(CLOSER > NAME_FAR) by perim        = 0.651   means +18.580 / +13.414
+     AUC(CLOSER > NAME_FAR) by logstrokes   = 0.621   means +2.798 / +2.501
+     AUC(CLOSER > NAME_FAR) by pict_shape5  = 0.661   means +0.372 / -0.183
+     AUC(CLOSER > NAME_FAR) by pict_curv    = 0.604   means +0.135 / -0.118
+     frequency-matched permutation, pict_shape5: n=151 (11 CLOSER), diff +0.555, null [-0.358,+0.418], P 0.004
+     frequency-matched permutation, pict_curv: n=151 (11 CLOSER), diff +0.253, null [-0.416,+0.388], P 0.221
+     frequency-matched permutation, perim: n=151 (11 CLOSER), diff +5.166, null [-2.723,+3.965], P 0.002
+  Indus openers vs far middle: 5 OPENER vs 140 NAME_FAR
+     AUC(OPENER > NAME_FAR) by holes        = 0.649   means +2.400 / +1.829
+     AUC(OPENER > NAME_FAR) by curv         = 0.561   means +0.390 / +0.369
+     AUC(OPENER > NAME_FAR) by asym         = 0.396   means +0.277 / +0.366
+     AUC(OPENER > NAME_FAR) by perim        = 0.339   means +10.686 / +13.414
+     AUC(OPENER > NAME_FAR) by logstrokes   = 0.484   means +2.495 / +2.501
+     AUC(OPENER > NAME_FAR) by pict_shape5  = 0.434   means -0.281 / -0.183
+     AUC(OPENER > NAME_FAR) by pict_curv    = 0.451   means -0.248 / -0.118
+     frequency-matched permutation, pict_shape5: n=145 (5 OPENER), diff -0.098, null [-0.412,+0.433], P 0.674
+     frequency-matched permutation, pict_curv: n=145 (5 OPENER), diff -0.130, null [-0.560,+0.598], P 0.661
+     frequency-matched permutation, perim: n=145 (5 OPENER), diff -2.728, null [-3.227,+1.521], P 0.079
+  Indus adjacent vs far middle: 28 NAME_ADJ vs 140 NAME_FAR
+     AUC(NAME_ADJ > NAME_FAR) by holes        = 0.549   means +2.607 / +1.829
+     AUC(NAME_ADJ > NAME_FAR) by curv         = 0.468   means +0.358 / +0.369
+     AUC(NAME_ADJ > NAME_FAR) by asym         = 0.560   means +0.429 / +0.366
+     AUC(NAME_ADJ > NAME_FAR) by perim        = 0.636   means +16.916 / +13.414
+     AUC(NAME_ADJ > NAME_FAR) by logstrokes   = 0.541   means +2.596 / +2.501
+     AUC(NAME_ADJ > NAME_FAR) by pict_shape5  = 0.618   means +0.058 / -0.183
+     AUC(NAME_ADJ > NAME_FAR) by pict_curv    = 0.542   means -0.010 / -0.118
+     frequency-matched permutation, pict_shape5: n=168 (28 NAME_ADJ), diff +0.241, null [-0.236,+0.208], P 0.039
+     frequency-matched permutation, pict_curv: n=168 (28 NAME_ADJ), diff +0.108, null [-0.310,+0.285], P 0.497
+     frequency-matched permutation, perim: n=168 (28 NAME_ADJ), diff +3.502, null [-2.201,+2.506], P 0.002
+  heads by shape index: W700:-0.9, W520:-0.7, W740:-0.4, W527:-0.1, W226:-0.1, W236:+0.1, W158:+0.5, W151:+0.6, W154:+0.6, W156:+1.0, W617:+3.4
+  without W617: AUC heads vs far middle pict_shape5 = 0.627, pict_curv = 0.622
+  without W617, frequency-matched permutation pict_shape5: diff +0.248 null [-0.351,+0.232] P 0.140
+  without W617, frequency-matched permutation perim: diff +2.290 null [-2.677,+2.320] P 0.074
+
+== Proto-Elamite: no glyph drawings or font in the repository (other-scripts/proto-elamite holds transliterations only); shape pictoriality not measurable here.
+done 85s

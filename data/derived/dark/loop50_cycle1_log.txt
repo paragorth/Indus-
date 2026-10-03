@@ -1,0 +1,60 @@
+# LOOP 50 cycle 1: pictoriality measures (2026-10-03T16:56)
+signs rendered 712; with a dossier description 84; label pictorial 49, geometric 35, unknown-with-text 0
+label set: 49 pictorial vs 35 geometric (top-200 dossier signs only; numerals among them: 12)
+  AUC(label pictorial > geometric) by holes            = 0.727   mean pict 2.224 geom 0.800
+  AUC(label pictorial > geometric) by curv             = 0.841   mean pict 0.421 geom 0.219
+  AUC(label pictorial > geometric) by asym             = 0.756   mean pict 0.399 geom 0.232
+  AUC(label pictorial > geometric) by perim            = 0.527   mean pict 13.382 geom 12.659
+  AUC(label pictorial > geometric) by far_stroke       = 0.673   mean pict 0.397 geom 0.343
+  AUC(label pictorial > geometric) by logstrokes       = 0.779   mean pict 2.595 geom 1.838
+  AUC(label pictorial > geometric) by pict_shape       = 0.838   mean pict 0.012 geom -0.798
+  AUC(label pictorial > geometric) by pict_shape_nocplx = 0.840   mean pict 0.110 geom -0.720
+  AUC(label pictorial > geometric) by comps            = 0.353   mean pict 1.245 geom 2.371
+  AUC(label pictorial > geometric) by ink              = 0.527   mean pict 0.200 geom 0.194
+  non-numeral signs only: AUC(pict_shape) = 0.759 (49 vs 23)
+frequency (seq_raw >= 2, non-numeral, n=465): Spearman(pict_shape, log f) = -0.154; perim -0.124; holes -0.044; curv -0.043; far_stroke +0.054
+label pictorial but lowest shape index:
+   W390  -1.35  Simple tree with branches at the top
+   W405  -0.75  Simple tree with branches at the top
+   W415  -0.70  Pitchfork with tines
+   W520  -0.68  Isocolese triangle on top of vertical line (arrow? spear?)
+   W575  -0.55  Trapezoid with no bottom line, small box resting on the top middle
+   W220  -0.54  Fish with no other decoration
+   W61   -0.51  Simple lambda but reversed horizontally, and the leg may not be quite 
+   W240  -0.45  Fish with extra whiskers on cheeks
+label geometric but highest shape index:
+   W565  +0.52  X with vertical connection on left two tips, right tips both have a sl
+   W503  +0.43  Tall isoceles triangle with horizontal stripes
+   W460  +0.28  Three tall, thin isoceles triangles
+   W455  +0.06  Three triangles, one large isocoles pointing right on left, two small 
+   W545  -0.07  Bowtie with another left-pointing triangle attached on the right, hatc
+   W297  -0.08  Prismed light rays, with opposite slanting on top vs bottom, more rays
+   W853  -0.32  Diamond with two perpendiculars coming off each edge (see similarity w
+   W906  -0.34  Right parenthesis next to left parenthesis
+top 12 shape index overall:
+   W617  +2.60 holes 30 curv 0.52 asym 0.07 strokes 74  
+   W345  +2.05 holes 17 curv 0.58 asym 0.71 strokes 51  
+   W346  +1.69 holes 14 curv 0.42 asym 0.73 strokes 43  
+   W261  +1.65 holes 11 curv 0.56 asym 0.73 strokes 39  
+   W344  +1.62 holes 11 curv 0.49 asym 0.78 strokes 46  
+   W753  +1.38 holes 12 curv 0.58 asym 0.66 strokes 36  
+   W118  +1.35 holes 12 curv 0.54 asym 0.26 strokes 36  
+   W546  +1.34 holes 8 curv 0.40 asym 0.88 strokes 25  
+   W256  +1.30 holes 11 curv 0.56 asym 0.60 strokes 37  
+   W821  +1.29 holes 12 curv 0.54 asym 0.31 strokes 36  
+   W777  +1.28 holes 8 curv 0.55 asym 0.36 strokes 24  
+   W462  +1.28 holes 9 curv 0.60 asym 0.39 strokes 29  
+bottom 12 shape index (non-numeral):
+   W392  -1.94 holes 0 curv 0.08 asym 0.14 strokes 3  
+   W43   -1.53 holes 0 curv 0.08 asym 0.04 strokes 6  
+   W515  -1.45 holes 0 curv 0.22 asym 0.13 strokes 3  
+   W444  -1.43 holes 0 curv 0.13 asym 0.24 strokes 3  
+   W420  -1.42 holes 0 curv 0.04 asym 0.09 strokes 7  
+   W390  -1.35 holes 0 curv 0.18 asym 0.20 strokes 6  Simple tree with branches at the top
+   W70   -1.35 holes 0 curv 0.21 asym 0.08 strokes 6  
+   W64   -1.34 holes 0 curv 0.13 asym 0.08 strokes 3  
+   W600  -1.32 holes 1 curv 0.13 asym 0.10 strokes 1  
+   W41   -1.30 holes 0 curv 0.04 asym 0.05 strokes 3  
+   W442  -1.24 holes 0 curv 0.10 asym 0.45 strokes 2  
+   W315  -1.17 holes 0 curv 0.10 asym 0.04 strokes 5  
+done 21s
