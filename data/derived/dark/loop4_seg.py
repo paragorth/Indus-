@@ -246,6 +246,16 @@ def search(fit, test, rng, label, fams=('bpe', 'sub'), allo=None, QUAL=None, ver
                    'allo all incl doubtful': merges}
         for i in range(8 if not FAST else 2):
             subsets[f'allo rand{i}'] = [m for m in merges if r2.random() < 0.5]
+        # shape-blind control: the same number of merges, forms and targets frequency-matched (x/÷2) to the real list
+        freq = collections.Counter(a for s in fit_raw + test_raw for a in s); signs = list(freq)
+        def match(f):
+            c = [x for x in signs if freq[f] / 2 <= freq[x] <= 2 * freq[f]] or signs; return r2.choice(c)
+        for i in range(8 if not FAST else 2):
+            fake = []
+            for m in subsets['allo strong+probable']:
+                f = match(m['form']); g = match(m['into'])
+                if f != g: fake.append({'form': f, 'into': g, 'level': 'fake'})
+            subsets[f'allo FAKEpairs{i}'] = fake
         for name, ms in subsets.items():
             mp = {m['form']: m['into'] for m in ms}
             f2 = [[mp.get(a, a) for a in s] for s in fit_raw]; t2 = [[mp.get(a, a) for a in s] for s in test_raw]

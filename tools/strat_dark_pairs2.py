@@ -329,6 +329,17 @@ def _train_eval(x):
     h, (kind, p, fact) = x; nrng = np.random.default_rng(SEED * 100000 + h)
     return _PTR.evaluate(kind, p, fact, 'raw', 500)
 
+_PTE = None
+def _follow_eval(x):
+    global nrng
+    h, (kind, p, fact), r = x; nrng = np.random.default_rng(SEED * 100000 + 50000 + h)
+    r2 = _PTE.evaluate(kind, p, fact, 'raw', 1000)
+    r3 = _PTR.evaluate(kind, p, fact, 'all', 500)
+    rstrict = _PTR.evaluate(kind, p, fact, 'raw', 1000, strict=True)
+    ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
+    rfine = _PTR.evaluate(kind, p, fact, 'raw', 20000 if ok else 1000, early=False) if ok else None
+    return r2, r3, rstrict, rfine
+
 def make_arrow():
     kind = rng.choice(ACTIVE); p = REL[kind][2](rng); return kind, p, rng.choice(FACTS)
 
@@ -489,18 +500,18 @@ def main():
     with mp.get_context('fork').Pool(4) as pool:
         trains = pool.map(_train_eval, list(enumerate(specs)), chunksize=8)
     arrows = [dict(kind=k, p=p, fact=f, train=r) for (k, p, f), r in zip(specs, trains)]; surv = []
-    for h, ((kind, p, fact), r) in enumerate(zip(specs, trains)):
-        if not r or r[1] > 0.0021: continue
-        r2 = PTE.evaluate(kind, p, fact, 'raw', 1000)
-        r3 = PTR.evaluate(kind, p, fact, 'all', 500)
-        rstrict = PTR.evaluate(kind, p, fact, 'raw', 2000, strict=True)
+    global _PTE
+    _PTE = PTE
+    hits = [(h, spec, r) for h, (spec, r) in enumerate(zip(specs, trains)) if r and r[1] <= 0.0021]
+    with mp.get_context('fork').Pool(4) as pool:
+        follow = pool.map(_follow_eval, hits, chunksize=1)
+    for (h, (kind, p, fact), r), (r2, r3, rstrict, rfine) in zip(hits, follow):
         ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
-        rfine = PTR.evaluate(kind, p, fact, 'raw', 20000 if ok else 3000, early=False)
         bonf = rfine is not None and rfine[1] < 0.05 / NPAIR
         strict_ok = rstrict is not None and rstrict[1] < 0.01
         surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, strict=rstrict, held=r2, all=r3, ok=ok, bonf=bonf, strict_ok=strict_ok))
-        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %.5f (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (
-            h, kind, p, fact, r[0], r[1], r[2], rfine[1] if rfine else -1, bonf, rstrict[1] if rstrict else -1,
+        say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %s (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (
+            h, kind, p, fact, r[0], r[1], r[2], ('%.5f' % rfine[1]) if rfine else 'na', bonf, rstrict[1] if rstrict else -1,
             tuple(round(x, 4) for x in r2[:2]) if r2 else None, tuple(round(x, 4) for x in r3[:2]) if r3 else None,
             'REPLICATED' if ok else 'train-only'))
     tested = sum(1 for a in arrows if a['train'])
