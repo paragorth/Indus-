@@ -1,0 +1,47 @@
+LOOP 17 (decode the institution, not the words), cycle 1: the generator, the statistic vector, and prior-predictive coverage.
+Script: tools/dark_loop17.py (commands real / pilot / bank / fit / control). Data: data/derived/merged-corpus-canonical.json,
+complete texts only, site 'Unknown' dropped: 3,520 objects (SEAL 1,597; TAB 1,524 incl. MISC/BNGL/ROD/IMPL; TAG 69; POT 225 ... per class).
+
+THE MODEL (agent-based credential corpus laid over the real excavation skeleton)
+ The skeleton is the real design: every complete object keeps its site, object class and whether its find area is recorded.
+ Only the text on each object is generated. Parameters (21; priors in PRIOR):
+   A   issuing authorities (1-8, each with its own opener sign + one of two connectives; Zipf popularity)
+   O   office classes / closers (3-400 log-uniform), each = optional title sign + one of 12 final signs; Zipf slope zO (0.3-2)
+   C   commodity classes (1-40), each an item sign with a count mode 2/3/4 and spread (-1..+2)
+   H   holders at the largest city (50-60,000); other sites scale with their seal count; k credentials per holder (1-6)
+   middle: p_mid (credential carries a holder-specific middle), lam_mid (length 1+Poisson), V_mid (30-3,000 signs), z_mid (Zipf),
+           p_share (middle shared by all of a holder's credentials = a NAME; else fresh per credential = a QUALIFICATION)
+   p_open, p_comm, p_off, p_ext: opener shown / commodity+count shown / office shown / extra qualifier sign (nesting route)
+   p_reissue: a tablet copies a local credential (popularity Zipf z_copy) else is a voucher (tall 2-4 + unit sign) or office chit
+   p_batch: a re-issued tablet lies in the holder's find area (else random area of the site)
+   p_travel: a sealing was pressed by a seal from ANOTHER site (site chosen by seal count) else a local seal
+   p_suf: tablet suffix sign; p_potcred: share of pot marks that copy a local credential (rest: numeral alone / office sign)
+ Text order: [opener conn] [middle] [count item] [qualifier] [title final] (+ suffix on tablets). No sign has a meaning.
+
+THE 34 SUMMARY STATISTICS (same function on real and simulated corpora; frame classes are DATA-DRIVEN: opener = sign >=10x and
+ initial >=60%; marker = 2nd after an opener >=50%; final = final >=50%; middle = text minus these)
+ nesting (all / seals), cross-site 3-run sharing, middle uniqueness vs bigram, stock texts per 1000 (tablets / seals), Zipf slope
+ of copies, top-copy share, find-area clustering ratio of same-text pairs (vs area labels permuted within site x class),
+ single-site share of tablet / seal stock texts, closer units and final signs (>=3x) on seals, Zipf slope of finals, top final share,
+ quantity-seal share (seal with a numeral), opener share, sealing->seal exact-match rate and cross-site share (Laplace),
+ length mean/sd by class, pot 1-sign share, tablet-text-in-seal rate and same-site share, same-site seal duplicates,
+ sign richness (distinct per 1000 tokens), top-10 token share, within-text repetition, tablet suffix share.
+
+OBSERVED VECTOR (seq_raw / seq_strong / seq_all; the three merge levels agree to the second decimal except sign richness):
+ nest_all 0.117/0.127/0.129  nest_seal 0.115/0.127/0.128  xsite3 0.478/0.493/0.496  miduniq_ratio 0.762/0.753/0.745
+ stock_tab/1000 66.3  stock_seal/1000 17.7/19.6/20.2  zipf_copy -0.91/-0.89  topcopy 0.034  area_ratio 2.11/1.95/1.95
+ loc_tab 0.844  loc_seal 0.143/0.161/0.156  closer_units/1000 70.2/67.6  n_final 56/52/52  zipf_final -1.27/-1.29  top_final 0.368
+ qty_seal 0.396  open_seal 0.251/0.256  tag_match 0.217  tag_cross 0.964  len seal 4.65+-2.21, tab 3.25+-1.69, tag 4.90, pot 1.85
+ pot_len1 0.458  tab_in_seal 0.074/0.085  tab_in_seal_same 0.51/0.49  seal_dup_same 0.035/0.050  signs/1000 49.5/48.1/47.7
+ top10 0.346/0.363  rep_within 0.037/0.038  tab_suffix 0.503/0.483
+
+PRIOR-PREDICTIVE CHECK (40 prior draws after the speed fix; first pilot of 60 draws found four statistics outside the prior range:
+ sign richness too low, same-site seal duplicates too high, pot 1-sign share and tablet suffix share fixed too high -> added z_mid,
+ p_suf, p_potcred and widened H to 60,000 and V_mid to 3,000). After the fix 33 of 34 observed values lie inside the prior-predictive
+ range; tag_cross 0.964 sits just above the 40-draw maximum 0.885 (p_travel near 1 reaches it; checked in the bank).
+ Cost: 0.16 s CPU per simulated corpus; bank of 3 x 8,000 prior simulations running.
+
+Control for this cycle: the pilot itself (the model must be able to reach the observed vector before fitting means anything); the
+ statistic code was run on the real corpus at all three merge levels and gives the same picture (merge-independent).
+
+| S-DARK-17.1 | **Institution generator + ABC design.** Agent-based credential corpus (authorities A, offices O, commodities C, holders H, credentials/holder k, middle shared per holder or fresh per credential, tablet re-issue, batch deposit, travelling seals, 21 parameters) laid over the real excavation skeleton (site, class, find-area recorded) of 3,520 complete texts; 34 data-driven summary statistics (nesting, cross-site runs, middle uniqueness vs bigram, stock-text copies and area clustering, tablet/seal locality, closer inventory and Zipf, quantity seals, sealing->seal cross-site, lengths by class, sign richness). Control: prior-predictive coverage of the observed vector (`tools/dark_loop17.py`, `data/derived/dark/loop17_cycle1.txt`) | Observed vector stable across seq_raw/strong/all (e.g. nest 0.12-0.13, miduniq 0.75-0.76, area_ratio 1.95-2.11, loc_tab 0.84, loc_seal 0.14-0.16, tag_cross 0.96, signs/1000 48-49). First pilot: 4 of 34 statistics unreachable (richness, seal duplicates, pot and suffix mixes) -> 3 nuisance parameters added, H and V_mid widened; then 33 of 34 inside the prior range (tag_cross needs p_travel ~ 1) | **Set-up only; no verdict on the institution yet.** The model can reach the real corpus; fitting follows in 17.2. Everything rests on Harappa + Mohenjo-daro (76% of texts) and on the skeleton of complete objects |

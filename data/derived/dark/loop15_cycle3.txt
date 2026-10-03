@@ -1,0 +1,49 @@
+LOOP 15 (NEGATIVE SPACE) cycle 3: quantity gaps and the minimum-lot question
+Script: data/derived/dark/loop15_quantity.py ; full tables loop15_c3_seq_raw.txt / _seq_strong.txt / _seq_all.txt
+Corpus: data/derived/merged-corpus-canonical.json, all sites; numeral = stroke sign immediately before a non-numeral sign.
+Values: short W1-7 = 1-7, two-tier W12-20 = 2-10, clusters W25-29 = 5-9; tall W31-37 = 1-7.
+Null: numeral values permuted among the numeral+item tokens within series (short/tall) x region (MD+H / other) x object class, 2000x.
+
+1. Raw table (seq_raw; 2,337 numeral+item tokens; 46 items counted >= 10 times).
+   Items whose low values (1 or 2) are depleted against the within-series null, Bonferroni x46 all P < 0.05:
+   tree W405 2/27, tree W390 7/94, arrow W520 13/70, opener W861 6/37, burden-carrier W156 12/52 (its '1' is W1),
+   W700 (1: 5/381), W900 4/35, W585 1/35, W923 1/16, W575 3/17, W845 0/15, W550 4/23.
+   Items with no value 1 at all: 11 of 46 (null mean 4.2, max 11, P = 0.0015).
+   Looks like a 'minimum lot' rule (no 1, no 2) for the counted goods.  BUT:
+
+2. The two one-stroke signs and the two-short-stroke sign are grammatical markers, not numbers
+   (W1: S234 marker before other numerals and 12; W31: middle-initial marker, GRAMMAR; W2: the opener marker).
+   Position profile (seq_raw): W1 next sign = W55 '12' 13x, W142 9x, W3 9x; W31 text-initial 93 of 251, next = W2 16x, W32 12x;
+   W2 after an opener 435 of 839.  Two-tier short 2 (W12) occurs 3 times in the whole corpus, never before a counted item.
+   => The SHORT stroke series has no written 1 and no written 2 at all; it starts at 3 for every item it counts.
+   Re-running the test without W1 and W2 numeral tokens (1,613 tokens, 24 items):
+   items with no 1 or 2: W845 (15x '3'), W923 (15x '3'), W550 (19x '3'), W900 (3:15 4:6 5:10) -> all fixed terms or short-series;
+   trees W390 P = 0.19, W900 P = 0.83 (not depleted beyond the series itself), W520 and W700 still depleted of '1' and '2'
+   (W520 is the fixed term 33-520 'III-arrow'; W700 takes 2/3/4 and only 5x 1).
+   Same numbers in seq_strong and seq_all (W405 folds into W390: 117 counts, 2:5, 3:35, 4:33, 5:16, 6:16, 7:8, 8:3, 9:1).
+
+3. The '1 tree never, 2 tree once' hole (docs/INDUS-CONTINUATION-PROMPT.md) resolved:
+   home (MD+H) numbered trees n = 121: short 1 x1 (M-2064 pot 31-142-1-390: W1 marker), short 2 x1 (M-1851 820-2-740-32-32-390-832: W2 marker),
+   TALL 2 (W32) x13: seven identical Mohenjo-daro tablets 231-17-585-95-520-32-407 (+ M-2053, M-547 series), and 32-390 on
+   M-165, M-1835, M-1851 and Chanhu-daro C-22.  Tall 1 (W31) + tree: 0 of 20 tall-numbered trees (not significant: W31 is
+   itself a marker and the tall share of '1' is small).  Short 3-9 on trees: 3:27 4:35 5:15 6:13 7:6 8:3 9:1 (smooth decline from 4).
+   Held-out sites (n = 30 numbered trees): short 2 x3 (K-78 820-2-390, K-431 820-2-406, Ns-67 2-390-151: all W2 marker in
+   first/after-opener position), tall 2 x1, then 3:8 4:7 5:2 6:5 7:3.  No short 1 or 2 count on trees anywhere: persistent gap,
+   but it is the series rule (short counts start at 3), not a tree-specific lot size.
+   '2 tree' does exist, written with the tall two (W32), mostly in one tablet formula.  So the hole is a spelling rule:
+   small numbers (1, 2) are written tall or not at all, because the short 1 and short 2 glyphs are grammar words.
+
+4. Numbered persons at home (S98 'never'): persons W90/91/176/140/142/100/156 directly after a numeral (W2-after-opener excluded):
+   home 100 of 728 (13.7%), held-out sites 18 of 138 (13%), Failaka 1 of 2.  Not 'never': the counted figures are the
+   burden-carrier W156 + 3 (35x, a fixed term), W140 female + 2/3 (14x), W142 staff-man + W1 (10x: W1 marker), W100 + W1 (6x),
+   seated W176 + 1/2/3 (13x).  The PLAIN person W90/W91 is counted 2x at home (< 3/196 upper bound) and 2x abroad (Failaka
+   W90+1, Unknown W90+1).  Refined rule: the plain person is never counted anywhere at home; the figure signs take fixed
+   numerals as part of a term.  Same at held-out sites.
+
+Verdict for the row: the apparent minimum-lot rule (no 1, no 2) is real as a writing rule and false as an accounting rule.
+Short-stroke counts start at 3 because the one- and two-stroke short glyphs (W1, W2) and the single tall stroke (W31) are
+grammatical markers; 1 and 2 are written with tall strokes only and only in fixed terms (II-fish, II-jar, II-W700, 2-tree
+in one tablet formula).  Prediction (outside the corpus): no new text will show short strokes 1 or 2 directly before a
+tree, W900 or any short-counted good; a tall 2 before a tree may appear, a tall 1 before a tree should not (if W31 is a marker).
+
+| S-DARK-15.3 | Quantity gaps / minimum-lot rule: for 46 items counted >= 10 times (numeral immediately before the item, all sites, seq_raw/strong/all), does the value distribution lack 1 and 2 beyond a null in which numeral values are permuted among items within series (short/tall) x region x object class (2,000x)? Then the same without W1/W2 (markers, S234/GRAMMAR), the '1 tree / 2 tree' hole, and numbered persons by site (S98) | Raw: 12 items depleted of 1-2 (trees 7/94 and 2/27, arrow 13/70, W900 4/35, W585, W923, W845, W550; Bonferroni P < 0.05), 11 of 46 items with no '1' (null max 11, P = 0.0015). Without W1/W2 tokens the short series has no 1 or 2 anywhere (two-tier W12 = 3 tokens, never before a good); the only no-1-no-2 items left are the fixed terms 3-845, 3-923, 3-550 and W900 (P = 0.83), trees P = 0.19. '2 tree' exists 13x at home as TALL 2 (32-407 in the seven-copy tablet 231-17-585-95-520-32-407; 32-390 x4), 'short 2 tree' only as the W2 marker (M-1851; K-78, K-431, Ns-67 after an opener). Tall 1 + tree 0/20. Held-out: 30 numbered trees, no short 1/2. Persons: home 100/728 numbered, held-out 18/138; plain person W90/91 2/196 at home, 2/… abroad; the numbered figures are fixed terms (3-156 x35, 2/3-140 x14, 1-142 x10 = W1 marker) | **Writing rule, not lot size.** Short-stroke counts start at 3 for every item because the short 1, short 2 and tall 1 glyphs are grammar markers; 1 and 2 are written only with tall strokes and only in fixed terms. The '1 tree never / 2 tree once' hole dissolves (2-tree is written 32-390/407). S98 refined: figure signs take fixed numerals; only the plain person is never counted (same at held-out sites). Prediction: no new text with short 1 or 2 before a counted good |

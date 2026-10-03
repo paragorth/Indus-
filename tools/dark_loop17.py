@@ -450,12 +450,53 @@ def main():
         np.savez(out, theta=T, stats=S, params=np.array(PARAMS), stat_names=np.array(STAT_NAMES))
         print('saved', out, T.shape, S.shape)
         return
-    if cmd in ('fit', 'control'):
-        b = np.load(sys.argv[2]); T = b['theta']; S = b['stats']
+    if cmd in ('fit', 'control', 'ppc', 'truth'):
+        Ts = []; Ss = []
+        for f in sys.argv[2].split(','):
+            b = np.load(f); Ts.append(b['theta']); Ss.append(b['stats'])
+        T = np.vstack(Ts); S = np.vstack(Ss); print('bank', T.shape, S.shape)
+        n_acc = int(os.environ.get('NACC', '400'))
+        if cmd == 'ppc':
+            # posterior predictive: re-simulate from accepted (rejection) draws, compare each statistic with the observed value
+            key = sys.argv[3] if len(sys.argv) > 3 else 'seq_all'; npp = int(sys.argv[4]) if len(sys.argv) > 4 else 150
+            ob = load_real(key); obs = summary(ob, REAL_NUM, np.random.default_rng(1)); r = abc_fit(T, S, obs, n_acc=n_acc)
+            rng = np.random.default_rng(5); use = rng.choice(len(r['acc']), size=npp, replace=True, p=r['w'] / r['w'].sum())
+            import multiprocessing as mp
+            jobs = [(from_z(r['rej'][i]), skel, 777000 + j) for j, i in enumerate(use)]
+            with mp.Pool(mp.cpu_count()) as pool: P = np.array(pool.starmap(sim_stats, jobs, chunksize=5))
+            print('posterior predictive (%d re-simulations from the rejection posterior, %s):' % (npp, key))
+            print('%-22s %9s %9s %9s %9s %7s %6s' % ('stat', 'obs', 'pp5%', 'pp50%', 'pp95%', 'z', 'miss'))
+            for j, n in enumerate(STAT_NAMES):
+                q = np.nanpercentile(P[:, j], [5, 50, 95]); sd = np.nanstd(P[:, j]) + 1e-9; z = (obs[j] - np.nanmean(P[:, j])) / sd
+                print('%-22s %9.3f %9.3f %9.3f %9.3f %7.2f %6s' % (n, obs[j], q[0], q[1], q[2], z, 'MISS' if not (q[0] <= obs[j] <= q[2]) else ''))
+            # posterior correlations of the adjusted draws (identifiability ridges)
+            Z = r['adj']; Cm = np.corrcoef(Z.T)
+            print('strongest posterior correlations (|r| >= 0.4):')
+            for a in range(len(PARAMS)):
+                for b_ in range(a + 1, len(PARAMS)):
+                    if abs(Cm[a, b_]) >= 0.4: print('  %s ~ %s  r=%.2f' % (PARAMS[a], PARAMS[b_], Cm[a, b_]))
+            return
+        if cmd == 'truth':
+            # named synthetic truths: simulate a pseudo-observed corpus with KNOWN parameters, fit with the same bank
+            truths = {
+              'institution': dict(A=3, O=40, zO=1.2, C=6, H=8000, k=1.5, p_mid=0.7, lam_mid=1.0, V_mid=400, z_mid=0.9, p_share=0.2, p_open=0.3,
+                                  p_comm=0.35, p_off=0.7, p_ext=0.3, p_reissue=0.5, z_copy=1.3, p_batch=0.7, p_travel=0.9, p_suf=0.5, p_potcred=0.5),
+              'names': dict(A=1, O=15, zO=1.0, C=3, H=1500, k=3.0, p_mid=0.95, lam_mid=1.5, V_mid=300, z_mid=0.8, p_share=0.95, p_open=0.3,
+                            p_comm=0.2, p_off=0.8, p_ext=0.1, p_reissue=0.3, z_copy=1.0, p_batch=0.3, p_travel=0.2, p_suf=0.4, p_potcred=0.3),
+              'bureau': dict(A=6, O=200, zO=0.6, C=20, H=30000, k=1.1, p_mid=0.3, lam_mid=0.5, V_mid=1500, z_mid=1.1, p_share=0.5, p_open=0.6,
+                             p_comm=0.6, p_off=0.5, p_ext=0.5, p_reissue=0.8, z_copy=1.8, p_batch=0.9, p_travel=0.6, p_suf=0.7, p_potcred=0.7)}
+            for name, th in truths.items():
+                obs = sim_stats(th, skel, 424242); r = abc_fit(T, S, obs, n_acc=n_acc); tz = to_z(th)
+                print('=== synthetic truth:', name)
+                print('%-10s %10s %10s %10s %10s %6s' % ('param', 'true', 'post_med', '5%', '95%', 'in90'))
+                for j, (pn, m, l, u, sh) in enumerate(describe(r['adj'], r['w'])):
+                    l5 = wquant(r['adj'][:, j], r['w'], 0.05); u95 = wquant(r['adj'][:, j], r['w'], 0.95)
+                    print('%-10s %10.3g %10.3g %10.3g %10.3g %6s' % (pn, th[pn], m, l, u, 'yes' if l5 <= tz[j] <= u95 else 'NO'))
+            return
         if cmd == 'fit':
             for key in ('seq_raw', 'seq_strong', 'seq_all'):
                 ob = load_real(key); obs = summary(ob, REAL_NUM, np.random.default_rng(1))
-                r = abc_fit(T, S, obs)
+                r = abc_fit(T, S, obs, n_acc=n_acc)
                 print('=== observed', key, 'n_acc', len(r['acc']), 'h', round(float(r['h']), 2))
                 print('-- rejection posterior'); print(fmt_post(describe(r['rej'], r['w'])))
                 print('-- regression-adjusted posterior'); print(fmt_post(describe(r['adj'], r['w'])))
@@ -465,7 +506,7 @@ def main():
             ids = rng.choice(len(T), size=n_test, replace=False)
             for i in ids:
                 mask = np.ones(len(T), bool); mask[i] = False
-                r = abc_fit(T[mask], S[mask], S[i])
+                r = abc_fit(T[mask], S[mask], S[i], n_acc=n_acc)
                 for mode, key in ((r['adj'], hits), (r['rej'], hits_r)):
                     for j in range(len(PARAMS)):
                         l5 = wquant(mode[:, j], r['w'], 0.05); u95 = wquant(mode[:, j], r['w'], 0.95)
