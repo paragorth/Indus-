@@ -1,0 +1,89 @@
+LOOP 30 cycle 1: the flag set (data/raw/inscriptions.csv, 5,680 lines; SEAL rows only)
+Direction codes on SEAL lines: [('R/L', 2022), ('-', 149), ('NR', 59), ('L/R', 49), ('BUS', 9), ('T/B', 2), ('SYM', 1)]
+NR = single-sign texts (58 of 59 have 1 sign): direction not applicable. '-' = unrecorded (149 lines; S-DARK-8.4: ~25% of these are probably stored backwards, so they are kept out of the anomalous set).
+Convention assumed: Wells' dir. is the reading direction of the IMPRESSION (normalised); R/L is the norm (2,021 seal lines). A seal recorded L/R is one whose impression reads L/R, i.e. the seal face itself reads R/L = carved un-mirrored. BUS and T/B are also non-standard. This is an inference from the field, not a photo check; CISI photo check pending for every flagged object.
+
+FLAG SET: 61 seal lines on 60 objects: [('L/R', 49), ('BUS', 9), ('T/B', 2), ('SYM', 1)]
+  by site: [('Mohenjo-daro', 22), ('Dholavira', 6), ('Harappa', 6), ('Lothal', 6), ('Kalibangan', 5), ('Chanhu-daro', 3), ('Nausharo', 2), ('Miri Qalat', 2), ('Altyn Depe', 1), ('Bhirrana', 1), ('Farmana', 1), ('Nindowari-damb', 1), ("Qala'at al-Bahrain", 1), ('Wattoowala', 1), ('Janabiyah', 1), ('Shikarpur', 1), ('Banawali', 1)]
+  by material: [('Steatite', 39), ('-', 11), ('Clay', 3), ('Terracotta', 3), ('Faience', 2), ('Soft stone', 1), ('Agate', 1), ('Limestone', 1)]
+  by seal type: [('SEAL:S', 39), ('SEAL:R', 14), ('SEAL', 3), ('SEAL:C', 3), ('SEAL:CY', 2)]
+  by shape: [('square', 39), ('rectangular', 12), ('circular', 3), ('cylindrical', 2), ('cuboid-convex', 1), ('cuboid', 1), ('prism', 1), ('rectangular-rounded', 1), ('-', 1)]
+  boss code: [('-', 22), ('PB', 8), ('PBVF', 8), ('PBLF', 3), ('PBSG', 3), ('PBRF', 2), ('PBRG', 2), ('P', 2), ('PN', 2), ('?B', 2), ('NBVG', 1), ('PBBG', 1), ('PBC', 1), ('NN', 1), ('PBKF', 1), ('PB?G', 1), ('PBVG', 1)]
+  bossed (code contains B) 34 of 39 with a boss record; perforated (P*) 35 of 39
+  ordinary R/L seals for comparison: bossed 1115 of 1326 (84%) vs flagged 87%
+  text length: [(1, 1), (2, 33), (3, 6), (4, 5), (5, 4), (6, 1), (7, 6), (8, 3), (9, 2)]
+  complete texts: 51 of 61
+  foreign-format or found abroad (S46 community): 6 lines (['Alt-90', 'H-369', 'K-65', 'M-500', '-', '-'])
+  flagged seals (>=2 signs, n=60) with an exact TAG sealing match anywhere: 4 -> upper bound < 0.050  matches: [('H-596', (3, 390), 1), ('K-65', (3, 390), 1), ('M-223', (705, 740), 1), ('M-1232', (3, 156), 2)]
+  flagged seals (>=2 signs, n=60) with an exact TAB tablet match anywhere: 8 -> upper bound < 0.050  matches: [('-', (142, 617), 3), ('H-596', (3, 390), 2), ('K-61', (690, 740), 4), ('K-65', (3, 390), 2), ('L-52', (550, 527), 1), ('M-223', (705, 740), 1), ('M-1232', (3, 156), 22), ('M-1669', (390, 740), 1)]
+  ordinary R/L seals (>=2 signs, n=1956): TAG match 50 (2.6%), TAB match 157 (8.0%), either 174 (8.9%)
+  expected matches at the ordinary rate: 5.3; observed 8; P(<= observed) = 0.917
+  multi-sided seals mixing an anomalous and an R/L side: 3 ['1388', '2176', '2357']
+
+CAVEAT SET: 149 seal lines with dir '-' (unrecorded), 58 with >= 2 signs; sites [('Mohenjo-daro', 65), ('Harappa', 42), ('Lothal', 13), ('Kalibangan', 8), ('Chanhu-daro', 5), ('Dholavira', 5)]; these are excluded from both groups.
+
+FULL LIST (id, cisi, site, type, dir, boss, material, shape, L, reading-order seq):
+  16.1     Alt-90   Altyn Depe         SEAL:S   L/R  PBRF  Soft stone  square       L=2 [415, 390]
+  5567.1   -        Banawali           SEAL:S   L/R  PBVG  Steatite    square       L=4 [31, 220, 368, 220]
+  50.1     -        Bhirrana           SEAL:S   L/R  -     -           square       L=3 [3, 3, 390]
+  110.1    C-23     Chanhu-daro        SEAL     BUS  PBRF  Steatite    square       L=8 [388, 3, 857, 128, 350, 310, 817, 129]
+  58.1     C-72     Chanhu-daro        SEAL:S   L/R  NBVG  Steatite    square       L=2 [386, 740]
+  75.1     C-79     Chanhu-daro        SEAL:S   L/R  PB    Steatite    square       L=3 [817, 14, 226]
+  126.1    -        Dholavira          SEAL:S   BUS  -     Steatite    square       L=6 [552, 742, 13, 742, 760, 740]
+  137.1    -        Dholavira          SEAL:R   L/R  -     Steatite    rectangular  L=2 [142, 617] TAB
+  4164.1   -        Dholavira          SEAL:R   L/R  P     Steatite    rectangular  L=7 [104, 31, 2, 423, 1, 3, 423]
+  4190.1   -        Dholavira          SEAL:R   L/R  -     -           rectangular  L=2 [408, 5]
+  4254.1   -        Dholavira          SEAL:R   L/R  PN    Steatite    prism        L=4 [900, 625, 92, 561]
+  4257.1   -        Dholavira          SEAL:R   L/R  -     -           rectangular  L=1 [91]
+  149.1    -        Farmana            SEAL:S   L/R  PBVF  Steatite    square       L=2 [220, 240]
+  1154.1   H-99     Harappa            SEAL:S   L/R  PBLF  Clay        square       L=2 [565, 400]
+  1161.1   H-101    Harappa            SEAL:S   L/R  PBBG  -           square       L=3 [440, 760, 740]
+  1388.1   H-369    Harappa            SEAL:CY  L/R  -     Steatite    cylindrical  L=7 [741, 390, 741, 31, 705, 33, 368]
+  1539.1   H-596    Harappa            SEAL:S   L/R  PBLF  Faience     square       L=2 [3, 390] TAG TAB
+  521.1    H-1704   Harappa            SEAL:R   L/R  -     -           cuboid-convex L=2 [596, 292]
+  825.1    H-1691   Harappa            SEAL:S   L/R  PBRG  Steatite    square       L=2 [590, 892]
+  5232.1   -        Janabiyah          SEAL:C   L/R  ?B    -           circular     L=7 [71, 31, 831, 55, 121, 99, 55]
+  1881.1   K-6      Kalibangan         SEAL:S   BUS  PBSG  Steatite    square       L=7 [551, 820, 861, 368, 717, 740, 622]
+  1913.1   K-50     Kalibangan         SEAL:S   L/R  PBVF  Steatite    square       L=2 [4, 390]
+  1917.1   K-54     Kalibangan         SEAL:S   L/R  PBC   Terracotta  square       L=2 [870, 2]
+  1922.1   K-61     Kalibangan         SEAL:R   L/R  PBVF  Terracotta  cuboid       L=2 [690, 740] TAB
+  1924.1   K-65     Kalibangan         SEAL:CY  T/B  P     -           cylindrical  L=2 [3, 390] TAG TAB
+  2021.1   L-52     Lothal             SEAL:S   L/R  PBVF  Clay        square       L=2 [550, 527] TAB
+  2023.1   L-56     Lothal             SEAL:S   L/R  PBVF  -           square       L=2 [912, 740]
+  2024.1   L-57     Lothal             SEAL:S   L/R  PBSG  -           square       L=3 [861, 2, 832]
+  2027.1   L-60     Lothal             SEAL:S   L/R  PB    Steatite    square       L=3 [140, 861, 740]
+  2049.1   L-95     Lothal             SEAL:R   L/R  PB    Clay        rectangular  L=4 [880, 2, 175, 740]
+  2066.1   L-118    Lothal             SEAL:R   L/R  NN    Agate       rectangular  L=2 [32, 140]
+  5442.1   MQ-11    Miri Qalat         SEAL:S   L/R  PBVF  Steatite    square       L=2 [742, 740]
+  5444.1   MQ-12    Miri Qalat         SEAL:S   L/R  PB    Steatite    square       L=2 [13, 520]
+  2176.2   M-1989   Mohenjo-daro       SEAL:R   L/R  -     Steatite    rectangular  L=3 [575, 740, 679]
+  2260.1   M-1710   Mohenjo-daro       SEAL:S   BUS  -     Steatite    square       L=5 [140, 255, 617, 319, 690]
+  2269.1   M-1963   Mohenjo-daro       SEAL:R   L/R  -     Steatite    rectangular  L=2 [104, 34]
+  2277.1   M-1990   Mohenjo-daro       SEAL     L/R  -     Steatite    rectangular  L=7 [861, 2, 220, 240, 440, 760, 740]
+  2351.1   M-1920   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=2 [5, 407]
+  2357.2   M-1928   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=2 [31, 850]
+  2357.3   M-1928   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=4 [861, 2, 220, 233]
+  2387.1   M-1904   Mohenjo-daro       SEAL:S   SYM  -     Faience     square       L=2 [3, 3]
+  2594.1   M-66     Mohenjo-daro       SEAL:S   BUS  PB    Steatite    square       L=8 [350, 309, 374, 2, 235, 590, 390, 740]
+  2747.1   M-223    Mohenjo-daro       SEAL:S   L/R  PB    Steatite    square       L=2 [705, 740] TAG TAB
+  2834.1   M-316    Mohenjo-daro       SEAL:S   L/R  PBRG  Steatite    square       L=5 [861, 2, 710, 390, 367]
+  2977.1   M-500    Mohenjo-daro       SEAL:C   BUS  -     Steatite    circular     L=8 [700, 3, 692, 900, 3, 140, 592, 400]
+  3172.1   M-749    Mohenjo-daro       SEAL:S   L/R  PB    Steatite    square       L=2 [4, 408]
+  3297.1   M-892    Mohenjo-daro       SEAL:S   BUS  PB    Steatite    square       L=7 [32, 706, 742, 350, 463, 798, 740]
+  3370.1   M-977    Mohenjo-daro       SEAL:S   L/R  PBVF  Steatite    square       L=2 [803, 740]
+  3530.1   M-1170   Mohenjo-daro       SEAL:S   T/B  PBKF  Steatite    square       L=2 [403, 390]
+  3563.1   M-1231   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=2 [240, 740]
+  3564.1   M-1232   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=2 [3, 156] TAG TAB
+  3584.1   M-1277   Mohenjo-daro       SEAL:R   L/R  PN    -           rectangular  L=2 [905, 32]
+  3661.1   M-1362   Mohenjo-daro       SEAL:R   L/R  -     Steatite    rectangular  L=4 [32, 220, 70, 390]
+  3664.1   M-1365   Mohenjo-daro       SEAL:R   L/R  -     Limestone   rectangular  L=2 [16, 390]
+  3907.1   M-1669   Mohenjo-daro       SEAL:S   L/R  -     Steatite    square       L=2 [390, 740] TAB
+  3857.1   Ns-9     Nausharo           SEAL:S   BUS  -     Steatite    square       L=9 [834, 495, 350, 310, 374, 2, 67, 142, 740]
+  5353.1   Ns-46    Nausharo           SEAL     L/R  PBLF  Terracotta  rectangular-rounded L=2 [790, 390]
+  3858.1   Nd-1     Nindowari-damb     SEAL:S   BUS  PBSG  -           square       L=9 [257, 60, 26, 760, 740, 66, 632, 220, 817]
+  3863.1   -        Qala'at al-Bahrain SEAL:C   L/R  ?B    Steatite    circular     L=5 [190, 60, 55, 90, 160]
+  5451.1   -        Shikarpur          SEAL:S   L/R  PB?G  Steatite    -            L=5 [861, 921, 98, 220, 335]
+  3953.1   W-1      Wattoowala         SEAL:S   L/R  PBVF  Steatite    square       L=2 [527, 365]
+
+READY-TO-PASTE ROW:
+| S-DARK-30.1 | **Loop 30, cycle 1: display vs working seals, the flag set.** Seal lines in data/raw/inscriptions.csv whose recorded direction is non-standard (L/R, BUS, T/B, SYM; Wells' dir. taken as the normalised impression direction, so L/R = seal face cut un-mirrored); counts by site, material, boss, shape; exact matches to TAG sealings and TAB tablets vs the rate on ordinary R/L seals (binomial); multi-sided objects with mixed directions; the dir '-' set kept aside (S-DARK-8.4 caveat). `tools/dark_loop30.py 1` | 61 seal lines on 60 objects (L/R 49, BUS 9, T/B 2, SYM 1) vs 2,022 R/L lines: Mohenjo-daro 22, Dholavira 6, Harappa 6, Lothal 6, Kalibangan 5, Chanhu-daro 3, abroad 2 (Bahrain, Janabiyah) + Altyn Depe; steatite 39 of 50 with material; 6 are S46 foreign-format (round/cylinder/abroad). They are bossed and perforated like ordinary seals (87% vs 84%), so they were made to be handled. Their texts are short: 33 of 61 have exactly 2 signs (vs 15% of R/L seals), while the 9 BUS seals are long (5-9 signs). 8 of 60 (>= 2 signs) have an exact TAG or TAB match somewhere (4 TAG, 8 TAB; all are 2-sign closer phrases: 3-390, 705-740, 3-156, 142-617, 690-740, 550-527, 390-740), against 5.3 expected at the ordinary 8.9% rate (P = 0.92): not fewer than ordinary seals. 3 two-line seals (H-369, M-1989, M-1928) mix an L/R and an R/L side. 149 seal lines have no recorded direction (58 with >= 2 signs) and are excluded from both groups | **Flag set built; the 'display' prediction (no impressions) already fails at the first hurdle.** L/R seals are not impression-free (upper bound < 3/60 not met: 8 matches), not boss-less, and are dominated by 2-sign texts, where direction is easiest to misjudge from a photograph; the long BUS seals are a separate, genuinely two-line phenomenon. Every flagged object needs a CISI photo check (list in loop30_cycle1.txt) before 'un-mirrored' is believed |

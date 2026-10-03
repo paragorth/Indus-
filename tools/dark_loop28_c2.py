@@ -19,7 +19,7 @@ random.seed(28); np.random.seed(28)
 LV = sys.argv[1] if len(sys.argv) > 1 else 'seq_raw'
 NPERM = 1000
 OUT = 'data/derived/dark/'
-EDGES = json.load(open(OUT + 'loop28_edges.json'))
+EDGES = json.load(open(OUT + 'loop28_edges_all.json'))
 M = json.load(open('data/derived/merged-corpus-canonical.json'))
 BR = {int(k): v for k, v in json.load(open('data/derived/bridge_extended.json')).items()}
 # S-DARK-24.1 corrections
@@ -170,7 +170,7 @@ def run(C, edges, label, minfreq, nperm=NPERM, profs=PROFS, keymap=None, rep=Non
     rep.append(f'\n### {label}: {len(rows)} edges with both signs >= {minfreq} tokens')
     if not rows: return rows
     # per type summaries
-    types = ['enclosure', 'roof', 'strokes', 'doubling', 'ligature']
+    types = ['enclosure', 'roof', 'strokes', 'doubling', 'ligature', 'family']
     rep.append(f'{"type":10s} {"n":>3s} | mean pct of JSD(base,derived) in freq-matched null (0 = derived is the base\'s twin, 0.5 = stranger)')
     rep.append(f'{"":10s} {"":>3s} |  pos   lab    obj   site   left  right | drel(obs/null) dlast  dtab  dnum | cooc obs/exp/null | minpairs obs/null')
     for t in types + ['ALL']:

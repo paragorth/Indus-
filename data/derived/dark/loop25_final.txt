@@ -1,0 +1,52 @@
+# S-DARK-25 final (loop 25: PHONETIC COMPLEMENTS AND DETERMINATIVES). Tool: tools/dark_loop25.py. Rows in loop25_cycle1.txt,
+# loop25_cycle2.txt, loop25_cycle3.txt (S-DARK-25.1 .. 25.3). Tables: loop25_cycle{1,2,3}_seq_{raw,strong,all}.txt,
+# loop25_cycle1_smallsets_seq_raw.txt. Data: data/derived/merged-corpus-canonical.json (3,155 complete direction-recorded texts
+# >= 2 signs; S-DARK-23 caution: built from the older inscriptions.csv). No git commit made (loop rule).
+
+Question. A logo-syllabic script leaves two structural marks that need no sound values: (1) phonetic complements, a small shared
+inventory of syllable signs attached to many word-signs and also used as free syllables elsewhere; (2) determinatives, unpronounced
+class signs that never stand alone and are obligatory for a class of hosts. Does Indus show either, or only frame signatures?
+
+Method. Same code on Indus (seq_raw / seq_strong / seq_all), Ur III seal legends (6,675; real determinatives d, ki), Linear B
+lines (2,643; ideograms), Proto-Elamite lines (2,792), a planted logo-syllabic corpus (12 complements, 3 determinatives) and a
+planted frame-only corpus (opener / name / closer-specific qualifier / closer / suffix). Null: stratified token shuffle (site x
+object type x length) and, for Indus, a frame-kept within-slot shuffle; held-out = fit MD+HP, test 404 other-site texts.
+
+Side-by-side table (hubs = shared small-set neighbours; mobility = pair offset entropy / uniform; loy50 = share of hosts taking the
+sign >= 50% of the time; best class-sign candidate)
+  corpus                 hubs   free-use  mobility   loyal class signs (loy50 >= 0.5)           alone count of widest sign
+  Indus (raw/strong/all) 3/3/3  0.62      0.40/0.37  none (jar 0.36, W400 0.32, W60 0.27)         jar 111 one-sign texts
+  Planted frame-only     8      0.39      0.16       none (mk 0.00, c0 0.12)                       -
+  Planted logo-syllabic  10     0.86      0.74       D0, D1, D2 = 1.00 (all three planted)         -
+  Ur III legends         28     0.62      0.62       d 0.60, ki 0.52 (the real determinatives)     0
+  Linear B lines         9      0.44      0.62       ideograms AES 0.82, V 0.60, GRA 0.55, NUM 0.72 0
+  Proto-Elamite lines    2      0.89      0.00       none (numerals)                               -
+
+Findings
+1. Complements (25.1): Indus has 3 hubs at every level and all are frame signs (jar after 12-15 title hosts, connective W2 after
+   the openers, suffix W400 / numerals W33, W407 at the 3-host threshold). Their 'free' tokens keep the attached position and
+   profile (jar: cos 1.00, JSD 0.04), i.e. they are the same frame use. Pair mobility 0.37-0.40 sits between the planted frame
+   (0.16) and every language control (0.62-0.74), nearer the frame. The 13 hub-less small neighbour sets are lexicalised bigrams
+   (S197, S229, S289). The machine does find the planted complements (hubs with 70-90% free use as name syllables, mobility 0.74).
+2. Determinatives (25.2): host-coherence z fails calibration (misses Ur III d/ki and planted D; flags 19 frame signs in the
+   semantics-free planted frame corpus), so it is a frame detector, not a class detector; the Indus signs it flags (W1, W233, W100,
+   W390) are S234 / S299 / S301 / S197 rules. Loyalty passes calibration (planted D 1.00, Ur III d 0.60 and ki 0.52, Linear B
+   ideograms 0.55-0.82, no frame word above 0.28) and finds NO Indus sign >= 0.5. The widest-attaching Indus signs stand alone as
+   whole texts (jar 111x, W220 31x, W400 19x, W390 16x), which no determinative does; the never-alone ones (W60, W760, W1, W233,
+   W100) are optional qualifiers (loy50 <= 0.27), as S-DARK-11.3 found.
+3. Held-out (25.3): the frame attachments replicate at the 13 non-MD/HP sites beyond both nulls (attachment 0.54 / 0.39 / 0.39 vs
+   0.11 / 0.08 / 0.08 shuffled and 0.42 / 0.24 / 0.23 frame-kept, P = 0.005; jar after titles 46/91, W2 after openers 63/102); the
+   threshold hubs W407, W400, W33 do not (0/10, 1/7, 0/7). Loyal class signs: 0 at MD+HP, 0 at the other sites.
+
+Verdict. Indus shows the FRAME signature only: shared neighbours are closers, connectives, suffixes and fixed-term numerals at
+fixed offsets, none with a second mobile syllabic use, and no sign is an obligatory class mark. Both planted systems are told apart
+by the same machine (complements: free 0.86 / mobility 0.74 vs frame 0.39 / 0.16; determinatives: loy50 1.00 vs 0.00-0.12), and
+the real scripts land where expected (Ur III and Linear B class signs 0.52-0.82). This is consistent with GRAMMAR.md (owner legend:
+name + titles + markers) and with S107/S113-S137 (no sound-value test has passed). It does not prove the absence of phonetic
+writing: the detector recovers only the frequent third of a planted complement inventory and needs ~10 hosts with >= 2 tokens for
+a determinative; a sparse syllabic layer confined to the unique middles (S310 names) is below this corpus's power. Upper bounds,
+transcription-robust at all three merge levels, held-out agreement for the frame, ~260 arrows fired, no 'cracked'.
+
+What would change it. A new find set (>= 300 texts) in which (a) some sign follows >= 3 different middle signs AND also appears
+inside other middles at varying offsets (complement), or (b) some sign is never a one-sign text and is carried by >= 50% of the
+tokens of >= 8 host signs (determinative), would reopen the logo-syllabic reading; `tools/dark_loop25.py` runs unchanged on it.

@@ -81,11 +81,11 @@ for t in ['enclosure', 'roof', 'strokes', 'doubling', 'ligature']:
         rep.append(f'   {t:9s} W{d:<4d} <- W{b:<4d} ({f}) {o[0]:.2f}/{n[0]:.2f} {o[1]:.2f}/{n[1]:.2f} {o[2]:.2f}/{n[2]:.2f} ctx: ' + ' '.join(f'{l}_{r}' for l, r, p in CTX[d]['toks'][:4]))
 # (b) holes
 rep.append('\n## (b) holes: frequent bases (>= 30 tokens) without an attested derivative of each type, and rare signs that contain them graphically')
-try:
-    import dark_loop28_c1b as C
-    have_c1b = True
-except Exception as ex:
-    have_c1b = False; rep.append(f'   (c1b import failed: {ex})')
+class C: pass
+_src = open('tools/dark_loop28_c1.py').read().split('# ---------------- planted controls')[0]
+_ns = {}; exec(_src, _ns)
+for _k in ('SIGNS', 'G', 'IDX', 'analyse', 'match', 'edges_for'): setattr(C, _k, _ns[_k])
+have_c1b = True
 if have_c1b:
     FB = [b for b in BASES if freq[b] >= 30 and b not in NUM]
     RARE = [w for w in C.SIGNS if 1 <= freq.get(w, 0) <= 4 and w not in NUM]
@@ -96,22 +96,21 @@ if have_c1b:
         rep.append(f'   {t}: {len(holes)} of {len(FB)} frequent bases have no attested {t} derivative: ' + ' '.join(f'W{b}' for b in holes[:40]) + (' ...' if len(holes) > 40 else ''))
     # candidate fillers: rare signs containing a frequent base at coverage >= 0.85 (template search restricted to FB)
     fill = []
+    FBs = set(FB)
     for w in RARE:
-        hits = C.analyse(C.G[w], w, 0.85, bases=FB)
-        for h in C.best_hits(hits):
-            if h['type'] == 'same': continue
+        for h in C.edges_for(C.G[w], w, 0.80):     # component detector at a relaxed threshold (0.80 vs 0.863)
             b = h['base']
-            if h['type'].rstrip('+') in types_of[b]: continue   # not a hole
+            if b not in FBs or h['type'] in types_of[b]: continue   # only frequent bases, only holes
             pool = pool_for(b, linked[w] | {b})
             if len(pool) < 5: continue
             o = score(w, b); n = np.array([score(w, r) for r in random.choices(pool, k=200)]).mean(0)
-            fill.append((w, b, h['type'], h['score'], h['explained'], freq[w], o, n))
-    rep.append(f'   rare signs graphically containing a frequent base in a hole (coverage >= 0.85): {len(fill)}')
+            fill.append((w, b, h['type'], h['score'], h.get('ratio', 0.0), freq[w], o, n))
+    rep.append(f'   rare signs that the component detector (threshold relaxed to 0.80) derives from a frequent base in a hole: {len(fill)}')
     if fill:
         O = np.array([f[6] for f in fill]); N = np.array([f[7] for f in fill])
         rep.append(f'   their context hit rates (left/right/pos) {O[:,0].mean():.2f}/{O[:,1].mean():.2f}/{O[:,2].mean():.2f} vs null {N[:,0].mean():.2f}/{N[:,1].mean():.2f}/{N[:,2].mean():.2f}')
         for w, b, t, cov, ex, f, o, n in sorted(fill, key=lambda z: -z[4])[:60]:
-            rep.append(f'     W{w:<4d} contains W{b:<4d} {t:11s} cov {cov:.2f} expl {ex:.2f} freq {f} | hits {o[0]:.2f}/{o[1]:.2f}/{o[2]:.2f} vs {n[0]:.2f}/{n[1]:.2f}/{n[2]:.2f} | ctx ' + ' '.join(f'{l}_{r}' for l, r, p in CTX[w]['toks'][:3]))
+            rep.append(f'     W{w:<4d} <- W{b:<4d} {t:11s} score {cov:.2f} ratio {ex:.2f} freq {f} | hits {o[0]:.2f}/{o[1]:.2f}/{o[2]:.2f} vs {n[0]:.2f}/{n[1]:.2f}/{n[2]:.2f} | ctx ' + ' '.join(f'{l}_{r}' for l, r, p in CTX[w]['toks'][:3]))
 # (c) IM77 unbridged signs vs numerically adjacent M signs
 rep.append('\n## (c) IM77 signs with no Wells counterpart: do they take the contexts of their shape-family neighbours (|dM| <= 2)?')
 BR = {int(k): v for k, v in json.load(open('data/derived/bridge_extended.json')).items()}

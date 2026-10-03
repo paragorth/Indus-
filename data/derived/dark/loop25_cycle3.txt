@@ -1,0 +1,36 @@
+# S-DARK-25 cycle 3: HELD-OUT REPLICATION of cycles 1-2 (fit Mohenjo-daro + Harappa, test the other sites) and arrow accounting
+# Tool: tools/dark_loop25.py 3 <level> 200. Tables: loop25_cycle3_seq_raw/strong/all.txt
+
+Design. Hubs (cycle 1) and determinative candidates (cycle 2) are fitted on the 2,751 MD+HP texts only, then tested on the 404
+complete direction-recorded texts from the other sites (Lothal, Dholavira, Kalibangan, Chanhu-daro, Nausharo, Banawali, ...).
+Test 1: attachment rate = share of held-out host tokens that carry their fitted hub on the fitted side, vs the stratified token
+shuffle (site x object type x length, 200x) and vs the frame-kept (within-slot) shuffle. Test 2: for every fitted hub, held-out
+attached vs free tokens. Test 3: determinative candidates re-derived at the other sites (minn 12) with the same cuts; loyalty.
+
+Results (seq_raw / seq_strong / seq_all)
+  Fitted hubs 3 / 5 / 7: jar W740/M342 right of 14-15 title hosts at every level; W2/M99 right of the openers (raw); W705/M336 left
+  of W33 (strong, all); W390 right of numerals; W407/M169; W400/M176 right of closers; W33/M89 and W32/M87 left of W700/W845 (all).
+  Held-out attachment rate 0.537 / 0.393 / 0.385 over 203 / 145 / 161 host tokens; stratified null 0.114 / 0.082 / 0.083
+  (max 0.19 / 0.17 / 0.16), P = 0.005; frame-kept null 0.424 / 0.238 / 0.227 (max 0.47 / 0.29 / 0.28), P = 0.005.
+  Per hub at the other sites: jar after its title hosts 46/91 (44/88); W2 after the openers 63/102; W705 before W33 6/22; W390
+  after numerals 6/18; W32 before W700/W845 5/9; W407 0/10, W400 1/7, W33 0/7 (these three were 3-host hubs at the threshold and
+  do not replicate). Free vs attached at the other sites: jar 131 free / 46 attached, W2 55 / 63, W390 55 / 6, W33 24 / 0: the
+  'free' tokens are again the ordinary closer, connective and numeral uses, not a different (syllabic) use.
+  Determinatives: candidates at MD+HP 31 / 29 / 29, at the other sites (minn 12) 3 / 4 / 4; in both: jar/L, W2/R, W2/L (+ W390/L
+  at strong/all). Loyal (loy50 >= 0.5): 0 at MD+HP, 0 at the other sites, every level. Coherence z replicates only for W390/L
+  (z +3.8 fit, +6.1 test; strong/all) = the numeral-before-tree rule (S197, S-DARK-15.3), a frame rule, as cycle 2 predicted.
+
+Arrow accounting. Cycle 1: 3 corpus-level statistics x 3 levels (all P = 0.005, floor of 200 perms; the null is trivial, so these
+carry no weight) + per-hub descriptives. Cycle 2: 39 candidates x 2 tests x 3 levels = 234 comparisons; the only hits are the
+coherence z's, which the frame-only planted corpus shows to be frame signals; loyalty: 0 of 234. Cycle 3: 2 attachment-rate
+tests x 3 levels, P = 0.005 each, Bonferroni over 6 still < 0.05; the P floor is 1/201. Total arrows fired this loop ~ 260; the
+only replicated positives are the frame attachments already in GRAMMAR.md (jar after titles, W2 after openers, numeral + tree,
+705-33), which this loop did not set out to find.
+
+Sampling caveats. The held-out set is 404 texts (13% of the corpus); a 3-host hub needs >= 7 host tokens there, so W407, W400,
+W33 are 'not replicated' at < 3/7-10, an upper bound. All complement and determinative absences are upper bounds: the planted
+corpus shows the detector recovers 4 of 12 complements (the frequent ones) and 3 of 3 determinatives with 10 hosts each; a
+complement rate < 0.3 per word-sign or a determinative on words with < 2 tokens would be missed at this corpus size.
+
+Ready-to-paste row:
+| S-DARK-25.3 | **Held-out replication of S-DARK-25.1-2.** Hubs and determinative candidates fitted on MD+HP (2,751 texts), tested on the 404 other-site texts: attachment rate of held-out host tokens to their fitted hub vs the stratified shuffle and vs the frame-kept shuffle (200x); per-hub attached vs free tokens; determinative candidates re-derived at the other sites (minn 12) with the loyalty test. ~260 arrows fired over the loop, Bonferroni where a P is claimed. seq_raw / seq_strong / seq_all (`tools/dark_loop25.py 3`) | Fitted hubs 3 / 5 / 7 (jar right of 14-15 title hosts at every level; W2 right of the openers; W705 left of W33; W390 right of numerals; W32/W33 left of W700/W845; W407, W400). Held-out attachment 0.537 / 0.393 / 0.385 vs null 0.11 / 0.08 / 0.08 (P = 0.005) and vs frame-kept null 0.42 / 0.24 / 0.23 (P = 0.005; Bonferroni over 6 < 0.05). Jar after its titles 46/91 at the other sites, W2 after openers 63/102, W32 before W700/845 5/9, W705-33 6/22; the 3-host hubs W407 0/10, W400 1/7, W33 0/7 do not replicate (< 3/n). Held-out 'free' hub tokens are ordinary closer/connective/numeral uses. Determinatives: loyal signs 0 at MD+HP and 0 at the other sites, every level; the only replicated coherence z is W390/L (+3.8 / +6.1) = numeral + tree (S197, S-DARK-15.3). | **Replicated at the held-out sites: the frame, not a logo-syllabic layer.** The sign pairs that recur across hosts (jar after titles, connective after openers, numeral before tree, 705-33) hold at 13 sites outside MD+HP beyond both nulls, and they are the GRAMMAR.md slots; no shared neighbour sign has a second, mobile, syllabic use and no sign is an obligatory class mark anywhere. Upper bound only: the detector sees 4 of 12 planted complements and needs ~10 hosts with >= 2 tokens for a determinative. Transcription-robust; threshold hubs (W407, W400, W33) swap between levels and fail held-out. |
