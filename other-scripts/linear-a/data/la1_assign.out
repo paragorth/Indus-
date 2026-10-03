@@ -1,0 +1,56 @@
+shared commodities: ['AROM', 'CYP', 'GRA', 'NI', 'OLE', 'OLIV', 'VIN', 'VIR'] | LA rows 307 | LB rows 648 | letters ['J', 'E', 'D', 'B', 'K', 'JE', 'A', 'L2', 'H', 'W', 'F', 'X', 'DD']
+
+== roles ['T', 'S', 'V', 'Z'] (capacity sub-units) ==
+LB log-lift by commodity:
+        AROM    CYP    GRA     NI    OLE   OLIV    VIN    VIR
+  T     0.22  -0.00   0.34   0.26  -3.22   0.14  -2.47  -0.11
+  S    -1.39  -1.10  -4.33  -2.24   1.34  -0.94   1.06  -0.69
+  V    -0.59   0.14  -0.12  -0.12   0.17   0.10   0.43  -0.22
+  Z    -1.39   0.94  -1.67   0.42   1.00  -1.86   0.85  -0.69
+LA letter x commodity counts and best role:
+  J        1     24     17     12     21      2     17      1   -> V (score 0.6, margin over Z 29.0)
+  E        1      9      7     10      3      6      4      0   -> V (score -2.6, margin over T 3.1)
+  D        0      7     11      8      5      1      2      0   -> V (score -2.9, margin over T 5.6)
+  B        0     15      1      8      7      0      0      0   -> Z (score 4.1, margin over V 5.0)
+  K        0      9      3      5      6      0      5      1   -> V (score 0.3, margin over Z 2.7)
+  JE       1      5      2      3      6      3      2      0   -> V (score -0.5, margin over Z 9.4)
+  A        0      2      3      1      4      2      3      0   -> V (score 0.5, margin over Z 9.4)
+  L2       0      7      0      0      3      0      3      0   -> Z (score 4.3, margin over V 2.8)
+  H        0      2      2      1      5      1      1      0   -> V (score 0.1, margin over Z 4.4)
+  W        0      4      1      0      0      0      0      0   -> T (score 1.3, margin over V 1.4)
+  F        0      0      1      1      0      1      0      1   -> T (score 1.4, margin over V 2.2)
+  X        0      1      1      0      0      2      0      0   -> T (score 1.4, margin over V 1.6)
+  DD       0      0      0      2      1      0      0      0   -> Z (score 0.0, margin over V 0.4)
+G = 7.9; label-shuffle null -1.7 (95% 2.7), P = 0.0025; LB role-shuffle null 9.2, P = 0.6600
+bootstrap share of best role: J:V 1.00, E:V 0.64, D:V 0.77, B:Z 0.96, K:V 0.73, JE:V 0.95, A:V 0.96, L2:Z 0.96, H:V 0.82, W:T 0.63, F:T 1.00, X:T 0.97, DD:Z 0.54
+planted control: recovery 0.80 of letters (chance 0.25); planted G mean 66.9
+
+== roles ['T', 'S', 'V', 'Z', 'M', 'N', 'P'] (with weight units) ==
+LB log-lift by commodity:
+        AROM    CYP    GRA     NI    OLE   OLIV    VIN    VIR
+  T     0.22   0.00   0.34   0.26  -3.22   0.15  -2.47  -0.11
+  S    -1.39  -1.10  -4.33  -2.24   1.34  -0.94   1.06  -0.69
+  V    -0.59   0.14  -0.12  -0.12   0.17   0.10   0.43  -0.22
+  Z    -1.39   0.94  -1.67   0.42   1.00  -1.86   0.85  -0.69
+  M     3.09  -1.10  -4.33  -2.24  -3.22  -1.86  -2.47   2.71
+  N    -1.39  -1.10  -4.33  -2.24  -3.22  -1.86  -2.47   3.78
+  P    -1.39  -1.10  -4.33  -2.24  -3.22  -1.86  -2.47  -0.69
+LA letter x commodity counts and best role:
+  J        1     24     17     12     21      2     17      1   -> V (score 0.6, margin over Z 29.0)
+  E        1      9      7     10      3      6      4      0   -> V (score -2.6, margin over T 3.1)
+  D        0      7     11      8      5      1      2      0   -> V (score -2.9, margin over T 5.6)
+  B        0     15      1      8      7      0      0      0   -> Z (score 4.1, margin over V 5.0)
+  K        0      9      3      5      6      0      5      1   -> V (score 0.3, margin over Z 2.7)
+  JE       1      5      2      3      6      3      2      0   -> V (score -0.5, margin over P 9.3)
+  A        0      2      3      1      4      2      3      0   -> V (score 0.5, margin over Z 9.4)
+  L2       0      7      0      0      3      0      3      0   -> Z (score 4.3, margin over V 2.8)
+  H        0      2      2      1      5      1      1      0   -> V (score 0.1, margin over Z 4.4)
+  W        0      4      1      0      0      0      0      0   -> T (score 1.3, margin over P 0.4)
+  F        0      0      1      1      0      1      0      1   -> T (score 1.4, margin over V 2.2)
+  X        0      1      1      0      0      2      0      0   -> T (score 1.4, margin over V 1.6)
+  DD       0      0      0      2      1      0      0      0   -> Z (score 0.0, margin over V 0.4)
+G = 8.0; label-shuffle null -1.2 (95% 3.7), P = 0.0070; LB role-shuffle null 10.3, P = 0.8100
+bootstrap share of best role: J:V 1.00, E:V 0.68, D:V 0.73, B:Z 0.87, K:V 0.71, JE:V 0.93, A:V 0.96, L2:Z 0.86, H:V 0.79, W:T 0.51, F:T 0.74, X:T 0.84, DD:Z 0.53
+planted control: recovery 0.63 of letters (chance 0.14); planted G mean 99.1
+
+liquid share by letter (OLE+VIN)/(all): J 0.40, E 0.17, D 0.21, B 0.23, K 0.38, JE 0.36, A 0.47, L2 0.46, H 0.50, W 0.00, F 0.00, X 0.00, DD 0.33
