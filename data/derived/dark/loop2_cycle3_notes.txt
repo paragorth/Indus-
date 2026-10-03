@@ -1,0 +1,68 @@
+CYCLE 3 NOTES (seed 303; new relations: openunit, bothnum, closepair, midlen, midjacc, samelast2, sharenumsign, rotation, frameclass, singlediff).
+260 train hits (2.9 expected), 44 replicated distinct, 6 pass z-Bonferroni:
+  lensum             {}         x h         z  6.22 bonf True  strict p 0.0010 held p 0.0060
+  frameclass         {}         x emblem    z  5.47 bonf True  strict p 0.0010 held p 0.0040
+  frameclass         {}         x complete  z  5.02 bonf True  strict p 0.0010 held p 0.0040
+  lensum             {}         x complete  z  4.54 bonf True  strict p 0.0010 held p 0.0020
+  lcs2               {}         x type      z  4.35 bonf True  strict p 0.0010 held p 0.0020
+  bothopen           {}         x v         z  4.15 bonf True  strict p 0.0010 held p 0.0060
+  lensum             {}         x type      z  3.83 bonf False strict p 0.0010 held p 0.0020
+  orderkept          {}         x type      z  3.79 bonf False strict p 0.0010 held p 0.0040
+  midjacc            {}         x complete  z  3.71 bonf False strict p 0.0010 held p 0.0020
+  jacc               {}         x complete  z  3.67 bonf False strict p 0.0010 held p 0.0080
+  lcs2               {}         x typefull  z  3.49 bonf False strict p 0.0010 held p 0.0020
+  orderkept          {}         x typefull  z  3.47 bonf False strict p 0.0010 held p 0.0020
+  jacc               {}         x typefull  z  3.11 bonf False strict p 0.0010 held p 0.0040
+  lensum             {}         x cond      z  3.06 bonf False strict p 0.0010 held p 0.0020
+  sharek             {"k": 2}   x type      z  2.76 bonf False strict p 0.0010 held p 0.0040
+  closepair          {}         x sides     z  2.71 bonf False strict p 0.0010 held p 0.0080
+  anypos             {}         x type      z  2.69 bonf False strict p 0.0010 held p 0.0060
+  sharepair          {}         x type      z  2.69 bonf False strict p 0.0010 held p 0.0020
+  sharemidsign       {}         x shape     z  2.58 bonf False strict p 0.0010 held p 0.0040
+  ident              {}         x type      z  2.55 bonf False strict p 0.0010 held p 0.0020
+  sharek             {"k": 2}   x typefull  z  2.51 bonf False strict p 0.0010 held p 0.0020
+  anypos             {}         x typefull  z  2.50 bonf False strict p 0.0010 held p 0.0100
+  orderkept          {}         x shape     z  2.47 bonf False strict p 0.0234 held p 0.0020
+  sharemidsign       {}         x type      z  2.46 bonf False strict p 0.0010 held p 0.0020
+  sharemidsign       {}         x typefull  z  2.46 bonf False strict p 0.0010 held p 0.0020
+  freqbin            {}         x type      z  2.43 bonf False strict p 0.0010 held p 0.0060
+  ident              {}         x complete  z  2.39 bonf False strict p 0.0010 held p 0.0020
+  lcs2               {}         x shape     z  2.36 bonf False strict p 0.0089 held p 0.0040
+  disjoint           {}         x type      z  2.34 bonf False strict p 0.0010 held p 0.0020
+  lcs2               {}         x emblem    z  2.20 bonf False strict p 0.0010 held p 0.0080
+  anypos             {}         x complete  z  2.19 bonf False strict p 0.0010 held p 0.0040
+  disjoint           {}         x typefull  z  2.19 bonf False strict p 0.0010 held p 0.0020
+  sharepair          {}         x typefull  z  2.13 bonf False strict p 0.0010 held p 0.0020
+  sharemidsign       {}         x material  z  2.00 bonf False strict p 0.1224 held p 0.0020
+  sharesign          {"s": 60}  x material  z  1.95 bonf False strict p 0.0199 held p 0.0040
+  second             {}         x material  z  1.94 bonf False strict p 0.1818 held p 0.0020
+  sharesign          {"s": 741} x typefull  z  1.91 bonf False strict p 0.0010 held p 0.0080
+  sharek             {"k": 2}   x shape     z  1.91 bonf False strict p 0.1071 held p 0.0020
+  anypos             {}         x material  z  1.87 bonf False strict p 0.2727 held p 0.0020
+  sharesign          {"s": 60}  x typefull  z  1.83 bonf False strict p 0.0010 held p 0.0060
+  disjoint           {}         x shape     z  1.80 bonf False strict p 0.0116 held p 0.0060
+  posk               {"k": 1}   x material  z  1.72 bonf False strict p 0.1818 held p 0.0020
+  openunit           {}         x typefull  z  1.58 bonf False strict p 0.0010 held p 0.0020
+  complementary      {}         x typefull  z  1.43 bonf False strict p 0.0050 held p 0.0040
+
+Facts: Counter({'typefull': 12, 'type': 10, 'complete': 6, 'material': 5, 'shape': 5, 'emblem': 2, 'sides': 1, 'cond': 1, 'v': 1, 'h': 1})
+
+TARGETED LOOK at frameclass x emblem (the one new Bonferroni survivor): frame class of seal texts by emblem. class = opener? x closer-slot last sign?
+  Mohenjo-daro  Bull1  n= 750  {'-/-': 0.3, '-/cl': 0.42, 'op/-': 0.1, 'op/cl': 0.18}
+  Mohenjo-daro  Gaur   n=  60  {'-/-': 0.38, '-/cl': 0.43, 'op/-': 0.05, 'op/cl': 0.13}
+  Mohenjo-daro  Zebu   n=  42  {'-/-': 0.4, '-/cl': 0.26, 'op/-': 0.12, 'op/cl': 0.21}
+  Mohenjo-daro  -      n=  31  {'-/-': 0.55, '-/cl': 0.32, 'op/-': 0.03, 'op/cl': 0.1}
+  Mohenjo-daro  Elep   n=  27  {'-/-': 0.19, '-/cl': 0.48, 'op/-': 0.22, 'op/cl': 0.11}
+  Harappa       Bull1  n= 224  {'-/-': 0.33, '-/cl': 0.46, 'op/-': 0.08, 'op/cl': 0.14}
+  OTHER         Bull1  n= 206  {'-/-': 0.37, '-/cl': 0.38, 'op/-': 0.14, 'op/cl': 0.11}
+  OTHER         -      n=  34  {'-/-': 0.29, '-/cl': 0.53, 'op/-': 0.15, 'op/cl': 0.03}
+  OTHER         Gaur   n=  32  {'-/-': 0.62, '-/cl': 0.34, 'op/-': 0.03}
+
+READING: frameclass x emblem is a one-object fact in pair clothing. Among seals the emblem differences are modest (full frame
+op/cl: unicorn 0.18 vs gaur 0.13 vs script-only 0.10 at MD; outside, gaur 0.00 of 32), so most of the pair MI comes from
+'emblem = None' objects (tablets, sealings, pots) having a different frame mix from emblem-bearing seals: object type again,
+plus the GRAMMAR.md statement that the owner formula goes with the unicorn format (S65, S46 family). Not a two-text relation. The other Bonferroni
+survivors are the length/duplication x type/completeness/size confounds seen in cycles 1-2. closepair x sides (z 2.7): two-sided
+objects are tablets with fixed closer pairs; type again. Arrows dying under the within-site-x-type null: second/anypos/pos1/
+sharemidsign/sharesign-60 x material, sharek2/orderkept x shape (steatite square = seal).
+SET stage: 1 setfact hit (opener_frac ~ type homogeneity in non-seal groups, n=9, MD only) vs 1.2 expected. Chance.

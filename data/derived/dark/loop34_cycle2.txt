@@ -1,0 +1,43 @@
+S-DARK-34 cycle 2: THE CHECKSUM HUNT, object-fact targets and the recovered rules (3 Oct 2026)
+Engine: tools/dark_loop34.py; driver tools/dark_loop34_c2.py; per-level logs loop34_c2_<level>.txt/json (scratchpad).
+Same train / hold-out design as cycle 1 (Mohenjo-daro + Harappa seals -> other-site seals; IM77-only seals for the
+emblem, 156 with a readable field symbol). Facts recoded to coarse classes: emblem (unicorn, short-horned bull, zebu,
+elephant, tiger, rhino, buffalo, goat, gharial, other, none; Wells 'symbol' codes checked against the IM77 field-symbol
+descriptions on 2,743 aligned object pairs: Bull1 = unicorn 822:93, Gaur = short-horned bull 57, Zebu = humped bull
+36, Elep 40, Rhin 11, Tigr 7); material (steatite / faience / clay / terracotta / copper / ivory / stoneware / other);
+boss (PB, PBSG, P/PN, N, other); shape (square / rectangular / circular / cylindrical / prism / cuboid-convex / other).
+Train coverage: emblem 993 (unicorn 794 = 80%), material 1,089 (steatite 98%), boss 808 (PB 78%), shape 1,217 (square 83%).
+
+DETERMINISM TABLE, fact targets (seq_raw / seq_strong / seq_all; held-out accuracy of the best model)
+target   | sites: text-only    text+other facts  modal  slot  P      | IM77: real  modal | plant P1 | plant P2 | shuffled | top features
+emblem   | 0.75/0.73/0.71      0.71/0.72/0.71     0.71   0.69  0.05-0.4 | 0.44  0.44        | 1.00     | 0.90     | 0.71     | sumW_mod12/13, sumidx_mod11/13 (noise-level, 0.03); count_W621, count_W798
+material | 0.92/0.92/0.92      0.92               0.92   0.91  0.46     |  -                | 1.00     | 0.94     | 0.92     | sum-mod features only (noise)
+boss     | 0.67/0.67/0.67      0.67               0.60   0.60  0.04-0.06| -                 | 1.00     | 0.90     | 0.60     | type=SEAL:S / SEAL:R (round seals have no boss), emblem=None, shape=cuboid-convex
+shape    | 0.90/0.89/0.88      0.90               0.79   0.79  0.000    | -                 | 1.00     | 0.89     | 0.79     | type=SEAL:R / SEAL:S (sub-type code says round vs square), emblem=None, boss=P
+(IM77-only seals: the emblem modal class is 'none' at 0.44, not unicorn; the Mohenjo-daro + Harappa model predicts
+unicorn and scores exactly the modal rate.)
+
+Reading. Emblem and material are at the modal baseline on both hold-outs (emblem +0.00 to +0.04 over modal, inside
+the shuffled-label spread; material = modal). Boss and shape are predicted above the modal rate only from the object
+sub-type code (SEAL:R = round seal -> circular shape, no boss), a format fact, not from the text: with the type
+feature the text contributes nothing (the sign-count features never rank in the top five). This is S15/S28 and S365
+(no sign depends on the animal) re-found with a supervised learner that would have reached 1.00 on a planted rule.
+
+RECOVERED RULES (depth-3 tree, min leaf 15, trained on MD + Harappa seals; each leaf with train precision >= 0.85
+tested on the hold-outs; bound < 3/n for zero exceptions)
+last sign:   "if the sign before the end is tall-3 (W33) and the jar is absent, the last sign is the arrow W520":
+             train 24/24; held-out sites 3 of 4, IM77 2 of 2 (< 3/2). Everything else falls to 'jar' (the modal class).
+which closer:"if tall-3 (W33) stands before the closer -> W520" (train 23/23; sites 2/2, IM77 4/4, < 3/4 = 0.75);
+             "if the plain fish W220 stands before the closer -> W520" (train 15/16; sites 2/2, IM77 3/3);
+             "if W550 stands before the closer -> W527" (train 13/16). These are the S289 closer units and the
+             S299 arrow phrase; the tree finds nothing else: 525 of 802 closer-ended texts fall in the jar leaf.
+closer vs name-final: "a text with no jar elsewhere, with a fish and without W806 ends in a closer" train 301/339
+             (0.89); held-out sites 54/62, IM77 47/59: a tendency (0.80-0.87), not a rule. "W4 (short 4) in a text
+             without the jar -> name-final" train 22/25; sites 7/8, IM77 6/7.
+emblem:      no leaf predicts anything but unicorn; the only 'rule' (count_W798 > 0 -> unicorn, 38/38 train; sites
+             4/4, IM77 2/3) is the unicorn base rate (80%) on a small leaf, and the IM77 exception kills it.
+No rule of the form "if closer X then emblem Y" or "if middle contains Z then no numeral" exists at precision
+>= 0.85 with >= 15 training seals; the tree never splits a fact target on a sign count except W621/W798 for the
+emblem, and those leaves predict the modal class.
+
+| S-DARK-34.2 | **Checksum hunt, object-fact targets and rule extraction.** Same pipeline as 34.1 with the emblem class (11 classes, Wells codes checked against IM77 field-symbol descriptions on 2,743 aligned pairs), material, boss class and shape class as targets, predicted from the whole text (+ the other facts); planted checksum, planted class sign and shuffled labels as controls; then a depth-3 tree per target with every leaf of train precision >= 0.85 tested on the hold-outs with a < 3/n bound (`tools/dark_loop34_c2.py`) | Held-out sites: emblem 0.71-0.75 vs modal 0.71 (IM77-only seals 0.44 = modal; P 0.05-0.4), material 0.92 = modal, boss 0.67 vs 0.60 and shape 0.88-0.90 vs 0.79, but boss and shape are carried by the sub-type code (SEAL:R = round seal -> circular, no boss), the text features never rank; planted checksum 1.00, planted class sign 0.89-0.94, shuffled = modal. Rules recovered: 'tall-3 (W33) before the end -> arrow W520' (train 23-24/24; sites 2/2 and 3/4, IM77 4/4 and 2/2), 'plain fish before the closer -> W520' (15/16; 2/2, 3/3), 'W550 -> W527' (13/16), 'no jar elsewhere + fish -> closer-final' 0.89 train but 0.80-0.87 held-out; emblem: no leaf predicts anything but unicorn. Three levels agree | **No emblem, material, boss or shape is a function of the text, and no sign is a function of them** (S15/S28/S365 re-found with a learner validated at 1.00 on a planted rule). The only exceptionless rules recovered are the known closer units of S289/S299, each with 2-4 held-out cases (bounds < 3/2 to < 3/4), so they are confirmed as tendencies, not proven as rules (data/derived/dark/loop34_cycle2.txt) |
