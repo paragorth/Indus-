@@ -125,3 +125,27 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
   The constraint "J < 1/2" (attack 1) rests on these two readings. **It is not secure.**
 
 **Verdict (my visual read, grade C).** The conventional J = 1/2 cannot be ruled out. The fraction order stays real (0 of 500 random). To settle J, the next step is a specialist re-reading of PH 9b and PH 22a in GORILA vol. 1 (pp. 334, 346), and of HT 104, where the drawing is too faint to tell J from a larger sign.
+
+## Attack 2: Linear B anchors and affix paradigms (`tools/attack_anchors.py`; report in `data/attack_anchors_report.txt`)
+**A. Anchors as place or person probes: no usable result.**
+- The anchors were classed from Linear B (DAMOS) data alone:
+  - **place-like:** PA-I-TO, SE-TO-I-JA, SU-KI-RI-TA;
+  - **person-like:** I-TA-JA, PA-RA-NE;
+  - **unclear:** 7, each with only one Linear B document.
+- Linear A then has 4 place tokens and 3 person tokens. No slot feature separates them (all p ≥ 0.24).
+- With 5 word types the best possible p is 0.10, so this test could not succeed.
+- One small observation: in Linear A, PA-I-TO is a list entry with a quantity on Hagia Triada tablets, not a heading.
+
+**B. Affixes**
+- **Attach beyond chance** (control: a random sign added to the same stems):
+  - A-: 11 stems against 3.4.
+  - I-: 8 against 3.4 (p = 0.02).
+  - -JA: 7 against 3.1 (p = 0.03).
+- **Not beyond chance:** SI-, KI-, -RE, and JA- on its own.
+- **Possibly new: -TE, -ME and JA- belong to objects** (stone and metal objects, vessels), not tablets. 55–80% of their types are on objects, against 17–27% for the control (p ≈ 0.01).
+  - So the A-/JA- alternation is not free variation: JA- is the object form.
+- **SI- forms always carry a number:** 6 of 6 types (p = 0.006).
+- **Prediction fails.** Fitted on Hagia Triada, 94 predicted forms gave 1 hit elsewhere (A-MI-TA, Zakros), against 0.43 for the control (p = 0.35).
+- About 99 comparisons were run. The -RE→"1" and KI-→commodity ties (p ≈ 0.02–0.04) are probably noise.
+
+**Verdict.** Real but small structure: the affixes split by document type. The Linear B anchors are too few to classify Linear A words.
