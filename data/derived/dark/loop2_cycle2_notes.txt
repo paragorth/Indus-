@@ -1,0 +1,64 @@
+CYCLE 2 NOTES (seed 202; new relations: closerclass, sharemidsign, second, lcs2, numsum, revbigram, sharerare, anypos, orderkept, freqbin, bothrare; arrow specs now distinct).
+223 train hits (3.0 expected), 43 replicated, 43 distinct; 8 pass z-Bonferroni at 1500 arrows:
+  lendiff            {}         x h         z  7.72 bonf True  strict p 0.0010 held p 0.0020
+  lensum             {}         x h         z  5.68 bonf True  strict p 0.0010 held p 0.0020
+  jacc               {}         x type      z  5.04 bonf True  strict p 0.0010 held p 0.0020
+  lcs2               {}         x type      z  4.43 bonf True  strict p 0.0010 held p 0.0020
+  bothopen           {}         x v         z  4.29 bonf True  strict p 0.0020 held p 0.0100
+  freqbin            {}         x complete  z  4.27 bonf True  strict p 0.0010 held p 0.0020
+  lensum             {}         x complete  z  4.16 bonf True  strict p 0.0010 held p 0.0020
+  lensum             {}         x type      z  4.01 bonf True  strict p 0.0010 held p 0.0020
+  orderkept          {}         x type      z  3.93 bonf False strict p 0.0010 held p 0.0020
+  jacc               {}         x complete  z  3.73 bonf False strict p 0.0010 held p 0.0020
+  orderkept          {}         x typefull  z  3.45 bonf False strict p 0.0010 held p 0.0020
+  lcs2               {}         x typefull  z  3.30 bonf False strict p 0.0010 held p 0.0020
+  sharepair          {}         x type      z  2.81 bonf False strict p 0.0010 held p 0.0020
+  anypos             {}         x type      z  2.62 bonf False strict p 0.0010 held p 0.0020
+  jacc               {}         x typefull  z  2.59 bonf False strict p 0.0010 held p 0.0020
+  sharek             {"k": 2}   x typefull  z  2.58 bonf False strict p 0.0010 held p 0.0020
+  ident              {}         x type      z  2.54 bonf False strict p 0.0010 held p 0.0020
+  anypos             {}         x typefull  z  2.50 bonf False strict p 0.0010 held p 0.0020
+  orderkept          {}         x material  z  2.42 bonf False strict p 0.1714 held p 0.0060
+  lcs2               {}         x material  z  2.40 bonf False strict p 0.3636 held p 0.0020
+  orderkept          {}         x shape     z  2.40 bonf False strict p 0.1111 held p 0.0020
+  ident              {}         x complete  z  2.38 bonf False strict p 0.0010 held p 0.0020
+  sharepair          {}         x typefull  z  2.32 bonf False strict p 0.0010 held p 0.0020
+  closerclass        {}         x emblem    z  2.28 bonf False strict p 0.0010 held p 0.0020
+  first              {}         x type      z  2.27 bonf False strict p 0.0010 held p 0.0040
+  sharemidsign       {}         x typefull  z  2.19 bonf False strict p 0.0010 held p 0.0020
+  posk               {"k": 2}   x typefull  z  2.18 bonf False strict p 0.0010 held p 0.0020
+  sharesign          {"s": 2}   x material  z  2.16 bonf False strict p 0.3182 held p 0.0080
+  second             {}         x type      z  2.11 bonf False strict p 0.0010 held p 0.0100
+  posk               {"k": 2}   x type      z  2.10 bonf False strict p 0.0010 held p 0.0040
+  sharemidsign       {}         x material  z  2.01 bonf False strict p 0.0531 held p 0.0040
+  posk               {"k": 1}   x complete  z  2.01 bonf False strict p 0.0010 held p 0.0040
+  anypos             {}         x complete  z  2.00 bonf False strict p 0.0010 held p 0.0080
+  second             {}         x typefull  z  2.00 bonf False strict p 0.0010 held p 0.0040
+  second             {}         x shape     z  1.97 bonf False strict p 0.0370 held p 0.0060
+  sharek             {"k": 2}   x shape     z  1.96 bonf False strict p 0.0706 held p 0.0020
+  first              {}         x typefull  z  1.86 bonf False strict p 0.0010 held p 0.0020
+  first              {}         x complete  z  1.85 bonf False strict p 0.0010 held p 0.0080
+  sameopen_diffmid   {}         x typefull  z  1.80 bonf False strict p 0.0010 held p 0.0100
+  ident              {}         x typefull  z  1.80 bonf False strict p 0.0010 held p 0.0020
+  second             {}         x material  z  1.76 bonf False strict p 0.0984 held p 0.0020
+  anypos             {}         x material  z  1.71 bonf False strict p 0.0638 held p 0.0020
+  xorsign            {"s": 1}   x period    z  1.64 bonf False strict p 0.0010 held p 0.0020
+
+Facts: Counter({'typefull': 12, 'type': 10, 'complete': 7, 'material': 6, 'shape': 3, 'h': 2, 'emblem': 1, 'v': 1, 'period': 1})
+
+READING: the 8 Bonferroni survivors are lensum/lendiff x type/complete/h, freqbin x complete, bothopen x v, lcs2 x type, jacc x type:
+text length and text duplication track object type (tablets), breakage (shorter texts) and size (longer texts on bigger seals).
+All were known (S179 family, tablet duplicates). Arrows that die under the within-site-x-type null (sharek2 x shape, second x material,
+sharesign-2 x material, orderkept x shape/material, lcs2 x material, anypos x material) were type-mediated: steatite square = seal.
+Leads below Bonferroni, worth one targeted look only: closerclass x emblem (z 2.3, strict p 0.001; a closer-slot sign at the end
+goes with having the same emblem: probably the unicorn-seal standard formula) and xorsign W1 x period (same family as the two
+false replications in the scrambled control, so discounted).
+SET stage: 5 MD hits vs 1.2 expected, none replicate at Harappa (any_samemid_diffclose +, all_middles_differ -, mean_pair_jaccard + in
+mid-size groups: MD find-groups are slightly more homogeneous than a within-site x type re-deal; Harappa shows the same raw
+value but its null is as high, i.e. not a group effect there). setfact: any_samemid_diffclose ~ period homogeneity rho -0.77 on n=14 groups, MD only.
+
+TARGETED LOOK at closerclass x emblem (object level, seals, len>=2, seq_raw): share of texts whose last sign is a closer-slot sign, by emblem
+  Mohenjo-daro {'Bull1': (0.61, 750), 'Gaur': (0.57, 60), 'Zebu': (0.48, 42), '-': (0.42, 31), 'Elep': (0.59, 27), 'Rhin': (0.71, 17), 'Bull': (0.81, 16)}
+  Harappa {'Bull1': (0.59, 224), '-': (0.39, 18)}
+  OTHER {'Bull1': (0.5, 206), '-': (0.56, 34), 'Gaur': (0.34, 32)}
+  -> the pair arrow restates a one-object fact: unicorn (Bull1) seals end in a closer-slot sign more often than script-only (None) and some animal emblems; already in the frame work (S65 family). Not new.
