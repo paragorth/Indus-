@@ -208,7 +208,7 @@ def band_summary(R, dist, out, label, keys=KEYS):
     return S
 
 # ------------------------------------------------------------------ cycle 1: SSA given names by state
-def load_ssa(cohort, min_births=150000, sexes=('M', 'F')):
+def load_ssa(cohort, min_births=150000, max_states=24, sexes=('M', 'F')):
     D = json.load(gzip.open(C68 + 'ssa_state_cohorts.json.gz', 'rt'))[cohort]
     G = {}
     for st, cnt in D.items():
@@ -217,7 +217,8 @@ def load_ssa(cohort, min_births=150000, sexes=('M', 'F')):
             sx, nm = k.split(':', 1)
             if sx in sexes: c[nm] += v
         if sum(c.values()) >= min_births and st in STATE_XY: G[st] = c
-    return G
+    keep = sorted(G, key=lambda s: -sum(G[s].values()))[:max_states]
+    return {s: G[s] for s in keep}
 
 def true_jsd(ca, cb):
     keys = list(set(ca) | set(cb))
@@ -232,7 +233,7 @@ def cycle1():
         out.append(f'\n== cohort {cohort}: {len(states)} states with >= {min_b} recorded births: ' + ', '.join(f'{s} {sum(G[s].values())//1000}k' for s in states))
         pairs = [(a, b) for i, a in enumerate(states) for b in states[i + 1:]]
         dist = {f'{a} vs {b}': haversine(STATE_XY[a], STATE_XY[b]) for a, b in pairs}
-        for unit in ('bigrams', 'letters', 'whole'):
+        for unit in (('bigrams', 'letters', 'whole') if cohort == '1950s' else ('bigrams', 'whole')):
             pops = make_pops(G, TOK[unit])
             whole = unit == 'whole'
             for n in n_list:

@@ -1,0 +1,42 @@
+S-DARK-67 cycle 1: the copper-tablet table and text-image binding (tools/dark_loop67.py 1; full log loop67_cycle1_log.txt)
+
+Data. IM77: 135 Mohenjo-daro copper tablets; 96 have an image side recorded as a field symbol (fs80), 14 have the image
+written as a single Mahadevan 'sign' face (M362/363/346/184/405/51/96/364), 19 have one side only. 100 tablets carry a
+complete text and a known image: 28 distinct texts x 27 fine fs80 codes = 40 text x image pairs; at coarse animal class
+28 x 21 = 37 pairs; with the image-as-sign faces dropped (fs80 only) 88 tablets, 25 texts x 14 classes = 29 pairs (dies).
+Wells inscriptions.csv TAB:C: 187 objects (229 faces + K-158), image label from the 'symbol' field (96) or an
+image-sign face W749/753/777/781/782/841/957 (these signs occur only on copper tablets); 51 are 'Othr', 40 unlabelled.
+
+Table (IM77, copies / class): 204-245-358-342 x19 ox-antelope [W 503-615-752-740, 26 copies, Wells 'Othr'];
+65-336-89-407-169-183-169 x9 hare [W 235-705-33-845-407-321-407, 14]; 389-407-124-169-373-287-342 x8 horned archer
+fs520 (+Msign362/363) [W 740-900-850-407-61-845-806 'Anth', 14]; 53-67-407-124-169 x6 ox-antelope 3 / horned tiger 2 /
+tiger 1 [W 798-240-845-61-407: tiger 2, gaur 1, Othr 2]; 389-72-326-342 x5 and 389-72-48-342 x4 goat-antelope regardant
+fs135; 336-89-296-342(-98) x7 elephant fs75 (one copy horned tiger fs101) [W 706-33-923-740(-1), 11, 'Elep'];
+345-341-18-252-97-25-245-245 x4 unicorn fs15 3 / two-headed fs290 1 [W 745-760-95-595-1-142-617 'Bull1:W'];
+59/70-112-194-18-211-87-169 x7 goat fs139 [W 231-17-585-95-520-32-407, W777 face]; 102-190-48-8-342-373 x4 goat fs139/137;
+112-194-327-342 x3 and 295-87-97-252-97-25-245-245 x3 two-headed fs290; 171-59-407-169 x3 endless knot fs860
+[W 415-220-845-407 'Loop']; 65-72-62-342 x2 and 267-402-97-25-245-245-65-72-62-342 x2 rhino fs111/113; 204-245-342 x3
+rhino fs113 (+Msign184); 87-155-169 x2 and 102-59-8-342 x1 short-horned bull fs45; singletons buffalo, composite fs251.
+
+Binding, tablet level (image labels shuffled among tablets, 1,000x). IM77 class: MI(text;image) 3.34 bits vs null 1.84
+[1.71,1.98], P = 0.001; H(image|text) 0.37 vs 1.88; identical-text tablet pairs sharing the image 265/311 = 0.85 vs null
+0.10 [0.06,0.15], P = 0.001 (fine fs80: 177/311 = 0.57 vs 0.05). Wells (Othr excluded, 82 tablets): 158/226 = 0.70 vs
+0.07, P = 0.001; identical at seq_raw/strong/all.
+Seal baseline (S-DARK-34, S325): IM77 Mohenjo-daro seals with a field symbol, texts with >= 2 copies (93 seals, 40 texts):
+pairs sharing the emblem 56/74 = 0.76 vs null 0.76 [0.68,0.84], P = 0.57 (fine 0.61 vs 0.59, P = 0.38); all sites 0.71 vs
+0.68, P = 0.26; Wells MD seals 37/40 = 0.93 vs 0.90, P = 0.44. Seals: no binding beyond the unicorn base rate.
+Second baseline: Harappa moulded miniature tablets with a field symbol (IM77, 78): identical-text pairs sharing the image
+88/94 = 0.94 vs null 0.46, P = 0.001 -> the copper result is the moulded/cast-series effect, not a copper peculiarity.
+
+Binding, die level (one row per distinct text x image pair, fs80-only, 29 dies; images shuffled among dies): H(text|image)
+1.32 bits vs null 1.30 [1.19,1.32], P(lower) = 0.98; H(image|text) 0.30 vs 0.28, P = 1.0. Beyond copying, an image does not
+predict its text at all. Binding type: MANY-TO-MANY. Texts with > 1 image class: 3/25 (53-67-407-124-169: ox-antelope /
+horned tiger / tiger; 336-89-296-342-98: elephant / horned tiger; 345-341-18-252-97-25-245-245: unicorn / two-headed).
+Images with > 1 text: 7/14 (goat-antelope 5 texts, two-headed 4, rhino 4, ox-antelope 3, elephant 2 variants, horned tiger
+2, short-horned bull 2). Only hare, archer, endless knot and unicorn have a single die each (binding untestable, 1 die).
+
+Find-spots. Copies of one die are spread over the city: the ox-antelope text at 11 IM77 loci and in DK (14), HR (5), VS, L;
+the hare text at 6 loci; the archer text at 7 loci; Wells depths 1.5-10 ft within a die. Copper faces by area: DK 127, VS 19,
+HR 15, SD 5, L 4, unknown 56. The series is a city-wide issue of a few dozen dies, not a deposit.
+
+| S-DARK-67.1 | **Copper tablets as a legend table, part 1: the text x image table and binding.** IM77 135 Mohenjo-daro copper tablets (96 with a field-symbol side, 14 with the image written as a 'sign' face); 100 with complete text + image = 28 texts x 27 fs80 codes (40 pairs), 25 texts x 14 animal classes (29 dies) once image-as-sign faces are dropped; Wells TAB:C 187 objects, image from the symbol field or the copper-only image-sign faces W749/753/777/781/782/841/957. Binding at tablet level and at die level (one row per distinct text x image pair) with image labels shuffled 1,000x; seal baseline = identical-text IM77/Wells seal pairs sharing the emblem, second baseline = Harappa moulded tablets with a field symbol; find-spots per die; seq_raw/strong/all (`tools/dark_loop67.py 1`) | Tablet level: identical-text copper pairs share the image 265/311 = 0.85 vs null 0.10 (P = 0.001; Wells 0.70 vs 0.07; MI 3.34 vs 1.84 bits), against seals at the base rate (MD 0.76 vs 0.76, P = 0.57; Wells 0.93 vs 0.90, P = 0.44) but exactly like Harappa moulded tablets (0.94 vs 0.46, P = 0.001). Die level (29 dies): H(text\|image) 1.32 bits vs null 1.30, P = 0.98; 3/25 texts carry two or three different animals (53-67-407-124-169 = ox-antelope/horned tiger/tiger; 336-89-296-342-98 = elephant/horned tiger; 345-341-18-252-97-25-245-245 = unicorn/two-headed) and 7/14 images carry 2-5 different texts (goat-antelope 5, two-headed 4, rhino 4). Copies of one die lie at 6-11 loci across DK, HR, VS, L, SD. Levels identical | **Many-to-many; the binding is the casting die, not the sign.** Copies of a die share text and image because they are casts of one mould (S-DARK-12/13/29 production), and once dies are the unit the image predicts nothing about the text (P = 0.98). The copper series is not a legend table. Hare, archer, endless knot and unicorn are single dies, so their 1:1 look is an upper bound (1 die each), not evidence |
