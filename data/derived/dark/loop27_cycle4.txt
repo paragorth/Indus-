@@ -1,0 +1,67 @@
+# LOOP 27 cycle 4: loop 21 tests on the enlarged certainly-new set (2026-10-03T12:26)
+
+### set ENLARGED new set: 324 texts; sites {'Mohenjodaro': 133, 'Harappa': 117, 'Chanhudaro': 9, 'Lothal': 36, 'Kalibangan': 19, 'Other sites': 4, 'West Asian finds': 6}
+   object types {'seal': 164, 'miscellaneous': 4, 'sealing': 77, 'copper tablet': 7, 'bronze implement': 4, 'pottery graffito': 21, 'ivory/bone rod': 4, 'miniature tablet': 43}; length distribution {1: 5, 2: 47, 3: 103, 4: 80, 5: 38, 6: 17, 7: 17, 8: 10, 9: 2, 10: 2, 11: 2, 12: 1}
+   mean length 3.98; texts with a doubtful reading 72
+
+## (1) slot frame on ENLARGED new set (n texts >= 2 signs)
+  opener (M267/391/293/150) in first position    obs   43 / 319 = 0.135   shuffled mean 16.6 [9-24]
+  connective (M99/100/123) text-initial          obs    5 / 319 = 0.016   shuffled mean 14.6 [9-21]
+  opener followed directly by connective         obs   32 / 319 = 0.100   shuffled mean 2.2 [0-6]
+  closer (M342/211/12/15/254/60/328) last        obs  143 / 319 = 0.448   shuffled mean 51.3 [41-63]
+  texts with 2+ distinct closer signs (exclusivity) obs    7 / 319 = 0.022   cross-text permutation mean 22.2 [16-29]  P(<=obs) 0.005
+  jar together with another closer sign          obs    5 / 319 = 0.016   cross-text permutation mean 18.2 [12-24]  P(<=obs) 0.005
+  connective tokens 76, of which text-initial 5 (shuffled mean 14.6)
+  opener before closer in texts with both: 36/39 (shuffled 21.2/39.0)
+  closer sign: tokens, final, texts co-occurring with the jar
+    M12   tokens  11 final  10 (0.91) with-jar 2
+    M15   tokens  15 final  14 (0.93) with-jar 0
+    M60   tokens   4 final   3 (0.75) with-jar 1
+    M211  tokens  22 final  18 (0.82) with-jar 0
+    M254  tokens   7 final   6 (0.86) with-jar 2
+    M328  tokens  13 final   2 (0.15) with-jar 0
+    M342  tokens 112 final  90 (0.80) with-jar None
+  seals vs other objects: opener-first 24/162 vs 19/157; suffix M176/M1 last 13/162 vs 19/157
+
+## (2) fish-qualifier order hat(M65) -> whiskers(M67) -> bar(M72) -> stroke(M70) on ENLARGED new set
+  adjacent modified-fish pairs: predicted order 7, reverse 2, two-sided binomial P = 0.1797  pairs: {(72, 65): 1, (70, 72): 1, (67, 72): 5, (65, 72): 2}
+  any-distance pairs within a text: predicted 7, reverse 2, P = 0.1797
+  plain fish M59 before a modified fish 0, after 3 (prediction: no fixed place)
+  texts with a modified fish: 42; texts with 2+ distinct modified fish: 9
+
+## (3) minimum-lot rule on ENLARGED new set: numeral directly before a counted good (trees M161/162/167/168/169, arrow M211, bracket M287, M407, M296, M216)
+  numeral+good pairs: 27; distribution: [(('short', 1), 4), (('short', 2), 1), (('short', 3), 8), (('short', 4), 5), (('short', 5), 1), (('short', 7), 2), (('tall', 1), 1), (('tall', 2), 1), (('tall', 3), 4)]
+  short-1/short-2 before a good: 5; tall-1 before a good: 1; counts 3-8: 20; tall-2 (fixed term): 1
+  numeral tokens 219 (short-1/2 tokens 94); null (values permuted among numeral slots) short-1/2 before goods: mean 11.6, min 3, P(<= obs) = 0.0050
+  plain person M1 directly after a numeral: 0 of 17 tokens
+  goods counted: {211: 6, 162: 5, 287: 2, 216: 4, 169: 9, 296: 1}
+
+## (4) name calibration on ENLARGED new set: middles (frame stripped), uniqueness vs bigram trained on the same middles; Ur III at matched n
+  seals: n=145 distinct=136 mean len 3.79
+    Indus  unique 0.890 vs bigram 0.908  ratio 0.980 (sd 0.033); share sharing a middle with another object 0.110; objects/middle 1.066; top [((25, 245, 245), 3), ((102, 216, 245, 245), 3), ((98, 25, 245, 245), 2), ((328, 328, 267, 99), 2)]
+    Ur III legends   n=145: unique 0.706 vs bigram 0.753  ratio 0.938 (sd 0.070); share shared 0.310; seals/name 1.229
+    Ur III seal objs n=145: unique 0.709 vs bigram 0.765  ratio 0.926 (sd 0.074); share shared 0.200; seals/name 1.133
+  all objects: n=281 distinct=233 mean len 3.53
+    Indus  unique 0.722 vs bigram 0.836  ratio 0.864 (sd 0.023); share sharing a middle with another object 0.278; objects/middle 1.206; top [((177, 307, 284), 6), ((102, 25), 5), ((375, 375), 5), ((25, 245, 245), 4)]
+    Ur III legends   n=281: unique 0.594 vs bigram 0.710  ratio 0.836 (sd 0.048); share shared 0.416; seals/name 1.384
+    Ur III seal objs n=281: unique 0.603 vs bigram 0.721  ratio 0.837 (sd 0.041); share shared 0.370; seals/name 1.332
+
+## (5) quantity-seal type opener . connective . N . tree on ENLARGED new set
+  complete 4-sign texts of the type: 1 Counter({'tree': 1})
+    ('8106', '1') Kalibangan sealing [267, 99, 104, 169]
+  longer texts containing the run: 0
+  within-text shuffle null: complete type mean 0.04 max 1; runs mean 0.05 max 1
+  sites: Counter({'Kalibangan': 1}); N values: Counter({4: 1})
+
+## (6) nesting of 3-5-sign texts inside longer texts on ENLARGED new set (hosts = same set)
+  distinct short texts 190, distinct long hosts 156: nested 11 = 0.058; shuffled mean 1.9 = 0.010 (max 4); ratio 5.79x
+    [379, 245, 245] inside [48, 47, 379, 245, 245]
+    [325, 347, 342] inside [86, 325, 347, 342]
+    [48, 342, 176] inside [150, 123, 48, 342, 176]
+    [192, 347, 342] inside [134, 86, 99, 65, 192, 347, 342]
+    [136, 193, 342, 176] inside [48, 136, 193, 342, 176, 176]
+    [162, 162, 162, 162] inside [162, 162, 162, 162, 15]
+    [25, 245, 245] inside [295, 87, 97, 252, 97, 25, 245, 245]
+    [59, 59, 155, 211] inside [17, 293, 293, 211, 186, 267, 99, 59, 59, 155, 211]
+
+## (6) nesting of 3-5-sign texts inside longer texts on ENLARGED new set shorts, hosts = all complete IM77

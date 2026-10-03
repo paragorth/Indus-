@@ -347,13 +347,17 @@ def determinative_stats(objs,minn=30,slot=None,nm=str,nperm=200,verbose=True,nam
                 v=coh(list(hs))
                 if v==v: nullc.append(v)
             mu=sum(nullc)/len(nullc); sd=math.sqrt(sum((x-mu)**2 for x in nullc)/len(nullc)) or 1e-9
-            rows.append(dict(c=a,side=side,n=n,alone=nal,onlynon=non,fix=fix,nhost=len(hosts),partH=H(T[a]),coh=obs,cohnull=mu,z=(obs-mu)/sd,
+            # host loyalty: P(c on this side | host), token-weighted over hosts, and share of hosts with P >= 0.5
+            hl=[T[a][h]/toks[h] for h in hosts]; loy=sum(T[a][h] for h in hosts)/sum(toks[h] for h in hosts); loy50=sum(1 for x in hl if x>=0.5)/len(hl)
+            rows.append(dict(c=a,side=side,n=n,alone=nal,onlynon=non,fix=fix,nhost=len(hosts),partH=H(T[a]),coh=obs,cohnull=mu,z=(obs-mu)/sd,loy=loy,loy50=loy50,
                              p=pval(obs,nullc),slot=(slot or {}).get(a,'?'),hosts=sorted(T[a],key=lambda h:-T[a][h])[:6]))
     rows.sort(key=lambda r:-r['nhost'])
     print(f'\n--- {name}: candidates (never-edge on the host side >= 0.90, >= 8 hosts with >= 2 tokens, partner entropy >= 3 bits): {len(rows)} of {len(signs)} signs')
-    print('   sign side n alone onlyNonNum sideFix nHosts partnerH hostCoherence(null) z P slot | top hosts')
-    for r in rows[:30]:
-        print(f"   {nm(r['c'])} {r['side']} {r['n']} {r['alone']} {r['onlynon']} {r['fix']:.2f} {r['nhost']} {r['partH']:.2f} {r['coh']:.3f}({r['cohnull']:.3f}) z{r['z']:+.1f} P={r['p']:.3f} {r['slot']} | {' '.join(nm(h) for h in r['hosts'])}")
+    print('   sign side n alone onlyNonNum sideFix nHosts partnerH hostCoherence(null) z P loyalty loy>=.5 slot | top hosts')
+    for r in rows[:40]:
+        print(f"   {nm(r['c'])} {r['side']} {r['n']} {r['alone']} {r['onlynon']} {r['fix']:.2f} {r['nhost']} {r['partH']:.2f} {r['coh']:.3f}({r['cohnull']:.3f}) z{r['z']:+.1f} P={r['p']:.3f} loy {r['loy']:.2f} {r['loy50']:.2f} {r['slot']} | {' '.join(nm(h) for h in r['hosts'])}")
+    loyal=[r for r in rows if r['alone']+r['onlynon']<3 and r['loy']>=0.5]
+    print(f'   => loyal class markers (never alone, hosts take it >= 50% of the time): {len(loyal)} [{" ".join(nm(r["c"])+"/"+r["side"]+"(%.2f)"%r["loy"] for r in loyal)}]')
     det=[r for r in rows if r['alone']+r['onlynon']<3 and r['z']>=3]
     frame=[r for r in rows if r['alone']+r['onlynon']<3 and r['z']<3]
     print(f'   => determinative-like (never alone, coherent host class z>=3): {len(det)} [{" ".join(nm(r["c"])+"/"+r["side"] for r in det)}]')
