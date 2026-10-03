@@ -133,3 +133,37 @@
     5-fold 4: held-out bits/element independence 8.017 vs pair(bigram) 7.935; gain 0.082 bits = 1.0%  (n=1468 tokens, 452 middles)
     adjacent-pair MI 3.756 bits vs shuffle 3.760 [3.727,3.800]; excess -0.003
     planted attribute code DEDUP: MI(first,last) 3.442 bits vs within-position shuffle 3.505 [3.476,3.537] P=1.000; excess -0.064 = -0.9% of H(first) (6.90 bits); n=2017
+    planted attribute code DEDUP: 360 elements with >= 15 partner tokens; mean z -0.13; share with partner-KL above Bonferroni null (P<=0.0001 or z>4 at floor) 0.000 (0/360); mean KL excess -0.058 bits
+      strongest partner-predictors: 410 z=3.7, 306 z=2.8, 486 z=2.6, 23 z=2.5, 126 z=2.5, 442 z=2.4, 210 z=2.4, 29 z=2.4, 32 z=2.3, 60 z=2.3
+      weakest: 248 z=-2.6, 475 z=-2.5, 26 z=-2.2, 6 z=-2.2, 505 z=-2.2, 331 z=-2.2
+
+##### planted lexicon: 2643 -> 1684 distinct (site, middle)
+
+--- planted lexicon DEDUP: pair census. 3209 distinct observed pairs; 938 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.259 vs permuted corpora 0.101 [0.079,0.121]  P=0.016
+    mean |log2(O/E)|:     0.716 vs permuted 0.454 [0.424,0.487]  P=0.016
+    share O > 4E (compound-like): 0.043 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.028 vs permuted 0.009
+    strong compounds (O>=5, O>=4E): 48 pairs covering 0.230 of element tokens in >=2-element middles
+    top compounds: 11+89 95:10.3, 6+102 73:11.4, 3+14 69:16.1, 13+29 63:8.5, 4+14 55:11.0, 3+117 54:10.4, 15+117 49:5.2, 9+109 29:2.1, 9+51 28:3.7, 51+109 23:1.7, 2+75 22:3.2, 19+22 21:1.5
+    strong exclusions (E>=6, O=0): 0 of 380 pairs with E>=6
+    top exclusions: 
+    fit big / test held-out: held-out bits/element independence 5.963 vs pair(bigram) 4.972; gain 0.991 bits = 16.6%  (n=1970 tokens, 471 middles)
+    5-fold 0: held-out bits/element independence 6.058 vs pair(bigram) 5.085; gain 0.973 bits = 16.1%  (n=1374 tokens, 337 middles)
+    5-fold 1: held-out bits/element independence 6.160 vs pair(bigram) 5.295; gain 0.865 bits = 14.0%  (n=1359 tokens, 337 middles)
+    5-fold 2: held-out bits/element independence 5.997 vs pair(bigram) 5.030; gain 0.967 bits = 16.1%  (n=1449 tokens, 337 middles)
+    5-fold 3: held-out bits/element independence 5.921 vs pair(bigram) 4.949; gain 0.972 bits = 16.4%  (n=1418 tokens, 337 middles)
+    5-fold 4: held-out bits/element independence 6.062 vs pair(bigram) 5.140; gain 0.921 bits = 15.2%  (n=1344 tokens, 336 middles)
+    adjacent-pair MI 2.371 bits vs shuffle 1.163 [1.140,1.190]; excess 1.208
+    planted lexicon DEDUP: MI(first,last) 2.048 bits vs within-position shuffle 2.089 [2.053,2.134] P=0.985; excess -0.040 = -0.7% of H(first) (5.89 bits); n=1602
+    planted lexicon DEDUP: 138 elements with >= 15 partner tokens; mean z 4.28; share with partner-KL above Bonferroni null (P<=0.0004 or z>4 at floor) 0.384 (53/138); mean KL excess 0.326 bits
+      strongest partner-predictors: 1 z=22.2, 7 z=21.3, 11 z=19.3, 57 z=18.5, 3 z=18.1, 15 z=17.9, 6 z=17.0, 89 z=14.8, 9 z=13.8, 0 z=13.8
+      weakest: 88 z=-1.3, 62 z=-1.3, 129 z=-0.8, 141 z=-0.6, 103 z=-0.6, 61 z=-0.6
+
+=== SUMMARY cycle 4 DEDUP (n; share|log2|>1 excess; compounds; exclusions; held-out gain; 5-fold gain; adj MI excess; MI(first,last) %; partner-predictors; mean z)
+    Indus seq_raw            n= 1774 share +0.238 comp 0.087 excl 0.033 gain   3.2% /   7.5%  MI +0.357  MI(f,l)   0.9%  partners 0.069 z 0.80
+    Indus frame-purged       n= 1660 share +0.279 comp 0.107 excl 0.021 gain   0.9% /   4.3%  MI +0.159  MI(f,l)   1.2%  partners 0.035 z 0.62
+    Indus seals              n= 1231 share +0.233 comp 0.071 excl 0.030 gain   2.7% /   7.5%  MI +0.293  MI(f,l)   0.6%  partners 0.045 z 0.63
+    Indus tablets            n=  447 share +0.578 comp 0.421 excl 0.000 gain  -5.3% /   6.8%  MI +0.005  MI(f,l)   0.6%  partners 0.000 z 0.47
+    Ur III names             n= 1065 share +0.433 comp 0.196 excl 0.098 gain  15.5% /  15.3%  MI +0.855  MI(f,l)   1.8%  partners 0.195 z 2.38
+    planted attribute code   n= 2263 share +0.154 comp 0.003 excl 0.070 gain   1.1% /   0.9%  MI -0.003  MI(f,l)  -0.9%  partners 0.000 z -0.13
+    planted lexicon          n= 1684 share +0.158 comp 0.043 excl 0.028 gain  16.6% /  15.6%  MI +1.208  MI(f,l)  -0.7%  partners 0.384 z 4.28
