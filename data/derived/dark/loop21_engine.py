@@ -61,51 +61,82 @@ def im77_texts():
                     'damaged': 0 in seq, 'doubt': doubt, 'fs': r0['fs_category'], 'level': r0['level'], 'locus': r0['locus']})
     return out
 
+MAXWILD = 1; MINCONC = 3
+def concrete(m, cell): return cell is not None and m in MCOV
 def pos_match(m, cell):
     return cell is None or m not in MCOV or m in cell
 
-def exact(seq, pats):
+def exact(seq, pats, maxwild=None, minconc=None):
+    """full-length match: every position agrees or is a wildcard; at most `maxwild` wildcard positions; at least `minconc`
+    concrete agreeing positions."""
+    mw = MAXWILD if maxwild is None else maxwild; mc = MINCONC if minconc is None else minconc
     for pat, _ in pats:
-        if all(pos_match(m, c) for m, c in zip(seq, pat)): return True
+        wild = conc = 0; ok = True
+        for m, c in zip(seq, pat):
+            if not concrete(m, c): wild += 1
+            elif m in c: conc += 1
+            else: ok = False; break
+        if ok and wild <= mw and conc >= mc: return True
     return False
 
-def near(seq, idx, sg):
+def exact_nowild(seq, pats): return exact(seq, pats, 0, 1)
+
+def near(seq, idx, sg, maxwild=None, minconc=None):
+    """edit distance 1 (one substitution, insertion or deletion) or exact reverse; same wildcard caps, with the mismatch
+    position counted neither as wildcard nor as concrete."""
+    mw = MAXWILD if maxwild is None else maxwild; mc = MINCONC if minconc is None else minconc
     L = len(seq)
-    # substitution (same length, one mismatch) or reverse
+    def fits(s, pat, allow):
+        wild = conc = mism = 0
+        for m, c in zip(s, pat):
+            if not concrete(m, c): wild += 1
+            elif m in c: conc += 1
+            else:
+                mism += 1
+                if mism > allow: return False
+        return wild <= mw and conc >= mc + 1
     for pat, _ in idx.get((sg, L), []):
-        mism = sum(0 if pos_match(m, c) else 1 for m, c in zip(seq, pat))
-        if mism <= 1: return True
-        if all(pos_match(m, c) for m, c in zip(seq[::-1], pat)): return True
-    # one deletion in IM77 (Wells longer by 1) or one insertion
+        if fits(seq, pat, 1): return True
+        if fits(seq[::-1], pat, 0): return True
     for pat, _ in idx.get((sg, L + 1), []):
         for skip in range(L + 1):
-            p2 = pat[:skip] + pat[skip + 1:]
-            if all(pos_match(m, c) for m, c in zip(seq, p2)): return True
+            if fits(seq, pat[:skip] + pat[skip + 1:], 0): return True
     for pat, _ in idx.get((sg, L - 1), []):
         for skip in range(L):
-            s2 = seq[:skip] + seq[skip + 1:]
-            if all(pos_match(m, c) for m, c in zip(s2, pat)): return True
-    return False
-
-def exact_nowild(seq, pats):
-    """exact match using only positions where both sides are bridged, and requiring at least all IM77-bridged positions
-    to be non-wildcard on the Wells side too (i.e. a match that does not lean on any wildcard)."""
-    for pat, _ in pats:
-        if all(c is not None and m in MCOV and m in c for m, c in zip(seq, pat)): return True
+            if fits(seq[:skip] + seq[skip + 1:], pat, 0): return True
     return False
 
 def classify(level):
     idx = wells_patterns(level); T = im77_texts()
     for t in T:
-        s = t['seq']; sg = t['sg']
-        groups = [sg] if sg != 'OTHER' else ['OTHER']
+        s = t['seq']; sg = t['sg']; g = sg
+        t['unbr'] = sum(m not in MCOV for m in s)
         if t['damaged'] or not s:
             t['status'] = 'damaged'; t['nowild'] = False; continue
-        ex = any(exact(s, idx.get((g, len(s)), [])) for g in groups)
-        t['nowild'] = any(exact_nowild(s, idx.get((g, len(s)), [])) for g in groups)
-        if ex: t['status'] = 'exact'; continue
-        t['status'] = 'near' if any(near(s, idx, g) for g in groups) else 'none'
+        t['nowild'] = exact_nowild(s, idx.get((g, len(s)), []))
+        if exact(s, idx.get((g, len(s)), [])): t['status'] = 'exact'; continue
+        if near(s, idx, g): t['status'] = 'near'; continue
+        t['status'] = 'none' if t['unbr'] <= MAXWILD and len(s) - t['unbr'] >= MINCONC else 'indet'
     return T
+
+def tune(T, level, rnd, nshuf=10):
+    """false-positive table for rule variants: shuffled IM77 texts (>= 4 signs), share classified exact / near."""
+    idx = wells_patterns(level)
+    comp = [t for t in T if not t['damaged'] and t['seq'] and len(t['seq']) >= 4]
+    P('  rule tuning (shuffled texts >= 4 signs, n=%d, %dx): maxwild minconc -> real exact%% / shuffled exact%% ; real near%% / shuffled near%%' % (len(comp), nshuf))
+    for mw, mc in ((99, 1), (2, 3), (1, 3), (1, 4), (0, 3), (0, 4)):
+        re_ = sum(exact(t['seq'], idx.get((t['sg'], len(t['seq'])), []), mw, mc) for t in comp)
+        rn = sum((not exact(t['seq'], idx.get((t['sg'], len(t['seq'])), []), mw, mc)) and near(t['seq'], idx, t['sg'], mw, mc) for t in comp)
+        se = []; sn = []
+        for _ in range(nshuf):
+            e = n = 0
+            for t in comp:
+                s = list(t['seq']); rnd.shuffle(s)
+                if s == t['seq']: continue
+                if exact(s, idx.get((t['sg'], len(s)), []), mw, mc): e += 1
+                elif near(s, idx, t['sg'], mw, mc): n += 1
+            se.append(e); sn.append(n)
+        P(f'    maxwild={mw:2d} minconc={mc}: exact {re_ / len(comp):.1%} / {st.mean(se) / len(comp):.1%} ; near {rn / len(comp):.1%} / {st.mean(sn) / len(comp):.1%}')
 
 def match_control(T, level, rnd, nshuf=20):
     """false-positive rate of the matcher: IM77 texts shuffled within themselves, same classification."""
@@ -116,6 +147,7 @@ def match_control(T, level, rnd, nshuf=20):
         e = n = 0
         for t in comp:
             s = list(t['seq']); rnd.shuffle(s); g = t['sg']
+            if s == t['seq']: continue
             if exact(s, idx.get((g, len(s)), [])): e += 1
             elif near(s, idx, g): n += 1
         ex.append(e); nr.append(n)
@@ -482,12 +514,14 @@ def main():
     T = classify(LEVEL)
     if NODOUBT: T = [t for t in T if not t['doubt']]
     P(f'IM77 texts (text_no+side): {len(T)}; status: {dict(collections.Counter(t["status"] for t in T))}')
+    tune(T, LEVEL, rnd)
     comp = [t for t in T if t['status'] != 'damaged']
+    P(f'  indeterminate (>{MAXWILD} unbridged M sign or <{MINCONC} bridged signs, no match): {sum(t["status"] == "indet" for t in comp)}')
     P(f'complete texts {len(comp)}: exact {sum(t["status"] == "exact" for t in comp)} ({sum(t["status"] == "exact" for t in comp) / len(comp):.1%}), '
       f'near {sum(t["status"] == "near" for t in comp)}, none {sum(t["status"] == "none" for t in comp)} ({sum(t["status"] == "none" for t in comp) / len(comp):.1%})')
     for L_ in (1, 2, 3, 4, 5):
         sub = [t for t in comp if len(t['seq']) == L_ or (L_ == 5 and len(t['seq']) >= 5)]
-        P(f'  length {"5+" if L_ == 5 else L_}: n={len(sub)} exact {sum(t["status"] == "exact" for t in sub)} near {sum(t["status"] == "near" for t in sub)} none {sum(t["status"] == "none" for t in sub)}')
+        P(f'  length {"5+" if L_ == 5 else L_}: n={len(sub)} exact {sum(t["status"] == "exact" for t in sub)} near {sum(t["status"] == "near" for t in sub)} none {sum(t["status"] == "none" for t in sub)} indet {sum(t["status"] == "indet" for t in sub)}')
     P('  by site (complete texts): ' + '; '.join(f'{s}: none {sum(t["status"] == "none" for t in comp if t["site"] == s)}/{sum(t["site"] == s for t in comp)}'
                                              for s in ['Mohenjodaro', 'Harappa', 'Lothal', 'Kalibangan', 'Chanhudaro', 'Other sites', 'West Asian finds']))
     P('  by object type (complete): ' + '; '.join(f'{o}: none {sum(t["status"] == "none" for t in comp if t["otype"] == o)}/{sum(t["otype"] == o for t in comp)}'

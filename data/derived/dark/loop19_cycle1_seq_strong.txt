@@ -69,3 +69,34 @@
    N-700 voucher tablets by medium and order: [(('POT:T:g', '700 first'), 2), (('POT:T:g', 'N first'), 1), (('SEAL:CY', 'N first'), 1), (('SEAL:R', 'N first'), 3), (('TAB:B', '700 first'), 41), (('TAB:B', 'N first'), 146), (('TAB:I', '700 first'), 14), (('TAB:I', 'N first'), 161)]
 
 -- (a) anagram census [Mohenjo-daro + Harappa] objects 2751; multisets on >=2 objects 255; in >1 order 12 (0.047); object pairs same order 20048 vs different 5872 (diff share 0.227)
+   null within-slot shuffle : anagram-group rate median 0.502 [5% 0.475, 95% 0.533], P(obs<=null) 0.0020; pair-diff share median 0.284 [0.282,0.285] P_lo 0.0020; order information retained = 1 - obs/null = 0.20
+   null whole-text shuffle  : anagram-group rate median 0.882 [5% 0.859, 95% 0.910], P(obs<=null) 0.0020; pair-diff share median 0.544 [0.537,0.547] P_lo 0.0020; order information retained = 1 - obs/null = 0.58
+   anagram groups: {'one site': 11, 'multi-site': 1}; order-pairs that are a single adjacent transposition 10, other 2
+   inverted sign pairs by frame-slot pair: [(('NAME', 'NAME'), 5), (('CLOSER', 'COUNT'), 3), (('COUNT', 'COUNT'), 2), (('CLOSER', 'TITLE'), 2), (('COUNT', 'SUFFIX'), 2), (('CLOSER', 'SUFFIX'), 1), (('NAME', 'TITLE'), 1)]
+     n=143 33-700 x117 | 700-33 x26   [Har/pot, Har/seal, Har/tablet]
+     n=116 34-700 x103 | 700-34 x13   [Har/seal, Har/tablet]
+     n=103 32-700 x86 | 700-32 x17   [Har/tablet]
+     n=12 413-892-824 x11 | 824-892-413 x1   [Har/tablet]
+     n=5 235-240-740-90 x4 | 240-235-740-90 x1   [Har/tablet]
+     n=4 4-220-700 x1 | 4-700-220 x3   [Har/tablet]
+     n=4 323-690 x3 | 690-323 x1   [Moh/seal, Moh/tablet]
+     n=3 416-220-740-760-400 x1 | 416-220-760-740-400 x2   [Har/tablet]
+     n=3 33-255 x1 | 255-33 x2   [Har/tablet]
+     n=3 31-384-156-400 x2 | 400-31-384-156 x1   [Har/other, Har/seal, Har/tablet]
+     n=2 32-840 x1 | 840-32 x1   [Har/tablet, Moh/other]
+     n=2 31-700 x1 | 700-31 x1   [Har/pot, Har/tablet]
+
+-- (a) anagram census [held-out: other sites] objects 404; multisets on >=2 objects 20; in >1 order 0 (0.000); object pairs same order 152 vs different 0 (diff share 0.000)
+   null within-slot shuffle : anagram-group rate median 0.350 [5% 0.250, 95% 0.500], P(obs<=null) 0.0020; pair-diff share median 0.553 [0.520,0.579] P_lo 0.0020; order information retained = 1 - obs/null = 1.00
+   null whole-text shuffle  : anagram-group rate median 0.800 [5% 0.650, 95% 0.900], P(obs<=null) 0.0020; pair-diff share median 0.934 [0.901,0.961] P_lo 0.0020; order information retained = 1 - obs/null = 1.00
+   anagram groups: {}; order-pairs that are a single adjacent transposition 0, other 0
+   inverted sign pairs by frame-slot pair: []
+
+-- (a) anagram census [seals] objects 1515; multisets on >=2 objects 78; in >1 order 1 (0.013); object pairs same order 224 vs different 1 (diff share 0.004)
+   null within-slot shuffle : anagram-group rate median 0.321 [5% 0.256, 95% 0.359], P(obs<=null) 0.0020; pair-diff share median 0.262 [0.218,0.293] P_lo 0.0020; order information retained = 1 - obs/null = 0.98
+   null whole-text shuffle  : anagram-group rate median 0.821 [5% 0.744, 95% 0.872], P(obs<=null) 0.0020; pair-diff share median 0.671 [0.618,0.711] P_lo 0.0020; order information retained = 1 - obs/null = 0.99
+   anagram groups: {'multi-site': 1}; order-pairs that are a single adjacent transposition 1, other 0
+   inverted sign pairs by frame-slot pair: [(('NAME', 'NAME'), 1)]
+     n=2 390-590-151 x1 | 590-390-151 x1   [Har/seal, Lot/seal]
+
+-- (a) anagram census [tablets] objects 1434; multisets on >=2 objects 180; in >1 order 9 (0.050); object pairs same order 19030 vs different 5671 (diff share 0.230)

@@ -1,0 +1,61 @@
+== LOOP 23 CYCLE 1  (seq_raw)  pots as capacity labels: numeral value vs pot size ==
+pots (one record per object): 629
+
+-- (e) DIMENSION COVERAGE, honestly --
+pots with any dimension (H, V or thickness): 94 of 629
+  ('g', 'chipped'): 1
+  ('g', 'complete'): 4
+  ('g', 'fragment'): 61
+  ('p', 'complete'): 1
+  ('s', 'chipped'): 7
+  ('s', 'complete'): 15
+  ('s', 'fragment'): 5
+  by site: {'Allahdino': 1, 'Chanhu-daro': 3, 'Harappa': 27, 'Kalibangan': 53, 'Mohenjo-daro': 5, 'Tepe Yahya': 1, 'Lakhanjo-daro': 1, 'Nuhato': 1, 'Rodji': 2}
+  sub=s (seal-stamped) dimensions are the STAMP impression (10-35 mm), i.e. the seal, not the vessel.
+  complete graffito vessels with a dimension: 4 -> 898.1 Harappa H29.0 VNone T8.0 +850-700/453-064-001-856+; 5311.1 Kalibangan H127.0 V70.0 T35.0 +158-003+; 5347.1 Kalibangan H245.0 V42.0 TNone +740-000+; 5532.1 Mohenjo-daro H600.0 V580.0 TNone +000-004-033+
+  graffito sherds with wall thickness (a proxy for vessel size): 52, sites {'Allahdino': 1, 'Harappa': 2, 'Kalibangan': 48, 'Nuhato': 1}
+  Conclusion on coverage: H and V of fragments are SHERD sizes, not vessel sizes. Only wall thickness is a vessel-size proxy. No shape class is recorded for 612 of 635 pots.
+
+-- (a) numeral value vs wall thickness --
+  lone numeral       tall  n=1 (too few)  pairs=[(5, 20.0)]
+  lone numeral       short n=0 (too few)  pairs=[]
+  lone numeral       both  n=1 (too few)  pairs=[(5, 20.0)]
+  numeral-first text tall  n=  4 rho=+0.33 p_perm(site x subtype)=0.837  pairs=[(2, 12.5), (4, 12.0), (4, 12.0), (5, 20.0)]
+  numeral-first text short n=0 (too few)  pairs=[]
+  numeral-first text both  n=  4 rho=+0.33 p_perm(site x subtype)=0.842  pairs=[(2, 12.5), (4, 12.0), (4, 12.0), (5, 20.0)]
+
+-- (a) numeral value vs sherd H (max dimension) --
+  lone numeral       tall  n=1 (too few)  pairs=[(5, 184.0)]
+  lone numeral       short n=1 (too few)  pairs=[(3, 13.0)]
+  lone numeral       both  n=2 (too few)  pairs=[(3, 13.0), (5, 184.0)]
+  numeral-first text tall  n=  5 rho=+0.74 p_perm(site x subtype)=0.190  pairs=[(2, 54.0), (4, 78.0), (4, 112.0), (5, 105.0), (5, 184.0)]
+  numeral-first text short n=  4 rho=+0.60 p_perm(site x subtype)=0.487  pairs=[(2, 14.0), (3, 13.0), (4, 600.0), (6, 35.0)]
+  numeral-first text both  n=  9 rho=+0.41 p_perm(site x subtype)=0.035  pairs=[(2, 14.0), (2, 54.0), (3, 13.0), (4, 78.0), (4, 112.0), (4, 600.0), (5, 105.0), (5, 184.0), (6, 35.0)]
+
+-- (a) numeral value vs sherd V --
+  lone numeral       tall  n=1 (too few)  pairs=[(5, 148.0)]
+  lone numeral       short n=3 (too few)  pairs=[(3, 13.5), (3, 14.5), (10, 162.1)]
+  lone numeral       both  n=  4 rho=+0.95 p_perm(site x subtype)=0.345  pairs=[(3, 13.5), (3, 14.5), (5, 148.0), (10, 162.1)]
+  numeral-first text tall  n=  5 rho=+0.74 p_perm(site x subtype)=0.209  pairs=[(2, 42.0), (4, 46.0), (4, 61.0), (5, 53.0), (5, 148.0)]
+  numeral-first text short n=  6 rho=+0.41 p_perm(site x subtype)=0.488  pairs=[(2, 10.0), (3, 13.5), (3, 14.5), (4, 580.0), (6, 10.0), (10, 162.1)]
+  numeral-first text both  n= 11 rho=+0.46 p_perm(site x subtype)=0.138  pairs=[(2, 10.0), (2, 42.0), (3, 13.5), (3, 14.5), (4, 46.0), (4, 61.0), (4, 580.0), (5, 53.0), (5, 148.0), (6, 10.0), (10, 162.1)]
+
+-- (a2) is a lone sign a size class? dims of pots carrying X alone vs other pots (median diff, label permuted within site x subtype) --
+  T jar W740 alone     n_X=  0 n_other= 52 median diff=nan p=nan
+  T tree alone         n_X=  2 n_other= 50 median diff=0.0 p=1.000
+  T fish alone         n_X=  0 n_other= 52 median diff=nan p=nan
+  T any numeral alone  n_X=  1 n_other= 51 median diff=nan p=nan
+  T jar anywhere       n_X= 12 n_other= 40 median diff=1.4 p=0.727
+  H jar W740 alone     n_X=  0 n_other= 81 median diff=nan p=nan
+  H tree alone         n_X=  2 n_other= 79 median diff=57.5 p=0.195
+  H fish alone         n_X=  0 n_other= 81 median diff=nan p=nan
+  H any numeral alone  n_X=  2 n_other= 79 median diff=23.5 p=0.514
+  H jar anywhere       n_X= 16 n_other= 65 median diff=27.5 p=0.200
+  V jar W740 alone     n_X=  0 n_other= 86 median diff=nan p=nan
+  V tree alone         n_X=  2 n_other= 84 median diff=42.0 p=0.183
+  V fish alone         n_X=  0 n_other= 86 median diff=nan p=nan
+  V any numeral alone  n_X=  4 n_other= 82 median diff=30.2 p=0.847
+  V jar anywhere       n_X= 17 n_other= 69 median diff=14.0 p=0.466
+
+-- (a3) within-text consistency check: two numerals on one pot (e.g. 34-999-34): same value? (needs no dimensions) --
+  pots with >=2 numerals: same value 14, different 28; texts: ['+405-844-032-840-002-861+', ']000-055-033-033+', '+031-034-060-692[', '+034-000-033+', '+031-999-032+', '+000-480-003-064-002-003-861+', '+740-175-415-033-001+', ']034-031[', '+002-002+', ']034-002-817[', '+035/032-001-000/033+', '+002-003+', '+031-005+', ']033-220-520-032-000[', '+031-220-000-741-850-001-111-003+', '+033-003+', '+390-001-000-142-031+', '+808-033-002-000-031+', '+790-032-033-705+', ']000-061-032-000-031-530-742[', ']035-033-005+', ']031-000-031[', '+740-900-003-999-741-017-440[', '+034-032-032+', '+034-999-034+', '+480-003-031+', '+032-999-032+', '+033-033[', '+032-999-002+', '+032-031+', ']033-033-003+', '+034-999-034+', ']007-034[', '+034-033-033+', ']002-031-820[', '+033-999-400-090-740-100-000-002-892-000-002+', '+001-031+', ']000-004-480-003-000[', ']032-480-002[', '+031-999-032+', '+003-031[', '+000-004-033+']
