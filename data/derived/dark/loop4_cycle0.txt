@@ -31,3 +31,23 @@ Indus: fit (MD+Harappa) 2746 texts, test (other named sites) 825 texts, 2627 tes
 
 ## Indus level seq_strong
   [seq_strong] baseline sign level: bits=7.538 uniq=1.028 rep=0.274 gram=0.441 units=649
+    bpe k=40 T=5 s=0             bits=7.500 uniq=1.039 rep=0.477 gram=0.298 units=688
+    bpe k=40 T=1 s=0             bits=7.501 uniq=1.039 rep=0.472 gram=0.297 units=688
+    bpe k=10 T=1 s=0             bits=7.511 uniq=1.025 rep=0.361 gram=0.347 units=659
+    bpe k=10 T=5 s=0             bits=7.524 uniq=1.029 rep=0.366 gram=0.347 units=659
+    sign                         bits=7.538 uniq=1.028 rep=0.274 gram=0.441 units=649
+    sub ligs                     bits=7.559 uniq=1.028 rep=0.352 gram=0.441 units=638
+    sub rand0                    bits=7.626 uniq=1.024 rep=0.420 gram=0.441 units=631
+    sub rand1                    bits=7.634 uniq=1.025 rep=0.416 gram=0.441 units=627
+    sub marks                    bits=7.650 uniq=1.020 rep=0.494 gram=0.441 units=618
+    sub all                      bits=7.672 uniq=1.018 rep=0.522 gram=0.441 units=614
+  [seq_strong] best per statistic (delta vs sign level):
+    bits  bpe k=40 T=5 s=0             7.500  (sign 7.538, delta -0.038)  bits/sign lower=more predictable
+    uniq  sub all                      1.018  (sign 1.028, delta -0.010)  uniq ratio lower=texts recur more than bigram
+    rep   sub ligs                     0.352  (sign 0.274, delta +0.078)  within-text repetition ratio
+    gram  sub rand1                    0.441  (sign 0.441, delta +0.000)  grammar-covered token share
+    segmentations beating sign level on bits AND (uniq or rep): 1 of 9: bpe k=10 T=1 s=0
+    first merges of best BPE: 760+740 (M347/358+M342); 740+400 (M342+M176); 740+90 (M342+M1); 861+2 (M267+M99/100); 590+390 (M249+M161/162/167/168/169); 32+220 (M87+M59); 705+33 (M336+M89); 820+2 (M391+M99/100); 590+390+740 (M249+M161/162/167/168/169+M342); 705+33+520 (M336+M89+M211); 176+740 (M48+M342); 100+740 (M8+M342)
+
+## Indus level seq_all
+  [seq_all] baseline sign level: bits=7.511 uniq=1.027 rep=0.275 gram=0.441 units=643
