@@ -125,19 +125,28 @@ for it in range(NPERM):
 # null for class / position fields: random sign sets of the same K drawn with probability ~ frequency, evaluated on their token counts
 tokfreq = collections.Counter(alltok); types = list(tokfreq); wts = [tokfreq[w] for w in types]
 def null_class(K, N):
+    """K sign types drawn with probability ~ token frequency; the field = their corpus frequencies"""
     out = []
     for it in range(NPERM):
         pick = set()
-        while len(pick) < K: pick.add(rnd.choices(types, wts)[0])
+        while len(pick) < K: pick.update(rnd.choices(types, wts, k=K))
+        pick = list(pick)[:K]
         c = collections.Counter({w: tokfreq[w] for w in pick}); out.append(metrics(c)['ED'])
     return out
+def null_sample(N):
+    """N tokens drawn at random from all tokens of the corpus (a frequency-matched random field of the same size)"""
+    out = []
+    for it in range(NPERM):
+        c = collections.Counter(rnd.sample(alltok, N)); out.append(metrics(c)['ED'])
+    return out
 
-say('\n== Indus fields (Wells). P_even = share of null fields at least as even (Simpson D/K); null for slots = labels permuted over tokens, for classes/positions = K signs drawn by frequency')
+say('\n== Indus fields (Wells). P_even = share of null fields at least as even (Simpson D/K); null for slots = labels permuted over tokens, for classes = K signs drawn by frequency, for positions = N tokens sampled at random')
 summary = {}
 for name in sorted(F, key=lambda k: (k.split()[0], k)):
     m = metrics(F[name])
     if name in nullED and nullED[name]: nl = nullED[name]
-    else: nl = null_class(m['K'], m['N'])
+    elif name.startswith('class'): nl = null_class(m['K'], m['N'])
+    else: nl = null_sample(m['N'])
     nl_s = sorted(nl); P = (sum(1 for v in nl if v >= m['ED']) + 1) / (len(nl) + 1)
     say(f"{name:44s} {fmt(m, P, (sum(nl)/len(nl), nl_s[int(0.025*len(nl))], nl_s[int(0.975*len(nl))-1]))}  excl: >=2 tokens in {excl.get(name,(0,0))[0]}/{excl.get(name,(0,0))[1]} texts")
     summary[name] = dict(m, P=P, band=band(m))

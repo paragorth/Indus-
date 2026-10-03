@@ -145,20 +145,24 @@ for (sa, ka), (sb, kb), lab in [(('Mohenjo-daro', 'depth'), ('Harappa', 'depth')
         return sxy / math.sqrt(sxx * syy) if sxx and syy else 0.0
     rho = spearman([ma[w] for w in shared], [sign * mb[w] for w in shared])
     # null: shuffle the dating labels within type at both sites, recompute
-    null = []
-    for it in range(min(NPERM, 500)):
-        for D, k in ((Da, ka), (Db, kb)):
-            groups = collections.defaultdict(list)
-            for o in D: groups[o['type2']].append(o)
-            for g in groups.values():
-                vs = [o['pct_' + k] for o in g]; rnd.shuffle(vs)
-                for o, x in zip(g, vs): o['tmp'] = x
-        na = {w: statistics.mean(o['tmp'] for o in Da if w in o['signs']) for w in shared}
-        nb = {w: statistics.mean(o['tmp'] for o in Db if w in o['signs']) for w in shared}
-        null.append(spearman([na[w] for w in shared], [sign * nb[w] for w in shared]))
-    null_s = sorted(null)
-    say(f'-- cross-city {lab}: {len(shared)} shared elements (>= {MINN} dated objects each side); Spearman rho of mean within-city time percentile = {rho:+.3f}; '
-        f'null (labels shuffled within type) mean {sum(null)/len(null):+.3f} [{null_s[int(0.025*len(null))]:+.3f}, {null_s[int(0.975*len(null))-1]:+.3f}], P_hi = {pval(rho, null):.3f}')
+    msg = f'-- cross-city {lab}: {len(shared)} shared elements (>= {MINN} dated objects each side); Spearman rho of mean within-city time percentile = {rho:+.3f};'
+    for nname, keyf in (('type', lambda o: o['type2']), ('type x area', lambda o: (o['type2'], o['area']))):
+        null = []
+        for it in range(min(NPERM, 500)):
+            for D, k in ((Da, ka), (Db, kb)):
+                groups = collections.defaultdict(list)
+                for o in D: groups[keyf(o)].append(o)
+                for g in groups.values():
+                    vs = [o['pct_' + k] for o in g]; rnd.shuffle(vs)
+                    for o, x in zip(g, vs): o['tmp'] = x
+            na = {w: statistics.mean(o['tmp'] for o in Da if w in o['signs']) for w in shared}
+            nb = {w: statistics.mean(o['tmp'] for o in Db if w in o['signs']) for w in shared}
+            null.append(spearman([na[w] for w in shared], [sign * nb[w] for w in shared]))
+        null_s = sorted(null)
+        msg += f' null [{nname}] mean {sum(null)/len(null):+.3f} [{null_s[int(0.025*len(null))]:+.3f}, {null_s[int(0.975*len(null))-1]:+.3f}] P_hi = {pval(rho, null):.3f};'
+    say(msg)
+    top = sorted(shared, key=lambda w: -(ca[w] + cb[w]))[:12]
+    say('   shared elements, mean percentile MD / HP: ' + ', '.join(f'W{w} {ma[w]:.2f}/{mb[w]:.2f}' for w in top))
     # the elements most concentrated in both cities: do their bands agree?
     both = [w for w in shared if w in R_md and w in R_hp and R_md[w]['p_peak2'] < 0.1 and R_hp[w]['p_peak2'] < 0.1] if ka == kb == 'depth' else []
     if ka == kb == 'depth':
