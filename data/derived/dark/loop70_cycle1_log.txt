@@ -1,0 +1,239 @@
+LOOP 70 cycle 1: break rate inside candidate units vs random / ink-midpoint / ink-balance nulls
+Wells: 2194 single-line complete texts (deduplicated), 77 multi-segment texts (Counter({2: 73, 3: 4})), home 59
+Unit set sizes: QH 72, OPEN 7, NUM 306, FISH 38, FROZEN 5, UNIT 401
+FROZEN pairs: 171-35 255-435 435-690 484-337 705-33
+Observed Wells junctions (canonical order, reading order: last of segment | first of next) with category:
+  740|33 [BOUND] x4; 740|31 [BOUND] x2; 2|240 [BOUND] x2; 226|32 [BOUND] x2; 400|790 [BOUND] x2; 90|621 [BOUND] x2; 151|31 [BOUND] x1; 850|31 [BOUND] x1; 32|690 [NUM/UNIT] x1; 90|521 [BOUND] x1; 232|140 [MIDMID] x1; 368|32 [BOUND] x1; 740|165 [BOUND] x1; 3|3 [BOUND] x1; 740|840 [BOUND] x1; 453|700 [BOUND] x1; 32|32 [BOUND] x1; 2|3 [BOUND] x1; 798|599 [MIDMID] x1; 520|920 [BOUND] x1; 740|705 [BOUND] x1; 520|97 [BOUND] x1; 740|60 [BOUND] x1; 530|220 [BOUND] x1; 368|717 [MIDMID] x1; 400|947 [BOUND] x1; 60|240 [BOUND] x1; 226|685 [BOUND] x1; 31|32 [BOUND] x1; 740|406 [BOUND] x1; 740|240 [BOUND] x1; 740|194 [BOUND] x1; 740|550 [BOUND] x1; 821|706 [BOUND] x1; 617|319 [BOUND] x1; 740|413 [BOUND] x1; 90|740 [BOUND] x1; 6|832 [MIDMID] x1; 4|7 [BOUND] x1; 156|61 [BOUND] x1; 220|260 [BOUND] x1; 740|200 [BOUND] x1; 740|368 [BOUND] x1; 740|457 [BOUND] x1; 90|518 [BOUND] x1; 740|688 [BOUND] x1; 740|858 [BOUND] x1; 740|4 [BOUND] x1; 804|930 [MIDMID] x1; 892|575 [MIDMID] x1; 90|820 [BOUND] x1; 2|740 [BOUND] x1; 60|1 [BOUND] x1; 740|621 [BOUND] x1; 520|466 [BOUND] x1; 600|15 [BOUND] x1; 617|235 [BOUND] x1; 407|905 [MIDMID] x1; 740|125 [BOUND] x1; 740|643 [BOUND] x1; 892|220 [BOUND] x1; 70|930 [MIDMID] x1; 2|220 [BOUND] x1; 520|350 [BOUND] x1; 740|692 [BOUND] x1; 353|544 [MIDMID] x1; 231|32 [BOUND] x1; 740|790 [BOUND] x1; 790|840 [MIDMID] x1; 2|67 [BOUND] x1; 390|513 [BOUND] x1; 740|740 [BOUND] x1; 4|4 [BOUND] x1
+Segment sizes: [((4, 2), 7), ((6, 1), 7), ((1, 1), 6), ((5, 2), 5), ((3, 2), 5), ((6, 3), 5), ((5, 3), 5), ((6, 2), 3), ((2, 3), 3), ((2, 2), 3), ((3, 3), 3), ((4, 3), 3), ((5, 4), 2), ((2, 4), 2), ((9, 4), 2), ((4, 1), 2), ((6, 5), 2), ((3, 1), 2), ((7, 2), 1), ((5, 3, 2), 1), ((1, 2), 1), ((8, 2), 1), ((1, 2, 1), 1), ((2, 2, 1), 1), ((6, 4, 7), 1), ((10, 3), 1), ((7, 3), 1), ((4, 4), 1)]
+-- Wells seq_raw canon all (n=77)
+   QH: O 0/77 | uni E 5.9 O/E 0.00 pL 0.001 pH 1.000 | mid E 10.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 5.4 O/E 0.00 pL 0.001 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.7 O/E 0.00 pL 0.444 pH 1.000
+   NUM: O 1/77 | uni E 3.3 O/E 0.30 pL 0.125 pH 0.976 | mid E 3.0 O/E 0.33 pL 0.000 pH 1.000 | bal E 2.1 O/E 0.48 pL 0.328 pH 0.922
+   FISH: O 0/77 | uni E 2.1 O/E 0.00 pL 0.081 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.211 pH 1.000
+   FROZEN: O 0/77 | uni E 0.7 O/E 0.00 pL 0.486 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.4 O/E 0.00 pL 0.625 pH 1.000
+   UNIT: O 1/77 | uni E 13.2 O/E 0.08 pL 0.000 pH 1.000 | mid E 13.0 O/E 0.08 pL 0.000 pH 1.000 | bal E 8.2 O/E 0.12 pL 0.000 pH 1.000
+   MIDMID: O 10/77 | uni E 18.6 O/E 0.54 pL 0.003 pH 0.999 | mid E 17.0 O/E 0.59 pL 0.000 pH 1.000 | bal E 14.9 O/E 0.67 pL 0.020 pH 0.995
+   BOUND: O 67/77 | uni E 47.7 O/E 1.41 pL 1.000 pH 0.000 | mid E 51.0 O/E 1.31 pL 1.000 pH 0.000 | bal E 56.1 O/E 1.19 pL 1.000 pH 0.000
+-- Wells seq_raw canon home (n=59)
+   QH: O 0/59 | uni E 5.2 O/E 0.00 pL 0.003 pH 1.000 | mid E 9.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 4.9 O/E 0.00 pL 0.002 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.556 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.091 pH 1.000 | mid E 3.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.250 pH 1.000
+   FISH: O 0/59 | uni E 1.9 O/E 0.00 pL 0.101 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.281 pH 1.000
+   FROZEN: O 0/59 | uni E 0.7 O/E 0.00 pL 0.486 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.4 O/E 0.00 pL 0.625 pH 1.000
+   UNIT: O 0/59 | uni E 10.7 O/E 0.00 pL 0.000 pH 1.000 | mid E 12.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.6 O/E 0.00 pL 0.000 pH 1.000
+   MIDMID: O 8/59 | uni E 15.3 O/E 0.52 pL 0.006 pH 0.998 | mid E 14.0 O/E 0.57 pL 0.000 pH 1.000 | bal E 12.1 O/E 0.66 pL 0.030 pH 0.993
+   BOUND: O 52/59 | uni E 35.5 O/E 1.46 pL 1.000 pH 0.000 | mid E 37.0 O/E 1.41 pL 1.000 pH 0.000 | bal E 42.5 O/E 1.22 pL 1.000 pH 0.000
+-- Wells seq_raw canon other (n=18)
+   QH: O 0/18 | uni E 0.7 O/E 0.00 pL 0.467 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.562 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.800 pH 1.000
+   NUM: O 1/18 | uni E 1.2 O/E 0.86 pL 0.669 pH 0.733 | mid E 0.0 O/E nan pL 1.000 pH 0.000 | bal E 0.9 O/E 1.09 pL 0.792 pH 0.688
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.0 O/E nan pL 1.000 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.0 O/E nan pL 1.000 pH 1.000
+   UNIT: O 1/18 | uni E 2.5 O/E 0.40 pL 0.245 pH 0.944 | mid E 1.0 O/E 1.00 pL 1.000 pH 1.000 | bal E 1.6 O/E 0.62 pL 0.473 pH 0.875
+   MIDMID: O 2/18 | uni E 3.3 O/E 0.60 pL 0.290 pH 0.906 | mid E 3.0 O/E 0.67 pL 0.000 pH 1.000 | bal E 2.8 O/E 0.71 pL 0.389 pH 0.907
+   BOUND: O 15/18 | uni E 12.2 O/E 1.23 pL 0.970 pH 0.100 | mid E 14.0 O/E 1.07 pL 1.000 pH 0.000 | bal E 13.5 O/E 1.11 pL 0.921 pH 0.257
+-- Wells seq_raw agnostic all (n=77)
+   QH: O 0/77 | uni E 5.9 O/E 0.00 pL 0.001 pH 1.000 | mid E 5.3 O/E 0.00 pL 0.001 pH 1.000 | bal E 3.8 O/E 0.00 pL 0.014 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.5 O/E 0.00 pL 0.203 pH 1.000
+   NUM: O 2/77 | uni E 4.3 O/E 0.46 pL 0.144 pH 0.961 | mid E 2.7 O/E 0.75 pL 0.448 pH 0.839 | bal E 2.6 O/E 0.76 pL 0.475 pH 0.829
+   FISH: O 0/77 | uni E 2.2 O/E 0.00 pL 0.070 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.272 pH 1.000
+   FROZEN: O 0/77 | uni E 0.7 O/E 0.00 pL 0.486 pH 1.000 | mid E 0.7 O/E 0.00 pL 0.417 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.735 pH 1.000
+   UNIT: O 2/77 | uni E 14.1 O/E 0.14 pL 0.000 pH 1.000 | mid E 10.8 O/E 0.18 pL 0.000 pH 1.000 | bal E 8.5 O/E 0.23 pL 0.002 pH 1.000
+   MIDMID: O 34/77 | uni E 32.8 O/E 1.04 pL 0.710 pH 0.410 | mid E 33.8 O/E 1.00 pL 0.631 pH 0.565 | bal E 34.0 O/E 1.00 pL 0.584 pH 0.592
+   BOUND: O 72/77 | uni E 68.8 O/E 1.05 pL 0.969 pH 0.094 | mid E 68.5 O/E 1.05 pL 0.994 pH 0.033 | bal E 69.8 O/E 1.03 pL 0.963 pH 0.144
+-- Wells seq_raw agnostic home (n=59)
+   QH: O 0/59 | uni E 5.2 O/E 0.00 pL 0.003 pH 1.000 | mid E 4.8 O/E 0.00 pL 0.001 pH 1.000 | bal E 3.4 O/E 0.00 pL 0.022 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.282 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.086 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 1.0 O/E 0.00 pL 0.332 pH 1.000
+   FISH: O 0/59 | uni E 2.0 O/E 0.00 pL 0.087 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.363 pH 1.000
+   FROZEN: O 0/59 | uni E 0.7 O/E 0.00 pL 0.486 pH 1.000 | mid E 0.7 O/E 0.00 pL 0.417 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.735 pH 1.000
+   UNIT: O 0/59 | uni E 10.8 O/E 0.00 pL 0.000 pH 1.000 | mid E 9.3 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.2 O/E 0.00 pL 0.001 pH 1.000
+   MIDMID: O 29/59 | uni E 27.0 O/E 1.07 pL 0.822 pH 0.290 | mid E 27.3 O/E 1.06 pL 0.869 pH 0.273 | bal E 28.2 O/E 1.03 pL 0.731 pH 0.454
+   BOUND: O 55/59 | uni E 51.8 O/E 1.06 pL 0.982 pH 0.073 | mid E 51.5 O/E 1.07 pL 0.998 pH 0.020 | bal E 53.0 O/E 1.04 pL 0.971 pH 0.150
+-- Wells seq_raw agnostic other (n=18)
+   QH: O 0/18 | uni E 0.7 O/E 0.00 pL 0.467 pH 1.000 | mid E 0.5 O/E 0.00 pL 0.500 pH 1.000 | bal E 0.4 O/E 0.00 pL 0.656 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.720 pH 1.000
+   NUM: O 2/18 | uni E 2.1 O/E 0.96 pL 0.669 pH 0.699 | mid E 1.0 O/E 2.00 pL 1.000 pH 0.250 | bal E 1.6 O/E 1.22 pL 0.869 pH 0.574
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.0 O/E nan pL 1.000 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.0 O/E nan pL 1.000 pH 1.000
+   UNIT: O 2/18 | uni E 3.3 O/E 0.60 pL 0.285 pH 0.914 | mid E 1.5 O/E 1.33 pL 0.875 pH 0.500 | bal E 2.3 O/E 0.85 pL 0.568 pH 0.808
+   MIDMID: O 5/18 | uni E 5.8 O/E 0.86 pL 0.416 pH 0.823 | mid E 6.5 O/E 0.77 pL 0.000 pH 1.000 | bal E 5.8 O/E 0.87 pL 0.395 pH 0.911
+   BOUND: O 17/18 | uni E 17.0 O/E 1.00 pL 0.685 pH 0.723 | mid E 17.0 O/E 1.00 pL 0.750 pH 0.750 | bal E 16.8 O/E 1.01 pL 0.852 pH 0.677
+-- Wells seq_strong canon all (n=77)
+   QH: O 0/77 | uni E 6.3 O/E 0.00 pL 0.001 pH 1.000 | mid E 10.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 5.4 O/E 0.00 pL 0.001 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.7 O/E 0.00 pL 0.444 pH 1.000
+   NUM: O 1/77 | uni E 3.3 O/E 0.30 pL 0.125 pH 0.976 | mid E 3.0 O/E 0.33 pL 0.000 pH 1.000 | bal E 2.1 O/E 0.48 pL 0.328 pH 0.922
+   FISH: O 0/77 | uni E 2.1 O/E 0.00 pL 0.081 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.211 pH 1.000
+   FROZEN: O 0/77 | uni E 2.0 O/E 0.00 pL 0.092 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.333 pH 1.000
+   UNIT: O 1/77 | uni E 13.6 O/E 0.07 pL 0.000 pH 1.000 | mid E 13.0 O/E 0.08 pL 0.000 pH 1.000 | bal E 8.2 O/E 0.12 pL 0.000 pH 1.000
+   MIDMID: O 10/77 | uni E 18.4 O/E 0.54 pL 0.004 pH 0.999 | mid E 17.0 O/E 0.59 pL 0.000 pH 1.000 | bal E 14.8 O/E 0.68 pL 0.023 pH 0.994
+   BOUND: O 67/77 | uni E 47.4 O/E 1.41 pL 1.000 pH 0.000 | mid E 51.0 O/E 1.31 pL 1.000 pH 0.000 | bal E 56.1 O/E 1.19 pL 1.000 pH 0.000
+-- Wells seq_strong canon home (n=59)
+   QH: O 0/59 | uni E 5.4 O/E 0.00 pL 0.002 pH 1.000 | mid E 9.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 4.9 O/E 0.00 pL 0.002 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.556 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.091 pH 1.000 | mid E 3.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.250 pH 1.000
+   FISH: O 0/59 | uni E 1.9 O/E 0.00 pL 0.101 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.281 pH 1.000
+   FROZEN: O 0/59 | uni E 1.5 O/E 0.00 pL 0.169 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.7 O/E 0.00 pL 0.417 pH 1.000
+   UNIT: O 0/59 | uni E 10.8 O/E 0.00 pL 0.000 pH 1.000 | mid E 12.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.6 O/E 0.00 pL 0.000 pH 1.000
+   MIDMID: O 8/59 | uni E 15.1 O/E 0.53 pL 0.006 pH 0.998 | mid E 14.0 O/E 0.57 pL 0.000 pH 1.000 | bal E 12.0 O/E 0.67 pL 0.034 pH 0.992
+   BOUND: O 52/59 | uni E 35.5 O/E 1.46 pL 1.000 pH 0.000 | mid E 37.0 O/E 1.41 pL 1.000 pH 0.000 | bal E 42.5 O/E 1.22 pL 1.000 pH 0.000
+-- Wells seq_strong canon other (n=18)
+   QH: O 0/18 | uni E 0.9 O/E 0.00 pL 0.350 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.562 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.800 pH 1.000
+   NUM: O 1/18 | uni E 1.2 O/E 0.86 pL 0.669 pH 0.733 | mid E 0.0 O/E nan pL 1.000 pH 0.000 | bal E 0.9 O/E 1.09 pL 0.792 pH 0.688
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.5 O/E 0.00 pL 0.547 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.800 pH 1.000
+   UNIT: O 1/18 | uni E 2.8 O/E 0.36 pL 0.188 pH 0.963 | mid E 1.0 O/E 1.00 pL 1.000 pH 1.000 | bal E 1.6 O/E 0.62 pL 0.473 pH 0.875
+   MIDMID: O 2/18 | uni E 3.3 O/E 0.60 pL 0.290 pH 0.906 | mid E 3.0 O/E 0.67 pL 0.000 pH 1.000 | bal E 2.8 O/E 0.71 pL 0.389 pH 0.907
+   BOUND: O 15/18 | uni E 11.9 O/E 1.26 pL 0.978 pH 0.079 | mid E 14.0 O/E 1.07 pL 1.000 pH 0.000 | bal E 13.5 O/E 1.11 pL 0.921 pH 0.257
+-- Wells seq_strong agnostic all (n=77)
+   QH: O 0/77 | uni E 6.6 O/E 0.00 pL 0.001 pH 1.000 | mid E 6.2 O/E 0.00 pL 0.000 pH 1.000 | bal E 4.3 O/E 0.00 pL 0.008 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.5 O/E 0.00 pL 0.202 pH 1.000
+   NUM: O 2/77 | uni E 4.3 O/E 0.46 pL 0.144 pH 0.961 | mid E 2.7 O/E 0.75 pL 0.448 pH 0.839 | bal E 2.7 O/E 0.75 pL 0.468 pH 0.832
+   FISH: O 0/77 | uni E 2.2 O/E 0.00 pL 0.070 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.272 pH 1.000
+   FROZEN: O 0/77 | uni E 2.1 O/E 0.00 pL 0.089 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.298 pH 1.000
+   UNIT: O 2/77 | uni E 14.6 O/E 0.14 pL 0.000 pH 1.000 | mid E 11.3 O/E 0.18 pL 0.000 pH 1.000 | bal E 8.9 O/E 0.23 pL 0.001 pH 1.000
+   MIDMID: O 34/77 | uni E 32.7 O/E 1.04 pL 0.719 pH 0.400 | mid E 33.8 O/E 1.00 pL 0.631 pH 0.565 | bal E 34.0 O/E 1.00 pL 0.580 pH 0.596
+   BOUND: O 72/77 | uni E 68.9 O/E 1.05 pL 0.967 pH 0.100 | mid E 68.5 O/E 1.05 pL 0.994 pH 0.033 | bal E 69.8 O/E 1.03 pL 0.963 pH 0.144
+-- Wells seq_strong agnostic home (n=59)
+   QH: O 0/59 | uni E 5.7 O/E 0.00 pL 0.002 pH 1.000 | mid E 5.2 O/E 0.00 pL 0.001 pH 1.000 | bal E 3.7 O/E 0.00 pL 0.016 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.280 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.086 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 1.0 O/E 0.00 pL 0.325 pH 1.000
+   FISH: O 0/59 | uni E 2.0 O/E 0.00 pL 0.087 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.363 pH 1.000
+   FROZEN: O 0/59 | uni E 1.5 O/E 0.00 pL 0.162 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 0.8 O/E 0.00 pL 0.413 pH 1.000
+   UNIT: O 0/59 | uni E 11.0 O/E 0.00 pL 0.000 pH 1.000 | mid E 9.3 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.3 O/E 0.00 pL 0.000 pH 1.000
+   MIDMID: O 29/59 | uni E 26.9 O/E 1.08 pL 0.830 pH 0.280 | mid E 27.3 O/E 1.06 pL 0.869 pH 0.273 | bal E 28.3 O/E 1.03 pL 0.727 pH 0.458
+   BOUND: O 55/59 | uni E 51.9 O/E 1.06 pL 0.980 pH 0.078 | mid E 51.5 O/E 1.07 pL 0.998 pH 0.020 | bal E 53.0 O/E 1.04 pL 0.971 pH 0.150
+-- Wells seq_strong agnostic other (n=18)
+   QH: O 0/18 | uni E 0.9 O/E 0.00 pL 0.350 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.250 pH 1.000 | bal E 0.6 O/E 0.00 pL 0.492 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.720 pH 1.000
+   NUM: O 2/18 | uni E 2.1 O/E 0.96 pL 0.669 pH 0.699 | mid E 1.0 O/E 2.00 pL 1.000 pH 0.250 | bal E 1.6 O/E 1.22 pL 0.869 pH 0.574
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.5 O/E 0.00 pL 0.547 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.720 pH 1.000
+   UNIT: O 2/18 | uni E 3.6 O/E 0.56 pL 0.226 pH 0.938 | mid E 2.0 O/E 1.00 pL 0.688 pH 0.688 | bal E 2.6 O/E 0.77 pL 0.474 pH 0.850
+   MIDMID: O 5/18 | uni E 5.8 O/E 0.86 pL 0.416 pH 0.823 | mid E 6.5 O/E 0.77 pL 0.000 pH 1.000 | bal E 5.8 O/E 0.87 pL 0.395 pH 0.911
+   BOUND: O 17/18 | uni E 17.0 O/E 1.00 pL 0.685 pH 0.723 | mid E 17.0 O/E 1.00 pL 0.750 pH 0.750 | bal E 16.8 O/E 1.01 pL 0.852 pH 0.677
+-- Wells seq_all canon all (n=77)
+   QH: O 0/77 | uni E 6.3 O/E 0.00 pL 0.001 pH 1.000 | mid E 10.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 5.4 O/E 0.00 pL 0.001 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.7 O/E 0.00 pL 0.444 pH 1.000
+   NUM: O 1/77 | uni E 3.3 O/E 0.30 pL 0.125 pH 0.976 | mid E 3.0 O/E 0.33 pL 0.000 pH 1.000 | bal E 2.1 O/E 0.48 pL 0.328 pH 0.922
+   FISH: O 0/77 | uni E 2.1 O/E 0.00 pL 0.081 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.211 pH 1.000
+   FROZEN: O 0/77 | uni E 2.0 O/E 0.00 pL 0.092 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.333 pH 1.000
+   UNIT: O 1/77 | uni E 13.6 O/E 0.07 pL 0.000 pH 1.000 | mid E 13.0 O/E 0.08 pL 0.000 pH 1.000 | bal E 8.2 O/E 0.12 pL 0.000 pH 1.000
+   MIDMID: O 10/77 | uni E 18.4 O/E 0.54 pL 0.004 pH 0.999 | mid E 17.0 O/E 0.59 pL 0.000 pH 1.000 | bal E 14.8 O/E 0.68 pL 0.023 pH 0.994
+   BOUND: O 67/77 | uni E 47.4 O/E 1.41 pL 1.000 pH 0.000 | mid E 51.0 O/E 1.31 pL 1.000 pH 0.000 | bal E 56.1 O/E 1.19 pL 1.000 pH 0.000
+-- Wells seq_all canon home (n=59)
+   QH: O 0/59 | uni E 5.4 O/E 0.00 pL 0.002 pH 1.000 | mid E 9.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 4.9 O/E 0.00 pL 0.002 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.556 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.091 pH 1.000 | mid E 3.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.250 pH 1.000
+   FISH: O 0/59 | uni E 1.9 O/E 0.00 pL 0.101 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.281 pH 1.000
+   FROZEN: O 0/59 | uni E 1.5 O/E 0.00 pL 0.169 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.7 O/E 0.00 pL 0.417 pH 1.000
+   UNIT: O 0/59 | uni E 10.8 O/E 0.00 pL 0.000 pH 1.000 | mid E 12.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.6 O/E 0.00 pL 0.000 pH 1.000
+   MIDMID: O 8/59 | uni E 15.1 O/E 0.53 pL 0.006 pH 0.998 | mid E 14.0 O/E 0.57 pL 0.000 pH 1.000 | bal E 12.0 O/E 0.67 pL 0.034 pH 0.992
+   BOUND: O 52/59 | uni E 35.5 O/E 1.46 pL 1.000 pH 0.000 | mid E 37.0 O/E 1.41 pL 1.000 pH 0.000 | bal E 42.5 O/E 1.22 pL 1.000 pH 0.000
+-- Wells seq_all canon other (n=18)
+   QH: O 0/18 | uni E 0.9 O/E 0.00 pL 0.350 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.562 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.800 pH 1.000
+   NUM: O 1/18 | uni E 1.2 O/E 0.86 pL 0.669 pH 0.733 | mid E 0.0 O/E nan pL 1.000 pH 0.000 | bal E 0.9 O/E 1.09 pL 0.792 pH 0.688
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.5 O/E 0.00 pL 0.547 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.800 pH 1.000
+   UNIT: O 1/18 | uni E 2.8 O/E 0.36 pL 0.188 pH 0.963 | mid E 1.0 O/E 1.00 pL 1.000 pH 1.000 | bal E 1.6 O/E 0.62 pL 0.473 pH 0.875
+   MIDMID: O 2/18 | uni E 3.3 O/E 0.60 pL 0.290 pH 0.906 | mid E 3.0 O/E 0.67 pL 0.000 pH 1.000 | bal E 2.8 O/E 0.71 pL 0.389 pH 0.907
+   BOUND: O 15/18 | uni E 11.9 O/E 1.26 pL 0.978 pH 0.079 | mid E 14.0 O/E 1.07 pL 1.000 pH 0.000 | bal E 13.5 O/E 1.11 pL 0.921 pH 0.257
+-- Wells seq_all agnostic all (n=77)
+   QH: O 0/77 | uni E 6.6 O/E 0.00 pL 0.001 pH 1.000 | mid E 6.2 O/E 0.00 pL 0.000 pH 1.000 | bal E 4.3 O/E 0.00 pL 0.008 pH 1.000
+   OPEN: O 0/77 | uni E 3.3 O/E 0.00 pL 0.024 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.5 O/E 0.00 pL 0.202 pH 1.000
+   NUM: O 2/77 | uni E 4.3 O/E 0.46 pL 0.144 pH 0.961 | mid E 2.7 O/E 0.75 pL 0.448 pH 0.839 | bal E 2.7 O/E 0.75 pL 0.468 pH 0.832
+   FISH: O 0/77 | uni E 2.2 O/E 0.00 pL 0.070 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.262 pH 1.000
+   FROZEN: O 0/77 | uni E 2.1 O/E 0.00 pL 0.089 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.298 pH 1.000
+   UNIT: O 2/77 | uni E 14.6 O/E 0.14 pL 0.000 pH 1.000 | mid E 11.3 O/E 0.18 pL 0.000 pH 1.000 | bal E 8.9 O/E 0.22 pL 0.001 pH 1.000
+   MIDMID: O 34/77 | uni E 32.7 O/E 1.04 pL 0.719 pH 0.400 | mid E 33.8 O/E 1.00 pL 0.631 pH 0.565 | bal E 34.0 O/E 1.00 pL 0.585 pH 0.590
+   BOUND: O 72/77 | uni E 68.9 O/E 1.05 pL 0.967 pH 0.100 | mid E 68.5 O/E 1.05 pL 0.994 pH 0.033 | bal E 69.8 O/E 1.03 pL 0.963 pH 0.144
+-- Wells seq_all agnostic home (n=59)
+   QH: O 0/59 | uni E 5.7 O/E 0.00 pL 0.002 pH 1.000 | mid E 5.2 O/E 0.00 pL 0.001 pH 1.000 | bal E 3.7 O/E 0.00 pL 0.016 pH 1.000
+   OPEN: O 0/59 | uni E 2.3 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.052 pH 1.000 | bal E 1.2 O/E 0.00 pL 0.280 pH 1.000
+   NUM: O 0/59 | uni E 2.2 O/E 0.00 pL 0.086 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 1.0 O/E 0.00 pL 0.325 pH 1.000
+   FISH: O 0/59 | uni E 2.0 O/E 0.00 pL 0.087 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.278 pH 1.000 | bal E 0.9 O/E 0.00 pL 0.349 pH 1.000
+   FROZEN: O 0/59 | uni E 1.5 O/E 0.00 pL 0.162 pH 1.000 | mid E 1.7 O/E 0.00 pL 0.104 pH 1.000 | bal E 0.8 O/E 0.00 pL 0.413 pH 1.000
+   UNIT: O 0/59 | uni E 11.0 O/E 0.00 pL 0.000 pH 1.000 | mid E 9.3 O/E 0.00 pL 0.000 pH 1.000 | bal E 6.3 O/E 0.00 pL 0.000 pH 1.000
+   MIDMID: O 29/59 | uni E 26.9 O/E 1.08 pL 0.830 pH 0.280 | mid E 27.3 O/E 1.06 pL 0.869 pH 0.273 | bal E 28.3 O/E 1.03 pL 0.727 pH 0.458
+   BOUND: O 55/59 | uni E 51.9 O/E 1.06 pL 0.980 pH 0.078 | mid E 51.5 O/E 1.07 pL 0.998 pH 0.020 | bal E 53.0 O/E 1.04 pL 0.971 pH 0.150
+-- Wells seq_all agnostic other (n=18)
+   QH: O 0/18 | uni E 0.9 O/E 0.00 pL 0.350 pH 1.000 | mid E 1.0 O/E 0.00 pL 0.250 pH 1.000 | bal E 0.6 O/E 0.00 pL 0.492 pH 1.000
+   OPEN: O 0/18 | uni E 0.9 O/E 0.00 pL 0.352 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.720 pH 1.000
+   NUM: O 2/18 | uni E 2.1 O/E 0.96 pL 0.669 pH 0.699 | mid E 1.0 O/E 2.00 pL 1.000 pH 0.250 | bal E 1.6 O/E 1.22 pL 0.869 pH 0.574
+   FISH: O 0/18 | uni E 0.2 O/E 0.00 pL 0.800 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/18 | uni E 0.5 O/E 0.00 pL 0.547 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.3 O/E 0.00 pL 0.720 pH 1.000
+   UNIT: O 2/18 | uni E 3.6 O/E 0.56 pL 0.226 pH 0.938 | mid E 2.0 O/E 1.00 pL 0.688 pH 0.688 | bal E 2.6 O/E 0.77 pL 0.474 pH 0.850
+   MIDMID: O 5/18 | uni E 5.8 O/E 0.86 pL 0.416 pH 0.823 | mid E 6.5 O/E 0.77 pL 0.000 pH 1.000 | bal E 5.7 O/E 0.87 pL 0.409 pH 0.902
+   BOUND: O 17/18 | uni E 17.0 O/E 1.00 pL 0.685 pH 0.723 | mid E 17.0 O/E 1.00 pL 0.750 pH 0.750 | bal E 16.8 O/E 1.01 pL 0.852 pH 0.677
+IM77: 1785 one-line sides, 87 multi-line sides (lines: Counter({2: 84, 3: 3})); home 63. Unit sizes: QH 62, OPEN 8, NUM 219, FISH 32, FROZEN 9, UNIT 308
+IM77 junctions (line i last | line i+1 first): 342|89 [BOUND] x3; 342|242 [BOUND] x3; 176|374 [BOUND] x2; 342|374 [BOUND] x2; 342|1 [BOUND] x2; 99|67 [BOUND] x2; 342|93 [BOUND] x2; 342|28 [BOUND] x1; 169|393 [BOUND] x1; 162|342 [QH/UNIT] x1; 67|342 [BOUND] x1; 342|347 [BOUND] x1; 342|266 [BOUND] x1; 245|186 [BOUND] x1; 343|244 [MIDMID] x1; 175|336 [BOUND] x1; 342|154 [BOUND] x1; 59|78 [BOUND] x1; 230|53 [MIDMID] x1; 81|87 [BOUND] x1; 175|214 [MIDMID] x1; 167|15 [BOUND] x1; 342|104 [BOUND] x1; 211|175 [BOUND] x1; 388|393 [MIDMID] x1; 307|197 [MIDMID] x1; 211|179 [BOUND] x1; 156|104 [BOUND] x1; 176|102 [BOUND] x1; 342|144 [BOUND] x1; 391|336 [BOUND] x1; 342|235 [BOUND] x1; 252|186 [MIDMID] x1; 99|59 [BOUND] x1; 211|242 [BOUND] x1; 342|402 [BOUND] x1; 334|393 [MIDMID] x1; 60|87 [BOUND] x1; 53|242 [MIDMID] x1; 86|211 [NUM/UNIT] x1; 1|391 [BOUND] x1; 391|197 [BOUND] x1; 307|59 [BOUND] x1; 109|162 [QH/NUM/UNIT] x1; 342|177 [BOUND] x1; 190|153 [MIDMID] x1; 15|124 [BOUND] x1; 123|197 [BOUND] x1; 342|55 [BOUND] x1; 342|216 [BOUND] x1; 123|100 [BOUND] x1; 1|398 [BOUND] x1; 99|397 [BOUND] x1; 245|65 [BOUND] x1; 169|295 [BOUND] x1; 342|97 [BOUND] x1; 53|237 [MIDMID] x1; 211|293 [BOUND] x1; 321|87 [BOUND] x1; 190|374 [MIDMID] x1
+-- IM77 known all (n=87)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 2/87 | uni E 8.4 O/E 0.24 pL 0.002 pH 1.000 | mid E 11.0 O/E 0.18 pL 0.000 pH 1.000 | bal E 7.9 O/E 0.25 pL 0.003 pH 1.000
+   OPEN: O 0/87 | uni E 3.2 O/E 0.00 pL 0.028 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.062 pH 1.000 | bal E 1.7 O/E 0.00 pL 0.152 pH 1.000
+   NUM: O 2/87 | uni E 6.9 O/E 0.29 pL 0.003 pH 1.000 | mid E 9.2 O/E 0.22 pL 0.000 pH 1.000 | bal E 5.8 O/E 0.34 pL 0.009 pH 1.000
+   FISH: O 0/87 | uni E 1.6 O/E 0.00 pL 0.157 pH 1.000 | mid E 1.3 O/E 0.00 pL 0.167 pH 1.000 | bal E 1.8 O/E 0.00 pL 0.105 pH 1.000
+   FROZEN: O 0/87 | uni E 2.4 O/E 0.00 pL 0.069 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 2.1 O/E 0.00 pL 0.082 pH 1.000
+   UNIT: O 3/87 | uni E 18.1 O/E 0.17 pL 0.000 pH 1.000 | mid E 18.7 O/E 0.16 pL 0.000 pH 1.000 | bal E 14.6 O/E 0.21 pL 0.000 pH 1.000
+   MIDMID: O 14/87 | uni E 18.6 O/E 0.75 pL 0.092 pH 0.952 | mid E 13.8 O/E 1.01 pL 0.664 pH 0.582 | bal E 15.3 O/E 0.91 pL 0.381 pH 0.756
+   BOUND: O 70/87 | uni E 52.0 O/E 1.35 pL 1.000 pH 0.000 | mid E 56.2 O/E 1.25 pL 1.000 pH 0.000 | bal E 58.8 O/E 1.19 pL 1.000 pH 0.001
+-- IM77 known home (n=63)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 2/63 | uni E 7.0 O/E 0.28 pL 0.010 pH 0.999 | mid E 8.0 O/E 0.25 pL 0.000 pH 1.000 | bal E 6.5 O/E 0.31 pL 0.013 pH 0.998
+   OPEN: O 0/63 | uni E 2.2 O/E 0.00 pL 0.084 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.062 pH 1.000 | bal E 1.1 O/E 0.00 pL 0.285 pH 1.000
+   NUM: O 2/63 | uni E 5.2 O/E 0.39 pL 0.026 pH 1.000 | mid E 6.7 O/E 0.30 pL 0.000 pH 1.000 | bal E 4.5 O/E 0.44 pL 0.046 pH 1.000
+   FISH: O 0/63 | uni E 1.4 O/E 0.00 pL 0.209 pH 1.000 | mid E 1.3 O/E 0.00 pL 0.167 pH 1.000 | bal E 1.6 O/E 0.00 pL 0.141 pH 1.000
+   FROZEN: O 0/63 | uni E 1.8 O/E 0.00 pL 0.134 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.6 O/E 0.00 pL 0.154 pH 1.000
+   UNIT: O 3/63 | uni E 14.2 O/E 0.21 pL 0.000 pH 1.000 | mid E 15.2 O/E 0.20 pL 0.000 pH 1.000 | bal E 11.7 O/E 0.26 pL 0.000 pH 1.000
+   MIDMID: O 11/63 | uni E 14.9 O/E 0.74 pL 0.113 pH 0.943 | mid E 11.3 O/E 0.97 pL 0.552 pH 0.734 | bal E 12.5 O/E 0.88 pL 0.336 pH 0.803
+   BOUND: O 49/63 | uni E 35.7 O/E 1.37 pL 1.000 pH 0.000 | mid E 38.2 O/E 1.28 pL 1.000 pH 0.000 | bal E 40.5 O/E 1.21 pL 0.999 pH 0.003
+-- IM77 known other (n=24)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 0/24 | uni E 1.3 O/E 0.00 pL 0.200 pH 1.000 | mid E 3.0 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.4 O/E 0.00 pL 0.167 pH 1.000
+   OPEN: O 0/24 | uni E 1.0 O/E 0.00 pL 0.331 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.533 pH 1.000
+   NUM: O 0/24 | uni E 1.7 O/E 0.00 pL 0.127 pH 1.000 | mid E 2.5 O/E 0.00 pL 0.000 pH 1.000 | bal E 1.3 O/E 0.00 pL 0.185 pH 1.000
+   FISH: O 0/24 | uni E 0.2 O/E 0.00 pL 0.750 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/24 | uni E 0.6 O/E 0.00 pL 0.514 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.533 pH 1.000
+   UNIT: O 0/24 | uni E 3.9 O/E 0.00 pL 0.007 pH 1.000 | mid E 3.5 O/E 0.00 pL 0.000 pH 1.000 | bal E 2.9 O/E 0.00 pL 0.025 pH 1.000
+   MIDMID: O 3/24 | uni E 3.7 O/E 0.81 pL 0.456 pH 0.820 | mid E 2.5 O/E 1.20 pL 0.875 pH 0.500 | bal E 2.8 O/E 1.08 pL 0.763 pH 0.592
+   BOUND: O 21/24 | uni E 16.3 O/E 1.28 pL 0.998 pH 0.012 | mid E 18.0 O/E 1.17 pL 1.000 pH 0.016 | bal E 18.3 O/E 1.14 pL 0.979 pH 0.090
+-- IM77 agnostic all (n=87)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 2/87 | uni E 8.8 O/E 0.23 pL 0.001 pH 1.000 | mid E 8.2 O/E 0.24 pL 0.001 pH 1.000 | bal E 7.4 O/E 0.27 pL 0.005 pH 0.999
+   OPEN: O 0/87 | uni E 3.2 O/E 0.00 pL 0.028 pH 1.000 | mid E 3.4 O/E 0.00 pL 0.014 pH 1.000 | bal E 2.5 O/E 0.00 pL 0.064 pH 1.000
+   NUM: O 2/87 | uni E 6.9 O/E 0.29 pL 0.003 pH 1.000 | mid E 8.0 O/E 0.25 pL 0.000 pH 1.000 | bal E 5.7 O/E 0.35 pL 0.013 pH 1.000
+   FISH: O 0/87 | uni E 1.7 O/E 0.00 pL 0.149 pH 1.000 | mid E 1.8 O/E 0.00 pL 0.114 pH 1.000 | bal E 1.7 O/E 0.00 pL 0.150 pH 1.000
+   FROZEN: O 0/87 | uni E 2.4 O/E 0.00 pL 0.066 pH 1.000 | mid E 3.1 O/E 0.00 pL 0.017 pH 1.000 | bal E 2.3 O/E 0.00 pL 0.078 pH 1.000
+   UNIT: O 3/87 | uni E 18.6 O/E 0.16 pL 0.000 pH 1.000 | mid E 19.3 O/E 0.16 pL 0.000 pH 1.000 | bal E 15.6 O/E 0.19 pL 0.000 pH 1.000
+   MIDMID: O 36/87 | uni E 34.8 O/E 1.03 pL 0.711 pH 0.414 | mid E 32.9 O/E 1.09 pL 0.951 pH 0.119 | bal E 33.5 O/E 1.07 pL 0.891 pH 0.209
+   BOUND: O 77/87 | uni E 77.0 O/E 1.00 pL 0.571 pH 0.606 | mid E 78.2 O/E 0.98 pL 0.335 pH 0.833 | bal E 77.5 O/E 0.99 pL 0.483 pH 0.698
+-- IM77 agnostic home (n=63)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 2/63 | uni E 7.5 O/E 0.27 pL 0.005 pH 0.999 | mid E 6.2 O/E 0.32 pL 0.011 pH 0.999 | bal E 6.1 O/E 0.33 pL 0.021 pH 0.997
+   OPEN: O 0/63 | uni E 2.2 O/E 0.00 pL 0.084 pH 1.000 | mid E 2.9 O/E 0.00 pL 0.028 pH 1.000 | bal E 2.0 O/E 0.00 pL 0.115 pH 1.000
+   NUM: O 2/63 | uni E 5.2 O/E 0.39 pL 0.026 pH 1.000 | mid E 5.8 O/E 0.35 pL 0.007 pH 1.000 | bal E 4.3 O/E 0.47 pL 0.070 pH 1.000
+   FISH: O 0/63 | uni E 1.4 O/E 0.00 pL 0.199 pH 1.000 | mid E 1.5 O/E 0.00 pL 0.152 pH 1.000 | bal E 1.4 O/E 0.00 pL 0.199 pH 1.000
+   FROZEN: O 0/63 | uni E 1.9 O/E 0.00 pL 0.128 pH 1.000 | mid E 3.1 O/E 0.00 pL 0.017 pH 1.000 | bal E 1.9 O/E 0.00 pL 0.117 pH 1.000
+   UNIT: O 3/63 | uni E 14.6 O/E 0.20 pL 0.000 pH 1.000 | mid E 15.3 O/E 0.20 pL 0.000 pH 1.000 | bal E 12.4 O/E 0.24 pL 0.000 pH 1.000
+   MIDMID: O 26/63 | uni E 25.8 O/E 1.01 pL 0.601 pH 0.552 | mid E 24.4 O/E 1.06 pL 0.869 pH 0.284 | bal E 24.9 O/E 1.04 pL 0.769 pH 0.394
+   BOUND: O 56/63 | uni E 55.4 O/E 1.01 pL 0.693 pH 0.502 | mid E 56.5 O/E 0.99 pL 0.491 pH 0.736 | bal E 56.0 O/E 1.00 pL 0.595 pH 0.621
+-- IM77 agnostic other (n=24)  [widths: M signs have no font width, all 0.52 -> midpoint = sign-count midpoint]
+   QH: O 0/24 | uni E 1.3 O/E 0.00 pL 0.200 pH 1.000 | mid E 2.0 O/E 0.00 pL 0.070 pH 1.000 | bal E 1.3 O/E 0.00 pL 0.195 pH 1.000
+   OPEN: O 0/24 | uni E 1.0 O/E 0.00 pL 0.331 pH 1.000 | mid E 0.5 O/E 0.00 pL 0.500 pH 1.000 | bal E 0.5 O/E 0.00 pL 0.556 pH 1.000
+   NUM: O 0/24 | uni E 1.7 O/E 0.00 pL 0.127 pH 1.000 | mid E 2.2 O/E 0.00 pL 0.047 pH 1.000 | bal E 1.4 O/E 0.00 pL 0.181 pH 1.000
+   FISH: O 0/24 | uni E 0.2 O/E 0.00 pL 0.750 pH 1.000 | mid E 0.2 O/E 0.00 pL 0.750 pH 1.000 | bal E 0.2 O/E 0.00 pL 0.750 pH 1.000
+   FROZEN: O 0/24 | uni E 0.6 O/E 0.00 pL 0.514 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.4 O/E 0.00 pL 0.667 pH 1.000
+   UNIT: O 0/24 | uni E 3.9 O/E 0.00 pL 0.007 pH 1.000 | mid E 4.0 O/E 0.00 pL 0.004 pH 1.000 | bal E 3.2 O/E 0.00 pL 0.018 pH 1.000
+   MIDMID: O 10/24 | uni E 9.0 O/E 1.11 pL 0.856 pH 0.368 | mid E 8.5 O/E 1.18 pL 0.965 pH 0.199 | bal E 8.6 O/E 1.16 pL 0.973 pH 0.220
+   BOUND: O 21/24 | uni E 21.6 O/E 0.97 pL 0.432 pH 0.868 | mid E 21.8 O/E 0.97 pL 0.375 pH 0.938 | bal E 21.5 O/E 0.98 pL 0.470 pH 0.866
+Ur III control: 1955 distinct legends with >= 2 lines; WORD pairs 2510 (label FISH below = WORD), FROZEN 31
+   (agnostic mode on the 351 legends of 2-3 lines only; k! orders explode beyond)
+   Ur III known WORD: O 13/400 | uni E 315.7 O/E 0.04 pL 0.000 pH 1.000 | mid E 183.7 O/E 0.07 pL 0.000 pH 1.000 | bal E 197.1 O/E 0.07 pL 0.000 pH 1.000
+   Ur III known FROZEN: O 2/400 | uni E 75.9 O/E 0.03 pL 0.000 pH 1.000 | mid E 60.5 O/E 0.03 pL 0.000 pH 1.000 | bal E 60.9 O/E 0.03 pL 0.000 pH 1.000
+   Ur III known UNIT: O 15/400 | uni E 316.0 O/E 0.05 pL 0.000 pH 1.000 | mid E 185.1 O/E 0.08 pL 0.000 pH 1.000 | bal E 198.5 O/E 0.08 pL 0.000 pH 1.000
+   Ur III known BOUND: O 0/400 | uni E 0.0 O/E nan pL 1.000 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.0 O/E nan pL 1.000 pH 1.000
+   Ur III agnostic WORD: O 45/351 | uni E 274.5 O/E 0.16 pL 0.000 pH 1.000 | mid E 209.2 O/E 0.22 pL 0.000 pH 1.000 | bal E 199.9 O/E 0.23 pL 0.000 pH 1.000
+   Ur III agnostic FROZEN: O 2/351 | uni E 58.1 O/E 0.03 pL 0.000 pH 1.000 | mid E 32.7 O/E 0.06 pL 0.000 pH 1.000 | bal E 30.8 O/E 0.06 pL 0.000 pH 1.000
+   Ur III agnostic UNIT: O 46/351 | uni E 274.7 O/E 0.17 pL 0.000 pH 1.000 | mid E 209.6 O/E 0.22 pL 0.000 pH 1.000 | bal E 200.3 O/E 0.23 pL 0.000 pH 1.000
+   Ur III agnostic BOUND: O 0/351 | uni E 0.0 O/E nan pL 1.000 pH 1.000 | mid E 0.0 O/E nan pL 1.000 pH 1.000 | bal E 0.0 O/E nan pL 1.000 pH 1.000
+   Ur III RANDOM re-break WORD: O 318/400 | uni E 315.7 O/E 1.01 pL 0.640 pH 0.411 | mid E 183.7 O/E 1.73 pL 1.000 pH 0.000 | bal E 273.1 O/E 1.16 pL 1.000 pH 0.000
+   Ur III RANDOM re-break UNIT: O 318/400 | uni E 316.0 O/E 1.01 pL 0.627 pH 0.424 | mid E 185.1 O/E 1.72 pL 1.000 pH 0.000 | bal E 273.6 O/E 1.16 pL 1.000 pH 0.000
+Planted Indus breaks (random; n=73 single-line texts with the Wells size mix): median O/E(UNIT, uniform) 0.99; share of 200 replicates with P_low < 0.05: 0.06
+Planted Indus breaks (unit-avoiding; n=73 single-line texts with the Wells size mix): median O/E(UNIT, uniform) 0.12; share of 200 replicates with P_low < 0.05: 1.00

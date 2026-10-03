@@ -190,7 +190,7 @@ for excl_ele in (False, True):
     items = []
     for c, ds in incW.items():
         if c not in FT or FT[c]['back'] in ('undiagnostic',): continue
-        if excl_ele and ELE in ds: continue
+        if excl_ele and any(len(toks(d)) == 4 and toks(d)[1:] == [2, 48, 740] for d in ds): continue   # elephant die at any merge level
         for d in ds: items.append((c, FT[c]['back'], d))
     tag = 'without elephant' if excl_ele else 'all'
     for what in ('die', 'head'):
