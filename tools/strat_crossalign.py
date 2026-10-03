@@ -59,7 +59,7 @@ def pe_stream():
 
 def lina_stream():
     la = json.load(open('other-scripts/linear-a/data/corpus.json'))
-    docs = []; sites = []
+    docs = []; sites = []; supports = []
     for r in la:
         if r['support'] not in ('Tablet', 'Nodule', 'Roundel', 'Sealing', 'Lames (short thin tablet)', 'Label'):
             continue  # administrative objects only
@@ -82,7 +82,8 @@ def lina_stream():
                 lines[-1].append(('X',))
         lines = [l for l in lines if l]
         if lines:
-            docs.append(lines); sites.append(r['site'])
+            docs.append(lines); sites.append(r['site']); supports.append(r['support'])
+    lina_stream.supports = supports
     return docs, sites, +1
 
 SHORT = {1: 1, 3: 3, 4: 4, 5: 5, 16: 6, 17: 7, 18: 8}   # W1 is a marker (S234) and is NOT treated as a numeral below
@@ -217,14 +218,15 @@ def pe_labels(vec):
         if k[0] == 'N': lab[k] = 'NUMERAL'
     return {k: r for k, r in lab.items() if k in vec}
 
-def lina_labels(vec, docs):
+def lina_labels(vec, docs, supports):
     lab = {}
     for g in ['GRA', 'VIN', 'OLE', 'CYP', 'FIC', 'OLIV']: lab[('S', 'L:' + g)] = 'COMMODITY-MEASURED'
     for g in ['VIR', 'CAP', 'OVIS', 'SUS', 'BOS']: lab[('S', 'L:' + g)] = 'COMMODITY-COUNTED'
     for w in ['KU-RO', 'KI-RO', 'PO-TO-KU-RO']: lab[('S', 'W:' + w)] = 'TOTAL'
     # headers: words first on the tablet with no number following, >= 70% of their tokens, >= 3 tablets (data-only)
     first = collections.Counter(); tot = collections.Counter()
-    for d in docs:
+    for d, sup in zip(docs, supports):
+        if sup != 'Tablet' or len(d) < 2: continue
         flat = [t for l in d for t in l]
         for i, t in enumerate(flat):
             if t[0] == 'S' and t[1].startswith('W:'):
@@ -234,7 +236,7 @@ def lina_labels(vec, docs):
         if first[k] >= 3 and first[k] / tot[k] >= 0.7 and k not in lab: lab[k] = 'OPENER'
     # name-like: words with >= 4 tokens that take a quantity, not transaction words, not libation words
     for k, (v, n) in vec.items():
-        if k[0] == 'S' and k[1].startswith('W:') and k not in lab and n >= 4 and v[FEATS.index('takes_num')] >= 0.5:
+        if k[0] == 'S' and k[1].startswith('W:') and '-' in k[1] and k not in lab and n >= 4 and v[FEATS.index('takes_num')] >= 0.5:
             lab[k] = 'NAME-LIKE'
     for k in vec:
         if k[0] == 'N': lab[k] = 'NUMERAL'
@@ -282,7 +284,7 @@ def run(framing, key='seq_raw'):
     pe_docs, pe_sites, pe_side = pe_stream(); la_docs, la_sites, la_side = lina_stream()
     pe_vec = vectors(pe_docs, pe_sites, pe_side, framing, 20)
     la_vec = vectors(la_docs, la_sites, la_side, framing, 4)
-    pe_lab = pe_labels(pe_vec); la_lab = lina_labels(la_vec, la_docs)
+    pe_lab = pe_labels(pe_vec); la_lab = lina_labels(la_vec, la_docs, lina_stream.supports)
     log(f'PE: {len(pe_docs)} tablets, {len(pe_vec)} sign types >= 20 tokens, {len(pe_lab)} labelled: ' +
         str(collections.Counter(pe_lab.values())))
     log(f'LinA: {len(la_docs)} administrative objects, {len(la_vec)} types >= 4 tokens, {len(la_lab)} labelled: ' +
