@@ -1,0 +1,190 @@
+S-DARK-7 cycle1: Indus corpus = IND_raw; 600 random statistics; B=200 bootstraps of N=800 length-matched texts (len 2-8, Indus weights); z = diff/sqrt(sd1^2+sd2^2); Bonferroni z_crit=3.93
+corpora: IND_raw: 4350 texts, 713 types; IND_all: 4350 texts, 689 types; PE: 5806 texts, 1489 types; LA: 1903 texts, 317 types; LB_words: 9347 texts, 7464 types; LB_syll: 8249 texts, 3408 types; UR3_words: 6298 texts, 4487 types; UR3_syll: 2807 texts, 805 types; VOY_words: 2159 texts, 8052 types; VOY_chars: 36298 texts, 26 types; IND_halfA: 2165 texts, 566 types; IND_halfB: 2185 texts, 561 types; IND_otherSites: 800 texts, 399 types; IND_MDH: 3550 texts, 665 types; IND_raw_SHUF: 4350 texts, 713 types; PE_SHUF: 5806 texts, 1489 types; LA_SHUF: 1903 texts, 317 types; LB_words_SHUF: 9347 texts, 7464 types; LB_syll_SHUF: 8249 texts, 3408 types; UR3_words_SHUF: 6298 texts, 4487 types; UR3_syll_SHUF: 2807 texts, 805 types; VOY_words_SHUF: 2159 texts, 8052 types
+
+Calibration: Indus split-half A vs B exceed z_crit on 2/600 statistics; MD+H vs other sites 87/600; seq_raw vs seq_all 0/600
+
+Median |z| between corpora (all statistics):
+        IND_raw        PE        LA  LB_words   LB_syll UR3_words  UR3_syll VOY_words VOY_chars
+  IND_raw      0.00      2.48      1.87      2.31      1.34      2.93      2.89      3.50      3.13
+       PE      2.48      0.00      2.12      2.66      2.33      3.42      4.34      3.58      5.87
+       LA      1.87      2.12      0.00      2.83      2.52      3.85      3.29      3.90      4.07
+ LB_words      2.31      2.66      2.83      0.00      1.36      2.02      3.65      2.38      3.30
+  LB_syll      1.34      2.33      2.52      1.36      0.00      2.47      2.53      2.63      4.06
+UR3_words      2.93      3.42      3.85      2.02      2.47      0.00      2.29      1.12      2.13
+ UR3_syll      2.89      4.34      3.29      3.65      2.53      2.29      0.00      2.72      1.95
+VOY_words      3.50      3.58      3.90      2.38      2.63      1.12      2.72      0.00      2.68
+VOY_chars      3.13      5.87      4.07      3.30      4.06      2.13      1.95      2.68      0.00
+
+Fraction of statistics separated (|z|>z_crit):
+        IND_raw        PE        LA  LB_words   LB_syll UR3_words  UR3_syll VOY_words VOY_chars
+  IND_raw      0.00      0.41      0.36      0.39      0.30      0.43      0.40      0.46      0.44
+       PE      0.41      0.00      0.36      0.40      0.38      0.45      0.48      0.46      0.51
+       LA      0.36      0.36      0.00      0.42      0.41      0.45      0.41      0.46      0.47
+ LB_words      0.39      0.40      0.42      0.00      0.24      0.39      0.45      0.42      0.45
+  LB_syll      0.30      0.38      0.41      0.24      0.00      0.41      0.37      0.44      0.46
+UR3_words      0.43      0.45      0.45      0.39      0.41      0.00      0.40      0.33      0.43
+ UR3_syll      0.40      0.48      0.41      0.45      0.37      0.40      0.00      0.42      0.37
+VOY_words      0.46      0.46      0.46      0.42      0.44      0.33      0.42      0.00      0.41
+VOY_chars      0.44      0.51      0.47      0.45      0.46      0.43      0.37      0.41      0.00
+
+Numeral-involving statistics: 123/600. Fingerprint strict: 0 numeral-based, 1 not; loose: 0 / 0; residue: 11 / 5
+
+## Accounting-notation fingerprint, NON-numeral statistics (strict)  (n=1)
+  [79] frac>0_over_texts[max_sign_initial_rate @ second_half]
+      IND_raw=0.992±0.0032  PE=0.987±0.0039  LA=0.986±0.0042  LB_words=0.745±0.011  LB_syll=0.745±0.012  UR3_words=0.903±0.0096  UR3_syll=0.949±0.0075  VOY_words=0.741±0.014  VOY_chars=0.995±0.0022
+
+## Accounting-notation fingerprint, numeral-based statistics (strict)  (n=0)
+
+## Accounting-notation fingerprint (loose: Indus differs from all four language corpora; PE and LA from at least one each, same direction)  (n=0)
+
+## Indus-specific residue, NON-numeral (Indus differs from PE, LA, LB x2, Ur III x2, all same direction)  (n=5)
+  [164] mean_over_texts[min_sign_doc_freq_frac @ last]
+      IND_raw=0.13±0.0049  PE=0.466±0.011  LA=0.335±0.0073  LB_words=0.196±0.0056  LB_syll=0.165±0.0053  UR3_words=0.187±0.0092  UR3_syll=0.382±0.012  VOY_words=0.0166±0.00099  VOY_chars=0.289±0.0047
+  [206] std_over_texts[max_sign_doc_freq_frac @ slice1-3]
+      IND_raw=0.114±0.0026  PE=0.308±0.0021  LA=0.209±0.0012  LB_words=0.158±0.0021  LB_syll=0.13±0.003  UR3_words=0.374±0.005  UR3_syll=0.352±0.0045  VOY_words=0.0344±0.0012  VOY_chars=0.134±0.0026
+  [344] mean_over_texts[mean_sign_doc_freq_frac @ second_half]
+      IND_raw=0.101±0.003  PE=0.334±0.007  LA=0.222±0.0049  LB_words=0.133±0.0034  LB_syll=0.124±0.0031  UR3_words=0.324±0.0085  UR3_syll=0.307±0.0084  VOY_words=0.0181±0.00076  VOY_chars=0.311±0.0035
+  [557] slot_evenness[signs @ all]
+      IND_raw=0.797±0.0041  PE=0.725±0.004  LA=0.766±0.0046  LB_words=0.754±0.0048  LB_syll=0.774±0.004  UR3_words=0.761±0.0036  UR3_syll=0.754±0.0044  VOY_words=0.921±0.0025  VOY_chars=0.88±0.015
+  [599] slot_evenness[signs @ all]
+      IND_raw=0.797±0.0041  PE=0.725±0.004  LA=0.766±0.0046  LB_words=0.754±0.0048  LB_syll=0.774±0.004  UR3_words=0.761±0.0036  UR3_syll=0.754±0.0044  VOY_words=0.921±0.0025  VOY_chars=0.88±0.015
+
+## Indus-specific residue, numeral-based  (n=11)
+  [9] frac>0_over_texts[first-last_prev_is_num @ middle]
+      IND_raw=0.0381±0.0057  PE=0±0.0001  LA=0±0.0001  LB_words=0.00484±0.0026  LB_syll=0.00608±0.0027  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [95] std_over_texts[mean_is_num @ first]
+      IND_raw=0.408±0.0087  PE=0.157±0.017  LA=0.0699±0.018  LB_words=0.116±0.017  LB_syll=0.129±0.018  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [177] frac>0_over_texts[first-last_next_is_num @ middle]
+      IND_raw=0.1±0.0096  PE=0.00737±0.0028  LA=0±0.0001  LB_words=0.0404±0.0071  LB_syll=0.0238±0.005  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [178] mean_over_texts[std_prev_is_num @ middle]
+      IND_raw=0.113±0.0053  PE=0.0502±0.005  LA=0.00311±0.0013  LB_words=0.0736±0.0049  LB_syll=0.0416±0.0046  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [246] frac>0_over_texts[first-last_dist_to_nearest_num(cap5) @ all]
+      IND_raw=0.239±0.013  PE=0.135±0.011  LA=0.00317±0.0018  LB_words=0.0792±0.0092  LB_syll=0.0449±0.0071  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [361] mean_over_texts[mean_prev_is_num @ first2]
+      IND_raw=0.106±0.0062  PE=0.0127±0.0028  LA=0.00262±0.0012  LB_words=0.00701±0.0021  LB_syll=0.00865±0.0023  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [363] frac>0_over_texts[std_prev_is_num @ last2]
+      IND_raw=0.326±0.017  PE=0.198±0.012  LA=0.00848±0.0031  LB_words=0.169±0.011  LB_syll=0.108±0.011  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [374] std_over_texts[mean_prev_is_num @ slice1-3]
+      IND_raw=0.365±0.007  PE=0.23±0.01  LA=0.0595±0.015  LB_words=0.132±0.0092  LB_syll=0.125±0.01  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [389] frac>0_over_texts[first-last_is_num @ slice1-3]
+      IND_raw=0.134±0.011  PE=0.00537±0.0025  LA=0.00403±0.0022  LB_words=0.0531±0.0081  LB_syll=0.0398±0.0068  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [430] std_over_texts[std_prev_is_num @ slice1-3] / frac>0_over_texts[max_sign_final_rate @ last2]
+      IND_raw=0.21±0.0046  PE=0.178±0.0053  LA=0.0365±0.0091  LB_words=0.123±0.0076  LB_syll=0.113±0.0081  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [485] frac>0_over_texts[first-last_is_num @ last2] / frac>0_over_texts[min_sign_initial_rate @ first_half]
+      IND_raw=0.232±0.014  PE=0.0141±0.0041  LA=0.00162±0.0014  LB_words=0.0667±0.0098  LB_syll=0.0419±0.0073  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+
+## Indus-specific residue (mixed directions)  (n=38)
+  [4] frac>0_over_texts[min_sign_is_opener_type(init>0.5) @ first]
+      IND_raw=0.392±0.018  PE=0.751±0.016  LA=0.5±0.017  LB_words=0.78±0.015  LB_syll=0.556±0.017  UR3_words=0.716±0.017  UR3_syll=0.19±0.013  VOY_words=0.391±0.017  VOY_chars=0.302±0.015
+  [15] median_over_texts[mean_sign_initial_rate @ slice1-3]
+      IND_raw=0.221±0.0081  PE=0.101±0.016  LA=0.274±0.0073  LB_words=0.0493±0.0018  LB_syll=0.0617±0.0028  UR3_words=0.0263±0.0016  UR3_syll=0.046±0.0031  VOY_words=0.0423±0.0035  VOY_chars=0.13±0.0048
+  [30] std_over_texts[min_bigram_surprise_bits @ second]
+      IND_raw=2.26±0.031  PE=2.04±0.045  LA=1.49±0.032  LB_words=3.63±0.057  LB_syll=3.3±0.038  UR3_words=1.74±0.058  UR3_syll=2.69±0.057  VOY_words=0.504±0.035  VOY_chars=1.85±0.072
+  [31] mean_over_texts[min_sign_final_rate @ all]
+      IND_raw=0.103±0.0036  PE=0.0196±0.0031  LA=0.128±0.0039  LB_words=0.0304±0.0027  LB_syll=0.0342±0.0025  UR3_words=0.0517±0.0022  UR3_syll=0.0321±0.0012  VOY_words=0.0305±0.0025  VOY_chars=0.0203±0.0018
+  [42] median_over_texts[min_sign_initial_rate @ second_half]
+      IND_raw=0.0874±0.00019  PE=0.0796±0.00018  LA=0.125±0.00023  LB_words=0.0236±0.0073  LB_syll=0.0308±0.0024  UR3_words=0.0149±0.0034  UR3_syll=0.0162±0.0019  VOY_words=0±0.0001  VOY_chars=0.07±0.00017
+  [44] std_over_texts[max_sign_mean_relpos @ middle]
+      IND_raw=0.205±0.0036  PE=0.29±0.0049  LA=0.162±0.005  LB_words=0.29±0.0031  LB_syll=0.274±0.0037  UR3_words=0.238±0.0052  UR3_syll=0.112±0.0032  VOY_words=0.203±0.0058  VOY_chars=0.144±0.0041
+  [55] frac>0_over_texts[first-last_sign_is_opener_type(init>0.5) @ all]
+      IND_raw=0.368±0.019  PE=0.75±0.016  LA=0.467±0.016  LB_words=0.762±0.015  LB_syll=0.544±0.017  UR3_words=0.66±0.018  UR3_syll=0.189±0.013  VOY_words=0.384±0.017  VOY_chars=0.294±0.015
+  [64] median_over_texts[max_sign_initial_rate @ middle]
+      IND_raw=0.41±0.012  PE=0.546±0.023  LA=0.503±0.0037  LB_words=0.236±0.016  LB_syll=0.179±0.0049  UR3_words=0.0572±0.02  UR3_syll=0.0833±0.0021  VOY_words=0.135±0.006  VOY_chars=0.277±0.00038
+  [65] std_over_texts[min_next_is_num @ first_half]
+      IND_raw=0.292±0.012  PE=0.5±0.0006  LA=0.429±0.0054  LB_words=0.214±0.015  LB_syll=0.206±0.016  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [72] mean_over_texts[min_sign_is_opener_type(init>0.5) @ penult]
+      IND_raw=0.16±0.013  PE=0.427±0.014  LA=0.381±0.015  LB_words=0.3±0.0085  LB_syll=0.277±0.0089  UR3_words=0.24±0.012  UR3_syll=0.0609±0.0085  VOY_words=0.128±0.011  VOY_chars=0.0239±0.0052
+  [89] std_over_texts[min_dist_to_nearest_num(cap5) @ second_half]
+      IND_raw=1.96±0.0062  PE=1.89±0.0076  LA=1.99±0.0047  LB_words=2±0.0026  LB_syll=1.87±0.02  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [93] mean_over_texts[min_sign_initial_rate @ first]
+      IND_raw=0.499±0.0085  PE=0.668±0.0092  LA=0.561±0.0081  LB_words=0.807±0.011  LB_syll=0.617±0.014  UR3_words=0.678±0.011  UR3_syll=0.208±0.0063  VOY_words=0.489±0.013  VOY_chars=0.38±0.0079
+  [127] std_over_texts[first-last_dist_to_nearest_num(cap5) @ second_half]
+      IND_raw=1.29±0.051  PE=1.76±0.026  LA=1.8±0.01  LB_words=1.86±0.045  LB_syll=1.6±0.043  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [146] std_over_texts[max_sign_is_opener_type(init>0.5) @ penult]
+      IND_raw=0.366±0.012  PE=0.494±0.0021  LA=0.485±0.0037  LB_words=0.458±0.0037  LB_syll=0.447±0.0045  UR3_words=0.427±0.0073  UR3_syll=0.238±0.016  VOY_words=0.334±0.012  VOY_chars=0.152±0.016
+  [148] mean_over_texts[min_sign_is_opener_type(init>0.5) @ first]
+      IND_raw=0.392±0.018  PE=0.751±0.016  LA=0.5±0.017  LB_words=0.78±0.015  LB_syll=0.556±0.017  UR3_words=0.716±0.017  UR3_syll=0.19±0.013  VOY_words=0.391±0.017  VOY_chars=0.302±0.015
+  [190] median_over_texts[min_sign_final_rate @ last]
+      IND_raw=0.697±0.0008  PE=0.905±0.001  LA=0.987±0.0011  LB_words=0.564±0.00066  LB_syll=0.564±0.00066  UR3_words=0.489±0.019  UR3_syll=0.1±0.0002  VOY_words=0.389±0.041  VOY_chars=0.772±0.00087
+  [200] mean_over_texts[first-last_sign_mean_relpos @ second_half]
+      IND_raw=-0.176±0.0068  PE=-0.264±0.0074  LA=-0.235±0.0069  LB_words=-0.116±0.0053  LB_syll=-0.105±0.005  UR3_words=-0.135±0.0079  UR3_syll=-0.036±0.0039  VOY_words=-0.131±0.0063  VOY_chars=-0.221±0.0061
+  [211] std_over_texts[mean_sign_mean_relpos @ middle]
+      IND_raw=0.159±0.0044  PE=0.242±0.0052  LA=0.131±0.0041  LB_words=0.244±0.0028  LB_syll=0.24±0.0032  UR3_words=0.199±0.0045  UR3_syll=0.099±0.0027  VOY_words=0.171±0.0051  VOY_chars=0.115±0.0042
+  [219] median_over_texts[min_sign_final_rate @ first_half]
+      IND_raw=0.0911±0.0038  PE=0±0.0001  LA=0.129±0.0021  LB_words=0.000243±0.00096  LB_syll=0.0193±0.0027  UR3_words=0.0564±0.00016  UR3_syll=0.0415±0.0042  VOY_words=0±0.0001  VOY_chars=0.00584±0.00092
+  [233] mean_over_texts[mean_next_is_num @ last2]
+      IND_raw=0.036±0.0043  PE=0.479±0.0038  LA=0.348±0.0083  LB_words=0.21±0.0079  LB_syll=0.147±0.0078  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [256] std_over_texts[min_next_is_num @ middle]
+      IND_raw=0.232±0.015  PE=0.477±0.0038  LA=0.485±0.003  LB_words=0.336±0.011  LB_syll=0.309±0.013  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [259] mean_over_texts[max_next_is_num @ slice2-4]
+      IND_raw=0.0779±0.0077  PE=0.343±0.0073  LA=0.237±0.0089  LB_words=0.264±0.011  LB_syll=0.145±0.01  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [263] frac>0_over_texts[std_sign_is_opener_type(init>0.5) @ last2]
+      IND_raw=0.176±0.014  PE=0.427±0.014  LA=0.417±0.016  LB_words=0.298±0.0092  LB_syll=0.275±0.01  UR3_words=0.32±0.015  UR3_syll=0.0887±0.0094  VOY_words=0.135±0.012  VOY_chars=0.0514±0.008
+  [296] mean_over_texts[max_sign_initial_rate @ second_half]
+      IND_raw=0.3±0.0061  PE=0.247±0.0071  LA=0.363±0.0063  LB_words=0.14±0.0066  LB_syll=0.127±0.005  UR3_words=0.197±0.008  UR3_syll=0.118±0.0049  VOY_words=0.126±0.005  VOY_chars=0.192±0.0045
+  [297] std_over_texts[min_sign_mean_relpos @ slice1-3]
+      IND_raw=0.215±0.0036  PE=0.316±0.0033  LA=0.252±0.0029  LB_words=0.27±0.004  LB_syll=0.257±0.0034  UR3_words=0.169±0.0052  UR3_syll=0.114±0.0029  VOY_words=0.217±0.0047  VOY_chars=0.223±0.003
+  [301] mean_over_texts[mean_sign_is_opener_type(init>0.5) @ last2]
+      IND_raw=0.103±0.0074  PE=0.215±0.0071  LA=0.226±0.0086  LB_words=0.161±0.0047  LB_syll=0.147±0.0048  UR3_words=0.16±0.0074  UR3_syll=0.0448±0.0048  VOY_words=0.0694±0.0061  VOY_chars=0.026±0.004
+  [317] mean_over_texts[std_sign_initial_rate @ all]
+      IND_raw=0.18±0.0034  PE=0.273±0.0036  LA=0.206±0.0035  LB_words=0.339±0.005  LB_syll=0.266±0.0062  UR3_words=0.305±0.0046  UR3_syll=0.11±0.0027  VOY_words=0.21±0.0055  VOY_chars=0.145±0.0029
+  [340] std_over_texts[min_sign_final_rate @ last2]
+      IND_raw=0.21±0.0064  PE=0.256±0.0059  LA=0.153±0.0072  LB_words=0.138±0.0067  LB_syll=0.119±0.0064  UR3_words=0.126±0.0063  UR3_syll=0.0565±0.0036  VOY_words=0.0993±0.0077  VOY_chars=0.102±0.01
+  [356] std_over_texts[first-last_next_is_num @ middle]
+      IND_raw=0.323±0.013  PE=0.475±0.0062  LA=0.463±0.0044  LB_words=0.492±0.01  LB_syll=0.407±0.011  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [358] median_over_texts[mean_sign_initial_rate @ last]
+      IND_raw=0.0875±0.00067  PE=0.0796±0.00018  LA=0.125±0.00023  LB_words=0.0407±0.00014  LB_syll=0.0407±0.00014  UR3_words=0.0227±0.00028  UR3_syll=0.0227±0.00012  VOY_words=0.00337±0.0032  VOY_chars=0.111±0.00021
+  [378] std_over_texts[max_dist_to_nearest_num(cap5) @ last2]
+      IND_raw=1.24±0.031  PE=1.83±0.025  LA=0.321±0.058  LB_words=1.03±0.031  LB_syll=0.813±0.041  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [383] mean_over_texts[std_sign_is_opener_type(init>0.5) @ slice2-4]
+      IND_raw=0.0248±0.0037  PE=0.0548±0.0051  LA=0.0653±0.0054  LB_words=0.00711±0.0022  LB_syll=0.0027±0.0012  UR3_words=0.0528±0.0053  UR3_syll=0.00684±0.0019  VOY_words=0.00777±0.0021  VOY_chars=0.0264±0.0039
+  [386] frac>0_over_texts[std_next_is_num @ slice2-4]
+      IND_raw=0.0698±0.0077  PE=0.262±0.0082  LA=0.236±0.0089  LB_words=0.264±0.011  LB_syll=0.145±0.011  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [399] mean_over_texts[mean_next_is_num @ second_half]
+      IND_raw=0.0311±0.0034  PE=0.308±0.0044  LA=0.193±0.0054  LB_words=0.169±0.0063  LB_syll=0.112±0.0059  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [401] frac>0_over_texts[std_next_is_num @ second_half]
+      IND_raw=0.0851±0.0089  PE=0.639±0.0053  LA=0.453±0.013  LB_words=0.414±0.014  LB_syll=0.279±0.014  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [456] std_over_texts[std_dist_to_nearest_num(cap5) @ second_half] / frac>0_over_texts[std_sign_doc_freq_frac @ second_half]
+      IND_raw=0.918±0.028  PE=1.35±0.013  LA=1.42±0.0064  LB_words=1.31±0.017  LB_syll=1.21±0.022  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [525] frac>0_over_texts[mean_next_is_num @ slice2-4] / mean_over_texts[max_sign_initial_rate @ slice2-4]
+      IND_raw=0.298±0.032  PE=1.75±0.07  LA=0.773±0.035  LB_words=2.32±0.18  LB_syll=1.4±0.12  UR3_words=0±0.0001  UR3_syll=0±0.0001  VOY_words=0±0.0001  VOY_chars=0±0.0001
+  [575] slot_ntypes[signs @ all]
+      IND_raw=0.116±0.0033  PE=0.177±0.0048  LA=0.064±0.002  LB_words=0.322±0.0074  LB_syll=0.149±0.0053  UR3_words=0.326±0.0069  UR3_syll=0.0929±0.0028  VOY_words=0.401±0.0078  VOY_chars=0.00701±0.00038
+
+## Order dependence (statistic changes when tokens are shuffled within texts; |z|>z_crit) for fingerprint and residue statistics
+  [79] IND_raw:inv PE:inv LA:inv LB_words:ORDER UR3_words:inv VOY_words:ORDER
+  [9] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [95] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [164] IND_raw:ORDER PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [177] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [178] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [206] IND_raw:inv PE:inv LA:inv LB_words:inv UR3_words:inv VOY_words:inv
+  [246] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [344] IND_raw:ORDER PE:ORDER LA:ORDER LB_words:ORDER UR3_words:ORDER VOY_words:inv
+  [361] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [363] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [374] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [389] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [430] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [485] IND_raw:inv PE:ORDER LA:ORDER LB_words:ORDER UR3_words:inv VOY_words:inv
+  [557] IND_raw:inv PE:inv LA:inv LB_words:inv UR3_words:inv VOY_words:inv
+  [599] IND_raw:inv PE:inv LA:inv LB_words:inv UR3_words:inv VOY_words:inv
+
+## Voynich placement on fingerprint statistics (z vs group mean of Indus/PE/LA, and vs LB_words, UR3_words)
+  [79] VOY_words: z vs accounting group -17.2; z vs LB_words -0.2; z vs UR3_words -9.6
+  [79] VOY_chars: z vs accounting group +1.6; z vs LB_words +21.6; z vs UR3_words +9.4
+
+## Nearest corpus to Voynich (median |z| over all statistics)
+  VOY_words: IND_raw=3.50, PE=3.58, LA=3.90, LB_words=2.38, LB_syll=2.63, UR3_words=1.12, UR3_syll=2.72
+  VOY_chars: IND_raw=3.13, PE=5.87, LA=4.07, LB_words=3.30, LB_syll=4.06, UR3_words=2.13, UR3_syll=1.95
+
+## Nearest corpus to Indus (median |z| over all statistics; and over order-dependent statistics only)
+  order-dependent statistics in Indus: 109/600
+  PE: all 2.48; order-dependent 10.87; separated 0.41
+  LA: all 1.87; order-dependent 6.16; separated 0.36
+  LB_words: all 2.31; order-dependent 7.31; separated 0.39
+  LB_syll: all 1.34; order-dependent 5.60; separated 0.30
+  UR3_words: all 2.93; order-dependent 9.12; separated 0.43
+  UR3_syll: all 2.89; order-dependent 7.92; separated 0.40
+  VOY_words: all 3.50; order-dependent 9.18; separated 0.46
+  VOY_chars: all 3.13; order-dependent 8.40; separated 0.44
