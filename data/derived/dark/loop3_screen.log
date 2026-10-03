@@ -34,3 +34,7 @@ train seq_raw dropframe   namecalib base 0.795 -> 0.811 [0.715,0.838] D +0.016 n
 train seq_raw dropframe   repeat    base 0.232 -> 0.415 [0.209,0.500] D +0.182 null -0.001±0.039 z +4.7 p 0.048 (72s)
 train seq_raw dropframe   slot      base 1.134 -> -0.122 [-0.168,1.235] D -1.255 null -0.116±0.035 z -32.6 p 0.048 (72s)
 train seq_raw dropframe   arith     base 0.253 -> 0.246 [0.243,0.253] D -0.007 null +0.001±0.006 z -1.2 p 0.333 (72s)
+train seq_raw bpe         namecalib base 0.784 -> 0.802 [0.775,0.863] D +0.018 null +0.005±0.007 z +1.9 p 0.048 (1774s)
+train seq_raw bpe         repeat    base 0.235 -> 0.353 [0.280,0.486] D +0.118 null -0.045±0.031 z +5.3 p 0.095 (1774s)
+train seq_raw bpe         slot      base 1.134 -> 1.096 [0.757,1.211] D -0.037 null +0.105±0.018 z -8.0 p 1.000 (1774s)
+train seq_raw bpe         arith     base 0.253 -> 0.288 [0.255,0.331] D +0.036 null -0.007±0.010 z +4.4 p 0.048 (1774s)
