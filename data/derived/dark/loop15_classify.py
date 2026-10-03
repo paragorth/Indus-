@@ -12,18 +12,20 @@ sys.argv += []
 ARGS = sys.argv[1:]
 def arg(n, d): return ARGS[ARGS.index(n) + 1] if n in ARGS else d
 SEQKEY = arg('--seqkey', 'seq_raw'); NPERM = int(arg('--nperm', 200)); EMIN = float(arg('--emin', 5))
+PREFIX = arg('--prefix', 'loop15_c1'); DEDUP = PREFIX.endswith('d')
 import importlib.util
 spec = importlib.util.spec_from_file_location('eng', os.path.join(HERE, 'loop15_engine.py'))
-sys.argv = ['x', '--seqkey', SEQKEY]; eng = importlib.util.module_from_spec(spec); spec.loader.exec_module(eng)
+sys.argv = ['x', '--seqkey', SEQKEY] + (['--dedup'] if DEDUP else []); eng = importlib.util.module_from_spec(spec); spec.loader.exec_module(eng)
 HOME, HELD, ALL = eng.HOME, eng.HELD, eng.ALL
-J = json.load(open(os.path.join(HERE, f'loop15_c1_{SEQKEY}.json')))
+eng.TRIVOC = eng.vocab_of(HOME, 30)
+J = json.load(open(os.path.join(HERE, f'{PREFIX}_{SEQKEY}.json')))
 gaps = [(tuple(k), e, eh, oh) for k, e, eh, oh in J['gaps']]
 voc = eng.vocab_of(HOME, 15)
 rng = random.Random(152)
 out = []
 def P(*a):
     s = ' '.join(str(x) for x in a); print(s, flush=True); out.append(s)
-P(f'LOOP15 cycle2 classify seqkey={SEQKEY} gaps={len(gaps)} nperm={NPERM}')
+P(f'LOOP15 cycle2 classify prefix={PREFIX} dedup={DEDUP} seqkey={SEQKEY} gaps={len(gaps)} nperm={NPERM}')
 
 CLASS = {}
 for x in (817, 861, 820, 920, 692): CLASS[x] = 'opener'
@@ -104,5 +106,5 @@ for kd, k, e, eh, oh, ep in sorted(rows, key=lambda r: (r[0], -r[2])):
         extra = 'pairs co=' + ','.join(str(obs.get(('co', min(a, b), max(a, b)), 0)) for a, b in ((x, y), (y, z), (x, z)))
     P(f'{kd:<9} {str(k):<28} {cls:<24} {e:6.1f}  {ep:6.1f}  {eh:6.1f}  {oh:5d}   {extra}')
 json.dump([dict(kind=r[0], pattern=list(r[1]), E_model=r[2], E_held=r[3], O_held=r[4], E_perm=r[5]) for r in rows],
-          open(os.path.join(HERE, f'loop15_c2_{SEQKEY}.json'), 'w'))
-open(os.path.join(HERE, f'loop15_c2_{SEQKEY}.txt'), 'w').write('\n'.join(out) + '\n')
+          open(os.path.join(HERE, f'{PREFIX.replace("c1", "c2")}_{SEQKEY}.json'), 'w'))
+open(os.path.join(HERE, f'{PREFIX.replace("c1", "c2")}_{SEQKEY}.txt'), 'w').write('\n'.join(out) + '\n')

@@ -32,6 +32,9 @@ C = json.load(open(os.path.join(ROOT, 'data/derived/merged-corpus-canonical.json
 def cls_of(ty):
     return 'SEAL' if ty.startswith('SEAL') else 'TAB' if ty.startswith('TAB') else 'OTHER'
 ALL = [(t['site'], cls_of(t['type']), tuple(t[SEQKEY])) for t in C if t[SEQKEY]]
+DEDUP = '--dedup' in ARGS
+if DEDUP:  # one copy per distinct text per site and object class (mass-produced tablets count once)
+    ALL = sorted(set(ALL))
 HOME = [x for x in ALL if x[0] in ('Mohenjo-daro', 'Harappa')]
 HELD = [x for x in ALL if x[0] not in ('Mohenjo-daro', 'Harappa', 'Unknown')]
 
@@ -148,7 +151,7 @@ def run():
     log = []
     def P(*a):
         line = ' '.join(str(x) for x in a); print(line, flush=True); log.append(line)
-    P(f'LOOP15 cycle1 seqkey={SEQKEY} nsyn={NSYN} emin={EMIN} eheld={EHELD} mintok={MINTOK} home={len(HOME)} held={len(HELD)}')
+    P(f'LOOP15 cycle1 dedup={DEDUP} seqkey={SEQKEY} nsyn={NSYN} emin={EMIN} eheld={EHELD} mintok={MINTOK} home={len(HOME)} held={len(HELD)}')
     voc = vocab_of(HOME, MINTOK); P('vocab size', len(voc))
     global TRIVOC; TRIVOC = vocab_of(HOME, 2 * MINTOK); P('triple vocab size', len(TRIVOC))
     meta = [(a, b) for a, b, _ in HOME]
