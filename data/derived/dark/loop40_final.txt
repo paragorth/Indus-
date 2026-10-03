@@ -1,0 +1,30 @@
+LOOP 40 FINAL: THE CONCATENATION TEST (2026-10-03)
+Question: are long texts (>= 5 signs) concatenations of attested complete short texts, joined at closer boundaries?
+Script: tools/dark_loop40.py (cycles 1-4, argument LEVEL in seq_raw / seq_strong / seq_all); logs loop40_cycleN_LEVEL.txt;
+cut lists loop40_c1_cuts_LEVEL.json; fixed unit order loop40_c2_order_LEVEL.json; ready-to-paste STRATEGIES.md rows in
+loop40_cycle1.txt .. loop40_cycle4.txt (S-DARK-40.1 - 40.4). Corpus: merged-corpus-canonical.json (older build, S-DARK-23),
+3,415 complete direction-recorded texts, 1,168 of >= 5 signs; IM77-only set from loop27 (324 texts, 89 long).
+All three merge levels run; every verdict is the same at all three (seq_strong and seq_all differ from seq_raw only in
+merging 817/861, which raises the opener-phrase count from 24 to 41 but changes no conclusion).
+
+VERDICTS
+1. Decomposition (40.1). 3.7-5.4% of long texts split into 2-3 attested complete texts of >= 2 signs (7-12% if single
+   signs count as units). This is 2.7-2.8x the within-slot shuffle, but: the share falls with length (9.6% at 5 signs,
+   1.1% at 8+), the reverse of a joining process; an order-2 sign chain generates as many or more (0.05-0.07 vs real
+   0.04-0.055); and the cut lies at a closer/opener boundary in only 13-19% of cases, against 70% when two real short texts
+   are actually joined. Four fifths of the 'decompositions' are the opener phrase 817/861-2 (attested alone on 7 objects)
+   followed by one ordinary text. Texts with two closer-bearing units: 4 of 1,168 (10 with single-sign units).
+2. Order of units (40.2). The only fixed precedence is OPENER-unit before everything (21-58 : 0) and middle before closer
+   unit; with the opener removed, PLAIN vs JAR is 4:4 / 5:4 (free). No cycle, longest chain 3 = the S289/S310 frame.
+   Held-out sites: 0 violations. The reused units are the S-DARK-21.2 P2 inventory (opener phrases, closer units, 33/34-700).
+3. Find spots (40.3). Parts of a decomposable text do not occur as separate objects at the same site, area or block more
+   than chance (site P = 0.98-1.00; block 0/16-32; Mohenjo-daro 0/20-37 areas, 0/15-29 blocks, upper bound ~20%). The one
+   positive (4 Harappa hosts in one area) is the known Harappa tablet-series clustering; its pair-level statistic is
+   below chance.
+4. Held-out material (40.4). IM77-only long texts: 1 of 89 decomposes into Wells-attested >= 2-sign units (upper bound
+   3.4%); 7 of 89 with single-sign units, all opener phrase or stock jar text plus a loose sign. Same at all levels.
+
+NOT CRACKED. Long Indus texts are not stacks of short complete texts. They are built once, in the slot frame, from reused
+frame phrases plus a middle that is not itself a text. The concatenation hypothesis is closed at the text level; what
+survives is the already-known phrase reuse (S-DARK-21.2) and the slot grammar (S289, S310, S366). Not Mohenjo-daro alone:
+Harappa, held-out sites and the IM77-only set give the same shares and the same zero violations.

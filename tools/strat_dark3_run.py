@@ -24,6 +24,23 @@ def run_split(split,var,P,rng,tr_names,tests,log,data=None):
             res[(tn,sn)]={'D':Dm,'p':p,'z':z,'base':base,'val_med':st.median(vals),'val_min':min(vals),'val_max':max(vals),'null_mean':st.mean(null) if null else None,'null_sd':st.pstdev(null) if len(null)>1 else None,'n':len(seqs)}
             log(f'{split} {var} {tn:11s} {sn:9s} base {base:.3f} -> {st.median(vals):.3f} [{min(vals):.3f},{max(vals):.3f}] D {Dm:+.3f} null {(st.mean(null) if null else float("nan")):+.3f}±{(st.pstdev(null) if len(null)>1 else float("nan")):.3f} z {z:+.1f} p {p:.3f} ({time.time()-t0:.0f}s)')
     return res
+def register_pipes(names):
+    """Register 'a>b' compositions as transformations and extend draw_theta for them."""
+    for name in names:
+        if '>' not in name or name in D.TRANS: continue
+        a,b=name.split('>')
+        def comp(T,M,rng_,th,a=a,b=b):
+            T2=D.TRANS[a](T,M,rng_,th['a'])
+            M2=M if len(T2)==len(M) else [{'emblem':'NONE','type':'X'}]*len(T2)
+            return D.TRANS[b](T2,M2,rng_,th['b'])
+        D.TRANS[name]=comp
+    if not getattr(D,'_pipe_draw',False):
+        old=D.draw_theta
+        def draw(name,rng_,signs):
+            if '>' in name:
+                a,b=name.split('>'); return {'a':old(a,rng_,signs),'b':old(b,rng_,signs)}
+            return old(name,rng_,signs)
+        D.draw_theta=draw; D._pipe_draw=True
 def main():
     rng=random.Random(seed)
     if mode=='screen':
@@ -74,6 +91,39 @@ def main():
             tr=[t for t in TR if t not in ('numonly','nonnum','splitnum','emblem','objtype','family','dropframe')]
             res=run_split(key,'tokens',P,rng,tr,['namecalib','repeat','slot'],log,data=X)
             json.dump({f'{k[0]}|{k[1]}':v for k,v in res.items()},open(D.OUT+f'loop3_ur3_{key}.json','w'),indent=1)
+    elif mode=='pipeconfirm':
+        # python3 tools/strat_dark3_run.py pipeconfirm P seed SPLIT VAR a>b:test1,test2 ...   (one process per split x variant)
+        split=sys.argv[4]; var=sys.argv[5]; specs=[a.split(':') for a in sys.argv[6:]]
+        register_pipes([s[0] for s in specs])
+        f=open(D.OUT+f'loop3_pipeconfirm_{split}_{var}.txt','w')
+        def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
+        allres={}
+        for tn,tests in specs:
+            r=run_split(split,var,P,rng,[tn],tests.split(','),log)
+            for k,v in r.items(): allres[f'{split}|{var}|{k[0]}|{k[1]}']=v
+            json.dump(allres,open(D.OUT+f'loop3_pipeconfirm_{split}_{var}.json','w'),indent=1)
+    elif mode=='pipecontrol':
+        # same pipelines on the bigram-generated Indus corpus (whole-machine control)
+        specs=[a.split(':') for a in sys.argv[4:]]; register_pipes([s[0] for s in specs])
+        X=[{'seq':[int(s[1:]) for s in r['seq']],'emblem':'NONE','type':'X'} for r in map(json.loads,open('data/codelib/indus_bigram.jsonl'))]
+        f=open(D.OUT+'loop3_pipecontrol_bigram.txt','w')
+        def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
+        allres={}
+        for tn,tests in specs:
+            r=run_split('all','bigram',P,rng,[tn],tests.split(','),log,data=X)
+            for k,v in r.items(): allres[f'{k[0]}|{k[1]}']=v
+            json.dump(allres,open(D.OUT+'loop3_pipecontrol_bigram.json','w'),indent=1)
+    elif mode=='pipeur3':
+        # same pipelines on Ur III owner names (syllables): do names stay name-like? values only (P=0)
+        specs=[a.split(':') for a in sys.argv[4:]]; register_pipes([s[0] for s in specs])
+        R=D.refs(); f=open(D.OUT+'loop3_pipeur3.txt','w')
+        def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
+        for key in ('ur3_names_syll','ur3_legends_words'):
+            voc={}; X=[]
+            for s in R[key]:
+                X.append({'seq':[voc.setdefault(w,1000+len(voc)) for w in s],'emblem':'NONE','type':'X'})
+            for tn,tests in specs:
+                run_split(key,'tokens',P,rng,[tn],[t for t in tests.split(',') if t!='arith'],log,data=X)
     elif mode=='pipelines':
         f=open(D.OUT+'loop3_pipelines.txt','w')
         def log(s): print(s,flush=True); f.write(s+'\n'); f.flush()
@@ -82,20 +132,7 @@ def main():
         while len(pipes)<20:
             a,b=rng.sample(base_tr,2)
             if (a,b) not in pipes: pipes.append((a,b))
-        for a,b in pipes:
-            name=f'{a}>{b}'
-            def comp(T,M,rng_,th,a=a,b=b):
-                T2=D.TRANS[a](T,M,rng_,th['a'])
-                M2=M if len(T2)==len(M) else [{'emblem':'NONE','type':'X'}]*len(T2)
-                return D.TRANS[b](T2,M2,rng_,th['b'])
-            D.TRANS[name]=comp
-        old=D.draw_theta
-        def draw(name,rng_,signs):
-            if '>' in name:
-                a,b=name.split('>'); return {'a':old(a,rng_,signs),'b':old(b,rng_,signs)}
-            return old(name,rng_,signs)
-        D.draw_theta=draw
-        names=[f'{a}>{b}' for a,b in pipes]
+        names=[f'{a}>{b}' for a,b in pipes]; register_pipes(names)
         res=run_split('train','seq_raw',P,rng,names,list(D.TESTS),log)
         json.dump({f'{k[0]}|{k[1]}':v for k,v in res.items()},open(D.OUT+'loop3_pipelines.json','w'),indent=1)
         surv=[k for k,v in res.items() if abs(v['z'])>=3]

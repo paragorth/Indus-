@@ -471,6 +471,33 @@ if __name__ == '__main__':
                 n36[(row['tier'][0], mode, len(V) >= 1)] += 1
                 L.append(f"  {row['tier'][0]} {row['id']:16s} {mode:7s} {'-'.join('?' if x is None else str(x) for x in s):32s} n={len(conc)} score {len(V)}  " + '; '.join(f'{k}:{v}' for k, v in V.items()))
         L.append('  tier x mode flagged/total: ' + ', '.join(f'{k[0]}/{k[1]}: {n36[(k[0],k[1],True)]}/{n36[(k[0],k[1],True)]+n36[(k[0],k[1],False)]}' for k in sorted(set((a, b) for a, b, _ in n36))))
+        # per-rule calibrated false-alarm rates (CV on MD+H, held-out sites), texts >= 3 signs
+        def per_rule(scored):
+            s3 = [(t, V) for t, V in scored if len(t['seq']) >= 3]
+            return {r: sum(r in V for _, V in s3) / len(s3) for r in RULES}, len(s3)
+        prc, nc = per_rule(cv); prh, nh = per_rule(score_set(R, HELD))
+        L.append(f'  per-rule false alarm, texts >= 3 signs: CV (n={nc}) ' + ' '.join(f'{r}={prc[r]:.3f}' for r in RULES) + f' | held-out (n={nh}) ' + ' '.join(f'{r}={prh[r]:.3f}' for r in RULES))
+        # group tests on the tier-B museum pieces: any rule, and R1 repeat alone, binomial against the calibrated rates
+        def binom_ge(k, n, p):
+            return sum(math.comb(n, i) * p**i * (1-p)**(n-i) for i in range(k, n+1))
+        for mode in ('strict', 'lenient'):
+            texts = []
+            for row in rows:
+                if not row['tier'].startswith('B') or 'not transcribed' in row['signs_W'] or not row['signs_W']: continue
+                s = parse36(row, mode == 'strict'); conc = [x for x in s if x is not None]
+                if len(conc) < 3: continue
+                texts.append((row['id'], s, viol_gapped(s), len(conc)))
+            if not texts: continue
+            k_any = sum(len(V) >= 1 for _, _, V, _ in texts); k_r1 = sum('R1_REPEAT' in V for _, _, V, _ in texts)
+            # matched-length false alarm from CV
+            fa_any = sum(fa[lbin(n)][0] / fa[lbin(n)][1] for _, _, _, n in texts) / len(texts)
+            cvl = collections.defaultdict(lambda: [0, 0])
+            for t, V in cv:
+                b = lbin(len(t['seq'])); cvl[b][1] += 1; cvl[b][0] += ('R1_REPEAT' in V)
+            fa_r1 = sum(cvl[lbin(n)][0] / cvl[lbin(n)][1] for _, _, _, n in texts) / len(texts)
+            unk = [t for t in T if t['prov'] == 'UNKNOWN' and len(t['seq']) >= 3]
+            unk_r1 = sum('R1_REPEAT' in R.violations(t['seq'], t['complete']) for t in unk)
+            L.append(f'  tier-B museum pieces ({mode}, >= 3 read signs): any rule {k_any}/{len(texts)} vs matched false alarm {fa_any:.3f} (binomial P(>=k) = {binom_ge(k_any, len(texts), fa_any):.3f}); R1 repeat {k_r1}/{len(texts)} vs CV R1 rate {fa_r1:.3f} (P = {binom_ge(k_r1, len(texts), fa_r1):.4f}); corpus Unknown-site texts R1 {unk_r1}/{len(unk)}')
         # historically doubtful corpus objects
         L.append('')
         L.append('historically doubtful corpus objects:')
@@ -483,17 +510,17 @@ if __name__ == '__main__':
         L.append('mixture estimate of the forgery share f (texts >= 3 signs): p_weak = (1-f) p_exc + f p_forger')
         fitseqs = [t['seq'] for t in FIT]; k2 = KN2(fitseqs, order=2)
         heldsc = {t['id']: len(R.violations(t['seq'], t['complete'])) >= 1 for t in HELD}
-        def p_exc_at(lengths):
-            # matched-length false alarm from held-out excavated sites (CV where held-out is thin)
-            byl = collections.defaultdict(list)
-            for t in HELD:
-                if len(t['seq']) >= 3: byl[min(len(t['seq']), 8)].append(heldsc[t['id']])
-            cvl = collections.defaultdict(list)
-            for t, V in cv:
-                if len(t['seq']) >= 3: cvl[min(len(t['seq']), 8)].append(len(V) >= 1)
+        byl = collections.defaultdict(list)
+        for t in HELD:
+            if len(t['seq']) >= 3: byl[min(len(t['seq']), 8)].append(heldsc[t['id']])
+        cvl = collections.defaultdict(list)
+        for t, V in cv:
+            if len(t['seq']) >= 3: cvl[min(len(t['seq']), 8)].append(len(V) >= 1)
+        def p_exc_at(lengths, ref):
+            """matched-length false alarm: ref='held' = held-out excavated sites (CV where thin), ref='cv' = 5-fold CV on MD+H"""
             vals = []
             for n in lengths:
-                b = min(n, 8); pool = byl[b] if len(byl[b]) >= 20 else cvl[b]
+                b = min(n, 8); pool = byl[b] if (ref == 'held' and len(byl[b]) >= 20) else cvl[b]
                 vals.append(sum(pool) / len(pool))
             return sum(vals) / len(vals)
         def p_forg_at(lengths, reps=20):
@@ -502,20 +529,23 @@ if __name__ == '__main__':
                 for ln in lengths:
                     tot += len(R.violations(k2.gen(rng, ln), True)) >= 1; n += 1
             return tot / n
-        for cls in ['UNKNOWN', 'SURFACE', 'NOCTX', 'FOREIGN']:
-            g = [t for t in T if t['prov'] == cls and len(t['seq']) >= 3]
+        def clip(x): return min(1.0, max(0.0, x))
+        groups = {cls: [t for t in T if t['prov'] == cls and len(t['seq']) >= 3] for cls in ['UNKNOWN', 'SURFACE', 'NOCTX', 'FOREIGN']}
+        groups['ALL WEAK (Unknown+surface+no-context+foreign)'] = [t for t in T if t['prov'] in ('UNKNOWN', 'SURFACE', 'NOCTX', 'FOREIGN') and len(t['seq']) >= 3]
+        for cls, g in groups.items():
             if len(g) < 5: L.append(f'  {cls}: n={len(g)} too few'); continue
             v = [len(R.violations(t['seq'], t['complete'])) >= 1 for t in g]; lens = [len(t['seq']) for t in g]
-            pe = p_exc_at(lens); pf = p_forg_at(lens); pu = sum(v) / len(v)
-            f = (pu - pe) / (pf - pe) if pf > pe else float('nan')
-            boots = []
-            for _ in range(2000):
-                idxs = [rng.randrange(len(g)) for _ in g]
-                pub = sum(v[i] for i in idxs) / len(g)
-                # also perturb p_exc with its binomial uncertainty (n ~ held-out size at these lengths)
-                peb = pe + rng.gauss(0, math.sqrt(pe * (1 - pe) / 300))
-                boots.append((pub - peb) / (pf - peb) if pf > peb else float('nan'))
-            boots = sorted(b for b in boots if b == b)
-            lo, hi = boots[int(0.025 * len(boots))], boots[int(0.975 * len(boots))]
-            L.append(f'  {cls}: n={len(g)}, p_weak {pu:.3f}, p_exc(matched length) {pe:.3f}, p_forger(order-2, matched length) {pf:.3f} -> f = {f:.2f}  [95% bootstrap {max(0,lo):.2f}, {min(1,hi):.2f}]')
+            pf = p_forg_at(lens); pu = sum(v) / len(v)
+            for ref, nref in (('cv', 2400), ('held', 300)):
+                pe = p_exc_at(lens, ref)
+                f = (pu - pe) / (pf - pe) if pf > pe else float('nan')
+                boots = []
+                for _ in range(2000):
+                    idxs = [rng.randrange(len(g)) for _ in g]
+                    pub = sum(v[i] for i in idxs) / len(g)
+                    peb = pe + rng.gauss(0, math.sqrt(pe * (1 - pe) / nref))   # binomial uncertainty of the reference
+                    boots.append((pub - peb) / (pf - peb) if pf > peb else float('nan'))
+                boots = sorted(b for b in boots if b == b)
+                lo, hi = boots[int(0.025 * len(boots))], boots[int(0.975 * len(boots))]
+                L.append(f'  {cls}: n={len(g)}, p_weak {pu:.3f}, p_exc({"held-out sites" if ref == "held" else "CV MD+H"}, matched length) {pe:.3f}, p_forger(order-2, matched length) {pf:.3f} -> f = {f:+.2f}, clipped {clip(f):.2f}  [95% bootstrap {clip(lo):.2f}, {clip(hi):.2f}] (raw interval {lo:+.2f}, {hi:+.2f})')
         out(f'loop42_cycle3_{LEVEL}.txt', L)

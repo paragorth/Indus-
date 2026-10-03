@@ -23,6 +23,9 @@ loop 36 out-of-corpus pieces (strict = A/B-grade signs only; lenient = all read 
   C SW2014-PLATE-9   lenient 790-?-?-371-200-495-?-?-435      n=5 score 0  
   C SW2014-PLATE-6   lenient 904-34-?-?-790-?                 n=3 score 0  
   tier x mode flagged/total: A/lenient: 1/2, A/strict: 0/1, B/lenient: 4/8, B/strict: 3/5, C/lenient: 1/4
+  per-rule false alarm, texts >= 3 signs: CV (n=2416) R1_REPEAT=0.016 R2_EXCL=0.031 R3_W2=0.017 R4_BIGRAM=0.004 R5_ORDER=0.026 R6_EDGE=0.007 R7_FROZEN=0.045 R8_FISH=0.007 | held-out (n=313) R1_REPEAT=0.016 R2_EXCL=0.038 R3_W2=0.058 R4_BIGRAM=0.010 R5_ORDER=0.038 R6_EDGE=0.013 R7_FROZEN=0.061 R8_FISH=0.000
+  tier-B museum pieces (strict, >= 3 read signs): any rule 3/4 vs matched false alarm 0.080 (binomial P(>=k) = 0.002); R1 repeat 2/4 vs CV R1 rate 0.005 (P = 0.0002); corpus Unknown-site texts R1 0/24
+  tier-B museum pieces (lenient, >= 3 read signs): any rule 4/7 vs matched false alarm 0.104 (binomial P(>=k) = 0.003); R1 repeat 3/7 vs CV R1 rate 0.008 (P = 0.0000); corpus Unknown-site texts R1 0/24
 
 historically doubtful corpus objects:
   FOREIGN  Altyn Depe         Alt-90     idno=-            SEAL:S   415-390                              complete=True score 0  
@@ -89,7 +92,13 @@ historically doubtful corpus objects:
   FOREIGN  Dilmun             BM-123208  idno=-            SEAL:C   415-803-1-717-354                    complete=True score 1  R5_ORDER:[(415, 803)]
 
 mixture estimate of the forgery share f (texts >= 3 signs): p_weak = (1-f) p_exc + f p_forger
-  UNKNOWN: n=24, p_weak 0.125, p_exc(matched length) 0.220, p_forger(order-2, matched length) 0.419 -> f = -0.48  [95% bootstrap 0.00, 0.25]
-  SURFACE: n=18, p_weak 0.222, p_exc(matched length) 0.190, p_forger(order-2, matched length) 0.381 -> f = 0.17  [95% bootstrap 0.00, 1.00]
-  NOCTX: n=130, p_weak 0.146, p_exc(matched length) 0.231, p_forger(order-2, matched length) 0.389 -> f = -0.53  [95% bootstrap 0.00, -0.02]
-  FOREIGN: n=22, p_weak 0.182, p_exc(matched length) 0.211, p_forger(order-2, matched length) 0.427 -> f = -0.14  [95% bootstrap 0.00, 0.69]
+  UNKNOWN: n=24, p_weak 0.125, p_exc(CV MD+H, matched length) 0.121, p_forger(order-2, matched length) 0.419 -> f = +0.01, clipped 0.01  [95% bootstrap 0.00, 0.45] (raw interval -0.39, +0.45)
+  UNKNOWN: n=24, p_weak 0.125, p_exc(held-out sites, matched length) 0.220, p_forger(order-2, matched length) 0.419 -> f = -0.48, clipped 0.00  [95% bootstrap 0.00, 0.34] (raw interval -1.30, +0.34)
+  SURFACE: n=18, p_weak 0.222, p_exc(CV MD+H, matched length) 0.125, p_forger(order-2, matched length) 0.358 -> f = +0.42, clipped 0.42  [95% bootstrap 0.00, 1.00] (raw interval -0.33, +1.37)
+  SURFACE: n=18, p_weak 0.222, p_exc(held-out sites, matched length) 0.190, p_forger(order-2, matched length) 0.358 -> f = +0.19, clipped 0.19  [95% bootstrap 0.00, 1.00] (raw interval -0.99, +1.47)
+  NOCTX: n=130, p_weak 0.146, p_exc(CV MD+H, matched length) 0.126, p_forger(order-2, matched length) 0.396 -> f = +0.08, clipped 0.08  [95% bootstrap 0.00, 0.32] (raw interval -0.14, +0.32)
+  NOCTX: n=130, p_weak 0.146, p_exc(held-out sites, matched length) 0.231, p_forger(order-2, matched length) 0.396 -> f = -0.51, clipped 0.00  [95% bootstrap 0.00, 0.00] (raw interval -1.23, -0.03)
+  FOREIGN: n=22, p_weak 0.182, p_exc(CV MD+H, matched length) 0.148, p_forger(order-2, matched length) 0.425 -> f = +0.12, clipped 0.12  [95% bootstrap 0.00, 0.78] (raw interval -0.40, +0.78)
+  FOREIGN: n=22, p_weak 0.182, p_exc(held-out sites, matched length) 0.211, p_forger(order-2, matched length) 0.425 -> f = -0.14, clipped 0.00  [95% bootstrap 0.00, 0.58] (raw interval -0.97, +0.58)
+  ALL WEAK (Unknown+surface+no-context+foreign): n=194, p_weak 0.155, p_exc(CV MD+H, matched length) 0.128, p_forger(order-2, matched length) 0.407 -> f = +0.10, clipped 0.10  [95% bootstrap 0.00, 0.28] (raw interval -0.08, +0.28)
+  ALL WEAK (Unknown+surface+no-context+foreign): n=194, p_weak 0.155, p_exc(held-out sites, matched length) 0.223, p_forger(order-2, matched length) 0.407 -> f = -0.37, clipped 0.00  [95% bootstrap 0.00, 0.01] (raw interval -0.93, +0.01)

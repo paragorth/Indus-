@@ -546,6 +546,13 @@ def main():
                             p_comm=0.2, p_off=0.8, p_ext=0.1, p_reissue=0.3, z_copy=1.0, p_batch=0.3, p_travel=0.2, p_suf=0.4, p_potcred=0.3),
               'bureau': dict(A=6, O=200, zO=0.6, C=20, H=30000, k=1.1, p_mid=0.3, lam_mid=0.5, V_mid=1500, z_mid=1.1, p_share=0.5, p_open=0.6,
                              p_comm=0.6, p_off=0.5, p_ext=0.5, p_reissue=0.8, z_copy=1.8, p_batch=0.9, p_travel=0.6, p_suf=0.7, p_potcred=0.7)}
+            for th in truths.values(): th.setdefault('m_mould', 1.0)       # base-model worlds: every re-issue is a single tablet
+            # extended-model worlds (cycle 5): planted mould sizes near the posterior (8), high (25) and at the base-model edge (1.5)
+            truths['mould8'] = dict(truths['institution'], H=20000, k=3.0, p_reissue=0.6, z_copy=0.5, m_mould=8.0)
+            truths['mould25'] = dict(truths['institution'], H=20000, k=3.0, p_reissue=0.6, z_copy=0.5, m_mould=25.0)
+            truths['mould1.5'] = dict(truths['institution'], H=20000, k=3.0, p_reissue=0.6, z_copy=0.5, m_mould=1.5)
+            only = os.environ.get('TRUTHS')
+            if only: truths = {k: v for k, v in truths.items() if k in only.split(',')}
             for name, th in truths.items():
                 obs = sim_stats(th, skel, 424242); r = abc_fit(T, S, obs, n_acc=n_acc); tz = to_z(th)
                 print('=== synthetic truth:', name)

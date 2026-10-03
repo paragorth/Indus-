@@ -5,3 +5,22 @@ closer classes used (>= 8 home seals): ['W740/M342', 'W520/M211', 'W151/M12', 'W
 closer counts {740: 83, 'none': 118, 156: 6, 527: 10, 520: 23, 236: 2, 226: 2, 151: 12, 'OPN': 6, 154: 4, 617: 1}; closers with >= 3 seals: ['W740/M342', 'W520/M211', 'W151/M12', 'W156/M15', 'W527/M254', 'W154']
 held-out closer effects on log area:
   W154 +0.125 [-0.377,+0.626]; W740/M342 +0.000; W520/M211 -0.001 [-0.242,+0.240]; W527/M254 -0.004 [-0.339,+0.331]; W151/M12 -0.145 [-0.445,+0.154]; W156/M15 -0.462 [-0.879,-0.045]
+Spearman(held-out area effects, home area effects) = -0.086; null median -0.143, 95% +0.600; P = 0.490
+Spearman(held-out area effects, home mean cost rank) = -0.314; null 95% +0.771; P = 0.690
+  Dholavira (n=56): median area by closer W156/M15 501, W740/M342 484, W151/M12 441, W520/M211 319, W154 266
+  Lothal (n=57): median area by closer W154 655, W527/M254 645, W740/M342 524, W156/M15 467, W151/M12 306, W520/M211 291
+  Kalibangan (n=38): median area by closer W520/M211 826, W151/M12 770, W740/M342 639
+  Chanhu-daro (n=42): median area by closer W740/M342 773, W520/M211 720, W151/M12 672
+  held-out unicorn (n=292): W156/M15 +0.365 [-0.020,+0.749]; W151/M12 +0.064 [-0.205,+0.332]; W740/M342 +0.000; W527/M254 -0.027 [-0.337,+0.282]; W520/M211 -0.183 [-0.400,+0.034]; W154 -0.350 [-0.813,+0.113]  | rho with home cost rank +0.26
+  held-out boss (n=236): W527/M254 +0.094 [-0.083,+0.272]; W154 +0.091 [-0.205,+0.387]; W156/M15 +0.045 [-0.211,+0.302]; W740/M342 +0.000; W151/M12 -0.019 [-0.177,+0.139]; W520/M211 -0.036 [-0.173,+0.101]  | rho with home cost rank -0.49
+  held-out used (n=305): W527/M254 +0.062 [-0.134,+0.258]; W740/M342 +0.000; W520/M211 -0.059 [-0.194,+0.076]; W156/M15 -0.072 [-0.317,+0.173]; W151/M12 -0.209 [-0.379,-0.039]; W226/M60 -0.211 [-0.564,+0.142]; W154 -0.229 [-0.524,+0.066]  | rho with home cost rank +0.14
+
+IM77 columns: ['row_id', 'text_no', 'site_code', 'site', 'source', 'object_code', 'object_type', 'side', 'line', 'direction_code', 'direction', 'fs80', 'fs_category', 'fs_description', 'level', 'locus', 'n_signs', 'signs_reading_order', 'signs_clean', 'doubtful_positions']; size fields present: [] -> IM77 cannot replicate size.
+
+prediction: top-ranked closer W226/M60 vs bottom W154 on the cheapest material classes (all sites, complete seal texts with material):
+  W226/M60: clay/terracotta 0/12 (< 0.250); faience/paste 0/12 (< 0.250); steatite 12/12; hard stone/metal 0/12 (< 0.250)
+  W154: clay/terracotta 1/23; faience/paste 0/23 (< 0.130); steatite 22/23; hard stone/metal 0/23 (< 0.130)
+  W740/M342: clay/terracotta 7/542; faience/paste 8/542; steatite 523/542; hard stone/metal 4/542
+  all complete seals: clay/terracotta 20/1360 (0.015), faience/paste 16/1360 (0.012), hard 9/1360
+  closers on cheap-material seals (n=36): Counter({'none': 16, 'W740/M342': 15, 'W527/M254': 2, 'W154': 1, 'W520/M211': 1, 'W151/M12': 1})
+  sites of cheap-material seals: Counter({'Mohenjo-daro': 15, 'Lothal': 7, 'Harappa': 6, 'Kalibangan': 6, 'Dholavira': 1, 'Nausharo': 1})

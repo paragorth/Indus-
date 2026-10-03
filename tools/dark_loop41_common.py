@@ -342,3 +342,120 @@ def frame_rates(T):
 def fmt(x):
     if isinstance(x, float): return f'{x:.3f}'
     return str(x)
+
+# ------------------------------------------------------------------ added for cycles 2-4
+FISH = [235, 240, 233, 231]   # S296 chain hat -> whiskers -> bar -> stroke
+def fish_order(T):
+    """S296/S297: ordered pairs of two different modified fish adjacent or not; predicted vs reverse."""
+    ok = rev = 0
+    for _, s in T:
+        pos = {x: i for i, x in enumerate(s) if x in FISH}
+        for a in range(4):
+            for b in range(a + 1, 4):
+                if FISH[a] in pos and FISH[b] in pos:
+                    if pos[FISH[a]] < pos[FISH[b]]: ok += 1
+                    else: rev += 1
+    return ok, rev
+
+def qualifier_overlap(T, rnd, nnull=200, mint=15, closers=None):
+    """S303: mean pairwise histogram intersection of left-partner distributions of the closers; null = closer labels
+    permuted over texts keeping left partners."""
+    closers = closers or CL
+    recs = []
+    for _, s in T:
+        t = list(s)
+        while len(t) > 1 and t[-1] in SUF: t.pop()
+        if len(t) >= 2 and t[-1] in closers: recs.append((t[-2], t[-1]))
+    cnt = collections.Counter(c for _, c in recs)
+    keep = [c for c in cnt if cnt[c] >= mint]
+    recs = [(l, c) for l, c in recs if c in keep]
+    def ov(recs):
+        d = collections.defaultdict(collections.Counter)
+        for l, c in recs: d[c][l] += 1
+        cs = list(d); vals = []
+        for i in range(len(cs)):
+            for j in range(i + 1, len(cs)):
+                a, b = d[cs[i]], d[cs[j]]; na, nb = sum(a.values()), sum(b.values())
+                vals.append(sum(min(a[k] / na, b[k] / nb) for k in set(a) | set(b)))
+        return st.mean(vals) if vals else float('nan')
+    o = ov(recs); labs = [c for _, c in recs]; null = []
+    for _ in range(nnull):
+        rnd.shuffle(labs); null.append(ov([(l, c) for (l, _), c in zip(recs, labs)]))
+    null = [x for x in null if x == x]
+    return o, (st.mean(null) if null else float('nan')), (sum(1 for x in null if x <= o) + 1) / (len(null) + 1), len(keep), len(recs)
+
+def determinative_proxy(T, minn=20, minhost=10):
+    """S-DARK-25 proxy: a determinative is never a whole text on its own and is obligatory for some host (>= 50% of
+    that host's texts carry it adjacent). Count signs with n >= minn, 0 stand-alone, and max host loyalty >= 0.5 over
+    hosts with >= minhost texts, and >= 3 distinct hosts."""
+    tok = collections.Counter(x for _, s in T for x in s)
+    alone = collections.Counter(s[0] for _, s in T if len(s) == 1)
+    texts_with = collections.Counter(x for _, s in T for x in set(s))
+    adj = collections.defaultdict(collections.Counter)
+    for _, s in T:
+        for i in range(len(s) - 1):
+            adj[s[i]][s[i + 1]] += 1; adj[s[i + 1]][s[i]] += 1
+    hits = []; cands = 0
+    for x, n in tok.items():
+        if n < minn or alone[x] > 0: continue
+        hosts = [y for y in adj[x] if texts_with[y] >= minhost and y != x]
+        if len(hosts) < 3: continue
+        cands += 1
+        loy = max(adj[x][y] / texts_with[y] for y in hosts)
+        if loy >= 0.5: hits.append((x, round(loy, 2)))
+    return cands, hits
+
+def nest_markov(T, rnd, nnull=30, order=1):
+    """S347 nesting against an order-k Markov null fitted per object class, lengths kept (stricter than within-text shuffle)."""
+    texts = [s for _, s in T]
+    o, n = nest_stat(texts)
+    null = []
+    for _ in range(nnull):
+        G = markov_corpus(T, rnd, order)
+        null.append(nest_stat([s for _, s in G])[0])
+    null.sort()
+    return o, null[len(null) // 2], max(null), n
+
+def p1p2_fixedR(T, rnd, nnull=50):
+    """S349 as originally run: big-city run set R kept fixed; only held-out texts shuffled."""
+    A, H = heldout_split([(r, s) for r, s in T if len(s) >= 3])
+    big = {s for r, s in A if r['site'] in BIG}
+    ht = [s for _, s in H]; R = runs_of(big)
+    def p2(texts): return sum(any(s[i:i + 3] in R for i in range(len(s) - 2)) for s in texts) / max(1, len(texts))
+    o = p2(ht); null = sorted(p2([tuple(rnd.sample(s, len(s))) for s in ht]) for _ in range(nnull))
+    return o, null[len(null) // 2], null[-1], len(ht)
+
+def p2_markov(T, rnd, nnull=30, order=1):
+    """S349 P2 against a Markov null: held-out texts regenerated from an order-k chain fitted on the HELD-OUT texts
+    themselves (per object class), lengths kept; R fixed. Measures how much reuse a local chain already predicts."""
+    A, H = heldout_split([(r, s) for r, s in T if len(s) >= 3])
+    big = {s for r, s in A if r['site'] in BIG}; R = runs_of(big)
+    def p2(texts): return sum(any(s[i:i + 3] in R for i in range(len(s) - 2)) for s in texts) / max(1, len(texts))
+    o = p2([s for _, s in H]); null = []
+    for _ in range(nnull):
+        G = markov_corpus(H, rnd, order); null.append(p2([s for _, s in G]))
+    null.sort()
+    return o, null[len(null) // 2], null[-1]
+
+def all_stats(T, rnd, nnull=40, label=''):
+    res = {'label': label, 'n': len(T)}
+    npass, lst, nmed, nmax = closer_paradigm(T, rnd, nnull=nnull); res.update(closers=npass, closers_null_max=nmax, closer_list=lst)
+    o, nm, nx, nsmall = nesting(T, rnd, nnull=min(30, nnull)); res.update(nest=o, nest_null=nm, nest_ratio=o / nm if nm else float('nan'), nest_n=nsmall)
+    u, b, ratio, nm_ = name_ratio(T, rnd); res.update(name_ratio=ratio, name_u=u, name_b=b, name_n=nm_)
+    g, ag, pairs, dif = anagram(T); res.update(anagram_groups=g, anagram_pairs=pairs, anagram_diff=(dif / pairs) if pairs else float('nan'))
+    M, fx, fr = fixed_pairs(T); res.update(pairs_tested=M, pairs_fixed=fx, fixed_share=fx / M if M else float('nan'), pairs_free=fr)
+    nt, gh, ns, dd = ghosts_dead(T); res.update(ghost=gh / nt if nt else float('nan'), dead=dd / ns if ns else float('nan'), n_tags=nt, n_seals=ns)
+    o, nl, pr = middle_closer_change(T, rnd, nnull=nnull); res.update(mid_chg=o, mid_chg_null=nl, mid_pairs=pr)
+    (tw, mj), (etw, emj) = w2_rules(T, rnd, nnull=nnull); res.update(w2_twice=tw, w2_twice_E=etw, w2_741=mj, w2_741_E=emj)
+    res.update(frame_rates(T))
+    ok, rev = fish_order(T); res.update(fish_ok=ok, fish_rev=rev)
+    o, nl, p, k, nr = qualifier_overlap(T, rnd, nnull=nnull); res.update(qual_ov=o, qual_ov_null=nl, qual_p=p, qual_closers=k, qual_n=nr)
+    c, hits = determinative_proxy(T); res.update(det_cands=c, det_hits=len(hits), det_list=hits)
+    return res
+
+def line(res):
+    r = res
+    return (f"{r['label']:34s} n={r['n']:5d} | closers {r['closers']} (null max {r['closers_null_max']}) | nest {r['nest']:.3f}/{r['nest_null']:.3f}={r['nest_ratio']:.2f}x (n {r['nest_n']}) | "
+            f"name {r['name_ratio']:.3f} (n {r['name_n']}) | anagram {r['anagram_diff']:.3f} ({r['anagram_pairs']}) fixed {r['pairs_fixed']}/{r['pairs_tested']}={r['fixed_share']:.2f} free {r['pairs_free']} | "
+            f"ghost {r['ghost']:.2f} ({r['n_tags']}) dead {r['dead']:.2f} | mid-chg {r['mid_chg']:.2f} vs {r['mid_chg_null']:.2f} ({r['mid_pairs']}) | W2x2 {r['w2_twice']} (E {r['w2_twice_E']:.1f}) W2+741 {r['w2_741']} (E {r['w2_741_E']:.1f}) | "
+            f"opener {r['opener_first']:.3f} conn-init {r['conn_initial']:.3f} closer-last {r['closer_last']:.3f} | fish {r['fish_ok']}:{r['fish_rev']} | qual-ov {r['qual_ov']:.3f} vs {r['qual_ov_null']:.3f} P={r['qual_p']:.3f} ({r['qual_closers']} closers) | det {r['det_hits']}/{r['det_cands']} {r['det_list']}")
