@@ -11,6 +11,7 @@ CYCLE = int(sys.argv[1]) if len(sys.argv) > 1 else 1
 NRAND = next((int(a) for a in sys.argv[2:] if a.isdigit()), 300)
 CONTROL = 'control' in sys.argv
 TYPEF = next((a[5:] for a in sys.argv if a.startswith('type=')), None)
+STRAT_TYPE = 'strat=type' in sys.argv   # permute within site x area x object type2 (kills object-mix confounds)
 NPERM = 2000
 rng = random.Random(9); nrng = np.random.default_rng(9)
 
@@ -218,9 +219,10 @@ def strat_perm(y, strata, nperm):
         out[:, ix] = y[ix][order]
     return out
 def within_area_rho(x, y, strata):
-    xs = np.array(x, float); ys = np.array(y, float); st = np.array(strata)
+    xs = np.array(x, float); ys = np.array(y, float)
+    codes = {s: i for i, s in enumerate(set(strata))}; st = np.array([codes[s] for s in strata])
     xr, yr = rank(xs), rank(ys)
-    for s in set(strata):
+    for s in set(st):
         m = st == s; xr[m] -= xr[m].mean(); yr[m] -= yr[m].mean()
     if xr.std() == 0 or yr.std() == 0: return 0.0
     return float(np.corrcoef(xr, yr)[0, 1])
@@ -269,7 +271,7 @@ def run(arrows, outcome, lv, nperm, minn=40):
             for o in objs:
                 x = f(o)
                 if x is None: continue
-                xs.append(x if kind == 'num' else str(x)); ys.append(o[outcome]); st.append(o['area'])
+                xs.append(x if kind == 'num' else str(x)); ys.append(o[outcome]); st.append((o['area'], o['type']) if STRAT_TYPE else o['area'])
             if len(xs) < minn: continue
             r = test(kind, xs, ys, st, nperm)
             if r: rows[name] = r
@@ -305,7 +307,7 @@ def report(res, lv, outcome, out):
 
 if __name__ == '__main__':
     out = []
-    tag = f'cycle{CYCLE}' + ('_control' if CONTROL else '') + (f'_type{TYPEF}' if TYPEF else '')
+    tag = f'cycle{CYCLE}' + ('_control' if CONTROL else '') + (f'_type{TYPEF}' if TYPEF else '') + ('_stratType' if STRAT_TYPE else '')
     out.append(f'# S-DARK-9 {tag}: objects MD {sum(o["site"]=="Mohenjo-daro" for o in OBJ)} HP {sum(o["site"]=="Harappa" for o in OBJ)}; '
                f'with depth MD {sum(o["site"]=="Mohenjo-daro" and o["depth"] is not None for o in OBJ)} HP {sum(o["site"]=="Harappa" and o["depth"] is not None for o in OBJ)}; '
                f'with fine period MD {sum(o["site"]=="Mohenjo-daro" and o["fine"] is not None for o in OBJ)} HP {sum(o["site"]=="Harappa" and o["fine"] is not None for o in OBJ)}')
