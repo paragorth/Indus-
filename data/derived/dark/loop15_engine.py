@@ -90,8 +90,9 @@ class Model:
     def corpus(self, meta, rng):
         return [(site, c, self.tab.get(c, self.pool).gen(rng)) for site, c in meta]
 
+TRIVOC = set()
 def patterns(seq, voc):
-    """set of pattern keys present in one text"""
+    """set of pattern keys present in one text (triples only over TRIVOC, the commoner signs)"""
     out = set(); L = len(seq)
     idx = [(i, x) for i, x in enumerate(seq) if x in voc]
     for a in range(len(idx)):
@@ -101,8 +102,10 @@ def patterns(seq, voc):
             out.add(('co', min(x, y), max(x, y)))
             if j - i >= 2: out.add(('ord', x, y))
             if j - i == 2: out.add(('skip', x, y))
-            for c in range(b + 1, len(idx)):
-                k, z = idx[c]; out.add(('tri', x, y, z))
+            if x in TRIVOC and y in TRIVOC:
+                for c in range(b + 1, len(idx)):
+                    k, z = idx[c]
+                    if z in TRIVOC: out.add(('tri', x, y, z))
     return out
 
 def count(corpus, voc):
@@ -119,7 +122,7 @@ def expected(model, meta, voc, n, seed, keys=None):
         c = count(model.corpus(meta, random.Random(seed + i)), voc); tot.update(c)
         if keys is not None: per.append({k: c[k] for k in keys if c[k]})
         del c
-    return {k: v / n for k, v in tot.items()}, per
+    return {k: v / n for k, v in tot.items() if v / n >= 0.3}, per
 
 def gaps(exp, obs, emin):
     return sorted([(k, e) for k, e in exp.items() if e >= emin and obs.get(k, 0) == 0], key=lambda t: -t[1])
@@ -141,6 +144,7 @@ def run():
         line = ' '.join(str(x) for x in a); print(line, flush=True); log.append(line)
     P(f'LOOP15 cycle1 seqkey={SEQKEY} nsyn={NSYN} emin={EMIN} eheld={EHELD} mintok={MINTOK} home={len(HOME)} held={len(HELD)}')
     voc = vocab_of(HOME, MINTOK); P('vocab size', len(voc))
+    global TRIVOC; TRIVOC = vocab_of(HOME, 2 * MINTOK); P('triple vocab size', len(TRIVOC))
     meta = [(a, b) for a, b, _ in HOME]
     M = Model(HOME)
     obs = count(HOME, voc)
