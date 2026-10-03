@@ -178,20 +178,27 @@ def build(level, fixed):
                              order=order_agree(s, fixed), suffix=int(s[-1] in SUFFIX)))
     return rows
 
-def spearman(x, y):
+def spearman(x, y, nmin=4):
     x = np.asarray(x, float); y = np.asarray(y, float)
-    if len(x) < 4 or np.std(x) == 0 or np.std(y) == 0: return float('nan')
+    ok = ~(np.isnan(x) | np.isnan(y)); x, y = x[ok], y[ok]
+    if len(x) < nmin or np.std(x) == 0 or np.std(y) == 0: return float('nan')
     from scipy.stats import rankdata
     return float(np.corrcoef(rankdata(x), rankdata(y))[0, 1])
 
+_GROUPS = {}
 def perm_labels(ph, strat):
     """phase labels permuted within strata"""
+    key = (len(strat), tuple(strat[:3]), tuple(strat[-3:]), id(strat))
+    if key not in _GROUPS:
+        g = collections.defaultdict(list)
+        for i, st in enumerate(strat): g[st].append(i)
+        _GROUPS[key] = [np.array(v) for v in g.values() if len(v) > 1]
     out = ph.copy()
-    for st in set(strat):
-        idx = [i for i, s in enumerate(strat) if s == st]
-        if len(idx) > 1: out[idx] = rng.permutation(ph[idx])
+    for idx in _GROUPS[key]: out[idx] = ph[rng.permutation(idx)]
     return out
 
+SHORT = {'Harappa HARP': 'HP-HARP', 'Harappa Vats': 'HP-Vats', 'Harappa fine': 'HP-fine', 'Mohenjo-daro 7': 'MD-7', 'Mohenjo-daro depth': 'MD-depth', 'Harappa depth': 'HP-depth', 'Dholavira': 'Dhol', 'Kalibangan': 'Kali', 'Lothal': 'Lothal'}
+def short(name): return next((v for k, v in SHORT.items() if name.startswith(k)), name)
 FEATS = ['opener', 'closer', 'jar', 'w2', 'rep', 'length', 'order', 'suffix', 'cplx', 'var']
 
 def trend_tests(rows, name, labels, nperm, tcs=('SEAL', 'TAB', None), feats=FEATS):
@@ -256,11 +263,11 @@ def phase_level(rows, name, labels, nperm, tc):
         return out
     obs = stats(ph)
     keys = ['distinct', 'chao1', 'rare', 'menu_js', 'rep_oe']
-    rho_obs = {k: spearman(phases, [obs[p][k] for p in phases]) for k in keys}
+    rho_obs = {k: spearman(phases, [obs[p][k] for p in phases], 3) for k in keys}
     null = {k: [] for k in keys}
     for _ in range(min(nperm, 200)):
         st = stats(perm_labels(ph, strat))
-        for k in keys: null[k].append(spearman(phases, [st[p][k] for p in phases]))
+        for k in keys: null[k].append(spearman(phases, [st[p][k] for p in phases], 3))
     tag = tc or 'ALL'
     say(f'  [{name} | {tag}] phase-level (rarefied to {nmin} tokens):')
     for p in phases:
@@ -299,7 +306,7 @@ if CYCLE == 1:
         arrows = [a for (lv, nm), v in ALL.items() if lv == level for a in v if not np.isnan(a['rho'])]
         hits = [a for a in arrows if a['P'] < 0.05]
         say(f'{level}: {len(arrows)} trend arrows, {len(hits)} with P<0.05 (expected {0.05*len(arrows):.1f}): ' +
-            '; '.join(f"{a['series'].split()[0]}/{a['tc']}/{a['feat']} rho={a['rho']:+.2f} P={a['P']:.3f}" for a in hits))
+            '; '.join(f"{short(a['series'])}/{a['tc']}/{a['feat']} rho={a['rho']:+.2f} P={a['P']:.3f}" for a in hits))
         # frame features: direction votes
         for ft in ['opener', 'closer', 'jar', 'w2', 'rep', 'order', 'length']:
             A = [a for a in arrows if a['feat'] == ft]
@@ -308,7 +315,7 @@ if CYCLE == 1:
         early = [a for a in arrows if a['early'] is not None and a['feat'] in ('opener', 'closer', 'jar', 'w2', 'rep', 'order')]
         say(f'  earliest-phase vs all: {len(early)} arrows, {sum(1 for a in early if a["P_early"] < 0.05)} with P<0.05; '
             f'mean |d| {np.mean([abs(a["d_early"]) for a in early]):.3f}; largest: ' +
-            '; '.join(f"{a['series'].split()[0]}/{a['tc']}/{a['feat']} d={a['d_early']:+.2f} P={a['P_early']:.2f}" for a in sorted(early, key=lambda a: -abs(a['d_early']))[:5]))
+            '; '.join(f"{short(a['series'])}/{a['tc']}/{a['feat']} d={a['d_early']:+.2f} P={a['P_early']:.2f}" for a in sorted(early, key=lambda a: -abs(a['d_early']))[:5]))
     write(1)
 
 elif CYCLE == 2:
@@ -359,7 +366,7 @@ elif CYCLE == 3:
     for level in LEVELS:
         A = [a for a in ALL[level] if not np.isnan(a['rho'])]
         say(f'{level}: {len(A)} phase-level trend arrows, {sum(1 for a in A if a["P"] < 0.05)} with P<0.05: ' +
-            '; '.join(f"{a['series'].split()[0]}/{a['tc']}/{a['feat']} rho={a['rho']:+.2f} P={a['P']:.2f}" for a in A if a['P'] < 0.05))
+            '; '.join(f"{short(a['series'])}/{a['tc']}/{a['feat']} rho={a['rho']:+.2f} P={a['P']:.2f}" for a in A if a['P'] < 0.05))
         for k in ['distinct', 'chao1', 'rare', 'menu_js', 'rep_oe']:
             B = [a for a in A if a['feat'] == k]
             say(f'  {k}: {len(B)} arrows, rho>0 {sum(1 for a in B if a["rho"] > 0)}, mean rho {np.mean([a["rho"] for a in B]):+.2f}')

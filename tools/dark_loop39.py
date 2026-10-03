@@ -534,8 +534,23 @@ def main():
         M = FormModel(FIT, mech=base, form=F)
         log(f"model: PARTIAL (whole text = one field subset; Ising co-selection; pairwise field order; element chain); pair-order agreement with the linear field order {M.order_agree:.3f}; " + field_diag(F, FIT))
         describe_form(F, texts, model=M)
-        A = M.A; licensed = (A >= 2)   # a field pair may be written in this order if the fit set shows it at least twice
-        log(f"licensed pair orders: {int(licensed.sum())} of {K*(K-1)} ordered field pairs; both orders licensed for {int((licensed & licensed.T).sum()//2)} unordered pairs, one order only for {int((licensed & ~licensed.T).sum())}, never co-written {int((~licensed & ~licensed.T).sum()//2 - K/2)}")
+        W = M.W; K = M.K
+        A = M.A; licensed = (A >= 2) & (A >= 0.2 * (A + A.T))   # order i-before-j licensed if seen >= 2 times and >= 20% of the pair's co-writings
+        np.fill_diagonal(licensed, True)
+        log(f"licensed pair orders (>= 2 and >= 20% of the pair's co-writings): {int(licensed.sum()) - K} of {K*(K-1)} ordered field pairs; both orders licensed for {int((licensed & licensed.T).sum()//2) - K} unordered pairs, one order only for {int((licensed & ~licensed.T).sum())}, never co-written {int((~licensed & ~licensed.T).sum()//2)}")
+        def repeat_kind(data, label):
+            c = collections.Counter()
+            for _, _, s in data:
+                fs = [(F.field_of[x], x) for x in s if x in F.field_of]
+                if len(fs) < 2: continue
+                byf = collections.defaultdict(list)
+                for f, x in fs: byf[f].append(x)
+                rep = [v for v in byf.values() if len(v) > 1]
+                if not rep: c['no repeated field'] += 1
+                elif all(len(set(v)) == 1 for v in rep): c['same sign twice'] += 1
+                else: c['two menu signs in one field'] += 1
+            n = sum(c.values()); log(f"  repeated fields, {label}: " + ', '.join(f"{k} {v/n:.3f}" for k, v in c.most_common()) + f" (n={n})")
+            return dict(c)
         def valid_partial(s, forbid):
             fs = [F.field_of[x] for x in s if x in F.field_of]
             if len(set(fs)) < len(fs): return False
@@ -584,15 +599,18 @@ def main():
         rng = random.Random(3)
         def validity(data, label, nrep=200):
             res = {}
-            for mu, tag in ((1, 'single unit'), (2, '<= 2 units')):
+            tests = ((lambda s: F.valid(s, forbid, max_units=1), 'single unit'),
+                     (lambda s: F.valid(s, forbid, max_units=2), '<= 2 units'),
+                     (lambda s: valid_partial(s, forbid), 'partial order'))
+            for fn, tag in tests:
                 tx = [s for _, _, s in data if len([x for x in s if x in F.field_of]) >= 2]
-                obs = sum(F.valid(s, forbid, max_units=mu) for s in tx)
+                obs = sum(fn(s) for s in tx)
                 # within-text shuffle (order only)
                 sh = []
                 for _ in range(nrep):
                     c = 0
                     for s in tx:
-                        l = list(s); rng.shuffle(l); c += F.valid(tuple(l), forbid, max_units=mu)
+                        l = list(s); rng.shuffle(l); c += fn(tuple(l))
                     sh.append(c)
                 # cross-text permutation of signs (keeps lengths; tests field membership + co-selection + order)
                 cr = []
@@ -600,37 +618,56 @@ def main():
                 for _ in range(nrep):
                     rng.shuffle(pool); c = 0; k = 0
                     for s in tx:
-                        l = pool[k:k + len(s)]; k += len(s); c += F.valid(tuple(l), forbid, max_units=mu)
+                        l = pool[k:k + len(s)]; k += len(s); c += fn(tuple(l))
                     cr.append(c)
                 n = len(tx)
-                log(f"  {label:22s} {tag:12s}: valid {obs}/{n} = {obs/n:.3f}; within-text shuffle {statistics.mean(sh)/n:.3f} [{min(sh)/n:.3f},{max(sh)/n:.3f}]; cross-text permutation {statistics.mean(cr)/n:.3f} [{min(cr)/n:.3f},{max(cr)/n:.3f}]")
+                log(f"  {label:22s} {tag:13s}: valid {obs}/{n} = {obs/n:.3f}; within-text shuffle {statistics.mean(sh)/n:.3f} [{min(sh)/n:.3f},{max(sh)/n:.3f}]; cross-text permutation {statistics.mean(cr)/n:.3f} [{min(cr)/n:.3f},{max(cr)/n:.3f}]")
                 res[tag] = dict(n=n, valid=obs, shuffle=statistics.mean(sh) / n, cross=statistics.mean(cr) / n)
             return res
+        J['repk_fit'] = repeat_kind(FIT, 'fit set'); J['repk_held'] = repeat_kind(HELD, 'held-out sites'); J['repk_im77'] = repeat_kind(IMN, 'IM77-new')
         J['valid_fit'] = validity(FIT, 'fit set (MD+H)', 50)
         J['valid_held'] = validity(HELD, 'held-out sites', 200)
         J['valid_im77'] = validity(IMN, 'IM77-new (324)', 200)
         J['valid_im77_seals'] = validity([d for d in IMN if d[1] == 'SEAL'], 'IM77-new seals', 200)
-        # Ur III-style control: a Markov-2 clone of the fit set parsed with the same form (how much validity does a chain give?)
+        # controls: a Markov-2 clone of the fit set and the model's own output, parsed with the same form (how much validity does each give?)
         clone = SA.PlainMarkov(FIT, k=2).generate_corpus(meta, random.Random(5))
         J['valid_markov2'] = validity(clone, 'Markov-2 clone', 20)
+        own = M.generate_corpus(meta, random.Random(6))
+        J['valid_own'] = validity(own, 'PARTIAL own output', 20)
         # invalid IM77 texts: why
         why = collections.Counter()
         for _, _, s in IMN:
-            if len([x for x in s if x in F.field_of]) < 2: continue
-            units, viol, unk = F.parse(s)
-            if viol: why['same-field repeat'] += 1
-            elif len(units) > 1: why['order violated (second unit)'] += 1
-            elif not F.valid(s, forbid): why['forbidden co-selection'] += 1
+            fs = [F.field_of[x] for x in s if x in F.field_of]
+            if len(fs) < 2: continue
+            if len(set(fs)) < len(fs): why['repeated field'] += 1
+            elif any(not licensed[fs[i], fs[j]] for i in range(len(fs)) for j in range(i + 1, len(fs))): why['unlicensed pair order'] += 1
+            elif not valid_partial(s, forbid): why['forbidden co-selection'] += 1
             else: why['valid'] += 1
-        log(f"  IM77-new breakdown: {dict(why)}")
+        log(f"  IM77-new breakdown (partial-order test): {dict(why)}")
         J['im77_why'] = dict(why)
+        # per-text log-likelihood ratio: genuine vs within-text shuffle under the Babington-Smith order model (AUC)
+        def order_ll(s):
+            fs = [F.field_of[x] for x in s if x in F.field_of]
+            return sum(M.logp[fs[i], fs[j]] for i in range(len(fs)) for j in range(i + 1, len(fs)) if fs[i] != fs[j])
+        def auc(data, label):
+            tx = [s for _, _, s in data if len([x for x in s if x in F.field_of]) >= 3]
+            pos = [order_ll(s) for s in tx]; neg = []
+            for s in tx:
+                l = list(s); rng.shuffle(l); neg.append(order_ll(tuple(l)))
+            wins = sum((p > q) + 0.5 * (p == q) for p in pos for q in neg) / (len(pos) * len(neg))
+            log(f"  order-model AUC genuine vs within-text shuffle, {label} (texts >= 3 form signs, n={len(tx)}): {wins:.3f}")
+            return wins
+        J['auc_fit'] = auc(FIT[:1500], 'fit set (first 1500)'); J['auc_held'] = auc(HELD, 'held-out sites'); J['auc_im77'] = auc(IMN, 'IM77-new')
+        J['auc_markov2'] = auc(clone[:1500], 'Markov-2 clone')
         # one-page specification
         log("\n## FORM SPECIFICATION (candidate 'whole code', fitted on MD+H, level " + LV + ")")
-        log("A text = 1 unit (" + f"{M.n_units[None].c[1]/sum(M.n_units[None].c.values()) if None in M.n_units else 0:.2f}" + " of texts) or 2-3 units written one after the other; a unit = a subset of the fields below, one element each, in field order.")
+        nf = collections.Counter(len(set(f for f, _ in u)) for _, _, _, u in M.units)
+        log(f"A text = one subset of the {K} fields below (fields per text: " + ', '.join(f"{k}: {v/len(M.units):.2f}" for k, v in sorted(nf.items())) + f"), one element per field (a field is used twice in {field_diag(F, FIT).split(',')[0].split()[-1]} of texts), written in the pairwise order below (agreement with the linear order {M.order_agree:.2f}).")
         for i, f in enumerate(F.fields):
             top = f[:10]; share = sum(F.has[x] for x in top) / sum(F.has[x] for x in f)
             req = [j for j in range(K) if j != i and W[i, j] >= 1.0]; rep = [j for j in range(K) if j != i and W[i, j] <= -1.0]
-            log(f"  F{i:02d} P={M.marg[i]:.2f} menu({len(f)}; top10 cover {share:.2f}): {' '.join(str(x) for x in top)}" + (f" | attracts {['F%02d' % j for j in req]}" if req else '') + (f" | repels {['F%02d' % j for j in rep]}" if rep else ''))
+            after = [j for j in range(K) if j != i and A[i, j] + A[j, i] >= 10 and min(A[i, j], A[j, i]) > 0.3 * (A[i, j] + A[j, i])]
+            log(f"  F{i:02d} P={M.marg[i]:.2f} menu({len(f)}; top10 cover {share:.2f}): {' '.join(str(x) for x in top)}" + (f" | attracts {['F%02d' % j for j in req]}" if req else '') + (f" | repels {['F%02d' % j for j in rep]}" if rep else '') + (f" | order free with {['F%02d' % j for j in after]}" if after else ''))
 
     log(f"\n(elapsed {time.time()-t0:.0f} s)")
     open(f"{OUTD}loop39_c{CY}_{LV}.txt", 'w').write('\n'.join(LOG) + '\n')
