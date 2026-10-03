@@ -32,7 +32,7 @@ Together these results support reading Indus seal texts as standardised credenti
 - Real names: 42.5% unique, against 68.6% under the bigram model (ratio 0.62). Common names recur: ur-Baba 111 times, lu2-dingir-ra 78, ur-Lamma 76.
 - Indus middles: 84.6% unique, against 87.4% under the model (ratio 0.97).
 
-A population's names repeat because people share names; the Indus middles do not repeat in this way. Caveat: the Mesopotamian names are written syllabically, so the unit differs, but the ratio is measured against each corpus's own null model.
+A population's names repeat because people share names; the Indus middles do not repeat in this way. The result holds at matched granularity (one physical seal per unit on both sides: Indus 0.97 vs Ur III 0.60–0.62 at identical sample size), and at the person level: 78% of Ur III seals carry a name found on another seal (3.06 seals per name), against 15.6% of Indus seals sharing a middle (1.11 seals per middle, 1.25× the bigram null). It replicates at Mohenjo-daro (0.97 vs 0.66), Harappa (1.02 vs 0.82) and the smaller sites (1.00 vs 0.86). Caveat: the Mesopotamian names are written syllabically, so the unit differs, but the ratio is measured against each corpus's own null model.
 
 ### 3.2 A credential model, tested on held-out sites (S347–S349)
 **Model.** A seal text consists of:
