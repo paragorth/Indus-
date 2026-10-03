@@ -1,0 +1,47 @@
+LOOP 22 (FIXED-WIDTH FIELDS) CYCLE 3: (c) slot-width signatures in front of the closer; (d) the 'hole' test for placeholder signs.
+Engine: tools/dark_loop22.py 3 <level> 200. Full output: loop22_cycle3_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Data as cycle 1; (c) and (d) use the 2,082-2,095 texts that carry a closer (S310 parser: OPENER, MARKER, NAME, COUNT, TITLE, CLOSER,
+SUFFIX). Width of a field = number of signs the parser puts in it. Generative null for (c): a slot-class bigram model (class of each
+sign fixed = its majority slot; class bigram + emission fitted on the corpus), same text lengths, 200 corpora, each re-parsed with the
+same parser. (d): for each field S and each sign x whose majority slot is not S (>= 20 texts), the odds of x in texts where S is EMPTY
+vs FILLED; null = permute the 'S empty' label within (site, object type, length) strata, 200 reps, max-statistic over the signs of that
+field (family-wise); 374 sign x field tests; Bonferroni across the 6 fields is P < 0.0083 (the permutation floor is 0.005). Hits then
+re-counted at the held-out sites (not MD/HP; 228 closer-bearing texts).
+
+(c) FIELD WIDTHS (seq_all; raw/strong identical to +-0.005)
+  Width distributions over closer-bearing texts (all / seals / tablets / held-out sites):
+    TITLE   0: .36/.42/.30/.50   1: .54/.42/.66/.39   2: .08/.12/.04/.11   >=3: .02/.03/.00/.01
+    COUNT   0: .80/.78/.83/.75   1: .07/.03/.10/.10   2: .11/.17/.06/.14   (2 = numeral + item)
+    NAME    0: .32/.18/.45/.23   1: .26/.27/.25/.29   2: .19/.22/.17/.19   3: .11/.14/.07/.11   4: .07/.11/.03/.10   5-10: .06/.09/.03/.08
+    OPENER  1: .16/.27/.05/.24   MARKER 1: .12/.20/.04/.19   SUFFIX 1: .16/.07/.23/.11
+  Distinct width signatures 198 (seals 176, tablets 73, held-out 75); the commonest is TITLE + CLOSER alone (15.8%; 25.9% of tablets),
+  then 2 NAME + TITLE + CLOSER (5.5%), 1 NAME + TITLE + CLOSER (5.5%), 1 NAME + CLOSER (5.2%), COUNT + CLOSER (5.1%).
+  Against the generative null: signature entropy 5.71 bits vs 6.02 [5.91, 6.11] (P = 0.005, LOWER, but driven by the top signature
+  0.158 vs 0.114); distinct signatures 198 vs 168 [158, 180] (MORE, not fewer); title width 1: 0.54 vs 0.18 (P = 0.005); title width 0:
+  0.36 vs 0.81; title width >= 2: 0.10 vs 0.017 (MORE than null); count width 2: 0.12 vs 0.20 (less); count width 0: 0.80 vs 0.65.
+  Reading: the title field is more often exactly one sign than a class model predicts, but it is 0 in 36% and 2+ in 10% of texts, so it
+  is not fixed-width; the 'exactly one' excess is the closer-specific left partner already described (S229, S289: 806-154, 590-390,
+  33-520, X-342), which an independent class model cannot produce. The NAME field runs 0-10 signs with a smooth geometric fall-off
+  (0.32, 0.26, 0.19, 0.11, 0.07, 0.03 ...), the signature of a variable-length string, not a field of fixed width. COUNT is absent 80%
+  of the time and two signs (numeral + item) when present. The corpus has MORE distinct signatures than its own class null. Nothing here
+  points to fixed widths beyond 'one closer, usually one title sign before it'.
+
+(d) HOLE TEST
+  Fit-set hits (max-null P <= 0.0083): W320/M182 and W388/M327 enriched when TITLE is empty (23:1 and 23:5; seq_strong and seq_all;
+  in seq_raw these are replaced by W692 at P = 0.015, not significant); W34 when NAME is empty (106:2) and when COUNT is empty (107:1);
+  W700/M328 when SUFFIX is empty (357:1). No hit for OPENER or MARKER (nothing stands in for the opener: the top candidates, W34, W501,
+  W700, W400, are all at P > 0.9).
+  Held-out sites: W320 0/113 vs 0/115 (absent); W388 4/113 vs 1/115 (log-OR +1.1, n = 5); W34 0 vs 0 (absent outside MD/HP); W700 3/203
+  vs 0/25 (no suffix texts to compare). None replicates.
+  Inspection: W34 is the tall-3 numeral of the Harappa voucher 'tall 2-4 + W700' (S216-S218): in a two-sign tablet 34-700 the parser
+  labels 34 TITLE, so NAME and COUNT are empty by construction. W700 'when the suffix is empty' = the voucher closer never takes the
+  tablet suffix W400 (357:1), a real but already-described exclusion of two tablet sub-systems, not a placeholder. W320 and W388 (23
+  texts each) sit at offsets -8/-3 and -2 from the end in texts whose last pre-closer sign is not a known title partner: they are
+  frequent NAME signs in title-less Mohenjo-daro seals, absent at the other sites.
+  Empty fields are SKIPPED, not filled: the most common signatures are the ones with zeros (TITLE + CLOSER 16%, NAME + CLOSER 5%,
+  COUNT + CLOSER 5%), and no sign is enriched in the empty-field texts at the position the field would occupy, with the parser
+  tautologies removed.
+  Arrows fired: 11 null comparisons in (c) + 374 sign x field tests in (d) under per-field max-statistic nulls and a 6-field Bonferroni.
+
+Ready-to-paste row:
+| S-DARK-22.3 | **Fixed-width fields (c, d): are the slots in front of the closer of fixed width, and is an empty field skipped or filled with a placeholder?** (c) Width of every S310 slot (OPENER, MARKER, NAME, COUNT, TITLE, SUFFIX) in the 2,095 closer-bearing texts; texts counted by width signature; null = slot-class bigram generative model (200 corpora, same lengths, re-parsed); seals, tablets, held-out sites. (d) For each field and each sign not of that field (374 tests), odds of the sign in texts where the field is EMPTY vs FILLED; null = permute the empty label within (site, type, length) strata, 200 reps, max-statistic per field, Bonferroni over 6 fields; hits re-counted at held-out sites; seq_raw / seq_strong / seq_all (`tools/dark_loop22.py 3`) | (c) TITLE width 0/1/2+: 0.36/0.54/0.10 (null 0.81/0.18/0.02); COUNT 0/1/2: 0.80/0.07/0.11; NAME 0-10 signs with a smooth fall-off 0.32, 0.26, 0.19, 0.11, 0.07, 0.03; 198 distinct signatures vs null 168 [158, 180] (more, not fewer); commonest signature TITLE + CLOSER alone 16% (26% of tablets). The only excess over the class null is 'exactly one title sign', which is the closer-specific left partner (S229, S289). (d) Fit-set hits: W320, W388 when TITLE is empty (23:1, 23:5; not in seq_raw), W34 when NAME or COUNT is empty (106:2, 107:1), W700 when SUFFIX is empty (357:1); none for OPENER or MARKER. Held-out: W320 0:0, W388 4:1, W34 0:0, W700 3:0, none replicates. W34 and W700 are the Harappa voucher '3 + W700' (the parser calls 34 a title, so NAME/COUNT are empty by construction; the voucher closer excludes the tablet suffix, S216-S218); W320/W388 are name signs of title-less Mohenjo-daro seals. Same at all merge levels except the W320/W388 pair (seq_strong/all only). | **Null for fixed widths and null for placeholders.** Every field except the closer is optional and variable: the name runs 0-10 signs, the title 0-2+, the count 0 or 2. An empty field shortens the text; no sign stands in for a missing opener, marker, title, count or suffix. The one code-design signature a record format would leave (a filler sign) is absent at every merge level and at the held-out sites. |
