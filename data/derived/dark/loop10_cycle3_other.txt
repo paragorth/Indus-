@@ -1,0 +1,39 @@
+LOOP 10 (random ontologies) cycle3_other  level=seq subset=other n=40 seed=1003  texts=958 vouchers=3 quantity=8  150s
+top-60 signs: [740, 2, 861, 220, 390, 32, 31, 1, 741, 33, 820, 705, 90, 520, 60, 590, 3, 240, 803, 235, 233, 840, 892, 55, 400, 920, 151, 798, 368, 550, 760, 415, 700, 176, 140, 255, 4, 900, 100, 480, 91, 13, 630, 125, 575, 742, 350, 527, 500, 231, 17, 226, 790, 717, 515, 416, 48, 388, 142, 440]
+chance co-category rate (balanced random, mean over ontologies): 0.288
+criteria drawn: {'mdl': 18, 'reuse': 11, 'fact': 11}
+
+HELD-OUT SCORES by criterion (bits/text gain for fact & quantity; share for reuse; -kbits for mdl). real mean [max] vs P=facts-permuted vs S=order-shuffled, mean [max]:
+  fact/emblem      n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/material    n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/period      n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/size        n= 4  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/4
+  fact/type        n= 1  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/1
+  mdl              n=18  real -13.621 [-13.464]  P -13.621 [-13.464]  S -14.227 [-14.188]  real-ontologies-beating-max-control: 0/18
+  reuse            n=11  real 0.616 [0.738]  P 0.655 [0.811]  S 0.569 [0.696]  real-ontologies-beating-max-control: 0/11
+
+STABLE CO-CATEGORY PAIRS (real rate >= 0.70 and >= 0.20 above both controls): 0 of 1770 pairs
+pairs >= 0.70 in real regardless of controls: 6; of these also >= 0.70 in P: 4, in S: 0
+
+STABLE CLASSES (connected components of the stable graph):
+
+KNOWN CLASSES: mean within-class co-category rate (real / P / S), pairs among top-60:
+  opener          3 signs   3 pairs  real 0.69  P 0.74  S 0.35  (chance 0.29)
+  connective      3 signs   3 pairs  real 0.50  P 0.47  S 0.42  (chance 0.29)
+  mid-initial     2 signs   1 pairs  real 0.20  P 0.23  S 0.23  (chance 0.29)
+  closer          6 signs  15 pairs  real 0.38  P 0.31  S 0.34  (chance 0.29)
+  suffix          2 signs   1 pairs  real 0.62  P 0.53  S 0.30  (chance 0.29)
+  pre-jar title   4 signs   6 pairs  real 0.47  P 0.50  S 0.28  (chance 0.29)
+  fish            6 signs  15 pairs  real 0.40  P 0.41  S 0.23  (chance 0.29)
+  short numeral   6 signs  15 pairs  real 0.34  P 0.32  S 0.34  (chance 0.29)
+  tall numeral    3 signs   3 pairs  real 0.37  P 0.30  S 0.27  (chance 0.29)
+  counted item    5 signs  10 pairs  real 0.29  P 0.29  S 0.31  (chance 0.29)
+  name-initial    4 signs   6 pairs  real 0.30  P 0.31  S 0.36  (chance 0.29)
+
+PER-CRITERION co-graphs: top 8 pairs for each criterion kind (real):
+  fact      n=11: 176-575(0.73)  151-231(0.73)  33-920(0.73)  892-630(0.64)  861-1(0.64)  740-226(0.64)  590-742(0.64)  550-100(0.64)
+  reuse     n=11: 740-90(0.91)  740-32(0.91)  820-900(0.82)  820-240(0.82)  740-803(0.82)  740-798(0.82)  740-527(0.82)  740-1(0.82)
+  mdl       n=18: 861-920(1.00)  861-820(1.00)  820-920(1.00)  240-235(1.00)  2-60(1.00)  920-575(0.94)  861-575(0.94)  820-575(0.94)
+
+READY-TO-PASTE ROW (cycle 3 = the three site splits md / ha / other):
+| S-DARK-10.3 | Random ontologies, cycle 3, held-out replication by site: the same search run separately on Mohenjo-daro only (1,883 texts, 'site' = excavation area, train/test = random halves), Harappa only (2,528) and all other sites (958), 40 ontologies each with P and S controls. Cross-criterion stable graph per split; MDL-class replication: the 11 MDL pairs stable (>= 0.80, >= 0.20 above the order-shuffle control) in both full-corpus seeds, tested in each split | **Cross-criterion stable pairs: 0 / 0 / 0 in the three splits** (as in cycles 1–2). Within the MDL criterion the classes recur city by city: Mohenjo-daro reproduces 5 of 11 consensus pairs (231-235, 231-803, 235-803, 2-368, 3-140), other sites 4 of 11 (235-240, 231-235, 90-400, 3-140), Harappa 1 of 10 (2-368; Harappa's top-60 is tablet-heavy and its MDL classes are the tablet title class {176, 630, 904, 482} + {861, 820} + {400, 90}). Mohenjo-daro adds a pre-jar title pair 760-923 (0.94); the other sites merge all three openers 861/820/920 with W575 (0.94–1.00). Fact criteria have no held-out set inside one city (score 0 by construction) and their pair graphs do not repeat between splits (top pairs 692-575 / 33-220 / 176-575) | **Replicated null for ontology-free classes; the MDL (sequence) classes replicate across cities at the level of the fish family, suffixes and small numeral + item pairs, not Harappa.** Mohenjo-daro + Harappa supply 82% of these texts, and the 'other' split is 958 texts from ~30 sites, so the 4/11 there is the only real out-of-sample figure. New: W368 goes with the connective W2 in every split because it shares W2's left context: 861-368 (32x) then 2/1 (22x), i.e. W368 is inserted between the opener and its connective (861-368-2), and it is also text-final 41 of 119 times; W3 + W140 share the text-initial slot (147 and 52 initial), so this is a same-slot class, not a 'count + item' pair. CORRECTION to the first draft of this row, which misread 2-368 as a sequence |
