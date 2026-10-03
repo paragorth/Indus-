@@ -17,7 +17,8 @@ missing = []
 def tr(ws):
     m = to_m(ws, br)
     if m is None:
-        missing.append(tuple(sorted(ws))); return set(w for w in ws if w in br) and to_m({w for w in ws if w in br}, br) or {-1}
+        missing.append(tuple(sorted(w for w in ws if w not in br)))
+        return to_m_partial(ws, br) or {-1}
     return m
 CL_ = claims(lib, S, tr)
 print('IM77-only texts', len(T), 'sites', collections.Counter(m['site'] for m, _ in T).most_common(), 'types', collections.Counter(m['ot'] for m, _ in T).most_common())

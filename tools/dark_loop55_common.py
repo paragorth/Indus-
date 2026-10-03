@@ -92,6 +92,7 @@ def sample_indus_shaped(src, rnd, hist, copies=None, n=3000, dup='natural', minl
     for L, w in want.items():
         k = int(round(w)); pool = by.get(L, [])
         take[L] = min(k, len(pool)); short += k - take[L]
+    short0 = short
     # redistribute shortfall proportionally over lengths with spare supply
     for _ in range(3):
         if short <= 0: break

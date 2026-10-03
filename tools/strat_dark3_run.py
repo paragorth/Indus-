@@ -8,7 +8,7 @@ Usage: python3 tools/strat_dark3_run.py MODE [P] [seed]"""
 import sys,os,random,json,statistics as st,time,collections
 sys.path.insert(0,'tools'); import strat_dark3 as D
 mode=sys.argv[1]; P=int(sys.argv[2]) if len(sys.argv)>2 else 40; seed=int(sys.argv[3]) if len(sys.argv)>3 else 3
-NTH=20
+NTH=int(os.environ.get('NTH','20'))  # random parameterisations per arrow
 TR=[t for t in D.TRANS]
 def run_split(split,var,P,rng,tr_names,tests,log,data=None):
     X=data if data is not None else D.texts(split,var)

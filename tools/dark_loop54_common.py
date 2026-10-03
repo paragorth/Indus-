@@ -409,8 +409,14 @@ def mk(sets):
 def w_sets():
     return {'OP': set(OP), 'OP5': set(OP5), 'MARK': set(MARK), 'SUF': set(SUF), 'CL': set(CL), 'NUM': set(NUM), 'JAR': {740}}
 
+def to_m_partial(signs, br):
+    out = set()
+    for w in signs:
+        if w in br: out |= br[w]
+    return out
+
 def m_sets(br):
-    g = lambda ws: to_m(ws, br) or set()
+    g = lambda ws: to_m_partial(ws, br)
     return {'OP': g(OP), 'OP5': g(OP5), 'MARK': g(MARK), 'SUF': g(SUF), 'CL': g(CL), 'NUM': g(NUM), 'JAR': {342}}
 
 def summarize(obs, null):
