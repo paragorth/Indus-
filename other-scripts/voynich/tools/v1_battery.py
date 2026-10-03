@@ -7,15 +7,15 @@ biases cancel between the real text and the generators. Effect statistics are ob
 destroys the effect (within-line shuffle, permutation of pairs, or re-dealing words to lines in a paragraph).
 
 Battery (keys):
-  word level : zipf, ttr, hapax, h2, wlen_m, wlen_sd, rep (adjacent identical / within-line shuffle),
+  word level : zipf, ttr, hapax, h2, wlen_m, wlen_sd, rep (adjacent identical / whole-text shuffle expectation),
                wlen_ac (lag-1 word-length autocorrelation inside lines, minus shuffle)
   line level : J_in  junction MI (last glyph -> next first glyph) inside lines, excess over pair permutation
                J_x   the same across a line break (same paragraph), same n          -> the 'reset'
                F1/L1 first-glyph / last-glyph excess MI with line-initial / line-final position
                W1/W2 word-identity excess MI with line-initial / line-final position (opener / closer vocab)
                PG    paragraph-first line starts with gallows minus other lines
-               Q_mg  m/g per-line variance ratio vs re-dealing (<1 = quota)
-               Q_gal, Q_e  gallows / e variance ratio (>1 = line make-up clumps)
+               Q_mg  m/g per-line dispersion (length-corrected) ratio vs re-dealing (<1 = quota)
+               Q_gal, Q_e  gallows / e dispersion ratio (>1 = line make-up clumps)
                C_qa, C_che, C_qd  per-line residual correlation, observed minus re-dealing null (two line modes)
                lag1  lag-1 persistence of line-mode score inside paragraphs, minus line-order shuffle
                endq  share of line-final words starting with q / share of all words starting with q
@@ -129,12 +129,13 @@ def battery(lines, seed=0, reps=10, keys=None):
         return same / max(tot, 1), cc
     LW = [L['words'] for L in lines]
     o_rep, o_ac = adj_stats(LW)
+    exp_rep = sum((v / n) ** 2 for v in c.values())   # identical-neighbour rate under a whole-text word shuffle
     srep, sac = [], []
     prng = random.Random(seed)
     for _ in range(3):
         sh = [prng.sample(ws, len(ws)) for ws in LW]
         r_, a_ = adj_stats(sh); srep.append(r_); sac.append(a_)
-    R['rep'] = o_rep / max(np.mean(srep), 1e-9); R['wlen_ac'] = float(o_ac - np.mean(sac))
+    R['rep'] = o_rep / max(exp_rep, 1e-9); R['wlen_ac'] = float(o_ac - np.mean(sac))
 
     # junction reset: within-line vs across-line (same paragraph), equal n
     inner = [(ws[i][-1], ws[i + 1][0]) for ws in LW for i in range(len(ws) - 1)]
@@ -220,12 +221,13 @@ def battery(lines, seed=0, reps=10, keys=None):
 
     ident = np.arange(len(pw))
     So = line_sums(ident)
-    ov = [within_var(So[k]) for k in ('mg', 'gal', 'e')]; oc = corrs(So)
+    disp = lambda S, k: float(np.sum(resid(S, k) ** 2))
+    ov = [disp(So, k) for k in ('mg', 'gal', 'e')]; oc = corrs(So)
     nv, nc = [], []
     for _ in range(reps):
         perm = np.lexsort((rng.random(len(pw)), pid))
         Sn = line_sums(perm)
-        nv.append([within_var(Sn[k]) for k in ('mg', 'gal', 'e')]); nc.append(corrs(Sn))
+        nv.append([disp(Sn, k) for k in ('mg', 'gal', 'e')]); nc.append(corrs(Sn))
     nv = np.mean(nv, axis=0); nc = np.mean(nc, axis=0)
     R['Q_mg'], R['Q_gal'], R['Q_e'] = [float(a / b) for a, b in zip(ov, nv)]
     R['C_qa'], R['C_che'], R['C_qd'] = [float(a - b) for a, b in zip(oc, nc)]

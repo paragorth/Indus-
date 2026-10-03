@@ -152,6 +152,25 @@ def shuffle_global(corpus, rng):
     return out
 
 
+def shuffle_column(corpus, rng):
+    """Position-preserving null: tokens are permuted among strings of the same
+    length at the same position.  Keeps every positional distribution, destroys
+    dependence between neighbours."""
+    by = defaultdict(list)
+    for i, s in enumerate(corpus):
+        by[len(s)].append(i)
+    out = [None] * len(corpus)
+    for L, idx in by.items():
+        cols = []
+        for p in range(L):
+            col = [corpus[i][p] for i in idx]
+            rng.shuffle(col)
+            cols.append(col)
+        for j, i in enumerate(idx):
+            out[i] = tuple(cols[p][j] for p in range(L))
+    return out
+
+
 def markov2(corpus, rng, lam=(0.6, 0.3, 0.1)):
     """Interpolated order-2 Markov chain with start symbols, fixed lengths copied
     from the corpus (end symbol not modelled, so final-slot effects are not

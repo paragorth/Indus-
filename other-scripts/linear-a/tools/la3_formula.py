@@ -100,13 +100,17 @@ def semi_global(seed, stream):
     matches = sum(1 for a, b in cols if a is not None and a == b)
     return S[n][j_end], matches, cols, j, j_end
 
+MATCH_FRAC = float(os.environ.get('LA3_MATCH_FRAC', '0.6'))
+SCORE_FRAC = float(os.environ.get('LA3_SCORE_FRAC', '1.0'))
+TAG = os.environ.get('LA3_TAG', '')
+
 def need(seed):
-    return max(3, math.ceil(0.6 * len(seed)))
+    return max(3, math.ceil(MATCH_FRAC * len(seed)))
 
 def accept(seed, sc, mt):
     # strict: >= 60% of the seed matched AND score >= len(seed)
     # (e.g. a 6-sign seed allows 2 substitutions, or 1 substitution + 1 indel)
-    return mt >= need(seed) and sc >= len(seed)
+    return mt >= need(seed) and sc >= SCORE_FRAC * len(seed)
 
 def scan(seeds, objs, raw=False):
     hits = []
@@ -159,10 +163,27 @@ def main():
         if len({h[0] for h in new}) < 2: continue
         seeds.append(c); tier['-'.join(c)] = 1 if len(occ[tuple(c)]) >= 2 else 2
         for o, a, b in hs: claimed[o] |= set(range(a, b))
-    rep = ['LA-3 cycle 1: libation formula alignment', '',
+    rep = ['LA-3 cycle 1: libation formula alignment (match frac %.2f, score frac %.2f)' % (MATCH_FRAC, SCORE_FRAC), '',
            'Seeds (tier 1 = exact type on >=2 objects; tier 2 = single type whose strict variants hit >=2 objects): ' + ', '.join('-'.join(s) + ' (t%d)' % tier['-'.join(s)] for s in seeds)]
     # ---- scan
     hits = scan(seeds, na_obj)
+    # merge seeds that are strict variants of each other (either direction) into one family;
+    # the earlier (more attested) seed is the reference and member hits are re-aligned to it
+    ref = list(range(len(seeds)))
+    for j in range(len(seeds)):
+        for i in range(j):
+            if ref[i] != i: continue
+            ok = False
+            for x, y in ((seeds[i], seeds[j]), (seeds[j], seeds[i])):
+                sc, mt, cols, a, b = semi_global(x, y)
+                ok |= accept(x, sc, mt)
+            if ok: ref[j] = i; break
+    merged_note = ['%s -> %s' % ('-'.join(seeds[j]), '-'.join(seeds[ref[j]])) for j in range(len(seeds)) if ref[j] != j]
+    for h in hits:
+        if ref[h['seed']] != h['seed']:
+            k = ref[h['seed']]
+            sc, mt, cols, a, b = semi_global(seeds[k], h['form'].split('-'))
+            h['seed'] = k; h['cols'] = cols; h['form'] = '-'.join(x for _, x in cols if x)
     ad_hits = scan(seeds, ad_obj)
     # shuffled-stream control
     pool = [x for _, s in na_obj for x in s]
@@ -175,6 +196,7 @@ def main():
     rep.append('Hits on non-admin objects: %d on %d objects; on admin texts: %d (%d texts, rate %.4f/text vs %.3f non-admin); shuffled non-admin streams: mean %.1f (20 runs)'
                % (len(hits), len({h['obj'] for h in hits}), len(ad_hits), len(ad_obj), len(ad_hits)/len(ad_obj),
                   len(hits)/len(na_obj), sum(sh_counts)/20))
+    rep.append('Merged seed variants: ' + '; '.join(merged_note))
     rep.append('Admin hits (false-positive check): ' + '; '.join('%s %s~%s' % (h['obj'], '-'.join(seeds[h['seed']]), h['form']) for h in ad_hits))
     # ---- families and alignment table
     fam = defaultdict(list)
@@ -300,8 +322,8 @@ def main():
            'pairs_formula': {'~'.join(p): sorted(fs) for p, fs in pairs_f.items()},
            'pairs_all': {'~'.join(p): sorted(fs) for p, fs in pairs_a.items()},
            'systematic_formula': st_f, 'systematic_all': st_a}
-    json.dump(out, open(os.path.join(D, 'la3_formula.json'), 'w'), ensure_ascii=False, indent=1)
-    open(os.path.join(D, 'la3_formula_report.txt'), 'w').write('\n'.join(rep) + '\n')
+    json.dump(out, open(os.path.join(D, 'la3_formula%s.json' % TAG), 'w'), ensure_ascii=False, indent=1)
+    open(os.path.join(D, 'la3_formula%s_report.txt' % TAG), 'w').write('\n'.join(rep) + '\n')
     print('\n'.join(rep))
 
 if __name__ == '__main__':

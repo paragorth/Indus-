@@ -67,7 +67,7 @@ LAT_ORD = ['primus', 'secundus', 'tertius', 'quartus', 'quintus', 'sextus', 'sep
            'vicesimus primus', 'vicesimus secundus', 'vicesimus tertius', 'vicesimus quartus',
            'vicesimus quintus', 'vicesimus sextus', 'vicesimus septimus', 'vicesimus octavus',
            'vicesimus nonus', 'tricesimus', 'tricesimus primus']
-LAT_ABL = ['', '', 'tertio', 'quarto', 'quinto', 'sexto', 'septimo', 'octavo', 'nono', 'decimo', 'undecimo',
+LAT_ABL = ['', '', '', 'tertio', 'quarto', 'quinto', 'sexto', 'septimo', 'octavo', 'nono', 'decimo', 'undecimo',
            'duodecimo', 'tertio decimo', 'quarto decimo', 'quinto decimo', 'sexto decimo', 'septimo decimo',
            'duodevicesimo', 'undevicesimo']
 ITA = ['uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci', 'undici', 'dodici',

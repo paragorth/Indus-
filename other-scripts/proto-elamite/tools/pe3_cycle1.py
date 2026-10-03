@@ -12,7 +12,7 @@ from pe3_common import *
 N = int(os.environ.get('PE3_N', 360))
 R = int(os.environ.get('PE3_R', 20))
 NNULL = 30
-OUT = os.path.join(PEDATA, 'pe3_cycle1.json')
+OUT = os.path.join(PEDATA, 'pe3_cycle1_N%d.json' % N)
 
 
 def stats(c, rng):
@@ -27,7 +27,8 @@ def stats(c, rng):
 
 
 NULLMAP = {'fin_topk': 'w', 'ini_topk': 'w', 'order_cons': 'w', 'aa_rate': 'w',
-           'gap_excess': 'g', 'adj_mi': 'g', 'pos_free': 'g'}
+           'gap_excess': 'g', 'adj_mi': 'g', 'pos_free': 'g',
+           'c_gap_excess': 'c', 'c_adj_mi': 'c', 'c_order_cons': 'c'}
 
 
 def run(name, corpus, profile, rng):
@@ -37,12 +38,14 @@ def run(name, corpus, profile, rng):
         obs = stats(smp, rng)
         nw = [stats(shuffle_within(smp, rng), rng) for _ in range(NNULL)]
         ng = [stats(shuffle_global(smp, rng), rng) for _ in range(NNULL)]
+        nc = [stats(shuffle_column(smp, rng), rng) for _ in range(NNULL)]
         z = {}
-        for k, which in NULLMAP.items():
-            nl = [x[k] for x in (nw if which == 'w' else ng)]
+        for k0, which in NULLMAP.items():
+            k = k0[2:] if k0.startswith('c_') else k0
+            nl = [x[k] for x in {'w': nw, 'g': ng, 'c': nc}[which]]
             nl = [x for x in nl if x == x]
             if obs[k] == obs[k] and len(nl) > 2:
-                z['z_' + k], _ = zscore(obs[k], nl)
+                z['z_' + k0], _ = zscore(obs[k], nl)
         obs.update(z)
         obs['short'] = short
         rows.append(obs)
