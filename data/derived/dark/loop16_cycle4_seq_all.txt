@@ -1,0 +1,47 @@
+== loop16 cycle 4 level=seq_all nperm=3000; lines TAG=224 (objects 193) SEAL=2250 TAB=2173
+# (d) condition as wear: seals (SEAL:S, SEAL:R), condition Poor=0 Fair=1 Good=2 Fine=3; preservation; text class; strata = site x material
+seals 2125; class counts Counter({'other': 777, 'office_jar': 707, 'counted_other': 381, 'arrow': 160, 'stock': 100})
+condition counts Counter({0: 846, 2: 681, 1: 512, 3: 86}); damaged(pres not complete) 805
+
+# raw means by class (ALL):
+   office_jar     n=707 cond=1.05 damaged=0.35 len=4.84
+   stock          n=100 cond=1.23 damaged=0.16 len=3.98
+   counted_other  n=381 cond=1.08 damaged=0.35 len=4.86
+   arrow          n=160 cond=1.07 damaged=0.34 len=4.82
+   other          n=777 cond=0.88 damaged=0.46 len=3.34
+
+# outcome cond: class mean minus rest, null = class labels permuted within site x material x type (3000x)
+   office_jar     n=707: +0.073 (null -0.004, p_lo 0.978, p_hi 0.024)
+   stock          n=100: +0.238 (null +0.013, p_lo 0.994, p_hi 0.008)
+   counted_other  n=381: +0.089 (null +0.029, p_lo 0.887, p_hi 0.126)
+   arrow          n=160: +0.071 (null -0.014, p_lo 0.885, p_hi 0.134)
+   text length r with cond: +0.236 (null +0.038, p_lo 1.000, p_hi 0.000)
+
+# outcome dam: class mean minus rest, null = class labels permuted within site x material x type (3000x)
+   office_jar     n=707: -0.048 (null +0.006, p_lo 0.008, p_hi 0.995)
+   stock          n=100: -0.230 (null -0.003, p_lo 0.000, p_hi 1.000)
+   counted_other  n=381: -0.033 (null -0.011, p_lo 0.221, p_hi 0.818)
+   arrow          n=160: -0.045 (null -0.000, p_lo 0.147, p_hi 0.892)
+   text length r with dam: -0.177 (null -0.008, p_lo 0.000, p_hi 1.000)
+
+ arrows 10; Bonferroni alpha 0.0050
+
+# held-out by site: office_jar minus rest for cond and dam, within material (raw differences)
+   Mohenjo-daro  n=1290 office=459 cond diff +0.019  dam diff -0.029  len-cond r 
+   Harappa       n=415 office=140 cond diff +0.191  dam diff -0.133  len-cond r 
+   Dholavira     n=110 office=26 cond diff -0.014  dam diff -0.142  len-cond r 
+   Lothal        n=88 office=20 cond diff +0.026  dam diff +0.056  len-cond r 
+   Kalibangan    n=53 office=14 cond diff +0.053  dam diff -0.119  len-cond r 
+   Chanhu-daro   n=55 office=14 cond diff +0.551  dam diff -0.293  len-cond r 
+
+# condition by site and material (shows the excavation/site effect the strata remove):
+   Mohenjo-daro  Steatite   n=1115 mean cond 1.15 damaged 0.38
+   Harappa       Steatite   n=327 mean cond 0.74 damaged 0.42
+   Mohenjo-daro  -          n=145 mean cond 0.69 damaged 0.46
+   Harappa       -          n=79 mean cond 0.95 damaged 0.38
+   Dholavira     Steatite   n=61 mean cond 0.95 damaged 0.44
+   Lothal        Steatite   n=58 mean cond 0.69 damaged 0.33
+   Chanhu-daro   Steatite   n=55 mean cond 1.02 damaged 0.22
+   Dholavira     -          n=48 mean cond 0.65 damaged 0.48
+   Kalibangan    Steatite   n=40 mean cond 1.77 damaged 0.30
+   Mohenjo-daro  Faience    n=23 mean cond 1.22 damaged 0.39

@@ -24,3 +24,15 @@
 
 -- (a) anagram census [texts of >=3 signs] objects 2281; multisets on >=2 objects 206; in >1 order 7 (0.034); object pairs same order 2874 vs different 24 (diff share 0.008)
    null within-slot shuffle : anagram-group rate median 0.563 [5% 0.524, 95% 0.597], P(obs<=null) 0.0010; pair-diff share median 0.461 [0.451,0.469] P_lo 0.0010; order information retained = 1 - obs/null = 0.98
+   null whole-text shuffle  : anagram-group rate median 0.951 [5% 0.932, 95% 0.976], P(obs<=null) 0.0010; pair-diff share median 0.921 [0.912,0.928] P_lo 0.0010; order information retained = 1 - obs/null = 0.99
+   anagram groups: {'one site': 5, 'multi-site': 2}; order-pairs that are a single adjacent transposition 5, other 2
+   inverted sign pairs by frame-slot pair: [(('NAME', 'NAME'), 5), (('COUNT', 'SUFFIX'), 2), (('CLOSER', 'SUFFIX'), 2), (('CLOSER', 'COUNT'), 1), (('NAME', 'TITLE'), 1)]
+     n=12 413-892-824 x11 | 824-892-413 x1   [Har/tablet]
+     n=5 235-240-740-90 x4 | 240-235-740-90 x1   [Har/tablet]
+     n=4 4-220-700 x1 | 4-700-220 x3   [Har/tablet]
+     n=3 416-220-740-760-400 x1 | 416-220-760-740-400 x2   [Har/tablet]
+     n=3 31-384-156-400 x2 | 400-31-384-156 x1   [Har/other, Har/seal, Har/tablet]
+     n=2 390-590-151 x1 | 590-390-151 x1   [Har/seal, Lot/seal]
+     n=2 142-151-400 x1 | 142-400-151 x1   [Har/tablet, Unk/seal]
+
+-- (a) anagram census [2-sign texts] objects 874; multisets on >=2 objects 86; in >1 order 8 (0.093); object pairs same order 17668 vs different 5885 (diff share 0.250)
