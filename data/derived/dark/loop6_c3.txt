@@ -1,0 +1,21 @@
+LOOP 6 - CYCLE 3: the shared-text network vs the map
+Script: data/derived/dark/loop6_c3_network.py; full output loop6_c3_network.txt
+Texts of >= 3 signs (site+text dedup; 2,347 on seq_raw, 2,323 on seq_strong). A link = two sites carrying the same exact text.
+Sharing normalised by expected sharing n_i x n_j. Mantel test (Spearman over the 190 site pairs) against great-circle distance,
+coast-distance difference and river change; null = site labels permuted (5,000x; the unit is the site). Also the linked-vs-unlinked
+mean distance, the same-river share, the S324 seal -> sealing flow subset, and power by simulation.
+
+RESULT (seq_raw): 52 texts shared by >= 2 sites, 74 links over 17 of the 190 site pairs. Harappa-MD 32, Lothal-MD 8, Chanhu-daro-MD 4
+(130 km), Dholavira-Harappa 4 (794 km), Harappa-Kalibangan 4 (177 km), Kalibangan-MD 4, Harappa-Lothal 4 (904 km), ...
+Mantel: normalised sharing ~ km rho = -0.03 (p 0.73); ~ coast difference -0.01 (p 0.92); ~ river change -0.07 (p 0.29); raw counts
+~ km -0.03 (p 0.71). Restricted to the 9 sites with >= 1 link: km rho = -0.17 (p 0.37). Without MD + HP only 3 links remain
+(p 0.67). Linked pairs mean 548 km vs unlinked 567 km, site-perm P = 0.40. Same-river share 0.35 vs 0.24 (n.s.).
+seq_strong: 60 shared texts, 94 links, same numbers (km p 0.62; linked 539 vs 568 km, P 0.34).
+S324 flow (sealing site <- seal site): Lothal <- MD 4, Kalibangan <- MD 1, Lothal <- Harappa 1, Rupar <- MD 1: 5 of 7 sealings sit
+nearer the sea than their seal, but 2 of 4 site pairs, and all four flows start at the two big cities, so this is MD's size, not
+a coastal direction.
+POWER: with 17 links placed with probability ~ n_i n_j exp(-d / 300 km) the Mantel test detects the decay 50% of the time; with
+links confined to pairs < 400 km apart, 100%. So a strongly local network would have shown; a gently decaying one could hide.
+Transcription: IM77 gives the same picture (cycle 5): Harappa-Lothal 6 links over 904 km vs Chanhu-daro-MD 4 over 130 km.
+
+| S-DARK-6.3 | Geography as plaintext, the shared-text network: pairs of sites carrying the same text (>= 3 signs, exact match; 52 texts, 74 links on seq_raw; 60/94 on seq_strong) vs great-circle distance, coast-distance difference and river change. Sharing normalised by n_i x n_j; Mantel test with site labels permuted 5,000x; linked vs unlinked pair distance; S324 seal -> sealing flows; power by simulation. `data/derived/dark/loop6_c3_network.py` | **Null. Sharing ~ km rho -0.03 (p 0.73); coast -0.01 (p 0.92); river change -0.07 (p 0.29). Linked pairs 548 km apart vs unlinked 567 km (P 0.40).** Harappa-Lothal (904 km) and Dholavira-Harappa (794 km) share 4 texts each, as many as Chanhu-daro-MD (130 km) and Harappa-Kalibangan (177 km). Without MD + HP 3 links remain. S324 flows: 5 of 7 sealings lie nearer the sea than their seal but all four source sites are MD/Harappa. Power 0.50 for a 300-km decay, 1.00 for a < 400-km network. IM77 (cycle 5) agrees: links follow n_i x n_j. | **Shared texts do not follow the map.** Identical seal texts turn up at any distance, with no river-order or coastward gradient beyond the size of Mohenjo-daro and Harappa. Consistent with S17/S324/S344: the recurring texts are short title-like formulae and copied voucher texts belonging to a region-wide system, not neighbour-to-neighbour contact. Caveat: 17 linked pairs; a gradual decay (half-sharing every 300 km) has only even odds of detection. |

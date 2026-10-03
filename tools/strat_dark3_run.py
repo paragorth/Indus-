@@ -104,7 +104,7 @@ def main():
         for split in ('train','heldout'):
             for var in ('seq_raw','seq_strong','seq_all'):
                 for tn,sn in surv:
-                    r=run_split(split,var,200,rng,[tn],[sn],log)
+                    r=run_split(split,var,60,rng,[tn],[sn],log)
                     for k,v in r.items(): allres[f'{split}|{var}|{k[0]}|{k[1]}']=v
         json.dump(allres,open(D.OUT+'loop3_pipelines_confirm.json','w'),indent=1)
 main()
