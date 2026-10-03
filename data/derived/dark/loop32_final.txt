@@ -1,0 +1,66 @@
+# S-DARK-32 final (loop 32: A TYPOLOGY CLASSIFIER -- where does Indus fall among short-text systems of known type when all the
+# repository's metrics are used jointly?). Tools: tools/dark_loop32_prep.py (library), tools/dark_loop32.py (battery + first
+# classifier), tools/dark_loop32_c2.py (nested-selection LOCO, binary, granularity-matched), tools/dark_loop32_c3audit.py.
+# Rows: loop32_cycle1.txt, loop32_cycle2.txt, loop32_cycle3.txt (S-DARK-32.1-32.3). Tables: loop32_classify.txt, loop32_c2_nonum.txt,
+# loop32_c2_withnum.txt, loop32_c3_gran_nonum.txt, loop32_c3_gran_withnum.txt, loop32_c3_audit.txt, loop32_features.json/.log.
+# Library: data/derived/dark/loop32_corpora/*.jsonl + SOURCES.txt (provenance, licence, type). No git commit made (loop rule).
+
+Question. Treat Indus as an unknown and ask a classifier trained on short formulaic texts of KNOWN type (language writing / designed
+non-linguistic code / accounting-tally) where it belongs, using every structural metric the repository has built, on the same code.
+
+Library (open data only; what could not be obtained was skipped, not faked). 20 reference corpora: language writing 7 (Ur III seal
+legends as words and as syllables, Ur III owner names, Linear B lines as words and as syllables, Latin EDH; RunesDB 613 texts, test
+only), designed codes 5 (Rietstap blazons, ICD-10-CM, HTS tariff numbers, Unicode character names, OpenSky aircraft registrations),
+grammar without language 2 (lichess ECO openings, Chordonomicon chord sections), accounting 3 (khipu, Proto-Elamite, proto-cuneiform
+lines, new). Not obtainable openly here: Egyptian titularies, Old Persian / Aramaic / Phoenician seals, oracle-bone texts, merchant /
+masons / potters marks, real ISBN lists, plates, Dewey, Rundata. Indus: seq_raw / seq_strong / seq_all / IM77; controls: slot-shuffled
+(S310 frame kept), Markov-2 and bigram synthetic Indus. 36 structural features (strat_codelibrary battery, dark_loop19 pair census,
+dark_loop25 hubs / loyalty, slot exclusivity, closer paradigm, numeral behaviour, slot-vs-bigram held-out bits), 8 length-matched
+subsamples per corpus (2-13 signs, cap 3,000); length features excluded.
+
+Results (every number identical to 0.01-0.05 at seq_raw / seq_strong / seq_all; IM77 within 0.05 unless said)
+1. The typology is barely learnable from real corpora. Leave-one-corpus-out accuracy: 36 features 0.44 (= majority chance); nested
+   selection 0.56 without numeral features (P = 0.19 vs label permutation), 0.75 with them (P = 0.065); binary language-vs-not 0.69
+   against a 0.62 baseline (P = 0.23-0.29); granularity-matched 9-corpus library 0.22 / 0.67 (P = 0.55 / 0.065). The only feature
+   family that separates a class at all is numeral behaviour (accounting 31-68 % numerals and 31-63 % numeral runs; language and
+   designed 0-10 % and 0 %), and it depends on which corpora carry numeral annotation. P >= 0.80 from the best model is right 10 of 14.
+2. Indus under the best models: 3-class without numerals -> accounting 0.67; with numerals -> language 0.67-0.72 (0.88-0.94 in the
+   granularity-matched library); binary P(language) 0.31-0.38 (0.54-0.58 granularity-matched). The verdict flips on one feature.
+   P(designed code) <= 0.07 in every run: Indus is not a character-level code and not a free-order description.
+3. Controls decide it. The slot-shuffled Indus behaves as required in every run (-> accounting / not-language, P 0.76-0.99, nearest
+   khipu, HTS, chords). The Markov-2 and bigram synthetic Indus DO NOT: they receive the same class as the real Indus with equal or
+   higher confidence in every configuration (e.g. language 0.73-0.76 vs Indus 0.67-0.72). So whatever class the classifier gives
+   Indus, it would give to an order-2 Markov chain fitted to Indus; the label carries no typological information.
+4. Nearest known systems (model-free, all features, z over corpus means): seq_raw -> IM77 2.0, Markov-2 Indus 3.8, proto-cuneiform
+   4.3, bigram Indus 4.4, Linear B syllables 4.8, Ur III names 5.1, Proto-Elamite 5.2, Ur III syllables 5.6; IM77 -> Markov-2 3.0,
+   Ur III syllables 4.8, proto-cuneiform 4.8. Indus is closer to a Markov chain of itself than to any known system, and the distance
+   between its two transcriptions (2.0) is half the distance to the nearest real corpus.
+5. What the battery does see: Indus differs from its Markov-2 surrogate by a closer paradigm (last-position entropy 0.72 vs 0.96,
+   top-10 closer share 0.64 vs 0.42), fixed pair order (0.71 vs 0.45), a slot model that is only 0.21 bits worse than a bigram (vs
+   0.78), low middle uniqueness (0.83 vs 0.94) -- the S289 / S-DARK-19 / S321 picture -- but every one of these values lies inside
+   the range of Ur III and Linear B lines. Features on which Indus lies outside ALL six language corpora: no loyal class sign
+   (det_loy50_max 0.35 vs 0.46-0.84; S-DARK-25), low slot exclusivity (0.07 vs 0.10-0.35), an opener position as open as the whole
+   inventory (n80_first 1.11 vs 0.26-1.01), numerals early (-0.29 vs 0.00-0.63) and in runs (0.07 vs 0.00-0.02).
+
+Plain answer to the task's question 4. Indus most resembles, in order, its own Markov-2 surrogate, proto-cuneiform entry lines and
+Linear B / Ur III SYLLABLE-level lines; the classifier's confidence in any class is nil, because it gives the same class to the Markov
+surrogate (and its best honest accuracy on known systems is 0.56-0.75 against chance 0.44 with P >= 0.065). The single metric that
+most separates Indus from language writing, once the annotation-dependent numeral features are set aside, is the absence of a loyal
+class sign (det_loy50_max): every language corpus has a sign that >= 50 % of its hosts must carry (Ur III d / ki, Linear B ideograms,
+Latin formula words, Ur III name-final syllables); Indus has none above 0.37 at any level or in IM77. With numerals included, the
+largest separation is numeral runs (0.07 vs <= 0.02) with numerals leaning to the start, a count use (S197-S199) that language seal
+legends lack and accounting lines overshoot.
+
+Verdict. Inconclusive by design check, and informatively so: 'short formulaic texts of known type' do not form three separable classes
+under this battery (characters vs syllables vs words spread each class as far as the classes are apart), so the typology question
+cannot be answered by joint statistics at this corpus size. Robust negatives: Indus is not a character-level designed code, not a
+free-order descriptive code, and the within-frame order (slot-shuffle control) is what keeps it out of the tally corner. Robust
+positives: nothing beyond the frame picture already in GRAMMAR.md. Upper bounds throughout (3 accounting corpora, 6 language corpora
+of which two pairs share source texts, so effective n is smaller); 76 % of Indus texts are Mohenjo-daro + Harappa; the Indus corpus
+file predates the latest inscriptions.csv (S-DARK-23). ~140 model fits and 150 permutation fits; no 'cracked'.
+
+What would change it. (a) >= 5 further corpora PER class at syllable-like granularity (200-1,000 signs), e.g. Egyptian titularies,
+Aramaic / Phoenician seals, Rundata, oracle-bone short texts, Mesopotamian potters marks -- all exist but not as open tables; the tools
+accept any {"id","seq"} JSONL. (b) A numeral annotation for every corpus (so the one class-separating family is fair). (c) A feature
+that a Markov-2 chain cannot fake and language has: so far only det_loy50_max qualifies, and it says 'not like these languages' rather
+than naming a class.
