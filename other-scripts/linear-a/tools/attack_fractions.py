@@ -317,6 +317,51 @@ def main():
                 print('by commodity', d, pri, 'grouped:', r[0]['sum_violations'], r[0]['balanced'], len(r[0]['values']), 'params',
                       '| global:', g[0]['sum_violations'], g[0]['balanced'], len(g[0]['values']), 'params')
 
+    # ---- 1e. fractional part only (integer slips allowed), on the clean sections
+    # HT46a and the two auto splits of HT123+124a are section-finding errors (1 entry; OLIV vs *308 mixed)
+    CLEAN = [s for s in secs if s['id'] not in ('HT46a', 'HT123+124a#1', 'HT123+124a#2')]
+    R['clean_sections'] = [s['id'] for s in CLEAN]
+    R['mod1'] = []
+    print('\n1e. fractional-part balance on clean sections', R['clean_sections'])
+    for d in ('larger', 'smaller'):
+        for fam in FAMILIES:
+            for exact in (True, False):
+                r = solve(comps, CLEAN, d, fam, hard_sum=True, priority='bal', mod1=not exact, topk=10)
+                if not r: continue
+                vs = defaultdict(set)
+                for x in r:
+                    for l, v in x['values'].items(): vs[l].add(v)
+                R['mod1'].append({'dir': d, 'family': fam, 'mode': 'exact' if exact else 'mod1',
+                                  'top': [{'values': fmt(x['values']), 'balanced': x['balanced'], 'cost': x['cost']} for x in r[:5]],
+                                  'pinned_top10': {l: str(Fr(list(v)[0], U)) for l, v in vs.items() if len(v) == 1}})
+                print(f"  {d:7s} {fam:11s} {'exact' if exact else 'mod1 '}: balanced {len(r[0]['balanced'])} {r[0]['balanced']} "
+                      f"cost {r[0]['cost']} {fmt(r[0]['values'])}\n      pinned top10: {R['mod1'][-1]['pinned_top10']}")
+    # control for totals: shuffle the fraction letters among the clean sections' quantities
+    # (compounds untouched), re-solve; how often is the max balance as high?
+    obs_t = {}
+    for d in ('larger', 'smaller'):
+        for m in (False, True):
+            r = solve(comps, CLEAN, d, 'any', hard_sum=True, priority='bal', mod1=m)
+            obs_t[f'{d}/{"mod1" if m else "exact"}'] = len(r[0]['balanced']) if r else 0
+    sec_letters = []
+    for s in CLEAN:
+        for l, c in s['coef'].items(): sec_letters += [l] * abs(c)
+    nullc = defaultdict(list)
+    for rep in range(200):
+        sh = sec_letters[:]; random.shuffle(sh); k = 0; new = []
+        for s in CLEAN:
+            co = Counter()
+            for l, c in s['coef'].items():
+                for _ in range(abs(c)): co[sh[k]] += (1 if c > 0 else -1); k += 1
+            new.append(dict(s, coef={l: c for l, c in co.items() if c}))
+        for d in ('larger', 'smaller'):
+            for m in (False, True):
+                r = solve(comps, new, d, 'any', hard_sum=True, priority='bal', mod1=m, time_limit=5)
+                nullc[f'{d}/{"mod1" if m else "exact"}'].append(len(r[0]['balanced']) if r else 0)
+    R['control_totals'] = {k: {'observed': obs_t[k], 'null_mean': sum(v) / len(v),
+                               'P_null_ge_obs': sum(x >= obs_t[k] for x in v) / len(v)} for k, v in nullc.items()}
+    print('control (section letters shuffled):', R['control_totals'])
+
     # held-out (a): order learned on half the compounds predicts the other half? global vs by group
     hold = {'global': [0, 0, 0], 'by_commodity': [0, 0, 0]}
     for rep in range(500):
@@ -393,14 +438,14 @@ def main():
     # ---- 3. predictions for unbalanced / damaged totals under the top systems
     R['predictions'] = {}
     for d in ('larger', 'smaller'):
-        for fam in ('binary', 'sexagesimal', 'any'):
-            r = solve(comps, secs, d, fam, hard_sum=True, priority='sum')
+        for fam in ('binary', 'sexagesimal', 'duodecimal', 'any'):
+            r = solve(comps, CLEAN, d, fam, hard_sum=True, priority='bal', mod1=True)
             if not r: continue
             v = r[0]['values']
             inv = defaultdict(list)
             for l, x in v.items(): inv[x].append(l)
             rows = []
-            for s in secs:
+            for s in CLEAN:
                 if not s['coef'] or not all(l in v for l in s['coef']): continue
                 g = gap(s, v)
                 # what fraction the written total would need (entries - integer total) and which letter has it
