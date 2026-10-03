@@ -1,0 +1,40 @@
+S-DARK-53 cycle 2: the same code on the S-DARK-32 reference corpora subsampled to the Indus n. Script tools/dark_loop53.py 2 (loop53_cycle2_log.txt,
+loop53_cycle2.json), full-pool utilisation tools/dark_loop53_pool.py (loop53_pool_log.txt). Reference corpora: data/derived/dark/loop32_corpora/.
+Name extraction heuristics (data, not interpretations): Ur III owner name = first word of each distinct @seal legend unless it is a title word
+(dumu, dub-sar, arad2, lugal ...), 5,960 legends -> 2,177 distinct names, at word and syllable granularity; also the per-impression line-1 stock
+(24,494); Linear B personnel names = first sign group of DAMOS lines carrying the VIR or MUL ideogram (559 lines, 471 distinct); Latin EDH names =
+up to 3 words after 'dis manibus' not in a kinship / formula stoplist (1,190); Proto-Elamite middles = entry lines with the N-numerals removed (8,824).
+Synthetic anchors: uniform ID generator over k = 617 symbols with the Indus middle length distribution (19% length 1), the same at k = 36 L = 5-6
+(a registration-plate space), Zipf name stocks (3,000 names a = 1.0 / 0.6; 30,000 names a = 1.0) built from 400 syllables at the Indus lengths.
+
+LADDER at n = 1,971 (median of 25 draws without replacement; CI = 2.5-97.5 pct of draws; Indus CI = 0.8-subsample spread centred on the full-n value)
+  corpus                                            uniq  GTnew   Gini   Zipf   even  Heaps  log10 util (entropy cap)
+  D hts (2-digit groups)                           1.000 1.000 0.000   0.00 0.765 1.000    -0.8
+  D icd10 (chars)                                  1.000 1.000 0.000   0.00 0.821 1.000    -0.1
+  D unicode_names (words)                          1.000 1.000 0.000   0.00 0.844 1.000    -3.4
+  G chess_eco (moves)                              1.000 1.000 0.000   0.00 0.831 1.000   -13.9
+  S uniform ID generator (k=36, L=5-6)             1.000 1.000 0.000   0.00 0.995 1.000    -3.0
+  D aircraft_reg (chars)                           0.999 0.998 0.001  -0.00 0.825 1.000    -1.4
+  D heraldry blazons (words)                       0.984 0.973 0.016  -0.05 0.910 0.995   -35.4
+  L latin EDH names after dis manibus (words)      0.978 0.960 0.021  -0.06 0.939 0.993    -2.8
+  G chords sections                                0.954 0.926 0.045  -0.10 0.872 0.985   -27.8
+  S uniform ID generator (k=617, Indus lengths)    0.950 0.909 0.048  -0.11 0.988 0.985    -8.5   [uniq 0.936-0.961; Gini 0.037-0.062; Heaps 0.981-0.988]
+  L linear B lines (words)                         0.718 0.685 0.279  -0.22 0.777 0.952    -6.4
+  L linear B personnel names (syll)                0.843 0.753 0.147  -0.25 0.888 0.950    -3.1   [pool 559 < n, no resampling spread]
+  A proto-cuneiform lines                          0.746 0.681 0.245  -0.28 0.810 0.943    -4.5
+  Indus seq_raw middles (dedup)                    0.807 0.723 0.182  -0.29 0.916 0.936    -7.5   [uniq 0.797-0.819; Gini 0.171-0.191; Heaps 0.929-0.941]
+  A khipu clusters                                 0.688 0.611 0.298  -0.37 0.873 0.913   -15.9
+  A proto-elamite entry middles (signs)            0.598 0.506 0.378  -0.48 0.905 0.868    -3.6
+  S zipf name stock 30000 (a=1.0)                  0.513 0.422 0.461  -0.53 0.795 0.860    -6.5
+  S zipf name stock 3000 (a=0.6)                   0.615 0.420 0.312  -0.49 0.945 0.856    -7.7
+  L ur3 names, 1 per legend (words)                0.513 0.371 0.422  -0.62 0.931 0.810    (L=1, capacity undefined)
+  L ur3 names, 1 per legend (syllables)            0.513 0.371 0.422  -0.62 0.816 0.808    -4.1   [uniq 0.497-0.525; Gini 0.409-0.437; Heaps 0.796-0.818]
+  S zipf name stock 3000 (a=1.0)                   0.355 0.240 0.584  -0.73 0.727 0.775    -5.7
+  L ur3 names per impression (syll)                0.388 0.264 0.529  -0.77 0.801 0.741    -4.8   [Heaps 0.726-0.758]
+Full-pool utilisation (realised distinct / capacity, whole code lists): ICD-10 10^-1.5 (entropy cap) / 10^-3.4 (per-position product); HTS 10^-2.7 / -5.4;
+aircraft registrations 10^-3.5 / -5.4 (20,000-row sample of a ~500,000 registry); Unicode names 10^-7.6 / -10.7; Ur III names 1/legend 10^-5.2 / -6.4;
+Proto-Elamite 10^-6.2 / -7.2; uniform generator k=617 at 20,000 draws 10^-17.9 / -18.0; Indus (Chao1) 10^-7.5 / -7.9 (realised 10^-8.4 / -8.8).
+
+Ready-to-paste STRATEGIES.md row:
+
+| S-DARK-53.2 | **Capacity utilisation, part 2: the reference ladder at the Indus n.** Identical statistics (uniqueness, Good-Turing P(new), Gini and Zipf slope of identifier frequencies, per-position evenness, Heaps exponent, log10 utilisation of the entropy capacity) on 16 S-DARK-32 corpora drawn 25x without replacement at n = 1,971: designed codes (HTS, ICD-10, aircraft registrations, Unicode names, heraldic blazons), grammar (ECO openings, chord sections), name stocks (Ur III owner names one per legend at word and syllable granularity and per impression; Linear B personnel names = first sign group of VIR / MUL lines; Latin EDH names after 'dis manibus'), accounting (Proto-Elamite entry middles, proto-cuneiform lines, khipu) and five synthetic anchors (uniform ID generators at k = 617 with the Indus lengths and at k = 36 L = 5-6; Zipf name stocks 3,000 a = 1.0 / 0.6 and 30,000 a = 1.0 at the Indus lengths); full-pool utilisation of each complete code list (`tools/dark_loop53.py 2`, `tools/dark_loop53_pool.py`) | **Heaps ladder: designed codes and registries 1.000 (uniq 1.00, Gini 0.00), heraldry 0.995, Latin names 0.993, uniform ID at the Indus k and lengths 0.985 [0.981-0.988] (uniq 0.95, Gini 0.05), Linear B lines 0.952, Linear B personnel names 0.950 (uniq 0.84, Gini 0.15), proto-cuneiform 0.943, Indus 0.936 [0.929-0.941] (uniq 0.81 [0.80-0.82], Gini 0.18 [0.17-0.19], Zipf -0.29), khipu 0.913, Proto-Elamite 0.868, Zipf name stocks 0.78-0.86 (uniq 0.36-0.62, Gini 0.31-0.58), Ur III names one per legend 0.81 [0.80-0.82] (uniq 0.51, Gini 0.42, Zipf -0.62), Ur III per impression 0.74 (uniq 0.39, Gini 0.53, Zipf -0.77).** Per-position evenness: Indus 0.92 vs real designed codes 0.77-0.84 (hierarchical positions are skewed), uniform 0.99, Ur III 0.80-0.82, Zipf stock 0.73-0.95 (not discriminating). Utilisation of the entropy capacity: ICD-10 10^-0.1, HTS 10^-0.8, registrations 10^-1.4, Unicode names 10^-3.4 at n; full lists 10^-1.5 to 10^-3.5 for the character / digit codes, 10^-7.6 Unicode names, 10^-5.2 Ur III names, **Indus 10^-7.5 (Chao1) and 10^-8.4 realised, the same as the uniform generator over 617 symbols at this n (10^-8.5)** | **On every frequency statistic the Indus identifier slot sits in the code-like half of the ladder, far from every name stock: its Gini (0.18) and Heaps exponent (0.94) are 0.24 and 0.13 away from the nearest real name system (Ur III one-per-legend 0.42 / 0.81) and only 0.13 / 0.05 away from a uniform draw over its own alphabet; the gaps to the name stocks are > 5 resampling widths on both axes.** It is not a dense designed code either: ICD-10, HTS and registrations realise 10^-0.1 to 10^-3.5 of their capacity because they use 36-100 symbols; a 617-symbol alphabet with 3-sign identifiers has a capacity of 10^11.6 that no registry could fill, so 'sparse' is a property of the alphabet size, not evidence for names. The one real system that matches Indus on all four axes is the Linear B personnel-name list (uniq 0.84, Gini 0.15, Heaps 0.95, 559 lines): a one-name-per-person register with little homonymy, not a stock of common names. Caveat: registries have no usage frequencies (Gini 0 by construction), so the frequency half of the ladder is anchored by the generators and the name systems. Nothing read, nothing 'cracked'. |

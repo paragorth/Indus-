@@ -55,9 +55,11 @@ def im77_new_texts():
         out.append(({'site': ls[0]['site'], 'type': ot, 'ot': ot, 'cisi': k[0]}, seq))
     return out
 
-def bridge_w2m():
+def bridge_w2m(contextual=True):
     b = json.load(open(DARK + 'loop27_sets.json'))['bridge']
-    return {int(k): set(v) for k, v in b.items()}
+    out = {int(k): set(v) for k, v in b.items()}
+    if contextual: out.setdefault(34, {95})   # S-DARK-27.3 contextual mapping (Harappa tablet opener before W700 = M328)
+    return out
 
 def to_m(signs, br):
     """translate a set of Wells signs to the union of their Mahadevan numbers (None if any is unbridged)."""
@@ -146,6 +148,13 @@ def strip_suf(s, suf):
     t = list(s)
     while len(t) > 1 and t[-1] in suf: t.pop()
     return t
+
+_BT = {}
+def binom_tail(k, n):
+    """P(X >= k), X ~ Bin(n, 1/2), cached"""
+    key = (k, n)
+    if key not in _BT: _BT[key] = sum(math.comb(n, j) for j in range(k, n + 1)) / 2 ** n
+    return _BT[key]
 
 def mk(sets):
     """build the statistic library for a sign-set dictionary (so claims translate to M numbers for IM77)."""
@@ -336,7 +345,6 @@ def mk(sets):
                 for j in range(i + 1, len(v)): pairs += 1; diff += v[i] != v[j]
         return diff / pairs if pairs else float('nan')
     def fixed_pair_share(T, minco=5):
-        from scipy.stats import binomtest
         ab = collections.Counter()
         for _, s in T:
             seen = set()
@@ -349,14 +357,13 @@ def mk(sets):
             if (b, a) in done: continue
             done.add((a, b)); m = ab[(b, a)]
             if n + m < minco: continue
-            ps.append(binomtest(max(n, m), n + m, 0.5, alternative='greater').pvalue)
+            ps.append(binom_tail(max(n, m), n + m))
         ps.sort(); M = len(ps); fx = 0
         for i, p in enumerate(ps):
             if p <= 0.05 * (i + 1) / M: fx = i + 1
         return fx / M if M else float('nan')
     def fixed_pair_share_nonadj(T, minco=5):
         """same, but counting only pairs at distance >= 2 (removes the bigram part)"""
-        from scipy.stats import binomtest
         ab = collections.Counter()
         for _, s in T:
             seen = set()
@@ -369,7 +376,7 @@ def mk(sets):
             if (b, a) in done: continue
             done.add((a, b)); m = ab[(b, a)]
             if n + m < minco: continue
-            ps.append(binomtest(max(n, m), n + m, 0.5, alternative='greater').pvalue)
+            ps.append(binom_tail(max(n, m), n + m))
         ps.sort(); M = len(ps); fx = 0
         for i, p in enumerate(ps):
             if p <= 0.05 * (i + 1) / M: fx = i + 1

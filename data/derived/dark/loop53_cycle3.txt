@@ -1,0 +1,37 @@
+S-DARK-53 cycle 3: subsets, sites, IM77 replication, three merge levels, per-length check. Scripts tools/dark_loop53.py 3 (loop53_cycle3_log.txt,
+loop53_cycle3.json), per-length check inline (loop53_bylength_log.txt). Subset definitions as tools/dark_loop26.py: quantity seals = COUNT in the
+middle; office seals = closer W740 without a count; other seals = neither. IM77: data/im77/im77_corpus_lines.csv, text face (side 0) lines joined,
+M -> W through data/derived/bridge_extended.json + the 129 S-DARK-27 proposals (lowest W when several map to one M); 456 of 11,720 tokens (3.9%)
+unbridged and kept as opaque elements; one copy per site x type x text (2,218 objects); the same parser and statistics.
+
+Summary (uniq = distinct / n; Gini and Zipf of middle frequencies; even = per-position H / log2 K; Heaps exponent; log10 utilisation of the entropy
+capacity; GTnew = Good-Turing P(next middle new)); CI = 0.8-subsample spread centred on the full-n value
+  subset                                              n  uniq            Gini            Heaps           even  lutilE  GTnew  Chao1
+  seq_raw all middles                              1971 0.807 [.80-.82] 0.182 [.17-.19] 0.936 [.93-.94] 0.916  -7.5   0.72  12,800
+  seq_raw seals                                    1335 0.848 [.84-.86] 0.145 [.14-.16] 0.952 [.95-.96] 0.924  -7.0   0.78
+  seq_raw quantity seals (COUNT in middle)          483 0.919 [.90-.94] 0.079 [.06-.09] 0.975 [.97-.98] 0.929  -6.2   0.88   6,900 (k 362)
+  seq_raw office seals (jar closer 740, no count)   401 0.768 [.73-.78] 0.209 [.20-.24] 0.919 [.90-.93] 0.937  -3.5   0.65   1,400 (k 244)
+  seq_raw other seals (no jar, no count)            451 0.900 [.88-.92] 0.096 [.08-.11] 0.967 [.96-.98] 0.946  -4.1   0.84
+  seq_raw tablets                                   490 0.861           0.127           0.954           0.950  -3.2   0.76
+  seq_raw Mohenjo-daro seals                        842 0.884 [.87-.90] 0.112 [.10-.12] 0.960 [.96-.96] 0.938  -6.0   0.82
+  seq_raw Harappa seals                             230 0.952 [.94-.97] 0.046 [.03-.06] 0.983 [.97-.99] 0.967  -3.4   0.91
+  seq_raw held-out sites (all types)                335 0.913 [.90-.94] 0.083 [.06-.09] 0.969 [.96-.98] 0.959  -4.2   0.86
+  seq_strong / seq_all: every subset within 0.012 (uniq), 0.013 (Gini), 0.009 (Heaps) of seq_raw
+  IM77 all middles                                 2038 0.789 [.78-.80] 0.199 [.19-.21] 0.928 [.92-.93] 0.909  -7.6   0.71  14,600
+  IM77 seals                                       1516 0.840 [.83-.85] 0.151 [.14-.16] 0.948 [.94-.95] 0.917  -7.3   0.76  11,700
+  IM77 quantity seals                               558 0.898           0.098           0.967           0.916  -6.4   0.85   8,500
+  IM77 office seals (740)                           416 0.752           0.222           0.911           0.940  -3.4   0.63   1,500
+  IM77 other seals                                  542 0.906           0.089           0.970           0.942  -5.2   0.84
+  IM77 Mohenjo-daro seals                          1023 0.883           0.111           0.963           0.931  -6.6   0.81
+  IM77 Harappa seals                                287 0.948           0.050           0.983           0.957  -3.5   0.90
+  IM77 small sites (all types)                      298 0.896           0.097           0.964           0.954  -4.8   0.82
+Size-matched anchors per subset (uniform ID at the subset k, lengths 2-4; Zipf-1.0 stock 3,000): uniform uniq 1.00 / Gini 0.00 / Heaps 1.00;
+Zipf uniq 0.36-0.59 / Gini 0.38-0.58 / Heaps 0.77-0.87. Every Indus subset lies between them, nearer the uniform end (Heaps 0.92-0.98 vs Zipf <= 0.87).
+Per-length check (seq_raw, dedup): L=1 381 middles, 160 distinct, Gini 0.44 (fish 235 x18, 415 x16, 803 x14, 240 x14); L=2 555 / 418 distinct vs 553
+expected under uniform draws over the 279 elements seen at L=2 and 532 under independent positions with the empirical element marginal (excess
+repeats = frozen numeral + W390 pairs: 3-390 x14, 4-390 x9); **L=3 354 / 335 distinct vs 354 expected (independent-position model 353-354); L=4 253 / 251
+vs 253; L=5 185 / 184 vs 185.** seq_all identical within 2 texts.
+
+Ready-to-paste STRATEGIES.md row:
+
+| S-DARK-53.3 | **Capacity utilisation, part 3: subsets, sites, IM77, merge levels, per-length check.** Quantity seals (COUNT in the middle, 483), office seals (closer W740 without a count, 401), other seals (451), tablets (490), Mohenjo-daro vs Harappa seals (842 / 230), held-out sites (335); IM77 (Mahadevan 1977) mapped M -> W through the bridge + S-DARK-27 proposals (3.9% unbridged tokens kept opaque), same dedup, parser and statistics (2,038 middles); seq_raw / seq_strong / seq_all; size-matched uniform-ID and Zipf-name anchors per subset; distinct middles per length against uniform draws over the elements seen at that length and against an independent-position model with the empirical element marginal (200 draws) (`tools/dark_loop53.py 3`) | **Quantity seals: uniq 0.92 [0.90-0.94], Gini 0.08 [0.06-0.09], Heaps 0.975 [0.97-0.98], Chao1 6,900 over 362 elements. Office seals: uniq 0.77 [0.73-0.78], Gini 0.21 [0.20-0.24], Heaps 0.92 [0.90-0.93], Chao1 1,400 over 244 elements, mean length 2.6.** Other seals 0.90 / 0.10 / 0.97; tablets 0.86 / 0.13 / 0.95; Mohenjo-daro seals 0.88 / 0.11 / 0.96, Harappa seals 0.95 / 0.05 / 0.98, held-out sites 0.91 / 0.08 / 0.97. **IM77 replicates every subset within 0.02 (all middles 0.79 / 0.20 / 0.93; seals 0.84 / 0.15 / 0.95; quantity 0.90 / 0.10 / 0.97; office 0.75 / 0.22 / 0.91; Chao1 11,700-14,600).** Merge levels within 0.013. Anchors: uniform 1.00 / 0.00 / 1.00, Zipf names 0.36-0.59 / 0.38-0.58 / 0.77-0.87 for every subset. **Per length: middles of 3, 4 and 5 elements are exactly as distinct as independent random draws (335 of 354 vs 353-354 expected; 251 / 253; 184 / 185); all repetition sits in 1-element middles (160 distinct of 381, Gini 0.44: fish 235, 415, 803, 240) and in frozen numeral + W390 pairs at length 2 (418 distinct vs 532 expected).** | **The code-like profile is a property of the whole slot, not of one seal class or one city, and it is transcription-robust (IM77) and merge-robust.** Quantity seals are the most code-like subset (Gini 0.08, Heaps 0.975, within 0.03 of a uniform generator), office seals the least (Gini 0.21, Heaps 0.92, Chao1 only ~1,400: a short list of 2-3-sign pre-jar strings, cf. S-DARK-26.2's frozen pre-jar compounds), but even office seals lie far above every name stock (Gini >= 0.31, Heaps <= 0.87). Any middle of >= 3 elements is unique at the rate of a random string: whatever the slot encodes, at that length it has no shared head of common values. Rests on MD + Harappa (83%); Harappa and the held-out sites are even flatter than Mohenjo-daro. Nothing read, nothing 'cracked'. |

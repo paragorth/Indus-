@@ -1,0 +1,39 @@
+S-DARK-53 FINAL: CAPACITY UTILISATION OF THE INDUS IDENTIFIER SLOT (three cycles; rows in loop53_cycle1-3.txt; scripts tools/dark_loop53.py,
+tools/dark_loop53_pool.py; logs loop53_cycle*_log.txt, loop53_pool_log.txt, loop53_bylength_log.txt; numbers loop53_cycle*.json).
+Data: data/derived/merged-corpus-canonical.json (S-DARK-23 caution: older inscriptions.csv build), duplicates collapsed to one per site x type x text;
+middle = S-DARK-26 definition. Nothing committed.
+
+Plain answer to question (4):
+1. Identifier frequencies (how often each distinct middle recurs) behave like a designed ID space / a one-entry-per-holder register, NOT like names:
+   uniqueness 0.81 (0.90 for >= 2 elements), Gini 0.18, Zipf slope -0.29, Heaps 0.94, P(next new) 0.72; a uniform draw over the same 617-symbol
+   alphabet and lengths gives 0.95 / 0.05 / -0.11 / 0.985; real name stocks give 0.39-0.51 / 0.42-0.53 / -0.62 to -0.77 / 0.74-0.81 (Ur III) and
+   Zipf generators 0.36-0.62 / 0.31-0.58 / 0.78-0.86. Middles of >= 3 elements are as distinct as random strings (335 of 354 distinct vs 353-354
+   expected); all reuse is in 1-sign middles (fish signs) and frozen numeral + W390 pairs. Replicates on IM77 (within 0.02), at every merge level,
+   in every seal class (quantity seals most code-like: Gini 0.08, Heaps 0.975; office seals least: 0.21 / 0.92, still far above any name stock),
+   at Mohenjo-daro, Harappa and the held-out sites. The only real system matching Indus on all axes is the Linear B personnel-name list (0.84 / 0.15 / 0.95),
+   i.e. a register where each person appears once, not a stock of shared common names.
+2. Code space: NOT dense. Capacity k^L = 10^41.9, per-position product 10^12.0, entropy capacity 10^11.6; realised 1,591, Chao1 12,800-16,400;
+   utilisation 10^-7.5 to 10^-8.8. Designed digit / letter codes realise 10^-0.1 to 10^-3.5 of their capacity because they use 36-100 symbols
+   (ICD-10, HTS, registrations); but a uniform generator over 617 symbols has the same 10^-8.5 utilisation as Indus at this n, so sparseness here is a
+   consequence of the alphabet size (and of the Zipfian element frequencies, Gini 0.74, slope -1.3, which are those of a natural vocabulary, cf. S356),
+   not evidence for names. Per-position evenness (0.92) is above the real designed codes (0.77-0.84, hierarchical positions are skewed) and the name
+   stocks (0.80-0.82), below the uniform generator (0.99); it does not discriminate.
+3. Verdict: NEITHER a compact designed index NOR a name stock. The slot behaves like a REGISTER OF UNIQUE STRINGS DRAWN FROM A NATURAL-SIZED,
+   ZIPFIAN VOCABULARY: name-like alphabet, code-like (one-per-holder) frequency profile. This is the pattern S-DARK-17.5's credential institution
+   predicts (each credential a distinct string) and is inconsistent with 'middle = common personal-name stock' (S321 / S-DARK-18 confirmed again by
+   independent statistics) and with serial / index numbers (S356: a designed index over 10^5 items needs only ~2 of these 617 signs, 617^2 = 3.8 x 10^5;
+   Indus spends 3.2 signs on average and never fills them).
+4. Capacity implied vs S-DARK-17.5 (10^4.5-10^5 credentials at the largest city): Chao1 lower bounds 12,800 (middles), 16,400 (middles >= 2
+   elements), 25,000 (whole texts), all with f1/f2 ~ 15 so Chao1 is a floor; Mohenjo-daro seals alone 7,500 (IM77) - 8,000. These floors sit a factor
+   2-4 under 10^4.5 and are compatible with it; the code space itself (10^11.6) places no ceiling. Nothing here supports a stock above ~10^5 and
+   nothing rules it out.
+
+Caveats: rests on MD + Harappa (83%); Wells and IM77 are ~70% the same objects (transcription-robust, not replicated); the dedup (site x type x text)
+removes the Harappa tablet series, which drive Gini 0.36 / Heaps 0.86 when kept; name-extraction heuristics for Ur III / Linear B / Latin are the
+loop's own and are described in loop53_cycle2.txt; the uniform anchor's residual Gini (0.05) comes from the 19% one-element middles, which can only
+take 617 values. Not 'cracked'; no sign read.
+
+Suggested follow-ups: (a) a planted 'register of unique descriptions' world (each holder gets a unique string from a Zipfian vocabulary, ~15% homonymy)
+through S-DARK-17's ABC to see if it is preferred over the name-stock and index worlds; (b) S-DARK-45's middle partition (running) can test whether the
+flat frequency profile holds inside each partition class; (c) Linear B personnel registers (As/Aa/Ab series) as the calibration corpus for 'register'
+statistics rather than Ur III seal legends.
