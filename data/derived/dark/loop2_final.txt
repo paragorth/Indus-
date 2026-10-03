@@ -3,7 +3,7 @@ S-DARK-2 LOOP 2 FINAL: pair + set arrow machine (tools/strat_dark_pairs2.py, row
 cycle 1 seed 101: pair fired 1500, train hits 300, replicated distinct 20, z-Bonferroni 0 | set fired 500, MD hits 1, replicated 0 || CONTROL (facts scrambled within site): train hits 13, replicated 2, Bonferroni 0 | set hits 0, replicated 0
 cycle 2 seed 202: pair fired 1500, train hits 223, replicated distinct 43, z-Bonferroni 8 | set fired 500, MD hits 5, replicated 0 || CONTROL (facts scrambled within site): train hits 26, replicated 2, Bonferroni 0 | set hits 1, replicated 0
 cycle 3 seed 303: pair fired 1500, train hits 260, replicated distinct 44, z-Bonferroni 6 | set fired 500, MD hits 1, replicated 0 || CONTROL (facts scrambled within site): train hits 28, replicated 0, Bonferroni 0 | set hits 0, replicated 0
-cycle 4 seed 404: pair fired 1500, train hits 265, replicated distinct 64, z-Bonferroni 10 | set fired 500, MD hits 3, replicated 0 || CONTROL pending
+cycle 4 seed 404: pair fired 1500, train hits 265, replicated distinct 64, z-Bonferroni 10 | set fired 500, MD hits 3, replicated 0 || CONTROL (facts scrambled within site): train hits 28, replicated 2, Bonferroni 1 | set hits 0, replicated 0
 
 TOTAL: 6000 pair arrows + 2000 set arrows over 4 cycles, 40 text-pair relation families, 19 object-pair facts, 30 set statistics.
 Distinct replicated pair arrows across cycles: 87; passing z-Bonferroni (p < 0.05/1500 within its cycle): 13
@@ -20,7 +20,7 @@ fixed closers (identical-text pairs are 94% tablet-tablet; closepair x type z 11
 (3) bigger seals carry longer texts. The emblem arrows (closerclass, frameclass x emblem) reduce to the unicorn-format/owner-formula
 link already in GRAMMAR.md (S65/S46) plus emblem-less object types. Material/shape arrows below Bonferroni die under the
 within-site-x-type null (steatite square = seal). No arrow linking two texts to find-spot (area, room), boss, period, depth or cult
-replicated in any cycle, and the ones that did in the scrambled controls (xorsign x period, sharerare x cult: 2, 2, 0 per control)
+replicated in any cycle, and the ones that did in the scrambled controls (xorsign x period, sharerare x cult: 2, 2, 0, 2 per control)
 mark the false-positive rate of the held-out stage on sparse fields (~0.1% of arrows).
 SET stage: 1-5 MD hits per cycle vs ~1.2 expected, 0 of 10 replicated at Harappa in the same direction; set x fact correlations
 likewise. The MD find-groups are a little more internally repetitive than a within-site x type re-deal (same-middle-different-closer
@@ -33,3 +33,5 @@ Arrow duplication in cycle 1 (same spec fired up to 6x) was removed from cycle 2
 approximation of the permutation null because 5,000 permutations cannot resolve p < 3.3e-5.
 NEXT (if anyone continues this family): condition the pair null on object type AND text length (re-deal facts within site x type x
 length band), which removes the three confounds at source; then the residual MI, if any, is the only thing worth firing at.
+
+READY-TO-PASTE ROWS: see loop2_cycle1_row.txt .. loop2_cycle4_row.txt (last line of each).

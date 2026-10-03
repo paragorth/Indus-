@@ -1,0 +1,242 @@
+# LOOP 38 cycle 1: glyph widths and the ink-width vs face-width regression (2026-10-03T13:44)
+font glyphs rendered: 998; reference height 186 px (median bbox height of the 100 commonest signs)
+w_rel over the 200 commonest signs: median 0.63, IQR 0.48-0.78, min 0.05, max 2.28
+widest common signs (w_rel): W697 2.28, W552 1.56, W698 1.49, W545 1.32, W792 1.31, W617 1.28, W56 1.05, W48 1.03, W585 1.02, W460 1.01, W821 0.99, W519 0.99
+narrowest common signs: W1 0.05, W31 0.06, W32 0.20, W2 0.23, W60 0.27, W65 0.29, W900 0.30, W370 0.30, W13 0.31, W511 0.31, W365 0.32, W371 0.32
+  W740 jar: w_rel 0.67, h_rel 1.00, aspect 0.67
+  W220 plain fish: w_rel 0.42, h_rel 1.01, aspect 0.42
+  W240 whisker fish: w_rel 0.43, h_rel 1.01, aspect 0.43
+  W520 arrow: w_rel 0.51, h_rel 1.00, aspect 0.51
+  W2 tall 2: w_rel 0.23, h_rel 0.33, aspect 0.69
+  W817 opener 817: w_rel 0.61, h_rel 0.99, aspect 0.62
+  W861 opener 861: w_rel 0.74, h_rel 0.98, aspect 0.75
+  W820 opener 820: w_rel 0.62, h_rel 0.97, aspect 0.64
+  W33 tall 3: w_rel 0.35, h_rel 1.03, aspect 0.34
+  W90 W90: w_rel 0.45, h_rel 1.02, aspect 0.44
+  W400 W400: w_rel 0.34, h_rel 0.99, aspect 0.34
+  W3 short 3: w_rel 0.65, h_rel 0.58, aspect 1.12
+photo check M-6 (CISI photo, signs 820 ring, 880 diamond, 65, 244 winged fish; width/height measured on the photo vs font aspect):
+  W820: photo 0.87  font 0.64
+  W880: photo 0.83  font 0.76
+  W65: photo 0.48  font 0.29
+  W244: photo 1.26  font 0.99
+  M-6 face: text band = top 24% of the face; 4 signs span 85% of the width; sign height ~ 0.21 of face height
+
+--- level seq_raw: complete single-line seals with H,V and all signs rendered: 1367 (home 1124, other sites 243, emblem seals 1082)
+home: n signs mean 4.74; ink (sum w_rel) mean 2.66; H mean 27.6 mm; rho(n, ink) = 0.919
+  rho(H, n) = 0.435; rho(H, ink) = 0.419; rho(V, n) = 0.269; rho(V, ink) = 0.242
+  10-fold CV R2 (log H): n only 0.1938; ink only 0.1934; n + ink 0.2014; gain +0.0076
+  held-out sites (243): R2 n only 0.0749; n + ink 0.0772; gain +0.0023
+  width-shuffle null (1000x): CV gain median -0.0006, 95th +0.0044, max +0.0205; P(gain >= obs) = 0.020
+  held-out null: gain median -0.0004, 95th +0.0059; P = 0.158
+  emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.399, IQR 0.306-0.560, CV 0.598; with n instead of ink: median 0.205, CV 0.609
+  share of emblem seals whose ink at 1/3 line height would exceed H: 0.321; at 1/4: 0.113; at 1/5: 0.031
+  rho(frac, n) = -0.912 (negative = longer texts get a smaller line height, i.e. squeezed)
+
+--- level seq_strong: complete single-line seals with H,V and all signs rendered: 1367 (home 1124, other sites 243, emblem seals 1082)
+home: n signs mean 4.74; ink (sum w_rel) mean 2.67; H mean 27.6 mm; rho(n, ink) = 0.920
+  rho(H, n) = 0.435; rho(H, ink) = 0.422; rho(V, n) = 0.269; rho(V, ink) = 0.245
+  10-fold CV R2 (log H): n only 0.1938; ink only 0.1947; n + ink 0.2019; gain +0.0082
+  held-out sites (243): R2 n only 0.0749; n + ink 0.0745; gain -0.0004
+  width-shuffle null (1000x): CV gain median -0.0007, 95th +0.0044, max +0.0187; P(gain >= obs) = 0.014
+  held-out null: gain median -0.0007, 95th +0.0057; P = 0.462
+  emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.394, IQR 0.304-0.559, CV 0.602; with n instead of ink: median 0.205, CV 0.609
+  share of emblem seals whose ink at 1/3 line height would exceed H: 0.329; at 1/4: 0.113; at 1/5: 0.033
+  rho(frac, n) = -0.913 (negative = longer texts get a smaller line height, i.e. squeezed)
+
+--- level seq_all: complete single-line seals with H,V and all signs rendered: 1367 (home 1124, other sites 243, emblem seals 1082)
+home: n signs mean 4.74; ink (sum w_rel) mean 2.67; H mean 27.6 mm; rho(n, ink) = 0.920
+  rho(H, n) = 0.435; rho(H, ink) = 0.422; rho(V, n) = 0.269; rho(V, ink) = 0.245
+  10-fold CV R2 (log H): n only 0.1938; ink only 0.1946; n + ink 0.2019; gain +0.0081
+  held-out sites (243): R2 n only 0.0749; n + ink 0.0743; gain -0.0006
+  width-shuffle null (1000x): CV gain median -0.0007, 95th +0.0039, max +0.0153; P(gain >= obs) = 0.013
+  held-out null: gain median -0.0005, 95th +0.0065; P = 0.505
+  emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.394, IQR 0.304-0.560, CV 0.601; with n instead of ink: median 0.205, CV 0.609
+  share of emblem seals whose ink at 1/3 line height would exceed H: 0.329; at 1/4: 0.113; at 1/5: 0.032
+  rho(frac, n) = -0.913 (negative = longer texts get a smaller line height, i.e. squeezed)
+# LOOP 38 cycle 2: density (signs per mm, ink per mm) against text length, by object class (2026-10-03T13:48)
+elasticity b = slope of log H on log n (bootstrap 95% CI). b = 1: face width scales with the text (density flat, sized to text); b = 0: fixed face (density rises 1:1 with length, squeezed). Same for ink.
+
+--- level seq_raw
+SEAL home: n = 1173; H median 26.7 mm (IQR 21.8-31.8); signs/mm median 0.171; ink/mm median 0.097; b(log H ~ log n) = 0.27 [0.24,0.31]; b(log H ~ log ink) = 0.28 [0.24,0.32]; rho(n, signs/mm) = 0.78; rho(n, ink/mm) = 0.67
+   L2-2: H 22.0 mm, ink/mm 0.057 (n 172); L3-3: H 24.1 mm, ink/mm 0.076 (n 197); L4-4: H 25.4 mm, ink/mm 0.088 (n 189); L5-5: H 26.7 mm, ink/mm 0.106 (n 232); L6-7: H 29.0 mm, ink/mm 0.118 (n 276); L8-20: H 35.6 mm, ink/mm 0.134 (n 107)
+SEAL Mohenjo-daro: n = 914; H median 26.7 mm (IQR 22.4-31.4); signs/mm median 0.171; ink/mm median 0.098; b(log H ~ log n) = 0.24 [0.20,0.28]; b(log H ~ log ink) = 0.24 [0.21,0.28]; rho(n, signs/mm) = 0.80; rho(n, ink/mm) = 0.68
+   L2-2: H 22.9 mm, ink/mm 0.058 (n 127); L3-3: H 24.1 mm, ink/mm 0.075 (n 151); L4-4: H 25.4 mm, ink/mm 0.088 (n 148); L5-5: H 26.7 mm, ink/mm 0.105 (n 189); L6-7: H 29.0 mm, ink/mm 0.118 (n 217); L8-20: H 33.4 mm, ink/mm 0.142 (n 82)
+SEAL Harappa: n = 259; H median 26.7 mm (IQR 21.1-32.2); signs/mm median 0.169; ink/mm median 0.095; b(log H ~ log n) = 0.37 [0.28,0.45]; b(log H ~ log ink) = 0.39 [0.31,0.47]; rho(n, signs/mm) = 0.71; rho(n, ink/mm) = 0.65
+   L2-2: H 21.6 mm, ink/mm 0.056 (n 45); L3-3: H 23.5 mm, ink/mm 0.078 (n 46); L4-4: H 24.1 mm, ink/mm 0.095 (n 41); L5-5: H 26.7 mm, ink/mm 0.111 (n 43); L6-7: H 29.2 mm, ink/mm 0.114 (n 59); L8-20: H 41.0 mm, ink/mm 0.114 (n 25)
+SEAL other sites: n = 253; H median 23.6 mm (IQR 20.0-28.0); signs/mm median 0.170; ink/mm median 0.091; b(log H ~ log n) = 0.22 [0.15,0.29]; b(log H ~ log ink) = 0.20 [0.14,0.27]; rho(n, signs/mm) = 0.83; rho(n, ink/mm) = 0.74
+   L2-2: H 21.1 mm, ink/mm 0.053 (n 64); L3-3: H 22.0 mm, ink/mm 0.081 (n 42); L4-4: H 23.1 mm, ink/mm 0.087 (n 45); L5-5: H 25.2 mm, ink/mm 0.112 (n 44); L6-7: H 27.9 mm, ink/mm 0.129 (n 45); L8-20: H 28.6 mm, ink/mm 0.172 (n 13)
+SEAL emblem: n = 1132; H median 25.9 mm (IQR 21.6-30.5); signs/mm median 0.173; ink/mm median 0.097; b(log H ~ log n) = 0.22 [0.19,0.25]; b(log H ~ log ink) = 0.22 [0.18,0.25]; rho(n, signs/mm) = 0.81; rho(n, ink/mm) = 0.72
+   L2-2: H 22.1 mm, ink/mm 0.054 (n 192); L3-3: H 24.1 mm, ink/mm 0.076 (n 175); L4-4: H 25.4 mm, ink/mm 0.087 (n 180); L5-5: H 26.1 mm, ink/mm 0.107 (n 234); L6-7: H 27.9 mm, ink/mm 0.122 (n 261); L8-20: H 32.6 mm, ink/mm 0.145 (n 90)
+SEAL script-only: n = 276; H median 27.0 mm (IQR 21.6-35.0); signs/mm median 0.163; ink/mm median 0.089; b(log H ~ log n) = 0.45 [0.38,0.52]; b(log H ~ log ink) = 0.47 [0.39,0.55]; rho(n, signs/mm) = 0.68; rho(n, ink/mm) = 0.55
+   L2-2: H 21.3 mm, ink/mm 0.071 (n 42); L3-3: H 23.7 mm, ink/mm 0.076 (n 58); L4-4: H 24.6 mm, ink/mm 0.091 (n 50); L5-5: H 29.2 mm, ink/mm 0.093 (n 39); L6-7: H 30.5 mm, ink/mm 0.108 (n 58); L8-20: H 41.9 mm, ink/mm 0.114 (n 29)
+TAB:B moulded: n = 675; H median 20.3 mm (IQR 16.0-27.9); signs/mm median 0.150; ink/mm median 0.085; b(log H ~ log n) = 0.43 [0.38,0.48]; b(log H ~ log ink) = 0.41 [0.36,0.46]; rho(n, signs/mm) = 0.64; rho(n, ink/mm) = 0.63
+   L2-2: H 16.5 mm, ink/mm 0.063 (n 249); L3-3: H 17.0 mm, ink/mm 0.094 (n 121); L4-4: H 23.3 mm, ink/mm 0.104 (n 120); L5-5: H 29.8 mm, ink/mm 0.095 (n 107); L6-7: H 25.4 mm, ink/mm 0.135 (n 63); L8-20: H 40.6 mm, ink/mm 0.148 (n 15)
+TAB:I incised: n = 533; H median 14.5 mm (IQR 12.7-16.5); signs/mm median 0.182; ink/mm median 0.108; b(log H ~ log n) = 0.27 [0.22,0.31]; b(log H ~ log ink) = 0.17 [0.12,0.22]; rho(n, signs/mm) = 0.77; rho(n, ink/mm) = 0.60
+   L2-2: H 13.7 mm, ink/mm 0.086 (n 292); L3-3: H 14.8 mm, ink/mm 0.119 (n 130); L4-4: H 16.0 mm, ink/mm 0.135 (n 87); L5-5: H 17.8 mm, ink/mm 0.146 (n 19)
+TAB:C copper: n = 161; H median 32.5 mm (IQR 29.5-35.0); signs/mm median 0.154; ink/mm median 0.092; b(log H ~ log n) = 0.27 [0.19,0.35]; b(log H ~ log ink) = 0.26 [0.20,0.33]; rho(n, signs/mm) = 0.86; rho(n, ink/mm) = 0.80
+   L2-2: H 23.0 mm, ink/mm 0.064 (n 11); L3-3: H 23.0 mm, ink/mm 0.083 (n 11); L4-4: H 34.0 mm, ink/mm 0.080 (n 59); L5-5: H 31.9 mm, ink/mm 0.097 (n 26); L6-7: H 33.4 mm, ink/mm 0.124 (n 52)
+TAG sealings: n = 44; H median 36.0 mm (IQR 26.6-38.1); signs/mm median 0.158; ink/mm median 0.084; b(log H ~ log n) = 0.08 [-0.19,0.29]; b(log H ~ log ink) = 0.10 [-0.12,0.32]; rho(n, signs/mm) = 0.84; rho(n, ink/mm) = 0.82
+   L4-4: H 38.1 mm, ink/mm 0.067 (n 13); L6-7: H 36.2 mm, ink/mm 0.106 (n 10); L8-20: H 36.9 mm, ink/mm 0.126 (n 10)
+POT graffiti: n = 6 (too few)
+square/rectangular seals with H and V (1227): rho(n, H/V) = -0.003; rho(ink, H/V) = 0.010; b(log V ~ log n) = 0.22; b(log H ~ log n) = 0.26; share H/V > 1.1: 0.106
+
+--- level seq_strong
+SEAL home: n = 1173; H median 26.7 mm (IQR 21.8-31.8); signs/mm median 0.171; ink/mm median 0.098; b(log H ~ log n) = 0.27 [0.24,0.31]; b(log H ~ log ink) = 0.28 [0.24,0.32]; rho(n, signs/mm) = 0.78; rho(n, ink/mm) = 0.67
+   L2-2: H 22.0 mm, ink/mm 0.057 (n 172); L3-3: H 24.1 mm, ink/mm 0.076 (n 197); L4-4: H 25.4 mm, ink/mm 0.088 (n 189); L5-5: H 26.7 mm, ink/mm 0.106 (n 232); L6-7: H 29.0 mm, ink/mm 0.118 (n 276); L8-20: H 35.6 mm, ink/mm 0.132 (n 107)
+SEAL Mohenjo-daro: n = 914; H median 26.7 mm (IQR 22.4-31.4); signs/mm median 0.171; ink/mm median 0.099; b(log H ~ log n) = 0.24 [0.20,0.28]; b(log H ~ log ink) = 0.24 [0.20,0.28]; rho(n, signs/mm) = 0.80; rho(n, ink/mm) = 0.68
+   L2-2: H 22.9 mm, ink/mm 0.058 (n 127); L3-3: H 24.1 mm, ink/mm 0.075 (n 151); L4-4: H 25.4 mm, ink/mm 0.088 (n 148); L5-5: H 26.7 mm, ink/mm 0.106 (n 189); L6-7: H 29.0 mm, ink/mm 0.119 (n 217); L8-20: H 33.4 mm, ink/mm 0.143 (n 82)
+SEAL Harappa: n = 259; H median 26.7 mm (IQR 21.1-32.2); signs/mm median 0.169; ink/mm median 0.095; b(log H ~ log n) = 0.37 [0.29,0.45]; b(log H ~ log ink) = 0.39 [0.30,0.47]; rho(n, signs/mm) = 0.71; rho(n, ink/mm) = 0.66
+   L2-2: H 21.6 mm, ink/mm 0.056 (n 45); L3-3: H 23.5 mm, ink/mm 0.079 (n 46); L4-4: H 24.1 mm, ink/mm 0.095 (n 41); L5-5: H 26.7 mm, ink/mm 0.111 (n 43); L6-7: H 29.2 mm, ink/mm 0.115 (n 59); L8-20: H 41.0 mm, ink/mm 0.113 (n 25)
+SEAL other sites: n = 253; H median 23.6 mm (IQR 20.0-28.0); signs/mm median 0.170; ink/mm median 0.091; b(log H ~ log n) = 0.22 [0.15,0.29]; b(log H ~ log ink) = 0.20 [0.13,0.27]; rho(n, signs/mm) = 0.83; rho(n, ink/mm) = 0.74
+   L2-2: H 21.1 mm, ink/mm 0.054 (n 64); L3-3: H 22.0 mm, ink/mm 0.081 (n 42); L4-4: H 23.1 mm, ink/mm 0.089 (n 45); L5-5: H 25.2 mm, ink/mm 0.114 (n 44); L6-7: H 27.9 mm, ink/mm 0.131 (n 45); L8-20: H 28.6 mm, ink/mm 0.172 (n 13)
+SEAL emblem: n = 1132; H median 25.9 mm (IQR 21.6-30.5); signs/mm median 0.173; ink/mm median 0.098; b(log H ~ log n) = 0.22 [0.19,0.26]; b(log H ~ log ink) = 0.22 [0.19,0.25]; rho(n, signs/mm) = 0.81; rho(n, ink/mm) = 0.72
+   L2-2: H 22.1 mm, ink/mm 0.054 (n 192); L3-3: H 24.1 mm, ink/mm 0.076 (n 175); L4-4: H 25.4 mm, ink/mm 0.088 (n 180); L5-5: H 26.1 mm, ink/mm 0.110 (n 234); L6-7: H 27.9 mm, ink/mm 0.122 (n 261); L8-20: H 32.6 mm, ink/mm 0.146 (n 90)
+SEAL script-only: n = 276; H median 27.0 mm (IQR 21.6-35.0); signs/mm median 0.163; ink/mm median 0.089; b(log H ~ log n) = 0.45 [0.38,0.51]; b(log H ~ log ink) = 0.47 [0.39,0.55]; rho(n, signs/mm) = 0.68; rho(n, ink/mm) = 0.55
+   L2-2: H 21.3 mm, ink/mm 0.071 (n 42); L3-3: H 23.7 mm, ink/mm 0.077 (n 58); L4-4: H 24.6 mm, ink/mm 0.092 (n 50); L5-5: H 29.2 mm, ink/mm 0.093 (n 39); L6-7: H 30.5 mm, ink/mm 0.108 (n 58); L8-20: H 41.9 mm, ink/mm 0.114 (n 29)
+TAB:B moulded: n = 675; H median 20.3 mm (IQR 16.0-27.9); signs/mm median 0.150; ink/mm median 0.085; b(log H ~ log n) = 0.43 [0.37,0.48]; b(log H ~ log ink) = 0.41 [0.36,0.45]; rho(n, signs/mm) = 0.64; rho(n, ink/mm) = 0.63
+   L2-2: H 16.5 mm, ink/mm 0.063 (n 249); L3-3: H 17.0 mm, ink/mm 0.094 (n 121); L4-4: H 23.3 mm, ink/mm 0.104 (n 120); L5-5: H 29.8 mm, ink/mm 0.096 (n 107); L6-7: H 25.4 mm, ink/mm 0.142 (n 63); L8-20: H 40.6 mm, ink/mm 0.148 (n 15)
+TAB:I incised: n = 533; H median 14.5 mm (IQR 12.7-16.5); signs/mm median 0.182; ink/mm median 0.109; b(log H ~ log n) = 0.27 [0.22,0.31]; b(log H ~ log ink) = 0.18 [0.13,0.23]; rho(n, signs/mm) = 0.77; rho(n, ink/mm) = 0.60
+   L2-2: H 13.7 mm, ink/mm 0.086 (n 292); L3-3: H 14.8 mm, ink/mm 0.119 (n 130); L4-4: H 16.0 mm, ink/mm 0.135 (n 87); L5-5: H 17.8 mm, ink/mm 0.146 (n 19)
+TAB:C copper: n = 161; H median 32.5 mm (IQR 29.5-35.0); signs/mm median 0.154; ink/mm median 0.092; b(log H ~ log n) = 0.27 [0.19,0.34]; b(log H ~ log ink) = 0.27 [0.20,0.36]; rho(n, signs/mm) = 0.86; rho(n, ink/mm) = 0.80
+   L2-2: H 23.0 mm, ink/mm 0.065 (n 11); L3-3: H 23.0 mm, ink/mm 0.083 (n 11); L4-4: H 34.0 mm, ink/mm 0.080 (n 59); L5-5: H 31.9 mm, ink/mm 0.097 (n 26); L6-7: H 33.4 mm, ink/mm 0.124 (n 52)
+TAG sealings: n = 44; H median 36.0 mm (IQR 26.6-38.1); signs/mm median 0.158; ink/mm median 0.085; b(log H ~ log n) = 0.08 [-0.22,0.29]; b(log H ~ log ink) = 0.11 [-0.10,0.32]; rho(n, signs/mm) = 0.84; rho(n, ink/mm) = 0.83
+   L4-4: H 38.1 mm, ink/mm 0.070 (n 13); L6-7: H 36.2 mm, ink/mm 0.106 (n 10); L8-20: H 36.9 mm, ink/mm 0.126 (n 10)
+POT graffiti: n = 6 (too few)
+square/rectangular seals with H and V (1227): rho(n, H/V) = -0.003; rho(ink, H/V) = 0.010; b(log V ~ log n) = 0.22; b(log H ~ log n) = 0.26; share H/V > 1.1: 0.106
+
+--- level seq_all
+SEAL home: n = 1173; H median 26.7 mm (IQR 21.8-31.8); signs/mm median 0.171; ink/mm median 0.097; b(log H ~ log n) = 0.27 [0.24,0.31]; b(log H ~ log ink) = 0.28 [0.24,0.32]; rho(n, signs/mm) = 0.78; rho(n, ink/mm) = 0.67
+   L2-2: H 22.0 mm, ink/mm 0.057 (n 172); L3-3: H 24.1 mm, ink/mm 0.076 (n 197); L4-4: H 25.4 mm, ink/mm 0.088 (n 189); L5-5: H 26.7 mm, ink/mm 0.106 (n 232); L6-7: H 29.0 mm, ink/mm 0.118 (n 276); L8-20: H 35.6 mm, ink/mm 0.132 (n 107)
+SEAL Mohenjo-daro: n = 914; H median 26.7 mm (IQR 22.4-31.4); signs/mm median 0.171; ink/mm median 0.099; b(log H ~ log n) = 0.24 [0.21,0.28]; b(log H ~ log ink) = 0.24 [0.20,0.28]; rho(n, signs/mm) = 0.80; rho(n, ink/mm) = 0.68
+   L2-2: H 22.9 mm, ink/mm 0.058 (n 127); L3-3: H 24.1 mm, ink/mm 0.075 (n 151); L4-4: H 25.4 mm, ink/mm 0.088 (n 148); L5-5: H 26.7 mm, ink/mm 0.106 (n 189); L6-7: H 29.0 mm, ink/mm 0.119 (n 217); L8-20: H 33.4 mm, ink/mm 0.143 (n 82)
+SEAL Harappa: n = 259; H median 26.7 mm (IQR 21.1-32.2); signs/mm median 0.169; ink/mm median 0.095; b(log H ~ log n) = 0.37 [0.29,0.45]; b(log H ~ log ink) = 0.39 [0.31,0.47]; rho(n, signs/mm) = 0.71; rho(n, ink/mm) = 0.65
+   L2-2: H 21.6 mm, ink/mm 0.056 (n 45); L3-3: H 23.5 mm, ink/mm 0.079 (n 46); L4-4: H 24.1 mm, ink/mm 0.095 (n 41); L5-5: H 26.7 mm, ink/mm 0.111 (n 43); L6-7: H 29.2 mm, ink/mm 0.115 (n 59); L8-20: H 41.0 mm, ink/mm 0.113 (n 25)
+SEAL other sites: n = 253; H median 23.6 mm (IQR 20.0-28.0); signs/mm median 0.170; ink/mm median 0.091; b(log H ~ log n) = 0.22 [0.16,0.29]; b(log H ~ log ink) = 0.20 [0.14,0.27]; rho(n, signs/mm) = 0.83; rho(n, ink/mm) = 0.74
+   L2-2: H 21.1 mm, ink/mm 0.054 (n 64); L3-3: H 22.0 mm, ink/mm 0.081 (n 42); L4-4: H 23.1 mm, ink/mm 0.089 (n 45); L5-5: H 25.2 mm, ink/mm 0.114 (n 44); L6-7: H 27.9 mm, ink/mm 0.131 (n 45); L8-20: H 28.6 mm, ink/mm 0.172 (n 13)
+SEAL emblem: n = 1132; H median 25.9 mm (IQR 21.6-30.5); signs/mm median 0.173; ink/mm median 0.098; b(log H ~ log n) = 0.22 [0.19,0.25]; b(log H ~ log ink) = 0.22 [0.18,0.25]; rho(n, signs/mm) = 0.81; rho(n, ink/mm) = 0.72
+   L2-2: H 22.1 mm, ink/mm 0.054 (n 192); L3-3: H 24.1 mm, ink/mm 0.076 (n 175); L4-4: H 25.4 mm, ink/mm 0.088 (n 180); L5-5: H 26.1 mm, ink/mm 0.110 (n 234); L6-7: H 27.9 mm, ink/mm 0.122 (n 261); L8-20: H 32.6 mm, ink/mm 0.146 (n 90)
+SEAL script-only: n = 276; H median 27.0 mm (IQR 21.6-35.0); signs/mm median 0.163; ink/mm median 0.089; b(log H ~ log n) = 0.45 [0.38,0.51]; b(log H ~ log ink) = 0.47 [0.39,0.56]; rho(n, signs/mm) = 0.68; rho(n, ink/mm) = 0.55
+   L2-2: H 21.3 mm, ink/mm 0.071 (n 42); L3-3: H 23.7 mm, ink/mm 0.077 (n 58); L4-4: H 24.6 mm, ink/mm 0.092 (n 50); L5-5: H 29.2 mm, ink/mm 0.093 (n 39); L6-7: H 30.5 mm, ink/mm 0.108 (n 58); L8-20: H 41.9 mm, ink/mm 0.114 (n 29)
+TAB:B moulded: n = 675; H median 20.3 mm (IQR 16.0-27.9); signs/mm median 0.150; ink/mm median 0.085; b(log H ~ log n) = 0.43 [0.37,0.47]; b(log H ~ log ink) = 0.41 [0.37,0.45]; rho(n, signs/mm) = 0.64; rho(n, ink/mm) = 0.63
+   L2-2: H 16.5 mm, ink/mm 0.063 (n 249); L3-3: H 17.0 mm, ink/mm 0.094 (n 121); L4-4: H 23.3 mm, ink/mm 0.104 (n 120); L5-5: H 29.8 mm, ink/mm 0.096 (n 107); L6-7: H 25.4 mm, ink/mm 0.142 (n 63); L8-20: H 40.6 mm, ink/mm 0.148 (n 15)
+TAB:I incised: n = 533; H median 14.5 mm (IQR 12.7-16.5); signs/mm median 0.182; ink/mm median 0.109; b(log H ~ log n) = 0.27 [0.22,0.31]; b(log H ~ log ink) = 0.18 [0.13,0.22]; rho(n, signs/mm) = 0.77; rho(n, ink/mm) = 0.60
+   L2-2: H 13.7 mm, ink/mm 0.086 (n 292); L3-3: H 14.8 mm, ink/mm 0.119 (n 130); L4-4: H 16.0 mm, ink/mm 0.135 (n 87); L5-5: H 17.8 mm, ink/mm 0.146 (n 19)
+TAB:C copper: n = 161; H median 32.5 mm (IQR 29.5-35.0); signs/mm median 0.154; ink/mm median 0.092; b(log H ~ log n) = 0.27 [0.19,0.33]; b(log H ~ log ink) = 0.27 [0.20,0.35]; rho(n, signs/mm) = 0.86; rho(n, ink/mm) = 0.80
+   L2-2: H 23.0 mm, ink/mm 0.065 (n 11); L3-3: H 23.0 mm, ink/mm 0.083 (n 11); L4-4: H 34.0 mm, ink/mm 0.080 (n 59); L5-5: H 31.9 mm, ink/mm 0.097 (n 26); L6-7: H 33.4 mm, ink/mm 0.124 (n 52)
+TAG sealings: n = 44; H median 36.0 mm (IQR 26.6-38.1); signs/mm median 0.158; ink/mm median 0.085; b(log H ~ log n) = 0.08 [-0.16,0.28]; b(log H ~ log ink) = 0.11 [-0.11,0.32]; rho(n, signs/mm) = 0.84; rho(n, ink/mm) = 0.83
+   L4-4: H 38.1 mm, ink/mm 0.070 (n 13); L6-7: H 36.2 mm, ink/mm 0.106 (n 10); L8-20: H 36.9 mm, ink/mm 0.126 (n 10)
+POT graffiti: n = 6 (too few)
+square/rectangular seals with H and V (1227): rho(n, H/V) = -0.003; rho(ink, H/V) = 0.010; b(log V ~ log n) = 0.22; b(log H ~ log n) = 0.26; share H/V > 1.1: 0.106
+# LOOP 38 cycle 3: closer-less texts as truncations? (2026-10-03T13:48)
+Sample: complete single-line seals, no unread sign, L >= 2, H known. Closer = last sign in the S289 set (jar W740, arrow W520, W156/527/617/226/390/405/154/158/15/254/12); variant B also counts a final opener (S286).
+Label permuted within site x length strata (1000x). Space-driven omission predicts: closer-less texts denser (ink/H higher), on smaller faces, ending in a normally non-final sign.
+
+--- level seq_raw: n = 1426
+variant A: closer-less 508 vs closer-bearing 918
+  within closer-less texts (416): rho(ink/H crowding, LOO final rate of the last sign) = +0.260; crowding permuted within site x length: [+0.059,+0.181], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.472 (crowded top quartile 0.544, rest 0.450) vs closer-bearing 0.749 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.146; vs the non-final signs of the closer-less texts themselves: 0.249; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.366
+    commonest last signs of closer-less texts: W90 50, W400 49, W151 45, W407 20, W368 16, W820 12, W679 11, W2 10, W161 10, W621 10 | commonest pre-closer signs: W760 48, W33 35, W100 34, W220 30, W3 28, W32 23, W390 22, W798 21, W176 18, W900 17
+  ink/H density: closer-less 0.093 vs closer-bearing 0.103; diff -0.009; null mean -0.007 [-0.010,-0.004]; P two-sided 0.090
+  face width H (mm): closer-less 27.054 vs closer-bearing 27.159; diff -0.105; null mean -0.730 [-1.423,-0.024]; P two-sided 0.086
+  log area H*V: closer-less 6.323 vs closer-bearing 6.376; diff -0.053; null mean -0.040 [-0.098,+0.013]; P two-sided 0.699
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.561 vs closer-bearing 0.644; diff -0.083; null mean -0.003 [-0.022,+0.014]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.314 vs rest 0.370; diff -0.057; P 0.709
+variant B: closer-less 487 vs closer-bearing 939
+  within closer-less texts (395): rho(ink/H crowding, LOO final rate of the last sign) = +0.264; crowding permuted within site x length: [+0.065,+0.191], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.494 (crowded top quartile 0.571, rest 0.470) vs closer-bearing 0.734 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.145; vs the non-final signs of the closer-less texts themselves: 0.210; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.369
+    commonest last signs of closer-less texts: W90 50, W400 49, W151 45, W407 20, W368 16, W679 11, W2 10, W161 10, W621 10, W220 9 | commonest pre-closer signs: W760 48, W33 35, W100 34, W220 30, W3 29, W390 24, W32 23, W798 21, W176 18, W900 18
+  ink/H density: closer-less 0.093 vs closer-bearing 0.102; diff -0.009; null mean -0.007 [-0.010,-0.003]; P two-sided 0.111
+  face width H (mm): closer-less 26.809 vs closer-bearing 27.284; diff -0.475; null mean -0.703 [-1.473,+0.083]; P two-sided 0.542
+  log area H*V: closer-less 6.305 vs closer-bearing 6.385; diff -0.080; null mean -0.039 [-0.101,+0.022]; P two-sided 0.179
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.557 vs closer-bearing 0.645; diff -0.088; null mean -0.004 [-0.024,+0.016]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.300 vs rest 0.355; diff -0.056; P 0.875
+wrapped two-line seals: 62 (L mean 7.21) vs single-line 1476 (L mean 4.66)
+  closer = last sign in the stored order: wrapped 0.161 vs single 0.636; length-and-site-matched diff -0.474 [null -0.121,+0.097], P 0.001
+  closer at the end of either segment: wrapped 0.645 vs single 0.636; length-and-site-matched diff +0.010 [null -0.074,+0.144], P 0.673
+  face width H: wrapped 30.1 mm (n 60) vs single 27.1; matched diff +3.01 mm, null [+2.22,+5.69], P 0.314
+  wrapped seals, segment ends and sizes (stored order): [('1 segment end(s) in a closer', 35), ('0 segment end(s) in a closer', 22), ('segment sizes 1/6', 7), ('segment sizes 2/4', 6), ('segment sizes 2/5', 5), ('segment sizes 3/5', 5), ('2 segment end(s) in a closer', 5), ('segment sizes 3/6', 4), ('segment sizes 2/6', 3), ('segment sizes 2/3', 3), ('segment sizes 3/2', 3), ('segment sizes 2/2', 2), ('segment sizes 4/2', 2), ('segment sizes 3/3', 2)]
+wide signs on narrow faces: 72 signs with >= 20 texts; rho(sign width, mean residual log H of texts containing it) = +0.031; width-shuffle null [-0.225,+0.225], P (one-sided, positive = wide signs on wider faces) 0.395
+  signs on the widest faces (residual, width): W595 +0.258 (0.56), W706 +0.216 (0.53), W717 +0.165 (0.53), W692 +0.120 (0.67), W806 +0.118 (0.61), W231 +0.103 (0.45) | narrowest: W400 -0.146 (0.34), W350 -0.097 (0.47), W741 -0.084 (0.82), W61 -0.082 (0.47), W70 -0.080 (0.55), W590 -0.079 (0.58)
+  W220 plain fish: width 0.42, residual log H +0.010 (166 texts)
+  W240 whisker fish: width 0.43, residual log H +0.017 (139 texts)
+  W235 hat fish: width 0.45, residual log H +0.051 (112 texts)
+  W740 jar: width 0.67, residual log H -0.014 (677 texts)
+  W2 tall 2: width 0.23, residual log H -0.004 (434 texts)
+  W817 opener 817: width 0.61, residual log H -0.020 (109 texts)
+  W861 opener 861: width 0.74, residual log H -0.009 (135 texts)
+  W1 man W1: width 0.05, residual log H +0.041 (93 texts)
+
+--- level seq_strong: n = 1426
+variant A: closer-less 500 vs closer-bearing 926
+  within closer-less texts (414): rho(ink/H crowding, LOO final rate of the last sign) = +0.255; crowding permuted within site x length: [+0.054,+0.179], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.471 (crowded top quartile 0.538, rest 0.451) vs closer-bearing 0.747 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.143; vs the non-final signs of the closer-less texts themselves: 0.255; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.379
+    commonest last signs of closer-less texts: W90 50, W400 49, W151 45, W407 20, W368 16, W820 12, W679 11, W2 10, W161 10, W621 10 | commonest pre-closer signs: W760 48, W33 35, W390 34, W100 34, W220 30, W3 28, W32 23, W803 22, W798 21, W176 18
+  ink/H density: closer-less 0.094 vs closer-bearing 0.103; diff -0.009; null mean -0.007 [-0.010,-0.004]; P two-sided 0.134
+  face width H (mm): closer-less 27.016 vs closer-bearing 27.179; diff -0.163; null mean -0.726 [-1.433,+0.011]; P two-sided 0.128
+  log area H*V: closer-less 6.320 vs closer-bearing 6.378; diff -0.058; null mean -0.040 [-0.099,+0.018]; P two-sided 0.553
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.564 vs closer-bearing 0.640; diff -0.076; null mean -0.003 [-0.022,+0.016]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.311 vs rest 0.364; diff -0.053; P 0.565
+variant B: closer-less 479 vs closer-bearing 947
+  within closer-less texts (393): rho(ink/H crowding, LOO final rate of the last sign) = +0.262; crowding permuted within site x length: [+0.059,+0.190], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.492 (crowded top quartile 0.565, rest 0.471) vs closer-bearing 0.732 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.141; vs the non-final signs of the closer-less texts themselves: 0.207; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.381
+    commonest last signs of closer-less texts: W90 50, W400 49, W151 45, W407 20, W368 16, W679 11, W2 10, W161 10, W621 10, W220 9 | commonest pre-closer signs: W760 48, W390 36, W33 35, W100 34, W220 30, W3 29, W32 23, W803 22, W798 21, W176 18
+  ink/H density: closer-less 0.094 vs closer-bearing 0.103; diff -0.009; null mean -0.007 [-0.010,-0.003]; P two-sided 0.178
+  face width H (mm): closer-less 26.766 vs closer-bearing 27.302; diff -0.536; null mean -0.694 [-1.442,+0.023]; P two-sided 0.675
+  log area H*V: closer-less 6.301 vs closer-bearing 6.386; diff -0.085; null mean -0.039 [-0.096,+0.021]; P two-sided 0.129
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.559 vs closer-bearing 0.641; diff -0.082; null mean -0.004 [-0.021,+0.014]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.297 vs rest 0.349; diff -0.052; P 0.791
+wrapped two-line seals: 62 (L mean 7.21) vs single-line 1476 (L mean 4.66)
+  closer = last sign in the stored order: wrapped 0.161 vs single 0.641; length-and-site-matched diff -0.480 [null -0.127,+0.092], P 0.001
+  closer at the end of either segment: wrapped 0.645 vs single 0.641; length-and-site-matched diff +0.004 [null -0.063,+0.139], P 0.537
+  face width H: wrapped 30.1 mm (n 60) vs single 27.1; matched diff +3.01 mm, null [+2.26,+5.83], P 0.284
+  wrapped seals, segment ends and sizes (stored order): [('1 segment end(s) in a closer', 35), ('0 segment end(s) in a closer', 22), ('segment sizes 1/6', 7), ('segment sizes 2/4', 6), ('segment sizes 2/5', 5), ('segment sizes 3/5', 5), ('2 segment end(s) in a closer', 5), ('segment sizes 3/6', 4), ('segment sizes 2/6', 3), ('segment sizes 2/3', 3), ('segment sizes 3/2', 3), ('segment sizes 2/2', 2), ('segment sizes 4/2', 2), ('segment sizes 3/3', 2)]
+wide signs on narrow faces: 69 signs with >= 20 texts; rho(sign width, mean residual log H of texts containing it) = +0.041; width-shuffle null [-0.246,+0.227], P (one-sided, positive = wide signs on wider faces) 0.358
+  signs on the widest faces (residual, width): W595 +0.258 (0.56), W717 +0.165 (0.53), W692 +0.120 (0.67), W231 +0.103 (0.45), W125 +0.097 (0.85), W140 +0.081 (0.53) | narrowest: W400 -0.146 (0.34), W350 -0.097 (0.47), W741 -0.084 (0.82), W61 -0.082 (0.47), W70 -0.080 (0.55), W590 -0.079 (0.58)
+  W220 plain fish: width 0.42, residual log H +0.010 (166 texts)
+  W240 whisker fish: width 0.43, residual log H +0.017 (139 texts)
+  W235 hat fish: width 0.45, residual log H +0.051 (112 texts)
+  W740 jar: width 0.67, residual log H -0.014 (677 texts)
+  W2 tall 2: width 0.23, residual log H -0.004 (434 texts)
+  W861 opener 861: width 0.74, residual log H -0.014 (243 texts)
+  W1 man W1: width 0.05, residual log H +0.041 (93 texts)
+
+--- level seq_all: n = 1426
+variant A: closer-less 500 vs closer-bearing 926
+  within closer-less texts (414): rho(ink/H crowding, LOO final rate of the last sign) = +0.228; crowding permuted within site x length: [+0.016,+0.137], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.467 (crowded top quartile 0.533, rest 0.447) vs closer-bearing 0.747 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.142; vs the non-final signs of the closer-less texts themselves: 0.258; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.381
+    commonest last signs of closer-less texts: W90 51, W400 49, W151 45, W407 20, W368 16, W820 12, W679 11, W2 10, W161 10, W621 10 | commonest pre-closer signs: W760 48, W33 35, W390 34, W100 34, W220 30, W3 28, W803 24, W32 23, W798 21, W176 18
+  ink/H density: closer-less 0.094 vs closer-bearing 0.103; diff -0.009; null mean -0.007 [-0.010,-0.004]; P two-sided 0.140
+  face width H (mm): closer-less 27.016 vs closer-bearing 27.179; diff -0.163; null mean -0.705 [-1.448,+0.062]; P two-sided 0.159
+  log area H*V: closer-less 6.320 vs closer-bearing 6.378; diff -0.058; null mean -0.040 [-0.097,+0.020]; P two-sided 0.570
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.564 vs closer-bearing 0.640; diff -0.076; null mean -0.003 [-0.022,+0.017]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.314 vs rest 0.363; diff -0.049; P 0.604
+variant B: closer-less 479 vs closer-bearing 947
+  within closer-less texts (393): rho(ink/H crowding, LOO final rate of the last sign) = +0.231; crowding permuted within site x length: [+0.020,+0.147], P (one-sided, negative = crowded faces end in non-final signs) 1.000
+    mean LOO final rate of the last sign: closer-less 0.488 (crowded top quartile 0.559, rest 0.467) vs closer-bearing 0.732 (the latter is high by construction)
+  last sign of closer-less texts vs pre-closer sign of closer-bearing texts: cosine 0.140; vs the non-final signs of the closer-less texts themselves: 0.211; vs the pre-closer sign of closer-bearing texts, non-final signs: 0.382
+    commonest last signs of closer-less texts: W90 51, W400 49, W151 45, W407 20, W368 16, W679 11, W2 10, W161 10, W621 10, W220 9 | commonest pre-closer signs: W760 48, W390 36, W33 35, W100 34, W220 30, W3 29, W803 24, W32 23, W798 21, W176 18
+  ink/H density: closer-less 0.094 vs closer-bearing 0.103; diff -0.009; null mean -0.006 [-0.009,-0.003]; P two-sided 0.156
+  face width H (mm): closer-less 26.766 vs closer-bearing 27.302; diff -0.536; null mean -0.685 [-1.410,+0.137]; P two-sided 0.693
+  log area H*V: closer-less 6.301 vs closer-bearing 6.386; diff -0.085; null mean -0.040 [-0.100,+0.019]; P two-sided 0.144
+  width of last sign (jar 0.67, arrow 0.51; a class effect, listed for completeness): closer-less 0.559 vs closer-bearing 0.641; diff -0.082; null mean -0.003 [-0.024,+0.016]; P two-sided 0.001
+  closer-less share on crowded faces (ink/H above the 75th pct) 0.300 vs rest 0.348; diff -0.048; P 0.746
+wrapped two-line seals: 62 (L mean 7.21) vs single-line 1476 (L mean 4.66)
+  closer = last sign in the stored order: wrapped 0.161 vs single 0.641; length-and-site-matched diff -0.480 [null -0.127,+0.092], P 0.001
+  closer at the end of either segment: wrapped 0.645 vs single 0.641; length-and-site-matched diff +0.004 [null -0.080,+0.139], P 0.669
+  face width H: wrapped 30.1 mm (n 60) vs single 27.1; matched diff +3.01 mm, null [+2.22,+5.66], P 0.275
+  wrapped seals, segment ends and sizes (stored order): [('1 segment end(s) in a closer', 35), ('0 segment end(s) in a closer', 22), ('segment sizes 1/6', 7), ('segment sizes 2/4', 6), ('segment sizes 2/5', 5), ('segment sizes 3/5', 5), ('2 segment end(s) in a closer', 5), ('segment sizes 3/6', 4), ('segment sizes 2/6', 3), ('segment sizes 2/3', 3), ('segment sizes 3/2', 3), ('segment sizes 2/2', 2), ('segment sizes 4/2', 2), ('segment sizes 3/3', 2)]
+wide signs on narrow faces: 69 signs with >= 20 texts; rho(sign width, mean residual log H of texts containing it) = +0.043; width-shuffle null [-0.245,+0.245], P (one-sided, positive = wide signs on wider faces) 0.380
+  signs on the widest faces (residual, width): W595 +0.258 (0.56), W717 +0.165 (0.53), W692 +0.120 (0.67), W231 +0.103 (0.45), W125 +0.097 (0.85), W140 +0.081 (0.53) | narrowest: W400 -0.146 (0.34), W350 -0.097 (0.47), W741 -0.084 (0.82), W61 -0.082 (0.47), W70 -0.080 (0.55), W590 -0.079 (0.58)
+  W220 plain fish: width 0.42, residual log H +0.010 (166 texts)
+  W240 whisker fish: width 0.43, residual log H +0.017 (140 texts)
+  W235 hat fish: width 0.45, residual log H +0.051 (112 texts)
+  W740 jar: width 0.67, residual log H -0.014 (677 texts)
+  W2 tall 2: width 0.23, residual log H -0.004 (434 texts)
+  W861 opener 861: width 0.74, residual log H -0.014 (243 texts)
+  W1 man W1: width 0.05, residual log H +0.041 (93 texts)

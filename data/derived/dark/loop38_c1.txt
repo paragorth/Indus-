@@ -1,4 +1,4 @@
-# LOOP 38 cycle 1: glyph widths and the ink-width vs face-width regression (2026-10-03T13:41)
+# LOOP 38 cycle 1: glyph widths and the ink-width vs face-width regression (2026-10-03T13:44)
 font glyphs rendered: 998; reference height 186 px (median bbox height of the 100 commonest signs)
 w_rel over the 200 commonest signs: median 0.63, IQR 0.48-0.78, min 0.05, max 2.28
 widest common signs (w_rel): W697 2.28, W552 1.56, W698 1.49, W545 1.32, W792 1.31, W617 1.28, W56 1.05, W48 1.03, W585 1.02, W460 1.01, W821 0.99, W519 0.99
@@ -27,8 +27,8 @@ home: n signs mean 4.74; ink (sum w_rel) mean 2.66; H mean 27.6 mm; rho(n, ink) 
   rho(H, n) = 0.435; rho(H, ink) = 0.419; rho(V, n) = 0.269; rho(V, ink) = 0.242
   10-fold CV R2 (log H): n only 0.1938; ink only 0.1934; n + ink 0.2014; gain +0.0076
   held-out sites (243): R2 n only 0.0749; n + ink 0.0772; gain +0.0023
-  width-shuffle null (50x): CV gain median -0.0006, 95th +0.0047, max +0.0091; P(gain >= obs) = 0.039
-  held-out null: gain median -0.0010, 95th +0.0044; P = 0.176
+  width-shuffle null (1000x): CV gain median -0.0006, 95th +0.0044, max +0.0205; P(gain >= obs) = 0.020
+  held-out null: gain median -0.0004, 95th +0.0059; P = 0.158
   emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.399, IQR 0.306-0.560, CV 0.598; with n instead of ink: median 0.205, CV 0.609
   share of emblem seals whose ink at 1/3 line height would exceed H: 0.321; at 1/4: 0.113; at 1/5: 0.031
   rho(frac, n) = -0.912 (negative = longer texts get a smaller line height, i.e. squeezed)
@@ -38,8 +38,8 @@ home: n signs mean 4.74; ink (sum w_rel) mean 2.67; H mean 27.6 mm; rho(n, ink) 
   rho(H, n) = 0.435; rho(H, ink) = 0.422; rho(V, n) = 0.269; rho(V, ink) = 0.245
   10-fold CV R2 (log H): n only 0.1938; ink only 0.1947; n + ink 0.2019; gain +0.0082
   held-out sites (243): R2 n only 0.0749; n + ink 0.0745; gain -0.0004
-  width-shuffle null (50x): CV gain median -0.0009, 95th +0.0025, max +0.0055; P(gain >= obs) = 0.020
-  held-out null: gain median -0.0014, 95th +0.0033; P = 0.451
+  width-shuffle null (1000x): CV gain median -0.0007, 95th +0.0044, max +0.0187; P(gain >= obs) = 0.014
+  held-out null: gain median -0.0007, 95th +0.0057; P = 0.462
   emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.394, IQR 0.304-0.559, CV 0.602; with n instead of ink: median 0.205, CV 0.609
   share of emblem seals whose ink at 1/3 line height would exceed H: 0.329; at 1/4: 0.113; at 1/5: 0.033
   rho(frac, n) = -0.913 (negative = longer texts get a smaller line height, i.e. squeezed)
@@ -49,8 +49,8 @@ home: n signs mean 4.74; ink (sum w_rel) mean 2.67; H mean 27.6 mm; rho(n, ink) 
   rho(H, n) = 0.435; rho(H, ink) = 0.422; rho(V, n) = 0.269; rho(V, ink) = 0.245
   10-fold CV R2 (log H): n only 0.1938; ink only 0.1946; n + ink 0.2019; gain +0.0081
   held-out sites (243): R2 n only 0.0749; n + ink 0.0743; gain -0.0006
-  width-shuffle null (50x): CV gain median -0.0008, 95th +0.0029, max +0.0120; P(gain >= obs) = 0.039
-  held-out null: gain median +0.0003, 95th +0.0076; P = 0.608
+  width-shuffle null (1000x): CV gain median -0.0007, 95th +0.0039, max +0.0153; P(gain >= obs) = 0.013
+  held-out null: gain median -0.0005, 95th +0.0065; P = 0.505
   emblem seals (home, 906): implied line-height fraction H/(ink*V): median 0.394, IQR 0.304-0.560, CV 0.601; with n instead of ink: median 0.205, CV 0.609
   share of emblem seals whose ink at 1/3 line height would exceed H: 0.329; at 1/4: 0.113; at 1/5: 0.032
   rho(frac, n) = -0.913 (negative = longer texts get a smaller line height, i.e. squeezed)
