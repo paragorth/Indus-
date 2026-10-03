@@ -1,0 +1,105 @@
+== loop16 cycle 2 level=seq_all nperm=3000; lines TAG=224 (objects 193) SEAL=2250 TAB=2173
+# (b) ghost issuers: distinct sealing texts with no matching seal text anywhere
+
+-- sealing texts >= 2 signs
+Lothal        distinct=47 lines=70 exact-seal-match=10 (same-site 1) ghost=37 (79%); of ghosts: inside a longer seal text 6, on a tablet 1, nowhere 30
+Dholavira     distinct=35 lines=35 exact-seal-match=5 (same-site 3) ghost=30 (86%); of ghosts: inside a longer seal text 13, on a tablet 6, nowhere 11
+Kalibangan    distinct=12 lines=19 exact-seal-match=2 (same-site 1) ghost=10 (83%); of ghosts: inside a longer seal text 2, on a tablet 0, nowhere 8
+Harappa       distinct=11 lines=11 exact-seal-match=1 (same-site 0) ghost=10 (91%); of ghosts: inside a longer seal text 0, on a tablet 0, nowhere 10
+Mohenjo-daro  distinct=13 lines=15 exact-seal-match=2 (same-site 2) ghost=11 (85%); of ghosts: inside a longer seal text 3, on a tablet 1, nowhere 7
+other         distinct=19 lines=20 exact-seal-match=5 (same-site 0) ghost=14 (74%); of ghosts: inside a longer seal text 3, on a tablet 1, nowhere 10
+ALL           distinct=131 lines=170 exact-seal-match=21 (same-site 5) ghost=110 (84%); of ghosts: inside a longer seal text 25, on a tablet 8, nowhere 77
+   chance control (seal texts scrambled, 300x): exact matches expected 8.3 (max 14) vs observed 21
+
+-- sealing texts >= 3 signs
+Lothal        distinct=33 lines=54 exact-seal-match=5 (same-site 0) ghost=28 (85%); of ghosts: inside a longer seal text 3, on a tablet 0, nowhere 25
+Dholavira     distinct=15 lines=15 exact-seal-match=0 (same-site 0) ghost=15 (100%); of ghosts: inside a longer seal text 3, on a tablet 1, nowhere 11
+Kalibangan    distinct=10 lines=17 exact-seal-match=1 (same-site 0) ghost=9 (90%); of ghosts: inside a longer seal text 2, on a tablet 0, nowhere 7
+Harappa       distinct=9 lines=9 exact-seal-match=1 (same-site 0) ghost=8 (89%); of ghosts: inside a longer seal text 0, on a tablet 0, nowhere 8
+Mohenjo-daro  distinct=7 lines=8 exact-seal-match=0 (same-site 0) ghost=7 (100%); of ghosts: inside a longer seal text 0, on a tablet 0, nowhere 7
+other         distinct=13 lines=13 exact-seal-match=2 (same-site 0) ghost=11 (85%); of ghosts: inside a longer seal text 2, on a tablet 0, nowhere 9
+ALL           distinct=87 lines=116 exact-seal-match=9 (same-site 0) ghost=78 (90%); of ghosts: inside a longer seal text 10, on a tablet 1, nowhere 67
+   chance control (seal texts scrambled, 300x): exact matches expected 1.2 (max 5) vs observed 9
+
+# capture-recapture (Lincoln-Petersen, Chapman form) on distinct texts >= 2 signs: N = (S+1)(T+1)/(m+1) - 1
+ALL (any site): S=1868 T=131 m=21 -> N=11213  (S309 Chao1 texts; corpus distinct texts 3599)
+Lothal        S=77 T=47 m=1 -> N=1871 (m=0 -> lower bound only)
+Dholavira     S=104 T=35 m=3 -> N=944 (m=0 -> lower bound only)
+Kalibangan    S=51 T=12 m=1 -> N=337 (m=0 -> lower bound only)
+Harappa       S=371 T=11 m=0 -> N=4463 (m=0 -> lower bound only)
+Mohenjo-daro  S=1169 T=13 m=2 -> N=5459 (m=0 -> lower bound only)
+
+# ghosts vs matched: features; null = matched label permuted among distinct sealing texts within site
+Lothal: distinct=47 matched=10 ghost=37
+   len           ghost-minus-matched: +0.995 (null -0.001, p_lo 0.993, p_hi 0.019)
+   jar_final     ghost-minus-matched: -0.184 (null +0.004, p_lo 0.210, p_hi 0.950)
+   arrow_final   ghost-minus-matched: -0.046 (null +0.000, p_lo 0.521, p_hi 0.891)
+   opener_first  ghost-minus-matched: -0.211 (null +0.003, p_lo 0.162, p_hi 0.965)
+   any_numeral   ghost-minus-matched: +0.170 (null -0.003, p_lo 0.952, p_hi 0.244)
+   stock         ghost-minus-matched: +0.000 (null +0.000, p_lo 1.000, p_hi 1.000)
+   voucher700    ghost-minus-matched: +0.081 (null +0.002, p_lo 1.000, p_hi 0.491)
+   fish          ghost-minus-matched: +0.178 (null -0.000, p_lo 0.927, p_hi 0.252)
+Dholavira: distinct=35 matched=5 ghost=30
+   len           ghost-minus-matched: +0.600 (null +0.002, p_lo 1.000, p_hi 0.048)
+   jar_final     ghost-minus-matched: -0.500 (null +0.005, p_lo 0.025, p_hi 0.999)
+   arrow_final   ghost-minus-matched: +0.100 (null +0.000, p_lo 1.000, p_hi 0.620)
+   opener_first  ghost-minus-matched: -0.333 (null +0.001, p_lo 0.087, p_hi 0.994)
+   any_numeral   ghost-minus-matched: +0.300 (null -0.001, p_lo 1.000, p_hi 0.205)
+   stock         ghost-minus-matched: +0.000 (null +0.000, p_lo 1.000, p_hi 1.000)
+   voucher700    ghost-minus-matched: +0.100 (null -0.002, p_lo 1.000, p_hi 0.626)
+   fish          ghost-minus-matched: +0.233 (null -0.001, p_lo 1.000, p_hi 0.301)
+Kalibangan: matched=2 of 12, too few, skip
+Harappa: matched=1 of 11, too few, skip
+Mohenjo-daro: matched=2 of 13, too few, skip
+ALL: distinct=131 matched=21 ghost=110
+   len           ghost-minus-matched: +1.067 (null -0.004, p_lo 1.000, p_hi 0.001)
+   jar_final     ghost-minus-matched: -0.306 (null -0.002, p_lo 0.006, p_hi 0.999)
+   arrow_final   ghost-minus-matched: -0.023 (null -0.000, p_lo 0.500, p_hi 0.793)
+   opener_first  ghost-minus-matched: -0.038 (null +0.002, p_lo 0.444, p_hi 0.770)
+   any_numeral   ghost-minus-matched: +0.116 (null +0.001, p_lo 0.904, p_hi 0.218)
+   stock         ghost-minus-matched: -0.086 (null -0.001, p_lo 0.071, p_hi 0.998)
+   voucher700    ghost-minus-matched: +0.055 (null +0.002, p_lo 1.000, p_hi 0.353)
+   fish          ghost-minus-matched: +0.073 (null -0.001, p_lo 0.836, p_hi 0.342)
+
+ arrows fired 24; Bonferroni alpha = 0.0021
+   len           Lot:+ Dho:+ ALL:+
+   jar_final     Lot:- Dho:- ALL:-
+   arrow_final   Lot:- Dho:+ ALL:-
+   opener_first  Lot:- Dho:- ALL:-
+   any_numeral   Lot:+ Dho:+ ALL:+
+   stock         Lot:0 Dho:0 ALL:-
+   voucher700    Lot:+ Dho:+ ALL:+
+   fish          Lot:+ Dho:+ ALL:+
+
+# length-controlled: ALL distinct sealing texts, matched label permuted within site x length bin (2, 3, >=4)
+   n=137 matched=25; matched by length bin: len2@All=1/1, len2@Cha=1/1, len2@Dho=5/20, len3@Har=1/2, len3@Hul=1/1, len2@Kal=1/2, len4@Kal=1/8, len2@Lak=1/1, len2@Lot=5/14, len3@Lot=4/16, len4@Lot=1/17, len2@Moh=2/6, len3@Rup=1/1
+   jar_final     ghost-minus-matched: -0.266 (null -0.068, p_lo 0.009, p_hi 0.998)
+   arrow_final   ghost-minus-matched: -0.009 (null +0.008, p_lo 0.536, p_hi 0.793)
+   opener_first  ghost-minus-matched: -0.124 (null +0.053, p_lo 0.030, p_hi 0.993)
+   any_numeral   ghost-minus-matched: +0.148 (null +0.133, p_lo 0.698, p_hi 0.548)
+   stock         ghost-minus-matched: -0.071 (null +0.004, p_lo 0.039, p_hi 1.000)
+   voucher700    ghost-minus-matched: +0.054 (null -0.003, p_lo 1.000, p_hi 0.256)
+   fish          ghost-minus-matched: +0.108 (null +0.010, p_lo 0.960, p_hi 0.157)
+
+# sign presence in ghost (110) vs matched (21) distinct sealing texts (signs with >= 5 ghost texts):
+   W2: ghost 40/110 (36%) matched 5/21 (24%)
+   W740: ghost 32/110 (29%) matched 13/21 (62%)
+   W220: ghost 19/110 (17%) matched 2/21 (10%)
+   W32: ghost 18/110 (16%) matched 0/21 (0%)
+   W390: ghost 12/110 (11%) matched 3/21 (14%)
+   W705: ghost 12/110 (11%) matched 2/21 (10%)
+   W861: ghost 11/110 (10%) matched 4/21 (19%)
+   W520: ghost 10/110 (9%) matched 2/21 (10%)
+   W590: ghost 7/110 (6%) matched 1/21 (5%)
+   W33: ghost 7/110 (6%) matched 1/21 (5%)
+   W820: ghost 7/110 (6%) matched 1/21 (5%)
+   W90: ghost 7/110 (6%) matched 1/21 (5%)
+   W240: ghost 7/110 (6%) matched 0/21 (0%)
+   W741: ghost 6/110 (5%) matched 0/21 (0%)
+   W700: ghost 6/110 (5%) matched 0/21 (0%)
+   W920: ghost 6/110 (5%) matched 0/21 (0%)
+   W60: ghost 6/110 (5%) matched 0/21 (0%)
+   W31: ghost 6/110 (5%) matched 0/21 (0%)
+   W1: ghost 6/110 (5%) matched 0/21 (0%)
+   W100: ghost 6/110 (5%) matched 1/21 (5%)
+   W617: ghost 5/110 (5%) matched 0/21 (0%)
