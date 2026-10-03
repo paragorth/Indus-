@@ -61,7 +61,7 @@ def im77_texts():
                     'damaged': 0 in seq, 'doubt': doubt, 'fs': r0['fs_category'], 'level': r0['level'], 'locus': r0['locus']})
     return out
 
-MAXWILD = 1; MINCONC = 3
+MAXWILD = 2; MINCONC = 3
 def concrete(m, cell): return cell is not None and m in MCOV
 def pos_match(m, cell):
     return cell is None or m not in MCOV or m in cell
@@ -70,6 +70,7 @@ def exact(seq, pats, maxwild=None, minconc=None):
     """full-length match: every position agrees or is a wildcard; at most `maxwild` wildcard positions; at least `minconc`
     concrete agreeing positions."""
     mw = MAXWILD if maxwild is None else maxwild; mc = MINCONC if minconc is None else minconc
+    L = len(seq); mc = min(mc, L); mw = 0 if L <= 3 else mw
     for pat, _ in pats:
         wild = conc = 0; ok = True
         for m, c in zip(seq, pat):
@@ -85,7 +86,7 @@ def near(seq, idx, sg, maxwild=None, minconc=None):
     """edit distance 1 (one substitution, insertion or deletion) or exact reverse; same wildcard caps, with the mismatch
     position counted neither as wildcard nor as concrete."""
     mw = MAXWILD if maxwild is None else maxwild; mc = MINCONC if minconc is None else minconc
-    L = len(seq)
+    L = len(seq); mc = min(mc, L - 1); mw = 0 if L <= 4 else mw
     def fits(s, pat, allow):
         wild = conc = mism = 0
         for m, c in zip(s, pat):
@@ -116,15 +117,15 @@ def classify(level):
         t['nowild'] = exact_nowild(s, idx.get((g, len(s)), []))
         if exact(s, idx.get((g, len(s)), [])): t['status'] = 'exact'; continue
         if near(s, idx, g): t['status'] = 'near'; continue
-        t['status'] = 'none' if t['unbr'] <= MAXWILD and len(s) - t['unbr'] >= MINCONC else 'indet'
+        t['status'] = 'none' if t['unbr'] == 0 else 'indet'
     return T
 
-def tune(T, level, rnd, nshuf=10):
+def tune(T, level, rnd, nshuf=5):
     """false-positive table for rule variants: shuffled IM77 texts (>= 4 signs), share classified exact / near."""
     idx = wells_patterns(level)
     comp = [t for t in T if not t['damaged'] and t['seq'] and len(t['seq']) >= 4]
     P('  rule tuning (shuffled texts >= 4 signs, n=%d, %dx): maxwild minconc -> real exact%% / shuffled exact%% ; real near%% / shuffled near%%' % (len(comp), nshuf))
-    for mw, mc in ((99, 1), (2, 3), (1, 3), (1, 4), (0, 3), (0, 4)):
+    for mw, mc in ((99, 1), (2, 3), (0, 3)):
         re_ = sum(exact(t['seq'], idx.get((t['sg'], len(t['seq'])), []), mw, mc) for t in comp)
         rn = sum((not exact(t['seq'], idx.get((t['sg'], len(t['seq'])), []), mw, mc)) and near(t['seq'], idx, t['sg'], mw, mc) for t in comp)
         se = []; sn = []
@@ -516,7 +517,7 @@ def main():
     P(f'IM77 texts (text_no+side): {len(T)}; status: {dict(collections.Counter(t["status"] for t in T))}')
     tune(T, LEVEL, rnd)
     comp = [t for t in T if t['status'] != 'damaged']
-    P(f'  indeterminate (>{MAXWILD} unbridged M sign or <{MINCONC} bridged signs, no match): {sum(t["status"] == "indet" for t in comp)}')
+    P(f'  indeterminate (IM77 text has an unbridged M sign and no match): {sum(t["status"] == "indet" for t in comp)}')
     P(f'complete texts {len(comp)}: exact {sum(t["status"] == "exact" for t in comp)} ({sum(t["status"] == "exact" for t in comp) / len(comp):.1%}), '
       f'near {sum(t["status"] == "near" for t in comp)}, none {sum(t["status"] == "none" for t in comp)} ({sum(t["status"] == "none" for t in comp) / len(comp):.1%})')
     for L_ in (1, 2, 3, 4, 5):
