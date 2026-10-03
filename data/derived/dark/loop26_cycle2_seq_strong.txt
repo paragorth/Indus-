@@ -7,3 +7,9 @@
 
 --- Indus seq_strong
     Indus seq_strong: MI(first,last) 3.996 bits vs within-position shuffle 3.288 [3.259,3.322] P=0.005; excess 0.707 = 10.1% of H(first) (6.98 bits); n=2058
+    Indus seq_strong (len>=3): MI(first,last) 4.209 bits vs within-position shuffle 3.750 [3.717,3.784] P=0.005; excess 0.458 = 6.6% of H(first) (6.96 bits); n=1264
+    Indus seq_strong: 205 elements with >= 15 partner tokens; mean z 2.95; share with partner-KL above Bonferroni null (P<=0.0002 or z>4 at floor) 0.254 (52/205); mean KL excess 0.466 bits
+      strongest partner-predictors: W503(M204) z=27.4, W615 z=22.5, W390(M161/162/167/168/169) z=18.0, W3(M102/103) z=16.9, W700(M328) z=16.4, W400(M176) z=14.4, W840(M403) z=13.9, W32(M87) z=12.2, W415(M171) z=10.6, W4(M104/105) z=10.3
+      weakest: W409 z=-2.4, W392 z=-2.1, W812(M381) z=-1.7, W371(M397) z=-1.6, W236 z=-1.5, W921 z=-1.5
+
+--- Indus frame-purged
