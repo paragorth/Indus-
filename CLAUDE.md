@@ -1,5 +1,7 @@
 # Standing instructions for Claude in this repository
 
+- **CURRENT TARGET (user, 4 Oct 2026): the three other undeciphered systems — Proto-Elamite, Linear A and the Voynich manuscript (`other-scripts/`).** The user considers the Indus work finished (thesis: a business code, not a written language; PAPER-DRAFT.md). Do not start new Indus strategies unless the user asks. Log each strategy for these scripts as a row in `other-scripts/<script>/STRATEGIES.md` before its '## Summary' section, with a control and a verdict, and keep FINDINGS.md current.
+
 - **Keep digging. Do not stop to wait for the user's reply.** When a strategy finishes, log it and start the next one. Report progress in short lines, and only stop when the user explicitly says stop.
 - The goal is to decipher the Indus script. Say "cracked" only if a reading passes the calibrated controls (see STRATEGIES.md S107, S113–S137) and predicts something outside the corpus.
 - Do the digital legwork yourself: archive.org, CDLI, HathiTrust API, Met API, Crossref, Wikimedia Commons, headless Chromium (the proxy CA is installed in ~/.pki/nssdb; for sites that refuse curl, e.g. harappa.com PDFs, run Chromium non-headless under xvfb-run and screenshot pages with `#page=N&zoom=200`, see tools/pdf_page_shot.py (usage: xvfb-run -a python3 tools/pdf_page_shot.py URL PAGE ZOOM out.png)). Ask the user only for things that need a human (logins, CAPTCHAs, physical access), and then give a direct link.
