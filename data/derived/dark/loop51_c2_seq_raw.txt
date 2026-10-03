@@ -1,0 +1,19 @@
+# S-DARK-51 cycle 2, level seq_raw: S149 twin test. K = (91, 56, 2, 417, 890, 892), J = (71, 31, 831, 55, 121, 99, 55)
+
+== (a) K vs J under each mode
+  exact: K=(91, 56, 2, 417, 890, 892)
+         J=(71, 31, 831, 55, 121, 99, 55)
+         edit 7 (norm 1.00), LCS 0, shared types 0, shared bigrams 0, same first sign False
+  M    : K=(('W', 91), ('W', 56), ('M', 99), ('W', 417), ('W', 890), ('M', 307))
+         J=(('W', 71), ('M', 86), ('M', 379), ('M', 121), ('W', 121), ('W', 99), ('M', 121))
+         edit 7 (norm 1.00), LCS 0, shared types 0, shared bigrams 0, same first sign False
+  MC   : K=(('M', 1), ('M', 1), ('M', 121), ('M', 121), ('M', 99), ('W', 417), ('W', 890), ('M', 307))
+         J=(('W', 71), ('M', 86), ('M', 379), ('M', 121), ('W', 121), ('W', 99), ('M', 121))
+         edit 7 (norm 0.88), LCS 1, shared types 2, shared bigrams 0, same first sign False
+
+== (b) chance: cross-site home pairs with the same lengths
+  exact lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 1.000, lcs>=2 0.049, lcs>=KJ 0.600, same first + >=2 types 0.019, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  exact lengths 5-8 x 5-8: 48000 cross-site pairs; share as similar as K-J: edit<=1 0.000, edit<=KJ 0.760, lcs>=2 0.051, lcs>=KJ 0.626, same first + >=2 types 0.015, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  M     lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 1.000, lcs>=2 0.062, lcs>=KJ 0.621, same first + >=2 types 0.028, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  M     lengths 5-8 x 5-8: 48000 cross-site pairs; share as similar as K-J: edit<=1 0.000, edit<=KJ 0.766, lcs>=2 0.061, lcs>=KJ 0.647, same first + >=2 types 0.023, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  MC    lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 0.957, lcs>=2 0.061, lcs>=KJ 0.625, same first + >=2 types 0.028, types>=KJ 0.213   (K-J: edit 7, lcs 1, types 2)
