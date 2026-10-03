@@ -1,0 +1,129 @@
+strat_codelibrary: which known sign system does the Indus corpus statistically resemble?
+Battery computed identically per system on a sample length-matched to the Indus length histogram (1..13 signs, cap 3,000 texts).
+Distance: statistics z-scored across all systems (incl. Indus), Euclidean. Bootstrap: texts resampled with replacement, 200x.
+
+Library: indus_raw n=5369, indus_strong n=5369, indus_all n=5369, indus_seals n=2250, heraldry n=31814, khipu n=6561, ur3_legends n=6381, proto_elamite n=10836, latin_edh n=6000, linear_b n=13170, indus_bigram n=5369
+
+=== Indus version: indus_raw (n=5369); matched sample sizes: heraldry=2141, khipu=2642, ur3_legends=2465, proto_elamite=2942, latin_edh=1474, linear_b=3000, indus_bigram=3000
+stat                     indus_raw      heraldry         khipu   ur3_legends proto_elamite     latin_edh      linear_b  indus_bigram
+median_len                   3.000         4.000         4.000         4.000         3.000         4.000         3.000         3.000
+mean_len                     3.796         4.528         4.048         3.952         3.713         4.524         3.797         3.795
+single_share                 0.170         0.001         0.206         0.000         0.279         0.019         0.239         0.170
+unique_share                 0.673         0.760         0.671         1.000         0.790         0.992         0.776         0.845
+repeat_ratio                 0.285         0.175         2.391         0.141         0.232         1.289         0.894         0.874
+H_first/H_mid                1.029         0.278         0.921         1.597         1.138         0.866         1.025         1.086
+H_last/H_mid                 0.721         0.609         0.988         1.505         0.444         0.962         0.532         0.991
+H_uni_norm                   0.730         0.636         0.700         0.719         0.683         0.887         0.699         0.748
+n80_first/n80_all            1.118         0.024         0.750         0.985         1.690         0.257         1.003         1.145
+n80_last/n80_all             0.408         0.122         1.000         0.858         0.040         0.346         0.099         0.842
+zipf_slope                  -1.565        -1.159        -1.827        -0.801        -1.184        -0.633        -0.741        -1.470
+hapax_type_share             0.323         0.520         0.173         0.690         0.494         0.756         0.746         0.233
+bigram_MI/H1                 0.482         0.432         0.376         0.540         0.571         0.807         0.719         0.535
+h2/H1                        0.518         0.568         0.624         0.460         0.429         0.193         0.281         0.465
+uniq_vs_bigram               0.831         0.855         0.843         1.072         0.941         1.027         0.981         1.014
+nest_share                   0.412         0.334         0.455         0.120         0.328         0.017         0.290         0.436
+frames_per_text              0.434         0.189         0.282         0.928         0.492         0.962         0.598         0.676
+top10_frame_share            0.153         0.625         0.250         0.037         0.130         0.027         0.299         0.074
+types_per_2000tok          294.000       399.000       123.000       803.000       441.000      1161.000       740.000       289.000
+
+Distance from Indus (z-space): proto_elamite 3.23, indus_bigram 3.32, khipu 4.08, linear_b 4.92, heraldry 5.59, ur3_legends 6.79, latin_edh 8.45
+Nearest: proto_elamite. Statistics on which it is closest to Indus (|dz|): repeat_ratio 0.07, top10_frame_share 0.12, frames_per_text 0.22, mean_len 0.27, H_first/H_mid 0.32, types_per_2000tok 0.46
+Statistics on which proto_elamite differs most from Indus: unique_share 0.99, n80_last/n80_all 1.02, single_share 1.04, n80_first/n80_all 1.16, uniq_vs_bigram 1.27
+Residue (Indus outside the range of all library systems): uniq_vs_bigram=0.831 vs [0.843,1.072] (-0.13 sd)
+Per-statistic nearest system: mean_len->indus_bigram, single_share->indus_bigram, unique_share->khipu, repeat_ratio->proto_elamite, H_first/H_mid->linear_b, H_last/H_mid->heraldry, H_uni_norm->ur3_legends, n80_first/n80_all->indus_bigram, n80_last/n80_all->latin_edh, zipf_slope->indus_bigram, hapax_type_share->indus_bigram, bigram_MI/H1->heraldry, h2/H1->heraldry, uniq_vs_bigram->khipu, nest_share->indus_bigram, frames_per_text->proto_elamite, top10_frame_share->proto_elamite, types_per_2000tok->indus_bigram
+Bootstrap (200x): nearest-system share: proto_elamite 0.41, indus_bigram 0.59, khipu 0.00, linear_b 0.00, heraldry 0.00, ur3_legends 0.00, latin_edh 0.00
+Bootstrap mean rank: proto_elamite 1.59, indus_bigram 1.41, khipu 3.42, linear_b 3.58, heraldry 5.80, ur3_legends 5.20, latin_edh 7.00
+
+=== Indus version: indus_strong (n=5369); matched sample sizes: heraldry=2141, khipu=2642, ur3_legends=2465, proto_elamite=2942, latin_edh=1474, linear_b=3000, indus_bigram=3000
+stat                  indus_strong      heraldry         khipu   ur3_legends proto_elamite     latin_edh      linear_b  indus_bigram
+median_len                   3.000         4.000         4.000         4.000         3.000         4.000         3.000         3.000
+mean_len                     3.796         4.535         4.048         3.953         3.713         4.544         3.799         3.794
+single_share                 0.170         0.001         0.206         0.000         0.279         0.019         0.239         0.170
+unique_share                 0.659         0.760         0.673         1.000         0.795         0.991         0.766         0.843
+repeat_ratio                 0.268         0.191         2.492         0.116         0.232         1.340         0.857         0.856
+H_first/H_mid                1.019         0.276         0.911         1.607         1.141         0.865         1.011         1.074
+H_last/H_mid                 0.721         0.603         0.969         1.521         0.444         0.947         0.538         0.983
+H_uni_norm                   0.720         0.639         0.716         0.718         0.678         0.889         0.700         0.746
+n80_first/n80_all            1.129         0.022         0.760         1.010         1.648         0.260         1.005         1.067
+n80_last/n80_all             0.400         0.124         0.960         0.876         0.041         0.327         0.114         0.840
+zipf_slope                  -1.576        -1.152        -1.784        -0.808        -1.182        -0.628        -0.755        -1.484
+hapax_type_share             0.332         0.514         0.143         0.690         0.488         0.761         0.750         0.273
+bigram_MI/H1                 0.476         0.437         0.380         0.537         0.565         0.815         0.715         0.537
+h2/H1                        0.524         0.563         0.620         0.463         0.435         0.185         0.285         0.463
+uniq_vs_bigram               0.817         0.852         0.849         1.081         0.950         1.027         0.978         1.014
+nest_share                   0.426         0.359         0.448         0.118         0.335         0.015         0.299         0.447
+frames_per_text              0.416         0.181         0.291         0.931         0.488         0.961         0.580         0.669
+top10_frame_share            0.167         0.624         0.237         0.037         0.139         0.026         0.302         0.073
+types_per_2000tok          290.000       391.000       125.000       790.000       417.000      1192.000       718.000       299.000
+
+Distance from Indus (z-space): proto_elamite 3.33, indus_bigram 3.44, khipu 4.00, linear_b 4.89, heraldry 5.52, ur3_legends 6.95, latin_edh 8.68
+Nearest: proto_elamite. Statistics on which it is closest to Indus (|dz|): repeat_ratio 0.05, top10_frame_share 0.15, mean_len 0.26, frames_per_text 0.27, H_first/H_mid 0.36, types_per_2000tok 0.39
+Statistics on which proto_elamite differs most from Indus: n80_last/n80_all 1.02, single_share 1.04, n80_first/n80_all 1.08, unique_share 1.13, uniq_vs_bigram 1.47
+Residue (Indus outside the range of all library systems): unique_share=0.659 vs [0.673,1.000] (-0.11 sd); uniq_vs_bigram=0.817 vs [0.849,1.081] (-0.36 sd)
+Per-statistic nearest system: mean_len->indus_bigram, single_share->indus_bigram, unique_share->khipu, repeat_ratio->proto_elamite, H_first/H_mid->linear_b, H_last/H_mid->heraldry, H_uni_norm->ur3_legends, n80_first/n80_all->indus_bigram, n80_last/n80_all->latin_edh, zipf_slope->indus_bigram, hapax_type_share->indus_bigram, bigram_MI/H1->heraldry, h2/H1->heraldry, uniq_vs_bigram->khipu, nest_share->indus_bigram, frames_per_text->proto_elamite, top10_frame_share->proto_elamite, types_per_2000tok->indus_bigram
+
+=== Indus version: indus_all (n=5369); matched sample sizes: heraldry=2141, khipu=2642, ur3_legends=2465, proto_elamite=2942, latin_edh=1474, linear_b=3000, indus_bigram=3000
+stat                     indus_all      heraldry         khipu   ur3_legends proto_elamite     latin_edh      linear_b  indus_bigram
+median_len                   3.000         4.000         4.000         4.000         3.000         4.000         3.000         3.000
+mean_len                     3.796         4.617         4.049         3.953         3.713         4.531         3.795         3.794
+single_share                 0.170         0.001         0.206         0.000         0.279         0.019         0.239         0.170
+unique_share                 0.659         0.760         0.682         1.000         0.793         0.992         0.764         0.840
+repeat_ratio                 0.277         0.186         2.515         0.139         0.231         1.775         0.857         0.859
+H_first/H_mid                1.018         0.270         0.911         1.603         1.131         0.877         1.020         1.080
+H_last/H_mid                 0.721         0.582         0.976         1.508         0.449         0.960         0.539         0.981
+H_uni_norm                   0.720         0.639         0.721         0.716         0.679         0.886         0.702         0.747
+n80_first/n80_all            1.116         0.024         0.760         1.003         1.659         0.270         0.937         1.147
+n80_last/n80_all             0.406         0.106         1.040         0.862         0.041         0.344         0.112         0.840
+zipf_slope                  -1.583        -1.160        -1.796        -0.806        -1.173        -0.641        -0.734        -1.478
+hapax_type_share             0.335         0.500         0.145         0.694         0.505         0.753         0.746         0.259
+bigram_MI/H1                 0.474         0.438         0.386         0.537         0.567         0.807         0.725         0.536
+h2/H1                        0.526         0.562         0.614         0.463         0.433         0.193         0.275         0.464
+uniq_vs_bigram               0.808         0.848         0.848         1.084         0.943         1.023         0.988         1.026
+nest_share                   0.428         0.375         0.440         0.126         0.333         0.015         0.291         0.444
+frames_per_text              0.415         0.170         0.283         0.927         0.490         0.963         0.596         0.661
+top10_frame_share            0.168         0.641         0.236         0.039         0.133         0.026         0.298         0.077
+types_per_2000tok          294.000       386.000       127.000       717.000       420.000      1140.000       760.000       296.000
+
+Distance from Indus (z-space): proto_elamite 3.35, indus_bigram 3.48, khipu 3.92, linear_b 5.09, heraldry 5.58, ur3_legends 6.88, latin_edh 8.67
+Nearest: proto_elamite. Statistics on which it is closest to Indus (|dz|): repeat_ratio 0.06, top10_frame_share 0.18, mean_len 0.25, frames_per_text 0.28, H_first/H_mid 0.33, types_per_2000tok 0.41
+Statistics on which proto_elamite differs most from Indus: zipf_slope 1.03, single_share 1.04, n80_first/n80_all 1.12, unique_share 1.13, uniq_vs_bigram 1.43
+Residue (Indus outside the range of all library systems): unique_share=0.659 vs [0.682,1.000] (-0.19 sd); uniq_vs_bigram=0.808 vs [0.848,1.084] (-0.43 sd)
+Per-statistic nearest system: mean_len->linear_b, single_share->indus_bigram, unique_share->khipu, repeat_ratio->proto_elamite, H_first/H_mid->linear_b, H_last/H_mid->heraldry, H_uni_norm->khipu, n80_first/n80_all->indus_bigram, n80_last/n80_all->latin_edh, zipf_slope->indus_bigram, hapax_type_share->indus_bigram, bigram_MI/H1->heraldry, h2/H1->heraldry, uniq_vs_bigram->khipu, nest_share->khipu, frames_per_text->proto_elamite, top10_frame_share->proto_elamite, types_per_2000tok->indus_bigram
+
+=== Indus version: indus_seals (n=2250); matched sample sizes: heraldry=2543, khipu=3000, ur3_legends=2703, proto_elamite=2422, latin_edh=1728, linear_b=3000, indus_bigram=2933
+stat                   indus_seals      heraldry         khipu   ur3_legends proto_elamite     latin_edh      linear_b  indus_bigram
+median_len                   4.000         5.000         4.000         4.000         4.000         5.000         4.000         4.000
+mean_len                     4.463         4.962         4.484         4.163         4.190         4.968         4.467         4.379
+single_share                 0.081         0.001         0.206         0.000         0.279         0.019         0.239         0.170
+unique_share                 0.918         0.816         0.696         1.000         0.872         0.993         0.837         0.911
+repeat_ratio                 0.268         0.212         2.148         0.146         0.264         1.393         0.917         0.802
+H_first/H_mid                1.008         0.273         0.920         1.546         1.126         0.852         1.029         1.085
+H_last/H_mid                 0.722         0.622         0.984         1.456         0.452         0.942         0.496         0.983
+H_uni_norm                   0.748         0.639         0.706         0.715         0.691         0.878         0.695         0.739
+n80_first/n80_all            1.104         0.022         0.760         1.055         1.642         0.256         1.112         1.162
+n80_last/n80_all             0.403         0.129         1.000         0.900         0.050         0.332         0.076         0.851
+zipf_slope                  -1.433        -1.188        -1.855        -0.836        -1.191        -0.656        -0.767        -1.518
+hapax_type_share             0.381         0.493         0.132         0.686         0.492         0.748         0.739         0.264
+bigram_MI/H1                 0.478         0.426         0.385         0.541         0.565         0.799         0.701         0.523
+h2/H1                        0.522         0.574         0.615         0.459         0.435         0.201         0.299         0.477
+uniq_vs_bigram               0.984         0.884         0.833         1.072         0.961         1.018         0.946         1.005
+nest_share                   0.280         0.358         0.460         0.128         0.260         0.017         0.260         0.371
+frames_per_text              0.596         0.177         0.267         0.915         0.519         0.959         0.602         0.693
+top10_frame_share            0.130         0.606         0.249         0.042         0.135         0.026         0.271         0.056
+types_per_2000tok          318.000       381.000       127.000       743.000       442.000      1163.000       700.000       289.000
+
+Distance from Indus (z-space): indus_bigram 2.29, proto_elamite 3.22, linear_b 4.49, ur3_legends 4.93, heraldry 5.58, khipu 5.65, latin_edh 6.93
+Nearest: indus_bigram. Statistics on which it is closest to Indus (|dz|): unique_share 0.07, types_per_2000tok 0.09, n80_first/n80_all 0.12, H_uni_norm 0.13, zipf_slope 0.22, H_first/H_mid 0.23
+Statistics on which indus_bigram differs most from Indus: nest_share 0.70, repeat_ratio 0.81, single_share 0.84, H_last/H_mid 0.84, n80_last/n80_all 1.22
+Residue (Indus outside the range of all library systems): none
+Per-statistic nearest system: mean_len->linear_b, single_share->latin_edh, unique_share->indus_bigram, repeat_ratio->proto_elamite, H_first/H_mid->linear_b, H_last/H_mid->heraldry, H_uni_norm->indus_bigram, n80_first/n80_all->linear_b, n80_last/n80_all->latin_edh, zipf_slope->indus_bigram, hapax_type_share->proto_elamite, bigram_MI/H1->indus_bigram, h2/H1->indus_bigram, uniq_vs_bigram->indus_bigram, nest_share->linear_b, frames_per_text->linear_b, top10_frame_share->proto_elamite, types_per_2000tok->indus_bigram
+Bootstrap (200x): nearest-system share: indus_bigram 0.97, proto_elamite 0.03, linear_b 0.00, ur3_legends 0.00, heraldry 0.00, khipu 0.00, latin_edh 0.00
+Bootstrap mean rank: indus_bigram 1.03, proto_elamite 1.97, linear_b 3.00, ur3_legends 4.00, heraldry 6.00, khipu 5.00, latin_edh 7.00
+
+NOTES
+- indus_bigram is a self-control (a bigram generator trained on Indus itself), not a known system; it marks how far a Markov copy of Indus sits. Among KNOWN systems Proto-Elamite entry lines are nearest for all four Indus versions (seq_raw, seq_strong, seq_all, seals only), ahead of khipu cord clusters, Linear B lines, heraldic blazons, Ur III seal legends and Latin inscriptions. Bootstrap mean rank: proto_elamite 1.6 vs khipu 3.4 (whole corpus); 2.0 vs linear_b 3.0 (seals).
+- What drives the Proto-Elamite match: within-text repetition far below the shuffle null (0.27 vs 0.23; language controls 0.9-1.8), frame counts, mean length, first-position entropy about equal to the middle.
+- Where Indus is unlike every library system (the residue): whole texts repeat MORE than their own bigram model predicts (uniq_vs_bigram 0.81-0.83 on the whole corpus; every other system 0.84-1.08; seals alone 0.98). Indus also pairs a very small closed class at the END (n80_last/n80_all 0.40, like Latin 0.33 and heraldry 0.12) with an OPEN first position (1.1, like Ur III legends and Linear B), the reverse of heraldry (field tincture first: 0.02) and of Proto-Elamite (object sign first, numeral last: 1.6 / 0.04).
+- Heraldry is a poor match (distance 5.5-5.6): blazons start from a closed class of tinctures, have 10 frames covering 62% of texts (Indus 15%), and more types. Ur III legends are a poor match (6.8-7.0): 100% unique, open at both ends, hapax-rich vocabulary. Khipu is second on the whole corpus only because of unique_share and h2; it has the highest within-text repetition of all (2.1-2.5, repeated colours).
+- Not obtained: RGZM Samian potter stamps (login), merchants' or masons' marks (no machine-readable corpus found), tamga corpora. GitHub repository search returned no blazon dataset; the Rietstap OCR was used instead.
+- Caveats: Rietstap OCR noise (forms <5 removed); khipu 'sign' is a coding choice (colour x magnitude class); length matching drops single-sign texts (reported separately as single_share); Indus rests on Mohenjo-daro + Harappa.
