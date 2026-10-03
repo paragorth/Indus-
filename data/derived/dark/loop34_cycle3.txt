@@ -1,0 +1,30 @@
+S-DARK-34 cycle 3: NUMERIC checksums (3 Oct 2026)
+Script tools/dark_loop34_c3.py; logs loop34_c3_<level>.txt (scratchpad). Texts of all object types (complete,
+direction recorded, >= 3 signs) with exactly one valued stroke numeral (S204 values; W1, W2 and W31 excluded as
+markers, S234 / S-DARK-15): train Mohenjo-daro + Harappa 576 (seals 344, tablets 214; values 2:170, 3:251, 4:53,
+5:34, 6:25, 7:36, 8:5, 9:2), held-out sites 93, IM77-only 66. Identical at the three merge levels (the numerals
+are not merged).
+
+(a) Classifier (same engine as cycles 1-2), target = the numeral's value, the numeral hidden:
+    sites: best 0.46 / 0.51 / 0.49 (raw / strong / all) vs modal 0.41, slot 0.37; IM77: 0.64 / 0.58 / 0.64 vs modal
+    0.45, slot 0.33 (P < 0.001). Planted checksum (value := class[sum of other indices mod 8]) 1.00 / 1.00; planted
+    class sign 0.85-0.91; shuffled labels 0.31-0.40 (sites), 0.47-0.52 (IM77, at the modal rate).
+    Carrying features: prev_W705 and count_W705 (importance 0.04-0.05, the only features above noise): the U-stroke
+    W705/706 takes tall-3 (S299: 'W705/706 + tall 3' then the arrow). That is a lexical fixed term, not arithmetic.
+    Seals only (344 train): sites 0.44 vs modal 0.42 (P = 0.45); IM77 seals 0.58-0.65 vs 0.45 on n = 31 (W705 again).
+(b) Simple functions of the rest of the text (exact match and Spearman rho; permutation null within site x type, 2,000
+    reps). Exact-match rate: no function beats its null on any set (n signs 0.18 vs null 0.20; n+1 0.13 vs 0.13;
+    n distinct 0.17 vs 0.19; sum of W indices mod 10 0.08 vs 0.10; mod 7 0.14 vs 0.12, P = 0.06-0.16; rank-sum mod 9
+    0.12 vs 0.11). Rank correlation: value vs text length rho = -0.10 (train), -0.06 (sites, P = 0.57), -0.35 (IM77,
+    P < 0.001), -0.11 all (P = 0.002); n non-frame signs -0.15; position from the end -0.14. The sign is NEGATIVE:
+    longer texts carry smaller numerals. That is composition (the frozen tall-2 terms 32-390 / 32-226 / 32-877 sit
+    in long seal texts; the 3-8 counts sit in short tablet and seal texts, S216-S217), not a function: exact match
+    is at chance and the IM77 effect is the tablets' short 'count + good' texts.
+(c) Annealed additive map (values 0-9 on the 60 commonest non-numeral signs, value = sum over the rest, 12 restarts
+    x 2,000 steps): REAL train rho 0.09-0.12 -> held-out sites -0.02 / +0.04 / -0.01, IM77 -0.24 / -0.25 / -0.17;
+    PERMUTED-value controls (3 runs) train 0.05-0.10 -> sites -0.03 to -0.22, IM77 -0.17 to -0.41: the real map sits
+    inside the permuted spread. All-ones rule (text length) sites -0.06. Planted additive target: truth rho 0.79 (train)
+    / 0.82 (sites) -> recovered 0.63 -> held-out +0.72, so an additive code of that strength would have been seen
+    (value recovery itself weak, rho 0.12, as in S-DARK-5.2).
+
+| S-DARK-34.3 | **Checksum hunt, numeric: is the stroke numeral a function of the rest of the text?** Texts with one valued numeral (S204 values; W1/W2/W31 excluded as markers): train MD + Harappa 576 (344 seals, 214 tablets), test other sites 93 and IM77-only 66. (a) Same tree / forest / 5-NN pipeline with the numeral hidden, planted checksum and class sign, shuffled labels; (b) exact-match rate and Spearman rho of the value against n signs, n+1, n distinct, n fish, n non-frame signs, position, sum of W indices mod 10 / mod 7, rank-sum mod 9, each against a within-(site, type) permutation null (2,000 reps); (c) annealed additive sign-to-value map (0-9 on the 60 commonest signs, 12 restarts) fitted on train, scored held-out, against three permuted-value anneals and a planted additive target. Three levels (`tools/dark_loop34_c3.py`) | (a) Sites 0.46-0.51 vs modal 0.41 / slot 0.37; IM77 0.58-0.64 vs 0.45 / 0.33; planted checksum 1.00, class sign 0.85-0.91, shuffled 0.31-0.40 / 0.47-0.52. The only features above noise are prev_W705 / count_W705 (the 'U-stroke + tall 3' fixed term, S299); seals only 0.44 vs 0.42 (P = 0.45). (b) No function's exact-match rate beats its null (n signs 0.18 vs 0.20; mod 10 0.08 vs 0.10; mod 7 0.14 vs 0.12, P = 0.06). Value vs length rho -0.10 train, -0.06 sites (P = 0.57), -0.35 IM77 (P < 0.001), -0.11 pooled (P = 0.002): longer texts carry smaller numerals (frozen tall-2 terms in long seal texts, 3-8 counts in short texts). (c) Real anneal held-out -0.02 / +0.04 / -0.01 (sites), -0.17 to -0.25 (IM77), inside the permuted-value spread (-0.03 to -0.22; -0.17 to -0.41); planted additive truth 0.79 -> recovered 0.72 | **The numeral is not a checksum of the text.** Its only predictable component is lexical (W705 takes tall-3) and its only correlate is text length, with the wrong sign for a count-of-signs code and chance-level exact matches. Closes the numeric arm alongside S-DARK-5.1-5.4b (data/derived/dark/loop34_cycle3.txt) |

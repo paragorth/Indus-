@@ -131,33 +131,39 @@ def design(objs,classes,ref=740,site_fe=True):
     Z=np.zeros((len(objs),len(groups)))
     for k,o in enumerate(objs): Z[k,gi[o['sec']]]=1.0
     return X,cols,Z
-def reml_fit(y,X,Z,lam=None,grid=np.logspace(-2,2.5,19),drop_cols=None):
-    """y = Xb + Zu + e, u ~ N(0, s2/lam), e ~ N(0, s2). Profile REML over lam. Returns b, se, lam, s2, Vinv."""
-    n,p=X.shape
+def _parts(y,X,Z):
+    ng=Z.sum(0); return dict(XtX=X.T@X,XtZ=X.T@Z,Xty=X.T@y,Zty=Z.T@y,yty=float(y@y),ng=ng,n=len(y),p=X.shape[1])
+def _solve(P,lam):
+    D=1.0/(lam+P['ng'])
+    A=P['XtX']-(P['XtZ']*D)@P['XtZ'].T
+    bv=P['Xty']-P['XtZ']@(D*P['Zty'])
+    b=np.linalg.solve(A,bv)
+    yVy=P['yty']-float(P['Zty']@(D*P['Zty']))
+    rVr=yVy-2*float(b@bv)+float(b@A@b)
+    return b,A,rVr
+def reml_fit(y,X,Z,lam=None,grid=np.logspace(-2,2.5,19)):
+    """y = Xb + Zu + e, u ~ N(0, s2/lam), e ~ N(0, s2); Z'Z diagonal (one group per row). Woodbury forms, profile REML
+    over lam. Returns b, se, lam, s2, lam (the last stands in for V^-1: with lam fixed, refits need only lam)."""
+    P=_parts(y,X,Z); n,p=P['n'],P['p']
     def crit(lm):
-        V=np.eye(n)+Z@Z.T/lm
-        Lc=np.linalg.cholesky(V); Vi=np.linalg.inv(V)
-        XtVi=X.T@Vi; A=XtVi@X; b=np.linalg.solve(A,XtVi@y); r=y-X@b
-        s2=float(r@Vi@r)/(n-p)
-        ll=-0.5*(2*np.log(np.diag(Lc)).sum()+np.linalg.slogdet(A)[1]+(n-p)*math.log(s2))
-        return ll,b,s2,A,Vi
+        b,A,rVr=_solve(P,lm); s2=rVr/(n-p)
+        ll=-0.5*(np.log(1+P['ng']/lm).sum()+np.linalg.slogdet(A)[1]+(n-p)*math.log(max(s2,1e-12)))
+        return ll,b,s2,A
     if lam is None:
         best=None
         for lm in grid:
-            ll,b,s2,A,Vi=crit(lm)
-            if best is None or ll>best[0]: best=(ll,lm,b,s2,A,Vi)
-        ll,lam,b,s2,A,Vi=best
-    else:
-        ll,b,s2,A,Vi=crit(lam)
-    se=np.sqrt(np.diag(np.linalg.inv(A))*s2)
-    return b,se,lam,s2,Vi
-def refit(y,X,Vi):
-    XtVi=X.T@Vi; A=XtVi@X
-    return np.linalg.solve(A,XtVi@y)
+            ll,b,s2,A=crit(lm)
+            if best is None or ll>best[0]: best=(ll,lm,b,s2,A)
+        ll,lam,b,s2,A=best
+    else: ll,b,s2,A=crit(lam)
+    se=np.sqrt(np.maximum(np.diag(np.linalg.inv(A)),0)*s2)
+    return b,se,lam,s2,lam
+def refit(y,X,Z,lam):
+    b,A,rVr=_solve(_parts(y,X,Z),lam); return b
 def closer_effects(objs,y,classes,lam=None,Vi=None,ref=740):
     X,cols,Z=design(objs,classes,ref)
     if Vi is None: b,se,lam,s2,Vi=reml_fit(y,X,Z,lam)
-    else: b=refit(y,X,Vi); se=np.full(len(b),np.nan); s2=np.nan
+    else: b=refit(y,X,Z,Vi); se=np.full(len(b),np.nan); s2=np.nan
     eff={ref:0.0}; sef={ref:0.0}
     for c in classes:
         if c==ref: continue
