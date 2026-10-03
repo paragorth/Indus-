@@ -1,0 +1,49 @@
+LOOP 11 cycle 1: are confusions (edit-distance-1 text pairs with a frequent member) systematic?  Script tools/dark11_confusions.py. Full outputs: loop11_c1_<level>.txt (+ _f2 minfreq=2, _YQ complete+'?').
+
+LOOP 11 (scribal confusions)  level=seq_raw minfreq=3 complete=Y nperm=1000 seed=11
+objects (complete, len>=3): 2322  distinct texts: 1775  frequent texts (>= 3 objects): 91
+edit-distance-1 pairs with a frequent member: substitutions 189 (distinct text pairs), indels 55
+  pairs recurring in >=2 frames: obs 12  null mean 16.9 (95% 12-22, max 27)  P=0.9850
+  >=3 frames: obs 2  null mean 3.9 (95% 1-7, max 9)  P=0.9560
+  max frames for one pair: obs 3  null mean 4.3 (95% 3-7, max 10)  P=0.9940
+  obs 0.933 of 30 classified pairs; null mean 0.510  P=0.0010
+  already merged/variant-class pairs among substitutions: obs 20 null mean 3.9 P=0.0010
+  glyph similarity of substituting pairs: obs 0.603 null mean 0.551 P=0.0010
+  Spearman rho obs 0.095 (p 0.265); random-partner null rho mean 0.227 (95% 0.134..0.316)  P(obs<=null)=0.0066
+  same site: obs 0.634 (n object pairs 1758) null mean 0.569 (95% 0.512..0.625) P=0.0066
+  same find area (within site, both known): obs 0.167 (n 815) null mean 0.112 (95% 0.081..0.150) P=0.0033
+  known deletable/qualifier set [1, 2, 31, 33, 60, 90, 100, 235, 400, 705, 706]: deletions obs 20 vs exp 11.0 (ratio 1.82) of 55 indel frames
+  random-position null: mean 11.0 max 20  P=0.0015
+LOOP 11 (scribal confusions)  level=seq_strong minfreq=3 complete=Y nperm=1000 seed=11
+objects (complete, len>=3): 2322  distinct texts: 1744  frequent texts (>= 3 objects): 96
+edit-distance-1 pairs with a frequent member: substitutions 221 (distinct text pairs), indels 71
+  pairs recurring in >=2 frames: obs 15  null mean 22.3 (95% 16-29, max 35)  P=0.9960
+  >=3 frames: obs 2  null mean 6.1 (95% 3-10, max 12)  P=1.0000
+  max frames for one pair: obs 3  null mean 4.9 (95% 3-7, max 10)  P=1.0000
+  obs 0.895 of 38 classified pairs; null mean 0.425  P=0.0010
+  already merged/variant-class pairs among substitutions: obs 16 null mean 3.3 P=0.0010
+  glyph similarity of substituting pairs: obs 0.579 null mean 0.533 P=0.0010
+  Spearman rho obs 0.040 (p 0.646); random-partner null rho mean 0.228 (95% 0.139..0.319)  P(obs<=null)=0.0033
+  same site: obs 0.594 (n object pairs 2048) null mean 0.527 (95% 0.470..0.579) P=0.0100
+  same find area (within site, both known): obs 0.160 (n 883) null mean 0.115 (95% 0.080..0.153) P=0.0133
+  known deletable/qualifier set [1, 2, 31, 33, 60, 90, 100, 235, 400, 705, 706]: deletions obs 24 vs exp 15.2 (ratio 1.58) of 71 indel frames
+  random-position null: mean 15.2 max 25  P=0.0050
+LOOP 11 (scribal confusions)  level=seq_all minfreq=3 complete=Y nperm=1000 seed=11
+objects (complete, len>=3): 2322  distinct texts: 1743  frequent texts (>= 3 objects): 97
+edit-distance-1 pairs with a frequent member: substitutions 228 (distinct text pairs), indels 71
+  pairs recurring in >=2 frames: obs 16  null mean 22.8 (95% 17-29, max 34)  P=0.9900
+  >=3 frames: obs 3  null mean 5.9 (95% 3-9, max 14)  P=0.9760
+  max frames for one pair: obs 3  null mean 4.9 (95% 3-8, max 10)  P=1.0000
+  obs 0.895 of 38 classified pairs; null mean 0.424  P=0.0010
+  already merged/variant-class pairs among substitutions: obs 16 null mean 3.7 P=0.0010
+  glyph similarity of substituting pairs: obs 0.581 null mean 0.534 P=0.0010
+  Spearman rho obs 0.045 (p 0.606); random-partner null rho mean 0.228 (95% 0.123..0.314)  P(obs<=null)=0.0033
+  same site: obs 0.593 (n object pairs 2075) null mean 0.524 (95% 0.473..0.578) P=0.0133
+  same find area (within site, both known): obs 0.158 (n 893) null mean 0.116 (95% 0.087..0.151) P=0.0133
+  known deletable/qualifier set [1, 2, 31, 33, 60, 90, 100, 235, 400, 705, 706]: deletions obs 24 vs exp 15.2 (ratio 1.58) of 71 indel frames
+  random-position null: mean 15.1 max 25  P=0.0055
+
+Arrows fired in this cycle: 9 tests x 3 levels (levels are not independent). Bonferroni for 9 arrows: alpha 0.0056. Pass: slot agreement, merged-pair excess, glyph similarity, optional-sign enrichment (all P<=0.001-0.005 in all three levels). Site/area clustering P 0.003-0.013: fails the 9-arrow correction at seq_all/seq_strong, passes at seq_raw only for area. Frequency slope passes only at seq_strong/seq_all (P 0.003), not with '?' texts included (P 0.28). Recurrence of specific pairs is BELOW the frequency-weighted null in all runs.
+
+READY-TO-PASTE ROW:
+| S-DARK-11.1 | Scribal confusions as plaintext. All pairs of distinct complete texts (>=3 signs) at edit distance 1 where one member is a frequent text (>=3 objects); the differing sign pair (a,b) is a candidate confusion. Null: keep the frame and sign a, redraw partner b from the sign distribution at the same position, length, site group and object class (1000x); indels: random-position null (2000x). seq_raw / seq_strong / seq_all, also minfreq 2 and fragments included (tools/dark11_confusions.py) | 189 / 221 / 228 substitution frames, 55 / 71 / 71 indel frames. (a) Recurrence of specific (a,b) pairs is NOT above chance: pairs recurring in >=2 frames 12 / 15 / 16 vs null 17 / 22 / 23 (P = 0.98-1.0); max frames per pair 3 vs null 4-5. (b) Slot agreement 0.93 / 0.90 / 0.90 vs null 0.51 / 0.43 / 0.42 (P = 0.001); pairs already merged or in a variant class 20 / 16 / 16 vs null 3.9 / 3.3 / 3.7 (P = 0.001); glyph similarity 0.60 / 0.58 / 0.58 vs 0.55 / 0.53 / 0.53 (P = 0.001). (c) Confusion rate per sign vs log frequency: rho 0.10 / 0.04 / 0.05 vs null 0.23 (P = 0.007 / 0.003 / 0.003), i.e. frequent signs are swapped less than their frequency predicts; not robust to including fragments (P = 0.28). (d) Same site 0.63 / 0.59 / 0.59 vs null 0.57 / 0.53 / 0.52 (P = 0.007-0.013); same find area 0.17 / 0.16 / 0.16 vs 0.11 / 0.12 / 0.12 (P = 0.003-0.013); needs cycle 2 (Harappa-tablet confound). (e) Deletable signs: W400 (10 of 55 indel frames, all final), W240 (6, all initial), W235 (3, initial), W2, W33, W803; the known deletable/qualifier set carries 20 of 55 deletions vs 11 expected (P = 0.0015). Recurring pairs not yet merged: 3<->4 and 4<->5 (stroke numerals), 176<->717 / 440 / 220 (seated-man title slot on Harappa tablets), 636<->904, 28<->840. | **Confusions are not scribal errors.** Specific substitutions recur no more than a frequency-weighted draw predicts, so there is no hidden set of systematic miscopies or missed allographs; the one-slot swaps respect the frame slots (93%), recover the known Wells merges blind (20 of 189 vs 4 expected) and otherwise exchange shape-unrelated words in one slot (S320 confirmed, transcription-robust). The frequency effect (c) and the optional-sign result (e: suffix W400 and the fish qualifiers W240/W235 drop out) fit a learned writing system with a fixed frame and optional modifiers, not a code copied from a model text. The new recurrent pairs are paradigm members (numerals, the pre-jar title class), not variants. |

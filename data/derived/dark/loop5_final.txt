@@ -1,0 +1,26 @@
+# Arrow-in-the-dark loop 5: signs as NUMBERS or VALUES. Final summary (5 arms, 22 real arrows; all null).
+Method (tools/dark_loop5_engine.py, dark_loop5_cycle.py, dark_loop5_weights.py): simulated annealing, 30 restarts x 1,500 steps,
+integer values 1-12 on the 60 commonest non-numeral signs + an OTHER slot; numerals fixed at their S204 stroke values; W2 and W31 unvalued.
+Combination rules: sum, product (log-sum), positional base-10. Score = Spearman on held-out sites of the best-train restart (and best of 30).
+Controls per arm: outside quantity permuted across objects; sign identities shuffled across the corpus with lengths kept; planted synthetic
+target (random true values + noise) to show the annealer can recover a signal; fixed rule 'font-skeleton stroke count = value' (S204 extension;
+stroke estimator reproduces W1=1, W3=3, W33=3, W35=5). seq_raw / seq_strong / seq_all for the sum rule (merges never changed a verdict).
+
+arm | outside quantity | n train / test | real held-out rho (best-train; best of 30) | null best over same restarts | verdict
+1 | seal area log(h*v), length-residualised | 1156 / 262 | sum -0.09 (-0.05), prod -0.08, pos -0.14 | perm +0.08, shuffle -0.07 | null
+2 | Harappa voucher count on other face (S93) | 204 / 95 (Mound E held out) | sum 0.10 (0.12), prod 0.02, pos -0.18 | perm 0.17, shuffle 0.10 | null
+3 | count before W390/W405 (3-8) | 49 / 42 | sum 0.05 (0.08), prod 0.01, pos 0.00 | shuffle 0.11 / 0.19 | null
+4 | seal thickness, length-residualised | 470 / 53 | sum 0.16-0.24 nominal -> 0.01-0.08 after within-test length residual; all-ones baseline 0.12 | shuffle 0.22 | null (length leak)
+4b | hit rate in weight series {1..640} | 1232 / 309 | sum 0.265 (0.285), pos 0.074 | shuffled corpus 0.278 (0.324), random weight sets 0.19-0.43 | null
+
+Planted controls: recovered held-out rho 0.21 / 0.34 / 0.27 / 0.12 for truths 0.25 / 0.41 / 0.28 / 0.15; assigned values rho vs truth 0.56 / 0.23 / 0.17 / 0.44.
+So the annealer finds additive signals of rho >= 0.25 when they exist; none exists.
+Stability: no sign's value agrees in > 80% of the top-10 restarts in any real arm (0/60); W740 is 'stable' only in the weight arm and equally so in the shuffled corpus.
+Stroke-count = value: near zero everywhere once text length is removed (test rho -0.09, -0.05, 0.01, 0.0; weight hit rate 0.23 vs 0.27 for shuffled).
+Correction for arrows fired: 22 real arrows, nominal best single held-out rho 0.24 (thickness, seq_all) which fails its own corrected re-test; with 22 arrows a
+max null rho of ~0.2-0.3 at n = 53 is expected by chance alone.
+Caveats: 76% of texts are Mohenjo-daro + Harappa, so held-out sets are small (42-309); arm 2 rests on Harappa alone; the stroke estimator is a font skeleton,
+not the carved glyph; the merge levels (S268) did not change any verdict.
+Lesson for the dictionary: 'all-positive sum of sign values' is a text-length detector (rho 0.36-0.38 with seal area, 0.26 with thickness); any future numeric
+reading must beat the all-ones assignment on held-out sites. The S93 text-count link is lexical, not arithmetic.
+Ready-to-paste STRATEGIES.md rows: data/derived/dark/loop5_rows.txt. Per-cycle detail: loop5_cycle{1,2,3,4,4b}.txt (+ .json), loop5_strokes.json.

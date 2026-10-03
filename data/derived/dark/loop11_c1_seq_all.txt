@@ -1,0 +1,71 @@
+LOOP 11 (scribal confusions)  level=seq_all minfreq=3 complete=Y nperm=1000 seed=11
+objects (complete, len>=3): 2322  distinct texts: 1743  frequent texts (>= 3 objects): 97
+edit-distance-1 pairs with a frequent member: substitutions 228 (distinct text pairs), indels 71
+
+(a) RECURRENCE OF CONFUSION PAIRS (frames = distinct text pairs sharing the same unordered (a,b))
+  distinct (a,b) pairs: obs 209  null mean 196.0 (95% 187-205, max 212)  P=0.9990
+  pairs recurring in >=2 frames: obs 16  null mean 22.8 (95% 17-29, max 34)  P=0.9900
+  >=3 frames: obs 3  null mean 5.9 (95% 3-9, max 14)  P=0.9760
+  max frames for one pair: obs 3  null mean 4.9 (95% 3-8, max 10)  P=1.0000
+(b) SLOT AGREEMENT (both signs in a GRAMMAR.md slot class and the same class)
+  obs 0.895 of 38 classified pairs; null mean 0.424  P=0.0010
+  already merged/variant-class pairs among substitutions: obs 16 null mean 3.7 P=0.0010
+  glyph similarity of substituting pairs: obs 0.581 null mean 0.534 P=0.0010
+(c) CONFUSION RATE PER SIGN vs log frequency (signs with >=10 tokens)
+  Spearman rho obs 0.045 (p 0.606); random-partner null rho mean 0.228 (95% 0.123..0.314)  P(obs<=null)=0.0033
+(d) SITE / AREA CLUSTERING of the two objects in a confusion pair
+  same site: obs 0.593 (n object pairs 2075) null mean 0.524 (95% 0.473..0.578) P=0.0133
+  same find area (within site, both known): obs 0.158 (n 893) null mean 0.116 (95% 0.087..0.151) P=0.0133
+
+TOP RECURRENT CONFUSIONS (frames = independent text pairs; objs = object pairs; M = Mahadevan via bridge; status = merge status; glyph = shape similarity; sites)
+   820<->861  frames  3 objs  33  M[391]/M[267]  variantclass-tierA     glyph 0.81  freq 161/338  pos {'ini': 3}  sites {'Mohe': 14, 'Hara': 4, 'Chan': 1}
+   482<->923  frames  3 objs  16  M[135]/M[296]  NEW                    glyph 0.49  freq 31/34  pos {'med': 3}  sites {'Hara': 8, 'Mohe': 6, 'Chan': 1}
+   220<->233  frames  3 objs  13  M[59]/M[72]  variantclass-tierA     glyph 0.97  freq 295/140  pos {'ini': 2, 'med': 1}  sites {'Hara': 9, 'Mohe': 5}
+   390<->407  frames  2 objs  18  M[161, 162, 167, 168, 169]/M[169]  NEW                    glyph 0.80  freq 273/121  pos {'med': 1, 'fin': 1}  sites {'Mohe': 7, 'Hara': 3, 'Alla': 1}
+   151<->740  frames  2 objs   6  M[12]/M[342]  NEW                    glyph 0.50  freq 50/1264  pos {'fin': 2}  sites {'Mohe': 5, 'Alla': 1, 'Chan': 1}
+     3<->4    frames  2 objs  40  M[102, 103]/M[104, 105]  NEW                    glyph 0.57  freq 121/60  pos {'med': 2}  sites {'Mohe': 10, 'Hara': 4, 'Chan': 1}
+     4<->5    frames  2 objs  16  M[104, 105]/M[106, 107]  NEW                    glyph 0.68  freq 60/27  pos {'med': 1, 'ini': 1}  sites {'Mohe': 9, 'Hara': 4}
+   235<->803  frames  2 objs   9  M[65]/M[387]  NEW                    glyph 0.64  freq 188/226  pos {'ini': 2}  sites {'Mohe': 5, 'Chan': 1, 'Loth': 1}
+   176<->482  frames  2 objs  10  M[48]/M[135]  NEW                    glyph 0.60  freq 153/31  pos {'med': 2}  sites {'Hara': 7, 'Mohe': 3, 'Chan': 1}
+   630<->904  frames  2 objs   6  M[244]/M?  NEW                    glyph 0.45  freq 48/42  pos {'med': 2}  sites {'Hara': 6, 'Chan': 1, 'Mohe': 1}
+   176<->222  frames  2 objs  10  M[48]/M?  NEW                    glyph 0.53  freq 153/16  pos {'med': 2}  sites {'Hara': 7, 'Mohe': 4, 'Naus': 1}
+   176<->717  frames  2 objs 117  M[48]/M[341]  NEW                    glyph 0.58  freq 153/50  pos {'ini': 2}  sites {'Hara': 43, 'Mohe': 2}
+   176<->440  frames  2 objs  44  M[48]/M[127]  NEW                    glyph 0.47  freq 153/37  pos {'ini': 2}  sites {'Hara': 42, 'Mohe': 2}
+   176<->220  frames  2 objs  41  M[48]/M[59]  NEW                    glyph 0.54  freq 153/295  pos {'ini': 2}  sites {'Hara': 39, 'Mohe': 4}
+    28<->840  frames  2 objs  11  M[119]/M[403]  NEW                    glyph 0.52  freq 4/82  pos {'ini': 2}  sites {'Hara': 11, 'Loth': 1, 'Mohe': 1}
+   220<->231  frames  2 objs  13  M[59]/M[70]  variantclass-tierA     glyph 0.96  freq 295/68  pos {'med': 1, 'ini': 1}  sites {'Mohe': 14, 'Hara': 1}
+
+(e) OPTIONAL SIGNS (deleted/inserted without changing the rest; frames = distinct text pairs; exp = expected if the deleted position were random)
+  sign  frames  exp   ratio  freq   pos(deleted)         M
+   400     12    5.5   2.16    328  {'final': 12}          M[176]
+   240      8    2.5   3.19    274  {'medial': 2, 'initial': 6} M[67]
+   803      4    1.4   2.87    226  {'initial': 4}         M[387]
+   235      4    1.5   2.67    188  {'initial': 4}         M[65]
+    90      2    0.5   4.44    128  {'final': 2}           M[1]
+   233      2    0.9   2.11    140  {'initial': 2}         M[72]
+     2      2    2.3   0.88    591  {'medial': 1, 'initial': 1} M[99, 100]
+   519      2    0.5   4.00      7  {'initial': 2}         M?
+   220      2    1.8   1.14    295  {'medial': 1, 'initial': 1} M[59]
+   231      2    0.5   4.44     68  {'initial': 1, 'medial': 1} M[70]
+   790      2    0.5   4.00     32  {'initial': 2}         M[261, 373, 374]
+    33      2    2.1   0.97    200  {'initial': 2}         M[89]
+    32      1    2.6   0.39    287  {'medial': 1}          M[87]
+   455      1    0.2   5.00     29  {'medial': 1}          M[233]
+    31      1    0.4   2.55    147  {'initial': 1}         M[86]
+   176      1    3.5   0.28    153  {'initial': 1}         M[48]
+   700      1    0.2   6.00     58  {'final': 1}           M[328]
+   791      1    0.2   4.00      5  {'initial': 1}         M?
+   337      1    0.2   4.00     19  {'medial': 1}          M[193]
+   140      1    0.5   2.22     74  {'initial': 1}         M[17]
+    28      1    0.5   2.00      4  {'initial': 1}         M[119]
+    27      1    0.2   4.00      5  {'initial': 1}         M[119]
+   820      1    0.2   4.00    161  {'initial': 1}         M[391]
+   679      1    0.2   4.00     15  {'initial': 1}         M[139]
+    55      1    0.2   5.00     44  {'initial': 1}         M[121]
+   491      1    0.5   2.00     15  {'initial': 1}         M[205]
+   690      1    0.9   1.18     80  {'medial': 1}          M[149]
+   125      1    0.2   5.00     45  {'initial': 1}         M[28]
+   621      1    0.2   5.00     17  {'final': 1}           M[242]
+   101      1    0.2   4.00      7  {'initial': 1}         M?
+  known deletable/qualifier set [1, 2, 31, 33, 60, 90, 100, 235, 400, 705, 706]: deletions obs 24 vs exp 15.2 (ratio 1.58) of 71 indel frames
+  random-position null: mean 15.1 max 25  P=0.0055
