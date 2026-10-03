@@ -22,7 +22,7 @@ def run_split(split,var,P,rng,tr_names,tests,log,data=None):
             if r is None: log(f'{split} {var} {tn:11s} {sn:9s} n/a'); continue
             Dm,null,vals,base=r; p=D.pval(Dm,null); z=D.zval(Dm,null)
             res[(tn,sn)]={'D':Dm,'p':p,'z':z,'base':base,'val_med':st.median(vals),'val_min':min(vals),'val_max':max(vals),'null_mean':st.mean(null) if null else None,'null_sd':st.pstdev(null) if len(null)>1 else None,'n':len(seqs)}
-            log(f'{split} {var} {tn:11s} {sn:9s} base {base:.3f} -> {st.median(vals):.3f} [{min(vals):.3f},{max(vals):.3f}] D {Dm:+.3f} null {st.mean(null):+.3f}±{st.pstdev(null):.3f} z {z:+.1f} p {p:.3f} ({time.time()-t0:.0f}s)')
+            log(f'{split} {var} {tn:11s} {sn:9s} base {base:.3f} -> {st.median(vals):.3f} [{min(vals):.3f},{max(vals):.3f}] D {Dm:+.3f} null {(st.mean(null) if null else float("nan")):+.3f}±{(st.pstdev(null) if len(null)>1 else float("nan")):.3f} z {z:+.1f} p {p:.3f} ({time.time()-t0:.0f}s)')
     return res
 def main():
     rng=random.Random(seed)
