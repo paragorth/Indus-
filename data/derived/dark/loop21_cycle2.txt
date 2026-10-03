@@ -15,3 +15,166 @@ complete texts 2742: exact 1685 (61.5%), near 157, none 210 (7.7%)
   by object type (complete): seal: none 117/1471; sealing: none 51/558; miniature tablet: none 16/438; copper tablet: none 1/140; pottery graffito: none 15/84; ivory/bone rod: none 4/21
   audit_overlap-style (len>=4, fully bridgeable, any site, exact): 596/724 = 82.3%
   exact matches that use NO wildcard position: 1185 of 1685; IM77 texts containing an unbridged M sign: 1173
+  matcher false-positive control (texts >= 4 signs shuffled within themselves, n=1497, 20x): exact mean 5.2 (max 10) = 0.3%; near mean 16.2 (max 23) = 1.1%
+
+### set IM77-only (conservative: no exact, no near match): 210 texts; sites {'Mohenjodaro': 91, 'Harappa': 67, 'Chanhudaro': 7, 'Lothal': 27, 'Kalibangan': 12, 'Other sites': 3, 'West Asian finds': 3}
+   object types {'seal': 117, 'miscellaneous': 2, 'sealing': 51, 'bronze implement': 4, 'pottery graffito': 15, 'ivory/bone rod': 4, 'copper tablet': 1, 'miniature tablet': 16}; length distribution {1: 1, 2: 46, 3: 77, 4: 43, 5: 26, 6: 5, 7: 8, 8: 2, 9: 1, 11: 1}
+   mean length 3.56; texts with a doubtful reading 41
+
+### set OVERLAP (exact match in Wells): 1685 texts; sites {'Mohenjodaro': 846, 'Harappa': 717, 'Chanhudaro': 26, 'Lothal': 47, 'Kalibangan': 31, 'Other sites': 14, 'West Asian finds': 4}
+   object types {'seal': 919, 'miscellaneous': 7, 'ivory/bone rod': 8, 'sealing': 329, 'copper tablet': 92, 'pottery graffito': 36, 'bronze implement': 3, 'miniature tablet': 291}; length distribution {1: 73, 2: 385, 3: 231, 4: 311, 5: 298, 6: 180, 7: 124, 8: 48, 9: 19, 10: 10, 11: 3, 12: 1, 13: 2}
+   mean length 4.12; texts with a doubtful reading 100
+
+## (4) name calibration on IM77-only: middles (frame stripped), uniqueness vs bigram trained on the same middles; Ur III at matched n
+  seals: n=94 distinct=88 mean len 3.28
+    Indus  unique 0.904 vs bigram 0.839  ratio 1.077 (sd 0.051); share sharing a middle with another object 0.096; objects/middle 1.068; top [((182, 149), 5), ((328, 328, 267, 99), 2), ((59, 59), 2), ((86, 55, 267, 99, 121, 72, 336, 89), 1)]
+    Ur III legends   n=94: unique 0.789 vs bigram 0.772  ratio 1.022 (sd 0.104); share shared 0.213; seals/name 1.175
+    Ur III seal objs n=94: unique 0.780 vs bigram 0.782  ratio 0.998 (sd 0.087); share shared 0.138; seals/name 1.093
+  all objects: n=168 distinct=145 mean len 3.03
+    Indus  unique 0.792 vs bigram 0.762  ratio 1.039 (sd 0.057); share sharing a middle with another object 0.208; objects/middle 1.159; top [((182, 149), 5), ((102, 25), 5), ((375, 375), 5), ((59, 59), 3)]
+    Ur III legends   n=168: unique 0.685 vs bigram 0.754  ratio 0.909 (sd 0.082); share shared 0.268; seals/name 1.200
+    Ur III seal objs n=168: unique 0.687 vs bigram 0.745  ratio 0.922 (sd 0.070); share shared 0.357; seals/name 1.282
+
+## (5) quantity-seal type opener . connective . N . tree on IM77-only
+  complete 4-sign texts of the type: 1 Counter({'tree': 1})
+    ('8106', '1') Kalibangan sealing [267, 99, 104, 169]
+  longer texts containing the run: 0
+  within-text shuffle null: complete type mean 0.04 max 1; runs mean 0.04 max 1
+  sites: Counter({'Kalibangan': 1}); N values: Counter({4: 1})
+
+## (6) nesting of 3-5-sign texts inside longer texts on IM77-only (hosts = same set)
+  distinct short texts 135, distinct long hosts 84: nested 7 = 0.052; shuffled mean 1.1 = 0.008 (max 3); ratio 6.48x
+    [325, 347, 342] inside [86, 325, 347, 342]
+    [48, 342, 176] inside [150, 123, 48, 342, 176]
+    [136, 193, 342, 176] inside [48, 136, 193, 342, 176, 176]
+    [162, 162, 162, 162] inside [162, 162, 162, 162, 15]
+    [59, 59, 155, 211] inside [17, 293, 293, 211, 186, 267, 99, 59, 59, 155, 211]
+    [87, 391, 87] inside [107, 17, 87, 391, 87]
+    [102, 59, 342] inside [102, 59, 342, 12]
+
+## (4) name calibration on OVERLAP length-matched (3 per new text): middles (frame stripped), uniqueness vs bigram trained on the same middles; Ur III at matched n
+  seals: n=261 distinct=224 mean len 3.19
+    Indus  unique 0.778 vs bigram 0.784  ratio 0.993 (sd 0.033); share sharing a middle with another object 0.222; objects/middle 1.165; top [((104, 162), 4), ((102, 59), 4), ((336, 89), 4), ((65, 222), 4)]
+    Ur III legends   n=261: unique 0.606 vs bigram 0.725  ratio 0.837 (sd 0.060); share shared 0.433; seals/name 1.374
+    Ur III seal objs n=261: unique 0.615 vs bigram 0.727  ratio 0.846 (sd 0.046); share shared 0.425; seals/name 1.359
+  all objects: n=433 distinct=295 mean len 2.96
+    Indus  unique 0.557 vs bigram 0.654  ratio 0.851 (sd 0.035); share sharing a middle with another object 0.443; objects/middle 1.468; top [((103, 403), 14), ((171, 59), 11), ((67, 244), 8), ((403, 87), 6)]
+    Ur III legends   n=433: unique 0.521 vs bigram 0.681  ratio 0.765 (sd 0.048); share shared 0.499; seals/name 1.546
+    Ur III seal objs n=433: unique 0.538 vs bigram 0.703  ratio 0.766 (sd 0.035); share shared 0.460; seals/name 1.448
+
+## (5) quantity-seal type opener . connective . N . tree on OVERLAP length-matched (3 per new text)
+  complete 4-sign texts of the type: 4 Counter({'tree': 4})
+    ('1361', '0') Mohenjodaro seal [293, 123, 102, 162]
+    ('1157', '0') Mohenjodaro seal [267, 99, 107, 162]
+    ('2080', '0') Mohenjodaro seal [267, 99, 102, 162]
+    ('1229', '0') Mohenjodaro seal [267, 99, 104, 162]
+  longer texts containing the run: 1
+    ('1014', '0') Mohenjodaro seal [267, 99, 87, 59, 67, 194, 342]
+  within-text shuffle null: complete type mean 0.19 max 2; runs mean 0.06 max 1
+  sites: Counter({'Mohenjodaro': 5}); N values: Counter({3: 2, 5: 1, 4: 1})
+
+## (6) nesting of 3-5-sign texts inside longer texts on OVERLAP length-matched (3 per new text) (hosts = same set)
+  distinct short texts 289, distinct long hosts 216: nested 34 = 0.118; shuffled mean 4.9 = 0.017 (max 10); ratio 6.91x
+    [67, 171, 8, 342] inside [267, 99, 67, 171, 8, 342, 1]
+    [204, 112, 347, 342] inside [267, 402, 204, 112, 347, 342]
+    [403, 87, 342] inside [267, 99, 67, 403, 87, 342]
+    [87, 59, 342] inside [87, 59, 342, 1]
+    [182, 293, 342] inside [72, 182, 293, 342, 176]
+    [48, 342, 176] inside [70, 48, 342, 176]
+    [48, 193, 342] inside [48, 193, 342, 176]
+    [193, 342, 176] inside [48, 193, 342, 176]
+
+## (4) name calibration on OVERLAP: middles (frame stripped), uniqueness vs bigram trained on the same middles; Ur III at matched n
+  seals: n=785 distinct=675 mean len 3.85
+    Indus  unique 0.801 vs bigram 0.865  ratio 0.926 (sd 0.016); share sharing a middle with another object 0.199; objects/middle 1.163; top [((102, 162), 12), ((109, 162), 7), ((104, 169), 7), ((104, 162), 6)]
+    Ur III legends   n=785: unique 0.431 vs bigram 0.617  ratio 0.699 (sd 0.031); share shared 0.569; seals/name 1.703
+    Ur III seal objs n=785: unique 0.450 vs bigram 0.647  ratio 0.696 (sd 0.034); share shared 0.543; seals/name 1.653
+  all objects: n=1190 distinct=801 mean len 3.63
+    Indus  unique 0.581 vs bigram 0.761  ratio 0.763 (sd 0.011); share sharing a middle with another object 0.419; objects/middle 1.486; top [((204, 245, 358), 19), ((103, 403), 17), ((210, 169, 99, 67), 15), ((102, 162), 13)]
+    Ur III legends   n=1190: unique 0.378 vs bigram 0.588  ratio 0.642 (sd 0.025); share shared 0.614; seals/name 1.919
+    Ur III seal objs n=1190: unique 0.398 vs bigram 0.603  ratio 0.660 (sd 0.024); share shared 0.598; seals/name 1.842
+
+## (5) quantity-seal type opener . connective . N . tree on OVERLAP
+  complete 4-sign texts of the type: 22 Counter({'tree': 22})
+    ('1076', '0') Mohenjodaro seal [391, 99, 104, 162]
+    ('1091', '0') Mohenjodaro seal [267, 99, 102, 162]
+    ('1131', '0') Mohenjodaro seal [267, 99, 106, 162]
+    ('1143', '0') Mohenjodaro seal [267, 99, 104, 162]
+    ('1157', '0') Mohenjodaro seal [267, 99, 107, 162]
+    ('1229', '0') Mohenjodaro seal [267, 99, 104, 162]
+    ('1246', '0') Mohenjodaro seal [267, 99, 104, 169]
+    ('1361', '0') Mohenjodaro seal [293, 123, 102, 162]
+    ('2080', '0') Mohenjodaro seal [267, 99, 102, 162]
+    ('2180', '0') Mohenjodaro seal [267, 99, 102, 162]
+    ('2354', '0') Mohenjodaro seal [267, 99, 102, 162]
+    ('2357', '0') Mohenjodaro seal [267, 99, 104, 169]
+    ('2387', '0') Mohenjodaro seal [391, 99, 104, 169]
+    ('2572', '0') Mohenjodaro seal [391, 99, 102, 162]
+    ('2636', '1') Mohenjodaro seal [267, 99, 106, 162]
+    ('3099', '0') Mohenjodaro seal [391, 99, 102, 162]
+    ('4126', '0') Harappa seal [267, 99, 102, 162]
+    ('4326', '1') Harappa sealing [267, 99, 104, 169]
+    ('4843', '0') Harappa pottery graffito [150, 123, 104, 169]
+    ('5100', '0') Harappa seal [150, 123, 104, 169]
+    ('6214', '0') Chanhudaro seal [267, 99, 102, 162]
+    ('8122', '0') Kalibangan sealing [267, 99, 102, 162]
+  longer texts containing the run: 20
+    ('1014', '0') Mohenjodaro seal [267, 99, 87, 59, 67, 194, 342]
+    ('1019', '0') Mohenjodaro seal [267, 99, 104, 59, 211]
+    ('1079', '0') Mohenjodaro seal [391, 99, 87, 59, 67, 121, 14]
+    ('1114', '0') Mohenjodaro seal [391, 99, 87, 59, 296, 342]
+    ('1324', '0') Mohenjodaro seal [238, 267, 99, 87, 59, 67, 211]
+    ('1468', '0') Mohenjodaro seal [391, 99, 87, 59, 72, 8, 342]
+    ('1551', '0') Mohenjodaro seal [267, 99, 87, 59, 211]
+    ('2054', '0') Mohenjodaro seal [267, 99, 87, 59, 65, 253, 230, 342]
+    ('2429', '0') Mohenjodaro seal [173, 51, 267, 99, 87, 59, 53, 8, 342]
+    ('2552', '0') Mohenjodaro seal [267, 99, 87, 59, 342, 224, 97, 173]
+    ('2567', '0') Mohenjodaro seal [391, 99, 105, 59, 342, 1]
+    ('2648', '0') Mohenjodaro seal [267, 99, 104, 162, 242]
+  within-text shuffle null: complete type mean 0.90 max 5; runs mean 0.48 max 3
+  sites: Counter({'Mohenjodaro': 28, 'Harappa': 9, 'Chanhudaro': 2, 'Kalibangan': 2, 'Lothal': 1}); N values: Counter({3: 10, 4: 9, 5: 3})
+
+## (6) nesting of 3-5-sign texts inside longer texts on OVERLAP (hosts = same set)
+  distinct short texts 555, distinct long hosts 768: nested 72 = 0.130; shuffled mean 11.7 = 0.021 (max 17); ratio 6.16x
+    [204, 112, 342] inside [67, 204, 112, 342, 176]
+    [67, 171, 8, 342] inside [267, 99, 67, 171, 8, 342, 1]
+    [102, 59, 211] inside [293, 123, 343, 102, 59, 211]
+    [182, 293, 342] inside [65, 182, 293, 342]
+    [48, 193, 342] inside [48, 193, 342, 176]
+    [72, 211, 176] inside [387, 72, 211, 176]
+    [267, 402, 149] inside [267, 402, 149, 89, 328]
+    [124, 25, 176, 342] inside [336, 51, 130, 53, 99, 124, 25, 176, 342]
+
+## (6) nesting of 3-5-sign texts inside longer texts on IM77-only shorts, hosts = all complete IM77 texts
+  distinct short texts 135, distinct long hosts 1201: nested 24 = 0.178; shuffled mean 4.4 = 0.032 (max 7); ratio 5.50x
+    [267, 99, 375] inside [267, 99, 375, 403, 402]
+    [216, 254, 176] inside [67, 336, 89, 216, 254, 176]
+    [104, 59, 211] inside [267, 99, 104, 59, 211]
+    [325, 347, 342] inside [86, 325, 347, 342]
+    [387, 135, 342] inside [197, 132, 345, 387, 135, 342]
+    [48, 342, 176] inside [150, 123, 48, 342, 176]
+    [8, 342, 1] inside [203, 343, 87, 59, 8, 342, 1]
+    [249, 162, 402] inside [249, 162, 402, 89, 89]
+
+## (6) nesting of 3-5-sign texts inside longer texts on OVERLAP (known) shorts nested in IM77-only long texts as hosts
+  distinct short texts 555, distinct long hosts 84: nested 17 = 0.031; shuffled mean 2.9 = 0.005 (max 7); ratio 5.94x
+    [325, 347, 342] inside [86, 325, 347, 342]
+    [182, 293, 342] inside [267, 99, 98, 67, 72, 182, 293, 342]
+    [67, 72, 211] inside [150, 123, 67, 72, 211]
+    [136, 193, 342] inside [48, 136, 193, 342, 176, 176]
+    [403, 87, 342] inside [103, 403, 87, 342]
+    [162, 162, 162] inside [162, 162, 162, 162]
+    [204, 230, 342] inside [204, 230, 342, 176]
+    [150, 123, 48, 342] inside [150, 123, 48, 342, 176]
+
+## (P2) reuse: share of IM77-only texts containing a >= 3-sign run attested in the OVERLAP (known) set
+  obs 64/210 = 0.305; shuffled mean 12.4 = 0.059 (max 22); ratio 5.16x
+  most reused runs: [((336, 89, 211), 4), ((72, 336, 89), 3), ((162, 162, 162), 2), ((267, 99, 59), 2), ((267, 99, 98), 2), ((325, 347, 342), 2), ((347, 342, 176), 2), ((267, 99, 70), 2), ((136, 193, 342), 2), ((193, 342, 176), 2)]
+
+## (P2) reuse: share of OVERLAP length-matched (known set minus itself) texts containing a >= 3-sign run attested in the OVERLAP (known) set
+  obs 292/630 = 0.463; shuffled mean 45.7 = 0.072 (max 66); ratio 6.40x
+  most reused runs: [((103, 403, 342), 16), ((171, 59, 211), 13), ((336, 89, 211), 12), ((267, 99, 67), 11), ((67, 244, 342), 10), ((403, 87, 342), 9), ((249, 169, 342), 8), ((171, 8, 342), 7), ((204, 245, 358), 6), ((245, 358, 342), 6)]
+
+## (P2) reuse: share of IM77-only STRICT texts containing a >= 3-sign run attested in the OVERLAP (known) set
+  obs 296/1057 = 0.280; shuffled mean 41.5 = 0.039 (max 52); ratio 7.13x
+  most reused runs: [((249, 169, 342), 14), ((51, 130, 149), 13), ((389, 171, 59), 11), ((336, 89, 211), 10), ((171, 59, 182), 10), ((59, 182, 293), 10), ((175, 230, 53), 8), ((72, 336, 89), 7), ((267, 99, 53), 7), ((171, 8, 342), 7)]

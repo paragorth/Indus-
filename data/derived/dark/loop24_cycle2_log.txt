@@ -1,0 +1,103 @@
+(1) PER-SIGN RELIABILITY on 1234 clean pairs (cost <= 1.0). Wells-side outcome per token: agree / substituted / Wells-only. Corpus rate agree = 0.9908
+  signs with >= 15 aligned tokens: 76; Bonferroni threshold 0.00066
+  least reliable Wells signs (binomial P of agreement count <= observed, given corpus rate):
+    W388: agree 0.465 of 43 (sub 23, Wells-only 0, Mahadevan-lost 4) P=0.0000 partners {48: 22, 193: 1}
+    W455: agree 0.867 of 15 (sub 2, Wells-only 0, Mahadevan-lost 0) P=0.0082 partners {230: 1, 229: 1}
+    W220: agree 0.972 of 180 (sub 5, Wells-only 0, Mahadevan-lost 0) P=0.0260 partners {72: 3, 70: 1, 65: 1}
+    W550: agree 0.946 of 37 (sub 2, Wells-only 0, Mahadevan-lost 0) P=0.0454 partners {53: 2}
+    W1: agree 0.966 of 87 (sub 3, Wells-only 0, Mahadevan-lost 1) P=0.0464 partners {86: 1, 240: 1, 241: 1}
+    W803: agree 0.968 of 62 (sub 2, Wells-only 0, Mahadevan-lost 0) P=0.1112 partners {389: 2}
+    W742: agree 0.955 of 22 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.1836 partners {342: 1}
+    W615: agree 0.975 of 40 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.3085 partners {89: 1}
+    W900: agree 0.975 of 40 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.3085 partners {293: 1}
+    W231: agree 0.977 of 44 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.3336 partners {59: 1}
+    W32: agree 0.985 of 135 (sub 2, Wells-only 0, Mahadevan-lost 0) P=0.3519 partners {186: 1, 99: 1}
+    W861: agree 0.990 of 98 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.5950 partners {277: 1}
+    W233: agree 0.991 of 110 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.6374 partners {65: 1}
+    W820: agree 0.992 of 123 (sub 1, Wells-only 0, Mahadevan-lost 2) P=0.6784 partners {267: 1}
+    W235: agree 0.992 of 129 (sub 1, Wells-only 0, Mahadevan-lost 1) P=0.6957 partners {72: 1}
+    W240: agree 0.993 of 149 (sub 1, Wells-only 0, Mahadevan-lost 0) P=0.7470 partners {59: 1}
+    W740: agree 0.999 of 677 (sub 1, Wells-only 0, Mahadevan-lost 1) P=0.9981 partners {343: 1}
+    W2: agree 1.000 of 378 (sub 0, Wells-only 0, Mahadevan-lost 1) P=1.0000 partners {}
+    W3: agree 1.000 of 63 (sub 0, Wells-only 0, Mahadevan-lost 1) P=1.0000 partners {}
+    W4: agree 1.000 of 30 (sub 0, Wells-only 0, Mahadevan-lost 0) P=1.0000 partners {}
+    W5: agree 1.000 of 18 (sub 0, Wells-only 0, Mahadevan-lost 0) P=1.0000 partners {}
+    W16: agree 1.000 of 17 (sub 0, Wells-only 0, Mahadevan-lost 0) P=1.0000 partners {}
+    W17: agree 1.000 of 42 (sub 0, Wells-only 0, Mahadevan-lost 0) P=1.0000 partners {}
+    W31: agree 1.000 of 71 (sub 0, Wells-only 0, Mahadevan-lost 0) P=1.0000 partners {}
+    W33: agree 1.000 of 117 (sub 0, Wells-only 0, Mahadevan-lost 1) P=1.0000 partners {}
+  significantly unreliable after Bonferroni: W388 (0.47, n=43)
+  most reliable high-frequency signs (n >= 100): W740 0.999/677, W2 1.000/378, W220 0.972/180, W240 0.993/149, W32 0.985/135, W60 1.000/130, W235 0.992/129, W520 1.000/127, W390 1.000/126, W820 0.992/123, W33 1.000/117, W233 0.991/110, W400 1.000/109, W741 1.000/100
+  agreement rate vs log token count over 76 signs: Spearman rho -0.257 (P=0.025)
+  Mahadevan-side (M sign tokens, agree rate 0.9866); least reliable: M48 0.69/71 (sub 22, M-only 0) P=0.000; M245 0.81/63 (sub 0, M-only 12) P=0.000; M186 0.88/16 (sub 2, M-only 0) P=0.019; M72 0.96/113 (sub 4, M-only 0) P=0.066; M391 0.97/130 (sub 0, M-only 4) P=0.098; M389 0.97/62 (sub 2, M-only 0) P=0.201; M53 0.98/81 (sub 2, M-only 0) P=0.295; M230 0.97/34 (sub 1, M-only 0) P=0.367; M70 0.98/44 (sub 1, M-only 0) P=0.447; M97 0.98/51 (sub 0, M-only 1) P=0.497; M65 0.98/130 (sub 2, M-only 0) P=0.520; M1 0.98/65 (sub 0, M-only 1) P=0.583
+
+(2) INTERCHANGEABILITY: ctx = mean cosine of left/right neighbour profiles (whole Wells corpus, seq_raw); null = 300 partners frequency-matched to b; split = 1 - cosine of site / medium profiles (0 = same distribution)
+  calibration, S268 strong merges: 12 of 18 pass at P <= 0.05; 158/154 ctx 0.94 (null 0.03, P=0.003) split site 0.03 med 0.46; 298/297 ctx 0.65 (null 0.00, P=0.003) split site 0.09 med 0.01; 315/317 ctx 0.04 (null 0.08, P=0.621) split site 0.34 med 0.15; 318/320 ctx 0.73 (null 0.00, P=0.003) split site 0.47 med 0.71; 336/337 ctx 0.65 (null 0.04, P=0.003) split site 0.12 med 0.23; 370/371 ctx 0.25 (null 0.00, P=0.091) split site 0.11 med 0.16; 405/390 ctx 0.73 (null 0.10, P=0.003) split site 0.25 med 0.12; 406/390 ctx 0.68 (null 0.16, P=0.003) split site 0.06 med 0.05; 526/527 ctx 0.96 (null 0.00, P=0.003) split site 0.46 med 0.41; 632/630 ctx 0.11 (null 0.05, P=0.256) split site 0.02 med 0.45; 636/630 ctx 0.86 (null 0.13, P=0.020) split site 0.22 med 0.03; 704/705 ctx 0.05 (null 0.03, P=0.306) split site 0.13 med 0.06; 706/705 ctx 0.88 (null 0.18, P=0.003) split site 0.01 med 0.02; 711/717 ctx 0.00 (null 0.00, P=1.000) split site 0.38 med 0.72; 773/772 ctx 0.81 (null 0.00, P=0.017) split site 0.01 med 0.04; 806/803 ctx 0.61 (null 0.15, P=0.003) split site 0.06 med 0.05; 814/812 ctx 0.29 (null 0.00, P=0.090) split site 0.10 med 0.00; 817/861 ctx 0.52 (null 0.09, P=0.050) split site 0.00 med 0.00
+  reference: 100 random frequency-matched pairs ctx mean 0.10, 95th pct 0.37
+  -- residual confusions (sporadic substitutions, cycle 1)
+    W740/W741 (n 1899/224): ctx 0.11 vs null 0.09 P=0.269; split site 0.04 medium 0.10 -> different slot/words
+    W220/W233 (n 474/192): ctx 0.49 vs null 0.19 P=0.080; split site 0.04 medium 0.01 -> weak
+    W220/W231 (n 474/95): ctx 0.47 vs null 0.16 P=0.033; split site 0.03 medium 0.01 -> interchangeable
+    W220/W235 (n 474/249): ctx 0.31 vs null 0.19 P=0.349; split site 0.03 medium 0.01 -> different slot/words
+    W233/W235 (n 192/249): ctx 0.58 vs null 0.25 P=0.060; split site 0.00 medium 0.01 -> weak
+    W231/W233 (n 95/192): ctx 0.82 vs null 0.23 P=0.003; split site 0.01 medium 0.00 -> interchangeable
+    W803/W806 (n 135/135): ctx 0.61 vs null 0.26 P=0.100; split site 0.06 medium 0.05 -> weak
+    W550/W798 (n 124/151): ctx 0.22 vs null 0.18 P=0.256; split site 0.01 medium 0.01 -> different slot/words
+    W900/W920 (n 112/153): ctx 0.14 vs null 0.19 P=0.651; split site 0.01 medium 0.07 -> different slot/words
+    W31/W32 (n 251/542): ctx 0.53 vs null 0.29 P=0.003; split site 0.08 medium 0.15 -> interchangeable
+    W368/W520 (n 119/316): ctx 0.17 vs null 0.12 P=0.239; split site 0.00 medium 0.01 -> different slot/words
+    W740/W742 (n 1899/53): ctx 0.04 vs null 0.08 P=0.837; split site 0.05 medium 0.11 -> different slot/words
+    W741/W742 (n 224/53): ctx 0.59 vs null 0.08 P=0.003; split site 0.02 medium 0.01 -> interchangeable
+    W226/W236 (n 41/26): ctx 0.44 vs null 0.09 P=0.047; split site 0.15 medium 0.03 -> interchangeable
+    W840/W845 (n 128/55): ctx 0.10 vs null 0.19 P=0.847; split site 0.28 medium 0.16 -> different slot/words
+    W400/W413 (n 500/57): ctx 0.14 vs null 0.22 P=0.611; split site 0.00 medium 0.00 -> different slot/words
+    W90/W100 (n 193/133): ctx 0.08 vs null 0.10 P=0.671; split site 0.03 medium 0.00 -> different slot/words
+    W90/W93 (n 193/7): ctx 0.44 vs null 0.06 P=0.010; split site 0.35 medium 0.16 -> interchangeable
+    W690/W692 (n 119/77): ctx 0.03 vs null 0.17 P=0.837; split site 0.02 medium 0.23 -> different slot/words
+    W700/W702 (n 562/10): ctx 0.19 vs null 0.01 P=0.116; split site 0.29 medium 0.57 -> weak
+    W1/W2 (n 210/839): ctx 0.41 vs null 0.18 P=0.003; split site 0.01 medium 0.00 -> interchangeable
+    W1/W31 (n 210/251): ctx 0.38 vs null 0.18 P=0.003; split site 0.05 medium 0.02 -> interchangeable
+    W33/W55 (n 505/62): ctx 0.05 vs null 0.04 P=0.445; split site 0.33 medium 0.48 -> different slot/words
+    W900/W904 (n 112/64): ctx 0.49 vs null 0.24 P=0.063; split site 0.07 medium 0.00 -> weak
+  -- Mahadevan LUMPS (one M number, two Wells signs)
+    W154/W156 (n 45/105): ctx 0.58 vs null 0.07 P=0.003; split site 0.00 medium 0.13 -> interchangeable
+    W156/W158 (n 105/39): ctx 0.56 vs null 0.03 P=0.017; split site 0.02 medium 0.13 -> interchangeable
+    W154/W158 (n 45/39): ctx 0.94 vs null 0.05 P=0.003; split site 0.03 medium 0.46 -> interchangeable
+    W615/W617 (n 70/77): ctx 0.08 vs null 0.11 P=0.545; split site 0.01 medium 0.02 -> different slot/words
+    W510/W511 (n 13/12): ctx 0.11 vs null 0.00 P=0.198; split site 0.05 medium 0.15 -> different slot/words
+    W904/W927 (n 64/11): ctx 0.80 vs null 0.12 P=0.003; split site 0.22 medium 0.07 -> interchangeable
+    W405/W407 (n 118/143): ctx 0.44 vs null 0.11 P=0.043; split site 0.39 medium 0.07 -> interchangeable
+    W406/W407 (n 13/143): ctx 0.46 vs null 0.19 P=0.060; split site 0.11 medium 0.56 -> weak
+    W405/W406 (n 118/13): ctx 0.47 vs null 0.05 P=0.003; split site 0.30 medium 0.26 -> interchangeable
+    W176/W388 (n 216/59): ctx 0.70 vs null 0.30 P=0.066; split site 0.10 medium 0.23 -> weak
+    W336/W337 (n 11/14): ctx 0.65 vs null 0.03 P=0.003; split site 0.12 medium 0.23 -> interchangeable
+    W812/W814 (n 9/2): ctx 0.29 vs null 0.00 P=0.150; split site 0.10 medium 0.00 -> weak
+    W526/W527 (n 13/63): ctx 0.96 vs null 0.00 P=0.003; split site 0.46 medium 0.41 -> interchangeable
+    W27/W28 (n 6/5): ctx 0.97 vs null 0.00 P=0.003; split site 0.03 medium 0.17 -> interchangeable
+    W13/W3 (n 50/255): ctx 0.10 vs null 0.11 P=0.578; split site 0.03 medium 0.04 -> different slot/words
+    W790/W625 (n 55/11): ctx 0.09 vs null 0.12 P=0.557; split site 0.14 medium 0.15 -> different slot/words
+    W632/W630 (n 32/40): ctx 0.11 vs null 0.06 P=0.266; split site 0.02 medium 0.45 -> different slot/words
+    W632/W636 (n 32/22): ctx 0.00 vs null 0.04 P=1.000; split site 0.26 medium 0.62 -> different slot/words
+    W772/W773 (n 10/9): ctx 0.81 vs null 0.08 P=0.023; split site 0.01 medium 0.04 -> interchangeable
+    W371/W370 (n 10/9): ctx 0.25 vs null 0.00 P=0.056; split site 0.11 medium 0.16 -> weak
+    W717/W711 (n 56/21): ctx 0.00 vs null 0.16 P=1.000; split site 0.38 medium 0.72 -> different slot/words
+    W317/W315 (n 13/11): ctx 0.04 vs null 0.00 P=0.397; split site 0.34 medium 0.15 -> different slot/words
+    W297/W298 (n 15/9): ctx 0.65 vs null 0.02 P=0.003; split site 0.09 medium 0.01 -> interchangeable
+  -- Mahadevan SPLITS (project merges / candidates)
+    W384/W388 (n 31/59): ctx 0.76 vs null 0.24 P=0.003; split site 0.02 medium 0.03 -> interchangeable
+    W803/W806 (n 135/135): ctx 0.61 vs null 0.26 P=0.093; split site 0.06 medium 0.05 -> weak
+    W390/W405 (n 281/118): ctx 0.73 vs null 0.17 P=0.003; split site 0.25 medium 0.12 -> interchangeable
+    W390/W407 (n 281/143): ctx 0.55 vs null 0.18 P=0.056; split site 0.03 medium 0.35 -> weak
+    W151/W156 (n 92/105): ctx 0.41 vs null 0.08 P=0.010; split site 0.18 medium 0.18 -> interchangeable
+    W550/W798 (n 124/151): ctx 0.22 vs null 0.17 P=0.226; split site 0.01 medium 0.01 -> different slot/words
+  -- S-DARK-11.3 merge candidates
+    W384/W388 (n 31/59): ctx 0.76 vs null 0.24 P=0.003; split site 0.02 medium 0.03 -> interchangeable
+    W27/W28 (n 6/5): ctx 0.97 vs null 0.00 P=0.014; split site 0.03 medium 0.17 -> interchangeable
+    W390/W407 (n 281/143): ctx 0.55 vs null 0.17 P=0.063; split site 0.03 medium 0.35 -> weak
+    W525/W526 (n 11/13): ctx 0.74 vs null 0.00 P=0.003; split site 0.03 medium 0.15 -> interchangeable
+    W525/W527 (n 11/63): ctx 0.77 vs null 0.00 P=0.003; split site 0.60 medium 0.92 -> interchangeable
+  -- bridge-error check: context of the two signs the bridge equated
+    W798/W550: ctx 0.22 vs null 0.27 P=0.635; right partners W798: {740: 50, 415: 23, 240: 20, 231: 6}; W550: {60: 27, 527: 26, 525: 10, 617: 6}
+    W806/W803: ctx 0.61 vs null 0.13 P=0.003; right partners W806: {235: 19, 154: 18, 158: 16, 845: 15}; W803: {740: 19, 233: 15, 415: 15, 235: 11}
+    W798/W415: ctx 0.24 vs null 0.31 P=0.625; right partners W798: {740: 50, 415: 23, 240: 20, 231: 6}; W415: {220: 90, 100: 42, 578: 5, 226: 5}
+    W550/W415: ctx 0.15 vs null 0.18 P=0.641; right partners W550: {60: 27, 527: 26, 525: 10, 617: 6}; W415: {220: 90, 100: 42, 578: 5, 226: 5}
