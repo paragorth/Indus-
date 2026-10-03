@@ -405,7 +405,7 @@ def evaluate(models, texts, QUAL, adapt=None):
             for name, f in models.items():
                 p = f(toks[i], o, h)
                 bits[name] = -math.log2(max(p, 1e-12))
-            recs.append(dict(t=ti, i=i, slot=lab[i], pc=z[1], zone=z[0], x=toks[i], ot=o['ot'], bits=bits))
+            recs.append(dict(t=ti, i=i, slot=lab[i], pc=z[1], zone=z[0], x=toks[i], prev=(h[-1] if h else 'S'), ot=o['ot'], site=o['site'], n=len(s), bits=bits))
         if adapt:
             for a in adapt: a(o)
     return recs

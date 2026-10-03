@@ -204,7 +204,7 @@ for setname, T in [('held', HELD), ('im', IM)]:
         log(f'  {ot}: {n} texts; bits/token unigram {ce(recs, "unigram", sel)[0]:.3f}, KN2 {ce(recs, "KN2", sel)[0]:.3f}, '
             f'structural {ce(recs, "structural", sel)[0]:.3f}, combined {ce(recs, "combined", sel)[0]:.3f}')
     RESULTS[setname] = R
-    RESULTS[setname + '_recs'] = [dict(t=r['t'], i=r['i'], slot=r['slot'], pc=r['pc'], zone=r['zone'], x=str(r['x']), ot=r['ot'], bits=r['bits']) for r in recs]
+    RESULTS[setname + '_recs'] = [dict(t=r['t'], i=r['i'], slot=r['slot'], pc=r['pc'], zone=r['zone'], x=str(r['x']), prev=str(r['prev']), ot=r['ot'], site=r['site'], n=r['n'], bits=r['bits']) for r in recs]
 
 # in-sample 5-fold on MD+H for reference (same ladder, cheaper: unigram, KN2, structural)
 rnd = random.Random(11); idx = list(range(len(FIT))); rnd.shuffle(idx); cvb = collections.defaultdict(float); cvn = 0
