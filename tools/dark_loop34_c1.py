@@ -11,11 +11,11 @@ sites = [o for o in seals if not o['big']]
 im77 = [o for o in NEW]
 im77_seals = [o for o in NEW if o['ot'] == 'SEAL']
 print(f'seals: train {len(train)}, held-out sites {len(sites)}; IM77-only all {len(im77)}, seals {len(im77_seals)}')
-log = open(SP + f'loop34_c1_{LV}.txt', 'w')
+log = open(SP + f'loop34_c1_{LV}.txt', 'a')
 def P(s): print(s); log.write(s + '\n'); log.flush()
 P(f'# S-DARK-34 cycle 1, level {LV}: train seals {len(train)}, held-out site seals {len(sites)}, IM77-only {len(im77)} (seals {len(im77_seals)})')
 rows = {}
-for t in ('first_sign', 'second_sign', 'penult_sign', 'last_sign', 'closer'):
+for t in (sys.argv[3:] or ('first_sign', 'second_sign', 'penult_sign', 'last_sign', 'closer', 'has_closer')):
     P(f'--- target {t}')
     r_text, _ = evaluate(t, train, {'sites': sites, 'im77': im77}, use_facts=False); P('TEXT-ONLY  ' + fmt(r_text))
     r_full, _ = evaluate(t, train, {'sites': sites}, use_facts=True); P('TEXT+FACTS ' + fmt(r_full))
@@ -23,4 +23,7 @@ for t in ('first_sign', 'second_sign', 'penult_sign', 'last_sign', 'closer'):
     r_cs, _ = evaluate(t, train, {'sites': sites, 'im77': im77}, use_facts=False, plant='classsign', report_feats=False); P('PLANT-CS   ' + fmt(r_cs))
     r_sh, _ = evaluate(t, train, {'sites': sites, 'im77': im77}, use_facts=False, shuffle=True, report_feats=False); P('SHUFFLED   ' + fmt(r_sh))
     rows[t] = dict(text=r_text, full=r_full, checksum=r_ck, classsign=r_cs, shuffled=r_sh)
-json.dump(rows, open(SP + f'loop34_c1_{LV}.json', 'w'), indent=1, default=str)
+old = {}
+try: old = json.load(open(SP + f'loop34_c1_{LV}.json'))
+except Exception: pass
+old.update(rows); json.dump(old, open(SP + f'loop34_c1_{LV}.json', 'w'), indent=1, default=str)

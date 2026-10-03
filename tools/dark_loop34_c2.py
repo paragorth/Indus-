@@ -51,4 +51,4 @@ def rules(tname, use_facts, depth=3, min_leaf=15):
             n = int(m.sum()); hits = int(np.sum(pred[m] == np.array(y)[m])); exc = n - hits
             bound = f'exceptions 0 of {n} (< 3/{n} = {3/n:.2f})' if exc == 0 else f'exceptions {exc} of {n}'
             P(f'    leaf {lf}: predicts {pred_tr[mtr][0]}; train {int(mtr.sum())} objs precision {ptr:.2f}; {k}: {bound}')
-rules('last_sign', False); rules('closer', False); rules('emblem', False); rules('emblem', True)
+rules('last_sign', False); rules('closer', False); rules('has_closer', False); rules('emblem', False); rules('emblem', True)
