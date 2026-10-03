@@ -199,7 +199,8 @@ def random_arrows(lv, n):
     return A
 
 # ---------------- statistics ----------------
-def rank(a): return np.argsort(np.argsort(a, kind='stable')) + 1.0
+from scipy.stats import rankdata
+def rank(a): return rankdata(np.asarray(a, float), method='average')  # average ranks: index tie-breaking was confounded with object type (CSV order)
 def spearman(x, y):
     rx, ry = rank(x), rank(y)
     if rx.std() == 0 or ry.std() == 0: return 0.0
