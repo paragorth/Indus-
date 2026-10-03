@@ -1,0 +1,43 @@
+LOOP 10 (random ontologies) cycle1  level=seq subset=all n=48 seed=1001  texts=5369 vouchers=355 quantity=32  872s
+top-60 signs: [740, 2, 700, 32, 33, 400, 861, 220, 390, 240, 705, 520, 803, 3, 31, 235, 820, 590, 741, 60, 176, 1, 90, 233, 34, 415, 920, 798, 407, 255, 100, 760, 840, 550, 368, 690, 900, 140, 156, 4, 231, 630, 61, 151, 892, 154, 17, 575, 142, 503, 717, 692, 617, 527, 435, 615, 904, 55, 585, 125]
+chance co-category rate (balanced random, mean over ontologies): 0.337
+criteria drawn: {'mdl': 13, 'quantity': 15, 'fact': 15, 'reuse': 5}
+
+HELD-OUT SCORES by criterion (bits/text gain for fact & quantity; share for reuse; -kbits for mdl). real mean [max] vs P=facts-permuted vs S=order-shuffled, mean [max]:
+  fact/emblem      n= 1  real 0.037 [0.037]  P -0.011 [-0.011]  S 0.047 [0.047]  real-ontologies-beating-max-control: 0/1
+  fact/material    n= 2  real -0.011 [0.003]  P -0.030 [-0.029]  S 0.025 [0.041]  real-ontologies-beating-max-control: 0/2
+  fact/period      n= 1  real -0.029 [-0.029]  P -0.019 [-0.019]  S -0.081 [-0.081]  real-ontologies-beating-max-control: 0/1
+  fact/size        n= 6  real 0.031 [0.107]  P -0.067 [-0.019]  S 0.044 [0.078]  real-ontologies-beating-max-control: 1/6
+  fact/type        n= 5  real 0.292 [0.331]  P -0.019 [-0.013]  S 0.198 [0.241]  real-ontologies-beating-max-control: 5/5
+  mdl              n=13  real -83.072 [-80.542]  P -83.072 [-80.542]  S -85.943 [-85.422]  real-ontologies-beating-max-control: 0/13
+  quantity         n=15  real 0.385 [0.505]  P 0.325 [0.450]  S 0.411 [0.535]  real-ontologies-beating-max-control: 0/15
+  reuse            n= 5  real 0.721 [0.821]  P 0.789 [0.890]  S 0.682 [0.842]  real-ontologies-beating-max-control: 0/5
+
+STABLE CO-CATEGORY PAIRS (real rate >= 0.70 and >= 0.20 above both controls): 1 of 1770 pairs
+  W156  W154   real 0.71  P 0.29  S 0.48   [closer | new]
+pairs >= 0.70 in real regardless of controls: 1; of these also >= 0.70 in P: 0, in S: 0
+
+STABLE CLASSES (connected components of the stable graph):
+  {W154, W156}  -> known: W154=new; W156=closer
+
+KNOWN CLASSES: mean within-class co-category rate (real / P / S), pairs among top-60:
+  opener          4 signs   6 pairs  real 0.52  P 0.46  S 0.45  (chance 0.34)
+  connective      3 signs   3 pairs  real 0.58  P 0.45  S 0.47  (chance 0.34)
+  mid-initial     2 signs   1 pairs  real 0.60  P 0.50  S 0.35  (chance 0.34)
+  closer          7 signs  21 pairs  real 0.46  P 0.40  S 0.39  (chance 0.34)
+  suffix          2 signs   1 pairs  real 0.52  P 0.46  S 0.54  (chance 0.34)
+  pre-jar title   6 signs  15 pairs  real 0.39  P 0.39  S 0.42  (chance 0.34)
+  fish            5 signs  10 pairs  real 0.46  P 0.41  S 0.40  (chance 0.34)
+  short numeral   6 signs  15 pairs  real 0.35  P 0.33  S 0.35  (chance 0.34)
+  tall numeral    4 signs   6 pairs  real 0.49  P 0.43  S 0.39  (chance 0.34)
+  counted item    7 signs  21 pairs  real 0.35  P 0.36  S 0.31  (chance 0.34)
+  name-initial    4 signs   6 pairs  real 0.39  P 0.33  S 0.40  (chance 0.34)
+
+PER-CRITERION co-graphs: top 8 pairs for each criterion kind (real):
+  fact      n=15: 803-630(0.87)  760-840(0.87)  3-904(0.87)  2-527(0.87)  1-585(0.87)  920-798(0.80)  900-142(0.80)  861-840(0.80)
+  quantity  n=15: 892-617(1.00)  740-892(1.00)  740-617(1.00)  760-154(0.80)  740-156(0.80)  156-892(0.80)  156-617(0.80)  390-690(0.73)
+  reuse     n= 5: 861-820(1.00)  740-700(1.00)  705-840(1.00)  520-151(1.00)  390-920(1.00)  368-575(1.00)  240-233(1.00)  235-231(1.00)
+  mdl       n=13: 920-692(1.00)  861-820(1.00)  803-235(1.00)  803-231(1.00)  415-55(1.00)  400-90(1.00)  390-407(1.00)  240-803(1.00)
+
+READY-TO-PASTE ROW:
+| S-DARK-10.1 | Random ontologies, cycle 1 (`tools/strat_dark_loop10.py --cycle 1`): 48 random ontologies of K = 2–6 categories with random decorative semantics; the 60 commonest signs assigned by random start + hill-climb (category sizes bounded) on one randomly drawn criterion: outside-fact prediction (type/emblem/size/material/period; optimised Mohenjo-daro <-> Harappa, scored once on all other sites), quantity-seal + voucher count consistency, cross-site reuse of category sequences, or description length (Brown objective). Controls, same search: facts/sites/counts permuted (P); sign order shuffled within texts (S). Statistic: co-category rate of each sign pair across the 48 ontologies, label-invariant; stable = rate >= 0.70 and >= 0.20 above both controls. Level `seq` | **No ontology-independent class.** Only 1 of 1,770 pairs is stable across criteria: W156–W154 (0.71 vs P 0.29, S 0.48). Chance co-rate 0.34; known GRAMMAR classes sit at 0.35–0.60 real vs 0.33–0.50 in controls (opener 0.52/0.46/0.45; connective 0.58/0.45/0.47; mid-initial 0.60/0.50/0.35; closer 0.46/0.40/0.39). The classes that do form are criterion-specific: MDL puts 861-820, 920-692 (openers), 400-90 (suffixes), 390-407 (items) together in 13/13 runs; reuse joins the fish 240-233, 235-231 and 520-151 in 5/5; the quantity criterion clusters jar + closers (740-892-617-156, because only the vouchers' few signs matter). Held-out facts: only object type is predicted above both controls (5/5 ontologies, 0.29 bits/text vs S 0.20, P −0.02); emblem, material, period, size, quantity consistency and cross-site reuse never beat the controls (0/29). MDL is identical under P (uses no facts) and 2.9 kbits better than S | **Null for a universal class structure, with a correction to the family's premise:** which signs 'behave as one class' depends on what the class is for. Sequence-based criteria (MDL, reuse) rediscover the GRAMMAR slots (openers, suffixes, fish, items) but fact-based criteria cut the signs differently and no cut predicts anything outside the corpus except seal-vs-tablet, which the known 740/700 split already gives. The one cross-criterion pair, W156–W154 (two 'carrier' signs, S262 seal/tablet forms), is new but weak (0.71). |

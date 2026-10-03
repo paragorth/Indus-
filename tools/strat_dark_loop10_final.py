@@ -88,3 +88,30 @@ for k, a in sorted(agg.items()):
 txt = '\n'.join(out)
 open(os.path.join(D, 'loop10_final_tables.txt'), 'w').write(txt + '\n')
 print(txt)
+
+# ---- per-criterion stable graphs pooled over all full-corpus runs, each against its own controls
+def pooled(kind, runs=('cycle1', 'cycle2', 'cycle4_raw', 'cycle4_strong')):
+    sel = [(r, p, s, J[t]['top']) for t in runs if t in J for r, p, s in zip(J[t]['real'], J[t]['ctlP'], J[t]['ctlS']) if r['crit'][0] == kind]
+    if not sel: return None, 0
+    acc = collections.defaultdict(lambda: [0, 0, 0, 0])
+    for r, p, s, top in sel:
+        for i in range(len(top)):
+            for j in range(i + 1, len(top)):
+                k = (min(top[i], top[j]), max(top[i], top[j])); a = acc[k]
+                a[0] += r['A'][i] == r['A'][j]; a[1] += p['A'][i] == p['A'][j]; a[2] += s['A'][i] == s['A'][j]; a[3] += 1
+    return acc, len(sel)
+
+out2 = ['', 'PER-CRITERION STABLE PAIRS pooled over full-corpus runs (rate >= 0.70, >= 0.20 above both controls):']
+percrit = {}
+for kind in ('mdl', 'reuse', 'fact', 'quantity'):
+    acc, n = pooled(kind)
+    if not acc: continue
+    st = sorted(((a[0] / a[3], a[1] / a[3], a[2] / a[3], k) for k, a in acc.items() if a[3] >= 8 and a[0] / a[3] >= 0.7 and a[0] / a[3] - max(a[1], a[2]) / a[3] >= 0.2), reverse=True)
+    percrit[kind] = {k for _, _, _, k in st}
+    out2.append('  %-9s n=%2d ontologies, %d stable pairs: %s' % (kind, n, len(st), '  '.join('%d-%d(%.2f;P%.2f,S%.2f)[%s|%s]' % (k[0], k[1], g, gp, gs, label(k[0]), label(k[1])) for g, gp, gs, k in st[:40])))
+if len(percrit) > 1:
+    for a, b in itertools.combinations(percrit, 2):
+        out2.append('  overlap %s/%s: %d shared of %d/%d' % (a, b, len(percrit[a] & percrit[b]), len(percrit[a]), len(percrit[b])))
+txt2 = '\n'.join(out2)
+open(os.path.join(D, 'loop10_final_tables.txt'), 'a').write(txt2 + '\n')
+print(txt2)

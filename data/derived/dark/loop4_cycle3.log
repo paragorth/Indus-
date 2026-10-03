@@ -2,3 +2,39 @@
 
 ## Indus seq_raw: name runs fit 2493 (mean len 2.33), test 695 (mean len 2.10)
   [names seq_raw] baseline sign level: bits=8.969 uniq=1.070 rep=0.342 units=627
+    sub ligs                     bits=8.945 uniq=1.025 rep=0.354 gram=None units=617
+    bpe k=10 T=5 s=0             bits=8.950 uniq=1.079 rep=0.470 units=636
+    bpe k=5 T=1 s=0              bits=8.950 uniq=1.072 rep=0.386 units=632
+    bpe k=20 T=5 s=1             bits=8.952 uniq=1.084 rep=0.501 units=647
+    bpe k=10 T=1 s=0             bits=8.953 uniq=1.075 rep=0.442 units=637
+    bpe k=40 T=5 s=1             bits=8.954 uniq=1.103 rep=0.582 units=667
+    bpe k=5 T=5 s=1              bits=8.954 uniq=1.076 rep=0.404 units=632
+    bpe k=5 T=5 s=0              bits=8.956 uniq=1.070 rep=0.390 units=632
+    bpe k=20 T=5 s=2             bits=8.956 uniq=1.085 rep=0.502 units=646
+    bpe k=40 T=5 s=2             bits=8.957 uniq=1.097 rep=0.586 units=666
+    bpe k=20 T=5 s=0             bits=8.957 uniq=1.086 rep=0.501 units=646
+    sub all                      bits=8.958 uniq=0.987 rep=0.528 gram=None units=592
+    bpe k=10 T=5 s=1             bits=8.958 uniq=1.074 rep=0.458 units=637
+    bpe k=20 T=1 s=0             bits=8.959 uniq=1.090 rep=0.488 units=647
+    bpe k=40 T=1 s=0             bits=8.959 uniq=1.104 rep=0.606 units=667
+    bpe k=10 T=5 s=2             bits=8.960 uniq=1.083 rep=0.428 units=637
+    bpe k=60 T=5 s=2             bits=8.963 uniq=1.113 rep=0.704 units=686
+    bpe k=40 T=5 s=0             bits=8.964 uniq=1.104 rep=0.572 units=666
+    bpe k=5 T=5 s=2              bits=8.964 uniq=1.072 rep=0.400 units=632
+    bpe k=60 T=1 s=0             bits=8.965 uniq=1.113 rep=0.661 units=686
+    bpe k=60 T=5 s=1             bits=8.965 uniq=1.112 rep=0.663 units=685
+    bpe k=60 T=5 s=0             bits=8.967 uniq=1.120 rep=0.714 units=686
+    sign                         bits=8.969 uniq=1.070 rep=0.342 units=627
+    sub rand5                    bits=8.976 uniq=1.025 rep=0.401 gram=None units=606
+    sub rand3                    bits=8.977 uniq=1.040 rep=0.412 gram=None units=612
+    sub rand1                    bits=8.978 uniq=1.006 rep=0.422 gram=None units=605
+    sub rand0                    bits=8.983 uniq=1.023 rep=0.397 gram=None units=611
+    sub marks                    bits=8.989 uniq=1.011 rep=0.502 gram=None units=595
+    sub rand4                    bits=8.999 uniq=1.016 rep=0.394 gram=None units=610
+    sub rand2                    bits=9.014 uniq=1.028 rep=0.389 gram=None units=612
+  [names seq_raw] best per statistic (delta vs sign level):
+    bits  sub ligs                     8.945  (sign 8.969, delta -0.024)  bits/sign lower=more predictable
+    uniq  sub all                      0.987  (sign 1.070, delta -0.083)  uniq ratio lower=texts recur more than bigram
+    rep   sub ligs                     0.354  (sign 0.342, delta +0.012)  within-text repetition ratio
+    segmentations beating sign level on bits AND (uniq or rep): 3 of 29: bpe k=5 T=5 s=0, sub all, sub ligs
+    first merges of best BPE: 60+741; 255+435; 692+60; 415+220; 920+60+741; 235+240; 920+60; 2+803; 861+2; 2+240

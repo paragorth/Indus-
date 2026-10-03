@@ -1,0 +1,42 @@
+
+=== all objects: 3478 texts, 20 sites, vocabulary 167 signs (>=10 tokens)
+  (a) 6 sites with >=50 texts ['Chanhu-daro', 'Dholavira', 'Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro'], 50-text subsamples x200; exact permutation (720):
+      JSD ~ great-circle km  Mantel rho=+0.536 exact p=0.0167
+      JSD ~ coast-dist diff  Mantel rho=+0.529 exact p=0.0125
+      JSD ~ river change     Mantel rho=+0.384 exact p=0.1500
+      JSD matrix (bits):
+        Chanhu-daro   0.000 0.310 0.327 0.323 0.294 0.284
+        Dholavira     0.310 0.000 0.337 0.338 0.307 0.290
+        Harappa       0.327 0.337 0.000 0.351 0.350 0.306
+        Kalibangan    0.323 0.338 0.351 0.000 0.361 0.333
+        Lothal        0.294 0.307 0.350 0.361 0.000 0.288
+        Mohenjo-daro  0.284 0.290 0.306 0.333 0.288 0.000
+      without MD+HP (4 sites): JSD ~ km rho=+0.829 exact p=0.1667
+  (b) all 20 sites, bootstrap-corrected JSD, Mantel 20,000 label permutations:
+      JSD ~ great-circle km  rho=-0.048 p=0.5633
+      JSD ~ coast-dist diff  rho=-0.039 p=0.6119
+      JSD ~ river change     rho=-0.023 p=0.7753
+      without MD+HP (18 sites): JSD ~ km rho=-0.079 p=0.3764
+      vocabulary-nearest == geographically-nearest for 0 of 20 sites; null mean 1.05, P(>=) = 1.000
+      vocabulary neighbours: Allahdino->Rupar; Amri->Farmana; Bala-kot->Bhirrana; Banawali->Kalibangan; Bhirrana->Bala-kot; Chanhu-daro->Lothal; Dholavira->Mohenjo-daro; Farmana->Rupar; Gola Dhoro (Bagasra)->Rakhigarhi; Harappa->Mohenjo-daro; Kalibangan->Dholavira; Kanmer->Bhirrana; Kot-Diji->Nausharo; Lakhanjo-daro->Rakhigarhi; Lothal->Dholavira; Mohenjo-daro->Harappa; Nausharo->Kalibangan; Rakhigarhi->Gola Dhoro (Bagasra); Rupar->Allahdino; Shikarpur->Rakhigarhi
+
+=== seals only: 2044 texts, 13 sites, vocabulary 120 signs (>=10 tokens)
+  (a) 6 sites with >=50 texts ['Chanhu-daro', 'Dholavira', 'Harappa', 'Kalibangan', 'Lothal', 'Mohenjo-daro'], 50-text subsamples x200; exact permutation (720):
+      JSD ~ great-circle km  Mantel rho=+0.104 exact p=0.6917
+      JSD ~ coast-dist diff  Mantel rho=+0.143 exact p=0.5556
+      JSD ~ river change     Mantel rho=+0.419 exact p=0.1333
+      JSD matrix (bits):
+        Chanhu-daro   0.000 0.278 0.267 0.245 0.268 0.249
+        Dholavira     0.278 0.000 0.257 0.268 0.242 0.246
+        Harappa       0.267 0.257 0.000 0.269 0.253 0.230
+        Kalibangan    0.245 0.268 0.269 0.000 0.316 0.256
+        Lothal        0.268 0.242 0.253 0.316 0.000 0.235
+        Mohenjo-daro  0.249 0.246 0.230 0.256 0.235 0.000
+      without MD+HP (4 sites): JSD ~ km rho=+0.600 exact p=0.0833
+  (b) all 13 sites, bootstrap-corrected JSD, Mantel 20,000 label permutations:
+      JSD ~ great-circle km  rho=+0.098 p=0.3247
+      JSD ~ coast-dist diff  rho=+0.053 p=0.5014
+      JSD ~ river change     rho=+0.217 p=0.0119
+      without MD+HP (11 sites): JSD ~ km rho=+0.121 p=0.2608
+      vocabulary-nearest == geographically-nearest for 1 of 13 sites; null mean 1.10, P(>=) = 0.665
+      vocabulary neighbours: Allahdino->Dholavira; Bala-kot->Banawali; Banawali->Nausharo; Bhirrana->Banawali; Chanhu-daro->Kalibangan; Dholavira->Lothal; Gola Dhoro (Bagasra)->Nausharo; Harappa->Mohenjo-daro; Kalibangan->Dholavira; Lothal->Dholavira; Mohenjo-daro->Harappa; Nausharo->Dholavira; Rakhigarhi->Kalibangan

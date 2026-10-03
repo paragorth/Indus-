@@ -1,0 +1,31 @@
+LOOP 10 FINAL: stable co-category pairs per run and their overlap
+  cycle1         stable pairs   1  components [['W154', 'W156']]
+
+Jaccard overlap of stable pair sets:
+
+CONSENSUS (stable in both full-corpus seeds, cycle1 & cycle2): 0 pairs; chance overlap 0.0
+  replicated at >=1 held-out site split: 0; at all sequence levels: 0
+
+CONSENSUS CLASSES:
+
+HELD-OUT: ontologies beating the max of both controls, per criterion, summed over full-corpus runs (cycle1, cycle2, cycle4_*):
+  fact/emblem      n=  1  real mean 0.037 max 0.037 | P mean -0.011 max -0.011 | S mean 0.047 max 0.047 | real > max(all controls): 0
+  fact/material    n=  2  real mean -0.011 max 0.003 | P mean -0.030 max -0.029 | S mean 0.025 max 0.041 | real > max(all controls): 0
+  fact/period      n=  1  real mean -0.029 max -0.029 | P mean -0.019 max -0.019 | S mean -0.081 max -0.081 | real > max(all controls): 0
+  fact/size        n=  6  real mean 0.031 max 0.107 | P mean -0.067 max -0.019 | S mean 0.044 max 0.078 | real > max(all controls): 1
+  fact/type        n=  5  real mean 0.292 max 0.331 | P mean -0.019 max -0.013 | S mean 0.198 max 0.241 | real > max(all controls): 5
+  mdl              n= 13  real mean -83.072 max -80.542 | P mean -83.072 max -80.542 | S mean -85.943 max -85.422 | real > max(all controls): 0
+  quantity         n= 15  real mean 0.385 max 0.505 | P mean 0.325 max 0.450 | S mean 0.411 max 0.535 | real > max(all controls): 0
+  reuse            n=  5  real mean 0.721 max 0.821 | P mean 0.789 max 0.890 | S mean 0.682 max 0.842 | real > max(all controls): 0
+
+PER-CRITERION STABLE PAIRS pooled over full-corpus runs (rate >= 0.70, >= 0.20 above both controls):
+  mdl       n=13 ontologies, 0 stable pairs: 
+  reuse     n= 5 ontologies, 0 stable pairs: 
+  fact      n=15 ontologies, 17 stable pairs: 760-840(0.87;P0.60,S0.67)[pre-jar title|new]  2-527(0.87;P0.40,S0.67)[connective,short numeral|closer]  1-585(0.87;P0.40,S0.33)[connective,short numeral|new]  630-803(0.87;P0.33,S0.67)[new|new]  220-240(0.80;P0.47,S0.27)[fish,counted item|fish]  233-760(0.80;P0.33,S0.53)[fish|pre-jar title]  798-920(0.80;P0.33,S0.47)[new|opener,name-initial]  125-235(0.80;P0.33,S0.33)[name-initial|mid-initial,fish]  32-33(0.80;P0.27,S0.60)[tall numeral|tall numeral]  840-861(0.80;P0.27,S0.53)[new|opener]  415-892(0.80;P0.27,S0.33)[new|new]  233-798(0.80;P0.13,S0.33)[fish|new]  142-900(0.80;P0.00,S0.60)[new|counted item]  390-617(0.73;P0.47,S0.47)[closer,counted item|closer]  575-705(0.73;P0.40,S0.47)[name-initial|new]  4-798(0.73;P0.33,S0.40)[short numeral|new]  17-803(0.73;P0.27,S0.33)[short numeral|new]
+  quantity  n=15 ontologies, 4 stable pairs: 617-740(1.00;P0.00,S0.20)[closer|closer,counted item]  617-892(1.00;P0.00,S0.13)[closer|new]  154-760(0.80;P0.27,S0.40)[new|pre-jar title]  156-617(0.80;P0.00,S0.33)[closer|closer]
+  overlap mdl/reuse: 0 shared of 0/0
+  overlap mdl/fact: 0 shared of 0/17
+  overlap mdl/quantity: 0 shared of 0/4
+  overlap reuse/fact: 0 shared of 0/17
+  overlap reuse/quantity: 0 shared of 0/4
+  overlap fact/quantity: 0 shared of 17/4
