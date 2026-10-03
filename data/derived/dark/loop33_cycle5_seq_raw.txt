@@ -1,0 +1,11 @@
+== S-DARK-33 cycle 5 level seq_raw: fit (MD+H complete, direction recorded) 2946 texts [seals 1259, tablets 1472]; held-out sites 451; IM77 certainly-new 324 texts (0/1291 tokens unbridged -> OTHER)
+
+## control indus-seals: 1259 texts, mean len 4.8, |A| 121; alergia states 11; train 805 / threshold set 202 / genuine held-out 252
+  indus-seals                    markov1   heldout    n  252 accept 0.89 | shuf 0.71 slot 0.83 rand 0.72 | AUC shuf 0.728 (len>=3 0.769) slot 0.614 rand 0.763
+  indus-seals                    alergia   heldout    n  252 accept 0.89 | shuf 0.70 slot 0.82 rand 0.79 | AUC shuf 0.766 (len>=3 0.799) slot 0.606 rand 0.759
+  indus-seals                    hmm20     heldout    n  252 accept 0.95 | shuf 0.51 slot 0.83 rand 0.53 | AUC shuf 0.831 (len>=3 0.889) slot 0.652 rand 0.880
+
+## control ur3: 3000 texts, mean len 10.5, |A| 121; alergia states 75; train 1920 / threshold set 480 / genuine held-out 600
+  ur3                            markov1   heldout    n  600 accept 0.97 | shuf 0.74 slot 0.73 rand 0.66 | AUC shuf 0.919 (len>=3 0.922) slot 0.924 rand 0.937
+  ur3                            alergia   heldout    n  600 accept 0.97 | shuf 0.78 slot 0.78 rand 0.71 | AUC shuf 0.900 (len>=3 0.903) slot 0.900 rand 0.918
+  ur3                            hmm20     heldout    n  600 accept 0.95 | shuf 0.21 slot 0.24 rand 0.15 | AUC shuf 0.945 (len>=3 0.95) slot 0.943 rand 0.966

@@ -1,6 +1,6 @@
 """S-DARK-34: THE CHECKSUM HUNT. Is any element of a seal a deterministic function of the others?
 Targets: first sign, last sign, closer identity, connective/marker, suffix, emblem class, material, boss class,
-shape class. Predictors (sklearn): decision tree, histogram gradient boosting, k-nearest neighbours, trained on
+shape class. Predictors (sklearn): decision tree, random forest (80 trees; 'gbm' key kept in the code), k-nearest neighbours, trained on
 Mohenjo-daro + Harappa seals, scored on (a) seals from every other site and (b) the 324 IM77-only texts of
 S-DARK-27.3 (loop27_sets.json 'new', mapped M -> W through the completed bridge; emblem via im77_field_symbols).
 Features = everything else on the object: bag of the other signs, the neighbours of the target position, text
@@ -17,9 +17,8 @@ Usage: python3 tools/dark_loop34.py <cycle 1|2|3> <seq_raw|seq_strong|seq_all>
 import json, csv, sys, random, collections, math, re
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.inspection import permutation_importance
 from scipy.stats import binomtest
 
 SP = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/'
@@ -149,9 +148,9 @@ class Vec:
     def __init__(self, train_objs, target, use_facts=True):
         self.target = target; self.use_facts = use_facts
         cnt = collections.Counter(t for o in train_objs for t in o['seq'])
-        self.signs = [s for s, _ in cnt.most_common(200)]
+        self.signs = [s for s, _ in cnt.most_common(120)]
         self.sidx = {s: i for i, s in enumerate(self.signs)}
-        ctx = [s for s, _ in cnt.most_common(60)]
+        ctx = [s for s, _ in cnt.most_common(40)]
         self.cidx = {s: i for i, s in enumerate(ctx)}
         self.facts = [f for f in ('emblem', 'material', 'boss', 'shape') if f != target] if use_facts else []
         self.fvals = {f: sorted({str(o[f]) for o in train_objs}) for f in self.facts}
@@ -206,7 +205,7 @@ def reduce_labels(train_labs, other_labs_list, topk=12):
 def fit_models(X, y):
     ms = {}
     ms['tree'] = DecisionTreeClassifier(max_depth=8, min_samples_leaf=3, random_state=0).fit(X, y)
-    ms['gbm'] = HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, max_depth=6, min_samples_leaf=5, random_state=0).fit(X, y)
+    ms['gbm'] = RandomForestClassifier(n_estimators=80, max_features='sqrt', min_samples_leaf=2, random_state=0, n_jobs=1).fit(X, y)
     Xb = (X > 0).astype(float)
     ms['knn'] = KNeighborsClassifier(n_neighbors=5, metric='cosine').fit(Xb, y)
     return ms
@@ -262,12 +261,9 @@ def evaluate(tname, train, tests, use_facts, plant=None, shuffle=False, report_f
         res['p_vs_slot'] = binomtest(nhit, len(y), max(res['slot'], 1e-9), alternative='greater').pvalue if res['slot'] < 1 else 1.0
         out[k] = res
     if report_feats and not shuffle:
-        try:
-            pi = permutation_importance(ms['gbm'], Xtr, ytr, n_repeats=3, random_state=0, max_samples=min(600, len(ytr)))
-            top = np.argsort(-pi.importances_mean)[:5]
-            out['top_features'] = [(V.names[i], round(float(pi.importances_mean[i]), 3)) for i in top if pi.importances_mean[i] > 0]
-        except Exception as ex:
-            out['top_features'] = str(ex)
+        imp = ms['gbm'].feature_importances_
+        top = np.argsort(-imp)[:5]
+        out['top_features'] = [(V.names[i], round(float(imp[i]), 3)) for i in top if imp[i] > 0]
     return out, (ms, V, ytr, etr, train)
 
 def fmt(res):
