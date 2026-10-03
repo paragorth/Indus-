@@ -52,7 +52,7 @@ def fs_class(fs):
     return 'other'
 
 WSYM = {'Hare': 'hare', 'Elep': 'elephant', 'Anth': 'personage', 'Comp': 'composite', 'Gaur': 'gaur', 'Loop': 'endless-knot',
-        'Goat:8': 'goat-antelope', 'Bull1:W': 'shorthorn-bull', 'Rhin': 'rhino', 'Tigr': 'tiger', 'Bull': 'bull', 'Buff': 'buffalo',
+        'Goat:8': 'goat-antelope', 'Bull1:W': 'unicorn', 'Rhin': 'rhino', 'Tigr': 'tiger', 'Bull': 'bull', 'Buff': 'buffalo',
         'Hgls': 'other', 'Unknown': None, 'Othr': 'Othr', 'None': None, '-': None, '': None}
 # Wells single-sign faces that occur only on copper tablets: image drawn as a 'sign'
 WIMG = {749, 753, 777, 781, 782, 841, 957}
@@ -61,7 +61,8 @@ def wsym_seal(sym):
     """coarse emblem class for Wells seal symbols"""
     if not sym or sym in ('-', 'None', 'Unknown', 'Othr'): return None
     s = sym.split(':')[0]
-    m = {'Unic': 'unicorn', 'Bull1': 'shorthorn-bull', 'Bull2': 'longhorn-bull', 'Zebu': 'zebu', 'Elep': 'elephant', 'Rhin': 'rhino',
+    # Wells/CISI codes: Bull1 = one-horned bull (unicorn); Bull = bull unspecified; Bull2/Bull3 other bulls
+    m = {'Unic': 'unicorn', 'Bull1': 'unicorn', 'Bull2': 'bull2', 'Bull3': 'bull3', 'Zebu': 'zebu', 'Elep': 'elephant', 'Rhin': 'rhino',
          'Tigr': 'tiger', 'Buff': 'buffalo', 'Goat': 'goat-antelope', 'Gaur': 'gaur', 'Hare': 'hare', 'Anth': 'personage', 'Comp': 'composite',
          'Ghar': 'gharial', 'Bull': 'bull', 'Loop': 'endless-knot'}
     return m.get(s, s.lower())
