@@ -1,0 +1,15 @@
+# loop 59 cycle 3 (2026-10-03 17:56): Ur III seal legends and Linear B lines through the same predictive ladder
+Ur III legends: 20126 impressions -> 5727 distinct (site, legend)
+
+## Ur III legends, words (name / title), one per distinct legend: fit 1909 texts (7419 tokens, |V| 1198) on ['Umma']; held-out 1500 texts from other sites; OOV 0.263
+| model | bits/token (95% CI) | gap closed vs unigram | NAME bits [gap] | TITLE bits [gap] | END bits [gap] |
+|---|---|---|---|---|---|
+| uniform | 10.229 [10.229, 10.229] | -93.3% | 10.23 [-38%] | 10.23 [-116%] | 10.23 [-327%] |
+| unigram | 5.292 [5.210, 5.368] | 0.0% | 7.41 [0%] | 4.74 [0%] | 2.39 [0%] |
+| KN1 | 5.378 [5.308, 5.442] | -1.6% | 8.92 [-20%] | 3.74 [21%] | 1.99 [17%] |
+| KN2 | 5.354 [5.287, 5.422] | -1.2% | 9.10 [-23%] | 3.62 [24%] | 1.77 [26%] |
+| KN3 | 5.406 [5.337, 5.473] | -2.2% | 9.21 [-24%] | 3.64 [23%] | 1.77 [26%] |
+| combined | 5.158 [5.083, 5.225] | 2.5% | 8.72 [-18%] | 3.50 [26%] | 1.78 [26%] |
+bits per text under combined: 25.4 (unigram 26.1; explained 3%); by slot: NAME 16.5 bits (65% of remaining; 1.90 tokens/text), TITLE 7.1 bits (28% of remaining; 2.03 tokens/text), END 1.8 bits (7% of remaining; 1.00 tokens/text)
+irreducible tokens (no model beats the unigram by 0.25 bit): 0.482; by slot NAME 0.60, TITLE 0.31, END 0.60
+share predicted with P >= 0.5 under best: NAME 0.00, TITLE 0.28, END 0.26
