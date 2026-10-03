@@ -1,0 +1,16 @@
+LOOP 6 - CYCLE 5: transcription robustness in IM77 (Mahadevan 1977)
+Script: data/derived/dark/loop6_c5_im77.py; output loop6_c5_im77.txt
+IM77 names only 5 sites (MD 1,338 texts, Harappa 725, Lothal 159, Kalibangan 94, Chanhu-daro 66; 2,382 distinct texts), so the
+20-site arrows of cycles 1-2 cannot be re-fired there. What can be checked: (a) the whole-vocabulary Mantel of cycle 4 on the
+5 sites (60-text equal subsamples x200, exact permutation, 120), all objects and seals; (b) the shared-text links of cycle 3.
+
+RESULT: (a) all objects: JSD ~ km rho +0.46 (exact p 0.17), JSD ~ coast difference rho +0.56 (p 0.050); seals only: km +0.43
+(p 0.22), coast +0.48 (p 0.09). Same shape as Wells/CISI: Mohenjo-daro is the vocabulary-nearest site of every other site
+(0.21-0.23 bits on seals), Lothal-Kalibangan the farthest pair (0.28). The positive rho is the same object-mix pattern seen in
+cycle 4 (Lothal sealings, Harappa tablets) and does not reach the exact threshold even on all objects; on seals it is weaker,
+as in Wells. Transcription-robust in the sense that both transcriptions give a flat seal vocabulary with MD at the centre.
+(b) shared texts (>= 3 signs): 74 links (58 on seals): MD-Harappa 41, MD-Lothal 11, Harappa-Lothal 6 (904 km), Chanhu-daro-MD 4
+(130 km), Harappa-Kalibangan 3 (177 km). Links scale with n_i x n_j, not with distance: the two nearest pairs (Chanhu-daro-MD,
+Harappa-Kalibangan) have 4 and 3 links, the 900-km pair Harappa-Lothal has 6.
+
+| S-DARK-6.5 | Transcription check of S-DARK-6.3/6.4 in IM77 (Mahadevan 1977; 5 named sites, 2,382 distinct texts): (a) site-to-site vocabulary JSD (60-text equal subsamples x200) vs km and coast-distance difference, exact permutation (120), all objects and seals; (b) shared texts (>= 3 signs) between sites vs distance. `data/derived/dark/loop6_c5_im77.py` | **(a) all objects rho +0.46 (p 0.17) / coast +0.56 (p 0.050); seals rho +0.43 (p 0.22) / coast +0.48 (p 0.09).** Mohenjo-daro is the vocabulary-nearest site of all four others in both transcriptions; Lothal-Kalibangan the farthest pair. **(b) 74 links: MD-Harappa 41, MD-Lothal 11, Harappa-Lothal 6 (904 km) vs Chanhu-daro-MD 4 (130 km), Harappa-Kalibangan 3 (177 km).** Links follow n_i x n_j, not distance. | **Transcription-robust null** (same objects read twice, S312, so not a replication): the seal vocabulary is flat across the 5 big sites with MD at the centre in both Wells and Mahadevan, and the shared-text network follows sample size, not the map. The weak positive coast rho on all objects is the object-genre mix (S29/S66/S86). |
