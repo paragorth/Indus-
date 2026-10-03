@@ -92,6 +92,7 @@ for r in C:
 
 # IM77-only texts in W space
 WFREQ = collections.Counter(t for o in OBJ for t in o['seq'])
+RANK = {s: i for i, (s, _) in enumerate(WFREQ.most_common(120))}
 M2W = {}
 for w, ms in BR.items():
     for m in ms:
@@ -119,10 +120,13 @@ print(f'== S-DARK-34 cycle {CY} level {LV}: Wells objects {len(OBJ)}; IM77-only 
       f'(unmapped M tokens {unk}/{tot}); IM77 types {collections.Counter(o["ot"] for o in NEW).most_common()}')
 
 # ------------------------------------------------------------------ targets
+def closer_pos(seq):
+    j = len(seq) - 1
+    while j > 0 and seq[j] in SUF: j -= 1
+    return j
 def closer_of(seq):
-    s = seq[:]
-    while len(s) > 1 and s[-1] in SUF: s.pop()
-    return s[-1] if s[-1] in CLOSERS else 'none'
+    j = closer_pos(seq)
+    return (seq[j] if seq[j] in CLOSERS else 'none'), j
 
 def frame_class(seq, exclude_pos=None):
     s = [t for i, t in enumerate(seq) if i != exclude_pos]
@@ -134,7 +138,8 @@ TARGETS = {
     # name: (getter -> (label, excluded position or None), applicable filter)
     'first_sign': (lambda o: (o['seq'][0], 0), lambda o: True),
     'last_sign': (lambda o: (o['seq'][-1], len(o['seq']) - 1), lambda o: True),
-    'closer': (lambda o: (closer_of(o['seq']), None), lambda o: True),
+    'closer': (lambda o: closer_of(o['seq']), lambda o: closer_of(o['seq'])[0] != 'none'),   # which closer, that position hidden
+    'has_closer': (lambda o: (int(closer_of(o['seq'])[0] != 'none'), closer_pos(o['seq'])), lambda o: True),  # closer vs name-final, that position hidden
     'second_sign': (lambda o: (o['seq'][1], 1), lambda o: len(o['seq']) >= 3),
     'penult_sign': (lambda o: (o['seq'][-2], len(o['seq']) - 2), lambda o: len(o['seq']) >= 3),
     'emblem': (lambda o: (o['emblem'], None), lambda o: o['emblem'] is not None),
@@ -236,7 +241,7 @@ def evaluate(tname, train, tests, use_facts, plant=None, shuffle=False, report_f
         def f(o, e):
             rest = [t for i, t in enumerate(o['seq']) if i != e]
             if plant == 'checksum': return classes[sum(abs(t) for t in rest) % kk]
-            return classes[(abs(rest[0]) * 7919) % kk if rest else 0]   # class sign: fixed by the first other sign
+            return classes[RANK.get(rest[0], 120) % kk if rest else 0]   # class sign: fixed by the identity of the first other sign
         ytr = [f(o, e) for o, e in zip(train, etr)]
         ytes = {k: ([f(o, e) for o, e in zip(tests[k], ytes[k][1])], ytes[k][1]) for k in tests}
     if shuffle:
