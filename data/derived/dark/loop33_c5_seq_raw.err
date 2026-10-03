@@ -29,3 +29,15 @@
   strict-code                    markov1   heldout    n  600 accept 0.93 | shuf 0.06 slot 0.06 rand 0.02 | AUC shuf 0.982 (len>=3 0.986) slot 0.980 rand 0.985
   strict-code                    alergia   heldout    n  600 accept 0.94 | shuf 0.07 slot 0.08 rand 0.07 | AUC shuf 0.972 (len>=3 0.974) slot 0.965 rand 0.975
   strict-code                    hmm20     heldout    n  600 accept 0.94 | shuf 0.04 slot 0.05 rand 0.01 | AUC shuf 0.985 (len>=3 0.987) slot 0.987 rand 0.997
+
+## control markov2-synth: 1259 texts, mean len 4.8, |A| 121; alergia states 15; train 805 / threshold set 202 / genuine held-out 252
+  markov2-synth                  markov1   heldout    n  252 accept 0.95 | shuf 0.79 slot 0.86 rand 0.75 | AUC shuf 0.810 (len>=3 0.844) slot 0.690 rand 0.847
+  markov2-synth                  alergia   heldout    n  252 accept 0.96 | shuf 0.79 slot 0.88 rand 0.81 | AUC shuf 0.817 (len>=3 0.842) slot 0.671 rand 0.842
+  markov2-synth                  hmm20     heldout    n  252 accept 0.92 | shuf 0.36 slot 0.72 rand 0.35 | AUC shuf 0.853 (len>=3 0.892) slot 0.658 rand 0.882
+
+## control indus-shuffled: 1259 texts, mean len 4.8, |A| 121; alergia states 4; train 805 / threshold set 202 / genuine held-out 252
+  indus-shuffled                 markov1   heldout    n  252 accept 0.93 | shuf 0.92 slot 0.92 rand 0.94 | AUC shuf 0.509 (len>=3 0.512) slot 0.520 rand 0.570
+  indus-shuffled                 alergia   heldout    n  252 accept 0.90 | shuf 0.93 slot 0.93 rand 0.95 | AUC shuf 0.493 (len>=3 0.496) slot 0.496 rand 0.475
+  indus-shuffled                 hmm20     heldout    n  252 accept 0.93 | shuf 0.92 slot 0.93 rand 0.95 | AUC shuf 0.497 (len>=3 0.502) slot 0.502 rand 0.471
+
+[173s]
