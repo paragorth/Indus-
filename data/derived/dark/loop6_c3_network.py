@@ -5,6 +5,7 @@ distance difference, or follow river order? Mantel-type test: Spearman between t
 20,000x), so the unit is the site. Also: same-river vs different-river pairs. Power by simulation."""
 import sys, collections, itertools, numpy as np
 sys.path.insert(0,'/home/user/Indus-/data/derived/dark'); from loop6_engine import *
+from scipy.stats import rankdata
 
 out=open(ROOT+'data/derived/dark/loop6_c3_network.txt','w')
 def P(*a):
@@ -16,14 +17,18 @@ def hav(a,b,c,d):
     h=math.sin(dp/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
     return 2*R*math.asin(math.sqrt(h))
 
-def mantel(A,B,n_mc=20000,seed=3):
-    """Spearman between upper triangles of A and B; null permutes site labels of B."""
+def _zr(v):
+    r=rankdata(v); r=r-r.mean(); s=np.sqrt((r**2).sum()); return r/s if s>0 else r
+def mantel(A,B,n_mc=5000,seed=3):
+    """Spearman between upper triangles of A and B; null permutes site labels of B (vectorised ranks)."""
     n=len(A); iu=np.triu_indices(n,1)
-    a=A[iu]; obs=spearmanr(a,B[iu]).statistic
-    rnd=np.random.default_rng(seed); ge=0
-    for _ in range(n_mc):
-        p=rnd.permutation(n); v=spearmanr(a,B[p][:,p][iu]).statistic
-        if abs(v)>=abs(obs)-1e-12: ge+=1
+    a=_zr(A[iu]); obs=float(a@_zr(B[iu]))
+    rnd=np.random.default_rng(seed)
+    perms=np.array([rnd.permutation(n) for _ in range(n_mc)])
+    # B[p][:,p][iu] for all p at once
+    Bp=B[perms[:,iu[0]],perms[:,iu[1]]]          # (n_mc, npairs)
+    R=rankdata(Bp,axis=1); R=R-R.mean(1,keepdims=True); R=R/np.sqrt((R**2).sum(1,keepdims=True))
+    vals=R@a; ge=int((np.abs(vals)>=abs(obs)-1e-12).sum())
     return obs,(ge+1)/(n_mc+1)
 
 for level in ['seq_raw','seq_strong']:
@@ -68,28 +73,28 @@ for level in ['seq_raw','seq_strong']:
     iu=np.triu_indices(n,1); linked=S[iu]>0
     d_link=D[iu][linked].mean(); d_un=D[iu][~linked].mean()
     rnd=np.random.default_rng(5); ge=0
-    for _ in range(20000):
+    for _ in range(5000):
         p=rnd.permutation(n); Dp=D[p][:,p][iu]
         if Dp[linked].mean()-Dp[~linked].mean() <= d_link-d_un: ge+=1
-    P(f'  linked pairs mean distance {d_link:.0f} km vs unlinked {d_un:.0f} km ({linked.sum()} linked of {len(linked)} pairs); site-perm P(closer)={(ge+1)/20001:.4f}')
+    P(f'  linked pairs mean distance {d_link:.0f} km vs unlinked {d_un:.0f} km ({linked.sum()} linked of {len(linked)} pairs); site-perm P(closer)={(ge+1)/5001:.4f}')
     # same river?
     same_link=(RIV[iu][linked]==0).mean(); same_un=(RIV[iu][~linked]==0).mean()
     P(f'  same-river share: linked {same_link:.2f} vs unlinked {same_un:.2f}')
     if level=='seq_raw':
         # power: simulate sharing where link probability decays with distance (halves every 300 km), same number of links
         L=int(linked.sum()); hits=0; rnd=np.random.default_rng(9)
-        for _ in range(200):
+        for _ in range(100):
             w=np.exp(-D[iu]/300.0)*(E[iu]); w=w/w.sum()
             pick=rnd.choice(len(w),size=L,replace=False,p=w); Sim=np.zeros((n,n)); Sim[iu[0][pick],iu[1][pick]]=1; Sim=Sim+Sim.T
-            obs,p=mantel(Sim/E,D,n_mc=2000,seed=int(rnd.integers(1e9))); hits+=p<0.05
-        P(f'  power (links placed with probability ~ n_i n_j exp(-d/300 km), {L} links, alpha 0.05): {hits/200:.2f}')
+            obs,p=mantel(Sim/E,D,n_mc=1000,seed=int(rnd.integers(1e9))); hits+=p<0.05
+        P(f'  power (links placed with probability ~ n_i n_j exp(-d/300 km), {L} links, alpha 0.05): {hits/100:.2f}')
         # power for a strong effect: links only within 400 km
         hits=0
-        for _ in range(200):
+        for _ in range(100):
             w=(D[iu]<400)*(E[iu]); w=w/w.sum()
             pick=rnd.choice(len(w),size=L,replace=False,p=w); Sim=np.zeros((n,n)); Sim[iu[0][pick],iu[1][pick]]=1; Sim=Sim+Sim.T
-            obs,p=mantel(Sim/E,D,n_mc=2000,seed=int(rnd.integers(1e9))); hits+=p<0.05
-        P(f'  power (links only within 400 km): {hits/200:.2f}')
+            obs,p=mantel(Sim/E,D,n_mc=1000,seed=int(rnd.integers(1e9))); hits+=p<0.05
+        P(f'  power (links only within 400 km): {hits/100:.2f}')
 
 # S324 subset: seal -> sealing flow (TAG texts matching SEAL texts at another site)
 T=load_texts('seq_raw',minlen=3)
