@@ -325,9 +325,15 @@ class Pool:
 
 _PTR = None
 def _train_eval(x):
+    """One relation spec, several facts: relation computed once."""
     global nrng
-    h, (kind, p, fact) = x; nrng = np.random.default_rng(SEED * 100000 + h)
-    return _PTR.evaluate(kind, p, fact, 'raw', 500)
+    g, (kind, p, items) = x; nrng = np.random.default_rng(SEED * 100000 + g)
+    rc = _PTR.relation(kind, p, 'raw')
+    out = []
+    for h, fact in items:
+        out.append((h, _PTR.evaluate(kind, p, fact, 'raw', 500, rcache=rc)))
+    print('  train group %d done (%s, %d facts)' % (g, kind, len(items)), flush=True)
+    return out
 
 _PTE = None
 def _follow_eval(x):
@@ -497,8 +503,15 @@ def main():
     global _PTR
     _PTR = PTR
     specs = [make_arrow() for _ in range(NPAIR)]
+    groups = collections.OrderedDict()
+    for h, (kind, p, fact) in enumerate(specs):
+        groups.setdefault((kind, json.dumps(p, sort_keys=True)), []).append((h, fact))
+    jobs = [(g, (kind, json.loads(pj), items)) for g, ((kind, pj), items) in enumerate(groups.items())]
+    say('  %d distinct relation specs for %d arrows' % (len(jobs), NPAIR))
+    trains = [None] * NPAIR
     with mp.get_context('fork').Pool(4) as pool:
-        trains = pool.map(_train_eval, list(enumerate(specs)), chunksize=8)
+        for out in pool.imap_unordered(_train_eval, jobs, chunksize=1):
+            for h, r in out: trains[h] = r
     arrows = [dict(kind=k, p=p, fact=f, train=r) for (k, p, f), r in zip(specs, trains)]; surv = []
     global _PTE
     _PTE = PTE
