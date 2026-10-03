@@ -49,7 +49,7 @@ class KN2:
                 self.c2[(s[i-2], s[i-1])][s[i]] += 1; self.c1[(s[i-1],)][s[i]] += 1
         for h, cnt in self.c1.items():
             for v in cnt: self.cont[v] += 1
-        self.vocab = sorted(self.cont); self.V = len(self.vocab); self.cache = {}
+        self.vocab = sorted(self.cont); self.V = len(self.vocab); self.cache = {}; self.ccache = {}
         if parent is not None:
             self.vocab = sorted(set(self.vocab) | set(parent.vocab)); self.V = len(self.vocab)
     def dist(self, h):
@@ -67,10 +67,16 @@ class KN2:
             p = {v: w * p.get(v, 0) + (1 - w) * pp.get(v, 0) for v in self.vocab}
         keys = list(p); wts = [p[v] for v in keys]
         self.cache[h] = (keys, wts); return self.cache[h]
+    def cum(self, h):
+        if h in self.ccache: return self.ccache[h]
+        k, w = self.dist(h); acc = 0.0; cw = []
+        for x in w: acc += x; cw.append(acc)
+        self.ccache[h] = (k, cw, acc); return self.ccache[h]
     def gen(self, rng):
+        import bisect
         out = []; h = (S, S)
         while len(out) < MAXLEN:
-            k, w = self.dist(h); v = rng.choices(k, w)[0]
+            k, cw, tot = self.cum(h); v = k[min(bisect.bisect_left(cw, rng.random() * tot), len(k) - 1)]
             if v == E: break
             out.append(v); h = (h[1], v)
         return tuple(out) if out else self.gen(rng)
