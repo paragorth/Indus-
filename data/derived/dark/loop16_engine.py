@@ -203,6 +203,24 @@ if CYCLE == 2:
     P(f'\n arrows fired {arrows}; Bonferroni alpha = {0.05/max(arrows,1):.4f}')
     for name in FEATS:
         P(f'   {name:13s} ' + ' '.join(f'{s[:3]}:{"+" if v[0]>0 else "-" if v[0]<0 else "0"}' for s, v in res[name].items()))
+    P('\n# length-controlled: ALL distinct sealing texts, matched label permuted within site x length bin (2, 3, >=4)')
+    dist = list({(r['site'], r['t']) for r in TAG if len(r['t']) >= 2})
+    lab = [int(t in seal_texts) for s, t in dist]; F = [feats(t) for s, t in dist]
+    strata = collections.defaultdict(list)
+    for i, (s, t) in enumerate(dist): strata[(s, min(len(t), 4))].append(i)
+    P(f'   n={len(dist)} matched={sum(lab)}; matched by length bin: ' + ', '.join(f'len{k[1]}@{k[0][:3]}={sum(lab[i] for i in v)}/{len(v)}' for k, v in sorted(strata.items()) if sum(lab[i] for i in v)))
+    for name in [f for f in FEATS if f != 'len']:
+        def stat(l):
+            a = [F[i][name] for i in range(len(dist)) if l[i] == 0]; b = [F[i][name] for i in range(len(dist)) if l[i] == 1]
+            return st.mean(a) - st.mean(b)
+        obs = stat(lab); sims = []
+        for _ in range(NPERM):
+            sh = lab[:]
+            for ids in strata.values():
+                vals = [sh[i] for i in ids]; random.shuffle(vals)
+                for i, v in zip(ids, vals): sh[i] = v
+            sims.append(stat(sh))
+        P(f'   {name:13s} ghost-minus-matched: {fmt_p(obs, sims)}')
     # vocabulary: signs over-represented in ghost texts vs matched (ALL)
     dist = list({r['t'] for r in TAG if len(r['t']) >= 2})
     g = collections.Counter(x for t in dist if t not in seal_texts for x in set(t)); mt = collections.Counter(x for t in dist if t in seal_texts for x in set(t))
