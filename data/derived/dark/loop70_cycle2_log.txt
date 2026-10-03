@@ -40,3 +40,7 @@ LOOP 70 cycle 2: conditional logit over cut positions (features UNIT-internal, M
    learned boundaries (known): AUC UNIT-vs-rest 0.692 (null mean 0.471, 95th 0.566, P 0.005); MIDMID-vs-BOUND 0.530 (null 0.523, 95th 0.612, P 0.433); UNIT-vs-BOUND 0.691 (null 0.476, P 0.005)
 -- Ur III control (UNIT = within-word sign pair; MIDMID unused; reference = between-word junction)
    Ur III known (n=534): UNIT -2.53 [-2.98,-2.35], MIDMID +2.53 [+2.35,+2.98], AFTERHEAD +0.00 [+0.00,+0.00], IMBAL -0.51 [-0.57,-0.44] | LR MIDMID=ref chi2 -0.00 P 1.000
+   Ur III agnostic (2-line) (n=211): UNIT -2.87 [-7.90,-2.65], MIDMID +2.87 [+2.65,+7.90], AFTERHEAD +0.00 [+0.00,+0.00], IMBAL -1.22 [-1.56,-0.87] | LR MIDMID=ref chi2 0.00 P 1.000
+   power: planted MIDMID coefficient +0.0 (other coefficients = fitted Wells canon), n=73: median estimate +0.17, detected (P < 0.05, negative) in 1/40
+   power: planted MIDMID coefficient -1.0 (other coefficients = fitted Wells canon), n=73: median estimate -1.16, detected (P < 0.05, negative) in 26/40
+   power: planted MIDMID coefficient -2.0 (other coefficients = fitted Wells canon), n=73: median estimate -2.02, detected (P < 0.05, negative) in 38/40

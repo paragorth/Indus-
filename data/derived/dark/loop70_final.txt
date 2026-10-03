@@ -1,0 +1,40 @@
+LOOP 70 FINAL: DO LINE BREAKS FALL AT WORD BOUNDARIES? (2026-10-03)
+Scripts: tools/dark_loop70_common.py (loaders, unit sets, exact null enumeration), tools/dark_loop70.py 1|2|3.
+Rows: loop70_cycle1.txt .. loop70_cycle3.txt (S-DARK-70.1 - 70.3); logs loop70_cycle{1,2,3}_log.txt, json alongside.
+(tools/dark_loop70_c1.py is a leftover from the earlier, interrupted attempt and is not used.)
+Data: data/raw/inscriptions.csv (5,680-row file; Wells '/' = line break; 77 clean multi-line texts after one-copy-per
+site x type x text), data/im77/im77_corpus_lines.csv (87 multi-line sides, line order known). Units were learned only
+from single-line texts. merged-corpus-canonical.json was not used, so the S-DARK-23 caveat does not apply.
+Three merge levels throughout; no result depends on a merge.
+
+VERDICTS
+1. Did scribes break at word boundaries?  YES for the grammar's units (transcription-robust).
+   Breaks inside qualifier+head / opener phrase / numeral+item / fish words / frozen pairs: Wells 1 of 77 against 13.2
+   expected under a random cut, 13.0 under the ink-midpoint cut and 8.2 under a balance-matched cut (O/E 0.08-0.12).
+   IM77: 3 of 87 against 14.6-18.7 (O/E 0.16-0.21); all P < 0.001. For comparison: Ur III word-internal pairs give
+   0.04, planted unit-avoiding breaks 0.12, random re-breaks 0.99-1.01. The units are recoverable from the breaks
+   alone (AUC 0.66-0.69, null 0.47-0.49, P 0.005). Both editors put the break in the same place on all 19 (strict
+   bridge: 9) objects that both record as two-line (chance 7.0). Wells '/' order = IM77 line order in 18 of 19.
+2. Where do the breaks go?  After a closed unit. 48/77 (Wells) and 47/87 (IM77) breaks follow a closer or the
+   W400/W90 suffix (O/E 3.2 / 2.8; conditional-logit factor about 17), with a weaker pull toward balanced lines.
+   Line 1 is usually a complete legend and line 2 a second unit or a separate element (S255, S256, S286, S-DARK-40).
+3. Does the middle contain multi-sign words?  NOT DETECTED. Allowing for the after-closer and balance effects, a
+   middle|middle junction is broken as often as a frame edge: coefficient +0.02 [-1.19, +1.07] in Wells, +0.09
+   [-0.61, +0.98] in IM77. Broken middle pairs are no less cohesive by PMI (percentile 0.53 / 0.39), and the
+   break-learned score does not separate middle pairs from frame edges (AUC 0.52-0.53 at null). Power: a coefficient
+   of -2 is caught 95% of the time and -1 65%. So strongly bound middle words are excluded, but a middle with a
+   minority of word-internal pairs (up to about 45% of junctions in IM77) is not. This is an upper bound from 164
+   breaks, not proof that each middle sign is a word.
+4. Out of sample: no.  Only 4 multi-line texts come from sites outside IM77 (0/4 inside units, untestable). Wells
+   and IM77 overlap about 70% (S312), so the agreement is transcription-robust, not replication. 76% of the texts are
+   from Mohenjo-daro + Harappa. Other sites alone: Wells 1/18 vs 2.5 (n.s.), IM77 0/24 vs 3.9 (P 0.007).
+
+WORKING-DICTIONARY consequences (leeway grades, not applied here):
+ - Promote the grammatical claim 'qualifier + head is one written word' (S303, S-DARK-61) with an independent kind
+   of evidence: scribes do not split it across lines (0 of 77 Wells, 2 of 87 IM77). Would kill: new multi-line
+   seals breaking inside qualifier + head at >= 3 times the present rate.
+ - Middle signs: a C-grade 'one sign = one word' fits the break data. Would support: >= 30 new MIDMID breaks with a
+   coefficient that stays above -0.5. Would kill: middle breaks avoiding high-PMI middle pairs (percentile < 0.3).
+
+NOT CRACKED. No sign value or reading. The result is a layout fact: line breaks respect the frame's units and fall
+mostly after a closed unit. The middle shows no internal word structure at this sample size.

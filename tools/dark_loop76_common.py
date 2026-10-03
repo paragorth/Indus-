@@ -9,6 +9,7 @@ Two document levels:
   'act'  every object is a document (an impression on a sealing = one act; a moulded tablet = one copy)
   'die'  sealings and moulded tablets with the identical full text set at one site are ONE document (one seal / one
          mould); seals, incised tablets and pots are never collapsed (each is its own instrument / act).
+Count faces (numerals + W700 only, the Harappa voucher count side) carry no designation and are skipped.
 Face filters: 'strict' = complete faces only (Wells complete == 'Y'); 'loose' = every face, lost signs dropped.
 Sources: data/raw/inscriptions.csv (5,680 rows, the current build; merges from the canonical file's maps, tools/dark_loop37),
 IM77 (data/im77, M numbers bridged to Wells via bridge_extended + S-DARK-27 proposals, unbridged kept opaque).
@@ -23,6 +24,7 @@ sys.argv = _a
 from dark_loop65 import collapse_dies, head_of
 DARK = ROOT + 'data/derived/dark/'
 OPEN = D56.OPEN; MARK = D56.MARK
+COUNTSET = set(D56.NUM) | {700}   # numeral(s) + W700 = a count face (voucher), not a designation
 
 def kind_of(t):
     t0 = t.split(':')[0]
@@ -41,7 +43,8 @@ def face_info(seq, parse):
     mid = tuple(a for a, l in zip(seq, lab) if l in ('NAME', 'COUNT'))
     pre = tuple(a for a, l in zip(seq, lab) if l in ('OPENER', 'MARKER'))
     head = tuple(a for a, l in zip(seq, lab) if l in ('TITLE', 'CLOSER', 'SUFFIX'))
-    return dict(seq=tuple(seq), mid=mid, pre=pre, head=head, hgroup=head_of(seq), opener=bool(seq) and seq[0] in OPEN)
+    return dict(seq=tuple(seq), mid=mid, pre=pre, head=head, hgroup=head_of(seq), opener=bool(seq) and seq[0] in OPEN,
+                count_face=bool(seq) and all(a in COUNTSET for a in seq))
 
 def wells_docs(level='seq_raw', filt='strict'):
     objs = load_faces(level)
@@ -131,7 +134,7 @@ def tokens(docs, minel=2, kinds=None):
         seen = set()
         for f in d['faces']:
             m = f['mid']
-            if len(m) >= minel and m not in seen:
+            if len(m) >= minel and m not in seen and not f['count_face']:
                 seen.add(m); out.append((i, m, f))
     return out
 
