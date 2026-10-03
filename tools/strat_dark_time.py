@@ -8,7 +8,7 @@ Usage: python3 tools/strat_dark_time.py CYCLE [nrandom] [control] [typefilter]
 import json, csv, re, sys, random, collections, math
 import numpy as np
 CYCLE = int(sys.argv[1]) if len(sys.argv) > 1 else 1
-NRAND = int(sys.argv[2]) if len(sys.argv) > 2 else 300
+NRAND = next((int(a) for a in sys.argv[2:] if a.isdigit()), 300)
 CONTROL = 'control' in sys.argv
 TYPEF = next((a[5:] for a in sys.argv if a.startswith('type=')), None)
 NPERM = 2000

@@ -115,3 +115,112 @@ re-test of top 12 without MD + HP:
      Kalibangan             n= 154 rate=0.045 dist_coast_modern_km=812.0
      Farmana                n=   7 rate=0.000 dist_coast_modern_km=836.0
      Harappa                n=1209 rate=0.527 dist_coast_modern_km=845.0
+     Rakhigarhi             n=  11 rate=0.091 dist_coast_modern_km=852.0
+     Banawali               n=  22 rate=0.045 dist_coast_modern_km=858.0
+     Bhirrana               n=   5 rate=0.000 dist_coast_modern_km=858.0
+     Rupar                  n=   5 rate=0.200 dist_coast_modern_km=1040.0
+
+=== seals only: 2044 texts, 13 sites, 62 features, 496 arrows
+arrows 440; min p 0.0008; q<0.10: 0; p<0.01: 3 (expected 4.4)
+top 20:
+                      fam_leaf ~ river                    n=13 stat=+9.995 p=0.0008 q=0.352
+                       value_2 ~ river                    n=13 stat=+9.136 p=0.0033 q=0.737
+                 fam_pitchfork ~ elev_m                   n=13 stat=-0.729 p=0.0069 q=0.849
+                    opener_any ~ river                    n=13 stat=+8.445 p=0.0126 q=0.849
+                 fam_pitchfork ~ dist_coast_harappan_km   n=13 stat=-0.683 p=0.0131 q=0.849
+                 fam_pitchfork ~ dist_coast_modern_km     n=13 stat=-0.675 p=0.0146 q=0.849
+                    fam_person ~ dist_coast_modern_km     n=13 stat=-0.666 p=0.0158 q=0.849
+                    fam_person ~ dist_coast_harappan_km   n=13 stat=-0.667 p=0.0159 q=0.849
+                       fam_box ~ dist_coast_modern_km     n=13 stat=-0.652 p=0.0196 q=0.849
+                    fam_stroke ~ lon                      n=13 stat=-0.637 p=0.0220 q=0.849
+                    fam_person ~ dist_md_km               n=13 stat=-0.639 p=0.0228 q=0.849
+                       fam_box ~ lat                      n=13 stat=-0.643 p=0.0231 q=0.849
+                       fam_box ~ dist_hp_km               n=13 stat=+0.604 p=0.0343 q=0.933
+                    fam_stroke ~ dist_md_km               n=13 stat=-0.599 p=0.0348 q=0.933
+                    fam_stroke ~ river                    n=13 stat=+7.258 p=0.0366 q=0.933
+                       fam_box ~ elev_m                   n=13 stat=-0.596 p=0.0367 q=0.933
+                       value_5 ~ river                    n=13 stat=+6.624 p=0.0380 q=0.933
+                    fam_person ~ lon                      n=13 stat=-0.592 p=0.0381 q=0.933
+                closer_585-740 ~ dist_hp_km               n=13 stat=-0.568 p=0.0439 q=0.934
+              alt_closer_final ~ dist_md_km               n=13 stat=-0.567 p=0.0472 q=0.934
+re-test of top 12 without MD + HP:
+                fam_leaf ~ river                    full=+9.995 p=0.0008 | dropMDHP=+7.644 p=0.0134
+                 value_2 ~ river                    full=+9.136 p=0.0033 | dropMDHP=+7.587 p=0.0083
+           fam_pitchfork ~ elev_m                   full=-0.729 p=0.0069 | dropMDHP=-0.821 p=0.0039
+              opener_any ~ river                    full=+8.445 p=0.0126 | dropMDHP=+7.962 p=0.0072
+           fam_pitchfork ~ dist_coast_harappan_km   full=-0.683 p=0.0131 | dropMDHP=-0.757 p=0.0101
+           fam_pitchfork ~ dist_coast_modern_km     full=-0.675 p=0.0146 | dropMDHP=-0.744 p=0.0126
+              fam_person ~ dist_coast_modern_km     full=-0.666 p=0.0158 | dropMDHP=-0.643 p=0.0348
+              fam_person ~ dist_coast_harappan_km   full=-0.667 p=0.0159 | dropMDHP=-0.626 p=0.0432
+                 fam_box ~ dist_coast_modern_km     full=-0.652 p=0.0196 | dropMDHP=-0.730 p=0.0134
+              fam_stroke ~ lon                      full=-0.637 p=0.0220 | dropMDHP=-0.664 p=0.0308
+              fam_person ~ dist_md_km               full=-0.639 p=0.0228 | dropMDHP=-0.658 p=0.0310
+                 fam_box ~ lat                      full=-0.643 p=0.0231 | dropMDHP=-0.797 p=0.0047
+  per-site fam_leaf vs river:
+     Allahdino              n=   7 rate=0.000 river=Coast
+     Bala-kot               n=   5 rate=0.000 river=Coast
+     Banawali               n=  14 rate=0.214 river=Ghaggar
+     Bhirrana               n=   5 rate=0.000 river=Ghaggar
+     Kalibangan             n=  56 rate=0.143 river=Ghaggar
+     Rakhigarhi             n=   6 rate=0.167 river=Ghaggar
+     Dholavira              n= 120 rate=0.233 river=Gujarat
+     Gola Dhoro (Bagasra)   n=   5 rate=0.200 river=Gujarat
+     Lothal                 n=  89 rate=0.202 river=Gujarat
+     Chanhu-daro            n=  56 rate=0.321 river=Indus
+     Harappa                n= 411 rate=0.234 river=Indus
+     Mohenjo-daro           n=1244 rate=0.256 river=Indus
+     Nausharo               n=  15 rate=0.333 river=Indus
+  per-site value_2 vs river:
+     Allahdino              n=   7 rate=0.000 river=Coast
+     Bala-kot               n=   5 rate=0.000 river=Coast
+     Banawali               n=  14 rate=0.000 river=Ghaggar
+     Bhirrana               n=   5 rate=0.000 river=Ghaggar
+     Kalibangan             n=  56 rate=0.054 river=Ghaggar
+     Rakhigarhi             n=   6 rate=0.000 river=Ghaggar
+     Dholavira              n= 120 rate=0.067 river=Gujarat
+     Gola Dhoro (Bagasra)   n=   5 rate=0.200 river=Gujarat
+     Lothal                 n=  89 rate=0.079 river=Gujarat
+     Chanhu-daro            n=  56 rate=0.250 river=Indus
+     Harappa                n= 411 rate=0.097 river=Indus
+     Mohenjo-daro           n=1244 rate=0.098 river=Indus
+     Nausharo               n=  15 rate=0.067 river=Indus
+  per-site fam_pitchfork vs elev_m:
+     Lothal                 n=  89 rate=0.067 elev_m=5.0
+     Bala-kot               n=   5 rate=0.200 elev_m=10.0
+     Gola Dhoro (Bagasra)   n=   5 rate=0.200 elev_m=10.0
+     Dholavira              n= 120 rate=0.058 elev_m=15.0
+     Allahdino              n=   7 rate=0.000 elev_m=20.0
+     Chanhu-daro            n=  56 rate=0.018 elev_m=35.0
+     Mohenjo-daro           n=1244 rate=0.073 elev_m=45.0
+     Nausharo               n=  15 rate=0.000 elev_m=150.0
+     Harappa                n= 411 rate=0.039 elev_m=170.0
+     Kalibangan             n=  56 rate=0.018 elev_m=175.0
+     Bhirrana               n=   5 rate=0.000 elev_m=200.0
+     Banawali               n=  14 rate=0.000 elev_m=210.0
+     Rakhigarhi             n=   6 rate=0.000 elev_m=220.0
+  per-site opener_any vs river:
+     Allahdino              n=   7 rate=0.000 river=Coast
+     Bala-kot               n=   5 rate=0.000 river=Coast
+     Banawali               n=  14 rate=0.143 river=Ghaggar
+     Bhirrana               n=   5 rate=0.200 river=Ghaggar
+     Kalibangan             n=  56 rate=0.161 river=Ghaggar
+     Rakhigarhi             n=   6 rate=0.167 river=Ghaggar
+     Dholavira              n= 120 rate=0.192 river=Gujarat
+     Gola Dhoro (Bagasra)   n=   5 rate=0.400 river=Gujarat
+     Lothal                 n=  89 rate=0.202 river=Gujarat
+     Chanhu-daro            n=  56 rate=0.268 river=Indus
+     Harappa                n= 411 rate=0.187 river=Indus
+     Mohenjo-daro           n=1244 rate=0.242 river=Indus
+     Nausharo               n=  15 rate=0.333 river=Indus
+
+JOINT FDR over 920 arrows (both passes): min q = 0.736; arrows q<0.10: 0
+leaf family members: [374, 790, 794, 803, 806, 817, 832, 861] pitchfork: [130, 415, 416, 772] box: [440, 527, 575, 590, 632]
+
+IM77 check (5 named sites): per-site rates of jar-final, opener-initial, marker M99, person M1, length>=5
+IM77 texts per site: {'Mohenjo-daro': 1338, 'Harappa': 725, 'Chanhu-daro': 66, 'Lothal': 159, 'Kalibangan': 94}
+  jar_final        rho(dist_coast)=+0.10 exact p=0.950 (n=5, 120 perms) | Mohenjo-daro=0.340 Harappa=0.266 Lothal=0.264 Kalibangan=0.255 Chanhu-daro=0.258
+  opener_initial   rho(dist_coast)=-0.70 exact p=0.233 (n=5, 120 perms) | Mohenjo-daro=0.175 Harappa=0.106 Lothal=0.157 Kalibangan=0.149 Chanhu-daro=0.197
+  marker_M99       rho(dist_coast)=-0.80 exact p=0.133 (n=5, 120 perms) | Mohenjo-daro=0.260 Harappa=0.152 Lothal=0.302 Kalibangan=0.266 Chanhu-daro=0.318
+  person_M1        rho(dist_coast)=-0.30 exact p=0.683 (n=5, 120 perms) | Mohenjo-daro=0.040 Harappa=0.026 Lothal=0.057 Kalibangan=0.074 Chanhu-daro=0.030
+  len_ge5          rho(dist_coast)=-0.70 exact p=0.233 (n=5, 120 perms) | Mohenjo-daro=0.498 Harappa=0.290 Lothal=0.365 Kalibangan=0.319 Chanhu-daro=0.576
+  fish_M59         rho(dist_coast)=-0.50 exact p=0.450 (n=5, 120 perms) | Mohenjo-daro=0.138 Harappa=0.097 Lothal=0.113 Kalibangan=0.096 Chanhu-daro=0.121
