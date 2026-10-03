@@ -1,0 +1,76 @@
+# Loop 55 cycle 1 (dup=indus): statistics beyond chain per corpus. beyond = |z| >= 3 and outside the null range; mean over resamples [min-max].
+| corpus | class | n | med len | distinct | len TVD | beyond M1 | beyond M2 | beyond M2E | beyond all chains | sum|z| M2 (cap 20) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ur3_words | L | 3008 | 4.0 | 0.87 | 0.15 | 42.0 [42-42] | 40.0 [40-40] | 32.0 [32-32] | 24.0 [24-24] | 526 |
+| ur3_names_syll | L | 2985 | 4.0 | 0.87 | 0.18 | 30.0 [30-30] | 30.0 [30-30] | 23.0 [23-23] | 16.0 [16-16] | 349 |
+| linb_syll | L | 2988 | 4.0 | 0.87 | 0.10 | 40.0 [40-40] | 37.0 [37-37] | 28.0 [28-28] | 17.0 [17-17] | 466 |
+| latin_edh | L | 2936 | 6.0 | 0.88 | 0.37 | 41.0 [41-41] | 38.0 [38-38] | 31.0 [31-31] | 25.0 [25-25] | 535 |
+| icd10 | D | 2968 | 6.0 | 0.88 | 0.45 | 39.0 [39-39] | 35.0 [35-35] | 32.0 [32-32] | 27.0 [27-27] | 483 |
+| hts | D | 3054 | 4.0 | 0.86 | 0.19 | 36.0 [36-36] | 25.0 [25-25] | 18.0 [18-18] | 12.0 [12-12] | 269 |
+| aircraft_reg | D | 2990 | 6.0 | 0.88 | 0.57 | 39.0 [39-39] | 24.0 [24-24] | 24.0 [24-24] | 17.0 [17-17] | 340 |
+| unicode_names | D | 3051 | 4.0 | 0.86 | 0.01 | 38.0 [38-38] | 43.0 [43-43] | 24.0 [24-24] | 20.0 [20-20] | 542 |
+| proto_cuneiform | A | 3024 | 4.0 | 0.87 | 0.01 | 36.0 [36-36] | 34.0 [34-34] | 22.0 [22-22] | 13.0 [13-13] | 435 |
+
+## Detection rate of beyond-chain structure by class (share of statistics beyond M2, pooled over corpora and resamples)
+- L: beyond M1 38.2/55, beyond M2 36.2/55 (range 30-40), beyond M2E 28.5/55, beyond all three chains 20.5/55 (4 samples)
+- D: beyond M1 38.0/55, beyond M2 31.8/55 (range 24-43), beyond M2E 24.5/55, beyond all three chains 19.0/55 (4 samples)
+- A: beyond M1 36.0/55, beyond M2 34.0/55 (range 34-34), beyond M2E 22.0/55, beyond all three chains 13.0/55 (1 samples)
+
+## Per statistic: share of samples beyond ALL chains (M1, M2, M2E), by class (L language, D code, A accounting, I Indus); z of Indus seq_all (mean over resamples)
+| statistic | family | L | D | G | A | Indus raw/strong/all | mean z Indus(all) vs M2 |
+|---|---|---|---|---|---|---|---|
+| unique_text_share | reuse | 0.500 | 1.000 | nan | 0.000 |  | nan |
+| texts_rep3 | reuse | 0.750 | 0.500 | nan | 1.000 |  | nan |
+| nesting_rate | reuse | 0.750 | 1.000 | nan | 1.000 |  | nan |
+| run3_multisite_share | reuse | 0.750 | 0.000 | nan | 1.000 |  | nan |
+| text3_multisite_share | reuse | 0.750 | 0.000 | nan | 1.000 |  | nan |
+| mi_d1 | adjacency | 0.000 | 0.750 | nan | 0.000 |  | nan |
+| mi_d2 | long-range | 0.500 | 0.750 | nan | 0.000 |  | nan |
+| mi_d3 | long-range | 0.250 | 0.500 | nan | 0.000 |  | nan |
+| mi_d4 | long-range | 0.250 | 0.500 | nan | 0.000 |  | nan |
+| repeat_rate | long-range | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| adj_double_rate | adjacency | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| nonadj_repeat_rate | long-range | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| top10_twice_texts | long-range | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| longrange_attract_pairs | long-range | 0.250 | 0.250 | nan | 0.000 |  | nan |
+| longrange_avoid_pairs | long-range | 0.250 | 0.500 | nan | 0.000 |  | nan |
+| H_start1 | frame/position | 0.500 | 0.500 | nan | 0.000 |  | nan |
+| H_start2 | frame/position | 0.250 | 0.250 | nan | 0.000 |  | nan |
+| H_start3 | frame/position | 0.250 | 0.750 | nan | 0.000 |  | nan |
+| H_end1 | frame/position | 0.750 | 0.250 | nan | 0.000 |  | nan |
+| H_end2 | frame/position | 0.500 | 0.250 | nan | 0.000 |  | nan |
+| H_end3 | frame/position | 0.250 | 0.500 | nan | 1.000 |  | nan |
+| top10_last_share | frame/position | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| top10_first_share | frame/position | 0.000 | 0.250 | nan | 0.000 |  | nan |
+| n80_last/n80_all | frame/position | 0.500 | 0.250 | nan | 0.000 |  | nan |
+| n80_first/n80_all | frame/position | 0.750 | 0.250 | nan | 0.000 |  | nan |
+| slot_exclusivity | frame/position | 0.000 | 0.250 | nan | 0.000 |  | nan |
+| H_second/H_mid | frame/position | 0.000 | 0.500 | nan | 0.000 |  | nan |
+| H_penult/H_mid | frame/position | 0.250 | 0.500 | nan | 0.000 |  | nan |
+| closer_paradigm_n | frame/position | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| J_final_share | frame/position | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| J_twice_per_1000 | long-range | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| fixed_pair_share | order | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| free_pair_share | order | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| fixed_pair_share_d2 | order | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| anagram_rate | order | 0.000 | 0.500 | nan | 0.000 |  | nan |
+| mi_first_last | long-range | 0.750 | 0.750 | nan | 0.000 |  | nan |
+| mi_first_len | frame/position | 0.500 | 1.000 | nan | 0.000 |  | nan |
+| same_prefix_diff_last | frame/position | 1.000 | 1.000 | nan | 1.000 |  | nan |
+| same_suffix_diff_first | frame/position | 0.250 | 0.500 | nan | 0.000 |  | nan |
+| zipf_all | inventory | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| zipf_initial | inventory | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| zipf_final | inventory | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| n_sign_types | inventory | 1.000 | 0.250 | nan | 1.000 |  | nan |
+| hapax_sign_share | inventory | 1.000 | 0.250 | nan | 1.000 |  | nan |
+| bigram_hapax_share | adjacency | 1.000 | 0.500 | nan | 1.000 |  | nan |
+| trigram_hapax_share | adjacency | 1.000 | 1.000 | nan | 1.000 |  | nan |
+| run4_rep3 | reuse | 0.750 | 0.250 | nan | 1.000 |  | nan |
+| H_cond_bigram | adjacency | 0.750 | 0.750 | nan | 1.000 |  | nan |
+| hubs_per_sign | detectors | 0.000 | 0.250 | nan | 0.000 |  | nan |
+| hub_free_median | detectors | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| hub_mobility | detectors | 0.250 | 0.000 | nan | 0.000 |  | nan |
+| det_loy50_max | detectors | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| loyal_per_sign | detectors | 0.000 | 0.000 | nan | 0.000 |  | nan |
+| slot_minus_bigram_bits | frame/position | 1.000 | 1.000 | nan | 1.000 |  | nan |
+| uniq_vs_bigram | reuse | 0.500 | 0.750 | nan | 0.000 |  | nan |
