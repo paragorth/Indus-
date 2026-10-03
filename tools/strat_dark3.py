@@ -100,7 +100,9 @@ def t_interleave(T,M,rng,th):
 def t_middleout(T,M,rng,th):
     out=[]
     for t in T:
-        n=len(t); m=n//2 if th['start']=='floor' else (n-1)//2
+        n=len(t)
+        if n==0: out.append([]); continue
+        m=n//2 if th['start']=='floor' else (n-1)//2
         seq=[t[m]]; l=m-1; r=m+1; left=th['left_first']
         while l>=0 or r<n:
             if left:

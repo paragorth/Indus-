@@ -1,0 +1,40 @@
+S-DARK-32 cycle 3: granularity-matched library and an Indus-vs-surrogate feature audit. Tools: tools/dark_loop32_c2.py --gran 0.4 2.5
+(loop32_c3_gran_nonum.txt, loop32_c3_gran_withnum.txt), tools/dark_loop32_c3audit.py (loop32_c3_audit.txt).
+
+A. Granularity-matched library. Keep only reference corpora whose vocabulary growth (types per 2,000 tokens) is within 0.4-2.5 x the
+   Indus value (274 -> 110-686): khipu, proto_cuneiform, proto_elamite [A]; heraldry, chess, chords [D/G]; linb_syll, ur3_names_syll,
+   ur3_syll [L]. Dropped: the character codes (ICD 35, aircraft 40, HTS 99 types / 2,000), the word corpora (Unicode names 832, Latin
+   1,164, Linear B words 725, Ur III words 764). 9 corpora, 3 per class.
+   - 3-class, numerals dropped: LOCO 2/9 = 0.22 (chance 0.33), P = 0.55; 3-NN 0.22. Binary L-vs-not 0.44 vs 0.67 baseline. Nothing.
+   - 3-class, numerals kept: 6/9 = 0.67, permutation null mean 0.21, 95th pct 0.56, P = 0.065; 3-NN 0.56, P = 0.032. The whole gain is
+     the two numeral features (chosen in 9 of 9 folds): accounting corpora carry 31-68 % numeral tokens and 31-63 % numeral runs,
+     language and designed corpora 0-10 % and 0 %. Indus: 12 % numerals, 7 % runs, i.e. between the two groups (closer to L in share,
+     and with the numeral-start bias -0.29 that no L corpus has).
+   - Indus under the numeral-kept model: P(L) 0.88-0.89 (raw / strong / all), 0.94 (IM77), P(D) <= 0.01 -- but Markov-2 0.90 and
+     bigram 0.88 get the same; slot-shuffled -> A 0.42 / D 0.25. Same failure as cycle 2: the verdict is shared with the surrogates.
+   - Binary with the five features the nested selection prefers (det_loy50_max, H_uni_norm, loyal_per_sign, unique_share,
+     uniq_vs_bigram): Indus P(L) 0.54-0.58 (a coin), Markov-2 0.46, bigram 0.32, slot-shuffled 0.14; LOCO accuracy 0.44, below baseline.
+B. Audit: what separates the REAL Indus from its own surrogates (z over the 8 subsample rows of the control)? Against Markov-2:
+   H_last/H_mid 0.72 vs 0.96, top-10 closer share 0.64 vs 0.42, fixed pair share 0.71 vs 0.45, slot-vs-bigram +0.21 vs +0.78 bits,
+   n80_last 0.41 vs 0.81, uniq_vs_bigram 0.83 vs 0.94, nesting 0.41 vs 0.58 (all |z| > 19). Against the slot-shuffle: hubs, hub
+   mobility and free use (0 in the shuffle), fixed pairs 0.71 vs 0.25, slot preference +0.21 vs -0.15, small-set share 0.15 vs 0.00.
+   So the battery sees plainly that Indus is a closer-paradigm frame with within-slot order and lexicalised bigrams -- the S289 /
+   S-DARK-19 / S-DARK-25 picture -- and that a Markov-2 chain misses the closer paradigm and the fixed order. EVERY one of these
+   separating features, however, lies inside the range of the language corpora (closer paradigms, fixed pairs and low middle
+   uniqueness are what Ur III and Linear B lines also have). They identify Indus as 'formulaic frame', not as a type.
+C. Features on which Indus lies OUTSIDE the range of all six language corpora (corpus means): det_loy50_max 0.35 (IM77 0.30) vs L
+   0.46-0.84 (no loyal class sign, S-DARK-25; Markov-2 reproduces it, 0.36); slot_exclusivity 0.07 vs L 0.10-0.35 (few signs
+   confined to one position class; Markov-2 0.02); n80_first/n80_all 1.11 vs L 0.26-1.01 (opener position as open as the whole
+   inventory; S331 openers are a small class but most texts start with a 'name' sign); num_end_bias -0.29 vs L 0.00-0.63 and
+   num_run_share 0.07 vs L 0.00-0.02 (numerals early and in runs, S197-S199 count use). Of the non-numeral three, only det_loy50_max
+   is also outside the designed range on the language side (D and A corpora reach 0.0-0.9, i.e. it is a 'not-language' marker, not
+   a 'which non-language' marker), and it is the single metric that most separates Indus from language writing when the numeral
+   annotation is held out: Indus has no sign that >= 50 % of its hosts must carry, every language corpus has (Ur III d / ki, Linear B
+   ideograms, Latin 'dis manibus'-type formula words, Ur III name-final syllables).
+D. Full-space nearest neighbours (all 36 structural features, z over corpus means): seq_raw -> IM77 2.0, Markov-2 Indus 3.8,
+   proto-cuneiform 4.3, bigram Indus 4.4, slot-shuffled Indus 4.8, Linear B syllables 4.8, Ur III names 5.1, Proto-Elamite 5.2;
+   seq_all the same order; IM77 -> Markov-2 3.0, bigram 3.5, Ur III syllables 4.8, proto-cuneiform 4.8. Indus is closer to a second-
+   order Markov chain fitted to itself than to any known system, and the two transcriptions (Wells / Mahadevan) are 2.0 apart, i.e.
+   transcription noise is half the distance to the nearest real corpus.
+
+| S-DARK-32.3 | **Typology classifier, cycle 3: granularity-matched library (9 corpora with 110-686 types / 2,000 tokens, 3 per class) and an Indus-vs-surrogate audit** (`tools/dark_loop32_c2.py --gran 0.4 2.5`, `tools/dark_loop32_c3audit.py`; loop32_c3_*.txt). Same nested LOCO, permutation null (30), binary and 3-class; features that separate the real Indus from Markov-2 / bigram / slot-shuffled Indus; features where Indus is outside every language corpus's range; full-space nearest neighbours | Granularity-matched: 3-class **0.22 without numeral features (P = 0.55), 0.67 with them (P = 0.065; 3-NN 0.56, P = 0.03)**, the gain entirely from numeral share / runs (A 31-68 % numerals vs L, D 0-10 %; Indus 12 %, runs 7 %, numerals leaning to the START -0.29); binary 0.44 < 0.67 baseline. Indus -> L 0.88-0.94 under the numeral model but Markov-2 0.90 and bigram 0.88 too; slot-shuffled -> A. Audit: Indus differs from Markov-2 on closer entropy 0.72 vs 0.96, top-10 closer share 0.64 vs 0.42, fixed pairs 0.71 vs 0.45, slot-vs-bigram +0.21 vs +0.78 bits, uniq_vs_bigram 0.83 vs 0.94 (|z| > 19), all INSIDE the language range. Outside the language range: det_loy50_max 0.35 vs 0.46-0.84, slot_exclusivity 0.07 vs 0.10-0.35, n80_first 1.11 vs 0.26-1.01, and the two numeral features. Full space: seq_raw nearest IM77 2.0, Markov-2 Indus 3.8, proto-cuneiform 4.3, Linear B syllables 4.8, Ur III names 5.1, Proto-Elamite 5.2 (raw / strong / all identical order; IM77 nearest Markov-2 3.0) | **Indus is closer to a Markov-2 chain of itself than to any known short-text system; the typology is not decidable from this battery** (only numeral annotation separates accounting, and Indus sits between accounting and language on it). The one non-numeral metric that puts Indus outside every language corpus is the absence of a loyal class sign (det_loy50_max, S-DARK-25); the metrics that make Indus 'formulaic' (closer paradigm, fixed order, low middle uniqueness) are shared with Ur III and Linear B lines. P(designed character code) <= 0.07 in every run; slot-shuffle control behaves as required, Markov-2 control does not. Nothing read, nothing 'cracked'. |

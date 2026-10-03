@@ -353,16 +353,18 @@ if CY==3:
     print('closer'.ljust(16)+'   n  title_len  qual_types   TTR  rarity  bare  text_len  top_partner(share)   cost_rank  area_eff')
     for c in sorted(CLASSES,key=lambda c:-cost[c]):
         q=Q[c]; print(f'{Mno(c):16s} {q["n"]:4d}  {q["title_len"]:8.2f}  {q["qual_types"]:9d}  {q["ttr"]:.2f}  {q["rarity"]:5.2f}  {q["bare"]:.2f}  {q["text_len"]:7.2f}  {Mno(q["top"]) if q["top"] else "-":>14s}({q["top_share"]:.2f})   {cost[c]:.2f}   {area[c]:+.3f}')
-    m=len(CLASSES); orders=list(itertools.permutations(range(m))) if m<=9 else None
+    m=len(CLASSES)
+    PERM=np.array(list(itertools.permutations(range(m)))) if m<=9 else np.array([rng.permutation(m) for _ in range(20000)])
+    def rankvec(v): return np.argsort(np.argsort(np.asarray(v,float))).astype(float)
+    def exact_p(v,cv):
+        rv=rankvec(v); rc=rankvec(cv); rv=(rv-rv.mean())/rv.std(); rc=(rc-rc.mean())/rc.std()
+        rho=float((rv*rc).mean()); null=(rc[PERM]*rv).mean(1)
+        return rho,float((np.abs(null)>=abs(rho)-1e-12).mean())
     for stat in ('title_len','qual_types','ttr','rarity','bare','text_len','top_share'):
         v=[Q[c][stat] for c in CLASSES]
         for cname,cv in (('mean cost rank',[cost[c] for c in CLASSES]),('area effect',[area[c] for c in CLASSES])):
-            rho=spearman(v,cv)
-            if orders:
-                null=[spearman(v,[cv[k] for k in p]) for p in orders]
-                p2=sum(1 for x in null if x==x and abs(x)>=abs(rho)-1e-12)/len(null)
-            else: p2=float('nan')
-            print(f'  rho({stat}, {cname}) = {rho:+.3f}; exact two-sided P over {m}! orders = {p2:.3f}')
+            rho,p2=exact_p(v,cv)
+            print(f'  rho({stat}, {cname}) = {rho:+.3f}; exact two-sided P over {len(PERM)} orders = {p2:.3f}')
 
 # =====================================================================================================================
 if CY==4:

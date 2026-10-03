@@ -5,7 +5,7 @@
  control : screen on the bigram-generated Indus corpus (data/codelib/indus_bigram.jsonl): whole-machine control.
  pipelines: random compositions of two transformations (new arrow set), screen + confirm.
 Usage: python3 tools/strat_dark3_run.py MODE [P] [seed]"""
-import sys,random,json,statistics as st,time,collections
+import sys,os,random,json,statistics as st,time,collections
 sys.path.insert(0,'tools'); import strat_dark3 as D
 mode=sys.argv[1]; P=int(sys.argv[2]) if len(sys.argv)>2 else 40; seed=int(sys.argv[3]) if len(sys.argv)>3 else 3
 NTH=20
@@ -100,6 +100,7 @@ def main():
         json.dump({f'{k[0]}|{k[1]}':v for k,v in res.items()},open(D.OUT+'loop3_pipelines.json','w'),indent=1)
         surv=[k for k,v in res.items() if abs(v['z'])>=3]
         log(f'pipeline survivors |z|>=3 on train: {len(surv)} of {len(res)}')
+        if os.environ.get('NOCONFIRM'): return
         allres={}
         for split in ('train','heldout'):
             for var in ('seq_raw','seq_strong','seq_all'):
