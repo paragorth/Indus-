@@ -1,0 +1,42 @@
+S-DARK-7.2  Correction/replication: held-out sites and a unigram-resampling control
+================================================================================
+Tools: tools/dark7_cycle2.py (tables in loop7_cycle2_tables.txt), tools/dark7_unigram.py (null corpora in
+loop7_boot_uni.npz). Same 600 statistics, B=200, N=800 as cycle 1.
+
+A. Held-out-site replication of the cycle-1 residue (16 statistics on which Indus differs from PE, LA, LB x2, Ur III x2)
+- Recomputed separately for Indus texts from Mohenjo-daro + Harappa (3,550 texts) and for all other sites (800 texts),
+  each required to separate from all six comparison corpora in the same direction at Bonferroni z 3.93.
+- 13/16 replicate at both site groups: all 11 numeral-placement statistics and the sign-distribution evenness
+  (other sites 0.813, MD+H 0.797; both above every other corpus's 0.73-0.77).
+- 3/16 FAIL: the three 'document frequency of signs late in the text' statistics. MD+H vs other sites differ on them
+  (z 5.3-6.1) as much as Indus differs from the nearest script (min |z| 4.0-5.2). They are site-dependent, not
+  script-level. Dropped.
+- Random split halves: 15/16 replicate (the one failure is also a doc-frequency statistic). No statistic becomes a
+  residue at both site groups without being one in the full corpus (0 new).
+
+B. Unigram-resampling control (each corpus replaced by iid draws from its own sign frequencies, same text lengths)
+- Evenness: Indus real 0.797 vs own unigram null 0.800 (z -0.4). It is a property of the sign inventory (frequency
+  profile), not of texts. Keep it as an inventory fact only.
+- Numeral statistics: Indus real differs from its own unigram null on most of them (z 2.3-5.4), and the unigram
+  nulls of the corpora do NOT reproduce the Indus-vs-others separation on any of them. So numeral placement is a
+  sequence fact (needs real texts), not a by-product of how many numerals there are.
+- How much of each corpus is 'more than its unigram'? Fraction of the 600 statistics on which the real corpus differs
+  from its own unigram null: PE 0.47, LA 0.46, Ur III words 0.38, LB words 0.36, LB syllables 0.29, Indus 0.24,
+  Ur III syllables 0.22, Voynich words 0.20 (median |z|: PE 3.9, LA 3.6, LB 1.8-2.0, Ur III words 1.8, Indus 1.4,
+  Voynich 0.7, Ur III syll 0.6). The Indus texts, at matched length, carry LESS detectable beyond-unigram structure
+  than Proto-Elamite and Linear A entries and than Linear B lines; they sit with Ur III syllable strings and Voynich
+  words. Caution: a larger inventory per token (Indus 713 types in 17.8k tokens) dilutes bigram-type statistics, so
+  part of this is inventory size; it is nonetheless the opposite of what an 'Indus = Proto-Elamite-like notation'
+  reading predicts, since PE shows the MOST structure (entry = sign(s) + numeral is a rigid template).
+- Distances between unigram nulls (inventory-only): Indus nearest LB_syll (0.34), LA (1.29), LB_words (1.10); PE far
+  (3.13). Distances on 'structure residuals' (real minus own null): Indus nearest LB_syll 0.79, Ur III syll 1.30,
+  LA 1.39, LB_words 1.51; PE farthest (2.81). Both the inventory and the sequence structure of Indus look more
+  like Linear B syllable lines than like Proto-Elamite entries.
+
+Verdict: the Indus-specific residue that survives sites + unigram control is one thing -- numeral placement
+(number before the counted sign; numerals text-initial 5x more often than text-final; in PE/LA/LB the numeral is
+final 20-170x more often than initial). The non-numeral residue reduces to an inventory property (flat sign
+frequencies). No shared Indus+PE+LA signature at any step.
+
+STRATEGIES.md row (ready to paste):
+| S-DARK-7.2 | Correction of S-DARK-7.1: (a) residue recomputed on held-out Indus sites (MD+H 3,550 texts vs other sites 800) and random halves; (b) unigram-resampled null for every corpus (iid draws from own sign frequencies, same lengths). | 13/16 residue statistics replicate at both site groups (all 11 numeral-placement ones + sign evenness); the 3 'document frequency of late signs' statistics fail (site difference z 5-6 >= script difference): dropped. Evenness equals its own unigram null (z -0.4): inventory fact only. Numeral placement differs from the unigram null (z 2-5) and is not reproduced by any null: a sequence fact. Beyond-unigram structure (fraction of statistics where real differs from own null): PE 0.47, LA 0.46, Ur III words 0.38, LB 0.29-0.36, Indus 0.24, Voynich words 0.20. On structure residuals Indus is nearest Linear B syllables (0.79) and farthest from PE (2.81). | tools/dark7_cycle2.py, tools/dark7_unigram.py, data/derived/dark/loop7_cycle2.txt |

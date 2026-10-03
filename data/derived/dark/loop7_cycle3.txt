@@ -1,0 +1,39 @@
+S-DARK-7.3  Replication with new comparison corpora and Indus text types
+================================================================================
+Tools: tools/dark7_cycle3.py (bootstraps in loop7_boot_c3.npz, infos loop7_c3_infos.json); tables in
+loop7_cycle3_tables.txt. Same 600 statistics, B=200, N=800.
+
+New corpora (same length matching, 2-8 tokens)
+- Linear Elamite (data/derived/linear-elamite-corpus-hled.json): 229 '||'-segments, 116 of length 2-8, syllables
+  as signs, 297 types. A known-language script, royal/dedicatory, no numerals. Thin; its bootstrap sd is large.
+- Ur III seal-owner NAMES as syllable strings (CDLI line-1 names, 23,098 of length 2-8, 771 types). Pure
+  anthroponyms, no numerals.
+- Indus split by object: seals only (1,977 texts, 611 types) vs non-seal objects (tablets, pottery, bangles...;
+  2,373 texts, 445 types).
+
+Results
+1. Indus residue with EIGHT comparison corpora (PE, LA, LB x2, Ur III x2, Linear Elamite, Ur III names): 11/600,
+   all eleven numeral-placement statistics. The evenness residue dies: Linear Elamite (0.878) and Ur III names
+   (0.848) are flatter than Indus (0.797), which is flatter than PE/LA/LB/Ur III legends (0.73-0.77). So Indus sign
+   frequencies sit BETWEEN the accounting corpora and the name/royal-text corpora. The 'late-sign document
+   frequency' statistics also die (Linear Elamite 0.11 ~ Indus 0.13).
+2. Indus text types: seals vs non-seals differ on 131/600 statistics -- more than MD+H vs other sites (87) and far
+   more than the random split (2). Any cross-script comparison that pools Indus text types is comparing a mixture.
+   Nevertheless the numeral residue holds for seals alone (12 statistics) and for non-seals alone (15), 7 in both:
+   numeral-first is not a tablet artefact. Seals: text-initial-numeral std 0.366 (~16% of seal texts start with a
+   numeral) vs non-seals 0.42 (~23%); PE 0.157 (~2.5%), LA 0.07 (~0.5%), LB 0.12-0.13 (~1.5%).
+3. Nearest neighbours (median |z|, all 600): Indus -> LB_syll 1.34, Ur III names 1.58, LA 1.87, LB_words 2.31,
+   PE 2.48; Indus seals -> LB_syll 1.26, LB_words 2.00, Ur III names 2.06, PE 2.07; Indus non-seals -> LA 1.67,
+   LB_syll 1.87, Ur III names 1.87. Linear Elamite -> Ur III names 0.90, Voynich words 1.08. Voynich words ->
+   Linear Elamite 1.08, Ur III words 1.12. The two name/royal/unknown corpora with no numerals form their own group.
+4. Reading-order check: the canonical seq equals merged-corpus-reading-order.json for 4,601 of 5,369 texts (27
+   reversed, the rest differ only by merges), so 'numeral first' is in reading order (S59 normalisation), and it
+   agrees with S197-S217 (numeral precedes W700 / W520) and S68 (counted items at the closing end): the numeral
+   stands immediately BEFORE its item while the item phrase sits late -- the two statements are compatible.
+
+Verdict: with a wider comparison set the only Indus-specific fingerprint left is numeral placement. The accounting
+corpora (PE, LA, LB) write 'item, then number' with the number closing the line; Indus writes 'number, then item'
+and almost never closes with a number. Linear Elamite, Ur III legends and names, and the Voynich have no numerals.
+
+STRATEGIES.md row (ready to paste):
+| S-DARK-7.3 | Replication of the S-DARK-7 residue against two more known-language corpora (Linear Elamite segments as syllables, 116 texts; Ur III seal-owner names as syllables, 23,098) and across Indus object types (seals 1,977 vs non-seals 2,373). | Residue vs all 8 comparison corpora: 11/600, all numeral placement (number BEFORE the counted sign; text-initial numeral ~16% of seals, ~23% of non-seals vs 0.5-2.5% in PE/LA/LB; text-final numeral rare in Indus, dominant in PE/LA/LB). Evenness residue dies: Linear Elamite 0.88 and names 0.85 flatter than Indus 0.80 > PE/LA/LB/Ur III 0.73-0.77. Seals vs non-seals differ on 131/600 (> sites 87 >> random 2): Indus is a mixture of text types. Nearest neighbour of Indus remains Linear B syllable lines (1.34), then Ur III names (1.58), LA (1.87); PE 2.48. Voynich words nearest Linear Elamite (1.08) and Ur III legend words (1.12). | tools/dark7_cycle3.py, data/derived/dark/loop7_cycle3.txt |

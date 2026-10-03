@@ -1,51 +1,67 @@
 
 ## All statistics: average-linkage clustering on median |z| (600 statistics)
-  leaf order: LB_words | IND_raw | LB_syll | PE | LA | UR3_words | VOY_words | UR3_syll | VOY_chars
+  leaf order: UR3_names_syll | LE_syll | UR3_words | VOY_words | UR3_syll | VOY_chars | IND_seals | IND_raw | IND_nonseal | LB_words | LB_syll | PE | LA
+  merge at 0.49: {IND_raw} + {IND_nonseal}
+  merge at 0.71: {IND_seals} + {IND_raw, IND_nonseal}
+  merge at 0.90: {UR3_names_syll} + {LE_syll}
   merge at 1.12: {UR3_words} + {VOY_words}
-  merge at 1.34: {IND_raw} + {LB_syll}
-  merge at 1.83: {LB_words} + {IND_raw, LB_syll}
+  merge at 1.36: {LB_words} + {LB_syll}
+  merge at 1.67: {UR3_names_syll, LE_syll} + {UR3_words, VOY_words}
+  merge at 1.88: {IND_seals, IND_raw, IND_nonseal} + {LB_words, LB_syll}
   merge at 1.95: {UR3_syll} + {VOY_chars}
   merge at 2.12: {PE} + {LA}
-  merge at 2.45: {LB_words, IND_raw, LB_syll} + {PE, LA}
-  merge at 2.45: {UR3_words, VOY_words} + {UR3_syll, VOY_chars}
-  merge at 3.39: {LB_words, IND_raw, LB_syll, PE, LA} + {UR3_words, VOY_words, UR3_syll, VOY_chars}
-  nearest neighbour of each corpus: IND_raw->LB_syll (1.34); PE->LA (2.12); LA->IND_raw (1.87); LB_words->LB_syll (1.36); LB_syll->IND_raw (1.34); UR3_words->VOY_words (1.12); UR3_syll->VOY_chars (1.95); VOY_words->UR3_words (1.12); VOY_chars->UR3_syll (1.95)
+  merge at 2.13: {UR3_names_syll, LE_syll, UR3_words, VOY_words} + {UR3_syll, VOY_chars}
+  merge at 2.33: {IND_seals, IND_raw, IND_nonseal, LB_words, LB_syll} + {PE, LA}
+  merge at 3.09: {UR3_names_syll, LE_syll, UR3_words, VOY_words, UR3_syll, VOY_chars} + {IND_seals, IND_raw, IND_nonseal, LB_words, LB_syll, PE, LA}
+  nearest neighbour of each corpus: IND_raw->IND_nonseal (0.49); IND_seals->IND_raw (0.50); IND_nonseal->IND_raw (0.49); PE->IND_seals (2.07); LA->IND_nonseal (1.67); LB_words->LB_syll (1.36); LB_syll->IND_seals (1.26); UR3_words->VOY_words (1.12); UR3_syll->UR3_names_syll (1.34); UR3_names_syll->LE_syll (0.90); LE_syll->UR3_names_syll (0.90); VOY_words->LE_syll (1.08); VOY_chars->UR3_names_syll (1.85)
 
 ## Non-numeral statistics: average-linkage clustering on median |z| (477 statistics)
-  leaf order: UR3_words | VOY_words | LB_words | IND_raw | LB_syll | PE | LA | UR3_syll | VOY_chars
-  merge at 1.33: {IND_raw} + {LB_syll}
-  merge at 1.95: {LB_words} + {IND_raw, LB_syll}
-  merge at 2.23: {PE} + {LA}
-  merge at 2.26: {UR3_words} + {VOY_words}
-  merge at 2.37: {LB_words, IND_raw, LB_syll} + {PE, LA}
-  merge at 2.96: {UR3_words, VOY_words} + {LB_words, IND_raw, LB_syll, PE, LA}
-  merge at 3.60: {UR3_syll} + {VOY_chars}
-  merge at 4.12: {UR3_words, VOY_words, LB_words, IND_raw, LB_syll, PE, LA} + {UR3_syll, VOY_chars}
-  nearest neighbour of each corpus: IND_raw->LB_syll (1.33); PE->LB_syll (2.14); LA->IND_raw (1.59); LB_words->LB_syll (1.52); LB_syll->IND_raw (1.33); UR3_words->LB_words (2.08); UR3_syll->LB_syll (2.56); VOY_words->UR3_words (2.26); VOY_chars->IND_raw (3.12)
+  leaf order: VOY_chars | UR3_syll | LE_syll | VOY_words | LB_words | UR3_words | PE | LB_syll | IND_nonseal | IND_raw | IND_seals | LA | UR3_names_syll
+  merge at 0.51: {IND_raw} + {IND_seals}
+  merge at 0.75: {IND_nonseal} + {IND_raw, IND_seals}
+  merge at 1.49: {LB_syll} + {IND_nonseal, IND_raw, IND_seals}
+  merge at 1.76: {LA} + {UR3_names_syll}
+  merge at 1.92: {LB_syll, IND_nonseal, IND_raw, IND_seals} + {LA, UR3_names_syll}
+  merge at 2.05: {LE_syll} + {VOY_words}
+  merge at 2.08: {LB_words} + {UR3_words}
+  merge at 2.12: {PE} + {LB_syll, IND_nonseal, IND_raw, IND_seals, LA, UR3_names_syll}
+  merge at 2.68: {LB_words, UR3_words} + {PE, LB_syll, IND_nonseal, IND_raw, IND_seals, LA, UR3_names_syll}
+  merge at 2.99: {LE_syll, VOY_words} + {LB_words, UR3_words, PE, LB_syll, IND_nonseal, IND_raw, IND_seals, LA, UR3_names_syll}
+  merge at 3.43: {UR3_syll} + {LE_syll, VOY_words, LB_words, UR3_words, PE, LB_syll, IND_nonseal, IND_raw, IND_seals, LA, UR3_names_syll}
+  merge at 4.23: {VOY_chars} + {UR3_syll, LE_syll, VOY_words, LB_words, UR3_words, PE, LB_syll, IND_nonseal, IND_raw, IND_seals, LA, UR3_names_syll}
+  nearest neighbour of each corpus: IND_raw->IND_seals (0.51); IND_seals->IND_raw (0.51); IND_nonseal->IND_raw (0.53); PE->IND_seals (1.81); LA->IND_nonseal (1.40); LB_words->LB_syll (1.52); LB_syll->IND_seals (1.27); UR3_words->LB_words (2.08); UR3_syll->UR3_names_syll (2.54); UR3_names_syll->IND_raw (1.54); LE_syll->VOY_words (2.05); VOY_words->LE_syll (2.05); VOY_chars->IND_seals (3.08)
 
 ## Order-dependent statistics (Indus value changes under within-text shuffle): average-linkage clustering on median |z| (109 statistics)
-  leaf order: PE | UR3_syll | VOY_chars | IND_raw | LA | VOY_words | UR3_words | LB_words | LB_syll
+  leaf order: PE | VOY_chars | UR3_syll | LE_syll | VOY_words | UR3_words | UR3_names_syll | LA | LB_words | LB_syll | IND_nonseal | IND_raw | IND_seals
+  merge at 2.07: {IND_raw} + {IND_seals}
   merge at 2.45: {LB_words} + {LB_syll}
-  merge at 6.16: {IND_raw} + {LA}
-  merge at 7.27: {UR3_words} + {LB_words, LB_syll}
-  merge at 8.09: {VOY_words} + {UR3_words, LB_words, LB_syll}
-  merge at 8.22: {UR3_syll} + {VOY_chars}
-  merge at 9.61: {IND_raw, LA} + {VOY_words, UR3_words, LB_words, LB_syll}
-  merge at 9.96: {UR3_syll, VOY_chars} + {IND_raw, LA, VOY_words, UR3_words, LB_words, LB_syll}
-  merge at 10.73: {PE} + {UR3_syll, VOY_chars, IND_raw, LA, VOY_words, UR3_words, LB_words, LB_syll}
-  nearest neighbour of each corpus: IND_raw->LB_syll (5.60); PE->LB_words (8.36); LA->IND_raw (6.16); LB_words->LB_syll (2.45); LB_syll->LB_words (2.45); UR3_words->LB_words (7.14); UR3_syll->LB_syll (7.27); VOY_words->LB_syll (6.85); VOY_chars->UR3_syll (8.22)
+  merge at 3.77: {IND_nonseal} + {IND_raw, IND_seals}
+  merge at 4.88: {LE_syll} + {VOY_words}
+  merge at 5.80: {UR3_words} + {UR3_names_syll}
+  merge at 5.92: {LB_words, LB_syll} + {IND_nonseal, IND_raw, IND_seals}
+  merge at 7.81: {LA} + {LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals}
+  merge at 7.97: {UR3_syll} + {LE_syll, VOY_words}
+  merge at 8.47: {VOY_chars} + {UR3_syll, LE_syll, VOY_words}
+  merge at 8.63: {UR3_words, UR3_names_syll} + {LA, LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals}
+  merge at 9.43: {VOY_chars, UR3_syll, LE_syll, VOY_words} + {UR3_words, UR3_names_syll, LA, LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals}
+  merge at 10.85: {PE} + {VOY_chars, UR3_syll, LE_syll, VOY_words, UR3_words, UR3_names_syll, LA, LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals}
+  nearest neighbour of each corpus: IND_raw->IND_seals (2.07); IND_seals->IND_raw (2.07); IND_nonseal->IND_raw (2.61); PE->LB_words (8.36); LA->IND_nonseal (5.68); LB_words->LB_syll (2.45); LB_syll->LB_words (2.45); UR3_words->UR3_names_syll (5.80); UR3_syll->LE_syll (6.55); UR3_names_syll->UR3_words (5.80); LE_syll->LB_syll (4.71); VOY_words->LE_syll (4.88); VOY_chars->IND_seals (7.04)
 
 ## Order-dependent, non-numeral statistics: average-linkage clustering on median |z| (99 statistics)
-  leaf order: PE | VOY_words | UR3_words | LB_words | LB_syll | IND_raw | LA | UR3_syll | VOY_chars
+  leaf order: PE | LA | LE_syll | VOY_words | LB_words | LB_syll | IND_nonseal | IND_raw | IND_seals | UR3_words | UR3_names_syll | UR3_syll | VOY_chars
+  merge at 2.12: {IND_raw} + {IND_seals}
   merge at 2.51: {LB_words} + {LB_syll}
-  merge at 6.16: {IND_raw} + {LA}
-  merge at 6.81: {UR3_words} + {LB_words, LB_syll}
-  merge at 7.78: {VOY_words} + {UR3_words, LB_words, LB_syll}
+  merge at 4.34: {IND_nonseal} + {IND_raw, IND_seals}
+  merge at 5.35: {LE_syll} + {VOY_words}
+  merge at 5.62: {LB_words, LB_syll} + {IND_nonseal, IND_raw, IND_seals}
+  merge at 6.85: {UR3_words} + {UR3_names_syll}
+  merge at 7.54: {LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals} + {UR3_words, UR3_names_syll}
+  merge at 8.21: {LE_syll, VOY_words} + {LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals, UR3_words, UR3_names_syll}
+  merge at 8.50: {PE} + {LA}
   merge at 8.80: {UR3_syll} + {VOY_chars}
-  merge at 9.35: {IND_raw, LA} + {UR3_syll, VOY_chars}
-  merge at 9.79: {VOY_words, UR3_words, LB_words, LB_syll} + {IND_raw, LA, UR3_syll, VOY_chars}
-  merge at 10.45: {PE} + {VOY_words, UR3_words, LB_words, LB_syll, IND_raw, LA, UR3_syll, VOY_chars}
-  nearest neighbour of each corpus: IND_raw->LB_syll (5.47); PE->LB_words (8.35); LA->IND_raw (6.16); LB_words->LB_syll (2.51); LB_syll->LB_words (2.51); UR3_words->LB_syll (6.80); UR3_syll->LB_syll (6.12); VOY_words->LB_syll (6.78); VOY_chars->IND_raw (7.73)
+  merge at 9.49: {LE_syll, VOY_words, LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals, UR3_words, UR3_names_syll} + {UR3_syll, VOY_chars}
+  merge at 10.34: {PE, LA} + {LE_syll, VOY_words, LB_words, LB_syll, IND_nonseal, IND_raw, IND_seals, UR3_words, UR3_names_syll, UR3_syll, VOY_chars}
+  nearest neighbour of each corpus: IND_raw->IND_seals (2.12); IND_seals->IND_raw (2.12); IND_nonseal->IND_raw (3.39); PE->LB_words (8.35); LA->IND_nonseal (5.61); LB_words->LB_syll (2.51); LB_syll->LB_words (2.51); UR3_words->LB_syll (6.80); UR3_syll->LB_syll (6.12); UR3_names_syll->LB_words (6.17); LE_syll->LB_syll (4.59); VOY_words->LE_syll (5.35); VOY_chars->IND_seals (6.30)
 
 ## Voynich on the Indus-residue axes (z of Voynich vs Indus, and vs the mean of the six comparison corpora)
   [164] mean_over_texts[min_sign_doc_freq_frac @ last]
@@ -59,15 +75,19 @@
   [599] slot_evenness[signs @ all]
       VOY_words: vs Indus +25.7, vs others +33.4  VOY_chars: vs Indus +5.4, vs others +8.1
 
-## PCA of z-standardized statistic profiles (variance explained PC1 0.33, PC2 0.24, PC3 0.12)
-          IND_raw: PC1   -2.83  PC2   +5.65  PC3   +4.79
-               PE: PC1   +0.54  PC2  +17.09  PC3   -2.52
-               LA: PC1   -8.10  PC2   +9.61  PC3   +0.32
-         LB_words: PC1   +9.58  PC2   +4.23  PC3   +3.45
-          LB_syll: PC1   +1.52  PC2   +1.29  PC3   +3.61
-        UR3_words: PC1  +11.29  PC2   -3.93  PC3  -15.12
-         UR3_syll: PC1  -10.50  PC2  -11.42  PC3   -7.51
-        VOY_words: PC1  +18.52  PC2  -12.56  PC3   +8.58
-        VOY_chars: PC1  -20.02  PC2   -9.95  PC3   +4.40
-  PC1 top loadings: median_over_texts[mean_bigram_surprise_bits @ middle] (+0.09); mean_over_texts[max_log10rank @ first] (+0.09); slot_ntypes[signs @ penult] (+0.09); slot_ntypes[signs @ penult] (+0.09); slot_ntypes[signs @ all] (+0.09); mean_over_texts[max_bigram_surprise_bits @ penult] (+0.09)
-  PC2 top loadings: mean_over_texts[mean_dist_to_nearest_num(cap5) @ last2] (-0.10); std_over_texts[min_next_is_num @ first_half] (+0.10); mean_over_texts[max_next_is_num @ first2] (+0.10); std_over_texts[min_is_num @ slice1-3] (+0.10); frac>0_over_texts[mean_next_is_num @ all] (+0.10); std_over_texts[first-last_next_is_num @ first2] (+0.10)
+## PCA of z-standardized statistic profiles (variance explained PC1 0.28, PC2 0.23, PC3 0.12)
+          IND_raw: PC1   -2.56  PC2   -6.92  PC3   +6.92
+        IND_seals: PC1   -0.15  PC2   -4.56  PC3   +5.54
+      IND_nonseal: PC1   -4.18  PC2   -9.51  PC3   +6.63
+               PE: PC1   +0.98  PC2  -17.12  PC3   -6.13
+               LA: PC1   -8.05  PC2   -9.92  PC3   -0.74
+         LB_words: PC1  +10.82  PC2   -4.78  PC3   -2.82
+          LB_syll: PC1   +2.17  PC2   -1.54  PC3   +0.07
+        UR3_words: PC1  +13.13  PC2   +2.51  PC3  -15.89
+         UR3_syll: PC1  -10.24  PC2  +11.56  PC3   -7.55
+   UR3_names_syll: PC1   -2.46  PC2   +4.70  PC3   +4.73
+          LE_syll: PC1   +0.83  PC2  +11.86  PC3   +3.88
+        VOY_words: PC1  +21.06  PC2  +12.44  PC3   +7.80
+        VOY_chars: PC1  -21.37  PC2  +11.28  PC3   -2.44
+  PC1 top loadings: mean_over_texts[max_bigram_surprise_bits @ penult] (+0.09); median_over_texts[mean_bigram_surprise_bits @ middle] (+0.09); std_over_texts[min_is_rare(p<1e-3) @ slice2-4] / frac>0_over_texts[mean_sign_doc_freq_frac @ middle] (+0.09); mean_over_texts[max_log10rank @ first] (+0.09); slot_bits[signs @ all] (+0.09); mean_over_texts[max_is_rare(p<1e-3) @ first2] (+0.09)
+  PC2 top loadings: mean_over_texts[mean_dist_to_nearest_num(cap5) @ last2] (+0.10); std_over_texts[min_next_is_num @ first_half] (-0.10); std_over_texts[min_is_num @ slice1-3] (-0.10); std_over_texts[first-last_next_is_num @ first2] (-0.10); mean_over_texts[min_dist_to_nearest_num(cap5) @ slice1-3] (+0.10); mean_over_texts[max_next_is_num @ first2] (-0.10)

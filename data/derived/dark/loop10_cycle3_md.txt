@@ -1,0 +1,36 @@
+LOOP 10 (random ontologies) cycle3_md  level=seq subset=md n=40 seed=1003  texts=1883 vouchers=0 quantity=16  293s
+top-60 signs: [740, 2, 861, 220, 705, 32, 390, 803, 240, 520, 235, 33, 820, 60, 741, 233, 1, 407, 31, 3, 400, 590, 798, 415, 920, 90, 176, 100, 760, 900, 140, 503, 550, 255, 61, 231, 368, 617, 845, 615, 690, 840, 142, 4, 17, 151, 585, 527, 630, 435, 923, 850, 692, 752, 156, 5, 575, 388, 904, 595]
+chance co-category rate (balanced random, mean over ontologies): 0.283
+criteria drawn: {'mdl': 18, 'reuse': 11, 'fact': 11}
+
+HELD-OUT SCORES by criterion (bits/text gain for fact & quantity; share for reuse; -kbits for mdl). real mean [max] vs P=facts-permuted vs S=order-shuffled, mean [max]:
+  fact/emblem      n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/material    n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/period      n= 2  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/2
+  fact/size        n= 4  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/4
+  fact/type        n= 1  real 0.000 [0.000]  P 0.000 [0.000]  S 0.000 [0.000]  real-ontologies-beating-max-control: 0/1
+  mdl              n=18  real -35.056 [-34.316]  P -35.056 [-34.316]  S -37.429 [-37.328]  real-ontologies-beating-max-control: 0/18
+  reuse            n=11  real 0.702 [0.800]  P 0.718 [0.851]  S 0.603 [0.790]  real-ontologies-beating-max-control: 0/11
+
+STABLE CO-CATEGORY PAIRS (real rate >= 0.70 and >= 0.20 above both controls): 0 of 1770 pairs
+pairs >= 0.70 in real regardless of controls: 5; of these also >= 0.70 in P: 1, in S: 0
+
+STABLE CLASSES (connected components of the stable graph):
+
+KNOWN CLASSES: mean within-class co-category rate (real / P / S), pairs among top-60:
+  opener          4 signs   6 pairs  real 0.61  P 0.57  S 0.35  (chance 0.28)
+  connective      3 signs   3 pairs  real 0.63  P 0.61  S 0.38  (chance 0.28)
+  mid-initial     2 signs   1 pairs  real 0.50  P 0.68  S 0.17  (chance 0.28)
+  closer          8 signs  28 pairs  real 0.36  P 0.36  S 0.37  (chance 0.28)
+  suffix          2 signs   1 pairs  real 0.62  P 0.55  S 0.50  (chance 0.28)
+  pre-jar title   8 signs  28 pairs  real 0.48  P 0.48  S 0.30  (chance 0.28)
+  fish            5 signs  10 pairs  real 0.55  P 0.52  S 0.42  (chance 0.28)
+  short numeral   6 signs  15 pairs  real 0.32  P 0.36  S 0.32  (chance 0.28)
+  tall numeral    3 signs   3 pairs  real 0.32  P 0.29  S 0.33  (chance 0.28)
+  counted item    6 signs  15 pairs  real 0.35  P 0.37  S 0.27  (chance 0.28)
+  name-initial    3 signs   3 pairs  real 0.49  P 0.42  S 0.49  (chance 0.28)
+
+PER-CRITERION co-graphs: top 8 pairs for each criterion kind (real):
+  fact      n=11: 692-575(0.82)  220-368(0.82)  920-140(0.73)  520-151(0.73)  235-368(0.73)  235-231(0.73)  220-235(0.73)  4-17(0.73)
+  reuse     n=11: 803-31(0.91)  740-617(0.91)  60-1(0.91)  2-60(0.91)  705-590(0.82)  520-407(0.82)  520-90(0.82)  407-90(0.82)
+  mdl       n=18: 920-692(1.00)  861-820(1.00)  803-235(1.00)  3-4(1.00)  803-231(0.94)  760-923(0.94)  240-233(0.94)  235-231(0.94)
