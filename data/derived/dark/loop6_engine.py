@@ -34,20 +34,45 @@ def site_rates(by, feature):
     """feature: function(text)->bool/number. Returns dict site -> mean."""
     return {s:float(np.mean([feature(t) for t in v])) for s,v in by.items()}
 
+_PERM_CACHE={}
+def perm_matrix(n, n_mc=20000, seed=6):
+    """Rows = permutations of range(n): exact (all n!) when n<=8, else n_mc Monte Carlo permutations."""
+    key=(n,n_mc)
+    if key not in _PERM_CACHE:
+        if n<=8: M=np.array(list(itertools.permutations(range(n))),dtype=int)
+        else:
+            rnd=np.random.default_rng(seed); M=np.array([rnd.permutation(n) for _ in range(n_mc)])
+        _PERM_CACHE[key]=M
+    return _PERM_CACHE[key]
+
+def _zrank(v):
+    r=rankdata(v); r=r-r.mean(); s=np.sqrt((r**2).sum()); return r/s if s>0 else r
+
 def exact_or_mc_p(x, y, stat, n_mc=20000, seed=6):
-    """Permutation p-value (two-sided) for stat(x,y) with y permuted; exact if n<=9."""
+    """Permutation p-value (two-sided) for stat(x,y) with y permuted among sites. Exact enumeration if n<=8, else
+    Monte Carlo. Spearman is vectorised (rho = dot of centred, normalised ranks)."""
     x=np.asarray(x,float); y=np.asarray(y,float); n=len(x)
+    if stat is rho:
+        if np.std(x)==0 or np.std(y)==0: return float('nan'),float('nan'),0
+        rx=_zrank(x); ry=_zrank(y); obs=float(rx@ry)
+        M=perm_matrix(n,n_mc,seed); vals=ry[M]@rx
+        k=len(vals); ge=int((np.abs(vals)>=abs(obs)-1e-12).sum())
+        return obs, (ge/k if n<=8 else (ge+1)/(k+1)), k
+    if stat is KW:
+        labs=sorted(set(y.tolist()));
+        if len(labs)<2: return float('nan'),float('nan'),0
+        G=np.array([[1.0 if yi==l else 0.0 for l in labs] for yi in y]); ng=G.sum(0)
+        if (ng<2).any(): return float('nan'),float('nan'),0
+        r=rankdata(x); N=n
+        def H(R): S=R@G; return 12.0/(N*(N+1))*((S**2)/ng).sum(-1)-3*(N+1)
+        obs=float(H(r)); M=perm_matrix(n,n_mc,seed); vals=H(r[M])
+        k=len(vals); ge=int((vals>=obs-1e-12).sum())
+        return obs, (ge/k if n<=8 else (ge+1)/(k+1)), k
     obs=stat(x,y)
     if np.isnan(obs): return obs, float('nan'), 0
-    if n<=9:
-        vals=[stat(x,np.asarray(p)) for p in itertools.permutations(y)]
-        k=len(vals); ge=sum(1 for v in vals if abs(v)>=abs(obs)-1e-12)
-        return obs, ge/k, k
-    rnd=np.random.default_rng(seed); ge=0
-    for _ in range(n_mc):
-        v=stat(x,rnd.permutation(y))
-        if abs(v)>=abs(obs)-1e-12: ge+=1
-    return obs, (ge+1)/(n_mc+1), n_mc
+    M=perm_matrix(n,min(n_mc,5000),seed); vals=[stat(x,y[p]) for p in M]
+    k=len(vals); ge=sum(1 for v in vals if abs(v)>=abs(obs)-1e-12)
+    return obs, (ge/k if n<=8 else (ge+1)/(k+1)), k
 
 def rho(x,y):
     if np.std(x)==0 or np.std(y)==0: return float('nan')
