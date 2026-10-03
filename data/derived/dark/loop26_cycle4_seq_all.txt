@@ -116,3 +116,25 @@
       weakest: tu z=-1.3, mi z=-1.2, utu z=-1.0, inim z=-1.0, lamma z=-1.0, a2 z=-0.8
 
 ##### planted attribute code: 2648 -> 2231 distinct (site, middle)
+
+--- planted attribute code DEDUP: pair census. 8465 distinct observed pairs; 430 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.279 vs permuted corpora 0.143 [0.102,0.172]  P=0.016
+    mean |log2(O/E)|:     0.804 vs permuted 0.541 [0.497,0.592]  P=0.016
+    share O > 4E (compound-like): 0.005 vs permuted 0.002;  share O < E/4 (exclusion-like): 0.053 vs permuted 0.012
+    strong compounds (O>=5, O>=4E): 5 pairs covering 0.008 of element tokens in >=2-element middles
+    top compounds: 3+497 7:1.1, 199+396 6:1.3, 3+105 6:1.1, 3+298 5:1.1, 196+511 5:1.0
+    strong exclusions (E>=6, O=0): 2 of 118 pairs with E>=6
+    top exclusions: 98|99 0:11.6, 392|394 0:7.4
+    fit big / test held-out: held-out bits/element independence 8.000 vs pair(bigram) 7.963; gain 0.037 bits = 0.5%  (n=2121 tokens, 644 middles)
+    5-fold 0: held-out bits/element independence 8.025 vs pair(bigram) 7.961; gain 0.063 bits = 0.8%  (n=1561 tokens, 447 middles)
+    5-fold 1: held-out bits/element independence 7.998 vs pair(bigram) 7.934; gain 0.064 bits = 0.8%  (n=1513 tokens, 446 middles)
+    5-fold 2: held-out bits/element independence 7.928 vs pair(bigram) 7.826; gain 0.101 bits = 1.3%  (n=1396 tokens, 446 middles)
+    5-fold 3: held-out bits/element independence 7.931 vs pair(bigram) 7.861; gain 0.071 bits = 0.9%  (n=1549 tokens, 446 middles)
+    5-fold 4: held-out bits/element independence 7.954 vs pair(bigram) 7.898; gain 0.056 bits = 0.7%  (n=1474 tokens, 446 middles)
+    adjacent-pair MI 3.616 bits vs shuffle 3.629 [3.593,3.668]; excess -0.013
+    planted attribute code DEDUP: MI(first,last) 3.359 bits vs within-position shuffle 3.404 [3.370,3.438] P=1.000; excess -0.044 = -0.7% of H(first) (6.82 bits); n=1996
+    planted attribute code DEDUP: 334 elements with >= 15 partner tokens; mean z -0.14; share with partner-KL above Bonferroni null (P<=0.0001 or z>4 at floor) 0.000 (0/334); mean KL excess -0.059 bits
+      strongest partner-predictors: 435 z=2.8, 425 z=2.5, 339 z=2.5, 416 z=2.5, 99 z=2.4, 259 z=2.3, 407 z=2.3, 402 z=2.3, 406 z=2.3, 56 z=2.3
+      weakest: 244 z=-2.3, 546 z=-2.2, 288 z=-2.2, 543 z=-2.0, 115 z=-2.0, 311 z=-2.0
+
+##### planted lexicon: 2648 -> 1707 distinct (site, middle)

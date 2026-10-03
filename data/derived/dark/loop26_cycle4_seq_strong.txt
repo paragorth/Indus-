@@ -116,3 +116,25 @@
       weakest: tu z=-1.3, mi z=-1.2, utu z=-1.0, inim z=-1.0, lamma z=-1.0, a2 z=-0.8
 
 ##### planted attribute code: 2648 -> 2240 distinct (site, middle)
+
+--- planted attribute code DEDUP: pair census. 8469 distinct observed pairs; 435 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.278 vs permuted corpora 0.148 [0.108,0.181]  P=0.016
+    mean |log2(O/E)|:     0.810 vs permuted 0.548 [0.502,0.590]  P=0.016
+    share O > 4E (compound-like): 0.007 vs permuted 0.002;  share O < E/4 (exclusion-like): 0.060 vs permuted 0.013
+    strong compounds (O>=5, O>=4E): 5 pairs covering 0.008 of element tokens in >=2-element middles
+    top compounds: 3+502 7:1.1, 9+298 6:1.5, 201+400 6:1.2, 3+106 6:1.0, 103+506 5:0.5
+    strong exclusions (E>=6, O=0): 3 of 120 pairs with E>=6
+    top exclusions: 99|100 0:11.8, 396|398 0:7.8, 99|102 0:6.1
+    fit big / test held-out: held-out bits/element independence 8.013 vs pair(bigram) 7.950; gain 0.063 bits = 0.8%  (n=2126 tokens, 647 middles)
+    5-fold 0: held-out bits/element independence 7.948 vs pair(bigram) 7.845; gain 0.103 bits = 1.3%  (n=1447 tokens, 448 middles)
+    5-fold 1: held-out bits/element independence 7.922 vs pair(bigram) 7.789; gain 0.133 bits = 1.7%  (n=1515 tokens, 448 middles)
+    5-fold 2: held-out bits/element independence 7.995 vs pair(bigram) 7.901; gain 0.094 bits = 1.2%  (n=1558 tokens, 448 middles)
+    5-fold 3: held-out bits/element independence 7.988 vs pair(bigram) 7.900; gain 0.088 bits = 1.1%  (n=1453 tokens, 448 middles)
+    5-fold 4: held-out bits/element independence 8.006 vs pair(bigram) 7.936; gain 0.070 bits = 0.9%  (n=1537 tokens, 448 middles)
+    adjacent-pair MI 3.640 bits vs shuffle 3.640 [3.600,3.679]; excess 0.000
+    planted attribute code DEDUP: MI(first,last) 3.397 bits vs within-position shuffle 3.434 [3.399,3.468] P=0.990; excess -0.036 = -0.5% of H(first) (6.85 bits); n=2003
+    planted attribute code DEDUP: 340 elements with >= 15 partner tokens; mean z -0.10; share with partner-KL above Bonferroni null (P<=0.0001 or z>4 at floor) 0.000 (0/340); mean KL excess -0.047 bits
+      strongest partner-predictors: 439 z=3.4, 128 z=2.8, 233 z=2.7, 99 z=2.6, 137 z=2.4, 411 z=2.4, 100 z=2.2, 410 z=2.2, 361 z=2.1, 300 z=2.1
+      weakest: 291 z=-2.4, 345 z=-2.2, 502 z=-2.2, 124 z=-2.1, 555 z=-1.9, 207 z=-1.9
+
+##### planted lexicon: 2648 -> 1708 distinct (site, middle)

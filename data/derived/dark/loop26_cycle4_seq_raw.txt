@@ -116,3 +116,20 @@
       weakest: tu z=-1.3, mi z=-1.2, utu z=-1.0, inim z=-1.0, lamma z=-1.0, a2 z=-0.8
 
 ##### planted attribute code: 2643 -> 2263 distinct (site, middle)
+
+--- planted attribute code DEDUP: pair census. 8708 distinct observed pairs; 399 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.308 vs permuted corpora 0.154 [0.119,0.188]  P=0.016
+    mean |log2(O/E)|:     0.841 vs permuted 0.548 [0.490,0.589]  P=0.016
+    share O > 4E (compound-like): 0.003 vs permuted 0.002;  share O < E/4 (exclusion-like): 0.070 vs permuted 0.013
+    strong compounds (O>=5, O>=4E): 5 pairs covering 0.009 of element tokens in >=2-element middles
+    top compounds: 204+318 9:1.8, 211+409 7:1.7, 1+214 6:1.1, 3+517 6:1.2, 9+409 5:1.1
+    strong exclusions (E>=6, O=0): 3 of 112 pairs with E>=6
+    top exclusions: 306|307 0:9.8, 306|308 0:7.0, 204|206 0:6.5
+    fit big / test held-out: held-out bits/element independence 8.038 vs pair(bigram) 7.946; gain 0.092 bits = 1.1%  (n=2152 tokens, 645 middles)
+    5-fold 0: held-out bits/element independence 8.087 vs pair(bigram) 8.019; gain 0.068 bits = 0.8%  (n=1510 tokens, 453 middles)
+    5-fold 1: held-out bits/element independence 7.972 vs pair(bigram) 7.880; gain 0.092 bits = 1.2%  (n=1565 tokens, 453 middles)
+    5-fold 2: held-out bits/element independence 8.064 vs pair(bigram) 7.975; gain 0.089 bits = 1.1%  (n=1476 tokens, 453 middles)
+    5-fold 3: held-out bits/element independence 8.073 vs pair(bigram) 8.035; gain 0.039 bits = 0.5%  (n=1526 tokens, 452 middles)
+    5-fold 4: held-out bits/element independence 8.017 vs pair(bigram) 7.935; gain 0.082 bits = 1.0%  (n=1468 tokens, 452 middles)
+    adjacent-pair MI 3.756 bits vs shuffle 3.760 [3.727,3.800]; excess -0.003
+    planted attribute code DEDUP: MI(first,last) 3.442 bits vs within-position shuffle 3.505 [3.476,3.537] P=1.000; excess -0.064 = -0.9% of H(first) (6.90 bits); n=2017
