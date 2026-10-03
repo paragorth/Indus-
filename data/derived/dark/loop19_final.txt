@@ -1,0 +1,45 @@
+LOOP 19 FINAL: is a text a SEQUENCE or a SET? 3 cycles, 32 arrows (cycle 1: 22; cycle 2: 6; cycle 3: 4). Bonferroni over 32 arrows: P < 0.0016;
+every headline P below is 0.001-0.002 (permutation floor) or passes a within-cycle Bonferroni. Engine tools/dark_loop19.py; outputs loop19_cycle1-3.txt
+(summaries with STRATEGIES rows) and loop19_cycle{1,2,3}_seq_{raw,strong,all}.txt, loop19_cycle3_controls.txt. All three merge levels agree to the
+second decimal; nothing depends on a merge. Data: merged-corpus-canonical.json (older inscriptions.csv build, see S-DARK-23; pot counts in
+particular are from that file), complete objects with a recorded direction, >= 2 signs: 3,155 objects (1,515 seals, 1,434 tablets, 80 pots).
+
+ANSWER IN PLAIN WORDS
+1. A text is a sequence. Among texts of >= 3 signs, the same sign multiset recurs in another order in 24 of 2,811 copy pairs (0.9%), against 46%
+   expected if order were free inside the frame slots and 92% if the text were a set (cycle 1). Seals: 1 of 184-227. Held-out sites: 0 of ~150
+   (< 3/150). The few anagrams are swaps of two neighbouring signs (235-240 fish, 740-760 before the suffix) or whole-text reversals that are
+   recording errors (413-892-824 x11 vs 824-892-413 x1).
+2. How much of the order is rule-governed: of the sign pairs that can be tested (co-occurring in >= 5 texts), 50% have a fixed order after FDR
+   correction, 8% are free, 28% too rare to call, 14% lean one way without reaching the cut. By pair instances: 40-43% fixed, 4% free, 43-46%
+   too rare. Of the 395-399 fixed pairs, 74% follow the frame's slot order (opener -> marker -> middle -> title -> closer -> suffix) and 26%
+   order two signs INSIDE one slot; 0 go against the frame. Same-slot fixed pairs: 84-98 vs a frame-only null max of 27-31. The fixed pairs form
+   one consistent partial order (a single cycle, 741/820, 6 texts) with a longest chain of 16-19 signs: 320 -> 920 -> 60 -> 741 -> 2 -> 803 ->
+   32 -> 350 -> 798 -> 415 -> 220 -> 233 -> 705 -> 255 -> 435 -> 690 -> 740 -> 400. So the middle is not a bag of name signs: it has its own
+   ordered positions (marked jar 741 and leaf-tree 803 first; then numerals 32; then 350 -> 798 -> 415; then the fish words; then 705-33 or
+   the 255-435-690 title; then the closer). Held-out sites agree with the Mohenjo-daro + Harappa directions 0.90-0.91 (frame-only null 0.83-0.84),
+   and for same-slot pairs 0.83 (null 0.59-0.60), at all three levels.
+3. Where the free part lives (cycle 3): the numeral signs (which of 1 / 31 / 32 / 2 stands first: 2 <-> 31 19:17, 31 <-> 32 7:10), the plain
+   fish 220 against the modified fish 240 / 235 (15:12, 7:13; S296's chain holds only among the modified fish), and W2 with name signs (its
+   post-opener connective use vs its numeral use). Free pairs co-occur barely above chance (O/E 1.2; fixed pairs 1.6) and are not avoided, so they
+   are independent signs, not coordinate members of a set and not alternatives. One genuinely loose construction: the Harappa 2-sign voucher
+   'count + W700', reversed on 15% of tablets (22% of moulded TAB:B vs 8% of incised TAB:I), either a label whose two parts can stand on either
+   side or mirrored moulds; a photo check of H tablets reading 700-33 would settle it.
+4. Object types: seals and tablets are equally rigid (new-order share 0.012-0.018 vs 0.78-0.83 for a set). Sealings 0 of 29. Pots: the prediction
+   'labels are freer' is UNTESTABLE here: 0 multisets of >= 3 signs recur on the 80 complete direction-recorded pots (P = 0.70). Direction-unrecorded
+   pots were excluded because 21-30% of them are stored backwards (S-DARK-8.4), which would manufacture anagrams.
+5. Calibration (cycle 3): planted free order gives 0 fixed / 47% free pairs and 67% anagram groups; planted strict order gives 100% fixed / 0 free / 0
+   anagrams; Ur III seal legends taken whole give 73% fixed / 12% free / 5.7% anagram groups; Ur III owner-name syllables 95% / 2% / 1.5%. Indus
+   (50% / 8% / 16% anagram groups, 7% without the vouchers) sits with the whole Ur III legend, a fixed formula holding a name, and far from a set.
+   It is less categorical than Ur III name syllables mainly because 28% of its pairs are too rare to classify (S309 sampling), not because they are free.
+
+NEW ORDERING RULES INSIDE THE MIDDLE (seq_all counts A:B; candidates for GRAMMAR.md after one more look, all replicated in direction on held-out sites
+as a class, not individually): 415 -> 220 39:0; 803 -> 233 27:4, -> 220 26:6, -> 705 22:5, -> 240 20:6, -> 390 20:4, -> 235 18:5, -> 32 16:4,
+-> 415 13:2, -> 798 11:2, -> 590 11:1 (the leaf-tree is middle-initial, like 65/86); 741 -> 803 13:0, -> 220 14:2, -> 235 10:1, -> 32 14:4 (marked
+jar middle-initial); 798 -> 415 14:2, 798 -> 240 14:2; 220 -> 590 16:3, 235 -> 590 13:3, 705 -> 390 13:1 (fish before the 590-390 title); 550 -> 60
+21:5, 125 -> 2 18:5, 455 -> 2 10:2 (hosts that take the connective after them); 2 -> 61 18:0; 240 -> 100 12:0; 171 -> 35 12:0; 13 -> 840 11:1;
+125 -> 390 13:0.
+
+DEAD / UNTESTABLE: pots-freer prediction (no power); 'free pairs = one set of coordinate members' (O/E 1.2, not grouped); 'free pairs = alternatives'
+(not avoided). Nothing here reads a sign; nothing is 'cracked'.
+Caveats: 76% of objects are Harappa + Mohenjo-daro; held-out zeros are upper bounds (< 3/n); S312 independence applies (no IM77 run here, so
+'transcription-robust' is not claimed; the held-out-site replication is the real one); the corpus file predates the latest inscriptions.csv (S-DARK-23).

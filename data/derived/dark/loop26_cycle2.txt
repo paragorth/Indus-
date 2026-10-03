@@ -1,0 +1,42 @@
+LOOP 26 CYCLE 2: position-specific marginals (b) and the seal classes (d).
+Engine: tools/dark_loop26.py 2 <level> 200. Full output: loop26_cycle2_seq_raw.txt / _seq_strong.txt / _seq_all.txt. Data and controls as cycle 1.
+(b1) MI between the FIRST and the LAST element of every middle of >= 2 (and >= 3) elements, against a within-position shuffle: the first
+elements are permuted among middles of the same (site-group, object type) stratum and length class (200 reps), so each position keeps its own
+marginal and only the pairing is broken. Reported as the excess MI as a share of H(first).
+(b2) Partner prediction: for each element X with >= 15 partner tokens, KL(distribution of X's co-occurring elements || marginal partner
+distribution) against the stratified token-permutation null (100 reps); z-score and Bonferroni share. An attribute has z ~ 0 (its partners
+are drawn from the other slots' marginals); a word element predicts its partners.
+(d) Indus seals split: quantity seals (a COUNT in the middle, 497), office seals (jar closer, no count, 412), other seals (no jar, no count,
+460), seals without closer (546); tablets (1,102); held-out sites (358); Mohenjo-daro (1,171); Harappa (1,114). Each with (b1), (b2) and the
+cycle-1 pair census (60 permutations).
+
+RESULTS (seq_raw; seq_strong / seq_all within 0.3 points)
+                           MI(first,last) excess, % of H(first): len>=2 / len>=3   partner-predicting elements (Bonferroni)   mean z
+  Indus middles            9.9% / 6.4%                                              0.266 (59 of 222)                          2.83
+  Indus frame-purged       8.8% / 5.7%                                              0.234                                      2.71
+  Ur III names             25.0% / 27.4%                                            0.740                                      12.7
+  planted attribute code   -0.3% / -0.3%                                            0.000                                      0.00
+  planted lexicon          11.9% / 4.0%                                             0.399                                      6.54
+Strongest Indus partner-predictors: W503/M204 (z 29), W615 (24), W700/M328 (18), W3 (17), W390 (14), W407/M169 (13), W840/M403 (13),
+W400/M176 (12), W4 (11), W415/M171 (11): the numeral + item pairs, the 503-615 pair, and name-final W840. Weakest (z < 0): W409, W812, W236,
+W632, W374, W371 - rare name signs with no partner preference.
+(d) Indus subsets (MI(first,last) excess; partner-predictors; compounds share; exclusions share; token share in strong compounds):
+  all seals                 2.3%   0.078 (17/219)   0.070   0.040   0.17
+  quantity seals            0.9%   0.065 (9/138)    0.033   0.099   0.09    (compounds: 33+705, 17+575, 4+407, 32+877; exclusions high: numerals exclude each other)
+  office seals (jar)        3.7%   0.039 (2/51)     0.227   0.000   0.16    (255+435, 220+415, 415+798, 13+840)
+  other seals               0.9%   0.011 (1/93)     0.200   0.000   0.09
+  seals without closer      2.3%   0.032 (5/158)    0.091   0.084   0.11
+  tablets                  24.4%   0.546 (53/97)    0.509   0.143   0.59    (Harappa tablets repeat whole texts: 2+405+501, 3+861, 33+700, 503+615)
+  held-out sites            3.1%   0.011 (1/88)     0.216   0.020   0.09    (the Lothal/Kalibangan twins 56-91-417-890-892, S149)
+  Mohenjo-daro              6.0%   0.208 (35/168)   0.191   0.074   0.31
+  Harappa                  17.3%   0.224 (22/98)    0.478   0.086   0.42
+
+READING. The first element of a middle tells you something about its last element (10% of its entropy; attribute code 0%, Ur III 25%), and
+a quarter of the frequent elements predict their partners (attribute code 0, lexicon 40%, Ur III 74%). On seals alone the effect almost
+disappears: 2.3% and 8% of elements, with the quantity seals at the attribute-code floor (0.9%, 6%) and the office seals carrying their
+dependency in a handful of pre-jar compounds (255+435, 220+415, 415+798) with NO exclusions. The tablets (24%, 55%) carry most of the
+corpus-wide signal, and that is whole-text repetition (the Harappa moulded series), not middle-internal structure, which cycle 4 removes by
+deduplication. Quantity seals show the one attribute-like signature in the corpus: the numerals exclude one another (exclusions 0.10 vs
+compounds 0.03), i.e. one count per middle.
+
+| S-DARK-26.2 | **Lexicon or attribute code, part 2: does an element keep the same distribution whatever else is in the middle?** (b1) MI(first element, last element) of every middle vs a within-position shuffle (first elements permuted among middles of the same stratum and length class, 200 reps), as % of H(first); (b2) for each element with >= 15 partner tokens, KL of its partner distribution vs the marginal, z against the stratified permutation null, Bonferroni share; (d) seals split into quantity (COUNT in the middle, 497), office (jar closer, 412), other (460), no closer (546); tablets, held-out sites, MD, Harappa separately; controls as 26.1; three levels (`tools/dark_loop26.py 2`) | MI(first,last) excess: Indus 9.9% (len >= 3: 6.4%), purged 8.8%; Ur III 25%; attribute code -0.3%; lexicon 11.9%. Partner-predicting elements: Indus 0.27 (59/222, mean z 2.8); Ur III 0.74 (z 12.7); attribute 0.00; lexicon 0.40 (z 6.5). Strongest: W503/M204 z 29, W615 24, W700 18, W3 17, W390 14, W407 13, W840/M403 13. **Seals alone: MI 2.3%, predictors 0.08; quantity seals 0.9% / 0.07 with exclusions 0.10 > compounds 0.03 (numerals exclude each other: one count per middle); office seals 3.7% / 0.04, compounds 0.23 (255+435, 220+415, 415+798), exclusions 0.00; other seals 0.9% / 0.01.** Tablets 24% / 0.55 (whole-text repeats), Harappa 17% vs Mohenjo-daro 6%, held-out sites 3.1% / 0.01. Levels within 0.3 points | **On seals the middle elements are close to attribute-like: an element barely predicts its partners (2% of the entropy, 8% of elements), one step above the planted code and far below Ur III names or a lexicon.** The corpus-wide 10% is carried by the tablets' repeated texts. The two seal classes differ in kind: quantity seals behave like a code with mutually exclusive numerals (one count per text); office seals have no exclusions and a few frozen pre-jar compounds. Neither looks like compound names. Rests on MD + Harappa; held-out sites agree (3%, 1 predictor of 88). |

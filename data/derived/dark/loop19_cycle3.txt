@@ -1,0 +1,44 @@
+LOOP 19 CYCLE 3: (d) do free-order pairs co-occur more (set members) or less (alternatives) than chance? (e) controls.
+Engine: tools/dark_loop19.py 3 <level> 500 (parts c, d; full output loop19_cycle3_seq_raw/_seq_strong/_seq_all.txt) and
+tools/dark_loop19.py 3e seq_raw 500 (part e, level-independent; loop19_cycle3_controls.txt). Fixed/free pairs as in cycle 2 (BH-fixed vs
+minority >= 30%, n >= 8). Null for (d): signs permuted across texts within site x object type strata, text lengths kept (100 reps).
+Arrows fired this cycle: 4 (fixed O/E, free O/E, free-pair adjacency, fixed-vs-free difference); Bonferroni threshold P < 0.0125.
+
+(d) CO-OCCURRENCE (seq_raw / seq_strong / seq_all)
+  Fixed-order pairs (395 / 397 / 399): median O/E 1.62 / 1.56 / 1.55; above the null 97.5% 206 / 203 / 202 pairs, below 2.5% 3 / 5 / 5
+   (expected about 10 each way); mean log2 O/E 0.85 / 0.77 / 0.77. Fixed pairs are formula partners: they travel together.
+  Free-order pairs (63 / 68 / 68): median O/E 1.21 / 1.20 / 1.20; above 12 / 9 / 9, below 3 / 4 / 4 (expected 1.6-1.7 each way); mean log2 O/E
+   0.29 / 0.24 / 0.24. Free pairs co-occur only a little above chance and are not avoided: they are neither coordinate members of one set
+   (that would need O/E well above the fixed pairs) nor alternatives (O/E < 1). They are mostly independent signs.
+  Adjacency when both present: fixed pairs 0.40-0.41 adjacent, free pairs 0.37-0.38. Free pairs are not distant-only either.
+  Free pairs by frame slot: 33 / 36 / 36 of 63-68 in the same majority slot; NAME-NAME 16-17, COUNT-NAME 13-14, MARKER-NAME 12. The free list is
+   dominated by three things: numerals among themselves and with hosts (1, 31, 32, 2: 2 <-> 31 19:17, 31 <-> 32 7:10, 1 <-> 31 11:7, 1 <-> 32 5:10);
+   plain fish 220 vs modified fish 240 / 235 (15:12, 7:13; S296 already noted that the plain fish has no fixed place); W2 with name signs (550,
+   350, 368, 900, 717, 416, 460, 575, 690: W2 is a post-opener connective in one use and a numeral in the other). Highest O/E among free pairs:
+   705 ~ 803 (13 vs 4.5 expected, O/E 2.7), 2 ~ 416 (2.0), 390 ~ 741 (1.8), 1 ~ 31 (1.7), 2 ~ 350 (1.7), 590 ~ 741 (1.7), 220 ~ 550 (1.7).
+   Lowest: 2 ~ 920 (0.54; W920 takes W60, not W2, S331).
+
+(e) CONTROLS (generic census, no frame; same statistics)
+  Planted FREE order (Indus texts shuffled within text): anagram groups 63 of 94 (0.67); copy pairs differing 0.626 vs shuffle 0.672 (retained 0.07);
+   BH-fixed pairs 0 of 794, free 376. The method reads a set as a set.
+  Planted STRICT order (Indus multisets sorted by one global sign order): anagram groups 0 of 94; BH-fixed 794 of 794, free 0. The method reads a
+   total order as a total order.
+  Ur III seal legends, all lines concatenated (18,135 legends, CDLI): anagram groups 85 of 1,480 (0.057); copy pairs differing 0.001 (retained 1.00);
+   pairs tested 6,438, BH-fixed 4,716 (0.73), free 768 (0.12), fixed-pair instance share 0.88. Fixed pairs include the formula (dub -> sar 12,334:0,
+   sar -> dumu 11,988:79) but also soft statistical preferences (dumu -> ur 4,129:3,101). Minority share <= 5% among BH-fixed pairs: 0.61.
+  Ur III line 1 only (23,053 owner names, syllables): anagram groups 13 of 860 (0.015); BH-fixed 1,286 of 1,359 (0.95), free 23 (0.017); minority
+   <= 5%: 0.95 (ur -> d 3,123:2, kal -> la 1,947:0, szu -> suen 1,742:0). Syllable order inside names is almost totally fixed.
+  Indus, same generic census (2,131 distinct texts): anagram groups 15 of 94 (0.16; 8 of the 15 are the 2-sign N-700 vouchers); BH-fixed 395 of
+   794 (0.50), free 63 (0.08); minority <= 5% among BH-fixed: 0.70 (<= 10%: 0.85); as a share of all tested pairs 0.35 (Ur III full 0.45, names 0.90).
+  Placement: Indus sits between the Ur III full legend (formula + name) and the planted free corpus, far from free: fixed share 0.50 vs 0.73 (Ur III
+   full) and 0.95 (Ur III names) and 0.00 (free); free share 0.08 vs 0.12 / 0.02 / 0.47. Note the Indus pairs are rarer (median n per tested pair
+   much lower), so more Indus pairs fall in 'ambiguous' (0.28) than in Ur III (0.14 / 0.04); the fixed share is a lower bound for Indus.
+
+READING. The free part of Indus sign order is small (4% of pair instances; 8% of testable pairs), and it lives in three places: the numeral
+signs (which of 1 / 31 / 32 / 2 stands first), the plain fish against the modified fish, and the two uses of W2. Free pairs are independent signs,
+not members of an unordered set and not alternatives. Against the controls, Indus behaves like Ur III seal legends taken whole (a fixed formula
+holding a name), not like a bag of signs and not like a totally ordered string either; it is less categorical than Ur III names, as expected if
+Indus 'fixed' pairs include formula slots with optional members and some scribal variation (cycle 1's adjacent swaps).
+
+Ready-to-paste row:
+| S-DARK-19.3 | Sequence or set, part 3. (d) For the BH-fixed and the free pairs of S-DARK-19.2, co-occurrence O/E against signs permuted across texts within site x object type (100 reps), plus adjacency when co-occurring; set members should co-occur above chance, alternatives below. (e) The same anagram and pair census with no frame on: Indus texts shuffled within text (planted free order), Indus multisets sorted by one global sign order (planted strict order), 18,135 Ur III seal legends concatenated and their 23,053 line-1 owner names (CDLI, tools/strat_namecalib.py data); seq_raw / seq_strong / seq_all for (d) (tools/dark_loop19.py 3, 3e) | (d) Fixed pairs: median O/E 1.55-1.62, 202-206 of 395-399 above the null 97.5%, 3-5 below (10 expected each way). Free pairs: median O/E 1.20-1.21, 9-12 of 63-68 above, 3-4 below (1.7 expected each way); adjacency 0.37-0.38 vs 0.40-0.41 for fixed pairs. The free pairs are the numerals among themselves (2 <-> 31 19:17, 31 <-> 32 7:10, 1 <-> 31 11:7), plain fish 220 vs modified fish 240 / 235 (15:12, 7:13), and W2 with name signs (its connective vs numeral use); 33-36 of 63-68 are inside one frame slot. (e) Planted free: 0 of 794 pairs fixed, 376 free, anagram groups 0.67. Planted strict: 794 of 794 fixed, 0 free, anagram groups 0. Ur III full legends: 0.73 of 6,438 pairs fixed, 0.12 free, anagram groups 0.057, copy pairs differing 0.001. Ur III names: 0.95 fixed, 0.02 free, anagram groups 0.015. Indus (no frame): 0.50 fixed, 0.08 free, 0.28 ambiguous, anagram groups 0.16 (0.07 without the N-700 vouchers), copy pairs differing 0.13 (0.008 for >= 3-sign texts); minority share <= 5% among fixed pairs 0.70 (Ur III 0.61 full, 0.95 names). | **Supported.** The free part of the order is small and independent, not a set: free pairs co-occur barely above chance (O/E 1.2) and are neither grouped nor mutually exclusive. On the calibrated scale Indus sits with the Ur III legend taken whole (formula + name), far from the planted free corpus and short of the totally fixed Ur III name syllables; the shortfall is in rare pairs (28% ambiguous, a sampling limit, S309) rather than in free pairs. Where order is free: the numeral signs 1 / 31 / 32 / 2, plain vs modified fish, and the two uses of W2. Nothing here reads a sign. |

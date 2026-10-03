@@ -6,3 +6,25 @@
    controls: Ur III names 2648 of 6498 distinct-legend line-1 names; planted attribute code K=6 slots x 98 symbols; planted lexicon 1500 words over 150 syllables
 
 ##### Indus seq_all: 2648 -> 1750 distinct (site, middle)
+
+--- Indus seq_all DEDUP: pair census. 5448 distinct observed pairs; 570 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.351 vs permuted corpora 0.135 [0.103,0.166]  P=0.016
+    mean |log2(O/E)|:     0.922 vs permuted 0.523 [0.492,0.559]  P=0.016
+    share O > 4E (compound-like): 0.074 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.032 vs permuted 0.013
+    strong compounds (O>=5, O>=4E): 56 pairs covering 0.164 of element tokens in >=2-element middles
+    top compounds: W33(M89)+W705(M336) 42:6.6, W255(M51)+W435(M130) 26:1.1, W4(M104/105)+W390(M161/162/167/168/169) 23:5.0, W60(M123)+W550(M216) 21:1.8, W176(M48)+W740(M342) 20:3.3, W17(M110/112)+W575(M197) 13:1.0, W3(M102/103)+W900(M287) 13:2.2, W415(M171)+W798(M216) 13:2.7, W220(M59)+W455(M233) 12:2.7, W407(M169)+W845(M407) 11:1.3, W35(M96)+W171(M409) 11:0.2, W16(M108/109)+W390(M161/162/167/168/169) 10:2.3
+    strong exclusions (E>=6, O=0): 0 of 152 pairs with E>=6
+    top exclusions: 
+    fit big / test held-out: held-out bits/element independence 7.569 vs pair(bigram) 7.330; gain 0.239 bits = 3.2%  (n=1098 tokens, 333 middles)
+    5-fold 0: held-out bits/element independence 7.570 vs pair(bigram) 7.022; gain 0.548 bits = 7.2%  (n=1153 tokens, 350 middles)
+    5-fold 1: held-out bits/element independence 7.525 vs pair(bigram) 6.948; gain 0.578 bits = 7.7%  (n=1221 tokens, 350 middles)
+    5-fold 2: held-out bits/element independence 7.514 vs pair(bigram) 6.868; gain 0.646 bits = 8.6%  (n=1213 tokens, 350 middles)
+    5-fold 3: held-out bits/element independence 7.561 vs pair(bigram) 6.941; gain 0.620 bits = 8.2%  (n=1186 tokens, 350 middles)
+    5-fold 4: held-out bits/element independence 7.529 vs pair(bigram) 7.031; gain 0.499 bits = 6.6%  (n=1174 tokens, 350 middles)
+    adjacent-pair MI 3.524 bits vs shuffle 3.122 [3.085,3.163]; excess 0.402
+    Indus seq_all DEDUP: MI(first,last) 4.014 bits vs within-position shuffle 3.943 [3.916,3.969] P=0.005; excess 0.070 = 1.0% of H(first) (7.24 bits); n=1503
+    Indus seq_all DEDUP: 186 elements with >= 15 partner tokens; mean z 0.84; share with partner-KL above Bonferroni null (P<=0.0003 or z>4 at floor) 0.059 (11/186); mean KL excess 0.150 bits
+      strongest partner-predictors: W400(M176) z=7.3, W390(M161/162/167/168/169) z=7.1, W4(M104/105) z=6.5, W35(M96) z=6.0, W171(M409) z=5.9, W840(M403) z=5.6, W741(M343) z=5.4, W3(M102/103) z=5.2, W545(M215) z=4.6, W503(M204) z=4.5
+      weakest: W409 z=-2.1, W630(M244) z=-2.0, W125(M28) z=-2.0, W812(M381) z=-1.9, W504(M206) z=-1.8, W760(M347/358) z=-1.8
+
+##### Indus frame-purged: 2588 -> 1639 distinct (site, middle)

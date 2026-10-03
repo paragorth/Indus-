@@ -1,0 +1,38 @@
+LOOP 26 CYCLE 3: slots and inventory (e).
+Engine: tools/dark_loop26.py 3 <level> 200. Full output: loop26_cycle3_seq_raw.txt / _seq_strong.txt / _seq_all.txt. Data and controls as cycle 1.
+(e1) Slot inference by complementary distribution: among elements with >= 10 tokens, every pair with permutation expectation E >= 3 is
+'avoiding' if O <= E/5; the avoidance graph is covered greedily by cliques (groups of mutually avoiding elements = candidate slots);
+explanatory power = share of middles with at most one member per group vs the same statistic on the permuted corpora. Positive control: the
+planted attribute code has 6 true slots of 102 symbols; the method must recover them to be trusted.
+(e2) Rarefaction: Chao1 on distinct middles, on middle elements and on adjacent element bigrams; Indus also for seals, MD + Harappa and the
+held-out sites, to compare with S309 (713 sign types seen, ~950 estimated for the whole script).
+
+RESULTS (seq_raw; seq_strong / seq_all within 0.01)
+                           elements >= 10   testable pairs   avoidance share (obs / permuted)   groups (>= 3 members)   one-per-group obs / null
+  Indus middles            136              617              0.125 / 0.013                      121 (2)                 0.952 / 0.865
+  Indus frame-purged       115              303              0.119 / 0.010                      106 (0)                 0.950 / 0.888
+  Indus seals              92               328              0.049 / -                          85 (0)                  0.953 / 0.874
+  Indus MD + Harappa       123              507              0.118 / -                          111 (1)                 0.954 / 0.873
+  Indus held-out sites     49 (>= 6)        77 (E >= 2)      0.182 / -                          45 (0)                  0.939 / 0.819
+  Ur III names             129              543              0.370 / 0.007                      117 (4)                 0.864 / 0.761
+  planted attribute code   159              369              0.087 / 0.016                      151 (0)                 0.984 / 0.895
+  planted lexicon          121              857              0.039 / 0.013                      108 (0)                 0.860 / 0.809
+Indus avoidance groups of 3: {W32, W503, W845} and {W33, W3, W4} (numerals); MD + Harappa: {W240, W700, W861}. Ur III groups: {a, suen, ma, sa6},
+{d, lugal, la}, {ur, lu2, ni}, {ba, nin, szul} = the name-initial (ur-/lu2-) and theophoric slots of Sumerian names.
+POSITIVE CONTROL FAILS: the planted 6-slot code comes out as 151 groups of <= 2 members. With 102 Zipf symbols per slot and ~8,000 tokens,
+within-slot pairs rarely reach E >= 3, so the method cannot see slots of this inventory size. The Indus groups (numerals; 32/503/845) are
+therefore not an estimate of 'the slot structure'; only the aggregate avoidance share is interpretable, and there the Indus (0.125) is above
+the planted code (0.087) and the lexicon (0.039) but a third of Ur III (0.37), whose name templates (ur-X, lu2-X, dingir-X) are the strongest
+'slot' structure of the four populations. Mutual avoidance does not separate attribute slots from name templates.
+Chao1 (seq_raw):
+  Indus    distinct middles 1,611 -> 8,800 (f1 1,332, f2 123); elements 617 -> 864 (f1 211, f2 90); adjacent bigrams 2,560 -> 7,200
+           seals 1,144 -> 11,700; elements 541 -> 852.  MD + Harappa 1,362 -> 6,800; held-out sites 311 -> 4,200 (elements 289 -> 495)
+  Ur III   distinct names 1,065 -> 2,800; syllables 433 -> 536
+  attribute code: distinct middles 2,263 -> 29,700; symbols 597 -> 608 (closed inventory, found)
+  lexicon: distinct middles 1,684 -> 10,000; syllables 150 -> 150 (closed inventory, found)
+The element inventory of the middle is nearly closed (864 estimated vs 617 seen, consistent with S309's 950 for the whole script); the
+inventory of distinct MIDDLES is not (>= 8,800, f1/f2 = 11, a lower bound), which is the lexicon side of the planted range (lexicon 10,000;
+attribute code 29,700 because 6 slots x 102 symbols combine into ~10^12 strings). A middle lexicon of ~9,000+ strings built from ~860 elements:
+if the middles were words, the 'dictionary' would be at least 5x larger than the attested corpus, and 95% of new seals carry a new one (S309).
+
+| S-DARK-26.3 | **Lexicon or attribute code, part 3: how many slots, how big an inventory?** (e1) Complementary distribution: elements with >= 10 tokens, pairs with permutation E >= 3, 'avoiding' if O <= E/5; greedy clique cover of the avoidance graph = candidate slots; share of middles with <= 1 member per group vs permuted; positive control = the planted 6-slot code. (e2) Chao1 on distinct middles, middle elements, adjacent bigrams; Indus seals, MD + Harappa, held-out sites; three levels (`tools/dark_loop26.py 3`) | Avoidance share of testable pairs: Indus 0.125 (permuted 0.013), purged 0.119, seals 0.049, held-out sites 0.18 (77 pairs); Ur III 0.37; planted code 0.087; lexicon 0.039. Groups of >= 3 mutually avoiding elements: Indus 2 ({32, 503, 845}, {33, 3, 4} numerals), Ur III 4 (ur/lu2/ni, d/lugal/la ... = Sumerian name templates), **planted 6-slot code 0: the method does not recover the slots it was built to find** (within-slot pairs of 102 Zipf symbols rarely reach E >= 3). One-per-group 0.95 vs null 0.87 (Indus), 0.98 vs 0.90 (code), 0.86 vs 0.76 (Ur III). Chao1: Indus middle elements 617 -> 864 (S309: 713 -> 950 for all signs); distinct middles 1,611 -> >= 8,800 (f1/f2 = 11; seals 1,144 -> 11,700; held-out 311 -> 4,200); adjacent bigrams 2,560 -> 7,200. Ur III names 1,065 -> 2,800 over 433 -> 536 syllables; lexicon 1,684 -> 10,000 over a closed 150; code 2,263 -> 29,700 over a closed 608 | **Slot count: undetermined; the complementary-distribution method fails its positive control at this corpus size, and mutual avoidance is strongest in Ur III names (templates), so it does not separate attribute slots from name templates.** Inventory: the elements form a nearly closed set (~860, matching S309), the middles do not (>= 8,800 distinct, at least 5x the corpus) - lexicon-sized if words, combinatorial if attributes. The only slot-like groups found are the numerals (one count per middle, S-DARK-26.2) and 32/503/845. Rests on MD + Harappa; held-out sites show the same avoidance excess on 77 pairs. |
