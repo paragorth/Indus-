@@ -1,0 +1,50 @@
+# S-DARK-25 cycle 1: PHONETIC-COMPLEMENT SIGNATURE (shared small neighbour sets reused as free signs)
+# Tool: tools/dark_loop25.py 1 <level> 200. Tables: loop25_cycle1_seq_raw/strong/all.txt, loop25_cycle1_smallsets_seq_raw.txt
+
+Design. For every sign with >= 30 tokens, its right- and left-neighbour distribution over all 3,155 complete, direction-recorded
+texts (>= 2 signs). A (sign, side) has a SMALL neighbour set when <= 4 signs cover 80% of >= 20 neighbour tokens. A HUB is a
+neighbour sign that sits in the small sets of >= 3 different hosts on the same side (a shared inventory). For every hub: the
+fraction of its tokens NOT adjacent to one of its hosts (free use), the cosine of its far-side neighbour profile attached vs free,
+the JS divergence of its position attached vs free, the slot entropy of its hosts (S310 parser), and MOBILITY = entropy of the
+host+hub pair's offset from the nearer edge divided by the entropy of a uniform position in the same texts (1 = anywhere, 0 = one
+fixed place). Null: tokens shuffled across texts within site x object type x length bin (200x; keeps lengths and per-stratum
+sign counts); Indus also against a frame-kept null (shuffle within S310 slot labels). The same code on Ur III seal legends
+(6,675 syllable-split legends), Linear B tablet lines (2,643), Proto-Elamite lines (2,792), a planted logo-syllabic corpus with a
+12-sign complement inventory + 3 determinatives (3,067 texts) and a planted frame-only corpus (opener / name / closer-specific
+qualifier / closer / suffix, 3,144 texts).
+
+Results (Indus seq_raw / seq_strong / seq_all)
+  signs >= 30 tokens 81 / 81 / 81; small (sign,side) sets 29 / 28 / 28 (null 0, P = 0.005); hubs 3 / 3 / 3 (null 0; frame-kept
+  null 0.0, max 1); attachments 20 / 18 / 19.
+  The three hubs are frame signs at every level: jar W740/M342 (right of 12-13 hosts: W176, W407, W255, W100, W690, W760, W142,
+  W585 ... = the title slot, S303), the connective W2/M99 (right of the openers W861/W817 and of W405/W690; seq_raw), the
+  tall-3 W33/M89 (left of W700, W845; seq_strong/all), W407/M169 (seq_raw) and the tablet suffix W400/M176 (right of the closers
+  W156, W154, W142). Indus hubs: median free fraction 0.62, but the 'free' jar tokens have the SAME far-side profile (cos 1.00)
+  and the SAME position (JSD 0.04) as the attached ones: the jar after a non-core host is still the closer, not a reused syllable.
+  Host-slot entropy 1.2-1.3 bits (TITLE + NAME residue). Mobility 0.40 / 0.37 / 0.37.
+  Small sets without a hub (13 of 29): fixed terms and frozen pairs: W34->W700, W527<-W550/555/554, W700<-W33/34/32, W575<-W413/
+  W17/W717/W692, W845<-W33/806/240/220, W845->W407/W61, W435<->W255, W413->W575/892/125, W501->W405, W615<-W503/495/703/104:
+  each a lexicalised bigram (S197, S229, S289), not a shared syllable.
+
+Controls, same statistics (hubs; median free; mobility; host-slot entropy)
+  Ur III legends        28 hubs of 208 signs; free 0.62; mobility 0.62; hubs = dumu, d, lugal, dub, ARAD2, lu2, ur, nin, ba, a,
+                        na, ki, da, zu, ga, ma ... (logograms AND syllables; 'ki' left of uri5/umma/nibru/lagasz, 'd' left of
+                        divine names = real determinatives; 'zu' right of ARAD2 = the ARAD2-zu formula)
+  Linear B lines         9 hubs of 40;  free 0.44; mobility 0.62; hubs = NUM, ideograms GRA/T/M, pe-mo, o-na-to, pa-ro, ke-ke-me-na
+  Proto-Elamite lines    2 hubs of 57;  free 0.89; mobility 0.00; hubs = numerals N01/N14 after M288/M346/M072
+  Planted logo-syllabic 10 hubs of 70;  free 0.86; mobility 0.74; recovers 4 of the 12 planted complements (s0-s3, the Zipf head),
+                        all 3 determinatives (D0-D2, free 0.00), NUM, and 2 spurious logogram-logogram hubs
+  Planted frame-only     8 hubs of 74;  free 0.39; mobility 0.16; hubs = suffix, marker and 6 closers (hosts = their qualifiers)
+  Null (all corpora): 0 small sets, 0 hubs, so 'more structure than shuffled text' separates nothing; the discriminating numbers
+  are the side-by-side ones above.
+
+Reading. The planted complement system is detected by this machine (hubs with free use 0.7-0.9 and mobility 0.74; the complement
+signs reappear as free name syllables). Indus shows 3 hubs, all known frame signs (closer, connective, suffix, fixed-term numeral),
+mobility 0.37-0.40, between the planted frame (0.16) and the languages (0.62-0.74) and nearer the frame; its small neighbour
+sets are either host -> frame sign or lexicalised bigrams. No Indus sign behaves as a shared complement that is also a free
+syllable. Caveat: the planted detector recovers only the frequent third of its complement inventory, so a complement system with
+a flat inventory or a low complement rate (< 0.3 per word-sign) would be missed at this corpus size; 'none found' is an upper
+bound, not proof. Transcription-robust (same hubs at all three merge levels; W2 vs W33/W400 swap at the 3-host threshold).
+
+Ready-to-paste row:
+| S-DARK-25.1 | **Phonetic-complement signature without sound values.** For every sign >= 30 tokens, right/left neighbour sets; a SMALL set = <= 4 signs cover 80%; a HUB = a neighbour shared by the small sets of >= 3 hosts (a complement inventory); for each hub the free-use fraction, far-side profile and position attached vs free, host-slot entropy, and mobility (pair offset entropy / uniform). Null: stratified token shuffle (site x type x length, 200x) and, for Indus, a frame-kept (within-slot) shuffle. Same code on Ur III legends, Linear B lines, Proto-Elamite lines, a planted logo-syllabic corpus (12 complements + 3 determinatives) and a planted frame-only corpus. seq_raw / seq_strong / seq_all (`tools/dark_loop25.py 1`) | Indus: 29 / 28 / 28 small sets, **3 / 3 / 3 hubs, all frame signs** (jar W740/M342 right of 12-13 title hosts; W2/M99 right of the openers; W33/M89 left of W700/W845; W400/M176 right of the closers W156/W154/W142); null 0, frame-kept null 0.0 (max 1). Hub free fraction 0.62 but the 'free' jar keeps the attached profile (cos 1.00, position JSD 0.04). Mobility 0.40 / 0.37 / 0.37. The 13 hub-less small sets are lexicalised bigrams (34-700, 550/555-527, 33-700, 413-575, 845-407 ...). Controls: planted logo-syllabic 10 hubs, free 0.86, mobility 0.74 (recovers the 4 frequent complements + all 3 determinatives); planted frame-only 8 hubs, free 0.39, mobility 0.16; Ur III 28 hubs, mobility 0.62 (d, ki, dumu, ARAD2-zu, syllables ba/a/na/ma); Linear B 9 hubs, mobility 0.62 (NUM, ideograms); Proto-Elamite 2 hubs (numerals), mobility 0.00. | **Indus shows the frame signature, not the complement signature.** The machine finds planted complements (shared hubs with 70-90% free use as name syllables, mobile) but in Indus every shared neighbour is a closer, connective, suffix or fixed-term numeral, its 'free' tokens are the same frame use, and host+hub pairs sit at fixed offsets (mobility nearer the planted frame than any language). Upper bound only: a flat or low-rate complement inventory would be missed (the detector sees 4 of 12 planted complements). Transcription-robust at all three levels. |

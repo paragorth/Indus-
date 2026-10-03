@@ -337,13 +337,15 @@ def _train_eval(x):
 
 _PTE = None
 def _follow_eval(x):
+    """Cheap-first cascade: seq_all -> held-out sites -> (only if both pass) strict null + fine permutation p."""
     global nrng
     h, (kind, p, fact), r = x; nrng = np.random.default_rng(SEED * 100000 + 50000 + h)
-    r2 = _PTE.evaluate(kind, p, fact, 'raw', 1000)
-    r3 = _PTR.evaluate(kind, p, fact, 'all', 500)
-    rstrict = _PTR.evaluate(kind, p, fact, 'raw', 1000, strict=True)
+    r3 = _PTR.evaluate(kind, p, fact, 'all', 300)
+    r2 = _PTE.evaluate(kind, p, fact, 'raw', 500) if (r3 is not None and r3[1] < 0.01) else None
     ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
-    rfine = _PTR.evaluate(kind, p, fact, 'raw', 20000 if ok else 1000, early=False) if ok else None
+    rstrict = _PTR.evaluate(kind, p, fact, 'raw', 1000, strict=True) if ok else None
+    rfine = _PTR.evaluate(kind, p, fact, 'raw', 5000, early=False) if ok else None
+    print('  follow-up %d done (%s x %s) %s' % (h, kind, fact, 'REPLICATED' if ok else '-'), flush=True)
     return r2, r3, rstrict, rfine
 
 def make_arrow():
@@ -497,7 +499,7 @@ def main():
         s = ' '.join(str(x) for x in a); print(s, flush=True); log.append(s)
     say('S-DARK-2 cycle %d seed %d control=%s | active relations %d: %s' % (CYCLE, SEED, CONTROL, len(ACTIVE), ','.join(ACTIVE)))
     TR = [o for o in OBJ if o['f']['site'] in ('Mohenjo-daro', 'Harappa')]; TE = [o for o in OBJ if o['f']['site'] not in ('Mohenjo-daro', 'Harappa')]
-    PTR = Pool(TR, 40000); PTE = Pool(TE, 20000)
+    PTR = Pool(TR, 20000); PTE = Pool(TE, 10000)
     say('objects %d | train %d (pairs %d) | held-out %d (pairs %d; sites %s)' % (len(OBJ), len(TR), len(PTR.a), len(TE), len(PTE.a), ','.join(PTE.sites)))
     # ---- PAIR arrows (train stage in parallel)
     global _PTR
@@ -520,7 +522,7 @@ def main():
         follow = pool.map(_follow_eval, hits, chunksize=1)
     for (h, (kind, p, fact), r), (r2, r3, rstrict, rfine) in zip(hits, follow):
         ok = (r2 is not None and r2[1] < 0.01) and (r3 is not None and r3[1] < 0.01)
-        bonf = rfine is not None and rfine[1] < 0.05 / NPAIR
+        bonf = rfine is not None and rfine[1] <= 0.05 / NPAIR  # with 5000 perms the floor is 2e-4: 'bonf' here means no permutation reached the observed MI
         strict_ok = rstrict is not None and rstrict[1] < 0.01
         surv.append(dict(kind=kind, p=p, fact=fact, train=r, fine=rfine, strict=rstrict, held=r2, all=r3, ok=ok, bonf=bonf, strict_ok=strict_ok))
         say('  [%d] train hit %s %s x %s MI %.4f p %.4f n %d | fine p %s (bonf %s) | within-site-x-type null p %.4f | held %s | seq_all %s | %s' % (

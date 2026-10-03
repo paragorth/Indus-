@@ -1,0 +1,40 @@
+# LOOP 28 cycle 1: graphic-derivation graph from the lipi font (2026-10-03T12:20)
+signs rendered 712; non-numeral signs with ink 683; render 64x64, parts normalised to 32x32, similarity = symmetric dilated overlap
+score of planted part vs TRUE base: median 1.000, 10th pct 0.572 (n=819)
+score of planted part vs WRONG bases (random pairs): median 0.506, 99th 0.832, 99.5th 0.863 (n=29497)
+threshold = 99.5th percentile of wrong-base scores = 0.863
+planted-derivation recall (correct type AND correct base) at this threshold:
+  box        59/60 found; 1 with right type but wrong base
+  oval       57/60 found; 3 with right type but wrong base
+  roof       58/60 found; 2 with right type but wrong base
+  strokes    55/60 found; 0 with right type but wrong base
+  doubled    59/60 found; 1 with right type but wrong base
+  mirrored   59/60 found; 1 with right type but wrong base
+  ligature   47/60 found; 0 with right type but wrong base
+false-positive rate of a wrong base passing the threshold: 0.50% per (part, wrong base) comparison
+
+## derivation edges found among real signs: 188 (derived -> base), by type {'roof': 14, 'strokes': 105, 'doubling': 27, 'enclosure': 27, 'ligature': 15}
+   confidence: {'high': 69, 'mid': 70, 'low': 49}
+   check 1 (Wells shape-family numbering): |W_derived - W_base| <= 20 in 55% of edges vs 4% of random pairs; median distance 11 vs 302
+   check 2 (glyph_sim_fine, independent whole-glyph measure): mean 0.595 for edges vs 0.400 random pairs; edges above the random 95th pct (0.604): 50%
+   roof: n=14, fine mean 0.644, within-20 71%
+   strokes: n=105, fine mean 0.721, within-20 65%
+   doubling: n=27, fine mean 0.301, within-20 78%
+   enclosure: n=27, fine mean 0.461, within-20 4%
+   ligature: n=15, fine mean 0.446, within-20 27%
+
+## edge table (derived <- base, type/sub, score, conf, glyph_sim_fine, partner)
+  W44   <- W33   roof      roof           score 1.000 high fine 0.75
+  W562  <- W561  strokes   4right         score 1.000 high fine 0.91 pos ['right', 'left', 'left', 'right']
+  W56   <- W55   doubling  doubled-col    score 1.000 high fine 0.36
+  W69   <- W70   doubling  doubled-col    score 1.000 high fine 0.21
+  W592  <- W590  strokes   4left          score 1.000 high fine 0.88 pos ['left', 'right', 'left', 'right']
+  W597  <- W595  strokes   2inside        score 1.000 high fine 0.96 pos ['inside', 'inside']
+  W93   <- W90   strokes   1inside        score 1.000 high fine 0.92 pos ['inside']
+  W636  <- W630  strokes   2inside        score 1.000 high fine 0.90 pos ['inside', 'inside']
+  W697  <- W700  doubling  doubled-col    score 1.000 high fine 0.11
+  W698  <- W700  doubling  doubled-col    score 1.000 high fine 0.11
+  W699  <- W705  doubling  doubled-col    score 1.000 high fine 0.43
+  W701  <- W702  roof      roof           score 1.000 high fine 0.57
+  W191  <- W190  doubling  doubled-col    score 1.000 high fine 0.39
+  W219  <- W220  doubling  doubled-col    score 1.000 high fine 0.38
