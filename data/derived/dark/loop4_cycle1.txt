@@ -74,3 +74,9 @@ Indus: fit (MD+Harappa) 2746 texts, test (other named sites) 825 texts, 2627 tes
 ## Indus level seq_strong
   [planted logo-syllabic (Tamil, 60 word-signs, Indus lengths)] baseline sign level: bits=6.772 uniq=0.891 rep=0.875 units=211
   [seq_strong] baseline sign level: bits=7.538 uniq=1.026 rep=0.272 gram=0.441 units=649
+  [planted logo-syllabic (Tamil, 60 word-signs, Indus lengths)] best per statistic (delta vs sign level):
+    bits  TRUE words                   6.247  (sign 6.772, delta -0.526)  bits/sign lower=more predictable
+    uniq  bpe k=5 T=5 s=2              0.893  (sign 0.891, delta +0.002)  uniq ratio lower=texts recur more than bigram
+    rep   bpe k=20 T=5 s=2             0.736  (sign 0.875, delta -0.140)  within-text repetition ratio
+    segmentations beating sign level on bits AND (uniq or rep): 20 of 22: bpe k=5 T=1 s=0, bpe k=10 T=1 s=0, bpe k=20 T=1 s=0, bpe k=40 T=1 s=0, bpe k=60 T=1 s=0, bpe k=5 T=5 s=0, bpe k=5 T=5 s=1, bpe k=5 T=5 s=2, bpe k=10 T=5 s=0, bpe k=10 T=5 s=1, bpe k=10 T=5 s=2, bpe k=20 T=5 s=0
+  null replicate 3: bits=-0.104 uniq=-0.035 rep=-0.022 gram=+0.008 joint=7 bpe_bits=+0.053 sub_bits=+0.031 allo_bits=-0.104 base_bits=+6.720 base_uniq=+1.031 base_rep=+0.755

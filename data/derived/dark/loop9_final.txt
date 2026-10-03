@@ -1,0 +1,16 @@
+# S-DARK-9 final (loop 9: TIME and DEPTH). Tool: tools/strat_dark_time.py. Rows: data/derived/dark/loop9_rows.txt (S-DARK-9.1 .. 9.4). Tables: loop9_cycle1.txt, loop9_cycle1_control.txt, loop9_cycle2.txt, loop9_cycle3_typeSEAL.txt, loop9_cycle3_typeTAB.txt, loop9_cycle4_stratType.txt
+
+Question: does any reading feature of a text (length, numerals, W390 count, closer choice, opener, unique/reused middles, repeats, families, fish, emblem, object size, object type) move with depth (ft below datum) or with fine period, monotonically in BOTH Mohenjo-daro and Harappa, or in opposite directions?
+
+Design: within-city Spearman / mean-rank statistic; permutation 2,000x of the outcome within site x excavation area (cycle 4 also x object subtype); BH-FDR per city x outcome x level; seq_raw / seq_strong / seq_all; mutual held-out = the other city; whole-machine control = labels shuffled within area.
+
+Correction: version 1 broke rank ties by CSV order (= object type). With 9 heavily tied period levels this created 'both-city' period trends for every frame feature; they survived the shuffled-label control, which exposed the bug. Average ranks fixed it; the control then gives 0 survivors in 348 tests. Only post-fix results are reported.
+
+Results
+- Both cities, same direction: only object mix (seals shallower/later than tablets and implements; TAB:I deeper than moulded tablets). No text feature. Nothing on all three seq levels.
+- Both cities, opposite direction: tablet middle reuse vs depth looked opposite (MD -0.33, HP +0.17) but Harappa's sign is the incised/moulded subtype mix (within subtype +0.05/+0.09, ns). What remains is Mohenjo-daro-only: bas-relief tablets from the deep DK-G levels carry less-reused texts than the upper ones (within-area rho -0.31, p = 0.003).
+- Mohenjo-daro: 0 of 30 named and 0 of ~280 random arrows vs depth or period after area stratification (seals only: 0; area x type strata: 0).
+- Harappa: a coherent single-city depth package in the Vats ft-depth sample: deeper = shorter texts (-0.21), smaller objects (-0.42), more reused / fewer unique middles (+0.25 / -0.23), fewer unicorns (-0.22), less fish (-0.16); holds within seals, within tablets and within area x subtype strata; the random machine re-finds it as length proxies. It does not appear at Mohenjo-daro (rho -0.03..+0.01) and the HARP-dated Harappa sample shows only 'unicorn later' (+0.23). So: local, or a property of how Vats' depths were recorded, not a systemic change in the script.
+- W390 quota, numeral values, closer choice, opener, emblem x time: null in both cities once object mix is controlled (jar count HP -0.07 is the only q < 0.1, single-city).
+
+Verdict: null for the TIME/DEPTH family. The script's frame, numerals and closers are stable through the dated sequence at both cities; the only replicated 'trends' are in what objects were inscribed, not in what was written. Consistent with S304, S348, S357. Nothing to change in WORKING-DICTIONARY.md or GRAMMAR.md. Caveats: rests on Mohenjo-daro + Harappa by construction; Harappa depth and HARP period are different samples; fine-period n is small (MD 632, HP 431) so period tests have less power than depth tests.
