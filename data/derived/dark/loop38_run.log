@@ -240,3 +240,30 @@ wide signs on narrow faces: 69 signs with >= 20 texts; rho(sign width, mean resi
   W2 tall 2: width 0.23, residual log H -0.004 (434 texts)
   W861 opener 861: width 0.74, residual log H -0.014 (243 texts)
   W1 man W1: width 0.05, residual log H +0.041 (93 texts)
+# LOOP 38 cycle 4: do narrow allographs cluster at the ends of crowded texts, and does the first sign's width predict the last sign's? (2026-10-03T13:49)
+allograph pairs with both glyphs in the font: 27 (levels: Counter({'strong': 18, 'probable': 6, 'doubtful': 3}))
+tokens of a variant pair on single-line seals with H: 785 over 10 pairs (pairs where the two variants differ in width by >= 0.05)
+pair token counts: W817/W861 stro (0.61 vs 0.74) n=244, W405/W390 stro (0.56 vs 0.45) n=201, W242/W240 prob (0.49 vs 0.43) n=140, W706/W705 stro (0.53 vs 0.66) n=114, W158/W154 stro (0.79 vs 0.85) n=31, W877/W824 prob (0.75 vs 0.62) n=19, W773/W772 stro (0.81 vs 0.97) n=14, W315/W317 stro (0.51 vs 0.42) n=11, W511/W413 doub (0.31 vs 0.45) n=10, W871/W868 prob (0.65 vs 0.74) n=1
+narrow-variant share at the end 0.628 (n 145) vs elsewhere 0.600 (n 640); diff +0.028; within-pair shuffle null [+0.002,+0.112]; P two-sided 0.323
+crowding (ink of the other signs / H) for narrow variants 0.0849 vs wide 0.0899; diff -0.0050; null [-0.0022,+0.0075]; P 0.002
+final tokens only (145): crowding narrow 0.0629 vs wide 0.0771; diff -0.0142; P 0.252
+  W817/W861: narrow = W817; narrow share final 0.22 (n 9) vs non-final 0.46 (n 235); crowding narrow 0.080 vs wide 0.088
+  W405/W390: narrow = W390; narrow share final 0.78 (n 105) vs non-final 0.80 (n 96); crowding narrow 0.084 vs wide 0.081
+  W242/W240: narrow = W240; narrow share final 1.00 (n 2) vs non-final 0.99 (n 138); crowding narrow 0.097 vs wide 0.126
+  W706/W705: narrow = W706; narrow share final 1.00 (n 1) vs non-final 0.36 (n 113); crowding narrow 0.072 vs wide 0.102
+  W158/W154: narrow = W158; narrow share final 0.08 (n 25) vs non-final 0.50 (n 6); crowding narrow 0.086 vs wide 0.081
+  W877/W824: narrow = W824; narrow share final nan (n 0) vs non-final 0.32 (n 19); crowding narrow 0.069 vs wide 0.075
+  W773/W772: narrow = W773; narrow share final nan (n 0) vs non-final 0.43 (n 14); crowding narrow 0.073 vs wide 0.074
+  W315/W317: narrow = W317; narrow share final 1.00 (n 1) vs non-final 0.30 (n 10); crowding narrow 0.065 vs wide 0.117
+
+--- level seq_raw: seals L >= 3 with H: 1190. partial rho(first width, last width | n, H, middle ink) = -0.029; width-shuffle null [-0.067,+0.062], P two-sided 0.427
+  rho(ink before the last sign / H, last-sign width) = +0.003; width-shuffle null [-0.156,+0.128], P 0.840 (squeezing predicts negative, beyond the frame null)
+  last-sign width by class: jar 0.67 (n 495), arrow 0.51 (n 116), other 0.64 (n 169), none 0.56 (n 410)
+
+--- level seq_strong: seals L >= 3 with H: 1190. partial rho(first width, last width | n, H, middle ink) = -0.030; width-shuffle null [-0.067,+0.065], P two-sided 0.408
+  rho(ink before the last sign / H, last-sign width) = -0.001; width-shuffle null [-0.155,+0.130], P 0.911 (squeezing predicts negative, beyond the frame null)
+  last-sign width by class: jar 0.67 (n 495), arrow 0.51 (n 116), other 0.62 (n 176), none 0.56 (n 403)
+
+--- level seq_all: seals L >= 3 with H: 1190. partial rho(first width, last width | n, H, middle ink) = -0.027; width-shuffle null [-0.063,+0.062], P two-sided 0.418
+  rho(ink before the last sign / H, last-sign width) = -0.001; width-shuffle null [-0.149,+0.121], P 0.937 (squeezing predicts negative, beyond the frame null)
+  last-sign width by class: jar 0.67 (n 495), arrow 0.51 (n 116), other 0.62 (n 176), none 0.56 (n 403)

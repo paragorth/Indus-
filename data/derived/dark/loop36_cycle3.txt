@@ -1,0 +1,53 @@
+LOOP 36, CYCLE 3 (2026-10-03): blind scoring of the out-of-corpus set against the frozen predictions.
+Script: tools/dark_loop36_score.py (raw output: loop36_cycle3_raw.txt). Predictions: loop36_predictions.txt (frozen before
+any object was read). Nulls: within-text shuffle (500 reps) and a home-corpus bigram model, length-matched (500 reps), as in
+S-DARK-21.1; home base rates from the merged corpus for comparison. Zero counts given as < 3/n.
+
+Sets. STRICT = A/B-grade signs only (6 texts, 18 sign tokens, 4 texts with >= 3 signs: Cleveland 923-415-690-740,
+700-33-790, 617-90-617, Met 1-503-861-1; plus Met ?-1-?-?-400 and Binjor 90-?-93). LENIENT = every read sign including
+C (13 texts, 51 tokens; 8 museum, 1 excavated, 4 copper plates whose row order is unknown).
+
+Per-prediction verdicts (STRICT first, LENIENT in brackets):
+P1  opener initial: 1 opener token (W861 in Met 49.40.1), NOT initial (0/1). Underpowered (n = 1); note that 861 sits in
+    the middle of a 4-sign text, which the home corpus shows 25 times in 465 (S256). [0/1]
+P2  connective never initial: 0 connective tokens. Untestable. [0 tokens]
+P3  opener + connective: no opener-connective pair. Untestable.
+P4  jar final: 1/1 (Cleveland 1973.161); comb final 1/1 (Met 49.40.3); closer last 2/6 texts (shuffle 1.1, P = 0.30).
+    Consistent, underpowered. [1/1, 1/1, 2/13]
+P5  closer exclusivity: 0 texts with two closers (n = 6). Underpowered. [0/13]
+P6  no repeated sign: FAIL. 2 of 4 texts with >= 3 signs repeat a sign (Met 1-503-861-1; Cleveland 617-90-617), ratio
+    7x the bigram expectation (0.28; P = 0.026 by the script, 0.026 by a 5,000-rep recomputation) and P = 0.002 against
+    home texts of the same lengths resampled (home rate 2.7% at length 4-6, 4.8% overall; the corpus's own 24 museum
+    'Unknown' texts 12.5%). Kill line was ratio > 0.7; observed 7. [3 of 12; ratio 2.3, P = 0.14]
+P7  minimum lot: 0 numeral + good pairs. Untestable. [0]
+P8  partial-order chain: 3 co-occurring chain pairs in chain order, 0 against (923... no; the pairs are 415>690, 415>740,
+    690>740 in Cleveland 1973.161). Consistent, underpowered (shuffle P = 0.15). [5 : 1, P = 0.17; the one reversal is
+    the copper plate 3 '690 before 700' whose row order is unknown]
+P9  fish order: 0 pairs. Untestable.
+P10 nesting and reuse: FAIL (lenient) / underpowered (strict). 0 of 4 strict texts contain a 3-sign run attested at home
+    (bigram expectation 1.6, P = 0.13); 0 of 12 lenient texts (bigram 5.8, P = 0.002; S349 held-out sites 40%, home seals
+    62%, the corpus's own 24 museum texts 46%, texts found abroad 23%). Kill line was ratio < 1.2; observed 0.
+P11 frozen pairs: 0 occurrences of a frozen pair's members. Untestable. [1 broken: Sindh 435-520-64-435 has 435 without
+    690; all C-grade]
+P12 seated person: no W176/W100. Untestable.
+P13 >= 6-sign middles unattested: 0 texts of >= 6 signs. Untestable.
+P14 unseen signs: 0 of 18 strict tokens (< 0.17) and 0 of 51 lenient tokens (< 0.06) are signs outside the 713 Wells types,
+    consistent with the Good-Turing 1.7%. But this counts only signs I could code: at least 4 sign forms with no Wells
+    counterpart were coded '?' (Umma sign 1, Met 49.40.2 signs 2 and 3, Cleveland 1973.161 sign 1) and three more on copper
+    plate 3, i.e. about 4 of 36 tier A/B tokens (11%) if every unmatched form is a new sign. Honest band: 0-11%. The share of
+    new TEXTS is 100% of the 9 testable texts (S309 predicted ~95%). Unseen TYPES: 0 coded, up to 7 uncoded.
+P15 abroad: no round seal found abroad in the set. Untestable (Umma seal is square and 2 signs).
+P16 site independence: the set is 1 excavated text + museum pieces; no site split possible.
+
+Score: 0 predictions pass at P < 0.05; 2 fail (P6 repetition, P10 reuse); 3 consistent but underpowered (P4, P8, P14);
+9 untestable. The two failures are concentrated in the unprovenanced museum pieces and go in the direction a forger or a
+misreader would produce: repeated signs in short texts and trigrams never seen at home. With a measured 25% per-sign
+error, the P10 failure is expected from misreading alone (a 4-sign text has a ~68% chance of containing at least one
+wrong sign, and one wrong sign breaks every 3-run through it); the P6 failure is harder to explain by misreading because
+the repeated signs (two tall strokes; two hatched grids) are the clearest signs on their seals.
+
+Follow-up that would settle it: the Met and Cleveland pieces are in CISI 3.1 if any museum pieces are; a human with
+CISI 3.1 (Parpola, Pande & Koskikallio 2010) can look up 'Cleveland' and 'New York, Metropolitan' in the concordance and
+give the published readings, which would both calibrate my transcription and show whether ICIT skipped them.
+
+| S-DARK-36.3 | **Out-of-corpus test set, part 3: blind scoring against the frozen predictions (loop36_predictions.txt, 16 predictions).** STRICT set = A/B-grade signs (6 texts, 18 tokens; 4 texts >= 3 signs), LENIENT = all read signs (13 texts, 51 tokens). Nulls: within-text shuffle 500x, home bigram model length-matched 500x (S-DARK-21.1), home resampling at matched lengths 5,000x; home base rates for comparison; zero counts as < 3/n (`tools/dark_loop36_score.py`) | Testable with n > 0: P4 jar final 1/1, comb final 1/1 (consistent); P8 chain order 3:0 strict, 5:1 lenient (P = 0.15/0.17); P14 unseen signs 0/18 (< 0.17) coded, but 4 of 36 tier A/B sign forms (11%) had no Wells counterpart; new texts 9/9 (S309: 95%). **FAILS: P6 repetition, 2 of 4 strict texts repeat a sign (Met 1-503-861-1, Cleveland 617-90-617) = 7x the bigram expectation (P = 0.026) and P = 0.002 vs home texts of the same lengths (home 2.7-4.8%, corpus museum 'Unknown' texts 12.5%); P10 reuse, 0 of 12 texts carry a 3-sign run attested at home vs 5.8 expected (P = 0.002; held-out sites 40%, S349).** Untestable (no tokens): P2, P3, P5, P7, P9, P11, P12, P13, P15, P16 | **The first out-of-corpus set is too small and too unprovenanced to test the grammar: 0 passes, 2 fails, 3 consistent-underpowered, 9 untestable.** The two failures sit in the museum pieces and are what either a 25%-per-sign misreading or non-genuine objects would produce; the repeated-sign failure is the one a misreading does not easily explain (the repeated signs are the clearest on their seals). This is not evidence against GRAMMAR.md, which rests on excavated material; it is a warning that unprovenanced museum seals read from photographs are a different population (the corpus's own 24 'Unknown' texts already repeat signs at 12.5% vs 4.8% at home). Needed: CISI 3.1 concordance for the Met/Cleveland pieces, BM photos of Gadd 1932 nos. 3 and 15, and the Manjul & Manjul 2021 Binjor plate. |

@@ -2,3 +2,11 @@ train seq_raw bpe>nonnum  namecalib base 0.786 -> 0.823 [0.789,0.887] D +0.037 n
 train seq_raw bpe>nonnum  repeat    base 0.233 -> 0.286 [0.212,0.417] D +0.053 null -0.078±0.062 z +2.1 p 0.667 (969s)
 train seq_raw bpe>nonnum  slot      base 1.134 -> 1.182 [0.764,1.328] D +0.049 null +0.094±0.039 z -1.1 p 0.857 (969s)
 train seq_raw bpe>nonnum  arith     n/a
+train seq_raw objtype>family namecalib base 0.795 -> 0.632 [0.352,0.724] D -0.163 null -0.067±0.017 z -5.7 p 0.048 (66s)
+train seq_raw objtype>family repeat    base 0.246 -> 0.907 [0.714,0.981] D +0.661 null -0.016±0.047 z +14.4 p 0.048 (66s)
+train seq_raw objtype>family slot      base 1.134 -> 1.569 [1.034,1.760] D +0.435 null +1.358±0.051 z -18.1 p 1.000 (66s)
+train seq_raw objtype>family arith     base 0.253 -> 0.220 [0.210,0.417] D -0.033 null +0.026±0.025 z -2.3 p 0.571 (66s)
+train seq_raw numonly>family namecalib base 0.776 -> 1.000 [1.000,1.000] D +0.224 null -0.049±0.013 z +21.8 p 0.077 (25s)
+train seq_raw numonly>family repeat    base 0.221 -> 1.000 [1.000,1.000] D +0.779 null +0.004±0.043 z +17.9 p 0.048 (25s)
+train seq_raw numonly>family slot      n/a
+train seq_raw numonly>family arith     n/a
