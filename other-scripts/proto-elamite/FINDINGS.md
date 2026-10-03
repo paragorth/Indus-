@@ -191,3 +191,9 @@ Caveats:
 - P008011: line 2 should read 5(N1@b).
 
 Photos: https://cdli.earth/artifacts/<number>.
+
+### Photo check (CDLI photo P008210, viewed 3 Oct 2026, not committed)
+- **P008210 reverse:** 5 round impressions (N14) and 1 horizontal wedge (N01), i.e. **5(N14) 1(N01) = 51**, exactly as transliterated.
+- **The prediction "total should read 54" fails on the total.** If there is an error, it lies in the obverse entries (transliterated 20 + 11 + 10 + 10 + 3 = 54) or with the scribe. Several obverse wedges are shallow on the photo.
+- **P009107** (predicted total 51, read 55): the reverse is cracked through the numeral area and could not be counted reliably by eye.
+- **Lesson:** "fix the total" predictions should also test "fix one entry". The arithmetic model cannot tell which line is wrong.
