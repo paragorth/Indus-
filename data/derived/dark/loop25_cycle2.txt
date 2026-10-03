@@ -1,0 +1,50 @@
+# S-DARK-25 cycle 2: DETERMINATIVE SIGNATURE (unpronounced class sign: never alone, fixed side, many hosts, hosts a coherent class)
+# Tool: tools/dark_loop25.py 2 <level> 200. Tables: loop25_cycle2_seq_raw/strong/all.txt
+
+Design. For every sign with >= 30 tokens and each side: candidates are never at the text edge on the host side (>= 0.90), have >= 8
+hosts with >= 2 attachments and partner entropy >= 3 bits (attach to MANY different signs). For each candidate: tokens as a
+one-sign text ('alone', from the full canonical file) and as the only non-numeral sign; two host-class tests:
+  (i) COHERENCE: mean pairwise cosine of the hosts' far-side neighbour profiles vs 200 frequency-matched random host sets (z);
+  (ii) LOYALTY: P(candidate on that side | host), token-weighted (loy) and the share of hosts that take it >= 50% of the time
+       (loy50): an obligatory class marker should be taken by most of its hosts most of the time.
+Calibration on the controls with REAL determinatives / classifiers: Ur III 'd' (divine), 'ki' (place); Linear B ideograms after
+commodity words; planted D0-D2 (before their 10 logograms, p = 0.9). Negative calibration: the planted frame-only corpus (markers,
+closers and their qualifier sets), where nothing is a determinative.
+
+Calibration result
+  (i) Coherence FAILS as a determinative test: Ur III d/R z +0.2, ki/L z -2.1, dumu/ARAD2/lu2 z -0.1 to -1.9; planted D0-D2
+      z -1.9 to -3.4 (the hosts of a determinative are a semantic class, which does not make them share neighbours); while the
+      planted FRAME-ONLY corpus produces 19 false 'determinatives' at z +6 to +9 (mk, c0-c8, q0-q22: closer-specific qualifier
+      sets are coherent by construction). So a high host-coherence z is a FRAME signal (S303: closers select their qualifiers),
+      not a class-sign signal. The 3-4 Indus signs that pass it (W1/R z +4.2, W233/R +4.2, W100/L +5.7, W350/R; all levels)
+      are therefore read as frame/fixed-term effects: W100-jar (S301), W233 before W520 (S299), W1 before fixed numerals (S234).
+  (ii) Loyalty (loy50) separates the systems: planted D0-D2 1.00 (loy 0.90-0.92); Ur III d/R 0.60, ki/L 0.52 (loy 0.25 / 0.07:
+      token-weighted loyalty is low because the top hosts are also common syllables); Linear B ideograms AES 0.82, V 0.60,
+      GRA 0.55, NUM 0.72; Ur III frame words dumu 0.00-0.04, ARAD2 0.04, lu2 0.28; planted frame-only marker mk 0.00, closers
+      c0 0.12, qualifiers 0.00. Threshold loy50 >= 0.5 passes every real class sign and no frame sign in the controls.
+
+Indus (seq_raw / seq_strong / seq_all): 39 / 35 / 35 candidate (sign,side) pairs of 81 / 77 / 78 signs.
+  loy50 >= 0.5: NONE at any level. Highest: jar W740/M342 left of hosts 0.36 (loy 0.33), tablet suffix W400/M176 0.32,
+  marked jar W741/M343 0.33, connective W60/M123 (left side) 0.27, W2/M99 (left) 0.20, W520/M211 0.18, W240 0.16, W390 0.14;
+  the fish qualifiers W233/W235, W100, W1, W60 (right) 0.00-0.04.
+  'Never alone': the jar stands as a one-sign text 111 times, W390 16 (+23 as the only non-numeral), W400 19, W2 12, W220 31:
+  the most host-general Indus signs are words that stand alone, which a determinative never does. The Indus signs that are never
+  alone and attach widely (W60 0 of 181, W760 0 of 90, W1 1 of 153, W233 1 of 146, W100 1 of 98) have loy50 <= 0.27, i.e. their
+  hosts take them optionally (S-DARK-11.3: optional signs = qualifiers), not as an obligatory class mark.
+
+Controls side by side (sign: alone, loy50, coherence z)
+  Ur III d/R: 0 alone, 0.60, +0.2 | ki/L: 0, 0.52, -2.1 | dumu: 0, 0.00-0.04, -0.1/-1.7 | ARAD2/L: 0, 0.04, -0.1
+  Linear B NUM/L: 0, 0.72, +3.2 | AES/L: 0, 0.82, -1.7 | GRA/L: 0, 0.55, -1.0 | V/L: 0, 0.60, +4.3
+  Proto-Elamite: numerals N01/N14 left of object signs loy50 < 0.5; one numeral N34 coherent (z >= 3), none loyal
+  Planted D0-D2: 0 alone, 1.00, -1.9 to -3.4 | planted complements s0/s1/s4: 0.12-0.28 | planted frame mk 0.00, c0 0.12, q7 0.00
+  Indus jar W740: 111 alone, 0.36, +1.5 | W60: 0 alone, 0.27 (L) / 0.04 (R), -1.1 / +2.4 | W2: 12 alone, 0.20 / 0.08
+
+Reading. Indus has no sign with the determinative signature: nothing that is never alone AND is taken obligatorily by a class of
+hosts. The jar is the nearest (a third of its title hosts take it >= 50% of the time) but it is itself a free one-sign text, so
+it is a word (the closer/title head of S289), not an unpronounced class sign. The openers' connective and the qualifiers are
+optional attachments. The positive-looking coherence hits are the known frame rules re-found. Upper bound: a determinative used
+with a class of RARE words (hosts under 2 tokens) is invisible to this test; the planted corpus shows the test needs ~10 hosts
+with >= 2 tokens each. Transcription-robust (same ranking at all three merge levels; W350/R appears only in seq_raw).
+
+Ready-to-paste row:
+| S-DARK-25.2 | **Determinative signature without sound values.** Candidates = signs >= 30 tokens never at the edge on the host side (>= 0.90), >= 8 hosts, partner entropy >= 3 bits; for each: count as a one-sign text, host-class COHERENCE (mean far-side cosine of the hosts vs 200 frequency-matched sets, z) and host LOYALTY (share of hosts that take the sign >= 50% of the time, loy50). Calibrated on real class signs: Ur III 'd' and 'ki', Linear B ideograms, planted D0-D2 (p = 0.9); negative calibration on a planted frame-only corpus. seq_raw / seq_strong / seq_all (`tools/dark_loop25.py 2`) | Calibration: coherence FAILS (Ur III d z +0.2, ki -2.1, planted D -1.9 to -3.4; planted frame-only gives 19 false hits at z +6 to +9: closer-specific qualifier sets are coherent by construction), so coherence is a frame signal (S303), not a class-sign signal; loyalty works (planted D 1.00; Ur III d 0.60, ki 0.52; Linear B AES 0.82, V 0.60, GRA 0.55; every frame word in every control <= 0.28). Indus: 39 / 35 / 35 candidates, **none with loy50 >= 0.5** (jar W740/M342 0.36, suffix W400/M176 0.32, W741 0.33, W60/M123 0.27, W2/M99 0.20, W520 0.18, fish qualifiers and W100/W1 0.00-0.04). The widest-attaching Indus signs stand alone as whole texts (jar 111x, W220 31x, W400 19x, W390 16x); the never-alone ones (W60, W760, W1, W233, W100) are optional (loy50 <= 0.27). The Indus coherence hits (W1/R, W233/R, W100/L, z +4 to +6) are the frame rules S234, S299, S301 re-found. | **No determinative in Indus.** Nothing is both never-alone and obligatory for a host class; the jar is a word (free as a one-sign text) that heads a title phrase, and the connective and qualifiers are optional attachments, as S-DARK-11.3 found. Side finding: host-coherence z is a frame detector (it flags closers and their qualifier sets in a corpus with no semantics), so do not use it as evidence of semantic classes. Upper bound: a determinative on rare words (hosts < 2 tokens) is invisible here. Transcription-robust at all three levels. |

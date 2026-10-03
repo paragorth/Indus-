@@ -47,3 +47,19 @@ same_mid_diff_closer          2 | 0/1 (<3.000) 0.000/0.131 P=1.000 | 0/0 nan/0.5
 same_mid1_diff_closer        10 | 0/4 (<0.750) 0.000/0.113 P=1.000 | 0/0 nan/0.017 P=nan | 0/4 (<0.750) 0.000/0.006 P=1.000 | 6.58/5.19 P=0.778 (n=4) | 0.250/0.198 P=0.395 (n=4) | 1.00/0.94 | 1.00/0.71
 same_closer_diff_mid       1360 | 68/723 0.094/0.106 P=0.875 | 0/0 nan/0.182 P=nan | 4/304 0.013/0.004 P=0.016 | 5.94/5.02 P=1.000 (n=499) | 0.158/0.170 P=0.815 (n=625) | 0.89/0.95 | 0.71/0.73
 minimal_pair                 10 | 2/8 0.250/0.136 P=0.229 | 0/0 nan/0.000 P=nan | 0/3 (<1.000) 0.000/0.010 P=1.000 | 3.94/4.87 P=0.327 (n=4) | 0.000/0.189 P=1.000 (n=6) | 0.88/0.92 | 1.00/0.69
+emblem_only                3000 | 217/1991 0.109/0.109 P=0.490 | 3/20 0.150/0.156 P=0.476 | 4/881 0.005/0.004 P=0.311 | 4.69/5.16 P=0.001 (n=1483) | 0.205/0.191 P=0.097 (n=1504) | 0.99/0.96 | 1.00/0.75
+  examples same_mid_diff_closer at Harappa:
+    H-13     861-2-503-615-760-740        mid=503-615 clo=760-740 area=None room=None d=None | H-157    503-615-154                  clo=154 area=F- room=None d=7.0 -> 
+    H-147    13-840-740                   mid=13-840 clo=740 area=AB- room=('--', '-P24/8') d=7.0 | H-469    13-840-760-740               clo=760-740 area=F- room=('--', '-Q28/11') d=14.0 -> 
+  examples minimal_pair at Harappa:
+    H-1080   176-100-740                  mid= clo=176-100-740 area=AB- room=('--', '-Q23/10') d=6.0 | H-63     717-100-740                  clo=100-740 area=AB- room=('--', '-Q24/14') d=8.0 -> same area
+    H-1709   470-803-154                  mid=470 clo=803-154 area=ETrench 7/8 room=None d=None | H-152    468-803-154                  clo=803-154 area=None room=None d=None -> 
+    H-1709   470-803-154                  mid=470 clo=803-154 area=ETrench 7/8 room=None d=None | H-670    468-803-154                  clo=803-154 area=FTrench IV+V room=('--', '-J12/3') d=3.0 -> 
+    H-1709   470-803-154                  mid=470 clo=803-154 area=ETrench 7/8 room=None d=None | H-681    468-803-154                  clo=803-154 area=None room=None d=None -> 
+    H-1680   820-2-3-390                  mid=3-390 clo= area=E-ETTrench 10E room=None d=None | H-407    861-2-3-390                  clo= area=J- room=('--', '-Q30/14') d=None -> 
+    H-27     32-824-740-1-468-803-154     mid=32-824-740-1-468 clo=803-154 area=FGranery room=('--', '-I7/24') d=6.0 | H-143    32-824-740-1-469-803-154     clo=803-154 area=Cemetery R 37- room=None d=None -> 
+    H-42     861-2-235-380-740            mid=235-380 clo=740 area=FTrench I room=('--', '-M10/20') d=2.0 | H-478    861-2-235-770-740            clo=740 area=FGranery room=('--', '-J9/18') d=3.75 -> 
+    H-54     861-368-3-390                mid=368-3-390 clo= area=FGranery room=('--', '-J9/20') d=4.5 | H-407    861-2-3-390                  clo= area=J- room=('--', '-Q30/14') d=None -> 
+
+--- Harappa tablets: 1190 objects; strata = object type x text length
+class                     pairs | same-area obs/null P (n) | same-block obs/null P | same-room obs/null P (n) | mean|dDepth| ft obs/null P (n) | same-period obs/null P (n) | same-mat obs/null | same-emb obs/null
