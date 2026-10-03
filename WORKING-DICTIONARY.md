@@ -216,3 +216,10 @@ Promotion over time: tested in S348, not supported (longer versions are not late
 - Counts before goods start at 3 (3-8). '1' and '2' as counts are tall strokes inside fixed terms.
 - The plain person sign is never counted; figure ligatures carry fixed numerals.
 - Would support: new finds keep counts >= 3 before goods. Would kill: three new texts with short 1 or 2 before a tree, arrow or bracket.
+
+
+### S-DARK-24.1 caveats on merges (transcriber disagreement matrix, Oct 2026)
+- W384 = W388 (S-DARK-11) is contradicted by Mahadevan, who keeps M326 and M327 apart: downgrade to C.
+- The S268 'strong' merges 803/806 and 390/405 are split by Mahadevan on many tokens (M389 vs M53-type forms; M162 vs M169): keep them, but report any result that depends on them at seq_raw too.
+- Bridge corrections: W798 = M53, W806 = M389.
+- New lump candidates for an interchangeability test: W154/156/158 = M15; W615/617 = M245.
