@@ -1,4 +1,4 @@
-# S-DARK-66 cycle 1 (seq_raw, perm 50, markov 20) 2026-10-03T18:14
+# S-DARK-66 cycle 1 (seq_raw, perm 1000, markov 300) 2026-10-03T18:16
 texts 2167 (collapsed, complete, >= 2 signs); middle tokens 6256, types 617, elements >= 5 tokens 214 covering 0.89 of tokens
 
 ## DESC: 84 signs classed, 6 classes, middle-token coverage 0.67
@@ -53,94 +53,102 @@ texts 2167 (collapsed, complete, >= 2 signs); middle tokens 6256, types 617, ele
    AMI(GLYPH, DIST) over 213 shared signs = 0.064
 
 non-adjacent middle pairs (distance >= 2, unordered, per text): 6346 in 1024 texts
-   permutation 1 done at 4s
-   nulls done at 17s
+   permutation 1 done at 9s
+   nulls done at 729s
 
 ## DESC: 2856 classed pairs in 6 classes
-   chi2 vs permutation: 32 vs null 14 [7, 21] P = 0.020; G 33 vs 14 P = 0.431
-   chi2 vs Markov-2 middle: 29 vs null 32 [18, 50] P = 0.619
-   same-class pairs: 442 (0.155) vs permutation 456.9 (0.160) P(hi) = 0.784 P(lo) = 0.235; vs Markov-2 454.1 P(hi) = 0.714 P(lo) = 0.381
+   chi2 vs permutation: 34 vs null 14 [7, 24] P = 0.003; G 32 vs 14 P = 0.390
+   chi2 vs Markov-1 middle: 31 vs null 30 [15, 56] P = 0.399
+   chi2 vs Markov-2 middle: 28 vs null 29 [14, 47] P = 0.508
+   same-class pairs WITHOUT the numeral class: 288 (0.183) vs permutation 285.8 (0.181) P(hi) = 0.442 P(lo) = 0.591; vs Markov-2 281.5 P(lo) = 0.641
+   same-class pairs: 442 (0.155) vs permutation 463.0 (0.162) P(hi) = 0.880 P(lo) = 0.128; vs Markov-2 458.7 P(hi) = 0.781 P(lo) = 0.226
    cells tested 21; |z| > 3 vs permutation 1 (null itself 0.0), vs Markov-2 0
-          animal x animal     O   29  E_perm   50.9 z  -3.8   E_mk2   49.8 z  -2.4  log2 O/E -0.80
-         numeral x tool       O  117  E_perm  139.1 z  -2.2   E_mk2  121.0 z  -0.3  log2 O/E -0.25
-            tool x tool       O   29  E_perm   20.0 z  +2.2   E_mk2   19.6 z  +2.0  log2 O/E +0.53
-       geometric x tool       O  110  E_perm   96.2 z  +1.9   E_mk2   97.2 z  +1.1  log2 O/E +0.19
-         numeral x numeral    O  154  E_perm  175.0 z  -1.9   E_mk2  174.0 z  -1.1  log2 O/E -0.18
-          animal x human      O  139  E_perm  154.7 z  -1.8   E_mk2  153.2 z  -1.0  log2 O/E -0.15
-          animal x plant      O  127  E_perm  114.1 z  +1.7   E_mk2  138.5 z  -0.8  log2 O/E +0.15
-       geometric x plant      O  149  E_perm  135.4 z  +1.5   E_mk2  143.3 z  +0.4  log2 O/E +0.14
-       geometric x geometric  O  100  E_perm   89.9 z  +1.3   E_mk2   84.3 z  +1.4  log2 O/E +0.15
-          animal x geometric  O  180  E_perm  165.5 z  +1.3   E_mk2  165.3 z  +1.0  log2 O/E +0.12
-          animal x numeral    O  227  E_perm  240.7 z  -1.2   E_mk2  239.3 z  -0.6  log2 O/E -0.08
-           plant x plant      O   48  E_perm   40.9 z  +1.2   E_mk2   46.4 z  +0.2  log2 O/E +0.23
+          animal x animal     O   29  E_perm   52.8 z  -3.9   E_mk2   48.2 z  -2.4  log2 O/E -0.85
+         numeral x tool       O  117  E_perm  138.6 z  -2.2   E_mk2  121.4 z  -0.3  log2 O/E -0.24
+            tool x tool       O   29  E_perm   20.4 z  +2.2   E_mk2   20.2 z  +1.8  log2 O/E +0.49
+         numeral x numeral    O  154  E_perm  177.2 z  -2.2   E_mk2  177.2 z  -1.4  log2 O/E -0.20
+          animal x human      O  139  E_perm  154.9 z  -1.6   E_mk2  155.5 z  -1.0  log2 O/E -0.16
+       geometric x tool       O  110  E_perm   96.5 z  +1.6   E_mk2   97.3 z  +1.1  log2 O/E +0.19
+          animal x plant      O  127  E_perm  113.7 z  +1.5   E_mk2  136.7 z  -0.7  log2 O/E +0.16
+       geometric x plant      O  149  E_perm  133.9 z  +1.5   E_mk2  143.2 z  +0.5  log2 O/E +0.15
+          animal x tool       O   89  E_perm   79.3 z  +1.3   E_mk2   86.0 z  +0.3  log2 O/E +0.17
+           plant x plant      O   48  E_perm   40.9 z  +1.3   E_mk2   48.1 z  -0.0  log2 O/E +0.23
+          animal x geometric  O  180  E_perm  166.5 z  +1.2   E_mk2  169.0 z  +0.7  log2 O/E +0.11
+       geometric x geometric  O  100  E_perm   90.9 z  +1.2   E_mk2   84.5 z  +1.4  log2 O/E +0.14
 
 ## WBLOCK: 4936 classed pairs in 11 classes
-   chi2 vs permutation: 124 vs null 45 [28, 59] P = 0.020; G 281 vs 46 P = 0.020
-   chi2 vs Markov-2 middle: 83 vs null 84 [61, 105] P = 0.571
-   same-class pairs: 456 (0.092) vs permutation 505.2 (0.102) P(hi) = 1.000 P(lo) = 0.020; vs Markov-2 515.9 P(hi) = 0.952 P(lo) = 0.095
-   cells tested 66; |z| > 3 vs permutation 8 (null itself 0.1), vs Markov-2 0
-              B4 x num        O  244  E_perm  201.0 z  +4.7   E_mk2  213.4 z  +2.3  log2 O/E +0.28
-              B2 x B6         O   79  E_perm   54.2 z  +4.5   E_mk2   65.2 z  +1.6  log2 O/E +0.54
-              B8 x num        O  164  E_perm  201.1 z  -4.1   E_mk2  185.6 z  -2.2  log2 O/E -0.29
-              B1 x num        O  167  E_perm  135.9 z  +3.9   E_mk2  143.2 z  +1.5  log2 O/E +0.30
-              B2 x B5         O  144  E_perm  113.0 z  +3.8   E_mk2  129.1 z  +1.0  log2 O/E +0.35
-              B2 x B2         O   61  E_perm   87.5 z  -3.3   E_mk2   84.2 z  -2.0  log2 O/E -0.52
-              B2 x B3         O   70  E_perm   95.1 z  -3.1   E_mk2   92.3 z  -1.7  log2 O/E -0.44
-              B7 x B8         O  147  E_perm  122.3 z  +3.1   E_mk2  128.8 z  +1.1  log2 O/E +0.26
-              B2 x B8         O  150  E_perm  127.2 z  +2.7   E_mk2  154.8 z  -0.3  log2 O/E +0.24
-              B4 x B9         O   44  E_perm   32.0 z  +2.6   E_mk2   26.6 z  +2.6  log2 O/E +0.45
-              B3 x B3         O   28  E_perm   19.0 z  +2.2   E_mk2   22.1 z  +1.3  log2 O/E +0.55
-              B7 x num        O  246  E_perm  268.2 z  -2.1   E_mk2  268.2 z  -1.2  log2 O/E -0.12
+   chi2 vs permutation: 122 vs null 47 [31, 65] P = 0.001; G 278 vs 47 P = 0.001
+   chi2 vs Markov-1 middle: 137 vs null 87 [54, 123] P = 0.007
+   chi2 vs Markov-2 middle: 85 vs null 82 [50, 127] P = 0.419
+   same-class pairs WITHOUT the numeral class: 288 (0.093) vs permutation 322.1 (0.104) P(hi) = 0.993 P(lo) = 0.009; vs Markov-2 323.8 P(lo) = 0.037
+   same-class pairs: 456 (0.092) vs permutation 509.4 (0.103) P(hi) = 0.997 P(lo) = 0.004; vs Markov-2 518.2 P(hi) = 0.997 P(lo) = 0.007
+   cells tested 66; |z| > 3 vs permutation 6 (null itself 0.1), vs Markov-2 1
+              B2 x B6         O   79  E_perm   54.8 z  +4.1   E_mk2   67.3 z  +1.1  log2 O/E +0.52
+              B4 x num        O  244  E_perm  203.1 z  +3.7   E_mk2  216.2 z  +1.7  log2 O/E +0.26
+              B2 x B5         O  144  E_perm  111.7 z  +3.7   E_mk2  130.6 z  +1.0  log2 O/E +0.37
+              B2 x B2         O   61  E_perm   88.7 z  -3.5   E_mk2   85.2 z  -2.2  log2 O/E -0.54
+              B1 x num        O  167  E_perm  136.2 z  +3.3   E_mk2  145.2 z  +1.5  log2 O/E +0.29
+              B2 x B3         O   70  E_perm   95.3 z  -3.1   E_mk2   94.0 z  -1.9  log2 O/E -0.44
+              B8 x num        O  164  E_perm  197.9 z  -2.9   E_mk2  185.8 z  -1.3  log2 O/E -0.27
+              B4 x B9         O   44  E_perm   32.2 z  +2.6   E_mk2   26.6 z  +3.2  log2 O/E +0.44
+              B2 x B8         O  150  E_perm  127.4 z  +2.4   E_mk2  152.3 z  -0.2  log2 O/E +0.23
+              B7 x B8         O  147  E_perm  124.3 z  +2.4   E_mk2  124.1 z  +1.9  log2 O/E +0.24
+              B3 x B3         O   28  E_perm   18.6 z  +2.4   E_mk2   22.8 z  +1.0  log2 O/E +0.58
+              B0 x B9         O    6  E_perm   12.4 z  -2.1   E_mk2    9.6 z  -1.1  log2 O/E -0.99
 
 ## GLYPH: 4936 classed pairs in 10 classes
-   chi2 vs permutation: 71 vs null 38 [26, 50] P = 0.020; G 238 vs 38 P = 0.020
-   chi2 vs Markov-2 middle: 81 vs null 73 [45, 108] P = 0.333
-   same-class pairs: 625 (0.127) vs permutation 641.7 (0.130) P(hi) = 0.824 P(lo) = 0.216; vs Markov-2 639.0 P(hi) = 0.619 P(lo) = 0.429
-   cells tested 54; |z| > 3 vs permutation 1 (null itself 0.1), vs Markov-2 2
-             G10 x G3         O   72  E_perm   49.8 z  +4.1   E_mk2   58.3 z  +1.4  log2 O/E +0.53
-              G8 x G8         O   86  E_perm   65.2 z  +2.9   E_mk2   79.2 z  +0.6  log2 O/E +0.40
-              G1 x G5         O   49  E_perm   70.8 z  -2.7   E_mk2   84.6 z  -3.8  log2 O/E -0.53
-             G10 x G7         O   89  E_perm   69.9 z  +2.7   E_mk2   81.0 z  +0.8  log2 O/E +0.35
-             G10 x G9         O   40  E_perm   54.5 z  -2.3   E_mk2   46.0 z  -0.7  log2 O/E -0.44
-              G1 x G1         O  187  E_perm  213.4 z  -2.2   E_mk2  196.8 z  -0.4  log2 O/E -0.19
-              G1 x G7         O  151  E_perm  132.7 z  +2.1   E_mk2  150.8 z  +0.0  log2 O/E +0.19
-              G1 x G9         O  122  E_perm  105.0 z  +2.0   E_mk2   92.7 z  +2.4  log2 O/E +0.22
-              G1 x G3         O  117  E_perm  100.3 z  +1.9   E_mk2  114.8 z  +0.2  log2 O/E +0.22
-              G4 x G9         O   85  E_perm   72.7 z  +1.8   E_mk2   78.2 z  +0.6  log2 O/E +0.22
-              G4 x G5         O   62  E_perm   51.8 z  +1.7   E_mk2   78.1 z  -1.7  log2 O/E +0.26
-              G1 x G4         O  280  E_perm  300.0 z  -1.5   E_mk2  303.9 z  -1.3  log2 O/E -0.10
+   chi2 vs permutation: 71 vs null 38 [24, 55] P = 0.001; G 237 vs 38 P = 0.001
+   chi2 vs Markov-1 middle: 93 vs null 73 [44, 109] P = 0.140
+   chi2 vs Markov-2 middle: 76 vs null 71 [43, 112] P = 0.342
+   same-class pairs: 625 (0.127) vs permutation 649.5 (0.132) P(hi) = 0.884 P(lo) = 0.127; vs Markov-2 647.7 P(hi) = 0.811 P(lo) = 0.203
+   cells tested 54; |z| > 3 vs permutation 2 (null itself 0.2), vs Markov-2 1
+             G10 x G3         O   72  E_perm   50.6 z  +3.5   E_mk2   59.7 z  +1.4  log2 O/E +0.51
+              G1 x G5         O   49  E_perm   70.6 z  -3.0   E_mk2   82.9 z  -3.1  log2 O/E -0.52
+              G8 x G8         O   86  E_perm   66.5 z  +2.9   E_mk2   81.7 z  +0.4  log2 O/E +0.37
+             G10 x G7         O   89  E_perm   70.5 z  +2.7   E_mk2   77.1 z  +1.2  log2 O/E +0.33
+              G1 x G1         O  187  E_perm  216.5 z  -2.7   E_mk2  197.8 z  -0.6  log2 O/E -0.21
+             G10 x G9         O   40  E_perm   55.4 z  -2.5   E_mk2   42.8 z  -0.4  log2 O/E -0.46
+              G1 x G7         O  151  E_perm  130.7 z  +2.2   E_mk2  152.3 z  -0.1  log2 O/E +0.21
+              G1 x G3         O  117  E_perm   99.7 z  +2.2   E_mk2  114.2 z  +0.2  log2 O/E +0.23
+              G1 x G9         O  122  E_perm  105.6 z  +2.0   E_mk2   94.4 z  +2.3  log2 O/E +0.21
+              G4 x G5         O   62  E_perm   50.8 z  +1.9   E_mk2   79.7 z  -1.8  log2 O/E +0.28
+              G4 x G9         O   85  E_perm   72.8 z  +1.8   E_mk2   75.1 z  +1.0  log2 O/E +0.22
+              G5 x G6         O    0  E_perm    2.6 z  -1.7   E_mk2    2.7 z  -1.5  log2 O/E -2.63
 
 ## DIST: 4936 classed pairs in 10 classes
-   chi2 vs permutation: 77 vs null 37 [25, 50] P = 0.020; G 239 vs 38 P = 0.020
-   chi2 vs Markov-2 middle: 106 vs null 72 [54, 113] P = 0.095
-   same-class pairs: 771 (0.156) vs permutation 831.6 (0.168) P(hi) = 1.000 P(lo) = 0.020; vs Markov-2 841.1 P(hi) = 1.000 P(lo) = 0.095
-   cells tested 53; |z| > 3 vs permutation 2 (null itself 0.1), vs Markov-2 2
-              D1 x D2         O  120  E_perm  168.5 z  -4.4   E_mk2  166.3 z  -3.6  log2 O/E -0.49
-              D2 x D2         O   27  E_perm   46.6 z  -3.5   E_mk2   41.5 z  -2.2  log2 O/E -0.78
-              D5 x D6         O  419  E_perm  382.7 z  +2.6   E_mk2  370.4 z  +1.8  log2 O/E +0.13
-              D4 x D6         O   58  E_perm   43.6 z  +2.6   E_mk2   43.8 z  +1.7  log2 O/E +0.41
-              D2 x D4         O    8  E_perm   17.0 z  -2.4   E_mk2   13.1 z  -1.3  log2 O/E -1.04
-              D6 x D6         O  512  E_perm  546.6 z  -2.1   E_mk2  543.9 z  -0.7  log2 O/E -0.09
-              D1 x D6         O  520  E_perm  485.6 z  +2.1   E_mk2  501.9 z  +0.4  log2 O/E +0.10
-              D1 x D5         O  186  E_perm  165.4 z  +2.1   E_mk2  168.4 z  +0.9  log2 O/E +0.17
-              D2 x D3         O   44  E_perm   34.5 z  +2.0   E_mk2   41.2 z  +0.3  log2 O/E +0.35
-              D1 x D4         O   28  E_perm   19.7 z  +1.9   E_mk2   21.4 z  +1.1  log2 O/E +0.50
-             D10 x D9         O   53  E_perm   43.2 z  +1.9   E_mk2   50.0 z  +0.4  log2 O/E +0.29
-             D10 x D5         O   84  E_perm   99.2 z  -1.9   E_mk2   73.9 z  +1.0  log2 O/E -0.24
+   chi2 vs permutation: 76 vs null 38 [24, 54] P = 0.001; G 235 vs 38 P = 0.001
+   chi2 vs Markov-1 middle: 115 vs null 75 [44, 121] P = 0.047
+   chi2 vs Markov-2 middle: 104 vs null 75 [43, 122] P = 0.086
+   same-class pairs: 771 (0.156) vs permutation 829.9 (0.168) P(hi) = 0.996 P(lo) = 0.006; vs Markov-2 839.2 P(hi) = 0.980 P(lo) = 0.023
+   cells tested 53; |z| > 3 vs permutation 2 (null itself 0.1), vs Markov-2 1
+              D1 x D2         O  120  E_perm  168.2 z  -4.6   E_mk2  163.8 z  -2.9  log2 O/E -0.49
+              D2 x D2         O   27  E_perm   46.4 z  -3.3   E_mk2   42.8 z  -2.3  log2 O/E -0.77
+              D4 x D6         O   58  E_perm   43.9 z  +2.6   E_mk2   48.0 z  +1.0  log2 O/E +0.40
+              D5 x D6         O  419  E_perm  381.9 z  +2.4   E_mk2  368.0 z  +1.8  log2 O/E +0.13
+              D1 x D4         O   28  E_perm   19.1 z  +2.4   E_mk2   21.6 z  +1.1  log2 O/E +0.54
+              D2 x D4         O    8  E_perm   16.3 z  -2.3   E_mk2   13.0 z  -1.2  log2 O/E -0.98
+              D1 x D5         O  186  E_perm  163.8 z  +2.1   E_mk2  163.8 z  +1.2  log2 O/E +0.18
+              D6 x D6         O  512  E_perm  544.7 z  -2.1   E_mk2  546.1 z  -1.0  log2 O/E -0.09
+              D1 x D3         O   52  E_perm   40.7 z  +2.0   E_mk2   55.6 z  -0.4  log2 O/E +0.35
+              D1 x D6         O  520  E_perm  486.2 z  +2.0   E_mk2  515.4 z  +0.1  log2 O/E +0.10
+              D2 x D8         O  104  E_perm   89.0 z  +1.9   E_mk2  101.6 z  +0.2  log2 O/E +0.22
+             D10 x D5         O   84  E_perm   99.1 z  -1.9   E_mk2   73.1 z  +1.0  log2 O/E -0.24
 
 ## Beyond-chain attraction pairs (S366 statistic: distance >= 2, count >= 5, O/E >= 3) at Mohenjo-daro + Harappa, whole texts
-   attraction pairs 15 (Markov-2 corpora give 41.9 [30, 58]); beyond Markov-2 (count > 97.5th pct of 20 chains): 6
-   of these, both signs middle elements: 5; involving a frame sign: 4; other: -3
-   beyond-chain pairs: 520-705 (26:8.0), 520-706 (16:4.4), 33-231 (12:3.9), 405-806 (11:1.9), 527-817 (7:2.3), 70-861 (6:1.8)
-   DESC    all attraction      : n   8 classed; top-3 cells 0.62 vs scattered 0.48 (P 0.033); H/Hmax 0.93 vs 0.95 (P 0.123); cells geometricxtool 3, animalxnumeral 1, plantxplant 1, geometricxplant 1, plantxtool 1, geometricxhuman 1
-   DESC    beyond Markov-2     : n   5 classed; top-3 cells 0.80 vs scattered 0.64 (P 0.185); H/Hmax 0.96 vs 0.97 (P 0.184); cells geometricxtool 2, animalxnumeral 1, plantxplant 1, plantxtool 1
-   DESC    beyond, middle only : n   4 classed; top-3 cells 1.00 vs scattered 0.71 (P 0.077); H/Hmax 0.95 vs 0.98 (P 0.036); cells geometricxtool 2, animalxnumeral 1, plantxplant 1
-   WBLOCK  all attraction      : n  14 classed; top-3 cells 0.43 vs scattered 0.37 (P 0.186); H/Hmax 0.97 vs 0.97 (P 0.337); cells B7xB9 2, B5xB7 2, B4xB8 2, B3xB7 2, B2xB6 1, B2xnum 1
-   WBLOCK  beyond Markov-2     : n   5 classed; top-3 cells 0.80 vs scattered 0.57 (P 0.056); H/Hmax 0.96 vs 0.99 (P 0.055); cells B5xB7 2, B2xnum 1, B4xB8 1, B0xB8 1
-   WBLOCK  beyond, middle only : n   5 classed; top-3 cells 0.80 vs scattered 0.66 (P 0.259); H/Hmax 0.96 vs 0.99 (P 0.259); cells B5xB7 2, B2xnum 1, B4xB8 1, B0xB8 1
-   GLYPH   all attraction      : n  14 classed; top-3 cells 0.43 vs scattered 0.46 (P 0.592); H/Hmax 0.98 vs 0.96 (P 0.777); cells G2xG4 2, G1xG10 2, G2xG3 2, G8xG8 1, G1xG1 1, G2xG8 1
-   GLYPH   beyond Markov-2     : n   5 classed; top-3 cells 0.80 vs scattered 0.62 (P 0.160); H/Hmax 0.96 vs 0.98 (P 0.158); cells G1xG10 2, G1xG1 1, G2xG3 1, G10xG2 1
-   GLYPH   beyond, middle only : n   5 classed; top-3 cells 0.80 vs scattered 0.70 (P 0.434); H/Hmax 0.96 vs 0.98 (P 0.433); cells G1xG10 2, G1xG1 1, G2xG3 1, G10xG2 1
-   DIST    all attraction      : n  14 classed; top-3 cells 0.43 vs scattered 0.53 (P 0.831); H/Hmax 0.98 vs 0.94 (P 0.943); cells D2xD5 2, D6xD6 2, D1xD8 2, D5xD6 1, D1xD6 1, D5xD5 1
-   DIST    beyond Markov-2     : n   5 classed; top-3 cells 0.80 vs scattered 0.68 (P 0.294); H/Hmax 0.96 vs 0.96 (P 0.287); cells D6xD6 2, D1xD6 1, D1xD8 1, D3xD5 1
-   DIST    beyond, middle only : n   5 classed; top-3 cells 0.80 vs scattered 0.74 (P 0.567); H/Hmax 0.96 vs 0.97 (P 0.557); cells D6xD6 2, D1xD6 1, D1xD8 1, D3xD5 1
+   die regime (S-DARK-41): 2232 texts, MD+H 1856 (collapsed MD+H would be 1796)
+   attraction pairs on the collapsed corpus: 15
+   attraction pairs 25 (Markov-2 corpora give 45.5 [33, 60]); beyond Markov-2 (count > 97.5th pct of 300 chains): 9
+   of these, involving a frame sign (opener/marker/closer/suffix): 3; both signs middle elements: 6; other (rare signs): 0
+   beyond-chain pairs: 520-705 (27:8.1), 520-706 (16:4.4), 33-231 (12:3.9), 405-806 (11:2.0), 70-861 (6:1.8), 821-850 (5:0.1), 595-821 (5:0.2), 480-821 (5:0.1), 391-821 (5:0.0)
+   DESC    all attraction      : n   7 classed; top-3 cells 0.71 vs scattered 0.41 (P 0.001); H/Hmax 0.92 vs 0.95 (P 0.077); cells geometricxtool 3, animalxnumeral 1, plantxplant 1, geometricxplant 1, geometricxhuman 1
+   DESC    beyond Markov-2     : n   4 classed; top-3 cells 1.00 vs scattered 0.54 (P 0.001); H/Hmax 0.95 vs 0.97 (P 0.238); cells geometricxtool 2, animalxnumeral 1, plantxplant 1
+   DESC    beyond, middle only : too few classed pairs
+   WBLOCK  all attraction      : n  24 classed; top-3 cells 0.29 vs scattered 0.31 (P 0.539); H/Hmax 0.97 vs 0.97 (P 0.543); cells B4xB8 3, B7xB9 2, B5xB7 2, B5xB8 2, B3xB7 2, B3xB8 2
+   WBLOCK  beyond Markov-2     : n   9 classed; top-3 cells 0.56 vs scattered 0.45 (P 0.262); H/Hmax 0.97 vs 0.98 (P 0.261); cells B5xB7 2, B4xB8 2, B2xnum 1, B0xB8 1, B8xB8 1, B5xB8 1
+   WBLOCK  beyond, middle only : n   6 classed; top-3 cells 0.67 vs scattered 0.57 (P 0.356); H/Hmax 0.97 vs 0.99 (P 0.356); cells B4xB8 2, B2xnum 1, B8xB8 1, B5xB8 1, B3xB8 1
+   GLYPH   all attraction      : n  24 classed; top-3 cells 0.33 vs scattered 0.39 (P 0.793); H/Hmax 0.96 vs 0.95 (P 0.823); cells G1xG10 3, G10xG2 3, G2xG4 2, G2xG3 2, G7xG8 2, G10xG7 2
+   GLYPH   beyond Markov-2     : n   9 classed; top-3 cells 0.56 vs scattered 0.51 (P 0.513); H/Hmax 0.97 vs 0.97 (P 0.511); cells G1xG10 2, G10xG7 2, G1xG1 1, G2xG3 1, G10xG2 1, G7xG8 1
+   GLYPH   beyond, middle only : n   6 classed; top-3 cells 0.67 vs scattered 0.62 (P 0.561); H/Hmax 0.97 vs 0.98 (P 0.561); cells G10xG7 2, G1xG1 1, G2xG3 1, G7xG8 1, G2xG7 1
+   DIST    all attraction      : n  24 classed; top-3 cells 0.38 vs scattered 0.48 (P 0.907); H/Hmax 0.95 vs 0.92 (P 0.902); cells D10xD6 4, D10xD2 3, D2xD5 2, D6xD6 2, D1xD8 2, D10xD8 2
+   DIST    beyond Markov-2     : n   9 classed; top-3 cells 0.67 vs scattered 0.58 (P 0.400); H/Hmax 0.94 vs 0.95 (P 0.278); cells D10xD6 3, D6xD6 2, D1xD6 1, D1xD8 1, D3xD5 1, D6xD8 1
+   DIST    beyond, middle only : n   6 classed; top-3 cells 0.83 vs scattered 0.67 (P 0.278); H/Hmax 0.90 vs 0.97 (P 0.117); cells D10xD6 3, D1xD6 1, D1xD8 1, D6xD8 1

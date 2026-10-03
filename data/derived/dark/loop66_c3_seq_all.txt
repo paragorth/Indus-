@@ -1,0 +1,64 @@
+# S-DARK-66 cycle 3 (seq_all) 2026-10-03T18:25
+
+## Indus middle, DESC classes, non-adjacent pairs: 1569 names, 2927 classed pairs (non-adjacent only), 6 classes {'geometric': 20, 'human': 15, 'numeral': 13, 'plant': 11, 'tool': 10, 'animal': 8}
+   Cramer V vs permutation expectation: 0.085 (null tables 0.049 [0.036, 0.062], P = 0.003)
+   same-class pairs 463 / 2927 = 0.158; expected 0.168; O/E 0.94; P(hi) = 0.944 P(lo) = 0.070
+   class-pair gain over unigram (2-fold held-out): -0.0019 bits/token [-0.0123, +0.0076] on 2927 tokens; random partitions -0.0057 [-0.0173, +0.0072] P = 0.307
+   symmetry corr(z(A->B), z(B->A)) = -0.50 over 15 cell pairs
+   strongest symmetric cells: animalxanimal O 30 E 56 z -3.9; numeralxnumeral O 161 E 194 z -3.1; numeralxtool O 110 E 140 z -2.3; animalxhuman O 140 E 169 z -2.2; plantxplant O 52 E 41 z +2.1; toolxtool O 27 E 19 z +2.0; animalxnumeral O 232 E 256 z -1.4; geometricxgeometric O 103 E 92 z +1.3
+
+## Indus middle, DESC classes, all pairs: 1569 names, 5027 classed pairs (all pairs), 6 classes {'geometric': 20, 'human': 15, 'numeral': 13, 'plant': 11, 'tool': 10, 'animal': 8}
+   Cramer V vs permutation expectation: 0.099 (null tables 0.037 [0.029, 0.047], P = 0.003)
+   same-class pairs 869 / 5027 = 0.173; expected 0.161; O/E 1.08; P(hi) = 0.007 P(lo) = 0.997
+   class-pair gain over unigram (2-fold held-out): +0.0141 bits/token [+0.0059, +0.0212] on 5027 tokens; random partitions +0.0034 [-0.0045, +0.0140] P = 0.040
+   symmetry corr(z(A->B), z(B->A)) = -0.52 over 15 cell pairs
+   strongest symmetric cells: animalxanimal O 138 E 94 z +5.1; numeralxplant O 436 E 364 z +3.6; animalxtool O 168 E 130 z +3.4; animalxhuman O 220 E 268 z -2.8; humanxhuman O 164 E 138 z +2.6; toolxtool O 44 E 31 z +2.5; plantxtool O 84 E 106 z -2.2; numeralxnumeral O 291 E 319 z -2.0
+
+## Indus middle, WBLOCK classes, all pairs: 1569 names, 8492 classed pairs (all pairs), 11 classes {'B5': 25, 'B2': 24, 'B4': 24, 'B1': 20, 'num': 18, 'B8': 18, 'B3': 16, 'B7': 16, 'B0': 13, 'B6': 10, 'B9': 10}
+   Cramer V vs permutation expectation: 0.078 (null tables 0.037 [0.033, 0.042], P = 0.003)
+   same-class pairs 847 / 8492 = 0.100; expected 0.104; O/E 0.96; P(hi) = 0.924 P(lo) = 0.080
+   class-pair gain over unigram (2-fold held-out): +0.0090 bits/token [+0.0005, +0.0163] on 8492 tokens; random partitions -0.0001 [-0.0103, +0.0130] P = 0.079
+   symmetry corr(z(A->B), z(B->A)) = -0.45 over 55 cell pairs
+   strongest symmetric cells: B2xB3 O 133 E 195 z -4.3; B3xnum O 380 E 305 z +4.0; B0xB5 O 86 E 59 z +3.8; B2xB2 O 193 E 156 z +3.6; B6xB8 O 34 E 55 z -3.0; B1xB5 O 57 E 82 z -2.7; B1xnum O 274 E 235 z +2.7; B4xB4 O 46 E 63 z -2.5
+
+## Chinese given names (2 characters), radical classes: 20000 names, 19862 classed pairs (all pairs), 9 classes {'nature': 363, 'human': 347, 'object': 305, 'plant': 230, 'other': 135, 'precious': 122, 'animal': 79, 'speech': 69, 'textile': 63}
+   Cramer V vs permutation expectation: 0.071 (null tables 0.021 [0.018, 0.024], P = 0.003)
+   same-class pairs 3595 / 19862 = 0.181; expected 0.164; O/E 1.10; P(hi) = 0.003 P(lo) = 1.000
+   class-pair gain over unigram (2-fold held-out): +0.0021 bits/token [-0.0003, +0.0042] on 19862 tokens; random partitions -0.0046 [-0.0072, -0.0021] P = 0.010
+   symmetry corr(z(A->B), z(B->A)) = -0.82 over 36 cell pairs
+   strongest symmetric cells: naturexnature O 1120 E 964 z +6.8; animalxanimal O 48 E 23 z +6.0; naturexobject O 1492 E 1635 z -3.8; humanxnature O 1816 E 1951 z -3.4; preciousxprecious O 132 E 103 z +3.3; humanxhuman O 1052 E 974 z +3.0; otherxprecious O 228 E 265 z -2.3; animalxplant O 131 E 155 z -2.1
+
+## Chinese historical names (given part, >= 2 chars after surname), radical classes, non-adjacent pairs: 20000 names, 3173 classed pairs (non-adjacent only), 9 classes {'human': 601, 'nature': 558, 'object': 511, 'plant': 319, 'precious': 215, 'other': 194, 'speech': 154, 'animal': 138, 'textile': 113}
+   Cramer V vs permutation expectation: 0.131 (null tables 0.055 [0.048, 0.065], P = 0.003)
+   same-class pairs 591 / 3173 = 0.186; expected 0.185; O/E 1.01; P(hi) = 0.468 P(lo) = 0.555
+   class-pair gain over unigram (2-fold held-out): -0.0263 bits/token [-0.0399, -0.0152] on 3173 tokens; random partitions -0.0237 [-0.0403, -0.0077] P = 0.614
+   symmetry corr(z(A->B), z(B->A)) = -0.58 over 35 cell pairs
+   strongest symmetric cells: humanxhuman O 146 E 191 z -4.0; humanxtextile O 100 E 67 z +3.8; naturexprecious O 61 E 41 z +3.5; naturexnature O 191 E 159 z +3.0; objectxprecious O 63 E 43 z +2.8; animalxobject O 20 E 35 z -2.4; animalxnature O 46 E 35 z +2.0; naturexplant O 130 E 112 z +1.8
+
+## Chinese historical names, radical classes, all pairs: 20000 names, 25678 classed pairs (all pairs), 9 classes {'human': 601, 'nature': 558, 'object': 511, 'plant': 319, 'precious': 215, 'other': 194, 'speech': 154, 'animal': 138, 'textile': 113}
+   Cramer V vs permutation expectation: 0.081 (null tables 0.019 [0.016, 0.022], P = 0.003)
+   same-class pairs 4677 / 25678 = 0.182; expected 0.171; O/E 1.07; P(hi) = 0.003 P(lo) = 1.000
+   class-pair gain over unigram (2-fold held-out): -0.0001 bits/token [-0.0020, +0.0016] on 25678 tokens; random partitions -0.0024 [-0.0048, -0.0006] P = 0.020
+   symmetry corr(z(A->B), z(B->A)) = -0.82 over 36 cell pairs
+   strongest symmetric cells: plantxplant O 213 E 158 z +4.9; objectxobject O 1077 E 958 z +4.9; plantxspeech O 201 E 266 z -3.8; humanxspeech O 1020 E 936 z +3.2; objectxspeech O 575 E 652 z -3.1; naturexnature O 1049 E 972 z +3.1; speechxtextile O 160 E 126 z +3.0; objectxtextile O 328 E 384 z -2.9
+
+## Japanese given names (kanji), radical classes, all pairs: 20000 names, 35582 classed pairs (all pairs), 9 classes {'human': 452, 'object': 394, 'nature': 382, 'plant': 300, 'other': 156, 'animal': 109, 'precious': 104, 'speech': 103, 'textile': 100}
+   Cramer V vs permutation expectation: 0.055 (null tables 0.016 [0.013, 0.019], P = 0.003)
+   same-class pairs 6447 / 35582 = 0.181; expected 0.170; O/E 1.07; P(hi) = 0.003 P(lo) = 1.000
+   class-pair gain over unigram (2-fold held-out): +0.0020 bits/token [+0.0006, +0.0032] on 35582 tokens; random partitions +0.0002 [-0.0021, +0.0036] P = 0.119
+   symmetry corr(z(A->B), z(B->A)) = -0.66 over 36 cell pairs
+   strongest symmetric cells: humanxhuman O 2834 E 2553 z +7.8; objectxother O 1384 E 1212 z +6.3; humanxother O 1454 E 1616 z -4.4; plantxplant O 488 E 422 z +3.9; humanxobject O 4085 E 3889 z +3.5; objectxprecious O 387 E 446 z -3.1; humanxplant O 1987 E 2105 z -2.8; animalxnature O 518 E 466 z +2.4
+
+## Ur III owner names (greedy-chunk elements), theophoric/kin/predicate/other, all pairs: 1313 names, 4784 classed pairs (all pairs), 4 classes {'other': 373, 'theophoric': 88, 'predicate': 38, 'kin': 8}
+   Cramer V vs permutation expectation: 0.261 (null tables 0.030 [0.019, 0.040], P = 0.003)
+   same-class pairs 1966 / 4784 = 0.411; expected 0.399; O/E 1.03; P(hi) = 0.033 P(lo) = 0.973
+   class-pair gain over unigram (2-fold held-out): +0.0251 bits/token [+0.0160, +0.0368] on 4784 tokens; random partitions -0.0023 [-0.0094, +0.0046] P = 0.010
+   symmetry corr(z(A->B), z(B->A)) = -0.72 over 6 cell pairs
+   strongest symmetric cells: kinxtheophoric O 132 E 56 z +10.9; theophoricxtheophoric O 15 E 36 z -4.2; kinxpredicate O 147 E 184 z -3.2; predicatexpredicate O 463 E 422 z +2.8; otherxother O 1483 E 1449 z +2.0; otherxtheophoric O 423 E 452 z -1.7; otherxpredicate O 1540 E 1620 z -1.7; predicatextheophoric O 250 E 253 z +0.8
+
+## Ur III owner names (>= 3 elements), non-adjacent pairs: 1002 names, 2054 classed pairs (non-adjacent only), 4 classes {'other': 373, 'theophoric': 88, 'predicate': 38, 'kin': 8}
+   Cramer V vs permutation expectation: 0.316 (null tables 0.047 [0.032, 0.068], P = 0.003)
+   same-class pairs 795 / 2054 = 0.387; expected 0.405; O/E 0.96; P(hi) = 0.970 P(lo) = 0.037
+   class-pair gain over unigram (2-fold held-out): -0.0081 bits/token [-0.0225, +0.0042] on 2054 tokens; random partitions -0.0059 [-0.0173, +0.0023] P = 0.683
+   symmetry corr(z(A->B), z(B->A)) = -0.80 over 6 cell pairs
+   strongest symmetric cells: kinxother O 199 E 134 z +6.0; kinxpredicate O 114 E 74 z +4.4; kinxtheophoric O 2 E 19 z -4.1; theophoricxtheophoric O 4 E 12 z -2.5; kinxkin O 3 E 1 z +1.8; otherxpredicate O 658 E 707 z -1.7; predicatextheophoric O 119 E 103 z +1.5; otherxother O 613 E 633 z -1.5

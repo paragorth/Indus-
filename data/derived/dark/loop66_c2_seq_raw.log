@@ -3,3 +3,48 @@ texts 2167: fit MD+H 1796 (2202 skip events), held-out sites 371 (493 events)
 ## DESC (6 classes): class-pair gain over unigram, bits per classed token
    5-fold MD+H: +0.0334 [+0.0072, +0.0572] on 1078 tokens; random partitions -0.0040 [-0.0251, +0.0191] P = 0.003
    held-out sites: +0.0152 [-0.0443, +0.0708] on 222 tokens; random partitions -0.0179 [-0.0609, +0.0277] P = 0.073
+
+## WBLOCK (11 classes): class-pair gain over unigram, bits per classed token
+   5-fold MD+H: -0.0165 [-0.0408, +0.0064] on 1793 tokens; random partitions -0.0229 [-0.0427, -0.0017] P = 0.262
+   held-out sites: -0.0419 [-0.0898, +0.0038] on 379 tokens; random partitions -0.0397 [-0.0862, +0.0017] P = 0.555
+
+## GLYPH (10 classes): class-pair gain over unigram, bits per classed token
+   5-fold MD+H: +0.0024 [-0.0202, +0.0244] on 1793 tokens; random partitions -0.0187 [-0.0406, +0.0034] P = 0.037
+   held-out sites: +0.0031 [-0.0407, +0.0452] on 379 tokens; random partitions -0.0321 [-0.0824, +0.0135] P = 0.063
+
+## DIST (10 classes): class-pair gain over unigram, bits per classed token
+   5-fold MD+H: +0.0551 [+0.0298, +0.0781] on 1793 tokens; random partitions -0.0221 [-0.0424, -0.0002] P = 0.003
+   held-out sites: -0.0572 [-0.1331, +0.0132] on 379 tokens; random partitions -0.0312 [-0.0770, +0.0074] P = 0.880
+
+## ELEMENT skip-bigram (idiosyncratic pairs) gain: 5-fold +0.0026 [-0.0675, +0.0805]; held-out sites -0.3605 [-0.4944, -0.2227] (unigram 7.31 bits/token on held-out)
+
+## IM77: 2373 texts, new (never seen by Wells) 284 with 309 skip events; old 2089 with 2574
+   DESC: new texts -0.0030 [-0.1015, +0.1051] on 79 tokens (4 rest on a proposed bridge entry); random partitions -0.0056 [-0.0901, +0.0765] P = 0.472; IM77 old texts (transcription-robust only) +0.0388 [+0.0084, +0.0695] on 804
+   WBLOCK: new texts +0.0026 [-0.0647, +0.0701] on 179 tokens (65 rest on a proposed bridge entry); random partitions -0.0281 [-0.1344, +0.0606] P = 0.299; IM77 old texts (transcription-robust only) +0.0322 [+0.0093, +0.0551] on 1337
+   GLYPH: new texts +0.0346 [-0.0326, +0.1039] on 139 tokens (34 rest on a proposed bridge entry); random partitions -0.0257 [-0.1124, +0.0503] P = 0.066; IM77 old texts (transcription-robust only) +0.0243 [-0.0012, +0.0485] on 1059
+   DIST: new texts +0.0630 [+0.0008, +0.1281] on 134 tokens (43 rest on a proposed bridge entry); random partitions -0.0213 [-0.1004, +0.0518] P = 0.010; IM77 old texts (transcription-robust only) +0.0505 [+0.0238, +0.0756] on 1085
+
+## (b) Symmetry: directed class table (earlier -> later element, distance >= 2), z vs 1,000 permutations within site x type x midlen
+   DESC: variance of the symmetric part of z 0.54 vs antisymmetric (order) part 2.26 (one null table gives 0.32 / 0.88)
+   DESC: 15 off-diagonal cell pairs with E >= 3 both ways; corr(z(A->B), z(B->A)) = -0.62, sign agreement 0.07; cells with |z| > 2.5 in either direction: animal->human +0.2 / human->animal -2.9; animal->tool -2.7 / tool->animal +3.8; numeral->tool -3.8 / tool->numeral +0.4
+   WBLOCK: variance of the symmetric part of z 0.85 vs antisymmetric (order) part 2.08 (one null table gives 0.34 / 0.54)
+   WBLOCK: 55 off-diagonal cell pairs with E >= 3 both ways; corr(z(A->B), z(B->A)) = -0.42, sign agreement 0.36; cells with |z| > 2.5 in either direction: B1->num +3.8 / num->B1 -0.4; B2->B3 -4.2 / B3->B2 +0.5; B2->B4 +4.3 / B4->B2 -3.6; B2->B5 +2.5 / B5->B2 +1.1; B2->B6 +2.9 / B6->B2 +1.2; B2->B8 -1.6 / B8->B2 +4.2; B2->num -2.5 / num->B2 +0.7; B4->B7 -1.8 / B7->B4 +3.5; B4->B8 -2.7 / B8->B4 +1.8; B4->B9 -1.2 / B9->B4 +4.0
+   GLYPH: variance of the symmetric part of z 0.60 vs antisymmetric (order) part 1.30 (one null table gives 0.24 / 0.58)
+   GLYPH: 42 off-diagonal cell pairs with E >= 3 both ways; corr(z(A->B), z(B->A)) = -0.38, sign agreement 0.38; cells with |z| > 2.5 in either direction: G1->G3 -1.9 / G3->G1 +3.9; G1->G4 -3.3 / G4->G1 +0.8; G1->G5 -1.3 / G5->G1 -2.6; G1->G7 -1.0 / G7->G1 +3.0; G10->G2 +2.5 / G2->G10 -1.8; G10->G3 +0.3 / G3->G10 +3.8; G2->G3 -1.9 / G3->G2 +2.7; G5->G8 -2.1 / G8->G5 +3.0
+   DIST: variance of the symmetric part of z 0.66 vs antisymmetric (order) part 3.77 (one null table gives 0.34 / 0.72)
+   DIST: 42 off-diagonal cell pairs with E >= 3 both ways; corr(z(A->B), z(B->A)) = -0.73, sign agreement 0.17; cells with |z| > 2.5 in either direction: D1->D10 -2.4 / D10->D1 +3.7; D1->D2 -7.4 / D2->D1 +1.3; D1->D3 +3.7 / D3->D1 -1.2; D1->D4 +0.1 / D4->D1 +2.8; D1->D6 +6.2 / D6->D1 -5.4; D1->D8 +3.2 / D8->D1 -2.2; D1->D9 +1.6 / D9->D1 -3.5; D10->D2 +3.9 / D2->D10 -2.8; D10->D6 +3.6 / D6->D10 -3.1; D10->D8 +3.5 / D8->D10 -2.9
+
+## (c) Transitivity: attraction graph among signs (distance >= 2 co-occurrence, die regime, MD+H) vs degree-preserving rewiring
+   S366 (count >= 5, O/E >= 3): 25 edges among 30 signs, triangles 4, clustering 0.387 vs rewired 0.033 [0.000, 0.194] P = 0.002
+      triangles: 4; carried by ONE distinct text (all three members co-occur only in copies of a single text): 0; 1-391-850 5 texts / 3 distinct; 480-595-821 5 texts / 3 distinct; 391-480-821 5 texts / 3 distinct; 391-821-850 5 texts / 3 distinct
+      WBLOCK: 4 classed triangles; all three same class 0 (expected 0.0, P = 1.000); <= 2 classes 1 (expected 1.0)
+      GLYPH: 4 classed triangles; all three same class 0 (expected 0.1, P = 1.000); <= 2 classes 0 (expected 1.3)
+      DIST: 4 classed triangles; all three same class 0 (expected 0.1, P = 1.000); <= 2 classes 2 (expected 1.4)
+      edges: 255-690, 520-705, 741-920, 520-706, 33-231, 405-806, 503-817, 692-920, 350-798, 1-595, 742-920, 154-468, 407-806, 70-861, 1-850, 350-741, 575-679, 1-391, 821-850, 595-821, 391-850, 480-821, 480-595, 391-480, 391-821
+   relaxed (count >= 3, O/E >= 2): 190 edges among 126 signs, triangles 17, clustering 0.073 vs rewired 0.035 [0.017, 0.061] P = 0.005
+      triangles: 17; carried by ONE distinct text (all three members co-occur only in copies of a single text): 1; 391-480-821 5 texts / 3 distinct; 1-391-850 5 texts / 3 distinct; 391-821-850 5 texts / 3 distinct; 480-595-821 5 texts / 3 distinct; 407-806-845 4 texts / 4 distinct; 520-705-803 4 texts / 4 distinct; 407-798-845 4 texts / 4 distinct; 33-335-413 3 texts / 3 distinct; 503-760-817 3 texts / 3 distinct; 233-407-845 3 texts / 3 distinct; 255-690-900 3 texts / 3 distinct; 503-752-806 2 texts / 2 distinct
+      DESC: 3 classed triangles; all three same class 0 (expected 0.1, P = 1.000); <= 2 classes 2 (expected 1.3)
+      WBLOCK: 16 classed triangles; all three same class 0 (expected 0.1, P = 1.000); <= 2 classes 2 (expected 4.0)
+      GLYPH: 16 classed triangles; all three same class 0 (expected 0.3, P = 1.000); <= 2 classes 6 (expected 5.1)
+      DIST: 16 classed triangles; all three same class 1 (expected 0.9, P = 0.543); <= 2 classes 5 (expected 7.9)
+done 1366s
