@@ -227,12 +227,12 @@ def nn_tensor(E):
         NN[a, a, :] = -1; NN[a, :, a] = -1; NN[a, idx, idx] = -1
     return NN
 
-def mine(E, rule=4, tau_sim=TAU_SIM, tau_off=TAU_OFF, nontrivial=True):
+def mine(E, rule=4, tau_sim=TAU_SIM, tau_off=TAU_OFF, nontrivial=True, NN=None):
     """Linked pairs ((a,b),(d,c)) with a - b = d - c: a,b,c,d distinct, a < c; cos(a,b) < tau_sim and cos(c,d) < tau_sim;
     NN(a-b+c) = d and NN(c-d+a) = b (rule 2), plus NN(b-a+d) = c and NN(d-c+b) = a (rule 4);
     d != NN1(c) and b != NN1(a) (the offset must beat plain similarity); cos(a-b, c-d) >= tau_off."""
     n = E.shape[0]
-    NN = nn_tensor(E)
+    if NN is None: NN = nn_tensor(E)
     cs = E @ E.T
     nn1 = (cs - 2 * np.eye(n, dtype=np.float32)).argmax(1)
     A, B, Cc = np.indices((n, n, n), dtype=np.int32)
@@ -288,19 +288,30 @@ def max_disjoint(pairs):
         if a not in used and b not in used: used |= {a, b}; k += 1
     return k
 
-def offset_stats(E, links, min_disjoint=3):
+def offset_stats(E, links, min_disjoint=3, min_cos=0.5):
+    """Offset classes by greedy stars: the pair with most links seeds a class = seed + every pair linked to it (all of
+    them share the seed's offset direction, cos >= TAU_OFF); the class counts if it holds >= min_disjoint mutually disjoint
+    pairs and the mean pairwise offset cosine over all its members is >= min_cos. Members are removed and the next seed taken."""
+    adj = collections.defaultdict(set)
+    for p, q in links:
+        adj[p].add(q); adj[q].add(p)
+    alive = set(adj); classes = []; stars = 0
+    while alive:
+        seed = max(alive, key=lambda p: len(adj[p] & alive))
+        mem = [seed] + sorted(adj[seed] & alive)
+        if len(mem) < 2: break
+        O = np.array([E[a] - E[b] for a, b in mem]); On = O / np.linalg.norm(O, axis=1, keepdims=True)
+        cs = On @ On.T; m = len(mem)
+        meancos = float((cs.sum() - m) / (m * (m - 1)))
+        md = max_disjoint(mem)
+        stars += 1
+        if md >= min_disjoint and meancos >= min_cos:
+            classes.append(dict(pairs=mem, n_pairs=m, disjoint=md, meancos=meancos))
+        alive -= set(mem)
     comps = components(links)
-    classes = []
-    for comp in comps:
-        md = max_disjoint(comp)
-        if md >= min_disjoint:
-            O = np.array([E[a] - E[b] for a, b in comp]); On = O / np.linalg.norm(O, axis=1, keepdims=True)
-            cs = On @ On.T; m = len(comp)
-            meancos = (cs.sum() - m) / (m * (m - 1)) if m > 1 else 1.0
-            classes.append(dict(pairs=comp, n_pairs=m, disjoint=md, meancos=float(meancos)))
-    return dict(n_links=len(links), n_comps=len(comps), n_classes=len(classes),
-                n_pairs_linked=len({p for l in links for p in l}),
-                classes=sorted(classes, key=lambda c: -c['disjoint']))
+    return dict(n_links=len(links), n_comps=len(comps), n_stars=stars, n_classes=len(classes),
+                n_pairs_linked=len(adj), n_pairs_in_classes=sum(c['n_pairs'] for c in classes),
+                classes=sorted(classes, key=lambda c: (-c['disjoint'], -c['meancos'])))
 
 # ---------------- nulls ----------------
 def shuffle_within(objs, rnd, key='lab'):
@@ -372,11 +383,12 @@ def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), t
     t0 = time.time()
     vocab, E = embed(objs, top=top, dim=dim)
     res = {}
+    NN = nn_tensor(E)
     for rule in (4, 2):
-        links, NN, SC = mine(E, rule)
+        links, _, _ = mine(E, rule, NN=NN)
         st = offset_stats(E, links); st['vocab'] = vocab
         res[f'real_rule{rule}'] = st
-        log(f'[{tag}] REAL rule{rule}: links {st["n_links"]}, components {st["n_comps"]}, classes(>=3 disjoint) {st["n_classes"]}, pairs linked {st["n_pairs_linked"]}  ({time.time()-t0:.1f}s)')
+        log(f'[{tag}] REAL rule{rule}: links {st["n_links"]}, pairs linked {st["n_pairs_linked"]}, stars {st["n_stars"]}, offset classes (>=3 disjoint pairs, mean offset cos >= 0.5) {st["n_classes"]} holding {st["n_pairs_in_classes"]} pairs  ({time.time()-t0:.1f}s)')
     nullres = {}
     for nt in nulls:
         stats = collections.defaultdict(list)
@@ -389,9 +401,10 @@ def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), t
                 for o in syn: o['lab'] = o['seq'] and [posclass(i, len(o['seq'])) for i in range(len(o['seq']))]
             else: syn = G.generate()
             v2, E2 = embed(syn, top=top, dim=dim)
+            NN2 = nn_tensor(E2)
             for rule in (4, 2):
-                links2, _, _ = mine(E2, rule); st2 = offset_stats(E2, links2)
-                for k in ('n_links', 'n_comps', 'n_classes', 'n_pairs_linked'): stats[(rule, k)].append(st2[k])
+                links2, _, _ = mine(E2, rule, NN=NN2); st2 = offset_stats(E2, links2)
+                for k in ('n_links', 'n_comps', 'n_classes', 'n_pairs_linked', 'n_pairs_in_classes'): stats[(rule, k)].append(st2[k])
         nullres[nt] = {f'rule{r}_{k}': v for (r, k), v in stats.items()}
         for rule in (4, 2):
             a = stats[(rule, 'n_classes')]; b = stats[(rule, 'n_links')]
@@ -428,7 +441,7 @@ if __name__ == '__main__':
         # also dump the full link list for cycle 2
         links4, NN, SC = mine(E, 4)
         res['links_rule4'] = [[vocab[a], vocab[b], vocab[c], vocab[d]] for (a, b), (c, d) in links4]
-        links2, _, _ = mine(E, 2)
+        links2, _, _ = mine(E, 2, NN=NN)
         res['links_rule2'] = [[vocab[a], vocab[b], vocab[c], vocab[d]] for (a, b), (c, d) in links2]
         for k in ('real_rule4', 'real_rule2'):
             res[k]['classes'] = [dict(c, pairs=[[vocab[a], vocab[b]] for a, b in c['pairs']]) for c in res[k]['classes']]

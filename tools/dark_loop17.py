@@ -398,7 +398,11 @@ def abc_fit(bank_theta, bank_stats, obs, n_acc=400, use=None, logw=None):
     scale = np.median(np.abs(S - np.median(S, axis=0)), axis=0) * 1.4826 + 1e-9
     d = np.sqrt((((S - o) / scale) ** 2).sum(axis=1))
     order = np.argsort(d); acc = order[:n_acc]; h = d[acc[-1]]
-    w = (1 - (d[acc] / h) ** 2) * np.exp(logw[acc] - logw[acc].max()); w = w / w.max()
+    iw = np.exp(logw[acc] - logw[acc].max())
+    if np.any(logw[acc] != 0):   # truncated importance sampling: cap the weights at their 95th percentile among the accepted
+        cap = np.percentile(iw, 95); iw = np.minimum(iw, cap)
+        ess = iw.sum() ** 2 / (iw ** 2).sum(); print('   importance weights: ESS %.0f of %d accepted (after 95%% cap)' % (ess, n_acc))
+    w = (1 - (d[acc] / h) ** 2) * iw; w = w / w.max()
     X = np.c_[np.ones(n_acc), (S[acc] - o) / scale]
     W = np.diag(w)
     try:
