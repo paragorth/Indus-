@@ -1,0 +1,67 @@
+# Loop 52 cycle 2: inventory estimators calibrated on known systems, then applied to the Indus ladder
+
+## calibration: reference corpora subsampled to 3000 distinct texts, 30 draws; truth = whole-corpus types (lower bound on the real inventory)
+| corpus | type | whole: texts / tokens / types | sub: tokens / types (coverage) | Chao1/truth | ACE/truth | ZM/truth | GT unseen | note |
+| LinearB_syllabograms | L | 6630 / 53086 / 532 | 19560 / 386 (0.73) | 1.24 +/- 0.12 | 1.27 +/- 0.10 | 3.31 +/- 0.79 | 0.008 | known syllabary 87 (+ ~10 rare/undeciphered); ideograms and NUM removed |
+| LinearB_syll+ideograms | L | 8406 / 72996 / 1114 | 22468 / 719 (0.65) | 1.14 +/- 0.07 | 1.15 +/- 0.05 | 2.53 +/- 0.45 | 0.014 | syllabograms + ideograms + NUM as given (mixed system) |
+| UrIII_syllables | L | 6100 / 194428 / 797 | 26720 / 642 (0.81) | 1.16 +/- 0.07 | 1.06 +/- 0.04 | 1.11 +/- 0.06 | 0.007 | Ur III seal legends as syllable signs (logosyllabic cuneiform in a formulaic genre) |
+| UrIII_names_syll | L | 4081 / 79485 / 882 | 11587 / 781 (0.89) | 1.44 +/- 0.06 | 1.43 +/- 0.05 | 3.31 +/- 0.67 | 0.027 | Ur III owner names, syllable signs |
+| ProtoElamite_raw | A | 5442 / 27072 / 1737 | 9930 / 1294 (0.75) | 1.36 +/- 0.07 | 1.40 +/- 0.05 | 1.87 +/- 0.07 | 0.067 | Dahl sign list with variant forms X~a.. and compounds, as Wells raw |
+| ProtoElamite_basemerged | A | 4793 / 27072 / 690 | 10428 / 588 (0.85) | 1.28 +/- 0.08 | 1.23 +/- 0.05 | 1.37 +/- 0.08 | 0.020 | variants X~a folded into X (compounds kept): as a merged inventory |
+| ProtoCuneiform_raw | A | 25736 / 134363 / 4385 | 9914 / 1531 (0.35) | 0.69 +/- 0.04 | 0.69 +/- 0.03 | 1.16 +/- 0.14 | 0.082 | CDLI qpc sign names with ~variants |
+| ProtoCuneiform_basemerged | A | 24020 / 134363 / 2205 | 10184 / 1038 (0.47) | 0.73 +/- 0.03 | 0.69 +/- 0.02 | 0.82 +/- 0.11 | 0.039 | variants folded into base sign |
+| ChessECO_moves | G | 3815 / 36997 / 420 | 29066 / 393 (0.93) | 1.27 +/- 0.07 | 1.24 +/- 0.04 | 1.37 +/- 0.06 | 0.004 | grammar without language (closed move inventory) |
+| Khipu | A | 3911 / 38854 / 229 | 24170 / 222 (0.97) | 1.06 +/- 0.04 | 1.02 +/- 0.02 | 1.03 +/- 0.04 | 0.001 | cord clusters colour:magnitude |
+
+## Indus ladder, all 5369 texts (17829 tokens) and distinct texts
+
+### raw Wells
+  all texts:      S_obs 713 N 17829 f1 219 f2 105 | Chao1 941 [658-736] | ACE 951 [672-733] | ZM 1030 [678-751] (s 2.20 q 32) | GT unseen 0.012
+  distinct texts: S_obs 713 N 12809 f1 234 f2 113 | Chao1 955 [664-741] | ACE 976 [678-743] | ZM 1078 [677-761] (s 2.10 q 32) | GT unseen 0.018
+
+### canonical strong
+  all texts:      S_obs 695 N 17829 f1 219 f2 104 | Chao1 926 [642-733] | ACE 934 [655-719] | ZM 1004 [670-733] (s 2.20 q 32) | GT unseen 0.012
+  distinct texts: S_obs 695 N 12604 f1 234 f2 112 | Chao1 939 [637-715] | ACE 958 [649-723] | ZM 1051 [646-737] (s 2.10 q 32) | GT unseen 0.019
+
+### canonical all
+  all texts:      S_obs 689 N 17829 f1 219 f2 104 | Chao1 920 [635-720] | ACE 932 [651-718] | ZM 1042 [665-744] (s 2.00 q 16) | GT unseen 0.012
+  distinct texts: S_obs 689 N 12594 f1 234 f2 112 | Chao1 933 [635-709] | ACE 957 [643-709] | ZM 1042 [650-733] (s 2.10 q 32) | GT unseen 0.019
+
+### contextual-merged (all + principled graph)
+  all texts:      S_obs 669 N 17829 f1 219 f2 104 | Chao1 900 [608-701] | ACE 910 [617-698] | ZM 1012 [638-736] (s 2.00 q 16) | GT unseen 0.012
+  distinct texts: S_obs 669 N 12501 f1 234 f2 112 | Chao1 913 [615-704] | ACE 938 [630-708] | ZM 1059 [631-741] (s 1.90 q 16) | GT unseen 0.019
+
+### permissive-merged (all + graph k>=2)
+  all texts:      S_obs 626 N 17829 f1 219 f2 103 | Chao1 859 [578-647] | ACE 874 [584-649] | ZM 947 [588-668] (s 1.70 q 4) | GT unseen 0.012
+  distinct texts: S_obs 626 N 12131 f1 234 f2 111 | Chao1 873 [566-656] | ACE 898 [582-658] | ZM 991 [599-704] (s 1.60 q 4) | GT unseen 0.019
+
+### maximal-merged (all + graph k>=1)
+  all texts:      S_obs 288 N 17829 f1 131 f2 61 | Chao1 429 [250-321] | ACE 431 [258-316] | ZM 523 [295-362] (s 1.80 q 1) | GT unseen 0.007
+  distinct texts: S_obs 288 N 2493 f1 143 f2 63 | Chao1 450 [250-312] | ACE 444 [260-311] | ZM 500 [283-338] (s 1.20 q 0) | GT unseen 0.057
+
+## bias-corrected totals (distinct texts): estimate / mean bias ratio of the reference class
+| ladder step | S_obs | Chao1 | ACE | ZM | corrected (language-writing (LinB syll, UrIII syll, UrIII names)): Chao1 / ACE / ZM | corrected (accounting raw lists (PE raw, PC raw)): Chao1 / ACE / ZM | corrected (accounting base-merged (PE, PC)): Chao1 / ACE / ZM | corrected (all references): Chao1 / ACE / ZM |
+| raw Wells | 713 | 955 | 976 | 1078 | 748 / 778 / 418 | 934 / 932 / 711 | 953 / 1014 / 985 | 842 / 872 / 603 |
+| canonical strong | 695 | 939 | 958 | 1051 | 735 / 764 / 408 | 919 / 915 / 693 | 937 / 995 / 961 | 828 / 856 / 588 |
+| canonical all | 689 | 933 | 957 | 1042 | 730 / 763 / 404 | 913 / 915 / 687 | 931 / 995 / 953 | 822 / 855 / 583 |
+| contextual-merged (all + principled graph) | 669 | 913 | 938 | 1059 | 715 / 748 / 411 | 893 / 896 / 698 | 911 / 974 / 968 | 805 / 838 / 592 |
+| permissive-merged (all + graph k>=2) | 626 | 873 | 898 | 991 | 683 / 716 / 385 | 853 / 858 / 653 | 870 / 933 / 906 | 769 / 802 / 554 |
+| maximal-merged (all + graph k>=1) | 288 | 450 | 444 | 500 | 352 / 354 / 194 | 440 / 424 / 330 | 449 / 461 / 457 | 397 / 396 / 280 |
+
+## spectrum shape at n = 3000 texts: Good-Turing unseen share and singleton share (f1/S_obs)
+  LinearB_syllabograms         GT unseen 0.008  f1/S 0.39  S_obs 378  N 19828
+  LinearB_syll+ideograms       GT unseen 0.013  f1/S 0.42  S_obs 702  N 22506
+  UrIII_syllables              GT unseen 0.007  f1/S 0.29  S_obs 655  N 26570
+  UrIII_names_syll             GT unseen 0.025  f1/S 0.38  S_obs 766  N 11557
+  ProtoElamite_raw             GT unseen 0.065  f1/S 0.50  S_obs 1271  N 9857
+  ProtoElamite_basemerged      GT unseen 0.019  f1/S 0.34  S_obs 574  N 10464
+  ProtoCuneiform_raw           GT unseen 0.081  f1/S 0.53  S_obs 1491  N 9800
+  ProtoCuneiform_basemerged    GT unseen 0.039  f1/S 0.38  S_obs 1029  N 10062
+  ChessECO_moves               GT unseen 0.004  f1/S 0.27  S_obs 398  N 29031
+  Khipu                        GT unseen 0.001  f1/S 0.06  S_obs 220  N 23552
+  Indus raw Wells              GT unseen 0.019  f1/S 0.33  S_obs 696  N 11883
+  Indus canonical strong       GT unseen 0.020  f1/S 0.34  S_obs 685  N 11917
+  Indus canonical all          GT unseen 0.020  f1/S 0.35  S_obs 681  N 11925
+  Indus contextual-merged (all GT unseen 0.020  f1/S 0.36  S_obs 659  N 11985
+  Indus permissive-merged (all GT unseen 0.019  f1/S 0.37  S_obs 626  N 12131
+  Indus maximal-merged (all +  GT unseen 0.057  f1/S 0.50  S_obs 288  N 2493

@@ -63,9 +63,9 @@ def propose(entry, recs):
     g = recs[0]['grade']
     base = g.split()[0].strip('/')
     outside = any(x['outside'] for x in recs)
-    strong = [x for x in recs if x['beyond_all_levels']]
+    strong = sorted([x for x in recs if x['beyond_all_levels']], key=lambda x: x['M1E'] == 'in')   # M1E-robust claims first
     some = [x for x in recs if x['beyond_some']]
-    rep = [x for x in strong if x['replicated']]
+    rep = sorted([x for x in strong if x['replicated']], key=lambda x: x['M1E'] == 'in')
     if g == 'grammar' or base.startswith('C'):
         if strong: return g if g == 'grammar' else base, 'beyond chains' + (' and replicated' if rep else '') + ': ' + strong[0]['claim']
         if some: return base if base.startswith('C') else g, 'beyond chains at some merge levels only: ' + some[0]['claim']
@@ -82,7 +82,12 @@ def propose(entry, recs):
     if outside: return 'B-', 'sequence claims chain-explained; outside fact only: ' + next(x['outside'] for x in recs if x['outside'])
     return 'C', 'every sequence claim is chain-explained; no outside fact'
 
-prop = {e: propose(e, recs) for e, recs in per_entry.items()}
+def propose2(e, recs):
+    pg, why = propose(e, recs)
+    dec = [x for x in recs if x['claim'] in why]
+    if dec and dec[0]['M1E'] == 'in' and dec[0]['kind'] != 'adjacency': why += ' [end-state fact: an order-1 chain with END reproduces it]'
+    return pg, why
+prop = {e: propose2(e, recs) for e, recs in per_entry.items()}
 with open(DARK + 'loop54_regrade.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['sign', 'current grade', 'claim', 'statistic (obs seq_all; seq_raw; seq_strong)', 'Markov-1 null (med [band])', 'Markov-2 null', 'held-out (sites; IM77-only)', 'proposed grade', 'reason', 'kind', 'MD+H verdict', 'M1E', 'S366 gen', 'outside fact', 'S-rows'])

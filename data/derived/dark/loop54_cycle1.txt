@@ -1,0 +1,43 @@
+# Loop 54 cycle 1: every dictionary / grammar claim against Markov nulls on Mohenjo-daro + Harappa
+# Scripts: tools/dark_loop54_common.py, dark_loop54_claims.py, dark_loop54_c1.py. Tables: loop54_c1_<level>_big.txt/.json (seq_raw, seq_strong, seq_all).
+# Corpus: merged-corpus-canonical.json, die regime (one copy per die, as recommended by S-DARK-41.1), MD+H = 3,097 texts (seq_all).
+# Nulls: M1 = order-1 chain fitted within site x object type with text lengths kept (the loop 41 null); M2 = order-2, same; M1E = order-1 with an END state
+# (lengths free; a sign's 'finality' is then a bigram with END); G = the S366 M* slot-grammar generator (textreuse + closerdep + type + open + site) fitted on MD+H.
+# 200 corpora per chain, 100 for G. 'Inside' = observed within the 2.5-97.5% band.
+# Claim kinds: adjacency (a bigram, which M1 reproduces in expectation by construction), position (start/end), distance (co-occurrence / order / repetition at
+# distance >= 2), trigram, corpus.
+
+Counts (131 claims, seq_all): 52 adjacency claims (chain by construction; 7 of them outside the M1 band at seq_all, all small shifts of a bigram rate);
+44 non-adjacency claims beyond BOTH chains at all three merge levels; 28 chain-explained; 6 merge-dependent; 1 untestable (W632 is merged away at seq_all).
+Of the 44 beyond-chain claims, 24 are reproduced by M1E (end-state facts) and 20 are not.
+
+Beyond both chains AND beyond M1E (the genuine whole-text facts):
+- W2 twice per 1000 W2-texts: 3.5 vs M1 47 [32-66], M2 28, M1E below, G 87 (the once rule; S-DARK-15 holds)
+- W2 text with marked jar 741/742: 0.014 vs M1 0.034 [0.020-0.048] (seq_raw/seq_all; inside at seq_strong: merge-dependent)
+- opener text carrying W400: 0.025 vs 0.053 [0.033-0.073]; W400 text carrying an opener 0.044 vs 0.073 [0.048-0.098] (S29 exclusion, both directions)
+- jar text with another closer 0.042 vs 0.164 [0.143-0.187]; jar twice 13 vs 126 per 1000; two-closer texts 0.023 vs 0.069 [0.060-0.078]; closer-jar exclusion for 520/700 (M1E below), but for 151/156/527/226/154 M1E is inside (small n)
+- numerals: two non-adjacent numeral tokens 0.064 vs 0.083 [0.074-0.093] (numerals mutually exclusive beyond chaining)
+- no-repeat 0.038 vs 0.122 [0.110-0.137] (M2 0.081, M1E and G below as well)
+- fixed-pair share 0.50 vs M1 0.26 [0.23-0.33], M2 0.23; among pairs at distance >= 2 only 0.48 vs 0.16 [0.10-0.19] (G 0.39-0.43)
+- long-range attraction pairs 52 vs M1 11 [6-17], M2 21, G 17
+- marker in second position 0.66 vs 0.56 [0.52-0.59]; W60 second 0.85 vs 0.62 [0.55-0.70]; W2 second 0.60 vs 0.54 [0.50-0.58]
+- trigrams 590-tree-740 18.4 vs 6.1 [3.6-9.0] per 1000 (M2 8.1), 705/706-33-520 13.9 vs 5.5 (M2 5.8), 2-NUM-tree 11.3 vs 4.8 (M2 6.8), 920-60-741 12.9 vs 2.9 (M2 9.7: within M2)
+- 520 texts with a fish at distance >= 2: 0.34 vs 0.20 [0.15-0.26] (seq_all only: merge-dependent)
+
+Beyond both lengths-kept chains but reproduced by M1E (end-state bigram facts):
+- finality of every closer (jar 0.87 vs 0.47; 520 0.85 vs 0.45; 151 0.95 vs 0.36; 156 0.90; 527 0.91; 226 0.80; 617 0.64; 154/158 0.95; 700 0.57), of W400 (0.88 vs 0.42), W90 (0.65 vs 0.33),
+  tree (0.54 vs 0.30), W368/W892 (0.39 vs 0.26); closer-last 0.57 vs 0.28; opener before closer 0.985 vs 0.87; S289 paradigm count 10 vs 1 [0-4]; W692 initial 0.74 vs 0.59.
+
+Chain-explained (inside M1 and M2) at every level: opener-first 0.14 vs 0.13 (start state), connective-never-initial 0.061 vs 0.061, W2 initial, W60 twice, W820 initial/final,
+W595 (all four claims: jar avoidance 0.12 vs 0.15 [0.06-0.26], 820 either order, finality), W176/W100 order (1.00 vs 1.00 [0.88-1.00]) and 176 before 100-jar at a distance,
+all name-element positions (midinit 0.21 vs 0.20 [0.16-0.24]; midfinal 0.36 vs 0.35 [0.30-0.40]; initial 0.55 vs 0.51), W503/413/824/255/550 initial 0.43 vs 0.41, W140 initial,
+W920 initial 0.60 vs 0.60, 255 before 690 at a distance (1.00 vs 1.00), fish non-adjacent order (1.00 vs 0.71 [0.38-1.00], n tiny), fish + 1 + arrow 0.025 vs 0.010 [0-0.03],
+nesting 0.163 vs M1 0.156 [0.141-0.171] (and BELOW M2 0.257), anagram share 0.052 vs 0.073 [0.02-0.18], W34-alone (M2 inside), 415-803-1 (0 at MD+H).
+
+S366 generator G: 34 of 128 testable claims fall outside its band, including the once rule (87 vs 3.5), both exclusions, no-repeat, both fixed-pair shares, long-range
+attraction (17 vs 52), two-closer and two-numeral exclusions, the 590-tree-740 and 255-435-690 runs, and length sd 2.49 vs 2.09: the same whole-text residue S366 named.
+
+Merge dependence: six claims change verdict across levels (W2 + marked jar at seq_strong; W617 vs jar at seq_raw only; 176-100-740 at seq_strong only; fish stacking,
+520-fish distance and 255-435-690 at seq_all only). No A-grade decisive claim depends on a merge.
+
+| S-DARK-54.1 | **Every WORKING-DICTIONARY entry (A, B and the testable C closers) and every GRAMMAR statement reduced to 131 quantitative claims and recomputed on Mohenjo-daro + Harappa (die regime, 3 merge levels) against 200 corpora from an order-1 chain fitted within site x object type with lengths kept (the loop 41 null), 200 from an order-2 chain, 200 from an order-1 chain with an END state (lengths free), and 100 from the S366 M* generator (`tools/dark_loop54_c1.py`, `dark_loop54_claims.py`; `loop54_c1_<level>_big.txt`). Claims typed as adjacency (bigram), position, distance (>= 2), trigram, corpus** | **52 of 131 claims are adjacency facts that an order-1 chain reproduces by construction (every 'X preceded by numeral / followed by jar / fixed numeral / qualifier set' entry, all of S303, S197, S204, S229, S341); 28 more are inside both chains (opener-first, connective-never-initial, W595, W176 before W100, every name-element position of S311, W920/W140 initial, 255 before 690, fish+1+arrow, nesting); 44 beat both lengths-kept chains at all three levels, but 24 of those are finality or closer-last statistics that a chain with an END state reproduces (jar final 0.87 vs 0.47 lengths-kept but inside M1E; S289 count 10 vs 1 [0-4] but inside M1E).** The 20 claims beyond every chain are whole-text facts: W2 once (3.5 vs 47 per 1000), opener-W400 exclusion both ways (0.025 vs 0.053; 0.044 vs 0.073), closer mutual exclusion (jar with another closer 0.042 vs 0.164; two-closer texts 0.023 vs 0.069), jar not repeated (13 vs 126), no-repeat 0.038 vs 0.122, numerals mutually exclusive 0.064 vs 0.083, marker second 0.66 vs 0.56, fixed order at distance >= 2 0.48 vs 0.16 [0.10-0.19], 52 vs 11 long-range attraction pairs, and the runs 590-tree-740, 705-33-520, 2-N-tree (M2 cannot make them). S366 G fails 34 of 128, the same residue. Six verdicts are merge-dependent; none decides an A grade | **Chain-explained: every adjacency-type gloss, every S311 name position, W595, W176-W100 order, nesting (killed as in S-DARK-41). End-state facts (held only against a chain that cannot end a text): all closer finality claims, closer-last, S289 paradigm count. Beyond every chain: the marker once-rule, the opener/suffix and closer/closer exclusions, non-repetition, numeral exclusivity, the non-adjacent half of the partial order, long-range attraction and three title runs.** The grammar is a set of exclusions and a sequence, not a set of slot-position facts. |

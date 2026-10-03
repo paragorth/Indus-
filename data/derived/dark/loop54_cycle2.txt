@@ -1,0 +1,20 @@
+# Loop 54 cycle 2: the same 131 claims on the 324 IM77-only texts (S-DARK-27.3 'certainly new': MD 133, HP 117, Lothal 36, KB 19, CD 9, West Asia 6, other 4;
+# 164 seals, 77 sealings, 50 tablets, 21 pots, 12 misc), in Mahadevan numbers, claims translated through the completed bridge (loop27_sets.json + W34 = M95).
+# Chains fitted on these 324 texts alone, grouped by object type (site x type too sparse); 200 corpora each. Script tools/dark_loop54_c2.py; table loop54_c2_im77.txt.
+# Unbridged and so untestable here: W56, W91 (twins), W48, W824; W632 and W845-407 have no tokens in the set.
+
+Verdicts: 48 adjacency facts, 55 chain-explained, 15 beyond both chains, 4 inside M1 but outside M2, 2 beyond M1 within M2, 7 with no tokens.
+
+Replicates beyond both chains on the new texts (same direction as MD+H):
+- finality of the closers: jar 0.80 vs M1 0.56 [0.45-0.66]; 520 0.82 vs 0.36 [0.14-0.60]; 151 0.91 vs 0.36; 156 0.93 vs 0.35; 527 0.86 vs 0.50; 154/158 0.93 vs 0.35; W400 raw-final 0.86 vs 0.43 [0.33-0.57];
+  tree final 0.54 vs 0.33 [0.21-0.47]; closer-last 0.52 vs 0.30 [0.25-0.35]; S289 paradigm count 4 vs 0 [0-2]  (all reproduced by M1E: end-state facts)
+- jar text with another closer 0.073 vs 0.20 [0.13-0.29]; two-closer texts 0.041 vs 0.069 [0.047-0.100] (NOT reproduced by M1E: whole-text exclusions)
+- opener text carrying a closer at distance >= 2: 0.62 vs 0.30 [0.18-0.44]
+- fixed-pair share 0.77 vs 0.37 [0.10-0.72] (n small: wide band); at distance >= 2 0.70 vs 0.10 [0-0.75] (inside M1 band, outside M2)
+- nesting 0.058 vs 0.19 [0.15-0.24]: BELOW the chain, as S-DARK-41.3 found for held-out sites (the credential nesting claim is reversed, not just explained)
+
+Underpowered or chain-explained on 324 texts: W2 once (50 vs 43 per 1000 [0-97]; 2 of 40 W2 texts repeat it), W2 + marked jar (0.017 vs 0.043 [0-0.10]), opener-W400 exclusion (0.038 vs 0.055 [0-0.13]),
+no-repeat 0.085 vs 0.151 [0.114-0.184] but within M2 (0.096), numerals mutually exclusive (0.088 vs 0.069 [0.050-0.097]: inside), long-range attraction 0 pairs (E >= 3 unreachable at n = 324),
+marker second 0.54 vs 0.52 [0.40-0.65], W60 second 0.85 vs 0.71 [0.44-0.94], all trigram runs (705-33-520 4 texts, 920-60-741 2, 590-tree-740 2), every name-element position, fish order (no two-fish texts).
+
+| S-DARK-54.2 | **Held-out check on the 324 IM77-only texts (never transcribed by Wells; S-DARK-27.3), in Mahadevan numbers with the claims translated through the completed bridge, against 200 corpora each from order-1, order-2 and END-state chains fitted on those 324 texts alone, per object type (`tools/dark_loop54_c2.py`; `loop54_c2_im77.txt`)** | **Replicate beyond both chains: the closer finality of the jar (0.80 vs 0.56 [0.45-0.66]), arrow, carrier, jar-carrier, box and leaf-closer (0.82-0.93 vs 0.35-0.50), W400 final 0.86 vs 0.43, closer-last 0.52 vs 0.30, the S289 count 4 vs 0 [0-2], tree final 0.54 vs 0.33 (all also inside the END-state chain), and two whole-text exclusions that no chain gives: a jar text carrying a second closer 0.073 vs 0.20 [0.13-0.29] and two-closer texts 0.041 vs 0.069 [0.047-0.10]; opener texts carry a closer at a distance 0.62 vs 0.30; fixed-pair share 0.77 vs 0.37.** Nesting is BELOW the chain (0.058 vs 0.19 [0.15-0.24]). Underpowered at n = 324 (inside wide bands): W2 once (2 of 40 W2 texts repeat it; 50 vs 43 per 1000 [0-97]), W2 + marked jar, opener-W400 exclusion, numeral exclusivity, long-range attraction (no pair reaches E >= 3), every trigram run (2-4 texts each), every name-element position, fish order (no two-fish text). W56, W91, W48, W824 unbridged; W632, W845 absent | **Out of sample, the closer system (finality, mutual exclusion, two-closer ban) and the opener-closer frame replicate; the once-rule and the opener/suffix exclusion stay the right way but cannot be told from a chain at this n; name positions, trigram units and fish order are untestable.** Entries whose A rests on W2-once or the S29 exclusion therefore keep A only on MD+H plus held-out sites (cycle 3), not on IM77-only material. |
