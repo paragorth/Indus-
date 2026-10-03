@@ -156,3 +156,46 @@ same_mid_diff_closer          0
 same_mid1_diff_closer         1 | 0/0 nan/nan P=nan | 0/0 nan/nan P=nan | 0/0 nan/nan P=nan | nan/nan P=nan (n=0) | nan/nan P=nan (n=0) | 1.00/nan | nan/nan
 same_closer_diff_mid         47 | 3/16 0.188/nan P=nan | 0/14 (<0.214) 0.000/nan P=nan | 0/0 nan/nan P=nan | nan/nan P=nan (n=0) | 0.190/nan P=nan (n=21) | 1.00/nan | 0.66/0.93
 minimal_pair                  2 | 1/1 1.000/nan P=nan | 0/0 nan/nan P=nan | 0/0 nan/nan P=nan | nan/nan P=nan (n=0) | nan/nan P=nan (n=0) | 1.00/nan | nan/nan
+emblem_only                 392 | 22/140 0.157/nan P=nan | 0/120 (<0.025) 0.000/nan P=nan | 0/0 nan/nan P=nan | nan/nan P=nan (n=0) | 0.262/nan P=nan (n=149) | 1.00/nan | 1.00/0.91
+  examples same_mid_diff_closer at Dholavira:
+  examples minimal_pair at Dholavira:
+    -        861-2-16-390                 mid=16-390 clo= area=None room=None d=None | -        861-2-16-405                 clo= area=Annexe- room=None d=None -> 
+    -        33-33-520                    mid=33-33 clo=520 area=Castle- room=None d=None | -        706-33-520                   clo=706-33-520 area=Castle- room=None d=None -> same area
+  examples identical at Dholavira:
+
+--- Dholavira seals by room: no groups
+
+--- Dholavira seals grouped by area: 39 objects, 6 groups with >=2, 128 within-group pairs; null = labels permuted within typ (1000x)
+  jac      obs 0.0540 () null 0.0493 ratio 1.09 P=0.269
+  mid      obs 0.0000 (0/128 (<0.023)) null 0.0000 ratio nan P=1.000
+  mid2     obs 0.0000 (0/128 (<0.023)) null 0.0000 ratio nan P=1.000
+  clo      obs 0.0469 (6/128) null 0.0261 ratio 1.80 P=0.125
+  opn      obs 0.7188 (92/128) null 0.7140 ratio 1.01 P=0.443
+  ident    obs 0.0000 (0/128 (<0.023)) null 0.0000 ratio nan P=1.000
+  holder   obs 0.0000 (0/128 (<0.023)) null 0.0000 ratio nan P=1.000
+  holder1  obs 0.0000 (0/128 (<0.023)) null 0.0000 ratio nan P=1.000
+  minpair  obs 0.0078 (1/128) null 0.0016 ratio 4.76 P=0.211
+
+--- Dholavira tablets: 7 objects; strata = object type x text length
+class                     pairs | same-area obs/null P (n) | same-block obs/null P | same-room obs/null P (n) | mean|dDepth| ft obs/null P (n) | same-period obs/null P (n) | same-mat obs/null | same-emb obs/null
+identical                     0
+same_mid_diff_closer          0
+same_mid1_diff_closer         0
+same_closer_diff_mid          0
+minimal_pair                  0
+emblem_only                   0
+
+--- Dholavira tablets by room: no groups
+
+--- Dholavira tablets grouped by area: 6 objects, 2 groups with >=2, 4 within-group pairs; null = labels permuted within typ (1000x)
+  jac      obs 0.0000 () null 0.0154 ratio 0.00 P=1.000
+  mid      obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  mid2     obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  clo      obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  opn      obs 1.0000 (4/4) null 1.0000 ratio 1.00 P=1.000
+  ident    obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  holder   obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  holder1  obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+  minpair  obs 0.0000 (0/4 (<0.750)) null 0.0000 ratio nan P=1.000
+
+=== direct test, all sites: same-room seal pairs with the same middle (>=2 signs) and a different closer unit (holder) vs room-label permutation
