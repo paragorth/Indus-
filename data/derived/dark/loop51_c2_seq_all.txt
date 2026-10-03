@@ -1,0 +1,81 @@
+# S-DARK-51 cycle 2, level seq_all: S149 twin test. K = (91, 56, 2, 417, 890, 892), J = (71, 31, 831, 55, 121, 99, 55)
+
+== (a) K vs J under each mode
+  exact: K=(91, 56, 2, 417, 890, 892)
+         J=(71, 31, 831, 55, 121, 99, 55)
+         edit 7 (norm 1.00), LCS 0, shared types 0, shared bigrams 0, same first sign False
+  M    : K=(('W', 91), ('W', 56), ('M', 99), ('W', 417), ('W', 890), ('M', 307))
+         J=(('W', 71), ('M', 86), ('M', 379), ('M', 121), ('W', 121), ('W', 99), ('M', 121))
+         edit 7 (norm 1.00), LCS 0, shared types 0, shared bigrams 0, same first sign False
+  MC   : K=(('M', 1), ('M', 1), ('M', 121), ('M', 121), ('M', 99), ('W', 417), ('W', 890), ('M', 307))
+         J=(('W', 71), ('M', 86), ('M', 379), ('M', 121), ('W', 121), ('W', 99), ('M', 121))
+         edit 7 (norm 0.88), LCS 1, shared types 2, shared bigrams 0, same first sign False
+
+== (b) chance: cross-site home pairs with the same lengths
+  exact lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 1.000, lcs>=2 0.060, lcs>=KJ 0.613, same first + >=2 types 0.027, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  exact lengths 5-8 x 5-8: 48000 cross-site pairs; share as similar as K-J: edit<=1 0.000, edit<=KJ 0.763, lcs>=2 0.063, lcs>=KJ 0.642, same first + >=2 types 0.023, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  M     lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 1.000, lcs>=2 0.062, lcs>=KJ 0.621, same first + >=2 types 0.028, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  M     lengths 5-8 x 5-8: 48000 cross-site pairs; share as similar as K-J: edit<=1 0.000, edit<=KJ 0.766, lcs>=2 0.061, lcs>=KJ 0.648, same first + >=2 types 0.023, types>=KJ 1.000   (K-J: edit 7, lcs 0, types 0)
+  MC    lengths 6 x 7    : 20000 cross-site pairs; share as similar as K-J: edit<=KJ 0.957, lcs>=2 0.061, lcs>=KJ 0.624, same first + >=2 types 0.028, types>=KJ 0.213   (K-J: edit 7, lcs 1, types 2)
+  MC    lengths 5-8 x 5-8: 48000 cross-site pairs; share as similar as K-J: edit<=1 0.000, edit<=KJ 0.751, lcs>=2 0.061, lcs>=KJ 0.648, same first + >=2 types 0.023, types>=KJ 0.228   (K-J: edit 7, lcs 1, types 2)
+
+== (c) who else carries the K units; person + grid co-occurrence
+  run (91, 56): 1 distinct (site,text): [('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892))]
+  run (56, 2): 1 distinct (site,text): [('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892))]
+  run (2, 417): 1 distinct (site,text): [('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892))]
+  run (417, 890): 1 distinct (site,text): [('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892))]
+  run (890, 892): 1 distinct (site,text): [('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892))]
+  run (91, 55): 0 distinct (site,text): []
+  run (55, 55): 0 distinct (site,text): []
+  run (90, 55): 0 distinct (site,text): []
+  run (55, 90): 2 distinct (site,text): [('-', "Qala'at al-Bahrain", (190, 60, 55, 90, 160)), ('-', 'Unknown', (32, 132, 55, 90))]
+  run (90, 56): 0 distinct (site,text): []
+  person(90/91/93/71) + grid(55/56) in the same text: foreign 3/31 vs home 4/3481 distinct texts: [("Qala'at al-Bahrain", (190, 60, 55, 90, 160)), ('Saar', (55, 220, 91, 1, 90, 31)), ('Janabiyah', (71, 31, 831, 55, 121, 99, 55))] | home [('H-1710', 'Harappa', (140, 920, 55, 1, 125, 920, 700, 326, 90)), ('K-69', 'Kalibangan', (91, 56, 2, 417, 890, 892)), ('L-124', 'Lothal', (705, 500, 741, 1, 55, 220, 740, 90)), ('-', 'Dholavira', (55, 740, 90))]
+  Fisher one-sided P = 2.13e-05
+  bridge status of the K signs: W91->unbridged, W56->unbridged, W2->M99, W417->unbridged, W890->unbridged, W892->M307
+  bridge status of the J signs: W71->unbridged, W31->M86, W831->M379, W55->M121, W121->unbridged, W99->unbridged, W55->M121
+
+== (d) nearest home text for every foreign text, by mode; chance = share of cross-site home pairs of the same two lengths at least as close
+  casia Altyn Depe         square   415-390                        | exact d=1 -> Alamg 17-390 [near] | M d=1 -> Alamg 17-390 [near] | MC d=1 -> Alamg 17-390 [near]
+  casia Gonur Depe         square   285-2-235-220-125-590-390-740  | exact d=3 -> Harap 861-2-3-220-590-390-740 [chance] | M d=3 -> Harap 861-2-3-220-590-390-740 [chance] | MC d=3 -> Harap 861-2-3-220-590-390-740 [chance]
+  casia Shortughai         square   3-426                          | exact d=1 -> Harap 3 [near] | M d=1 -> Harap 3 [near] | MC d=1 -> Harap 3 [near]
+  gulf  Dilmun             round    415-803-1-717-354              | exact d=3 -> Mohen 415-220-717-740 [chance] | M d=3 -> Mohen 415-220-717-740 [chance] | MC d=3 -> Mohen 415-220-717-740 [chance]
+  gulf  Failaka            round    90-861-317                     | exact d=2 -> Banaw 861-2 [chance] | M d=2 -> Banaw 861-2 [chance] | MC d=2 -> Banaw 861-2 [chance]
+  gulf  Failaka            round    716-350-1-90                   | exact d=3 -> Banaw 1-520 [chance] | M d=3 -> Banaw 1-520 [chance] | MC d=3 -> Banaw 1-520 [chance]
+  gulf  Hajar              tablet   117-617                        | exact d=1 -> Dhola 142-617 [near] | M d=1 -> Dhola 142-617 [near] | MC d=1 -> Dhola 142-617 [near]
+  gulf  Janabiyah          round    71-31-831-55-121-99-55         | exact d=6 -> Banaw 700-31 [chance] | M d=6 -> Banaw 700-31 [chance] | MC d=5 -> Lotha 31-56-705-575 [chance]
+  gulf  Karzakan           round    91-31-455-220                  | exact d=2 -> Mohen 31-125-455-220 [chance] | M d=2 -> Mohen 31-125-455-220 [chance] | MC d=3 -> Harap 91-368-33-700 [chance]
+  gulf  Karzakan           round    91-32-1-33                     | exact d=2 -> Harap 91-32-700 [chance] | M d=2 -> Harap 91-32-700 [chance] | MC d=2 -> Harap 91-32-700 [chance]
+  gulf  Karzakan           round    740-740                        | exact d=1 -> Allah 235-740 [near] | M d=1 -> Allah 235-740 [near] | MC d=1 -> Allah 235-740 [near]
+  gulf  Qala'at al-Bahrain round    190-60-55-90-160               | exact d=4 -> Banaw 692-60-3-426 [chance] | M d=3 -> Harap 193-60-17-407 [chance] | MC d=3 -> Harap 193-60-17-407 [chance]
+  gulf  Ra's al-Junayz     pot      220-29-740                     | exact d=1 -> Harap 220-176-740 [near] | M d=1 -> Harap 220-176-740 [near] | MC d=1 -> Harap 220-176-740 [near]
+  gulf  Ra's al-Junayz     pot      4-390                          | exact d=0 -> Banaw 4-390 x3 [TWIN] | M d=0 -> Banaw 4-390 x3 [TWIN] | MC d=0 -> Banaw 4-390 x3 [TWIN]
+  gulf  Ra's al-Junayz     pot      517-892-740                    | exact d=1 -> Harap 892-740 [near] | M d=1 -> Harap 892-740 [near] | MC d=1 -> Harap 892-740 [near]
+  gulf  Saar               round    55-220-91-1-90-31              | exact d=4 -> Harap 220-240-740-90 [chance] | M d=4 -> Harap 220-240-740-90 [chance] | MC d=5 -> Harap 90-1-520 [chance]
+  gulf  Salut              square   595-278-2-4-392                | exact d=3 -> Harap 861-2-4-390 [chance] | M d=3 -> Harap 861-2-4-390 [chance] | MC d=3 -> Harap 861-2-4-390 [chance]
+  iran  Luristan           round    91-840-413-831                 | exact d=3 -> Gumla 840 [chance] | M d=3 -> Gumla 840 [chance] | MC d=3 -> Harap 91-368-33-700 [chance]
+  iran  Susa               round    365-90-407-604-700             | exact d=3 -> Harap 365-690-34-700 [chance] | M d=3 -> Harap 365-690-34-700 [chance] | MC d=3 -> Harap 91-368-33-700 [chance]
+  iran  Susa               cylinder 924-1-319-31-55-2-150-416      | exact d=6 -> Harap 32-1-904-31-740 [chance] | M d=6 -> Harap 32-1-904-31-740 [chance] | MC d=6 -> Harap 32-1-904-31-740 [chance]
+  iran  Tepe Yahya         pot      95-2                           | exact d=1 -> Banaw 861-2 [near] | M d=1 -> Banaw 861-2 [near] | MC d=1 -> Banaw 861-2 [near]
+  meso  Girsu              round    255-13-745-740                 | exact d=2 -> Harap 255-435-690-740 [chance] | M d=2 -> Harap 255-435-690-740 [chance] | MC d=2 -> Harap 255-435-690-740 [chance]
+  meso  Kish               square   240-643                        | exact d=1 -> Harap 240 [near] | M d=0 -> Mohen 240-630 x1 [TWIN] | MC d=0 -> Mohen 240-630 x1 [TWIN]
+  meso  Kish               square   416-840-60-3-220-590-390-740   | exact d=3 -> Harap 861-2-3-220-590-390-740 [chance] | M d=3 -> Harap 861-2-3-220-590-390-740 [chance] | MC d=3 -> Harap 861-2-3-220-590-390-740 [chance]
+  meso  Tell Umma          sealing  127-705-2-4-390                | exact d=2 -> Harap 861-2-4-390 [chance] | M d=2 -> Harap 861-2-4-390 [chance] | MC d=2 -> Harap 861-2-4-390 [chance]
+  meso  Tello              square   384-440-390-220                | exact d=3 -> Alamg 17-390 [chance] | M d=3 -> Alamg 17-390 [chance] | MC d=3 -> Alamg 17-390 [chance]
+  meso  Ur                 round    528-220-924-340-90             | exact d=3 -> Harap 220-240-740-90 [chance] | M d=3 -> Harap 220-240-740-90 [chance] | MC d=3 -> Harap 220-240-740-90 [chance]
+  meso  Ur                 round    415-803-1-328-4-2              | exact d=4 -> Mohen 139-1-4-390 [chance] | M d=4 -> Mohen 139-1-4-390 [chance] | MC d=4 -> Mohen 139-1-4-390 [chance]
+  meso  Ur                 round    350-90-4                       | exact d=2 -> Allah 455-4 [chance] | M d=2 -> Allah 455-4 [chance] | MC d=2 -> Allah 455-4 [chance]
+  meso  Ur                 round    90-1                           | exact d=1 -> Harap 90-1-520 [near] | M d=1 -> Harap 90-1-520 [near] | MC d=1 -> Harap 90-1-520 [near]
+  meso  Ur                 round    90-390                         | exact d=0 -> Mohen 90-390 x1 [TWIN] | M d=0 -> Mohen 90-390 x1 [TWIN] | MC d=0 -> Mohen 90-390 x1 [TWIN]
+  verdicts under MC mode: {'near': 8, 'chance': 20, 'TWIN': 3} of 31
+
+  calibration: for home texts of length L (sample 60 per L), nearest text at another site: share with d = 0, d <= 1
+    L=2: home cross-site twin share 0.47, within 1 1.00 (n=60); foreign texts of this length: 9
+    L=3: home cross-site twin share 0.20, within 1 0.87 (n=60); foreign texts of this length: 4
+    L=4: home cross-site twin share 0.13, within 1 0.42 (n=60); foreign texts of this length: 6
+    L=5: home cross-site twin share 0.03, within 1 0.30 (n=60); foreign texts of this length: 6
+    L=6: home cross-site twin share 0.00, within 1 0.07 (n=60); foreign texts of this length: 2
+    L=7: home cross-site twin share 0.00, within 1 0.03 (n=60); foreign texts of this length: 1
+    L=8: home cross-site twin share 0.00, within 1 0.00 (n=60); foreign texts of this length: 3
+
+written data/derived/dark/loop51_c2_seq_all.txt

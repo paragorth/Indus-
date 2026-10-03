@@ -8,3 +8,19 @@
 -- FULL object type x area-section: 67 shared signs; rho = +0.276; null mean +0.157 [-0.050, +0.367] P_hi = 0.141
 
 == (b) splits (full type x area null)
+-- SEALS only: 41 shared signs; rho = +0.240; null mean +0.081 [-0.236, +0.386] P_hi = 0.171
+-- TABLETS only: 17 shared signs; rho = +0.252; null mean +0.166 [-0.174, +0.480] P_hi = 0.334
+-- all objects, NON-FRAME signs only (no opener/marker/closer/suffix/numeral/marked jar): 41 shared signs; rho = +0.272; null mean +0.126 [-0.118, +0.368] P_hi = 0.130
+-- all objects, FRAME signs only: 26 shared signs; rho = +0.277; null mean +0.134 [-0.191, +0.456] P_hi = 0.220
+
+== (c) which signs carry the agreement (full type x area null): leave-one-out drop in rho, and the per-sign percentiles
+   signs whose removal lowers rho most (drop, sign, MD pct, HP pct): +0.025 W156 0.69/0.61, +0.024 W151 0.60/0.61, +0.024 W407 0.41/0.33, +0.023 W176 0.53/0.66, +0.022 W335 0.29/0.40, +0.022 W700 0.56/0.59, +0.021 W824 0.53/0.64, +0.021 W320 0.37/0.37, +0.019 W503 0.36/0.39, +0.017 W90 0.58/0.54
+   signs whose removal raises rho most: -0.018 W32 0.46/0.52, -0.019 W630 0.46/0.54, -0.020 W125 0.33/0.49, -0.024 W840 0.44/0.52, -0.043 W16 0.42/0.70, -0.048 W13 0.36/0.61
+   signs deep (older, pct > 0.55) in BOTH cities: [(151, 0.6, 0.61), (156, 0.69, 0.61), (700, 0.56, 0.59)]
+   signs shallow (later, pct < 0.45) in BOTH cities: [(17, 0.39, 0.42), (233, 0.44, 0.34), (407, 0.41, 0.33), (503, 0.36, 0.39), (900, 0.45, 0.43), (320, 0.37, 0.37), (615, 0.41, 0.44), (585, 0.44, 0.4), (745, 0.42, 0.44), (335, 0.29, 0.4)]
+   mean |pct - 0.5| over shared signs: MD 0.049, HP 0.079 (a year-name would sit far from 0.5 in both)
+
+== (d) IM77 levels (ft below datum): same agreement test, strata object_type / object_type x locus
+   IM77 dated texts MD 1207, HP 707; HP object types [('seal', 276), ('miniature tablet', 229), ('sealing', 182), ('pottery graffito', 13), ('miscellaneous', 3)]
+-- IM77, object_type null: 68 shared signs; rho = +0.089; null mean +0.031 [-0.229, +0.306] P_hi = 0.324
+-- IM77, object_type x locus null: 68 shared signs; rho = +0.089; null mean +0.014 [-0.185, +0.224] P_hi = 0.238

@@ -1,0 +1,220 @@
+== S-DARK-53 cycle 3: Indus subsets, sites, IM77 replication, three levels; nboot 100
+
+##### seq_raw
+  [seq_raw all middles] n=1971
+    n=1971 D=1591 uniq=0.807 chao1=12763.945 gt_new=0.723 k=617 meanL=3.174 lcap_naive=41.854 lcap_pos=11.974 lcap_ent=11.557 lutil_naive=-37.748 lutil_pos=-7.868 lutil_ent=-7.451 gini_id=0.182 zipf_id=-0.294 gini_el=0.739 zipf_el=-1.281 even_pos=0.916 even_k=0.658 heaps=0.936 mi_ex=0.759 top10=0.062
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.807 [0.797,0.819]; chao1 12763.945 [11598.776,13902.514]; lutil_pos -7.868 [-8.151,-7.671]; lutil_ent -7.451 [-7.763,-7.261]; gini_id 0.182 [0.171,0.191]; zipf_id -0.294 [-0.306,-0.277]; even_pos 0.916 [0.915,0.918]; heaps 0.936 [0.929,0.941]; gini_el 0.739 [0.735,0.742]; zipf_el -1.281 [-1.286,-1.273]; mi_ex 0.759 [0.729,0.797]
+  [seq_raw seals] n=1335
+    n=1335 D=1132 uniq=0.848 chao1=10601.482 gt_new=0.778 k=541 meanL=3.475 lcap_naive=40.998 lcap_pos=11.393 lcap_ent=11.007 lutil_naive=-36.973 lutil_pos=-7.368 lutil_ent=-6.982 gini_id=0.145 zipf_id=-0.245 gini_el=0.724 zipf_el=-1.229 even_pos=0.924 even_k=0.636 heaps=0.952 mi_ex=0.685 top10=0.069
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.848 [0.838,0.856]; chao1 10601.482 [9257.880,12463.701]; lutil_pos -7.368 [-7.565,-7.042]; lutil_ent -6.982 [-7.213,-6.684]; gini_id 0.145 [0.137,0.155]; zipf_id -0.245 [-0.256,-0.232]; even_pos 0.924 [0.922,0.926]; heaps 0.952 [0.945,0.955]; gini_el 0.724 [0.720,0.727]; zipf_el -1.229 [-1.237,-1.220]; mi_ex 0.685 [0.661,0.723]
+  [seq_raw quantity seals (COUNT in middle)] n=483
+    n=483 D=444 uniq=0.919 chao1=6864.571 gt_new=0.878 k=362 meanL=4.528 lcap_naive=38.381 lcap_pos=10.323 lcap_ent=10.064 lutil_naive=-34.544 lutil_pos=-6.486 lutil_ent=-6.227 gini_id=0.079 zipf_id=-0.149 gini_el=0.698 zipf_el=-1.116 even_pos=0.929 even_k=0.564 heaps=0.975 mi_ex=0.593 top10=0.081
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.919 [0.904,0.935]; chao1 6864.571 [5839.033,11970.155]; lutil_pos -6.486 [-6.786,-6.169]; lutil_ent -6.227 [-6.539,-5.858]; gini_id 0.079 [0.064,0.093]; zipf_id -0.149 [-0.174,-0.124]; even_pos 0.929 [0.923,0.937]; heaps 0.975 [0.968,0.984]; gini_el 0.698 [0.693,0.705]; zipf_el -1.116 [-1.129,-1.103]; mi_ex 0.593 [0.546,0.638]
+  [seq_raw office seals (jar closer 740, no count)] n=401
+    n=401 D=308 uniq=0.768 chao1=1398.323 gt_new=0.648 k=244 meanL=2.638 lcap_naive=21.488 lcap_pos=7.032 lcap_ent=6.695 lutil_naive=-18.343 lutil_pos=-3.887 lutil_ent=-3.550 gini_id=0.209 zipf_id=-0.353 gini_el=0.613 zipf_el=-0.986 even_pos=0.937 even_k=0.621 heaps=0.919 mi_ex=0.528 top10=0.142
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.768 [0.734,0.784]; chao1 1398.323 [1048.761,2241.868]; lutil_pos -3.887 [-4.206,-3.634]; lutil_ent -3.550 [-3.847,-3.322]; gini_id 0.209 [0.196,0.235]; zipf_id -0.353 [-0.392,-0.334]; even_pos 0.937 [0.932,0.943]; heaps 0.919 [0.900,0.931]; gini_el 0.613 [0.605,0.623]; zipf_el -0.986 [-1.005,-0.970]; mi_ex 0.528 [0.481,0.587]
+  [seq_raw other seals (no jar, no count)] n=451
+    n=451 D=406 uniq=0.900 chao1=4016.000 gt_new=0.843 k=334 meanL=3.091 lcap_naive=27.763 lcap_pos=8.035 lcap_ent=7.750 lutil_naive=-24.159 lutil_pos=-4.431 lutil_ent=-4.146 gini_id=0.096 zipf_id=-0.182 gini_el=0.602 zipf_el=-0.985 even_pos=0.946 even_k=0.641 heaps=0.967 mi_ex=0.320 top10=0.086
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.900 [0.884,0.920]; chao1 4016.000 [2845.829,6941.429]; lutil_pos -4.431 [-4.724,-4.000]; lutil_ent -4.146 [-4.412,-3.758]; gini_id 0.096 [0.078,0.111]; zipf_id -0.182 [-0.207,-0.148]; even_pos 0.946 [0.941,0.947]; heaps 0.967 [0.957,0.976]; gini_el 0.602 [0.595,0.611]; zipf_el -0.985 [-1.002,-0.975]; mi_ex 0.320 [0.263,0.343]
+  [seq_raw tablets] n=490
+    n=490 D=422 uniq=0.861 chao1=2364.722 gt_new=0.763 k=281 meanL=2.524 lcap_naive=24.489 lcap_pos=6.831 lcap_ent=6.562 lutil_naive=-21.115 lutil_pos=-3.457 lutil_ent=-3.188 gini_id=0.127 zipf_id=-0.240 gini_el=0.578 zipf_el=-0.982 even_pos=0.950 even_k=0.678 heaps=0.954 mi_ex=0.553 top10=0.078
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.861 [0.851,0.877]; chao1 2364.722 [1958.564,3160.949]; lutil_pos -3.457 [-3.814,-3.165]; lutil_ent -3.188 [-3.449,-2.915]; gini_id 0.127 [0.116,0.138]; zipf_id -0.240 [-0.254,-0.221]; even_pos 0.950 [0.946,0.953]; heaps 0.954 [0.948,0.962]; gini_el 0.578 [0.566,0.583]; zipf_el -0.982 [-1.000,-0.963]; mi_ex 0.553 [0.492,0.596]
+  [seq_raw Mohenjo-daro (all types)] n=998
+    n=998 D=871 uniq=0.873 chao1=8991.450 gt_new=0.808 k=478 meanL=3.455 lcap_naive=40.191 lcap_pos=10.842 lcap_ent=10.477 lutil_naive=-36.238 lutil_pos=-6.889 lutil_ent=-6.523 gini_id=0.121 zipf_id=-0.219 gini_el=0.701 zipf_el=-1.183 even_pos=0.937 even_k=0.630 heaps=0.959 mi_ex=0.688 top10=0.065
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.873 [0.864,0.880]; chao1 8991.450 [7741.641,10608.627]; lutil_pos -6.889 [-7.159,-6.477]; lutil_ent -6.523 [-6.804,-6.070]; gini_id 0.121 [0.114,0.129]; zipf_id -0.219 [-0.233,-0.213]; even_pos 0.937 [0.932,0.940]; heaps 0.959 [0.954,0.965]; gini_el 0.701 [0.694,0.707]; zipf_el -1.183 [-1.189,-1.170]; mi_ex 0.688 [0.662,0.729]
+  [seq_raw Harappa (all types)] n=638
+    n=638 D=553 uniq=0.867 chao1=3890.959 gt_new=0.779 k=346 meanL=2.680 lcap_naive=30.470 lcap_pos=7.567 lcap_ent=7.343 lutil_naive=-26.880 lutil_pos=-3.977 lutil_ent=-3.753 gini_id=0.123 zipf_id=-0.233 gini_el=0.621 zipf_el=-1.040 even_pos=0.946 even_k=0.681 heaps=0.963 mi_ex=0.457 top10=0.063
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.867 [0.853,0.880]; chao1 3890.959 [3211.623,5285.343]; lutil_pos -3.977 [-4.244,-3.800]; lutil_ent -3.753 [-4.003,-3.585]; gini_id 0.123 [0.111,0.136]; zipf_id -0.233 [-0.253,-0.216]; even_pos 0.946 [0.943,0.949]; heaps 0.963 [0.959,0.971]; gini_el 0.621 [0.612,0.631]; zipf_el -1.040 [-1.052,-1.024]; mi_ex 0.457 [0.400,0.487]
+  [seq_raw Mohenjo-daro seals] n=842
+    n=842 D=744 uniq=0.884 chao1=8269.562 gt_new=0.824 k=449 meanL=3.486 lcap_naive=39.784 lcap_pos=10.232 lcap_ent=9.918 lutil_naive=-35.866 lutil_pos=-6.315 lutil_ent=-6.000 gini_id=0.112 zipf_id=-0.204 gini_el=0.689 zipf_el=-1.147 even_pos=0.938 even_k=0.618 heaps=0.960 mi_ex=0.612 top10=0.071
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.884 [0.873,0.900]; chao1 8269.562 [7171.338,9639.771]; lutil_pos -6.315 [-6.479,-6.012]; lutil_ent -6.000 [-6.164,-5.688]; gini_id 0.112 [0.096,0.121]; zipf_id -0.204 [-0.219,-0.182]; even_pos 0.938 [0.933,0.940]; heaps 0.960 [0.955,0.963]; gini_el 0.689 [0.684,0.697]; zipf_el -1.147 [-1.165,-1.136]; mi_ex 0.612 [0.577,0.669]
+  [seq_raw Harappa seals] n=230
+    n=230 D=219 uniq=0.952 chao1=3369.000 gt_new=0.913 k=229 meanL=3.452 lcap_naive=28.320 lcap_pos=7.060 lcap_ent=6.897 lutil_naive=-24.792 lutil_pos=-3.532 lutil_ent=-3.369 gini_id=0.046 zipf_id=-0.110 gini_el=0.561 zipf_el=-0.931 even_pos=0.967 even_k=0.602 heaps=0.983 mi_ex=0.339 top10=0.091
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.952 [0.936,0.974]; chao1 3369.000 [2311.600,8383.850]; lutil_pos -3.532 [-3.924,-3.241]; lutil_ent -3.369 [-3.739,-3.114]; gini_id 0.046 [0.026,0.062]; zipf_id -0.110 [-0.140,-0.066]; even_pos 0.967 [0.961,0.971]; heaps 0.983 [0.974,0.991]; gini_el 0.561 [0.553,0.569]; zipf_el -0.931 [-0.944,-0.911]; mi_ex 0.339 [0.292,0.371]
+  [seq_raw held-out sites (all types)] n=335
+    n=335 D=306 uniq=0.913 chao1=4946.056 gt_new=0.863 k=288 meanL=3.278 lcap_naive=27.055 lcap_pos=8.021 lcap_ent=7.899 lutil_naive=-23.361 lutil_pos=-4.326 lutil_ent=-4.205 gini_id=0.083 zipf_id=-0.170 gini_el=0.585 zipf_el=-0.946 even_pos=0.959 even_k=0.598 heaps=0.969 mi_ex=0.187 top10=0.096
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.913 [0.902,0.936]; chao1 4946.056 [4037.833,11805.333]; lutil_pos -4.326 [-4.700,-3.795]; lutil_ent -4.205 [-4.586,-3.670]; gini_id 0.083 [0.063,0.094]; zipf_id -0.170 [-0.187,-0.130]; even_pos 0.959 [0.953,0.963]; heaps 0.969 [0.959,0.977]; gini_el 0.585 [0.579,0.595]; zipf_el -0.946 [-0.966,-0.931]; mi_ex 0.187 [0.142,0.225]
+
+##### seq_strong
+  [seq_strong all middles] n=1950
+    n=1950 D=1557 uniq=0.798 chao1=13037.053 gt_new=0.716 k=598 meanL=3.180 lcap_naive=41.651 lcap_pos=11.986 lcap_ent=11.535 lutil_naive=-37.535 lutil_pos=-7.871 lutil_ent=-7.419 gini_id=0.190 zipf_id=-0.300 gini_el=0.751 zipf_el=-1.297 even_pos=0.911 even_k=0.651 heaps=0.936 mi_ex=0.789 top10=0.071
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.798 [0.790,0.807]; chao1 13037.053 [11921.198,14966.275]; lutil_pos -7.871 [-8.109,-7.436]; lutil_ent -7.419 [-7.648,-6.987]; gini_id 0.190 [0.182,0.198]; zipf_id -0.300 [-0.308,-0.289]; even_pos 0.911 [0.910,0.914]; heaps 0.936 [0.930,0.941]; gini_el 0.751 [0.747,0.755]; zipf_el -1.297 [-1.306,-1.289]; mi_ex 0.789 [0.763,0.815]
+  [seq_strong seals] n=1323
+    n=1323 D=1116 uniq=0.844 chao1=10460.009 gt_new=0.773 k=524 meanL=3.487 lcap_naive=40.790 lcap_pos=11.378 lcap_ent=10.957 lutil_naive=-36.770 lutil_pos=-7.358 lutil_ent=-6.937 gini_id=0.149 zipf_id=-0.248 gini_el=0.735 zipf_el=-1.246 even_pos=0.920 even_k=0.632 heaps=0.948 mi_ex=0.720 top10=0.075
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.844 [0.830,0.852]; chao1 10460.009 [9537.104,12694.410]; lutil_pos -7.358 [-7.647,-7.068]; lutil_ent -6.937 [-7.272,-6.621]; gini_id 0.149 [0.141,0.161]; zipf_id -0.248 [-0.261,-0.234]; even_pos 0.920 [0.916,0.922]; heaps 0.948 [0.942,0.955]; gini_el 0.735 [0.731,0.739]; zipf_el -1.246 [-1.258,-1.231]; mi_ex 0.720 [0.655,0.744]
+  [seq_strong quantity seals (COUNT in middle)] n=476
+    n=476 D=440 uniq=0.924 chao1=9386.450 gt_new=0.889 k=348 meanL=4.555 lcap_naive=38.124 lcap_pos=10.318 lcap_ent=10.045 lutil_naive=-34.151 lutil_pos=-6.346 lutil_ent=-6.072 gini_id=0.074 zipf_id=-0.141 gini_el=0.706 zipf_el=-1.132 even_pos=0.926 even_k=0.562 heaps=0.978 mi_ex=0.621 top10=0.082
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.924 [0.911,0.938]; chao1 9386.450 [7007.492,13787.550]; lutil_pos -6.346 [-6.678,-5.954]; lutil_ent -6.072 [-6.387,-5.722]; gini_id 0.074 [0.061,0.086]; zipf_id -0.141 [-0.157,-0.114]; even_pos 0.926 [0.922,0.933]; heaps 0.978 [0.974,0.984]; gini_el 0.706 [0.701,0.710]; zipf_el -1.132 [-1.151,-1.118]; mi_ex 0.621 [0.564,0.678]
+  [seq_strong office seals (jar closer 740, no count)] n=396
+    n=396 D=304 uniq=0.768 chao1=1404.817 gt_new=0.649 k=230 meanL=2.672 lcap_naive=21.257 lcap_pos=6.979 lcap_ent=6.670 lutil_naive=-18.110 lutil_pos=-3.832 lutil_ent=-3.522 gini_id=0.210 zipf_id=-0.353 gini_el=0.627 zipf_el=-1.018 even_pos=0.935 even_k=0.622 heaps=0.918 mi_ex=0.616 top10=0.146
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.768 [0.746,0.783]; chao1 1404.817 [1162.758,1718.881]; lutil_pos -3.832 [-4.040,-3.618]; lutil_ent -3.522 [-3.695,-3.303]; gini_id 0.210 [0.194,0.226]; zipf_id -0.353 [-0.379,-0.330]; even_pos 0.935 [0.932,0.940]; heaps 0.918 [0.905,0.926]; gini_el 0.627 [0.615,0.636]; zipf_el -1.018 [-1.038,-1.001]; mi_ex 0.616 [0.533,0.723]
+  [seq_strong other seals (no jar, no count)] n=451
+    n=451 D=401 uniq=0.889 chao1=3580.000 gt_new=0.829 k=324 meanL=3.075 lcap_naive=27.617 lcap_pos=8.007 lcap_ent=7.715 lutil_naive=-24.063 lutil_pos=-4.453 lutil_ent=-4.161 gini_id=0.106 zipf_id=-0.188 gini_el=0.615 zipf_el=-1.002 even_pos=0.942 even_k=0.637 heaps=0.967 mi_ex=0.330 top10=0.095
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.889 [0.875,0.909]; chao1 3580.000 [2744.192,5445.417]; lutil_pos -4.453 [-4.813,-4.088]; lutil_ent -4.161 [-4.474,-3.808]; gini_id 0.106 [0.089,0.120]; zipf_id -0.188 [-0.210,-0.161]; even_pos 0.942 [0.938,0.944]; heaps 0.967 [0.957,0.973]; gini_el 0.615 [0.608,0.622]; zipf_el -1.002 [-1.020,-0.992]; mi_ex 0.330 [0.304,0.371]
+  [seq_strong tablets] n=481
+    n=481 D=407 uniq=0.846 chao1=1991.200 gt_new=0.740 k=266 meanL=2.503 lcap_naive=24.250 lcap_pos=6.806 lcap_ent=6.529 lutil_naive=-20.951 lutil_pos=-3.507 lutil_ent=-3.230 gini_id=0.140 zipf_id=-0.255 gini_el=0.590 zipf_el=-1.004 even_pos=0.947 even_k=0.673 heaps=0.947 mi_ex=0.543 top10=0.087
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.846 [0.815,0.867]; chao1 1991.200 [1771.828,2563.267]; lutil_pos -3.507 [-3.829,-3.154]; lutil_ent -3.230 [-3.599,-2.889]; gini_id 0.140 [0.123,0.167]; zipf_id -0.255 [-0.295,-0.228]; even_pos 0.947 [0.943,0.951]; heaps 0.947 [0.936,0.956]; gini_el 0.590 [0.583,0.599]; zipf_el -1.004 [-1.027,-0.990]; mi_ex 0.543 [0.499,0.622]
+  [seq_strong Mohenjo-daro (all types)] n=984
+    n=984 D=854 uniq=0.868 chao1=8445.720 gt_new=0.802 k=460 meanL=3.467 lcap_naive=39.941 lcap_pos=10.795 lcap_ent=10.428 lutil_naive=-36.015 lutil_pos=-6.869 lutil_ent=-6.501 gini_id=0.126 zipf_id=-0.223 gini_el=0.711 zipf_el=-1.201 even_pos=0.933 even_k=0.626 heaps=0.957 mi_ex=0.730 top10=0.070
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.868 [0.859,0.874]; chao1 8445.720 [7735.750,10652.930]; lutil_pos -6.869 [-7.243,-6.496]; lutil_ent -6.501 [-6.880,-6.140]; gini_id 0.126 [0.120,0.134]; zipf_id -0.223 [-0.234,-0.214]; even_pos 0.933 [0.931,0.935]; heaps 0.957 [0.953,0.964]; gini_el 0.711 [0.707,0.717]; zipf_el -1.201 [-1.215,-1.189]; mi_ex 0.730 [0.678,0.770]
+  [seq_strong Harappa (all types)] n=632
+    n=632 D=541 uniq=0.856 chao1=3636.066 gt_new=0.767 k=331 meanL=2.676 lcap_naive=30.239 lcap_pos=7.502 lcap_ent=7.287 lutil_naive=-26.679 lutil_pos=-3.941 lutil_ent=-3.726 gini_id=0.134 zipf_id=-0.246 gini_el=0.637 zipf_el=-1.065 even_pos=0.940 even_k=0.674 heaps=0.958 mi_ex=0.504 top10=0.074
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.856 [0.842,0.872]; chao1 3636.066 [2941.787,4657.110]; lutil_pos -3.941 [-4.204,-3.733]; lutil_ent -3.726 [-3.982,-3.521]; gini_id 0.134 [0.120,0.145]; zipf_id -0.246 [-0.264,-0.225]; even_pos 0.940 [0.937,0.942]; heaps 0.958 [0.950,0.965]; gini_el 0.637 [0.631,0.643]; zipf_el -1.065 [-1.083,-1.048]; mi_ex 0.504 [0.461,0.557]
+  [seq_strong Mohenjo-daro seals] n=831
+    n=831 D=733 uniq=0.882 chao1=7377.629 gt_new=0.821 k=431 meanL=3.497 lcap_naive=39.517 lcap_pos=10.177 lcap_ent=9.842 lutil_naive=-35.649 lutil_pos=-6.309 lutil_ent=-5.974 gini_id=0.113 zipf_id=-0.204 gini_el=0.700 zipf_el=-1.166 even_pos=0.935 even_k=0.616 heaps=0.965 mi_ex=0.676 top10=0.073
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.882 [0.867,0.893]; chao1 7377.629 [5759.049,10195.270]; lutil_pos -6.309 [-6.689,-6.081]; lutil_ent -5.974 [-6.346,-5.770]; gini_id 0.113 [0.103,0.127]; zipf_id -0.204 [-0.224,-0.192]; even_pos 0.935 [0.931,0.939]; heaps 0.965 [0.958,0.973]; gini_el 0.700 [0.694,0.707]; zipf_el -1.166 [-1.184,-1.150]; mi_ex 0.676 [0.628,0.732]
+  [seq_strong Harappa seals] n=230
+    n=230 D=217 uniq=0.943 chao1=3822.333 gt_new=0.904 k=220 meanL=3.470 lcap_naive=28.111 lcap_pos=6.994 lcap_ent=6.843 lutil_naive=-24.529 lutil_pos=-3.411 lutil_ent=-3.260 gini_id=0.055 zipf_id=-0.124 gini_el=0.575 zipf_el=-0.955 even_pos=0.964 even_k=0.598 heaps=0.981 mi_ex=0.401 top10=0.100
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.943 [0.927,0.954]; chao1 3822.333 [2894.719,8311.183]; lutil_pos -3.411 [-3.715,-3.064]; lutil_ent -3.260 [-3.567,-2.895]; gini_id 0.055 [0.044,0.070]; zipf_id -0.124 [-0.152,-0.104]; even_pos 0.964 [0.960,0.966]; heaps 0.981 [0.975,0.987]; gini_el 0.575 [0.565,0.582]; zipf_el -0.955 [-0.971,-0.927]; mi_ex 0.401 [0.346,0.435]
+  [seq_strong held-out sites (all types)] n=334
+    n=334 D=301 uniq=0.901 chao1=4333.800 gt_new=0.850 k=278 meanL=3.287 lcap_naive=26.886 lcap_pos=8.100 lcap_ent=7.973 lutil_naive=-23.249 lutil_pos=-4.464 lutil_ent=-4.336 gini_id=0.095 zipf_id=-0.184 gini_el=0.596 zipf_el=-0.967 even_pos=0.955 even_k=0.594 heaps=0.968 mi_ex=0.211 top10=0.108
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.901 [0.890,0.920]; chao1 4333.800 [3473.600,6445.400]; lutil_pos -4.464 [-4.755,-3.839]; lutil_ent -4.336 [-4.646,-3.722]; gini_id 0.095 [0.078,0.105]; zipf_id -0.184 [-0.205,-0.157]; even_pos 0.955 [0.945,0.959]; heaps 0.968 [0.960,0.979]; gini_el 0.596 [0.590,0.608]; zipf_el -0.967 [-0.984,-0.957]; mi_ex 0.211 [0.174,0.242]
+
+##### seq_all
+  [seq_all all middles] n=1950
+    n=1950 D=1555 uniq=0.797 chao1=13438.024 gt_new=0.716 k=592 meanL=3.179 lcap_naive=41.585 lcap_pos=11.981 lcap_ent=11.528 lutil_naive=-37.456 lutil_pos=-7.852 lutil_ent=-7.400 gini_id=0.191 zipf_id=-0.300 gini_el=0.752 zipf_el=-1.302 even_pos=0.911 even_k=0.651 heaps=0.933 mi_ex=0.794 top10=0.072
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.797 [0.790,0.807]; chao1 13438.024 [12450.251,15719.045]; lutil_pos -7.852 [-8.091,-7.407]; lutil_ent -7.400 [-7.627,-6.959]; gini_id 0.191 [0.183,0.199]; zipf_id -0.300 [-0.309,-0.289]; even_pos 0.911 [0.909,0.914]; heaps 0.933 [0.928,0.939]; gini_el 0.752 [0.748,0.756]; zipf_el -1.302 [-1.312,-1.294]; mi_ex 0.794 [0.760,0.812]
+  [seq_all seals] n=1323
+    n=1323 D=1115 uniq=0.843 chao1=10440.750 gt_new=0.772 k=519 meanL=3.485 lcap_naive=40.728 lcap_pos=11.371 lcap_ent=10.949 lutil_naive=-36.709 lutil_pos=-7.352 lutil_ent=-6.930 gini_id=0.150 zipf_id=-0.248 gini_el=0.737 zipf_el=-1.252 even_pos=0.920 even_k=0.632 heaps=0.948 mi_ex=0.733 top10=0.076
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.843 [0.830,0.851]; chao1 10440.750 [9519.663,12670.285]; lutil_pos -7.352 [-7.641,-7.051]; lutil_ent -6.930 [-7.271,-6.604]; gini_id 0.150 [0.141,0.161]; zipf_id -0.248 [-0.262,-0.235]; even_pos 0.920 [0.916,0.922]; heaps 0.948 [0.943,0.954]; gini_el 0.737 [0.733,0.741]; zipf_el -1.252 [-1.263,-1.236]; mi_ex 0.733 [0.668,0.752]
+  [seq_all quantity seals (COUNT in middle)] n=476
+    n=476 D=440 uniq=0.924 chao1=9386.450 gt_new=0.889 k=343 meanL=4.555 lcap_naive=38.029 lcap_pos=10.317 lcap_ent=10.044 lutil_naive=-34.057 lutil_pos=-6.345 lutil_ent=-6.071 gini_id=0.074 zipf_id=-0.141 gini_el=0.707 zipf_el=-1.141 even_pos=0.926 even_k=0.564 heaps=0.975 mi_ex=0.631 top10=0.082
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.924 [0.911,0.938]; chao1 9386.450 [7007.492,13787.550]; lutil_pos -6.345 [-6.675,-5.951]; lutil_ent -6.071 [-6.388,-5.722]; gini_id 0.074 [0.061,0.086]; zipf_id -0.141 [-0.157,-0.114]; even_pos 0.926 [0.922,0.933]; heaps 0.975 [0.970,0.980]; gini_el 0.707 [0.702,0.711]; zipf_el -1.141 [-1.158,-1.124]; mi_ex 0.631 [0.575,0.685]
+  [seq_all office seals (jar closer 740, no count)] n=396
+    n=396 D=303 uniq=0.765 chao1=1395.267 gt_new=0.646 k=227 meanL=2.669 lcap_naive=21.206 lcap_pos=6.960 lcap_ent=6.653 lutil_naive=-18.061 lutil_pos=-3.815 lutil_ent=-3.508 gini_id=0.213 zipf_id=-0.356 gini_el=0.630 zipf_el=-1.028 even_pos=0.935 even_k=0.624 heaps=0.915 mi_ex=0.616 top10=0.149
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.765 [0.746,0.781]; chao1 1395.267 [1138.300,1729.448]; lutil_pos -3.815 [-4.020,-3.613]; lutil_ent -3.508 [-3.673,-3.280]; gini_id 0.213 [0.197,0.226]; zipf_id -0.356 [-0.379,-0.334]; even_pos 0.935 [0.932,0.940]; heaps 0.915 [0.901,0.923]; gini_el 0.630 [0.619,0.640]; zipf_el -1.028 [-1.051,-1.011]; mi_ex 0.616 [0.542,0.733]
+  [seq_all other seals (no jar, no count)] n=451
+    n=451 D=401 uniq=0.889 chao1=3580.000 gt_new=0.829 k=321 meanL=3.071 lcap_naive=27.573 lcap_pos=8.003 lcap_ent=7.711 lutil_naive=-24.019 lutil_pos=-4.449 lutil_ent=-4.157 gini_id=0.106 zipf_id=-0.188 gini_el=0.616 zipf_el=-1.008 even_pos=0.942 even_k=0.637 heaps=0.970 mi_ex=0.348 top10=0.095
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.889 [0.875,0.909]; chao1 3580.000 [2744.192,5445.417]; lutil_pos -4.449 [-4.816,-4.077]; lutil_ent -4.157 [-4.475,-3.796]; gini_id 0.106 [0.089,0.120]; zipf_id -0.188 [-0.210,-0.161]; even_pos 0.942 [0.938,0.944]; heaps 0.970 [0.959,0.978]; gini_el 0.616 [0.610,0.624]; zipf_el -1.008 [-1.026,-0.997]; mi_ex 0.348 [0.294,0.375]
+  [seq_all tablets] n=481
+    n=481 D=408 uniq=0.848 chao1=2001.112 gt_new=0.742 k=263 meanL=2.505 lcap_naive=24.201 lcap_pos=6.776 lcap_ent=6.501 lutil_naive=-20.900 lutil_pos=-3.475 lutil_ent=-3.199 gini_id=0.138 zipf_id=-0.252 gini_el=0.589 zipf_el=-1.006 even_pos=0.947 even_k=0.675 heaps=0.945 mi_ex=0.533 top10=0.085
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.848 [0.814,0.866]; chao1 2001.112 [1770.758,2562.196]; lutil_pos -3.475 [-3.777,-3.144]; lutil_ent -3.199 [-3.549,-2.886]; gini_id 0.138 [0.121,0.168]; zipf_id -0.252 [-0.296,-0.229]; even_pos 0.947 [0.943,0.951]; heaps 0.945 [0.933,0.951]; gini_el 0.589 [0.582,0.598]; zipf_el -1.006 [-1.029,-0.992]; mi_ex 0.533 [0.489,0.589]
+  [seq_all Mohenjo-daro (all types)] n=984
+    n=984 D=852 uniq=0.866 chao1=8594.112 gt_new=0.800 k=455 meanL=3.465 lcap_naive=39.870 lcap_pos=10.784 lcap_ent=10.413 lutil_naive=-35.936 lutil_pos=-6.849 lutil_ent=-6.479 gini_id=0.128 zipf_id=-0.225 gini_el=0.713 zipf_el=-1.208 even_pos=0.933 even_k=0.626 heaps=0.957 mi_ex=0.727 top10=0.071
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.866 [0.856,0.871]; chao1 8594.112 [7870.200,10964.159]; lutil_pos -6.849 [-7.236,-6.492]; lutil_ent -6.479 [-6.882,-6.145]; gini_id 0.128 [0.123,0.137]; zipf_id -0.225 [-0.236,-0.216]; even_pos 0.933 [0.930,0.935]; heaps 0.957 [0.952,0.963]; gini_el 0.713 [0.709,0.719]; zipf_el -1.208 [-1.221,-1.196]; mi_ex 0.727 [0.680,0.758]
+  [seq_all Harappa (all types)] n=632
+    n=632 D=541 uniq=0.856 chao1=3719.716 gt_new=0.767 k=328 meanL=2.676 lcap_naive=30.192 lcap_pos=7.502 lcap_ent=7.287 lutil_naive=-26.621 lutil_pos=-3.931 lutil_ent=-3.716 gini_id=0.134 zipf_id=-0.245 gini_el=0.637 zipf_el=-1.069 even_pos=0.940 even_k=0.675 heaps=0.951 mi_ex=0.494 top10=0.073
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.856 [0.842,0.874]; chao1 3719.716 [2970.300,4669.140]; lutil_pos -3.931 [-4.214,-3.713]; lutil_ent -3.716 [-3.995,-3.504]; gini_id 0.134 [0.118,0.144]; zipf_id -0.245 [-0.265,-0.223]; even_pos 0.940 [0.937,0.943]; heaps 0.951 [0.943,0.959]; gini_el 0.637 [0.631,0.643]; zipf_el -1.069 [-1.086,-1.052]; mi_ex 0.494 [0.457,0.534]
+  [seq_all Mohenjo-daro seals] n=831
+    n=831 D=733 uniq=0.882 chao1=7377.629 gt_new=0.821 k=426 meanL=3.495 lcap_naive=39.441 lcap_pos=10.170 lcap_ent=9.831 lutil_naive=-35.573 lutil_pos=-6.302 lutil_ent=-5.963 gini_id=0.113 zipf_id=-0.204 gini_el=0.702 zipf_el=-1.172 even_pos=0.935 even_k=0.617 heaps=0.963 mi_ex=0.670 top10=0.073
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.882 [0.867,0.893]; chao1 7377.629 [5759.049,10195.270]; lutil_pos -6.302 [-6.688,-6.076]; lutil_ent -5.963 [-6.330,-5.757]; gini_id 0.113 [0.103,0.127]; zipf_id -0.204 [-0.224,-0.192]; even_pos 0.935 [0.931,0.939]; heaps 0.963 [0.957,0.971]; gini_el 0.702 [0.695,0.708]; zipf_el -1.172 [-1.192,-1.157]; mi_ex 0.670 [0.613,0.723]
+  [seq_all Harappa seals] n=230
+    n=230 D=217 uniq=0.943 chao1=3822.333 gt_new=0.904 k=218 meanL=3.465 lcap_naive=28.063 lcap_pos=6.994 lcap_ent=6.843 lutil_naive=-24.481 lutil_pos=-3.411 lutil_ent=-3.260 gini_id=0.055 zipf_id=-0.124 gini_el=0.575 zipf_el=-0.958 even_pos=0.964 even_k=0.599 heaps=0.979 mi_ex=0.401 top10=0.100
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.943 [0.927,0.954]; chao1 3822.333 [2894.719,8311.183]; lutil_pos -3.411 [-3.715,-3.064]; lutil_ent -3.260 [-3.567,-2.895]; gini_id 0.055 [0.044,0.070]; zipf_id -0.124 [-0.152,-0.104]; even_pos 0.964 [0.960,0.966]; heaps 0.979 [0.973,0.986]; gini_el 0.575 [0.565,0.582]; zipf_el -0.958 [-0.972,-0.930]; mi_ex 0.401 [0.354,0.432]
+  [seq_all held-out sites (all types)] n=334
+    n=334 D=300 uniq=0.898 chao1=4304.450 gt_new=0.847 k=275 meanL=3.287 lcap_naive=26.834 lcap_pos=8.099 lcap_ent=7.972 lutil_naive=-23.200 lutil_pos=-4.465 lutil_ent=-4.338 gini_id=0.098 zipf_id=-0.187 gini_el=0.599 zipf_el=-0.974 even_pos=0.955 even_k=0.594 heaps=0.968 mi_ex=0.211 top10=0.111
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.898 [0.887,0.921]; chao1 4304.450 [3417.887,6136.764]; lutil_pos -4.465 [-4.703,-3.838]; lutil_ent -4.338 [-4.593,-3.719]; gini_id 0.098 [0.077,0.108]; zipf_id -0.187 [-0.209,-0.156]; even_pos 0.955 [0.945,0.959]; heaps 0.968 [0.959,0.980]; gini_el 0.599 [0.593,0.611]; zipf_el -0.974 [-0.990,-0.965]; mi_ex 0.211 [0.173,0.243]
+
+##### IM77 (Mahadevan 1977) mapped M -> W through bridge_extended + S-DARK-27 proposals, same parser
+  IM77: 2218 distinct (site, type, text) objects with >= 2 signs on the text face; unbridged M tokens 456/11720 = 0.039 (kept as opaque elements)
+  [IM77 all middles] n=2038
+    n=2038 D=1608 uniq=0.789 chao1=14586.006 gt_new=0.707 k=378 meanL=3.330 lcap_naive=38.664 lcap_pos=12.394 lcap_ent=11.727 lutil_naive=-34.500 lutil_pos=-8.230 lutil_ent=-7.563 gini_id=0.199 zipf_id=-0.313 gini_el=0.741 zipf_el=-1.475 even_pos=0.909 even_k=0.687 heaps=0.928 mi_ex=1.098 top10=0.067
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.789 [0.780,0.801]; chao1 14586.006 [12824.892,16762.707]; lutil_pos -8.230 [-8.480,-7.827]; lutil_ent -7.563 [-7.783,-7.176]; gini_id 0.199 [0.188,0.208]; zipf_id -0.313 [-0.320,-0.296]; even_pos 0.909 [0.906,0.910]; heaps 0.928 [0.922,0.932]; gini_el 0.741 [0.737,0.746]; zipf_el -1.475 [-1.489,-1.463]; mi_ex 1.098 [1.071,1.131]
+  [IM77 seals] n=1516
+    n=1516 D=1273 uniq=0.840 chao1=11731.195 gt_new=0.763 k=353 meanL=3.554 lcap_naive=38.218 lcap_pos=11.931 lcap_ent=11.328 lutil_naive=-34.149 lutil_pos=-7.861 lutil_ent=-7.259 gini_id=0.151 zipf_id=-0.260 gini_el=0.730 zipf_el=-1.422 even_pos=0.917 even_k=0.674 heaps=0.948 mi_ex=1.007 top10=0.058
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.840 [0.829,0.847]; chao1 11731.195 [10292.913,13541.511]; lutil_pos -7.861 [-8.059,-7.608]; lutil_ent -7.259 [-7.492,-7.041]; gini_id 0.151 [0.144,0.162]; zipf_id -0.260 [-0.271,-0.252]; even_pos 0.917 [0.914,0.919]; heaps 0.948 [0.942,0.952]; gini_el 0.730 [0.724,0.734]; zipf_el -1.422 [-1.432,-1.404]; mi_ex 1.007 [0.980,1.037]
+  [IM77 quantity seals] n=558
+    n=558 D=501 uniq=0.898 chao1=8491.321 gt_new=0.848 k=257 meanL=4.491 lcap_naive=36.151 lcap_pos=10.842 lcap_ent=10.328 lutil_naive=-32.222 lutil_pos=-6.913 lutil_ent=-6.399 gini_id=0.098 zipf_id=-0.187 gini_el=0.711 zipf_el=-1.292 even_pos=0.916 even_k=0.599 heaps=0.967 mi_ex=0.941 top10=0.081
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.898 [0.889,0.909]; chao1 8491.321 [6817.811,10484.169]; lutil_pos -6.913 [-7.262,-6.051]; lutil_ent -6.399 [-6.805,-5.624]; gini_id 0.098 [0.087,0.106]; zipf_id -0.187 [-0.201,-0.172]; even_pos 0.916 [0.910,0.920]; heaps 0.967 [0.963,0.972]; gini_el 0.711 [0.704,0.717]; zipf_el -1.292 [-1.305,-1.277]; mi_ex 0.941 [0.895,0.988]
+  [IM77 office seals (740)] n=416
+    n=416 D=313 uniq=0.752 chao1=1538.786 gt_new=0.630 k=181 meanL=2.632 lcap_naive=20.322 lcap_pos=6.930 lcap_ent=6.569 lutil_naive=-17.134 lutil_pos=-3.743 lutil_ent=-3.381 gini_id=0.222 zipf_id=-0.371 gini_el=0.626 zipf_el=-1.108 even_pos=0.940 even_k=0.659 heaps=0.911 mi_ex=0.658 top10=0.142
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.752 [0.731,0.764]; chao1 1538.786 [1184.598,1979.254]; lutil_pos -3.743 [-3.926,-3.515]; lutil_ent -3.381 [-3.569,-3.151]; gini_id 0.222 [0.212,0.241]; zipf_id -0.371 [-0.393,-0.357]; even_pos 0.940 [0.935,0.943]; heaps 0.911 [0.900,0.922]; gini_el 0.626 [0.615,0.635]; zipf_el -1.108 [-1.132,-1.083]; mi_ex 0.658 [0.583,0.709]
+  [IM77 other seals] n=542
+    n=542 D=491 uniq=0.906 chao1=4507.327 gt_new=0.843 k=258 meanL=3.297 lcap_naive=31.351 lcap_pos=9.175 lcap_ent=8.870 lutil_naive=-27.697 lutil_pos=-5.521 lutil_ent=-5.216 gini_id=0.089 zipf_id=-0.176 gini_el=0.651 zipf_el=-1.181 even_pos=0.942 even_k=0.637 heaps=0.970 mi_ex=0.622 top10=0.068
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.906 [0.897,0.917]; chao1 4507.327 [3653.099,6877.077]; lutil_pos -5.521 [-5.892,-5.133]; lutil_ent -5.216 [-5.636,-4.900]; gini_id 0.089 [0.079,0.098]; zipf_id -0.176 [-0.190,-0.152]; even_pos 0.942 [0.935,0.946]; heaps 0.970 [0.963,0.975]; gini_el 0.651 [0.645,0.657]; zipf_el -1.181 [-1.201,-1.167]; mi_ex 0.622 [0.577,0.661]
+  [IM77 Mohenjo-daro seals] n=1023
+    n=1023 D=903 uniq=0.883 chao1=7543.010 gt_new=0.812 k=311 meanL=3.588 lcap_naive=37.393 lcap_pos=10.957 lcap_ent=10.499 lutil_naive=-33.515 lutil_pos=-7.079 lutil_ent=-6.622 gini_id=0.111 zipf_id=-0.209 gini_el=0.701 zipf_el=-1.339 even_pos=0.931 even_k=0.664 heaps=0.963 mi_ex=0.911 top10=0.057
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.883 [0.875,0.890]; chao1 7543.010 [5834.162,11412.633]; lutil_pos -7.079 [-7.422,-6.707]; lutil_ent -6.622 [-6.998,-6.258]; gini_id 0.111 [0.104,0.117]; zipf_id -0.209 [-0.220,-0.197]; even_pos 0.931 [0.929,0.933]; heaps 0.963 [0.957,0.966]; gini_el 0.701 [0.692,0.706]; zipf_el -1.339 [-1.354,-1.319]; mi_ex 0.911 [0.884,0.948]
+  [IM77 Harappa seals] n=287
+    n=287 D=272 uniq=0.948 chao1=3321.136 gt_new=0.902 k=186 meanL=3.422 lcap_naive=27.236 lcap_pos=7.314 lcap_ent=7.065 lutil_naive=-23.715 lutil_pos=-3.793 lutil_ent=-3.544 gini_id=0.050 zipf_id=-0.117 gini_el=0.597 zipf_el=-1.072 even_pos=0.957 even_k=0.640 heaps=0.983 mi_ex=0.545 top10=0.077
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.948 [0.930,0.965]; chao1 3321.136 [2372.210,8555.241]; lutil_pos -3.793 [-4.070,-3.412]; lutil_ent -3.544 [-3.809,-3.165]; gini_id 0.050 [0.034,0.066]; zipf_id -0.117 [-0.148,-0.082]; even_pos 0.957 [0.954,0.961]; heaps 0.983 [0.976,0.991]; gini_el 0.597 [0.589,0.613]; zipf_el -1.072 [-1.098,-1.055]; mi_ex 0.545 [0.473,0.580]
+  [IM77 small sites (all types)] n=298
+    n=298 D=267 uniq=0.896 chao1=2142.781 gt_new=0.822 k=204 meanL=3.409 lcap_naive=30.025 lcap_pos=8.242 lcap_ent=8.176 lutil_naive=-26.694 lutil_pos=-4.911 lutil_ent=-4.845 gini_id=0.097 zipf_id=-0.197 gini_el=0.593 zipf_el=-1.045 even_pos=0.954 even_k=0.634 heaps=0.964 mi_ex=0.379 top10=0.097
+    CI(0.8-subsample spread, centred on the full-n estimate): uniq 0.896 [0.867,0.917]; chao1 2142.781 [1388.353,3105.986]; lutil_pos -4.911 [-5.579,-4.343]; lutil_ent -4.845 [-5.529,-4.192]; gini_id 0.097 [0.078,0.122]; zipf_id -0.197 [-0.238,-0.164]; even_pos 0.954 [0.949,0.960]; heaps 0.964 [0.957,0.975]; gini_el 0.593 [0.581,0.601]; zipf_el -1.045 [-1.064,-1.024]; mi_ex 0.379 [0.340,0.448]
+
+##### size-matched anchors per subset (uniform ID at the subset k and lengths; Zipf-1.0 stock 3000)
+  seq_raw | all middles                                n=1971 uniq 0.807 (U 1.000 Z 0.355) Gini 0.182 (U 0.000 Z 0.582) Heaps 0.936 (U 1.000 Z 0.774) even 0.916 (U 0.980 Z 0.810) lutilE -7.5 (U -3.9 Z -4.5)
+  seq_raw | seals                                      n=1335 uniq 0.848 (U 1.000 Z 0.398) Gini 0.145 (U 0.000 Z 0.549) Heaps 0.952 (U 1.000 Z 0.780) even 0.924 (U 0.982 Z 0.803) lutilE -7.0 (U -3.8 Z -3.9)
+  seq_raw | quantity seals (COUNT in middle)           n= 483 uniq 0.919 (U 1.000 Z 0.509) Gini 0.079 (U 0.000 Z 0.447) Heaps 0.975 (U 1.000 Z 0.837) even 0.929 (U 0.987 Z 0.842) lutilE -6.2 (U -3.3 Z -3.0)
+  seq_raw | office seals (jar closer 740, no count)    n= 401 uniq 0.768 (U 1.000 Z 0.559) Gini 0.209 (U 0.000 Z 0.412) Heaps 0.919 (U 1.000 Z 0.837) even 0.937 (U 0.983 Z 0.857) lutilE -3.5 (U -2.9 Z -3.7)
+  seq_raw | other seals (no jar, no count)             n= 451 uniq 0.900 (U 1.000 Z 0.517) Gini 0.096 (U 0.000 Z 0.447) Heaps 0.967 (U 1.000 Z 0.849) even 0.946 (U 0.986 Z 0.843) lutilE -4.1 (U -3.2 Z -3.2)
+  seq_raw | tablets                                    n= 490 uniq 0.861 (U 1.000 Z 0.545) Gini 0.127 (U 0.000 Z 0.420) Heaps 0.954 (U 1.000 Z 0.841) even 0.950 (U 0.984 Z 0.862) lutilE -3.2 (U -3.3 Z -3.6)
+  seq_raw | Mohenjo-daro (all types)                   n= 998 uniq 0.873 (U 1.000 Z 0.417) Gini 0.121 (U 0.000 Z 0.536) Heaps 0.959 (U 1.000 Z 0.809) even 0.937 (U 0.983 Z 0.823) lutilE -6.5 (U -3.7 Z -3.9)
+  seq_raw | Harappa (all types)                        n= 638 uniq 0.867 (U 0.998 Z 0.467) Gini 0.123 (U 0.002 Z 0.486) Heaps 0.963 (U 0.999 Z 0.817) even 0.946 (U 0.984 Z 0.835) lutilE -3.8 (U -3.3 Z -4.0)
+  seq_raw | Mohenjo-daro seals                         n= 842 uniq 0.884 (U 1.000 Z 0.460) Gini 0.112 (U 0.000 Z 0.492) Heaps 0.960 (U 1.000 Z 0.808) even 0.938 (U 0.985 Z 0.814) lutilE -6.0 (U -3.5 Z -3.2)
+  seq_raw | Harappa seals                              n= 230 uniq 0.952 (U 1.000 Z 0.578) Gini 0.046 (U 0.000 Z 0.391) Heaps 0.983 (U 1.000 Z 0.867) even 0.967 (U 0.987 Z 0.822) lutilE -3.4 (U -2.6 Z -1.8)
+  seq_raw | held-out sites (all types)                 n= 335 uniq 0.913 (U 1.000 Z 0.588) Gini 0.083 (U 0.000 Z 0.383) Heaps 0.969 (U 1.000 Z 0.870) even 0.959 (U 0.988 Z 0.861) lutilE -4.2 (U -3.1 Z -2.8)
+  seq_strong | all middles                             n=1950 uniq 0.798 (U 0.999 Z 0.356) Gini 0.190 (U 0.001 Z 0.581) Heaps 0.936 (U 1.000 Z 0.770) even 0.911 (U 0.980 Z 0.805) lutilE -7.4 (U -3.9 Z -5.0)
+  seq_strong | seals                                   n=1323 uniq 0.844 (U 1.000 Z 0.398) Gini 0.149 (U 0.000 Z 0.549) Heaps 0.948 (U 1.000 Z 0.785) even 0.920 (U 0.981 Z 0.834) lutilE -6.9 (U -3.7 Z -4.4)
+  seq_strong | quantity seals (COUNT in middle)        n= 476 uniq 0.924 (U 0.998 Z 0.515) Gini 0.074 (U 0.002 Z 0.444) Heaps 0.978 (U 0.999 Z 0.829) even 0.926 (U 0.986 Z 0.857) lutilE -6.1 (U -3.3 Z -3.3)
+  seq_strong | office seals (jar closer 740, no count) n= 396 uniq 0.768 (U 1.000 Z 0.548) Gini 0.210 (U 0.000 Z 0.418) Heaps 0.918 (U 1.000 Z 0.833) even 0.935 (U 0.982 Z 0.859) lutilE -3.5 (U -2.8 Z -3.7)
+  seq_strong | other seals (no jar, no count)          n= 451 uniq 0.889 (U 0.998 Z 0.517) Gini 0.106 (U 0.002 Z 0.444) Heaps 0.967 (U 0.999 Z 0.820) even 0.942 (U 0.985 Z 0.861) lutilE -4.2 (U -3.3 Z -3.9)
+  seq_strong | tablets                                 n= 481 uniq 0.846 (U 1.000 Z 0.505) Gini 0.140 (U 0.000 Z 0.453) Heaps 0.947 (U 1.000 Z 0.830) even 0.947 (U 0.982 Z 0.846) lutilE -3.2 (U -3.2 Z -3.8)
+  seq_strong | Mohenjo-daro (all types)                n= 984 uniq 0.868 (U 1.000 Z 0.412) Gini 0.126 (U 0.000 Z 0.538) Heaps 0.957 (U 1.000 Z 0.793) even 0.933 (U 0.983 Z 0.815) lutilE -6.5 (U -3.6 Z -4.2)
+  seq_strong | Harappa (all types)                     n= 632 uniq 0.856 (U 0.998 Z 0.454) Gini 0.134 (U 0.002 Z 0.498) Heaps 0.958 (U 1.000 Z 0.811) even 0.940 (U 0.984 Z 0.806) lutilE -3.7 (U -3.3 Z -3.2)
+  seq_strong | Mohenjo-daro seals                      n= 831 uniq 0.882 (U 1.000 Z 0.456) Gini 0.113 (U 0.000 Z 0.495) Heaps 0.965 (U 1.000 Z 0.816) even 0.935 (U 0.984 Z 0.850) lutilE -6.0 (U -3.5 Z -4.5)
+  seq_strong | Harappa seals                           n= 230 uniq 0.943 (U 1.000 Z 0.578) Gini 0.055 (U 0.000 Z 0.388) Heaps 0.981 (U 1.000 Z 0.863) even 0.964 (U 0.987 Z 0.889) lutilE -3.3 (U -2.4 Z -3.4)
+  seq_strong | held-out sites (all types)              n= 334 uniq 0.901 (U 1.000 Z 0.575) Gini 0.095 (U 0.000 Z 0.394) Heaps 0.968 (U 1.000 Z 0.868) even 0.955 (U 0.986 Z 0.876) lutilE -4.3 (U -3.0 Z -3.8)
+  seq_all | all middles                                n=1950 uniq 0.797 (U 0.999 Z 0.356) Gini 0.191 (U 0.001 Z 0.581) Heaps 0.933 (U 1.000 Z 0.770) even 0.911 (U 0.980 Z 0.805) lutilE -7.4 (U -3.9 Z -5.0)
+  seq_all | seals                                      n=1323 uniq 0.843 (U 1.000 Z 0.422) Gini 0.150 (U 0.000 Z 0.534) Heaps 0.948 (U 1.000 Z 0.810) even 0.920 (U 0.981 Z 0.785) lutilE -6.9 (U -3.7 Z -3.2)
+  seq_all | quantity seals (COUNT in middle)           n= 476 uniq 0.924 (U 1.000 Z 0.519) Gini 0.074 (U 0.000 Z 0.445) Heaps 0.975 (U 1.000 Z 0.824) even 0.926 (U 0.986 Z 0.856) lutilE -6.1 (U -3.2 Z -3.4)
+  seq_all | office seals (jar closer 740, no count)    n= 396 uniq 0.765 (U 1.000 Z 0.553) Gini 0.213 (U 0.000 Z 0.417) Heaps 0.915 (U 1.000 Z 0.858) even 0.935 (U 0.982 Z 0.837) lutilE -3.5 (U -2.8 Z -2.8)
+  seq_all | other seals (no jar, no count)             n= 451 uniq 0.889 (U 0.998 Z 0.517) Gini 0.106 (U 0.002 Z 0.444) Heaps 0.970 (U 0.999 Z 0.820) even 0.942 (U 0.986 Z 0.861) lutilE -4.2 (U -3.3 Z -3.9)
+  seq_all | tablets                                    n= 481 uniq 0.848 (U 1.000 Z 0.505) Gini 0.138 (U 0.000 Z 0.453) Heaps 0.945 (U 1.000 Z 0.830) even 0.947 (U 0.982 Z 0.846) lutilE -3.2 (U -3.1 Z -3.8)
+  seq_all | Mohenjo-daro (all types)                   n= 984 uniq 0.866 (U 1.000 Z 0.412) Gini 0.128 (U 0.000 Z 0.538) Heaps 0.957 (U 1.000 Z 0.789) even 0.933 (U 0.983 Z 0.809) lutilE -6.5 (U -3.6 Z -3.8)
+  seq_all | Harappa (all types)                        n= 632 uniq 0.856 (U 1.000 Z 0.460) Gini 0.134 (U 0.000 Z 0.493) Heaps 0.951 (U 1.000 Z 0.821) even 0.940 (U 0.984 Z 0.849) lutilE -3.7 (U -3.3 Z -4.0)
+  seq_all | Mohenjo-daro seals                         n= 831 uniq 0.882 (U 0.999 Z 0.456) Gini 0.113 (U 0.001 Z 0.495) Heaps 0.963 (U 1.000 Z 0.816) even 0.935 (U 0.984 Z 0.850) lutilE -6.0 (U -3.5 Z -4.5)
+  seq_all | Harappa seals                              n= 230 uniq 0.943 (U 1.000 Z 0.578) Gini 0.055 (U 0.000 Z 0.388) Heaps 0.979 (U 1.000 Z 0.863) even 0.964 (U 0.989 Z 0.889) lutilE -3.3 (U -2.4 Z -3.4)
+  seq_all | held-out sites (all types)                 n= 334 uniq 0.898 (U 1.000 Z 0.590) Gini 0.098 (U 0.000 Z 0.381) Heaps 0.968 (U 1.000 Z 0.852) even 0.955 (U 0.986 Z 0.862) lutilE -4.3 (U -3.0 Z -2.8)
+  IM77 all middles                                     n=2038 uniq 0.789 (U 0.999 Z 0.353) Gini 0.199 (U 0.001 Z 0.587) Heaps 0.928 (U 1.000 Z 0.776) even 0.909 (U 0.976 Z 0.789) lutilE -7.6 (U -3.7 Z -3.5)
+  IM77 seals                                           n=1516 uniq 0.840 (U 0.999 Z 0.400) Gini 0.151 (U 0.001 Z 0.551) Heaps 0.948 (U 1.000 Z 0.802) even 0.917 (U 0.977 Z 0.810) lutilE -7.3 (U -3.4 Z -4.3)
+  IM77 quantity seals                                  n= 558 uniq 0.898 (U 0.998 Z 0.491) Gini 0.098 (U 0.002 Z 0.471) Heaps 0.967 (U 0.999 Z 0.839) even 0.916 (U 0.980 Z 0.813) lutilE -6.4 (U -3.1 Z -2.8)
+  IM77 office seals (740)                              n= 416 uniq 0.752 (U 1.000 Z 0.510) Gini 0.222 (U 0.000 Z 0.449) Heaps 0.911 (U 1.000 Z 0.829) even 0.940 (U 0.979 Z 0.861) lutilE -3.4 (U -2.8 Z -3.6)
+  IM77 other seals                                     n= 542 uniq 0.906 (U 0.998 Z 0.504) Gini 0.089 (U 0.002 Z 0.458) Heaps 0.970 (U 0.999 Z 0.825) even 0.942 (U 0.980 Z 0.846) lutilE -5.2 (U -3.1 Z -3.9)
+  IM77 Mohenjo-daro seals                              n=1023 uniq 0.883 (U 1.000 Z 0.403) Gini 0.111 (U 0.000 Z 0.540) Heaps 0.963 (U 1.000 Z 0.803) even 0.931 (U 0.979 Z 0.814) lutilE -6.6 (U -3.4 Z -4.5)
+  IM77 Harappa seals                                   n= 287 uniq 0.948 (U 1.000 Z 0.551) Gini 0.050 (U 0.000 Z 0.419) Heaps 0.983 (U 1.000 Z 0.841) even 0.957 (U 0.983 Z 0.833) lutilE -3.5 (U -2.6 Z -2.6)
+  IM77 small sites (all types)                         n= 298 uniq 0.896 (U 1.000 Z 0.527) Gini 0.097 (U 0.000 Z 0.438) Heaps 0.964 (U 1.000 Z 0.839) even 0.954 (U 0.984 Z 0.827) lutilE -4.8 (U -2.6 Z -2.4)
+
+=== cycle 3 summary
+  subset                                                         n  uniq   Gini   Zipf   even  Heaps lutilE  GTnew
+  seq_raw | all middles                                       1971 0.807 0.182  -0.29 0.916 0.936   -7.5 0.723
+  seq_raw | seals                                             1335 0.848 0.145  -0.25 0.924 0.952   -7.0 0.778
+  seq_raw | quantity seals (COUNT in middle)                   483 0.919 0.079  -0.15 0.929 0.975   -6.2 0.878
+  seq_raw | office seals (jar closer 740, no count)            401 0.768 0.209  -0.35 0.937 0.919   -3.5 0.648
+  seq_raw | other seals (no jar, no count)                     451 0.900 0.096  -0.18 0.946 0.967   -4.1 0.843
+  seq_raw | tablets                                            490 0.861 0.127  -0.24 0.950 0.954   -3.2 0.763
+  seq_raw | Mohenjo-daro (all types)                           998 0.873 0.121  -0.22 0.937 0.959   -6.5 0.808
+  seq_raw | Harappa (all types)                                638 0.867 0.123  -0.23 0.946 0.963   -3.8 0.779
+  seq_raw | Mohenjo-daro seals                                 842 0.884 0.112  -0.20 0.938 0.960   -6.0 0.824
+  seq_raw | Harappa seals                                      230 0.952 0.046  -0.11 0.967 0.983   -3.4 0.913
+  seq_raw | held-out sites (all types)                         335 0.913 0.083  -0.17 0.959 0.969   -4.2 0.863
+  seq_strong | all middles                                    1950 0.798 0.190  -0.30 0.911 0.936   -7.4 0.716
+  seq_strong | seals                                          1323 0.844 0.149  -0.25 0.920 0.948   -6.9 0.773
+  seq_strong | quantity seals (COUNT in middle)                476 0.924 0.074  -0.14 0.926 0.978   -6.1 0.889
+  seq_strong | office seals (jar closer 740, no count)         396 0.768 0.210  -0.35 0.935 0.918   -3.5 0.649
+  seq_strong | other seals (no jar, no count)                  451 0.889 0.106  -0.19 0.942 0.967   -4.2 0.829
+  seq_strong | tablets                                         481 0.846 0.140  -0.25 0.947 0.947   -3.2 0.740
+  seq_strong | Mohenjo-daro (all types)                        984 0.868 0.126  -0.22 0.933 0.957   -6.5 0.802
+  seq_strong | Harappa (all types)                             632 0.856 0.134  -0.25 0.940 0.958   -3.7 0.767
+  seq_strong | Mohenjo-daro seals                              831 0.882 0.113  -0.20 0.935 0.965   -6.0 0.821
+  seq_strong | Harappa seals                                   230 0.943 0.055  -0.12 0.964 0.981   -3.3 0.904
+  seq_strong | held-out sites (all types)                      334 0.901 0.095  -0.18 0.955 0.968   -4.3 0.850
+  seq_all | all middles                                       1950 0.797 0.191  -0.30 0.911 0.933   -7.4 0.716
+  seq_all | seals                                             1323 0.843 0.150  -0.25 0.920 0.948   -6.9 0.772
+  seq_all | quantity seals (COUNT in middle)                   476 0.924 0.074  -0.14 0.926 0.975   -6.1 0.889
+  seq_all | office seals (jar closer 740, no count)            396 0.765 0.213  -0.36 0.935 0.915   -3.5 0.646
+  seq_all | other seals (no jar, no count)                     451 0.889 0.106  -0.19 0.942 0.970   -4.2 0.829
+  seq_all | tablets                                            481 0.848 0.138  -0.25 0.947 0.945   -3.2 0.742
+  seq_all | Mohenjo-daro (all types)                           984 0.866 0.128  -0.23 0.933 0.957   -6.5 0.800
+  seq_all | Harappa (all types)                                632 0.856 0.134  -0.25 0.940 0.951   -3.7 0.767
+  seq_all | Mohenjo-daro seals                                 831 0.882 0.113  -0.20 0.935 0.963   -6.0 0.821
+  seq_all | Harappa seals                                      230 0.943 0.055  -0.12 0.964 0.979   -3.3 0.904
+  seq_all | held-out sites (all types)                         334 0.898 0.098  -0.19 0.955 0.968   -4.3 0.847
+  IM77 all middles                                            2038 0.789 0.199  -0.31 0.909 0.928   -7.6 0.707
+  IM77 seals                                                  1516 0.840 0.151  -0.26 0.917 0.948   -7.3 0.763
+  IM77 quantity seals                                          558 0.898 0.098  -0.19 0.916 0.967   -6.4 0.848
+  IM77 office seals (740)                                      416 0.752 0.222  -0.37 0.940 0.911   -3.4 0.630
+  IM77 other seals                                             542 0.906 0.089  -0.18 0.942 0.970   -5.2 0.843
+  IM77 Mohenjo-daro seals                                     1023 0.883 0.111  -0.21 0.931 0.963   -6.6 0.812
+  IM77 Harappa seals                                           287 0.948 0.050  -0.12 0.957 0.983   -3.5 0.902
+  IM77 small sites (all types)                                 298 0.896 0.097  -0.20 0.954 0.964   -4.8 0.822
