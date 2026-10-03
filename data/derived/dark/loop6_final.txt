@@ -1,0 +1,40 @@
+LOOP 6 FINAL - GEOGRAPHY AS PLAINTEXT (arrow-in-the-dark family 6)
+Files: data/derived/dark/site_coords.csv (22 sites with >= 5 texts: lat, lon, river system, elevation, distance to the Arabian
+Sea [modern and Harappan coast], distance to MD, distance to Harappa; Shikarpur and Lakhanjo-daro marked uncertain; built by
+build_site_coords.py), loop6_engine.py (site-level permutation engine), loop6_c1..c5_*.py and *.txt (runs), loop6_c1..c5.txt (rows).
+Prior work checked first: S11, S105, S308 (no city signs / place names), S315 (fish not coastal), S324-S325, S344 (text flow).
+Nothing committed (loop rule). No .md files written.
+
+DESIGN (all cycles): unit = SITE (20 Indus sites, Ur and Unknown excluded; texts site+text deduplicated). Nulls permute the
+geographic values among sites (exact enumeration when n <= 8, otherwise Monte Carlo 5,000-20,000x). BH-FDR over every arrow
+fired within a cycle (2,228 arrows in all: 656 + 920 + 8 + 12 + 4 Mantel + ...). Every hit re-tested with MD + HP dropped.
+Three merge levels (seq_raw / seq_strong / seq_all) agree in every cycle. Power measured by simulation.
+
+RESULTS
+C1 single signs (82 signs x 8 variables = 656 arrows): 0 at q < 0.10; 0 at p < 0.01 (6.6 expected). Best W125 ~ longitude, one
+   text each at Bala-kot and Gola Dhoro. Power 0.59-0.69 for a 10 -> 30% gradient, 0.95-0.98 for 10 -> 50%.
+C2 reading features (62 features; all objects 20 sites + seals 13 sites = 920 arrows): 0 at q < 0.10 (min q 0.74). The only
+   p < 0.01 arrows are the two-site 'Coast' class (Allahdino 0/7, Bala-kot 0/5 leaf-family seals) and known genre effects (tablet
+   share and tall numerals track distance to Harappa). IM77's 5 sites: jar-final 34/27/26/26/26%, opener-initial 18/11/16/15/20%:
+   no coastal or river order.
+C3 shared-text network (74 links): sharing ~ km rho -0.03 (p 0.73); linked pairs 548 km vs unlinked 567 km. Harappa-Lothal (904 km)
+   shares as much as Chanhu-daro-MD (130 km). S324 flows all start at MD/Harappa. Power 0.50 (300-km decay), 1.00 (< 400 km).
+C4 whole-vocabulary JSD Mantel: all objects, 6 big sites rho +0.54 (exact p 0.017) -> seals only rho +0.10 (p 0.69): the
+   signal is object-genre mix. 20 sites corrected JSD rho -0.05. Vocabulary-nearest = map-nearest for 0 of 20 sites (null 1.05).
+C5 IM77 check: same flat seal vocabulary with MD at the centre (coast rho +0.48, exact p 0.09; km p 0.22); links follow n_i x n_j.
+   Transcription-robust (same objects read twice, S312), not an independent replication.
+
+VERDICT: no sign, slot, closer, numeral value, sign family, text length or shared-text link has a geographic gradient that
+survives correction for arrows fired, and none of the near-misses survives removing Mohenjo-daro and Harappa except two-site
+noise. The script is geographically flat across ~1,000 km and three river systems; the only geographic structure in the corpus
+is which object genres each site used (tablets at Harappa, bale sealings at Lothal), already known (S29, S66, S86, S216, S324).
+Geography is not plaintext for any common sign. This also closes the 'seal names its home town' family one more notch (S11,
+S105, S308): a town word would be the one thing that must vary with the map, and nothing does.
+Caveats: 76% of texts are MD + HP; 15 of 20 sites have 5-36 texts; a gradient weaker than 2x across the region, or one living in
+rare signs (< 30 tokens), is beyond this corpus. The site table's coordinates are approximate (+-0.05 deg) and the Harappan coast
+is a reconstruction; neither affects the ranks used.
+WHAT WOULD CHANGE THE VERDICT: new material from the small sites (Gujarat, Makran, the Ghaggar) raising them to >= 50 texts each,
+then re-running loop6_c1_signs.py; a gradient of > 2x would then be detectable with power > 0.9.
+
+ROWS (ready to paste before "## Summary" in STRATEGIES.md): see loop6_c1.txt, loop6_c2.txt, loop6_c3.txt, loop6_c4.txt, loop6_c5.txt
+(S-DARK-6.1 to S-DARK-6.5).
