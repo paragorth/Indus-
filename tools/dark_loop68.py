@@ -32,6 +32,7 @@ rng = np.random.default_rng(680 + CY)
 INDUS_WITHIN_UNI = 0.142   # S-DARK-48.1 seals MD vs H, n = 200, seq_raw: within-city unigram JSD (bits)
 INDUS_WITHIN_NAME = 0.2556 # same, NAME-slot tokens
 KEYS = ['uni', 'bi', 'rho', 'init', 'fin', 'len', 'reuse']
+WCACHE = {}
 
 # ------------------------------------------------------------------ divergence engine
 def jsd(p, q):
@@ -106,9 +107,14 @@ def pair_test(PA, PB, n, nsub=NSUB, nperm=NPERM, whole=False, boot=200):
         for k, v in components(PA, PA.draw(n), PB, PB.draw(n), V, whole).items(): between[k].append(v)
     for P in (PA, PB):
         if P.finite and P.N < 2 * n: continue   # within-null only from groups that allow a disjoint split (as in dark_loop48)
-        for _ in range(nperm):
-            a, b = P.draw2(n)
-            for k, v in components(P, a, P, b, V, whole).items(): within[k].append(v)
+        key = (P, n, whole, nperm)
+        if key not in WCACHE:                   # the within-null of a group does not depend on its partner: computed once
+            W = collections.defaultdict(list)
+            for _ in range(nperm):
+                a, b = P.draw2(n)
+                for k, v in components(P, a, P, b, V, whole).items(): W[k].append(v)
+            WCACHE[key] = W
+        for k, v in WCACHE[key].items(): within[k].extend(v)
     res = {'n': n, 'comp': {}}
     for k in between:
         bt = np.array(between[k], float); wt = np.array(within[k], float)
