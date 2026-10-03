@@ -87,17 +87,60 @@ def near(seq, idx, sg):
             if all(pos_match(m, c) for m, c in zip(s2, pat)): return True
     return False
 
+def exact_nowild(seq, pats):
+    """exact match using only positions where both sides are bridged, and requiring at least all IM77-bridged positions
+    to be non-wildcard on the Wells side too (i.e. a match that does not lean on any wildcard)."""
+    for pat, _ in pats:
+        if all(c is not None and m in MCOV and m in c for m, c in zip(seq, pat)): return True
+    return False
+
 def classify(level):
     idx = wells_patterns(level); T = im77_texts()
     for t in T:
         s = t['seq']; sg = t['sg']
         groups = [sg] if sg != 'OTHER' else ['OTHER']
         if t['damaged'] or not s:
-            t['status'] = 'damaged'; continue
+            t['status'] = 'damaged'; t['nowild'] = False; continue
         ex = any(exact(s, idx.get((g, len(s)), [])) for g in groups)
+        t['nowild'] = any(exact_nowild(s, idx.get((g, len(s)), [])) for g in groups)
         if ex: t['status'] = 'exact'; continue
         t['status'] = 'near' if any(near(s, idx, g) for g in groups) else 'none'
     return T
+
+def match_control(T, level, rnd, nshuf=20):
+    """false-positive rate of the matcher: IM77 texts shuffled within themselves, same classification."""
+    idx = wells_patterns(level)
+    comp = [t for t in T if t['status'] != 'damaged' and len(t['seq']) >= 4]
+    ex = []; nr = []
+    for _ in range(nshuf):
+        e = n = 0
+        for t in comp:
+            s = list(t['seq']); rnd.shuffle(s); g = t['sg']
+            if exact(s, idx.get((g, len(s)), [])): e += 1
+            elif near(s, idx, g): n += 1
+        ex.append(e); nr.append(n)
+    return len(comp), st.mean(ex), max(ex), st.mean(nr), max(nr)
+
+def cross_perm(T, rnd):
+    """sign tokens permuted across texts (lengths kept) - null for co-occurrence/exclusivity."""
+    pool = [c for t in T for c in t['seq']]; rnd.shuffle(pool); out = []; p = 0
+    for t in T:
+        L = len(t['seq']); out.append(dict(t, seq=pool[p:p + L])); p += L
+    return out
+
+def length_matched(src, ref, rnd, k=3):
+    """sample from src k texts per ref text with the same length (without replacement where possible)."""
+    by = collections.defaultdict(list)
+    for t in src: by[len(t['seq'])].append(t)
+    for v in by.values(): rnd.shuffle(v)
+    out = []; used = collections.Counter()
+    for t in ref:
+        L = len(t['seq'])
+        cand = by.get(L) or by.get(L - 1) or by.get(L + 1) or []
+        for _ in range(k):
+            if not cand: break
+            out.append(cand[used[L] % len(cand)]); used[L] += 1
+    return out
 
 # ---------------------------------------------------------------- frame sets (M numbers; GRAMMAR.md / S18-S44 / S291 / S297)
 OPEN = {267, 391, 293, 150}; MARK = {99, 100, 123}; CLOSE = {342, 211, 12, 15, 254, 60, 328}; SUF = {176, 1}
@@ -176,8 +219,12 @@ def test_frame(T, label, rnd, nshuf=200):
     line('marker_initial', 'connective (M99/100/123) text-initial')
     line('open+marker', 'opener followed directly by connective')
     line('closer_last', 'closer (M342/211/12/15/254/60/328) last')
-    line('multi_closer', 'texts with 2+ distinct closer signs (exclusivity)')
-    line('jar_with_other_closer', 'jar together with another closer sign')
+    xn = collections.defaultdict(list)
+    for _ in range(nshuf):
+        s = frame_stats(cross_perm(T, rnd))
+        for k in ('multi_closer', 'jar_with_other_closer'): xn[k].append(s[k])
+    for k, lab in (('multi_closer', 'texts with 2+ distinct closer signs (exclusivity)'), ('jar_with_other_closer', 'jar together with another closer sign')):
+        v = sorted(xn[k]); P(f'  {lab:46s} obs {o[k]:4d} / {o["n"]} = {o[k] / o["n"]:.3f}   cross-text permutation mean {st.mean(v):.1f} [{v[int(0.025 * nshuf)]}-{v[int(0.975 * nshuf)]}]  P(<=obs) {(sum(x <= o[k] for x in v) + 1) / (nshuf + 1):.3f}')
     P(f'  connective tokens {o["marker_tokens"]}, of which text-initial {o["marker_initial"]} '
       f'(shuffled mean {st.mean(nulls["marker_initial"]):.1f})')
     P(f'  opener before closer in texts with both: {o["order_ok"]}/{o["both"]} (shuffled {st.mean(nulls["order_ok"]):.1f}/{st.mean(nulls["both"]):.1f})')
@@ -398,6 +445,31 @@ def test_nesting(T_short_pool, T_long_pool, label, rnd, nshuf=50):
     for s, l in ex: P(f'    {list(s)} inside {list(l)}')
     return obs, len(shorts), st.mean(nulls)
 
+# ---------------------------------------------------------------- P2: reuse of known runs
+def runs_of(T, k=3):
+    R = set()
+    for t in T:
+        s = t['seq']
+        for i in range(len(s) - k + 1): R.add(tuple(s[i:i + k]))
+    return R
+
+def test_reuse(NEW, KNOWN, label, rnd, nshuf=100, k=3):
+    P(f'\n## (P2) reuse: share of {label} texts containing a >= {k}-sign run attested in the OVERLAP (known) set')
+    R = runs_of(KNOWN, k)
+    def share(T):
+        return sum(any(tuple(t['seq'][i:i + k]) in R for i in range(len(t['seq']) - k + 1)) for t in T)
+    obs = share(NEW); nulls = [share(shuffled(NEW, rnd)) for _ in range(nshuf)]
+    P(f'  obs {obs}/{len(NEW)} = {obs / len(NEW):.3f}; shuffled mean {st.mean(nulls):.1f} = {st.mean(nulls) / len(NEW):.3f} (max {max(nulls)}); ratio {obs / st.mean(nulls) if st.mean(nulls) else float("inf"):.2f}x')
+    # which known runs are reused most
+    cnt = collections.Counter()
+    for t in NEW:
+        seen = set()
+        for i in range(len(t['seq']) - k + 1):
+            r = tuple(t['seq'][i:i + k])
+            if r in R and r not in seen: cnt[r] += 1; seen.add(r)
+    P(f'  most reused runs: {cnt.most_common(10)}')
+    return obs, len(NEW), st.mean(nulls)
+
 # ---------------------------------------------------------------- driver
 def describe(T, label):
     P(f'\n### set {label}: {len(T)} texts; sites {dict(collections.Counter(t["site"] for t in T))}')
@@ -426,12 +498,21 @@ def main():
     fb = [t for t in comp if len(t['seq']) >= 4 and all(m in MCOV for m in t['seq'])]
     P(f'  audit_overlap-style (len>=4, fully bridgeable, any site, exact): {sum(exact(t["seq"], allpats[len(t["seq"])]) for t in fb)}/{len(fb)} = '
       f'{sum(exact(t["seq"], allpats[len(t["seq"])]) for t in fb) / len(fb):.1%}')
+    ex_nw = sum(t['status'] == 'exact' and t['nowild'] for t in comp)
+    P(f'  exact matches that use NO wildcard position: {ex_nw} of {sum(t["status"] == "exact" for t in comp)}; '
+      f'IM77 texts containing an unbridged M sign: {sum(any(m not in MCOV for m in t["seq"]) for t in comp)}')
+    n4, em, emax, nm, nmax = match_control(T, LEVEL, rnd)
+    P(f'  matcher false-positive control (texts >= 4 signs shuffled within themselves, n={n4}, 20x): exact mean {em:.1f} (max {emax}) = {em / n4:.1%}; near mean {nm:.1f} (max {nmax}) = {nm / n4:.1%}')
     NEW = [t for t in comp if t['status'] == 'none']
     STRICT = [t for t in comp if t['status'] != 'exact']
     OVER = [t for t in comp if t['status'] == 'exact']
     json.dump({'new': [t['id'] for t in NEW], 'strict': [t['id'] for t in STRICT], 'overlap': [t['id'] for t in OVER]}, open(HERE + TAG + '_sets.json', 'w'))
     describe(NEW, 'IM77-only (conservative: no exact, no near match)'); describe(OVER, 'OVERLAP (exact match in Wells)')
-    sets = [('IM77-only', NEW), ('OVERLAP', OVER)] if CYCLE != '3' else [('IM77-only', NEW), ('IM77-only STRICT (near matches kept)', STRICT)]
+    if CYCLE == '1':
+        P('\n### the IM77-only texts (text_no:side, site, object, field symbol, sequence in M numbers; * = contains a doubtful reading)')
+        for t in sorted(NEW, key=lambda t: t['id']): P(f'  {t["id"][0]}:{t["id"][1]} {t["site"]:12s} {t["otype"]:10s} {t["fs"]:14s} {"*" if t["doubt"] else " "} {t["seq"]}')
+    OVERM = length_matched(OVER, NEW, rnd)
+    sets = [('IM77-only', NEW), ('OVERLAP length-matched (3 per new text)', OVERM), ('OVERLAP', OVER)] if CYCLE != '3' else [('IM77-only', NEW), ('IM77-only STRICT (near matches kept)', STRICT)]
     if CYCLE == '1':
         for lab, S in sets:
             test_frame(S, lab, rnd); test_fish(S, lab); test_lot(S, lab, rnd)
@@ -440,6 +521,10 @@ def main():
             test_names(S, lab, rnd); test_quantity(S, lab, rnd)
             test_nesting(S, S, lab + ' (hosts = same set)', rnd)
         test_nesting(NEW, comp, 'IM77-only shorts, hosts = all complete IM77 texts', rnd)
+        test_nesting(OVER, NEW, 'OVERLAP (known) shorts nested in IM77-only long texts as hosts', rnd)
+        test_reuse(NEW, OVER, 'IM77-only', rnd)
+        test_reuse(OVERM, [t for t in OVER if t not in OVERM], 'OVERLAP length-matched (known set minus itself)', rnd)
+        test_reuse(STRICT, OVER, 'IM77-only STRICT', rnd)
     elif CYCLE == '3':
         # robustness: strict set; seals only; big-city vs other; per-site counts
         for lab, S in sets[1:]:
