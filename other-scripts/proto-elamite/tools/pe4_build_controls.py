@@ -82,10 +82,11 @@ def main(atf, cat):
             if val and rest:
                 head = clean(rest[0])
                 if drehem and head in ANIMALS:
-                    herd.append({'t': cur, 'head': head, 'attr': toks(rest[1:]), 'n': val})
+                    herd.append({'t': cur, 'head': head, 'attr': toks(rest[1:]), 'words': [clean(w) for w in rest[1:]], 'n': val})
                 elif head == 'tug2' or head.startswith('tug2'):
-                    tex.append({'t': cur, 'head': 'tug2', 'attr': toks(rest[1:]) if head == 'tug2'
-                                else toks([head[5:]] + rest[1:]), 'n': val})
+                    ws = rest[1:] if head == 'tug2' else [head[5:]] + rest[1:]
+                    tex.append({'t': cur, 'head': 'tug2', 'attr': toks(ws),
+                                'words': [clean(w) for w in ws], 'n': val})
             elif drehem and not val and len(words) == 2:
                 pn = None
                 if words[0] == 'ki' and len(words) == 2 and words[1].endswith('-ta'):
@@ -93,7 +94,7 @@ def main(atf, cat):
                 elif words[0] in ('giri3', 'gir3') and len(words) == 2:
                     pn = words[1]
                 if pn:
-                    names.append({'t': cur, 'head': 'PN', 'attr': toks([pn]), 'n': None})
+                    names.append({'t': cur, 'head': 'PN', 'attr': toks([pn]), 'words': [clean(pn)], 'n': None})
     json.dump({'herd': herd, 'textile': tex, 'names': names}, open(OUT, 'w'))
     for k, v in (('herd', herd), ('textile', tex), ('names', names)):
         ty = Counter(tuple(r['attr']) for r in v)

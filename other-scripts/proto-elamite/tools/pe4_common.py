@@ -254,3 +254,95 @@ def synth_herd(n_records, rng, k=5, sizes=(2, 4, 5, 3, 20), p_present=(0.9, 0.8,
 def sample_types(types, n, rng, minlen=1):
     pool = [t for t in types if len(t) >= minlen]
     return rng.sample(pool, min(n, len(pool)))
+
+
+class FactorialChunk(Factorial):
+    """Factorial model whose slot values may be multi-sign chunks: a string is
+    valid when its slot sequence is non-decreasing (each slot one contiguous
+    run, slots in order).  Per slot, chunk tokens are coded with a Dirichlet
+    process (alpha 1) and each new chunk type is spelled from that slot's signs."""
+
+    def parse(self, w):
+        out, last = [], -1
+        for s in w:
+            sl = self.g[s]
+            if sl < last:
+                return None
+            if sl == last:
+                out[-1][1].append(s)
+            else:
+                out.append((sl, [s]))
+            last = sl
+        return [(sl, tuple(c)) for sl, c in out]
+
+    def valid(self, w):
+        return self.parse(w) is not None
+
+    def _add(self, w, ok, d):
+        if ok:
+            self.nok += d
+            for sl, ch in self.parse(w):
+                self.pres[sl] += d
+                self.val[sl][ch] += d
+                if self.val[sl][ch] == 0:
+                    del self.val[sl][ch]
+        else:
+            for s in list(w) + ['</s>']:
+                self.esc[s] += d
+
+    def bits(self):
+        n = len(self.C)
+        nok = self.nok
+        b = dm_bits([nok, n - nok], 2)
+        size = Counter(self.g.values())
+        for sl in range(self.k):
+            b += dm_bits([self.pres[sl], nok - self.pres[sl]], 2)
+            cnt = [c for c in self.val[sl].values() if c > 0]
+            N, J = sum(cnt), len(cnt)
+            if N:
+                lp = math.lgamma(1.0) - math.lgamma(1.0 + N) + sum(math.lgamma(c) for c in cnt)
+                b += -lp / LG2
+                sp = Counter()
+                for ch, c in self.val[sl].items():
+                    if c > 0:
+                        for s in list(ch) + ['</s>']:
+                            sp[s] += 1
+                b += dm_bits(list(sp.values()), size[sl] + 1)
+        b += dm_bits([c for c in self.esc.values() if c], len(self.V) + 1)
+        b += len(self.V) * math.log2(self.k) if self.k > 1 else 0.0
+        return b
+
+    def fit(self, sweeps=8, restarts=3):
+        best_b = Factorial.fit(self, sweeps)
+        best_g = dict(self.g)
+        for r in range(restarts):
+            for s in self.V:
+                if self.rng.random() < 0.2:
+                    self.g[s] = self.rng.randrange(self.k)
+            self.rebuild()
+            b = Factorial.fit(self, sweeps)
+            if b < best_b:
+                best_b, best_g = b, dict(self.g)
+        self.g = best_g
+        self.rebuild()
+        return best_b
+
+
+def best_model(corpus, kmax=6, seed=0, chunk=True):
+    cls = FactorialChunk if chunk else Factorial
+    best = None
+    for k in range(1, kmax + 1):
+        F = cls(corpus, k, rng=random.Random(seed + k))
+        b = F.fit()
+        if best is None or b < best[0]:
+            best = (b, k, F)
+    return best
+
+
+def mdl_compare2(corpus, kmax=6, seed=0, chunk=True):
+    nb, nd = name_bits(corpus)
+    fb, k, F = best_model(corpus, kmax, seed, chunk)
+    n = len(corpus)
+    return {'n': n, 'name_bits': nb, 'fact_bits': fb, 'k': k,
+            'gain_per_str': (nb - fb) / n, 'valid_share': F.valid_share(),
+            'mean_len': sum(map(len, corpus)) / n}, F

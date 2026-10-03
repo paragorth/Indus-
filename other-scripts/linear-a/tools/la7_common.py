@@ -43,18 +43,25 @@ def com_of(logo):
     return b if b in COM_FAMILY else None
 
 
-def la_pairs(corpus=None):
-    """(first_sign, word_len, commodity, record_id) for each word immediately followed
-    (same line, nothing but a divider in between) by a commodity logogram."""
+def la_pairs(corpus=None, mode='adjacent', pos=0):
+    """(sign, word_len, commodity, record_id, word).
+    mode 'adjacent': word directly followed (same line, dividers skipped) by a commodity logogram.
+    mode 'window': the first commodity logogram after the word, before the next word, in the record.
+    pos: which sign of the word is reported (0 first, -1 last)."""
     C = corpus or json.load(open(os.path.join(D, 'corpus.json')))
     out = []
     for ins in C:
         T = [t for t in ins['tokens'] if t['t'] != 'div']
         for i, t in enumerate(T):
             if t['t'] != 'word': continue
-            if i + 1 < len(T) and T[i + 1]['t'] == 'logo':
-                c = com_of(T[i + 1]['v'])
-                if c: out.append((t['s'][0], len(t['s']), c, ins['id'], '-'.join(t['s'])))
+            c = None
+            if mode == 'adjacent':
+                if i + 1 < len(T) and T[i + 1]['t'] == 'logo': c = com_of(T[i + 1]['v'])
+            else:
+                for u in T[i + 1:]:
+                    if u['t'] == 'word': break
+                    if u['t'] == 'logo' and com_of(u['v']): c = com_of(u['v']); break
+            if c: out.append((t['s'][pos], len(t['s']), c, ins['id'], '-'.join(t['s'])))
     return out
 
 
@@ -105,7 +112,7 @@ def lb_value_to_ab():
 WORD_RE = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
 
 
-def lb_pairs():
+def lb_pairs(pos=0):
     """(first_sign_ab, n_signs, family, doc_id, word) for each LB word directly followed by a
     commodity ideogram on the same line (',' and '/' skipped)."""
     v2ab = lb_value_to_ab()
@@ -122,6 +129,6 @@ def lb_pairs():
                 fam = LB_FAMILY.get(b)
                 if not fam: continue
                 sg = w.split('-')
-                if sg[0] in v2ab:
-                    out.append((v2ab[sg[0]], len(sg), fam, d['id'], w))
+                if sg[pos] in v2ab:
+                    out.append((v2ab[sg[pos]], len(sg), fam, d['id'], w))
     return out
