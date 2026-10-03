@@ -78,7 +78,7 @@ def to_elems(n, lex):
     while i < len(n):
         best = None
         for j in range(min(len(n), i + 3), i, -1):
-            if n[i:j] in lex: best = j; break
+            if n[i:j] in lex and not (i == 0 and j == len(n) and len(n) > 1): best = j; break   # never one element = the whole name
         if best is None: best = i + 1
         res.append('-'.join(n[i:best])); i = best
     return tuple(res)
@@ -135,7 +135,7 @@ dump('ur3_name_minus_final', [r['name_elems'][:-1] for r in recs if len(r['name_
 dump('ur3_name_title', [r['name_elems'] + ['T:' + r['title']] for r in dist if r['title']], 'Ur III PN elements + first word of line 2 (title / kin / servant) as final element, one per distinct legend')
 dump('ur3_name_proftitle', [r['name_elems'] + ['T:' + r['title']] for r in dist if r['title_kind'] == 'prof'], 'Ur III PN elements + profession title as final element, one per distinct legend')
 dump('ur3_name_theo', [r['name_elems'] for r in recs if len(r['name_elems']) >= 2 and r['name_elems'][-1].startswith('{d}')], 'Ur III PN elements whose final element is theophoric {d}DN, one per distinct name')
-fin = collections.Counter(r['name_elems'][-1] for r in NE if True)
+fin = collections.Counter(n[-1] for n in NE)
 P('  commonest name-final elements:', fin.most_common(20))
 P(f'  share of distinct names with a theophoric final: {sum(1 for n in NE if n[-1].startswith("{d}")) / len(NE):.3f}')
 open(OUT + 'SOURCES.txt', 'w').write('\n'.join(LOG) + '\n')
