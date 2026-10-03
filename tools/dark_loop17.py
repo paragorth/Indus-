@@ -277,6 +277,7 @@ class Skeleton:
             else:
                 self.areas[s] = (['a0'], np.array([1.0]))
         wmax = max(self.site_w.values()); self.site_rel = {s: self.site_w[s] / wmax for s in self.sites}
+        self.cum_areas = {s: np.cumsum(self.areas[s][1]) for s in self.sites}
         self.idx = collections.defaultdict(list)
         for i, o in enumerate(objs): self.idx[(o['site'], o['cls'])].append(i)
 
@@ -325,12 +326,10 @@ def simulate(th, skel, seed):
         if key not in cred:
             h = (s, int(i // k))
             if h not in holder:
-                ks_, aw = skel.areas[s]; holder[h] = (fresh_mid(), ks_[int(min(len(ks_) - 1, np.searchsorted(aw, U())))])
+                holder[h] = (fresh_mid(), rand_area(s))
             cred[key] = (credential(holder[h][0]), holder[h][1])
         return cred[key]
-    for s in skel.sites:  # cumulative area weights
-        ks_, aw = skel.areas[s]; skel.areas[s] = (ks_, np.cumsum(aw) if aw[-1] < 0.999 or len(aw) == 1 and aw[0] != 1.0 or not np.isclose(aw[-1], 1.0) or True else aw)
-    rand_area = lambda s: skel.areas[s][0][int(min(len(skel.areas[s][0]) - 1, np.searchsorted(skel.areas[s][1], U())))]
+    rand_area = lambda s: skel.areas[s][0][int(min(len(skel.areas[s][0]) - 1, np.searchsorted(skel.cum_areas[s], U())))]
     site_list = skel.sites; sw = np.array([skel.site_w[s] for s in site_list]); csw = np.cumsum(sw / sw.sum())
     tall = lambda: TALL_ID[2 + int(np.searchsorted(cTALL, U()))]
 
@@ -367,9 +366,6 @@ def simulate(th, skel, seed):
                 oo = office(); seq = oo[-1:] if U() < 0.6 else oo
             area = rand_area(s)
         out.append(dict(site=s, cls=o['cls'], area=(area if known else None), seq=seq))
-    # restore skeleton area weights (they were replaced by cumulative sums above)
-    for s in skel.sites:
-        ks_, cw = skel.areas[s]; skel.areas[s] = (ks_, np.diff(np.r_[0.0, cw]))
     return out
 
 def sim_stats(th, skel, seed):
