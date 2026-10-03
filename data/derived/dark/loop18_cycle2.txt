@@ -15,3 +15,16 @@
   Indus text         shared 0.140 vs null 0.162 (ratio 0.86); seals/string 1.095 vs null 1.111
   Ur III legend      shared 0.669 vs null 0.448 (ratio 1.49); seals/string 2.131 vs null 1.457
   Ur III sealobj     shared 0.648 vs null 0.433 (ratio 1.50); seals/string 2.066 vs null 1.433
+  Ur III impression  shared 0.823 vs null 0.579 (ratio 1.42); seals/string 3.312 vs null 1.749
+
+## planted control: 3,000-name Zipf stock, 8,000 seals, impressions geometric mean 3 (+5% heavy users x20)
+  zipf a=0.6 impressions            n=39156: unique 0.270 vs bigram 0.642; ratio 0.421 (sd 0.016); share_shared 0.993; seals/string 15.85; max 634
+  zipf a=0.6 seals (one per seal)   n=8000: unique 0.445 vs bigram 0.697; ratio 0.638 (sd 0.019); share_shared 0.905; seals/string 3.24; max 125
+  zipf a=0.6 distinct strings       n=2470: unique 1.000 vs bigram 0.766; ratio 1.305 (sd 0.019); share_shared 0.000; seals/string 1.00; max 1
+  zipf a=1.0 impressions            n=38483: unique 0.149 vs bigram 0.411; ratio 0.363 (sd 0.025); share_shared 0.992; seals/string 23.65; max 4297
+  zipf a=1.0 seals (one per seal)   n=8000: unique 0.252 vs bigram 0.443; ratio 0.568 (sd 0.032); share_shared 0.894; seals/string 4.92; max 968
+  zipf a=1.0 distinct strings       n=1627: unique 1.000 vs bigram 0.763; ratio 1.311 (sd 0.020); share_shared 0.000; seals/string 1.00; max 1
+  zipf a=1.3 impressions            n=39672: unique 0.070 vs bigram 0.226; ratio 0.311 (sd 0.027); share_shared 0.995; seals/string 47.91; max 11366
+  zipf a=1.3 seals (one per seal)   n=8000: unique 0.119 vs bigram 0.260; ratio 0.460 (sd 0.031); share_shared 0.939; seals/string 9.66; max 2195
+  zipf a=1.3 distinct strings       n=828: unique 1.000 vs bigram 0.810; ratio 1.234 (sd 0.025); share_shared 0.000; seals/string 1.00; max 1
+  NOTE: deduplicating by distinct string forces uniqueness to 1.0 by construction; the person-level test must count SEALS, not strings.

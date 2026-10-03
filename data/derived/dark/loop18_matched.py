@@ -261,6 +261,9 @@ def cycle3():
         for rk in ('impression', 'legend', 'sealobj'):
             u = uniq_ratio(R[rk], 1700, rnd); h = homonymy(R[rk])
             P(f'  {lab:9s} {rk:10s} n={len(R[rk])}: {fmt_u(u)}; share_shared {h["share_shared"]:.3f}; seals/string {h["seals_per_string"]:.2f}')
+    P('\n## loop4 caveat check: Ur III names deduplicated by NAME STRING (one copy per distinct name), n=1700 matched')
+    for rk in ('impression', 'legend'):
+        dn = list(set(R1[rk])); P(f'  distinct name strings from {rk}: n={len(dn)}: {fmt_u(uniq_ratio(dn, 1700, rnd))}  (forced to 1.0 unique by construction)')
     P('\n## Indus by sign level and site (seal_phys and text; n matched to the smaller side, Ur III legend sampled to the same n)')
     for level in ('seq_raw', 'seq_strong', 'seq_all'):
         for sites, slab in ((None, 'all'), ({'Mohenjo-daro'}, 'MD'), ({'Harappa'}, 'Harappa'), ({'Lothal', 'Kalibangan', 'Dholavira', 'Chanhu-daro'}, 'Lothal+Kalibangan+Dholavira+Chanhu')):

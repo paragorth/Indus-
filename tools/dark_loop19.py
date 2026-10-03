@@ -24,7 +24,7 @@ for r in C:
 print(f'== S-DARK-19 cycle {CY} level {LV} nperm {NP}; objects {len(OBJ)} (complete, direction recorded, >=2 signs)')
 print('   by type',dict(collections.Counter(o["ot"] for o in OBJ)))
 # ---------- frame parser (copied from tools/parse_all.py, S310), QUAL learned on all texts of this level ----------
-OPEN={817,861,820}; MARK={2,60}; SUF={400,90}; CL=[740,520,151,156,527,226,617,154,158,236,700]
+OPEN={817,861,820,920,692}; MARK={2,60}; MJAR={741,742,745}; SUF={400,90}; CL=[740,520,151,156,527,226,617,154,158,236,700]
 FISH={235,240,233,231,220}; NUM={1,3,4,5,16,17,18,31,32,33,34,55,56}
 left=collections.defaultdict(collections.Counter)
 for o in OBJ:
@@ -42,7 +42,9 @@ def parse(s):
     lab=['NAME']*len(s); i=0; j=len(s)
     if s[0] in OPEN:
         lab[0]='OPENER'; i=1
-        if len(s)>1 and s[1] in MARK: lab[1]='MARKER'; i=2
+        if len(s)>1 and s[1] in MARK:
+            lab[1]='MARKER'; i=2
+            if s[0]==920 and len(s)>2 and s[2] in MJAR: lab[2]='MARKER'; i=3
     while j-1>i and s[j-1] in SUF and j>=2 and (s[j-2] in CL or s[j-2] in SUF): lab[j-1]='SUFFIX'; j-=1
     if j-1>=i and s[j-1] in CL:
         c=s[j-1]; lab[j-1]='CLOSER'; j-=1
@@ -59,6 +61,16 @@ def parse(s):
     for k in range(i,j):
         if s[k] in NUM and lab[k]=='NAME': lab[k]='COUNT'
     return lab
+FISHCH=[235,240,233,231,220]
+KNOWN=set()
+for i_ in range(len(FISHCH)):
+    for j_ in range(i_+1,len(FISHCH)): KNOWN.add((FISHCH[i_],FISHCH[j_]))
+KNOWN|={(740,679),(740,565),(740,621),(705,33),(706,33),(176,100),(590,390),(590,405),(435,690),(255,435),(255,690),(840,32),(17,585),(17,575),(920,60),(692,60),(920,741),(60,741),(920,742),(60,742),(920,745),(60,745),(820,595),(595,820)}
+def known_rule(a,b):
+    if a in FISHCH and b in (33,705,706,520): return 'GRAMMAR.md (arrow phrase S299)'
+    if (a,b) in KNOWN: return 'GRAMMAR.md'
+    if a in NUM and b not in NUM: return 'count rule (numeral before item)'
+    return ''
 SLOTRANK={'OPENER':0,'MARKER':1,'NAME':2,'COUNT':2,'TITLE':3,'CLOSER':4,'SUFFIX':5}
 for o in OBJ: o['lab']=parse(o['seq'])
 # majority frame slot per sign
@@ -240,52 +252,76 @@ def run_c(objs,nperm):
     nodes=set(x for e in edges for x in e)
     succ=collections.defaultdict(set)
     for a,b in edges: succ[a].add(b)
-    # cycles? longest path (levels) via DFS with memo, detect cycles
-    sys.setrecursionlimit(10000)
-    color={}; cyc=[0]
-    def dfs(u):
-        color[u]=1
-        for v in succ[u]:
-            if color.get(v)==1: cyc[0]+=1
-            elif v not in color: dfs(v)
-        color[u]=2
-    for u in list(nodes):
-        if u not in color: dfs(u)
-    # longest path ignoring cycle edges (approximate: Kahn levels)
-    indeg=collections.Counter()
-    for a,b in edges: indeg[b]+=1
-    level={}; frontier=[u for u in nodes if indeg[u]==0]; cur=0; remaining=set(nodes)
-    while frontier:
-        nxt=[]
-        for u in frontier:
-            level[u]=cur; remaining.discard(u)
+    # per-text slot relation of each fixed edge
+    rel=collections.defaultdict(collections.Counter)
+    for o in T:
+        pos={a:i for i,a in enumerate(o['seq'])} if len(set(o['seq']))==len(o['seq']) else None
+        if not pos: continue
+        for a,b in edges:
+            if a in pos and b in pos:
+                ra,rb=SLOTRANK[o['lab'][pos[a]]],SLOTRANK[o['lab'][pos[b]]]
+                rel[(a,b)]['frame' if ra<rb else ('same' if ra==rb else 'against')]+=1
+    expl=[];same=[];contra=[]
+    for e in edges:
+        k=rel[e].most_common(1)[0][0] if rel[e] else 'same'
+        (expl if k=='frame' else same if k=='same' else contra).append(e)
+    # break cycles greedily (drop the weakest edge of each cycle found), then longest chain by DP
+    w={}
+    for a,b,nab,nba,p in fixedbh: w[(a,b) if nab>nba else (b,a)]=max(nab,nba)
+    E=set(edges); dropped=[]
+    def find_cycle():
+        succ=collections.defaultdict(set)
+        for a,b in E: succ[a].add(b)
+        color={}; path=[]
+        def dfs(u):
+            color[u]=1; path.append(u)
             for v in succ[u]:
-                indeg[v]-=1
-                if indeg[v]==0: nxt.append(v)
-        frontier=nxt; cur+=1
-    print(f'   partial order: {len(nodes)} signs, {len(edges)} fixed edges, back-edges (cycles) {cyc[0]}, signs left in cycles {len(remaining)}, Kahn levels (longest chain) {cur}')
-    # frame explanation
-    expl=0;same=[];contra=[]
-    for a,b in edges:
-        ra,rb=SLOTRANK[SLOT[a]],SLOTRANK[SLOT[b]]
-        if ra<rb: expl+=1
-        elif ra==rb: same.append((a,b))
-        else: contra.append((a,b))
-    print(f'   fixed edges explained by frame slot order (slot(A)<slot(B)) {expl}; both in the same frame slot {len(same)}; against the frame {len(contra)}')
+                if color.get(v)==1: return path[path.index(v):]+[v]
+                if v not in color:
+                    r=dfs(v)
+                    if r: return r
+            path.pop(); color[u]=2; return None
+        for u in list(nodes):
+            if u not in color:
+                r=dfs(u)
+                if r: return r
+        return None
+    while True:
+        cyc=find_cycle()
+        if not cyc: break
+        ce=[(cyc[i],cyc[i+1]) for i in range(len(cyc)-1)]; weak=min(ce,key=lambda e:w[e]); E.discard(weak); dropped.append((weak,w[weak],[M(x) for x in cyc]))
+    succ=collections.defaultdict(set)
+    for a,b in E: succ[a].add(b)
+    memo={}
+    def longest(u):
+        if u in memo: return memo[u]
+        best=(0,[u])
+        for v in succ[u]:
+            L,ch=longest(v)
+            if L+1>best[0]: best=(L+1,[u]+ch)
+        memo[u]=best; return best
+    depth={}
+    for u in nodes: depth[u]=longest(u)[0]
+    top=max(nodes,key=lambda u:depth[u]); chain=longest(top)[1]
+    levels=collections.Counter(depth.values())
+    print(f'   partial order: {len(nodes)} signs, {len(edges)} fixed edges; cycles broken by dropping {len(dropped)} weakest edges: {[(M(a),M(b),n) for (a,b),n,c in dropped[:6]]}')
+    print(f'   longest chain {len(chain)} signs (= slots the order needs): {" -> ".join(M(x)+"["+SLOT[x]+"]" for x in chain)}')
+    print(f'   signs by chain depth (0 = sinks/last): {sorted(levels.items())}')
+    print(f'   same-majority-slot BH-fixed pairs (comparable to the null line above): {sum(1 for a,b in edges if SLOTRANK[SLOT[a]]==SLOTRANK[SLOT[b]])}, of which NEW (not a documented rule) {sum(1 for a,b in edges if SLOTRANK[SLOT[a]]==SLOTRANK[SLOT[b]] and not known_rule(a,b))}')
+    print(f'   fixed edges: explained by frame slot order (per text) {len(expl)}; both signs in the same frame slot {len(same)} [of which documented in GRAMMAR.md/count rule {sum(1 for a,b in same if known_rule(a,b))}, NEW {sum(1 for a,b in same if not known_rule(a,b))}]; against the frame {len(contra)}')
     pcd=dict(pc)
     def show(lst,title):
         print(f'   {title} ({len(lst)}):')
         rows=[]
         for a,b in lst:
             x=pcd[(min(a,b),max(a,b))]; nab=x[0] if a<b else x[1]; nba=sum(x)-nab
-            rows.append((nab+nba,f'{M(a)} [{SLOT[a]}] -> {M(b)} [{SLOT[b]}] {nab}:{nba}'))
-        for n,s in sorted(rows,reverse=True)[:40]: print('     ',s)
-    show(same,'same-slot fixed pairs (ordering rules the frame does not give)')
+            rows.append((nab+nba,f'{M(a)} [{SLOT[a]}] -> {M(b)} [{SLOT[b]}] {nab}:{nba}  {known_rule(a,b) or "NEW"}'))
+        for n,s in sorted(rows,reverse=True)[:60]: print('     ',s)
+    show(same,'same-slot fixed pairs (ordering rules the frame does not give); top 60 by n')
     show(contra,'fixed pairs AGAINST the frame slot order')
     # level membership by frame slot
-    lv=collections.defaultdict(collections.Counter)
-    for u,l in level.items(): lv[l][SLOT[u]]+=1
-    print('   Kahn level -> frame slots of its signs:',{l:dict(c) for l,c in sorted(lv.items())})
+    newsame=[(a,b) for a,b in same if not known_rule(a,b)]
+    print(f'   NEW same-slot rules by slot: {collections.Counter(SLOT[a]+"-"+SLOT[b] for a,b in newsame).most_common()}')
     print('   free pairs (both orders >=30%, n>=8), top 40 by n:')
     for a,b,nab,nba,p in sorted(free,key=lambda f:-(f[2]+f[3]))[:40]:
         print(f'      {M(a)} [{SLOT[a]}] <-> {M(b)} [{SLOT[b]}] {nab}:{nba}')
