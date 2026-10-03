@@ -472,7 +472,7 @@ def main():
         np.savez(out, theta=T, stats=S, params=np.array(PARAMS), stat_names=np.array(STAT_NAMES))
         print('saved', out, T.shape, S.shape)
         return
-    if cmd in ('fit', 'control', 'ppc', 'truth'):
+    if cmd in ('fit', 'control', 'ppc', 'truth', 'gen2'):
         Ts = []; Ss = []; LW = []
         for f in sys.argv[2].split(','):
             b = np.load(f); Ts.append(b['theta']); Ss.append(b['stats']); LW.append(b['logw'] if 'logw' in b else np.zeros(len(b['theta'])))

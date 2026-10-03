@@ -1,0 +1,47 @@
+S-DARK-24 cycle 2: per-sign reliability and grammatical interchangeability of the disagreement pairs
+Script: tools/dark24_cycle2.py; log data/derived/dark/loop24_cycle2_log.txt; table loop24_sign_reliability.json
+
+(1) PER-SIGN RELIABILITY (1,234 clean pairs, alignment cost <= 1.0; Wells-side outcome per token = agree / substituted / Wells-only)
+- Corpus agreement rate 0.991. 76 Wells signs have >= 15 aligned tokens. Only ONE sign is unreliable after Bonferroni:
+  W388 (agree 0.47 of 43; 22 tokens read as M48 = W176, all on one duplicated Harappa tablet text; 4 tokens Mahadevan marks lost).
+- Nominal (uncorrected P < 0.05) but small: W455 0.87/15, W220 plain fish 0.97/180 (read as barred fish M72 x3, M70, M65),
+  W550 0.95/37 (read as M53 = W798 x2), W1 0.97/87 (M86 = W31 once; M240, M241 once each).
+- All other frequent signs agree at >= 0.985: W740 jar 0.999/677, W2 1.000/378, W60 1.000/130, W520 1.000/127, W390 1.000/126,
+  W33 1.000/117, W400 1.000/109, W741 1.000/100, W240 0.993/149, W235 0.992/129, W820 0.992/123, W233 0.991/110, W32 0.985/135.
+  Numerals: 1,048 aligned stroke tokens (W1-W7, W31-W36), 17 substitutions (1.6%); short-vs-tall confusions 2 (W1->M86, W32->M99),
+  value changes 3 (W31<->W32 x2, W2->W1 x1). The frame signs (opener, marker, jar, suffix) and the numerals are the best-read signs.
+- Agreement rate vs log frequency over 76 signs: Spearman rho -0.26 (P = 0.025): frequent signs are slightly LESS often agreed on
+  per token, the opposite of a rarity effect; driven by the fish and jar families (shape-similar frequent signs).
+- Mahadevan side: M48 0.69/71 (the W388 tablet), M245 0.81/63 (12 Mahadevan-only tokens: his 245 245 = Wells W617 doubled sign),
+  M186 0.88/16; all others >= 0.96.
+
+(2) INTERCHANGEABILITY (context = mean cosine of left/right neighbour profiles in the whole Wells corpus; null = 300 frequency-matched
+    partners; calibration: 12 of 18 S268 strong merges pass at P <= 0.05, random pairs mean 0.10, 95th pct 0.37)
+Residual sporadic confusions (cycle 1):
+  interchangeable (same slot and neighbours -> allograph-like or one word family): W231/W233 0.82 (P = 0.003), W741/W742 0.59 (0.003),
+    W31/W32 0.53 (0.003), W1/W2 0.41 (0.003), W1/W31 0.38 (0.003), W220/W231 0.47 (0.033), W226/W236 0.44 (0.047), W90/W93 0.44 (0.010);
+    weak: W220/W233 0.49 (0.080), W233/W235 0.58 (0.060), W803/W806 0.61 (0.100), W900/W904 0.49 (0.063).
+  NOT interchangeable (different words; the swap is true transcription noise): W740/W741 jar vs marked jar (0.11, P = 0.27; 6 texts),
+    W550/W798 (0.22, P = 0.26), W900/W920 (0.14), W368/W520 (0.17), W740/W742, W840/W845, W400/W413, W90/W100, W690/W692, W33/W55.
+Mahadevan LUMPS (one M number for two Wells signs):
+  supported by context: W154/W156 0.58 (P = 0.003), W156/W158 0.56 (0.017), W154/W158 0.94 (0.003) -> the M15 class = {154, 156, 158};
+    W904/W927 0.80 (0.003); W405/W406 0.47 (0.003), W405/W407 0.44 (0.043), W406/W407 0.46 (0.060) -> M169 = {405, 406, 407};
+    W336/W337, W526/W527, W27/W28, W772/W773, W297/W298 (all P <= 0.023, already S268 classes).
+  NOT supported: W615/W617 0.08 (P = 0.55) -> W617 is Wells's single sign for Mahadevan's doubled 245 245 (segmentation, 12 cases),
+    not a variant; W510/W511 (0.11, n 13/12), W13/W3, W790/W625, W632/W630, W632/W636, W717/W711, W317/W315 (S268 strong classes that
+    fail the context test here as in S-DARK-11.3's calibration; weak: W176/W388 0.70 (0.066), W812/W814, W371/W370).
+Mahadevan SPLITS (project merges or candidates):
+  W384 (M326) / W388 (M327): context 0.76 vs null 0.24 (P = 0.003), no site or medium split -> same slot despite the split: S-DARK-11.3's
+    W384 = W388 stays a candidate on distribution, but an independent transcriber separates the shapes; keep as B- (two shapes, one slot).
+  W390 (M162) / W405 (M169): 0.73 (P = 0.003), site split 0.25 -> the S268 merge keeps its distributional support; Mahadevan's split is a
+    plain tree vs branched tree distinction that Wells also draws (405/406/407 are the branched forms).
+  W803 (M387) / W806 (M389): 0.61 (P = 0.09-0.10), right partners differ (806 -> 235/154/158/845; 803 -> 740/233/415/235) -> the S268
+    'strong' merge 803/806 rested on a wrong bridge equation and now has only weak context support: DEMOTE to probable.
+  W151 (M12) / W156 (M15): 0.41 (P = 0.010) -> the S268 'doubtful' merge has moderate context support but Mahadevan splits them;
+    keep doubtful.
+  W550 (M216) / W798 (M53): not interchangeable (0.22) -> confirms the cycle-1 bridge correction (W798 is not the pincer W550:
+    W798 is followed by the jar 50x and W415 23x, W550 by W60 27x and W527 26x).
+S-DARK-11.3 candidates: W525/W526 0.74 and W525/W527 0.77 (P = 0.003; 525/527 strongly site- and medium-split 0.60/0.92 = a local or
+  medium form), W27/W28 0.97 (Mahadevan agrees, M119), W390/W407 weak (0.55, P = 0.06; medium split 0.35 as S-DARK-11.3 found).
+
+| S-DARK-24.2 | Per-sign reliability (agreement rate per Wells sign on the 1,234 one-difference-or-identical pairs, binomial vs corpus rate, Bonferroni over 76 signs with >= 15 tokens) and grammatical interchangeability of every disagreement pair, Mahadevan lump and Mahadevan split: mean left/right context cosine in the whole Wells corpus vs 300 frequency-matched partners, calibrated on the S268 strong merges (12/18 pass), plus site/medium split (`tools/dark24_cycle2.py`) | **Agreement 99.1% per token; one unreliable sign, W388 (0.47 of 43, one duplicated Harappa tablet read as M48); frame signs and numerals agree at 99.9-100% (jar 677/678, W2 378/378, numerals 1,031/1,048 with 2 short-vs-tall confusions).** Residual confusions split cleanly: interchangeable = fish marks 231/233 (0.82), marked jars 741/742 (0.59), strokes 31/32 (0.53), markers 1/2/31 (0.4); NOT interchangeable = jar/marked jar 740/741 (0.11, 6 texts: true noise), 550/798, 900/920, 368/520. Mahadevan's lumps 154/156/158 = M15 (ctx 0.56-0.94, P <= 0.017), 405/406/407 = M169, 904/927 pass; his lump 615/617 fails (0.08) because W617 is his doubled '245 245' (segmentation). His splits: 384/388 same slot (0.76, P = 0.003), 390/405 same slot (0.73), 803/806 only weak (0.61, P = 0.10, different right partners), 151/156 moderate (0.41, P = 0.01) | **Transcription noise is confined to shape-similar pairs, and most of those are grammatically interchangeable, i.e. the two readings disagree about which member of a word family or variant class was cut, not about the slot.** The only frequent true-noise swap is jar vs marked jar (740/741), which touches closer counts at the 0.5% level. Merge-list consequences: add W156 to the 154/158 class (B, Mahadevan M15 + context); demote 803/806 from strong to probable (bridge error removed its Mahadevan support, context weak); W384/W388 stays B- (one slot, two shapes by an independent reader); W617 = W615 doubled (segmentation convention, not an allograph); W27 = W28 and 525/526/527 confirmed. Findings that depend on 740 vs 741, on 803 vs 806, or on W388 at Harappa are the transcription-fragile ones. |

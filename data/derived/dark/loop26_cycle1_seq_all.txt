@@ -88,3 +88,26 @@
     5-fold 3: held-out bits/element independence 5.982 vs pair(bigram) 4.735; gain 1.247 bits = 20.8%  (n=1745 tokens, 529 middles)
     5-fold 4: held-out bits/element independence 5.931 vs pair(bigram) 4.747; gain 1.184 bits = 20.0%  (n=1858 tokens, 529 middles)
     5-fold mean gain 20.9%
+    adjacent-pair MI 2.632 bits vs shuffle 1.014 [0.992,1.036]; excess 1.617
+
+=== SUMMARY cycle 1 (share |log2|>1 above null; mean|log2| above null; held-out pair gain %; 5-fold gain %; adjacent MI excess bits)
+    Indus seq_all                share 0.540-0.120=+0.421  mean 1.354-0.501=+0.853  compounds 0.168 exclusions 0.085  gain   2.3% /  14.8%  MI +0.943
+    Indus frame-purged           share 0.598-0.134=+0.465  mean 1.483-0.525=+0.957  compounds 0.216 exclusions 0.081  gain  -0.9% /  11.0%  MI +0.747
+    Ur III names                 share 0.778-0.115=+0.663  mean 2.187-0.477=+1.710  compounds 0.272 exclusions 0.262  gain  35.2% /  35.4%  MI +2.056
+    planted attribute code       share 0.276-0.147=+0.129  mean 0.791-0.541=+0.250  compounds 0.007 exclusions 0.058  gain   0.3% /   0.9%  MI +0.080
+    planted lexicon              share 0.272-0.095=+0.177  mean 0.819-0.452=+0.368  compounds 0.063 exclusions 0.034  gain  20.9% /  20.9%  MI +1.617
+
+--- Indus seals only
+
+--- Indus seals: pair census. 4695 distinct observed pairs; 450 pairs tested (E>=3 or O>=5)
+    share |log2(O/E)|>1: 0.373 vs permuted corpora 0.132 [0.090,0.172]  P=0.016
+    mean |log2(O/E)|:     0.940 vs permuted 0.523 [0.476,0.565]  P=0.016
+    share O > 4E (compound-like): 0.062 vs permuted 0.001;  share O < E/4 (exclusion-like): 0.033 vs permuted 0.011
+    strong compounds (O>=5, O>=4E): 39 pairs covering 0.154 of element tokens in >=2-element middles
+    top compounds: W33(M89)+W705(M336) 34:4.7, W255(M51)+W435(M130) 22:1.1, W4(M104/105)+W390(M161/162/167/168/169) 21:4.9, W60(M123)+W550(M216) 18:1.8, W16(M108/109)+W390(M161/162/167/168/169) 14:2.8, W176(M48)+W740(M342) 14:2.5, W415(M171)+W798(M216) 11:2.5, W13(M103)+W840(M403) 10:1.1, W17(M110/112)+W575(M197) 10:0.6, W3(M102/103)+W900(M287) 10:2.0, W220(M59)+W455(M233) 10:2.3, W679(M139)+W740(M342) 10:1.2
+    strong exclusions (E>=6, O=0): 2 of 127 pairs with E>=6
+    top exclusions: W390(M161/162/167/168/169)|W798(M216) 0:6.2, W32(M87)|W415(M171) 0:6.0
+    seals fit big / test held-out: held-out bits/element independence 7.497 vs pair(bigram) 7.297; gain 0.200 bits = 2.7%  (n=925 tokens, 269 middles)
+    adjacent-pair MI 3.593 bits vs shuffle 3.145 [3.088,3.178]; excess 0.448
+
+--- Indus NAME-only residue (COUNT stripped)
