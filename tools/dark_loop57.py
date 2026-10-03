@@ -137,7 +137,8 @@ if CYCLE == 1:
             say(f'  attested on seals: {len(att)} of {len(founder)} ({len(founder)-len(att)} unattested); mean complexity {obs_cp:.2f} vs frequency-null {N1[:,4].mean():.2f}')
             for j, (nm, ob) in enumerate([('frame+unit share', obs_fu), ('frame share (opener/marker/closer/suffix)', obs_f), ('numeral share', obs_n), ('closer share', obs_c)]):
                 p1 = np.mean(N1[:, j] >= ob - 1e-12); p2 = np.mean(N2[:, j] >= ob - 1e-12)
-                say(f'  {nm}: {ob:.2f} | frequency-null {N1[:,j].mean():.2f} (P one-sided {p1:.3f}) | complexity-matched null {N2[:,j].mean():.2f} (P {p2:.3f})')
+                q1 = np.mean(N1[:, j] <= ob + 1e-12); q2 = np.mean(N2[:, j] <= ob + 1e-12)
+                say(f'  {nm}: {ob:.2f} | frequency-null {N1[:,j].mean():.2f} (P above {p1:.3f}, P below {q1:.3f}) | complexity-matched null {N2[:,j].mean():.2f} (P above {p2:.3f}, P below {q2:.3f})')
             # which frame signs are NOT in the founder set
             missing = [s for s in inv if role(s) in FRAME and tok[s] >= 20 and s not in founder]
             say('  frequent frame signs (>= 20 seal tokens) absent from the founder set: ' + ', '.join(f'W{s}({role(s)},{tok[s]})' for s in sorted(missing, key=lambda s: -tok[s])))
@@ -193,8 +194,9 @@ elif CYCLE == 3:
     for level in ('seq_raw', 'seq_strong', 'seq_all'):
         say(f'\n===== level {level} =====')
         mp = MERGE[level]; role, tok, slot, pot = seal_roles(level)
-        for label, minconf in [('founder A+B', 'B'), ('founder A+B+C', 'C')]:
-            F = {mp.get(s, s) for s, *_ in early_tokens(minconf) + corpus_early()}
+        for label, minconf in [('founder A+B', 'B'), ('founder A+B+C', 'C'), ('founder A+B WITHOUT Harappa (Mehrgarh + Sarai Khola + Kot Diji only)', 'B-noHP')]:
+            if minconf == 'B-noHP': F = {mp.get(s, s) for s, *_ in early_tokens('B', {'Q80', 'H72', 'K65'})}
+            else: F = {mp.get(s, s) for s, *_ in early_tokens(minconf) + corpus_early()}
             Fn = F - NUM
             say(f'\n[{label}] founder set {len(F)} signs ({len(Fn)} non-numeral)')
             groups = collections.defaultdict(list)       # group -> list of token lists
@@ -232,4 +234,20 @@ elif CYCLE == 3:
                     rng.shuffle(pool); null.append(pool[:len(Tp)].mean() - pool[len(Tp):].mean())
                 say(f'  PREDICTION held-out pots > held-out seals: {a[0]:.3f} vs {b[0]:.3f}, diff {obs:+.3f}, permutation P {np.mean(np.array(null) >= obs - 1e-12):.3f} (n {len(Tp)} vs {len(Ts)} tokens)')
             if a and c: say(f'  held-out pots {a[0]:.3f} vs MD+Harappa seals {c[0]:.3f}; MD+Harappa pots {d[0]:.3f} (the fitting data)')
+            # control: is the pot > seal enrichment specific to the founder set, or does any complexity-matched sign set of the same size show it?
+            if a and b:
+                inv = sorted(tok); freq = np.array([tok[x] for x in inv], float)
+                Fa = [x for x in F if x in tok]
+                bins = {}
+                for x in Fa:
+                    c0 = CPLX.get(x)
+                    cand = [i for i, s2 in enumerate(inv) if c0 is not None and CPLX.get(s2) is not None and abs(CPLX[s2] - c0) <= 1] or list(range(len(inv)))
+                    bins[x] = (np.array(cand), freq[cand] / freq[cand].sum())
+                Tp = [x for s in groups['POT held-out (Lothal/Kalibangan/Dholavira)'] for x in s]; Ts = [x for s in groups['SEAL held-out'] for x in s]
+                obsd = np.mean([x in F for x in Tp]) - np.mean([x in F for x in Ts]); nd = []; nps = []
+                for _ in range(NPERM):
+                    R = {inv[rng.choice(bins[x][0], p=bins[x][1])] for x in Fa}
+                    nd.append(np.mean([x in R for x in Tp]) - np.mean([x in R for x in Ts])); nps.append(np.mean([x in R for x in Tp]))
+                nd = np.array(nd); nps = np.array(nps)
+                say(f'  CONTROL complexity-matched random sign sets ({len(Fa)} signs, {NPERM}x): held-out pot share {nps.mean():.3f} (obs {np.mean([x in F for x in Tp]):.3f}, P {np.mean(nps >= np.mean([x in F for x in Tp]) - 1e-12):.3f}); pot-minus-seal diff {nd.mean():+.3f} (obs {obsd:+.3f}, P {np.mean(nd >= obsd - 1e-12):.3f})')
     write(3)
