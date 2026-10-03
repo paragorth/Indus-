@@ -584,3 +584,65 @@ if CY == 5:
             P(f'  == {nmx}: lambda {R[nmx]["lam"]:.2f}, share {R[nmx]["obs"]:.3f}, chain {R[nmx]["chain"]:.3f} (obs/chain {R[nmx]["obs"] / max(1e-9, R[nmx]["chain"]):.2f}), slot {R[nmx]["slot"]:.3f}')
     json.dump(R, open(f'data/derived/dark/loop74_c5_{LV}.json', 'w'), indent=1)
     save('')
+
+# ================================================================== cycle 6 (= 3b/4b): local or global? closer by position
+if CY == 6:
+    objs = wells_objects()
+    P(f'##### S-DARK-74 cycle 6 (3b/4b), {LV}: is the excess over the calibrated chain LOCAL (within a site) or GLOBAL (across sites)?')
+    def within(label, names, nn):
+        ch = SChain(names, random.Random(76)); obs = cstats(names); ms = []
+        for b in range(nn): ms.append(cstats(sorted(set(chain_names(names, 's', random.Random(7700 + b), ch)[0]))))
+        z = zline(obs['share'], ms, 'share')
+        P(f'  WITHIN {label:34s} n={len(names)} lambda={ch.lam:.2f} share {obs["share"]:.3f} ({obs["npairs"]} pairs) | calib chain {z[0]}')
+        return obs['share'], z[1]
+    def crossc(label, X, R, nn):
+        X = sorted(set(X)); R = sorted(set(R)); ch = SChain(R, random.Random(77)); lens = [len(x) for x in X]
+        subsR = set(t[i:i + l] for t in R for l in range(2, len(t)) for i in range(len(t) - l + 1)); RS = set(R)
+        def st(Y):
+            y24 = [y for y in Y if 2 <= len(y) <= 4]; y3 = [y for y in Y if len(y) >= 3]
+            a = sum(1 for y in y24 if y in subsR) / max(1, len(y24))
+            b = sum(1 for y in y3 if any(y[i:i + l] in RS for l in range(2, len(y)) for i in range(len(y) - l + 1))) / max(1, len(y3))
+            return dict(inside=a, contains=b)
+        o = st(X); ms = [st(chain_names(X, 's', random.Random(7800 + b), ch, lens)[0]) for b in range(nn)]
+        P(f'  CROSS  {label:34s} X {len(X)} R {len(R)} lambda={ch.lam:.2f} | inside {o["inside"]:.3f} vs calib ' + zline(o['inside'], ms, 'inside')[0] + f' | contains {o["contains"]:.3f} vs calib ' + zline(o['contains'], ms, 'contains')[0])
+    MD = distinct([o for o in objs if o['site'] == 'Mohenjo-daro'], 'mid'); HA = distinct([o for o in objs if o['site'] == 'Harappa'], 'mid')
+    HO = distinct([o for o in objs if not o['big']], 'mid')
+    within('all Wells', distinct(objs, 'mid'), NN)
+    within('Mohenjo-daro only', MD, NN); within('Harappa only', HA, NN); within('held-out sites only (pooled)', HO, NN)
+    within('seals only', distinct([o for o in objs if o['ot'] == 'seal'], 'mid'), NN)
+    within('tablets only', distinct([o for o in objs if o['ot'] == 'tablet'], 'mid'), NN)
+    crossc('Harappa X vs Mohenjo-daro R', HA, MD, NN); crossc('Mohenjo-daro X vs Harappa R', MD, HA, NN)
+    crossc('held-out X vs MD+H R', HO, MD + HA, NN)
+    # closer sharing by position, with a partner matched on the long middle's last (or first) sign
+    by = collections.defaultdict(list)
+    for o in objs:
+        if len(o['mid']) >= 2: by[o['mid']].append(o)
+    names = distinct(objs, 'mid'); pr = contain_pairs(names)
+    byLlast = collections.defaultdict(list); byLfirst = collections.defaultdict(list)
+    for n in names: byLlast[(len(n), n[-1])].append(n); byLfirst[(len(n), n[0])].append(n)
+    def cs(s, t, feat):
+        v = []
+        for a in by[s]:
+            for b in by[t]:
+                if feat == 'closer':
+                    if a['closer'] is None and b['closer'] is None: continue
+                    v.append(a['closer'] == b['closer'])
+                else: v.append(a['site'] == b['site'])
+        return sum(v) / len(v) if v else None
+    for feat in ('closer', 'site'):
+        for w in ('prefix', 'suffix', 'infix'):
+            sel = [(s, t) for s, t, i in pr if (w == 'prefix' and i == 0) or (w == 'suffix' and i + len(s) == len(t)) or (w == 'infix' and 0 < i and i + len(s) < len(t))]
+            ob = mean([x for x in (cs(s, t, feat) for s, t in sel) if x is not None])
+            for mt, pool in (('same last sign', byLlast), ('same first sign', byLfirst)):
+                nv = []
+                for b in range(NN):
+                    r = random.Random(7900 + b); v = []
+                    for s, t in sel:
+                        c = [u for u in pool[(len(t), t[-1] if mt == 'same last sign' else t[0])] if u != t and s not in [u[k:k + len(s)] for k in range(len(u) - len(s) + 1)]]
+                        if not c: continue
+                        x = cs(s, r.choice(c), feat)
+                        if x is not None: v.append(x)
+                    nv.append(mean(v))
+                p = (sum(1 for x in nv if x >= ob) + 1) / (len(nv) + 1)
+                P(f'  {feat:6s} {w:6s} pairs {len(sel):3d}: obs {ob:.3f} | partner of same length with {mt} (not containing the short one) {mean(nv):.3f} [{q(nv, .025):.3f},{q(nv, .975):.3f}] x{ob / mean(nv) if mean(nv) else float("nan"):.2f} p={p:.3f}')
+    save('')

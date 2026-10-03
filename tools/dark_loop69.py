@@ -272,14 +272,40 @@ def cv_select(T, feats, Ks, folds=5, restarts=4):
         out[K] = per
     return out
 
-def choose_K(cv):
-    """best K by mean held-out LL; parsimonious K = smallest K whose fold-paired gap to the best is within 1 SE of that gap"""
-    mean = {K: v.mean() for K, v in cv.items()}
+def choose_K(cv, frac=0.90):
+    """held-out LL rises with K without a plateau (cycle 1), so the 1-SE rule returns Kmax; the working K is the smallest K that
+    reaches `frac` of the K1 -> Kmax held-out gain (stated as a resolution choice, not a discovered number)"""
+    mean = {K: float(np.mean(v)) for K, v in cv.items()}
     bestK = max(mean, key=mean.get)
+    se1 = bestK
     for K in sorted(cv):
-        d = cv[bestK] - cv[K]; se = d.std(ddof=1) / math.sqrt(len(d))
-        if d.mean() <= se: return bestK, K, mean
-    return bestK, bestK, mean
+        d = np.asarray(cv[bestK]) - np.asarray(cv[K]); se = d.std(ddof=1) / math.sqrt(len(d))
+        if d.mean() <= se: se1 = K; break
+    lo = mean[min(mean)]; hi = mean[bestK]
+    Kf = min(K for K in mean if mean[K] >= lo + frac * (hi - lo))
+    return bestK, se1, Kf, mean
+
+def cv_cached(T, feats, Ks, key, restarts=4):
+    fn = OUT + f'loop69_cv_{key}.json'
+    if os.path.exists(fn):
+        d = json.load(open(fn)); return {int(k): np.array(v) for k, v in d.items()}
+    cv = cv_select(T, feats, Ks, restarts=restarts)
+    json.dump({str(k): v.tolist() for k, v in cv.items()}, open(fn, 'w')); return cv
+
+def synthetic_control(T, feats, K, level):
+    """recoverability control: sample N texts from the fitted K-class model; does the same CV rule find K?"""
+    m, _, X = best_fit(T, feats, K, restarts=4)
+    N = len(T); z = rng.choice(K, N, p=m.pi)
+    S = []
+    for i in range(N):
+        t = {}
+        for j, f in enumerate(feats):
+            p_ = np.exp(m.theta[j][z[i]]); inv = {v: k for k, v in m.cats[j].items()}
+            t[f] = inv[int(rng.choice(len(p_), p=p_ / p_.sum()))]
+        S.append(t)
+    cv = cv_select(S, feats, range(max(1, K - 4), K + 7), restarts=3)
+    bestK, se1, Kf, mean = choose_K(cv)
+    return bestK, se1, mean
 
 def perm_null_ami(lab, obj, nperm):
     obs = AMI(obj, lab); mi = MI(obj, lab) / math.log(2)
@@ -369,11 +395,17 @@ def cycle1(level):
         for tag, feats in (('with_len', FEATS), ('no_len', FEATS_NOLEN)):
             if unit == 'dedup' and tag == 'no_len': continue
             P(f'\n## Feature set {tag} ({len(feats)} features)')
-            cv = cv_select(T, feats, range(1, 21))
-            bestK, Ksel, mean = choose_K(cv)
+            if unit == 'objects' and tag == 'with_len':
+                cv = cv_cached(T, feats, range(1, 21), f'{level}_{unit}_{tag}', restarts=3)
+            else:
+                cv = cv_cached(T, feats, range(1, 17), f'{level}_{unit}_{tag}', restarts=2)
+            bestK, se1, Ksel, mean = choose_K(cv)
             P('held-out loglik per text by K: ' + ', '.join(f'K{K} {v:.3f}' for K, v in mean.items()))
-            P(f'best K {bestK}; parsimonious K (1-SE, fold-paired): {Ksel}')
-            for K in sorted({Ksel, bestK}):
+            P(f'best K {bestK}; 1-SE K {se1}; working K (90% of K1->Kmax held-out gain) {Ksel}; 80%: {choose_K(cv, 0.8)[2]}, 95%: {choose_K(cv, 0.95)[2]}')
+            if unit == 'objects' and tag == 'with_len':
+                sb, ss, sm = synthetic_control(T, feats, Ksel, level)
+                P(f'CONTROL synthetic data drawn from the fitted K={Ksel} model: CV best K {sb}, 1-SE K {ss} (' + ', '.join(f'K{k} {v:.3f}' for k, v in sm.items()) + ')')
+            for K in [Ksel]:
                 m, stab, X = best_fit(T, feats, K)
                 lab = m.predict(X)
                 P(f'\n### K = {K} ({unit}, {tag}): stability (mean ARI over 8 restarts) {stab:.3f}; class sizes ' +
@@ -593,9 +625,9 @@ def cycle3(level):
         P(f'  {g}: n={len(idx)}; refit stability {stab:.2f}; ARI(global, local refit) {ari:.3f}; AMI with fine type: global map {ami_glob:.3f}, local refit {ami_loc:.3f}; '
           f'accuracy global {acc_g:.3f} / local {acc_l:.3f} vs modal {base:.3f}')
         # cv: K chosen locally
-        cv = cv_select(Tg, d['feats'], range(1, 16), restarts=3)
-        bestK, Ksel, mean = choose_K(cv)
-        P(f'      local held-out loglik: best K {bestK}, 1-SE K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
+        cv = cv_select(Tg, d['feats'], range(1, 16), restarts=2)
+        bestK, se1, Ksel, mean = choose_K(cv)
+        P(f'      local held-out loglik: best K {bestK}, 1-SE K {se1}, 90%-gain K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
     P('  register shares among SEALS by site (global map):')
     for s in ['Mohenjo-daro', 'Harappa', 'Lothal', 'Kalibangan', 'Dholavira', 'Chanhu-daro', 'HELD-OUT-ALL', 'FOREIGN']:
         if s == 'HELD-OUT-ALL': idx = [i for i, t in enumerate(T) if not t['big'] and t['tc'] == 'seal' and not t['foreign']]
@@ -668,9 +700,9 @@ def cycle4(level):
         P(f'  {names[k]} n={len(idx)}: ' + ', '.join(f'{a} {b}' for a, b in c.most_common(5)) + ' | e.g. ' +
           ' | '.join(f"{I[i]['id']} {'-'.join(map(str, I[i]['seq']))}" for i in idx[:3]))
     # refit on IM77 alone: does K hold and do classes match?
-    cv = cv_select(I, d['feats'], range(1, 21), restarts=3)
-    bestK, Ksel, mean = choose_K(cv)
-    P(f'\nIM77 own fit: held-out loglik best K {bestK}, 1-SE K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
+    cv = cv_select(I, d['feats'], range(1, 17), restarts=2)
+    bestK, se1, Ksel, mean = choose_K(cv)
+    P(f'\nIM77 own fit: held-out loglik best K {bestK}, 1-SE K {se1}, 90%-gain K {Ksel}; ' + ', '.join(f'K{k} {v:.3f}' for k, v in mean.items()))
     mi_, stab, Xi2 = best_fit(I, d['feats'], K, restarts=6, cats_from=T)
     li = mi_.predict(Xi2)
     P(f'IM77 refit at K={K}: stability {stab:.2f}; ARI(Wells-model labels, IM77 refit labels) {ARI(labi, li):.3f}; '
