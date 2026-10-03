@@ -49,17 +49,24 @@ def jsd_counter(c1, c2):
     return jsd(p, q)
 
 class Pop:
-    """a population of texts (tuples of unit tokens) with multiplicities; texts drawn with probability proportional to count"""
-    def __init__(self, counter, vocab):
-        self.texts = list(counter.keys()); self.w = np.array([counter[t] for t in self.texts], float); self.w /= self.w.sum()
-        self.N = int(sum(counter.values()))
+    """a population of texts (tuples of unit tokens). counts mode (SSA): distinct names with multiplicities, population >> n, drawn with
+    probability proportional to count. finite mode (EDH persons, Indus texts): one entry per individual, drawn without replacement and the
+    within-null = two disjoint halves of a permutation, exactly as in dark_loop48"""
+    def __init__(self, counter, vocab, finite=False):
+        self.finite = finite
+        if finite:
+            self.texts = list(counter); self.w = None; self.N = len(self.texts)
+        else:
+            self.texts = list(counter.keys()); self.w = np.array([counter[t] for t in self.texts], float); self.w /= self.w.sum()
+            self.N = int(sum(counter.values()))
         self.enc = [np.array([vocab.setdefault(u, len(vocab)) for u in t], dtype=np.int64) for t in self.texts]
         self.vocab = vocab
-    def draw(self, n, replace=None):
-        # with replacement over distinct texts weighted by count (population >> n): equivalent to sampling n individuals
+    def draw(self, n):
+        if self.finite: return rng.choice(len(self.texts), n, replace=False)
         return rng.choice(len(self.texts), n, replace=True, p=self.w)
     def draw2(self, n):
-        """two disjoint samples of n individuals (within-null): sample 2n individuals, split"""
+        if self.finite:
+            p = rng.permutation(len(self.texts)); return p[:n], p[n:2 * n]
         idx = rng.choice(len(self.texts), 2 * n, replace=True, p=self.w)
         return idx[:n], idx[n:]
 
@@ -98,6 +105,7 @@ def pair_test(PA, PB, n, nsub=NSUB, nperm=NPERM, whole=False, boot=200):
     for _ in range(nsub):
         for k, v in components(PA, PA.draw(n), PB, PB.draw(n), V, whole).items(): between[k].append(v)
     for P in (PA, PB):
+        if P.finite and P.N < 2 * n: continue   # within-null only from groups that allow a disjoint split (as in dark_loop48)
         for _ in range(nperm):
             a, b = P.draw2(n)
             for k, v in components(P, a, P, b, V, whole).items(): within[k].append(v)
@@ -282,5 +290,85 @@ def cycle1():
     open(DARK + 'loop68_c1_log.txt', 'w').write('\n'.join(out) + '\n')
     print('\n'.join(out))
 
+# ------------------------------------------------------------------ cycle 2: Latin personal names by Roman province (EDH prosopography)
+PROV_XY = {'Rom': (41.9, 12.5), 'LaC': (41.0, 14.2), 'Etr': (43.0, 11.5), 'VeH': (45.5, 12.5), 'ApC': (41.0, 16.5), 'Sam': (41.8, 14.3),
+           'Umb': (42.9, 12.8), 'Pic': (43.3, 13.5), 'Aem': (44.5, 11.0), 'Lig': (44.7, 8.5), 'Tra': (45.4, 9.0), 'BrL': (39.5, 16.3),
+           'Sic': (37.5, 14.0), 'Sar': (40.0, 9.0), 'Dal': (43.8, 17.0), 'PaS': (47.0, 17.0), 'PaI': (46.0, 19.0), 'GeS': (49.5, 8.3),
+           'GeI': (51.0, 6.5), 'Bae': (37.5, -5.0), 'HiC': (41.0, -2.0), 'Lus': (39.5, -8.0), 'Nar': (43.5, 3.5), 'Bri': (52.0, -1.5),
+           'Nor': (47.5, 14.0), 'Rae': (48.3, 11.0), 'Bel': (49.8, 4.5), 'Lug': (47.5, 1.5), 'Aqu': (45.0, 0.5), 'Afr': (36.0, 9.5),
+           'Num': (35.5, 6.5), 'Dac': (46.0, 24.0), 'MoS': (43.5, 21.5), 'MoI': (44.0, 27.0), 'Mak': (41.0, 22.5), 'Ach': (38.0, 22.5),
+           'Asi': (38.5, 28.0), 'Thr': (41.8, 26.0)}
+
+def clean_el(x):
+    x = (x or '').strip()
+    if not x or x in ('00', '0?', '0') or '[' in x or '-' in x or '+' in x: return None
+    x = x.replace('*', '').replace('?', '').strip()
+    return x or None
+
+def load_edh_persons(min_n=400):
+    import glob
+    prov = {}
+    for fn in glob.glob(C68 + 'edh/*.jsonl'):
+        for l in open(fn):
+            d = json.loads(l); prov[d['id']] = d['prov']
+    G = collections.defaultdict(list)
+    for p in csv.DictReader(open(C68 + 'edh_data_pers.csv', encoding='utf-8')):
+        pv = prov.get(p['hd_nr'])
+        if not pv or pv not in PROV_XY: continue
+        if '+' in (p['cognomen'] or '') or '+' in (p['nomen'] or ''): continue   # imperial names in dedications
+        els = [clean_el(p[k]) for k in ('praenomen', 'nomen', 'cognomen')]
+        els = [e for e in els if e]
+        if not els: continue
+        G[pv].append(dict(hd=p['hd_nr'], els=tuple(els), cog=clean_el(p['cognomen']), nom=clean_el(p['nomen']), sex=p['geschlecht'], status=p['status']))
+    return {g: v for g, v in G.items() if len(v) >= min_n}
+
+def cycle2():
+    out = [f'# S-DARK-68 cycle 2 (nsub {NSUB}, nperm {NPERM}): Latin personal names by Roman province, EDH prosopography (CC BY-SA 4.0), persons with >= 1 name element']
+    G = load_edh_persons(400)
+    provs = sorted(G, key=lambda g: -len(G[g]))
+    out.append(f'provinces with >= 400 persons: ' + ', '.join(f'{g} {len(G[g])}' for g in provs))
+    pairs = [(a, b) for i, a in enumerate(provs) for b in provs[i + 1:]]
+    dist = {f'{a} vs {b}': haversine(PROV_XY[a], PROV_XY[b]) for a, b in pairs}
+    R = {}
+    designs = [('elements', lambda p: p['els'], False),                       # person = sequence of name elements (praenomen, nomen, cognomen)
+               ('cognomen-bigrams', lambda p: tok_bigrams(p['cog']) if p['cog'] else None, False),
+               ('cognomen-whole', lambda p: (p['cog'].lower(),) if p['cog'] else None, True),
+               ('nomen-whole', lambda p: (p['nom'].lower(),) if p['nom'] else None, True),
+               ('fullname-whole', lambda p: (' '.join(p['els']).lower(),) if len(p['els']) >= 2 else None, True)]
+    for unit, f, whole in designs:
+        vocab = {}
+        pops = {}
+        for g in provs:
+            T = [f(p) for p in G[g]]; T = [t for t in T if t]
+            if len(T) >= 200: pops[g] = Pop(T, vocab, finite=True)
+        out.append(f'\n== unit {unit}: groups with >= 200 persons: ' + ', '.join(f'{g} {pops[g].N}' for g in pops))
+        for n in (200, 30):
+            Rn = {}
+            for a, b in pairs:
+                if a in pops and b in pops and min(pops[a].N, pops[b].N) >= n:
+                    Rn[f'{a} vs {b}'] = pair_test(pops[a], pops[b], n, whole=whole)
+            keys = ['uni', 'reuse'] if whole else KEYS
+            S = band_summary(Rn, dist, out, f'{unit} n={n}', keys)
+            R[f'{unit}|n{n}'] = {'bands': S, 'pairs': {p: {'dist': dist[p], 'comp': r['comp']} for p, r in Rn.items()}}
+            near = sorted([p for p in Rn if 400 <= dist[p] <= 800], key=lambda p: dist[p])
+            out.append(f'  pairs at 400-800 km ({unit}, n={n}): ' + '; '.join(
+                f"{p} {dist[p]:.0f}km uni x{Rn[p]['comp']['uni']['ratio']:.2f}" + (f" reuse x{Rn[p]['comp']['reuse']['ratio']:.2f}" if 'reuse' in Rn[p]['comp'] else '') for p in near[:16]))
+            if n == 200:
+                same_it = [p for p in Rn if all(x in ('Rom', 'LaC', 'Etr', 'Sam', 'Umb', 'Aem', 'VeH', 'ApC') for x in p.split(' vs '))]
+                if same_it:
+                    out.append(f'  Italy-internal pairs ({unit}, n=200): ' + '; '.join(f"{p} {dist[p]:.0f}km x{Rn[p]['comp']['uni']['ratio']:.2f}" for p in same_it))
+        if unit == 'elements':
+            nm_n = noise_matched_n(pops[provs[0]], INDUS_WITHIN_UNI)
+            out.append(f'\n  NOISE-MATCHED design ({unit}): within-province unigram JSD = {INDUS_WITHIN_UNI} bits at n = {nm_n} persons')
+            Rn = {}
+            for a, b in pairs:
+                if a in pops and b in pops and min(pops[a].N, pops[b].N) >= 2 * nm_n:
+                    Rn[f'{a} vs {b}'] = pair_test(pops[a], pops[b], nm_n)
+            S = band_summary(Rn, dist, out, f'{unit} noise-matched n={nm_n}')
+            R[f'{unit}|noisematched_n{nm_n}'] = {'bands': S, 'pairs': {p: {'dist': dist[p], 'comp': r['comp']} for p, r in Rn.items()}}
+    json.dump(R, open(DARK + 'loop68_c2.json', 'w'), default=float)
+    open(DARK + 'loop68_c2_log.txt', 'w').write('\n'.join(out) + '\n')
+    print('\n'.join(out))
+
 if __name__ == '__main__':
-    {1: cycle1}[CY]()
+    {1: cycle1, 2: cycle2}[CY]()
