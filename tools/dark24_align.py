@@ -7,7 +7,7 @@ Writes data/derived/dark/loop24_pairs.json (one record per aligned object pair).
 import json, csv, collections, re, itertools, random, sys
 R = '/home/user/Indus-/'
 OUT = R + 'data/derived/dark/'
-bridge = {int(k): v for k, v in json.load(open(R + 'data/derived/bridge_extended.json')).items()}
+bridge = {int(k): v for k, v in json.load(open(R + 'data/derived/bridge_extended.json')).items() if v}  # empty lists = unbridged
 inv = collections.defaultdict(set)
 for w, ms in bridge.items():
     for m in ms: inv[m].add(w)
@@ -188,6 +188,22 @@ def accept(rec, slack=0.15):
     if rec['second'] < rec['cost'] + 0.5 and rec['cost'] > 0: return False, 'tie'
     return True, 'ok'
 
+def learn_systematic(acc, corr, minc=5, share=0.25):
+    """For BRIDGED Wells signs: an M partner outside the bridge that takes >= share of the sign's aligned
+    positions (>= minc, and on >= 3 distinct Wells texts) is a systematic sign-definition difference, not noise."""
+    co = collections.defaultdict(collections.Counter); texts = collections.defaultdict(lambda: collections.defaultdict(set))
+    for r in acc:
+        for op in r['ops']:
+            if op[0] == 'S' and op[1] and op[2] and op[1] in corr:
+                co[op[1]][op[2]] += 1; texts[op[1]][op[2]].add(tuple(r['wells']['full']))
+    sysm = {}
+    for w, c in co.items():
+        tot = sum(c.values())
+        for m, k in c.items():
+            if m not in corr[w] and k >= minc and k / tot >= share and len(texts[w][m]) >= 3:
+                sysm.setdefault(w, {})[m] = (k, tot, len(texts[w][m]))
+    return sysm
+
 def learn(acc, corr, minc=3, share=0.6):
     """Extend the W->M correspondence from aligned substitutions of unbridged Wells signs."""
     co = collections.defaultdict(collections.Counter)
@@ -218,7 +234,17 @@ if __name__ == '__main__':
     log.append('raw co-alignments of unbridged Wells signs (top): ' + '; '.join(f'W{w}:{dict(c.most_common(3))}' for w, c in sorted(co.items(), key=lambda z: -sum(z[1].values()))[:40]))
     corr2 = dict(corr); corr2.update(new)
     res2 = run(corr2); acc2 = summarize(res2, 'PASS2 HOME')
-    nul2 = run(corr2, null=True, seed=1); nacc2 = summarize(nul2, 'PASS2 WRONG-SITE NULL')
+    sysm = learn_systematic(acc2, corr2)
+    log.append('systematic definition differences (bridged Wells sign read by Mahadevan as another M sign on >=25% of aligned positions, >=5 tokens, >=3 distinct texts): ' +
+               '; '.join(f'W{w}->M{m} {k}/{tot} tokens on {nt} texts (bridge says M{sorted(corr2[w])})' for w, d in sorted(sysm.items()) for m, (k, tot, nt) in d.items()))
+    corr3 = {w: set(v) for w, v in corr2.items()}
+    for w, d in sysm.items(): corr3[w] |= set(d)
+    new3, _ = learn(acc2, corr3)
+    corr3.update({w: m for w, m in new3.items() if w not in corr3})
+    res2 = run(corr3); acc2 = summarize(res2, 'PASS3 HOME (systematic mappings added)')
+    corr2 = corr3
+    nul2 = run(corr2, null=True, seed=1); nacc2 = summarize(nul2, 'PASS3 WRONG-SITE NULL')
+    json.dump({str(w): {str(m): v for m, v in d.items()} for w, d in sysm.items()}, open(OUT + 'loop24_systematic.json', 'w'))
     cl = collections.Counter(r['widx'] for r in acc2)
     log.append(f'Wells objects claimed by >1 IM77 text: {sum(1 for v in cl.values() if v > 1)} (identical duplicate texts; object identity ambiguous, readings still comparable)')
     def dump(rs):

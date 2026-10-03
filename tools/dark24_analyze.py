@@ -6,7 +6,8 @@ import numpy as np
 R = '/home/user/Indus-/'; OUT = R + 'data/derived/dark/'
 MAXCOST = float(sys.argv[1]) if len(sys.argv) > 1 else 9
 corr = {int(k): set(v) for k, v in json.load(open(OUT + 'loop24_corr.json')).items()}
-bridge = {int(k): set(v) for k, v in json.load(open(R + 'data/derived/bridge_extended.json')).items()}
+bridge = {int(k): set(v) for k, v in json.load(open(R + 'data/derived/bridge_extended.json')).items() if v}
+sysm = json.load(open(OUT + 'loop24_systematic.json'))
 inv = collections.defaultdict(set)
 for w, ms in corr.items():
     for m in ms: inv[m].add(w)
@@ -62,6 +63,15 @@ def summarize(pairs, label, lines, do_null=True, seed=0):
     lines.append(f'  substitution rate among bridged sign-to-sign positions: {len(subs)}/{len(comparable)} = {100*rate:.2f}%; '
                  f'insertions (one reads a sign the other omits) insM {cc["insM"]} insW {cc["insW"]}; segmentation (doubling) segM {cc["segM"]} segW {cc["segW"]}; '
                  f'lost-vs-sign lostW {cc["lostW"]} lostM {cc["lostM"]}')
+    # dedupe: identical (Wells text, IM77 text) pairs count once (duplicate tablets)
+    seen = set(); dpos = []
+    for r in pairs:
+        key = (tuple(r['wells']['seq']), tuple(r['im']['seq']))
+        if key in seen: continue
+        seen.add(key); dpos.extend(classify(r))
+    dcc = collections.Counter(p['cls'] for p in dpos)
+    dcomp = dcc['agree'] + dcc['sub']
+    lines.append(f'  distinct text pairs {len(seen)}: substitutions {dcc["sub"]}/{dcomp} = {100*dcc["sub"]/max(1,dcomp):.2f}%, insM {dcc["insM"]} insW {dcc["insW"]} segM {dcc["segM"]} lostW {dcc["lostW"]} lostM {dcc["lostM"]}')
     # validation against Mahadevan's doubtful marks
     dc = collections.Counter((p['cls'], p['doubt']) for p in pos if p['doubt'] is not None)
     for c in ('agree', 'sub', 'lostW', 'insM', 'unbridged'):

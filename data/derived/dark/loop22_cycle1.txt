@@ -1,0 +1,47 @@
+LOOP 22 (FIXED-WIDTH FIELDS) CYCLE 1: (a) start- vs end-anchoring entropy per sign.
+Engine: tools/dark_loop22.py 1 <level> 300. Full output: loop22_cycle1_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Data: merged-corpus-canonical.json, complete objects with recorded direction (dir '-' excluded, S-DARK-8.4), >= 2 signs:
+3,155 objects (seals 1,515, tablets 1,434, pots 80, sealings 67, other 59); 87% Mohenjo-daro + Harappa.
+Statistic per sign with >= 30 tokens: H(position from start) and H(position from end) over texts of all lengths; d = H_end - H_start
+(negative = tighter from the end). Null: every text shuffled internally (300 reps), which keeps text lengths, sign multisets, sites and
+object types fixed; under it d ~ 0 for every sign. 'gain' = null H - observed H. Bonferroni over 2 x (number of signs) tests, normal
+approximation to the permutation null (the permutation P floors at 1/301).
+Controls: 6,675 Ur III seal legends (CDLI, syllables, flattened lines) and 2,643 Linear B tablet lines (DAMOS; tokens = words, ideograms,
+numbers). Linear B lines are a known field record (word ... IDEOGRAM NUMBER); Ur III legends are a known name + title formula.
+
+RESULTS (seq_all; raw and strong within 0.02 bits on every summary number)
+  Indus, 78 signs: 43 tighter from the END, 34 from the START (binomial P = 0.18, not a majority). Bonferroni-significant: 20 END-anchored,
+  10 START-anchored. Token-weighted entropy gain over the shuffle null: from start 0.345 bits, from end 0.592 bits; ratio end/start 1.72.
+  Mean |d| 0.64 bits.
+  By majority frame slot (S310 parser): CLOSER 8/8 end-tighter (mean d -1.23), SUFFIX 2/2 (-1.62), TITLE 10/11 (-0.75), COUNT 5/9 (-0.21),
+  NAME 18/42 (+0.04: no preference), MARKER 0/2 (+1.27), OPENER 0/4 (+1.41).
+  Strongest END: W527(M254) -2.31, W520(M211) -1.67, W400(M176) -1.66, W151(M12) -1.62, W90(M1) -1.59, W760(M347) -1.55, W740 jar -1.53,
+  W100(M8) -1.40, W142(M25) -1.11, W923(M296) -1.10, W752 -1.06 (H_end 0.41 bits: the tightest sign in the corpus).
+  Strongest START: W820(M391) +1.65, W861(M267) +1.62, W60(M123) +1.55, W692(M150) +1.25, W920(M293) +1.12, W413(M177) +1.05, W2(M99) +0.98,
+  W741(M343) +0.92; then name-initial signs W416, W125, W455, W368, W595, W803 (+0.6-0.8).
+  Seals only (54 signs): end/start gain ratio 1.66; 21 END vs 7 START significant. Tablets only (35): ratio 1.56; 9 vs 9.
+  Held-out sites (not MD/HP; 404 texts, >= 15 tokens, 26 signs): ratio 1.27; 5 END vs 6 START; CLOSER 3/3 end, OPENER 0/3, MARKER 0/2,
+  NAME 6/11: same slot pattern.
+  Ur III legends (208 syllables): end/start gain ratio 0.51 (START-anchored overall; 46 START vs 34 END significant). The end-anchored
+  syllables are the formula words ARAD2-zu 'your servant', dub-sar, szabra, kuruszda (titles); the start-anchored are name elements and the
+  royal name (amar, suen, uri5 = Amar-Suen, Ur-...).
+  Linear B lines (40 tokens): ratio 4.83 (strongly END-anchored: NUM, ideograms GRA, V, T, N, ME, pe-mo are counted from the end);
+  START-anchored: formula words o-da-a2, te-o-jo, do-e-ra/do-e-ro, o-na-to, e-ke(-qe) = the entry heads.
+
+READING
+  1. The Indus has no single anchoring edge. Both edges anchor, each for its own closed class: openers + connectives from the start
+     (d +1.0 to +1.7), closers + suffix + pre-closer titles from the end (d -1.0 to -2.3). The large NAME residue is unanchored (mean d 0.04,
+     18/42 either way). This is exactly the two-edged frame of GRAMMAR.md rendered as positional entropy; it adds no new structure.
+  2. Against the controls the Indus sits between the two: Ur III (name + title formula) anchors from the start (ratio 0.5), Linear B (a
+     true field record ending in IDEOGRAM NUMBER) anchors from the end (ratio 4.8), Indus 1.7 (held-out sites 1.3). The Indus end
+     anchoring is weaker than that of a record format whose last two fields are an ideogram and a number.
+  3. Fixed-offset signature? For a designed format we would expect many signs with H near 0 from one edge. Observed: only W752 (0.41 bits),
+     W400 (0.60), W527 (0.61) and W151 (0.84) are under 1 bit from the end; W60 (0.96) from the start. All of them are grammar signs
+     already known to sit at the text edge (closers, suffix, connective); none is a middle sign. In Linear B the comparable tokens are the
+     NUM/ideogram fields; in Ur III ARAD2/zu. So Indus edge signs are as tightly placed as the fields of known formulae, but the texts
+     have at most two anchored fields per edge, not a run of fixed offsets.
+  Arrows fired this cycle: 2 x 78 per-sign tests (Bonferroni applied) + 3 summary comparisons (end-vs-start majority, seals vs tablets,
+  held-out ratio). No result depends on a merge level.
+
+Ready-to-paste row:
+| S-DARK-22.1 | **Fixed-width fields (a): is each sign anchored at a fixed offset from the START or from the END?** For every sign with >= 30 tokens (78 signs), entropy of its position counted from the start vs from the end over all 3,155 complete direction-recorded texts; d = H_end - H_start; null = each text shuffled internally (300 reps; keeps length, sign multiset, site, object type), Bonferroni over 2 x 78; by frame slot (S310 parser), seals vs tablets, held-out sites (not MD/HP); controls 6,675 Ur III seal legends (syllables) and 2,643 Linear B tablet lines (words, ideograms, numbers); seq_raw / seq_strong / seq_all (`tools/dark_loop22.py 1`) | 43 signs tighter from the end, 34 from the start (P = 0.18); 20 end-anchored and 10 start-anchored after Bonferroni. Token-weighted entropy gain over the null: 0.35 bits from the start, 0.59 from the end (ratio 1.7; seals 1.7, tablets 1.6, held-out sites 1.3). By slot: closers 8/8 end-tighter (mean d -1.2), suffix 2/2 (-1.6), titles 10/11 (-0.75), openers 0/4 (+1.4), markers 0/2 (+1.3), NAME residue 18/42 (+0.04, no preference). Signs under 1 bit of positional entropy from one edge: W752 (0.41), W400/M176 (0.60), W527/M254 (0.61), W151/M12 (0.84) from the end, W60/M123 (0.96) from the start, all known edge grammar. Controls: Ur III ratio 0.5 (start-anchored names, end-anchored ARAD2-zu and titles); Linear B ratio 4.8 (NUM and ideograms counted from the end, entry-head words from the start). Same at all three merge levels. | **Null for a one-edged record format; the two-edged frame confirmed as positional entropy.** Each closed class is anchored at its own edge (openers/connectives at the start, closers/suffix/titles at the end) and the name residue floats. Indus end-anchoring (1.7) is weaker than a real tabular record (Linear B 4.8) and the opposite of a name-first legend (Ur III 0.5). Nothing beyond the two edge fields is at a fixed offset. |
