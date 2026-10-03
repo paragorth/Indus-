@@ -13,3 +13,30 @@ Ur III legends: 20126 impressions -> 5727 distinct (site, legend)
 bits per text under combined: 25.4 (unigram 26.1; explained 3%); by slot: NAME 16.5 bits (65% of remaining; 1.90 tokens/text), TITLE 7.1 bits (28% of remaining; 2.03 tokens/text), END 1.8 bits (7% of remaining; 1.00 tokens/text)
 irreducible tokens (no model beats the unigram by 0.25 bit): 0.482; by slot NAME 0.60, TITLE 0.31, END 0.60
 share predicted with P >= 0.5 under best: NAME 0.00, TITLE 0.28, END 0.26
+
+## Ur III legends, words, all impressions (repeats kept): fit 6000 texts (25384 tokens, |V| 835) on ['Umma']; held-out 1500 texts from other sites; OOV 0.253
+| model | bits/token (95% CI) | gap closed vs unigram | NAME bits [gap] | TITLE bits [gap] | END bits [gap] |
+|---|---|---|---|---|---|
+| uniform | 9.709 [9.709, 9.709] | -54.8% | 9.71 [-7%] | 9.71 [-74%] | 9.71 [-304%] |
+| unigram | 6.270 [6.166, 6.389] | 0.0% | 9.05 [0%] | 5.58 [0%] | 2.40 [0%] |
+| KN1 | 6.727 [6.660, 6.801] | -7.3% | 11.79 [-30%] | 4.39 [21%] | 2.28 [5%] |
+| KN2 | 6.515 [6.452, 6.582] | -3.9% | 11.88 [-31%] | 4.05 [27%] | 1.76 [27%] |
+| KN3 | 6.368 [6.306, 6.435] | -1.6% | 11.54 [-28%] | 4.03 [28%] | 1.70 [29%] |
+| combined | 4.337 [4.185, 4.501] | 30.8% | 8.08 [11%] | 2.47 [56%] | 1.36 [43%] |
+bits per text under combined: 23.4 (unigram 33.8; explained 31%); by slot: NAME 16.1 bits (69% of remaining; 1.99 tokens/text), TITLE 5.9 bits (25% of remaining; 2.40 tokens/text), END 1.4 bits (6% of remaining; 1.00 tokens/text)
+irreducible tokens (no model beats the unigram by 0.25 bit): 0.285; by slot TITLE 0.22, NAME 0.44, END 0.16
+share predicted with P >= 0.5 under best: TITLE 0.59, NAME 0.15, END 0.47
+Ur III syllables aligned to words: 19643 of 19955; distinct 5608
+
+## Ur III legends, syllable signs (name / title syllables), one per distinct legend: fit 1874 texts (16413 tokens, |V| 445) on ['Umma']; held-out 1500 texts from other sites; OOV 0.026
+| model | bits/token (95% CI) | gap closed vs unigram | NAME bits [gap] | TITLE bits [gap] | END bits [gap] |
+|---|---|---|---|---|---|
+| uniform | 8.804 [8.804, 8.804] | -35.5% | 8.80 [-17%] | 8.80 [-57%] | 8.80 [-167%] |
+| unigram | 6.499 [6.459, 6.542] | 0.0% | 7.53 [0%] | 5.62 [0%] | 3.30 [0%] |
+| KN1 | 4.679 [4.601, 4.757] | 28.0% | 5.65 [25%] | 3.55 [37%] | 2.64 [20%] |
+| KN2 | 4.363 [4.276, 4.442] | 32.9% | 5.31 [29%] | 3.22 [43%] | 2.51 [24%] |
+| KN3 | 4.366 [4.276, 4.447] | 32.8% | 5.32 [29%] | 3.22 [43%] | 2.50 [24%] |
+| combined | 4.051 [3.972, 4.132] | 37.7% | 4.93 [34%] | 2.94 [48%] | 2.47 [25%] |
+bits per text under combined: 41.1 (unigram 65.9; explained 38%); by slot: NAME 29.0 bits (71% of remaining; 5.89 tokens/text), TITLE 9.6 bits (23% of remaining; 3.26 tokens/text), END 2.5 bits (6% of remaining; 1.00 tokens/text)
+irreducible tokens (no model beats the unigram by 0.25 bit): 0.215; by slot NAME 0.23, TITLE 0.19, END 0.22
+share predicted with P >= 0.5 under best: NAME 0.17, TITLE 0.40, END 0.14
