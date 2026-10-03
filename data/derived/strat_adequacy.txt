@@ -59,14 +59,14 @@ zipf_final                      -1.244    -1.245    0.024    0.04  [  -1.309,  -
 MISSING STRUCTURE (outside range), ranked by |z|: texts_rep3, run4_rep3, longrange_attract_pairs, unique_text_share, seal_minus_tab_len, longrange_avoid_pairs, H_cond_bigram, same_middle_diff_closer, mi_d2, trigram_hapax_share, hapax_sign_share, mi_d3, repeat_rate, mi_d1, numeral_initial_share, tab_suffix_share, len_mean, n_sign_types, mi_d4, H_end3, len_sd, mid_len_closer_diff, two_numerals_share, len_ge6_share, H_start2, H_start3, opener_suffix_share, seal_jar_final_share, bigram_hapax_share, zipf_initial, nesting_rate, adj_double_rate, H_end2, fish_order_consistency, H_end1, mid_final_top10_share
 
 ## 2. One mechanism at a time (added to M0)
-+type       (all tables conditioned on object class (seal / tablet / other), shrunk to pooled): outside 33/50, |z|>3: 31, sum|z| 347.4
-    brings inside range: fish_order_consistency, mid_final_top10_share, opener_suffix_share, H_end2, seal_jar_final_share, tab_suffix_share
-    pushes outside range: run3_multisite_share, H_start1, zipf_middle
-    biggest residual gaps: unique_text_share z=-26.4; longrange_attract_pairs z=22.6; run4_rep3 z=22.3; trigram_hapax_share z=-20.7; texts_rep3 z=19.9
-+site       (all tables conditioned on site (Mohenjo-daro vs Harappa), shrunk to pooled): outside 37/50, |z|>3: 34, sum|z| 376.0
-    brings inside range: mid_final_top10_share, seal_jar_final_share
-    pushes outside range: run3_multisite_share, text3_multisite_share, zipf_middle
-    biggest residual gaps: unique_text_share z=-24.1; longrange_attract_pairs z=22.5; run4_rep3 z=22.4; trigram_hapax_share z=-20.6; texts_rep3 z=20.4
++type       (all tables conditioned on object class (seal / tablet / other), shrunk to pooled): outside 36/50, |z|>3: 30, sum|z| 346.5
+    brings inside range: seal_jar_final_share, tab_suffix_share
+    pushes outside range: run3_multisite_share, numeral_attach_types
+    biggest residual gaps: unique_text_share z=-25.8; run4_rep3 z=23.4; longrange_attract_pairs z=22.5; texts_rep3 z=21.6; H_cond_bigram z=-20.4
++site       (all tables conditioned on site (Mohenjo-daro vs Harappa), shrunk to pooled): outside 37/50, |z|>3: 35, sum|z| 378.5
+    brings inside range: seal_jar_final_share
+    pushes outside range: run3_multisite_share, text3_multisite_share
+    biggest residual gaps: run4_rep3 z=26.7; unique_text_share z=-24.9; texts_rep3 z=23.7; H_cond_bigram z=-20.9; trigram_hapax_share z=-20.8
 +lexicon    (middle lexicon with reuse: Chinese-restaurant reuse of middles (theta fitted to the distinct-middle count = 1872.2)): outside 33/50, |z|>3: 30, sum|z| 271.2
     brings inside range: len_ge6_share, mi_d1, mi_d3, mi_d4, adj_double_rate, fish_order_consistency, longrange_attract_pairs, mid_final_top10_share
     pushes outside range: run3_multisite_share, text3_multisite_share, mid_init_final_jaccard, fixed_numeral_share, H_start1
@@ -83,151 +83,151 @@ MISSING STRUCTURE (outside range), ranked by |z|: texts_rep3, run4_rep3, longran
     brings inside range: len_ge6_share, nesting_rate, fish_order_consistency, mid_final_top10_share, H_start2, H_start3
     pushes outside range: run3_multisite_share, text3_multisite_share, H_start1
     biggest residual gaps: same_middle_diff_closer z=-24.6; unique_text_share z=-22.0; seal_minus_tab_len z=19.6; texts_rep3 z=14.0; n_sign_types z=13.7
-+textreuse  (whole-text reuse (stock texts): CRP over texts, theta fitted to the distinct-text count = 2544.3 (fits unique_text_share directly)): outside 27/50, |z|>3: 27, sum|z| 269.4
-    brings inside range: mi_d1, mi_d2, mi_d3, mi_d4, adj_double_rate, fish_order_consistency, mid_final_top10_share, H_start2, H_start3, H_end3, zipf_initial
-    pushes outside range: run3_multisite_share, text3_multisite_share
-    biggest residual gaps: text3_multisite_share z=-23.1; run3_multisite_share z=-19.3; trigram_hapax_share z=18.7; bigram_hapax_share z=18.4; seal_minus_tab_len z=16.5
++textreuse  (whole-text reuse (stock texts): one CRP per site, theta calibrated by simulation to the distinct-text share = 2953 (closed-form fit would give 2544; fits unique_text_share directly)): outside 30/50, |z|>3: 28, sum|z| 221.8
+    brings inside range: unique_text_share, mi_d4, fish_order_consistency, longrange_attract_pairs, mid_final_top10_share, same_middle_diff_closer
+    pushes outside range: -
+    biggest residual gaps: seal_minus_tab_len z=17.7; n_sign_types z=12.9; bigram_hapax_share z=12.3; trigram_hapax_share z=11.3; hapax_sign_share z=10.9
 +open       (open sign inventory: the middle chain emits a never-seen sign with the Good-Turing mass (hapax signs / tokens, S309)): outside 36/50, |z|>3: 34, sum|z| 370.2
     brings inside range: -
     pushes outside range: -
     biggest residual gaps: longrange_attract_pairs z=28.8; texts_rep3 z=26.4; run4_rep3 z=25.6; unique_text_share z=-25.3; same_middle_diff_closer z=-20.0
 
 ## 3. Greedy combination (add the mechanism that lowers sum|z| most, until no gain)
-   try type                                          sum|z| 344.9  outside 35
-   try site                                          sum|z| 373.4  outside 37
+   try type                                          sum|z| 337.3  outside 38
+   try site                                          sum|z| 382.7  outside 37
    try lexicon                                       sum|z| 269.8  outside 36
    try closerdep                                     sum|z| 319.0  outside 32
    try package                                       sum|z| 377.4  outside 36
    try markov2                                       sum|z| 299.8  outside 34
-   try textreuse                                     sum|z| 269.4  outside 32
+   try textreuse                                     sum|z| 221.3  outside 31
    try open                                          sum|z| 375.0  outside 37
-   try textreuse+type                                sum|z| 236.9  outside 26
-   try textreuse+site                                sum|z| 233.4  outside 28
-   try textreuse+lexicon                             sum|z| 286.0  outside 30
-   try textreuse+closerdep                           sum|z| 244.8  outside 29
-   try textreuse+package                             sum|z| 268.6  outside 31
-   try textreuse+markov2                             sum|z| 262.8  outside 28
-   try textreuse+open                                sum|z| 266.4  outside 33
-   try textreuse+site+type                           sum|z| 221.6  outside 30
-   try textreuse+site+lexicon                        sum|z| 265.0  outside 32
-   try textreuse+site+closerdep                      sum|z| 240.7  outside 31
-   try textreuse+site+package                        sum|z| 236.9  outside 29
-   try textreuse+site+markov2                        sum|z| 252.3  outside 29
-   try textreuse+site+open                           sum|z| 232.4  outside 30
-   try textreuse+site+type+lexicon                   sum|z| 265.7  outside 30
-   try textreuse+site+type+closerdep                 sum|z| 231.1  outside 29
-   try textreuse+site+type+package                   sum|z| 218.4  outside 26
-   try textreuse+site+type+markov2                   sum|z| 250.4  outside 26
-   try textreuse+site+type+open                      sum|z| 217.8  outside 25
-   try textreuse+site+type+open+lexicon              sum|z| 250.2  outside 29
-   try textreuse+site+type+open+closerdep            sum|z| 209.7  outside 31
-   try textreuse+site+type+open+package              sum|z| 220.3  outside 29
-   try textreuse+site+type+open+markov2              sum|z| 232.7  outside 24
-   try textreuse+site+type+open+closerdep+lexicon    sum|z| 253.9  outside 32
-   try textreuse+site+type+open+closerdep+package    sum|z| 220.3  outside 29
-   try textreuse+site+type+open+closerdep+markov2    sum|z| 242.1  outside 35
-best combination: textreuse+site+type+open+closerdep; path: textreuse (269.4) -> site (233.4) -> type (221.6) -> open (217.8) -> closerdep (209.7)
-M* (textreuse+site+type+open+closerdep): outside 31/50, |z|>3: 25, sum|z| 221.4
+   try textreuse+type                                sum|z| 195.7  outside 31
+   try textreuse+site                                sum|z| 223.2  outside 37
+   try textreuse+lexicon                             sum|z| 240.6  outside 33
+   try textreuse+closerdep                           sum|z| 181.0  outside 26
+   try textreuse+package                             sum|z| 220.8  outside 31
+   try textreuse+markov2                             sum|z| 230.7  outside 30
+   try textreuse+open                                sum|z| 206.6  outside 32
+   try textreuse+closerdep+type                      sum|z| 150.6  outside 25
+   try textreuse+closerdep+site                      sum|z| 168.3  outside 25
+   try textreuse+closerdep+lexicon                   sum|z| 214.5  outside 25
+   try textreuse+closerdep+package                   sum|z| 220.8  outside 31
+   try textreuse+closerdep+markov2                   sum|z| 194.9  outside 26
+   try textreuse+closerdep+open                      sum|z| 177.4  outside 26
+   try textreuse+closerdep+type+site                 sum|z| 156.9  outside 28
+   try textreuse+closerdep+type+lexicon              sum|z| 165.7  outside 22
+   try textreuse+closerdep+type+package              sum|z| 195.0  outside 32
+   try textreuse+closerdep+type+markov2              sum|z| 154.5  outside 26
+   try textreuse+closerdep+type+open                 sum|z| 137.0  outside 26
+   try textreuse+closerdep+type+open+site            sum|z| 133.2  outside 24
+   try textreuse+closerdep+type+open+lexicon         sum|z| 166.8  outside 21
+   try textreuse+closerdep+type+open+package         sum|z| 178.8  outside 32
+   try textreuse+closerdep+type+open+markov2         sum|z| 153.2  outside 24
+   try textreuse+closerdep+type+open+site+lexicon    sum|z| 165.1  outside 24
+   try textreuse+closerdep+type+open+site+package    sum|z| 179.2  outside 27
+   try textreuse+closerdep+type+open+site+markov2    sum|z| 150.0  outside 25
+best combination: textreuse+closerdep+type+open+site; path: textreuse (221.3) -> closerdep (181.0) -> type (150.6) -> open (137.0) -> site (133.2)
+M* (textreuse+closerdep+type+open+site): outside 23/50, |z|>3: 16, sum|z| 133.6
 statistic                         real  syn mean       sd       z                range out
-unique_text_share                0.580     0.395    0.007   25.78  [   0.378,   0.413] *
-text3_multisite_share            0.021     0.221    0.010  -20.00  [   0.198,   0.247] *
-run3_multisite_share             0.076     0.229    0.012  -13.06  [   0.201,   0.261] *
-bigram_hapax_share               0.660     0.499    0.012   12.97  [   0.464,   0.533] *
-trigram_hapax_share              0.799     0.612    0.015   12.63  [   0.580,   0.651] *
-texts_rep3                     107.000   224.040   12.151   -9.63  [ 187.000, 251.000] *
-seal_minus_tab_len               1.362     0.713    0.068    9.49  [   0.490,   0.889] *
-n_sign_types                   642.000   526.380   13.585    8.51  [ 488.000, 554.000] *
-same_middle_diff_closer          0.204     0.097    0.013    8.42  [   0.063,   0.126] *
-longrange_avoid_pairs          272.000   192.300   12.270    6.50  [ 149.000, 220.000] *
-hapax_sign_share                 0.354     0.236    0.020    5.94  [   0.195,   0.285] *
-run4_rep3                      171.000   338.860   29.603   -5.67  [ 274.000, 418.000] *
-H_cond_bigram                    2.770     2.603    0.032    5.25  [   2.529,   2.680] *
-H_start1                         6.694     6.372    0.062    5.16  [   6.194,   6.507] *
-repeat_rate                      0.043     0.085    0.008   -5.08  [   0.066,   0.107] *
-len1_share                       0.154     0.203    0.010   -4.93  [   0.176,   0.233] *
-mi_d3                            2.441     2.795    0.086   -4.14  [   2.591,   2.972] *
-nesting_rate                     0.163     0.130    0.009    3.80  [   0.116,   0.152] *
-mi_d1                            3.181     3.384    0.053   -3.79  [   3.267,   3.546] *
-zipf_all                        -0.775    -0.839    0.018    3.59  [  -0.879,  -0.789] *
-H_end2                           6.379     6.147    0.065    3.59  [   5.979,   6.357] *
-mi_d2                            2.489     2.730    0.069   -3.49  [   2.558,   2.873] *
-mi_d4                            2.687     3.048    0.105   -3.43  [   2.818,   3.334] *
-H_end1                           4.557     4.235    0.098    3.27  [   4.021,   4.479] *
-len_mean                         3.358     3.224    0.041    3.26  [   3.135,   3.357] *
-fixed_numeral_share              0.233     0.393    0.054   -2.95  [   0.275,   0.500] *
-len_sd                           2.021     2.172    0.053   -2.85  [   2.035,   2.293] *
-seal_jar_final_share             0.343     0.301    0.015    2.79  [   0.264,   0.336] *
-two_numerals_share               0.044     0.061    0.006   -2.69  [   0.044,   0.079] *
-opener_suffix_share              0.031     0.080    0.019   -2.60  [   0.035,   0.125] *
-mid_init_final_jaccard           0.570     0.505    0.026    2.50  [   0.428,   0.561] *
-zipf_final                      -1.244    -1.334    0.041    2.21  [  -1.458,  -1.237] 
-len_ge6_share                    0.143     0.129    0.007    2.02  [   0.109,   0.144] 
-mid_final_top10_share            0.309     0.331    0.012   -1.87  [   0.304,   0.359] 
-mid_init_top10_share             0.294     0.315    0.012   -1.74  [   0.287,   0.341] 
-fish_order_consistency           0.855     0.758    0.062    1.56  [   0.521,   0.871] 
-opener_closer_mi                 0.022     0.016    0.004    1.52  [   0.009,   0.028] 
-longrange_attract_pairs        127.000   180.800   36.432   -1.48  [ 117.000, 298.000] 
-H_start2                         6.217     6.304    0.066   -1.33  [   6.121,   6.458] 
-closer_sign_nonfinal_share       0.081     0.074    0.006    1.09  [   0.063,   0.093] 
-numeral_initial_share            0.460     0.474    0.016   -0.86  [   0.432,   0.522] 
-adj_double_rate                  0.007     0.009    0.002   -0.80  [   0.003,   0.015] 
-zipf_initial                    -0.841    -0.817    0.031   -0.78  [  -0.886,  -0.739] 
-zipf_middle                     -0.625    -0.647    0.028    0.77  [  -0.701,  -0.576] 
-tab_suffix_share                 0.188     0.181    0.012    0.65  [   0.138,   0.206] 
-H_end3                           6.618     6.632    0.060   -0.23  [   6.460,   6.799] 
-len_max                         17.000    17.270    1.279   -0.21  [  15.000,  22.000] 
-numeral_attach_types           104.000   103.280    5.604    0.13  [  92.000, 116.000] 
-H_start3                         6.201     6.207    0.074   -0.08  [   6.055,   6.355] 
-mid_len_closer_diff             -1.027    -1.023    0.089   -0.05  [  -1.253,  -0.747] 
+run3_multisite_share             0.076     0.047    0.003    9.94  [   0.040,   0.055] *
+longrange_avoid_pairs          272.000   170.350   12.381    8.21  [ 140.000, 196.000] *
+repeat_rate                      0.043     0.092    0.006   -7.71  [   0.077,   0.109] *
+H_cond_bigram                    2.770     2.913    0.022   -6.46  [   2.865,   2.975] *
+len_sd                           2.021     2.325    0.051   -5.94  [   2.181,   2.459] *
+longrange_attract_pairs        127.000    61.210   11.702    5.62  [  41.000,  97.000] *
+text3_multisite_share            0.021     0.010    0.002    5.52  [   0.006,   0.014] *
+H_start3                         6.201     6.473    0.054   -5.03  [   6.342,   6.656] *
+bigram_hapax_share               0.660     0.620    0.009    4.61  [   0.596,   0.641] *
+two_numerals_share               0.044     0.062    0.004   -4.43  [   0.053,   0.076] *
+H_start1                         6.694     6.455    0.057    4.16  [   6.308,   6.571] *
+hapax_sign_share                 0.354     0.290    0.016    4.01  [   0.250,   0.326] *
+H_end3                           6.618     6.798    0.046   -3.93  [   6.679,   6.948] *
+len1_share                       0.154     0.182    0.007   -3.90  [   0.166,   0.206] *
+trigram_hapax_share              0.799     0.768    0.010    3.24  [   0.746,   0.792] *
+opener_closer_mi                 0.022     0.013    0.003    3.02  [   0.008,   0.021] *
+opener_suffix_share              0.031     0.064    0.012   -2.84  [   0.041,   0.091] *
+texts_rep3                     107.000    85.540    7.652    2.80  [  70.000, 107.000] 
+H_start2                         6.217     6.375    0.058   -2.75  [   6.256,   6.547] *
+numeral_initial_share            0.460     0.426    0.013    2.63  [   0.381,   0.460] *
+len_mean                         3.358     3.453    0.037   -2.61  [   3.362,   3.537] *
+H_end1                           4.557     4.385    0.068    2.52  [   4.232,   4.583] 
+zipf_final                      -1.244    -1.306    0.026    2.40  [  -1.360,  -1.224] 
+fish_order_consistency           0.855     0.751    0.044    2.39  [   0.633,   0.847] *
+mi_d2                            2.489     2.388    0.043    2.35  [   2.267,   2.478] *
+len_ge6_share                    0.143     0.155    0.005   -2.32  [   0.142,   0.168] 
+seal_minus_tab_len               1.362     1.183    0.082    2.19  [   0.999,   1.397] 
+mid_init_final_jaccard           0.570     0.519    0.024    2.11  [   0.460,   0.570] *
+nesting_rate                     0.163     0.146    0.009    2.05  [   0.124,   0.166] 
+run4_rep3                      171.000   135.030   18.696    1.92  [  93.000, 182.000] 
+numeral_attach_types           104.000   113.710    5.570   -1.74  [ 102.000, 125.000] 
+fixed_numeral_share              0.233     0.303    0.041   -1.68  [   0.182,   0.404] 
+adj_double_rate                  0.007     0.010    0.002   -1.35  [   0.006,   0.015] 
+zipf_initial                    -0.841    -0.814    0.024   -1.11  [  -0.880,  -0.749] 
+zipf_all                        -0.775    -0.790    0.014    1.03  [  -0.823,  -0.747] 
+unique_text_share                0.580     0.587    0.007   -0.98  [   0.569,   0.600] 
+closer_sign_nonfinal_share       0.081     0.076    0.005    0.96  [   0.067,   0.089] 
+n_sign_types                   642.000   629.660   13.854    0.89  [ 595.000, 673.000] 
+same_middle_diff_closer          0.204     0.192    0.019    0.64  [   0.142,   0.235] 
+mid_len_closer_diff             -1.027    -0.985    0.070   -0.61  [  -1.189,  -0.845] 
+len_max                         17.000    17.600    1.095   -0.55  [  16.000,  21.000] 
+zipf_middle                     -0.625    -0.615    0.022   -0.49  [  -0.691,  -0.568] 
+tab_suffix_share                 0.188     0.184    0.010    0.41  [   0.163,   0.213] 
+mi_d3                            2.441     2.424    0.055    0.30  [   2.275,   2.535] 
+mi_d4                            2.687     2.666    0.068    0.30  [   2.465,   2.872] 
+H_end2                           6.379     6.366    0.048    0.29  [   6.272,   6.473] 
+mid_final_top10_share            0.309     0.307    0.009    0.21  [   0.286,   0.332] 
+seal_jar_final_share             0.343     0.346    0.013   -0.20  [   0.312,   0.377] 
+mi_d1                            3.181     3.175    0.034    0.17  [   3.100,   3.254] 
+mid_init_top10_share             0.294     0.295    0.009   -0.05  [   0.276,   0.322] 
 
 ### What fixed each gap (single mechanisms that bring the statistic inside the synthetic range; in brackets: best |z|)
-  texts_rep3                   M0 z=  28.2  fixed by: none  | M* z=-9.6 still outside
-  run4_rep3                    M0 z=  27.4  fixed by: none  | M* z=-5.7 still outside
-  longrange_attract_pairs      M0 z=  27.2  fixed by: lexicon (z=-1.4)  | M* z=-1.5
-  unique_text_share            M0 z= -26.8  fixed by: none  | M* z=25.8 still outside
-  seal_minus_tab_len           M0 z=  19.3  fixed by: none  | M* z=9.5 still outside
-  longrange_avoid_pairs        M0 z=  18.4  fixed by: none  | M* z=6.5 still outside
-  H_cond_bigram                M0 z= -18.1  fixed by: none  | M* z=5.2 still outside
-  same_middle_diff_closer      M0 z= -18.0  fixed by: none  | M* z=8.4 still outside
-  mi_d2                        M0 z=  17.6  fixed by: textreuse (z=1.2)  | M* z=-3.5 still outside
-  trigram_hapax_share          M0 z= -16.4  fixed by: none  | M* z=12.6 still outside
-  hapax_sign_share             M0 z=  12.5  fixed by: none  | M* z=5.9 still outside
-  mi_d3                        M0 z=  11.5  fixed by: lexicon (z=2.0), textreuse (z=-1.2)  | M* z=-4.1 still outside
-  repeat_rate                  M0 z= -10.5  fixed by: none  | M* z=-5.1 still outside
-  mi_d1                        M0 z=  10.2  fixed by: lexicon (z=2.3), textreuse (z=-0.1)  | M* z=-3.8 still outside
-  numeral_initial_share        M0 z=  10.1  fixed by: none  | M* z=-0.9
-  tab_suffix_share             M0 z=  10.1  fixed by: type (z=1.0)  | M* z=0.6
-  len_mean                     M0 z=  -9.1  fixed by: closerdep (z=-2.4)  | M* z=3.3 still outside
-  n_sign_types                 M0 z=   9.1  fixed by: none  | M* z=8.5 still outside
-  mi_d4                        M0 z=   9.0  fixed by: lexicon (z=1.9), textreuse (z=-0.9)  | M* z=-3.4 still outside
-  H_end3                       M0 z=  -7.9  fixed by: textreuse (z=-2.2)  | M* z=-0.2
-  len_sd                       M0 z=  -7.5  fixed by: none  | M* z=-2.9 still outside
-  mid_len_closer_diff          M0 z=  -7.3  fixed by: closerdep (z=-0.7)  | M* z=-0.0
-  two_numerals_share           M0 z=  -7.2  fixed by: none  | M* z=-2.7 still outside
-  len_ge6_share                M0 z=  -6.1  fixed by: lexicon (z=-3.3), closerdep (z=-1.5), markov2 (z=-2.6)  | M* z=2.0
-  H_start2                     M0 z=  -5.6  fixed by: markov2 (z=-0.5), textreuse (z=-1.8)  | M* z=-1.3
-  H_start3                     M0 z=  -5.2  fixed by: markov2 (z=-0.5), textreuse (z=-1.7)  | M* z=-0.1
-  opener_suffix_share          M0 z=  -5.1  fixed by: type (z=-2.7), package (z=-0.2)  | M* z=-2.6 still outside
-  seal_jar_final_share         M0 z=   4.8  fixed by: type (z=-1.8), site (z=0.5)  | M* z=2.8 still outside
-  bigram_hapax_share           M0 z=  -4.4  fixed by: none  | M* z=13.0 still outside
-  zipf_initial                 M0 z=  -4.2  fixed by: textreuse (z=-3.1)  | M* z=-0.8
-  nesting_rate                 M0 z=   4.0  fixed by: closerdep (z=1.9), markov2 (z=-2.1)  | M* z=3.8 still outside
-  adj_double_rate              M0 z=  -3.8  fixed by: lexicon (z=-2.1), closerdep (z=-1.3), textreuse (z=-1.9)  | M* z=-0.8
-  H_end2                       M0 z=   3.5  fixed by: type (z=2.6), closerdep (z=1.1)  | M* z=3.6 still outside
-  fish_order_consistency       M0 z=   3.1  fixed by: type (z=2.6), lexicon (z=1.6), closerdep (z=2.3), markov2 (z=1.5), textreuse (z=1.6)  | M* z=1.6
-  H_end1                       M0 z=   3.0  fixed by: closerdep (z=2.1)  | M* z=3.3 still outside
-  mid_final_top10_share        M0 z=   2.8  fixed by: type (z=2.7), site (z=2.5), lexicon (z=1.7), closerdep (z=1.2), markov2 (z=0.4), textreuse (z=1.6)  | M* z=-1.9
-STILL OUTSIDE RANGE under M*: texts_rep3, run4_rep3, unique_text_share, seal_minus_tab_len, longrange_avoid_pairs, H_cond_bigram, same_middle_diff_closer, mi_d2, trigram_hapax_share, hapax_sign_share, mi_d3, repeat_rate, mi_d1, len_mean, n_sign_types, mi_d4, len_sd, two_numerals_share, opener_suffix_share, seal_jar_final_share, bigram_hapax_share, nesting_rate, H_end2, H_end1
+  texts_rep3                   M0 z=  28.2  fixed by: none  | M* z=2.8
+  run4_rep3                    M0 z=  27.4  fixed by: none  | M* z=1.9
+  longrange_attract_pairs      M0 z=  27.2  fixed by: lexicon (z=-1.4), textreuse (z=1.2)  | M* z=5.6 still outside
+  unique_text_share            M0 z= -26.8  fixed by: textreuse (z=-0.5)  | M* z=-1.0
+  seal_minus_tab_len           M0 z=  19.3  fixed by: none  | M* z=2.2
+  longrange_avoid_pairs        M0 z=  18.4  fixed by: none  | M* z=8.2 still outside
+  H_cond_bigram                M0 z= -18.1  fixed by: none  | M* z=-6.5 still outside
+  same_middle_diff_closer      M0 z= -18.0  fixed by: textreuse (z=0.4)  | M* z=0.6
+  mi_d2                        M0 z=  17.6  fixed by: none  | M* z=2.4 still outside
+  trigram_hapax_share          M0 z= -16.4  fixed by: none  | M* z=3.2 still outside
+  hapax_sign_share             M0 z=  12.5  fixed by: none  | M* z=4.0 still outside
+  mi_d3                        M0 z=  11.5  fixed by: lexicon (z=2.0)  | M* z=0.3
+  repeat_rate                  M0 z= -10.5  fixed by: none  | M* z=-7.7 still outside
+  mi_d1                        M0 z=  10.2  fixed by: lexicon (z=2.3)  | M* z=0.2
+  numeral_initial_share        M0 z=  10.1  fixed by: none  | M* z=2.6 still outside
+  tab_suffix_share             M0 z=  10.1  fixed by: type (z=1.0)  | M* z=0.4
+  len_mean                     M0 z=  -9.1  fixed by: closerdep (z=-2.4)  | M* z=-2.6 still outside
+  n_sign_types                 M0 z=   9.1  fixed by: none  | M* z=0.9
+  mi_d4                        M0 z=   9.0  fixed by: lexicon (z=1.9), textreuse (z=2.2)  | M* z=0.3
+  H_end3                       M0 z=  -7.9  fixed by: none  | M* z=-3.9 still outside
+  len_sd                       M0 z=  -7.5  fixed by: none  | M* z=-5.9 still outside
+  mid_len_closer_diff          M0 z=  -7.3  fixed by: closerdep (z=-0.7)  | M* z=-0.6
+  two_numerals_share           M0 z=  -7.2  fixed by: none  | M* z=-4.4 still outside
+  len_ge6_share                M0 z=  -6.1  fixed by: lexicon (z=-3.3), closerdep (z=-1.5), markov2 (z=-2.6)  | M* z=-2.3
+  H_start2                     M0 z=  -5.6  fixed by: markov2 (z=-0.5)  | M* z=-2.8 still outside
+  H_start3                     M0 z=  -5.2  fixed by: markov2 (z=-0.5)  | M* z=-5.0 still outside
+  opener_suffix_share          M0 z=  -5.1  fixed by: package (z=-0.2)  | M* z=-2.8 still outside
+  seal_jar_final_share         M0 z=   4.8  fixed by: type (z=-1.9), site (z=0.6)  | M* z=-0.2
+  bigram_hapax_share           M0 z=  -4.4  fixed by: none  | M* z=4.6 still outside
+  zipf_initial                 M0 z=  -4.2  fixed by: none  | M* z=-1.1
+  nesting_rate                 M0 z=   4.0  fixed by: closerdep (z=1.9), markov2 (z=-2.1)  | M* z=2.0
+  adj_double_rate              M0 z=  -3.8  fixed by: lexicon (z=-2.1), closerdep (z=-1.3)  | M* z=-1.3
+  H_end2                       M0 z=   3.5  fixed by: closerdep (z=1.1)  | M* z=0.3
+  fish_order_consistency       M0 z=   3.1  fixed by: lexicon (z=1.6), closerdep (z=2.3), markov2 (z=1.5), textreuse (z=2.0)  | M* z=2.4 still outside
+  H_end1                       M0 z=   3.0  fixed by: closerdep (z=2.1)  | M* z=2.5
+  mid_final_top10_share        M0 z=   2.8  fixed by: lexicon (z=1.7), closerdep (z=1.2), markov2 (z=0.4), textreuse (z=2.5)  | M* z=0.2
+STILL OUTSIDE RANGE under M*: longrange_attract_pairs, longrange_avoid_pairs, H_cond_bigram, mi_d2, trigram_hapax_share, hapax_sign_share, repeat_rate, numeral_initial_share, len_mean, H_end3, len_sd, two_numerals_share, H_start2, H_start3, opener_suffix_share, bigram_hapax_share, fish_order_consistency
 
 ## 4. Held-out sites (model fitted on Mohenjo-daro + Harappa, synthetic corpora with the held-out site/object mix)
 M0 on held-out: outside 23/50, |z|>3: 20, sum|z| 148.2
   top gaps: longrange_attract_pairs real=26.000 syn=2.950 z=13.7; H_end3 real=5.955 syn=6.589 z=-8.3; H_end1 real=5.037 syn=4.154 z=7.6; len1_share real=0.248 syn=0.158 z=7.3; len_mean real=3.110 syn=3.635 z=-7.1; run4_rep3 real=10.000 syn=1.260 z=6.6; unique_text_share real=0.786 syn=0.864 z=-6.4; same_middle_diff_closer real=0.176 syn=0.727 z=-5.5
-M* on held-out: outside 17/50, |z|>3: 14, sum|z| 129.8
-  top gaps: text3_multisite_share real=0.011 syn=0.137 z=-9.0; bigram_hapax_share real=0.787 syn=0.659 z=8.0; run3_multisite_share real=0.043 syn=0.178 z=-7.4; unique_text_share real=0.786 syn=0.699 z=6.9; trigram_hapax_share real=0.923 syn=0.799 z=6.7; H_end1 real=5.037 syn=4.198 z=6.5; H_cond_bigram real=2.594 syn=2.309 z=6.4; len1_share real=0.248 syn=0.175 z=5.1
+M* on held-out: outside 19/50, |z|>3: 15, sum|z| 122.4
+  top gaps: longrange_attract_pairs real=26.000 syn=3.710 z=11.7; H_end1 real=5.037 syn=4.266 z=6.5; H_end3 real=5.955 syn=6.495 z=-6.5; len1_share real=0.248 syn=0.175 z=6.4; run4_rep3 real=10.000 syn=1.960 z=5.2; H_cond_bigram real=2.594 syn=2.404 z=4.7; len_mean real=3.110 syn=3.452 z=-4.3; mi_d1 real=3.463 syn=3.666 z=-3.5
 
 ## 5. Controls
 ### 5a. No-slot generator: an order-2 Markov chain over whole texts (no frame), same corpus size; does the battery tell it from the real corpus?
-plain order-2 chain: outside 25/50, |z|>3: 25, sum|z| 247.2 (M0: 36, 35, 378.4; M*: 31, 25, 221.4)
+plain order-2 chain: outside 25/50, |z|>3: 25, sum|z| 247.2 (M0: 36, 35, 378.4; M*: 23, 16, 133.6)
 statistic                         real  syn mean       sd       z                range out
 seal_minus_tab_len               1.362    -0.008    0.072   18.97  [  -0.174,   0.184] *
 run3_multisite_share             0.076     0.192    0.006  -17.88  [   0.171,   0.208] *
@@ -256,8 +256,8 @@ order-2 middle chain fitted to planted Tamil: outside 25/46, |z|>3: 23, sum|z| 2
 
 ## 6. Merge robustness: M0 and M* on seq_raw and seq_strong (outside / |z|>3 / sum|z|)
 seq_raw     M0: outside 37/50, |z|>3 35, sum|z| 379.5; top: longrange_attract_pairs z=32.0; unique_text_share z=-26.7; texts_rep3 z=22.8; run4_rep3 z=22.7; trigram_hapax_share z=-21.5
-seq_raw     M*: outside 31/50, |z|>3 27, sum|z| 233.2; top: unique_text_share z=24.5; text3_multisite_share z=-22.8; run3_multisite_share z=-17.4; bigram_hapax_share z=13.4; trigram_hapax_share z=12.7
+seq_raw     M*: outside 23/50, |z|>3 17, sum|z| 138.8; top: run3_multisite_share z=12.7; longrange_avoid_pairs z=10.6; longrange_attract_pairs z=8.3; repeat_rate z=-6.9; len_sd z=-6.1
 seq_strong  M0: outside 37/50, |z|>3 34, sum|z| 377.8; top: unique_text_share z=-29.9; longrange_attract_pairs z=27.3; run4_rep3 z=24.6; texts_rep3 z=20.6; H_cond_bigram z=-19.8
-seq_strong  M*: outside 30/50, |z|>3 27, sum|z| 217.5; top: unique_text_share z=25.6; text3_multisite_share z=-17.4; bigram_hapax_share z=14.6; trigram_hapax_share z=13.3; run3_multisite_share z=-10.7
+seq_strong  M*: outside 23/50, |z|>3 17, sum|z| 133.1; top: longrange_avoid_pairs z=11.0; run3_multisite_share z=9.3; H_cond_bigram z=-7.1; repeat_rate z=-6.9; len_sd z=-6.7
 
-(elapsed 7470 s)
+(elapsed 7647 s)

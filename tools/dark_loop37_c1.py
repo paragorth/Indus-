@@ -76,6 +76,28 @@ for name,S in SUBS:
     e_cl=binom_expect(S,2); e_op=binom_expect(S,1)
     print(f'   faces closer-final per object: {dict(sorted(ncl.items()))}; objects with >=2 closed faces {sum(v for k,v in ncl.items() if k>=2)} vs {e_cl:.1f} expected if faces independent (type x site face rates)')
     print(f'   faces opener-initial per object: {dict(sorted(nop.items()))}; objects with >=2 opener faces {sum(v for k,v in nop.items() if k>=2)} vs {e_op:.1f} expected if independent')
+    # A2b: same, with the null = faces reassigned among objects of the same site x type INSIDE this subset
+    # (keeps the subset's own face mix); closers counted without W700 so Harappa count faces do not count as 'closed'
+    def closed_noleaf(s):
+        s=list(s)
+        while len(s)>1 and s[-1] in SUF: s.pop()
+        return bool(s) and s[-1] in CL and s[-1]!=700
+    def n_ge2(objs_,fn,faces_by_obj):
+        return sum(1 for o,fs in zip(objs_,faces_by_obj) if sum(fn(f) for f in fs)>=2)
+    def n_ge1(objs_,fn,faces_by_obj):
+        return sum(1 for o,fs in zip(objs_,faces_by_obj) if sum(fn(f) for f in fs)>=1)
+    real=[[f['seq'] for f in o['faces']] for o in S]
+    groups=collections.defaultdict(list)
+    for i,o in enumerate(S): groups[(o['site'],o['type'])].append(i)
+    for lab,fn in [('closer-final (W700 excluded)',closed_noleaf),('opener-initial',is_opener_first)]:
+        obs=n_ge2(S,fn,real); obs1=n_ge1(S,fn,real); null=[]; null1=[]
+        for _ in range(NP):
+            perm=[None]*len(S)
+            for g,idx in groups.items():
+                pool_=[s for i in idx for s in real[i]]; rnd.shuffle(pool_); p=0
+                for i in idx: perm[i]=pool_[p:p+len(real[i])]; p+=len(real[i])
+            null.append(n_ge2(S,fn,perm)); null1.append(n_ge1(S,fn,perm))
+        print(f'   objects with >=2 {lab} faces: {obs} vs {sum(null)/NP:.1f} if faces were reassigned among objects of the same site x type (P_lo={pval(obs,null,"lo"):.3f}, P_hi={pval(obs,null):.3f}); objects with >=1: {obs1} vs {sum(null1)/NP:.1f} (P_hi={pval(obs1,null1):.3f})')
     # A3: frame continuity across the side boundary: concatenate faces in recorded order, parse, count violations
     def violations(seq):
         """openers not initial; closer followed by a non-suffix non-closer sign (internal closer)"""

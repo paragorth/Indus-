@@ -49,9 +49,13 @@ def subseq(a,b):
         if all(x is None or x==y for x,y in zip(a,b[i:i+len(a)])): return True
     return False
 def check(cand,W,w2m,IM):
-    c=[None if x in ('?',None) else int(x) for x in cand]
+    c=[None if (x in ('?','',None) or not x.strip().isdigit()) else int(x) for x in cand]
     conc=[x for x in c if x is not None]
     res={'exact':[],'reverse':[],'ed1':[],'subseq':[],'im77_exact':[],'im77_ed1':[]}
+    # S-DARK-21.1 wildcard cap: at most 2 wildcards and >= 3 concrete positions for an exact/near verdict;
+    # texts of <= 3 signs allow no wildcard
+    nwild=len(c)-len(conc)
+    res['indeterminate']= (nwild>2) or (len(conc)<3) or (len(c)<=3 and nwild>0)
     if len(conc)==0: return res
     for id_,site,typ,s,d in W:
         if len(s)==len(c) and all(x is None or x==y for x,y in zip(c,s)): res['exact'].append((id_,site,s))
@@ -78,6 +82,9 @@ def check(cand,W,w2m,IM):
             if ok: res['im77_ed1'].append((tno,site,s))
     return res
 def verdict(res):
+    if res.get('indeterminate'):
+        if res['exact'] or res['im77_exact'] or res['reverse']: return 'INDETERMINATE(wildcard match)'
+        return 'INDETERMINATE(too few concrete signs)'
     if res['exact'] or res['im77_exact']: return 'IN-CORPUS'
     if res['reverse']: return 'IN-CORPUS(reverse)'
     if res['ed1'] or res['im77_ed1']: return 'NEAR'
@@ -89,7 +96,7 @@ if __name__=='__main__':
         for r in rows:
             cand=r['signs_W'].split('-')
             res=check(cand,W,w2m,IM); v=verdict(res)
-            print(r['id'],r['site'],r['signs_W'],v, {k:[(a,b,'-'.join(map(str,c))) for a,b,c in v2[:3]] for k,v2 in res.items() if v2})
+            print(r['id'],r['site'],r['signs_W'],v, {k:[(a,b,'-'.join(map(str,c))) for a,b,c in v2[:3]] for k,v2 in res.items() if isinstance(v2,list) and v2})
     else:
         cand=sys.argv[1:]
         res=check(cand,W,w2m,IM); print(verdict(res))

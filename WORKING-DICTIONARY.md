@@ -155,6 +155,7 @@ The whole seal text is a **title or credential, like a degree**, not a personal 
 Promotion over time: tested in S348, not supported (longer versions are not later; p = 0.40). The short and extended versions coexist as parallel grades. Would kill: repeated credentials from one grave or house (i.e. one person's name).
 
 ## Test log
+- S366: Turing test of the credential grammar as a generator (`tools/strat_adequacy.py`). Three mechanisms make the real corpus indistinguishable from synthetic ones on 33 of 50 statistics: stock texts copied whole within a city, closer chosen by the middle's end, frame set by object type. A lexicon of middles freely recombined with closers is refuted (same middle under different closers 20% real vs 80% model). Unexplained: long-range sign attraction/avoidance and the no-repeat rule, i.e. whole-text planning.
 - S347: the credential model (user) fits: nesting of short titles in longer ones is 4× chance; longer texts on bigger seals (ρ = 0.32).
 - S345: the Umma sealing (found in Sumer) reads '[127-705] · of · 4 · TREE-unit', the standard home quantity formula. The formula travelled with goods; W127 is a head word for tree-unit consignments (C).
 - S341: function labels added for 20 more frequent signs (section 10).

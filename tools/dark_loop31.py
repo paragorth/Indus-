@@ -407,6 +407,7 @@ def run_real_and_nulls(objs, tag, nrep, rnd, nulls=('slot', 'grammar', 'pos'), t
         G = SlotGrammar(objs, rnd) if nt == 'grammar' else None
         nrep_t = (nrep_by or {}).get(nt, nrep)
         for r in range(nrep_t):
+            if r % 10 == 0: print(f'   [{tag}] null {nt} replicate {r}/{nrep_t} ({time.time()-t0:.0f}s)', file=sys.stderr, flush=True)
             if nt == 'slot': syn = shuffle_within(objs, rnd, 'lab')
             elif nt == 'pos':
                 for o in objs: o['pos'] = [posclass(i, len(o['seq'])) for i in range(len(o['seq']))]
