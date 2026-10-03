@@ -30,3 +30,7 @@ train seq_raw nonnum      namecalib base 0.785 -> 0.784 [0.770,0.806] D -0.001 n
 train seq_raw nonnum      repeat    base 0.232 -> 0.183 [0.172,0.210] D -0.050 null +0.005±0.037 z -1.5 p 0.238 (83s)
 train seq_raw nonnum      slot      base 1.134 -> 1.115 [1.115,1.318] D -0.019 null -0.014±0.032 z -0.2 p 0.857 (83s)
 train seq_raw nonnum      arith     n/a
+train seq_raw dropframe   namecalib base 0.795 -> 0.811 [0.715,0.838] D +0.016 null +0.005±0.010 z +1.1 p 0.190 (72s)
+train seq_raw dropframe   repeat    base 0.232 -> 0.415 [0.209,0.500] D +0.182 null -0.001±0.039 z +4.7 p 0.048 (72s)
+train seq_raw dropframe   slot      base 1.134 -> -0.122 [-0.168,1.235] D -1.255 null -0.116±0.035 z -32.6 p 0.048 (72s)
+train seq_raw dropframe   arith     base 0.253 -> 0.246 [0.243,0.253] D -0.007 null +0.001±0.006 z -1.2 p 0.333 (72s)
