@@ -497,10 +497,10 @@ def small_site(pool, allsite, label):
     k0 = len(pairs); pairs_ni = [(a, b) for a, b in pairs if a['seq'] != b['seq']]
     if len(pairs_ni) < 2:
         P(f'\n--- {label}: {len(pool)} objects with a room, {k0} same-room pairs ({len(pairs_ni)} non-identical): too few'); return None
-    obs, k, byel, _ = agg(pairs, F, ntexts)
+    obs, k, byel, _ = agg(cap(pairs, 20000), F, ntexts)
     nc = collections.defaultdict(list)
-    for _ in range(NP):
-        st, _, _, _ = agg(permuted(pool, 'room', lambda o: o['typ']), F, ntexts)
+    for _ in range(NP if k0 < 20000 else min(NP, 300)):
+        st, _, _, _ = agg(cap(permuted(pool, 'room', lambda o: o['typ']), 20000), F, ntexts)
         for key in KEYS: nc[key].append(st[key])
     P(f'\n--- {label}: {len(pool)} objects with a room ({len(allsite)} at site), {len([g for g in G.values() if len(g) >= 2])} rooms with >= 2, {k0} same-room pairs, {k} non-identical')
     report('same-room pairs', obs, k, {'c:room-perm': nc})
@@ -514,12 +514,14 @@ if CY == 4:
             pool = [dict(o, room=o['area']) for o in allsite if o['area']]
             if len(pool) >= 4: small_site(pool, allsite, f'{site} {oc}s by AREA')
     I = load_im77()
-    P(f'\n== IM77 (M space, loop45 frame; elements = NAME tokens minus the sign before the closer): {len(I)} seals + tablets/sealings >= 2 signs; with locus {sum(1 for o in I if o["room"])}')
+    P(f'\n== IM77 (M space, loop45 frame; elements = NAME tokens minus the sign before the closer): {len(I)} seals + tablets/sealings >= 2 signs; with locus code (area grain) {sum(1 for o in I if o["area"])}, with locus x level (spot grain) {sum(1 for o in I if o["room"])}; pairs capped at 20,000 and permutations at 300 for the big sets')
     for site in ('Mohenjodaro', 'Harappa', 'Chanhudaro', 'Kalibangan'):
         for oc in ('seal', 'tablet'):
             allsite = [o for o in I if o['site'] == site and o['oc'] == oc]
             pool = [o for o in allsite if o['room']]
-            if len(pool) >= 4: small_site(pool, allsite, f'IM77 {site} {oc}s by LOCUS')
+            if len(pool) >= 4: small_site(pool, allsite, f'IM77 {site} {oc}s by LOCUS x LEVEL (spot grain)')
+            pool = [dict(o, room=o['area']) for o in allsite if o['area']]
+            if len(pool) >= 4: small_site(pool, allsite, f'IM77 {site} {oc}s by LOCUS code (area grain)')
     # how much rests on Mohenjo-daro: same-room pair counts by site (Wells)
     cnt = collections.Counter()
     for o in OBJ:

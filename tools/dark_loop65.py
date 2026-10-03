@@ -105,17 +105,27 @@ def seal_texts(objs, min_len=1):
                 if len(f['seq']) >= min_len: T[tuple(f['seq'])].add(o['site'])
     return T
 
+_MCACHE = {}
 def matches_seal(face, seals):
     """exact match for complete faces; for fragments (>= 2 signs) a contiguous substring of some seal text"""
     s = tuple(face['seq'])
     if not s: return None
-    if s in seals: return 'exact'
-    if not face['complete'] and len(s) >= 2:
-        for t in seals:
-            if len(t) > len(s):
-                for i in range(len(t) - len(s) + 1):
-                    if t[i:i + len(s)] == s: return 'fragment'
-    return None
+    key = (id(seals), s, bool(face['complete']))
+    if key in _MCACHE: return _MCACHE[key]
+    r = None
+    if s in seals: r = 'exact'
+    elif not face['complete'] and len(s) >= 2:
+        sub = seals.get('_substr')
+        if sub is None:
+            sub = set()
+            for t in list(seals):
+                if t == '_substr': continue
+                for L in range(2, len(t)):
+                    for i in range(len(t) - L + 1): sub.add(t[i:i + L])
+            seals['_substr'] = sub
+        if s in sub: r = 'fragment'
+    _MCACHE[key] = r
+    return r
 
 def fmt(seq): return '-'.join(map(str, seq)) if seq else '(none)'
 
