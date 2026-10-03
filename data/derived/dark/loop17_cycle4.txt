@@ -1,0 +1,55 @@
+LOOP 17, cycle 4: the full prior bank (16,000 base-model draws = bank0 + bank1; the third chunk was stopped at the 2-hour job limit
+and restarted as the EXTENDED model bank, cycle 5) and its leave-one-out control with 100 pseudo-observed corpora.
+Total simulations so far: 16,000 prior + 4,000 posterior-centred (gen2) = 20,000. Files: scratch fit_bank16k.txt, control_bank16k.txt.
+
+(a) FIT on 16,000 prior draws, seq_all (seq_raw and seq_strong within 0.02 of these; n_acc = 400, acceptance distance h = 5.75):
+ param        rejection median [5%, 95%]    adjusted median [5%, 95%]   gen2 adjusted (cycle 3)   agreement
+ A            5     [1, 8]                  3.8 [1, 6.9]                6.4 [3.9, 8]              flat either way
+ O            80    [5, 320]                251 [43, 400]               94 [56, 199]              order 10^2, not better
+ zO           0.97  [0.39, 1.81]            1.08 [0.60, 1.61]           1.15 [0.77, 1.45]         ~1.1
+ C            9.9   [1.4, 34]               15 [3.3, 40]                5.1 [1.6, 12]             few to tens
+ H            9,750 [900, 51,000]           19,000 [5,900, 55,000]      29,000 [14,000, 51,000]   10^4
+ k            3.5   [1.3, 5.7]              2.7 [1, 4.7]                4.7 [3.0, 6.0]            flat
+ H*k          27,000 [3,200, 197,000]       40,000 [17,000, 150,000]    136,000 [76,000, 194,000] 10^4.5-10^5
+ p_mid        0.60  [0.25, 0.93]            0.69 [0.51, 0.86]           0.78 [0.73, 0.86]         ~0.7
+ lam_mid      1.39  [0.53, 2.29]            1.82 [1.48, 2.28]           1.43 [1.21, 1.66]         middle ~2.5-2.8 signs
+ V_mid        450   [54, 2,180]             383 [169, 846]              650 [499, 860]            hundreds
+ p_open       0.31  [0.04, 0.69]            0.13 [0.04, 0.21]           0.19 [0.10, 0.27]         0.1-0.25
+ p_comm       0.39  [0.05, 0.85]            0.39 [0.30, 0.48]           0.31 [0.28, 0.33]         0.3-0.4
+ p_off        0.50  [0.04, 0.90]            0.44 [0.14, 0.73]           0.66 [0.43, 0.77]         ~0.5-0.7
+ p_reissue    0.59  [0.27, 0.95]            0.69 [0.56, 0.84]           0.87 [0.81, 0.91]         > 0.55
+ z_copy       1.21  [0.57, 2.14]            1.41 [1.04, 1.79]           1.11 [1.00, 1.24]         1.0-1.5
+ p_batch      0.53  [0.07, 0.95]            0.41 [0.12, 0.84]           0.06 [0.03, 0.20]         not identified
+ p_travel     0.57  [0.07, 0.95]            0.37 [0.04, 0.90]           0.80 [0.32, 0.95]         not identified
+ p_suf        0.41  [0.08, 0.82]            0.26 [0.13, 0.40]           0.17 [0.13, 0.22]         0.15-0.3
+ p_potcred    0.40  [0.03, 0.88]            0.30 [0.12, 0.46]           0.50 [0.41, 0.58]         0.3-0.5
+ p_share      0.46  [0.04, 0.97]            0.45 [0.05, 0.95]           0.55 [0.13, 0.95]         FLAT (name vs qualification)
+ The prior bank and the posterior-centred generation agree on every identifiable parameter to within their intervals; where the
+ two disagree in the point estimate (O, H*k, p_batch, p_travel) the control below shows those parameters are weakly identified.
+
+(b) CONTROL: leave-one-out coverage over 100 bank corpora (nominal 90% CI), 16,000-draw bank:
+ param     cov_adj cov_rej  CIw_adj CIw_rej     param      cov_adj cov_rej  CIw_adj CIw_rej
+ A          0.86    1.00     0.88   1.11        p_open      0.85    0.92     0.33   0.83
+ O          0.76    0.88     0.69   0.96        p_comm      0.81    0.94     0.18   0.78
+ zO         0.83    0.93     0.69   0.95        p_off       0.87    0.94     0.43   0.77
+ C          0.89    0.92     0.75   0.96        p_ext       0.87    0.89     0.69   0.94
+ H          0.88    0.95     0.32   0.61        p_reissue   0.92    0.97     0.27   0.71
+ k          0.80    0.88     0.88   0.99        z_copy      0.90    0.93     0.50   0.89
+ p_mid      0.91    0.96     0.40   0.73        p_batch     0.89    0.90     0.74   0.94
+ lam_mid    0.83    0.94     0.49   0.89        p_travel    0.88    0.87     0.69   0.94
+ V_mid      0.85    0.86     0.53   0.88        p_suf       0.92    0.96     0.29   0.80
+ z_mid      0.90    0.92     0.64   0.91        p_potcred   0.79    0.90     0.27   0.84
+ p_share    0.84    0.91     0.95   1.01
+ Doubling the bank (8,000 -> 16,000) lifts the adjusted coverage from 0.65-0.92 to 0.76-0.92 (H from 0.65 to 0.88); the
+ identifiability picture is unchanged: learned (adjusted width <= 0.35 of prior) H, p_mid, p_open, p_comm, p_reissue, p_suf,
+ p_potcred; partly (0.4-0.7) O, zO, lam_mid, V_mid, z_mid, p_off, z_copy, p_ext, p_batch, p_travel, C; not at all (>= 0.85)
+ A, k, p_share.
+
+Plain words (base model, 20,000 simulations): the posterior describes an institution with a stock of a few 10^4 to 10^5 distinct
+credentials at the largest city, ~10^2 office classes under a Zipf law, a few to a few tens of commodity classes shown on
+30-40% of credentials, an opener on 10-25%, an office word on about half or more, and a middle of ~2.5 signs on ~70% of
+credentials; tablets are mostly (> 55%, probably ~70-90%) re-issues of local credentials with a popularity slope of 1-1.5.
+The number of authorities, credentials per holder, name-vs-qualification, batch deposit and seal travel are not recoverable
+from this corpus with these statistics. Nothing here depends on the merge level.
+
+| S-DARK-17.4 | **Full prior bank (16,000 base-model draws, 20,000 simulations in all with gen2) + leave-one-out control on 100 pseudo-observed corpora** (`data/derived/dark/loop17_cycle4.txt`) | Fit agrees with 17.3 on every identifiable parameter: H*k 17,000-150,000 (adjusted), O ~10^2, p_mid 0.51-0.86, lam_mid 1.5-2.3, p_open 0.04-0.21, p_comm 0.30-0.48, p_reissue 0.56-0.84, z_copy 1.0-1.8, p_suf 0.13-0.40, p_potcred 0.12-0.46; A, k, p_share flat (width 0.88-0.97 of prior). Control: adjusted 90% CI coverage 0.76-0.92 (0.65-0.92 with 8,000), rejection 0.86-1.00; width/prior <= 0.35 for H, p_mid, p_open, p_comm, p_reissue, p_suf, p_potcred; >= 0.85 for A, k, p_share | **Robust: the identifiable part of the institution (credential stock 10^4-10^5, ~100 office classes, middles on ~70% of credentials, tablets mostly re-issued local credentials) is the same from 8,000, 16,000 and posterior-centred simulations, and the control says these are the parameters the statistics can recover. The unidentifiable part (authorities, credentials per holder, name vs qualification) stays so with twice the simulations: it is a limit of the corpus, not of the sample size** |

@@ -1,0 +1,33 @@
+LOOP 26 CYCLE 4: everything again on DEDUPLICATED populations (one copy per distinct site + middle).
+Engine: tools/dark_loop26.py 4 <level> 200. Full output: loop26_cycle4_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Why: cycles 1-2 counted every object, so a middle repeated on 123 Harappa tablets counted 123 times, while the Ur III control was already one
+copy per distinct legend; S-DARK-18 showed that the dedup unit drives these statistics. Here every population is reduced to distinct
+(site, middle) strings: Indus 2,643 -> 1,774 (seals 1,369 -> 1,231; tablets 1,102 -> 447; frame-purged 2,583 -> 1,660); Ur III names
+2,643 -> 1,065 (dedup by NAME STRING, which S-DARK-18.2 showed pushes any population toward independence - so the Ur III line is a
+conservative lower bound on name-like dependency); planted attribute code 2,643 -> 2,263; planted lexicon 2,643 -> 1,684.
+Statistics as cycles 1-2: pair census excess (share of pairs with |log2 O/E| > 1 above the permuted-corpus level), compounds (O > 4E),
+exclusions (O < E/4), pair-model gain over independence (held-out by site / 5-fold), adjacent MI excess, MI(first,last) as % of H(first),
+share of elements predicting their partners (Bonferroni), mean z.
+
+RESULTS (seq_raw; seq_strong / seq_all within 0.02 / 0.5 points)
+                           n      pair excess   compounds   exclusions   gain site / 5-fold   adj MI    MI(first,last)   partner-predictors   mean z
+  Indus middles            1,774  +0.24         0.087       0.033        3.2% / 7.5%          +0.36     0.9%             0.069 (z 0.80)
+  Indus frame-purged       1,660  +0.28         0.107       0.021        0.9% / 4.3%          +0.16     1.2%             0.035 (z 0.62)
+  Indus seals              1,231  +0.23         0.071       0.030        2.7% / 7.5%          +0.29     0.6%             0.045 (z 0.63)
+  Indus tablets              447  +0.58         0.421       0.000       -5.3% / 6.8%          +0.01     0.6%             0.000 (z 0.47)
+  Ur III names (dedup)     1,065  +0.43         0.196       0.098        15.5% / 15.3%        +0.86     1.8%             0.195 (z 2.38)
+  planted attribute code   2,263  +0.15         0.003       0.070        1.1% / 0.9%          -0.00     -0.9%            0.000 (z -0.13)
+  planted lexicon          1,684  +0.16         0.043       0.028        16.6% / 15.6%        +1.21     -0.7%            0.384 (z 4.28)
+Top deduplicated Indus compounds: 33+705 29:4 (arrow phrase), 255+435 26:1.4 (title), 60+550 22:2, 176+740 20:3, 4+390 18:4, 3+900 14:2,
+33+706 14:2.5, 17+575 13:1, 415+798 13:2.6, 220+455 12:2.7, 407+845 11:1, 35+171 11:0.2.
+
+READING. Deduplication halves every Indus dependency statistic and leaves the controls where they were: the planted lexicon keeps its
+word-internal structure (16% gain, 38% of elements predict partners), the attribute code stays at zero, and Ur III names (even deduplicated
+by string, the conservative way) keep 15% gain and 20% predictors. The Indus middle after dedup: 7.5% pair gain (3.2% across sites), 0.9% MI
+between first and last element, 7% of elements predicting their partners, 9% compound pairs. On the partner statistics it is now nearer the
+planted attribute code (0%) than the lexicon (38%) or Ur III (20%); on the pair gain it is midway (code 1%, lexicon 16%). The compound
+minority is the known frame leftovers and the numeral + item terms (4+390, 3+900, 17+575, 33+705/706; S197-S199), plus a few frozen pairs
+(255+435, 60+550, 415+798, 220+455, 407+845, 35+171). The tablets' apparent lexicon (cycle 2: 24%, 55%) was entirely whole-text repetition:
+after dedup 0.6% and 0 of 97.
+
+| S-DARK-26.4 | **Lexicon or attribute code, part 4: the same tests on deduplicated populations** (one copy per distinct site + middle: Indus 2,643 -> 1,774, seals 1,231, tablets 447, frame-purged 1,660; Ur III names 1,065 by string, the conservative dedup of S-DARK-18.2; planted code 2,263; planted lexicon 1,684). Pair-census excess, compounds, exclusions, pair-model gain (site held-out / 5-fold), adjacent MI, MI(first,last), partner-predicting elements; three levels (`tools/dark_loop26.py 4`) | Indus: pair excess +0.24 (seals +0.23), compounds 0.087, exclusions 0.033, **gain 3.2% across sites / 7.5% 5-fold, MI(first,last) 0.9%, partner-predictors 0.069 (z 0.8)**; frame-purged 0.9% / 4.3%, 1.2%, 0.035. Ur III names 15.5% / 15.3%, 1.8%, 0.195 (z 2.4). Planted attribute code 1.1% / 0.9%, -0.9%, 0.000. Planted lexicon 16.6% / 15.6%, -0.7%, 0.384 (z 4.3). Tablets after dedup: MI(first,last) 0.6%, 0 of 97 predictors (cycle 2's 24% / 0.55 was whole-text repetition). Deduplicated compounds: 33+705 29:4, 255+435 26:1.4, 60+550 22:2, 176+740 20:3, 4+390 18:4, 3+900 14:2, 17+575 13:1, 415+798 13:2.6, 407+845 11:1, 35+171 11:0.2. Same at all three levels (within 0.02) | **Once each distinct text counts once, the middle is closer to an attribute code than to a lexicon: elements predict their partners at 7% (code 0%, Ur III 20%, lexicon 38%), the first element says nothing about the last (0.9%), and the pair-model gain is 7.5% (code 1%, lexicon 16%), 3% across sites.** The residual dependency is a short list of frozen numeral + item terms and pre-jar pairs already in GRAMMAR.md, not a vocabulary of compounds. Cycles 1-2 overstated the lexical side by counting the Harappa tablet series as independent texts. Rests on MD + Harappa (86%); transcription- and merge-robust. |
