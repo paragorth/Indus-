@@ -180,7 +180,7 @@ for nm, c in [('Ur III legend word 1 (owner name)', collections.Counter(s[0] for
               ('Ur III legend all title-like words (dumu/dub-sar/arad/sanga/...)', collections.Counter(w for s in ur3 for w in s if re.fullmatch(r'_?(dumu|dub-sar|arad2?|sanga|nu-banda3|szabra|ensi2|lugal|sagi|gudu4|ugula|kuruszda|szagina|nar|simug|ma2-lah5|aszgab|nagar|azlag2|ensi2|lu2|nin|munus)_?', w)))]:
     say(f'{nm:60s} {fmt(metrics(c))}'); say(f"{'':60s}   top: {', '.join(f'{w}:{n}' for w, n in c.most_common(12))}")
 # Ur III administrative calendar fields from the CDLI ATF dump (if downloaded): month lines 'iti X', year lines 'mu ...'
-atf = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/cdli.atf'
+atf = os.environ.get('CDLI_ATF', ROOT + 'data/cache/cdli.atf')  # CDLI ATF dump (github cdli-gh/data, cdliatf_unblocked.atf via the LFS media URL, 87 MB; not committed)
 if os.path.exists(atf) and os.path.getsize(atf) > 10_000_000:
     iti = collections.Counter(); mu = collections.Counter(); mu2 = collections.Counter(); ntexts = 0; cur_lang = ''
     for line in open(atf, errors='ignore'):
