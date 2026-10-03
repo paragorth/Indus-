@@ -40,6 +40,8 @@ FRACV = {'N02': 0.5, 'N08': 0.5, 'N08A': 0.25, 'N8A': 0.25, 'N8B': 0.2}
 
 def pe_system(nums):
     codes = {c for _, c in nums}
+    if any(not isinstance(n, int) for n, _ in nums):
+        return None
     if not codes or any('@' in c or c in ('n', 'N1B', 'N14B') for c in codes):
         return None                              # modified / damaged notation: skip
     if codes & CAP and codes <= CAP | {'N01', 'N14', 'N45', 'N34'} | FRAC:
@@ -70,6 +72,8 @@ def notation(nums):
 
 
 def pe_records(vs='D3', cs='NOT', T=None):
+    vs = VSETS[vs] if isinstance(vs, str) else vs
+    cs = CSETS[cs] if isinstance(cs, str) else cs
     """Return list of records and tablet meta (header, set of final signs)."""
     if T is None:
         T = load()
@@ -118,7 +122,7 @@ def parse_ur_line(txt):
     """Leading count numerals of an Ur III line -> (value, digit dict) or None."""
     toks = txt.replace('#', '').replace('?', '').replace('!', '').split()
     tot = False
-    if toks and toks[0].startswith('szu-nigin'):
+    if toks and (toks[0].startswith('szu-nigin') or toks[0].startswith('szunigin')):
         tot = True
         toks = toks[1:]
     digs = Counter()
@@ -161,10 +165,7 @@ def ur3_records(prov='Puzri', period='Ur III'):
             return
         ent = [x for x in lines if not x[1]]
         tots = [x for x in lines if x[1]]
-        if len(tots) != 1 or len(ent) < 2:
-            tots_ok = False
-        else:
-            tots_ok = True
+        tots_ok = len(tots) >= 1 and len(ent) >= 2
         for j, (val, istot, rest, surf) in enumerate(lines):
             role = 'T' if (istot and tots_ok) else ('E' if not istot else 'X')
             if role == 'X':

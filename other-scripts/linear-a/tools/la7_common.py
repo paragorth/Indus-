@@ -56,3 +56,72 @@ def la_pairs(corpus=None):
                 c = com_of(T[i + 1]['v'])
                 if c: out.append((t['s'][0], len(t['s']), c, ins['id'], '-'.join(t['s'])))
     return out
+
+
+# ---------------- picture codes ----------------
+PRED = {'plant': {'grain', 'tree', 'spice', 'plantother'}, 'vessel': {'liquid'},
+        'animal': {'animal'}, 'body': {'person'}}   # fixed before any test was run
+
+
+def picture_codes(strict=False):
+    """sign value -> class; strict=True turns weak ('w') calls into 'abstract'."""
+    K = json.load(open(os.path.join(D, 'la7_key.json')))
+    P = json.load(open(os.path.join(D, 'la7_picture_codes.json')))['codes']
+    out = {}
+    for code, s in K['key'].items():
+        v = P[code].split()
+        out[s] = 'abstract' if (strict and len(v) > 1) else v[0]
+    return out, K['glyph']
+
+
+def ab_number(uname):
+    m = re.search(r'\bAB0*(\d+)$', uname)
+    return int(m.group(1)) if m else None
+
+
+# ---------------- Linear B (DAMOS) ----------------
+LB_FAMILY = {'GRA': 'grain', 'HORD': 'grain', 'FAR': 'grain', 'OLIV': 'tree', 'NI': 'tree', 'FIC': 'tree',
+             'ARB': 'tree', 'CYP': 'spice', 'AROM': 'spice', 'CROC': 'spice', 'KO': 'spice', 'MA': 'spice',
+             'KU': 'spice', 'SE': 'spice', 'SA': 'plantother', 'OLE': 'liquid', 'VIN': 'liquid',
+             'ME±RI': 'liquid', 'VIR': 'person', 'MUL': 'person', 'OVIS': 'animal', 'CAP': 'animal',
+             'SUS': 'animal', 'BOS': 'animal', 'EQU': 'animal', 'CERV': 'animal', 'TELA': 'cloth',
+             'LANA': 'cloth', 'RI': 'cloth'}
+
+
+def _strip(t):
+    t = unicodedata.normalize('NFD', t)
+    return ''.join(c for c in t if unicodedata.category(c) != 'Mn').strip('[]?')
+
+
+def lb_value_to_ab():
+    out = {}
+    for cp in range(0x10000, 0x1005E):
+        n = unicodedata.name(chr(cp), '')
+        m = re.match(r'LINEAR B SYLLABLE B0*(\d+) (\S+)$', n)
+        if m: out[m.group(2).lower()] = int(m.group(1))
+    return out
+
+
+WORD_RE = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+
+
+def lb_pairs():
+    """(first_sign_ab, n_signs, family, doc_id, word) for each LB word directly followed by a
+    commodity ideogram on the same line (',' and '/' skipped)."""
+    v2ab = lb_value_to_ab()
+    out = []
+    for line in open(os.path.join(D, 'damos_items.jsonl')):
+        d = json.loads(line)
+        for ln in (d.get('content') or '').split('\n'):
+            toks = [_strip(t) for t in ln.split()]
+            toks = [t for t in toks if t and t not in (',', '/') and not t.startswith('.')]
+            for i, t in enumerate(toks[:-1]):
+                w = t.replace('[', '').replace(']', '')
+                if not WORD_RE.match(w): continue
+                b = re.split(r'[:;+]', toks[i + 1])[0]
+                fam = LB_FAMILY.get(b)
+                if not fam: continue
+                sg = w.split('-')
+                if sg[0] in v2ab:
+                    out.append((v2ab[sg[0]], len(sg), fam, d['id'], w))
+    return out

@@ -35,7 +35,8 @@ def voynich_pages(min_tokens=30, ltypes=('P', 'C', 'R')):
         if f not in pages:
             h = hdr.get(f, {})
             side = 'r' if 'r' in f[1:] else 'v'
-            leafnum = int(re.match(r'f(\d+)', f).group(1))
+            m2 = re.match(r'f(\d+)', f)
+            leafnum = int(m2.group(1)) if m2 else 86
             pages[f] = dict(id=f, order=len(idx), quire=h.get('Q'), bifolio=h.get('B'),
                             leaf=h.get('F'), leafnum=leafnum, side=side,
                             lang=h.get('L'), hand=h.get('H'), illus=h.get('I'), lines=[])
