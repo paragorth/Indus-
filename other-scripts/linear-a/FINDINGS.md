@@ -88,3 +88,29 @@ Rule: we use others' data and the conventional sign values, not their interpreta
 5. **Commodity-tied words.** KU-NI-SU and DA-ME go with GRA. SA-RA₂ is a general term. Test: more tablets from non-Hagia Triada sites. Success: a word tied to one commodity at two or more sites.
 
 Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. The Linear B side is about 94% complete.
+
+## Attack 1: solving the fraction values jointly (`tools/attack_fractions.py`; report in `data/attack_fractions_report.txt`)
+- **The writing order is real.** Random relabelling of letters gives 0 of 500 fully ordered runs.
+- **Direction is open.** Both larger-first and smaller-first allow systems with no order violations and no compound reaching 1.
+- **J must be below 1/2.** J+J is written twice (PH 9b, PH 22a), so 2J < 1. Under larger-first the order also gives J < E < L < 1/2.
+  - **The conventional J = 1/2 survives only if both J+J readings and one E-before-J case (ZA 8) are misreadings.**
+- **Conventional values:** they break larger-first in 4 of 20 pair instances, and 3 compounds reach or exceed 1 (HT 27a JE+B = 13/12, and both J+J).
+- **The totals add nothing.** Shuffled letters balance as well as the real ones (P = 0.45–0.92).
+  - Five sections cannot balance under any values. Three of those are section-cutting errors.
+  - Best clean score: 1 of 8 exact, or 3 of 5 allowing a one-unit slip.
+  - Commodity-specific values (36 parameters) predict 0 of 8 held-out sections, so there is no gain.
+- **Best larger-first systems.** One binary example:
+  - L 7/16 > E 3/8 > J 5/16
+  - A = F = H = JE 1/4
+  - B = D = K = Y 1/8
+  - L2 = L6 1/16 > L4 1/32
+
+  No letter is pinned exactly. Stable across solutions: J ≈ 3/10–5/16, E ≈ 3/8–2/5, and 2J + E ≈ 1. No compound reaches 1 (0 of 61).
+- **New compared with the conventional values:** E and L are larger than J, JE is not forced to 3/4, and B is small (at most 1/4).
+- **Predictions to check against photographs:**
+  - **HT 9a:** the entries sum to 30 JE. Is the total "31" really 30?
+  - **HT 104:** the entries give 94 5/8 against a total of 95. One "J" should be a larger sign worth 11/16. If both are clearly J, then J = 1/2 after all and the J+J readings are wrong.
+  - **HT 13:** the total's fraction should be worth 2J, not J.
+  - **HT 123+124b:** "*188-*308 11" is probably a heading.
+
+**Verdict.** The values could not be solved: there are too few clean totals. One hard constraint emerges: either J < 1/2, or three published readings (PH 9b, PH 22a, ZA 8) are wrong. Checking those three tablets and HT 104 on photographs would settle J.
