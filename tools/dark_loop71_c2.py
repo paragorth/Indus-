@@ -107,7 +107,7 @@ def stats(L, hub):
     return dict(edges=len(pairs), rep=sum(1 for v in pairs.values() if v >= 2), maxw=max(pairs.values(), default=0),
                 big=big, hubp=len(adj.get(hub, ())), both=both), pairs
 
-def run(name, inc, hub, headf, openset, parse):
+def run(name, inc, hub, headf, openset, parse, markset):
     P(f'\n-- {name}: {len(inc)} sealings with a legible die; {sum(1 for v in inc.values() if len(v) >= 2)} with >= 2 distinct dies; '
       f'{len({d for v in inc.values() for d in v})} distinct dies; recurrent (>= 2 sealings): '
       f'{sum(1 for d, n in collections.Counter(d for v in inc.values() for d in v).items() if n >= 2)}')
@@ -121,14 +121,17 @@ def run(name, inc, hub, headf, openset, parse):
     nulls = collections.defaultdict(list); nshare = collections.defaultdict(list)
     def share(pairs_):
         e = list(pairs_)
-        if not e: return dict(head=0, open=0, mid=0, any=0)
+        if not e: return dict(head=0, open=0, frame=0, mid=0, any=0)
         h = sum(1 for a, b in e if headf(toks(a)) == headf(toks(b)) != 'none') / len(e)
         o = sum(1 for a, b in e if toks(a) and toks(b) and toks(a)[0] in openset and toks(b)[0] in openset) / len(e)
+        fr = sum(1 for a, b in e if len(toks(a)) > 1 and len(toks(b)) > 1 and toks(a)[1] in markset and toks(b)[1] in markset) / len(e)
         def mid(t):
-            lab = parse(t); return {w for w, l in zip(t, lab) if l in ('NAME', 'TITLE', 'COUNT')}
+            lab = parse(t)
+            if len(t) > 1 and t[1] in markset: lab = ['OPENER', 'MARKER'] + lab[2:]   # any sign + marker = frame opening (S286)
+            return {w for w, l in zip(t, lab) if l in ('NAME', 'TITLE', 'COUNT')}
         m = sum(1 for a, b in e if mid(toks(a)) & mid(toks(b))) / len(e)
         an = sum(1 for a, b in e if set(toks(a)) & set(toks(b))) / len(e)
-        return dict(head=h, open=o, mid=m, any=an)
+        return dict(head=h, open=o, frame=fr, mid=m, any=an)
     sh_obs = share(pairs)
     for _ in range(NP):
         Ln = curveball(L0, 20 * sum(len(s) for s in L0))
@@ -139,7 +142,9 @@ def run(name, inc, hub, headf, openset, parse):
     for k in obs:
         nv = nulls[k]
         P(f'      {k:6s} obs {obs[k]:3d}  null {sum(nv)/len(nv):6.2f}  P_hi {pval(obs[k], nv):.3f}  P_lo {pval(obs[k], nv, "lo"):.3f}')
-    P('   (b) team members share ... (share of co-impressed die pairs; null = same rate on null-network pairs):')
+    P('   (b) team members share ... (share of co-impressed die pairs; null = same rate on null-network pairs;')
+    P('       head = same closer head; open = both opener-initial (fixed opener set); frame = both have a marker in position 2;')
+    P('       mid = a shared sign outside initial / marker / head / suffix):')
     for k in sh_obs:
         nv = nshare[k]
         P(f'      {k:5s} obs {sh_obs[k]:.2f}  null {sum(nv)/len(nv):.2f}  P_hi {pval(sh_obs[k], nv):.3f}  P_lo {pval(sh_obs[k], nv, "lo"):.3f}')
@@ -150,14 +155,14 @@ def run(name, inc, hub, headf, openset, parse):
     for d, n in cnt.most_common():
         if n < 2: break
         t = toks(d)
-        P(f'      {fmt(d):34s} [{headf(t)}, {"opener" if t and t[0] in openset else "-"}] {alone[d]} / {n - alone[d]}')
+        P(f'      {fmt(d):34s} [{headf(t)}, {"opener" if t and t[0] in openset else "-"}, {"X+marker" if len(t) > 1 and t[1] in markset else "-"}] {alone[d]} / {n - alone[d]}')
     return obs
 
 # ---------------- Wells ----------------
 canon = json.load(open(ROOT + '/data/derived/merged-corpus-canonical.json'))
 parseW = make_parser(learn_qual([r[LV] for r in canon if r[LV]]))
 incW = wells_incidence()
-obsW = run('Wells', incW, HUB, head_of, OPEN, parseW)
+obsW = run('Wells', incW, HUB, head_of, OPEN, parseW, {2, 60})
 # ---------------- IM77 ----------------
 from dark_loop37 import load_im77
 im = load_im77()
@@ -173,7 +178,7 @@ def parseM(t):
     if j - 1 >= i and t[j - 1] in M_HEAD: lab[j - 1] = 'CLOSER'
     return lab
 incM = im77_incidence()
-obsM = run('IM77', incM, (336, 209, 343, 98, 121, 59, 342, 1), headM, MOPEN, parseM)
+obsM = run('IM77', incM, (336, 209, 343, 98, 121, 59, 342, 1), headM, MOPEN, parseM, {99, 100, 123})
 
 # ---------------- (c) back type ----------------
 P('\n-- (c) back type (Frenez & Tosi) vs seal and head, Wells-linked sealings')
