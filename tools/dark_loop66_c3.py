@@ -17,7 +17,7 @@ sys.path.insert(0, '/home/user/Indus-/tools')
 from dark_loop66_common import *
 
 LV = sys.argv[1] if len(sys.argv) > 1 else 'seq_raw'
-NPERM = 300; NRP = 100
+NPERM = int(sys.argv[2]) if len(sys.argv) > 2 else 300; NRP = int(sys.argv[3]) if len(sys.argv) > 3 else 100
 rnd = random.Random(663); rng = np.random.default_rng(663); T0 = time.time()
 out = [f'# S-DARK-66 cycle 3 ({LV}) {time.strftime("%Y-%m-%dT%H:%M")}']
 def P(s): out.append(s); print(s, flush=True)
@@ -149,10 +149,11 @@ RES.append(analyse('Indus middle, DESC classes, non-adjacent pairs', ind, DESC, 
 RES.append(analyse('Indus middle, DESC classes, all pairs', ind, DESC, None, False))
 RES.append(analyse('Indus middle, WBLOCK classes, all pairs', ind, WB, None, False))
 # ---------------------------------------------------------------- Chinese / Japanese
-def load_names(fn, cap=20000, minlen=2, skip_first=False):
+CAP = int(sys.argv[4]) if len(sys.argv) > 4 else 20000
+def load_names(fn, cap=None, minlen=2, skip_first=False):
     rows = [json.loads(l) for l in open(DARK + 'loop63_corpora/' + fn)]
     rows = [r for r in rows if len(r['seq']) >= minlen]
-    rnd.shuffle(rows); rows = rows[:cap]
+    rnd.shuffle(rows); rows = rows[:(cap or CAP)]
     out = []
     for r in rows:
         pos = list(range(1 if skip_first else 0, len(r['seq'])))
