@@ -1,0 +1,58 @@
+# S-DARK-67.4  Wells vs IM77 on the same objects, merge levels, leave-one-die-out prediction
+## aligned copper objects (loop24 pairs, text-matched): 51; both labelled: 23; agree 4, disagree 19; one side unlabelled/Othr/sign-image 28
+    - <-> IM77 1708: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 1712: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 1804: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 1806: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 2909: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 2915: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3306: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3314: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3339: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3341: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3342: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3353: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3359: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3361: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3371: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3379: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3386: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3403: Wells tiger vs IM77 ox-antelope
+    - <-> IM77 3404: Wells tiger vs IM77 ox-antelope
+  Wells image-sign faces <-> IM77 field symbols on aligned objects: Wsign749=goat-antelope; Wsign777=goat-antelope; Wsign782=Msign363; Wsign777=goat-antelope; Wsign777=goat-antelope; Wsign782=goat-antelope; Wsign749=goat-antelope; Wsign782=Msign363; Wsign782=goat-antelope; Wsign749=goat-antelope
+  Wells "Othr" <-> IM77: Counter({'goat-antelope': 3, 'two-headed': 3, 'ox-antelope': 3, 'horned-tiger': 2, 'rhino': 2, 'tiger': 1, None: 1})
+
+## merge levels (Wells): distinct texts (dies) among complete copper faces and binding
+  seq_raw: 176 complete faces, 63 distinct texts; labelled 82: 31 texts x 18 images, 38 pairs; texts>1 image 4, images>1 text 12; MI 3.423 vs null 2.090 P=0.0010
+  seq_strong: 176 complete faces, 62 distinct texts; labelled 82: 30 texts x 18 images, 38 pairs; texts>1 image 5, images>1 text 12; MI 3.379 vs null 2.054 P=0.0010
+  seq_all: 176 complete faces, 62 distinct texts; labelled 82: 30 texts x 18 images, 38 pairs; texts>1 image 5, images>1 text 12; MI 3.379 vs null 2.053 P=0.0010
+  IM77 fine fs80: 42 dies; exact 0/42 = 0.00, ed<=1 5/42 = 0.12, same head (last sign) 7/42 = 0.17, same last-2 3/42 = 0.07, any other die shares last-2 7/42 = 0.17, no-other-die-with-image 18/42 = 0.43
+  IM77 fine fs80 null (images shuffled among dies, 200x): exact 0.36/42, ed<=1 0.82/42, same head (last sign) 7.42/42, same last-2 0.76/42
+  IM77 class: 39 dies; exact 0/39 = 0.00, ed<=1 3/39 = 0.08, same head (last sign) 5/39 = 0.13, same last-2 2/39 = 0.05, any other die shares last-2 7/39 = 0.18, no-other-die-with-image 13/39 = 0.33
+  IM77 class null (images shuffled among dies, 200x): exact 0.30/39, ed<=1 0.69/39, same head (last sign) 7.70/39, same last-2 0.64/39
+  Wells class (Othr excluded): 39 dies; exact 0/39 = 0.00, ed<=1 2/39 = 0.05, same head (last sign) 7/39 = 0.18, same last-2 2/39 = 0.05, any other die shares last-2 4/39 = 0.10, no-other-die-with-image 6/39 = 0.15
+  Wells class (Othr excluded) null (images shuffled among dies, 200x): exact 0.50/39, ed<=1 1.04/39, same head (last sign) 7.82/39, same last-2 1.10/39
+
+## PREDICTION for a newly found Mohenjo-daro copper tablet (IM77 numbering; Wells in brackets where aligned)
+  image ox-antelope     (23 tablets, 3 dies): predict text 204-245-358-342                          (holds for 19/23 = 0.83 of known tablets; other dies: 53-67-407-124-169, 245-184-252)
+  image goat-antelope   (17 tablets, 6 dies): predict text 389-72-48-342                            (holds for 4/17 = 0.24 of known tablets; other dies: 102-190-48-8-342-373, 389-72-326-342, 70-112-194-18-211-87-169, 59-112-194-18-211-87-169, 249-169-342)
+  image hare            ( 9 tablets, 1 dies): predict text 65-336-89-407-169-183-169                (holds for 9/9 = 1.00 of known tablets; other dies: )
+  image two-headed      ( 8 tablets, 4 dies): predict text 112-194-327-342                          (holds for 3/8 = 0.38 of known tablets; other dies: 295-87-97-252-97-25-245-245, 298-99-104-169-295-87-97-252-97-25-245-245, 345-341-18-252-97-25-245-245)
+  image rhino           ( 6 tablets, 4 dies): predict text 65-72-62-342                             (holds for 2/6 = 0.33 of known tablets; other dies: 267-402-97-25-245-245-65-72-62-342, 204-245-342, 389-65-72-336-89-194-169)
+  image elephant        ( 6 tablets, 2 dies): predict text 336-89-296-342                           (holds for 3/6 = 0.50 of known tablets; other dies: 336-89-296-342-98)
+  image personage       ( 5 tablets, 1 dies): predict text 389-407-124-169-373-287-342              (holds for 5/5 = 1.00 of known tablets; other dies: )
+  image horned-tiger    ( 4 tablets, 3 dies): predict text 53-67-407-124-169                        (holds for 2/4 = 0.50 of known tablets; other dies: 102-190, 336-89-296-342-98)
+  image unicorn         ( 3 tablets, 1 dies): predict text 345-341-18-252-97-25-245-245             (holds for 3/3 = 1.00 of known tablets; other dies: )
+  image shorthorn-bull  ( 3 tablets, 2 dies): predict text 87-155-169                               (holds for 2/3 = 0.67 of known tablets; other dies: 102-59-8-342)
+  image endless-knot    ( 3 tablets, 1 dies): predict text 171-59-407-169                           (holds for 3/3 = 1.00 of known tablets; other dies: )
+  image Msign363        ( 3 tablets, 2 dies): predict text 59-112-194-18-211-87-169                 (holds for 2/3 = 0.67 of known tablets; other dies: 389-407-124-169-373-287-342)
+  image Msign362        ( 2 tablets, 1 dies): predict text 389-407-124-169-373-287-342              (holds for 2/2 = 1.00 of known tablets; other dies: )
+  image Msign346        ( 2 tablets, 1 dies): predict text 389-72-326-342                           (holds for 2/2 = 1.00 of known tablets; other dies: )
+  image Msign184        ( 2 tablets, 1 dies): predict text 204-245-342                              (holds for 2/2 = 1.00 of known tablets; other dies: )
+  image tiger           ( 1 tablets, 1 dies): predict text 53-67-407-124-169                        (holds for 1/1 = 1.00 of known tablets; other dies: )
+  image buffalo         ( 1 tablets, 1 dies): predict text 51-130-149-342-123-102-190               (holds for 1/1 = 1.00 of known tablets; other dies: )
+  image Msign405        ( 1 tablets, 1 dies): predict text 102-59-249-169-342                       (holds for 1/1 = 1.00 of known tablets; other dies: )
+  image composite       ( 1 tablets, 1 dies): predict text 87-59-348-342                            (holds for 1/1 = 1.00 of known tablets; other dies: )
+  image Msign51         ( 1 tablets, 1 dies): predict text 53-70-336-89-294-8-342                   (holds for 1/1 = 1.00 of known tablets; other dies: )
+  image Msign96         ( 1 tablets, 1 dies): predict text 348-342                                  (holds for 1/1 = 1.00 of known tablets; other dies: )
+  leave-one-TABLET-out exact hit (a new tablet that is another copy): 48/100 = 0.48
