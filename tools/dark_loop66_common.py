@@ -6,7 +6,7 @@ qualifier), frame signs excluded.  Non-adjacent pair = two middle elements at di
 Four classifications of signs, each built WITHOUT looking at co-occurrence of non-adjacent pairs:
   DESC  : keyword classes from the 84 dossier shape descriptions (numeral / human / animal / plant / tool-vessel / geometric)
   WBLOCK: Wells' own shape-family numbering, hundreds block (numerals 1-56 their own class)
-  GLYPH : agglomerative clusters of glyph_sim_fine (average linkage), k = 10
+  GLYPH : Ward clusters of the glyph_sim_fine similarity profiles, k = 10
   DIST  : agglomerative (Ward) clusters of PPMI adjacent-context vectors (Brown-style distributional classes), k = 10
 """
 import sys, json, csv, re, collections, random, math
@@ -144,8 +144,8 @@ def glyph_classes(signs, k=10):
     sg = [w for w in signs if w in idx]
     M = S[np.ix_([idx[w] for w in sg], [idx[w] for w in sg])]
     M = (M + M.T) / 2; np.fill_diagonal(M, 1.0)
-    D = np.clip(1 - M, 0, None)
-    Z = linkage(squareform(D, checks=False), 'average')
+    # Ward on each sign's similarity profile (rows of the similarity matrix): balanced clusters, same information
+    Z = linkage(M, 'ward')
     lab = fcluster(Z, k, 'maxclust')
     return {w: 'G%d' % l for w, l in zip(sg, lab)}
 
@@ -184,8 +184,9 @@ def nonadj_pairs(t, field='midpos'):
                 out.add((a, b) if a < b else (b, a))
     return out
 
-def all_nonadj_pairs(t):
-    s = t['seq']; out = set()
+def all_nonadj_pairs(s):
+    if isinstance(s, dict): s = s['seq']
+    out = set()
     for i in range(len(s)):
         for j in range(i + 2, len(s)):
             if s[i] != s[j]:
