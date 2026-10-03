@@ -289,15 +289,20 @@ def emblem_class(sym):
     if sym in ('Phyt', 'Pipal'): return 'plant'
     if sym in ('', '-', '?', 'Unknown'): return None
     return 'other'
-home_seals = []; seen = set()
+home_seals = []; seen = set(); META = {}
+IN_TABLE = {(o['site'], tuple(o['seq_raw'])) for o in OBJ if o['stratum'] != 'home-round'}
 for r in M:
     if r['site'] in ABROAD or not r['type'].startswith('SEAL'): continue
+    # unprovenanced round/cylinder seals are the Gadd/Buchanan Gulf-type pieces: not home
+    if r['site'] == 'Unknown' and r['type'] in ('SEAL:C', 'SEAL:R', 'SEAL:CY'): continue
+    if (r['site'], tuple(r['seq_raw'])) in IN_TABLE: continue
     s = tuple(r['seq'])
     if not s or (r['site'], s) in seen: continue
     e = emblem_class(r['symbol'])
     if e is None: continue
     seen.add((r['site'], s))
     home_seals.append((r['site'], s, e, r['cult'] or ''))
+    META[(r['site'], s)] = (r['cisi'], r['type'], r['symbol'])
 ec = collections.Counter(e for _, _, e, _ in home_seals)
 P(f'Home seals with a recorded emblem: {len(home_seals)}; emblem classes: {dict(ec.most_common())}')
 P('Also "manger" = cult field Trough or S*/R*/H* cult-stand codes; "none" = cult field - with an emblem absent is not recoverable from these fields.')
@@ -365,6 +370,31 @@ for sig in ('PERSON', 'TWINS', 90, 91):
         exp = (a + b) * (a + c) / len(home_seals) if len(home_seals) else 0
         row.append(f'{emb} {a}/{a+c} (exp {exp:.1f})')
     P(f'  {sig}: ' + '; '.join(row))
+P()
+P('Home scene/anthropomorph-emblem seals (the one pre-registered home pair below p = 0.05), text by text:')
+for st, s, e, cult in home_seals:
+    if e == 'scene/anthropomorph':
+        ci, ty, sym = META[(st, s)]
+        P(f"  {ci} {st} {ty} {sym}: {'-'.join(map(str,s))}" + ('  <- PERSON' if set(s) & PERSON else ''))
+P('Home seals with a numeral directly next to a person sign (S98b unit), with emblem:')
+for st, s, e, cult in home_seals:
+    if num_adj(s):
+        ci, ty, sym = META[(st, s)]
+        P(f"  {ci} {st} {ty} {sym}: {'-'.join(map(str,s))}  pairs={num_adj(s)}")
+# merge-level robustness for the person x scene pair
+P('Merge-level robustness, PERSON x scene/anthropomorph on home seals (seq / seq_raw / seq_strong):')
+for key in ('seq', 'seq_raw', 'seq_strong'):
+    seen2 = set(); a = n_sc = n_p = N = 0
+    for r in M:
+        if r['site'] in ABROAD or not r['type'].startswith('SEAL'): continue
+        if r['site'] == 'Unknown' and r['type'] in ('SEAL:C', 'SEAL:R', 'SEAL:CY'): continue
+        if (r['site'], tuple(r['seq_raw'])) in IN_TABLE: continue
+        s = tuple(r[key]); e = emblem_class(r['symbol'])
+        if not s or e is None or (r['site'], s) in seen2: continue
+        seen2.add((r['site'], s)); N += 1
+        p_ = bool(set(s) & PERSON); sc_ = e == 'scene/anthropomorph'
+        a += p_ and sc_; n_sc += sc_; n_p += p_
+    P(f'  {key}: person&scene {a} | scene seals {n_sc} | person seals {n_p} | N {N} | Fisher p = {hyper_p(a, n_p-a, n_sc-a, N-n_p-n_sc+a):.3f}')
 P()
 # Exploratory: all signs (>=15 home seal texts) x all emblem classes (>=20 seals), Fisher one-sided, BH
 P('### Exploratory home scan: every sign with >=15 seal texts x every emblem class with >=20 seals (one-sided enrichment, BH-FDR)')
