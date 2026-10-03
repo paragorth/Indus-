@@ -1,0 +1,16 @@
+LOOP 12 FINAL: stock texts as denominations. 4 cycles, ~35 arrows (cycle 1: 4; cycle 2: 7; cycle 3: 6; cycle 4: 13 confirmatory). Bonferroni threshold over 35 arrows: P<0.0014.
+Files: loop12_cycle1.txt .. loop12_cycle4.txt (+ _raw.txt / _log.txt). Data: merged-corpus-canonical.json joined to inscriptions.csv by cisi + sign sequence (5,369/5,369 matched); copies counted per object; all three seq levels run every time and agree.
+
+DEAD (null at every level):
+ (a) copies per stock text on a series: powers of 2 36/163 vs 33 expected (P=0.32); weight series same; count x copies conservation CV 1.97 vs 1.90 (P=0.62); voucher faces 2x89, 3x120, 4x106 rise. Copy counts are a smooth Zipf tail.
+ (b) voucher count vs copies of the text face (292 Harappa two-faced tablets): rho +0.05/+0.01 (P 0.5-0.95); mould-group size vs count rho +0.06 (p=0.52). Most-copied texts carry the higher counts (3.35 vs 2.94).
+ (e) pot one-sign numerals: tall 1/2/3/4 = 5/7/10/6, same hump as tablets (chi2 p=0.85); no ladder.
+So: the 'denomination' idea fails. A stock text's copy number is popularity, not face value.
+
+SURVIVES (below the corrected threshold):
+ 1. STRONGEST: copies of one stock text share a find area 0.519 vs 0.248 null (z=15.8, P<0.0005), Harappa 0.564 vs 0.191; still 1.38x after forcing same period (0.800 vs 0.581, P<0.001) and after dropping the 15 most-copied texts (P=0.004); moulded 2.1x, incised 1.3x. Mohenjo-daro: area 1.14x (P~0.1, not replicated), house block 1.9x (P=0.002-0.004), seals 1.8x (small n). Same objects as S274, so transcription-robust, not independently replicated.
+ 2. Tablet stock texts are local: 0.897 single-site vs 0.664 null (P<0.001; 8 of 78 shared, all Harappa + Mohenjo-daro). Seal stock texts are pan-Indus: 0.111 single-site vs 0.206 null (24 of 27 at 2-5 sites). Sharpens S336/S344.
+ Side note: tall '1' alone is 18% of pot numerals but 0.7% of tablet counts (p~0.0002, one arrow, uncorrected).
+
+Plain reading: Harappa stock-text tablets behave like locally issued chits dumped in batches by one office in one area and period; the count on them (2-4) is not scaled to how many were issued. Seal stock texts (quantity-seal template, short jar texts) are shared formulae across cities. Nothing here reads a sign; nothing is 'cracked'.
+Caveats: 76% of texts are Harappa + Mohenjo-daro; 'single-site' and 'never' are upper bounds (< 3/n); S312 independence applies.

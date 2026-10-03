@@ -1,0 +1,22 @@
+LOOP 12 (stock texts as denominations), cycle 4 (confirmatory): does the find-area clustering of stock-text copies (cycle 2c) survive chronology control, leave-out of the big texts, and medium splits? Held-out city: Mohenjo-daro.
+Raw output: loop12_cycle4_raw.txt / loop12_cycle4_log.txt. Script: scratchpad c4.py. Objects with a recorded area only; stock text = >=3 copies within the subset; 1,000 permutations of text labels within the stated strata.
+
+HARAPPA (seq_raw; seq_all in brackets)
+  strata = type: 245 objects, 47 texts, 998 pairs; same-area 0.568 vs 0.210, ratio 2.71, P<0.001 [0.558 vs 0.201].
+     Breadth: 22 of 46 texts cluster above their own null mean (half the texts carry the effect). Biggest contributors: 3-861 (231/325 same-area pairs vs 0.20 expected), 347-741-176-740-90 (21/28), the 11-sign 803-415-220-318-920-255-436-690-590-407-740 (22/45), 605-760-740-400 (10/10), 176-156 (6/6).
+  strata = type x time (same period forced, chronology removed): 549 pairs; 0.800 vs 0.581, ratio 1.38, P<0.001 [0.790 vs 0.573].
+  type x time, top 5 texts dropped: 84 pairs; 0.655 vs 0.520, ratio 1.26, P=0.002 [0.609 vs 0.495, P=0.004].
+  type x time, top 15 texts dropped: 35 pairs; 0.543 vs 0.393, ratio 1.38, P=0.004 [0.556 vs 0.400, P=0.001].
+  TAB:B moulded (strata = time): 0.618 vs 0.300, ratio 2.06, P<0.001. TAB:I incised: 0.812 vs 0.621, ratio 1.31, P<0.001. SEALS: no stock-text pairs with area at Harappa. POTS: 0.81 vs 0.87 (P=1.0; 4 texts).
+  Reverse test, same period given same type x area: 0.782 vs 0.636, ratio 1.23, P<0.001 (copies also cluster in time within an area).
+MOHENJO-DARO (held-out city)
+  all (strata = type): 151 objects, 29 texts, 472 pairs; 0.394 vs 0.346, ratio 1.14, P=0.12 [0.390 vs 0.332, P=0.09]. Breadth 11/29 texts above own null.
+  TAB (copper + moulded): 0.387 vs 0.343, P=0.14 [P=0.09]. SEAL: 0.440 vs 0.248, ratio 1.78, P=0.017 [0.406 vs 0.211, P=0.003] but only 6-9 texts, 25-32 pairs. Top 5 dropped: P=0.12.
+  Finer unit, from cycle 2: same house block 0.145 vs 0.076, P=0.002 [0.133 vs 0.071, P=0.004].
+
+Reading: at Harappa, copies of one stock text sit in the same excavation area 1.4x more often than copies of different stock texts of the same type AND period; the effect is not the giant 3-861 / 176-740-400 deposits alone (dropping the 15 biggest texts leaves ratio 1.38, P=0.004) and holds for moulded (2.1x) and incised (1.3x) tablets alike. At Mohenjo-daro, with areas that are large (DK, HR, VS) the effect is weak at the area level (1.14x, P=0.09-0.12) but present at the house-block level (1.9x, P=0.002-0.004) and on seals (1.8x, P=0.003-0.017, small n). S274 found the same direction with a milder statistic (0.11 vs 0.07 pairwise); this is the same object set, so it is a sharpening, not a replication; the Mohenjo-daro house-block result is the nearest thing to a held-out confirmation.
+What it means for 'denominations': batch deposition of identical texts is what a locally issued chit/token looks like, consistent with cycle 3 (tablet stock texts are local). It is not evidence of a value series.
+
+Arrows fired this cycle: 13 confirmatory re-tests of one cycle-2 finding (not new arrows for correction purposes; the finding's own P<0.0005 stands after Bonferroni over the ~35 arrows of this loop).
+
+| S-DARK-12.4 | Confirmatory for S-DARK-12.2(c): does the find-area clustering of stock-text copies survive forcing same period (strata = type x time), dropping the 5 and 15 most-copied texts, and splitting by medium; held-out city Mohenjo-daro (`data/derived/dark/loop12_cycle4.txt`) | **Harappa survives:** same-area rate within type x period 0.800 vs 0.581 null (ratio 1.38, P<0.001); top 5 texts dropped 0.655 vs 0.520 (P=0.002); top 15 dropped 0.543 vs 0.393 (P=0.004); moulded tablets 2.1x, incised 1.3x (both P<0.001); 22 of 46 texts cluster above their own null. Reverse: same period given same area 1.23x (P<0.001). **Mohenjo-daro:** area level weak, 1.14x (P=0.09-0.12); house-block level 1.9x (P=0.002-0.004); seals 1.8x (P=0.003-0.017, 6-9 texts). seq_all agrees throughout | **Copies of a stock text were deposited in batches** (same area, same period), beyond what period alone explains; sharpens S274 (same objects, so transcription-robust rather than replicated; the Mohenjo-daro house-block result is the partial held-out confirmation). Fits locally issued chits (S-DARK-12.3), not a value series. Rests mainly on Harappa |

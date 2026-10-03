@@ -1,0 +1,22 @@
+LOOP 12 (stock texts as denominations), cycle 2: (b) count vs copies on Harappa two-faced tablets; (c) batch clustering of copies in find areas.
+Raw output: loop12_cycle2_raw.txt. Script: scratchpad c2.py (loader joins canonical records to raw face ids; all 5,369 matched).
+
+(b) Harappa tablets with exactly one count face (tall N + W700, or tall N alone) and one complete text face: 292 (TAB:B 160, TAB:I 132). Copies = number of such tablets carrying the same text face.
+  Spearman(copies of text face, mean count), null = counts permuted among tablets within type (3,000x):
+  TAB:B rho=+0.05 (P=0.50); TAB:I rho=+0.01 (P=0.95); all rho=+0.04 (P=0.55). seq_strong/seq_all: same (P 0.50-0.65).
+  Mean count by copies class (all): 1 copy 2.94 (n=154); 2-4 copies 2.95 (92); 5+ copies 3.35 (46). If anything the most-copied texts carry the HIGHER count (the 5+ class is 176-740-400 and 3-861, mostly 3 and 4), the opposite of value conservation.
+  (b2) Mould groups (TAB:B tablets identical in text AND count; an upper bound on one-mould sets): 139 groups, mean size 1.16 (count 2), 1.11 (count 3), 1.23 (count 4), max 4; Spearman(count, group size) rho=+0.06, p=0.52. Moulds with larger counts do not have fewer copies.
+  Verdict (b): NULL. The voucher value is independent of how many copies of the issuing text exist.
+
+(c) Objects carrying a stock text (complete text on >=3 objects; count faces excluded): 737 (seq_raw). Same-text pairs sharing a find field vs pairs after permuting text labels among objects within site x object type (2,000x), i.e. area sizes and type mix held fixed.
+  area-section: 796/1,535 same-text pairs share an area = 0.519 vs null 0.248 (sd 0.017), z=15.8, P<0.0005.
+     Harappa 0.564 vs 0.191 (P<0.001); Mohenjo-daro 0.393 vs 0.314 (P=0.030); Lothal 0.69 vs 0.69; Kalibangan 1.0 vs 1.0 (one area each).
+  block-house (recorded almost only at Mohenjo-daro): 10/69 = 0.145 vs 0.076 (P=0.002; seq_all 0.133 vs 0.071, P=0.004).
+  time/period: 0.572 vs 0.361 (z=6.6); Harappa 0.574 vs 0.353 (P<0.001); Mohenjo-daro 0.28 vs 0.25 (P=0.37).
+  seq_strong and seq_all: same numbers within 0.01.
+  Caveat flagged for cycle 4: Harappa areas were dug in different periods, so 'same area' partly means 'same period' (sign inventory changed over time, S357); and a few giant texts (3-861, 176-740-400) supply most pairs.
+  Verdict (c): SURVIVES at this stage; carried to cycle 4 for chronology control and leave-out tests.
+
+Arrows fired this cycle: (b) 4 (three types + mould groups), (c) 3 fields = 7. Strongest: area clustering, P<0.0005 (survives Bonferroni over all loop-12 arrows, ~35).
+
+| S-DARK-12.2 | Stock texts as denominations (b, c). (b) Harappa two-faced tablets with one count face (tall 2-4 + W700) and one complete text face (292; TAB:B 160, TAB:I 132): does a text face with more copies carry a smaller count (value conservation), and do moulds with higher counts have fewer copies? Null: counts permuted among tablets within type (3,000x). (c) Do copies of one stock text (complete text on >=3 objects; 737 objects) share a find area / house block / period more than copies of different stock texts? Null: text labels permuted among objects within site x object type (2,000x). All seq levels (`data/derived/dark/loop12_cycle2.txt`) | **(b) Null:** Spearman(copies, mean count) +0.05 TAB:B (P=0.50), +0.01 TAB:I (P=0.95); mean count 2.94 for single-copy texts, 2.95 for 2-4 copies, 3.35 for 5+ copies (the most-copied texts carry the higher counts, not lower). Mould groups (identical text + count, 139): mean size 1.16 / 1.11 / 1.23 for counts 2 / 3 / 4, rho=+0.06 (p=0.52). **(c) Strong:** same-text pairs share a find area 0.519 vs 0.248 null (z=15.8, P<0.0005); Harappa 0.564 vs 0.191; Mohenjo-daro 0.393 vs 0.314 (P=0.03) and same house block 0.145 vs 0.076 (P=0.002); same period 0.572 vs 0.361 (z=6.6). Transcription levels agree within 0.01 | **The voucher count is not a denomination tied to issue size** (kills the value-conservation reading of S93-S95). **Copies of a stock text do cluster spatially**, but Harappa areas are also period-specific, so cycle 4 must separate batch from chronology before this counts |
