@@ -256,7 +256,7 @@ def crit_quantity(D, A, K, mode):
             loc = collections.defaultdict(collections.Counter); lp = collections.Counter()
             for k, v in items: loc[k][v] += 1; lp[v] += 1
             for k, v in items:
-                c = tab[k][v] - loc[k][v]; n = sum(tab[k].values()) - len(items and [1 for kk, _ in items if kk == k])
+                c = tab[k][v] - loc[k][v]; n = sum(tab[k].values()) - sum(loc[k].values())
                 p = (c + 0.5) / (max(n, 0) + 0.5 * nv)
                 g += np.log2(p) - np.log2((prior[v] - lp[v] + 0.5) / (tot - len(items) + 0.5 * nv))
         return g / len(pool)
