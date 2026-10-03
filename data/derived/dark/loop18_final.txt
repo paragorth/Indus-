@@ -1,0 +1,41 @@
+# Loop 18 final: does the S321/S322 'Indus middles are not a name stock' result survive at MATCHED granularity? (3 cycles, 2026-10-03)
+
+Setup. Indus: data/derived/merged-corpus-canonical.json, one row per object, NOT deduplicated (5,369 rows / 3,599 distinct
+site+text; seals 2,250 rows / 2,121 distinct). Ur III: CDLI ATF, every @seal section on an Ur III tablet (one impression)
+plus Ur III 'seal (not impression)' objects: 21,047 impressions, 5,490 distinct legends (= seals), 4,356 physical seal
+objects, 1,795 distinct line-1 names. Statistic as S321: unique share / bigram-null share, same sample, same lengths,
+size-matched (50 draws). Code: loop18_matched.py; output loop18_cycle{1,2,3}.txt, rows in loop18_rows.txt.
+
+Result (uniqueness ratio, Indus middles vs Ur III line-1 names, identical n):
+  (1) object level        n=1,744  Indus 0.97   Ur III impressions 0.43
+  (2) deduplicated        n=2,663  Indus 1.01   Ur III distinct legends 0.56
+  (3) one physical seal   n=1,744  Indus 0.97   Ur III distinct legends 0.60, CDLI seal objects 0.62
+  Zipf slope of unit frequencies (top 100): Indus -0.88, Ur III -0.87 (all ranks -1.36 vs -1.61): equally Zipfian units.
+
+Person-level homonymy (does not depend on impressions):
+  Ur III: 78% of distinct seals carry a name that is on another seal; 3.06 seals per name (physical seal objects 2.69);
+          ur-Baba 118 seals, lu2-dingir-ra 84, ur-Lamma 81.
+  Indus:  15.6% of seals share their middle with another seal; 1.11 seals per middle; max 14 (3-390), then 590-390,
+          4-390, 32-220, 415-100 - numeral + sign strings, probably count phrases, not names.
+  Size-matched vs own bigram null: Ur III 0.67 shared vs 0.45 (1.49x); Indus 0.156 vs 0.124 (1.25x = ~32 seals of excess).
+
+Controls. Planted 3,000-name Zipf stock on 8,000 seals with heavy-tailed impression counts: impressions 0.31-0.42,
+seals 0.46-0.64, distinct NAME STRINGS 1.23-1.31 whatever the homonymy. Real Ur III names deduplicated by name string: 1.175.
+So the loop-4 caveat ('Ur III distinct names 1.105 ~ Indus residue 1.04-1.07') is an artefact of deduplicating by the
+string itself, which forces uniqueness to 1.0; the right dedup unit is the seal, and at that unit Ur III stays at 0.6.
+
+Replication. MD 0.97-0.98 vs Ur III at the same n 0.66; Harappa 1.02 vs 0.81-0.83 (only 319 seals with a middle);
+Lothal+Kalibangan+Dholavira+Chanhu 1.00 vs 0.84-0.88. seq_raw / seq_strong / seq_all differ by <= 0.015. Indus sealings
+(TAG*, n=112) do behave like impressions: 28% repeat, nearly all the two S149 Lothal/Kalibangan twins.
+
+Plain statement. S321/S322 survive. The 0.62 was not an impression-count effect: one-legend-per-seal Ur III gives
+0.60-0.62 against Indus 0.97 at identical n, and the person-level number (2.7-3.1 Ur III seals per name vs 1.11 Indus seals
+per middle) is independent of impressions altogether. Indus middles are NOT consistent with a population of personal
+names drawn from a stock like Ur III's, where common names recur on many people's seals. They remain consistent with:
+compound strings (name + house/office/place) that are individually distinct, a naming system with very little name
+sharing (large open stock, or patronymic chains), or non-name content. The claim needs no downgrade; the loop-4 caveat
+should be withdrawn. Caveats: 76% MD+Harappa; Ur III seal owners are a narrow administrative class; the planted control
+shows the ratio drifts toward 1 at n < 400, so only matched-n comparisons are valid.
+
+Files: loop18_matched.py, loop18_ur3_impressions.json (cache), loop18_cycle1.txt/.json, loop18_cycle2.txt, loop18_cycle3.txt,
+loop18_rows.txt (3 STRATEGIES rows). Nothing committed. No model names in files.
