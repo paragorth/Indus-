@@ -17,7 +17,8 @@ Cycle 3: outside facts: do short and long objects of a pair share site, area, ro
          middle but does not contain it; is the short one older (Mohenjo-daro depth, Harappa period)?
 Cycle 4: held-out sites (not Mohenjo-daro / Harappa) and the 324 IM77-only texts: do NEW middles recur inside / contain
          reference middles (MD+H Wells, or all Wells) more than chain-generated middles of the same length do?
-Usage: python3 tools/dark_loop74.py <1|2|3|4> <seq_raw|seq_strong|seq_all> [nnull]
+Cycle 5 (= 1b): calibrated (held-out interpolated) Markov-1 chain on Indus and every name list. Cycle 6 (= 3b/4b): within-site vs cross-site.
+Usage: python3 tools/dark_loop74.py <1-6> <seq_raw|seq_strong|seq_all> [nnull]
 """
 import sys, os, json, random, collections, math, csv
 _CY = int(sys.argv[1]); _LV = sys.argv[2]; _NN = int(sys.argv[3]) if len(sys.argv) > 3 else 200

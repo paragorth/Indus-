@@ -1,0 +1,36 @@
+S-DARK-74 FINAL: WHAT IS THE SUBSTRING RECURRENCE? (six cycles; rows S-DARK-74.1-74.6 in loop74_cycle1-6.txt, ready to paste
+before '## Summary' in STRATEGIES.md; script tools/dark_loop74.py <cycle 1-6> <seq_raw|seq_strong|seq_all> [nnull]; logs
+loop74_c<cycle>_<level>.txt (+ .json); all containment pairs with site x type attestations in loop74_c1_pairs_<level>.txt).
+Nothing committed. Data: merged-corpus-canonical.json (S-DARK-23 caution: built from the older inscriptions.csv), complete texts,
+S-DARK-26 middle, objects deduplicated per site x object type x text, then one per distinct middle. IM77-only results depend on
+proposed bridge entries (S-DARK-27).
+
+Statistic (S-DARK-63.4): 12.5-13.0% of distinct Indus middles (>= 2 signs) sit inside a longer middle; 536-620 pairs.
+
+(1) Nulls. Above every unigram null (global shuffle x1.7-1.8, slot shuffle x2.2-2.4, iid x1.7), at all three levels, with
+    numerals removed. MLE Markov-1 / Markov-2 chains make TWICE as much (x0.52-0.54), but they do that for every one-copy-per-name
+    list, because they regenerate the training bigrams. A chain calibrated by held-out likelihood (interpolated Markov-1)
+    gives ~80%: Indus x1.22-1.25 (NAME-only / frame-stripped x1.34-1.41), 3-in-4 pairs x9-24. Same chain on name lists:
+    logographic x0.13-0.51 (Japanese, ancient Chinese, Vietnamese, Korean), phonetic x0.95-1.82 (Linear B, OB, Ur III, Latin).
+(2) Position. Prefix / suffix / infix exactly as the chains give (prefix index -0.07..+0.01 vs chains -0.05..+0.04); infix share of
+    2-in-4 pairs 0.19 vs chain 0.22. Name lists with the effect are one-sided (Latin / Ur III prefix, Japanese / OB suffix).
+    Only asymmetry: optional W2 (marker) and numerals in front of an otherwise identical middle.
+(3) Outside facts. Same head (closer) 1.4-2.0x over an adjacency-matched partner (suffix pairs 0.70 vs 0.34, prefix pairs
+    0.31 vs 0.21); same site x1.15, same area x1.3; NOT the same emblem (x1.01-1.05), short NOT older (P 0.17-0.41), no
+    tablet/seal split beyond the baseline.
+(4) New material. Held-out sites and the IM77-only texts recur inside / contain Wells middles at exactly the calibrated-chain
+    rate (x0.78-1.05 inside, x0.63-0.95 contains; P 0.25-0.92). Within one place the excess reappears: Mohenjo-daro
+    x1.37-1.53, Harappa x1.41-1.90, held-out pooled x1.83-1.98 (30-33 pairs), tablets x1.7-1.9. Across sites none
+    (Harappa inside MD x0.64-0.73).
+
+ANSWER. (C) partly: across sites the recurrence is fully a bigram effect, and that is the part new material reproduces. The rest
+(~20% of the statistic) is LOCAL: within one site, under the same head, with no positional preference, no shared emblem and no age
+order. That fits (A) in a weak form: a fuller and a shorter writing of the same designation within one local repertoire (it is
+equally open to local formula reuse). It does not fit (B): no prefix stem, no emblem or room sharing, no corpus-wide stems. It does
+not fit name-list hypocoristics either, which are one-sided (prefix or suffix).
+Does the last separator survive? Yes, as a statistic: against the calibrated chain Indus stays above every logographic given-name
+list (x1.22-1.41 vs x0.13-0.51), at all three levels and with numerals and frame signs removed. Its meaning has shrunk: it is a
+within-site effect of ~20% of the share, not a lexicon-wide property; the logographic lists are national dictionaries with no
+site structure, so a local logographic register (one town's seal or tax roll) is the comparator still missing. Would kill the
+separator: such a register at or below its calibrated chain within one place, or new single-site Indus material with no excess
+over its own chain. Nothing read, no sign value proposed; not 'cracked'. 59% of pairs rest on Mohenjo-daro + Harappa only.

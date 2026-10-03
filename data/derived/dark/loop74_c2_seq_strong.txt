@@ -1,0 +1,54 @@
+##### S-DARK-74 cycle 2, seq_strong: position of the contained middle (prefix / suffix / infix) and the extension
+
+  Indus mid (1403 distinct middles):
+    (2, 3)   obs n=111 pre 0.47 suf 0.53 inf 0.00 PI -0.06 | slot n=1262 pre 0.46 suf 0.54 inf 0.00 PI -0.08 | markov1 n=3793 pre 0.48 suf 0.52 inf 0.00 PI -0.04 | markov2 n=2882 pre 0.49 suf 0.51 inf 0.00 PI -0.02
+    (2, 4)   obs n=106 pre 0.39 suf 0.42 inf 0.19 PI -0.05 | slot n=1161 pre 0.29 suf 0.41 inf 0.30 PI -0.17 | markov1 n=4016 pre 0.37 suf 0.42 inf 0.21 PI -0.06 | markov2 n=2769 pre 0.37 suf 0.40 inf 0.23 PI -0.03
+    (3, 4)   obs n=17 pre 0.65 suf 0.35 inf 0.00 PI +0.29 | slot n=18 pre 0.50 suf 0.50 inf 0.00 PI +0.00 | markov1 n=396 pre 0.46 suf 0.54 inf 0.00 PI -0.09 | markov2 n=1319 pre 0.55 suf 0.45 inf 0.00 PI +0.10
+    (2, 5)   obs n=328 pre 0.20 suf 0.31 inf 0.48 PI -0.21 | slot n=3257 pre 0.16 suf 0.29 inf 0.55 PI -0.28 | markov1 n=10168 pre 0.24 suf 0.27 inf 0.49 PI -0.06 | markov2 n=7519 pre 0.22 suf 0.27 inf 0.51 PI -0.11
+    (3, 5)   obs n=38 pre 0.18 suf 0.50 inf 0.32 PI -0.46 | slot n=54 pre 0.24 suf 0.35 inf 0.41 PI -0.19 | markov1 n=1111 pre 0.30 suf 0.32 inf 0.38 PI -0.04 | markov2 n=2641 pre 0.42 suf 0.35 inf 0.23 PI +0.09
+    (4, 5)   obs n=8 pre 0.50 suf 0.38 inf 0.12 PI +0.14 | slot n=2 pre 0.00 suf 0.50 inf 0.50 PI -1.00 | markov1 n=86 pre 0.27 suf 0.49 inf 0.24 PI -0.29 | markov2 n=1280 pre 0.45 suf 0.44 inf 0.10 PI +0.01
+    all      obs n=612 pre 0.30 suf 0.38 inf 0.31 PI -0.12 | slot n=5754 pre 0.25 suf 0.37 inf 0.38 PI -0.18 | markov1 n=19577 pre 0.32 suf 0.36 inf 0.32 PI -0.05 | markov2 n=19013 pre 0.36 suf 0.37 inf 0.27 PI -0.02
+    prefix index (2-4 pairs) obs -0.028 vs slot -0.112 [-0.333,+0.208] p(two-sided)=0.537
+    prefix index (2-4 pairs) obs -0.028 vs markov1 -0.046 [-0.158,+0.051] p(two-sided)=0.857
+    prefix index (2-4 pairs) obs -0.028 vs markov2 -0.000 [-0.096,+0.066] p(two-sided)=0.381
+    signs appended after a contained PREFIX: 220:10, 740:9*, 33:7*, 705:7, 690:7, 2:6*, 240:5, 130:5, 32:5*, 400:5*, 415:5, 590:4  (* frame/numeral; frame share 0.31)
+    signs prepended before a contained SUFFIX: 2:35*, 1:14*, 240:14, 741:12*, 31:11*, 233:9, 803:9, 220:8, 60:8*, 740:6*, 33:6*, 235:5  (frame share 0.51)
+    frame/numeral share of all middle tokens: 0.31
+    prefix-append: 186 pairs, 88 distinct extension signs, top-3 share 0.14; middle-token top-3 share 0.11
+    suffix-prepend: 235 pairs, 74 distinct extension signs, top-3 share 0.27; middle-token top-3 share 0.11
+
+  Indus name (1136 distinct middles):
+    (2, 3)   obs n=104 pre 0.44 suf 0.56 inf 0.00 PI -0.12 | slot n=1260 pre 0.44 suf 0.56 inf 0.00 PI -0.11 | markov1 n=3827 pre 0.52 suf 0.48 inf 0.00 PI +0.03 | markov2 n=2734 pre 0.46 suf 0.54 inf 0.00 PI -0.08
+    (2, 4)   obs n=82 pre 0.34 suf 0.45 inf 0.21 PI -0.14 | slot n=1120 pre 0.29 suf 0.34 inf 0.37 PI -0.09 | markov1 n=3471 pre 0.40 suf 0.38 inf 0.22 PI +0.03 | markov2 n=2409 pre 0.36 suf 0.40 inf 0.23 PI -0.05
+    (3, 4)   obs n=15 pre 0.80 suf 0.20 inf 0.00 PI +0.60 | slot n=19 pre 0.47 suf 0.53 inf 0.00 PI -0.05 | markov1 n=378 pre 0.51 suf 0.49 inf 0.00 PI +0.01 | markov2 n=1217 pre 0.62 suf 0.38 inf 0.00 PI +0.25
+    (2, 5)   obs n=192 pre 0.25 suf 0.26 inf 0.49 PI -0.01 | slot n=2251 pre 0.14 suf 0.23 inf 0.63 PI -0.25 | markov1 n=6205 pre 0.27 suf 0.24 inf 0.50 PI +0.06 | markov2 n=4517 pre 0.21 suf 0.26 inf 0.52 PI -0.11
+    (3, 5)   obs n=27 pre 0.33 suf 0.26 inf 0.41 PI +0.12 | slot n=36 pre 0.36 suf 0.25 inf 0.39 PI +0.18 | markov1 n=860 pre 0.33 suf 0.32 inf 0.35 PI +0.02 | markov2 n=1963 pre 0.45 suf 0.33 inf 0.22 PI +0.17
+    (4, 5)   obs n=8 pre 0.62 suf 0.25 inf 0.12 PI +0.43 | slot n=1 pre 0.00 suf 0.00 inf 1.00 PI +nan | markov1 n=63 pre 0.40 suf 0.35 inf 0.25 PI +0.06 | markov2 n=952 pre 0.55 suf 0.38 inf 0.07 PI +0.18
+    all      obs n=432 pre 0.35 suf 0.36 inf 0.29 PI -0.01 | slot n=4687 pre 0.26 suf 0.35 inf 0.40 PI -0.14 | markov1 n=14809 pre 0.37 suf 0.35 inf 0.28 PI +0.04 | markov2 n=14164 pre 0.38 suf 0.37 inf 0.24 PI +0.02
+    prefix index (2-4 pairs) obs -0.065 vs slot -0.104 [-0.333,+0.214] p(two-sided)=0.829
+    prefix index (2-4 pairs) obs -0.065 vs markov1 +0.030 [-0.042,+0.076] p(two-sided)=0.095
+    prefix index (2-4 pairs) obs -0.065 vs markov2 -0.001 [-0.100,+0.110] p(two-sided)=0.190
+
+  Indus seq_strong mid: substring share 0.129, Markov-1 0.241, obs/M1 0.54
+
+  comparators, length-matched to the Indus seq_strong middle lengths (n=1403), 20 draws; each with its own slot shuffle
+    jp_given               short 419; substring share 0.004 | slot-null 0.005 (excess -0.001) | Markov-1 0.234 (obs/M1 0.02) | Markov-2 0.031 (obs/M2 0.13)
+        positions: all pairs n=45 pre 0.44 suf 0.51 inf 0.04 PI -0.07 | slot-null n=59 pre 0.32 suf 0.59 inf 0.08 PI -0.30 | Markov-1 n=4158 pre 0.35 suf 0.57 inf 0.09 PI -0.25; 2-in-3 n=18 pre 0.61 suf 0.39 inf 0.00; 2-in-4 n=18 pre 0.22 suf 0.67 inf 0.11; 3-in-4 n=9 pre 0.56 suf 0.44 inf 0.00
+    jp_person_given        short 470; substring share 0.011 | slot-null 0.004 (excess +0.007) | Markov-1 0.248 (obs/M1 0.04) | Markov-2 0.036 (obs/M2 0.29)
+        positions: all pairs n=264 pre 0.18 suf 0.81 inf 0.02 PI -0.64 | slot-null n=38 pre 0.37 suf 0.58 inf 0.05 PI -0.22 | Markov-1 n=4946 pre 0.30 suf 0.63 inf 0.07 PI -0.35; 2-in-3 n=92 pre 0.37 suf 0.63 inf 0.00; 2-in-4 n=31 pre 0.29 suf 0.58 inf 0.13; 3-in-4 n=141 pre 0.03 suf 0.97 inf 0.00
+    vi_given               short 583; substring share 0.029 | slot-null 0.021 (excess +0.009) | Markov-1 0.254 (obs/M1 0.12) | Markov-2 0.073 (obs/M2 0.40)
+        positions: all pairs n=355 pre 0.41 suf 0.50 inf 0.09 PI -0.10 | slot-null n=259 pre 0.63 suf 0.29 inf 0.08 PI +0.37 | Markov-1 n=3345 pre 0.46 suf 0.48 inf 0.06 PI -0.02; 2-in-3 n=262 pre 0.48 suf 0.52 inf 0.00; 2-in-4 n=70 pre 0.16 suf 0.39 inf 0.46; 3-in-4 n=23 pre 0.35 suf 0.65 inf 0.00
+    cn_ancient             short 143; substring share 0.003 | slot-null 0.001 (excess +0.001) | Markov-1 0.168 (obs/M1 0.02) | Markov-2 0.019 (obs/M2 0.14)
+        positions: all pairs n=36 pre 0.53 suf 0.36 inf 0.11 PI +0.19 | slot-null n=19 pre 0.84 suf 0.11 inf 0.05 PI +0.78 | Markov-1 n=3498 pre 0.57 suf 0.33 inf 0.09 PI +0.27; 2-in-3 n=9 pre 0.67 suf 0.33 inf 0.00; 2-in-4 n=14 pre 0.57 suf 0.21 inf 0.21; 3-in-4 n=0
+    cn_given               short 1007; substring share 0.000 | slot-null 0.000 (excess +0.000) | Markov-1 0.000 (obs/M1 0.00) | Markov-2 0.000 (obs/M2 0.00)
+        positions: all pairs n=0 PI +nan | slot-null n=0 PI +nan | Markov-1 n=0 PI +nan; 2-in-3 n=0; 2-in-4 n=0; 3-in-4 n=0
+    ko_given               short 696; substring share 0.008 | slot-null 0.004 (excess +0.004) | Markov-1 0.282 (obs/M1 0.03) | Markov-2 0.026 (obs/M2 0.32)
+        positions: all pairs n=74 pre 0.42 suf 0.58 inf 0.00 PI -0.16 | slot-null n=28 pre 0.43 suf 0.57 inf 0.00 PI -0.14 | Markov-1 n=2735 pre 0.47 suf 0.53 inf 0.00 PI -0.05; 2-in-3 n=74 pre 0.42 suf 0.58 inf 0.00; 2-in-4 n=0; 3-in-4 n=0
+    ur3_names_dedup        short 458; substring share 0.123 | slot-null 0.037 (excess +0.086) | Markov-1 0.230 (obs/M1 0.54) | Markov-2 0.236 (obs/M2 0.52)
+        positions: all pairs n=2743 pre 0.64 suf 0.29 inf 0.08 PI +0.38 | slot-null n=668 pre 0.85 suf 0.10 inf 0.05 PI +0.79 | Markov-1 n=5254 pre 0.48 suf 0.37 inf 0.16 PI +0.13; 2-in-3 n=833 pre 0.61 suf 0.39 inf 0.00; 2-in-4 n=900 pre 0.63 suf 0.25 inf 0.12; 3-in-4 n=241 pre 0.72 suf 0.28 inf 0.00
+    ob_names_dedup         short 467; substring share 0.047 | slot-null 0.006 (excess +0.041) | Markov-1 0.138 (obs/M1 0.34) | Markov-2 0.195 (obs/M2 0.24)
+        positions: all pairs n=1136 pre 0.42 suf 0.53 inf 0.05 PI -0.11 | slot-null n=62 pre 0.42 suf 0.44 inf 0.15 PI -0.02 | Markov-1 n=3079 pre 0.38 suf 0.47 inf 0.15 PI -0.11; 2-in-3 n=204 pre 0.21 suf 0.79 inf 0.00; 2-in-4 n=279 pre 0.43 suf 0.51 inf 0.06; 3-in-4 n=103 pre 0.19 suf 0.81 inf 0.00
+    linb_personnel_dedup   short 401; substring share 0.132 | slot-null 0.090 (excess +0.043) | Markov-1 0.205 (obs/M1 0.64) | Markov-2 0.277 (obs/M2 0.48)
+        positions: all pairs n=3385 pre 0.43 suf 0.37 inf 0.20 PI +0.08 | slot-null n=1864 pre 0.37 suf 0.39 inf 0.24 PI -0.03 | Markov-1 n=6911 pre 0.36 suf 0.43 inf 0.21 PI -0.09; 2-in-3 n=964 pre 0.52 suf 0.48 inf 0.00; 2-in-4 n=798 pre 0.36 suf 0.40 inf 0.24; 3-in-4 n=163 pre 0.74 suf 0.26 inf 0.00
+    latin_names_dedup      short 750; substring share 0.008 | slot-null 0.000 (excess +0.008) | Markov-1 0.123 (obs/M1 0.07) | Markov-2 0.008 (obs/M2 1.00)
+        positions: all pairs n=111 pre 0.94 suf 0.06 inf 0.00 PI +0.87 | slot-null n=1 pre 0.00 suf 1.00 inf 0.00 PI -1.00 | Markov-1 n=1055 pre 0.45 suf 0.55 inf 0.00 PI -0.10; 2-in-3 n=111 pre 0.94 suf 0.06 inf 0.00; 2-in-4 n=0; 3-in-4 n=0
