@@ -1,0 +1,46 @@
+LOOP 26 (IS THE MIDDLE A LEXICON OR AN ATTRIBUTE CODE?) CYCLE 1: independence census of the middle elements.
+Engine: tools/dark_loop26.py 1 <level> 200. Full output: loop26_cycle1_seq_raw.txt / _seq_strong.txt / _seq_all.txt.
+Data: data/derived/merged-corpus-canonical.json (S-DARK-23 caution: built from the older inscriptions.csv), 3,155 complete direction-recorded
+texts of >= 2 signs; the S310 + S331 frame parser (as in dark_loop19/22) strips opener, connective, titles, closer, suffix; middle = the
+NAME + COUNT residue: 2,643 texts with a middle (seals 1,147 with >= 2 elements, tablets 785, pots 57, sealings 39), 7,987 element tokens,
+617 element types, 86% from Mohenjo-daro + Harappa. A 'frame-purged' variant also removes opener/connective/closer/suffix signs and the
+255-435-690, 705/706, marked-jar phrases wherever they stand inside the residue (2,583 texts).
+Controls, all generated at the Indus middle count (2,643) and length distribution: Ur III seal-owner names (line 1 of 6,498 distinct CDLI
+legends, syllables; dedup by legend); a planted ATTRIBUTE CODE (6 independent slots x 102 symbols, Zipf marginals, k filled slots = Indus
+length); a planted LEXICON (1,500 fixed words of 1-3 syllables over 150 syllables, Zipf word frequencies, a middle = 1-3 words).
+Tests: (i) pair census: observed co-occurrence O of every pair of elements in one middle vs E under token permutation across middles
+within (site-group, object type) strata keeping each middle's length (200 reps); pairs with E >= 3 or O >= 5; statistic = share with
+|log2(O/E)| > 1, mean |log2(O/E)|, share O > 4E (compounds), share O < E/4 (exclusions); null calibration = the same statistics on the
+permuted corpora themselves (so the reported excess is already corrected for the chance share). (ii) held-out log-likelihood of an
+independence model (unigram, add-one) vs a pair model (bigram, Witten-Bell): Indus fit on MD + Harappa, test on the other sites (true
+held-out), plus 5-fold random splits (the only split comparable with the controls, whose 'sites' are random). (iii) adjacent-pair MI vs
+the stratified shuffle. Arrows fired: 5 populations x 3 statistics x 3 levels; permutation floor P = 0.005 (reported P = 0.016 at 60
+calibration corpora); every Indus excess is > 10 null sd, so correction does not change any verdict.
+
+RESULTS (seq_raw; seq_strong/seq_all within 0.02 on every statistic)
+                           share|log2|>1 (obs - null)   mean|log2| excess   compounds   exclusions   pair gain held-out / 5-fold   adj-MI excess
+  Indus middles            0.543 - 0.130 = +0.41        +0.88               0.184       0.087        2.3% / 15.2%                 +0.90 bits
+  Indus frame-purged       0.593 - 0.135 = +0.46        +0.97               0.236       0.072       -0.8% / 11.8%                 +0.73
+  Indus seals only         0.384 - 0.131 = +0.25        +0.51               0.088       0.047        2.6% / -                     +0.39
+  Indus NAME only          0.589 - 0.135 = +0.45        +1.08               0.248       0.102        0.6% / -                     +0.79
+  Ur III names             0.772 - 0.113 = +0.66        +1.71               0.269       0.264       35.2% / 34.9%                 +2.06
+  planted attribute code   0.291 - 0.145 = +0.15        +0.30               0.002       0.079        0.9% / 0.8%                  +0.09
+  planted lexicon          0.294 - 0.096 = +0.20        +0.36               0.058       0.031       20.4% / 19.6%                 +1.54
+Strong compounds (O >= 5 and O >= 4E), Indus: 185 pairs covering 33% of element tokens in >= 2-element middles; after frame purging 121 pairs,
+28%. The top ones are the known frame leftovers the parser does not strip (33+705 arrow phrase 49:7, 2+405 / 2+501 after an inner opener,
+255+435 title 36:1.6, 176+740 seated-person + jar 26:4, 60+550) and then genuine middle compounds: 407+845 (45:10), 220+415 (37:9),
+503+615 (34:4), 405+501 (29:1), 4+390 (23:5), 415+803 (20:5), 61+845 (20:3), 13+840 (17:1.4), 413+575 (17:0.8), 3+900 (17:2.5).
+Strong exclusions (E >= 6, O = 0): Indus 5 of 210 pairs (3+33, 407|615, 407|503, 32|503, 3|415) vs Ur III 43 of 246, attribute code 3 of 123,
+lexicon 0 of 411.
+Held-out by site: the pair model gains only 2.3% over independence (seals 2.6%, NAME residue 0.6%, frame-purged -0.8%), against 15% in a
+random 5-fold split: the dependencies that exist are site-specific strings (S-DARK-4.2: name chunks recur across cities LESS than chaining
+predicts), not a shared pan-Indus compound stock.
+
+READING. Independence is rejected: the middle is not a product code of freely combined attributes (Indus +0.41 and 15% vs the planted code
++0.15 and 0.8%). But it is far from a compound-name stock: Ur III names give +0.66, 35% and both compounds and exclusions at 0.27, three
+times the Indus exclusion rate and twice its held-out gain. On the within-corpus statistics the Indus middle sits at or just above the planted
+lexicon (a free concatenation of fixed words: +0.20, 20%), i.e. 'some fixed compounds inside otherwise free combination'; on the between-site
+statistic it falls to the attribute-code level, because the compounds do not travel. About a third of middle tokens (28% after purging frame
+leftovers) sit in a recurring compound; two thirds combine with no detectable partner preference.
+
+| S-DARK-26.1 | **Lexicon or attribute code, part 1: do the elements of the middle combine as independent choices?** Middle = NAME + COUNT residue of the S310/S331 parser (2,643 texts, 7,987 tokens, 617 types; also a frame-purged variant, seals only, NAME only). (i) Pair census: every pair of elements in one middle, O vs E under token permutation within (site-group, object type) strata keeping middle lengths (200 reps); share of tested pairs (E >= 3 or O >= 5) with abs(log2 O/E) > 1, compounds (O > 4E), exclusions (O < E/4), the same statistics on the permuted corpora as the chance level; (ii) held-out bits per element, independence (unigram) vs pair (bigram) model, fit MD + Harappa / test other sites, and 5-fold; (iii) adjacent-pair MI vs shuffle. Controls at the Indus n and lengths: Ur III seal-owner names (6,498 distinct legends, syllables), a planted attribute code (6 independent Zipf slots x 102 symbols), a planted lexicon (1,500 fixed words over 150 syllables, Zipf); seq_raw / seq_strong / seq_all (`tools/dark_loop26.py 1`) | Share of dependent pairs above chance: Indus +0.41 (0.54 vs 0.13), frame-purged +0.46, seals +0.25, NAME only +0.45; Ur III +0.66; attribute code +0.15; lexicon +0.20. Compounds / exclusions: Indus 0.18 / 0.09, Ur III 0.27 / 0.26, attribute 0.00 / 0.08, lexicon 0.06 / 0.03. Pair-model gain: Indus 15% in 5-fold but **2.3% across sites** (seals 2.6%, NAME 0.6%, purged -0.8%); Ur III 35% / 35%; attribute 0.8%; lexicon 20%. Adjacent MI excess: Indus +0.90 bits, Ur III +2.06, attribute +0.09, lexicon +1.54. 185 strong compounds cover 33% of middle tokens (121 and 28% after purging the frame leftovers 33+705, 2+405, 255+435, 176+740); genuine ones 407+845 45:10, 220+415 37:9, 503+615 34:4, 405+501 29:1, 4+390 23:5, 413+575 17:0.8, 13+840 17:1.4. Strong exclusions 5 of 210 pairs (Ur III 43 of 246). All levels within 0.02; every Indus excess > 10 null sd | **Not a product code, not a name stock: the middle is a free combination with a minority of fixed compounds.** Independence is rejected at every level (dependency 3x the planted attribute code), but the dependencies are a third of Ur III's and vanish across sites (2.3%), so they are local strings, not a shared compound vocabulary. Within a corpus the middle sits at the planted-lexicon level (free concatenation of fixed words); about a third of its tokens belong to a recurring compound, two thirds show no partner preference. Rests on MD + Harappa (86%); transcription- and merge-robust. |

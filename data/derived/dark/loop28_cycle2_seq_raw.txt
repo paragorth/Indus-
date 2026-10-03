@@ -1,116 +1,297 @@
-# LOOP 28 cycle 2 (seq_raw): distribution of derived signs vs their bases (2026-10-03T12:22)
-edges 154; texts 3538 complete; nperm 1000; null = random sign with frequency within x2 of the base, not graphically linked to the derived sign
-edges used: 103 with confidence mid/high (low dropped)
+# LOOP 28 cycle 2 (seq_raw): distribution of derived signs vs their bases (2026-10-03T12:38)
+edges 410; texts 3538 complete; nperm 1000; null = random sign with frequency within x2 of the base, not graphically linked to the derived sign
+edges used: 348 with confidence mid/high (low dropped)
 
-### ALL SITES: 29 edges with both signs >= 5 tokens
+### ALL SITES: 108 edges with both signs >= 5 tokens
 type         n | mean pct of JSD(base,derived) in freq-matched null (0 = derived is the base's twin, 0.5 = stranger)
                |  pos   lab    obj   site   left  right | drel(obs/null) dlast  dtab  dnum | cooc obs/exp/null | minpairs obs/null
-enclosure    1 | 0.05  0.52  0.17  0.07  0.04* 0.81  | -0.018/-0.253 +0.000 +0.000 -0.067 | 0/0.0/0.0 | 0/0.1
-roof         2 | 0.38  0.54  0.32  0.48  0.46  0.21  | -0.233/-0.119 -0.061 -0.121 +0.166 | 0/0.1/0.1 | 0/0.0
-strokes     16 | 0.35* 0.26* 0.42  0.51  0.33* 0.33* | +0.097/+0.103 +0.091 -0.027 +0.065 | 9/12.9/14.6 | 7/2.0
-doubling    10 | 0.43  0.46  0.53  0.65  0.55  0.52  | -0.232/-0.108 -0.226 -0.228 -0.127 | 7/10.4/7.3 | 6/1.7
-ALL         29 | 0.37* 0.36* 0.44  0.54  0.40* 0.40* | -0.043/+0.002 -0.032 -0.101 +0.001 | 16/23.4/22.0 | 13/3.9
+enclosure    4 | 0.35  0.59  0.67  0.48  0.46  0.67  | -0.267/-0.298 -0.297 -0.198 -0.064 | 0/0.7/0.4 | 0/0.7
+roof         3 | 0.31  0.38  0.37  0.30  0.34  0.15* | -0.204/-0.137 -0.045 -0.051 +0.123 | 26/8.2/10.8 | 8/1.0
+strokes     18 | 0.32* 0.35* 0.46  0.46  0.37* 0.31* | +0.049/+0.047 +0.032 -0.084 +0.118 | 7/10.0/13.4 | 9/1.9
+doubling    10 | 0.42  0.45  0.53  0.65  0.54  0.51  | -0.232/-0.104 -0.226 -0.228 -0.127 | 7/10.4/7.3 | 6/1.8
+family      73 | 0.47  0.41* 0.45  0.52  0.48  0.44* | +0.002/+0.020 +0.012 -0.005 -0.055 | 91/87.0/93.5 | 44/10.4
+ALL        108 | 0.43* 0.41* 0.47  0.52  0.46  0.43* | -0.027/-0.003 -0.020 -0.047 -0.028 | 131/116.2/125.3 | 67/15.8
 directional test, relative position: P(null |mean shift| >= observed) per type; sign of the shift (+ = derived sits further right than its base)
-  strokes    n=16 mean shift +0.097 (vs stranger +0.103); share of edges with |shift| < 0.1: 0.50
-  doubling   n=10 mean shift -0.232 (vs stranger -0.108); share of edges with |shift| < 0.1: 0.10
+  enclosure  n= 4 mean shift -0.267 (vs stranger -0.298); share of edges with |shift| < 0.1: 0.50
+  roof       n= 3 mean shift -0.204 (vs stranger -0.137); share of edges with |shift| < 0.1: 0.00
+  strokes    n=18 mean shift +0.049 (vs stranger +0.047); share of edges with |shift| < 0.1: 0.50
+  doubling   n=10 mean shift -0.232 (vs stranger -0.104); share of edges with |shift| < 0.1: 0.10
+  family     n=73 mean shift +0.002 (vs stranger +0.020); share of edges with |shift| < 0.1: 0.29
 edge detail (base -> derived: n_b n_d | label/pos base -> derived | pct pos lab L R | drel dnum | cooc obs/exp | minpairs):
-  doubling  W32  ->W55    415   47 | COUNT/first -> COUNT/middle | 0.21 0.19 0.10 0.10 | +0.11 +0.21 (0.17->0.38) | 4/5.2 | 0
-  doubling  W820 ->W821   172   13 | OPENER/first -> NAME/first | 0.13 0.84 0.55 0.75 | +0.36 +0.50 (0.03->0.54) | 1/0.6 | 0
+  doubling  W32  ->W55    415   47 | COUNT/first -> COUNT/middle | 0.18 0.18 0.10 0.11 | +0.11 +0.21 (0.17->0.38) | 4/5.2 | 0
+  doubling  W820 ->W821   172   13 | OPENER/first -> NAME/first | 0.15 0.81 0.57 0.78 | +0.36 +0.50 (0.03->0.54) | 1/0.6 | 0
   doubling  W55  ->W56     47   10 | COUNT/middle -> COUNT/second | 0.69 0.10 0.56 0.14 | -0.28 -0.28 (0.38->0.10) | 0/0.1 | 0
-  doubling  W700 ->W697   463   10 | CLOSER/last -> NAME/last | 0.00 0.42 1.00 0.60 | +0.03 -0.68 (0.78->0.10) | 0/1.3 | 2
-  doubling  W900 ->W906    86   10 | NAME/penult -> NAME/second | 0.47 0.61 0.29 0.34 | -0.31 -0.33 (0.33->0.00) | 0/0.2 | 0
-  doubling  W832 ->W792    25   10 | NAME/last -> NAME/first | 0.44 0.47 0.18 0.55 | -0.39 -0.14 (0.24->0.10) | 0/0.1 | 1
-  doubling  W520 ->W519   254    9 | CLOSER/last -> NAME/first | 0.91 0.74 0.85 0.90 | -0.66 +0.12 (0.22->0.33) | 2/0.6 | 0
-  doubling  W700 ->W698   463    8 | CLOSER/last -> NAME/first | 0.60 0.45 0.58 0.87 | -0.81 -0.78 (0.78->0.00) | 0/1.0 | 1
-  doubling  W220 ->W219   319    7 | NAME/middle -> NAME/first | 0.58 0.26 0.60 0.00 | -0.26 -0.09 (0.38->0.29) | 0/0.6 | 1
-  doubling  W400 ->W401   361    5 | SUFFIX/last -> NAME/last | 0.23 0.46 0.78 0.92 | -0.11 +0.20 (0.00->0.20) | 0/0.5 | 1
-  enclosure W605 ->W792    12   10 | NAME/first -> NAME/first | 0.05 0.52 0.04 0.81 | -0.02 -0.07 (0.17->0.10) | 0/0.0 | 0
-  roof      W406 ->W391     9    9 | NAME/penult -> NAME/first | 0.46 0.76 0.73 0.12 | -0.32 +0.22 (0.00->0.22) | 0/0.0 | 0
-  roof      W455 ->W456    33    5 | NAME/second -> NAME/first | 0.30 0.32 0.19 0.31 | -0.15 +0.11 (0.09->0.20) | 0/0.0 | 0
+  doubling  W700 ->W697   463   10 | CLOSER/last -> NAME/last | 0.00 0.45 1.00 0.58 | +0.03 -0.68 (0.78->0.10) | 0/1.3 | 2
+  doubling  W900 ->W906    86   10 | NAME/penult -> NAME/second | 0.42 0.59 0.30 0.34 | -0.31 -0.33 (0.33->0.00) | 0/0.2 | 0
+  doubling  W832 ->W792    25   10 | NAME/last -> NAME/first | 0.46 0.46 0.17 0.51 | -0.39 -0.14 (0.24->0.10) | 0/0.1 | 1
+  doubling  W520 ->W519   254    9 | CLOSER/last -> NAME/first | 0.93 0.76 0.86 0.92 | -0.66 +0.12 (0.22->0.33) | 2/0.6 | 0
+  doubling  W700 ->W698   463    8 | CLOSER/last -> NAME/first | 0.56 0.43 0.57 0.85 | -0.81 -0.78 (0.78->0.00) | 0/1.0 | 1
+  doubling  W220 ->W219   319    7 | NAME/middle -> NAME/first | 0.59 0.27 0.56 0.00 | -0.26 -0.09 (0.38->0.29) | 0/0.6 | 1
+  doubling  W400 ->W401   361    5 | SUFFIX/last -> NAME/last | 0.24 0.47 0.76 0.92 | -0.11 +0.20 (0.00->0.20) | 0/0.5 | 1
+  enclosure W605 ->W792    12   10 | NAME/first -> NAME/first | 0.07 0.50 0.04 0.80 | -0.02 -0.07 (0.17->0.10) | 0/0.0 | 0
+  enclosure W820 ->W792   172   10 | OPENER/first -> NAME/first | 0.28 0.72 0.47 0.78 | +0.03 +0.07 (0.03->0.10) | 0/0.5 | 0
+  enclosure W617 ->W880    64    7 | CLOSER/last -> NAME/first | 0.74 0.73 0.70 0.64 | -0.60 -0.09 (0.09->0.00) | 0/0.1 | 0
+  enclosure W824 ->W808    25    5 | NAME/last -> NAME/first | 0.29 0.41 0.61 0.44 | -0.48 -0.16 (0.16->0.00) | 0/0.0 | 0
+  family    W220 ->W235   319  195 | NAME/middle -> NAME/middle | 0.35 0.16 0.56 0.12 | -0.21 -0.18 (0.38->0.20) | 26/17.4 | 6
+  family    W220 ->W233   319  147 | NAME/middle -> NAME/middle | 0.11 0.04 0.39 0.05 | -0.07 -0.21 (0.38->0.16) | 10/13.1 | 5
+  family    W415 ->W407   131  124 | NAME/middle -> NAME/last | 0.66 0.38 0.75 0.97 | +0.55 +0.07 (0.15->0.23) | 16/4.0 | 0
+  family    W817 ->W806   168  111 | OPENER/first -> NAME/first | 0.58 0.94 0.37 0.90 | +0.18 +0.16 (0.00->0.16) | 3/5.2 | 0
+  family    W817 ->W803   168  108 | OPENER/first -> NAME/first | 0.69 0.91 0.48 0.83 | +0.22 +0.31 (0.00->0.31) | 6/5.1 | 1
+  family    W240 ->W255   281  102 | NAME/middle -> NAME/first | 0.25 0.24 0.76 0.08 | -0.07 -0.22 (0.31->0.10) | 9/8.1 | 0
+  family    W415 ->W405   131   96 | NAME/middle -> NAME/second | 0.64 0.46 0.65 1.00 | +0.34 +0.11 (0.15->0.26) | 0/3.6 | 0
+  family    W705 ->W706   151   78 | NAME/middle -> NAME/middle | 0.04 0.05 0.00 0.00 | +0.02 +0.05 (0.08->0.13) | 0/3.3 | 7
+  family    W156 ->W151    93   71 | CLOSER/last -> CLOSER/last | 0.05 0.03 0.74 0.03 | +0.03 -0.42 (0.54->0.11) | 1/1.9 | 1
+  family    W690 ->W692    92   57 | NAME/penult -> OPENER/first | 0.66 0.63 0.70 0.50 | -0.52 +0.01 (0.04->0.05) | 1/1.5 | 1
+  family    W840 ->W845    95   49 | NAME/second -> NAME/middle | 0.17 0.00 0.41 0.29 | +0.05 +0.03 (0.27->0.31) | 0/1.3 | 0
+  family    W415 ->W416   131   43 | NAME/middle -> NAME/first | 0.40 0.23 0.25 0.70 | +0.02 +0.01 (0.15->0.16) | 0/1.6 | 0
+  family    W706 ->W717    78   39 | NAME/middle -> NAME/first | 0.40 0.38 0.13 0.69 | +0.00 +0.00 (0.13->0.13) | 2/0.9 | 1
+  family    W156 ->W154    93   38 | CLOSER/last -> CLOSER/last | 0.00 0.00 0.12 0.02 | +0.01 -0.33 (0.54->0.21) | 0/1.0 | 4
+  family    W590 ->W595   169   33 | NAME/middle -> NAME/middle | 0.09 0.09 0.39 0.70 | +0.09 -0.19 (0.19->0.00) | 0/1.6 | 0
+  family    W220 ->W226   319   30 | NAME/middle -> CLOSER/last | 0.43 0.25 0.00 0.33 | +0.27 +0.19 (0.38->0.57) | 1/2.7 | 1
+  family    W832 ->W824    25   25 | NAME/last -> NAME/last | 0.09 0.03 0.45 0.22 | +0.10 -0.08 (0.24->0.16) | 0/0.2 | 0
+  family    W820 ->W832   172   25 | OPENER/first -> NAME/last | 0.65 0.74 0.60 0.81 | +0.42 +0.21 (0.03->0.24) | 1/1.2 | 0
+  family    W388 ->W384    40   23 | TITLE/penult -> COUNT/penult | 0.09 0.52 0.02 0.15 | +0.16 +0.32 (0.20->0.52) | 0/0.3 | 2
+  family    W90  ->W95    133   22 | SUFFIX/last -> NAME/middle | 0.89 0.67 1.00 0.73 | -0.43 +0.07 (0.02->0.09) | 1/0.8 | 0
+  family    W501 ->W500    31   21 | NAME/first -> NAME/second | 0.83 0.15 0.91 0.90 | +0.17 -0.03 (0.03->0.00) | 0/0.2 | 0
+  family    W550 ->W555    90   18 | NAME/first -> TITLE/penult | 0.18 0.17 0.11 0.00 | +0.31 -0.04 (0.21->0.17) | 1/0.5 | 2
+  family    W741 ->W745   172   18 | NAME/middle -> NAME/middle | 0.42 0.00 0.23 0.00 | -0.13 +0.08 (0.03->0.11) | 0/0.9 | 1
+  family    W630 ->W632    25   17 | NAME/first -> NAME/second | 0.17 0.67 0.21 0.31 | -0.03 +0.35 (0.00->0.35) | 0/0.1 | 0
+  family    W832 ->W831    25   17 | NAME/last -> NAME/first | 0.50 0.04 0.25 0.24 | -0.40 -0.12 (0.24->0.12) | 0/0.1 | 0
+  family    W861 ->W877   215   17 | OPENER/first -> NAME/first | 0.25 0.47 0.64 0.89 | +0.12 +0.31 (0.16->0.47) | 3/1.0 | 0
+  family    W90  ->W97    133   16 | SUFFIX/last -> NAME/penult | 0.84 0.74 0.93 0.68 | -0.44 +0.10 (0.02->0.12) | 0/0.6 | 1
+  family    W226 ->W222    30   16 | CLOSER/last -> NAME/penult | 0.79 0.77 0.61 0.82 | -0.16 -0.38 (0.57->0.19) | 0/0.1 | 0
+  family    W495 ->W491    21   15 | NAME/first -> NAME/first | 0.12 0.53 0.10 0.13 | -0.18 -0.08 (0.14->0.07) | 0/0.1 | 0
+  family    W70  ->W72     28   13 | NAME/penult -> NAME/first | 0.64 0.18 0.36 0.06 | -0.21 -0.06 (0.21->0.15) | 0/0.1 | 0
+  family    W527 ->W526    47   13 | CLOSER/last -> NAME/last | 0.00 0.83 0.00 0.04 | +0.07 +0.00 (0.00->0.00) | 0/0.2 | 4
+  family    W706 ->W711    78   13 | NAME/middle -> NAME/middle | 0.36 0.33 0.36 0.00 | +0.27 -0.13 (0.13->0.00) | 0/0.3 | 0
+  family    W832 ->W838    25   13 | NAME/last -> NAME/first | 0.52 0.16 0.19 0.38 | -0.30 -0.09 (0.24->0.15) | 0/0.1 | 0
+  family    W615 ->W605    59   12 | NAME/second -> NAME/first | 0.82 0.29 0.78 0.24 | -0.18 +0.15 (0.02->0.17) | 0/0.2 | 0
+  family    W240 ->W241   281   11 | NAME/middle -> NAME/last | 0.60 0.30 0.29 0.75 | +0.52 -0.13 (0.31->0.18) | 0/0.9 | 0
+  family    W482 ->W484    33   11 | TITLE/penult -> NAME/first | 0.70 0.70 0.83 0.71 | -0.19 +0.00 (0.18->0.18) | 1/0.1 | 0
+  family    W892 ->W890    70   11 | NAME/second -> NAME/penult | 0.49 0.08 0.13 0.46 | +0.20 +0.05 (0.04->0.09) | 8/0.2 | 0
+  family    W240 ->W243   281   10 | NAME/middle -> NAME/penult | 0.44 0.12 0.53 0.30 | +0.12 -0.01 (0.31->0.30) | 0/0.8 | 0
+  family    W335 ->W337    28   10 | NAME/middle -> NAME/second | 0.82 0.32 0.87 0.30 | +0.09 -0.11 (0.11->0.00) | 0/0.1 | 0
+  family    W527 ->W525    47   10 | CLOSER/last -> NAME/penult | 0.94 0.80 0.00 0.49 | -0.22 +0.00 (0.00->0.00) | 0/0.1 | 0
+  family    W555 ->W554    18   10 | TITLE/penult -> NAME/penult | 0.07 0.95 0.78 0.09 | -0.18 +0.23 (0.17->0.40) | 0/0.1 | 0
+  family    W850 ->W853    45   10 | NAME/middle -> NAME/first | 0.54 0.13 0.61 0.09 | -0.48 -0.06 (0.16->0.10) | 0/0.1 | 0
+  family    W861 ->W868   215   10 | OPENER/first -> NAME/last | 0.26 0.61 0.92 0.85 | +0.74 -0.16 (0.16->0.00) | 0/0.6 | 0
+  family    W61  ->W63     78    9 | NAME/middle -> NAME/second | 0.68 0.50 0.50 0.33 | +0.10 -0.26 (0.26->0.00) | 0/0.2 | 1
+  family    W95  ->W98     22    9 | NAME/middle -> NAME/first | 0.34 0.44 0.46 0.71 | -0.28 -0.09 (0.09->0.00) | 0/0.1 | 0
+  family    W104 ->W111    22    9 | NAME/first -> NAME/second | 0.83 0.18 0.47 0.61 | +0.32 -0.01 (0.23->0.22) | 0/0.1 | 0
+  family    W335 ->W336    28    9 | NAME/middle -> NAME/second | 0.71 0.38 0.66 0.23 | +0.03 +0.23 (0.11->0.33) | 0/0.1 | 0
+  family    W390 ->W391   217    9 | NAME/last -> NAME/first | 0.58 0.14 0.78 0.63 | -0.37 -0.16 (0.38->0.22) | 0/0.5 | 0
+  family    W405 ->W406    96    9 | NAME/second -> NAME/penult | 0.07 0.54 0.17 0.72 | +0.08 -0.26 (0.26->0.00) | 0/0.2 | 0
+  family    W840 ->W844    95    9 | NAME/second -> NAME/penult | 0.32 0.25 0.43 0.56 | +0.08 -0.05 (0.27->0.22) | 1/0.2 | 0
+  family    W923 ->W924    36    9 | TITLE/penult -> NAME/second | 0.78 0.80 0.52 0.87 | -0.25 -0.39 (0.39->0.00) | 0/0.1 | 1
+  family    W226 ->W232    30    8 | CLOSER/last -> NAME/second | 0.06 0.82 0.65 0.16 | -0.14 -0.57 (0.57->0.00) | 0/0.1 | 0
+  family    W226 ->W234    30    8 | CLOSER/last -> NAME/first | 0.09 0.81 0.39 0.05 | -0.30 -0.57 (0.57->0.00) | 0/0.1 | 1
+  family    W413 ->W411    45    8 | NAME/first -> NAME/last | 0.34 0.34 0.43 0.43 | +0.50 +0.08 (0.04->0.12) | 0/0.1 | 0
+  family    W503 ->W504    66    8 | NAME/first -> NAME/last | 1.00 0.16 0.98 0.85 | +0.55 -0.11 (0.11->0.00) | 0/0.1 | 0
+  family    W706 ->W703    78    8 | NAME/middle -> NAME/first | 0.12 0.30 0.30 0.73 | -0.22 -0.13 (0.13->0.00) | 0/0.2 | 0
+  family    W760 ->W776    90    8 | TITLE/penult -> NAME/second | 0.82 0.79 0.06 0.81 | -0.17 -0.19 (0.19->0.00) | 0/0.2 | 0
+  family    W803 ->W812   108    8 | NAME/first -> NAME/second | 0.67 0.07 0.68 0.12 | +0.10 +0.07 (0.31->0.38) | 0/0.2 | 0
+  family    W240 ->W252   281    7 | NAME/middle -> NAME/second | 0.71 0.26 0.74 0.36 | -0.23 -0.31 (0.31->0.00) | 0/0.6 | 0
+  family    W415 ->W408   131    7 | NAME/middle -> NAME/first | 0.47 0.26 0.42 0.81 | +0.14 +0.13 (0.15->0.29) | 0/0.3 | 0
+  family    W705 ->W702   151    7 | NAME/middle -> NAME/first | 0.33 0.31 0.24 0.60 | +0.01 +0.06 (0.08->0.14) | 0/0.3 | 0
+  family    W803 ->W804   108    7 | NAME/first -> NAME/last | 0.90 0.17 0.55 0.39 | +0.45 -0.31 (0.31->0.00) | 0/0.2 | 0
+  family    W154 ->W155    38    6 | CLOSER/last -> NAME/last | 0.31 1.00 0.27 0.49 | -0.26 +0.12 (0.21->0.33) | 0/0.1 | 2
+  family    W226 ->W221    30    6 | CLOSER/last -> NAME/first | 0.74 0.82 0.55 0.71 | -0.45 -0.23 (0.57->0.33) | 0/0.1 | 0
+  family    W520 ->W521   254    6 | CLOSER/last -> NAME/middle | 0.79 0.72 0.73 0.84 | -0.34 -0.05 (0.22->0.17) | 0/0.4 | 0
+  family    W555 ->W556    18    6 | TITLE/penult -> NAME/first | 0.77 0.93 0.76 0.50 | -0.67 -0.17 (0.17->0.00) | 0/0.0 | 1
+  family    W850 ->W851    45    6 | NAME/middle -> NAME/first | 0.51 0.26 0.55 0.29 | -0.00 -0.16 (0.16->0.00) | 0/0.1 | 1
+  family    W140 ->W150    78    5 | NAME/first -> NAME/middle | 0.53 0.17 0.57 0.01 | +0.22 -0.06 (0.26->0.20) | 0/0.1 | 0
+  family    W350 ->W352    38    5 | NAME/middle -> NAME/first | 0.36 0.51 0.18 0.29 | -0.16 -0.29 (0.29->0.00) | 0/0.1 | 0
+  family    W575 ->W578    58    5 | NAME/first -> NAME/second | 0.17 0.42 0.72 0.60 | +0.04 -0.24 (0.24->0.00) | 0/0.1 | 0
+  family    W742 ->W749    31    5 | NAME/middle -> NAME/alone | 0.31 0.49 0.32 0.14 | +0.62 +0.00 (0.00->0.00) | 0/0.0 | 0
+  family    W803 ->W808   108    5 | NAME/first -> NAME/first | 0.46 0.19 0.45 0.12 | -0.10 -0.31 (0.31->0.00) | 0/0.2 | 0
+  family    W820 ->W825   172    5 | OPENER/first -> NAME/second | 0.81 0.83 0.81 0.54 | +0.18 +0.37 (0.03->0.40) | 0/0.2 | 0
+  roof      W233 ->W235   147  195 | NAME/middle -> NAME/middle | 0.17 0.09 0.14 0.00 | -0.15 +0.04 (0.16->0.20) | 26/8.1 | 8
+  roof      W406 ->W391     9    9 | NAME/penult -> NAME/first | 0.48 0.74 0.73 0.12 | -0.32 +0.22 (0.00->0.22) | 0/0.0 | 0
+  roof      W455 ->W456    33    5 | NAME/second -> NAME/first | 0.30 0.30 0.16 0.34 | -0.15 +0.11 (0.09->0.20) | 0/0.0 | 0
   strokes   W233 ->W231   147   71 | NAME/middle -> NAME/middle | 0.00 0.03 0.00 0.00 | -0.04 +0.03 (0.16->0.20) | 3/2.9 | 3
-  strokes   W31  ->W55    182   47 | COUNT/first -> COUNT/middle | 0.24 0.03 0.23 0.03 | +0.09 +0.20 (0.18->0.38) | 4/2.3 | 0
-  strokes   W220 ->W226   319   30 | NAME/middle -> CLOSER/last | 0.43 0.29 0.00 0.32 | +0.27 +0.19 (0.38->0.57) | 1/2.7 | 1
-  strokes   W790 ->W832    42   25 | NAME/last -> NAME/last | 0.04 0.22 0.32 0.04 | +0.04 +0.00 (0.24->0.24) | 0/0.3 | 0
-  strokes   W235 ->W236   195   23 | NAME/middle -> CLOSER/last | 0.55 0.14 0.15 0.64 | +0.36 +0.06 (0.20->0.26) | 0/1.3 | 0
-  strokes   W790 ->W831    42   17 | NAME/last -> NAME/first | 0.43 0.19 0.27 0.33 | -0.35 -0.12 (0.24->0.12) | 0/0.2 | 0
-  strokes   W630 ->W636    25   16 | NAME/first -> NAME/second | 0.50 0.17 0.10 0.06 | +0.28 +0.00 (0.00->0.00) | 0/0.1 | 1
-  strokes   W142 ->W97     60   16 | NAME/penult -> NAME/penult | 0.02 0.03 0.43 0.20 | -0.05 -0.08 (0.20->0.12) | 0/0.3 | 2
-  strokes   W240 ->W241   281   11 | NAME/middle -> NAME/last | 0.61 0.30 0.31 0.75 | +0.52 -0.13 (0.31->0.18) | 0/0.9 | 0
-  strokes   W590 ->W592   169   10 | NAME/middle -> NAME/last | 0.45 0.12 0.02 0.54 | +0.22 +0.11 (0.19->0.30) | 0/0.5 | 0
-  strokes   W791 ->W792     6   10 | NAME/first -> NAME/first | 0.13 0.25 0.37 0.14 | -0.08 +0.10 (0.00->0.10) | 0/0.0 | 0
-  strokes   W840 ->W844    95    9 | NAME/second -> NAME/penult | 0.30 0.26 0.45 0.57 | +0.08 -0.05 (0.27->0.22) | 1/0.2 | 0
-  strokes   W595 ->W597    33    8 | NAME/middle -> COUNT/middle | 0.16 0.97 0.68 0.44 | +0.00 +1.00 (0.00->1.00) | 0/0.1 | 0
-  strokes   W220 ->W234   319    8 | NAME/middle -> NAME/first | 0.47 0.26 0.47 0.17 | -0.03 -0.38 (0.38->0.00) | 0/0.7 | 0
-  strokes   W90  ->W93    133    7 | SUFFIX/last -> NAME/middle | 0.42 0.78 0.91 0.69 | -0.21 +0.41 (0.02->0.43) | 0/0.3 | 0
-  strokes   W803 ->W804   108    7 | NAME/first -> NAME/last | 0.89 0.17 0.53 0.37 | +0.45 -0.31 (0.31->0.00) | 0/0.2 | 0
+  strokes   W31  ->W55    182   47 | COUNT/first -> COUNT/middle | 0.25 0.03 0.26 0.03 | +0.09 +0.20 (0.18->0.38) | 4/2.3 | 0
+  strokes   W741 ->W742   172   31 | NAME/middle -> NAME/middle | 0.06 0.00 0.00 0.24 | +0.04 -0.03 (0.03->0.00) | 0/1.5 | 2
+  strokes   W234 ->W226     8   30 | NAME/first -> CLOSER/last | 0.29 0.73 0.04 0.07 | +0.30 +0.57 (0.00->0.57) | 0/0.1 | 1
+  strokes   W790 ->W832    42   25 | NAME/last -> NAME/last | 0.04 0.18 0.31 0.06 | +0.04 +0.00 (0.24->0.24) | 0/0.3 | 0
+  strokes   W235 ->W236   195   23 | NAME/middle -> CLOSER/last | 0.51 0.16 0.14 0.64 | +0.36 +0.06 (0.20->0.26) | 0/1.3 | 0
+  strokes   W808 ->W831     5   17 | NAME/first -> NAME/first | 0.20 0.40 0.06 0.34 | -0.02 +0.12 (0.00->0.12) | 0/0.0 | 0
+  strokes   W630 ->W636    25   16 | NAME/first -> NAME/second | 0.48 0.18 0.08 0.07 | +0.28 +0.00 (0.00->0.00) | 0/0.1 | 1
+  strokes   W142 ->W97     60   16 | NAME/penult -> NAME/penult | 0.01 0.01 0.42 0.17 | -0.05 -0.08 (0.20->0.12) | 0/0.3 | 2
+  strokes   W234 ->W241     8   11 | NAME/first -> NAME/last | 0.31 0.50 0.72 0.15 | +0.50 +0.18 (0.00->0.18) | 0/0.0 | 0
+  strokes   W590 ->W592   169   10 | NAME/middle -> NAME/last | 0.44 0.12 0.03 0.55 | +0.22 +0.11 (0.19->0.30) | 0/0.5 | 0
+  strokes   W791 ->W792     6   10 | NAME/first -> NAME/first | 0.12 0.22 0.39 0.12 | -0.08 +0.10 (0.00->0.10) | 0/0.0 | 0
+  strokes   W845 ->W844    49    9 | NAME/middle -> NAME/penult | 0.81 0.31 0.77 0.77 | +0.03 -0.08 (0.31->0.22) | 0/0.1 | 0
+  strokes   W595 ->W597    33    8 | NAME/middle -> COUNT/middle | 0.14 0.97 0.70 0.46 | +0.00 +1.00 (0.00->1.00) | 0/0.1 | 0
+  strokes   W234 ->W232     8    8 | NAME/first -> NAME/second | 0.50 0.05 0.73 0.33 | +0.16 +0.00 (0.00->0.00) | 0/0.0 | 0
+  strokes   W472 ->W468     5    8 | NAME/middle -> NAME/first | 0.22 0.83 0.35 0.00 | -0.21 -0.28 (0.40->0.12) | 0/0.0 | 0
+  strokes   W760 ->W703    90    8 | TITLE/penult -> NAME/first | 0.87 0.76 0.81 0.87 | -0.53 -0.19 (0.19->0.00) | 0/0.2 | 0
+  strokes   W90  ->W93    133    7 | SUFFIX/last -> NAME/middle | 0.45 0.80 0.89 0.71 | -0.21 +0.41 (0.02->0.43) | 0/0.3 | 0
 
-### TRAIN: Mohenjo-daro + Harappa: 25 edges with both signs >= 5 tokens
+### TRAIN: Mohenjo-daro + Harappa: 91 edges with both signs >= 5 tokens
 type         n | mean pct of JSD(base,derived) in freq-matched null (0 = derived is the base's twin, 0.5 = stranger)
                |  pos   lab    obj   site   left  right | drel(obs/null) dlast  dtab  dnum | cooc obs/exp/null | minpairs obs/null
-enclosure    1 | 0.07  0.06  0.19  0.36  0.02* 0.75  | +0.018/-0.238 +0.000 -0.045 +0.009 | 0/0.0/0.0 | 0/0.1
-roof         1 | 0.74  0.69  0.37  0.43  0.89  0.15  | -0.626/-0.251 -0.262 +0.000 +0.167 | 0/0.0/0.0 | 0/0.0
-strokes     14 | 0.41  0.22* 0.42  0.45  0.31* 0.33* | +0.105/+0.080 +0.139 -0.044 -0.000 | 5/9.7/10.2 | 5/1.2
-doubling     9 | 0.41  0.45  0.60  0.54  0.56  0.60  | -0.233/-0.082 -0.240 -0.289 -0.106 | 5/8.4/6.4 | 6/1.2
-ALL         25 | 0.41  0.32* 0.47  0.48  0.41  0.44  | -0.049/-0.005 -0.019 -0.130 -0.031 | 10/18.1/16.6 | 11/2.5
+enclosure    3 | 0.38  0.51  0.60  0.48  0.38  0.73  | -0.180/-0.273 -0.235 -0.045 -0.003 | 0/0.6/0.4 | 0/0.3
+roof         2 | 0.43  0.39  0.43  0.32  0.55  0.06* | -0.375/-0.183 -0.132 +0.048 +0.097 | 25/7.1/9.0 | 5/0.3
+strokes     14 | 0.32* 0.29* 0.47  0.41  0.37* 0.30* | +0.085/+0.079 +0.072 -0.141 +0.083 | 4/7.2/9.0 | 5/0.9
+doubling     9 | 0.41  0.44  0.60  0.53  0.55  0.60  | -0.233/-0.087 -0.240 -0.289 -0.106 | 5/8.4/6.4 | 6/1.2
+family      63 | 0.45  0.43* 0.42* 0.48  0.49  0.45  | -0.008/+0.015 +0.034 -0.003 -0.058 | 73/74.7/81.1 | 33/6.8
+ALL         91 | 0.42* 0.41* 0.45  0.47  0.48  0.44* | -0.029/+0.001 -0.000 -0.053 -0.036 | 107/98.1/105.9 | 49/9.5
 directional test, relative position: P(null |mean shift| >= observed) per type; sign of the shift (+ = derived sits further right than its base)
-  strokes    n=14 mean shift +0.105 (vs stranger +0.080); share of edges with |shift| < 0.1: 0.50
-  doubling   n= 9 mean shift -0.233 (vs stranger -0.082); share of edges with |shift| < 0.1: 0.22
+  enclosure  n= 3 mean shift -0.180 (vs stranger -0.273); share of edges with |shift| < 0.1: 0.67
+  strokes    n=14 mean shift +0.085 (vs stranger +0.079); share of edges with |shift| < 0.1: 0.50
+  doubling   n= 9 mean shift -0.233 (vs stranger -0.087); share of edges with |shift| < 0.1: 0.22
+  family     n=63 mean shift -0.008 (vs stranger +0.015); share of edges with |shift| < 0.1: 0.24
 edge detail (base -> derived: n_b n_d | label/pos base -> derived | pct pos lab L R | drel dnum | cooc obs/exp | minpairs):
   doubling  W32  ->W55    365   28 | COUNT/first -> COUNT/middle | 0.14 0.00 0.00 0.41 | +0.09 +0.06 (0.15->0.21) | 4/3.3 | 0
-  doubling  W700 ->W697   457   10 | CLOSER/last -> NAME/last | 0.00 0.49 1.00 0.64 | +0.02 -0.69 (0.79->0.10) | 0/1.5 | 2
-  doubling  W832 ->W792    18   10 | NAME/last -> NAME/first | 0.45 0.36 0.31 0.43 | -0.38 -0.01 (0.11->0.10) | 0/0.1 | 1
-  doubling  W820 ->W821   144   10 | OPENER/first -> NAME/first | 0.05 0.84 0.60 0.74 | +0.35 +0.58 (0.02->0.60) | 0/0.5 | 0
-  doubling  W900 ->W906    77    9 | TITLE/penult -> NAME/second | 0.57 0.59 0.22 0.39 | -0.33 -0.34 (0.34->0.00) | 0/0.2 | 0
-  doubling  W700 ->W698   457    8 | CLOSER/last -> NAME/first | 0.67 0.52 0.66 0.84 | -0.81 -0.79 (0.79->0.00) | 0/1.2 | 1
-  doubling  W220 ->W219   269    7 | NAME/middle -> NAME/first | 0.65 0.18 0.55 0.00 | -0.25 -0.06 (0.34->0.29) | 0/0.6 | 1
-  doubling  W520 ->W519   222    7 | CLOSER/last -> NAME/first | 0.92 0.72 0.96 0.96 | -0.68 +0.08 (0.20->0.29) | 1/0.5 | 0
-  doubling  W400 ->W401   348    5 | SUFFIX/last -> NAME/last | 0.21 0.33 0.78 1.00 | -0.11 +0.20 (0.00->0.20) | 0/0.6 | 1
-  enclosure W605 ->W792    11   10 | NAME/first -> NAME/first | 0.07 0.06 0.02 0.75 | +0.02 +0.01 (0.09->0.10) | 0/0.0 | 0
-  roof      W406 ->W391     7    6 | NAME/last -> NAME/first | 0.74 0.69 0.89 0.15 | -0.63 +0.17 (0.00->0.17) | 0/0.0 | 0
+  doubling  W700 ->W697   457   10 | CLOSER/last -> NAME/last | 0.00 0.49 1.00 0.67 | +0.02 -0.69 (0.79->0.10) | 0/1.5 | 2
+  doubling  W832 ->W792    18   10 | NAME/last -> NAME/first | 0.40 0.34 0.26 0.43 | -0.38 -0.01 (0.11->0.10) | 0/0.1 | 1
+  doubling  W820 ->W821   144   10 | OPENER/first -> NAME/first | 0.06 0.84 0.60 0.77 | +0.35 +0.58 (0.02->0.60) | 0/0.5 | 0
+  doubling  W900 ->W906    77    9 | TITLE/penult -> NAME/second | 0.61 0.60 0.20 0.36 | -0.33 -0.34 (0.34->0.00) | 0/0.2 | 0
+  doubling  W700 ->W698   457    8 | CLOSER/last -> NAME/first | 0.65 0.50 0.66 0.83 | -0.81 -0.79 (0.79->0.00) | 0/1.2 | 1
+  doubling  W220 ->W219   269    7 | NAME/middle -> NAME/first | 0.67 0.15 0.52 0.00 | -0.25 -0.06 (0.34->0.29) | 0/0.6 | 1
+  doubling  W520 ->W519   222    7 | CLOSER/last -> NAME/first | 0.91 0.72 0.96 0.96 | -0.68 +0.08 (0.20->0.29) | 1/0.5 | 0
+  doubling  W400 ->W401   348    5 | SUFFIX/last -> NAME/last | 0.23 0.34 0.80 1.00 | -0.11 +0.20 (0.00->0.20) | 0/0.6 | 1
+  enclosure W605 ->W792    11   10 | NAME/first -> NAME/first | 0.07 0.09 0.02 0.72 | +0.02 +0.01 (0.09->0.10) | 0/0.0 | 0
+  enclosure W820 ->W792   144   10 | OPENER/first -> NAME/first | 0.37 0.76 0.49 0.81 | +0.02 +0.08 (0.02->0.10) | 0/0.5 | 0
+  enclosure W617 ->W880    61    6 | CLOSER/last -> NAME/first | 0.69 0.68 0.64 0.67 | -0.58 -0.10 (0.10->0.00) | 0/0.1 | 0
+  family    W220 ->W235   269  173 | NAME/middle -> NAME/middle | 0.33 0.11 0.62 0.17 | -0.20 -0.16 (0.34->0.18) | 23/15.1 | 5
+  family    W220 ->W233   269  125 | NAME/middle -> NAME/middle | 0.12 0.05 0.42 0.06 | -0.08 -0.19 (0.34->0.15) | 8/10.9 | 4
+  family    W415 ->W407   118  116 | NAME/middle -> NAME/last | 0.72 0.44 0.76 1.00 | +0.58 +0.09 (0.15->0.24) | 16/3.9 | 0
+  family    W817 ->W806   129  107 | OPENER/first -> NAME/first | 0.63 0.97 0.33 0.90 | +0.18 +0.17 (0.00->0.17) | 3/4.5 | 0
+  family    W240 ->W255   260   92 | NAME/middle -> NAME/first | 0.00 0.16 0.62 0.05 | -0.08 -0.21 (0.31->0.10) | 9/7.9 | 0
+  family    W817 ->W803   129   92 | OPENER/first -> NAME/first | 0.66 0.95 0.60 0.87 | +0.23 +0.32 (0.00->0.32) | 3/3.9 | 1
+  family    W415 ->W405   118   86 | NAME/middle -> NAME/second | 0.67 0.45 0.76 1.00 | +0.34 +0.07 (0.15->0.22) | 0/3.3 | 0
+  family    W705 ->W706   126   73 | NAME/middle -> NAME/middle | 0.05 0.03 0.00 0.00 | -0.00 +0.05 (0.09->0.14) | 0/3.0 | 5
+  family    W156 ->W151    85   54 | CLOSER/last -> CLOSER/last | 0.02 0.00 0.81 0.00 | +0.05 -0.46 (0.55->0.09) | 1/1.5 | 0
+  family    W690 ->W692    87   53 | NAME/penult -> OPENER/first | 0.65 0.70 0.75 0.50 | -0.52 +0.02 (0.03->0.06) | 1/1.5 | 1
+  family    W840 ->W845    80   49 | NAME/second -> NAME/middle | 0.23 0.00 0.40 0.24 | +0.05 +0.03 (0.28->0.31) | 0/1.3 | 0
+  family    W415 ->W416   118   36 | NAME/middle -> NAME/first | 0.54 0.38 0.41 0.71 | -0.01 -0.01 (0.15->0.14) | 0/1.4 | 0
+  family    W156 ->W154    85   33 | CLOSER/last -> CLOSER/last | 0.00 0.03 0.11 0.02 | +0.01 -0.40 (0.55->0.15) | 0/0.9 | 2
+  family    W590 ->W595   140   32 | NAME/middle -> NAME/middle | 0.14 0.07 0.41 0.70 | +0.12 -0.19 (0.19->0.00) | 0/1.5 | 0
+  family    W706 ->W717    73   30 | NAME/middle -> NAME/first | 0.18 0.37 0.11 0.69 | -0.05 -0.04 (0.14->0.10) | 2/0.7 | 0
+  family    W220 ->W226   269   22 | NAME/middle -> CLOSER/last | 0.67 0.31 0.05 0.25 | +0.25 +0.11 (0.34->0.45) | 1/1.9 | 1
+  family    W832 ->W824    18   22 | NAME/last -> NAME/last | 0.18 0.31 0.45 0.18 | +0.21 +0.07 (0.11->0.18) | 0/0.1 | 0
+  family    W388 ->W384    33   19 | TITLE/penult -> COUNT/penult | 0.05 0.59 0.00 0.08 | +0.14 +0.31 (0.21->0.53) | 0/0.2 | 2
+  family    W90  ->W95    107   18 | SUFFIX/last -> NAME/middle | 0.81 0.74 0.95 0.74 | -0.40 +0.09 (0.02->0.11) | 0/0.6 | 0
+  family    W741 ->W745   131   18 | NAME/middle -> NAME/middle | 0.44 0.00 0.22 0.03 | -0.13 +0.07 (0.04->0.11) | 0/0.8 | 1
+  family    W820 ->W832   144   18 | OPENER/first -> NAME/last | 0.36 0.75 0.64 0.80 | +0.40 +0.09 (0.02->0.11) | 1/0.8 | 0
+  family    W90  ->W97    107   16 | SUFFIX/last -> NAME/penult | 0.81 0.77 0.96 0.66 | -0.42 +0.11 (0.02->0.12) | 0/0.6 | 1
+  family    W832 ->W831    18   15 | NAME/last -> NAME/first | 0.66 0.03 0.16 0.38 | -0.44 -0.04 (0.11->0.07) | 0/0.1 | 0
+  family    W861 ->W877   180   15 | OPENER/first -> NAME/first | 0.21 0.53 0.69 0.89 | +0.04 +0.21 (0.19->0.40) | 3/0.9 | 0
+  family    W550 ->W555    77   14 | NAME/first -> TITLE/penult | 0.24 0.17 0.06 0.20 | +0.28 -0.03 (0.25->0.21) | 1/0.4 | 2
+  family    W495 ->W491    14   13 | NAME/first -> NAME/first | 0.20 0.64 0.22 0.20 | -0.19 -0.14 (0.21->0.08) | 0/0.1 | 0
+  family    W630 ->W632    22   13 | NAME/first -> NAME/first | 0.15 0.71 0.29 0.24 | -0.06 +0.31 (0.00->0.31) | 0/0.1 | 0
+  family    W706 ->W711    73   13 | NAME/middle -> NAME/middle | 0.41 0.30 0.33 0.00 | +0.26 -0.14 (0.14->0.00) | 0/0.3 | 0
+  family    W226 ->W222    22   12 | CLOSER/last -> NAME/penult | 0.80 0.87 0.66 0.82 | -0.14 -0.29 (0.45->0.17) | 0/0.1 | 0
+  family    W70  ->W72     25   11 | NAME/penult -> NAME/first | 0.39 0.17 0.33 0.04 | -0.20 -0.06 (0.24->0.18) | 0/0.1 | 0
+  family    W240 ->W241   260   11 | NAME/middle -> NAME/last | 0.67 0.26 0.25 0.81 | +0.52 -0.13 (0.31->0.18) | 0/0.9 | 0
+  family    W482 ->W484    30   11 | TITLE/penult -> NAME/first | 0.65 0.74 0.71 0.87 | -0.19 +0.02 (0.17->0.18) | 1/0.1 | 0
+  family    W615 ->W605    56   11 | NAME/second -> NAME/first | 0.75 0.17 0.78 0.49 | -0.21 +0.07 (0.02->0.09) | 0/0.2 | 0
+  family    W832 ->W838    18   11 | NAME/last -> NAME/first | 0.62 0.38 0.38 0.32 | -0.29 -0.02 (0.11->0.09) | 0/0.1 | 0
+  family    W240 ->W243   260   10 | NAME/middle -> NAME/penult | 0.45 0.10 0.45 0.26 | +0.12 -0.01 (0.31->0.30) | 0/0.9 | 0
+  family    W335 ->W337    24   10 | NAME/middle -> NAME/second | 0.81 0.35 0.90 0.27 | +0.10 -0.08 (0.08->0.00) | 0/0.1 | 0
+  family    W527 ->W525    39   10 | CLOSER/last -> NAME/penult | 0.88 0.83 0.00 0.44 | -0.23 +0.00 (0.00->0.00) | 0/0.1 | 0
+  family    W527 ->W526    39   10 | CLOSER/last -> NAME/last | 0.00 0.83 0.00 0.06 | +0.06 +0.00 (0.00->0.00) | 0/0.1 | 2
+  family    W861 ->W868   180   10 | OPENER/first -> NAME/last | 0.19 0.74 0.95 0.68 | +0.71 -0.19 (0.19->0.00) | 0/0.6 | 0
+  family    W335 ->W336    24    9 | NAME/middle -> NAME/second | 0.64 0.43 0.79 0.23 | +0.04 +0.25 (0.08->0.33) | 0/0.1 | 0
+  family    W850 ->W853    40    9 | NAME/middle -> NAME/first | 0.62 0.18 0.64 0.20 | -0.49 -0.04 (0.15->0.11) | 0/0.1 | 0
+  family    W501 ->W500    31    8 | NAME/first -> NAME/second | 0.89 0.19 0.89 0.86 | +0.30 -0.03 (0.03->0.00) | 0/0.1 | 0
+  family    W555 ->W554    14    8 | TITLE/penult -> NAME/penult | 0.13 0.94 0.66 0.25 | -0.22 +0.16 (0.21->0.38) | 0/0.0 | 0
+  family    W95  ->W98     18    7 | NAME/middle -> NAME/first | 0.68 0.50 0.71 0.73 | -0.43 -0.11 (0.11->0.00) | 0/0.0 | 0
+  family    W226 ->W232    22    7 | CLOSER/last -> NAME/second | 0.02 0.87 0.74 0.16 | -0.11 -0.45 (0.45->0.00) | 0/0.1 | 0
+  family    W405 ->W406    86    7 | NAME/second -> NAME/last | 0.04 0.40 0.13 0.73 | +0.18 -0.22 (0.22->0.00) | 0/0.2 | 0
+  family    W503 ->W504    65    7 | NAME/first -> NAME/last | 0.96 0.14 0.93 0.79 | +0.55 -0.11 (0.11->0.00) | 0/0.1 | 0
+  family    W803 ->W804    92    7 | NAME/first -> NAME/last | 0.81 0.19 0.58 0.36 | +0.46 -0.32 (0.32->0.00) | 0/0.2 | 0
+  family    W803 ->W812    92    7 | NAME/first -> NAME/middle | 0.62 0.10 0.74 0.14 | +0.13 +0.11 (0.32->0.43) | 0/0.2 | 0
+  family    W840 ->W844    80    7 | NAME/second -> NAME/first | 0.24 0.47 0.47 0.55 | +0.00 -0.13 (0.28->0.14) | 0/0.2 | 0
+  family    W923 ->W924    35    7 | TITLE/penult -> NAME/second | 0.81 0.77 0.51 0.83 | -0.23 -0.40 (0.40->0.00) | 0/0.1 | 1
+  family    W61  ->W63     71    6 | NAME/middle -> NAME/second | 0.76 0.40 0.36 0.37 | +0.12 -0.25 (0.25->0.00) | 0/0.1 | 1
+  family    W226 ->W234    22    6 | CLOSER/last -> NAME/first | 0.03 0.86 0.33 0.04 | -0.30 -0.45 (0.45->0.00) | 0/0.0 | 1
+  family    W240 ->W252   260    6 | NAME/middle -> NAME/second | 0.73 0.15 0.68 0.42 | -0.24 -0.31 (0.31->0.00) | 0/0.5 | 0
+  family    W390 ->W391   164    6 | NAME/last -> NAME/first | 0.70 0.44 0.91 0.70 | -0.58 -0.22 (0.39->0.17) | 0/0.3 | 0
+  family    W706 ->W703    73    6 | NAME/middle -> NAME/first | 0.21 0.13 0.16 0.74 | -0.24 -0.14 (0.14->0.00) | 0/0.1 | 0
+  family    W850 ->W851    40    6 | NAME/middle -> NAME/first | 0.51 0.32 0.58 0.34 | -0.02 -0.15 (0.15->0.00) | 0/0.1 | 1
+  family    W154 ->W155    33    5 | CLOSER/last -> NAME/last | 0.47 1.00 0.24 0.54 | -0.33 +0.05 (0.15->0.20) | 0/0.1 | 1
+  family    W415 ->W408   118    5 | NAME/middle -> NAME/last | 0.68 0.47 0.53 0.92 | +0.33 +0.25 (0.15->0.40) | 0/0.2 | 0
+  family    W555 ->W556    14    5 | TITLE/penult -> NAME/first | 0.76 0.95 0.62 0.32 | -0.65 -0.21 (0.21->0.00) | 0/0.0 | 1
+  family    W575 ->W578    49    5 | NAME/first -> NAME/second | 0.20 0.38 0.73 0.65 | +0.04 -0.24 (0.24->0.00) | 0/0.1 | 0
+  family    W705 ->W702   126    5 | NAME/middle -> NAME/first | 0.35 0.17 0.28 0.66 | -0.23 -0.09 (0.09->0.00) | 0/0.2 | 0
+  family    W742 ->W749    26    5 | NAME/middle -> NAME/alone | 0.27 0.60 0.39 0.18 | +0.63 +0.00 (0.00->0.00) | 0/0.0 | 0
+  roof      W233 ->W235   125  173 | NAME/middle -> NAME/middle | 0.11 0.09 0.21 0.00 | -0.12 +0.03 (0.15->0.18) | 25/7.1 | 5
+  roof      W406 ->W391     7    6 | NAME/last -> NAME/first | 0.75 0.68 0.88 0.13 | -0.63 +0.17 (0.00->0.17) | 0/0.0 | 0
   strokes   W233 ->W231   125   62 | NAME/middle -> NAME/middle | 0.03 0.05 0.00 0.00 | -0.06 +0.03 (0.15->0.18) | 3/2.6 | 2
-  strokes   W31  ->W55    136   28 | COUNT/first -> COUNT/middle | 0.25 0.00 0.37 0.15 | +0.08 +0.00 (0.21->0.21) | 1/1.2 | 0
-  strokes   W220 ->W226   269   22 | NAME/middle -> CLOSER/last | 0.65 0.29 0.05 0.24 | +0.25 +0.11 (0.34->0.45) | 1/1.9 | 1
-  strokes   W790 ->W832    32   18 | NAME/last -> NAME/last | 0.02 0.11 0.32 0.09 | +0.01 -0.05 (0.16->0.11) | 0/0.2 | 0
-  strokes   W142 ->W97     54   16 | NAME/penult -> NAME/penult | 0.03 0.04 0.48 0.21 | -0.06 -0.10 (0.22->0.12) | 0/0.3 | 1
-  strokes   W235 ->W236   173   16 | NAME/middle -> CLOSER/second | 0.42 0.10 0.18 0.56 | +0.24 -0.05 (0.18->0.12) | 0/0.9 | 0
-  strokes   W630 ->W636    22   15 | NAME/first -> NAME/second | 0.42 0.22 0.11 0.04 | +0.26 +0.00 (0.00->0.00) | 0/0.1 | 1
-  strokes   W790 ->W831    32   15 | NAME/last -> NAME/first | 0.57 0.15 0.31 0.52 | -0.43 -0.09 (0.16->0.07) | 0/0.2 | 0
-  strokes   W240 ->W241   260   11 | NAME/middle -> NAME/last | 0.68 0.28 0.27 0.82 | +0.52 -0.13 (0.31->0.18) | 0/0.9 | 0
-  strokes   W590 ->W592   140    8 | NAME/middle -> NAME/last | 0.69 0.07 0.16 0.60 | +0.26 +0.06 (0.19->0.25) | 0/0.4 | 0
-  strokes   W595 ->W597    32    8 | NAME/middle -> COUNT/middle | 0.16 0.96 0.69 0.44 | -0.02 +1.00 (0.00->1.00) | 0/0.1 | 0
-  strokes   W803 ->W804    92    7 | NAME/first -> NAME/last | 0.82 0.20 0.58 0.35 | +0.46 -0.32 (0.32->0.00) | 0/0.2 | 0
-  strokes   W840 ->W844    80    7 | NAME/second -> NAME/first | 0.24 0.49 0.45 0.49 | +0.00 -0.13 (0.28->0.14) | 0/0.2 | 0
-  strokes   W220 ->W234   269    6 | NAME/middle -> NAME/first | 0.70 0.18 0.40 0.11 | -0.05 -0.34 (0.34->0.00) | 0/0.5 | 0
+  strokes   W31  ->W55    136   28 | COUNT/first -> COUNT/middle | 0.24 0.00 0.38 0.12 | +0.08 +0.00 (0.21->0.21) | 1/1.2 | 0
+  strokes   W741 ->W742   131   26 | NAME/middle -> NAME/middle | 0.03 0.00 0.00 0.09 | +0.03 -0.04 (0.04->0.00) | 0/1.1 | 0
+  strokes   W234 ->W226     6   22 | NAME/first -> CLOSER/last | 0.12 0.68 0.03 0.11 | +0.30 +0.45 (0.00->0.45) | 0/0.0 | 1
+  strokes   W790 ->W832    32   18 | NAME/last -> NAME/last | 0.01 0.15 0.32 0.07 | +0.01 -0.05 (0.16->0.11) | 0/0.2 | 0
+  strokes   W142 ->W97     54   16 | NAME/penult -> NAME/penult | 0.02 0.04 0.47 0.22 | -0.06 -0.10 (0.22->0.12) | 0/0.3 | 1
+  strokes   W235 ->W236   173   16 | NAME/middle -> CLOSER/second | 0.42 0.13 0.17 0.59 | +0.24 -0.05 (0.18->0.12) | 0/0.9 | 0
+  strokes   W630 ->W636    22   15 | NAME/first -> NAME/second | 0.41 0.20 0.11 0.04 | +0.26 +0.00 (0.00->0.00) | 0/0.1 | 1
+  strokes   W234 ->W241     6   11 | NAME/first -> NAME/last | 0.27 0.26 0.66 0.13 | +0.53 +0.18 (0.00->0.18) | 0/0.0 | 0
+  strokes   W590 ->W592   140    8 | NAME/middle -> NAME/last | 0.67 0.09 0.16 0.59 | +0.26 +0.06 (0.19->0.25) | 0/0.4 | 0
+  strokes   W595 ->W597    32    8 | NAME/middle -> COUNT/middle | 0.17 0.95 0.67 0.43 | -0.02 +1.00 (0.00->1.00) | 0/0.1 | 0
+  strokes   W234 ->W232     6    7 | NAME/first -> NAME/second | 0.39 0.18 0.70 0.21 | +0.20 +0.00 (0.00->0.00) | 0/0.0 | 0
+  strokes   W845 ->W844    49    7 | NAME/middle -> NAME/first | 0.81 0.54 0.77 0.79 | -0.05 -0.16 (0.31->0.14) | 0/0.1 | 0
+  strokes   W760 ->W703    79    6 | TITLE/penult -> NAME/first | 0.92 0.79 0.71 0.86 | -0.54 -0.16 (0.16->0.00) | 0/0.2 | 0
 
-## held-out confirmation: 1 edges with mean percentile < 0.2 on train; held-out sites (min 3 tokens each)
+## held-out confirmation: 7 edges with mean percentile < 0.2 on train; held-out sites (min 3 tokens each)
 
-### HELD-OUT SITES (train-significant edges): 1 edges with both signs >= 3 tokens
+### HELD-OUT SITES (train-significant edges): 7 edges with both signs >= 3 tokens
 type         n | mean pct of JSD(base,derived) in freq-matched null (0 = derived is the base's twin, 0.5 = stranger)
                |  pos   lab    obj   site   left  right | drel(obs/null) dlast  dtab  dnum | cooc obs/exp/null | minpairs obs/null
-strokes      1 | 0.03* 0.03* 0.49  0.43  0.00* 0.16  | +0.072/+0.185 +0.020 -0.045 +0.106 | 0/0.4/0.3 | 0/0.1
-ALL          1 | 0.03* 0.03* 0.49  0.43  0.00* 0.16  | +0.072/+0.185 +0.020 -0.045 +0.106 | 0/0.4/0.3 | 0/0.1
+roof         1 | 0.09  0.00* 0.25  0.08  0.00* 0.12  | -0.269/-0.185 -0.091 -0.045 +0.136 | 1/1.0/0.6 | 1/0.1
+strokes      2 | 0.38  0.01* 0.59  0.63  0.31  0.43  | +0.091/+0.078 +0.098 -0.035 +0.041 | 0/0.8/0.7 | 0/0.2
+family       4 | 0.18* 0.26* 0.57  0.52  0.38  0.28  | +0.093/+0.122 +0.019 +0.046 +0.077 | 0/0.8/0.8 | 1/0.2
+ALL          7 | 0.23* 0.15* 0.53  0.49  0.31* 0.30* | +0.041/+0.065 +0.026 +0.010 +0.075 | 1/2.6/2.1 | 2/0.6
 directional test, relative position: P(null |mean shift| >= observed) per type; sign of the shift (+ = derived sits further right than its base)
+  family     n= 4 mean shift +0.093 (vs stranger +0.122); share of edges with |shift| < 0.1: 0.75
 edge detail (base -> derived: n_b n_d | label/pos base -> derived | pct pos lab L R | drel dnum | cooc obs/exp | minpairs):
-  strokes   W233 ->W231    22    9 | NAME/middle -> NAME/middle | 0.03 0.03 0.00 0.16 | +0.07 +0.11 (0.23->0.33) | 0/0.4 | 0
-   held-out: 1 of 1 train-significant edges have derived closer to base than to the median stranger; mean pct 0.19
+  family    W240 ->W255    21   10 | NAME/middle -> NAME/first | 0.23 0.38 0.79 0.03 | +0.02 -0.23 (0.33->0.10) | 0/0.4 | 0
+  family    W156 ->W154     8    5 | CLOSER/last -> CLOSER/last | 0.07 0.01 0.19 0.09 | -0.03 +0.22 (0.38->0.60) | 0/0.1 | 0
+  family    W705 ->W706    25    5 | NAME/first -> NAME/first | 0.12 0.37 0.36 0.41 | +0.03 -0.04 (0.04->0.00) | 0/0.2 | 1
+  family    W388 ->W384     7    4 | NAME/penult -> NAME/alone | 0.31 0.28 0.20 0.59 | +0.35 +0.36 (0.14->0.50) | 0/0.1 | 0
+  roof      W233 ->W235    22   22 | NAME/middle -> NAME/first | 0.09 0.00 0.00 0.12 | -0.27 +0.14 (0.23->0.36) | 1/1.0 | 1
+  strokes   W233 ->W231    22    9 | NAME/middle -> NAME/middle | 0.03 0.02 0.00 0.15 | +0.07 +0.11 (0.23->0.33) | 0/0.4 | 0
+  strokes   W741 ->W742    41    5 | NAME/middle -> NAME/second | 0.73 0.00 0.63 0.70 | +0.11 -0.02 (0.02->0.00) | 0/0.4 | 0
+   held-out: 6 of 7 train-significant edges have derived closer to base than to the median stranger; mean pct 0.34
 
 ## IM77 (Mahadevan) through the bridge, one-to-one mappings only; 3548 lines
 
-### IM77: 8 edges with both signs >= 5 tokens
+### IM77: 26 edges with both signs >= 5 tokens
 type         n | mean pct of JSD(base,derived) in freq-matched null (0 = derived is the base's twin, 0.5 = stranger)
                |  pos   lab    obj   site   left  right | drel(obs/null) dlast  dtab  dnum | cooc obs/exp/null | minpairs obs/null
-roof         1 | 0.54  0.26  0.33  0.50  0.23  | -0.245/-0.211 -0.103 -0.069 +0.074 | 0/0.1/0.1 | 0/0.0
-strokes      5 | 0.29  0.45  0.42  0.21* 0.29  | +0.147/+0.094 +0.114 -0.077 +0.043 | 11/9.9/11.6 | 5/1.6
-doubling     2 | 0.44  0.68  0.53  0.33  0.33  | -0.071/-0.119 +0.075 -0.241 -0.055 | 7/6.3/6.4 | 1/0.4
-ALL          8 | 0.36  0.48  0.43  0.27* 0.29* | +0.043/+0.002 +0.077 -0.117 +0.022 | 18/16.2/18.0 | 6/2.1
+roof         2 | 0.38  0.30  0.22  0.38  0.13* | -0.169/-0.199 -0.048 -0.065 +0.089 | 30/11.5/15.0 | 9/1.2
+strokes      4 | 0.25* 0.53  0.20* 0.33  0.21* | +0.067/+0.046 -0.015 -0.219 +0.068 | 9/6.7/9.1 | 4/1.6
+doubling     2 | 0.44  0.71  0.53  0.34  0.32  | -0.071/-0.119 +0.075 -0.241 -0.055 | 7/6.3/6.4 | 1/0.4
+family      18 | 0.39  0.41  0.51  0.42  0.41  | -0.004/-0.003 +0.032 +0.033 -0.059 | 60/69.1/69.1 | 23/5.4
+ALL         26 | 0.37* 0.44  0.44  0.40* 0.35* | -0.011/-0.019 +0.022 -0.034 -0.028 | 106/93.6/99.7 | 37/8.6
 directional test, relative position: P(null |mean shift| >= observed) per type; sign of the shift (+ = derived sits further right than its base)
-  strokes    n= 5 mean shift +0.147 (vs stranger +0.094); share of edges with |shift| < 0.1: 0.40
+  strokes    n= 4 mean shift +0.067 (vs stranger +0.046); share of edges with |shift| < 0.1: 0.75
+  family     n=18 mean shift -0.004 (vs stranger -0.003); share of edges with |shift| < 0.1: 0.33
 edge detail (base -> derived: n_b n_d | label/pos base -> derived | pct pos lab L R | drel dnum | cooc obs/exp | minpairs):
-  doubling  W32  ->W55    365   70 | OPENER/first -> OPENER/middle | 0.27 nan 0.18 0.17 | +0.12 +0.25 (0.19->0.44) | 6/6.1 | 1
-  doubling  W900 ->W906    88   11 | OPENER/penult -> OPENER/second | 0.62 nan 0.47 0.48 | -0.26 -0.36 (0.36->0.00) | 1/0.3 | 0
-  roof      W455 ->W456    29    7 | OPENER/second -> OPENER/first | 0.54 nan 0.50 0.23 | -0.24 +0.07 (0.07->0.14) | 0/0.1 | 0
+  doubling  W32  ->W55    365   70 | OPENER/first -> OPENER/middle | 0.26 nan 0.20 0.18 | +0.12 +0.25 (0.19->0.44) | 6/6.1 | 1
+  doubling  W900 ->W906    88   11 | OPENER/penult -> OPENER/second | 0.62 nan 0.49 0.46 | -0.26 -0.36 (0.36->0.00) | 1/0.3 | 0
+  family    W220 ->W235   381  216 | OPENER/middle -> OPENER/middle | 0.28 nan 0.39 0.08 | -0.18 -0.13 (0.37->0.24) | 26/22.5 | 6
+  family    W220 ->W233   381  188 | OPENER/middle -> OPENER/middle | 0.14 nan 0.28 0.00 | -0.09 -0.24 (0.37->0.13) | 13/19.6 | 5
+  family    W240 ->W255   279  105 | OPENER/middle -> OPENER/middle | 0.05 nan 0.57 0.30 | -0.01 -0.19 (0.29->0.10) | 10/8.3 | 0
+  family    W156 ->W151   126   80 | OPENER/last -> OPENER/last | 0.04 nan 0.40 0.06 | +0.04 -0.25 (0.33->0.07) | 0/2.8 | 4
+  family    W690 ->W692    92   63 | OPENER/penult -> OPENER/first | 0.70 nan 0.76 0.71 | -0.54 -0.01 (0.05->0.05) | 2/1.6 | 0
+  family    W803 ->W808   102   57 | OPENER/middle -> OPENER/first | 0.21 nan 0.27 0.16 | +0.15 -0.16 (0.31->0.16) | 4/1.4 | 2
+  family    W590 ->W595   170   51 | OPENER/middle -> OPENER/middle | 0.08 nan 0.16 0.86 | +0.17 -0.05 (0.16->0.12) | 0/2.4 | 0
+  family    W741 ->W745   177   51 | OPENER/middle -> OPENER/first | 0.58 nan 0.35 0.02 | -0.16 -0.01 (0.03->0.02) | 0/2.5 | 1
+  family    W840 ->W845    93   48 | OPENER/second -> OPENER/middle | 0.28 nan 0.22 0.64 | +0.09 -0.14 (0.39->0.25) | 0/1.3 | 0
+  family    W415 ->W416   132   38 | OPENER/middle -> OPENER/first | 0.52 nan 0.39 0.74 | -0.05 +0.07 (0.14->0.21) | 0/1.4 | 1
+  family    W220 ->W226   381   29 | OPENER/middle -> OPENER/last | 0.41 nan 0.00 0.35 | +0.37 +0.08 (0.37->0.45) | 2/3.0 | 1
+  family    W90  ->W95    134   27 | OPENER/last -> OPENER/middle | 0.89 nan 0.90 0.83 | -0.46 +0.10 (0.01->0.11) | 1/0.9 | 0
+  family    W501 ->W500    22   24 | OPENER/first -> OPENER/second | 0.33 nan 0.39 0.68 | +0.22 -0.18 (0.18->0.00) | 0/0.1 | 0
+  family    W550 ->W555    90   22 | OPENER/first -> OPENER/penult | 0.33 nan 0.01 0.00 | +0.27 -0.02 (0.16->0.14) | 1/0.6 | 2
+  family    W482 ->W484    35   15 | OPENER/penult -> OPENER/second | 0.84 nan 0.60 0.56 | -0.30 +0.15 (0.11->0.27) | 1/0.1 | 0
+  family    W840 ->W844    93   13 | OPENER/second -> OPENER/penult | 0.47 nan 0.32 0.72 | +0.14 -0.23 (0.39->0.15) | 0/0.3 | 0
+  family    W555 ->W554    22   11 | OPENER/penult -> OPENER/penult | 0.04 nan 0.78 0.00 | -0.07 +0.23 (0.14->0.36) | 0/0.1 | 1
+  family    W503 ->W504    76    7 | OPENER/first -> OPENER/second | 0.93 nan 0.69 0.68 | +0.33 -0.09 (0.09->0.00) | 0/0.1 | 0
+  roof      W233 ->W235   188  216 | OPENER/middle -> OPENER/middle | 0.23 nan 0.31 0.04 | -0.09 +0.10 (0.13->0.24) | 30/11.4 | 9
+  roof      W455 ->W456    29    7 | OPENER/second -> OPENER/first | 0.54 nan 0.44 0.22 | -0.24 +0.07 (0.07->0.14) | 0/0.1 | 0
   strokes   W233 ->W231   188   73 | OPENER/middle -> OPENER/middle | 0.13 nan 0.00 0.00 | +0.03 +0.11 (0.13->0.25) | 7/3.9 | 4
-  strokes   W31  ->W55    149   70 | OPENER/first -> OPENER/middle | 0.34 nan 0.44 0.20 | +0.14 +0.30 (0.15->0.44) | 2/2.5 | 0
-  strokes   W220 ->W226   381   29 | OPENER/middle -> OPENER/last | 0.40 nan 0.00 0.33 | +0.37 +0.08 (0.37->0.45) | 2/3.0 | 1
-  strokes   W840 ->W844    93   13 | OPENER/second -> OPENER/penult | 0.45 nan 0.34 0.70 | +0.14 -0.23 (0.39->0.15) | 0/0.3 | 0
-  strokes   W440 ->W443    50    8 | OPENER/middle -> OPENER/middle | 0.13 nan 0.26 0.21 | +0.06 -0.04 (0.04->0.00) | 0/0.1 | 0
+  strokes   W31  ->W55    149   70 | OPENER/first -> OPENER/middle | 0.35 nan 0.45 0.19 | +0.14 +0.30 (0.15->0.44) | 2/2.5 | 0
+  strokes   W845 ->W844    48   13 | OPENER/middle -> OPENER/penult | 0.36 nan 0.64 0.44 | +0.04 -0.10 (0.25->0.15) | 0/0.2 | 0
+  strokes   W440 ->W443    50    8 | OPENER/middle -> OPENER/middle | 0.15 nan 0.24 0.22 | +0.06 -0.04 (0.04->0.00) | 0/0.1 | 0
