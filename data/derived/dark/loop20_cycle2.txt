@@ -10,3 +10,5 @@ train Harappa -> test Mohenjo-daro vs depth: train n=934 test n=1325; Spearman(p
    weights (later = +): 772:+2.04 390x407:+1.61 527:-1.41 320:+1.36 812:-1.09 297:+0.99 27x28:+0.90 413:+0.89
 train Mohenjo-daro -> test Harappa vs period: train n=780 test n=431; Spearman(pred, residual time) = +0.013; null mean -0.008 sd 0.049; P = 0.351
 train Harappa -> test Mohenjo-daro vs period: train n=431 test n=780; Spearman(pred, residual time) = -0.026; null mean -0.002 sd 0.035; P = 0.735
+both cities pooled vs depth (5-fold CV): n=2259 held-out Spearman(pred, residual time) = -0.008; shuffled-variant clock mean -0.012 sd 0.027; P = 0.453
+pooled clock saved: data/derived/dark/loop20_clock.json; weights: 90:+0.38 156:+0.13 154:-0.41 240:-0.56 297:+0.86 317:-0.91 320:+0.66 337:-0.50 371:+2.37 390:+0.00 413:+0.92 527:-0.13 630:+0.32 705:+0.50 717:+0.06 745:+0.32 772:+0.11 803:-0.18 812:-2.64 861:+0.04 820:+0.05 868:-1.37 824:+0.12 384x388:+0.36 27x28:+0.90 525x526:+0.43 850x851:+0.84 390x407:+0.62
