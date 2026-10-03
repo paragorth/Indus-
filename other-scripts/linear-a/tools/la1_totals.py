@@ -41,6 +41,7 @@ secs.append({'id': 'HT123+124a *308 (hand)', 'tot': mk(25, ['H']),
              'entries': [mk(8, ['E']), mk(8, ['JE']), mk(4, ['A']), mk(4, ['E'])]})
 LETTERS = sorted({f for s in secs for q in s['entries'] + [s['tot']] for f in q['frac']})
 FSEC = [s for s in secs if any(q['frac'] for q in s['entries'] + [s['tot']])]
+FIDS = {x['id'] for x in FSEC}
 print(f'{len(secs)} sections, {len(FSEC)} with fractions; letters in sections: {LETTERS}')
 
 UF = [Fr(1, d) for d in range(2, 17)]
@@ -81,7 +82,7 @@ print(f'INT exact {len(INT)}/{len(secs)}: {INT}')
 print(f'SITE exact {len(SITE)}: extra over INT {sorted(set(SITE) - set(INT))}')
 print(f'LB-ABS exact {len(LBABS)}: extra {sorted(set(LBABS) - set(INT))}')
 print(f'LB-SCALE best V = {best_v}: exact {len(LBS)}: extra {sorted(set(LBS) - set(INT))}; '
-      f'scales giving any extra: {sum(1 for v in POOL if len(scale_res[v]) > len(INT))}/{len(POOL)}')
+      f'scales balancing >=1 fraction section: {[str(v) for v in POOL if set(scale_res[v]) & FIDS]}')
 
 # null
 K = len(POOL)
