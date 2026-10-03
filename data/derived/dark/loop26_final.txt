@@ -1,0 +1,40 @@
+LOOP 26 FINAL: IS THE MIDDLE A LEXICON OR AN ATTRIBUTE CODE?
+Engine tools/dark_loop26.py (cycles 1-4, three sign levels, 200 stratified permutations). Cycle files loop26_cycle1-4.txt hold the full
+ready-to-paste rows S-DARK-26.1 to 26.4; raw output loop26_cycle<N>_<level>.txt. Data: merged-corpus-canonical.json (S-DARK-23 caution).
+Middle = NAME + COUNT residue of the S310/S331 parser (2,643 texts, 7,987 tokens, 617 types); frame-purged variant also run.
+Controls at the Indus size and lengths: Ur III seal-owner names (CDLI, syllables), planted attribute code (6 independent Zipf slots x 102),
+planted lexicon (1,500 fixed words over 150 syllables).
+
+PLACEMENT OF THE INDUS MIDDLE (deduplicated, one copy per distinct site + middle; seq_raw, other levels within 0.02)
+  statistic                              attribute code   INDUS   INDUS seals   Ur III names   planted lexicon
+  pair-model gain over independence, 5-fold    0.9%        7.5%     7.5%          15.3%          15.6%
+  same, fit MD + Harappa / test other sites    1.1%        3.2%     2.7%          15.5%          16.6%
+  MI(first, last element) % of H(first)       -0.9%        0.9%     0.6%           1.8%          -0.7%
+  elements that predict their partners          0.00        0.07     0.05          0.20           0.38
+  compound pairs (O > 4E)                       0.003       0.087    0.071         0.196          0.043
+  exclusion pairs (O < E/4)                     0.070       0.033    0.030         0.098          0.028
+  Chao1 element inventory (closed?)             608 found   617 -> 864 (closed, = S309)           536        150 found
+  Chao1 distinct middles                        29,700      >= 8,800 (seals 11,700)              2,800      10,000
+
+VERDICT, PLAINLY
+1. The middle is NOT a product code of fully independent attributes: independence is rejected at every level (pair dependency 2-3x the planted
+   code, 7.5% pair gain vs 1%).
+2. It is NOT a lexicon of compounds either: once each distinct text counts once, an element barely predicts its partners (7% of elements; a
+   lexicon gives 38%, Ur III names 20%), the first element says nothing about the last (0.9%), and whatever dependency exists does not travel
+   between cities (3% across sites; S-DARK-4.2 agrees).
+3. What is left is a FREE COMBINATION of a nearly closed inventory (~860 elements) with a short list of frozen pairs: numeral + item terms
+   (4+390, 3+900, 17+575, 33+705/706, 32+877), pre-jar pairs (255+435, 220+415, 415+798, 60+550, 407+845, 35+171, 13+840) and the frame
+   leftovers the parser does not strip (176+740, inner opener + W2). These cover ~9% of pairs and ~1/4 of tokens; the other 3/4 combine with
+   no partner preference. Closest planted model: an attribute-like code whose 'slots' cannot be recovered (cycle 3's method fails its own
+   positive control; the only mutually exclusive class found is the numerals: one count per middle).
+4. (d) Quantity seals are the most code-like (MI 0.9%, exclusions > compounds: numerals exclude each other); office (jar) seals have no
+   exclusions and a few frozen pre-jar compounds; neither looks like compound names. Tablets' apparent lexicon was whole-text repetition.
+5. (e) Elements ~860 (matches S309's ~950 for the whole script); distinct middles >= 8,800 (lower bound) - combinatorial, as a code predicts,
+   and consistent with S309 (95% of new texts new) and S321/S322/S-DARK-18 (middles do not reuse strings like names do).
+Caveats: 86% of middles from MD + Harappa; held-out sites agree on direction (3% gain, 1 partner-predictor of 88, same avoidance excess on 77
+pairs) but are small. Ur III dedup by name string is the conservative construction (S-DARK-18.2). The S310 parser leaves frame phrases in the
+residue (33+705, 255+435, 176+740); purging them moves every Indus number further toward the code. Cycles 1-2 (undeduplicated) overstate the
+lexical side and should be read with cycle 4.
+
+SUMMARY ROW (paste the four cycle rows from loop26_cycle1-4.txt; this is the one-line family verdict)
+| S-DARK-26 (family) | Middle = lexicon or attribute code? Independence census, held-out pair-model gain, MI(first,last), partner prediction, complementary-distribution slots, Chao1; controls Ur III names, planted 6-slot code, planted 1,500-word lexicon; stratified permutation nulls; dedup; three levels (`tools/dark_loop26.py`) | Deduplicated Indus: pair gain 7.5% (code 1%, lexicon 16%, Ur III 15%), across sites 3%; partner-predicting elements 0.07 (code 0, Ur III 0.20, lexicon 0.38); MI(first,last) 0.9%; compounds 0.09 of pairs (numeral + item, 255+435, 220+415, 60+550, 407+845); elements closed at ~860, middles >= 8,800 | **The middle is a free combination of a closed inventory with a short list of frozen pairs: nearer an attribute code than a lexicon of compound names, but not a clean product code (independence rejected), and its slot structure is not recoverable at this corpus size (method fails its positive control). Not names (confirms S321/S322/S-DARK-18); fits the credential reading (S347-S349).** |

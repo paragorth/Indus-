@@ -14,3 +14,18 @@
   linb                           markov1   heldout    n  529 accept 0.93 | shuf 0.72 slot 0.74 rand 0.59 | AUC shuf 0.758 (len>=3 0.795) slot 0.738 rand 0.849
   linb                           alergia   heldout    n  529 accept 0.94 | shuf 0.81 slot 0.81 rand 0.73 | AUC shuf 0.726 (len>=3 0.76) slot 0.720 rand 0.790
   linb                           hmm20     heldout    n  529 accept 0.95 | shuf 0.72 slot 0.72 rand 0.55 | AUC shuf 0.708 (len>=3 0.75) slot 0.713 rand 0.806
+
+## control pe: 2792 texts, mean len 3.5, |A| 121; alergia states 7; train 1786 / threshold set 447 / genuine held-out 559
+  pe                             markov1   heldout    n  559 accept 0.92 | shuf 0.67 slot 0.68 rand 0.62 | AUC shuf 0.727 (len>=3 0.747) slot 0.736 rand 0.784
+  pe                             alergia   heldout    n  559 accept 0.93 | shuf 0.43 slot 0.44 rand 0.48 | AUC shuf 0.789 (len>=3 0.83) slot 0.798 rand 0.855
+  pe                             hmm20     heldout    n  559 accept 0.93 | shuf 0.34 slot 0.34 rand 0.32 | AUC shuf 0.824 (len>=3 0.878) slot 0.824 rand 0.884
+
+## control planted-frame: 3000 texts, mean len 4.9, |A| 121; alergia states 13; train 1920 / threshold set 480 / genuine held-out 600
+  planted-frame                  markov1   heldout    n  600 accept 0.96 | shuf 0.86 slot 0.86 rand 0.89 | AUC shuf 0.790 (len>=3 0.796) slot 0.785 rand 0.805
+  planted-frame                  alergia   heldout    n  600 accept 0.95 | shuf 0.28 slot 0.27 rand 0.26 | AUC shuf 0.909 (len>=3 0.92) slot 0.919 rand 0.943
+  planted-frame                  hmm20     heldout    n  600 accept 0.96 | shuf 0.19 slot 0.20 rand 0.15 | AUC shuf 0.942 (len>=3 0.956) slot 0.937 rand 0.965
+
+## control strict-code: 3000 texts, mean len 4.2, |A| 45; alergia states 6; train 1920 / threshold set 480 / genuine held-out 600
+  strict-code                    markov1   heldout    n  600 accept 0.93 | shuf 0.06 slot 0.06 rand 0.02 | AUC shuf 0.982 (len>=3 0.986) slot 0.980 rand 0.985
+  strict-code                    alergia   heldout    n  600 accept 0.94 | shuf 0.07 slot 0.08 rand 0.07 | AUC shuf 0.972 (len>=3 0.974) slot 0.965 rand 0.975
+  strict-code                    hmm20     heldout    n  600 accept 0.94 | shuf 0.04 slot 0.05 rand 0.01 | AUC shuf 0.985 (len>=3 0.987) slot 0.987 rand 0.997
