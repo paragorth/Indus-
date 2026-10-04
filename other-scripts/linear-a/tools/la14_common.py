@@ -41,6 +41,9 @@ def tidy(doc):
     return out
 
 
+SITE = {}  # document text -> site prefix (used by the E_wordsite forger)
+
+
 def load_la():
     c = json.load(open(os.path.join(D, 'corpus.json')))
     docs, ids = [], []
@@ -57,7 +60,7 @@ def load_la():
             elif t['t'] == 'div': d.append('DV')
         d = tidy(d)
         if len(ctoks(d)) >= 4:
-            docs.append(d); ids.append(r['id'])
+            docs.append(d); ids.append(r['id']); SITE[' '.join(d)] = r['id'][:2]
     return docs, ids
 
 
@@ -99,7 +102,7 @@ def load_lb(n=285, seed=0):
                 if re.fullmatch(r"[A-Z*0-9;+±:]+", t): d.append('L:' + t); continue
         d = tidy(d)
         if len(ctoks(d)) >= 4 and any(t.startswith('W:') for t in d) and len(d) <= 120:
-            docs.append(d)
+            docs.append(d); SITE[' '.join(d)] = x['heading'][:2]
     rng = random.Random(seed)
     rng.shuffle(docs)
     return docs[:n]
@@ -326,19 +329,25 @@ def join_lines(L):
 class CopyEdit:
     """Copies a real (half-A) document and applies one local edit of a given type."""
     TYPES = ['COPY0', 'E_num', 'E_numnear', 'E_word', 'E_logo', 'E_first', 'E_last', 'E_swapadj',
-             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf']
+             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf', 'E_splLine', 'E_wordsite']
 
     def __init__(self, docs, etype):
         self.docs = docs; self.e = etype
         self.words = [t for d in docs for t in d if t.startswith('W:')]
         self.logos = [t for d in docs for t in d if t.startswith('L:')]
         self.nums = [t for d in docs for t in d if t.startswith('N:')]
+        self.sitewords = defaultdict(list)
+        for d in docs:
+            st = SITE.get(' '.join(d), '??')
+            self.sitewords[st] += [t for t in d if t.startswith('W:')]
 
     def ok(self, d):
         e = self.e
         if e in ('E_num', 'E_numnear'): return any(t.startswith('N:') for t in d)
         if e == 'E_numshuf': return len({t for t in d if t.startswith('N:')}) >= 2
         if e in ('E_word', 'E_first', 'E_last'): return any(t.startswith('W:') for t in d)
+        if e == 'E_wordsite': return any(t.startswith('W:') for t in d) and len(self.sitewords.get(SITE.get(' '.join(d), '??'), [])) >= 30
+        if e == 'E_splLine': return len([l for l in lines_of(d) if l]) >= 3
         if e == 'E_wordshuf': return len({t for t in d if t.startswith('W:')}) >= 2
         if e == 'E_logo': return any(t.startswith('L:') for t in d)
         if e == 'E_swapline': return len([l for l in lines_of(d) if l]) >= 3
@@ -351,6 +360,7 @@ class CopyEdit:
         if not getattr(self, 'queue', None):
             self.queue = list(range(len(self.docs))); rng.shuffle(self.queue)
             self.queue = [i for i in self.queue if self.ok(self.docs[i])]
+            self.queue_all = list(self.queue)
         self.src = self.queue.pop()
         for _ in range(50):
             d = list(self.docs[self.src]); e = self.e
@@ -368,6 +378,17 @@ class CopyEdit:
                 w = rng.choice(self.words)
                 if w == d[i]: continue
                 d[i] = w; return d
+            if e == 'E_wordsite':
+                i = rng.choice([i for i, t in enumerate(d) if t.startswith('W:')])
+                w = rng.choice(self.sitewords[SITE.get(' '.join(self.docs[self.src]), '??')])
+                if w == d[i]: continue
+                d[i] = w; return d
+            if e == 'E_splLine':
+                d2 = self.docs[rng.choice(self.queue_all)]
+                if d2 == d: continue
+                L1 = lines_of(d); L2 = lines_of(d2)
+                i = rng.randint(1, len(L1) - 1); j = rng.randint(1, max(1, len(L2) - 1))
+                return join_lines(L1[:i] + L2[j:])
             if e == 'E_logo':
                 i = rng.choice([i for i, t in enumerate(d) if t.startswith('L:')])
                 w = rng.choice(self.logos)
