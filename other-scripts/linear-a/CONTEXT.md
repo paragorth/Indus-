@@ -108,3 +108,4 @@ Balance weights are lead and stone discs. They are found on Crete, Kea, Thera (A
    - Null: 10^4 random spatially smooth fields.
    - Out-of-sample prediction: the commodity mix of a held-out site.
    - Kill: random fields fit as well.
+  - Tested (la29): not supported. Land predicts no commodity mix or administrative sign beyond random fields; see FINDINGS.md.

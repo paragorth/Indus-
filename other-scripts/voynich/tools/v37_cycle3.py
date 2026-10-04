@@ -1,5 +1,5 @@
 """v37 cycle 3: massive random key -> value hypotheses + catalogue keys.
-(A) 4,000 random (key function, value feature) pairs: key = prefix/suffix/identity class of the ANCHOR word
+(A) 2,000 random (key function, value feature) pairs: key = prefix/suffix/identity class of the ANCHOR word
     (first word = KEY pipeline; a random interior word = MID pipeline; last word = END pipeline), value = 'the
     line holds an interior word (distance >= 2 from the anchor) with prefix / suffix / bigram s'.  Score =
     line-specific MI (bits x 1000) = MI(key; value) - mean MI with the key taken from 3 other lines of the
@@ -13,7 +13,7 @@ import sys, time
 from v37_lib import *
 from v37_cycle1 import get
 
-NH = 4000; TOP = 40
+NH = 2000; TOP = 40
 
 
 def build(C, rng, body_only):
