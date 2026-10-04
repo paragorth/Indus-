@@ -43,20 +43,26 @@ def counter_feats(units):
     return f
 
 
+_RAMP = {}
+def _ramp_mat(N, P, gap):
+    k = (N, P, gap)
+    if k not in _RAMP:
+        i = np.arange(N, dtype=float)
+        rows = []
+        for off in (range(P) if gap > 0 else [0]):
+            j = i.copy()
+            if gap > 0: j[gap:] += off
+            for ph in range(P):
+                pos = (j + ph) % P
+                rows.append((pos - pos.mean()) / (pos.std() + 1e-12))
+        _RAMP[k] = np.array(rows)
+    return _RAMP[k]
+
+
 def ramp_stat(y, P, gap):
     """max over phase (and gap offset) of |corr(y, sawtooth position)|"""
-    N = len(y); best = 0.0
-    i = np.arange(N, dtype=float)
-    offs = range(P) if gap > 0 else [0]
     ys = (y - y.mean()) / (y.std() + 1e-12)
-    for off in offs:
-        j = i.copy()
-        if gap > 0: j[gap:] += off
-        for ph in range(P):
-            pos = (j + ph) % P
-            pos = (pos - pos.mean()) / (pos.std() + 1e-12)
-            best = max(best, abs((ys * pos).mean()))
-    return best
+    return float(np.abs(_ramp_mat(len(y), P, gap) @ ys).max() / len(y))
 
 
 def counter_scan(F, perm, gap):
