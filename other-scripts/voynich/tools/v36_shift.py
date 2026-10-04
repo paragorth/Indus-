@@ -122,5 +122,5 @@ if __name__ == '__main__':
         if sel and n not in sel:
             continue
         res[n] = run(n, k)
-    tag = 'sel' if sel else 'all'
+    tag = sel[0] if sel else 'all'
     json.dump(res, open(os.path.join(L.CK, f'shift_{tag}.json'), 'w'), default=float)

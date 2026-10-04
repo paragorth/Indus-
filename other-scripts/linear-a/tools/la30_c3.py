@@ -6,7 +6,7 @@ rate-weighted sum of a run of 2-7 numbers directly before it, where the run mixe
 types (base commodity, or 'bare') and at least one type is a commodity. Rates are on the
 simple-rational grid (p/q <= 12; 'bare' is fixed at 1 so the unit is that of the persons'
 lists). Site fraction values. Score = inscriptions with >= 1 exact mixed-run hit.
-Fit on half the inscriptions (random 2x10^4 + annealed), count hits on the other half,
+Fit on half the inscriptions (random 2x10^4 + annealed, then the Occam reset of cycle 1d), count hits on the other half,
 minus hits under the plain sum. Nulls: N1 commodity labels shuffled across all numbers of
 all inscriptions (keeps every number in place); N2 numbers shuffled within each inscription
 (keeps labels and positions of labels). Planted: a random rate vector, and in 12 % of the
@@ -119,6 +119,17 @@ def fit(A, b, own, mask, nins, rng, n_random=20000, n_chain=12, n_steps=250):
     return top
 
 
+def prune3(R, A, b, own, mask, nins):
+    """Occam step: reset each rate to 1 when that does not lower the train count."""
+    R = R.copy(); base = hits(R[None], A, b, own, mask, nins)[0]
+    for t in range(1, len(R)):
+        if R[t] != 1:
+            R2 = R.copy(); R2[t] = 1
+            if hits(R2[None], A, b, own, mask, nins)[0] >= base:
+                R = R2
+    return R
+
+
 def make(kind, seed):
     rng = np.random.default_rng(seed)
     S = json.loads(json.dumps(SEQ)); truth = None
@@ -156,6 +167,7 @@ def run(job):
     for sp in range(NSPLIT):
         perm = rng.permutation(n); tr = np.zeros(n, bool); tr[perm[:n // 2]] = True
         k, R = fit(A, b, own, tr, n, rng)
+        R = prune3(R, A, b, own, tr, n)
         h = hits(R[None], A, b, own, ~tr, n)[0]
         h0 = hits(np.ones((1, len(TYPES))), A, b, own, ~tr, n)[0]
         gains.append(int(h - h0)); base.append(int(h0))

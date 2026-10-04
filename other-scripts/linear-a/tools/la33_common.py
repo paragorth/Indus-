@@ -234,9 +234,8 @@ def sim_tablet_sched(st, rng):
         if rng.random() < st['jit']: amt = _round_amt(amt * math.exp(rng.normal(0, 0.4)))
         out.append((S[k], float(amt), 'X'))
     # turnover
-    for k in range(len(S)):
-        if rng.random() < st['turn']:
-            st['newid'] += 1; S[k] = 's%d' % st['newid']
+    for k in np.nonzero(rng.random(len(S)) < st['turn'])[0]:
+        st['newid'] += 1; S[k] = 's%d' % st['newid']
     return out
 
 
@@ -247,7 +246,7 @@ def new_sched(rng):
     levels = sorted(set(_round_amt(base * f) for f in rng.choice([0.25, 0.5, 1, 1.5, 2, 3], size=K)))
     p = rng.dirichlet(np.ones(len(levels)) * 2)
     st = {'staff': ['s%d' % i for i in range(size)], 'newid': size,
-          'cls': [levels[rng.choice(len(levels), p=p)] for _ in range(size)],
+          'cls': [levels[i] for i in rng.choice(len(levels), size=size, p=p)],
           'm': float(min(size, math.exp(rng.uniform(0, math.log(40))))), 'sdn': rng.uniform(0, 2),
           'block': rng.uniform(0, 1), 'jit': rng.uniform(0, 0.3), 'turn': math.exp(rng.uniform(math.log(1e-3), math.log(0.3)))}
     return st
@@ -264,7 +263,12 @@ def sim_tablet_pois(st, rng):
         if N == 0 or rng.random() < (st['theta'] + st['d'] * len(st['tab'])) / (N + st['theta']):
             st['tab'].append(1); j = len(st['tab']) - 1
         else:
-            w = np.array(st['tab'], float) - st['d']; j = rng.choice(len(w), p=w / w.sum()); st['tab'][j] += 1
+            while True:  # pick a previous customer's table, accept with (c - d) / c
+                j = st['cust'][rng.integers(0, N)]
+                c = st['tab'][j]
+                if rng.random() < (c - st['d']) / c: break
+            st['tab'][j] += 1
+        st['cust'].append(j)
         st['N'] += 1
         amt = _round_amt(math.exp(rng.normal(st['mu'], st['sig'])))
         out.append(('p%d' % j, amt, 'X'))
@@ -274,13 +278,13 @@ def sim_tablet_pois(st, rng):
 def new_pois(rng):
     return {'m': math.exp(rng.uniform(0, math.log(40))), 'k': math.exp(rng.uniform(math.log(0.3), math.log(50))),
             'theta': math.exp(rng.uniform(math.log(1), math.log(2000))), 'd': rng.uniform(0, 0.7),
-            'tab': [], 'N': 0, 'mu': rng.uniform(0, math.log(200)), 'sig': rng.uniform(0.3, 2.0)}
+            'tab': [], 'cust': [], 'N': 0, 'mu': rng.uniform(0, math.log(200)), 'sig': rng.uniform(0.3, 2.0)}
 
 
 def sim_archive(T, regime, rng, w=None, survive=None):
     """regime 'S', 'P' or 'M' (mixed: each tablet scheduled with prob w).
     survive: fraction of the written archive that survives (random loss)."""
-    survive = survive if survive is not None else math.exp(rng.uniform(math.log(0.05), 0))
+    survive = survive if survive is not None else math.exp(rng.uniform(math.log(0.1), 0))
     Tw = int(math.ceil(T / survive))
     ss, sp = new_sched(rng), new_pois(rng)
     if regime == 'S': w = 1.0

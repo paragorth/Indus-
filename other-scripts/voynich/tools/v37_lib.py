@@ -267,7 +267,7 @@ def targets(n, a):
     return [j for j in range(1, n - 1) if abs(j - a) >= 2]
 
 
-def coupling(C, seed=0, alpha=8.0, body_only=True, anchor='joint', nboot=300, nswap=4):
+def coupling(C, seed=0, alpha=200.0, body_only=True, anchor='joint', nboot=300, nswap=4):
     """Held-out predictive gain (millibits per target word) of target word classes given the anchor word's class,
     two-fold over pages. Targets: interior words at distance >= 2 from the anchor (junction excluded).
     Anchors: KEY = first word, MID = a random interior word, END = last word. Model P(target class | anchor

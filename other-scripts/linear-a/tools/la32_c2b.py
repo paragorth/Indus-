@@ -48,7 +48,7 @@ for l in open(os.path.join(CK, 'wiki_missp.txt'), encoding='utf8'):
             if d: mis.append(dict(a=d[0], b=d[1]))
 ocr_p = os.path.join(CK, 'ocr_pairs2.json')
 if not os.path.exists(ocr_p):
-    txt = open(os.path.join(CK, 'gutenberg.txt'), encoding='utf8').read().split()[3000:3000 + 30000]
+    txt = open(os.path.join(CK, 'gutenberg.txt'), encoding='utf8').read().split()[3000:3000 + 10000]
     fonts = ['/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
     pairs = []
     for k in range(0, len(txt), 500):
@@ -60,9 +60,9 @@ if not os.path.exists(ocr_p):
         f = ImageFont.truetype(fonts[(k // 500) % 2], 12)
         im = Image.new('L', (620, 16 * len(lines) + 20), 255); dr = ImageDraw.Draw(im)
         for i, ln in enumerate(lines): dr.text((8, 8 + 16 * i), ln, fill=0, font=f)
-        sc = 2.4 + 0.4 * ((k // 1000) % 3)
-        im = im.resize((int(im.width / sc), int(im.height / sc)), Image.BILINEAR).filter(ImageFilter.GaussianBlur(0.7))
-        a = np.array(im, float) + rng.normal(0, 25, (im.height, im.width))
+        sc, nz = [(1.5, 20), (1.8, 10), (1.8, 20)][(k // 500) % 3]
+        im = im.resize((int(im.width / sc), int(im.height / sc)), Image.BILINEAR).filter(ImageFilter.GaussianBlur(0.5))
+        a = np.array(im, float) + rng.normal(0, nz, (im.height, im.width))
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((int(im.width * sc * 1.3), int(im.height * sc * 1.3)), Image.BILINEAR)
         p = os.path.join(CK, 'ocr_tmp.png'); im.save(p)
         o = subprocess.run(['tesseract', p, '-', '--psm', '6'], capture_output=True, text=True,
