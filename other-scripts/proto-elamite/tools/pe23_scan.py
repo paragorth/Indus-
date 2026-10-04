@@ -66,8 +66,10 @@ def memberships(e, key):
     return []
 
 
-def stratum(e, how):
+def stratum(e, how, f=None):
     b = int(math.log2(max(1, e['val'])))
+    if f == 'REP':  # repeats depend mechanically on how many entries the tablet has
+        b = (b, int(math.log2(max(1, e['nent']))))
     if how == 'mag':
         return (e['sys'], b)
     return (e['tab'], e['sys'], b // 2)
@@ -81,7 +83,7 @@ def scan(ents, keys=('final',), feats=('ROUND',), strata='mag', min_n=15, min_ta
         sub = [e for e in ents if e.get(f) is not None]
         sm = defaultdict(list)
         for e in sub:
-            sm[stratum(e, strata)].append(e[f])
+            sm[stratum(e, strata, f)].append(e[f])
         mean = {k: np.mean(v) for k, v in sm.items()}
         var = {k: np.var(v) for k, v in sm.items()}
         sizes = {k: len(v) for k, v in sm.items()}
@@ -93,14 +95,14 @@ def scan(ents, keys=('final',), feats=('ROUND',), strata='mag', min_n=15, min_ta
                     groups[(g, sy)].append(e)
             for (g, sy), ge in groups.items():
                 # entries only in strata that also have outsiders
-                ge = [e for e in ge if sizes[stratum(e, strata)] > 1]
+                ge = [e for e in ge if sizes[stratum(e, strata, f)] > 1]
                 tabs = Counter(e['tab'] for e in ge)
                 if len(ge) < min_n or len(tabs) < min_tabs:
                     continue
-                res = np.array([e[f] - mean[stratum(e, strata)] for e in ge])
+                res = np.array([e[f] - mean[stratum(e, strata, f)] for e in ge])
                 obs = float(np.mean([e[f] for e in ge]))
                 exp = obs - float(res.mean())
-                vi = sum(var[stratum(e, strata)] for e in ge)
+                vi = sum(var[stratum(e, strata, f)] for e in ge)
                 ct = defaultdict(float)
                 for e, r in zip(ge, res):
                     ct[e['tab']] += r

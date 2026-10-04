@@ -305,3 +305,10 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - No relative chronology of signs or variants can be claimed; the CA ends are format (early) and one content cluster (late).
 - Prediction (C): CahDAFI 8 Acropole tablets, earliest to latest, P009433, P009435, P009436, P009432, P009434; their published levels would test it. Not cracked.
 
+## The flock does the arithmetic (pe20, 4 Oct 2026; `loops/pe20_final.txt`)
+- Idea: if herd signs name animal categories, their counts must obey flock demography. Eight herd signs were assigned blind to categories by 200,000 random draws plus Gibbs sampling. Each assignment was scored by a herd-biology likelihood with pastoral rate ranges. The search used the 10 herd blocks of MDP 17,096+325+380; 35 records from 22 other tablets were held out.
+- **Grade B: the herd counts are coupled like a flock's.** Search p 0.005 against all-entry and within-sign shuffles. Held-out +3.6 log units (p 0.008). A model fitted on the other blocks predicts hidden counts at +0.86 bits per cell (shuffles <= 0.09; planted herds 0.80).
+- **Grade B: M362 (the herd header count) and M362~a are the reference counts** that the other numbers scale with. This survives a wether-aware model and the held-out test.
+- **Grade B-: the numbers alone split the signs into the scribe's plain and ~a series** (P 0.92; random column splits p 0.033, within-sign shuffles p 0.08). The herd lists MDP 17,085/17,097 track the plain series only (M362 rho 0.75, M362~a -0.52). Grade C: two kinds of animal (for example sheep and goats).
+- **The labels are not calibrated.** On Ur III Girsu/Umma herds with known categories, the same search prefers rams/wethers over ewes as "breeding females" and reads kids as males (1.8/7 exact, chance 0.8). 35% of 300 random biologies fit PE as well as the real one. Grade C: M006 is a small male group (0.07 per M362). M367 as young is demoted: it is too few (0.22 per M362) and its posterior spreads over all classes in the wether model. M346 fits no category.
+- Predictions to check by collating P008294: rev 6.c M006 = 1 (80%: 0-4); obv 5.a M367 = 2 (0-6). Not cracked.

@@ -49,13 +49,21 @@ def _logo(s):
     return bool(re.fullmatch(r'\*[4-9]\d\d.*', s)) or s in ('VS', 'VAS') or bool(re.search(r'[a-z]', s))
 
 
+SUPPORT = {'tablet': 'tablet', 'lames (short thin tablet)': 'tablet', '3-sided bar': 'tablet',
+           '4-sided bar': 'tablet', 'nodule': 'nodule', 'sealing': 'nodule', 'label': 'nodule',
+           'roundel': 'roundel', 'clay vessel': 'vessel', 'inked inscription': 'vessel',
+           'graffito': 'vessel'}
+
+
 def load_docs():
     """One record per document at an analysed site: word types (2+ syllabic signs), syllabic
     sign tokens, logogram tokens, and entry-structure counts."""
+    from la15_common import load_la
+    keep = {d['id'] for d in load_la()}          # drops joins whose parts are also listed
     C = json.load(open(os.path.join(DATA, 'corpus.json')))
     docs = []
     for d in C:
-        if d['site'] not in NAME2CODE:
+        if d['site'] not in NAME2CODE or d['id'] not in keep:
             continue
         words, signs, logos = [], [], []
         nnum = nfrac = nword = nline = nwn = 0
@@ -77,7 +85,7 @@ def load_docs():
                 nnum += 1; nfrac += bool(t.get('frac'))
             elif t['t'] == 'nl':
                 nline += 1
-        docs.append(dict(id=d['id'], site=NAME2CODE[d['site']], support=d['support'], words=words,
+        docs.append(dict(id=d['id'], site=NAME2CODE[d['site']], support=SUPPORT.get(d['support'].lower(), 'object'), words=words,
                          signs=signs, logos=logos,
                          feat=np.array([nword, nnum, nfrac, len(logos), nline + 1, nwn,
                                         sum(len(w.split('-')) for w in words), len(words)], float)))
