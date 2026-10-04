@@ -77,14 +77,18 @@ def loo_nn(docs, agree, conf, labs, use='both'):
     for (a, b), v in conf.items():
         if use in ('both', 'conf'): sc[a][b] = sc[a].get(b, 0) - v; sc[b][a] = sc[b].get(a, 0) - v
     hit = tot = 0
+    sitec = collections.defaultdict(collections.Counter)
+    for b in range(len(docs)): sitec[docs[b]['site']][labs[b]] += 1
     for a in range(len(docs)):
         if not sc[a]: continue
         if use == 'conf':
             # conflict-only: vote AGAINST hands of conflicting docs; predict the most common same-site hand not voted against
             bad = {labs[b] for b, v in sc[a].items() if v < 0}
-            cand = collections.Counter(labs[b] for b in range(len(docs)) if b != a and docs[b]['site'] == docs[a]['site'] and labs[b] not in bad)
+            if not bad: continue
+            cand = sitec[docs[a]['site']].copy(); cand[labs[a]] -= 1
+            cand = {h: c for h, c in cand.items() if c > 0 and h not in bad}
             if not cand: continue
-            pred = cand.most_common(1)[0][0]
+            pred = max(cand.items(), key=lambda kv: kv[1])[0]
         else:
             b, v = max(sc[a].items(), key=lambda kv: kv[1])
             if v <= 0: continue
@@ -96,10 +100,13 @@ def loo_nn(docs, agree, conf, labs, use='both'):
 def conflict_only_baseline(docs, labs, mask):
     """majority same-site hand ignoring any information (for the conflict-only vote)."""
     hit = tot = 0
+    sitec = collections.defaultdict(collections.Counter)
+    for b in range(len(docs)): sitec[docs[b]['site']][labs[b]] += 1
     for a in mask:
-        cand = collections.Counter(labs[b] for b in range(len(docs)) if b != a and docs[b]['site'] == docs[a]['site'])
+        cand = sitec[docs[a]['site']].copy(); cand[labs[a]] -= 1
+        cand = {h: c for h, c in cand.items() if c > 0}
         if not cand: continue
-        tot += 1; hit += cand.most_common(1)[0][0] == labs[a]
+        tot += 1; hit += max(cand.items(), key=lambda kv: kv[1])[0] == labs[a]
     return hit, tot
 
 
@@ -121,7 +128,7 @@ def battery(tag, docs, rnd, nperm=2000):
     out = dict(base=br, conf=pc, agree=pa, both=pb, nc=nc, na=na)
     for use in ('agree', 'both', 'conf'):
         h, t = loo_nn(docs, agree, conf, labs, use)
-        Nn = [loo_nn(docs, agree, conf, perm_within_site(docs, labs, rnd), use) for _ in range(200)]
+        Nn = [loo_nn(docs, agree, conf, perm_within_site(docs, labs, rnd), use) for _ in range(int(os.environ.get('NLOO', 200)))]
         acc = np.array([x[0] / max(x[1], 1) for x in Nn])
         say(f'   LOO hand recovery using {use}: {h}/{t} = {h/max(t,1):.3f}; permuted-labels {acc.mean():.3f} 95% {np.percentile(acc,95):.3f} P(>=) {(acc >= h/max(t,1)).mean():.3f}')
         out['loo_' + use] = (h, t, float(acc.mean()), float((acc >= h / max(t, 1)).mean()))
