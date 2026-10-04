@@ -285,3 +285,94 @@ def ur3_sections():
             out.append({'id': pid, 'entries': ents})
     json.dump(out, open(p, 'w'))
     return out
+
+
+# ---------------------------------------------------------------- search engine
+class Search:
+    """Random + annealed search for rate vectors (and fraction values) that balance totals.
+    grid: list of allowed rate values (LA: simple rationals) or None (continuous, log-uniform
+    in logrange). fracmode: 'site' (fixed), 'free' (each letter on FGRID), 'DB' (free but
+    D = 1/5, B = 1/3)."""
+
+    def __init__(self, des, mode='exact', grid=RGRID, logrange=None, fracmode='site', p1=0.5, seed=0):
+        self.d = des; self.mode = mode; self.grid = None if grid is None else np.array(grid)
+        self.logrange = logrange; self.fracmode = fracmode; self.p1 = p1
+        self.rng = np.random.default_rng(seed)
+        self.K = len(des.types); self.L = len(des.letters)
+        self.F0 = np.array([SITE.get(l, 1 / 16) for l in des.letters])
+        self.fg = np.array(FGRID)
+        self.fixed = np.array([l in ('D', 'B') for l in des.letters]) if fracmode == 'DB' else np.zeros(self.L, bool)
+
+    def rand(self, m):
+        R = rng_rates(self.rng, m, self.K, self.p1, None if self.grid is None else self.grid, self.logrange)
+        F = np.tile(self.F0, (m, 1))
+        if self.fracmode != 'site' and self.L:
+            G = self.fg[self.rng.integers(0, len(self.fg), (m, self.L))]
+            use = (self.rng.random((m, self.L)) < 0.5) & ~self.fixed[None]
+            F[use] = G[use]
+        return R, F
+
+    def score(self, R, F, idx):
+        S, T = self.d.S_T(R, F)
+        S, T = S[:, idx], T[:, idx]
+        b = balanced(S, T, self.mode)
+        res = np.minimum(np.abs(S - T) / np.maximum(np.abs(T), 1), 1).sum(1)
+        return b.sum(1), res, b
+
+    def fit(self, idx, n_random=20000, n_chain=16, n_steps=300, batch=4000):
+        best = []
+        for a in range(0, n_random, batch):
+            R, F = self.rand(min(batch, n_random - a))
+            sc, res, _ = self.score(R, F, idx)
+            key = sc - 1e-3 * res
+            top = np.argsort(-key)[:n_chain]
+            best.extend((key[t], R[t].copy(), F[t].copy()) for t in top)
+        best.sort(key=lambda x: -x[0])
+        best = best[:n_chain]
+        R = np.array([b[1] for b in best]); F = np.array([b[2] for b in best])
+        key = np.array([b[0] for b in best])
+        Q = self.d.I[idx] + np.einsum('nkl,l->nk', self.d.C[idx], self.F0)  # for solve moves
+        for step in range(n_steps):
+            R2 = R.copy(); F2 = F.copy()
+            for c in range(len(R)):
+                u = self.rng.random()
+                if u < 0.5:
+                    # solve move: pick a train section and a type in it, solve the rate to balance it
+                    s = self.rng.integers(len(idx)); ty = np.nonzero(Q[s] > 0)[0]
+                    if len(ty) == 0:
+                        continue
+                    t = self.rng.choice(ty)
+                    Sx, Tx = self.d.S_T(R2[c:c + 1], F2[c:c + 1])
+                    qt = (self.d.I[idx[s], t] + self.d.C[idx[s], t] @ F2[c])
+                    if qt <= 0:
+                        continue
+                    need = R2[c, t] + (Tx[0, idx[s]] - Sx[0, idx[s]]) / qt
+                    if need <= 0:
+                        continue
+                    if self.grid is not None:
+                        need = self.grid[np.argmin(np.abs(np.log(self.grid) - np.log(need)))]
+                    R2[c, t] = need
+                elif u < 0.8 or not self.L or self.fracmode == 'site':
+                    t = self.rng.integers(self.K)
+                    if self.grid is not None:
+                        R2[c, t] = 1.0 if self.rng.random() < 0.3 else self.grid[self.rng.integers(len(self.grid))]
+                    else:
+                        R2[c, t] *= np.exp(self.rng.normal(0, 0.5))
+                else:
+                    l = self.rng.integers(self.L)
+                    if not self.fixed[l]:
+                        F2[c, l] = self.fg[self.rng.integers(len(self.fg))]
+            sc, res, _ = self.score(R2, F2, idx)
+            k2 = sc - 1e-3 * res
+            T = max(0.05, 1.0 * (1 - step / n_steps))
+            acc = (k2 >= key) | (self.rng.random(len(key)) < np.exp((k2 - key) / T))
+            R[acc] = R2[acc]; F[acc] = F2[acc]; key[acc] = k2[acc]
+            for c in range(len(key)):
+                if not best or k2[c] > best[0][0]:
+                    pass
+            # keep the best ever
+            j = np.argmax(k2)
+            if k2[j] > best[0][0]:
+                best.insert(0, (k2[j], R2[j].copy(), F2[j].copy()))
+        best.sort(key=lambda x: -x[0])
+        return best[0]

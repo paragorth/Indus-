@@ -293,15 +293,18 @@ def family_test(obs, nulls):
     keys = list(obs.keys())
     O = np.stack([obs[k] for k in keys])                    # F x P
     Nn = np.stack([np.stack([n[k] for k in keys]) for n in nulls])   # R x F x P
-    mu = Nn.mean(0); sd = Nn.std(0) + 1e-12
-    Z = (O - mu) / sd
+    mu = Nn.mean(0); sd = Nn.std(0)
+    # sd floor: a quarter of the feature's median null sd over periods, so that near-degenerate cells (rare
+    # categories, few comb lags) cannot produce huge z in the observed data or in the null replicates
+    floor = 0.25 * np.median(sd, axis=1, keepdims=True) + 1e-9
+    Z = (O - mu) / np.maximum(sd, floor)
     R = len(nulls)
     # leave-one-out for the null maxima
     S1 = Nn.sum(0); S2 = (Nn ** 2).sum(0)
     nullmax = []
     for r in range(R):
-        m = (S1 - Nn[r]) / (R - 1); v = (S2 - Nn[r] ** 2) / (R - 1) - m ** 2
-        nullmax.append((((Nn[r] - m) / (np.sqrt(np.maximum(v, 0)) + 1e-12))).max())
+        m = (S1 - Nn[r]) / (R - 1); v = np.sqrt(np.maximum((S2 - Nn[r] ** 2) / (R - 1) - m ** 2, 0))
+        nullmax.append(((Nn[r] - m) / np.maximum(v, floor)).max())
     nullmax = np.array(nullmax)
     zmax = Z.max()
     p = (1 + (nullmax >= zmax).sum()) / (R + 1)
@@ -313,7 +316,7 @@ def family_test(obs, nulls):
         i = keys.index(k)
         pc = (1 + (Nn[:, i, j] >= O[i, j]).sum()) / (R + 1)
         tops.append((k, j, float(z), float(pc)))
-    return {'keys': keys, 'Z': Z, 'zmax': float(zmax), 'nullmax': nullmax, 'p_fw': float(p), 'tops': tops}
+    return {'keys': keys, 'Z': Z, 'zmax': float(zmax), 'nullmax': nullmax, 'p_fw': float(p), 'tops': tops, 'O': O, 'Nn': Nn}
 
 
 def perm_nulls(num, cat, vec, R, seed, periods=PERIODS, kind='shuffle', groups=None):

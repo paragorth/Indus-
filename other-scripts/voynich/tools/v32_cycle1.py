@@ -22,11 +22,9 @@ def corpora():
         'ADO-full': V.ado_units(),
         'ADO-date-noletter': V.ado_units(letter=False),
         'ADO-body': V.ado_units(letter=False, date=False),
-        'ADO-full-60w': V.ado_units(maxw=60),
         'PLANT-open-29.5-s0.3': V.plant_calendar(q, 29.53, 0.3, 1, 'opening'),
         'PLANT-open-7-s0.3': V.plant_calendar(q, 7, 0.3, 2, 'opening'),
         'PLANT-vocab-28-s0.05': V.plant_calendar(q, 28, 0.05, 3, 'vocab'),
-        'PLANT-len-12-s0.3': V.plant_calendar(q, 12, 0.3, 4, 'length'),
     }
     return C
 
@@ -44,7 +42,7 @@ def run(args):
            'tops': res['tops'], 'secs': time.time() - t,
            # best z at the calendar periods (any feature)
            'cal': {str(P): float(res['Z'][:, list(V.PERIODS).index(P)].max()) for P in [7.0, 12.0, 27.32, 28.0, 29.53, 30.0, 30.44, 36.0, 36.5]},
-           'Z': res['Z'], 'keys': res['keys'], 'nullmax': res['nullmax']}
+           'Z': res['Z'], 'keys': res['keys'], 'nullmax': res['nullmax'], 'O': res['O'], 'Nn': res['Nn'].astype(np.float32)}
     pickle.dump(out, open(ck, 'wb'))
     print(name, len(units), f"zmax {out['zmax']:.2f} p_fw {out['p_fw']:.3f}", out['top'][:200], flush=True)
     return out
