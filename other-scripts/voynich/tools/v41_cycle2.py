@@ -15,27 +15,6 @@ res = {}
 rows = []
 
 
-def stem_split(w):
-    for e in sorted(A_END + B_END, key=len, reverse=True):
-        if w.endswith(e) and len(w) > len(e):
-            return w[:-len(e)], e
-    return None, None
-
-
-def make_traits(P):
-    st = defaultdict(set)
-    for p in P:
-        for w in p['all']:
-            s, e = stem_split(w)
-            if s:
-                st[s].add('B' if e in B_END else 'A')
-    shared = {s for s, v in st.items() if len(v) == 2}
-    T = dict(VTRAITS)
-    T['stem_Bshare'] = (lambda w: stem_split(w)[1] in B_END,
-                        lambda w: stem_split(w)[0] in shared)
-    return T, len(shared)
-
-
 def run_group(pages, T, o, strata, seed, nperm=400):
     (X1, X2), names = rate_matrix(pages, T)
     coh = coherence_null(X1, X2, o, strata, nperm=nperm, seed=seed)

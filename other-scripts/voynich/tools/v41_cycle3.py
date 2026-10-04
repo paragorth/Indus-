@@ -15,7 +15,6 @@ import numpy as np
 from scipy.stats import spearmanr
 sys.path.insert(0, os.path.dirname(__file__))
 from v41_lib import *
-from v41_cycle2 import make_traits  # noqa  (cycle2 guarded below)
 
 res, rows = {}, []
 c2 = json.load(open(os.path.join(CK, 'c2.json')))
@@ -62,7 +61,7 @@ def phys_test(gname, clock, pages, nperm=5000, seed=0):
 
 
 # ---- (a) control: planted per-bifolio vs per-page times in H1A herbal ----
-from v41_cycle1_plant import plant  # small helper module
+# plant() comes from v41_lib
 H1 = [p for p in P if p['hand'] == '1' and p['lang'] == 'A' and p['illus'] == 'H']
 T, _ = make_traits(P)
 A = [p for p in P if p['lang'] == 'A']; B = [p for p in P if p['lang'] == 'B']

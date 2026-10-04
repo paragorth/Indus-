@@ -242,3 +242,39 @@ def write_rows(path, rows, header=None):
             fh.write(header.rstrip() + '\n\n')
         for r in rows:
             fh.write(r.rstrip() + '\n')
+
+
+def plant(word, s, r):
+    """planted A->B rewrite of one word with probability s (control only)."""
+    if r.random() >= s:
+        return word
+    w = word
+    for b, g in (('cth', 't'), ('ckh', 'k'), ('cph', 'p'), ('cfh', 'f')):
+        if w.startswith(b):
+            return g + w[3:]
+    for a, b in (('chol', 'chedy'), ('chor', 'chedy'), ('chy', 'chedy'), ('shy', 'shedy'), ('ol', 'edy'), ('or', 'edy')):
+        if w.endswith(a):
+            return w[:-len(a)] + b
+    return w
+
+
+def stem_split(w):
+    for e in sorted(A_END + B_END, key=len, reverse=True):
+        if w.endswith(e) and len(w) > len(e):
+            return w[:-len(e)], e
+    return None, None
+
+
+def make_traits(P):
+    """10 fixed traits + stem-held-fixed B-ending share (stems seen with both an A and a B ending)."""
+    st = defaultdict(set)
+    for p in P:
+        for w in p['all']:
+            s, e = stem_split(w)
+            if s:
+                st[s].add('B' if e in B_END else 'A')
+    shared = {s for s, v in st.items() if len(v) == 2}
+    T = dict(VTRAITS)
+    T['stem_Bshare'] = (lambda w: stem_split(w)[1] in B_END,
+                        lambda w: stem_split(w)[0] in shared)
+    return T, len(shared)
