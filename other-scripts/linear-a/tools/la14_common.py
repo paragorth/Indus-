@@ -348,8 +348,12 @@ class CopyEdit:
 
     def sample(self, rng):
         cand = [d for d in self.docs if self.ok(d)]
+        if not getattr(self, 'queue', None):
+            self.queue = list(range(len(self.docs))); rng.shuffle(self.queue)
+            self.queue = [i for i in self.queue if self.ok(self.docs[i])]
+        self.src = self.queue.pop()
         for _ in range(50):
-            d = list(rng.choice(cand)); e = self.e
+            d = list(self.docs[self.src]); e = self.e
             if e == 'COPY0': return d
             if e in ('E_num', 'E_numnear'):
                 i = rng.choice([i for i, t in enumerate(d) if t.startswith('N:')])
@@ -392,7 +396,7 @@ class CopyEdit:
                 if v2 == vals: continue
                 for i, v in zip(ii, v2): d[i] = v
                 return d
-        return list(rng.choice(cand))
+        return list(self.docs[self.src])
 
 
 GEN_FORGERS = ['UNI', 'MK1', 'MK2', 'MK3', 'MK4', 'WMK1', 'WMK2', 'FLAT', 'NEUR']
@@ -408,23 +412,40 @@ def make_forger(name, docs, seed=0):
 
 
 def forge(name, docs, n, seed):
+    """Returns (forgeries, groups). Groups: identical forgeries share a group; copy-edit forgeries
+    carry their source document, so CV never splits a source between train and test."""
     rng = random.Random(seed * 7919 + sum(map(ord, name)) * 31)
     f, mode = make_forger(name, docs, seed)
-    out = []
+    out, grp = [], []
     if mode == 'neural':
         nrng = np.random.RandomState(seed)
         class R:
             def random(self): return nrng.random_sample()
         while len(out) < n:
             out += [d for d in f.sample_many(R(), n) if len(ctoks(d)) >= 4]
-        return out[:n]
-    tries = 0
-    while len(out) < n and tries < n * 50:
-        tries += 1
-        s = f.sample(rng)
-        d = from_stream(s) if mode == 'stream' else tidy(s)
-        if len(ctoks(d)) >= 4: out.append(d)
-    return out
+        out = out[:n]
+    elif isinstance(f, CopyEdit):
+        nmax = sum(1 for d in docs if f.ok(d)); n = min(n, nmax)
+        for _ in range(n):
+            out.append(f.sample(rng)); grp.append('src%d' % f.src)
+        return out, grp
+    else:
+        tries = 0
+        while len(out) < n and tries < n * 50:
+            tries += 1
+            s = f.sample(rng)
+            d = from_stream(s) if mode == 'stream' else tidy(s)
+            if len(ctoks(d)) >= 4: out.append(d)
+    seen = {}
+    for d in out: grp.append('g%d' % seen.setdefault(' '.join(d), len(seen)))
+    return out, grp
+
+
+def real_for(name, B):
+    """Real half-B documents eligible for the forger (copy-edit forgers need an editable slot)."""
+    if name in CopyEdit.TYPES:
+        ce = CopyEdit(B, name); return [d for d in B if ce.ok(d)]
+    return B
 
 
 # ------------------------------------------------------------------ features
@@ -624,14 +645,15 @@ def build_X(real, fake, groups):
     return X, y, names
 
 
-def cv_auc(X, y, clfname, seed, coefs=False):
-    """5-fold stratified CV AUC; scaling by max-abs; returns auc (and mean LR coefs)."""
-    from sklearn.model_selection import StratifiedKFold
+def cv_auc(X, y, clfname, seed, coefs=False, groups=None):
+    """5-fold stratified (group) CV AUC; scaling by max-abs; returns auc (and mean LR coefs)."""
+    from sklearn.model_selection import StratifiedKFold, StratifiedGroupKFold
     from sklearn.preprocessing import MaxAbsScaler
     from sklearn.metrics import roc_auc_score
-    skf = StratifiedKFold(5, shuffle=True, random_state=seed)
+    if groups is None: groups = list(range(len(y)))
+    skf = StratifiedGroupKFold(5, shuffle=True, random_state=seed)
     pred = np.zeros(len(y)); C = []
-    for tr, te in skf.split(np.zeros(len(y)), y):
+    for tr, te in skf.split(np.zeros(len(y)), y, groups):
         sc = MaxAbsScaler().fit(X[tr]); Xtr = sc.transform(X[tr]); Xte = sc.transform(X[te])
         if clfname == 'HGB': Xtr = Xtr.toarray(); Xte = Xte.toarray()
         m = make_clf(clfname, seed).fit(Xtr, y[tr])
@@ -659,7 +681,7 @@ def corpus(name):
         p = os.path.join(OUT, 'world_%s.json' % name)
         if not os.path.exists(p):
             src = corpus('LA')
-            json.dump(forge(name[3:], src, len(src), 999), open(p, 'w'))
+            json.dump(forge(name[3:], src, len(src), 999)[0], open(p, 'w'))
         c = json.load(open(p))
     _CORP[name] = c
     return c
