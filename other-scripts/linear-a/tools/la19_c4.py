@@ -56,3 +56,17 @@ for i in range(3):
     R['K1res_random15_%d' % i] = test(s, lab, L, 'Y', seed=6)
 dump(os.path.join(OUT, 'c4.json'), R)
 for k, v in R.items(): print(k, v)
+
+# ---- c4b: the same LA tests after removing word types that contain a rare sign (in <= 3 types) or an
+# unnamed '*' sign (logogram-like / no conventional value), i.e. inventory effects rather than phonotactics.
+r, W, s, L = load('LA')
+cnt = collections.Counter(x for w in W for x in set(w))
+ok = np.array([not any(cnt[x] <= 3 or x.startswith('*') for x in w) for w in W])
+per = collections.defaultdict(set)
+for t in T: per[t['w']].add((t['site'], t['support']))
+R2 = {'n_clean': int(ok.sum())}
+for nm, f in (('PH_only', lambda w: all(a == 'Phaistos' for a, b in per[w])), ('Roundel', lambda w: any(b == 'Roundel' for a, b in per[w]))):
+    lab = np.array(['Y' if f(w) else 'N' for w in W])
+    R2[nm + '_clean'] = test(s[ok], lab[ok], L[ok], 'Y', seed=7)
+dump(os.path.join(OUT, 'c4b.json'), R2)
+print(R2)
