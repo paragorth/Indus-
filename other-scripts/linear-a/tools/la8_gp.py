@@ -22,6 +22,7 @@ lib.score.argtypes = [ctypes.c_int, ctypes.c_int, I32, I32, I32, I32, F64, ctype
                       ctypes.c_int, F64, F64, F64]
 BETA, ALPHA0, GAMMA, DELTA, ITERS = 0.1, 0.5, 0.5, 0.1, 6
 MAXK, MAXST = 30, 3
+DLMODE = os.environ.get('LA8_DL', 'v2')
 
 
 class Data:
@@ -68,7 +69,12 @@ class Data:
         X = X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-9)
         S = X @ X.T; np.fill_diagonal(S, -1)
         self.nn = np.argsort(-S, axis=1)[:, :6]
-        self.kind_of_type = [next(t[1] for d in docs for t in d['toks'] if t[0] == w) for w in self.lex] if self.V < 3000 else None
+        kot = {t[0]: t[1] for d in docs for t in d['toks']}
+        self.kind_of_type = [kot[w] for w in self.lex]
+        self.kind_idx = defaultdict(list); self.keykind_idx = defaultdict(list)
+        for i, w in enumerate(self.lex): self.kind_idx[kot[w]].append(i)
+        for i, k in enumerate(self.keys): self.keykind_idx[k.split(':')[0]].append(i)
+        self.kind_idx = {k: np.array(v) for k, v in self.kind_idx.items()}; self.keykind_idx = {k: np.array(v) for k, v in self.keykind_idx.items()}
 
     def evaluate(self, g, mode=0):
         out = np.zeros(4); K = g['K']
@@ -81,7 +87,15 @@ class Data:
 
     def dl(self, g, edges):
         K = g['K']; S = int(sum(g['nst'])); lk = math.log2(max(K, 2))
-        return (self.V + self.NK) * lk + S * lk + K * 2 + edges * (2 * math.log2(S + 2) + 0.5 * math.log2(self.T))
+        if DLMODE == 'strict':
+            assign = (self.V + self.NK) * lk
+        else:   # v2: class labels entropy-coded given the token kind (W1/W2/L/NUM/FRAC/S) + parameter cost
+            assign = 0.0
+            for grp, labs in ((self.kind_idx, g['tc']), (self.keykind_idx, g['kc'])):
+                for idx in grp.values():
+                    c = Counter(labs[idx].tolist()); n = len(idx)
+                    assign += -sum(v * math.log2(v / n) for v in c.values()) + 0.5 * math.log2(n + 1) * (len(c) - 1) + lk
+        return assign + S * lk + K * 2 + edges * (2 * math.log2(S + 2) + 0.5 * math.log2(self.T))
 
 
 def canon(g):

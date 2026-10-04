@@ -117,9 +117,12 @@ class EditModel:
             tot = np.zeros(4)
             for i, j in enumerate(nn):
                 _, c = self.align(names[j], names[i], ops=True)   # neighbour -> name
+                _, c2 = self.align(names[i], names[j], ops=True)
                 tot += c
+                tot += c2
             tot += 0.5
-            self.set_rates(*tot)
+            ind = (tot[2] + tot[3]) / 2
+            self.set_rates(tot[0], tot[1], ind, ind)
         return self.dist_matrix(names)
 
 
@@ -352,24 +355,70 @@ def spr(t, s, tgt):
     return u
 
 
+def full_states(P, t):
+    n, full = P.n, P.full
+    N = 2 * n - 1
+    Z, O, C = [0] * N, [0] * N, [0] * N
+    for v in t.postorder():
+        _node(P, t, v, Z, O, C)
+    return Z, O, C
+
+
+def _node(P, t, v, Z, O, C):
+    if v < P.n:
+        O[v] = P.O0[v]
+        Z[v] = P.full & ~P.O0[v]
+        C[v] = 0
+        return
+    a, b = t.L[v], t.R[v]
+    i0 = Z[a] & Z[b]
+    i1 = O[a] & O[b]
+    e = P.full & ~(i0 | i1)
+    if e:
+        C[v] = e.bit_count()
+        i0 |= e & (Z[a] | Z[b])
+        i1 |= e & (O[a] | O[b])
+    else:
+        C[v] = 0
+    Z[v], O[v] = i0, i1
+
+
+def spr_scored(P, t, st, L, s, tgt):
+    """SPR with incremental Fitch update; returns (u, states, L) or None."""
+    if s == t.root:
+        return None
+    p = t.P[s]
+    g = t.P[p]
+    u = spr(t, s, tgt)
+    if u is None:
+        return None
+    Z, O, C = st[0][:], st[1][:], st[2][:]
+    old = C[p]
+    for start in (g, p):
+        x = start
+        while x != -1:
+            _node(P, u, x, Z, O, C)
+            x = u.P[x]
+    return u, (Z, O, C), sum(C)
+
+
 def climb(P, t, rng, max_fail=None):
     """random SPR hill climbing (ties accepted) until max_fail consecutive failures."""
     N = 2 * P.n - 1
     max_fail = max_fail or 6 * N
-    L = P.score(t)
+    st = full_states(P, t)
+    L = sum(st[2])
     fail = 0
     while fail < max_fail:
-        s = rng.randrange(N)
-        tg = rng.randrange(N)
-        u = spr(t, s, tg)
-        if u is None:
+        r = spr_scored(P, t, st, L, rng.randrange(N), rng.randrange(N))
+        if r is None:
             continue
-        Lu = P.score(u)
+        u, su, Lu = r
         if Lu < L:
-            t, L, fail = u, Lu, 0
+            t, st, L, fail = u, su, Lu, 0
         else:
             if Lu == L:
-                t = u
+                t, st = u, su
             fail += 1
     return t, L
 
@@ -386,27 +435,47 @@ def best_tree(P, D, rng, restarts=6):
     return best[0], best[1], lens
 
 
-def mcmc(P, t, rng, T=1.0, steps=None, nsamp=100):
+def mcmc(P, t, rng, T=0.5, steps=None, nsamp=100, kmax=8):
+    """Metropolis over SPR moves, target exp(-L/T).  Returns clade counts, number
+    of samples, acceptance, and pair co-membership counts in clades of <= kmax leaves."""
     N = 2 * P.n - 1
     steps = steps or 40 * N
-    L = P.score(t)
+    st = full_states(P, t)
+    L = sum(st[2])
     burn = steps // 4
     every = max(1, (steps - burn) // nsamp)
     sup = Counter()
+    co = np.zeros((P.n, P.n), np.int32)
     ns = 0
     acc = 0
     for it in range(steps):
-        u = spr(t, rng.randrange(N), rng.randrange(N))
-        if u is not None:
-            Lu = P.score(u)
+        r = spr_scored(P, t, st, L, rng.randrange(N), rng.randrange(N))
+        if r is not None:
+            u, su, Lu = r
             if Lu <= L or rng.random() < math.exp(-(Lu - L) / T):
-                t, L = u, Lu
+                t, st, L = u, su, Lu
                 acc += 1
         if it >= burn and (it - burn) % every == 0:
             ns += 1
+            ls = t.leafsets()
             for c in set(_canon(x, P.n) for x in t.clades()):
                 sup[c] += 1
-    return sup, ns, acc / steps
+            # smallest clade containing each leaf, if <= kmax: pairs co-member
+            done = set()
+            for v in range(P.n):
+                x = t.P[v]
+                while x != -1 and bin(ls[x]).count('1') <= kmax:
+                    if t.P[x] == -1 or bin(ls[t.P[x]]).count('1') > kmax:
+                        break
+                    x = t.P[x]
+                if x == -1 or x in done:
+                    continue
+                k = bin(ls[x]).count('1')
+                if k <= kmax:
+                    done.add(x)
+                    mem = [i for i in range(P.n) if ls[x] >> i & 1]
+                    co[np.ix_(mem, mem)] += 1
+    return sup, ns, acc / steps, co
 
 
 def _canon(mask, n):
@@ -559,7 +628,86 @@ def tree_stats(names, rng, restarts=6, do_mcmc=True, mcmc_steps=None):
     out = {'n': len(names), 'chars': P.m, 'rates': em.rates, 'delta': dl, 'L': L,
            'ci': ci, 'ri': ri, 'restart_lens': lens, 'L_nj': P.score(nj(D))}
     if do_mcmc:
-        sup, ns, acc = mcmc(P, t.copy(), rng, steps=mcmc_steps)
+        sup, ns, acc, co = mcmc(P, t.copy(), rng, steps=mcmc_steps)
         ms, f50, f90 = clade_support(t, sup, ns, P.n)
         out.update({'support_mean': ms, 'support_ge50': f50, 'support_ge90': f90, 'acc': acc})
+        out['_co'] = co / max(ns, 1)
     return out, t, D, em, P
+
+
+# ------------------------------------------------------------------ samplers
+def sample_corpus(C, name, n, rng):
+    """returns (names, meta) with meta a list of dicts (labels per leaf)."""
+    if name == 'PE':
+        pool = C['PE']
+        S = rng.sample(pool, n)
+        return [tuple(x['seq']) for x in S], S
+    if name == 'PE_tab':   # cluster sample: whole tablets
+        by = defaultdict(list)
+        for x in C['PE']:
+            by[x['tablets'][0]].append(x)
+        tabs = [t for t in by if len(by[t]) >= 2]
+        rng.shuffle(tabs)
+        S, seen = [], set()
+        for t in tabs:
+            for x in by[t]:
+                if id(x) not in seen and len(S) < n:
+                    S.append(x)
+                    seen.add(id(x))
+            if len(S) >= n:
+                break
+        return [tuple(x['seq']) for x in S], S
+    if name in ('UR3_SEAL', 'OB_SEAL', 'LINB'):
+        pool = [x for x in C[name] if len(x['seq']) >= 2]
+        S = rng.sample(pool, n)
+        return [tuple(x['seq']) for x in S], S
+    if name == 'LINB_tab':
+        by = defaultdict(list)
+        for x in C['LINB']:
+            if len(x['seq']) >= 2:
+                by[x['tablets'][0]].append(x)
+        tabs = [t for t in by if len(by[t]) >= 2]
+        rng.shuffle(tabs)
+        S = []
+        for t in tabs:
+            for x in by[t]:
+                if len(S) < n and x not in S:
+                    S.append(x)
+            if len(S) >= n:
+                break
+        return [tuple(x['seq']) for x in S], S
+    if name in ('UR3_PAT', 'OB_PAT'):
+        pool = [x for x in C[name] if len(x['son']) >= 2 and len(x['father']) >= 2]
+        rng.shuffle(pool)
+        S, used = [], set()
+        for k, x in enumerate(pool):
+            a, b = tuple(x['son']), tuple(x['father'])
+            if a in used or b in used or a == b:
+                continue
+            used.update((a, b))
+            fam = name + str(k)
+            S.append({'seq': list(a), 'fam': [fam], 'role': 'son', 'prov': x['prov']})
+            S.append({'seq': list(b), 'fam': [fam], 'role': 'father', 'prov': x['prov']})
+            if len(S) >= n:
+                break
+        return [tuple(x['seq']) for x in S], S
+    if name == 'CN_FULL':
+        by = defaultdict(list)
+        for x in C['CN_FULL']:
+            by[x['sur']].append(x)
+        surs = [s for s in by if len(by[s]) >= 5]
+        rng.shuffle(surs)
+        S, seen = [], set()
+        for s in surs:
+            for x in rng.sample(by[s], 5):
+                if tuple(x['seq']) not in seen:
+                    S.append({'seq': x['seq'], 'fam': [s]})
+                    seen.add(tuple(x['seq']))
+            if len(S) >= n:
+                break
+        S = S[:n]
+        return [tuple(x['seq']) for x in S], S
+    if name == 'RAND':
+        names, _ = sample_corpus(C, 'PE', n, rng)
+        return random_strings(names, rng), [{} for _ in names]
+    raise KeyError(name)

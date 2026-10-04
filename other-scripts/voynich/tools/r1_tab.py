@@ -121,6 +121,8 @@ class DScorer:
             v1 = np.sum((y1[m] - p1 * n1[m]) ** 2) / N1 ** 2
             v0 = np.sum((y0[m] - p0 * n0[m]) ** 2) / N0 ** 2
             pb = (y1[m].sum() + y0[m].sum()) / (N1 + N0)
+            if pb <= 0 or pb >= 1:
+                continue          # label absent (or universal) in this stratum: no information
             vb = pb * (1 - pb) * (1 / N1 + 1 / N0)
             v = max(v1 + v0, vb, 1e-12)
             num += (p1 - p0) / v
@@ -150,13 +152,13 @@ def shuffle_labels_d(U, rng):
 
 
 def plant_d(U, rng, feats, labels):
-    """One true rule: units of label c* carry feature f* with extra probability 0.25."""
+    """One true rule: units of label c* carry feature f* with extra probability 0.5."""
     c = labels[int(rng.integers(0, len(labels)))]
     f = feats[int(rng.integers(min(10, len(feats) - 1), min(40, len(feats))))]
     out = []
     for u in U:
         fs = u[4]
-        if u[2] == c and rng.random() < 0.25:
+        if u[2] == c and rng.random() < 0.5:
             fs = fs | {f}
         out.append((u[0], u[1], u[2], u[3], fs))
     return out, (f, c)
@@ -223,10 +225,14 @@ GRID_LA = [1 / 2, 1 / 3, 2 / 3, 1 / 4, 3 / 4, 1 / 5, 1 / 6, 1 / 8, 3 / 8, 1 / 10
 
 
 def pe_cases():
+    """Total-bearing tablets from attack_arith.json. Tablets whose every (sum, total) pair is
+    identical code by code balance under any values and are dropped (uninformative)."""
     d = json.load(open(os.path.join(L.PE, 'attack_arith.json')))
     cases = []
     for t in d['tablets']:
         pairs = [(p['sum'], p['tot'], p['cls']) for p in t['pairs']]
+        if all(sm == tt for sm, tt, _ in pairs):
+            continue
         cases.append({'id': t['id'], 'pairs': pairs, 'cls': t['classes'][0] if t['classes'] else '?',
                       'split': L.split_of(t['id'])})
     return cases
@@ -560,18 +566,25 @@ def profiles(occ, types, st):
     return {t: R[i] for i, t in enumerate(ts)}
 
 
-def plant_e(occs, rng, pair):
-    """Insert 3 synthetic length-2 word types into two scripts with the same extreme context profile."""
-    prof_list = [(1.0, False, True, True, True), (0.0, True, False, True, False), (0.5, False, False, False, True)]
+def plant_e(occs, rng, pair, noise=0.3):
+    """Insert 3 synthetic length-2 word types into two scripts with the same context profile.
+    Profiles sit at the top of most features (so they are comparable after per-script percentile
+    ranking); with probability `noise` an occurrence copies a random real occurrence's context."""
     planted = []
-    for k, (rp, fl, ll, li, fn) in enumerate(prof_list):
+    for k in range(3):
         for s in pair:
             occ = occs[s]
+            dl = [o[7] for o in occ]
+            prof = [(1.0, True, True, True, True, max(dl)), (0.0, True, True, True, True, max(dl)),
+                    (1.0, True, True, True, True, min(dl))][k]
             t = (f'P{k}a', f'P{k}b')
-            docs = rng.choice(len(occ), 40, replace=False)
-            for i in docs:
+            for i in rng.choice(len(occ), 40, replace=False):
                 o = occ[int(i)]
-                occ.append((t, o[1], rp, fl, ll, li, fn, o[7]))
+                if rng.random() < noise:
+                    r = occ[int(rng.integers(0, len(occ)))]
+                    occ.append((t, o[1]) + tuple(r[2:]))
+                else:
+                    occ.append((t, o[1]) + prof)
         planted.append(((pair[0], (f'P{k}a', f'P{k}b')), (pair[1], (f'P{k}a', f'P{k}b'))))
     return planted
 
@@ -650,8 +663,8 @@ def run_e(j, log):
            'n_replicated': sum(r['replicated'] for r in rep), 'min_rank1': float(sc[0][0]) if sc else None,
            'stage2': rep}
     if planted:
-        keys = {('-'.join(ta), '-'.join(tb)) for (sa, ta), (sb, tb) in planted}
-        hit = [r for r in rep if r['replicated'] and (r['pair'][1], r['pair'][3]) in keys]
+        hit = [r for r in rep if r['replicated'] and r['pair'][1].startswith('P') and r['pair'][1][1].isdigit()
+               and r['pair'][3].startswith('P') and r['pair'][3][1].isdigit()]
         out['planted_pairs'] = [[a[0], b[0], '-'.join(a[1])] for a, b in planted]
         out['n_planted_recovered'] = len(hit)
         out['recovered'] = len(hit) > 0

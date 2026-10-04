@@ -127,6 +127,8 @@ class Ring:
         self.eps = eps
 
     def E(self):
+        if getattr(self, 'B', None) is not None:
+            return self.B
         E = np.zeros((self.S, self.n))
         E[self.lab, np.arange(self.n)] = 1.0
         # every symbol must be emittable: tiny floor so missing labels are not -inf
@@ -154,7 +156,7 @@ def _apply_T(eb, Tm, c):
     return out
 
 
-def forward_backward(ring, obs, ctx, lens, reset=True, need_post=False):
+def forward_backward(ring, obs, ctx, lens, reset=True, need_post=False, need_emit=False):
     """obs (L,T) symbols (-1 pad, suffix only); ctx (L,T) context of the transition INTO t.
     reset=False: all lines are concatenated in corpus order (state carried over).
     Returns loglik, and if need_post: expected step counts (C,n), start counts (n)."""
@@ -200,6 +202,13 @@ def forward_backward(ring, obs, ctx, lens, reset=True, need_post=False):
         beta[:k, t - 1] = _apply_T(eb, Tm, cc)
     post0 = alpha[:, 0] * beta[:, 0]
     post0 /= post0.sum(1, keepdims=True)
+    if need_emit:
+        G = alpha * beta
+        G /= G.sum(2, keepdims=True)
+        valid = obs[:, :T] >= 0
+        em_c = np.zeros((ring.S, n))
+        np.add.at(em_c, obs[:, :T][valid], G[valid])
+        return ll, stepc, post0.sum(0), em_c
     return ll, stepc, post0.sum(0)
 
 
@@ -282,6 +291,56 @@ def anneal_ring(obs, ctx, lens, S, n, C=1, reset=True, steps=800, seed=0, T0=30.
     r = Ring(best[1], S, C); r.q, r.pi = best[2].copy(), best[3].copy()
     best_ll = em(r, obs, ctx, lens, reset, iters=12)
     return r, best_ll
+
+
+def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True):
+    """Volvelle as an HMM: n cells on a cycle, circulant (rule) transitions, FREE emission
+    distribution per cell; Baum-Welch.  Then harden: each cell keeps its argmax symbol."""
+    rng = np.random.RandomState(seed)
+    r = Ring(np.zeros(n, int), S, C)
+    freq = np.bincount(obs[obs >= 0], minlength=S) + 1.0
+    B = rng.dirichlet(np.ones(S), size=n).T * freq[:, None]
+    r.B = B / B.sum(0, keepdims=True)
+    q = rng.dirichlet(np.ones(n) * 0.5, size=C)
+    r.q = q
+    ll = None
+    for it in range(iters):
+        ll, sc, st, ec = forward_backward(r, obs, ctx, None, reset, need_post=True, need_emit=True)
+        r.q = (sc + 0.1) / (sc + 0.1).sum(1, keepdims=True)
+        if reset:
+            r.pi = (st + 0.1) / (st + 0.1).sum()
+        r.B = (ec + 1e-3) / (ec + 1e-3).sum(0, keepdims=True)
+    lab = r.B.argmax(0)
+    h = Ring(lab, S, C); h.q = r.q.copy(); h.pi = r.pi.copy()
+    hll = em(h, obs, ctx, None, reset, iters=6)
+    return h, hll, ll
+
+
+def local_search(r, obs, ctx, reset=True, sweeps=3):
+    """Steepest-ascent polish: all single relabels, then all swaps; refit rule after each sweep."""
+    cur = forward_backward(r, obs, ctx, None, reset)[0]
+    for _ in range(sweeps):
+        improved = False
+        for i in range(r.n):
+            for s in range(r.S):
+                if s == r.lab[i]: continue
+                lab2 = r.lab.copy(); lab2[i] = s
+                r2 = Ring(lab2, r.S, r.C); r2.q = r.q; r2.pi = r.pi
+                v = forward_backward(r2, obs, ctx, None, reset)[0]
+                if v > cur + 1e-6:
+                    r.lab, cur, improved = lab2, v, True
+        for i in range(r.n):
+            for j in range(i + 1, r.n):
+                if r.lab[i] == r.lab[j]: continue
+                lab2 = r.lab.copy(); lab2[i], lab2[j] = lab2[j], lab2[i]
+                r2 = Ring(lab2, r.S, r.C); r2.q = r.q; r2.pi = r.pi
+                v = forward_backward(r2, obs, ctx, None, reset)[0]
+                if v > cur + 1e-6:
+                    r.lab, cur, improved = lab2, v, True
+        cur = em(r, obs, ctx, None, reset, iters=4)
+        if not improved:
+            break
+    return r, cur
 
 
 def kernel_summary(q):
