@@ -3,8 +3,9 @@
 number: 'N workers ... their grain', 'herd of N ... N units of X'.
 Statistic per (final sign s of the target line, target system, r): number of target lines with
 value >= 2 for which some window of 1-3 contiguous count lines among the 6 numeric lines before it
-sums to x >= 2 with y = r x.  Null: values permuted among the lines of the same tablet, system and
-final sign (keeps fixed columns and each sign's numbers, kills the alignment between signs), 200 times; search-corrected over all
+sums to x >= 2 with y = r x.  Null: values re-dealt among all lines of the same system and final
+sign across tablets (keeps fixed columns and each sign's numbers, kills the alignment between a line
+and the count lines before it), 200 times; search-corrected over all
 (s, system, r).  Controls: Ur III ('sze-bi' grain lines after counts), planted computed lines."""
 import json, sys, os, time
 from math import gcd
@@ -61,17 +62,20 @@ def hits(S, vals_override=None, detail=False):
 
 
 def perm_vals(S, rng):
-    out = []
-    for tid, sy, v, fn, ln in S:
-        v = list(v)
-        for grp in set(zip(sy, fn)):
-            idx = [i for i in range(len(sy)) if (sy[i], fn[i]) == grp]
-            if len(idx) > 1:
-                pv = [v[i] for i in idx]
-                pv = [pv[i] for i in rng.permutation(len(pv))]
-                for i, x in zip(idx, pv):
-                    v[i] = x
-        out.append(v)
+    """values re-dealt among all lines with the same (system, final sign) ACROSS tablets; each
+    line keeps its position, each sign keeps its value distribution (fixed columns stay fixed)."""
+    pools = defaultdict(list)
+    for k, (tid, sy, v, fn, ln) in enumerate(S):
+        for i in range(len(v)):
+            pools[(sy[i], fn[i])].append((k, i))
+    out = [list(v) for _, _, v, _, _ in S]
+    for key, locs in pools.items():
+        if len(locs) < 2:
+            continue
+        vals = [S[k][2][i] for k, i in locs]
+        p = rng.permutation(len(vals))
+        for (k, i), j in zip(locs, p):
+            out[k][i] = vals[j]
     return out
 
 

@@ -102,7 +102,10 @@ def main():
     for s, lines in bysec.items():
         S = L.samples([lines], N=N, maxs=30)
         if len(S) < 3: continue
-        F = np.array([[L.features(x, rng2)[k] for k in keys] for x in S]); F[~np.isfinite(F)] = 0
+        F = []
+        for x in S:
+            f = L.features(x, rng2); F.append([f[k] for k in keys])
+        F = np.array(F, float); F[~np.isfinite(F)] = 0
         ms = P(F); pr = P5(F)
         rows2.append(f"{s} (n={len(S)}): spell {ms.mean():.3f}; " + ', '.join(f'{c} {v:.2f}' for c, v in zip(cl5, pr.mean(0))))
         secs += [s] * len(S); scores += list(pr[:, cl5.index('GEN')]); g.append(pr.mean(0))

@@ -63,7 +63,10 @@ def work(a):
     lines = procedure(S, prm, seed)
     samp = L.samples([lines], N=N, maxs=6)
     rng = random.Random(seed)
-    F = np.array([[L.features(s, rng, nshuf=4)[k] for k in keys] for s in samp], float)   # 4 shuffles (cost)
+    F = []
+    for s in samp:
+        f = L.features(s, rng); F.append([f[k] for k in keys])
+    F = np.array(F, float)
     F[~np.isfinite(F)] = 0
     return src_name, h, prm, np.median(F, 0).tolist()
 
