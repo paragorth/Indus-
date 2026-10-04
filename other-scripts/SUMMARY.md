@@ -28,6 +28,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The fraction signs have a strict writing order (0 of 500 random relabellings match it).
 - Which fraction sign appears depends on the commodity.
 - Linear B shared words: 12 of 3+ signs against 2.0 by chance.
+- Commodity pecking order (la20): logograms are written in a fixed order (CYP, GRA > VIR, OLE > OLIV, VIN). This holds on unseen tablets (0.715 against 0.50; FWER 0.005) and beats a large-amounts-first null (P 0.002). The order is by commodity, not by size (A; grain-first sequences known in kind).
 - Affixes are real (z ≈ 6). -TE, -ME and JA- belong to objects, not tablets.
 
 **Failed:**
@@ -43,6 +44,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The palace spoke many tongues (la19): mixtures of sign-level phonotactic models choose K = 4 for Linear A, but 33/36 single real languages also choose K >= 2, and LA is less mixed and less stable than the median language. Its components track nothing outside the model, and foreign-looking outliers (Phaistos, roundels) are rare-sign effects. No multilingual lexicon detected (B, calibrated).
 - Words spread like epidemics (la17): SI/SIR outbreaks fitted by ABC (~390,000 simulations) to the site x word and site x sign incidence cannot recover a planted source (1/20, 0/20) or an alternative-generator history (chance), and the Linear B control (Knossos first) passes only where shuffled data pass too. No Linear A source or adoption order is identifiable; the inferred orders do not match the MM II-LM IB deposit dates (P >= 0.14). Grade C: time-separated sites share fewer words.
 
+- The pecking order (la20): no word, entry-word or first-sign hierarchy recurs across tablets (0.51 vs Linear B Pylos at Linear A size 0.61). People and places are not listed in a fixed rank or tour order (B, calibrated); a tour that was only ever written in pieces would not be detectable.
 - Universals build the grid (la21): a blind grid from phonotactic universals recovers Linear B's consonant rows (not its vowel columns). Linear A's blind rows agree with the LB-derived consonant series (B), but no specific new grouping replicates across sites; QA acts like a pure vowel (C).
 
 **Open:** the fraction values. They need specialist re-reading of PH 9b, PH 22a, ZA 8 and HT 104 in GORILA.

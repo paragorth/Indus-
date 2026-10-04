@@ -247,3 +247,10 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Grade B: pure-vowel row A, U, I. Grade C: QA behaves like a pure vowel (vowel row 0.70; in both site halves). Would kill: QA at its shuffle level in a larger run.
 - Killed: specific new sign groupings: LA row pairs do not replicate across HT / non-HT halves (0.045 vs base 0.049), though LB's do.
 
+
+## Pecking order (la20, 4 Oct 2026; `loops/la20_final.txt`)
+- Each pair of items in one list was treated as a contest won by the item written first. Rankers (Bradley-Terry, Plackett-Luce, Elo, Bayesian BT, mixtures of 1-4 orders) were fitted to all lists and scored on how well they predict the pair order on unseen tablets. Nulls: within-list shuffles, with the family-wise maximum taken over every configuration tried.
+- Grade A (existence): commodity logograms are written in a consistent order. Held-out accuracy is 0.715 against 0.50 (FWER 0.005). It beats a null that writes large amounts first (0.548, P 0.002), it is more transitive than chance, and it holds on Hagia Triada alone and when tablet sides are split. The order is CYP, GRA (and *307) before VIR and OLE, before OLIV, VIN and QA2. Rank does not follow typical quantity (rho 0.31, P 0.17). Grain-first sequences on HT tablets are known in kind.
+- Grade B: the Hagia Triada order predicts the other sites (0.655, P 0.045; the reverse direction gives P 0.1).
+- Grade B (calibrated negative): words, entry words and first signs show no pecking order (0.51-0.52). Linear B Pylos words at Linear A size give 0.61 in 10 of 10 draws. Planted hierarchies of moderate strength that most lists follow are found. Limit: the Pylos town order is recovered only when some lists write it out in full, so a canonical tour that Linear A scribes only ever wrote in pieces would not be seen.
+- Grade C: *307 is a top-rank (grain-class) commodity. Would support: *307 placed before GRA or CYP on new tablets. Would kill: *307 written after OLE or VIN.
