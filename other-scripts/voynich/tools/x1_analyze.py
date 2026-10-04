@@ -54,7 +54,7 @@ def loco_scores(data, names, feats, ulab, C=0.05):
     for i in range(len(names)):
         tr = g != i
         model = make_pipeline(SimpleImputer(strategy='median'), StandardScaler(),
-                              LogisticRegression(C=C, class_weight='balanced', max_iter=2000))
+                              LogisticRegression(C=C, class_weight='balanced', solver='liblinear', max_iter=500))
         model.fit(X[tr], y[tr])
         out[i] = model.predict_proba(X[g == i])[:, 1].mean()
     return out
@@ -142,6 +142,7 @@ def main():
     print('top features:')
     for r in rows[:25]:
         print(f"  {r['feat']:32s} AUC {r['auc']:.3f} gap {r['gap_sd']:+.2f}sd U {[round(x,3) for x in r['u']]} D [{r['d_min']:.3f},{r['d_max']:.3f}] med {r['d_med']:.3f} nearestD {r['nearest_d']}")
+    sys.stdout.flush()
     # LOCO classifier
     sc = loco_scores(data, names, feats, lab)
     real_auc = auc_scores(sc, lab)
@@ -151,10 +152,10 @@ def main():
     for c in rng.sample(pool, min(a.nperm, len(pool))):
         l2 = np.zeros(n, bool); l2[list(c)] = True
         null.append(auc_scores(loco_scores(data, names, feats, l2), l2))
-    null = np.array(null)
+    null = np.array(null) if null else np.array([np.nan])
     p_cls = float(((null >= real_auc).sum() + 1) / (len(null) + 1))
     order = np.argsort(-sc)
-    print(f'LOCO logistic AUC {real_auc:.3f} (null mean {null.mean():.3f}, 95th {np.percentile(null,95):.3f}, P = {p_cls:.4f})')
+    print(f'LOCO logistic AUC {real_auc:.3f} (null mean {np.nanmean(null):.3f}, 95th {np.nanpercentile(null,95):.3f}, P = {p_cls:.4f})')
     print('  held-out P(U):', ', '.join(f'{names[i]} {sc[i]:.2f}' for i in order))
     # test-only corpora scored by a model trained on all
     Xs, ys = [], []
@@ -175,7 +176,7 @@ def main():
            'perfect_null_mean': float(nperf.mean()), 'p_perfect': p_perf, 'near': near,
            'near_null_mean': float(nnear.mean()), 'p_near': p_near, 'cluster_ratio': float(clus[ridx]),
            'cluster_null_mean': float(clus.mean()), 'p_cluster': p_clus, 'loco_auc': real_auc,
-           'loco_null_mean': float(null.mean()), 'loco_null_95': float(np.percentile(null, 95)), 'p_loco': p_cls,
+           'loco_null_mean': float(np.nanmean(null)), 'loco_null_95': float(np.nanpercentile(null, 95)), 'p_loco': p_cls,
            'heldout': {names[i]: float(sc[i]) for i in range(n)}, 'test_scores': tsc,
            'features': rows, 'top_labelings': top_sub,
            'top_coef': [(feats[j], float(coef[j])) for j in topc]}

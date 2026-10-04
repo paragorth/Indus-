@@ -84,6 +84,8 @@ def alphabet(units):
 if __name__ == '__main__':
     rng = np.random.default_rng(5)
     C = vc.all_corpora()
+    only = sys.argv[1].split(',') if len(sys.argv) > 1 else None
+    ITERS = int(os.environ.get('ITERS', 3000))
     res = {}
     # X1: chant with the true scale
     ch = C['chant']
@@ -97,12 +99,14 @@ if __name__ == '__main__':
     C['chant-relabelled'] = [dict(u, lines=[[tuple(rl.get(x, x) for x in w) for w in L] for L in u['lines']]) for u in ch]
     del C['chant']
     for name, units in C.items():
+        if only and name not in only:
+            continue
         al = alphabet(units); k = len(al)
         A = [u for i, u in enumerate(units) if i % 2 == 0]; B = [u for i, u in enumerate(units) if i % 2 == 1]
         WA, WB = encode(A, al), encode(B, al)
-        rank, best = hill(WA, k, rng)
+        rank, best = hill(WA, k, rng, ITERS)
         o, m, z, p = rand_z(WB, rank, k, rng)
-        rankB, _ = hill(WB, k, rng)
+        rankB, _ = hill(WB, k, rng, ITERS)
         # agreement of learned orders between halves (Spearman, sign-free: a scale may run either way)
         rho = np.corrcoef(rank, rankB)[0, 1]
         order = [al[i] for i in np.argsort(rank)]
@@ -113,4 +117,4 @@ if __name__ == '__main__':
             inv = {v: kk for kk, v in rl.items()}
             print('   recovered chant order in true letters:', ''.join(inv[x] for x in order))
             res[name]['recovered_true_letters'] = ''.join(inv[x] for x in order)
-    vlib.save('v5_cycle3', res)
+    vlib.save('v5_cycle3' + ('_' + '_'.join(only) if only else ''), res)
