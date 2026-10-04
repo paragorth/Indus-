@@ -22,7 +22,8 @@ def get_units(kind, lang, mode, seed):
     U = L.units(C, 'para')
     coder = L.Coder(U)
     if lang: U = [u for u in U if u['lang'] == lang]
-    if 'lineshuf' in mode: U = L.shuffle_lines(U, random.Random(seed))
+    if 'headshuf' in mode: U = L.shuffle_lines(U, random.Random(seed), keep_head=True)
+    elif 'lineshuf' in mode: U = L.shuffle_lines(U, random.Random(seed))
     if 'rev' in mode: U = reverse(U)
     return U, coder
 
@@ -60,6 +61,9 @@ if __name__ == '__main__':
     for i in range(2):
         for mode in ('lineshuf_fwd', 'lineshuf_rev'):
             jobs.append((f'ZL_{mode}_{i}', 'ZL3b', None, mode, 30 + i))
+    for tag, kind in (('IT', 'IT'), ('LA', 'LA')):
+        jobs.append((f'{tag}_headshuf_fwd_0', kind, None, 'headshuf_fwd', 40))
+        jobs.append((f'{tag}_lineshuf_fwd_0', kind, None, 'lineshuf_fwd', 41))
     with Pool(2) as P:
         res = P.map(t_dir, jobs, chunksize=1)
     L.save('c3_all.json', res)
