@@ -76,6 +76,9 @@ def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
     if kind == 'grid':
         nb = [[j for j in range(n) if max(abs(coord[i][0] - coord[j][0]), abs(coord[i][1] - coord[j][1])) <= 2]
               for i in range(n)]
+    elif kind == 'anti':    # antipodal: each step jumps to within radius 2 of the cell's point-reflection through the centre
+        nb = [[j for j in range(n) if max(abs(side - 1 - coord[i][0] - coord[j][0]), abs(side - 1 - coord[i][1] - coord[j][1])) <= 2]
+              for i in range(n)]
     elif kind == 'route':   # one-way: each step moves 1-2 rows forward (last rows absorb), up to 2 columns sideways
         nb = []
         for i in range(n):
@@ -121,7 +124,7 @@ def corpus(name, seed=1):
     if name == 'Shuffle-global': return gen.word_shuffle(template(), seed), None
     if name == 'SelfCitation': return gen.self_citation(template(), seed), None
     if name == 'Latin-shufline': return gen.within_line_shuffle(corpus('Latin-Isidore')[0], seed), None
-    m = re.match(r'Planted-(grid|graph|gridstart|route)-(\d+)', name)
+    m = re.match(r'Planted-(grid|graph|gridstart|route|anti)-(\d+)', name)
     if m: return planted(m.group(1).replace('start', ''), int(m.group(2)) / 100, seed=seed, start_region='start' in m.group(1))
     raise KeyError(name)
 
@@ -158,6 +161,9 @@ def ll(logits, C):
     return float((C * lp).sum())
 
 
+SIGN = {'sympp': np.array([1., 1, 1, 1]), 'symmm': -np.array([1., 1, 1, 1]), 'sympm': np.array([1., -1, 1, -1])}
+
+
 def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True, v_init=None):
     """P(b|a) = (1-rho) softmax_b(logit_ab) + rho u_b  (u = train successor unigram; rho = teleport rate).
     Loss = -LL/N + lam*|embedding params|^2/V. Returns dict with probs (V x V), rho, params."""
@@ -168,6 +174,8 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, beta, g, th]
     elif kind == 'bilin':
         U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g, th]
+    elif kind in ('sympp', 'symmm', 'sympm'):
+        X = rng.normal(0, 0.3, (V, d)) if init is None else init.copy(); P = [X, beta, g, th]
     elif kind == 'drift':
         X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, np.zeros(d) if v_init is None else np.array(v_init, float), beta, g, th]
     else:
@@ -181,6 +189,9 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
             return -D + P[1][None, :] + P[2][0] * I
         if kind == 'bilin':
             return P[0] @ P[1].T + P[2][None, :] + P[3][0] * I
+        if kind in ('sympp', 'symmm', 'sympm'):
+            sg = SIGN[kind][:P[0].shape[1]]; X = P[0]
+            return (X * sg) @ X.T + P[1][None, :] + P[2][0] * I
         if kind == 'drift':
             X = P[0]; Y = X + P[1][None, :]
             D = (Y * Y).sum(1)[:, None] + (X * X).sum(1)[None, :] - 2 * Y @ X.T
@@ -202,6 +213,9 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         elif kind == 'bilin':
             U, W = P[0], P[1]
             grads = [G @ W + 2 * lam * U / V, G.T @ U + 2 * lam * W / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
+        elif kind in ('sympp', 'symmm', 'sympm'):
+            sg = SIGN[kind][:P[0].shape[1]]; X = P[0]
+            grads = [((G + G.T) @ X) * sg + 2 * lam * X / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         elif kind == 'drift':
             X = P[0]; Y = X + P[1][None, :]
             gY = -2 * (G.sum(1)[:, None] * Y - G @ X)
