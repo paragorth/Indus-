@@ -74,7 +74,7 @@ def split(lines, seed=0):
     blocks = [lines[i:i + 20] for i in range(0, len(lines), 20)]
     idx = list(range(len(blocks))); rng.shuffle(idx)
     ntok = sum(map(len, lines))
-    tcap, vcap = min(2000, 0.18 * ntok), min(1000, 0.12 * ntok)
+    tcap, vcap = min(1500, 0.18 * ntok), min(1000, 0.12 * ntok)
     test, val, train = [], [], []
     for i in idx:
         b = blocks[i]; n = sum(map(len, b))
@@ -218,10 +218,12 @@ def evaluate(model, data):
 
 
 def train(model, data, steps, lr, bs, rng, evals=None, every=25):
+    """evals = [val, test]: test is scored only when val improves (curve rows: step, val, test or None)."""
     ctx, tgt = data
     g = torch.Generator().manual_seed(rng.randrange(10 ** 9))
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
     curve = []
+    best = [float('inf')]
     model.train()
     for st in range(1, steps + 1):
         i = torch.randint(0, len(tgt), (bs,), generator=g)
@@ -229,7 +231,10 @@ def train(model, data, steps, lr, bs, rng, evals=None, every=25):
         opt.zero_grad(); loss.backward()
         opt.step()
         if evals and st % every == 0:
-            curve.append([st] + [evaluate(model, e) for e in evals])
+            v = evaluate(model, evals[0])
+            t = evaluate(model, evals[1]) if v < best[0] else None
+            best[0] = min(best[0], v)
+            curve.append([st, v, t])
     return curve
 
 
@@ -269,6 +274,6 @@ def finetune(sd, ymap, ytr, yval, yte, seed, steps=240, body_only=False):
     curve = [[0, evaluate(model, va), evaluate(model, te)]]
     curve += train(model, tr, steps, 3e-3, 64, rng, evals=[va, te], every=30)
     best = min(curve, key=lambda r: r[1])
-    aulc = float(np.mean([r[2] for r in curve]))
-    return {'best_step': best[0], 'test': best[2], 'aulc': aulc,
-            'curve': [round(r[2], 4) for r in curve]}
+    aulc = float(np.mean([r[1] for r in curve]))          # area under the VALIDATION learning curve
+    return {'best_step': best[0], 'test': best[2], 'zeroshot': curve[0][2], 'aulc_val': aulc,
+            'curve_val': [round(r[1], 4) for r in curve]}

@@ -39,7 +39,7 @@ typedef struct {
     double fit, gainB, lam[4], bits, tabbits, gainC; int hitsB, predB;
 } Prog;
 
-static int N, NT, V, ND, MODE;
+static int N, NT, V, ND, MODE, BAR = -1;
 static int32_t *X, *SP, *DOC; static double *PB; static uint8_t **F;
 static double *LGPB;      /* -log2 pb */
 static int nA, nB, nC; static int *idxA;
@@ -60,9 +60,9 @@ static int gen_tree(Ins *out, int maxlen, int depth, int root) {
         return 1;
     }
     int op;
-    if (root && MODE == 0 && rnd() < 0.5) op = rnd() < 0.5 ? TAB1 : TAB2;
+    if (root && !(MODE & 1) && rnd() < 0.5) op = rnd() < 0.5 ? TAB1 : TAB2;
     else {
-        do { op = ADD + ri(NOPS - ADD); } while (MODE == 1 && (op == TAB1 || op == TAB2));
+        do { op = ADD + ri(NOPS - ADD); } while ((MODE & 1) && (op == TAB1 || op == TAB2));
     }
     int len = 0;
     for (int a = 0; a < AR[op]; a++) {
@@ -97,7 +97,7 @@ static void mutate(Prog *p) {
         else if (x->op == CONST) x->arg = rnd() < 0.5 ? ri(32) : (x->arg + (rnd() < 0.5 ? 1 : 31)) % 32;
         else {
             int a = AR[x->op], op;
-            for (int t = 0; t < 20; t++) { op = ADD + ri(NOPS - ADD); if (AR[op] == a && !(MODE == 1 && (op == TAB1 || op == TAB2))) { x->op = op; break; } }
+            for (int t = 0; t < 20; t++) { op = ADD + ri(NOPS - ADD); if (AR[op] == a && !((MODE & 1) && (op == TAB1 || op == TAB2))) { x->op = op; break; } }
         }
     } else if (u < 0.45 && uses(p, LSYS)) {
         int r = ri(4); p->rlen[r] = 1 + ri(3); p->rule[r][ri(3)] = ri(4);
@@ -200,6 +200,7 @@ static double run_prog(Prog *p) {   /* fills PRED, returns table bits */
         sp = sp - ar + 1;
     }
     memcpy(PRED, stk[0], N);
+    if (BAR >= 0) for (int i = 0; i < N; i++) if (PRED[i] == BAR) PRED[i] = 255;
     int rop = p->c[p->n - 1].op;
     if (rop == TAB1 || rop == TAB2) memcpy(BINS, TBIN, N); else memset(BINS, 0, N);
     return tb;
@@ -317,8 +318,15 @@ int main(int argc, char **argv) {
     F = malloc(sizeof(uint8_t *) * NT); int32_t *tmp = malloc(4 * N);
     for (int t = 0; t < NT; t++) { F[t] = malloc(N); fread(tmp, 4, N, f); for (int i = 0; i < N; i++) F[t][i] = (uint8_t)tmp[i]; }
     fclose(f);
+    if (MODE != 9 && (MODE & 2)) {   /* layout given: drop line-end positions, renormalise baseline */
+        char pp[1024]; strcpy(pp, argv[1]); strcpy(pp + strlen(pp) - 4, ".pbar");
+        FILE *g = fopen(pp, "rb"); double *pbar = malloc(8 * N);
+        if (!g || fread(pbar, 8, N, g) != (size_t)N) { fprintf(stderr, "no pbar\n"); return 1; }
+        fclose(g); BAR = X[N - 1];
+        for (int i = 0; i < N; i++) { if (X[i] == BAR) SP[i] = 3; else PB[i] /= (1 - pbar[i]); }
+    }
     nA = nB = nC = 0; idxA = malloc(4 * N);
-    for (int i = 0; i < N; i++) { if (SP[i] == 0) idxA[nA++] = i; else if (SP[i] == 1) nB++; else nC++; }
+    for (int i = 0; i < N; i++) { if (SP[i] == 0) idxA[nA++] = i; else if (SP[i] == 1) nB++; else if (SP[i] == 2) nC++; }
     for (int k = 0; k < MAXI + 2; k++) stk[k] = malloc(N);
     PRED = malloc(N); TBIN = calloc(N, 1); BINS = calloc(N, 1);
     cnt = calloc((size_t)65536 * V, 4); best = calloc(65536, 4); tot = calloc(65536, 4); bsym = calloc(65536, 1);

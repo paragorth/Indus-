@@ -84,11 +84,13 @@ def build_pairs(types, indel=False):
 
 class Engine:
     """Vectorised cross-writer statistic for one corpus and one label field."""
-    def __init__(self, docs, field='hand', indel=False, strat='site'):
+    def __init__(self, docs, field='hand', indel=False, strat='site', pair_filter=None):
         self.docs = [d for d in docs if d.get(field)]
         self.field = field
         types = [w for d in self.docs for w in d['words']]
         self.T, self.P = build_pairs(types, indel)
+        if pair_filter is not None:
+            self.P = [p for p in self.P if pair_filter(self.T[p[0]], self.T[p[1]])]
         self.tix = {w: k for k, w in enumerate(self.T)}
         labs = sorted({d[field] for d in self.docs}); self.labs = labs
         self.lix = {l: k for k, l in enumerate(labs)}
@@ -182,3 +184,30 @@ def say_to(path):
     def say(*a):
         s = ' '.join(str(x) for x in a); print(s, flush=True); f.write(s + '\n'); f.flush()
     return say
+
+
+def contexts(script):
+    """word -> set of context tags: 'S:'+site+series/support and 'L:'+logogram on the same line."""
+    from la5_common import lb_docs
+    ctx = collections.defaultdict(set)
+    if script == 'LB':
+        for d in lb_docs():
+            for L in d['lines']:
+                logs = {t[1] for t in L if t[0] == 'F' and t[1].startswith('L:')}
+                for t in L:
+                    if t[0] == 'W': ctx[t[1]].add('S:' + d['site'] + d['series']); ctx[t[1]] |= logs
+    else:
+        for d in la_docs(admin_only=False):
+            for L in d['lines']:
+                logs = {t[1] for t in L if t[0] == 'F' and t[1].startswith('L:')}
+                for t in L:
+                    if t[0] == 'W': ctx[t[1]].add('S:' + d['site'] + d['support']); ctx[t[1]] |= logs
+    return ctx
+
+
+def ctx_filter(ctx, logo_only=False):
+    def f(a, b):
+        sh = ctx[a] & ctx[b]
+        if logo_only: sh = {q for q in sh if q.startswith('L:')}
+        return bool(sh)
+    return f

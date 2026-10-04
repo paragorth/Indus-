@@ -62,8 +62,8 @@ def lb_eval(cls, tag):
     return c
 
 
-def run(tag, docs, strat, nnull, B, nperm_b, rnd, lbmode=False):
-    E = Engine(docs, strat=strat); real = E.stat(E.lab0); N = E.null(2000, rnd.randrange(10 ** 6))
+def run(tag, docs, strat, nnull, B, nperm_b, rnd, lbmode=False, pf=None):
+    E = Engine(docs, strat=strat, pair_filter=pf); real = E.stat(E.lab0); N = E.null(2000, rnd.randrange(10 ** 6))
     z = zvec(E, real, N)
     sc, cls = anneal(E.keys, z, rnd)
     say(f'\n== {tag}: anneal score {sc:.1f}; classes (>1 sign) {len(cls)}')
@@ -89,7 +89,7 @@ def run(tag, docs, strat, nnull, B, nperm_b, rnd, lbmode=False):
     for b in range(B):
         bs = [att[rnd.randrange(len(att))] for _ in att]
         # duplicate docs need distinct ids only for incidence; Engine uses positions
-        Eb = Engine(bs, strat=strat); rb = Eb.stat(Eb.lab0); Nb = Eb.null(nperm_b, rnd.randrange(10 ** 6))
+        Eb = Engine(bs, strat=strat, pair_filter=pf); rb = Eb.stat(Eb.lab0); Nb = Eb.null(nperm_b, rnd.randrange(10 ** 6))
         _, cb = anneal(Eb.keys, zvec(Eb, rb, Nb), rnd, iters=30000)
         cc.update(coclust(cb))
     stab = [(p, n / B) for p, n in cc.most_common() if n / B >= 0.5]
@@ -106,15 +106,18 @@ def main():
     res = {}
     lb = lb_corpus(('KN', 'PY'))
     for d in lb: d['ss'] = d['site'] + ':' + (d.get('support') or '')
-    res['LB'] = run('LB KN+PY', lb, 'ss', 30, int(os.environ.get('BLB', 20)), 150, rnd, lbmode=True)
+    cLB, cLA = ctx_filter(contexts('LB')), ctx_filter(contexts('LA'))
+    res['LB'] = run('LB KN+PY, all pairs', lb, 'ss', 30, int(os.environ.get('BLB', 20)), 150, rnd, lbmode=True)
+    res['LBctx'] = run('LB KN+PY, context-sharing pairs only', lb, 'ss', 30, int(os.environ.get('BLB', 20)), 150, rnd, lbmode=True, pf=cLB)
     la = la_corpus()
-    res['LA'] = run('LA hands', la, 'site', 200, int(os.environ.get('BLA', 300)), 200, rnd)
+    res['LA'] = run('LA hands, all pairs', la, 'site', 200, int(os.environ.get('BLA', 300)), 200, rnd)
+    res['LActx'] = run('LA hands, context-sharing pairs only', la, 'site', 200, int(os.environ.get('BLA', 300)), 200, rnd, pf=cLA)
     for d in la:
         d['grp'] = {'Haghia Triada': 'HT', 'Khania': 'KH', 'Zakros': 'ZA', 'Phaistos': 'PH', 'Knossos': 'KN'}.get(d['site'], 'OTH')
         d['hand2'] = d['hand']
     # site mode: label = site group for every doc
     la2 = [dict(d, hand=d['grp']) for d in la]
-    res['LA_site'] = run('LA site groups', la2, 'support', 100, 100, 150, rnd)
+    res['LA_site'] = run('LA site groups, context-sharing pairs', la2, 'support', 100, 100, 150, rnd, pf=cLA)
     json.dump(res, open(os.path.join(OUT, 'c2.json'), 'w'), default=str, indent=1)
 
 
