@@ -5,7 +5,7 @@ for sc in ['proto-elamite','linear-a','voynich']:
         pre=f.split('/')[-1].split('_')[0]
         if not glob.glob(f'other-scripts/{sc}/loops/{pre}_final.txt'): continue
         for line in open(f):
-            m=re.match(r'\| ([A-Z]+-[\d.]+\w*) \|',line)
+            m=re.match(r'\| ([A-Z]+-[\d.]+[\w.]*) \|',line)
             if not m or line.count('|')<5: continue
             rid=f"{pre}:{m.group(1)}"
             row='| '+rid+' |'+line.strip()[len(m.group(0)):]
