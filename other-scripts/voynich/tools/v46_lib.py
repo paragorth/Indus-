@@ -61,7 +61,7 @@ def hyginus_units():
 # ------------------------------------------------------------------ matrices
 def type_matrix(units, min_count=1):
     tot = Counter(w for u in units for w in u['toks'])
-    types = [w for w, c in tot.most_common() if c >= min_count]
+    types = sorted(w for w, c in tot.items() if c >= min_count)
     ti = {w: i for i, w in enumerate(types)}
     M = np.zeros((len(units), len(types)), np.float32)
     for r, u in enumerate(units):
@@ -75,48 +75,39 @@ def make_patterns(types, tot, n_random=4000, seed=0, min_tok=8, alphabet=None):
     families (prefix x suffix x length window) with >= min_tok tokens."""
     rng = random.Random(seed)
     T = np.array([tot[w] for w in types])
+    nT = len(types)
     pats, seen = [], set()
 
-    def add(name, v):
-        if v.sum() == 0 or T[v].sum() < min_tok: return
-        key = np.packbits(v).tobytes()
-        if key in seen: return
-        seen.add(key); pats.append((name, v))
+    def add(name, idx):
+        idx = np.unique(np.asarray(idx, int))
+        if len(idx) == 0 or T[idx].sum() < min_tok: return False
+        key = idx.tobytes()
+        if key in seen: return False
+        seen.add(key); v = np.zeros(nT, bool); v[idx] = True; pats.append((name, v)); return True
     for i, w in enumerate(types):
-        if tot[w] >= min_tok:
-            v = np.zeros(len(types), bool); v[i] = True; add('w:' + w, v)
-    for k in (1, 2, 3, 4):
-        for kind in ('pre', 'suf', 'inf'):
-            subs = Counter()
-            for w in types:
-                if len(w) < k: continue
-                if kind == 'pre': subs[w[:k]] += tot[w]
-                elif kind == 'suf': subs[w[-k:]] += tot[w]
-                else:
-                    for s in set(w[j:j + k] for j in range(len(w) - k + 1)): subs[s] += tot[w]
-            for s, c in subs.items():
-                if c < min_tok: continue
-                if kind == 'pre': v = np.array([w.startswith(s) for w in types])
-                elif kind == 'suf': v = np.array([w.endswith(s) for w in types])
-                else: v = np.array([s in w for w in types])
-                add('%s:%s' % (kind, s), v)
-    # random families
-    pre = [p for p in set(w[:k] for w in types for k in (1, 2, 3) if len(w) >= k)]
-    suf = [p for p in set(w[-k:] for w in types for k in (1, 2, 3) if len(w) >= k)]
+        if tot[w] >= min_tok: add('w:' + w, [i])
+    PRE, SUF, INF = defaultdict(list), defaultdict(list), defaultdict(set)
+    for i, w in enumerate(types):
+        for k in range(1, 5):
+            if len(w) >= k:
+                PRE[w[:k]].append(i); SUF[w[-k:]].append(i)
+                for j in range(len(w) - k + 1): INF[w[j:j + k]].add(i)
+    for kind, D in (('pre', PRE), ('suf', SUF), ('inf', INF)):
+        for s_, ii in D.items():
+            add('%s:%s' % (kind, s_), sorted(ii))
     lens = np.array([len(w) for w in types])
-    tries = 0
-    while len(pats) < len(seen) and tries < n_random * 20:
-        break
-    nr = 0
+    pre = [p for p in PRE if len(p) <= 3]; suf = [p for p in SUF if len(p) <= 3]
+    allidx = np.arange(nT)
+    nr, tries = 0, 0
     while nr < n_random and tries < n_random * 30:
         tries += 1
         p = rng.choice(pre) if rng.random() < .7 else ''
-        s = rng.choice(suf) if rng.random() < .7 else ''
+        s_ = rng.choice(suf) if rng.random() < .7 else ''
         a = rng.randint(1, 6); b = a + rng.randint(0, 5)
-        v = np.array([w.startswith(p) and w.endswith(s) for w in types]) & (lens >= a) & (lens <= b)
-        before = len(pats)
-        add('rnd:%s*%s[%d-%d]' % (p, s, a, b), v)
-        nr += len(pats) > before
+        ii = np.array(PRE[p] if p else allidx, int)
+        if s_: ii = np.intersect1d(ii, np.array(SUF[s_], int))
+        ii = ii[(lens[ii] >= a) & (lens[ii] <= b)] if len(ii) else ii
+        nr += add('rnd:%s*%s[%d-%d]' % (p, s_, a, b), ii)
     return pats
 
 
@@ -148,7 +139,7 @@ def zrank_within(X, secs):
     for s in set(secs):
         m = secs == s
         if m.sum() < 3: continue
-        R = np.apply_along_axis(rankdata, 0, X[m])
+        R = rankdata(X[m], axis=0)
         R = R - R.mean(0)
         sd = R.std(0); sd[sd == 0] = np.inf
         Z[m] = R / sd
@@ -202,7 +193,7 @@ def familywise(C, T, n, secs, strat, nperm=500, seed=0, stat='s1'):
     return dict(obs=obs, z=zo, order=order, pfw=pfw, maxnull=mx_null)
 
 
-def heldout(C, T, n, secs, strat, nsplit=20, K=10, nperm=100, seed=0):
+def heldout(C, T, n, secs, strat, nsplit=10, K=10, nperm=100, seed=0):
     """select top-K by |S1| on a random within-section half, score sign-matched S1 on the other half.
     Null: same with n permuted within strata. Returns real mean held score, null distribution."""
     rng = np.random.default_rng(seed)
@@ -246,9 +237,13 @@ def plant(units, word, alpha, seed=0, mode='rate'):
     return out
 
 
-def run_search(units, nperm=500, n_random=4000, seed=0, min_tok=8, stats=('s1', 's2')):
+_PC = {}
+def run_search(units, nperm=500, n_random=4000, seed=0, min_tok=8, stats=('s1', 's2'), pats=None):
     M, types, tot = type_matrix(units)
-    pats = make_patterns(types, tot, n_random=n_random, seed=seed, min_tok=min_tok)
+    if pats is None:
+        key = (hash(tuple(types)), n_random, seed, min_tok)
+        if key not in _PC: _PC[key] = make_patterns(types, tot, n_random=n_random, seed=seed, min_tok=min_tok)
+        pats = _PC[key]
     C = counts_for(M, pats)
     T = np.array([len(u['toks']) for u in units], float)
     n = np.array([u['n'] for u in units], float)

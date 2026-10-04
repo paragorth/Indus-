@@ -28,6 +28,8 @@ def calib(name):
 
 def pairtest(S, labels, strata, rng, mask_extra=None):
     """mean S over same-label pairs minus different-label pairs, both inside the same stratum."""
+    labels = [None if x is None or x == (None, None) else str(x) for x in labels]
+    strata = [str(x) for x in strata]
     n = len(labels)
     iu = np.triu_indices(n, 1)
     st = np.array(strata)
@@ -36,7 +38,7 @@ def pairtest(S, labels, strata, rng, mask_extra=None):
     s = S[iu][keep]
 
     def stat(lab):
-        lab = np.array(lab, dtype=object)
+        lab = np.array(lab + [None], dtype=object)[:-1]
         eq = (lab[:, None] == lab[None, :])[iu][keep]
         ok = np.array([x is not None for x in lab])
         okp = (ok[:, None] & ok[None, :])[iu][keep]
@@ -90,10 +92,10 @@ if __name__ == '__main__':
     rng = np.random.default_rng(451)
     M = meta()
     names = sys.argv[1:] or ['V', 'VI', 'GEN0', 'GEN1', 'PL', 'LAw', 'LAl']
-    res = jload('c1.json') or {}
+    res = {}
     for nm in names:
         if not os.path.exists(os.path.join(CK, f'resid_{nm}.json')): print('missing', nm); continue
         c = calib(nm); t = topic_tests(nm, rng, M)
-        res[nm] = dict(calib=c, topic=t); jsave('c1.json', res)
+        res[nm] = dict(calib=c, topic=t); jsave(f'c1_{nm}.json', res[nm])
         print(nm, json.dumps(c), flush=True)
         for k, v in t.items(): print('  ', k, '%+.4f n=%d z %+.1f' % (v['d'], v['n'], v['z']), flush=True)

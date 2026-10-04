@@ -54,7 +54,7 @@ def run(rng, name, V, keys, ids, part, strata):
 
 if __name__ == '__main__':
     rng = np.random.default_rng(452)
-    res = jload('c2.json') or {}
+    res = jload('c2_' + '_'.join(sys.argv[1:]) + '.json') or {}
     pages, keys, words, vis, conf, strata = voynich_setup()
     Vv = emb('voynich', keys)
     part = Partial(list(conf.values()), len(keys))
@@ -87,5 +87,5 @@ if __name__ == '__main__':
                 out = run(rng, nm, {k: v[np.ix_(s3, s3)] for k, v in Vv2.items()}, ids, ids, pp, [strata2[i] for i in s3])
             else:
                 out = run(rng, nm, Vv2, keys2, ids, part2, strata2)
-        res[nm] = out; jsave('c2.json', res)
+        res[nm] = out; jsave('c2_' + '_'.join(sys.argv[1:]) + '.json', res)
         print(nm, ' '.join('%s r %+.4f z %+.2f p %.4f' % (k, v['r'], v['z'], v['p']) for k, v in out.items()), flush=True)
