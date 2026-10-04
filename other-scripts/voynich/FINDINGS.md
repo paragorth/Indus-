@@ -488,3 +488,9 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Busier drawings go with fewer ch/sh (r −0.39), but this is drift: the next page's drawing gives −0.35.
 - Only one link survives: busier root-zone linework goes with fewer benched gallows. The reverse side predicts it more strongly than the page's own text, so it is probably ink showing through. Grade C.
 - Links weaker than r ≈ 0.35 cannot be excluded.
+
+## Hidden-map walk (v11)
+- A low-dimensional hidden map does not explain the text. The Voynich map fit (0.57) lies in the range of Latin, Italian, Spanish and a random graph. A planted grid scored 1.9–2.7 and was recovered.
+- No walk signature appears. Words two steps apart are no closer than in shuffled lines, and a one-way route is ruled out.
+- The line-initial glyph chain held up on unseen pages (z 13–17).
+- A small table of (last glyph of a word, first glyph of the next word) explains about 85% of what any 2-D word model learns. For Latin the figure is 5%. This junction effect is the strongest structure found so far between words. Grade A as a statistic; its cause is open.

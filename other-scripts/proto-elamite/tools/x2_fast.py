@@ -4,6 +4,9 @@ resample is a weighted sum (sparse matrix product). Reproduces x2_common.run_pai
 selection (minc, maxc, minw, minw_docs, maxw) and the prof / joint / flood / freq similarities.
 Candidate vocabulary is limited to the 120 commonest commodities and 400 commonest words of
 the corpus (the 40 / 150 kept per resample are always drawn from these)."""
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 import numpy as np
 from collections import Counter, defaultdict
 from scipy import sparse

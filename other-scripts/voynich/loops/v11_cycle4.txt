@@ -1,0 +1,17 @@
+# v11 cycle 4 -- closing the loopholes: one-way routes and anti-maps (tools/v11_cycle4.py, v11_cycle5.py;
+# checkpoints data/results/v11/c4_*.json, c5_*.json; logs c4.log, c5.log). Held-out pages, 2 folds (values: fold 0 / fold 1 or mean).
+# Direction asymmetry A: over unordered in-vocabulary word pairs, the log-likelihood gain (bits per bigram) of the observed split
+# C_ab : C_ba over 50:50; null = each held-out bigram's direction flipped by coin (200x). Excess = A - null.
+# Anti-map models (2-D, same parameter count as dist2): sym(+,+) logit = x_a.x_b (an attractive map, = dist2 up to popularity),
+# sym(-,-) logit = -x_a.x_b (each step jumps to the far side: a volvelle read across the wheel), sym(+,-) mixed signature.
+# New planted controls: ROUTE (grid walk always moving 1-2 rows forward), ANTI (each step lands within radius 2 of the point
+# reflection of the current cell through the centre), both 30% noise.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-4.1 | Model-free one-way test: excess direction asymmetry | Planted route 0.444 / 0.452 bits; planted grid -0.018 / -0.017; Voynich ZL 0.070 / 0.064, IT 0.056 / 0.054; Latin 0.278 / 0.280; Italian 0.364 / 0.387 | Voynich word succession is only weakly one-way: 4-6x less than Latin or Italian, 7x less than a route. A one-way route is excluded. (Side observation: the Voynich word chain is unusually reversible for a language; whether the v6 junction rule explains the non-metric part is tested in cycle 5) |
+| V-4.2 | Repaired drift model (drift2 started from the dist2 optimum with three drift starts) vs dist2 | Route: drift2 = dist2 (1.138 / 1.112), |v|/spread 0.16-0.32. Voynich: drift2 0.162 / 0.146 vs dist2 0.163 / 0.148 | The drift model still fails its positive control (it cannot use the route's asymmetry). The model-based route test is void; V-4.1 replaces it |
+| V-4.3 | Anti-map: is Voynich succession a repulsive or mixed-signature symmetric geometry? | Planted anti: sym(-,-) 0.76, sym(+,-) 0.77, sym(+,+) 0.64, bilin2 0.55 (found). Planted grid: sym(+,+) 0.61, sym(-,-) 0.09. Voynich ZL: sym(+,+) 0.164, sym(-,-) 0.063, sym(+,-) 0.151, bilin2 0.275; IT 0.160 / 0.053 / 0.152 / 0.263. Latin 0.42 / 0.29 / 0.36 / 0.55; Italian 0.34 / 0.36 / 0.37 / 0.83 | No 2-D symmetric geometry of any signature (attractive, antipodal, mixed) reaches the asymmetric bilinear model on Voynich; antipodal is the worst. Voynich is not a walk across a wheel either |
+
+Cycle-4 verdict: neither a one-way route nor an anti-map rescues the hypothesis. The Voynich succession is only weakly one-way
+yet not metric in any signature: it needs two different vectors per word (what it is 'as a predecessor' and 'as a successor').

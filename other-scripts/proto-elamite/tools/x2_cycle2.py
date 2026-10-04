@@ -13,6 +13,9 @@ Worlds:
   lape_sk     : shuffled Linear A vs shuffled Proto-Elamite, k = 0..WS-1
 Checkpoint: data/x2/c2_worlds.jsonl. 2 workers.
 """
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 import json, os, sys, time, zlib
 from collections import Counter, defaultdict
 from multiprocessing import Pool

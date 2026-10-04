@@ -12,6 +12,9 @@ MRR of the gold Ur III target for each gold LB commodity, P@1, and a 200x target
 permutation P. Words: total / deficit / delivery / 'from' gold.
 Checkpoint: data/x2/c1_runs.jsonl (one line per task; reruns skip finished tasks). 2 workers.
 """
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 import json, os, sys, time
 from multiprocessing import Pool
 import numpy as np

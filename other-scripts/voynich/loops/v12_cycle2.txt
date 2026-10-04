@@ -1,0 +1,12 @@
+# v12 cycle 2 -- hidden two-state switch over word streams (tools/v12_hmm.py, tools/v12_cycle2.py; data/results/v12/c2_*.json, cycle2.log)
+# Models (EM, exact forward-backward over states (stream, last index of each stream), 2 random restarts, best training likelihood kept):
+#   k1 = one stream, context = previous word.  H2 = 2-state HMM, context = previous word, per-state tables.
+#   W2 = 2-stream WEAVE, context = previous word of the SAME stream, per-stream tables. H2 and W2 have identical parameters;
+#   they differ only in which word is the context after a switch. Held-out bits/token, 2-fold by folio parity (both folds shown in log).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-1.2 | W2 vs H2 held-out likelihood. Positives: LF-alt (strict alternation, Latin + filler), LF-hmm (Markov switch P = 0.6, stay 0.4), LI-alt, VV-alt. Negatives: vLatin, vItalian, vDante, pLatin, Shuf-line, Gloss-pair | W2 - H2 (bits/token, mean of 2 folds): **Voynich ZL -0.271 (folds -0.40, -0.15), IT -0.315 (-0.34, -0.29)**; LF-alt +0.983 (learned P(stay) 0.00-0.07 = alternation recovered), LF-hmm +0.174 (+0.29, +0.06; learned stay 0.42-0.49 vs planted 0.40); LI-alt -0.074, VV-alt -0.178 (EM failed: stay 0.39-0.60, no alternation found); vLatin -0.015, vItalian -0.171, vDante -0.205, pLatin -0.119, Shuf-line -0.054, Gloss-pair -0.180 | The latent weave model finds both Latin+filler weaves blind, including the random-switch one that fixed schemes missed, and recovers the switch rate. It does NOT find weaves of two look-alike texts from random starts (repaired in cycle 4). **Voynich gives the most negative W2 - H2 of all 12 corpora**: after any switch it is much better to condition on the word just before than on the last word of 'the same stream'. No latent two-stream weave |
+| V-2.2 | Side result: what the 2-state HMM (H2) itself buys over one stream (H2 - k1) | Voynich 0.72 / 0.71 bits; prose 0.58-1.06; Shuf-line 0.71 | A 2-state mode switch helps every text by a similar amount, including line-shuffled Voynich, so it captures vocabulary modes (section, Currier language, position), not order. Voynich 'modes' persist (P(stay) 0.60-0.73, highest of all corpora with Dante and Gloss-pair): runs of similar words, not alternation |
+
+Cycle 2 verdict: with a hidden switch, Voynich lines still behave as one stream whose word is predicted by its IMMEDIATE neighbour, more strongly so than any prose control. Caveat: W2 from random starts misses weaves of two similar texts; cycle 4 repeats the fit with parity and glyph-class starts.

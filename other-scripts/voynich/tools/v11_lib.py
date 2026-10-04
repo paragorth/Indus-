@@ -164,7 +164,7 @@ def ll(logits, C):
 SIGN = {'sympp': np.array([1., 1, 1, 1]), 'symmm': -np.array([1., 1, 1, 1]), 'sympm': np.array([1., -1, 1, -1])}
 
 
-def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True, v_init=None):
+def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True, v_init=None, feats=None):
     """P(b|a) = (1-rho) softmax_b(logit_ab) + rho u_b  (u = train successor unigram; rho = teleport rate).
     Loss = -LL/N + lam*|embedding params|^2/V. Returns dict with probs (V x V), rho, params."""
     rng = np.random.default_rng(seed); V = C.shape[0]; N = C.sum()
@@ -176,6 +176,11 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g, th]
     elif kind in ('sympp', 'symmm', 'sympm'):
         X = rng.normal(0, 0.3, (V, d)) if init is None else init.copy(); P = [X, beta, g, th]
+    elif kind == 'junc':
+        E, Sf = feats; P = [np.zeros((E.shape[1], Sf.shape[1])), beta, g, th]
+    elif kind == 'juncdist':
+        E, Sf = feats; X = rng.normal(0, 1.0, (V, d)) if init is None else init.copy()
+        P = [X, np.zeros((E.shape[1], Sf.shape[1])), beta, g, th]
     elif kind == 'drift':
         X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, np.zeros(d) if v_init is None else np.array(v_init, float), beta, g, th]
     else:
@@ -189,6 +194,11 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
             return -D + P[1][None, :] + P[2][0] * I
         if kind == 'bilin':
             return P[0] @ P[1].T + P[2][None, :] + P[3][0] * I
+        if kind == 'junc':
+            return E @ P[0] @ Sf.T + P[1][None, :] + P[2][0] * I
+        if kind == 'juncdist':
+            X = P[0]; sq = (X * X).sum(1); D = sq[:, None] + sq[None, :] - 2 * X @ X.T
+            return -D + E @ P[1] @ Sf.T + P[2][None, :] + P[3][0] * I
         if kind in ('sympp', 'symmm', 'sympm'):
             sg = SIGN[kind][:P[0].shape[1]]; X = P[0]
             return (X * sg) @ X.T + P[1][None, :] + P[2][0] * I
@@ -213,6 +223,12 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         elif kind == 'bilin':
             U, W = P[0], P[1]
             grads = [G @ W + 2 * lam * U / V, G.T @ U + 2 * lam * W / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
+        elif kind == 'junc':
+            grads = [E.T @ G @ Sf + 2 * lam * P[0] / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
+        elif kind == 'juncdist':
+            X = P[0]
+            gX = 2 * (G @ X - G.sum(1)[:, None] * X) + 2 * (G.T @ X - G.sum(0)[:, None] * X)
+            grads = [gX + 2 * lam * X / V, E.T @ G @ Sf + 2 * lam * P[1] / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         elif kind in ('sympp', 'symmm', 'sympm'):
             sg = SIGN[kind][:P[0].shape[1]]; X = P[0]
             grads = [((G + G.T) @ X) * sg + 2 * lam * X / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
@@ -228,6 +244,15 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
             p -= lr * (m[i] / (1 - b1 ** t)) / (np.sqrt(v[i] / (1 - b2 ** t)) + eps)
     S, rho, Pr = probs(P)
     return {'P': P, 'kind': kind, 'd': d, 'train_ll': float((C * np.log(Pr)).sum()), 'probs': Pr, 'rho': float(rho)}
+
+
+def junction_feats(voc):
+    """one-hot last glyph unit of each word (rows) and first glyph unit (cols), vlib.glyphs units."""
+    ends = sorted({vlib.glyphs(w)[-1] for w in voc}); sts = sorted({vlib.glyphs(w)[0] for w in voc})
+    E = np.zeros((len(voc), len(ends))); S = np.zeros((len(voc), len(sts)))
+    for i, w in enumerate(voc):
+        g = vlib.glyphs(w); E[i, ends.index(g[-1])] = 1; S[i, sts.index(g[0])] = 1
+    return E, S
 
 
 def test_ll(f, C):
@@ -248,7 +273,7 @@ def spectral_init(C, d, scale=3.0):
 def best_fit(C, kind, d, restarts, spectral=True, **kw):
     best = None
     inits = [None] * restarts
-    if kind in ('dist', 'drift') and spectral:
+    if kind in ('dist', 'drift', 'juncdist') and spectral:
         inits[0] = spectral_init(C, d)
     for r in range(restarts):
         f = fit(C, kind, d, seed=r, init=inits[r], **kw)

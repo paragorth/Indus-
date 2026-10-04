@@ -1,6 +1,6 @@
 """pe8 cycle 3.  Test 2 (one office, one form?) and test 3 (are rare forms compositions of common ones?).
 
-Forms: MAP cluster of each REAL tablet under the latent class model at K_cv (cycle 1), fitted (i) on all
+Forms: MAP cluster of each REAL tablet under the latent class model at K_bic (cycle 1; held-out CV over-splits planted corpora), fitted (i) on all
 skeleton features ('full') and (ii) without SYS/TOT ('nonum', so that a shared number system alone cannot make
 neighbours look alike).  20 restarts, best log-lik.
 
@@ -142,7 +142,7 @@ def composition(units, common, rng, feats, nperm=1000):
 
 def main():
     c1 = {r['name']: r for r in json.load(open(os.path.join(DATA, 'pe8_cycle1.json')))}
-    K = c1['REAL']['K_cv']
+    K = c1['REAL']['K_bic']
     R = load_skeletons(min_ent=2, clean=False)
     rng = np.random.default_rng(5)
     vols = [r['meta'].get('pub_vol', '?') for r in R]

@@ -105,16 +105,16 @@ def predict(args):
 
 def main():
     c1 = {r['name']: r for r in json.load(open(os.path.join(DATA, 'pe8_cycle1.json')))}
-    Kreal = c1['REAL']['K_cv']
+    Kreal = c1['REAL']['K_bic']
     R = load_skeletons(min_ent=2, clean=False)
     A = [r['A'] for r in R]
     jobs = [('REAL', [r['f'] for r in R], Kreal)]
     for s in (1, 2, 3):
         P, lab, _ = planted_corpus(A, len(A), seed=s)
-        jobs.append(('PLANT_%d' % s, [features(a) for a in P], c1['PLANT_%d' % s]['K_cv']))
+        jobs.append(('PLANT_%d' % s, [features(a) for a in P], c1['PLANT_%d' % s]['K_bic']))
     for s in (1, 2, 3):
         jobs.append(('NULL_%d' % s, [features(a) for a in null_corpus(A, len(A), seed=s)],
-                     max(2, c1['NULL_%d' % s]['K_cv'])))
+                     max(2, c1['NULL_%d' % s]['K_bic'])))
     pj = []
     for variant in ('main', 'strict'):
         for K in sorted({Kreal, 2, 4, 8}):

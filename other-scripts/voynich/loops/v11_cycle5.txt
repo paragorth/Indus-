@@ -1,0 +1,14 @@
+# v11 cycle 5 -- if not a map, what is the 'space'? Glyph junction vs map (tools/v11_cycle6.py; checkpoints
+# data/results/v11/c6_<corpus>_<fold>.json; log c6.log). Held-out pages, 2 folds (fold 0 / fold 1).
+# junc: logit_ab = J[last glyph unit of a, first glyph unit of b] + popularity (Voynich: 10 x 15 table, ~150 parameters);
+# juncdist2: junction + 2-D attractive map; dist2 and bilin2 as in cycle 1. Gains in bits per bigram over unigram.
+# For Latin and Italian the 'glyph' is the letter (same code path), so the junction is last letter -> first letter.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-5.1 | How much of word succession is the junction alone? | Voynich ZL junc 0.231 / 0.240 = 86% of bilin2 (0.274); IT 0.212 / 0.226 = 84%. Latin 0.02 / 0.04 (5%), Italian 0.14 / 0.15 (18%), planted grid 0.01, line-shuffle 0.00 | A 150-cell table of (end glyph, start glyph) explains most of what any 2-D word model finds in Voynich succession; in natural language it explains little. This is the v6 junction effect seen from the word side: the 'hidden space' is a glyph-junction rule, not a geography. Transcription-robust |
+| V-5.2 | What does a map add on top of the junction? juncdist2 minus junc | Voynich ZL +0.11 / +0.09, IT +0.10 / +0.08; line-shuffle (topic only) dist2 0.05; Latin +0.56 / +0.46; Italian +0.38 / +0.37; planted grid +0.77 / +0.83 | After the junction, a 2-D map adds about 0.1 bit in Voynich, half of which a line-shuffled text also gets (topic/section). Word-level 'location' carries at most ~0.05 bits per step beyond junction and topic, 5-8x less than in Latin or Italian |
+
+Cycle-5 verdict: the non-metric succession found in cycle 4 (two vectors per word) is mostly the glyph-junction rule: a word's
+'predecessor vector' is its last glyph and its 'successor vector' its first glyph. There is no room left
+for a hidden map: junction + topic account for almost everything a 2-D word model can learn.

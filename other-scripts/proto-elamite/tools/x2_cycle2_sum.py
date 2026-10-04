@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """X-2 cycle 2 summary: control calibration (LB <-> Ur III) and LA <-> PE read-off with shuffled nulls."""
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 import json, os, sys
 from collections import defaultdict, Counter
 import numpy as np

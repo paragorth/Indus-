@@ -136,14 +136,15 @@ def collapse(counts, k):
     return np.array(c, float)
 
 KS = range(3, 10)
-def slot_scores(counts, rng=None, devices=DEV_ORDER):
+def slot_scores(counts, rng=None, devices=DEV_ORDER, ks=None):
     """-> {dev: {'z': min_k standardised G, 'k': argmin, 'G': {k: G}}}"""
     out = {}
     for d in devices:
         Gs = {}
         best = (np.inf, None)
-        for k in KS:
-            if k > len(counts): break
+        n = len(counts); m = len(DEVICES[d])
+        for k in (ks or sorted({min(9, n), max(2, min(n, m - 1, 9))})):
+            if k > len(counts): continue
             c = collapse(counts, k)
             g, _ = fit_device(c, d, rng)
             df = len(c) - 1
@@ -295,3 +296,49 @@ def save(name, obj): pickle.dump(obj, open(os.path.join(OUT, name + '.pkl'), 'wb
 def load(name):
     p = os.path.join(OUT, name + '.pkl')
     return pickle.load(open(p, 'rb')) if os.path.exists(p) else None
+
+def zof(score, d, which):
+    """standardised G of device d at 'full' (largest k) or 'core' (smallest k) resolution"""
+    G = score[d]['G']
+    if not G: return np.inf
+    k = max(G) if which == 'full' else min(G)
+    g, nc = G[k]
+    return (g - (nc - 1)) / math.sqrt(2 * (nc - 1))
+
+# ------------------------------------------------------------------ planted dice corpora
+P_SLOTS = [['', 'q', 'o', 'qo', 'qoo'], ['', 'k', 't', 'p', 'f', 'C', 'S', 'K', 'T', 'P'],
+           ['', 'e', 'ee', 'd', 's', 'ed', 'es', 'eee'], ['y', 'l', 'r', 'ain', 'aiin', 'ar', 'al', 'm', 'iin', 'n']]
+
+def roll(dev, rng, n):
+    at = DEVICES[dev]
+    return rng.choice(len(at), size=n, p=at / at.sum())
+
+def planted_dice(n=35000, seed=11, design='mixed'):
+    """design 'mixed': slot1 d6 merged faces, slot2 2d6 sum, slot3 astragalus, slot4 coin+d6.
+       design 'table': slot1 d6, slot2 two dice + 36-cell lookup table, slot3 d6, slot4 3d6 sum."""
+    rng = np.random.default_rng(seed)
+    if design == 'mixed':
+        spec = [('d6', ['', '', 'q', 'o', 'qo', '']),
+                ('2d6sum', ['P', 'f', 'k', 't', 'C', '', 'S', 'K', 'T', 'p', 'f']),
+                ('astragalus', ['ee', '', 'e', 'd']),
+                ('coin+d6', ['y', 'y', 'l', 'r', 'aiin', 'ain', 'y', 'ar', 'al', 'l', 'm', 'r'])]
+    else:
+        r2 = random.Random(seed)
+        tab = [r2.choice(P_SLOTS[1]) for _ in range(36)]
+        spec = [('d6', ['', 'q', 'o', 'qo', '', 'qoo']), ('d6+table36', tab),
+                ('d6', ['', 'e', 'ee', 'd', 'ed', 's']),
+                ('3d6sum', [r2.choice(P_SLOTS[3]) for _ in range(16)])]
+    cols = [[fl[i] for i in roll(dev, rng, n)] for dev, fl in spec]
+    words = [''.join(t) for t in zip(*cols)]
+    words = [w if w else 'y' for w in words]
+    return chop(words, random.Random(seed)), [d for d, _ in spec]
+
+def shuffle_slots(toks, K, seed):
+    """Voynich with each slot's fillers shuffled across tokens independently."""
+    rng = random.Random(seed)
+    cols = [[t['f'][k] for t in toks] for k in range(K)]
+    for c in cols: rng.shuffle(c)
+    out = []
+    for i, t in enumerate(toks):
+        nt = dict(t); nt['f'] = tuple(cols[k][i] for k in range(K)); out.append(nt)
+    return out

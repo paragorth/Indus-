@@ -1,0 +1,27 @@
+# v11 final: "the text is a walk through a hidden map"
+
+Files: tools/v11_lib.py, v11_cycle1.py, v11_cycle2.py, v11_cycle2b.py, v11_cycle3.py, v11_cycle4.py, v11_cycle5.py, v11_cycle6.py;
+loops/v11_cycle1.txt .. v11_cycle5.txt (loop cycle 4 = scripts cycle4 + cycle5; loop cycle 5 = script cycle6);
+checkpoints and logs in data/results/v11/.
+Data: ZL3b paragraph text (main), IT2a (transcription check; same pages, so agreement = transcription-robust, not replication).
+Design: every score is held out (page-level 2-fold split, alternate folios). Every control corpus is poured into the exact ZL3b line layout.
+Controls: planted random walks on a 20x20 grid (30% and 60% noise), on a random graph of the same degree, a one-way route, an
+antipodal 'across the wheel' walk, a start-region cycle; Latin (Isidore), Italian (Manzoni), Spanish (Cervantes); words shuffled within lines.
+Prior art: Timm & Schinner (vertical/positional similarity, self-citation); Schinner 2007 (random-walk statistics of tokens, a different
+sense of 'walk'). No published test of word succession as motion in a learned map was found; the junction effect is ours (v6).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-F.1 | Do Voynich words embed in a low-dimensional map where consecutive words are close? (V-1.1-1.4) | Map advantage (2-D map gain / 2-D non-geometric gain): planted grid 1.92 (2.7 at 60% noise), Voynich 0.57 (ZL and IT), Latin 0.89, Italian 0.54, Spanish 0.44, planted graph 0.59. Two thirds of the Voynich 1-D 'geometry' is reproduced by a line-shuffled text (topic) | No. Voynich looks like language and like a non-geometric graph, not like a map |
+| V-F.2 | Is the learned space geometric, and do lines move like walks? (V-2.1-2.6) | Lag-2 proximity z: grid -4.7, Voynich +0.1 / -0.1; triangle closure: grid 21x rewired, Voynich 3x (Latin 3.7x); composition P1^2 predicts lag 2: grid 0.47 bits, Voynich 0.05 (= line shuffle 0.06); local neighbourhoods do not replicate across page halves (10-NN overlap 0.09 vs grid 0.43) | No walk signatures. The succession forgets after one step |
+| V-F.3 | Loopholes: one-way route, antipodal wheel, mixed geometry (V-4.1-4.3) | Excess direction asymmetry: route 0.45 bits, Voynich 0.06, Latin 0.28; no symmetric 2-D signature reaches the asymmetric model (best 0.16 vs 0.27); the drift model failed its own control (void) | Excluded (route by the model-free test, wheel by the signature fits) |
+| V-F.4 | Does the line-initial chain mark starting regions? (V-3.1-3.6) | Planted start regions found at z 19-41. Voynich region chain z -2.1 to +1.7; glyph chain replicates on held-out halves z 13-17 (A and B separately z 7.5-10.8); keeping regions but changing the word kills the glyph chain | No. The chain is a first-glyph rule, independent of any map |
+| V-F.5 | What is the 'space' then? (V-5.1-5.2) | A 10 x 15 table of (last glyph of word a, first glyph of word b) gives 85% of the 2-D bilinear gain in Voynich (Latin 5%, Italian 18%); a map on top adds 0.1 bit, half of it topic | Word succession is mostly the glyph-junction rule (v6) plus section topic |
+
+Plain answer: no. A low-dimensional hidden map does not explain the Voynich text better than the controls. The method
+recovers a planted grid (12x chance local recovery, map advantage 1.9-2.7) and rejects a planted graph; on Voynich every map
+statistic falls in the natural-language / random-graph band, lines show no diffusion, no triangle closure and no reuse of local
+neighbourhoods, and the line-initial chain has no regional basis. What a 2-D model learns from Voynich word order is mostly
+the junction between the last glyph of one word and the first glyph of the next, plus topic. Limits: top 300 word types only
+(~40% of within-line bigrams); a very noisy map (60% noise) is caught only by the cycle-1 statistic; a map over sub-word units or over
+rare words is not tested. Nothing here is a decipherment.
