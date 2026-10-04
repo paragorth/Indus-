@@ -26,7 +26,7 @@ def run(E, J, seed, grid=COARSE, M=None, **kw):
     la, gi, gt, T = prep(E)
     r = np.random.default_rng(seed)
     if M is None:
-        M, sig = draw_physiology(J, r)
+        M, sig = draw_shape(J, r)
     else:
         M, sig = M
     LL = loglik_t(la, gi, gt, T, M, sig, r, lu_grid=grid, **kw)
@@ -39,8 +39,10 @@ def run(E, J, seed, grid=COARSE, M=None, **kw):
     loc = [i for i in range(1, len(p) - 1) if p[i] >= p[i - 1] and p[i] >= p[i + 1] and p[i] > 0.02]
     modes = sorted([(float(np.exp(grid[i])), float(p[max(0, i - 3):i + 4].sum())) for i in loc],
                    key=lambda x: -x[1])[:4]
+    L = to_litres(p, grid, np.random.default_rng(seed + 1))
     return {'map': float(np.exp(grid[np.argmax(p)])), 'q05': q(.05), 'q50': q(.5), 'q95': q(.95),
-            'ev': ev, 'n': len(E), 'tabs': T, 'modes': modes, 'post': p.tolist()}
+            'L05': float(np.percentile(L, 5)), 'L50': float(np.percentile(L, 50)),
+            'L95': float(np.percentile(L, 95)), 'ev': ev, 'n': len(E), 'tabs': T, 'modes': modes, 'post': p.tolist()}
 
 
 def count_of(raw):
@@ -100,7 +102,7 @@ if 'UR3tot' not in res:   # calibration of the k-model
     s0 = run(E, 60, 11)
     res['UR3tot'] = {'kmodel': s1, 'no_k': s0, 'n': len(E)}
     save()
-    print('UR3tot k-model', round(s1['q05'], 3), round(s1['q50'], 3), round(s1['q95'], 3), s1['modes'][:3],
+    print('UR3tot k-model u_manday', round(s1['q05'], 3), round(s1['q50'], 3), round(s1['q95'], 3), 'L', round(s1['L05'], 2), round(s1['L50'], 2), round(s1['L95'], 2), s1['modes'][:3],
           '| without k', round(s0['q50'], 3), flush=True)
 
 for key, E, kw, J in (('R', R, {}, 200), ('S', S, {'kprior': KP}, 60)):
@@ -129,9 +131,9 @@ for key, E, kw, J in (('R', R, {}, 200), ('S', S, {'kprior': KP}, 60)):
         alts[vn] = a
     res[key] = {'real': s, 'nulls': nulls, 'alts': alts, 'sec': time.time() - t}
     save()
-    print(key, 'u(l/N39C)', round(s['q05'], 3), round(s['q50'], 3), round(s['q95'], 3), 'modes', s['modes'],
+    print(key, 'u(man-days/N39C)', round(s['q05'], 3), round(s['q50'], 3), round(s['q95'], 3), 'litres', round(s['L05'], 3), round(s['L50'], 3), round(s['L95'], 3), 'modes', s['modes'],
           'ev', round(s['ev'], 1), flush=True)
     for x in nulls:
-        print('   null', x['kind'], round(x['q50'], 3), round(x['ev'], 1), flush=True)
+        print('   null', x['kind'], round(x['q50'], 3), round(x['L50'], 3), round(x['ev'], 1), flush=True)
     for vn, a in alts.items():
-        print('   alt', vn, round(a['q05'], 3), round(a['q50'], 3), round(a['q95'], 3), flush=True)
+        print('   alt', vn, round(a['q05'], 3), round(a['q50'], 3), round(a['q95'], 3), 'L', round(a['L50'], 3), flush=True)
