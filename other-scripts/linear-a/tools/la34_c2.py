@@ -87,7 +87,7 @@ def search(L, hands, sites, shared, rng, N=3000, K=20):
     return sc[top].mean(), te, te_def, wsel
 
 
-def main(S=10, NULL=20, N=3000):
+def main(S=10, NULL=60, N=3000):
     U, L, shared = layers()
     h = np.array([meta[u]['scribe'] for u in U]); s = np.array([meta[u]['site'] for u in U])
     print('units', len(U), 'hands', len(set(h)), 'layers', L.shape[0], flush=True)

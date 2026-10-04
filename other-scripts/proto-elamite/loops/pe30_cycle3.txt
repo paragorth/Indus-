@@ -1,0 +1,11 @@
+pe30 cycle 3 -- which entries do the failing totals leave out? (roles, carry-over, lost entries)
+Tools: tools/pe30_cycle3.py, pe30_cycle3b.py. Numbers: data/pe30_cycle3.json, data/pe30_cycle3b.json.
+58 of the 91 tier 1+2 tablets do not close with all entries. For each, the single-feature rules EX(f) that close it name the candidate left-out entries. Null for "which entry": features permuted among the entries WITHIN each tablet (values fixed, so the size of the miss is kept and only the identity of the left-out entry is random).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-30.3a | ROLE ENRICHMENT by feature class; 400 within-tablet permutations | any single-feature rescue 8/58 (null 6.5). Position 6 (null 4.3, p 0.11); sign 3 (3.9, p 0.93); unit 2 (1.0, p 0.27); size 2 (2.5); marker 1 (2.2); bare 1 (0.7); damaged 1 (0.7); shares total sign 1 (0.4); duplicate 0; system 0 | NEGATIVE: no class of entry is left out more than a random entry of the same tablet |
+| PE-30.3b | ROLE ENRICHMENT per feature (50 features rescue >= 2; Bonferroni) | best U_N30C (entries with the N30C capacity unit) 2 tablets vs 0.40, p 0.03, corrected 0.15; P_second 3 vs 1.4, p 0.11; P_last 2 vs 1.5, p 0.45 | NEGATIVE after correction; N30C stays C (2 tablets) |
+| PE-30.3c | PLANTED power check for 3b: last entry left out of the total on 16 / 8 baseline-closing tablets, 200 permutations | P_last is the top feature in both: 18 vs 12.0 (p 0.005) and 10 vs 4.8 (p 0.005, the floor); the class-level test (3a) is weak (position 22 vs 19.9, p 0.07) because most entries of a short tablet carry some position label | PASS for the per-feature test at 8+ tablets; the real data show nothing of that size |
+| PE-30.3d | CARRIED FROM ANOTHER TABLET: positive residual (total - sum) of failing count tablets equal to the written total of another tablet; vs random totals (200x) | 12 of 20 (0.60) vs random 0.49, p 0.09 | NEGATIVE (not significant; the pool of totals is dense in small numbers) |
+| PE-30.3e | TIER 3: 12 tablets with exactly one lost entry numeral; overshoot = known entries already exceed the total (an exclusion would be needed) | 4 of 12 overshoot vs random totals 30%, p 0.56 | NEGATIVE (n small; < 3/12 bound not reached) |

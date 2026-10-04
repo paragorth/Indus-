@@ -5,7 +5,7 @@ Base = SCRIBE + CTX + FRAME logistic (page-grouped out-of-fold). Each hypothesis
          paragraph, line in page, line length, paragraph-first/last, recto), optionally AND a second one
   PEN    previous choice of the same pair in line / previous line equals A or B; alternation
 Discovery = odd-numbered pages (gain by page-grouped CV inside discovery), top 25 re-tested on the even pages
-(fit on discovery, evaluate on confirmation) against 200 y-permutations within (frame x hand) strata.
+(fit on discovery, evaluate on confirmation) against 200 y-permutations within (frame x page) strata; base model includes page identity.
 Search-wide null: the same search on 4 y-permuted copies -> max-gain threshold.
 Planted: k/t resampled from the base model + 'tall glyph above -> t' (s = 0.2) must be found and confirmed."""
 import sys, os, json, time
@@ -13,7 +13,12 @@ import numpy as np
 from scipy.sparse import hstack
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from v40_lib import *
-from v40_cycle1 import vpairs, perm_within, same_above
+from v40_cycle1 import vpairs, same_above
+from v40_cycle1 import perm_within as _pw
+
+
+def perm_within(toks, y, rng):
+    return _pw(toks, y, rng, keys=('frame', 'page'))
 
 NH = int(os.environ.get('V40_NH', 3000))
 VARS = ['xrel', 'off', 'toend', 'wi', 'wfe', 'lip', 'lpage', 'linelen', 'ps', 'pe', 'recto', 'jw']
@@ -125,7 +130,7 @@ def confirm(D, toks, y, h, p0, pen, disc, conf, rng, nperm=200):
     cidx = np.where(conf)[0]
     strata = defaultdict(list)
     for i in cidx:
-        strata[(toks[i]['frame'], toks[i]['hand'])].append(i)
+        strata[(toks[i]['frame'], toks[i]['page'])].append(i)
     null = []
     for _ in range(nperm):
         y2 = y.copy()

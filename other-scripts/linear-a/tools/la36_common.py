@@ -272,12 +272,12 @@ def _entry_coms(e):
     return {k: v for k, v in d.items() if v[0] > 0 or v[1]}
 
 
-def la_units():
+def la_units(min_shared=2):
     """All aligned pairs of Linear A lists. Each unit: id, cls, site, keys, x, y (lists of (int, fracs)),
     poolA, poolB (all amounts of each list), wordsA, wordsB."""
     L = la_lists()
     U = []
-    for a, b in shared_pairs(L):
+    for a, b in shared_pairs(L, min_shared):
         A = {e[0]: e for e in L[a]['ents']}; B = {e[0]: e for e in L[b]['ents']}
         keys = [w for w in A if w in B]
         U.append({'id': f'{a}|{b}', 'cls': pair_class(a, b, L), 'site': L[a]['site'], 'keys': keys,

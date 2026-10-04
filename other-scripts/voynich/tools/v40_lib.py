@@ -222,7 +222,7 @@ def bins(x, edges):
 def family_cols(toks, fam, extra=None):
     if fam == 'SCRIBE':
         return [[t['hand'] for t in toks], [t['sect'] for t in toks], [t['lang'] for t in toks],
-                [t['hand'] + t['sect'] for t in toks]]
+                [t['hand'] + t['sect'] for t in toks], ['pg%s' % t['page'] for t in toks]]
     if fam == 'CTX':
         return [[t['prev'] for t in toks], [t['nxt'] for t in toks], [t['prev'] + t['nxt'] for t in toks],
                 [str(min(t['jw'], 3)) + '_' + str(min(t['wl'] - t['jw'] - 1, 3)) for t in toks]]
