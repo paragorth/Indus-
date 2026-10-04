@@ -41,5 +41,19 @@ for c in ['LA', 'PLA', 'LB', 'FW_MK2', 'FW_FLAT', 'FW_NEUR']:
         out.append('%-11s ' % f + ' '.join(row))
         if f in C.GEN_FORGERS:
             out.append('%-11s ' % ('  null') + ' '.join('%6.3f ' % np.mean(A[(c, f, 'null', g)]) if A.get((c, f, 'null', g)) else '%7s' % '-' for g in GS))
+# calibrated survival: real corpus vs the forger's own world (negative control), same forger, same group
+out.append('\n=== CALIBRATED: AUC(real corpus vs forger X) minus AUC(world of X vs forger X); * = t>3 and d>0.03')
+out.append('%-14s ' % 'corpus/forger' + ' '.join('%7s' % g[:7] for g in GS))
+for c in ['LA', 'LB', 'PLA']:
+    for f in ['MK2', 'FLAT', 'NEUR']:
+        row = []
+        for g in GS:
+            x = np.array(A.get((c, f, 'real', g), [])); n = np.array(A.get(('FW_' + f, f, 'real', g), []))
+            if len(x) < 3 or len(n) < 3: row.append('%7s' % '-'); continue
+            d = x.mean() - n.mean(); t = d / (np.sqrt(x.var(ddof=1) / len(x) + n.var(ddof=1) / len(n)) + 1e-9)
+            row.append('%+6.3f%s' % (d, '*' if (t > 3 and d > 0.03) else ' '))
+        out.append('%-14s ' % (c + '/' + f) + ' '.join(row))
+for f in ['MK2', 'FLAT', 'NEUR']:
+    out.append('%-14s ' % ('world ' + f) + ' '.join('%6.3f ' % np.mean(A[('FW_' + f, f, 'real', g)]) if A.get(('FW_' + f, f, 'real', g)) else '%7s' % '-' for g in GS))
 print('\n'.join(out))
 json.dump({'|'.join(k): v for k, v in A.items()}, open(os.path.join(C.OUT, tag + '_auc.json'), 'w'))

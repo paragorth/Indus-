@@ -175,3 +175,372 @@ def word_measures(contrast, rb, cmask, y, half, a, b):
         'area': float(m.sum()),                         # ink pixels (stroke width x length)
         'rb': float(rb[band, a:b][m].mean()),           # ink hue
     }
+
+
+def components(mask, x0, x1):
+    """Word-ish ink components: horizontal closing joins glyphs; returns list of
+    (xa, xb, ya, yb, ycore, npix) where ycore is the densest row (x-height band)."""
+    m = mask.copy(); m[:, :max(0, x0 - 80)] = 0; m[:, x1 + 60:] = 0
+    j = ndi.binary_dilation(m, structure=np.ones((3, 9)))
+    lab, n = ndi.label(j)
+    out = []
+    for k, sl in enumerate(ndi.find_objects(lab)):
+        sub = (lab[sl] == k + 1) & m[sl]
+        npx = int(sub.sum())
+        if npx < 25:
+            continue
+        rows = ndi.uniform_filter1d(sub.sum(axis=1).astype(float), 7)
+        out.append((sl[1].start, sl[1].stop, sl[0].start, sl[0].stop, sl[0].start + int(np.argmax(rows)), npx, k + 1))
+    return out, lab
+
+
+def assign_lines(comps, seeds, s, iters=4):
+    """Assign components to seed lines; each line gets a robust linear y(x) fit."""
+    nl = len(seeds)
+    coef = [(0.0, float(y)) for y in seeds]
+    xs = np.array([(c[0] + c[1]) / 2 for c in comps]); ys = np.array([c[4] for c in comps], float)
+    w = np.array([c[5] for c in comps], float)
+    for it in range(iters):
+        pred = np.array([[a * x + b for (a, b) in coef] for x in xs])  # ncomp x nl
+        d = np.abs(pred - ys[:, None])
+        lab = d.argmin(axis=1); dm = d.min(axis=1)
+        ok = dm < 0.45 * s
+        newc = []
+        for li in range(nl):
+            sel = (lab == li) & ok
+            if sel.sum() >= 3 and np.ptp(xs[sel]) > 200:
+                A = np.vstack([xs[sel], np.ones(sel.sum())]).T
+                sol, *_ = np.linalg.lstsq(A * np.sqrt(w[sel])[:, None], ys[sel] * np.sqrt(w[sel]), rcond=None)
+                a = float(np.clip(sol[0], -0.04, 0.04)); b = float(np.average(ys[sel] - a * xs[sel], weights=w[sel]))
+                newc.append((a, b))
+            else:
+                newc.append(coef[li])
+        coef = newc
+    return lab, ok, coef
+
+
+def line_spans(comps, idx, gapmin):
+    """Components of one line -> x-spans (merged when overlapping or closer than gapmin);
+    each span keeps its component label ids."""
+    cs = sorted((comps[i] for i in idx), key=lambda c: c[0])
+    spans = []
+    for c in cs:
+        if spans and c[0] - spans[-1][1] < gapmin:
+            a, b, ids = spans[-1]; spans[-1] = (a, max(b, c[1]), ids + [c[6]])
+        else:
+            spans.append((c[0], c[1], [c[6]]))
+    return spans
+
+
+def measure(contrast, rb, mask, lab, ids, a, b):
+    ys, xs = None, None
+    sub = lab[:, a:b]
+    sel = np.isin(sub, ids) & mask[:, a:b]
+    v = contrast[:, a:b][sel]
+    if v.size < 30:
+        return None
+    q = np.sort(v)
+    return {'med': float(np.median(v)), 'top': float(q[int(0.7 * len(q)):].mean()),
+            'p90': float(q[int(0.9 * len(q))]), 'lo': float(q[:int(0.3 * len(q)) + 1].mean()),
+            'area': float(v.size), 'rb': float(rb[:, a:b][sel].mean())}
+
+
+def chain_lines(comps, s, maxgap=130, dyfrac=0.3):
+    """Union components that are horizontal neighbours at the same core height; returns
+    chains (list of comp-index lists) with a linear y(x) fit, sorted top to bottom."""
+    n = len(comps)
+    par = list(range(n))
+
+    def f(i):
+        while par[i] != i:
+            par[i] = par[par[i]]; i = par[i]
+        return i
+    order = sorted(range(n), key=lambda i: comps[i][0])
+    xa = np.array([comps[i][0] for i in order]); xb = np.array([comps[i][1] for i in order])
+    yc = np.array([comps[i][4] for i in order])
+    for p in range(n):
+        q = p + 1
+        while q < n and xa[q] < xb[p] + maxgap:
+            if abs(yc[q] - yc[p]) < dyfrac * s and xa[q] > xa[p]:
+                par[f(order[q])] = f(order[p])
+            q += 1
+    groups = {}
+    for i in range(n):
+        groups.setdefault(f(i), []).append(i)
+    chains = []
+    for g in groups.values():
+        xs = np.array([(comps[i][0] + comps[i][1]) / 2 for i in g]); ys = np.array([comps[i][4] for i in g], float)
+        w = np.array([comps[i][5] for i in g], float)
+        x_lo = min(comps[i][0] for i in g); x_hi = max(comps[i][1] for i in g)
+        if len(g) >= 3 and np.ptp(xs) > 150:
+            a = np.polyfit(xs, ys, 1, w=np.sqrt(w))[0]; a = float(np.clip(a, -0.05, 0.05))
+        else:
+            a = 0.0
+        b = float(np.average(ys - a * xs, weights=w))
+        chains.append({'idx': g, 'a': a, 'b': b, 'x0': x_lo, 'x1': x_hi, 'ink': float(w.sum())})
+    return chains
+
+
+def merge_chains(chains, s, tol=0.3):
+    """Merge chains lying on the same text line (collinear, not overlapping in x)."""
+    chains = sorted(chains, key=lambda c: c['x0'])
+    changed = True
+    while changed:
+        changed = False
+        for i in range(len(chains)):
+            for j in range(len(chains)):
+                if i == j:
+                    continue
+                A, B = chains[i], chains[j]
+                if B['x0'] < A['x1'] - 15:
+                    continue
+                big = A if A['ink'] >= B['ink'] else B
+                xm = (A['x1'] + B['x0']) / 2
+                ya = big['a'] * xm + big['b']
+                yb_ = (B['a'] * xm + B['b']) if big is A else (A['a'] * xm + A['b'])
+                if abs(ya - yb_) < tol * s and B['x0'] - A['x1'] < 600:
+                    A['idx'] = A['idx'] + B['idx']; A['x1'] = max(A['x1'], B['x1'])
+                    A['a'], A['b'] = big['a'], big['b']; A['ink'] += B['ink']
+                    del chains[j]; changed = True
+                    break
+            if changed:
+                break
+    return chains
+
+
+def match_lines(chains, lines_glyphs, unit, skip_chain_pen, skip_line_pen=6.0):
+    """Monotone DP matching chains (sorted top->bottom) to transliterated lines."""
+    C = sorted(chains, key=lambda c: c['a'] * (c['x0'] + c['x1']) / 2 + c['b'])
+    m, n = len(C), len(lines_glyphs)
+    INF = 1e18
+    dp = np.full((n + 1, m + 1), INF); dp[0, 0] = 0
+    bk = {}
+    for i in range(n + 1):
+        for j in range(m + 1):
+            if dp[i, j] >= INF:
+                continue
+            if j < m:  # skip chain
+                c = dp[i, j] + skip_chain_pen(C[j])
+                if c < dp[i, j + 1]:
+                    dp[i, j + 1] = c; bk[(i, j + 1)] = (i, j, 'sc')
+            if i < n:  # skip line
+                c = dp[i, j] + skip_line_pen
+                if c < dp[i + 1, j]:
+                    dp[i + 1, j] = c; bk[(i + 1, j)] = (i, j, 'sl')
+            if i < n and j < m:
+                wd = C[j]['x1'] - C[j]['x0']
+                c = dp[i, j] + 3 * np.log(wd / (unit * lines_glyphs[i])) ** 2
+                if c < dp[i + 1, j + 1]:
+                    dp[i + 1, j + 1] = c; bk[(i + 1, j + 1)] = (i, j, 'm')
+    i, j = n, m
+    out = [None] * n
+    while i > 0 or j > 0:
+        pi, pj, t = bk[(i, j)]
+        if t == 'm':
+            out[pi] = C[pj]
+        i, j = pi, pj
+    return out, dp[n, m]
+
+
+def chain_profile(lab, mask, comps, idx, a, b, s, band=0.3):
+    """Column ink profile of a chain's components (real ink pixels, not the dilation),
+    counted only within +-band*s of the core line y = a x + b."""
+    xa = min(comps[i][0] for i in idx); xb = max(comps[i][1] for i in idx)
+    ids = [comps[i][6] for i in idx]
+    prof = np.zeros(xb - xa)
+    for i in idx:
+        c = comps[i]
+        sub = (lab[c[2]:c[3], c[0]:c[1]] == c[6]) & mask[c[2]:c[3], c[0]:c[1]]
+        yy = np.arange(c[2], c[3])[:, None]; xx = np.arange(c[0], c[1])[None, :]
+        sub &= np.abs(yy - (a * xx + b)) < band * s
+        prof[c[0] - xa:c[1] - xa] += sub.sum(axis=0)
+    nz = np.nonzero(prof)[0]
+    if len(nz) == 0:
+        return xa, xb, prof, ids
+    return xa + nz[0], xa + nz[-1] + 1, prof[nz[0]:nz[-1] + 1], ids
+
+
+def align_gaps(xa, prof, words, mingap=3, gapw=1.0):
+    """Choose len(words)-1 word boundaries among the blank-column runs of the profile."""
+    nw = len(words)
+    ink = prof > 0
+    ink = ndi.binary_closing(ink, np.ones(2))
+    # gaps = runs of empty columns
+    lab, n = ndi.label(~ink)
+    gaps = []
+    for sl in ndi.find_objects(lab):
+        a, b = sl[0].start, sl[0].stop
+        if a == 0 or b == len(prof) or b - a < mingap:
+            continue
+        gaps.append(((a + b) / 2, b - a))
+    if nw == 1:
+        return [(xa, xa + len(prof))], 0.0
+    if len(gaps) < nw - 1:
+        return None, None
+    g = np.array([max(1, len(glyphs(w))) for w in words], float)
+    W = len(prof)
+    unit = W / (g.sum() + 0.6 * (nw - 1))
+    pos = np.array([p for p, _ in gaps]); wid = np.array([w for _, w in gaps], float)
+    medw = np.median(np.sort(wid)[-(nw - 1):])
+    K = len(gaps)
+    INF = 1e18
+    # dp[i][k]: boundary i (0-based) placed at gap k
+    dp = np.full((nw - 1, K), INF); bk = np.zeros((nw - 1, K), int)
+    exp = unit * g
+    for k in range(K):
+        dp[0, k] = 4 * np.log(max(pos[k], 1) / exp[0]) ** 2 - gapw * min(wid[k] / medw, 1.5)
+    for i in range(1, nw - 1):
+        for k in range(i, K):
+            wds = pos[k] - pos[:k]
+            c = dp[i - 1, :k] + 4 * np.log(np.maximum(wds, 1) / exp[i]) ** 2
+            j = int(np.argmin(c)); dp[i, k] = c[j] - gapw * min(wid[k] / medw, 1.5); bk[i, k] = j
+    last = dp[-1] + 4 * np.log(np.maximum(W - pos, 1) / exp[-1]) ** 2
+    k = int(np.argmin(last)); cost = last[k]
+    bnd = [k]
+    for i in range(nw - 2, 0, -1):
+        k = bk[i, k]; bnd.append(k)
+    bnd = [pos[k] for k in bnd[::-1]]
+    edges = [0] + bnd + [W]
+    out = [(int(xa + edges[i]), int(xa + edges[i + 1])) for i in range(nw)]
+    return out, float(cost / nw)
+
+
+def match_lines2(chains, lines_glyphs, unit, s, skip_chain_pen, skip_line_pen=6.0, wsp=6.0):
+    """Like match_lines, with a spacing term: consecutive matched lines should be
+    (number of lines apart) x s apart vertically."""
+    C = sorted(chains, key=lambda c: c['a'] * (c['x0'] + c['x1']) / 2 + c['b'])
+    yc = np.array([c['a'] * (c['x0'] + c['x1']) / 2 + c['b'] for c in C])
+    sk = np.array([skip_chain_pen(c) for c in C]); csk = np.concatenate([[0], np.cumsum(sk)])
+    m, n = len(C), len(lines_glyphs)
+    wd = np.array([c['x1'] - c['x0'] for c in C], float)
+    INF = 1e18
+    dp = np.full((n, m), INF); bk = {}
+    mc = lambda i, j: 3 * np.log(wd[j] / (unit * lines_glyphs[i])) ** 2
+    for i in range(min(3, n)):
+        for j in range(m):
+            dp[i, j] = i * skip_line_pen + csk[j] + mc(i, j)
+    for i in range(1, n):
+        for j in range(1, m):
+            best = dp[i, j]; arg = None
+            for di in (1, 2, 3):
+                ip = i - di
+                if ip < 0:
+                    break
+                jp = np.arange(j)
+                dy = (yc[j] - yc[jp]) / s
+                c = dp[ip, jp] + (csk[j] - csk[jp + 1]) + wsp * (dy - di) ** 2 + (di - 1) * skip_line_pen
+                k = int(np.argmin(c))
+                if c[k] + mc(i, j) < best:
+                    best = c[k] + mc(i, j); arg = (ip, k)
+            dp[i, j] = best
+            if arg:
+                bk[(i, j)] = arg
+    tot = np.full((n, m), INF)
+    for i in range(n):
+        for j in range(m):
+            tot[i, j] = dp[i, j] + (n - 1 - i) * skip_line_pen + (csk[m] - csk[j + 1])
+    i, j = np.unravel_index(np.argmin(tot), tot.shape)
+    cost = tot[i, j]
+    out = [None] * n
+    while True:
+        out[i] = C[j]
+        if (i, j) not in bk:
+            break
+        i, j = bk[(i, j)]
+    return out, float(cost)
+
+
+def line_pitch(mask, x0, x1):
+    p = mask[:, x0:x1].mean(axis=1); p = p - p.mean()
+    ac = np.correlate(p, p, 'full')[len(p) - 1:]
+    lag = 28 + int(np.argmax(ac[28:80]))
+    return float(lag)
+
+
+def strip_tracks(mask, x0, x1, s, sw=200, step=100):
+    """Row-profile peaks in overlapping vertical strips, linked left->right into tracks."""
+    centers, peaks = [], []
+    for xa in range(x0, x1 - sw // 2, step):
+        xb = min(x1, xa + sw)
+        p = ndi.gaussian_filter1d(mask[:, xa:xb].mean(axis=1), 3)
+        pk, pr = find_peaks(p, distance=int(0.55 * s), prominence=0.02)
+        pk = pk[p[pk] > 0.06]
+        centers.append((xa + xb) / 2); peaks.append([(int(y), float(p[y])) for y in pk])
+    tracks = []  # each: list of (strip index, y, height)
+    active = []
+    for si, pl in enumerate(peaks):
+        used = set()
+        cand = []
+        for ti in active:
+            t = tracks[ti]
+            if si - t[-1][0] > 3:
+                continue
+            # predicted y: last y plus local slope
+            if len(t) >= 2:
+                sl = (t[-1][1] - t[-2][1]) / max(1, t[-1][0] - t[-2][0])
+                sl = float(np.clip(sl, -0.04 * step, 0.04 * step))
+            else:
+                sl = 0
+            yp = t[-1][1] + sl * (si - t[-1][0])
+            for k, (y, h) in enumerate(pl):
+                d = abs(y - yp)
+                if d < 0.3 * s:
+                    cand.append((d, ti, k))
+        cand.sort()
+        taken_t = set()
+        for d, ti, k in cand:
+            if ti in taken_t or k in used:
+                continue
+            tracks[ti].append((si, pl[k][0], pl[k][1])); taken_t.add(ti); used.add(k)
+        for k, (y, h) in enumerate(pl):
+            if k not in used:
+                tracks.append([(si, y, h)]); active.append(len(tracks) - 1)
+        active = [ti for ti in active if si - tracks[ti][-1][0] <= 3]
+    out = []
+    for t in tracks:
+        xs = np.array([centers[a] for a, _, _ in t]); ys = np.array([y for _, y, _ in t], float)
+        out.append({'xs': xs, 'ys': ys, 'x0': xs[0] - sw / 2, 'x1': xs[-1] + sw / 2,
+                    'ink': float(sum(h for _, _, h in t)), 'n': len(t),
+                    'ym': float(np.median(ys))})
+    return out
+
+
+def track_y(t, x):
+    return np.interp(x, t['xs'], t['ys'])
+
+
+def track_profile(mask, t, x0, x1, s, band=0.25):
+    xa = int(max(x0, t['x0'] - 60)); xb = int(min(x1, t['x1'] + 60))
+    xx = np.arange(xa, xb)
+    yy = track_y(t, xx)
+    h = int(band * s)
+    prof = np.zeros(len(xx))
+    for k in range(-h, h + 1):
+        r = np.clip((yy + k).astype(int), 0, mask.shape[0] - 1)
+        prof += mask[r, xx]
+    nz = np.nonzero(prof >= 2)[0]
+    if len(nz) == 0:
+        return xa, xa, prof[:0]
+    return xa + nz[0], xa + nz[-1] + 1, prof[nz[0]:nz[-1] + 1]
+
+
+def suppress_ascenders(tr, s):
+    """Drop weak tracks lying within 0.7 pitch of a much stronger overlapping track
+    (gallows ascenders and descender rows form weak profile peaks)."""
+    for t in tr:
+        t['h'] = t['ink'] / max(1, t['n'])
+    keep = []
+    for t in tr:
+        bad = False
+        for u in tr:
+            if u is t:
+                continue
+            ov = min(t['x1'], u['x1']) - max(t['x0'], u['x0'])
+            if ov <= 0.5 * (t['x1'] - t['x0']):
+                continue
+            xm = (max(t['x0'], u['x0']) + min(t['x1'], u['x1'])) / 2
+            if abs(track_y(t, xm) - track_y(u, xm)) < 0.85 * s and u['h'] > 1.3 * t['h'] and u['h'] * u['n'] > 1.5 * t['h'] * t['n']:
+                bad = True; break
+        if not bad:
+            keep.append(t)
+    return keep

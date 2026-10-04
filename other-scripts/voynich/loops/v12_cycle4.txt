@@ -1,0 +1,11 @@
+# v12 cycle 4 -- power repair for the latent weave model, and 3-way weaves (tools/v12_cycle4.py; data/results/v12/c4_*.json, cycle4.log)
+# Every H and W model fitted from 3 starts (random, parity = odd/even labels, first-glyph hash); best TRAINING likelihood kept.
+# Held-out bits/token, 2 folds by folio parity. The k = 3 runs for LF-hmm and verbose Latin were stopped for time (about 70 min per fold pair);
+#   only Voynich ZL k = 3 finished.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-1.4 | W2 vs H2 again with structured starts. Positives LI-alt, VV-alt (look-alike streams, missed in cycle 2), LF-hmm; negatives vLatin, vItalian | W2 - H2 (fold 1, fold 0): LI-alt -0.076, -0.054; VV-alt -0.009, -0.111 (the parity start never wins on training likelihood); LF-hmm +0.216, +0.130; vLatin +0.029, -0.072; vItalian -0.068, -0.120; **Voynich ZL -0.202, -0.136; IT -0.188, -0.176** | Power limit confirmed, not repaired: a latent switch cannot pull apart two streams that look alike (verbose Latin vs verbose Italian, Currier A vs B). Those weaves are caught only by the fixed lag test of cycle 1 (lag 2 >> lag 1), which Voynich fails. For streams that differ (text + filler), the latent model wins by +0.13 to +0.22 bits; Voynich sits at -0.14 to -0.20, below both single-text controls |
+| V-2.4 | 3-way weave: W3 vs H3 (states = stream + last index of every stream), Voynich ZL | W3 - H3: -0.277 (fold 1), -0.264 (fold 0); W3 P(stay) 0.43-0.47; H3 beats H2 by 0.40-0.46 bits (more vocabulary modes) | No 3-way weave: conditioning on the last word of the same 'stream' is worse than on the immediately preceding word by 0.27 bits, more than at k = 2. Caveat: no planted 3-stream control finished; the fixed mod-3 test (cycle 1, V-2.1) is the controlled 3-way check and was also null |
+
+Cycle 4 verdict: nothing changes. Every weave model loses to the plain 'previous word' model on Voynich, by more as the number of streams grows.

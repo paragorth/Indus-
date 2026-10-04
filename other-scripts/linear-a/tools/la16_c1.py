@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from la16_common import *
 
 NP = int(os.environ.get('NP', 2000))
-say = say_to(os.path.join(OUT, 'c1_report.txt'))
+say = print  # replaced in main() so that importing this module never truncates the report
 res = {}
 
 
@@ -99,6 +99,8 @@ def planted_runs(tag, docs, hand, strat, rnd, ndraw=3, nperm=500):
 
 
 def main():
+    global say
+    say = say_to(os.path.join(OUT, 'c1_report.txt'))
     rnd = random.Random(16)
     # ---- Linear B positive control, full
     lb = strat_series(lb_corpus(('KN', 'PY')))

@@ -507,3 +507,8 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - **What survives re-spacing.** The junction effect keeps ~70% of its size (0.19 -> 0.13 bits, still 2.5-3x Latin/Italian), so it is not an artefact of where spaces were drawn. The line-initial chain lives in the first glyph and is untouched. Annealed units straddle a written space 10% of the time (Latin 1.5%), at r|a, l|ch, s|a, l|k, but the Markov-2 null proposes the same edits.
 - **Prior art.** Unsupervised (BPE) re-segmentation recovering ~90% of the written word edges has been reported on voynich.ninja (thread 5049), and rule-placed spaces have been suggested there. The calibrated rule search with planted and Markov nulls, and the "words do not pay for their lexicon" MDL comparison, were not found.
 
+
+## Interleaved texts (v12)
+- Voynich lines are not two or more texts woven together. In woven text the word two back predicts 2.8–6.6× more than the previous word. Single texts give 0.09–0.35, and Voynich gives 0.16–0.18 in both transcriptions. All planted weaves were found. A hidden-switch weave model loses to a plain previous-word model (−0.14 to −0.40 bits). Grade B.
+- The enriched neighbour swaps are l/r, k/t, l/o and ch/cth, and they sit inside one stream. a/o is not enriched.
+- New lead, grade C: ch and sh words occur one word apart (shedy … chedy) but never adjacent. The pattern holds against a position-preserving null (z 4.4 in ZL, 6.0 in IT), usually with a q- or o- word between them. It is small, about 30 extra pairs.
