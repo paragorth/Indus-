@@ -1,0 +1,37 @@
+# LA-14 cycle 1: THE FORGERY CONTEST (forge Linear A instead of modelling it)
+Scripts: tools/la14_common.py (corpora, forgers, features, discriminators), tools/la14_run.py (plan c1), tools/la14_report.py.
+Output: data/la14/c1.jsonl (one row per pairing), c1_report.txt, c1_auc.json, forg/ (cached forgeries), world_FW_*.json.
+Web check (4 Oct 2026): no real-vs-forged discriminator study of Linear A (or any undeciphered admin script) was found;
+LITERATURE.md, FINDINGS.md and STRATEGIES.md have nothing like it (la8 evolved a grammar, la5/la11 scored models, none forged).
+Data: LA = 292 tablets, lames and bars with >= 4 content tokens (words, logograms, integers, fraction letters, line breaks, dividers).
+LB = 292 size-matched DAMOS documents. PLA = real LA with a planted long-range agreement (first sign of the first word fixes the
+first sign of the LAST word through a hidden random key over the 40 commonest signs). FW_X = 292 documents written by forger X
+trained on all of LA (the negative control: a corpus that IS the forger).
+Protocol: each seed splits a corpus in half; forgers train on half A, discriminators see half B (real) vs forgeries, 5-fold
+stratified GROUP CV (identical forgeries and copies of one source stay in one fold), AUC. Forgers: UNI (sign unigram), MK1-MK4
+(sign-stream Markov, interpolated backoff), WMK1-2 (word-level Markov), FLAT (la8 flat form re-implemented: order-2 kind chain,
+per-kind emissions, numbers conditioned on previous kind, novel words by sign bigrams), NEUR (feed-forward neural LM, 8-symbol
+window, 96 tanh units), and copy-edit forgers that copy a half-A tablet and make ONE edit: COPY0 (none), E_num (a number replaced
+by a corpus number), E_numnear (number scaled x e^+-0.7), E_word / E_first / E_last (a word replaced by a corpus word), E_logo,
+E_swapadj (two adjacent tokens), E_swapline (two lines), E_splice (two tablets joined at a token cut), E_numshuf / E_wordshuf
+(numbers / words permuted inside the tablet). Real half B is restricted to tablets the edit could apply to.
+Feature groups (11): len, uni (token unigrams, numbers bucketed), sign, sbig (sign bigrams, initial/final signs), tbig (token and
+kind bigrams/trigrams), pos (first/last tokens, line-initial words by zone), arith (totals: last = sum of the rest, any number =
+sum of a run, max share, distinct numbers, roundness, descending order), numw (word -> number-size couplings), long (head sign x
+later signs/logograms, head>tail pairs, logogram agreement), rep (within-tablet repetition, line-template regularity), ngram
+(learned: sign-stream 1-3-gram counts). 1,080 tasks x 12 discriminators (11 single-group LR + all-groups LR) = 12,960 pairings.
+| LA-<n>.<cycle> | method and control | result | verdict |
+| LA-14.1a | Null (2): forgeries vs forgeries from the same forger (independent draws), every corpus, forger and group, 6 seeds. | Mean AUC 0.45-0.55 in every cell (e.g. LA/MK2 all-groups 0.499, LA/FLAT 0.479; LB 0.47-0.52). COPY0 (unedited copies of half A vs real half B) 0.48-0.52. | PASS: the discriminators have no built-in bias. |
+| LA-14.1b | Raw contest, LA. Every generative forger vs real half B. | All caught: all-groups LR AUC UNI 0.983, WMK1 0.900, WMK2 0.871, MK3 0.859, NEUR 0.856, MK1 0.856, MK4 0.841, MK2 0.839, FLAT 0.828 (best generative forger = FLAT, the la8 flat form). Every single group > its null. | Not interpretable until 14.1c. |
+| LA-14.1c | Negative control: the forger's own world (FW_X, 292 docs written by X) put through the same pipeline against X. Should be 0.5. | FAILS as an absolute: FW_MK2 vs MK2 0.775, FW_FLAT vs FLAT 0.732, FW_NEUR vs NEUR 0.782 (uni 0.68-0.71, ngram 0.71-0.79). Re-estimating a forger from half a small corpus leaves a large, detectable finite-sample signature (over-common n-grams, missing rare tokens). So most of 14.1b is NOT Linear A structure. | Key methodological result: raw forger-catching AUCs on corpora of ~150 documents are mostly estimation artefacts. Survival must be measured against the world, not against 0.5. |
+| LA-14.1d | Calibrated survival = AUC(real vs X) - AUC(world of X vs X), same group, 6 vs 6 seeds; survive if t > 3 and d > 0.03. | LA, all-groups: +0.063* (MK2), +0.096* (FLAT), +0.074* (NEUR). Surviving groups: rep +0.119*/+0.112*/+0.155* (3 of 3 forgers); arith +0.115*/+0.130*/+0.015 (2 of 3; the neural LM reproduces it); long +0.071/+0.123*/+0.092* (2 of 3); pos +0.049/+0.052*/+0.073* (2 of 3). uni, sign, sbig, ngram, numw, len: at most 1 of 3. | Real but modest excess over every forger: within-tablet repetition/line-template regularity, number arithmetic, head-to-body agreement and position. Lexical and phonotactic statistics are fully explained by Markov forgers. |
+| LA-14.1e | Positive control 1, PLA (planted head>tail agreement). | long excess +0.261*/+0.300*/+0.275* (vs +0.07-0.12 in LA); copy forgers that break the agreement are caught on long only: E_first 0.773*, E_last 0.773*, E_wordshuf 0.790*, E_splice 0.771*, E_swapline 0.585* (in LA the same cells are 0.49-0.54). | PASS: the planted long-range feature is found by the same generic feature bank, and only by the right group. |
+| LA-14.1f | Positive control 2, Linear B (DAMOS, size-matched). | Calibrated excess larger and broader than LA: all-groups +0.098*/+0.132*/+0.065*; long +0.177*/+0.229*/+0.139*; arith +0.172*/+0.158*/+0.100*; len, uni, sbig, tbig significant for all 3. | PASS: a real language corpus with known totals, ideogram-word coupling and formulaic headers is caught on long and arith, as expected. LA's excess is about 0.5-0.7 of LB's on these groups. |
+| LA-14.1g | Copy-edit forgers on LA (reference COPY0 = 0.50). One edit per tablet. | Detected: E_num arith 0.604*, E_numnear arith 0.562* (even a +-50% change of ONE number); E_word sbig 0.617*, E_first 0.637*, E_last 0.637* (sign bigrams, not head-tail pairs); E_swapadj tbig 0.839*; E_splice 0.730*; E_wordshuf pos 0.557*. NOT detected: E_swapline 0.527, E_numshuf 0.533 (arith 0.528), E_logo 0.517. | Numbers on an LA tablet are arithmetically constrained (B); a foreign word is detectable from its signs (tablet-level sign coherence, B/C); the order of lines, the logogram choice and which number goes with which word are NOT detectable at this size (upper bounds). |
+| LA-14.1h | LB copy-edit contrast. | LB: E_numshuf arith 0.605* (LA 0.528), E_logo 0.585* via long 0.603* (LA 0.517/0.527), E_swapline 0.510 (as LA). | In LB the number-word pairing and the logogram are tied to the rest of the record; in LA they are not detectably tied. A difference of documents (or of size), not yet of language. |
+Cycle verdict: the contest works (null 0.5, planted feature found, LB caught where expected), but its raw scores are dominated by a
+finite-sample artefact that only the negative control reveals. After calibration Linear A keeps four kinds of structure that no
+forger (Markov 1-4, word Markov, flat grammar, neural LM) reproduces: tablet-level repetition/line regularity, arithmetic, head-body
+agreement and position. Cycle 2: thousands of random pairings (feature subsets x 5 learner types) plus two new copy forgers
+(E_splLine: splice at a LINE boundary, so no local seam; E_wordsite: replacement word drawn from the same site) to separate
+'tablet coherence' from 'site vocabulary'.

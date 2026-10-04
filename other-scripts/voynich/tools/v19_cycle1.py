@@ -82,7 +82,8 @@ def job(args):
     if not st:
         json.dump([], open(fn, 'w')); return fn
     sym = encode(st)
-    rows = run_engine(st, sym, key, R=100, restarts=6, ils=25, nrand=2000, seed=zlib.crc32(fn.encode()) % 100000, tag=cname + kind + key)
+    big = cname in ('ZL', 'IT')
+    rows = run_engine(st, sym, key, R=60 if big else 100, restarts=5 if big else 6, ils=15 if big else 25, nrand=2000, seed=zlib.crc32(fn.encode()) % 100000, tag=cname + kind + key)
     pooled = run_engine(st, sym, key, R=40, pooled=1, restarts=8, ils=60, nrand=200000, seed=7, tag='P' + cname + kind + key)
     json.dump({'rows': rows, 'pooled': pooled[0]}, open(fn + '.tmp', 'w'))
     os.replace(fn + '.tmp', fn)
@@ -92,7 +93,9 @@ def job(args):
 if __name__ == '__main__':
     C, truth = corpora()
     json.dump(truth, open(os.path.join(RES, 'c1_truth.json'), 'w'))
-    jobs = [(c, k, key) for c in ['PLANT', 'LatX', 'LatXVI', 'LatXVII', 'ZL', 'IT'] for k in KINDS for key in KEYLIST]
+    jobs = [(c, k, key) for c in ['PLANT', 'LatX', 'LatXVI', 'LatXVII', 'ZL', 'IT'] for k in KINDS for key in KEYLIST
+            if not (c in ('ZL', 'IT') and k == 'win5' and key in ('L2', 'R1'))]
+    jobs.sort(key=lambda j: (j[0] in ('ZL', 'IT') and j[1] == 'win5', ['PLANT', 'LatX', 'LatXVI', 'LatXVII', 'ZL', 'IT'].index(j[0])))
     with Pool(2) as P:
         for fn in P.imap_unordered(job, jobs):
             print('done', os.path.basename(fn), flush=True)

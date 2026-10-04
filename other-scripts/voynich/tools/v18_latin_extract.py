@@ -51,8 +51,14 @@ def page(args):
     gray, con, rb = V.load(tmp); os.remove(tmp)
     mask = ndi.binary_opening(con > T, np.ones((2, 2)))
     mlo = con > 0.08
-    ys = [np.mean([y for _, y in l['bl']]) * sc for l in lines]
-    s = float(np.median(np.diff(sorted(ys))))
+    # line pitch: distance to the next line below that overlaps in x (multi-column safe)
+    ext = [(min(x for x, _ in l['bl']) * sc, max(x for x, _ in l['bl']) * sc, np.mean([y for _, y in l['bl']]) * sc) for l in lines]
+    ds = []
+    for a0, a1, ay in ext:
+        below = [by - ay for b0, b1, by in ext if by > ay + 3 and min(a1, b1) - max(a0, b0) > 0.3 * (a1 - a0)]
+        if below:
+            ds.append(min(below))
+    s = float(np.median(ds))
     tracks = []
     for l in lines:
         xs = np.array([x for x, _ in l['bl']], float) * sc; yb = np.array([y for _, y in l['bl']], float) * sc

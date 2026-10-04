@@ -517,3 +517,7 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - No dice device fits the slot frequencies better than chance. Eight devices were tried, from one die to two astragali. Percentiles ran from 0.14 to 0.95. Planted dice corpora were identified, 7 of 8 exactly.
 - The slots within a word are dependent (mutual information 0.12–0.30 bits, all 60 tests p ≤ 0.005). Rolled words could not be: planted dice give 0.000. A mostly-rolled text is ruled out. Grade A.
 - Lead, grade C: a 16-class model leaves less residual slot dependence in the Voynich (0.045 bits) than in verbose Latin or Italian (0.10–0.12).
+
+## Ghost of an exemplar (v17)
+- No lost exemplar line length is detectable in any section. About 16,800 widths and phases and an exact flexible-width search all gave corrected p = 0.54–0.98. Planted Latin dittography was found at width 34 (true 33.2). The text was composed on the page, or copied line for line.
+- A junction resynthesis draws each next word from real words that follow a word with the same last glyph. It reproduces the mid-line rates of line-initial-looking words (8.05% vs 8.07%), line-final-looking words and their pairing exactly. Only immediate word repeats are in excess (1.15% vs 0.68%). Grade A.

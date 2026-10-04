@@ -34,7 +34,14 @@ def slot_sign_all(E, slot):
     return out
 
 
-def build(E, slot, nhash=20000, npairs=6000, seed=12, ky=30):
+def size_cell(e):
+    """Fine size cell: half-octave of the value x fraction flag x highest numeral code."""
+    order = ['N48', 'N34', 'N45', 'N14', 'N01', 'N39B', 'N24', 'N30C', 'N30D', 'N39C']
+    top = next((c for c in order if e['dig'].get(c)), 'frac')
+    return '%d/%d/%s' % (int(math.floor(2 * math.log2(max(e['v'], 0.01)))), e['frac'], top)
+
+
+def build(E, slot, nhash=20000, npairs=6000, seed=12, ky=30, fine=False):
     rng = np.random.default_rng(seed)
     ents, ys, oth = slot_entries(E, slot)
     V = add_running(base_vars(ents), ents, E)
@@ -48,7 +55,13 @@ def build(E, slot, nhash=20000, npairs=6000, seed=12, ky=30):
     g_loose = [(ty[t], s) for t, s in zip(tabs, sysv)]
     fr = [e['frac'] for e in ents]
     g_sizem = [(ty[t], s, b, f) for t, s, b, f in zip(tabs, sysv, lv, fr)]
-    strat, _ = _code([ty[t] + str(s) for t, s in zip(tabs, sysv)], 1000)
+    if fine:   # baseline already knows the fine size cell; nulls shuffle within it
+        cells = [size_cell(e) for e in ents]
+        strat, _ = _code([str(s) + c for s, c in zip(sysv, cells)], 100000)
+        g_sizem = [(ty[t], s, c) for t, s, c in zip(tabs, sysv, cells)]
+        g_strict = [(t, s, c) for t, s, c in zip(tabs, sysv, cells)]
+    else:
+        strat, _ = _code([ty[t] + str(s) for t, s in zip(tabs, sysv)], 1000)
     bank = []  # (name, family, codes)
     for n, (c, k, fam) in F.items():
         bank.append((n, fam, c))
@@ -134,10 +147,10 @@ def _task(args):
 
 
 def run_corpus(tag, E, slots, reps=20, nhash=20000, npairs=6000, workers=2, nsplit=2,
-               nulls=NULLS, log=print):
+               nulls=NULLS, log=print, fine=False):
     out = {}
     for slot in slots:
-        G = build(E, slot, nhash=nhash, npairs=npairs)
+        G = build(E, slot, nhash=nhash, npairs=npairs, fine=fine)
         if len(set(G['tabs'])) < 40:
             log('%s %s: too few tablets' % (tag, slot)); continue
         _G[(tag, slot)] = G
@@ -163,7 +176,7 @@ def run_corpus(tag, E, slots, reps=20, nhash=20000, npairs=6000, workers=2, nspl
             k = f + ':top1'
             if k in real['stats']:
                 log('  %-6s real %+.4f | ' % (f, real['stats'][k]) +
-                    ' '.join('%s %+.4f p%.3f' % (m, summ['null'][m][k]['mean'], summ['null'][m][k]['p']) for m in nulls)
+                    ' '.join('%s %+.4f z%+.1f p%.3f' % (m, summ['null'][m][k]['mean'], summ['null'][m][k]['z'], summ['null'][m][k]['p']) for m in nulls)
                     + ' | ' + real['best'][f][0][0][0])
         del _G[(tag, slot)]
     return out
