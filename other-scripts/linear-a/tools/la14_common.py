@@ -329,7 +329,7 @@ def join_lines(L):
 class CopyEdit:
     """Copies a real (half-A) document and applies one local edit of a given type."""
     TYPES = ['COPY0', 'E_num', 'E_numnear', 'E_word', 'E_logo', 'E_first', 'E_last', 'E_swapadj',
-             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf', 'E_splLine', 'E_wordsite', 'E_splLM']
+             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf', 'E_splLine', 'E_wordsite', 'E_splLM', 'E_splPair']
 
     def __init__(self, docs, etype):
         self.docs = docs; self.e = etype
@@ -347,7 +347,7 @@ class CopyEdit:
         if e == 'E_numshuf': return len({t for t in d if t.startswith('N:')}) >= 2
         if e in ('E_word', 'E_first', 'E_last'): return any(t.startswith('W:') for t in d)
         if e == 'E_wordsite': return any(t.startswith('W:') for t in d) and len(self.sitewords.get(SITE.get(' '.join(d), '??'), [])) >= 30
-        if e in ('E_splLine', 'E_splLM'): return len([l for l in lines_of(d) if l]) >= 3
+        if e in ('E_splLine', 'E_splLM', 'E_splPair'): return len([l for l in lines_of(d) if l]) >= 3
         if e == 'E_wordshuf': return len({t for t in d if t.startswith('W:')}) >= 2
         if e == 'E_logo': return any(t.startswith('L:') for t in d)
         if e == 'E_swapline': return len([l for l in lines_of(d) if l]) >= 3
@@ -451,6 +451,16 @@ def forge(name, docs, n, seed):
         while len(out) < n:
             out += [d for d in f.sample_many(R(), n) if len(ctoks(d)) >= 4]
         out = out[:n]
+    elif name == 'E_splPair':
+        # leak-free splice: tablets are paired without replacement; each pair (a, b) gives a-head + b-tail and
+        # b-head + a-tail, each with the line count of its head tablet; both forgeries share one CV group
+        q = [d for d in docs if f.ok(d)]; rng.shuffle(q)
+        for p in range(0, len(q) - 1, 2):
+            a, b = lines_of(q[p]), lines_of(q[p + 1]); na, nb = len(a), len(b)
+            i = rng.randint(max(1, na - nb + 1), na - 1); j = rng.randint(max(1, nb - na + 1), nb - 1)
+            out += [join_lines(a[:i] + b[nb - (na - i):]), join_lines(b[:j] + a[na - (nb - j):])]
+            grp += ['pair%d' % p] * 2
+        return out[:n], grp[:n]
     elif isinstance(f, CopyEdit):
         nmax = sum(1 for d in docs if f.ok(d)); n = min(n, nmax)
         for _ in range(n):

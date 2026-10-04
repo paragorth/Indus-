@@ -94,7 +94,7 @@ def plan_c2():
 def plan_c3():
     """Cycle 3: length-matched line splice (E_splLM) and the cycle-2 line splice, single groups + all, LR, 8 seeds."""
     specs = [(g, 'LR') for g in SINGLE] + [(C.ALLG, 'LR')]
-    return [(c, f, s, 'real', specs) for c in ['LA', 'LB', 'PLA', 'FW_FLAT'] for f in ['E_splLM', 'E_splLine', 'COPY0']
+    return [(c, f, s, 'real', specs) for c in ['LA', 'LB', 'PLA', 'FW_FLAT'] for f in ['E_splLM', 'E_splLine', 'COPY0', 'E_splPair']
             for s in range(20, 28)]
 
 

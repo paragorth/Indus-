@@ -147,8 +147,13 @@ def main():
             pctl = float(np.sum(r['w'] * (H[r['idx'], hj] < s[hn])) / np.sum(r['w']))
             pred[hn] = {'q05': q[0], 'med': q[1], 'q95': q[2], 'real': s[hn], 'pctl': pctl}
         dpct = float(np.mean(np.array(dmins) < r['dmin']))
+        ppc = {}
+        for j, kn in enumerate(FIT_NAMES):
+            q = wq(S[r['idx'], j], r['w'], [0.05, 0.5, 0.95])
+            ppc[kn] = (s[kn] - q[1]) / ((q[2] - q[0]) / 3.29 + 1e-9)
         out['targets'][nm] = {'dmin': r['dmin'], 'dmed': r['dmed'], 'dmin_pctl_vs_pseudo': dpct,
-                              'post': sm, 'pred': pred}
+                              'post': sm, 'pred': pred, 'ppc': ppc,
+                              'acc': [dict(zip(PNAMES, map(float, row))) for row in r['raw'][:100]]}
     json.dump(out, open(os.path.join(CK, 'abc_%s.json' % outtag), 'w'), indent=1)
     # compact print
     print('panel', pn, 'sims', len(TH), 'k', abc.k)
