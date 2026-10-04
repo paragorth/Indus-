@@ -1,0 +1,23 @@
+pe13 final (4 Oct 2026): THE SCRIBE'S MEMORY HAS A SHAPE. Cycles: loops/pe13_cycle1-4.txt. Tools: tools/pe13_*.py. Checkpoints: data/pe13_ckpt/ (git-ignored).
+
+Question: is the tablet effect (pe7, pe9) a flat topic, copying from a source list, or the writer's own fading memory (decay with distance, perhaps a dip at distance 1)?
+
+Calibration: 11 planted corpora on PE's own skeleton (topic, priming, priming with dip, reverse reset, copying, mixture, two-stream alternation, canonical order at 3 strengths) are recovered with their parameters; a copied proto-cuneiform lexical list is flagged by the copy statistic (0.51 vs 0.17) and its strong order; Ur III, Linear B and proto-cuneiform admin all show a decaying local kernel beyond their shuffles.
+
+Kernel that fits PE (entries; 1,201 random kernels, 5-fold held-out; 20 shuffles + 5 topic-model surrogates):
+- FLAT tablet topic. Held-out gain of the best non-flat kernel only 3.6 millibits per sign (shuffles max 1.0), the smallest of the five corpora (Linear B 9.8, Ur III 5.3, proto-cuneiform admin 4.4, lexical 257).
+- A DIP at distance 1: adjacent entries share about 10% fewer signs than chance (R(1) 0.91), with a small excess at distance 2 and 4 (1.13, 1.09) and at 8 (1.21). The same holds without headers, without class signs, and on the obverse alone. Every control corpus instead peaks at distance 1.
+- NO RESET on the reverse: reverse entries lean on obverse signs 1.7-2.3 times as much as on their own face (shuffles 0.6-1.6).
+- NO COPYING: ordered pairs of entries recur across tablets at chance (0.173 vs 0.171).
+- Signs: 0 primed signs (shuffled corpora give 1; planted priming gives 85 of 178). M288 and M346 avoid the next entry and recur every second entry (both halves). Herd tablets such as P008295 cycle through a fixed run (M362+X, M269, M106, M009, M206, M102, M309).
+- A weak shared order of entries across tablets predicts held-out tablets (0.555 vs 0.527, z 3.6), at proto-cuneiform admin level, far below Ur III (0.637). The random search finds no fixed multi-sign sequence (underpowered).
+- No tablet group (header, system, size, layout, volume; 3,000 hypotheses) carries the rhythm.
+
+Grades:
+- B: PE tablets were not written from a fading running memory (no decay, no primed sign).
+- B: not copied from shared master lists.
+- B: the reverse does not reset; it recalls the obverse (fits sub-totals or summaries).
+- B: adjacent-entry avoidance and period-2 alternation, carried by M288 and M346. This is unique to PE among the five corpora.
+- B: weak canonical order of entries across tablets.
+- C: production = entries transcribed one per record from a per-tablet set (tallies or a pool of names), laid out by type with alternation and a loose habitual order; would support: the same dip on non-Susa tablets and on newly published tablets; would kill: a decaying kernel on a larger corpus or on RTI re-collations.
+Nothing here reads any sign; nothing is "cracked".
