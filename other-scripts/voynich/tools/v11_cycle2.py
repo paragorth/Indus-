@@ -15,8 +15,8 @@ import numpy as np
 from multiprocessing import Pool
 from collections import deque
 
-CORPORA = ['Planted-grid-30', 'Planted-grid-60', 'Planted-graph-30', 'Voynich-ZL', 'Voynich-IT', 'Latin-Isidore',
-           'Italian-Manzoni', 'Spanish-Cervantes', 'Shuffle-line', 'SelfCitation', 'Voynich-A', 'Voynich-B']
+CORPORA = ['Planted-grid-30', 'Voynich-ZL', 'Planted-graph-30', 'Latin-Isidore', 'Planted-grid-60', 'Voynich-IT',
+           'Italian-Manzoni', 'Shuffle-line', 'SelfCitation', 'Spanish-Cervantes']
 LN2 = np.log(2)
 
 
@@ -132,11 +132,11 @@ def job(name):
         # composition test (d)
         C1 = L.bigram_counts(tr, idx, 1); C2tr = L.bigram_counts(tr, idx, 2); C2te = L.bigram_counts(te, idx, 2)
         u2 = L.fit(C2tr, 'uni', 0, iters=300); b2 = L.test_ll(u2, C2te)
-        f2 = L.fit(C2tr, 'bilin', 16, iters=800); direct = (L.test_ll(f2, C2te) - b2) / C2te.sum() / LN2
+        f2 = L.fit(C2tr, 'bilin', 16, iters=500, lr=0.08); direct = (L.test_ll(f2, C2te) - b2) / C2te.sum() / LN2
         comp = {}
         for kind, d in (('dist', 2), ('bilin', 16)):
             init = L.spectral_init(C1, 2) if kind == 'dist' else None
-            f1 = L.fit(C1, kind, d, iters=800, init=init)
+            f1 = L.fit(C1, kind, d, iters=500, lr=0.08, init=init)
             P2 = f1['probs'] @ f1['probs']
             comp[f'{kind}{d}'] = float(((C2te * np.log(P2)).sum() - b2) / C2te.sum() / LN2)
         G = ppmi_graph(C1)
@@ -148,6 +148,18 @@ def job(name):
                              'lag2_direct_bilin16': direct, 'lag2_composed': comp,
                              'clustering': cl, 'clustering_null': float(np.mean(cl_null)), 'clustering_null_sd': float(np.std(cl_null)),
                              'iso': iso, 'iso_rewired': iso_null})
+    # (e) map reuse: do disjoint page halves learn the same map? (fold-0 vs fold-1 embeddings, shared vocab)
+    a = L.jload(f'c1_{name}_0.json'); b = L.jload(f'c1_{name}_1.json')
+    for d in ('2', '3'):
+        Xa, Xb = np.array(a['emb'][d]), np.array(b['emb'][d])   # same vocab list (vocab from whole corpus)
+        Xa_, Xb_ = Xa - Xa.mean(0), Xb - Xb.mean(0)
+        U, sv, Vt = np.linalg.svd(Xa_.T @ Xb_); sc = sv.sum() / (Xa_ ** 2).sum()
+        r2 = 1 - ((Xb_ - sc * Xa_ @ U @ Vt) ** 2).sum() / (Xb_ ** 2).sum()
+        Da = ((Xa[:, None] - Xa[None]) ** 2).sum(-1); Db = ((Xb[:, None] - Xb[None]) ** 2).sum(-1)
+        np.fill_diagonal(Da, np.inf); np.fill_diagonal(Db, np.inf)
+        na = np.argsort(Da, 1)[:, :10]; nb = np.argsort(Db, 1)[:, :10]
+        ov = np.mean([len(set(x) & set(y)) / 10 for x, y in zip(na, nb)])
+        out[f'reuse_dist{d}'] = {'procrustes_R2': float(r2), 'knn10_overlap': float(ov), 'chance': 10 / (len(Xa) - 1)}
     out['secs'] = time.time() - t
     L.jdump(out, ck)
     return out
@@ -162,4 +174,4 @@ if __name__ == '__main__':
                   'lag2 direct %.3f comp %s' % (f['lag2_direct_bilin16'], {k: round(v, 3) for k, v in f['lag2_composed'].items()}),
                   'clust %.3f null %.3f' % (f['clustering'], f['clustering_null']),
                   'iso2 %.2f iso3 %.2f (rewired %.2f)' % (f['iso']['iso_top2'], f['iso']['iso_top3'], f['iso_rewired']['iso_top2']),
-                  'ball', [round(x, 1) for x in f['iso']['ball']], flush=True)
+                  'ball', [round(x, 1) for x in f['iso']['ball']], 'reuse', r['reuse_dist2'], flush=True)

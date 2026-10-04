@@ -81,13 +81,16 @@ def filler_stream(n, seed=3, nlex=40):
     return out
 
 
+LAST_LABELS = []
 def weave(a, b, n, mode='alt', p_switch=0.6, seed=5):
     rng = random.Random(seed); ia = ib = 0; s = 0; out = []
+    LAST_LABELS.clear()
     for k in range(n):
         if mode == 'alt':
             s = k % 2
         elif k > 0 and rng.random() < p_switch:
             s = 1 - s
+        LAST_LABELS.append(s)
         if s == 0:
             out.append(a[ia]); ia += 1
         else:

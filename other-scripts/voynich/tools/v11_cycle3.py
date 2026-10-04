@@ -110,8 +110,8 @@ def job(args):
         if c1:
             voc = c1['vocab']; X = np.array(c1['emb']['2'])
         else:
-            voc = L.vocab(lines, 400); idx = {w: i for i, w in enumerate(voc)}
-            C = L.bigram_counts(tr, idx); X = L.best_fit(C, 'dist', 2, 2, iters=800)['P'][0]
+            voc = L.vocab(lines, 300); idx = {w: i for i, w in enumerate(voc)}
+            C = L.bigram_counts(tr, idx); X = L.best_fit(C, 'dist', 2, 2, iters=500, lr=0.08)['P'][0]
         idx = {w: i for i, w in enumerate(voc)}
         freq = Counter(w for l in tr for w in l['words']); wts = np.array([freq[w] + 1.0 for w in voc])
         reg = kmeans(X, wts, k, seed=fold)

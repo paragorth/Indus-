@@ -7,9 +7,10 @@ import v11_lib as L
 import numpy as np
 from multiprocessing import Pool
 
-CORPORA = ['Planted-grid-30', 'Planted-grid-60', 'Planted-graph-30', 'Voynich-ZL', 'Voynich-IT', 'Latin-Isidore',
-           'Italian-Manzoni', 'Spanish-Cervantes', 'Shuffle-line', 'SelfCitation', 'Voynich-A', 'Voynich-B']
-MODELS = [('uni', 0, 1), ('dist', 1, 3), ('dist', 2, 3), ('dist', 3, 2), ('dist', 5, 2), ('bilin', 2, 1), ('bilin', 16, 1)]
+CORPORA = ['Planted-grid-30', 'Voynich-ZL', 'Planted-graph-30', 'Latin-Isidore', 'Planted-grid-60', 'Voynich-IT',
+           'Italian-Manzoni', 'Shuffle-line', 'SelfCitation', 'Spanish-Cervantes']
+MODELS = [('uni', 0, 1), ('dist', 1, 2), ('dist', 2, 2), ('dist', 3, 1), ('bilin', 2, 1), ('bilin', 16, 1)]
+V, ITERS = 300, 500
 LN2 = np.log(2)
 
 
@@ -20,13 +21,13 @@ def job(args):
     if r: return r
     t = time.time()
     lines, truth = L.corpus(name)
-    voc = L.vocab(lines, 400); idx = {w: i for i, w in enumerate(voc)}
+    voc = L.vocab(lines, V); idx = {w: i for i, w in enumerate(voc)}
     tr, te = L.split(lines, fold)
     Ctr = L.bigram_counts(tr, idx); Cte = L.bigram_counts(te, idx)
     out = {'corpus': name, 'fold': fold, 'n_train': Ctr.sum(), 'n_test': Cte.sum(), 'models': {}}
     base = None; emb = {}
     for kind, d, rs in MODELS:
-        f = L.best_fit(Ctr, kind, d, rs, iters=800)
+        f = L.best_fit(Ctr, kind, d, rs, iters=ITERS, lr=0.08)
         tl = L.test_ll(f, Cte)
         if kind == 'uni': base = tl
         rec = {'test_bits': tl / Cte.sum() / LN2, 'gain_bits': (tl - base) / Cte.sum() / LN2,
@@ -45,6 +46,7 @@ def job(args):
 
 if __name__ == '__main__':
     jobs = [(c, f) for c in CORPORA for f in (0, 1)]
+    if len(sys.argv) > 1: jobs = [(c, f) for c in sys.argv[1].split(',') for f in (0, 1)]
     with Pool(2) as p:
         for r in p.imap_unordered(job, jobs):
             m = r['models']
