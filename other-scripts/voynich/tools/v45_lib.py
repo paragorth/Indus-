@@ -57,7 +57,7 @@ def meta():
 
 
 # ------------------------------------------------------------------ the walker
-W0 = (0.6, 0.25, 0.15)
+W0 = (0.3, 0.3, 0.4)   # tuned on V cross-fit: -11.44 bits/word vs -12.26 unsmoothed
 
 
 def smooth(S, g, st, W=W0):

@@ -36,7 +36,7 @@ def masks(fn):
     paint = (((g - r) > 0.06) | ((b - r) > 0.0) | ((r - g) > 0.25)) & border & (mx > 0.15)
     return im, green, paint
 
-def count(fn, R=3, amin=40):
+def count(fn, R=3, amin=60):
     im, green, paint = masks(fn)
     g0 = ndi.binary_closing(green, disk(1))
     g1 = ndi.binary_opening(g0, disk(R))
