@@ -1,0 +1,11 @@
+pe29 cycle 4 -- sessions finer than the excavation lot? (tools/pe29_cycle2.py with EXCL=mus NULLBLK=10 [HANDFIX=1] [PLANTMUS=0]; logs data/pe29_ckpt/cycle4*_*.log)
+Museum number removed from the clustering; null relabels evidence only inside runs of 10 consecutive museum numbers, so lot/drawer structure is
+kept in the null. 4b/4c: disjoint sign channels (pool uses only signs never written in two variants; hand = mean variant agreement over >= 3
+shared variant-bearing bases), so hand cannot echo vocabulary. 80 restarts, 20 null draws (min p 0.048).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-29.4a | PE, no museum evidence, block-of-10 null (channels overlapping) | pool 2.39 (null 0.31, max 0.54); hand 0.116 (0.004, max 0.095); size 0.154 (0.05, max 0.12); clay 0.013 (p 0.38) | pool/hand look sub-lot, but hand sim scales with shared signs (leak) |
+| PE-29.4b | PE, disjoint channels, block-of-10 null | pool 0.43 (null 0.075, max 0.20, p 0.048); hand 0.13 (max 0.23, p 0.24); size 0.149 (max 0.136, p 0.048); clay 0.055 (p 0.14) | inside a museum run, tablets alike in size/hand/clay share rare signs and vice versa for size; writing habit and clay are not predicted |
+| PE-29.4c | PLANTED (museum numbers untouched) with the same design | pool 0.34, hand 0.18 (p 0.24), size 0.22, clay 0.09 (p 0.10); link precision 0.18 (506x) | the block test barely separates real from real+50 planted 4-tablet sessions: low power; the 4a museum-moved plant was absorbed by the block null (invalid control, dropped) |
+| PE-29.4V | Verdict | What survives the lot-preserving null is a size-vocabulary link (both p at the 20-draw floor), which tablet kind (genre) explains as well as a sitting. Writer fingerprint and clay colour do not join it | C: sub-lot sessions not shown; method power too low to exclude them |

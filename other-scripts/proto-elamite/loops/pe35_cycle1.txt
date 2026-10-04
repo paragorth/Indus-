@@ -1,0 +1,14 @@
+# pe35 cycle 1 (4 Oct 2026): ENLARGE THE SEAL DATA, THEN RETEST. Pre-registration written BEFORE any new tablet was coded.
+# Frozen pe33 leads, to be tested on NEW tablets only (tablets not in data/pe33_seal_motifs.json), same codes and feature rules:
+#  H1 herd size: CAPRID-only-sealed new tablets have a larger largest bare count (N01/N14/N34/N45/N48 lines) than BOVID-only ones.
+#     Test: one-sided Mann-Whitney on new tablets; support = p < 0.05 or >= 70% of caprid x bovid pairs in order; kill = <= 50%.
+#  H2 predation x M139: M139 is commoner on new PREDATION-sealed tablets than on other new sealed tablets (one-sided Fisher).
+#     pe33 line: support = M139 on >= 2 of the first 3 new predation-sealed tablets; kill = 0 of 5.
+#  H3 boats x M054: M054 on newly coded WATER(boat)-sealed tablets. pe33 line: kill = absent from the next 3.
+#  H4 predation / boat seals share vocabulary across seals: cross-seal tf-idf similarity, seal-block null, new tablets only.
+# Motif keyword rules (frozen before reading new tablets' text), applied to museum descriptions of DEPICTED content only:
+#  BOVID taureau|bovin|boeuf|bison|vache|veau|zebu ; CAPRID bouquetin|chevre|caprin|capride|mouflon|belier|mouton|antilope|gazelle|cerf|ovin
+#  FELINE lion|felin|panthere|leopard ; CANID chien|canide|loup ; BIRD oiseau|aigle|rapace ; MONSTER monstre|griffon|composite|dragon
+#  HUMAN personnage|homme|humain(e) not in 'attitude humaine' ; ANTHRO 'attitude humaine'|anthropomorph|genie
+#  BUILDING batiment|edifice|grenier|temple|facade ; VESSEL vase|recipient|jarre ; WATER barque|bateau|poisson|eau|filet
+#  GEOM geometrique|rosace|rosette|losange|spirale ; PREDATION attaqu|devor|poursui|terrass|chasse|chassant|agress

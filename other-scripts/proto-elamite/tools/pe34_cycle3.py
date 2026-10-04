@@ -72,13 +72,13 @@ def fit(rows, Y, W, mask, model, rng):
         if model == 'CP':
             for _ in range(5):
                 inter = (U[B][:, :, None] * V[M][:, :, None] * Wr[None]).sum(1)
-                E = (Y - mu - a[B] - bm[M] - inter) * w[:, None]
+                E = (Y - mu - a[B] - bm[M] - inter) * w[:, None] / (w.sum() / len(B)) / len(B)
                 gU = np.zeros_like(U); gV = np.zeros_like(V)
                 for r in range(2):
                     t = (E * Wr[r]).sum(1)
                     np.add.at(gU[:, r], B, t * V[M][:, r]); np.add.at(gV[:, r], M, t * U[B][:, r])
                 gW = np.einsum('n,nr,nk->rk', np.ones(len(B)), U[B] * V[M], E)
-                U += 0.02 * (gU - LAM * U); V += 0.02 * (gV - LAM * V); Wr += 0.002 * (gW - LAM * Wr)
+                U += np.clip(2.0 * (gU - 0.01 * U), -.1, .1); V += np.clip(2.0 * (gV - 0.01 * V), -.1, .1); Wr += np.clip(0.5 * (gW - 0.01 * Wr), -.1, .1)
     def pred(i, with_mod=True):
         p = mu + (a[B[i]] * (s[M[i]] if model == 'SCALE' and with_mod else 1)) + (bm[M[i]] if with_mod else 0)
         if model == 'CP' and with_mod:
@@ -124,7 +124,7 @@ for c in (['LINB'] if QUICK else ['PE', 'LINB', 'ARCH']):
         gain = eb - em
         rng = random.Random(9)
         null = []
-        for k in range(nperm if model == 'ADD' or c != 'ARCH' else 0):
+        for k in range((100 if c == 'ARCH' else nperm)):
             keep = [i for i, m in enumerate(mods) if m not in EXC]
             vals = [mods[i] for i in keep]; rng.shuffle(vals)
             sh = mods[:]
@@ -138,6 +138,26 @@ for c in (['LINB'] if QUICK else ['PE', 'LINB', 'ARCH']):
         res[c][model] = {'n': n, 'err_base': eb, 'err_model': em, 'gain': gain,
                          'null_gain': [float(null.mean()), float(null.std())], 'p': p}
         print(c, model, res[c][model], flush=True)
+
+# quantity-family transfer: leave-one-modifier-out (does one modifier carry it?)
+from pe34_common import perm_test, sub, transfer
+res['qty_jack'] = {}
+for c in (['LINB'] if QUICK else ['PE', 'ARCH', 'LINB']):
+    P = prep(T[c], c)
+    cols = [i for i, k in enumerate(P['names']) if k in ('logq', 'num')]
+    Q = sub(P, cols)
+    full = perm_test(Q, 1000, seed=5, exclude=EXC, stat='dot', disjoint=True)
+    out = {'all': [full[0]['n'], full[0]['dot'], full[3]]}
+    if c == 'PE':
+        mods0 = sorted({m for _, _, m in P['comp']} - set(EXC))
+        for m in mods0:
+            R = dict(Q)
+            R['comp'] = [x for x in Q['comp'] if x[2] != m]
+            r = perm_test(R, 500, seed=6, exclude=EXC, stat='dot', disjoint=True)
+            if r[0]['n'] != full[0]['n']:
+                out['drop ' + m] = [r[0]['n'], r[0]['dot'], r[3]]
+    res['qty_jack'][c] = out
+    print('QTY', c, out, flush=True)
 
 # modifier profiles in raw units
 prof = {}

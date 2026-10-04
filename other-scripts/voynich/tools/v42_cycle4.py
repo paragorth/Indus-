@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v42_lib as L, v21_lib as V
 
 FN = 'v42_cycle4.txt'
-SEEDS = (0, 1, 2)
+SEEDS = (0, 1)
 
 
 def noise_pages(P, rate, seed):

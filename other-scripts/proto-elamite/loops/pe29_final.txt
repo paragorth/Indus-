@@ -1,0 +1,19 @@
+pe29 FINAL -- REBUILD THE WRITING SESSIONS (4 Oct 2026)
+Tools: tools/pe29_common.py, pe29_cycle1.py, pe29_cycle2.py, pe29_cycle3.py. Cycle files: loops/pe29_cycle1-4.txt. Checkpoints: data/pe29_ckpt/ (git-ignored).
+Idea: tablets written in one sitting should share a name-sign pool, a writer's variant choices, clay, museum-number neighbourhood and size.
+Combine the weak evidence (random weights and evidence subsets, mutual 2-NN links, 100 restarts), hold one evidence out and ask whether
+sessions built from the others predict it; then test whether the sessions behave like daily archives (shared rates, cross-tablet sums,
+recurring names with fixed amounts). Controls: Ur III Drehem, Amar-Suen 5 (1,028 tablets, 343 known days, date lines removed); planted sessions.
+Nulls: evidence relabelled within format strata, within museum-number blocks of 10, random and 'drawer' sessions of equal size.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-29.F1 | Can weak evidence rebuild real days? (Ur III) | session links hit the true day 14x above chance (precision 0.04; names alone 0.07-0.08; museum and size 3x); shuffled evidence 0.000-0.007 | method works but weakly: 1 link in 25 is a true day pair (A, method limit) |
+| PE-29.F2 | Do PE evidences agree beyond format strata? | yes for pool, hand, museum number and size (held-out lift p 0.032 each; planted corpus behaves the same); clay colour no (p 0.97; no power, planted clay also fails) | B (weak): neighbours in the museum sequence share vocabulary, variant habits and size |
+| PE-29.F3 | Finer than the excavation lot? (museum evidence removed, block-of-10 null, disjoint sign channels) | rare-sign pool and size still predict each other (p 0.048, floor); hand p 0.24; clay p 0.14; planted sessions barely raise the lift | C: no sub-lot session shown; size-vocabulary link is equally a genre effect |
+| PE-29.F4 | Daily-archive behaviour of the 236 rebuilt PE sessions | rates: no (p 0.40 / 0.18); cross-tablet sums 2/47 vs drawer null 0.7 (p 0.13; planted 26 vs 3.8, so power was there); names recur only 12 times | B (negative): rebuilt sessions show no archive arithmetic |
+| PE-29.F5 | Best twin pair | MDP 17,001 + 17,003 (Sb 22204/22205): same header M157~a, similar size, both carry M131~k, both total 15 (10+5 M039~c; 3x5 M032, written total 15) | C. Would support: another Sb 2220x tablet with M157~a and 15 units. Would kill: different find lots |
+
+Bottom line: tablets near each other in the museum sequence were written alike (shared rare signs, variant habits, size), but nothing shows
+they are sittings rather than lots or genres, and the rebuilt groups contain no cross-tablet accounting. Even the Ur III control recovers
+true days only 1 time in 25, so PE sessions, if they existed, are not recoverable from this evidence. Not cracked. Nothing is read.

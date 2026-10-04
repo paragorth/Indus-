@@ -72,7 +72,7 @@ def main():
                 d = sorted((abs(med[vz][k] - med[c][k]) / sdk[k], c) for c in cl_list if c in med)
                 nearest[k] = d[0][1]
             # ---- LOCO classifier over corpora
-            tr = np.isin(cls, train_cls) & ~np.char.startswith(corp.astype(str), ('S_', 'V_'))
+            tr = np.isin(cls, train_cls) & np.array([not str(c).startswith(('S_', 'V_')) for c in corp])
             per = defaultdict(list)
             for c in sorted(set(corp[tr])):
                 te = tr & (corp == c); P, cl = fit(X[tr & ~te], cls[tr & ~te])
