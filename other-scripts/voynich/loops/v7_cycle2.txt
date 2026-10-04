@@ -1,0 +1,16 @@
+# v7 cycle 2 -- sensitivity (how much numeric table could hide?) and section-by-section search.
+# Script: tools/v7_cycle2.py ; results data/results/v7_cycle2.json, .log. Slot model = cycle-1 ZL3b K=4 model. Annealing 8,000 swaps,
+#   fit on even paragraphs, J on odd paragraphs (same J as cycle 1).
+# Mixture design: background = ZL3b paragraph text with words shuffled within each line (Voynich vocabulary and line make-up, no order).
+#   A fraction p of paragraphs is replaced by planted tables (arithmetic runs, solar longitudes, dose lists + totals, ephemeris rows)
+#   written with the Voynich model's OWN slot fillers under a hidden digit map (digit 0 = empty filler): the planted words are
+#   ordinary-looking Voynich words such as 'qokeedy'-type strings. 3 seeds per p.
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-7.2.1 | Mixture, p = 0 (pure background), 3 seeds = the null for this cycle | Held-out J 0.640 / 0.659 / 0.633; cdiff 0.0002-0.0005 | Null band 0.63-0.66 |
+| V-7.2.2 | Mixture, ~2% of tokens numeric (1.1-1.9%) | J 0.687 / 0.634 / 0.661; cdiff 0.0030 / 0.0007 / 0.0013 | Borderline: 1 of 3 above the null band |
+| V-7.2.3 | Mixture, ~5% (3.6-6.5%) | J 0.798 / 0.709 / 0.748; cdiff 0.016 / 0.002 / 0.011 | Detected 3 of 3 |
+| V-7.2.4 | Mixture, ~10% (7.9-10.9%) | J 1.336 / 0.844 / 0.922; cdiff 0.022-0.068 | Detected 3 of 3 |
+| V-7.2.5 | Mixture, ~18% and ~35% | J 1.05-1.18 and 1.09-2.55; cdiff 0.036-0.135; one run also finds line totals (sum 0.095) | Detected 6 of 6 |
+| V-7.2.6 | Read-off for the real manuscript: ZL3b held-out J 0.668-0.672 with cdiff 0.0003-0.0005 and colcdiff 0.0000-0.0005 (cycle 1) | Constant differences (the signature that separates planted tables from background) sit inside the p = 0 band and below every >= 5% mixture | Certified upper bound: tables of these kinds (positional 4-digit numerals with runs, columns or totals) are at most ~5% of Voynich paragraph tokens; ~2% is the floor of what this test can see. The slight J excess of the real text (0.67 vs 0.63-0.66) comes from mono3, not from arithmetic, and is matched by 2% mixtures only in mono, not in cdiff |
+| V-7.2.7 | Section search, real vs within-line shuffle (2 seeds each), held-out: herbal H, stars/recipes S, bio B, pharma P, astro+cosmo AC (smallest; the place an astronomical table would be) | H 0.654/0.659 vs 0.677/0.650; S 0.686/0.678 vs 0.649/0.645; B 0.631/0.631 vs 0.607/0.605; P 0.641/0.661 vs 0.661/0.646; AC 0.693/0.693 vs 0.544/0.675. cdiff <= 0.0011 everywhere, colcdiff 0 except one P run (0.004, a handful of column triples); sum 0 in all | No section carries numeric tables. S and B show a +0.03 mono3 excess (direction persistence of 'values' in a line), the same size as in cycle 1 and with no constant differences: a word-order effect, not arithmetic. AC rests on 163 paragraph lines and its shuffles spread 0.54-0.68, so it is untestable at this power (absence there is not evidence of absence) |

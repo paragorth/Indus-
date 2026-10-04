@@ -1,0 +1,17 @@
+# v6 cycle 1 -- "the page is a grid, not a stream": word-index grid, every reading order compared
+# Script tools/v6_cycle1.py (+ tools/v6_gridlib.py); results data/results/v6_cycle1_<corpus>.json, logs data/results/v6c1/*.log.
+# Data: ZL3b and IT2a paragraph text, 742 paragraphs, 4,130 lines, 34,857 words (uncertain words dropped). grid[r][c] = word c of line r.
+# Orders: row (left-to-right), col (down columns), diag_dr / diag_dl (down-right / down-left diagonals), spiral (clockwise from top-left), boustrophedon.
+# Statistic: for consecutive cells along the order, MI of junction (last glyph -> next first glyph), word class (words >= 10 tokens, else
+# first+last glyph), first-first glyph; and same-word / same-2-glyph-prefix rates. Excess over (i) 'full' null: all words of the paragraph
+# permuted across cells (common baseline for all orders); (ii) order-specific null: words permuted within each line for row/boustro,
+# lines permuted within the paragraph (keeps row content) for col/diagonal/spiral. 20 reps each.
+# Controls: verbose-encoded Latin (Caesar+Descartes; each letter -> 1-3 of 12 symbols) written into the SAME 742 paragraph shapes along
+# row (negative: prose), col, diag_dr, spiral (positives).
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-1.1 | Positive controls: does the test find the true order? | Each control's own order is the clear maximum: word MI excess along the true order +0.385 bits (z 79-123) vs <= 0.13 for any other order (spiral and boustrophedon partly reuse row pairs); junction +0.007 along the true order, ~0 elsewhere | Method works: a hidden column, diagonal or spiral order is found at z > 50 with this much text |
+| V-1.2 | Voynich ZL, all orders, excess over the full null (z) / over the order-specific null (z) | row: junction +0.175 (309 / 280), word +0.156 (34 / 35), first-first +0.046 (36 / 39). col: junction +0.002 (2.3 / -0.6), word +0.008 (1.4 / -0.2), first-first +0.023 (25 / 1.4). diag_dr: +0.001 / +0.002 / +0.008 (order-specific z <= 2.8). diag_dl: +0.001 / -0.004 / +0.007 (4.1). spiral: +0.045 / +0.070 / +0.035 (all from its row stretches; order-specific z 4.6 / -2.4 / 0.2). boustrophedon: +0.055 / +0.096 / +0.038 (half rows reversed, every value below row) | Left-to-right rows beat every other reading order on every MI measure, by 20-100x over columns and diagonals. Column first-first vs the full null (z 25) vanishes against the line-permutation null (z 1.4): it is the line-initial glyph bias, not a column order |
+| V-1.3 | Same, IT2a | row junction +0.162, word +0.143; col +0.0005 / +0.005; diag <= +0.003; spiral and boustrophedon below row | Transcription-robust: same ranking |
+| V-1.4 | Repeat rates (same word, same 2-glyph prefix) by order | All orders +0.000 to +0.007 over full null; order-specific z <= 4.4 (diag_dl prefix 3.3 ZL / 4.4 IT). Controls: true order shows NEGATIVE repeat excess (language avoids neighbours alike) | Faint similarity between nearby words in any direction (the known 'nearby copying' effect). No order is singled out |
+| V-1.5 | Direction: boustrophedon and right-to-left | MI is symmetric, so reversing a row changes nothing for word MI; the asymmetric junction falls from 0.175 to 0.055 under boustrophedon (half the lines reversed) | Rows are read left to right; reversing alternate lines destroys the junction link |

@@ -1,0 +1,197 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 3,
+ "perfect": 0,
+ "perfect_null_mean": 0.00029304029304029304,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.0035164835164835165,
+ "p_near": 1.0,
+ "cluster_ratio": 0.8169292384785631,
+ "cluster_null_mean": 1.001308693915088,
+ "p_cluster": 0.20415140415140415,
+ "loco_auc": 0.375,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.5400642606768822,
+  "linear_a": 0.5189118898529097,
+  "proto_elamite": 0.5470872696079945,
+  "voynich": 0.2506913282087406,
+  "aircraft_reg": 0.4253546325133444,
+  "chess_eco": 0.55034183520517,
+  "chords": 0.49987005690103214,
+  "ger_kafka_ch": 0.38882276592036297,
+  "heraldry": 0.5711373446237712,
+  "hts": 0.5042287722276324,
+  "icd10": 0.3709506308426572,
+  "ita_dante_ch": 0.39944342514868286,
+  "ita_manzoni_ch": 0.3886829741643024,
+  "lat_caesar_ch": 0.3625322421394307,
+  "lat_descartes_ch": 0.3675298714403195,
+  "latin_edh_chars": 0.3722648187557463,
+  "latin_edh_words": 0.6232442198099322,
+  "linb_syll": 0.5604197319371224,
+  "linb_words": 0.646502397060925,
+  "proto_cuneiform": 0.5849105345393075,
+  "runes_chars": 0.4043416729858011,
+  "runes_words": 0.6407830365026774,
+  "spa_cervantes_ch": 0.3956041641345166,
+  "spa_cervantes_w": 0.6140032909037701,
+  "unicode_names": 0.6102219502272377,
+  "ur3_names_syll": 0.550682767502265,
+  "ur3_syll": 0.5501566632430601,
+  "ur3_words": 0.6061148596630367
+ },
+ "test_scores": {
+  "khipu": 0.49942595512705906,
+  "voynich_words": 0.5760718953035,
+  "indus_strong": 0.5550706757618219,
+  "indus_im77": 0.5388332114690455
+ },
+ "features": [
+  {
+   "feat": "bigram_fill_log",
+   "auc": 0.40625,
+   "gap_sd": -1.9377111122392965,
+   "u": [
+    0.5924505608433863,
+    0.626334091687877,
+    0.556064486505448,
+    0.8056734987402316
+   ],
+   "d_min": 0.5175674026918253,
+   "d_max": 0.9154229738293704,
+   "d_med": 0.6415676302368061,
+   "nearest_d": "icd10"
+  },
+  {
+   "feat": "bigram_hapax_types",
+   "auc": 0.5833333333333334,
+   "gap_sd": -2.267945451989336,
+   "u": [
+    0.7246625507776039,
+    0.6597293999425782,
+    0.7955819802956489,
+    0.311220097164996
+   ],
+   "d_min": 0.034482758620689655,
+   "d_max": 0.9388356222291503,
+   "d_med": 0.5032248507581207,
+   "nearest_d": "runes_chars"
+  },
+  {
+   "feat": "bigram_types_per_token",
+   "auc": 0.5416666666666666,
+   "gap_sd": -3.0127973042600096,
+   "u": [
+    0.5033805429745214,
+    0.4770222705345575,
+    0.5200436450245158,
+    0.0664057538930193
+   ],
+   "d_min": 0.039821289821289824,
+   "d_max": 0.8316969317987357,
+   "d_med": 0.21703371137622562,
+   "nearest_d": "latin_edh_chars"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "unicode_names",
+    "ur3_words"
+   ],
+   3
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   2
+  ],
+  [
+   [
+    "linb_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "unicode_names"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "bigram_hapax_types",
+   0.31200075917117487
+  ],
+  [
+   "bigram_fill_log",
+   -0.20755113863846467
+  ],
+  [
+   "bigram_types_per_token",
+   -0.1329693180310476
+  ]
+ ]
+}

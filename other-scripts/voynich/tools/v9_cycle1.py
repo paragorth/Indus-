@@ -8,7 +8,9 @@ Per ring, held-out log-likelihood of:
   M0  start distribution + iid fillers (no sequence)
   M1  within-ring Markov-1 (+ start distribution)
   M2  within-ring Markov-2
-  VR  volvelle, 26 cells, learned step kernel (rule R1), reset at each line
+  VR  volvelle, n cells (n = 20/30/40/48), learned step kernel (rule R1), reset at each line;
+      search = Baum-Welch on the circulant HMM with free per-cell emissions (the 'soft'
+      volvelle), then hardened to one filler per cell and refitted (the true volvelle)
   VN  same ring, turning continues across line breaks (no reset)
 Word level: product of rings vs word Markov-2 (trigram) on filler tuples.
 Checkpoints: data/results/v9/c1_<corpus>_<ring>_<seed>.pkl
@@ -19,7 +21,7 @@ from v9_lib import *
 from multiprocessing import Pool
 
 OUT = os.path.join(RES, 'v9'); os.makedirs(OUT, exist_ok=True)
-K, M, NCELL, STEPS, SEEDS = 3, 12, 26, 800, (0, 1)
+K, M, SIZES, ITERS, SEEDS = 3, 12, (20, 30, 40, 48), 150, (0,)
 CORPORA = ('planted', 'voynich', 'vs_latin', 'vs_italian')
 
 
@@ -67,8 +69,10 @@ def data(name):
 
 
 def job(args):
-    name, k, seed = args
-    fn = os.path.join(OUT, 'c1_%s_%d_%d.pkl' % (name, k, seed))
+    """One (corpus, ring, ring size): soft-emission EM on the circulant HMM (search),
+    harden to a true volvelle (one filler per cell), hard EM; held-out scores; no-reset refit."""
+    name, k, n = args
+    fn = os.path.join(OUT, 'c1_%s_%d_n%d.pkl' % (name, k, n))
     if os.path.exists(fn):
         return pickle.load(open(fn, 'rb'))
     O, lens, voc, truth, tr, te = data(name)
@@ -76,15 +80,23 @@ def job(args):
     otr, ote = O[tr, :, k], O[te, :, k]
     ztr, zte = np.zeros_like(otr), np.zeros_like(ote)
     t0 = time.time()
-    r, ll_tr = anneal_ring(otr, ztr, None, S, NCELL, steps=STEPS, seed=seed)
-    ll_te = forward_backward(r, ote, zte, None, True)[0]
-    rn = Ring(r.lab, S); rn.q = r.q.copy(); rn.pi = r.pi.copy()
-    em(rn, otr, ztr, None, reset=False, iters=10)
-    ll_te_n = forward_backward(rn, ote, zte, None, False)[0]
-    res = dict(name=name, k=k, seed=seed, lab=r.lab.tolist(), q=r.q.tolist(), pi=r.pi.tolist(),
-               ll_tr=ll_tr, ll_te=ll_te, ll_te_noreset=ll_te_n, q_noreset=rn.q.tolist(), secs=time.time() - t0)
+    best = None
+    for seed in SEEDS:
+        h, hll, sll = soft_em(otr, ztr, S, n, iters=ITERS, seed=seed)
+        if best is None or hll > best[1]:
+            best = (h, hll, sll)
+    h, hll, sll = best
+    soft_te = forward_backward(h.soft, ote, zte, None, True)[0]
+    hard_te = forward_backward(h, ote, zte, None, True)[0]
+    rn = Ring(h.lab, S); rn.q = h.q.copy(); rn.pi = h.pi.copy()
+    nr_tr = em(rn, otr, ztr, None, reset=False, iters=10)
+    nr_te = forward_backward(rn, ote, zte, None, False)[0]
+    res = dict(name=name, k=k, n=n, lab=h.lab.tolist(), q=h.q.tolist(), pi=h.pi.tolist(),
+               soft_tr=sll, soft_te=soft_te, hard_tr=hll, hard_te=hard_te,
+               noreset_tr=nr_tr, noreset_te=nr_te, q_noreset=rn.q.tolist(), secs=time.time() - t0)
     pickle.dump(res, open(fn, 'wb'))
-    print('done', name, k, seed, round(ll_tr), round(ll_te), round(time.time() - t0), flush=True)
+    print('done', name, k, n, 'soft', round(sll), round(soft_te), 'hard', round(hll), round(hard_te),
+          'noreset_te', round(nr_te), round(time.time() - t0), 's', flush=True)
     return res
 
 
@@ -112,7 +124,8 @@ def baselines(name):
 
 
 if __name__ == '__main__':
-    jobs = [(c, k, s) for c in CORPORA for k in range(K) for s in SEEDS]
+    # big rings first so the two workers stay balanced
+    jobs = [(c, k, n) for n in sorted(SIZES, reverse=True) for c in CORPORA for k in range(K)]
     with Pool(2) as P:
         res = P.map(job, jobs, chunksize=1)
     base = {c: baselines(c) for c in CORPORA}

@@ -1,0 +1,216 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 4,
+ "perfect": 0,
+ "perfect_null_mean": 0.0003418803418803419,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.0041025641025641026,
+ "p_near": 1.0,
+ "cluster_ratio": 0.7660560861322738,
+ "cluster_null_mean": 0.992207249522865,
+ "p_cluster": 0.10158730158730159,
+ "loco_auc": 0.75,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.6674597375623137,
+  "linear_a": 0.7026158282013707,
+  "proto_elamite": 0.8108452315716048,
+  "voynich": 0.29720285327761653,
+  "aircraft_reg": 0.13732865075661538,
+  "chess_eco": 0.028985040792731676,
+  "chords": 0.46857690928183987,
+  "ger_kafka_ch": 0.5013891488730464,
+  "heraldry": 0.11363923699418152,
+  "hts": 0.2915907593490918,
+  "icd10": 0.598149880578013,
+  "ita_dante_ch": 0.7577841460358646,
+  "ita_manzoni_ch": 0.39064622954372097,
+  "lat_caesar_ch": 0.45522302775469686,
+  "lat_descartes_ch": 0.35682604482873526,
+  "latin_edh_chars": 0.3308434827658162,
+  "latin_edh_words": 0.3104163177235827,
+  "linb_syll": 0.5824104058408283,
+  "linb_words": 0.7179633747324847,
+  "proto_cuneiform": 0.36739517730519655,
+  "runes_chars": 0.32908238634602005,
+  "runes_words": 0.5372902721338355,
+  "spa_cervantes_ch": 0.4062922758035653,
+  "spa_cervantes_w": 0.20145785239353808,
+  "unicode_names": 0.17422011059010922,
+  "ur3_names_syll": 0.8132761075716304,
+  "ur3_syll": 0.4267670249173827,
+  "ur3_words": 0.19179967588202512
+ },
+ "test_scores": {
+  "khipu": 0.5987333965118767,
+  "voynich_words": 0.21045093726321074,
+  "indus_strong": 0.6860093815598447,
+  "indus_im77": 0.6556782791205835
+ },
+ "features": [
+  {
+   "feat": "txt_prefix_minus_suffix",
+   "auc": 0.10416666666666667,
+   "gap_sd": -0.931877357346742,
+   "u": [
+    -0.1529724142124572,
+    -0.22034124233537727,
+    -0.4598996410552702,
+    -0.03670033670033673
+   ],
+   "d_min": -0.2783018867924529,
+   "d_max": 0.7543003877567858,
+   "d_med": 0.016298831192448196,
+   "nearest_d": "runes_words"
+  },
+  {
+   "feat": "txt_suffix2_shared",
+   "auc": 0.78125,
+   "gap_sd": -1.5208619453936054,
+   "u": [
+    0.630187651016393,
+    0.7022577444714723,
+    0.7246122021946944,
+    0.8587774294670847
+   ],
+   "d_min": 0.08757259001161441,
+   "d_max": 0.993006993006993,
+   "d_med": 0.5608029113664665,
+   "nearest_d": "lat_caesar_ch"
+  },
+  {
+   "feat": "txt_prefix2_shared",
+   "auc": 0.3125,
+   "gap_sd": -3.1662913127320786,
+   "u": [
+    0.4605033546351336,
+    0.4701269356017811,
+    0.25423886884641805,
+    0.8164051555057439
+   ],
+   "d_min": 0.06912405935719812,
+   "d_max": 1.0,
+   "d_med": 0.5974002377808723,
+   "nearest_d": "ur3_syll"
+  },
+  {
+   "feat": "txt_rand_pair_jaccard_zero",
+   "auc": 0.6614583333333334,
+   "gap_sd": -2.745801922914054,
+   "u": [
+    0.7518796992481203,
+    0.8145363408521303,
+    0.6240601503759398,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.9323308270676691,
+   "d_med": 0.22117794486215536,
+   "nearest_d": "chess_eco"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "linb_words",
+    "runes_words",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   1
+  ],
+  [
+   [
+    "linb_syll",
+    "runes_words",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   1
+  ],
+  [
+   [
+    "linb_syll",
+    "linb_words",
+    "runes_words",
+    "spa_cervantes_w"
+   ],
+   1
+  ],
+  [
+   [
+    "latin_edh_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_words"
+   ],
+   1
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   1
+  ]
+ ],
+ "top_coef": [
+  [
+   "txt_suffix2_shared",
+   0.7110496097346606
+  ],
+  [
+   "txt_prefix_minus_suffix",
+   -0.6882390163502435
+  ],
+  [
+   "txt_rand_pair_jaccard_zero",
+   0.5226913210078534
+  ],
+  [
+   "txt_prefix2_shared",
+   -0.048836036688218766
+  ]
+ ]
+}

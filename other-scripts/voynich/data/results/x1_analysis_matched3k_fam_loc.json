@@ -1,0 +1,216 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 4,
+ "perfect": 0,
+ "perfect_null_mean": 0.0003418803418803419,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.0041025641025641026,
+ "p_near": 1.0,
+ "cluster_ratio": 1.4854857047751027,
+ "cluster_null_mean": 0.9659387036847948,
+ "p_cluster": 0.9411965811965812,
+ "loco_auc": 0.46875,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.4686442154899325,
+  "linear_a": 0.8327488092029954,
+  "proto_elamite": 0.4800747450750752,
+  "voynich": 0.16271924732128207,
+  "aircraft_reg": 0.4746951519313509,
+  "chess_eco": 0.4569254722633638,
+  "chords": 0.4748333562307544,
+  "ger_kafka_ch": 0.38748615460362273,
+  "heraldry": 0.48214733621246564,
+  "hts": 0.5807837335778044,
+  "icd10": 0.410102449763101,
+  "ita_dante_ch": 0.39861198821606375,
+  "ita_manzoni_ch": 0.39115852778788673,
+  "lat_caesar_ch": 0.38110021969728797,
+  "lat_descartes_ch": 0.3824340420710169,
+  "latin_edh_chars": 0.40336078668221986,
+  "latin_edh_words": 0.5131790056657461,
+  "linb_syll": 0.5103067288790646,
+  "linb_words": 0.5160986943621736,
+  "proto_cuneiform": 0.5615058784646262,
+  "runes_chars": 0.4720232064161223,
+  "runes_words": 0.524633707601377,
+  "spa_cervantes_ch": 0.393061793177369,
+  "spa_cervantes_w": 0.4991458886911665,
+  "unicode_names": 0.5051160560537362,
+  "ur3_names_syll": 0.6046129948065202,
+  "ur3_syll": 0.5056572526951698,
+  "ur3_words": 0.4969218046424021
+ },
+ "test_scores": {
+  "khipu": 0.6469154780080856,
+  "voynich_words": 0.5010853427975278,
+  "indus_strong": 0.5298148073373827,
+  "indus_im77": 0.5067121049574695
+ },
+ "features": [
+  {
+   "feat": "loc_adj_identical",
+   "auc": 0.7760416666666666,
+   "gap_sd": -0.6079326519420438,
+   "u": [
+    0.022493756927473525,
+    0.46299342864475723,
+    0.01944747748699705,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.052019210040959066,
+   "d_med": 0.0,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "loc_adj_over_rand",
+   "auc": 0.7604166666666666,
+   "gap_sd": -2.0438110216228567,
+   "u": [
+    1.5474174596038752,
+    6.546563951929267,
+    1.5780317371147534,
+    1.0497559740253766
+   ],
+   "d_min": 0.917265714887573,
+   "d_max": 3.3074183545361846,
+   "d_med": 1.098451055211027,
+   "nearest_d": "ur3_syll"
+  },
+  {
+   "feat": "loc_rand_jaccard",
+   "auc": 0.3541666666666667,
+   "gap_sd": -2.2196475520076335,
+   "u": [
+    0.051657768161558794,
+    0.08229450664889845,
+    0.10095524548791943,
+    0.597501818214984
+   ],
+   "d_min": 0.02123615532680173,
+   "d_max": 0.7552644401943255,
+   "d_med": 0.17281140487126928,
+   "nearest_d": "spa_cervantes_ch"
+  },
+  {
+   "feat": "loc_adj_jaccard",
+   "auc": 0.46875,
+   "gap_sd": -2.317432678536153,
+   "u": [
+    0.07699129465916771,
+    0.5229104073112609,
+    0.16266575517685472,
+    0.651879891710216
+   ],
+   "d_min": 0.021682191163871004,
+   "d_max": 0.7477088207507872,
+   "d_med": 0.23741503948864195,
+   "nearest_d": "chess_eco"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "latin_edh_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "unicode_names"
+   ],
+   2
+  ],
+  [
+   [
+    "ita_manzoni_ch",
+    "lat_caesar_ch",
+    "lat_descartes_ch",
+    "latin_edh_chars"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "loc_adj_identical",
+   0.40274500383375433
+  ],
+  [
+   "loc_adj_jaccard",
+   -0.1570089998967298
+  ],
+  [
+   "loc_adj_over_rand",
+   0.15411589187666963
+  ],
+  [
+   "loc_rand_jaccard",
+   -0.04466551289935344
+  ]
+ ]
+}

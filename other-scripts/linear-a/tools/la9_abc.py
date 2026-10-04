@@ -149,6 +149,7 @@ def abc(P, L, ndraws, seed, chunk=20000, keep_frac=0.0005, tag='x', verbose=Fals
         z = np.load(fn); return {k: z[k] for k in z.files}
     rng = np.random.default_rng(seed)
     pool = setup(P, L)
+    ck = os.path.join(OUT, f'abc_{tag}.ckpt.npz')
     obs = observed_summary(P, L)
     # pilot for scale
     vid = rng.integers(0, len(GRID), (chunk, L)); pp = rng.dirichlet(np.ones(NMS), chunk); qp = rng.random(chunk)
@@ -156,6 +157,10 @@ def abc(P, L, ndraws, seed, chunk=20000, keep_frac=0.0005, tag='x', verbose=Fals
     sd = sp.std(0); sd[sd == 0] = 1
     keep = []
     done = 0; t0 = time.time()
+    if os.path.exists(ck):
+        z = np.load(ck); sd = z['sd']; done = int(z['done'])
+        keep = [(z['d'], z['vid'], z['p'], z['q'])]
+        rng = np.random.default_rng(seed + done)
     while done < ndraws:
         vid = rng.integers(0, len(GRID), (chunk, L)).astype(np.int8)
         pp = rng.dirichlet(np.ones(NMS), chunk); qp = rng.random(chunk)
@@ -165,6 +170,11 @@ def abc(P, L, ndraws, seed, chunk=20000, keep_frac=0.0005, tag='x', verbose=Fals
         sel = d <= thr
         keep.append((d[sel], vid[sel], pp[sel], qp[sel]))
         done += chunk
+        if done % (chunk * 10) == 0:
+            kd = np.concatenate([k[0] for k in keep]); kv = np.concatenate([k[1] for k in keep])
+            kp = np.concatenate([k[2] for k in keep]); kq = np.concatenate([k[3] for k in keep])
+            keep = [(kd, kv, kp, kq)]
+            np.savez(ck, d=kd, vid=kv, p=kp, q=kq, sd=sd, done=done)
         if verbose and done % (chunk * 25) == 0: print(tag, done, time.time() - t0, flush=True)
     d = np.concatenate([k[0] for k in keep]); vid = np.concatenate([k[1] for k in keep])
     pp = np.concatenate([k[2] for k in keep]); qp = np.concatenate([k[3] for k in keep])
@@ -172,6 +182,7 @@ def abc(P, L, ndraws, seed, chunk=20000, keep_frac=0.0005, tag='x', verbose=Fals
     o = np.argsort(d)[:nacc]
     res = {'d': d[o], 'vid': vid[o], 'p': pp[o], 'q': qp[o], 'obs': obs, 'sd': sd}
     np.savez(fn, **res)
+    if os.path.exists(ck): os.remove(ck)
     return res
 
 

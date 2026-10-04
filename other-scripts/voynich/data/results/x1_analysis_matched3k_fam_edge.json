@@ -1,0 +1,330 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 10,
+ "perfect": 0,
+ "perfect_null_mean": 0.0008302808302808303,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.011672771672771674,
+ "p_near": 1.0,
+ "cluster_ratio": 1.1366609151005673,
+ "cluster_null_mean": 0.9852458803278326,
+ "p_cluster": 0.7924297924297924,
+ "loco_auc": 0.7395833333333334,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.6304059202942701,
+  "linear_a": 0.5837319407666175,
+  "proto_elamite": 0.8727794442982393,
+  "voynich": 0.21208492429749298,
+  "aircraft_reg": 0.25927108957634426,
+  "chess_eco": 0.23994053802084048,
+  "chords": 0.32523565440509344,
+  "ger_kafka_ch": 0.447936546649475,
+  "heraldry": 0.4977501274760755,
+  "hts": 0.23068891455062657,
+  "icd10": 0.4012206586743409,
+  "ita_dante_ch": 0.4625513772851973,
+  "ita_manzoni_ch": 0.4844774917291369,
+  "lat_caesar_ch": 0.35498064597617124,
+  "lat_descartes_ch": 0.37307578904716837,
+  "latin_edh_chars": 0.41084579904616875,
+  "latin_edh_words": 0.35110731555170327,
+  "linb_syll": 0.6869024622564162,
+  "linb_words": 0.7118912360273547,
+  "proto_cuneiform": 0.3377958847829276,
+  "runes_chars": 0.17648980012040066,
+  "runes_words": 0.26928297255003575,
+  "spa_cervantes_ch": 0.4048332367330313,
+  "spa_cervantes_w": 0.250466012785456,
+  "unicode_names": 0.15818524236823817,
+  "ur3_names_syll": 0.4019729025366897,
+  "ur3_syll": 0.47101605490544896,
+  "ur3_words": 0.04389616391005707
+ },
+ "test_scores": {
+  "khipu": 0.18731664069293774,
+  "voynich_words": 0.17126827606332942,
+  "indus_strong": 0.6829775459914824,
+  "indus_im77": 0.737995762870507
+ },
+ "features": [
+  {
+   "feat": "edge_mi_final_len_excess",
+   "auc": 0.125,
+   "gap_sd": -0.9580220545357108,
+   "u": [
+    -0.03833692487395199,
+    -0.024442191093769543,
+    -0.0702628541949355,
+    0.0
+   ],
+   "d_min": -0.028263014900513805,
+   "d_max": 0.06990817256632686,
+   "d_med": 0.0,
+   "nearest_d": "ger_kafka_ch"
+  },
+  {
+   "feat": "edge_mi_cross_excess",
+   "auc": 0.7604166666666666,
+   "gap_sd": -0.37440991687920583,
+   "u": [
+    0.015297162491252042,
+    0.3054295654420218,
+    0.022524215753236584,
+    -0.0039117472899403245
+   ],
+   "d_min": -0.006738929537278759,
+   "d_max": 0.01715940634200054,
+   "d_med": 0.0014393048683312886,
+   "nearest_d": "runes_chars"
+  },
+  {
+   "feat": "edge_reset_ratio",
+   "auc": 0.7395833333333334,
+   "gap_sd": -0.36318168874378115,
+   "u": [
+    0.07791999970622848,
+    2.444525318751111,
+    0.16782919752466074,
+    -0.010917390677638375
+   ],
+   "d_min": -0.044422329230369234,
+   "d_max": 0.15277548427085108,
+   "d_med": 0.00962991412718758,
+   "nearest_d": "unicode_names"
+  },
+  {
+   "feat": "edge_h_last_given_first",
+   "auc": 0.2916666666666667,
+   "gap_sd": -1.823949112023478,
+   "u": [
+    0.24270226315442328,
+    0.3043740240491316,
+    0.14054805672687898,
+    0.49144405766550847
+   ],
+   "d_min": 0.04837844350914251,
+   "d_max": 1.1525935739245976,
+   "d_med": 0.37559118161663396,
+   "nearest_d": "ur3_syll"
+  },
+  {
+   "feat": "edge_mi_init_len",
+   "auc": 0.6302083333333334,
+   "gap_sd": -2.673225939240477,
+   "u": [
+    0.18640574439169766,
+    0.13474071907772206,
+    0.14682828203123832,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.19587349746192445,
+   "d_med": 0.05163408977369817,
+   "nearest_d": "ger_kafka_ch"
+  },
+  {
+   "feat": "edge_mi_init_final_excess",
+   "auc": 0.375,
+   "gap_sd": -2.3990167567551093,
+   "u": [
+    -0.1698229847378185,
+    -0.1347324855431087,
+    -0.22593857613028495,
+    -0.1990557148899904
+   ],
+   "d_min": -0.45950028323625447,
+   "d_max": 0.2776633252301696,
+   "d_med": -0.14796198225613216,
+   "nearest_d": "lat_descartes_ch"
+  },
+  {
+   "feat": "edge_mi_final_len",
+   "auc": 0.4010416666666667,
+   "gap_sd": -1.5401700055238605,
+   "u": [
+    0.11731266801764165,
+    0.10110292908953514,
+    0.038637103908258655,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.23465207343556588,
+   "d_med": 0.09199263064742852,
+   "nearest_d": "proto_cuneiform"
+  },
+  {
+   "feat": "edge_first_last_same",
+   "auc": 0.40625,
+   "gap_sd": -1.5863918377213817,
+   "u": [
+    0.00327101282832181,
+    0.007200345236810875,
+    0.0,
+    0.07924802658911509
+   ],
+   "d_min": 0.0,
+   "d_max": 0.16882830786176511,
+   "d_med": 0.03244575936883629,
+   "nearest_d": "lat_descartes_ch"
+  },
+  {
+   "feat": "edge_mi_within_excess",
+   "auc": 0.5520833333333334,
+   "gap_sd": -3.3767206403400354,
+   "u": [
+    0.17053434657746847,
+    0.12121799914995389,
+    0.13659820165370307,
+    0.34848095862008316
+   ],
+   "d_min": 0.02397803777163328,
+   "d_max": 0.5009810148762021,
+   "d_med": 0.1446546282998701,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "edge_mi_init_final",
+   "auc": 0.4479166666666667,
+   "gap_sd": -2.0111244065703984,
+   "u": [
+    0.41730876206825407,
+    0.3748864343725199,
+    0.3006995652779919,
+    0.14274156196620857
+   ],
+   "d_min": 0.0,
+   "d_max": 0.8318310795345428,
+   "d_med": 0.34802179315740667,
+   "nearest_d": "ur3_syll"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "runes_chars",
+    "runes_words",
+    "unicode_names",
+    "ur3_words"
+   ],
+   4
+  ],
+  [
+   [
+    "runes_chars",
+    "runes_words",
+    "spa_cervantes_w",
+    "ur3_words"
+   ],
+   3
+  ],
+  [
+   [
+    "runes_chars",
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   2
+  ],
+  [
+   [
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_chars",
+    "spa_cervantes_w",
+    "ur3_words"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "edge_mi_final_len_excess",
+   -0.7779435998898141
+  ],
+  [
+   "edge_mi_within_excess",
+   0.49372250637406045
+  ],
+  [
+   "edge_mi_final_len",
+   -0.43224872101523104
+  ],
+  [
+   "edge_mi_init_len",
+   0.3758654637373692
+  ],
+  [
+   "edge_h_last_given_first",
+   -0.3563904254765976
+  ],
+  [
+   "edge_reset_ratio",
+   0.3082481537110149
+  ],
+  [
+   "edge_mi_init_final",
+   -0.29266782903781535
+  ],
+  [
+   "edge_first_last_same",
+   -0.19834375281393934
+  ],
+  [
+   "edge_mi_cross_excess",
+   0.15905145542685825
+  ],
+  [
+   "edge_mi_init_final_excess",
+   -0.044753635767510166
+  ]
+ ]
+}

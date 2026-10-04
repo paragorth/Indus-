@@ -6,7 +6,7 @@ Runs (each checkpointed to data/la9/abc_<tag>.npz):
   LA_shufK         Linear A with KU-RO totals permuted across sections (K = 1..4), 1M each
   LB_real          Linear B to-so sections, 2M (truth known)
   UR3_subK         Ur III, LA-sized subsample (22 integer-only + 8 fraction sections), 1M each, K = 1..4
-  UR3_big          Ur III, 300 random sections, 1M
+  UR3_big          Ur III, 120 random sections (40 integer-only + 80 fraction), 400k
   PLANT_<mech>     synthetic totals made on the LA entries with a planted mechanism and planted
                    values (lineara.xyz-like set), 1M each: does ABC give back the mechanism?
 Summary written to data/la9/c2.out (json lines).
@@ -41,7 +41,7 @@ def job(args):
         tots = [(P[i]['ta'], P[i]['ct'].copy()) for i in perm]
         for s, (ta, ct) in zip(P, tots): s['ta'] = ta; s['ct'] = ct
     elif mod in ('sub', 'big'):
-        n_int, n_frac, = (22, 8) if mod == 'sub' else (100, 200)
+        n_int, n_frac, = (22, 8) if mod == 'sub' else (40, 80)
         ints = [s for s in P if s['C'].sum() == 0 and s['ct'].sum() == 0]
         fr = [s for s in P if s['C'].sum() > 0]
         pick = [ints[i] for i in rng.choice(len(ints), min(n_int, len(ints)), replace=False)] + \
@@ -65,12 +65,12 @@ def job(args):
 
 
 if __name__ == '__main__':
-    jobs = [('LA_real', 'LA', 4_000_000, 1, None), ('LB_real', 'LB', 2_000_000, 2, None)]
-    for k in range(1, 5): jobs.append((f'LA_shuf{k}', 'LA', 1_000_000, 10 + k, 'shuf'))
-    for k in range(1, 5): jobs.append((f'UR3_sub{k}', 'UR3', 1_000_000, 20 + k, 'sub'))
-    jobs.append(('UR3_big', 'UR3', 1_000_000, 30, 'big'))
+    jobs = [('LA_real', 'LA', 3_000_000, 1, None), ('LB_real', 'LB', 2_000_000, 2, None)]
+    for k in range(1, 5): jobs.append((f'LA_shuf{k}', 'LA', 500_000, 10 + k, 'shuf'))
+    for k in range(1, 5): jobs.append((f'UR3_sub{k}', 'UR3', 500_000, 20 + k, 'sub'))
+    jobs.append(('UR3_big', 'UR3', 400_000, 30, 'big'))
     for m in ['carry', 'slip', 'tally', 'skip', 'misread', 'round']:
-        jobs.append((f'PLANT_{m}', 'LA', 1_000_000, 40 + MECH_SIM.index(m), 'plant_' + m))
+        jobs.append((f'PLANT_{m}', 'LA', 500_000, 40 + MECH_SIM.index(m), 'plant_' + m))
     if len(sys.argv) > 1: jobs = [j for j in jobs if j[0] in sys.argv[1:]]
     fo = open(os.path.join(OUT, 'c2.out'), 'a')
     with Pool(2) as pool:

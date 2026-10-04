@@ -1,0 +1,13 @@
+# v6 cycle 3 -- acrostic test: read the paragraph's left edge and right edge top to bottom
+# Script tools/v6_cycle3.py ; results data/results/v6_cycle3.json, .log. Statistic: MI between consecutive members of the edge column
+# (lag 1, lag 2), excess over permuting lines inside the paragraph (200x; keeps rows and positional marginals). Paragraph-first line
+# included / excluded (excluded = lines 2..n permuted only).
+# Controls, same paragraph shapes, verbose-encoded: Latin prose (negative); letter acrostic (first letters of lines spell Descartes);
+# word acrostic (line-initial words are running Descartes, cover text from Caesar).
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-3.1 | First glyph of each line, lag 1 (first line excluded) | ZL +0.113 bits (z 18.9), IT +0.117 (z 18.4); Currier A +0.169 (z 15.5), B +0.091 (z 10.4). Letter acrostic +0.152 (z 34.5); word acrostic +0.006 (n.s.); prose -0.001 (n.s.) | STRONG non-row signal: the first glyph of a line predicts the first glyph of the next line, as strongly as a verbose-encoded letter acrostic does; prose shows nothing. Transcription-robust (ZL/IT), present in A and B |
+| V-3.2 | First glyph, lag 2 | ZL +0.026 (z 3.3), IT +0.027 (z 3.2); letter acrostic +0.045 (z 8.6); prose 0 | Decays fast, like the acrostic control |
+| V-3.3 | Line-initial WORD column, lag 1 | With first line: ZL +0.063 (z 3.3) only; first line excluded: -0.027 (n.s.), IT -0.002. Word-acrostic control +0.119 (z 5.7) | The column of opening words does NOT read as a word sequence; the link sits in the first glyph |
+| V-3.4 | Right edge: last glyph and line-final word columns, lag 1/2 | Last glyph +0.005 (z 1.0, n.s.); final word +0.023 (z 1.1, n.s.); B alone last glyph +0.016 (z 2.5, weak). Controls 0 | Right edge carries no acrostic-like structure (weak at most in B) |
+| V-3.5 | Init-junction: last glyph of line-initial word r -> first glyph of line-initial word r+1 (would show if the opening words were a running text) | ZL -0.003, IT -0.003 (n.s.); letter acrostic +0.011 (z 2.9) | The opening words are not joined like neighbouring words in a line |

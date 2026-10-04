@@ -1,0 +1,254 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 6,
+ "perfect": 0,
+ "perfect_null_mean": 0.0005860805860805861,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.007032967032967033,
+ "p_near": 1.0,
+ "cluster_ratio": 1.0512828557278715,
+ "cluster_null_mean": 0.9985880067257865,
+ "p_cluster": 0.5768498168498168,
+ "loco_auc": 0.3854166666666667,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.4965368577849846,
+  "linear_a": 0.5844031277842037,
+  "proto_elamite": 0.3941500073592863,
+  "voynich": 0.08211951248882507,
+  "aircraft_reg": 0.137889060246968,
+  "chess_eco": 0.8108969924611671,
+  "chords": 0.7874529474494598,
+  "ger_kafka_ch": 0.3602841183073615,
+  "heraldry": 0.4185045607417737,
+  "hts": 0.6754613742613886,
+  "icd10": 0.6274256611568894,
+  "ita_dante_ch": 0.5296150206703673,
+  "ita_manzoni_ch": 0.5074196746002648,
+  "lat_caesar_ch": 0.18467460432664706,
+  "lat_descartes_ch": 0.263670154672856,
+  "latin_edh_chars": 0.26502821710867935,
+  "latin_edh_words": 0.22080131216187537,
+  "linb_syll": 0.6425316461323272,
+  "linb_words": 0.6020922291111961,
+  "proto_cuneiform": 0.6495334780029297,
+  "runes_chars": 0.5372403466612643,
+  "runes_words": 0.2683770626041433,
+  "spa_cervantes_ch": 0.4465552149263732,
+  "spa_cervantes_w": 0.3122606980357304,
+  "unicode_names": 0.3399889819443161,
+  "ur3_names_syll": 0.4714552681666583,
+  "ur3_syll": 0.5754243869694669,
+  "ur3_words": 0.6046350150667092
+ },
+ "test_scores": {
+  "khipu": 0.7298769004154969,
+  "voynich_words": 0.21119479026253396,
+  "indus_strong": 0.5679786504598314,
+  "indus_im77": 0.5217550094225427
+ },
+ "features": [
+  {
+   "feat": "zipf_slope_top10",
+   "auc": 0.28125,
+   "gap_sd": -3.306048418486464,
+   "u": [
+    -0.7695865078649973,
+    -0.9473438848063742,
+    -1.116050709865796,
+    -0.5617274208790313
+   ],
+   "d_min": -1.576358778433616,
+   "d_max": -0.35647753068591015,
+   "d_med": -0.6326670904189551,
+   "nearest_d": "ur3_names_syll"
+  },
+  {
+   "feat": "zipf_slope_f2",
+   "auc": 0.3229166666666667,
+   "gap_sd": -1.942869085681532,
+   "u": [
+    -1.1660406672319779,
+    -1.2507846799376947,
+    -1.0629438024708135,
+    -1.5924382355139204
+   ],
+   "d_min": -1.534141725651621,
+   "d_max": -0.7445185047940428,
+   "d_med": -1.1308077922013449,
+   "nearest_d": "linb_words"
+  },
+  {
+   "feat": "zipf_slope_mid",
+   "auc": 0.34375,
+   "gap_sd": -2.9325901602320275,
+   "u": [
+    -1.5722837843756556,
+    -1.6110538566587813,
+    -1.1030850206528657,
+    -0.7814094422543911
+   ],
+   "d_min": -1.9134635921675045,
+   "d_max": -0.43671870219889664,
+   "d_med": -0.9724997227557057,
+   "nearest_d": "ita_manzoni_ch"
+  },
+  {
+   "feat": "zipf_r2_f2",
+   "auc": 0.5520833333333334,
+   "gap_sd": -2.504077112949049,
+   "u": [
+    0.9555704523694313,
+    0.9334675802740062,
+    0.987727409362622,
+    0.7101188352053087
+   ],
+   "d_min": 0.6791306589438915,
+   "d_max": 0.9845581319880744,
+   "d_med": 0.9165537694819612,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "zipf_bigram_slope",
+   "auc": 0.53125,
+   "gap_sd": -4.328816118997981,
+   "u": [
+    -0.7011393023697097,
+    -0.6268820128401833,
+    -0.7632054471260861,
+    -1.2479098522470935
+   ],
+   "d_min": -1.0954726416871634,
+   "d_max": -0.4360622426674068,
+   "d_med": -0.871244756063377,
+   "nearest_d": "icd10"
+  },
+  {
+   "feat": "zipf_curv_f2",
+   "auc": 0.5,
+   "gap_sd": -3.1735150233205696,
+   "u": [
+    -0.14352534577190176,
+    -0.19789519402017902,
+    -0.0010118956184644481,
+    -0.9216185180011705
+   ],
+   "d_min": -0.8610366879525182,
+   "d_max": 0.05059565144195148,
+   "d_med": -0.22244716431404088,
+   "nearest_d": "ita_manzoni_ch"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "voynich",
+    "ita_dante_ch",
+    "ita_manzoni_ch",
+    "runes_chars"
+   ],
+   3
+  ],
+  [
+   [
+    "latin_edh_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "voynich",
+    "ita_dante_ch",
+    "ita_manzoni_ch",
+    "lat_descartes_ch"
+   ],
+   2
+  ],
+  [
+   [
+    "voynich",
+    "ita_dante_ch",
+    "ita_manzoni_ch",
+    "latin_edh_chars"
+   ],
+   2
+  ],
+  [
+   [
+    "proto_elamite",
+    "linb_words",
+    "runes_words",
+    "ur3_words"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "zipf_slope_top10",
+   -0.4403498427882097
+  ],
+  [
+   "zipf_slope_mid",
+   -0.42947302905449936
+  ],
+  [
+   "zipf_slope_f2",
+   -0.4269032207938263
+  ],
+  [
+   "zipf_curv_f2",
+   -0.2264383143187705
+  ],
+  [
+   "zipf_r2_f2",
+   0.1852573215344697
+  ],
+  [
+   "zipf_bigram_slope",
+   -0.041449101587162356
+  ]
+ ]
+}

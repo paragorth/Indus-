@@ -63,7 +63,10 @@ def fam_a(j):
             rec.append({'k': r['k'], 'z2': r['z2'], 'nmi': v, 'nmi_null99': float(np.quantile(base, .99))})
         best = max(rec, key=lambda x: x['z2']) if rec else None
         out['planted_eval'] = rec[:50]
-        out['recovered'] = bool(best and best['nmi'] > best['nmi_null99'])
+        out['recovered_top_nmi'] = bool(best and best['nmi'] > best['nmi_null99'])
+        out['consensus_auc'] = consensus_auc(out, hidden, rng)
+        out['recovered'] = bool(out['consensus_auc'] and out['consensus_auc']['auc'] > 0.6
+                                and out['consensus_auc']['p'] < 0.01)
     if j['fam'] == 'g':
         out['stage2'] = out['stage2'][:40]
     for r in out['stage2']:
@@ -72,6 +75,36 @@ def fam_a(j):
     if hidden is None:
         out['consensus'] = consensus(out)
     return out
+
+
+def consensus_auc(out, hidden, rng, nperm=200):
+    """Do the replicated partitions, pooled, put same-hidden-class signs together?
+    AUC of the consensus co-membership score (minus 1/k) for same-class vs different-class
+    sign pairs; p from permuting the hidden labels."""
+    reps = [r for r in out['stage2'] if r.get('replicated') and 'assign' in r]
+    if not reps:
+        return None
+    signs = out['signs']
+    n = len(signs)
+    M = np.zeros((n, n))
+    for r in reps:
+        a = np.array(r['assign'])
+        M += (a[:, None] == a[None, :]) - 1.0 / r['k']
+    iu = np.triu_indices(n, 1)
+    sc = M[iu]
+    h = np.array([hidden.get(s, 0) for s in signs])
+
+    def auc(hh):
+        same = (hh[:, None] == hh[None, :])[iu]
+        if same.all() or not same.any():
+            return 0.5
+        from scipy.stats import rankdata
+        rk = rankdata(sc)
+        n1 = same.sum(); n0 = len(same) - n1
+        return float((rk[same].sum() - n1 * (n1 + 1) / 2) / (n1 * n0))
+    a0 = auc(h)
+    null = [auc(rng.permutation(h)) for _ in range(nperm)]
+    return {'auc': a0, 'p': float((1 + sum(x >= a0 for x in null)) / (nperm + 1)), 'n_reps': len(reps)}
 
 
 def consensus(out):

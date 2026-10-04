@@ -204,7 +204,7 @@ def forward_backward(ring, obs, ctx, lens, reset=True, need_post=False, need_emi
     post0 /= post0.sum(1, keepdims=True)
     if need_emit:
         G = alpha * beta
-        G /= G.sum(2, keepdims=True)
+        G /= np.maximum(G.sum(2, keepdims=True), 1e-300)
         valid = obs[:, :T] >= 0
         em_c = np.zeros((ring.S, n))
         np.add.at(em_c, obs[:, :T][valid], G[valid])
@@ -293,7 +293,7 @@ def anneal_ring(obs, ctx, lens, S, n, C=1, reset=True, steps=800, seed=0, T0=30.
     return r, best_ll
 
 
-def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True):
+def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True, trace=None):
     """Volvelle as an HMM: n cells on a cycle, circulant (rule) transitions, FREE emission
     distribution per cell; Baum-Welch.  Then harden: each cell keeps its argmax symbol."""
     rng = np.random.RandomState(seed)
@@ -310,9 +310,12 @@ def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True):
         if reset:
             r.pi = (st + 0.1) / (st + 0.1).sum()
         r.B = (ec + 1e-3) / (ec + 1e-3).sum(0, keepdims=True)
+        if trace is not None and it % 20 == 0:
+            trace.append((it, round(float(ll))))
     lab = r.B.argmax(0)
     h = Ring(lab, S, C); h.q = r.q.copy(); h.pi = r.pi.copy()
     hll = em(h, obs, ctx, None, reset, iters=6)
+    h.soft = r
     return h, hll, ll
 
 

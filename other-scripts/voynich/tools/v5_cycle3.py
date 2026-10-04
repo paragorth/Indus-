@@ -82,7 +82,7 @@ def alphabet(units):
 
 
 if __name__ == '__main__':
-    rng = np.random.default_rng(5)
+    rng = np.random.default_rng(int(os.environ.get('SEED', 5)))
     C = vc.all_corpora()
     only = sys.argv[1].split(',') if len(sys.argv) > 1 else None
     ITERS = int(os.environ.get('ITERS', 3000))
@@ -117,4 +117,4 @@ if __name__ == '__main__':
             inv = {v: kk for kk, v in rl.items()}
             print('   recovered chant order in true letters:', ''.join(inv[x] for x in order))
             res[name]['recovered_true_letters'] = ''.join(inv[x] for x in order)
-    vlib.save('v5_cycle3' + ('_' + '_'.join(only) if only else ''), res)
+    vlib.save('v5_cycle3' + ('_' + '_'.join(only) if only else '') + os.environ.get('SEED', ''), res)

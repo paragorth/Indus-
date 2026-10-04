@@ -1,0 +1,349 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 11,
+ "perfect": 0,
+ "perfect_null_mean": 0.0008791208791208791,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.010744810744810745,
+ "p_near": 1.0,
+ "cluster_ratio": 0.7284297940431552,
+ "cluster_null_mean": 0.9847315655842048,
+ "p_cluster": 0.09294261294261294,
+ "loco_auc": 0.6354166666666666,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.5632408603867525,
+  "linear_a": 0.7142591009078763,
+  "proto_elamite": 0.7125519867168719,
+  "voynich": 0.1325634092541828,
+  "aircraft_reg": 0.5236610351273631,
+  "chess_eco": 0.5086590881857624,
+  "chords": 0.48745008010140256,
+  "ger_kafka_ch": 0.3790726250181681,
+  "heraldry": 0.3740279741643339,
+  "hts": 0.6092732201550921,
+  "icd10": 0.7414138214910675,
+  "ita_dante_ch": 0.3898339500250205,
+  "ita_manzoni_ch": 0.3706198940755124,
+  "lat_caesar_ch": 0.3438263688197874,
+  "lat_descartes_ch": 0.33408009177867315,
+  "latin_edh_chars": 0.2121934166747958,
+  "latin_edh_words": 0.14974679874112273,
+  "linb_syll": 0.5033899657000659,
+  "linb_words": 0.4887195980131195,
+  "proto_cuneiform": 0.774458410571436,
+  "runes_chars": 0.33776368620546304,
+  "runes_words": 0.021425148630431115,
+  "spa_cervantes_ch": 0.3074939827382658,
+  "spa_cervantes_w": 0.4054695892646419,
+  "unicode_names": 0.5527410025099844,
+  "ur3_names_syll": 0.8896681940296506,
+  "ur3_syll": 0.5708069672287497,
+  "ur3_words": 0.5841533402472938
+ },
+ "test_scores": {
+  "khipu": 0.4013248569354028,
+  "voynich_words": 0.16284173150871267,
+  "indus_strong": 0.6183343950894694,
+  "indus_im77": 0.4863997956028928
+ },
+ "features": [
+  {
+   "feat": "rep_gap2_ratio",
+   "auc": 0.20833333333333334,
+   "gap_sd": -0.4943923330006901,
+   "u": [
+    0.17690158557320568,
+    0.3531008741660082,
+    0.12051498398717408,
+    0.5106865892944276
+   ],
+   "d_min": 0.0,
+   "d_max": 5.072331596030324,
+   "d_med": 0.8359705838328572,
+   "nearest_d": "unicode_names"
+  },
+  {
+   "feat": "rep_dup_text_frac",
+   "auc": 0.7604166666666666,
+   "gap_sd": -4.032665859462878,
+   "u": [
+    0.35262434087559075,
+    0.3213582565153067,
+    0.33607599651989883,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.8225063225063225,
+   "d_med": 0.0,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "rep_distinct_text_ratio",
+   "auc": 0.2708333333333333,
+   "gap_sd": -4.213255306951792,
+   "u": [
+    0.7255991003996536,
+    0.7737993626948902,
+    0.7538308261704618,
+    1.0
+   ],
+   "d_min": 0.3204848204848205,
+   "d_max": 1.0,
+   "d_med": 1.0,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "rep_within_text",
+   "auc": 0.28125,
+   "gap_sd": -2.1928484651818008,
+   "u": [
+    0.005878382653814515,
+    0.02441257333192305,
+    0.008245441331688422,
+    0.6162298032730281
+   ],
+   "d_min": 0.0027172137191040055,
+   "d_max": 0.7072525921497309,
+   "d_med": 0.10029664376830105,
+   "nearest_d": "spa_cervantes_ch"
+  },
+  {
+   "feat": "rep_dup_text4_frac",
+   "auc": 0.7083333333333334,
+   "gap_sd": -4.550006003662648,
+   "u": [
+    0.14030251625671472,
+    0.08493589743589744,
+    0.03641315458979526,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.7533413525795242,
+   "d_med": 0.0,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "rep_longest_over_len",
+   "auc": 0.6875,
+   "gap_sd": -3.4332975872876323,
+   "u": [
+    2.282333034697017,
+    2.441916963409799,
+    1.9743054537376428,
+    0.2899126148682507
+   ],
+   "d_min": 0.2423618963856431,
+   "d_max": 3.1340953033603367,
+   "d_med": 0.7905924456018305,
+   "nearest_d": "ita_manzoni_ch"
+  },
+  {
+   "feat": "rep_longest_repeat_log",
+   "auc": 0.328125,
+   "gap_sd": -1.431585418920569,
+   "u": [
+    2.0794415416798357,
+    1.791759469228055,
+    1.5890269151739727,
+    2.282174095733918
+   ],
+   "d_min": 1.3862943611198906,
+   "d_max": 3.668468456853809,
+   "d_med": 2.4849066497880004,
+   "nearest_d": "heraldry"
+  },
+  {
+   "feat": "rep_top_text_share",
+   "auc": 0.6354166666666666,
+   "gap_sd": -3.518023815904877,
+   "u": [
+    0.04342167246645494,
+    0.023947849330387586,
+    0.02354924702090835,
+    0.012196935891715008
+   ],
+   "d_min": 0.0012468905472636815,
+   "d_max": 0.10666651421012265,
+   "d_med": 0.017097829319060363,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "rep_within_text_vs_glob",
+   "auc": 0.375,
+   "gap_sd": -2.0430043290873345,
+   "u": [
+    -0.037037001692239585,
+    -0.04932105663585023,
+    -0.07019886634889676,
+    0.007434521548404072
+   ],
+   "d_min": -0.15408538186188597,
+   "d_max": 0.3048558214480817,
+   "d_med": -0.006579015103374595,
+   "nearest_d": "ita_manzoni_ch"
+  },
+  {
+   "feat": "rep_immediate_ratio",
+   "auc": 0.4583333333333333,
+   "gap_sd": -0.6240579202218886,
+   "u": [
+    0.08176599401590981,
+    0.39880291757610387,
+    0.08816717414443694,
+    0.6915222502688279
+   ],
+   "d_min": 0.0,
+   "d_max": 6.1128748994062905,
+   "d_med": 0.32985032308782636,
+   "nearest_d": "ita_manzoni_ch"
+  },
+  {
+   "feat": "rep_immediate_rate",
+   "auc": 0.5104166666666666,
+   "gap_sd": -3.5368207289407954,
+   "u": [
+    0.002456416853517666,
+    0.019734772138401732,
+    0.006106790542303878,
+    0.05744561373813918
+   ],
+   "d_min": 0.0,
+   "d_max": 0.08872850144313758,
+   "d_med": 0.019143799900552094,
+   "nearest_d": "linb_words"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "indus",
+    "linear_a",
+    "ur3_names_syll",
+    "ur3_syll"
+   ],
+   3
+  ],
+  [
+   [
+    "indus",
+    "linb_syll",
+    "ur3_names_syll",
+    "ur3_syll"
+   ],
+   3
+  ],
+  [
+   [
+    "indus",
+    "linb_words",
+    "ur3_names_syll",
+    "ur3_syll"
+   ],
+   3
+  ],
+  [
+   [
+    "linb_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "chords",
+    "linb_words",
+    "spa_cervantes_w",
+    "unicode_names"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "rep_gap2_ratio",
+   -0.6398080115017524
+  ],
+  [
+   "rep_longest_over_len",
+   0.48162327970675844
+  ],
+  [
+   "rep_longest_repeat_log",
+   -0.40897837375699636
+  ],
+  [
+   "rep_dup_text_frac",
+   0.36698988318081
+  ],
+  [
+   "rep_top_text_share",
+   -0.35180567904407706
+  ],
+  [
+   "rep_within_text",
+   0.25277794725171715
+  ],
+  [
+   "rep_dup_text4_frac",
+   -0.24782225997465873
+  ],
+  [
+   "rep_immediate_rate",
+   0.2288251439916563
+  ],
+  [
+   "rep_distinct_text_ratio",
+   -0.19409773385109166
+  ],
+  [
+   "rep_immediate_ratio",
+   -0.09470731061084632
+  ],
+  [
+   "rep_within_text_vs_glob",
+   0.042964883516258386
+  ]
+ ]
+}

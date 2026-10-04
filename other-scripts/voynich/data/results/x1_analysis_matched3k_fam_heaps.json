@@ -1,0 +1,197 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 3,
+ "perfect": 0,
+ "perfect_null_mean": 0.0002442002442002442,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.003663003663003663,
+ "p_near": 1.0,
+ "cluster_ratio": 0.8341242880587377,
+ "cluster_null_mean": 0.9955035053681381,
+ "p_cluster": 0.18383394383394383,
+ "loco_auc": 0.3333333333333333,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.4970811927376712,
+  "linear_a": 0.4806993258174231,
+  "proto_elamite": 0.46908387814554675,
+  "voynich": 0.28225397510609695,
+  "aircraft_reg": 0.44807798148590494,
+  "chess_eco": 0.5730087480114296,
+  "chords": 0.47301588741076095,
+  "ger_kafka_ch": 0.45699009391969947,
+  "heraldry": 0.5254763816133772,
+  "hts": 0.5558533974203519,
+  "icd10": 0.5032353384645605,
+  "ita_dante_ch": 0.44762385688262174,
+  "ita_manzoni_ch": 0.4432786888620018,
+  "lat_caesar_ch": 0.44767005266463566,
+  "lat_descartes_ch": 0.4507018536952328,
+  "latin_edh_chars": 0.4620023600184988,
+  "latin_edh_words": 0.5581987358211844,
+  "linb_syll": 0.5004115742889143,
+  "linb_words": 0.5514801208499374,
+  "proto_cuneiform": 0.5597869384767695,
+  "runes_chars": 0.4515598561445094,
+  "runes_words": 0.5528970085173723,
+  "spa_cervantes_ch": 0.45523810681813986,
+  "spa_cervantes_w": 0.5443172824399021,
+  "unicode_names": 0.5371657725413088,
+  "ur3_names_syll": 0.48036426530131193,
+  "ur3_syll": 0.4877472101843682,
+  "ur3_words": 0.6015470807395484
+ },
+ "test_scores": {
+  "khipu": 0.5527343639719575,
+  "voynich_words": 0.5145603384659778,
+  "indus_strong": 0.5083913093816963,
+  "indus_im77": 0.4828203522712009
+ },
+ "features": [
+  {
+   "feat": "heaps_locality",
+   "auc": 0.59375,
+   "gap_sd": -4.153781816836239,
+   "u": [
+    0.09842245955641762,
+    0.06330522471106495,
+    0.06487130375023092,
+    -0.028585959484668355
+   ],
+   "d_min": -0.05329945548929338,
+   "d_max": 0.39984309560439374,
+   "d_med": 0.034544657008155594,
+   "nearest_d": "ita_manzoni_ch"
+  },
+  {
+   "feat": "heaps_types_at_half",
+   "auc": 0.4166666666666667,
+   "gap_sd": -2.3232958526855905,
+   "u": [
+    0.7222382908158347,
+    0.7492229992229992,
+    0.6312020805890499,
+    0.9415384615384615
+   ],
+   "d_min": 0.5464909903807073,
+   "d_max": 1.0,
+   "d_med": 0.7971177602502943,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "heaps_beta",
+   "auc": 0.5104166666666666,
+   "gap_sd": -2.625493504889794,
+   "u": [
+    0.6096959954852718,
+    0.5179617382884983,
+    0.713701662494742,
+    0.15137402828237656
+   ],
+   "d_min": 0.09259940590768867,
+   "d_max": 0.8767422893204975,
+   "d_med": 0.5115225769585532,
+   "nearest_d": "ger_kafka_ch"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "runes_words",
+    "spa_cervantes_w",
+    "unicode_names",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "unicode_names",
+    "ur3_words"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "spa_cervantes_w"
+   ],
+   2
+  ],
+  [
+   [
+    "lat_caesar_ch",
+    "lat_descartes_ch",
+    "latin_edh_chars",
+    "spa_cervantes_ch"
+   ],
+   2
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "ur3_words"
+   ],
+   2
+  ]
+ ],
+ "top_coef": [
+  [
+   "heaps_locality",
+   0.18592389118287717
+  ],
+  [
+   "heaps_types_at_half",
+   -0.08694443049801895
+  ],
+  [
+   "heaps_beta",
+   0.05166050007314279
+  ]
+ ]
+}

@@ -1,0 +1,292 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 8,
+ "perfect": 0,
+ "perfect_null_mean": 0.0007326007326007326,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.008840048840048841,
+ "p_near": 1.0,
+ "cluster_ratio": 1.2434105556280122,
+ "cluster_null_mean": 0.980934374690161,
+ "p_cluster": 0.8577777777777778,
+ "loco_auc": 0.5729166666666666,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.47200658246010885,
+  "linear_a": 0.7812371512336425,
+  "proto_elamite": 0.4684430023224033,
+  "voynich": 0.31074778652628376,
+  "aircraft_reg": 0.3915268581342084,
+  "chess_eco": 0.6336286753933793,
+  "chords": 0.5515031291890722,
+  "ger_kafka_ch": 0.4061525587442275,
+  "heraldry": 0.46972299308945886,
+  "hts": 0.42479933109787815,
+  "icd10": 0.5262819010416582,
+  "ita_dante_ch": 0.43452169124567663,
+  "ita_manzoni_ch": 0.464531928228735,
+  "lat_caesar_ch": 0.4245137149188737,
+  "lat_descartes_ch": 0.41367754299038073,
+  "latin_edh_chars": 0.40583317541843866,
+  "latin_edh_words": 0.430454893029908,
+  "linb_syll": 0.5548932567867966,
+  "linb_words": 0.5948592105335081,
+  "proto_cuneiform": 0.5534216577430138,
+  "runes_chars": 0.45498213282255795,
+  "runes_words": 0.424848585568159,
+  "spa_cervantes_ch": 0.426556758565423,
+  "spa_cervantes_w": 0.43883227498628496,
+  "unicode_names": 0.37438749139983996,
+  "ur3_names_syll": 0.4314188337040564,
+  "ur3_syll": 0.5157112362158941,
+  "ur3_words": 0.5242316521314099
+ },
+ "test_scores": {
+  "khipu": 0.5893309578859286,
+  "voynich_words": 0.36514902749590017,
+  "indus_strong": 0.5332200368200164,
+  "indus_im77": 0.42349009590852565
+ },
+ "features": [
+  {
+   "feat": "page_h1_cv",
+   "auc": 0.8125,
+   "gap_sd": -0.54379249623125,
+   "u": [
+    0.0668430557829732,
+    0.566268485467425,
+    0.07666503347610268,
+    0.02706996240638591
+   ],
+   "d_min": 0.010499981961304874,
+   "d_max": 0.0817628986162782,
+   "d_med": 0.035764358241035264,
+   "nearest_d": "heraldry"
+  },
+  {
+   "feat": "page_jsd_over_random",
+   "auc": 0.8125,
+   "gap_sd": -4.676099027740218,
+   "u": [
+    1.2329766077206838,
+    3.696087638734249,
+    1.3679788514978832,
+    1.6829520197864667
+   ],
+   "d_min": 0.934580938215446,
+   "d_max": 9.930437314349186,
+   "d_med": 1.1246812713385987,
+   "nearest_d": "ur3_names_syll"
+  },
+  {
+   "feat": "page_adj_over_all",
+   "auc": 0.22916666666666666,
+   "gap_sd": -2.874330914963433,
+   "u": [
+    0.936521481355481,
+    0.7420318978570701,
+    0.9427162578316208,
+    0.7935352772410464
+   ],
+   "d_min": 0.6682887960779759,
+   "d_max": 1.0000637845443023,
+   "d_med": 0.9648110579754609,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "page_jsd_all",
+   "auc": 0.625,
+   "gap_sd": -2.9893049778118335,
+   "u": [
+    0.3199372337408709,
+    0.6802024469063377,
+    0.3805885356150469,
+    0.053998636843659895
+   ],
+   "d_min": 0.025370933850608488,
+   "d_max": 0.7318260411929067,
+   "d_med": 0.27212323731940646,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "page_top1_cv",
+   "auc": 0.6041666666666666,
+   "gap_sd": -2.29947517400066,
+   "u": [
+    0.1273588430465829,
+    1.0196294963728096,
+    0.21910089061448906,
+    0.20531004801676772
+   ],
+   "d_min": 0.07223911505669017,
+   "d_max": 0.5499732792360308,
+   "d_med": 0.15444974720546162,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "page_jsd_adj",
+   "auc": 0.6041666666666666,
+   "gap_sd": -3.234632196434016,
+   "u": [
+    0.29524743102036743,
+    0.42531539627390336,
+    0.3477775389524741,
+    0.04389527821081092
+   ],
+   "d_min": 0.02489925721447306,
+   "d_max": 0.7161095477758322,
+   "d_med": 0.23818366729828885,
+   "nearest_d": "latin_edh_chars"
+  },
+  {
+   "feat": "page_types_new_last_block",
+   "auc": 0.5833333333333334,
+   "gap_sd": -2.6965487523115885,
+   "u": [
+    0.06914092813906565,
+    0.06830065359477125,
+    0.061734929352037296,
+    0.0
+   ],
+   "d_min": 0.0,
+   "d_max": 0.09211139637606636,
+   "d_med": 0.03142126557663199,
+   "nearest_d": "aircraft_reg"
+  },
+  {
+   "feat": "page_half_type_jaccard",
+   "auc": 0.4166666666666667,
+   "gap_sd": -2.3442895525844816,
+   "u": [
+    0.44679116340811875,
+    0.4474797502966517,
+    0.2947572798319067,
+    0.8846153846153846
+   ],
+   "d_min": 0.11872335192228914,
+   "d_max": 1.0,
+   "d_med": 0.5432500276963004,
+   "nearest_d": "runes_chars"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "spa_cervantes_w",
+    "ur3_words"
+   ],
+   4
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "unicode_names",
+    "ur3_words"
+   ],
+   4
+  ],
+  [
+   [
+    "ita_manzoni_ch",
+    "lat_caesar_ch",
+    "lat_descartes_ch",
+    "spa_cervantes_ch"
+   ],
+   4
+  ],
+  [
+   [
+    "ger_kafka_ch",
+    "ita_manzoni_ch",
+    "lat_caesar_ch",
+    "lat_descartes_ch"
+   ],
+   4
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "ur3_words"
+   ],
+   3
+  ]
+ ],
+ "top_coef": [
+  [
+   "page_h1_cv",
+   0.47782902839118135
+  ],
+  [
+   "page_adj_over_all",
+   -0.28140765563204545
+  ],
+  [
+   "page_types_new_last_block",
+   0.26136311519717825
+  ],
+  [
+   "page_jsd_all",
+   -0.2517195613239847
+  ],
+  [
+   "page_half_type_jaccard",
+   -0.2394447408476856
+  ],
+  [
+   "page_jsd_adj",
+   -0.23493131826787308
+  ],
+  [
+   "page_jsd_over_random",
+   -0.2239482781582324
+  ],
+  [
+   "page_top1_cv",
+   -0.010781755274007005
+  ]
+ ]
+}

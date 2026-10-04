@@ -478,3 +478,6 @@ The line is a real production unit (this replicates arXiv 2604.19762 with strong
 - the verbose-cipher merge with encrypted-language positive controls, as a method.
 
 Our Voynich work mostly confirms the current state of the art. It has not cracked anything.
+
+## 10. The line-initial chain (v6, 4 Oct 2026; `loops/v6_final.txt`)
+No reading order beats left-to-right rows: columns, diagonals, spirals and boustrophedon carry 0.002 bits or less of junction information against 0.17–0.19 along rows, while Latin written in those orders is found at z 79–265. One new effect: **the first glyph of each line predicts the first glyph of the next line** (0.113 bits, z 19, in both the ZL and IT transcriptions; an encoded Latin acrostic gives 0.152, plain prose 0). It holds out across folio halves (z ≈ 10), in Currier A and B and in hands 1–3, is one glyph wide (absent in the rest of the opening word, other columns and the right edge), avoids repeating the glyph above (8.5% vs 14.8% by chance) and prefers certain successions (q→ch/sh, o→q, d→q). It does not follow Voynichese glyph rules, so it reads as a margin rule rather than vertical text. Grade C: a line-marker sequence. Novelty: vertical similarity of nearby words is known (Timm 2014) and 'vertical keys' were proposed but not tested; no published test of line-to-line initial transitions was found.

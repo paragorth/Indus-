@@ -1,0 +1,311 @@
+{
+ "regime": "matched3k",
+ "U": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich"
+ ],
+ "names": [
+  "indus",
+  "linear_a",
+  "proto_elamite",
+  "voynich",
+  "aircraft_reg",
+  "chess_eco",
+  "chords",
+  "ger_kafka_ch",
+  "heraldry",
+  "hts",
+  "icd10",
+  "ita_dante_ch",
+  "ita_manzoni_ch",
+  "lat_caesar_ch",
+  "lat_descartes_ch",
+  "latin_edh_chars",
+  "latin_edh_words",
+  "linb_syll",
+  "linb_words",
+  "proto_cuneiform",
+  "runes_chars",
+  "runes_words",
+  "spa_cervantes_ch",
+  "spa_cervantes_w",
+  "unicode_names",
+  "ur3_names_syll",
+  "ur3_syll",
+  "ur3_words"
+ ],
+ "n_feats": 9,
+ "perfect": 0,
+ "perfect_null_mean": 0.0008791208791208791,
+ "p_perfect": 1.0,
+ "near": 0,
+ "near_null_mean": 0.010647130647130647,
+ "p_near": 1.0,
+ "cluster_ratio": 0.8143731098802062,
+ "cluster_null_mean": 0.9993188939331161,
+ "p_cluster": 0.16551892551892552,
+ "loco_auc": 0.5,
+ "loco_null_mean": NaN,
+ "loco_null_95": NaN,
+ "p_loco": 0.5,
+ "heldout": {
+  "indus": 0.48817885037770864,
+  "linear_a": 0.4616675955067465,
+  "proto_elamite": 0.7147553647894228,
+  "voynich": 0.2227940341840906,
+  "aircraft_reg": 0.1786951641665534,
+  "chess_eco": 0.5427445645310291,
+  "chords": 0.5423149053557184,
+  "ger_kafka_ch": 0.31779906723010876,
+  "heraldry": 0.5812302049695262,
+  "hts": 0.43570233152234383,
+  "icd10": 0.6361448203573047,
+  "ita_dante_ch": 0.4287217699250771,
+  "ita_manzoni_ch": 0.38860322897691496,
+  "lat_caesar_ch": 0.28867046996520085,
+  "lat_descartes_ch": 0.3205396684286094,
+  "latin_edh_chars": 0.3040574171857788,
+  "latin_edh_words": 0.4234622572173316,
+  "linb_syll": 0.579576563768147,
+  "linb_words": 0.7786154678249555,
+  "proto_cuneiform": 0.6135579791176087,
+  "runes_chars": 0.2570011913237371,
+  "runes_words": 0.5613664712321769,
+  "spa_cervantes_ch": 0.3795260966920689,
+  "spa_cervantes_w": 0.6254685207369465,
+  "unicode_names": 0.2333074466601453,
+  "ur3_names_syll": 0.5915894133489666,
+  "ur3_syll": 0.5663217881485687,
+  "ur3_words": 0.5726731035133968
+ },
+ "test_scores": {
+  "khipu": 0.49978471700727467,
+  "voynich_words": 0.5663859091505765,
+  "indus_strong": 0.5673866390985136,
+  "indus_im77": 0.5165649241722142
+ },
+ "features": [
+  {
+   "feat": "graph_det_succ_share",
+   "auc": 0.71875,
+   "gap_sd": -2.3127496281735636,
+   "u": [
+    0.18841509520427102,
+    0.12905676529597618,
+    0.2525688128321866,
+    0.17093603950860775
+   ],
+   "d_min": 0.0006830601092896175,
+   "d_max": 0.41356340442191,
+   "d_med": 0.06746040286883284,
+   "nearest_d": "hts"
+  },
+  {
+   "feat": "graph_succ_top20_frac",
+   "auc": 0.375,
+   "gap_sd": -1.4325984956403686,
+   "u": [
+    0.05043522001574666,
+    0.07839016137428423,
+    0.024120245819486207,
+    0.34807692307692306
+   ],
+   "d_min": 0.01160238726790451,
+   "d_max": 0.6320412517780938,
+   "d_med": 0.10920736343628752,
+   "nearest_d": "icd10"
+  },
+  {
+   "feat": "graph_succ_pred_asym",
+   "auc": 0.40625,
+   "gap_sd": -1.4870017345102204,
+   "u": [
+    -0.026614816724077353,
+    0.02439845133117694,
+    -0.20231020852568224,
+    0.0102767758627344
+   ],
+   "d_min": -0.14243316437593692,
+   "d_max": 0.39767509649767274,
+   "d_med": -0.009757769332163739,
+   "nearest_d": "linb_syll"
+  },
+  {
+   "feat": "graph_pmi_frac3",
+   "auc": 0.59375,
+   "gap_sd": -2.854615204556882,
+   "u": [
+    0.6365375418460066,
+    0.6570982541098509,
+    0.39818199307425933,
+    0.038608900677866195
+   ],
+   "d_min": 0.010001000100010001,
+   "d_max": 0.9569842738205365,
+   "d_med": 0.3109723606769279,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "graph_reverse_frac",
+   "auc": 0.4270833333333333,
+   "gap_sd": -1.7848974769630008,
+   "u": [
+    0.10612651012312077,
+    0.1750053789575182,
+    0.04298790007806401,
+    0.5378052860488458
+   ],
+   "d_min": 0.0198243000103254,
+   "d_max": 0.7644757297825244,
+   "d_med": 0.24656819800198737,
+   "nearest_d": "icd10"
+  },
+  {
+   "feat": "graph_forbidden_frac",
+   "auc": 0.5625,
+   "gap_sd": -2.159537182404421,
+   "u": [
+    0.4128787878787879,
+    0.5801282051282051,
+    0.51,
+    0.37577601947656725
+   ],
+   "d_min": 0.04272263778794984,
+   "d_max": 1.0,
+   "d_med": 0.39222799879445447,
+   "nearest_d": "ur3_words"
+  },
+  {
+   "feat": "graph_pmi_mean",
+   "auc": 0.5416666666666666,
+   "gap_sd": -3.1530487179197637,
+   "u": [
+    3.8330320267538145,
+    3.303928349066871,
+    2.8460439407624705,
+    0.574293593860589
+   ],
+   "d_min": 0.2921421253102483,
+   "d_max": 6.499134929241119,
+   "d_med": 2.5780710515655274,
+   "nearest_d": "ita_dante_ch"
+  },
+  {
+   "feat": "graph_pmi_frac_neg",
+   "auc": 0.46875,
+   "gap_sd": -2.312163858074146,
+   "u": [
+    0.0196078431372549,
+    0.04383298672212446,
+    0.041056823073611706,
+    0.3137931034482758
+   ],
+   "d_min": 0.0,
+   "d_max": 0.35532994923857864,
+   "d_med": 0.07505142028478788,
+   "nearest_d": "ger_kafka_ch"
+  },
+  {
+   "feat": "graph_pred_top20_frac",
+   "auc": 0.46875,
+   "gap_sd": -1.4494954220778653,
+   "u": [
+    0.05630869353231722,
+    0.08891723060905779,
+    0.05464010970947654,
+    0.3416666666666667
+   ],
+   "d_min": 0.010945351622548706,
+   "d_max": 0.6142857142857142,
+   "d_med": 0.09875137304312509,
+   "nearest_d": "icd10"
+  }
+ ],
+ "top_labelings": [
+  [
+   [
+    "lat_caesar_ch",
+    "lat_descartes_ch",
+    "latin_edh_chars",
+    "runes_chars"
+   ],
+   7
+  ],
+  [
+   [
+    "latin_edh_words",
+    "runes_words",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   6
+  ],
+  [
+   [
+    "ita_manzoni_ch",
+    "lat_caesar_ch",
+    "lat_descartes_ch",
+    "runes_chars"
+   ],
+   6
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "runes_words",
+    "unicode_names"
+   ],
+   5
+  ],
+  [
+   [
+    "latin_edh_words",
+    "linb_words",
+    "unicode_names",
+    "ur3_names_syll"
+   ],
+   4
+  ]
+ ],
+ "top_coef": [
+  [
+   "graph_succ_top20_frac",
+   -0.47309331236160446
+  ],
+  [
+   "graph_pmi_mean",
+   -0.43945965474540744
+  ],
+  [
+   "graph_succ_pred_asym",
+   -0.4001771863343905
+  ],
+  [
+   "graph_pred_top20_frac",
+   -0.32844169259313977
+  ],
+  [
+   "graph_reverse_frac",
+   -0.1905979186038142
+  ],
+  [
+   "graph_pmi_frac3",
+   -0.13993832783303756
+  ],
+  [
+   "graph_det_succ_share",
+   0.1276183757835425
+  ],
+  [
+   "graph_forbidden_frac",
+   0.0934849942937174
+  ],
+  [
+   "graph_pmi_frac_neg",
+   0.08794982687960491
+  ]
+ ]
+}
