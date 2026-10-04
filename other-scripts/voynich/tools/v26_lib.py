@@ -335,6 +335,13 @@ class Scribe:
         self.ST = T
 
     def slot_dist(self, s, cls, ctx):
+        key = (s, cls, ctx)
+        if not hasattr(self, '_sdc'): self._sdc = {}
+        r = self._sdc.get(key)
+        if r is None: r = self._sdc[key] = self._slot_dist(s, cls, ctx)
+        return r
+
+    def _slot_dist(self, s, cls, ctx):
         c = self.ST.get((s, cls, ctx)) or Counter()
         c2 = self.ST.get(('*', cls, ctx)) or Counter()
         n, n2 = sum(c.values()), sum(c2.values())
