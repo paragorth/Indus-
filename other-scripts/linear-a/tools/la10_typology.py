@@ -46,6 +46,17 @@ def main():
         p, s, rd = idx(PRE), idx(SUF), idx(RED)
         out['grambank'][nm] = dict(prefix=p, suffix=s, redup=rd)
         lines.append(f'  {nm}: prefix {p[0]}/{p[1]}  suffix {s[0]}/{s[1]}  reduplication {rd[0]}/{rd[1]}')
+    langs = {r['ID']: r['Genus'] for r in csv.DictReader(open(os.path.join(D, 'wals', 'languages.csv')))}
+    want = ('Greek', 'Semitic', 'Egyptian-Coptic', 'Kartvelian', 'Northwest Caucasian', 'Nakh', 'Lezgic', 'Avar-Andic-Tsezic',
+            'Armenian', 'Basque', 'Turkic')
+    agg = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
+    for r in csv.DictReader(open(os.path.join(D, 'wals', 'values.csv'))):
+        gn = langs.get(r['Language_ID'])
+        if gn in want and r['Parameter_ID'] in ('2A', '12A', '26A'): agg[gn][r['Parameter_ID']][codes[r['Code_ID']]] += 1
+    lines.append('\nWALS by genus (all languages of the genus; counts): 2A vowel qualities | 12A syllable structure | 26A prefixing vs suffixing')
+    for gn in want:
+        lines.append(f'  {gn}: ' + ' | '.join(f'{p} ' + ', '.join(f'{k} {v}' for k, v in agg[gn][p].items()) for p in ('2A', '12A', '26A')))
+    out['wals_genus'] = {g: {p: dict(c) for p, c in d.items()} for g, d in agg.items()}
     open(os.path.join(D, 'typology.txt'), 'w').write('\n'.join(lines) + '\n')
     json.dump(out, open(os.path.join(D, 'typology.json'), 'w'), indent=1)
     print('\n'.join(lines))

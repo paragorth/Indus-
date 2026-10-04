@@ -1,0 +1,15 @@
+# v14 cycle 2: strata (Currier A/B, sections), transcription check (IT2a), and the junction between words
+Tools: tools/v14_cycle2.py; checkpoints data/results/v14/c2_*.pkl. Same devices, same full-resolution fit, 20 jittered nulls per sigma per slot.
+Sections = ZL3b illustration codes (paragraph text only); C, Z, T, A too small for paragraph tests and skipped.
+Note (sampling): every stratum is from the same manuscript; IT2a is the same pages read again (agreement = transcription-robust, not replication).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-14.2.1 | Device fit per Currier language: A (11,231 tokens), B (23,078) | No device accepted in any of 8 slots. Best = most flexible (3d6 sum / 2d6 product) with z 5-57; percentile among jittered nulls 0.14-0.86 | NO dice in either language; separating A and B (in case each had its own dice) does not help |
+| V-14.2.2 | Same, per section: herbal H (11,468), stars S (11,586), balneo B (6,240), pharma P (2,306) | Accepted only in small strata and only the most flexible device: 3d6 sum in S slots 2-3, B slot 2, all 4 P slots. Jittered nulls accept 3d6 sum as often (parsimony P vs sigma 0.1: 0.29 / 0.29 / 0.52 / 1.0 / 1.0 / 1.0 / 0.95; vs sigma 0.3 >= 0.05 in a family of 28 slot tests) | NO. At N ~2-6k a 16-atom device can fit almost any 10-category law; the real data are no more device-like than their perturbations. Nothing survives the search correction |
+| V-14.2.3 | Within-word slot independence per stratum (permutation null within the stratum) | MI A 0.12-0.36, B 0.11-0.33, H 0.10-0.36, S 0.10-0.34, B(balneo) 0.20-0.46, P 0.18-0.40 bits; null 0.003-0.027; p = 0.005 floor in 42/42 pairs | Slots DEPENDENT in every language and every section |
+| V-14.2.4 | Pooled MI with permutation WITHIN section / WITHIN language (a mixture of per-section dice would fake pooled dependence; this null keeps that) | MI unchanged 0.12-0.30 vs within-stratum nulls 0.003-0.005, p = 0.005 all 12 | Dependence is not a mixture-of-dice artefact |
+| V-14.2.5 | IT2a transcription, own v7 slot grammar (cov 0.746) | No device accepted 0/4; percentiles 0.19-0.95. MI 0.10-0.58, p = 0.005 all 6 | Transcription-robust: same verdict |
+| V-14.2.6 | JUNCTION: slot i of word t vs slot j of word t+1 (same line), 16 pairs, null = words shuffled within line (200). Controls: planted dice, Voynich slot-shuffled, verbose Latin/Italian | Sum of 16 MIs: Voynich 0.472 vs null 0.171 (16/16 pairs p <= 0.01; top: slot4(t)->slot1(t+1) 0.061, z 77; slot3(t)->slot1(t+1) 0.061); planted 0.012 vs 0.012 (0/16); slot-shuffled Voynich 0.032 vs 0.031 (0/16); Latin 0.147 vs 0.039 (16/16); Italian 0.309 vs 0.039 (16/16) | Words are NOT independent draws: the end of one word predicts the start of the next (the known junction rule), and the within-line null itself is 5x the slot-shuffled one (lines share vocabulary). A die rolled per word cannot do either |
+
+Cycle 2 verdict: no stratum rescues the dice. Dependence is everywhere (within words, across the word junction, and at line level), with Voynich excess junction MI (0.30) between verbose Latin (0.11) and verbose Italian (0.27).

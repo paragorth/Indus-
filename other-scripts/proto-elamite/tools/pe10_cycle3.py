@@ -97,23 +97,47 @@ def setscore(M, setidx, q, groups, tabs):
     return mh(feat, q, groups, tabs)[2]
 
 
-def random_sets(E, q, groups, nsets=20000, nsplit=20, top=0.01):
-    cnt = Counter(p for e in E for s in e['s'] for p in re.split(r'[|+.&]', s) if p.startswith('M'))
-    signs = [s for s, c in cnt.items() if c >= 10]
-    M = sign_matrix(E, signs)
-    sets = [rng.choice(len(signs), rng.integers(5, 16), replace=False) for _ in range(nsets)]
-    # precompute per-sign Q-membership via per-tablet vectorisation: score function per set
-    tabs_all = np.array(sorted(groups))
-    held = []
-    for sp in range(nsplit):
-        perm = rng.permutation(tabs_all)
-        A = set(perm[:len(perm) // 2]); B = set(perm[len(perm) // 2:])
-        sA = np.array([setscore(M, s, q, groups, A) for s in sets[:2000]])  # 2,000 per split for speed
-        k = max(1, int(len(sA) * top))
-        best = np.argsort(sA)[::-1][:k]
-        held.append(float(np.mean([setscore(M, sets[b], q, groups, B) for b in best])))
-    return signs, M, float(np.mean(held)), held
+def mh_vec(F, q, G, tabmask=None):
+    """vectorised MH z for many binary features (columns of F). G: tablets x entries 0/1."""
+    n = G.sum(1)
+    nq = G @ q
+    S1 = G @ F
+    ok = (nq > 0) & (nq < n)
+    if tabmask is not None:
+        ok &= tabmask
+    n_, nq_, S1_ = n[ok], nq[ok], S1[ok]
+    m = S1_ / n_[:, None]
+    e = (nq_[:, None] * m).sum(0)
+    v = ((nq_ * (n_ - nq_) / np.maximum(n_ - 1, 1))[:, None] * (m - m * m)).sum(0)
+    keep = G[ok].sum(0) > 0
+    o = (q * keep) @ F
+    return (o - e) / np.sqrt(np.maximum(v, 1e-12))
 
+
+def random_sets(E, q, groups, nsets=20000, nsplit=20, top=0.01, cache={}):
+    key = id(E)
+    if key not in cache:
+        cnt = Counter(p for e in E for s in e['s'] for p in re.split(r'[|+.&]', s) if p.startswith('M'))
+        signs = [s for s, c in cnt.items() if c >= 10]
+        M = sign_matrix(E, signs)
+        sets = [rng.choice(len(signs), rng.integers(5, 16), replace=False) for _ in range(nsets)]
+        F = np.stack([M[:, s].any(1) for s in sets], 1).astype(np.float32)
+        tabs = sorted(groups)
+        G = np.zeros((len(tabs), len(E)), np.float32)
+        for k, t in enumerate(tabs):
+            G[k, groups[t]] = 1
+        cache.clear(); cache[key] = (signs, M, sets, F, G, np.array(tabs))
+    signs, M, sets, F, G, tabs = cache[key]
+    held = []
+    qf = q.astype(np.float32)
+    for sp in range(nsplit):
+        A = np.zeros(len(tabs), bool); A[rng.permutation(len(tabs))[:len(tabs) // 2]] = True
+        zA = mh_vec(F, qf, G, A)
+        k = max(1, int(len(zA) * top))
+        best = np.argsort(zA)[::-1][:k]
+        zB = mh_vec(F[:, best], qf, G, ~A)
+        held.append(float(zB.mean()))
+    return signs, M, float(np.mean(held)), held
 
 def per_sign(E, q, groups, signs, M):
     out = []
@@ -150,7 +174,7 @@ def plant(E):
     return E2
 
 
-def analyse(E, tag, nnull=50):
+def analyse(E, tag, nnull=200):
     groups = tabgroups(E)
     q = np.array([e['q'] for e in E], float)
     F = features(E)
@@ -164,7 +188,7 @@ def analyse(E, tag, nnull=50):
     nul = []
     for r in range(nnull):
         qs = shuffle_q(q, groups)
-        nul.append(random_sets(E, qs, groups, nsplit=4)[2])
+        nul.append(random_sets(E, qs, groups, nsplit=5)[2])
     nul = np.array(nul)
     res['3B_heldout_mean_z'] = held
     res['3B_null_mean'] = float(nul.mean()); res['3B_null_sd'] = float(nul.std())
@@ -201,5 +225,5 @@ if __name__ == '__main__':
         out['real'] = analyse(E, 'real'); json.dump(out, open(ck, 'w'), indent=1, default=str)
         print(json.dumps(out['real'], indent=1, default=str), flush=True)
     if 'planted' not in out:
-        out['planted'] = analyse(plant(E), 'planted', nnull=20); json.dump(out, open(ck, 'w'), indent=1, default=str)
+        out['planted'] = analyse(plant(E), 'planted', nnull=100); json.dump(out, open(ck, 'w'), indent=1, default=str)
         print(json.dumps(out['planted'], indent=1, default=str), flush=True)

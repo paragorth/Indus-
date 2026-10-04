@@ -32,6 +32,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The "J < 1/2" argument rests on two doubtful J+J readings (photo check).
 - The anchors are too few to separate places from persons.
 - The affixes do not predict new forms.
+- Tablets as pieces of split ledgers (la12): no cross-tablet sum beats chance; with 2-3 tablets almost any total can be matched by chance, so arithmetic alone cannot rejoin ledgers.
 
 **Open:** the fraction values. They need specialist re-reading of PH 9b, PH 22a, ZA 8 and HT 104 in GORILA.
 

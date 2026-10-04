@@ -162,3 +162,9 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - The Linear B control failed. Ancient Greek ranked between 17th and 33rd of 35. The method recognises a corpus, not a language family, so this null says nothing about Linear A's family.
 - An early Afro-Asiatic lead (Arabic, Coptic) was half random-string bias and vanished under the third spelling scheme (p = 0.51). Dropped.
 - Linear A's sign-to-sign structure is real but about 70% as strong as Linear B's, consistent with la5.
+
+## Tablets as jigsaw pieces (la12)
+- Searched about 1.7e8 three-tablet combinations per run for Hagia Triada totals that equal sums written on other tablets, then assembled 'ledgers' by simulated annealing. Nulls kept each tablet's magnitude; controls cut real tablets into pieces.
+- No cross-tablet closure beats chance. Joined tablets are not more often the same hand, room or vocabulary than chance joins. No word gets a total, deficit or transfer role.
+- The method cannot reassemble even real cut HT tablets: with 2-3 tablets almost any total is reachable in hundreds to thousands of exact ways (grade A). Arithmetic joins need physical evidence first.
+- Leads, grade C: HT 116a GRA lines sum to 109 (its own KU-RO says 100) = HT 1 KU-PA3-NU 109; HT 27a VIR 140 = all numbers of HT 27b (probably coincidence).
