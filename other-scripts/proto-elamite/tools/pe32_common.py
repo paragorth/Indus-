@@ -92,6 +92,15 @@ def seen_pairs():
     return seen
 
 
+def plost(raw):
+    """True when the last sign of the line is lost or unreadable (the visible last sign is not the final one)."""
+    head = raw.split(',')[0].strip()
+    if not head:
+        return True
+    last = head.split()[-1]
+    return '...' in last or last.strip('[]#?!<>') in ('x', '') or last.startswith('[x')
+
+
 def m288_events(T=None, seen=None):
     T = T or table()
     seen = seen if seen is not None else seen_pairs()
@@ -103,7 +112,7 @@ def m288_events(T=None, seen=None):
             if l['fin'] != 'M288' or l['cap'] is None:
                 continue
             p = L[k - 1]
-            if p['fin'] in ('-', 'x'):
+            if p['fin'] in ('-', 'x') or plost(p['raw']):
                 continue
             E.append({'tid': t['id'], 'line': l['i'], 'pfin': p['fin'], 'x': p['cnt'] if p['sys'] == 'CNT' else None,
                       'psys': p['sys'], 'y': l['cap'], 'seen': (t['id'], l['i']) in seen,

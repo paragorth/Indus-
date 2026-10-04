@@ -15,11 +15,11 @@ res = {}
 rows = []
 
 
-def run_group(pages, T, o, strata, seed, nperm=400):
+def run_group(pages, T, o, strata, seed, nperm=300):
     (X1, X2), names = rate_matrix(pages, T)
     coh = coherence_null(X1, X2, o, strata, nperm=nperm, seed=seed)
     D1 = demean(X1, strata); D2 = demean(X2, strata)
-    order, f, orders = seriate(D1, restarts=16, iters=15000, seed=seed)
+    order, f, orders = seriate(D1, restarts=10, iters=12000, seed=seed)
     pos = position_of(order)
     z = lambda D: ((D - D.mean(0)) / (D.std(0) + 1e-12)) * o
     if spearmanr(pos, z(D1).mean(1))[0] < 0:
@@ -62,11 +62,11 @@ for name in ('ZL3b', 'IT2a'):
         strata = None if sm == 'none' else [p['illus'] if sm == 'illus' else p['hand'] + p['illus'] for p in pg]
         if strata is None:
             strata = ['x'] * len(pg)
-        r = run_group(pg, T, o, strata, seed=hash(g) % 1000)
+        r = run_group(pg, T, o, strata, seed=sum(map(ord, g)))
         res[f'{name}_{g}'] = r
         print(name, g, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()
                         if k not in ('C', 'pages', 'clock', 'pos', 'names')}, flush=True)
-        rows.append(f"| V-41.2.{len(rows)+1} | {name} {g}: 11 oriented traits (10 fixed + stem-held-fixed B-ending share; {nshared} shared stems), odd/even line halves, strata={sm}; S vs independent-trait permutation (400x); SA seriation 16 restarts; held-out even-line composite; random-orientation null (300 sign patterns) | n {r['n']}, R {r['R']:.3f}, S {r['S']:+.3f} (z {r['z']:+.1f}, p {r['p']:.3f}), S/R {r['ratio']:.2f}, oriented pairs >0 {r['pos_pairs']:.2f}, held-out rho {r['held']:+.2f}, signs ok {r['signs_ok']}/11, restart stability {r['stab']:.2f}, random-sign S >= obs {r['randsign_S_q']:.3f} | see cycle verdict |")
+        rows.append(f"| V-41.2.{len(rows)+1} | {name} {g}: 11 oriented traits (10 fixed + stem-held-fixed B-ending share; {nshared} shared stems), odd/even line halves, strata={sm}; S vs independent-trait permutation (300x); SA seriation 10 restarts x 12k swaps; held-out even-line composite; random-orientation null (300 sign patterns) | n {r['n']}, R {r['R']:.3f}, S {r['S']:+.3f} (z {r['z']:+.1f}, p {r['p']:.3f}), S/R {r['ratio']:.2f}, oriented pairs >0 {r['pos_pairs']:.2f}, held-out rho {r['held']:+.2f}, signs ok {r['signs_ok']}/11, restart stability {r['stab']:.2f}, random-sign S >= obs {r['randsign_S_q']:.3f} | see cycle verdict |")
 json.dump(res, open(os.path.join(CK, 'c2.json'), 'w'), default=float)
 write_rows(os.path.join(CK, 'c2_rows.txt'), rows)
 print('\n'.join(rows))
