@@ -3,6 +3,7 @@ score held-out Y. Conditions for X:
   scratch  no pretraining
   real     X as it is
   relab    X with its sign identities randomly permuted (structure kept, identities gone)
+  relab2   a second, independent relabelling (relab2 - relab = null distribution of the ID measure)
   band     X relabelled only within frequency-rank bands of 8 (keeps approximate frequency identity)
   shuf     X tokens shuffled across the corpus, line lengths kept (same unigrams, no order)
   markov   random first-order Markov text, Zipfian, X's vocabulary size and line lengths
@@ -118,7 +119,9 @@ def make_x(xname, cond, seed):
     order = rank_order(X)
     nrow = min(len(order), NX)
     rowmap = {s: 3 + i for i, s in enumerate(order[:nrow])}
-    if cond == 'relab':
+    if cond in ('relab', 'relab2'):
+        if cond == 'relab2':
+            rng.random(); rng = random.Random(rng.random() + 17)   # an independent permutation (null for ID)
         rows = list(rowmap.values()); rng.shuffle(rows)
         rowmap = dict(zip(rowmap.keys(), rows))
     elif cond == 'band':

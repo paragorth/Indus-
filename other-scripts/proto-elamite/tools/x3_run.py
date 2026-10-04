@@ -8,7 +8,8 @@
 One job = (X, condition, seed): pretrain once, fine-tune on every Y. Scratch jobs = (Y, seed).
 Mode 'body' (real X only): pretrained MLP kept, embeddings re-initialised.
 Label mode is run only when >= 20% of Y's test tokens carry a label that X also has.
-2 worker processes, 1 thread each.
+2 worker processes, 1 thread each. X3_REPS=k: k fine-tune replicates (slice sample + init) per
+pretraining seed, fine-tune seed = 100 * pretrain seed + k.
 """
 import os, sys, json, random
 from multiprocessing import Pool
@@ -33,14 +34,19 @@ def overlap(xrowmap, te):
 def job(args):
     tag, kind, a, seed, ys, slice_tok = args
     out = []
+    reps = int(os.environ.get('X3_REPS', '1'))
+    fts = [seed if reps == 1 else seed * 100 + k for k in range(reps)]
     if kind == 'scratch':
-        ytr, va, te = ydata(a, seed, slice_tok)
-        r = X.finetune(None, X.y_map({}, [], ytr, 'rank'), ytr, va, te, seed)
-        out.append(dict(tag=tag, x=None, y=a, cond='scratch', mode='-', seed=seed, slice=slice_tok, **r))
+        for ft in fts:
+            ytr, va, te = ydata(a, ft, slice_tok)
+            r = X.finetune(None, X.y_map({}, [], ytr, 'rank'), ytr, va, te, ft)
+            out.append(dict(tag=tag, x=None, y=a, cond='scratch', mode='-', seed=ft, pseed=seed, slice=slice_tok, **r))
         return out
     xname, cond = a
     sd, rowmap, xo = X.pretrain(xname, cond, seed)
-    for y in ys:
+    for y, ft in ((y, ft) for y in ys for ft in fts):
+        seed_ = seed
+        seed = ft
         ytr, va, te = ydata(y, seed, slice_tok)
         ov = overlap(rowmap, te)
         modes = ['rank'] + (['label'] if ov >= 0.2 else [])
@@ -49,8 +55,9 @@ def job(args):
         for mode in modes:
             m = X.y_map(rowmap, xo, ytr, 'rank' if mode == 'body' else mode)
             r = X.finetune(sd, m, ytr, va, te, seed, body_only=(mode == 'body'))
-            out.append(dict(tag=tag, x=xname, y=y, cond=cond, mode=mode, seed=seed, slice=slice_tok,
+            out.append(dict(tag=tag, x=xname, y=y, cond=cond, mode=mode, seed=seed, pseed=seed_, slice=slice_tok,
                             overlap=round(ov, 3), **r))
+        seed = seed_
     return out
 
 
@@ -69,7 +76,8 @@ def main():
     for x in xs:
         targets[x] = [y for y in ys if y != x]
     for x, y in extra:
-        targets.setdefault(x, []).append(y)
+        if y not in targets.setdefault(x, []):
+            targets[x].append(y)
     jobs = []
     for seed in seeds:
         for y in sorted(set(ys) | {y for _, y in extra}):

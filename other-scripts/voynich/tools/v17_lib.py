@@ -38,7 +38,7 @@ def voynich_paras(name='ZL3b', minlines=1):
             close()
             sec = (L.get('illus') or 'x') + (L.get('lang') or 'x')
             if sec not in MAIN_SECS: sec = 'other'
-            cur = {'folio': L['folio'], 'sec': sec, 'hand': L.get('hand'), 'lines': []}
+            cur = {'folio': L['folio'], 'sec': sec, 'hand': L.get('hand'), 'quire': L.get('quire'), 'lines': []}
         fol = L['folio']; cur['lines'].append(list(L['words']))
         if L.get('para_end'):
             close(); cur = None

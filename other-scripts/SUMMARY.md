@@ -15,6 +15,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - Linear Elamite values do not make the middles read as Elamite names (p = 0.65 against value shuffles).
 - The arithmetic joint fit missed its pre-set 70% bar.
 - No fixed ration per head.
+- No seasonal time order (pe11): a blind search for a yearly herd/harvest cycle across undated tablets finds only a loop of commodity types that a timeless mixture reproduces; calibrated on Ur III Drehem tablets with known months, the method needs a season about 40x stronger than real herd accounts carry.
 
 **Open:** the phonetic layer. The varied middles say "maybe", and the name test says "not with these values".
 
