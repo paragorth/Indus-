@@ -10,7 +10,8 @@ Measures, per corpus x budget x seed x condition:
               sprob random sign-partition probes (300, lags 1-6): held-out survivors
   word level  random probes on the document word stream (1,000: 200 each of freq / random / len / first /
               last class maps, lags 1-4), survivors = |z_A| >= 3 and z_B >= 2 same sign on a random half split
-Conditions: real; rand0/rand1 (each doc read in a random direction: exact null, survivors must be ~0);
+Conditions: real; rand0/rand1 (each doc read in a random direction: exact null, survivors must be ~0; word
+level reverses word order only, sign level reverses everything);
 body (first and last line of every doc dropped: header / total layout control); generators fitted to the
 same subsample (WBG word bigram, TRI sign trigram, SLOT independent words, CPV copy-and-vary).
 Out: data/x4_ckpt/c1/<job>.json, loops/x4_cycle1.txt (rows written by x4_cycle1_sum.py).
@@ -130,17 +131,23 @@ def run(job):
     base = X.subsample(C, budget, seed)
     rng = random.Random(zlib.crc32(f'{name}{budget}{seed}{cond}'.encode()))
     if cond == 'real': docs = base
-    elif cond.startswith('rand'): docs = [rev_doc(d) if rng.random() < 0.5 else d for d in base]
+    elif cond.startswith('rand'):
+        flips = [rng.random() < 0.5 for d in base]
+        docs = [rev_doc(d) if f else d for d, f in zip(base, flips)]
+        # word level: reverse word ORDER only (reversed spellings would be new word types and break the null)
+        docs_w = [[l[::-1] for l in d[::-1]] if f else d for d, f in zip(base, flips)]
     elif cond == 'body': docs = X.body_only(base)
     else: docs = X.GENS[cond](base, rng)
-    docs = [d for d in docs if X.ntok([d])]
+    if not cond.startswith('rand'): docs_w = docs
+    keep = [i for i, d in enumerate(docs) if X.ntok([d])]
+    docs = [docs[i] for i in keep]; docs_w = [docs_w[i] for i in keep]
     res = {'name': name, 'budget': budget, 'seed': seed, 'cond': cond, 'ndoc': len(docs), 'ntok': X.ntok(docs)}
     split = random.Random(5 + seed)
     A = set(split.sample(range(len(docs)), len(docs) // 2))
     # word probes
-    gf = Counter(w for d in docs for w in X.stream(d))
+    gf = Counter(w for d in docs_w for w in X.stream(d))
     alpha = sorted(gf)
-    wseq = [[X.stream(d)] for d in docs]
+    wseq = [[X.stream(d)] for d in docs_w]
     res['wsurv'], res['wdisc'] = probe_run(wseq, alpha, word_classes(alpha, gf, None), range(1, 5),
                                            NPK * 5, A, random.Random(17))
     # sign probes
@@ -167,7 +174,6 @@ def jobs():
         for name in X.LIST + ['VOY'] + X.PROSE:
             if X.ntok(C[name]) < budget * 0.95: continue
             for seed in (0, 1):
-                if budget == 3000 and name == 'LA_E' and seed == 1: pass
                 for cond in ['real', 'rand0', 'rand1', 'body', 'WBG', 'TRI', 'SLOT', 'CPV']:
                     J.append((name, budget, seed, cond))
     return J

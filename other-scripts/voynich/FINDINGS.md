@@ -656,3 +656,9 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - An exhaustive single-glyph substitution matrix passed its controls. Featural plants in Hangul and German came out on top with a shared stroke change, and 0 of 7 arbitrary plants and keys were significant.
 - Grade B: A to B targets one stroke class. It drops the four benched gallows at word start: per 1,000 words, cth falls from 36 to 2.6, ckh from 13 to 1.3, cph from 7.3 to 1.5 and cfh from 2.2 to 0.3. It holds within the herbal section. No shared stroke change appears among the top swaps, which is the spelling-change pattern, not the sound-change pattern.
 - Kill test fired: the bench-removed forms do not rise in B, so B uses different words there. "Featural sound change" is killed.
+
+## Spelling drift as a clock (v41)
+- Controls: spelling traits ordered 97 dated German texts by date (rho 0.63–0.75). Within one manuscript the traits did not move together. Planted drift was caught when it rewrote up to about 20% of words. The method cannot tell gradual drift from a mix of two states.
+- Grade B: every hand has a coherent A-to-B spelling axis from page to page (z +4 to +11, both transcriptions). Endings and e-load drift together inside a hand. Word-initial benched gallows do not: losing them is a jump between groups.
+- Grade B: in Currier B, each bifolio is one moment in time. The two sides of a leaf and conjugate leaves sit close on the clock (z −2.4 to −3.4), fitting v8.
+- Grade C: hand 1 rises only between quires (mainly D, G and O). Intermediate pages come in whole quires. Section shifts the clock more than hand does. No page-level writing order is recoverable.
