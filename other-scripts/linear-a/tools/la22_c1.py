@@ -141,17 +141,19 @@ def random_ensemble(LP, y, foldA, foldB, names, nrand, rng, allowed=None, topk=2
     base = names.index('FREQ') if 'FREQ' in names else names.index('GLOB')
     cands = []
     lA = []
+    LPA = np.ascontiguousarray(LP[foldA]); yA = y[foldA]
     for r in range(nrand):
         m = (rng.random(E) < 0.5) & allow; m[base] = True
         w = rng.exponential(1.0, E) * m
         w = w / max(w.sum(), 1e-9) * rng.uniform(0.6, 2.5)
         eps = 10 ** rng.uniform(-4, -1)
         kind = 'lin' if rng.random() < 0.5 else 'log'
-        P = combine(LP[foldA], w, eps, kind)
-        ll = -np.log(P[np.arange(len(P)), y[foldA]] + 1e-12).mean()
+        P = combine(LPA, w, eps, kind)
+        ll = -np.log(P[np.arange(len(P)), yA] + 1e-12).mean()
         cands.append((w, eps, kind)); lA.append(ll)
     order = np.argsort(lA)[:topk]
-    PB = np.mean([combine(LP[foldB], *cands[k]) for k in order], 0)
+    LPB = np.ascontiguousarray(LP[foldB])
+    PB = np.mean([combine(LPB, *cands[k]) for k in order], 0)
     wbar = np.mean([cands[k][0] for k in order], 0)
     random_ensemble.last = [cands[k] for k in order]
     return PB, wbar, np.array(lA), order

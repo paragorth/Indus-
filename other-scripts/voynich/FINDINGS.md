@@ -581,3 +581,10 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - 62,000 simulated societies evolve scripts for ledger or text worlds; ABC on blind statistics with Ur III, LB, Latin, Italian and shuffled controls.
 - The Voynich fits a text world in a ~15-25-sign system: long words of tight length, almost every word ending in a 1-4-sign end set, and a marker sign opening ~30-40% of lines (grade C; marker rate is identifiable, Latin 0.03). The box-1 guess that it needs homophone/null secrecy was killed (0.82 -> 0.06-0.14) once positional grammar was allowed.
 - No world reproduces the coupling across the word space (last sign -> next word's first sign, +4.7 sd). Held-out predictions 1/4. Not cracked.
+
+## Arrow of time (v23)
+- The method works on its controls. Hebrew in reading order and in display order give opposite signs, and planted reversed Latin flips sign.
+- Glyph level, grade A: irreversibility is 2–4× that of any language (4.4 vs 1.5–2.5 bits). An order-3 glyph Markov chain reproduces all of it, so it is local spelling, not language.
+- Word level, grade B: the Voynich arrows are spelling and word-junction arrows only. None rides on word frequency (0 of 378 probes, against 48–73 in Latin, Italian and German). There is no arrow two words apart.
+- Direction, grade C: the Voynich compresses slightly better reversed, while every language compresses better forward. The effect is weak, and the glyph chain also produces it.
+- A paragraph-level "introduce, then reuse" asymmetry was killed: it comes entirely from paragraph-first lines.

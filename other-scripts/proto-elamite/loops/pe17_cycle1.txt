@@ -1,0 +1,23 @@
+pe17 cycle 1 -- PREDICT THE CLAY BEFORE LOOKING: blind plateau-likeness ranking, frozen before the hXRF table was read.
+Tools: tools/pe17_common.py (717 features: SIGN 5-tablet base signs, VAR variant forms, NUM numeral types, FMT 13 format
+measures, BIG within-line bigrams), tools/pe17_engine.py (random hypotheses: family subset x 3-80 features x
+{centroid, Bernoulli NB, L2/L1 logistic, random C}; Susa negatives re-weighted to the positives' length mix),
+tools/pe17_cycle1.py. Corpus: 1,494 Susa vs 67 plateau tablets (Malyan 20, Yahya 27, Other 20 = Sialk, Sofalin,
+Ozbaki, Shahr-i Sokhta) with >= 1 line. Run 4 Oct 2026 on a shared machine (2 workers).
+Frozen: data/pe17_frozen_ranking.json, content sha256 78afe813ddd63e96f5c90adfeb60afb75d86f5d175936da19e673d425934e828
+(file sha256 ca20e5aa2a5cb387657e1c301c3563306e9e6ae898214e789a178ad81a454003). Written at 14:5x UTC, before the
+Yeganeh et al. 2025 manuscript was downloaded. Caveat: CONTEXT.md already said "ST-11 = Yahya clay", but not which
+CDLI tablet ST-11 is; the ranking cannot use that.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-17.1a | 2,000 random classifiers plateau vs Susa; select top 10% by leave-site-out AUC (Malyan, Yahya held out); RE-TEST on the 20 'Other' plateau tablets never used for selection. NULL: 10 runs x 300 hypotheses with site labels permuted within length bins, same selection | real: all hyps AUC M/Y/O 0.55/0.55/0.60; survivors re-test (Other) 0.693. Null survivors' Other AUC 0.49-0.63 (max 0.629, 0/10 >= real) | PASS: a plateau-vs-Susa fingerprint exists beyond length (p < 0.1 at 10 nulls; effect modest, AUC ~0.69) |
+| PE-17.1b | PLANT P1 (hidden real imports): 10 Yahya + 6 Malyan tablets relabelled 'Susa' and withheld; their rank among Susa | AUC 0.785, 0.788, 0.745, 0.730, 0.683 (mean 0.75) | PASS (moderate): a real plateau tablet hidden at Susa ranks in the top quarter on average, not at the top |
+| PE-17.1c | PLANT P2 (synthetic hand): 3 random rare features switched on in half the plateau tablets and 15 Susa tablets | AUC 1.000 in 5/5 (all-hypothesis mean 0.84-0.95) | PASS: a shared scribal tic would be found |
+| PE-17.1d | Which features carry it: family share among survivors vs all hypotheses; per-feature enrichment | SIGN 0.77 vs 0.48, FMT 0.57 vs 0.46; VAR 0.40, NUM 0.30, BIG 0.33 (depleted). Top: M157, M136, M072, M158, M379, M264, M269, M278, M218, M288, M388 (enrichment 2.7-5.0) | the fingerprint is WHICH signs are used, not variant choice or numeral system |
+| PE-17.1e | What the top-ranked Susa tablets are | top 15: CahDAFI 1 (stratified Acropole), EMSP 71-72, TCL 32, RA 50 numerical/early tablets, MDP 26 | CONFOUND: 'plateau-like' largely = early/short-format Susa writing (plateau texts are mostly short); chronology and site are entangled |
+| PE-17.1f | Malyan vs Yahya: 2,000 random centroid/NB hypotheses, leave-one-tablet-out over 47 tablets | ensemble AUC 0.79 (mean single hypothesis 0.57) | the two plateau sites write differently (B); per-tablet origin scores frozen as yahya_vs_malyan_loo |
+
+Frozen predictions for a human or later cycle: Susa tablets ranked by plateau_score (primary) and within-length-bin
+percentile (secondary); plateau tablets' out-of-group Susa-likeness (low plateau_score_out_of_group = Susa-like) and
+Yahya-vs-Malyan LOO score (Malyan tablets with high values look Yahya-like; Yahya tablets with low values look Malyan-like).
