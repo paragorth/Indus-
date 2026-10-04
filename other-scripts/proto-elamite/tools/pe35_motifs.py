@@ -17,8 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, '..', 'data')
 SCAN = os.path.join(DATA, 'pe35_ckpt', 'louvre_scan.jsonl')
 OUT = os.path.join(DATA, 'pe35_seal_motifs.json')
-RULES = [('BOVID', r'taureau|bovin|boeuf|bison|vache|veau|zebu'),
-         ('CAPRID', r'bouquetin|chevre|caprin|capride|mouflon|belier|mouton|antilope|gazelle|cerf|ovin'),
+RULES = [('BOVID', r'taureau|bovin|bovide|boeuf|bison|vache|veau|zebu'),
+         ('CAPRID', r'bouquetin|chevre|caprin|capride|mouflon|belier|mouton|antilope|gazelle|cerf|ovin|ibex'),
          ('FELINE', r'lion|felin|panthere|leopard'), ('CANID', r'chien|canide|loup'),
          ('BIRD', r'oiseau|aigle|rapace'), ('MONSTER', r'monstre|griffon|composite|dragon'),
          ('HUMAN', r'personnage|homme|humain'), ('ANTHRO', r'attitude humaine|anthropomorph|genie'),
@@ -55,6 +55,15 @@ def scene_text(d):
     s = re.sub(r'(?i)signes proto-élamites|inscription|proto-élamite', ' ', s)
     s = re.sub(r'(?i)scellements?|tablettes?|empreintes? de (sceaux?|cylindres?)( cylindre)?|oblitérée?', ' ', s)
     return s
+
+
+SCENE = r'animal|animaux|frise|globule|ligne|fleur|scene|bande|personnage|arbre|rameau|montagne|motif|figure'
+
+
+def described(r):
+    """the record describes a seal picture: mentions an impression and has scene words or a coded feature"""
+    t = norm((r.get('desc') or '') + ' ' + (r.get('title') or ''))
+    return bool(r['_feat']) or (('empreinte' in t or 'scellement' in t or 'sceau' in t) and re.search(SCENE, norm(r['_txt'])) is not None)
 
 
 def amiet_nos(d):
@@ -102,7 +111,7 @@ def build():
             links.append('photograph %s (coded here, depicted content)' % src); feats |= ff; desc.append(dsc)
             seals.append('SB%d' % sb)
         for r in own:
-            if r['_feat'] and sb not in MANUAL:
+            if described(r) and sb not in MANUAL:
                 links.append('Louvre %s (%s) description' % (r['num'], r['ark'])); feats |= r['_feat']; desc.append(r['_txt'][:200])
                 seals += ['A%d' % a for a in amiet_nos(r)] or ['SB%d' % sb]
         amiets = set(x for x in pes.get(p, []) if x >= 340)
@@ -110,12 +119,12 @@ def build():
             amiets |= set(amiet_nos(r))
         for a in sorted(amiets):
             for r in by_amiet.get(a, []):
-                if r['_feat'] and r not in own:
+                if described(r) and r not in own:
                     links.append('Amiet MDP 43 n. %d: Louvre %s (%s) description' % (a, r['num'], r['ark']))
                     feats |= r['_feat']; desc.append(r['_txt'][:200]); seals.append('A%d' % a)
-        if feats - {'GEOM'} or feats:
-            if not links:
-                continue
+        if not links:
+            continue
+        if True:
             seal = sorted(set(seals))[0] if seals else 'SB%s' % sb
             rows.append({'id': p, 'designation': m['designation'], 'museum_no': m.get('museum_no'), 'seal': seal,
                          'amiet': sorted(amiets), 'features': sorted(feats), 'links': links, 'describes': desc,

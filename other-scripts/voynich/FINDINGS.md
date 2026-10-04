@@ -691,3 +691,13 @@ The meaningless, asemic and generator readings are long-known hypotheses, not ne
 ## Plant drawings and text (v38)
 - Grade B: the herbal text does not track its plant drawings the way a real herbal does. Gerard's woodcuts predict the words of unseen pages (rank 0.60, network composite z 5.6 at the Voynich page count). The Voynich gives rank 0.49 and z 2.9.
 - Grade C, kept as a meaning lead: a faint, diffuse picture-text resemblance remains in Currier A hand 1. It reaches z about 3 across four image networks and both transcriptions, and survives production drift and layout controls. It becomes marginal after a handwriting-image partial. No single nameable trait carries it.
+
+## The page chooses the twin? (v40, 4 Oct 2026; `loops/v40_final.txt`)
+- Question: if k~t, ch~sh, p~f and the benched gallows are near-interchangeable (v35, v39), what decides which form is written: the word (meaning), the page layout (glyph above, ink load) or position and habit?
+- Controls pass: a real context allograph (long s, r rotunda in DTA prints) is attributed entirely to neighbouring letters; real meaning letters (Caesar c/g, n/m) show a word-identity gain of ~0.11 bit; a planted "avoid tall under tall" rule is found at 6% of slots (3% missed); a planted copy rule at 5%; the layout search finds nothing in the long-s text.
+- Grade A (measurement, ZL and IT2a): word identity carries no information about k/t or ch/sh beyond the adjacent glyphs (unique gain -0.002 to -0.005 bit). Benched vs plain is decided by neighbouring glyphs (0.22 bit), like long s.
+- Grade B negative: no glyph-above or tall-under-tall rule in any twin; no ink-load (pen-dip) effect on 25 imaged pages.
+- Grade A measurement / B reading: ch/sh is positional. The same word-shape on the same page is written sh with odds x3.4 in a paragraph's first line, x2.3 in a line's first word, x0.6 in the right half of a line. k/t leans to t in first lines (x1.7) and toward the right (x1.3).
+- Grade A measurement / B reading: a short-range hand habit. The previous k/t (or ch/sh) in the line predicts the next in a different word, fading within ~30 glyphs (5 words); it survives all layout features; ch/sh resets at each line. Benched and p/f do not persist.
+- Grade C reading: k~t and ch~sh are each one unit whose visible form is chosen by line position and a decaying stylistic run, not by meaning. Would kill: a scribe or section where the same word-shape keeps one form regardless of position and run, or k-/t-words in complementary semantic contexts beyond frequency.
+
