@@ -399,3 +399,35 @@ def draw_ruler(J, rng, med):
     """Nuisance draws around a ruler's class medians (log-sd 0.3), same sigma prior."""
     M = med[None, :] * np.exp(rng.normal(0, 0.3, (J, len(med))))
     return M, rng.uniform(0.15, 0.6, J)
+
+
+def tab_period_post(la, gi, gt, T, M, sig, rng, lu, periods=PERIODS, eps=0.05, kprior=None):
+    """Per-tablet posterior over periods at a fixed log u, averaged over nuisance draws."""
+    J, C = M.shape
+    lD = np.log(np.asarray(periods))
+    span = la.max() - la.min() + 2.0
+    lo = np.log(eps) - np.log(span)
+    ng = gi.max() + 1
+    acc = np.zeros((T, len(periods)))
+    for j in range(J):
+        pi = rng.dirichlet(np.ones(C))
+        mu = np.log(M[j])[None, :, None] + lD[None, None, :] - lu
+        ks, lwk = kprior if kprior else ([1.0], [0.0])
+        f = None
+        for kk, wk in zip(ks, lwk):
+            z = (la[:, None, None] - mu - np.log(kk)) / sig[j]
+            fk = -0.5 * z * z - np.log(sig[j] * np.sqrt(2 * np.pi)) + wk
+            f = fk if f is None else np.logaddexp(f, fk)
+        f = np.logaddexp(f + np.log(1 - eps), lo)
+        S = np.zeros((ng, C, len(periods)))
+        np.add.at(S, gi, f)
+        S = np.logaddexp.reduce(S + np.log(pi)[None, :, None], axis=1)
+        TT = np.zeros((T, len(periods)))
+        np.add.at(TT, gt, S)
+        TT -= np.logaddexp.reduce(TT, axis=1, keepdims=True)
+        acc += np.exp(TT)
+    return acc / J
+
+
+def ur3_for_model(U):
+    return [dict(u, label=u['noun']) for u in U]
