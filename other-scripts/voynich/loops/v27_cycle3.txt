@@ -1,0 +1,18 @@
+# v27 cycle 3: TWO WITNESSES + MASSIVE RANDOM GUESSING (tools/v27_cycle3.py, tools/v27_report3.py)
+# If body lines are shuffled cards of a once-continuous text, two independent witnesses must point to the same
+# hidden successors without the written order. Witness A = a junction hypothesis (feature of the LAST word of line i
+# -> feature of the FIRST word of line j; table trained only on within-line word pairs); witness B = idf-weighted
+# shared words of line INTERIORS (first and last words excluded). Per paragraph (3-12 lines, B non-empty; head
+# fixed; exact DP; random tie-breaking) the best A-path and B-path are compared: shared undirected edges minus the
+# random-path expectation -> z summed over paragraphs. 2,000 random hypotheses (end feature x start feature from
+# {last 1/2/3 glyphs, first 1/2 glyphs, length, first+last, whole word} x random glyph-class merges into 2-10 classes)
+# per corpus version, 11 versions (~22,000 hypothesis runs, ~5 CPU-h). Analysis uses the ~860 hypotheses whose
+# A-features touch only the line-final and line-initial words (disjoint from B).
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-27.3.0 | ARTEFACT check: hypothesis #7 shared witness B's tie-breaking jitter seed | It alone gave z 15.6 (Italian) and 8.3 (Latin) | Caught and excluded: identical tie-breaks make two witnesses 'agree'. Also excluded: hypotheses using penultimate / second words (they overlap witness B) |
+| V-27.3.1 | POSITIVE Italian herbal vs its cross-page null (same hypotheses, paired) | Mean z 0.42 vs 0.10; paired diff +0.28, 58% of hypotheses higher; whole-word junction witness z 2.3 vs -0.7; 1 survivor on even pages, 0 replicate on odd pages | Passes only weakly: the two-witness agreement is real in prose but small |
+| V-27.3.2 | POSITIVE Latin Isidore vs its cross-page null | Mean z -0.15 vs -0.12; paired diff -0.02; whole-word witness -0.5 | FAILS: no detectable agreement in Latin |
+| V-27.3.3 | PLANTED ZL F3 + hidden continuity (junction rho .3, word copy rho .3) | Mean z 0.11 (cross nulls 0.16-0.18, F5 -0.03); max 4.1; whole-word 1.3 (cross 1.3-1.8); 0 survivors | NOT FOUND: the plant puts both witnesses on the same join in only ~9% of joins; the test is blind at this strength |
+| V-27.3.4 | VOYNICH ZL3b and IT2a vs cross-page (2 seeds) and F5 nulls; survivors = z > 3 and > every null's 99th pct on even pages, re-tested on odd pages and IT2a | ZL mean z -0.09 (nulls -0.03 to 0.18), max 2.5, paired vs cross -0.17 (44% higher), vs F5 0.00; whole-word 0.56; IT2a -0.19 vs 0.05. 1 even-page survivor, 0 replicate | Nothing: the junction and content witnesses never agree on hidden successors beyond the nulls |
+| V-27.3 | Cycle verdict | - | No hidden successors found by ~860 clean random junction hypotheses x 2 transcriptions, but the two-witness test is weak (Italian +0.28 z shift, Latin and a moderate plant not found). Negative result is uninformative on its own; it adds nothing against cycle 1. Grade C (underpowered) |

@@ -86,6 +86,7 @@ sdocs = C.defaultdict(list)
 for dd in corpus():
     s = LA_NAME.get(dd['site'])
     if s is None or s in ('KEA', 'MI'): continue
+    if os.environ.get('ADMIN') == '1' and dd['support'] not in ADMIN_SUPPORTS: continue
     cc = C.Counter()
     for t in dd['tokens']:
         if t['t'] == 'word':

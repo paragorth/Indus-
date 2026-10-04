@@ -7,6 +7,7 @@ if __name__ == '__main__':
     out = {}
     for f in sorted(glob.glob(os.path.join(CK, 'c3_*.json'))):
         n = os.path.basename(f)[3:-5]
+        if n == 'report': continue
         D = json.load(open(f))
         rows = defaultdict(list)
         for key, v in D.items():

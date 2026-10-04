@@ -46,13 +46,19 @@ def la_commodity(unit='doc'):
     return out
 
 
+ADMIN_SUPPORTS = {'Tablet', 'Nodule', 'Roundel', 'Lames (short thin tablet)', 'Sealing', '3-sided bar',
+                  '4-sided bar', 'Label'}
+
+
 def la_signs():
     """{site: Counter(sign)} over syllabic signs inside words + logogram bases (prefixed 'L:'),
     and site document counts."""
     out = C.defaultdict(C.Counter); nd = C.Counter()
+    adm = os.environ.get('ADMIN') == '1'
     for d in corpus():
         s = LA_NAME.get(d['site'])
         if s is None: continue
+        if adm and d['support'] not in ADMIN_SUPPORTS: continue
         nd[s] += 1
         for t in d['tokens']:
             if t['t'] == 'word':
