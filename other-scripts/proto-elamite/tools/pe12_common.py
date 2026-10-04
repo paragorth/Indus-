@@ -147,6 +147,12 @@ def slot_entries(E, slot):
 # ------------------------------------------------------------------ features
 def _code(vals, cap=40):
     """Map arbitrary hashable values to ints, rare values pooled into one code."""
+    if isinstance(vals, np.ndarray) and vals.dtype.kind in 'iub':
+        u, inv, cnt = np.unique(vals, return_inverse=True, return_counts=True)
+        rank = np.empty(len(u), dtype=np.int64)
+        o = np.argsort(-cnt, kind='stable')
+        rank[o] = np.arange(len(u))
+        return np.minimum(rank[inv], cap - 1).astype(np.int64), min(cap, len(u))
     c = Counter(vals)
     top = [v for v, _ in c.most_common(cap - 1)]
     m = {v: i for i, v in enumerate(top)}
@@ -195,7 +201,7 @@ def single_features(ents, oth, V, allE, slot_of_entry):
     """name -> (codes, card, family)."""
     F = {}
     def put(name, vals, fam, cap=40):
-        c, k = _code(list(vals), cap)
+        c, k = _code(vals if isinstance(vals, np.ndarray) else list(vals), cap)
         if k >= 2:
             F[name] = (c, k, fam)
     # ARITH
@@ -242,9 +248,9 @@ def single_features(ents, oth, V, allE, slot_of_entry):
 
 def random_hashes(V, n, rng, vars_=None):
     """n random sparse modular hashes: (sum a_i var_i + b) mod k."""
+    # numeral-only variables (positional / sign-count variables belong to CTX, not ARITH)
     vars_ = vars_ or ['c_N01', 'c_N14', 'c_N45', 'c_N34', 'c_N39B', 'c_N24', 'c_N30C', 'c_N30D',
-                      'c_frac', 'ntok', 'nsg', 'idx', 'ridx', 'nent', 'vint', 'v2int', 'cum_ex',
-                      'tabsum', 'prev_v']
+                      'c_frac', 'ntok', 'vint', 'v2int', 'cum_ex', 'tabsum', 'prev_v']
     M = np.stack([V[v] for v in vars_]).astype(np.int64)
     H, desc = [], []
     for _ in range(n):

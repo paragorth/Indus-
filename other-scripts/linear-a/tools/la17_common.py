@@ -191,3 +191,9 @@ def simulate(p, E, D, M, rng, target_types):
 def theta_vec(p, K):
     keys = ['alpha', 'logbeta', 'logL', 'g', 'phi', 'gamma', 's']
     return np.concatenate([[p['src']], p['t'], p.get('tau', np.ones(K)), [p[k] for k in keys]])
+
+
+def build_signs(docs, sites):
+    """Sign types as pathogens: site x syllabic-sign incidence, effort = sign tokens."""
+    dd = [dict(site=d['site'], words=list(d['signs'])) for d in docs]
+    return build(dd, sites)
