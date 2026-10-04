@@ -21,6 +21,10 @@ def corpus(tag):
     if tag.startswith('LBd'):
         ntok = L.Corpus(L.la_words()).ntok
         c = L.Corpus(L.lb_draw(ntok, int(tag[3:])), name=tag); s, P = L.la21_for('LB'); c.set_la21(s, P); return c
+    if tag.startswith('LBs'):   # LB drawn at LA size, signs shuffled inside words
+        ntok = L.Corpus(L.la_words()).ntok
+        c = L.Corpus(L.shuffle_words(L.lb_draw(ntok, int(tag[3:])), 900 + int(tag[3:])), name=tag)
+        s, P = L.la21_for('LB'); c.set_la21(s, P); return c
     if tag == 'CYP':
         return L.Corpus(L.cyp_words(), name=tag)
     if tag == 'LA':

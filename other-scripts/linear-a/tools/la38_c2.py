@@ -14,3 +14,5 @@ if __name__ == '__main__':
         jobs = [(f'LAsh{k}', t, 10_000, 70 + k, None) for k in range(5) for t in TIERS]
         jobs += [('LA', t, 1000, 500 + f, f) for f in range(100) for t in TIERS]
         run(jobs, 'c2_neg.json')
+    elif stage == 'lbsh':
+        run([(f'LBs{d}', t, 10_000, 80 + d, None) for d in range(5) for t in ('R2a', 'R3')], 'c2_lbsh.json')
