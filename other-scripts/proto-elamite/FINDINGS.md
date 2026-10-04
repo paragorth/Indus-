@@ -440,3 +440,6 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Calibration: with contemporary Kaftari bones, the Ur III goat terms are found (rank 1 of 204, p 0.009) but the sheep terms are not (rank 39). The scribes counted rams plus wethers and weaned lambs, not the biological herd. So a bone mismatch cannot kill a reading. pe20's M362/M367/M006 labels fit the bones badly (young/F 0.23, males/F 0.10), but they stay C. Best PE triple (post hoc, C-): M346 adult F, M346~a young, M006 male (posterior 0.05).
 - Not cracked. Nothing read.
 
+
+## x4 cross-script battery (4 Oct 2026)
+Proto-Elamite groups with proto-cuneiform (grade B). Grade C reading: entries are combinatorial designations rather than running language. Would support: a held-out tablet whose sign combinations are predicted by productive combination rules. Would kill: language-like word-order arrows appearing in a larger corpus. Linear A cannot be placed with only 3,000 words (C).

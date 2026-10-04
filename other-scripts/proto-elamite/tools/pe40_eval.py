@@ -34,10 +34,10 @@ def evaluate(X, truth=None, period=None, nsplit=3, seed=0, iters=8000, restarts=
         res['KNN'].append(ranks(K, Xtr, hid))
         res['FREQ'].append(ranks(np.tile(Xtr.sum(0), (len(Xtr), 1)), Xtr, hid))
         for name, o, circ in (('RING', o1, True), ('LINE', o2, False)):
-            best = max((ranks(kernel_score(o, Xtr, circ, bw), Xtr, hid), bw) for bw in BW)
+            best = max((ranks(kernel_score(o, Xtr, circ, bw, dp), Xtr, hid), bw, dp) for bw in BW for dp in (0, 0.5, 1))
             res[name].append(best[0])
-            bw = best[1]
-            res[name + '_2nd'].append(ranks(kernel_score(o, Xtr, circ, bw), Xtr, second) if second else np.nan)
+            bw, dp = best[1], best[2]
+            res[name + '_2nd'].append(ranks(kernel_score(o, Xtr, circ, bw, dp), Xtr, second) if second else np.nan)
         res['BLOCK'].append(max(ranks(block_score(Xtr, k, rng), Xtr, hid) for k in KS))
         bk = max(KS, key=lambda k: ranks(block_score(Xtr, k, np.random.default_rng(1)), Xtr, hid))
         res['BLOCK_2nd'].append(ranks(block_score(Xtr, bk, rng), Xtr, second) if second else np.nan)

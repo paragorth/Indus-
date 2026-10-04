@@ -14,13 +14,23 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 bank, n, tag = sys.argv[1], int(sys.argv[2]), sys.argv[3]
 mode = sys.argv[4] if len(sys.argv) > 4 else 'all'
 nj = int(sys.argv[5]) if len(sys.argv) > 5 else 2
-names = A.panel_names() if mode == 'all' else A.VALUE_FREE
+# modes: all = raw panel; vf = value-free raw; delta = panel minus the panel of a global sign shuffle of the same
+# list (only statistics that a shuffle can change); both = raw + delta; vfdelta = value-free delta.
+INV = {'len2', 'len3', 'len4', 'len5p', 'H', 'zslope', 'nsign', 'mlen', 'sdlen'} | {k for k in A.panel_names() if k[:2] in ('v_', 's_')}
+DEL = [k for k in A.panel_names() if k not in INV]
+names = {'all': A.panel_names(), 'vf': A.VALUE_FREE, 'delta': ['d_' + k for k in DEL],
+         'both': A.panel_names() + ['d_' + k for k in DEL],
+         'vfdelta': ['d_' + k for k in A.VALUE_FREE if k not in INV]}[mode]
+def feat(f, fs):
+    g = dict(f)
+    for k in DEL: g['d_' + k] = f[k] - fs[k]
+    return [g[k] for k in names]
 rows = []
 for fn in sorted(glob.glob(bank)):
     for l in open(fn):
         r = json.loads(l)
         if r['f'] is not None: rows.append(r)
-X = np.array([[r['f'][k] for k in names] for r in rows], float)
+X = np.array([feat(r['f'], r['fs']) for r in rows], float)
 X = np.nan_to_num(X)
 P = [r['P'] for r in rows]
 ym = np.array([p['morph'] for p in P]); ys = np.array([p['syl'] for p in P])
@@ -40,7 +50,8 @@ else:
     for i in range(5): T['LA_sub%d' % i] = random.Random(400 + i).sample(la, n)
     for i in range(5): T['LB_sub%d' % i] = random.Random(500 + i).sample(lb, n)
     for i in range(3): T['CYP_shufG%d' % i] = C5.shuffle_global(cy, random.Random(600 + i))
-TX = np.nan_to_num(np.array([[A.panel(t)[k] for k in names] for t in T.values()], float))
+TX = np.nan_to_num(np.array([feat(A.panel(t), A.panel(C5.shuffle_global(t, random.Random(999 + j))))
+                             for j, t in enumerate(T.values())], float))
 
 # where does each target sit relative to the simulated cloud? (Mahalanobis-free: share of sims farther, robust z)
 med = np.median(X, 0); mad = np.median(np.abs(X - med), 0) * 1.4826 + 1e-9

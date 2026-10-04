@@ -130,7 +130,7 @@ def battery(u):
 FEATS = ['h1', 'rmi1', 'rmi2', 'arrow', 'ic', 'top3']
 
 
-def lang_letter_stream(code, n, seg, skip=0):
+def lang_letter_stream(code, n, seg, skip=0, K=23):
     """letters of a reference language as a unit stream (letters -> ints by frequency rank), page breaks every seg."""
     src = {'la': 'plain/la.txt', 'cs': 'plain/cs.txt', 'de': 'pg22367.txt', 'it': 'pg1000.txt', 'es': 'pg2000.txt',
            'en': 'pg47342.txt', 'la2': 'pg218.txt', 'it2': 'pg45334.txt'}[code]
@@ -144,7 +144,7 @@ def lang_letter_stream(code, n, seg, skip=0):
     u = []
     for i, ch in enumerate(s):
         if i and i % seg == 0: u.append(-2)
-        u.append(min(rk[ch], 23))
+        u.append(rk[ch] % K if K < 23 else min(rk[ch], 23))
     return u
 
 
@@ -158,3 +158,55 @@ def lang_word_stream(code, n, seg, skip=0, K=63):
         if i and i % seg == 0: u.append(-2)
         u.append(rk.get(x, K))
     return u
+
+
+def lang_word_hash_stream(code, n, seg, skip=0):
+    import zlib
+    src = {'la': 'plain/la.txt', 'de': 'pg22367.txt', 'it': 'pg1000.txt', 'es': 'pg2000.txt', 'en': 'pg47342.txt'}[code]
+    t = open(os.path.join(VOY, 'data', src), encoding='utf-8', errors='replace').read().lower()
+    w = re.findall(r'[^\W\d_]+', t); w = w[len(w) // 10 + skip:][:n]
+    u = []
+    for i, x in enumerate(w):
+        if i and i % seg == 0: u.append(-2)
+        u.append(zlib.crc32(x.encode()) % 64)
+    return u
+
+
+def featvec(b):
+    return [b[f] for f in FEATS] + [math.log(max(b['n'], 1))]
+
+
+def train_clf(null_sets=('MK', 'REAL_LS1', 'REAL'), nneg=500, seed=0):
+    """language-likeness classifiers (glyph-unit and word-unit) on the substitution-invariant battery.
+    Positives: letter / word streams of 8 / 5 reference languages at the path-stream lengths; negatives: random
+    det-path streams on message-free Voynich-texture sets (Markov filler, line-shuffled pages)."""
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.pipeline import make_pipeline
+    rng = np.random.default_rng(seed)
+    unit, sel, start, m = spec_cols()
+    out = {}
+    for typ in ('glyph', 'word'):
+        isw = (unit == 0) & (sel >= 4)
+        pool = np.where(isw if typ == 'word' else ~isw)[0]
+        X = []; y = []
+        for sname in null_sets:
+            idx = np.sort(rng.choice(pool, nneg // len(null_sets), replace=False))
+            for k, u in streams(sname, idx, tag=f'clf_{sname}').items():
+                if sum(1 for v in u if v >= 0) < 300: continue
+                X.append(featvec(battery(u))); y.append(0)
+        langs = ['la', 'de', 'it', 'es', 'en', 'cs', 'la2', 'it2'] if typ == 'glyph' else ['la', 'de', 'it', 'es', 'en']
+        for code in langs:
+            for rep in range(25):
+                n = int(np.exp(rng.uniform(np.log(300), np.log(6000)))); seg = int(rng.integers(8, 40))
+                if typ == 'glyph': u = lang_letter_stream(code, n, seg, skip=rep * 7000, K=int(rng.integers(10, 24)))
+                elif rep % 2: u = lang_word_stream(code, n, seg, skip=rep * 3000)
+                else: u = lang_word_hash_stream(code, n, seg, skip=rep * 3000)
+                if sum(1 for v in u if v >= 0) < 300: continue
+                X.append(featvec(battery(u))); y.append(1)
+        X = np.array(X); y = np.array(y)
+        clf = make_pipeline(StandardScaler(), LogisticRegression(C=1.0, max_iter=2000)).fit(X, y)
+        from sklearn.model_selection import cross_val_score
+        acc = float(np.mean(cross_val_score(make_pipeline(StandardScaler(), LogisticRegression(C=1.0, max_iter=2000)), X, y, cv=5)))
+        out[typ] = (clf, acc, int(sum(y)), int(len(y) - sum(y)))
+    return out

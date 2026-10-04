@@ -333,3 +333,16 @@ class Scorer:
 METRICS = ['nosp', 'lid_ent', 'lid_max', 'lex', 'bnd', 'rhy']
 # sign so that larger = more speech-like
 SIGN = {'nosp': -1, 'lid_ent': -1, 'lid_max': 1, 'lex': 1, 'bnd': 1, 'rhy': 1}
+
+def extra_corpora(C):
+    """Cycle 2-3 additions: shuffles of the generators; Voynich sections and hands with own shuffles."""
+    E = {}
+    for k in ['G-selfcit', 'G-mk2']:
+        E[k + '~shuf'] = null_shuffle(C[k], seed=21)
+    for sec in ['H', 'S', 'B', 'P']:
+        w = voy_words('ZL3b', lambda r, s=sec: r.get('illus') == s)
+        E['V-sec' + sec] = w; E['V-sec' + sec + '~shuf'] = null_shuffle(w, seed=22)
+    for hd in ['1', '2', '3']:
+        w = voy_words('ZL3b', lambda r, h=hd: r.get('hand') == h)
+        E['V-hand' + hd] = w; E['V-hand' + hd + '~shuf'] = null_shuffle(w, seed=23)
+    return E

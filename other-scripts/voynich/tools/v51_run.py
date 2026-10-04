@@ -8,16 +8,28 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v51_lib as V
 
-tag, a, b = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+tag = sys.argv[1]
+if sys.argv[2].startswith('list:'):
+    MIDS = [int(x) for x in open(sys.argv[2][5:]).read().split()][int(sys.argv[3].split(':')[0]):int(sys.argv[3].split(':')[1])]
+    a = sys.argv[3].split(':')[0]
+else:
+    a, b = int(sys.argv[2]), int(sys.argv[3]); MIDS = list(range(a, b))
 names = sys.argv[4].split(',') if len(sys.argv) > 4 and sys.argv[4] != 'all' else None
 secs = float(sys.argv[5]) if len(sys.argv) > 5 else 6.0
 nclip = int(sys.argv[6]) if len(sys.argv) > 6 else 1
 
-C = V.corpora()
-C.update(V.extra_corpora()) if hasattr(V, 'extra_corpora') else None
-if names:
-    C = {k: C[k] for k in names}
-RI = {k: V.rank_index(w) for k, w in C.items()}
+C0 = V.corpora()
+if hasattr(V, 'extra_corpora'):
+    C0.update(V.extra_corpora(C0))
+if not names:
+    names = list(C0)
+# name@d / name@h = first / second half of the corpus (discovery / held-out); ranks from the full corpus
+C, RI = {}, {}
+for nm in names:
+    base, _, half = nm.partition('@')
+    w = C0[base]; h = len(w) // 2
+    C[nm] = w[:h] if half == 'd' else w[h:] if half == 'h' else w
+    RI[nm] = V.rank_index(w)
 S = V.Scorer(threads=1)
 out = os.path.join(V.CKPT, f'{tag}_{a}.jsonl')
 done = set()
@@ -26,7 +38,7 @@ if os.path.exists(out):
         r = json.loads(line); done.add(r['m'])
 f = open(out, 'a')
 t0 = time.time()
-for m in range(a, b):
+for m in MIDS:
     if m in done:
         continue
     M = V.random_mapping(np.random.default_rng(1000 + m))

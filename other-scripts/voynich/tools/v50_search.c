@@ -99,9 +99,11 @@ static void walk(const Spec *s, Page *pg, int i0, int iend, int within_line) {
 }
 
 static int MASK = 0; /* 0 all, 1 even, 2 odd */
+static int CAP = 6000;   /* stop adding pages once the stream holds CAP units (dense paths; keeps cost bounded) */
 static void make_stream(const Spec *s) {
     BN = 0;
     for (int p = 0; p < NP; p++) {
+        if (BN >= CAP) break;
         if (MASK == 1 && (p & 1)) continue;
         if (MASK == 2 && !(p & 1)) continue;
         Page *pg = &P[p];
@@ -116,14 +118,15 @@ static void make_stream(const Spec *s) {
 }
 
 /* ---------- scoring ---------- */
-static int CNT[MAXW * MAXW], RC[MAXW], CC[MAXW];
+static int CNT[MAXW * MAXW], RC[MAXW], CC[MAXW], TOUCH[MAXW * MAXW];
 static double mi1(const int *u, int n, int *npairs) {
-    memset(CNT, 0, sizeof CNT); memset(RC, 0, sizeof RC); memset(CC, 0, sizeof CC);
-    int N = 0;
-    for (int t = 0; t + 1 < n; t++) { int x = u[t], y = u[t + 1]; if (x < 0 || y < 0) continue; CNT[x * MAXW + y]++; RC[x]++; CC[y]++; N++; }
-    *npairs = N; if (N < 2) return 0;
-    double s = 0; for (int c = 0; c < MAXW * MAXW; c++) if (CNT[c]) s += nlogn(CNT[c]);
-    for (int c = 0; c < MAXW; c++) { if (RC[c]) s -= nlogn(RC[c]); if (CC[c]) s -= nlogn(CC[c]); }
+    int N = 0, nt = 0;
+    for (int t = 0; t + 1 < n; t++) { int x = u[t], y = u[t + 1]; if (x < 0 || y < 0) continue;
+        int c = x * MAXW + y; if (!CNT[c]++) TOUCH[nt++] = c; RC[x]++; CC[y]++; N++; }
+    *npairs = N;
+    double s = 0; for (int q = 0; q < nt; q++) { s += nlogn(CNT[TOUCH[q]]); CNT[TOUCH[q]] = 0; }
+    for (int c = 0; c < MAXW; c++) { if (RC[c]) s -= nlogn(RC[c]); if (CC[c]) s -= nlogn(CC[c]); RC[c] = CC[c] = 0; }
+    if (N < 2) return 0;
     return (s + nlogn(N)) / N;
 }
 static uint64_t RS;
@@ -211,6 +214,7 @@ static void build_rand(int n, uint64_t seed) {
 int main(int argc, char **argv) {
     if (argc < 6) { fprintf(stderr, "usage\n"); return 1; }
     readset(argv[1]);
+    if (getenv("V50_CAP")) CAP = atoi(getenv("V50_CAP"));
     if (argc > 6) MASK = !strcmp(argv[6], "even") ? 1 : !strcmp(argv[6], "odd") ? 2 : 0;
     NLN = 1 << 20; NLOGN = malloc(sizeof(double) * NLN); NLOGN[0] = 0; for (int c = 1; c < NLN; c++) NLOGN[c] = c * log2((double)c);
     BCAP = 1 << 16; BUF = malloc(sizeof(int) * BCAP);

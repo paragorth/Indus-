@@ -3,7 +3,7 @@
 Corpora (all at Linear A size, ~5,245 tokens incl. numbers): PLANT (made-up administration with known meanings),
 UR3 (Ur III admin texts reduced to opaque word ids + numbers), LB (KN+PY reduced to opaque ids + numbers), LA,
 LA_S1 (type identities shuffled over slots), LA_S2 (tokens shuffled inside documents).
-6 independent populations per corpus (own split, own seed), 8 Proposers x 6 Critics, 40 rounds.
+6 independent populations per corpus (own split, own seed), 12 Proposers x 6 Critics, 120 rounds.
 Usage: la45_c1.py [rounds] [npop]"""
 import sys, os, json, random, time
 from multiprocessing import Pool

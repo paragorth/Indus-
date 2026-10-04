@@ -12,7 +12,7 @@ Adversarial self-play over word meanings.
             that hurts the Proposers most. It scores held-out bits gained over a one-meaning model
             and counts CONTRADICTIONS: held-out occurrences that the meanings call (near-)impossible
             (any frame or transition with predictive probability < 0.01 in a row seen >= 30 times).
-  Population-based training: 8 Proposers x 6 Critics per population; worst Proposers copy the best
+  Population-based training: 12 Proposers x 6 Critics per population; worst Proposers copy the best
   and perturb lambda / Kmax; the least damaging Critic copies the most damaging and swaps documents.
   Independent populations (different seeds and splits) are compared at the end.
 The abstract vocabulary names (TOTAL, COMMODITY, ENTRY, HEADER, TERM, RARE) are attached to meanings by
@@ -442,7 +442,7 @@ def gibbs_sweep(assign, Kmax, order, otype, oprev, octx, F, card, omask, tcount,
 
 @njit(cache=True)
 def heldout(assign, Kmax, otype, oprev, octx, F, card, trmask, temask, tcount, alpha, beta, gamma, eps, minrow,
-            out_occ):
+            out_occ, minc):
     """Predictive scoring of test occurrences (temask) from train counts. Returns (n_scored, model bits,
     baseline bits, n_contradictions); out_occ[o] = per-occurrence gain bits (nan if not scored),
     and sets out_occ for contradictions via negative sentinel in a second array is avoided."""
@@ -479,7 +479,7 @@ def heldout(assign, Kmax, otype, oprev, octx, F, card, trmask, temask, tcount, a
         if not temask[o]:
             continue
         t = otype[o]
-        if tcount[t] == 0:
+        if tcount[t] < minc:
             continue
         m = assign[t]
         c = octx[o]
@@ -510,9 +510,9 @@ def heldout(assign, Kmax, otype, oprev, octx, F, card, trmask, temask, tcount, a
 
 # =========================================================== the game
 class Game:
-    def __init__(self, docs, B, split_seed, P=8, C=6, rounds=40, vault=0.2, final=0.2, critic_frac=0.5,
+    def __init__(self, docs, B, split_seed, P=12, C=6, rounds=40, vault=0.2, final=0.2, critic_frac=0.5,
                  lam0=(0.0, 30.0), K0=(3, 12), eps=0.01, minrow=30, train_docs=None, vault_docs=None,
-                 final_docs=None):
+                 final_docs=None, minc=5):
         self.B = B; self.rng = np.random.default_rng(split_seed)
         nd = B.ndoc
         if train_docs is None:
@@ -527,7 +527,7 @@ class Game:
         self.LH = np.array([0.0] + [math.lgamma(k / 2.0) for k in range(1, 2 * (len(B.otype) + B.T) + 200)])
         self.P, self.C, self.rounds = P, C, rounds
         self.KMAX = 12
-        self.eps, self.minrow = eps, minrow
+        self.eps, self.minrow, self.minc = eps, minrow, minc
         self.alpha, self.beta, self.gamma = 0.5, 0.5, 0.5
         self.props = []
         for p in range(P):
@@ -550,7 +550,7 @@ class Game:
         B = self.B
         ns, bm, bb, nc = heldout(assign, self.KMAX, B.otype, B.oprev, B.octx, B.F, CARD, self.trmask,
                                  self.docmask(docs), self.tcount, self.alpha, self.beta, self.gamma, self.eps,
-                                 self.minrow, self.out)
+                                 self.minrow, self.out, self.minc)
         if ns == 0:
             return 0.0, 0.0, 0
         gain = (bm - bb) / ns
@@ -561,8 +561,10 @@ class Game:
         types = np.nonzero(self.tcount > 0)[0]
         order = self.rng.permutation(types)
         rs = self.rng.random(len(order))
-        self.nev += gibbs_sweep(p['assign'], p['K'], order, B.otype, B.oprev, B.octx, B.F, CARD, self.trmask,
-                                self.tcount, self.et, p['lam'], p['temp'], self.alpha, self.beta, self.gamma, rs, self.LH)
+        if not hasattr(self, 'csr'):
+            self.csr = csr_lists(B, self.trmask)
+        self.nev += gibbs_sweep_inc(p['assign'], p['K'], order, B.otype, B.oprev, B.octx, B.F, CARD, self.trmask,
+                                    self.tcount, self.et, p['lam'], p['temp'], rs, self.LH, *self.csr)
 
     def play(self, log=None):
         for rnd in range(self.rounds):
@@ -749,3 +751,230 @@ def stability(runs, minc=3, truth=None):
         out['truth_to_name'] = {k: dict(v) for k, v in land.items()}
     out['modal'] = {w: list(v) for w, v in modal.items()}
     return out
+
+
+# =========================================================== cycle 2/3 helpers
+def la_docs_dedup():
+    """la_docs without joins whose components are also listed (as in la15), plus publication source."""
+    src = None
+    try:
+        import la15_common as L15
+        src = L15._pub_source()
+    except Exception:
+        src = {}
+    docs = la_docs()
+    ids = {d['id'] for d in docs}
+    out = []
+    for d in docs:
+        if '+' in d['id']:
+            parts = re.split(r'\+', re.sub(r'[ab]$', '', d['id']))
+            pre = re.match(r'[A-Z]+[A-Za-z]*?(?=\d)', parts[0])
+            pre = pre.group(0) if pre else ''
+            comp = [parts[0]] + [p if not p[0].isdigit() else pre + p for p in parts[1:]]
+            if all(any(i.startswith(c) for i in ids if i != d['id']) for c in comp):
+                continue
+        out.append(dict(d, pub=src.get(d['id'], 'blank')))
+    return out
+
+
+def targeted_critique(g, assign, docs, margin=0.0):
+    """Critic attacks single words: for each committed type (train count >= g.minc), move it to every other used
+    meaning, rescore on `docs` (train counts refitted implicitly by heldout()). A type is REFUTED if some move
+    raises the held-out score by more than `margin` bits/occ. Returns {type index: (refuted, best delta)}."""
+    base = g.score(assign, None, docs)[0]
+    used = sorted(set(assign[g.tcount > 0].tolist()))
+    res = {}
+    for t in np.nonzero(g.tcount >= g.minc)[0]:
+        old = assign[t]; best = -1e9
+        for m in used:
+            if m == old: continue
+            assign[t] = m
+            s = g.score(assign, None, docs)[0]
+            best = max(best, s - base)
+        assign[t] = old
+        res[int(t)] = (bool(best > margin), float(best))
+    return res
+
+
+def run_population_split(docs, B, pop_seed, train_idx, rest_idx, rounds=40, critique=True, log=None,
+                         fixed=None, **kw):
+    """Train on train_idx docs; the vault and the final set are random halves of rest_idx (out-of-site),
+    or fixed = (vault_idx, final_idx)."""
+    rng = np.random.default_rng(pop_seed)
+    if fixed is None:
+        rest = rng.permutation(np.array(rest_idx))
+        h = len(rest) // 2
+        vd, fd = rest[:h], rest[h:]
+    else:
+        vd, fd = np.array(fixed[0]), np.array(fixed[1])
+    g = Game(docs, B, pop_seed, rounds=rounds, train_docs=np.array(train_idx), vault_docs=vd,
+             final_docs=fd, **kw)
+    best = g.play(log)
+    a = best['assign']
+    prof = profiles(B, a, g.trmask, g.tcount)
+    names = {m: name_meaning(p) for m, p in prof.items()}
+    fs, fc, fn = g.score(a, best['K'], g.final)
+    r = {'seed': pop_seed, 'K': nused(a, g.tcount), 'lam': best['lam'], 'final_score': fs, 'final_gain': fs + fc,
+         'final_contra': fc, 'final_n': fn, 'nev': g.nev,
+         'prof': {str(m): dict(p, name=names[m]) for m, p in prof.items()},
+         'tnames': {B.types[t]: names.get(int(a[t]), 'NA') for t in range(B.T) if g.tcount[t] > 0},
+         'tclus': {B.types[t]: int(a[t]) for t in range(B.T) if g.tcount[t] > 0},
+         'tcnt': {B.types[t]: int(g.tcount[t]) for t in range(B.T) if g.tcount[t] > 0}}
+    if critique:
+        tc = targeted_critique(g, a, g.final)
+        r['critique'] = {B.types[t]: v for t, v in tc.items()}
+        r['refuted_frac'] = float(np.mean([v[0] for v in tc.values()])) if tc else float('nan')
+    # one-meaning reference on the same final set
+    one = np.zeros_like(a)
+    r['final_one'] = g.score(one, 1, g.final)[0]
+    return r
+
+
+def lb_docs_site(site):
+    from la41_common import lb_docs
+    L = lb_docs(sites=(site,))
+    out = []
+    for k, d in L.items():
+        toks = []
+        for it in d['items']:
+            if it['w']: toks.append(('T', '-'.join(it['w'])))
+            for c in it.get('ctx', []): toks.append(('T', '-'.join(c)))
+            if it['logo']: toks.append(('T', 'L:' + it['logo']))
+            if it['num'] is not None:
+                v = it['val']; toks.append(('N', float(v), abs(v - round(v)) > 1e-9))
+        if toks:
+            out.append({'id': k, 'site': d['site'], 'series': d['support'], 'toks': toks})
+    return out
+
+
+# =========================================================== incremental Gibbs (same objective, faster)
+@njit(cache=True)
+def obj_counts(Nm, Vm, Em, Fc, Tr, K, card, ntyp, lam, LH):
+    ll = 0.0
+    used = 0
+    nf = Fc.shape[0]
+    for m in range(K):
+        if Vm[m] > 0:
+            used += 1
+            ll += LH[int(Vm[m] + 0.5)] - LH[int(2 * Nm[m] + Vm[m] + 0.5)] + Em[m]
+            for f in range(nf):
+                cf = card[f]
+                ll += LH[int(cf + 0.5)] - LH[int(2 * Nm[m] + cf + 0.5)]
+                for v in range(cf):
+                    ll += LH[int(2 * Fc[f, m, v] + 1.5)] - LH[1]
+    for r in range(K + 2):
+        tot = 0.0
+        for m in range(K):
+            tot += Tr[r, m]
+        if tot > 0:
+            ll += LH[K] - LH[int(2 * tot + K + 0.5)]
+            for m in range(K):
+                ll += LH[int(2 * Tr[r, m] + 1.5)] - LH[1]
+    if used > 1:
+        ll -= ntyp * math.log(used)
+    ll -= lam * used
+    return ll
+
+
+@njit(cache=True)
+def _row(o, assign, otype, oprev, octx, K):
+    c = octx[o]
+    if c == 0: return K
+    if c == 1: return K + 1
+    return assign[otype[oprev[o]]]
+
+
+@njit(cache=True)
+def _move(t, sign, assign, K, otype, oprev, octx, F, occ_ptr, occ_idx, suc_ptr, suc_idx, Nm, Vm, Em, Fc, Tr, et):
+    m = assign[t]
+    nf = F.shape[1]
+    Vm[m] += sign; Em[m] += sign * et[t]
+    for k in range(occ_ptr[t], occ_ptr[t + 1]):
+        o = occ_idx[k]
+        Nm[m] += sign
+        for f in range(nf):
+            Fc[f, m, F[o, f]] += sign
+        Tr[_row(o, assign, otype, oprev, octx, K), m] += sign
+    for k in range(suc_ptr[t], suc_ptr[t + 1]):
+        o = suc_idx[k]
+        Tr[m, assign[otype[o]]] += sign
+
+
+@njit(cache=True)
+def gibbs_sweep_inc(assign, Kmax, order, otype, oprev, octx, F, card, omask, tcount, et, lam, temp, rs, LH,
+                    occ_ptr, occ_idx, suc_ptr, suc_idx):
+    K = Kmax
+    nf = F.shape[1]
+    Nm = np.zeros(K); Vm = np.zeros(K); Em = np.zeros(K)
+    Fc = np.zeros((nf, K, 6)); Tr = np.zeros((K + 2, K))
+    ntyp = 0
+    for t in range(assign.shape[0]):
+        if tcount[t] > 0:
+            ntyp += 1
+            m = assign[t]
+            Vm[m] += 1; Em[m] += et[t]
+    n = otype.shape[0]
+    for o in range(n):
+        if omask[o]:
+            m = assign[otype[o]]
+            Nm[m] += 1
+            for f in range(nf):
+                Fc[f, m, F[o, f]] += 1
+            Tr[_row(o, assign, otype, oprev, octx, K), m] += 1
+    sc = np.zeros(K)
+    nev = 0
+    for k in range(order.shape[0]):
+        t = order[k]
+        old = assign[t]
+        _move(t, -1.0, assign, K, otype, oprev, octx, F, occ_ptr, occ_idx, suc_ptr, suc_idx, Nm, Vm, Em, Fc, Tr, et)
+        best = -1e300
+        empty_taken = False
+        for m in range(K):
+            if Vm[m] == 0:
+                if empty_taken:
+                    sc[m] = -1e300
+                    continue
+                empty_taken = True
+            assign[t] = m
+            _move(t, 1.0, assign, K, otype, oprev, octx, F, occ_ptr, occ_idx, suc_ptr, suc_idx, Nm, Vm, Em, Fc, Tr, et)
+            sc[m] = obj_counts(Nm, Vm, Em, Fc, Tr, K, card, ntyp, lam, LH)
+            _move(t, -1.0, assign, K, otype, oprev, octx, F, occ_ptr, occ_idx, suc_ptr, suc_idx, Nm, Vm, Em, Fc, Tr, et)
+            nev += 1
+            if sc[m] > best:
+                best = sc[m]
+        tot = 0.0
+        for m in range(K):
+            if sc[m] > -1e299:
+                sc[m] = math.exp((sc[m] - best) / temp)
+            else:
+                sc[m] = 0.0
+            tot += sc[m]
+        u = rs[k] * tot
+        acc = 0.0
+        pick = old
+        for m in range(K):
+            acc += sc[m]
+            if u <= acc and sc[m] > 0:
+                pick = m
+                break
+        assign[t] = pick
+        _move(t, 1.0, assign, K, otype, oprev, octx, F, occ_ptr, occ_idx, suc_ptr, suc_idx, Nm, Vm, Em, Fc, Tr, et)
+    return nev
+
+
+def csr_lists(B, trmask):
+    occ = [[] for _ in range(B.T)]
+    suc = [[] for _ in range(B.T)]
+    for o in np.nonzero(trmask)[0]:
+        t = B.otype[o]
+        occ[t].append(o)
+        if B.octx[o] == 2:
+            pt = B.otype[B.oprev[o]]
+            if pt != t:
+                suc[pt].append(o)
+    def csr(L):
+        ptr = np.zeros(len(L) + 1, np.int64)
+        ptr[1:] = np.cumsum([len(x) for x in L])
+        idx = np.array([x for l in L for x in l], np.int64)
+        return ptr, idx
+    return csr(occ) + csr(suc)

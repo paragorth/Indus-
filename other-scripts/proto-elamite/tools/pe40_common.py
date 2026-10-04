@@ -92,12 +92,19 @@ def weights(X):
 
 
 # ------------------------------------------------------------------ seriation
+def small_eig(L, k):
+    import scipy.sparse.linalg as ssl, scipy.sparse as sp
+    M = sp.csr_matrix(2 * np.eye(len(L)) - L)
+    ev, V = ssl.eigsh(M, k=min(k, len(L) - 2), which='LA', v0=np.ones(len(L)))
+    o = np.argsort(-ev)
+    return 2 - ev[o], V[:, o]
+
+
 def spectral(W, circular=True, rng=None):
     d = W.sum(1) + 1e-9
     Dm = 1 / np.sqrt(d)
     L = np.eye(len(W)) - (Dm[:, None] * W * Dm[None, :])
-    L[np.abs(L) < 1e-12] = 0.0
-    ev, V = np.linalg.eigh(L)
+    ev, V = small_eig(L, 3)
     if circular:
         ang = np.arctan2(V[:, 2] * Dm, V[:, 1] * Dm)
         return np.argsort(ang)
@@ -195,8 +202,7 @@ def block_score(Xtr, k, rng):
     W = weights(Xtr)
     d = W.sum(1) + 1e-9; Dm = 1 / np.sqrt(d)
     L = np.eye(len(W)) - (Dm[:, None] * W * Dm[None, :])
-    L[np.abs(L) < 1e-12] = 0.0
-    ev, V = np.linalg.eigh(L)
+    ev, V = small_eig(L, k)
     E = V[:, :k] * Dm[:, None]
     E = E / (np.linalg.norm(E, axis=1, keepdims=True) + 1e-12)
     # k-means
