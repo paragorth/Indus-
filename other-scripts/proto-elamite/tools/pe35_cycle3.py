@@ -17,7 +17,8 @@ for r in U.rows:
 seals = [s for s, v in byseal.items() if any(r['motif'] for r in v)]
 other = [s for s, v in byseal.items() if not any(r['motif'] for r in v)]
 res = {}
-for label, nt, ns in (('pe35', NT, NS), ('max183', 183, 120), ('480', 480, 300)):
+SETS = [('pe35', NT, NS)] if NT else [('max183', 183, 120), ('480', 480, 300)]
+for label, nt, ns in SETS:
     pooled, single = [], []
     for k in range(DR):
         rr = np.random.default_rng(3500 + k)
@@ -40,4 +41,4 @@ for label, nt, ns in (('pe35', NT, NS), ('max183', 183, 120), ('480', 480, 300))
     res[label] = dict(n=nt, seals=ns, draws=len(pooled), pooled_power=float(np.mean(np.array(pooled) < .05)),
                       single_power=float(np.mean(np.array(single) < .05)))
     print(label, res[label], flush=True)
-json.dump(res, open(f'{CK}/cycle3.json', 'w'), indent=1)
+json.dump(res, open(f'{CK}/cycle3_%s.json' % ('pe35' if NT else 'ref'), 'w'), indent=1)
