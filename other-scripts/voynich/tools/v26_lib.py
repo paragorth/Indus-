@@ -282,7 +282,8 @@ class Scribe:
 
     def _arr(self, c):
         ks = list(c.keys()); v = np.array([c[k] for k in ks], float)
-        return (np.array(ks, np.int32), v / v.sum(), v.sum())
+        p = v / v.sum()
+        return (np.array(ks, np.int32), p, v.sum(), np.cumsum(p))
 
     def _tables(self, C):
         T = defaultdict(Counter)
@@ -363,8 +364,8 @@ class Scribe:
     def pool(self, e):
         return CopyPool(self, e)
 
-    def dist(self, g, st):
-        """Candidate idx and probabilities for the next word given state st (finite part, before slot escape)."""
+    def comps(self, g, st):
+        """Mixture components [(table (idx, p, n[, cum]), weight)] for the next word (finite part)."""
         s = st['s']; k = st['k']; pc = st['pc']
         comps = []
         if k == 0:
@@ -392,16 +393,17 @@ class Scribe:
             comps.append((tab, pj))
             if pr: comps.append(((np.array([st['previ']], np.int32), np.ones(1), 1), pr))
         if g['pi_copy'] > 0:
-            cp = st['cpool'].part(g['cwin'], g['w_prev'], g['w_far'])
-            if cp is not None: comps.append(((cp[0], cp[1], 1), g['pi_copy']))
+            cp = st['cpool'].part(g['cwin'], g['w_prev'], g['w_far']) if st.get('nrng') is None else st['cpool'].nonempty(g['cwin'], g['w_prev'], g['w_far'])
+            if cp is not None: comps.append(((cp[0], cp[1], 1, None, ('pool', st['cpool'], g['cwin'], g['w_prev'], g['w_far'])), g['pi_copy']))
             else: comps[0] = (comps[0][0], comps[0][1] + g['pi_copy'])
         if g['pi_urn'] > 0:
-            cp = st['upool'].part(10 ** 6, 1.0, 1.0)
-            if cp is not None: comps.append(((cp[0], cp[1], 1), g['pi_urn']))
+            cp = st['upool'].part(10 ** 6, 1.0, 1.0) if st.get('nrng') is None else st['upool'].nonempty(10 ** 6, 1.0, 1.0)
+            if cp is not None: comps.append(((cp[0], cp[1], 1, None, ('pool', st['upool'], 10 ** 6, 1.0, 1.0)), g['pi_urn']))
             else: comps[0] = (comps[0][0], comps[0][1] + g['pi_urn'])
-        idx = np.concatenate([c[0][0] for c in comps])
-        q = np.concatenate([c[0][1] * c[1] for c in comps])
-        E = None
+        return comps
+
+    def energy(self, g, st, idx):
+        k = st['k']; E = None
         if g['b_cs'] and st['cs']:
             E = g['b_cs'] * st['cs'] * self.csm[idx]
         if g['b_al'] and k > 0:
@@ -413,13 +415,46 @@ class Scribe:
         if g['b_mg'] and st['hasmg']:
             e = g['b_mg'] * self.mg[idx]; E = e if E is None else E + e
         if g['b_len'] and k > 0:
-            e = g['b_len'] * (self.ln[idx] - self.mu_len) * (st['prevlen'] - self.mu_len) / self.var_len
+            e = g['b_len'] * np.clip((self.ln[idx] - self.mu_len) * (st['prevlen'] - self.mu_len) / self.var_len, -2, 2)
             E = e if E is None else E + e
         if st.get('room') is not None:
             e = -1.0 * np.abs(self.ln[idx] - st['room']); E = e if E is None else E + e
-        if E is not None:
-            q = q * np.exp(E - E.max())
+        return E
+
+    def dist(self, g, st):
+        """Exact candidate distribution (scoring)."""
+        comps = self.comps(g, st)
+        idx = np.concatenate([c[0][0] for c in comps])
+        q = np.concatenate([c[0][1] * c[1] for c in comps])
+        E = self.energy(g, st, idx)
+        if E is not None: q = q * np.exp(E - E.max())
         return idx, q / q.sum()
+
+    def draw(self, g, st, rng, K=24):
+        """Sampling: K proposals from the mixture, then one chosen with weight exp(E) (sampling-importance
+        resampling; exact when no expert is on)."""
+        comps = self.comps(g, st)
+        nr = st['nrng']
+        if not any(g[x] for x in ('b_cs', 'b_al', 'b_vl', 'b_dr', 'b_mg', 'b_len')) and st.get('room') is None:
+            K = 1
+        if len(comps) == 1:
+            cnt = [K]
+        else:
+            ws = np.array([c[1] for c in comps]); cnt = nr.multinomial(K, ws / ws.sum())
+        cand = []
+        for (tab, w), c in zip(comps, cnt):
+            if not c: continue
+            if len(tab) > 4:
+                _, pool, cw, wp, wf = tab[4]; cand.append(pool.sample(cw, wp, wf, nr, c)); continue
+            cum = tab[3] if len(tab) > 3 else np.cumsum(tab[1])
+            j = np.minimum(np.searchsorted(cum, nr.random(c) * cum[-1]), len(cum) - 1)
+            cand.append(tab[0][j])
+        idx = np.concatenate(cand)
+        if K == 1: return int(idx[0])
+        E = self.energy(g, st, idx)
+        if E is None: return int(idx[0])
+        q = np.exp(E - E.max()); cq = np.cumsum(q)
+        return int(idx[min(int(np.searchsorted(cq, nr.random() * cq[-1])), K - 1)])
 
     # ---------------------------------------------------------- page walker (sampling or scoring)
     def walk(self, p, g, rng=None, eps=0.0):
@@ -431,6 +466,7 @@ class Scribe:
         sample = rng is not None
         hist = []; lineno = 0; paras = []; lp = 0.0; nev = 0
         cs_state = 0.0
+        nrng = np.random.default_rng(rng.getrandbits(63)) if sample else None
         cpool = CopyPool(self, g['edit']) if g['pi_copy'] > 0 else None
         upool = CopyPool(self, g['urn_edit']) if g['pi_urn'] > 0 else None
         for qi, pa in enumerate(p['paras']):
@@ -463,7 +499,7 @@ class Scribe:
                     above = prevline_words[k][-1] if (prevline_words is not None and k < len(prevline_words)) else None
                     st = dict(s=s, k=k, pc=pc, li=li, prevfirst=prevfirst, hist=hist, lineno=lineno, cs=cs_state,
                               above_lu=(self.u2i.get(above, -1) if above is not None else None), drift=drift,
-                              hasmg=hasmg, room=room, cpool=cpool, upool=upool)
+                              hasmg=hasmg, room=room, cpool=cpool, upool=upool, nrng=nrng)
                     if k > 0:
                         pw = line[-1]
                         st.update(prev=pw, previ=self.w2i[pw], prevfu=self.u2i[pw[0]], prevlen=len(pw),
@@ -473,9 +509,7 @@ class Scribe:
                         if g['pi_slot'] and rng.random() < g['pi_slot']:
                             w = self.slot_sample(rng, sec_for_slot, cls)
                         else:
-                            idx, pr = self.dist(g, st)
-                            j = int(np.searchsorted(np.cumsum(pr), rng.random() * (1 - 1e-12)))
-                            w = self.words[idx[min(j, len(idx) - 1)]]
+                            w = self.words[self.draw(g, st, rng)]
                     else:
                         w = ws[k]
                         idx, pr = self.dist(g, st)
@@ -512,6 +546,7 @@ class CopyPool:
         self.sc = sc; self.e = e; self.cache = {}
         self.lines = []      # completed lines: (idx, w, ntok)
         self.cur = []        # current line expansions
+        self.curtok = []; self.toklines = []
         self.farc = {}
 
     def exp(self, ix):
@@ -519,21 +554,48 @@ class CopyPool:
         if r is None:
             nb = self.sc.nbr[ix] if (self.e > 0 and ix < self.sc.nvocab) else ()
             if len(nb):
-                r = (np.r_[np.int32(ix), nb].astype(np.int32), np.r_[1 - self.e, np.full(len(nb), self.e / len(nb))])
+                r = (np.concatenate([np.array([ix], np.int32), nb]), np.concatenate([[1 - self.e], np.full(len(nb), self.e / len(nb))]))
             else:
                 r = (np.array([ix], np.int32), np.ones(1))
             self.cache[ix] = r
         return r
 
     def add(self, ix):
-        self.cur.append(self.exp(ix))
+        self.cur.append(self.exp(ix)); self.curtok.append(ix)
+
+    def nonempty(self, cwin, w_prev, w_far):
+        ok = bool(self.curtok) or (cwin >= 2 and self.toklines and w_prev > 0 and self.toklines[-1]) or \
+            (cwin >= 3 and w_far > 0 and any(self.toklines[max(0, len(self.toklines) - cwin + 1):-1]))
+        return (None, None) if ok else None
+
+    def sample(self, cwin, w_prev, w_far, nr, c):
+        """c draws from part() without building it: choose a token by distance weight, then itself or a neighbour."""
+        T = list(self.curtok); W = [1.0] * len(T)
+        if cwin >= 2 and self.toklines and w_prev > 0:
+            T += self.toklines[-1]; W += [w_prev] * len(self.toklines[-1])
+        if cwin >= 3 and len(self.toklines) >= 2 and w_far > 0:
+            for L in self.toklines[max(0, len(self.toklines) - cwin + 1):-1]:
+                T += L; W += [w_far] * len(L)
+        cw = np.cumsum(W)
+        js = np.minimum(np.searchsorted(cw, nr.random(c) * cw[-1]), len(T) - 1)
+        out = [T[j] for j in js]
+        if self.e > 0:
+            us = nr.random(c)
+            for t in range(c):
+                if us[t] < self.e:
+                    ix = out[t]
+                    if ix < self.sc.nvocab:
+                        nb = self.sc.nbr[ix]
+                        if len(nb): out[t] = int(nb[int(us[t] / self.e * len(nb)) % len(nb)])
+        return np.array(out, np.int32)
 
     def newline(self):
         if self.cur:
             self.lines.append((np.concatenate([a for a, _ in self.cur]), np.concatenate([b for _, b in self.cur]), len(self.cur)))
         else:
             self.lines.append((np.zeros(0, np.int32), np.zeros(0), 0))
-        self.cur = []; self.farc = {}
+        self.toklines.append(self.curtok)
+        self.cur = []; self.curtok = []; self.farc = {}
 
     def part(self, cwin, w_prev, w_far):
         I = []; W = []; tot = 0.0
