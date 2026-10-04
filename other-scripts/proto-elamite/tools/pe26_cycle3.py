@@ -42,8 +42,9 @@ nuis = np.column_stack([np.abs(area[I] - area[J]), np.abs(nlines[I] - nlines[J])
                         np.log1p(np.nan_to_num(np.abs(mn[I] - mn[J]), nan=1e4)), [pub[i] == pub[j] for i, j in pairs],
                         (area[I] + area[J]) / 2, (nlines[I] + nlines[J]) / 2])
 nuis = np.column_stack([np.ones(len(pairs)), nuis.astype(float)])
+Qn, _ = np.linalg.qr(nuis)
 def resid(v):
-    beta, *_ = np.linalg.lstsq(nuis, v, rcond=None); return v - nuis @ beta
+    return v - Qn @ (Qn.T @ v)
 def clayS(Xm): return -np.sqrt(((Xm[I] - Xm[J]) ** 2).sum(1))
 rt, rn = resid(rankdata(textS)), resid(rankdata(numS))
 def stat(Xm):
@@ -55,6 +56,7 @@ def perm_X(Xm):
         ii = np.where(b == k)[0]; Y[ii] = Xm[rng.permutation(ii)]
     return Y
 NP = int(os.environ.get('NPERM', 1000))
+import time; t0 = time.time(); _ = stat(X); print("one stat s", round(time.time() - t0, 2), flush=True)
 nul = np.array([stat(perm_X(X)) for _ in range(NP)])
 p = [(np.sum(nul[:, k] >= obs[k]) + 1) / (NP + 1) for k in range(2)]
 print('clay~sign-set r', round(obs[0], 4), 'null q95', round(np.percentile(nul[:, 0], 95), 4), 'p', round(p[0], 4))
@@ -65,15 +67,15 @@ c0 = rankdata(clayS(X)); print('raw clay~sign r', round(np.corrcoef(c0, rankdata
 # planted: tablets in the top text-similar pairs share a clay offset
 plant = []
 top = np.argsort(-textS)[:400]
-for rep in range(20):
+for rep in range(int(os.environ.get('NREP', 10))):
     Xp = X.copy(); used = set(); k = 0
     for q in rng.permutation(top):
         i, j = pairs[q]
         if i in used or j in used: continue
         off = rng.normal(0, 0.5, X.shape[1]); Xp[i] += off; Xp[j] += off; used |= {i, j}; k += 1
         if k >= 40: break
-    s = stat(Xp)[0]; nl2 = np.array([stat(perm_X(Xp))[0] for _ in range(100)])
-    plant.append((s, (np.sum(nl2 >= s) + 1) / 101))
+    s = stat(Xp)[0]; nl2 = np.array([stat(perm_X(Xp))[0] for _ in range(int(os.environ.get('NPL', 40)))])
+    plant.append((s, (np.sum(nl2 >= s) + 1) / (len(nl2) + 1)))
 plant = np.array(plant)
 print('planted 40 twin pairs (offset sd 0.5): mean r', round(plant[:, 0].mean(), 4), 'share p<0.05', (plant[:, 1] < 0.05).mean())
 json.dump(dict(n_tab=len(rows), n_pairs=len(pairs), obs=obs, p=p, null_q95=list(np.percentile(nul, 95, axis=0)),

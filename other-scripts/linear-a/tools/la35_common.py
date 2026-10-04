@@ -8,6 +8,11 @@ CK = os.path.join(D, 'la35_ckpt'); os.makedirs(CK, exist_ok=True)
 sys.path.insert(0, HERE)
 
 
+TOTALS = {('KU','RO'), ('KI','RO'), ('PO','TO','KU','RO'), ('TO','SO'), ('TO','SA'), ('TO','SO','DE'),
+          ('TO','SA','DE'), ('TO','SO','PA'), ('TO','SA','PA'), ('TO','SO','JO')}
+EXCL_TOT = os.environ.get('LA35_NOTOT') == '1'
+
+
 def ncls(v):
     return '1' if v == 1 else ('2' if v == 2 else '3+')
 
@@ -29,6 +34,7 @@ def la_entries():
                 v = toks[j]['v']
                 w = tuple(s for s in t['s'])
                 if any(s in ('[?]', '?') for s in w): continue
+                if EXCL_TOT and w in TOTALS: continue
                 out.append(dict(doc=r['id'], site=r['id'][:2], word=w, v=v, cls=ncls(v),
                                 com=com or sec, frac=bool(toks[j]['frac'])))
     return out
@@ -66,6 +72,7 @@ def lb_entries():
                 com = toks[j][1]; j += 1
             if j < len(toks) and toks[j][0] == 'N' and toks[j][1] >= 1:
                 if j + 1 < len(toks) and toks[j + 1][0] == 'U': continue
+                if EXCL_TOT and v in TOTALS: continue
                 rows.append(dict(doc=head, site=head[:2], word=v, v=toks[j][1], cls=ncls(toks[j][1]),
                                  com=com or sec, frac=False))
     return rows

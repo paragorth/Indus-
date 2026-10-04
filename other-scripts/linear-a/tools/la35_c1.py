@@ -100,5 +100,5 @@ if __name__ == '__main__':
         print('LBsub', s, len(S), json.dumps(r['N1']['CMH']), json.dumps(r['N2']['CMH']), r['N1']['G']['p_fw'], r['N2']['G']['p_fw'], flush=True)
     rep['LB_full'] = run(LB, NP // 2, 40)
     print('LBfull', json.dumps(rep['LB_full']['N1']), json.dumps(rep['LB_full']['N2']), flush=True)
-    json.dump(rep, open(os.path.join(CK, 'c1.json'), 'w'), indent=1)
+    json.dump(rep, open(os.path.join(CK, 'c1%s.json' % ('_notot' if EXCL_TOT else '')), 'w'), indent=1)
     print('done %.0fs' % (time.time() - t0))

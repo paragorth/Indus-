@@ -11,7 +11,8 @@ minus hits under the plain sum. Nulls: N1 commodity labels shuffled across all n
 all inscriptions (keeps every number in place); N2 numbers shuffled within each inscription
 (keeps labels and positions of labels). Planted: a random rate vector, and in 12 % of the
 inscriptions with a mixed run one number is replaced by the weighted sum of the run before it.
-Usage: la30_c3.py NREP
+Usage: la30_c3.py NREP [MINT MAXRUN]  (variant: targets >= MINT, runs <= MAXRUN; planted targets
+below MINT are not scored)
 """
 import sys, json, os, time
 from multiprocessing import Pool
@@ -19,6 +20,9 @@ from la30_common import *
 
 NREP = int(sys.argv[1]) if len(sys.argv) > 1 else 20
 NSPLIT = 6
+MINT = float(sys.argv[2]) if len(sys.argv) > 2 else 0   # smallest target number considered
+MAXRUN = int(sys.argv[3]) if len(sys.argv) > 3 else 7  # longest run
+TAG = f'_t{int(MINT)}r{MAXRUN}' if len(sys.argv) > 2 else ''
 TYPES = ['bare', 'GRA', 'OLE', 'OLIV', 'VIN', 'NI', 'CYP', 'VIR', '*304', '*308', 'AROM', '*86', '*305', 'OTHER']
 TI = {t: i for i, t in enumerate(TYPES)}
 
@@ -55,7 +59,9 @@ def runs_matrix(seqs):
     for n, s in enumerate(seqs):
         q = s['seq']
         for j in range(2, len(q)):
-            for i in range(max(0, j - 7), j - 1):
+            if q[j][1] < MINT:
+                continue
+            for i in range(max(0, j - MAXRUN), j - 1):
                 run = q[i:j]
                 ts = {t for t, _ in run}
                 if len(ts) < 2 or ts <= {'bare'}:
@@ -147,7 +153,7 @@ def make(kind, seed):
         R = rng_rates(rng, 1, len(TYPES), 0.5)[0]; R[0] = 1; truth = R
         for s in S:
             q = s['seq']
-            cand = [(i, j) for j in range(2, len(q)) for i in range(max(0, j - 7), j - 1)
+            cand = [(i, j) for j in range(2, len(q)) for i in range(max(0, j - MAXRUN), j - 1)
                     if len({t for t, _ in q[i:j]}) >= 2 and not {t for t, _ in q[i:j]} <= {'bare'}]
             if cand and rng.random() < 0.12:
                 i, j = cand[rng.integers(len(cand))]
@@ -157,7 +163,7 @@ def make(kind, seed):
 
 def run(job):
     kind, seed = job
-    out = os.path.join(CK, f'c3_{kind}_{seed}.json')
+    out = os.path.join(CK, f'c3{TAG}_{kind}_{seed}.json')
     if os.path.exists(out):
         return json.load(open(out))
     S, truth = make(kind, seed)
@@ -208,5 +214,5 @@ if __name__ == '__main__':
     summ['fullfit'] = {'inscriptions_hit': float(k), 'rates': {t: float(R[i]) for i, t in enumerate(TYPES) if R[i] != 1},
                        'hit_docs': sorted({SEQ[own[i]]['id'] for i in h})}
     summ['time_s'] = time.time() - t
-    json.dump(summ, open(os.path.join(CK, 'c3_summary.json'), 'w'), indent=1)
+    json.dump(summ, open(os.path.join(CK, f'c3{TAG}_summary.json'), 'w'), indent=1)
     print(json.dumps(summ, indent=1))

@@ -67,7 +67,7 @@ def cv_auc(X, y, groups, C=0.3, seed=0, nfold=5):
     for k in range(nfold):
         te = f == k; tr = ~te
         if te.sum() == 0 or len(set(y[tr])) < 2: continue
-        sc = StandardScaler().fit(X[tr]); m = LogisticRegression(C=C, max_iter=2000, class_weight='balanced').fit(sc.transform(X[tr]), y[tr])
+        sc = StandardScaler().fit(X[tr]); m = LogisticRegression(C=C, max_iter=500, class_weight='balanced', solver='liblinear').fit(sc.transform(X[tr]), y[tr])
         s[te] = m.decision_function(sc.transform(X[te]))
     ok = ~np.isnan(s)
     auc = roc_auc_score(y[ok], s[ok]) if len(set(y[ok])) == 2 else float('nan')
@@ -78,7 +78,7 @@ def strat_cv_auc(X, y, seed=0, nfold=5, C=0.3):
     from sklearn.model_selection import StratifiedKFold
     s = np.zeros(len(y))
     for tr, te in StratifiedKFold(nfold, shuffle=True, random_state=seed).split(X, y):
-        sc = StandardScaler().fit(X[tr]); m = LogisticRegression(C=C, max_iter=2000, class_weight='balanced').fit(sc.transform(X[tr]), y[tr])
+        sc = StandardScaler().fit(X[tr]); m = LogisticRegression(C=C, max_iter=500, class_weight='balanced', solver='liblinear').fit(sc.transform(X[tr]), y[tr])
         s[te] = m.decision_function(sc.transform(X[te]))
     return roc_auc_score(y, s), s
 
