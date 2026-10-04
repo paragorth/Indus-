@@ -1,0 +1,8 @@
+# LA-15 cycle 4: the census turned on habitats and writers - how many findspots and hands?
+Scripts: tools/la15_c4.py. Output: data/la15/c4.json, c4_stdout.txt.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| LA-15.4a | Sites as species, documents as individuals, GORILA-published documents only (45 named sites, 19 with one document, 6 with two). Predict new sites among the 63 post-GORILA documents (sites hidden). | Chao1 75, ACE 74 findspots. Predicted new sites 1 [0-3]; truth 6 (Kalo Chorafi, Kannia, Nerokurou, Skoteino Cave, Tel Haror, Zominthos). | MISS: later finds come from new places about 6x faster than an exchangeable draw (A, as a fact about discovery, not script). |
+| LA-15.4b | Control: 63 random GORILA documents held out (60 reps); planted 120 sites with Zipf document counts at GORILA size (200 draws). | Random: coverage 1.00, mean error +0.1. Planted: seen 90, Chao1 114 [96-142] vs 120 true. | The estimator is calibrated; the miss in 4a is real non-exchangeability: excavation seeks new sites. The site count (>= 75) is a lower bound (A). |
+| LA-15.4c | Scribal hands as species (592 attributed documents, 102 hands). Calibration: 200 random LA-sized samples of LB Knossos attributed documents; truth = 113 KN hands in 2,781 documents. | LA: Chao1 108, ACE 114 (HT 75 seen, Chao1 79). KN calibration: Chao1 108 [88-138] (>= truth in 37%); extrapolation to full KN 104 [88-115], covers truth 85%. | Attributed LA hands are nearly complete for the attributed set: ~105-115 (B; slight under-estimate as on KN). Most hands that wrote at the excavated archives are already identified. |

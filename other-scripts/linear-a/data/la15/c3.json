@@ -1,0 +1,671 @@
+{
+ "LA_post": {
+  "words": {
+   "EXCH": {
+    "pred": [
+     30.0,
+     23.0,
+     35.0
+    ],
+    "truth": 32,
+    "inside": true,
+    "err": -2.0
+   },
+   "HAB": {
+    "pred": [
+     33.0,
+     27.0,
+     38.0
+    ],
+    "truth": 32,
+    "inside": true,
+    "err": 1.0
+   },
+   "ABC": {
+    "pred": [
+     21.0,
+     12.725,
+     30.0
+    ],
+    "truth": 32,
+    "inside": false,
+    "err": -11.0
+   }
+  },
+  "signs": {
+   "EXCH": {
+    "pred": [
+     1.0,
+     0.0,
+     3.0
+    ],
+    "truth": 0,
+    "inside": true,
+    "err": 1.0
+   },
+   "HAB": {
+    "pred": [
+     1.0,
+     0.0,
+     5.0
+    ],
+    "truth": 0,
+    "inside": true,
+    "err": 1.0
+   },
+   "ABC": {
+    "pred": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "truth": 0,
+    "inside": true,
+    "err": 0.0
+   }
+  },
+  "known": {
+   "n_present": 10,
+   "auc_exch": 0.7582106455266138,
+   "auc_hab": 0.746489241223103,
+   "hits_top20_exch": [
+    "DA-RE",
+    "JA-SA-SA-RA-ME",
+    "I-PI-NA-MA",
+    "SI-RU-TE"
+   ],
+   "hits_top20_hab": [
+    "I-PI-NA-MA",
+    "SI-RU-TE",
+    "JA-SA-SA-RA-ME"
+   ],
+   "new_types": [
+    "*164-RI-DA",
+    "A-DA-*21F-RI",
+    "A-SI-*118",
+    "DA-DU-*301",
+    "DE-KI-TI",
+    "I-DI",
+    "I-KI-RU-QE",
+    "I-SA-RI-KE",
+    "I-ZA",
+    "KA-A-SI-TE",
+    "KE-SI-TE",
+    "KU-KA",
+    "KU-NI-TE",
+    "ME-MI-JA-RU",
+    "NA-KI",
+    "NA-TU-*301-NE",
+    "PA-RI-DE",
+    "PO-SA",
+    "PU₂-RE",
+    "QA-KI-TI",
+    "QA-PU",
+    "RE-A-JA",
+    "RE-SA",
+    "RI-DA-U",
+    "SE-I",
+    "SE-JE",
+    "SE-WA-AU-DE",
+    "TE-JA",
+    "TE-ME-DA-I",
+    "TI-MA",
+    "U-TE",
+    "WA-TE"
+   ],
+   "new_signs": [],
+   "present_known": [
+    "A-MI",
+    "DA-RE",
+    "I-DA",
+    "I-PI-NA-MA",
+    "JA-SA-SA-RA-ME",
+    "NU-RO",
+    "RE-TI",
+    "SA-SA-RA-ME",
+    "SI-RU-TE",
+    "U-NA-KA-NA-SI"
+   ]
+  }
+ },
+ "LA_random_heldout": {
+  "EXCH": {
+   "cover": 0.7666666666666667,
+   "mean_err": 2.9916666666666667,
+   "mean_truth": 27.983333333333334,
+   "mean_pred": 30.975,
+   "n": 60
+  },
+  "HAB": {
+   "cover": 0.9,
+   "mean_err": -0.025,
+   "mean_truth": 27.983333333333334,
+   "mean_pred": 27.958333333333332,
+   "n": 60
+  },
+  "ABC": {
+   "cover": 0.6,
+   "mean_err": -5.55,
+   "mean_truth": 27.7,
+   "mean_pred": 22.15,
+   "n": 10
+  },
+  "auc": {
+   "exch": [
+    0.7545902922212399,
+    60
+   ],
+   "hab": [
+    0.7865639484863786,
+    60
+   ]
+  }
+ },
+ "LA_shuffled_post": {
+  "score": {
+   "EXCH": {
+    "pred": [
+     30.0,
+     24.0,
+     35.0
+    ],
+    "truth": 23,
+    "inside": false,
+    "err": 7.0
+   },
+   "HAB": {
+    "pred": [
+     26.0,
+     20.0,
+     32.0
+    ],
+    "truth": 23,
+    "inside": true,
+    "err": 3.0
+   },
+   "ABC": {
+    "pred": [
+     21.0,
+     11.0,
+     30.275000000000006
+    ],
+    "truth": 23,
+    "inside": true,
+    "err": -2.0
+   }
+  },
+  "auc_exch": 0.7653040877367896,
+  "auc_hab": 0.785510136257893
+ },
+ "LB_TH_heldout": {
+  "EXCH": {
+   "cover": 0.16666666666666666,
+   "mean_err": -10.758333333333333,
+   "mean_truth": 35.43333333333333,
+   "mean_pred": 24.675,
+   "n": 60
+  },
+  "HAB": {
+   "cover": 0.8333333333333334,
+   "mean_err": -7.416666666666667,
+   "mean_truth": 35.43333333333333,
+   "mean_pred": 28.016666666666666,
+   "n": 60
+  },
+  "ABC": {
+   "cover": 0.0,
+   "mean_err": -16.7,
+   "mean_truth": 35.1,
+   "mean_pred": 18.4,
+   "n": 10
+  },
+  "auc": {
+   "exch": [
+    0.6392271706328488,
+    60
+   ],
+   "hab": [
+    0.6392271706328488,
+    60
+   ]
+  }
+ },
+ "LB_PY_heldout": {
+  "EXCH": {
+   "cover": 0.6666666666666666,
+   "mean_err": 5.983333333333333,
+   "mean_truth": 24.75,
+   "mean_pred": 30.733333333333334,
+   "n": 60
+  },
+  "HAB": {
+   "cover": 0.6666666666666666,
+   "mean_err": 3.7083333333333335,
+   "mean_truth": 24.75,
+   "mean_pred": 28.458333333333332,
+   "n": 60
+  },
+  "ABC": {
+   "cover": 0.8,
+   "mean_err": -1.85,
+   "mean_truth": 22.4,
+   "mean_pred": 20.55,
+   "n": 10
+  },
+  "auc": {
+   "exch": [
+    0.7910025932627927,
+    60
+   ],
+   "hab": [
+    0.8520951988590318,
+    60
+   ]
+  }
+ },
+ "LB_random_heldout": {
+  "EXCH": {
+   "cover": 0.6833333333333333,
+   "mean_err": 1.3083333333333333,
+   "mean_truth": 26.35,
+   "mean_pred": 27.658333333333335,
+   "n": 60
+  },
+  "HAB": {
+   "cover": 0.6166666666666667,
+   "mean_err": 1.7666666666666666,
+   "mean_truth": 26.35,
+   "mean_pred": 28.116666666666667,
+   "n": 60
+  },
+  "ABC": {
+   "cover": 0.8,
+   "mean_err": -6.4,
+   "mean_truth": 28.4,
+   "mean_pred": 22.0,
+   "n": 10
+  },
+  "auc": {
+   "exch": [
+    0.7793600402518042,
+    60
+   ],
+   "hab": [
+    0.8101663725227923,
+    60
+   ]
+  }
+ },
+ "chain": [
+  {
+   "step": "G2",
+   "key": "words",
+   "m": 60,
+   "score": {
+    "EXCH": {
+     "pred": [
+      39.0,
+      31.475,
+      47.0
+     ],
+     "truth": 31,
+     "inside": false,
+     "err": 8.0
+    },
+    "HAB": {
+     "pred": [
+      35.0,
+      27.0,
+      43.0
+     ],
+     "truth": 31,
+     "inside": true,
+     "err": 4.0
+    },
+    "ABC": {
+     "pred": [
+      28.0,
+      16.725,
+      40.275000000000006
+     ],
+     "truth": 31,
+     "inside": true,
+     "err": -3.0
+    }
+   }
+  },
+  {
+   "step": "G2",
+   "key": "signs",
+   "m": 969,
+   "score": {
+    "EXCH": {
+     "pred": [
+      8.0,
+      3.0,
+      14.524999999999977
+     ],
+     "truth": 7,
+     "inside": true,
+     "err": 1.0
+    },
+    "HAB": {
+     "pred": [
+      6.0,
+      2.0,
+      12.0
+     ],
+     "truth": 7,
+     "inside": true,
+     "err": -1.0
+    },
+    "ABC": {
+     "pred": [
+      0.0,
+      0.0,
+      2.0
+     ],
+     "truth": 7,
+     "inside": false,
+     "err": -7.0
+    }
+   }
+  },
+  {
+   "step": "G4",
+   "key": "words",
+   "m": 140,
+   "score": {
+    "EXCH": {
+     "pred": [
+      88.0,
+      76.0,
+      101.0
+     ],
+     "truth": 118,
+     "inside": false,
+     "err": -30.0
+    },
+    "HAB": {
+     "pred": [
+      113.0,
+      101.0,
+      122.52499999999998
+     ],
+     "truth": 118,
+     "inside": true,
+     "err": -5.0
+    },
+    "ABC": {
+     "pred": [
+      66.0,
+      45.0,
+      89.275
+     ],
+     "truth": 118,
+     "inside": false,
+     "err": -52.0
+    }
+   }
+  },
+  {
+   "step": "G4",
+   "key": "signs",
+   "m": 579,
+   "score": {
+    "EXCH": {
+     "pred": [
+      4.0,
+      1.0,
+      8.0
+     ],
+     "truth": 0,
+     "inside": false,
+     "err": 4.0
+    },
+    "HAB": {
+     "pred": [
+      6.0,
+      1.0,
+      14.524999999999977
+     ],
+     "truth": 0,
+     "inside": false,
+     "err": 6.0
+    },
+    "ABC": {
+     "pred": [
+      0.0,
+      0.0,
+      2.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 0.0
+    }
+   }
+  },
+  {
+   "step": "G5",
+   "key": "words",
+   "m": 36,
+   "score": {
+    "EXCH": {
+     "pred": [
+      24.0,
+      17.475,
+      29.0
+     ],
+     "truth": 17,
+     "inside": false,
+     "err": 7.0
+    },
+    "HAB": {
+     "pred": [
+      29.0,
+      22.0,
+      34.0
+     ],
+     "truth": 17,
+     "inside": false,
+     "err": 12.0
+    },
+    "ABC": {
+     "pred": [
+      18.0,
+      11.0,
+      26.0
+     ],
+     "truth": 17,
+     "inside": true,
+     "err": 1.0
+    }
+   }
+  },
+  {
+   "step": "G5",
+   "key": "signs",
+   "m": 173,
+   "score": {
+    "EXCH": {
+     "pred": [
+      1.0,
+      0.0,
+      3.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 1.0
+    },
+    "HAB": {
+     "pred": [
+      1.0,
+      0.0,
+      10.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 1.0
+    },
+    "ABC": {
+     "pred": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 0.0
+    }
+   }
+  },
+  {
+   "step": "blank",
+   "key": "words",
+   "m": 157,
+   "score": {
+    "EXCH": {
+     "pred": [
+      103.0,
+      89.475,
+      115.52499999999998
+     ],
+     "truth": 123,
+     "inside": false,
+     "err": -20.0
+    },
+    "HAB": {
+     "pred": [
+      109.0,
+      98.0,
+      121.52499999999998
+     ],
+     "truth": 123,
+     "inside": false,
+     "err": -14.0
+    },
+    "ABC": {
+     "pred": [
+      79.0,
+      54.0,
+      107.55000000000001
+     ],
+     "truth": 123,
+     "inside": false,
+     "err": -44.0
+    }
+   }
+  },
+  {
+   "step": "blank",
+   "key": "signs",
+   "m": 621,
+   "score": {
+    "EXCH": {
+     "pred": [
+      4.0,
+      0.4750000000000014,
+      8.0
+     ],
+     "truth": 5,
+     "inside": true,
+     "err": -1.0
+    },
+    "HAB": {
+     "pred": [
+      6.0,
+      2.0,
+      14.0
+     ],
+     "truth": 5,
+     "inside": true,
+     "err": 1.0
+    },
+    "ABC": {
+     "pred": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "truth": 5,
+     "inside": false,
+     "err": -5.0
+    }
+   }
+  },
+  {
+   "step": "post",
+   "key": "words",
+   "m": 43,
+   "score": {
+    "EXCH": {
+     "pred": [
+      30.0,
+      23.0,
+      35.0
+     ],
+     "truth": 32,
+     "inside": true,
+     "err": -2.0
+    },
+    "HAB": {
+     "pred": [
+      32.5,
+      27.0,
+      38.0
+     ],
+     "truth": 32,
+     "inside": true,
+     "err": 0.5
+    },
+    "ABC": {
+     "pred": [
+      21.0,
+      13.0,
+      29.275000000000006
+     ],
+     "truth": 32,
+     "inside": false,
+     "err": -11.0
+    }
+   }
+  },
+  {
+   "step": "post",
+   "key": "signs",
+   "m": 155,
+   "score": {
+    "EXCH": {
+     "pred": [
+      1.0,
+      0.0,
+      3.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 1.0
+    },
+    "HAB": {
+     "pred": [
+      1.0,
+      0.0,
+      5.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 1.0
+    },
+    "ABC": {
+     "pred": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "truth": 0,
+     "inside": true,
+     "err": 0.0
+    }
+   }
+  }
+ ]
+}

@@ -185,3 +185,14 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Power is the limit: sites share only 43 word types (scribes 26-30), so even a planted exceptionless substitution is not recovered (0/18). Absence of dialect rules is an upper bound only.
 - No sign grid emerges from LA substitutions (held-out no better than shuffled pairs). Full Linear B does yield partial rows; LB cut to LA size does not.
 - Grade B side result: words differing by one sign cluster in the same site and the same hand, beyond the document level (P <= 0.003 in 3 groupings). Variant families are local (archive/hand), not regional.
+
+## Counting the words like wildlife (la15)
+- Field-ecology census, no readings: richness estimators, community bootstraps, ~80,000 random Zipf communities (ABC), curveball nulls, capture-recapture, species-area, and a hashed prediction of the post-GORILA documents. Controls: planted communities, Linear B, shuffled word-site links.
+- Grade A: the corpus is a thin sample. 925 word types seen, at least ~4,500 in use (Chao1/ACE are lower bounds here: on planted Zipf vocabularies they recover only 20-90%); ABC 19,000 [5,200-82,000]. Sample coverage 0.39. The same tools recover Linear B Knossos's out-of-sample type count (1,597 true; 1,552 predicted).
+- Grade B: syllabic signs. 139 seen, ~170 (Chao1/ACE) to ~200 [153-265] (ABC) in use; the method recovers LB's 89 signs from an LA-sized sample.
+- Grade A: words are site-endemic (0.63 of recurrent words at one site vs 0.21 null) and the site x word matrix is anti-nested (NODF 4 vs 12): small sites are not subsets of HT. Both match Linear B at the same size and vanish when word-site links are shuffled. No word is migratory beyond its frequency; the widest-spread words are the libation-formula words.
+- Grade B: KI-RO and SA-RA₂ are HT-only terms (absence elsewhere has P < 0.001 if they were in use there). Would kill: a secure non-HT KI-RO or SA-RA₂.
+- Demoted: a 'keystone guild' (DA-ME, DI-DE-RU, MI-NU-TE, KU-NI-SU, SA-RU) is one list repeated on HT 86 and HT 95.
+- Out-of-corpus test (66 post-1985 documents, predicted before opening): new word types 33 [27-38] predicted (habitat model) vs 32 true; new syllabic signs 1 [0-3] vs 0; reappearing known words AUC 0.76, 4 of the top 20 (chance 0.2). New findspots: 1 [0-3] predicted, 6 found (excavation targets new sites). The same pipeline on Linear B underpredicts Thebes unless site novelty is modelled.
+- Hands: ~105-115 scribal hands in the attributed set (calibrated on Knossos hands). Findspots: at least ~75.
+- Use: plan on most of the vocabulary being unseen; any proposed lexicon should expect ~3 of every 4 words on a new tablet to be new. Not a decipherment.
