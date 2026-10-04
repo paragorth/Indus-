@@ -1,9 +1,13 @@
 # Builds the Ai4Qi iPhone app on a GitHub Mac and uploads it to App Store Connect (TestFlight).
-# Run by hand: Actions > "Ai4Qi iPhone build" > Run workflow. Needs these repository secrets
+# Runs when a tag ai4qi-ios-* is pushed (works from any branch), or by hand once this file is on the
+# default branch (Actions > "Ai4Qi iPhone build" > Run workflow). Needs these repository secrets
 # (Settings > Secrets and variables > Actions), from App Store Connect > Users and Access > Integrations > Keys:
 #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (the .p8 file contents), APPLE_TEAM_ID (Membership page)
 name: Ai4Qi iPhone build
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    tags: ['ai4qi-ios-*']
 jobs:
   ios:
     runs-on: macos-15
