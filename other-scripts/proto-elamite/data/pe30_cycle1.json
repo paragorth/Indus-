@@ -1,0 +1,976 @@
+{
+ "ur3": {
+  "n": 12,
+  "base": 0,
+  "best": 9,
+  "gain_full": 9,
+  "n_best_rules": 4,
+  "best_rules": [
+   "EX(F_SECC)",
+   "EX(S_SECC)",
+   "KEEP(F_SECD)",
+   "KEEP(S_SECD)"
+  ],
+  "top": [
+   [
+    "EX(F_SECC)",
+    9
+   ],
+   [
+    "EX(S_SECC)",
+    9
+   ],
+   [
+    "KEEP(F_SECD)",
+    9
+   ],
+   [
+    "KEEP(S_SECD)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(+1)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(+2)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(+3)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(+5)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(+10)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(-1)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(-2)",
+    9
+   ],
+   [
+    "EX(F_SECC)+C(-3)",
+    9
+   ]
+  ],
+  "heldout_gain": 4.11,
+  "heldout_sd": 0.9475758544834288,
+  "heldout_pos_share": 1.0,
+  "insample_half_gain": 4.59,
+  "top_split_picks": [
+   [
+    "EX(F_SECC)",
+    22.5
+   ],
+   [
+    "EX(S_SECC)",
+    22.5
+   ],
+   [
+    "KEEP(F_SECD)",
+    22.5
+   ],
+   [
+    "KEEP(S_SECD)",
+    22.5
+   ],
+   [
+    "EX(F_SECD|S_SUM)",
+    3.0
+   ],
+   [
+    "EX(S_SECD|S_SUM)",
+    3.0
+   ],
+   [
+    "EX(N2)",
+    2.0
+   ],
+   [
+    "KEEP(N3p)",
+    2.0
+   ]
+  ],
+  "n_rules": 648,
+  "p": {
+   "shuf": {
+    "p_full": 0.047619047619047616,
+    "p_held": 0.047619047619047616,
+    "null_held_mean": 0.10725495337995339,
+    "null_held_q95": 0.433675407925408,
+    "null_full_mean": 1.4
+   },
+   "rand": {
+    "p_full": 0.047619047619047616,
+    "p_held": 0.047619047619047616,
+    "null_held_mean": 0.0,
+    "null_held_q95": 0.0,
+    "null_full_mean": 0.0
+   }
+  }
+ },
+ "plant": {
+  "EX(B_M066)": {
+   "n": 91,
+   "base": 24,
+   "best": 34,
+   "gain_full": 10,
+   "n_best_rules": 4,
+   "best_rules": [
+    "EX(B_M066|B_M080)",
+    "EX(B_M066|F_M080)",
+    "EX(B_M066|U_N30C)",
+    "EX(B_M066|U_N30D)"
+   ],
+   "top": [
+    [
+     "EX(B_M066|B_M080)",
+     34
+    ],
+    [
+     "EX(B_M066|F_M080)",
+     34
+    ],
+    [
+     "EX(B_M066|U_N30C)",
+     34
+    ],
+    [
+     "EX(B_M066|U_N30D)",
+     34
+    ],
+    [
+     "EX(B_M066)",
+     33
+    ],
+    [
+     "EX(B_M002|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M003|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M006|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M010|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M033|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M047|B_M066)",
+     33
+    ],
+    [
+     "EX(B_M051|B_M066)",
+     33
+    ]
+   ],
+   "heldout_gain": 3.6078174603174604,
+   "heldout_sd": 1.2739719611192974,
+   "heldout_pos_share": 0.9833333333333333,
+   "insample_half_gain": 5.466666666666667,
+   "top_split_picks": [
+    [
+     "EX(B_M066|U_N30C)",
+     13.6
+    ],
+    [
+     "EX(B_M066|U_N30D)",
+     11.0
+    ],
+    [
+     "EX(B_M066|B_M080)",
+     4.9
+    ],
+    [
+     "EX(B_M066|F_M080)",
+     4.9
+    ],
+    [
+     "EX(B_M066)",
+     3.5
+    ],
+    [
+     "EX(B_M066|L_M220)",
+     2.7
+    ],
+    [
+     "EX(B_M066|F_M218)",
+     2.7
+    ],
+    [
+     "EX(B_M066|F_M105)",
+     2.4
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(B_M066)",
+   "n_planted_tablets": 9,
+   "planted_score": 33,
+   "planted_rank": 5,
+   "equivalent_rules": [
+    "EX(B_M066)",
+    "EX(B_M002|B_M066)",
+    "EX(B_M003|B_M066)",
+    "EX(B_M006|B_M066)",
+    "EX(B_M010|B_M066)",
+    "EX(B_M033|B_M066)"
+   ],
+   "recovered_full": false
+  },
+  "EX(B_M297)": {
+   "n": 91,
+   "base": 25,
+   "best": 34,
+   "gain_full": 9,
+   "n_best_rules": 2,
+   "best_rules": [
+    "EX(B_M297|U_N30C)",
+    "EX(B_M297|U_N30D)"
+   ],
+   "top": [
+    [
+     "EX(B_M297|U_N30C)",
+     34
+    ],
+    [
+     "EX(B_M297|U_N30D)",
+     34
+    ],
+    [
+     "EX(B_M297)",
+     33
+    ],
+    [
+     "EX(B_M002|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M003|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M006|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M010|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M033|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M047|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M051|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M080|B_M297)",
+     33
+    ],
+    [
+     "EX(B_M153|B_M297)",
+     33
+    ]
+   ],
+   "heldout_gain": 2.6963069011129353,
+   "heldout_sd": 1.1537833911644595,
+   "heldout_pos_share": 1.0,
+   "insample_half_gain": 5.1,
+   "top_split_picks": [
+    [
+     "EX(B_M297|U_N30C)",
+     11.7
+    ],
+    [
+     "EX(B_M297|U_N30D)",
+     8.9
+    ],
+    [
+     "EX(B_M297)",
+     4.5
+    ],
+    [
+     "EX(S_M297|U_N30C)",
+     3.5
+    ],
+    [
+     "EX(B_M297|L_M220)",
+     3.0
+    ],
+    [
+     "EX(S_M297|U_N30D)",
+     2.9
+    ],
+    [
+     "EX(B_M297|F_M105)",
+     2.9
+    ],
+    [
+     "EX(B_M297|S_M105~a)",
+     2.0
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(B_M297)",
+   "n_planted_tablets": 8,
+   "planted_score": 33,
+   "planted_rank": 3,
+   "equivalent_rules": [
+    "EX(B_M297)",
+    "EX(B_M002|B_M297)",
+    "EX(B_M003|B_M297)",
+    "EX(B_M006|B_M297)",
+    "EX(B_M010|B_M297)",
+    "EX(B_M033|B_M297)"
+   ],
+   "recovered_full": false
+  },
+  "EX(B_M388)": {
+   "n": 91,
+   "base": 25,
+   "best": 34,
+   "gain_full": 9,
+   "n_best_rules": 4,
+   "best_rules": [
+    "EX(B_M388|U_N30C)",
+    "EX(B_M388|U_N30D)",
+    "EX(S_M388|U_N30C)",
+    "EX(S_M388|U_N30D)"
+   ],
+   "top": [
+    [
+     "EX(B_M388|U_N30C)",
+     34
+    ],
+    [
+     "EX(B_M388|U_N30D)",
+     34
+    ],
+    [
+     "EX(S_M388|U_N30C)",
+     34
+    ],
+    [
+     "EX(S_M388|U_N30D)",
+     34
+    ],
+    [
+     "EX(B_M388)",
+     33
+    ],
+    [
+     "EX(S_M388)",
+     33
+    ],
+    [
+     "EX(B_M002|B_M388)",
+     33
+    ],
+    [
+     "EX(B_M002|S_M388)",
+     33
+    ],
+    [
+     "EX(B_M003|B_M388)",
+     33
+    ],
+    [
+     "EX(B_M003|S_M388)",
+     33
+    ],
+    [
+     "EX(B_M006|B_M388)",
+     33
+    ],
+    [
+     "EX(B_M006|S_M388)",
+     33
+    ]
+   ],
+   "heldout_gain": 3.1282050547491727,
+   "heldout_sd": 1.5477564248003224,
+   "heldout_pos_share": 0.9666666666666667,
+   "insample_half_gain": 4.866666666666666,
+   "top_split_picks": [
+    [
+     "EX(B_M388|U_N30C)",
+     7.7
+    ],
+    [
+     "EX(S_M388|U_N30C)",
+     7.7
+    ],
+    [
+     "EX(B_M388|U_N30D)",
+     6.2
+    ],
+    [
+     "EX(S_M388|U_N30D)",
+     6.2
+    ],
+    [
+     "EX(B_M388)",
+     2.7
+    ],
+    [
+     "EX(S_M388)",
+     2.7
+    ],
+    [
+     "EX(B_M388|L_M220)",
+     2.0
+    ],
+    [
+     "EX(L_M220|S_M388)",
+     2.0
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(B_M388)",
+   "n_planted_tablets": 8,
+   "planted_score": 33,
+   "planted_rank": 5,
+   "equivalent_rules": [
+    "EX(B_M388)",
+    "EX(S_M388)",
+    "EX(B_M002|B_M388)",
+    "EX(B_M002|S_M388)",
+    "EX(B_M003|B_M388)",
+    "EX(B_M003|S_M388)"
+   ],
+   "recovered_full": false
+  },
+  "EX(P_last)": {
+   "n": 91,
+   "base": 0,
+   "best": 35,
+   "gain_full": 35,
+   "n_best_rules": 1,
+   "best_rules": [
+    "EX(P_last)"
+   ],
+   "top": [
+    [
+     "EX(P_last)",
+     35
+    ],
+    [
+     "EX(B_M002|P_last)",
+     35
+    ],
+    [
+     "EX(B_M003|P_last)",
+     35
+    ],
+    [
+     "EX(B_M006|P_last)",
+     35
+    ],
+    [
+     "EX(B_M010|P_last)",
+     35
+    ],
+    [
+     "EX(B_M033|P_last)",
+     35
+    ],
+    [
+     "EX(B_M038|P_last)",
+     35
+    ],
+    [
+     "EX(B_M047|P_last)",
+     35
+    ],
+    [
+     "EX(B_M051|P_last)",
+     35
+    ],
+    [
+     "EX(B_M153|P_last)",
+     35
+    ],
+    [
+     "EX(B_M207|P_last)",
+     35
+    ],
+    [
+     "EX(B_M209|P_last)",
+     35
+    ]
+   ],
+   "heldout_gain": 18.033333333333335,
+   "heldout_sd": 2.2506789099193063,
+   "heldout_pos_share": 1.0,
+   "insample_half_gain": 16.966666666666665,
+   "top_split_picks": [
+    [
+     "EX(P_last)",
+     60.0
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(P_last)",
+   "n_planted_tablets": 33,
+   "planted_score": 35,
+   "planted_rank": 1,
+   "equivalent_rules": [
+    "EX(P_last)",
+    "EX(B_M002|P_last)",
+    "EX(B_M003|P_last)",
+    "EX(B_M006|P_last)",
+    "EX(B_M010|P_last)",
+    "EX(B_M033|P_last)"
+   ],
+   "recovered_full": true
+  },
+  "EX(Z_max)": {
+   "n": 91,
+   "base": 0,
+   "best": 34,
+   "gain_full": 34,
+   "n_best_rules": 1,
+   "best_rules": [
+    "EX(Z_max)"
+   ],
+   "top": [
+    [
+     "EX(Z_max)",
+     34
+    ],
+    [
+     "EX(B_M002|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M003|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M006|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M010|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M029|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M033|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M041|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M047|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M051|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M058|Z_max)",
+     34
+    ],
+    [
+     "EX(B_M059|Z_max)",
+     34
+    ]
+   ],
+   "heldout_gain": 17.483333333333334,
+   "heldout_sd": 2.2097636877176603,
+   "heldout_pos_share": 1.0,
+   "insample_half_gain": 16.45,
+   "top_split_picks": [
+    [
+     "EX(Z_max)",
+     59.0
+    ],
+    [
+     "EX(N0|Z_max)",
+     1.0
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(Z_max)",
+   "n_planted_tablets": 33,
+   "planted_score": 34,
+   "planted_rank": 1,
+   "equivalent_rules": [
+    "EX(Z_max)",
+    "EX(B_M002|Z_max)",
+    "EX(B_M003|Z_max)",
+    "EX(B_M006|Z_max)",
+    "EX(B_M010|Z_max)",
+    "EX(B_M029|Z_max)"
+   ],
+   "recovered_full": true
+  },
+  "EX(N0)": {
+   "n": 91,
+   "base": 24,
+   "best": 34,
+   "gain_full": 10,
+   "n_best_rules": 1,
+   "best_rules": [
+    "EX(N0)"
+   ],
+   "top": [
+    [
+     "EX(N0)",
+     34
+    ],
+    [
+     "EX(B_M002|N0)",
+     34
+    ],
+    [
+     "EX(B_M003|N0)",
+     34
+    ],
+    [
+     "EX(B_M006|N0)",
+     34
+    ],
+    [
+     "EX(B_M010|N0)",
+     34
+    ],
+    [
+     "EX(B_M033|N0)",
+     34
+    ],
+    [
+     "EX(B_M047|N0)",
+     34
+    ],
+    [
+     "EX(B_M051|N0)",
+     34
+    ],
+    [
+     "EX(B_M153|N0)",
+     34
+    ],
+    [
+     "EX(B_M207|N0)",
+     34
+    ],
+    [
+     "EX(B_M209|N0)",
+     34
+    ],
+    [
+     "EX(B_M254|N0)",
+     34
+    ]
+   ],
+   "heldout_gain": 4.583333333333333,
+   "heldout_sd": 1.8823006018050241,
+   "heldout_pos_share": 0.9833333333333333,
+   "insample_half_gain": 5.3,
+   "top_split_picks": [
+    [
+     "EX(N0)",
+     35.0
+    ],
+    [
+     "EX(N0|U_N30C)",
+     13.6
+    ],
+    [
+     "EX(B_M367|N0)",
+     2.6
+    ],
+    [
+     "EX(F_M367|N0)",
+     2.6
+    ],
+    [
+     "EX(L_M367|N0)",
+     2.6
+    ],
+    [
+     "EX(N0|S_M367)",
+     2.6
+    ],
+    [
+     "EX(N0|Z_big)",
+     1.0
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "EX(N0)",
+   "n_planted_tablets": 9,
+   "planted_score": 34,
+   "planted_rank": 1,
+   "equivalent_rules": [
+    "EX(N0)",
+    "EX(B_M002|N0)",
+    "EX(B_M003|N0)",
+    "EX(B_M006|N0)",
+    "EX(B_M010|N0)",
+    "EX(B_M033|N0)"
+   ],
+   "recovered_full": true
+  },
+  "C(+1)": {
+   "n": 91,
+   "base": 8,
+   "best": 35,
+   "gain_full": 27,
+   "n_best_rules": 2,
+   "best_rules": [
+    "EX(U_N30C)+C(+1)",
+    "EX(U_N30D)+C(+1)"
+   ],
+   "top": [
+    [
+     "EX(U_N30C)+C(+1)",
+     35
+    ],
+    [
+     "EX(U_N30D)+C(+1)",
+     35
+    ],
+    [
+     "C(+1)",
+     34
+    ],
+    [
+     "EX(B_M002)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M003)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M010)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M033)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M047)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M051)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M153)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M207)+C(+1)",
+     34
+    ],
+    [
+     "EX(B_M209)+C(+1)",
+     34
+    ]
+   ],
+   "heldout_gain": 13.146666666666667,
+   "heldout_sd": 2.277158723464803,
+   "heldout_pos_share": 1.0,
+   "insample_half_gain": 13.4,
+   "top_split_picks": [
+    [
+     "EX(U_N30C)+C(+1)",
+     21.4
+    ],
+    [
+     "EX(U_N30D)+C(+1)",
+     19.5
+    ],
+    [
+     "C(+1)",
+     11.0
+    ],
+    [
+     "EX(F_M218)+C(+1)",
+     4.9
+    ],
+    [
+     "EX(B_M099)+C(+1)",
+     1.6
+    ],
+    [
+     "EX(S_M099)+C(+1)",
+     1.6
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "C(+1)",
+   "n_planted_tablets": 33,
+   "planted_score": 34,
+   "planted_rank": 3,
+   "equivalent_rules": [
+    "C(+1)",
+    "EX(B_M002)+C(+1)",
+    "EX(B_M003)+C(+1)",
+    "EX(B_M010)+C(+1)",
+    "EX(B_M033)+C(+1)",
+    "EX(B_M047)+C(+1)"
+   ],
+   "recovered_full": false
+  },
+  "C(+10)": {
+   "n": 91,
+   "base": 8,
+   "best": 34,
+   "gain_full": 26,
+   "n_best_rules": 14,
+   "best_rules": [
+    "EX(B_M003)+C(+10)",
+    "EX(B_M051)+C(+10)",
+    "EX(B_M153)+C(+10)",
+    "EX(B_M207)+C(+10)",
+    "EX(B_M209)+C(+10)",
+    "EX(F_M051)+C(+10)",
+    "EX(F_M153)+C(+10)",
+    "EX(F_M207)+C(+10)",
+    "EX(F_M209)+C(+10)",
+    "EX(L_M003)+C(+10)",
+    "EX(S_M003~b)+C(+10)",
+    "EX(S_M153)+C(+10)",
+    "EX(U_N30C)+C(+10)",
+    "EX(U_N30D)+C(+10)"
+   ],
+   "top": [
+    [
+     "EX(B_M003)+C(+10)",
+     34
+    ],
+    [
+     "EX(B_M051)+C(+10)",
+     34
+    ],
+    [
+     "EX(B_M153)+C(+10)",
+     34
+    ],
+    [
+     "EX(B_M207)+C(+10)",
+     34
+    ],
+    [
+     "EX(B_M209)+C(+10)",
+     34
+    ],
+    [
+     "EX(F_M051)+C(+10)",
+     34
+    ],
+    [
+     "EX(F_M153)+C(+10)",
+     34
+    ],
+    [
+     "EX(F_M207)+C(+10)",
+     34
+    ],
+    [
+     "EX(F_M209)+C(+10)",
+     34
+    ],
+    [
+     "EX(L_M003)+C(+10)",
+     34
+    ],
+    [
+     "EX(S_M003~b)+C(+10)",
+     34
+    ],
+    [
+     "EX(S_M153)+C(+10)",
+     34
+    ]
+   ],
+   "heldout_gain": 12.680072236749224,
+   "heldout_sd": 2.153824389244213,
+   "heldout_pos_share": 1.0,
+   "insample_half_gain": 12.916666666666666,
+   "top_split_picks": [
+    [
+     "EX(U_N30C)+C(+10)",
+     15.7
+    ],
+    [
+     "EX(U_N30D)+C(+10)",
+     10.2
+    ],
+    [
+     "C(+10)",
+     6.0
+    ],
+    [
+     "EX(F_M218)+C(+10)",
+     2.7
+    ],
+    [
+     "EX(B_M003)+C(+10)",
+     1.4
+    ],
+    [
+     "EX(B_M051)+C(+10)",
+     1.4
+    ],
+    [
+     "EX(B_M153)+C(+10)",
+     1.4
+    ],
+    [
+     "EX(B_M207)+C(+10)",
+     1.4
+    ]
+   ],
+   "n_rules": 100521,
+   "planted": "C(+10)",
+   "n_planted_tablets": 33,
+   "planted_score": 33,
+   "planted_rank": 15,
+   "equivalent_rules": [
+    "C(+10)",
+    "EX(B_M002)+C(+10)",
+    "EX(B_M006)+C(+10)",
+    "EX(B_M010)+C(+10)",
+    "EX(B_M033)+C(+10)",
+    "EX(B_M047)+C(+10)"
+   ],
+   "recovered_full": false
+  }
+ },
+ "seconds": 75.68473553657532
+}

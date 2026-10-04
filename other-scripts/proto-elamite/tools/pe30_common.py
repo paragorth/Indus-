@@ -235,8 +235,8 @@ def tablet_tensor(H, fix, F, consts=CONSTS):
             M = np.zeros((ne, L), bool)
             for e, fl in enumerate(Fl):
                 for f in fl:
-                    if f in li:
-                        M[e, li[f]] = True
+                    if f in fix:
+                        M[e, li[fix[f]]] = True
             S = Em.sum(0)                                  # (nv,)
             ex = M.T.astype(float) @ Em                    # (L, nv) sum of entries with f
             both = np.einsum('ea,eb,ev->abv', M, M, Em) if L else np.zeros((0, 0, len(Tm)))

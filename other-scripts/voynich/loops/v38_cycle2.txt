@@ -1,0 +1,9 @@
+# v38 cycle 2 - real-herbal positive control (Gerard 1636) by the same pipeline
+| id | method and control | result | verdict |
+|---|---|---|---|
+| V-38.5 | POSITIVE control, Gerard Herball 1636: 144 pages with woodcuts (sampled every 8th scan, 45-1565), same 5 visual families (colour empty: woodcuts) x 5 text metrics on page OCR; raw Mantel | omni -0.0417 z -2.9 p 1.0000; family z shape -1.9, hog -3.9, edge -2.1, r18 +5.0, dino +4.9 | no raw link |
+| V-38.6 | Gerard partial Mantel (adjacency, log page distance, text length, woodcut area), 2000 perms | omni +0.0170 z +2.0 p 0.0250; max cell +0.076 p_max 0.146; family z shape +0.3, hog -1.2, edge +0.9, r18 +4.7, dino +4.4; text z jaccard +1.8, tfidf +2.2, rare +0.9, midcos +1.7, tri +2.4 | CONTROL FAILS: pipeline blind |
+| V-38.7 | Gerard, extra near-pair dummy (<40 scans apart) so the effect must come from far-apart pages | omni +0.0171 z +2.0 p 0.0220; family z shape +0.4, hog -1.2, edge +0.9, r18 +4.6, dino +4.3 |  |
+| V-38.8 | Gerard with every word type replaced by an arbitrary code word (word identity kept, spelling destroyed: the situation of an unread script) | omni +0.0153 z +1.9 p 0.0290; text z jaccard +1.9, tfidf +2.2, rare +0.9, midcos +1.7, tri +1.5 | lost |
+| V-38.9 | Gerard page-shuffled text (10 shuffles) | omni z -1.7 +1.4 +0.3 -0.0 +0.6 +2.0 +0.5 -1.2 -1.2 -0.4 | killed |
+| V-38.10 | Gerard subsampled to 110 pages (Voynich size), 10 draws | omni z 2.1 0.9 1.9 2.1 1.3 2.5 1.3 1.5 1.8 1.6; p<0.01 in 1/10 | power at Voynich n |

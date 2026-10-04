@@ -12,7 +12,7 @@ la_sections(): KU-RO (and PO-TO-KU-RO) sections, same cutting rule as totals_tes
   (entries = numbers since the previous KU-RO / KI-RO / PO-TO-KU-RO or the top).
   Type of a number = the last logogram (or NI / single *NNN sign used as a logogram)
   since the last word; 'bare' if a word intervened.
-ur3_sections(): Ur III merchant accounts (CDLI ATF, scratchpad, not committed):
+ur3_sections(): Ur III merchant accounts (CDLI ATF; texts cached in data/la30_ckpt/ur3_kubi_texts.json, not committed):
   goods lines followed by 'ku3-bi <silver>'; the section total is the sum of the scribe's
   own silver values, and the true price of each line is known.
 Scorer: vectorised count of sections with |S - T| <= tol.
@@ -26,7 +26,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 D = os.path.join(HERE, '..', 'data')
 CK = os.path.join(D, 'la30_ckpt')
 os.makedirs(CK, exist_ok=True)
-SCRATCH = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad'
 MARK = {'KU-RO', 'KI-RO', 'PO-TO-KU-RO'}
 # conventional (site) fraction values, data only
 SITE = {'J': 1/2, 'E': 1/4, 'F': 1/8, 'K': 1/16, 'D': 1/5, 'B': 1/3, 'A': 1/6, 'H': 1/6, 'JE': 3/4,

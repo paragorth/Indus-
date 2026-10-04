@@ -82,6 +82,7 @@ Balance weights are lead and stone discs. They are found on Crete, Kea, Thera (A
    - Data: our corpus; Ur III price tables from CDLI.
    - Kill: shuffled commodity labels, or totals permuted across tablets, balance as often. Planted control: an LB or Ur III list with known prices.
    - Why new: it uses arithmetic over the commodity frame and no sounds.
+  - Tested (la30): killed. No rate vector balances held-out totals; the Ur III control passes; see FINDINGS.md.
 2. **Receipt to ledger reconciliation.**
    - Idea: Khania's 114 roundels and the HT nodules are receipts whose word, logogram and number reappear in the tablet entries at the same site. Find the assignment by annealing.
    - Data: corpus supports; Hallager tables.
