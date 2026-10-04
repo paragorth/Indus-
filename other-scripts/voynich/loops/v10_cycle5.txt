@@ -1,0 +1,10 @@
+# v10 cycle 5 -- is the lag-2/3 recurrence (cycle 4) real second-order memory or paragraph composition + the lag-1 rule? (tools/v10_cycle5.py;
+# data/results/v10/c5_*.json). Null = Markov-weighted permutation: lines 2..n of each paragraph re-ordered by MCMC (pair swaps, Metropolis on
+# the product of global lag-1 transition probabilities, 40 sweeps): keeps each paragraph's exact glyph multiset and most of the lag-1 rule
+# (null same-glyph-below 10.8-11.0% vs observed 8.5%, so the null keeps the anti-repeat only in part). 200x real, 100x controls.
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-5.1 | Lag-2/3 same-glyph rate, lag-2 MI, ABA rate vs composition-and-lag-1 null | Lag-2 same 19.2% vs 18.3% (z 1.2, both transcriptions; was z 5.2 against the plain Markov null); lag-3 z 1.6; lag-2 MI z 3.6 (IT 3.8); ABA z 2.0 (IT 2.4) | Most of the 'return two lines up' is paragraph composition (t-, s-, q-heavy paragraphs) seen through the anti-repeat rule. A small residual (lag-2 MI, z ~3.7) remains; part of it is the null's weaker anti-repeat |
+| V-5.2 | Per-glyph 2-step return | s z 2.5 (IT 2.1), t z 2.6 (2.3), sh z 2.3 (2.9); q, y, ch now z <= 0.6; d, o below null | Residual recurrence only for s, t, sh, each z 2-3: suggestive at best |
+| V-5.3 | Controls | Planted order-2: lag-2 same z 18.2, lag-2 MI z 22.6, every glyph's return z 5-7.5. Composition + Markov-1 plant (negative): all |z| <= 1.5 except lag-1 -2.9 (the null's known anti-repeat shortfall) | The null separates real second-order memory from composition. Real data look like the negative control plus a weak residual |
+| V-5.4 | Cycle verdict | The chain = paragraph-level glyph mix + a lag-1 anti-repeat/succession rule (+ at most a z 2-4 residual) | No hidden second-order sequence of the kind any text, acrostic or counter would leave |

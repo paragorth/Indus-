@@ -29,8 +29,11 @@ def main():
             continue
         use = [k for k in range(K) if k not in drop]
         adj, idx, d = fit(so, bank, frac=0.01, use=use)
-        res = post_sims(adj, 60, seed=500 + len(out), want_stats=True)
-        PS = np.array([r[2] for r in res])
+        if kind == 'stat':
+            PS = bank[3][idx]          # rejection-ABC posterior predictive straight from the bank (200 runs)
+        else:
+            res = post_sims(adj, 60, seed=500 + len(out), want_stats=True)
+            PS = np.array([r[2] for r in res])
         row = {}
         for k in drop:
             q = float((PS[:, k] < so[k]).mean() + 0.5 * (PS[:, k] == so[k]).mean())
