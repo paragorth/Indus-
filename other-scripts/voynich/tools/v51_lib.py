@@ -7,12 +7,9 @@ Pieces:
   render(words, mapping, rng) -> mono float32 audio at 16 kHz
   Scorer.score(audio) -> dict of model scores
 
-Models (downloaded to the scratchpad HF cache; never committed):
+Model (downloaded to the scratchpad HF cache; never committed):
   whisper-tiny (multilingual, 99-language speech): no-speech probability and
       language-ID entropy at the start-of-transcript step.
-  wav2vec2-base-10k-voxpopuli (self-supervised, 23 European languages): masked
-      contrastive loss (how predictable the audio is to a speech-trained
-      predictor) and frame-change peakiness (syllable-boundary confidence).
 """
 import os, re, json, math, random, sys, unicodedata
 from collections import Counter, defaultdict
@@ -120,9 +117,9 @@ def corpora(include_nulls=True):
     C['V-A'] = voy_words('ZL3b', lambda r: r.get('lang') == 'A')
     C['V-B'] = voy_words('ZL3b', lambda r: r.get('lang') == 'B')
     C['la'] = _plain('la.txt', skip=300)
-    C['de'] = _plain('de.txt', keep=LAT + 'äöüß')
+    C['de'] = [list(w) for Ln in L.load_ref('German-Kafka', max_words=NWORDS + 50, skip_frac=0.02) for w in Ln['words']][:NWORDS]
     C['cs'] = _plain('cs.txt', keep=LAT + 'áčďéěíňóřšťúůýž')
-    C['it'] = _plain('it.txt')
+    C['it'] = [list(w) for Ln in L.load_ref('Italian-Manzoni', max_words=NWORDS + 50, skip_frac=0.05) for w in Ln['words']][:NWORDS]
     C['he'] = _plain('he.txt', keep='א-ת')
     C['eo'] = _plain('eo.txt', keep=LAT + 'ĉĝĥĵŝŭ')
     if include_nulls:
@@ -264,7 +261,17 @@ def clip_words(words, rng, nwords=60):
 
 # ------------------------------------------------------------------ scoring
 class Scorer:
-    def __init__(self, threads=1, use_w2v=True):
+    """whisper-tiny run on the clip itself (encoder positional table truncated to
+    the clip length, no 30 s padding: 4-5x cheaper on a shared CPU).
+    Scores per clip:
+      nosp      P(no-speech token) at the start-of-transcript step (lower = more speech-like)
+      lid_ent   entropy (nats) of the 99-language ID posterior (lower = more confident language)
+      lid_max   top language probability
+      lex       mean top-token probability over 5 greedy transcription tokens (how word-like)
+      bnd       syllable-boundary confidence: mean height of local maxima of encoder frame change (layer 2, z-scored)
+      rhy       rhythm regularity: max autocorrelation of that frame-change curve at 3-8 Hz
+    """
+    def __init__(self, threads=1, ntok=5):
         import torch
         torch.set_num_threads(threads)
         from transformers import WhisperFeatureExtractor, WhisperForConditionalGeneration
@@ -273,60 +280,56 @@ class Scorer:
         self.wm = WhisperForConditionalGeneration.from_pretrained('openai/whisper-tiny').eval()
         gc = self.wm.generation_config
         self.lang_ids = sorted(gc.lang_to_id.values())
-        self.lang_names = [k for k, v in sorted(gc.lang_to_id.items(), key=lambda kv: kv[1])]
-        self.sot = 50258; self.nosp = 50362
-        self.use_w2v = use_w2v
-        if use_w2v:
-            from transformers import Wav2Vec2ForPreTraining
-            self.w2 = Wav2Vec2ForPreTraining.from_pretrained('facebook/wav2vec2-base-10k-voxpopuli').eval()
+        self.lang_names = [k.strip('<|>') for k, v in sorted(gc.lang_to_id.items(), key=lambda kv: kv[1])]
+        self.sot = 50258; self.nosp = 50362; self.transcribe = 50359; self.notime = 50363
+        self.ntok = ntok
 
-    def whisper(self, xs):
+    def encode(self, xs):
+        torch = self.torch; enc = self.wm.model.encoder
+        n = max(len(x) for x in xs); T = int(math.ceil(n / 160))
+        T += T % 2
+        f = self.fe(list(xs), sampling_rate=SR, return_tensors='pt').input_features[:, :, :T]
+        with torch.no_grad():
+            h = torch.nn.functional.gelu(enc.conv1(f)); h = torch.nn.functional.gelu(enc.conv2(h)).permute(0, 2, 1)
+            h = h + enc.embed_positions.weight[:h.shape[1]]
+            mid = None
+            for j, l in enumerate(enc.layers):
+                o = l(h, attention_mask=None)
+                h = o[0] if isinstance(o, tuple) else o
+                if j == 1:
+                    mid = h.clone()
+            h = enc.layer_norm(h)
+        return h, mid
+
+    def score(self, xs):
         torch = self.torch
-        f = self.fe(list(xs), sampling_rate=SR, return_tensors='pt').input_features
+        h, mid = self.encode(xs)
+        B = len(xs)
         with torch.no_grad():
-            dec = torch.full((len(xs), 1), self.sot)
-            lg = self.wm(input_features=f, decoder_input_ids=dec).logits[:, -1, :]
-        pr = torch.softmax(lg.float(), -1)
-        nosp = pr[:, self.nosp].numpy()
-        ll = torch.log_softmax(lg[:, self.lang_ids].float(), -1)
-        pl = ll.exp()
-        ent = (-(pl * ll).sum(-1)).numpy()
-        top = pl.argmax(-1).numpy()
-        return nosp, ent, pl.max(-1).values.numpy(), top, pl.numpy()
-
-    def w2v(self, x, seed=0):
-        torch = self.torch
-        from transformers.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices, _sample_negative_indices
-        xv = (x - x.mean()) / (x.std() + 1e-7)
-        inp = torch.tensor(xv)[None]
-        T = int(self.w2._get_feat_extract_output_lengths(inp.shape[1]))
-        rs = np.random.get_state(); np.random.seed(seed)
-        mask = _compute_mask_indices((1, T), mask_prob=0.5, mask_length=10, min_masks=2)
-        neg = _sample_negative_indices((1, T), 100, mask_time_indices=mask)
-        np.random.set_state(rs)
-        with torch.no_grad():
-            o = self.w2(inp, mask_time_indices=torch.tensor(mask), sampled_negative_indices=torch.tensor(neg), output_hidden_states=True)
-        loss = float(o.contrastive_loss) / max(1, int(mask.sum()))
-        # boundary confidence from an unmasked pass (mid layer)
-        with torch.no_grad():
-            h = self.w2.wav2vec2(inp, output_hidden_states=True).hidden_states[6][0].numpy()
-        hn = h / (np.linalg.norm(h, axis=1, keepdims=True) + 1e-9)
-        d = 1 - (hn[1:] * hn[:-1]).sum(1)
-        d = (d - d.mean()) / (d.std() + 1e-9)
-        # peakiness: mean height of local maxima above neighbours; rhythm: autocorr peak 3-8 Hz (frames at 50 Hz)
-        pk = (d[1:-1] > d[:-2]) & (d[1:-1] > d[2:])
-        peak = float(np.mean(d[1:-1][pk])) if pk.any() else 0.0
-        ac = np.correlate(d, d, 'full')[len(d) - 1:]; ac = ac / (ac[0] + 1e-9)
-        rhythm = float(ac[6:17].max())  # lags 6-16 frames = 3.1-8.3 Hz
-        return loss, peak, rhythm
-
-    def score(self, xs, seeds=None):
-        nosp, ent, pmax, top, pl = self.whisper(xs)
+            lg = self.wm(encoder_outputs=(h,), decoder_input_ids=torch.full((B, 1), self.sot)).logits[:, -1, :].float()
+            pr = torch.softmax(lg, -1); nosp = pr[:, self.nosp].numpy()
+            ll = torch.log_softmax(lg[:, self.lang_ids], -1); pl = ll.exp()
+            ent = (-(pl * ll).sum(-1)).numpy(); top = pl.argmax(-1)
+            dec = torch.stack([torch.full((B,), self.sot), torch.tensor(self.lang_ids)[top], torch.full((B,), self.transcribe), torch.full((B,), self.notime)], 1)
+            conf = []
+            for _ in range(self.ntok):
+                l2 = self.wm(encoder_outputs=(h,), decoder_input_ids=dec).logits[:, -1, :].float()
+                p2 = torch.softmax(l2, -1); m, a = p2.max(-1)
+                conf.append(m); dec = torch.cat([dec, a[:, None]], 1)
+            lex = torch.stack(conf, 1).mean(1).numpy()
         res = []
-        for i, x in enumerate(xs):
-            r = dict(nosp=float(nosp[i]), lid_ent=float(ent[i]), lid_max=float(pmax[i]), lid_top=self.lang_names[int(top[i])])
-            if self.use_w2v:
-                lo, pk, rh = self.w2v(x, seed=(seeds[i] if seeds else i))
-                r.update(w2v_loss=lo, w2v_peak=pk, w2v_rhythm=rh)
-            res.append(r)
-        return res, pl
+        mid = mid.numpy()
+        for i in range(B):
+            hm = mid[i]; hn = hm / (np.linalg.norm(hm, axis=1, keepdims=True) + 1e-9)
+            d = 1 - (hn[1:] * hn[:-1]).sum(1); d = (d - d.mean()) / (d.std() + 1e-9)
+            pk = (d[1:-1] > d[:-2]) & (d[1:-1] > d[2:])
+            bnd = float(np.mean(d[1:-1][pk])) if pk.any() else 0.0
+            ac = np.correlate(d, d, 'full')[len(d) - 1:]; ac = ac / (ac[0] + 1e-9)
+            rhy = float(ac[6:17].max())   # encoder frames at 50 Hz: lags 6-16 = 3.1-8.3 Hz
+            res.append(dict(nosp=float(nosp[i]), lid_ent=float(ent[i]), lid_max=float(pl[i].max()),
+                            lid_top=self.lang_names[int(top[i])], lex=float(lex[i]), bnd=bnd, rhy=rhy))
+        return res, pl.numpy()
+
+METRICS = ['nosp', 'lid_ent', 'lid_max', 'lex', 'bnd', 'rhy']
+# sign so that larger = more speech-like
+SIGN = {'nosp': -1, 'lid_ent': -1, 'lid_max': 1, 'lex': 1, 'bnd': 1, 'rhy': 1}

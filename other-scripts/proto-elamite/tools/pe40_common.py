@@ -96,6 +96,7 @@ def spectral(W, circular=True, rng=None):
     d = W.sum(1) + 1e-9
     Dm = 1 / np.sqrt(d)
     L = np.eye(len(W)) - (Dm[:, None] * W * Dm[None, :])
+    L[np.abs(L) < 1e-12] = 0.0
     ev, V = np.linalg.eigh(L)
     if circular:
         ang = np.arctan2(V[:, 2] * Dm, V[:, 1] * Dm)
@@ -194,6 +195,7 @@ def block_score(Xtr, k, rng):
     W = weights(Xtr)
     d = W.sum(1) + 1e-9; Dm = 1 / np.sqrt(d)
     L = np.eye(len(W)) - (Dm[:, None] * W * Dm[None, :])
+    L[np.abs(L) < 1e-12] = 0.0
     ev, V = np.linalg.eigh(L)
     E = V[:, :k] * Dm[:, None]
     E = E / (np.linalg.norm(E, axis=1, keepdims=True) + 1e-12)

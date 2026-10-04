@@ -433,3 +433,10 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Grade C: M342 is the only transferable modifier (quantity family, p 0.006, tablet-disjoint; gone without it): |X+M342| is unnumbered / opening-line more often than X on 5 of 7 bases. Would support: new |X+M342| on new tablets unnumbered more often than X; would kill: numbered as often as X.
 - No modifier detectably marks female/young, herd subtype, ration grade or container. Not cracked.
 
+## The bones as a ruler (pe37, 4 Oct 2026; `loops/pe37_final.txt`)
+- Idea: animal bones from the same period are outside data. If the herd signs name sheep and goats by sex and age, their counts should match the herd the bones imply. Data: Tal-e Malyan Banesh bones (M. A. Zeder, Open Context; 5,479 specimens). Banesh herding was goat-led (sheep 0.33 of identified caprines), with few cattle (1.6%) and heavy culling of 1-3-year-olds (fused 0.90 / 0.70 / 0.38). A herd-demography model turns this kill-off into a living herd: 29% young, adult females 64% of adults (grade A data, B model).
+- **Grade A (negative, calibrated): summed herd counts cannot name the signs.** All 5.76 M assignments of the 8 herd signs leave 74,953 within 2 log units. Planted truth is recovered at chance (1.00/8 vs 1.14). Random invented herds fit PE as well as the bones (p 0.85).
+- Grade B (negative): on held-out tablets the bone ruler does worse than random profiles (rank 0.17 vs 0.07). The Ur III oracle passes the same test (p 0.003).
+- Calibration: with contemporary Kaftari bones, the Ur III goat terms are found (rank 1 of 204, p 0.009) but the sheep terms are not (rank 39). The scribes counted rams plus wethers and weaned lambs, not the biological herd. So a bone mismatch cannot kill a reading. pe20's M362/M367/M006 labels fit the bones badly (young/F 0.23, males/F 0.10), but they stay C. Best PE triple (post hoc, C-): M346 adult F, M346~a young, M006 male (posterior 0.05).
+- Not cracked. Nothing read.
+

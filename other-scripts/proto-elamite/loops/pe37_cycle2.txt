@@ -1,0 +1,10 @@
+pe37 cycle 2 -- does the bone ruler transfer to held-out tablets? Extended sign set with cattle
+Tools: tools/pe37_cycle2.py (parts H, X). Numbers: data/pe37_cycle2_H.json, data/pe37_cycle2_X.json. (Part H was relaunched with 20 splits after a container restart.)
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-37.2a | Held-out, PE: 20 random 50/50 tablet splits; MAP of all 7^8 assignments on train totals (Banesh ruler) scored on test totals as a rank among all assignments (0 = best). Null: same with random faunal profiles | bone ruler held-out rank 0.169; random profiles 0.074; one-sided p (bone better) 0.99 | FAIL: the Malyan ruler transfers worse than invented herds |
+| PE-37.2b | Positive control: Ur III oracle ruler on 24-tablet halves (20 splits) | oracle 0.068 vs random profiles 0.112, p 0.003 | the transfer test works when the ruler is right; the bones are not a right ruler for the PE counts |
+| PE-37.2c | Extended set: 20 most-counted final signs of the herd tablets (M362 compounds folded into M362), classes incl. cattle (Bos share 0.016 +- 0.005), Metropolis posterior (300 sweeps) | marginals nearly flat (mean max 0.23); P(cattle) tracks smallness (rho -0.82 with total; top M367~d 0.38, 27 units); best-scoring map is arbitrary (e.g. M106 sheep adult F, M054~b cattle) | NULL |
+| PE-37.2d | Null: 10 random faunal profiles (cattle 0.002-0.2) | posterior concentration 0.27-0.57, all above the real 0.23 | the real bone profile is easier to satisfy than random ones, i.e. less informative |
+| PE-37.2V | Cycle verdict | No transfer; cattle 'identification' is only 'the smallest count' | KILLED |

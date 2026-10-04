@@ -41,11 +41,16 @@ def main():
     by = defaultdict(list)
     for r in F: by[(r['corpus'], r['cond'])].append([r['F'][k] for k in keys])
     by = {k: np.nan_to_num(np.array(v, float)) for k, v in by.items()}
-    res = X.load('c4.json') or {}
+    OUTN = os.environ.get('C4OUT', 'c4.json')          # a second worker can take the list in reverse
+    res = X.load(OUTN) or {}
+    done = set(res) | set(X.load('c4.json') or {}) | set(X.load('c4b.json') or {})
     rng = random.Random(4)
     subsets = [sorted(rng.sample(range(len(keys)), 4)) for _ in range(300)]
-    for name in X.LIST + ['VOY'] + X.PROSE:
-        if name in res: continue
+    names = X.LIST + ['VOY'] + X.PROSE
+    if os.environ.get('C4REV'): names = names[::-1]
+    for name in names:
+        done = set(res) | set(X.load('c4.json') or {}) | set(X.load('c4b.json') or {})
+        if name in done: continue
         R = {}
         real = by[(name, 'real')]
         for g in GENS:
@@ -54,7 +59,7 @@ def main():
                     'floor_lr': auc_cv(a, b, 'lr'), 'floor_rf': auc_cv(a, b, 'rf')}
             rs = [auc_cv(real, a, 'lr', reps=2, cols=c) for c in subsets[:100]]
             R[g]['rand4_med'] = float(np.median(rs)); R[g]['rand4_p90'] = float(np.percentile(rs, 90))
-        res[name] = R; X.save('c4.json', res)
+        res[name] = R; X.save(OUTN, res)
         print(name, len(real), {g: (round(v['lr'], 2), round(v['rf'], 2), round(v['floor_rf'], 2), round(v['rand4_med'], 2))
                                 for g, v in R.items()}, flush=True)
 

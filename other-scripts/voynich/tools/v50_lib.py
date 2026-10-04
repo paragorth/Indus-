@@ -68,18 +68,18 @@ def write_idx(idx, fn):
     np.asarray(idx, dtype=np.int32).tofile(fn); return fn
 
 
-def run_sub(setname, idx, tag, kind='subdet'):
+def run_sub(setname, idx, tag, kind='subdet', mask='all'):
     fn = write_idx(idx, os.path.join(CK, f'{tag}.idx'))
     out = os.path.join(OUT, f'{setname}.{tag}.bin')
-    subprocess.run([BIN, os.path.join(SETS, setname + '.txt'), out, kind, fn, '0'], check=True,
+    subprocess.run([BIN, os.path.join(SETS, setname + '.txt'), out, kind, fn, '0', mask], check=True,
                    stderr=subprocess.DEVNULL)
     r = np.fromfile(out, dtype=np.float32).reshape(-1, 5)
     return {'n': r[:, 0], 'mi': r[:, 1], 'mis': r[:, 2], 'nu': r[:, 3], 'r3': r[:, 4], 'D': r[:, 1] - r[:, 2]}
 
 
-def streams(setname, idx, kind='subdet', tag='st'):
+def streams(setname, idx, kind='subdet', tag='st', mask='all'):
     fn = write_idx(idx, os.path.join(CK, f'{tag}.idx'))
-    p = subprocess.run([BIN, os.path.join(SETS, setname + '.txt'), 'STREAM', kind, fn, '0'], check=True,
+    p = subprocess.run([BIN, os.path.join(SETS, setname + '.txt'), 'STREAM', kind, fn, '0', mask], check=True,
                        capture_output=True, text=True)
     out = {}
     for line in p.stdout.splitlines():

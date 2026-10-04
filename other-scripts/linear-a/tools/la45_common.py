@@ -338,8 +338,8 @@ def _lg(x):
 
 
 @njit(cache=True)
-def objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, lam, alpha, beta, gamma):
-    """Collapsed log marginal likelihood of the training occurrences (omask) under the meanings, minus
+def objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, et, lam, alpha, beta, gamma, LH):
+    """(alpha = beta = gamma = 0.5 assumed: LH[k] = lgamma(k/2).) Collapsed log marginal likelihood of the training occurrences (omask) under the meanings, minus
     lam nats per used meaning, minus assignment code length (n_types * log K_used)."""
     K = Kmax
     Tr = np.zeros((K + 2, K))
@@ -366,27 +366,27 @@ def objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, lam, alp
         if tcount[t] > 0:
             m = assign[t]
             Vm[m] += 1
-            Em[m] += _lg(tcount[t] + beta) - _lg(beta)
+            Em[m] += et[t]
             ntyp += 1
     ll = 0.0
     used = 0
     for m in range(K):
         if Nm[m] > 0:
             used += 1
-            ll += _lg(Vm[m] * beta) - _lg(Nm[m] + Vm[m] * beta) + Em[m]
+            ll += LH[int(2.0 * (Vm[m] * beta) + 0.5)] - LH[int(2.0 * (Nm[m] + Vm[m] * beta) + 0.5)] + Em[m]
             for f in range(nf):
                 cf = card[f]
-                ll += _lg(cf * alpha) - _lg(Nm[m] + cf * alpha)
+                ll += LH[int(2.0 * (cf * alpha) + 0.5)] - LH[int(2.0 * (Nm[m] + cf * alpha) + 0.5)]
                 for v in range(cf):
-                    ll += _lg(Fc[f, m, v] + alpha) - _lg(alpha)
+                    ll += LH[int(2.0 * (Fc[f, m, v] + alpha) + 0.5)] - LH[int(2.0 * (alpha) + 0.5)]
     for r in range(K + 2):
         tot = 0.0
         for m in range(K):
             tot += Tr[r, m]
         if tot > 0:
-            ll += _lg(K * gamma) - _lg(tot + K * gamma)
+            ll += LH[int(2.0 * (K * gamma) + 0.5)] - LH[int(2.0 * (tot + K * gamma) + 0.5)]
             for m in range(K):
-                ll += _lg(Tr[r, m] + gamma) - _lg(gamma)
+                ll += LH[int(2.0 * (Tr[r, m] + gamma) + 0.5)] - LH[int(2.0 * (gamma) + 0.5)]
     if used > 1:
         ll -= ntyp * math.log(used)
     ll -= lam * used
@@ -394,8 +394,8 @@ def objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, lam, alp
 
 
 @njit(cache=True)
-def gibbs_sweep(assign, Kmax, order, otype, oprev, octx, F, card, omask, tcount, lam, temp, alpha, beta, gamma,
-                rs):
+def gibbs_sweep(assign, Kmax, order, otype, oprev, octx, F, card, omask, tcount, et, lam, temp, alpha, beta, gamma,
+                rs, LH):
     """One sweep: for each train type in order, sample a meaning from exp(obj/temp). rs = uniform randoms.
     Returns number of objective evaluations."""
     sc = np.zeros(Kmax)
@@ -417,7 +417,7 @@ def gibbs_sweep(assign, Kmax, order, otype, oprev, octx, F, card, omask, tcount,
                     continue
                 empty_taken = True
             assign[t] = m
-            sc[m] = objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, lam, alpha, beta, gamma)
+            sc[m] = objective(assign, Kmax, otype, oprev, octx, F, card, omask, tcount, et, lam, alpha, beta, gamma, LH)
             nev += 1
             if sc[m] > best:
                 best = sc[m]
@@ -523,6 +523,8 @@ class Game:
         self.vault = np.array(vault_docs); self.final = np.array(final_docs)
         self.trmask = self.dtr[B.odoc]
         self.tcount = np.bincount(B.otype[self.trmask], minlength=B.T).astype(np.float64)
+        self.et = np.array([math.lgamma(c + 0.5) - math.lgamma(0.5) for c in self.tcount])
+        self.LH = np.array([0.0] + [math.lgamma(k / 2.0) for k in range(1, 2 * (len(B.otype) + B.T) + 200)])
         self.P, self.C, self.rounds = P, C, rounds
         self.KMAX = 12
         self.eps, self.minrow = eps, minrow
@@ -560,7 +562,7 @@ class Game:
         order = self.rng.permutation(types)
         rs = self.rng.random(len(order))
         self.nev += gibbs_sweep(p['assign'], p['K'], order, B.otype, B.oprev, B.octx, B.F, CARD, self.trmask,
-                                self.tcount, p['lam'], p['temp'], self.alpha, self.beta, self.gamma, rs)
+                                self.tcount, self.et, p['lam'], p['temp'], self.alpha, self.beta, self.gamma, rs, self.LH)
 
     def play(self, log=None):
         for rnd in range(self.rounds):
@@ -631,6 +633,7 @@ def profiles(B, assign, trmask, tcount):
                    'nsum': int((Fm[:, 1] == 2).sum()), 'start': float((cm == 0).mean()),
                    'end': float((Fm[:, 0] == 0).mean()), 'frac': float((Fm[:, 0] == 3).mean()),
                    'medfreq': float(np.median(tcount[tys])),
+                   'wfreq': float(np.median(np.repeat(tcount[tys], tcount[tys].astype(int)))),
                    'top': [B.types[t] for t in tys[np.argsort(-tcount[tys])][:8]]}
     return prof
 
@@ -638,13 +641,13 @@ def profiles(B, assign, trmask, tcount):
 def name_meaning(p):
     if p['sumrate'] >= 0.25 and p['nsum'] >= 3:
         return 'TOTAL'
-    if p['adjnum'] >= 0.5 and p['medfreq'] >= 4:
+    if p['adjnum'] >= 0.5 and p['wfreq'] >= 8:
         return 'COMMODITY'
     if p['adjnum'] >= 0.35:
         return 'ENTRY'
     if p['start'] >= 0.4:
         return 'HEADER'
-    if p['medfreq'] >= 4:
+    if p['wfreq'] >= 8:
         return 'TERM'
     return 'RARE'
 
