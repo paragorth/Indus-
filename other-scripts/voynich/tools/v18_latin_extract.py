@@ -4,7 +4,7 @@ Same word-alignment and ink measures as v18_extract.py; line tracks come from th
 baselines (scaled to 2000 px width). Glyph count = letters + abbreviation marks.
 Usage: python3 v18_latin_extract.py DATA_DIR FOLDER [FOLDER ...]
 """
-import sys, os, re, json, numpy as np
+import sys, os, re, json, unicodedata, numpy as np
 import xml.etree.ElementTree as ET
 from concurrent.futures import ProcessPoolExecutor
 from PIL import Image
@@ -33,7 +33,8 @@ def parse(xmlf):
             s = tl.find(NS + 'String')
             if s is None or len(bl) < 4:
                 continue
-            txt = re.sub(r'[^\w\s]', '', s.get('CONTENT', ''), flags=re.UNICODE)
+            raw = s.get('CONTENT', '')
+            txt = ''.join(' ' if unicodedata.category(c)[0] in 'PZ' else (c if unicodedata.category(c)[0] in 'LN' else '') for c in raw)
             words = [w.lower() for w in txt.split() if w]
             if words:
                 lines.append({'bl': list(zip(bl[::2], bl[1::2])), 'words': words})

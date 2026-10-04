@@ -11,7 +11,8 @@ import numpy as np
 from scipy import ndimage as ndi
 
 MEAS = ['med', 'top', 'p90', '-gray', 'areag', 'rb', '-rb']
-DET = ['jump1', 'jump2', 'saw', 'min5']
+DET = ['jump1', 'jump2', 'saw', 'min5', 'gap1', 'gap2']
+CLEAN = ('gap1', 'gap2')  # darkness of the two words at the boundary is not used
 QS = [0.03, 0.05, 0.08, 0.12, 0.16, 0.20]
 SPACE = [1, 3, 5]
 FEATS = ['junc', 'bigr', 'len', 'dlen', 'freq', 'rep', 'init']
@@ -124,10 +125,23 @@ class Corpus:
                     mu[gi] = z[m].mean(); var[gi] = z[m].var(); n[gi] = m.sum()
             self.gstats[f] = (mu, var, n, ok)
 
-    def set_text(self, words):
+    def set_text(self, words, model_lines=None):
         """Replace the word sequence (planted / synthetic text), same layout."""
         self.word = list(words)
+        if model_lines is not None:
+            self.fit_model(model_lines)
         self.features()
+
+    def lines_of_text(self):
+        out, cur, key = [], [], None
+        for t in range(self.N):
+            kk = (self.page[t], self.li[t])
+            if kk != key and cur:
+                out.append(cur); cur = []
+            key = kk; cur.append(self.word[t])
+        if cur:
+            out.append(cur)
+        return out
 
     # ---------------- darkness and dips
     def residual(self, meas, content=True):
@@ -201,6 +215,12 @@ class Corpus:
                     cs = np.concatenate([[0], np.cumsum(x)])
                     t = np.arange(3, n - 1)
                     d[t] = 0.5 * (x[t] + x[t + 1]) - (cs[t] - cs[t - 3]) / 3
+            elif det == 'gap1':
+                d[2:n - 1] = x[3:] - x[:n - 3]          # x[t+1] - x[t-2]
+            elif det == 'gap2':
+                if n > 6:
+                    t = np.arange(3, n - 2)
+                    d[t] = 0.5 * (x[t + 1] + x[t + 2]) - 0.5 * (x[t - 3] + x[t - 2])
             elif det == 'min5':
                 pad = np.concatenate([np.full(5, np.inf), x])
                 mins = np.min(np.vstack([pad[j:j + n] for j in range(5)]), axis=0)  # min of x[t-5..t-1]
@@ -318,3 +338,51 @@ def evaluate(C, dipsets, maps=None):
             row.append(C.zscores(f(d)))
         res.append((st, len(idx), row))
     return res
+
+
+class Generator:
+    """Voynich-like word generator: unigram x glyph-junction coupling x near-repeats.
+    reset(t) -> the word is drawn from the plain unigram (no junction, no repeat)."""
+    def __init__(self, C, lines, rho=None, beta=1.0, seed=0):
+        self.C = C; self.g = C.glyphs; self.beta = beta
+        uni = collections.Counter(w for ws in lines for w in ws)
+        self.vocab = list(uni); self.p = np.array([uni[w] for w in self.vocab], float); self.p /= self.p.sum()
+        byf = collections.defaultdict(list)
+        for i, w in enumerate(self.vocab):
+            gl = self.g(w)
+            if gl:
+                byf[gl[0]].append(i)
+        self.firsts = list(byf); self.byf = {b: np.array(v) for b, v in byf.items()}
+        self.U = np.array([self.p[self.byf[b]].sum() for b in self.firsts])
+        self.within = {b: self.p[self.byf[b]] / self.p[self.byf[b]].sum() for b in self.firsts}
+        if rho is None:
+            rep = np.nan_to_num(np.array([0.0]))
+            n = r = 0
+            for ws in lines:
+                for i in range(1, len(ws)):
+                    n += 1; r += edit1(ws[i - 1], ws[i])
+            rho = r / max(1, n)
+        self.rho = rho
+        self.rng = np.random.default_rng(seed)
+
+    def draw(self, prev, reset):
+        rng = self.rng
+        if reset or prev is None:
+            return self.vocab[rng.choice(len(self.vocab), p=self.p)]
+        if rng.random() < self.rho:
+            return prev
+        a = self.g(prev)[-1] if self.g(prev) else None
+        w = self.U * np.exp(self.beta * np.array([self.C.jpmi.get((a, b), -1.0) for b in self.firsts]))
+        w /= w.sum()
+        b = self.firsts[rng.choice(len(self.firsts), p=w)]
+        return self.vocab[self.byf[b][rng.choice(len(self.byf[b]), p=self.within[b])]]
+
+    def text(self, reset_mask):
+        out = []
+        prev = None
+        for t in range(self.C.N):
+            if t > 0 and self.C.page[t] != self.C.page[t - 1]:
+                prev = None
+            w = self.draw(prev, bool(reset_mask[t]))
+            out.append(w); prev = w
+        return out

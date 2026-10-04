@@ -75,7 +75,8 @@ def stretches_for(C, cname, kind):
 def job(args):
     cname, kind, key = args
     fn = os.path.join(OUT, '%s_%s_%s.json' % (cname, kind, key))
-    if os.path.exists(fn):
+    d = json.load(open(fn)) if os.path.exists(fn) else None
+    if d == [] or (d and 'pooled_ws' in d):
         return fn
     C, _ = corpora()
     st = stretches_for(C, cname, kind)
@@ -83,9 +84,15 @@ def job(args):
         json.dump([], open(fn, 'w')); return fn
     sym = encode(st)
     big = cname in ('ZL', 'IT')
-    rows = run_engine(st, sym, key, R=60 if big else 100, restarts=5 if big else 6, ils=15 if big else 25, nrand=2000, seed=zlib.crc32(fn.encode()) % 100000, tag=cname + kind + key)
-    pooled = run_engine(st, sym, key, R=40, pooled=1, restarts=8, ils=60, nrand=200000, seed=7, tag='P' + cname + kind + key)
-    json.dump({'rows': rows, 'pooled': pooled[0]}, open(fn + '.tmp', 'w'))
+    if d is None:
+        rows = run_engine(st, sym, key, R=60 if big else 100, restarts=5 if big else 6, ils=15 if big else 25, nrand=2000,
+                          seed=zlib.crc32(fn.encode()) % 100000, tag=cname + kind + key)
+        d = {'rows': rows}
+    # pooled: ONE order for all stretches of the cell; null = within-stretch shuffles (nullmode 0).
+    # (an earlier version used a global cross-stretch shuffle; kept as 'pooled' where it exists)
+    d['pooled_ws'] = run_engine(st, sym, key, R=30, pooled=1, nullmode=0, restarts=6, ils=30, nrand=200000, seed=7,
+                                tag='P' + cname + kind + key)[0]
+    json.dump(d, open(fn + '.tmp', 'w'))
     os.replace(fn + '.tmp', fn)
     return fn
 

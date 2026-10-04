@@ -33,9 +33,9 @@ class ABC:
         self.tr = tr
         y = self.t if target == 't' else self.tau
         self.y = y
-        self.clf = RandomForestClassifier(300, min_samples_leaf=3, max_features='sqrt', n_jobs=NJ,
+        self.clf = RandomForestClassifier(120, min_samples_leaf=5, max_features='sqrt', max_samples=0.5, n_jobs=NJ,
                                           random_state=seed).fit(S[tr], self.src[tr])
-        self.reg = RandomForestRegressor(200, min_samples_leaf=5, max_features=0.33, n_jobs=NJ,
+        self.reg = RandomForestRegressor(80, min_samples_leaf=10, max_features=0.33, max_samples=0.5, n_jobs=NJ,
                                          random_state=seed).fit(S[tr], y[tr])
 
     def reject(self, s, q=0.002):

@@ -14,7 +14,7 @@
  *
  * Null: entries shuffled among entries of the same class (class 0 = all) inside
  * the stretch (per-stretch mode) or across the whole file (pooled mode, classes
- * global), or blocks (lines) permuted inside the stretch (nullmode 1); then the
+ * global, nullmode 2), or blocks (lines) permuted inside the stretch (nullmode 1); then the
  * SAME optimisation is re-run on each null replicate.
  *
  * Input (stdin):
@@ -98,7 +98,7 @@ static double optimise(const double *W, int *present, int k, int *bestord, doubl
   int ord[MAXA], cur[MAXA]; double best = -1;
   /* phase 1: random orders */
   double rm = -1;
-  for (int r = 0; r < nrand; r++){
+  for (int r = 0; r < (randmax ? nrand : 0); r++){
     for (int i = 0; i < k; i++) ord[i] = present[i];
     for (int i = k - 1; i > 0; i--){ int j = rint_(i + 1); int t = ord[i]; ord[i] = ord[j]; ord[j] = t; }
     double s = score(ord, k, W); if (s > rm) rm = s;
@@ -226,7 +226,7 @@ int main(int argc, char **argv){
     double sum = 0, sum2 = 0, mx = -2; int ge = 0;
     Entry **all = malloc(N * sizeof(Entry*)); int *own = malloc(N * sizeof(int));
     for (int r = 0; r < R; r++){
-      if (nullmode == 0){
+      if (nullmode == 2){
         /* global shuffle within class across all stretches: bucket by class */
         int p = 0; for (int s = 0; s < NS; s++) for (int i = 0; i < ns[s]; i++){ all[p] = seqs[s][i]; own[p] = p; p++; }
         /* sort indices by class, shuffle entries within class buckets */

@@ -1,0 +1,32 @@
+C2. Random pairings: 834 discriminators in 80 tasks
+
+Mean AUC by learner and best single pairing, per corpus/forger
+  LA       COPY0       n= 60 mean 0.499 max 0.570 | LR 0.496 LR10 0.499 RF 0.509 HGB 0.494 MLP 0.491
+  LA       E_num       n= 60 mean 0.517 max 0.670 | LR 0.520 LR10 0.476 RF 0.559 HGB 0.517 MLP 0.507
+  LA       E_numshuf   n= 60 mean 0.510 max 0.580 | LR 0.501 LR10 0.534 RF 0.517 HGB 0.512 MLP 0.509
+  LA       E_splLine   n= 60 mean 0.666 max 0.779 | LR 0.684 LR10 0.713 RF 0.634 HGB 0.614 MLP 0.638
+  LA       E_swapline  n= 60 mean 0.506 max 0.587 | LR 0.503 LR10 0.508 RF 0.519 HGB 0.495 MLP 0.502
+  LA       E_word      n= 60 mean 0.569 max 0.661 | LR 0.586 LR10 0.581 RF 0.536 HGB 0.527 MLP 0.540
+  LA       E_wordsite  n= 60 mean 0.537 max 0.689 | LR 0.561 LR10 0.558 RF 0.505 HGB 0.530 MLP 0.529
+  LA       FLAT        n= 96 mean 0.733 max 0.855 | LR 0.720 LR10 0.732 RF 0.786 HGB 0.700 MLP 0.701
+  LA       MK2         n= 96 mean 0.775 max 0.872 | LR 0.778 LR10 0.771 RF 0.780 HGB 0.758 MLP 0.770
+  LA       NEUR        n= 62 mean 0.775 max 0.891 | LR 0.784 LR10 0.773 RF 0.764 HGB 0.764 MLP 0.763
+  LB       FLAT        n= 60 mean 0.800 max 0.893 | LR 0.797 LR10 0.773 RF 0.814 HGB 0.818 MLP 0.802
+  LB       MK2         n= 60 mean 0.823 max 0.909 | LR 0.834 LR10 0.818 RF 0.818 HGB 0.812 MLP 0.790
+  LB       NEUR        n= 40 mean 0.797 max 0.878 | LR 0.800 LR10 0.807 RF 0.822 HGB 0.752 MLP 0.751
+
+Group marginal contribution to AUC (OLS coefficient x1000), with survival vs reference (* = d > 3 SE and d > 0.02)
+corpus/forger            len     uni    sign    sbig    tbig     pos   arith    numw    long     rep   ngram
+LA/COPY0 raw             -6      -0      -7      -2      +2     -19      -4     +10      +3     +22      +7 
+LA/E_num - ref          +23     +31     -23     +16      -3     +16     +55     -34     +12     -38      -1 
+LA/E_numshuf - ref       +1     +14     +14      -5     -11      +1     +20      -5     -12     -13      +6 
+LA/E_splLine - ref      +19     +12      +9     -30      -1     +44     +13     +11     -29     -12     +25 
+LA/E_swapline - ref      +6     -27     +23     -14      +6     +25     -16     -29      +4     -15     -18 
+LA/E_word - ref          -1     +25      +1     +39      +9     +16     +34     -16     -19     -27     +13 
+LA/E_wordsite - ref     -19     +26      +5     +28      +1      +6     -16     +21      -3     -35     +59 
+LA/FLAT raw              +3     +15     +17     +25     +52      +5     +30      -2     +11     +49     +48 
+LA/MK2 raw              +24      +9     +16     +12     +62      +7     +36      +3      -8     +39     +38 
+LA/NEUR raw              +2     +51     +18     +23     +72      -7      +6      -0     -11     +53     +29 
+LB/FLAT raw             +10     +26      +4     +45     +34      +8     -10      +2     +11     +18     +66 
+LB/MK2 raw               -5     +38     +31     +39     +51      +9     -13      -7     +36      +8     +68 
+LB/NEUR raw             +46      -7     +12     +25     +50     +21      -2     +10     +14     +14     +11 

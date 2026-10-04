@@ -6,7 +6,7 @@ A. Feature stability. From every single-group LR run (c1, c2), count in how many
    forger's own world (FW_X with forger X), where nothing should be stable.
 B. Planted recovery. In PLA, do the head>tail pairs of the planted key reach the real-indicative lists?
 C. Direct parametric bootstrap of scalar structure statistics: the statistic on all real documents
-   vs 40 forged corpora of equal size from each forger trained on ALL documents (in-sample, so the
+   vs 25 forged corpora (6 for NEUR) of equal size from each forger trained on ALL documents (in-sample, so the
    forger has every advantage). Calibration: the same on the forger's own world, and on LB and PLA.
 Usage: python3 la14_c3.py
 """
@@ -64,10 +64,10 @@ def boot(args):
 
 def part_c():
     jobs = []
-    for c, fs in [('LA', ['MK1', 'MK2', 'MK3', 'WMK2', 'FLAT', 'NEUR']), ('LB', ['MK2', 'FLAT', 'NEUR']),
+    for c, fs in [('LA', ['MK2', 'MK3', 'FLAT', 'NEUR']), ('LB', ['MK2', 'FLAT']),
                   ('PLA', ['MK2', 'FLAT']), ('FW_MK2', ['MK2']), ('FW_FLAT', ['FLAT']), ('FW_NEUR', ['NEUR'])]:
         for f in fs:
-            for r in range(40 if f != 'NEUR' else 12): jobs.append((c, f, r))
+            for r in range(25 if f != 'NEUR' else 6): jobs.append((c, f, r))
     path = os.path.join(C.OUT, 'c3_boot.jsonl')
     done = set()
     if os.path.exists(path):

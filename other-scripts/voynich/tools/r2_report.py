@@ -11,13 +11,22 @@ TN = ['P1', 'P2', 'P3', 'P4', 'P6', 'P8', 'AB', 'AW', 'AW2', 'FW', 'FL', 'PW', '
 AR = {'add': 2, 'sub': 2, 'mul': 2, 'mod': 2, 'min': 2, 'max': 2, 'eq': 2, 'lt': 2, 'if': 3, 'tab1': 1, 'tab2': 2, 'lsys': 1}
 
 
-def load_bin(name):
+LAYOUT = False
+
+
+def load_bin(name, layout=None):
+    layout = LAYOUT if layout is None else layout
     with open(os.path.join(R2, name + '.bin'), 'rb') as f:
         N, NT, V, ND = struct.unpack('iiii', f.read(16))
         X = np.frombuffer(f.read(4 * N), np.int32); SP = np.frombuffer(f.read(4 * N), np.int32)
         DOC = np.frombuffer(f.read(4 * N), np.int32); PB = np.frombuffer(f.read(8 * N), np.float64)
         F = np.frombuffer(f.read(4 * N * NT), np.int32).reshape(NT, N).astype(np.uint8)
-    return dict(N=N, V=V, ND=ND, X=X, SP=SP, DOC=DOC, PB=PB, F=F)
+    D = dict(N=N, V=V, ND=ND, X=X, SP=SP, DOC=DOC, PB=PB, F=F, BAR=-1)
+    if layout:   # line ends given: drop them from scoring, renormalise the baseline (as the C engine, mode 2)
+        pbar = np.fromfile(os.path.join(R2, name + '.pbar'), np.float64)
+        bar = int(X[-1]); D['BAR'] = bar
+        D['SP'] = np.where(X == bar, 3, SP); D['PB'] = np.where(X == bar, PB, PB / (1 - pbar))
+    return D
 
 
 def n_c_docs(name):
@@ -110,7 +119,8 @@ def run_prog(prog, D):
                 pu = np.array([tab.get(k, (255, 0))[1] for k in key.tolist()])
                 purity = np.digitize(pu, [0.25, 0.5, 0.75])
         st.append(o.astype(np.uint8))
-    pred = st[-1]
+    pred = st[-1].copy()
+    if D.get('BAR', -1) >= 0: pred[pred == D['BAR']] = 255
     if not (toks[-1] in ('tab1', 'tab2')): purity = np.zeros(N, int)
     return pred, purity
 
@@ -147,6 +157,7 @@ def dissect(name, h, D=None):
 
 if __name__ == '__main__':
     for tag in sys.argv[1:]:
+        LAYOUT = tag.startswith('c3')
         rows = summarize(tag)
         for name, r in rows.items():
             print(fmt(name, r))

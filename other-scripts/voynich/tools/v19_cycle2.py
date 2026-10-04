@@ -127,9 +127,84 @@ def job(args):
     return fn
 
 
+# ---------------- (b) matched nulls for the cycle-1 pooled Voynich signals ----------------
+def para_index(lines):
+    k = 0
+    out = []
+    for L in lines:
+        k = 0 if L['para_start'] else k + 1
+        out.append(min(k, 6))
+    return out
+
+
+def matched_stretches(lines, kind, cname):
+    """kind: body (page words without paragraph-first lines), liM / lfM (line-initial / line-final words,
+    class = section x line-index-in-paragraph, so the null keeps the paragraph-position drift)."""
+    pidx = para_index(lines)
+    secs = sorted({L['section'] for L in lines})
+    order, by = pages_of(lines)
+    st = []
+    for p in order:
+        if kind in ('body', 'bodyB3'):
+            b = 3 if kind == 'bodyB3' else 1
+            body = [i for i in by[p] if not lines[i]['para_start']]
+            ent = [(0, bi // b, w) for bi, i in enumerate(body) for w in lines[i]['words']]
+        elif kind == 'liB3':  # blocks of 3 consecutive non-paragraph-first lines, permuted (keeps the local chain)
+            body = [i for i in by[p] if not lines[i]['para_start']]
+            ent = [(0, bi // 3, lines[i]['words'][0]) for bi, i in enumerate(body)]
+        else:
+            ent = []
+            for bi, i in enumerate(by[p]):
+                if lines[i]['para_start']:
+                    continue
+                w = lines[i]['words'][0] if kind == 'liM' else lines[i]['words'][-1]
+                ent.append((secs.index(lines[i]['section']) * 10 + pidx[i], bi, w))
+        if len(ent) >= 8:
+            st.append((p, ent))
+    return st
+
+
+def mjob(args):
+    cname, kind, key, nm = args
+    fn = os.path.join(OUT, 'm_%s_%s_%s_%d.json' % (cname, kind, key, nm))
+    if os.path.exists(fn):
+        return fn
+    C, _ = corpora()
+    st = matched_stretches(C[cname], kind, cname)
+    sym = encode(st)
+    res = {}
+    if kind in ('body', 'bodyB3'):
+        rows = run_engine(st, sym, key, R=60, nullmode=nm, restarts=5, ils=15, nrand=0, seed=11, tag='m' + cname + kind + key)
+        res['rows'] = [dict(id=r['id'], n=r['n'], tau=r['tau'], z=r['z'], order_s=r['order_s']) for r in rows]
+    res['pooled'] = run_engine(st, sym, key, R=40, pooled=1, nullmode=nm, restarts=8, ils=40, nrand=0, seed=12, tag='mp' + cname + kind + key)[0]
+    json.dump(res, open(fn + '.tmp', 'w')); os.replace(fn + '.tmp', fn)
+    return fn
+
+
+def run_matched(second=False):
+    if second:
+        jobs = [(c, k, key, 1) for c in ['ZL', 'IT', 'LatXVI', 'LatX'] for key in ['F', 'L', 'R'] for k in ['liB3', 'bodyB3']]
+        with Pool(2) as P:
+            for fn in P.imap_unordered(mjob, jobs):
+                print('done', os.path.basename(fn), flush=True)
+        return
+    jobs = []
+    for c in ['ZL', 'IT', 'LatXVI', 'LatX']:
+        for key in ['F', 'L', 'R']:
+            jobs += [(c, 'body', key, 0), (c, 'body', key, 1), (c, 'liM', key, 2), (c, 'lfM', key, 2), (c, 'liM', key, 0)]
+    with Pool(2) as P:
+        for fn in P.imap_unordered(mjob, jobs):
+            print('done', os.path.basename(fn), flush=True)
+
+
 if __name__ == '__main__':
     jobs = [(c, k, key) for c in ['PSHARED', 'PLANT', 'LatX', 'LatXVI', 'LatXVII', 'ZL', 'IT']
             for k in ['pagewords', 'lineinit', 'linefinal', 'parainit', 'labels'] for key in ['F', 'L', 'R']]
+    if len(sys.argv) > 1 and sys.argv[1] == 'matched2':
+        run_matched(True); sys.exit()
+    if len(sys.argv) > 1 and sys.argv[1] == 'matched':
+        run_matched(); sys.exit()
     with Pool(2) as P:
         for fn in P.imap_unordered(job, jobs):
             print('done', os.path.basename(fn), flush=True)
+

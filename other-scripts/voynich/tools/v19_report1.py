@@ -34,7 +34,7 @@ if __name__ == '__main__':
             continue
         zs = [r['z'] for r in rows]
         m = max(rows, key=lambda r: r['z'])
-        po = d['pooled']
+        po = d['pooled_ws'] if 'pooled_ws' in d else d['pooled']
         print('%-26s %4d %4d %4d %5.1f  %-17s %6.3f %6.1f   %s' % ('%s/%s/%s' % (c, k, key), len(rows), sum(z > 3 for z in zs),
               sum(z > 4 for z in zs), m['z'], m['id'][:17], po['tau'], po['z'], po['order_s'][:60]))
     # BH within each corpus (all kinds x keys pooled into one family)

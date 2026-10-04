@@ -50,28 +50,30 @@ def run(S, site, end, K, nsamp, seed, ngrp=(2, 3, 4), nanneal=200):
              for z, a, b, o, e in off[:8] + off[-8:]]
     dz = [dict(x=E[i], z=round(float(Z[i, i]), 2), O=int(obs[i, i]) // 2, E=round(float(mu[i, i]) / 2, 1)) for i in range(k)]
     # annealed partition: maximise sum over within-class OFF-diagonal pairs of (O - mu) / sqrt(sum var)
-    def score(M, lab, g):
-        s = 0.0; v = 0.0
-        for i, j in zip(*iu):
-            if lab[i] == lab[j]: s += M[i, j] - mu[i, j]; v += sd[i, j] ** 2
-        return s / np.sqrt(v + 1e-9)
-    def anneal(M, g, rnd, steps=3000):
-        lab = [rnd.randrange(g) for _ in range(k)]; cur = score(M, lab, g); best = (cur, lab[:])
-        for t in range(steps):
-            T = 1.0 * (1 - t / steps) + 0.01
-            i = rnd.randrange(k); old = lab[i]; lab[i] = rnd.randrange(g)
-            new = score(M, lab, g)
-            if new >= cur or rnd.random() < np.exp((new - cur) / T): cur = new
-            else: lab[i] = old
-            if cur > best[0]: best = (cur, lab[:])
+    Vu = (sd ** 2)[iu]
+    def score_vec(M, lab):
+        lab = np.asarray(lab); same = (lab[iu[0]] == lab[iu[1]])
+        return float(((M - mu)[iu][same]).sum() / np.sqrt(Vu[same].sum() + 1e-9))
+    def anneal(M, g, rnd, steps=3000, restarts=3):
+        """identical search effort for the real matrix and every null matrix (v1 bug: nulls got less)"""
+        best = (-1e9, None)
+        for _r in range(restarts):
+            lab = [rnd.randrange(g) for _ in range(k)]; cur = score_vec(M, lab)
+            for t in range(steps):
+                T = 1.0 * (1 - t / steps) + 0.01
+                i = rnd.randrange(k); old = lab[i]; lab[i] = rnd.randrange(g)
+                new = score_vec(M, lab)
+                if new >= cur or rnd.random() < np.exp((new - cur) / T): cur = new
+                else: lab[i] = old
+                if cur > best[0]: best = (cur, lab[:])
         return best
     rnd = random.Random(seed)
     part = {}
     for g in ngrp:
-        b = max((anneal(obs, g, rnd) for _ in range(3)), key=lambda x: x[0])
+        b = anneal(obs, g, rnd)
         nb = []
         for r in range(nanneal):
-            nb.append(anneal(N[r], g, rnd, 1500)[0])
+            nb.append(anneal(N[r], g, rnd)[0])
         nb = np.array(nb)
         part[g] = dict(score=round(float(b[0]), 2), null_mean=round(float(nb.mean()), 2), null_max=round(float(nb.max()), 2),
                        p=round(float(((nb >= b[0]).sum() + 1) / (len(nb) + 1)), 4),
@@ -87,13 +89,13 @@ def main():
     job = sys.argv[1]; out = {}
     if job == 'lb':
         docs = lb_corpus(); S, site, _ = units(docs)
-        r = run(S, site, ends(S), 15, 500, 31, nanneal=100); out['LB_full'] = r; dump(out, 'c3_lb.json')
+        r = run(S, site, ends(S), 15, 500, 31, nanneal=200); out['LB_full'] = r; dump(out, 'c3_lb.json')
         print('LB', r['homogeneity'], {g: (v['score'], v['p']) for g, v in r['partition'].items()}, flush=True)
         subs = []
         for rep in range(6):
             rr = random.Random(3100 + rep); idx = rr.sample(range(len(S)), 245)
             S2 = [S[i] for i in idx]; s2 = [site[i] for i in idx]
-            r2 = run(S2, s2, ends(S2), 12, 500, 3200 + rep, nanneal=100)
+            r2 = run(S2, s2, ends(S2), 12, 500, 3200 + rep, nanneal=200)
             subs.append(r2); print('LB245', rep, r2['homogeneity'], {g: (v['score'], v['p']) for g, v in r2['partition'].items()}, flush=True)
         out['LB245'] = subs; dump(out, 'c3_lb.json')
     else:
@@ -105,7 +107,7 @@ def main():
         for rep in range(5):
             rr = random.Random(4100 + rep)
             e0 = ends(S); ws = list(e0); vals = [e0[w] for w in ws]; rr.shuffle(vals)
-            r2 = run(S, site, dict(zip(ws, vals)), 12, 500, 4200 + rep, nanneal=100)
+            r2 = run(S, site, dict(zip(ws, vals)), 12, 500, 4200 + rep, nanneal=200)
             neg.append(r2); print('neg', rep, r2['homogeneity'], {g: (v['score'], v['p']) for g, v in r2['partition'].items()}, flush=True)
         out['LA_endshuf'] = neg; dump(out, 'c3_la.json')
         pl = []
@@ -113,7 +115,7 @@ def main():
             rr = random.Random(4300 + rep)
             pick = set(rr.sample(range(len(S)), int(frac * len(S))))
             S2 = [frozenset(w + ('#C',) for w in s) if i in pick else s for i, s in enumerate(S)]
-            r2 = run(S2, site, ends(S2), 12, 500, 4400 + rep, nanneal=100)
+            r2 = run(S2, site, ends(S2), 12, 500, 4400 + rep, nanneal=200)
             hc = [d for d in r2['diag'] if d['x'] == '#C']
             pl.append(dict(frac=frac, res=r2, planted_diag=hc)); print('plant', frac, r2['homogeneity'], hc,
                                                                       {g: (v['score'], v['p']) for g, v in r2['partition'].items()}, flush=True)

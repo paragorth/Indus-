@@ -636,8 +636,8 @@ def make_clf(name, rs):
     from sklearn.neural_network import MLPClassifier
     if name == 'LR': return LogisticRegression(C=0.3, max_iter=2000, solver='liblinear')
     if name == 'LR10': return LogisticRegression(C=3.0, max_iter=2000, solver='liblinear')
-    if name == 'RF': return RandomForestClassifier(n_estimators=200, min_samples_leaf=2, random_state=rs, n_jobs=1)
-    if name == 'HGB': return HistGradientBoostingClassifier(max_iter=60, learning_rate=0.1, random_state=rs)
+    if name == 'RF': return RandomForestClassifier(n_estimators=100, min_samples_leaf=2, random_state=rs, n_jobs=1)
+    if name == 'HGB': return HistGradientBoostingClassifier(max_iter=40, learning_rate=0.1, random_state=rs)
     if name == 'MLP': return MLPClassifier(hidden_layer_sizes=(32,), alpha=1e-2, max_iter=150, random_state=rs)
     raise ValueError(name)
 

@@ -79,13 +79,12 @@ def plan_c2():
     """Cycle 2: thousands of random pairings (random group subsets x classifier x seed)."""
     rng = random.Random(14)
     T = []
-    forgers = ['MK2', 'FLAT', 'NEUR', 'COPY0', 'E_num', 'E_numnear', 'E_word', 'E_wordsite', 'E_splLine',
-               'E_numshuf', 'E_wordshuf', 'E_swapline']
+    forgers = ['MK2', 'FLAT', 'NEUR', 'COPY0', 'E_num', 'E_word', 'E_wordsite', 'E_splLine', 'E_numshuf', 'E_swapline']
     for c in ['LA', 'LB', 'PLA', 'FW_FLAT']:
         for f in forgers:
-            for s in range(8, 16):
+            for s in range(8, 14):
                 specs = []
-                for _ in range(12):
+                for _ in range(10):
                     k = rng.choice([1, 2, 3, 4, 6])
                     specs.append((sorted(rng.sample(C.ALLG, k)), rng.choice(['LR'] * 5 + ['LR10'] * 2 + ['RF'] * 3 + ['MLP', 'HGB'])))
                 T.append((c, f, s, 'real', specs))

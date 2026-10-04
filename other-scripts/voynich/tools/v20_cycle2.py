@@ -29,8 +29,13 @@ def base_features(names):
 
 
 def eig_min(S, S0):
-    w, V = eigh(S, S0 + 1e-6 * np.eye(len(S)) * np.trace(S0) / len(S))
-    return w[0], V[:, 0], w
+    """smallest generalized eigenvalue of S vs S0 inside the subspace where S0 is non-degenerate
+    (exact identities such as 'o-grave only word-final' or 'initial classes sum to the token count' are removed)."""
+    d, U = np.linalg.eigh(S0)
+    ok = d > 1e-7 * d.max()
+    W = U[:, ok] / np.sqrt(d[ok])
+    w, V = np.linalg.eigh(W.T @ S @ W)
+    return w[0], W @ V[:, 0], w
 
 
 def analyse(C, names, T, lev, tid, seed=9):
