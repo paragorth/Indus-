@@ -182,7 +182,7 @@ def parse_ur_quantity(toks):
         if t in ('gin2', 'ma-na', 'sar', 'iku', 'GAN2', 'bur3', 'esze3'): return 'bad'
         if (gur or lets or pending) and com is None and not t.startswith('{'):
             com = t
-        if lets or gur: closed = True
+        if lets or gur or pending: closed = True
     if not cap: return None
     if pending: return 'bad'
     if any(v < 0 for v in lets.values()) or gur < 0: return 'bad'
