@@ -187,6 +187,7 @@ NUM_STATS = ['p_num', 'q_log', 'p_round']
 HELD_NAMES = ['burst', 'adj_rep']
 FIT2_NAMES = FIT_NAMES + ['burst', 'adj_rep']
 HELD2_NAMES = ['heaps', 'rep_sign']
+HELD3_NAMES = ['heaps', 'rep_sign', 'kl_entry_last', 'purity']
 
 
 def sample_docs(C, rng, ntok=NTOK):
@@ -307,6 +308,21 @@ def panel(docs, rng):
     h = len(seq) // 2
     S['heaps'] = len(set(seq[:h])) / max(1, len(set(seq)))
     S['rep_sign'] = float(np.mean([any(w[i] == w[i + 1] for i in range(len(w) - 1)) for w in seq]))
+    # cycle-3 held-out: line-final effect and blind 'tablet purity' of the entry-final word
+    elast = Counter(); allast = Counter()
+    pur_n = 0; pur_h = 0
+    for d in docs:
+        fins = [ws[-1] for ws, q in d if ws]
+        for ws, q in d:
+            for w in ws:
+                allast[w[-1]] += 1
+            if ws:
+                elast[ws[-1][-1]] += 1
+        if len(fins) >= 3:
+            c = Counter(fins).most_common(1)[0][1]
+            pur_h += c; pur_n += len(fins)
+    S['kl_entry_last'] = _kl(elast, allast, list(allast.keys()))
+    S['purity'] = pur_h / pur_n if pur_n else 0.0
     return S
 
 

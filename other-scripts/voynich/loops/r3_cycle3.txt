@@ -1,0 +1,12 @@
+# R-3 cycle 3 -- refinement rounds and out-of-panel predictions (tools/r3_c3_launch.sh, r3_c3.py)
+# For VMS, PE, LA and LB (control), 3,000 new worlds each are drawn around the 100 nearest accepted worlds of the
+# richer box (Gaussian perturbation, sd = half the accepted spread). Questions: (a) can the box REACH each corpus
+# (nearest distance within the pseudo-data 95th percentile, 3.04)? (b) out-of-panel predictions from the 100 nearest
+# refined worlds, for 4 statistics never fitted (fixed before any cycle-3 result): heaps, rep_sign (as cycle 2),
+# kl_entry_last (does the last word of a line end differently? the box has NO line-final mechanism, so a real value
+# far above the prediction means a line-final rule exists), purity (share of a tablet's line-final words equal to its
+# commodest line-final word; the box's p_docgood should predict it on ledgers; LB is the known-world control, since
+# LB tablets are known to list one commodity). Prior-predictive ranges from 2,000 fresh prior worlds of the same box.
+# Pass = real inside the 90% PPI and PPI narrower than the prior one.
+| R-<n>.<cycle> | method and control | result | verdict |
+|---|---|---|---|

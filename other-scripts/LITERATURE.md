@@ -223,6 +223,8 @@ Other: Jamshidi Yeganeh et al. 2025, *JAS Reports*, https://doi.org/10.1016/j.ja
 
 ---
 
+- **Shared strokes and shared contexts (forum, June 2026).** voynich.ninja thread 5804 (https://www.voynich.ninja/archive/index.php/thread-5804-2.html): posters note that glyph pairs sharing strokes (ch/sh, k/t, p/f) have small distributional distances, citing Currier 1976 (glyphs built from 'i' and 'e' strokes) and Schwerdtfeger 2008 (design rules). Informal, a few pairs, no null or controls. v25 tests it formally (permutation and random-decomposition nulls, font-image shape, Hangul/Latin/Greek and planted controls).
+
 ## 4. Cross-cutting: separating language from non-linguistic or generated sign systems
 
 The literature now agrees on several points that bear directly on our Indus result (signs as a business code, not speech).

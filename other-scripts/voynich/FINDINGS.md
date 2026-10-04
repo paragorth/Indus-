@@ -568,3 +568,11 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - A paragraph is an opening line followed by an unordered body. Word order inside lines adds 33 millibits per word (z ≈ 11). Shuffling lines 2..n while keeping line 1 in place costs nothing. Flexible stages add only 5–11 millibits per word over fixed position bins. An Italian herbal shows a real multi-stage program (+73). Grade B.
 - Opening line: 69% of its words contain gallows. sh- words are about 3× as common there, and q- and a-/l- words are rarer. This does not explain the v19 drift.
 - Currier A and B share the program: each carries 80–90% of the other's order signal. Grade B.
+
+## Glyphs built from features (v25, 4 Oct 2026; `loops/v25_final.txt`)
+- Glyphs that share strokes behave alike: shape-vs-context Mantel r +0.28 to +0.44 from font images (no hand decomposition) and +0.39 from hand strokes, in ZL, IT, Currier A and B, all at the permutation floor and frequency-controlled. Hangul jamo (featural) +0.25 to +0.53; Latin and Greek ~0. Grade A.
+- Compositional: an unseen glyph's behaviour is predicted from its strokes (LOO cosine +0.23, p 0.002, like Hangul). The bench (gallows -> benched gallows) and the p/f crossbar act as additive features (parallelogram cosine +0.95 and +0.59). Grade B.
+- Carriers: tall strokes (gallows legs, ascenders), the bench, minims and tails; closed loops carry nothing. Grade C as sound features.
+- Not misreading (needs ~10% confusions; ZL-IT differ on 1.1%; consensus text keeps it), not word position (partial r +0.25). Stroke-edit copying from shape-neutral seeds builds part of it but 0/27 generator settings reproduce the whole profile. Grade B.
+- Tandem swap pairs (k/t, l/r, ch/cth) are NOT one stroke apart beyond chance. Grade C, demoted.
+

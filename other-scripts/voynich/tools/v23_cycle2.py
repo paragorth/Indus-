@@ -16,7 +16,7 @@ import v23_lib as L
 from v23_cycle1 import build
 
 STEPS, BATCH, SEQ, H = 800, 32, 64, 64
-SEEDS = (0, 1, 2)
+SEEDS = (0, 1)
 
 
 class Net(torch.nn.Module):
@@ -81,7 +81,7 @@ def run(name, seed=0):
 
 
 if __name__ == '__main__':
-    names = sys.argv[1:] or ['ZL', 'IT', 'LA', 'ITA', 'DE', 'CS', 'HE', 'PL_REV', 'MkG_1', 'RvG_0']
+    names = sys.argv[1:] or ['ZL', 'IT', 'LA', 'ITA', 'DE', 'CS', 'HE', 'PL_REV', 'MkG_1']
     jobs = [(n, s) for s in SEEDS for n in names]
     with Pool(int(os.environ.get('W', '2'))) as pool:
         for _ in pool.starmap(run, jobs): pass
