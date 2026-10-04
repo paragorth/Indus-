@@ -360,22 +360,8 @@ class Scribe:
         return x[2:] or 'o'
 
     # ---------------------------------------------------------- one word
-    def _copy_part(self, hist, e, curline, cwin, w_prev, w_far, page_lines):
-        """hist: list of (idx, line_no). Returns idx, weights (unnormalised, sum = 1)."""
-        I = []; Wt = []
-        for (ix, ln) in hist:
-            d = curline - ln
-            if d >= cwin: continue
-            wd = 1.0 if d == 0 else (w_prev if d == 1 else w_far)
-            if wd <= 0: continue
-            nb = self.nbr[ix] if (e > 0 and ix < self.nvocab) else ()
-            if len(nb):
-                I.append(ix); Wt.append(wd * (1 - e))
-                I.extend(nb.tolist()); Wt.extend([wd * e / len(nb)] * len(nb))
-            else:
-                I.append(ix); Wt.append(wd)
-        if not I: return None
-        Wt = np.array(Wt); return np.array(I, np.int32), Wt / Wt.sum()
+    def pool(self, e):
+        return CopyPool(self, e)
 
     def dist(self, g, st):
         """Candidate idx and probabilities for the next word given state st (finite part, before slot escape)."""
@@ -406,11 +392,11 @@ class Scribe:
             comps.append((tab, pj))
             if pr: comps.append(((np.array([st['previ']], np.int32), np.ones(1), 1), pr))
         if g['pi_copy'] > 0:
-            cp = self._copy_part(st['hist'], g['edit'], st['lineno'], g['cwin'], g['w_prev'], g['w_far'], None)
+            cp = st['cpool'].part(g['cwin'], g['w_prev'], g['w_far'])
             if cp is not None: comps.append(((cp[0], cp[1], 1), g['pi_copy']))
             else: comps[0] = (comps[0][0], comps[0][1] + g['pi_copy'])
         if g['pi_urn'] > 0:
-            cp = self._copy_part(st['hist'], g['urn_edit'], st['lineno'], 10 ** 6, 1.0, 1.0, None)
+            cp = st['upool'].part(10 ** 6, 1.0, 1.0)
             if cp is not None: comps.append(((cp[0], cp[1], 1), g['pi_urn']))
             else: comps[0] = (comps[0][0], comps[0][1] + g['pi_urn'])
         idx = np.concatenate([c[0][0] for c in comps])
@@ -440,11 +426,13 @@ class Scribe:
         """rng given: sample a forged page on p's skeleton. rng None: return (log2 prob, n_glyph_events) of p.
         eps: slot escape weight used in scoring (P = (1-eps) P_model + eps P_slot); in sampling pi_slot is used."""
         s = p['sec']
-        if s not in {k[1] for k in self.T if k[0] == 'L'}: s = '*'
+        if ('L', s, 'pf') not in self.T: s = '*'
         sec_for_slot = p['sec']
         sample = rng is not None
         hist = []; lineno = 0; paras = []; lp = 0.0; nev = 0
         cs_state = 0.0
+        cpool = CopyPool(self, g['edit']) if g['pi_copy'] > 0 else None
+        upool = CopyPool(self, g['urn_edit']) if g['pi_urn'] > 0 else None
         for qi, pa in enumerate(p['paras']):
             out = []; prevfirst = None; prevline_words = None
             if True: cs_state = 0.0
@@ -475,7 +463,7 @@ class Scribe:
                     above = prevline_words[k][-1] if (prevline_words is not None and k < len(prevline_words)) else None
                     st = dict(s=s, k=k, pc=pc, li=li, prevfirst=prevfirst, hist=hist, lineno=lineno, cs=cs_state,
                               above_lu=(self.u2i.get(above, -1) if above is not None else None), drift=drift,
-                              hasmg=hasmg, room=room)
+                              hasmg=hasmg, room=room, cpool=cpool, upool=upool)
                     if k > 0:
                         pw = line[-1]
                         st.update(prev=pw, previ=self.w2i[pw], prevfu=self.u2i[pw[0]], prevlen=len(pw),
@@ -496,13 +484,17 @@ class Scribe:
                         ps = math.exp(self.slot_lp(w, sec_for_slot, cls))
                         lp += math.log2((1 - eps) * pm + eps * ps + 1e-300); nev += len(w) + 1
                     wi = self.wid(w)
-                    line.append(w); hist.append((wi, lineno))
+                    line.append(w)
+                    if cpool: cpool.add(wi)
+                    if upool: upool.add(wi)
                     c = self.csm[wi]
                     if c: cs_state = c
                     if self.mg[wi]: hasmg = True
                     k += 1
                     if sample and g['width'] and pc == 'end': break
                 out.append(line); prevfirst = line[0][0]; prevline_words = line; lineno += 1
+                if cpool: cpool.newline()
+                if upool: upool.newline()
             paras.append(out)
         if sample:
             q = dict(p); q['paras'] = paras; return q
@@ -510,6 +502,58 @@ class Scribe:
 
     def forge(self, C, g, rng):
         return [self.walk(p, g, rng) for p in C]
+
+
+class CopyPool:
+    """Tokens already written on the page, each expanded to itself (1 - e) and its edit-1 vocabulary
+    neighbours (e, shared equally). part() weights: same line 1, one line up w_prev, 2..cwin-1 lines up w_far."""
+
+    def __init__(self, sc, e):
+        self.sc = sc; self.e = e; self.cache = {}
+        self.lines = []      # completed lines: (idx, w, ntok)
+        self.cur = []        # current line expansions
+        self.farc = {}
+
+    def exp(self, ix):
+        r = self.cache.get(ix)
+        if r is None:
+            nb = self.sc.nbr[ix] if (self.e > 0 and ix < self.sc.nvocab) else ()
+            if len(nb):
+                r = (np.r_[np.int32(ix), nb].astype(np.int32), np.r_[1 - self.e, np.full(len(nb), self.e / len(nb))])
+            else:
+                r = (np.array([ix], np.int32), np.ones(1))
+            self.cache[ix] = r
+        return r
+
+    def add(self, ix):
+        self.cur.append(self.exp(ix))
+
+    def newline(self):
+        if self.cur:
+            self.lines.append((np.concatenate([a for a, _ in self.cur]), np.concatenate([b for _, b in self.cur]), len(self.cur)))
+        else:
+            self.lines.append((np.zeros(0, np.int32), np.zeros(0), 0))
+        self.cur = []; self.farc = {}
+
+    def part(self, cwin, w_prev, w_far):
+        I = []; W = []; tot = 0.0
+        if self.cur:
+            I += [a for a, _ in self.cur]; W += [b for _, b in self.cur]; tot += len(self.cur)
+        if cwin >= 2 and self.lines and w_prev > 0:
+            a, b, n = self.lines[-1]
+            if n: I.append(a); W.append(b * w_prev); tot += n * w_prev
+        if cwin >= 3 and len(self.lines) >= 2 and w_far > 0:
+            key = (cwin, w_far)
+            fc = self.farc.get(key)
+            if fc is None:
+                L = self.lines[max(0, len(self.lines) - cwin + 1):-1]
+                L = [x for x in L if x[2]]
+                fc = (np.concatenate([x[0] for x in L]), np.concatenate([x[1] for x in L]) * w_far,
+                      sum(x[2] for x in L) * w_far) if L else None
+                self.farc[key] = fc
+            if fc is not None: I.append(fc[0]); W.append(fc[1]); tot += fc[2]
+        if not I or tot <= 0: return None
+        return np.concatenate(I), np.concatenate(W) / tot
 
 
 # ------------------------------------------------------------------ discriminators

@@ -53,6 +53,8 @@ def analyse(args):
     print('%-10s s%d %4dx%-3d ev %5d C %.3f NODF %5.1f (null %5.1f, z %+6.1f) H2\' %.3f (null %.3f z %+6.1f; tablet-null %.3f z %+5.1f) Q %.3f (null %.3f z %+5.1f) one-link %.2f' % (
         name, seed, W.shape[0], W.shape[1], W.sum(), B.mean(), obs_n, np.mean(nulls), out['nodf_z'], h2o, np.mean(h2n), out['h2_z'], out['h2_tab_null'], out['h2_tab_z'],
         q, np.mean(qn), out['Q_z'], out['cons_links_share1']), flush=True)
+    with open(os.path.join(CK, 'c1.jsonl'), 'a') as f:
+        f.write(json.dumps(out) + '\n')
     return out
 
 
@@ -61,15 +63,21 @@ if __name__ == '__main__':
     jobs = []
     for k in ('PE_STR', 'PE_SIGN', 'PE_HDR', 'PE_HRES', 'UR3_DAB', 'LB_STR', 'LB_SIGN'):
         jobs.append((k, D[k], 0))
-    for s in range(5):
+    for s in range(3):
         jobs.append(('UR3_STR', subsample_tablets(D['UR3_STR'], len(D['PE_STR']), s), s))
+    for s in range(2):
         jobs.append(('UR3_SIGN', subsample_tablets(D['UR3_SIGN'], len(D['PE_SIGN']), s), s))
         jobs.append(('LB_STRsub', subsample_tablets(D['LB_STR'], 2000, s), s))
-    for s in range(3):
+    for s in range(2):
         ev, _ = planted(480, 41, 6700, 5, s)
         jobs.append(('PLANT_MOD', ev, s))
         ev, _ = planted(480, 41, 6700, 5, s, mix=1.0)
         jobs.append(('PLANT_NULL', ev, s))
+    done = set()
+    if os.path.exists(os.path.join(CK, 'c1.jsonl')):
+        for l in open(os.path.join(CK, 'c1.jsonl')):
+            x = json.loads(l); done.add((x['net'], x['seed']))
+    jobs = [j for j in jobs if (j[0], j[2]) not in done]
     with Pool(2) as p:
         res = p.map(analyse, jobs, chunksize=1)
-    json.dump(res, open(os.path.join(CK, 'c1.json'), 'w'), indent=1)
+    pass
