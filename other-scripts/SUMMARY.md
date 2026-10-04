@@ -51,6 +51,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - No hidden letter stream in word lengths, gaps, line counts or line totals (v15: ~10 M random codebooks, 7 languages; planted Caesar recovered at +0.3 to +1.3 bits/letter, Voynich +0.03). Grade A, negative.
 - The spaces are not a mechanical lie: no re-spacing rule (80,000 tried) or free MDL re-segmentation beats the written spaces beyond a Markov-2 null, while planted spacings on Latin/Italian are beaten 2-3x harder. The written words save nothing over a glyph-bigram code (Latin words save 0.4-0.65 bits/glyph); the junction effect survives re-spacing (v16). Grade B.
 - Nothing is sorted: no page, window, line-initial run, label set or margin list is in any glyph order (v19: ~1.2 M order optimisations; planted lists and Isidore's alphabetical Etymologiae X found under substitution). Grade A negative for runs of >= ~25 entries. Side result: q-initial words drift up and a-initial words down within pages and paragraphs (Grade B, cause open).
+- Not written to a quota: no glyph, pair, word class or linear combination is held even per page, paragraph or bifolio (v20: ~2,150 features x 4 levels, planted quotas found; Voynich pages 2-5x more uneven than natural texts). Grade A negative for hard quotas. The one conserved per-line balance is reproduced by a word-bigram chain (Grade B).
 
 **Already published:** most of the above (arXiv 2608.17096, 2604.19762; Vogt 2012). Ours are independent replications.
 

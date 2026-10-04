@@ -448,6 +448,21 @@ def shuffle_lines(U, rng, keep_head=False):
     return out
 
 
+def shuffle_inline(U, rng):
+    """Shuffle the middle words of every line (line-initial and line-final words stay): kills word-to-word
+    order inside lines, keeps which words sit on which line."""
+    out = []
+    for u in U:
+        ls = []
+        for l in u['lines']:
+            l = list(l)
+            if len(l) > 3:
+                mid = l[1:-1]; rng.shuffle(mid); l = [l[0]] + mid + [l[-1]]
+            ls.append(l)
+        out.append(dict(u, lines=ls))
+    return out
+
+
 def shuffle_words_lp(U, rng):
     """Shuffle words within unit among slots of the same line position (initial / mid / final)."""
     out = []

@@ -32,8 +32,8 @@ def par_from_vec(v, kind):
     if kind == 'expw':
         tau, w, rho, g1, g2 = v
         rho = min(max(rho, -4.6), 4.6)
-        return {'shape': 'exp', 'tau': 0.3 + math.exp(min(tau, 6)), 'w': 1 / (1 + math.exp(-w)), 'rho': math.exp(rho),
-                'g1': math.exp(g1), 'g2': math.exp(g2)}
+        return {'shape': 'exp', 'tau': 0.3 + math.exp(min(tau, 6)), 'w': 1 / (1 + math.exp(-min(max(w, -30), 30))), 'rho': math.exp(rho),
+                'g1': math.exp(min(max(g1, -20), 20)), 'g2': math.exp(min(max(g2, -20), 20))}
     f = np.ones(C.D)
     for (a, b), x in zip(BINS[1:], v):
         f[a - 1:b] = math.exp(x)

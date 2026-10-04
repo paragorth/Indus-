@@ -32,6 +32,8 @@ def t_eval(spec):
     elif mode == 'lineshuf': U = L.shuffle_lines(L.units(C, level), rng)
     elif mode == 'wordshuf': U = L.shuffle_words_lp(L.units(C, level), rng)
     elif mode == 'parashuf': U = L.units(shuffle_paras(C, rng), level)
+    elif mode == 'inl': U = L.shuffle_inline(L.units(C, level), rng)
+    elif mode == 'inl_lineshuf': U = L.shuffle_lines(L.shuffle_inline(L.units(C, level), rng), rng)
     codes = L.code_all(U, coder)
     res = L.evaluate(codes, coder.sizes, L.folds_by_unit(U, 5, 1000 + seed), SL, R, seed)
     res.update(name=name, mode=mode, secs=time.time() - t0)
@@ -159,16 +161,23 @@ def run(spec):
 
 if __name__ == '__main__':
     S_best = int(sys.argv[1]) if len(sys.argv) > 1 else 6
-    jobs = [('profile', 'ZL_profile', 'ZL3b', 'para', S_best, 300, 7),
+    jobs = [('eval', 'ZL_inl', 'ZL3b', 'para', 'inl', 20),
+            ('eval', 'ZL_inl_lineshuf_0', 'ZL3b', 'para', 'inl_lineshuf', 21),
+            ('eval', 'LA_inl', 'LA', 'para', 'inl', 20),
+            ('eval', 'LA_inl_lineshuf_0', 'LA', 'para', 'inl_lineshuf', 21),
+            ('eval', 'IT_inl', 'IT', 'para', 'inl', 20),
+            ('eval', 'IT_inl_lineshuf_0', 'IT', 'para', 'inl_lineshuf', 21),
+            ('eval', 'ZL_inl_lineshuf_1', 'ZL3b', 'para', 'inl_lineshuf', 22),
+            ('profile', 'ZL_profile', 'ZL3b', 'para', S_best, 300, 7),
             ('transfer', 'ZL_AB_transfer', S_best, 3, 2),
-            ('eval', 'IT_real', 'IT2a', 'para', 'real', 0),
-            ('eval', 'IT_lineshuf_0', 'IT2a', 'para', 'lineshuf', 100),
-            ('eval', 'IT_wordshuf_0', 'IT2a', 'para', 'wordshuf', 200),
+            ('eval', 'IT2_real', 'IT2a', 'para', 'real', 0),
+            ('eval', 'IT2_lineshuf_0', 'IT2a', 'para', 'lineshuf', 100),
+            ('eval', 'IT2_wordshuf_0', 'IT2a', 'para', 'wordshuf', 200),
             ('eval', 'ZLpage_real', 'ZL3b', 'page', 'real', 0),
             ('eval', 'ZLpage_parashuf_0', 'ZL3b', 'page', 'parashuf', 900),
             ('eval', 'ZLpage_wordshuf_0', 'ZL3b', 'page', 'wordshuf', 910),
-            ('profile', 'IT_profile', 'IT2a', 'para', S_best, 150, 8),
-            ('eval', 'IT_lineshuf_1', 'IT2a', 'para', 'lineshuf', 101),
+            ('profile', 'IT2_profile', 'IT2a', 'para', S_best, 150, 8),
+            ('eval', 'IT2_lineshuf_1', 'IT2a', 'para', 'lineshuf', 101),
             ('eval', 'ZLpage_parashuf_1', 'ZL3b', 'page', 'parashuf', 901)]
     with Pool(2) as P:
         res = P.map(run, jobs, chunksize=1)
