@@ -677,3 +677,6 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Grade B, negative: habits do not harden. The CS drifts away from generator statistics (rho -0.31; volume 1 0.34 -> volume 2 0.18). The Voynich has no trend in folio order. Generator-likeness is present from the first pages.
 - Grade B: the books differ in topic. A junction forgery of the CS is caught at 0.99, like a Latin herbal, and mainly by page topic (rare words recur on their page 3.3x the forgery). The Voynich (0.94, or 0.91 at matched noise) has no topic signal. Topic-free pages are therefore not a generic trait of long meaningless writing.
 - Grade C: the Voynich belongs with long one-hand asemic books rather than with mechanical generators. Would support: a second, hand-transcribed long asemic book joins the class. Would kill: a long generator or a meaningful minim-script text is absorbed. Limit: n = 1 reference book, machine-read.
+
+## Note on v31, v42 and the "generator-like" results (4 Oct 2026)
+The meaningless, asemic and generator readings are long-known hypotheses, not new findings. The v42 resemblance to the Codex Seraphinianus is demoted to background (grade C, not pursued). From here, Voynich loops assume the text carries meaning. They treat the generator-like statistics as an encoding surface and aim at extracting what carries information.

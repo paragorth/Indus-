@@ -340,13 +340,14 @@ def summarize(words, sig, nperm=1000, seed=0, **kw):
 
 
 # ------------------------------------------------------------------ planted effort-minimiser
-def plant(words, alph, c, beta, K=24, seed=0):
+def plant(words, alph, c, beta, K=24, seed=0, mix=1.0):
     """each word token replaced by one of K random orderings of its glyphs (incl. the original), sampled with
-    probability ~ exp(-beta * mean transition cost)."""
+    probability ~ exp(-beta * mean transition cost). mix: fraction of tokens treated (the rest keep their real
+    order, so the real sequential structure survives)."""
     rng = random.Random(seed); ix = {a: i for i, a in enumerate(alph)}
     out = []
     for w in words:
-        if len(w) < 2 or beta == 0:
+        if len(w) < 2 or beta == 0 or rng.random() >= mix:
             out.append(w); continue
         cands = {w}
         for _ in range(K - 1):
