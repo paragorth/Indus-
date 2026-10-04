@@ -18,7 +18,20 @@ OUT = 'v48_cycle1.txt'
 
 
 def job(args):
+    import hashlib
     kind, payload = args
+    key = kind + '_' + (payload['name'] if kind == 'lang' else '_'.join(payload))
+    fn = os.path.join(L.CK, 'c1_jobs', hashlib.md5(key.encode()).hexdigest() + '.json')
+    os.makedirs(os.path.dirname(fn), exist_ok=True)
+    if os.path.exists(fn):
+        return json.load(open(fn))
+    r = _job(kind, payload)
+    json.dump(r, open(fn, 'w'), default=float)
+    print('done', key, flush=True)
+    return r
+
+
+def _job(kind, payload):
     if kind == 'lang':
         C = payload
         r = dict(name=C['name'], fam=C['fam'], fp=L.fp_corpus(C))

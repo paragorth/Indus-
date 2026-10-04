@@ -40,10 +40,10 @@ if __name__ == '__main__':
             except FileNotFoundError: pass
         res[c] = dict(real=r, null=nulls)
         nr = [x['row']['rho'] for x in nulls]
+        nc = ', '.join('%.3f' % x['row']['carry'] for x in nulls); ncol = ', '.join('%.3f' % x['col']['rho'] for x in nulls)
         print(f"{c:6s} shared {r['shared']}: ROW rho {r['row']['rho']:.3f} (shuffled halves {', '.join(f'{x:.3f}' for x in nr)}); "
               f"{r['row']['npairs']} A-pairs carry {r['row']['carry']:.3f} vs base {r['row']['base']:.3f} "
-              f"(null carry {', '.join(f'{x['row']['carry']:.3f}' for x in nulls)}) | COL rho {r['col']['rho']:.3f} "
-              f"(null {', '.join(f'{x['col']['rho']:.3f}' for x in nulls)})")
+              f"(null carry {nc}) | COL rho {r['col']['rho']:.3f} (null {ncol})")
         if 'truthA' in r:
             print(f"       truth halves cRowAUC {r['truthA']['crow_auc']:.3f}/{r['truthB']['crow_auc']:.3f}; colAUC {r['truthA']['col_auc']:.3f}/{r['truthB']['col_auc']:.3f}")
     json.dump(res, open(os.path.join(CK, 'report_c2.json'), 'w'), indent=1)

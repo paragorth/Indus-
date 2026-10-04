@@ -116,10 +116,10 @@ def battery(st, rng, sym=False):
 if __name__ == '__main__':
     rng = random.Random(453)
     names = sys.argv[1:] or ['V', 'VI', 'GEN0', 'GEN1', 'PL', 'LAw', 'LAl', 'GEw', 'GEl']
-    res = jload('c3.json') or {}
+    res = jload('c3_' + '_'.join(sys.argv[1:]) + '.json') or {}
     for nm in names:
         if not os.path.exists(os.path.join(CK, f'resid_{nm}.json')): print('missing', nm); continue
         S = streams(nm)
         res[nm] = {k: battery(v, rng, sym=(k == 'PIT')) for k, v in S.items()}
-        jsave('c3.json', res)
+        jsave('c3_' + '_'.join(sys.argv[1:]) + '.json', res)
         for k, v in res[nm].items(): print(nm, k, ' '.join('%s %+.4f' % kv for kv in v.items()), flush=True)

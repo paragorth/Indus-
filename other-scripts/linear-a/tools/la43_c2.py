@@ -22,8 +22,10 @@ TIERS = ['R2a', 'R2b', 'R3']
 SITES = ['Haghia Triada', 'Khania', 'Phaistos', 'Zakros', 'Knossos']
 
 
-def folds_la():
+def folds_la(valued=False):
     U = M.la_units()
+    if valued:   # only words written entirely with valued signs (as in la38)
+        U = [u for u in U if len(u['w']) >= 2 and all(M.L38.cv_of(s) is not None for s in u['w'])]
     g = lambda u: u['site'] if u['site'] in SITES else 'other'
     return [[u for u in U if g(u) == f] for f in SITES + ['other']]
 
@@ -80,6 +82,8 @@ class Loso:
 def build(tag):
     if tag == 'LA':
         return Loso(folds_la())
+    if tag == 'LAV':
+        return Loso(folds_la(valued=True))
     if tag == 'LAIN':
         return Loso(folds_insite())
     if tag.startswith('LB'):
@@ -134,7 +138,7 @@ def main():
     done = json.load(open(out_p)) if os.path.exists(out_p) else []
     have = {(d['kind'], d['tag'], d.get('tier') or d.get('row')) for d in done}
     jobs = []
-    tags = ['LA', 'LAIN'] + [f'LB{d}' for d in range(5)]
+    tags = ['LA', 'LAV', 'LAIN'] + [f'LB{d}' for d in range(5)]
     fz = os.path.join(M.CK, 'c2_freeze.json')
     if not os.path.exists(fz):
         F = {t: build(t).frozen() for t in tags}
@@ -143,10 +147,11 @@ def main():
     for k, t in enumerate(TIERS):
         jobs.append(('tier', 'LA', t, 2000, 3000 + k))
         jobs.append(('tier', 'LAIN', t, 1000, 3100 + k))
+        jobs.append(('tier', 'LAV', t, 2000, 3150 + k))
         for d in range(5):
             jobs.append(('tier', f'LB{d}', t, 300, 3200 + 10 * d + k))
     for tag in tags:
-        if tag in ('LAIN', 'LB3', 'LB4'):
+        if tag in ('LAIN', 'LAV', 'LB3', 'LB4'):
             continue
         G = build(tag).grid
         cnt = collections.Counter(G.C0.tolist())
@@ -154,7 +159,7 @@ def main():
             if n >= 2:
                 jobs.append(('row', tag, G.Clab[ci], 500 if tag == 'LA' else 150, 4000 + ci + 100 * tags.index(tag)))
     jobs = [j for j in jobs if (j[0], j[1], j[2]) not in have]
-    jobs.sort(key=lambda j: (j[1] == 'LA', j[3]))
+    jobs.sort(key=lambda j: (j[0] == 'row', j[1].startswith('LA'), j[3]))
     with Pool(2) as pool:
         for r in pool.imap_unordered(job, jobs):
             done.append(r)

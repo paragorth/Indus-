@@ -1,0 +1,8 @@
+# v47 cycle 3 - cross-section probe: pharmaceutical registers against herbal pages
+| id | method and control | result | verdict |
+|---|---|---|---|
+| V-47.3.1 | CROSS-SECTION PROBE, paragraphs: 41 pharma register units x 91 A1 herbal pages; double-centred four-net visual similarity vs tf-idf overlap of the unit paragraph with the herbal page; herbal visual rows permuted (2000) | four-net r -0.0167 z -0.95 p 0.8251; CLIP alone z -1.44; MAE alone z -0.28 | no cross-section link |
+| V-47.3.2 | CROSS-SECTION PROBE, labels: the folio's label words (>= 4 glyphs) found (exact or one glyph edit) in the herbal page, per sqrt(page length); unit level (41 units) and folio level (15 folios) | unit r +0.0318 z +1.63 p 0.0525; folio r +0.0401 z +1.25 p 0.1059 | no label-picture link across sections |
+| V-47.3.3 | PLANTED control for the bipartite statistic: 10% of herbal and pharma tokens drawn from one vocabulary map driven by the shared DINO embedding | z +1.38 p 0.0758 | statistic too weak at this size |
+| V-47.3.4 | POSITIVE control, gerard: 41 probe pages (even pseudo-quires) x 72 target pages (odd), identical bipartite statistic | r +0.0745 z +3.54 p 0.0010 | control works |
+| V-47.3.5 | POSITIVE control, dodoens: 41 probe pages (even pseudo-quires) x 108 target pages (odd), identical bipartite statistic | r +0.0459 z +2.75 p 0.0060 | control works |
