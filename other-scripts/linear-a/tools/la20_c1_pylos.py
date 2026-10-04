@@ -3,7 +3,8 @@
 canonical order of the 16 district towns (9 Hither + 7 Further) from the lists alone?
 Place spellings are mapped to slot ids by stems (control side only). Also: general held-out
 pair accuracy on PY words/logograms/first signs, full and subsampled to Linear A size."""
-import sys, json, time
+import os, sys, json, time
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"): os.environ.setdefault(_v, "1")
 from scipy.stats import kendalltau
 from la20_common import *
 

@@ -92,7 +92,7 @@ def run(arg):
         lags = LAGS_G if level == 'glyph' else LAGS_W if level == 'word' else LAGS_L
         mats = {k: page_mats(CC, level, aix, k, tokfn) for k in lags}
         rng = random.Random(zlib.crc32(level.encode()) + 17)
-        surv, zs = [], []
+        surv, zs, kinds = [], [], []
         for i in range(NPROBE):
             c, m, kind = random_classes(alpha, level, rng, gf)
             k = rng.choice(list(lags))
@@ -101,7 +101,7 @@ def run(arg):
             D = np.array([u @ (M @ v) for M in mats[k]])
             DA = np.array([D[j] for j in range(len(CC)) if j in A]); DB = np.array([D[j] for j in range(len(CC)) if j not in A])
             zA = DA.sum() / math.sqrt((DA ** 2).sum() + 1e-9); zB = DB.sum() / math.sqrt((DB ** 2).sum() + 1e-9)
-            zs.append((zA, zB))
+            zs.append((zA, zB)); kinds.append((kind, k))
             if abs(zA) >= 3 and np.sign(zB) == np.sign(zA) and abs(zB) >= 2:
                 desc = {'kind': kind, 'lag': k, 'a': [alpha[j] for j in np.where(u)[0][:12]],
                         'b': [alpha[j] for j in np.where(v)[0][:12]], 'na': int(u.sum()), 'nb': int(v.sum()),
@@ -113,6 +113,7 @@ def run(arg):
                                 'rep_rate': len(surv) / max(nA, 1),
                                 'corr_zA_zB': float(np.corrcoef(zs[:, 0], zs[:, 1])[0, 1]),
                                 'median_absz': float(np.median(np.abs(zs[:, 0]))),
+                                'probes': [[kd, kk, round(float(a), 2), round(float(b), 2)] for (kd, kk), (a, b) in zip(kinds, zs)],
                                 'top': sorted(surv, key=lambda d: -abs(d['zA']) - abs(d['zB']))[:15]}
     res['sec'] = time.time() - t0
     json.dump(res, open(fn, 'w'))

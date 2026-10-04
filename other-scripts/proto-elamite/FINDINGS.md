@@ -254,3 +254,9 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Entries carry no check marks. About 130,000 candidate rules over 5 slots found nothing beyond the null (best z +0.4 after size correction). A planted modulo-3 check sign was found at z +9.7, and the Ur III weight-unit marker at z +43. Grade B negative.
 - No verification tick and no check sign on totals (56 legible tablets, FWER p 0.80). Mismatched totals are not single-sign slips.
 - Side finding, grade B: about 20 lists are fixed two-line records, such as MDP 31, 004. There, each "name M288, 2" line is followed by "M376, 1/4". This explains the pe13 dip at the next entry and the peak two entries later (lag 1 z −5.5, lag 2 z +4.6).
+
+## Woven tablets (pe14)
+- Grade A: a period of 2 is real, but it is confined to about 12–20 tablets of fixed two-line records, such as P009343, P009000, P008689 and P008020. The class sign gives z 3.5 on the search half and z 6.2 on the re-test half, and it survives a per-tablet adjacency null.
+- Grade B: beyond those tablets nothing repeats. All 50 feature × period (2–6) tests give z ≤ 2.7. There are no 3–6-line records, and no fixed sign pair survives a 1,160-pair search.
+- Grade B: the records are fixed recipes. The companion line's number is often constant, and where it varies it follows the main line's number (Spearman 0.23 vs 0.11, p 0.001). M288 and M346 are each the repeating companion, on different tablets.
+- Grade C: each record is one person's two-part allotment.

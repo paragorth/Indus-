@@ -1,0 +1,21 @@
+pe14 final (4 Oct 2026): THE TABLET IS WOVEN. Cycles: loops/pe14_cycle1-3.txt. Tools: tools/pe14_*.py. Checkpoints: data/pe14_ckpt/ (git-ignored).
+
+Question: are PE tablets woven, with entries following a repeating pattern of period 2-12 (debit/credit, person/animal, male/female/young), in any feature (signs, class sign, numeral system, size, length)?
+Prior art: HMMs have been used on PE only to find headers (Born, Kelley et al. 2019). No period scan exists.
+
+Calibration: planted weaves on 25% of tablets (entries only reordered) found at the right period and feature (period 3 size z 5.3 / 9.4; period 4 first sign z 5.5 / 5.6; period 2 class sign z 4.8 / 8.8). Ur III Drehem shows its known animal / name rhythm (period 2, z 7-8, held out). Flat-topic negative control: 0 survivors. Proto-cuneiform shows that a single long tablet can make a half-A survivor, so half-B replication is required. A corpus-wide cyclic HMM FAILED its positive controls (Ur III, planted) and is not used as evidence.
+
+Results:
+- Period 2 (with harmonic 4) is real: class sign z 3.5 on half A and 6.2 on half B (FWER-corrected comb search), also M288, M376 and numeral type. It survives an adjacency null fitted per tablet (z 3.5-4.5), so it is not the pe13 dip. Confirms pe12.
+- It is carried entirely by fixed two-line records: about 12-13 tablets beyond chance (20 with >= 4 repeats vs 7.5 under the dip null; >= 6 repeats 9 vs 1.1). Examples: P009343 'name M288, 2' + 'M376, 1(N08A)' x 16; P009000 'M387~ee M297, 1(N24)' + 'M002~b, 1(N30C)' x 8; P008689 'name, n' + 'M346, 1' x 8; P008020 '... M288' + 'M391, 1'. The repeating companion is M346 (5 tablets), M288 (4), M376, M354, M036, M297 (2 each), M391, M418, M054, M002~b, M311.
+- Records are recipes: the companion's number is often constant, and where it varies it follows the main line's number (Spearman 0.23 vs 0.11 +- 0.04, p 0.001).
+- Nothing beyond them. With the same removal rule applied to real and null, all 50 feature x period (2-6) tests are z <= 2.7 (planted period 3 still z 10; Ur III keeps period 2). No fixed 3-6-line records (period 3: 19 vs 21 expected). No sign pair a -> b survives a 1,160-hypothesis search. About 9 tablets are individually woven; without the record tablets, 1 (0.8 expected).
+- M288 and M346 are NOT two halves of one record: M288 -> M346 at lag 1 is 8 vs 5.8 (A) and 1 vs 1.4 (B). Each one is the repeating companion on different tablets.
+- Side result: M388, M009, M264 and M157 favour the first entry position (z -4.8 / -8.1 for 'an entry follows M388').
+
+Grades:
+- A: some PE lists (about 12-20 tablets, ~3% of tablets with >= 3 entries) are woven from fixed two-line records.
+- B: beyond those, PE entries follow no period 2-6 and no fixed pairing of neighbouring signs. Power: planted weaves on 25% of tablets give z 5-10.
+- B: the record is a fixed recipe; the companion's quantity tracks the main line's.
+- C guess: each record is one person's allotment of two goods, or a worker plus a fixed side share (e.g. 2 + 1/4 of M376). Would support: on newly published tablets, the same companion with a constant number from the same scribe or archive. Would kill: companion numbers independent of main-line numbers on a larger set.
+Nothing is read; nothing is "cracked".

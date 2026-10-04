@@ -4,7 +4,8 @@
 taken in every shuffled replicate too (search-size correction); planted 2-order mixture as
 positive control for the mixture model.
 usage: la20_c2.py plant|mix TYPES NREP"""
-import sys, json, time
+import os, sys, json, time
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"): os.environ.setdefault(_v, "1")
 from scipy.stats import kendalltau
 from la20_common import *
 
