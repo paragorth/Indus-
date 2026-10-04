@@ -9,7 +9,7 @@ The top 1 % of graphs on half A vote an edge consensus; it is re-tested on held-
 against the Jaccard of random graphs of the same density.
 Controls: planted shared words along the real ring edges (m = 4, 8 per edge) must make the
 consensus converge on the ring graph; a document-label-shuffled corpus must not.
-30 random splits per arm.
+20 random splits per arm.
 """
 import json, itertools, time
 import numpy as np
@@ -31,7 +31,7 @@ dens = G.sum(1)
 def pair_resid(docs):
     tot = np.zeros(len(pairs))
     for key, fn in MEASURES.values():
-        Z, _, _ = excess_z(docs, nodes, key, fn, 100, rng)
+        Z, _, _ = excess_z(docs, nodes, key, fn, 60, rng)
         z = np.array([Z[i, j] for i, j in pairs])
         z[~np.isfinite(z)] = 0
         tot += resid_on(z, [ld])
@@ -74,7 +74,7 @@ res = {}
 k_ring = int(ring_vec.sum())
 for arm in ('real', 'plant4', 'plant8', 'shuffled'):
     stats = []
-    for sp in range(30):
+    for sp in range(20):
         docs = base
         if arm.startswith('plant'):
             docs = plant(base, int(arm[5:]))

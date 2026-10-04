@@ -38,6 +38,11 @@ PAIRS = {
     'U_VLat': ('V_A', 'I_Lat', 'free', 'M', 'unrelated system'),
     'K_Sub': ('G_Bav2', 'K_Sub', 'idx', 'M', 'cipher: full substitution'),
     'K_Swap3': ('G_Bav2', 'K_Swap3', 'idx', 'M', 'cipher: 3 letter swaps'),
+    # reversed directions (cycle 3)
+    'R_CzReform': ('C_Old', 'C_Mod', 'free', 'M', 'spelling reform (reversed)'),
+    'R_AlemBav': ('G_Alem', 'G_Bav1', 'free', 'M', 'dialect (reversed)'),
+    'R_ItaLat': ('I_Ita', 'I_Lat', 'free', 'M', 'related language (reversed)'),
+    'R_ComCom': ('I_Com2', 'I_Com1', 'free', 'M', 'same work (reversed)'),
     # small budget (herbal B has only 3456 words)
     'S_ABherb': ('V_Aherb', 'V_Bherb', 'free', 'S', 'voynich'),
     'S_AA': ('V_Aherb', 'V_Aherb', 'idx', 'S', 'null'),

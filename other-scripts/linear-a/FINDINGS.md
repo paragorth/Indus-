@@ -258,3 +258,12 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 ## Grow the script in a box (r3, 4 Oct 2026; `voynich/loops/r3_final.txt`)
 - Simulated societies + ABC put LA in a named, numbered ledger world with a ~100-200-sign syllabary, written dividers, no secrecy (C; agrees with known structure). Held-out 3/4.
 - 'One commodity carried down each tablet' killed: it predicts line-final purity 0.56, real 0.28.
+
+## The fire set the clock (la25, 4 Oct 2026; `loops/la25_final.txt`)
+- Idea: each LM IB archive was baked by its destruction fire, so its commodity mix (GRA, VIN, OLE, OLIV, other; one count per document and commodity) is a snapshot of one month. About 1.5x10^7 simulated archive sets (random agronomic crop calendars x destruction month per archive x seasonal strength x site noise x base rates), rejection ABC.
+- Killed (grade A, calibrated negative): no destruction month for HT, KH, ZA or TY. Posteriors are flat (max 0.10-0.12 vs 0.083) and the best month changes with each setting. Planted archives at LA size are not recovered (true-month mass 0.087-0.094), and not at 64x LA size either. With base rates known (oracle) the clock reaches only about a season (MAP within one month 0.5-0.6).
+- Cause: what a site normally records (base rate) and when it burned (season) are confounded; more tablets do not help.
+- The Linear B control fails: KN and PY, argued to have burned in spring, get 0.32-0.50 of their posterior in Feb-May (prior 0.33); every LB archive is pulled to Jun-Jul. Shuffled commodity labels are as informative as the real ones; agronomic calendars fit no better than random ones.
+- One fire or several: untestable (P(same month) 0.49; planted AUC 0.52-0.61). Two random halves of Hagia Triada are not recognised as burning together.
+- Outside check: no published season for any LM IB fire was found. Grade C hint: the bowl of preserved olives at Zakros (autumn-winter if fresh). Would support: fresh-olive stores in other LM IB fire layers; would kill: the olives shown to be cured.
+- Lesson: a fire clock needs an independent anchor (month names, dated intake records, or seasonal plant remains in the same burnt room).

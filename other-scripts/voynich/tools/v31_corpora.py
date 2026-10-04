@@ -98,13 +98,33 @@ def _load_lex(l):
     L = lexicon(l); pickle.dump(L, open(pk, 'wb')); return L
 
 
+LA_END = sorted(set('ionibus ibus ionem ionis iones orum arum issimus issima issime aueris averis abit auit eris erit erunt ere are ire '
+                   'atur itur untur antur entur amus emus imus atis etis itis ando endo andi endi ens ent unt ant ter iter ior ius ium '
+                   'ia ae am as is os us um em es it a o e i'.split()), key=len, reverse=True)
+_LASTEM = None
+
+
+def la_stem(w):
+    w = w.replace('j', 'i').replace('v', 'u')
+    for e in LA_END:
+        if w.endswith(e) and len(w) - len(e) >= 4: return w[:-len(e)]
+    return w
+
+
 def is_lex(w, langs):
+    global _LASTEM
+    if not re.search('[aeiouy]', w): return True      # sigla, abbreviations (pp, ff, cf)
+    for enc in ('que', 'ue', 've'):
+        if 'la' in langs and len(w) > len(enc) + 4 and w.endswith(enc) and is_lex(w[:-len(enc)], ('la',)): return True
     for l in langs:
         if l not in _LEX:
             _LEX[l] = _load_lex(l); _SK[l] = {skel(x) for x in _LEX[l]}
         L = _LEX[l]
         if w in L: return True
         if l == 'la' and w.replace('j', 'i').replace('v', 'u') in L: return True
+        if l == 'la' and len(w) >= 6:
+            if _LASTEM is None: _LASTEM = {la_stem(x) for x in L if len(x) >= 6}
+            if la_stem(w) in _LASTEM: return True
         if len(w) >= 4 and skel(w) in _SK[l]: return True
     return False
 
@@ -149,6 +169,7 @@ def clean(raw):
     t = re.sub(r'(?i)<br\s*/?>|</?p[^>]*>|</?h\d[^>]*>|</?div[^>]*>|</?li[^>]*>|</?blockquote[^>]*>', '\n', raw)
     t = re.sub(r'<[^>]+>', ' ', t)
     t = html.unescape(t)
+    t = re.sub(r'https?://\S+|www\.\S+|creativecommons\S*', ' ', t)
     t = re.sub(r'-\s*\|\s*', '', t)          # manuscript line-break hyphens (Juratus ME text)
     t = t.replace('|', ' ')
     t = re.sub(r'\[[^\]]{0,80}\]', ' ', t)   # editorial brackets
@@ -161,7 +182,7 @@ def tokens_with_breaks(t):
     for m in re.finditer(r"[^\W\d_]+(?:-[^\W\d_]+)*|\n\s*\n|[0-9]+", t):
         s = m.group(0)
         if s.strip() == '': out.append(None); continue
-        if s[0].isdigit(): out.append(None); continue
+        if s[0].isdigit(): continue          # numbers (counts, folio refs) do not break a run of names
         out.append(s)
     return out
 
@@ -169,14 +190,14 @@ def tokens_with_breaks(t):
 ALL_LANGS = ('la', 'en', 'de', 'fr', 'it', 'es', 'nl')
 
 
-def vox_runs(t, langs, minrun=3):
+def vox_runs(t, langs, minrun=2):
     """maximal runs of >= minrun consecutive non-lexical words (any of the 7 lexicons); runs made only of
     capitalised words (modern names, bibliography) are dropped."""
     runs, cur, caps = [], [], []
     def close():
-        if len(cur) >= minrun and not all(caps):
+        if len(cur) >= minrun:
             nl = sum(near_lex(w, ALL_LANGS) for w in cur)
-            if nl / len(cur) < 1 / 3: runs.append(list(cur))
+            if nl / len(cur) < (1 / 3 if len(cur) >= 3 else 1e-9): runs.append(list(cur))
         cur.clear(); caps.clear()
     for tok in tokens_with_breaks(t):
         if tok is None: close(); continue
@@ -205,13 +226,15 @@ MAGIC_SRC = {
     # name: (files, lexicon languages, dedupe parallel versions)
     'M_Juratus': (['juratus_juratus.htm'], ('la', 'en'), True),
     'M_Notoria': (['notoria_notoria.htm'], ('la', 'en'), True),
-    'M_Heptameron': (['solomon_heptamer.htm'], ('la', 'en'), True),
     'M_Clavicula': (['solomon_ksol.htm', 'solomon_l1203.htm', 'solomon_sl3847.htm', 'solomon_ad36674.htm'], ('la', 'en', 'fr', 'it'), True),
-    'M_Abramelin': (['abramelin_abramelin.htm'], ('en', 'fr', 'de'), True),
+    'M_Clavicula2': (['solomon_clavicol.htm', 'solomon_clav1868.htm', 'solomon_ksol3.htm', 'solomon_ksol4.htm', 'solomon_ksol_d388.htm', 'solomon_mes49.htm'], ('la', 'en', 'fr', 'it'), True),
     'M_Raziel': (['raziel_raziel.htm'], ('la', 'en'), True),
-    'M_Romanus': (['moses_romanus.htm', 'moses_egyptian.htm', 'moses_folklore.htm', 'moses_hollenz4.htm'], ('de', 'en', 'la'), True),
-    'M_Agrippa4': (['agrippa_agrippa4.htm', 'solomon_arbatel.htm', 'solomon_almadel.htm'], ('la', 'en'), True),
-    'M_Ganell': (['ganell_ssm.htm', 'picatrix.htm', 'gollancz_mafteah.htm', 'solomon_lemegeton.htm', 'solomon_grimhono.htm', 'solomon_petitalb.htm'], ('la', 'en', 'fr'), True),
+    'M_Moses': (['solomon_sword.htm', 'moses_67moses.htm', 'moses_romanus.htm', 'moses_egyptian.htm', 'moses_folklore.htm', 'moses_hollenz4.htm'], ('de', 'en', 'la'), True),
+    'M_Verum': (['solomon_gv.htm', 'solomon_grand.htm', 'solomon_grimhono.htm', 'solomon_grimhon2.htm', 'solomon_grimhon3.htm', 'solomon_grem_hono_1670b.htm', 'solomon_gg1421.htm', 'solomon_petitalb.htm'], ('fr', 'la', 'en', 'it'), True),
+    'M_Spirits': (['solomon_weyer.htm', 'solomon_sibly4.htm', 'solomon_scot16.htm', 'solomon_testamen.htm', 'solomon_lemegeton.htm'], ('la', 'en'), True),
+    'M_Misc': (['solomon_heptamer.htm', 'abramelin_abramelin.htm', 'agrippa_agrippa4.htm', 'solomon_arbatel.htm', 'solomon_almadel.htm',
+                'ganell_ssm.htm', 'picatrix.htm', 'gollancz_mafteah.htm', 'gollancz_mafteahs.htm', 'solomon_csds.htm', 'solomon_jesuit.htm',
+                'solomon_anneaux.htm', 'solomon_sphere.htm', 'levanah_levanah.htm', 'solomon_archidox.htm', 'vulgate_psalms_magic.htm'], ('la', 'en'), True),
     'M_PGM': (['../pgm/Papyri_Graecae_Magicae.txt'], ('en', 'la'), True),
     'T_Stegano': (['tritheim_stegano.htm'], ('la', 'en'), True),   # covert cipher dressed as conjurations: TEST only
 }
@@ -296,7 +319,7 @@ def martian():
         ws = [w for w in ws if w]
         if len(ws) < 3: continue
         lexf = sum(is_lex(w, ('fr', 'en')) for w in ws) / len(ws)
-        if lexf <= 0.25: lines.append(ws)
+        if lexf <= 0.5: lines.append(ws)
     return [lines]
 
 

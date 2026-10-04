@@ -97,6 +97,7 @@ Balance weights are lead and stone discs. They are found on Crete, Kea, Thera (A
    - Data: our corpus; FAO crop calendars for Crete.
    - Positive control: the Knossos Fp month-dated tablets.
    - Kill: commodity-shuffled archives fit as well.
+  - Tested (la25): killed. Base rate and season are confounded; see FINDINGS.md.
 5. **Heaping on the physical weight ladder.**
    - Idea: quantities, especially of metal, hide and textile logograms, heap at ratios of the excavated discoid weights (61 g, 488 g, 29 kg). Run 10^4 random ladders as the null, and use LB weight lists as the positive control.
    - Data: Petruso or Michailidou catalogues of weight masses.

@@ -7,7 +7,7 @@ coded two ways and the shorter code wins (MDL):
 
   baseline  an adaptive per-list code that already knows the corpus amount distribution, the
             list's scale (log-normal around the running mean) and repeats (a cache).
-  model     1 flag bit + choice of share alphabet S (subsets of 1..8, size 1-4, gcd 1) + choice of
+  model     1 flag bit + choice of share alphabet S (subsets of {1,2,3,4,5,6,8} of size 1-3 with gcd 1, plus {1,2,4,8}, {1,2,3,6}, {1,2,3,4}: 50 alphabets) + choice of
             rule/grid + code of the unit share u (simplest p/q, Elias) or of the total T
             (largest remainder) + log2|S| bits per reproduced entry + misses coded by the
             baseline plus log2 C(n, m) to say which.
@@ -56,10 +56,11 @@ def val(amount, V):
 
 # ------------------------------------------------------------------ share alphabets
 ALPH = []
-for _k in range(1, 5):
-    for _c in combinations(range(1, 9), _k):
+for _k in range(1, 4):
+    for _c in combinations((1, 2, 3, 4, 5, 6, 8), _k):
         if math.gcd(*_c) == 1:
             ALPH.append(_c)
+ALPH += [(1, 2, 4, 8), (1, 2, 3, 6), (1, 2, 3, 4)]
 NS = len(ALPH)
 _Sflat = np.array([w for a in ALPH for w in a], dtype=np.int32)
 _Slen = np.array([len(a) for a in ALPH], dtype=np.int32)
@@ -381,7 +382,7 @@ def to_amount(v):
 def plant_list(rng, n):
     rule = rng.choice(RULES)
     k = rng.choice([1, 2, 2, 3, 3])
-    S = sorted(rng.sample(range(1, 9), k))
+    S = list(rng.choice([a for a in ALPH if len(a) == k]))
     w = [rng.choice(S) for _ in range(n)]
     for _ in range(50):
         if rule == 'EXACT':
@@ -394,3 +395,48 @@ def plant_list(rng, n):
         if all(a is not None and (a[0] > 0 or a[1]) for a in amts):
             return {'amts': amts, 'rule': rule, 'S': S, 'w': w}
     return None
+
+
+# ------------------------------------------------------------------ cycle 1b: one clerk, one rule
+COMBOS = None
+
+
+def combos_for(grids):
+    return [(0, grids[0])] + [(r, g) for r in (1, 2, 3, 4) for g in grids]
+
+
+def list_matrix(x, ent_cost, grids):
+    """Model bits for every (rule/grid combo, alphabet), WITHOUT the hypothesis cost (paid once
+    per corpus when one clerk's rule and alphabet are shared). inf where the fit is invalid."""
+    n = len(x)
+    cmb = combos_for(grids)
+    M = np.full((len(cmb), NS), np.inf)
+    med = float(np.median(ent_cost))
+    intl = grids[0] == 1.0 and max(grids[1:]) < 1 and all(abs(v - round(v)) < 1e-9 for v in x)
+    for ci, (r, g) in enumerate(cmb):
+        if intl and g != grids[0]: continue
+        cov, cost, ub = fit_all(x, r, g)
+        m = n - cov
+        ok = cov >= 2
+        if r == 4: ok &= (m == 0)
+        bits = 1.0 + cost + cov * _LOGK + m * med + log2comb(n, m)
+        M[ci] = np.where(ok, bits, np.inf)
+    return M
+
+
+def null_band_w(toks, pool, numval, rng, band=0.25):
+    """N3c: as N3b but the replacement is drawn with probability proportional to its corpus
+    frequency (so the null keeps the corpus preference for common, round amounts)."""
+    ptoks, pvals, pfrac, pw = pool
+    mp = {}
+    for t in toks:
+        if t in mp: continue
+        v = numval(t); f = bool(t[1]) if isinstance(t, tuple) else False
+        lo, hi = np.searchsorted(pvals, v * math.exp(-band)), np.searchsorted(pvals, v * math.exp(band), 'right')
+        cand = [i for i in range(lo, hi) if pfrac[i] == f and ptoks[i] != t]
+        if cand:
+            w = np.array([pw[i] for i in cand]); w = w / w.sum()
+            mp[t] = ptoks[cand[int(np.searchsorted(np.cumsum(w), rng.random()))] if len(cand) > 1 else cand[0]]
+        else:
+            mp[t] = t
+    return [mp[t] for t in toks]

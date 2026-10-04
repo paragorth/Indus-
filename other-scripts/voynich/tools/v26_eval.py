@@ -157,7 +157,8 @@ def main():
         save(ck, res); print('winner', gstr(cands[i]), sc[i], f'[{time.time() - t0:.0f}s]', flush=True)
     W = res['winner']
     # 2. battery on fitted half
-    for lab, g in (('win', W), ('base', BASE)):
+    todo = [('win', W), ('base', BASE)] + ([('true', PLANT)] if name == 'PL' else [])
+    for lab, g in todo:
         if lab + '_train' in res: continue
         rs = pool.map(j_train, [(g, s, True) for s in range(5)])
         nu = pool.map(j_null, [(g, s) for s in range(3)])

@@ -43,7 +43,10 @@ def prep(ev, seed):
                     te.append((ci[c], ri[r]))
                 else:
                     Wtr[ci[c], ri[r]] += 1
-        folds.append((Wtr.astype(float), np.array(te)))
+        te = np.array(te)
+        seen_r = Wtr.sum(0) > 0
+        te = te[seen_r[te[:, 1]]]          # score only resources seen in the training folds
+        folds.append((Wtr.astype(float), te))
     Wall = W.astype(float)
     rte = np.array([(ci[c], ri[r]) for c, r, t in rv if c in ci and r in ri])
     return C, R, folds, Wall, rte

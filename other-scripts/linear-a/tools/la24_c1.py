@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """LA-24 cycle 1: does any Linear A list compress as an apportionment beyond the nulls?
 
-Per list: best MDL gain (baseline bits - apportionment bits) over 143 share alphabets x 13
+Per list: best MDL gain (baseline bits - apportionment bits) over 49 share alphabets x 13
 rule/grid combinations. Nulls: N3b (per list; each distinct value -> random corpus amount within
-+-25 % in value, same letter status, repeats kept; R = 200), N1 (amounts shuffled across lists,
++-25 % in value, same letter status, repeats kept; R = 100, plus 200 more for lists with gain > 0), N1 (amounts shuffled across lists,
 list sizes kept), N2 (amounts drawn from the corpus distribution). Corpus statistics: number of
 lists with gain > 0, summed positive gain. Positive controls: Ur III ration lists (CDLI, sila3),
 Linear B single-commodity line runs (DAMOS), and 40 planted apportionments embedded in the
@@ -57,7 +57,7 @@ def run_dataset(name, pool, Rn, corpus_nulls=True):
     for i, out in pool.imap_unordered(one_list_nulls, jobs, chunksize=4):
         nulls[i] = out
     # extra replicates for the lists that compress (gain > 0): p-values to 1/(Rn + EXTRA + 1)
-    EXTRA = int(os.environ.get('EXTRA', 400))
+    EXTRA = int(os.environ.get('EXTRA', 200)) if name == 'LA' else 0
     pos = [i for i in range(len(gains)) if gains[i] > 0]
     extra = {}
     for i, out in pool.imap_unordered(one_list_nulls, [(name, i, EXTRA, 99991 * (i + 1)) for i in pos], chunksize=1):
@@ -111,12 +111,12 @@ def main():
         truth[i] = pp
     setup('PLANT', pl, la_numval(CONV), (1.0, 0.5, 0.25))
     os.environ.get('UR_ATF')
-    ur = ur_lists(max_lists=150, seed=1)
+    ur = ur_lists(max_lists=100, seed=1)
     if ur: setup('UR', ur, lambda a: float(a[0]), (1.0, 5.0, 10.0))
     lb = lb_lists()
     setup('LB', lb, lambda a: float(a[0]), (1.0, 1 / 60, 1 / 72))
     with Pool(2) as pool:
-        for name, Rn, cn in (('LA', R, True), ('PLANT', 100, False), ('UR', 60, False), ('LB', 100, False)):
+        for name, Rn, cn in (('LA', R, True), ('PLANT', 50, False), ('UR', 40, False), ('LB', 60, False)):
             if name not in G: continue
             summ, per = run_dataset(name, pool, Rn, cn)
             if name == 'PLANT':

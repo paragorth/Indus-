@@ -76,11 +76,16 @@ class Target:
         self.idx = Index(cap)
         self.cap = cap
         self.y2 = np.zeros(cap); self.y3 = np.zeros(cap); self.yw = np.zeros(cap)
+        self.oov = self.idx.get('<OOV>')
         for w, c in collections.Counter(ywords).items():
             self.add(self.y2, self.y3, self.yw, w, c)
+        self.frozen = True  # keys absent from Y share one bucket: exact for JSD (q=0 terms are linear in p)
 
     def gram_ids(self, w):
         g = grams(w)
+        if getattr(self, 'frozen', False):
+            ix = self.idx.ix; o = self.oov
+            return [ix.get(x, o) for x in g], ix.get('W' + w, o)
         return [self.idx.get(x) for x in g], self.idx.get('W' + w)
 
     def add(self, a2, a3, aw, w, c):
@@ -252,8 +257,10 @@ class Search:
         return True
 
 
-def run_search(xfit, yfit, xheld, yheld, kmax=30, n_cand=250, seed=0, ctx_symbols=False, log=None):
+def run_search(xfit, yfit, xheld, yheld, kmax=30, n_cand=250, seed=0, ctx_symbols=False, log=None, ctx_pool=None):
     S = Search(xfit, yfit, seed=seed, ctx_symbols=ctx_symbols)
+    if ctx_pool is not None:
+        S.ctx_pool = ctx_pool
     path = []
     h0 = distance(xheld, yheld)
     path.append(dict(k=0, fit=S.score, held=h0[0], held_parts=h0[1], rules=[]))

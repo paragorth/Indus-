@@ -1,0 +1,18 @@
+# LA-25 cycle 1: THE FIRE SET THE CLOCK. Free-base-rate ABC destruction-month clock.
+# Tools: tools/la25_common.py (data, simulator, ABC), tools/la25_c1.py, tools/la25_c2b.py (LB planted lines)
+# Logs: data/la25_ckpt/c1.log, c2b.log (git-ignored)
+# Data: logogram NAMES only (GRA*, VIN*, OLE*, OLIV*, rest = OTHER; LB: GRA/HORD/FAR, VIN, OLE, OLIV, + FIC, LIV, LANA in the extended set).
+# Unit: document x commodity (each commodity counted once per document; entries on one tablet are not independent).
+# LA LM IB archives (doc-level GRA VIN OLE OLIV OTHER): HT 51 27 36 12 81 | KH 9 6 8 0 86 | ZA 8 7 1 4 2 | TY 0 0 2 1 1.
+# LB: KN 76 17 101 18 1743 | PY 253 16 48 9 343 | TH 29 23 0 10 76 | MY 6 3 2 2 37.
+# Generator: per commodity a random agronomic entry month (GRA May-Jul, VIN Aug-Oct, OLIV Oct-Jan, OLE Nov-Feb, FIC Aug-Sep,
+#   LIV Mar-May, LANA Apr-Jun), decay time 0.5-8 months (log-uniform), floor 0.02-0.6; seasonal strength gamma U(0,2);
+#   terroir noise sigma U(0,1) per archive x commodity; free base rates beta ~ N(0,1.5); one shared month (p 0.5) or
+#   independent months. Summary: centred log-ratios per archive; rejection ABC, nearest 500 of 10^6.
+# Argued LB seasons used only as control truth: Pylos and Knossos destruction in spring (Feb-May window, prior mass 0.333).
+
+| LA-25.1a | LA month posterior, 10^6 simulations (random agronomic calendar x month per archive). | HT MAP Jun p 0.114, 80% set 9 months; KH MAP Aug 0.116 (9 mo); ZA MAP Aug 0.122 (10 mo); TY MAP Jan 0.114 (9 mo). P(one month for all) 0.47 (prior 0.5). KL from uniform 0.012-0.033. A 10^5 test bank gave different MAPs (HT Aug, KH May, ZA May, TY Mar). | Posteriors are flat (max 0.12 vs 0.083) and MAPs move with the bank seed: no month inferred. |
+| LA-25.1b | Planted control, same generator, 300 LA-size datasets (prior draws; and strong clock gamma > 1.2, sigma < 0.4). | Mass on true month 0.087 / 0.089 (chance 0.083); MAP within +-1 month 0.33 / 0.33 (chance 0.25); 80% sets cover 0.82 / 0.81. | The method cannot recover even a planted strong clock at LA size with free base rates. Calibrated, not biased (coverage ~0.8). |
+| LA-25.1c | Null: commodity labels shuffled within each LA archive (200 shuffles), random-calendar model (harvest months uniform). | Summed KL real 0.089 vs shuffled median ~0.06, P 0.10 (per site P 0.10-0.55). ABC model choice agronomic vs random calendars: P(agro) 0.483. | Real data no more informative than shuffled labels; agronomic calendars fit no better than random ones. |
+| LA-25.1d | Positive control, Linear B KN, PY, TH, MY (core 5 categories; extended 8 with figs, livestock, wool). Blind to month names. | Core: KN mass Feb-May 0.425, PY 0.364 (prior 0.333); all four LB archives get MAP Jun-Jul (TH Sep). Extended: KN 0.379, PY 0.324. Planted LB-size strong clock: see c2b.log (LA-25.2 file). | Fails: LB archives are not placed in their argued spring; the common Jun-Jul MAP is a generator pull, not information. |
+| LA-25.1 | Cycle verdict | With free commodity base rates, base rate and season are confounded: an archive that records much grain may be post-harvest or a grain economy. The clock is blind at LA and LB size (planted 0.087 vs 0.083) and fails the LB control. | KILLED as a free-base-rate method. Next: anchor the base rates (oracle; transfer from LB). |

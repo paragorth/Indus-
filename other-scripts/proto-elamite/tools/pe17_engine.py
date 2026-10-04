@@ -8,6 +8,8 @@ For each hypothesis:
 Susa negatives are weighted so that their length-bin distribution matches the positives' (size control).
 """
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore")
 from sklearn.linear_model import LogisticRegression
 from pe17_common import auc
 

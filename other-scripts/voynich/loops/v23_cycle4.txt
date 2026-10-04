@@ -1,0 +1,8 @@
+# v23 cycle 4 -- is the backward glyph arrow everywhere? (tools/v23_cycle4.py; data/v23_ckpt/c4_groups.json)
+# Per-page contributions from cycle 1 split by Currier language and illustration type; within-word KN arrow retrained
+# inside each group. Values: sign-flip z (ZL / IT2a).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-23.4.1 | lzma reversed-minus-forward per group (would-kill line of V-23.1.5: sign flips by section) | Currier A -1.99 / -2.03, B -1.21 / -1.38; herbal -1.86 / -1.91, pharma -1.94 / -0.95, stars -0.90 / -0.91, bio +0.12 / -0.67, cosmo -0.26 (ZL only, n=8). 13 of 14 groups negative; no group significantly positive | The 'compresses better backwards' sign holds in both Currier languages and in every section except one null (bio, ZL). It survives its kill test but every group is weak (|z| <= 2), and cycle 1 showed an order-3 glyph chain gives it. Stays grade C, now 'consistent sign, local cause' |
+| V-23.4.2 | Within-word KN order-4 arrow, model trained inside each group | ZL A +0.23, B -1.50; IT A -0.09, B -1.19; herbal -1.72 / -0.63; bio -2.48 / -2.17; stars -1.65 / +1.13 | Within-word right-to-left preference is weak, mostly in Currier B and bio; not consistent across transcriptions in A or stars. Grade C (not ours: layered right-to-left word structure is Parisel 2026) |
