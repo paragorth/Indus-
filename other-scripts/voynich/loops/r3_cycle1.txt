@@ -1,0 +1,27 @@
+# R-3 cycle 1 -- GROW THE SCRIPT IN A BOX (prior sweep + ABC, full panel)
+# Tools: tools/r3_lib.py (worlds, iterated-learning scripts, blind panel), r3_run.py (2 workers), r3_abc.py.
+# Checkpoints: data/r3_ckpt/ (git-ignored). Novelty check: LITERATURE.md, all three STRATEGIES.md, web search
+# (no ABC over evolved writing systems for these scripts found). Nearest earlier work: pe6 (PE only, hand-coded
+# scribal practice, no evolved script, no cross-script controls) and la15 (Zipf communities only).
+# World: p_ledger (ledger entries = 1+Poisson names + good + number; else text entries of function words and
+# concepts), people/goods/vocabulary sizes and Zipf exponents, numbers (rate, scale, rounding), per-document topic
+# pools, entries per document, headers. Script: spelling-sign inventory and phonotactic predictability, spoken word
+# length, logogram memory cap, n generations of learners with a bottleneck (unseen forms forgotten and re-spelled),
+# abbreviation of frequent forms, drift, scribes (shared lexicon or separate lineages), secrecy (homophones, nulls),
+# word-divider rate (unwritten dividers merge words). 30 parameters, uniform priors.
+# Panel (fit, 20 stats, 2,500 sign tokens per sample): sign types, Zipf slope, top-10 share, sign hapax share, word
+# length mean/CV/share of 1-sign words, words per entry, entries per doc, word TTR, word hapax share, duplicate
+# entries, KL of word-initial and word-final signs, junction MI and inner MI (shuffle-debiased), KL of entry-initial
+# sign, number rate, mean log quantity, round share. Held out (never fitted): burst (docs containing a word / expected
+# under random placement) and adj_rep (share of word tokens repeating a word of the previous entry).
+# PRE-SET CONTROL CRITERIA (written before results):
+#  C1 Ur III: posterior median p_ledger > 0.6 and people_over_goods (lg_people - lg_goods) > 0.5.
+#  C2 Linear B: p_ledger > 0.6.
+#  C3 Latin (Caesar) and Italian (Dante): p_ledger < 0.4, also in the number-blind panel (cycle 2).
+#  C4 Shuffled corpora (signs redealt): nearest distance worse than the real corpus; in the number-blind panel the
+#     ledger parameters lose their contraction (flat) or the fit is outside the pseudo-data distance range.
+#  C5 Parameter recovery on 300 held-out simulations: report r per parameter; only parameters with r >= 0.7 are read.
+#  Held-out prediction passes if the real value lies inside the posterior-predictive 90% interval AND the interval is
+#  narrower than the prior-predictive one (otherwise it predicts nothing).
+| R-<n>.<cycle> | method and control | result | verdict |
+|---|---|---|---|

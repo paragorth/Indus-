@@ -144,7 +144,6 @@ def page_sigs(C, gf):
     fns = {
         'I_intro_page': lambda p: intro_reuse(L.tokens(p)),
         'I_intro_para': para_intro,
-        'I_novel_len': lambda p: novelty_len(L.tokens(p)),
         'M_mut_freq': lambda p: mutation(L.tokens(p), 'freq'),
         'M_mut_len': lambda p: mutation(L.tokens(p), 'len'),
         'O_len_line': lambda p: ordinal_signed([[len(w) for w in l] for l in L.page_lines(p)]),
@@ -156,7 +155,7 @@ def page_sigs(C, gf):
     for k, fn in fns.items():
         a = []
         for p in C:
-            x = fn(p); y = fn(L.rev_page(p))
+            x = fn(p); y = fn(L.rev_words_only(p))
             if k.startswith('M_'):
                 # reversal maps word w -> w[::-1]; frequency/length of reversed words: use the same gf via key
                 pass
@@ -178,7 +177,7 @@ def unsigned_stats(C, gf):
     def word_pairs(pages, k):
         c = Counter()
         for p in pages:
-            t = [w if w in top or w[::-1] in top else '<o>' for w in L.tokens(p)]
+            t = [w if w in top else '<o>' for w in L.tokens(p)]
             c.update(zip(t, t[k:]))
         return c
 
@@ -190,7 +189,7 @@ def unsigned_stats(C, gf):
         return c
 
     def logf(w):
-        return math.log(gf.get(w, 0) + gf.get(w[::-1], 0) + 1)
+        return math.log(gf.get(w, 0) + 1)
 
     st = {
         'E_glyph_lag1': lambda P: L.kl_asym(glyph_pairs(P, 1)),
@@ -205,6 +204,7 @@ def unsigned_stats(C, gf):
         'E_hvg_len': lambda P: L.hvg_irrev([[len(w) for w in L.tokens(p)] for p in P]),
     }
     R = [L.rev_page(p) for p in C]
+    Rw = [L.rev_words_only(p) for p in C]
     res = {}
     rng = random.Random(7)
     draws = [[rng.random() < 0.5 for _ in C] for _ in range(NULL_DRAWS)]
@@ -212,7 +212,8 @@ def unsigned_stats(C, gf):
         obs = f(C)
         null = []
         for d in draws[: (NULL_DRAWS if not k.startswith('E_hvg') else 100)]:
-            null.append(f([R[i] if d[i] else C[i] for i in range(len(C))]))
+            RR = R if k.startswith('E_glyph') else Rw
+            null.append(f([RR[i] if d[i] else C[i] for i in range(len(C))]))
         null = np.array(null)
         res[k] = {'obs': obs, 'null_mean': float(null.mean()), 'null_sd': float(null.std()),
                   'excess': obs - float(null.mean()), 'z': (obs - null.mean()) / (null.std() + 1e-12),
