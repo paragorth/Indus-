@@ -112,13 +112,13 @@ Pcl /= Pcl.sum(1, keepdims=True)
 nocl = [j for j, k in enumerate(keys) if not k.startswith('cl_')]
 for mult, lab in ((1, 'LA counts'), (10, '10x LA counts')):
     hits = 0; sk = []
-    for rep in range(20):
+    for rep in range(10):
         Yc = np.array([rng.multinomial(int(n) * mult, p) for n, p in zip(Y.sum(1), Pcl)], float)
         r_, _ = loso_skill_batch(Yc, X[:, nocl].T)
-        nul_c, _ = loso_skill_batch(Yc, F[:2000])
-        nm = np.array([nul_c[rng.choice(2000, meff, replace=False)].max() for _ in range(1000)])
+        nul_c, _ = loso_skill_batch(Yc, F[:1000])
+        nm = np.array([nul_c[rng.choice(1000, meff, replace=False)].max() for _ in range(1000)])
         hits += r_.max() > np.quantile(nm, .95); sk.append(r_.max())
-    log(f'modern-ledger control ({lab}): best-variable skill {np.mean(sk):+.4f}, detected {hits}/20')
+    log(f'modern-ledger control ({lab}): best-variable skill {np.mean(sk):+.4f}, detected {hits}/10')
 
 # Linear B (4 sites)
 lbc, lbcats = lb_commodity()
