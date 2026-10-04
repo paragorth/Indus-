@@ -239,3 +239,13 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 ## Random programs (r2, 4 Oct 2026; `voynich/loops/r2_final.txt`)
 - ~8.9 M random/evolved small programs across the three scripts, scored by held-out description length over Kneser-Ney; planted PE-sized ledger recovered blind (+96 mbit/token).
 - Proto-Elamite: the winning programs copy entry-initial signs (M346, M075, M388, M297, M036) from the line(s) above: +492 bits on held-out tablets with line ends given, +20 (p 0.28) against KN + document cache. Grade B, known in kind (within-tablet repetition). No generating procedure.
+
+## The scribe's memory has a shape (pe13, 4 Oct 2026; `loops/pe13_final.txt`)
+- Question: is the tablet effect (pe7, pe9) a flat topic, copying from a source list, or the writer's own fading memory?
+- Method: about 1,200 random memory kernels per corpus, fitted on 4/5 of tablets and scored on the rest, against within-tablet shuffles and topic-model surrogates. The method recovers 11 planted mechanisms (topic, priming, dip, reverse reset, copying, mixture, alternation, canonical order). Controls: Ur III, Linear B, proto-cuneiform admin and lexical lists.
+- **No fading memory (grade B).** The best non-flat kernel gains only 3.6 millibits per sign over a flat topic, the smallest of the five corpora. No sign carries priming (0, against 1 by chance and 85 in a planted priming corpus).
+- **A dip at the next entry (grade B).** Adjacent entries share about 10% fewer signs than chance. Entries two apart share a little more. This holds without headers, without class signs and on the obverse alone. Every control corpus instead peaks at the next line. M288 and M346 carry most of it: they skip the next entry and recur every second one. Some herd tablets (P008295) cycle through a fixed run of entries.
+- **The reverse does not reset (grade B).** Reverse entries draw on obverse signs 1.7-2.3 times as much as on their own face. This fits sub-totals or summaries.
+- **Not copied (grade B).** Ordered pairs of entries recur across tablets at chance (0.173 vs 0.171). A copied lexical list gives 0.51 vs 0.17.
+- **A weak shared order (grade B).** An order of signs learned on half the tablets predicts the other half at 0.555 against 0.527 (z 3.6). That is proto-cuneiform admin strength, far below Ur III (0.637). No fixed multi-sign sequence was found, but that search was underpowered.
+- Grade C: entries were written one per record from a per-tablet set (tallies or a pool of names), laid out by type with alternation and a loose habitual order. Would support: the same dip on non-Susa or newly published tablets. Would kill: a decaying kernel in a larger corpus.

@@ -58,8 +58,8 @@ def job_cnn(args):
     got = load(ck)
     if got: return got
     real, forged = forged_corpus(tag, cname, fname, seed, par)
-    lu, lp = cnn_auc(real, forged, 'line', seed=seed)
-    pu, pp = cnn_auc(real, forged, 'para', seed=seed, epochs=10)
+    lu, lp = cnn_auc(real, forged, 'line', seed=seed, nfold=3, epochs=3)
+    pu, pp = cnn_auc(real, forged, 'para', seed=seed, nfold=3, epochs=6)
     res = dict(tag=tag, corpus=cname, forger=fname, seed=seed, line_auc=lu, line_page_auc=lp, para_auc=pu, para_page_auc=pp)
     save(ck, res)
     return res
@@ -87,12 +87,10 @@ def main():
     with Pool(2) as pool:
         for r in pool.imap_unordered(job_feat_f8, range(3)):
             print(f"F8 features s{r['seed']} ridge {r['lr']:.3f} gbm {r['gbm']:.3f} subMax {max(a for a, _ in r['sub']):.3f}", flush=True)
-        jobs = []
-        for s in range(2):
-            for f in ('F3', 'F7', 'F8'):
-                jobs.append(('main', 'V', f, s, pars['V']))
-            jobs += [('null', 'V', 'F7', s, pars['V']), ('neg', 'V', 'F7', s, pars['V']), ('plant', 'V', 'F7', s, pars['V']),
-                     ('main', 'LA', 'F7', s, pars['LA']), ('main', 'IT', 'F7', s, pars['IT'])]
+        jobs = [('main', 'V', 'F7', 0, pars['V']), ('null', 'V', 'F7', 0, pars['V']), ('main', 'V', 'F3', 0, pars['V']),
+                ('main', 'V', 'F8', 0, pars['V']), ('neg', 'V', 'F7', 0, pars['V']), ('plant', 'V', 'F7', 0, pars['V']),
+                ('main', 'LA', 'F7', 0, pars['LA']), ('main', 'IT', 'F7', 0, pars['IT']),
+                ('main', 'V', 'F7', 1, pars['V']), ('null', 'V', 'F7', 1, pars['V'])]
         for r in pool.imap_unordered(job_cnn, jobs):
             print(f"CNN {r['tag']:5s} {r['corpus']:2s} {r['forger']} s{r['seed']} line {r['line_auc']:.3f} (page {r['line_page_auc']:.3f}) "
                   f"para {r['para_auc']:.3f} (page {r['para_page_auc']:.3f}) [{time.time() - t0:.0f}s]", flush=True)
