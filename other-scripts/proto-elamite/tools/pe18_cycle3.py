@@ -121,11 +121,17 @@ SETS = draw_sets(NSETS, 7)
 
 
 def run_search(args):
-    tag, y = args
+    tag, y, plant = args
+    fn = os.path.join(CK, 'c3_search_%s_%d.json' % (tag, NSETS))
+    if os.path.exists(fn):
+        d = json.load(open(fn)); return tag, d['base'], d['res']
+    if plant is not None:
+        Xz[:, plant[0]] = plant[1]
     base = cv_bits(GOODS, y, SRCH)
     res = []
     for s in SETS:
         res.append(base - cv_bits(np.concatenate([GOODS, s]), y, SRCH))
+    json.dump({'base': base, 'res': res}, open(fn, 'w'))
     return tag, base, res
 
 
@@ -151,20 +157,26 @@ if __name__ == '__main__':
     print(out, flush=True)
     # family-level gains on the reserve
     fam_res = {}
+    fa = os.path.join(CK, 'c3_3a.json')
+    if os.path.exists(fa):
+        fam_res = json.load(open(fa))
     for f in FAMLIST + ['ALLNONGOODS']:
+        if f in fam_res:
+            continue
         cols = NONG if f == 'ALLNONGOODS' else np.where(FAMS == f)[0]
         o, p, nm = reserve_gain(cols, y_all, 200, 1)
         fam_res[f] = {'reserve_gain_bits': round(o, 4), 'null_mean': round(nm, 4), 'p': round(p, 4)}
         print('3a family', f, fam_res[f], flush=True)
+        json.dump(fam_res, open(fa, 'w'))
     b_goods = bits(fit(Xz[SRCH][:, GOODS], y_all[SRCH]), Xz[RES][:, GOODS], y_all[RES])
     pri = np.bincount(y_all[SRCH], minlength=K) + 0.5; pri = pri / pri.sum()
     b_prior = float(-np.log2(pri[y_all[RES]]).mean())
     out['3a'] = {'reserve_bits_prior': round(b_prior, 4), 'reserve_bits_goods': round(b_goods, 4), 'families': fam_res}
     # searches: real, 3 nulls, planted
     rng = np.random.default_rng(99)
-    jobs = [('real', y_all)]
+    jobs = [('real', y_all, None)]
     for k in range(3):
-        y2 = strata_perm(y_all, STR, rng); jobs.append(('null%d' % k, y2))
+        y2 = strata_perm(y_all, STR, rng); jobs.append(('null%d' % k, y2, None))
     # planted: real variant form with 3-8% prevalence switched on in 30% of DEC tablets
     VARC = np.where(FAMS == 'VAR')[0]
     prev = X_all[:, VARC].mean(0)
@@ -175,12 +187,10 @@ if __name__ == '__main__':
     Xp = X_all.copy(); Xp[on, pc] = 1.0
     planted_col = (Xp[:, pc] - Xp[:, pc].mean()) / (Xp[:, pc].std() + 1e-9)
     out['planted_feature'] = NAMES[pc]
+    jobs.append(('planted', y_all, (pc, planted_col)))
     with Pool(2) as P:
-        R3 = dict((tag, (b, r)) for tag, b, r in P.map(run_search, jobs))
-    # planted search: swap column in place, single process
-    Xz_saved = Xz[:, pc].copy(); Xz[:, pc] = planted_col
-    _, bp, rp = run_search(('planted', y_all))
-    Xz[:, pc] = Xz_saved
+        R3 = dict((tag, (b, r)) for tag, b, r in P.map(run_search, jobs, chunksize=1))
+    bp, rp = R3['planted']
     fwer = max(max(R3['null%d' % k][1]) for k in range(3))
     real = np.array(R3['real'][1]); order = np.argsort(-real)
     out['3b'] = {'real_best': round(float(real.max()), 4), 'null_maxes': [round(float(max(R3['null%d' % k][1])), 4) for k in range(3)],

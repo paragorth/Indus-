@@ -111,14 +111,25 @@ def metrics(P, y, nb=10):
             'ece': round(float(ece), 4), 'mean_conf': round(float(conf.mean()), 4)}
 
 
+_EXPC = {}
+
+
+def _exp_cache(LP):
+    k = (id(LP), LP.shape)
+    if k not in _EXPC:
+        _EXPC.clear(); _EXPC[k] = (np.exp(LP), LP)
+    return _EXPC[k][0]
+
+
 def combine(LP, w, eps, kind='log'):
     """LP: (n, E, V) log probs; w: (E,) weights -> probs (n, V).
     kind 'log' = weighted product of experts; 'lin' = weighted mixture."""
     if kind == 'lin':
-        p = np.einsum('nev,e->nv', np.exp(LP), w / max(w.sum(), 1e-12))
+        PE = _exp_cache(LP)
+        p = np.matmul(PE.transpose(0, 2, 1), (w / max(w.sum(), 1e-12)).astype(PE.dtype))
         p /= p.sum(1, keepdims=True)
         return (1 - eps) * p + eps / p.shape[1]
-    z = np.einsum('nev,e->nv', LP, w)
+    z = np.matmul(LP.transpose(0, 2, 1), w.astype(LP.dtype))
     z -= z.max(1, keepdims=True)
     p = np.exp(z); p /= p.sum(1, keepdims=True)
     return (1 - eps) * p + eps / p.shape[1]
