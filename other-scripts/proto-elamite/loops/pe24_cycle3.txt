@@ -1,0 +1,9 @@
+pe24 cycle 3 -- which entries would have to be red ink? (rescue sets)
+Tool: tools/pe24_cycle3.py. Numbers: data/pe24_cycle3.json.
+For each of the 26 non-closing tablets: every set of 1-3 entries whose NEGATION or whose OMISSION makes the total exact (any hypothesis, any value set); smallest sets kept.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-24.3a | NEGATE 1-3 entries; rescue rate vs 100 random-total corpora; marker enrichment of the rescuing entries vs 2,000 within-tablet marker permutations | 1 of 26 rescued (P008316, M105 / M080~c M105~a, 2 units); random totals 6% (p 0.81); enrichment -0.40 (null 0.02, sd 0.49) | NEGATIVE: the misses are not entries written with the wrong sign |
+| PE-24.3b | OMIT 1-3 entries; same nulls | 6 of 26 rescued (23%) vs random totals 13% (p 0.01); the omitted entries are not marked (enrichment -0.08, null 0.00, p 0.79): P008210 (bare-number line, 3), P009014 (bare line or M099 M218, 12 = one N24), P009130 (M220 or bare line, 23), P008316 (M105, 2), P368541 (M036), P008709 (two M388 lines). Excluding ALL bare-number lines breaks 6 of 7 closing tablets that have them (23 -> 17) | C: real misses are small (one entry's worth, as attack_arith found), which random totals are not; this is the source of the excess, not a ledger state. No sign or marker class is left out of totals |
+| PE-24.3c | PLANTED: on 19 closing tablets with a marked entry, one random marked entry flipped to -1 | enrichment +0.22 (real -0.40 / -0.08) | partial power: the statistic moves the right way, but with 1-2 marked entries per tablet the test is weak |

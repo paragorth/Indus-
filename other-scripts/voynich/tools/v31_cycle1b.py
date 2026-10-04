@@ -41,7 +41,7 @@ def work(a):
 
 def main():
     import v21_lib as V
-    C = json.load(open(os.path.join(L.CK, 'corpora.json')))
+    C = json.load(open(L.CORPORA))
     src = {}
     for k in ['L_Swahili_Lite', 'L_Tagalog_Lite', 'L_Maori_Lite', 'L_Nahuatl_Lite', 'L_Turkish_Lite', 'L_MayanKaqch_Lite',
               'L_Wolof_Tech', 'L_Yoruba_Tech', 'L_ChinesePin_Lite', 'I_Klingon_Lite', 'I_Lojban_Lite', 'L_msC_Old', 'L_msG_Bav2']:

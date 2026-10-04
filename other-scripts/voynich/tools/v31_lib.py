@@ -17,6 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 CK = os.path.join(ROOT, 'data', 'v31_ckpt'); os.makedirs(CK, exist_ok=True)
 LOOPS = os.path.join(ROOT, 'loops')
+# the assembled corpora (~32 MB) live in the scratchpad, not in the repository
+CORPORA = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/v31/corpora.json'
 CLASSES = ['LANG', 'MAGIC', 'INVENT', 'GIBB', 'GEN']
 
 

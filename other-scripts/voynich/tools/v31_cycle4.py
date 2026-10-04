@@ -20,7 +20,7 @@ NC = int(os.environ.get('V31_NC', 300))   # candidates per vocabulary
 
 
 def vocab_sources():
-    C = json.load(open(os.path.join(L.CK, 'corpora.json')))
+    C = json.load(open(L.CORPORA))
     def toks(pred): return [w for k, v in C.items() if pred(k, v) for d in v['docs'] for l in d for w in l]
     return {'MAGIC': toks(lambda k, v: v['cls'] == 'MAGIC'),
             'LATIN': toks(lambda k, v: k == 'L_Isidore')[:20000],
@@ -43,7 +43,7 @@ def procedure(src, prm, seed, n=700):
                 for _ in range(rng.randint(1, ne)):
                     i = rng.randrange(len(x)); r = rng.random()
                     if r < 0.6: x = x[:i] + rng.choices(ak, av)[0] + x[i + 1:]
-                    elif r < 0.8: x = x[:i] + rng.choices(ak, av)[0] + x[i:]
+                    elif r < 0.8 and len(x) < 12: x = x[:i] + rng.choices(ak, av)[0] + x[i:]
                     elif len(x) > 2: x = x[:i] + x[i + 1:]
         out.append(x)
     lines = []; i = 0
@@ -87,7 +87,10 @@ def main():
             jobs.append((s, h, rand_prm(rng), rng.randrange(10 ** 6), keys))
     # planted targets: two hidden-parameter runs per vocabulary (not among the candidates)
     with Pool(2, initializer=_init) as p:
-        Rc = p.map(work, jobs, chunksize=10)
+        Rc = []
+        for i, r in enumerate(p.imap_unordered(work, jobs, chunksize=2)):
+            Rc.append(r)
+            if i % 40 == 0: print('candidates', i, flush=True)
         pl_jobs = [(s, -1, rand_prm(random.Random(900 + i)), 777 + i, keys) for i, s in enumerate(SRC) for _ in range(2)]
         Pl = p.map(work, pl_jobs)
     for i, r in enumerate(Pl): target[f'P_{r[0]}_{i % 2}'] = np.array(r[3])

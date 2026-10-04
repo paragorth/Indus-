@@ -334,3 +334,11 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Calibration: Linear A reproduces la15 (32 vs 32). For proto-cuneiform, a new archive (CUSAS) has about twice as many new signs as predicted.
 - Out-of-corpus prediction, hashed: 89 untransliterated Tehran Susa tablets will carry 9 [4-15] new base signs (`data/pe22_outofcorpus_predictions.json`).
 - Grade C: MDP 26 and the post-1950 batches add fewer new signs than random order would (p 0.003 and 0.05; not length-matched).
+
+## Red ink? (pe24, 4 Oct 2026; `loops/pe24_final.txt`)
+- Idea: variant markers (~a, ~b, @g ...) or particular signs flag another accounting state (owed, dead, not delivered), so their entries count against the total (-1), not at all (0) or at a fixed ratio. Every assignment was searched on 49 clean tablets with a written total (23 close with all entries +1): exhaustive over the 10 commonest markers (3^10) and with ratios (5^7), annealing over 61 signs, fitted on half and re-tested on the other half. Nulls: markers re-dealt among signs, totals replaced by random numbers of the same size.
+- Controls pass. On 21 Ur III balanced accounts (CDLI) the blind search returns credit -1 and subtotal 0 as the unique best (held-out +2.5 tablets, p 0.03). Planted negative markers are recovered as the unique best (held-out +2.9 to +4.0).
+- **Grade A (negative, calibrated): no variant marker is red ink.** No assignment closes a single extra PE total (held-out gain 0.00; held-out closure 47% = baseline), while random totals gain 2-6 tablets from the same search freedom. Grade B (negative, power-limited for rare signs): no plain or variant sign counts against the total either.
+- So the ~a series of the herd accounts (pe20: M362 vs M362~a) is a parallel group that is added like any other, not a debit or a shortfall. That inference is grade C, because the herd tablets have no clean written total.
+- Grade C: failing totals are off by about one entry. Omitting 1-3 entries rescues 6/26 (random totals 13%, p 0.01), but the omitted entries are unmarked and of no common kind. Negating entries rescues only 1/26.
+- Nothing is read; nothing is cracked.

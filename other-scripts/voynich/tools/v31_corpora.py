@@ -13,7 +13,7 @@ Sources are used as raw symbol data only (no one's interpretation):
   ReF / CATMuS / Dalimil page chunks from data/v30_ckpt/corpora.json; Gutenberg texts in data/
   Flournoy 1900 (archive.org OCR): Helene Smith's "Martian" texts; Pitra 1882 (archive.org OCR) + Wikipedia:
     Lingua Ignota nouns
-Downloads live in the scratchpad (v31/); the output is data/v31_ckpt/corpora.json.
+Downloads live in the scratchpad (v31/); the output (~32 MB) is scratchpad v31/corpora.json.
 """
 import os, re, json, glob, html, unicodedata, random, collections, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -359,7 +359,7 @@ def build():
     add('L_Isidore', 'LANG', isidore())
     add('T_Martian', 'TEST', martian())
     add('T_LinguaIgnota', 'TEST', lingua_ignota())
-    json.dump(C, open(os.path.join(CK, 'corpora.json'), 'w'))
+    json.dump(C, open(os.path.join(SCR, 'corpora.json'), 'w'))   # ~32 MB: scratchpad only
 
 
 if __name__ == '__main__':

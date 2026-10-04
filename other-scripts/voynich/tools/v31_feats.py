@@ -36,7 +36,7 @@ def forged_docs(kind, seed=0):
 
 
 def corpora():
-    C = json.load(open(os.path.join(L.CK, 'corpora.json')))
+    C = json.load(open(L.CORPORA))
     out = {k: (v['cls'], v['docs']) for k, v in C.items()}
     for k, d in G.build(C).items(): out[k] = ('GEN', [d])
     out['V_ZL'] = ('TEST', voynich_docs('ZL3b'))

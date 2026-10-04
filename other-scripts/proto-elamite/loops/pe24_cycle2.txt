@@ -1,0 +1,7 @@
+pe24 cycle 2 -- bigger hypothesis spaces: fixed ratios and every sign
+Tool: tools/pe24_cycle2.py. Numbers: data/pe24_cycle2_{ratio,sign}.json.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-24.2a | RATIOS: the 7 commonest markers x {+1, -1, 0, x2, x1/2}, exhaustive (78,125 assignments), 50 splits; planted ~a / ~c at -1; nulls 20 marker shuffles, 20 random-total corpora | planted: recovered as -1 (share 1.00), held-out +3.3 / +3.9. Real: best = baseline 23/49 (gain 0; held-out -0.12). Shuffled markers gain 0 (20/20); random totals gain 2-6 (20/20 above the real 0) | NEGATIVE: no marker doubles, halves, cancels or excludes its entries |
+| PE-24.2b | EVERY SIGN (61 plain and variant signs on >= 2 tablets) x {+1, -1, 0}, annealing (4 x 4,000 steps, penalty 0.3 per non-+1 sign), 20 splits; planted plain sign M297 and variant M056~f at -1; nulls 10 marker shuffles, 10 random totals | planted M297: picked in 7/10 splits, full gain +5, held-out +0.4; planted M056~f (3 tablets): found on the full data but held-out -1.5 (too rare). Real: no full-data gain (best 22-23/49), held-out -1.65 (shuffled-marker null -1.65, random totals -0.16; random-total full gain 2-6). Split fits disagree (M004 -1 in 5/20, M099 0 in 4/20, M242~b -1 in 4/20) | NEGATIVE (power limited for signs on < 5 tablets): no plain or variant sign counts against the total. The annealer does not always return to the all-+1 state; the exhaustive runs (1c, 2a) are the firm result |
