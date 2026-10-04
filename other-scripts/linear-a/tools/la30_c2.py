@@ -10,7 +10,7 @@ Held-out: half the texts fit, half tested. Nulls: N1 commodity labels shuffled a
 entries, N2 totals multiplied by log-uniform [1/2, 2]. Also a full fit: fitted rates vs
 median prices. Second control: 'Ur III planted' = the same sections with totals recomputed
 from the median prices (a perfectly fixed currency), to separate method power from real
-price scatter. Usage: la30_c2.py MODE NREP
+price scatter. Usage: la30_c2.py MODE NREP [NSEC]  (NSEC = 32: a random Linear A-sized subset per replicate)
 """
 import sys, json, os, time
 from multiprocessing import Pool
@@ -19,6 +19,8 @@ from la30_common import *
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'rel10'
 NREP = int(sys.argv[2]) if len(sys.argv) > 2 else 20
 NSPLIT = 6
+NSEC = int(sys.argv[3]) if len(sys.argv) > 3 else 0  # 0 = all 58 sections; 32 = Linear A size
+TAG = f'_n{NSEC}' if NSEC else ''
 U = ur3_sections()
 c = Counter(e[0] for u in U for e in u['entries'])
 TOP = [k for k, _ in c.most_common(12)]
@@ -34,6 +36,9 @@ for u in U:
 def make(kind, seed):
     rng = np.random.default_rng(seed)
     secs = json.loads(json.dumps(BASE))
+    if NSEC:
+        sub = np.random.default_rng(10 ** 6 + seed).choice(len(secs), NSEC, replace=False)
+        secs = [secs[i] for i in sorted(sub)]
     if kind in ('N1',):
         pool = [e[0] for s in secs for e in s['entries']]
         rng.shuffle(pool); k = 0
@@ -59,7 +64,7 @@ def make(kind, seed):
 
 def run(job):
     kind, seed = job
-    out = os.path.join(CK, f'c2_{MODE}_{kind}_{seed}.json')
+    out = os.path.join(CK, f'c2_{MODE}{TAG}_{kind}_{seed}.json')
     if os.path.exists(out):
         return json.load(open(out))
     secs = make(kind, seed)
@@ -112,5 +117,5 @@ if __name__ == '__main__':
     k, R, F = srch.fit(np.arange(len(BASE)), n_random=100000, n_chain=16, n_steps=500)
     summ['fullfit'] = {'balanced': float(k), 'rates_vs_median': {t: [float(R[j]), MED[t]] for j, t in enumerate(TOP)}}
     summ['time_s'] = time.time() - t
-    json.dump(summ, open(os.path.join(CK, f'c2_{MODE}_summary.json'), 'w'), indent=1)
+    json.dump(summ, open(os.path.join(CK, f'c2_{MODE}{TAG}_summary.json'), 'w'), indent=1)
     print(json.dumps(summ, indent=1))

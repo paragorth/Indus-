@@ -16,6 +16,8 @@ print('rows (colour photos):', len(rows), collections.Counter((r['group'], r['mu
 NPERM = int(os.environ.get('NPERM', 200))
 
 def contrast(name, A, B, note=''):
+    if len(A) < 3 or len(B) < 3:
+        print(json.dumps(dict(name=name, nA=len(A), nB=len(B), skipped='fewer than 3 colour photos'))); return dict(name=name, nA=len(A), nB=len(B), skipped=True)
     sub = A + B
     y = np.array([0] * len(A) + [1] * len(B))
     bat = [r['batch'] for r in sub]

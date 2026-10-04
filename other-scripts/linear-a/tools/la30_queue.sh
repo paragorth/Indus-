@@ -8,3 +8,4 @@ python3 la30_c1.py exact free 24 prune > $L/c1_exact_prune.log 2>&1
 python3 la30_c2.py rel10 16 > $L/c2_rel10.log 2>&1
 python3 la30_c3.py 20 > $L/c3.log 2>&1
 python3 la30_c1.py round free 24 prune > $L/c1_round_prune.log 2>&1
+python3 la30_c2.py rel10 16 32 > $L/c2_rel10_n32.log 2>&1

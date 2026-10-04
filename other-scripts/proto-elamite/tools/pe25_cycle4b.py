@@ -90,6 +90,6 @@ if __name__ == '__main__':
             out.update(json.load(open(os.path.join(CK, f))))
     for k, rid in (('S1', 'PE-25.4e'), ('PLANT_N14', 'PE-25.4f'), ('PLANT_LASTOBV', 'PE-25.4g'), ('REAL', 'PE-25.4h')):
         s = out[k]['surv']
-        row(OUT, rid, 'Scan re-test with per-rule permutation null (%s): top-20 half-A rules on half B, random same-size line sets within each tablet (40 draws; z of the rule's H against the permutation mean and sd), survive at z < -2.8 (one-sided 0.05/20)' % k,
+        row(OUT, rid, 'Scan re-test with per-rule permutation null (%s): top-20 half-A rules on half B, random same-size line sets within each tablet (40 draws; z of the rule H against the permutation mean and sd), survive at z < -2.8 (one-sided 0.05/20)' % k,
             'survivors %d: %s' % (len(s), '; '.join('%s H %.2f z %.1f' % (x['rule'], x['HB'], x['p']) for x in s) or 'none'),
             {'S1': 'control: must be 0', 'PLANT_N14': 'control: must include num_N14', 'PLANT_LASTOBV': 'control: must include lastobv', 'REAL': 'see 4i'}[k])
