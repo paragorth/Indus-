@@ -13,6 +13,7 @@ import numpy as np
 from scipy.sparse import hstack
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from v40_lib import *
+from v40_lib import _fit_offset, _ll
 from v40_cycle1 import vpairs, same_above
 from v40_cycle1 import perm_within as _pw
 

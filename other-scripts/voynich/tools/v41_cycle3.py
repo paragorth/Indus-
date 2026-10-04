@@ -17,9 +17,30 @@ sys.path.insert(0, os.path.dirname(__file__))
 from v41_lib import *
 
 res, rows = {}, []
-c2 = json.load(open(os.path.join(CK, 'c2.json')))
 P = vpages('ZL3b')
 byid = {p['id']: p for p in P}
+GROUPS = {
+    'H1A_herbal': (lambda p: p['hand'] == '1' and p['lang'] == 'A' and p['illus'] == 'H', 'none'),
+    'H1A_all': (lambda p: p['hand'] == '1' and p['lang'] == 'A', 'illus'),
+    'H2B_all': (lambda p: p['hand'] == '2' and p['lang'] == 'B', 'illus'),
+    'H3B_all': (lambda p: p['hand'] == '3' and p['lang'] == 'B', 'illus'),
+    'B_all': (lambda p: p['lang'] == 'B' and (p['hand'] or '') in ('2', '3', '5'), 'hand_illus'),
+    'H2B_bio': (lambda p: p['hand'] == '2' and p['lang'] == 'B' and p['illus'] == 'B', 'none'),
+    'H3B_stars': (lambda p: p['hand'] == '3' and p['lang'] == 'B' and p['illus'] == 'S', 'none'),
+}
+
+
+def group_clock(pages, T, o, sm):
+    strata = ['x'] * len(pages) if sm == 'none' else [p['illus'] if sm == 'illus' else p['hand'] + p['illus'] for p in pages]
+    (X1, X2), _ = rate_matrix(pages, T)
+    D = demean((X1 + X2) / 2, strata)
+    return ((D / (D.std(0) + 1e-12)) * o).mean(1)
+
+
+def bimod(x):
+    from scipy.stats import skew, kurtosis
+    n = len(x)
+    return float((skew(x) ** 2 + 1) / (kurtosis(x) + 3 * (n - 1) ** 2 / ((n - 2) * (n - 3))))
 
 
 def phys_test(gname, clock, pages, nperm=5000, seed=0):
@@ -83,16 +104,37 @@ for mode in ('bifolio', 'page'):
         D = (X1 + X2) / 2; D = D - D.mean(0)
         clock = ((D / (D.std(0) + 1e-12)) * o).mean(1)
         ctrl[f'{mode}_{seed}'] = phys_test('ctrl', clock, pp, nperm=2000, seed=seed)
+        ctrl[f'{mode}_{seed}']['bimod'] = bimod(clock)
         print('ctrl', mode, seed, ctrl[f'{mode}_{seed}'], flush=True)
 res['ctrl'] = ctrl
 
 # ---- (a,b) real groups ----
 real = {}
+# jump vs drift shape control: bimodality coefficient of the clock (BC > 0.555 suggests two modes)
+shape = {}
+for mode in ('drift', 'jump'):
+    vals = []
+    for seed in range(4):
+        r = random.Random(400 + seed)
+        pp = []
+        for p in H1:
+            t = r.random() if mode == 'drift' else float(r.random() < 0.5)
+            lines = [[plant(w, 0.3 * t, r) for w in l] for l in p['lines']]
+            pp.append(dict(lines=lines, all=[w for l in lines for w in l],
+                           h=[[w for i, l in enumerate(lines) if i % 2 == k for w in l] for k in (0, 1)]))
+        (X1, X2), _ = rate_matrix(pp, T)
+        D = (X1 + X2) / 2; D = D - D.mean(0)
+        vals.append(bimod(((D / (D.std(0) + 1e-12)) * o).mean(1)))
+    shape[mode] = vals
+    print('shape', mode, np.round(vals, 3), flush=True)
+res['shape_ctrl'] = shape
 for name in ('ZL3b', 'IT2a'):
-    for g in ('H1A_herbal', 'H1A_all', 'H2B_all', 'H3B_all', 'B_all', 'H2B_bio', 'H3B_stars'):
-        d = c2[f'{name}_{g}']
-        pages = [byid[i] for i in d['pages'] if i in byid]
-        clock = [c for i, c in zip(d['pages'], d['clock']) if i in byid]
+    PP = vpages(name)
+    TT, _ = make_traits(PP)
+    oo = orient_from([p for p in PP if p['lang'] == 'A'], [p for p in PP if p['lang'] == 'B'], TT)
+    for g, (pred, sm) in GROUPS.items():
+        pages = [p for p in PP if pred(p)]
+        clock = group_clock(pages, TT, oo, sm)
         pt = phys_test(g, clock, pages, seed=1)
         fol = spearmanr([p['order'] for p in pages], clock)[0]
         # nesting depth: $B counts bifolios from the outside of the quire (f1/f8 = 1 ... f4/f5 = 4)
@@ -120,7 +162,7 @@ for name in ('ZL3b', 'IT2a'):
             if a['leafnum'] == b['leafnum'] and a['side'] != b['side'] and re.fullmatch(r'f\d+[rv]', a['id']) and re.fullmatch(r'f\d+[rv]', b['id']):
                 r_, v_ = (i, j) if a['side'] == 'r' else (j, i)
                 rv.append(np.sign(cl[v_] - cl[r_]))
-        real[f'{name}_{g}'] = dict(phys=pt, foliation_rho=float(fol), n=len(pages), depth_rho=float(depth_rho),
+        real[f'{name}_{g}'] = dict(bimod=bimod(np.asarray(clock)), phys=pt, foliation_rho=float(fol), n=len(pages), depth_rho=float(depth_rho),
                                    n_depth=len(dd), second_leaf_later=float(np.mean(np.array(first) > 0)) if first else None,
                                    n_first=len(first), verso_later=float(np.mean(np.array(rv) > 0)) if rv else None, n_rv=len(rv))
         print(name, g, real[f'{name}_{g}'], flush=True)

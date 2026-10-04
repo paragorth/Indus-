@@ -1,0 +1,6 @@
+# v38 cycle 4 - visual twins (tail test)
+| id | method and control | result | verdict |
+|---|---|---|---|
+| V-38.13 | TWINS, Voynich: residual text similarity of each page's visual nearest neighbour (>= 3 pages apart) and of the top 1/2/5% most similar drawing pairs; 6 families x 3 text metrics; within-stratum permutation (2000) | mean z over 18 cells: NN +0.46, top1% +0.18, top2% +0.50, top5% +0.49; strongest cells: r18|rare +1.1/+2.6/+2.9/+2.1; dino|tfidf +1.7/+1.1/+1.9/+2.7; dino|rare -0.0/+1.2/+1.1/+1.8; colour|rare +1.7/+1.0/+0.7/+0.7 |  |
+| V-38.14 | TWINS, PLANTED control (10% of tokens from a DINO-driven vocabulary) | mean z over 18 cells: NN +0.66, top1% +0.22, top2% +0.71, top5% +0.81; dino cells: dino|tfidf +4.9/+3.2/+5.1/+6.2; dino|rare -0.4/+0.9/+1.1/+1.7; dino|tri +2.6/+1.3/+2.0/+2.0 |  |
+| V-38.15 | TWINS, Gerard control (144 pages; 5 families x 3 metrics) | mean z: NN +1.03, top1% +0.61, top2% +1.17, top5% +1.08; strongest: r18|tri +2.3/+1.0/+2.6/+5.3; dino|tri +1.1/+2.3/+3.0/+2.7; dino|rare +0.6/+2.6/+3.0/+2.4; edge|tri +2.6/-0.0/+1.6/+0.3 |  |

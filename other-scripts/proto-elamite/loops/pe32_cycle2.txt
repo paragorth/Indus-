@@ -1,0 +1,14 @@
+# pe32 cycle 2 (4 Oct 2026): FROZEN LIST OF NEW CLASS MEMBERS, scored on M288 entries never used by pe27/pe28.  tools/pe32_cycle2.py;
+# data/pe32_ckpt/cycle2_frozen.json, cycle2.json, cycle2b.log.  Affinity to C14 = mean z of similarity over the families coherent in
+# cycle 1 (pos, size, hdr, next, herd, tabs; office left out so the list owes nothing to pe15).  Candidates: signs never seen before an
+# M288 entry in any pair pe27/pe28 could use.  Top 20 frozen and hashed before scoring.  Held-out entries: M288 lines with a readable
+# amount whose pair was unusable for pe27/pe28 (a line unclean or the predecessor not a clean count).  Outcome: y = 60x (x known), else
+# the amount ends in 2(N39B) 1(N24) (odd count at the standard rate); also 60x or 120x.  Control: 300 random seeds (frequency-matched
+# from the other M288 predecessors) through the same pipeline.  CDLI catalogue check: 144 PE catalogue entries are not in the corpus, and
+# none has a transliteration in the 3 Oct CDLI dump, so there are no newly published tablets to test on.
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-32.2a | First freeze (sha f742591cac572a50) | M004 M097 M259 M099 M352 M024 M281 M295 M029 M033 M332 M073 M263 M131 M386 M296 M146 M032 M314 M110. Scoring showed a bug: a predecessor ending in [...] was given its last visible sign as final | discarded before interpretation; bug fixed (lost final sign -> pair dropped), list re-frozen |
+| PE-32.2b | FROZEN LIST (sha 16739f2c250c8e35) | M004 M097 M329 M259 M099 M024 M352 M281 M295 M029 M033 M332 M073 M263 M131 M242 M386 M296 M146 M032 (18 of 20 as before). Prediction: after a count line ending in one of these, an M288 line holds 2(N39B) 1(N24) per unit | frozen, for any future tablet |
+| PE-32.2c | Held-out score (143 entries) | list: 1 entry, 1 hit (P009089: M332 10 units -> M288 5(N01) = 60 per unit). Seeds: 0.30 hits on 16.2 entries on average, p 0.30. C14 itself on held-out: 7 entries, 0 standard (most are name lines ending in M288 after an un-numbered line). Other signs: 4 of 135 | UNTESTABLE: the corpus holds almost no unused M288 pairs (6 bare M288 lines with a known count). Grade C for the list. Would support: >= 3 of the next 5 M288 lines after listed signs at 60 per unit; would kill: 0 of 5 |
+| PE-32.2d | Format check (seen pairs) | standard amounts sit on bare 'M288 , n' lines in 36 of 37 cases; on bare lines with a count above them, 35 of 119 are standard. M288 lines that end a name string (seen and held-out) are almost never standard | B: the standard allotment is a format: a person line, then a bare M288 line. Held-out M288 lines are mostly the other format, which is why they cannot test the class |

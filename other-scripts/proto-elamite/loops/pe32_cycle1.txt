@@ -1,0 +1,14 @@
+# pe32 cycle 1 (4 Oct 2026): IS THE STANDARD-RATION CLASS A CLASS?  tools/pe32_common.py, pe32_cycle1.py, pe32_cycle1b.py;
+# data/pe32_ckpt/cycle1.json, cycle1b.json (+ logs).  Class C14 = the 14 counted signs before a standard M288 line (pe28 5d).
+# Features per sign with every predecessor line of any M288 entry removed and M288 successors never used: position in line, left
+# neighbour, system and count size of the lines it ends, tablet header, system of the next line, share on herd tablets (pe20 M362),
+# pe15 office, tablet co-occurrence (Jaccard).  Statistic: mean pairwise similarity (1 - JSD) per family; composite = mean z.
+# Nulls (2000 draws): N1 frequency-matched 14-sets from all final signs (>= 3 final uses, 384 signs); N2 frequency-matched from the
+# other M288 predecessors (selection-matched); N3 frequency-matched from signs ending lines on the 30 class-defining tablets.
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-32.1a | Calibration: 40 random frequency-matched 14-sets through the same test (300 draws each) | composite p <= 0.05 in 0/40 (N1) and 0/40 (N2): conservative. Per family: sys, size, hdr, next, office, tabs 0/40; herd 3/40; pos 9/40 and left 8/40 (anti-conservative: the top frequency bins hold few signs) | test calibrated for the composite and six families; pos and left are not trusted |
+| PE-32.1b | Positive control: pe15 GRAIN office (10 signs) | composite p 0.001 but carried by the office family (z 45); sys z 1.4-1.5 (p 0.03), every other family n.s. | the composite needs the families to agree; one-family classes are seen only in that family |
+| PE-32.1c | Planted class: 14 random signs share one left neighbour on 30% / 60% of their final uses | 30%: left z 1.4 (p 0.08); 60%: left z 4.6-5.9 (p 0.001); composite n.s. both times | PASS at 60% in the planted family; a one-family plant does not move the composite (as intended) |
+| PE-32.1d | REAL C14 vs N1 / N2 | composite z 3.1 / 3.5, p 0.0005 / 0.0005. size z 2.6 / 3.1 (p 0.001), hdr 3.6 / 4.4, next 3.2 / 3.7, herd 2.1 / 2.0, tabs 8.7 / 7.8 (all p 0.0005), sys 1.7 / 1.5 (p 0.03 / 0.06), office 5.5 / 7.8; left -1.6 / -2.0 (members are LESS alike in their left neighbour than random) | coherent in five independent respects beyond frequency and beyond being M288 predecessors |
+| PE-32.1e | REAL C14 vs N3 (same-tablet pool), office/pos/left dropped | composite z 3.55, p 0.0005; hdr 4.3, next 3.6, tabs 6.2, herd 2.6, size 2.5, sys 2.1 (p <= 0.013) | B: C14 is a class, not only 'signs that happen to sit on M288 tablets'. Shared: small counts (mostly 1), the same tablet headers, the same kind of next line, the same tablets, little herd context. Unlike each other in what precedes them (varied names in front) |
