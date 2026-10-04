@@ -78,6 +78,9 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 ## Grow the script in a box (r3)
 - 62,000 simulated societies evolve scripts (iterated learning) for ledger or text worlds; ABC on blind statistics. Controls: Latin/Italian come out as text and LB as a ledger; Ur III's 'many people, few goods' is never recovered, and people/goods counts and learning history cannot be identified from these sample sizes. Inferred worlds (all C): PE = mostly nameless counted lines with 100+ logograms; LA = named numbered ledger, no secrecy ('one commodity per tablet' killed by a held-out miss); Voynich = text in a small alphabet with word-final end sets and line-initial markers (~30-40% of lines). The Voynich 'needs secrecy' guess was killed. Held-out predictions: PE 3/4, LA 3/4, Voynich 1/4.
 
+## Which script teaches which (x3)
+- Transfer test (x3, `proto-elamite/loops/x3_final.txt`): transfer learning across 10 corpora with relabelling controls. Accounting corpora teach LA and PE by format, not by sign identity; Voynich learns from nothing; identity transfer appears only where transliterations share labels (LA-LB +0.12 bits/token, a replication; LA-Greek none). Frequency rank cannot reveal shared signs (planted control), so LA-PE-Voynich sign sharing is untestable this way.
+
 ## Bottom line
 The cheap data-only attacks on these three scripts are largely spent:
 - **Voynich:** the field is saturated. What we found replicates published work.

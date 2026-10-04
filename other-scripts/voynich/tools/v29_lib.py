@@ -237,33 +237,69 @@ def _phi(x, y):
     return ((x * y).mean() - mx * my) / np.sqrt(den)
 
 
-def stats(E, m, v):
-    """m, v: bool arrays over the alphabet (tier mask, value).  Returns array len(STATS)."""
-    ids, wid = E.ids, E.wid
-    a = m[ids]
-    T = np.flatnonzero(a)
-    vv = v[ids[T]].astype(np.float64)
-    ww = wid[T]
-    out = np.full(len(STATS), np.nan)
+def _pairmat(x, y, n):
+    return np.bincount(x.astype(np.int64) * n + y, minlength=n * n).reshape(n, n).astype(np.float64)
+
+
+def raw_mats(E):
+    if getattr(E, '_raw', None) is None:
+        n = len(E.alph); ids, wid = E.ids, E.wid
+        E._raw = [_pairmat(ids[:-g][wid[:-g] == wid[g:]], ids[g:][wid[:-g] == wid[g:]], n) for g in (1, 2, 3)]
+        E._tier = {}
+    return E._raw
+
+
+def tier_mats(E, m):
+    raw_mats(E)
+    key = m.tobytes()
+    if key in E._tier:
+        return E._tier[key]
+    n = len(E.alph); ids, wid = E.ids, E.wid
+    T = np.flatnonzero(m[ids]); gg = ids[T]; ww = wid[T]
+    M = []
     for d in (1, 2, 3):
         s = ww[d:] == ww[:-d]
-        out[d - 1] = _phi(vv[:-d][s], vv[d:][s])
-    vfull = v[ids].astype(np.float64)
-    for g in (1, 2, 3):
-        s = a[:-g] & a[g:] & (wid[:-g] == wid[g:])
-        out[2 + g] = _phi(vfull[:-g][s], vfull[g:][s])
-    if len(T) > 2:
-        st = np.r_[True, ww[1:] != ww[:-1]]
-        en = np.r_[ww[1:] != ww[:-1], True]
-        fw = ww[st]; fv = vv[st]; lv = vv[en]
-        s = fw[1:] == fw[:-1] + 1
-        out[6] = _phi(lv[:-1][s], fv[1:][s])
-        si = np.flatnonzero(st); ei = np.flatnonzero(en)
-        cnt = ei - si + 1
-        k = cnt >= 3
-        if k.sum() >= 30:
-            f2 = (vv[si[k]] == vv[si[k] + 1]).mean(); l2 = (vv[ei[k]] == vv[ei[k] - 1]).mean()
-            out[7] = l2 - f2
+        M.append(_pairmat(gg[:-d][s], gg[d:][s], n))
+    st = np.r_[True, ww[1:] != ww[:-1]] if len(T) else np.zeros(0, bool)
+    en = np.r_[ww[1:] != ww[:-1], True] if len(T) else np.zeros(0, bool)
+    si = np.flatnonzero(st); ei = np.flatnonzero(en); fw = ww[si]
+    s = fw[1:] == fw[:-1] + 1
+    M.append(_pairmat(gg[ei[:-1][s]], gg[si[1:][s]], n))
+    k = (ei - si + 1) >= 3
+    M.append(_pairmat(gg[si[k]], gg[si[k] + 1], n)); M.append(_pairmat(gg[ei[k] - 1], gg[ei[k]], n))
+    if len(E._tier) > 5000:
+        E._tier.clear()
+    E._tier[key] = M
+    return M
+
+
+def _phim(M, v):
+    n = M.sum()
+    if n < 30:
+        return np.nan
+    mx = M.sum(1) @ v / n; my = M.sum(0) @ v / n; pxy = v @ M @ v / n
+    den = mx * (1 - mx) * my * (1 - my)
+    if den <= 1e-9:
+        return np.nan
+    return (pxy - mx * my) / np.sqrt(den)
+
+
+def _agree(M, v):
+    n = M.sum()
+    return (v @ M @ v + (1 - v) @ M @ (1 - v)) / n
+
+
+def stats(E, m, v):
+    """m, v: bool arrays over the alphabet (tier mask, value).  Returns array len(STATS)."""
+    R = raw_mats(E); Mt = tier_mats(E, m)
+    vf = (v & m).astype(np.float64); mm = m.astype(np.float64)
+    out = np.full(len(STATS), np.nan)
+    for d in range(3):
+        out[d] = _phim(Mt[d], vf)
+        out[3 + d] = _phim(R[d] * np.outer(mm, mm), vf)
+    out[6] = _phim(Mt[3], vf)
+    if Mt[4].sum() >= 30:
+        out[7] = _agree(Mt[5], vf) - _agree(Mt[4], vf)
     return out
 
 

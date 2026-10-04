@@ -67,28 +67,52 @@ def topk(C, p, k=10):
     return [[C.V[i], round(float(p[i]), 4)] for i in o]
 
 
-def main():
+def shuffle_tablets(D, seed=7):
+    """words, numbers and logograms permuted across tablets within site; words keep 'orig'."""
+    D = json.loads(json.dumps(D))
+    for di, d in enumerate(D):
+        for ti, t in enumerate(d['toks']):
+            if t['t'] == 'w': t['orig'] = [d['id'], ti]
+    rng = np.random.default_rng(seed); by = {}
+    for di, d in enumerate(D):
+        for ti, t in enumerate(d['toks']):
+            if t['t'] in ('w', 'N', 'L'): by.setdefault((d['site'], t['t']), []).append((di, ti))
+    for key, slots in sorted(by.items()):
+        toks = [D[di]['toks'][ti] for di, ti in slots]; perm = rng.permutation(len(toks))
+        for (di, ti), k in zip(slots, perm): D[di]['toks'][ti] = toks[k]
+    return D
+
+
+def run(D, edge_keys=None, seed=2022):
+    """edge_keys: for the shuffled corpus, list of (orig doc, orig tok, mode) to predict."""
     t0 = time.time()
-    D = la22_data.load(); C = Corpus(D)
+    C = Corpus(D)
     names = [e for e in EXPERTS if e not in ('NNL', 'NND')] + ['NNL', 'NND']
     sm = {'add': 0.1, 'lam': 2.0, 'lam3': 1.0, 'lamlex': 0.5, 'lamdoc': 0.5, 'lamdocs': 5.0}
     cal = C.instances()
-    # real lacuna edges
     edge = []
-    for di, d in enumerate(D):
-        T = d['toks']
-        for ti, t in enumerate(T):
-            if t['t'] != 'w': continue
-            n = len(t['c'])
-            if ti + 1 < len(T) and T[ti + 1]['t'] == 'gap': edge.append((di, ti, n, 'R'))
-            if ti > 0 and T[ti - 1]['t'] == 'gap': edge.append((di, ti, -1, 'L'))
+    if edge_keys is None:
+        for di, d in enumerate(D):
+            T = d['toks']
+            for ti, t in enumerate(T):
+                if t['t'] != 'w': continue
+                n = len(t['c'])
+                if ti + 1 < len(T) and T[ti + 1]['t'] == 'gap': edge.append((di, ti, n, 'R'))
+                if ti > 0 and T[ti - 1]['t'] == 'gap': edge.append((di, ti, -1, 'L'))
+    else:
+        where = {}
+        for di, d in enumerate(D):
+            for ti, t in enumerate(d['toks']):
+                if t['t'] == 'w': where[tuple(t['orig'])] = (di, ti)
+        for od, ot, mode in edge_keys:
+            di, ti = where[(od, ot)]; n = len(D[di]['toks'][ti]['c'])
+            edge.append((di, ti, n if mode == 'R' else -1, mode))
     allI = cal + edge
     LP = np.zeros((len(allI), len(names), C.nV), dtype=np.float32)
     for k, it in enumerate(allI):
         E = C.experts(it, sm)
         for e, nm in enumerate(names[:-2]): LP[k, e] = np.log(E[nm] + EPS)
     print('experts', len(cal), len(edge), round(time.time() - t0), flush=True)
-    # neural experts: out-of-fold for calibration instances (as in cycle 1), trained on all for edges
     from la22_c1 import train_nn
     for e, use_doc in ((len(names) - 2, False), (len(names) - 1, True)):
         Pc = np.mean([train_nn(C, cal, None, use_doc, s) for s in (1, 2)], 0)
@@ -97,20 +121,23 @@ def main():
     print('nn', round(time.time() - t0), flush=True)
     y = np.array([C.ix[D[it[0]]['toks'][it[1]]['c'][it[2]]] for it in cal])
     fold = np.array([doc_fold(D[it[0]]['id']) for it in cal])
-    rng = np.random.default_rng(2022)
+    rng = np.random.default_rng(seed)
     LPc = LP[:len(cal)]
     Pcal = np.zeros((len(cal), C.nV), dtype=np.float32); sel = []
     for fa in (0, 1):
         A = fold == fa; B = ~A
         PB, wbar, lA, order = random_ensemble(LPc, y, A, B, names, 4000, rng)
         Pcal[B] = PB; sel.append(list(random_ensemble.last))
-    # edge predictions: average of both folds' selected predictors (each selected without the edge's doc half? no:
-    # edges are new targets, so all 50 selected predictors are applied)
-    LPe = LP[len(cal):]
-    Pedge = np.mean([combine(LPe, *c) for s_ in sel for c in s_], 0)
+    Pedge = np.mean([combine(LP[len(cal):], *c) for s_ in sel for c in s_], 0)
     modes = np.array([it[3] for it in cal])
     cal_metrics = {md: metrics(Pcal[modes == md], y[modes == md]) for md in ('int', 'R', 'L')}
-    # lexicon P(complete) for edge fragments
+    return C, cal, edge, Pcal, Pedge, y, cal_metrics
+
+
+def main():
+    t0 = time.time()
+    D = la22_data.load()
+    C, cal, edge, Pcal, Pedge, y, cal_metrics = run(D)
     lex = C.wordlist
     preds = {'made': datetime.datetime.utcnow().isoformat() + 'Z', 'corpus': 'lineara.xyz LinearAInscriptions.js',
              'calibration_out_of_fold': cal_metrics, 'edge': [], 'pos': [], 'numbers': []}
@@ -128,6 +155,17 @@ def main():
         preds['pos'].append({'doc': D[di]['id'], 'tok': ti, 'j': j, 'mode': mode,
                              'read': D[di]['toks'][ti]['c'][j], 'top10': topk(C, Pcal[k]),
                              'p_read': round(float(Pcal[k][y[k]]), 4)})
+    # shuffled-tablet model (null): same pipeline on a corpus with tablets scrambled within site
+    DS = shuffle_tablets(D)
+    ekeys = [(D[di]['id'], ti, mode) for di, ti, j, mode in edge]
+    CS, calS, edgeS, PcalS, PedgeS, yS, cmS = run(DS, edge_keys=ekeys)
+    preds['calibration_shuffled_tablets'] = cmS
+    preds['pos_shuf'] = []; preds['edge_shuf'] = []
+    for k, it in enumerate(calS):
+        di, ti, j, mode = it; o = DS[di]['toks'][ti]['orig']
+        preds['pos_shuf'].append({'doc': o[0], 'tok': o[1], 'j': j, 'mode': mode, 'top10': topk(CS, PcalS[k])})
+    for k, (od, ot, mode) in enumerate(ekeys):
+        preds['edge_shuf'].append({'doc': od, 'tok': ot, 'mode': mode, 'top10': topk(CS, PedgeS[k])})
     # numbers: sections with a break inside
     for di, d in enumerate(D):
         T = d['toks']
