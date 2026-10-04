@@ -1,0 +1,17 @@
+# v32 THE CALENDAR BEAT, final (4 Oct 2026). tools/v32_lib.py, v32_cycle1.py, v32_cycle2.py, v32_cycle3.py; loops/v32_cycle1-3.txt
+Idea (CONTEXT.md #4): quire 20's ~345 starred paragraphs as entries of an astrological-medical calendar, which should
+repeat some entry feature at 7, 12, 27/28, 29.5/30, 36 (or 365-folds).
+Data: ZL3b star units (339; every line preceded by a star comment or a ZL paragraph start; star points/colour/dotted/
+tail parsed from the ZL comments), ZL paragraphs (285), IT2a paragraphs (288); the lost bifolio f109-f110 treated as a
+gap of unknown length. Comparison: biological B, herbal A, herbal B.
+Methods: epoch folding and autocorrelation combs over 82 periods x ~25 features (cycle 1); circular HMM with slips and
+free post-gap phase (cycle 2); sawtooth day-counter, Markov resynthesis null, dose-response (cycle 3). Family-wise max-z
+against paragraph shuffles.
+Controls: Ado of Vienne's Martyrologium (real calendar, 355 day entries): z 61 at P7 (dominical letter), z 45 at P29.5
+(written Roman date), CHMM z 62-64, sawtooth z 11.6; with the date words removed: nothing (p 0.68). Planted lunar or
+weekday openings: z 17-32 at s >= 0.2.
+| V-32.F1 | Calendar beat in the starred paragraphs | Text features: p_fw 0.65 (star units), 0.73 (ZL paras), 0.94 (IT2a); calendar periods only p 0.78-0.96; CHMM p 0.52-0.71; gap-aware folding p 0.61-0.94; counter p 0.18-0.29; Markov null p 0.86 | Grade A negative: no written day / week / month / mansion / decan cycle in entry openings, lengths, glyph mix or vocabulary profile. Reach: day marks in >= 20 % of openings excluded; sparse-vocabulary or unwritten calendars untested |
+| V-32.F2 | Star drawings | Dotted and plain stars alternate (comb P2 z 19.6); 7 vs 8 points and dark vs light have no period | Grade A (description). New for this repo; whether the alternation is in the literature was not checked beyond a quick search |
+| V-32.F3 | Text vs star decoration | Dotted/plain, 7/8 points, dark/light: no text feature differs (p_fw 0.09-0.76; planted 0.001) | Grade B negative: the drawn alternation is not mirrored in the text |
+| V-32.F4 | Open guess (C) | If quire 20 is a calendar, its order is not written in the entry openings: either entries are undated (like the martyrology with dates removed, which also shows nothing) or the dating is in the lost central bifolio / the margins. Would support: dating words outside the openings (line ends, margins) that cycle at a calendar period. Would kill: a detector that catches Ado's undated body text and still finds nothing in quire 20 |
+Not cracked.

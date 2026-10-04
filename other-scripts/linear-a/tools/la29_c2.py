@@ -66,21 +66,44 @@ def wcorr(l, w, Z):
     return cov / (sl[:, None] * sz)
 
 
+NULLMODE = os.environ.get('NULLMODE', 'rank')
+
+
+def null_bank(n):
+    """rank: per variable an independent GRF draw whose site ranks carry the variable's own values
+    (spatially constrained permutation; keeps skewed marginals); max over all variables.
+    gauss: Gaussian fields, max over M_eff."""
+    if NULLMODE == 'gauss':
+        return grf(SITES_, LS, n, rng), 'gauss'
+    V = Xs.shape[1]
+    G = grf(SITES_, LS, n * V, rng).reshape(n, V, -1)
+    rk = G.argsort(-1).argsort(-1)
+    srt = np.sort(Xs, 0)                            # [S, V]
+    Z = np.take_along_axis(np.broadcast_to(srt.T[None], G.shape), rk, -1)
+    return Z.reshape(n * V, -1), 'rank'
+
+
+def null_max(l, w, bank, n):
+    Fz, mode = bank
+    r = np.abs(wcorr(l, w, Fz))
+    if mode == 'rank':
+        return r.reshape(r.shape[0], n, -1).max(-1)            # [G, n]
+    idx = np.array([rng.choice(r.shape[1], meff, replace=False) for _ in range(2000)])
+    return np.stack([r[:, i].max(1) for i in idx], 1)
+
+
 L, Wt = logit_w(K, tot)
 Xs = (X - X.mean(0)) / X.std(0)
 r_real = wcorr(L, Wt, Xs.T)                       # [G, V]
-F = grf(SITES_, LS, NNULL, rng)
-r_null = np.abs(wcorr(L, Wt, F))                  # [G, NNULL]
+NB = int(os.environ.get('NBANK', 2000))
+BANK = null_bank(NB)
+BANKS = null_bank(400)
+log(f'null mode {NULLMODE}, draws {NB}')
 
 
-def sign_p(r_real, r_null, meff):
-    G = r_real.shape[0]
+def sign_p(r_real, nm):
     best = np.abs(r_real).max(1)
-    P = np.empty(G)
-    idx = np.array([rng.choice(r_null.shape[1], meff, replace=False) for _ in range(2000)])
-    for g in range(G):
-        mx = r_null[g][idx].max(1)
-        P[g] = (1 + (mx >= best[g]).sum()) / (1 + len(mx))
+    P = (1 + (nm >= best[:, None]).sum(1)) / (1 + nm.shape[1])
     return P, best
 
 
@@ -93,7 +116,7 @@ def bh(P, q=0.1):
     return sel
 
 
-P, best = sign_p(r_real, r_null, meff)
+P, best = sign_p(r_real, null_max(L, Wt, BANK, NB))
 sel = bh(P)
 log(f'signs with P<0.05 (variable search covered): {(P < 0.05).sum()} of {len(signs)} (expected {0.05 * len(signs):.1f}); BH q0.1 survivors {sel.sum()}')
 o = np.argsort(P)
@@ -109,12 +132,11 @@ for lg in ('L:VIN', 'L:OLE', 'L:GRA', 'L:CYP', 'L:OLIV', 'L:VIR', 'L:LIV', 'L:S3
 
 # shuffled site labels
 fp = []
-for k in range(100):
+for k in range(int(os.environ.get('NSHUF', 50))):
     p = rng.permutation(len(SITES_))
     Lp, Wp = L[:, p], Wt[:, p]
     rr = wcorr(Lp, Wp, Xs.T)
-    rn = np.abs(wcorr(Lp, Wp, F[:3000]))
-    Pp, _ = sign_p(rr, rn, meff)
+    Pp, _ = sign_p(rr, null_max(Lp, Wp, BANKS, 400))
     fp.append(((Pp < 0.05).sum(), bh(Pp).sum()))
 fp = np.array(fp)
 log(f'shuffled site labels: signs P<0.05 mean {fp[:, 0].mean():.1f} (95% {np.quantile(fp[:, 0], .95):.0f}); BH survivors mean {fp[:, 1].mean():.2f}, runs with >=1: {(fp[:, 1] > 0).mean():.2f}')
@@ -136,8 +158,8 @@ for v in [k for k in ('olive_5', 'upland_5', 'rain_10', 'coast_km', 'cl_pasture_
                 a = p * (1 / rho - 1); b = (1 - p) * (1 / rho - 1)
                 Kp[i] = rng.binomial(tot.astype(int), rng.beta(a, b))
             Lp, Wp = logit_w(Kp, tot)
-            rr = wcorr(Lp, Wp, Xs.T); rn = np.abs(wcorr(Lp, Wp, F[:3000]))
-            Pp, _ = sign_p(rr, rn, meff)
+            rr = wcorr(Lp, Wp, Xs.T)
+            Pp, _ = sign_p(rr, null_max(Lp, Wp, BANKS, 400))
             jj = np.abs(rr).argmax(1)
             right = sum(abs(np.corrcoef(Xs[:, j], z)[0, 1]) > 0.8 for j in jj)
             log(f'   planted {v:12s} base {base} beta {beta}: P<0.05 {int((Pp < 0.05).sum())}/{NP}, right variable {right}/{NP}')
