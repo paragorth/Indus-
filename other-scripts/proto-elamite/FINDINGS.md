@@ -260,3 +260,6 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Grade B: beyond those tablets nothing repeats. All 50 feature × period (2–6) tests give z ≤ 2.7. There are no 3–6-line records, and no fixed sign pair survives a 1,160-pair search.
 - Grade B: the records are fixed recipes. The companion line's number is often constant, and where it varies it follows the main line's number (Spearman 0.23 vs 0.11, p 0.001). M288 and M346 are each the repeating companion, on different tablets.
 - Grade C: each record is one person's two-part allotment.
+
+## Grow the script in a box (r3, 4 Oct 2026; `voynich/loops/r3_final.txt`)
+- Simulated societies + ABC put PE in a world of counted lines that mostly carry no personal name (good + number; nameless share 0.73-0.88), with 100+ logograms and unwritten dividers (C). Held-out 3/4 (tablet purity predicted 0.32, real 0.29). PE line ends are less marked than any simulated world. The shuffled corpus fits as well, so sign order within lines is invisible to the box.

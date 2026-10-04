@@ -75,6 +75,9 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 ## Random programs (r2)
 - ~8.9 M random and evolved small programs (copy rules, counters, lookup tables, L-systems), scored by held-out description length against Kneser-Ney, with shuffled, Markov-resynthesised, planted (grille, ledgers) and natural (Latin, Linear B) controls. Planted generators recovered 3/3. In no script does a program beat the baselines beyond its nulls: LA and PE programs only 'copy from the entry above' (gone against a document cache), Voynich gains nothing over a 3-glyph Markov chain. Grade A negative for short generators of this kind.
 
+## Grow the script in a box (r3)
+- 62,000 simulated societies evolve scripts (iterated learning) for ledger or text worlds; ABC on blind statistics. Controls: Latin/Italian come out as text and LB as a ledger; Ur III's 'many people, few goods' is never recovered, and people/goods counts and learning history cannot be identified from these sample sizes. Inferred worlds (all C): PE = mostly nameless counted lines with 100+ logograms; LA = named numbered ledger, no secrecy ('one commodity per tablet' killed by a held-out miss); Voynich = text in a small alphabet with word-final end sets and line-initial markers (~30-40% of lines). The Voynich 'needs secrecy' guess was killed. Held-out predictions: PE 3/4, LA 3/4, Voynich 1/4.
+
 ## Bottom line
 The cheap data-only attacks on these three scripts are largely spent:
 - **Voynich:** the field is saturated. What we found replicates published work.

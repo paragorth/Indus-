@@ -576,3 +576,8 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Not misreading (needs ~10% confusions; ZL-IT differ on 1.1%; consensus text keeps it), not word position (partial r +0.25). Stroke-edit copying from shape-neutral seeds builds part of it but 0/27 generator settings reproduce the whole profile. Grade B.
 - Tandem swap pairs (k/t, l/r, ch/cth) are NOT one stroke apart beyond chance. Grade C, demoted.
 
+
+## Grow the script in a box (r3, 4 Oct 2026; `loops/r3_final.txt`)
+- 62,000 simulated societies evolve scripts for ledger or text worlds; ABC on blind statistics with Ur III, LB, Latin, Italian and shuffled controls.
+- The Voynich fits a text world in a ~15-25-sign system: long words of tight length, almost every word ending in a 1-4-sign end set, and a marker sign opening ~30-40% of lines (grade C; marker rate is identifiable, Latin 0.03). The box-1 guess that it needs homophone/null secrecy was killed (0.82 -> 0.06-0.14) once positional grammar was allowed.
+- No world reproduces the coupling across the word space (last sign -> next word's first sign, +4.7 sd). Held-out predictions 1/4. Not cracked.

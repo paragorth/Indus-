@@ -254,3 +254,7 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Grade B: the Hagia Triada order predicts the other sites (0.655, P 0.045; the reverse direction gives P 0.1).
 - Grade B (calibrated negative): words, entry words and first signs show no pecking order (0.51-0.52). Linear B Pylos words at Linear A size give 0.61 in 10 of 10 draws. Planted hierarchies of moderate strength that most lists follow are found. Limit: the Pylos town order is recovered only when some lists write it out in full, so a canonical tour that Linear A scribes only ever wrote in pieces would not be seen.
 - Grade C: *307 is a top-rank (grain-class) commodity. Would support: *307 placed before GRA or CYP on new tablets. Would kill: *307 written after OLE or VIN.
+
+## Grow the script in a box (r3, 4 Oct 2026; `voynich/loops/r3_final.txt`)
+- Simulated societies + ABC put LA in a named, numbered ledger world with a ~100-200-sign syllabary, written dividers, no secrecy (C; agrees with known structure). Held-out 3/4.
+- 'One commodity carried down each tablet' killed: it predicts line-final purity 0.56, real 0.28.
