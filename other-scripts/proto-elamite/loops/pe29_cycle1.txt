@@ -1,0 +1,13 @@
+pe29 cycle 1 -- REBUILD THE WRITING SESSIONS: do the independent weak evidences agree pairwise? (tools/pe29_cycle1.py; log data/pe29_ckpt/cycle1.log)
+Evidence (tablet x tablet): pool = IDF cosine of signs on 2-40 tablets; hand = agreement of the variant chosen for each base written on both tablets minus chance;
+clay = batch-centred colour distance (pe26, same photo batch only); mus = exp(-museum-number gap/25), same prefix; size = -|log h,w,t| distance.
+1,300 Susa tablets (>= 2 signs). Ur III control: 1,028 dated Drehem tablets of Amar-Suen 5 (343 days; date lines removed). Null: one matrix relabelled inside
+strata (museum prefix x numeral system x line-count bin; clay inside photo batch), 200 draws.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-29.1a | PE pairwise Pearson between evidences over measurable pairs vs stratified relabelling | hand~mus r 0.020 (null 0.002, z 6.4); pool~mus 0.043 (z 20); mus~size 0.062 (z 12); size~clay 0.088 (z 3.8); mus~clay z 6.9; pool~hand 0.002 (z -0.4); hand~clay 0.002 (z 0.4); pool~clay z 0.8; hand~size z -0.4 | writing-habit (hand) and clay agree only through museum-number neighbourhood; hand and name pool do not co-vary |
+| PE-29.1b | Ur III positive control: single-evidence AUC for same-day pairs | pool 0.565, hand 0.527, mus 0.460, size 0.505 (577 / 1,465 / 104 / 233 true pairs measurable) | in a real daily archive each weak evidence alone barely marks the day |
+| PE-29.1c | Ur III pairwise agreement | all 6 pairs beyond null (pool~hand r 0.17, z 37: not independent in Ur III, both read the same words) | agreement exists in Ur III but is office/genre, not day |
+| PE-29.1d | PLANTED: 50 sessions x 4 PE tablets with weak shared pool/hand tic/museum run/size and colour pull | single-evidence AUC 0.71-0.80; pairwise r barely moves (pool~hand 0.005 vs 0.002, z 0.8) | whole-matrix correlation is blind to sessions that cover 0.05% of pairs: this test has ~no power; clustering is needed (cycle 2) |
+| PE-29.1V | Verdict | Cross-evidence agreement in PE runs through the museum-number neighbourhood (excavation lot) and size; hand fingerprint follows museum lot (z 6.4) but not name pool or clay. Session test not decided by pairwise correlation (planted control shows no power) | open; go to clustering with leave-one-evidence-out |
