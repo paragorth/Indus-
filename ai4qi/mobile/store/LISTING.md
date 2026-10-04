@@ -44,4 +44,5 @@ Expected rating: PEGI 3 / Everyone.
 
 ## Screenshots
 
-`phone-1-home.png` … `phone-6-how.png` (1082 × 1922), `feature-graphic-1024x500.png`, `icon-512.png`.
+Google Play: `play-1.png` … `play-6.png` (1080 × 1920). App Store (6.9"/6.7" iPhone): `ios-1.png` … `ios-6.png` (1290 × 2796).
+Also `feature-graphic-1024x500.png`, `icon-512.png`. Rebuild from `shots.html` after a redesign.

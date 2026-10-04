@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../app/vendor/fonts/fonts.css">
+<style>
+/* Store screenshots: caption + real app screen in a phone. Size via #W x H, scene via ?s=N */
+:root { --navy:#0b1f3a; --gold:#c9a45c; --ivory:#f3efe6; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:var(--w); height:var(--h); overflow:hidden; }
+body { font-family:"Source Sans 3",system-ui,sans-serif; color:var(--ivory);
+  background: radial-gradient(120% 70% at 80% 8%, #1c3a66 0%, var(--navy) 55%, #071528 100%); position:relative; }
+.grain { position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.018) 0 2px, transparent 2px 7px); }
+.cap { position:absolute; left:8%; right:8%; top:calc(var(--h) * .075); }
+.kicker { font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); font-size:calc(var(--w) * .026); display:flex; align-items:center; gap:.8em; }
+.kicker::before { content:""; width:2.4em; height:2px; background:var(--gold); }
+h1 { font-family:"Newsreader",Georgia,serif; font-weight:500; letter-spacing:-.015em; line-height:1.05; font-size:calc(var(--w) * .088); margin-top:.3em; text-wrap:balance; }
+h1 em { font-style:italic; color:var(--gold); font-weight:400; }
+.phone { position:absolute; left:50%; transform:translateX(-50%); top:calc(var(--h) * .30); width:calc(var(--w) * .62); height:calc(var(--h) * .78);
+  border-radius:calc(var(--w) * .085); background:#05101f; padding:calc(var(--w) * .02); box-shadow:0 40px 90px rgba(0,0,0,.55), 0 0 0 2px #2a3a55; }
+.scr { width:100%; height:100%; border-radius:calc(var(--w) * .067); overflow:hidden; background:#fff; position:relative; }
+.scr img { width:100%; display:block; position:absolute; left:0; }
+.notch { position:absolute; top:calc(var(--w) * .04); left:50%; transform:translateX(-50%); width:28%; height:calc(var(--w) * .04); background:#05101f; border-radius:99px; z-index:3; }
+.sb { position:absolute; top:0; left:0; right:0; height:calc(var(--w) * .08); background:#fff; z-index:2; }
+</style></head>
+<body><div class="grain"></div>
+<div class="cap"><div class="kicker" id="k"></div><h1 id="h"></h1></div>
+<div class="phone"><div class="notch"></div><div class="scr" id="scr"><div class="sb"></div><img id="im"></div></div>
+<script>
+const [w,h] = (location.hash.slice(1)||'1080x1920').split('x').map(Number);
+document.documentElement.style.setProperty('--w', w+'px'); document.documentElement.style.setProperty('--h', h+'px');
+const V = '../../promo/video/img/';
+const S = {
+  1: ['Clinical audit, made easy', 'Audit due? <em>Done in minutes.</em>', V+'type-32.jpg', 0],
+  2: ['1,000+ ready-made audits', 'Pick one, <em>or build your own</em>', V+'list.jpg', 0],
+  3: ['Built on 20,000+ published audits', 'The exact standard, <em>word for word</em>', V+'audit-full.jpg', 2300],
+  4: ['Data sheet included', 'Collect data, <em>no set-up</em>', V+'run-c1.jpg', 6600],
+  5: ['Charts and statistics', 'See if your change <em>worked</em>', V+'run-done.jpg', 8800],
+  6: ['Close the loop', 'Re-audit and <em>present it</em>', V+'run-done.jpg', 10650],
+};
+const s = S[new URLSearchParams(location.search).get('s')||1];
+document.getElementById('k').textContent = s[0]; document.getElementById('h').innerHTML = s[1];
+const im = document.getElementById('im'); im.src = s[2];
+im.onload = () => { const sc = im.clientWidth / 780; im.style.top = (-(s[3]*sc) + w*.08) + 'px'; document.body.dataset.ready = 1; };
+</script></body></html>

@@ -22,13 +22,19 @@ key fingerprints. It lists the upload key now. After the first upload, copy the 
 certificate SHA-256** from Play Console > Test and release > App integrity, add it to the
 `sha256_cert_fingerprints` list, and push.
 
-## iPhone (App Store)
+## iPhone (App Store): `ios-shell/`
 
-Apple does not accept a plain website in a wrapper (guideline 4.2). Plan: a small native shell
-(Capacitor) that opens ai4qi.com and adds phone notifications for due audit steps, built and uploaded
-from the cloud (no Mac needed) once the Apple Developer account is approved.
+A Capacitor shell (`com.ai4qi.app`) that opens https://ai4qi.com and adds what a website cannot do on an
+iPhone, so it is more than a wrapper (Apple guideline 4.2):
+- **Phone reminders** for each audit step (local notifications at 9am on the due date; `nativeRemind` in app.js).
+- **Files through the share sheet** (Excel, Word, PowerPoint, calendar): save to Files, AirDrop, email (`nativeSave`).
+
+Built in the cloud, no Mac: GitHub Actions > "Ai4Qi iPhone build" (`.github/workflows/ai4qi-ios.yml`) archives,
+signs automatically and uploads to App Store Connect (TestFlight). Needs repository secrets ASC_KEY_ID,
+ASC_ISSUER_ID, ASC_KEY_P8 and APPLE_TEAM_ID. iPhone only (no iPad screenshots needed).
 
 ## Store material: `store/`
 
-`LISTING.md` (names, descriptions, data-safety answers, content rating), phone screenshots,
+`LISTING.md` (names, descriptions, data-safety answers, content rating), store screenshots
+(`play-1..6.png` 1080x1920 for Google Play, `ios-1..6.png` 1290x2796 for the App Store; source `shots.html`),
 `feature-graphic-1024x500.png` and `icon-512.png`.

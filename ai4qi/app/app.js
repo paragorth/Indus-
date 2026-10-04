@@ -1795,7 +1795,7 @@
     if (!V.key) return false;
     r.updated = new Date().toISOString(); S.runs.set(r.id, r);
     runsSave().then(function (ok) { if (!ok) { var o = main.querySelector('[data-out-status]') || main.querySelector('[data-det-status]'); if (o) o.textContent = 'Could not save: this browser has no space left. Download a backup.'; } });
-    syncRun(r); return true;
+    syncRun(r); nativeRemind(r); return true;
   }
   function newRunId() {
     var a = new Uint8Array(8); (window.crypto || window.msCrypto).getRandomValues(a);
@@ -2270,10 +2270,37 @@
         return d.save({ filename: filename, data: blob });
       });
     }
+    if (nativeApp()) return nativeSave(filename, blob);
     var url = URL.createObjectURL(blob), a = document.createElement('a');
     a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
     return Promise.resolve();
+  }
+  /* --- iPhone app (Capacitor shell): files go to the share sheet, audit steps become phone reminders --- */
+  function nativeApp() { var C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform() && C.Plugins); }
+  function nativeSave(filename, blob) {
+    var P = window.Capacitor.Plugins;
+    if (!P.Filesystem || !P.Share) return Promise.reject({ code: 'unavailable' });
+    return new Promise(function (ok, bad) { var fr = new FileReader(); fr.onload = function () { ok(String(fr.result).split(',')[1]); }; fr.onerror = bad; fr.readAsDataURL(blob); })
+      .then(function (b64) { return P.Filesystem.writeFile({ path: filename, data: b64, directory: 'CACHE' }); })
+      .then(function (w) { return P.Share.share({ title: filename, url: w.uri }); })
+      .catch(function (e) { if (e && /cancel/i.test(e.message || '')) throw { code: 'declined' }; throw e; });
+  }
+  function nativeRemind(r) {
+    var LN = nativeApp() && window.Capacitor.Plugins.LocalNotifications;
+    if (!LN || !r || !r.protocol) return;
+    var h = 0; String(r.id).split('').forEach(function (ch) { h = (h * 31 + ch.charCodeAt(0)) % 200000; });
+    var sch = schedule(r), now = Date.now(), ids = [], list = [];
+    RUN_STAGES.slice(1).forEach(function (st, i) {
+      var id = h * 10 + i + 1; ids.push({ id: id });
+      if (r.closed || stageIdx(r) > i + 1 || !sch[st[0]]) return;
+      var at = new Date(sch[st[0]] + 'T09:00:00');
+      if (at.getTime() > now) list.push({ id: id, title: 'Audit step due: ' + st[1], body: r.protocol.title || r.protocol.question || 'Your audit', schedule: { at: at } });
+    });
+    LN.cancel({ notifications: ids }).catch(function () {}).then(function () {
+      if (!list.length) return;
+      return LN.requestPermissions().then(function (p) { if (p && p.display === 'granted') return LN.schedule({ notifications: list }); });
+    }).catch(function () {});
   }
   function fileSlug(s) { return String(s || 'audit').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'audit'; }
   function exporter() {
