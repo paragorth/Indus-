@@ -1,0 +1,11 @@
+pe31 cycle 2 (4 Oct 2026): frozen statistic IX run on the real PE name-like strings (tools/pe31_cycle2.py).
+Search correction: each pair against the maximum IX over all pairs in 200 within-string-shuffled corpora
+(family-wise) and against its own 200 shuffled values (BH-FDR). Planted homophones (10 signs split per token
+or per tablet) go through the identical pipeline.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-31.2a | Pair list, base signs (11,935 pairs) and variant graphs (9,870 pairs); family-wise and FDR correction vs 200 within-string shuffles | 0 pairs at family-wise p <= 0.05, 0 at q <= 0.10, in both alphabets. Real maximum IX 12.7 (base) / 15.5 (variants) vs shuffled maxima 13.4 / 14.9 | NULL. No individual interchangeable pair. Top raw pairs (C, unconfirmed): M059~M210, M001~M367, M136~M325, M136~/M136+M365/, M286~/M136+M365/, M054~i~M304 |
+| PE-31.2b | Power: planted homophones through the same pipeline | planted token 0/9 and tablet 0/9 pairs survive correction (AUC 0.87 / 0.84) | The null in 2a is uninformative: at PE size (8-40 tokens per sign) even a perfect homophone split cannot be singled out. Absence of a significant pair is an upper bound on nothing useful |
+| PE-31.2c | Graphic variants: mean IX of the 44 same-base pairs (X vs X~a, X~a vs X~b) vs frequency-matched random pairs (5,000 draws) and vs 20 within-string shuffles | 2.60 vs 0.03 (p 0.0002); shuffled corpora 0.61-1.58 (20/20 below); median same-base pair in the top 17% of all pairs. Planted variant pairs 4.82 (p 0.001) | B (measurement): ~variants of one base sign are more interchangeable than unrelated signs of the same frequency, beyond what position and frequency explain, but less than a true free variant (planted). Most alike: M387/M387~a/~l/~ef, M054/M054~i, M367/M367~g, M066/~a, M057/~a, M001/~b. Not alike: M387~i, M041~g, M203~c, M024~1. Reading C: graphic variants or sub-kinds of one thing (cf. pe20 M362 vs M362~a); the test cannot tell which |
+| PE-31.2d | Do the top interchangeable pairs look like graphic variants (same base) or unrelated shapes? | 0 of the top 25 pairs share a base sign in either alphabet | No support for sound equivalence: the top pairs are not significant (2a), and they look like slot-mates (cf. Ur III lu2/ur), not like spelling variants. C at most |

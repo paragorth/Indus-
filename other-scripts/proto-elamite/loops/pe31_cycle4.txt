@@ -1,0 +1,12 @@
+pe31 cycle 4 (4 Oct 2026): CLOSED-FRAME SWAPS (tools/pe31_cycle4.py). Seen in all three controls before
+scoring PE: spelling-variant swaps sit in longer strings (UR3 3.1 vs 2.7 signs; OB 4.3 vs 3.6; LinB 3.1 vs 2.7),
+in frames with fewer fillers (6.3 vs 13.6; 3.0 vs 4.2; 3.4 vs 5.2), and less often in the last slot
+(0.40 vs 0.62; 0.16 vs 0.40; 0.23 vs 0.36). Statistic CF(X,Y) = sum over shared frames of 1/(fillers-1), only
+strings of 3+ signs, last slot excluded. Signs with >= 4 tokens. Null: 200 within-string shuffles (frame mass and
+family-wise max). Also checked and dropped: spelling variants share tablets (UR3 0/35, OB 0/25, LinB 1/13 share one).
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-31.4a | Calibration of CF (precision among pairs with CF > 0 vs base rate; recall) | UR3 2.2% vs 0.28% (x8), OB 4.8% vs 0.18% (x27), LinB 0.8% vs 0.37% (x2), planted 1.8-3.5% vs 0.05% (x35-70); true pairs with CF > 0: 9/104, 7/33, 4/9, 2-4/10 | CF is a high-precision, low-recall filter: it enriches homophones 8-70 fold, but sees only 10-40% of them |
+| PE-31.4b | PE: closed-frame pairs and their mass vs within-string shuffle; family-wise max | base: 109 CF pairs vs 54.6 shuffled; top-20 mass 20.8 vs 20.9 (p 0.47); variants 65 vs 25.3, mass p 0.21; best pair family-wise p 0.78 | NULL for individual pairs. Real strings have twice as many closed-frame minimal pairs as shuffled strings: near-duplicate names exist (fits pe9 rich-get-richer), but no pair is swapped often enough to stand out |
+| PE-31.4c | Do closed-frame pairs prefer graphic variants? | variant alphabet: 1 of 65 CF pairs share a base (1.5%) vs 0.38% base rate | Too few to grade (1 pair). Candidates, grade C (would support: the same frame with both signs on a new tablet; would kill: they never share a third frame): M124~M377, M057~M262, M097~M259, M370~M388, M242~M352 |

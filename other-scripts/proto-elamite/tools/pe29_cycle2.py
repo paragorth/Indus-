@@ -29,6 +29,14 @@ else:
     S = build(T); stB = None
     lab = np.array([hash(t['date']) % (10 ** 9) for t in T])
 st, _ = strata(T)
+EXCL = os.environ.get('EXCL', '')
+BLK = int(os.environ.get('NULLBLK', '0'))
+for e in [x for x in EXCL.split(',') if x]:
+    S.pop(e, None)
+if BLK:  # finer null: relabel only inside runs of BLK consecutive museum numbers (keeps excavation-lot structure)
+    st = [f"{t['pre']}|{(t['no'] // BLK) if t['no'] is not None else 'na' + str(i)}" for i, t in enumerate(T)]
+    stB = [f'{a}|{b}' for a, b in zip(stB, st)] if stB is not None else None
+TAG = D + (('_ex' + EXCL.replace(',', '')) if EXCL else '') + (f'_blk{BLK}' if BLK else '')
 Z = {k: zmat(v) for k, v in S.items()}
 evs = list(S)
 out = {'D': D, 'n': len(T), 'rows': []}
@@ -68,5 +76,5 @@ for e in evs:
         pass
 # keep the full-evidence consensus for cycle 3
 C = colink(Z, evs, NR, rng, drop=0.3)
-np.save(os.path.join(CK, f'C_{D}.npy'), C.astype(np.float16))
-json.dump(out, open(os.path.join(CK, f'cycle2_{D}.json'), 'w'), indent=1)
+np.save(os.path.join(CK, f'C_{TAG}.npy'), C.astype(np.float16))
+json.dump(out, open(os.path.join(CK, f'cycle2_{TAG}.json'), 'w'), indent=1)

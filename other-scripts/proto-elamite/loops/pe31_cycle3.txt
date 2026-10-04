@@ -1,0 +1,12 @@
+pe31 cycle 3 (4 Oct 2026): is there a closed interchangeable subset, a candidate syllabary inside the script?
+(tools/pe31_cycle3.py). D(s) = mean of a sign's 3 highest IX. Calibration: OB seal names mix syllables and
+logograms; D must rank syllabic signs (CV, VC, CVC values) above logograms. Closure = transitivity of the
+top-1% IX graph vs 200 degree-preserving rewirings. Held-out: IX on half the tablets, top 50 pairs re-scored
+on the other half, 5 splits. References: within-string-shuffled PE and PE with planted tablet allographs.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-31.3a | Calibration: does D find the syllabary inside a mixed script? (OB and Ur III seal names, frequency-matched label permutation) | OB AUC 0.43 (null 0.53, p 0.98); Ur III 0.49 (p 0.83). PE planted allographs: D AUC 0.47 (p 0.76) | KILLED: the method cannot find a syllabic subset where one is known to exist, nor planted allographs. The subset question cannot be answered by interchangeability at this corpus size |
+| PE-31.3b | PE: D vs simple signs (pe22 closed set), pe6 name-spelling signs, variant graphs | simple vs compound AUC 0.61 (p 0.07) base, 0.57 (p 0.22) variants; pe6 names 0.58 (p 0.22) / 0.44 (p 0.83); variant graphs 0.48 (p 0.71) | NULL, and uninterpretable after 3a. The top-1% graph has 71 nodes, 96% simple signs (base rate 92%): no evidence for or against the 425 simple-sign set, and no smaller closed set |
+| PE-31.3c | Closure: transitivity of the top-1% graph vs rewiring | PE 0.19 vs 0.07 (x2.8, p 0.005); variants x3.6; but within-string-shuffled PE x2.2 (p 0.005), Ur III x6.5, OB x2.1, Linear B 0 | KILLED as evidence: the shuffled corpus is almost as closed. Closure comes from the frequency/position z-scoring, and in real names from slot-mate classes (gods, titles), not from a syllabary |
+| PE-31.3d | Held-out replication of the top 50 pairs | PE rank correlation 0.31, top pairs at the 71st percentile in the other half; shuffled PE 0.16 / 69th; planted 0.31 / 72nd; Ur III 0.62 / 92nd; OB 0.59 / 87th; Linear B 0.54 / 73rd | Top PE pairs replicate no better than top pairs of a shuffled corpus (71st vs 69th percentile). PE interchangeability is mostly frequency and position. Grade A for the measurement, null for interchangeable pairs |
