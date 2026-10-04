@@ -88,8 +88,6 @@ def part_a():
     return res
 
 
-if __name__ == '__main__':
-    part_a()
 
 
 # ---------------- (B) what do the re-spaced units look like? ----------------
@@ -133,3 +131,38 @@ def describe_units(c, st, rng, top=30):
                 hapax_types=float(np.mean(cnt == 1)), whole=float(whole.mean()), sub=float(sub.mean()),
                 cross=float(cross.mean()), mi_line_initial=pos_ini, mi_line_final=pos_fin,
                 chain_units=ch_u, chain_glyph=ch_g, top=tops)
+
+
+def edits(c, st, top=8):
+    """Which written spaces the re-spacing deleted and which breaks it added, by glyph context."""
+    a = c.alphabet
+    dele = np.flatnonzero(c.written & ~st & ~c.ls); add = np.flatnonzero(st & ~c.written & ~c.ls)
+    def ctx(ix): return Counter(a[c.sym[i - 1]] + '|' + a[c.sym[i]] for i in ix).most_common(top)
+    return dict(n_deleted=int(len(dele)), n_added=int(len(add)), n_written=int((c.written & ~c.ls).sum()),
+                deleted=ctx(dele), added=ctx(add))
+
+
+def part_b():
+    path = os.path.join(OUT, 'units.json')
+    D2 = os.path.join(L.RESDIR, 'cycle2')
+    res = {}
+    for name in ['V-ZL3b', 'V-IT2a', 'Latin', 'Italian', 'NULL-markov2', 'Latin-planted-every5']:
+        c = build(name)
+        rng = np.random.default_rng(21)
+        res[name] = {'written': describe_units(c, c.written, rng)}
+        if c.truth is not None:
+            res[name]['truth'] = describe_units(c, c.truth, rng)
+        for start in ('written', 'random'):
+            p = os.path.join(D2, f'{name}__{start}.npz')
+            if not os.path.exists(p): continue
+            st = np.load(p)['st']
+            d = describe_units(c, st, rng); d['edits'] = edits(c, st)
+            res[name]['anneal_' + start] = d
+        print(name, json.dumps({k: {kk: vv for kk, vv in v.items() if kk not in ('top', 'edits')} for k, v in res[name].items()}), flush=True)
+    json.dump(res, open(path, 'w'), indent=1, default=float)
+    return res
+
+
+if __name__ == '__main__':
+    what = sys.argv[1] if len(sys.argv) > 1 else 'a'
+    part_a() if what == 'a' else part_b()

@@ -294,6 +294,116 @@ def simulate(ss, ts, sess, V, w, B, base, mode, K, c, eps, th, seed):
 
 
 @njit(cache=True)
+def _bdraw(cum, V, u):
+    u = u * cum[V - 1]
+    lo, hi = 0, V - 1
+    while lo < hi:
+        m = (lo + hi) // 2
+        if cum[m] < u:
+            lo = m + 1
+        else:
+            hi = m
+    return lo
+
+
+@njit(cache=True)
+def simulate_fast(ss, ts, sess, V, CW, CB, base, mode, K, c, eps, th, seed):
+    """simulate() with cumulative tables CW (V) and CB (V+1, V) and O(log V) draws."""
+    np.random.seed(seed)
+    tok = np.zeros(ss[-1], np.int32)
+    n_s = np.zeros(V)
+    seen_list = np.zeros(V, np.int32)
+    used_str = np.zeros(V, np.int32)
+    d = 0
+    n = 0.0
+    T = len(ts) - 1
+    for i in range(T):
+        if sess[i] == 1:
+            for k in range(d):
+                n_s[seen_list[k]] = 0
+            d = 0
+            n = 0.0
+        for j in range(ts[i], ts[i + 1]):
+            prev = V
+            for k in range(ss[j], ss[j + 1]):
+                row = CW if base == 0 else CB[prev]
+                if mode == 0:
+                    s = _bdraw(row, V, np.random.random())
+                elif mode == 1:
+                    if np.random.random() < n / (n + th):
+                        s = tok[ss[ts[_sess_start(sess, i)]] + int(np.random.random() * n)]
+                    else:
+                        s = _bdraw(row, V, np.random.random())
+                else:
+                    if np.random.random() < eps:
+                        s = _bdraw(row, V, np.random.random())
+                    else:
+                        if mode == 3:
+                            tot = 0.0
+                            for t in range(d):
+                                x = c - n_s[seen_list[t]]
+                                if x > 0:
+                                    tot += x
+                            uw = (K - d) * c if K > d else 0.0
+                            if tot + uw <= 0:
+                                for t in range(d):
+                                    n_s[seen_list[t]] = 0
+                                d = 0
+                                n = 0.0
+                                tot = 0.0
+                                uw = K * c
+                        elif mode == 2:
+                            tot = float(d)
+                            uw = (K - d) if K > d else 0.0
+                        else:
+                            tot = 0.0
+                            for t in range(d):
+                                if used_str[seen_list[t]] == 0:
+                                    tot += 1.0
+                            uw = (K - d) if K > d else 0.0
+                        Z = tot + uw
+                        r = np.random.random() * Z
+                        if Z <= 0 or r >= tot:
+                            # new type from q restricted to unseen (rejection)
+                            s = -1
+                            for _ in range(200):
+                                x = _bdraw(row, V, np.random.random())
+                                if n_s[x] == 0:
+                                    s = x
+                                    break
+                            if s < 0:
+                                s = _bdraw(row, V, np.random.random())
+                        else:
+                            acc = 0.0
+                            s = seen_list[0]
+                            for t in range(d):
+                                x = seen_list[t]
+                                if mode == 3:
+                                    wt = c - n_s[x]
+                                    if wt < 0:
+                                        wt = 0.0
+                                elif mode == 2:
+                                    wt = 1.0
+                                else:
+                                    wt = 1.0 if used_str[x] == 0 else 0.0
+                                acc += wt
+                                if r < acc:
+                                    s = x
+                                    break
+                tok[k] = s
+                if n_s[s] == 0:
+                    seen_list[d] = s
+                    d += 1
+                n_s[s] += 1
+                n += 1
+                used_str[s] = 1
+                prev = s
+            for k in range(ss[j], ss[j + 1]):
+                used_str[tok[k]] = 0
+    return tok
+
+
+@njit(cache=True)
 def _sess_start(sess, i):
     while i > 0 and sess[i] == 0:
         i -= 1

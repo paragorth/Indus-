@@ -156,3 +156,9 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - In Linear A a number follows a word directly (0.52 vs 0.37 shuffled), as in Proto-Elamite. Linear B words avoid numbers.
 - No recursion was found, but the test is weak because Linear B shows none either.
 - Grades: the ENTRY class (KU-RO, KI-RO, SA-RA₂, A-DU, KA-PA, TE, SI) is B. Commodity logograms are A. NI, *304 and *308 as commodities are B.
+
+## Blind bijection compression contest (la11)
+- About 21,200 annealing searches over 39 languages from 18 families found no language that takes up Linear A better than unrelated real words, under any of 3 spelling schemes.
+- The Linear B control failed. Ancient Greek ranked between 17th and 33rd of 35. The method recognises a corpus, not a language family, so this null says nothing about Linear A's family.
+- An early Afro-Asiatic lead (Arabic, Coptic) was half random-string bias and vanished under the third spelling scheme (p = 0.51). Dropped.
+- Linear A's sign-to-sign structure is real but about 70% as strong as Linear B's, consistent with la5.

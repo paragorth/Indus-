@@ -1,0 +1,24 @@
+pe9 cycle 1 -- "the names were drawn from a bag": held-out likelihood race (tools/pe9_build.py, pe9_common.py,
+pe9_cycle1.py, pe9_cycle1b.py; numbers data/pe9_cycle1.json, pe9_cycle1b.json, logs).
+Data (data/pe9_corpora.json): PE = 258 tablets with >= 2 multi-sign entry middles (pe4/pe7 definition, clean
+entries, exact within-tablet duplicates dropped; 1,055 strings, 3,182 signs, 344 types). 20% of tablets
+(52, seed 9) RESERVED for the cycle-3 prediction test and not used here (fit set 206 tablets).
+Controls: Ur III Drehem admin names per tablet (668 tablets, 1,717 strings), Linear B personnel names per
+tablet (DAMOS; 454 tablets, 2,019 strings), PE middles shuffled across tablets (3 seeds), planted corpora on
+the PE structure from LM-bigram, POLYA (theta 3) and BAG_WOR (K 12 types x c 2 copies, eps 0.15) generators.
+Models (all conditioned on the same string lengths; base = bigram over signs): LM; POLYA (tablet topic: used
+signs become more likely); BAG_WR (K types, inexhaustible); BAG_WOR (K types x c copies, depleting, refilled
+when empty); STAMP (no re-use inside a string, re-use across strings); session S = 1/2/4 tablets per bag.
+5-fold CV over contiguous tablet blocks, parameters chosen on the training folds by grid; held-out bits/sign.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.1 | Held-out bits/sign, five model families, vs PE middles shuffled across tablets and a planted LM corpus (which measure the gain a cache gets from smoothing alone) | PE: LM 8.845, POLYA 8.425, STAMP 8.464, BAG_WR 8.501, BAG_WOR 8.846. Gain over LM: POLYA 0.42 (shuffled 0.07-0.10; planted LM 0.06); BAG_WOR 0.00 (it fits as eps 0.9, K 2: the bag is switched off) | the tablet effect is real (restates pe7) and is best described by a TOPIC/CACHE model, not by a depleting bag. Every finite-copy bag loses |
+| PE-2.1 | Recovery control: planted corpora scored by the same race | PLANT_BAG (2 seeds): BAG_WOR wins (6.96 / 6.78 vs POLYA 7.64 / 7.57), fitted K 12, c 2 = the planted values exactly (eps 0.5 vs 0.15 planted); PLANT_POLYA: POLYA wins by 0.25-0.6 bits; PLANT_LM: all within 0.06 | the race CAN find a depleting bag and its size when one is there. Its silence on PE is informative |
+| PE-3.1 | Language controls: Ur III admin names and Linear B names | UR3: tablet gain 0.012 bits (POLYA = BAG_WR 3.970 vs LM 3.982), i.e. no tablet effect; LINB: POLYA wins by 0.18, BAG_WOR = LM | both controls prefer the language-like model (UR3) or the cache (LINB); neither prefers a depleting bag. PASS |
+| PE-4.1 | Use profile (cycle 1b): P(sign) = LM x r, r = f1, f2, f3 after 1, 2, >= 3 earlier uses on the tablet, fw inside the same string; 200 tablet bootstraps | PE f = 2.62, 2.87, 4.61 (90% CI f1 2.2-2.9, f2 2.0-3.4, f3 3.1-5.8), fw 1.09; shuffled ~1 (0.75-1.19); planted BAG c 2: f1 8.6 then f2 0.5-0.7 (collapse); planted POLYA 12, 16, 28-38; UR3 1.2, 1.0, 1.1; LINB 1.3, 1.6, 1.65 | NO depletion: a sign used once on a tablet becomes MORE likely to be used again, and more so after each use. Inside one string re-use is neither boosted nor suppressed (fw 1.09). The bag-of-counters reading is killed for c = 1 and c = 2; c >= 3 cannot be ruled out but f3 > f2 argues against it |
+
+Plain result: names on a tablet do not behave like draws from a finite set of counters. They behave like a
+tablet-specific vocabulary that is reused more the more it has been used ("rich get richer"), unlike Ur III
+admin names (no tablet effect) and stronger than Linear B (f about 1.3-1.6 vs 2.6-4.6). Next: ABC over
+1,000,000 simulated corpora (cycle 2) to test the same with summary statistics and size the "bag".

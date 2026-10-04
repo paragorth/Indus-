@@ -42,6 +42,7 @@ def chunk_job(arg):
     P = np.zeros((CHUNK, 8))
     St = np.zeros((CHUNK, 11))
     sessc = {S: sess_flags(E.T, S) for S in SS}
+    B0c = np.cumsum(B0, 1)
     for r in range(CHUNK):
         mode = rng.randint(5)
         base = rng.randint(2)
@@ -58,7 +59,9 @@ def chunk_job(arg):
             B /= B.sum(1, keepdims=True)
         else:
             B = B0
-        tk = simulate(E.ss, E.ts, sessc[S], E.V, w, B, base, mode, K, c, eps, th, int(rng.randint(2**31 - 1)))
+        CW = np.cumsum(w)
+        CB = np.cumsum(B, 1) if base == 1 else B0c
+        tk = simulate_fast(E.ss, E.ts, sessc[S], E.V, CW, CB, base, mode, K, c, eps, th, int(rng.randint(2**31 - 1)))
         St[r] = stats(tk, E.ss, E.ts, E.V, 15, r)
         P[r] = [mode, base, g, K, c, eps, th, S]
     np.savez(fn, P=P, S=St)
