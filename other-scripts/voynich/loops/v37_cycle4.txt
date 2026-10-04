@@ -1,0 +1,9 @@
+# v37 cycle 4: rotation null for line schemas (tools/v37_cycle4.py; ckpt data/v37_ckpt/c4_*.json). Each line rotated cyclically by a
+# random offset (bag and all but one adjacency kept; anything anchored to the line start or end destroyed). Alignment = held-out gain
+# lost by rotation (mb/word): fixed position bins, LR field automaton (k 4, 6; 6 restarts), ergodic HMM. Plus the per-position profile:
+# held-out gain of position-bin emissions over a unigram in each bin (first, 2nd, 3rd, middle, 2nd-last, last).
+| V-37.4.1 | POSITIVE: record-per-line lists | position-bin alignment loss: Culpeper 410, Isidore X 241, Apicius 244, Cury 188 | Large: control PASSES |
+| V-37.4.2 | NEGATIVE: Caesar in lines; Cury cut | 6.9; -2.5 | Zero: control PASSES |
+| V-37.4.3 | VOYNICH ZL / IT; v26 forgery | 148 / 152; forgery 140 | Voynich lines are as strongly anchored to their edges as record lists, and the generator (line-initial chain, width filling, junction key) already gives the same |
+| V-37.4.4 | Per-position profile, mb/word (first, 2nd, 3rd, middle, 2nd-last, last) | Culpeper 1642 926 707 131 130 138; Cury 912 547 -318 -100 147 133; Apicius 891 190 -89 59 -49 94; Isidore 444 608 36 22 -39 47; Caesar <= 0 everywhere; ZL 581 109 16 21 -28 318; IT 559 112 15 29 -23 307; forgery 587 78 -25 27 1 273; ZL shuffled <= 0 | Lists load the FRONT: key and the slot after it (2nd word 190-926: 'id est', 'take', field label + verb), weak ends. The Voynich loads BOTH EDGES (last word 318, more than any list's 47-138) and its 2nd slot is weak (109, forgery 78): a bracketed line, not a key + field record |
+| V-37.4 | Cycle verdict | - | Grade B: the Voynich line is a sealed envelope (strong first and last word) with an unstructured interior. That differs in shape from every record-per-line list here (front-loaded key and field slots) and is reproduced by the v26 generator, which has no record mechanism |
