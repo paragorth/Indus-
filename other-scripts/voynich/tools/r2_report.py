@@ -101,13 +101,11 @@ def run_prog(prog, D):
             elif t == 'lsys': o = lsys_str(rules)[a]
             else:
                 key = a.astype(np.int64) if t == 'tab1' else (a.astype(np.int64) << 8 | b)
-                cnt = {}
-                for k, y in zip(key[A].tolist(), X[A].tolist()):
-                    cnt.setdefault(k, {}); cnt[k][y] = cnt[k].get(y, 0) + 1
-                tab = {}
-                for k, cy in cnt.items():
-                    y, n = max(cy.items(), key=lambda z: (z[1], -z[0]))
-                    if n >= 2: tab[k] = (y, n / sum(cy.values()))
+                cnt, bst, tot = {}, {}, {}
+                for k, y in zip(key[A].tolist(), X[A].tolist()):   # same tie rule as the C engine
+                    c = cnt.get((k, y), 0) + 1; cnt[(k, y)] = c; tot[k] = tot.get(k, 0) + 1
+                    if c > bst.get(k, (0, 0))[0]: bst[k] = (c, y)
+                tab = {k: (y, n / tot[k]) for k, (n, y) in bst.items() if n >= 2}
                 o = np.array([tab.get(k, (255, 0))[0] for k in key.tolist()], np.uint8)
                 pu = np.array([tab.get(k, (255, 0))[1] for k in key.tolist()])
                 purity = np.digitize(pu, [0.25, 0.5, 0.75])

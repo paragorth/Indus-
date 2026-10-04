@@ -324,6 +324,22 @@ int main(int argc, char **argv) {
     cnt = calloc((size_t)65536 * V, 4); best = calloc(65536, 4); tot = calloc(65536, 4); bsym = calloc(65536, 1);
     rs = 0x9E3779B97F4A7C15ULL ^ (seed * 0x2545F4914F6CDD1DULL); for (int i = 0; i < 10; i++) rnd();
 
+    if (MODE == 9) {   /* evaluate one program given as text (argv[7]) */
+        Prog p; memset(&p, 0, sizeof p); rand_lsys(&p);
+        char buf[4096]; strncpy(buf, argv[7], 4095); char *tok = strtok(buf, " ");
+        while (tok) {
+            int done = 0;
+            for (int t = 0; t < NT && !done; t++) if (!strcmp(tok, TN[t])) { p.c[p.n].op = TERM; p.c[p.n++].arg = t; done = 1; }
+            for (int o = ADD; o < NOPS && !done; o++) if (!strcmp(tok, OPN[o])) { p.c[p.n].op = o; p.c[p.n++].arg = 0; done = 1; }
+            if (!done) { p.c[p.n].op = CONST; p.c[p.n++].arg = atoi(tok); }
+            tok = strtok(NULL, " ");
+        }
+        MODE = 0; evaluate(&p);
+        if (argc > 8) { FILE *pf = fopen(argv[8], "wb"); fwrite(PRED, 1, N, pf); fwrite(BINS, 1, N, pf); fclose(pf); }
+        int hc, pc; double *pd = calloc(ND, sizeof(double)); double gC = gain_on(2, p.lam, 0, &hc, &pc, pd);
+        printf("fitB %.2f gainB %.2f bits %.2f hitsB %d predB %d gainC %.2f hitsC %d lam %.4f %.4f %.4f %.4f\n", p.fit, p.gainB, p.bits, p.hitsB, p.predB, gC, hc, p.lam[0], p.lam[1], p.lam[2], p.lam[3]);
+        return 0;
+    }
     char path[1024]; sprintf(path, "%s.ckpt", pre);
     enum { P = 300 };
     static Prog pop[2 * P];

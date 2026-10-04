@@ -8,7 +8,10 @@
     half A (family-wise null for the maximum); the top 1% of real subsets re-tested on
     the held-out half B against 30 copula surrogates per subset (Bonferroni).
 """
-import json, os, pickle, sys, time
+import os
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
+import json, pickle, sys, time
 import numpy as np
 from multiprocessing import Pool
 from pe11_common import *  # noqa

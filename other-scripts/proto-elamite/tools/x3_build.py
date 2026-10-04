@@ -188,10 +188,29 @@ def load_grc():
     return out
 
 
+LB_DROP = {'mut.', 'inf.', 'sup.', 'deest', '•', ':', '.a', '.b', 'vacat', 'v.', 'lat.', 'α', 'β', 'γ'}
+
+
+def clean_lb(lines):
+    out = []
+    for t in lines:
+        s = []
+        for x in t:
+            x = ''.join(c for c in unicodedata.normalize('NFD', x) if unicodedata.category(c) != 'Mn')
+            if not x or x in LB_DROP or re.fullmatch(r'[α-ω]+', x):
+                continue
+            if re.fullmatch(r'\d+', x):
+                x = 'NUM'
+            s.append(x)
+        if s:
+            out.append(s)
+    return out
+
+
 def main():
     C = {}
     C['LA'] = load_la(); C['PE'] = load_lib('proto_elamite'); C['VOY'] = load_voy()
-    C['LB'] = load_lib('linb_syll'); C['PC'] = load_pc(); C['LAT'] = load_lat()
+    C['LB'] = clean_lb(load_lib('linb_syll')); C['PC'] = load_pc(); C['LAT'] = load_lat()
     C['GRC'] = load_grc()
     cd = load_cdli()
     rng = random.Random(3)

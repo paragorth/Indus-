@@ -7,7 +7,10 @@
     value distributions) with lambing, culling, harvest-stock and herd-size cycles at
     amplitudes a and seasonal fraction f; same search, same nulls.
 """
-import json, os, pickle, sys, time
+import os
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
+import json, pickle, sys, time
 import numpy as np
 from multiprocessing import Pool
 from pe11_common import *  # noqa

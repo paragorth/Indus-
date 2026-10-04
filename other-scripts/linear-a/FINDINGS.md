@@ -168,3 +168,13 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - No cross-tablet closure beats chance. Joined tablets are not more often the same hand, room or vocabulary than chance joins. No word gets a total, deficit or transfer role.
 - The method cannot reassemble even real cut HT tablets: with 2-3 tablets almost any total is reachable in hundreds to thousands of exact ways (grade A). Arithmetic joins need physical evidence first.
 - Leads, grade C: HT 116a GRA lines sum to 109 (its own KU-RO says 100) = HT 1 KU-PA3-NU 109; HT 27a VIR 140 = all numbers of HT 27b (probably coincidence).
+
+## Bred languages (la10)
+- 16 genetic-algorithm runs scored about 110,000 rule sets, or about 331,000 artificial vocabularies. Planted languages were recovered. Linear B passed in part after the model was fixed: its suffix-heavy morphology came back, but its cluster spelling did not. Shuffled Linear A gave no rules.
+- Linear A profile, which holds outside Hagia Triada:
+  - Grade B: both prefixes and suffixes, no consonant clusters, no vowel harmony.
+  - Grade B: mostly a, i and u, with o nearly absent. This depends on Linear B-derived values, so it carries that caveat.
+  - Grade C: repeated consonants avoided inside roots, and consonant-final stems.
+  - Killed: vowel dissimilation, because it also appeared on the shuffled control.
+- WALS and Grambank data put this profile weakly closer to languages with both prefixes and suffixes than to suffix-only Hurrian, Luwian or Greek.
+- The spelling convention cannot be tested, because the Linear B control fits a spelling other than its own better.
