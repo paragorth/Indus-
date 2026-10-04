@@ -178,3 +178,10 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
   - Killed: vowel dissimilation, because it also appeared on the shuffled control.
 - WALS and Grambank data put this profile weakly closer to languages with both prefixes and suffixes than to suffix-only Hurrian, Luwian or Greek.
 - The spelling convention cannot be tested, because the Linear B control fits a spelling other than its own better.
+
+## Linear A as its own dialects (la13)
+- Each site group (HT, Khania, Zakros, Phaistos, Knossos, others) was treated as a language. All cross-site word pairs differing by one sign were searched for recurring substitutions (sound laws or spelling conventions), then site sign-contexts were aligned by annealed sign maps, and a sign grid was built from the substitution graph. Scribes were tried as idiolects.
+- No rule beats label-shuffle or Markov nulls. Nothing recurs at all on words of 3+ signs. The best rule (HT KA vs others JA, 2-sign words) is matched by random splits of LA: C, demoted.
+- Power is the limit: sites share only 43 word types (scribes 26-30), so even a planted exceptionless substitution is not recovered (0/18). Absence of dialect rules is an upper bound only.
+- No sign grid emerges from LA substitutions (held-out no better than shuffled pairs). Full Linear B does yield partial rows; LB cut to LA size does not.
+- Grade B side result: words differing by one sign cluster in the same site and the same hand, beyond the document level (P <= 0.003 in 3 groupings). Variant families are local (archive/hand), not regional.

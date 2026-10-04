@@ -33,6 +33,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The anchors are too few to separate places from persons.
 - The affixes do not predict new forms.
 - Tablets as pieces of split ledgers (la12): no cross-tablet sum beats chance; with 2-3 tablets almost any total can be matched by chance, so arithmetic alone cannot rejoin ledgers.
+- Linear A as its own dialects (la13): no cross-site or cross-scribe sign substitution beats nulls, and no sign grid emerges; sites share too few words (43 types) for even a planted rule to show. Words differing by one sign are site- and hand-local (B).
 
 **Open:** the fraction values. They need specialist re-reading of PH 9b, PH 22a, ZA 8 and HT 104 in GORILA.
 
