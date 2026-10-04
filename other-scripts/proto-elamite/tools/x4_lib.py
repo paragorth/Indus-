@@ -95,14 +95,18 @@ def gen_wbg(docs, rng):
     """word bigram over the document stream (doc start token), same doc and line shape."""
     T = defaultdict(Counter)
     for d in docs:
-        s = ['<D>'] + stream(d)
+        s = ['<D>'] + stream(d) + ['</D>']
         for a, b in zip(s, s[1:]): T[a][b] += 1
     T = {k: _cum(v) for k, v in T.items()}
     words = []
     for d in docs:
         p = '<D>'
-        for _ in range(len(stream(d))):
-            w = _draw(T.get(p) or T['<D>'], rng); words.append(w); p = w
+        n = len(stream(d)); got = 0
+        while got < n:
+            w = _draw(T.get(p) or T['<D>'], rng)
+            if w == '</D>':
+                p = '<D>'; continue                      # document ended early: start a new one
+            words.append(w); p = w; got += 1
     return _reshape(docs, words)
 
 
@@ -110,15 +114,17 @@ def gen_tri(docs, rng):
     """sign trigram over the running text of each doc (word boundary ' ', doc start '^^')."""
     T = defaultdict(Counter)
     for d in docs:
-        x = '^^' + ' '.join(stream(d)) + ' '
+        x = '^^' + ' '.join(stream(d)) + ' $'
         for i in range(2, len(x)): T[x[i - 2:i]][x[i]] += 1
     T = {k: _cum(v) for k, v in T.items()}
     words = []
     for d in docs:
         n = len(stream(d)); ctx = '^^'; cur = ''; got = 0; guard = 0
-        while got < n and guard < 400:
+        while got < n and guard < 4000:
             guard += 1
             c = _draw(T.get(ctx) or T['^^'], rng)
+            if c == '$':
+                ctx = '^^'; continue                     # document ended early: start a new one
             if c == ' ':
                 if cur: words.append(cur); cur = ''; got += 1
             else:
