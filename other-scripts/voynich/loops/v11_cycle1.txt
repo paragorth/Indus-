@@ -1,0 +1,24 @@
+# v11 cycle 1 -- "the text is a walk through a hidden map": fitting hidden-space models (tools/v11_lib.py, tools/v11_cycle1.py;
+# checkpoints data/results/v11/c1_<corpus>_<fold>.json, log c1.log)
+# Data: ZL3b paragraph lines, uncertain words dropped (34,857 tokens); IT2a as transcription check (same pages: transcription-robust, not replication).
+# Every control corpus is poured into the exact ZL3b line layout, so the page-level 2-fold split (alternate folios) is identical.
+# Units: word types, top 300 per corpus; within-line bigrams with both words in vocabulary. Scores are HELD-OUT gains in bits per bigram
+# over a unigram(+self-repeat) model, mean of 2 folds.
+# Models (numpy, full batch, Adam 500 it., L2): MAP dist-d: P(b|a) = (1-rho) softmax(-|x_a-x_b|^2 + beta_b + g[a=b]) + rho u_b
+# (a walk with step kernel, popularity, teleport rate rho); NON-GEOMETRIC bilin-d: same with u_a.v_b instead of -|x_a-x_b|^2 (2x the parameters).
+# Restarts: dist1/dist2 spectral-init + random, keep best train fit. Key statistic: MAP ADVANTAGE = gain(dist2)/gain(bilin2).
+# Planted controls: random walk on a 20x20 grid (Chebyshev radius-2 steps, Voynich word types and frequencies placed at random) with 30% or
+# 60% noise tokens; same walk on a random 24-regular graph (same degree, no geometry).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-1.1 | Planted recovery (must pass): grid walk, 30% noise; graph walk, 30% noise; grid walk, 60% noise | Grid-30: dist2 0.80 bits vs bilin2 0.42 (map advantage 1.92); map recovered: Procrustes R^2 0.59, 67% of 5-nearest learned neighbours are true grid neighbours (chance 5.4%). Graph-30: dist2 0.10 vs bilin2 0.17 (0.59), bilin16 0.60; R^2 0.00, kNN 5% = chance. Grid-60: weak (dist2 0.04) but advantage 2.7, kNN 24% (4.5x chance) | The method finds a planted map, refuses a planted non-geometric graph, and still flags a map under 60% noise. Instrument valid |
+| V-1.2 | Voynich ZL and IT vs natural language (Isidore Latin, Manzoni Italian, Cervantes Spanish, all poured into the Voynich layout) | Map advantage: ZL 0.57, IT 0.57; Latin 0.89, Italian 0.54, Spanish 0.44; planted graph 0.59; planted grid 1.92 (2.7 at 60% noise). Voynich dist2 0.156 bits vs bilin2 0.274; bilin16 overfits (0.13) | Voynich sits with language and with the non-geometric graph, 3.4x below the planted map. A low-dimensional map does NOT explain word succession better than a non-geometric model of the same size. Transcription-robust (ZL = IT) |
+| V-1.3 | Dimension curve dist1 -> dist2 -> dist3 (a real 2-D map should saturate at d = 2; language keeps rising) | Voynich ZL 0.110 / 0.156 / 0.171, IT 0.108 / 0.150 / 0.148 (saturates by d = 2-3, but at a low level); grid 0.41 / 0.80 / 1.00; Latin 0.30 / 0.47 / 0.55 | Voynich's metric part is small and saturates early; it is not where the information is (bilin2 alone gives 0.27) |
+| V-1.4 | Is the Voynich 'map' just topic? Same fit on Voynich with words shuffled inside each line (keeps line/section co-occurrence, destroys order) | Shuffle-line: dist1 0.076, dist2 0.057, bilin2 0.029 (map advantage 1.9: symmetric topic co-occurrence looks map-like). Order-specific increment (Voynich minus shuffle): dist2 +0.10, bilin2 +0.245, ratio 0.40 (Spanish 0.44, Italian 0.54, grid 1.9) | Most of the Voynich 'geometry' (two thirds of the dist1 gain) is section/topic co-occurrence, which any text has. What adjacency adds is asymmetric and non-metric, like language |
+| V-1.5 | Self-citation generator (Timm & Schinner type copy-and-modify; gen.self_citation) as a 'form-space walk' control | Degenerate at this vocabulary: 369 held-out in-vocabulary bigrams (vs 6,382 for Voynich); estimates unstable between folds (dist2 -0.01 / +0.35) | Underpowered; no conclusion from this control. Not used further |
+
+Cycle-1 verdict: no hidden 2-D/3-D map. The instrument recovers a planted grid (R^2 0.59, kNN 12x chance) and rejects a planted
+graph; Voynich behaves like natural language and the planted graph (map advantage 0.57 vs 1.92). Next (cycle 2): model-free
+geometry (clustering, triangle closure, Isomap, ball growth), walk statistics in the learned space, map reuse across page halves,
+and a lag-2 composition test.

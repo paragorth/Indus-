@@ -41,7 +41,7 @@ def main():
     mask = np.ones(len(S), bool); mask[test] = False
     est = []; covr = []
     for i in test:
-        a, _, _ = abc_fit(U[mask], S[mask], S[i], frac=0.01)
+        a, _, _, _ = abc_fit(U[mask], S[mask], S[i], frac=0.01)
         med = np.median(a, 0); lo = np.percentile(a, 5, 0); hi = np.percentile(a, 95, 0)
         est.append(med); covr.append((U[i] >= lo) & (U[i] <= hi))
     est = np.array(est); covr = np.array(covr)

@@ -22,9 +22,14 @@ PLANTS = {
     'PLANT2': dict(onset0_init=0.3, onset0_med=0.1, cluster=0.3, coda_med=0.35, coda_obs=0.6, coda_fin=0.8, root_len=2.5,
                    harm_copy=0.0, harm_fb=0.0, ocp_id=0.0, ocp_place=0.6, pre_p=0.45, pre_n=3, suf_p=0.05, suf_n=2,
                    aff_2syl=0.3, aff_v=0.4, reuse=0.4, fv_str=0.6),
+    # v2 Greek-like: obligatory suffixes on consonant stems, clusters, obstruent codas, no prefixes, no harmony, no OCP
+    'PLANT3': dict(onset0_init=0.35, onset0_med=0.1, cluster=0.2, coda_med=0.25, coda_obs=0.5, coda_fin=0.5, root_len=2.0,
+                   harm_copy=0.0, harm_fb=0.0, ocp_id=0.0, ocp_place=0.0, pre_p=0.03, pre_n=2, suf_p=0.95, suf_n=7,
+                   aff_2syl=0.3, aff_v=0.8, reuse=0.35, fv_str=0.0, stem_c=0.7),
 }
 def plant_genome(nm):
-    d = dict(PLANTS[nm])
+    d = dict(PLANTS[nm]); d.setdefault('stem_c', 0.0)
+    if not L.V2: d.pop('stem_c')
     for c in L.CCAT: d['cw_' + c] = 0.5
     d['cw_H'] = -0.5; d['cw_Z'] = -1.0; d['cw_Q'] = -1.0
     for v in L.VOW: d['vw_' + v] = 0.0; d['fw_' + v] = 0.0
@@ -58,7 +63,7 @@ if __name__ == '__main__':
     types = target_types(tg, None); n = len(types)
     full, sd = L.calib(types, random.Random(5), 40)
     L.WDIST = wd
-    tag = f'{tg}_{spell}_w{wd}_s{seed}' + ('_dis' if os.environ.get('LA10_DISSIM') else '')
+    tag = f'{tg}_{spell}_w{wd}_s{seed}' + ('_dis' if os.environ.get('LA10_DISSIM') else '') + ('_v2' if L.V2 else '')
     ck = os.path.join(OUT, 'ckpt_' + tag + '.json')
     t0 = time.time()
     logf = open(os.path.join(OUT, 'log_' + tag + '.txt'), 'a')

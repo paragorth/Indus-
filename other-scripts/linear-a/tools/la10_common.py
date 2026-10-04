@@ -10,6 +10,7 @@ import json, os, re, math, random, collections, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import la5_common as C
 
+V2 = bool(os.environ.get('LA10_V2'))   # model v2 (cycle 2+): consonant stems, obligatory affixes, dissimilation, kober stat
 SER = ['', 'P', 'T', 'D', 'K', 'Q', 'M', 'N', 'S', 'Z', 'R', 'W', 'J']
 VOW = ['A', 'E', 'I', 'O', 'U']
 NS = len(SER) * 5
@@ -49,7 +50,8 @@ def pcl(i, L):
 STAT_NAMES = (['cecho', 'vecho_RN', 'vecho_oth', 'dbl', 'gap_exP', 'fin10_ex', 'init10_ex', 'pos', 'pre', 'suf', 'vinit', 'vmed',
                'len2', 'len3', 'len4', 'len5p'] + ['v_' + v for v in VOW] + ['fv_' + v for v in VOW] +
               ['s_' + (s or 'V') for s in SER])
-CORE = set(STAT_NAMES[:16])
+if V2: STAT_NAMES = STAT_NAMES[:16] + ['kober'] + STAT_NAMES[16:]
+CORE = set(STAT_NAMES[:17] if V2 else STAT_NAMES[:16])
 
 def fingerprint(types):
     """analytic position-class-shuffle expectations (exact under independence of slots), so the score is deterministic."""
@@ -133,7 +135,24 @@ def fingerprint(types):
     for a, m in fin.items(): fv[a % 5] += m
     for i, v in enumerate(VOW): f['v_' + v] = vm[i] / N; f['fv_' + v] = fv[i] / n
     for i, s in enumerate(SER): f['s_' + (s or 'V')] = sm[i] / N
+    if V2: f['kober'] = kober(types)
     return f
+
+def kober(types):
+    """type pairs (>= 3 signs) differing only in the final sign: share whose finals share the consonant series (pure
+    vowels count as a series), over the share for random pairs from the same pool of alternating finals (la5 LA-5.3d).
+    No pairs -> 1."""
+    by = collections.defaultdict(set)
+    for t in types:
+        if len(t) >= 3: by[t[:-1]].add(t[-1])
+    alt = [(x, y) for fs in by.values() for x in fs for y in fs if x < y]
+    if len(alt) < 3: return 1.0
+    o = sum(1 for x, y in alt if x // 5 == y // 5) / len(alt)
+    pool = collections.Counter(z for p in alt for z in p); T = sum(pool.values())
+    same = collections.Counter()
+    for a, c in pool.items(): same[a // 5] += c
+    e = (sum(c * c for c in same.values()) - sum(c * c for c in pool.values())) / (T * T - sum(c * c for c in pool.values()))
+    return o / e if e > 0 else 1.0
 
 def calib(types, rnd, nd=40):
     """target value (full set) and sampling SD from half-samples (m = n/2, without replacement = bootstrap SD of full n)."""
@@ -170,21 +189,21 @@ RULES = [
     ('coda_obs', 0.0, 1.0, None),      # share of medial codas that are obstruents (written with a dead vowel)
     ('coda_fin', 0.0, 1.0, None),      # P(final coda): INVISIBLE in LB spelling (built-in unrecoverable gene)
     ('root_len', 1.0, 4.0, None),      # mean syllables per root
-    ('harm_copy', -1.0 if os.environ.get('LA10_DISSIM') else 0.0, 1.0, 0.0),
+    ('harm_copy', -1.0 if (V2 or os.environ.get('LA10_DISSIM')) else 0.0, 1.0, 0.0),
                                        # >0: P(next vowel copies previous vowel) (total harmony / echo vowels);
                                        # <0 (cycle 2, LA10_DISSIM=1): P(next vowel must DIFFER from previous) (dissimilation)
     ('harm_fb', 0.0, 1.0, 0.0),        # P(next vowel restricted to the front/back class of the previous)
     ('ocp_id', -1.0, 1.0, 0.0),        # >0: P(reject same consonant category as previous); <0: P(copy it)
     ('ocp_place', 0.0, 1.0, 0.0),      # P(reject same place of articulation as previous consonant)
-    ('pre_p', 0.0, 0.7, 0.0),          # P(word carries a prefix)
+    ('pre_p', 0.0, 1.0 if V2 else 0.7, 0.0),          # P(word carries a prefix)
     ('pre_n', 1.0, 8.0, None),         # prefix inventory size
-    ('suf_p', 0.0, 0.7, 0.0),          # P(word carries a suffix)
+    ('suf_p', 0.0, 1.0 if V2 else 0.7, 0.0),          # P(word carries a suffix)
     ('suf_n', 1.0, 8.0, None),         # suffix inventory size
     ('aff_2syl', 0.0, 1.0, None),      # P(an affix has 2 syllables rather than 1)
     ('aff_v', 0.0, 1.0, None),         # P(a 1-syllable affix is a bare vowel)
     ('reuse', 0.0, 0.8, 0.0),          # P(a word reuses an existing root)
     ('fv_str', 0.0, 1.0, 0.0),         # strength of the final-vowel restriction
-]
+] + ([('stem_c', 0.0, 1.0, 0.0)] if V2 else [])  # v2: P(root ends in a consonant; resyllabified onto a V-initial suffix)
 NUIS = [('cw_' + c, -3.0, 3.0) for c in CCAT] + [('vw_' + v, -3.0, 3.0) for v in VOW] + [('fw_' + v, -3.0, 3.0) for v in VOW]
 GENES = [(n, lo, hi) for n, lo, hi, _ in RULES] + NUIS
 NG = len(GENES)
@@ -310,8 +329,14 @@ class Lang:
             hp = r.random() < g['pre_p']; hs = r.random() < g['suf_p']
             if root is None:
                 st = {'c': None, 'v': None}
-                root = self.syllables(r, L, not hp, not hs, st); roots.append(root)
-            w = (r.choice(pre) if hp and pre else []) + list(root) + (r.choice(suf) if hs and suf else [])
+                root = self.syllables(r, L, not hp, not hs, st)
+                if V2 and r.random() < g['stem_c']:
+                    on, v, co = root[-1]; root[-1] = (on, v, (self.consonant(r, st['c']),))
+                roots.append(root)
+            sx = r.choice(suf) if hs and suf else []
+            if V2 and sx and root[-1][2] and not sx[0][0]:   # stem consonant + V-initial suffix -> CV
+                on, v, co = root[-1]; sx = [((co[0],), sx[0][1], sx[0][2])] + sx[1:]; root = root[:-1] + [(on, v, ())]
+            w = (r.choice(pre) if hp and pre else []) + list(root) + sx
             t = self.spell(w)
             if len(t) >= 2: out.add(t)
         return sorted(out)

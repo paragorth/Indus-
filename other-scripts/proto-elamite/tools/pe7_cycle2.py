@@ -111,7 +111,8 @@ def run(job):
         meta = herd + rng.sample(other, N - len(herd))
         names = [tuple(x['seq']) for x in meta]
         res = tests(names, rng=rng, tree_rng=trng,
-                    labsets={'herd': ([{'H'} if x['herd'] else set() for x in meta], None, None)})
+                    labsets={'herd': ([{'H'} if x['herd'] else {'O'} for x in meta], None, None),
+                            'herdpair': ([{'H'} if x['herd'] else set() for x in meta], None, None)})
     elif kind in ('UR3_PAT', 'OB_PAT', 'CN_FULL'):
         names, meta = sample_corpus(C, kind, N, rng)
         res = tests(names, rng=rng, tree_rng=trng, labsets={'family': ([set(x['fam']) for x in meta], None, None)})

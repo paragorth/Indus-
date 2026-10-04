@@ -140,21 +140,31 @@ def pat_transmission(C, name, nperm=10000, seed=1):
 
 
 def cotablet(names_by_tab, nperm=2000, seed=2, minc=8):
-    """names_by_tab: list of lists of element-sets (one list per tablet, >= 2 names)."""
+    """names_by_tab: list of lists of names (tuples; one list per tablet, >= 2 names).
+    Statistics: share of co-tablet pairs sharing >= 1 element, the same first element,
+    the same last element; per-element shared counts."""
     rng = np.random.default_rng(seed)
     slots = [len(x) for x in names_by_tab]
-    flat = [s for x in names_by_tab for s in x]
+    seqs = [tuple(s) for x in names_by_tab for s in x]
+    flat = [set(s) for s in seqs]
+    fst = [s[0] for s in seqs]
+    lst = [s[-1] for s in seqs]
     cnt = Counter(e for s in flat for e in s)
 
     def stat(order):
         k = 0; anyshare = 0; npair = 0
         per = Counter()
         for L in slots:
-            grp = [flat[i] for i in order[k:k + L]]
+            ix = order[k:k + L]
+            grp = [flat[i] for i in ix]
             k += L
             for a in range(L):
                 for b in range(a + 1, L):
                     npair += 1
+                    if fst[ix[a]] == fst[ix[b]]:
+                        per['<FIRST>'] += 1
+                    if lst[ix[a]] == lst[ix[b]]:
+                        per['<LAST>'] += 1
                     inter = grp[a] & grp[b]
                     if inter:
                         anyshare += 1
@@ -164,7 +174,8 @@ def cotablet(names_by_tab, nperm=2000, seed=2, minc=8):
     obs, per, npair = stat(np.arange(len(flat)))
     nulls = []
     pernull = defaultdict(list)
-    els = [e for e in cnt if cnt[e] >= minc]
+    els = [e for e in cnt if cnt[e] >= minc] + ['<FIRST>', '<LAST>']
+    cnt['<FIRST>'] = cnt['<LAST>'] = len(flat)
     for _ in range(nperm):
         v, pn, _ = stat(rng.permutation(len(flat)))
         nulls.append(v)
@@ -195,7 +206,7 @@ def part_b():
     by = defaultdict(list)
     for x in C['PE']:
         for t in x['tablets']:
-            by[t].append(set(x['seq']))
+            by[t].append(tuple(x['seq']))
     res['PE_cotablet'] = cotablet([v for v in by.values() if len(v) >= 2])
     # PE excluding herd office tablets
     from pe7_build import HERD
@@ -204,11 +215,20 @@ def part_b():
     for x in C['LINB']:
         if len(x['seq']) >= 2:
             for t in x['tablets']:
-                by[t].append(set(x['seq']))
+                by[t].append(tuple(x['seq']))
     res['LINB_cotablet'] = cotablet([v for v in by.values() if len(v) >= 2])
     # Ur III families as 'tablets' of 2 (positive for the co-tablet machinery)
-    fam = [[set(x['son']), set(x['father'])] for x in C['UR3_PAT']]
+    fam = [[tuple(x['son']), tuple(x['father'])] for x in C['UR3_PAT']]
     res['UR3_family_as_tablet'] = cotablet(fam, nperm=500)
+    fam = [[tuple(x['son']), tuple(x['father'])] for x in C['OB_PAT']]
+    res['OB_family_as_tablet'] = cotablet(fam, nperm=500)
+    # Ur III administrative names on one tablet (Drehem 'ki PN-ta' / 'giri3 PN', pe4 controls): not kin
+    ctl = json.load(open(os.path.join(DATA, 'pe4_controls.json')))['names']
+    by = defaultdict(set)
+    for r in ctl:
+        if len(r['attr']) >= 2:
+            by[r['t']].add(tuple(r['attr']))
+    res['UR3_admin_cotablet'] = cotablet([sorted(v) for v in by.values() if len(v) >= 2], nperm=500)
     save_ckpt(key, res)
     return res
 

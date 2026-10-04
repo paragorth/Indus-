@@ -76,6 +76,12 @@ def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
     if kind == 'grid':
         nb = [[j for j in range(n) if max(abs(coord[i][0] - coord[j][0]), abs(coord[i][1] - coord[j][1])) <= 2]
               for i in range(n)]
+    elif kind == 'route':   # one-way: each step moves 1-2 rows forward (last rows absorb), up to 2 columns sideways
+        nb = []
+        for i in range(n):
+            r0, c0 = coord[i]
+            cand = [j for j in range(n) if 1 <= coord[j][0] - r0 <= 2 and abs(coord[j][1] - c0) <= 2]
+            nb.append(cand or [j for j in range(n) if coord[j][0] == r0 and abs(coord[j][1] - c0) <= 2])
     else:
         nb = [[i] + rng.sample([j for j in range(n) if j != i], 24) for i in range(n)]
     nbw = [[W[j] for j in nb[i]] for i in range(n)]
@@ -87,6 +93,8 @@ def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
         if start_region:
             phase = rng.randrange(4) if l['para_start'] else (phase + 1) % 4
             cur = rng.choices(quad[phase], [W[i] for i in quad[phase]])[0]
+        elif kind == 'route':
+            st = [i for i in range(n) if coord[i][0] < side // 3]; cur = rng.choices(st, [W[i] for i in st])[0]
         else:
             cur = rng.choices(range(n), W)[0]
         ws = []
@@ -113,7 +121,7 @@ def corpus(name, seed=1):
     if name == 'Shuffle-global': return gen.word_shuffle(template(), seed), None
     if name == 'SelfCitation': return gen.self_citation(template(), seed), None
     if name == 'Latin-shufline': return gen.within_line_shuffle(corpus('Latin-Isidore')[0], seed), None
-    m = re.match(r'Planted-(grid|graph|gridstart)-(\d+)', name)
+    m = re.match(r'Planted-(grid|graph|gridstart|route)-(\d+)', name)
     if m: return planted(m.group(1).replace('start', ''), int(m.group(2)) / 100, seed=seed, start_region='start' in m.group(1))
     raise KeyError(name)
 
@@ -160,6 +168,8 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, beta, g, th]
     elif kind == 'bilin':
         U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g, th]
+    elif kind == 'drift':
+        X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, np.zeros(d), beta, g, th]
     else:
         P = [beta, g, th]
     m = [np.zeros_like(p) for p in P]; v = [np.zeros_like(p) for p in P]
@@ -171,6 +181,10 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
             return -D + P[1][None, :] + P[2][0] * I
         if kind == 'bilin':
             return P[0] @ P[1].T + P[2][None, :] + P[3][0] * I
+        if kind == 'drift':
+            X = P[0]; Y = X + P[1][None, :]
+            D = (Y * Y).sum(1)[:, None] + (X * X).sum(1)[None, :] - 2 * Y @ X.T
+            return -D + P[2][None, :] + P[3][0] * I
         return np.repeat(P[0][None, :], V, 0) + P[1][0] * I
     def probs(P):
         S = _softmax_rows(logits(P)); rho = 1 / (1 + np.exp(-P[-1][0]))
@@ -188,6 +202,11 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
         elif kind == 'bilin':
             U, W = P[0], P[1]
             grads = [G @ W + 2 * lam * U / V, G.T @ U + 2 * lam * W / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
+        elif kind == 'drift':
+            X = P[0]; Y = X + P[1][None, :]
+            gY = -2 * (G.sum(1)[:, None] * Y - G @ X)
+            gX2 = 2 * (G.T @ Y - G.sum(0)[:, None] * X)
+            grads = [gY + gX2 + 2 * lam * X / V, gY.sum(0), G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         else:
             grads = [G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         for i, (p, gr) in enumerate(zip(P, grads)):
@@ -215,7 +234,7 @@ def spectral_init(C, d, scale=3.0):
 def best_fit(C, kind, d, restarts, spectral=True, **kw):
     best = None
     inits = [None] * restarts
-    if kind == 'dist' and spectral:
+    if kind in ('dist', 'drift') and spectral:
         inits[0] = spectral_init(C, d)
     for r in range(restarts):
         f = fit(C, kind, d, seed=r, init=inits[r], **kw)

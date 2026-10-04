@@ -202,7 +202,7 @@ def build_lb():
                     sub_open = False
                     continue
             items = [it for it in items if it['has']]
-            des = [w for w in words if w not in LB_TOT]
+            des = list(words)   # total words (to-so) kept as word items
             if items:
                 for it in items:
                     es.append(E(it['com'], list(des), it['q'], it['frac'], tot, 'E', len(items) > 1))
@@ -226,7 +226,7 @@ NUMTOK = re.compile(r"^(\d+(?:/\d+)?)\(([a-z0-9']+)(?:@[a-z])?\)$")
 
 
 def ur_clean(t):
-    t = t.strip('#!?*<>[]')
+    t = re.sub(r'[\[\]#!?*<>]', '', t)
     t = re.sub(r'\{[^}]*\}', '', t)
     return t.strip('-')
 
@@ -336,7 +336,7 @@ def build_ur3(max_docs=None, seed=7):
             com = com_of(rest[0])
             if com in ("...", "x", "n", "X") or "..." in com:
                 com = None
-            es.append(E(com, rest[1:], q, frac, tot, 'E'))
+            es.append(E(com, (['szu-nigin2'] if tot else []) + rest[1:], q, frac, tot, 'E'))
         if bad and len(es) < 2:
             continue
         es = mark_ht(es)
