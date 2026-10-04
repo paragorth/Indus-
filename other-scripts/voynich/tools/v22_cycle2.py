@@ -8,8 +8,8 @@ import numpy as np
 from multiprocessing import Pool
 import v22_lib as L
 
-SL = [2, 4, 6, 9]
-R = 5
+SL = [2, 3, 4, 6, 9]
+R = 8
 
 
 def shuffle_paras(C, rng):
@@ -53,12 +53,12 @@ def t_eval(spec):
 def tilt_model(model, E0, S):
     """stage tilt T_k[s,lp,v] = log P(v|s,lp) - log P(v|lp)"""
     E, lA, _ = model
-    return [E[k] - E0[k][None] for k in range(3)], lA
+    return [E[k] - E0[k][None] for k in range(len(E))], lA
 
 
 def apply_tilt(T, lA, E0t):
     E = []
-    for k in range(3):
+    for k in range(len(E0t)):
         z = E0t[k][None] + T[k]
         E.append(z - np.log(np.exp(z).sum(-1, keepdims=True)))
     return (E, lA, 0.0)
@@ -176,9 +176,6 @@ if __name__ == '__main__':
             ('eval', 'IT_inl', 'IT', 'para', 'inl', 20),
             ('eval', 'IT_inl_lineshuf_0', 'IT', 'para', 'inl_lineshuf', 21),
             ('eval', 'ZL_inl_lineshuf_1', 'ZL3b', 'para', 'inl_lineshuf', 22),
-            ('eval', 'ZL_sham0.25_0', 'ZL3b', 'para', 'sham0.25', 50),
-            ('eval', 'ZL_plant0.5_0', 'ZL3b', 'para', 'plant0.5', 70),
-            ('eval', 'ZL_sham0.5_0', 'ZL3b', 'para', 'sham0.5', 70),
             ('profile', 'ZL_profile', 'ZL3b', 'para', S_best, 300, 7),
             ('transfer', 'ZL_AB_transfer', S_best, 3, 2),
             ('eval', 'IT2_real', 'IT2a', 'para', 'real', 0),
@@ -187,9 +184,7 @@ if __name__ == '__main__':
             ('eval', 'ZLpage_real', 'ZL3b', 'page', 'real', 0),
             ('eval', 'ZLpage_parashuf_0', 'ZL3b', 'page', 'parashuf', 900),
             ('eval', 'ZLpage_wordshuf_0', 'ZL3b', 'page', 'wordshuf', 910),
-            ('profile', 'IT2_profile', 'IT2a', 'para', S_best, 150, 8),
-            ('eval', 'IT2_lineshuf_1', 'IT2a', 'para', 'lineshuf', 101),
-            ('eval', 'ZLpage_parashuf_1', 'ZL3b', 'page', 'parashuf', 901)]
+            ]
     with Pool(2) as P:
         res = P.map(run, jobs, chunksize=1)
     L.save('c2_all.json', res)

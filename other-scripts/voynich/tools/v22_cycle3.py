@@ -10,7 +10,7 @@ from multiprocessing import Pool
 import v22_lib as L
 
 SL = [3, 6]
-R = 5
+R = 8
 
 
 def reverse(U):

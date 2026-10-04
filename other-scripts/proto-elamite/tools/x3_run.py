@@ -7,6 +7,7 @@
   EXTRA_PAIRS  comma list of X>Y pairs added (controls such as LBa>LBb, PLa>PLb)
 One job = (X, condition, seed): pretrain once, fine-tune on every Y. Scratch jobs = (Y, seed).
 Mode 'body' (real X only): pretrained MLP kept, embeddings re-initialised.
+X3_SYL=1 adds mode 'syl' (only syllabic labels shared). XLIST / YLIST '-' = none.
 Label mode is run only when >= 20% of Y's test tokens carry a label that X also has.
 2 worker processes, 1 thread each. X3_REPS=k: k fine-tune replicates (slice sample + init) per
 pretraining seed, fine-tune seed = 100 * pretrain seed + k.
@@ -50,6 +51,8 @@ def job(args):
         ytr, va, te = ydata(y, seed, slice_tok)
         ov = overlap(rowmap, te)
         modes = ['rank'] + (['label'] if ov >= 0.2 else [])
+        if ov >= 0.2 and os.environ.get('X3_SYL'):
+            modes.append('syl')
         if cond == 'real':
             modes.append('body')
         for mode in modes:
@@ -64,7 +67,7 @@ def job(args):
 def main():
     tag, slice_tok = sys.argv[1], int(sys.argv[2])
     seeds = [int(s) for s in sys.argv[3].split(',')]
-    xs, ys = sys.argv[4].split(','), sys.argv[5].split(',')
+    xs, ys = ([] if a == '-' else a.split(',') for a in (sys.argv[4], sys.argv[5]))
     extra = [p.split('>') for p in sys.argv[6].split(',')] if len(sys.argv) > 6 and sys.argv[6] else []
     conds = os.environ.get('X3_CONDS', ','.join(CONDS)).split(',')
     path = os.path.join(X.SCR, f'res_{tag}.jsonl')

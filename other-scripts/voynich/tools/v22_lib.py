@@ -74,18 +74,24 @@ def units(C, level='para', minw=12):
 
 # ------------------------------------------------------------------ coding
 class Coder:
-    def __init__(self, U, nfirst=9, nlast=6, nlen=5):
+    """Joint word class = (first unit group, last unit group): ONE categorical variable, so that no model can gain
+    by capturing dependence between factors of the same word (the cycle-1 artefact of factorised emissions).
+    joint=False restores the factorised (first, last, length-bin) coding."""
+    def __init__(self, U, nfirst=7, nlast=5, nlen=5, joint=True):
         toks = [w for u in U for l in u['lines'] for w in l]
+        self.joint = joint
         self.first = [a for a, _ in Counter(w[0] for w in toks).most_common(nfirst)]
         self.last = [a for a, _ in Counter(w[-1] for w in toks).most_common(nlast)]
         L = np.array([len(w) for w in toks])
         qs = np.quantile(L, np.linspace(0, 1, nlen + 1)[1:-1])
         self.lcut = sorted(set(qs.tolist()))
-        self.sizes = [len(self.first) + 1, len(self.last) + 1, len(self.lcut) + 1]
+        nf, nl = len(self.first) + 1, len(self.last) + 1
+        self.sizes = [nf * nl] if joint else [nf, nl, len(self.lcut) + 1]
 
     def word(self, w):
         f = self.first.index(w[0]) if w[0] in self.first else len(self.first)
         l = self.last.index(w[-1]) if w[-1] in self.last else len(self.last)
+        if self.joint: return (f * (len(self.last) + 1) + l,)
         n = int(np.searchsorted(self.lcut, len(w), side='right'))
         return f, l, n
 
@@ -97,7 +103,7 @@ class Coder:
                 lp.append(0 if j == 0 else (2 if j == len(line) - 1 else 1))
                 li.append(k)
         n = len(F)
-        return {'F': np.array(F, np.int64), 'lp': np.array(lp, np.int64), 'li': np.array(li, np.int64),
+        return {'F': np.array(F, np.int64).reshape(n, -1), 'lp': np.array(lp, np.int64), 'li': np.array(li, np.int64),
                 'r': (np.arange(n) + 0.5) / n, 'nl': len(u['lines'])}
 
 
@@ -137,7 +143,7 @@ def fit_binned(train, sizes, kind, B):
     E = [np.full((nb, 3, s), ALPHA) for s in sizes]
     for c in train:
         b = BINNERS[kind](c, B)
-        for k in range(3): np.add.at(E[k], (b, c['lp'], c['F'][:, k]), 1)
+        for k in range(len(E)): np.add.at(E[k], (b, c['lp'], c['F'][:, k]), 1)
     return [np.log(e / e.sum(-1, keepdims=True)) for e in E]
 
 
@@ -145,7 +151,7 @@ def ll_binned(E, test, kind, B):
     tot, n = 0.0, 0
     for c in test:
         b = BINNERS[kind](c, B)
-        for k in range(3): tot += E[k][b, c['lp'], c['F'][:, k]].sum()
+        for k in range(len(E)): tot += E[k][b, c['lp'], c['F'][:, k]].sum()
         n += len(c['lp'])
     return tot, n
 
@@ -153,34 +159,34 @@ def ll_binned(E, test, kind, B):
 def fit_m0(train, sizes):
     E = [np.full((3, s), ALPHA) for s in sizes]
     for c in train:
-        for k in range(3): np.add.at(E[k], (c['lp'], c['F'][:, k]), 1)
+        for k in range(len(E)): np.add.at(E[k], (c['lp'], c['F'][:, k]), 1)
     return [np.log(e / e.sum(-1, keepdims=True)) for e in E]
 
 
 def ll_m0(E, test):
     tot, n = 0.0, 0
     for c in test:
-        for k in range(3): tot += E[k][c['lp'], c['F'][:, k]].sum()
+        for k in range(len(E)): tot += E[k][c['lp'], c['F'][:, k]].sum()
         n += len(c['lp'])
     return tot, n
 
 
-def fit_lin(train, sizes, iters=300, lr=0.5, l2=1.0):
-    """log P(v | lp, r) = a[lp,v] + b[v]*(r-.5) - logZ ; fitted by gradient ascent (convex)."""
-    lp = np.concatenate([c['lp'] for c in train]); r = np.concatenate([c['r'] for c in train]) - 0.5
+def fit_lin(train, sizes, iters=800, lr=0.5, l2=1.0, nb=40):
+    """log P(v | lp, r) = a[lp,v] + b[v]*(r-.5) - logZ ; gradient ascent on counts aggregated in nb r-bins."""
     out = []
+    rc = (np.arange(nb) + 0.5) / nb - 0.5
     for k, s in enumerate(sizes):
-        y = np.concatenate([c['F'][:, k] for c in train])
-        Y = np.zeros((len(y), s)); Y[np.arange(len(y)), y] = 1
-        a = np.zeros((3, s)); b = np.zeros(s)
-        N = len(y)
+        Y = np.zeros((3, nb, s))
+        for c in train:
+            np.add.at(Y, (c['lp'], np.minimum((c['r'] * nb).astype(int), nb - 1), c['F'][:, k]), 1)
+        Nlr = Y.sum(-1); N = Nlr.sum()
+        a = np.log(Y.sum(1) + 0.5); a -= a.mean(1, keepdims=True); b = np.zeros(s)
         for it in range(iters):
-            z = a[lp] + r[:, None] * b[None, :]
-            z -= z.max(1, keepdims=True); p = np.exp(z); p /= p.sum(1, keepdims=True)
-            g = Y - p
-            ga = np.zeros((3, s)); np.add.at(ga, lp, g)
-            gb = (g * r[:, None]).sum(0) - l2 * b
-            a += lr * ga / N * 3; b += lr * 8 * gb / N
+            z = a[:, None, :] + rc[None, :, None] * b[None, None, :]
+            z -= z.max(-1, keepdims=True); p = np.exp(z); p /= p.sum(-1, keepdims=True)
+            g = Y - Nlr[..., None] * p
+            a += lr * g.sum(1) / N * 3
+            b += lr * 8 * ((g * rc[None, :, None]).sum((0, 1)) - l2 * b) / N
         out.append((a, b))
     return out
 
@@ -282,7 +288,7 @@ class Seq:
 
 
 def _logB(seq, E):
-    return sum(E[k][:, seq.lp, seq.F[:, k]].T for k in range(3))
+    return sum(E[k][:, seq.lp, seq.F[:, k]].T for k in range(len(E)))
 
 
 def _norm_A(cnt, S):
@@ -353,28 +359,38 @@ def viterbi_paths(model, seq, S):
 
 
 # ------------------------------------------------------------------ order-free mixture (heterogeneity baseline)
-def _unit_ll(codes, E, K):
-    """(nU, K) log-lik of every unit under each component."""
-    out = np.zeros((len(codes), K))
+def _counts(codes, sizes):
+    """(nU, sum_k 3*s_k) count matrix of (lp, class) per unit."""
+    X = np.zeros((len(codes), sum(3 * s for s in sizes)))
     for i, c in enumerate(codes):
-        for k in range(3): out[i] += E[k][:, c['lp'], c['F'][:, k]].sum(1)
-    return out
+        o = 0
+        for k, s in enumerate(sizes):
+            X[i, o:o + 3 * s] = np.bincount(c['lp'] * s + c['F'][:, k], minlength=3 * s); o += 3 * s
+    return X
 
 
-def fit_mix(train, sizes, K, rng, restarts=4, iters=30):
+def _logE_flat(E):
+    return np.concatenate([e.reshape(e.shape[0], -1) for e in E], 1)
+
+
+def _unit_ll(codes, E, K):
+    sizes = [e.shape[-1] for e in E]
+    return _counts(codes, sizes) @ _logE_flat(E).T
+
+
+def fit_mix(train, sizes, K, rng, restarts=6, iters=60):
+    X = _counts(train, sizes)
     best = None
     for r in range(restarts):
         resp = rng.dirichlet(np.ones(K), size=len(train))
         for it in range(iters):
-            E = []
-            for k, s in enumerate(sizes):
-                e = np.full((K, 3, s), ALPHA)
-                for i, c in enumerate(train):
-                    idx = c['lp'] * s + c['F'][:, k]
-                    e += resp[i][:, None, None] * np.bincount(idx, minlength=3 * s).reshape(1, 3, s)
+            M = resp.T @ X
+            E, o = [], 0
+            for s in sizes:
+                e = M[:, o:o + 3 * s].reshape(K, 3, s) + ALPHA; o += 3 * s
                 E.append(np.log(e / e.sum(-1, keepdims=True)))
             pi = resp.mean(0) + 1e-3; pi /= pi.sum()
-            ul = _unit_ll(train, E, K) + np.log(pi)
+            ul = X @ _logE_flat(E).T + np.log(pi)
             m = ul.max(1, keepdims=True); resp = np.exp(ul - m); z = resp.sum(1, keepdims=True); resp /= z
             ll = (m[:, 0] + np.log(z[:, 0])).sum()
         if best is None or ll > best[2]: best = (E, pi, ll)

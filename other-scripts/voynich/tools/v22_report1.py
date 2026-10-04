@@ -9,7 +9,7 @@ for f in glob.glob(os.path.join(L.CK, 'c1_*.json')):
     if f.endswith('c1_all.json'): continue
     d = json.load(open(f)); R[d['name']] = d
 
-KEYS = ['best_rigid', 'best_mix', 'H2', 'H4', 'H6', 'H9', 'best_hmm']
+KEYS = ["best_rigid", "best_mix", "H2", "H3", "H4", "H6", "H9", "best_hmm"]
 
 
 def grp(prefix):
@@ -25,7 +25,7 @@ for c in ('ZL', 'LA', 'IT'):
     if f'{c}_real' not in R: continue
     re_ = R[f'{c}_real']
     lines.append(f'{c} real: {fmt(re_)} (rigid best {re_["best_rigid_k"]}, hmm best {re_["best_hmm_k"]})')
-    for m in ('lineshuf_', 'lineshufhead_', 'wordshuf_', 'markov_', 'plant0.25_', 'plant0.1_'):
+    for m in ('lineshuf_', 'lineshufhead_', 'wordshuf_', 'markov_', 'plant0.25_', 'sham0.25_', 'plant0.5_', 'sham0.5_'):
         g = grp(f'{c}_{m}')
         if not g: continue
         mean = {k: np.mean([x[k] for x in g]) for k in KEYS}

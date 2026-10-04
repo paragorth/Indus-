@@ -35,6 +35,7 @@ def table(R, metric='test'):
             v[(r['x'], r['y'], r['slice'], mm)][cond][r['seed']] = r[metric]
             if mode == 'body':
                 v[(r['x'], r['y'], r['slice'], 'label')]['body'][r['seed']] = r[metric]
+                v[(r['x'], r['y'], r['slice'], 'syl')]['body'][r['seed']] = r[metric]
     out = {}
     for k, d in v.items():
         x, y, sl, mode = k
@@ -59,7 +60,8 @@ def table(R, metric='test'):
         out[k] = {'G_real': diff('scratch', 'real'), 'G_body': diff('scratch', 'body'),
                   'G_shuf': diff('scratch', 'shuf'), 'G_mark': diff('scratch', 'markov'),
                   'G_relab': diff('scratch', 'relab'),
-                  'ID': diff('relab', 'real'), 'IDnull': diff('relab2', 'relab'), 'IDb': diff('band', 'real'),
+                  'ID': diff('relab', 'real'), 'IDnull': diff('relab2', 'relab'),
+                  'IDc': diff('cperm', 'real'), 'IDv': diff('vperm', 'real'), 'IDb': diff('band', 'real'),
                   'scratch': float(np.mean([s[q] for q in seeds]))}
     return out
 
@@ -94,7 +96,7 @@ def main():
                 continue
             t = T[k]
             line = f'{k[0]:>4}>{k[1]:<4} {k[3]:5} scr {t["scratch"]:.3f} '
-            for met in ('G_real', 'G_body', 'G_relab', 'G_shuf', 'G_mark', 'ID', 'IDb', 'IDnull'):
+            for met in ('G_real', 'G_body', 'G_relab', 'G_shuf', 'G_mark', 'ID', 'IDb', 'IDnull', 'IDc', 'IDv'):
                 v = t[met]
                 line += f' {met} ' + ('.' if v is None else f'{v[0]:+.3f}+-{v[1]:.3f}')
             print(line)

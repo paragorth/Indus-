@@ -1,9 +1,10 @@
-"""v21 cycle-1 report: ladder AUCs, controls, surviving features."""
+"""v21 cycle-1 / cycle-3 report (PFX=c1|c3): ladder AUCs, controls, surviving features."""
 import os, sys, glob, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from v21_lib import *
 
-R = [json.load(open(f)) for f in glob.glob(os.path.join(CK, 'c1_*_*_F*_*.json'))]
+PFX = os.environ.get('PFX', 'c1')
+R = [json.load(open(f)) for f in glob.glob(os.path.join(CK, PFX + '_*_*_F*_*.json'))]
 by = defaultdict(list)
 for r in R: by[(r['tag'], r['corpus'], r['forger'])].append(r)
 
@@ -35,15 +36,15 @@ def main(show=True):
         lines.append(f'{k[0]:5s} {k[1]:2s} {k[2]} n{len(rs)} ridge {lr.mean():.3f}+-{lr.std():.3f} gbm {gb.mean():.3f}+-{gb.std():.3f} '
                      f'sub median {np.median(sub):.3f} max {sub.max():.3f} frac>null99 {(sub > q99).mean():.3f}')
     # surviving features
-    for cn in ('V', 'LA', 'IT'):
+    for cn in ('V', 'VI', 'LA', 'IT'):
         mains = {k[2]: v for k, v in by.items() if k[0] == 'main' and k[1] == cn}
         if not mains: continue
-        best = min(mains, key=lambda f: np.mean([r['lr'] for r in mains[f]]))
+        best = os.environ.get('BEST') if os.environ.get('BEST') in mains else min(mains, key=lambda f: np.mean([r['lr'] for r in mains[f]]))
         rs = mains[best]; keys = rs[0]['keys']
         Z = np.array([r['z'] for r in rs])
-        neg = by.get(('neg', cn, best)) or by.get(('neg', cn, 'F7')) or []
+        neg = by.get(('neg', cn, best)) or by.get(('neg', cn, 'F7')) or by.get(('neg', 'V', best)) or []
         Zn = np.array([r['z'] for r in neg]) if neg else np.zeros((1, len(keys)))
-        nul = by.get(('null', cn, best)) or by.get(('null', cn, 'F7')) or []
+        nul = by.get(('null', cn, best)) or by.get(('null', cn, 'F7')) or by.get(('null', 'V', best)) or []
         Zu = np.array([r['z'] for r in nul]) if nul else np.zeros((1, len(keys)))
         surv = []
         for j, kk in enumerate(keys):
