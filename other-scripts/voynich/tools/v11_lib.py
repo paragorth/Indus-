@@ -66,8 +66,8 @@ def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
     """Random walk on a hidden map. Cells carry Voynich word types (top side^2), popularity = their Voynich
     frequency (placed at random). kind 'grid': neighbourhood = Chebyshev radius 2 (24 cells + self);
     kind 'graph': 24 fixed random cells + self (same degree, no geometry). With prob eps a token is noise
-    drawn from the full Voynich unigram. start_region: lines start in the 6x6 corner block chosen by the
-    first glyph cycle (control for cycle 3)."""
+    drawn from the full Voynich unigram. start_region: lines start in the
+    quadrant that cycles 0-1-2-3 down each paragraph from a random phase (control for cycle 3)."""
     rng = random.Random(seed)
     tpl = template(); vw = [w for l in tpl for w in l['words']]; c = Counter(vw)
     types = [w for w, _ in c.most_common(side * side)]; rng.shuffle(types)
@@ -80,9 +80,15 @@ def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
         nb = [[i] + rng.sample([j for j in range(n) if j != i], 24) for i in range(n)]
     nbw = [[W[j] for j in nb[i]] for i in range(n)]
     allw = list(c.keys()); allc = [c[w] for w in allw]
-    out = []
+    out = []; phase = 0
+    quad = [[i for i in range(n) if (coord[i][0] < side // 2) == (qq // 2 == 0) and (coord[i][1] < side // 2) == (qq % 2 == 0)]
+            for qq in range(4)]
     for l in tpl:
-        cur = rng.choices(range(n), W)[0]
+        if start_region:
+            phase = rng.randrange(4) if l['para_start'] else (phase + 1) % 4
+            cur = rng.choices(quad[phase], [W[i] for i in quad[phase]])[0]
+        else:
+            cur = rng.choices(range(n), W)[0]
         ws = []
         for k in range(len(l['words'])):
             if k > 0:
@@ -107,8 +113,8 @@ def corpus(name, seed=1):
     if name == 'Shuffle-global': return gen.word_shuffle(template(), seed), None
     if name == 'SelfCitation': return gen.self_citation(template(), seed), None
     if name == 'Latin-shufline': return gen.within_line_shuffle(corpus('Latin-Isidore')[0], seed), None
-    m = re.match(r'Planted-(grid|graph)-(\d+)', name)
-    if m: return planted(m.group(1), int(m.group(2)) / 100, seed=seed)
+    m = re.match(r'Planted-(grid|graph|gridstart)-(\d+)', name)
+    if m: return planted(m.group(1).replace('start', ''), int(m.group(2)) / 100, seed=seed, start_region='start' in m.group(1))
     raise KeyError(name)
 
 

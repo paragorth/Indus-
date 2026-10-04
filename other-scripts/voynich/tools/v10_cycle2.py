@@ -6,8 +6,8 @@ word that carries the key glyph is dropped). Only body lines of paragraphs (line
 (2b) brute force of simple key-application rules; each rule transforms every body line given its key, then we score
      the regularity of the whole transformed text: word-type entropy (bits/word), within-word glyph conditional
      entropy H(g_i|g_i-1), and number of word types. Rules:
-       shift   : g -> O[(pos(g) + s*v(key)) mod |O|], O in {frequency order, EVA alphabetical, chain cycle order},
-                 s in {+1,-1,+2,-2}, v(key) = rank of key in the key-frequency order; scope in {all glyphs,
+       shift   : g -> O[(pos(g) + s*v(key)) mod |O|], O in {frequency order, chain cycle order d-q-C-t-s-S-o-y},
+                 s in {+1,-1}, v(key) = rank of key in the key-frequency order; scope in {all glyphs,
                  word-initial, word-final, first body word only}
        select  : keep glyph j of the body iff (j - v(key)) mod n == 0, n in {2,3}; read the kept glyphs as text
                  (scored by glyph H(g|g-1) only)
@@ -78,7 +78,7 @@ def select_reg(its, keys, nstep, vk):
     n = sum(big.values())
     return -sum(v / n * math.log2(v / ctx[a]) for (a, b), v in big.items())
 
-RULES = [('shift', o, s, sc, src) for o in ('freq', 'alpha', 'cycle') for s in (1, -1, 2, -2)
+RULES = [('shift', o, s, sc, src) for o in ('freq', 'cycle') for s in (1, -1)
          for sc in ('all', 'init', 'final', 'firstword') for src in ('own', 'above')] + \
         [('select', None, n, None, src) for n in (2, 3) for src in ('own', 'above')]
 
@@ -141,7 +141,7 @@ if __name__ == '__main__':
         for name, plant in (('ZL3b', None), ('IT2a', None), ('ZL3b', 'key_all'), ('ZL3b', 'key_init'), ('ZL3b', 'shuffled')):
             ck = os.path.join(CK, 'c2_%s_%s.json' % (name, plant))
             if os.path.exists(ck): out[(name, plant)] = json.load(open(ck)); print(name, plant, 'cached'); continue
-            reps = REPS if plant is None else 30
+            reps = REPS if plant is None else 15
             res = pool.map(job, [(name, plant, s) for s in [-1] + list(range(reps))])
             obs = res[0]; nulls = res[1:]
             S = {}
