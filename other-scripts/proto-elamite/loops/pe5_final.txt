@@ -1,0 +1,13 @@
+pe5 FINAL -- "the tablets are pages of one continuous ledger"
+Tools: tools/pe5_common.py, pe5_cycle1..4.py. Numbers: data/pe5_cycle1..4.json. Cycle rows: loops/pe5_cycle1..4.txt.
+Prior work (quick web search): single-tablet studies of herd and large-number accounts only; no systematic cross-tablet reconciliation of PE found.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.F | Exact total -> entry matching on bare numbers, all value sets; same-shape perturbation null; Ur III (Drehem/Umma/Girsu, 62k/50k/35k lines) positive control; shuffled and planted synthetic controls | PE z -0.1 to 1.0; Ur III also fails (z -1.1 to 2.3 at all sizes) because 75-90% of totals match some entry by chance | method has NO power on bare numbers; PE null is uninformative, not negative |
+| PE-2.F | Tablet pairs sharing labelled quantities (sign string + value); value-shuffle null; Ur III one-period PE-sized control; planted copies | Ur III one-period passes (Drehem z 3.6, Girsu z 8.0); PE planted 20 pairs detected (z 3.3); PE real z 1.6 (p 0.10) | NO corpus-wide ledger: fewer than ~20 copied-page pairs exist in the published Susa corpus (upper bound, published sample only) |
+| PE-3.F | Block copies (>= 6 identical consecutive lines) | PE 2 vs 0.09 null (p 0.005); Drehem 9 vs 2.7 at same size | a LOCAL ledger exists, in one office: MDP 17,191 copied as a block into MDP 17,096+325+380; MDP 17,085 and 17,097 are two near-identical pages of a 14-herd x 7-column list |
+| PE-4.F | Cross-tablet quantitative link inside the herd office | herd size (17,096+) vs ration-list column a: rho 0.72 (p 0.037), pooled 0.65 (p 0.012); column a ~ 1/5 of herd size | B-: herd ledger and ration lists are linked by a proportional rule |
+| PE-5.F | Value fixing / time ordering | cross-tablet sums saturate under every value set (p 0.53-0.87); column totals reconfirm N14 = 10 only; the two list pages differ in 2/6 herds in opposite directions | chains fix NOTHING new: N45/N34, N23 and capacity ratios stay open; no time order |
+
+Plain answer: there is no detectable corpus-wide ledger. Across 1,585 tablets, totals do not reappear elsewhere more than chance, and labelled copies are no commoner than shuffled data. The test has power: Ur III of the same size passes it. There is one local ledger, in the herd office (|M362+X| herds, about 9 tablets). In it, one herd page is copied into a multi-herd summary, two pages of a periodic 14-herd ration list survive, and the list's first column tracks herd size at about 1:5. It reconfirms N14 = 10 and fixes no uncertain sign. Caveats: Susa only, published sample only, and 'absence' is an upper bound.

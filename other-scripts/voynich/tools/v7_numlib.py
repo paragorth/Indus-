@@ -85,7 +85,7 @@ def shuffle_inline(lines, seed):
     return out
 
 # ---------------------------------------------------------------- slot parse
-def slot_model(lines, K=4, order=None):
+def slot_model(lines, K=4, order=None, cand=None):
     words = [w for L in lines for w in L['words']]
     if order is None:
         order = learn_order(words[: len(words)])
@@ -95,7 +95,7 @@ def slot_model(lines, K=4, order=None):
     types = list(tc)
     rk = [[rank.get(c, U - 1) for c in w] for w in types]
     best = None
-    for cuts in itertools.combinations(range(1, U), K - 1):
+    for cuts in (cand if cand is not None else itertools.combinations(range(1, U), K - 1)):
         b = [0] + list(cuts) + [U]
         def binof(r):
             for k in range(K):
