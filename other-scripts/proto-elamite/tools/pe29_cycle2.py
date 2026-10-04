@@ -1,6 +1,6 @@
-"""pe29 cycle 2: cluster into sessions with all-but-one evidence (random weights, kNN graph, Louvain, many restarts),
+"""pe29 cycle 2: link tablets into sessions with all-but-one evidence (random weights and evidence subsets, mutual 2-NN links, many restarts),
 then ask whether the held-out evidence is enriched inside the sessions.
-Statistic: lift = mean standardised held-out similarity over pairs co-clustered in >= 50% of restarts.
+Statistic: lift = mean standardised held-out similarity over pairs linked in >= 30% of restarts; truth precision for UR3/PLANT.
 Null A (shuffled evidence): every clustering evidence relabelled independently inside strata, same pipeline.
 Datasets: PE (1,300 Susa), UR3 (Amar-Suen 5 Drehem, plus pair AUC for the true day), PLANT (cycle-1 planted PE).
 usage: pe29_cycle2.py DATASET NREST NNULL
@@ -11,6 +11,7 @@ from pe29_common import *
 from pe29_cycle1 import build, strata, plant, nlbin
 import pe29_cycle1
 
+THR = 0.3
 D = sys.argv[1]; NR = int(sys.argv[2]); NN = int(sys.argv[3])
 rng = np.random.default_rng(292)
 pe29_cycle1.rng = np.random.default_rng(29)
@@ -33,29 +34,31 @@ evs = list(S)
 out = {'D': D, 'n': len(T), 'rows': []}
 t0 = time.time()
 if D != 'PE':
-    C, parts = cocluster(Z, evs, NR, rng)
     pl = lab if D == 'UR3' else np.where(lab >= 0, lab, -np.arange(1, len(lab) + 1))
-    a = pair_auc(C, pl)
-    sizes = np.bincount(parts[0])
-    out['all_auc'] = a
-    print(D, 'all-evidence co-clustering AUC for true sessions %.3f' % a, 'median cluster size', np.median(sizes), 'time', time.time() - t0, flush=True)
-    # null: shuffled evidence
+    same = pl[:, None] == pl[None, :]
+    iu = np.triu_indices(len(pl), 1); base_rate = same[iu].mean()
+    def prec(C, thr=THR):
+        L = np.triu(C >= thr, 1); return float(same[L].mean()) if L.sum() else float('nan'), int(L.sum())
+    for sub in [evs] + [[e] for e in evs]:
+        C = colink(Z, sub, NR, rng, drop=0.3 if len(sub) > 1 else 0)
+        pr, nlk = prec(C)
+        out.setdefault('truth', []).append(dict(evs=sub, precision=pr, links=nlk, base=float(base_rate)))
+        print(D, 'evidence', '+'.join(sub), 'links %d precision %.3f base %.4f enrichment %.1f' % (nlk, pr, base_rate, pr / base_rate), flush=True)
     nul = []
     for r in range(max(2, NN // 2)):
         Zs = {k: zmat(permute(S[k], stB if k == 'clay' else st, rng)) for k in evs}
-        Cs, _ = cocluster(Zs, evs, NR, rng)
-        nul.append(pair_auc(Cs, pl))
-    out['all_auc_null'] = nul
-    print(D, 'shuffled-evidence AUC', np.round(nul, 3), flush=True)
+        nul.append(prec(colink(Zs, evs, NR, rng, drop=0.3))[0])
+    out['truth_null'] = nul
+    print(D, 'shuffled-evidence precision', np.round(nul, 4), flush=True)
 for e in evs:
     rest = [k for k in evs if k != e]
-    C, parts = cocluster(Z, rest, NR, rng)
-    L = lift(C, S[e])
+    C = colink(Z, rest, NR, rng, drop=0.3)
+    L = lift(C, S[e], THR)
     nl = []
     for r in range(NN):
         Zs = {k: zmat(permute(S[k], stB if k == 'clay' else st, rng)) for k in rest}
-        Cs, _ = cocluster(Zs, rest, NR, rng)
-        nl.append(lift(Cs, S[e])[0])
+        Cs = colink(Zs, rest, NR, rng, drop=0.3)
+        nl.append(lift(Cs, S[e], THR)[0])
     nl = np.array(nl)
     p = (1 + (nl >= L[0]).sum()) / (NN + 1)
     row = dict(heldout=e, lift=L[0], npairs=L[1], corr=L[2], null_mu=float(np.nanmean(nl)), null_max=float(np.nanmax(nl)), p=float(p))
@@ -64,6 +67,6 @@ for e in evs:
     if D == 'PE' and e == evs[0]:
         pass
 # keep the full-evidence consensus for cycle 3
-C, parts = cocluster(Z, evs, NR, rng)
+C = colink(Z, evs, NR, rng, drop=0.3)
 np.save(os.path.join(CK, f'C_{D}.npy'), C.astype(np.float16))
 json.dump(out, open(os.path.join(CK, f'cycle2_{D}.json'), 'w'), indent=1)

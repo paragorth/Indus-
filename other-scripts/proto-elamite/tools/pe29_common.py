@@ -316,3 +316,26 @@ def consensus_partition(C, thr=0.5):
     for c, mem in enumerate(nx.connected_components(G)):
         lab[list(mem)] = c
     return lab
+
+
+def colink(Z, evs, nrest, rng, k=2, wdir=1.0, drop=0.0):
+    """mutual-kNN session links under random evidence weights; returns link frequency matrix.
+    drop: probability that each evidence is switched off in a restart (random evidence subsets)."""
+    n = next(iter(Z.values())).shape[0]
+    C = np.zeros((n, n), np.float32)
+    for r in range(nrest):
+        w = rng.dirichlet([wdir] * len(evs))
+        if drop:
+            m = rng.random(len(evs)) > drop
+            if not m.any():
+                m[rng.integers(len(evs))] = True
+            w = w * m
+        A = sum(w[j] * Z[e] for j, e in enumerate(evs) if w[j] > 0)
+        A = A + rng.normal(0, 0.02, A.shape).astype(np.float32)
+        np.fill_diagonal(A, -1e9)
+        nb = np.argpartition(-A, k, axis=1)[:, :k]
+        K = np.zeros((n, n), bool)
+        K[np.repeat(np.arange(n), k), nb.ravel()] = True
+        C += (K & K.T)
+    C /= nrest
+    return C

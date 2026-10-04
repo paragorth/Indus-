@@ -640,4 +640,13 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 ## Stem and ending grid (v33)
 - Grade B: the Voynich stem × ending grid looks like what its own glyph-trigram, slot and v26 generators produce. It sits at 0.9–1.0× its block-to-block spread from them. Latin sits 2.6× away from its own generators, and a classifier separated every language from its fitted generator (28 of 28).
 - All 7 languages leave 34–55% of the cells their own trigram model fills empty (gap ratio 0.45–0.66). The Voynich gap ratio is 0.95–1.10: it has almost no lexical gaps. This holds in both transcriptions, in A and B, and across 136 segmentation rules.
-- Limit: a planted paradigm on 15–30% of tokens was not detected, so this cannot rule out an inflectional paradigm.
+- Limit: a planted paradigm on 15–30% of tokens was not detected, so this cannot rule out an inflectional paradigm. Gap closed (v35): invented scripts with arbitrary shapes (Cherokee, Deseret) and real cipher alphabets (Copiale, Borg) are null to weak (-0.01 to +0.18); featural inventions are positive (Tengwar +0.39 to +0.54 but only +0.08 to +0.20 without its vowel marks; Canadian syllabics +0.13 to +0.21 hand; Shavian +0.10 to +0.13), so the Voynich (+0.28 to +0.43) is not explained by being a designed script or cipher (A). New: its most similar glyphs (gallows k~t, p~f, benched forms, ch~sh) are near-interchangeable in context (index 0.81 vs 0.36 frequency-matched, like a planted homophone cipher, unlike any featural script at 0.17-0.37), while the graded link survives without the gallows (+0.33 to +0.37): twins plus features (A measurement, C reading).
+
+## Featural effect against invented and cipher scripts (v35)
+- Grade A: invented and cipher scripts do not reproduce the Voynich shape-behaviour effect.
+  - Null: Copiale cipher, Cherokee, Deseret.
+  - Weak: Shavian +0.10 to +0.13; Borg cipher +0.17/+0.12/0.00, grade B.
+  - Positive controls: Canadian syllabics +0.13 to +0.21; Tengwar +0.39 to +0.54, but +0.08 to +0.14 without its vowel marks.
+  - The Voynich (+0.28/+0.30/+0.43) sits above every real invented or cipher script once Tengwar's vowel marks are removed.
+- Grade A measurement: the most look-alike Voynich glyph pairs (k/t, p/f, the benched gallows, ch/sh) are almost interchangeable in context, index 0.81 against 0.36 for frequency-matched pairs. That matches a planted homophone cipher (0.73), not any featural script (0.17–0.37). Without the gallows the index falls to 0.34–0.36, but the shape link survives (+0.33 to +0.37).
+- Reading, grade C: interchangeable twin glyphs plus a featural gradient. Not tested for lack of open data: the Rohonc Codex, Hildegard's script and other DECODE ciphers.
