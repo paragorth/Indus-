@@ -324,7 +324,7 @@ class Forger:
                             if tab is None:
                                 tab = self._get(('j', s, pc, key), ('j', s, 'any', key), ('u', s, pc), ('u', s))
                         nw = _draw(rng, tab)
-                        if self.width and pc == 'end':
+                        if self.width and pc == 'end' and self.end_room >= 8:
                             cands = [nw] + [_draw(rng, tab) for _ in range(11)]
                             nw = min(cands, key=lambda x: abs(len(x) - room))
                     line.append(nw); w = nw

@@ -70,6 +70,8 @@ def run(cfg, half):
     for k, seqs in F.items():
         obs = lag_agree(seqs)
         pp = _prep(seqs)
+        if pp[0].shape[0] < 2:
+            continue
         S = null_stats(seqs, 1.0, NSHUF, rng, pp)
         rho = tune_rho(seqs, obs[0], rng, nsur=6, prep=pp)
         R = null_stats(seqs, rho, NADJ, rng, pp)

@@ -71,3 +71,34 @@ if __name__ == '__main__':
     for k, v in res.items():
         print(k, v, flush=True)
     json.dump(res, open(os.path.join(PEDATA, 'pe12_cycle3c.json'), 'w'), indent=1)
+
+
+def lag_profile(E, slot='LAST', lags=range(1, 9), nperm=300):
+    """Same-sign rate at lag L vs within-(tablet, system) permutation: a fixed-order
+    multi-line record template gives a deficit at lag 1 and an excess at its period."""
+    by = defaultdict(list)
+    for e in E:
+        by[(e['tab'], e['sys'])].append(e)
+    seqs = [[(e['signs'][-1] if slot == 'LAST' else e['signs'][0]) for e in sorted(L, key=lambda e: e['idx'])]
+            for L in by.values() if len(L) >= 4]
+    def rate(S, L):
+        same = tot = 0
+        for s in S:
+            same += sum(a == b for a, b in zip(s, s[L:])); tot += max(len(s) - L, 0)
+        return same / max(tot, 1)
+    out = {}
+    for L in lags:
+        r = rate(seqs, L)
+        nl = np.array([rate([list(rng.permutation(s)) for s in seqs], L) for _ in range(nperm)])
+        out[L] = dict(real=round(r, 4), null=round(float(nl.mean()), 4), z=round(float((r - nl.mean()) / nl.std()), 1))
+    return out
+
+
+if __name__ == '__main__':
+    res2 = {'PE_LAST': lag_profile(E, 'LAST'), 'PE_FIRST': lag_profile(E, 'FIRST'),
+            'PE_planted_runs': lag_profile(grouped(E), 'LAST'),
+            'PC_LAST': lag_profile(EP, 'LAST'), 'UR3_unit': lag_profile(EU, 'FIRST')}
+    for k, v in res2.items():
+        print('lag', k, {L: (d['real'], d['null'], d['z']) for L, d in v.items()}, flush=True)
+    res['lag'] = res2
+    json.dump(res, open(os.path.join(PEDATA, 'pe12_cycle3c.json'), 'w'), indent=1)

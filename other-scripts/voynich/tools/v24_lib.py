@@ -23,7 +23,7 @@ ROOT = vlib.ROOT
 DATA = vlib.DATA
 LOOPS = os.path.join(ROOT, 'loops')
 CK = os.path.join(DATA, 'v24_ckpt'); os.makedirs(CK, exist_ok=True)
-SCR = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/v24'
+SCR = os.environ.get('V24_SCRATCH', '/tmp/v24')
 B, E = '^', '$'
 
 
