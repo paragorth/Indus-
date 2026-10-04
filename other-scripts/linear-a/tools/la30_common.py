@@ -129,8 +129,8 @@ def balanced(S, T, mode):
         return d <= 1e-6
     if mode == 'round':  # within rounding: half a unit, or 1 % of a large total
         return d <= np.maximum(0.5, 0.01 * T) + 1e-9
-    if mode == 'rel2':
-        return d <= 0.02 * np.abs(T) + 1e-9
+    if mode.startswith('rel'):
+        return d <= int(mode[3:]) / 100 * np.abs(T) + 1e-9
     raise ValueError(mode)
 
 
@@ -367,12 +367,27 @@ class Search:
             T = max(0.05, 1.0 * (1 - step / n_steps))
             acc = (k2 >= key) | (self.rng.random(len(key)) < np.exp((k2 - key) / T))
             R[acc] = R2[acc]; F[acc] = F2[acc]; key[acc] = k2[acc]
-            for c in range(len(key)):
-                if not best or k2[c] > best[0][0]:
-                    pass
             # keep the best ever
             j = np.argmax(k2)
             if k2[j] > best[0][0]:
                 best.insert(0, (k2[j], R2[j].copy(), F2[j].copy()))
         best.sort(key=lambda x: -x[0])
         return best[0]
+
+
+def prune(srch, R, F, idx):
+    """Occam step: reset each rate to 1 and each fraction to its site value whenever that
+    does not lower the train count."""
+    R = R.copy(); F = F.copy()
+    base = srch.score(R[None], F[None], idx)[0][0]
+    for t in range(len(R)):
+        if R[t] != 1:
+            R2 = R.copy(); R2[t] = 1
+            if srch.score(R2[None], F[None], idx)[0][0] >= base:
+                R = R2
+    for l in range(len(F)):
+        if F[l] != srch.F0[l]:
+            F2 = F.copy(); F2[l] = srch.F0[l]
+            if srch.score(R[None], F2[None], idx)[0][0] >= base:
+                F = F2
+    return R, F

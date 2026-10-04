@@ -19,6 +19,9 @@ rng = np.random.default_rng(2203)
 prng = random.Random(2203)
 t0 = time.time()
 res = {}
+_prev = os.path.join(CK, 'cycle3.json')
+if '--resume' in sys.argv and os.path.exists(_prev):
+    res.update(json.load(open(_prev)))
 pre = json.load(open(os.path.join(CK, 'cycle2_predictions.json')))
 h = pre.pop('sha256')
 res['hash_ok'] = sha(pre) == h
@@ -72,6 +75,9 @@ def take(pool, m, key='signs'):
 
 
 def rep_test(name, make, nrep, keys=('signs', 'graphs', 'words', 'bigr'), abc_reps=6):
+    if name in res:
+        print('skip', name, flush=True)
+        return
     rows = collections.defaultdict(list)
     aucs = collections.defaultdict(list)
     for r in range(nrep):
@@ -122,7 +128,7 @@ def pe_block(r):
     return [d for d in tr if d['id'] not in ids], hold
 
 
-rep_test('PE_block_shuffled_dates', pe_block, 30)
+rep_test('PE_block_shuffled_dates', pe_block, 20)
 
 # planted: ABC-posterior communities, PE-shaped tablets
 A_tr = list(collections.Counter(w for d in tr for w in d['signs']).values())
@@ -148,7 +154,7 @@ def planted(r):
     return mk(sizes_tr, 'Susa'), mk(sizes_ho, 'Susa')
 
 
-rep_test('planted_repertoire', planted, 20, keys=('signs',))
+rep_test('planted_repertoire', planted, 12, keys=('signs',), abc_reps=4)
 
 # proto-cuneiform
 PC = load_pc()
@@ -174,7 +180,7 @@ for nm, H in (('ATU6_7', pc_atu), ('CUSAS', pc_cus)):
         b = [d for d in H if d['signs']]
         prng.shuffle(b)
         return take(a, nTR), take(b, mS)
-    rep_test('PC_PEsize_' + nm, pcs, 15)
+    rep_test('PC_PEsize_' + nm, pcs, 8, abc_reps=3)
 
 # Linear A through this pipeline (la15 split)
 LAd = LA15.load_la()

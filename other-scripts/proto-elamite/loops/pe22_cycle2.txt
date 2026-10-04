@@ -1,0 +1,13 @@
+# PE-22 cycle 2: pre-registered predictions for the recent tablets (4 Oct 2026; tools/pe22_cycle2.py, data/pe22_ckpt/cycle2_predictions.json)
+
+Split fixed in code before any count (pe22_common.pe_split): training = 1,425 tablets published up to 1999 (Scheil 1905-35, Mecquenem 1949/56, Sialk 1938, CahDAFI 1971-78, Malyan 1976/85, Yahya 1989). Recent = 156 tablets: TCL 32 (2019, Louvre, 118), unpublished CDLI entries (Susa 15, Malyan 11), Tepe Sofalin (11, new site), Ozbaki (1, new site). Stage 1 used only training tablets plus the recent tablets' token counts and sites.
+sha256 7a65929a988ae4b3168e85d59377c4dfd77ff215fd1fbc46d166b3a8ba13130a (hash of the JSON without the hash field; verified in cycle 3).
+Disclosure: cycle 1 (run in parallel) printed whole-corpus type counts, from which the new-type totals can be derived; the prediction code was fixed before and not changed after that log existed.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-22.2a | New base-sign types in 783 recent sign tokens: EXCH (Chao community bootstrap, 1,000), HAB (la15 habitat novelty), ABC (Zipf-Mandelbrot) | EXCH 8 [3-14]; HAB 12 [6-19]; ABC 0 [0-2] | registered |
+| PE-22.2b | New graph types (variants kept) | EXCH 38 [27-50]; HAB 53 [39-70]; ABC 38 [20-61] | registered |
+| PE-22.2c | New entry strings in 45 recent entries; new sign pairs in 320 pair tokens | strings EXCH 39 [33-43], HAB 37 [31-42], ABC 35 [26-41]; pairs EXCH 123 [107-142], HAB 120 [104-138] | registered |
+| PE-22.2d | Site-endemic signs: new sites Sofalin + Ozbaki (36 sign tokens), Malyan (12), Susa (735) | new sites EXCH 0 [0-2], HAB 0 [0-5]; Malyan 0 [0-1]; Susa EXCH 7 [3-13], HAB 11 [5-18] | registered |
+| PE-22.2e | Known signs: expected number of training sign types present; top 30 by habitat and by exchangeable score; 15 'risky absences' (mid-frequency signs the habitat model ranks lowest) | expected 205 [189-220] types; top-30 lists and risky list in the JSON | registered |

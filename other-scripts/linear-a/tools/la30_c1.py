@@ -9,7 +9,9 @@ test sections under the plain sum (all rates 1, site fraction values).
 Nulls (same search): N1 commodity labels shuffled across all entries; N2 totals replaced
 by random integers of the same size (log-uniform in [T/2, 2T], fraction signs kept).
 Planted: random rate vector (half the types != 1) generates all totals; 30 % of sections
-then get random totals (damage). Usage: la30_c1.py MODE FRACMODE NREP
+then get random totals (damage). Usage: la30_c1.py MODE FRACMODE NREP [prune]
+(prune: after the fit, every rate / fraction value that is not needed for the train count is
+reset to 1 / its site value.)
 """
 import sys, json, os, time
 from multiprocessing import Pool
@@ -19,6 +21,8 @@ MODE = sys.argv[1] if len(sys.argv) > 1 else 'exact'
 FRAC = sys.argv[2] if len(sys.argv) > 2 else 'free'
 NREP = int(sys.argv[3]) if len(sys.argv) > 3 else 40
 NSPLIT = 10
+PRUNE = len(sys.argv) > 4 and sys.argv[4] == 'prune'
+TAG = '_prune' if PRUNE else ''
 SECS = la_sections(('KU-RO', 'PO-TO-KU-RO'))
 
 
@@ -56,7 +60,7 @@ def make(kind, seed):
 
 def run(job):
     kind, seed = job
-    out = os.path.join(CK, f'c1_{MODE}_{FRAC}_{kind}_{seed}.json')
+    out = os.path.join(CK, f'c1_{MODE}_{FRAC}{TAG}_{kind}_{seed}.json')
     if os.path.exists(out):
         return json.load(open(out))
     secs, truth = make(kind, seed)
@@ -72,6 +76,8 @@ def run(job):
         ite = np.array([i for i, s in enumerate(secs) if s['id'] not in tr])
         srch = Search(des, mode=MODE, fracmode=FRAC, seed=seed * 100 + sp)
         k, R, F = srch.fit(itr, n_random=20000, n_chain=12, n_steps=250)
+        if PRUNE:
+            R, F = prune(srch, R, F, itr)
         _, _, bb = srch.score(R[None], F[None], ite)
         _, _, b0 = srch.score(np.ones((1, srch.K)), srch.F0[None], ite)
         gains.append(int(bb.sum() - b0.sum()))
@@ -112,5 +118,5 @@ if __name__ == '__main__':
             summ[k]['recovered'] = int(sum(r['recovered'] for r in L)); summ[k]['planted'] = int(sum(r['n_planted'] for r in L))
             summ[k]['P_planted_gain_gt_N1_95'] = float(np.mean(g > np.percentile([r['gain'] for r in by['N1']], 95)))
     summ['time_s'] = time.time() - t
-    json.dump(summ, open(os.path.join(CK, f'c1_{MODE}_{FRAC}_summary.json'), 'w'), indent=1)
+    json.dump(summ, open(os.path.join(CK, f'c1_{MODE}_{FRAC}{TAG}_summary.json'), 'w'), indent=1)
     print(json.dumps(summ, indent=1))

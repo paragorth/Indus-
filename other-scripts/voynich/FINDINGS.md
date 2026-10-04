@@ -594,3 +594,9 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Word level, grade B: the Voynich arrows are spelling and word-junction arrows only. None rides on word frequency (0 of 378 probes, against 48–73 in Latin, Italian and German). There is no arrow two words apart.
 - Direction, grade C: the Voynich compresses slightly better reversed, while every language compresses better forward. The effect is weak, and the glyph chain also produces it.
 - A paragraph-level "introduce, then reuse" asymmetry was killed: it comes entirely from paragraph-first lines.
+
+## Evolved scribe (v26)
+- Adversarial evolution of a modular generator brought detector AUC down to 0.80 (ridge) and 0.84 (boosting). That is below every v21 forger (0.93) but well above the floor (0.52). The Voynich did not reach the floor.
+- Grade B: the minimal genome has four mechanisms, and none can be dropped: a rich junction key, line-width filling, the line-initial chain, and paragraph drift (each line's share of q-/a-/l- words follows the line above). Two restarts found them independently.
+- On held-out folios the generator fixes 7 of 11 v21 survivor statistics. It predicts glyphs worse than n-grams (2.21 vs 2.03 bits).
+- Grade C: even the true genome of a planted generator is caught, and a Latin herbal reached 0.84. So "generable" cannot be certified this way, and the Voynich-versus-herbal contrast is not shown.
