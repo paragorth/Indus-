@@ -162,10 +162,10 @@ def parse_number(s):
                 cap += 60 * n; seen_cap = True
             elif u == 'ban2':
                 cap += 10 * n; seen_cap = True
-            elif u == 'asz':
-                asz += n
+            elif u == 'disz':
+                tot += n
             else:
-                tot += n * SYS[u]
+                asz += n * SYS[u]  # asz, u, gesz2, gesz'u: gur counts in a capacity context
     return tot + asz, asz, cap, seen_cap
 
 
@@ -230,8 +230,8 @@ def goods(s):
     v, asz, cap, seen = parse_number(' '.join(num))
     disz = v - asz
     words = rest
-    gur = 'gur' in words
-    if gur:
+    gur = 'gur' in words or (('sila3' in words or seen) and asz > 0)
+    if 'gur' in words:
         words = words[:words.index('gur')]
         if not words:
             return None

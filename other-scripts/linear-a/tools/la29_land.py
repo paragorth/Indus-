@@ -112,13 +112,23 @@ def dem_vars(lat, lon):
 
 
 _wc = {}
+WLAT, WLON = 42.0, 18.0          # crop window: lat 30-42, lon 18-30
 
 
 def wc(kind, m):
     k = (kind, m)
     if k not in _wc:
-        import tifffile
-        _wc[k] = tifffile.imread(os.path.join(SCR, kind, f'wc2.1_2.5m_{kind}_{m:02d}.tif')).astype(np.float64)
+        p = os.path.join(SCR, kind, f'wc2.1_2.5m_{kind}_{m:02d}.tif')
+        Image.MAX_IMAGE_PIXELS = None
+        try:
+            A = np.asarray(Image.open(p), dtype=np.float32)
+        except Exception:
+            import tifffile
+            A = tifffile.imread(p).astype(np.float32)
+        cell = 2.5 / 60
+        i0 = int((90 - WLAT) / cell); j0 = int((WLON + 180) / cell); n = int(12 / cell)
+        _wc[k] = A[i0:i0 + n, j0:j0 + n].astype(np.float64).copy()
+        del A
     return _wc[k]
 
 
@@ -131,8 +141,8 @@ def wc_vars(lat, lon):
             vals = []
             for mth in range(1, 13):
                 A = wc(kind, mth)
-                i0 = int((90 - (lat + dr)) / cell); i1 = int((90 - (lat - dr)) / cell) + 1
-                j0 = int((lon - dc + 180) / cell); j1 = int((lon + dc + 180) / cell) + 1
+                i0 = int((WLAT - (lat + dr)) / cell); i1 = int((WLAT - (lat - dr)) / cell) + 1
+                j0 = int((lon - dc - WLON) / cell); j1 = int((lon + dc - WLON) / cell) + 1
                 blk = A[i0:i1, j0:j1]
                 blk = blk[blk > -1000]
                 vals.append(blk.mean() if blk.size else np.nan)
