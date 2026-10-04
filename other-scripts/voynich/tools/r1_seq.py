@@ -185,6 +185,8 @@ def planted_partition_corpus(corpus, rng, kstar=3, rho=0.5):
     by_cls = {c: [i for i, s in enumerate(signs) if hidden[s] == c] for c in range(kstar)}
     p_all = w / w.sum()
     p_cls = {c: w[ix] / w[ix].sum() for c, ix in by_cls.items()}
+    cdf_all = np.cumsum(p_all)
+    cdf_cls = {c: np.cumsum(v) for c, v in p_cls.items()}
     docs = []
     for d in corpus['docs']:
         nl = []
@@ -196,9 +198,10 @@ def planted_partition_corpus(corpus, rng, kstar=3, rho=0.5):
                     continue
                 if prev is not None and rng.random() < rho:
                     c = (hidden[prev] + 1) % kstar
-                    s = signs[by_cls[c][rng.choice(len(by_cls[c]), p=p_cls[c])]]
+                    i = min(int(np.searchsorted(cdf_cls[c], rng.random() * cdf_cls[c][-1])), len(by_cls[c]) - 1)
+                    s = signs[by_cls[c][i]]
                 else:
-                    s = signs[rng.choice(len(signs), p=p_all)]
+                    s = signs[min(int(np.searchsorted(cdf_all, rng.random() * cdf_all[-1])), len(signs) - 1)]
                 out.append(s); prev = s
             nl.append(out)
         nd = dict(d); nd['lines'] = nl
@@ -472,3 +475,229 @@ def restoration(corpus_scr, ops):
             tot += len(b)
             same += sum(x == y for x, y in zip(a, b))
     return same / max(tot, 1)
+
+
+# ---------------- fast numpy transform engine (same semantics as op_apply_skel) ----------------
+_PERM = {}
+
+
+def _perm(kind, a, b=0):
+    key = (kind, a, b)
+    p = _PERM.get(key)
+    if p is None:
+        if kind == 'deint':
+            p = np.array(_deint(a, b), np.int64) if a else np.zeros(0, np.int64)
+        elif kind == 'int':
+            p = np.array(_inv(_deint(a, b)), np.int64) if a else np.zeros(0, np.int64)
+        else:  # ilv over n1=a, n2=b
+            order, ia, ib = [], 0, a
+            while ia < a or ib < a + b:
+                if ia < a:
+                    order.append(ia); ia += 1
+                if ib < a + b:
+                    order.append(ib); ib += 1
+            if kind == 'dilv':
+                order = _inv(order)
+            p = np.array(order, np.int64)
+        _PERM[key] = p
+    return p
+
+
+class FastDocs:
+    """Encoded docs: each line = (full codes, glyph positions, word id per glyph)."""
+
+    def __init__(self, corpus, enc, splits):
+        self.docs = []
+        fixed_codes = set(range(enc.nfix))
+        for d in corpus['docs']:
+            if d['split'] not in splits:
+                continue
+            lines = []
+            for l in d['lines']:
+                full = np.array([enc.code(t) for t in l], np.int32)
+                isg = np.array([t not in FIX for t in l], bool)
+                wid = np.cumsum(np.array([t == '_' for t in l], int))[isg]
+                lines.append((full, np.nonzero(isg)[0], wid))
+            self.docs.append(lines)
+
+    def stream_pairs(self, ops):
+        D, P, N = [], [], []
+        for di, lines in enumerate(self.docs):
+            cur = [(f, gp, w, f[gp]) for f, gp, w in lines]
+            for op in ops:
+                cur = _fast_op(op, cur)
+            parts = [np.zeros(1, np.int32)]
+            for f, gp, w, g in cur:
+                o = f.copy()
+                o[gp] = g
+                parts.append(o); parts.append(np.zeros(1, np.int32))
+            s = np.concatenate(parts)
+            P.append(s[:-1]); N.append(s[1:]); D.append(np.full(len(s) - 1, di, np.int32))
+        return np.concatenate(D), np.concatenate(P), np.concatenate(N), len(self.docs)
+
+
+def _fast_op(op, cur):
+    k = op[0]
+    if k == 'revD':
+        return cur[::-1]
+    out = []
+    if k in ('ilv', 'dilv'):
+        for j in range(0, len(cur), 2):
+            if j + 1 >= len(cur):
+                out.append(cur[j]); continue
+            a, b = cur[j], cur[j + 1]
+            n1, n2 = len(a[3]), len(b[3])
+            m = np.concatenate([a[3], b[3]])[_perm(k, n1, n2)]
+            out.append((a[0], a[1], a[2], m[:n1])); out.append((b[0], b[1], b[2], m[n1:]))
+        return out
+    for f, gp, w, g in cur:
+        n = len(g)
+        if n == 0:
+            out.append((f, gp, w, g)); continue
+        if k == 'revL':
+            g2 = g[::-1]
+        elif k in ('deint', 'int'):
+            g2 = g[_perm(k, n, op[1])]
+        elif k == 'rot':
+            r = op[1] % n
+            g2 = np.concatenate([g[r:], g[:r]])
+        elif k == 'swap':
+            x, y = op[1], op[2]
+            g2 = g.copy()
+            if n > 1:
+                hit = np.nonzero((g[:-1] == x) & (g[1:] == y))[0]
+                g2[hit] = y; g2[hit + 1] = x
+        elif k == 'revW':
+            # reverse glyph order inside each word (word ids are non-decreasing)
+            order = np.lexsort((-np.arange(n), w))
+            g2 = g[order]
+        elif k == 'revWO':
+            order = np.lexsort((np.arange(n), -w))
+            g2 = g[order]
+        else:
+            raise ValueError(op)
+        out.append((f, gp, w, g2))
+    return out
+
+
+def run_transforms_fast(corpus, N, seed, top2=200, max_ops=3, log=None, G=8, a=0.1):
+    rng = np.random.default_rng(seed)
+    enc = Enc(corpus)
+    top_codes = [enc.idx[s] for s in enc.part[:min(40, len(enc.part))]]
+    V = enc.V
+    FA, FB, FC = FastDocs(corpus, enc, ('A',)), FastDocs(corpus, enc, ('B',)), FastDocs(corpus, enc, ('C',))
+
+    def ll(train, test, ops, jack=False):
+        dt, p, n, _ = train.stream_pairs(ops)
+        key = p.astype(np.int64) * V + n
+        d, pp, nn, nd = test.stream_pairs(ops)
+        res = []
+        for drop in ([None] + list(range(G))) if jack else [None]:
+            m = slice(None) if drop is None else (dt % G != drop)
+            C = np.bincount(key[m], minlength=V * V).reshape(V, V).astype(float)
+            Lg = np.log2((C + a) / (C.sum(1, keepdims=True) + a * V))
+            res.append(np.bincount(d, weights=Lg[pp, nn], minlength=nd))
+        return res, len(pp)
+
+    base1, ntok1 = ll(FA, FB, ())
+    seen, hyps, tries = set(), [], 0
+    while len(hyps) < N and tries < N * 20:
+        tries += 1
+        ops = []
+        for _ in range(int(rng.integers(1, max_ops + 1))):
+            op = random_op(rng, top_codes)
+            if op[0] == 'swap':
+                op = ('swap', int(op[1]), int(op[2]))
+            ops.append(op)
+        ops = tuple(ops)
+        if ops in seen:
+            continue
+        seen.add(ops)
+        r, _ = ll(FA, FB, ops)
+        e = r[0] - base1[0]
+        hyps.append((z_of(e), float(e.sum() / ntok1), ops))
+        if log and len(hyps) % 2000 == 0:
+            log(f'  trf {corpus["name"]} {len(hyps)}/{N}')
+    n = len(hyps)
+    thr1 = bonf_z(n)
+    surv = sorted([h for h in hyps if h[0] > thr1], key=lambda x: -x[0])
+    tested = surv[:top2]
+    thr2 = bonf_z(len(tested))
+    base2, ntok2 = ll(FB, FC, (), jack=True)
+    rep = []
+    for z1, g1, ops in tested:
+        r, _ = ll(FB, FC, ops, jack=True)
+        es = [x - y for x, y in zip(r, base2)]
+        z2 = z_jack(es[0], es[1:])
+        rep.append({'ops': [[o[0]] + [enc.toks[x] if o[0] == 'swap' else x for x in o[1:]] for o in ops],
+                    'z1': z1, 'gain1': g1, 'z2': z2, 'z2_naive': z_of(es[0]),
+                    'gain2': float(es[0].sum() / ntok2), 'replicated': bool(z2 > thr2)})
+    zs = np.array([h[0] for h in hyps])
+    return {'N': n, 'tries': tries, 'thr1': thr1, 'n_stage1': len(surv), 'n_tested2': len(tested), 'thr2': thr2,
+            'n_replicated': sum(r['replicated'] for r in rep),
+            'z_quantiles': np.quantile(zs, [.5, .9, .99, 1]).tolist(), 'stage2': rep}
+
+
+def run_partitions_climb(corpus, R, seed, M=12, kmax=6, sweeps=8, log=None):
+    """Random-restart hill climbing: each restart starts from a random partition (k in 2..kmax)
+    and climbs on split A only (train on half of A, score the other half of A). The climbed
+    partitions are then treated exactly like random hypotheses: stage 1 on B (Bonferroni over R),
+    stage 2 on C (train B, jackknife SE)."""
+    rng = np.random.default_rng(seed)
+    enc = Enc(corpus)
+    q = enc.V - enc.nfix
+    inner = {'name': corpus['name'], 'docs': []}
+    for i, d in enumerate(corpus['docs']):
+        nd = dict(d)
+        if d['split'] == 'A':
+            nd['split'] = 'A1' if i % 2 == 0 else 'A2'
+        inner['docs'].append(nd)
+    sA = PartScorer(inner, enc, ('A1',), ('A2',))
+    sA2 = PartScorer(inner, enc, ('A2',), ('A1',))
+    s1 = PartScorer(corpus, enc, ('A',), ('B',))
+    s2 = PartScorer(corpus, enc, ('B',), ('C',))
+    res = []
+    for r in range(R):
+        k = int(rng.integers(2, kmax + 1))
+        a = rng.integers(0, k, q)
+        lab, K = make_lab(enc, a, k)
+        best = sA.score(lab, K).sum() + sA2.score(lab, K).sum()
+        for sw in range(sweeps):
+            changed = 0
+            for i in rng.permutation(q):
+                cur = a[i]
+                for c in range(k):
+                    if c == cur:
+                        continue
+                    lab[enc.nfix + i] = c
+                    v = sA.score(lab, K).sum() + sA2.score(lab, K).sum()
+                    if v > best + 1e-9:
+                        best, cur, changed = v, c, changed + 1
+                lab[enc.nfix + i] = cur
+                a[i] = cur
+            if not changed:
+                break
+        def ex(sc, drop=None, nlabs=None):
+            return sc.score(lab, K, drop) - np.mean([sc.score(nl, K, drop) for nl in nlabs], 0)
+        nl1 = [make_lab(enc, matched_null(a, rng), k)[0] for _ in range(M)]
+        e1 = ex(s1, None, nl1)
+        res.append({'k': k, 'assign': a.tolist(), 'trainA_gain': float(best), 'z1': z_of(e1),
+                    'gain1': float(e1.sum() / s1.ntok.sum())})
+        if log and r % 20 == 0:
+            log(f'  climb {corpus["name"]} {r}/{R}')
+    thr1 = bonf_z(R)
+    surv = [x for x in res if x['z1'] > thr1]
+    thr2 = bonf_z(len(surv))
+    for x in surv:
+        a = np.array(x['assign']); lab, K = make_lab(enc, a, x['k'])
+        nl2 = [make_lab(enc, matched_null(a, rng), x['k'])[0] for _ in range(M)]
+        def ex2(drop):
+            return s2.score(lab, K, drop) - np.mean([s2.score(nl, K, drop) for nl in nl2], 0)
+        e = ex2(None)
+        x['z2'] = z_jack(e, [ex2(g) for g in range(s2.G)])
+        x['gain2'] = float(e.sum() / s2.ntok.sum())
+        x['replicated'] = bool(x['z2'] > thr2)
+    return {'N': R, 'thr1': thr1, 'n_stage1': len(surv), 'thr2': thr2,
+            'n_replicated': sum(x.get('replicated', False) for x in res), 'signs': enc.part,
+            'z_quantiles': np.quantile([x['z1'] for x in res], [.5, .9, .99, 1]).tolist(),
+            'stage2': sorted(res, key=lambda x: -x['z1'])}

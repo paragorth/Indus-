@@ -155,52 +155,49 @@ def _apply_T(eb, Tm, c):
 
 
 def forward_backward(ring, obs, ctx, lens, reset=True, need_post=False):
-    """obs (L,T) symbols (-1 pad); ctx (L,T) context of the transition INTO t.
-    reset=False: lines are concatenated per corpus order (carry the state).
+    """obs (L,T) symbols (-1 pad, suffix only); ctx (L,T) context of the transition INTO t.
+    reset=False: all lines are concatenated in corpus order (state carried over).
     Returns loglik, and if need_post: expected step counts (C,n), start counts (n)."""
-    L, T = obs.shape
     n = ring.n
     E = ring.E()
     Tm = np.stack([circulant(ring.q[c]) for c in range(ring.C)])  # (C,n,n)
     if not reset:
-        # flatten all lines into one long sequence
-        o = obs[obs >= 0][None, :]
-        cx = ctx[obs >= 0][None, :]
-        obs, ctx = o, cx
-        L, T = obs.shape
-        lens = np.array([T])
+        m = obs >= 0
+        obs, ctx = obs[m][None, :], ctx[m][None, :]
+    ln = (obs >= 0).sum(1)
+    order = np.argsort(-ln, kind='stable')
+    obs, ctx, ln = obs[order], ctx[order], ln[order]
+    L, T = obs.shape
+    T = int(ln.max())
+    act = np.array([(ln > t).sum() for t in range(T)])
     alpha = np.zeros((L, T, n))
-    scale = np.zeros((L, T))
-    a = ring.pi[None, :] * E[obs[:, 0]]
-    s = a.sum(1); scale[:, 0] = s; alpha[:, 0] = a / s[:, None]
+    scale = np.ones((L, T))
+    a0 = ring.pi[None, :] * E[obs[:, 0]]
+    s = a0.sum(1); scale[:, 0] = s; alpha[:, 0] = a0 / s[:, None]
     for t in range(1, T):
-        valid = obs[:, t] >= 0
-        prev = alpha[:, t - 1]
-        nxt = _apply(prev, Tm, ctx[:, t])
-        a = nxt * E[np.maximum(obs[:, t], 0)]
-        s = a.sum(1)
-        s = np.where(valid, s, 1.0)
-        a = np.where(valid[:, None], a / s[:, None], prev)
-        alpha[:, t] = a; scale[:, t] = s
+        k = act[t]
+        nxt = _apply(alpha[:k, t - 1], Tm, ctx[:k, t])
+        a1 = nxt * E[obs[:k, t]]
+        s = a1.sum(1)
+        alpha[:k, t] = a1 / s[:, None]; scale[:k, t] = s
     ll = np.log(scale).sum()
     if not need_post:
         return ll, None, None
     beta = np.ones((L, T, n))
     stepc = np.zeros((ring.C, n))
     I = np.arange(n)
-    D = (I[None, :] - I[:, None]) % n
+    D = ((I[None, :] - I[:, None]) % n).ravel()
     for t in range(T - 1, 0, -1):
-        valid = obs[:, t] >= 0
-        eb = E[np.maximum(obs[:, t], 0)] * beta[:, t] / scale[:, t][:, None]  # (L,n)
-        # xi(i,j) = alpha_{t-1}(i) T(i,j) eb(j)
+        k = act[t]
+        eb = E[obs[:k, t]] * beta[:k, t] / scale[:k, t][:, None]
+        cc = ctx[:k, t]
         for c in range(ring.C):
-            sel = valid & (ctx[:, t] == c)
+            sel = cc == c
             if sel.any():
-                X = alpha[sel, t - 1].T @ eb[sel]  # (n,n)
+                X = alpha[:k, t - 1][sel].T @ eb[sel]
                 X *= Tm[c]
-                stepc[c] += np.bincount(D.ravel(), weights=X.ravel(), minlength=n)
-        b = _apply_T(eb, Tm, ctx[:, t])
-        beta[:, t - 1] = np.where(valid[:, None], b, beta[:, t])
+                stepc[c] += np.bincount(D, weights=X.ravel(), minlength=n)
+        beta[:k, t - 1] = _apply_T(eb, Tm, cc)
     post0 = alpha[:, 0] * beta[:, 0]
     post0 /= post0.sum(1, keepdims=True)
     return ll, stepc, post0.sum(0)
@@ -236,13 +233,30 @@ def init_labels(counts, n, rng):
     return list(lab)
 
 
+def chain_labels(obs, S, n, rng):
+    """Greedy initial ring: walk the commonest within-line transitions (step +1), respecting
+    per-symbol cell quotas proportional to frequency."""
+    counts = np.bincount(obs[obs >= 0], minlength=S)
+    quota = Counter(init_labels(counts, n, rng))
+    Tr = np.ones((S, S)) * 0.01
+    a, b = obs[:, :-1].ravel(), obs[:, 1:].ravel(); m = (a >= 0) & (b >= 0)
+    np.add.at(Tr, (a[m], b[m]), 1)
+    Tr /= Tr.sum(1, keepdims=True)
+    cur = int(np.argmax(counts)); lab = [cur]; quota[cur] -= 1
+    while len(lab) < n:
+        cand = [s for s in range(S) if quota[s] > 0]
+        cur = max(cand, key=lambda s: Tr[cur, s] / max(counts[s], 1) ** 0.5)
+        lab.append(cur); quota[cur] -= 1
+    return lab
+
+
 def anneal_ring(obs, ctx, lens, S, n, C=1, reset=True, steps=800, seed=0, T0=30.0, refit_every=40):
     """Simulated annealing over ring contents (swap two cells / relabel one cell).
     Proposals are scored by the forward likelihood under the current turning rule;
     the rule (q, pi) is refitted by EM every refit_every steps."""
     rng = np.random.RandomState(seed)
     counts = np.bincount(obs[obs >= 0], minlength=S)
-    lab = init_labels(counts, n, rng)
+    lab = chain_labels(obs, S, n, rng) if seed == 0 else init_labels(counts, n, rng)
     r = Ring(lab, S, C)
     cur = em(r, obs, ctx, lens, reset, iters=4)
     best = (cur, list(r.lab), r.q.copy(), r.pi.copy())

@@ -47,13 +47,16 @@ def fam_a(j):
         c = L.global_shuffle(c, __import__('random').Random(j['seed']))
     elif j['mode'] == 'planted':
         c, hidden = S.planted_partition_corpus(c, rng)
-    out = S.run_partitions(c, j['N'], seed=j['seed'] + 17, log=log)
+    if j['fam'] == 'g':
+        out = S.run_partitions_climb(c, j['N'], seed=j['seed'] + 19, log=log)
+    else:
+        out = S.run_partitions(c, j['N'], seed=j['seed'] + 17, log=log)
     if hidden is not None:
         signs = out['signs']
         h = [hidden.get(s, 0) for s in signs]
         rec = []
         for r in out['stage2']:
-            if not r['replicated']:
+            if not r.get('replicated'):
                 continue
             v = nmi(h, r['assign'])
             base = [nmi(h, rng.integers(0, r['k'], len(signs))) for _ in range(200)]
@@ -61,8 +64,10 @@ def fam_a(j):
         best = max(rec, key=lambda x: x['z2']) if rec else None
         out['planted_eval'] = rec[:50]
         out['recovered'] = bool(best and best['nmi'] > best['nmi_null99'])
+    if j['fam'] == 'g':
+        out['stage2'] = out['stage2'][:40]
     for r in out['stage2']:
-        if hidden is None and not r['replicated']:
+        if hidden is None and not r.get('replicated'):
             r.pop('assign', None)
     if hidden is None:
         out['consensus'] = consensus(out)
@@ -71,7 +76,7 @@ def fam_a(j):
 
 def consensus(out):
     """Which sign pairs do replicated partitions put together more than chance (1/k)?"""
-    reps = [r for r in out['stage2'] if r['replicated']]
+    reps = [r for r in out['stage2'] if r.get('replicated')]
     if not reps:
         return []
     signs = out['signs'][:40]
@@ -95,7 +100,7 @@ def fam_c(j):
         c = L.global_shuffle(c, __import__('random').Random(j['seed']))
     elif j['mode'] == 'planted':
         c, op = S.planted_transform_corpus(c, rng)
-    out = S.run_transforms(c, j['N'], seed=j['seed'] + 31, log=log)
+    out = S.run_transforms_fast(c, j["N"], seed=j["seed"] + 31, log=log)
     if op is not None:
         out['planted_op'] = list(op)
         for r in out['stage2'][:30]:
@@ -113,7 +118,7 @@ def fam_other(j):
     return T.run(j, log)
 
 
-FAMS = {'a': fam_a, 'c': fam_c, 'b': fam_other, 'd': fam_other, 'e': fam_other, 'm': fam_other}
+FAMS = {'a': fam_a, 'g': fam_a, 'c': fam_c, 'b': fam_other, 'd': fam_other, 'e': fam_other, 'm': fam_other}
 
 
 def main():
