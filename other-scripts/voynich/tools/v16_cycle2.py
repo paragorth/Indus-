@@ -2,8 +2,8 @@
 
 Delete the spaces and search directly over all boundary sets for the minimum MDL2 description length
 (adaptive Chinese-restaurant token code + lexicon spelled with an adaptive glyph-bigram code), by
-simulated annealing with single-boundary toggles (Metropolis, T from 6 bits to 0.05 over 24 sweeps, then
-3 greedy sweeps). Two starts per corpus: the written spacing and a random spacing (density 0.22).
+simulated annealing with single-boundary toggles (Metropolis, T from 1.5 bits to 0.02 over 30 sweeps, then
+4 greedy sweeps; a first run with T0 = 6 bits and 16 sweeps did not converge, kept in cycle2_hot/). Two starts per corpus: the written spacing and a random spacing (density 0.22).
 Same 10 corpora as cycle 1 (Voynich ZL/IT, glyph-shuffle and Markov-2 nulls, true-spaced Latin/Italian,
 planted-spaced Latin/Italian). Line starts are fixed boundaries.
 Output per run: MDL2 of written vs found, boundary F vs written (and vs the true words for planted
@@ -19,7 +19,8 @@ from v16_cycle1 import build, NAMES
 
 OUT = os.path.join(L.RESDIR, 'cycle2')
 os.makedirs(OUT, exist_ok=True)
-SWEEPS = int(os.environ.get('V16_SWEEPS', 24))
+SWEEPS = int(os.environ.get('V16_SWEEPS', 30))
+T0 = float(os.environ.get('V16_T0', 1.5))
 
 
 class Seg:
@@ -124,7 +125,7 @@ def run(job):
     alpha = float(best_alpha(c, c.written))
     seg = Seg(c, st0, alpha)
     rng = random.Random(11)
-    temps = [6.0 * (0.05 / 6.0) ** (j / max(1, SWEEPS - 1)) for j in range(SWEEPS)] + [0, 0, 0]
+    temps = [T0 * (0.02 / T0) ** (j / max(1, SWEEPS - 1)) for j in range(SWEEPS)] + [0, 0, 0, 0]
     log = []
     for j, T in enumerate(temps):
         cur, acc = seg.sweep(T, rng)
