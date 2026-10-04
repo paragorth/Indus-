@@ -15,7 +15,7 @@ import sys, json, itertools
 from la23_common import *
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'all'
-NDRAW = int(sys.argv[2]) if len(sys.argv) > 2 else 2000
+NDRAW = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else 2000
 rng = np.random.default_rng(seed('la23c2' + MODE))
 C1 = json.load(open(os.path.join(CK, 'c1.json')))
 P = {r['w']: (r['p'], r['sd']) for r in C1['la']}

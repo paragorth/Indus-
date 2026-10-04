@@ -93,6 +93,9 @@ def model_best(x, ent_cost, grids):
     n = len(x)
     combos = [(0, grids[0])] + [(r, g) for r in (1, 2, 3, 4) for g in grids]
     hyp = 1.0 + math.log2(NS) + math.log2(len(combos))
+    # grids finer than 1 can only reproduce entries with fractions; skip them for integer lists
+    if grids[0] == 1.0 and max(grids[1:]) < 1 and all(abs(v - round(v)) < 1e-9 for v in x):
+        combos = [c for c in combos if c[1] == grids[0]]
     med = float(np.median(ent_cost))
     best = (float('inf'), None)
     for r, g in combos:

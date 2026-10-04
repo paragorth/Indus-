@@ -56,7 +56,16 @@ def run_dataset(name, pool, Rn, corpus_nulls=True):
     nulls = np.zeros((len(g['lists']), Rn))
     for i, out in pool.imap_unordered(one_list_nulls, jobs, chunksize=4):
         nulls[i] = out
+    # extra replicates for the lists that compress (gain > 0): p-values to 1/(Rn + EXTRA + 1)
+    EXTRA = int(os.environ.get('EXTRA', 400))
+    pos = [i for i in range(len(gains)) if gains[i] > 0]
+    extra = {}
+    for i, out in pool.imap_unordered(one_list_nulls, [(name, i, EXTRA, 99991 * (i + 1)) for i in pos], chunksize=1):
+        extra[i] = out
     p = ((nulls >= gains[:, None]).sum(1) + 1) / (Rn + 1)
+    for i in pos:
+        allr = np.concatenate([nulls[i], extra[i]])
+        p[i] = ((allr >= gains[i]).sum() + 1) / (len(allr) + 1)
     q = bh(p)
     # corpus level from N3b replicates
     n3_cnt = (nulls > 0).sum(0); n3_sum = np.where(nulls > 0, nulls, 0).sum(0)

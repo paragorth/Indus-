@@ -13,6 +13,8 @@
 """
 import sys, json
 from la23_common import *
+SET = sys.argv[1] if len(sys.argv) > 1 else 'strict'
+os.environ['LA23_SET'] = SET
 import la23_c2 as C2
 
 rng = np.random.default_rng(seed('la23c4'))
@@ -20,7 +22,7 @@ P = C2.P
 HT, TAB, WORDS = C2.HT, C2.TAB, C2.WORDS
 
 
-def person_sets(rng, tabs_words, eta=None, nu=None):
+def person_sets(rng, tabs_words, eta=0.0, nu=0.0):
     tabs, docf, docc, par = C2.la_draw(rng, boot=False, eta=eta, nu=nu)
     return tabs
 
@@ -60,7 +62,8 @@ def holdout_eval(tabs, test_idx):
                 slots_mean=float(np.mean([len(t) for t in train])))
 
 
-def run_A(ndraw=1500):
+def run_A(ndraw=None):
+    ndraw = ndraw or (1500 if SET == 'clf' else 5)
     out = {}
     # ---- LA: full-data prediction for one new HT tablet, over draws
     preds, slots, fracs = [], [], []
@@ -75,7 +78,7 @@ def run_A(ndraw=1500):
     out['LA_frac_new'] = dict(med=float(np.median(fracs)), lo=float(np.percentile(fracs, 5)), hi=float(np.percentile(fracs, 95)))
     # among tablets that carry person-like words at all
     nz = []
-    for i in range(300):
+    for i in range(100):
         tabs = person_sets(rng, TAB)
         L = [len(t) for t in tabs if len(t) > 0]
         nz.append(np.mean(L))
@@ -84,7 +87,7 @@ def run_A(ndraw=1500):
     # ---- LA room hold-out
     rooms = C2.FS4
     rh = collections.defaultdict(list)
-    for i in range(200):
+    for i in range(40):
         tabs = person_sets(rng, TAB)
         for r in rooms:
             idx = [j for j, f in enumerate(C2.DOCF) if f == r]
@@ -166,4 +169,4 @@ def run_B(nperm=2000):
 
 if __name__ == '__main__':
     res = dict(A=run_A(), B=run_B())
-    json.dump(res, open(os.path.join(CK, 'c4.json'), 'w'), indent=1)
+    json.dump(res, open(os.path.join(CK, 'c4_%s.json' % SET), 'w'), indent=1)

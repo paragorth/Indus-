@@ -70,6 +70,11 @@ def lexicon(lang):
     for e in extra:
         C.update(norm(x) for x in re.findall(r"[^\W\d_]+", open(os.path.join(DATA, e), encoding='utf-8', errors='replace').read()))
     S = {w for w, c in C.items() if c >= 2 and w}
+    big = os.path.join(SCR, 'lex', lang + '.txt')    # dwyl english-words; hermitdave FrequencyWords 50k
+    if os.path.exists(big):
+        for ln in open(big, encoding='utf-8', errors='replace'):
+            w = norm(ln.split()[0]) if ln.strip() else ''
+            if len(w) >= 5: S.add(w)
     if lang == 'la':
         S |= {w.replace('j', 'i').replace('v', 'u') for w in S}
     return S
@@ -86,14 +91,40 @@ def skel(w):
     return w[:-1] if len(w) > 3 and w.endswith('e') else w
 
 
+def _load_lex(l):
+    import pickle
+    pk = os.path.join(SCR, f'lex_{l}.pkl')
+    if os.path.exists(pk): return pickle.load(open(pk, 'rb'))
+    L = lexicon(l); pickle.dump(L, open(pk, 'wb')); return L
+
+
 def is_lex(w, langs):
     for l in langs:
         if l not in _LEX:
-            _LEX[l] = lexicon(l); _SK[l] = {skel(x) for x in _LEX[l]}
+            _LEX[l] = _load_lex(l); _SK[l] = {skel(x) for x in _LEX[l]}
         L = _LEX[l]
         if w in L: return True
         if l == 'la' and w.replace('j', 'i').replace('v', 'u') in L: return True
         if len(w) >= 4 and skel(w) in _SK[l]: return True
+    return False
+
+
+_DEL = {}
+
+
+def near_lex(w, langs):
+    """edit distance 1 from a lexicon word (symmetric-delete index), only for words of >= 6 letters"""
+    if len(w) < 6: return False
+    for l in langs:
+        is_lex('aa', (l,))
+        if l not in _DEL:
+            D = set()
+            for x in _LEX[l]:
+                if len(x) >= 5:
+                    for i in range(len(x)): D.add(x[:i] + x[i + 1:])
+            _DEL[l] = D
+        dl = [w[:i] + w[i + 1:] for i in range(len(w))]
+        if w in _DEL[l] or any(d in _LEX[l] or d in _DEL[l] for d in dl): return True
     return False
 
 
@@ -143,7 +174,9 @@ def vox_runs(t, langs, minrun=3):
     capitalised words (modern names, bibliography) are dropped."""
     runs, cur, caps = [], [], []
     def close():
-        if len(cur) >= minrun and not all(caps): runs.append(list(cur))
+        if len(cur) >= minrun and not all(caps):
+            nl = sum(near_lex(w, ALL_LANGS) for w in cur)
+            if nl / len(cur) < 1 / 3: runs.append(list(cur))
         cur.clear(); caps.clear()
     for tok in tokens_with_breaks(t):
         if tok is None: close(); continue
@@ -179,6 +212,7 @@ MAGIC_SRC = {
     'M_Romanus': (['moses_romanus.htm', 'moses_egyptian.htm', 'moses_folklore.htm', 'moses_hollenz4.htm'], ('de', 'en', 'la'), True),
     'M_Agrippa4': (['agrippa_agrippa4.htm', 'solomon_arbatel.htm', 'solomon_almadel.htm'], ('la', 'en'), True),
     'M_Ganell': (['ganell_ssm.htm', 'picatrix.htm', 'gollancz_mafteah.htm', 'solomon_lemegeton.htm', 'solomon_grimhono.htm', 'solomon_petitalb.htm'], ('la', 'en', 'fr'), True),
+    'M_PGM': (['../pgm/Papyri_Graecae_Magicae.txt'], ('en', 'la'), True),
     'T_Stegano': (['tritheim_stegano.htm'], ('la', 'en'), True),   # covert cipher dressed as conjurations: TEST only
 }
 
@@ -252,7 +286,7 @@ def martian():
     """Helene Smith's Martian texts (Flournoy 1900, ch. 'The Martian texts'): wide-spaced OCR lines in that
     section whose words are not French/English; OCR accent garbage mapped back to vowels."""
     t = open(os.path.join(SCR, 'gl', 'flournoy.txt'), encoding='utf-8', errors='replace').read().split('\n')
-    a = next(i for i, l in enumerate(t) if 'The  Martian  Texts' in l)
+    a = [i for i, l in enumerate(t) if 'The  Martian  Texts' in l][-1]
     lines = []
     for l in t[a:a + 2600]:
         if not re.search(r'\S {3,}\S', l): continue

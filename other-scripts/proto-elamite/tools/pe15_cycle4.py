@@ -156,5 +156,11 @@ if __name__ == '__main__':
     for nm, ev in nets.items():
         for kind in ('real', 'tab', 'glob'):
             jobs.append((nm, ev, kind, 5, sbm.get(nm)))
+    done = set()
+    if os.path.exists(os.path.join(CK, 'c4.jsonl')):
+        for l in open(os.path.join(CK, 'c4.jsonl')):
+            x = json.loads(l); done.add((x['net'], x['kind']))
+    skip = set(os.environ.get('SKIP', '').split(','))
+    jobs = [j for j in jobs if (j[0], j[2]) not in done and j[0] not in skip]
     with Pool(2) as p:
         p.map(job, jobs, chunksize=1)
