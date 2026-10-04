@@ -1,0 +1,8 @@
+pe8 cycle 4 -- do whole coarse skeletons repeat like printed forms? (tools/pe8_cycle4.py; data/pe8_cycle4.json)
+Coarse skeleton = header type, one-sign share, class-sign share, prefix, subscript | reverse use, total relation; 486
+REAL tablets with all observed. 20 NULL corpora (per-entry layout), 5 PLANTED 6-form corpora.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-10.4 | Repeat structure: distinct skeletons per tablet, share covered by the 6 commonest, entropy | distinct/tablet REAL 0.53, NULL 0.59-0.67, PLANTED 0.16-0.24; top-6 cover REAL 13%, NULL 7-9%, PLANTED 44-55%; entropy REAL 7.58 bits, NULL 7.77-8.03, PLANTED 4.85-5.48 | REAL is slightly more repetitive than no-form null and about 4x less than a 6-form office. Commonest real skeleton (M157 header, class-final entries, subscript, blank reverse, no total) covers 16 of 486 tablets (3.3%) |
+| PE-11.4 | Coupling of obverse block and reverse block (plug-in mutual information; same bias in all corpora) | REAL 0.848 bits; NULL mean 0.849 [0.80-0.98]; PLANTED 0.20-1.14 | NONE beyond null (reverse use is as independent of obverse layout as in the per-entry null). Weak control: planted values overlap the null (0.20-1.14), so this row alone cannot kill forms |

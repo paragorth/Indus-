@@ -1,0 +1,24 @@
+pe8 FINAL -- "the tablets were filled-in forms"
+Tools: tools/pe8_build.py (CDLI catalogue museum/excavation/findspot -> data/pe8_meta.json), pe8_common.py (skeletons,
+latent class EM, DP mixture, Chow-Liu tree, planted and null generators), pe8_cycle1..4.py, pe8_cycle2b.py.
+Numbers: data/pe8_cycle1..4.json, pe8_cycle2b.json, logs; checkpoints data/pe8_ckpt/. Rows: loops/pe8_cycle1..4.txt.
+1,119 tablets with >= 2 entries (95% Susa; every result is a Susa result, published sample only).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.F | Cluster 15-feature skeletons (latent class EM + BIC/MDL, 12 restarts x K 1-12; DP mixture). Planted 6-form corpora; per-entry null corpora; column shuffle | planted -> 6.0 (5-7), ARI 0.72-0.82; REAL -> 5; per-entry NULL -> 5 (all 5 seeds); shuffle -> 1 | the form COUNT is an artefact: a corpus with no forms gives the same 5. Clustering strength REAL 1.62 nats/tablet vs null 1.20-1.31 vs planted 2.37-4.12 |
+| PE-2.F | Discrete forms vs graded dependence (held-out LCM vs Chow-Liu tree) | REAL -0.39 (like null -0.40..-0.57); planted +0.14..+0.67 | real skeletons are graded, not discrete |
+| PE-3.F | Test 1: entry number system from form (no number features) vs counted good; positive control on planted corpora | form 0.891-0.894 bits = marginal 0.890 = permuted 0.893; good 0.784; same-tablet ceiling 0.548; planted form gains 0.04-0.40 | FAILS: layout carries no information about the number system |
+| PE-4.F | Test 2: neighbours in Sb / NMI museum runs, publication order, findspot share a form? (permutation within volume) | same-form 27-35% vs 23-27% expected (p 0.02-0.14); header type alone z 12.6 | WEAK; neighbours share headers, not forms (Sb order ~ publication order: editorial confound) |
+| PE-5.F | Test 3: rare forms as compositions of common ones (column-permutation null) | rare tablets pair-covered 8.9% vs null 14.2%; obverse/reverse block mixing equally common in common tablets | FAILS |
+| PE-6.F | Exact coarse-skeleton repetition | top-6 skeletons cover 13% (null 7-9%, planted 44-55%) | slightly above null, 4x below a form system |
+
+Plain answer: NO. Proto-Elamite administration (Susa) did not use a small set of fixed forms. The same method finds
+6 planted forms, but on the real corpus it finds only the 5 loose clusters that a no-form null corpus also produces.
+These are habits, not templates (with the share of tablets each covers):
+  A headed list, total on the reverse (21%); B short headed list, 2-3 entries, no total, reverse blank or continued
+  (39%); C no header, one-sign entries (11%); D headed list of class-sign entries plus a total (13%); E longer headed
+  list, entries carried onto the reverse, sometimes 2 columns (16%).
+None of them predicts the number system. The decimal/capacity choice belongs to the individual tablet (same-tablet
+entries: 0.34 bits) but is invisible in its layout and only weakly shared by museum or publication neighbours.
+Headers, not forms, are what neighbouring tablets share.

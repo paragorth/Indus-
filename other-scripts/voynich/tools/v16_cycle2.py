@@ -143,6 +143,10 @@ def run(job):
 
 
 if __name__ == '__main__':
-    jobs = [(n, s) for n in NAMES for s in ('written', 'random')]
+    jobs = [(n, 'written') for n in NAMES] + [(n, 'random') for n in ('V-ZL3b', 'Latin', 'NULL-markov2')]
+    # longest first is not needed; interleave so the Voynich and its controls finish early
+    pri = ['V-ZL3b', 'Latin', 'Latin-planted-every5', 'NULL-markov2', 'Italian', 'Italian-planted-VC',
+           'V-IT2a', 'Latin-planted-VC', 'Italian-planted-every5', 'NULL-glyphshuf']
+    jobs.sort(key=lambda j: (j[1] == 'random', pri.index(j[0])))
     with Pool(2) as p:
         p.map(run, jobs, chunksize=1)

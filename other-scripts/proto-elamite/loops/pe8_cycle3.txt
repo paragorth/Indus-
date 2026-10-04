@@ -1,0 +1,12 @@
+pe8 cycle 3 -- test 2 (one office, one form?) and test 3 (rare forms = compositions?) (tools/pe8_cycle3.py;
+data/pe8_cycle3.json). Forms = MAP class at K_bic = 5 on REAL (1,119 tablets), fitted with all features ('full') and
+without SYS/TOT ('nonum'). Find metadata from CDLI catalogue: Sb (Louvre) museum numbers, NMI BK (Tehran) numbers,
+publication numbers, findspot square / stratigraphic level (34 pairs only). CAUTION: Sb order follows publication
+order (Spearman 0.58-1.00 within MDP 06/17/26S/31, TCL 32), so museum runs are largely editorial runs; only 66 Sb
+neighbour pairs are not publication neighbours.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-7.3 | Test 2: share of neighbour pairs with the same form; nulls = forms permuted globally / within publication volume (4,000x) | full forms: Sb runs 0.273 vs 0.253 (p 0.14); Sb runs not publication-adjacent 0.348 vs 0.233 (p 0.02, n 66); NMI BK runs 0.303 vs 0.271 (p 0.13); publication neighbours 0.294 vs 0.264 (p 0.025); findspot 0.235 vs 0.284 (p 0.94, n 34). nonum forms: publication neighbours 0.321 vs 0.260 (z 4.1), Sb runs z 2.4, NMI z 2.5 | WEAK. Neighbours share a form 3-11 points above chance; 'one office, one form' would need most neighbours to match, observed 27-35% |
+| PE-8.3 | Reference for PE-7.3: the same statistic for each single feature | header type: publication neighbours 0.571 vs 0.383 (z 12.6), Sb runs z 3.1; seal Sb runs z 7.6; number-system profile z 1.3-1.7; reverse use z 2.7-4.4 | neighbours share a HEADER (and seal practice), not a whole form; the number system is barely shared by neighbours. Editorial ordering by header cannot be excluded |
+| PE-9.3 | Test 3: 12-class model; common = largest classes covering >= 80% (8 classes), rare = 4 classes (158 tablets). Rare unit 'composed' if every feature equals the mode of common A or B; 'block-composed' if obverse block = A and reverse block = B (all but one feature). Null: rare units' features permuted column-wise (200-1,000x); reference: 158 common tablets | rare forms fully pair-covered 0/4 (null 0.10); rare tablets 8.9% (null 14.2%, p_le 0.015); pair gain 1.68 vs 1.82 (p_le 0.005); block-composed rare tablets 22.8% vs null 9.4%, BUT common tablets 29.7% vs 10.4% | FAILS. Rare skeletons are LESS like mixtures of common forms than random feature recombinations. The only composition signal (obverse block + reverse block from different forms) is stronger in common tablets: obverse and reverse are chosen separately, which argues against fixed whole-tablet templates |
