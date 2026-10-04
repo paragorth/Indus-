@@ -297,3 +297,11 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Token hypothesis: piles of tokens written as they lay (unexchanged) are killed. N01 > 9 occurs in 4 of 5,048 counts, giving an upper bound of 1% (a planted 1% is found 92% of the time); proto-cuneiform is the same. There is no hand-counting cap at 5: counts 6-9 are common. Grade B. Tokens already exchanged into denominations are not excluded. Grade C side note: N01 = 8 is over-represented against 7.
 - Tablet size does not predict count size once text amount is fixed (z -1.8).
 - Nothing is read; nothing is cracked.
+
+## The script aged? Blind seriation vs stratigraphy (pe19, 4 Oct 2026; `loops/pe19_final.txt`)
+- Idea: order all 1,585 tablets blind by evolving traits (signs, variants, numerals, format) with CA, spectral, TSP, a unimodal latent-trait model, 3,000 random trait subsets and partial CA; hash-freeze; only then score against the CDLI stratigraphic levels (17 Susa Acropole I tablets 17A-16 to 14B, 18 Malyan level 3 vs 2, 12 Sofalin + Ozbaki).
+- Calibration fails: a planted drift of 40 born-and-dying traits is invisible (abs rho <= 0.04); only 200 planted traits (a third of all) are recovered. Uruk IV vs III is not seriated in the right direction (best unoriented AUC 0.69, oriented by the fixed rule 0.31). Grade B (method): PE content / office structure swamps any plausible drift.
+- Grade C: frozen orders agree with the hidden levels above random (CA: Susa rho +0.47, early-site AUC 0.76, Malyan AUC 0.92), mostly via tablet size; entry length alone does nearly as well. After sign count, CA keeps partial rho 0.43 (Susa) and 0.49 (Malyan), n 17-18.
+- No relative chronology of signs or variants can be claimed; the CA ends are format (early) and one content cluster (late).
+- Prediction (C): CahDAFI 8 Acropole tablets, earliest to latest, P009433, P009435, P009436, P009432, P009434; their published levels would test it. Not cracked.
+

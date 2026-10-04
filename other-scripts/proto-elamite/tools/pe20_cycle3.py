@@ -18,6 +18,7 @@ from pe20_common import (np, json, os, DATA, CK, PE_SIGNS, UR_SIGNS, MAIN, Score
                          lnb, EPS, K_GRID, F_GRID, R_GRID, logsumexp)
 
 VMAX = 300
+NREP = 60
 
 
 def cond_pred(V, r, j, a, lg):
@@ -46,7 +47,7 @@ def cond_pred(V, r, j, a, lg):
             x = rows[:, child][:, None]
             ok = ~np.isnan(rows[:, child]) & ~np.isnan(rows[:, i])
             m = grid[None, :] * np.nan_to_num(Fv) / (2 if half else 1) + EPS
-            ll = lnb(np.nan_to_num(x), m, kgrid[None, :]) - lg(np.nan_to_num(x))[:, None] * 0
+            ll = lnb(np.nan_to_num(x), m, kgrid[None, :])
             post = prior - logsumexp(prior)
             contrib = logsumexp(ll + post[None, :], axis=1)
             tot = tot + np.where(ok, contrib - lg(np.nan_to_num(rows[:, child])), 0.0)
@@ -152,7 +153,7 @@ def part_LOO():
         urn.append(loo(shuffle_within_sign(Vu[idx], rng), rng)[0])
     out['ur3'] = ur
     out['ur3_null_within'] = urn
-    out['p_pe_vs_within'] = float((1 + sum(x >= out['pe'][0] for x in out['pe_null_within'])) / 21)
+    out['p_pe_vs_within'] = float((1 + sum(x >= out['pe'][0] for x in out['pe_null_within'])) / (len(out['pe_null_within']) + 1))
     print(json.dumps(out, default=float), flush=True)
     dump(out, os.path.join(DATA, 'pe20_cycle3_LOO.json'))
 
@@ -209,18 +210,19 @@ def part_SPLIT():
     main = [r for r in pe_records() if r[0] == MAIN]
     Vm = to_matrix(main, PE_SIGNS)
     lg = Scorer(Vm).lg
-    out = {'real': split_prob(Vm, rng, lg)}
-    out['within'] = [split_prob(shuffle_within_sign(Vm, rng), rng, lg) for _ in range(20)]
-    out['all'] = [split_prob(P.shuffle_all(Vm, rng), rng, lg) for _ in range(20)]
+    out = {'real': [split_prob(Vm, rng, lg) for _ in range(5)]}
+    real = float(np.mean(out['real']))
+    out['within'] = [split_prob(shuffle_within_sign(Vm, rng), rng, lg) for _ in range(NREP)]
+    out['all'] = [split_prob(P.shuffle_all(Vm, rng), rng, lg) for _ in range(NREP)]
     # column-permuted control: relabel which signs carry ~a (random 4/4 split of the 8 columns)
     perm = []
-    for _ in range(20):
+    for _ in range(NREP):
         pm = rng.permutation(8)
         perm.append(split_prob(Vm[:, pm], rng, lg))
     out['random_split_of_columns'] = perm
-    out['p_within'] = float((1 + sum(x >= out['real'] for x in out['within'])) / 21)
-    out['p_all'] = float((1 + sum(x >= out['real'] for x in out['all'])) / 21)
-    out['p_colperm'] = float((1 + sum(x >= out['real'] for x in perm)) / 21)
+    out['p_within'] = float((1 + sum(x >= real for x in out['within'])) / (NREP + 1))
+    out['p_all'] = float((1 + sum(x >= real for x in out['all'])) / (NREP + 1))
+    out['p_colperm'] = float((1 + sum(x >= real for x in perm)) / (NREP + 1))
     print(json.dumps(out, default=float), flush=True)
     dump(out, os.path.join(DATA, 'pe20_cycle3_SPLIT.json'))
 

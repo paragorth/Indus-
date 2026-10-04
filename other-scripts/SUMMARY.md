@@ -89,6 +89,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 
 ## Which script teaches which (x3)
 - Predict the clay (pe17, `proto-elamite/loops/pe17_final.txt`): a blind, hash-frozen ranking from 2,000 random classifiers (plateau vs Susa writing) was scored against hXRF clay provenance (Yeganeh et al. 2025). A weak plateau writing fingerprint exists (held-out AUC 0.69, B). The five chemically foreign tablets point the right way in three of four tests (ST-11 top 10%), but Fisher p is 0.14 and power is only about 12% (C). There is no itinerant-scribe signal.
+- Blind seriation (pe19, `proto-elamite/loops/pe19_final.txt`): hash-frozen orders of all PE tablets by evolving traits agree with the CDLI stratigraphic levels above random (Susa rho +0.47, Malyan AUC 0.92), but mostly through tablet size. A planted 40-trait drift is invisible, and Uruk IV/III is not seriated in the right direction. No relative chronology of signs (C). One prediction stands: the order of the 5 CahDAFI 8 Acropole tablets.
 - Transfer test (x3, `proto-elamite/loops/x3_final.txt`): transfer learning across 10 corpora with relabelling controls. Accounting corpora teach LA and PE by format, not by sign identity; Voynich learns from nothing; identity transfer appears only where transliterations share labels (LA-LB +0.12 bits/token, a replication; LA-Greek none). Frequency rank cannot reveal shared signs (planted control), so LA-PE-Voynich sign sharing is untestable this way.
 
 ## Bottom line

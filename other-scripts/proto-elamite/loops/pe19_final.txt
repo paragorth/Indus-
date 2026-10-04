@@ -1,0 +1,15 @@
+pe19 final (4 Oct 2026): THE SCRIPT AGED, AND THE AGE SHOWS. Cycles: loops/pe19_cycle1-4.txt. Tools: tools/pe19_hidden.py (hidden labels), pe19_common.py, pe19_cycle1-4.py (blind fits, frozen + SHA-256 hashed orders), pe19_score.py (scoring). Checkpoints: data/pe19_ckpt/ (git-ignored). Hidden labels: data/pe19_hidden.json.
+Literature / web check (4 Oct 2026): palaeographic phasing of PE exists (Dahl et al. 2013, CDLI wiki 'proto-elamite writing phases'; expert, not computational, not used here). No blind computational seriation of PE scored against Le Brun's stratigraphy found.
+
+Hidden chronology (CDLI stratigraphic_level): 17 Susa Acropole I tablets (17A-16 to 14B; most 1-3 lines, 5 without signs), 18 Malyan tablets with text (level 3 earlier, 13; level 2 later, 5), 12 Sofalin + Ozbaki (early sites). This is too small to test much: rho must reach about 0.49 for p 0.05.
+
+Calibration (all FAIL or partial):
+- Planted drift of 40 born-and-dying traits on the real matrix: abs rho 0.00-0.04 (CA, spectral, TSP, unimodal latent-trait model). Only 200 planted traits (a third of all traits) are recovered (CA axis 2, 0.82). Variant-switch plants: at most 0.18.
+- Uruk IV vs III (Uruk only): AUC 0.47-0.56 on all traits. Variant choice gives 0.60 unoriented, CA axis 2 gives 0.69 unoriented, but the blind orientation rule (later = longer entries) points the wrong way (0.31-0.49).
+
+Results:
+- C: frozen orders agree with the hidden chronology above random (best: CA axis 1, Susa rho +0.47 p 0.026, early sites AUC 0.76, Malyan AUC 0.92). The size baseline gets most of this: entry length alone comb 1.25, CA 1.84; trait-shuffled orders max 0.54. After sign count, CA keeps partial rho 0.43 (Susa) and 0.49 (Malyan). Would support: new stratified tablets follow the CA order at the same size. Would kill: a size-matched set where it fails.
+- C: "later tablets are bigger, with longer entries and compounds; 17-16 tablets are one-line numerical or single-sign notations." This matches the published four-stage picture, but our data cannot separate it from the fact that larger tablets carry more traits.
+- Relative chronology of signs and variants: NOT supported. The 'early' end of the CA order is format (1-line tablets, single-sign entries, no compounds; M362, M269~b, M106~a, N51). The 'late' end is one content cluster (M097~h, M386~a, M242~b, M338~b, M218~b, M029~b, M332~d). These describe the CA axis, not dates (planted control failed).
+- B (method): in PE the content/office axis swamps any plausible drift. Massive random subsets (3,000) reproduce internal structure (half-split rho 0.87), but the internally best subsets are no better chronologically than the worst.
+- Not cracked. No out-of-corpus prediction possible: 5 CahDAFI 8 Acropole tablets (P009432-P009436) lack a level in CDLI. Prediction (Grade C, made 4 Oct 2026 from the frozen CA order 2466f1d2cf284992, before any lookup): from earliest to latest P009433 (0.14), P009435 (0.25), P009436 (0.34), P009432 (0.47), P009434 (0.81). Would support: their published Acropole levels (CahDAFI 8, 1978) rise in this order (Spearman >= 0.8). Would kill: reversed or random.
