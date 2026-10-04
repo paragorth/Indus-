@@ -124,5 +124,5 @@ def run(arg):
 if __name__ == '__main__':
     names = sys.argv[1:] or ['ZL', 'IT', 'LA', 'ITA', 'DE', 'CS', 'HE', 'PL_REV', 'MkG_1', 'MkW_1', 'RvG_0', 'RvW_0']
     jobs = [(n, 'real') for n in names] + [(n, f'rand{i}') for n in names[:7] for i in range(3)]
-    with Pool(2) as pool:
+    with Pool(int(os.environ.get('W', '2'))) as pool:
         for _ in pool.imap_unordered(run, jobs): pass

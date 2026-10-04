@@ -22,7 +22,7 @@ from pe15_common import *
 GRID = [(1, 1), (2, 2), (3, 2), (3, 3), (4, 3), (4, 4), (6, 4), (6, 6), (8, 4), (8, 6), (10, 6), (12, 8)]
 RESTARTS = int(os.environ.get('RESTARTS', 6))
 SWEEPS = int(os.environ.get('SWEEPS', 150))
-CS = [0.1, 0.3, 1, 3, 10]
+CS = [0.3, 1, 3, 10, 30, 100]
 
 
 def folds_of(ev, k, seed):
@@ -58,7 +58,7 @@ def cv(ev, seed, grid=GRID):
             P = cond_prob(W, bc, br, kc2, kr2)
             tot['SBM_%d_%d' % (kc, kr)] += -np.log2(P[ti, tj]).sum()
             # SBM + own history: Dirichlet prior centred on the block profile
-            for c in (1, 3):
+            for c in (1, 3, 10, 30):
                 Q = (W + c * P) / (W.sum(1, keepdims=True) + c)
                 tot['SBMH%g_%d_%d' % (c, kc, kr)] += -np.log2(Q[ti, tj]).sum()
     return {k: v / max(n, 1) for k, v in tot.items()}, n

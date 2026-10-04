@@ -76,10 +76,10 @@ def trans(kind, K, P):
     return A, np.full(K, 1.0 / K)
 
 
-def fit(X, M, V, kind, K, rng, iters=30, alpha=0.1):
+def fit(X, M, V, kind, K, rng, iters=30, alpha=0.1, eps0=None, hold=0):
     nf = len(V)
     th = [np.log(rng.dirichlet(np.ones(v), K)) for v in V]
-    P = {'pi': rng.dirichlet(np.ones(K)), 'A': rng.dirichlet(np.ones(K), K), 'eps': rng.uniform(0.05, 0.5)}
+    P = {'pi': rng.dirichlet(np.ones(K)), 'A': rng.dirichlet(np.ones(K), K), 'eps': eps0 if eps0 is not None else rng.uniform(0.05, 0.5)}
     last = -np.inf
     for it in range(iters):
         A, pi = trans(kind, K, P)
@@ -97,7 +97,7 @@ def fit(X, M, V, kind, K, rng, iters=30, alpha=0.1):
         elif kind == 'FREE':
             P['pi'] = (g[:, 0].sum(0) + 1) / (g[:, 0].sum() + K)
             P['A'] = (xi + 0.5) / (xi + 0.5).sum(1, keepdims=True)
-        else:
+        elif it >= hold:
             on = (xi * np.roll(np.eye(K), 1, axis=1)).sum()
             # E[non-cyclic] = eps*(K-1)/K * n ; solve eps
             n = xi.sum()

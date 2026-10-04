@@ -19,7 +19,9 @@ from pe14_cycle1 import corpus  # noqa
 import pe14_hmm as H  # noqa
 
 RESTARTS, FOLDS = 4, 3
-MODELS = [('MIX', k) for k in range(1, 5)] + [('FREE', k) for k in range(2, 5)] + [('CYC', k) for k in range(2, 7)]
+MODELS0 = [('MIX', k) for k in range(1, 5)] + [('FREE', k) for k in range(2, 5)] + [('CYC', k) for k in range(2, 7)]
+MODELS = [('CYC', k) for k in (2, 3, 4)] if os.environ.get('PE14_CYCONLY') else MODELS0
+EPS0, HOLD = (0.1, 12) if os.environ.get('PE14_CYCONLY') else (None, 0)
 
 
 def shared(a, b):
@@ -106,7 +108,7 @@ def main(cfg, seed):
         for kind, K in MODELS:
             best = None
             for r in range(RESTARTS if K > 1 else 1):
-                m = H.fit(Xtr, Mtr, V, kind, K, nr)
+                m = H.fit(Xtr, Mtr, V, kind, K, nr, eps0=EPS0, hold=HOLD)
                 if best is None or m['train_ll'] > best['train_ll']:
                     best = m
             res[f'{kind}{K}'] += H.score(Xte, Mte, best)
@@ -115,7 +117,10 @@ def main(cfg, seed):
         print(cfg, seed, 'fold', f, flush=True)
     bits = {k: -v / nunits / math.log(2) for k, v in res.items()}
     out = {'cfg': cfg, 'seed': seed, 'ntab': len(T), 'nunits': nunits, 'bits': bits, 'eps': extra, 'info': info}
-    json.dump(out, open(os.path.join(CK, 'c2', f'{cfg}_{seed}.json'), 'w'), indent=1)
+    json.dump(out, open(os.path.join(CK, 'c2', f'{cfg}_{seed}' + ('_cyc' if os.environ.get('PE14_CYCONLY') else '') + '.json'), 'w'), indent=1)
+    if os.environ.get('PE14_CYCONLY'):
+        print(cfg, bits, extra)
+        return
     b = bits
     bm = min(b[f'MIX{k}'] for k in range(1, 5))
     bf = min(b[f'FREE{k}'] for k in range(2, 5))

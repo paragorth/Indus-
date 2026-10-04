@@ -15,7 +15,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v23_lib as L
 from v23_cycle1 import build
 
-STEPS, BATCH, SEQ, H = 1500, 32, 96, 128
+STEPS, BATCH, SEQ, H = 800, 32, 64, 64
+SEEDS = (0, 1, 2)
 
 
 class Net(torch.nn.Module):
@@ -51,7 +52,7 @@ def score(m, seq, V):
 
 
 def run(name, seed=0):
-    fn = os.path.join(L.CK, f'c2_{name}.json')
+    fn = os.path.join(L.CK, f'c2s{seed}_{name}.json')
     if os.path.exists(fn): return name
     t0 = time.time()
     C = build(name)
@@ -75,11 +76,12 @@ def run(name, seed=0):
     res = {'name': name, 'a': a, 'eff': sum(a) / ns, 'H_fwd': hf / ns, 'rel': sum(a) / hf, 'z': float(z), 'p': float(pv),
            'sec': time.time() - t0}
     json.dump(res, open(fn, 'w'))
-    print(name, round(res['eff'], 4), round(z, 2), round(res['sec']), flush=True)
+    print(name, seed, round(res['eff'], 4), round(z, 2), round(res['sec']), flush=True)
     return name
 
 
 if __name__ == '__main__':
-    names = sys.argv[1:] or ['ZL', 'IT', 'LA', 'ITA', 'DE', 'CS', 'HE', 'HEvis', 'PL_REV', 'MkG_1', 'RvG_0', 'RvG_1', 'RvGL_0']
-    with Pool(2) as pool:
-        for _ in pool.imap_unordered(run, names): pass
+    names = sys.argv[1:] or ['ZL', 'IT', 'LA', 'ITA', 'DE', 'CS', 'HE', 'PL_REV', 'MkG_1', 'RvG_0']
+    jobs = [(n, s) for s in SEEDS for n in names]
+    with Pool(int(os.environ.get('W', '2'))) as pool:
+        for _ in pool.starmap(run, jobs): pass

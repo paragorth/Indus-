@@ -1,0 +1,9 @@
+# v22 cycle 3: where is the program anchored, and is it local continuity in disguise? (tools/v22_cycle3.py; data/v22_ckpt/c3_*.json)
+# Program forward (anchored at paragraph start: stage 0 first) vs fitted on reversed paragraphs (anchored at the end).
+# New null: CYCLIC ROTATION of a paragraph's lines by a random offset: keeps all line-to-line adjacencies but one, moves every
+# stretch to another place. Real minus rotated = positional program; rotated minus line-shuffled = local continuity.
+# Also: are Viterbi stage changes clocked by line starts? S {3,6}, 8 restarts, 5 folds; 26 runs.
+| V-22.3.1 | Anchoring: forward minus reversed (H6), with line-shuffled null pairs | ZL 105 vs 87 (+19); null pairs +1, -3. Currier A 63 vs 21 (+42, H3 +27); B 74 vs 58 (+16). IT +15; LA +8 (H6) | The Voynich program is anchored at the paragraph START in both languages (a fixed opening, not a fixed closing formula). Strongest in A |
+| V-22.3.2 | Rotation null (n=2) vs line shuffle | ZL rotated 72 / 75 = line-shuffled 70-72 (real 105); IT rotated 42 / 35, line-shuffled 7, head-kept 25 (real 82) | Voynich: NO local continuity across lines at word-class level; its whole order signal is positional (the head line). Italian herbal: ~30 mb of continuity (topic runs) AND ~40-47 mb positional program extending beyond its first line. Control behaves as a templated text should |
+| V-22.3.3 | Line clock: rate of stage changes at line starts vs elsewhere | ZL 0.010 vs 0.036 (shuffled 0.013-0.033 vs 0.028-0.037); IT 0.044 vs 0.051 | Stage changes are not clocked by line starts (beyond the head line itself, which is a whole line) |
+| V-22.3 | Cycle verdict | - | Start-anchored head + positionless body, no continuity across lines; the Italian herbal shows a genuine elastic program plus continuity. Grade B |
