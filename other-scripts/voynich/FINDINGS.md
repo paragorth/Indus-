@@ -650,3 +650,9 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
   - The Voynich (+0.28/+0.30/+0.43) sits above every real invented or cipher script once Tengwar's vowel marks are removed.
 - Grade A measurement: the most look-alike Voynich glyph pairs (k/t, p/f, the benched gallows, ch/sh) are almost interchangeable in context, index 0.81 against 0.36 for frequency-matched pairs. That matches a planted homophone cipher (0.73), not any featural script (0.17–0.37). Without the gallows the index falls to 0.34–0.36, but the shape link survives (+0.33 to +0.37).
 - Reading, grade C: interchangeable twin glyphs plus a featural gradient. Not tested for lack of open data: the Rohonc Codex, Hildegard's script and other DECODE ciphers.
+
+## Is A to B a featural sound change? (v36)
+- Rule-level tests have no power on Voynich text: an A-against-A null already scores z +1 to +2, because any learned rule swaps glyphs that behave alike, and those look alike (v25). Dropped.
+- An exhaustive single-glyph substitution matrix passed its controls. Featural plants in Hangul and German came out on top with a shared stroke change, and 0 of 7 arbitrary plants and keys were significant.
+- Grade B: A to B targets one stroke class. It drops the four benched gallows at word start: per 1,000 words, cth falls from 36 to 2.6, ckh from 13 to 1.3, cph from 7.3 to 1.5 and cfh from 2.2 to 0.3. It holds within the herbal section. No shared stroke change appears among the top swaps, which is the spelling-change pattern, not the sound-change pattern.
+- Kill test fired: the bench-removed forms do not rise in B, so B uses different words there. "Featural sound change" is killed.
