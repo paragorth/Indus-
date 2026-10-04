@@ -33,7 +33,8 @@ def job(args):
                'train_bits': f['train_ll'] / Ctr.sum() / LN2, 'rho': f['rho']}
         if kind == 'dist' and truth and d == 2:
             ws = [w for w in voc if w in truth]
-            rec['procrustes_R2'] = L.procrustes_r2(f['P'][0][[idx[w] for w in ws]], np.array([truth[w] for w in ws], float))
+            Xw = f['P'][0][[idx[w] for w in ws]]; Yw = np.array([truth[w] for w in ws], float)
+            rec['procrustes_R2'] = L.procrustes_r2(Xw, Yw); rec['knn_hit'], rec['knn_chance'] = L.knn_recovery(Xw, Yw)
         if kind == 'dist' and d in (2, 3):
             emb[d] = f['P'][0].tolist()
         out['models'][f'{kind}{d}'] = rec

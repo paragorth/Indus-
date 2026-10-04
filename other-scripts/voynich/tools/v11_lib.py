@@ -62,7 +62,7 @@ def ntok():
     return sum(len(l['words']) for l in template())
 
 
-def planted(kind='grid', eps=0.3, side=30, seed=1, start_region=False):
+def planted(kind='grid', eps=0.3, side=20, seed=1, start_region=False):
     """Random walk on a hidden map. Cells carry Voynich word types (top side^2), popularity = their Voynich
     frequency (placed at random). kind 'grid': neighbourhood = Chebyshev radius 2 (24 cells + self);
     kind 'graph': 24 fixed random cells + self (same degree, no geometry). With prob eps a token is noise
