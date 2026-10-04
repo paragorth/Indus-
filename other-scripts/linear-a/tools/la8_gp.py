@@ -107,7 +107,7 @@ def canon(g):
 
 
 def random_genome(D, rng):
-    K = rng.randint(2, 20)
+    K = rng.randint(max(2, MINK), max(20, MINK + 4))
     tc = np.array([rng.randrange(K) for _ in range(D.V)], dtype=np.int32)
     kc = np.array([rng.randrange(K) for _ in range(D.NK)], dtype=np.int32)
     nst = np.array([1 if rng.random() < 0.7 else rng.randint(2, MAXST) for _ in range(K)], dtype=np.int32)
@@ -154,9 +154,13 @@ def mutate(D, g, rng):
     return canon(g)
 
 
+MINK = int(os.environ.get('LA8_MINK', '0'))   # zoom runs: force at least MINK classes (exploratory, not MDL-optimal)
+
+
 def fitness(D, g):
     bits, out = D.evaluate(g)
-    return bits + D.dl(g, out[2]), bits, out
+    pen = 1e5 * max(0, MINK - g['K'])
+    return bits + D.dl(g, out[2]) + pen, bits, out
 
 
 def to_json(g): return {'K': int(g['K']), 'tc': g['tc'].tolist(), 'kc': g['kc'].tolist(), 'nst': g['nst'].tolist()}

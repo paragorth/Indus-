@@ -236,6 +236,7 @@ def build_all(seed=0):
     corp['PFLAT'] = pf; corp['PREC'] = pr
     info = {k: {'docs': len(v), 'tokens': ntok(v), 'types': len({t[0] for d in v for t in d['toks']})} for k, v in corp.items()}
     info['LB_full'] = {'docs': len(lb_full), 'tokens': ntok(lb_full)}; info['PE_full'] = {'docs': len(pe_full), 'tokens': ntok(pe_full)}
+    corp['LB2'] = size_match(lb_full, T, seed + 101); corp['PE2'] = size_match(pe_full, T, seed + 102)  # second size-matched draws
     for k, v in corp.items():
         json.dump(v, open(os.path.join(OUT, 'corpus_%s.json' % k), 'w'))
     json.dump({'PFLAT': tf, 'PREC': tr}, open(os.path.join(OUT, 'planted_truth.json'), 'w'))

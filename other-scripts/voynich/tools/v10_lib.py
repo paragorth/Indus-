@@ -69,7 +69,8 @@ def perm_body(paras, rng):
     out = []
     for p in paras:
         q = dict(p); body = p['lines'][1:]; idx = rng.sample(range(len(body)), len(body))
-        q['lines'] = [p['lines'][0]] + [body[i] for i in idx]; q['chain'] = [U(l[0])[0] for l in q['lines']]
+        q['lines'] = [p['lines'][0]] + [body[i] for i in idx]
+        q['chain'] = [p['chain'][0]] + [p['chain'][1:][i] for i in idx]   # permute the (possibly planted) chain with its lines
         out.append(q)
     return out
 
