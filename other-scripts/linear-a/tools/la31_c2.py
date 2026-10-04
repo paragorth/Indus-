@@ -33,7 +33,7 @@ def incidence(docs, codes, layer):
     return Y, size
 
 
-def irls(X, y, it=25):
+def irls(X, y, it=9):
     w = np.zeros(X.shape[1])
     for _ in range(it):
         eta = X @ w; p = 1 / (1 + np.exp(-eta)); W = p * (1 - p) + 1e-9

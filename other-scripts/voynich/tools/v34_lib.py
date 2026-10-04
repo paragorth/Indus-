@@ -66,7 +66,7 @@ def voynich_lines(src='v18_words.json', maxcost=None, ends=True, maxext=5.0):
             x1 = [w['x1'] for w in ws]
             e = E.get(p['folio'], {}).get(str(ws[0]['n'])) if ends else None
             if ends:
-                if e is None or e['xend'] - x1[-1] > maxext * e['unit'] or e['xend'] <= ws[-1]['x0']:
+                if e is None or e.get('edge') or e['xend'] - x1[-1] > maxext * e['unit'] or e['xend'] <= ws[-1]['x0']:
                     continue
                 x1[-1] = e['xend']
             pl.append({'page': p['folio'], 'n': ws[0]['n'], 'words': words, 'g': g,
@@ -250,3 +250,66 @@ def multi_perm(t, feats, groups, nperm=2000, seed=0, covar=None):
         out[k] = {'r': float(obs[j]), 'z': float(z[j]), 'p': float(p), 'p_fw': float(pfw),
                   'mean': float(np.mean(feats[k]))}
     return out
+
+
+def _v18_parse_raw(xmlf):
+    """same line list as v18_latin_extract.parse, but keeping the raw transcription."""
+    root = ET.parse(xmlf).getroot()
+    tags = {t.get('ID'): t.get('LABEL') for t in root.iter(NS + 'OtherTag')}
+    out = []
+    for tb in root.iter(NS + 'TextBlock'):
+        if 'Main' not in tags.get(tb.get('TAGREFS'), ''):
+            continue
+        for tl in tb.iter(NS + 'TextLine'):
+            bl = [int(v) for v in tl.get('BASELINE', '').split()]
+            s = tl.find(NS + 'String')
+            if s is None or len(bl) < 4:
+                continue
+            raw = s.get('CONTENT', '')
+            txt = ''.join(' ' if unicodedata.category(c)[0] in 'PZ' else (c if unicodedata.category(c)[0] in 'LN' else '') for c in raw)
+            if [w for w in txt.split() if w]:
+                out.append(raw)
+    return out
+
+
+def latin_img_lines(maxext=5.0):
+    """CREMMA Latin through the Voynich image pipeline (v18 word extents + v34 line ends)."""
+    pages = json.load(open(os.path.join(DATA, 'derived', 'v18_latin_words.json')))
+    E = json.load(open(os.path.join(CKPT, 'lineends_lat.json')))
+    lines = []
+    for p in pages:
+        ms, name = p['folio'].split(':', 1)
+        raws = _v18_parse_raw(os.path.join(LATDIR, ms, name + '.xml'))
+        byl = {}
+        for w in p['words']:
+            byl.setdefault(w['li'], []).append(w)
+        pl = []
+        for li, ws in sorted(byl.items()):
+            ws = sorted(ws, key=lambda w: w['k'])
+            e = E.get(p['folio'], {}).get(str(ws[0]['n']))
+            if len(ws) != ws[0]['nw'] or len(ws) < 3 or e is None:
+                continue
+            x1 = [w['x1'] for w in ws]
+            if e.get('edge') or e['xend'] - x1[-1] > maxext * e['unit'] or e['xend'] <= ws[-1]['x0']:
+                continue
+            x1[-1] = e['xend']
+            raw = raws[ws[0]['n'] - 1] if ws[0]['n'] - 1 < len(raws) else ''
+            toks = lat_tokens(raw)
+            if not toks:
+                continue
+            pl.append({'page': p['folio'], 'ms': ms, 'n': ws[0]['n'], 'words': [w['word'] for w in ws],
+                       'g': [max(1, len(w['word'])) for w in ws], 'x0': [w['x0'] for w in ws], 'x1': x1,
+                       'raw': raw, 'rawtoks': toks, 'para_end': False, 'y': ws[0]['y']})
+        # split into columns by line start x
+        if not pl:
+            continue
+        xs = np.array([l['x0'][0] for l in pl]); o = np.sort(xs)
+        cuts = [o[i + 1] for i in range(len(o) - 1) if o[i + 1] - o[i] > 300]
+        for l in pl:
+            c = sum(l['x0'][0] >= c for c in cuts)
+            l['page'] = l['page'] + ':c%d' % c
+        for c in sorted(set(l['page'] for l in pl)):
+            sub = [l for l in pl if l['page'] == c]
+            finish_page(sub)
+            lines += sub
+    return lines

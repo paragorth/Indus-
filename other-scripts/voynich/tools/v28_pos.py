@@ -97,3 +97,26 @@ def size_matched(name, k=23, models=('ppmi', 'svd', 'potts'), nperm=3000):
             rs.append(r); ps.append(p)
         out[m] = (float(np.mean(rs)), float(max(ps)))
     return out, [c['alph'][i] for i in top]
+
+
+def twins(name, ks=(1, 3, 6, 10), models=('ppmi', 'potts'), nperm=3000):
+    """Is the link carried by a few 'twin' pairs (look alike AND behave alike, as free allographs would) or spread
+    over the inventory?  Drop the k pairs with the highest rank(shape) x rank(behaviour) and recompute r."""
+    c = C.build(name)
+    beh = X.load(f'beh_{name.replace("/", "-")}.pkl')
+    S = R.sims_for(c)
+    Ssh = S[f'img:{c["fonts"][0]}']
+    A = c['alph']; n = len(A); iu = np.triu_indices(n, 1)
+    rng = np.random.default_rng(23)
+    out = []
+    for m in models:
+        B = beh[m]
+        sc = rankdata(Ssh[iu]) * rankdata(B[iu])
+        order = np.argsort(-sc)
+        cells = []
+        for k in (0,) + tuple(ks):
+            keep = np.ones(len(sc), bool); keep[order[:k]] = False
+            r, p, _ = mantel_mask(Ssh, B, keep, nperm=nperm, rng=rng)
+            cells.append(f'drop {k}: r {r:+.2f} p {p:.4f}')
+        out.append((m, '; '.join(cells), [f'{A[iu[0][q]]}/{A[iu[1][q]]}' for q in order[:6]]))
+    return out

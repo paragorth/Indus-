@@ -252,7 +252,7 @@ def corr_length(lat0=35.25, lon0=25.0):
     return res_out
 
 
-if __name__ == '__main__':
+if __name__ == "__main__" and "--fixsoil" not in sys.argv:
     out = {}
     for s, (lat, lon) in SITES.items():
         v = {'lat': lat, 'lon': lon}
@@ -266,3 +266,28 @@ if __name__ == '__main__':
     cl = corr_length()
     json.dump(cl, open(os.path.join(CK, 'crete_corr.json'), 'w'), indent=1)
     print({k: v['efold_km'] for k, v in cl.items()})
+
+
+def fix_soil():
+    """Sites whose point falls on a SoilGrids mask (town, coast): use the nearest non-null point on a
+    1-3 km ring (8 directions)."""
+    p = os.path.join(DATA, 'la29_land.json')
+    land = json.load(open(p))
+    for s, v in land.items():
+        if v.get('soil_clay') is not None: continue
+        lat, lon = SITES[s]
+        done = False
+        for r in (1.0, 2.0, 3.0):
+            for ang in range(0, 360, 45):
+                la = lat + r / 111.0 * math.sin(math.radians(ang))
+                lo = lon + r / (111.0 * math.cos(math.radians(lat))) * math.cos(math.radians(ang))
+                sv = soil_vars(round(la, 4), round(lo, 4))
+                if sv.get('soil_clay') is not None:
+                    v.update(sv); v['soil_offset_km'] = r; done = True; break
+            if done: break
+        print(s, 'soil', v.get('soil_clay'), flush=True)
+    json.dump(land, open(p, 'w'), indent=1)
+
+
+if __name__ == "__main__" and "--fixsoil" in sys.argv:
+    fix_soil()

@@ -288,6 +288,16 @@ def build(name):
         cnt = Counter(g for w in ws for g in w)
         tops = {g for g, _ in cnt.most_common(k)}
         ws = [w[:-1] + ((w[-1] + mark,) if w[-1] in tops else (w[-1],)) for w in ws]
+    # optional planted FREE (random, position-blind) allographs "+free6" / "+free6i": each token of the 6 most frequent
+    # letters is drawn in variant 2 with probability 1/2
+    if '+free' in name:
+        import random as _r
+        rr = _r.Random(17)
+        tag = name.split('+free')[1]
+        k = int(tag.rstrip('i')); mark = X.VS_ITAL if tag.endswith('i') else X.VS_SAME
+        cnt = Counter(g for w in ws for g in w)
+        tops = {g for g, _ in cnt.most_common(k)}
+        ws = [tuple(g + mark if g in tops and rr.random() < 0.5 else g for g in w) for w in ws]
     # optional BPE suffix "+bpeN"
     if '+bpe' in name:
         n = int(name.split('+bpe')[1])

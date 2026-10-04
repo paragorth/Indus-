@@ -26,7 +26,7 @@ def page(args):
     im.convert('RGB').resize((2000, int(im.height * sc))).save(tmp)
     gray, con, rb = L18.load(tmp); os.remove(tmp)
     mask = ndi.binary_opening(con > 0.15, np.ones((2, 2)))
-    out = measure(mask, recs, pitch)
+    out = measure(mask, recs, pitch, gray)
     if ov:
         overlay(fn, out, os.path.join(V.SCR, 'v34_ovL_' + folio.replace(':', '_') + '.png'))
     return folio, out

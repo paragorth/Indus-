@@ -12,14 +12,14 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import v18_lib as L18
 import v34_lib as V
 IMG = os.path.join(V.SCR, 'v18', 'img')
-GAP = 2.2
+GAP = 1.0
 
 
 def page(args):
     folio, recs, pitch, ov = args
     gray, con, rb = L18.load(os.path.join(IMG, folio + '.jpg'))
     mask = ndi.binary_opening(con > 0.15, np.ones((2, 2)))
-    out = measure(mask, recs, pitch)
+    out = measure(mask, recs, pitch, gray)
     if ov:
         overlay(os.path.join(IMG, folio + '.jpg'), out, os.path.join(V.SCR, 'v34_ov_' + folio + '.png'))
     return folio, out
@@ -36,11 +36,16 @@ def overlay(fn, out, dst, scale_to=2000):
     im.resize((1000, int(im.height * 1000 / im.width))).save(dst)
 
 
-def measure(mask, recs, pitch):
+def measure(mask, recs, pitch, gray=None):
+    """v18 ends are kept unless the line was clipped at the page's text-block edge
+    (end within 3 px of the page maximum); clipped lines are followed to the right
+    through ink runs >= 3 px wide separated by gaps <= GAP glyph units, stopping at a
+    dark border (median gray < 90)."""
     H, W = mask.shape
     byl = {}
     for w in recs:
         byl.setdefault(w['li'], []).append(w)
+    clip = max(max(w['x1'] for w in ws) for ws in byl.values())
     out = {}
     h = max(4, int(0.28 * pitch))
     for li, ws in byl.items():
@@ -52,23 +57,25 @@ def measure(mask, recs, pitch):
             b, a = 0.0, float(yc.mean())
         g = sum(len(V.glyphs(w['word'])) for w in ws) + 0.6 * (len(ws) - 1)
         unit = (ws[-1]['x1'] - ws[0]['x0']) / max(g, 1)
-        xs = np.arange(int(ws[-1]['x0']), W - 15)
-        ys = np.clip((a + b * xs).astype(int), h, H - h - 1)
-        rows = ys[None, :] + np.arange(-h, h + 1)[:, None]
-        col = mask[rows, xs[None, :]].sum(axis=0) >= 2
-        on = np.where(col)[0]
-        if len(on) == 0:
-            continue
-        gapmax = GAP * unit
-        end = on[0]
-        for x in on[1:]:
-            if x - end > gapmax:
-                break
-            end = x
-        xend = int(xs[0] + end)
-        # vertical ink in a wider band beyond the end (drawing/edge flag)
+        xend, clipped, edge = int(ws[-1]['x1']), ws[-1]['x1'] >= clip - 3, False
+        if clipped:
+            xs = np.arange(int(ws[-1]['x1']) - 2, W - 15)
+            ys = np.clip((a + b * xs).astype(int), h, H - h - 1)
+            rows = ys[None, :] + np.arange(-h, h + 1)[:, None]
+            col = mask[rows, xs[None, :]].sum(axis=0) >= 2
+            lab, n = ndi.label(col)
+            runs = [s_[0] for s_ in ndi.find_objects(lab) if s_[0].stop - s_[0].start >= 3]
+            end = 0
+            for r in runs:
+                if r.start - end > GAP * unit:
+                    break
+                if gray is not None and np.median(gray[rows[:, r], xs[None, r]]) < 90:
+                    edge = True; break
+                end = r.stop
+            xend = int(xs[0] + end) if end else xend
         out[str(ws[0]['n'])] = {'li': li, 'xend': xend, 'xend_v18': ws[-1]['x1'], 'unit': float(unit),
-                                'a': float(a), 'b': float(b)}
+                                'a': float(a), 'b': float(b), 'clipped': bool(clipped), 'edge': edge,
+                                'lcost': ws[0].get('lcost', 0)}
     return out
 
 

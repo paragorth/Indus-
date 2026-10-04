@@ -120,7 +120,11 @@ if __name__ == '__main__':
     for _ in range(500):
         pairs = []
         for i in el:
-            j = null_partner(i, c1.groups, c1.keyof, rr, need=lambda j: recs[j]['comma'][1][0] > 0) or null_partner(i, c1.groups_s, c1.keyof_s, rr, need=lambda j: recs[j]['comma'][1][0] > 0)
+            j = null_partner(i, c1.groups, c1.keyof, rr, need=lambda j: recs[j]['comma'][1][0] > 0)
+            if j is None:
+                j = null_partner(i, c1.groups_s, c1.keyof_s, rr, need=lambda j: recs[j]['comma'][1][0] > 0)
+            if j is None:
+                continue
             pairs.append((recs[i]['comma'][0], recs[j]['comma'][1]))
         nulls.append(comma_stat(pairs))
     nulls = np.array(nulls)
