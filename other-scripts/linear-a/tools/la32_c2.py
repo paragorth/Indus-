@@ -75,18 +75,7 @@ ocr = [dict(a=a, b=b) for a, b in json.load(open(ocr_p))]
 log('# LA-32 cycle 2: controls')
 log(f'## (a) English: {len(mis)} one-letter human misspellings, {len(ocr)} one-letter OCR errors')
 log(f'  shape vs sound class r = {np.corrcoef(VIS_EN[np.triu_indices(26,1)], SND_EN[np.triu_indices(26,1)])[0,1]:.3f}')
-EN = {}
-for tag, E in (('misspellings', mis), ('OCR', ocr)):
-    for name, S in (('VIS', VIS_EN), ('SOUND', SND_EN)):
-        r = score_edges(E, S, iEN, 3000, rng); EN[(tag, name)] = r
-        log(f'  {tag:13s} {name:6s} {fmt(r)}')
-    for n in (50, 163):
-        acc = []
-        for rep in range(100):
-            sub = [E[i] for i in rng.choice(len(E), n, replace=False)]
-            zv = score_edges(sub, VIS_EN, iEN, 300, rng)['z']; zs = score_edges(sub, SND_EN, iEN, 300, rng)['z']
-            acc.append(zs > zv)
-        log(f'  {tag:13s} subsample n={n}: called "sound" in {np.mean(acc):.2f} of 100')
+EN = {}  # English scoring moved to la32_c2b.py (more OCR errors, partial scores)
 
 # ============ (b) planted corpora
 def plant(signs, src_words, n, kind, Sgen, idx, beta=12.0):
