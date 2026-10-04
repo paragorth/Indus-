@@ -93,7 +93,7 @@ def main():
     keep = ~np.isnan(med)
     M = M[:, keep]; feats = [f for f, k in zip(feats, keep) if k]
     M = np.where(np.isnan(M), med[keep], M)
-    n = len(names); lab = np.array([x in U for x in names])
+    n = len(names); lab = np.array([x in U for x in names]); names = np.array(names, dtype=object)
     print(f'regime {a.regime}: {n} corpora ({lab.sum()} U), {len(feats)} features; test-only: {tests}')
     R = rankdata_cols(M)
     auc = auc_vec(R, lab)
@@ -129,6 +129,7 @@ def main():
         clus.append(w / b)
     nperf = np.array(nperf); nnear = np.array(nnear); clus = np.array(clus)
     ridx = combs.index(tuple(range(k)))
+    names = list(names)
     p_perf = float((nperf >= perfect).mean()); p_near = float((nnear >= near).mean())
     p_clus = float((clus <= clus[ridx]).mean())
     print(f'perfect separators {perfect} (null mean {nperf.mean():.2f}, 95th {np.percentile(nperf,95):.0f}, P = {p_perf:.4f}); '

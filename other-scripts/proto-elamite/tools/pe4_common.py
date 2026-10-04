@@ -346,3 +346,89 @@ def mdl_compare2(corpus, kmax=6, seed=0, chunk=True):
     return {'n': n, 'name_bits': nb, 'fact_bits': fb, 'k': k,
             'gain_per_str': (nb - fb) / n, 'valid_share': F.valid_share(),
             'mean_len': sum(map(len, corpus)) / n}, F
+
+
+# ------------------------------------------------------------- calibration corpora
+NUMW = __import__('re').compile(r"^\d+(/\d+)?\([a-z0-9']+\)$")
+
+
+def clean_ledger(recs, min_tab=20, min_heads=3, maxw=4):
+    """Keep ledger lines whose every word belongs to a structural attribute
+    vocabulary: a word on >= min_tab tablets, used with >= min_heads different
+    head nouns, not a bare numeral.  Returns the kept records."""
+    tabs, heads = defaultdict(set), defaultdict(set)
+    for r in recs:
+        for w in r['words']:
+            tabs[w].add(r['t'])
+            heads[w].add(r['head'])
+    voc = {w for w in tabs if len(tabs[w]) >= min_tab and len(heads[w]) >= min_heads
+           and not NUMW.match(w)}
+    return [r for r in recs if 1 <= len(r['words']) <= maxw and all(w in voc for w in r['words'])]
+
+
+def wordtoks(r):
+    return tuple(r['words'])
+
+
+def signtoks(r):
+    return tuple(r['attr'])
+
+
+BINS = (2, 3, 4, 5)
+
+
+def lbin(n):
+    return min(n, 5)
+
+
+def profile(types):
+    c = Counter(lbin(len(t)) for t in types if len(t) >= 2)
+    tot = sum(c.values())
+    return {b: c[b] / tot for b in BINS}
+
+
+def matched(types, prof, n, rng):
+    by = defaultdict(list)
+    for t in types:
+        if len(t) >= 2:
+            by[lbin(len(t))].append(t)
+    out, short = [], 0
+    for b in BINS:
+        want = int(round(prof[b] * n))
+        k = min(want, len(by[b]))
+        out += rng.sample(by[b], k)
+        short += want - k
+    if short:
+        used = set(out)
+        rest = [t for b in BINS for t in by[b] if t not in used]
+        out += rng.sample(rest, min(short, len(rest)))
+    return out
+
+
+def all_corpora(seed=0):
+    """name -> (list of distinct types, role)."""
+    rng = random.Random(seed)
+    R = pe_records()
+    C = controls()
+
+    def ty(recs, f=lambda r: tuple(r['attr'])):
+        return sorted({f(r) for r in recs if f(r)})
+    herd_c = clean_ledger(C['herd'])
+    tex_c = clean_ledger([dict(r, head=(r['words'][0] if r['words'] else '-')) for r in C['textile']],
+                         min_tab=10, min_heads=2)
+    out = {
+        'PE_all': (ty(R), 'PE'),
+        'PE_SDB': (ty([r for r in R if r['head'] == '-' and r['sys'] == 'SDB']), 'PE'),
+        'PE_C': (ty([r for r in R if r['head'] == '-' and r['sys'] == 'C']), 'PE'),
+        'PE_fin': (ty([r for r in R if r['head'] != '-']), 'PE'),
+        'PE_M288': (ty([r for r in R if r['head'] == 'M288']), 'PE'),
+        'synth': (sorted(set(synth_herd(4000, rng))), 'pos'),
+        'herd_w': (ty(herd_c, wordtoks), 'pos'),
+        'herd_s': (ty(herd_c, signtoks), 'pos'),
+        'tex_w': (ty(tex_c, wordtoks), 'pos'),
+        'tex_s': (ty(tex_c, signtoks), 'pos'),
+        'drehemPN': (ty(C['names']), 'neg'),
+        'UrIIIseal': (load_list('ur3_names_dedup'), 'neg'),
+        'LinB': (load_list('linb_personnel_dedup'), 'neg'),
+    }
+    return out

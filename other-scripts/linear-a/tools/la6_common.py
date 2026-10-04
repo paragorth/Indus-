@@ -64,6 +64,8 @@ def la_entries(use_frac=True):
             nxt_direct = toks[i + 1] if i + 1 < len(toks) else None
             if t['t'] == 'word':
                 if t['s'] == ['NI']:
+                    if e['role'] in TOTALS.values() and e['bare'] and not e['raw']:
+                        e = new(None, 'post')
                     cur = ('NI', 'NI')
                     continue
                 w = '-'.join(t['s'])

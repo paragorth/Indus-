@@ -8,7 +8,7 @@ Nulls: 'full'  = all words of the paragraph permuted across cells (kills every s
 import sys, os, math, random, json
 from collections import Counter
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import vlib, attack_h2_bpe
+import vlib
 
 # ---------------- corpora ----------------
 def voynich_paragraphs(name='ZL3b', lang=None):
@@ -38,7 +38,13 @@ def latin_stream():
 
 def encode_verbose(words, seed=7):
     """fixed verbose substitution, each letter -> 1-3 symbols from 12 (lower-case so units = chars)."""
-    return [w.lower() for w in attack_h2_bpe.verbose_encrypt(words, seed)]
+    rng = random.Random(seed); syms = 'abcdefghijkl'
+    letters = sorted({c for w in words for c in w}); used = set(); code = {}
+    for c in letters:
+        while True:
+            k = ''.join(rng.choice(syms) for _ in range(rng.choice([1, 2, 2, 3])))
+            if k not in used: used.add(k); code[c] = k; break
+    return [''.join(code[c] for c in w) for w in words]
 
 def shapes_of(paras): return [[len(l) for l in p] for p in paras]
 
@@ -84,10 +90,13 @@ def build_control(shapes, stream, order):
 # ---------------- features & MI ----------------
 def make_features(paras, units, min_word=10):
     cnt = Counter(w for p in paras for l in p for w in l)
+    cache = {}
     def F(w):
+        if w in cache: return cache[w]
         u = units(w)
-        return {'J1': u[-1], 'J2': u[0], 'W': w if cnt[w] >= min_word else '*' + u[0] + u[-1],
+        cache[w] = {'J1': u[-1], 'J2': u[0], 'W': w if cnt[w] >= min_word else '*' + u[0] + u[-1],
                 'P2': ''.join(u[:2]), 'S2': ''.join(u[-2:]), 'id': w}
+        return cache[w]
     return F
 
 def mi(pairs):

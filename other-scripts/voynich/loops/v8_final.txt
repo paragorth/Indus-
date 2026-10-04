@@ -1,0 +1,21 @@
+# v8 final: "the drift is the message clock" (writing-order seriation)
+
+Files: tools/v8_lib.py, v8_cycle1.py, v8_cycle2.py, v8_cycle2b.py, v8_cycle3.py, v8_cycle3b.py;
+loops/v8_cycle1.txt .. v8_cycle3.txt; pickles in data/results/v8_cycle*.pkl.
+Data: ZL3b (main), IT2a (transcription check; same pages, so agreement = transcription-robust, not replication).
+Controls: Isidore's Etymologiae (Latin) poured into the exact Voynich page/line layout, (a) plain, (b) with a slowly
+drifting homophonic key, (c) two fixed keys with an abrupt switch, (d) tokens redealt, (e) poured in book order vs sheet-face order.
+Prior art: Timm 2014 (sections ordered by chedy; A->B gradual), Layfield & Davis 2026 (LSA; bifolio similarity; singulions;
+written before binding). Not repeated as such; reused only as replication targets.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-F.1 | Is a page-level writing sequence recoverable? (V-1.1-1.3) | Method recovers a drifting key at |rho| 0.98 with truth. Voynich has a strong whole-book axis (split-half 0.88), but it is the A/B + section axis. Inside Currier A herbal (95 pages, one hand) there is no axis (split-half 0.19, z 1.3) where a same-size drifting key gives 0.84 | NO. A herbal pages are exchangeable: no writing order is recoverable. Within-B axes match what plain topic continuity gives, and partly follow hand |
+| V-F.2 | Are A/B and the oddities stages of one drift? (V-2.1-2.4) | Only 3.6% of pages sit between A and B (drifting key 12%, two keys 0%); intermediates are whole section x hand groups (A pharma, hand 3, hand 5). Within A no oddity (m/g quota, q share, ed, -ol/-or, line length) follows residual B-ness; within B, ed-load runs AGAINST other B markers (rho -0.37, p 0.0007; IT -0.34) | NO. A->B is a ladder of scribe/section groups, near-discrete, and B is at least two-dimensional. The oddities are not points on one clock |
+| V-F.3 | What unit was written at one time? (V-3.1, V-3.3) | Conjugate leaves are as alike as recto/verso (z +4.2 vs +4.3); facing pages of the current binding are at chance (z 0.0); blind conjugate identification 28/66 vs 12.9 expected (z +4.7; book-order control at chance, sheet-order control 51/66). Sheet-face effect not established (ZL z 1.1, IT z 2.1) | The bifolio is the writing unit, consistent with writing on loose bifolios before binding (replicates Layfield & Davis 2026 with keyed controls; not new) |
+| V-F.4 | Discontinuities (V-3.2, V-3.4) | Sharp jumps sit at hand/language changes; inside homogeneous runs the sharpest steps are small and fall at bifolio boundaries; a planted 3-letter key change is caught 90% of the time | No hidden change of key or source text inside a scribe's run; the only steps are scribe changes and bifolio-to-bifolio steps |
+
+Plain answer: no writing sequence is recoverable from vocabulary drift at page level. The text is made of
+bifolio-sized writing units grouped by scribe and section; the A/B "languages" are scribe/section blocks,
+not stages of one drifting clock. The arrow-in-the-dark hypothesis is refuted for pages; what survives
+(bifolio as unit) is already published. Nothing here is a decipherment.

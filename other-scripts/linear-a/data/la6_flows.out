@@ -1,0 +1,116 @@
+# LA-6 cycle 3: flows relative to totals and headings
+## (a) 35 tablets with a total; 38 commodity entries
+commodity | before | after | after expected | P(after >= obs)
+VIR | 8 | 2 | 4.18 | 1.0000
+NI | 1 | 7 | 3.74 | 0.0041
+CYP | 1 | 6 | 3.75 | 0.0445
+VIN | 1 | 4 | 1.92 | 0.0229
+GRA | 5 | 0 | 0.00 | 1.0000
+OLIV | 5 | 0 | 0.00 | 1.0000
+*308 | 4 | 0 | 0.00 | 1.0000
+AROM | 3 | 0 | 0.00 | 1.0000
+after-zone entries:
+  HT100: before {'VIR': 2, 'TI': 1, '*305': 1} | total 97 [] | after SA-RA₂ {'CYP': 5.25, 'NI': 2.4, 'VIN': 2.5, 'OLE': 5.92}
+  HT102: before {'GRA': 3} | total 1060 [] | after 
+  HT104: before {} | total 95 [] | after 
+  HT109: before {} | total 129 [] | after A-RA-JU {} bare [123.0]
+  HT110a: before {'CYP': 1} | total 100 [] | after None {'NI': 75.0}
+  HT116b: before {} | total 132 ['GRA', '*304', 'OLE'] | after 
+  HT117a: before {} | total 10 [] | after KU-KU-DA-RA {} bare [1.0]; KO-SA-I-TI {} bare [1.0]; DA-MI-NU {} bare [1.0]; DA-NE-KU-TI {} bare [1.0]; KI-DA-RO {} bare [1.0]
+  HT118: before {} | total 30 [] | after KI {} bare [15.0]
+  HT119: before {'*327': 1, 'VIR': 1} | total 160 [] | after 
+  HT11a: before {} | total 10 [] | after A-SU-JA {} bare [1.0]; I {} bare [3.0]; TA₂ {} bare [15.0]
+  HT11b: before {} | total 180 [] | after 
+  HT122a: before {} | total 31 [] | after KU-DA {} bare [1.0]
+  HT122b: before {} | total 65 [] | after PO-TO-KU-RO {} bare [97.0]
+  HT123+124a: before {'OLIV': 4, '*308': 4} | total 93.5 ['OLIV'] | after KU-RO {} bare [25.166666666666668]; KI-RO {} bare [6.0]
+  HT123+124b: before {'*312': 1, '*188': 1} | total 20 [] | after KI-RO {} bare [5.0]
+  HT127b: before {} | total 156 ['*307'] | after KU {'VIR': 24.0, 'KI': 29.0, '*301': 11.0} bare [72.0]; KU-RO {} bare [292.0]
+  HT13: before {} | total 130.5 [] | after 
+  HT130: before {} | total 0 [] | after SI {'CYP': 8.0, 'NI': 6.0, 'VIN': 3.0}
+  HT131b: before {'NI': 1, 'OLIV': 1} | total 452.5 [] | after 
+  HT25b: before {} | total 16 [] | after I-TI {'VIR': 52.0}; KU-RO {} bare [52.0]
+  HT27a: before {'VIR': 2, '*86': 1} | total 335 [] | after None {'CYP': 10.08, 'NI': 10.33, 'VIN': 7.0}
+  HT39: before {'AROM': 1} | total 102 ['*414', 'KU'] | after 
+  HT40: before {'GRA': 2} | total 0 [] | after 
+  HT46a: before {} | total 43.5 [] | after 
+  HT67: before {} | total 420 [] | after TE {} bare [400.0]
+  HT74: before {} | total 20 [] | after 
+  HT85a: before {} | total 66 [] | after 
+  HT88: before {'VIR': 1} | total 6 [] | after 
+  HT89: before {'*305': 1, 'JU': 1, 'VIR': 1} | total 87 [] | after None {'CYP': 2.75, 'NI': 2.25, 'VIN': 6.0}
+  HT94a: before {'VIR': 1, '*86': 1, 'TI': 1} | total 110 [] | after SA-RA₂ {'CYP': 5.0, 'NI': 5.17}; *318-*306 {'CYP': 0.4, 'NI': 15.1} bare [11.0]
+  HT94b: before {} | total 5 [] | after DE-ME-TE {} bare [1.0]; *21F-TU {} bare [1.0]
+  HT9a: before {'AROM': 1} | total 31.75 [] | after 
+  HT9b: before {'AROM': 1} | total 24 [] | after 
+  PH(?)31a: before {'CAPm': 1, '*21M': 1} | total 9 ['CAPm', '*21M', '*21F'] | after 
+  ZA15b: before {'VIN': 1} | total 95 ['VIN'] | after 
+
+## (b) what the first KU-RO counts
+  HT100: total 97; all-entries 93; per commodity {'VIR': 74.0, 'TI': 12.0, '*305': 5.0, '(bare)': 2.0} -> none
+  HT102: total 1060; all-entries 1070; per commodity {'GRA': 1042.0, '(bare)': 28.0} -> none
+  HT104: total 95; all-entries 95; per commodity {'(bare)': 95.0} -> all
+  HT109: total 129; all-entries 8; per commodity {'(bare)': 8.0} -> none
+  HT110a: total 100; all-entries 21; per commodity {'CYP': 20.0, '(bare)': 1.0} -> none
+  HT116b: total 132; all-entries 0; per commodity {} -> none
+  HT117a: total 10; all-entries 10; per commodity {'(bare)': 10.0} -> all
+  HT118: total 30; all-entries 50; per commodity {'(bare)': 50.0} -> none
+  HT119: total 160; all-entries 159; per commodity {'*327': 34.0, 'VIR': 68.0, '(bare)': 57.0} -> all
+  HT11a: total 10; all-entries 6; per commodity {'(bare)': 6.0} -> none
+  HT11b: total 180; all-entries 180; per commodity {'(bare)': 180.0} -> all
+  HT122a: total 31; all-entries 22; per commodity {'(bare)': 22.0} -> none
+  HT122b: total 65; all-entries 15; per commodity {'(bare)': 15.0} -> none
+  HT123+124a: total 93.5; all-entries 121.542; per commodity {'OLIV': 93.5, '*308': 25.42, '(bare)': 2.62} -> one:OLIV
+  HT123+124b: total 20; all-entries 28.8542; per commodity {'*312': 1.75, '(bare)': 26.1, '*188': 1.0} -> none
+  HT127b: total 156; all-entries 13; per commodity {'(bare)': 13.0} -> none
+  HT13: total 130.5; all-entries 131; per commodity {'(bare)': 131.0} -> all
+  HT130: total 0; all-entries 3; per commodity {'(bare)': 3.0} -> none
+  HT131b: total 452.5; all-entries 32; per commodity {'NI': 30.0, 'OLIV': 2.0} -> none
+  HT25b: total 16; all-entries 0; per commodity {} -> none
+  HT27a: total 335; all-entries 322; per commodity {'VIR': 182.0, '*86': 51.0, '(bare)': 89.0} -> none
+  HT39: total 102; all-entries 28; per commodity {'AROM': 10.0, '(bare)': 18.0} -> none
+  HT40: total 0; all-entries 341; per commodity {'GRA': 341.0} -> none
+  HT46a: total 43.5; all-entries 1; per commodity {'(bare)': 1.0} -> none
+  HT67: total 420; all-entries 0; per commodity {} -> none
+  HT74: total 20; all-entries 0; per commodity {} -> none
+  HT85a: total 66; all-entries 66; per commodity {'(bare)': 66.0} -> all
+  HT88: total 6; all-entries 39; per commodity {'VIR': 20.0, '(bare)': 19.0} -> none
+  HT89: total 87; all-entries 87; per commodity {'*305': 23.0, 'JU': 22.0, 'VIR': 13.0, '(bare)': 29.0} -> all
+  HT94a: total 110; all-entries 111; per commodity {'VIR': 80.0, '*86': 20.0, 'TI': 7.0, '(bare)': 4.0} -> all
+  HT94b: total 5; all-entries 5; per commodity {'(bare)': 5.0} -> all
+  HT9a: total 31.75; all-entries 31; per commodity {'(bare)': 28.5, 'AROM': 2.5} -> all
+  HT9b: total 24; all-entries 24; per commodity {'(bare)': 22.0, 'AROM': 2.0} -> all
+  PH(?)31a: total 9; all-entries 5; per commodity {'CAPm': 1.0, '*21M': 1.0, '(bare)': 3.0} -> none
+  ZA15b: total 95; all-entries 3; per commodity {'VIN': 3.0} -> none
+  summary {'none': 23, 'all': 11, 'one': 1}
+
+## (c) after-total package vs total (levy test)
+  HT100: total 97, CYP 5.25 (5.4%), NI 2.4 (2.5%), VIN 2.5 (2.6%), OLE 5.92 (6.1%)
+  HT110a: total 100, NI 75 (75.0%)
+  HT27a: total 335, CYP 10.1 (3.0%), NI 10.3 (3.1%), VIN 7 (2.1%)
+  HT89: total 87, CYP 2.75 (3.2%), NI 2.25 (2.6%), VIN 6 (6.9%)
+  HT94a: total 110, CYP 5.4 (4.9%), NI 20.3 (18.4%)
+  CYP: n=4 rho=1.00 one-sided P=0.042; share of total min 3.0% max 5.4%
+  NI: n=5 rho=0.60 one-sided P=0.175; share of total min 2.5% max 75.0%
+
+## (d) heading commodity (no number, first line) vs body: 20 tablets; heading absent from body 12 vs null 16.1, P(<=)=0.0131
+  HT9a: head VIN | body ['AROM']
+  HT14: head VIN | body ['*304', 'GRA', 'OLE', 'OLIV']
+  HT15: head GRA | body ['GRA']
+  HT44a: head GRA | body ['NI', 'OLE', 'OLIV']
+  HT44b: head GRA | body ['GRA', 'VIN']
+  HT58: head VIR | body ['OLE', 'OLIV']
+  HT62+73: head VIN | body ['GRA', 'VIR']
+  HT68: head VIR | body ['VIR']
+  HT93a: head GRA | body ['*343', 'DA', 'GRA', 'RE', 'VIR']
+  HT96a: head AROM | body ['GRA', 'NI']
+  HT110b: head GRA | body ['*301', '*648', 'NI']
+  HTWa1021bis: head *304 | body ['CYP']
+  KH9: head VIR | body ['*304', 'CYP', 'NI', 'VIR']
+  KH86: head CYP | body ['CYP']
+  KH101: head CYP | body ['CYP']
+  PEWy5: head OLE | body ['*307']
+  PEZg5: head OLE | body ['*307']
+  PH12a: head VIR | body ['HIDE']
+  PH13a: head HIDE | body ['*328']
+  ARKH3a: head GRA | body ['*131B', '*312', '*317', 'GRA', 'OLIV']
