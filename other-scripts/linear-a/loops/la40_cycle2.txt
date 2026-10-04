@@ -1,0 +1,9 @@
+# LA-40 cycle 2: learn the type rules from the control by massive random guessing (tools/la40_c2.py; data/la40_ckpt/c2.json)
+# A hypothesis = random sparse role x feature-value weight table (6 roles x 25 structural feature values, 30% non-zero,
+# N(0,2)) + homogeneity weight {0,1,3,6} + DM clustering on/off. Each run (Gibbs, 6e4 updates) on 2 Knossos samples at
+# Linear A size; scored by macro recall of known classes (P, L, C, H, T) on types with >= 2 tokens. Top 20 re-tested on
+# 3 Pylos samples at Linear A size (other site, mostly other words). Search null: the same search with Knossos labels
+# permuted among labelled types (600 hypotheses); its top 5 re-tested on Pylos the same way.
+| LA-40.2a | 1,200 random type systems on Knossos (LA size), macro recall. | Top 5 0.39-0.42; median 0.19. Label-permuted search top 5 0.41-0.50 (higher than with the true labels). | Training fit is search noise. |
+| LA-40.2b | Held-out: top 20 systems on Pylos (3 samples, 2 chains). | Macro recall 0.176 (0.08-0.28) vs label-permuted top 5 0.174 vs median-ranked systems 0.154; chance with 6 roles ~0.17-0.20. The best systems put almost everything into one role (e.g. P 36/65, L 0/13, H 0/12, T 0/3). | FAILED: no structural type system transfers from Knossos to Pylos. |
+| LA-40.2 | Cycle verdict | Even inside Linear B, with the rules fitted on known classes, structure alone does not type words at Linear A size: role signatures do not transfer across archives, and a random-label search fits as well as the real one. Therefore no learned system is applied to Linear A as evidence; cycle 3 asks only whether role assignments are stable on held-out tablets. | Negative (calibrated: control fails). |

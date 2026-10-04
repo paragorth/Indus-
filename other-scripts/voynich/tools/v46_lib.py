@@ -46,6 +46,26 @@ def voy_units(name='ZL3b', secs=None):
     return out
 
 
+def roman(s):
+    v = {'i': 1, 'v': 5, 'x': 10, 'l': 50}; t = 0
+    for i, ch in enumerate(s):
+        a = v[ch]; b = v[s[i + 1]] if i + 1 < len(s) else 0
+        t += -a if a < b else a
+    return t
+
+
+def stated_total(toks):
+    """the chapter's own total: numeral after 'omnino' (or the last numeral); spelled totals handled"""
+    sp = {'trium': 3, 'uiginti': 20}
+    for i, w in enumerate(toks):
+        if w == 'omnino':
+            for x in toks[i + 1:i + 6]:
+                if re.fullmatch(r'[ivxl]+', x): return roman(x)
+    words = {'unam': 1, 'una': 1, 'alteram': 1, 'singulas': 2, 'singulae': 2, 'binas': 4, 'duas': 2, 'duae': 2,
+             'tres': 3, 'quattuor': 4, 'quinas': 10, 'stellam': 0}
+    return sum(roman(w) if re.fullmatch(r'[ivxl]+', w) else words.get(w, 0) for w in toks)
+
+
 def hyginus_units():
     t = open(os.path.join(SCR, 'hyg3.json')).read()
     ch = json.loads(t)
@@ -54,7 +74,7 @@ def hyginus_units():
         s = s.replace('Hyginus The Miscellany The Latin Library The Classics Page', '')
         toks = [w.lower() for w in re.findall(r"[A-Za-z]+", head + ' ' + s)]
         toks = [w.replace('j', 'i').replace('v', 'u') if not re.fullmatch(r'[ivxl]+', w) else w for w in toks]
-        out.append(dict(id='hyg' + num, sec='hyg', n=n, toks=toks, lines=[toks]))
+        out.append(dict(id='hyg' + num, sec='hyg', n=n, toks=toks, lines=[toks], stated=stated_total(toks)))
     return out
 
 
@@ -159,9 +179,23 @@ def perms_within(strata_lab, nperm, seed=0):
     return out
 
 
+S1MODE = os.environ.get('V46_S1', 'rate')
+
+
+def resid_logT(C, T, secs):
+    """log(c+.5) residualised on log T by OLS inside each section"""
+    Y = np.log(C + 0.5); x = np.log(T); secs = np.array(secs); R = np.zeros_like(Y)
+    for s in set(secs):
+        m = secs == s
+        X = np.stack([np.ones(m.sum()), x[m]], 1)
+        beta, *_ = np.linalg.lstsq(X, Y[m], rcond=None)
+        R[m] = Y[m] - X @ beta
+    return R
+
+
 def s1_matrix(C, T, n, secs):
-    """pooled within-section Spearman of log rate vs n -> vector over patterns"""
-    R = np.log((C + 0.5) / T[:, None])
+    """pooled within-section Spearman of log rate (or log count residualised on log T) vs n"""
+    R = np.log((C + 0.5) / T[:, None]) if S1MODE == 'rate' else resid_logT(C, T, secs)
     Zr = zrank_within(R, secs)
     zn = zrank_within(n, secs)[:, 0]
     return (Zr * zn[:, None]).mean(0), Zr, zn

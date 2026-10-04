@@ -137,9 +137,12 @@ def trait_words(S, traits, vocab, B, d, t, quire, rotate=None):
     ok = (Bd.sum(0) >= 3) & (B[t].sum(0) >= 2)
     qcats = sorted(set(qd[d]))
     cov_d = [ln[d]] + [(qd[d] == c).astype(float) for c in qcats[1:]]
-    Rt = np.column_stack([resid_on(Td[:, j], cov_d) for j in range(Td.shape[1])])
-    Rb = np.column_stack([resid_on(Bd[:, w], cov_d) for w in range(B.shape[1])])
-    Rt = (Rt - Rt.mean(0)) / Rt.std(0)
+    Xd = np.column_stack([np.ones(len(d))] + cov_d)
+    Pd = Xd @ np.linalg.pinv(Xd)
+    Rt = Td - Pd @ Td
+    Rb = Bd - Pd @ Bd
+    sdt = Rt.std(0); sdt[sdt == 0] = 1
+    Rt = (Rt - Rt.mean(0)) / sdt
     sdb = Rb.std(0); sdb[sdb == 0] = 1
     Rb = (Rb - Rb.mean(0)) / sdb
     Cr = Rb.T @ Rt / len(d)                       # words x traits
