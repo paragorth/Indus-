@@ -46,6 +46,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 
 - The pecking order (la20): no word, entry-word or first-sign hierarchy recurs across tablets (0.51 vs Linear B Pylos at Linear A size 0.61). People and places are not listed in a fixed rank or tour order (B, calibrated); a tour that was only ever written in pieces would not be detectable.
 - Universals build the grid (la21): a blind grid from phonotactic universals recovers Linear B's consonant rows (not its vowel columns). Linear A's blind rows agree with the LB-derived consonant series (B), but no specific new grouping replicates across sites; QA acts like a pure vowel (C).
+- Count the people (la23): capture-recapture calibrated on Linear B (whole-archive name counts predicted, 5/6) puts the Hagia Triada tablets at ~1,000 [510-2,430] distinct small-number entry words; perhaps a few hundred people, the size of a town (C). Persons cannot be separated blindly from other entry words at LA size (AUC 0.59). Prediction: ~55 % of such words on a new HT tablet will be new.
 - The fire set the clock (la25): ABC over ~1.5x10^7 random crop calendars x destruction months cannot date any LM IB archive from its commodity mix: planted months are not recovered even at 64x corpus size (base rate and season are confounded), and the Linear B spring control fails. Whether the sites burned in one season is untestable (A, calibrated negative).
 
 **Open:** the fraction values. They need specialist re-reading of PH 9b, PH 22a, ZA 8 and HT 104 in GORILA.
