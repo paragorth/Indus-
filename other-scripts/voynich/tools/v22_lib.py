@@ -484,6 +484,17 @@ def shuffle_lines(U, rng, keep_head=False):
     return out
 
 
+def rotate_lines(U, rng):
+    """Cyclic rotation of a unit's lines by a random offset (>=1 when possible): keeps every line-to-line adjacency but
+    one, so local continuity survives while each stretch moves to another place in the unit."""
+    out = []
+    for u in U:
+        ls = [list(l) for l in u['lines']]; n = len(ls)
+        k = rng.randrange(1, n) if n > 1 else 0
+        out.append(dict(u, lines=ls[k:] + ls[:k]))
+    return out
+
+
 def shuffle_inline(U, rng):
     """Shuffle the middle words of every line (line-initial and line-final words stay): kills word-to-word
     order inside lines, keeps which words sit on which line."""

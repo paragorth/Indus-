@@ -103,6 +103,7 @@ def planted_img(_):
     rng = np.random.default_rng(13)
     w = L.corpus('latin')
     Al = L.alphabet(w, S.LATIN)
+    w = [x for x in w if all(c in Al for c in x)]
     feats = sorted({f for g in Al for f in PHON[g].split()})
     Ph = np.array([[1.0 if f in PHON[g].split() else 0 for f in feats] for g in Al])
     Sph = L.jaccard_sim(Ph)

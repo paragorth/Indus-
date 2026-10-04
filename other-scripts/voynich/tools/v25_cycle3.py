@@ -42,6 +42,7 @@ def k1_confusion(_):
     rows = []
     w = L.corpus('latin')
     Al = L.alphabet(w, S.LATIN)
+    w = [x for x in w if all(c in Al for c in x)]
     Svi = img_sim('voynich', AV)
     res = {}
     for rate in (0.0, 0.005, 0.01, 0.02, 0.05, 0.10):

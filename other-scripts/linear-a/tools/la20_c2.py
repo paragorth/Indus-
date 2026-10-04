@@ -53,16 +53,16 @@ if mode == 'mix':
         ords = [o for _, o in orders(docs, T)]
         out = {'real': {}, 'null': [], 'pmix': {}}
         t0 = time.time()
-        out['real'] = {K: mixture_heldout(ords, K, restarts=3) for K in KS}
+        out['real'] = {K: mixture_heldout(ords, K, restarts=2) for K in KS}
         print(T, 'real', out['real'], round(time.time() - t0), flush=True)
         # positive control: planted 2-order mixture (half the lists reversed), strength 2
         for r in range(3):
             p, _ = plant(ords, 2.0, 1.0, random.Random(77 + r), mixture=True)
-            out['pmix'][r] = {K: mixture_heldout(p, K, restarts=3) for K in KS}
+            out['pmix'][r] = {K: mixture_heldout(p, K, restarts=2) for K in KS}
             print(T, 'planted-mixture', out['pmix'][r], flush=True)
         for r in range(NREP):
             s = shuffle_within(ords, random.Random(5000 + r))
-            out['null'].append({K: mixture_heldout(s, K, seed=r + 1, restarts=3) for K in KS})
+            out['null'].append({K: mixture_heldout(s, K, seed=r + 1, restarts=2) for K in KS})
             if r % 5 == 0:
                 print(T, 'null', r, round(time.time() - t0), flush=True)
                 json.dump(out, open(os.path.join(CK, 'c2_mix_%s.json' % T), 'w'))

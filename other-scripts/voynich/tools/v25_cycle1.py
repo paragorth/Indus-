@@ -204,6 +204,7 @@ def planted(_):
     rng = np.random.default_rng(11)
     w = L.corpus('latin')
     Al = L.alphabet(w, S.LATIN)
+    w = [x for x in w if all(c in Al for c in x)]
     feats = sorted({f for g in Al for f in PHON[g].split()})
     Ph = np.array([[1.0 if f in PHON[g].split() else 0 for f in feats] for g in Al])
     Sph = L.jaccard_sim(Ph)
@@ -255,6 +256,13 @@ def planted(_):
     return 'planted', rows
 
 
+def cached(fn, arg, tag):
+    p = os.path.join(L.CK, f'rows1_{tag}.pkl')
+    if os.path.exists(p):
+        return pickle.load(open(p, 'rb'))
+    r = fn(arg); pickle.dump(r, open(p, 'wb')); return r
+
+
 if __name__ == '__main__':
     t0 = time.time()
     # behaviour caches first (two workers)
@@ -262,8 +270,9 @@ if __name__ == '__main__':
     with Pool(2) as pool:
         pool.starmap(get_beh, jobs)
     print('behaviour cached', time.time() - t0, flush=True)
+    tasks = [(job_corpus, c, c[0]) for c in CORP] + [(swaps, c, c[0] + '_sw') for c in CORP] + [(planted, 0, 'planted')]
     with Pool(2) as pool:
-        res = pool.map(job_corpus, CORP) + pool.map(swaps, CORP) + pool.map(planted, [0])
+        res = pool.starmap(cached, tasks)
     rows = [r for _, rr in res for r in rr]
     hdr = ('# v25 cycle 1 - THE GLYPHS ARE BUILT FROM FEATURES. Stroke decompositions fixed in tools/v25_shapes.py before any statistics.\n'
            '# Corpora matched at ~120,000 glyph tokens: Voynich ZL3b and IT2a paragraph text (23 units), Hangul (NSMC review corpus, jamo), Latin (Isidore), Greek (3 Gutenberg texts, accents stripped).\n'
