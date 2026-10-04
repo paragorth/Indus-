@@ -1,0 +1,22 @@
+pe10 final (4 Oct 2026): "THE SCRIBE RAN OUT OF CLAY" -- the physical squeeze as a decoder.
+Cycles: loops/pe10_cycle1.txt (squeeze effect), pe10_cycle2.txt (long<->short pair mining), pe10_cycle3.txt
+(sign choice). Scripts tools/pe10_*.py; checkpoints data/pe10_ckpt/; tablet dimensions from the CDLI
+catalogue in data/pe10_dims.json (1,424 of 1,585 PE tablets). Prior art: none found (web search,
+LITERATURE.md, FINDINGS.md, STRATEGIES.md).
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-10.F1 | Squeeze effect (1): entry length vs position on face, crowding (lines/cm), spill, tablet spaciousness, within-line numeral pressure; within-tablet shuffles; planted squeeze; Ur III year formulas as real positive control | PE: last crowded-face entry -0.13 signs (z -0.9); planted -0.5 sign shift detected (z -2.4); spaciousness r +0.20 vanishes (z +0.95) once opener + number system are held fixed. Ur III: same-year formulas shorter on smaller tablets (z +6.1) but only r 0.066; short-form rate flat (25%) across height quartiles | NO SQUEEZE EFFECT in PE (grade B absence for end-of-face shortening > 0.4 signs; C for the rest). Even in Ur III, where abbreviation is certain, space is a weak force |
+| PE-10.F2 | Long<->short pairs (2): 233,856 candidate pairs (broad) and the subsequence-gated miner; FWER from identical searches on shuffled positions; validated on Ur III | Ur III: 5 survivors, 5 of 5 true same-year abbreviations (p 0.005); at PE size 2 of 5 subsamples succeed. PE: no survivor in any version; planted PE abbreviations 0 of 50 recovered. Only hint (bare M387 = M387 M263) killed: 11/45 capacity vs 0/17 | NO EQUATIONS. The method works on cuneiform but PE repeats too few multi-sign strings (40 types n >= 3) for it to have power. "No pair" is an upper bound, not evidence of absence |
+| PE-10.F3 | Sign choice (3): compounds, variants, 20,000 random sign sets with split-half re-test; planted substitute sign | real held-out z +0.03 (p 0.44) vs planted z +7.9; compounds slightly rarer in Q (z -1.6); variants +1.9 (n.s.) | NULL: no sign or sign set acts as a space-saving short form; variants are not spacing allographs (C) |
+
+Overall verdict: NULL. Proto-Elamite scribes show no measurable response to running out of clay -- no
+shortening at face ends, no short forms, no merges, no variant switching. The decoder therefore yields no
+"bilingual of the script with itself". Two by-products are solid: (i) the Ur III calibration (squeeze-driven
+abbreviation exists but explains < 0.5% of length variance; edge placement is an outcome of length, not a
+cause), which tells any future layout-based attack on PE, Linear A or Voynich that it needs > 5,000 repeated
+units; (ii) the first entry after the header is +0.8 signs longer than the tablet mean (layout fact, not squeeze).
+Grades: A none; B "no end-of-face shortening > 0.4 signs" (calibrated by the planted control); C the other
+absences; the single C hint (bare M387 as a short form) is killed.
+Next stranger idea suggested by the data: the space-insensitivity means entry length is fixed by content, so
+entry length itself is a clean content variable (no layout noise) -- usable as a covariate in name/role models.

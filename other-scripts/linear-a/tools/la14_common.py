@@ -274,7 +274,7 @@ class NeuralLM:
         self.sp = sparse
         Xs = self._enc(np.array(X))
         self.m = MLPClassifier(hidden_layer_sizes=(96,), activation='tanh', alpha=1e-3,
-                               max_iter=60, random_state=seed, early_stopping=False)
+                               max_iter=40, random_state=seed, early_stopping=False)
         self.m.fit(Xs, np.array(y))
         self.cls = self.m.classes_
 
@@ -616,8 +616,8 @@ def make_clf(name, rs):
     if name == 'LR': return LogisticRegression(C=0.3, max_iter=2000, solver='liblinear')
     if name == 'LR10': return LogisticRegression(C=3.0, max_iter=2000, solver='liblinear')
     if name == 'RF': return RandomForestClassifier(n_estimators=200, min_samples_leaf=2, random_state=rs, n_jobs=1)
-    if name == 'HGB': return HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, random_state=rs)
-    if name == 'MLP': return MLPClassifier(hidden_layer_sizes=(32,), alpha=1e-2, max_iter=400, random_state=rs)
+    if name == 'HGB': return HistGradientBoostingClassifier(max_iter=60, learning_rate=0.1, random_state=rs)
+    if name == 'MLP': return MLPClassifier(hidden_layer_sizes=(32,), alpha=1e-2, max_iter=150, random_state=rs)
     raise ValueError(name)
 
 
@@ -653,6 +653,9 @@ def cv_auc(X, y, clfname, seed, coefs=False, groups=None):
     if groups is None: groups = list(range(len(y)))
     skf = StratifiedGroupKFold(5, shuffle=True, random_state=seed)
     pred = np.zeros(len(y)); C = []
+    if clfname in ('MLP', 'HGB'):  # costly learners see the most frequent columns only
+        nz = np.asarray((X != 0).sum(0)).ravel(); top = np.argsort(-nz)[:300 if clfname == 'MLP' else 150]
+        X = X[:, np.sort(top)]
     for tr, te in skf.split(np.zeros(len(y)), y, groups):
         sc = MaxAbsScaler().fit(X[tr]); Xtr = sc.transform(X[tr]); Xte = sc.transform(X[te])
         if clfname == 'HGB': Xtr = Xtr.toarray(); Xte = Xte.toarray()

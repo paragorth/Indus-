@@ -209,3 +209,8 @@ An agent-based economy fitted by approximate Bayesian computation (38 parameters
 
 ## Filled-in forms? (pe8, 4 Oct 2026; `loops/pe8_final.txt`)
 Each tablet was reduced to a skeleton of sign roles and number systems, and the skeletons were clustered. The method recovers 6 planted forms (5-7). The real corpus gives 5 loose clusters, which is exactly what a corpus with no forms (layout drawn per entry) gives. A graded dependence tree fits the real skeletons better than any set of discrete forms. The layout predicts nothing about the number system (0.89 bits, the same as the marginal; the final sign gives 0.78; the other entries on the tablet give 0.55). Museum or publication neighbours share headers but rarely whole forms, and rare skeletons are not mixtures of common ones. **Verdict: no small set of fixed forms. The number system belongs to the individual tablet but is invisible in its layout.**
+
+## Running out of clay (pe10)
+- Proto-Elamite scribes did not shorten entries near the end of a crowded face. Last entries on crowded faces are only 0.13 signs shorter (z −0.9). A planted squeeze was caught (z −2.4). Grade B: no shortening larger than 0.4 signs.
+- The search over about 234,000 long and short string pairs found no abbreviation pairs. The method recovers Ur III year-name abbreviations (5 of 5), but Proto-Elamite repeats too few multi-sign strings to test this way. The only hint, bare M387 = M387 M263, fails: the two take different number systems.
+- No sign switching or merging appears near the end of a face (z 0.03; a planted substitute was found at z 7.9).

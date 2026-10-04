@@ -65,11 +65,11 @@ SINGLE = [[g] for g in C.ALLG]
 
 def plan_c1():
     """Cycle 1: every forger on every corpus, each single feature group and all groups, LR, 8 seeds."""
-    specs = [(g, 'LR') for g in SINGLE] + [(C.ALLG, 'LR'), (C.ALLG, 'RF')]
+    specs = [(g, 'LR') for g in SINGLE] + [(C.ALLG, 'LR')]
     T = []
     for c in ['LA', 'PLA', 'LB', 'FW_MK2', 'FW_FLAT', 'FW_NEUR']:
         for f in C.GEN_FORGERS + C.CopyEdit.TYPES:
-            for s in range(8):
+            for s in range(6):
                 T.append((c, f, s, 'real', specs))
                 if f in C.GEN_FORGERS: T.append((c, f, s, 'null', specs))
     return T
@@ -87,7 +87,7 @@ def plan_c2():
                 specs = []
                 for _ in range(12):
                     k = rng.choice([1, 2, 3, 4, 6])
-                    specs.append((sorted(rng.sample(C.ALLG, k)), rng.choice(C.CLFS)))
+                    specs.append((sorted(rng.sample(C.ALLG, k)), rng.choice(['LR'] * 5 + ['LR10'] * 2 + ['RF'] * 3 + ['MLP', 'HGB'])))
                 T.append((c, f, s, 'real', specs))
     return T
 
