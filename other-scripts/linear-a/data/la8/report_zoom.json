@@ -1,0 +1,1032 @@
+{
+ "LA": {
+  "corpus": "LA",
+  "fitness": 31131.0,
+  "heldout_bits": 30509.5,
+  "DL": 621.5,
+  "bits_per_token": 7.753,
+  "emit_bits_per_token": 5.715,
+  "trans_bits_per_token": 2.039,
+  "K": 8,
+  "states": 8,
+  "open_classes": 2,
+  "closed_classes": 6,
+  "edges_p05": 22,
+  "cycles": [
+   [
+    "C5",
+    "C4",
+    "C2",
+    "C0"
+   ]
+  ],
+  "largest_cycle": 4,
+  "num_prev": [
+   [
+    "C2",
+    676
+   ],
+   [
+    "C5",
+    474
+   ],
+   [
+    "C4",
+    47
+   ],
+   [
+    "C6",
+    29
+   ],
+   [
+    "<s>",
+    29
+   ]
+  ],
+  "num_next": [
+   [
+    "C2",
+    576
+   ],
+   [
+    "C5",
+    277
+   ],
+   [
+    "</s>",
+    191
+   ],
+   [
+    "C0",
+    149
+   ],
+   [
+    "C4",
+    47
+   ]
+  ],
+  "p_next_is_num": {
+   "0": 0.04,
+   "1": 1.0,
+   "2": 0.5,
+   "3": 1.0,
+   "4": 0.04,
+   "5": 0.65,
+   "6": 1.0,
+   "7": 0.0
+  },
+  "novel_token_share": 0.172,
+  "classes": [
+   {
+    "class": 2,
+    "tokens": 1447,
+    "open": true,
+    "members": 171,
+    "novel_tokens": 616,
+    "states": 1,
+    "kinds": {
+     "W2": 947,
+     "W1": 435,
+     "L": 65
+    },
+    "top": [
+     "W:KU-RO",
+     "L:VIR+[?]",
+     "W:TE",
+     "W:SI",
+     "W:SA-RA₂",
+     "W:KA",
+     "W:PA",
+     "W:A",
+     "W:KI-RO",
+     "W:I",
+     "W:TA",
+     "W:RE"
+    ],
+    "keys": [
+     "W1",
+     "W2:*118",
+     "W2:*305",
+     "W2:*306",
+     "W2:*321",
+     "W2:A",
+     "W2:DA",
+     "W2:DE",
+     "W2:DI",
+     "W2:DU",
+     "W2:E",
+     "W2:I"
+    ]
+   },
+   {
+    "class": 4,
+    "tokens": 1271,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 1271
+    },
+    "top": [
+     "NUM"
+    ],
+    "keys": []
+   },
+   {
+    "class": 5,
+    "tokens": 781,
+    "open": true,
+    "members": 72,
+    "novel_tokens": 62,
+    "states": 1,
+    "kinds": {
+     "L": 560,
+     "W1": 221
+    },
+    "top": [
+     "W:NI",
+     "L:GRA",
+     "L:CYP",
+     "L:VIN",
+     "W:*304",
+     "L:OLIV",
+     "L:CYP+D",
+     "L:OLE+U",
+     "L:GRA+PA",
+     "L:OLE+KI",
+     "L:OLE",
+     "L:OLE+MI"
+    ],
+    "keys": [
+     "L"
+    ]
+   },
+   {
+    "class": 0,
+    "tokens": 400,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "FRAC": 400
+    },
+    "top": [
+     "FRAC"
+    ],
+    "keys": []
+   },
+   {
+    "class": 6,
+    "tokens": 29,
+    "open": false,
+    "members": 12,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 29
+    },
+    "top": [
+     "W:DA-SI-*118",
+     "W:*324-DI-RA",
+     "W:DI-DE-RU",
+     "W:SI-PI-KI",
+     "W:QE-PU",
+     "W:ME-ZA",
+     "W:TE-KI",
+     "W:SI-DA-RE",
+     "W:KI-DA-RO",
+     "W:DI-KI-SE",
+     "W:PA-I-TO",
+     "W:U-*49"
+    ],
+    "keys": []
+   },
+   {
+    "class": 3,
+    "tokens": 3,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "L": 3
+    },
+    "top": [
+     "L:QI+SI"
+    ],
+    "keys": []
+   },
+   {
+    "class": 1,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "L": 2
+    },
+    "top": [
+     "L:OLE+A"
+    ],
+    "keys": []
+   },
+   {
+    "class": 7,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "L": 2
+    },
+    "top": [
+     "L:VIN+WA"
+    ],
+    "keys": []
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 1500,
+    "fitness": 31131.0,
+    "K": 8,
+    "S": 8,
+    "open": 2,
+    "restarts": 0
+   }
+  ]
+ },
+ "LB": {
+  "corpus": "LB",
+  "fitness": 36380.9,
+  "heldout_bits": 35565.3,
+  "DL": 815.6,
+  "bits_per_token": 9.015,
+  "emit_bits_per_token": 6.92,
+  "trans_bits_per_token": 2.095,
+  "K": 8,
+  "states": 8,
+  "open_classes": 3,
+  "closed_classes": 5,
+  "edges_p05": 27,
+  "cycles": [
+   [
+    "C6",
+    "C2",
+    "C4",
+    "C1",
+    "C0"
+   ]
+  ],
+  "largest_cycle": 5,
+  "num_prev": [
+   [
+    "C6",
+    370
+   ],
+   [
+    "C1",
+    363
+   ],
+   [
+    "C2",
+    80
+   ],
+   [
+    "<s>",
+    32
+   ],
+   [
+    "C0",
+    7
+   ]
+  ],
+  "num_next": [
+   [
+    "C2",
+    375
+   ],
+   [
+    "</s>",
+    229
+   ],
+   [
+    "C1",
+    177
+   ],
+   [
+    "C0",
+    47
+   ],
+   [
+    "C6",
+    23
+   ]
+  ],
+  "p_next_is_num": {
+   "0": 0.03,
+   "1": 0.65,
+   "2": 0.05,
+   "3": 0.0,
+   "4": 0.0,
+   "5": 0.0,
+   "6": 0.93,
+   "7": 0.0
+  },
+  "novel_token_share": 0.205,
+  "classes": [
+   {
+    "class": 2,
+    "tokens": 1678,
+    "open": true,
+    "members": 211,
+    "novel_tokens": 759,
+    "states": 1,
+    "kinds": {
+     "W2": 1424,
+     "W1": 234,
+     "L": 20
+    },
+    "top": [
+     "W:pa-ro",
+     "W:o",
+     "W:ko-wo",
+     "W:pu-ro",
+     "W:jo",
+     "W:do-e-ro",
+     "W:pa",
+     "W:da-mo",
+     "W:ki",
+     "L:AUR",
+     "W:e-ke-qe",
+     "W:ku-ta-to"
+    ],
+    "keys": [
+     "W2:a",
+     "W2:a2",
+     "W2:da",
+     "W2:de",
+     "W2:e",
+     "W2:i",
+     "W2:ja",
+     "W2:jo",
+     "W2:ka",
+     "W2:ke",
+     "W2:ko",
+     "W2:ma"
+    ]
+   },
+   {
+    "class": 4,
+    "tokens": 856,
+    "open": false,
+    "members": 2,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 852,
+     "L": 4
+    },
+    "top": [
+     "NUM",
+     "L:ROTA+TE"
+    ],
+    "keys": []
+   },
+   {
+    "class": 1,
+    "tokens": 601,
+    "open": true,
+    "members": 54,
+    "novel_tokens": 42,
+    "states": 1,
+    "kinds": {
+     "L": 571,
+     "W2": 30
+    },
+    "top": [
+     "L:OVIS:f",
+     "L:LANA",
+     "L:GRA",
+     "L:OLE",
+     "L:MUL",
+     "L:AES",
+     "L:HORD",
+     "W:ko-wa",
+     "L:BIG",
+     "L:ZE",
+     "L:VIN",
+     "L:TELA;1"
+    ],
+    "keys": [
+     "L"
+    ]
+   },
+   {
+    "class": 6,
+    "tokens": 411,
+    "open": false,
+    "members": 26,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "L": 403,
+     "W2": 8
+    },
+    "top": [
+     "L:OVIS:m",
+     "L:VIR",
+     "L:*154",
+     "L:SA",
+     "L:CAP:f",
+     "L:*146",
+     "L:OVIS+TA",
+     "L:AROM",
+     "L:OVIS",
+     "L:*213VAS",
+     "W:me-zo-e",
+     "L:CUR"
+    ],
+    "keys": []
+   },
+   {
+    "class": 0,
+    "tokens": 304,
+    "open": true,
+    "members": 2,
+    "novel_tokens": 9,
+    "states": 1,
+    "kinds": {
+     "FRAC": 288,
+     "W1": 16
+    },
+    "top": [
+     "FRAC",
+     "W:ka",
+     "W:au",
+     "W:qo",
+     "W:pi",
+     "W:pu",
+     "W:je",
+     "W:po",
+     "W:se",
+     "W:do",
+     "W:tu"
+    ],
+    "keys": [
+     "W1"
+    ]
+   },
+   {
+    "class": 3,
+    "tokens": 38,
+    "open": false,
+    "members": 2,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 38
+    },
+    "top": [
+     "W:to-so-de",
+     "W:o-na-to"
+    ],
+    "keys": []
+   },
+   {
+    "class": 5,
+    "tokens": 29,
+    "open": false,
+    "members": 3,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 29
+    },
+    "top": [
+     "W:ko-to-na",
+     "W:te-o-jo",
+     "W:ka-ke-we"
+    ],
+    "keys": []
+   },
+   {
+    "class": 7,
+    "tokens": 28,
+    "open": false,
+    "members": 3,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 28
+    },
+    "top": [
+     "W:pe-mo",
+     "W:ke-ke-me-na",
+     "W:a-ta-ra-si-jo"
+    ],
+    "keys": []
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 1500,
+    "fitness": 36380.9,
+    "K": 8,
+    "S": 8,
+    "open": 3,
+    "restarts": 0
+   }
+  ]
+ },
+ "PE": {
+  "corpus": "PE",
+  "fitness": 25924.8,
+  "heldout_bits": 25241.8,
+  "DL": 683.0,
+  "bits_per_token": 6.398,
+  "emit_bits_per_token": 4.699,
+  "trans_bits_per_token": 1.699,
+  "K": 8,
+  "states": 8,
+  "open_classes": 2,
+  "closed_classes": 6,
+  "edges_p05": 30,
+  "cycles": [
+   [
+    "C7",
+    "C3",
+    "C1"
+   ],
+   [
+    "C5"
+   ],
+   [
+    "C0"
+   ]
+  ],
+  "largest_cycle": 3,
+  "num_prev": [
+   [
+    "C3",
+    624
+   ],
+   [
+    "C1",
+    535
+   ],
+   [
+    "C7",
+    264
+   ],
+   [
+    "<s>",
+    53
+   ],
+   [
+    "C4",
+    2
+   ]
+  ],
+  "num_next": [
+   [
+    "C1",
+    648
+   ],
+   [
+    "C3",
+    355
+   ],
+   [
+    "C7",
+    264
+   ],
+   [
+    "</s>",
+    204
+   ],
+   [
+    "C2",
+    5
+   ]
+  ],
+  "p_next_is_num": {
+   "0": null,
+   "1": 0.33,
+   "2": 0.03,
+   "3": 0.89,
+   "4": 1.0,
+   "5": 0.0,
+   "6": 0.0,
+   "7": 0.21
+  },
+  "novel_token_share": 0.087,
+  "classes": [
+   {
+    "class": 1,
+    "tokens": 1675,
+    "open": true,
+    "members": 184,
+    "novel_tokens": 345,
+    "states": 1,
+    "kinds": {
+     "S": 1675
+    },
+    "top": [
+     "S:M388",
+     "S:M218",
+     "S:M371",
+     "S:M066",
+     "S:M124",
+     "S:M370",
+     "S:M263",
+     "S:M387",
+     "S:M096",
+     "S:M009",
+     "S:M032",
+     "S:M305"
+    ],
+    "keys": [
+     "S"
+    ]
+   },
+   {
+    "class": 7,
+    "tokens": 1480,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 1480
+    },
+    "top": [
+     "NUM"
+    ],
+    "keys": []
+   },
+   {
+    "class": 3,
+    "tokens": 709,
+    "open": false,
+    "members": 66,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 709
+    },
+    "top": [
+     "S:M288",
+     "S:M054",
+     "S:M297",
+     "S:M376",
+     "S:M346",
+     "S:M036",
+     "S:M072",
+     "S:M003~b",
+     "S:M354",
+     "S:M317",
+     "S:M367",
+     "S:M373"
+    ],
+    "keys": []
+   },
+   {
+    "class": 2,
+    "tokens": 71,
+    "open": false,
+    "members": 7,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 71
+    },
+    "top": [
+     "S:M157",
+     "S:M157~a",
+     "S:M041~g",
+     "S:M195",
+     "S:M252~q",
+     "S:M136~q",
+     "S:M328~b"
+    ],
+    "keys": []
+   },
+   {
+    "class": 5,
+    "tokens": 6,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 6
+    },
+    "top": [
+     "S:M387~i"
+    ],
+    "keys": []
+   },
+   {
+    "class": 4,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 2
+    },
+    "top": [
+     "S:M264~a1"
+    ],
+    "keys": []
+   },
+   {
+    "class": 6,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 2
+    },
+    "top": [
+     "S:M080~c"
+    ],
+    "keys": []
+   },
+   {
+    "class": 0,
+    "tokens": 0,
+    "open": true,
+    "members": 0,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {},
+    "top": [],
+    "keys": [
+     "W2:other"
+    ]
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 1500,
+    "fitness": 25924.8,
+    "K": 8,
+    "S": 8,
+    "open": 2,
+    "restarts": 0
+   }
+  ]
+ },
+ "LAS": {
+  "corpus": "LAS",
+  "fitness": 32380.8,
+  "heldout_bits": 32107.8,
+  "DL": 273.0,
+  "bits_per_token": 8.16,
+  "emit_bits_per_token": 7.586,
+  "trans_bits_per_token": 0.574,
+  "K": 8,
+  "states": 10,
+  "open_classes": 1,
+  "closed_classes": 7,
+  "edges_p05": 33,
+  "cycles": [
+   [
+    "C3"
+   ],
+   [
+    "C5",
+    "C5"
+   ]
+  ],
+  "largest_cycle": 2,
+  "num_prev": [
+   [
+    "C3",
+    1157
+   ],
+   [
+    "<s>",
+    111
+   ],
+   [
+    "C6",
+    1
+   ],
+   [
+    "C2",
+    1
+   ],
+   [
+    "C5",
+    1
+   ]
+  ],
+  "num_next": [
+   [
+    "C3",
+    1133
+   ],
+   [
+    "</s>",
+    130
+   ],
+   [
+    "C1",
+    4
+   ],
+   [
+    "C2",
+    1
+   ],
+   [
+    "C7",
+    1
+   ]
+  ],
+  "p_next_is_num": {
+   "0": 0.0,
+   "1": 0.0,
+   "2": 0.5,
+   "3": 0.33,
+   "4": 0.0,
+   "5": 0.5,
+   "6": 0.5,
+   "7": 0.0
+  },
+  "novel_token_share": 0.172,
+  "classes": [
+   {
+    "class": 3,
+    "tokens": 3918,
+    "open": true,
+    "members": 253,
+    "novel_tokens": 678,
+    "states": 1,
+    "kinds": {
+     "NUM": 1271,
+     "W2": 967,
+     "W1": 650,
+     "L": 630,
+     "FRAC": 400
+    },
+    "top": [
+     "NUM",
+     "FRAC",
+     "W:NI",
+     "L:GRA",
+     "L:CYP",
+     "L:VIN",
+     "W:KU-RO",
+     "L:VIR+[?]",
+     "W:TE",
+     "W:*304",
+     "L:OLIV",
+     "W:SI"
+    ],
+    "keys": [
+     "L",
+     "W1",
+     "W2:*118",
+     "W2:*305",
+     "W2:*306",
+     "W2:*321",
+     "W2:A",
+     "W2:DA",
+     "W2:DE",
+     "W2:DI",
+     "W2:DU",
+     "W2:E"
+    ]
+   },
+   {
+    "class": 1,
+    "tokens": 4,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 4
+    },
+    "top": [
+     "W:DA-ME"
+    ],
+    "keys": []
+   },
+   {
+    "class": 7,
+    "tokens": 3,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 3
+    },
+    "top": [
+     "W:A-RI"
+    ],
+    "keys": []
+   },
+   {
+    "class": 0,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W1": 2
+    },
+    "top": [
+     "W:JE"
+    ],
+    "keys": []
+   },
+   {
+    "class": 2,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 2
+    },
+    "top": [
+     "W:QE-KA"
+    ],
+    "keys": []
+   },
+   {
+    "class": 4,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W1": 2
+    },
+    "top": [
+     "W:*317"
+    ],
+    "keys": []
+   },
+   {
+    "class": 5,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 3,
+    "kinds": {
+     "L": 2
+    },
+    "top": [
+     "L:VIN+RA"
+    ],
+    "keys": []
+   },
+   {
+    "class": 6,
+    "tokens": 2,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W1": 2
+    },
+    "top": [
+     "W:AU"
+    ],
+    "keys": []
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 1500,
+    "fitness": 32380.8,
+    "K": 8,
+    "S": 10,
+    "open": 1,
+    "restarts": 2
+   }
+  ]
+ }
+}

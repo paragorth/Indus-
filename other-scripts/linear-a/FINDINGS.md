@@ -149,3 +149,10 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - About 99 comparisons were run. The -RE→"1" and KI-→commodity ties (p ≈ 0.02–0.04) are probably noise.
 
 **Verdict.** Real but small structure: the affixes split by document type. The Linear B anchors are too few to classify Linear A words.
+
+## Evolved grammar machine (la8)
+- The best evolved machine is a small flat form with 4 classes in one loop: entry word or commodity, number, optional fraction, then the next entry. Planted flat and recursive languages were recovered (agreement 0.999 and 0.97). Shuffled Linear A collapses.
+- Linear A has 2 open classes and no closed formula words. Linear B, matched for size, has 7 classes, including closed formula words. Proto-Elamite has 4.
+- In Linear A a number follows a word directly (0.52 vs 0.37 shuffled), as in Proto-Elamite. Linear B words avoid numbers.
+- No recursion was found, but the test is weak because Linear B shows none either.
+- Grades: the ENTRY class (KU-RO, KI-RO, SA-RA₂, A-DU, KA-PA, TE, SI) is B. Commodity logograms are A. NI, *304 and *308 as commodities are B.

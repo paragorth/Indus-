@@ -1,0 +1,25 @@
+GERARD 1636: 400 pages with image+OCR, 200 leaf pairs
+  same-leaf contrast: max|r|95=0.260
+    draw_bytes~log_words r=+0.45 p=0.0002 pFW=0.000
+    draw_edges~log_words r=+0.44 p=0.0002 pFW=0.000
+    draw_ink~log_words r=+0.44 p=0.0002 pFW=0.000
+    draw_area~log_words r=+0.43 p=0.0002 pFW=0.000
+    bottom_edges~log_words r=+0.38 p=0.0002 pFW=0.000
+    n_draw_comps~log_words r=+0.38 p=0.0002 pFW=0.000
+  GERARD wrong leaf +1: min pFW 0.000, cells p<0.01 19/90
+  GERARD wrong leaf +3: min pFW 0.010, cells p<0.01 5/90
+VOYNICH root-zone edges ~ benched gallows, same-leaf sign-flip test (single pre-named cell now)
+  ZL all leaves: r=-0.430 p=0.0007 n=80
+  ZL herbal: r=-0.524 p=0.0000 n=57
+  IT2a all: r=-0.443 p=0.0004 n=80
+  IT2a herbal: r=-0.536 p=0.0000 n=57
+  ZL non-paragraph-initial lines all: r=-0.485 p=0.0003 n=80
+  ZL non-paragraph-initial lines herbal: r=-0.587 p=0.0000 n=57
+  IT2a non-paragraph-initial all: r=-0.489 p=0.0003 n=80
+  IT2a non-paragraph-initial herbal: r=-0.589 p=0.0000 n=57
+  ZL all | d(lines), d(paragraphs), d(draw_area): r=-0.367 p=0.0044 n=80
+  ZL herbal | d(lines), d(paragraphs), d(draw_area): r=-0.418 p=0.0019 n=57
+  segmentation ink_delta=0.08 zone=1/4 herbal: r=-0.532 p=0.0002 n=57
+  segmentation ink_delta=0.13 zone=1/4 herbal: r=-0.368 p=0.0005 n=57
+  segmentation ink_delta=0.10 zone=1/3 herbal: r=-0.434 p=0.0004 n=57
+  segmentation ink_delta=0.10 zone=1/5 herbal: r=-0.539 p=0.0000 n=57
