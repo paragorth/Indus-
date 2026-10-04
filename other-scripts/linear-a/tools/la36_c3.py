@@ -64,13 +64,32 @@ def entries(U):
     return [(i, a, b) for i, u in enumerate(U) for a, b in zip(u['x'], u['y'])]
 
 
+ALLLET = sorted(CONV)
+
+
+def _mat(side):
+    iv = np.array([a[0] for a in side], float)
+    C = np.zeros((len(side), len(ALLLET)))
+    for i, a in enumerate(side):
+        for f in a[1]:
+            if f in ALLLET: C[i, ALLLET.index(f)] += 1
+    return iv, C
+
+
 def all_hits(E, Vs):
+    """(V, T, E) hits, vectorised over V (value = integer + letter counts @ letter values)."""
+    ix, Cx = _mat([a for _, a, _ in E]); iy, Cy = _mat([b for _, _, b in E])
+    Vm = np.array([[float(V.get(l, Fr(1, 16))) for l in ALLLET] for V in Vs])     # (V, L)
+    X = ix[None] + Vm @ Cx.T; Y = iy[None] + Vm @ Cy.T                               # (V, E)
+    ne = np.abs(X - Y) > 1e-6
     out = []
-    for V in Vs:
-        x = np.array([value(a[0], a[1], V) if not isinstance(a[0], float) else a[0] for _, a, _ in E])
-        y = np.array([value(b[0], b[1], V) if not isinstance(b[0], float) else b[0] for _, _, b in E])
-        out.append(hits_matrix(x, y))
-    return np.stack(out)          # (V, T, E)
+    for m in RMODES:
+        rx = X[:, None, :] * RATF[None, :, None]; ry = Y[:, None, :] * RATF[None, :, None]
+        h = (np.abs(apply_round(rx, m) - Y[:, None, :]) < 1e-6) & (X[:, None, :] > 0)
+        h |= (np.abs(apply_round(ry, m) - X[:, None, :]) < 1e-6) & (Y[:, None, :] > 0)
+        out.append(h)
+    out.append(np.abs(np.abs(Y - X)[:, None, :] - DGRID[None, :, None]) < 1e-6)
+    return np.concatenate(out, 1) & ne[:, None, :]
 
 
 def heldout(HM, unit_of, nunits, rng, splits=NSPLIT):
@@ -188,19 +207,24 @@ def main():
     Vs = [dict(CONV)] + [rand_V(rng) for _ in range(NV)]
     LA1 = la_units(1); LA2 = la_units(2)
     t = time.time()
-    out['a_LA_all'] = part_a(LA1, 'A_LA_all', rng, Vs)
-    out['a_LA_dossier'] = part_a([u for u in LA1 if u['cls'] in ('SIDES', 'SCRIBE')], 'A_LA_SIDES+SCRIBE', rng, Vs)
-    out['a_LA_cols'] = part_a([u for u in LA1 if u['cls'] in ('COLUMNS', 'ROWS')], 'A_LA_COLUMNS+ROWS', rng, Vs)
-    out['a_plant'] = part_a(plant(LA1, rng), 'A_PLANT_3/4round_40%', rng, Vs[:200])
-    out['a_plant20'] = part_a(plant(LA1, rng, 0.2), 'A_PLANT_3/4round_20%', rng, Vs[:200])
-    for c1, c2 in (('*146', 'KE'), ('*152', 'O'), ('*146', '*152')):
+    PART = os.environ.get('PART', 'abc')
+    if 'a' not in PART:
+        pass
+    else:
+      out['a_LA_all'] = part_a(LA1, 'A_LA_all', rng, Vs)
+      out['a_LA_dossier'] = part_a([u for u in LA1 if u['cls'] in ('SIDES', 'SCRIBE')], 'A_LA_SIDES+SCRIBE', rng, Vs)
+      out['a_LA_cols'] = part_a([u for u in LA1 if u['cls'] in ('COLUMNS', 'ROWS')], 'A_LA_COLUMNS+ROWS', rng, Vs)
+      out['a_plant'] = part_a(plant(LA1, rng), 'A_PLANT_3/4round_40%', rng, Vs[:200])
+      out['a_plant20'] = part_a(plant(LA1, rng, 0.2), 'A_PLANT_3/4round_20%', rng, Vs[:200])
+      for c1, c2 in (('*146', 'KE'), ('*152', 'O'), ('*146', '*152')):
         out[f'a_MA_{c1}_{c2}'] = part_a(ma_split_units(c1, c2), f'A_MA_{c1}~{c2}', rng, Vs[:50])
     print('time a', time.time() - t, flush=True)
-    out['b_LA'] = part_b(LA2, 'B_LA', rng)
-    out['b_LA_noHT9'] = part_b([u for u in LA2 if 'HT9a' not in u['id']], 'B_LA_noHT9', rng)
-    out['b_MA'] = part_b(ma_units(), 'B_MA', rng, nnull=10)
-    out['b_LB'] = part_b(lb_units(), 'B_LB', rng, nnull=10)
-    out['b_plant'] = part_b(plant(LA2, rng, 0.4), 'B_PLANT_40%', rng, nnull=10)
+    if 'b' in PART:
+      out['b_LA'] = part_b(LA2, 'B_LA', rng)
+      out['b_LA_noHT9'] = part_b([u for u in LA2 if 'HT9a' not in u['id']], 'B_LA_noHT9', rng)
+      out['b_MA'] = part_b(ma_units(), 'B_MA', rng, nnull=10)
+      out['b_LB'] = part_b(lb_units(), 'B_LB', rng, nnull=10)
+      out['b_plant'] = part_b(plant(LA2, rng, 0.4), 'B_PLANT_40%', rng, nnull=10)
     # (c) J scan on HT 9a/b
     u9 = [u for u in LA2 if u['id'] == 'HT9a|HT9b'][0]
     scan = {}
@@ -209,7 +233,7 @@ def main():
         d, s = detail(u9, V); scan[str(j)] = (s, d['ratio'])
     out['c_HT9_J'] = scan
     print('C_HT9_J', json.dumps(scan), flush=True)
-    json.dump(out, open(os.path.join(CK, 'c3.json'), 'w'), indent=1, default=str)
+    json.dump(out, open(os.path.join(CK, f'c3_{PART}.json'), 'w'), indent=1, default=str)
 
 
 if __name__ == '__main__':

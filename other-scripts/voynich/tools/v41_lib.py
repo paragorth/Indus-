@@ -58,22 +58,23 @@ def vpages(name='ZL3b', min_tokens=30):
     return P
 
 
-def rate_matrix(pages, traits, key='h', prior=1.0):
-    """returns X[half] (pages x traits) of empirical logits, and N (denominators)."""
+def rate_matrix(pages, traits, key='h', prior=5.0):
+    """returns X[half] (pages x traits) of shrunken proportions, (k + a*m)/(n + a), m = pooled
+    rate of the trait over the pages given. Unbiased for exchangeable pages whatever the page
+    size (an empirical logit with a fixed 0.5 prior is not: its bias depends on n, which both
+    halves share, and that fakes cross-half reliability and co-movement)."""
     names = list(traits)
     out = []
     for k in (0, 1):
-        X = np.zeros((len(pages), len(names)))
+        K = np.zeros((len(pages), len(names))); N = np.zeros_like(K)
         for r, p in enumerate(pages):
             ws = p[key][k] if key == 'h' else p[key]
             for c, nm in enumerate(names):
                 f, d = traits[nm]
                 den = [w for w in ws if (d is None or d(w))]
-                kk = sum(1 for w in den if f(w))
-                n = len(den)
-                # shrink to the group mean is done later; empirical logit with prior
-                X[r, c] = math.log((kk + prior * 0.5) / (n - kk + prior * 0.5))
-        out.append(X)
+                K[r, c] = sum(1 for w in den if f(w)); N[r, c] = len(den)
+        m = K.sum(0) / np.maximum(N.sum(0), 1)
+        out.append((K + prior * m) / (N + prior))
     return out, names
 
 
