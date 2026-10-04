@@ -708,3 +708,11 @@ The meaningless, asemic and generator readings are long-known hypotheses, not ne
 - Grade A negative: it is not language. On unseen lines it sits at the bottom edge of the language band (0.23-0.34 vs planted German 0.41-0.51), barely above uniform generator text. Its gap ratio is 1.03 like the rest of the book (languages 0.65-0.87), and 0 of 28 windows pass both tests. Its features do not move toward language (17/32, p 0.26; planted German 26/32): it is a repetition texture (fewer word types and endings, more repeated words).
 - Reading (C): one kind of text throughout; quire M / hand 2 is the repetitive extreme. Would kill: an M-like island in another hand without the repetition shift.
 
+
+
+## The residual is the message? (v45, 4 Oct 2026; `loops/v45_final.txt`)
+- Method: the v26 rule model (cross-fitted by pages) predicts every word; the residual is which allowed alternative was chosen. Controls: rule-only and richer generators (no message); Latin and Gerard text pushed through planted verbose codes inside the same rules.
+- Grade B: the Voynich pushes its choices off the rules by +0.19 bits/word, like a richer generator scored by a poorer model (+0.24); planted codes push 0.44-1.26.
+- Grade B: the residual repeats inside bifolios and quires (z 7-10, ZL and IT2a; generators 0), not by section or illustration, and does not track the herbal drawings (residual below surface; 1,500-reading random search null, where a planted code is z 3.8 at discovery). It looks like writing-unit drift, not content.
+- Grade B (measurement): the rule-unpredicted vocabulary concentrates on paragraph-first lines (42% of words outside any allowed choice vs 26% in body lines; generators flat). Grade C: openings hold entry-specific content; its drawing prediction failed (z 1.85 vs generator 2.40).
+- Limit: a code choosing in proportion to the rule probabilities, or a letter-level code, is invisible to these tests. Not cracked.

@@ -44,6 +44,15 @@ def plant(docs, rng):
 
 def job(args):
     kind, k = args
+    fn = os.path.join(C.CK, 'c1_%s_%d.json' % (kind, k))
+    if os.path.exists(fn):
+        return json.load(open(fn))
+    out = _job(kind, k)
+    json.dump(out, open(fn, 'w'))
+    return out
+
+
+def _job(kind, k):
     rng = random.Random(C.seed('pe38c1-%s-%d' % (kind, k)))
     PE = C.pe_docs()
     n = C.ntok(PE)
@@ -71,7 +80,8 @@ def job(args):
     nch = NCH if kind == 'PE' else max(8, NCH // 2)
     S, viol = C.run_chains(B, cost, nchains=nch, steps=STEPS, seed0=C.seed(kind) % 1000 + k)
     frc, mode, freq, agree, P = C.forced(B, S)
-    out = dict(kind=kind, k=k, ntypes=len(B['types']), ntok=C.ntok(docs), nlines=B['nL'], viol=viol,
+    cm = [[int(np.bincount(S[c][:, t], minlength=C.R).argmax()) for t in range(len(B['types']))] for c in range(len(S))]
+    out = dict(types=B['types'], chain_modes=cm, kind=kind, k=k, ntypes=len(B['types']), ntok=C.ntok(docs), nlines=B['nL'], viol=viol,
                forced=frc, mode={w: C.ROLES[mode[t]] for t, w in enumerate(B['types'])},
                freq={w: round(float(freq[t]), 3) for t, w in enumerate(B['types'])},
                nocc={w: int(B['nocc'][t]) for t, w in enumerate(B['types'])})

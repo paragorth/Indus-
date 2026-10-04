@@ -60,8 +60,9 @@ def random_W(nc, B, rng):
 def search(N, n, fit, test, rng, nrand=20000, topk=20, steps=150):
     best = {}
     nc = len(N.chars)
-    for b in range(nrand // 1000):
-        W = random_W(nc, 1000, rng)
+    bs = min(1000, nrand)
+    for b in range(max(1, nrand // bs)):
+        W = random_W(nc, bs, rng)
         Fs = N.features(W)
         for f, F in Fs.items():
             s = score(F, n, N.secs, fit)

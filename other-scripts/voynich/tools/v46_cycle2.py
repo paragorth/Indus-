@@ -182,7 +182,11 @@ if __name__ == '__main__':
         part_ab('HERBAL (auto leaves)', [u for u in V if u['sec'] == 'herbal'])
         # positive control under the rotation null: planted rate word
         part_ab('PLANT okchey 0.05/object, eye-counted sections', L.plant(Ve, 'okchey', 0.05, seed=3))
-    if which in ('all', 'hyg'):
+    if which == 'rest':
+        V = L.voy_units(); Ve = [u for u in V if u['sec'] != 'herbal']
+        part_ab('HERBAL (auto leaves)', [u for u in V if u['sec'] == 'herbal'])
+        part_ab('PLANT okchey 0.05/object, eye-counted sections', L.plant(Ve, 'okchey', 0.05, seed=3))
+    if which in ('all', 'hyg', 'rest'):
         H = L.hyginus_units()
         part_ab('HYGINUS faithful', [dict(u, n=u['stated']) for u in H])
         part_ab('HYGINUS Ptolemy', H)

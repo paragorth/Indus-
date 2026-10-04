@@ -52,6 +52,34 @@ def c1():
             print('  forced labelled (word, inferred, truth, samples):', sorted(fl.items(), key=lambda x: -x[1])[:30])
 
 
+def c1g():
+    import pe38_common as C
+    R = json.load(open(os.path.join(CK, 'c1.json')))
+    by = collections.defaultdict(list)
+    for r in R:
+        by[r['kind']].append(r)
+    gf = {}
+    for k, rs in by.items():
+        for r in rs:
+            fr, ng = C.good_forced(r)
+            gf[(k, r['k'])] = fr
+            line = '%s %d good chains %d viol min %d med %d forced %d %s' % (k, r['k'], ng, min(r['viol']), np.median(r['viol']), len(fr),
+                                                                           dict(collections.Counter(fr.values())))
+            if k in ('PC', 'PCNULL', 'UR', 'URNULL'):
+                lab = C.PC_LAB if k.startswith('PC') else C.UR_LAB
+                st, fl = C.score_forced(fr, lab)
+                line += ' | labelled forced %d strict %.2f %s' % (len(fl), st, fl[:25])
+            if k == 'PLANT':
+                line += ' | plants %s' % {w: fr.get(w) for w in ('PLANT-T', 'PLANT-H', 'PLANT-V', 'PLANT-E')}
+            print(line)
+    pe = gf[('PE', 0)]
+    print('PE good-forced by role:')
+    for ro in ROLES:
+        ws = [w for w, r in pe.items() if r == ro]
+        nn = [sum(1 for k in ('NULLE', 'NULLA') for (kk, i), f in gf.items() if kk == k and f.get(w) == ro) for w in ws]
+        print(' ', ro, len(ws), [(w, n) for w, n in zip(ws, nn)][:60])
+
+
 def c2():
     R = json.load(open(os.path.join(CK, 'c2.json')))
     A = R['a']
@@ -76,4 +104,4 @@ def c3():
 
 
 if __name__ == '__main__':
-    {'c1': c1, 'c2': c2, 'c3': c3}[sys.argv[1]]()
+    {'c1': c1, 'c1g': c1g, 'c2': c2, 'c3': c3}[sys.argv[1]]()

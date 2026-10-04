@@ -18,6 +18,15 @@ NCH = int(os.environ.get('NCH', 12))
 
 def job(args):
     kind, sp, half = args
+    fn = os.path.join(C.CK, 'c3_%s_%d_%d.json' % (kind, sp, half))
+    if os.path.exists(fn):
+        return json.load(open(fn))
+    out = _job(kind, sp, half)
+    json.dump(out, open(fn, 'w'))
+    return out
+
+
+def _job(kind, sp, half):
     PE = C.pe_docs()
     if kind == 'PE':
         docs = PE
@@ -32,7 +41,9 @@ def job(args):
     B = C.build(sub)
     S, viol = C.run_chains(B, C.rule_cost(B), nchains=NCH, steps=STEPS, seed0=C.seed('%s%d%d' % (kind, sp, half)) % 1000)
     frc, mode, freq, agree, P = C.forced(B, S)
-    out = dict(kind=kind, sp=sp, half=half, forced=frc, mode={w: C.ROLES[mode[t]] for t, w in enumerate(B['types'])},
+    import numpy as np
+    cm = [[int(np.bincount(S[c][:, t], minlength=C.R).argmax()) for t in range(len(B['types']))] for c in range(len(S))]
+    out = dict(types=B['types'], chain_modes=cm, viol=viol, kind=kind, sp=sp, half=half, forced=frc, mode={w: C.ROLES[mode[t]] for t, w in enumerate(B['types'])},
                nocc={w: int(B['nocc'][t]) for t, w in enumerate(B['types'])}, ids=[docs[i]['id'] for i in sorted(h)])
     if kind == 'PC':
         out['score'] = C.score_labels(B, frc, mode, C.PC_LAB)

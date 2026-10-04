@@ -462,3 +462,26 @@ def shuffle_entries(docs, rng, scope='entry'):
     for (di, li, j), t in zip(pos, toks):
         new[di]['lines'][li]['toks'][j] = t
     return new
+
+
+# ------------------------------------------------------------------ "good solutions" (chains do not mix: each
+# tempered chain freezes in its own mode, so forced = same role in >= thr of the best-scoring chains)
+def good_forced(out, q=0.34, thr=0.9, minocc=3):
+    v = np.array(out['viol'], float)
+    cut = np.quantile(v, q)
+    good = [c for c in range(len(v)) if v[c] <= cut]
+    cm = np.array(out['chain_modes'])[good]
+    res = {}
+    for t, w in enumerate(out['types']):
+        if out['nocc'][w] < minocc:
+            continue
+        bc = np.bincount(cm[:, t], minlength=R)
+        if bc.max() / len(good) >= thr:
+            res[w] = ROLES[int(bc.argmax())]
+    return res, len(good)
+
+
+def score_forced(fr, lab):
+    fl = [(w, r, lab[w]) for w, r in fr.items() if w in lab]
+    strict = sum(a == b for _, a, b in fl) / len(fl) if fl else float('nan')
+    return strict, fl

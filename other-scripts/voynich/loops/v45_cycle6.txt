@@ -1,0 +1,5 @@
+# v45 cycle 6: the off-table words (tools/v45_cycle6.py)
+| row | method and control | result | verdict |
+|---|---|---|---|
+| V-45.6.1 | Partial Mantel (v38 confounds, drawings EfficientNet-B0 + DINOv2, 2000 perms) of tf-idf over: off-table words (outside every choice the rules allow), in-table words, off-table words of paragraph-first lines, off-table words of body lines | V: off -0.00, on +1.56, off_pf +1.85 (p 0.038), off_body -0.62. IT2a: -0.79, +1.82, +1.24, -0.94. GEN0: -2.01, -1.66, -1.13, -0.98. GEN1: -0.22, +1.08, +2.40 (p 0.019), -0.13. PL: -1.31, -1.37, -0.11, -0.74. Positive GEw2000: -0.43, +1.44, +0.13, -0.50 | The opening-line off-table words do not track the drawings beyond what a generator's opening-line words do by chance (GEN1 +2.40 > V +1.85). The faint surface link sits in the in-table (rule-predicted) words |
+| V-45.6.V | Cycle verdict | - | Cycle-5 reading (openings carry entry-specific content tied to the picture) NOT supported: Grade C stays, its picture-tracking prediction failed at this power. Would still support: opening off-table words recurring across pages of the same plant type in a better-powered test |

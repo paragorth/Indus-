@@ -53,6 +53,16 @@ def agreement(A, Bm):
 
 def job(args):
     corpus, sysname, h, k = args
+    part = os.path.join(C.CK, 'c3_parts', '%s_%s_%d.json' % (corpus, sysname, k))
+    if os.path.exists(part):
+        return json.load(open(part))
+    r = _job(args)
+    json.dump(r, open(part + '.tmp', 'w')); os.replace(part + '.tmp', part)
+    return r
+
+
+def _job(args):
+    corpus, sysname, h, k = args
     rng = random.Random(C.seed('la40c3-%s-%d' % (corpus, k)))
     if corpus == 'LA':
         docs = C.la_docs()
@@ -72,6 +82,7 @@ def job(args):
 
 def main():
     t = time.time()
+    os.makedirs(os.path.join(C.CK, 'c3_parts'), exist_ok=True)
     jobs = [(c, s, h, k) for (s, h) in systems() for c in ('LA', 'PY') for k in range(NSPLIT)]
     with Pool(2) as p:
         res = p.map(job, jobs, chunksize=1)

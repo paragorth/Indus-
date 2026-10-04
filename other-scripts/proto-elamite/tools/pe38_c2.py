@@ -153,7 +153,18 @@ def main():
     t = time.time()
     res = {}
     with Pool(2) as p:
-        A = p.map(job_a, range(NH), chunksize=4)
+        fa = os.path.join(C.CK, 'c2a.jsonl')
+        done = {}
+        if os.path.exists(fa):
+            for ln in open(fa):
+                try:
+                    x = json.loads(ln); done[x[0]] = x
+                except ValueError:
+                    pass
+        with open(fa, 'a') as fh:
+            for x in p.imap_unordered(job_a, [i for i in range(NH) if i not in done], chunksize=4):
+                done[x[0]] = x; fh.write(json.dumps(x) + '\n'); fh.flush()
+        A = [done[i] for i in range(NH)]
         res['a'] = A
         print('a done %.0fs' % (time.time() - t), flush=True)
         tr = sorted(A, key=lambda x: -x[1])
@@ -163,7 +174,9 @@ def main():
         for j in range(NPERM):
             nullw.append(max(A, key=lambda x: x[2][j])[0])
         jobs = [(i, 'top') for i in top] + [(i, 'null') for i in nullw] + [(i, 'med') for i in med]
-        res['b'] = p.map(job_b, jobs, chunksize=1)
+        fb = os.path.join(C.CK, 'c2b.json')
+        res['b'] = json.load(open(fb)) if os.path.exists(fb) else p.map(job_b, jobs, chunksize=1)
+        json.dump(res['b'], open(fb, 'w'))
         print('b done %.0fs' % (time.time() - t), flush=True)
         res['c'] = p.map(job_c, [('PCA', 'PCB', 0.0), ('PCA', 'PCB', 2.0), ('PCA', 'UR', 0.0), ('PCA', 'UR', 2.0),
                                   ('UR', 'PCB', 0.0), ('UR', 'PCB', 2.0)], chunksize=1)

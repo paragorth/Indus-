@@ -61,7 +61,7 @@ if __name__ == '__main__':
     vocab, B = presence(A1['words'])
     part = MPartial(list(A1['conf'].values()), len(A1['keys']))
     obs, z = word_mantel(V, B, part, rng, A1['strata'], NPERM)
-    c2 = json.load(open(os.path.join(CK47, 'c2.json')))['voynich']['heldout']
+    c2 = json.load(open(os.path.join(CK47, 'c2_voynich.json')))['heldout']
     both = sorted(set(c2['1->2']['words']) & set(c2['2->1']['words']))
     top5 = [vocab[i] for i in np.argsort(-z)[:5]]
     cands = list(dict.fromkeys(both + top5))

@@ -48,40 +48,42 @@ def chance_exact(K, truth, n=20000):
     return float(np.mean((A == np.array(truth)).sum(1)))
 
 
+ONLY_D = len(sys.argv) > 2 and sys.argv[2] == 'D'   # resume after restart: C + D only
 out = {}
 # ---- A: Ur III oracle
-ur = P20.ur_herd_records()
-USIG = [s for s in P20.UR_SIGNS if s != 'asz2-gar3']
-V = P20.to_matrix(ur, USIG)
-tU = np.nansum(V, 0)
-TRU = [1, 2, 3, 3, 4, 5, 6]
-tp = truth_props(tU, TRU)
-print('Ur III totals', dict(zip(USIG, tU.tolist())), 'true props', tp, flush=True)
-AU = all_assignments(7, range(7))
-r, _, M = recover(tU, TRU, target_of(tp), A=AU)
-r['chance_exact'] = chance_exact(7, TRU)
-r['marg_true'] = {s: float(M[j, TRU[j]]) for j, s in enumerate(USIG)}
-r['map_named'] = {s: CLASSES[c] for s, c in zip(USIG, r['map'])}
-out['A_ur3_oracle'] = r
-print('A oracle', r, flush=True)
-# biased oracle: true means shifted by one target sd in random directions (20 draws)
-bo = []
-for i in range(20):
-    m = {k: float(np.clip(tp[k] + rng.normal(0, SD[k]), 0.02, 0.98)) for k in tp}
-    rr, _, _ = recover(tU, TRU, target_of(m), A=AU)
-    bo.append(rr['map_exact'])
-out['A_ur3_biased_map_exact'] = bo
-print('A biased', bo, np.mean(bo), flush=True)
-# Ur III subsamples of PE size (24 tablets)
-pids = sorted({x[0] for x in ur})
-sub = []
-for i in range(20):
-    keep = set(rng.choice(pids, 24, replace=False))
-    tt = np.nansum(P20.to_matrix([x for x in ur if x[0] in keep], USIG), 0)
-    rr, _, _ = recover(tt, TRU, target_of(tp), A=AU)
-    sub.append(rr['map_exact'])
-out['A_ur3_sub24_map_exact'] = sub
-print('A sub24', sub, np.mean(sub), flush=True)
+if not ONLY_D:
+    ur = P20.ur_herd_records()
+    USIG = [s for s in P20.UR_SIGNS if s != 'asz2-gar3']
+    V = P20.to_matrix(ur, USIG)
+    tU = np.nansum(V, 0)
+    TRU = [1, 2, 3, 3, 4, 5, 6]
+    tp = truth_props(tU, TRU)
+    print('Ur III totals', dict(zip(USIG, tU.tolist())), 'true props', tp, flush=True)
+    AU = all_assignments(7, range(7))
+    r, _, M = recover(tU, TRU, target_of(tp), A=AU)
+    r['chance_exact'] = chance_exact(7, TRU)
+    r['marg_true'] = {s: float(M[j, TRU[j]]) for j, s in enumerate(USIG)}
+    r['map_named'] = {s: CLASSES[c] for s, c in zip(USIG, r['map'])}
+    out['A_ur3_oracle'] = r
+    print('A oracle', r, flush=True)
+    # biased oracle: true means shifted by one target sd in random directions (20 draws)
+    bo = []
+    for i in range(20):
+        m = {k: float(np.clip(tp[k] + rng.normal(0, SD[k]), 0.02, 0.98)) for k in tp}
+        rr, _, _ = recover(tU, TRU, target_of(m), A=AU)
+        bo.append(rr['map_exact'])
+    out['A_ur3_biased_map_exact'] = bo
+    print('A biased', bo, np.mean(bo), flush=True)
+    # Ur III subsamples of PE size (24 tablets)
+    pids = sorted({x[0] for x in ur})
+    sub = []
+    for i in range(20):
+        keep = set(rng.choice(pids, 24, replace=False))
+        tt = np.nansum(P20.to_matrix([x for x in ur if x[0] in keep], USIG), 0)
+        rr, _, _ = recover(tt, TRU, target_of(tp), A=AU)
+        sub.append(rr['map_exact'])
+    out['A_ur3_sub24_map_exact'] = sub
+    print('A sub24', sub, np.mean(sub), flush=True)
 
 # ---- C: PE
 pe = P20.pe_records()
@@ -101,28 +103,29 @@ for s, d in out['C_pe']['marginals'].items():
     print('  ', s, ' '.join('%s %.2f' % (k, v) for k, v in d.items()))
 
 # ---- B: planted PE-shaped totals
-pl = []
-for i in range(20):
-    truth = rng.integers(1, 7, size=8)
-    truth[rng.choice(8, 2, replace=False)] = 0
-    # draw totals: class composition near target means, split among signs of the class
-    cap = 1500.0
-    sh = REAL['sheep']; yg = REAL['young']; af = REAL['adF']
-    ccomp = {1: sh * (1 - yg) * af, 2: sh * (1 - yg) * (1 - af), 3: sh * yg,
-             4: (1 - sh) * (1 - yg) * af, 5: (1 - sh) * (1 - yg) * (1 - af), 6: (1 - sh) * yg}
-    t = np.zeros(8)
-    for c, v in ccomp.items():
-        js = np.where(truth == c)[0]
-        if len(js):
-            t[js] = rng.multinomial(int(cap * v), rng.dirichlet(np.ones(len(js))))
-    t[truth == 0] = rng.integers(5, 300, size=(truth == 0).sum())
-    rr, _, _ = recover(t, truth.tolist(), target_of(REAL), A=AP)
-    rr['chance'] = chance_exact(8, truth.tolist(), 5000)
-    pl.append(rr)
-out['B_plant'] = pl
-print('B plant map_exact', [x['map_exact'] for x in pl], 'mean %.2f; post_exact mean %.2f; chance %.2f; truth rank mean %.3f'
-      % (np.mean([x['map_exact'] for x in pl]), np.mean([x['post_exact'] for x in pl]),
-         np.mean([x['chance'] for x in pl]), np.mean([x['truth_rank_frac'] for x in pl])), flush=True)
+if not ONLY_D:
+    pl = []
+    for i in range(20):
+        truth = rng.integers(1, 7, size=8)
+        truth[rng.choice(8, 2, replace=False)] = 0
+        # draw totals: class composition near target means, split among signs of the class
+        cap = 1500.0
+        sh = REAL['sheep']; yg = REAL['young']; af = REAL['adF']
+        ccomp = {1: sh * (1 - yg) * af, 2: sh * (1 - yg) * (1 - af), 3: sh * yg,
+                 4: (1 - sh) * (1 - yg) * af, 5: (1 - sh) * (1 - yg) * (1 - af), 6: (1 - sh) * yg}
+        t = np.zeros(8)
+        for c, v in ccomp.items():
+            js = np.where(truth == c)[0]
+            if len(js):
+                t[js] = rng.multinomial(int(cap * v), rng.dirichlet(np.ones(len(js))))
+        t[truth == 0] = rng.integers(5, 300, size=(truth == 0).sum())
+        rr, _, _ = recover(t, truth.tolist(), target_of(REAL), A=AP)
+        rr['chance'] = chance_exact(8, truth.tolist(), 5000)
+        pl.append(rr)
+    out['B_plant'] = pl
+    print('B plant map_exact', [x['map_exact'] for x in pl], 'mean %.2f; post_exact mean %.2f; chance %.2f; truth rank mean %.3f'
+          % (np.mean([x['map_exact'] for x in pl]), np.mean([x['post_exact'] for x in pl]),
+             np.mean([x['chance'] for x in pl]), np.mean([x['truth_rank_frac'] for x in pl])), flush=True)
 
 # ---- D: random faunal profiles
 nul = []
@@ -138,4 +141,4 @@ out['D_null'] = {'n': len(nul), 'p_max_ge_real': float(np.mean([x['max'] >= out[
                  'real_marg_conc': real_mm,
                  'p_conc_ge_real': float(np.mean([x['marg_max_mean'] >= real_mm for x in nul]))}
 print('D null', out['D_null'], flush=True)
-dump(out, os.path.join(DATA, 'pe37_cycle1.json'))
+dump(out, os.path.join(DATA, 'pe37_cycle1_D.json' if ONLY_D else 'pe37_cycle1.json'))

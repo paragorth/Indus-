@@ -207,11 +207,15 @@ def run(S, src, rng):
 if __name__ == '__main__':
     rng = np.random.default_rng(4702)
     out, rows = {}, []
-    sets = [('voynich', vsetup('A1')), ('gerard', hsetup('gerard', 8)), ('dodoens', hsetup('dodoens', 6))]
-    for src, S in sets:
+    # usage: v47_cycle2.py SRC (runs one source, saves c2_SRC.json) | v47_cycle2.py report
+    if sys.argv[1] != 'report':
+        src = sys.argv[1]
+        S = vsetup('A1') if src == 'voynich' else hsetup(src, 8 if src == 'gerard' else 6)
         r = run(S, src, rng)
-        out[src] = r
-        print(src, json.dumps(r)[:3000], flush=True)
+        json.dump(r, open(os.path.join(CK47, 'c2_%s.json' % src), 'w'), default=str)
+        sys.exit()
+    for src in ['voynich', 'gerard', 'dodoens']:
+        out[src] = json.load(open(os.path.join(CK47, 'c2_%s.json' % src)))
     tag = {'voynich': 'Voynich A1 herbal', 'gerard': 'Gerard 1636 control', 'dodoens': 'Dodoens 1583 control'}
     k = 1
     for src, r in out.items():
