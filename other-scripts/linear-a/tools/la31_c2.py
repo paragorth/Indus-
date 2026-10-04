@@ -1,7 +1,7 @@
 """LA-31 cycle 2: do words flow DOWNWIND? A directed gravity (pseudo-likelihood) model.
 
 For each type t (word / rarer sign / logogram) and site j: logit P(t at j) = a + b log(size_j)
-+ c log(1 + #other sites with t) + d log(1e-3 + sum_{i != j, t at i} exp(-T[i -> j] / L)).
++ c log(1 + n_oth) + e [n_oth > 0] + d log(mean_{i != j, t at i} exp(-T[i -> j] / L)) (0 if n_oth = 0).
 G(T) = max over L of the log-likelihood gain of the d term. Asymmetric wind times give
 Delta = G(T) - G(T transposed): positive = types present where the wind would have carried them.
 Controls: rewired network (site labels of T permuted, 300), planted downwind and symmetric
@@ -48,14 +48,16 @@ def gain(Y, size, T, base=None):
     nT, K = Y.shape
     oth = Y.sum(1, keepdims=True) - Y
     y = Y.ravel()
-    X0 = np.c_[np.ones(nT * K), np.repeat(size[None], nT, 0).ravel(), np.log1p(oth).ravel()]
+    X0 = np.c_[np.ones(nT * K), np.repeat(size[None], nT, 0).ravel(), np.log1p(oth).ravel(),
+               (oth > 0).ravel().astype(float)]
     if base is None:
         base = irls(X0, y)
     Tm = np.where(np.isfinite(T), T, 1e6).copy(); np.fill_diagonal(Tm, 1e6)
     best = -1e18; bestL = None
     for L in LGRID:
         I = Y @ np.exp(-Tm / L)            # (types x sites): sum_i Y[t,i] exp(-T[i,j]/L)
-        ll = irls(np.c_[X0, np.log(1e-3 + I).ravel()], y)
+        x = np.where(oth > 0, np.log(1e-9 + I / np.maximum(oth, 1)), 0.0)   # mean closeness of holders
+        ll = irls(np.c_[X0, x.ravel()], y)
         if ll > best:
             best, bestL = ll, L
     return best - base, bestL, base
