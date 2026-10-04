@@ -28,7 +28,7 @@ def vocab_sources():
             'PINYIN': toks(lambda k, v: k == 'L_ChinesePin_Lite')[:20000]}
 
 
-def procedure(src, prm, seed, n=900):
+def procedure(src, prm, seed, n=700):
     rng = random.Random(seed)
     w, pm, pf, ne, start = prm['w'], prm['pm'], prm['pf'], prm['ne'], prm['start']
     al = Counter(c for x in src[:5000] for c in x); ak, av = list(al), list(al.values())
@@ -61,7 +61,7 @@ def work(a):
     src_name, h, prm, seed, keys = a
     S = SRC[src_name]
     lines = procedure(S, prm, seed)
-    samp = L.samples([lines], N=N, maxs=8)
+    samp = L.samples([lines], N=N, maxs=6)
     rng = random.Random(seed)
     F = np.array([[L.features(s, rng)[k] for k in keys] for s in samp], float)
     F[~np.isfinite(F)] = 0

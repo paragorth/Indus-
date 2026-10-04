@@ -577,6 +577,12 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Tandem swap pairs (k/t, l/r, ch/cth) are NOT one stroke apart beyond chance. Grade C, demoted.
 
 
+## Features do not spread (v29, 4 Oct 2026; `loops/v29_final.txt`)
+- No stroke feature spreads through Voynich words like vowel harmony. A blind search over ~2,000 stroke features per text puts the textbook harmony feature on top in Turkish, Hungarian and Finnish (excess agreement +0.4 to +0.8 over a Markov-2 null, left-to-right) and recovers planted harmony down to +0.2; the Voynich has 0 stroke features above the corrected threshold (ZL, IT). Grade A (negative).
+- Residues: two gallows in one word tend to share the bench (IT strong, ZL weak, 8-12 pairs; Grade C); gallows avoid each other (dissimilation, Grade B, the one-gallows template).
+- Across word junctions the Voynich is strongly dependent (hundreds of features; all controls ~0), mostly in Currier B, not made by copy-and-edit generators. It is a pairing, not agreement: y.q- 1.57x, n.o-/n.ch- 1.4x, while y.y- 0.59x. No sandhi: edges do not adapt to the neighbour (conditional MI 4-20x below Latin, Turkish, Hungarian, Czech; planted sandhi recovered). Grade B.
+- Glyphs that share strokes attract only weakly across junctions (r +0.21, p 0.04, not significant after correction). Grade C, unsupported.
+
 ## Grow the script in a box (r3, 4 Oct 2026; `loops/r3_final.txt`)
 - 62,000 simulated societies evolve scripts for ledger or text worlds; ABC on blind statistics with Ur III, LB, Latin, Italian and shuffled controls.
 - The Voynich fits a text world in a ~15-25-sign system: long words of tight length, almost every word ending in a 1-4-sign end set, and a marker sign opening ~30-40% of lines (grade C; marker rate is identifiable, Latin 0.03). The box-1 guess that it needs homophone/null secrecy was killed (0.82 -> 0.06-0.14) once positional grammar was allowed.
