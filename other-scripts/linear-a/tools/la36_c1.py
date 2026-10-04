@@ -55,7 +55,8 @@ def run_units(U, V, rng, tag, n2=True):
         S = sum(x['s'] for x in r); H = sum(x['P1'] <= 0.05 for x in r)
         agg[c] = {'units': len(r), 'S': S, 'S_null1': float(Sn1[c].mean()),
                   'P_S1': float((np.sum(Sn1[c] >= S) + 1) / (P + 1)),
-                  'S_null2': float(Sn2[c].mean()), 'P_S2': float((np.sum(Sn2[c] >= S) + 1) / (P + 1)),
+                  'S_null2': float(Sn2[c].mean()) if c in Sn2 else None,
+                  'P_S2': float((np.sum(Sn2[c] >= S) + 1) / (P + 1)) if c in Sn2 else None,
                   'H': H, 'H_null': float(Hn1[c].mean()), 'P_H': float((np.sum(Hn1[c] >= H) + 1) / (P + 1))}
         print(tag, c, json.dumps(agg[c]), flush=True)
     return res, agg
@@ -69,7 +70,7 @@ def plant(U, rng, partial=False):
         f = fams[rng.integers(3)]
         if f == 'RATIO':
             r = float(RAT[rng.integers(len(RAT))]); m = RMODES[rng.integers(len(RMODES))]
-            y = np.maximum(_apply(x * r, m), 0)
+            y = np.maximum(apply_round(x * r, m), 0)
         elif f == 'DIFF':
             d = int(rng.integers(1, 6)) * (1 if rng.random() < .5 else -1); y = x + d
         else:

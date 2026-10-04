@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """la34 cycle 2: massive random guessing of 'what a hand is'.
-Every hypothesis is a random weighting of 42 per-feature distance layers (22 sign-agnostic ductus layers,
-8 sign-matched grid-PCA layers + 22 sign-matched scalar layers, 12 box-geometry layers) with random sparsity.
+Every hypothesis is a random weighting of 60 per-feature distance layers (20 sign-agnostic ductus layers,
+20 sign-matched scalar + 8 sign-matched grid-PCA layers, 12 box-geometry layers; scale-free features only) with random sparsity.
 Squared distances are linear in the weights, so thousands of hypotheses cost almost nothing.
 Protocol: within each site, hands are split in two (train / test).  N hypotheses are scored by same-site AUC on
 train-hand units only; the top K are averaged and scored on test-hand units only.  The whole search is repeated on
 label sets permuted within site (null of the selected-and-retested score).  Splits repeated S times."""
 import numpy as np, json, os, sys, collections
 from la34_common import load, CK
-from la34_img import occ_table
+from la34_img import occ_table, SCAL
 from la34_score import stats
 
 occ, meta, cid = load()
@@ -105,7 +105,9 @@ def main(S=10, NULL=20, N=3000):
             null.append((tr0, te0, td0))
     real = np.array(real); null = np.array(null)
     Wm = np.mean(W, 0)
-    names = ([f'D:{n}' for n in range(22)] + [f'M:{n}' for n in range(30)] + [f'R:{n}' for n in R['names']])
+    sc = [n for n in SCAL if not n.startswith('S_')]
+    names = [f'D:{n}' for n in sc] + [f'M:{n}' for n in sc] + [f'M:gridPC{i}' for i in range(8)] + [f'R:{n}' for n in R['names']]
+    assert len(names) == L.shape[0]
     out = {'units': len(U), 'real_train': real[:, 0].tolist(), 'real_test': real[:, 1].tolist(), 'real_default': real[:, 2].tolist(),
            'null_train': null[:, 0].tolist(), 'null_test': null[:, 1].tolist(),
            'p_test': float((1 + (null[:, 1].reshape(S, NULL).mean(0) >= real[:, 1].mean()).sum()) / (1 + NULL)),

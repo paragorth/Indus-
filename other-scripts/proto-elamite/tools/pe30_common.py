@@ -105,6 +105,7 @@ def member_feats(m, ent_all, tl):
         if sc[sigs[i]] > 1 and toks: f.append('D_sig')
         if l.get('damaged') or l['lacuna']: f.append('X_dmg')
         if '[' in l['raw'].split(',')[-1]: f.append('X_rest')
+        if lost_numeral(l): f.append('X_lost')
         if tsg & set(bs): f.append('T_share')
         else: f.append('T_none')
         if bs and tlast and bs[-1] == tlast: f.append('T_last')
@@ -136,8 +137,13 @@ def build(tier=2):
               and all(line_ok(l, 1) for l in lines))
         if tier == 1 and not t1:
             continue
+        lost = [l for l in t['lines'] if lost_numeral(l)]
+        if tier == 3 and not (len(lost) == 1 and lost[0]['surface'] == 'obverse'):
+            continue
+        if tier == 3:
+            O = [l for l in t['lines'] if l['surface'] == 'obverse' and (l in O or l is lost[0])]
         if not t1:
-            if any(lost_numeral(l) for l in t['lines']):
+            if any(lost_numeral(l) for l in t['lines']) and tier != 3:
                 continue
             if any(l['lacuna'] and not l['numerals'] and l['surface'] in ('obverse', 'reverse')
                    and re.fullmatch(r'[\s\[\].]*', l['raw'].replace('...', '')) for l in t['lines']):
@@ -172,7 +178,7 @@ def build(tier=2):
             if ok:
                 hyps.append(h)
         if hyps:
-            out.append({'id': t['id'], 'tier': 1 if t1 else 2, 'hyps': hyps})
+            out.append({'id': t['id'], 'tier': 3 if tier == 3 else (1 if t1 else 2), 'hyps': hyps})
     return out
 
 

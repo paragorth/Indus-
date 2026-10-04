@@ -1,0 +1,10 @@
+# pe28 cycle 3 (4 Oct 2026): LEAVE-ONE-TABLET-OUT propagation. tools/pe28_cycle3.py; data/pe28_ckpt/cycle3.json, cycle3.log
+# Each tablet predicted by the crossword solver fitted on all others (minv 3); each line counted once. Nulls 1000x on the fixed
+# predictions: global (values re-dealt within system + final sign) and SCALE (also within the tablet's log2 value-scale bin).
+# Per-key search correction = min per-key tail over all keys in each null draw. Distinct counts x among hits reported (a rate must
+# hold for different counts).
+| PE-28.3a | Ur III control (300 tablets, anchor gurusz -> sze-bi 60) | 27 hits on 223 lines vs global 3.5, scale 5.3 (p 0.001 both). udu -> sze-bi 1 sila: 15 lines, 12 tablets, 14 different counts (p_corr 0.001); amar -> sze-bi: 10 lines, 6 tablets, 6 counts (p_corr 0.001) | PASS: true rates survive the scale null with many different counts |
+| PE-28.3b | REAL PE, all keys | 68 hits on 247 lines vs global 48.6 (p 0.001), scale 59.4 (p 0.03) | WEAK: most of the cycle-2 excess is tablet-scale (small numbers predict small numbers) |
+| PE-28.3c | M288 -> M288 = 60 N39C (scale p_corr 0.001; 11 lines, 5 tablets) | counts only 1 and 3. Line check: the 'M288 , 1(N01)' line two lines up is an M288 entry in N01, not a count; the line just before is a person entry with 1(N01) (M054, M371, M057, M128, M297, M370...) followed by 'M288 , 2(N39B) 1(N24)' | DEMOTED to an echo of pe27 F3: the 60 N39C belongs to the M288 entry whatever sign heads the person line -> cycle 5 tests commodity-only rates |
+| PE-28.3d | M263 -> |M036+1(N30D)| = 5 (N01) per unit (scale p_corr 0.003; 10 lines, 7 tablets: P008137, 8157, 8168, 8691, 8892, 9227, 9240) | mostly 'x M263 , 1(N01) / |M036+1(N30D)| , 5(N01)'; counts 1, 2 (-> 1(N14)) and 3 (-> 15, weak) | C: |M036+1(N30D)| = 5 per M263-type unit. Would support: new tablets with 2-4 M263 units and |M036+1(N30D)| = 10-20; would kill: such lines at another multiple |
+| PE-28.3e | M056 -> M288 48 N39C, M046/M072 -> M288 1/2 N01 | global p_corr 0.001-0.009 but scale p 0.09-0.74 | C (as pe27 F6): fails the scale null |

@@ -131,7 +131,7 @@ RMODES = ['exact', 'floor', 'round', 'ceil', 'half']
 EPS = 1e-6
 
 
-def _apply(rx, mode):
+def apply_round(rx, mode):
     if mode == 'exact': return rx
     if mode == 'floor': return np.floor(rx + EPS)
     if mode == 'round': return np.floor(rx + 0.5 + EPS)
@@ -155,7 +155,7 @@ def fam_scores(X, Y, want_detail=False):
     best = np.zeros(P, int); arg = np.full(P, -1)
     rx = X[:, None, :] * RATF[None, :, None]            # (P, R, n)
     for mi, m in enumerate(RMODES):
-        k = (np.abs(_apply(rx, m) - Y[:, None, :]) < 1e-6) & (X[:, None, :] > 0)
+        k = (np.abs(apply_round(rx, m) - Y[:, None, :]) < 1e-6) & (X[:, None, :] > 0)
         # rounding modes must not be trivially exact-only for zero
         kk = k.sum(2)                                   # (P, R)
         a = kk.argmax(1); v = kk.max(1)
@@ -167,7 +167,7 @@ def fam_scores(X, Y, want_detail=False):
     # exclude d = 0 groups: if the max group is the zero group, recompute without zeros
     dz2 = np.where(np.abs(dz) < 1e-6, np.nan, dz)
     out['DIFF'] = _maxmult_nan(dz2)
-    out['COMP'] = _maxmult(X + Y)
+    out['COMP'] = _maxmult_nan(np.where(np.abs(dz) < 1e-6, np.nan, X + Y))   # identical entries excluded
     # affine exact: y - r x = d, r != 1, d != 0
     dd = Y[:, None, :] - rx                              # (P, R, n)
     dd = np.where(np.abs(dd) < 1e-6, np.nan, dd)
