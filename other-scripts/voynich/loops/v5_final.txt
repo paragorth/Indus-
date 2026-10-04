@@ -1,0 +1,44 @@
+# v5 final -- "the text is not language but notation for something temporal" (music, chant, counts, timing)
+# 4 cycles, 15 rows: loops/v5_cycle1.txt .. v5_cycle4.txt. Scripts tools/v5_*.py. Results data/results/v5_*.
+# Data: ZL3b and IT2a (agreement = transcription-robust, not replication).
+# Notation control: GregoBase Gregorian chant (dump 2019-10-24, github.com/bacor/gregobasecorpus commit ad5060fe, CC0),
+#   1,500 pieces; extracted phrases cached in data/derived/v5_chant.json.gz.
+# Language controls: Caesar, Manzoni, Dante under a fixed verbose substitution. Voynich nulls: glyph shuffle inside the line,
+#   glyph-trigram words, word-order shuffle inside the line.
+# Novelty (web, 4 Oct 2026): the music idea is only forum talk (voynich.ninja thread 3968, 2023, with no tests; a 'cadence
+#   artifact' thread, also with no tests). We found no published test of finals, metre or transposition against a real
+#   chant corpus. The battery itself seems to be new; the results below are mostly negative.
+
+## Plain answer
+On no test does the manuscript look more like notation than like language. Wherever chant gives a strong notation signal,
+the Voynich gives prose-level values or less:
+
+| fingerprint | chant (real notation) | Voynich ZL / IT | prose (verbose cipher) | verdict |
+|---|---|---|---|---|
+| line-final symbol special to its unit (ratio last / mid-line word-final) | 1.9 | 1.0 / 1.0 | 0-1.4 (rhymed Dante 22) | language-like |
+| closing line ends on the unit's usual final | z 10.3 | z 2.5 / 2.1 | z 1.1-3.6 | prose level |
+| closing glyph enriched in its own unit (tonic echo) | +0.09 | 0.00 / -0.02 | 0.00 | absent |
+| section/mode carried by the closing glyph vs a mid-line word-final glyph | 1.26 vs 0.13 bits | 0.05 vs 0.05 | - | absent |
+| metre: periodic repeats blind to word breaks | none (local repeats only) | lag-6/7 peak, but it follows word length (neighbour similarity) | flat | no metre |
+| word-length alternation | - | persistence (lag 1 +), no alternation | alternation | gibberish-like (known) |
+| line length quantised into a unit | - | no (\|z\| < 1.7) | - | no |
+| transposed phrases on a scale | scale recovered blind; x46-50 | x23-88, but word-shuffled Voynich x46-84 and no stable order | x27-33 | null (comes from word structure) |
+
+## The one notation-like trace (small, transcription-robust, not explained)
+V-4.1: the glyph that closes a PARAGRAPH can be predicted from what the paragraph contains, beyond section x Currier
+language (z 3.1 ZL, 5.0 IT; accuracy 0.29-0.31 vs null 0.14-0.15), better than the final of line 2 or of the
+penultimate line. Chant shows the same direction within mode. But the closing glyph is not over-represented in the
+paragraph (no tonic echo, V-1.4) and carries no extra section information (V-2.4), so it is not a 'mode final'. Most
+likely a layout effect (the last line is short and ends differently: y 47% vs 36%, m 10% vs 15%).
+Would support notation: the effect survives matching closing lines to interior lines of the same length.
+Would kill it: it vanishes under that length matching.
+
+## Side finding (to follow up as 'concord', not melody)
+V-3.4: adjacent words change a glyph in tandem more than chance (x1.2, z 4; trigram control x1.0): k/t, a/o, d/e, l/r,
+ch/sh (okedy qokeey ~ otedy qoteey; al dal ~ ol dol). Neighbour words agree in gallows and similar glyphs. Chant does
+not do this (x0.73), so it is not a musical trait. Novelty not checked.
+
+## Verdict
+The notation hypothesis, in the forms tested (modal finals, metre, transposition, section 'mode'), is not supported.
+The Voynich line has start and end rules (known), but its end glyph behaves like a word-final glyph in prose, not like a
+cadence. Nothing here is 'cracked'.

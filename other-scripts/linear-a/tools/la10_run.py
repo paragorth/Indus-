@@ -58,7 +58,7 @@ if __name__ == '__main__':
     types = target_types(tg, None); n = len(types)
     full, sd = L.calib(types, random.Random(5), 40)
     L.WDIST = wd
-    tag = f'{tg}_{spell}_w{wd}_s{seed}'
+    tag = f'{tg}_{spell}_w{wd}_s{seed}' + ('_dis' if os.environ.get('LA10_DISSIM') else '')
     ck = os.path.join(OUT, 'ckpt_' + tag + '.json')
     t0 = time.time()
     logf = open(os.path.join(OUT, 'log_' + tag + '.txt'), 'a')

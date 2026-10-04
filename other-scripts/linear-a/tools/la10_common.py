@@ -170,7 +170,9 @@ RULES = [
     ('coda_obs', 0.0, 1.0, None),      # share of medial codas that are obstruents (written with a dead vowel)
     ('coda_fin', 0.0, 1.0, None),      # P(final coda): INVISIBLE in LB spelling (built-in unrecoverable gene)
     ('root_len', 1.0, 4.0, None),      # mean syllables per root
-    ('harm_copy', 0.0, 1.0, 0.0),      # P(next vowel copies previous vowel) (total harmony / echo vowels)
+    ('harm_copy', -1.0 if os.environ.get('LA10_DISSIM') else 0.0, 1.0, 0.0),
+                                       # >0: P(next vowel copies previous vowel) (total harmony / echo vowels);
+                                       # <0 (cycle 2, LA10_DISSIM=1): P(next vowel must DIFFER from previous) (dissimilation)
     ('harm_fb', 0.0, 1.0, 0.0),        # P(next vowel restricted to the front/back class of the previous)
     ('ocp_id', -1.0, 1.0, 0.0),        # >0: P(reject same consonant category as previous); <0: P(copy it)
     ('ocp_place', 0.0, 1.0, 0.0),      # P(reject same place of articulation as previous consonant)
@@ -220,7 +222,11 @@ class Lang:
     def vowel(self, r, prev, final):
         w = self.fvw if final else self.vw
         if prev is not None:
-            if r.random() < self.g['harm_copy'] and w[prev] > 0: return prev
+            hc = self.g['harm_copy']
+            if hc > 0 and r.random() < hc and w[prev] > 0: return prev
+            if hc < 0 and r.random() < -hc:
+                ww = [x if i != prev else 0.0 for i, x in enumerate(w)]
+                if sum(ww) > 0: w = ww
             if r.random() < self.g['harm_fb'] and prev != 0:
                 cl = FRONT if prev in FRONT else BACK
                 ww = [x if (i in cl or i == 0) else 0.0 for i, x in enumerate(w)]

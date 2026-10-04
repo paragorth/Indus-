@@ -144,16 +144,18 @@ def ll(logits, C):
     return float((C * lp).sum())
 
 
-def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=1e-3, seed=0, init_scale=None):
-    """Returns params dict and logits function. Loss = -LL/N + lam*|params|^2/V."""
-    rng = np.random.default_rng(seed); V = C.shape[0]; N = C.sum(); rs = C.sum(1, keepdims=True)
-    beta = np.log(C.sum(0) + 0.5); beta -= beta.mean(); g = np.zeros(1)
+def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True):
+    """P(b|a) = (1-rho) softmax_b(logit_ab) + rho u_b  (u = train successor unigram; rho = teleport rate).
+    Loss = -LL/N + lam*|embedding params|^2/V. Returns dict with probs (V x V), rho, params."""
+    rng = np.random.default_rng(seed); V = C.shape[0]; N = C.sum()
+    u = C.sum(0) + 0.5; u = u / u.sum()
+    beta = np.log(u); beta -= beta.mean(); g = np.zeros(1); th = np.array([-1.0 if mix else -30.0])
     if kind == 'dist':
-        X = rng.normal(0, init_scale or 1.0, (V, d)); P = [X, beta, g]
+        X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, beta, g, th]
     elif kind == 'bilin':
-        U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g]
+        U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g, th]
     else:
-        P = [beta, g]
+        P = [beta, g, th]
     m = [np.zeros_like(p) for p in P]; v = [np.zeros_like(p) for p in P]
     b1, b2, eps = 0.9, 0.999, 1e-8
     I = np.eye(V)
@@ -164,30 +166,53 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=1e-3, seed=0, init_scale=N
         if kind == 'bilin':
             return P[0] @ P[1].T + P[2][None, :] + P[3][0] * I
         return np.repeat(P[0][None, :], V, 0) + P[1][0] * I
+    def probs(P):
+        S = _softmax_rows(logits(P)); rho = 1 / (1 + np.exp(-P[-1][0]))
+        return S, rho, (1 - rho) * S + rho * u[None, :]
     for t in range(1, iters + 1):
-        Lg = logits(P); S = _softmax_rows(Lg)
-        G = (S * rs - C) / N                      # d(-LL/N)/dlogit
+        S, rho, Pr = probs(P)
+        H = C / Pr                                    # dLL/dPr
+        HS = (1 - rho) * H
+        G = -(S * (HS - (S * HS).sum(1, keepdims=True))) / N      # d(-LL/N)/dlogit
+        grho = -((H * (u[None, :] - S)).sum() / N) * rho * (1 - rho) if mix else 0.0
         if kind == 'dist':
             X = P[0]
             gX = 2 * (G @ X - G.sum(1)[:, None] * X) + 2 * (G.T @ X - G.sum(0)[:, None] * X)
-            gX = -gX + 2 * lam * X / V
-            grads = [gX, G.sum(0), np.array([np.trace(G)])]
+            grads = [gX + 2 * lam * X / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         elif kind == 'bilin':
             U, W = P[0], P[1]
-            grads = [G @ W + 2 * lam * U / V, G.T @ U + 2 * lam * W / V, G.sum(0), np.array([np.trace(G)])]
+            grads = [G @ W + 2 * lam * U / V, G.T @ U + 2 * lam * W / V, G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         else:
-            grads = [G.sum(0), np.array([np.trace(G)])]
+            grads = [G.sum(0), np.array([np.trace(G)]), np.array([grho])]
         for i, (p, gr) in enumerate(zip(P, grads)):
             m[i] = b1 * m[i] + (1 - b1) * gr; v[i] = b2 * v[i] + (1 - b2) * gr * gr
             p -= lr * (m[i] / (1 - b1 ** t)) / (np.sqrt(v[i] / (1 - b2 ** t)) + eps)
-    Lg = logits(P)
-    return {'P': P, 'kind': kind, 'd': d, 'train_ll': ll(Lg, C), 'logits': Lg}
+    S, rho, Pr = probs(P)
+    return {'P': P, 'kind': kind, 'd': d, 'train_ll': float((C * np.log(Pr)).sum()), 'probs': Pr, 'rho': float(rho)}
 
 
-def best_fit(C, kind, d, restarts, **kw):
+def test_ll(f, C):
+    return float((C * np.log(f['probs'])).sum())
+
+
+def spectral_init(C, d, scale=3.0):
+    A = C + C.T + 1e-3; np.fill_diagonal(A, 0)
+    r = A.sum(1); Ex = np.outer(r, r) / r.sum()
+    A = np.maximum(np.log(A / Ex), 0) * (A > 1)          # positive PMI on observed pairs
+    deg = A.sum(1) + 1e-9; Dm = 1 / np.sqrt(deg)
+    M = Dm[:, None] * A * Dm[None, :]
+    w, U = np.linalg.eigh(M); U = U[:, ::-1][:, 1:d + 1] * Dm[:, None]
+    U = U / (U.std(0) + 1e-12) * scale
+    return U
+
+
+def best_fit(C, kind, d, restarts, spectral=True, **kw):
     best = None
+    inits = [None] * restarts
+    if kind == 'dist' and spectral:
+        inits[0] = spectral_init(C, d)
     for r in range(restarts):
-        f = fit(C, kind, d, seed=r, **kw)
+        f = fit(C, kind, d, seed=r, init=inits[r], **kw)
         if best is None or f['train_ll'] > best['train_ll']: best = f
     return best
 

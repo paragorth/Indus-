@@ -9,7 +9,7 @@ import la8_gp as G
 from la8_truth import ari, truth_genome
 
 TAG = sys.argv[1] if len(sys.argv) > 1 else 'main'
-CORPORA = ['PFLAT', 'PREC', 'LA', 'LB', 'PE', 'LAS']
+CORPORA = ['PFLAT', 'PREC', 'LA', 'LB', 'PE', 'LAS', 'LB2', 'PE2']
 
 
 def token_classes(D, g):
