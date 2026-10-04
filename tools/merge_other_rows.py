@@ -3,6 +3,7 @@ for sc in ['proto-elamite','linear-a','voynich']:
     p=f'other-scripts/{sc}/STRATEGIES.md'; s=open(p).read(); new=[]
     for f in sorted(glob.glob(f'other-scripts/{sc}/loops/*.txt')):
         pre=f.split('/')[-1].split('_')[0]
+        if not glob.glob(f'other-scripts/{sc}/loops/{pre}_final.txt'): continue
         for line in open(f):
             m=re.match(r'\| ([A-Z]+-[\d.]+\w*) \|',line)
             if not m or line.count('|')<5: continue

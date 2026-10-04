@@ -23,6 +23,11 @@ def modal(d):
     return t, n / sum(c.values())
 
 
+def ok(d, bt):
+    # an item is scored only if it was in the item set in >= half of the resamples
+    return sum(d.values()) >= bt / 2
+
+
 for m in X.METHODS2:
     print('\n==== method', m)
     # ---------- control
@@ -39,11 +44,11 @@ for m in X.METHODS2:
         pts = []
         for r in by[ctl]:
             for s, d in r['res'][m]['top'].items():
-                if s in G['gold']:
+                if s in G['gold'] and ok(d, r['res'][m]['bt']):
                     t, st = modal(d)
                     if any(x in G['gold'][s] for x in [k for k in d]) or True:
                         pts.append((st, t in G['gold'][s], s, t))
-        shst = [modal(d)[1] for r in by[ctl + '_s'] for s, d in r['res'][m]['top'].items() if s in G['gold']]
+        shst = [modal(d)[1] for r in by[ctl + '_s'] for s, d in r['res'][m]['top'].items() if s in G['gold'] and ok(d, r['res'][m]['bt'])]
         thr = float(np.percentile(shst, 95)) if shst else 1.0
         hi = [p for p in pts if p[0] >= thr]
         o = {'mrr_real': float(mr.mean()), 'mrr_shuf': float(ms.mean()) if len(ms) else None,
@@ -65,17 +70,22 @@ for m in X.METHODS2:
         for r in by['lape_s']:
             mx = 0
             for s, d in r['res'][m]['top'].items():
+                if not ok(d, r['res'][m]['bt']):
+                    continue
                 st = modal(d)[1]; nullmax[s].append(st); mx = max(mx, st)
             famw.append(mx)
         fam95 = float(np.percentile(famw, 95)) if famw else 1.0
-        nshuf_hi = [sum(modal(d)[1] >= fam95 for d in r['res'][m]['top'].values()) for r in by['lape_s']]
+        nshuf_hi = [sum(modal(d)[1] >= fam95 for d in r['res'][m]['top'].values() if ok(d, r['res'][m]['bt'])) for r in by['lape_s']]
         allnull = [x for v in nullmax.values() for x in v]
         item95 = float(np.percentile(allnull, 95)) if allnull else 1.0
         rev = {s: modal(d) for s, d in L['btop'].items()}
         for s, d in sorted(L['top'].items(), key=lambda kv: -sum(kv[1].values())):
+            if not ok(d, L['bt']):
+                continue
             t, st = modal(d)
             mutual = rev.get(t, (None, 0))[0] == s
-            pnull = float((1 + sum(x >= st for x in allnull)) / (1 + len(allnull)))
+            own = nullmax.get(s, [])
+            pnull = float((1 + sum(x >= st for x in own)) / (1 + len(own)))
             res[s] = {'pe': t, 'stab': round(st, 3), 'mutual': mutual, 'rev_stab': round(rev.get(t, (None, 0))[1], 3) if mutual else None,
                       'p_item': round(pnull, 4), 'surv_fam': st >= fam95, 'top3': Counter(d).most_common(3)}
         wres = {s: modal(d) for s, d in L['wtop'].items()}
