@@ -32,8 +32,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DX = os.path.join(HERE, '..', 'data', 'x2')
 
 
+BIG = os.environ.get('X2_BIG', os.path.join(os.environ.get('X2_SCRATCH', '/tmp/x2_scratch'), 'x2'))
+
+
 def load(name):
-    return json.load(open(os.path.join(DX, 'corpus_%s.json' % name)))
+    # the Ur III corpus (105 MB) is kept outside the repository; rebuild with x2_build.py UR3
+    f = os.path.join(DX, 'corpus_%s.json' % name)
+    if not os.path.exists(f):
+        f = os.path.join(BIG, 'corpus_%s.json' % name)
+    return json.load(open(f))
+
+
+def jsonl(path):
+    """Read a checkpoint .jsonl, or its gzipped copy."""
+    import gzip
+    if not os.path.exists(path) and os.path.exists(path + '.gz'):
+        return [json.loads(l) for l in gzip.open(path + '.gz', 'rt')]
+    return [json.loads(l) for l in open(path)]
 
 
 def qbin(q):

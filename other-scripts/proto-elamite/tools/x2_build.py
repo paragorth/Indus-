@@ -22,7 +22,7 @@ UR3 : CDLI ATF, Ur III administrative tablets (catalogue period 'Ur III'), seal 
       component stands alone as a commodity >= 20 times); designation = rest of the line and
       up to 2 following lines without a numeral; totals = szu-nigin2 lines; gur / ma-na main
       units, barig ban2 sila3 gin2 and n/m fractions = sub-units.
-Output: proto-elamite/data/x2/corpus_{LA,PE,LB,UR3}.json
+Output: proto-elamite/data/x2/corpus_{LA,PE,LB}.json; Ur III (105 MB) to $X2_BIG (scratch), not the repo
 """
 import csv, json, os, re, sys, random
 from collections import Counter, defaultdict
@@ -31,7 +31,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OS = os.path.join(HERE, '..', '..')
 OUT = os.path.join(HERE, '..', 'data', 'x2')
 os.makedirs(OUT, exist_ok=True)
-SCR = os.environ.get('X2_SCRATCH', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad')
+SCR = os.environ.get('X2_SCRATCH', '/tmp/x2_scratch')   # holds cdli/cdli.atf and cdli_cat.csv
 ATF = os.path.join(SCR, 'cdli', 'cdli.atf')
 CAT = os.path.join(SCR, 'cdli_cat.csv')
 
@@ -357,7 +357,9 @@ if __name__ == '__main__':
             D = build_lb()
         elif w == 'UR3':
             D = build_ur3()
-        json.dump(D, open(os.path.join(OUT, 'corpus_%s.json' % w), 'w'))
+        od = os.environ.get('X2_BIG', os.path.join(SCR, 'x2')) if w == 'UR3' else OUT   # Ur III corpus too big for the repo
+        os.makedirs(od, exist_ok=True)
+        json.dump(D, open(os.path.join(od, 'corpus_%s.json' % w), 'w'))
         ne = sum(len(d['entries']) for d in D)
         cc = Counter(e['com'] for d in D for e in d['entries'] if e['com'])
         print(w, 'docs', len(D), 'entries', ne, 'commodity tokens', sum(cc.values()), 'types', len(cc))

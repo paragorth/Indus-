@@ -10,7 +10,7 @@ import x2_common as X
 
 CK = os.path.join(X.DX, sys.argv[1] if len(sys.argv) > 1 else 'c2_worlds.jsonl')
 G = json.load(open(X.GOLD_FILE))
-rows = [json.loads(l) for l in open(CK)]
+rows = X.jsonl(CK)
 by = defaultdict(list)
 for r in rows:
     by[r['name']].append(r)

@@ -12,8 +12,8 @@ import x2_common as X
 
 G = json.load(open(X.GOLD_FILE))
 GOLD = G['gold']
-rows3 = [json.loads(l) for l in open(os.path.join(X.DX, 'c3_worlds.jsonl'))]
-rows2 = [json.loads(l) for l in open(os.path.join(X.DX, 'c2_worlds.jsonl'))]
+rows3 = X.jsonl(os.path.join(X.DX, 'c3_worlds.jsonl'))
+rows2 = X.jsonl(os.path.join(X.DX, 'c2_worlds.jsonl'))
 by3 = defaultdict(list)
 for r in rows3:
     by3[r['name']].append(r)

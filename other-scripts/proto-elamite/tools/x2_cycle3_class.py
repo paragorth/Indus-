@@ -12,8 +12,8 @@ import x2_common as X
 
 MEAS = {'sze', 'zi3', 'dabin', 'esza', 'ziz2', 'gig', 'i3', 'kasz', 'ninda', 'eša'}
 G = json.load(open(X.GOLD_FILE))['gold']
-r3 = [json.loads(l) for l in open(os.path.join(X.DX, 'c3_worlds.jsonl'))]
-r2 = [json.loads(l) for l in open(os.path.join(X.DX, 'c2_worlds.jsonl'))]
+r3 = X.jsonl(os.path.join(X.DX, 'c3_worlds.jsonl'))
+r2 = X.jsonl(os.path.join(X.DX, 'c2_worlds.jsonl'))
 
 
 def modal(d):

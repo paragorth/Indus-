@@ -68,7 +68,7 @@ def main():
 
 
 def summarise():
-    rows = [json.loads(l) for l in open(CK)]
+    rows = X.jsonl(CK)
     out = {}
     for cond in COND:
         for m in X.METHODS:
