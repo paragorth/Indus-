@@ -142,13 +142,13 @@ def confirm(D, toks, y, h, p0, pen, disc, conf, rng, nperm=200):
     return obs, b, float((null >= obs).mean()), float((obs - null.mean()) / (null.std() + 1e-12)), float(x.mean())
 
 
-def run(name, pages, pairs, tall, rng, log, plant=None, nnull=4, ntop=25):
+def run(name, pages, pairs, tall, rng, log, plant=None, nnull=4, ntop=24, only=None):
     toks_all = extract(pages, pairs, tall)
     inv = [c for c, _ in Counter(c for P in pages for L in P['lines'] for c in L['g'] if c != ' ').most_common(22)]
     gid = {c: i for i, c in enumerate(inv)}
     res = {}
     for pname in pairs:
-        if plant and pname != 'KT':
+        if (plant and pname != 'KT') or (only and pname not in only):
             continue
         toks = [t for t in toks_all if t['pair'] == pname]
         y = np.array([t['y'] for t in toks])
@@ -167,6 +167,11 @@ def run(name, pages, pairs, tall, rng, log, plant=None, nnull=4, ntop=25):
         A, B = pairs[pname][0], pairs[pname][1]
         H = make_hyps(rng, list(range(len(inv))), [gid[c] for c in tall if c in gid],
                       ([gid[c] for c in A if c in gid] or [0], [gid[c] for c in B if c in gid] or [0]), NH)
+        seen, Hu = set(), []
+        for h in H:
+            if repr(h) not in seen:
+                seen.add(repr(h)); Hu.append(h)
+        H = Hu
         t0 = time.time()
         gains, p0, pen = search(D, toks, y, H, disc, conf, groups)
         # search-wide null
@@ -176,7 +181,11 @@ def run(name, pages, pairs, tall, rng, log, plant=None, nnull=4, ntop=25):
             g2, _, _ = search(D, toks, y2, H, disc, conf, groups)
             nmax.append(float(g2.max()))
         thr = max(nmax)
-        order = np.argsort(-gains)[:ntop]
+        # top hypotheses per type (ABOVE / POS / PEN), so one strong family cannot hide the others
+        order = []
+        for typ in (('ABOVE',), ('POS', 'POS2'), ('PEN',)):
+            ks = [k for k in np.argsort(-gains) if H[k][0] in typ][:ntop // 3]
+            order += ks
         rows = []
         for k in order:
             obs, b, p, z, cov = confirm(D, toks, y, H[k], p0, pen, disc, conf, rng)
@@ -188,7 +197,7 @@ def run(name, pages, pairs, tall, rng, log, plant=None, nnull=4, ntop=25):
         msg = '%s %s n=%d: best disc gain %.4f bits vs search-null max %s; %d hyps above null; %d confirmed (Bonf) [%.0fs]' % (
             name, pname, len(y), gains.max(), ['%.4f' % v for v in nmax], (gains > thr).sum(), nconf, time.time() - t0)
         print(msg, flush=True); log.write(msg + '\n')
-        for r in rows[:8]:
+        for r in sorted(rows, key=lambda r: -r['disc'])[:3] + [r for r in rows if r['h'][0] == 'ABOVE'][:3] + [r for r in rows if r['h'][0].startswith('POS')][:3]:
             m2 = '   %s disc %.4f conf %.4f b %+.2f p %.3f z %.1f cov %.2f' % (r['h'], r['disc'], r['conf'], r['b'], r['p'], r['z'], r['cov'])
             print(m2, flush=True); log.write(m2 + '\n')
         log.flush()
@@ -206,5 +215,6 @@ if __name__ == '__main__':
         dp = {'SS': (set('s'), set('ſ'), lambda c: 'S'), 'RR': (set('r'), set('ꝛ'), lambda c: 'R')}
         out = run('DTA-Simpl', load_dta(os.path.join(SCR, 'grimmelshausen_simplicissimus_1669.txt')), dp, dtall, rng, log)
     else:
-        out = run(which, load_voynich(which), vpairs(), V_TALL, rng, log)
-    json.dump(out, open(os.path.join(CKPT, 'cycle2_%s.json' % which), 'w'), indent=1)
+        only = sys.argv[2].split(',') if len(sys.argv) > 2 else None
+        out = run(which, load_voynich(which), vpairs(), V_TALL, rng, log, only=only)
+    json.dump(out, open(os.path.join(CKPT, 'cycle2_%s%s.json' % (which, '_' + sys.argv[2].replace(',', '') if len(sys.argv) > 2 else '')), 'w'), indent=1)

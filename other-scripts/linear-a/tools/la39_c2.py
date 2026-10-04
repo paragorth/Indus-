@@ -80,6 +80,20 @@ def context_stat(A, DW, mod, groups):
     return {k: (float(np.mean(v)), len(v)) for k, v in out.items()}
 
 
+def run_context(A, DW, groups, label, nperm=1000):
+    obs = context_stat(A, DW, A['mod'], groups)
+    null = defaultdict(list)
+    for _ in range(nperm):
+        r = context_stat(A, DW, L.shuffle_mods(A, rng), groups)
+        for k, v in r.items(): null[k].append(v[0])
+    res = {}
+    for k, (v, n) in obs.items():
+        nv = np.array(null[k])
+        res[k] = (round(v, 4), n, round(float(nv.mean()), 4), round(float((1 + (nv >= v).sum()) / (1 + len(nv))), 4))
+    print(label, 'context', res, flush=True)
+    return res
+
+
 def classes_label(A, part):
     return np.array([part.get(m, '') if m else '' for m in A['mod']])
 

@@ -146,7 +146,23 @@ def _idf_cos(lists, lo=2, hi=40):
     return S
 
 
+HANDFIX = os.environ.get('HANDFIX', '') == '1'
+
+
+def variant_bases(tabs, ur=False):
+    tot = collections.defaultdict(collections.Counter)
+    for t in tabs:
+        for s in t['signs']:
+            b, v = _variant_key(s, ur)
+            if b:
+                tot[b][v] += 1
+    return {b for b, c in tot.items() if len(c) >= 2 and sum(c.values()) >= 10}
+
+
 def sim_pool(tabs):
+    if HANDFIX:  # disjoint channels: pool uses only signs that are never written in two variants
+        vb = variant_bases(tabs, ur='date' in tabs[0])
+        return _idf_cos([[b for b in t['bases'] if b not in vb] for t in tabs])
     return _idf_cos([t['bases'] for t in tabs])
 
 
@@ -196,8 +212,8 @@ def sim_hand(tabs, ur=False):
         same = (col[idx, None] == col[None, idx]).astype(np.float32) - pe[j]
         S[np.ix_(idx, idx)] += same
     with np.errstate(invalid='ignore', divide='ignore'):
-        S = S / np.sqrt(N)
-    S[N < 1] = np.nan
+        S = S / N if HANDFIX else S / np.sqrt(N)
+    S[N < (3 if HANDFIX else 1)] = np.nan
     return S
 
 

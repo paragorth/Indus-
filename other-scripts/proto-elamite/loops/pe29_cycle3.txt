@@ -1,0 +1,14 @@
+pe29 cycle 3 -- do the rebuilt PE sessions behave like daily archives? (tools/pe29_cycle3.py; logs data/pe29_ckpt/cycle3_sum.log, cycle3_tot.log)
+Sessions = connected components of cycle-2 session links (all five evidences; links in >= 30% of 100 restarts), size 2-12: 236 sessions,
+1,025 tablet pairs (578 tablets stay single). No evidence reads a numeral, so amounts are an independent check.
+Nulls (500 each): N1 sessions relabelled inside strata (same sizes); N2 'drawer' sessions = a random tablet plus its museum-number neighbours.
+Planted: 25 sessions where one tablet's total is overwritten by another member's entry sum.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-29.3a | Same entry string (>= 2 signs) on two tablets of a session written with the identical numeral | 6 of 12 recurring strings; N1 0.90 of its (few) recurrences; N2 finds no recurring strings at all | no power: only 12 recurrences in all sessions; names do not recur across session tablets often enough to test amounts |
+| PE-29.3b | Rate/scale: mean abs log-difference of median entry value (same system) within sessions | 1.54 vs N1 1.59 (p 0.40), N2 1.65 (p 0.18) | no shared rate or scale inside sessions (negative) |
+| PE-29.3c | Cross-tablet arithmetic: total on A = entry sum of B (or of two members), values >= 6 | 2 of 47 totals; N1 0.13 (p 0.008), N2 drawer 0.70 (p 0.13); planted 26 hits vs drawer null 3.8 | not beyond museum-neighbour sessions; 1 hit is an artefact (header-line rule) |
+| PE-29.3d | Total = total of another member | 2 (one mutual pair, both 1(N34) = 60); N1 0.89, N2 0.61 | nothing |
+| PE-29.3e | Best case read by eye: MDP 17,001 (P008199, Sb 22204) and MDP 17,003 (P008201, Sb 22205) | consecutive museum numbers, same header M157~a, same size (56x45, 60x48 mm), both carry M131~k; both sum to 15: 10+5 'M039~c' vs 5+5+5 'M032' with written total 15 M032 | C: a pair of twin dockets of one sitting; would support: a third Sb 2220x tablet with header M157~a and 15 units; would kill: Sb 22204/22205 from different find lots |
+| PE-29.3V | Verdict | The sessions the evidence builds do not behave like daily archives: no shared rate, no cross-tablet sums beyond the drawer null, almost no recurring names. Planted arithmetic is found (26 vs 3.8), so the test had power for a real 25-session effect | negative (B): no daily-archive arithmetic across rebuilt sessions; one C-grade twin pair |

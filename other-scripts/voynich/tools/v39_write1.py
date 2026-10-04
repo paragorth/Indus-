@@ -36,7 +36,7 @@ for c in ('all5', 'fam', 'gal4'):
 none = 'unmerged: ' + R.line(D, 'V|cfg|none', KEYM)
 R_ = R.compare(D, 'V|cfg|all5', nullV5)
 L.row(FN, 'V-39.1.1', f'Voynich ZL (202 pages, 34.7k tokens): merge ALL twin pairs (all5: k=t, p=f, ckh=cth, cph=cfh, ch=sh), the whole gallows family (fam: k=t=p=f, ckh=cth=cph=cfh, ch=sh) and the four gallows pairs (gal4). NULL: {len(nullV5)} random merges of 5 pairs, each unit within +-2 frequency ranks of the real twin',
-      none + ' || ' + ' || '.join(res),
+      none + ' // ' + ' // '.join(res),
       'Merging the twins does NOT make the Voynich language-like: P(language or conlang) stays 0.13-0.15 (null 0.12), P(generator) 0.43-0.54 (null 0.58), frequency arrow 0/400, gap ratio 0.94-0.96 (languages 0.46-0.60), forgery AUC 0.92-0.94. What DOES move beyond the null is the split signature itself: types per 10k tokens fall 0.29 -> 0.24 / 0.22 (z -4.8 / -6.7), the Zipf slope steepens (z -5), h2/h1 drops (z -2.7): many word types differ only by a twin, as in a homophone split. Grade A (negative for language-likeness; positive for twin = variant)')
 # 1.2 singles
 res = []
@@ -55,7 +55,7 @@ for lg, nm in langs.items():
         f"{m} {R.fmt(g(o, m), m)} -> free {R.fmt(g(pf, m), m)} / pos {R.fmt(g(pp, m), m)}" for m in KEYM)
     res.append(s)
 L.row(FN, 'V-39.1.3', 'POSITIVE control / sensitivity: real Latin, German, Italian with a planted homophone split (5 letters at the frequency ranks of the merged Voynich twins, each written as two glyphs at the Voynich minor-variant share; free = random choice, pos = chosen by the preceding letter with 15% noise). Merging by the planted key restores the text exactly (checked: token-identical), so the question is how far the split moved it',
-      ' || '.join(res),
+      ' // '.join(res),
       'The battery IS sensitive to a twin split: a Voynich-matched split lowers P(language) by 0.10-0.16, raises P(generator) by 0.07-0.16 and raises types per 10k by 0.06-0.09 in all three languages (German gap ratio jumps 0.46 -> 1.65). It does NOT erase the frequency arrow (Latin 47 -> 49, Italian 232 -> 208). Merging by the planted key restores everything exactly. So un-splitting can move a text toward language; the size of the move is ~0.1-0.15 in P(language). Grade A (calibration)')
 # 1.4 random merges in languages
 res = []
@@ -69,8 +69,8 @@ L.row(FN, 'V-39.1.4', 'NEGATIVE control: random merges of 5 freq-matched letter 
 # 1.5 Copiale
 kc = [k for k in D if k.startswith('cop|coprand')]
 v = {m: np.array([g(k, m) for k in kc]) for m in KEYM}
-s = 'cipher: ' + R.line(D, 'cop|cfg|none', KEYM) + ' || merged by the published key: ' + R.line(D, 'copK|cfg|none', KEYM) + \
-    f' || {len(kc)} random merges with the key\'s class sizes: ' + ', '.join(f"{m} {R.fmt(v[m].mean(), m)}+-{R.fmt(v[m].std(), m)}" for m in KEYM)
+s = 'cipher: ' + R.line(D, 'cop|cfg|none', KEYM) + ' // merged by the published key: ' + R.line(D, 'copK|cfg|none', KEYM) + \
+    f' // {len(kc)} random merges with the key\'s class sizes: ' + ', '.join(f"{m} {R.fmt(v[m].mean(), m)}+-{R.fmt(v[m].std(), m)}" for m in KEYM)
 L.row(FN, 'V-39.1.5', 'POSITIVE control, a real homophone cipher: Copiale (HTR transcription, 13k cipher words split at its space symbols) as written, merged by the Knight-Megyesi-Schaefer 2011 key (homophones -> one plaintext unit), and random merges with the same class sizes', s,
       'POSITIVE CONTROL PASSES STRONGLY: the real homophone cipher reads as a generator (P(gen) 0.97), merged by its true key it leaves the generator class (P(gen) 0.07; P(conlang) 0.90, P(language or conlang) 0.92), types per 10k halve (0.58 -> 0.30), gap ratio falls to the language band (0.78 -> 0.61), Zipf steepens to language (-0.77 -> -0.91); random merges of the same class sizes change nothing (P(gen) 0.95). A homophone cipher merged correctly DOES become language-like on this battery. Grade A')
 L.row(FN, 'V-39.1.V', 'Cycle-1 verdict', 'Copiale: gen 0.97 -> 0.07 when merged by its key; planted Latin/German/Italian: P(language) -0.10 to -0.16 from a Voynich-matched split; Voynich merged by its twins: P(language or conlang) 0.15 -> 0.13, P(gen) 0.44 -> 0.50, arrow 0 -> 0, gap 0.92 -> 0.94, while ttr / Zipf / h2 move as a split being undone (z -3 to -7)',

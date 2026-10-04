@@ -2,7 +2,6 @@
 'pictures'), at PE size (39 seals, ~50 tablets) and at 10x PE size."""
 import sys, json, collections
 import numpy as np
-sys.argv = [sys.argv[0], sys.argv[1], '0']
 import pe33_ur3 as U   # builds rows only when NSUB=0 (runs its own full test once)
 from pe33_cycle2 import vecs, run
 from pe33_common import CK

@@ -92,14 +92,23 @@ def prep(toks, corpus, min_c=2, min_b=3, extra=None):
         if not p or n[s] < min_c:
             continue
         a, mod = p[0], p[1]
-        b = a if n.get(a, 0) >= min_b else (p[2] if len(p) > 2 and n.get(p[2], 0) >= min_b else None)
+        sb = p[2] if len(p) > 2 else a
+        b = sb if n.get(sb, 0) >= min_b else (a if n.get(a, 0) >= min_b else None)
         if b is None or parse(b, corpus):
             continue
         comp.append((s, b, mod))
-    return {'names': names, 'mean': mean, 'n': n, 'comp': comp, 'X': X, 'idx': idx}
+    tabs = {s: {toks[i]['t'] for i in v} for s, v in idx.items()}
+    return {'names': names, 'mean': mean, 'n': n, 'comp': comp, 'X': X, 'idx': idx, 'tabs': tabs}
 
 
-def transfer(P, mods, exclude=('X',), targets=None):
+def sub(P, cols):
+    """Copy of P restricted to feature columns (indices)."""
+    Q = dict(P)
+    Q['mean'] = {s: v[cols] for s, v in P['mean'].items()}
+    return Q
+
+
+def transfer(P, mods, exclude=('X',), targets=None, disjoint=False):
     """Leave-one-compound-out prediction of each compound's behaviour.
     mods: list of modifier labels aligned with P['comp'].
     Returns dict of mean errors over targets (compounds whose modifier occurs on
@@ -108,7 +117,7 @@ def transfer(P, mods, exclude=('X',), targets=None):
     D = np.array([M[c] - M[b] for c, b, _ in comp])
     F = np.array([M[c] for c, _, _ in comp])
     B = np.array([M[b] for _, b, _ in comp])
-    bases = [b for _, b, _ in comp]
+    bases = [strip_var(b) for _, b, _ in comp]
     by = defaultdict(list)
     for i, m in enumerate(mods):
         if m not in exclude:
@@ -116,13 +125,16 @@ def transfer(P, mods, exclude=('X',), targets=None):
     gsum, nC = D.sum(0), len(comp)
     e = defaultdict(list)
     tl = []
-    for i, (c, b, _) in enumerate(comp):
+    for i, (c, b0, _) in enumerate(comp):
+        b = strip_var(b0)
         m = mods[i]
         if m in exclude:
             continue
         if targets is not None and c not in targets:
             continue
         oth = [j for j in by[m] if j != i and bases[j] != b]
+        if disjoint:
+            oth = [j for j in oth if not (P['tabs'][comp[j][0]] & P['tabs'][c])]
         if not oth:
             continue
         dm = D[oth].mean(0)
@@ -132,6 +144,9 @@ def transfer(P, mods, exclude=('X',), targets=None):
         e['add'].append(((B[i] + dm - f) ** 2).mean())
         e['gen'].append(((B[i] + gen - f) ** 2).mean())
         e['modonly'].append(((F[oth].mean(0) - f) ** 2).mean())
+        e['dot'].append(((f - B[i] - gen) * (dm - gen)).mean())
+        a, bb = f - B[i] - gen, dm - gen
+        e['cos'].append(float(a @ bb / (np.linalg.norm(a) * np.linalg.norm(bb) + 1e-12)))
         tl.append(c)
     out = {k: float(np.mean(v)) for k, v in e.items()}
     out['n'] = len(tl)
@@ -142,9 +157,9 @@ def transfer(P, mods, exclude=('X',), targets=None):
     return out
 
 
-def perm_test(P, n_perm=2000, seed=0, exclude=('X',), targets=None, stat='G'):
+def perm_test(P, n_perm=2000, seed=0, exclude=('X',), targets=None, stat='G', disjoint=False):
     mods = [m for _, _, m in P['comp']]
-    real = transfer(P, mods, exclude, targets)
+    real = transfer(P, mods, exclude, targets, disjoint)
     rng = random.Random(seed)
     keep = [i for i, m in enumerate(mods) if m not in exclude]
     null = []
@@ -154,7 +169,7 @@ def perm_test(P, n_perm=2000, seed=0, exclude=('X',), targets=None, stat='G'):
         rng.shuffle(vals)
         for i, v in zip(keep, vals):
             sh[i] = v
-        r = transfer(P, sh, exclude, targets)
+        r = transfer(P, sh, exclude, targets, disjoint)
         if r['n']:
             null.append(r[stat])
     null = np.array(null)
@@ -180,13 +195,13 @@ def base_test(P, n_perm=2000, seed=0):
     return real, float(null.mean()), float((1 + (null <= real).sum()) / (1 + len(null)))
 
 
-def plant(toks, corpus, seed, strength, n_mod=8, n_base=5, frac=0.3, n_feat=3):
+def plant(toks, corpus, seed, strength, n_mod=8, n_base=5, frac=0.3, n_feat=3, sizes=None):
     """Relabel a fraction of tokens of frequent simple signs as planted compounds
     |B+PLk| and push n_feat features of each planted modifier with prob strength.
     Returns (new token list, list of planted compound names, effects)."""
     rng = random.Random(seed)
     cnt = Counter(r['s'] for r in toks)
-    simple = [s for s, c in cnt.items() if c >= 20 and not parse(s, corpus)]
+    simple = [s for s, c in cnt.items() if c >= (8 if sizes else 20) and not parse(s, corpus)]
     names = sorted({k for r in toks for k in r['f']})
     fams = defaultdict(list)
     for k in names:
@@ -204,7 +219,14 @@ def plant(toks, corpus, seed, strength, n_mod=8, n_base=5, frac=0.3, n_feat=3):
     for k in range(n_mod):
         for b in rng.sample(simple, n_base):
             ids = byS[b]
-            pick = rng.sample(ids, max(3, int(frac * len(ids))))
+            ids = [i for i in ids if out[i]['s'] == b]
+            if sizes:
+                k_n = min(len(ids) - 3, rng.choice(sizes))
+                if k_n < 2:
+                    continue
+                pick = rng.sample(ids, k_n)
+            else:
+                pick = rng.sample(ids, max(3, int(frac * len(ids))))
             cname = '|%s+PL%d|' % (b, k) if corpus != 'LINB' else '%s+PL%d' % (b, k)
             if corpus == 'LINB':
                 cname = '%s+PLQ%s' % (b, 'ABCDEFGHIJ'[k])

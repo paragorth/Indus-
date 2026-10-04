@@ -1,0 +1,10 @@
+# pe33 cycle 3 (4 Oct 2026): MASSIVE RANDOM GUESSING, HELD OUT BY SEAL. tools/pe33_cycle3.py; data/pe33_ckpt/cycle3.json.
+# 10,000 random hypotheses 'tablets sealed with picture m write any of A' (m one of 9 motif features, A 1-3 of 73 content features
+# on >= 3 coded tablets). Scored on the tablets of a random half of the 39 seals, top 1% (100) re-scored on the other half's tablets;
+# 10 seal splits. Nulls: 20 pipelines with motif vectors shuffled among seals within volume. Plant: 2 signs added (one per tablet)
+# to 50% of BOVID tablets, 5 plants.
+| PE-33.3a | Real pipeline | survivors' held-out mean z -0.03; share with held-out z > 2: 1.3% | NULL: guesses that look good on half the seals do not hold on the other half |
+| PE-33.3b | Seal-shuffled pipelines (20) | held-out mean z 0.03-0.74 (mean 0.32), share z > 2 3.3%; real is below all 20 (p_mean 1.0, p_share 0.65) | Arbitrary seal groupings 'replicate' better than the real pictures, presumably because a shuffled label can line up with one archive's vocabulary; the real picture classes cut across archives and carry nothing |
+| PE-33.3c | Planted 2-sign bundle on 50% of BOVID tablets | planted hypotheses in the training top 5 in 10-50% of splits, but held-out mean z -0.01 to 0.09 (share z > 2: 1-4%) | KILLED AS A TEST: at 39 seals, a 10,000-guess search does not carry a moderate planted link to held-out seals; real null is uninformative beyond 33.1-33.2 |
+| PE-33.3d | Recurrent survivors | WATER x M054 (10/10 splits in the training top), MONSTER x |M153+M342| (4/10) | Not replicated on held-out seals; both rest on 2-3 seals (boats PES0333/0334; griffin PES0329 on the MDP 26S tablets). C at most, would support: M054 on a newly coded boat-sealed tablet; would kill: absent from the next 3 |
+| PE-33.3 | Cycle verdict | Random picture-to-sign dictionaries do not generalise across seals; the method cannot recover a planted moderate link at this size | NEGATIVE, power-limited |

@@ -13,11 +13,11 @@ T = tokens()
 res = {}
 for c in ['PE', 'ARCH', 'LINB']:
     P = prep(T[c], c)
-    real, nm, ns, p = perm_test(P, 2000, seed=1, exclude=EXC)
-    rS = perm_test(P, 2000, seed=2, exclude=EXC, stat='S')
+    real, nm, ns, p = perm_test(P, 2000, seed=1, exclude=EXC, stat='dot')
+    rS = perm_test(P, 2000, seed=2, exclude=EXC, stat='G')
     b = base_test(P, 2000)
     res[c] = {'n': real['n'], 'err': {k: real[k] for k in ('base', 'add', 'gen', 'modonly')},
-              'G': real['G'], 'G_null': [nm, ns], 'p_G': p, 'S': real['S'], 'p_S': rS[3],
+              'G': real['G'], 'dot': real['dot'], 'cos': real['cos'], 'dot_null': [nm, ns], 'p_dot': p, 'S': real['S'], 'p_G': rS[3],
               'base_real': b[0], 'base_null': b[1], 'p_base': b[2]}
     print(c, json.dumps(res[c]), flush=True)
     # calibration: shuffle modifier labels in the DATA, run the full test (200 perms)
@@ -33,7 +33,7 @@ for c in ['PE', 'ARCH', 'LINB']:
         for i, v in zip(keep, vals):
             comp[i] = (comp[i][0], comp[i][1], v)
         Q['comp'] = comp
-        ps.append(perm_test(Q, 200, seed=100 + k, exclude=EXC)[3])
+        ps.append(perm_test(Q, 200, seed=100 + k, exclude=EXC, stat='dot')[3])
     res[c]['calib_p'] = ps
     res[c]['calib_fp05'] = sum(x <= 0.05 for x in ps)
     print(c, 'calibration false positives', res[c]['calib_fp05'], '/ 20', flush=True)
@@ -45,8 +45,9 @@ for strength in (0.0, 0.3, 0.6, 0.9):
         toks, planted, eff = plant(T['PE'], 'PE', seed, strength)
         P = prep(toks, 'PE')
         tg = set(planted)
-        real, nm, ns, p = perm_test(P, 500, seed=seed, exclude=EXC, targets=tg)
-        pl.append({'strength': strength, 'seed': seed, 'n': real['n'], 'G': real.get('G'),
+        P['comp'] = [x for x in P['comp'] if x[0] in tg]
+        real, nm, ns, p = perm_test(P, 500, seed=seed, exclude=EXC, stat='dot')
+        pl.append({'strength': strength, 'seed': seed, 'n': real['n'], 'dot': real.get('dot'), 'G': real.get('G'),
                    'null': nm, 'p': p})
         print('plant', pl[-1], flush=True)
 res['plant_PE'] = pl

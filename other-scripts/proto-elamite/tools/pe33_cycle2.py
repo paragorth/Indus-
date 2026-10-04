@@ -9,7 +9,6 @@ import numpy as np
 from pe33_common import load, CK, perm_seal, MOTIFS
 sys.path.insert(0, os.path.dirname(__file__))
 
-NP = int(sys.argv[1]) if len(sys.argv) > 1 else 2000
 
 
 def vecs(contents):
@@ -47,6 +46,7 @@ def run(rows, S, mot, NP, rng, permfn):
 
 
 if __name__ == '__main__':
+    NP = int(sys.argv[1]) if len(sys.argv) > 1 else 2000
     rows, _ = load(True)
     rng = np.random.default_rng(2)
     mot = [m for m in MOTIFS if 4 <= sum(m in r['motif'] for r in rows) <= len(rows) - 4]

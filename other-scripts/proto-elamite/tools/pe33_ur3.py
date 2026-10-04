@@ -5,7 +5,7 @@ import json, sys, collections, os
 import numpy as np
 from pe33_common import assoc, CK
 
-SCR = sys.argv[1]   # scratchpad dir with ur3_legends.json and x2/corpus_UR3.json
+SCR = sys.argv[1] if len(sys.argv) > 1 else os.environ.get('PE33_SCR', '.')   # dir with ur3_legends.json, x2/corpus_UR3.json
 NSUB = int(sys.argv[2]) if len(sys.argv) > 2 else 60
 L = json.load(open(os.path.join(SCR, 'ur3_legends.json')))
 C = {c['id']: c for c in json.load(open(os.path.join(SCR, 'x2', 'corpus_UR3.json')))}
@@ -73,30 +73,35 @@ def test(R, nperm, rng):
                 n_links=len(links), links=links[:12], motifs=mot)
 
 
-rng = np.random.default_rng(7)
-# full size: one Drehem-free random 3000-tablet sample (keeps it lean)
-idx = rng.choice(len(rows), min(3000, len(rows)), replace=False)
-full = test([rows[i] for i in idx], 200, rng)
-print('FULL', {k: v for k, v in full.items() if k != 'links'}, full['links'][:8], flush=True)
-# PE-sized subsamples: 39 seals with 1-10 tablets, 63 tablets, drawn so that >=50% carry a motif word
-byseal = collections.defaultdict(list)
-for r in rows:
-    byseal[r['seal']].append(r)
-seals = [s for s, v in byseal.items() if any(r['motif'] for r in v)]
-other = [s for s, v in byseal.items() if not any(r['motif'] for r in v)]
-sub = []
-for k in range(NSUB):
-    rr = np.random.default_rng(100 + k)
-    S = list(rr.choice(seals, 30, replace=False)) + list(rr.choice(other, 9, replace=False))
-    R = []
-    for s in S:
-        v = byseal[s]
-        R += [v[i] for i in rr.choice(len(v), min(len(v), int(rr.integers(1, 4))), replace=False)]
-    R = R[:63]
-    o = test(R, 200, rr)
-    if o:
-        sub.append(o)
-        print('SUB', k, o['n'], o['seals'], round(o['max'], 2), o['p_max'], o['n_links'], o['links'][:3], flush=True)
-pw = np.mean([o['p_max'] < 0.05 for o in sub])
-print('power at PE size (p_max<0.05):', pw, 'of', len(sub))
-json.dump(dict(full=full, sub=sub, power=float(pw)), open(f'{CK}/ur3.json', 'w'), indent=1)
+def main():
+    rng = np.random.default_rng(7)
+    # full size: one Drehem-free random 3000-tablet sample (keeps it lean)
+    idx = rng.choice(len(rows), min(3000, len(rows)), replace=False)
+    full = test([rows[i] for i in idx], 200, rng)
+    print('FULL', {k: v for k, v in full.items() if k != 'links'}, full['links'][:8], flush=True)
+    # PE-sized subsamples: 39 seals with 1-10 tablets, 63 tablets, drawn so that >=50% carry a motif word
+    byseal = collections.defaultdict(list)
+    for r in rows:
+        byseal[r['seal']].append(r)
+    seals = [s for s, v in byseal.items() if any(r['motif'] for r in v)]
+    other = [s for s, v in byseal.items() if not any(r['motif'] for r in v)]
+    sub = []
+    for k in range(NSUB):
+        rr = np.random.default_rng(100 + k)
+        S = list(rr.choice(seals, 30, replace=False)) + list(rr.choice(other, 9, replace=False))
+        R = []
+        for s in S:
+            v = byseal[s]
+            R += [v[i] for i in rr.choice(len(v), min(len(v), int(rr.integers(1, 4))), replace=False)]
+        R = R[:63]
+        o = test(R, 200, rr)
+        if o:
+            sub.append(o)
+            print('SUB', k, o['n'], o['seals'], round(o['max'], 2), o['p_max'], o['n_links'], o['links'][:3], flush=True)
+    pw = np.mean([o['p_max'] < 0.05 for o in sub])
+    print('power at PE size (p_max<0.05):', pw, 'of', len(sub))
+    json.dump(dict(full=full, sub=sub, power=float(pw)), open(f'{CK}/ur3.json', 'w'), indent=1)
+
+
+if __name__ == '__main__':
+    main()
