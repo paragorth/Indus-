@@ -316,14 +316,20 @@ PERIODS = (1.0, 30.0, 360.0)
 
 
 def prep(entries, label_key='label'):
-    """entries -> (log a [n], group index [n], tablet-of-group [g], n tablets)."""
-    la = np.log(np.array([e['value'] for e in entries], float))
-    gk = [(e['tab'], e[label_key]) for e in entries]
+    """entries -> (log a [n], group index [n], tablet-of-group [g], n tablets), sorted so that
+    groups and tablets are contiguous (for reduceat)."""
+    E = sorted(entries, key=lambda e: (e['tab'], str(e[label_key])))
+    la = np.log(np.array([e['value'] for e in E], float))
+    gk = [(e['tab'], str(e[label_key])) for e in E]
     gu = {k: i for i, k in enumerate(dict.fromkeys(gk))}
     gi = np.array([gu[k] for k in gk])
     tabs = {t: i for i, t in enumerate(dict.fromkeys(k[0] for k in gu))}
     gt = np.array([tabs[k[0]] for k in gu])
     return la, gi, gt, len(tabs)
+
+
+def _starts(idx):
+    return np.r_[0, np.nonzero(np.diff(idx))[0] + 1]
 
 
 def loglik_v2(la, gi, gt, T, M, sig, rng, periods=PERIODS, wD=None, eps=0.05, kprior=None,
@@ -344,6 +350,7 @@ def loglik_v2(la, gi, gt, T, M, sig, rng, periods=PERIODS, wD=None, eps=0.05, kp
     out = np.zeros((J, G), np.float64)
     tabpost = np.zeros((T, P)) if per_tab else None
     x = la.astype(np.float32)[:, None, None, None]
+    sg, st = _starts(gi), _starts(gt)
     for j in range(J):
         pi = rng.dirichlet(np.ones(C))
         mu = (np.log(M[j])[None, :, None, None] + lD[None, None, None, :]
@@ -360,11 +367,9 @@ def loglik_v2(la, gi, gt, T, M, sig, rng, periods=PERIODS, wD=None, eps=0.05, kp
                 fk = -0.5 * z * z - np.float32(np.log(s * np.sqrt(2 * np.pi))) + np.float32(wk)
                 f = fk if f is None else np.logaddexp(f, fk)
         f = np.logaddexp(f + np.float32(np.log(1 - eps)), np.float32(lo))  # [n, C, G, P]
-        S = np.zeros((ng,) + f.shape[1:], np.float32)
-        np.add.at(S, gi, f)
+        S = np.add.reduceat(f, sg, axis=0)
         S = np.logaddexp.reduce(S + np.log(pi).astype(np.float32)[None, :, None, None], axis=1)  # [ng, G, P]
-        TT = np.zeros((T, G, P), np.float32)
-        np.add.at(TT, gt, S)
+        TT = np.add.reduceat(S, st, axis=0)
         tot = np.logaddexp.reduce(TT + lw[None, None, :].astype(np.float32), axis=2)   # [T, G]
         out[j] = tot.sum(0)
         if per_tab:
@@ -431,3 +436,65 @@ def tab_period_post(la, gi, gt, T, M, sig, rng, lu, periods=PERIODS, eps=0.05, k
 
 def ur3_for_model(U):
     return [dict(u, label=u['noun']) for u in U]
+
+
+def loglik_t(la, gi, gt, T, M, sig, rng, periods=PERIODS, wD=None, eps=0.05, kprior=None,
+             lu_grid=None, chunk=4):
+    """Torch version of loglik_v2 (same model).  Returns [J, G] numpy."""
+    import torch
+    torch.set_num_threads(2)
+    lu_grid = LU if lu_grid is None else lu_grid
+    J, C = M.shape
+    G = len(lu_grid); P = len(periods)
+    lD = torch.log(torch.tensor(periods, dtype=torch.float32))
+    if wD is None:
+        wD = np.full(P, 1.0 / P)
+    lw = torch.log(torch.tensor(wD, dtype=torch.float32))
+    span = la.max() - la.min() + 2.0
+    lo = float(np.log(eps) - np.log(span))
+    x = torch.tensor(la, dtype=torch.float32)
+    gI = torch.tensor(gi, dtype=torch.long); tI = torch.tensor(gt, dtype=torch.long)
+    ng = int(gi.max()) + 1
+    LUt = torch.tensor(lu_grid, dtype=torch.float32)
+    ks, lwk = kprior if kprior else ([1.0], [0.0])
+    out = np.zeros((J, G))
+    for j0 in range(0, J, chunk):
+        jj = list(range(j0, min(J, j0 + chunk)))
+        B = len(jj)
+        pi = torch.tensor(np.stack([rng.dirichlet(np.ones(C)) for _ in jj]), dtype=torch.float32)
+        lm = torch.log(torch.tensor(M[jj], dtype=torch.float32))           # [B, C]
+        s = torch.tensor(sig[jj], dtype=torch.float32)[:, None, None, None, None]
+        mu = (lm[:, None, :, None, None] + lD[None, None, None, None, :]
+              - LUt[None, None, None, :, None])                              # [B,1,C,G,P]
+        f = None
+        for kk, wk in zip(ks, lwk):
+            z = (x[None, :, None, None, None] - mu - float(np.log(kk))) / s
+            fk = -0.5 * z * z - torch.log(s * 2.5066283) + float(wk)
+            f = fk if f is None else torch.logaddexp(f, fk)
+        f = torch.logaddexp(f + float(np.log(1 - eps)), torch.tensor(lo))   # [B,n,C,G,P]
+        S = torch.zeros((B, ng, C, G, P)).index_add_(1, gI, f)
+        S = torch.logsumexp(S + torch.log(pi)[:, None, :, None, None], dim=2)  # [B,ng,G,P]
+        TT = torch.zeros((B, T, G, P)).index_add_(1, tI, S)
+        tot = torch.logsumexp(TT + lw, dim=3).sum(1)                         # [B,G]
+        out[j0:j0 + B] = tot.numpy()
+    return out
+
+
+# ---------------------------------------------------------------- scale / shape split
+# A common factor on all needs is exactly degenerate with u.  So the data are asked only for
+# u' = unit size in ADULT-MAN-DAYS (class shapes relative to the adult man), and litres follow
+# by multiplying with the physiological litres/day of an adult man, drawn from its prior.
+def draw_shape(J, rng):
+    M, sig = draw_physiology(J, rng)
+    return M / M[:, :1], sig          # column 0 = 'man'
+
+
+def man_litres(n, rng):
+    M, _ = draw_physiology(n, rng)
+    return M[:, 0]
+
+
+def to_litres(p, grid, rng, n=20000):
+    """Posterior over log u' (grid) -> samples of litres per base unit."""
+    lu = rng.choice(grid, size=n, p=p) + rng.uniform(-0.5, 0.5, n) * (grid[1] - grid[0])
+    return np.exp(lu) * man_litres(n, rng)

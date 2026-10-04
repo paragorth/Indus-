@@ -1,0 +1,20 @@
+# v27 cycle 1: THE LINES WERE CARDS. Within-paragraph card sequencing (4 Oct 2026)
+# tools/v27_seq.c (exact Held-Karp up to 14 body lines, SA beyond), tools/v27_lib.py, tools/v27_cycle1.py
+# Head line fixed as start; body lines are cards; the solver never sees the written order.
+# Scorers fitted on each corpus version: J = log P(first word of j | last word of i) / P(first word of j), trained
+# ONLY on within-line word pairs (backoff: last glyph, unigram); L = idf-weighted shared words + near-identical
+# words (edit 1, len>=4); S = J + L. Paragraphs >= 3 lines: LA 434, IT 401, ZL 663, IT2a 638.
+# Statistics: W = z of written order vs 200 random orders; G = z of the best order; PE = (best - random mean) /
+# (row-max upper bound - random mean): path-likeness, ~1 when each card has one clear successor; mb = mutual-best
+# rate; adj = written adjacencies found in the best path (chance 1/(n-1) per edge). Nulls 2 seeds each; values
+# are means. G and PE are blind to the written order, so they are the hidden-order test.
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-27.1.1 | POSITIVE Italian herbal (Brumati), lines shuffled within paragraph and re-sequenced | J: adj 0.411 vs chance 0.099, W 73.9; order-blind G 103 vs nulls (F3, F5, cross-page) 88-93, PE 0.735 vs 0.62-0.67, mb 0.465 vs 0.37-0.38 | PASSES: 4x chance recovery, and the hidden order is visible without the written order (G +11, PE +0.07) |
+| V-27.1.2 | POSITIVE Latin Isidore XVI-XVII, same | J: adj 0.257 vs 0.164, W 20.6; G 57.6 vs nulls 54.7-56.7, PE 0.538 vs 0.49-0.51 | PASSES weakly: recovery 1.6x chance; order-blind signal small (G +1-3) |
+| V-27.1.3 | NEGATIVE independent lines: cross-page (each body line replaced by a body line of another page, same section; LA, IT, ZL, IT2a) | W (S) -0.1 to 1.3; adj 0.10/0.16/0.21/0.20 = chance | Clean: independent cards give no written-order chains |
+| V-27.1.4 | NULLS on Voynich: words shuffled in line, middle words shuffled (ends kept), F3 / F5 Markov resyntheses (independent lines) | ZL J: G 61.9-64.3, PE 0.588-0.627, mb 0.370-0.421; L: G 67.6-69.2, PE 0.655-0.664, mb 0.459-0.465 | Null band for the order-blind statistics |
+| V-27.1.5 | PLANTED: ZL F3 resynthesis with hidden continuity (first word of line k redrawn from the in-line junction table on the last glyph of line k-1 at rate rho_j; or a word of line k-1 copied into line k at rate rho_l) | rho_j .60: PE(J) 0.685, adj .254; rho_j .30: PE 0.650, adj .227; rho_l .30: mb(L) 0.497, W(L) 27; rho_j=rho_l=.15: adj(S) .274 but PE 0.631, mb 0.477 | Order-blind detection power: junction continuity in >= ~30-60% of joins, or word copying in >= ~30% of joins; weaker plants are invisible without the written order |
+| V-27.1.6 | VOYNICH ZL3b real | J: W 0.7, adj .190 (chance .201), G 62.6, PE 0.619, mb 0.384; L: W 9.9 (F3/F5 4.8-5.4 from the short-last-line end effect), G 68.0, PE 0.664, mb 0.464; S: adj .228 | NO hidden order: every order-blind statistic sits inside the null band (PE 0.619 vs 0.588-0.627; plant .30 gives 0.650). The written order carries a small lexical adjacency excess (L W 9.9 vs 4.8-5.4 in resyntheses) but no junction flow (J W 0.7) |
+| V-27.1.7 | VOYNICH IT2a real | J: W 1.4, G 61.8, PE 0.618, mb 0.387; L: W 9.7, PE 0.662, mb 0.462 (nulls 0.578-0.629 / 0.644-0.663) | Replicates: nothing beyond the null band |
+| V-27.1 | Cycle verdict | - | Re-sequencing works on real prose (Italian 4x chance, Latin 1.6x) and on strong plants, but the Voynich body lines show no better-flowing hidden order inside paragraphs than independent resynthesised lines do. Upper bound: junction continuity in < ~30% of line joins and word copying in < ~30% of joins at this scorer. Grade B negative |

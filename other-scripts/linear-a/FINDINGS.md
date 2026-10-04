@@ -239,3 +239,11 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Grade B (calibrated negative): Linear A chooses K = 4, but its gain (0.079 nats/word) is below the single-language median (0.114) and its partitions are less stable (ARI 0.18 vs 0.38). The components track no site, support, commodity, number size, position or hand (0 of 24 after Holm), do not carry over from Hagia Triada to other sites, and cluster on tablets only by site.
 - Grade B: an outlier test (per-sign surprisal under one pooled model) recovers planted 20% minorities (z 10-19) and Knossos's non-Greek-looking Linear B names (z 2.6; label z 6.8). In Linear A, Phaistos-only and roundel words look foreign (z 3.3, 4.2), but this is killed when words with rare or unnamed signs are dropped (z 1.4, -0.5). It is an effect of the sign inventory, not of phonotactics.
 - Limit: the Linear B positive controls pass only in part (components separate Greek-looking names in about half the fits), so the component tests are moderate negatives. The outlier test is the strongest test, and it finds nothing.
+
+## Universals build the grid (la21)
+- Idea: assign the 65 commonest signs blindly to a consonant x vowel grid by annealing (~7,200 restarts), scoring only universals: consonant and vowel tiers independent, consonant OCP, pure vowels word-initial, small cells. No values as input; LB values only to score controls and as an outside check.
+- Control: Linear B consonant rows are recovered at LA size (AUC 0.79; shuffles 0.68 / 0.52) and replicate Knossos -> Pylos. Vowel columns are not recovered beyond word co-membership, so columns are void.
+- Grade B: LA's blind rows agree with the LB-derived consonant series (AUC 0.72-0.74; shuffles 0.62 / 0.51; z 6-10; all 5 grid sizes). Independent of the la5 consonant-avoidance test, which used values.
+- Grade B: pure-vowel row A, U, I. Grade C: QA behaves like a pure vowel (vowel row 0.70; in both site halves). Would kill: QA at its shuffle level in a larger run.
+- Killed: specific new sign groupings: LA row pairs do not replicate across HT / non-HT halves (0.045 vs base 0.049), though LB's do.
+
