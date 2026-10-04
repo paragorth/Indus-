@@ -6,12 +6,18 @@ from la46_common import *
 
 TAG = sys.argv[1] if len(sys.argv) > 1 else 'c1'
 TH = float(sys.argv[2]) if len(sys.argv) > 2 else 1e-4
+MODE = sys.argv[3] if len(sys.argv) > 3 else 'max'
 NULLS = ['W1', 'W2', 'SH1', 'SH2']
 
 
 def load(name):
     fn = os.path.join(CK, '%s_%s.json' % (TAG, name))
-    return json.load(open(fn)) if os.path.exists(fn) else None
+    if not os.path.exists(fn):
+        return None
+    o = json.load(open(fn))
+    if MODE == 'min':   # beat the weakest forger group only (liberal; calibrated by the null corpora)
+        o['res'] = [[k, R, M, m, pois_sf(R, m)] for k, R, M, m, p in o['res']]
+    return o
 
 
 def fam_rates(o, th):

@@ -36,7 +36,7 @@ def main():
         for b in ('MK', 'REAL'):
             name = f'{kind}_{b}'
             fn = os.path.join(L.OUT, f'{name}.det.bin')
-            if not os.path.exists(fn) or os.path.getsize(fn) == 0: continue
+            if not os.path.exists(fn) or os.path.getsize(fn) < 1000: continue
             xp = L.load(name); bx, breps, bz, bz0, bsd = base[b]
             s1 = (xp['D'] - np.mean([r['D'] for r in breps[:3]], axis=0)) / bsd
             s1[xp['n'] < 300] = np.nan

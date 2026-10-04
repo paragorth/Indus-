@@ -4,7 +4,7 @@ Corpora (all at Linear A size, ~5,245 tokens incl. numbers): PLANT (made-up admi
 UR3 (Ur III admin texts reduced to opaque word ids + numbers), LB (KN+PY reduced to opaque ids + numbers), LA,
 LA_S1 (type identities shuffled over slots), LA_S2 (tokens shuffled inside documents).
 6 independent populations per corpus (own split, own seed), 12 Proposers x 6 Critics, 120 rounds.
-Usage: la45_c1.py [rounds] [npop]"""
+Usage: la45_c1.py [rounds] [npop] [tag] [corpus,corpus...]  (X_S2 = corpus X shuffled inside documents)"""
 import sys, os, json, random, time
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -16,6 +16,9 @@ TAG = sys.argv[3] if len(sys.argv) > 3 else 'c1'
 
 
 def corpus(name):
+    if name.endswith('_S2') and name != 'LA_S2':
+        d, tr = corpus(name[:-3])
+        return C.shuffle_order(d, random.Random(C.seed('la45-s2-' + name))), tr
     la = C.la_docs()
     n = C.ntok(la)
     if name == 'LA':
@@ -56,6 +59,8 @@ if __name__ == '__main__':
     # warm caches in the parent
     C.ur3_docs_all(); C.lb_docs_all()
     names = ['PLANT', 'UR3', 'LB', 'LA', 'LA_S1', 'LA_S2']
+    if len(sys.argv) > 4:
+        names = sys.argv[4].split(',')
     jobs = [(n, k) for k in range(NPOP) for n in names]
     with Pool(2) as p:
         for fn in p.imap_unordered(job, jobs):
