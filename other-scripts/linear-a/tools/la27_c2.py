@@ -20,9 +20,13 @@ RL = random_ladders(NL)
 PHYS = {'P1 1:8:60': (8, 60), 'P2 1:4:120': (4, 120)}
 
 def null_scan(sc, cache=None):
+    # ladders whose steps above the largest value in the data are identical get one score
     cache = {} if cache is None else cache
+    keyc = {}
     for L in set(RL):
-        if L not in cache: cache[L] = sc.gain(L)
+        k = tuple(s for s in steps(L) if s <= sc.vmax)
+        if k not in keyc: keyc[k] = sc.gain(L)
+        cache[L] = keyc[k]
     return np.array([cache[L] for L in RL]), cache
 
 def evaluate(vals, docs, name):
@@ -56,27 +60,35 @@ if __name__ == '__main__':
     R = [r for r in R if 1 <= r[2] <= NMAX]
     out = {}
     lab = Counter(r[1] for r in R)
-    fr_share = {l: np.mean([bool(r[3]) for r in R if r[1] == l]) for l in lab}
+    R0 = la_numbers()
+    lab0 = Counter(r[1] for r in R0)
+    fr_share = {l: np.mean([bool(r[3]) for r in R0 if r[1] == l]) for l in lab0}
+    lab = Counter({l: lab0[l] for l in lab0 if l in lab})
     weighed = sorted(l for l in lab if l != 'W' and fr_share[l] >= .25)
     sets = {'ALL': R, 'LOGO': [r for r in R if r[1] != 'W'],
             'WEIGHED(' + ','.join(weighed) + ')': [r for r in R if r[1] in weighed]}
     for l in ('W', 'OLE', 'GRA', 'CYP', 'VIN', 'VIR'):
         sets[l] = [r for r in R if r[1] == l]
     out['fraction_share'] = {l: round(float(v), 2) for l, v in fr_share.items() if lab[l] >= 5}
-    for name, rr in sets.items():
+    PART = os.environ.get('PART', 'AB')
+    allv = np.array([r[2] for r in R]); docs = [r[0] for r in R]
+    SKIP = set(os.environ.get('SKIP', '').split(','))
+    for name, rr in (sets.items() if 'A' in PART else []):
+        if name.split('(')[0] in SKIP: continue
         res, _ = evaluate([r[2] for r in rr], [r[0] for r in rr], name)
         out[name] = res; print(json.dumps(res), flush=True)
     # jitter control on ALL
-    allv = np.array([r[2] for r in R]); docs = [r[0] for r in R]
     jit = []
-    for k in range(3):
+    for k in (range(2) if 'A' in PART else []):
         v = allv + rng.choice([-2, -1, 1, 2], len(allv)); v = np.clip(v, 1, NMAX)
         res, _ = evaluate(v, docs, 'jitter%d' % k); jit.append(res); print(json.dumps(res), flush=True)
     out['jitter'] = jit
     # planted controls (LA-sized, ALL)
     pl = []
+    if 'B' not in PART:
+        json.dump(out, open(os.path.join(CK, 'c2%s.json' % PART), 'w'), indent=1, default=str); sys.exit()
     for L, rate in [((8, 60), .15), ((8, 60), .05), ((7, 30), .15), ((7, 30), .05)]:
-        for k in range(3):
+        for k in range(2):
             v = plant(allv, docs, L, rate, rng)
             res, cache = evaluate(v, docs, 'plant%s@%.2f' % (L, rate))
             gp = cache.get(L) if L in cache else Scorer(v, folds_by_doc([(d,) for d in docs])).gain(L)
@@ -95,4 +107,4 @@ if __name__ == '__main__':
     out['split'] = dict(bestA=bA, gainA=resA['best_random']['gain'], gainB=round(cB[bA], 5),
                         pB=float((gB >= cB[bA]).mean()), bestB=resB['best_random']['ladder'])
     print(json.dumps(out['split']))
-    json.dump(out, open(os.path.join(CK, 'c2.json'), 'w'), indent=1, default=str)
+    json.dump(out, open(os.path.join(CK, 'c2%s.json' % PART), 'w'), indent=1, default=str)

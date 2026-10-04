@@ -78,7 +78,7 @@ def voynich_lines(src='ZL3b', lang=None, fold=None):
     for L in d:
         if L['ltype'] != 'P' or (lang and L['lang'] != lang):
             continue
-        if fold is not None and int(re.match(r'f(\d+)', L['folio']).group(1)) % 2 != fold:
+        if fold is not None and int((re.search(r'(\d+)', L['folio']) or re.search(r'(\d)', '1')).group(1)) % 2 != fold:
             continue
         cur = []
         for w, u in zip(L['words'], L['uncertain']):

@@ -37,6 +37,18 @@ def cmi(triples):
     return tot
 
 
+def chent(triples):
+    """H(X|Z) plug-in for triples (z, x, y)."""
+    g = defaultdict(Counter)
+    for z, x, y in triples:
+        g[z][x] += 1
+    N = len(triples); h = 0.0
+    for z, c in g.items():
+        n = sum(c.values())
+        h += n / N * -sum(k / n * math.log2(k / n) for k in c.values())
+    return h
+
+
 def pairs(lines, cls=None):
     reg, prog = [], []
     f = (lambda g: g) if cls is None else cls
@@ -58,7 +70,9 @@ def score(lines, cls=None, R=20, seed=0):
         n.append([cmi(r1), cmi(p1)])
     n = np.array(n)
     ex = o - n.mean(0); sd = np.maximum(n.std(0, ddof=1), 1e-4)
-    return dict(reg=float(ex[0]), prog=float(ex[1]), zreg=float(ex[0] / sd[0]), zprog=float(ex[1] / sd[1]),
+    hr, hp = chent(r0), chent(p0)   # how free the final (given stem) and the initial (given rest) are
+    return dict(reg=float(ex[0]), prog=float(ex[1]), Hreg=hr, Hprog=hp,
+                nreg=float(ex[0] / max(hr, 1e-9)), nprog=float(ex[1] / max(hp, 1e-9)), zreg=float(ex[0] / sd[0]), zprog=float(ex[1] / sd[1]),
                 asym=float((ex[0] - ex[1]) / max(abs(ex[0]) + abs(ex[1]), 1e-9)), n=len(r0))
 
 

@@ -97,7 +97,7 @@ def folds_by_doc(recs, k=5, seed=0):
 class Scorer:
     """Pre-fits the base model per fold; scores any ladder by held-out LL gain per number."""
     def __init__(self, vals, fold, k=5):
-        vals = np.asarray(vals); fold = np.asarray(fold)
+        vals = np.asarray(vals); fold = np.asarray(fold); self.vmax = int(vals.max())
         self.tr, self.te, self.lb = [], [], []
         for i in range(k):
             ctr = counts(vals[fold != i]); cte = counts(vals[fold == i])

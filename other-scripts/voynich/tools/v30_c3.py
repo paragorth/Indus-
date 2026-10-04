@@ -18,7 +18,7 @@ def job(a):
         return
     xf, xh, yf, yh = make_split(name, seed)
     floor = distance(yf[:len(yh)], yh)
-    path = run_search(xf, yf, xh, yh, kmax=20, n_cand=150, seed=seed, ctx_pool=FAM[fam])
+    path = run_search(xf, yf, xh, yh, kmax=20, n_cand=150, seed=seed, ctx_pool=FAM[fam], guided=True)
     json.dump(dict(name=name, seed=seed, pair=PAIRS[name], floor=floor, path=path), open(out, 'w'), default=float, ensure_ascii=False)
     print(name, fam, 'done', round(path[0]['held'], 3), round(path[-1]['held'], 3), round(floor[0], 3), flush=True)
 

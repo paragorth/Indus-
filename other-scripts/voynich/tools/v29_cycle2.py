@@ -77,6 +77,7 @@ if __name__ == '__main__':
         blkn = [blocking(E, f, sh, alph) for E in Es[1:4]]
         out['feats'][j] = dict(name=L.fname(f, alph), e=e0, z=z0, twin_pct=pct, twin_mean=np.nanmean(twins, 0), blk=blk, blkn=blkn)
         print(j, L.fname(f, alph), 'pct', np.round(pct, 2), flush=True)
+    pickle.dump(out, open(os.path.join(L.CK, f'c2_{name}.pkl'), 'wb'))
     if name in ('ZL', 'IT'):   # held-out halves
         for fold in (0, 1):
             lf = L.voynich_lines('ZL3b' if name == 'ZL' else 'IT2a', fold=fold)

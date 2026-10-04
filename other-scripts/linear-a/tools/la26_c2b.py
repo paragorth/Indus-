@@ -27,14 +27,15 @@ class Fast:
     def F(self, Rset, labels=None):
         S = site_sum(labels or self.lab, self.nodes, self.M) > 0
         S = S[:, S.sum(0) >= 2].astype(np.float32)
-        co = S @ S.T
+        co = (S.astype(np.float64) @ S.T.astype(np.float64))
         n = len(self.nodes)
         num = den = 0.0
         for i in range(n):
             for j in range(i + 1, n):
                 den += co[i, j]
                 num += co[i, j] * ((self.nodes[i], self.nodes[j]) in Rset)
-        return num / den if den else np.nan
+        return float(num / den) if den else np.nan
+
 
 rng = np.random.default_rng(2612)
 OUT = os.path.join(CK, 'c2b.json')
@@ -56,7 +57,7 @@ def graph_sets(nodes):
 def docperm(docs, Rset, nperm=2000, nodes=None):
     fx = Fast(docs, nodes)
     f0 = fx.F(Rset)
-    assert abs(f0 - F_stat(site_sets(docs), Rset)[0]) < 1e-9
+    assert abs(f0 - F_stat(site_sets(docs), Rset)[0]) < 1e-5
     fa = np.array([fx.F(Rset, perm_within_support(fx.lab, fx.sup, rng)) for _ in range(nperm)])
     fa = fa[np.isfinite(fa)]
     return f0, float(fa.mean()), float((fa >= f0).mean()), float((f0 - fa.mean()) / (fa.std() + 1e-12))

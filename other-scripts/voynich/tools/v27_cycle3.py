@@ -3,7 +3,7 @@ continuity witnesses must point to the same hidden successors, without ever look
   witness A: a junction hypothesis (end feature of the last word of line i -> start feature of the first word
              of line j, its table trained only on within-line adjacent word pairs);
   witness B: lexical similarity of line INTERIORS (first and last word of each line excluded).
-Per paragraph (3..15 lines, head fixed, exact DP) the best path under A and under B are compared: shared
+Per paragraph (3..12 lines, head fixed, exact DP) the best path under A and under B are compared: shared
 undirected edges minus the random-path expectation. MASSIVE RANDOM GUESSING: 2,000 random junction hypotheses
 (random end/start features, random glyph-class merges). Nulls: cross-page cards (same section), F5
 resynthesis; planted: F3 + hidden continuity (junction and copy); positive: Latin / Italian herbals with
@@ -44,12 +44,14 @@ def random_hyp(rng, units):
 def hyp_tables(C, h):
     """P(start feature of word k+1 | end feature of word k) from WITHIN-LINE pairs; LLR table."""
     big = defaultdict(Counter); uni = Counter()
-    for p in C:
-        for pa in p['paras']:
-            for l in pa:
-                for x, y in zip(l, l[1:]):
-                    a = feat(x, h['ea'], h['cmap']); b = feat(y, h['sb'], h['cmap'])
-                    big[a][b] += 1; uni[b] += 1
+    PC = C if isinstance(C, Counter) else pair_counts(C)
+    fa, fb = {}, {}
+    for (x, y), c in PC.items():
+        a = fa.get(x)
+        if a is None: a = fa[x] = feat(x, h['ea'], h['cmap'])
+        b = fb.get(y)
+        if b is None: b = fb[y] = feat(y, h['sb'], h['cmap'])
+        big[a][b] += c; uni[b] += c
     N = sum(uni.values()); V = len(uni) + 1
     tot = {a: sum(c.values()) for a, c in big.items()}
     cache = {}
@@ -62,6 +64,15 @@ def hyp_tables(C, h):
         cache[k] = v = math.log(pb / pu)
         return v
     return llr
+
+
+def pair_counts(C):
+    PC = Counter()
+    for p in C:
+        for pa in p['paras']:
+            for l in pa:
+                for x, y in zip(l, l[1:]): PC[(x, y)] += 1
+    return PC
 
 
 def para_list(C, which=None):
@@ -90,21 +101,32 @@ def pick(l, which):
     return l[1] if len(l) > 1 else l[0]
 
 
-def agreement(PS, pathsB, h, llr):
-    """shared undirected edges between best A-path and B-path, minus random expectation, summed over paragraphs."""
-    sh = 0; ex = 0.0; var = 0.0
+def agreement(PS, pathsB, h, llr, split=None, rng=None):
+    """shared undirected edges between best A-path and B-path, minus random expectation. Returns per-paragraph
+    (shared, expectation, variance) so that page-half splits are sums over the same list."""
+    rng = rng or np.random.RandomState(0)
+    per = []
     for pa, pb in zip(PS, pathsB):
         n = len(pa)
         ends = [feat(pick(l, h['a']), h['ea'], h['cmap']) for l in pa]
         sts = [feat(pick(l, h['b']), h['sb'], h['cmap']) for l in pa]
-        M = np.array([[llr(ends[i], sts[j]) if i != j else 0.0 for j in range(n)] for i in range(n)])
+        ue = sorted(set(ends)); us = sorted(set(sts))
+        T = np.array([[llr(a, b) for b in us] for a in ue])
+        ie = [ue.index(x) for x in ends]; js = [us.index(x) for x in sts]
+        M = T[ie][:, js]; np.fill_diagonal(M, 0.0)
+        M += 1e-7 * rng.rand(n, n)            # random tie-breaking
         _, p = L.best_path(M)
         ea = {frozenset(e) for e in zip(p, p[1:])}
         eb = {frozenset(e) for e in zip(pb, pb[1:])}
-        sh += len(ea & eb)
         q = 1.0 / (n - 1) + (n - 2) * 2.0 / (n - 1)
-        ex += q; var += q * (1 - q / (n - 1))
-    return sh, ex, (sh - ex) / math.sqrt(var)
+        per.append((len(ea & eb), q, q * (1 - q / (n - 1))))
+    return per
+
+
+def zsum(per, idx=None):
+    sel = per if idx is None else [per[i] for i in idx]
+    sh = sum(x[0] for x in sel); ex = sum(x[1] for x in sel); var = sum(x[2] for x in sel)
+    return [sh, round(ex, 2), round((sh - ex) / math.sqrt(var), 3)]
 
 
 def build(nm, ver, s):
@@ -125,12 +147,16 @@ def prep(v):
     nm, ver, s = v
     C = build(nm, ver, s)
     sc = L.Scorer(C)
-    out = {}
-    for which in (None, 0, 1):
-        PS = para_list(C, which)
-        pathsB = [L.best_path(interior_L(sc, pa))[1] for pa in PS]
-        out[which] = (PS, pathsB)
-    return C, out
+    rng = np.random.RandomState(7)
+    PS, pathsB, parity = [], [], []
+    for pi, p in enumerate(C):
+        for pa in p['paras']:
+            if not (3 <= len(pa) <= 12): continue
+            MB = interior_L(sc, pa)
+            if MB.max() <= 0: continue        # no witness B in this paragraph
+            MB = MB + 1e-7 * rng.rand(*MB.shape)
+            PS.append(pa); pathsB.append(L.best_path(MB)[1]); parity.append(pi % 2)
+    return C, (PS, pathsB, parity)
 
 
 def worker(args):
@@ -140,21 +166,23 @@ def worker(args):
     C, D = prep(v)
     units = sorted({c for p in C for pa in p['paras'] for l in pa for w in l for c in w})
     res = []
+    PCC = pair_counts(C)
     for hi, hd in enumerate(hs):
         h = random_hyp(random.Random(hd), units)
-        llr = hyp_tables(C, h)
-        r = {'hi': hi}
-        for which in ((None, 0, 1) if hi < NH else (None,)):
-            PS, pB = D[which]
-            sh, ex, z = agreement(PS, pB, h, llr)
-            r[str(which)] = [sh, round(ex, 2), round(z, 3)]
+        llr = hyp_tables(PCC, h)
+        PS, pB, par = D
+        per = agreement(PS, pB, h, llr, rng=np.random.RandomState(hd))
+        r = {'hi': hi, 'None': zsum(per), '0': zsum(per, [i for i, x in enumerate(par) if x == 0]),
+             '1': zsum(per, [i for i, x in enumerate(par) if x == 1])}
         res.append(r)
+        if hi % 200 == 0: print(v, hi, r, flush=True)
     # the full-word junction witness (the cycle-1 J scorer) as hypothesis -1
     sc = L.Scorer(C)
-    PS, pB = D[None]
+    PS, pB, _ = D
     sh = ex = var = 0
+    jr = np.random.RandomState(11)
     for pa, pb in zip(PS, pB):
-        n = len(pa); _, p = L.best_path(sc.matrix(pa, 'J'))
+        n = len(pa); _, p = L.best_path(sc.matrix(pa, 'J') + 1e-7 * jr.rand(n, n))
         sh += len({frozenset(e) for e in zip(p, p[1:])} & {frozenset(e) for e in zip(pb, pb[1:])})
         q = 1.0 / (n - 1) + (n - 2) * 2.0 / (n - 1); ex += q; var += q * (1 - q / (n - 1))
     out = dict(v=v, hyps=res, Jword=[sh, ex, (sh - ex) / math.sqrt(var)], npara=len(PS))
