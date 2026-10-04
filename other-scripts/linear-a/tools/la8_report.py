@@ -94,7 +94,8 @@ def main():
     reps, best = {}, {}
     truths = json.load(open(os.path.join(G.OUT, 'planted_truth.json')))
     for C in CORPORA:
-        fs = sorted(glob.glob(os.path.join(G.OUT, 'gp_%s_%s_s*.json' % (C, TAG))))
+        tags = ['v2', 'v3'] if TAG == 'final' else [TAG]
+        fs = sorted(p for tg in tags for p in glob.glob(os.path.join(G.OUT, 'gp_%s_%s_s*.json' % (C, tg))))
         if not fs: continue
         D = G.Data(json.load(open(os.path.join(G.OUT, 'corpus_%s.json' % C))))
         runs = [json.load(open(p)) for p in fs]

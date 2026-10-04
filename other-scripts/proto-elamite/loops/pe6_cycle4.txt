@@ -1,0 +1,14 @@
+pe6 cycle 4 -- shuffle-calibrated grades for the role assignments
+Tool: tools/pe6_cycle4.py. Numbers: data/pe6_cycle4.json, log data/pe6_cycle4.log.
+Null: 3 independent global sign shuffles of the real corpus, whole pipeline each (fit + 200 posterior corpora +
+5 forests); per role, the 99th percentile and the maximum of the probability that role receives on ANY shuffled sign.
+Grades: A = top-role probability above the null MAX and same top role in both random halves; B = above the null 99th
+percentile and same role in >= 1 half; C = top role >= 0.5 only (no better than a shuffled sign).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.4 | Null thresholds (3 shuffles x 164 signs) | CLS_S 99% 0.77 / max 0.82; CLS_C 0.22 / 0.32; SYL 0.997 / 0.998; OPEN 0.003 / 0.006; PRE 0.02 / 0.03; CLS_O 0.13 / 0.14; CLS_F 0.07 / 0.08 | a shuffled corpus routinely gives 'class sign' probabilities up to 0.8: naive cut-offs are meaningless for CLS_S |
+| PE-2.4 | CONTROL: the grading itself applied to shuffle 1 against shuffles 2+3 | 0 non-name signs above the 99% or max threshold | the calibrated grade has no false positives on shuffled data |
+| PE-3.4 | Real grades, class layer | A: M072 CLS_S 0.90, M346 CLS_S 0.83, M002 CLS_C 0.67, M297 CLS_C 0.53 (both halves, and within-line shuffle keeps them). B: M418 CLS_S 0.91 (too rare in one half), M206 CLS_S 0.77, M050 CLS_C 0.60, M379 CLS_C 0.51, M243 CLS_C 0.47, M036 CLS_C 0.43. C (indistinguishable from shuffled signs): 37 more CLS_S incl. M264, M354, M367, M376, M288, M388 | the fake Susa recovers the counted/capacity class split already found directly (FINDINGS test b: M002, M297, M243, M036 capacity-tied; M346 never capacity). Restatement, not a new gloss |
+| PE-4.4 | Real grades, name layer | A (more name-like than any shuffled sign, both halves): M099, M246, M136, M251, M254, M304, M005, M262, M340, M390, |M106+M288|; B: M319, M328, M352, M384 | B: these signs behave like the fake Susa's name-spelling stock (spread over many tablets, inside multi-sign strings, mixed systems). M099 and M384 are herd-name components in the herd office (pe5); M136 is a header sign (FINDINGS d), here read as an office/unit NAME |
+| PE-5.4 | Roles never assigned to any real sign | OPEN, PRE, CLS_F, CLS_O: 0 signs at any calibrated grade. Diagnostic: in posterior simulations, signs that dominate headers are names 182 times and openers 66 times | the fitted header practice (1 opener, 68% name-only headers) lets office names imitate openers, so M157 is read as a name (SYL 0.88). Prefix (M387, M370, M124) and fraction (M376) roles are not recovered: the posterior has prefixes on 5% of entries and 0 fraction goods. Absence of these roles is a model failure, not evidence against them |

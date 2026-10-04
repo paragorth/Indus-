@@ -18,7 +18,7 @@ lib.score_pda.argtypes = [ctypes.c_int, ctypes.c_int, I32, I32, I32, ctypes.c_in
 
 
 class SData:
-    def __init__(self, corpus, use_truth=False, tag='main'):
+    def __init__(self, corpus, use_truth=False, tag='final'):
         self.D = D = G.Data(json.load(open(os.path.join(G.OUT, 'corpus_%s.json' % corpus))))
         if use_truth:
             g, _ = truth_genome(D, json.load(open(os.path.join(G.OUT, 'planted_truth.json')))[corpus])
@@ -34,6 +34,7 @@ class SData:
 
     def fit(self, nst, act):
         b, out, _ = self.ev(nst, act)
+        if not np.isfinite(b): return 1e12, 1e12, out   # infeasible stack machine (no admissible path)
         S = int(sum(nst)); lk = math.log2(max(self.K, 2))
         dl = S * lk + out[1] * (2 * math.log2(S + 2) + 0.5 * math.log2(self.D.T)) + sum(1 + math.log2(S + 1) for a in act if a)
         return b + dl, b, out
