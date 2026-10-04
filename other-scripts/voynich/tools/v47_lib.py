@@ -8,6 +8,7 @@ import os, sys, json, re, math
 import numpy as np
 from scipy import ndimage as ndi
 from scipy.signal import find_peaks
+from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from v38_lib import *
 
@@ -62,17 +63,49 @@ def panel_components(rgb, dE_thr=17, ink_drop=28):
                 continue           # binding shadow / page edge
             if h > 0.97 * H or w > 0.97 * W:
                 continue
-            jar = h > 1.8 * w and h > 0.12 * H and (x0 + x1) / 2 < 0.3 * W
+            jar = h > 1.4 * w and h > 0.08 * H and (x0 + x1) / 2 < 0.35 * W
             big.append(dict(mask=(lbl == r.label), bbox=r.bbox, jar=jar))
         elif h < 0.03 * H and w < 0.12 * W and r.area > 6:
             txt |= lbl == r.label
     return big, txt, H, W
 
 
-def text_line_rows(txt, H):
-    prof = ndi.gaussian_filter1d(txt.sum(1).astype(float), H / 400.)
-    pk, _ = find_peaks(prof, distance=max(3, int(H / 75)), height=0.25 * np.percentile(prof[prof > 0], 90) if (prof > 0).any() else 1)
+def text_line_rows(txt, H, nb=40, cov=0.3):
+    """Rows of paragraph text: glyph pixels spread over a wide stretch of the panel (labels and
+    drawing fragments are narrow). Coverage = fraction of nb column bins with glyph pixels within
+    a band of +-H/120 rows; peaks of the glyph profile inside high-coverage rows."""
+    W = txt.shape[1]
+    bins = np.array_split(np.arange(W), nb)
+    occ = np.stack([txt[:, b].any(1) for b in bins], 1).astype(float)
+    band = ndi.uniform_filter1d(occ, max(3, int(H / 60)), axis=0) > 0
+    coverage = band.mean(1)
+    prof = ndi.gaussian_filter1d(txt.sum(1).astype(float), H / 400.) * (coverage > cov)
+    if not (prof > 0).any():
+        return np.array([], int)
+    pk, _ = find_peaks(prof, distance=max(3, int(H / 70)), height=0.2 * np.percentile(prof[prof > 0], 90))
     return pk
+
+
+def tile_parts(rgb, parts, size=224):
+    """Pack the register's drawings (largest first, up to 9) into a square grid, each part cropped to
+    its own box on a vellum background, so small roots and leaves fill the network's view."""
+    parts = sorted(parts, key=lambda c: -c['mask'].sum())[:9]
+    k = int(np.ceil(np.sqrt(len(parts))))
+    cell = size // k
+    bg = np.median(rgb.reshape(-1, 3), axis=0)
+    canvas = np.ones((size, size, 3)) * bg
+    for i, c in enumerate(parts):
+        y0, x0, y1, x1 = c['bbox']
+        sub = rgb[y0:y1, x0:x1].astype(float).copy()
+        mm = morphology.binary_dilation(c['mask'][y0:y1, x0:x1], morphology.disk(2))
+        sub[~mm] = bg
+        h, w = sub.shape[:2]; s = max(h, w)
+        sq = np.ones((s, s, 3)) * bg
+        sq[(s - h) // 2:(s - h) // 2 + h, (s - w) // 2:(s - w) // 2 + w] = sub
+        im = np.asarray(Image.fromarray(sq.clip(0, 255).astype(np.uint8)).resize((cell, cell), Image.BILINEAR))
+        r, q = divmod(i, k)
+        canvas[r * cell:(r + 1) * cell, q * cell:(q + 1) * cell] = im
+    return canvas.clip(0, 255).astype(np.uint8)
 
 
 def pharma_units(cache):
@@ -124,15 +157,14 @@ def pharma_units(cache):
                     ds.append(1.5 * (yc - s1))
                 else:
                     ds.append(0.)
-            groups[int(np.argmin(ds))].append(c['mask'])
+            groups[int(np.argmin(ds))].append(c)
         for j, (p, g) in enumerate(zip(paras, groups)):
             ws = [w for l in p for w in l]
             if not g or len(ws) < 12:
                 continue
-            m = np.logical_or.reduce(g)
-            m = ndi.binary_fill_holes(morphology.binary_closing(m, morphology.disk(2)))
+            m = np.logical_or.reduce([x['mask'] for x in g])
             out.append(dict(key='%s.%d' % (folio, j), folio=folio, para=j, words=ws, labels=labels,
-                            img=masked_plant_image(rgb, m), area=float(m.mean()),
+                            img=tile_parts(rgb, g), area=float(m.mean()), nparts=len(g),
                             y=float(np.mean(spans[j])) / H, panel=ci))
     return out
 
