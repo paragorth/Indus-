@@ -213,9 +213,8 @@ def italian_verbose(n_words=35000, seed=5):
     return chop([''.join(code[c] for c in w) for w in words], rng)
 
 def learn_model(lines, K=4, cache_key=None):
-    cache = os.path.join(OUT, 'models.json')
-    d = json.load(open(cache)) if os.path.exists(cache) else {}
-    if cache_key and cache_key in d: return d[cache_key]
+    cache = os.path.join(OUT, 'model_%s.json' % cache_key)
+    if cache_key and os.path.exists(cache): return json.load(open(cache))
     words = [w for L in lines for w in L['words']]
     order = learn_order(words)
     rank = {c: i for i, c in enumerate(order)}; U = len(order)
@@ -233,10 +232,10 @@ def learn_model(lines, K=4, cache_key=None):
             for k in range(K): cnt[k][f[k]] += tc[w]
         top = [set(x for x, _ in cnt[k].most_common(10)) for k in range(K)]
         cov = sum(tc[w] for w, f in zip(types, fill) if all(f[k] in top[k] for k in range(K)))
-        if best is None or cov > best[0]: best = (cov, b)
+        nf = sum(len(x) for x in cnt)   # tie-break: fewest distinct fillers
+        if best is None or (cov, -nf) > (best[0], -best[2]): best = (cov, b, nf)
     m = {'order': order, 'cuts': best[1], 'coverage': best[0] / len(words)}
-    if cache_key:
-        d[cache_key] = m; json.dump(d, open(cache, 'w'))
+    if cache_key: json.dump(m, open(cache, 'w'))
     return m
 
 def parse(lines, model):
