@@ -14,7 +14,7 @@ Pair classes (Linear A): SIDES (a/b of one tablet), SCRIBE (same named scribe), 
 site, otherwise), XSITE (different sites).
 
 Transformation families on the aligned amounts (x_i, y_i):
-  RATIO  y = R(r x), r = p/q (p, q <= 12, r != 1), R in exact/floor/round/ceil/half-floor
+  RATIO  y = R(r x), r = p/q (p, q <= 16, r != 1), R in exact/floor/round/ceil/half-floor
   DIFF   y = x + d, d != 0
   COMP   x + y = T (sum to a fixed total)
   AFF    y = r x + d (r != 1, d != 0), needs 3 agreeing entries
@@ -125,7 +125,7 @@ def value(iv, fr, V):
     return float(iv + sum((V.get(f, Fr(1, 16)) for f in fr), Fr(0)))
 
 # ------------------------------------------------------------------ transformation families
-RAT = sorted({Fr(p, q) for p in range(1, 13) for q in range(1, 13) if Fr(p, q) != 1})
+RAT = sorted({Fr(p, q) for p in range(1, 17) for q in range(1, 17) if Fr(p, q) != 1})
 RATF = np.array([float(r) for r in RAT])
 RMODES = ['exact', 'floor', 'round', 'ceil', 'half']
 EPS = 1e-6
@@ -261,3 +261,152 @@ def lb_class(a, b, L):
     if A['site'] != B['site']: return 'XSITE'
     if A['scribe'] == B['scribe']: return 'SCRIBE'   # same series = same dossier
     return 'SITE'
+
+# ------------------------------------------------------------------ units (aligned list pairs)
+def _entry_coms(e):
+    """{com: (int, fracs)} for one la_entries entry (same commodity summed)."""
+    d = {}
+    for b, iv, fr in e['raw']:
+        a, f = d.get(b, (0, ()))
+        d[b] = (a + iv, tuple(sorted(f + tuple(fr))))
+    return {k: v for k, v in d.items() if v[0] > 0 or v[1]}
+
+
+def la_units():
+    """All aligned pairs of Linear A lists. Each unit: id, cls, site, keys, x, y (lists of (int, fracs)),
+    poolA, poolB (all amounts of each list), wordsA, wordsB."""
+    L = la_lists()
+    U = []
+    for a, b in shared_pairs(L):
+        A = {e[0]: e for e in L[a]['ents']}; B = {e[0]: e for e in L[b]['ents']}
+        keys = [w for w in A if w in B]
+        U.append({'id': f'{a}|{b}', 'cls': pair_class(a, b, L), 'site': L[a]['site'], 'keys': keys,
+                  'x': [A[w][2:4] for w in keys], 'y': [B[w][2:4] for w in keys],
+                  'coms': [(A[w][1], B[w][1]) for w in keys],
+                  'poolA': [e[2:4] for e in L[a]['ents']], 'poolB': [e[2:4] for e in L[b]['ents']],
+                  'A': a, 'B': b, 'wordsA': L[a]['words'], 'wordsB': L[b]['words']})
+    # COLUMNS and ROWS inside one side
+    C = {c['id']: c for c in json.load(open(os.path.join(D, 'corpus.json')))}
+    by = defaultdict(list)
+    for e in la_entries_cache():
+        if e['role'] != 'entry' or not e['label']: continue
+        ec = _entry_coms(e)
+        if len(ec) >= 2: by[e['doc']].append((e['label'], ec))
+    for d, ents in by.items():
+        if len(ents) < 2 and True:
+            pass
+        coms = sorted({c for _, ec in ents for c in ec})
+        for i, c1 in enumerate(coms):
+            for c2 in coms[i + 1:]:
+                rows = [(w, ec[c1], ec[c2]) for w, ec in ents if c1 in ec and c2 in ec]
+                if len(rows) >= 2:
+                    U.append({'id': f'{d}:{c1}~{c2}', 'cls': 'COLUMNS', 'site': C[d]['site'],
+                              'keys': [r[0] for r in rows], 'x': [r[1] for r in rows], 'y': [r[2] for r in rows],
+                              'coms': [(c1, c2)] * len(rows),
+                              'poolA': [ec[c1] for _, ec in ents if c1 in ec], 'poolB': [ec[c2] for _, ec in ents if c2 in ec],
+                              'A': d, 'B': d, 'wordsA': C[d]['words'], 'wordsB': C[d]['words']})
+        for i in range(len(ents)):
+            for j in range(i + 1, len(ents)):
+                (w1, e1), (w2, e2) = ents[i], ents[j]
+                ks = [c for c in e1 if c in e2]
+                if len(ks) >= 2:
+                    U.append({'id': f'{d}:{w1}~{w2}', 'cls': 'ROWS', 'site': C[d]['site'], 'keys': ks,
+                              'x': [e1[c] for c in ks], 'y': [e2[c] for c in ks], 'coms': [(c, c) for c in ks],
+                              'poolA': list(e1.values()), 'poolB': list(e2.values()),
+                              'A': d, 'B': d, 'wordsA': [w1], 'wordsB': [w2]})
+    return U
+
+
+def ma_lines():
+    """PY Ma tablets: list of (heading, [(firstword, {com: delivered/target}, {com: owed}, words)])"""
+    out = []
+    for h, content in lb_raw():
+        if not h.startswith('PY Ma'): continue
+        lines = []
+        for ln in content.split('\n'):
+            toks = [_strip(t).strip('[]⟦⟧,') for t in ln.split()]
+            toks = [t for t in toks if t]
+            words = [t for t in toks if re.fullmatch(r'[a-z0-9]+(-[a-z0-9]+)+', t)]
+            com = defaultdict(float); owe = defaultdict(float); cur = None; prev = None
+            for t in toks:
+                if re.fullmatch(r'(\*1\d\d|RI|KE|O|ME)', t): cur = t; prev = t; continue
+                if NUM.match(t) and cur:
+                    v = int(NUM.match(t).group(1))
+                    if prev == 'o': owe[cur] += v
+                    elif prev in (cur, 'M'): com[cur] += v
+                prev = t
+            if com or owe: lines.append((words[0] if words else '', dict(com), dict(owe), words))
+        if lines: out.append((h, lines))
+    return out
+
+
+def ma_units():
+    """Columns of the PY Ma targets (line 1 of each tablet, keyed by town): known relation
+    *146 : RI : KE : *152 : O : ME = 7 : 7 : 2 : 3 : 1.5 : 150."""
+    col = defaultdict(dict)
+    for h, lines in ma_lines():
+        w, com, owe, words = lines[0]
+        if not w or w in ('a-pu-do-si', 'o-pe-ro'): continue
+        for c, v in com.items(): col[c][w] = (int(v), ())
+    U = []
+    cs = sorted(col)
+    for i, c1 in enumerate(cs):
+        for c2 in cs[i + 1:]:
+            ks = [w for w in col[c1] if w in col[c2]]
+            if len(ks) >= 2:
+                U.append({'id': f'PYMa:{c1}~{c2}', 'cls': 'LB_MA_COL', 'site': 'PY', 'keys': ks,
+                          'x': [col[c1][w] for w in ks], 'y': [col[c2][w] for w in ks], 'coms': [(c1, c2)] * len(ks),
+                          'poolA': list(col[c1].values()), 'poolB': list(col[c2].values()), 'A': c1, 'B': c2,
+                          'wordsA': [], 'wordsB': []})
+    return U
+
+
+def lb_units():
+    L = lb_lists()
+    U = []
+    for a, b in shared_pairs(L):
+        A = {e[0]: e for e in L[a]['ents']}; B = {e[0]: e for e in L[b]['ents']}
+        keys = [w for w in A if w in B]
+        U.append({'id': f'{a}|{b}', 'cls': 'LB_' + lb_class(a, b, L), 'site': L[a]['site'], 'keys': keys,
+                  'x': [(A[w][2], ()) for w in keys], 'y': [(B[w][2], ()) for w in keys],
+                  'coms': [(A[w][1], B[w][1]) for w in keys],
+                  'poolA': [(e[2], ()) for e in L[a]['ents']], 'poolB': [(e[2], ()) for e in L[b]['ents']],
+                  'A': a, 'B': b, 'wordsA': L[a]['words'], 'wordsB': L[b]['words']})
+    return U
+
+
+def vals(lst, V):
+    return np.array([value(iv, fr, V) if not isinstance(iv, float) else iv for iv, fr in lst], float)
+
+
+def unit_null(u, V, P, rng, partner_pools=None):
+    """N1: n values drawn without replacement from each list (alignment shuffled).
+    N2 (partner_pools given): list B replaced by a random list of the same site."""
+    n = len(u['x'])
+    pa = vals(u['poolA'], V)
+    X = np.stack([rng.permutation(pa)[:n] for _ in range(P)])
+    if partner_pools:
+        ok = [p for p in partner_pools if len(p) >= n]
+        Y = np.stack([rng.permutation(vals(ok[rng.integers(len(ok))], V))[:n] for _ in range(P)])
+    else:
+        pb = vals(u['poolB'], V)
+        Y = np.stack([rng.permutation(pb)[:n] for _ in range(P)])
+    return X, Y
+
+
+def unit_obs(u, V):
+    X = vals(u['x'], V)[None]; Y = vals(u['y'], V)[None]
+    f = fam_scores(X, Y)
+    return f, int(pair_score(f)[0])
+
+
+def detail(u, V):
+    x = vals(u['x'], V); y = vals(u['y'], V)
+    f, s = unit_obs(u, V)
+    d = {k: int(v[0]) for k, v in f.items() if k != 'RATIO_arg'}
+    d['ratio'] = describe_ratio(f['RATIO_arg'][0]) if f['RATIO'][0] >= 2 else ''
+    dz = Counter(round(b - a, 4) for a, b in zip(x, y) if abs(b - a) > 1e-6)
+    d['diff'] = dz.most_common(1)[0][0] if dz else None
+    cz = Counter(round(a + b, 4) for a, b in zip(x, y))
+    d['comp'] = cz.most_common(1)[0][0]
+    return d, s
