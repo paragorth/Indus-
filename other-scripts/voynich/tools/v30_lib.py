@@ -160,6 +160,8 @@ class Search:
             for s in substrings(w, kmax_rhs):
                 ys[s] += c
         self.lhs_pool = [s for s, c in xs.most_common(150) if c >= 5]
+        self.lhs_set = set(s for s, c in xs.items() if c >= 3)
+        self.ysub = ys; self.ny = sum(ys.values()) or 1
         self.rhs_pool = [''] + [s for s, c in ys.most_common(150) if c >= 5]
         syms = [s for s in self.lhs_pool if len(s) == 1]
         self.ctx_pool = [(None, None), (PAD, None), (None, PAD)]
@@ -218,11 +220,33 @@ class Search:
             for t, o in changes:
                 self.out[t] = o
             self.score, self.parts = sc, parts
+            if getattr(self, 'guided', False):
+                self.refresh_guide()
         elif changes:
             np.add.at(self.x2, I2, -V2); np.add.at(self.x3, I3, -V3); np.add.at(self.xw, IW, -VW)
         return sc, parts
 
+    def refresh_guide(self, top=40):
+        out = collections.Counter()
+        for t, w in enumerate(self.out):
+            for x in substrings(w, 3):
+                out[x] += self.cnt[t]
+        no = sum(out.values()) or 1
+        d = {k: out.get(k, 0) / no - self.ysub.get(k, 0) / self.ny for k in set(out) | set(self.ysub)}
+        over = sorted((k for k in d if d[k] > 0 and k in self.lhs_set), key=lambda k: -d[k])[:top]
+        under = sorted((k for k in d if d[k] < 0), key=lambda k: d[k])[:top]
+        self.g_over = (over, [d[k] for k in over]); self.g_under = (under, [-d[k] for k in under])
+
     def propose(self):
+        if getattr(self, 'guided', False) and self.rng.random() < 0.6:
+            if not hasattr(self, 'g_over'):
+                self.refresh_guide()
+            while True:
+                lhs = self.rng.choices(*self.g_over)[0]
+                rhs = '' if self.rng.random() < 0.1 else self.rng.choices(*self.g_under)[0]
+                lc, rc = self.rng.choice(self.ctx_pool)
+                if rhs != lhs and not any(r[0] == lhs and r[2] == lc and r[3] == rc for r in self.rules):
+                    return (lhs, rhs, lc, rc)
         while True:
             lhs = self.rng.choice(self.lhs_pool)
             u = self.rng.random()
@@ -257,8 +281,9 @@ class Search:
         return True
 
 
-def run_search(xfit, yfit, xheld, yheld, kmax=30, n_cand=250, seed=0, ctx_symbols=False, log=None, ctx_pool=None):
+def run_search(xfit, yfit, xheld, yheld, kmax=30, n_cand=250, seed=0, ctx_symbols=False, log=None, ctx_pool=None, guided=False):
     S = Search(xfit, yfit, seed=seed, ctx_symbols=ctx_symbols)
+    S.guided = guided
     if ctx_pool is not None:
         S.ctx_pool = ctx_pool
     path = []

@@ -18,14 +18,14 @@ def plant(pages):
     return [[apply_word(w, rb) for w in p] for p in pages]
 
 
-def part_a(seed):
+def part_a(seed, guided=False):
     C = corpora()
     rng = random.Random(500 + seed)
     idx = list(range(len(C['V_A']))); rng.shuffle(idx); h = len(idx) // 2
     X = [C['V_A'][i] for i in idx[:h]]; Y = plant([C['V_A'][i] for i in idx[h:]])
     xf, xh, _ = split_pages(X, 3000, 1500, 2 * seed + 1); yf, yh, _ = split_pages(Y, 3000, 1500, 2 * seed + 2)
     floor = distance(yf[:1500], yh)
-    path = run_search(xf, yf, xh, yh, kmax=15, n_cand=200, seed=seed)
+    path = run_search(xf, yf, xh, yh, kmax=15, n_cand=200, seed=seed, guided=guided)
     found = path[-1]['rules']
     rec = [p for p in PLANT if tuple(p) in {tuple(r) for r in found}]
     return dict(seed=seed, floor=floor, path=path, recovered=rec)
@@ -109,6 +109,14 @@ if __name__ == '__main__':
         for r in R:
             p = r['path']
             print('seed', r['seed'], 'F', round(r['floor'][0], 3), 'D0', round(p[0]['held'], 3), 'Dk', round(p[-1]['held'], 3), 'k', p[-1]['k'], 'recovered', r['recovered'])
+            print('   rules', p[-1]['rules'])
+    elif part == 'ag':
+        with Pool(2) as p:
+            R = p.starmap(part_a, [(0, True), (1, True)])
+        json.dump(R, open(os.path.join(CK, 'c2ag.json'), 'w'), default=float)
+        for r in R:
+            p = r['path']
+            print('GUIDED seed', r['seed'], 'F', round(r['floor'][0], 3), 'D0', round(p[0]['held'], 3), 'Dk', round(p[-1]['held'], 3), 'k', p[-1]['k'], 'recovered', r['recovered'])
             print('   rules', p[-1]['rules'])
     elif part == 'b':
         jobs = [('VOY_herb', ['V_Aherb'], ['V_Bherb'], [('V_Apharm', 'V_Bbio'), ('V_Apharm', 'V_Bstar'), ('V_Apharm', 'V_B3')], 0),

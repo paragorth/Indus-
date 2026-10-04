@@ -86,7 +86,7 @@ def job(args):
     xf, xh, yf, yh = make_split(name, seed)
     floor = distance(yf[:len(yh)], yh)
     floorx = distance(xf[:len(xh)], xh)
-    path = run_search(xf, yf, xh, yh, kmax=kmax, n_cand=ncand, seed=seed, ctx_symbols=ctx)
+    path = run_search(xf, yf, xh, yh, kmax=kmax, n_cand=ncand, seed=seed, ctx_symbols=ctx, guided=tag.startswith('g'))
     res = dict(name=name, seed=seed, pair=PAIRS[name], floor=floor, floorx=floorx, path=path,
                n=(len(xf), len(xh), len(yf), len(yh)), secs=time.time() - t)
     json.dump(res, open(out, 'w'), ensure_ascii=False, default=float)
