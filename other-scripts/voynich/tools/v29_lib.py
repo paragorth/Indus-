@@ -71,12 +71,14 @@ def phon_shapes(lang, letters):
 
 
 # ------------------------------------------------------------------ corpora: list of lines, line = list of word tuples
-def voynich_lines(src='ZL3b', lang=None):
+def voynich_lines(src='ZL3b', lang=None, fold=None):
     d = json.load(open(os.path.join(DATA, 'derived', f'{src}_lines.json')))
     keep = set(S.VOYNICH)
     out = []
     for L in d:
         if L['ltype'] != 'P' or (lang and L['lang'] != lang):
+            continue
+        if fold is not None and int(re.match(r'f(\d+)', L['folio']).group(1)) % 2 != fold:
             continue
         cur = []
         for w, u in zip(L['words'], L['uncertain']):
@@ -431,7 +433,7 @@ def run(lines, shapes, R=12, n_random=2000, n_class=600, seed=0, feats=None, log
 
 def zscores(res):
     mu = np.nanmean(res['null'], 0); sd = np.nanstd(res['null'], 0, ddof=1)
-    sd = np.where(sd < 0.01, 0.01, sd)   # floor: avoid huge z from degenerate nulls
+    sd = np.where(sd < 0.02, 0.02, sd)   # floor: avoid huge z from degenerate nulls (0.02 phi)
     return (res['obs'] - mu) / sd, res['obs'] - mu
 
 
@@ -441,7 +443,7 @@ def maxnull(res):
     out = []
     for r in range(R):
         rest = np.delete(N, r, 0)
-        mu = np.nanmean(rest, 0); sd = np.nanstd(rest, 0, ddof=1); sd = np.where(sd < 0.01, 0.01, sd)
+        mu = np.nanmean(rest, 0); sd = np.nanstd(rest, 0, ddof=1); sd = np.where(sd < 0.02, 0.02, sd)
         z = (N[r] - mu) / sd
         out.append(np.nanmax(z, 0))
     return np.array(out)  # R x nstats

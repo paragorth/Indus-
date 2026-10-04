@@ -1,4 +1,4 @@
-"""LA-23 cycle 3: predictions outside the estimating set.
+"""LA-23 cycle 4: predictions outside the estimating set.
 
 (A) How many new person-names should a newly found Hagia Triada tablet contain?
     Incidence extrapolation (expected new individuals on one more sampling unit = Q1/T, Chao et al.
@@ -15,7 +15,7 @@ import sys, json
 from la23_common import *
 import la23_c2 as C2
 
-rng = np.random.default_rng(seed('la23c3'))
+rng = np.random.default_rng(seed('la23c4'))
 P = C2.P
 HT, TAB, WORDS = C2.HT, C2.TAB, C2.WORDS
 
@@ -166,4 +166,4 @@ def run_B(nperm=2000):
 
 if __name__ == '__main__':
     res = dict(A=run_A(), B=run_B())
-    json.dump(res, open(os.path.join(CK, 'c3.json'), 'w'), indent=1)
+    json.dump(res, open(os.path.join(CK, 'c4.json'), 'w'), indent=1)

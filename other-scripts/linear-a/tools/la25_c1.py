@@ -30,7 +30,8 @@ def bank(seed, N, cats, mode='agro', n=NB, **kw):
 
 def infer(B, X, k=K):
     s = summ(X[None])[0]
-    idx, sc = abc(B['S'], s, k)
+    if 'scale' not in B: _, B['scale'] = abc(B['S'][:60000], s, 10)
+    idx, sc = abc(B['S'], s, k, B['scale'])
     Pm = month_post(B['m'][idx].astype(int))
     return dict(P=Pm, same=float(B['same'][idx].mean()), gam=float(np.median(B['gam'][idx])),
                 gam_q=np.quantile(B['gam'][idx], [0.1, 0.9]).tolist(), idx=idx)
@@ -92,7 +93,7 @@ if __name__ == '__main__':
     # random calendars: ABC model choice agro vs random (equal prior; pooled bank nearest-k)
     BLR = bank(2, NLA, CORE, mode='random')
     Sall = np.concatenate([BLA['S'], BLR['S']])
-    idx, _ = abc(Sall, summ(XLA[None])[0], 2 * K)
+    idx, _ = abc(Sall, summ(XLA[None])[0], 2 * K, BLA['scale'])
     pa = float((idx < len(BLA['S'])).mean())
     P(f'MODEL CHOICE LA agro vs random calendar: P(agro)={pa:.3f} (prior 0.5)')
     res['LA_Pagro'] = pa

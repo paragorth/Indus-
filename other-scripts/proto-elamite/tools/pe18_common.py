@@ -144,3 +144,113 @@ def strata_perm(labels, strata, rng):
         idx = np.where(strata == s)[0]
         lab[idx] = lab[rng.permutation(idx)]
     return lab
+
+
+import math
+A = 0.5
+FAM = ['toks', 'nocls', 'forms', 'hdr', 'fmt']
+
+
+def items(t, f):
+    if f == 'hdr':
+        return [t['hdr']] if t['hdr'] else []
+    if f == 'forms':
+        return t['forms']
+    return t[f]
+
+
+class Model:
+    def __init__(self, plat, susa):
+        self.pc, self.sc, self.st = {}, {}, {}
+        for f in ['toks', 'nocls', 'hdr']:
+            self.pc[f] = collections.Counter(x for t in plat for x in items(t, f))
+            self.sc[f] = collections.Counter(x for t in susa for x in items(t, f))
+        # forms: conditional on base
+        self.pf = collections.Counter(x for t in plat for x in t['forms'])
+        self.pb = collections.Counter(b for t in plat for b, _ in t['forms'])
+        self.sf = collections.Counter(x for t in susa for x in t['forms'])
+        self.sb = collections.Counter(b for t in susa for b, _ in t['forms'])
+        self.nforms = collections.Counter(b for (b, _) in set(self.sf) | set(self.pf))
+        F = np.array([t['fmt'] for t in susa]); P = np.array([t['fmt'] for t in plat])
+        mu, sd = F.mean(0), F.std(0) + 1e-6
+        self.mu, self.sd = mu, sd
+        Fz, Pz = (F - mu) / sd, (P - mu) / sd
+        self.fm, self.fs = Fz.mean(0), Fz.std(0) + 0.1
+        self.pm, self.ps = Pz.mean(0), Pz.std(0) + 0.1
+        self.V = {f: len(set(self.pc[f]) | set(self.sc[f])) + 1 for f in self.pc}
+
+    def score(self, t, f, loo=False):
+        if f == 'fmt':
+            z = (np.array(t['fmt']) - self.mu) / self.sd
+            lp = -0.5 * (((z - self.pm) / self.ps) ** 2) - np.log(self.ps)
+            ls = -0.5 * (((z - self.fm) / self.fs) ** 2) - np.log(self.fs)
+            return float((lp - ls).mean())
+        xs = items(t, f)
+        if not xs:
+            return np.nan
+        if f == 'forms':
+            own = collections.Counter(xs) if loo else collections.Counter()
+            ownb = collections.Counter(b for b, _ in xs) if loo else collections.Counter()
+            v = []
+            for b, s in xs:
+                k = self.nforms[b] + 1
+                pp = (self.pf[(b, s)] + A) / (self.pb[b] + A * k)
+                ps = (self.sf[(b, s)] - own[(b, s)] + A) / (self.sb[b] - ownb[b] + A * k)
+                v.append(math.log(pp / ps))
+            return float(np.mean(v))
+        pc, sc, V = self.pc[f], self.sc[f], self.V[f]
+        Np, Ns = sum(pc.values()), sum(sc.values())
+        own = collections.Counter(xs) if loo else collections.Counter()
+        n_own = len(xs) if loo else 0
+        v = [math.log((pc[x] + A) / (Np + A * V)) - math.log((sc[x] - own[x] + A) / (Ns - n_own + A * V)) for x in xs]
+        return float(np.mean(v))
+
+
+def scores(model, tabs, loo):
+    S = np.array([[model.score(t, f, loo) for f in FAM] for t in tabs])
+    return S
+
+
+def auc(pos, neg):
+    pos, neg = pos[~np.isnan(pos)], neg[~np.isnan(neg)]
+    if len(pos) == 0 or len(neg) == 0:
+        return np.nan
+    allv = np.concatenate([pos, neg]); r = allv.argsort().argsort() + 1
+    return float((r[:len(pos)].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
+
+
+def combine(S, ref):
+    """z-score each family on Susa reference rows; average available."""
+    mu = np.nanmean(ref, 0); sd = np.nanstd(ref, 0) + 1e-9
+    Z = (S - mu) / sd
+    return np.nanmean(Z, 1)
+
+
+
+def contrast(score, lab, elig, strata, nperm=5000, rng=None):
+    rng = rng if rng is not None else np.random.default_rng(0)
+    sc = score[elig]; lb = lab[elig]; st = strata[elig]
+    ok = ~np.isnan(sc); sc, lb, st = sc[ok], lb[ok], st[ok]
+    if lb.sum() < 5 or (~lb).sum() < 5:
+        return None
+    obs = sc[lb].mean() - sc[~lb].mean()
+    d = obs / (sc.std() + 1e-9)
+    nul = np.array([(lambda L: sc[L].mean() - sc[~L].mean())(strata_perm(lb, st, rng)) for _ in range(nperm)])
+    z = (obs - nul.mean()) / (nul.std() + 1e-12)
+    p = float((1 + (np.abs(nul - nul.mean()) >= abs(obs - nul.mean())).sum()) / (nperm + 1))
+    return {'n1': int(lb.sum()), 'n0': int((~lb).sum()), 'diff': round(float(obs), 4), 'd': round(float(d), 3),
+            'z': round(float(z), 2), 'p': round(p, 4)}
+
+
+
+def label_sets(rows):
+    L = {}
+    dec = np.array(['DEC' in t['sys'] and 'SEX' not in t['sys'] for t in rows])
+    sex = np.array(['SEX' in t['sys'] and 'DEC' not in t['sys'] for t in rows])
+    L['DEC_vs_SEX'] = (dec, dec | sex)
+    for s in ['C@', 'B', 'S@', 'N23', 'FRAC', 'C', 'SEX']:
+        has = np.array([s in t['sys'] for t in rows])
+        L[s + '_vs_rest'] = (has, np.array([t['n_num'] > 0 for t in rows]))
+    return L
+
+

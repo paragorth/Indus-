@@ -15,6 +15,10 @@ def corpus(name):
         p = dict(plant7=0.7, plant3=0.3, plantJ=0.0)[name]
         j = 0.5 if name == 'plantJ' else 0.0
         return L.plant(base, {'k', 't', 'f', 'p'}, {'t', 'p'}, p=p, seed=7, junction=j), S.VOYNICH
+    if name.startswith('copy'):
+        import v29_copygen
+        rate, ed = dict(copy5=(0.5, 1.0), copy8=(0.8, 1.5))[name]
+        return v29_copygen.gen(L.voynich_lines('ZL3b'), rate=rate, edits=ed, seed=3), S.VOYNICH
     if name == 'ko':
         return L.hangul_lines(), S.HANGUL
     if name in ('tr', 'hu', 'fi'):

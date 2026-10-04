@@ -51,11 +51,11 @@ def featset(docs, shuffle=False, rng=None):
 
 def models():
     return {'logit': lambda: LogisticRegression(max_iter=2000, C=1.0),
-            'gbm': lambda: HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, max_depth=3)}
+            'gbm': lambda: HistGradientBoostingClassifier(max_iter=60, learning_rate=0.08, max_depth=3)}
 
 
 res = collections.defaultdict(list)
-NREP = 40
+NREP = 12
 for rep in range(NREP):
     for tr, te in (('KN', 'PY'), ('PY', 'KN')):
         Ttr, Xtr, ytr = featset(draw(by_site[tr], NOCC, rng))
@@ -78,7 +78,7 @@ for rep in range(NREP):
         post = gm.predict_proba(StandardScaler().fit_transform(Xte))
         comp = int(np.argmin(gm.means_[:, FEATS.index('log_occ')]))
         res[('gmm_blind', 'real')].append((roc_auc_score(yte, post[:, comp]), np.nan, np.nan, np.nan))
-    if rep % 10 == 9: print('rep', rep + 1, flush=True)
+    print('rep', rep + 1, flush=True)
 
 summ = {}
 for k, v in res.items():
@@ -93,12 +93,12 @@ for k, v in summ.items(): print(k, v)
 TL, XL = type_features(LAocc)
 PL = []
 coefs = []
-for rep in range(60):
+for rep in range(16):
     s = 'KN' if rep % 2 == 0 else 'PY'
     Ttr, Xtr, ytr = featset(draw(by_site[s], NOCC, rng))
     sc = StandardScaler().fit(Xtr)
     m = LogisticRegression(max_iter=2000).fit(sc.transform(Xtr), ytr)
-    g = HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, max_depth=3).fit(sc.transform(Xtr), ytr)
+    g = HistGradientBoostingClassifier(max_iter=60, learning_rate=0.08, max_depth=3).fit(sc.transform(Xtr), ytr)
     PL.append(0.5 * m.predict_proba(sc.transform(XL))[:, 1] + 0.5 * g.predict_proba(sc.transform(XL))[:, 1])
     coefs.append(m.coef_[0])
 PL = np.array(PL)
@@ -106,11 +106,11 @@ pm = PL.mean(0); psd = PL.std(0)
 # shuffled LA: words shuffled across slots
 TLs, XLs = type_features(occurrences(shuffle_words(LA, rng)))
 PLs = []
-for rep in range(20):
+for rep in range(8):
     s = 'KN' if rep % 2 == 0 else 'PY'
     Ttr, Xtr, ytr = featset(draw(by_site[s], NOCC, rng)); sc = StandardScaler().fit(Xtr)
     m = LogisticRegression(max_iter=2000).fit(sc.transform(Xtr), ytr)
-    g = HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, max_depth=3).fit(sc.transform(Xtr), ytr)
+    g = HistGradientBoostingClassifier(max_iter=60, learning_rate=0.08, max_depth=3).fit(sc.transform(Xtr), ytr)
     PLs.append(0.5 * m.predict_proba(sc.transform(XLs))[:, 1] + 0.5 * g.predict_proba(sc.transform(XLs))[:, 1])
 PLs = np.array(PLs).mean(0)
 

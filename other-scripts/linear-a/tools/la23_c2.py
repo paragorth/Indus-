@@ -5,7 +5,8 @@ tablets (frequency estimators: Chao1, coverage, Bayesian beta-binomial Mh), Vill
 (Chapman / Lincoln-Petersen), 4 findspots and 4 commodity classes (log-linear M0/Mt/Mh/Mth/Mt2).
 Uncertainty: thousands of draws, each one (a) samples class membership from p (with its
 ensemble sd), (b) applies name ambiguity (homonym split rate eta ~ U(0, .3); one-sign spelling
-variants merged with nu ~ U(0, .5)), (c) bootstraps tablets.
+variants merged with nu ~ U(0, .5)), (c) (no tablet bootstrap: duplicated tablets fake recaptures); sampling
+uncertainty comes from the Bayesian Mh posterior draw.
 Controls: planted populations of known size on the HT tablet frame (heterogeneous, local,
 with homonyms and variants); Linear B KN and PY LA-sized draws vs the full-site distinct count;
 findspot labels permuted; non-person words through the same pipeline.
@@ -21,6 +22,26 @@ P = {r['w']: (r['p'], r['sd']) for r in C1['la']}
 
 HT = la_docs()
 OCC = occurrences(HT)
+SET = os.environ.get('LA23_SET', 'clf')
+
+
+def strict_rule(occ):
+    """Blind operational person-like rule: mostly in entry position, at least once followed directly
+    (no logogram) by a number <= 5, and on <= 5 tablets (frequent repeated terms excluded)."""
+    by = collections.defaultdict(list)
+    for o in occ: by[o['w']].append(o)
+    out = set()
+    for w, L in by.items():
+        ent = [x for x in L if x['entry']]
+        if len(ent) >= 0.5 * len(L) and any(x['direct'] and x['num'] is not None and x['num'] <= 5 for x in ent) \
+                and len(set(x['doc'] for x in L)) <= 5:
+            out.add(w)
+    return out
+
+
+if SET == 'strict':
+    _S = strict_rule(OCC)
+    P = {w: (1.0 if w in _S else 0.0, 0.0) for w in set(o['w'] for o in OCC)}
 
 
 def fs_group(f):
@@ -96,7 +117,7 @@ def estimators(tabs, docf, docc, rng, mcmc=True):
     return r
 
 
-def la_draw(rng, p_scale=1.0, eta=None, nu=None, boot=True, person=True, permute_fs=False):
+def la_draw(rng, p_scale=1.0, eta=None, nu=None, boot=False, person=True, permute_fs=False):
     """One posterior/bootstrap draw of the HT person population."""
     memb = {}
     for w in WORDS:
@@ -186,8 +207,7 @@ def run_planted(nrep=40):
                     tabs = planted(N, rng, sigma=0.3, local=0.25, hom=0.0, var=0.0)
                 else:
                     tabs = planted(N, rng, sigma=1.2, local=0.7, hom=0.15, var=0.1)
-                idx = rng.integers(0, len(tabs), len(tabs))
-                rows.append(estimators([tabs[i] for i in idx], [DOCF[i] for i in idx], [DOCC[i] for i in idx], rng))
+                rows.append(estimators(tabs, DOCF, DOCC, rng))
             s = summarize(rows, KEYS)
             out['%d_%s' % (N, cfg)] = s
             print('planted', N, cfg, {k: round(s[k]['med']) for k in ('S', 'chao1', 'chapman', 'fs_best', 'ct_best', 'mh_bayes') if k in s}, flush=True)
@@ -204,7 +224,7 @@ def run_lb(nrep=60):
         docs = [d for d in LB if d['site'] == site]
         ser = sorted(set(d['series'] for d in docs))
         full = set(v for d in docs for ln in d['lines'] for k, v in ln if k == 'W' and v in L)
-        rows = []
+        rows = []; prec = []
         for rep in range(nrep):
             idx = rng.permutation(len(docs)); sel, n = [], 0
             for i in idx:
@@ -213,6 +233,9 @@ def run_lb(nrep=60):
                 sel.append(d); n += k
                 if n >= target: break
             tabs = [set(v for ln in d['lines'] for k, v in ln if k == 'W' and v in L) for d in sel]
+            rule = strict_rule(occurrences(sel)); allw = set(v for d in sel for ln in d['lines'] for k, v in ln if k == 'W')
+            prec.append((len([w for w in rule if w in L]) / max(1, len(rule)), len([w for w in allw if w in L]) / max(1, len(allw)),
+                         len([w for w in rule if w in L]) / max(1, len([w for w in allw if w in L]))))
             # occasions: 'findspot' := hand groups (top 3 hands + rest), 'ctype' := series letter groups
             hands = collections.Counter(d['scribe'] for d in sel).most_common(3)
             hg = {h: i for i, (h, _) in enumerate(hands)}
@@ -227,6 +250,8 @@ def run_lb(nrep=60):
             r['chapman'] = r2['chapman']
             rows.append(r)
         s = summarize(rows, KEYS)
+        s['rule_precision_base_recall'] = np.mean(prec, 0).tolist()
+        print('LB', site, 'strict rule precision, base rate, recall', s['rule_precision_base_recall'], flush=True)
         s['full_distinct'] = len(full); s['full_tablets'] = len(docs); s['draw_tablets'] = len(sel)
         out[site] = s
         print('LB', site, 'full distinct', len(full), {k: (round(s[k]['med']), round(s[k]['lo']), round(s[k]['hi'])) for k in ('S', 'chao1', 'chapman', 'fs_best', 'ct_best', 'mh_bayes') if k in s}, flush=True)
@@ -238,7 +263,7 @@ def run_la(ndraw):
     for i in range(ndraw):
         tabs, docf, docc, par = la_draw(rng)
         r = estimators(tabs, docf, docc, rng); r.update(par); rows.append(r)
-        if i % 4 == 0:
+        if i % 4 == 0 and i < ndraw // 2:
             tabs, docf, docc, _ = la_draw(rng, person=False)
             rows_np.append(estimators(tabs, docf, docc, rng))
             tabs, docf, docc, _ = la_draw(rng, permute_fs=True)
@@ -263,4 +288,4 @@ if __name__ == '__main__':
         print('LA person', {k: (round(s[k]['med'], 1), round(s[k]['lo'], 1), round(s[k]['hi'], 1)) for k in s})
         print('LA nonperson', {k: (round(v['med'], 1), round(v['lo'], 1), round(v['hi'], 1)) for k, v in res['la']['nonperson'].items()})
         print('LA fs-permuted', {k: (round(v['med'], 1), round(v['lo'], 1), round(v['hi'], 1)) for k, v in res['la']['fs_permuted'].items()})
-    json.dump(res, open(os.path.join(CK, 'c2_%s.json' % MODE), 'w'), indent=1)
+    json.dump(res, open(os.path.join(CK, 'c2_%s_%s.json' % (MODE, SET)), 'w'), indent=1)

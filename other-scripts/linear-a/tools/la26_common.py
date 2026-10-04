@@ -9,6 +9,8 @@ rings (who held them, 'Knossian' etc.) is used: only which seal face was impress
 Linear A texts: data/corpus.json (lineara.xyz). No sound value or reading is used.
 """
 import json, os, re, math, collections
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -224,16 +226,24 @@ def perm_within_support(labels, supports, rng):
     return list(out)
 
 
+def site_sum(labels, nodes, M):
+    idx = {s: i for i, s in enumerate(nodes)}
+    li = np.array([idx[s] for s in labels])
+    O = np.zeros((len(nodes), len(li)), dtype=np.float32)
+    O[li, np.arange(len(li))] = 1
+    return O @ M
+
+
 def excess_z(docs, nodes, key, fn, nperm, rng, M=None):
     """Observed site-pair similarity standardized against document-label permutations within
     support type (controls site size and support mix)."""
     if M is None:
         M, _ = doc_matrix(docs, key)
     labels = [d['site'] for d in docs]; sups = [d['support'] for d in docs]
-    obs = fn(site_onehot(labels, nodes) @ M)
+    obs = fn(site_sum(labels, nodes, M))
     sims = np.zeros((nperm,) + obs.shape)
     for p in range(nperm):
-        sims[p] = fn(site_onehot(perm_within_support(labels, sups, rng), nodes) @ M)
+        sims[p] = fn(site_sum(perm_within_support(labels, sups, rng), nodes, M))
     mu, sd = sims.mean(0), sims.std(0)
     sd[sd == 0] = np.inf
     return (obs - mu) / sd, obs, mu

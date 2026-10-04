@@ -189,8 +189,10 @@ def summ(X):
 
 def abc(S_bank, s_obs, k=500, scale=None):
     if scale is None:
-        scale = np.median(np.abs(S_bank - np.median(S_bank, 0)), 0) + 1e-3
-    D = np.sqrt((((S_bank - s_obs[None]) / scale) ** 2).sum(1))
+        sub = S_bank[:: max(1, len(S_bank) // 50000)]
+        scale = (np.median(np.abs(sub - np.median(sub, 0)), 0) + 1e-3).astype(np.float32)
+    D = ((S_bank - s_obs[None].astype(np.float32)) / scale) ** 2
+    D = D.sum(1)
     idx = np.argpartition(D, k)[:k]
     return idx, scale
 

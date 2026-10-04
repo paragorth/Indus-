@@ -283,30 +283,38 @@ def loglinear(histories, K, models=('M0', 'Mt', 'Mh', 'Mth', 'Mt2')):
 def ztbb_loglik(fk, T, N, a, b):
     """Zero-truncated beta-binomial capture-frequency likelihood with N individuals
     (full multinomial incl. unseen). fk: array length T+1 of counts of individuals caught k times."""
-    from scipy.special import gammaln, betaln
-    k = np.arange(T + 1)
-    lp = gammaln(T + 1) - gammaln(k + 1) - gammaln(T - k + 1) + betaln(k + a, T - k + b) - betaln(a, b)
-    S = fk[1:].sum()
-    if N < S: return -np.inf
+    lg = math.lgamma
+    if not hasattr(fk, '_nz'):
+        pass
+    nz = [(k, float(fk[k])) for k in range(1, len(fk)) if fk[k] > 0]
+    S = sum(c for _, c in nz)
+    if N < S: return -math.inf
+    lbab = lg(a) + lg(b) - lg(a + b)
+
+    def lp(k):
+        return lg(T + 1) - lg(k + 1) - lg(T - k + 1) + lg(k + a) + lg(T - k + b) - lg(T + a + b) - lbab
     f0 = N - S
-    return (gammaln(N + 1) - gammaln(f0 + 1) - np.sum(gammaln(fk[1:] + 1)) + f0 * lp[0] + np.sum(fk[1:] * lp[1:]))
+    return lg(N + 1) - lg(f0 + 1) + f0 * lp(0) + sum(c * lp(k) for k, c in nz)
 
 
 def mh_bayes(fk, T, rng, n_iter=6000, burn=2000, thin=4, Nmax=None):
     """Bayesian Mh (beta-binomial heterogeneity), prior N ~ 1/N (scale), log a, log b ~ N(0, 2^2).
     Random-walk Metropolis. Returns posterior draws of N."""
     S = int(fk[1:].sum())
+    fk = fk[:int(np.nonzero(fk)[0].max()) + 1]
     if Nmax is None: Nmax = S * 200
     N, la, lb = int(S * 1.5) + 1, 0.0, 1.0
     cur = ztbb_loglik(fk, T, N, math.exp(la), math.exp(lb)) - math.log(N) - (la ** 2 + lb ** 2) / 8
     out = []
     step = max(2, S // 5)
+    RI = rng.integers(-step, step + 1, n_iter).tolist(); RA = rng.normal(0, 0.15, (n_iter, 2)).tolist()
+    RU = np.log(rng.random(n_iter) + 1e-300).tolist()
     for it in range(n_iter):
-        N2 = N + int(rng.integers(-step, step + 1))
-        la2 = la + rng.normal(0, 0.15); lb2 = lb + rng.normal(0, 0.15)
+        N2 = N + RI[it]
+        la2 = la + RA[it][0]; lb2 = lb + RA[it][1]
         if S <= N2 <= Nmax:
             new = ztbb_loglik(fk, T, N2, math.exp(la2), math.exp(lb2)) - math.log(N2) - (la2 ** 2 + lb2 ** 2) / 8
-            if math.log(rng.random() + 1e-300) < new - cur:
+            if RU[it] < new - cur:
                 N, la, lb, cur = N2, la2, lb2, new
         if it >= burn and (it - burn) % thin == 0:
             out.append(N)
