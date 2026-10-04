@@ -9,7 +9,7 @@ import numpy as np
 from pe29_common import *
 
 rng = np.random.default_rng(29)
-NP = int(sys.argv[1]) if len(sys.argv) > 1 else 200
+NP = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 200
 
 
 def nlbin(n):
