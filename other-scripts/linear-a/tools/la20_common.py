@@ -14,6 +14,7 @@ Lists: one per tablet (sides a/b joined, a first). Item types:
 Each item carries the quantity (integer part) written right after it, when there is one.
 """
 import json, os, re, random, unicodedata
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"): os.environ.setdefault(_v, "1")
 from collections import Counter, defaultdict
 import numpy as np
 from scipy.optimize import minimize

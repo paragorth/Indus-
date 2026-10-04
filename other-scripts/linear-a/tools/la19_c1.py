@@ -116,7 +116,7 @@ def run(name, arg):
             P = consensus(st, k); e['map'] = P.argmax(1).tolist(); e['pmax_mean'] = round(float(P.max(1).mean()), 3)
             e['sizes'] = np.bincount(P.argmax(1), minlength=k).tolist()
         row['stab'][k] = e
-    row['words'] = ['-'.join(w) for w in W]
+    row['words'] = ['-'.join(map(str, w)) for w in W]
     if 'truth' in meta: row['truth'] = meta['truth']
     row['lpw'] = {k: np.round(res[k]['lpw'], 4).tolist() for k in res}
     row['secs'] = round(time.time() - t0, 1)
@@ -127,5 +127,7 @@ def run(name, arg):
 
 if __name__ == '__main__':
     wk, nw = int(sys.argv[1]), int(sys.argv[2])
-    for i, (n, a) in enumerate(jobs()):
+    J = list(enumerate(jobs()))
+    if len(sys.argv) > 3 and sys.argv[3] == 'rev': J = J[::-1]
+    for i, (n, a) in J:
         if i % nw == wk: run(n, a)

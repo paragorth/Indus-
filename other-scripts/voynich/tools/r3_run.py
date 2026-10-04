@@ -8,18 +8,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from r3_lib import *
 
 PROP = None
+V2 = os.environ.get('R3_V2') == '1'
 
 
 def job(i):
     seed = SEED0 + i
     r = random.Random(seed * 7919 + 3)
     if PROP is None:
-        th = draw_prior(r)
+        th = draw_prior(r, PRIOR2 if V2 else None)
     else:
         # proposal: pick an accepted theta and perturb it (Gaussian, within prior bounds)
         base = PROP['thetas'][r.randrange(len(PROP['thetas']))]
         th = {}
-        for k, (lo, hi, kind) in PRIOR.items():
+        for k, (lo, hi, kind) in (PRIOR2 if V2 else PRIOR).items():
             v = base[k] + r.gauss(0, PROP['sd'][k])
             v = min(hi, max(lo, v))
             th[k] = int(round(v)) if kind == 'i' else v

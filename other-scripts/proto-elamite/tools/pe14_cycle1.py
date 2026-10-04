@@ -17,9 +17,26 @@ from pe14_common import _prep, units, features, lag_agree, null_stats, tune_rho,
 NADJ, NSHUF = 120, 60
 
 
+def run_spaced(U, p):
+    """longest run of an identical unit (same sign string) at every p-th position,
+    with a different unit right after it"""
+    S = [tuple(u['toks']) for u in U]
+    best = 0
+    for i in range(len(S)):
+        k = 0
+        while i + p * (k + 1) < len(S) and S[i + p * (k + 1)] == S[i] and S[i + 1] != S[i]:
+            k += 1
+        best = max(best, k + 1)
+    return best
+
+
 def corpus(cfg):
     if cfg == 'PE_ENT':
         return units('PE', 'entries')
+    if cfg == 'PE_NOPAIR':
+        # pe12/pe14: tablets with a fixed two-line record (an identical entry at every
+        # second position >= 3 times running, e.g. 'name M288' / 'M376 1/4') removed
+        return [t for t in units('PE', 'entries') if run_spaced(t['u'], 2) < 3]
     if cfg == 'PE_LIN':
         return units('PE', 'lines')
     if cfg in ('UR3_LIN', 'ARCH_LIN'):

@@ -76,7 +76,7 @@ def trans(kind, K, P):
     return A, np.full(K, 1.0 / K)
 
 
-def fit(X, M, V, kind, K, rng, iters=40, alpha=0.1):
+def fit(X, M, V, kind, K, rng, iters=30, alpha=0.1):
     nf = len(V)
     th = [np.log(rng.dirichlet(np.ones(v), K)) for v in V]
     P = {'pi': rng.dirichlet(np.ones(K)), 'A': rng.dirichlet(np.ones(K), K), 'eps': rng.uniform(0.05, 0.5)}

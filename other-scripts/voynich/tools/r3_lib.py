@@ -185,6 +185,8 @@ FIT_NAMES = ['sign_types', 'sign_zipf', 'sign_top10', 'sign_hapax', 'wlen_mean',
              'mi_junc', 'mi_inner', 'kl_entry_first', 'p_num', 'q_log', 'p_round']
 NUM_STATS = ['p_num', 'q_log', 'p_round']
 HELD_NAMES = ['burst', 'adj_rep']
+FIT2_NAMES = FIT_NAMES + ['burst', 'adj_rep']
+HELD2_NAMES = ['heaps', 'rep_sign']
 
 
 def sample_docs(C, rng, ntok=NTOK):
@@ -301,6 +303,10 @@ def panel(docs, rng):
             rat.append(len(doc_of[w]) / exp)
     S['burst'] = float(np.mean(rat)) if rat else 1.0
     S['adj_rep'] = adj_hits / adj_n if adj_n else 0.0
+    seq = [w for d in docs for ws, q in d for w in ws]
+    h = len(seq) // 2
+    S['heaps'] = len(set(seq[:h])) / max(1, len(set(seq)))
+    S['rep_sign'] = float(np.mean([any(w[i] == w[i + 1] for i in range(len(w) - 1)) for w in seq]))
     return S
 
 
@@ -347,12 +353,22 @@ PRIOR = {  # name: (lo, hi, kind)
     'secrecy': (0, 1, 'u'),
     'p_div': (0.3, 1.0, 'u'),
 }
+PRIOR2 = dict(PRIOR)
+PRIOR2.update({
+    'p_docgood': (0, 1, 'u'),    # ledger entries reuse the document's commodity
+    'p_bare': (0, 1, 'u'),       # ledger entries with no name (good + number only)
+    'p_end': (0, 1, 'u'),        # word-final sign drawn from a small end set
+    'lg_end': (0, 1.3, 'u'),     # size of the end set (1..20)
+    'p_lmark': (0, 1, 'u'),      # first word of each entry carries a line-initial marker sign
+    'wl_var': (0.1, 1.0, 'u'),   # word-length variance factor (1 = Poisson, 0.1 = tight binomial)
+})
 PNAMES = list(PRIOR)
+PNAMES2 = list(PRIOR2)
 
 
-def draw_prior(rng):
+def draw_prior(rng, prior=None):
     th = {}
-    for k, (lo, hi, kind) in PRIOR.items():
+    for k, (lo, hi, kind) in (prior or PRIOR).items():
         th[k] = rng.randint(lo, hi) if kind == 'i' else rng.uniform(lo, hi)
     return th
 
@@ -393,6 +409,8 @@ class World:
         self.init_c = np.cumsum(self.init)
         self.logo_next = 0
         self.bank = []
+        self.n_end = max(1, int(round(10 ** th.get('lg_end', 0.0))))
+        self.ends = None
 
     # concept usage marginal (approximate, for the learning bottleneck)
     def marginal(self, K=4000):
@@ -412,13 +430,26 @@ class World:
 
     def _fill(self, n=3000):
         R = self.rng
-        L = np.minimum(1 + R.poisson(max(0.0, self.th['wlen'] - 1), n), 10)
+        m = max(0.0, self.th['wlen'] - 1)
+        x = self.th.get('wl_var', 1.0)
+        if x < 0.999 and m > 0:
+            N = int(math.ceil(m / (1 - x)))
+            L = np.minimum(1 + R.binomial(N, m / N, n), 10)
+        else:
+            L = np.minimum(1 + R.poisson(m, n), 10)
         S = np.zeros((n, 10), np.int64)
         u = R.random((n, 10))
         S[:, 0] = np.minimum((self.init_c[None, :] < (u[:, :1] * self.init_c[-1])).sum(1), self.ns - 1)
         for i in range(1, int(L.max())):
             c = self.trans_c[S[:, i - 1]]
             S[:, i] = np.minimum((c < u[:, i:i + 1] * c[:, -1:]).sum(1), self.ns - 1)
+        pe = self.th.get('p_end', 0.0)
+        if pe > 0:
+            if self.ends is None:
+                self.ends = R.choice(self.ns, self.n_end)
+            ends = self.ends
+            sel = R.random(n) < pe
+            S[np.arange(n), L - 1] = np.where(sel, ends[R.integers(0, self.n_end, n)], S[np.arange(n), L - 1])
         self.bank = [tuple(row[:l]) for row, l in zip(S.tolist(), L.tolist())]
 
     def spell(self):
@@ -512,6 +543,7 @@ class World:
         while n < ntok:
             lin = r.randrange(nlin)
             ppool = [samp(cp) for _ in range(5)]
+            gdoc = samp(cg)
             vpool = [samp(cv) for _ in range(8)]
             ne = 1 + R.poisson(max(0.0, 10 ** th['lg_epd'] - 1))
             doc = []
@@ -521,9 +553,10 @@ class World:
             for _ in range(ne):
                 if r.random() < th['p_ledger']:
                     cs = []
-                    for _ in range(1 + R.poisson(th['lam_name'])):
+                    nn = 0 if r.random() < th.get('p_bare', 0.0) else 1 + R.poisson(th['lam_name'])
+                    for _ in range(nn):
                         cs.append(self.off_p + (r.choice(ppool) if r.random() < th['topical'] else samp(cp)))
-                    cs.append(self.off_g + samp(cg))
+                    cs.append(self.off_g + (gdoc if r.random() < th.get('p_docgood', 0.0) else samp(cg)))
                     q = None
                     if r.random() < th['p_num']:
                         q = max(1, int(round(10 ** R.normal(th['q_mu'], th['q_sd']))))
@@ -539,6 +572,8 @@ class World:
                             cs.append(self.off_v + (r.choice(vpool) if r.random() < th['topical'] else samp(cv)))
                     q = None
                 ws = [self.write_word(lin, c) for c in cs]
+                if r.random() < th.get('p_lmark', 0.0):
+                    ws[0] = ('m%d' % r.randrange(3),) + ws[0]
                 # word dividers: unwritten dividers merge neighbouring words
                 merged = [ws[0]]
                 for w in ws[1:]:

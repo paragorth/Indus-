@@ -35,9 +35,12 @@ def t_eval(spec):
     elif mode == 'inl': U = L.shuffle_inline(L.units(C, level), rng)
     elif mode == 'inl_lineshuf': U = L.shuffle_lines(L.shuffle_inline(L.units(C, level), rng), rng)
     elif mode.startswith('plant') or mode.startswith('sham'):
-        rho = float(mode[5:] if mode.startswith('plant') else mode[4:])
+        # plantE<rho>: very elastic stage durations (Dirichlet 0.5) and strong tilt 2.0
+        el = 'E' in mode
+        rho = float(mode.replace('plant', '').replace('sham', '').replace('E', ''))
         U, truth = L.plant_program(L.units(C, level), np.random.default_rng(seed), S=4, rho=rho,
-                                   tilt=1.0 if mode.startswith('plant') else 0.0)
+                                   tilt=(2.0 if el else 1.0) if mode.startswith('plant') else 0.0,
+                                   conc=0.5 if el else 2.0)
     codes = L.code_all(U, coder)
     res = L.evaluate(codes, coder.sizes, L.folds_by_unit(U, 5, 1000 + seed), SL, R, seed)
     if mode.startswith('plant'):
@@ -176,6 +179,10 @@ if __name__ == '__main__':
             ('eval', 'IT_inl', 'IT', 'para', 'inl', 20),
             ('eval', 'IT_inl_lineshuf_0', 'IT', 'para', 'inl_lineshuf', 21),
             ('eval', 'ZL_inl_lineshuf_1', 'ZL3b', 'para', 'inl_lineshuf', 22),
+            ('eval', 'ZL_plantE0.5_0', 'ZL3b', 'para', 'plantE0.5', 80),
+            ('eval', 'ZL_shamE0.5_0', 'ZL3b', 'para', 'shamE0.5', 80),
+            ('eval', 'ZL_plantE0.25_0', 'ZL3b', 'para', 'plantE0.25', 81),
+            ('eval', 'ZL_shamE0.25_0', 'ZL3b', 'para', 'shamE0.25', 81),
             ('profile', 'ZL_profile', 'ZL3b', 'para', S_best, 300, 7),
             ('transfer', 'ZL_AB_transfer', S_best, 3, 2),
             ('eval', 'IT2_real', 'IT2a', 'para', 'real', 0),

@@ -181,12 +181,15 @@ class Forger:
     """
 
     def __init__(self, C, scope='sec', pos=False, lam=0.0, chain=False, redup=0.0, cite=0.0, unigram=False,
-                 width=False, rich=False, cite_window=0, cite_edit=0.0, para_lam=False, end_room=8, name='forger'):
+                 width=False, rich=False, cite_window=0, cite_edit=0.0, para_lam=False, end_room=8,
+                 rich2=False, vprob=0.0, pfl=False, mgq=0.0, name='forger'):
         self.cfg = dict(scope=scope, pos=pos, lam=lam, chain=chain, redup=redup, cite=cite, unigram=unigram)
         self.name = name
         self.scope, self.pos, self.lam, self.chain = scope, pos, lam, chain
         self.redup, self.cite, self.unigram, self.width, self.rich = redup, cite, unigram, width, rich
         self.cite_window, self.cite_edit, self.para_lam, self.end_room = cite_window, cite_edit, para_lam, end_room
+        self.rich2, self.vprob, self.pfl, self.mgq = rich2, vprob, pfl, mgq
+        if rich2: self.rich = rich = True
         if cite_edit: self._learn_edits(C)
         T = defaultdict(Counter)
         for p in C:
@@ -207,6 +210,8 @@ class Forger:
                         T[('j', s, pc, key)][ws[k]] += 1
                         if rich:
                             T[('r', s, self._rk(ws, k))][ws[k]] += 1
+                        if li == 0 and pfl:
+                            T[('jf', s, key)][ws[k]] += 1
                         T[('j', s, 'any', key)][ws[k]] += 1
                         T[('j', 'P' + pid, 'any', key)][ws[k]] += 1
                         if para_lam: T[('j', Q, 'any', key)][ws[k]] += 1
@@ -255,12 +260,12 @@ class Forger:
                 i = rng.choice(pos); return w[:i] + w[i + 1:]
         return w
 
-    @staticmethod
-    def _rk(line, k):
-        """rich key: last unit of the previous word, its length bucket, first unit of the word two back."""
+    def _rk(self, line, k):
+        """rich key: last unit of the previous word, its length bucket (rich2: its FIRST unit), first unit of the
+        word two back."""
         a = line[k - 1]
         b = line[k - 2][0] if k >= 2 else '^'
-        return (a[-1], min(len(a), 6), b)
+        return (a[-1], a[0] if self.rich2 else min(len(a), 6), b)
 
     def _pc(self, k, n):
         if k == n - 1: return 'end'
@@ -319,11 +324,22 @@ class Forger:
                             if self.lam and rng.random() < self.lam:
                                 if self.para_lam: tab = self._get(('j', Q, 'any', key), minn=2)
                                 if tab is None: tab = self._get(('j', P, 'any', key), minn=2)
+                            if tab is None and self.pfl and li == 0:
+                                tab = self._get(('jf', s, key), minn=5)
                             if tab is None and self.rich and pc != 'end':
                                 tab = self._get(('r', s, self._rk(line + ['x'], k)), minn=8)
                             if tab is None:
                                 tab = self._get(('j', s, pc, key), ('j', s, 'any', key), ('u', s, pc), ('u', s))
                         nw = _draw(rng, tab)
+                        if self.vprob and prevline and k < len(prevline) and rng.random() < self.vprob:
+                            tgt = prevline[k][-1]
+                            for _ in range(10):
+                                if nw[-1] == tgt: break
+                                nw = _draw(rng, tab)
+                        if self.mgq and any(('m' in x or 'g' in x) for x in line) and rng.random() < self.mgq:
+                            for _ in range(6):
+                                if 'm' not in nw and 'g' not in nw: break
+                                nw = _draw(rng, tab)
                         if self.width and pc == 'end' and self.end_room >= 8:
                             cands = [nw] + [_draw(rng, tab) for _ in range(11)]
                             nw = min(cands, key=lambda x: abs(len(x) - room))

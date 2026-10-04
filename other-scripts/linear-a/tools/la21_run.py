@@ -15,9 +15,18 @@ def build(job):
     if base == 'LA': return counts_from_types(la, NSIGN), 'lb'
     if base == 'LAshW': return counts_from_types(shuffle_within(la, sd), NSIGN), 'lb'
     if base == 'LAshG': return counts_from_types(shuffle_global(la, sd), NSIGN), 'lb'
-    if base in ('LAnonHT', 'LAHT'):
-        ws = set(w for _, site, w in C.words_of(C.la_docs(admin_only=False)) if (site == 'Haghia Triada') == (base == 'LAHT'))
-        return counts_from_types(sorted(ws), 45 if base == 'LAnonHT' else NSIGN), 'lb'
+    if base in ('LAnonHT', 'LAHT', 'LAnonHTsh', 'LAHTsh'):
+        ws = sorted(set(w for _, site, w in C.words_of(C.la_docs(admin_only=False)) if (site == 'Haghia Triada') == base.startswith('LAHT')))
+        if base.endswith('sh'): ws = shuffle_within(ws, sd)
+        return counts_from_types(ws, 50), 'lb'
+    if base in ('LBKN', 'LBPY', 'LBKNsh', 'LBPYsh'):
+        # disjoint site halves of Linear B, sized like LA HT (439 types) and LA non-HT (542 types)
+        lbw = C.words_of(C.lb_docs())
+        kn = set(w for _, s, w in lbw if s == 'KN'); py = set(w for _, s, w in lbw if s == 'PY')
+        pool = sorted((kn - py) if base.startswith('LBKN') else (py - kn))
+        ws = random.Random(sd).sample(pool, 439 if base.startswith('LBKN') else 542)
+        if base.endswith('sh'): ws = shuffle_within(ws, sd)
+        return counts_from_types(ws, 50), 'lb'
     lb = lb_types()
     if base == 'LB': return counts_from_types(lb, NSIGN), 'lb'
     if base == 'LBs': return counts_from_types(random.Random(sd).sample(lb, len(la)), NSIGN), 'lb'

@@ -18,8 +18,8 @@ from pe14_common import CK, units  # noqa
 from pe14_cycle1 import corpus  # noqa
 import pe14_hmm as H  # noqa
 
-RESTARTS, FOLDS = 8, 5
-MODELS = [('MIX', k) for k in range(1, 7)] + [('FREE', k) for k in range(2, 7)] + [('CYC', k) for k in range(2, 13)]
+RESTARTS, FOLDS = 4, 3
+MODELS = [('MIX', k) for k in range(1, 5)] + [('FREE', k) for k in range(2, 5)] + [('CYC', k) for k in range(2, 7)]
 
 
 def shared(a, b):
@@ -117,10 +117,10 @@ def main(cfg, seed):
     out = {'cfg': cfg, 'seed': seed, 'ntab': len(T), 'nunits': nunits, 'bits': bits, 'eps': extra, 'info': info}
     json.dump(out, open(os.path.join(CK, 'c2', f'{cfg}_{seed}.json'), 'w'), indent=1)
     b = bits
-    bm = min(b[f'MIX{k}'] for k in range(1, 7))
-    bf = min(b[f'FREE{k}'] for k in range(2, 7))
+    bm = min(b[f'MIX{k}'] for k in range(1, 5))
+    bf = min(b[f'FREE{k}'] for k in range(2, 5))
     print(cfg, 'bestMIX %.4f bestFREE %.4f' % (bm, bf),
-          ' '.join('CYC%d %.4f' % (k, b[f'CYC{k}']) for k in range(2, 13)))
+          ' '.join('CYC%d %.4f' % (k, b[f'CYC{k}']) for k in range(2, 7)))
 
 
 if __name__ == '__main__':

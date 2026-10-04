@@ -9,10 +9,13 @@ from r3_lib import *
 
 TARGETS = ['PE', 'LA', 'VMS', 'VMS_A', 'VMS_B', 'UR3', 'LB', 'LAT', 'ITA']
 SHUF = ['PE', 'LA', 'VMS', 'UR3', 'LB', 'LAT']
+V2 = '--v2' in sys.argv
+if V2:
+    PNAMES = PNAMES2; PRIOR = PRIOR2; FIT_NAMES = FIT2_NAMES; HELD_NAMES = HELD2_NAMES
 
 
 def real_panels():
-    f = os.path.join(CK, 'real_panels.json')
+    f = os.path.join(CK, 'real_panels%s.json' % ('2' if V2 else ''))
     if os.path.exists(f):
         return json.load(open(f))
     out = {}
@@ -161,6 +164,8 @@ def main():
     print('pseudo dmin q50/q95', out['pseudo_dmin_q50_q95'], 'cover90', out['pseudo_cover90'])
     keyp = ['p_ledger', 'lg_people', 'lg_goods', 'p_num', 'topical', 'text_len', 'p_func', 'lg_syl', 'wlen',
             'lg_logo', 'n_gen', 'bottleneck', 'p_var', 'n_scribes', 'shared', 'secrecy', 'p_div']
+    if V2:
+        keyp += ['p_docgood', 'p_bare', 'p_end', 'lg_end', 'p_lmark', 'wl_var']
     for nm, t in out['targets'].items():
         p = t['post']
         print('%-10s dmin %.2f (pctl %.2f) ' % (nm, t['dmin'], t['dmin_pctl_vs_pseudo']) +

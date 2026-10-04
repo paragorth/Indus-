@@ -1,0 +1,13 @@
+# R-3 cycle 2 -- a richer box, built from cycle 1's failures, plus the number-blind panel.
+# New world/script knobs (6, uniform): p_docgood (ledger lines reuse the tablet's commodity), p_bare (lines with no
+# name: good + number), p_end + lg_end (word-final sign from a small end set), p_lmark (line-initial marker sign on
+# the first word), wl_var (word-length variance, Poisson -> tight binomial). 24,000 new worlds (36 parameters).
+# Fit panel = the 20 cycle-1 statistics + burst + adj_rep (no longer held out, since the box was changed because of
+# them). NEW held-out statistics (never fitted, chosen before any v2 result): heaps = word types in the first half of
+# the sample / types in all of it; rep_sign = share of words with an immediately doubled sign.
+# PRE-SET: (i) C3 number-blind: Latin and Italian p_ledger < 0.4 and Ur III / LB p_ledger > 0.6 with the 3 number
+# statistics removed; (ii) R-3.1 grade test for the Voynich: if secrecy stays > 0.5 once end sets and line markers are
+# in the box -> 'support'; if it falls to the prior (median ~0.5, contraction < 0.2) or below -> 'kill';
+# (iii) shuffle-distance control C4 rerun; (iv) held-out heaps/rep_sign pass = inside 90% PPI and PPI narrower than prior.
+| R-<n>.<cycle> | method and control | result | verdict |
+|---|---|---|---|
