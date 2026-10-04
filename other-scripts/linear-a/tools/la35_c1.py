@@ -9,6 +9,7 @@ import numpy as np
 from la35_common import *
 
 NP = int(sys.argv[1]) if len(sys.argv) > 1 else 400
+LEAN = len(sys.argv) > 2 and sys.argv[2] == 'lean'
 DEFS = definitions(30)
 
 
@@ -81,24 +82,26 @@ if __name__ == '__main__':
     rep['LA'] = run(LA, NP, 1)
     print('LA', json.dumps(rep['LA']['N1']), json.dumps(rep['LA']['N2']), flush=True)
     rng = np.random.default_rng(7)
-    # shuffled-number LA (numbers permuted across the whole corpus): a negative control
-    sh = [dict(e) for e in LA]; vv = [e['v'] for e in sh]; rng.shuffle(vv)
-    for e, v in zip(sh, vv): e['v'] = v
-    rep['LA_shuf'] = run(sh, NP // 2, 2)
-    print('LAshuf', json.dumps(rep['LA_shuf']['N1']), flush=True)
-    rep['plant'] = []
-    for p in (0.15, 0.3):
-        for s in range(3):
-            P, xy = plant(LA, p, 100 + s)
-            r = run(P, NP // 2, 3 + s, nulls=('N1',)); r['p'] = p; r['xy'] = xy
-            rep['plant'].append(r)
-            print('plant', p, xy, r['N1']['CMH']['maxz'], r['N1']['CMH']['p_fw'], r['N1']['G']['p_fw'], flush=True)
+    rep['LA_shuf'] = None; rep['plant'] = []
+    if not LEAN:
+        # shuffled-number LA (numbers permuted across the whole corpus): a negative control
+        sh = [dict(e) for e in LA]; vv = [e['v'] for e in sh]; rng.shuffle(vv)
+        for e, v in zip(sh, vv): e['v'] = v
+        rep['LA_shuf'] = run(sh, NP // 2, 2)
+        print('LAshuf', json.dumps(rep['LA_shuf']['N1']), flush=True)
+        rep['plant'] = []
+        for p in (0.15, 0.3):
+            for s in range(3):
+                P, xy = plant(LA, p, 100 + s)
+                r = run(P, NP // 2, 3 + s, nulls=('N1',)); r['p'] = p; r['xy'] = xy
+                rep['plant'].append(r)
+                print('plant', p, xy, r['N1']['CMH']['maxz'], r['N1']['CMH']['p_fw'], r['N1']['G']['p_fw'], flush=True)
     rep['LB'] = []
     for s in range(6):
         S = lb_sub(LB, len(LA), s)
         r = run(S, NP // 2, 20 + s); rep['LB'].append(r)
         print('LBsub', s, len(S), json.dumps(r['N1']['CMH']), json.dumps(r['N2']['CMH']), r['N1']['G']['p_fw'], r['N2']['G']['p_fw'], flush=True)
-    rep['LB_full'] = run(LB, NP // 2, 40)
-    print('LBfull', json.dumps(rep['LB_full']['N1']), json.dumps(rep['LB_full']['N2']), flush=True)
+    rep['LB_full'] = None if LEAN else run(LB, NP // 2, 40)
+    if not LEAN: print('LBfull', json.dumps(rep['LB_full']['N1']), json.dumps(rep['LB_full']['N2']), flush=True)
     json.dump(rep, open(os.path.join(CK, 'c1%s.json' % ('_notot' if EXCL_TOT else '')), 'w'), indent=1)
     print('done %.0fs' % (time.time() - t0))

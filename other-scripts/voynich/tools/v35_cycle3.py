@@ -66,6 +66,41 @@ def test(name, k=10, nperm=5000, seed=7):
                 max_all=float(np.sort(Iv)[-k:].mean()))
 
 
+def classsplit(name, nperm=2000, seed=9):
+    """KILL CONTROL for a class confound (marks vs letters, tall vs short, finals vs syllables): split the inventory
+    into the 2 top-level shape clusters (average linkage on the shape matrix); report (i) partial Spearman r of shape vs
+    behaviour given same-cluster, (ii) Mantel with labels permuted only WITHIN clusters (p), (iii) the split."""
+    from scipy.cluster.hierarchy import linkage, fcluster
+    from scipy.spatial.distance import squareform
+    rng = np.random.default_rng(seed)
+    c = V.build(name); A = c['alph']
+    B = X.load(f'beh_{name}.pkl'); S_ = X.load(f'sims_{name}.pkl')
+    out = {}
+    iu = np.triu_indices(len(A), 1)
+    for k in [k for k in S_ if k.startswith('img:')][:1] + (['hand'] if 'hand' in S_ else []):
+        Sh = S_[k]
+        D = Sh.max() - Sh; np.fill_diagonal(D, 0); D = (D + D.T) / 2
+        cl = fcluster(linkage(squareform(D, checks=False), 'average'), 2, 'maxclust')
+        same = (cl[:, None] == cl[None, :]).astype(float)
+        small = min(np.bincount(cl)[1:])
+        for m in ('ppmi', 'svd', 'potts'):
+            pr = L.partial_spearman(Sh[iu], B[m][iu], [same[iu]])
+            r, p, _, _ = L.mantel(Sh, B[m], nperm=nperm, rng=rng, strata=list(cl))
+            out[(k, m)] = (pr, r, p)
+        mino = 1 + int(np.argmin(np.bincount(cl)[1:]))
+        out[(k, 'split')] = [A[i] for i in range(len(A)) if cl[i] == mino]
+    return out
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'class':
+    res = {}
+    for nm in sys.argv[2:]:
+        res[nm] = classsplit(nm)
+        for kk, v in res[nm].items():
+            print(nm, kk, v if kk[1] == 'split' else tuple(round(x, 4) for x in v), flush=True)
+    X.save('c3_class.pkl', res)
+    sys.exit()
+
 if __name__ == '__main__':
     names = sys.argv[1:] or ['voy', 'hangul', 'plant_family', 'plant_rand', 'copiale', 'borg', 'tengwar', 'shavian',
                              'deseret', 'cherokee', 'cree']

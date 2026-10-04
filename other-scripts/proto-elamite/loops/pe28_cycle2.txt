@@ -1,0 +1,8 @@
+# pe28 cycle 2 (4 Oct 2026): HELD-OUT. tools/pe28_cycle2.py; data/pe28_ckpt/cycle2.json, cycle2.log
+# 20 random 70/30 tablet splits; the crossword solver is fitted on 70% (anchors + propagation); on 30% a target line is scored when
+# a window has all keys fixed and >= 1 new key; hit = written value equals a prediction exactly. Pooled over splits (a tablet is
+# held out ~6 times). Nulls (200x): (i) held-out target values re-dealt within (system, final sign); (ii) every new fitted rate replaced by a
+# random value from the same notation grid.
+| PE-28.2a | Ur III control (800 tablets, anchor gurusz -> sze-bi 60) | 322 hits on 3,188 scored lines vs re-dealt 89 (p 0.005) and random rates 47 (p 0.005). Per key: udu -> sze-bi 1 (176 vs 21), ab2 -> sze-bi 3 (14 vs 0.4), sila4 -> sze-bi (14 vs 0.35) | PASS: held-out prediction works where rates are known |
+| PE-28.2b | REAL PE, minv 3 | 264 hits on 979 scored lines vs re-dealt 173 (p 0.005), random rates 34 (p 0.005). Per key (held-out hits vs re-dealt): M056 -> M288 48 N39C 19 vs 1.4; M046 -> M288 1/2 N01 11 vs 2.3; M288 -> M288 60 N39C 32 vs 11; M263 -> |M036+1(N30D)| 5 53 vs 23; the many CNT 1/2 keys ~ null | SIGNAL in held-out data, carried by a few M288-family keys; the global excess (91 over 20 splits) is ~15 distinct lines |
+| PE-28.2c | REAL PE, minv 2 | 877 hits on 3,757 vs re-dealt 690 (p 0.005), random rates 154. M056 -> M288 48: 30 vs 0.95; M046 -> M288 1/2: 30 vs 9.1; M288 -> M288 60: 40 vs 15; M263 -> |M036+1(N30D)| 5: 65 vs 31 | same keys; needs a scale-keeping null and distinct-tablet counting (cycle 3) |
