@@ -1,0 +1,27 @@
+pe9 cycle 2 -- approximate Bayesian computation over bag models (tools/pe9_cycle2.py, pe9_cycle2_abc.py;
+reference tables data/pe9_ckpt/c2_*.npz; results data/pe9_cycle2.json, pe9_cycle2*.log).
+Reference tables: 1,000,000 simulated corpora on the PE fit-set structure (206 tablets; same strings per
+tablet, same string lengths, same tablet order), 100,000 each on the Ur III and Linear B structures.
+Prior: model uniform over LM / POLYA / BAG_WR / BAG_WOR / STAMP; base unigram or bigram tempered by
+gamma ~ U(0.7, 1.3); bag size K ~ log-U(2, 300) sign types; copies c in {1,2,3,5,10}; eps ~ U(0,1) share of
+signs drawn from outside the bag; POLYA theta ~ log-U(0.1, 300); session S in {1,2,4,8} consecutive tablets
+sharing one bag. 11 summary statistics: within-tablet rare-sign sharing between strings, cross-tablet
+sharing and their log ratio, re-use rate, P(>= 3 strings | >= 2) per (tablet, sign), within-string
+repetition, types/token, hapax share, top-10 share, adjacent-tablet vs random-tablet sharing, rare re-use.
+Rejection ABC, MAD-scaled distance, nearest 0.1% accepted. String lengths are conditioned on, not modelled.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.2 | ABC model choice on PE (1,000 of 1,000,000 accepted) vs PE middles shuffled across tablets (3 seeds) | PE: POLYA 0.45, STAMP 0.26, BAG_WR 0.20, BAG_WOR 0.09, LM 0.00. Shuffled: LM 0.67-0.69, POLYA 0.00 | the language-like model with no tablet effect is excluded (0 of 1,000); the shuffle kills the tablet models. Among tablet models the topic/cache wins; the depleting bag is the least supported |
+| PE-2.2 | Bag size and refill rule (accepted sims) | BAG_WOR c: 1 copy 0.00, 2 copies 0.01, 3 copies 0.27, 5 0.24, 10 0.48; K (types per bag) 9-41 (median 26) with eps 0.12-0.87 (median 0.6); BAG_WR K 9-54 (median 29); session S = 1 tablet 0.83, 2 0.15, 4 0.03, 8 0.004 | IF a bag, it is refilled for every tablet, holds roughly 10-50 sign types, supplies only about 40% of the signs, and each type is effectively inexhaustible (>= 3 copies). One- and two-copy counters are excluded |
+| PE-3.2 | Recovery controls: planted BAG_WOR (K 12, c 2, eps 0.15) and POLYA (theta 3) corpora; 300 leave-one-out pseudo-observed sims from the table | planted bag: BAG_WOR 0.98 / 0.996, c = 2 at 0.90 / 0.96, K 10.4 / 9.6 (90% 3-19), S = 1 at 0.99; planted POLYA: POLYA 0.97-0.996, theta 2.7 / 3.25 (true 3); planted LM: LM 0.64 / 0.85. LOO: model accuracy 0.73 (LM 59/59, POLYA 49/54, STAMP 46/57, BAG_WR 47/67, BAG_WOR 18/63, mostly confused with BAG_WR/LM when eps is high); log K recovery r 0.94, c recovery r 0.90 | the machinery recovers a depleting bag and its parameters when one is planted. BAG_WR vs BAG_WOR at high eps is weakly separable, so 'c >= 3' is an upper-level statement, not a precise count |
+| PE-4.2 | Language controls on their own tables | Ur III admin names: LM 0.65 (POLYA 0.00; bag models only at eps 0.95). Linear B names: STAMP 0.71, BAG_WR 0.21, POLYA 0.05, LM 0.00, session 4-8 tablets | Ur III PASSES (prefers the language model). Linear B FAILS the intended control: its names also prefer a tablet-pool model (stamps), so 'prefers a bag' is NOT diagnostic of non-linguistic names -- real names on themed tablets do it too. PE differs from Linear B in session length (1 tablet vs 4-8) and in strength (cycle 1: f 2.6-4.6 vs 1.3-1.6) |
+| PE-5.2 | Posterior-predictive check (observed vs 5-95% of accepted sims) | PE outside on 3 of 11: types/token 0.127 vs 0.101-0.113, hapax share 0.353 vs 0.219-0.285, re-use rate 0.237 vs 0.158-0.232. Ur III also fails hapax (0.226 vs 0.162-0.206); planted corpora pass | no model in the family reproduces PE's surplus of one-off signs; all models also under-produce re-use. The sign inventory is richer in hapaxes than any frequency-weighted generator (bag or language) gives |
+
+Pre-registered for cycle 3 (fixed in tools/pe9_cycle3.py before the 52 reserved tablets were opened):
+P1 use profile on reserved tablets: f1 > 1 and f2 > 1 (killed if f2 < 1 = depletion at <= 2 copies).
+P2 POLYA beats LM on reserved tablets by more than on reserved middles shuffled across reserved tablets (100x).
+P3 signs classed 'inexhaustible' on the fit set (within-tablet pair excess z >= 2 vs 1,000 shuffles) have a
+   higher reserved-set pair excess than other signs (label permutation p < 0.05).
+P4 reserved p3_given_2 and re-use rate lie inside the 5-95% band of the ABC-accepted parameters simulated on
+   the reserved structure, and outside the band of the best-fitting BAG_WOR c <= 2 parameters.

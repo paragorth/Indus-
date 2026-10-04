@@ -16,6 +16,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The arithmetic joint fit missed its pre-set 70% bar.
 - No fixed ration per head.
 - No seasonal time order (pe11): a blind search for a yearly herd/harvest cycle across undated tablets finds only a loop of commodity types that a timeless mixture reproduces; calibrated on Ur III Drehem tablets with known months, the method needs a season about 40x stronger than real herd accounts carry.
+- Names are not built from a used-up set of counters or stamps (pe9): a sign used once on a tablet becomes 2-3x more likely to recur there (held out on 52 tablets), never less; 0 of 90 signs behave as depleted tokens. What remains is a per-tablet name pool that is reused freely (grade B).
 
 **Open:** the phonetic layer. The varied middles say "maybe", and the name test says "not with these values".
 

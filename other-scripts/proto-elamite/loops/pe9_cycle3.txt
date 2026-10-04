@@ -1,0 +1,16 @@
+pe9 cycle 3 -- depleted vs inexhaustible signs, and the pre-registered test on 52 reserved tablets
+(tools/pe9_cycle3.py; data/pe9_cycle3.json, .log). Predictions P1-P4 were fixed in loops/pe9_cycle2.txt and in
+the script before the reserved tablets were opened.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.3 | Per sign (90 signs on >= 6 fit-set tablets): within-tablet string pairs that share the sign vs 1,000 shuffles of middles across tablets; 'depleted' z <= -2, 'inexhaustible' z >= +2. False-positive control: 20 shuffled corpora run as if observed | depleted: 0 of 90 (shuffled: mean 0.05, max 1); inexhaustible: 30 of 90 (shuffled: mean 4.3, max 10). Top: M370 (76 pairs vs 8.4 expected), M376 (18 vs 1.1), M124 (206 vs 47), M388 (243 vs 94), M145, M203, M001, M054, M136, M210, |M036+1(N30D)|, M002 | NO sign behaves like a depleted counter (upper bound: < 3/90 signs at this power). About a third of the common signs are re-used on a tablet far beyond chance. The top of the list overlaps pe7's tablet-shared signs (M388, M124, M370, M054, M001, M376): same effect, new framing |
+| PE-2.3 | P1: use profile on the 52 reserved tablets (base from fit set), 200 bootstraps | f1 3.12 (90% 2.6-4.1), f2 2.18 (1.3-3.4), f3 14.2 (5.1-22.8), fw 1.22; P(f2 < 1) = 0.00 | PASS: second and third uses are boosted, not suppressed; no depletion at <= 2 copies in unseen tablets |
+| PE-3.3 | P2: held-out gain of POLYA (theta 1,000 fitted on fit set) over LM on reserved tablets vs reserved middles shuffled across reserved tablets (100x) | gain 0.397 bits/sign vs shuffled mean 0.066, max 0.128 (p < 0.01) | PASS: the tablet-topic effect predicts unseen tablets at the size measured in cycle 1 (0.42) |
+| PE-4.3 | P3: fit-set 'inexhaustible' signs vs others, reserved pair excess per tablet-occurrence, label permutation (5,000x) | only 4 inexhaustible and 21 other signs occur on >= 2 reserved tablets; excess 0.32 vs 0.15 (p 0.15) | FAIL (underpowered: 52 tablets). Direction as predicted; the per-sign classes are not replicated |
+| PE-5.3 | P4: reserved P(>= 3 strings given >= 2) and re-use rate vs 5-95% posterior-predictive bands (ABC-accepted parameters, and best BAG_WOR c <= 2 parameters) simulated on the reserved structure | re-use rate 0.212: inside ABC band (0.120-0.219), OUTSIDE bag c <= 2 band (0.091-0.142). P(>= 3 given 2) 0.255: inside ABC band (0.109-0.277) and inside the bag band (0.116-0.270). Within-tablet sharing 0.181 above the ABC band (0.044-0.148) | FAIL as pre-registered (one of two statistics does not separate the models at 52 tablets). The re-use rate alone excludes the two-copy bag on unseen tablets. Unseen tablets share even more than the model expects |
+
+Plain result: on tablets never used in fitting, signs already used on a tablet are 2-3x (second use) and more
+(third use) as likely to be used again; a counter bag with one or two copies of each sign is excluded, and no
+sign behaves like a depleted counter. The per-sign classes and the bag-vs-model separation by the 3+ statistic
+are too weak at 52 tablets.

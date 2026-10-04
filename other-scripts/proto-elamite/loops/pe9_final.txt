@@ -1,0 +1,45 @@
+pe9 FINAL -- "the names were drawn from a bag": were Proto-Elamite name strings built from a finite set of tokens,
+stamps or counters on the scribe's desk?
+Tools: tools/pe9_build.py, pe9_common.py (one sequential predictive used both to simulate and to score:
+LM, POLYA tablet topic, BAG_WR, BAG_WOR with K types x c copies and refill, STAMP; use-profile model; numba
+kernels), pe9_cycle1.py, pe9_cycle1b.py, pe9_cycle2.py (reference tables), pe9_cycle2_abc.py, pe9_cycle3.py.
+Data: data/pe9_corpora.json; data/pe9_cycle{1,1b,2,3}.json and logs; data/pe9_ckpt/ (1,000,000 PE + 100,000 Ur III
++ 100,000 Linear B simulated corpora). Web search (4 Oct 2026): no prior urn/bag or ABC model of PE names found.
+Controls: middles shuffled across tablets; planted LM, POLYA and depleting-bag corpora; Ur III admin names and
+Linear B personnel names per tablet; 300 leave-one-out pseudo-observed corpora; 52 reserved tablets (20%) for
+pre-registered predictions.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.F | Held-out likelihood race (5-fold CV): LM, POLYA, BAG_WR, BAG_WOR, STAMP; planted bag must be recovered | PE: POLYA 8.425 < STAMP 8.464 < BAG_WR 8.501 < LM 8.845 = BAG_WOR 8.846 bits/sign; gain 0.42 vs shuffled 0.07-0.10; planted bag recovered with K 12, c 2 exactly | tablet-topic model wins; the depleting bag gains nothing |
+| PE-2.F | Use profile: chance of re-using a sign after 1, 2, >= 3 uses on the tablet (x LM) | fit set 2.6, 2.9, 4.6; reserved 3.1, 2.2, 14; shuffled ~1; planted 2-copy bag 8.6 then 0.5-0.7; Ur III 1.2, 1.0, 1.1; Linear B 1.3, 1.6, 1.7 | rich-get-richer, not depletion; strongest of the three scripts |
+| PE-3.F | ABC, 1,000,000 simulated PE corpora | POLYA 0.45, STAMP 0.26, BAG_WR 0.20, BAG_WOR 0.09 (c 1: 0.00, c 2: 0.01), LM 0.00; refill per tablet (0.83); bag of ~10-50 types supplying ~40% of signs; shuffled -> LM 0.68; Ur III -> LM 0.65; Linear B -> STAMP 0.71 | per-tablet pool, inexhaustible. Linear B (real names) also prefers a tablet pool, so 'pool' does not mean 'not names' |
+| PE-4.F | Signs: depleted vs inexhaustible (shuffle null, false-positive control) | depleted 0/90 (null 0.05); inexhaustible 30/90 (null 4.3, max 10): M370, M376, M124, M388, M145, M203, M001, M054, M136 ... | no depleted tokens; a third of signs are tablet-sticky |
+| PE-5.F | Pre-registered predictions on 52 reserved tablets | P1 PASS (f2 2.2, P(f2<1) 0), P2 PASS (0.40 bits vs shuffled max 0.13), P3 FAIL (p 0.15, 4 signs), P4 FAIL (re-use rate separates, 3+ statistic does not) | the main prediction (boost, not depletion) holds out of sample; the fine-grained ones are underpowered |
+
+Answers to the questions asked:
+- Which model wins by held-out likelihood: the tablet-topic (Polya cache) model, ahead of stamps and an
+  inexhaustible bag; the depleting counter bag ties with the plain language model (gains nothing). Grade A for
+  "a tablet effect exists" (restates pe7 at 0.4 bits/sign, now out of sample); grade B for "inexhaustible, not depleting".
+- Bag size and refill rule, if one insists on a bag: refilled every tablet (not per session of 2-8 tablets),
+  about 10-50 sign types, supplying about 40% of a tablet's name signs, each type with >= 3 copies (1-2 copies
+  excluded: posterior 0.00 / 0.01, and reserved re-use rate outside the 2-copy band). Grade C (the ABC cannot
+  separate BAG_WR from BAG_WOR well at high eps: LOO 18/63).
+- Depleted vs inexhaustible signs: no depleted sign (0 of 90; upper bound < 3/90). Inexhaustible (tablet-sticky)
+  grade B for M370, M376, M124, M388, M001, M054 (also found by pe7); grade C for M145, M203, M136, M210,
+  |M036+1(N30D)|, M002, M109, M217 (would support: z >= 2 again in a new tablet sample; would kill: excess at
+  the shuffle level in the reserved or non-Susa tablets; P3 did not replicate them at 52 tablets).
+- Testable prediction for new tablets (passed on the 52 reserved): a sign already used in one name on a tablet
+  is 2-3x as likely as baseline to appear in another name on the same tablet, and its third use is still
+  boosted (no drop below baseline). Re-use rate per sign in new multi-name tablets about 0.12-0.22; under
+  a 1-2-copy token bag it would be <= 0.14. For further tablets (e.g. newly published Susa or Malyan texts):
+  POLYA should beat LM by about 0.3-0.5 bits/sign.
+- What does NOT fit any model: PE has more one-off signs than any frequency-weighted generator produces
+  (hapax share 0.35 vs 0.22-0.29 in the accepted simulations; Ur III shows the same misfit in smaller form).
+
+Caveats: 95% Susa; names = pe4 middles (some may be descriptors); string lengths are conditioned on, not
+modelled; reserved set only 52 tablets; the Linear B control failed (real names on themed tablets also share
+signs), so the result says HOW names share signs on a tablet, not WHETHER they are spoken names.
+Plain answer: the bag idea in its strong form (finite counters or stamps, drawn and used up) is killed: signs
+are never used up on a tablet; they become more likely with each use. What survives is a per-tablet naming pool
+that is reused freely: a topic, a scribe's habit, or a group's shared name element.

@@ -10,7 +10,7 @@ from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v20_lib as L
 
-REPS_V, REPS_R = 200, 100
+REPS_V, REPS_R = 100, 60
 
 
 def plant(C, names, T, kind, seed=11):
@@ -79,12 +79,12 @@ def job(spec):
         C = L.voynich_corpus(spec.get('tr', 'ZL3b'))
     elif spec['src'] == 'ref':
         C = L.ref_corpus(spec['key'], verse=spec.get('verse', False))
-    names, T, alph = L.build_features(C)
+    names, T, alph = L.build_features(C, n_rand_glyph=1200, n_rand_word=500)
     tid = None
     if spec.get('plant'):
         tid = plant(C, names, T, spec['plant'])
     if spec.get('markov'):
-        C = L.markov_resynth(C); names, T, alph = L.build_features(C)
+        C = L.markov_resynth(C); names, T, alph = L.build_features(C, n_rand_glyph=1200, n_rand_word=500)
     res = {}
     for lev in L.LEVELS:
         obs, nulls = L.run_level(C, lev, T, reps=spec['reps'], seed=5, tid=tid)
@@ -111,6 +111,9 @@ JOBS = [dict(name='ZL', src='voy', reps=REPS_V),
         dict(name='Italian-Manzoni', src='ref', key='Italian-Manzoni', reps=REPS_R),
         dict(name='Italian-Dante', src='ref', key='Italian-Dante', verse=True, reps=REPS_R),
         dict(name='Gadsby', src='ref', key='English-Gadsby-lipogram', reps=REPS_R)]
+
+ORDER = ['ZL', 'plant_cap2', 'plant_quota_hard', 'plant_balance_hard', 'markov', 'Italian-Dante', 'Latin-Isidore', 'Gadsby', 'Italian-Manzoni', 'IT', 'Latin-Caesar', 'plant_quota_soft', 'plant_cap3']
+JOBS.sort(key=lambda j: ORDER.index(j['name']))
 
 if __name__ == '__main__':
     only = sys.argv[1:]

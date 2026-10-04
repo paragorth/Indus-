@@ -221,3 +221,17 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Proto-Elamite: ALL and HERD feature sets close a slightly better loop than surrogates (z +1.4, +2.4). A timeless mixture of three commodity types does the same (z +2.0); real seasonal Drehem data do not (z -2.0). Of 1,500 random feature subsets, none survives the family-wise null (p 0.56) or held-out re-test (0 of 15). The inferred "months" are a tour of tablet types (capacity tablets, then large counted tablets, then M218/M371 small-count lists).
 - No sign switches at inferred season boundaries. The test finds a planted season header at z 18 when the order is right. Grade C hint only: M338 and header M388 (strict-null FWER p 0.06-0.09).
 - **Verdict: null.** Grade B: no strong yearly cycle in tablet composition. Any time-based attack on PE needs dated anchors; more search will not help.
+
+## Names drawn from a bag? (pe9, 4 Oct 2026; `loops/pe9_final.txt`)
+- Idea tested: name strings were assembled from a finite set of counters or stamps on the desk, used up within a tablet or session. Held-out likelihood race, 1,000,000-corpus ABC, planted-bag recovery, Ur III and Linear B controls, 52 reserved tablets.
+- **Killed in its strong form.** No sign is used up: after a sign has been used in one name on a tablet, it is 2-3x as likely to appear in another name there, and more after a third use (fit set 2.6, 2.9, 4.6; reserved tablets 3.1, 2.2, 14). A planted two-copy bag shows the collapse (8.6 then 0.5-0.7); PE never does. 0 of 90 signs are depleted. One- and two-copy bags are excluded (ABC posterior 0.00 / 0.01).
+- Best model: a per-tablet topic/cache (0.42 bits/sign better than a language model; 0.40 on reserved tablets, shuffled max 0.13). If called a bag: refilled per tablet, ~10-50 sign types, ~40% of signs, each inexhaustible (grade C).
+- Grade B: names on a tablet draw on a freely reused tablet pool (out-of-sample pass). The Linear B control also prefers a pool, so this does not show that PE middles are not spoken names.
+- Tablet-sticky signs: B M370, M376, M124, M388, M001, M054; C M145, M203, M136, M210, |M036+1(N30D)|, M002 (did not replicate at 52 tablets).
+- No model reproduces PE's surplus of one-off signs (hapax share 0.35 vs 0.22-0.29 simulated).
+
+## Names drawn from a bag? (pe9)
+- Names were not built from a stock of tokens that gets used up. Once a sign is used on a tablet it becomes more likely to recur there. Repeat chance is 2.6× after one use, 2.9× after two and 4.6× after three or more. A planted two-copy bag drops to 0.5–0.7×. This held on 52 held-out tablets. Grade B.
+- Held-out likelihood: the tablet-topic (rich-get-richer) model wins at 8.43 bits/sign. A use-up bag and a plain language model tie at 8.85. ABC over 1,000,000 simulated corpora gives the topic model 0.45 and the use-up bag 0.09.
+- Signs reused on a tablet beyond chance, grade B: M370, M376, M124, M388, M001, M054. None of 90 signs behaves like a used-up token.
+- Linear B names also prefer a tablet pool, so this does not show the strings are not spoken names.
