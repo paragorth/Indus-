@@ -18,7 +18,8 @@ import vlib  # noqa: E402
 
 ROOT = vlib.ROOT
 DATA = vlib.DATA
-SCR = os.environ.get('V15_SCRATCH', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/v15')
+# raw Occitan / Greek / Hebrew texts (not committed): set V15_SCRATCH to the folder given to v15_fetch_langs.py
+SCR = os.environ.get('V15_SCRATCH', os.path.join(os.path.expanduser('~'), 'v15_scratch'))
 RES = os.path.join(DATA, 'results', 'v15')
 os.makedirs(RES, exist_ok=True)
 

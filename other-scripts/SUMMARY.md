@@ -43,6 +43,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - The last glyph of a word predicts the next word's first glyph within a line, and this resets at every line break, even between ordinary words.
 - Lines have opener and closer vocabularies. m/g works as about one end marker per line.
 - The two word classes (q-type and a-type) are mostly a property of section and page.
+- No hidden letter stream in word lengths, gaps, line counts or line totals (v15: ~10 M random codebooks, 7 languages; planted Caesar recovered at +0.3 to +1.3 bits/letter, Voynich +0.03). Grade A, negative.
 
 **Already published:** most of the above (arXiv 2608.17096, 2604.19762; Vogt 2012). Ours are independent replications.
 

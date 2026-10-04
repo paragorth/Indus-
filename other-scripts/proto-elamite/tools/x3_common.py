@@ -22,7 +22,9 @@ import torch.nn as nn
 
 torch.set_num_threads(1)
 SCR = os.environ.get('X3_SCR', '/tmp/claude-0/x3')
-NV = 420            # model rows: 0 PAD, 1 BOS/EOS, 2 UNK, 3.. signs
+NV = 310            # model rows: 0 PAD, 1 BOS/EOS, 2 UNK, 3..152 X signs, 153.. free rows for Y-only signs
+NX = 150            # X keeps its 150 commonest signs; Y keeps its 150 commonest (rest UNK, in every condition)
+NY = 150
 MAXLEN = 40
 PRE_TOK = 8000
 D = 64
@@ -114,7 +116,7 @@ def make_x(xname, cond, seed):
     rng = random.Random(seed * 7919 + sum(map(ord, xname)) * 13)
     X = take_tokens(C[xname], PRE_TOK, rng)
     order = rank_order(X)
-    nrow = min(len(order), NV - 3)
+    nrow = min(len(order), NX)
     rowmap = {s: 3 + i for i, s in enumerate(order[:nrow])}
     if cond == 'relab':
         rows = list(rowmap.values()); rng.shuffle(rows)
@@ -148,25 +150,24 @@ def make_x(xname, cond, seed):
 
 
 def y_map(xrowmap, xorder_rows, ytrain, mode):
-    """Map Y signs to rows. xorder_rows: X's rows in X frequency order (as pretrained)."""
-    yord = rank_order(ytrain)
+    """Map Y's NY commonest signs to rows (the rest -> UNK in every condition).
+    xorder_rows: rows of X's signs in X frequency order (as pretrained)."""
+    yord = rank_order(ytrain)[:NY]
     m = {}
+    xr = set(xrowmap.values())
+    free = [r for r in range(3, NV) if r not in xr]
     if mode == 'label':
-        used = set()
         for s in yord:
             if s in xrowmap:
-                m[s] = xrowmap[s]; used.add(xrowmap[s])
-        free = [r for r in range(3, NV) if r not in used]
+                m[s] = xrowmap[s]
         k = 0
         for s in yord:
             if s not in m:
-                if k < len(free):
-                    m[s] = free[k]; k += 1
+                m[s] = free[k]; k += 1
     else:
-        free = list(xorder_rows) + [r for r in range(3, NV) if r not in set(xorder_rows)]
+        rows = list(xorder_rows) + free
         for i, s in enumerate(yord):
-            if i < len(free):
-                m[s] = free[i]
+            m[s] = rows[i]
     return m
 
 
@@ -184,15 +185,17 @@ class LM(nn.Module):
     def __init__(self):
         super().__init__()
         self.emb = nn.Embedding(NV, D, padding_idx=0)
+        nn.init.normal_(self.emb.weight, std=0.1)
         self.pos = nn.Parameter(torch.zeros(K, D))
         self.l1 = nn.Linear(K * D, H)
         self.l2 = nn.Linear(H, D)
-        self.drop = nn.Dropout(0.1)
+        self.bias = nn.Parameter(torch.zeros(NV))
+        self.drop = nn.Dropout(0.25)
 
     def forward(self, ctx):
         e = self.emb(ctx) + self.pos
         h = torch.tanh(self.l1(self.drop(e.reshape(len(ctx), -1))))
-        return self.l2(self.drop(h)) @ self.emb.weight.T
+        return self.l2(self.drop(h)) @ self.emb.weight.T + self.bias
 
 
 def positions(seqs):
@@ -217,7 +220,7 @@ def evaluate(model, data):
 def train(model, data, steps, lr, bs, rng, evals=None, every=25):
     ctx, tgt = data
     g = torch.Generator().manual_seed(rng.randrange(10 ** 9))
-    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
     curve = []
     model.train()
     for st in range(1, steps + 1):
@@ -230,7 +233,7 @@ def train(model, data, steps, lr, bs, rng, evals=None, every=25):
     return curve
 
 
-def pretrain(xname, cond, seed, steps=3000):
+def pretrain(xname, cond, seed, steps=1500):
     path = os.path.join(SCR, 'pre', f'{xname}_{cond}_{seed}_{PRE_TOK}.pt')
     X, rowmap = make_x(xname, cond, seed)
     xorder_rows = [rowmap[s] for s in rank_order(make_x(xname, 'real', seed)[0]) if s in rowmap]
@@ -246,14 +249,14 @@ def pretrain(xname, cond, seed, steps=3000):
     return sd, rowmap, xorder_rows
 
 
-def finetune(sd, ymap, ytr, yval, yte, seed, steps=300):
+def finetune(sd, ymap, ytr, yval, yte, seed, steps=240):
     torch.manual_seed(seed)
     model = LM()
     if sd is not None:
         model.load_state_dict(sd)
     rng = random.Random(seed)
     tr, va, te = (positions(encode(z, ymap)) for z in (ytr, yval, yte))
-    curve = train(model, tr, steps, 2e-3, 64, rng, evals=[va, te], every=20)
+    curve = train(model, tr, steps, 3e-3, 64, rng, evals=[va, te], every=30)
     best = min(curve, key=lambda r: r[1])
     aulc = float(np.mean([r[2] for r in curve]))
     return {'best_step': best[0], 'test': best[2], 'aulc': aulc,

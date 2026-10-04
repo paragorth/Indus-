@@ -42,7 +42,7 @@ def search_task(args):
     if os.path.exists(fn):
         return json.load(open(fn))
     rng = np.random.default_rng(seed)
-    if kind != 'real':
+    if kind == 'copula':
         X = null_copula(X, rng)
     out = []
     for s in subsets:
@@ -76,9 +76,18 @@ def main():
     perm = rng.permutation(len(ids))
     A, B = perm[: len(ids) // 2], perm[len(ids) // 2:]
     subsets = [sorted(rng.choice(len(names), rng.integers(3, 7), replace=False).tolist()) for _ in range(NSUB)]
+    # PLANTED: strong ring (half the variance) added to 4 fixed features, phases 0/3/6/9 months
+    prng = np.random.default_rng(77)
+    PL = sorted(prng.choice(len(names), 4, replace=False).tolist())
+    mtrue = prng.integers(0, S, len(ids))
+    Xp = standardize(X).copy()
+    for li, c in enumerate(PL):
+        sig = np.cos(2 * np.pi * (mtrue - 3 * li) / S); sig /= sig.std()
+        Xp[:, c] = np.sqrt(0.5) * Xp[:, c] + np.sqrt(0.5) * sig
     sjobs = []
     for ci, ch in enumerate(chunks(subsets, 150)):
         sjobs.append(('real_c%d' % ci, X[A], ch, 'real', 900 + ci))
+        sjobs.append(('plant_c%d' % ci, Xp[A], ch, 'plant', 950 + ci))
         for q in range(8):
             sjobs.append(('null%d_c%d' % (q, ci), X[A], ch, 'copula', 5000 + 100 * q))  # same surrogate across chunks of one replicate
     t = time.time()
@@ -108,6 +117,14 @@ def main():
     realD = np.concatenate([sres['real_c%d' % c] for c in range(nch)])
     nullmax = [float(np.max(np.concatenate([sres['null%d_c%d' % (q, c)] for c in range(nch)]))) for q in range(8)]
     nullall = np.concatenate([sres['null%d_c%d' % (q, c)] for q in range(8) for c in range(nch)])
+    plantD = np.concatenate([sres['plant_c%d' % c] for c in range(nch)])
+    npl = np.array([len(set(sb) & set(PL)) for sb in subsets])
+    pord = np.argsort(-plantD)
+    planted = {'features': [names[c] for c in PL], 'max': float(plantD.max()),
+               'n_above_null_max': int((plantD > max(nullmax)).sum()),
+               'top15_mean_planted_overlap': float(npl[pord[:15]].mean()), 'all_mean_overlap': float(npl.mean()),
+               'mean_D_by_overlap': {int(k): float(plantD[npl == k].mean()) for k in range(5) if (npl == k).any()}}
+    print('planted', planted, flush=True)
     order = np.argsort(-realD)
     top = order[: NSUB // 100]
     # held-out half B
@@ -134,7 +151,7 @@ def main():
                                       'null_max_per_rep': nullmax,
                                       'fwer_p': float((1 + sum(m >= realD.max() for m in nullmax)) / 9),
                                       'n_real_above_null_q99': int((realD > np.quantile(nullall, 0.99)).sum())},
-           'heldout': ho, 'names': names, 'ids': ids}
+           'heldout': ho, 'planted': planted, 'names': names, 'ids': ids}
     save('pe11_cycle2.json', out)
     print(json.dumps({k: v for k, v in out.items() if k not in ('ids',)}, indent=1, default=float))
 
