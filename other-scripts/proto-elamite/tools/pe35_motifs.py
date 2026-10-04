@@ -47,6 +47,9 @@ def code(text):
 def scene_text(d):
     """the part of a Louvre description that describes the picture (drop 'inscription', object words)."""
     s = d.get('desc') or ''
+    # amendment (before any test): drop the museum's reading of the TEXT ('compte d'equides', 'compte de moutons'...)
+    s = re.sub(r"(?i)comptes? (de |d'|d\u2019)[^,.;]*", ' ', s)
+    s = re.sub(r"(?i)(liste|enregistrement|livraison|rations?) (de |d'|d\u2019)[^,.;]*", ' ', s)
     s = re.sub(r'(?i)précision sur l.objet\s*:', ' ', s)
     s = re.sub(r'(?i)tablette (proto-élamite|économique)?', ' ', s)
     s = re.sub(r'(?i)signes proto-élamites|inscription|proto-élamite', ' ', s)
