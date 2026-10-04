@@ -31,6 +31,13 @@ SITES = {
     'ML': ('Milos', 36.755, 24.513), 'MI': ('Miletos', 37.530, 27.280),
     'SA': ('Samothrace', 40.475, 25.530), 'TR': ('Troy', 39.957, 26.239),
 }
+LB_SITES = {
+    'KN': ('KN', 35.298, 25.163), 'KH': ('KH', 35.517, 24.018), 'PY': ('PY', 37.028, 21.695),
+    'TH': ('TH', 38.320, 23.320), 'MY': ('MY', 37.731, 22.756), 'TI': ('TI', 37.600, 22.800),
+    'MI': ('MI', 37.649, 22.842),
+}
+if os.environ.get('LA31_SITESET') == 'lb':
+    SITES = LB_SITES
 CRETE = [c for c in SITES if SITES[c][1] < 35.6]
 NAME2CODE = {v[0]: k for k, v in SITES.items()}
 

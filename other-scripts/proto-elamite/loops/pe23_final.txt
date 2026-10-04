@@ -1,0 +1,18 @@
+pe23 final (4 Oct 2026): FORENSIC ACCOUNTING. Cycles: loops/pe23_cycle1-4.txt. Tools: tools/pe23_common.py, pe23_scan.py, pe23_cycle1_lib.py, pe23_cycle1-4.py, pe23_cycle4e.py. Checkpoints: data/pe23_ckpt/ (git-ignored).
+Prior art: web search (4 Oct 2026; Benford / heaping / forensic accounting + Proto-Elamite or cuneiform), LITERATURE, FINDINGS, STRATEGIES: no digit-fingerprint study of PE numbers found. pe12 (check digits) and pe21 (token piles) touched digits, not counted-vs-estimated.
+
+Fingerprints (canonical notation of each value): ROUND (one denomination), LOW (lowest denomination), FIVE (v mod 5 = 0), LEAD1, REP (same-tablet repeats, stratified by tablet length), CONC; composite COMP.
+Nulls: smooth same-notation redraw (log-uniform x1.5); within-(system, size) and within-tablet group strata with tablet-cluster-robust z; tablet-level header permutations; value-shuffled corpora; BH over every family.
+Controls: Ur III lines of known type (CDLI; 77,435 lines: livestock, people, measured grain, per-head rations, computed harvest estimates, field-yield rates); planted rounded classes (signs, headers, totals).
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-23.F1 | Ur III positive control | four types separate on fingerprints (0.91-0.97 vs shuffled 0.29-0.38; size-matched capacity types 0.77-0.98 vs 0.29-0.54). Computed harvest estimates are LESS round than measured grain (0.15 vs 0.36 one-denomination); rule numbers (rations 0.80, yield rates 0.43) are the round, repeated ones | A (method): the fingerprints tell number types apart where the truth is known. The auditor's "estimates are round" rule is wrong for Ur III: estimates were computed, rules were round |
+| PE-23.F2 | PE systems vs Ur III types | counts -> counted (3x rounder than Ur III counts); capacity -> measured grain | B: PE numbers look counted and measured; nothing looks like an Ur III computed estimate |
+| PE-23.F3 | Sign / office / site / header scan (1,004 between-group + 624 within-tablet tests; calibration 0 flags) | no sign, office (GRAIN, CLASS, BARE), site or final sign rounds differently from other numbers of the same size; within tablets 0/624. Power: only signs with 60+ numbers >= 10 are testable (planted 50% rounding found 5/5) | B: no PE sign is a marker of estimated or target numbers (upper bound for the ~8 testable signs; rarer signs untested) |
+| PE-23.F4 | Position | reverse numbers less round (sums), top-edge numbers all one-denomination, sign-less lines rounder; replicate in 29/33 held-out flags | A (observation): what summing and labelling do |
+| PE-23.F5 | Totals vs sums (19 clean tablets) | totals not rounder than sums (p 0.52); 3/13 mismatched totals one-denomination (p 0.055); planted rounded totals found 16/20 | B-: mismatched totals are not rounded estimates (small n) |
+| PE-23.F6 | M157 tablets | rounder numbers (tablet permutation p 0.002, held-out 17/20, fake-header FPR 0/20), but carried by the top-edge '1(N34)' mark: M157 tablets have edge marks 21% vs 7% (p 4e-10); marks never state the entry sum. Entries alone p 0.03-0.07 | B: the edge numeral is a constant TAG of the M157 tablet type, not a count or target. C: M157 entries slightly rounder (would support: replication on new M157 tablets; would kill: p > 0.1 there) |
+
+Demoted: M136 'allocated-looking' counts (held-out 0/20). AMBCAP 'ration-like' (notation-bound).
+Nothing is read; nothing is cracked. No PE sign, header or office is shown to carry estimated or target numbers.

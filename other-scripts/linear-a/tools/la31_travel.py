@@ -211,8 +211,9 @@ def main(max_days=None):
         Tdays[n] = solve(E_dist / spd)
         if n % 100 == 0:
             print('day', n, '/', len(dsel), round(time.time() - t0), 's', flush=True)
-    np.save(os.path.join(CKPT, 'Tdays.npy'), Tdays)
-    np.save(os.path.join(CKPT, 'Tdays_month.npy'), months[dsel])
+    sfx = '_lb' if os.environ.get('LA31_SITESET') == 'lb' else ''
+    np.save(os.path.join(CKPT, f'Tdays{sfx}.npy'), Tdays)
+    np.save(os.path.join(CKPT, f'Tdays_month{sfx}.npy'), months[dsel])
     # combined = min(walking, sea-with-walking-legs)
     res = dict(codes=codes, walk=Twalk.tolist(), calm=np.minimum(Twalk, Tcalm_sea).tolist(),
                calm_sea_only=Tcalm_sea.tolist(), n_days=int(len(dsel)))
@@ -227,7 +228,7 @@ def main(max_days=None):
         res['n_' + name] = int(sel.sum())
     for m in range(1, 13):
         res[f'windsea_m{m:02d}'] = np.median(Tdays[mo == m], 0).tolist()
-    json.dump(res, open(os.path.join(OUT, 'travel.json'), 'w'))
+    json.dump(res, open(os.path.join(OUT, f'travel{sfx}.json'), 'w'))
     print('done', round(time.time() - t0), 's')
 
 
