@@ -1,0 +1,15 @@
+# v10 cycle 3 -- is the line-initial chain a plaintext ACROSTIC in a simple encoding? (tools/v10_cycle3.py, v10_lib.anneal_partition;
+# data/results/v10/c3_runs.jsonl (checkpoint, one anneal per line), c3_summary.json)
+# Chain per paragraph = first glyph of EVERY line (line 1 included); glyphs < 10 occurrences pooled as '?' (12 symbols in ZL).
+# Search: simulated annealing (3,000 steps x 2 restarts) over onto maps letter -> chain glyph (lossy, several letters per glyph, the only
+# form a ~20-letter text can take in a ~10-glyph margin), maximising the chain likelihood under the language's letter trigram counts pushed
+# through the map (proper glyph-trigram probability, add-0.5; a first naive glyph->letter many-to-one score collapsed onto 'i/s' and was
+# discarded). Models: Latin (Caesar + Descartes), Italian (Manzoni + Dante), German (Kafka), j/v/k/w folded.
+# Nulls, each re-annealed: N1 = lines 2..n permuted in the paragraph (20x); N2 = first-order Markov surrogates of the corpus' own chain (20x).
+| Run | Method and control | Result (log2-likelihood per chain glyph) | Verdict |
+|---|---|---|---|
+| V-3.1 | ZL chain vs Latin / Italian / German | Latin -3.506 (N1 -3.597, z 6.6; N2 -3.504, z -0.1, N2 max -3.467); Italian -3.568 (N1 z 3.7; N2 z -2.0); German -3.605 (N1 z 4.9; N2 z -1.0) | Beats the shuffle only because of the known lag-1 rule; no language model gets anything beyond a first-order Markov chain. Decodes are repetitive (e.g. Latin classes [noq][noq][noq][noq]) |
+| V-3.2 | IT chain vs Latin (transcription check) | -3.535 (N1 z 6.3; N2 z -1.0) | Same: transcription-robust null |
+| V-3.3 | Positive controls: planted Latin acrostic (Caesar, lossy 22->10 letter->glyph map, whole margin incl. line 1, real paragraph lengths) and planted Italian acrostic (Manzoni) | Latin -2.939 (N1 z 35; N2 z 8.8, 0.21 bits above the best of 20 Markov surrogates); Italian -2.930 (N1 z 43; N2 z 9.2) | Search and nulls work: a real acrostic of this size is found at ~0.2-0.6 bit/glyph above both nulls. The Voynich chain is ~0.4 bit/glyph short of that and sits inside the Markov null |
+| V-3.4 | Negative control: lines 2..n shuffled between paragraphs | -3.604 (N1 z -0.8; N2 z -0.5) | Nothing, as required |
+| V-3.5 | Cycle verdict | Under every lossy letter->glyph acrostic for Latin, Italian, German, the chain is no more language-like than a first-order Markov chain with its own transition table (upper bound: < 0.04 bit/glyph of trigram structure, vs 0.2-0.26 for planted acrostics) | ACROSTIC (simple lossy encoding, these three languages) killed. Not tested: acrostics with a per-line cipher on top, other languages, or acrostics carried by the line-initial WORD rather than glyph (v6 found no word-level column) |

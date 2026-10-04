@@ -23,6 +23,8 @@ ap.add_argument('--nshuf_lb', type=int, default=4)
 ap.add_argument('--n_mk', type=int, default=3)
 ap.add_argument('--R', type=int, default=6); ap.add_argument('--S', type=int, default=50000)
 ap.add_argument('--targets', default=None)
+ap.add_argument('--input_scheme', default=None, help='syllabification scheme of the held-out language inputs (default: same as targets)')
+ap.add_argument('--lb_sizes', default='', help='extra LB inputs, e.g. 1500,full')
 ap.add_argument('--inputs', default=None, help='comma list of input names to restrict to')
 ap.add_argument('--la_variant', default='admin', help='admin | admin_nonHT | admin_tokens')
 args = ap.parse_args()
@@ -44,8 +46,12 @@ def build_inputs():
     lb = c.lb_types()
     for i in range(3): inp[f'LB{i}'] = c.length_matched(lb, hist, rnd)
     for i in range(args.n_mk): inp[f'MK{i}'] = c.markov_types(la, args.K, rnd)
-    for code in c.lang_codes(min_train=0, scheme=args.scheme):
-        pool = c.lang_test(code, args.scheme)
+    for sz in [x for x in args.lb_sizes.split(',') if x]:
+        if sz == 'full': inp['LBfull'] = list(lb)
+        else: inp[f'LB{sz}'] = rnd.sample(lb, int(sz))
+    isch = args.input_scheme or args.scheme
+    for code in c.lang_codes(min_train=0, scheme=isch):
+        pool = c.lang_test(code, isch)
         if len(pool) < 400: continue
         inp['X:' + code] = c.length_matched(pool, hist, rnd)
     return inp

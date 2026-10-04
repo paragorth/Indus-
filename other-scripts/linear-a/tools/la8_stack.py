@@ -52,8 +52,13 @@ def mutate(nst, act, arm, rng):
                 nst[c] += d
                 if d > 0: per[c].append(0)
                 else: per[c].pop(rng.randrange(len(per[c])))
-        else:
+        elif r < 0.7:
             j = rng.randrange(nst[c]); per[c][j] = rng.choice((0, 1, 2)) if rng.random() < 0.7 else 0
+        else:   # paired move: one class pushes, another class gains a popping slot (a matched bracket)
+            b = rng.randrange(len(nst))
+            per[c][rng.randrange(nst[c])] = 1
+            if nst[b] < G.MAXST: nst[b] += 1; per[b].append(2)
+            else: per[b][rng.randrange(nst[b])] = 2
     act = [a for p in per for a in p]
     return np.array(nst, dtype=np.int32), np.array(act, dtype=np.int32)
 

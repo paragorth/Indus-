@@ -1,0 +1,29 @@
+# v9 cycle 1: "the text was dialled out of a volvelle" -- independent-ring volvelle, rule R1
+
+Script: tools/v9_cycle1.py (+ v9_lib.py, v9_report.py). Checkpoints: data/results/v9/c1m_*.pkl, c1_all.pkl.
+Set-up. Each corpus gets its own 3-slot grammar (v7 slot model: corpus-learned glyph order cut into prefix / core / suffix
+bins); each ring carries the 12 commonest fillers of its slot + OTHER (13 symbols). Volvelle = ring of n cells (n = 40 or 48,
+picked on train), one filler per cell (duplicates allowed), the ring turns by a step drawn from a learned kernel q(d) between
+words, and is set from a learned start distribution at every line start (reset) or carried across line breaks (no-reset).
+Search: population Baum-Welch on the circulant HMM with free per-cell emissions (6 random starts x 40 iterations, best 2 x 120
+more) = the "soft" volvelle; then hardened (one filler per cell, every filler on the ring) and refitted = the true volvelle.
+Train = alternate pages, test = the other pages (17.3k test tokens per corpus; planted uses the Voynich line lengths).
+Bits/token below are held-out; "gain" = bits saved against M0 (start distribution + iid fillers). Parameter budgets per ring:
+hard volvelle ~ n labels + n steps + n start probs (~120-145), within-ring Markov-1 ~175-182 non-zero counts: comparable.
+Prior art (quick web search 4 Oct 2026): Rugg 2004 (table + Cardan grille, prefix/root/suffix columns; generator, never fitted);
+'Syntaxis Volvella' Zenodo preprints 2026 (tri-rotor 17:13 disc claimed, no likelihood test against a Markov model or planted
+recovery seen); voynich.ninja threads 5366/5600. No published likelihood fit of a volvelle with a planted-recovery control found.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-1.1 | POSITIVE CONTROL. Planted corpus from a known 3-ring volvelle (20 cells/ring, Zipf-like labels, kernel 0.5 on one step + 0.2 on another + 0.3 spread, reset each line, Voynich line lengths); full search run blind | Ring 0: hard volvelle gain +1.019 b/tok (oracle +1.027; Markov-1 +0.880, Markov-2 +0.964); ring 1 +0.900 (oracle +0.989; M1 +0.826); ring 2 +0.971 (oracle +1.008; M1 +0.839). True ring-0 kernel: step 14 = 0.52, step 2 = 0.22; recovered on n = 40: step 28 = 0.519, step 4 = 0.212 (the 20-ring embedded twice, steps doubled: exact). Word level: hard volvelle 7.216 b/tok, true volvelle 7.083, M1 7.561, word trigram 10.009 | PASS. The search recovers a planted volvelle almost to oracle likelihood, recovers its turning rule exactly (up to the ring embedding), and on volvelle text it beats Markov-1/2 at equal or smaller budget. Reset vs no-reset is also recovered (no-reset loses 0.25-0.35 b/tok per ring) |
+| V-1.2 | Voynich ZL3b (P lines), same pipeline | Per-ring sequential information is tiny: Markov-1 gains +0.043 / +0.032 / +0.019 b/tok (prefix/core/suffix ring). HARD volvelle: -0.036 / -0.052 / -0.134 (worse than iid). Soft (fuzzy-cell) circulant HMM: +0.062 / +0.065 / +0.036. Learned kernels are almost flat: entropy 5.03-5.32 bits (flat = 5.32-5.58); best single step carries 6-11%. Word level: hard volvelle 9.566 b/tok, M0 9.344, M1 9.250, word trigram 8.471, plain word-tuple unigram 8.272 | FAIL. No ring order with a simple turning rule predicts the next word's prefix, core or suffix better than drawing it at random; the turning kernel the search finds is close to uniform (i.e. "turn the disc anywhere"). Independent rings also lose ~1.1-1.3 b/tok against models that know which prefix goes with which suffix inside a word: Voynich words are not free combinations of ring sectors |
+| V-1.3 | NEGATIVE CONTROL. Isidore Latin under verbose substitution (v7 cipher), same pipeline | M1 gains +0.004 / +0.002 / +0.010; hard volvelle -0.060 / -0.041 / -0.050; soft +0.005 / +0.002 / +0.012; kernel entropy 4.94-5.21 bits. Word level hard 8.201, M1 8.034, trigram 6.780, tuple unigram 6.588 | Fails as expected (control behaves). The Voynich numbers have the same shape as this natural-language control |
+| V-1.4 | NEGATIVE CONTROL. Manzoni Italian under verbose substitution (v5 table) | M1 +0.030 / +0.030 / +0.036; hard volvelle -0.022 / -0.028 / -0.035; soft +0.027 / +0.028 / +0.034; kernel entropy 4.91-5.10. Word level hard 8.207, M1 8.025, trigram 6.576, unigram 6.549 | Fails as expected. Voynich again indistinguishable in kind |
+| V-1.5 | Line reset (volvelle refitted with the ring carried across line breaks vs set at each line start) | Planted: no-reset costs 0.34 / 0.25 / 0.24 b/tok. Voynich: no-reset costs 0.010 / 0.044 / 0.034 b/tok (ring by ring, hard volvelle). Verbose Latin: -0.014 / +0.010 / +0.011 (mixed). Italian: +0.013 / +0.008 / +0.003 (no-reset slightly better) | Small, right-signed Voynich preference for a per-line reset (0.01-0.04 b/tok), larger than the controls, matching the known line-start vocabulary; but it is a start-distribution effect, available to any model with a line-start state, not evidence for discs |
+| V-1.6 | Soft (fuzzy-cell) circulant HMM beats within-ring Markov-1 on Voynich (+0.062 vs +0.043 etc.) but not on the controls (Latin +0.005 vs +0.004, Italian +0.027 vs +0.030) | Excess over M1: Voynich +0.019 / +0.033 / +0.017; controls -0.003..+0.001 | A small Voynich-only advantage of a 40-48-state hidden chain with a near-flat kernel and 6-7% 'stay' (step 0) mass: a slowly persisting hidden state, i.e. line/page mode clumping (N1/N3, §9), not turning. Tested in cycle 2 with a within-line shuffle |
+
+Cycle verdict: a 3-ring volvelle with a simple turning rule does NOT explain Voynich word sequences. The method is calibrated
+(planted volvelle recovered to within 0.01-0.09 b/tok of the oracle and its rule exactly), so the failure is informative:
+there is almost no within-ring sequence to explain (M1 gains 0.02-0.04 b/tok), the fitted rule is "turn anywhere", and the
+independence of rings inside a word is strongly violated.

@@ -80,15 +80,16 @@ def analyse(tag, out=sys.stdout, quiet=False):
         P(f'{"":8s} raw gap top: ' + ', '.join(f'{T} {v:.3f}' for v, T in raw[:5]) + f' | mean gap {st.mean(v for v, _ in raw):.3f}; gap/sd_shuf median {st.median(sig):.1f}')
         return sc
     out_rows = {}
-    for X in ['LA', 'LB0', 'LB1', 'LB2', 'MK0', 'MK1', 'MK2', 'MK3']:
+    for X in [x for x in inputs if not x.startswith('X:')]:
         if X in B: out_rows[X] = show(X)
     # Greek rank for LB
-    for X in ['LB0', 'LB1', 'LB2']:
+    for X in [x for x in out_rows if x.startswith('LB')]:
         if X in out_rows:
             order = [T for _, T in out_rows[X]]
-            P(f'{X}: grc rank {order.index("grc") + 1 if "grc" in order else None}, ell rank {order.index("ell") + 1 if "ell" in order else None} of {len(order)}')
-    res['LB_grc_rank'] = [[T for _, T in out_rows[X]].index('grc') + 1 for X in ['LB0', 'LB1', 'LB2'] if X in out_rows]
-    res['LB_ell_rank'] = [[T for _, T in out_rows[X]].index('ell') + 1 for X in ['LB0', 'LB1', 'LB2'] if X in out_rows]
+            raw = [T for _, T in sorted(((G[X, T], T) for T in targets if (X, T) in G), reverse=True)]
+            P(f'{X}: grc rank {order.index("grc") + 1 if "grc" in order else None}, ell rank {order.index("ell") + 1 if "ell" in order else None} of {len(order)} (z); raw-gap ranks grc {raw.index("grc") + 1}, ell {raw.index("ell") + 1}')
+    res['LB_grc_rank'] = {X: [T for _, T in out_rows[X]].index('grc') + 1 for X in out_rows if X.startswith('LB')}
+    res['LB_ell_rank'] = {X: [T for _, T in out_rows[X]].index('ell') + 1 for X in out_rows if X.startswith('LB')}
     # LA vs nulls
     la_max = out_rows['LA'][0][0]; la_top = out_rows['LA'][0][1]
     mk_max = [out_rows[X][0][0] for X in out_rows if X.startswith('MK')]
@@ -114,7 +115,7 @@ def analyse(tag, out=sys.stdout, quiet=False):
             for g in obs:
                 if st.mean(g2[g]) >= obs[g]: perm_max[g] += 1
         return sorted(((obs[g], g, len(groups[g]), (perm_max[g] + 1) / (nperm + 1)) for g in obs), reverse=True)
-    for X in ['LA', 'LB0', 'LB1', 'LB2']:
+    for X in [x for x in ['LA', 'LB0', 'LB1', 'LB2'] if x in out_rows]:
       for fine in (False, True):
         ft = fam_test(X, 2000, fine=fine)
         P(f'{X} {"branch" if fine else "family"} means (z, n targets, one-sided perm p): ' + '; '.join(f'{g} {m:+.2f} (n{n}, p{p:.3f})' for m, g, n, p in ft[:6]))

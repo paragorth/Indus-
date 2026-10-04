@@ -1,0 +1,33 @@
+== c1: 45 inputs x 35 targets
+self-identification: top-1 34/35, top-3 35/35, median rank 1 of 35 (chance median 18.0)
+relative (self excluded): best target in own family 7/31 vs chance 4.3; median best-relative rank 2
+orphan max z (best unrelated language, real inputs): median 1.04, 90th pct 2.22, max 3.50
+LA       top z: arb -0.10, cop -0.12, nhe -0.24, san -0.28, swh -0.35, tgl -0.47, hau -0.58, hye -0.62 | bottom: fin -1.19, hun -1.20, cmn -1.40
+         raw gap top: nhe 0.330, tur 0.292, arb 0.286, hye 0.284, uig 0.282 | mean gap 0.206; gap/sd_shuf median 19.3
+LB0      top z: san +0.91, arb +0.82, tam +0.76, swh +0.68, kor +0.66, quh +0.63, hau +0.56, rus +0.55 | bottom: ind -0.01, ell -0.16, cmn -0.29
+         raw gap top: tur 0.394, hye 0.389, nhe 0.389, uig 0.382, quh 0.378 | mean gap 0.297; gap/sd_shuf median 31.5
+LB1      top z: ita +0.62, san +0.60, arb +0.56, hye +0.55, hin +0.46, kor +0.45, cym +0.42, lit +0.40 | bottom: sux -0.04, cmn -0.23, ind -0.60
+         raw gap top: hye 0.410, uig 0.382, tur 0.381, nhe 0.367, grc 0.358 | mean gap 0.290; gap/sd_shuf median 30.7
+LB2      top z: tam +0.98, hye +0.90, hau +0.87, quh +0.86, rus +0.86, san +0.82, uig +0.82, kor +0.81 | bottom: tgl +0.26, ind +0.06, ell +0.02
+         raw gap top: hye 0.449, uig 0.447, tur 0.441, nhe 0.418, quh 0.402 | mean gap 0.315; gap/sd_shuf median 23.8
+MK0      top z: cop -0.85, akk -0.87, hbo -1.07, tgl -1.20, swh -1.40, nhe -1.42, ell -1.44, lit -1.77 | bottom: haw -3.45, uig -3.85, tam -3.90
+         raw gap top: nhe 0.202, cop 0.200, akk 0.186, ell 0.150, swh 0.141 | mean gap 0.074; gap/sd_shuf median 9.8
+MK1      top z: akk -1.34, cop -1.38, swh -1.47, tgl -1.52, hbo -1.67, ell -1.88, arb -2.16, nhe -2.16 | bottom: tam -3.47, ind -3.60, uig -3.88
+         raw gap top: akk 0.147, cop 0.146, swh 0.135, nhe 0.121, tgl 0.108 | mean gap 0.051; gap/sd_shuf median 6.4
+MK2      top z: akk -0.80, cop -0.90, tgl -1.06, ell -1.13, nhe -1.18, hbo -1.37, swh -1.40, arb -1.70 | bottom: hin -3.42, tam -3.44, haw -3.50
+         raw gap top: nhe 0.228, cop 0.195, akk 0.192, ell 0.179, tgl 0.149 | mean gap 0.085; gap/sd_shuf median 12.6
+LB0: grc rank 23, ell rank 34 of 35
+LB1: grc rank 21, ell rank 32 of 35
+LB2: grc rank 32, ell rank 35 of 35
+LA max z -0.10 (arb); orphan-real-language max z exceed it in 32/38 (p=0.85); Markov max z [-0.85, -1.34, -0.8]
+LB max z [0.91, 0.62, 0.98] (tops ['san', 'ita', 'tam'])
+LA family means (z, n targets, one-sided perm p): UtoAztecan -0.24 (n1, p0.085); AfroAsiatic -0.49 (n6, p0.005); NigerCongo -0.74 (n2, p0.369); Dravidian -0.75 (n1, p0.370); IE -0.76 (n10, p0.307); Turkic -0.77 (n2, p0.424)
+LA branch means (z, n targets, one-sided perm p): AfroAsiatic-Egyptian -0.12 (n1, p0.054); UtoAztecan -0.24 (n1, p0.082); IE-Indo-Aryan -0.45 (n2, p0.064); AfroAsiatic-Semitic -0.56 (n4, p0.062); AfroAsiatic-Chadic -0.58 (n1, p0.196); IE-Armenian -0.62 (n1, p0.225)
+LB0 family means (z, n targets, one-sided perm p): Dravidian +0.76 (n1, p0.091); Koreanic +0.66 (n1, p0.156); Quechuan +0.63 (n1, p0.181); Kartvelian +0.53 (n1, p0.271); AfroAsiatic +0.48 (n6, p0.096); Japonic +0.46 (n1, p0.343)
+LB0 branch means (z, n targets, one-sided perm p): Dravidian +0.76 (n1, p0.079); Koreanic +0.66 (n1, p0.139); Quechuan +0.63 (n1, p0.158); IE-Indo-Aryan +0.59 (n2, p0.099); AfroAsiatic-Chadic +0.56 (n1, p0.219); IE-Slavic +0.55 (n1, p0.226)
+LB1 family means (z, n targets, one-sided perm p): Koreanic +0.45 (n1, p0.175); IE +0.37 (n10, p0.020); Quechuan +0.35 (n1, p0.375); Dravidian +0.35 (n1, p0.403); AfroAsiatic +0.35 (n6, p0.137); Kartvelian +0.26 (n1, p0.581)
+LB1 branch means (z, n targets, one-sided perm p): IE-Armenian +0.55 (n1, p0.114); IE-Indo-Aryan +0.53 (n2, p0.018); Koreanic +0.45 (n1, p0.180); IE-Celtic +0.42 (n1, p0.200); IE-Baltic +0.40 (n1, p0.222); IE-Italic +0.40 (n2, p0.163)
+LB2 family means (z, n targets, one-sided perm p): Dravidian +0.98 (n1, p0.031); Quechuan +0.86 (n1, p0.109); Koreanic +0.81 (n1, p0.233); Turkic +0.76 (n2, p0.112); AfroAsiatic +0.63 (n6, p0.257); IE +0.60 (n10, p0.318)
+LB2 branch means (z, n targets, one-sided perm p): Dravidian +0.98 (n1, p0.032); IE-Armenian +0.90 (n1, p0.065); AfroAsiatic-Chadic +0.87 (n1, p0.084); Quechuan +0.86 (n1, p0.118); IE-Slavic +0.86 (n1, p0.143); Koreanic +0.81 (n1, p0.228)
+restart spread (bits/sym): median 0.0242; gap sd over shuffles median 0.0058
+LA best map under arb (signs -> syllables, top 12 LA signs): A->a, TA->ba, DA->ta, I->ʔa, KA->ʔi, KU->ma, JA->tu, NA->ti, MA->qa, RE->ri, KI->ḥa, RA->ra
