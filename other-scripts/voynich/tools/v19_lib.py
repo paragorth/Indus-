@@ -1,6 +1,9 @@
 """v19 'SOMEWHERE THE TEXT IS SORTED': corpora, stretches, planted controls, engine driver.
 
-Engine: tools/v19_sortsearch.c (compiled to the scratch dir, or ./v19_sortsearch next to this file).
+Engine: tools/v19_sortsearch.c (compiled into SCR).
+Isidore source: la.wikisource "Etymologiae (Isidorus)" (Migne PL 82) wikitext, fetched with
+  https://la.wikisource.org/w/api.php?action=parse&page=Etymologiae_(Isidorus)&prop=wikitext&format=json
+  saved as SCR/et.txt; books X, XVI, XVII extracted to data/derived/v19_isidore.json.
 """
 import json, os, random, re, subprocess, math, sys
 from collections import Counter, defaultdict
@@ -10,7 +13,7 @@ ROOT = os.path.dirname(HERE)
 DATA = os.path.join(ROOT, 'data')
 RES = os.path.join(DATA, 'results', 'v19')
 os.makedirs(RES, exist_ok=True)
-SCR = os.environ.get('V19_SCR', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/v19')
+SCR = os.environ.get('V19_SCR', '/tmp/v19_scratch')  # engine binary, temp inputs, raw Etymologiae wikitext
 os.makedirs(SCR, exist_ok=True)
 ENGINE = os.path.join(SCR, 'sortsearch')
 sys.path.insert(0, HERE)

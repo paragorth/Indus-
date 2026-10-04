@@ -181,17 +181,20 @@ class Forger:
     """
 
     def __init__(self, C, scope='sec', pos=False, lam=0.0, chain=False, redup=0.0, cite=0.0, unigram=False,
-                 width=False, rich=False, name='forger'):
+                 width=False, rich=False, cite_window=0, cite_edit=0.0, para_lam=False, end_room=8, name='forger'):
         self.cfg = dict(scope=scope, pos=pos, lam=lam, chain=chain, redup=redup, cite=cite, unigram=unigram)
         self.name = name
         self.scope, self.pos, self.lam, self.chain = scope, pos, lam, chain
         self.redup, self.cite, self.unigram, self.width, self.rich = redup, cite, unigram, width, rich
+        self.cite_window, self.cite_edit, self.para_lam, self.end_room = cite_window, cite_edit, para_lam, end_room
+        if cite_edit: self._learn_edits(C)
         T = defaultdict(Counter)
         for p in C:
             s = p['sec'] if scope == 'sec' else '*'
             pid = p['id']
-            for pa in p['paras']:
+            for qi, pa in enumerate(p['paras']):
                 prevfirst = None
+                Q = 'Q' + pid + '_' + str(qi)
                 for li, ws in enumerate(pa):
                     T[('pf' if li == 0 else 'li', s)][ws[0]] += 1
                     T[('pf' if li == 0 else 'li', 'P' + pid)][ws[0]] += 1
@@ -206,10 +209,51 @@ class Forger:
                             T[('r', s, self._rk(ws, k))][ws[k]] += 1
                         T[('j', s, 'any', key)][ws[k]] += 1
                         T[('j', 'P' + pid, 'any', key)][ws[k]] += 1
+                        if para_lam: T[('j', Q, 'any', key)][ws[k]] += 1
                         T[('u', s, pc)][ws[k]] += 1
                         T[('u', s)][ws[k]] += 1
         self.T = {k: _cum(v) for k, v in T.items()}
         self.Tn = {k: sum(v.values()) for k, v in T.items()}
+
+    def _learn_edits(self, C, window=20):
+        """Edit operations seen between real near-repeat pairs (edit distance 1, within `window` tokens)."""
+        sub = defaultdict(Counter); ins = Counter(); dele = Counter(); kinds = Counter()
+        for p in C:
+            toks = tokens(p)
+            for i in range(len(toks)):
+                for j in range(max(0, i - window), i):
+                    a, b = toks[j], toks[i]
+                    if not near1(a, b): continue
+                    if len(a) == len(b):
+                        for x, y in zip(a, b):
+                            if x != y: sub[x][y] += 1
+                        kinds['sub'] += 1
+                    elif len(b) > len(a):
+                        for t in range(len(b)):
+                            if b[:t] + b[t + 1:] == a: ins[b[t]] += 1; break
+                        kinds['ins'] += 1
+                    else:
+                        for t in range(len(a)):
+                            if a[:t] + a[t + 1:] == b: dele[a[t]] += 1; break
+                        kinds['del'] += 1
+                    break
+        self.E_sub = {x: _cum(c) for x, c in sub.items()}
+        self.E_ins = _cum(ins); self.E_del = dele; self.E_kind = _cum(kinds)
+
+    def _edit(self, w, rng):
+        for _ in range(5):
+            kd = _draw(rng, self.E_kind)
+            if kd == 'sub':
+                pos = [i for i, c in enumerate(w) if c in self.E_sub]
+                if not pos: continue
+                i = rng.choice(pos); return w[:i] + _draw(rng, self.E_sub[w[i]]) + w[i + 1:]
+            if kd == 'ins':
+                i = rng.randint(0, len(w)); return w[:i] + _draw(rng, self.E_ins) + w[i:]
+            if kd == 'del' and len(w) > 2:
+                pos = [i for i, c in enumerate(w) if self.E_del.get(c)]
+                if not pos: continue
+                i = rng.choice(pos); return w[:i] + w[i + 1:]
+        return w
 
     @staticmethod
     def _rk(line, k):
@@ -232,8 +276,11 @@ class Forger:
         s = p['sec'] if self.scope == 'sec' else '*'
         P = 'P' + p['id']
         paras = []
-        for pa in p['paras']:
+        hist = []
+        for qi, pa in enumerate(p['paras']):
             out = []; prevfirst = None; prevline = None
+            Q = 'Q' + p['id'] + '_' + str(qi)
+            if self.cite_window: hist = []
             for li, ws in enumerate(pa):
                 n = len(ws)
                 lt = 'pf' if li == 0 else 'li'
@@ -249,7 +296,7 @@ class Forger:
                     if self.width:
                         room = target - (sum(len(x) for x in line) + len(line) - 1) - 1
                         if room < 2 or k > 3 * n + 5: break
-                        pc = 'end' if room <= 8 else ('p1' if k == 1 else ('p2' if k == 2 else 'mid'))
+                        pc = 'end' if room <= self.end_room else ('p1' if k == 1 else ('p2' if k == 2 else 'mid'))
                         if not self.pos and pc != 'end': pc = 'mid'
                     else:
                         if k >= n: break
@@ -257,7 +304,11 @@ class Forger:
                     r = rng.random()
                     if self.redup and r < self.redup and pc != 'end':
                         nw = w
-                    elif self.cite and prevline and r < self.redup + self.cite:
+                    elif self.cite and self.cite_window and len(hist) + len(line) >= 3 and r < self.redup + self.cite:
+                        pool = (hist + line)[-self.cite_window:-1]
+                        nw = rng.choice(pool) if pool else w
+                        if self.cite_edit and rng.random() < self.cite_edit: nw = self._edit(nw, rng)
+                    elif self.cite and not self.cite_window and prevline and r < self.redup + self.cite:
                         j = min(len(prevline) - 1, max(0, k + rng.randint(-1, 1)))
                         nw = prevline[j]
                     else:
@@ -266,7 +317,8 @@ class Forger:
                         else:
                             key = w[-1]; tab = None
                             if self.lam and rng.random() < self.lam:
-                                tab = self._get(('j', P, 'any', key), minn=2)
+                                if self.para_lam: tab = self._get(('j', Q, 'any', key), minn=2)
+                                if tab is None: tab = self._get(('j', P, 'any', key), minn=2)
                             if tab is None and self.rich and pc != 'end':
                                 tab = self._get(('r', s, self._rk(line + ['x'], k)), minn=8)
                             if tab is None:
@@ -277,7 +329,7 @@ class Forger:
                             nw = min(cands, key=lambda x: abs(len(x) - room))
                     line.append(nw); w = nw
                     if self.width and pc == 'end': break
-                out.append(line); prevfirst = line[0][0]; prevline = line
+                out.append(line); prevfirst = line[0][0]; prevline = line; hist.extend(line)
             paras.append(out)
         q = dict(p); q['paras'] = paras
         return q
