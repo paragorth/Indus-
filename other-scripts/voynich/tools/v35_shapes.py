@@ -119,8 +119,22 @@ def ucas(ch):
     return out
 
 
+# ------------------------------------------------------------------ Borg cipher (symbols as drawn in the project key)
+GR = S.GREEK
+BORG = {
+    '*': _m(DIAG=2, MINIM=1), '4': _m(DIAG=1, XBAR=1, TALL=1), '5': _m(XBAR=1, CURVE=1, TALL=1),
+    '6': _m(BOWL=1, CURVE=1, TALL=1), '8': _m(BOWL=2), 'D': _m(TALL=1, BOWL=1, RIGHTB=1), 'H': _m(TALL=2, XBAR=1),
+    'i': LT['i'], 'y': LT['y'], '¤': _m(BOWL=1, DIAG=2), 'ʒ': _m(XBAR=1, DIAG=1, CURVE=1, DESCS=1), 'Δ': _m(TRI=1),
+    'α': GR['α'], 'δ': GR['δ'], 'κ': GR['κ'], '□': _m(BOX=1), '☿': _m(BOWL=1, CUP=1, XBAR=1, DESCS=1),
+    '♀': _m(BOWL=1, XBAR=1, DESCS=1), '♂': _m(BOWL=1, DIAG=1, HEAD=1), '♈': _m(CURVE=2, MINIM=1),
+    '♊': _m(XBAR=2, MINIM=2), '♋': _m(BOWL=2, CURVE=2), '♍': _m(MINIM=1, ARCH=2, BOWL=1, DESCS=1),
+    '♎': _m(XBAR=2, ARCH=1), '♏': _m(MINIM=1, ARCH=2, HEAD=1, DESCS=1), '♒': _m(WAVE=2), 'ꝏ': _m(BOWL=2, XBAR=1),
+    'ff': _m(TALL=2, HOOK=2, XBAR=2), 'Ħ': _m(TALL=2, XBAR=2), '~': _m(WAVE=1),
+}
+
+
 def hand(name, alph):
-    if name.startswith('copiale'):
+    if name.startswith('copiale') or name.startswith('plant'):
         from v35_lib import COP_KEY
         return {g: COPIALE[COP_KEY[g]] for g in alph if COP_KEY.get(g) in COPIALE}
     if name == 'tengwar':
@@ -128,6 +142,8 @@ def hand(name, alph):
         return {g: TENGWAR[TW_NAME[g]] for g in alph if TW_NAME.get(g) in TENGWAR}
     if name == 'shavian':
         return {g: SHAVIAN[g] for g in alph if g in SHAVIAN}
+    if name == 'borg':
+        return {g: BORG[g] for g in alph if g in BORG}
     if name == 'cree':
         return {g: ucas(g) for g in alph if ucas(g)}
     if name.startswith('voy'):

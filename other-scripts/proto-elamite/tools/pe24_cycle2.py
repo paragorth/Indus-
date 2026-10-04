@@ -78,7 +78,7 @@ class SignSearch:
                 newcl = {}
                 for k in tabs_of[f]:
                     x = self.closes(k, c); newcl[k] = x; d += int(x) - int(cl[k])
-                dpen = lam * ((new != 1.0) - (old != 1.0))
+                dpen = lam * (int(new != 1.0) - int(old != 1.0))
                 delta = d - dpen
                 T = max(0.05, 1.5 * (1 - t / steps))
                 if delta >= 0 or rng.random() < np.exp(delta / T):

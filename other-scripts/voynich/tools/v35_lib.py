@@ -40,6 +40,7 @@ X.FONT.update(
     cherokee=os.path.join(V35, 'NotoSansCherokee.ttf'),
     ucas=os.path.join(V35, 'NotoSansCanadianAboriginal.ttf'),
     freesans='/usr/share/fonts/truetype/freefont/FreeSans.ttf',
+    dejavusans='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
 )
 
 # ------------------------------------------------------------------ Copiale
@@ -261,6 +262,67 @@ def voy_lines_nospace():
     return out
 
 
+
+# ------------------------------------------------------------------ Borg cipher (17th c.; Uppsala/SU transcription 0001r-0204v)
+# transcription letter -> cipher symbol as drawn in the project's key image (key.png), rendered from Unicode fonts
+BORG_KEY = {'a': 'α', 'b': 'D', 'c': 'δ', 'd': 'Δ', 'h': 'H', 'i': '♊', 'k': 'κ', 'm': '♏', 'n': '♎', 'o': '□', 'q': '☿',
+            'v': '♈', 'w': 'ꝏ', 'x': '*', 'y': '♒', '0': '♀', '1': '♂', '4': '4', '5': '5', '6': '6', '8': '8', '9': '♋',
+            'O': '¤', 'M': '♍', 'H': 'ff', 'T': 'Ħ', 'W': '~', 'Z': 'ʒ', 'I': 'i', 'Y': 'y'}
+
+
+def borg_words():
+    t = open(os.path.join(V35, 'borg.txt'), encoding='utf-8').read()
+    lines = [l for l in t.split('\n') if l and l[0] not in '#<']
+    lines = [re.sub(r'\[[^\]]*\]?', ' ', l) for l in lines]   # cleartext in brackets
+    out = []
+    for l in lines:
+        for w in re.split(r'[\s,.:;?!()\[\]/<>\-]+', l):
+            if not w:
+                continue
+            for part in re.split(r'[^' + re.escape(''.join(BORG_KEY)) + r']+', w):
+                if part:
+                    out.append(tuple(BORG_KEY[c] for c in part))
+    return out
+
+
+# ------------------------------------------------------------------ planted homophonic ciphers (calibration)
+def planted_cipher(design, seed=3):
+    """Printed Latin enciphered as a homophonic cipher onto the 84 Copiale glyphs.  Each letter gets homophones in
+    proportion to its frequency (>= 1); each token picks one uniformly.  design='rand': glyphs dealt at random;
+    'family': each letter's homophones are a cluster of shape-similar glyphs (v35 hand Jaccard, greedy)."""
+    import v35_shapes as SH
+    rng = random.Random(seed)
+    ws = L.latin(10 ** 9)
+    G = list(build('copiale')['alph'])
+    cnt = Counter(g for w in ws for g in w)
+    letters = [a for a, _ in cnt.most_common()]
+    tot = sum(cnt.values())
+    k = {a: max(1, int(round(len(G) * cnt[a] / tot))) for a in letters}
+    while sum(k.values()) > len(G):
+        a = max(k, key=k.get); k[a] -= 1
+    while sum(k.values()) < len(G):
+        a = max(letters, key=lambda x: cnt[x] / k[x]); k[a] += 1
+    pool = G[:]
+    rng.shuffle(pool)
+    hom = {}
+    if design == 'rand':
+        i = 0
+        for a in letters:
+            hom[a] = pool[i:i + k[a]]; i += k[a]
+    else:
+        F, _ = L.shape_matrix({g: SH.COPIALE[COP_KEY[g]] for g in G}, G)
+        J = L.jaccard_sim(F); gi = {g: i for i, g in enumerate(G)}
+        free = set(G)
+        for a in letters:
+            seed_g = rng.choice(sorted(free))
+            grp = [seed_g]; free.discard(seed_g)
+            while len(grp) < k[a]:
+                best = max(sorted(free), key=lambda g: (np.mean([J[gi[g], gi[h]] for h in grp]), rng.random()))
+                grp.append(best); free.discard(best)
+            hom[a] = grp
+    return [tuple(rng.choice(hom[c]) for c in w) for w in ws]
+
+
 # ------------------------------------------------------------------ registry
 REG = dict(
     copiale=(lambda: copiale_words('full'), ('copiale',), 'o'),
@@ -270,6 +332,9 @@ REG = dict(
     deseret=(deseret_words, ('deseret', 'freeserif'), chr(0x10428 + 0x09)),
     cherokee=(cherokee_words, ('cherokee', 'freeserif'), 'Ꭴ'),
     cree=(cree_words, ('ucas', 'freesans'), 'ᐊ'),
+    borg=(borg_words, ('dejavusans', 'freeserif'), 'α'),
+    plant_rand=(lambda: planted_cipher('rand'), ('copiale',), 'o'),
+    plant_family=(lambda: planted_cipher('family'), ('copiale',), 'o'),
     voy=(voy_words, ('eva',), 'o'),
     voy_lines=(voy_lines_nospace, ('eva',), 'o'),
 )
