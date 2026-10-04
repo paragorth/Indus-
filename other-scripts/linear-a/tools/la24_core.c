@@ -50,7 +50,7 @@ static int evcmp(const void* a, const void* b) {
 static int on_grid(double x, double g) { double r = x / g; return fabs(r - floor(r + 0.5)) < 1e-6; }
 
 /* one alphabet, per-entry rules 0-3 */
-static void fit_one(const double* x, int n, const int* S, int k, int rule, double g,
+static void fit_one(const double* x, const int* cn, int n, const int* S, int k, int rule, double g,
                     int* cover, double* cost, double* ub) {
     *cover = 0; *cost = 60.0; *ub = 0;
     if (rule == 0) {
@@ -61,7 +61,7 @@ static void fit_one(const double* x, int n, const int* S, int k, int rule, doubl
             for (int j = 0; j < n; j++) {
                 int hit = 0;
                 for (int b = 0; b < k && !hit; b++) if (fabs(u * S[b] - x[j]) < EPS * (1 + x[j])) hit = 1;
-                c += hit;
+                c += hit * cn[j];
             }
             double cc = ucost(u, u);
             if (c > *cover || (c == *cover && cc < *cost)) { *cover = c; *cost = cc; *ub = u; }
@@ -88,7 +88,7 @@ static void fit_one(const double* x, int n, const int* S, int k, int rule, doubl
     int covered = 0;
     for (int e = 0; e < m; e++) {
         if (ev[e].type == 1) {
-            if (cnt[ev[e].ent]++ == 0) covered++;
+            if (cnt[ev[e].ent]++ == 0) covered += cn[ev[e].ent];
             if (covered >= *cover) {
                 /* region from ev[e].v to next event */
                 double lo = ev[e].v, hi = (e + 1 < m) ? ev[e + 1].v : lo;
@@ -96,7 +96,7 @@ static void fit_one(const double* x, int n, const int* S, int k, int rule, doubl
                 if (covered > *cover || cc < *cost) { *cover = covered; *cost = cc; *ub = UBEST; }
             }
         } else {
-            if (--cnt[ev[e].ent] == 0) covered--;
+            if (--cnt[ev[e].ent] == 0) covered -= cn[ev[e].ent];
         }
     }
     free(cnt); free(ev);
@@ -142,10 +142,17 @@ static void fit_hamil(const double* x, int n, const int* S, int k, double g, int
 /* fit all alphabets; out arrays of length nS */
 void fit_all(const double* x, int n, const int* Sflat, const int* Soff, const int* Slen, int nS,
              int rule, double g, int* cover, double* cost, double* ub) {
+    double* xd = malloc(sizeof(double) * n); int* cn = malloc(sizeof(int) * n); int nd = 0;
+    for (int i = 0; i < n; i++) {
+        int f = -1;
+        for (int j = 0; j < nd; j++) if (fabs(xd[j] - x[i]) < 1e-9) { f = j; break; }
+        if (f < 0) { xd[nd] = x[i]; cn[nd] = 1; nd++; } else cn[f]++;
+    }
     for (int s = 0; s < nS; s++) {
         if (rule == 4) fit_hamil(x, n, Sflat + Soff[s], Slen[s], g, cover + s, cost + s, ub + s);
-        else fit_one(x, n, Sflat + Soff[s], Slen[s], rule, g, cover + s, cost + s, ub + s);
+        else fit_one(xd, cn, nd, Sflat + Soff[s], Slen[s], rule, g, cover + s, cost + s, ub + s);
     }
+    free(xd); free(cn);
 }
 
 /* the share vector chosen for one alphabet and rule at the best u (for reporting) */

@@ -56,10 +56,10 @@ def val(amount, V):
 
 # ------------------------------------------------------------------ share alphabets
 ALPH = []
-for k in range(1, 5):
-    for c in combinations(range(1, 9), k):
-        if math.gcd(*c) == 1:
-            ALPH.append(c)
+for _k in range(1, 5):
+    for _c in combinations(range(1, 9), _k):
+        if math.gcd(*_c) == 1:
+            ALPH.append(_c)
 NS = len(ALPH)
 _Sflat = np.array([w for a in ALPH for w in a], dtype=np.int32)
 _Slen = np.array([len(a) for a in ALPH], dtype=np.int32)
@@ -80,8 +80,11 @@ def fit_all(x, rule, g):
     return cov, cost, ub
 
 
+_LG = np.array([math.lgamma(i + 1) for i in range(400)]) / math.log(2)
+
+
 def log2comb(n, m):
-    return (math.lgamma(n + 1) - math.lgamma(m + 1) - math.lgamma(n - m + 1)) / math.log(2)
+    return _LG[n] - _LG[m] - _LG[n - m]
 
 
 def model_best(x, ent_cost, grids):
@@ -98,7 +101,7 @@ def model_best(x, ent_cost, grids):
         ok = cov >= 3
         if r == 4: ok &= (m == 0)
         if not ok.any(): continue
-        bits = hyp + cost + cov * _LOGK + m * med + np.array([log2comb(n, int(mm)) for mm in m])
+        bits = hyp + cost + cov * _LOGK + m * med + log2comb(n, m)
         bits = np.where(ok, bits, np.inf)
         s = int(np.argmin(bits))
         if bits[s] < best[0]:
