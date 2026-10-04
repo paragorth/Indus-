@@ -253,11 +253,17 @@ def pretrain(xname, cond, seed, steps=1500):
     return sd, realmap, xorder_rows
 
 
-def finetune(sd, ymap, ytr, yval, yte, seed, steps=240):
+def finetune(sd, ymap, ytr, yval, yte, seed, steps=240, body_only=False):
+    """body_only: keep the pretrained MLP (context weights, position vectors) but re-initialise
+    the sign embeddings and output bias: pure structural transfer, no sign identities at all."""
     torch.manual_seed(seed)
     model = LM()
     if sd is not None:
-        model.load_state_dict(sd)
+        if body_only:
+            sd = {k: v for k, v in sd.items() if k not in ('emb.weight', 'bias')}
+            model.load_state_dict(sd, strict=False)
+        else:
+            model.load_state_dict(sd)
     rng = random.Random(seed)
     tr, va, te = (positions(encode(z, ymap)) for z in (ytr, yval, yte))
     curve = [[0, evaluate(model, va), evaluate(model, te)]]

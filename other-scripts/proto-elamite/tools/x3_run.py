@@ -6,6 +6,7 @@
   XLIST / YLIST comma lists of corpus ids; all ordered pairs X != Y are run
   EXTRA_PAIRS  comma list of X>Y pairs added (controls such as LBa>LBb, PLa>PLb)
 One job = (X, condition, seed): pretrain once, fine-tune on every Y. Scratch jobs = (Y, seed).
+Mode 'body' (real X only): pretrained MLP kept, embeddings re-initialised.
 Label mode is run only when >= 20% of Y's test tokens carry a label that X also has.
 2 worker processes, 1 thread each.
 """
@@ -43,8 +44,11 @@ def job(args):
         ytr, va, te = ydata(y, seed, slice_tok)
         ov = overlap(rowmap, te)
         modes = ['rank'] + (['label'] if ov >= 0.2 else [])
+        if cond == 'real':
+            modes.append('body')
         for mode in modes:
-            r = X.finetune(sd, X.y_map(rowmap, xo, ytr, mode), ytr, va, te, seed)
+            m = X.y_map(rowmap, xo, ytr, 'rank' if mode == 'body' else mode)
+            r = X.finetune(sd, m, ytr, va, te, seed, body_only=(mode == 'body'))
             out.append(dict(tag=tag, x=xname, y=y, cond=cond, mode=mode, seed=seed, slice=slice_tok,
                             overlap=round(ov, 3), **r))
     return out
