@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import la10_common as L
 D = os.path.join(L.C.LAD, 'la10')
 RULE_SHOW = ['onset0_init', 'onset0_med', 'cluster', 'coda_med', 'coda_obs', 'coda_fin', 'root_len', 'harm_copy', 'harm_fb',
-             'ocp_id', 'ocp_place', 'pre_p', 'pre_n', 'suf_p', 'suf_n', 'aff_2syl', 'reuse', 'fv_str']
+             'ocp_id', 'ocp_place', 'pre_p', 'pre_n', 'suf_p', 'suf_n', 'aff_2syl', 'reuse', 'fv_str'] + (['stem_c'] if L.V2 else []) + (['stem_c'] if L.V2 else [])
 AB = ['harmony', 'harm_copy', 'harm_fb', 'ocp', 'ocp_id', 'ocp_place', 'clusters', 'codas', 'hiatus', 'prefixing', 'suffixing',
       'reuse', 'final_vowel', 'swap_pre_suf']
 
