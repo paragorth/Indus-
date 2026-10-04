@@ -225,6 +225,16 @@ def procrustes_r2(X, Y):
     return 1 - ((Y - Yh) ** 2).sum() / (Y * Y).sum()
 
 
+def knn_recovery(X, Y, k=5, radius=2):
+    """fraction of each point's k nearest learned neighbours that lie within true Chebyshev radius; and chance rate."""
+    X = np.asarray(X); Y = np.asarray(Y)
+    D = ((X[:, None, :] - X[None, :, :]) ** 2).sum(-1); np.fill_diagonal(D, np.inf)
+    T = np.abs(Y[:, None, :] - Y[None, :, :]).max(-1) <= radius; np.fill_diagonal(T, False)
+    nn = np.argsort(D, 1)[:, :k]
+    hit = T[np.arange(len(X))[:, None], nn].mean()
+    return float(hit), float(T.sum() / (len(X) * (len(X) - 1)))
+
+
 def jdump(obj, name):
     json.dump(obj, open(os.path.join(CK, name), 'w'), indent=1, default=lambda o: o.tolist() if hasattr(o, 'tolist') else str(o))
 

@@ -23,7 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 D = os.path.join(HERE, '..', 'data')
 OUT = os.path.join(D, 'la9')
 os.makedirs(OUT, exist_ok=True)
-CDLI_ATF = os.environ.get('CDLI_ATF', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/cdli/cdli.atf')
+CDLI_ATF = os.environ.get('CDLI_ATF', '/tmp/cdliatf_unblocked.atf')   # set CDLI_ATF to the downloaded dump
 
 U = 14400
 DEC_PLACES = [1, 10, 100, 1000, 10000]
