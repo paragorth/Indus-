@@ -15,6 +15,7 @@ M = pickle.load(open(os.path.join(CK, 'mats.pkl'), 'rb'))
 iLA = {s: i for i, s in enumerate(M['la_signs'])}; iLB = {s: i for i, s in enumerate(M['lb_signs'])}
 VLA, SLA, VLB, SLB = M['VIS_LA'], M['SND_LA'], M['VIS_LB'], M['SND_LB']
 WA = la_words()
+EB = one_sign_pairs(lb_words(), 2, 'site')
 EA = one_sign_pairs(WA, 2, None)
 EAs = one_sign_pairs(WA, 2, 'site')
 log(f'# LA-32 cycle 4: full one-sign pool (>= 2 signs): {len(EA)} pairs any site, {len(EAs)} within site')
@@ -29,16 +30,42 @@ for name, E in classes[:3] + classes[3:4] + classes[5:]:
     rv = score_edges(E, VLA, iLA, 2000, rng); rs = score_edges(E, SLA, iLA, 2000, rng)
     log(f'  LA {name:12s} shape {fmt(rv)} | sound {fmt(rs)}')
     res[name] = (rv, rs)
-nocon = [e for e in EA if not (M['CON_LA'][iLA[e['a']], iLA[e['b']]] == 1)] if True else EA
+nocon = [e for e in EA if e['a'] in iLA and e['b'] in iLA and not (M['CON_LA'][iLA[e['a']], iLA[e['b']]] == 1)]
 rv = score_edges(nocon, VLA, iLA, 2000, rng); log(f'  LA without LB-same-consonant pairs* shape {fmt(rv)}')
 res['nocon'] = rv
-EB = one_sign_pairs(lb_words(), 2, 'site')
 zb = []; zbs = []
 for d in range(20):
     sub = [EB[i] for i in rng.choice(len(EB), len(EA), replace=False)]
     zb.append(score_edges(sub, VLB, iLB, 500, rng)['z']); zbs.append(score_edges(sub, SLB, iLB, 500, rng)['z'])
 log(f'  LB 20 draws of {len(EA)} pairs: shape z mean {np.mean(zb):.2f} (range {min(zb):.2f} to {max(zb):.2f}); sound z mean {np.mean(zbs):.2f} ({min(zbs):.2f} to {max(zbs):.2f})')
 log(f'  LA shape z {res["all"][0]["z"]:.2f} exceeds {np.mean(np.array(zb) < res["all"][0]["z"]):.2f} of LB draws')
+# same-document pairs listed
+log('  same-document pairs: ' + ', '.join(f"{'-'.join(e['w1'])}/{'-'.join(e['w2'])} ({e['g']}, shape {VLA[iLA[e['a']], iLA[e['b']]]:.2f})" for e in EAs if e['samedoc'] and e['a'] in iLA and e['b'] in iLA))
+# circularity control: distributional substitutability (neighbour-profile cosine) as a rival predictor
+def distmat(words, signs, idx):
+    n = len(signs); L = np.zeros((n, n + 1)); R = np.zeros((n, n + 1))
+    for r in words:
+        w = r['w']
+        for k, s_ in enumerate(w):
+            if s_ not in idx: continue
+            L[idx[s_], idx[w[k - 1]] if k > 0 and w[k - 1] in idx else n] += 1
+            R[idx[s_], idx[w[k + 1]] if k + 1 < len(w) and w[k + 1] in idx else n] += 1
+    F = np.hstack([L, R]); F = F / (np.linalg.norm(F, axis=1, keepdims=True) + 1e-9)
+    D = F @ F.T; np.fill_diagonal(D, np.nan); return D
+def resid(A, Bm, nb=10):
+    R = np.full(A.shape, np.nan); iu = np.triu_indices(A.shape[0], 1)
+    a, b = A[iu], Bm[iu]; ok = ~np.isnan(a) & ~np.isnan(b)
+    qs = np.unique(np.nanquantile(b[ok], np.linspace(0, 1, nb + 1))); bins = np.digitize(b, qs[1:-1])
+    r = np.full(a.shape, np.nan)
+    for k in np.unique(bins[ok]):
+        m = ok & (bins == k); r[m] = a[m] - a[m].mean()
+    R[iu] = r; R.T[iu] = r; return R
+DLA = distmat(WA, M['la_signs'], iLA); DLB = distmat(lb_words(), M['lb_signs'], iLB)
+for nm, E_, idx_, D_, Ss in (('LA all', EA, iLA, DLA, [('blind rows', SLA), ('shape', VLA)]),
+                             ('LB all', EB, iLB, DLB, [('blind rows', SLB), ('LB consonant', M['CON_LB']), ('shape', VLB)])):
+    log(f'  {nm}: distributional similarity alone {fmt(score_edges(E_, D_, idx_, 1000, rng))}')
+    for sn, S_ in Ss:
+        log(f'  {nm}: {sn} | distributional bins {fmt(score_edges(E_, resid(S_, D_), idx_, 1000, rng))}')
 # pairs carrying the shape excess
 cnt = collections.Counter(tuple(sorted((e['a'], e['b']))) for e in EA if e['a'] in iLA and e['b'] in iLA)
 top = sorted(cnt.items(), key=lambda kv: -kv[1] * (VLA[iLA[kv[0][0]], iLA[kv[0][1]]] - 0.5))[:12]

@@ -1,0 +1,22 @@
+pe26 cycle 2 -- rank Susa tablets by how plateau-like their CLAY looks, freeze, then score (4 Oct 2026)
+Tools: tools/pe26_cycle2.py, tools/pe26_cycle2b.py. Frozen rankings: data/pe26_frozen_clay_ranking_month.json
+(sha256 f9fbbc12728240fe3c4f7dd013823e7d738f928a143a06b855be2097cad01cc7; primary, photo campaign = software + month)
+and data/pe26_frozen_clay_ranking_day.json (7ec80da46f725384bbc3f6a5489937f8fa87bbef31380bbb14bc85a648be1c9f; sensitivity).
+Data limit found in cycle 1: the only colour photos of plateau tablets in a shared photo batch are 4 Yahya tablets (NMI, one
+day with 93 Susa tablets). No NMI Malyan, no Sialk, no Sofalin colour photos exist on CDLI. YT-01 (P009536, Susa clay by hXRF)
+and ST-11 (P009157, Yahya clay at Susa) were held out, so the "plateau" training set is 3 tablets.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-26.2a | Diagonal discriminant (Yahya minus Susa, same photo batch) averaged over 2,000 random feature subsets (equal to one linear score weighted by inclusion rate); campaign-centred colour+texture; leave-one-out for training tablets. Planted control: 5 Susa tablets shifted by the full / half Yahya-Susa difference | planted imports rank at percentile 0.99 (full) and 0.91 (half). The Yahya-Susa difference is a colour one: Yahya tablets are less red (a* -1.6 to -2.7 sd) and yellower in hue (+4.3 sd) than the Susa tablets photographed the same day | method works on planted imports; real difference rests on 3-4 tablets |
+| PE-26.2b | ST-11 (Yahya clay found at Susa) scored on the frozen ranking | rank 1 of 446 NMI Susa tablets (percentile 0.998). Its photo day holds only ST-11; it is the least red (a* percentile 0.004) and greyest (chroma 0.008) of ~330 tablets in its 2018-19 photo campaign; daily hue medians drift 63.9-69.1, ST-11 = 74.7 | hit, but see 2c-2e |
+| PE-26.2c | Batch-shuffled labels: 2,000 pseudo-plateau sets of 3 random Susa tablets from the Yahya photo day; 2,000 random directions | ST-11 at or above its real percentile in 1.8% of pseudo sets, 4.3% of random directions; ST-11 is a generic outlier (98th percentile of summed z^2) | p ~0.02; partly an outlier effect |
+| PE-26.2d | Day-level centring (sensitivity) | ST-11 is alone on its photo day, so day centring erases it (percentile 0.51). The hit depends on trusting the campaign-level colour calibration | fragile: a one-off lighting change on 11 Dec 2018 would also explain it |
+| PE-26.2e | YT-01 (Susa clay found at Yahya) should look the LEAST plateau-like of the 4 Yahya tablets (leave-one-out) | it looks the MOST plateau-like (4 of 4; month and day) | miss. Either colour records burial at Yahya rather than clay source, or the 4-tablet direction is noise |
+| PE-26.2f | Frozen clay score vs pe17 text-fingerprint score over 1,232 Susa tablets; null: within-batch permutation and 1,000 pseudo-plateau directions; partial on tablet area, thickness, line count, pixel count, museum, publication series | raw Spearman 0.156 (pseudo q95 0.140, share >= real 0.012; within-batch perm p 0.0005); partial 0.099 (pseudo q95 0.079, share 0.015); with publication series 0.091 (share 0.017). Holds in NMI (0.17) and Louvre (0.15) separately | the clay and text fingerprints agree weakly, beyond size and batch |
+
+Verdicts:
+- C (supported once, failed once): ST-11 hit (p ~0.02) and YT-01 miss. Fisher combination p ~0.09. Not enough for B.
+- C+ (would support / would kill): clay-plateau-likeness and text-plateau-likeness agree among Susa tablets (partial rho 0.09-0.10,
+  null share 1.5%). Would support: the top-ranked clay tablets of the frozen list are non-Susa by hXRF when Table S2 is published.
+  Would kill: the tested Susa tablets of non-local clay sit at random in the frozen clay ranking.

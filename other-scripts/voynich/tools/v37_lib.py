@@ -161,7 +161,7 @@ def shuffle_within(C, rng, keep_first=False):
     return out
 
 
-def plant_schema(C, rng, rho=0.5, K=6, pos=(3, 4)):
+def plant_schema(C, rng, rho=0.5, K=6, pos=(3, 4), by_prefix=False):
     """Key = first unit of the line's first word (top K-1 + other); with prob rho per line, the word at a
     random field position in pos is replaced by a word drawn from the key's own vocabulary block
     (mid-line vocabulary split at random into K blocks; same frequency profile)."""
@@ -172,6 +172,9 @@ def plant_schema(C, rng, rho=0.5, K=6, pos=(3, 4)):
     vocab = [w for w, c in mid.items() if c >= 2]
     rng.shuffle(vocab)
     blocks = [vocab[k::K] for k in range(K)]
+    if by_prefix:   # blocks = words whose 2-unit prefix falls in a random prefix group (visible to prefix features)
+        pre = sorted({w[:2] for w in vocab}); rng.shuffle(pre); grp = {p: i % K for i, p in enumerate(pre)}
+        blocks = [[w for w in vocab if grp[w[:2]] == k] for k in range(K)]
     bw = [[mid[w] for w in b] for b in blocks]
     out = []
     for p in C:

@@ -9,6 +9,8 @@ def get(name, seed=0):
     if name in ('V', 'VI'): return voy('ZL3b' if name == 'V' else 'IT2a')
     if name == 'Vshuf': return shuffle_within(voy(), random.Random(seed))
     if name == 'Vgen': return forge_v26(voy(), seed=seed + 1)
+    if name.startswith('Vfplant'):
+        return plant_schema(voy(), random.Random(seed), rho=float(name[7:]), by_prefix=True)
     if name.startswith('Vplant'):
         return plant_schema(voy(), random.Random(seed), rho=float(name[6:]))
     if name in ('VA', 'VB'):

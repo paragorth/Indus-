@@ -34,14 +34,15 @@ def stats(Dm, hands, sites):
     n = len(hands)
     iu = np.triu_indices(n, 1)
     same_site = sites[iu[0]] == sites[iu[1]]
-    same_hand = (hands[iu[0]] == hands[iu[1]])[same_site]
-    d = Dm[iu][same_site]
+    fin = np.isfinite(Dm[iu])
+    same_hand = (hands[iu[0]] == hands[iu[1]])[same_site & fin]
+    d = Dm[iu][same_site & fin]
     if same_hand.sum() == 0 or (~same_hand).sum() == 0: auc = np.nan
     else:
         from scipy.stats import rankdata
         r = rankdata(d); n1 = same_hand.sum(); n0 = (~same_hand).sum()
         auc = 1 - (r[same_hand].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)
-    D2 = Dm.copy(); np.fill_diagonal(D2, np.inf)
+    D2 = Dm.copy(); D2[~np.isfinite(D2)] = np.inf; np.fill_diagonal(D2, np.inf)
     D2[sites[:, None] != sites[None]] = np.inf
     nn = D2.argmin(1); ok = np.isfinite(D2.min(1))
     nnacc = (hands[nn] == hands)[ok].mean()
@@ -51,7 +52,9 @@ def stats(Dm, hands, sites):
         ix = np.where(sites == s)[0]
         k = len(set(hands[ix]))
         if len(ix) < 3 or k < 2: pred[ix] = [f'{s}:0'] * len(ix); continue
-        sub = Dm[np.ix_(ix, ix)]; sub = (sub + sub.T) / 2; np.fill_diagonal(sub, 0)
+        sub = Dm[np.ix_(ix, ix)].copy(); fm = np.isfinite(sub)
+        sub[~fm] = np.nanmax(sub[fm]) if fm.any() else 1.0
+        sub = (sub + sub.T) / 2; np.fill_diagonal(sub, 0)
         L = linkage(squareform(sub, checks=False), 'average')
         lab = fcluster(L, k, 'maxclust')
         pred[ix] = [f'{s}:{l}' for l in lab]
