@@ -23,7 +23,7 @@ NB = 300
 
 
 def quire_of(name, C):
-    if name in ('V', 'VI'):
+    if name.split('_')[0] in ('V', 'VI'):
         m = meta(); return {p['id']: m.get(p['id'], {}).get('quire') for p in C}
     return {p['id']: p['id'] for p in C}
 

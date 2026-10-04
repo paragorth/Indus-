@@ -53,7 +53,14 @@ def score(F, n, secs, idx):
     Zf = L.zrank_within(F[idx], s); zn = L.zrank_within(n[idx], s)[:, 0]
     return (Zf * zn[:, None]).mean(0)
 
+SPARSE = int(os.environ.get('V46_SPARSE', 0))
 def random_W(nc, B, rng):
+    if SPARSE:
+        W = np.zeros((nc, B), np.float32)
+        for j in range(B):
+            k = rng.integers(1, SPARSE + 1); ii = rng.choice(nc, k, replace=False)
+            W[ii, j] = WVALS[rng.integers(0, len(WVALS), k)]
+        return W
     W = np.where(rng.random((nc, B)) < 0.25, WVALS[rng.integers(0, len(WVALS), (nc, B))], 0).astype(np.float32)
     return W
 
@@ -169,6 +176,12 @@ if __name__ == '__main__':
         run_A('PLANT g/m numerals on 60% of eye-counted pages', plant_numerals(V))
         run_A('VOYNICH eye-counted sections', V)
         run_A('VOYNICH herbal (auto leaves)', [u for u in L.voy_units() if u['sec'] == 'herbal'])
+    if which == 'sparse':
+        H = L.hyginus_units()
+        run_A('SPARSE HYGINUS faithful', [dict(u, n=u['stated']) for u in H])
+        V = [u for u in L.voy_units() if u['sec'] != 'herbal']
+        run_A('SPARSE PLANT g/m numerals on 60% of eye-counted pages', plant_numerals(V))
+        run_A('SPARSE VOYNICH eye-counted sections', V)
     if which in ('all', 'B'):
         run_B([u for u in L.voy_units() if u['sec'] != 'herbal'])
     open(os.path.join(L.CK, 'c3_%s.log' % which), 'w').write('\n'.join(log))

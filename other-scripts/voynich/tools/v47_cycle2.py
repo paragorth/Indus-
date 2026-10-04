@@ -220,9 +220,9 @@ if __name__ == '__main__':
     k = 1
     for src, r in out.items():
         rows.append(('V-47.2.%d' % k, 'WORD-VISUAL MANTEL, %s (n %d, %d word types on >= 4 pages): per-word partial Mantel of four-net visual similarity vs co-occurrence of the word, 500 shared permutations' % (tag[src], r['n'], r['nvocab']),
-                     'words with z >= 3: %d (chance ~%.1f); top: %s' % (r['nz3'], r['nz_expected'], ', '.join('%s %+.1f (df %d)' % t for t in r['top'][:10])), '')); k += 1
+                     'words with z >= 3: %d (chance ~%.1f); top: %s' % (r['nz3'], r['nz_expected'], ', '.join('%s %+.1f (df %d)' % tuple(t) for t in r['top'][:10])), '')); k += 1
         rows.append(('V-47.2.%d' % k, 'LEAVE-ONE-WORD-OUT, %s: drop of the composite r (base %+.4f) when each of the 300 commonest words is deleted' % (tag[src], r['r0']),
-                     'largest drops: %s; sd of drops %.5f' % (', '.join('%s %+.5f' % t for t in r['drops'][:8]), r['drop_sd']), '')); k += 1
+                     'largest drops: %s; sd of drops %.5f' % (', '.join('%s %+.5f' % tuple(t) for t in r['drops'][:8]), r['drop_sd']), '')); k += 1
         for d, h in r['heldout'].items():
             rows.append(('V-47.2.%d' % k, 'HELD-OUT QUIRES %s, %s: freeze top %d words by word-visual Mantel on the discovery fold; on unseen pages, AUC of word presence from visual similarity to the discovery pages carrying it (length, area partialled); null: discovery visual rows permuted, whole pipeline rerun (%d)' % (d, tag[src], K, NPERM),
                          'frozen: %s; mean AUC %.3f (null %.3f +- %.3f), z %+.2f, p %.3f' % (' '.join(h['words']), h['mean'], h['null_mean'], h['null_sd'], h['z'], h['p']),

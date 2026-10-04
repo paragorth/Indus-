@@ -53,6 +53,14 @@ def norm(w):
     return w.translate(E3)
 
 
+# E3 + all four gallows merged (p, f -> t; benched cph, cfh -> cth): removes the paragraph-gallows choice
+GM = str.maketrans({'k': 't', 'f': 't', 'p': 't', 'K': 'T', 'F': 'T', 'P': 'T', 'S': 'C'})
+
+
+def gnorm(w):
+    return w.translate(GM)
+
+
 # ------------------------------------------------------------------ Brumati herbal
 def _ascii(s):
     s = unicodedata.normalize('NFD', s)
@@ -221,6 +229,10 @@ def get_corpus(name):
     if name in ('V', 'VI', 'GEN0', 'GEN1', 'PL'): return L45.get_corpus(name)
     if name == 'GENN': C = gen_noise(L45.get_corpus('GEN0'))
     elif name == 'GENT': C = gen_terms(L45.get_corpus('GEN0'))
+    elif name.endswith('_G'):
+        C = []
+        for pg in get_corpus(name[:-2]):
+            q = dict(pg); q['paras'] = [[[gnorm(w) for w in l] for l in pa] for pa in pg['paras']]; C.append(q)
     elif name == 'BRe': C = brumati_corpus()
     elif name == 'BRf': C = brumati_corpus(front=True)
     else: raise ValueError(name)
@@ -241,7 +253,7 @@ def residual(name):
 
 def illus_of(name, C):
     """'Illustration type' label per page: Voynich illus letter (with Currier language as stratum); controls: sec."""
-    if name in ('V', 'VI'):
+    if name.split('_')[0] in ('V', 'VI'):
         m = meta()
         return {p['id']: (m.get(p['id'], {}).get('illus') or '?', m.get(p['id'], {}).get('lang') or '?') for p in C}
     return {p['id']: (p['sec'], '-') for p in C}
