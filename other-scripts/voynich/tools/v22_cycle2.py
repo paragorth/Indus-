@@ -34,8 +34,16 @@ def t_eval(spec):
     elif mode == 'parashuf': U = L.units(shuffle_paras(C, rng), level)
     elif mode == 'inl': U = L.shuffle_inline(L.units(C, level), rng)
     elif mode == 'inl_lineshuf': U = L.shuffle_lines(L.shuffle_inline(L.units(C, level), rng), rng)
+    elif mode.startswith('plant') or mode.startswith('sham'):
+        rho = float(mode[5:] if mode.startswith('plant') else mode[4:])
+        U, truth = L.plant_program(L.units(C, level), np.random.default_rng(seed), S=4, rho=rho,
+                                   tilt=1.0 if mode.startswith('plant') else 0.0)
     codes = L.code_all(U, coder)
     res = L.evaluate(codes, coder.sizes, L.folds_by_unit(U, 5, 1000 + seed), SL, R, seed)
+    if mode.startswith('plant'):
+        seq = L.Seq(codes)
+        m = L.fit_hmm(seq, coder.sizes, 4, 3 * R, np.random.default_rng(seed))
+        res['ari4'] = L.ari(np.concatenate(truth), np.concatenate(L.viterbi_paths(m, seq, 4)))
     res.update(name=name, mode=mode, secs=time.time() - t0)
     L.save(f, res)
     print(name, f"{res['delta']:+.1f}", res['best_hmm_k'], f"{res['best_hmm']:.1f}", f"{res['secs']:.0f}s", flush=True)
@@ -168,6 +176,9 @@ if __name__ == '__main__':
             ('eval', 'IT_inl', 'IT', 'para', 'inl', 20),
             ('eval', 'IT_inl_lineshuf_0', 'IT', 'para', 'inl_lineshuf', 21),
             ('eval', 'ZL_inl_lineshuf_1', 'ZL3b', 'para', 'inl_lineshuf', 22),
+            ('eval', 'ZL_sham0.25_0', 'ZL3b', 'para', 'sham0.25', 50),
+            ('eval', 'ZL_plant0.5_0', 'ZL3b', 'para', 'plant0.5', 70),
+            ('eval', 'ZL_sham0.5_0', 'ZL3b', 'para', 'sham0.5', 70),
             ('profile', 'ZL_profile', 'ZL3b', 'para', S_best, 300, 7),
             ('transfer', 'ZL_AB_transfer', S_best, 3, 2),
             ('eval', 'IT2_real', 'IT2a', 'para', 'real', 0),

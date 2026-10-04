@@ -1,0 +1,22 @@
+# LA-14 final: THE FORGERY CONTEST (forge Linear A, see what still gives the forgeries away)
+Scripts: tools/la14_common.py, la14_run.py (plans c1, c2, c3), la14_report.py, la14_report2.py, la14_c3.py, la14_c3d.py,
+la14_c3t.py, la14_c3s.py, la14_chain.sh. Data: data/la14/ (c1/c2/c3 .jsonl rows, *_report.txt, cached forgeries in forg/,
+forger worlds world_FW_*.json). Loops: la14_cycle1-3.txt.
+| LA-<n>.<cycle> | method and control | result | verdict |
+| LA-14.final | 292 LA tablets; 24 forgers of rising power (sign unigram; sign Markov 1-4; word Markov 1-2; the la8 flat form; a feed-forward neural LM; 15 copy-and-edit forgers) trained on one half; 11 feature groups + 5 learner types on the other half, group-CV AUC. About 16,000 forger/discriminator pairings plus bootstraps. Controls: forger-vs-forger null; the forger's own world (negative); a planted head-to-tail agreement (PLA) and Linear B (positive); planted kills for every targeted test. | Null 0.45-0.55 everywhere. Raw AUCs of 0.83-0.98 against every generative forger are mostly a finite-sample artefact: a forger is caught at 0.73-0.78 in its own world. Splice forgers leak through reused fragments (fixed; leak-free splices give 0.50). Planted agreement found in every variant (long +0.26-0.30; 43-52 of 72 top features are the planted pairs). Survivors after calibration: (A) number-scale coherence on a tablet, T1 0.683 vs 0.907 site+context null, P=0.002; (A) line-template repetition, repeated words and values, bootstrap |z| 4.5 to 25 against every forger; (A, known) exact totals at corpus level, z +4 to +6, but invisible tablet by tablet; (B) on HT, commodity sections run from large to small amounts, 0.601 descending, P=0.0005; (B) token-kind order, tbig +0.086 vs the world; (C) outside HT, consecutive entries share their first sign, 0.145 vs 0.092, P=0.001. Not detected (upper bounds): head-to-tail agreement, which number goes with which word, line order, logogram swaps, joins of two tablets at a line. | The hidden structure is accounting (scale, templates, totals, size order), not agreement or grammar. Linear A tablet halves are interchangeable at this corpus size. Nothing here is a reading. |
+
+Grades for working claims:
+- A: within-tablet number-scale coherence (T1; null K keeps site and preceding logogram; kill plant works).
+- A: within-tablet repetition (line templates, repeated words, repeated values) exceeds every forger, Linear B alike.
+- A (already in FINDINGS 2a): exact totals exist at corpus level; a forger that ignores them is NOT caught tablet by tablet.
+- B: HT tablets order commodity sections from large to small amounts (across-context descending 0.601, P=0.0005; within one
+  context only 0.537, P=0.04; non-HT 0.552, P=0.17). Would support: new HT tablets with 2+ commodities put the larger amount first
+  in > 55% of switches. Would kill: < 50% on new tablets, or the effect vanishing once GRA-first tablets are removed.
+- C: same-initial entries side by side outside HT (ZA 10a A- run, PK 1 MA- run, TY 2 *309- run); survives scribe null, variant
+  exclusion and removal of A-. Would support: the same in new Khania/Zakros tablets, or the runs matching Linear B-style
+  groupings by place or office. Would kill: new non-HT tablets at chance (adjacent same-initial share <= 0.06), or the effect
+  lying in 2-3 tablets only (ZA 10a, PK 1, TY 2 carry 10 of 27 pairs).
+- Dropped: final-sign agreement (scribe effect, P=0.12 without total words); 'foreign word' detection (frequency artefact,
+  caught equally in a forger world); all splice results before 14.3e (fragment leakage).
+Method lessons for future contests: (1) calibrate against the forger's own world, never against 0.5; (2) copy forgers must use
+each source once and keep a source in one CV fold; (3) a single feature found by inspection must be re-tested with its own null.

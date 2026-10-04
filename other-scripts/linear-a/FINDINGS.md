@@ -215,3 +215,12 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 ## Random programs (r2, 4 Oct 2026; `voynich/loops/r2_final.txt`)
 - ~8.9 M random/evolved small programs across the three scripts, scored by held-out description length over Kneser-Ney; planted ledger (commodity cycling by line) recovered blind.
 - Linear A: the best program is 'copy the sign in the same slot of the word two back' (the previous entry, skipping its number): +114 bits on held-out tablets with line ends given, but only +28 (p 0.14) against a KN + document-cache baseline. Grade B, known in kind: entries repeat logograms and word shapes down a tablet. No generating procedure.
+
+## Forgery contest (la14)
+- 24 forgers and about 16,000 forger/discriminator pairings were scored on 292 tablets. A forger is caught at AUC 0.73–0.78 even against its own output (it was retrained on half the data), so survivors were scored against each forger's own corpus.
+- What real tablets have and forgers lack is accounting structure, not grammar:
+  - Grade A: numbers on one tablet share a scale (P = 0.002 against a site and commodity null).
+  - Grade A: tablets repeat their line pattern, words and values more than any forger does.
+  - Grade B: on Hagia Triada tablets, commodity sections run from large to small amounts (0.601, P = 0.0005).
+  - Grade C: outside Hagia Triada, consecutive entries share their first sign (P = 0.001).
+- Not detected: top-to-bottom agreement, links between particular words and particular numbers, or line order.
