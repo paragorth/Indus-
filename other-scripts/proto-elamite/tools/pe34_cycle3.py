@@ -99,6 +99,9 @@ def loo(rows, Y, W, model, restarts=1, seed=0):
         if r[1] == '-' or r[2] in EXC or len(mb[r[2]] - {strip_var(r[1])}) == 0:
             continue
         mask = np.ones(len(rows)); mask[i] = 0
+        for j, q in enumerate(rows):  # variant twins: same base, same modifier
+            if q[1] != '-' and q[2] == r[2] and strip_var(q[1]) == strip_var(r[1]):
+                mask[j] = 0
         best = None
         for _ in range(restarts):
             pr, l = fit(rows, Y, W, mask, model, rng)
@@ -116,7 +119,7 @@ for c in (['LINB'] if QUICK else ['PE', 'LINB', 'ARCH']):
     P = prep(T[c], c)
     mods = [m for _, _, m in P['comp']]
     res[c] = {}
-    for model, nperm, rs in ((('ADD', 3, 1), ('SCALE', 2, 1), ('CP', 2, 2)) if QUICK else (('ADD', 300, 1), ('SCALE', 30, 1), ('CP', 30, 6))):
+    for model, nperm, rs in ((('ADD', 3, 1), ('SCALE', 2, 1), ('CP', 2, 2)) if QUICK else (('ADD', 150, 1), ('SCALE', 20, 1), ('CP', 20, 3))):
         if c == 'ARCH' and model != 'ADD':
             continue
         rows, Y, W = cells(P, mods)
@@ -124,7 +127,7 @@ for c in (['LINB'] if QUICK else ['PE', 'LINB', 'ARCH']):
         gain = eb - em
         rng = random.Random(9)
         null = []
-        for k in range((100 if c == 'ARCH' else nperm)):
+        for k in range((60 if c == 'ARCH' else nperm)):
             keep = [i for i, m in enumerate(mods) if m not in EXC]
             vals = [mods[i] for i in keep]; rng.shuffle(vals)
             sh = mods[:]
