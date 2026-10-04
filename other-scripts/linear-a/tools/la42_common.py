@@ -29,7 +29,8 @@ LOOPS = os.path.join(LA, 'loops')
 os.makedirs(CK, exist_ok=True)
 
 NEW = '@'
-L.PLACE[NEW] = 'new'
+L.PLACE[NEW] = 'glo'   # only for la38.measures (unused place feature there); local place map below
+PL = dict(L.PLACE); PL[NEW] = 'new'
 L.SON[NEW] = 2
 PLACES = ['lab', 'cor', 'dor', 'pal', 'glo', 'new']
 VOW = 'aeiou'
@@ -156,9 +157,9 @@ def make_case(words, values, h, keep=None, seed=0, r21=None, sim=None):
                 r21f[c] = (np.mean(x) - base) if (x and c != NEW) else 0.0
     F = np.zeros((N, len(FEATS)))
     for k, (c, v) in enumerate(cands):
-        pc = L.PLACE.get(c, 'x') if c else None
+        pc = PL.get(c, 'x') if c else None
         ocpC = sum(n for (c2, v2), n in nb.items() if c and c2 == c) + (2 * selfpair if c else 0)
-        ocpP = sum(n for (c2, v2), n in nb.items() if c and c2 and L.PLACE.get(c2) == pc) + (2 * selfpair if c else 0)
+        ocpP = sum(n for (c2, v2), n in nb.items() if c and c2 and PL.get(c2) == pc) + (2 * selfpair if c else 0)
         sameV = sum(n for (c2, v2), n in nb.items() if v2 == v) + 2 * selfpair
         F[k] = [bits[k], ocpC, ocpP, nI * (c == ''), nM * (c == ''), sameV,
                 float((c, v) not in cells and c != NEW), np.log1p(rowsz.get(c, 0)), np.log1p(colsz.get(v, 0)),
