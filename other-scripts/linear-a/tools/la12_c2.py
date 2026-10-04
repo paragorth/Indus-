@@ -11,8 +11,9 @@ ASSEMBLY: simulated annealing chooses a set of hits in which every tablet is a d
 once and every target is used at most once (a tablet's list goes to one ledger). Hit weight =
 1 / (number of alternative hits for that target at that k), so a unique closure counts 1 and an
 ambiguous one little. 8 random restarts x 60k moves; score = best total weight.
-Nulls: N1 entry numbers shuffled across tablets within tag (totals fixed), N2 iid draws; the
-same counts and the same annealing. Planted: 10 random HT tablets have their whole sum written
+Nulls: N1 entry numbers shuffled across tablets within tag (totals fixed); N3 every entry redrawn
+from its own tablet's entries (same tag, with replacement: keeps tablet magnitude and roundness);
+the same counts and the same annealing. Planted: 10 random HT tablets have their whole sum written
 as a new line on another random HT tablet (the 'summary line' the hypothesis predicts), and the
 Linear B pool (Pylos + Knossos, 205 docs) gets the same plant.
 Usage: la12_c2.py [mode] [nnull]
@@ -137,9 +138,8 @@ def _job(a):
     rng = random.Random(seed)
     if kind == 'N1':
         R2 = shuffle_numbers(recs, rng, totals_too=False)
-    elif kind == 'N2':
-        from la12_c1 import iid_numbers_entries
-        R2 = iid_numbers_entries(recs, rng)
+    elif kind == 'N3':
+        R2 = bootstrap_within(recs, rng)
     else:
         R2 = recs
     H, D, T = hits(R2, mode, cval)
@@ -178,12 +178,26 @@ def compare(real, nulls, keys):
 KEYS = ['hits1', 'tgt1', 'uniq1', 'hits2', 'tgt2', 'score', 'nsel', 'sel1']
 
 
+def recall(recs, mode, cval, truth, out, label):
+    H, D, T = hits(recs, mode, cval)
+    sol = anneal(H, T, random.Random(3))
+    ids = [r['id'] for r in recs]
+    found = []; insol = 0
+    for src, dst in truth:
+        hh = [h for h in H if h[3] == 1 and ids[h[1][0]] == src and T[h[0]]['rec'] == dst and T[h[0]]['label'] == 'PLANT']
+        alt = [h for h in H if h[3] == 1 and hh and h[0] == hh[0][0]]
+        ins = any(h in [H[x] for x in sol[1]] for h in hh)
+        insol += ins
+        found.append((src, dst, len(alt), ins))
+    out.write('[%s] planted recall: in annealed assembly %d/%d; (src, dst, n alternatives, chosen) %s\n' % (label, insol, len(truth), found))
+
+
 def evaluate(P, recs, mode, cval, nnull, seed0, label, out):
     jobs = [('R', seed0, recs, mode, cval)] + [('N1', seed0 + 1 + i, recs, mode, cval) for i in range(nnull)] + \
-           [('N2', seed0 + 9001 + i, recs, mode, cval) for i in range(nnull)]
+           [('N3', seed0 + 9001 + i, recs, mode, cval) for i in range(nnull)]
     res = P.map(_job, jobs, chunksize=2)
     real = res[0][1]
-    for nm in ('N1', 'N2'):
+    for nm in ('N1', 'N3'):
         out.write('[%s vs %s, %d runs] %s\n' % (label, nm, nnull, compare(real, [a for k, a in res if k == nm], KEYS)))
     out.flush()
     return real
@@ -213,6 +227,7 @@ def main():
             rng = random.Random(seed)
             Rp, truth = plant_summary(R, mode, LA_CVAL, rng)
             out.write('PL-summary seed %d planted %s\n' % (seed, truth))
+            recall(Rp, mode, LA_CVAL, truth, out, 'PL-summary seed %d' % seed)
             evaluate(P, Rp, mode, LA_CVAL, max(15, nnull // 2), seed * 100, 'PL-summary seed %d' % seed, out)
         LB = [r for r in lb_records('') if r['id'][:2] in ('PY', 'KN')]
         for seed in (41, 42):
@@ -220,6 +235,7 @@ def main():
             pool = rng.sample(LB, 205)
             evaluate(P, pool, mode, LB_CVAL, max(15, nnull // 2), seed * 100, 'LB pool seed %d (no plant)' % seed, out)
             Rp, truth = plant_summary(pool, mode, LB_CVAL, rng)
+            recall(Rp, mode, LB_CVAL, truth, out, 'LB seed %d' % seed)
             evaluate(P, Rp, mode, LB_CVAL, max(15, nnull // 2), seed * 100 + 50, 'LB pool seed %d + 10 planted summaries' % seed, out)
     out.write('time %.0fs\n' % (time.time() - t0))
 

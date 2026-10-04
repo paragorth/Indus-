@@ -98,11 +98,20 @@ def roles(J, recs):
 
 
 def _job(a):
-    seed, recs, mode, cval = a
+    seed, recs, mode, cval = a[:4]
     rng = random.Random(seed)
-    R2 = shuffle_numbers(recs, rng, totals_too=False)
+    R2 = bootstrap_within(recs, rng) if len(a) > 4 and a[4] == 'N3' else shuffle_numbers(recs, rng, totals_too=False)
     J = joins(R2, mode, cval)
     return rates(J, recs), roles(J, recs)
+
+
+def _c1_n3(a):
+    seed, recs, mode, cval = a
+    rng = random.Random(seed)
+    _, T0 = blocks_targets(recs, mode, cval)
+    own = {(t['rec'], t['idx']): t['own'] for t in T0}
+    c, *_ = C1.counts(bootstrap_within(recs, rng), mode, cval, own=own)
+    return {k: v['real'] for k, v in c.items()}
 
 
 def main():
@@ -115,16 +124,19 @@ def main():
     real = rates(J, R); rtl, rdw = roles(J, R)
     with Pool(2) as P:
         res = P.map(_job, [(7000 + i, R, mode, LA_CVAL) for i in range(nnull)], chunksize=4)
-        for kind in ('J1', 'JC', 'JS', 'ALL'):
-            s = ['n %d (null %.1f)' % (real[kind]['n'], sum(r[0][kind]['n'] for r in res) / len(res))]
+        res3 = P.map(_job, [(7500 + i, R, mode, LA_CVAL, 'N3') for i in range(nnull)], chunksize=4)
+        for nm, rr in (('N3', res3), ('N1', res)):
+          for kind in ('J1', 'JC', 'JS', 'ALL'):
+            s = ['n %d (null %.1f, P=%.3f)' % (real[kind]['n'], sum(r[0][kind]['n'] for r in rr) / len(rr),
+                                              (1 + sum(r[0][kind]['n'] >= real[kind]['n'] for r in rr)) / (1 + len(rr)))]
             for a in ('same_scribe', 'same_fs', 'same_tablet', 'near_id', 'shared_word'):
-                xs = [r[0][kind][a] for r in res if r[0][kind][a] == r[0][kind][a]]
+                xs = [r[0][kind][a] for r in rr if r[0][kind][a] == r[0][kind][a]]
                 v = real[kind][a]
                 if not xs or v != v:
                     continue
                 p = (1 + sum(x >= v for x in xs)) / (1 + len(xs))
                 s.append('%s %.3f (null %.3f, P=%.3f)' % (a, v, sum(xs) / len(xs), p))
-            out.write('HT %s joins: %s\n' % (kind, '; '.join(s)))
+            out.write('HT %s joins vs %s: %s\n' % (kind, nm, '; '.join(s)))
         # join list with attributes (real)
         out.write('Real joined pairs (kind: target tablet <- donor tablet; attributes):\n')
         seen = set()
@@ -148,6 +160,24 @@ def main():
                 break
             xs = [r[1][1].get(w, 0) for r in res]
             out.write('  donor-first-word %s real %d null mean %.2f P=%.3f\n' % (w, c, sum(xs) / len(xs), (1 + sum(x >= c for x in xs)) / (1 + len(xs))))
+        out.flush()
+        # cycle-1 statistics against the within-tablet bootstrap null (N3), real and planted
+        c, *_ = C1.counts(R, mode, LA_CVAL)
+        realc = {k: v['real'] for k, v in c.items()}
+        n3 = P.map(_c1_n3, [(9100 + i, R, mode, LA_CVAL) for i in range(nnull)], chunksize=4)
+        s, per = C1.compare(realc, n3)
+        out.write('HT cycle-1 stats vs N3 within-tablet bootstrap (%d runs): %s\n' % (len(n3), s))
+        small = sorted((per[k][i], k, C1.STATS[i], realc[k][i]) for k in realc for i in range(5) if realc[k][i] > 0)
+        m = len(small)
+        out.write('  per-target tests %d; P<=0.01: %d (expected %.1f); P<=0.05: %d (expected %.1f); lowest: %s\n' % (
+            m, sum(x[0] <= 0.0101 for x in small), 0.01 * m, sum(x[0] <= 0.05 for x in small), 0.05 * m, small[:10]))
+        for seed in (11, 12):
+            Rp, truth = cut(R, mode, LA_CVAL, random.Random(seed))
+            c, *_ = C1.counts(Rp, mode, LA_CVAL)
+            rp = {k: v['real'] for k, v in c.items()}
+            n3p = P.map(_c1_n3, [(9500 + seed * 100 + i, Rp, mode, LA_CVAL) for i in range(40)], chunksize=4)
+            pk = {k for k in rp if k[0] in {t['rec'] for t in truth}}
+            out.write('  PL seed %d planted targets vs N3: %s\n' % (seed, C1.compare(rp, n3p, pk)[0]))
         out.flush()
         # other sites
         for site in ('KH', 'ZA'):

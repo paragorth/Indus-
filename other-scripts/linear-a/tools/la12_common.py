@@ -385,3 +385,21 @@ def cut(recs, mode, cval, rng, nplant=None, nfrag=(2, 3)):
         truth.append({'rec': base['id'], 'frags': fids, 'k': k - 1, 'keep': nkeep})
     rng.shuffle(out)
     return out, truth
+
+
+def bootstrap_within(recs, rng):
+    """N3: every entry value is redrawn (with replacement) from the entries of the SAME tablet and
+    tag. Keeps each tablet's magnitude, roundness and fraction habits; breaks exact sums between
+    tablets. Totals fixed."""
+    out = []
+    for r in recs:
+        its = [dict(i) for i in r['items']]
+        pool = defaultdict(list)
+        for i in its:
+            if not i['tot']:
+                pool[i['tag']].append(i['q'])
+        for i in its:
+            if not i['tot']:
+                i['q'] = rng.choice(pool[i['tag']])
+        out.append(dict(r, items=its))
+    return out
