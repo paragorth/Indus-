@@ -66,7 +66,7 @@ def run_dataset(name, pool, Rn, corpus_nulls=True):
             'N3b_sum_mean': float(n3_sum.mean()), 'N3b_sum_P': float(((n3_sum >= obs_sum).sum() + 1) / (Rn + 1)),
             'n_p05': int((p < 0.05).sum()), 'n_q10': int((q < 0.1).sum())}
     if corpus_nulls:
-        cj = [(name, k, s) for k in ('N1', 'N2') for s in range(Rn)]
+        cj = [(name, k, s) for k in ('N1', 'N2') for s in range(Rn // 2)]
         acc = {'N1': [], 'N2': []}
         for k, c, s in pool.imap_unordered(corpus_null, cj, chunksize=4):
             acc[k].append((c, s))
@@ -102,12 +102,12 @@ def main():
         truth[i] = pp
     setup('PLANT', pl, la_numval(CONV), (1.0, 0.5, 0.25))
     os.environ.get('UR_ATF')
-    ur = ur_lists(max_lists=200, seed=1)
+    ur = ur_lists(max_lists=150, seed=1)
     if ur: setup('UR', ur, lambda a: float(a[0]), (1.0, 5.0, 10.0))
     lb = lb_lists()
     setup('LB', lb, lambda a: float(a[0]), (1.0, 1 / 60, 1 / 72))
     with Pool(2) as pool:
-        for name, Rn, cn in (('LA', R, True), ('PLANT', 100, False), ('UR', 100, False), ('LB', 100, False)):
+        for name, Rn, cn in (('LA', R, True), ('PLANT', 100, False), ('UR', 60, False), ('LB', 100, False)):
             if name not in G: continue
             summ, per = run_dataset(name, pool, Rn, cn)
             if name == 'PLANT':
