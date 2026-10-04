@@ -70,6 +70,11 @@ def corpus(name):
                 if len(ch) >= 2:
                     out.append((ch, t['id']))
         return out
+    if name == 'OBSYL':
+        # OB names written only with short syllable values (no determinatives, no long logogram values)
+        return [(w, t) for w, t in corpus('OB')
+                if all(re.fullmatch(r"[a-z',]{1,3}[0-9]?", s) and s not in ('ur', 'lu2', 'en', 'nin', 'utu', 'szu')
+                       for s in w)]
     if name in ('OB', 'UR3', 'LINB'):
         key = {'OB': 'OB_SEAL', 'UR3': 'UR3_SEAL', 'LINB': 'LINB'}[name]
         d = json.load(open(os.path.join(DATA, 'pe7_corpora.json')))[key]
@@ -118,7 +123,7 @@ def truth_linb(s):
     return truth_lb(s.upper())
 
 
-TRUTH = {'OB': truth_cun, 'UR3': truth_cun, 'LINB': truth_linb}
+TRUTH = {'OB': truth_cun, 'OBSYL': truth_cun, 'UR3': truth_cun, 'LINB': truth_linb}
 
 
 def counts(types, nsign=NSIGN):

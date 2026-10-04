@@ -62,3 +62,14 @@ The Lothal warehouse sealings are the one Indus administrative archive found in 
   - Pittman, proto-Elamite glyptic (Glazed Steatite Glyptic Style; Malyan sealings): https://idiscover.lib.cam.ac.uk/discovery/search?query=any,contains,Pittman%20glazed%20steatite%20glyptic&vid=44CAM_INST:CAM
   - Cambridge Element 'Proto-Elamite' (2025/26), doi 10.1017/9781009614559: https://doi.org/10.1017/9781009614559 (use only its data tables on sealings, not its readings)
   - Tapeh Tyalineh proto-Elamite tablets and sealings, JRAS 2022, doi 10.1017/S1356186322000803: https://doi.org/10.1017/S1356186322000803 (sealed tablets outside Susa, with seal scenes)
+
+## J. Cambridge library items needing a Cambridge login or reader card (added 4 Oct 2026; details in `other-scripts/CAMBRIDGE-SOURCES.md`)
+- [ ] **Dahl 2005, SMEA 47: 81-134** (P008294 = no. 100): Classics Per 287 / UL P516.b.68. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma991000760179703606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Dahl 2019, *Tablettes et fragments proto-élamites* (TCL 32)**, photos of P008294 and MDP 17,085/097: UL C202.b.3602. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma991006391073303606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Amiet 1972, MDP 43**, scan of Suse III plates and catalogue: UL S636:01.a.2.31- or Haddon 655.20. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma9914675683403606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Scheil 1923, MDP 17** (P008294 hand copy at better resolution): UL Special Collections S636:01.a.2.14,18. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma9940027633403606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Petruso 1992, *Ayia Irini: the balance weights***, mass catalogue: Classics W C1 45.8 / UL 9000.b.6424. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma991001109879703606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Salgarella 2018 PhD thesis and appendices** (Linear A/B palaeographic sign tables; Apollo files are Cambridge-only): https://www.repository.cam.ac.uk/handle/1810/283184
+- [ ] **Higley 2007, Hildegard's unknown language** (Lingua ignota word list): Corpus Christi Taylor V.2.HILB HIG / UL storage. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma998009963503606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Kelley 2026, *Proto-Elamite* (Cambridge Element)**, e-book: https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma991013339770103606&vid=44CAM_INST:44CAM_PROD
+- [ ] **Fitzwilliam GR.236.1907 and GR.6.1938 (Minoan weights)**: ask Antiquities for the masses (records give dimensions only). https://data.fitzmuseum.cam.ac.uk/id/object/68306 , https://data.fitzmuseum.cam.ac.uk/id/object/69437

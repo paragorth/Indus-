@@ -211,7 +211,7 @@ class Test:
     def digest(self):
         h = hashlib.sha256()
         h.update(json.dumps(['-'.join(w) for w in self.types]).encode())
-        h.update(json.dumps(self.dec).encode())
+        h.update(json.dumps([[int(x) for x in d] for d in self.dec]).encode())
         return h.hexdigest()[:16]
 
     def score(self, P):

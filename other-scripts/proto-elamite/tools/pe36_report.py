@@ -6,7 +6,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pe36_common import *
 
-CORP = ['PEN', 'PEA', 'PENUM', 'PECLS', 'OB', 'UR3', 'LINB', 'PC']
+CORP = ['PEN', 'PEA', 'PENUM', 'PECLS', 'OB', 'OBSYL', 'UR3', 'LINB', 'PC']
 KEYS = ['rowdec', 'row70', 'coldec', 'col70']
 
 

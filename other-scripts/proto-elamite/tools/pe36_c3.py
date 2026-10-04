@@ -59,7 +59,7 @@ if __name__ == '__main__':
             print(s)
     print('== (c) per-sign row stability')
     R['signs'] = {}
-    for c in ('OB', 'UR3', 'LINB', 'PC', 'PEN', 'PEA'):
+    for c in ('OB', 'OBSYL', 'UR3', 'LINB', 'PC', 'PEN', 'PEA'):
         o, signs, st, freq = sign_calib(c)
         R['signs'][c] = o
         s = f"{c:5s} mean stab {o['mean_stab']:.3f} (null {np.mean([n['mean'] for n in o['null']]):.3f}); rho(stab, freq) {o['rho_freq']:.2f} (null {np.mean([n['rho_freq'] for n in o['null']]):.2f})"
