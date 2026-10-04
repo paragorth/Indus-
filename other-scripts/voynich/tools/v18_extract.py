@@ -29,17 +29,28 @@ def page(args):
     unit = np.median([t['x1'] - t['x0'] for t in big]) / np.percentile(gl, 75)
     ml, cost = match_lines2(tr, gl, unit, s, lambda c: min(8, c['n'] * 0.8))
     out = []
-    starts = []
+    profs = {}
     for li, (r, t) in enumerate(zip(lines, ml)):
-        if t is None:
+        if t is not None:
+            xa, xb, prof = track_profile(mask, t, x0, x1, s)
+            if len(prof) >= 20:
+                profs[li] = (xa, prof)
+    # left text margin: most lines start there; stars and their stalks sit further left
+    margin = np.percentile([v[0] for v in profs.values()], 60)
+    for li, (r, t) in enumerate(zip(lines, ml)):
+        if li not in profs:
             continue
-        xa, xb, prof = track_profile(mask, t, x0, x1, s)
-        if len(prof) < 20:
-            continue
+        xa, prof = profs[li]
+        cut = int(margin - 25 - xa)
+        if cut > 0:
+            prof = prof[cut:]; xa += cut
+            nz = np.nonzero(prof)[0]
+            if len(nz) < 10:
+                continue
+            prof = prof[nz[0]:nz[-1] + 1]; xa += nz[0]
         al, cc = align_gaps(xa, prof, r['words'])
         if al is None:
             continue
-        starts.append(al[0][0])
         h = int(0.3 * s)
         for k, (a, b) in enumerate(al):
             g = len(glyphs(r['words'][k]))
@@ -59,7 +70,7 @@ def page(args):
                         'wexp': float(unit * g), 'lcost': float(cc), 'm': m,
                         'para_start': r['para_start'], 'para_end': r['para_end']})
     return {'folio': folio, 'pitch': s, 'nlines': len(lines), 'matched': sum(m is not None for m in ml),
-            'cost': cost, 'words': out}
+            'cost': cost, 'margin': float(margin), 'words': out}
 
 
 if __name__ == '__main__':

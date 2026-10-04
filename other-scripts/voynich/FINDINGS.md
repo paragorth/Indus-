@@ -512,3 +512,8 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Voynich lines are not two or more texts woven together. In woven text the word two back predicts 2.8–6.6× more than the previous word. Single texts give 0.09–0.35, and Voynich gives 0.16–0.18 in both transcriptions. All planted weaves were found. A hidden-switch weave model loses to a plain previous-word model (−0.14 to −0.40 bits). Grade B.
 - The enriched neighbour swaps are l/r, k/t, l/o and ch/cth, and they sit inside one stream. a/o is not enriched.
 - New lead, grade C: ch and sh words occur one word apart (shedy … chedy) but never adjacent. The pattern holds against a position-preserving null (z 4.4 in ZL, 6.0 in IT), usually with a q- or o- word between them. It is small, about 30 extra pairs.
+
+## Words rolled with dice? (v14)
+- No dice device fits the slot frequencies better than chance. Eight devices were tried, from one die to two astragali. Percentiles ran from 0.14 to 0.95. Planted dice corpora were identified, 7 of 8 exactly.
+- The slots within a word are dependent (mutual information 0.12–0.30 bits, all 60 tests p ≤ 0.005). Rolled words could not be: planted dice give 0.000. A mostly-rolled text is ruled out. Grade A.
+- Lead, grade C: a 16-class model leaves less residual slot dependence in the Voynich (0.045 bits) than in verbose Latin or Italian (0.10–0.12).

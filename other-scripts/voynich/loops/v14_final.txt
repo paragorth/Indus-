@@ -1,0 +1,25 @@
+# v14 final: "the words were rolled, not written"
+
+Question: if a scribe produced Voynich words by dice (one die per slot, sum of two dice, die + lookup table, coin + die, astragali), the
+slot-filler frequencies would sit on an arithmetic lattice (k/6, k/12, k/36, triangular sums, astragalus .1/.4/.4/.1) and the slots would be
+independent. Tested on the v7 4-slot template (73% of ZL3b tokens).
+Files: tools/v14_lib.py, v14_cycle1.py, v14_cycle2.py, v14_cycle3.py, v14_cycle3b.py, v14_cycle3c.py, v14_report.py, v14_report3.py;
+loops/v14_cycle1-3.txt; checkpoints data/results/v14/.
+Data: ZL3b paragraph text (main), IT2a (same pages = transcription-robust only). Prior work: none found that fits dice laws to slot
+frequencies; Rugg 2004 (table + grille) is a generator, not a fit, and v9 already rejected volvelles.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-14.F1 | Does any randomising device fit the slot frequencies better than chance? 8 devices, any merging of outcomes onto fillers, best assignment by exact/local search; search-corrected null = the slot's own distribution jittered (sigma 0 / 0.1 / 0.3) and resampled, same search. Planted dice corpora (positive), verbose Latin/Italian (negative), slot-shuffled Voynich | Planted: device identified 7/8 slots exactly, 8/8 compatibly; jittered nulls reach that in <= 1/40 (P 0.02-0.05) except the 16-atom 3d6 sum. Voynich ZL3b, IT2a, Currier A, B, sections H/S/B: no device accepted; best-device z 3-111, percentile among nulls 0.14-0.95. Small strata (P section, 2,306 tokens) accept only 3d6 sum, as do their nulls (P 0.29-1.0). Word length: none; words per line: 2d6 product, as for 40/40 nulls | NO. No device fits better than chance. Caveat: the exact test fails planted dice at 2-5% contamination (V-14.3.2), so 'no fit' alone excludes only a clean dice text; the chance-level percentiles exclude a lattice signal of any size |
+| V-14.F2 | Are slots independent, as dice would make them? MI between slot fillers, permutation null (global, within section, within language); junction (end of word t vs start of t+1, null = within-line shuffle); latent-class product mixture (a die choosing among tables) | Within-word MI 0.12-0.30 bits (ZL), 0.10-0.58 (IT2a), 0.10-0.46 in every section and language; nulls 0.002-0.027; p = 0.005 (floor) in all 60 pair tests; planted 0.000-0.001; slot-shuffled Voynich 0.001-0.002 (no false positives). A 50% dice / 50% Voynich mixture reaches only 0.03-0.12. Junction: 16/16 pairs p <= 0.01, excess 0.30 bits (Latin 0.11, Italian 0.27, planted 0.00). Product mixture: planted 3-table plateaus at C = 3; Voynich still gaining at C = 16 | NO. Slots are strongly dependent everywhere, as in enciphered Latin/Italian; words depend on their neighbours; no small set of dice tables explains them. Majority-rolled text excluded |
+
+Plain answer: No randomising device (d6, coin + d6, two dice through a table, 2d6 or 3d6 sums, 2d6 products, one or two astragali, with
+any merging of faces) fits the Voynich slot frequencies better than chance, in the whole text, in Currier A or B, in any large section or in
+IT2a. And the slots are not independent, as dice would make them: within-word slot MI is 0.12-0.30 bits (dice 0.000-0.001; a half-rolled
+text 0.03-0.12), every section and language shows it, the end of one word predicts the start of the next, and a mixture of dice tables
+never plateaus. The Voynich behaves like natural text under verbose substitution on every test here. The words were not rolled.
+Side observation (grade C, untested further): a 16-class product-of-slots model leaves less residual slot dependence in the Voynich
+(0.045 bits) than in verbose Latin/Italian (0.10-0.12): the Voynich vocabulary is closer to a few dozen families of freely-combining slots
+than enciphered prose is. Would support: the same in IT2a and within A and B separately; would kill: equal residuals once the
+controls' cipher is made as slot-regular as the Voynich (73% template coverage).
+Nothing here is a decipherment.
