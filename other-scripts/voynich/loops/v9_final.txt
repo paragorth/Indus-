@@ -1,0 +1,30 @@
+# v9 final: "the text was dialled out of a volvelle"
+
+Files: tools/v9_lib.py, v9_cycle1.py, v9_cycle2.py, v9_cycle3.py, v9_cycle3b.py, v9_report.py;
+loops/v9_cycle1.txt .. v9_cycle3.txt; checkpoints data/results/v9/*.pkl; slot grammars data/derived/v9_slotmodels.json.
+Data: ZL3b (main), IT2a (transcription check; same pages, so agreement = transcription-robust, not replication).
+Controls: planted 3-ring volvelle and planted one-disc volvelle (must be recovered); Isidore Latin and Manzoni Italian under
+verbose substitution (must fail); within-line word shuffle (kills order, keeps line make-up).
+Search: rings = cyclic lists of slot fillers (prefix / core / suffix, 12 + OTHER each, from a corpus-learned slot grammar),
+40-48 cells, duplicates allowed; turning rule = learned step distribution (R1) or step distribution depending on the previous
+word's suffix (R2); reset per line or carried over. Fitted by population Baum-Welch on the circulant HMM (soft cells), then
+hardened to one filler per cell. Simulated annealing over hard rings was tried first and did NOT recover the planted volvelle
+(stuck 2.5-5.8k nats short of the oracle on one ring); the overcomplete-ring Baum-Welch does, and is what all results use.
+Prior work (quick search): Rugg 2004 table-and-grille (generator only); 'Syntaxis Volvella' Zenodo preprints 2026 (claimed
+tri-rotor disc, no likelihood/planted test seen). This appears to be the first likelihood fit of volvelles to the text with
+planted-recovery calibration.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-F.1 | Is the search able to find a volvelle when there is one? (V-1.1, V-3.3) | Planted 3-ring: hard fit within 0.01-0.09 b/tok of the oracle per ring, rule recovered exactly (steps 14/2 at 0.52/0.22 -> 28/4 at 0.519/0.212 on the doubled ring); beats Markov-1 and Markov-2. Planted one-disc: +1.90 b/tok vs oracle +2.03, kernel 0.595 vs 0.6 | Calibrated |
+| V-F.2 | Does a volvelle with a simple turning rule predict Voynich word sequences better than a Markov model? (V-1.2, V-2.1, V-2.2, V-3.4) | Held-out gain over iid: 3-ring R1 -0.036 / -0.052 / -0.134 b/tok; R2 -0.035 / -0.095 / -0.075; one-disc -0.073; Markov-1 +0.043 / +0.032 / +0.019 (word Markov-1 +0.024). Learned kernels near flat (entropy 4.8-5.3 bits of max 5.3-5.6; best step 6-11%). Word level: 3-ring volvelle 9.57 b/tok vs word trigram 8.47 vs plain word unigram 8.27. IT2a identical | NO. Every volvelle is worse than drawing the next word at random; the fitted rule is "turn anywhere". Verbose Latin and Italian give the same pattern, so the Voynich behaves like the language controls here, not like dialled text |
+| V-F.3 | Does it explain the line structure (reset, edges, quota-like clumping)? (V-1.5, V-2.3, V-3.1) | Reset preferred by 0.01-0.04 b/tok (planted 0.24-0.34). Generated text: line-start effect reproduced (0.031 vs real 0.019), but junction coupling 0.000 vs 0.077, within-word prefix-suffix MI 0.001 vs 0.350, line-end vocabulary 0.003 vs 0.090, clumping 1.12-1.20 vs 1.55 (word trigram 1.30). The only hidden-state gain over Markov-1 survives within-line shuffling (53-80%) | NO. A per-line reset explains the line start and the coupling break, but so does any model with a line-start state; the volvelle cannot make the junction coupling, the word-internal agreement or the line-end vocabulary, and the m/g-type line-end behaviour needs knowledge of where the line ends, which a disc turned word by word lacks |
+
+Plain answer: a volvelle with a simple turning rule does NOT explain the Voynich line structure better than a Markov model.
+It explains it worse than a model with no word order at all. Under a method that recovers planted volvelles almost to the
+oracle, the Voynich gives near-uniform turning kernels and negative gains, like verbose-enciphered Latin and Italian.
+The best fitted rings are therefore not worth publishing as a mechanism; for the record, the best Voynich 3-ring fit is
+in data/results/v9/c1m_voynich_<ring>_n<40|48>.pkl (labels, kernel q, start distribution). What a mechanism would have to
+supply instead: (1) coupling between the end of one word and the start of the next (a junction rule, not a rotation),
+(2) strong agreement between a word's prefix and suffix (words are units, not free sector combinations), (3) a line-level
+plan that knows where the line ends. Nothing here is a decipherment.
