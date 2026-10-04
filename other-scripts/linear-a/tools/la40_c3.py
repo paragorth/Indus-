@@ -18,6 +18,9 @@ import la40_c2 as C2
 NSPLIT = int(os.environ.get('NSPLIT', 6))
 STEPS = int(os.environ.get('STEPS', 300000))
 NCH = int(os.environ.get('NCH', 4))
+PYSCALE = float(os.environ.get('PYSCALE', 2))
+TAG = os.environ.get('TAG', '')
+ONLY = os.environ.get('ONLY', '')
 
 
 def systems():
@@ -53,7 +56,7 @@ def agreement(A, Bm):
 
 def job(args):
     corpus, sysname, h, k = args
-    part = os.path.join(C.CK, 'c3_parts', '%s_%s_%d.json' % (corpus, sysname, k))
+    part = os.path.join(C.CK, 'c3_parts', '%s%s_%s_%d.json' % (corpus, TAG, sysname, k))
     if os.path.exists(part):
         return json.load(open(part))
     r = _job(args)
@@ -69,7 +72,7 @@ def _job(args):
     else:
         D = [d for d in C.lb_docs_all() if d['site'] == 'PY']
         LA = C.la_docs(); ntok = sum(1 for d in LA for ln in d['lines'] for t in ln if C.is_word(t))
-        docs = C.lb_sample(D, 2 * ntok, rng)
+        docs = C.lb_sample(D, int(PYSCALE * ntok), rng)
     idx = list(range(len(docs))); rng.shuffle(idx)
     A = [docs[i] for i in idx[:len(idx) // 2]]; Bd = [docs[i] for i in idx[len(idx) // 2:]]
     ra = run(A, sysname, h, 100 + k); rb = run(Bd, sysname, h, 200 + k)
@@ -83,10 +86,10 @@ def _job(args):
 def main():
     t = time.time()
     os.makedirs(os.path.join(C.CK, 'c3_parts'), exist_ok=True)
-    jobs = [(c, s, h, k) for (s, h) in systems() for c in ('LA', 'PY') for k in range(NSPLIT)]
+    jobs = [(c, s, h, k) for (s, h) in systems() for c in ((ONLY,) if ONLY else ('LA', 'PY')) for k in range(NSPLIT)]
     with Pool(2) as p:
         res = p.map(job, jobs, chunksize=1)
-    json.dump(res, open(os.path.join(C.CK, 'c3.json'), 'w'))
+    json.dump(res, open(os.path.join(C.CK, 'c3%s.json' % TAG), 'w'))
     by = collections.defaultdict(list)
     for r in res: by[(r['corpus'], r['sys'])].append(r)
     for key, rs in sorted(by.items()):
