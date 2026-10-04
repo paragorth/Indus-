@@ -87,6 +87,7 @@ Balance weights are lead and stone discs. They are found on Crete, Kea, Thera (A
    - Data: corpus supports; Hallager tables.
    - Kill: the same match rate with site labels swapped (KH roundels against HT tablets).
    - Why new: it links object classes, not words to languages.
+  - Tested (la28): not supported. Receipts and ledgers share no more than regional vocabulary; see FINDINGS.md.
 3. **The seal-ring graph predicts word sharing.**
    - Idea: sites that share sealing rings share more words than distance predicts.
    - Data: CMS II.6–7 (Arachne) find-sites.
