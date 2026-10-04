@@ -264,6 +264,13 @@ def trigram_words(units, seed=1):
     return [dict(u, lines=[[gen() for _ in L] for L in u['lines']]) for u in units]
 
 
+def word_shuffle_lines(units, seed=1):
+    """Voynich with word order shuffled inside each line: keeps every word and each line's words,
+    removes neighbour-word similarity."""
+    rng = random.Random(seed)
+    return [dict(u, lines=[rng.sample(L, len(L)) for L in u['lines']]) for u in units]
+
+
 def all_corpora(chant_n=1500):
     zl = voynich('ZL3b')
     C = {
@@ -275,6 +282,7 @@ def all_corpora(chant_n=1500):
         'vs-Italian-Dante': verbose_lang('Italian-Dante', para_lines=12),
         'V-ZL-gshuf': glyph_shuffle(zl),
         'V-ZL-tri': trigram_words(zl),
+        'V-ZL-wshuf': word_shuffle_lines(zl),
     }
     return C
 

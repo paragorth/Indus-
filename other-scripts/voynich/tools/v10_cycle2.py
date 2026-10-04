@@ -1,6 +1,6 @@
 """v10 cycle 2: is the line-initial chain a KEY STREAM for the line it heads (or the line below)?
-Key k_r = first glyph of line r (source 'own') or of line r-1 ('above'). Line body = the glyphs of line r after the
-first glyph. Only body lines of paragraphs (line 2..n), so every key is a chain member.
+Key k_r = first glyph of line r (source 'own') or of line r-1 ('above'). Line body = words 2..n of line r (the
+word that carries the key glyph is dropped). Only body lines of paragraphs (line 2..n), so every key is a chain member.
 (2a) omnibus: MI(key, body glyph) and MI(key, body word-initial glyph), MI(key, 2nd word) vs keys permuted among the
      body lines of the same paragraph. Any key-dependent substitution of a skewed glyph distribution must show here.
 (2b) brute force of simple key-application rules; each rule transforms every body line given its key, then we score
@@ -29,8 +29,9 @@ def items(paras):
     out = []
     for pi, p in enumerate(paras):
         for i in range(1, len(p['lines'])):
-            l = p['lines'][i]; g = [U(w) for w in l]; g[0] = g[0][1:]
-            g = [w for w in g if w]
+            l = p['lines'][i]; g = [U(w) for w in l[1:]]   # body = words 2..n (the key's own word is dropped,
+            g = [w for w in g if w]                         # so in-word dependence on the key glyph cannot leak in)
+            if not g: continue
             out.append([p['chain'][i], p['chain'][i - 1], g, pi])
     return out
 
@@ -140,12 +141,12 @@ if __name__ == '__main__':
         for name, plant in (('ZL3b', None), ('IT2a', None), ('ZL3b', 'key_all'), ('ZL3b', 'key_init'), ('ZL3b', 'shuffled')):
             ck = os.path.join(CK, 'c2_%s_%s.json' % (name, plant))
             if os.path.exists(ck): out[(name, plant)] = json.load(open(ck)); print(name, plant, 'cached'); continue
-            reps = REPS if plant is None else 40
+            reps = REPS if plant is None else 30
             res = pool.map(job, [(name, plant, s) for s in [-1] + list(range(reps))])
             obs = res[0]; nulls = res[1:]
             S = {}
             for j, lab in ((2, 'own'), (3, 'above')):
-                for q, nm in enumerate(('glyph', 'word-initial glyph', 'first body word')):
+                for q, nm in enumerate(('glyph', 'word-initial glyph', 'first body word (word 2)')):
                     S['omnibus MI(key %s, %s)' % (lab, nm)] = zstat(obs[j][q], [n[j][q] for n in nulls])
             # rule search: improvement = null mean - observed (lower entropy = more regular), z by null sd
             best = []; nullmax = []
