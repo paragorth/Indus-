@@ -1,0 +1,30 @@
+pe12 final (4 Oct 2026): "THE ENTRIES CARRY CHECK DIGITS". The question: is one sign in each Proto-Elamite entry a
+control mark computed from the rest of the entry (a checksum, residue, parity or size-class mark) for an auditor?
+Cycles: loops/pe12_cycle1.txt (calibration: planted check signs, proto-cuneiform, Ur III weight units),
+pe12_cycle2.txt (real search, 5 slots, ~26,000 hypotheses per slot, plus a fine-size-conditioned rerun),
+pe12_cycle3.txt (tablet-level verification tick, check digit on totals, slip spectrum, adjacent anti-repetition).
+Scripts tools/pe12_*.py; checkpoints data/pe12_ckpt/; numbers data/pe12_cycle*.json/.log/.out.
+Prior art: Born et al. 2023 predict the number system from signs; no search for check marks or for number-dependent
+signs beyond the system was found (web search; LITERATURE.md; FINDINGS.md; STRATEGIES.md).
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-12.F1 | Calibration. Same engine on planted PE corpora (value mod 3 in the last slot of 30% / 10% of entries; log10 size class in 30%), proto-cuneiform, and Ur III weight entries cut to PE size | planted mod 3 found at z +28 / +10 with the right modulus; planted size class z +17; Ur III unit word (gin2 / ma-na / gu2) z +43 with rule = log2 band; proto-cuneiform: size dependence yes (z 6-9), arithmetic no (z 0.4, and 1.0 against the size null). Flaw found and fixed: modular hashes absorb size signals, so the decisive test conditions on a fine size cell (planted size then vanishes, z -1.1; planted mod 3 survives, z +6 / +10) | the search can see a check sign on 1 entry in 10 and a real ancient size-class marker |
+| PE-12.F2 | Real PE: ~130,000 rules (residues mod 2-13, digit sums, running tablet sums, 100,000 random modular hashes, size bands, sign context, random pairs) over the FIRST, LAST (before-number), FIRSTm, LASTm and AFTERHDR slots; held-out tablets; whole-search null (slot sign shuffled within tablet + system; within type + system + size) | arithmetic: best z +2.1 (LAST, rule made of size digits), z +0.4 after size conditioning; all other slots z <= +1.4. Size class beyond the system: z 1.0-2.7. Only the known entry grammar (sign count -> first sign, z +9.6) is predictable | NULL. No check digit, parity mark or size-class sign |
+| PE-12.F3 | Tablet level: a tick on tablets whose total = sum; total-line sign = f(total, sum, difference mod k); mismatches as one-sign slips. Planted controls for each | planted tick FWER p 0.0005, planted total check digit p 0.002, planted slips 24/24; REAL: tick FWER p 0.80, total check digit p 0.80, slips 1 of 30 vs 1.45 expected | NULL. Mismatched totals are not one-sign slips (19/31 have total > sum: missing or unread entries) |
+| PE-12.F4 | Side result: adjacent-entry anti-repetition with a lag-2 excess (period 2); controls Ur III (runs), proto-cuneiform (flat), planted runs | PE z -5.5 / -6.8 at lag 1, z +4.6 at lag 2; Ur III +13.8; proto-cuneiform about -1; concentrated in ~20 lists built of two-line records (e.g. MDP 31, 004: 'name M288, 2' + 'M376, 1/4' twelve times) | B: some PE lists are made of fixed multi-line records |
+
+Plain answer: Proto-Elamite entries carry no check digits. Among about 130,000 candidate rules, none predicts the first
+sign, the last sign before the number, or the sign after the header from the number (residues, digit sums, running sums,
+random modular functions) better than the shuffled null. The same search finds a planted check sign on 10% of entries at
+z ~10 and the real Ur III weight-unit marker at z 43. Within a tablet and a number system, entry size does not choose
+the slot sign either: the only size-related sign split is the known capacity / counted / fraction split between systems.
+Totals carry no verification mark and no check sign, and the arithmetic mismatches are not the one-sign copying slips
+that a check digit would catch.
+Grades: A none. B (negative, calibrated): "no residue-type check sign on more than ~3-5% of entries in the first or last
+slot of PE entries"; "no size-class sign beyond the number system within tablets"; "PE total mismatches are not
+single-numeral slips". B (positive, structural): "a minority of PE lists (~20 tablets) are written as fixed two-line
+records; the companion line repeats after each main line". C guess: the companion line (e.g. M376 with 1(N08A) after a
+person line with M288, 2(N01)) is a per-record allotment written once per record (would support: the companion's number
+scales with the main line's number across lists; would kill: a constant companion whatever the main line says).
+Sampling: 56 fully legible total tablets for cycle 3; any absence is an upper bound (< 3/56 for tablet-level marks).

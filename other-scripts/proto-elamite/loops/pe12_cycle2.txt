@@ -1,0 +1,20 @@
+pe12 cycle 2 (4 Oct 2026): the real check-digit search on Proto-Elamite.
+Scripts tools/pe12_cycle2.py (main: 26,233 hypotheses per slot, nulls STRICT and SIZEM, 15 replicates, p floor 0.062)
+and tools/pe12_cycle2b.py (fine-size-conditioned: the baseline already knows a fine size cell = half-octave of the value x
+fraction flag x highest numeral code; nulls shuffle inside that cell; 13,233 hypotheses; 10 replicates; its own planted
+controls). Numbers data/pe12_cycle2.json/.log/.out, data/pe12_cycle2b.json/.log/.out; checkpoints data/pe12_ckpt/.
+PE: 5,336 clean entries (S 4,296, C 1,040) on 1,259 tablets; multi-sign entries 2,073 on 776 tablets; 619 lines after a header.
+Gains are held-out bits/entry of the best-on-B hypothesis; z against the STRICT null (same tablet + system) unless stated.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-12.2a | ARITH family (value / digit residues mod 2-13, digit sums, running tablet sums, 20,000 random modular hashes), 5 slots, coarse baseline | LAST +0.117 vs +0.083 (z +2.1, p 0.062; best hash = fraction count + N45 + N39B mod 7, i.e. high-order and fraction digits = size); FIRST z +0.2; LASTm z +0.5; FIRSTm z +0.9; AFTERHDR no within-tablet null possible (1 line per tablet), SIZEM z -2.7 | NO check digit. Best case z 2.1 in 1 of 5 slots (Bonferroni p > 0.3) and its rule is made of size digits |
+| PE-12.2b | Same, fine-size-conditioned (cycle-1 flaw fixed). Calibration in the same run: planted size sign must vanish, planted mod-3 sign must survive | planted size 30%: ARITH z -1.1 (vanishes, PASS); planted mod 3 at 30%: z +6.1, at 10%: z +10.3, best hash = vint mod 3 (PASS). REAL PE: LAST z +0.4, FIRST z -2.7, LASTm z +0.1, FIRSTm z +1.4, AFTERHDR SIZEM z -1.5 | NO check digit in any slot. Upper bound: a residue-type control sign on more than ~3-5% of entries in the first or last slot would have scored z >= 3 (planted 10% gives z ~10) |
+| PE-12.2c | SIZE family (bands, thresholds, top numeral code, fraction flag) given the number system, within tablets | LAST z +1.3, FIRST z +1.2, LASTm z +1.0, FIRSTm z +2.7 (fraction flag: 33 of 2,073 multi-sign entries carry fractions), AFTERHDR SIZEM z -0.7 | within a tablet and a system, entry size barely predicts the slot sign; size-class marking beyond the system split (FINDINGS b) is NOT shown. The Ur III unit word (a real size marker) scored z 43 in the same engine |
+| PE-12.2d | CTX family (sign count, other-slot sign, header, list position) | FIRST z +9.6 (sign count: one-sign entries vs prefixed entries), LAST z +3.5 (sign count); PAIR rules (sign count x capacity digit) add nothing over sign count alone (held-out +0.235 vs +0.252) | known entry grammar (FINDINGS a), not agreement with the number |
+| PE-12.2e | SEQ family (previous / next entry's slot sign) | real BELOW the STRICT null in every PE slot (LAST z -5.0, FIRST z -3.0, LASTm -1.6, FIRSTm -3.2) | neighbouring lines predict each other worse than random tablet-mates: anti-repetition. Tested directly in cycle 3c |
+
+Verdict cycle 2: NULL. No slot of the Proto-Elamite entry is computed from the numeral by any residue, digit-sum,
+running-sum or random modular rule among ~130,000 tested (5 slots x 26,233), and none carries a size class beyond the
+number system. The method is calibrated: it finds a planted mod-3 mark on 10% of entries at z ~10 and the Ur III unit
+word at z 43. Grade B (negative): "PE entries carry no check digit or size-class sign in the first, last, or post-header slot".

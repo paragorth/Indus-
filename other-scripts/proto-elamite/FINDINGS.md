@@ -249,3 +249,8 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - **Not copied (grade B).** Ordered pairs of entries recur across tablets at chance (0.173 vs 0.171). A copied lexical list gives 0.51 vs 0.17.
 - **A weak shared order (grade B).** An order of signs learned on half the tablets predicts the other half at 0.555 against 0.527 (z 3.6). That is proto-cuneiform admin strength, far below Ur III (0.637). No fixed multi-sign sequence was found, but that search was underpowered.
 - Grade C: entries were written one per record from a per-tablet set (tallies or a pool of names), laid out by type with alternation and a loose habitual order. Would support: the same dip on non-Susa or newly published tablets. Would kill: a decaying kernel in a larger corpus.
+
+## Check digits (pe12)
+- Entries carry no check marks. About 130,000 candidate rules over 5 slots found nothing beyond the null (best z +0.4 after size correction). A planted modulo-3 check sign was found at z +9.7, and the Ur III weight-unit marker at z +43. Grade B negative.
+- No verification tick and no check sign on totals (56 legible tablets, FWER p 0.80). Mismatched totals are not single-sign slips.
+- Side finding, grade B: about 20 lists are fixed two-line records, such as MDP 31, 004. There, each "name M288, 2" line is followed by "M376, 1/4". This explains the pe13 dip at the next entry and the peak two entries later (lag 1 z −5.5, lag 2 z +4.6).

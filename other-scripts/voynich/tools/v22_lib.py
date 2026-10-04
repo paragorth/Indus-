@@ -351,6 +351,20 @@ def ll_hmm(model, seq, S):
     return ll, seq.T
 
 
+def ll_poe(model, ER, E0, test, seq, S, kind='HBT', B=2):
+    """Product of experts: stage table x rigid-bin table / position-free table, renormalised over classes for every
+    (stage, bin, lp). Measures what the elastic program adds on top of rigid position. Single-factor coding only."""
+    E, lA, _ = model
+    Eh, Er, Em = E[0], ER[0], E0[0]            # (S,3,C), (nb,3,C), (3,C)
+    Z = Eh[:, None] + Er[None] - Em[None, None]  # (S,nb,3,C)
+    mx = Z.max(-1, keepdims=True); logZ = (mx + np.log(np.exp(Z - mx).sum(-1, keepdims=True)))[..., 0]
+    b = np.concatenate([BINNERS[kind](c, B) for c in test])
+    lB = (Eh[:, seq.lp, seq.F[:, 0]].T + Er[b, seq.lp, seq.F[:, 0]][:, None] - Em[seq.lp, seq.F[:, 0]][:, None]
+          - logZ[:, b, seq.lp].T)
+    ll, _, _ = _fb(lB, seq.offs, lA, S, False)
+    return ll
+
+
 def viterbi_paths(model, seq, S):
     E, lA, _ = model
     lB = _logB(seq, E)
@@ -435,10 +449,14 @@ def evaluate(codes, sizes, fold, Slist, restarts, seed, nfold=5):
             mm = fit_mix(tr, sizes, K, rng); l, _ = ll_mix(mm, te, K)
             acc.setdefault(f'MIX{K}', 0.0); acc[f'MIX{K}'] += l - l0
         stq, steq = Seq(tr), Seq(te)
+        ER = fit_binned(tr, sizes, 'HBT', 2); lR, _ = ll_binned(ER, te, 'HBT', 2)
         for S in Slist:
             m = fit_hmm(stq, sizes, S, restarts, rng)
             l, _ = ll_hmm(m, steq, S)
             acc.setdefault(f'H{S}', 0.0); acc[f'H{S}'] += l - l0
+            if len(sizes) == 1:
+                lp_ = ll_poe(m, ER, E0, te, steq, S)
+                acc.setdefault(f'POE{S}', 0.0); acc[f'POE{S}'] += lp_ - l0
     N = res['M0'][1]
     out = {k: v / N / LN2 * 1000 for k, v in acc.items()}   # millibits per token
     out['N'] = N
@@ -448,6 +466,8 @@ def evaluate(codes, sizes, fold, Slist, restarts, seed, nfold=5):
     out['best_hmm'] = max(out[k] for k in hm); out['best_hmm_k'] = max(hm, key=lambda k: out[k])
     out['delta'] = out['best_hmm'] - out['best_rigid']
     out['best_mix'] = max(out[k] for k in out if k.startswith('MIX'))
+    pk = [k for k in out if k.startswith('POE')]
+    if pk: out['best_poe'] = max(out[k] for k in pk); out['best_poe_k'] = max(pk, key=lambda k: out[k])
     return out
 
 
