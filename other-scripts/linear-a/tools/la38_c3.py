@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """LA-38 cycle 3: which consonant rows, vowel columns and signs carry the signal?
-Score = SEL composite (mean of SEL measure z's, z taken against 5,000 R3 relabelings of that corpus).
-  row / column test: the k signs of one row (column) each swap their full (C, V) value with a random sign outside it
-                     (2,000 draws); P = share of draws scoring >= the hypothesis.
-  sign support:      the sign swaps its value with every other sign in turn; support = share of swaps that lower the score.
+Two scores, each the mean z (against 5,000 relabelings of that corpus) of the measures that passed on full LB:
+  SC = ocpC, ocpP, vinit (consonant-sensitive; R3 / R2b set);  SV = comp (vowel-sensitive; R2a set).
+  row test (SC):    the k signs of one consonant row each swap their full (C, V) value with a random sign outside it
+                    (2,000 draws); P = share of draws scoring >= the hypothesis.
+  column test (SV): the same for one vowel column.
+  C-support (SC):   the sign's consonant is swapped with that of every sign of another row; share of swaps that lower SC.
+  V-support (SV):   the sign's vowel is swapped with that of every sign of another column; share that lower SV.
 Calibration: LB drawn at LA size (true values: rows and columns should mostly pass) and planted errors
 (LB-at-LA-size with 6 random value swaps = 12 wrong signs: support should rank the wrong signs low)."""
 import sys, os, json, time
@@ -13,16 +16,16 @@ import la38_common as L
 from la38_c1 import corpus
 from multiprocessing import Pool
 
-SEL = json.load(open(os.path.join(L.CK, 'sel.json')))
+SC = ['ocpC', 'ocpP', 'vinit']; SV = ['comp']
 
 
-def scorer(c, seed):
-    null = L.null_measures(c, 'R3', 5000, seed)
-    mu = {k: null[k].mean() for k in SEL}; sd = {k: null[k].std() for k in SEL}
+def scorer(c, seed, keys, tier, base):
+    null = L.null_measures(c, tier, 5000, seed, base=base)
+    mu = {k: null[k].mean() for k in keys}; sd = {k: null[k].std() for k in keys}
 
     def f(Cn, Vn):
         m = L.measures(c, Cn, Vn)
-        return np.mean([(m[k] - mu[k]) / sd[k] for k in SEL], 0)
+        return np.mean([(m[k] - mu[k]) / sd[k] for k in keys], 0)
     return f
 
 
@@ -41,15 +44,15 @@ def group_test(c, f, C0, V0, grp, g, rng, N=2000):
     return dict(k=int(k), obs=float(obs), null=float(nul.mean()), p=float(((nul >= obs).sum() + 1) / (N + 1)))
 
 
-def sign_support(c, f, C0, V0):
+def sign_support(c, f, C0, V0, which):
     S = len(C0); obs = f(C0[None], V0[None])[0]
     out = []
     for s in range(S):
-        Cn = np.broadcast_to(C0, (S, S)).copy(); Vn = np.broadcast_to(V0, (S, S)).copy()
-        t = np.arange(S)
-        Cn[t, s], Cn[t, t] = C0[t], C0[s]
-        Vn[t, s], Vn[t, t] = V0[t], V0[s]
-        sc = np.delete(f(Cn, Vn), s)
+        X0 = C0 if which == 'C' else V0
+        t = np.where(X0 != X0[s])[0]
+        X = np.broadcast_to(X0, (len(t), S)).copy()
+        X[np.arange(len(t)), s] = X0[t]; X[np.arange(len(t)), t] = X0[s]
+        sc = f(X, np.broadcast_to(V0, X.shape)) if which == 'C' else f(np.broadcast_to(C0, X.shape), X)
         out.append(float((sc < obs).mean()))
     return out
 
@@ -71,12 +74,12 @@ def analyse(args):
                 if b != a and b not in used and C0[a] != C0[b] and V0[a] != V0[b]:
                     C0[a], C0[b] = C0[b], C0[a]; V0[a], V0[b] = V0[b], V0[a]
                     used |= {a, b}; wrong += [int(a), int(b)]; break
-    f = scorer(c, seed)
-    rows = {c.Clab[g] or '(V)': group_test(c, f, C0, V0, C0, g, rng) for g in np.unique(C0)}
-    cols = {c.Vlab[g]: group_test(c, f, C0, V0, V0, g, rng) for g in np.unique(V0)}
-    sup = sign_support(c, f, C0, V0)
-    signs = {c.signs[i]: dict(val=(c.Clab[C0[i]] + c.Vlab[V0[i]]), n=int(c.u[i]), support=sup[i], wrong=i in wrong)
-             for i in range(len(C0))}
+    fC = scorer(c, seed, SC, 'R3', (C0, V0)); fV = scorer(c, seed, SV, 'R2a', (C0, V0))
+    rows = {c.Clab[g] or '(V)': group_test(c, fC, C0, V0, C0, g, rng) for g in np.unique(C0)}
+    cols = {c.Vlab[g]: group_test(c, fV, C0, V0, V0, g, rng) for g in np.unique(V0)}
+    supC = sign_support(c, fC, C0, V0, 'C'); supV = sign_support(c, fV, C0, V0, 'V')
+    signs = {c.signs[i]: dict(val=(c.Clab[C0[i]] + c.Vlab[V0[i]]), n=int(c.u[i]), supC=supC[i], supV=supV[i],
+                              wrong=i in wrong) for i in range(len(C0))}
     return dict(tag=tag, plant=plant, rows=rows, cols=cols, signs=signs)
 
 

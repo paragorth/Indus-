@@ -3,7 +3,8 @@
 Linear B (DAMOS KN+PY) full, Linear B drawn at Linear A size (10 draws), Cypriot (Idalion tablet ICS 217),
 and wrong-value controls (a random relabeling of LB-at-LA-size treated as the truth).
 Composites declared before the LA run: ALL7 = ocpC ocpP vinit son freqC freqV comp (a-priori directions);
-SEL = measures with z >= 1.64 under R3 on full LB (chosen here, applied unchanged to LA)."""
+SEL[tier] = measures with z >= 1.64 under that tier on full LB (chosen here, applied unchanged to LA):
+R1 freqC; R2a comp; R2b and R3 ocpC ocpP vinit."""
 import sys, os, json, time
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +40,7 @@ def job(args):
     C0, V0 = (c.C0, c.V0) if base is None else base
     obs = L.measures(c, C0[None], V0[None])
     null = L.null_measures(c, tier, N, seed, base=base)
-    sel = json.load(open(os.path.join(L.CK, 'sel.json'))) if os.path.exists(os.path.join(L.CK, 'sel.json')) else ALL7
+    sel = json.load(open(os.path.join(L.CK, 'sel.json')))[tier] if os.path.exists(os.path.join(L.CK, 'sel.json')) else ALL7
     r_all = L.compare(obs, null, ALL7)
     r_sel = L.compare(obs, null, sel)
     out = {k: v for k, v in r_all.items() if k != 'COMP'}
@@ -61,8 +62,8 @@ if __name__ == '__main__':
     stage = sys.argv[1]
     if stage == 'lbfull':
         res = run([('LBfull', t, 100_000, 1, None) for t in TIERS], 'c1_lbfull.json')
-        r3 = [r for r in res if r['tier'] == 'R3'][0]['res']
-        sel = [k for k in ALL7 + ['sameV'] if k in r3 and not r3[k]['inv'] and r3[k]['z'] >= 1.64]
+        sel = {r['tier']: [k for k in ALL7 if k in r['res'] and not r['res'][k]['inv'] and r['res'][k]['z'] >= 1.64]
+               for r in res}
         json.dump(sel, open(os.path.join(L.CK, 'sel.json'), 'w')); print('SEL', sel)
     elif stage == 'ctrl':
         jobs = [(f'LBd{d}', t, 10_000, 2 + d, None) for d in range(10) for t in TIERS]
