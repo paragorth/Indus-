@@ -175,7 +175,7 @@ CTX_IX = [3, 1, 2, 3, 4]   # first <- context last glyph (junction); second <- c
 class CtxModel:
     """P(word | ctx word) = prod_i P(x_i | x_{cond_in[i]}, ctx_{ctx_ix[i]}), Witten-Bell-like backoff
     P(x|a,c) -> P(x|a) -> P(x). Counts can be fractional (EM). One instance per stream label if wanted."""
-    def __init__(self, beta=2.0):
+    def __init__(self, beta=20.0):
         self.beta = beta
         self.c3 = [defaultdict(Counter) for _ in range(5)]
         self.c2 = [defaultdict(Counter) for _ in range(5)]
