@@ -97,11 +97,14 @@ def setscore(M, setidx, q, groups, tabs):
     return mh(feat, q, groups, tabs)[2]
 
 
+_S1 = {}
+
+
 def mh_vec(F, q, G, tabmask=None):
     """vectorised MH z for many binary features (columns of F). G: tablets x entries 0/1."""
     n = G.sum(1)
     nq = G @ q
-    S1 = G @ F
+    S1 = _S1[id(F)] if id(F) in _S1 else G @ F
     ok = (nq > 0) & (nq < n)
     if tabmask is not None:
         ok &= tabmask
@@ -126,7 +129,7 @@ def random_sets(E, q, groups, nsets=20000, nsplit=20, top=0.01, cache={}):
         G = np.zeros((len(tabs), len(E)), np.float32)
         for k, t in enumerate(tabs):
             G[k, groups[t]] = 1
-        cache.clear(); cache[key] = (signs, M, sets, F, G, np.array(tabs))
+        cache.clear(); _S1.clear(); _S1[id(F)] = G @ F; cache[key] = (signs, M, sets, F, G, np.array(tabs))
     signs, M, sets, F, G, tabs = cache[key]
     held = []
     qf = q.astype(np.float32)
