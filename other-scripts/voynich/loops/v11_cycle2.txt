@@ -1,0 +1,21 @@
+# v11 cycle 2 -- is the learned space a geometry, and do lines move like walks? (tools/v11_cycle2.py, v11_cycle2b.py;
+# checkpoints data/results/v11/c2_<corpus>.json, c2b_*.json; logs c2.log, c2b.log)
+# Embeddings: cycle-1 dist2 maps fitted on train pages; all walk statistics on HELD-OUT pages; values are means of 2 folds.
+# R(k) = mean squared map distance between words k apart in a line / mean squared distance of random token pairs.
+# Null for R(k) and walk statistics: words shuffled inside each held-out line, embedding fixed (200x).
+# Model-free graph: symmetric positive-PMI 8-nearest-neighbour graph of the top 300 types (train pages); null = degree-preserving rewiring (10x).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-2.1 | Diffusion: in a walk on a map, words 2 steps apart are still closer than chance (R(2) < shuffle). z of R(2) vs line-shuffle | Planted grid-30: R(1..6) = 0.43, 0.46 ... 0.54, z(R2) = -4.7 (slow diffusion). Voynich ZL R = 0.65, 0.78 ... 0.84, z(R2) = +0.1; IT -0.1. Latin -0.8, Italian +2.6, Spanish +2.7, planted graph -1.2, grid-60 -1.3 | The Voynich 'walk' forgets after one step: no lag-2 proximity at all. This is the signature of a first-order succession rule, not of motion through a space. Transcription-robust |
+| V-2.2 | Triangle closure (if a~b and b~c then a~c): clustering coefficient of the PPMI kNN graph vs rewired | Grid-30 0.171 vs 0.008 (21x); Voynich ZL 0.034 vs 0.011 (3.1x), IT 0.035 (2.9x); Latin 3.7x; Italian 2.4x; Spanish 1.8x; line-shuffle 2.2x; planted graph 2.5x; grid-60 4.3x | Voynich closes triangles like language and topic co-occurrence, 7x less than a map. Not geometric |
+| V-2.3 | Intrinsic dimension: Isomap variance share of top 2 dims of the kNN graph (vs rewired); ball size at radius 2 | Isomap top-2: grid 0.15 (rewired 0.07), Voynich 0.15 (0.12), Latin 0.21 (0.16), graph 0.08 (0.07). Ball(2): grid 44, Voynich 50, Latin 45, graph 69, Spanish 103 | Weak discriminator at this size and noise (the planted grid itself scores only 0.15). Voynich is not distinguishable from Latin here. No verdict from this row |
+| V-2.4 | Composition: a walk's 2-step law is the 1-step law squared. Held-out lag-2 gain predicted by P1^2 (dist2) | Grid-30 0.47 bits (direct lag-2 fit 0.61: 77%); Voynich ZL 0.051, IT 0.054; line-shuffle 0.060 (topic alone); Latin 0.055; Italian -0.28; graph 0.000 | The Voynich 1-step map predicts lag-2 no better than line-level topic does. Fails the walk prediction |
+| V-2.5 | Walk statistics in the learned map (held-out): 'teleports' = steps longer than the rms random-pair distance; return to start (last word nearer the first than the middle word) | Teleports: grid 0.15 (shuffle 0.16), Voynich 0.23 (0.28), Latin 0.18 (0.27), Italian 0.17 (0.28). Return share: Voynich 0.47 (0.49), grid 0.41 (0.46), Latin 0.46 (0.48) | Voynich steps are slightly shorter than shuffled steps, as in every corpus with any succession structure; no return-to-start tendency. Nothing walk-specific |
+| V-2.6 | Map reuse: do disjoint page halves learn the same map? Fold-0 vs fold-1 dist2 maps: Procrustes R^2 and 10-NN overlap (chance 0.033) | Grid-30 R^2 0.72, kNN 0.43; Voynich ZL 0.50 / 0.091, IT 0.47 / 0.091; line-shuffle 0.31 / 0.064; Latin 0.31 / 0.11; Italian 0.59 / 0.18; graph 0.04 / 0.06 | Voynich's map has a reproducible large-scale layout (R^2 0.50, above line-shuffle 0.31) but its local neighbourhoods do not replicate (0.09, below Latin and Italian). The reproducible part is the coarse section/scribe axis, not a street map |
+| V-2.7 | One-way route loophole: drift model -|x_a + v - x_b|^2 (cycle 2b) vs dist2 | Voynich ZL dist2 0.156, drift2 0.156, drift3 0.171; IT same. BUT the planted ROUTE control was not passed: route dist2 1.13, drift2 1.06 (drift started at v = 0 from the symmetric optimum) | Control failed: the route test is uninformative as run. Redone in cycle 4 |
+
+Cycle-2 verdict: the Voynich succession space has none of the walk signatures that the planted grid shows strongly (lag-2
+proximity, triangle closure, composition). Caveat on power: at 60% noise the planted grid is also near the language band on
+V-2.1 and V-2.4 (z -1.3, 0.005 bits), so these rows exclude a moderately clean map, not a very noisy one; the cycle-1 map
+advantage (0.57 vs 2.7 for grid-60) covers the noisy case.

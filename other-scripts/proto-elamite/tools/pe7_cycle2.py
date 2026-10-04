@@ -95,6 +95,8 @@ def pe_labels(meta, names):
 def run(job):
     kind, rep = job
     key = 'c2_%s_%d' % (kind, rep)
+    if kind == 'PE_herd':
+        key = 'c2_PE_herdtab_%d' % rep
     r = ckpt(key)
     if r:
         return key, r
@@ -102,12 +104,17 @@ def run(job):
     rng = random.Random(5000 + rep * 17 + hash(kind) % 97)
     trng = random.Random(rep * 7 + 3)
     t0 = time.time()
+    if kind == 'PE_herdtab':
+        kind = 'PE_herd'
     if kind == 'PE_tab':
         names, meta = sample_corpus(C, 'PE_tab', N, rng)
         res = tests(names, rng=rng, tree_rng=trng, labsets=pe_labels(meta, names))
     elif kind == 'PE_herd':
-        herd = [x for x in C['PE'] if x['herd']]
-        other = [x for x in C['PE'] if not x['herd']]
+        from pe7_build import HERD   # herd office = the pe5 tablets only (not the M362 sign, which would be circular)
+        herd = [x for x in C['PE'] if set(x['tablets']) & HERD]
+        other = [x for x in C['PE'] if not set(x['tablets']) & HERD]
+        for x in herd + other:
+            x['herd'] = int(bool(set(x['tablets']) & HERD))
         meta = herd + rng.sample(other, N - len(herd))
         names = [tuple(x['seq']) for x in meta]
         res = tests(names, rng=rng, tree_rng=trng,

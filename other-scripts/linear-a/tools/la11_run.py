@@ -24,6 +24,7 @@ ap.add_argument('--n_mk', type=int, default=3)
 ap.add_argument('--R', type=int, default=6); ap.add_argument('--S', type=int, default=50000)
 ap.add_argument('--targets', default=None)
 ap.add_argument('--input_scheme', default=None, help='syllabification scheme of the held-out language inputs (default: same as targets)')
+ap.add_argument('--extra_nonht', action='store_true')
 ap.add_argument('--lb_sizes', default='', help='extra LB inputs, e.g. 1500,full')
 ap.add_argument('--inputs', default=None, help='comma list of input names to restrict to')
 ap.add_argument('--la_variant', default='admin', help='admin | admin_nonHT | admin_tokens')
@@ -37,12 +38,15 @@ def build_inputs():
         la = c.la_types()
     elif args.la_variant == 'admin_nonHT':
         import la5_common as c5
-        la = sorted(set(x[2] for x in c5.words_of(c5.la_docs()) if x[1] != 'HT'))
+        la = sorted(set(x[2] for x in c5.words_of(c5.la_docs()) if x[1] != 'Haghia Triada'))
     else:
         import la5_common as c5
         la = [x[2] for x in c5.words_of(c5.la_docs())]
     hist = c.len_hist(la)
     inp = {'LA': la}
+    if args.extra_nonht:
+        import la5_common as c5
+        inp['LAn'] = sorted(set(x[2] for x in c5.words_of(c5.la_docs()) if x[1] != 'Haghia Triada'))
     lb = c.lb_types()
     for i in range(3): inp[f'LB{i}'] = c.length_matched(lb, hist, rnd)
     for i in range(args.n_mk): inp[f'MK{i}'] = c.markov_types(la, args.K, rnd)
@@ -66,7 +70,7 @@ def tasks():
             r = json.loads(l); done.add((r['input'], r['var'], r['target']))
     T = []
     for name in names:
-        ns = args.nshuf_main if name == 'LA' else (args.nshuf_lb if name.startswith('LB') else args.nshuf_lang)
+        ns = args.nshuf_main if name in ('LA', 'LAn') else (args.nshuf_lb if name.startswith('LB') else args.nshuf_lang)
         for v in range(ns + 1):
             if v == 0: types = inp[name]
             else: types = c.shuffle_types(inp[name], random.Random(1000 * v + sum(map(ord, name))))

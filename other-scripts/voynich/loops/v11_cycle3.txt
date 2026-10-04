@@ -1,0 +1,18 @@
+# v11 cycle 3 -- does the line-initial chain (FINDINGS section 10) mark fixed starting regions of a map? (tools/v11_cycle3.py;
+# checkpoints data/results/v11/c3_<corpus>_k<k>.json; log c3.log)
+# Map = dist2 fitted on train pages (cycle 1; refitted here for the planted control and for Voynich A/B subsets); regions = weighted k-means
+# (k = 4 and 6) of the map. Pairs = (line n, line n+1) inside a paragraph on HELD-OUT pages; null = lines 2..n permuted within the
+# paragraph (500x, as in v10). Region pairs need both line-initial words in the 300-word vocabulary (n = 368-420 per fold for Voynich).
+# Positive control: Planted-gridstart-30 (grid walk whose lines start in the quadrant that cycles 0-1-2-3 down each paragraph).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-3.1 | Power: the planted start-region cycle must be found | Region-chain MI 0.08-0.23 bits vs null 0.01-0.02, z 19-41 (k 4 and 6, both folds). Planted grid without a start rule: z -0.6 to +0.3 | Instrument valid |
+| V-3.2 | Voynich region chain: MI(region of line-n start, region of line-n+1 start) | ZL k4: z -1.4 / -1.2; k6: +0.7 / -1.5. IT k4: -2.1 / -0.9; k6: -0.8 / +0.6. Currier A alone: +0.2 to +1.7; B alone: -1.3 to +1.2 | No region chain. Line starts do not move through fixed regions of the map |
+| V-3.3 | Same pairs, same null, first-glyph chain (replication of v6/v10 on held-out page halves) | ZL glyph MI 0.25 / 0.21 bits vs null 0.11 / 0.10 (z 16.4 / 13.2); IT z 17.1 / 12.9; A alone z 10.8 / 10.3; B alone z 9.7 / 7.5. Latin poured into the layout: z -0.1 / -1.8 | The glyph chain replicates strongly on both page halves (transcription-robust), as in section 10 |
+| V-3.4 | Who carries whom: re-deal line-initial words among lines with the same map region (keeps the region chain, changes the word) and test the glyph chain; and the reverse | Keeping regions: glyph MI falls to null (ZL 0.12 / 0.09 vs null 0.11 / 0.10). Keeping glyphs: region MI stays at null (0.02-0.06). In the planted control, keeping glyphs destroys the region chain (0.006 vs 0.10) | The glyph chain is independent of the map: it lives in the first glyph, not in where the word sits. It is a margin rule, not a route |
+| V-3.5 | Does the walk continue across the line break? Distance from the last word of line n to the first word of line n+1 vs null; and between consecutive starts | Voynich ZL z +0.4 / -1.4, IT -0.3 / -0.7; consecutive starts z 0.7-1.6. Latin prose poured into the same lines: z -6.0 / -4.5 (sentences run on) | Voynich lines do not continue each other in the map, while prose broken at the same places does. Supports the known 'line is a unit' result (FINDINGS section 9) from a new angle; no new reading |
+| V-3.6 | Start concentration: Jensen-Shannon divergence between the region distribution of line-initial words and of all words | Voynich 0.008-0.016 bits; Latin 0.000-0.001; planted gridstart 0.001 | Line-initial words lean slightly to some regions (they are a distinct vocabulary, known), but this is not a starting region in any walk sense (V-3.2) |
+
+Cycle-3 verdict: the line-initial chain has nothing to do with a map. It replicates on held-out pages (z 13-17) and vanishes when
+the first glyph is changed while the map region is kept; map regions carry no chain at all.

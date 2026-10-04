@@ -18,6 +18,7 @@ from collections import Counter, defaultdict
 from multiprocessing import Pool
 import numpy as np
 import x2_common as X
+import x2_fast as F
 
 W = int(os.environ.get('X2_W', 30))
 WS = int(os.environ.get('X2_WS', 60))
@@ -35,12 +36,17 @@ def data(n):
 
 
 def world(A, B, bt, rng, keep_sim=True):
+    """Fast path (x2_fast): per-document counts precomputed once; resample = weighted sum."""
+    pa, pb = F.precompute(A), F.precompute(B)
+    ga = {it: i for i, it in enumerate(pa['items'])}; gb = {it: i for i, it in enumerate(pb['items'])}
     res = {m: {'top': defaultdict(Counter), 'wtop': defaultdict(Counter), 'btop': defaultdict(Counter),
-               'sim': defaultdict(float), 'cnt': defaultdict(int)} for m in X.METHODS2}
+               'sim': np.zeros((pa['nI'], pb['nI'])), 'cnt': np.zeros((pa['nI'], pb['nI']))} for m in X.METHODS2}
     for b in range(bt):
-        A2 = X.boot(A, rng) if b else A
-        B2 = X.boot(B, rng) if b else B
-        itA, itB, out = X.run_pair2(A2, B2)
+        wa = F.boot_w(len(A), rng) if b else np.ones(len(A))
+        wb = F.boot_w(len(B), rng) if b else np.ones(len(B))
+        itA, itB, out = F.run_w(pa, wa, pb, wb)
+        ia = np.array([ga[x] for x in itA]); ib = np.array([gb[x] for x in itB])
+        same = np.array([[x[0] == y[0] for y in itB] for x in itA])
         for m, S in out.items():
             r = res[m]
             for a, (t, mg) in X.top_partner(itA, itB, S, 'c:').items():
@@ -50,17 +56,15 @@ def world(A, B, bt, rng, keep_sim=True):
             for a, (t, mg) in X.top_partner(itB, itA, S.T, 'c:').items():
                 r['btop'][a][t] += 1
             if keep_sim:
-                ca = [i for i, it in enumerate(itA)]; cb = [j for j, it in enumerate(itB)]
-                for i in ca:
-                    for j in cb:
-                        if itA[i][0] == itB[j][0]:
-                            r['sim'][itA[i] + '|' + itB[j]] += float(S[i, j]); r['cnt'][itA[i] + '|' + itB[j]] += 1
+                r['sim'][np.ix_(ia, ib)] += np.where(same, S, 0)
+                r['cnt'][np.ix_(ia, ib)] += same
     out = {}
     for m, r in res.items():
         o = {'top': {a: dict(c) for a, c in r['top'].items()}, 'wtop': {a: dict(c.most_common(3)) for a, c in r['wtop'].items()},
              'btop': {a: dict(c) for a, c in r['btop'].items()}, 'bt': bt}
         if keep_sim:
-            o['msim'] = {k: r['sim'][k] / r['cnt'][k] for k in r['sim'] if r['cnt'][k] >= bt / 2}
+            ii, jj = np.nonzero(r['cnt'] >= bt / 2)
+            o['msim'] = {pa['items'][i] + '|' + pb['items'][j]: float(r['sim'][i, j] / r['cnt'][i, j]) for i, j in zip(ii, jj)}
         out[m] = o
     return out
 

@@ -324,25 +324,26 @@ def _lt(th, x):
     return v
 
 
-def lcm_em(X, card, K, rng, iters=300, tol=1e-6, prior=0.5, init=None):
-    """Mixture of independent categoricals.  X: n x F ints, card: list of level counts."""
+def onehots(X, card):
+    return [np.eye(card[j] + 1)[np.where(X[:, j] >= 0, X[:, j], card[j])][:, :card[j]] for j in range(X.shape[1])]
+
+
+def lcm_em(X, card, K, rng, iters=300, tol=1e-6, prior=0.5, init=None, OH=None):
+    """Mixture of independent categoricals (EM).  X: n x F ints (-1 = missing), card: level counts."""
     n, F = X.shape
-    if init is None:
-        R = rng.dirichlet(np.ones(K), size=n)
-    else:
-        R = init
+    if OH is None:
+        OH = onehots(X, card)
+    R = rng.dirichlet(np.ones(K), size=n) if init is None else init
     ll_old = -np.inf
     for it in range(iters):
         pi = (R.sum(0) + 1e-3) / (n + K * 1e-3)
         th = []
+        logp = np.tile(np.log(pi), (n, 1))
         for j in range(F):
-            M = np.zeros((K, card[j])) + prior
-            for v in range(card[j]):
-                M[:, v] += R[X[:, j] == v].sum(0)
-            th.append(M / M.sum(1, keepdims=True))
-        logp = np.log(pi)[None, :].repeat(n, 0)
-        for j in range(F):
-            logp = logp + _lt(th[j], X[:, j])
+            M = R.T @ OH[j] + prior
+            M /= M.sum(1, keepdims=True)
+            th.append(M)
+            logp += OH[j] @ np.log(M).T
         mx = logp.max(1, keepdims=True)
         lse = mx[:, 0] + np.log(np.exp(logp - mx).sum(1))
         ll = lse.sum()
@@ -372,8 +373,9 @@ def nparams(card, K):
 def best_em(X, card, K, restarts, seed):
     rng = np.random.default_rng(seed)
     best = None
+    OH = onehots(X, card)
     for r in range(restarts):
-        m = lcm_em(X, card, K, rng)
+        m = lcm_em(X, card, K, rng, OH=OH)
         if best is None or m['ll'] > best['ll']:
             best = m
     return best

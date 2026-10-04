@@ -1,0 +1,15 @@
+PE7 cycle 2: do tree clades map onto tablets, headers, offices or the herd office?
+Tools: tools/pe7_cycle2.py, pe7_sum2.py. Data: data/pe7_cycle2.json, .log, pe7_cycle2_herd.log, checkpoints data/pe7_ckpt/c2_*.
+Per replicate (8): 200 distinct names, edit-model distances, best Fitch tree (NJ + 5 random restarts, SPR), MCMC pair co-membership (clades <= 8 leaves).
+PS = Fitch score of the label on the best tree vs 499 leaf permutations (ratio = null/obs, > 1 = clustered). dist = mean edit distance (bits) of label-sharing pairs minus other pairs vs 999 permutations (z > 0 = closer). co = same with posterior co-membership.
+Header and volume are tablet properties: in dist/co they are permuted at tablet level with same-tablet pairs excluded; their PS is permuted at name level and so inherits the tablet effect.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.2 | Positive controls: label = family. Chinese surname (inherited element in the string); Ur III / OB seal father+son pairs (100 pairs per replicate) | CN: PS 8/8 p<.05, ratio 3.41, dist z 108; Ur III: PS 1/8, ratio 1.003, dist z 0.5, co z -0.2; OB: PS 1/8, ratio 1.005, dist z 1.6, co z 1.3 | machinery sees inherited elements instantly; real Mesopotamian father/son names are NOT detectably related at 100 pairs (whole-corpus check in cycle 3) |
+| PE-2.2 | Recovery: 15 planted families of 4 (founder = a real PE middle, 1/2/3 mutations each under the fitted PE edit rates) replace 60 of 200 PE names | m=1: 8/8, ratio 1.34, dist z 9.2, co z 30.8; m=2: 8/8, 1.21, 5.9, 16.3; m=3: 8/8, 1.16, 4.7, 11.3 | a lineage of PE-like names 3 edits deep is recovered every time |
+| PE-3.2 | PE tablet label (whole-tablet cluster samples) vs negatives: Linear B personnel tablets, random strings carrying the PE tablet labels | PE: PS 8/8, ratio 1.125, dist z 2.6 (6/8), co z 7.8; LINB: 6/8, ratio 1.043, dist z 1.9, co z 3.1; RAND: 0/8, 0.994, 0.6, 0.1 | REAL co-tablet clustering in PE: names on one tablet resemble each other, ~3x the Linear B effect, about the size of a planted 3-mutation lineage covering 30% of names; edit-distance gap only 2.0 bits (planted: 3.6-6.2) |
+| PE-4.2 | Header, volume (tablet-level perm, same tablet excluded), class sign, numeral system (name-level) | header dist z -0.7, co 1.1; volume -0.2, -0.1; class -0.2, 2.5; system -1.0, 1.7 (PS of header/volume 6/8 only via the tablet effect) | no clustering by header, by excavation volume or by commodity office beyond the tablet itself; class sign weak (co only) |
+| PE-5.2 | Herd office (pe5 ledger). First run flagged names containing M362 (circular: shared sign); rerun with flag = pe5 herd-office tablets only, see cycle 3 rows | M362-flag run: PS 8/8 ratio 1.93, pair dist z 3.5 | M362-flag result is DISCARDED as circular (the flag is itself a shared element) |
+
+Cycle verdict: clades do not follow offices, headers or excavation volumes; they DO follow tablets. Whether this is a household/lineage signal or tablet-level formula sharing is the question for cycle 3 (which signs carry it, and is it positional like a surname).

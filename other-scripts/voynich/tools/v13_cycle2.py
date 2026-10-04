@@ -27,9 +27,10 @@ def order_key(fol):
     return int(m.group(1)) * 2 + (m.group(2) == 'v')
 
 
-def mats(rows):
+def mats(rows, tf=None):
+    tf = tf or TF
     X = np.log1p(np.maximum(np.array([[r['img'][f] for f in IF] for r in rows]), 0) * 100)
-    Y = np.array([[r['txt'][t] for t in TF] for r in rows], float)
+    Y = np.array([[r['txt'][t] for t in tf] for r in rows], float)
     return X, Y
 
 
@@ -56,7 +57,7 @@ def leaf_pairs(rows, shift=0):
 def leaf_test(pairs, nperm=5000, seed=0, tf=None):
     tf = tf or TF
     ok = [p for p in pairs if all(np.isfinite(p[0]['txt'][t]) and np.isfinite(p[1]['txt'][t]) for t in tf)]
-    Xa, _ = mats([p[0] for p in ok]); Xb, _ = mats([p[1] for p in ok])
+    Xa, _ = mats([p[0] for p in ok], tf); Xb, _ = mats([p[1] for p in ok], tf)
     Ya = np.array([[p[0]['txt'][t] for t in tf] for p in ok]); Yb = np.array([[p[1]['txt'][t] for t in tf] for p in ok])
     dX, dY = Xa - Xb, Ya - Yb
     # no centring: under H0 (exchangeable sides) differences are symmetric around 0

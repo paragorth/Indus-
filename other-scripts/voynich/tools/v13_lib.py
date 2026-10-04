@@ -107,8 +107,8 @@ def _entropy(c):
     return float(-(p * np.log2(p)).sum())
 
 
-def features(rgb):
-    s = segment(rgb)
+def features(rgb, ink_delta=0.10, zone=4):
+    s = segment(rgb, ink_delta=ink_delta)
     H, W = rgb.shape[:2]
     A = float(H * W)
     reg, paint, dink = s['region'], s['paint'], s['draw_ink']
@@ -154,7 +154,7 @@ def features(rgb):
         r0, r1 = rows[0], rows[-1] + 1
         hh = r1 - r0
         f['draw_height'] = hh / H
-        top = slice(r0, r0 + hh // 4); bot = slice(r1 - hh // 4, r1)
+        top = slice(r0, r0 + hh // zone); bot = slice(r1 - hh // zone, r1)
         f['bottom_edges'] = (edges[bot] & reg[bot]).sum() / A
         f['bottom_unpainted'] = ((dink[bot]) & ~ndi.binary_dilation(paint, iterations=2)[bot]).sum() / A
         f['top_nongreen'] = (paint[top] & ~((s['a'][top] - s['bga']) < -0.03)).sum() / A

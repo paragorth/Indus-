@@ -7,7 +7,7 @@ Corpora (each a list of skeleton feature dicts, same size as the real set):
   NULL_s     layout drawn independently per entry and per tablet field group (seeds 1-5)
   SHUF_s     real features, each column permuted across tablets (seeds 1-3)
 Models: latent class model (EM, K = 1..12, 12 restarts): BIC (= two-part MDL) and 5-fold held-out log-lik;
-        Dirichlet-process mixture (collapsed Gibbs, alpha ~ Gamma(1,1), 2 chains x 200 sweeps): clusters
+        Dirichlet-process mixture (collapsed Gibbs, alpha ~ Gamma(1,1), 2 chains x 120 sweeps): clusters
         holding >= 1% of tablets.
 Checkpoint: data/pe8_ckpt/c1_<name>.json.  At most 2 workers.
 """
@@ -56,7 +56,7 @@ def job(args):
     res['K_bic'], res['K_cv'] = kb, kc
     # smallest K whose CV log-lik is within 0.01 nats/tablet of the best (parsimony)
     res['K_cv1'] = int(np.where(cvv >= cvv.max() - 0.01)[0][0]) + 1
-    dps = [dp_gibbs(X, card, sweeps=200, burn=100, seed=s) for s in (1, 2)]
+    dps = [dp_gibbs(X, card, sweeps=120, burn=60, seed=s) for s in (1, 2)]
     res['dp_Kbig'] = [float(np.median(d['Kbig'])) for d in dps]
     res['dp_K'] = [float(np.median(d['K'])) for d in dps]
     zb = best[kb]['R'].argmax(1)

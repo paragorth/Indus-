@@ -158,7 +158,7 @@ def ll(logits, C):
     return float((C * lp).sum())
 
 
-def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True):
+def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=None, init=None, mix=True, v_init=None):
     """P(b|a) = (1-rho) softmax_b(logit_ab) + rho u_b  (u = train successor unigram; rho = teleport rate).
     Loss = -LL/N + lam*|embedding params|^2/V. Returns dict with probs (V x V), rho, params."""
     rng = np.random.default_rng(seed); V = C.shape[0]; N = C.sum()
@@ -169,7 +169,7 @@ def fit(C, kind='dist', d=2, iters=1500, lr=0.05, lam=0.1, seed=0, init_scale=No
     elif kind == 'bilin':
         U = rng.normal(0, 0.1, (V, d)); W = rng.normal(0, 0.1, (V, d)); P = [U, W, beta, g, th]
     elif kind == 'drift':
-        X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, np.zeros(d), beta, g, th]
+        X = rng.normal(0, init_scale or 1.0, (V, d)) if init is None else init.copy(); P = [X, np.zeros(d) if v_init is None else np.array(v_init, float), beta, g, th]
     else:
         P = [beta, g, th]
     m = [np.zeros_like(p) for p in P]; v = [np.zeros_like(p) for p in P]
