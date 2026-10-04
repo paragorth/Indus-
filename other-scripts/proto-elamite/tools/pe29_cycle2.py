@@ -36,7 +36,7 @@ for e in [x for x in EXCL.split(',') if x]:
 if BLK:  # finer null: relabel only inside runs of BLK consecutive museum numbers (keeps excavation-lot structure)
     st = [f"{t['pre']}|{(t['no'] // BLK) if t['no'] is not None else 'na' + str(i)}" for i, t in enumerate(T)]
     stB = [f'{a}|{b}' for a, b in zip(stB, st)] if stB is not None else None
-TAG = D + (('_ex' + EXCL.replace(',', '')) if EXCL else '') + (f'_blk{BLK}' if BLK else '') + ('_hf' if HANDFIX else '')
+TAG = D + (('_ex' + EXCL.replace(',', '')) if EXCL else '') + (f'_blk{BLK}' if BLK else '') + ('_hf' if HANDFIX else '') + ('_nomusplant' if os.environ.get('PLANTMUS') == '0' else '')
 Z = {k: zmat(v) for k, v in S.items()}
 evs = list(S)
 out = {'D': D, 'n': len(T), 'rows': []}

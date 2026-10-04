@@ -4,7 +4,7 @@ Null: one matrix relabelled inside format strata (museum prefix x numeral system
 200 draws.  Ur III (Amar-Suen 5, Drehem, true day known): each evidence's AUC for same-day pairs.  Planted: 50 sessions of
 4 PE tablets with weak shared pool, hand tic, museum run, size and colour pull; recovery AUC per evidence.
 """
-import sys, json, collections, copy
+import sys, json, collections, copy, os
 import numpy as np
 from pe29_common import *
 
@@ -71,7 +71,7 @@ def plant(tabs, V, B, ngrp=50, gsz=4):
                     t['signs'].append(s); t['bases'].append(s)
             if rng.random() < 0.7:
                 t['signs'].append('M999~' + var); t['bases'].append('M999')
-            if rng.random() < 0.7:
+            if os.environ.get('PLANTMUS', '1') != '0' and rng.random() < 0.7:
                 t['pre'] = pre; t['no'] = int(anchor + rng.integers(0, 40))
             for k in ('h', 'w', 't'):
                 if t[k] and not np.isnan(dims[k]):
