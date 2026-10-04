@@ -47,3 +47,6 @@ The Lothal warehouse sealings are the one Indus administrative archive found in 
 
 ## G. Linear A weights (added after la27)
 - [ ] **Petruso, Ayia Irini: The Balance Weights (full catalogue of Aegean balance-weight masses)**: https://archive.org/details/ayiairinibalance0000petr . It is a controlled-lending book on archive.org and needs a human login to borrow. With the full mass list, the la27 weight-ladder test can be rerun on a larger and better-documented set than the 70 masses collected so far.
+
+## H. Proto-Elamite herd tablet P008294 (added after pe20)
+- [ ] **New photographs or a collation of Louvre Sb 22286+22480+22534 (CDLI P008294)**: https://cdli.mpiwg-berlin.mpg.de/artifacts/008294 . The pe20 herd model froze two predictions: reverse 6.c, count after M006 = 1 (range 0–4), and obverse 5.a, count after M367 = 2 (range 0–6). Both spots are broken in Scheil's 1923 copy, and CDLI's only photograph does not show the inscribed faces. Dahl 2005 (SMEA 47, no. 100) is the later edition and could not be opened. Photographs of the inscribed faces, or a museum collation, would test the predictions.

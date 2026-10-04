@@ -317,7 +317,7 @@ def matrix(toks, rule, R=R_STEMS, E=E_ENDS, pairing_shuffle=None):
 def nodf(M):
     def half(A):
         d = A.sum(1).astype(float)
-        if len(d) < 2: return 0.0
+        if len(d) < 2: return 0.0, 0
         O = A.astype(np.float32) @ A.T.astype(np.float32)
         Di, Dj = d[:, None], d[None, :]
         valid = Di > Dj
