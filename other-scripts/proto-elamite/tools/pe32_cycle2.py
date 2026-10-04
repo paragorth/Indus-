@@ -42,10 +42,15 @@ def topk(aff, univ, cand):
     return [univ[i] for i in order if univ[i] in cand][:K]
 
 
+def outcome2(e):
+    return is_std(e, mult=(1, 2)) if e['x'] else (tail(e) or e['y'] in (60, 120))
+
+
 def score(lst, H):
     s = set(lst)
     ev = [e for e in H if e['pfin'] in s]
-    return len(ev), sum(outcome(e) for e in ev), sum(tail(e) for e in ev)
+    return (len(ev), sum(outcome(e) for e in ev), sum(tail(e) for e in ev), sum(outcome2(e) for e in ev),
+            sum(1 for e in ev if e['bare']), sum(outcome2(e) for e in ev if e['bare']))
 
 
 if __name__ == '__main__':
@@ -62,20 +67,24 @@ if __name__ == '__main__':
     P = topk(aff, univ, cand)
     frozen = {'list': P, 'rule': 'M288 after a line ending in one of these signs holds 60 N39C per counted unit '
               '(2(N39B) 1(N24) per unit; amount ends in 2(N39B) 1(N24) when the count is odd)'}
+    old = 'f742591cac572a50'
     h = sha(frozen)
     json.dump({'frozen': frozen, 'sha': h, 'time': time.strftime('%H:%M:%S')},
               open(os.path.join(CK, 'cycle2_frozen.json'), 'w'), indent=1)
-    print('FROZEN', h, P, flush=True)
+    print('FROZEN', h, P, 'same as first freeze' if h == old else 'CHANGED', flush=True)
     # ---- only now: held-out scoring
     H = [e for e in E if not e['seen']]
     base = [e for e in H if e['pfin'] not in C14 and e['pfin'] not in set(P)]
     res = {'frozen': frozen, 'sha': h, 'n_heldout': len(H)}
     res['P'] = score(P, H)
     res['C14_heldout'] = score(C14, H)
-    res['other'] = (len(base), sum(outcome(e) for e in base), sum(tail(e) for e in base))
+    res['other'] = score(sorted({e['pfin'] for e in base}), base)
+    res['score_fields'] = 'events, std(60x or tail), tail, std-or-double, bare events, bare std-or-double'
     res['seen_C14'] = score(C14, [e for e in E if e['seen']])
     res['seen_other'] = (lambda b: (len(b), sum(outcome(e) for e in b), sum(tail(e) for e in b)))(
         [e for e in E if e['seen'] and e['pfin'] not in C14])
+    res['seen_other'] = score(sorted({e['pfin'] for e in E if e['seen'] and e['pfin'] not in C14}),
+                              [e for e in E if e['seen'] and e['pfin'] not in C14])
     res['P_events'] = [(e['tid'], e['praw'], e['raw'], outcome(e)) for e in H if e['pfin'] in set(P)]
     res['C14_events'] = [(e['tid'], e['praw'], e['raw'], outcome(e)) for e in H if e['pfin'] in C14]
     # ---- control seeds
@@ -89,10 +98,10 @@ if __name__ == '__main__':
         Pr = topk(affinity(M, ix, seed, univ), univ, cand_r)
         nul.append(score(Pr, H))
     nul = np.array(nul)
-    n, k, tl = res['P']
-    res['null'] = {'events_mean': float(nul[:, 0].mean()), 'hits_mean': float(nul[:, 1].mean()),
-                   'p_hits': float((1 + (nul[:, 1] >= k).sum()) / (1 + len(nul))),
-                   'rate_mean': float(np.nanmean(np.where(nul[:, 0] > 0, nul[:, 1] / np.maximum(nul[:, 0], 1), np.nan)))}
+    n, k = res['P'][0], res['P'][3]
+    res['null'] = {'events_mean': float(nul[:, 0].mean()), 'hits2_mean': float(nul[:, 3].mean()),
+                   'p_hits2': float((1 + (nul[:, 3] >= k).sum()) / (1 + len(nul))),
+                   'rate2_mean': float(np.nanmean(np.where(nul[:, 0] > 0, nul[:, 3] / np.maximum(nul[:, 0], 1), np.nan)))}
     # predicted signs' standing in the whole corpus (any context): how often they end count lines etc.
     res['P_finals'] = {s: F['fin_n'][s] for s in P}
     res['P_overlap_C14_offices'] = {s: OFF_OF.get(s, '-') for s in P}

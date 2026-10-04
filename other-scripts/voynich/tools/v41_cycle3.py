@@ -10,7 +10,7 @@ Physical evidence is used only as a check:
      A->B distance traversed for each trait; implicational scale (traits ordered the same way
      in every group?) vs groups with trait labels permuted.
 """
-import sys, os, json, random, itertools
+import sys, os, re, json, random, itertools
 import numpy as np
 from scipy.stats import spearmanr
 sys.path.insert(0, os.path.dirname(__file__))
@@ -95,7 +95,34 @@ for name in ('ZL3b', 'IT2a'):
         clock = [c for i, c in zip(d['pages'], d['clock']) if i in byid]
         pt = phys_test(g, clock, pages, seed=1)
         fol = spearmanr([p['order'] for p in pages], clock)[0]
-        real[f'{name}_{g}'] = dict(phys=pt, foliation_rho=float(fol), n=len(pages))
+        # nesting depth: $B counts bifolios from the outside of the quire (f1/f8 = 1 ... f4/f5 = 4)
+        dep = [(int(p['bifolio']) if (p['bifolio'] or '').isdigit() else None) for p in pages]
+        ok = [i for i, d in enumerate(dep) if d is not None]
+        cl = np.asarray(clock)
+        # depth effect inside quires: demean depth and clock by quire
+        qd = defaultdict(list)
+        for i in ok:
+            qd[pages[i]['quire']].append(i)
+        dd, cc = [], []
+        for qq, ids in qd.items():
+            if len(ids) < 3:
+                continue
+            md = np.mean([dep[i] for i in ids]); mc = np.mean(cl[ids])
+            dd += [dep[i] - md for i in ids]; cc += [cl[i] - mc for i in ids]
+        depth_rho = spearmanr(dd, cc)[0] if len(dd) > 5 else float('nan')
+        # direction inside a bifolio: first leaf (lower folio number) vs second leaf; recto vs verso
+        first, rv = [], []
+        for i, j in itertools.combinations(range(len(pages)), 2):
+            a, b = pages[i], pages[j]
+            if a['quire'] == b['quire'] and a['bifolio'] == b['bifolio'] and a['leaf'] != b['leaf'] and a['bifolio']:
+                lo_, hi_ = (i, j) if a['leafnum'] < b['leafnum'] else (j, i)
+                first.append(np.sign(cl[hi_] - cl[lo_]))
+            if a['leafnum'] == b['leafnum'] and a['side'] != b['side'] and re.fullmatch(r'f\d+[rv]', a['id']) and re.fullmatch(r'f\d+[rv]', b['id']):
+                r_, v_ = (i, j) if a['side'] == 'r' else (j, i)
+                rv.append(np.sign(cl[v_] - cl[r_]))
+        real[f'{name}_{g}'] = dict(phys=pt, foliation_rho=float(fol), n=len(pages), depth_rho=float(depth_rho),
+                                   n_depth=len(dd), second_leaf_later=float(np.mean(np.array(first) > 0)) if first else None,
+                                   n_first=len(first), verso_later=float(np.mean(np.array(rv) > 0)) if rv else None, n_rv=len(rv))
         print(name, g, real[f'{name}_{g}'], flush=True)
 res['real'] = real
 
