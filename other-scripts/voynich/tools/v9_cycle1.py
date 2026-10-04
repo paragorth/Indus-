@@ -91,7 +91,7 @@ def job(args):
     rn = Ring(h.lab, S); rn.q = h.q.copy(); rn.pi = h.pi.copy()
     nr_tr = em(rn, otr, ztr, None, reset=False, iters=10)
     nr_te = forward_backward(rn, ote, zte, None, False)[0]
-    res = dict(name=name, k=k, n=n, lab=h.lab.tolist(), q=h.q.tolist(), pi=h.pi.tolist(),
+    res = dict(name=name, k=k, n=n, lab=h.lab.tolist(), B=h.soft.B.tolist(), qsoft=h.soft.q.tolist(), pisoft=h.soft.pi.tolist(), q=h.q.tolist(), pi=h.pi.tolist(),
                soft_tr=sll, soft_te=soft_te, hard_tr=hll, hard_te=hard_te,
                noreset_tr=nr_tr, noreset_te=nr_te, q_noreset=rn.q.tolist(), secs=time.time() - t0)
     pickle.dump(res, open(fn, 'wb'))

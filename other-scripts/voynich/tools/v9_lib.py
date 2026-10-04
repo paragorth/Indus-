@@ -293,6 +293,24 @@ def anneal_ring(obs, ctx, lens, S, n, C=1, reset=True, steps=800, seed=0, T0=30.
     return r, best_ll
 
 
+def harden(B):
+    """One symbol per cell: argmax, then give every symbol absent from the ring the cell
+    (among cells whose symbol is duplicated) where it is most probable."""
+    B = np.asarray(B)
+    lab = B.argmax(0)
+    S = B.shape[0]
+    for s in np.argsort(-B.sum(1)):
+        if (lab == s).any():
+            continue
+        cnt = np.bincount(lab, minlength=S)
+        cand = [c for c in range(len(lab)) if cnt[lab[c]] > 1]
+        if not cand:
+            break
+        c = max(cand, key=lambda c: B[s, c])
+        lab[c] = s
+    return lab
+
+
 def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True, trace=None):
     """Volvelle as an HMM: n cells on a cycle, circulant (rule) transitions, FREE emission
     distribution per cell; Baum-Welch.  Then harden: each cell keeps its argmax symbol."""
@@ -312,7 +330,7 @@ def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True, trace=None):
         r.B = (ec + 1e-3) / (ec + 1e-3).sum(0, keepdims=True)
         if trace is not None and it % 20 == 0:
             trace.append((it, round(float(ll))))
-    lab = r.B.argmax(0)
+    lab = harden(r.B)
     h = Ring(lab, S, C); h.q = r.q.copy(); h.pi = r.pi.copy()
     hll = em(h, obs, ctx, None, reset, iters=6)
     h.soft = r

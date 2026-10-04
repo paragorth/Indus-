@@ -71,7 +71,7 @@ def job(args):
         res.update(n=n, hard_tr=hll, soft_tr=sll,
                    hard_te=forward_backward(h, ote, ctx[te], None, True)[0],
                    soft_te=forward_backward(h.soft, ote, ctx[te], None, True)[0],
-                   q=h.q.tolist(), lab=h.lab.tolist())
+                   q=h.q.tolist(), lab=h.lab.tolist(), pi=h.pi.tolist())
         res['MX1'] = markov_ll(otr, ote, S, order=1, ctx_train=ctx[tr], ctx_test=ctx[te])
         res['MX0'] = markov_ll(otr, ote, S, order=0, ctx_train=ctx[tr], ctx_test=ctx[te])
     elif kind == 'disc':
