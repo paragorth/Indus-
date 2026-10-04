@@ -1,0 +1,76 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../app/vendor/fonts/fonts.css">
+<style>
+:root { --navy:#0b1f3a; --navy2:#13294a; --gold:#c9a45c; --ivory:#f3efe6; --mist:#a9b2c3; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:var(--w); height:var(--h); overflow:hidden; }
+body { font-family:"Source Sans 3",system-ui,sans-serif; color:var(--ivory);
+  background: radial-gradient(120% 80% at 85% 10%, #1c3a66 0%, var(--navy) 55%, #071528 100%); position:relative; }
+.grain { position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.018) 0 2px, transparent 2px 7px); }
+.frame { position:absolute; inset:var(--inset); border:1.5px solid rgba(201,164,92,.35); border-radius:6px; pointer-events:none; }
+.copy { position:absolute; z-index:3; }
+.kicker { font-weight:600; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); font-size:var(--k); display:flex; align-items:center; gap:.9em; }
+.kicker::before { content:""; width:2.6em; height:1.5px; background:var(--gold); }
+h1 { font-family:"Newsreader",Georgia,serif; font-weight:500; line-height:1.02; letter-spacing:-.015em; font-size:var(--h1); margin-top:.35em; }
+h1 em { font-style:italic; color:var(--gold); font-weight:400; }
+.sub { font-size:var(--sub); line-height:1.45; color:#d5dae4; margin-top:1em; max-width:var(--subw); }
+.stats { display:flex; gap:var(--sg); margin-top:var(--smt); }
+.stat b { display:block; font-family:"Newsreader",serif; font-weight:500; font-size:var(--sn); line-height:1; color:#fff; font-variant-numeric:lining-nums; }
+.stat span { display:block; margin-top:.5em; font-size:var(--sl); letter-spacing:.14em; text-transform:uppercase; color:var(--mist); font-weight:600; }
+.stat + .stat { padding-left:var(--sg); border-left:1px solid rgba(201,164,92,.35); }
+.fade { position:absolute; z-index:4; left:0; right:0; bottom:0; height:var(--fade); background:linear-gradient(to bottom, rgba(7,21,40,0), #071528 55%); }
+.foot { position:absolute; z-index:5; left:var(--pad); right:var(--pad); bottom:var(--fb); display:flex; align-items:center; justify-content:space-between; }
+.brand { display:flex; align-items:center; gap:.55em; font-family:"Newsreader",serif; font-weight:600; font-size:var(--brand); color:#fff; }
+.brand img { width:1.5em; height:1.5em; border-radius:.32em; box-shadow:0 0 0 1.5px rgba(255,255,255,.18); }
+.url { text-align:right; font-size:var(--url); color:var(--mist); line-height:1.35; }
+.url b { display:block; color:var(--gold); font-weight:600; letter-spacing:.04em; font-size:1.25em; }
+.phone { position:absolute; z-index:2; width:var(--pw); aspect-ratio:390/800; border-radius:calc(var(--pw)*.14); background:#05101f;
+  padding:calc(var(--pw)*.035); box-shadow: 0 40px 80px rgba(0,0,0,.55), 0 0 0 1.5px rgba(255,255,255,.12) inset, 0 0 0 2px #2a3a55; }
+.phone .scr { width:100%; height:100%; border-radius:calc(var(--pw)*.11); overflow:hidden; background:#fff; position:relative; padding-top:calc(var(--pw)*.13); }
+.phone .scr img { width:100%; display:block; }
+.phone .notch { position:absolute; top:calc(var(--pw)*.06); left:50%; transform:translateX(-50%); width:30%; height:calc(var(--pw)*.065); background:#05101f; border-radius:99px; z-index:2; }
+.glow { position:absolute; z-index:1; border-radius:50%; background:radial-gradient(circle, rgba(201,164,92,.28), transparent 65%); }
+</style></head>
+<body>
+<div class="grain"></div><div class="frame"></div>
+<div class="glow" id="glow"></div>
+<div class="copy" id="copy">
+  <div class="kicker">Clinical audit &amp; QI</div>
+  <h1 id="h1">From first idea<br>to <em>closed loop.</em></h1>
+  <p class="sub" id="sub">Ready-made audits with the exact standard, data sheet, charts and a finished presentation. Free for NHS, HSE and university staff.</p>
+  <div class="stats" id="stats">
+    <div class="stat"><b>1,011</b><span>Ready-made audits</span></div>
+    <div class="stat"><b>20,009</b><span>Published audits</span></div>
+  </div>
+</div>
+<div class="phone" id="p1"><div class="notch"></div><div class="scr"><img src="src/audit.png"></div></div>
+<div class="phone" id="p2"><div class="notch"></div><div class="scr"><img src="src/results.png"></div></div>
+<div class="fade"></div>
+<div class="foot">
+  <div class="brand"><img src="../app/icons/logo.svg">Ai4Qi</div>
+  <div class="url"><b>ai4qi.com</b>Free · No adverts · No patient data</div>
+</div>
+<script>
+const L = {
+  square:   { w:1080,h:1080, inset:28, pad:84, k:20, h1:92, sub:27, subw:500, sn:56, sl:14, sg:34, smt:46, brand:38, url:21, fb:70,
+              copy:{left:84, top:96}, pw:330, p1:{left:590,top:150,rot:-7}, p2:{left:730,top:245,rot:5}, glow:{left:520,top:120,s:620} },
+  portrait: { w:1080,h:1350, inset:28, pad:84, k:21, h1:104, sub:29, subw:900, sn:62, sl:15, sg:40, smt:40, brand:40, url:22, fb:72,
+              copy:{left:84, top:104}, pw:350, p1:{left:170,top:700,rot:-6}, p2:{left:560,top:660,rot:5}, glow:{left:160,top:600,s:800}, fade:330 },
+  story:    { w:1080,h:1920, inset:32, pad:90, k:24, h1:124, sub:34, subw:880, sn:72, sl:17, sg:48, smt:54, brand:46, url:25, fb:120,
+              copy:{left:90, top:250}, pw:430, p1:{left:110,top:1020,rot:-6}, p2:{left:540,top:950,rot:5}, glow:{left:120,top:900,s:900}, fade:480 },
+  landscape:{ w:1200,h:627, inset:20, pad:64, k:15, h1:66, sub:21, subw:520, sn:42, sl:11, sg:26, smt:28, brand:30, url:16, fb:42,
+              copy:{left:64, top:62}, pw:250, p1:{left:700,top:70,rot:-6}, p2:{left:910,top:110,rot:5}, glow:{left:640,top:20,s:560} },
+};
+const v = L[(location.hash||'#square').slice(1)];
+const r = document.documentElement.style;
+r.setProperty('--fade',(v.fade||0)+'px');
+['w','h','inset','pad','k','h1','sub','subw','sn','sl','sg','smt','brand','url','fb','pw'].forEach(k => r.setProperty('--'+k, v[k]+'px'));
+const c = document.getElementById('copy'); c.style.left = v.copy.left+'px'; c.style.top = v.copy.top+'px'; c.style.right = v.pad+'px';
+if (v === L.square || v === L.landscape) c.style.right = 'auto';
+for (const id of ['p1','p2']) { const e = document.getElementById(id), p = v[id]; e.style.left=p.left+'px'; e.style.top=p.top+'px'; e.style.transform=`rotate(${p.rot}deg)`; }
+const g = document.getElementById('glow'); g.style.left=v.glow.left+'px'; g.style.top=v.glow.top+'px'; g.style.width=g.style.height=v.glow.s+'px';
+if (v === L.landscape) { const f=document.querySelector('.foot'); f.style.right='auto'; f.style.gap='56px'; f.style.justifyContent='flex-start'; const u=document.querySelector('.url'); u.style.textAlign='left'; u.style.paddingLeft='40px'; u.style.borderLeft='1px solid rgba(201,164,92,.35)'; }
+if (v === L.square || v === L.landscape) document.getElementById('h1').innerHTML = 'From first<br>idea to<br><em>closed loop.</em>';
+</script>
+</body></html>
