@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """LA-37 cycle 2: the Linear A doublet search, and independent checks.
 1. All pairs of the 64 signs with >= 8 tokens (2+ sign words), frozen statistic all3; within-word-shuffle null
-   R=400 (per-pair z, BH q, max-z FWER) + frequency-matched percentile. Flag = q <= 0.1 and fm >= 0.95.
+   R=100 (per-pair z, BH q, max-z FWER) + frequency-matched percentile. Flag = q <= 0.1 and fm >= 0.95.
 2. Stability: HT vs non-HT halves; 30 document bootstraps (share of resamples in the top 5 % of T).
 3. Blind la21 consonant rows (independent of values): same-row probability of top / flagged pairs vs all pairs
    (permutation of pair sets); Spearman(T, P_row). Circularity control: T computed on a within-word-shuffled corpus.
@@ -47,7 +47,7 @@ def subset(tag):
 
 def main_score(_):
     U = K.la_units(); al, c = K.alphabet(U, 8)
-    return K.score2(U, al, c, R=400, seed=11)
+    return K.score2(U, al, c, R=100, seed=11)
 
 
 def shuf_T(seed):
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     flag = K.flagged(res)
     top = np.zeros(len(T), bool); top[np.argsort(-T)[:30]] = True
     rows = C.la21_rows()
-    sLA, PLA, nLA = rows['LA']; sLB, PLB, nLB = rows['LB']
+    sLA, PLA, nLA = rows['LA']; sLB, PLB, nLB = rows['LB']; sLB = [x.lower() for x in sLB]
     out = dict(alph=al, T=T.tolist(), z=res['z'].tolist(), q=res['q'].tolist(), fwer=res['fwer'].tolist(),
                fm=res['fm'].tolist(), stab=stab.tolist(), HT=subs['HT'].tolist(), nonHT=subs['nonHT'].tolist())
     lines = []

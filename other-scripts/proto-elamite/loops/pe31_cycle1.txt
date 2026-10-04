@@ -1,0 +1,15 @@
+pe31 cycle 1 (4 Oct 2026): calibration of the interchangeability statistic before any real PE pair was looked at.
+Name-like strings: PE entry lines (header excluded), no x or lacuna, final class sign stripped, >= 2 signs left (1,9xx strings).
+Statistics per sign pair (signs with >= 6 tokens): MP minimal-pair frames; CTX v35 index (split by tablet halves);
+POS position-profile cosine; TAB tablet co-occurrence (negative = complementary); EV Dirichlet-multinomial evidence
+for merging the two signs' left and right neighbour distributions. All z-scored against frequency-matched pairs
+(same pair of frequency bins). Truth: Ur III and OB seal names (same value, different index: a/a2, li/li2 ...),
+Linear B doublets (a/a2/a3, ra/ra2/ra3, ro/ro2, ta/ta2, pu/pu2), and 10 PE signs split into two planted homophones
+(per token, or per tablet as a scribe allograph), 3 repeats each. Scripts tools/pe31_lib.py, pe31_cycle1.py, pe31_cycle1b.py.
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-31.1a | Single statistics, AUC of known pairs among all pairs (UR3 / OB / LinB / planted token / planted tablet) | MP 0.51/0.61/0.78/0.70-0.83/0.61-0.80; CTX 0.60/0.57/0.67/0.78-0.90/0.73-0.88; POS 0.62/0.55/0.68/0.80-0.87/0.78-0.84; TAB- 0.47/0.58/0.43/0.20-0.29/0.71-0.84 | Each statistic alone is weak on real names; TAB only sees scribe-level plants and is anti-informative for token-level ones |
+| PE-31.1b | Combined z (MP+CTX+POS), same truth sets | AUC 0.68/0.63/0.77/0.92-0.95/0.89-0.91; known pairs in top-K (K = number of true pairs): 2/69, 1/25, 1/9, 0-1/10, 0-1/10 | Recovers homophones as a SET (all AUC > 0.6), but cannot single out individual pairs: almost no true pair reaches the top list in any control |
+| PE-31.1c | Add merge evidence EV (bits saved by merging the two signs' neighbour distributions), z-scored | EVz+MCP AUC 0.70/0.69/0.82/0.92-0.95/0.90-0.91; top 1% holds 6/69, 4/25, 1/9, 1-2/10, 0-3/8 | FROZEN as the PE statistic IX = z(EV)+z(MP)+z(CTX)+z(POS). Best on every real control. TAB kept as a separate diagnostic only |
+| PE-31.1d | Power verdict from the controls | Real homophones in Ur III/OB seal names mostly do not alternate inside the same name: of 1,922 Ur III minimal-pair sign pairs only 29 are same-value pairs; top alternations are slot-mates (lu2/ur, suen/utu, nanna/szara2) | Calibration limit (A): interchangeability in names is dominated by paradigmatic slot-mates (different words in the same slot), not by spelling variants. Pair lists are grade C at best; set-level tests carry the evidence |

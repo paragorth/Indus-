@@ -43,7 +43,7 @@ def job(args):
     if kind.startswith('LB'):
         B = K.lb_units()
         if kind in ('LBfull', 'LBfull_sh'):
-            u, fmin, R = B, 10, 150
+            u, fmin, R = B, 10, 100
         else:
             u, fmin, R = K.lb_draw(B, 3918, rng), 8, 150
         if kind.endswith('_sh'):

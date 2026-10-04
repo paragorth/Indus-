@@ -1,0 +1,8 @@
+# pe28 cycle 5 (4 Oct 2026): COMMODITY-ONLY rates (the rate belongs to the entry sign, whatever is counted). tools/pe28_cycle5.py; data/pe28_ckpt/cycle5.json, cycle5.log
+# y_B = r(B) x, x = the count line just before (any sign). Leave-one-tablet-out rate (>= 3 tablets, 2:1). Hits split: x = 1 (fixed entry value)
+# vs x >= 2 (true scaling). Nulls 1000x: y re-dealt within (system, B) and within (system, B, scale bin); per-key search correction.
+| PE-28.5a | Ur III control (800 tablets) | 1 hit with x >= 2 of 34 (null 0.7-1.3) | as expected: Ur III rates depend on the counted noun, so commodity-only fails there (the test does not invent rates) |
+| PE-28.5b | Planted commodity PLC = 36 N39C per unit on 25 PE lines (x >= 2) | 25/25 predicted, scale null 11.6, p_corr 0.001 | PASS |
+| PE-28.5c | REAL PE, all commodities | x >= 2: 29 hits on 204 vs global 21.7 (p 0.03), scale 23.8 (p 0.04); x = 1: 21 vs 16-23 (n.s.) | weak overall; one key carries it |
+| PE-28.5d | M288 (CAP) = 60 N39C per unit, whatever is counted | x >= 2: 8 lines (counts 3, 3, 3, 3, 5, 5, 3, 9) vs scale null 2.5, p_corr 0.001; all 8 are M054/M388-ending person lines (pe27's family). x = 1: 15 of 46 M288 lines are exactly 2(N39B) 1(N24) vs 8.9 re-dealt (p 1e-4), after 14 different counted signs (M054, M388, M371, M057, M124, M128, M218, M220, M228, M230, M301, M066, M320, M370). After x != 1 only 1 of 37 is 60 | B-: the 60 N39C allotment is tied to the M288 entry, not to one counted sign; the class of rationed units is wide (person-name lines ending in M054, M388, M371 ...), but only the M054/M388 lines show scaling with x |
+| PE-28.5e | Other commodities (M096, M124, M102~d, M387 in CNT at 1/2 or 2) | p_corr 0.08-1.0 under either null | NEGATIVE |

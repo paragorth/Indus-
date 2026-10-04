@@ -143,17 +143,35 @@ def swap_matrix(words, idx):
     return S
 
 
+def _ctx_fast(words, idx, nfi):
+    """vectorised context counts: features (tag, neighbour) with neighbours indexed as in feat_index."""
+    n = len(idx); K_ = len(idx) + 2   # keys: signs, '#', '?'
+    code = dict(idx); code['#'] = n; code['?'] = n + 1
+    lens = np.array([len(w) for w in words]); tot = lens.sum()
+    s = np.fromiter((code[x] for w in words for x in w), int, tot)
+    wid = np.repeat(np.arange(len(words)), lens)
+    start = np.repeat(np.cumsum(lens) - lens, lens); pos = np.arange(tot) - start; L = lens[wid]
+    M = np.zeros((n, 4 * K_))
+    keep = s < n
+    for t, off in enumerate((-1, 1, -2, 2)):
+        q = pos + off
+        inside = (q >= 0) & (q < L)
+        nb = np.where(inside, s[np.clip(np.arange(tot) + off, 0, tot - 1)], n)
+        use = keep & (inside | ((abs(off) == 1) & ~inside))
+        np.add.at(M, (s[use], t * K_ + nb[use]), 1)
+    return M
+
+
 def stats(units, alph, halves=None):
     """dict of n x n matrices: cos, xI, swap."""
     idx = {s: i for i, s in enumerate(alph)}
     words = map_rare([r['w'] for r in units], idx)
-    fi = feat_index(words, idx)
-    P = ppmi_rows(ctx_counts(words, idx, fi))
+    P = ppmi_rows(_ctx_fast(words, idx, None))
     cos = P @ P.T
     if halves is None:
         halves = np.array([hash(r['doc']) % 2 for r in units])
     w1 = [w for w, h in zip(words, halves) if h == 0]; w2 = [w for w, h in zip(words, halves) if h == 1]
-    P1 = ppmi_rows(ctx_counts(w1, idx, fi)); P2 = ppmi_rows(ctx_counts(w2, idx, fi))
+    P1 = ppmi_rows(_ctx_fast(w1, idx, None)); P2 = ppmi_rows(_ctx_fast(w2, idx, None))
     X = P1 @ P2.T
     sd = np.maximum(np.diag(X), 0.15)
     xI = 0.5 * (X + X.T) / np.sqrt(np.outer(sd, sd))
