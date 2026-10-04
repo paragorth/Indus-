@@ -34,6 +34,8 @@ def fvec(F, g):
         return collections.Counter(S.VOYNICH[g])
     if F.kind == 'hangul':
         return collections.Counter(S.HANGUL[g])
+    if F.kind == 'hangul2':
+        return collections.Counter(L.hangul2(g))
     return collections.Counter({f: 1 for f in F.sets[F.ix[g]]})
 
 
@@ -58,12 +60,34 @@ def scores(pairs_gain, F, labels):
         eta = sum(len(v) * (np.mean(v) - mu) ** 2 for v in grp.values()) / (((gp[m] - mu) ** 2).sum())
     else:
         eta = np.nan
+    # row-controlled: remove each (source glyph, context) mean gain, then ETA of the residual by delta group
+    rowm = collections.defaultdict(list)
+    for (a, b, c, x) in pairs_gain:
+        rowm[(a, c)].append(max(x, 0))
+    rmu = {k: np.mean(v) for k, v in rowm.items()}
+    res_ = np.array([max(x, 0) - rmu[(a, c)] for a, b, c, x in pairs_gain])
+    if m.sum() > 2 and res_[m].var() > 0:
+        grp = collections.defaultdict(list)
+        for k, x, ok in zip(keys, res_, m):
+            if ok:
+                grp[k].append(x)
+        mu = res_[m].mean()
+        eta_r = sum(len(v) * (np.mean(v) - mu) ** 2 for v in grp.values()) / (((res_[m] - mu) ** 2).sum())
+    else:
+        eta_r = np.nan
+    # row coherence: are the source glyphs whose replacement helps a feature class?
+    n = len(labels); rv = np.zeros(n)
+    for (a, c), v in rmu.items():
+        rv[a] += v
+    W = np.outer(rv, rv); np.fill_diagonal(W, 0)
+    Mp = F.M[np.ix_(labels, labels)]
+    rowcoh = (W * Mp).sum() / W.sum() if W.sum() > 0 else np.nan
     top = np.argsort(-g)[:12]
     tk = collections.Counter(keys[i] for i in top)
     par = sum(1 for i in top if tk[keys[i]] >= 2)
     sim = np.array([F.M[labels[a], labels[b]] for a, b, _, _ in pairs_gain])
     subr = spearmanr(sim, g).correlation
-    return eta, par, subr
+    return eta, par, subr, eta_r, rowcoh
 
 
 def main(name, kind=None, nperm=1000):
@@ -96,15 +120,23 @@ def main(name, kind=None, nperm=1000):
     rng = np.random.default_rng(0)
     null = np.array([scores(PG, F, F.perm(rng)) for _ in range(nperm)], float)
     res = dict(name=name, kind=kind, n=len(alph))
-    for j, k in enumerate(('ETA', 'PAR', 'SUBR')):
+    for j, k in enumerate(('ETA', 'PAR', 'SUBR', 'ETAR', 'ROWCOH')):
         a = null[:, j]; a = a[~np.isnan(a)]
         res[k] = dict(obs=float(obs[j]), null=float(a.mean()), z=float((obs[j] - a.mean()) / (a.std() + 1e-12)),
                       p=float(((a >= obs[j]).sum() + 1) / (len(a) + 1)))
+    V = [fvec(F, g) for g in alph]
+    grp = collections.defaultdict(list)
+    for a, b, c, g in PG:
+        grp[(delta_key(V[a], V[b]), '*IF'[c])].append((max(g, 0), alph[a] + '>' + alph[b]))
+    gl = sorted(((np.mean([x for x, _ in v]), k, [n for _, n in v]) for k, v in grp.items() if len(v) >= 2), key=lambda t: -t[0])[:6]
+    res['top_groups'] = [(round(float(m_), 4), str(k), ms[:6]) for m_, k, ms in gl]
+    res['gains'] = [(alph[a], alph[b], c, g) for a, b, c, g in PG]
     top = sorted(PG, key=lambda x: -x[3])[:12]
     res['top'] = [(alph[a], alph[b], '*IF'[c], round(g, 4)) for a, b, c, g in top]
-    json.dump(res, open(os.path.join(L.CK, f'par_{name}_{kind}.json'), 'w'), default=float, ensure_ascii=False)
-    print(f"{name:14s} {kind:6s} " + ' '.join(f"{k} {res[k]['obs']:.3f} z{res[k]['z']:+.2f} p{res[k]['p']:.3f}" for k in ('ETA', 'PAR', 'SUBR'))
-          + ' top ' + ' '.join(f'{a}>{b}{c}' for a, b, c, _ in res['top'][:8]), flush=True)
+    sd = os.environ.get('V36_SEED', '0')
+    json.dump(res, open(os.path.join(L.CK, f'par_{name}_{kind}_s{sd}.json'), 'w'), default=float, ensure_ascii=False)
+    print(f"{name:14s} {kind:6s} " + ' '.join(f"{k} {res[k]['obs']:.3f} z{res[k]['z']:+.2f} p{res[k]['p']:.3f}" for k in ('ETA', 'PAR', 'SUBR', 'ETAR', 'ROWCOH'))
+          + ' | groups ' + ' ; '.join(f'{k} {m_}' for m_, k, _ in res['top_groups'][:2]) + ' | top ' + ' '.join(f'{a}>{b}{c}' for a, b, c, _ in res['top'][:8]), flush=True)
 
 
 if __name__ == '__main__':

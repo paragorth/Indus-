@@ -1,0 +1,22 @@
+pe26 FINAL -- THE CLAY'S COLOUR SAYS WHERE IT CAME FROM? (4 Oct 2026)
+Tools: tools/pe26_download.py, pe26_controls.py, pe26_features.py, pe26_common.py, pe26_cycle1.py, pe26_cycle2.py,
+pe26_cycle2b.py, pe26_cycle3.py, pe26_sticker.py, pe26_cycle4.py. Cycle files: loops/pe26_cycle1-4.txt.
+Images: CDLI thumbnails (scratchpad only). Repo holds only per-tablet derived numbers:
+data/pe26_frozen_clay_ranking_month.json (primary; sha256 f9fbbc12728240fe3c4f7dd013823e7d738f928a143a06b855be2097cad01cc7)
+and data/pe26_frozen_clay_ranking_day.json (7ec80da4...1c9f).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-26.F1 | Clay colour/texture predicts find site beyond photo batch? CV grouped by batch, batch-covariate model, within-batch permutation; planted colour shift; positive check Susa vs Girsu (Louvre, same periods); negative check odd/even museum numbers | batch = drawer = find site almost everywhere (ordinary AUC 0.80-0.98 for every pair, batch covariates alone up to 0.89). Inside a batch: Yahya vs Susa 0.995 (n 4, p <= 0.024); positive check Susa vs Girsu fails within batch (p 0.39); negative check 0.50; planted +2 b* found (0.97) | C: provenance beyond batch NOT established; the CDLI photo archive cannot separate them |
+| PE-26.F2 | Frozen clay ranking of 1,238 Susa tablets scored on hXRF | ST-11 (Yahya clay at Susa) ranks 1 of 446 NMI Susa (pseudo-direction p 0.018; random directions 0.04); YT-01 (Susa clay at Yahya) looks the MOST Yahya-like of 4 (miss). Fisher p ~0.09. ST-11 is alone in its photo day; day-level centring erases it | C: one hit, one miss; fragile to lighting |
+| PE-26.F3 | Frozen clay ranking vs pe17 text fingerprint | Spearman 0.156 (pseudo q95 0.140, p 0.012); partial on size, thickness, lines, pixels, museum, publication 0.09-0.10 (p 0.015-0.017); NMI 0.17 and Louvre 0.15 separately | C+: clay and writing fingerprints agree weakly |
+| PE-26.F4 | Clay twins: colour similarity vs shared sign vocabulary within photo batches | colour r 0.051 (q95 0.014), survives museum-number gap >= 50, block permutation and size-matched random texts (0.010); not numeral systems | B (weak association); cause C (clay source, find lot or conservation) |
+| PE-26.F5 | Colour-blind re-test (texture only) | Yahya and ST-11 signals vanish on texture (AUC 0.16; p 0.10), but texture has 14% power at thumbnail size; no internal white reference in any photo | the provenance signal is colour only and cannot be separated from lighting |
+
+Out-of-corpus test (registered by the frozen hash): when Table S2 of Yeganeh et al. 2025 and the ST -> museum-number map
+appear, the NMI Susa tablets of non-Susa or "slightly different" clay should sit in the top of the frozen month ranking.
+Top 10 NMI: P009157 (ST-11), P008821, P008843, P008755, P009152, P008925, P008877, P008917, P008771, P009021.
+Would kill: the tested foreign/different-soil Susa tablets rank at random (median percentile near 0.5).
+
+Not cracked. Nothing is read. Human action that would decide F1/F2: original-resolution NMI photos with a colour target,
+or the photo-session log for the Yahya drawer (BK 04043-04941) and ST-11 (BK 03523).

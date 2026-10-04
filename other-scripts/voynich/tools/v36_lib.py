@@ -69,6 +69,20 @@ def phon_feats(c):
     return {'X:' + c}
 
 
+def hangul2(g):
+    """Hangul jamo strokes with vowel-tick direction collapsed: TICKV = number of short vowel ticks, plus
+    binary orientation flags (R L U D).  Used only as the feature description under which the y-vowel
+    plant (one tick lost) is a single feature change."""
+    d = dict(S.HANGUL.get(g, {'X:' + g: 1}))
+    t = 0
+    for k in ('TR', 'TL', 'TU', 'TD'):
+        if k in d:
+            t += d.pop(k); d['O' + k[1]] = 1
+    if t:
+        d['TICKV'] = t
+    return d
+
+
 # ------------------------------------------------------------------ similarity matrices
 def wjacc(a, b):
     ks = set(a) | set(b)
@@ -98,6 +112,10 @@ class Feat:
             self.sets = [set(S.VOYNICH[g]) for g in self.alph]
         elif kind == 'hangul':
             F = [S.HANGUL.get(g, {'X:' + g: 1}) for g in self.alph]
+            self.M = np.array([[wjacc(F[i], F[j]) for j in range(n)] for i in range(n)])
+            self.sets = [set(f) for f in F]
+        elif kind == 'hangul2':
+            F = [hangul2(g) for g in self.alph]
             self.M = np.array([[wjacc(F[i], F[j]) for j in range(n)] for i in range(n)])
             self.sets = [set(f) for f in F]
         elif kind == 'phon':

@@ -1,0 +1,27 @@
+pe26 cycle 1 -- does the clay's colour say where it came from? (4 Oct 2026)
+Tools: tools/pe26_download.py (CDLI tn_photo thumbnails, ~300 px, EXIF kept; images stay in the scratchpad), pe26_controls.py
+(CDLI search API for control tablets), pe26_features.py (segmentation against the black background; CIELAB percentiles, hue,
+chroma, rg-chromaticity; high-pass relief, gradients, LBP, mottling), pe26_common.py, pe26_cycle1.py.
+Prior work: image classifiers for provenance and period of cuneiform tablets exist (CuneiML, J. Open Humanities Data 2023;
+"Shaping History", arXiv 2406.04039, shape-based dating). None isolates clay colour from photo batch or scores against hXRF.
+Data: 1,267 of 1,585 PE tablets have CDLI photographs; 1,298 PE + 252 control photos are in colour (51 PE and most Louvre
+Uruk III controls are greyscale). Photo batch = EXIF software + processing date (the EXIF date is a Photoshop batch-export
+time, 3 files per second in museum-number order, not the shooting time).
+Coverage: NMI Susa 446, Louvre Susa 792, NMI Yahya 4 (all in one export run with 93 Susa tablets), Ozbaki 1 (own batch),
+Penn Malyan 2. NO colour photo of any Sialk, Sofalin or NMI Malyan tablet; of the hXRF imports only ST-11 (P009157) and
+YT-01 (P009536) have photos.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-26.1a | NMI Susa (446) vs Yahya+Malyan+Ozbaki (5); logistic on 41 clay features; CV grouped by photo batch; batch-covariate-only model; within-batch-centred features; null = labels permuted inside batches (40) | ordinary CV AUC 0.80; grouped by batch 0.51 (only one batch holds both sites); batch covariates alone 0.31; within-batch 0.82 (null q95 0.70, p <= 0.024) | signal only where the sites share a batch |
+| PE-26.1b | NMI Susa vs Yahya only (4 tablets, one export run with 93 Susa) | within-batch AUC 0.995 (null q95 0.88, p <= 0.024) | strong but n = 4; the Yahya tablets are a separate drawer (BK 04043-04941) at the end of the run |
+| PE-26.1c | POSITIVE CHECK: Louvre Susa vs Girsu tablets of the same periods (Ur III, Old Akkadian, Old Babylonian, Lagash II, ED IIIb; 26 vs 153) | ordinary CV 0.95; grouped by batch 0.69 vs batch covariates alone 0.64 (p 0.05); within-batch 0.77 (p 0.39; one mixed batch with 7 Susa) | FAIL to confirm: once batch is controlled, a known site difference is barely seen |
+| PE-26.1d | Louvre Susa PE vs Mesopotamian Uruk III (Jemdet Nasr, Uruk, Girsu, Larsa, Kish) | AUC 0.98 ordinary, 0.91 grouped, but batch covariates alone 0.89; 0 shared batches; within-batch p 0.98 | batch = provenance; uninformative |
+| PE-26.1e | SAME-SITE CHECK: Louvre Susa PE vs Susa later periods / Susa Uruk V | ordinary 0.98 / 0.88; within-batch p 0.27 / 0.32 | period/batch separates; no within-batch difference |
+| PE-26.1f | NEGATIVE CHECK: NMI Susa odd vs even museum number | 0.50 / 0.51 / 0.49 | PASS (no leak) |
+| PE-26.1g | PLANTED b* shift on pseudo-imports drawn in the same batches as the real plateau tablets | within-batch AUC 0.69 / 0.97 / 1.00 for +1 / +2 / +4 b* units; grouped raw 0.56 / 0.82 / 1.00 | the pipeline finds a 2-unit colour difference |
+
+Verdict (cycle 1): ordinary cross-validation separates every site pair (0.80-0.98), but that is photo batch: CDLI photographs
+were taken and exported by collection drawer, so batch and find site coincide almost everywhere. The one contrast with
+sites inside one batch (Yahya vs Susa, NMI) is large (AUC 0.995), but the positive check with known different clay
+(Susa vs Girsu, Louvre) does not survive batch control. Clay appearance beyond batch: NOT ESTABLISHED (C).

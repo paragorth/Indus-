@@ -127,3 +127,48 @@ for c in [c for c, k in Counter(com).items() if k >= 6]:
     print('commodity', c, res[c], flush=True)
 out['la_commodity'] = res
 json.dump(out, open(os.path.join(CK, 'c3.json'), 'w'), indent=1, default=float)
+
+# ---------------------------------------------------------------- (e) non-circular word cohesion
+# Tablet regime from intrinsic features only (no feature looks at other tablets), trained on
+# Ur III known kinds directly (rations vs deliveries) and checked across sites (leave-site-out).
+from sklearn.ensemble import RandomForestClassifier  # noqa: E402
+
+
+def intr(ents):
+    a = np.array([x for _, x, _ in ents])
+    return [math.log(len(a)), Counter(a).most_common(1)[0][1] / len(a), a.std() / a.mean(), np.mean(a == 1),
+            float(np.mean(np.round(a) == a)), math.log(np.median(a))]
+
+
+UX = np.array([intr(d['ents']) for d in U]); Uy = np.array([d['kind'] == 'S' for d in U]); Us = np.array([d['site'] for d in U])
+lso = {}
+for s in ('Umma', 'Girsu', 'Puzriš-Dagan', 'Ur', 'Nippur', 'Irisagrig'):
+    m = Us == s
+    if Uy[m].sum() < 30: continue
+    rf = RandomForestClassifier(200, min_samples_leaf=5, n_jobs=2, random_state=0).fit(UX[~m], Uy[~m])
+    lso[s] = float(roc_auc_score(Uy[m], rf.predict_proba(UX[m])[:, 1]))
+out['ur_intrinsic_leave_site_out_auc'] = lso
+print('UR intrinsic leave-site-out AUC', lso, flush=True)
+rf = RandomForestClassifier(200, min_samples_leaf=5, n_jobs=2, random_state=0).fit(UX, Uy)
+Pi = rf.predict_proba(np.array([intr(list(zip(t['words'], t['amts'], ['X'] * len(t['amts'])))) for t in tabs]))[:, 1]
+wt = defaultdict(list)
+for i, t in enumerate(tabs):
+    for w_ in set(t['words']): wt[w_].append(i)
+W = {w_: ix for w_, ix in wt.items() if len(ix) >= 2}
+def wvar(Pv): return float(np.mean([np.var(Pv[ix]) for ix in W.values()]))
+obs = wvar(Pi); nl = []
+for r in range(3000):
+    Pp = Pi.copy()
+    for s in set(site):
+        ix = np.where(site == s)[0]; Pp[ix] = Pi[rng.permutation(ix)]
+    nl.append(wvar(Pp))
+out['la_word_cohesion_intrinsic'] = {'obs': obs, 'null': float(np.mean(nl)), 'p': float(np.mean(np.array(nl) <= obs))}
+print('LA word cohesion (intrinsic, Ur-trained)', out['la_word_cohesion_intrinsic'], flush=True)
+out['la_tab_intrinsic_p'] = {t['id']: float(p) for t, p in zip(tabs, Pi)}
+wl = sorted(((float(Pi[ix].mean()), w_, len(ix)) for w_, ix in W.items()), reverse=True)
+out['la_words_intrinsic'] = wl
+print('top', wl[:12]); print('bottom', wl[-12:])
+# totals again with the intrinsic, Ur-trained score
+out['la_totals_intrinsic_auc'] = float(roc_auc_score(has_tot, Pi))
+print('totals AUC intrinsic', out['la_totals_intrinsic_auc'])
+json.dump(out, open(os.path.join(CK, 'c3.json'), 'w'), indent=1, default=float)

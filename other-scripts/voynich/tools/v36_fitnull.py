@@ -28,7 +28,7 @@ def setup(name):
         script = {'P': 'voynich', 'H': 'hangul', 'G': 'latin'}[pn[0]]
         seed = 0
     else:
-        seed = 0
+        seed = int(os.environ.get('V36_SEED', '0'))
         xf, xh, yf, yh = make_split(name, seed)
         d = json.load(open(os.path.join(L.CK30, f'g3_{name}_s{seed}.json')))
         script = 'voynich' if name.startswith(('V_', 'S_AB', 'N_AA', 'N_BB')) else 'latin'
@@ -42,7 +42,7 @@ def feat(script, xwords, kind):
     if script == 'voynich':
         alph = [g for g in S.VOYNICH if fr[g] >= 20]
     elif script == 'hangul':
-        alph = [g for g in S.HANGUL if fr[g] >= 20]
+        alph = [g for g in S.HANGUL if fr[g] >= 20]  # noqa
     else:
         alph = [g for g, c in fr.most_common() if c >= 20]
     return L.Feat(kind, alph, fr)

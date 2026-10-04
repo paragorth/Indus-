@@ -1,0 +1,16 @@
+pe26 cycle 4 -- colour-blind clay: is the Yahya/ST-11 signal lighting? (4 Oct 2026)
+Tools: tools/pe26_sticker.py, tools/pe26_cycle4.py. CDLI photos carry no internal colour reference: the black background
+is clipped to L = 0, and white labels are found on 2 of 451 NMI thumbnails (none on ST-11). So a lighting cast cannot be
+removed. Texture is nearly blind to white balance; re-run the cycle-2 tests on texture only, colour only and chromaticity.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-26.4a | Built-in white reference (bright low-chroma label blobs) | 2 of 451 NMI photos | not usable |
+| PE-26.4b | Yahya (4) vs Susa of the same export run (93), leave-one-out diagonal discriminant; null = 500 random sets of 4 same-run Susa tablets | colour AUC 0.995 (q95 0.81, p 0.002); chromaticity 0.995 (p 0.002); texture 0.16 (q95 0.80, p 0.91) | the difference is colour only |
+| PE-26.4c | ST-11 percentile on the Yahya direction; null = 1,000 pseudo-plateau sets | colour 1.00 (p 0.01); chromaticity 0.998 (p 0.23); texture 0.81 (p 0.10) | colour only, and partly outlier-driven |
+| PE-26.4d | PLANTED texture shift (+1 sd mottle and relief) on 4 same-run Susa tablets | AUC 0.58, power 14% | texture from 300 px thumbnails is too noisy to confirm or deny |
+
+Verdict: the Yahya and ST-11 signals are pure colour (yellower, less red), exactly what a white-balance change between
+shooting sessions would produce, and there is no internal reference to rule that out. Texture cannot help at thumbnail
+resolution. Grade C stays. Would decide it: the original-resolution photos with a colour target, or the photographers'
+session log for BK 04043-04941 (Yahya) and BK 03523 (ST-11).

@@ -1,0 +1,19 @@
+pe26 cycle 3 -- clay twins: do tablets that look alike also read alike? (4 Oct 2026)
+Tool: tools/pe26_cycle3.py. If clay colour records the lump, pit, day or deposit, tablets of one photo batch that look
+alike should share vocabulary. Pairs inside the same photo batch (29 batches with >= 8 Susa tablets; 1,159 tablets,
+187,329 pairs). Statistic: correlation of clay similarity with sign-set Jaccard (and numeral-set Jaccard), both ranked and
+residualised on |log area difference|, |log line-count difference|, mean area, mean lines, museum-number gap and
+same-publication flag. Null: clay vectors permuted among tablets inside each batch (200).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-26.3a | All clay features, within-batch permutation | r 0.066 (null q95 0.022, p <= 0.005); numeral sets r -0.03 (p 0.93). Raw (unresidualised) clay~sign 0.026; clay~museum-number gap -0.06 | association with sign vocabulary, not with number systems |
+| PE-26.3b | Drawer/session control: only pairs >= 50 museum numbers apart; and permutation inside blocks of 10 consecutive museum numbers | gap >= 50: r 0.076 (q95 0.031); blocks: r 0.066 (q95 0.009); both p <= 0.005 | survives the drawer-lighting control |
+| PE-26.3c | Colour only vs texture only (gap >= 50, block permutation) | colour r 0.051 (q95 0.014); texture r 0.054 (q95 0.021); both p <= 0.005 | both carry it |
+| PE-26.3d | SIZE-PRESERVING RANDOM TEXTS: each tablet's sign set replaced by a random set of the same size drawn by corpus frequency (10 draws) | colour: r 0.010 (max 0.024) vs real 0.051; all features: 0.029 (max 0.042) vs real 0.076 | about half of the texture effect is set size (inscription density); the colour effect is not |
+| PE-26.3e | PLANTED: 40 text-similar pairs get a shared clay offset (sd 0.5) | r 0.06, detected 100% (colour 100%, texture 67%) | test has power |
+
+Verdict: B (weak, robust): within a photo batch, Susa tablets of similar colour share more sign vocabulary (r ~0.05,
+beyond size, museum-number adjacency, block permutation and size-matched random texts). Grade C for the cause: same clay
+source, same burial deposit (find lot) and same conservation treatment all predict it. Would support "same clay": the effect
+holds on tablets from one stratified deposit. Would kill: it disappears when find lot (excavation register) is controlled.

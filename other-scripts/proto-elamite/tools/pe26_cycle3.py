@@ -18,7 +18,8 @@ rows = [r for r in rows if r['id'] in tabs]
 bc = collections.Counter(r['batch'] for r in rows)
 rows = [r for r in rows if bc[r['batch']] >= 8]
 print('tablets', len(rows), 'batches', len(set(r['batch'] for r in rows)))
-X = within_batch_centre(X_of(rows, CLAY), [r['batch'] for r in rows])
+FE = os.environ.get('FEATS', 'clay'); COLS = {'clay': CLAY, 'colour': COLOUR, 'texture': TEXTURE}[FE]
+X = within_batch_centre(X_of(rows, COLS), [r['batch'] for r in rows])
 X = (X - X.mean(0)) / (X.std(0) + 1e-9)
 tok = [P17.tablet_tokens(tabs[r['id']])[0] for r in rows]
 def num(s):
@@ -57,6 +58,16 @@ def resid(v):
     return v - Qn @ (Qn.T @ v)
 def clayS(Xm): return -np.sqrt(((Xm[I] - Xm[J]) ** 2).sum(1))
 rt, rn = resid(rankdata(textS)), resid(rankdata(numS))
+if os.environ.get('NULLTEXT'):
+    # size-preserving random texts: each tablet gets a random sign set of its own size, drawn by corpus frequency
+    fq = collections.Counter(x for t_ in tok for x in t_['SIGN']); vocab = list(fq); pr_ = np.array([fq[v] for v in vocab], float); pr_ /= pr_.sum()
+    rs = []
+    for rep in range(int(os.environ.get('NULLTEXT'))):
+        fake = [set(rng.choice(len(vocab), size=min(len(t_['SIGN']), len(vocab)), replace=False, p=pr_)) for t_ in tok]
+        tS = np.array([jac(fake[i], fake[j]) for i, j in pairs]); rt_ = resid(rankdata(tS))
+        rs.append(np.corrcoef(resid(rankdata(clayS(X))), rt_)[0, 1])
+    print('size-preserving random texts: r mean', round(float(np.mean(rs)), 4), 'max', round(float(np.max(rs)), 4), flush=True)
+    sys.exit()
 def stat(Xm):
     c = resid(rankdata(clayS(Xm))); return np.corrcoef(c, rt)[0, 1], np.corrcoef(c, rn)[0, 1]
 obs = stat(X)
@@ -90,4 +101,4 @@ plant = np.array(plant)
 print('planted 40 twin pairs (offset sd 0.5): mean r', round(plant[:, 0].mean(), 4), 'share p<0.05', (plant[:, 1] < 0.05).mean())
 json.dump(dict(n_tab=len(rows), n_pairs=len(pairs), obs=obs, p=p, null_q95=list(np.percentile(nul, 95, axis=0)),
                planted_mean_r=float(plant[:, 0].mean()), planted_power=float((plant[:, 1] < 0.05).mean())),
-          open(os.path.join(CK, f'cycle3_gap{int(MINGAP)}_blk{BLOCK}.json'), 'w'), default=float, indent=1)
+          open(os.path.join(CK, f'cycle3_gap{int(MINGAP)}_blk{BLOCK}_{FE}.json'), 'w'), default=float, indent=1)

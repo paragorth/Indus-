@@ -6,7 +6,7 @@ import os, re, json, collections
 HERE = os.path.dirname(os.path.abspath(__file__))
 D = os.path.join(HERE, '..', 'data')
 CK = os.path.join(D, 'la34_ckpt')
-IMG = os.environ.get('LA34_IMG', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/la34img')
+IMG = os.environ.get('LA34_IMG', '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad/la34crop')
 GREEK = str.maketrans({'α': '', 'β': '', 'γ': '', 'δ': ''})
 
 
