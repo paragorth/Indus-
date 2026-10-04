@@ -13,3 +13,34 @@ abc Gloss-pair
 d Voynich-IT 788
 d Voynich-ZL 806
 d Weave-LF-hmm 653
+d vLatin 768
+d Shuf-line 738
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "/home/user/Indus-/other-scripts/voynich/tools/v12_cycle3.py", line 171, in job
+    return part_abc(name) if kind == 'abc' else part_d(name)
+                                                ^^^^^^^^^^^^
+  File "/home/user/Indus-/other-scripts/voynich/tools/v12_cycle3.py", line 148, in part_d
+    agree[0] += (P[t][1] > 0.5) == (truth[k] == 1); agree[1] += 1
+                                    ~~~~~^^^
+IndexError: list index out of range
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/Indus-/other-scripts/voynich/tools/v12_cycle3.py", line 178, in <module>
+    p.map(job, jobs, chunksize=1)
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 774, in get
+    raise self._value
+IndexError: list index out of range

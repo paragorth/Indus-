@@ -475,3 +475,51 @@ def sess_flags(T, S, offset=0):
             f[i] = 1
     f[0] = 1
     return f
+
+
+@njit(cache=True)
+def score_profile(tok, ss, ts, tabs, sess, V, w, B, base, f1, f2, f3, fw):
+    """'use-profile' model: P(s) = q(s|prev) r(s) / Z with r = 1 for signs not yet
+    used in this tablet/session, r = f1, f2, f3 after 1, 2, >= 3 earlier uses, and
+    r = fw for a sign already used in the CURRENT string.
+    Inexhaustible bag / tablet topic: f1 ~ f2 ~ f3 > 1 (or rising).
+    Depleting bag of c copies: r collapses (< 1) once n_s reaches c."""
+    out = np.zeros(len(tabs))
+    n_s = np.zeros(V, np.int32)
+    seen_list = np.zeros(V, np.int32)
+    used = np.zeros(V, np.int32)
+    q = np.zeros(V)
+    fv = np.array([1.0, f1, f2, f3])
+    d = 0
+    for ii in range(len(tabs)):
+        i = tabs[ii]
+        if sess[i] == 1 or ii == 0 or tabs[ii - 1] != i - 1:
+            for k in range(d):
+                n_s[seen_list[k]] = 0
+            d = 0
+        ll = 0.0
+        for j in range(ts[i], ts[i + 1]):
+            prev = V
+            for k in range(ss[j], ss[j + 1]):
+                s = tok[k]
+                _q(base, w, B, prev, V, q)
+                Z = 1.0
+                for t in range(d):
+                    x = seen_list[t]
+                    r = fw if used[x] == 1 else fv[min(n_s[x], 3)]
+                    Z += q[x] * (r - 1.0)
+                rs = fw if used[s] == 1 else fv[min(n_s[s], 3)]
+                p = q[s] * rs / Z
+                if p < 1e-300:
+                    p = 1e-300
+                ll += math.log(p)
+                if n_s[s] == 0:
+                    seen_list[d] = s
+                    d += 1
+                n_s[s] += 1
+                used[s] = 1
+                prev = s
+            for k in range(ss[j], ss[j + 1]):
+                used[tok[k]] = 0
+        out[ii] = ll
+    return out
