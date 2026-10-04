@@ -111,8 +111,13 @@ def metrics(P, y, nb=10):
             'ece': round(float(ece), 4), 'mean_conf': round(float(conf.mean()), 4)}
 
 
-def combine(LP, w, eps):
-    """LP: (n, E, V) log probs; w: (E,) weights -> probs (n, V)."""
+def combine(LP, w, eps, kind='log'):
+    """LP: (n, E, V) log probs; w: (E,) weights -> probs (n, V).
+    kind 'log' = weighted product of experts; 'lin' = weighted mixture."""
+    if kind == 'lin':
+        p = np.einsum('nev,e->nv', np.exp(LP), w / max(w.sum(), 1e-12))
+        p /= p.sum(1, keepdims=True)
+        return (1 - eps) * p + eps / p.shape[1]
     z = np.einsum('nev,e->nv', LP, w)
     z -= z.max(1, keepdims=True)
     p = np.exp(z); p /= p.sum(1, keepdims=True)
@@ -130,12 +135,14 @@ def random_ensemble(LP, y, foldA, foldB, names, nrand, rng, allowed=None, topk=2
         w = rng.exponential(1.0, E) * m
         w = w / max(w.sum(), 1e-9) * rng.uniform(0.6, 2.5)
         eps = 10 ** rng.uniform(-4, -1)
-        P = combine(LP[foldA], w, eps)
+        kind = 'lin' if rng.random() < 0.5 else 'log'
+        P = combine(LP[foldA], w, eps, kind)
         ll = -np.log(P[np.arange(len(P)), y[foldA]] + 1e-12).mean()
-        cands.append((w, eps)); lA.append(ll)
+        cands.append((w, eps, kind)); lA.append(ll)
     order = np.argsort(lA)[:topk]
     PB = np.mean([combine(LP[foldB], *cands[k]) for k in order], 0)
     wbar = np.mean([cands[k][0] for k in order], 0)
+    random_ensemble.last = [cands[k] for k in order]
     return PB, wbar, np.array(lA), order
 
 

@@ -273,7 +273,9 @@ def run_task(kind, D, seed, nrand):
         out['ablation'][g] = {'without': metrics(Pw, y)['top1'], 'only_plus_glob': metrics(Po, y)['top1']}
     if kind == 'num':  # subset where a total constrains the value
         has = np.array([np.exp(LP[k, names.index('TOT')]).max() > 0.3 for k in range(len(insts))])
-        out['with_total'] = {'n': int(has.sum()), 'ensemble': metrics(P[has], y[has]), 'glob_only': metrics(base[has], y[has])}
+        Pt = np.exp(LP[:, names.index('TOT')]); Pt /= Pt.sum(1, keepdims=True)
+        out['with_total'] = {'n': int(has.sum()), 'ensemble': metrics(P[has], y[has]), 'glob_only': metrics(base[has], y[has]),
+                             'tot_only': metrics(Pt[has], y[has])}
         out['without_total'] = {'n': int((~has).sum()), 'ensemble': metrics(P[~has], y[~has])}
     return out
 

@@ -66,5 +66,5 @@ if mode == 'mix':
             out['null'].append({K: mixture_heldout(s, K, seed=r + 1, restarts=2) for K in KS})
             if r % 5 == 0:
                 print(T, 'null', r, round(time.time() - t0), flush=True)
-                json.dump(out, open(os.path.join(CK, 'c2_mix_%s.json' % T), 'w'))
-        json.dump(out, open(os.path.join(CK, 'c2_mix_%s.json' % T), 'w'))
+                json.dump(out, open(os.path.join(CK, 'c2_mix_%s%s.json' % (T, os.environ.get('TAG', ''))), 'w'))
+        json.dump(out, open(os.path.join(CK, 'c2_mix_%s%s.json' % (T, os.environ.get('TAG', ''))), 'w'))

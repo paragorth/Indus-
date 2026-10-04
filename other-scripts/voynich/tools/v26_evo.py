@@ -4,7 +4,7 @@ Per corpus (V = Voynich ZL3b, LA = Latin herbal, IT = Italian herbal, PL = text 
 fit the scribe's tables on half the pages (split_half), then evolve genomes so that their forgeries of those
 pages fool page-feature discriminators that are retrained for every genome (5-fold ridge, CV by page) AND a
 growing archive of frozen discriminators trained on earlier generations' elite forgeries (adversarial memory).
-Fitness (lower is better) = 0.5 * fresh ridge AUC + 0.5 * mean archive AUC + LAMBDA * genome bits.
+Fitness (lower is better) = max(fresh ridge AUC (running mean), mean symmetric archive AUC) + LAMBDA * genome bits.
 Massive random guessing first (NRAND random genomes), then (mu + lambda) evolution with crossover and
 mutation; elites are re-forged with a new seed every generation (running mean). Restarts are independent.
 Checkpoints: data/v26_ckpt/evo_<corpus>_r<restart>.json (resumable per generation).
@@ -119,7 +119,8 @@ def main():
                 e = pop[i]; e['auc'] = (e['auc'] + [a])[-4:]; e['arc'] = arc
             else:
                 e = dict(g=g, auc=[a], arc=arc, bits=bits(g))
-            e['fit'] = 0.5 * float(np.mean(e['auc'])) + 0.5 * e['arc'] + LAMBDA * e['bits']
+            # a forgery must fool the fresh critic AND the archive: the worse of the two counts
+            e['fit'] = max(float(np.mean(e['auc'])), e['arc']) + LAMBDA * e['bits']
             ev.append((e, X))
         ev.sort(key=lambda t: t[0]['fit'])
         state['pop'] = [e for e, _ in ev[:MU]]

@@ -201,7 +201,7 @@ def main():
                                       float(z[_W['keys'].index(k)])] for k in SURV})
             print('held', lab, np.mean(out[lab]['ridge']), np.mean(out[lab]['gbm']), f'[{time.time() - t0:.0f}s]', flush=True)
         res['held'] = out; save(ck, res)
-    if 'ppl' not in res:
+    if 'ppl' not in res and name in ('V', 'VI'):
         winit(name)
         res['ppl'] = perplexity(name, _W['tr'], _W['te'], {'evolved': W, 'minimal': res['minimal'], 'base': BASE})
         save(ck, res); print('ppl', res['ppl'], f'[{time.time() - t0:.0f}s]', flush=True)
