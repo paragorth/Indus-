@@ -229,6 +229,9 @@ def tri_table(sym):
     return a, b, cc, c.astype(float), S
 
 
+LAMBDA = 1.0
+
+
 class Solver:
     """Fit symbol->letter key on a training stream by random guessing + annealing,
     report train and held-out mean log2 P(letter | 2 previous letters)."""
@@ -241,14 +244,37 @@ class Solver:
         self.W = w.sum()
         self.test = test
         self.inv = [np.where((a == s) | (b == s) | (c == s))[0] for s in range(S)]
+        self.ns = np.bincount(train, minlength=S).astype(float)
+        self.logu = np.log2(lm.uni)
+        self.lam = LAMBDA
+
+    def kl(self, K):
+        """KL(decoded letter freq || language unigram) for keys K (n, S), in bits."""
+        n = K.shape[0]
+        q = np.zeros((n, self.lm.A))
+        np.add.at(q, (np.repeat(np.arange(n), self.S), K.ravel()), np.tile(self.ns, n))
+        q /= q.sum(1, keepdims=True)
+        with np.errstate(divide='ignore', invalid='ignore'):
+            t = np.where(q > 0, q * (np.log2(q) - self.logu), 0.0)
+        return t.sum(1)
 
     def score_keys(self, K):
         """K: (n, S) keys -> train mean log prob for each."""
         LP = self.lm.LP
-        return (LP[K[:, self.a], K[:, self.b], K[:, self.c]] * self.w).sum(1) / self.W
+        return (LP[K[:, self.a], K[:, self.b], K[:, self.c]] * self.w).sum(1) / self.W - self.lam * self.kl(K)
+
+    def heldout_raw(self, key):
+        return self.lm.score_idx(key[self.test]) if len(self.test) > 2 else float('nan')
 
     def heldout(self, key):
-        return self.lm.score_idx(key[self.test]) if len(self.test) > 2 else float('nan')
+        """Held-out objective: mean trigram log2 prob minus lambda * unigram KL, on the test half."""
+        if len(self.test) <= 2:
+            return float('nan')
+        y = key[self.test]
+        q = np.bincount(y, minlength=self.lm.A) / len(y)
+        m = q > 0
+        kl = float((q[m] * (np.log2(q[m]) - self.logu[m])).sum())
+        return self.lm.score_idx(y) - self.lam * kl
 
     def random_stage(self, n, rng):
         A = self.lm.A
@@ -418,6 +444,18 @@ def caesar_letters():
     return letters('la', t)
 
 
+def _kl_cands(sv, key, s):
+    """Unigram KL for every candidate letter of symbol s (others fixed)."""
+    A = sv.lm.A
+    base = np.bincount(key, weights=sv.ns, minlength=A)
+    base[key[s]] -= sv.ns[s]
+    Q = np.tile(base, (A, 1)); Q[np.arange(A), np.arange(A)] += sv.ns[s]
+    Q /= Q.sum(1, keepdims=True)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        t = np.where(Q > 0, Q * (np.log2(Q) - sv.logu), 0.0)
+    return t.sum(1)
+
+
 def gibbs(sv, key, rng, sweeps=12, T0=0.03, T1=0.0005):
     """Heat-bath annealing: for each symbol in random order, score every letter
     at once and sample from softmax(score / T). Returns (key, train score)."""
@@ -434,7 +472,7 @@ def gibbs(sv, key, rng, sweeps=12, T0=0.03, T1=0.0005):
             a, b, c, w = sv.a[ix], sv.b[ix], sv.c[ix], sv.w[ix]
             ka = np.where(a == s, letters_, key[a]); kb = np.where(b == s, letters_, key[b])
             kc = np.where(c == s, letters_, key[c])
-            sc = (LP[ka, kb, kc] * w).sum(1) / sv.W
+            sc = (LP[ka, kb, kc] * w).sum(1) / sv.W - sv.lam * _kl_cands(sv, key, s)
             z = (sc - sc.max()) / T
             p = np.exp(z); p /= p.sum()
             key[s] = rng.choice(A, p=p)
@@ -446,7 +484,7 @@ def gibbs(sv, key, rng, sweeps=12, T0=0.03, T1=0.0005):
         a, b, c, w = sv.a[ix], sv.b[ix], sv.c[ix], sv.w[ix]
         ka = np.where(a == s, letters_, key[a]); kb = np.where(b == s, letters_, key[b])
         kc = np.where(c == s, letters_, key[c])
-        key[s] = int(np.argmax((LP[ka, kb, kc] * w).sum(1)))
+        key[s] = int(np.argmax((LP[ka, kb, kc] * w).sum(1) / sv.W - sv.lam * _kl_cands(sv, key, s)))
     return key, float(sv.score_keys(key[None, :])[0])
 
 
@@ -465,6 +503,6 @@ def solve2(lm, stream, S, rng, n_random=2000, n_starts=3, sweeps=12, split=0.5):
         if best is None or s > best[1]:
             best = (k, s)
     key, trs = best
-    out.update({'train': trs, 'test': sv.heldout(key), 'key': key.tolist(),
+    out.update({'train': trs, 'test': sv.heldout(key), 'test_raw': sv.heldout_raw(key), 'key': key.tolist(),
                 'sample': ''.join(lm.alpha[i] for i in key[te[:80]])})
     return out

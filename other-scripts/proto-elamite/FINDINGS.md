@@ -200,3 +200,9 @@ Photos: https://cdli.earth/artifacts/<number>.
 
 ## Economy simulation (pe6, 4 Oct 2026; `loops/pe6_final.txt`)
 An agent-based economy fitted by approximate Bayesian computation (38 parameters, 43 statistics, 20,000 runs) matches the corpus on 40 of 43 statistics. Writing habits are pinned (one general opener on about a third of headers; 83% of tablets list named units; totals on 53% of tablets, 63% of them not equal to the sum); institution size is not (offices and workers per office fail the recovery control). The model's one systematic failure is informative: the final class sign predicts the number system far less than the model expects (0.31 vs 0.95 bits), so **the number system follows the tablet, not the good**. Role grades calibrated against a shuffled corpus: counted-goods A M072, M346; capacity A M002, M297 (restates test b); name-spelling A M099, M136, M005, M246, M251, M254, M304, M262, M340, M390, |M106+M288|; B M418, M206, M050, M379, M243, M036, M319, M328, M352, M384.
+
+## Name phylogenetics (pe7)
+- Proto-Elamite middles show no detectable kinship structure. Tree-likeness is weak (retention index z 3.6, about the Linear B level). Father and son samples are no more tree-like than unrelated names. Planted lineages were recovered 8 of 8, but the method failed on real Ur III father and son pairs, so the kinship test is weak.
+- Names on the same tablet share rare signs: 0.30 of pairs against 0.125 by chance (2.4×). Kin pairs in Ur III and Old Babylonian give only 1.1–1.25×. The effect survives removal of common signs and is not due to repeated spellings or adjacent lines. Grade B: each tablet draws on a local pool of name signs.
+- Herd tablets show similar names through |M362+X| compounds. This is a herd-naming pattern, not a lineage. Grade C.
+- No inherited name element reaches grade A or B. Grade C only: M388, M124, M370, M054, |M362+X|.

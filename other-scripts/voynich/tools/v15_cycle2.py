@@ -12,7 +12,7 @@ lengths of a Voynich-like text (len / pair / bacon2). Negative controls: Caesar
 and Manzoni's own word lengths (+ their within-line shuffles).
 Checkpoints: one JSON per (stream, scheme, language) under results/v15/cycle2/.
 """
-import os, sys, json
+import os, sys, json, zlib
 from multiprocessing import Pool
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -101,7 +101,7 @@ def run(job):
     path = os.path.join(OUT, f'{src}_{unit}_{scheme}_{lang}.json')
     if os.path.exists(path):
         return path
-    seed = abs(hash(path)) % 2**32
+    seed = zlib.crc32(os.path.basename(path).encode())
     rng = np.random.default_rng(seed)
     lm = V.get_lm(lang)
     lines = base_lines(src)

@@ -1,0 +1,14 @@
+pe8 cycle 1 -- "the tablets were filled-in forms": how many forms?  (tools/pe8_common.py, pe8_build.py, pe8_cycle1.py;
+numbers data/pe8_cycle1.json, .log; metadata data/pe8_meta.json from CDLI catalogue museum_no / excavation_no / findspot)
+Skeleton = 15 role features per tablet, names and quantities blanked: header type (none / M157 / M327-family / other),
+header length, entry number-system profile (S/C/CS/F/B/O), entry count bin, one-sign-entry share, class-sign-final share,
+class sign repeated, prefix used, bare numeral line, subscript line, reverse use (blank/total/entries/text), total relation
+(none/same system/conversion/bare), top-edge numeral, extra column, seal. Damage = feature unobserved (marginalised).
+REAL = 1,119 tablets with >= 2 obverse entries (95% Susa); CLEAN = 289 undamaged. 1,008 distinct skeletons among 1,119
+(934 seen once) -- no exact form repeats much (top skeleton: 10 tablets).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-1.1 | Latent class model (EM, K 1-12, 12 restarts) with BIC (two-part MDL) and 5-fold held-out log-lik; DP mixture (collapsed Gibbs, alpha ~ Gamma(1,1), 2 chains) on REAL and CLEAN. Planted control: 5 corpora (n = 1,119) written from 6 fixed forms, 85% field fidelity, real entries and real damage pattern | REAL: K_bic 5, DP 4/4 clusters >= 1%, CV keeps rising to K = 12. CLEAN: K_bic 3, DP 4. PLANTED: K_bic 7, 6, 6, 6, 5 (mean 6.0), DP 5-8, ARI with true forms 0.72-0.82 | BIC/DP recover the planted 6 (+-1); held-out CV over-splits every corpus (12 on planted) and is not a usable form counter. Use BIC |
+| PE-2.1 | Same pipeline on NULL corpora: entry count, every entry and every tablet-level field group drawn independently from real pools (layout generated per entry, no tablet coupling), 5 seeds; and on REAL with each feature column permuted (3 seeds) | NULL: K_bic 5,5,5,5,5, DP 3-5 -- the SAME count as REAL. Column-shuffled: K 1,1,1 | KILLS the count: '5 forms' is produced by how skeleton features are built from the same entries, not by templates. A corpus with no forms at all yields 5 clusters too |
+| PE-3.1 | Strength of clustering instead of count: BIC gain per tablet (K_bic vs K = 1), same model, all corpora | REAL 1.62 nats/tablet; NULL 1.20-1.31 (max of 5); PLANTED 2.37-4.12 (min of 5); log-lik gain at K = 5: REAL 1.24, NULL 1.03-1.08, PLANTED 1.59-2.47 | REAL has tablet-level coherence beyond per-entry independence (above all 5 nulls) but sits far below even the weakest 6-form planted corpus: the excess over null is ~0.3-0.4 nats per tablet, planted forms give 1.1-2.9 |
