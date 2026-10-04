@@ -59,8 +59,36 @@ def main():
             p = G.predict(mALL, c); pn.append(p[[i for i, x in enumerate(c['cands']) if x[0] == G.NEW]].sum())
     lines.append(f"    reference: signs whose row is present: mean P(new) {np.mean(pn):.2f}, share with P(new) > 0.5 {np.mean(np.array(pn) > .5):.2f}")
     print('\n'.join(lines), flush=True)
+    # (c) occupancy-matched LB: drop random valued signs (they become unvalued) until the main-grid empty-cell count
+    # equals LA's, then leave-one-out on the rest with the frozen models
     W = [r['w'] for r in G.la_units()]
     V = G.known_values(W)
+    def n_empty(Vd):
+        rows = collections.Counter(x[0] for x in Vd.values())
+        main = [r for r, n in rows.items() if n >= 2]
+        return len(main) * 5 - sum(1 for x in set(Vd.values()) if x[0] in main)
+    target = n_empty(V)
+    mPR = pickle.load(open(os.path.join(G.CK, 'c1_model_PRIOR.pkl'), 'rb'))
+    rng = np.random.default_rng(7)
+    occ = collections.defaultdict(list)
+    for d in range(4):
+        Wb = G.lb_draw(U, 3569, seed=700 + d)
+        Vb = G.known_values(Wb)
+        cntb = collections.Counter(s for w in Wb for s in w)
+        while n_empty(Vb) < target:
+            Vb.pop(rng.choice(sorted(Vb)))
+        for h in sorted(Vb):
+            if cntb[h] < 3:
+                continue
+            c = G.make_case(Wb, Vb, h)
+            if c is None:
+                continue
+            for nm, m in (('PRIOR', mPR), ('ALL', mALL)):
+                occ[nm].append(G.evaluate(m, [c]))
+    for nm, v in occ.items():
+        e = {k: float(np.mean([x[k] for x in v])) for k in v[0] if k != 'n'} | dict(n=len(v))
+        lines.append(f"(c) LB occupancy-matched to LA ({target} empty main-grid cells), 4 draws, {nm}: {G.fmt_eval(e)}")
+    print('\n'.join(lines[-2:]), flush=True)
     la = []
     for row in ('j', 'z', 'w', 'q', 'm', 'n', 'p'):
         r = row_hide(W, V, row, mALL); la += r

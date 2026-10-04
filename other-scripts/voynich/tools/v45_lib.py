@@ -238,7 +238,8 @@ def get_corpus(name):
         V = get_corpus('V'); S = Scribe(V, ('C', 'S'))
         units = latin_units() if name.startswith('LA') else gerard_units()
         kind = name[2]
-        C = encode(units, kind, S, 400 if kind == 'w' else 26, seed=451)
+        Mb = int(name[3:]) if name[3:] else (400 if kind == 'w' else 26)
+        C = encode(units, kind, S, Mb, seed=451)
     json.dump(C, open(p, 'w'))
     return C
 

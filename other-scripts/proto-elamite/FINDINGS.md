@@ -425,3 +425,11 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Grade B (negative): the 236 rebuilt sessions show no daily-archive arithmetic. Rates do not match (p 0.40). Cross-tablet sums: 2 of 47 totals, against 0.7 in the drawer null (p 0.13), although 25 planted sums were found (26 vs 3.8). Names recur across session tablets only 12 times.
 - Grade C: twin dockets MDP 17,001 and 17,003 (Sb 22204/22205) have the same M157~a header and similar size, both carry M131~k, and both come to 15 units (10+5 M039~c; 3x5 M032, written total 15). Would support: another Sb 2220x tablet with M157~a and 15 units. Would kill: the two tablets came from different find lots.
 - Not cracked. Nothing is read.
+
+## Compound signs are sums? (pe34, 4 Oct 2026; `loops/pe34_final.txt`)
+- Method: each compound (|A+B|, |A+B+A|, |A+A|, numeral insets) was described by its administrative behaviour (numeral system, count size, position, first line, reverse, tablet header, neighbours). A modifier's shift learned on other bases was used to predict the compound on an unseen base, and additive, scaling and interaction factorisations were fitted leave-one-out, against modifier-shuffle nulls. Controls: Linear B sex markers and ligatures, proto-cuneiform inscribed signs, planted modifiers at real compound sizes. Prior art: Born, Kelley et al. 2021 used embeddings, not held-out behavioural transfer.
+- **Grade B, negative: PE modifiers do not shift behaviour alike across bases** (p 0.08-0.67 over all tests) while planted 20%-strength modifiers are found 5/5 and Linear B passes (p 0.001-0.05). Proto-cuneiform insets also fail (p 0.28-0.81), so this means the modifiers are not behavioural operators, not that they are meaningless. Bases carry behaviour in all three scripts (p 0.0005).
+- Caution: counting variant forms (M228 / M228~b) as different bases creates false transfer (p 0.006); corrected.
+- Grade C: M342 is the only transferable modifier (quantity family, p 0.006, tablet-disjoint; gone without it): |X+M342| is unnumbered / opening-line more often than X on 5 of 7 bases. Would support: new |X+M342| on new tablets unnumbered more often than X; would kill: numbered as often as X.
+- No modifier detectably marks female/young, herd subtype, ration grade or container. Not cracked.
+
