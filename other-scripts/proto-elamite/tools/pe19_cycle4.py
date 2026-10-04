@@ -5,7 +5,7 @@ content is clustered blindly (k-means on CA axes 1-6, K = 4, 8, 16, 32) and the
 cluster dummies are partialled out of the CA residual matrix (time should cut
 ACROSS content clusters). Candidate seriators (axis 1 or 2 of the partial CA,
 plain CA, plant-only sanity) are ranked by recovery of planted drifts at three
-strengths (5 seeds each); only the winner is applied to the real data, frozen,
+strengths (3 seeds each; randomized SVD, 8 axes); only the winner is applied to the real data, frozen,
 hashed and scored. The Uruk IV/III control is run with the winner.
 Never reads the hidden labels.
 """
@@ -14,6 +14,7 @@ import numpy as np
 from scipy.stats import spearmanr
 from pe19_common import *
 from pe19_cycle1 import planted
+from sklearn.utils.extmath import randomized_svd as rsvd
 
 
 def ca_resid(X):
@@ -30,14 +31,14 @@ def kmeans(Y, K, seed):
 
 def partial_ca(X, K, axis=0, seed=0):
     S, r = ca_resid(X)
-    U, s, Vt = np.linalg.svd(S, full_matrices=False)
+    U, s, Vt = rsvd(S, 8, random_state=seed)
     if K <= 1:
         return U[:, axis] / np.sqrt(r)
     rows = U[:, :6] * s[:6] / np.sqrt(r)[:, None]
     lab = kmeans(rows, K, seed)
     Z = np.eye(K)[lab] * np.sqrt(r)[:, None]
     beta, *_ = np.linalg.lstsq(Z, S, rcond=None)
-    U2, s2, _ = np.linalg.svd(S - Z @ beta, full_matrices=False)
+    U2, s2, _ = rsvd(S - Z @ beta, 4, random_state=seed)
     return U2[:, axis] / np.sqrt(r)
 
 
@@ -48,7 +49,7 @@ def main():
     cands = [(K, ax) for K in (1, 4, 8, 16, 32) for ax in (0, 1)]
     cal = {}
     for (ntr, k) in ((40, 8.0), (100, 8.0), (200, 15.0)):
-        for rep in range(5):
+        for rep in range(3):
             Xp, t = planted(X, elen, seed=1000 + rep, n_tr=ntr, k=k)
             for K, ax in cands:
                 sc = partial_ca(Xp, K, ax, seed=rep)

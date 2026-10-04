@@ -35,18 +35,22 @@ def load_la():
     out = []
     for r in d:
         cls = 'R' if r['support'] in LA_R else ('T' if r['support'] in LA_T else 'O')
-        items, cur = [], dict(terms=[], nums=[])
+        items, cur = [], dict(terms=[], nums=[], q=[])
         for t in r['tokens']:
             if t['t'] == 'nl':
                 if cur['terms'] or cur['nums']:
                     items.append(cur)
-                cur = dict(terms=[], nums=[])
+                cur = dict(terms=[], nums=[], q=[])
             elif t['t'] == 'word':
                 cur['terms'].append('W:' + '-'.join(t['s']))
             elif t['t'] == 'logo':
                 cur['terms'].append('L:' + t['v'].replace("'", ''))
             elif t['t'] == 'num':
                 cur['nums'].append(t['v'])
+                cur['q'].append((t['v'], tuple(t.get('frac') or ())))
+            elif t['t'] == 'frac':
+                cur['nums'].append(0)
+                cur['q'].append((0, tuple(t['v'])))
         if cur['terms'] or cur['nums']:
             items.append(cur)
         m = meta.get(r['id'], {})

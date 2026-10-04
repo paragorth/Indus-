@@ -287,3 +287,13 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Grade C (weak): only the /30 point puts a PE unit in the measured bevelled-rim-bowl range (N30C 0.62 l; then N24 = 1.85 l = one adult day). A chance hit is 43% likely. Would support: PE-period vessels near 0.6 and 1.9 l in a 1:3 ratio. Would kill: PE ration vessels clustering far from 0.6 l.
 - Grade C: in capacity records the companion line is 0.2-0.67 of the main line (P009000 1(N30C) after 1(N24); P008403; P009123): one adult-sized and one dependant-sized ration. Children and small stock cannot be told apart by amount.
 
+
+## The scribe knew the length? (pe21, 4 Oct 2026; `loops/pe21_final.txt`)
+- Idea: a scribe copying from a finished source (tokens, a bulla, an earlier tablet) knows the list length and sizes the clay to fit; one writing as events happen does not. Statistic: elasticity of clay area (CDLI h x w) on text amount, and a mixture with an area-proportional-to-text line. Nulls: texts re-dealt across tablets of the same kind, labels permuted within text-size bins. Planted corpora recovered (planned share error <= 0.06, AUC 0.86-0.93).
+- Ur III control: single-day receipts fit their clay best (0.91); multi-day running logs (0.70) and grand-total summaries (0.72) do not separate. The size test measures "one known transaction vs a list", not "copied vs as-it-happened".
+- Grade B: PE clay grows with about the square root of the text (0.40). This is a floor effect plus loose sizing: 0.56 at 5+ lines and 0.65 at 8+ lines. Proto-cuneiform shows the same (0.44-0.49), so this is archaic practice, not specific to PE.
+- Grade B: about 42% of PE lists with 5+ lines sit on the sized-to-fit line (re-dealt texts 2-7%). Ur III running logs reach 61%, summaries 76% and receipts 95%. The sized-to-fit PE tablets are an ordinary cross-section: no system, office, seal, total or site is enriched (|z| < 2.1). Grade C: the largest herd lists (P008295, P008759, P008322) were sized for a known length.
+- Grade B: totals sit in a reserved place. When entries end on the obverse, the total goes to the reverse although the obverse still had room for about 2.6 more lines (upper estimate).
+- Token hypothesis: piles of tokens written as they lay (unexchanged) are killed. N01 > 9 occurs in 4 of 5,048 counts, giving an upper bound of 1% (a planted 1% is found 92% of the time); proto-cuneiform is the same. There is no hand-counting cap at 5: counts 6-9 are common. Grade B. Tokens already exchanged into denominations are not excluded. Grade C side note: N01 = 8 is over-represented against 7.
+- Tablet size does not predict count size once text amount is fixed (z -1.8).
+- Nothing is read; nothing is cracked.

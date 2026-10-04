@@ -39,13 +39,16 @@ def stat(rdocs, sites, ts, use_base):
 
 
 def n1(rdocs, ts, use_base, n=2000):
-    sites = [d['site'] for d in rdocs]
-    obs = stat(rdocs, sites, ts, use_base)
+    """Site labels permuted among distinct (site, term) receipt types (per-site type counts kept)."""
+    types = sorted({(d['site'], t) for d in rdocs for t in C.doc_terms(d, use_base)})
+    sites = [s for s, t in types]
+    terms = [t for s, t in types]
+    obs = (sum(1 for s, t in types if ts[s][t] > 0), len(types))
     vals = []
     for _ in range(n):
         s2 = sites[:]
         R.shuffle(s2)
-        vals.append(stat(rdocs, s2, ts, use_base)[0])
+        vals.append(sum(1 for s, t in zip(s2, terms) if ts[s][t] > 0))
     return obs, vals
 
 
@@ -131,25 +134,25 @@ def per_site(docs, label, out):
     ts = tabsets(docs, False)
     tsites = {d['site'] for d in docs if d['cls'] == 'T'}
     rd = [d for d in docs if d['cls'] == 'R' and d['site'] in tsites and C.doc_terms(d)]
-    sites = [d['site'] for d in rd]
+    types = sorted({(d['site'], t) for d in rd for t in C.doc_terms(d)})
+    sites = [s for s, t in types]
     by = collections.defaultdict(set)
-    for d in rd:
-        for t in C.doc_terms(d):
-            by[d['site']].add(t)
+    for s, t in types:
+        by[s].add(t)
     for s, terms in sorted(by.items(), key=lambda x: -len(x[1])):
         if len(terms) < 3:
             continue
         hit = [t for t in terms if ts[s][t]]
-        # expected under N1: per-site permutation share
         vals = []
-        for _ in range(500):
+        for _ in range(2000):
             s2 = sites[:]
             R.shuffle(s2)
-            tt = {t for d, ss in zip(rd, s2) if ss == s for t in C.doc_terms(d)}
-            vals.append(sum(1 for t in tt if ts[s][t]) / max(1, len(tt)))
+            vals.append(sum(1 for ss, (_, t) in zip(s2, types) if ss == s and ts[s][t]))
         m = sum(vals) / len(vals)
-        p = (1 + sum(1 for v in vals if v >= len(hit) / len(terms))) / 501
-        line = f'  {label} {s}: {len(hit)}/{len(terms)} receipt types on own tablets ({len(hit)/len(terms):.2f}) vs N1 share {m:.2f}, P {p:.3f}; hits {sorted(hit)[:14]}'
+        p = (1 + sum(1 for v in vals if v >= len(hit))) / 2001
+        pl = (1 + sum(1 for v in vals if v <= len(hit))) / 2001
+        line = (f'  {label} {s}: {len(hit)}/{len(terms)} receipt types on own tablets vs site-swap {m:.1f}, '
+                f'P(>=) {p:.4f}, P(<=) {pl:.4f}; hits {sorted(hit)[:16]}')
         print(line, flush=True)
         out.append(line)
 

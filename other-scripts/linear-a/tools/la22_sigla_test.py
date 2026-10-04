@@ -81,6 +81,9 @@ def main():
                 for j, c in enumerate(t['c']): a.append((c, ti, j))
         b = [norm_code(o['code']) for o in S[k]['occ'] if o['role'] == 'syllabogram']
         bsure = [o['sure'] for o in S[k]['occ'] if o['role'] == 'syllabogram']
+        bword = []
+        for wi, w in enumerate(S[k]['words']):
+            bword += [wi] * len(w)
         if not a or not b: continue
         al = nw([x[0] for x in a], b)
         T = d['toks']
@@ -110,7 +113,9 @@ def main():
                         if idx + 1 < len(al) and al[idx + 1][0] == nxt:
                             cand = (d['id'], ti, 'L')
                 if cand and cand in edge:
-                    edges.append({'doc': cand[0], 'tok': cand[1], 'mode': cand[2], 'Y': b[j], 'sure': bsure[j],
+                    nb = al[idx - 1][1] if cand[2] == 'R' else al[idx + 1][1]
+                    same = nb is not None and nb < len(bword) and j < len(bword) and bword[nb] == bword[j]
+                    edges.append({'same_word': bool(same), 'doc': cand[0], 'tok': cand[1], 'mode': cand[2], 'Y': b[j], 'sure': bsure[j],
                                   'pred': edge[cand]['top10'], 'pred_shuf': edgeS.get(cand, {}).get('top10'),
                                   'fragment': edge[cand]['fragment_tr']})
     res = {'docs_aligned': n_docs, 'aligned_pairs': n_al, 'identical': n_match, 'n_sub': len(subs), 'n_edge': len(edges)}
@@ -144,8 +149,18 @@ def main():
     pref = [rank_of(s['pred'], s['Y'])[1] > rank_of(s['pred'], s['X'])[1] for s in subs]
     res['SUB_prefers_Y_over_X'] = [int(sum(pref)), len(pref)]
     res['EDGE'] = score(edges, 'edge')
+    # post hoc (decided after seeing the events): sign must be in the model's syllabic inventory
+    # and, for edges, in the same SigLA word as the surviving fragment
+    vocab = set(freq)
+    subs_v = [x for x in subs if x['Y'] in vocab and x['X'] in vocab]
+    edges_v = [x for x in edges if x['Y'] in vocab]
+    edges_vw = [x for x in edges_v if x['same_word']]
+    res['posthoc_SUB_invocab'] = score(subs_v, 'sub'); res['posthoc_SUB_invocab_shuf'] = score(subs_v, 'sub', 'pred_shuf')
+    res['posthoc_EDGE_invocab'] = score(edges_v, 'edge'); res['posthoc_EDGE_invocab_shuf'] = score(edges_v, 'edge', 'pred_shuf')
+    res['posthoc_EDGE_invocab_sameword'] = score(edges_vw, 'edge')
+    res['posthoc_EDGE_invocab_sameword_shuf'] = score(edges_vw, 'edge', 'pred_shuf')
     res['EDGE_shufmodel'] = score(edges, 'edge', 'pred_shuf')
-    res['edge_events'] = [[e['doc'], e['mode'], '-'.join(e['fragment']), e['Y'], rank_of(e['pred'], e['Y'])[0],
+    res['edge_events'] = [[e['doc'], e['mode'], '-'.join(e['fragment']), e['Y'], e['same_word'], rank_of(e['pred'], e['Y'])[0],
                            e['pred'][0][0], e['pred'][0][1]] for e in edges]
     res['sub_events_nonsys'] = [[s['doc'], s['X'], s['Y'], rank_of(s['pred'], s['Y'])[0], rank_of(s['pred'], s['X'])[0],
                                  s['pred'][0][0]] for s in nonsys]

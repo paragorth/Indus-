@@ -134,7 +134,7 @@ def ur3_tablets():
         faces = collections.Counter(f for f, _ in c['L'])
         days = set(re.findall(r'u4 (\d+)\(disz\)-kam', txt))
         itis = set(re.findall(r'iti ([^\s_]+)', txt))
-        total = 'szu-nigin' in txt
+        total = bool(re.search(r'szu-nigin|(?:^| )nigin2? \d', txt))
         verb = bool(re.search(r'mu-kux\(DU\)|mu-DU|ba-zi|i3-dab5|szu ba-ti', txt))
         comp = (len(days) >= 2 or len(itis) >= 2 or 'nig2-ka9' in txt
                 or re.search(r'-ta\b.*iti .*-sze3', txt) is not None)
@@ -145,6 +145,8 @@ def ur3_tablets():
             kind = 'DAILY'
         h, w, th, prov = cat[c['id']]
         out.append({'id': c['id'], 'h': h, 'w': w, 'th': th, 'prov': prov, 'kind': kind,
+                    'ndays': len(days), 'nitis': len(itis), 'verb': verb,
+                    'nigka': 'nig2-ka9' in txt, 'span': re.search(r'-ta\b.*iti .*-sze3', txt) is not None,
                     'intact': not c['lost'], 'n_lines': len(c['L']),
                     'glyphs': sum(len(_graphemes(s)) for _, s in c['L']),
                     'obv': faces.get('obverse', 0), 'rev': faces.get('reverse', 0),
@@ -224,3 +226,11 @@ def write_rows(path, rows, header=''):
         f.write('| id | method and control | result | verdict |\n|---|---|---|---|\n')
         for r in rows:
             f.write('| ' + ' | '.join(r) + ' |\n')
+
+
+def ur3_kind(t):
+    if t['ndays'] >= 2 or t['nigka'] or t['span'] or t['total'] or (t['nitis'] >= 2 and t['n_lines'] >= 8):
+        return 'COMPILED'
+    if t['ndays'] == 1 and t['verb'] and t['n_lines'] <= 20 and t['nitis'] <= 1:
+        return 'DAILY'
+    return None

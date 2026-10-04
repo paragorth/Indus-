@@ -34,6 +34,7 @@ F_GRID = np.linspace(0.2, 1.3, 12)
 R_GRID = np.geomspace(0.02, 0.30, 10)
 EPS = 0.3
 K_NB = 4.0
+K_GRID = np.array([0.7, 2.0, 6.0])      # NB dispersion, marginalised with the rates
 PI_T = 0.5
 
 
@@ -71,8 +72,16 @@ def fit_generic(values):
 
 # ---------------------------------------------------------------- scorer
 class Scorer:
-    def __init__(self, V, lg=None):
-        """V: (R, K) float array of counts, nan = missing."""
+    def __init__(self, V, lg=None, fg=None, rg=None):
+        """V: (R, K) float array of counts, nan = missing. fg / rg: prior grids for
+        young per female and males per female (default: pastoral ranges)."""
+        fg = F_GRID if fg is None else np.asarray(fg, float)
+        rg = R_GRID if rg is None else np.asarray(rg, float)
+        # flattened (rate x dispersion) grids
+        self.fg = np.repeat(fg, len(K_GRID))
+        self.rg = np.repeat(rg, len(K_GRID))
+        self.fk = np.tile(K_GRID, len(fg))
+        self.rk = np.tile(K_GRID, len(rg))
         self.V = np.asarray(V, float)
         R, K = self.V.shape
         self.R, self.K = R, K
@@ -81,11 +90,12 @@ class Scorer:
         Vz = np.where(obs, self.V, 0.0)
         G = np.where(obs, self.lg(Vz), 0.0)
         self.obs, self.Vz, self.G = obs, Vz, G
-        f = F_GRID[None, :]
-        r = R_GRID[None, :]
-        self.Mp = np.zeros((K, K, len(R_GRID)))
-        self.Yp = np.zeros((K, K, len(F_GRID)))
-        self.Yh = np.zeros((K, K, len(F_GRID)))
+        f = self.fg[None, :]
+        r = self.rg[None, :]
+        fk, rk = self.fk[None, :], self.rk[None, :]
+        self.Mp = np.zeros((K, K, len(self.rg)))
+        self.Yp = np.zeros((K, K, len(self.fg)))
+        self.Yh = np.zeros((K, K, len(self.fg)))
         for i in range(K):
             for j in range(K):
                 if i == j:
@@ -94,31 +104,44 @@ class Scorer:
                 if not w.any():
                     continue
                 Fi, Nj, Gj = Vz[w, i][:, None], Vz[w, j][:, None], G[w, j][:, None]
-                self.Mp[i, j] = (lnb(Nj, r * Fi + EPS) - Gj).sum(0)
-                self.Yp[i, j] = (lnb(Nj, f * Fi + EPS) - Gj).sum(0)
-                self.Yh[i, j] = (lnb(Nj, f * Fi / 2 + EPS) - Gj).sum(0)
+                self.Mp[i, j] = (lnb(Nj, r * Fi + EPS, rk) - Gj).sum(0)
+                self.Yp[i, j] = (lnb(Nj, f * Fi + EPS, fk) - Gj).sum(0)
+                self.Yh[i, j] = (lnb(Nj, f * Fi / 2 + EPS, fk) - Gj).sum(0)
         self._tri = {}
         self._tot = {}
+        self.LM = logsumexp(self.Mp, -1) - math.log(len(self.rg))
+        self.LY = logsumexp(self.Yp, -1) - math.log(len(self.fg))
+        self.LH = logsumexp(self.Yh, -1) - math.log(len(self.fg))
+        self._ltri = {}
+
+    def ltri(self, i, j, l):
+        key = (i, j, l)
+        v = self._ltri.get(key)
+        if v is None:
+            v = float(logsumexp(self.tri(i, j, l)) - math.log(len(self.fg)))
+            self._ltri[key] = v
+        return v
 
     def tri(self, i, j, l):
         key = (i, j, l)
         if key in self._tri:
             return self._tri[key]
         o = self.obs
-        f = F_GRID[None, :]
-        out = np.zeros(len(F_GRID))
+        f = self.fg[None, :]
+        fk = self.fk[None, :]
+        out = np.zeros(len(self.fg))
         both = o[:, i] & o[:, j] & o[:, l]
         if both.any():
             Fi = self.Vz[both, i][:, None]
             a, b = self.Vz[both, j], self.Vz[both, l]
-            out += (lnb((a + b)[:, None], f * Fi + EPS)
+            out += (lnb((a + b)[:, None], f * Fi + EPS, fk)
                     - (self.G[both, j] + self.G[both, l])[:, None]
                     + lbetabin(a, a + b)[:, None]).sum(0)
         for x, y in ((j, l), (l, j)):
             only = o[:, i] & o[:, x] & ~o[:, y]
             if only.any():
                 Fi = self.Vz[only, i][:, None]
-                out += (lnb(self.Vz[only, x][:, None], f * Fi / 2 + EPS)
+                out += (lnb(self.Vz[only, x][:, None], f * Fi / 2 + EPS, fk)
                         - self.G[only, x][:, None]).sum(0)
         self._tri[key] = out
         return out
@@ -154,18 +177,15 @@ class Scorer:
             if 'F' in slot:
                 i = slot['F']
                 if 'M' in slot:
-                    total += logsumexp(self.Mp[i, slot['M']]) - math.log(len(R_GRID))
-                yl = None
+                    total += self.LM[i, slot['M']]
                 if 'Y' in slot:
-                    yl = self.Yp[i, slot['Y']]
+                    total += self.LY[i, slot['Y']]
                 elif 'YF' in slot and 'YM' in slot:
-                    yl = self.tri(i, slot['YF'], slot['YM'])
+                    total += self.ltri(i, slot['YF'], slot['YM'])
                 elif 'YF' in slot:
-                    yl = self.Yh[i, slot['YF']]
+                    total += self.LH[i, slot['YF']]
                 elif 'YM' in slot:
-                    yl = self.Yh[i, slot['YM']]
-                if yl is not None:
-                    total += logsumexp(yl) - math.log(len(F_GRID))
+                    total += self.LH[i, slot['YM']]
             if 'T' in slot:
                 mem = tuple(sorted(v for c, v in slot.items() if c != 'T'))
                 if mem:
@@ -399,7 +419,19 @@ def ur_term(rest):
     return None
 
 
-def ur_records(cache=os.path.join(CK, 'ur3_records.json')):
+HERD_PROV = ('Girsu', 'Umma')
+
+
+def ur_herd_records():
+    """Ur III herd records from Girsu and Umma (breeding-flock offices), with lines
+    for fattened (niga) and dead (ba-usz2, ba-ug7) animals left out."""
+    recs = ur_records(cache=os.path.join(CK, 'ur3_records_clean.json'), skipdead=True)
+    prov = json.load(open(os.path.join(CK, 'ur3_prov.json')))
+    return [r for r in recs if r[0] in prov and prov[r[0]][0].startswith(HERD_PROV)
+            and prov[r[0]][1].startswith('Ur III')]
+
+
+def ur_records(cache=os.path.join(CK, 'ur3_records.json'), skipdead=False):
     if os.path.exists(cache):
         return [tuple(x) for x in json.load(open(cache))]
     from pe5_common import parse_ur_line
@@ -428,6 +460,8 @@ def ur_records(cache=os.path.join(CK, 'ur3_records.json')):
             continue
         p = parse_ur_line(m.group(1))
         if not p or p[1]:
+            continue
+        if skipdead and re.search(r'\b(niga|ba-usz2|ba-ug7|ri-ri-ga)\b', p[2]):
             continue
         term = ur_term(p[2])
         if term:
