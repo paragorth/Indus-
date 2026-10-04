@@ -38,6 +38,14 @@ K_GRID = np.array([0.7, 2.0, 6.0])      # NB dispersion, marginalised with the r
 PI_T = 0.5
 
 
+def set_cats(cats):
+    """Switch the category set (e.g. add 'W'); module-level, affects all functions."""
+    global CATS, NC, NSTATE
+    CATS = list(cats)
+    NC = len(CATS)
+    NSTATE = 1 + 2 * NC
+
+
 def state_name(a):
     if a == 0:
         return 'X'
@@ -109,6 +117,17 @@ class Scorer:
                 self.Yh[i, j] = (lnb(Nj, f * Fi / 2 + EPS, fk) - Gj).sum(0)
         self._tri = {}
         self._tot = {}
+        # W (non-breeding adult, e.g. castrates): mean omega*F, omega 0.05-3, same dispersions
+        wg = np.repeat(np.geomspace(0.05, 3.0, 10), len(K_GRID))
+        wk = np.tile(K_GRID, 10)
+        self.Wp = np.zeros((K, K, len(wg)))
+        for i in range(K):
+            for j in range(K):
+                w = obs[:, i] & obs[:, j]
+                if i != j and w.any():
+                    self.Wp[i, j] = (lnb(Vz[w, j][:, None], wg[None, :] * Vz[w, i][:, None] + EPS,
+                                         wk[None, :]) - G[w, j][:, None]).sum(0)
+        self.LW = logsumexp(self.Wp, -1) - math.log(len(wg))
         self.LM = logsumexp(self.Mp, -1) - math.log(len(self.rg))
         self.LY = logsumexp(self.Yp, -1) - math.log(len(self.fg))
         self.LH = logsumexp(self.Yh, -1) - math.log(len(self.fg))
@@ -178,6 +197,8 @@ class Scorer:
                 i = slot['F']
                 if 'M' in slot:
                     total += self.LM[i, slot['M']]
+                if 'W' in slot:
+                    total += self.LW[i, slot['W']]
                 if 'Y' in slot:
                     total += self.LY[i, slot['Y']]
                 elif 'YF' in slot and 'YM' in slot:

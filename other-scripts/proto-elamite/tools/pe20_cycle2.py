@@ -92,6 +92,53 @@ def part_AB():
         s1 = Scorer(Vho[i:i + 1], lg=lg).score(amap)
         contrib.append((r[0], r[1], round(s1, 2)))
     out['A']['per_record'] = sorted(contrib, key=lambda x: -abs(x[2]))[:15]
+    # joint posterior: does the blind grouping follow the graphic base / ~a split?
+    sm = Scorer(Vm, lg=lg)
+    samples = []
+    for ch in range(4):
+        a = list(amap)
+        for sw in range(2500):
+            for j in rng.permutation(8):
+                lp = np.full(NSTATE, -np.inf)
+                for st in range(NSTATE):
+                    b = a[:]
+                    b[j] = st
+                    v = sm.score(b)
+                    if v is not None:
+                        lp[st] = v
+                p = np.exp(lp - lp.max())
+                a[j] = int(rng.choice(NSTATE, p=p / p.sum()))
+            if sw >= 500 and sw % 5 == 0:
+                samples.append(list(a))
+    S = np.array(samples)
+    sp = np.where(S == 0, -1, (S - 1) // NC)
+    base_i, tilde_i = [0, 1, 2, 3], [4, 5, 6, 7]
+
+    def split_ok(row):
+        lab = [x for x in row]
+        bs = {lab[i] for i in base_i if lab[i] >= 0}
+        ts = {lab[i] for i in tilde_i if lab[i] >= 0}
+        return len(bs) == 1 and len(ts) == 1 and bs != ts
+    pair = {}
+    for i in range(4):
+        same = sp[:, i] == sp[:, i + 4]
+        both = (sp[:, i] >= 0) & (sp[:, i + 4] >= 0)
+        pair[PE_SIGNS[i] + '/' + PE_SIGNS[i + 4]] = {
+            'P_both_assigned': float(both.mean()),
+            'P_same_category': float(((S[:, i] - 1) % NC == (S[:, i + 4] - 1) % NC)[both].mean()) if both.any() else None,
+            'P_diff_species': float((~same)[both].mean()) if both.any() else None}
+    # random-relabelling null: how often would a random 4/4 split of the signs be the grouping?
+    out['A']['joint'] = {'n_samples': len(S), 'P_exact_base_tilde_split': float(np.mean([split_ok(r) for r in sp])),
+                         'pairs': pair,
+                         'P_M362_M362a_both_F_diff_species': float(np.mean(
+                             ((S[:, 0] - 1) % NC == 0) & (S[:, 0] > 0) & ((S[:, 4] - 1) % NC == 0) & (S[:, 4] > 0)
+                             & (sp[:, 0] != sp[:, 4])))}
+    # same-species co-membership for each sign with M362 (excluding X)
+    co = {}
+    for j in range(8):
+        w = (sp[:, j] >= 0) & (sp[:, 0] >= 0)
+        co[PE_SIGNS[j]] = float((sp[w, j] == sp[w, 0]).mean()) if w.any() else None
+    out['A']['joint']['P_same_species_as_M362'] = co
     print('A', json.dumps({k: v for k, v in out['A'].items() if k != 'per_record'}), flush=True)
     # B chain
     labs = [r[1] for r in main]

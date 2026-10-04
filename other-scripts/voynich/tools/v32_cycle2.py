@@ -3,7 +3,7 @@
 (a) CHMM: circular HMM with K = 2..40 states; state advances by 1 (prob 1-2e), stays (e) or skips one (e), e = 0.05;
     at the lost central bifolio (between f108v and f111r) the state is reset to uniform (unknown number of lost
     entries). Emissions: product of independent categoricals (opening-glyph class, length tercile, gallows tercile,
-    q tercile, star points when present). Baum-Welch, 3 restarts x 30 iterations. Score = per-unit log-likelihood
+    q tercile, star points when present). Baum-Welch, 2 restarts x 20 iterations, K in a 21-value grid. Score = per-unit log-likelihood
     gain over the K=1 model. Each K calibrated by paragraph shuffles (the gap position is kept fixed), family-wise max.
 (b) FOLD-gap: epoch folding where the part after the gap may carry any phase offset (max over offsets), for every
     feature and period, family-wise against shuffles.
@@ -16,8 +16,8 @@ from numba import njit
 from multiprocessing import Pool
 import v32_lib as V
 
-KS = np.arange(2, 41)
-R = int(os.environ.get('V32_R2', 60))
+KS = np.array([2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 18, 20, 24, 27, 28, 29, 30, 32, 36, 40])
+R = int(os.environ.get('V32_R2', 30))
 EPS = 0.05
 
 
@@ -52,7 +52,7 @@ def _fb(LE, K, eps, gap):
     return np.log(c).sum(), g
 
 
-def chmm(X, ncat, K, gap, seed, iters=30, restarts=3):
+def chmm(X, ncat, K, gap, seed, iters=20, restarts=2):
     """X: N x F int codes; ncat: list of category counts. Returns best per-unit loglik."""
     N, F = X.shape
     rng = np.random.default_rng(seed)

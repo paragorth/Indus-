@@ -60,6 +60,18 @@ for _ in range(5000):
     vals.append(sum(1 for s, x in zip(s2, rq) if x[3] in tqs[s]))
 m = sum(vals) / len(vals)
 say(f'  quantity-form site-swap null {m:.2f}, P(>= {len(hit_form)}) {(1+sum(v>=len(hit_form) for v in vals))/5001:.3f}')
+# term+quantity null: quantities shuffled among receipt quantities (terms and sites kept), and sites swapped
+qs = [x[3] for x in rq]
+v1, v2 = [], []
+for _ in range(5000):
+    q2 = qs[:]
+    R.shuffle(q2)
+    v1.append(sum(1 for x, q in zip(rq, q2) if any(q in tq[(x[0], C.base(t))] for t in x[2])))
+    s2 = sites[:]
+    R.shuffle(s2)
+    v2.append(sum(1 for x, s in zip(rq, s2) if any(x[3] in tq[(s, C.base(t))] for t in x[2])))
+say(f'  term+quantity: obs {len(hit_term)}; quantity-shuffle null {sum(v1)/5000:.2f} (P {(1+sum(v>=len(hit_term) for v in v1))/5001:.3f}); '
+    f'site-swap null {sum(v2)/5000:.2f} (P {(1+sum(v>=len(hit_term) for v in v2))/5001:.3f})')
 fr_only_r = sum(1 for x in rq if x[3][0] == 0 and x[3][1])
 tall = [(d['site'], q) for d in TAB for it in d['items'] for q in it.get('q', [])]
 fr_only_t = sum(1 for s, q in tall if q[0] == 0 and q[1])
@@ -74,6 +86,7 @@ say(f'  fraction-only quantities: receipts {a}/{a+b}, tablets {c}/{c+dd}; Fisher
 # (b) counts as numbers
 say('(b) receipt counts as tablet numbers')
 counts = {}
+MINC = {'Haghia Triada': 10, 'Khania': 5}
 for site in ('Haghia Triada', 'Khania'):
     cc = collections.Counter()
     for d in REC:
@@ -81,7 +94,7 @@ for site in ('Haghia Triada', 'Khania'):
             ts = C.doc_terms(d)
             if len(ts) == 1:
                 cc[next(iter(ts))] += 1
-    counts[site] = [v for k, v in cc.most_common() if v >= 2]
+    counts[site] = [v for k, v in cc.most_common() if v >= MINC[site]]
     say(f'  {site}: receipt class counts {cc.most_common(14)}')
 
 def targets(site):
@@ -98,7 +111,6 @@ def targets(site):
 def gens(cs):
     g = set(cs)
     g |= {a + b for a, b in itertools.combinations(cs, 2)}
-    g |= {a + b + c for a, b, c in itertools.combinations(cs, 3)}
     return g
 
 for site in ('Haghia Triada', 'Khania'):
@@ -108,7 +120,7 @@ for site in ('Haghia Triada', 'Khania'):
         obs = len(gens(cs) & T)
         js = []
         for _ in range(10000):
-            cj = [max(2, int(round(c * R.uniform(0.8, 1.2)))) for c in cs]
+            cj = [max(MINC[site] if False else 2, int(round(c * R.uniform(0.8, 1.2)))) for c in cs]
             js.append(len(gens(cj) & T))
         mj = sum(js) / len(js)
         pj = (1 + sum(v >= obs for v in js)) / 10001
@@ -129,7 +141,7 @@ for mplant in (1, 2, 4):
         obs = len(gens(cs) & T)
         js = []
         for _ in range(1000):
-            cj = [max(2, int(round(c * R.uniform(0.8, 1.2)))) for c in cs]
+            cj = [max(MINC[site] if False else 2, int(round(c * R.uniform(0.8, 1.2)))) for c in cs]
             js.append(len(gens(cj) & T))
         det += ((1 + sum(v >= obs for v in js)) / 1001) < 0.05
     say(f'    m={mplant}: detected at P<0.05 in {det/200:.2f} of 200')

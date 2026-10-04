@@ -18,7 +18,9 @@ D = la22_data.load(); sn = {norm_name(k): k for k in S}
 pos = {(p['doc'], p['tok'], p['j']): p for p in F['pos'] if p['mode'] == 'int'}
 posS = {(p['doc'], p['tok'], p['j']): p for p in F['pos_shuf'] if p['mode'] == 'int'}
 vocab = {c for d in D for t in d['toks'] if t['t'] == 'w' for c in t['c']}
-lab = []; sc = []; scS = []
+from collections import Counter
+fq = Counter(c for d in D for t in d['toks'] if t['t'] == 'w' for c in t['c'])
+lab = []; sc = []; scS = []; scF = []
 for d in D:
     k = sn.get(norm_name(d['id']))
     if not k: continue
@@ -32,15 +34,17 @@ for d in D:
         if a[i][0] != b[j] and b[j] not in vocab: continue      # SigLA reads a non-syllabic / unknown sign: alignment noise
         lab.append(a[i][0] != b[j]); sc.append(pos[key]['p_read'])
         ps = dict((c, p) for c, p in posS.get(key, {'top10': []})['top10'])
-        scS.append(ps.get(a[i][0], 0.0))
-lab = np.array(lab); sc = np.array(sc); scS = np.array(scS)
+        scS.append(ps.get(a[i][0], 0.0)); scF.append(fq[a[i][0]])
+lab = np.array(lab); sc = np.array(sc); scS = np.array(scS); scF = np.array(scF, float)
+# residual: model score divided by the frequency-only probability (does context add anything beyond sign frequency?)
+scR = sc / (scF / scF.sum() * 0 + scF / sum(fq.values()))
 def auc(s, l):
     from scipy.stats import rankdata
     r = rankdata(-s); n1 = l.sum(); n0 = (~l).sum()
     return (r[l].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)
 rng = np.random.default_rng(5)
 res = {'n_changed': int(lab.sum()), 'n_same': int((~lab).sum())}
-for nm, s in (('model', sc), ('shuffled_tablet_model', scS)):
+for nm, s in (('model', sc), ('shuffled_tablet_model', scS), ('frequency_only', scF), ('model_over_frequency', scR)):
     a0 = auc(s, lab); null = [auc(s, rng.permutation(lab)) for _ in range(10000)]
     res[nm] = {'auc': round(float(a0), 3), 'null_mean': round(float(np.mean(null)), 3), 'p': round(float((np.array(null) >= a0).mean()), 4),
                'median_p_read_changed': round(float(np.median(s[lab])), 4), 'median_p_read_same': round(float(np.median(s[~lab])), 4)}
