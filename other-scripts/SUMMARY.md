@@ -61,6 +61,9 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - the split of word-class variance across section, page, paragraph and line;
 - the verbose-cipher merge test with encrypted-language controls.
 
+## Random programs (r2)
+- ~8.9 M random and evolved small programs (copy rules, counters, lookup tables, L-systems), scored by held-out description length against Kneser-Ney, with shuffled, Markov-resynthesised, planted (grille, ledgers) and natural (Latin, Linear B) controls. Planted generators recovered 3/3. In no script does a program beat the baselines beyond its nulls: LA and PE programs only 'copy from the entry above' (gone against a document cache), Voynich gains nothing over a 3-glyph Markov chain. Grade A negative for short generators of this kind.
+
 ## Bottom line
 The cheap data-only attacks on these three scripts are largely spent:
 - **Voynich:** the field is saturated. What we found replicates published work.

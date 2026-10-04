@@ -207,7 +207,7 @@ def ngram_heldout(enc, train, held, b1, b2, g=None):
 
 
 # ------------------------------------------------------------------ CV and K selection
-BETAS = (1.0, 3.0, 10.0, 30.0)
+BETAS = (3.0, 10.0, 30.0, 100.0, 300.0)
 
 
 def folds_of(n, nf, seed):

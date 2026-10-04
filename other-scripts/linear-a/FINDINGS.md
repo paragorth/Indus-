@@ -211,3 +211,7 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Killed: the one significant LA ending partition is the libation formula (I-PI-NA-MA / SI-RU-TE / A-TA-I-*301-WA-JA), and it changes with every subset.
 - Grade C: SI- as an alternating prefix (SI-DA-RE/DA-RE, SI-TE-TU/TE-TU, SI-KI-RA/KI-RA, ...): the pairs share contexts beyond site- and document-type-matched random pairs (P 0.0025, q 0.065). Would support: SI-X and X in the same entry slot on new texts; would kill: q > 0.1 within Hagia Triada alone.
 
+
+## Random programs (r2, 4 Oct 2026; `voynich/loops/r2_final.txt`)
+- ~8.9 M random/evolved small programs across the three scripts, scored by held-out description length over Kneser-Ney; planted ledger (commodity cycling by line) recovered blind.
+- Linear A: the best program is 'copy the sign in the same slot of the word two back' (the previous entry, skipping its number): +114 bits on held-out tablets with line ends given, but only +28 (p 0.14) against a KN + document-cache baseline. Grade B, known in kind: entries repeat logograms and word shapes down a tablet. No generating procedure.

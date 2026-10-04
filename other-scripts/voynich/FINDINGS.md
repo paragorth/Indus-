@@ -536,3 +536,7 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - **Lead (Grade C).** op- initial words are the least over-dispersed word class across pages in both transcriptions. Would kill: the evenness vanishes without paragraph-first lines.
 - **Prior art.** FINDINGS N1 tested 8 glyph classes per line within paragraphs; no published multi-level under-dispersion or conserved-quantity search with planted quotas was found (web search, 4 Oct 2026).
 
+
+## Random programs (r2, 4 Oct 2026; `loops/r2_final.txt`)
+- ~8.9 M random and evolved small programs (copy, counters, lookup tables, L-systems) scored by held-out description length over Kneser-Ney. A planted table-and-grille text is recovered (+24.7 mbit/token, the program reads the grille row from the line number); Linear B and, once line ends are given, Latin are not explained.
+- Voynich: no program beats KN-3 on held-out folios beyond what the same search gets from Markov-resynthesised text (real <= +1.2 mbit/token, layout given -0.8; Markov null +1.4). Grade A (negative, for programs of <= 15 operations over these primitives): the glyph stream is not the output of a short generator of this kind.

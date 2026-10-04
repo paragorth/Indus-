@@ -235,3 +235,7 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Held-out likelihood: the tablet-topic (rich-get-richer) model wins at 8.43 bits/sign. A use-up bag and a plain language model tie at 8.85. ABC over 1,000,000 simulated corpora gives the topic model 0.45 and the use-up bag 0.09.
 - Signs reused on a tablet beyond chance, grade B: M370, M376, M124, M388, M001, M054. None of 90 signs behaves like a used-up token.
 - Linear B names also prefer a tablet pool, so this does not show the strings are not spoken names.
+
+## Random programs (r2, 4 Oct 2026; `voynich/loops/r2_final.txt`)
+- ~8.9 M random/evolved small programs across the three scripts, scored by held-out description length over Kneser-Ney; planted PE-sized ledger recovered blind (+96 mbit/token).
+- Proto-Elamite: the winning programs copy entry-initial signs (M346, M075, M388, M297, M036) from the line(s) above: +492 bits on held-out tablets with line ends given, +20 (p 0.28) against KN + document cache. Grade B, known in kind (within-tablet repetition). No generating procedure.

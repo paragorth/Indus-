@@ -7,6 +7,7 @@ of words per line (an end-of-line before that is forbidden; the space after the 
 import os, sys, math, random, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from v21_lib import *
+from v21_lib import _auc
 import torch, torch.nn as nn
 torch.set_num_threads(1)
 
