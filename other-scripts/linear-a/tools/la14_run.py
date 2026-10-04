@@ -91,7 +91,14 @@ def plan_c2():
     return T
 
 
-PLANS = {'c1': plan_c1, 'c2': plan_c2}
+def plan_c3():
+    """Cycle 3: length-matched line splice (E_splLM) and the cycle-2 line splice, single groups + all, LR, 8 seeds."""
+    specs = [(g, 'LR') for g in SINGLE] + [(C.ALLG, 'LR')]
+    return [(c, f, s, 'real', specs) for c in ['LA', 'LB', 'PLA', 'FW_FLAT'] for f in ['E_splLM', 'E_splLine', 'COPY0']
+            for s in range(20, 28)]
+
+
+PLANS = {'c1': plan_c1, 'c2': plan_c2, 'c3': plan_c3}
 
 if __name__ == '__main__':
     tag, plan = sys.argv[1], sys.argv[2]

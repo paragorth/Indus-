@@ -329,7 +329,7 @@ def join_lines(L):
 class CopyEdit:
     """Copies a real (half-A) document and applies one local edit of a given type."""
     TYPES = ['COPY0', 'E_num', 'E_numnear', 'E_word', 'E_logo', 'E_first', 'E_last', 'E_swapadj',
-             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf', 'E_splLine', 'E_wordsite']
+             'E_swapline', 'E_splice', 'E_numshuf', 'E_wordshuf', 'E_splLine', 'E_wordsite', 'E_splLM']
 
     def __init__(self, docs, etype):
         self.docs = docs; self.e = etype
@@ -347,7 +347,7 @@ class CopyEdit:
         if e == 'E_numshuf': return len({t for t in d if t.startswith('N:')}) >= 2
         if e in ('E_word', 'E_first', 'E_last'): return any(t.startswith('W:') for t in d)
         if e == 'E_wordsite': return any(t.startswith('W:') for t in d) and len(self.sitewords.get(SITE.get(' '.join(d), '??'), [])) >= 30
-        if e == 'E_splLine': return len([l for l in lines_of(d) if l]) >= 3
+        if e in ('E_splLine', 'E_splLM'): return len([l for l in lines_of(d) if l]) >= 3
         if e == 'E_wordshuf': return len({t for t in d if t.startswith('W:')}) >= 2
         if e == 'E_logo': return any(t.startswith('L:') for t in d)
         if e == 'E_swapline': return len([l for l in lines_of(d) if l]) >= 3
@@ -389,6 +389,12 @@ class CopyEdit:
                 L1 = lines_of(d); L2 = lines_of(d2)
                 i = rng.randint(1, len(L1) - 1); j = rng.randint(1, max(1, len(L2) - 1))
                 return join_lines(L1[:i] + L2[j:])
+            if e == 'E_splLM':  # line splice that keeps the line count of the first tablet exactly
+                L1 = lines_of(d); n1 = len(L1); i = rng.randint(1, n1 - 1); need = n1 - i
+                pool = [k for k in self.queue_all if k != self.src and len(lines_of(self.docs[k])) >= need + 1]
+                if not pool: continue
+                L2 = lines_of(self.docs[rng.choice(pool)])
+                return join_lines(L1[:i] + L2[len(L2) - need:])
             if e == 'E_logo':
                 i = rng.choice([i for i, t in enumerate(d) if t.startswith('L:')])
                 w = rng.choice(self.logos)

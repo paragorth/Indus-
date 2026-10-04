@@ -159,7 +159,7 @@ class Corpus:
             b, *_ = np.linalg.lstsq(X, y[m], rcond=None)
             r[m] = y[m] - X @ b
         if content:
-            C = self.content_matrix()
+            C = self.content_matrix() if content != 2 else self.content_matrix2()
             m = ~np.isnan(r)
             X = np.hstack([np.ones((m.sum(), 1)), C[m]])
             b = np.linalg.solve(X.T @ X + 1.0 * np.eye(X.shape[1]), X.T @ r[m])
@@ -190,6 +190,31 @@ class Corpus:
         C = (C - C.mean(0)) / (C.std(0) + 1e-9)
         self._C = C
         return C
+
+    def content_matrix2(self):
+        """content_matrix plus one-hot first glyph, last glyph and (first, last) of the
+        neighbouring words: lets darkness depend on what sits at each word edge."""
+        if getattr(self, '_C2', None) is not None:
+            return self._C2
+        base = self.content_matrix()
+        gls = [self.glyphs(w['word']) for w in self.W]
+        fc = collections.Counter(g[0] for g in gls if g); lc = collections.Counter(g[-1] for g in gls if g)
+        F = [g for g, _ in fc.most_common(15)]; L = [g for g, _ in lc.most_common(15)]
+        X = np.zeros((self.N, 4 * 15))
+        for i, g in enumerate(gls):
+            if not g:
+                continue
+            if g[0] in F: X[i, F.index(g[0])] = 1
+            if g[-1] in L: X[i, 15 + L.index(g[-1])] = 1
+            if i > 0 and self.page[i - 1] == self.page[i] and gls[i - 1]:
+                gp = gls[i - 1]
+                if gp[-1] in L: X[i, 30 + L.index(gp[-1])] = 1
+            if i + 1 < self.N and self.page[i + 1] == self.page[i] and gls[i + 1]:
+                gn = gls[i + 1]
+                if gn[0] in F: X[i, 45 + F.index(gn[0])] = 1
+        X = (X - X.mean(0)) / (X.std(0) + 1e-9)
+        self._C2 = np.hstack([base, X])
+        return self._C2
 
     def detect(self, r, det, q, space, smooth, lsmode):
         N = self.N

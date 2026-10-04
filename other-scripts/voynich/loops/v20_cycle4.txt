@@ -1,0 +1,9 @@
+# v20 cycle 4 (tools/v20_cycle4.py): KILL CONTROL for the held-out line conservation: line flavour. A mixture of K multinomials over word types is
+# fitted to the ZL lines by EM; a synthetic text in the same layout gives each line one flavour (drawn from its posterior) and fills it with
+# i.i.d. words of that flavour (line flavours kept, no quota, no word order). Same held-out test as V-20.3.3. Also cycle-2 re-run for Manzoni
+# and Gadsby with a degeneracy-safe eigen solver (exact identities removed).
+| V-20.4.1 | Flavour mixture K=1 (no flavour) | test ratio 0.975 (null median 0.998, p 0.24) | Null, as expected |
+| V-20.4.2 | Flavour mixtures K=2 / 4 / 8 | test ratio 1.005 / 1.037 / 0.977 (p 0.59 / 0.89 / 0.26) | Line flavour does NOT produce the conservation (Voynich 0.720). The mixture keeps the lines' word make-up but not the 28% variance cut, so the effect is not 'lines of different types' |
+| V-20.4.3 | Cycle-2 rerun, Manzoni | line lam 0.500 vs held 0.590 (p 0.23); page p 0.00 but loadings are g:ì vs fin:ì only (non-final ì is nearly absent: a near-identity) | Manzoni prose lines: no clear conserved combination; the page hit is a numerical near-identity, discarded |
+| V-20.4.4 | Cycle-2 rerun, Gadsby (lipogram) | line lam 0.607 vs held 0.748 (p < 0.01; final-letter classes s, t, a, n together); page lam 0.201 vs 0.171 (p 0.95) | The lipogram's only conserved quantity is at the line level, like the other natural texts; the e-ban itself is a zero count and leaves no dispersion trace in the other letters |
+| V-20.4.V | Verdict, cycle 4 | Flavour mixtures K = 1-8 give 0.98-1.04 against Voynich 0.72 | Line flavour is killed as the explanation. Remaining candidates: (i) word-to-word junction dependence inside the line, (ii) filling the line to a physical width, (iii) a real per-line constraint. Cycle 5 tests (i) and (ii) |

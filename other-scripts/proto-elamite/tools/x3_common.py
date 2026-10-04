@@ -6,17 +6,20 @@ score held-out Y. Conditions for X:
   relab2   a second, independent relabelling (relab2 - relab = null distribution of the ID measure)
   band     X relabelled only within frequency-rank bands of 8 (keeps approximate frequency identity)
   shuf     X tokens shuffled across the corpus, line lengths kept (same unigrams, no order)
+  cperm / vperm  X's syllabograms renamed by permuting consonants / vowels (half of each value kept)
   markov   random first-order Markov text, Zipfian, X's vocabulary size and line lengths
 Index mapping from Y signs to model rows:
   'label'  a Y sign with the same label as an X sign uses that sign's row; other Y signs fill free
            rows by Y frequency (identity transfer through a shared transliteration convention)
+  'syl'    as 'label' but only lower-case syllabic labels are shared (NUM, logograms, fractions
+           and numeral codes kept apart)
   'rank'   the r-th commonest Y sign uses the row of the r-th commonest X sign
            (no shared labels needed; 'identity' then means frequency-rank correspondence)
 Model: neural 4-gram (sign embeddings d 64 -> MLP 128 -> tied output), BOS/EOS, full fine-tuning (Adam).
 Held-out Y: test = blocks of 20 consecutive lines (<= 2,000 tokens), val (<= 1,000 tokens) for
 choosing the fine-tune step; loss in bits per token (EOS included).
 """
-import os, json, random, math
+import os, re, json, random, math
 import numpy as np
 import torch
 import torch.nn as nn
@@ -124,6 +127,8 @@ def make_x(xname, cond, seed):
             rng.random(); rng = random.Random(rng.random() + 17)   # an independent permutation (null for ID)
         rows = list(rowmap.values()); rng.shuffle(rows)
         rowmap = dict(zip(rowmap.keys(), rows))
+    elif cond in ('cperm', 'vperm'):
+        rowmap = phon_perm(rowmap, cond, rng)
     elif cond == 'band':
         keys = list(rowmap.keys()); new = {}
         for b in range(0, len(keys), 8):
@@ -152,6 +157,41 @@ def make_x(xname, cond, seed):
     return X, rowmap
 
 
+SYL = re.compile(r'[a-z]{1,5}[0-9]{0,2}')
+UNIT = re.compile(r'sz|s,|t,|[bcdfghjklmnpqrstvwxyz]|[aeiou]|[0-9]')
+
+
+def is_syl(s):
+    return bool(SYL.fullmatch(s))
+
+
+def phon_perm(rowmap, cond, rng):
+    """Rename X's syllabograms by permuting their consonants (cperm) or their vowels (vperm),
+    keeping the other half of each value; X signs then sit on the rows of the renamed signs.
+    Non-syllabic signs and signs whose renamed form is not an X sign take the leftover rows."""
+    syl = [s for s in rowmap if is_syl(s)]
+    units = sorted({u for s in syl for u in UNIT.findall(s)})
+    vow = [u for u in units if u in 'aeiou']
+    con = [u for u in units if u not in 'aeiou' and not u.isdigit()]
+    src = con if cond == 'cperm' else vow
+    dst = src[:]
+    for _ in range(100):
+        rng.shuffle(dst)
+        if all(a != b for a, b in zip(src, dst)) or len(src) < 2:
+            break
+    pi = dict(zip(src, dst))
+    new, used = {}, set()
+    for s in syl:
+        t = ''.join(pi.get(u, u) for u in UNIT.findall(s))
+        if t in rowmap and rowmap[t] not in used:
+            new[s] = rowmap[t]; used.add(rowmap[t])
+    rest = [s for s in rowmap if s not in new]
+    rows = [r for r in rowmap.values() if r not in used]
+    rng.shuffle(rows)
+    new.update(zip(rest, rows))
+    return new
+
+
 def y_map(xrowmap, xorder_rows, ytrain, mode):
     """Map Y's NY commonest signs to rows (the rest -> UNK in every condition).
     xorder_rows: rows of X's signs in X frequency order (as pretrained)."""
@@ -159,9 +199,9 @@ def y_map(xrowmap, xorder_rows, ytrain, mode):
     m = {}
     xr = set(xrowmap.values())
     free = [r for r in range(3, NV) if r not in xr]
-    if mode == 'label':
+    if mode in ('label', 'syl'):
         for s in yord:
-            if s in xrowmap:
+            if s in xrowmap and (mode == 'label' or is_syl(s)):
                 m[s] = xrowmap[s]
         k = 0
         for s in yord:

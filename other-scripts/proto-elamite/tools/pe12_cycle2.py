@@ -2,7 +2,7 @@
 FIRSTm / LASTm = multi-sign entries only, AFTERHDR = first sign of the line after the header).
 ~26,000 hypotheses per slot (300 single features, 20,000 random modular hashes of the
 numeral, 6,000 random feature pairs), A/B/C held-out tablets, 2 splits; nulls STRICT /
-LOOSE / SIZEM with REPS replicates each (whole search re-run each time).
+SIZEM with REPS (LOOSE dropped: cycle 1 showed it is always weaker than STRICT) replicates each (whole search re-run each time).
 """
 import os, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -19,9 +19,10 @@ def log(*a):
 
 
 if __name__ == '__main__':
-    REPS = int(os.environ.get('REPS', 20))
+    REPS = int(os.environ.get('REPS', 15))
     E = pe_entries()
     log('PE entries', len(E), 'tablets', len(set(e['tab'] for e in E)))
-    res = run_corpus('PE', E, ['LAST', 'FIRST', 'LASTm', 'FIRSTm', 'AFTERHDR'], reps=REPS, log=log)
+    res = run_corpus('PE', E, ['LAST', 'FIRST', 'LASTm', 'FIRSTm', 'AFTERHDR'], reps=REPS, log=log,
+                     nulls=['STRICT', 'SIZEM'])
     json.dump(res, open(os.path.join(PEDATA, 'pe12_cycle2.json'), 'w'), indent=1)
     log('done')

@@ -1,0 +1,24 @@
+pe12 cycle 1 (4 Oct 2026): "THE ENTRIES CARRY CHECK DIGITS" -- calibration of the search engine.
+Engine (tools/pe12_common.py, pe12_search.py): a SLOT sign (first, last = before-number, first/last of multi-sign entries,
+first sign after the header) is predicted from the rest of the entry by a lookup table P(sign | f(entry), system) fitted on
+50% of tablets; ~26,000 hypotheses per slot (300 single features: value mod 2-13, digit counts mod k, digit sums, running
+tablet sums mod k, size bands, thresholds, top numeral code, sign count, other-slot sign, header, line index; 20,000 RANDOM
+sparse modular hashes of the numeral digits/values; 6,000 random feature pairs); top hypotheses chosen on 25% of tablets,
+tested on the last 25%; 2 splits. Statistic = held-out gain (bits/entry) over P(sign | tablet type, system) of the
+B-best hypothesis per family. Nulls re-run the whole search with the slot sign shuffled: STRICT within (tablet, system),
+LOOSE within (tablet type, system), SIZEM within (tablet type, system, log2 value band, fraction flag). 10 replicates each
+(p floor 0.091; z = (real - null mean) / null sd). Script tools/pe12_cycle1.py; numbers data/pe12_cycle1.json, .log.
+Prior art: Born et al. 2023 (CAWL) predict the NUMBER SYSTEM from signs (bootstrapped classifier); nobody has searched for a
+sign predicted by the number BEYOND its system, or for check marks (web search; LITERATURE.md; FINDINGS.md; STRATEGIES.md).
+
+| id | method and control | result | verdict |
+|---|---|---|---|
+| PE-12.1a | PLANTED check digit: CK = value mod 3 written in the LAST slot of 30% resp. 10% of PE counted entries (real corpus otherwise) | 30%: ARITH +0.448 bits vs STRICT +0.137 (z +28.5), SIZEM +0.094 (z +12.4); best held-out rules (vint mod 12 hash; pair vint%3 & ...) carry value mod 3. 10% (~430 marks): ARITH +0.191 vs STRICT +0.090 (z +9.7), SIZEM z +12.0; top pair rule vint%3 & c_N30C%4 | PASS: a check sign on 1 entry in 10 is recovered, with the right modulus, at z ~10 |
+| PE-12.1b | PLANTED size-class sign (log10 band of the value) in 30% of counted entries | SIZE family +0.385 vs STRICT +0.164 (z +17.3), best rule log10band (exact). BUT the ARITH family also beats nulls (STRICT z +8.0, SIZEM z +3.1) through hashes of high-order digits | PASS for size classes; FLAW found: arithmetic hypotheses absorb a size signal and the log2-band SIZEM null is too coarse to stop it. Fixed in cycle 2b (baseline and nulls conditioned on a fine size cell) |
+| PE-12.1c | Proto-cuneiform (all periods, 12,996 entries, 3,269 tablets), FIRST and LAST slots | SIZE beats STRICT (z +8.7 FIRST, +6.4 LAST; topcode, v>5); CTX (other sign, sign count) z +15-22; ARITH FIRST z +0.4 (null), LAST z +3.8 STRICT but z +1.0 SIZEM (size leak) | known kind of dependency (commodity sign <-> size/notation) recovered; no arithmetic beyond size. Negative control for check digits: PASS (none found where none is expected) |
+| PE-12.1d | Ur III weight entries ('N gin2 ku3-babbar', 'N ma-na siki'), PE-sized random sample (5,336 entries, 1,781 tablets). Slot FIRST = unit word (known size-class marker: ma-na for >= ~1/2 mina); LAST = commodity word (soft size dependency) | unit: SIZE +1.358 bits vs STRICT +0.923 (z +42.7), best rule log2band (exact, held-out C +1.32); ARITH +0.795 (z +8.2) but well below SIZE (size leak again). Commodity: SIZE z +1.3 (p 0.18), CTX z +13 | PASS for a real ancient size-class marker; a soft commodity-size link is NOT seen within tablets at this size (Ur III weight tablets carry 1-3 entries) |
+| PE-12.1e | Null behaviour | LOOSE is always the weakest null (gains <= 0; removes tablet clustering): dropped in cycle 2. SIZEM can sit ABOVE real (Ur III LAST, PC) because cross-tablet shuffling removes tablet clustering that hurts held-out prediction. STRICT is the honest null. SEQ family (previous/next entry's sign) is BELOW the STRICT null in PE planted runs and PC (z -6 to -8): adjacent lines repeat their slot sign LESS than tablet-mates do | read STRICT first, SIZEM second. Side observation carried to cycle 3: adjacent-entry anti-repetition |
+
+Verdict cycle 1: the engine finds a check sign planted in 10% of entries (z ~10) and recovers a real ancient size-class
+marker (Ur III units, z 43). It finds no arithmetic structure in proto-cuneiform beyond size. Weak point: modular hashes soak
+up size signals, so any PE "check digit" must survive a fine-size-conditioned test (cycle 2b) before it counts.
