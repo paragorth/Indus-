@@ -102,3 +102,85 @@ double score(int T, int ndoc, const int *doc_off, const int *fold, const int *tt
     free(tc); free(M); free(isopen); free(nkc); free(ncw); free(Nc); free(Ac); free(nck); free(A); free(E); free(al); free(be); free(sc);
     return emit_bits + trans_bits;
 }
+
+/* ---- one-counter pushdown extension: each state may push (+1) or pop (-1) a counter on entry.
+   Pop needs depth>0, push needs depth<DM, END needs depth 0. Probabilities from A are renormalised
+   over the moves allowed at the current depth (exact scoring); EM accumulates counts over depths
+   (generalised-EM approximation). act[s]: 0 none, 1 push, 2 pop.  Only the transition part is
+   returned (emission bits are identical to score() for the same classes). */
+#define DM 4
+double score_pda(int T, int ndoc, const int *doc_off, const int *fold, const int *tc_in,
+                 int K, const int *nst, const int *act, double delta, int iters, int mode,
+                 double *out, double *trans_out, double *viterbi_depth)
+{
+    int S = 0, first[64], i, t, d, f, s, s2;
+    for (i = 0; i < K; i++) { first[i] = S; S += nst[i]; }
+    if (S > MAXS - 2) return 1e18;
+    int C = S + 1, R = S + 1, ND = DM + 1;
+    const int *tc = tc_in;
+    double *A = malloc(sizeof(double) * R * C), *E = malloc(sizeof(double) * R * C), *Z = malloc(sizeof(double) * R * ND);
+    int maxn = 0; for (d = 0; d < ndoc; d++) if (doc_off[d+1]-doc_off[d] > maxn) maxn = doc_off[d+1]-doc_off[d];
+    int W = 4 * ND;
+    double *al = malloc(sizeof(double) * (maxn + 1) * W), *be = malloc(sizeof(double) * (maxn + 1) * W), *sc = malloc(sizeof(double) * (maxn + 2));
+    double bits = 0, edges = 0, maxdepth_tokens = 0;
+    int nf = mode == 1 ? 1 : 2;
+#define NEWD(dd, ss) (act[ss] == 1 ? (dd) + 1 : act[ss] == 2 ? (dd) - 1 : (dd))
+#define OKD(x) ((x) >= 0 && (x) <= DM)
+    for (f = 0; f < nf; f++) {
+        rs = 12345u;
+        for (i = 0; i < R * C; i++) A[i] = 1.0 + 0.5 * urand();
+        for (int it = 0; it <= iters; it++) {
+            for (i = 0; i < R; i++) { double z = 0; for (s = 0; s < C; s++) z += A[i*C+s]; for (s = 0; s < C; s++) A[i*C+s] /= z; }
+            /* Z[row][depth] = allowed mass */
+            for (i = 0; i < R; i++) for (int dd = 0; dd < ND; dd++) { double z = 0;
+                for (s = 0; s < S; s++) { int nd = NEWD(dd, s); if (OKD(nd)) z += A[i*C+s]; }
+                if (dd == 0) z += A[i*C+S];
+                Z[i*ND+dd] = z > 0 ? z : 1e-300; }
+            int scoring = (it == iters);
+            if (!scoring) memset(E, 0, sizeof(double) * R * C);
+            for (d = 0; d < ndoc; d++) {
+                int intrain = (mode == 1) || fold[d] != f;
+                if (scoring ? (mode == 0 && fold[d] != f) : !intrain) continue;
+                int b = doc_off[d], n = doc_off[d+1] - b; if (n == 0) continue;
+                for (t = 0; t < n; t++) { int c = tc[b+t]; double z = 0;
+                    for (int j = 0; j < nst[c]; j++) { s = first[c]+j;
+                        for (int dd = 0; dd < ND; dd++) { double v = 0;
+                            if (t == 0) { if (NEWD(0, s) == dd) v = A[S*C+s] / Z[S*ND+0]; }
+                            else { int cp = tc[b+t-1];
+                                for (int jp = 0; jp < nst[cp]; jp++) { int sp = first[cp]+jp;
+                                    for (int dp = 0; dp < ND; dp++) { double a = al[(t-1)*W + jp*ND + dp]; if (a == 0) continue;
+                                        if (NEWD(dp, s) == dd) v += a * A[sp*C+s] / Z[sp*ND+dp]; } } }
+                            al[t*W + j*ND + dd] = v; z += v; } }
+                    if (z <= 0) z = 1e-300;
+                    for (int j = 0; j < nst[c]; j++) for (int dd = 0; dd < ND; dd++) al[t*W+j*ND+dd] /= z;
+                    sc[t] = z; }
+                { int c = tc[b+n-1]; double z = 0; for (int j = 0; j < nst[c]; j++) { s = first[c]+j; z += al[(n-1)*W+j*ND+0] * A[s*C+S] / Z[s*ND+0]; } sc[n] = z > 0 ? z : 1e-300; }
+                if (scoring) { for (t = 0; t <= n; t++) bits -= log2(sc[t]);
+                    /* tokens whose posterior-free forward mass sits at depth>0 */
+                    for (t = 0; t < n; t++) { int c = tc[b+t]; double m = 0; for (int j = 0; j < nst[c]; j++) for (int dd = 1; dd < ND; dd++) m += al[t*W+j*ND+dd]; maxdepth_tokens += m; }
+                    continue; }
+                /* backward */
+                { int c = tc[b+n-1]; for (int j = 0; j < nst[c]; j++) { s = first[c]+j; for (int dd = 0; dd < ND; dd++) be[(n-1)*W+j*ND+dd] = dd == 0 ? A[s*C+S] / Z[s*ND+0] / sc[n] : 0; } }
+                for (t = n - 2; t >= 0; t--) { int c = tc[b+t], cn = tc[b+t+1];
+                    for (int j = 0; j < nst[c]; j++) { s = first[c]+j;
+                        for (int dd = 0; dd < ND; dd++) { double v = 0;
+                            for (int jn = 0; jn < nst[cn]; jn++) { s2 = first[cn]+jn; int nd = NEWD(dd, s2); if (!OKD(nd)) continue;
+                                v += A[s*C+s2] / Z[s*ND+dd] * be[(t+1)*W+jn*ND+nd]; }
+                            be[t*W+j*ND+dd] = v / sc[t+1]; } } }
+                { int c = tc[b]; for (int j = 0; j < nst[c]; j++) for (int dd = 0; dd < ND; dd++) E[S*C+first[c]+j] += al[j*ND+dd] * be[j*ND+dd]; }
+                for (t = 0; t < n - 1; t++) { int c = tc[b+t], cn = tc[b+t+1];
+                    for (int j = 0; j < nst[c]; j++) for (int dd = 0; dd < ND; dd++) { double a = al[t*W+j*ND+dd]; if (a == 0) continue; s = first[c]+j;
+                        for (int jn = 0; jn < nst[cn]; jn++) { s2 = first[cn]+jn; int nd = NEWD(dd, s2); if (!OKD(nd)) continue;
+                            E[s*C+s2] += a * A[s*C+s2] / Z[s*ND+dd] * be[(t+1)*W+jn*ND+nd] / sc[t+1]; } } }
+                { int c = tc[b+n-1]; for (int j = 0; j < nst[c]; j++) { s = first[c]+j; E[s*C+S] += al[(n-1)*W+j*ND+0] * A[s*C+S] / Z[s*ND+0] / sc[n]; } }
+            }
+            if (!scoring) for (i = 0; i < R * C; i++) A[i] = E[i] + delta;
+        }
+        for (i = 0; i < R * C; i++) if (E[i] >= 0.5) edges += 1.0 / nf;
+        if (mode == 1) memcpy(trans_out, A, sizeof(double) * R * C);
+    }
+    out[0] = bits; out[1] = edges; out[2] = maxdepth_tokens; out[3] = S;
+    (void)viterbi_depth;
+    free(A); free(E); free(Z); free(al); free(be); free(sc);
+    return bits;
+}

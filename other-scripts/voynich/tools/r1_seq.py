@@ -61,6 +61,23 @@ def z_of(e):
     return float(e.mean() / (e.std(ddof=1) / math.sqrt(len(e))))
 
 
+def z_jack(e_full, e_drops):
+    """z for the mean per-document excess, with variance = test-document variance
+    + delete-one-group jackknife variance over training documents (training noise is a
+    fixed effect shared by all test documents and is otherwise invisible to the page SE)."""
+    e_full = np.asarray(e_full, float)
+    P = len(e_full)
+    if P < 3:
+        return 0.0
+    m = e_full.mean()
+    v_test = e_full.var(ddof=1) / P
+    md = np.array([np.mean(e) for e in e_drops])
+    G = len(md)
+    v_tr = (G - 1) / G * np.sum((md - md.mean()) ** 2)
+    v = v_test + v_tr
+    return float(m / math.sqrt(v)) if v > 0 else 0.0
+
+
 def bonf_z(n):
     return float(norm.isf(ALPHA / max(n, 1)))
 
@@ -69,12 +86,15 @@ def bonf_z(n):
 class PartScorer:
     """Class-bigram held-out gain (bits) over class-unigram, per document."""
 
-    def __init__(self, corpus, enc, train, test):
+    def __init__(self, corpus, enc, train, test, G=8):
         self.enc = enc
-        _, p, n, _ = pair_arrays(corpus, enc, train)
-        key = p.astype(np.int64) * enc.V + n
+        self.G = G
+        d, p, n, _ = pair_arrays(corpus, enc, train)
+        key = (d.astype(np.int64) % G) * enc.V * enc.V + p.astype(np.int64) * enc.V + n
         u, c = np.unique(key, return_counts=True)
-        self.tr_p, self.tr_n, self.tr_c = (u // enc.V).astype(np.int32), (u % enc.V).astype(np.int32), c.astype(float)
+        self.tr_g = (u // (enc.V * enc.V)).astype(np.int32)
+        r = u % (enc.V * enc.V)
+        self.tr_p, self.tr_n, self.tr_c = (r // enc.V).astype(np.int32), (r % enc.V).astype(np.int32), c.astype(float)
         d, p, n, nd = pair_arrays(corpus, enc, test)
         key = d.astype(np.int64) * enc.V * enc.V + p.astype(np.int64) * enc.V + n
         u, c = np.unique(key, return_counts=True)
@@ -84,9 +104,11 @@ class PartScorer:
         self.nd = nd
         self.ntok = np.bincount(self.te_d, weights=self.te_c, minlength=nd)
 
-    def score(self, lab, K):
-        """lab: class id for each token index (len V); K = number of classes."""
-        CA = np.bincount(lab[self.tr_p] * K + lab[self.tr_n], weights=self.tr_c, minlength=K * K).reshape(K, K)
+    def score(self, lab, K, drop=None):
+        """lab: class id for each token index (len V); K = number of classes.
+        drop: training-document group left out (jackknife over training noise)."""
+        wt = self.tr_c if drop is None else self.tr_c * (self.tr_g != drop)
+        CA = np.bincount(lab[self.tr_p] * K + lab[self.tr_n], weights=wt, minlength=K * K).reshape(K, K)
         a = 0.5
         cond = (CA + a) / (CA.sum(1, keepdims=True) + a * K)
         uni = (CA.sum(0) + a) / (CA.sum() + a * K)
@@ -132,18 +154,19 @@ def run_partitions(corpus, N, seed, M=12, kmax=30, top2=200, log=None):
             log(f'  part {corpus["name"]} {h}/{N}')
     thr1 = bonf_z(N)
     surv = sorted([h for h in hyps if h[0] > thr1], key=lambda x: -x[0])
-    s2 = PartScorer(corpus, enc, ('A', 'B'), ('C',))
+    s2 = PartScorer(corpus, enc, ('B',), ('C',))
     tested = surv[:top2]
     thr2 = bonf_z(len(tested))
     rep = []
     for z1, g1, k, assign in tested:
         assign = assign.astype(np.int64)
         lab, K = make_lab(enc, assign, k)
-        sh = s2.score(lab, K)
-        nulls = np.mean([s2.score(make_lab(enc, matched_null(assign, rng), k)[0], K) for _ in range(M)], 0)
-        e = sh - nulls
-        z2 = z_of(e)
-        rep.append({'z1': z1, 'gain1': g1, 'k': k, 'z2': z2, 'gain2': float(e.sum() / s2.ntok.sum()),
+        nlabs = [make_lab(enc, matched_null(assign, rng), k)[0] for _ in range(M)]
+        def ex(drop):
+            return s2.score(lab, K, drop) - np.mean([s2.score(nl, K, drop) for nl in nlabs], 0)
+        e = ex(None)
+        z2 = z_jack(e, [ex(g) for g in range(s2.G)])
+        rep.append({'z1': z1, 'gain1': g1, 'k': k, 'z2': z2, 'z2_naive': z_of(e), 'gain2': float(e.sum() / s2.ntok.sum()),
                     'replicated': bool(z2 > thr2), 'assign': assign.tolist()})
     zs = np.array([h[0] for h in hyps])
     return {'N': N, 'thr1': thr1, 'n_stage1': len(surv), 'n_tested2': len(tested), 'thr2': thr2,
@@ -151,7 +174,7 @@ def run_partitions(corpus, N, seed, M=12, kmax=30, top2=200, log=None):
             'signs': enc.part, 'stage2': rep}
 
 
-def planted_partition_corpus(corpus, rng, kstar=3, rho=0.35):
+def planted_partition_corpus(corpus, rng, kstar=3, rho=0.5):
     """Shuffled-skeleton corpus with one hidden rule: signs fall in kstar hidden classes and,
     after a sign of class c, the next sign is of class (c+1) mod kstar with prob rho."""
     enc = Enc(corpus)
@@ -275,10 +298,26 @@ def op_apply(op, lines):
     raise ValueError(op)
 
 
+def op_apply_skel(op, lines):
+    """Apply op to the sign tokens only; the skeleton of fixed tokens ('_', '#', '?') of every
+    line stays where it was (so word lengths and numeral slots never move). revD moves whole lines."""
+    if op[0] == 'revD':
+        return op_apply(op, lines)
+    if op[0] in ('revW', 'revWO'):
+        g = [[t for t in l if t not in FIX] for l in op_apply(op, lines)]
+    else:
+        g = op_apply(op, [[t for t in l if t not in FIX] for l in lines])
+    out = []
+    for l, gl in zip(lines, g):
+        it = iter(gl)
+        out.append([t if t in FIX else next(it) for t in l])
+    return out
+
+
 def compose(ops):
     def f(lines):
         for op in ops:
-            lines = op_apply(op, lines)
+            lines = op_apply_skel(op, lines)
         return lines
     return f
 
@@ -317,6 +356,20 @@ class BigramLL:
         d, p, n, nd = pair_arrays(corpus, self.enc, test, transform)
         return np.bincount(d, weights=L[p, n], minlength=nd), len(p)
 
+    def per_doc_jack(self, corpus, transform, train, test, G=8, a=0.1):
+        """Per-test-document log-lik for the full training set and for each left-out training group."""
+        V = self.enc.V
+        dt, p, n, _ = pair_arrays(corpus, self.enc, train, transform)
+        key = p.astype(np.int64) * V + n
+        d, pp, nn, nd = pair_arrays(corpus, self.enc, test, transform)
+        outs = []
+        for drop in [None] + list(range(G)):
+            m = np.ones(len(key), bool) if drop is None else (dt % G != drop)
+            C = np.bincount(key[m], minlength=V * V).reshape(V, V).astype(float)
+            L = np.log2((C + a) / (C.sum(1, keepdims=True) + a * V))
+            outs.append(np.bincount(d, weights=L[pp, nn], minlength=nd))
+        return outs, len(pp)
+
 
 def run_transforms(corpus, N, seed, top2=200, max_ops=3, log=None):
     rng = np.random.default_rng(seed)
@@ -342,14 +395,14 @@ def run_transforms(corpus, N, seed, top2=200, max_ops=3, log=None):
     surv = sorted([h for h in hyps if h[0] > thr1], key=lambda x: -x[0])
     tested = surv[:top2]
     thr2 = bonf_z(len(tested))
-    base2, ntok2 = bl.per_doc(corpus, None, ('A', 'B'), ('C',))
+    base2, ntok2 = bl.per_doc_jack(corpus, None, ('B',), ('C',))
     rep = []
     for z1, g1, ops in tested:
-        ll, _ = bl.per_doc(corpus, compose(ops), ('A', 'B'), ('C',))
-        e = ll - base2
-        z2 = z_of(e)
-        rep.append({'ops': [list(o) for o in ops], 'z1': z1, 'gain1': g1, 'z2': z2,
-                    'gain2': float(e.sum() / ntok2), 'replicated': bool(z2 > thr2)})
+        ll, _ = bl.per_doc_jack(corpus, compose(ops), ('B',), ('C',))
+        es = [a - b for a, b in zip(ll, base2)]
+        z2 = z_jack(es[0], es[1:])
+        rep.append({'ops': [list(o) for o in ops], 'z1': z1, 'gain1': g1, 'z2': z2, 'z2_naive': z_of(es[0]),
+                    'gain2': float(es[0].sum() / ntok2), 'replicated': bool(z2 > thr2)})
     zs = np.array([h[0] for h in hyps])
     return {'N': n, 'tries': tries, 'thr1': thr1, 'n_stage1': len(surv), 'n_tested2': len(tested), 'thr2': thr2,
             'n_replicated': sum(r['replicated'] for r in rep),
@@ -405,7 +458,7 @@ def planted_transform_corpus(corpus, rng):
         op = ('swap', top[a], top[b])
     docs = []
     for d in syn['docs']:
-        nd = dict(d); nd['lines'] = op_apply(op, d['lines']); nd['orig'] = d['lines']
+        nd = dict(d); nd['lines'] = op_apply_skel(op, d['lines']); nd['orig'] = d['lines']
         docs.append(nd)
     return {'name': corpus['name'], 'docs': docs}, op
 
