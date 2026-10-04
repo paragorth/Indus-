@@ -1,0 +1,10 @@
+pe24 cycle 1 -- "the ~a signs are red ink": marker-level, exhaustive
+Tools: tools/pe24_common.py, pe24_ur3.py, pe24_cycle1.py. Numbers: data/pe24_cycle1_{plant,ur3,pe}.json.
+Cases: 49 clean PE tablets with a written total (32 count, 17 capacity; cleaning as attack_arith; per-tablet decimal/sexagesimal and fraction value sets). 23/49 close with every entry +1.
+Search: every {+1, -1, 0} assignment to the 10 commonest variant markers (~a ~b ~c ~d ~f ~g ~i ~e ~1 ~l; 59,049 assignments); entry coefficient = product over its markers. Fit on a random half (max closures, then fewest non-+1), score the other half; 50 splits.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-24.1a | PLANTED: on the 23 closing tablets, totals recomputed with ~a, ~b or ~d entries at -1 | the planted marker is the unique full-data best (share -1 = 1.00 for each); held-out gain +3.4 / +4.0 / +2.9 tablets; split fits pick the planted marker 49.5-50 of 50 | PASS: a sign-of-subtraction marker on the scale of PE use is recovered |
+| PE-24.1b | Ur III CONTROL: 21 balanced accounts (sag-nig2-gur11 ... sza3-bi-ta ... la2-ia3 N; CDLI), features = section, summary line, carried la2-ia3, first commodity word; truth credit -1, summary 0 | blind search: unique best {SEC_C -1, SUM 0} (0 -> 5 of 21 close); held-out +2.48 vs shuffled features 0.01 (q95 0.06) and random totals 0.13 (q95 0.40), p 0.03 for both (minimum with 30 nulls) | PASS: the search gives back the known Ur III signs of subtraction (credits against debits) and the excluded subtotals |
+| PE-24.1c | REAL PE, same search; nulls: markers re-dealt among sign tokens (30), totals replaced by random numbers of the same size (30) | best = baseline 23/49: NO assignment closes a single extra tablet (gain 0; held-out 0.00 in all 50 splits). Shuffled markers: gain 0 (30/30). Random totals: gain 0-4 (mean 1.9; 29 of 30 above the real 0) | NEGATIVE: no variant marker acts as a negative or excluded entry. Real non-closing totals are, if anything, LESS fixable by flipping marked entries than random totals (p 0.06) |

@@ -111,25 +111,4 @@ res['B|degree_swap'] = dict(F=f0, null=float(fs.mean()), p=float((fs >= f0 - 1e-
 print(res['B|degree_swap'])
 json.dump(res, open(OUT, 'w'), indent=1)
 
-# (4) LB calibration of the word-level null (moved from c2, vectorized): LB sites as nodes,
-# random 'ring' graphs at the LA graph's density; the document-permutation P must be ~uniform.
-import la15_common
-lb = la15_common.load_lb()
-lbsites = [s for s, c in collections.Counter(d['site'] for d in lb).most_common() if c >= 20][:8]
-lbd = [dict(d, support='tablet') for d in lb if d['site'] in lbsites]
-fx = Fast(lbd, lbsites)
-RA = graph_sets(NODES_A)['RING']
-nE = int(round(len(RA) / 2 / 15 * len(lbsites) * (len(lbsites) - 1) / 2))
-allp = list(itertools.combinations(lbsites, 2))
-pv = []
-for g in range(100):
-    sel = rng.choice(len(allp), size=nE, replace=False)
-    Rs = {allp[k] for k in sel} | {(b, a) for a, b in (allp[k] for k in sel)}
-    f0 = fx.F(Rs)
-    fa = np.array([fx.F(Rs, list(rng.permutation(fx.lab))) for _ in range(100)])
-    pv.append(float((fa >= f0).mean()))
-pv = np.array(pv)
-res['lb_calibration'] = dict(sites=lbsites, n_edges=nE, n_docs=len(lbd), frac_p_le_05=float((pv <= 0.05).mean()),
-                             p_quantiles=[float(x) for x in np.quantile(pv, [0.1, 0.25, 0.5, 0.75, 0.9])])
-print('lb_calibration', res['lb_calibration'], flush=True)
-json.dump(res, open(OUT, 'w'), indent=1)
+# (4) the Linear B calibration is in la26_c2b_lb.py

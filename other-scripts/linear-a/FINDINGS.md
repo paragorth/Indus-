@@ -306,3 +306,11 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Grade B (negative, out of corpus): SigLA and lineara.xyz agree on 98.8 % of 2,789 aligned signs. Of 19 clean re-readings, the frozen top 5 holds SigLA's sign once (the old reading 5 times, P 0.024): the restorer stays anchored to the corpus's own spellings and does not anticipate corrections.
 - Grade C: break-edge restorations: 2/13 SigLA extra signs at top-1 (P 0.03), but 1/4 in the clean same-word subset (HT 3 MA-[DI]); low restoration probability flags changed readings (AUC 0.65), mostly through sign rarity (frequency alone 0.60). Would support: >= 5 of 10 frozen high-confidence edges confirmed by new photographs or joins. Would kill: 0 of 10.
 - Frozen (arithmetic, not new): missing KU-RO entries HT 11a 4, HT 27a 13, HT 39 72, HT 46a 42, HT 100 4, HT 109 121, HT 122a 9.
+
+## The rings know who talked (la26, 4 Oct 2026; `loops/la26_final.txt`)
+- Built the seal-sharing network as data (7 same-seal groups across HT, KN, ZA, GO, Thera and Sklavokambos; Khania only a look-alike; `data/la26_ring_network.json`) and asked whether ring-linked sites share more words, sign profiles, ligature variants or entry structures than distance and size predict, and whether multi-site words sit on ring paths. Nulls: doc-perms within support, QAP, seal-graph rewiring, distance gravity, all graphs of equal size; planted controls; Linear B calibration.
+- Not supported (calibrated upper bound): no measure passes at site level (best P 0.058). A planted ring vocabulary is found only at ~96 shared types, about 4x all real cross-site sharing, so a real ring effect could be invisible.
+- The word-level 'ring path' signal (doc-perm P 0.0005) is killed: the same null passes 37.5% of random graphs on Linear B, and against all graphs the ring graph ranks P 0.16-0.66. HT shares 9 admin words with Zakros (3 rings) and 9 with Khania (no ring), 1 with Knossos.
+- Grade B: Khania is an island in sign profile and entry structure, not just vocabulary (z -11 to -17 vs HT and ZA beyond size and support).
+- Grade C: ring pairs have slightly more alike sign profiles (P 0.06). HT-ZA shared words (incl. KU-RO) as ring-office terms, demoted. Same seal, same incised sign (RO on 3 of 4 S68 nodules), P 0.088.
+
