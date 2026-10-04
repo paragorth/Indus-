@@ -27,6 +27,16 @@ WIKI = ['eu', 'ca', 'oc', 'ka', 'sq', 'mt', 'la']
 
 
 def get(url, tries=4):
+    import subprocess
+    for k in range(tries):
+        r = subprocess.run(['curl', '-sS', '-f', '-L', '--max-time', '300', url], capture_output=True)
+        if r.returncode == 0 and r.stdout:
+            return r.stdout
+        print('retry', url[:100], r.stderr[:200], flush=True); time.sleep(3 + 5 * k)
+    return None
+
+
+def _get_urllib(url, tries=4):
     for k in range(tries):
         try:
             with urllib.request.urlopen(url, timeout=120) as r:
