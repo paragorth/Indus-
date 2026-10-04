@@ -1,0 +1,10 @@
+# pe32 cycle 4 (4 Oct 2026): SPLIT-TABLET PREDICTION (cycle 2's held-out pool is too thin).  tools/pe32_cycle4.py; data/pe32_ckpt/cycle4.json,
+# cycle4.log (10 splits x 100 seeds), cycle4b.log (10 other splits x 300 seeds).  Per random 50/50 tablet split: class re-derived on half
+# A (counted signs before a standard M288 line), features from A tablets only, top-20 non-class signs by affinity frozen, scored on half B
+# M288 entries with a known count.  Control: 100 / 300 random seeds per split (frequency-matched from the other A-side M288 predecessors)
+# through the same pipeline.  Hits are summed over splits (one entry can count in several splits; the seeds are summed the same way).
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-32.4a | Run 1 (100 seeds) | predicted signs: 17 standard of 41 B entries (std or double 25) vs seeds 8.4 of 38.5 (11.8); p 0.01 / 0.01 (floor) | signal |
+| PE-32.4b | Run 2 (300 seeds, other splits) | 24 of 62 vs seeds 14.6 of 45.8 (p 0.003); std or double 36 vs 21.3 (p 0.003). Class A members on B: 95 of 145 standard; other B entries 110 of 958 | B: features of the class re-find its members on unseen tablets better than any random seed does |
+| PE-32.4c | Where the hits come from | 21 of 24 hits are C14 signs that were not in class A of that split (M066 6, M228 4, M301 3, M370 2, M220 2, M320 2, M230, M128). New signs: 3 of 33 entries (all M332, one entry in three splits) = 9%, the base rate for non-class signs is 11% | NEGATIVE for extension: the features recover the known class but find no NEW member; the class looks closed at the 14 signs (+ M332 as C). The cycle 2 frozen list is demoted to 'expected to fail' |
