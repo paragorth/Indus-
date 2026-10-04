@@ -105,7 +105,7 @@ def lang(code):
 
 
 # Copiale: keyboard char of the Copiale font -> plaintext (Knight, Megyesi & Schaefer 2011, Figure 6)
-_COP_PLAIN = {'P': 'a', 'N': 'a', 'H': 'a', '0': 'a', '|': 'UML', 'Q': 'b', '?': 'c', '>': 'd', 'z': 'd',
+_COP_PLAIN = {'P': 'a', 'N': 'a', 'H': 'a', '0': 'a', '|': 's', 'Q': 'b', '?': 'c', '>': 'd', 'z': 'd',
               'A': 'e', 'E': 'e', 'I': 'e', 'O': 'e', 'U': 'e', ')': 'e', 'Z': 'e', '~': 'f', '6': 'g', 'X': 'g',
               '-': 'h', '5': 'h', 'y': 'i', 'Y': 'i', '!': 'i', '4': 'j', 'C': 'l', '+': 'm', 'B': 'n', 'F': 'n',
               'D': 'n', 'g': 'n', '<': 'o', '&': 'o', 'W': 'ö', 'd': 'p', 'R': 'r', '3': 'r', 'j': 'r', '[': 'ss',
