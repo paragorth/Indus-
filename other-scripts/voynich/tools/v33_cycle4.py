@@ -25,7 +25,7 @@ def corpora():
          'C-itSusp': [[w if len(w) <= 4 else w[:2] + w[-2:] for w in l] for l in it],
          'C-laTrunc': [[w[:4] for w in l] for l in la],
          'C-la8cls': [[''.join(CLS.get(c, 'h') for c in w) for w in l] for l in la],
-         'C-laVerb': [[''.join(VC[c] for c in w) for w in l] for l in la],
+         'C-laVerb': [[''.join(VC.get(c, 'kk') for c in w) for w in l] for l in la],
          'P-decl100': declension_text(voy_lines('ZL3b'), 1.0, 1),
          'P-decl50': declension_text(voy_lines('ZL3b'), 0.5, 2)}
     C = {}
