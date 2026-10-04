@@ -77,3 +77,23 @@ if __name__ == '__main__':
         for m, s in o:
             print(nm, sk, m, '|', s, flush=True)
         print(nm, 'most allograph-like pairs:', top, flush=True)
+
+
+def size_matched(name, k=23, models=('ppmi', 'svd', 'potts'), nperm=3000):
+    """Mantel restricted to the k most frequent units (behaviour from the full set), all fonts averaged."""
+    c = C.build(name)
+    beh = X.load(f'beh_{name.replace("/", "-")}.pkl')
+    S = R.sims_for(c)
+    top = np.argsort(-beh['_freq'])[:k]
+    ix = np.ix_(top, top)
+    rng = np.random.default_rng(3)
+    out = {}
+    for m in models:
+        rs = []; ps = []
+        for key, Ssh in S.items():
+            if not key.startswith('img:'):
+                continue
+            r, p, _, _ = L.mantel(Ssh[ix], beh[m][ix], nperm=nperm, rng=rng)
+            rs.append(r); ps.append(p)
+        out[m] = (float(np.mean(rs)), float(max(ps)))
+    return out, [c['alph'][i] for i in top]
