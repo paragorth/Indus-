@@ -224,3 +224,11 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
   - Grade B: on Hagia Triada tablets, commodity sections run from large to small amounts (0.601, P = 0.0005).
   - Grade C: outside Hagia Triada, consecutive entries share their first sign (P = 0.001).
 - Not detected: top-to-bottom agreement, links between particular words and particular numbers, or line order.
+
+## Words spread like epidemics (la17)
+- Idea: treat each word (and each sign type) as a pathogen and each site as a host population; fit SI/SIR outbreaks on a distance-and-size contact network, with unknown source, adoption order and (cycle 2) deposit time, by likelihood-free inference (~390,000 simulated outbreaks; rejection ABC and ABC random forests). Dates are never inputs; the inferred order is scored afterwards against the deposit phase of each site (PH MM II ... HT/KH/ZA LM IB).
+- The method fails its controls: a planted Phaistos-source outbreak is recovered 1/20 and 0/20; outbreaks planted by a different (lexicon-copying) generator are at chance (source 0.05, order rho -0.01); shuffled incidence gives the same "source" as real data (HT for signs, KN in Linear B). In Linear B, KN comes first only when shuffled data say the same, and the deposit-time model puts KN 3rd.
+- Linear A: the source posterior is flat (best 0.15 vs 0.077); no order matches the dates (rho -0.18 to 0.28, P >= 0.14). Phaistos, the only MM II site, is always placed late. No source or order is claimed.
+- Grade C: sites far apart in date share fewer words than distance predicts (LA -0.21 z per phase, P 0.25; LB the same sign, P 0.16); PH-HT, 3 km apart but MM II vs LM IB, share less than other near pairs (z -1.6 vs 0.0). Would support: P < 0.05 with more MM II-III material; would kill: a zero or positive coefficient on a larger dated set.
+- Grade B (known in kind): the strongest cross-site vocabulary cluster is the sanctuary group IO-SY-PK (z 4-4.7 against document-label permutation), i.e. the libation formula: genre, not contagion.
+- Cause of failure: 63 % of words are site-endemic and sites share only 43 types (la13, la15), so a symmetric sharing matrix carries no direction, and size (document mass) dominates every summary.

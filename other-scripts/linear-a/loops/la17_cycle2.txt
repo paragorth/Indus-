@@ -1,5 +1,5 @@
 # LA-17 cycle 2: SIR turnover with an unknown deposit (sampling) time per site - epidemic seriation
-Scripts: tools/la17_sim.py (mode dep), tools/la17_c1.py dep, tools/la17_lb.py dep, tools/la17_c2b.py. Outputs: data/la17/c2_dep_la.txt/.json, lb_dep.txt/.json, c2b.txt/.json.
+Scripts: tools/la17_sim.py (mode dep), tools/la17_c1.py dep, tools/la17_lb.py dep, tools/la17_c2b.py. Outputs: data/la17/c2_dep_la.txt (json: c1_dep_la.json), lb_dep.txt/.json, c2b.txt/.json.
 Model change: each site j starts writing at t_j and is sampled at its own deposit time tau_j in [t_j, 1]; words are lost at rate gamma, so sites sampled at similar times should share more words. 33 parameters. 80,000 LA and 30,000 LB outbreaks. Dates still never enter the fit.
 | LA-<n>.<cycle> | method and control | result | verdict |
 |---|---|---|---|
