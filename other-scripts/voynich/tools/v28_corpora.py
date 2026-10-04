@@ -16,6 +16,7 @@ COLLAPSE = {'ſ': 's', 'ꝛ': 'r', 'ɼ': 'r', 'ꝺ': 'd', 'ꞇ': 't', 'ʒ': 'z',
 
 
 def family(g):
+    g = g.replace(X.VS_SAME, '').replace(X.VS_ITAL, '')
     b = g.lower() if len(g) == 1 else g
     return COLLAPSE.get(b, COLLAPSE.get(g, b))
 
@@ -279,6 +280,14 @@ def build(name):
         fonts, xref = ('eva',), 'o'
     else:
         raise KeyError(name)
+    # optional planted positional allographs "+pallo6" (identical drawing) / "+pallo6i" (italic drawing):
+    # the word-final form of the 6 most frequent letters becomes a separate unit
+    if '+pallo' in name:
+        tag = name.split('+pallo')[1]
+        k = int(tag.rstrip('i')); mark = X.VS_ITAL if tag.endswith('i') else X.VS_SAME
+        cnt = Counter(g for w in ws for g in w)
+        tops = {g for g, _ in cnt.most_common(k)}
+        ws = [w[:-1] + ((w[-1] + mark,) if w[-1] in tops else (w[-1],)) for w in ws]
     # optional BPE suffix "+bpeN"
     if '+bpe' in name:
         n = int(name.split('+bpe')[1])

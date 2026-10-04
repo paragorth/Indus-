@@ -156,9 +156,29 @@ def dose(args):
     return out
 
 
+def markov_null(M=20, seed=77):
+    """Markov-resynthesised star units scored against the real data's shuffle null moments (cycle-1 checkpoint)."""
+    o = pickle.load(open(os.path.join(V.CK, 'c1_VOY-star.pkl'), 'rb'))
+    keys = o['keys']; Nn = o['Nn'].astype(float)
+    tx = [i for i, k in enumerate(keys) if not k[1].startswith('star')]
+    mu = Nn.mean(0); sd = Nn.std(0); floor = 0.25 * np.median(sd, axis=1, keepdims=True) + 1e-9
+    sd = np.maximum(sd, floor)
+    q = V.load_q20(); zs = []
+    for m in range(M):
+        u = V.markov_resynth(q, seed + m)
+        num, cat, vec = V.features(u, star=False)
+        ob = V.scan(num, cat, vec)
+        Z = np.stack([(ob[keys[i]] - mu[i]) / sd[i] if keys[i] in ob else np.full(len(V.PERIODS), -9) for i in tx])
+        zs.append(Z.max())
+    real = ((o['O'][tx] - mu[tx]) / sd[tx]).max()
+    print('M markov zmax', np.round(sorted(zs), 2), 'real', round(float(real), 2),
+          'p', (1 + sum(z >= real for z in zs)) / (M + 1), flush=True)
+
+
 if __name__ == '__main__':
     q = V.load_q20()
     part = sys.argv[1] if len(sys.argv) > 1 else 'abc'
+    if 'm' in part: markov_null()
     if 'b' in part:
         print('B real', star_text(q, seed=1), flush=True)
         print('B planted', star_text(q, seed=2, plant=True), flush=True)
@@ -172,3 +192,4 @@ if __name__ == '__main__':
         if 'a' in part: p.map(part_a, jobs_a, chunksize=1)
         if 'c' in part: p.map(dose, jobs_c, chunksize=1)
     print('done')
+

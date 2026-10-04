@@ -1,0 +1,25 @@
+# PE-22 final: count the unseen signs and predict the next tablets (4 Oct 2026)
+
+Idea: treat signs as species and publications as successive surveys. From tablets published up to 1999, estimate the repertoire and pre-register hashed predictions for the 156 tablets published or entered later (TCL 32 2019, unpublished Susa and Malyan entries, Tepe Sofalin, Ozbaki); then score. Controls: random and contiguous-batch hold-outs (shuffled publication dates), planted repertoires of known size, proto-cuneiform older -> newer publications, Linear A (la15 split). Web check: Dahl 2002 (CDLB 2002/1) counted PE sign frequencies; no richness estimates or held-out predictions by publication date were found.
+
+Repertoire (all 1,581 tablets; Chao1 with log-normal 95% interval):
+- Base signs incl. compounds: 551 seen, ~750 [680-850] (ACE 778, jack2 848, ABC 680 [560-890]). Grade B.
+- Simple signs only: 353 seen, ~425 [393-484]. Grade B: a closed set, ~85% seen. Compounds are the open class.
+- Variant graphs: 1,616 seen, ~2,600 [2,440-2,840]. Grade B (editorial splitting).
+- Entry strings: 1,568 seen, >= 13,900 (coverage 0.22; ABC ~52,000). Grade A: most entries in use are unseen.
+- Sign pairs: 3,096 seen, ~8,500 [7,800-9,200]. Grade B.
+- PE uses about 0.5-0.6 of proto-cuneiform's repertoire at equal sample size (551 vs 922 types). Grade B.
+
+Hashed predictions (sha256 7a65929a...130a) against truth:
+- New signs: EXCH 8 [3-14] vs 14 registered, 6 after removing artefacts. Pass.
+- New strings: 39 [33-43] vs 37. Pass.
+- New graphs: 38 [27-50] vs 28. Pass.
+- Known-sign ranking: AUC 0.92 (chance 0.5; random old batches 0.91); 29 of top 30 present. Pass.
+- New sign pairs: 123 [107-142] vs 96. Fail. Known types: 205 vs 173. Fail. Both misses are model bias that old batches share (p 0.09-0.74).
+- 'Risky absences': killed by a frequency-matched null (p 0.16).
+- New sites (Sofalin, Ozbaki): 0 genuine new signs. Grade B: no recurrent site-endemic sign anywhere outside Susa (0 of 6 non-Susa signs is on 2 tablets).
+
+Calibration: Linear A reproduces la15 (32 vs 32). Proto-cuneiform same-archive predictions pass; a new archive (CUSAS) brings ~2x more new signs than predicted.
+Out-of-corpus: 89 untransliterated Tehran Susa tablets, 9 [4-15] new signs predicted (sha256 2a97d00c...f30e, data/pe22_outofcorpus_predictions.json).
+Grade C: discovery runs slower than random order in MDP 26 and the late batches (p 0.003, 0.05; length not controlled).
+Nothing is read; nothing is cracked.

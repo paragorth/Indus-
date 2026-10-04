@@ -320,19 +320,31 @@ VALS3 = (1.0, -1.0, 0.0)
 
 def tables(P, feats, vals=VALS3):
     """For each tablet: list of relevant feature positions (indices into feats)
-    and closure table over all len(vals)^r configurations (other features +1)."""
+    and closure table over all len(vals)^r configurations (other features +1).
+    Vectorised: member coefficients for all configurations at once."""
     pos = {f: j for j, f in enumerate(feats)}
-    out = []
+    vals = np.array(vals, float)
     nv = len(vals)
+    out = []
     for k in range(len(P.cases)):
         rel = sorted({pos[P.feats[f]] for H in P.cases[k] for Pp in H for fl in Pp[2] for f in fl
                       if P.feats[f] in pos})
-        c = np.ones(len(P.feats))
-        tab = np.zeros(nv ** len(rel), bool)
-        for ci, cfg in enumerate(itertools.product(range(nv), repeat=len(rel))):
-            for j, v in zip(rel, cfg[::-1]):
-                c[P.fix[feats[j]]] = vals[v]
-            tab[ci] = P.closes(k, c)
+        rix = {P.fix[feats[j]]: i for i, j in enumerate(rel)}
+        r = len(rel)
+        cfg = np.array(list(itertools.product(range(nv), repeat=r)), int)[:, ::-1] if r else np.zeros((1, 0), int)
+        V = vals[cfg]
+        tab = np.zeros(len(cfg), bool)
+        for H in P.cases[k]:
+            ok = None
+            for (Tm, Em, F) in H:
+                co = np.ones((len(cfg), len(F)))
+                for e, fl in enumerate(F):
+                    for f in fl:
+                        if f in rix:
+                            co[:, e] *= V[:, rix[f]]
+                good = np.abs(co @ Em - Tm[None, :]) < 1e-6        # (ncfg, nvalset)
+                ok = good if ok is None else (ok & good)
+            tab |= ok.any(1)
         out.append((np.array(rel, int), tab))
     return out
 

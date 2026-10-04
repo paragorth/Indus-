@@ -42,9 +42,15 @@ NBSP = ' '
 
 def disp(g):
     """string actually rendered for a unit: combining marks get a no-break-space carrier (ink = mark only)."""
+    g = g.replace(VS_SAME, '').replace(VS_ITAL, '')
     if g and unicodedata.combining(g[0]):
         return NBSP + g
     return g
+
+
+VS_SAME = '\ufe00'   # planted positional allograph drawn identically
+VS_ITAL = '\ufe01'   # planted positional allograph drawn in the italic cut (similar, not identical)
+ITALIC = '/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf'
 
 
 # ------------------------------------------------------------------ image similarity for any font
@@ -66,7 +72,7 @@ def covered(g, font):
     key = font
     if key not in _CM:
         _CM[key] = TTFont(font, fontNumber=0).getBestCmap()
-    return all(ord(c) in _CM[key] for c in g if c != NBSP)
+    return all(ord(c) in _CM[key] for c in disp(g) if c != NBSP)
 
 
 _CM = {}
@@ -80,7 +86,7 @@ def image_sims(alph, font, xref):
         a, base, size = _render(xref, font)
         ys, _ = np.where(a)
         xh = max(ys.max() - ys.min(), 1)
-        D = [I.descriptors(disp(g), font, xh) for g in alph]
+        D = [I.descriptors(disp(g), ITALIC if VS_ITAL in g else font, xh) for g in alph]
     finally:
         I.render = old_render
     Zo = np.array([d[0] for d in D]); Fr = np.array([d[1] for d in D]); To = np.array([d[2] for d in D])

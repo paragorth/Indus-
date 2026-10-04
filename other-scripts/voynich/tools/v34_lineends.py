@@ -19,6 +19,24 @@ def page(args):
     folio, recs, pitch, ov = args
     gray, con, rb = L18.load(os.path.join(IMG, folio + '.jpg'))
     mask = ndi.binary_opening(con > 0.15, np.ones((2, 2)))
+    out = measure(mask, recs, pitch)
+    if ov:
+        overlay(os.path.join(IMG, folio + '.jpg'), out, os.path.join(V.SCR, 'v34_ov_' + folio + '.png'))
+    return folio, out
+
+
+def overlay(fn, out, dst, scale_to=2000):
+    from PIL import Image, ImageDraw
+    im = Image.open(fn).convert('RGB')
+    im = im.resize((scale_to, int(im.height * scale_to / im.width))); d = ImageDraw.Draw(im)
+    for n, r in out.items():
+        y = r['a'] + r['b'] * r['xend']
+        d.line([(r['xend'], y - 15), (r['xend'], y + 15)], fill=(255, 0, 0), width=3)
+        d.line([(r['xend_v18'], y - 8), (r['xend_v18'], y + 8)], fill=(0, 0, 255), width=3)
+    im.resize((1000, int(im.height * 1000 / im.width))).save(dst)
+
+
+def measure(mask, recs, pitch):
     H, W = mask.shape
     byl = {}
     for w in recs:
@@ -51,15 +69,7 @@ def page(args):
         # vertical ink in a wider band beyond the end (drawing/edge flag)
         out[str(ws[0]['n'])] = {'li': li, 'xend': xend, 'xend_v18': ws[-1]['x1'], 'unit': float(unit),
                                 'a': float(a), 'b': float(b)}
-    if ov:
-        from PIL import Image, ImageDraw
-        im = Image.open(os.path.join(IMG, folio + '.jpg')).convert('RGB'); d = ImageDraw.Draw(im)
-        for n, r in out.items():
-            y = r['a'] + r['b'] * r['xend']
-            d.line([(r['xend'], y - 15), (r['xend'], y + 15)], fill=(255, 0, 0), width=3)
-            d.line([(r['xend_v18'], y - 8), (r['xend_v18'], y + 8)], fill=(0, 0, 255), width=3)
-        im.resize((1000, int(im.height * 1000 / im.width))).save(os.path.join(V.SCR, 'v34_ov_' + folio + '.png'))
-    return folio, out
+    return out
 
 
 if __name__ == '__main__':

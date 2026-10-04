@@ -323,3 +323,14 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Grade B: the top-edge numeral (117 tablets: '1(N34)' 91, '2(N01)' 19) is always one denomination, sits on M157-headed tablets 3.8x more often (21% vs 7%, p 4e-10) and never equals the entry sum. It is a constant tag of the tablet type, not a count, measure or target. It explains most of a "rounder numbers on M157 tablets" signal (p 0.002, held-out 17/20).
 - Grade C: M157 entries are slightly rounder even without edge marks (p 0.03-0.07). Would support: replication on new M157 tablets. Would kill: p > 0.1 there. The M136 hint was demoted (held-out 0/20).
 - Nothing is read; nothing is cracked.
+
+## Counting the unseen signs and predicting the next tablets (pe22, 4 Oct 2026; `loops/pe22_final.txt`)
+- Method: the la15 ecology census (Chao1, ACE, Chao2, jack2, Zipf-Mandelbrot ABC, community bootstrap, habitat novelty). Training: tablets published up to 1999. Hashed predictions for 156 later tablets (TCL 32 2019, unpublished Susa and Malyan entries, Sofalin, Ozbaki). Controls: random and contiguous-batch hold-outs, planted repertoires, proto-cuneiform older to newer, Linear A.
+- Grade B: about 750 [680-850] base-sign types including compounds; 551 seen. The simple signs form a closed set: about 425 [393-484], with 353 seen. Compounds are the open class. About 2,600 variant graphs and about 8,500 sign pairs. At equal size, PE uses 0.5-0.6 of proto-cuneiform's repertoire.
+- Grade A: the entry vocabulary is mostly unseen (1,568 seen, at least 13,900; coverage 0.22).
+- Grade B: the predictions passed. New signs: 8 [3-14] predicted, 6 genuine (plus 8 transliteration artefacts). New strings: 39 [33-43] vs 37. New graphs: 38 [27-50] vs 28. Known-sign ranking: AUC 0.92, chance 0.5. The recent tablets behave like a random batch of the old archive (old batches give AUC 0.90-0.91).
+- Failed predictions: sign pairs (123 predicted, 96 true) and the known-type count (205 vs 173). Old batches show the same bias (p 0.09-0.74). The 'risky absence' list was killed by a frequency-matched null.
+- Grade B: no recurrent site-endemic sign is found outside Susa (0 of 6 non-Susa signs). Sofalin and Ozbaki add no genuine new sign.
+- Calibration: Linear A reproduces la15 (32 vs 32). For proto-cuneiform, a new archive (CUSAS) has about twice as many new signs as predicted.
+- Out-of-corpus prediction, hashed: 89 untransliterated Tehran Susa tablets will carry 9 [4-15] new base signs (`data/pe22_outofcorpus_predictions.json`).
+- Grade C: MDP 26 and the post-1950 batches add fewer new signs than random order would (p 0.003 and 0.05; not length-matched).

@@ -46,9 +46,10 @@ def raw_zl():
     return out
 
 
-def voynich_lines(src='v18_words.json', maxcost=None):
+def voynich_lines(src='v18_words.json', maxcost=None, ends=True, maxext=5.0):
     pages = json.load(open(os.path.join(DATA, 'derived', src)))
     raw = raw_zl()
+    E = json.load(open(os.path.join(CKPT, 'lineends.json'))) if ends else {}
     lines = []
     for p in pages:
         byl = {}
@@ -62,8 +63,14 @@ def voynich_lines(src='v18_words.json', maxcost=None):
             words = [w['word'] for w in ws]
             g = [max(1, len(glyphs(x))) for x in words]
             r = raw.get((p['folio'], ws[0]['n']), '')
+            x1 = [w['x1'] for w in ws]
+            e = E.get(p['folio'], {}).get(str(ws[0]['n'])) if ends else None
+            if ends:
+                if e is None or e['xend'] - x1[-1] > maxext * e['unit'] or e['xend'] <= ws[-1]['x0']:
+                    continue
+                x1[-1] = e['xend']
             pl.append({'page': p['folio'], 'n': ws[0]['n'], 'words': words, 'g': g,
-                       'x0': [w['x0'] for w in ws], 'x1': [w['x1'] for w in ws],
+                       'x0': [w['x0'] for w in ws], 'x1': x1,
                        'para_end': ws[0]['para_end'], 'para_start': ws[0]['para_start'],
                        'lcost': ws[0]['lcost'], 'raw': r})
         finish_page(pl)
@@ -202,3 +209,44 @@ def strat_perm_corr(t, f, groups, nperm=2000, rng=None, covar=None):
     z = (obs - null.mean()) / (null.std() + 1e-12)
     p = (1 + np.sum(np.abs(null) >= abs(obs))) / (nperm + 1)
     return obs, z, p, null
+
+
+def multi_perm(t, feats, groups, nperm=2000, seed=0, covar=None):
+    """Like strat_perm_corr for many features with the SAME within-group permutations of t,
+    so a familywise (max |z|) p-value can be given. feats: dict name -> array."""
+    rng = np.random.default_rng(seed)
+    t = rankz(np.asarray(t, float))
+    n = len(t)
+    if covar is not None:
+        C = np.column_stack([np.ones(n)] + [rankz(c) for c in np.atleast_2d(covar)])
+        P = C @ np.linalg.pinv(C)
+        res = lambda v: v - P @ v
+    else:
+        res = lambda v: v - v.mean()
+    names = list(feats)
+    Fm = np.column_stack([res(rankz(np.asarray(feats[k], float))) for k in names])
+    sd = Fm.std(axis=0); sd[sd == 0] = np.inf
+    Fm = Fm / sd
+    groups = np.asarray(groups)
+    idx = [np.where(groups == g)[0] for g in np.unique(groups)]
+
+    def corr(tv):
+        r = res(tv); r = r / (r.std() + 1e-12)
+        return (r @ Fm) / n
+    obs = corr(t)
+    null = np.empty((nperm, len(names)))
+    tp = t.copy()
+    for k in range(nperm):
+        for ii in idx:
+            tp[ii] = t[rng.permutation(ii)]
+        null[k] = corr(tp)
+    mu, sdv = null.mean(0), null.std(0) + 1e-12
+    z = (obs - mu) / sdv
+    zn = np.abs((null - mu) / sdv).max(axis=1)
+    out = {}
+    for j, k in enumerate(names):
+        p = (1 + np.sum(np.abs(null[:, j] - mu[j]) >= abs(obs[j] - mu[j]))) / (nperm + 1)
+        pfw = (1 + np.sum(zn >= abs(z[j]))) / (nperm + 1)
+        out[k] = {'r': float(obs[j]), 'z': float(z[j]), 'p': float(p), 'p_fw': float(pfw),
+                  'mean': float(np.mean(feats[k]))}
+    return out

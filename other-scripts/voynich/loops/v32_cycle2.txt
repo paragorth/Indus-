@@ -1,0 +1,14 @@
+# v32 cycle 2 (4 Oct 2026): hidden cycle with slips, and the lost central bifolio. tools/v32_cycle2.py
+# CHMM: circular HMM, K in {2-8,10,12,14,15,18,20,24,27,28,29,30,32,36,40}; advance 1 (0.90) / stay (0.05) / skip one
+# (0.05), so missed or doubled entries are absorbed; state reset to uniform at the lost bifolio f109-f110 (between
+# f108v and f111r: unit 179 of 339 in ZL, 164 of 288 in IT2a). Emissions: opening glyph class, opening word (>= 3
+# uses), terciles of length, gallows/word, q-fraction (+ star points in ZL). Baum-Welch 2 restarts x 20 iterations;
+# score = per-unit log-likelihood gain over K = 1; each K z-scored on 30 shuffles (gap position fixed); family max.
+# FOLDGAP: epoch folding in which the part after the gap carries a free phase offset (max over offsets), periods 2-40
+# + 27.32, 29.53, 30.44, 23-27 features; 30 shuffles, family max.
+| V-32.2.1 | Real calendar (Ado, date only) / (Ado, letter + date) | CHMM best K 28 z 62 (K 4 52, K 27 48) / best K 14 z 63.5 (K 7 53.5, K 15 61); both p 0.032 (floor 1/31). FOLDGAP: 47.9 at P29.53 / 24.4 at P27.32 and 22.0 at P7 | Hidden-cycle model catches the real calendar; with slips it is a presence detector (all K gain), not a sharp period estimator |
+| V-32.2.2 | Planted lunar opening (30 %, P29.53) with the gap | CHMM best K 10 z 5.9 (K 6 4.7, K 29 3.6), p 0.032; FOLDGAP 27.3 at P29.53 (offset recovered), p 0.032 | Recovered by both; folding gets the period, the slip-HMM only the presence |
+| V-32.2.3 | VOYNICH star units (339) | CHMM best K 29 z 1.7 (K 30 1.0, K 7 -0.3, K 12 0.5, K 28 -1.7, K 36 -0.2), p 0.71. FOLDGAP zmax 4.7 (first line length P20), p 0.61 | Nothing, even when the lost bifolio may shift the phase by any amount |
+| V-32.2.4 | VOYNICH IT2a paragraphs (288) | CHMM best K 40 z 2.1, p 0.52; FOLDGAP zmax 3.9 (TTR P2), p 0.94 | Nothing |
+| V-32.2.5 | Biological section B (87 paras), comparison | CHMM best K 40 z 1.4, p 0.68; FOLDGAP 8.3 (dy P11), p 0.23 | Nothing |
+| V-32.2.V | Verdict, cycle 2 | - | A hidden cycle that tolerates missed / doubled entries and a lost bifolio of unknown length finds nothing in quire 20 (p 0.52-0.71), while it catches the real martyrology at z 62-64 and a 30 %-strength planted opening at z 5.9. Grade A negative (same scope as cycle 1: written, entry-level dating) |
