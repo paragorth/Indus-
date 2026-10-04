@@ -45,7 +45,13 @@ def run(name, pages, pname, rng, log, plant=None, nperm=200):
     pairs = {pname: vpairs()[pname]}
     toks = extract(pages, pairs, V_TALL)
     y = np.array([t['y'] for t in toks]); groups = np.array([t['page'] for t in toks])
-    X = hstack([onehot(family_cols(toks, fm)) for fm in ('SCRIBE', 'CTX', 'FRAME')]).tocsr()
+    fams = [onehot(family_cols(toks, fm)) for fm in ('SCRIBE', 'CTX', 'FRAME')]
+    if os.environ.get('V40_BASE_LAYOUT'):
+        # stricter base: add the whole LAYOUT family (paragraph-first line, x, offsets, line in paragraph...)
+        from v40_cycle1 import build_extra, same_above
+        e = build_extra(pages, toks, V_TALL, y); e['same_above'] = same_above(pages, toks, pairs)
+        fams.append(onehot(family_cols(toks, 'LAYOUT', e)))
+    X = hstack(fams).tocsr()
     p0, f = oof_logloss(X, y, groups)
     prv, pl, first = prev_info(toks)
     if plant is not None:
@@ -98,12 +104,14 @@ if __name__ == '__main__':
     rng = np.random.default_rng(404)
     log = open(os.path.join(CKPT, 'cycle4_%s.log' % which), 'a')
     out = {}
+    tag = which + ('_baselayout' if os.environ.get('V40_BASE_LAYOUT') else '')
+    log = open(os.path.join(CKPT, 'cycle4_%s.log' % tag), 'a')
     if which == 'plant':
         P = load_voynich('ZL3b')
         for s in (0.0, 0.05, 0.1):
             out[s] = run('ZL3b', P, 'KT', rng, log, plant=s, nperm=60)
     else:
         P = load_voynich(which)
-        for pn in ('KT', 'CS', 'BENCH', 'PF', 'BKT'):
+        for pn in (('KT', 'CS') if os.environ.get('V40_BASE_LAYOUT') else ('KT', 'CS', 'BENCH', 'PF', 'BKT')):
             out[pn] = run(which, P, pn, rng, log)
-    json.dump(out, open(os.path.join(CKPT, 'cycle4_%s.json' % which), 'w'), indent=1)
+    json.dump(out, open(os.path.join(CKPT, 'cycle4_%s.json' % tag), 'w'), indent=1)

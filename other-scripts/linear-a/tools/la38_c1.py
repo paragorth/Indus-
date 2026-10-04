@@ -29,6 +29,12 @@ def corpus(tag):
         return L.Corpus(L.cyp_words(), name=tag)
     if tag == 'LA':
         c = L.Corpus(L.la_words(), name=tag); s, P = L.la21_for('LA'); c.set_la21(s, P); return c
+    if tag.startswith('LBh'):   # LB drawn at half LA size (held-out half control)
+        c = L.Corpus(L.lb_draw(1800, 300 + int(tag[3:])), name=tag); s, P = L.la21_for('LB'); c.set_la21(s, P); return c
+    if tag in ('LAHT', 'LAnHT'):   # held-out halves: Hagia Triada vs all other sites
+        ht = tag == 'LAHT'
+        w = [r['w'] for r in L.C.la_words() if len(r['w']) >= 2 and ((r['site'] == 'Haghia Triada') == ht)]
+        c = L.Corpus(w, name=tag); s, P = L.la21_for('LA'); c.set_la21(s, P); return c
     if tag.startswith('LAsh'):
         c = L.Corpus(L.shuffle_words(L.la_words(), int(tag[4:])), name=tag); s, P = L.la21_for('LA'); c.set_la21(s, P); return c
     raise ValueError(tag)

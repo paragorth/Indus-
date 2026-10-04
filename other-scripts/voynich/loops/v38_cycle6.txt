@@ -1,0 +1,5 @@
+# v38 cycle 6 - predict a page's words from its picture (held-out, leave-one-out)
+| id | method and control | result | verdict |
+|---|---|---|---|
+| V-38.24 | READ THE TEXT OFF THE PICTURE: leave-one-out ridge from plant embedding (20 PCs, ResNet-18 + DINO) to the page's word profile (300 mid-frequency words), neighbours within 3 pages and the same bifolio left out of training, quire/language/hand/length/area regressed out; own text ranked among same-stratum pages >= 3 apart; null = visual vectors permuted within strata, refitted (150) | Voynich: mean rank 0.614 (chance 0.500), z +3.8, p 0.007 | PASS |
+| V-38.25 | Controls for V-38.24: Gerard (same pipeline); planted Voynich (6%% DINO-driven vocabulary); page-shuffled Voynich | Gerard: mean rank 0.627 (chance 0.500), z +4.1, p 0.007; planted: mean rank 0.702 (chance 0.500), z +6.8, p 0.007; shuffled: mean rank 0.586 (chance 0.500), z +2.6, p 0.007 |  |

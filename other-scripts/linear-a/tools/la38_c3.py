@@ -5,8 +5,11 @@ Two scores, each the mean z (against 5,000 relabelings of that corpus) of the me
   row test (SC):    the k signs of one consonant row each swap their full (C, V) value with a random sign outside it
                     (2,000 draws); P = share of draws scoring >= the hypothesis.
   column test (SV): the same for one vowel column.
-  C-support (SC):   the sign's consonant is swapped with that of every sign of another row; share of swaps that lower SC.
-  V-support (SV):   the sign's vowel is swapped with that of every sign of another column; share that lower SV.
+  C-support (SC):   the sign exchanges its consonant with each sign of the same vowel column (e.g. RO <-> KO, giving
+                    KO, RO); share of exchanges that lower SC.
+  V-support (SV):   the sign exchanges its vowel with each sign of the same consonant row; share that lower SV.
+  (Exchanges keep all values distinct; a first version that swapped with any sign created homophones, which the
+   plug-in compressibility rewards: fixed before any LA result was read.)
 Calibration: LB drawn at LA size (true values: rows and columns should mostly pass) and planted errors
 (LB-at-LA-size with 6 random value swaps = 12 wrong signs: support should rank the wrong signs low)."""
 import sys, os, json, time
@@ -49,7 +52,11 @@ def sign_support(c, f, C0, V0, which):
     out = []
     for s in range(S):
         X0 = C0 if which == 'C' else V0
-        t = np.where(X0 != X0[s])[0]
+        other = V0 if which == 'C' else C0
+        # exchange with a sign of the same column (C) or row (V): values stay distinct (no homophones created)
+        t = np.where((X0 != X0[s]) & (other == other[s]))[0]
+        if len(t) == 0:
+            out.append(float('nan')); continue
         X = np.broadcast_to(X0, (len(t), S)).copy()
         X[np.arange(len(t)), s] = X0[t]; X[np.arange(len(t)), t] = X0[s]
         sc = f(X, np.broadcast_to(V0, X.shape)) if which == 'C' else f(np.broadcast_to(C0, X.shape), X)
