@@ -1,0 +1,36 @@
+LA-44 cycle 1: RESURRECT THE ANCESTOR BY SIMULATING HISTORY (diachronic ABC)
+Date 4 Oct 2026. Scripts: tools/la44_common.py (simulator + panel), tools/la44_bank.py (bank), tools/la44_abc.py (ABC).
+Novelty check: la10 bred SYNCHRONIC rule sets with a GA (no history, no morphology classes, no posterior). Web search
+(ABC + simulated language evolution + undeciphered script) finds ABC used for lexical reconstruction/contact
+(Tuebingen) and probabilistic sound-change reconstruction from known descendants (Bouchard-Cote 2013), nothing that
+simulates random proto-languages through random histories and spelling to put a posterior on an undeciphered
+language's typology. Run.
+
+Simulator (prior, all uniform unless stated): consonant inventory 6-26 from a 32-segment universe (frequency-weighted),
+vowels 3-8 from 12; syllable class CV / CVC / CCVC (1/3 each; cluster and coda rates drawn inside the class); root
+length 1-3 syllables; morphology class 1/6 each: ISOL (bare roots + compounds), AGG_SUF, AGG_PRE, AGG_BOTH
+(1-3 invariant affix slots, 2-6 affixes each), FUS_SUF (2-4 inflection classes x 4-12 obligatory endings, mostly
+vowel-initial V/VC/VCV, consonant-final stems, optional derivational suffix: Greek-like), TEMPL (3-consonant roots x
+4-10 vowel patterns, optional affixes). Early loans (0-40 % of roots from a donor with its own phonotactics, then
+inflected), 0-14 regular sound changes drawn from 18 kinds (apocope, final-C loss, syncope, cluster simplification,
+epenthesis, lenition, palatalisation, C/V merger, initial-C loss, prothesis, vowel assimilation, vowel shift, h-loss,
+nasal loss, paragoge, metathesis, hiatus resolution), late unadapted loans (0-20 %). Written in the la10 13x5 CV
+syllabary: consonant -> series by features with 8 random convention switches + 0-25 % random series noise, vowel ->
+A E I O U with 0-15 % noise; cluster/medial-coda/final-coda consonants omitted or written (6 independent switches,
+sonorant vs obstruent), dead vowel echo-next / previous / fixed. Types >= 2 signs, first n distinct (n = target size).
+Panel (44 stats): la10 v2 fingerprint (incl. LB-value-based series/vowel shares) + 16 value-free extras (entropy, Zipf
+slope, positional entropies, prefix/suffix extension at 1 and 2 signs, family sharing, alternation, adjacent MI).
+Inference: RF classifiers (morph, syllable class) -> OOB votes as summaries -> rejection ABC (nearest 1 %) ;
+RF regression for 8 continuous parameters likewise. Bank A: 100,000 sims at n = 583 (LA's encodable type count).
+Bank B: sims at n = 107 (Cypriot Idalion's encodable types).
+
+PRE-REGISTERED CRITERIA (written before any target was scored):
+ C1 LB control: FUS_SUF must be the posterior mode in >= 4 of 5 LB type subsamples (n = 583); syllable class
+    CCVC or CVC (Greek has codas and clusters) mode in >= 4/5.
+ C2 Cypriot control (n = 107): FUS_SUF mode.
+ C3 Shuffled LA (global sign shuffle across types, 5 reps): flat = normalized entropy >= 0.85 and max < 0.35 in
+    >= 4/5; position-class shuffle (3 reps) reported, not graded.
+ C4 calibration: held-out simulated targets' posterior max must track accuracy (within 0.1 per bin).
+ Linear A result reportable as B only if C1-C4 pass and LA's mode >= 0.5; otherwise C or void.
+
+| LA-44.1 rows |

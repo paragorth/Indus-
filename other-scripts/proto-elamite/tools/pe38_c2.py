@@ -146,6 +146,18 @@ def job_c(args):
                 null_argmax=nulls)
 
 
+def job_d(i):
+    G = corpora()
+    h = gen_hyp(random.Random(C.seed('pe38c2-h%d' % i)))
+    B = G['PE']
+    S, viol = C.run_chains(B, hyp_cost(B, h), nchains=8, steps=300_000, thin=1000, seed0=700 + i, alpha=h['alpha'],
+                           lam_g=h['lam_g'])
+    cm = [[int(np.bincount(S[c][:, t], minlength=C.R).argmax()) for t in range(len(B['types']))] for c in range(len(S))]
+    o = dict(types=B['types'], chain_modes=cm, viol=viol, nocc={w: int(B['nocc'][t]) for t, w in enumerate(B['types'])})
+    fr, ng = C.good_forced(o, q=0.5)
+    return dict(i=i, hyp=h, forced=fr, ngood=ng)
+
+
 PERMS = perms()
 
 
@@ -181,6 +193,9 @@ def main():
         res['c'] = p.map(job_c, [('PCA', 'PCB', 0.0), ('PCA', 'PCB', 2.0), ('PCA', 'UR', 0.0), ('PCA', 'UR', 2.0),
                                   ('UR', 'PCB', 0.0), ('UR', 'PCB', 2.0)], chunksize=1)
         print('c done %.0fs' % (time.time() - t), flush=True)
+        topb = sorted([x for x in res['b'] if x['tag'] == 'top'], key=lambda x: -(x['PCB'] + x['UR']))[:5]
+        res['d'] = p.map(job_d, [x['i'] for x in topb], chunksize=1)
+        print('d done %.0fs' % (time.time() - t), flush=True)
     json.dump(res, open(os.path.join(C.CK, 'c2.json'), 'w'))
 
 

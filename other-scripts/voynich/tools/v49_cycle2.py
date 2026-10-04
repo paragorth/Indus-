@@ -19,7 +19,7 @@ import v49_cycle1 as C1
 
 FN = 'v49_cycle2.txt'
 LEXF = ['h1', 'h2', 'h2r', 'vshare', 'alt', 'bip', 'agree', 'initV', 'finV', 'clus', 'clus2', 'VV', 'sylpw', 'skelH',
-        'wl', 'wlcv', 'wlsk', 'w1', 'wlong', 'morph', 'mpw', 'Hp1', 'Hp2', 'Hl1', 'Hl2', 'sufconc', 'sufpre']
+        'wl', 'wlcv', 'wlsk', 'wlong', 'morph', 'mpw', 'Hp1', 'Hp2', 'Hl1', 'Hl2', 'sufconc', 'sufpre']
 
 
 def nb_auc(T, f, seed=0):
@@ -47,7 +47,7 @@ def nb_auc(T, f, seed=0):
 
 def lex_fp(words, seed=0):
     import v48_lib
-    ws = [tuple(w) for w in words if w]
+    ws = [tuple(w) for w in words if len(w) >= 2]
     f = v48_lib.fingerprint(ws, seed)
     return {k: f[k] for k in LEXF}
 
@@ -105,10 +105,11 @@ if __name__ == '__main__':
             T = tokens_table(nm)
             f = (lambda w: w) if nm.endswith('_G') else norm
             lx = lexicons(T, f)
-            n = min(700, min(len(v) for v in lx.values()))
+            print(nm, {g: len(v) for g, v in lx.items()}, flush=True)
+            n = min(700, min(len(v) for g, v in lx.items() if g != 'LAT'))
             zf = {}
             for g, ws in lx.items():
-                zs = [(np.array([lex_fp(sample(ws, n, rng), s)[k] for k in LEXF]) - mu) / sd for s in range(3)]
+                zs = [(np.array([lex_fp(sample(ws, min(n, len(ws)), rng), s)[k] for k in LEXF]) - mu) / sd for s in range(3)]
                 zf[g] = np.mean(zs, 0)
             dist = lambda a, b: float(np.sqrt(((a - b) ** 2).mean()))
             # split-half floor: two disjoint samples of OFFb

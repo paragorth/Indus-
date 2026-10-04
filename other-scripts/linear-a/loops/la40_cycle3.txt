@@ -1,0 +1,11 @@
+# LA-40 cycle 3: do role assignments hold on held-out tablets? (tools/la40_c3.py; data/la40_ckpt/c3.json, c3half.json, c3_parts/)
+# Tablets split at random into two disjoint halves (6 splits). The pre-registered system (cycle 1) and the 3 best learned
+# systems (cycle 2, by Pylos score) are run on each half (4 chains x 3e5 updates). Agreement = share of word types seen in both
+# halves with the same modal role, minus the agreement expected from the halves' role marginals ('excess'); also the
+# label-free adjusted Rand index (ARI) between the two halves' role partitions. Null: words shuffled inside each half.
+# Control: Pylos documents, halves of Linear A size (PY 2x) and size-matched to the Linear A halves (PY 1x). Rerun after a
+# container restart; each split is checkpointed.
+| LA-40.3a | Linear A halves (128 shared types). | Excess +0.03 to +0.09 by system (prereg +0.052, learned +0.032/+0.053/+0.094); shuffled +0.000 to +0.037; real beats shuffle in 4-6 of 6 splits. ARI 0.10-0.14. | Weak but real held-out consistency. |
+| LA-40.3b | Pylos halves, size-matched (84 shared types). | Excess +0.16 to +0.27 (prereg +0.161 vs shuffled +0.123; learned +0.08 to +0.27 vs ~0.00); ARI 0.22-0.33. PY at 2x size: excess +0.08 to +0.25, ARI 0.14-0.25. | Control: structure gives LB words stable (if unnamed) roles. |
+| LA-40.3c | Per-word held-out stability, Linear A, pre-registered system. | Same role in both halves: KU-RE H 5/5, U H 5/5, A-SI-JA-KA P 4/4, A H 5/6, DA H 3/4, KA-NA H 3/4, A-DU H 3/6. KU-RO is T in only 3 of 12 halves (L otherwise): at half size the T role collapses. TE alternates C/H. Learned systems' role names are arbitrary (they put most single signs into 'T'). | Named roles do not survive halving except heading-like H for a few short words. |
+| LA-40.3 | Cycle verdict | Role partitions inferred from structure are reproducible across disjoint halves in Linear B (ARI ~0.3 at matched size) and much less in Linear A (ARI ~0.12, about 0.4x; excess over marginals about 1/3 of Pylos), while shuffled words give ~0. So LA word types do carry some position/role identity, but much weaker than LB's, as la8's flat two-open-class grammar implies; none of it can be named, because the naming step fails its LB control (cycles 1-2). | Grade B (calibrated, relative): weak role consistency. |
