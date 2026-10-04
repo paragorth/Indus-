@@ -49,7 +49,10 @@ def prep(tabs, clock='ent', field='toks', target_filter=None):
                 Ms.append(m)
                 Ns.append(n)
     toks = [[vocab[x] for l in t['lines'] for x in l[field] if x in vocab] for t in tabs]
-    return {'w': np.array(rows_w), 'tab': np.array(rows_t), 'M': np.array(Ms), 'N': np.array(Ns),
+    import scipy.sparse as sp
+    Ms = sp.csr_matrix(np.array(Ms, dtype=np.float64)) if Ms else sp.csr_matrix((0, D * NS))
+    Ns = sp.csr_matrix(np.array(Ns, dtype=np.float64)) if Ns else sp.csr_matrix((0, D * NS))
+    return {'w': np.array(rows_w), 'tab': np.array(rows_t), 'M': Ms, 'N': Ns,
             'V': len(vocab), 'toks': toks, 'ntab': len(tabs)}
 
 
@@ -83,9 +86,10 @@ def kernel(par):
 
 
 def cache_prob(P, idx, K):
-    num = P['M'][idx] @ K
-    den = P['N'][idx] @ K
-    return num / den
+    num = P['M'] @ K
+    den = P['N'] @ K
+    cp = num / den
+    return cp if idx is None else cp[idx]
 
 
 def ll_grid(pb, cp):

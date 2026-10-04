@@ -31,7 +31,8 @@ BINS = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 8), (9, 12), (13, 40)]
 def par_from_vec(v, kind):
     if kind == 'expw':
         tau, w, rho, g1, g2 = v
-        return {'shape': 'exp', 'tau': math.exp(tau), 'w': 1 / (1 + math.exp(-w)), 'rho': math.exp(rho),
+        rho = min(max(rho, -4.6), 4.6)
+        return {'shape': 'exp', 'tau': 0.3 + math.exp(min(tau, 6)), 'w': 1 / (1 + math.exp(-w)), 'rho': math.exp(rho),
                 'g1': math.exp(g1), 'g2': math.exp(g2)}
     f = np.ones(C.D)
     for (a, b), x in zip(BINS[1:], v):
@@ -57,18 +58,22 @@ def analyse(name, tabs, clock='ent', nk=NK, seed=0):
     FO = C.folds(P['ntab'], 5, seed)
     tr_ll = np.zeros(len(kernels))
     te_ll = np.zeros(len(kernels))
+    FD = []
     for f in range(5):
         te_t = FO[f]
         tr_t = np.setdiff1d(np.arange(P['ntab']), te_t)
         tr = np.where(np.isin(P['tab'], tr_t))[0]
         te = np.where(np.isin(P['tab'], te_t))[0]
         pb = C.base_probs(P, tr_t)
-        pbtr, pbte = pb[P['w'][tr]], pb[P['w'][te]]
-        # out-of-vocabulary in test: w ids absent in training get the smoothed mass
-        for i, kp in enumerate(kernels):
-            a, b, _ = C.fit_eval(P, C.kernel(kp), tr, te, pbtr, pbte)
-            tr_ll[i] += a
-            te_ll[i] += b
+        FD.append((tr, te, pb[P['w'][tr]], pb[P['w'][te]]))
+    for i, kp in enumerate(kernels):
+        cp = C.cache_prob(P, None, C.kernel(kp))
+        for tr, te, pbtr, pbte in FD:
+            g = C.ll_grid(pbtr, cp[tr])
+            li = int(np.argmax(g))
+            l = C.LAMS[li]
+            tr_ll[i] += g[li]
+            te_ll[i] += np.log((1 - l) * pbte + l * cp[te]).sum()
     # selection by train LL (summed over folds); held-out of the selected kernel
     fam = {}
     for i, kp in enumerate(kernels):
@@ -84,7 +89,7 @@ def analyse(name, tabs, clock='ent', nk=NK, seed=0):
            'fam_gain_mbits': {k: float((te_ll[i] - te_ll[0]) / T / L2 * 1000) for k, i in fam.items()},
            'fam_kernel': {k: kernels[i] for k, i in fam.items()}}
     # MLE on all data (lam profiled), interpretable model and free kernel
-    idx = np.arange(T)
+    idx = None
     pb = C.base_probs(P, np.arange(P['ntab']))[P['w']]
     flat_ll = C.ll_grid(pb, C.cache_prob(P, idx, C.kernel({'shape': 'flat'})))
     res['flat_lam'] = float(C.LAMS[int(np.argmax(flat_ll))])

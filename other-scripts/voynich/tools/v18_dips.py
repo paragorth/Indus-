@@ -197,11 +197,14 @@ class Corpus:
             elif det == 'jump2':
                 d[2:] = x[2:] - 0.5 * (x[1:-1] + x[:-2])
             elif det == 'saw':
-                for t in range(3, n - 1):
-                    d[t] = 0.5 * (x[t] + x[t + 1]) - x[t - 3:t].mean()
+                if n > 4:
+                    cs = np.concatenate([[0], np.cumsum(x)])
+                    t = np.arange(3, n - 1)
+                    d[t] = 0.5 * (x[t] + x[t + 1]) - (cs[t] - cs[t - 3]) / 3
             elif det == 'min5':
-                for t in range(1, n):
-                    d[t] = x[t] - x[max(0, t - 5):t].min()
+                pad = np.concatenate([np.full(5, np.inf), x])
+                mins = np.min(np.vstack([pad[j:j + n] for j in range(5)]), axis=0)  # min of x[t-5..t-1]
+                d[1:] = x[1:] - mins[1:]
             d[nanm] = -np.inf
             if lsmode == 'noLS':
                 d[self.k[idx] == 0] = -np.inf
@@ -264,14 +267,12 @@ def page_swap_map(C, shift):
     coord = {}
     for t in range(C.N):
         coord[(C.page[t], C.li[t], C.k[t])] = t
+    target = np.array([coord.get(((C.page[t] + shift) % C.npages, C.li[t], C.k[t]), -1) for t in range(C.N)])
 
     def f(dips):
         out = np.zeros(C.N, bool)
-        for t in np.where(dips)[0]:
-            key = ((C.page[t] + shift) % C.npages, C.li[t], C.k[t])
-            u = coord.get(key)
-            if u is not None:
-                out[u] = True
+        u = target[dips]
+        out[u[u >= 0]] = True
         return out
     return f
 
@@ -293,3 +294,27 @@ def spacing_stats(C, dips):
             'p75': float(np.percentile(gaps, 75)) if len(gaps) else None,
             'line_start_share': float((dips & (C.k == 0)).sum() / max(1, dips.sum())),
             'base_line_start_share': float((C.k == 0).mean())}
+
+
+def all_dips(C):
+    """Dip index arrays for every setting (darkness only; independent of the text)."""
+    cache = {}
+    out = []
+    for st in settings():
+        meas, cont, sm, det, q, sp, ls = st
+        if (meas, cont) not in cache:
+            cache[(meas, cont)] = C.residual(meas, cont)
+        out.append((st, np.where(C.detect(cache[(meas, cont)], det, q, sp, sm, ls))[0]))
+    return out
+
+
+def evaluate(C, dipsets, maps=None):
+    """z-scores for every setting; maps = list of dip relocation functions (surrogates)."""
+    res = []
+    for st, idx in dipsets:
+        d = np.zeros(C.N, bool); d[idx] = True
+        row = [C.zscores(d)]
+        for f in (maps or []):
+            row.append(C.zscores(f(d)))
+        res.append((st, len(idx), row))
+    return res
