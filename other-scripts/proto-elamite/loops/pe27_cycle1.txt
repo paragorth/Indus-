@@ -1,0 +1,12 @@
+# pe27 NUMBERS IN TWO LANGUAGES, cycle 1 (4 Oct 2026): tablet-level exact-ratio scan between number systems
+# tools/pe27_common.py, tools/pe27_cycle1.py; checkpoint data/pe27_ckpt/cycle1.json (git-ignored)
+# Idea: a tablet with two number systems may write the same quantity twice (count of people/animals and their
+# grain in capacity units). Every pair (count line x, capacity line y) on a tablet gives an exact ratio y/x
+# (capacity in N39C units, a-priori value set). H(r) = number of tablets carrying ratio r. Null: the capacity
+# line-sets re-dealt among the tablets that carry both systems (200 permutations), Poisson score against the
+# null mean, search-corrected by the max score over all r in each permutation.
+| PE-27.1a | Ur III control: 2,148 CDLI Ur III tablets with people/animal counts and capacity amounts (sila); written '-ta' rates kept apart as truth, never scanned | top ratios 60 (304 tablets vs 161 expected), 1, 3, 2, 120, 30: all common written rates (60 sila = 1 barig, the monthly ration); max score 23.2 vs null q95 4.7 (p 0.005). A few odd fractions (85/21) come from near-duplicate texts | PASS: the scan returns the known ration rates |
+| PE-27.1b | Ur III at PE size (5 random sets of 257 tablets, 100 permutations) | max score above the null q95 in 5/5 (p 0.01-0.04); 60 is the top or near-top ratio in 3/5, 1 in 2/5 | PASS with low power: at PE size a real rate is found but the top ratio is noisy |
+| PE-27.1c | Planted PE conversions (one capacity line = r x one count line) on 15% / 8% / 5% of the 257 count+capacity tablets | r = 30 (15%), 5/2 (15%), 7 (8%): rank 1, p 0.01; r = 30 on 5% (13 tablets): rank 1, p 0.03 | PASS: a rate used on >= 5% of tablets is recovered |
+| PE-27.1d | REAL PE, count vs capacity (257 tablets) | best 75 N39C per head (6 tablets vs 1.2; max 2.87 vs null q95 2.89, p 0.06); 60 (33 vs 20.6, p_corr 0.40), 48, 4 | NEGATIVE at tablet level: no single ratio ties counts to capacity across the corpus (upper bound: no rate on >= 5% of these tablets) |
+| PE-27.1e | REAL PE, other system pairs: count vs hatched capacity (33), capacity vs hatched capacity (39), count vs hatched count (24), hatched count vs capacity (14), count vs B (10) | max scores 0.36-1.69, all below null q95 (p 0.06-1.0) | NEGATIVE (small samples; power only for rates on many tablets) |

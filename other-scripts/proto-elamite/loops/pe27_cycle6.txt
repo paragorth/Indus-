@@ -1,0 +1,8 @@
+# pe27 cycle 6 (4 Oct 2026): SIGN-PAIR RATES. tools/pe27_cycle6.py; data/pe27_ckpt/cycle6.json
+# Every ordered pair of final signs (A line, then B line within 2 numeric lines), exact y/x in any systems;
+# statistic = tablets per (A, sysA, B, sysB, r); 4,467 keys. Nulls: B values re-dealt across tablets within
+# (system, sign) (global), or only among tablets of the same value-scale bin (scale; conservative for rare signs).
+| PE-27.6a | Ur III control (600 tablets, 100x) | top: gurusz -> sze-bi at 60 (24 tablets vs 2.1, p 0.01); udu -> sze-bi 1 and 3/2; sila4 -> sze-bi 1 | PASS: the workers-to-grain rate is the top hit |
+| PE-27.6b | Planted PLA -> PLB at 30 on 12 tablets (6 with count 1) | global null: recovered, 12 vs 3.3, p_corr 0.03. Scale null: lost (rare signs fall in single-tablet pools and cannot be shuffled) | PASS (global); the scale null is conservative |
+| PE-27.6c | REAL PE, global null (200x) | M388 -> M288 at 1/2 in N01 (7 tablets vs 0.24, p 0.005); M056 -> M288 48 N39C (4 vs 0.06, p 0.005); M388 -> M288 60 N39C (5 vs 0.32, p 0.005); M054 -> M288 60 (6 vs 0.59, p 0.015); M292 -> M288 5/3 (3, p 0.04) | SIGNAL: every significant pair ends in M288 |
+| PE-27.6d | REAL PE, scale null (200x) | M388 -> M288 1/2 (7 vs 1.0, p 0.01) and M388 -> M288 60 N39C (5 vs 0.45, p 0.01) survive; M054 and M056 do not (p 0.85) | B: the M388 -> M288 rate survives the stricter null |

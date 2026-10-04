@@ -1,0 +1,8 @@
+# pe27 cycle 7 (4 Oct 2026): HELD-OUT test of the M288 rate. tools/pe27_cycle7.py; data/pe27_ckpt/cycle7.json
+# Discovery (cycles 4, 6): M288 written with capacity signs after a count line = 60 N39C per counted unit (half an N01
+# of capacity under the a-priori set). Held out: M288 lines written ONLY with N01/N14 after a count line (cycles 1-6
+# parsed them as counts, so they were never used as capacity). If the rate is real, y (read as capacity, N14 = 6 N01)
+# = x/2 N01 more often than chance. Null: M288 values re-dealt among the held-out lines (100,000x).
+| PE-27.7a | Discovery set re-scored with every value set (27 M288 capacity lines after a count) | a-priori: 8 of 27 at x/2 N01 (null 1.85, p 1e-5), 8 tablets. alt_d and alt_b: 0 | the rate holds only if N01 = 10 N24 = 5 N39B |
+| PE-27.7b | HELD-OUT: 64 M288 lines in N01/N14 after a count (x >= 2) | 13 of 64 at y = x/2 N01 on 13 tablets (null 3.3, p 1e-5), e.g. MDP 06,365 6 -> 3(N01); MDP 06,4997 8 -> 4(N01); MDP 26,161 88 -> 7(N14) 2(N01) = 44 N01 only if N14 = 6 N01 (capacity value, not 10). A second rate: y = x N01 on 10 lines / 6 tablets (MDP 06,4997 11 -> 1(N14) 5(N01) = 11 N01, again N14 = 6 N01) | PASS out of sample: M288 = half an N01 (or one N01) per counted unit. B |
+| PE-27.7c | Prior art | quick web search found statements that M288 closes labour units and that capacity counts rations, but no published per-head rate; the specialist literature was not fully checked | possibly noticed before; our evidence is data-only |

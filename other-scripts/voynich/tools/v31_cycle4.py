@@ -17,6 +17,7 @@ from multiprocessing import Pool
 N = 100
 FN = 'v31_cycle4.txt'
 NC = int(os.environ.get('V31_NC', 300))   # candidates per vocabulary
+NPL = 5                                    # planted targets per vocabulary
 
 
 def vocab_sources():
@@ -94,9 +95,9 @@ def main():
         for i, r in enumerate(p.imap_unordered(work, jobs, chunksize=2)):
             Rc.append(r)
             if i % 40 == 0: print('candidates', i, flush=True)
-        pl_jobs = [(s, -1, rand_prm(random.Random(900 + i)), 777 + i, keys) for i, s in enumerate(SRC) for _ in range(2)]
+        pl_jobs = [(s, -1, rand_prm(random.Random(900 + 10 * i + r)), 777 + 10 * i + r, keys) for i, s in enumerate(SRC) for r in range(NPL)]
         Pl = p.map(work, pl_jobs)
-    for i, r in enumerate(Pl): target[f'P_{r[0]}_{i % 2}'] = np.array(r[3])
+    for i, r in enumerate(Pl): target[f'P_{r[0]}_{i % NPL}'] = np.array(r[3])
     feats = np.array([r[3] for r in Rc]); srcs = np.array([r[0] for r in Rc])
     # repeated random feature splits: select on half A, judge on half B
     res = defaultdict(lambda: defaultdict(list))
@@ -118,12 +119,20 @@ def main():
         print(tname, summary[tname], flush=True)
     # real corpora distance to Voynich on all features, for scale
     dreal = sorted(((float((np.abs(cm[i] - target['V_ZL']) / scale).mean()), c) for i, c in enumerate(corpora)))[:5]
-    L.save('cycle4.json', {'summary': summary, 'dreal': dreal, 'cands': [(r[0], r[2]) for r in Rc]})
+    L.save('cycle4.json', {'summary': summary, 'dreal': dreal, 'cands': [(r[0], r[2], r[3]) for r in Rc], 'keys': keys,
+                           'targets': {k: v.tolist() for k, v in target.items()}})
+    # how close the best candidate gets (held-out distance of the winning vocabulary) for planted targets vs the Voynich
+    bestd = {t: min(v for k, v in summary[t].items() if k != '_win') for t in target}
+    pl_by = defaultdict(list)
+    for t in target:
+        if t.startswith('P_'): pl_by[t.split('_')[1]].append(max(summary[t]['_win'], key=summary[t]['_win'].get))
+    print('planted winners', dict(pl_by), 'best distances', bestd, flush=True)
     planted_ok = sum(1 for t in target if t.startswith('P_') and max(summary[t]['_win'], key=summary[t]['_win'].get) == t.split('_')[1])
     npl = sum(1 for t in target if t.startswith('P_'))
     L.row(FN, 'V-31.4a', f'Planted control: {npl} targets made by the copy-and-vary procedure from a known vocabulary with hidden parameters; {len(Rc)} random candidates '
           f'({NC} per vocabulary) selected on a random half of the features, judged on the other half (200 splits)',
           '; '.join(f"{t}: winner {max(summary[t]['_win'], key=summary[t]['_win'].get)} {summary[t]['_win']}" for t in target if t.startswith('P_')),
+          'per true vocabulary: ' + '; '.join(f'{k} -> {Counter(v)}' for k, v in pl_by.items()) + f'; best held-out distance planted {np.mean([bestd[t] for t in target if t.startswith("P_")]):.2f} vs Voynich ZL {bestd["V_ZL"]:.2f}', 
           f'{planted_ok}/{npl} planted vocabularies recovered' + (' - method can tell vocabularies apart' if planted_ok >= 0.75 * npl else ' - method CANNOT reliably tell vocabularies apart'))
     for t in ('V_ZL', 'V_IT'):
         s = summary[t]
