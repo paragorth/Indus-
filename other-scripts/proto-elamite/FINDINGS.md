@@ -280,3 +280,10 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Itinerant scribe: not seen. ST-11 looks most like Sofalin and Sialk writing and least like Yahya (p 0.91). Yahya and Sofalin do have their own hands (beyond a label permutation). Susa affinity falls with distance (Sialk > Sofalin > Malyan > Yahya), but this is grade C because it has 4 points and is confounded with site size and date.
 - What the imports record: common signs, N01/N14 counts and the N39B-N24-N30 series. YT-07 is a 15-line list of two-sign entries with 1-2(N01) each. ST-11 is a fragment with M265 (a pe15 "grain office" sign). No sign or numeral occurs only on imports (0 of 5).
 - Not cracked. Table S2 and the full ST/MT/YT to museum-number map are not public (`docs/HUMAN-ACTIONS.md`).
+
+## Hunger as the ruler (pe16, 4 Oct 2026; `loops/pe16_final.txt`)
+- Method: allotment = biological need (litres/day by recipient class) x period / unit size, with class and period latent. Positive control, Ur III: blind 0.83 l per sila (truth about 1 l); daily wages and fodder are told apart from monthly rations on 97-100% of tablets. Limits: month and year alias 1 time in 3 at PE size, and random nonsense rulers fit as well as biology, so fit cannot confirm the ruler.
+- Grade C: on the two-line records, N39C = about 3 adult-man-days = 4.6 l (90% 1.5-14), on a lattice x{1/30, 1, 12}. The scale is set by which units the scribes used (a same-code random-count null gives the same value). All capacity entries give 0.6-1.4 l per N39C.
+- Grade C (weak): only the /30 point puts a PE unit in the measured bevelled-rim-bowl range (N30C 0.62 l; then N24 = 1.85 l = one adult day). A chance hit is 43% likely. Would support: PE-period vessels near 0.6 and 1.9 l in a 1:3 ratio. Would kill: PE ration vessels clustering far from 0.6 l.
+- Grade C: in capacity records the companion line is 0.2-0.67 of the main line (P009000 1(N30C) after 1(N24); P008403; P009123): one adult-sized and one dependant-sized ration. Children and small stock cannot be told apart by amount.
+
