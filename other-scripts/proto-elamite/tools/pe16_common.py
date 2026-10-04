@@ -311,7 +311,10 @@ def summarize(p):
 
 
 # ---------------------------------------------------------------- v2 engine: period per tablet
-LU = np.linspace(np.log(1e-4), np.log(1e4), 241)    # log u (litres per base unit)
+# grid step chosen so that log 30 (26 steps), log 360 (45) and log 12 (19) are whole steps:
+# otherwise grid rounding, not data, breaks the exact u <-> D degeneracy.
+DLT = np.log(30.0) / 26
+LU = np.arange(-70, 71) * DLT                        # log u', about 1e-4 .. 1e4
 PERIODS = (1.0, 30.0, 360.0)
 
 
@@ -397,7 +400,8 @@ def random_ruler(rng, C=6):
     medians) and a random 3-period calendar {1, a, b} (a, b log-uniform 2-1000 days)."""
     med = np.exp(rng.uniform(np.log(0.05), np.log(10), C))
     a, b = np.sort(np.exp(rng.uniform(np.log(2), np.log(1000), 2)))
-    return med, (1.0, float(a), float(b))
+    a, b = (float(np.exp(max(1, round(np.log(x) / DLT)) * DLT)) for x in (a, b))  # snap to grid
+    return med, (1.0, a, b)
 
 
 def draw_ruler(J, rng, med):
@@ -442,7 +446,7 @@ def loglik_t(la, gi, gt, T, M, sig, rng, periods=PERIODS, wD=None, eps=0.05, kpr
              lu_grid=None, chunk=4):
     """Torch version of loglik_v2 (same model).  Returns [J, G] numpy."""
     import torch
-    torch.set_num_threads(2)
+    torch.set_num_threads(int(os.environ.get('PE16_THREADS', '1')))
     lu_grid = LU if lu_grid is None else lu_grid
     J, C = M.shape
     G = len(lu_grid); P = len(periods)

@@ -12,7 +12,7 @@ from pe16_common import *  # noqa
 
 OUT = os.path.join(CK, 'cycle2.json')
 res = json.load(open(OUT)) if os.path.exists(OUT) else {}
-COARSE = np.linspace(np.log(1e-4), np.log(1e4), 121)
+COARSE = LU
 KS = [1, 2, 3, 5, 8, 12, 20, 30, 50, 80, 120, 200, 300]
 KW = np.log(1.0 / np.array(KS, float)); KW -= np.logaddexp.reduce(KW)
 KP = (KS, KW.tolist())

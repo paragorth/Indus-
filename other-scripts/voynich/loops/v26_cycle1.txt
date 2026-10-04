@@ -1,0 +1,16 @@
+# v26 cycle 1 -- EVOLVE THE SCRIBE: build the modular generator, massive random guessing, first adversarial run on the Voynich (4 Oct 2026)
+# Scripts tools/v26_lib.py (scribe, genome, fast v21 feature battery), v26_evo.py; checkpoints data/v26_ckpt/ (git-ignored).
+# Novelty (web, 4 Oct 2026): evolutionary glyph-to-phoneme mappings and "which universe of synthetic manuscripts" comparisons exist;
+# no adversarial evolution of a generator genome against retrained page discriminators with a genome-length penalty was found.
+# Setup: Voynich ZL3b paragraph pages (>= 40 words), split by folio within section: 103 pages to fit tables and evolve, 99 held out.
+# Genome = 22 genes: junction key (none / last unit / rich), section and position tables, paragraph-first-line tables, line-initial
+# chain, reduplication, local copy-and-vary (window 1-8 lines or page, weights one line up / 2+ lines up, edit rate), page urn
+# (page seeds, with edits), slot template (novel words), experts on ch/sh state (optionally reset per line), first-unit alliteration,
+# last unit echoing the word above, paragraph drift (previous line's share of q-, a-, l- words), one-m/g-per-line, word-length
+# autocorrelation; line-width filling. Every mechanism reads only observable history, so the same code samples and scores text.
+# Fitness = max(fresh 5-fold ridge AUC on the v21 79-feature battery, mean symmetric AUC of an archive of frozen discriminators
+# trained on earlier generations' elite) + 0.0015 x genome bits (a mechanism with a value ~ 6 bits ~ 0.009 AUC).
+| Run | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-26.1.1 | Massive random guessing: 96 random genomes (each gene on with p 0.15/0.3/0.5, values uniform), forged on the 103 fitted pages, fresh ridge AUC. Control: the all-off base genome (whole-book last-unit junction = v21 F1) drawn by chance 4 times | AUC percentiles 0/10/50/90/100: 0.926 / 0.946 / 0.998 / 1.000 / 1.000. Base genome 0.927-0.946 (4 draws). Best random: redup 0.02 + m/g expert 0.926; pos + chain + alliteration + drift 0.929. Switching ANY gene on at a random value raises mean AUC (+0.001 width to +0.016 ch/sh expert) | Random mechanisms make the forgery worse, never better: the landscape is a needle, not a plateau. Random guessing alone does not move below the plain junction rule (0.93) |
+| V-26.1.2 | First adversarial run (restart 0): random 96 -> (mu 12 + 16 offspring) x 12 generations, 432 evaluations; archive of 2 critics per generation. Bug found and fixed at gen 4: averaging fresh and archive AUC let a genome with fresh AUC 1.000 win by fooling stale critics (archive 0.554); fitness is now the WORSE of the two | Best fresh AUC (running mean of up to 4 seeds) by generation: 0.938, (1.000 bug), 0.933, 0.922, 0.919, 0.893, 0.874, 0.826, 0.853, 0.821, 0.787, 0.841; archive AUC 0.74-0.84. Winner at gen 12: junc=2 (rich key) + width filling + paragraph drift b_dr 3.64 (10.6 bits), seeds 0.821/0.844/0.859 | The evolution finds a path the v21 ladder never tried: line-to-line persistence of q-/a-/l- word make-up (drift) on top of the rich junction and width filling. Fresh AUC 0.93 -> ~0.84 (in-sample, selection-biased; re-tested with fresh seeds in cycle 3). Still far above the re-forge floor 0.54-0.68 |

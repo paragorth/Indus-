@@ -12,7 +12,7 @@ OUT = os.path.join(CK, 'cycle1.json')
 res = json.load(open(OUT)) if os.path.exists(OUT) else {}
 U = ur3_for_model(ur3_entries())
 rng = np.random.default_rng(16)
-COARSE = np.linspace(np.log(1e-4), np.log(1e4), 61)
+COARSE = LU
 
 
 def save():
@@ -67,7 +67,7 @@ if 'B' not in res:   # single-period subset: monthly human rations only
     s, p, _ = run(E, 120, 2)
     # mass near 1 l vs near 1/30 l vs near 12 l (factor-3 windows)
     w = lambda c: float(p[(LU > np.log(c / 3)) & (LU < np.log(c * 3))].sum())
-    s['mass_near_manday'] = {'0.5 (monthly, true)': w(0.5), '15 (daily)': w(15), '0.042 (yearly)': w(0.5 / 12)}
+    s['mass_near_manday'] = {'0.5 (all monthly, true)': w(0.5), '0.0167 (all daily)': w(0.5 / 30), '6 (all yearly)': w(6.0)}
     s['post'] = p.tolist()
     res['B'] = s; save()
     print('B', {k: v for k, v in s.items() if k != 'post'}, flush=True)
@@ -119,7 +119,7 @@ if 'E' not in res:   # random-ruler search: is real biology + calendar special?
         s, _, _ = run(A, J, 900 + k, grid=COARSE); true_A.append(s['ev'])
     rul = []
     t = time.time()
-    for k in range(1000):
+    for k in range(600):
         rr = np.random.default_rng(10_000 + k)
         med, per = random_ruler(rr)
         M, sig = draw_ruler(J, rr, med)
