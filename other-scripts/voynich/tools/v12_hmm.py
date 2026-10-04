@@ -128,14 +128,19 @@ class StreamModel:
                 m.add(x, c, w)
             self.M.append(m.finalize())
 
-    def fit(self, lines, iters=12, verbose=False):
+    def fit(self, lines, iters=12, verbose=False, init='random'):
         Fs = [[V.feats(w) for w in l['words']] for l in lines if l['words']]
         k = self.k
         # random soft initialisation: each token's stream weights random
         col = {'pi': [0.0] * k, 'A': [[0.0] * k for _ in range(k)], 'em': [[] for _ in range(k)]}
         for F in Fs:
             prev = None
-            lab = [self.rng.randrange(k) for _ in F]
+            if init == 'parity':
+                lab = [t % k for t in range(len(F))]
+            elif init == 'firstglyph':
+                lab = [ord(x[0]) % k for x in F]
+            else:
+                lab = [self.rng.randrange(k) for _ in F]
             for t, x in enumerate(F):
                 ws = [self.rng.random() + (2.0 if j == lab[t] else 0) for j in range(k)]; z = sum(ws)
                 for j in range(k):

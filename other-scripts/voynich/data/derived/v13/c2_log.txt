@@ -1,0 +1,29 @@
+A. OFFSET PROFILE (partial r, text of page i vs image of page i+k, same section x lang)
+  draw_edges~g_chsh: -8:+0.03 -7:-0.04 -6:+0.07 -5:+0.11 -4:-0.06 -3:-0.09 -2:-0.16 -1:-0.21 +0:-0.39 +1:-0.35 +2:-0.05 +3:+0.07 +4:+0.14 +5:+0.19 +6:+0.12 +7:+0.03 +8:+0.05
+  draw_bytes~g_chsh: -8:+0.08 -7:+0.04 -6:+0.13 -5:+0.15 -4:-0.04 -3:-0.08 -2:-0.10 -1:-0.15 +0:-0.34 +1:-0.34 +2:-0.06 +3:+0.08 +4:+0.12 +5:+0.21 +6:+0.12 +7:+0.04 +8:-0.00
+  draw_ink~g_m: -8:-0.07 -7:-0.16 -6:-0.04 -5:+0.11 -4:-0.11 -3:-0.05 -2:-0.05 -1:-0.05 +0:+0.06 +1:+0.03 +2:-0.08 +3:-0.39 +4:-0.18 +5:-0.01 +6:+0.07 +7:+0.07 +8:+0.05
+  draw_edges~log_words: -8:-0.05 -7:-0.02 -6:+0.22 -5:+0.16 -4:-0.11 -3:-0.10 -2:-0.05 -1:-0.11 +0:-0.09 +1:-0.00 +2:+0.16 +3:+0.10 +4:+0.07 +5:+0.19 +6:+0.06 +7:+0.02 +8:-0.08
+  RMS r over all 378 cells: -8:0.092 -7:0.098 -6:0.094 -5:0.094 -4:0.083 -3:0.079 -2:0.068 -1:0.088 +0:0.105 +1:0.084 +2:0.075 +3:0.101 +4:0.087 +5:0.090 +6:0.092 +7:0.083 +8:0.091
+B. SAME-LEAF CONTRAST: 80 leaves (sections {'H': 57, 'S': 12, 'Z': 1, 'B': 9, 'P': 1})
+  real: max|r|95=0.410 cells p<0.01: 5/378
+     bottom_edges~g_benched r=-0.43 p=0.0006 pFW=0.020
+     draw_ink~g_e r=-0.34 p=0.0008 pFW=0.450
+     n_regions~g_y r=-0.32 p=0.0074 pFW=0.586
+     frac_red~word_len r=+0.32 p=0.0020 pFW=0.617
+     draw_ink~g_gallows r=+0.30 p=0.0628 pFW=0.832
+     edge_density~g_e r=-0.29 p=0.0126 pFW=0.906
+     hue_entropy~g_y r=+0.28 p=0.0120 pFW=0.950
+     draw_edges~g_e r=-0.28 p=0.0074 pFW=0.975
+  herbal leaves n=57: max|r|95=0.472 cells p<0.01: 6
+     bottom_edges~g_benched r=-0.52 p=0.0002 pFW=0.005
+     n_regions~g_y r=-0.44 p=0.0006 pFW=0.148
+     draw_ink~g_e r=-0.40 p=0.0016 pFW=0.431
+     draw_ink~g_gallows r=+0.36 p=0.0416 pFW=0.732
+     edge_density~g_e r=-0.35 p=0.0132 pFW=0.814
+  WRONG LEAF (image diffs of leaf +1): cells p<0.01: 5/378, min pFW 0.590
+  WRONG LEAF (image diffs of leaf +2): cells p<0.01: 6/378, min pFW 0.727
+  WRONG LEAF (image diffs of leaf +5): cells p<0.01: 9/378, min pFW 0.372
+  PLANTED image-driven beta_len=0.20 beta_q=0.30: len r=0.51 FW-detect 6/6; q r=0.18 FW-detect 0/6
+  PLANTED image-driven beta_len=0.30 beta_q=0.45: len r=0.67 FW-detect 6/6; q r=0.28 FW-detect 0/6
+  PLANTED image-driven beta_len=0.50 beta_q=0.70: len r=0.82 FW-detect 6/6; q r=0.36 FW-detect 1/6
+  PLANTED pure drift: any cell FW<0.05 in 1/6 trials

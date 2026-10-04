@@ -1,0 +1,43 @@
+pages joined 175 Counter({'H': 119, 'S': 25, 'B': 19, 'P': 4, 'T': 3, 'Z': 3, 'C': 2})
+SEG CHECK text_ink~log_words r=+0.79 p=0.0010 ; draw_area~log_words r=-0.13 p=0.0819
+ALL n=175 max|r|95=0.350
+   draw_edges~g_chsh r=-0.39 p=0.0003 pFW=0.031
+   draw_bytes~g_chsh r=-0.35 p=0.0003 pFW=0.055
+   draw_area~g_chsh r=-0.28 p=0.0007 pFW=0.251
+   frac_green~n_labels r=-0.26 p=0.1966 pFW=0.496
+   edge_density~g_chsh r=-0.25 p=0.0047 pFW=0.616
+   draw_edges~g_d r=+0.25 p=0.0010 pFW=0.659
+   frac_red~word_len r=+0.24 p=0.0017 pFW=0.773
+   draw_ink~g_chsh r=-0.23 p=0.0050 pFW=0.820
+   frac_red~types40 r=+0.22 p=0.0023 pFW=0.913
+   top_nongreen~g_m r=+0.21 p=0.0270 pFW=0.966
+  cells p<0.01: 11 of 378 (expected 3.8)
+ALL quire-null max|r|95=0.322
+   draw_edges~g_chsh r=-0.39 p=0.0003 pFW=0.001
+   draw_bytes~g_chsh r=-0.35 p=0.0003 pFW=0.018
+   draw_area~g_chsh r=-0.28 p=0.0037 pFW=0.196
+   frac_green~n_labels r=-0.26 p=0.1879 pFW=0.487
+   edge_density~g_chsh r=-0.25 p=0.0050 pFW=0.645
+ALL | draw_area covariate, max|r|95=0.347
+   draw_edges~g_chsh r=-0.28 p=0.0010 pFW=0.256
+   edge_density~g_chsh r=-0.27 p=0.0027 pFW=0.395
+   frac_green~n_labels r=-0.25 p=0.2566 pFW=0.577
+   frac_red~word_len r=+0.24 p=0.0020 pFW=0.709
+   draw_bytes~g_chsh r=-0.23 p=0.0060 pFW=0.840
+   frac_red~types40 r=+0.22 p=0.0027 pFW=0.940
+HERBAL n=119 max|r|95=0.480
+   draw_edges~g_chsh r=-0.45 p=0.0003 pFW=0.067
+   draw_bytes~g_chsh r=-0.43 p=0.0003 pFW=0.081
+   draw_area~g_chsh r=-0.37 p=0.0003 pFW=0.141
+   n_paint_blobs~g_chsh r=-0.30 p=0.0010 pFW=0.457
+   edge_density~g_chsh r=-0.28 p=0.0047 pFW=0.660
+   draw_ink~g_chsh r=-0.27 p=0.0037 pFW=0.703
+   draw_area~g_s r=+0.27 p=0.0030 pFW=0.706
+   hue_entropy~w_qo r=+0.26 p=0.0083 pFW=0.817
+DERANGED (+3 pages within section x lang) n=160 cells p<0.01: 16 of 378; min pFW=0.039
+   draw_ink~g_m r=-0.38 p=0.0003 pFW=0.039
+   draw_edges~g_r r=-0.35 p=0.0003 pFW=0.046
+   draw_edges~g_m r=-0.35 p=0.0003 pFW=0.046
+PLANTED beta_len=0.10 beta_q=0.15: len r=0.21 detect(FW) 0/6 ; q r=0.12 detect(FW) 0/6
+PLANTED beta_len=0.20 beta_q=0.30: len r=0.43 detect(FW) 6/6 ; q r=0.23 detect(FW) 0/6
+PLANTED beta_len=0.30 beta_q=0.45: len r=0.59 detect(FW) 6/6 ; q r=0.31 detect(FW) 2/6
