@@ -18,6 +18,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - No seasonal time order (pe11): a blind search for a yearly herd/harvest cycle across undated tablets finds only a loop of commodity types that a timeless mixture reproduces; calibrated on Ur III Drehem tablets with known months, the method needs a season about 40x stronger than real herd accounts carry.
 - Names are not built from a used-up set of counters or stamps (pe9): a sign used once on a tablet becomes 2-3x more likely to recur there (held out on 52 tablets), never less; 0 of 90 signs behave as depleted tokens. What remains is a per-tablet name pool that is reused freely (grade B).
 - Not written from a fading memory and not copied (pe13): a flat per-tablet topic fits, with a dip at the next entry (M288 and M346 alternate) that no control corpus shows; the reverse recalls the obverse rather than resetting; a weak shared order of entries holds out of sample (grade B).
+- Administration as a food web (pe15): name x goods webs are nested and modular only as far as their degrees force, unlike Ur III and Linear B. Three sign 'offices' (grain, class-sign, bare-count) do replicate on reserved tablets (+0.13 bits/entry; none of 3,000 random partitions does better). The signs of a new name predict its goods class (grade B); hidden links are predicted by popularity alone.
 
 **Open:** the phonetic layer. The varied middles say "maybe", and the name test says "not with these values".
 
