@@ -17,10 +17,12 @@ need = sum(map(sum, shapes)); lat = (lat * 2)[:need]
 for o in ('row', 'col', 'diag_dr', 'spiral'):
     corp['Latin-verbose written ' + o] = (build_control(shapes, lat, o), units_plain)
 
+ONLY = sys.argv[1:]
 for name, (paras, U) in corp.items():
+    if ONLY and not any(k in name for k in ONLY): continue
     F = make_features(paras, U)
     r = compare_orders(paras, F, reps=REPS); out[name] = r
-    print('\n==', name)
+    print('\n==', name, flush=True)
     print('%-8s' % 'order' + ''.join('%22s' % f for f in ('junction', 'word', 'first-first', 'same-word', 'same-prefix2')))
     for o in ORDERS:
         row = '%-8s' % o
@@ -28,4 +30,5 @@ for name, (paras, U) in corp.items():
             spec = 'inrow' if o in ('row', 'boustro') else 'line'
             row += '  %+.4f(%5.1f)/%5.1f' % (r[o]['full'][f]['ex'], r[o]['full'][f]['z'], r[o][spec][f]['z'])
         print(row)
-json.dump(out, open(os.path.join(vlib.RES, 'v6_cycle1.json'), 'w'), indent=0)
+tag = ('_' + '_'.join(x.replace(' ', '') for x in ONLY)) if ONLY else ''
+json.dump(out, open(os.path.join(vlib.RES, 'v6_cycle1%s.json' % tag), 'w'), indent=0)

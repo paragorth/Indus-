@@ -126,6 +126,8 @@ def load_lb():
                         has = True; i += 2
                     if has:
                         quants.append((ln, cur, ival, dict(lets), dam, is_tot_line and seen_toso))
+                    elif not is_com:
+                        i += 1
                     continue
                 i += 1
         # sections
