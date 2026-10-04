@@ -544,3 +544,27 @@ def suppress_ascenders(tr, s):
         if not bad:
             keep.append(t)
     return keep
+
+
+def align_gaps_lead(xa, prof, words, unit_page=None, maxlead=260, pen=0.08):
+    """align_gaps, also trying to drop leading ink (margin stars, stalks) up to maxlead px:
+    the start may move to just after any blank run of >=8 px in the first maxlead px.
+    Alternatives are compared with a total-width term against the page glyph unit."""
+    G = sum(max(1, len(glyphs(w))) for w in words) + 0.6 * (len(words) - 1)
+    tw = (lambda W: 1.0 * np.log(W / (unit_page * G)) ** 2) if unit_page else (lambda W: 0.0)
+    best = align_gaps(xa, prof, words)
+    best = (best[0], best[1] + tw(len(prof)) if best[1] is not None else 1e9)
+    ink = ndi.binary_closing(prof > 0, np.ones(2))
+    lab, n = ndi.label(~ink)
+    for sl in ndi.find_objects(lab):
+        a, b = sl[0].start, sl[0].stop
+        if a == 0 or b >= min(len(prof), maxlead) or b - a < 8:
+            continue
+        rest = prof[b:]
+        nz = np.nonzero(rest)[0]
+        if len(nz) < 10:
+            continue
+        al, c = align_gaps(xa + b + nz[0], rest[nz[0]:nz[-1] + 1], words)
+        if al is not None and c + pen + tw(nz[-1] - nz[0] + 1) < best[1]:
+            best = (al, c + pen + tw(nz[-1] - nz[0] + 1))
+    return best

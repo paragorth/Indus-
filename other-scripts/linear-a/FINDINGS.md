@@ -196,3 +196,10 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Out-of-corpus test (66 post-1985 documents, predicted before opening): new word types 33 [27-38] predicted (habitat model) vs 32 true; new syllabic signs 1 [0-3] vs 0; reappearing known words AUC 0.76, 4 of the top 20 (chance 0.2). New findspots: 1 [0-3] predicted, 6 found (excavation targets new sites). The same pipeline on Linear B underpredicts Thebes unless site novelty is modelled.
 - Hands: ~105-115 scribal hands in the attributed set (calibrated on Knossos hands). Findspots: at least ~75.
 - Use: plan on most of the vocabulary being unseen; any proposed lexicon should expect ~3 of every 4 words on a new tablet to be new. Not a decipherment.
+
+## Private spellings as a Rosetta stone (la16)
+- Idea: if one scribe writes X-B-C where another writes Y-B-C, X and Y are interchangeable signs. Tested with hand-contrastive one-sign pairs (2,000 hand permutations), annealed sign-equivalence partitions, hand inference from spelling conflicts, and 10,000 random equation sets per split re-tested on held-out documents.
+- The positive control fails: in Linear B (KN+PY, DAMOS hands), known variant spellings (A/A3, O/WO, RA/RA3 ...) are written within one hand as often as across hands, and no stage recovers them. Planted private spellings are not recovered at LA size (0/19).
+- No Linear A sign equation survives. KU~SA, I~SA, MA~RA2, RA~RO/TA fail held-out re-test (killed). KU~WA and MA~ME (site groups, 2-sign words) stay C.
+- Grade B: LA scribal hands are recoverable from shared words (leave-one-out 0.37 vs 0.16 site-majority baseline, 0.06 permuted), not from spellings (conflicts carry no hand information, as in LB). 52 unattributed documents get grade-C hand assignments (held-out accuracy 0.31).
+

@@ -36,7 +36,18 @@ def page(args):
             if len(prof) >= 20:
                 profs[li] = (xa, prof)
     # left text margin: most lines start there; stars and their stalks sit further left
-    margin = np.percentile([v[0] for v in profs.values()], 60)
+    act = np.zeros(x1 + 200)
+    for xa_, pr_ in profs.values():
+        on = ndi.maximum_filter1d((pr_ > 0).astype(float), 21)
+        act[xa_:xa_ + len(on)] += on[:len(act) - xa_]
+    act /= len(profs)
+    margin = float(np.argmax(act > 0.55))
+    ups = []
+    for li, (xa_, pr_) in profs.items():
+        ws = lines[li]['words']
+        if len(ws) >= 6:
+            ups.append(len(pr_) / (sum(len(glyphs(w)) for w in ws) + 0.6 * (len(ws) - 1)))
+    unit_page = float(np.percentile(ups, 35))
     for li, (r, t) in enumerate(zip(lines, ml)):
         if li not in profs:
             continue
@@ -48,7 +59,7 @@ def page(args):
             if len(nz) < 10:
                 continue
             prof = prof[nz[0]:nz[-1] + 1]; xa += nz[0]
-        al, cc = align_gaps(xa, prof, r['words'])
+        al, cc = align_gaps_lead(xa, prof, r['words'], unit_page)
         if al is None:
             continue
         h = int(0.3 * s)
