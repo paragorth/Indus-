@@ -36,7 +36,7 @@ def summary(name):
         if not any(H.values()): continue
         hr = np.array([H[s]['S'] for s in rnd if H.get(s)])
         q95 = np.quantile(hr, 0.95)
-        surv = [s for s in top if H.get(s) and H[s]['S'] > q95]
+        surv = [s for s in top if H.get(s) and H[s]['S'] > max(q95, H[-1]['S'] + 0.10)]
         both = [s for s in set(top) | set(rnd) if H.get(s)]
         rho = spearmanr([R[s]['S'] for s in both], [H[s]['S'] for s in both]).correlation
         out[part] = dict(base=H[-1]['S'], rnd_mu=hr.mean(), q95=q95, surv=surv, rho=rho,
@@ -64,7 +64,7 @@ if __name__ == '__main__':
             if part in o:
                 h = o[part]
                 txt += (f" // held-out {'ZL' if part == 't' else 'IT2a'}: unmerged {h['base']:+.2f}, random {h['rnd_mu']:+.2f} (95th pct {h['q95']:+.2f}), top-12 mean {h['top_mu']:+.2f}, "
-                        f"discovery-vs-held-out rho {h['rho']:+.2f}, survivors {len(h['surv'])}/12" +
+                        f"discovery-vs-held-out rho {h['rho']:+.2f}, survivors (held-out S > random 95th pct AND > unmerged + 0.10) {len(h['surv'])}/12" +
                         (': ' + '; '.join(f"{esc(p)} (pLI {a:.2f}, pG {g:.2f}, arrow {int(ar)}, gap {gp:.2f})" for p, a, g, ar, gp in zip(h['surv_pairs'], h['surv_pLI'], h['surv_pG'], h['surv_arrow'], h['surv_gap'])) if h['surv'] else ''))
         L.row(FN, f'V-39.3.{1 if name == "Pla" else 2}', lab, txt, 'see 3.V')
     print(open(f'{L.LOOPS}/{FN}').read())

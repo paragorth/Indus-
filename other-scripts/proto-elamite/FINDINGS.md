@@ -401,3 +401,12 @@ Each tablet was reduced to a skeleton of sign roles and number systems, and the 
 - Negative (power-limited): no sub-classes by ration size inside the class (p 0.97); most members take 60 N39C per unit, M370 and M066 sometimes double. Per-unit amounts outside the class follow the tablet, not the sign. Ur III-style 2:1 splits are found only 17-42% of the time at this size.
 - Grade B: the standard allotment is its own two-line format (person line, then bare 'M288 , n'; 36 of 37) and is never followed by a smaller share (0/37), unlike the pe16 records.
 - Not cracked.
+
+## The seal picture says what the tablet is about (pe33, 4 Oct 2026; `loops/pe33_final.txt`)
+- Idea: a cylinder seal rolled on a tablet is a picture made independently of the text. If cattle scenes sit on cattle tablets, a sign enriched on bovid-sealed tablets is grounded by an outside picture, not by sign shape. Motifs were coded as depicted content only (bovid, caprid, feline, animals in human postures, griffin, boats, humans, storehouses, predation) from Legrain 1921 (MDP 16) for 63 tablets of 39 seals (`data/pe33_seal_motifs.json`). Controls: Ur III sealed tablets (title word in the legend vs tablet content), planted links, volume x size and seal-block nulls.
+- Grade A (data): CDLI's seal ids PES0001-0339 are Legrain's figure numbers (29/29 checks). PES08xx-13xx are later catalogue numbers whose photos are too faint to code.
+- Negative, power-limited: no motif-sign, motif-system, motif-header or motif-office link beyond the nulls. Pooled cross-seal similarity p 0.47. 10,000 random picture-to-sign guesses do not hold on held-out seals. No candidate "bovid sign".
+- Grade A (method limit): the same pooled test finds Ur III seal-content links 8/8 times at ~480 tablets but 2/25 at PE size, and planted links 25-30%. The PE null therefore says nothing yet.
+- Grade C: caprid-sealed tablets count larger herds than cattle-sealed ones (median largest count 50 vs 17; p 0.31). Predation-scene seals (6) and boat seals (3) nominally share vocabulary across seals (p 0.03, 0.02; not corrected). M139 sits on 3 of 6 predation-sealed tablets (|z| 3.1, not FWER).
+- Not cracked. Needed: the Amiet (MDP 43) and later seal catalogues mapped to tablets, to reach ~10x the coded sample.
+
