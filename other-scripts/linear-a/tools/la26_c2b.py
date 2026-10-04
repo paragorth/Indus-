@@ -20,6 +20,7 @@ class Fast:
     def __init__(self, docs, nodes, key='words'):
         self.M, _ = doc_matrix(docs, key)
         self.M = (self.M > 0).astype(np.float32)
+        self.M = self.M[:, self.M.sum(0) >= 2]
         self.nodes = nodes
         self.lab = [d['site'] for d in docs]; self.sup = [d['support'] for d in docs]
 
@@ -120,11 +121,11 @@ RA = graph_sets(NODES_A)['RING']
 nE = int(round(len(RA) / 2 / 15 * len(lbsites) * (len(lbsites) - 1) / 2))
 allp = list(itertools.combinations(lbsites, 2))
 pv = []
-for g in range(200):
+for g in range(100):
     sel = rng.choice(len(allp), size=nE, replace=False)
     Rs = {allp[k] for k in sel} | {(b, a) for a, b in (allp[k] for k in sel)}
     f0 = fx.F(Rs)
-    fa = np.array([fx.F(Rs, list(rng.permutation(fx.lab))) for _ in range(200)])
+    fa = np.array([fx.F(Rs, list(rng.permutation(fx.lab))) for _ in range(100)])
     pv.append(float((fa >= f0).mean()))
 pv = np.array(pv)
 res['lb_calibration'] = dict(sites=lbsites, n_edges=nE, n_docs=len(lbd), frac_p_le_05=float((pv <= 0.05).mean()),

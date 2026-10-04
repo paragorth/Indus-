@@ -7,7 +7,7 @@ import v27_lib as L
 import v8_lib
 
 HDR = v8_lib.page_headers()
-R = {tuple(json.load(open(f))['job']): json.load(open(f)) for f in glob.glob(os.path.join(L.CK, 'c2_*.json'))}
+R = {tuple(json.load(open(f))['job']): json.load(open(f)) for f in glob.glob(os.path.join(L.CK, 'c2_*_*_*.json'))}
 
 
 def edges(r):
