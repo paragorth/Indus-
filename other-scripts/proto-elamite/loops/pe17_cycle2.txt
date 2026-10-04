@@ -1,0 +1,17 @@
+pe17 cycle 2 -- score the frozen predictions against the hXRF labels (read only after freezing).
+Source: Yeganeh, Holakooei, Nokandeh, Piran & Dahl 2025, JAS Reports 61:104973, accepted manuscript CC BY at ORA
+(https://ora.ox.ac.uk/objects/uuid:a8f083aa-bb85-458b-bb40-915206867912). The manuscript prints P-numbers for five
+chemically foreign tablets: ST-11 = P009157 (MDP 26, 469; Yahya clay at Susa), YT-01 = P009536 (Yahya 12) and
+YT-07 = P009537 (Yahya 13) (Susa clay at Yahya), YT-02 = P009545 (Yahya 21) and YT-06 = P009540 (Yahya 16) (Malyan
+clay at Yahya). MT-03 and MT-20 have no P-number ("not recognised"). Table S2 and the ST/MT/YT -> museum map for the
+other 65 tablets are not public (Elsevier supplement mmc1 holds only Table S1). Labels: data/pe17_xrf_labels.json.
+The 35 Susa tablets are in the National Museum of Iran, so the Susa pool is the 476 NMI Susa tablets in our corpus.
+Tool: tools/pe17_cycle2.py (checks both frozen hashes, exact rank / all-pairs permutation p-values).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-17.2a | ST-11 plateau-score rank; null = rank among candidate pool (all Susa / NMI Susa / NMI Susa within +-1 line) | rank 152 of 1,494 (top 10.2%); p 0.10 (all), 0.12 (NMI, n 476), 0.12 (length-matched, n 202) | right direction, not significant (one positive) |
+| PE-17.2b | ST-11 per-site affinity: is Yahya its top site? Yahya-minus-other-sites contrast vs NMI Susa | top site Sofalin (1.09), Yahya lowest (0.49); contrast p 0.91 | FAIL: no Yahya 'hand' on the Yahya-clay tablet |
+| PE-17.2c | YT-01, YT-07 (Susa clay) Susa-likeness among the 27 Yahya tablets; exact null over all 351 pairs | ranks 8 and 3 of 27; AUC 0.84, p 0.071 | right direction, borderline |
+| PE-17.2d | YT-02, YT-06 (Malyan clay) Malyan-likeness (Yahya-vs-Malyan LOO) among Yahya; exact null | ranks 17 and 4 of 27; AUC 0.64, p 0.28 | not supported |
+| PE-17.2e | Fisher combination of 2a(NMI), 2b, 2c, 2d | chi2 12.2, df 8, p 0.14 | NOT SUPPORTED, NOT KILLED: three of four point the right way, combined evidence below threshold |

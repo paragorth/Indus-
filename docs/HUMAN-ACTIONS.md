@@ -41,3 +41,6 @@ The Lothal warehouse sealings are the one Indus administrative archive found in 
 - [ ] **Parpola 1986**, *World Archaeology* 17(3): 399–419, Fig. 1 (the Lothal co-impression diagram): https://doi.org/10.1080/00438243.1986.9979979
 - [ ] **Rao 1985**, *Lothal* vol. II, plates CLXI–CLXIV (sealing photographs and reverses). The archive.org scan of part 2 has the text pages but no plates.
 - [ ] **CISI vol. 1 p. 373** (concordance for L-99 to L-266): a sharper scan; the one used was too blurred to read reliably.
+
+## F. Proto-Elamite hXRF data (added after pe17)
+- [ ] **Yeganeh, Holakooei, Nokandeh, Piran & Dahl 2025, JAS Reports 61:104973, Table S2 and the ST-nn / MT-nn / YT-nn to National Museum of Iran (NMI BK) numbers for all 70 tablets**: https://doi.org/10.1016/j.jasrep.2025.104973 . The public supplement (mmc1) holds only Table S1, and the CC BY manuscript (https://ora.ox.ac.uk/objects/uuid:a8f083aa-bb85-458b-bb40-915206867912) gives P-numbers for only 5 tablets. Ask the corresponding author (J. Dahl, Oxford) for the sample list. With it, the frozen pe17 ranking (`other-scripts/proto-elamite/data/pe17_frozen_ranking.json`, content sha256 78afe813...e828) can be scored on all 35 Susa tablets, including the "slightly different soil" group SS-16, ST-24, ST-31, ST-32 and ST-33, and on MT-03 and MT-20, whose P-numbers the authors could not identify.

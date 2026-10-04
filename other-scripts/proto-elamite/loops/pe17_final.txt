@@ -1,0 +1,14 @@
+pe17 FINAL -- PREDICT THE CLAY BEFORE LOOKING.
+Tools: tools/pe17_common.py, pe17_engine.py, pe17_cycle1.py, pe17_cycle1b.py, pe17_cycle2.py, pe17_cycle3.py.
+Frozen before reading the labels: data/pe17_frozen_ranking.json (content sha256 78afe813...e828),
+data/pe17_frozen_affinity.json (07ca9bb5...ef499). Labels: data/pe17_xrf_labels.json (Yeganeh et al. 2025, CC BY AM).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-17.F1 | 2,000 random plateau-vs-Susa classifiers, selected on Malyan/Yahya held out, re-tested on 20 other plateau tablets; 10 label-shuffled pipeline nulls; planted hidden imports; planted synthetic hand | re-test AUC 0.69 vs null max 0.63; hidden real imports AUC 0.75; synthetic hand AUC 1.00 | B: a weak plateau writing fingerprint exists, carried by sign choice (M157, M136, M072, M158, M379 ...), not variants or numerals; confounded with early/short Susa formats |
+| PE-17.F2 | Frozen ranking scored on hXRF labels (5 tablets with P-numbers) | ST-11 top 10% (p 0.12 in NMI pool); Susa-clay Yahya tablets AUC 0.84 (p 0.07); Malyan-clay AUC 0.64 (p 0.28); ST-11 site affinity wrong (Sofalin, p 0.91); Fisher p 0.14 | C: not supported, not killed; power ~12% (F3) |
+| PE-17.F3 | Power from real plateau tablets' import percentiles; Susa control | 5 imports: power 0.13; 20 imports: 0.34; control 0.05 | the clay test cannot decide this question at the published sample size |
+| PE-17.F4 | Site hands and distance | Yahya and Sofalin beat label permutation (AUC 0.63, 0.68 vs perm <= 0.61, 0.55); top Susa affinity falls with distance Sialk > Sofalin > Malyan > Yahya | C (4 sites, confounded with site size and date) |
+
+Not cracked. Nothing here predicts a reading. Human action: Table S2 and the ST/MT/YT -> NMI museum-number map
+(docs/HUMAN-ACTIONS.md) would let the frozen ranking be scored on all 70 tablets (still low power: ~0.2-0.3).
