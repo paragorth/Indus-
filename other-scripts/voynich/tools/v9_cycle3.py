@@ -121,7 +121,7 @@ def gen_w2(Ttr, lens, rng):
 
 def best_c1(name, k):
     n = C2.best_n(name, k)
-    return pickle.load(open(os.path.join(OUT, 'c1_%s_%d_n%d.pkl' % (name, k, n)), 'rb'))
+    return pickle.load(open(os.path.join(OUT, 'c1m_%s_%d_n%d.pkl' % (name, k, n)), 'rb'))
 
 
 def run(name, reps=10):

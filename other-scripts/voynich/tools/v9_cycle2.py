@@ -26,7 +26,7 @@ NW = 40
 def best_n(name, k):
     best = None
     for n in C1.SIZES:
-        fn = os.path.join(OUT, 'c1_%s_%d_n%d.pkl' % (name, k, n))
+        fn = os.path.join(OUT, 'c1m_%s_%d_n%d.pkl' % (name, k, n))
         if os.path.exists(fn):
             r = pickle.load(open(fn, 'rb'))
             if best is None or r['hard_tr'] > best[1]:
@@ -67,7 +67,7 @@ def job(args):
         S = M + 1; n = best_n(name, k)
         ctx, top = ctx_array(O, 2, 4, None)
         otr, ote = O[tr, :, k], O[te, :, k]
-        h, hll, sll = soft_em(otr, ctx[tr], S, n, C=4, iters=150, seed=0)
+        h, hll, sll = soft_em_multi(otr, ctx[tr], S, n, C=4, seeds=4, burn=40, keep=1, more=120)
         res.update(n=n, hard_tr=hll, soft_tr=sll,
                    hard_te=forward_backward(h, ote, ctx[te], None, True)[0],
                    soft_te=forward_backward(h.soft, ote, ctx[te], None, True)[0],
@@ -79,7 +79,7 @@ def job(args):
         S = NW + 1; n = 80
         wtr, wte = W[tr], W[te]
         z1, z2 = np.zeros_like(wtr), np.zeros_like(wte)
-        h, hll, sll = soft_em(wtr, z1, S, n, iters=150, seed=0)
+        h, hll, sll = soft_em_multi(wtr, z1, S, n, seeds=4, burn=40, keep=1, more=120)
         res.update(n=n, hard_tr=hll, soft_tr=sll,
                    hard_te=forward_backward(h, wte, z2, None, True)[0],
                    soft_te=forward_backward(h.soft, wte, z2, None, True)[0],
@@ -91,7 +91,7 @@ def job(args):
         O2 = shuffled(O)
         otr, ote = O2[tr, :, k], O2[te, :, k]
         z1, z2 = np.zeros_like(otr), np.zeros_like(ote)
-        h, hll, sll = soft_em(otr, z1, S, n, iters=150, seed=0)
+        h, hll, sll = soft_em_multi(otr, z1, S, n, seeds=4, burn=40, keep=1, more=120)
         res.update(n=n, hard_te=forward_backward(h, ote, z2, None, True)[0],
                    soft_te=forward_backward(h.soft, ote, z2, None, True)[0])
         for o in (0, 1):

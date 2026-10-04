@@ -22,7 +22,7 @@ def cycle1():
         b = base[name]; n = b['ntok_te']
         cells, tot = [], dict(M0=0, M1=0, M2=0, soft=0, hard=0, nores=0, oracle=0)
         for k in range(3):
-            fits = [pickle.load(open(os.path.join(OUT, 'c1_%s_%d_n%d.pkl' % (name, k, s)), 'rb')) for s in C1.SIZES]
+            fits = [pickle.load(open(os.path.join(OUT, 'c1m_%s_%d_n%d.pkl' % (name, k, s)), 'rb')) for s in C1.SIZES]
             f = max(fits, key=lambda r: r['hard_tr'])
             m0, m1, m2 = b['M0_%d' % k][0], b['M1_%d' % k][0], b['M2_%d' % k][0]
             g = lambda ll: (bits(m0, n) - bits(ll, n))

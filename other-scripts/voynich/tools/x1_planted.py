@@ -20,10 +20,10 @@ def med(data, n, f):
 
 
 def main():
-    regime = sys.argv[1]
+    regime, _, tag = sys.argv[1].partition(':')   # REGIME[:analysis tag], e.g. matched3k:_tri_indus_linear_a_proto_elamite
     thr = float(sys.argv[2]) if len(sys.argv) > 2 else 0.9
     sizes = sys.argv[3:] or ['d8k', 'd18k', 'd27k']
-    an = json.load(open(os.path.join(RES, f'x1_analysis_{regime}.json')))
+    an = json.load(open(os.path.join(RES, f'x1_analysis_{regime}{tag}.json')))
     base = json.load(open(os.path.join(RES, f'x1_features_{regime}.json')))
     sz = {s: json.load(open(os.path.join(RES, f'x1_features_{s}.json'))) for s in sizes}
     U = an['U']; names = an['names']; D = [n for n in names if n not in U]
@@ -47,7 +47,7 @@ def main():
             print(f"     {s}: D median {np.median(list(vals.values())):.3f} (shift {shift:+.3f} toward U side: "
                   f"{(shift > 0) == up and shift != 0}); D on U side {len(cross)}/{len(vals)} (at full size {len(base_cross)})")
         out.append(row)
-    json.dump(out, open(os.path.join(RES, f'x1_planted_{regime}.json'), 'w'), indent=1)
+    json.dump(out, open(os.path.join(RES, f'x1_planted_{regime}{tag}.json'), 'w'), indent=1)
 
 
 if __name__ == '__main__':

@@ -337,6 +337,31 @@ def soft_em(obs, ctx, S, n, C=1, iters=80, seed=0, reset=True, trace=None):
     return h, hll, ll
 
 
+def soft_em_multi(obs, ctx, S, n, C=1, seeds=6, burn=40, keep=2, more=120, reset=True, seed0=0):
+    """Population search: `seeds` random Baum-Welch starts run `burn` iterations; the best `keep`
+    continue `more` iterations; the best is hardened.  Returns (hard ring, hard ll, soft ll)."""
+    pop = []
+    for sd in range(seed0, seed0 + seeds):
+        h, hll, sll = soft_em(obs, ctx, S, n, C=C, iters=burn, seed=sd, reset=reset)
+        pop.append((sll, h.soft))
+    pop.sort(key=lambda x: -x[0])
+    best = None
+    for sll, r in pop[:keep]:
+        for it in range(more):
+            ll, sc, st, ec = forward_backward(r, obs, ctx, None, reset, need_post=True, need_emit=True)
+            r.q = (sc + 0.1) / (sc + 0.1).sum(1, keepdims=True)
+            if reset:
+                r.pi = (st + 0.1) / (st + 0.1).sum()
+            r.B = (ec + 1e-3) / (ec + 1e-3).sum(0, keepdims=True)
+        lab = harden(r.B)
+        h = Ring(lab, S, C); h.q = r.q.copy(); h.pi = r.pi.copy()
+        hll = em(h, obs, ctx, None, reset, iters=6)
+        h.soft = r
+        if best is None or hll > best[1]:
+            best = (h, hll, ll)
+    return best
+
+
 def local_search(r, obs, ctx, reset=True, sweeps=3):
     """Steepest-ascent polish: all single relabels, then all swaps; refit rule after each sweep."""
     cur = forward_backward(r, obs, ctx, None, reset)[0]

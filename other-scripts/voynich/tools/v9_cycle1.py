@@ -8,9 +8,10 @@ Per ring, held-out log-likelihood of:
   M0  start distribution + iid fillers (no sequence)
   M1  within-ring Markov-1 (+ start distribution)
   M2  within-ring Markov-2
-  VR  volvelle, n cells (n = 20/30/40/48), learned step kernel (rule R1), reset at each line;
-      search = Baum-Welch on the circulant HMM with free per-cell emissions (the 'soft'
-      volvelle), then hardened to one filler per cell and refitted (the true volvelle)
+  VR  volvelle, n cells (n = 40 or 48, chosen on train), learned step kernel (rule R1), reset at each line;
+      search = population Baum-Welch (6 random starts x 40 iterations, best 2 continued 120)
+      on the circulant HMM with free per-cell emissions (the 'soft' volvelle), then hardened
+      to one filler per cell and refitted (the true volvelle)
   VN  same ring, turning continues across line breaks (no reset)
 Word level: product of rings vs word Markov-2 (trigram) on filler tuples.
 Checkpoints: data/results/v9/c1_<corpus>_<ring>_<seed>.pkl
@@ -21,7 +22,7 @@ from v9_lib import *
 from multiprocessing import Pool
 
 OUT = os.path.join(RES, 'v9'); os.makedirs(OUT, exist_ok=True)
-K, M, SIZES, ITERS, SEEDS = 3, 12, (20, 30, 40, 48), 150, (0,)
+K, M, SIZES = 3, 12, (40, 48)
 CORPORA = ('planted', 'voynich', 'vs_latin', 'vs_italian')
 
 
@@ -72,7 +73,7 @@ def job(args):
     """One (corpus, ring, ring size): soft-emission EM on the circulant HMM (search),
     harden to a true volvelle (one filler per cell), hard EM; held-out scores; no-reset refit."""
     name, k, n = args
-    fn = os.path.join(OUT, 'c1_%s_%d_n%d.pkl' % (name, k, n))
+    fn = os.path.join(OUT, 'c1m_%s_%d_n%d.pkl' % (name, k, n))
     if os.path.exists(fn):
         return pickle.load(open(fn, 'rb'))
     O, lens, voc, truth, tr, te = data(name)
@@ -80,12 +81,7 @@ def job(args):
     otr, ote = O[tr, :, k], O[te, :, k]
     ztr, zte = np.zeros_like(otr), np.zeros_like(ote)
     t0 = time.time()
-    best = None
-    for seed in SEEDS:
-        h, hll, sll = soft_em(otr, ztr, S, n, iters=ITERS, seed=seed)
-        if best is None or hll > best[1]:
-            best = (h, hll, sll)
-    h, hll, sll = best
+    h, hll, sll = soft_em_multi(otr, ztr, S, n, seeds=6, burn=40, keep=2, more=120)
     soft_te = forward_backward(h.soft, ote, zte, None, True)[0]
     hard_te = forward_backward(h, ote, zte, None, True)[0]
     rn = Ring(h.lab, S); rn.q = h.q.copy(); rn.pi = h.pi.copy()

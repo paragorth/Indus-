@@ -142,3 +142,54 @@ def anneal_map(seqs, model, iters=20000, seed=0, restarts=3):
             if cur > best[0]: best = (cur, dict(m))
         if best[0] > best_all[0]: best_all = best
     return best_all[0] / n, best_all[1]
+
+# ---------------- proper-likelihood acrostic search (letter -> glyph partition) ----------------
+import numpy as np
+
+class LetterCounts:
+    def __init__(self, text):
+        self.A = sorted(set(text)); ix = {c: i for i, c in enumerate(self.A)}; a = len(self.A)
+        t = np.array([ix[c] for c in text])
+        self.C3 = np.zeros((a, a, a)); np.add.at(self.C3, (t[:-2], t[1:-1], t[2:]), 1)
+        self.C2 = self.C3.sum(2); self.C1 = self.C2.sum(1)
+
+def anneal_partition(seqs, lc, iters=4000, seed=0, restarts=2, k=0.5):
+    """Find an onto map letter -> chain symbol maximising the likelihood of the chains under the language's letter
+    trigram statistics pushed through that map (glyph trigram model built from the mapped language counts, add-k).
+    This is a proper probability over glyph strings, so collapsing everything onto one letter cannot win.
+    Returns (bits per symbol, {letter: symbol})."""
+    rng = random.Random(seed); syms = sorted({s for q in seqs for s in q}); K = len(syms); si = {s: i for i, s in enumerate(syms)}
+    a = len(lc.A)
+    o1 = np.zeros(K); o2 = np.zeros((K, K)); o3 = np.zeros((K, K, K))
+    for q in seqs:
+        x = [si[s] for s in q]
+        o1[x[0]] += 1
+        if len(x) > 1: o2[x[0], x[1]] += 1
+        for i in range(len(x) - 2): o3[x[i], x[i + 1], x[i + 2]] += 1
+    n = sum(len(q) for q in seqs)
+    def score(assign):
+        Am = np.zeros((a, K)); Am[np.arange(a), assign] = 1
+        G3 = np.einsum('abc,ai,bj,ck->ijk', lc.C3, Am, Am, Am, optimize=True)
+        G2 = G3.sum(2); G1 = G2.sum(1)
+        P3 = (G3 + k) / (G2[:, :, None] + k * K); P2 = (G2 + k) / (G1[:, None] + k * K); P1 = (G1 + k) / (G1.sum() + k * K)
+        return float((o3 * np.log2(P3)).sum() + (o2 * np.log2(P2)).sum() + (o1 * np.log2(P1)).sum())
+    best_all = (-1e18, None)
+    for r in range(restarts):
+        # onto start: frequency-matched greedy assignment, then random noise
+        assign = np.array([rng.randrange(K) for _ in range(a)])
+        perm = rng.sample(range(a), a)
+        for j in range(K): assign[perm[j]] = j
+        cur = score(assign); best = (cur, assign.copy()); T0 = n * 0.01
+        for it in range(iters):
+            T = T0 * (1 - it / iters) ** 2 + 1e-3
+            new = assign.copy()
+            if rng.random() < 0.5:
+                i = rng.randrange(a); new[i] = rng.randrange(K)
+            else:
+                i, j = rng.sample(range(a), 2); new[i], new[j] = new[j], new[i]
+            if len(set(new.tolist())) < K: continue
+            s = score(new); d = s - cur
+            if d >= 0 or rng.random() < math.exp(d / T): assign, cur = new, s
+            if cur > best[0]: best = (cur, assign.copy())
+        if best[0] > best_all[0]: best_all = best
+    return best_all[0] / n, {lc.A[i]: syms[int(best_all[1][i])] for i in range(a)}
