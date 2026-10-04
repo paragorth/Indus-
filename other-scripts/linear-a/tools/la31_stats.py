@@ -104,6 +104,8 @@ def mantel(Z, P, nperm=5000, rng=None, covar=None, pairmask=None):
         z = res(prep(Zm))
         return np.corrcoef(z, p)[0, 1]
     r0 = r_of(Z)
+    if not np.isfinite(r0):
+        return float('nan'), 1.0, np.zeros(1)
     null = np.empty(nperm)
     for k in range(nperm):
         q = rng.permutation(K)

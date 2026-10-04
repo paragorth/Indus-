@@ -600,3 +600,16 @@ No reading order beats left-to-right rows: columns, diagonals, spirals and boust
 - Grade B: the minimal genome has four mechanisms, and none can be dropped: a rich junction key, line-width filling, the line-initial chain, and paragraph drift (each line's share of q-/a-/l- words follows the line above). Two restarts found them independently.
 - On held-out folios the generator fixes 7 of 11 v21 survivor statistics. It predicts glyphs worse than n-grams (2.21 vs 2.03 bits).
 - Grade C: even the true genome of a planted generator is caught, and a Latin herbal reached 0.84. So "generable" cannot be certified this way, and the Voynich-versus-herbal contrast is not shown.
+
+## The dialect ladder (v30, 4 Oct 2026; `loops/v30_final.txt`)
+- Method: the cheapest rewrite (<= 30 context-sensitive glyph-cluster rules) that turns Currier A into B, scored on held-out pages, put on a ladder of real 1350-1450 pairs run the same way (Commedia copies, Bavarian/Alemannic/Ripuarian from ReF, Latin/Italian from CATMuS, Czech before/after a digraph-to-diacritic spelling change, cipher key changes, unrelated languages).
+- Distance, grade B: A->B (0.46 above the floor) sits with Bavarian->Alemannic (0.45), above two scribes copying the same work (0.26), below Latin->Italian (0.78), a spelling reform (0.94) and any cipher key change (1.2-1.9). Random rewrites help A->B as rarely as a dialect pair (1%).
+- Shape, grade B: at that distance A->B closes twice as far as any dialect pair (0.47-0.67 vs 0.27-0.35), near a spelling reform (0.64-0.69). In every run the top rules turn A's -chy/-chol/-chor/-or endings into B's -chedy/-chdy/-edy and cut word-initial cth. Edge and interior rules help equally, unlike a letter key or reform (context-free rules 2x better). Learned on herbal pages, the rules carry over to unseen sections.
+- B's hands 2 and 3 are at null distance (grade A in this metric). A/B looks symmetric (grade C).
+- Reading: A and B are two conventions of one system at dialect distance, a regular ending shift, not two languages or two keys. Not cracked.
+
+
+## Currier A to B as a dialect ladder (v30)
+- The cheapest rewrite turning A into B (up to 30 context-sensitive glyph rules, scored on held-out pages) has raw distance 0.46. Calibration pairs run through the same pipeline: Bavarian to Alemannic German 0.45, two scribes copying the Commedia 0.26, Latin to Italian 0.78, the Czech spelling reform 0.94, cipher key changes 1.2–1.9, unrelated languages 1.3–1.6. Null splits of A against A give 0.00–0.04. Grade B: A and B sit on the dialect rung.
+- The rewrite is unusually regular. It closes 47–67% of the gap, against 27–35% for dialect pairs. In 4 of 4 runs the top rules turn A's -chy/-chol/-chor/-or into B's -chedy/-chdy/-edy and cut word-initial cth. Rules learned on herbal pages carry over to unseen sections. Grade B.
+- The rewrite is nearly symmetric and is not a letter-for-letter key. Grade C. Hands 2 and 3 within B are at null distance.

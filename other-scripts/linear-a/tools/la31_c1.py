@@ -111,7 +111,7 @@ def main():
     cal = {}
     for nmT, T in (('etesian', Tet), ('km', Tkm)):
         best = None
-        for L_h in (2, 4, 8, 16, 32, 64):
+        for L_h in (2, 4, 8, 16, 32, 64, 128, 256, 512):
             ss = []
             for _ in range(3):
                 pd_ = plant(docs, codes, T, L_h, rng)
