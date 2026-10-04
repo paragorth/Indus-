@@ -33,7 +33,17 @@ mn = np.array([mno(r) for r in rows])
 pub = [re.sub(r',?\s*\d+.*$', '', tabs[r['id']]['des']) for r in rows]
 b = np.array([r['batch'] for r in rows])
 pairs = [(i, j) for k in set(b) for ii in [np.where(b == k)[0]] for x, i in enumerate(ii) for j in ii[x + 1:]]
-pairs = np.array(pairs); I, J = pairs[:, 0], pairs[:, 1]
+pairs = np.array(pairs)
+MINGAP = float(os.environ.get('MINGAP', 0))
+if MINGAP:
+    gap = np.abs(mn[pairs[:, 0]] - mn[pairs[:, 1]]); pairs = pairs[np.nan_to_num(gap, nan=1e9) >= MINGAP]
+I, J = pairs[:, 0], pairs[:, 1]
+BLOCK = int(os.environ.get('BLOCK', 0))
+blk = np.zeros(len(rows), int)
+if BLOCK:  # permutation blocks: runs of BLOCK consecutive museum numbers inside a batch
+    for k in set(b):
+        ii = np.where(b == k)[0]; ii = ii[np.argsort(np.nan_to_num(mn[ii], nan=1e9))]
+        for q, i in enumerate(ii): blk[i] = q // BLOCK
 print('pairs', len(pairs))
 def jac(a, c): return len(a & c) / max(len(a | c), 1)
 textS = np.array([jac(tok[i]['SIGN'], tok[j]['SIGN']) for i, j in pairs])
@@ -52,8 +62,8 @@ def stat(Xm):
 obs = stat(X)
 def perm_X(Xm):
     Y = Xm.copy()
-    for k in set(b):
-        ii = np.where(b == k)[0]; Y[ii] = Xm[rng.permutation(ii)]
+    for k in set(zip(b, blk)):
+        ii = np.where((b == k[0]) & (blk == k[1]))[0]; Y[ii] = Xm[rng.permutation(ii)]
     return Y
 NP = int(os.environ.get('NPERM', 1000))
 import time; t0 = time.time(); _ = stat(X); print("one stat s", round(time.time() - t0, 2), flush=True)
@@ -80,4 +90,4 @@ plant = np.array(plant)
 print('planted 40 twin pairs (offset sd 0.5): mean r', round(plant[:, 0].mean(), 4), 'share p<0.05', (plant[:, 1] < 0.05).mean())
 json.dump(dict(n_tab=len(rows), n_pairs=len(pairs), obs=obs, p=p, null_q95=list(np.percentile(nul, 95, axis=0)),
                planted_mean_r=float(plant[:, 0].mean()), planted_power=float((plant[:, 1] < 0.05).mean())),
-          open(os.path.join(CK, 'cycle3.json'), 'w'), default=float, indent=1)
+          open(os.path.join(CK, f'cycle3_gap{int(MINGAP)}_blk{BLOCK}.json'), 'w'), default=float, indent=1)

@@ -307,3 +307,72 @@ def gerard_plant(rgb, ocr):
             keep |= lbl == r.label
     keep = ndi.binary_fill_holes(morphology.binary_closing(keep, morphology.disk(4)))
     return rgb, keep, np.zeros_like(keep), ink, None
+
+
+# ---------------------------------------------------------------- shared analysis
+VIS_FAMS = ['shape', 'colour', 'hog', 'edge', 'r18', 'dino']
+TXT_METRICS = ['jaccard', 'tfidf', 'rare', 'midcos', 'tri']
+
+
+def vis_sims(vis, keys, fams=VIS_FAMS):
+    out = {}
+    for f in fams:
+        F = np.array([vis[k][f] for k in keys], float)
+        if F.std() == 0:
+            continue
+        if f in ('r18', 'dino'):
+            out[f] = cos_sim(F - F.mean(0))
+        else:
+            out[f] = feat_sim(F)
+    return out
+
+
+def mantel_table(V, T, part, nperm, rng, strata=None):
+    """Partial Mantel r for every (visual family, text metric) with a joint permutation null
+    (same page permutation for all families). Returns obs dict, null array, omnibus stats."""
+    fams, mets = list(V), list(T)
+    Tres = {m: zs(part.res(upper(T[m]))) for m in mets}
+    obs = {(f, m): float(np.mean(zs(part.res(upper(V[f]))) * Tres[m])) for f in fams for m in mets}
+    null = np.empty((nperm, len(fams), len(mets)))
+    for k in range(nperm):
+        p = perm(part.n, rng, strata)
+        for i, f in enumerate(fams):
+            a = zs(part.res(upper(V[f][np.ix_(p, p)])))
+            for j, m in enumerate(mets):
+                null[k, i, j] = np.mean(a * Tres[m])
+    O = np.array([[obs[(f, m)] for m in mets] for f in fams])
+    omni = O.mean()
+    omni_null = null.mean((1, 2))
+    mx = O.max()
+    mx_null = null.max((1, 2))
+    cell_p = {(f, m): float((1 + (null[:, i, j] >= O[i, j]).sum()) / (1 + nperm))
+              for i, f in enumerate(fams) for j, m in enumerate(mets)}
+    cell_z = {(f, m): float((O[i, j] - null[:, i, j].mean()) / null[:, i, j].std())
+              for i, f in enumerate(fams) for j, m in enumerate(mets)}
+    return dict(fams=fams, mets=mets, obs=O.tolist(),
+                omni=float(omni), omni_z=float((omni - omni_null.mean()) / omni_null.std()),
+                omni_p=float((1 + (omni_null >= omni).sum()) / (1 + nperm)),
+                max=float(mx), max_p=float((1 + (mx_null >= mx).sum()) / (1 + nperm)),
+                cell_p={'%s|%s' % k: v for k, v in cell_p.items()},
+                cell_z={'%s|%s' % k: v for k, v in cell_z.items()},
+                fam_z={f: float(np.mean([cell_z[(f, m)] for m in mets])) for f in fams},
+                met_z={m: float(np.mean([cell_z[(f, m)] for f in fams])) for m in mets})
+
+
+def plant_text(pages_words, Z, frac, rng, pool, beta=2.0):
+    """Planted link: replace a fraction of each page's tokens with words drawn from a softmax
+    over a word pool whose logits are a random linear function of the page's visual vector Z."""
+    Z = (Z - Z.mean(0)) / np.where(Z.std(0) > 0, Z.std(0), 1)
+    W = rng.normal(size=(Z.shape[1], len(pool))) / np.sqrt(Z.shape[1])
+    out = []
+    for i, ws in enumerate(pages_words):
+        lg = beta * (Z[i] @ W)
+        p = np.exp(lg - lg.max()); p /= p.sum()
+        ws = list(ws)
+        k = int(round(frac * len(ws)))
+        idx = rng.choice(len(ws), k, replace=False)
+        rep = rng.choice(len(pool), k, p=p)
+        for a, b in zip(idx, rep):
+            ws[a] = pool[b]
+        out.append(ws)
+    return out

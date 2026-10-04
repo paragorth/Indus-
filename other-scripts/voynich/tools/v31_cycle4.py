@@ -131,7 +131,6 @@ def main():
     npl = sum(1 for t in target if t.startswith('P_'))
     L.row(FN, 'V-31.4a', f'Planted control: {npl} targets made by the copy-and-vary procedure from a known vocabulary with hidden parameters; {len(Rc)} random candidates '
           f'({NC} per vocabulary) selected on a random half of the features, judged on the other half (200 splits)',
-          '; '.join(f"{t}: winner {max(summary[t]['_win'], key=summary[t]['_win'].get)} {summary[t]['_win']}" for t in target if t.startswith('P_')),
           'per true vocabulary: ' + '; '.join(f'{k} -> {Counter(v)}' for k, v in pl_by.items()) + f'; best held-out distance planted {np.mean([bestd[t] for t in target if t.startswith("P_")]):.2f} vs Voynich ZL {bestd["V_ZL"]:.2f}', 
           f'{planted_ok}/{npl} planted vocabularies recovered' + (' - method can tell vocabularies apart' if planted_ok >= 0.75 * npl else ' - method CANNOT reliably tell vocabularies apart'))
     for t in ('V_ZL', 'V_IT'):
