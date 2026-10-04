@@ -2,7 +2,7 @@
 g -> g' helps fit X -> Y, the same rule applied to g's feature-sibling h (the glyph that differs
 from g by the fewest features, with the output shifted by the same feature change when such a
 glyph exists) should help too.  A spelling or key change is lexical/arbitrary: siblings do not help.
-For each of the top-10 learned rules and each glyph of its lhs that is changed:
+For each of the 30 learned rules and each glyph of its lhs that is changed:
   feature sibling  = the 2 most feature-similar glyphs h (excluding g)
   random sibling   = 2 random glyphs of g's frequency stratum, not among g's 4 nearest
 Sibling rule = lhs with g -> h; rhs: if g' exists and a glyph h' with feats(h') = feats(h) - feats(g) + feats(g')
@@ -15,7 +15,9 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v36_lib as L
 import v25_shapes as S
+import v36_fitnull as FN
 from v36_fitnull import setup, feat
+FN.K = 30
 from v30_lib import Search
 
 
