@@ -153,7 +153,8 @@ def build(name, fam, raw_docs, strip_all=False, cap=CAP, wrap=LINE_W):
     """raw_docs: list of documents, each a list of text lines; re-wrapped into lines of `wrap` words."""
     allw = [[w for l in d for w in words_of(l, strip_all)] for d in raw_docs[:600]]
     uc = Counter(u for d in allw for w in d for u in w); tot = sum(uc.values())
-    ok = {u for u, c in uc.items() if c >= 0.0005 * tot}
+    scr = unicodedata.name(uc.most_common(1)[0][0], 'X').split()[0]
+    ok = {u for u, c in uc.items() if c >= 0.0005 * tot and unicodedata.name(u, 'X').split()[0] == scr}
     docs, n = [], 0
     for d in raw_docs:
         ws = [w for l in d for w in words_of(l, strip_all)]
