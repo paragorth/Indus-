@@ -1,83 +1,107 @@
 {
  "PFLAT": {
   "corpus": "PFLAT",
-  "fitness": 19829.6,
-  "heldout_bits": 19559.7,
-  "DL": 269.9,
-  "bits_per_token": 4.961,
-  "emit_bits_per_token": 3.957,
-  "trans_bits_per_token": 1.004,
-  "K": 5,
+  "fitness": 19812.5,
+  "heldout_bits": 19476.0,
+  "DL": 336.5,
+  "bits_per_token": 4.939,
+  "emit_bits_per_token": 3.798,
+  "trans_bits_per_token": 1.141,
+  "K": 6,
   "states": 7,
   "open_classes": 1,
-  "closed_classes": 4,
-  "edges_p05": 16,
+  "closed_classes": 5,
+  "edges_p05": 17,
   "cycles": [
    [
-    "C1",
-    "C4",
+    "C5",
     "C3",
-    "C1",
-    "C0"
+    "C2",
+    "C0",
+    "C4"
    ]
   ],
   "largest_cycle": 5,
   "num_prev": [
    [
-    "C0",
-    1148
+    "C4",
+    1022
    ],
    [
-    "C1",
+    "C0",
     353
+   ],
+   [
+    "C5",
+    126
    ]
   ],
   "num_next": [
    [
-    "C0",
-    947
+    "C4",
+    850
    ],
    [
-    "C4",
+    "C3",
     277
    ],
    [
     "</s>",
     277
+   ],
+   [
+    "C5",
+    97
    ]
   ],
   "p_next_is_num": {
-   "0": 0.76,
-   "1": 0.74,
+   "0": 0.74,
+   "1": 0.0,
    "2": 0.0,
    "3": 0.0,
-   "4": 0.0
+   "4": 0.74,
+   "5": 1.0
   },
   "novel_token_share": 0.091,
   "classes": [
    {
-    "class": 0,
+    "class": 2,
     "tokens": 1501,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 1501
+    },
+    "top": [
+     "NUM"
+    ],
+    "keys": []
+   },
+   {
+    "class": 4,
+    "tokens": 1375,
     "open": true,
-    "members": 141,
+    "members": 138,
     "novel_tokens": 360,
     "states": 1,
     "kinds": {
-     "W2": 1501
+     "W2": 1375
     },
     "top": [
      "W:QI-QI-TE-U",
      "W:NO-WO-SA",
-     "W:QE-QE",
      "W:E-JE-WI-QU",
-     "W:ZO-RA",
      "W:ZO-WI-MI",
      "W:JA-RO-RA",
      "W:TO-RU-SI-I",
      "W:NO-KO-DO-SE",
      "W:DE-TU-JE",
      "W:TU-TO-DO",
-     "W:JU-KI-PE"
+     "W:JU-KI-PE",
+     "W:JU-WE",
+     "W:SU-QO"
     ],
     "keys": [
      "W2:A",
@@ -95,27 +119,12 @@
     ]
    },
    {
-    "class": 3,
-    "tokens": 1501,
-    "open": false,
-    "members": 1,
-    "novel_tokens": 0,
-    "states": 1,
-    "kinds": {
-     "NUM": 1501
-    },
-    "top": [
-     "NUM"
-    ],
-    "keys": []
-   },
-   {
-    "class": 1,
+    "class": 0,
     "tokens": 476,
     "open": false,
     "members": 6,
     "novel_tokens": 0,
-    "states": 3,
+    "states": 2,
     "kinds": {
      "L": 476
     },
@@ -130,7 +139,7 @@
     "keys": []
    },
    {
-    "class": 4,
+    "class": 3,
     "tokens": 277,
     "open": false,
     "members": 1,
@@ -145,7 +154,7 @@
     "keys": []
    },
    {
-    "class": 2,
+    "class": 1,
     "tokens": 188,
     "open": false,
     "members": 5,
@@ -162,17 +171,43 @@
      "W:TU-KE"
     ],
     "keys": []
+   },
+   {
+    "class": 5,
+    "tokens": 126,
+    "open": false,
+    "members": 3,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 126
+    },
+    "top": [
+     "W:QE-QE",
+     "W:ZO-RA",
+     "W:DE-DE"
+    ],
+    "keys": []
    }
   ],
   "runs": [
    {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 19812.5,
+    "K": 6,
+    "S": 7,
+    "open": 1,
+    "restarts": 7
+   },
+   {
     "seed": 2,
-    "gen": 2250,
+    "gen": 2500,
     "fitness": 19829.6,
     "K": 5,
     "S": 7,
     "open": 1,
-    "restarts": 6
+    "restarts": 7
    },
    {
     "seed": 1,
@@ -185,10 +220,12 @@
    }
   ],
   "seed_ARI": [
+   0.952,
+   0.952,
    1.0
   ],
   "truth_fitness": 20151.8,
-  "truth_ARI": 0.953,
+  "truth_ARI": 0.999,
   "truth_K": 6,
   "truth_open": 1
  },
@@ -368,12 +405,12 @@
   "runs": [
    {
     "seed": 2,
-    "gen": 2050,
+    "gen": 2500,
     "fitness": 29044.7,
     "K": 5,
     "S": 5,
     "open": 2,
-    "restarts": 3
+    "restarts": 5
    },
    {
     "seed": 1,
@@ -383,10 +420,21 @@
     "S": 5,
     "open": 2,
     "restarts": 5
+   },
+   {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 29064.9,
+    "K": 5,
+    "S": 5,
+    "open": 2,
+    "restarts": 5
    }
   ],
   "seed_ARI": [
-   0.921
+   0.921,
+   0.921,
+   1.0
   ],
   "truth_fitness": 29053.0,
   "truth_ARI": 0.97,
@@ -395,22 +443,22 @@
  },
  "LA": {
   "corpus": "LA",
-  "fitness": 30998.7,
-  "heldout_bits": 30656.8,
-  "DL": 341.9,
-  "bits_per_token": 7.791,
-  "emit_bits_per_token": 5.924,
-  "trans_bits_per_token": 1.867,
+  "fitness": 30971.9,
+  "heldout_bits": 30569.5,
+  "DL": 402.4,
+  "bits_per_token": 7.769,
+  "emit_bits_per_token": 5.793,
+  "trans_bits_per_token": 1.976,
   "K": 4,
   "states": 4,
-  "open_classes": 1,
-  "closed_classes": 3,
-  "edges_p05": 19,
+  "open_classes": 2,
+  "closed_classes": 2,
+  "edges_p05": 18,
   "cycles": [
    [
     "C3",
-    "C2",
     "C1",
+    "C2",
     "C0"
    ]
   ],
@@ -418,14 +466,14 @@
   "num_prev": [
    [
     "C0",
-    925
-   ],
-   [
-    "C1",
-    259
+    707
    ],
    [
     "C2",
+    477
+   ],
+   [
+    "C3",
     47
    ],
    [
@@ -433,68 +481,67 @@
     29
    ],
    [
-    "C3",
+    "C1",
     11
    ]
   ],
   "num_next": [
    [
     "C0",
-    766
+    606
+   ],
+   [
+    "C2",
+    278
    ],
    [
     "</s>",
     191
    ],
    [
-    "C3",
+    "C1",
     149
    ],
    [
-    "C1",
-    118
-   ],
-   [
-    "C2",
+    "C3",
     47
    ]
   ],
   "p_next_is_num": {
-   "0": 0.54,
-   "1": 0.64,
-   "2": 0.04,
+   "0": 0.51,
+   "1": 0.04,
+   "2": 0.65,
    "3": 0.04
   },
   "novel_token_share": 0.172,
   "classes": [
    {
     "class": 0,
-    "tokens": 1834,
+    "tokens": 1480,
     "open": true,
-    "members": 206,
-    "novel_tokens": 678,
+    "members": 185,
+    "novel_tokens": 616,
     "states": 1,
     "kinds": {
      "W2": 976,
-     "W1": 656,
-     "L": 202
+     "W1": 437,
+     "L": 67
     },
     "top": [
-     "W:NI",
-     "L:VIN",
      "W:KU-RO",
      "L:VIR+[?]",
      "W:TE",
-     "W:*304",
      "W:SI",
-     "L:OLE",
      "W:SA-RA₂",
      "W:KA",
      "W:PA",
-     "W:A"
+     "W:A",
+     "W:KI-RO",
+     "W:I",
+     "W:TA",
+     "W:RE"
     ],
     "keys": [
-     "L",
      "W1",
      "W2:*118",
      "W2:*305",
@@ -505,11 +552,12 @@
      "W2:DE",
      "W2:DI",
      "W2:DU",
-     "W2:E"
+     "W2:E",
+     "W2:I"
     ]
    },
    {
-    "class": 2,
+    "class": 3,
     "tokens": 1271,
     "open": false,
     "members": 1,
@@ -524,33 +572,36 @@
     "keys": []
    },
    {
-    "class": 1,
-    "tokens": 430,
-    "open": false,
-    "members": 52,
-    "novel_tokens": 0,
+    "class": 2,
+    "tokens": 784,
+    "open": true,
+    "members": 73,
+    "novel_tokens": 62,
     "states": 1,
     "kinds": {
-     "L": 430
+     "L": 565,
+     "W1": 219
     },
     "top": [
+     "W:NI",
      "L:GRA",
      "L:CYP",
+     "L:VIN",
+     "W:*304",
      "L:OLIV",
      "L:CYP+D",
      "L:OLE+U",
      "L:GRA+PA",
      "L:OLE+KI",
-     "L:OLE+MI",
-     "L:CYP+E",
-     "L:OLE+DI",
-     "L:QA2+[?]+PU",
-     "L:MI+JA+RU"
+     "L:OLE",
+     "L:OLE+MI"
     ],
-    "keys": []
+    "keys": [
+     "L"
+    ]
    },
    {
-    "class": 3,
+    "class": 1,
     "tokens": 400,
     "open": false,
     "members": 1,
@@ -567,6 +618,24 @@
   ],
   "runs": [
    {
+    "seed": 2,
+    "gen": 2500,
+    "fitness": 30971.9,
+    "K": 4,
+    "S": 4,
+    "open": 2,
+    "restarts": 5
+   },
+   {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 30971.9,
+    "K": 4,
+    "S": 4,
+    "open": 2,
+    "restarts": 5
+   },
+   {
     "seed": 1,
     "gen": 2500,
     "fitness": 30998.7,
@@ -575,16 +644,21 @@
     "open": 1,
     "restarts": 7
    }
+  ],
+  "seed_ARI": [
+   1.0,
+   0.83,
+   0.83
   ]
  },
  "LB": {
   "corpus": "LB",
-  "fitness": 36530.0,
-  "heldout_bits": 36134.6,
-  "DL": 395.4,
-  "bits_per_token": 9.16,
-  "emit_bits_per_token": 7.346,
-  "trans_bits_per_token": 1.814,
+  "fitness": 36528.9,
+  "heldout_bits": 36112.3,
+  "DL": 416.6,
+  "bits_per_token": 9.154,
+  "emit_bits_per_token": 7.335,
+  "trans_bits_per_token": 1.819,
   "K": 4,
   "states": 4,
   "open_classes": 2,
@@ -593,19 +667,19 @@
   "cycles": [
    [
     "C3",
-    "C2",
     "C1",
+    "C2",
     "C0"
    ]
   ],
   "largest_cycle": 4,
   "num_prev": [
    [
-    "C1",
+    "C0",
     746
    ],
    [
-    "C0",
+    "C1",
     65
    ],
    [
@@ -613,46 +687,46 @@
     32
    ],
    [
-    "C2",
+    "C3",
     9
    ]
   ],
   "num_next": [
    [
-    "C0",
-    364
+    "C1",
+    359
    ],
    [
     "</s>",
     229
    ],
    [
-    "C1",
+    "C0",
     211
    ],
    [
-    "C2",
-    48
+    "C3",
+    53
    ]
   ],
   "p_next_is_num": {
-   "0": 0.04,
-   "1": 0.77,
-   "2": 0.04,
-   "3": 0.0
+   "0": 0.77,
+   "1": 0.04,
+   "2": 0.0,
+   "3": 0.04
   },
   "novel_token_share": 0.205,
   "classes": [
    {
-    "class": 0,
-    "tokens": 1757,
+    "class": 1,
+    "tokens": 1743,
     "open": true,
-    "members": 218,
+    "members": 215,
     "novel_tokens": 768,
     "states": 1,
     "kinds": {
-     "W2": 1494,
-     "W1": 226,
+     "W2": 1475,
+     "W1": 231,
      "L": 37
     },
     "top": [
@@ -685,7 +759,7 @@
     ]
    },
    {
-    "class": 1,
+    "class": 0,
     "tokens": 1022,
     "open": true,
     "members": 77,
@@ -714,7 +788,7 @@
     ]
    },
    {
-    "class": 3,
+    "class": 2,
     "tokens": 852,
     "open": false,
     "members": 1,
@@ -729,30 +803,42 @@
     "keys": []
    },
    {
-    "class": 2,
-    "tokens": 314,
+    "class": 3,
+    "tokens": 328,
     "open": false,
-    "members": 7,
+    "members": 10,
     "novel_tokens": 0,
     "states": 1,
     "kinds": {
      "FRAC": 288,
-     "W1": 24,
-     "W2": 2
+     "W2": 21,
+     "W1": 19
     },
     "top": [
      "FRAC",
+     "W:o-da-a2",
      "W:to",
      "W:ka",
-     "W:ra",
+     "W:a-ko-da-mo",
      "W:na",
+     "W:ma-di-je",
      "W:me-u-jo",
-     "W:me"
+     "W:me",
+     "W:ko-ru-we"
     ],
     "keys": []
    }
   ],
   "runs": [
+   {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 36528.9,
+    "K": 4,
+    "S": 4,
+    "open": 2,
+    "restarts": 4
+   },
    {
     "seed": 1,
     "gen": 2500,
@@ -761,36 +847,53 @@
     "S": 4,
     "open": 2,
     "restarts": 4
+   },
+   {
+    "seed": 2,
+    "gen": 2500,
+    "fitness": 36530.0,
+    "K": 4,
+    "S": 4,
+    "open": 2,
+    "restarts": 4
    }
+  ],
+  "seed_ARI": [
+   0.985,
+   0.985,
+   1.0
   ]
  },
  "PE": {
   "corpus": "PE",
-  "fitness": 25963.2,
-  "heldout_bits": 25654.3,
-  "DL": 308.9,
-  "bits_per_token": 6.503,
-  "emit_bits_per_token": 5.201,
-  "trans_bits_per_token": 1.302,
+  "fitness": 25956.4,
+  "heldout_bits": 25601.6,
+  "DL": 354.8,
+  "bits_per_token": 6.49,
+  "emit_bits_per_token": 5.124,
+  "trans_bits_per_token": 1.365,
   "K": 3,
   "states": 3,
   "open_classes": 2,
   "closed_classes": 1,
-  "edges_p05": 10,
+  "edges_p05": 11,
   "cycles": [
    [
     "C1",
     "C0"
+   ],
+   [
+    "C2"
    ]
   ],
   "largest_cycle": 2,
   "num_prev": [
    [
-    "C1",
-    1085
+    "C0",
+    1068
    ],
    [
-    "C0",
+    "C1",
     335
    ],
    [
@@ -799,16 +902,16 @@
    ],
    [
     "C2",
-    7
+    24
    ]
   ],
   "num_next": [
    [
-    "C1",
-    945
+    "C0",
+    912
    ],
    [
-    "C0",
+    "C1",
     315
    ],
    [
@@ -817,25 +920,25 @@
    ],
    [
     "C2",
-    16
+    49
    ]
   ],
   "p_next_is_num": {
-   "0": 0.22,
-   "1": 0.53,
-   "2": 0.07
+   "0": 0.54,
+   "1": 0.22,
+   "2": 0.14
   },
   "novel_token_share": 0.087,
   "classes": [
    {
-    "class": 1,
-    "tokens": 2082,
+    "class": 0,
+    "tokens": 2005,
     "open": true,
-    "members": 237,
+    "members": 228,
     "novel_tokens": 345,
     "states": 1,
     "kinds": {
-     "S": 2082
+     "S": 2005
     },
     "top": [
      "S:M288",
@@ -856,7 +959,7 @@
     ]
    },
    {
-    "class": 0,
+    "class": 1,
     "tokens": 1766,
     "open": false,
     "members": 13,
@@ -884,26 +987,27 @@
    },
    {
     "class": 2,
-    "tokens": 97,
+    "tokens": 174,
     "open": true,
-    "members": 11,
+    "members": 20,
     "novel_tokens": 0,
     "states": 1,
     "kinds": {
-     "S": 97
+     "S": 174
     },
     "top": [
      "S:M157",
+     "S:M305",
      "S:M157~a",
      "S:M327",
-     "S:M175",
-     "S:|M327+X|",
-     "S:M041~g",
-     "S:M195",
-     "S:M252~q",
-     "S:M136~q",
-     "S:M328~b",
-     "S:M195~d"
+     "S:M005~a",
+     "S:M203~c",
+     "S:M325",
+     "S:M262~1",
+     "S:|M153+M342|",
+     "S:M387~c",
+     "S:M038~e",
+     "S:M136~i"
     ],
     "keys": [
      "W2:other"
@@ -911,6 +1015,24 @@
    }
   ],
   "runs": [
+   {
+    "seed": 2,
+    "gen": 2500,
+    "fitness": 25956.4,
+    "K": 3,
+    "S": 3,
+    "open": 2,
+    "restarts": 2
+   },
+   {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 25957.2,
+    "K": 3,
+    "S": 3,
+    "open": 2,
+    "restarts": 6
+   },
    {
     "seed": 1,
     "gen": 2500,
@@ -920,6 +1042,11 @@
     "open": 2,
     "restarts": 6
    }
+  ],
+  "seed_ARI": [
+   0.812,
+   0.951,
+   0.857
   ]
  },
  "LAS": {
@@ -1041,6 +1168,457 @@
     "S": 4,
     "open": 1,
     "restarts": 9
+   },
+   {
+    "seed": 2,
+    "gen": 2500,
+    "fitness": 32103.4,
+    "K": 2,
+    "S": 4,
+    "open": 1,
+    "restarts": 9
+   },
+   {
+    "seed": 3,
+    "gen": 2500,
+    "fitness": 32105.3,
+    "K": 1,
+    "S": 1,
+    "open": 1,
+    "restarts": 9
+   }
+  ],
+  "seed_ARI": [
+   1.0,
+   0.0,
+   0.0
+  ]
+ },
+ "LB2": {
+  "corpus": "LB2",
+  "fitness": 35860.6,
+  "heldout_bits": 34927.5,
+  "DL": 933.1,
+  "bits_per_token": 8.872,
+  "emit_bits_per_token": 6.818,
+  "trans_bits_per_token": 2.054,
+  "K": 7,
+  "states": 7,
+  "open_classes": 2,
+  "closed_classes": 5,
+  "edges_p05": 29,
+  "cycles": [
+   [
+    "C6",
+    "C5",
+    "C4",
+    "C3",
+    "C2",
+    "C1",
+    "C0"
+   ]
+  ],
+  "largest_cycle": 7,
+  "num_prev": [
+   [
+    "C1",
+    593
+   ],
+   [
+    "C0",
+    120
+   ],
+   [
+    "C4",
+    45
+   ],
+   [
+    "<s>",
+    27
+   ],
+   [
+    "C3",
+    5
+   ]
+  ],
+  "num_next": [
+   [
+    "C0",
+    293
+   ],
+   [
+    "</s>",
+    248
+   ],
+   [
+    "C1",
+    192
+   ],
+   [
+    "C3",
+    48
+   ],
+   [
+    "C4",
+    5
+   ]
+  ],
+  "p_next_is_num": {
+   "0": 0.09,
+   "1": 0.85,
+   "2": 0.0,
+   "3": 0.02,
+   "4": 0.24,
+   "5": 0.0,
+   "6": 0.0
+  },
+  "novel_token_share": 0.201,
+  "classes": [
+   {
+    "class": 0,
+    "tokens": 1566,
+    "open": true,
+    "members": 205,
+    "novel_tokens": 748,
+    "states": 1,
+    "kinds": {
+     "W2": 1265,
+     "W1": 242,
+     "L": 59
+    },
+    "top": [
+     "W:o",
+     "W:ja",
+     "W:ka-ke-we",
+     "W:ki",
+     "L:EQU",
+     "W:jo",
+     "W:pa",
+     "W:to",
+     "W:do-so-mo",
+     "W:a-ja-me-no",
+     "W:pa-i-to",
+     "W:ta-ra-nu"
+    ],
+    "keys": [
+     "W1",
+     "W2:a2",
+     "W2:da",
+     "W2:de",
+     "W2:do",
+     "W2:e",
+     "W2:i",
+     "W2:ja",
+     "W2:jo",
+     "W2:ka",
+     "W2:ke",
+     "W2:ki"
+    ]
+   },
+   {
+    "class": 2,
+    "tokens": 790,
+    "open": false,
+    "members": 1,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 790
+    },
+    "top": [
+     "NUM"
+    ],
+    "keys": []
+   },
+   {
+    "class": 1,
+    "tokens": 755,
+    "open": true,
+    "members": 61,
+    "novel_tokens": 43,
+    "states": 1,
+    "kinds": {
+     "L": 693,
+     "W2": 62
+    },
+    "top": [
+     "L:OVIS:m",
+     "L:VIR",
+     "L:OVIS:f",
+     "L:LANA",
+     "W:ko-wo",
+     "L:MUL",
+     "L:DA",
+     "L:SA",
+     "L:ZE",
+     "W:ko-wa",
+     "L:OLE",
+     "L:*146"
+    ],
+    "keys": [
+     "L"
+    ]
+   },
+   {
+    "class": 5,
+    "tokens": 300,
+    "open": false,
+    "members": 31,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 300
+    },
+    "top": [
+     "W:o-na-to",
+     "W:to-so-de",
+     "W:ko-to-na",
+     "W:te-o-jo",
+     "W:e-ke",
+     "W:e-ke-qe",
+     "W:pa-ro",
+     "W:do-e-ra",
+     "W:do-e-ro",
+     "W:ke-ke-me-na",
+     "W:da-mo",
+     "W:ka-ko"
+    ],
+    "keys": []
+   },
+   {
+    "class": 3,
+    "tokens": 295,
+    "open": false,
+    "members": 3,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "FRAC": 287,
+     "W2": 8
+    },
+    "top": [
+     "FRAC",
+     "W:o-da-a2",
+     "W:ko-ru-we"
+    ],
+    "keys": []
+   },
+   {
+    "class": 4,
+    "tokens": 194,
+    "open": false,
+    "members": 15,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "L": 175,
+     "W2": 19
+    },
+    "top": [
+     "L:GRA",
+     "L:AES",
+     "L:HORD",
+     "L:CROC",
+     "L:FAR",
+     "W:mo-ri-wo-do",
+     "L:KE",
+     "W:pa-si-te-o-i",
+     "W:a-ko-da-mo",
+     "W:o-po-re-i",
+     "L:OLE+A",
+     "L:GRA+PE"
+    ],
+    "keys": []
+   },
+   {
+    "class": 6,
+    "tokens": 37,
+    "open": false,
+    "members": 3,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "W2": 37
+    },
+    "top": [
+     "W:pe-mo",
+     "W:ki-ti-me-na",
+     "W:a-ma-ru-ta"
+    ],
+    "keys": []
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 2500,
+    "fitness": 35860.6,
+    "K": 7,
+    "S": 7,
+    "open": 2,
+    "restarts": 0
+   }
+  ]
+ },
+ "PE2": {
+  "corpus": "PE2",
+  "fitness": 27770.6,
+  "heldout_bits": 27443.0,
+  "DL": 327.6,
+  "bits_per_token": 6.946,
+  "emit_bits_per_token": 5.677,
+  "trans_bits_per_token": 1.268,
+  "K": 3,
+  "states": 3,
+  "open_classes": 2,
+  "closed_classes": 1,
+  "edges_p05": 11,
+  "cycles": [
+   [
+    "C1",
+    "C0"
+   ],
+   [
+    "C2"
+   ]
+  ],
+  "largest_cycle": 2,
+  "num_prev": [
+   [
+    "C1",
+    1115
+   ],
+   [
+    "C0",
+    269
+   ],
+   [
+    "<s>",
+    34
+   ],
+   [
+    "C2",
+    6
+   ]
+  ],
+  "num_next": [
+   [
+    "C1",
+    955
+   ],
+   [
+    "C0",
+    261
+   ],
+   [
+    "</s>",
+    200
+   ],
+   [
+    "C2",
+    8
+   ]
+  ],
+  "p_next_is_num": {
+   "0": 0.18,
+   "1": 0.53,
+   "2": 0.06
+  },
+  "novel_token_share": 0.074,
+  "classes": [
+   {
+    "class": 1,
+    "tokens": 2135,
+    "open": true,
+    "members": 275,
+    "novel_tokens": 293,
+    "states": 1,
+    "kinds": {
+     "S": 2135
+    },
+    "top": [
+     "S:M288",
+     "S:M218",
+     "S:M009",
+     "S:M054",
+     "S:M124",
+     "S:M387",
+     "S:M376",
+     "S:M297",
+     "S:M346",
+     "S:M001",
+     "S:M305",
+     "S:|M136+M365|"
+    ],
+    "keys": [
+     "S"
+    ]
+   },
+   {
+    "class": 0,
+    "tokens": 1716,
+    "open": false,
+    "members": 15,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "NUM": 1424,
+     "S": 292
+    },
+    "top": [
+     "NUM",
+     "S:M388",
+     "S:M371",
+     "S:M066",
+     "S:M096",
+     "S:M219",
+     "S:M263",
+     "S:M269~a",
+     "S:M004",
+     "S:M292~f",
+     "S:M263~1",
+     "S:M377~e"
+    ],
+    "keys": []
+   },
+   {
+    "class": 2,
+    "tokens": 100,
+    "open": true,
+    "members": 12,
+    "novel_tokens": 0,
+    "states": 1,
+    "kinds": {
+     "S": 100
+    },
+    "top": [
+     "S:M157",
+     "S:M157~a",
+     "S:|M195+M057|",
+     "S:|M327+M342|",
+     "S:|M218+M288|",
+     "S:M051~b",
+     "S:|M201+M377+M377|",
+     "S:|M327+X|",
+     "S:|M157+M288|",
+     "S:M147~e",
+     "S:M240~d",
+     "S:M247~g"
+    ],
+    "keys": [
+     "W2:other"
+    ]
+   }
+  ],
+  "runs": [
+   {
+    "seed": 1,
+    "gen": 2500,
+    "fitness": 27770.6,
+    "K": 3,
+    "S": 3,
+    "open": 2,
+    "restarts": 4
    }
   ]
  }
