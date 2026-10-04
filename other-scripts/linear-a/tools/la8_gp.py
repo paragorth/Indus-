@@ -42,7 +42,7 @@ class Data:
         tt, tk, lp, off = [], [], [], [0]
         for d in docs:
             for t in d['toks']:
-                tt.append(self.lexid.get(t[0], -1)); tk.append(self.keyid[keyof(t)])
+                tt.append(self.lexid.get(t[0], -1)); tk.append(self.keyid.get(keyof(t), 0))
                 lp.append(-math.log(2.0 * max(1, ntypes_kind[t[1]])))
             off.append(len(tt))
         rng = random.Random(fold_seed)
