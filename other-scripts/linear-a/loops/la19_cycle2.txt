@@ -1,0 +1,8 @@
+# LA-19 cycle 2: do the components have support the model never saw?
+Script: tools/la19_c2.py. Output: data/la19/c2.json.
+Statistic: mutual information (bits) between consensus component (aligned over 10 restarts) and an attribute, over word tokens; null = component labels permuted among word types inside (length, token-frequency) strata, 2,000 permutations; Holm over 7 attributes.
+| LA-<n>.<cycle> | method and control | result | verdict |
+| LA-19.2a | LA, K=2 and K=4 components vs site, support, following commodity logogram, number size, position (doc-first / line-first / mid), what follows, HT hand. | K=2: all p 0.16-0.63 (Holm 1.0). K=4: site p 0.027 (Holm 0.19; the 13-word bin is Knossos-rich, z 4.2 on 4 tokens), all else p >= 0.25. | No independent support. |
+| LA-19.2b | Same, Hagia Triada tablets only (removes site / support confounds). | commodity p 0.32-0.47, number size 0.20-0.58, position 0.57-0.90, follows 0.19-0.97, hand 0.085-0.65. | No support inside HT. |
+| LA-19.2c | Positive control: LB personnel names (full and 3 LA-size draws), components vs site (KN / PY) and vs a Greek-looking / non-Greek-looking label (control label only, from LB values: final -o / -e-u vs -i / -u). | Full list K=2: site p 0.75, label p 0.39; K=5: 0.06, 0.05. LA-size draws: site p 0.0005-0.42, label p 0.0005-0.17. Over all 7 LB fits: site p < 0.05 in 4/7, label in 4/7. | The attribute test has partial power: on a real Greek + non-Greek name mix it fires in about half the fits. LA (1 of 24 raw p < 0.05, 0 after Holm) is therefore a moderate, not strong, negative. |
+| LA-19.2 | Cycle verdict | Components track no attribute in LA (site, support, commodity, number, position, hand), with or without the HT restriction. | NOT SUPPORTED (B, power partial). |

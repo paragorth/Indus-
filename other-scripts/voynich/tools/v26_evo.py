@@ -69,7 +69,8 @@ def main():
 
     def score(Xf):
         a, _ = cv_ridge(Xr, Xf, fold)
-        arc = float(np.mean([archive_auc(m, Xr, Xf, fold) for m in archive[-12:]])) if archive else a
+        # an archive critic that is fooled 'too well' (AUC < 0.5) still separates: use the symmetric AUC
+        arc = float(np.mean([max(x, 1 - x) for x in (archive_auc(m, Xr, Xf, fold) for m in archive[-12:])])) if archive else a
         return a, arc
 
     pool = Pool(2, initializer=winit, initargs=(name,))

@@ -1,0 +1,9 @@
+# LA-19 cycle 4: foreign words as outliers
+Script: tools/la19_c4.py. Outputs: data/la19/c4.json, c4b.json.
+Statistic: per-sign held-out surprisal of each word type under the pooled K=1 model (5-fold CV, from cycle 1), group mean minus rest; null = surprisal permuted among types of the same length (5,000).
+| LA-<n>.<cycle> | method and control | result | verdict |
+| LA-19.4a | Planted 80/20 mixtures (the 5 from 1d): minority words vs rest. | z +9.8 to +18.5 in 5/5 (including the 2 the K test missed). | Outlier test has full power where the component test failed. |
+| LA-19.4b | LB names: KN-only vs rest; non-Greek-looking label vs rest. Null: random 15% of K=1-resampled LA. | KN z +2.6 (p 0.006), PY z -2.1; non-Greek z +6.8 (p 0.0002). Random labels: z -0.6, -0.3, +1.8. | Positive control passes (Knossos names more foreign-shaped, as expected); null calibrated (1 of 3 at p 0.04). |
+| LA-19.4c | LA: words found only at one site (HT, KH, ZA, PH, KN, other) and words on each support. | Phaistos-only z +3.3 (p 0.0012; 46 types), roundel words z +4.2 (p 0.0004; 39). Stone-vessel words LESS surprising (z -4.4, formula repeats). Others |z| < 1.7. | Two outlier groups at nominal p < 0.005 (12 tests). |
+| LA-19.4d | Kill test: drop word types containing a rare sign (in <= 3 types) or an unnamed '*' sign (768 types left). | Phaistos-only z +1.37 (p 0.085); roundels z -0.45 (p 0.67). | KILLED: both effects are sign-inventory effects (MM II Phaistos signs *3xx, the *4xx-VS ligatures on roundels), not phonotactics. |
+| LA-19.4 | Cycle verdict | With a calibrated outlier test that recovers Knossos's non-Greek names, no LA place or support holds phonotactically foreign words once rare and unnamed signs are removed. | NOT SUPPORTED (B). |

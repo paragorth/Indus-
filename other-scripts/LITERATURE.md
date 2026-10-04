@@ -136,6 +136,11 @@ Other: Jamshidi Yeganeh et al. 2025, *JAS Reports*, https://doi.org/10.1016/j.ja
 11. **Grey literature, 2026.** Papanikolaou, "Structure before language: a pre-registered computational study of Minoan Linear A," Zenodo, https://zenodo.org/records/22867213. Not peer reviewed. Also press reports of an engineer's "Minoan is Semitic" claim (GreekReporter, Aug 2026). Not peer reviewed and uncontrolled.
     - The Zenodo study has locked pre-registration and a same-lexicon control. A Knossos-derived Mycenaean lexicon covers 18.2% of Pylos words but only 9.2% of readable LA words, so **Greek is rejected**. Unsupervised sign-role recovery fails (ARI 0.007). Six other language hypotheses were inconclusive. This is useful as a design pattern only, until it is reviewed.
 
+12. **Morita, J. 2018.** *Learning Japanese sublexica* (MIT dissertation, advisor A. Albright), https://dspace.mit.edu/handle/1721.1/120612. With O'Donnell.
+    - M: a Dirichlet-process mixture of phonotactic n-gram models fitted to a word list.
+    - R: the clusters recover the etymological sublexica of Japanese (Yamato, Sino-Japanese, foreign) and of English (Latinate vs native).
+    - C: this is the precedent for la19's mixture idea, on modern languages. It was not applied to Linear A. la19 shows that held-out K >= 2 is the default for single real word lists (33/36 languages), so clusters need external labels to count.
+
 ### Lessons for our approach: Linear A
 - **Already done (do not claim novelty):** KU-RO = total by arithmetic; fraction values by converging methods (2021); LB-value transfer for homomorphs (Packard 1974 onward); "LA is not Greek" (many studies, including Davis 2024 and the 2026 same-lexicon control); CH and LA as the same language via syllabotactics (Davis 2018/2024); VSO word order (Davis 2013). Any totals or fraction test we run on `linear-a/data/corpus.json` is a **replication**, and must be called that.
 - **Open questions:** what language family Minoan belongs to (no test has passed controls); what the transaction words other than KU-RO, KI-RO and PO-TO-KU-RO mean; how stable LB values are for rare signs; how the sign inventory varies by site and scribe (SigLA makes this testable).
