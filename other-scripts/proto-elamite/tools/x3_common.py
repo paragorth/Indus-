@@ -234,19 +234,23 @@ def train(model, data, steps, lr, bs, rng, evals=None, every=25):
 
 
 def pretrain(xname, cond, seed, steps=1500):
+    """Pretrain on condition cond. Returns (state dict, rowmap, xorder_rows) where rowmap and
+    xorder_rows are those of the REAL X sample: Y signs are always looked up through real X
+    labels / ranks, so a relabelled pretraining no longer lines up with them."""
     path = os.path.join(SCR, 'pre', f'{xname}_{cond}_{seed}_{PRE_TOK}.pt')
-    X, rowmap = make_x(xname, cond, seed)
-    xorder_rows = [rowmap[s] for s in rank_order(make_x(xname, 'real', seed)[0]) if s in rowmap]
+    Xr, realmap = make_x(xname, 'real', seed)
+    xorder_rows = [realmap[s] for s in rank_order(Xr) if s in realmap]
     if os.path.exists(path):
         sd = torch.load(path)
     else:
+        Xc, rowmap = make_x(xname, cond, seed)
         torch.manual_seed(seed)
         model = LM()
-        train(model, positions(encode(X, rowmap)), steps, 3e-3, 128, random.Random(seed))
+        train(model, positions(encode(Xc, rowmap)), steps, 3e-3, 128, random.Random(seed))
         sd = model.state_dict()
         os.makedirs(os.path.dirname(path), exist_ok=True)
         torch.save(sd, path)
-    return sd, rowmap, xorder_rows
+    return sd, realmap, xorder_rows
 
 
 def finetune(sd, ymap, ytr, yval, yte, seed, steps=240):
@@ -256,7 +260,8 @@ def finetune(sd, ymap, ytr, yval, yte, seed, steps=240):
         model.load_state_dict(sd)
     rng = random.Random(seed)
     tr, va, te = (positions(encode(z, ymap)) for z in (ytr, yval, yte))
-    curve = train(model, tr, steps, 3e-3, 64, rng, evals=[va, te], every=30)
+    curve = [[0, evaluate(model, va), evaluate(model, te)]]
+    curve += train(model, tr, steps, 3e-3, 64, rng, evals=[va, te], every=30)
     best = min(curve, key=lambda r: r[1])
     aulc = float(np.mean([r[2] for r in curve]))
     return {'best_step': best[0], 'test': best[2], 'aulc': aulc,
