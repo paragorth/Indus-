@@ -48,37 +48,48 @@ LEX = {}
 
 
 def decoded(m, lines):
+    """-> list of unit lists (None = unparsed) in reading order, coverage"""
     dec, cov = decode_lines(m, lines)
-    out = []
-    for u in dec:
-        if u is None:
-            out.append(None)
-        else:
-            out.append(''.join(unreorder(list(u), m['p']['reord'])))
-    return out, cov
+    return [None if u is None else unreorder(list(u), m['p']['reord']) for u in dec], cov
+
+
+def _hits(units_words, lex):
+    multi = [u for u in units_words if u and len(u) >= 2]
+    return sum(''.join(u) in lex for u in multi), len(multi)
 
 
 def rb_score(p, env, lines, rng_seed=0, bigram=False):
+    """score = coverage x (share of multi-unit decoded words that are real words
+    minus the same share after the decoded units are shuffled among multi-unit words, unit counts kept)"""
     m = build(p, env)
     key = (p['corpus'], p['abbr'])
     if key not in LEX:
         LEX[key] = lexicon(*key)
     lex, wbi = LEX[key]
-    words, cov = decoded(m, lines)
-    ws = [w for w in words if w]
-    if len(ws) < 200:
-        return {'score': -1.0, 'hit': 0, 'null': 0, 'cov': cov}
-    hit = sum(w in lex for w in ws if len(w) >= 2) / len(ws)
+    uw, cov = decoded(m, lines)
+    h, n = _hits(uw, lex)
+    if n < 200:
+        return {'score': -1.0, 'hit': 0, 'null': 0, 'cov': cov, 'n': n}
+    hit = h / n
     rng = random.Random(rng_seed)
-    letters = [c for w in ws for c in w]
-    nulls = []
-    for k in range(3):
-        rng.shuffle(letters)
-        it = iter(letters)
-        sh = [''.join(next(it) for _ in w) for w in ws]
-        nulls.append(sum(w in lex for w in sh if len(w) >= 2) / len(ws))
+    multi = [u for u in uw if u and len(u) >= 2]
+    # null: units shuffled among multi-unit words WITHIN position class (first / middle / last unit), so each
+    # slot keeps its unit distribution and word lengths are kept; only the combination of units is randomised
+    pools = {'I': [u[0] for u in multi], 'F': [u[-1] for u in multi], 'M': [x for u in multi for x in u[1:-1]]}
+
+    def shuf_hit():
+        for v in pools.values():
+            rng.shuffle(v)
+        iI, iF, iM = iter(pools['I']), iter(pools['F']), iter(pools['M'])
+        hh = 0
+        for u in multi:
+            w = next(iI) + ''.join(next(iM) for _ in u[1:-1]) + next(iF)
+            hh += w in lex
+        return hh / n
+    nulls = [shuf_hit() for _ in range(3)]
     null = sum(nulls) / len(nulls)
-    r = {'score': (hit - null) * min(1.0, cov / 0.6), 'hit': hit, 'null': null, 'cov': cov, 'n': len(ws)}
+    words = [None if u is None else ''.join(u) for u in uw]
+    r = {'score': (hit - null) * cov, 'hit': hit, 'null': null, 'cov': cov, 'n': n}
     if bigram:
         r['bihit'] = pmi(words, wbi)
         allw = [x for l in lines for x in l]
@@ -88,16 +99,10 @@ def rb_score(p, env, lines, rng_seed=0, bigram=False):
             it = iter(allw)
             Lw = [[next(it) for _ in l] for l in lines]
             w2, _ = decoded(m, Lw)
-            bs.append(pmi(w2, wbi))
+            bs.append(pmi([None if u is None else ''.join(u) for u in w2], wbi))
         mu = sum(bs) / len(bs); sd = (sum((x - mu) ** 2 for x in bs) / 9) ** 0.5 or 1e-6
         r['bihit_null'] = mu; r['z_bihit'] = (r['bihit'] - mu) / sd
-        # letter-shuffle null spread for z of the word-hit excess
-        zs = []
-        for k in range(20):
-            rng.shuffle(letters)
-            it = iter(letters)
-            sh = [''.join(next(it) for _ in w) for w in ws]
-            zs.append(sum(w in lex for w in sh if len(w) >= 2) / len(ws))
+        zs = [shuf_hit() for _ in range(20)]
         mu = sum(zs) / len(zs); sd = (sum((x - mu) ** 2 for x in zs) / 19) ** 0.5 or 1e-6
         r['z_hit'] = (hit - mu) / sd
         r['sample'] = ' '.join(w or '?' for w in words[:30])
