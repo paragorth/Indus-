@@ -164,8 +164,8 @@ def halves(lines_with_folio):
 def corpus(name, rng):
     """returns (train_lines, test_lines, truth) with truth = {word: (entry pitch, exit pitch)} for chant."""
     truth = None
-    if name in ('ZL', 'IT'):
-        vz = L53.load_voynich('ZL3b' if name == 'ZL' else 'IT2a')
+    if name.split('_')[0] in ('ZL', 'IT'):
+        vz = L53.load_voynich('ZL3b' if name.startswith('ZL') else 'IT2a')
         lf = [(l['folio'], l['words']) for l in vz]
     elif name.startswith('chant') or name.startswith('LA') or name.startswith('DE'):
         base = name.split('_')[0] if not name.startswith('chant') else 'chant'
@@ -253,6 +253,18 @@ def run(name, K, R, seed=0):
         if tag not in res['cand'] or full_ll(m) / len(btr) > res['cand'][tag][0]:
             res['cand'][tag] = (full_ll(m) / len(btr), m.score(btr, bte))
     blind = max(cands, key=lambda c: full_ll(c[1]))
+    # iterated local search from the best blind solution: perturb 15% of assignments, refit, keep if better
+    bm = blind[1]
+    for it in range(8):
+        ie = {x: (int(rng.integers(0, K)) if rng.random() < 0.15 else int(bm.ce[i])) for x, i in bm.ei.items()}
+        is_ = {x: (int(rng.integers(0, K)) if rng.random() < 0.15 else int(bm.cs[i])) for x, i in bm.si.items()}
+        m2 = Model(K, True, rng).fit(btr, init=(ie, is_))
+        if full_ll(m2) > full_ll(bm):
+            bm = m2
+    blind = ('ils', bm)
+    res['blind'] = {'ll': full_ll(bm) / len(btr), 'heldout_gain': bm.score(btr, bte),
+                    'kernel': [round(float(x), 2) for x in bm.kernel]}
+    res['R_blind'] = res['blind']['heldout_gain'] / max(1e-9, res['free']['heldout_gain'])
     if truth:
         lo = min(p for e in truth.values() for p in e)
         ie = {w: min(K - 1, max(0, p[1] - 2)) for w, p in truth.items()}
@@ -269,11 +281,18 @@ def run(name, K, R, seed=0):
     if truth:
         from scipy.stats import spearmanr
         xs, ys, xe, ye = [], [], [], []
+        mb = blind[1]
+        xs2, xe2 = [], []
+        for w in keep:
+            if w in truth and w in mb.si and w in mb.ei:
+                xs2.append(mb.cs[mb.si[w]]); xe2.append(mb.ce[mb.ei[w]])
         for w in keep:
             if w in truth and w in m.si and w in m.ei:
                 xs.append(m.cs[m.si[w]]); ys.append(truth[w][0]); xe.append(m.ce[m.ei[w]]); ye.append(truth[w][1])
         res['recover_entry_rho'] = float(abs(spearmanr(xs, ys)[0]))
         res['recover_exit_rho'] = float(abs(spearmanr(xe, ye)[0]))
+        res['blind_entry_rho'] = float(abs(spearmanr(xs2, ys)[0]))
+        res['blind_exit_rho'] = float(abs(spearmanr(xe2, ye)[0]))
     res['R'] = res['pitch']['heldout_gain'] / max(1e-9, res['free']['heldout_gain'])
     return res
 

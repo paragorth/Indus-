@@ -1,0 +1,5 @@
+v69 cycle 5 (5 Oct 2026): massive random guessing of 'slow-down' word classes. Tool: tools/v69_c5.py. Out: data/v69_ckpt/c5.json.
+~4,300-4,800 random word classes per corpus (frequency band x distributional cue: page concentration, line-initial lean, paragraph-first-line lean; random type subsets; neighbour-glyph context classes; first-on-page x frequency band), scored by residual care difference (c1 index) on one half of the pages; top 1% re-tested on the other half (survivor = same sign, |z| > 2.5). Null: identical pipeline on care permuted within (glyph count, first, last glyph) strata, 10 runs.
+
+| V-69.5a | Latin control | 1 survivor (best: a frequency-band x cue class, discovery z 8.7, held-out 3.4); null runs 0-14 survivors (median 5.5) | CONTROL FAILS: Latin has no class of words written with more (or less) care beyond chance |
+| V-69.5b | Voynich | 2 survivors (both random type subsets, held-out z -2.7 and -2.5, i.e. less care); null runs 0-3 (median 0) | No class of Voynich words is written with replicable extra care; the two survivors are random type subsets at the null rate |

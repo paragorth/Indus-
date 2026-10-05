@@ -299,7 +299,7 @@ def score(toks, pages, nshuf=20, seed=0):
         # keep page order as in the text: P is non-decreasing in reading order only if pages are contiguous
         S.append(_stats(T[o], P[o], V))
     S = np.array(S)
-    mu, sd = S.mean(0), S.std(0) + 1e-9
+    mu, sd = S.mean(0), np.maximum(S.std(0), np.array([1e-3, 0.5, 0.5, 1e-3]))
     z = (np.array(obs) - mu) / sd
     cnt = Counter(toks)
     return {'MI_z': float(z[0]), 'ASYM_z': float(z[1]), 'REC_z': float(z[2]),
@@ -327,3 +327,8 @@ def purity(toks, truth):
 def row(fn, rid, method, result, verdict):
     with open(fn, 'a') as f:
         f.write(f'| {rid} | {method} | {result} | {verdict} |\n')
+
+
+def nmi_ex(toks, truth, seed=0):
+    t2 = list(truth); random.Random(seed).shuffle(t2)
+    return nmi(toks, truth) - nmi(toks, t2)

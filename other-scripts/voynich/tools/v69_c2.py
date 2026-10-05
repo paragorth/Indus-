@@ -92,11 +92,29 @@ def where(D, freq, q=97):
     return out
 
 
+def instrument(D):
+    # raw (page-z, not residualised) features at the last word of a line vs line-interior words of the same
+    # glyph count: scribes are known to compress at line ends; a working instrument should see it
+    nw = np.array([r['nw'] for r in D.R]); last = D.k == nw - 1; inner = (D.k > 0) & ~last
+    out = {}
+    for f in ['wpg', 'hgt', 'upright', 'ncomp', 'gapcv', 'irr', 'swid', 'dark']:
+        v = D.raw[f]; ds = []
+        for g in np.unique(D.g):
+            a = v[last & (D.g == g)]; b = v[inner & (D.g == g)]
+            if len(a) > 10 and len(b) > 10:
+                ds.append((a.mean() - b.mean(), len(a)))
+        d = sum(x * n for x, n in ds) / sum(n for _, n in ds)
+        out[f] = round(float(d), 3)
+    return out
+
+
 if __name__ == '__main__':
     vf, _ = X.voynich_freq(); lf = X.latin_freq()
     V = C1.Data('V'); L = C1.Data('L')
-    res = {'V_power': power(V, vf), 'V_types': careful_types(V, vf), 'L_types': careful_types(L, lf),
-           'V_where': where(V, vf), 'L_where': where(L, lf)}
+    res = {'V_instr': instrument(V), 'L_instr': instrument(L)}
+    print('instr', res, flush=True)
+    res.update({'V_power': power(V, vf), 'V_types': careful_types(V, vf), 'L_types': careful_types(L, lf),
+           'V_where': where(V, vf), 'L_where': where(L, lf)})
     F = C1.Data('V', lambda f: f in ('f58r', 'f58v'))
     C1.NP = 400
     res['V_f58'] = C1.run(F, vf, 'V_f58')
