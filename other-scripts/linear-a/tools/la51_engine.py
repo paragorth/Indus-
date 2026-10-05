@@ -131,7 +131,7 @@ def run(M, n_preds=2000, splits=40, seed=0, dep_of=None, C=None, X=None, track=N
         zfull, kfull = cmh_z(X, Cs, strata, np.ones(len(dep_of), bool))
         single = {}
         for j, kk in enumerate(keys):
-            if kk[0] == 0 and len(kk[1]) == 1: single[kk[1][0]] = j
+            if kk[0] == 0 and len(kk[1]) == 1 and kk[2] == (0,): single[kk[1][0]] = j
         res['probes'] = {}
         for (t, c) in probes:
             if t not in M['terms']: continue

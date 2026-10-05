@@ -35,6 +35,8 @@ def main(which, Afile, k):
         truth = np.unique([t['group'] for t in T], return_inverse=True)[1]
     elif which == 'plant':
         T, truth, _ = plant(P.load_pe(), np.random.default_rng(5))
+    elif which == 'plant0':
+        T, truth, _ = plant(P.load_pe(), np.random.default_rng(6), follow=0.0)
     else:
         T = P.load_pe()
         truth = None

@@ -98,10 +98,39 @@ def strat_kin(scores_pos_neg_by_n):
     return num / den if den else float('nan')
 
 
+def family_control(rng):
+    """real Ur III families from seal patronymics (father + 2-4 sons, opaque syllables, {d} deleted)
+    vs tablets of the same size drawn from the same names at random."""
+    d = json.load(open(os.path.join(HERE, '..', 'data', 'pe7_corpora.json')))
+    fa = collections.defaultdict(set)
+    for p in d['UR3_PAT']:
+        fa[tuple(p['father'])].add(tuple(p['son']))
+    op = lambda n: tuple(x for x in n if x != '{d}')
+    fams = [[op(f)] + [op(s) for s in sorted(v)] for f, v in fa.items() if 2 <= len(v) <= 4]
+    alln = [n for f in fams for n in f]
+    rnd = [[alln[rng.randrange(len(alln))] for _ in f] for f in fams]
+    C, inv = encode(fams + rnd)
+    lab = [1] * len(fams) + [0] * len(rnd)
+    clf = pickle.load(open(os.path.join(CK, 'clf_UR3.pkl'), 'rb'))
+    k, _, _, _, m = apply(clf, C)
+    ks = kin_scores(C, dict(zip(k, m)))
+    def share(t):
+        u = list(dict.fromkeys(t)); p = h = 0
+        for i in range(len(u)):
+            for j in range(i + 1, len(u)):
+                p += 1; h += bool(set(u[i]) & set(u[j]))
+        return h / p if p else 0
+    sh = [share(t) for t in C]
+    return dict(n_fam=len(fams), auc_kinscore=auc([s for s, l in zip(ks, lab) if l and s is not None], [s for s, l in zip(ks, lab) if not l and s is not None]),
+                auc_rawshare=auc([s for s, l in zip(sh, lab) if l], [s for s, l in zip(sh, lab) if not l]),
+                share_fam=float(np.mean([s for s, l in zip(sh, lab) if l])), share_rnd=float(np.mean([s for s, l in zip(sh, lab) if not l])))
+
+
 def main():
     D = load_corpora()
     rng = random.Random(4546)
-    res = {}
+    res = {'UR3_FAMILY': family_control(rng)}
+    print('UR3_FAMILY', res['UR3_FAMILY'], flush=True)
     for which in ('PE', 'UR3'):
         clf = pickle.load(open(os.path.join(CK, 'clf_%s.pkl' % which), 'rb'))
         C, inv = encode([t['names'] for t in D[which]])

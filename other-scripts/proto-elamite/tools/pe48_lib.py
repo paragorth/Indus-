@@ -253,12 +253,24 @@ class Data:
 
 
 def gmat(dat, th):
-    """G[c, j]: class c = 0 travelling, c = 1+h homed at site h."""
+    """G[c, j]: class c = 0 travelling; c = 1 + e*H + h homed at site h with floor level e
+    (floors theta.eps * 4^-e, e = 0..NEPS-1: each sign picks its own contrast)."""
     D = dat.Dm[th['metric']]
     H = len(dat.sites)
-    g = th['eps'] + (1 - th['eps']) * np.exp(-D / th['L'])
-    g = g * (dat.M[None, :] / dat.M[:, None]) ** th['b']
-    return np.vstack([np.ones((1, H)), g])
+    rows = [np.ones((1, H))]
+    for e in range(NEPS):
+        ep = th['eps'] * 4.0 ** (-e)
+        g = ep + (1 - ep) * np.exp(-D / th['L'])
+        rows.append(g * (dat.M[None, :] / dat.M[:, None]) ** th['b'])
+    return np.vstack(rows)
+
+
+NEPS = 4
+
+
+def home_of(cls, H):
+    """Collapse raw class index to 0 = travelling, 1 + h = homed at site h."""
+    return np.where(cls == 0, 0, 1 + (cls - 1) % H)
 
 
 def _ll(Y, rate):
@@ -323,7 +335,7 @@ def folds(dat, k, rng):
 
 def rand_theta(rng):
     return dict(L=float(np.exp(rng.uniform(np.log(30), np.log(5000)))),
-                eps=float(rng.uniform(0.0, 0.6)), b=float(rng.uniform(-0.5, 0.5)),
+                eps=float(rng.uniform(0.02, 0.8)), b=float(rng.uniform(-0.5, 0.5)),
                 metric=str(rng.choice(['gc', 'route'])), pen=float(rng.uniform(0, 8)))
 
 
@@ -355,7 +367,7 @@ def travel_posterior(dat, thetas, Yover=None):
     allm = np.ones(len(dat.site), bool)
     for th in thetas:
         cls, tll, _ = fit_eval(dat, th, allm, allm, Yover, return_cls=True)
-        P[np.arange(len(cls)), cls] += 1
+        P[np.arange(len(cls)), home_of(cls, len(dat.sites))] += 1
         llr += tll[0] - (tll[1:] + th['pen']).max(0)
     n = max(1, len(thetas))
     return P / n, llr / n

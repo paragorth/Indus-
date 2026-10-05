@@ -15,7 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from pe40_common import pe_rounds  # noqa
 CK = os.path.join(HERE, '..', 'data', 'pe45_ckpt')
-SCR = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad'
+SCR = os.environ.get('CDLI_DIR', os.path.join(CK, 'cdli'))  # folder holding cdli.atf and cdli_cat.csv (CDLI bulk dump)
 STOP = {'lugal', 'ensi2', 'dumu', 'nu-banda3', 'szabra', 'sanga', 'dub-sar', 'sukkal', 'ugula', 'giri3',
         'kiszib3', 'ki', 'maszkim', 'i3-dab5', 'szu', 'ba-ti', 'lu2', 'nin', 'e2', 'dam', 'gurusz', 'geme2',
         'arad2', 'sza3', 'erin2', 'gu4', 'udu', 'sila4', 'masz2', 'ur', 'nam', 'iti', 'mu', 'u4', 'u3',
