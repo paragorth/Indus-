@@ -65,6 +65,11 @@ def main(tag):
         mm = sorted(set(LP[c]) & set(LP[c + '~shuf']))
         prof[c] = np.mean([np.mean(LP[c][m], 0) - np.mean(LP[c + '~shuf'][m], 0) for m in mm], 0)
     langs = [c for c in prof if c in LANGCODE]
+    out.append('\nSPLIT-HALF RELIABILITY of each shift profile (odd vs even mappings, Pearson over 99 languages)')
+    for c in prof:
+        mm = sorted(set(LP[c]) & set(LP[c + '~shuf']))
+        D = np.array([np.mean(LP[c][m], 0) - np.mean(LP[c + '~shuf'][m], 0) for m in mm])
+        out.append(f'{c}: r {np.corrcoef(D[0::2].mean(0), D[1::2].mean(0))[0, 1]:+.2f}')
     out.append('\nSHIFT-PROFILE CORRELATION (Pearson over 99 languages) with each control language')
     for c in prof:
         out.append(f'{c}: ' + ' '.join(f'{l}:{np.corrcoef(prof[c], prof[l])[0, 1]:+.2f}' for l in langs if l != c))
