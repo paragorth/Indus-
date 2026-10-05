@@ -1,0 +1,18 @@
+pe41 cycle 1 -- LET MACHINES REINVENT WRITING, THEN COMPARE (tools/pe41_lib.py, pe41_run.py, pe41_analyze.py, pe41_diff.py;
+numbers data/pe41_c1.json, data/pe41_c1_diff.json; runs in data/pe41_ckpt/c1.jsonl.gz, git-ignored).
+Simulator: random toy economy (1-25 offices, 0-12 places, grain/animal/product/worker goods with capacity or counted units,
+qualifiers, 10-1500 persons, 5 tablet types ration/delivery/labor/inventory/debt, purity, totals) + a population that must
+let a reader rebuild each transaction: lexicon from a Lewis signalling game (Roth-Erev, sign budget K 20-600), name length from a
+cost/collision trade-off, what-to-write-where from cultural hill-climbing on reader reward minus sign cost, slot order convention,
+variant innovation. Each invented sign has a known class (OFFICE PLACE ACTION COMMODITY QUALIFIER NAME TOTAL).
+Alignment: 16 per-sign behaviour features (frequency, header/total/entry-initial/final/solo share, capacity/fraction numeral share,
+dispersion, line position, partner diversity, line length, 4 co-occurrence-neighbour averages), rank-normalised per corpus;
+Hungarian assignment refined twice by co-occurrence-graph consistency. 964 populations (of 1000 seeds), each aligned to PE,
+3 token-shuffled PE, PE tablet halves A/B, proto-cuneiform (PC, 5,257 tablets) and 12 held-out invented systems.
+
+| PE-41.1a | CONTROL held-out invented systems (12, not in pool): pooled vote vs true class | plain accuracy 0.60 vs label-permutation 0.40 (12/12 p<0.05) but below majority-class 0.68; enrichment vote balanced accuracy 0.43 vs 0.17 (10/12 p<0.05) | PASS: a pooled machine vote recovers sign classes of an unseen invented script |
+| PE-41.1b | CONTROL proto-cuneiform with pre-registered known classes (47 commodity signs: grain, animals, workers, products; 6 titles; 9 places; 5 action signs) | COMMODITY vote share 0.249 vs random-sign null 0.257 (p 0.70); rank-matched null p 0.03; OFFICE p 0.87; ACTION p 0.36; PLACE 0.044 vs 0.020 (p 0.0005, but top label for 0/9) | FAIL: the known grain/animal/worker signs of PC are not voted COMMODITY |
+| PE-41.1c | CONTROL token-shuffled PE (3 shuffles): stable votes (same label enriched z>=3 in both seed-parity halves of the populations) | PE 171 stable; shuffles 167, 170, 176; per-sign PE-vs-shuffle differential 147/253 signs, but shuffle-vs-shuffle gives 154/259 | FAIL: any fixed corpus, even a shuffled one, gets as many 'stable' votes. Rank-normalising shares turns shuffle noise into full-range features, and population halves replicate the target's noise, not its meaning |
+| PE-41.1d | PE tablet halves A/B: top-vote agreement for 121 signs in both | 0.61 vs permutation 0.41 (p<0.001) | not interpretable without the same test on shuffled halves (added in cycle 2) |
+| PE-41.1e | Which economy makes invented systems align best with PE (Spearman with mean matched distance, 964 pops) | best 5%: names written rarely (write-name prob 0.21 vs 0.67), short names (L 1.6 vs 2.4), higher sign cost (0.39 vs 0.25), fewer ration tablets; same direction for shuffled PE (rho 0.17/0.16) and PC (0.31/0.36) | GENERIC: these settings make any target align better; not PE-specific |
+| PE-41.1V | Cycle verdict | Machine-invented scripts are learnable by the method (held-out passes) but real targets are not: PC fails, shuffled PE ties real PE | KILLED as run; cycle 2 removes rank-normalisation and replaces population-half stability with target-half (tablet split) replication against shuffled halves |

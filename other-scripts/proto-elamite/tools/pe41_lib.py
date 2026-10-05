@@ -420,7 +420,7 @@ FEAT = ['logfreq', 'header', 'total', 'init', 'final', 'solo', 'cap', 'frac', 'd
         'partners', 'linelen', 'nb_header', 'nb_solo', 'nb_cap', 'nb_final']
 
 
-def features(tabs, fmin=8, maxsigns=None):
+def features(tabs, fmin=8, maxsigns=None, shrink=0.0):
     from collections import defaultdict, Counter
     cnt = Counter(s for t in tabs for l in t for s in l['signs'])
     keep = [s for s, c in cnt.most_common() if c >= fmin]
@@ -472,6 +472,12 @@ def features(tabs, fmin=8, maxsigns=None):
     G[:, 9] = F[:, 9] / tok
     G[:, 10] = np.array([len(x) for x in partners]) / tok
     G[:, 11] = F[:, 11] / tok
+    if shrink > 0:
+        # empirical-Bayes shrinkage of each share toward the corpus-wide token rate
+        for j, den in [(1, tok), (2, tok), (3, multi_tok), (4, multi_tok), (5, entry_tok), (6, entry_tok), (7, entry_tok)]:
+            num = G[:, j] * np.maximum(den, 1) if j not in (1, 2) else G[:, j] * tok
+            mu = num.sum() / max(den.sum(), 1)
+            G[:, j] = (num + shrink * mu) / (den + shrink)
     An = A / np.maximum(A.sum(1, keepdims=True), 1)
     G[:, 12] = An @ G[:, 1]; G[:, 13] = An @ G[:, 5]; G[:, 14] = An @ G[:, 6]; G[:, 15] = An @ G[:, 4]
     return keep, G, An
@@ -516,3 +522,14 @@ def corpus_stats(tabs):
                      np.mean(lens >= 3), hdr, totl, math.log(epert), cap, top10, tot / len(tabs)])
 
 STATN = ['log_types', 'hapax', 'len0', 'len1', 'len2', 'len3+', 'header_tab', 'total_tab', 'log_entries_per_tab', 'cap_share', 'top10_share', 'signs_per_tab']
+
+
+def prep(G):
+    """cycle 2 normalisation: frequency as rank quantile, behaviour shares kept on their raw 0-1 scale
+    (rank-normalising shares turned shuffle noise into full-range features in cycle 1)."""
+    from scipy.stats import rankdata
+    H = G.copy()
+    H[:, 0] = (rankdata(G[:, 0]) - 0.5) / G.shape[0]
+    H[:, 10] = np.minimum(G[:, 10], 1.0)
+    H[:, 11] = np.minimum(G[:, 11] / 6.0, 1.0)
+    return H

@@ -1,0 +1,31 @@
+LA-46 cycle 1: HIRE A FORGER AND WATCH WHERE HE FAILS (item-level inversion of the forger contest)
+Date 5 Oct 2026. Scripts: tools/la46_common.py (corpora, relations, forger ensemble, contest), tools/la46_c1.py,
+tools/la46_report1.py. Checkpoints data/la46_ckpt/c1_*.json.
+Novelty check: la14 already ran a DOCUMENT-level forger contest (24 forgers, ~16,000 pairings) and found that
+survivors are accounting structure (scale, templates, totals). Web search (forgery/discriminator residue +
+undeciphered administrative script) finds nothing. So LA-46 changes the idea: no document-level AUC; instead every
+specific relation instance is scored, and the question is WHICH items real tablets keep beating the forgers on.
+Corpus: 311 LA documents with >= 4 content tokens (3,622 tokens; sides a/b are separate documents).
+Relations (presence per document): XS last sign of word -> first sign of next word; WN word -> log2 scale of next
+number; WL word -> logogram within 2; LN logogram -> number scale; ES entry word -> next entry word; CO two word
+types on one document, not adjacent; SW site x word; NN number scale -> next scale; TOT word + number = running sum
+(>= 2 terms); PF word first / last.
+Forgers: 200 random architectures (back-off n-gram order 1-4 over randomly abstracted contexts: rare words merged at
+fmin 1-10 or never kept; numbers as log2 bins / 4 coarse classes / kind; logograms exact / base / kind; alpha
+0.05-5; optional line index, site, tablet clusters K 2-8 (k-means on tf-idf), copied layout templates, line-reset),
+16 groups. 5-fold CV by document, 3 forgeries per held-out document per architecture (~93,000 forged documents
+per corpus). Residue p = P(Poisson(E) >= R), R = held-out real documents with the relation, E = forged expectation.
+Strict rule: E = max over the 16 groups ('beats every forger'). Liberal rule: E = min over groups (beats the weakest),
+calibrated by the null corpora.
+Controls (all through the identical pipeline): W1, W2 = worlds written by two forger architectures fitted on all LA
+(negative: residues = re-estimation artefacts); SH1, SH2 = LA tokens shuffled globally within kind, layout kept
+(negative); PL1, PL2 = forger worlds with 6 planted hidden constraints each (word -> fixed number scale, and a
+partner word added on a later line of the same tablet, p 0.8) (positive); LB1, LB2 = DAMOS KN+PY sampled to LA token
+count, words as opaque ids; UR1, UR2 = Ur III (CDLI-derived pe38 docs) sampled to LA size. Truth labels for LB/UR
+(totals, places, verbs, commodities...) used only to score controls.
+
+| LA-46.1a | Strict rule (beat every forger group), p < 1e-4, all 11 corpora. | LA: 1 residue of 404 tested: TOT KU-RO (7 held-out documents end a section with KU-RO + exact running sum; forger expectation 0.33). UR2: 1 (a running sum). All other corpora 0, INCLUDING the planted worlds (0/12 planted relations; best planted CO pair p 2e-4) and LB (0 of 365). | The strict inversion has no power at LA size: every relation a real writer repeats >= 3 times is also produced by at least one forger group at a comparable rate. Only the KU-RO total survives (grade A, already known: la1/la14). |
+| LA-46.1b | Liberal rule (beat the weakest group), p < 1e-3, per-family pass rate vs the two forger worlds (Fisher, one-sided). | CO (tablet co-occurrence): LA 23/46 = 0.50 vs worlds 35/176 = 0.20, P = 7e-5; LB1 41/51 = 0.80 (P 3e-15), LB2 39/95 = 0.41 (P 2e-4); PL1 31/87 (P 0.005), PL2 20/88 (P 0.35); SH 6/67 (0.09; P 0.99); UR1 35/764 (0.05; FAILS). Every adjacent family (WN, WL, LN, XS, NN, PF) is at or below the world rate in LA, LB and the planted worlds; planted word->number scales are NOT found (1/6, 2/6): an adjacent constraint is a surface statistic and any forger copies it. | The only family where real tablets beat the forgers is long-range: which words share a tablet. LB positive control passes on both draws; planted control 1 of 2; Ur III fails (its LA-sized sample is ~100 long formulaic documents that cluster forgers reproduce). |
+| LA-46.1c | What the LB CO residues are (truth used for scoring only). | LB top CO/ES residues: a-ta-ra-si-jo + e-ko-te + ka-ko (bronze-smiths with / without bronze), ka-ko + ta-ra-si-ja (bronze allotment), e-ke-qe + ko-to-na and da-mo + o-na-to (land tenure), ko-wa + ko-wo (girls + boys in personnel lists), ke-ke-me-na + te-o-jo, ko-ri-ja-do-no + po-ni-ki-jo (spices), pu-ro -> MUL. TOTAL words 8/63 of LB1 residues vs 12/163 tested. | Positive control: the residues land on real-world schemata (a work-group, a land-tenure transaction, a personnel census, a spice list), i.e. on sets of entities that recur together because the world bundles them. |
+| LA-46.1d | The LA CO / ES residues (liberal), and the documents behind them. | (i) DA-ME, DI-DE-RU, SA-RU, KU-NI-SU, MI-NU-TE all pairwise: HT 86a/b, HT 95a/b (two tablets, both sides); (ii) *306-TU, PA-DE, *324-DI-RA: HT 9a/b, HT 122a; (iii) PA + QA-*310-I: HT 8a, 85b, 122a; (iv) A-TA-I-*301-WA-JA with I-PI-NA-MA, U-NA-KA-NA-SI, SI-RU-TE (the libation formula on stone vessels); (v) *28B-NU-MA-RE + SI-PI-KI: ZA 4a, 5b, 15a; (vi) SA-RA2 -> NI entry succession, 11 HT tablets (E 4.0 strict); TE -> SA-RO, 4 HT tablets. | Item-level residues are recurring CASTS: the same 3-5 entries listed together on separate tablets (two sides of one tablet count twice here: cycle 3 merges sides). The libation formula is a text, not the world, and is reported as a formula residue. |
+| LA-46.1 | Cycle verdict | Strict inversion: powerless (0/12 planted, 0 LB), only KU-RO = total survives. Liberal + world calibration: one constraint type survives in LA and in LB: recurring casts (which entries share a tablet). Adjacent pairings (word-number, word-logogram, logogram-number, sign pairs) are never residues: forgers copy them. | B (calibrated, family level): LA tablets bundle entries into recurring casts beyond every forger world (0.50 vs 0.20). C: the specific casts (HT 86/95 group; HT 9/122 group; ZA *28B-NU-MA-RE + SI-PI-KI) (would support: held-out prediction in cycle 2; would kill: the excess vanishing when sides are merged and CV is grouped by tablet). |

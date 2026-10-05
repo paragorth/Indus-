@@ -99,8 +99,36 @@ def c2():
 
 
 def c3():
-    R = json.load(open(os.path.join(CK, 'c3.json')))
-    print(json.dumps(R.get('summary', {}), indent=1)[:6000])
+    import glob
+    import pe38_common as C
+    R = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(CK, 'c3_*.json')))]
+    by = {(r['kind'], r['sp'], r['half']): r for r in R}
+    for kind in ('PE', 'NULL', 'PC'):
+        sps = sorted({sp for k, sp, h in by if k == kind})
+        ag, agn, both = [], [], collections.Counter()
+        for sp in sps:
+            if (kind, sp, 0) not in by or (kind, sp, 1) not in by:
+                continue
+            F = [C.good_forced(by[(kind, sp, h)])[0] for h in (0, 1)]
+            for a, b in ((0, 1), (1, 0)):
+                oth = by[(kind, sp, b)]['nocc']
+                el = [w for w in F[a] if oth.get(w, 0) >= 3]
+                same = [w for w in el if F[b].get(w) == F[a][w]]
+                ag.append(len(same) / len(el) if el else float('nan'))
+                eln = [w for w in el if F[a][w] != 'NAM']
+                agn.append(sum(F[b].get(w) == F[a][w] for w in eln) / len(eln) if eln else float('nan'))
+                if a == 0:
+                    for w in same:
+                        both[(w, F[a][w])] += 1
+            line = '%s split %d: forced %d / %d' % (kind, sp, len(F[0]), len(F[1]))
+            if kind == 'PC':
+                line += ' strict %s' % [round(C.score_forced(f, C.PC_LAB)[0], 2) for f in F]
+            print(line)
+        print(kind, 'held-out agreement (forced in one half, same forced role in the other): mean %.3f %s' % (np.nanmean(ag), np.round(ag, 2)))
+        print(kind, '  non-NAM only: mean %.3f %s' % (np.nanmean(agn), np.round(agn, 2)))
+        nn = collections.Counter(r for (w, r), c in both.items())
+        print(kind, '  forced same role in both halves (sign-role, n splits):', dict(nn),
+              sorted([(w, r, c) for (w, r), c in both.items() if r != 'NAM'], key=lambda x: -x[2])[:30])
 
 
 if __name__ == '__main__':
