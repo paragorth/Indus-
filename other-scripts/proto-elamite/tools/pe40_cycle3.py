@@ -38,7 +38,14 @@ def climb(C, P, theta, wd, sweeps=30):
     return theta
 
 
+def modmat(C):
+    k = C.sum(1); m = k.sum()
+    return C - np.outer(k, k) / max(m, 1e-9)
+
+
 def climb_fast(C, P, theta, wd, sweeps=30, rng=None):
+    """C should be the modularity matrix (co-occurrence minus degree expectation), so that piling every player
+    into one slot is not rewarded."""
     n = len(theta)
     D = np.abs(np.arange(P)[:, None] - np.arange(P)[None, :]); D = np.minimum(D, P - D)
     Wm = wd[np.minimum(D, len(wd) - 1)]
@@ -62,17 +69,17 @@ def objective(C, P, theta, wd):
 
 
 def dist_hist(Ct, P, theta, mask):
+    """held-out pair mass at each cyclic distance, and the chance expectation from the actual slot sizes."""
     D = np.abs(theta[:, None] - theta[None, :]); D = np.minimum(D, P - D)
-    h = np.zeros(P // 2 + 1)
     M = Ct * mask
-    for d in range(P // 2 + 1):
-        h[d] = M[D == d].sum()
-    # chance: number of slot-pairs at each distance
-    cnt = np.array([P if d in (0, P / 2) else 2 * P for d in range(P // 2 + 1)], float) / P ** 2
-    return h / max(h.sum(), 1e-9), cnt
+    k = M.sum(1)
+    h = np.array([M[D == d].sum() for d in range(P // 2 + 1)]) + 0.5
+    E = np.outer(k, k); np.fill_diagonal(E, 0)
+    c = np.array([E[D == d].sum() for d in range(P // 2 + 1)]) + 0.5
+    return h / h.sum(), c / c.sum()
 
 
-def rota_index(X, P, rng, starts=200, keep=5, fit_frac=0.5, nsplit=3):
+def rota_index(X, P, rng, starts=100, keep=5, fit_frac=0.5, nsplit=3):
     wd = np.array([1.0, 0.5, 0.0])
     out = []
     for s in range(nsplit):
@@ -80,21 +87,21 @@ def rota_index(X, P, rng, starts=200, keep=5, fit_frac=0.5, nsplit=3):
         Xf, Xt = X[idx[:nf]], X[idx[nf:]]
         seen = Xf.sum(0) > 0
         Cf, Ct = cooc(Xf), cooc(Xt)
+        Bf = modmat(Cf)
         mask = np.outer(seen, seen)
         res = []
         for k in range(starts):
             th = rng.integers(0, P, X.shape[1])
-            th = climb_fast(Cf, P, th, wd, rng=rng)
-            res.append((objective(Cf, P, th, wd), th.copy()))
+            th = climb_fast(Bf, P, th, wd, rng=rng)
+            res.append((objective(Bf, P, th, wd), th.copy()))
         res.sort(key=lambda r: -r[0])
         RI, SAME, RIr = [], [], []
         for _, th in res[:keep]:
             h, c = dist_hist(Ct, P, th, mask)
-            rel = h / c
-            RI.append(rel[1] / max(rel[2:].mean(), 1e-9)); SAME.append(rel[0])
+            RI.append((h[1] / c[1]) / (h[2:].sum() / c[2:].sum())); SAME.append(h[0] / c[0])
         thr = rng.integers(0, P, X.shape[1])
-        h, c = dist_hist(Ct, P, thr, mask); rel = h / c
-        RIr.append(rel[1] / max(rel[2:].mean(), 1e-9))
+        h, c = dist_hist(Ct, P, thr, mask)
+        RIr.append((h[1] / c[1]) / (h[2:].sum() / c[2:].sum()))
         out.append(dict(RI=float(np.mean(RI)), SAME=float(np.mean(SAME)), RI_rand=float(np.mean(RIr)),
                         best_theta=res[0][1].tolist()))
     return dict(RI=float(np.mean([o['RI'] for o in out])), SAME=float(np.mean([o['SAME'] for o in out])),

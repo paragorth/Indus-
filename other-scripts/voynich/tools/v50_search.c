@@ -19,7 +19,8 @@
 #define MAXW 64
 typedef struct { int wid, hid, ng; int g[24]; } Word;
 typedef struct { int ps, nw, nc; Word *w; int *ch; } Line;   /* ch: glyph codes with -1 for spaces */
-typedef struct { int nl; Line *l; } Page;
+typedef struct { int nl; Line *l; int *woff, *coff; } Page;
+static int *VIS; static int VSTAMP = 0;
 static Page *P; static int NP;
 
 typedef struct { uint8_t unit, sel, start, fr, mode, m, j0; int8_t a[6], b[6]; } Spec;
@@ -48,8 +49,13 @@ static void readset(const char *fn) {
             for (int j = 0; j < L->nw; j++) { for (int k = 0; k < L->w[j].ng; k++) L->ch[c++] = L->w[j].g[k]; if (j < L->nw - 1) L->ch[c++] = -1; }
             L->nc = c;
         }
+        Page *pg = &P[p]; pg->woff = malloc(sizeof(int) * (pg->nl + 1)); pg->coff = malloc(sizeof(int) * (pg->nl + 1));
+        pg->woff[0] = pg->coff[0] = 0;
+        for (int i = 0; i < pg->nl; i++) { pg->woff[i + 1] = pg->woff[i] + pg->l[i].nw; pg->coff[i + 1] = pg->coff[i] + pg->l[i].nc; }
     }
     fclose(f);
+    int mx = 0; for (int p = 0; p < NP; p++) if (P[p].coff[P[p].nl] > mx) mx = P[p].coff[P[p].nl];
+    VIS = calloc(mx + 1, sizeof(int));
 }
 
 /* ---------- stream generation ---------- */
@@ -78,6 +84,7 @@ static int physcol(const Spec *s, int i, int j, int len) {
 static void walk(const Spec *s, Page *pg, int i0, int iend, int within_line) {
     int i = i0, j = s->j0, steps = 0, k = 0;
     if (i >= iend) return;
+    VSTAMP++; int *off = s->unit == 0 ? pg->woff : pg->coff;
     int len = rowlen(s, &pg->l[i]);
     if (s->mode == 1 || s->mode == 3) { while (j >= len) { j -= len; i++; if (i >= iend) return; len = rowlen(s, &pg->l[i]); } }
     while (steps++ < 4000) {
@@ -85,6 +92,7 @@ static void walk(const Spec *s, Page *pg, int i0, int iend, int within_line) {
         int col = -1;
         if (s->mode == 0) { col = ((j % len) + len) % len; }
         else if (j >= 0 && j < len) col = j;
+        if (col >= 0) { if (VIS[off[i] + col] == VSTAMP) return; VIS[off[i] + col] = VSTAMP; }   /* never read a cell twice */
         if (col >= 0) { int pc = physcol(s, i, col, len); int u = cell(s, L, pc); if (u >= 0) { emit(u); if (POSMODE) printf("%d %d %d\n", CURP, i, pc); } }
         int a = s->a[k], b = s->b[k]; k = (k + 1) % s->m;
         if (within_line) { j += b; if (j < 0 || j >= len) return; continue; }
@@ -99,7 +107,7 @@ static void walk(const Spec *s, Page *pg, int i0, int iend, int within_line) {
 }
 
 static int MASK = 0; /* 0 all, 1 even, 2 odd */
-static int CAP = 6000;   /* stop adding pages once the stream holds CAP units (dense paths; keeps cost bounded) */
+static int CAP = 3000;   /* stop adding pages once the stream holds CAP units (dense paths; keeps cost bounded) */
 static void make_stream(const Spec *s) {
     BN = 0;
     for (int p = 0; p < NP; p++) {

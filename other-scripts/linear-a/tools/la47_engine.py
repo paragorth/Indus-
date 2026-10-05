@@ -77,3 +77,29 @@ def run(rows, target, G=3000, splits=4, seed=0, sfeat=None, ofeat=None):
         out[k] = v if isinstance(v, str) else round(float(np.mean(v)), 4)
     out['n'] = len(rows)
     return out
+
+
+def run_fixed(rows, target, train_pred, G=2000, seed=0, sfeat=None, ofeat=None):
+    """search on rows where train_pred(row) (2-fold CV inside), score top grammars on the rest"""
+    sfeat = sfeat or C.SFEAT; ofeat = ofeat or C.OFEAT
+    rng = random.Random(seed)
+    rows = [r for r in rows if target in r]; y = [r[target] for r in rows]
+    si, sinv = cells(rows, 's', sfeat); oi, oinv = cells(rows, 'o', ofeat)
+    svals = C.feat_values(rows, 's', sfeat); ovals = C.feat_values(rows, 'o', ofeat)
+    tr = np.array([k for k, r in enumerate(rows) if train_pred(r)]); te = np.array([k for k, r in enumerate(rows) if not train_pred(r)])
+    Au = sorted({rows[k]['unit'] for k in tr}); rng.shuffle(Au); A1 = set(Au[:len(Au) // 2])
+    f1 = np.array([k for k in tr if rows[k]['unit'] in A1]); f2 = np.array([k for k in tr if rows[k]['unit'] not in A1])
+    out = {'n_train': len(tr), 'n_test': len(te)}
+    best = {}
+    for kind, inv, idx, vals in (('S', sinv, si, svals), ('O', oinv, oi, ovals)):
+        sc = []
+        for g in range(G):
+            t = C.random_grammar(vals, rng); ro = grammar_roles(t, inv, idx)
+            sc.append((float(cv_vec(ro, y, f1, f2).max()), t, ro))
+        sc.sort(key=lambda x: -x[0])
+        tb = [bits_sel(ro, y, f1, f2, tr, te)[0] for _, _, ro in sc[:10]]
+        out['top10_' + kind] = round(float(np.mean(tb)), 4); out['best_' + kind] = round(tb[0], 4)
+        out['grammar_' + kind] = C.grammar_str(sc[0][1]); best[kind] = sc[0]
+    pr = np.array([hash((a, b)) for a, b in zip(best['O'][2], best['S'][2])]); _, pr = np.unique(pr, return_inverse=True)
+    out['incr_S_over_O'] = round(bits_sel(pr, y, f1, f2, tr, te)[0] - out['best_O'], 4)
+    return out

@@ -42,7 +42,8 @@ def sample_params(rng):
     p['num_follows_tablet'] = float(rng.uniform(0, 1))
     p['p_frac'] = float(rng.uniform(0, 0.4))
     # writing pressures
-    p['cost'] = float(rng.uniform(0, 0.5))
+    lo, hi = [float(x) for x in os.environ.get('PE41_COST', '0,0.5').split(',')]
+    p['cost'] = float(rng.uniform(lo, hi))   # cycle 4: negative cost = scribes rewarded per sign written
     p['K'] = int(round(math.exp(rng.uniform(math.log(20), math.log(600)))))
     p['f_name'] = float(rng.uniform(0.05, 0.7))
     p['ctx_off'] = float(rng.uniform(0, 1))

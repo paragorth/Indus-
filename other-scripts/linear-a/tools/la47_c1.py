@@ -26,7 +26,8 @@ def job(args):
         la = False
     elif name.startswith('PLANT'): P = C.plant_rule(LA, rng)
     elif name.startswith('NULLP'): P = C.null_permute(LA, rng)
-    elif name.startswith('NULLR'): P = C.null_reflow(LA, rng)
+    elif name.startswith('NULLRS'): P = C.null_reflow(LA, rng, snap=True)
+    elif name.startswith('NULLR'): P = C.null_reflow(LA, rng, snap=False)
     elif name.startswith('LBNULLR'):
         B = C.lb_pages(sites={'KN', 'PY'}); rng.shuffle(B); P = C.null_reflow(B[:300], rng); la = False
     rows = C.table(P, la)
@@ -43,7 +44,7 @@ def job(args):
 
 if __name__ == '__main__':
     jobs = [('LA', 1), ('LB1', 11), ('LB2', 12), ('LB3', 13), ('PLANT1', 21), ('PLANT2', 22),
-            ('NULLP1', 31), ('NULLP2', 32), ('NULLP3', 33), ('NULLR1', 41), ('NULLR2', 42), ('NULLR3', 43)]
+            ('NULLP1', 31), ('NULLP2', 32), ('NULLP3', 33), ('NULLR1', 41), ('NULLR2', 42), ('NULLR3', 43), ('NULLRS1', 51), ('NULLRS2', 52)]
     if len(sys.argv) > 1: jobs = [j for j in jobs if j[0] in sys.argv[1:]]
     res = {}
     with Pool(2) as pool:

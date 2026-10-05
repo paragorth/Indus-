@@ -109,7 +109,7 @@ def build():
             stats['sigla_ok'] += 1
             rec['vb'] = vb
             g = collections.defaultdict(list)
-            for (i, _), o in zip(seq, boxes): g[i].append(o['rect'])
+            for (i, _), o in zip(seq, boxes): g[i].append(list(o['rect']) + [o['code'], o['role']])
             for i, rs in g.items(): rec['toks'][i]['box'] = rs
             rec['frac_boxes'] = [o['rect'] for o in os_ if o['role'] == 'fraction']
     except Exception as e:

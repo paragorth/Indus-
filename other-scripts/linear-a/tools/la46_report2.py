@@ -26,6 +26,10 @@ for name in ['LA', 'W1', 'W2', 'SH1', 'PL1', 'LB1', 'LB2', 'UR1']:
     for s in S:
         for k, cr, cf in s['fire']:
             k = tuple(k); agg[k][0] += cr; agg[k][1] += cf; agg[k][2] += 1
+    cr = sum(v[0] for v in agg.values()); cf = sum(v[1] for v in agg.values())
+    big = sum(1 for v in agg.values() if v[0] >= 10 and v[0] >= 3 * v[1])
+    print('      held-out firing: real %d vs forged %.1f (ratio %.2f); residues with >= 10 real and >= 3x forged: %d' % (
+        cr, cf, (cr + .5) / (cf + .5), big))
     top = sorted(agg.items(), key=lambda x: -(x[1][0] - x[1][1]))[:12]
     print('      held-out excess (real B - forged B, summed over splits):',
           '; '.join('%s %s/%s %d/%.1f' % (k[0], k[1], k[2], v[0], v[1]) for k, v in top))

@@ -58,13 +58,19 @@ for key, R in sorted(runs.items()):
     ks = [x[5] for x in stable if x[5] is not None]
     if ks:
         row['stable_prec'] = '%d/%d' % (sum(ks), len(ks))
+    kg = [x[5] for x in stable if x[5] is not None and x[4] is not None and x[4] > 0.1]
+    if kg:
+        row['stable_gain_prec'] = '%d/%d' % (sum(kg), len(kg))
+    pp = [np.mean([c for _, _, c, n in r['profile_known'] if n >= MINN]) for r in R if r.get('profile_known')]
+    if pp:
+        row['profile_prec'] = round(float(np.mean(pp)), 3)
     allg = [g[1] for r in R for g in r['gainAB'].values()]
     row['gain_mean_all'] = round(float(np.mean(allg)), 4) if allg else None
     row['stable'] = sorted(stable, key=lambda x: -x[3])
     out['%s/%s' % key] = row
     print('%-12s %s seeds %d rtA %.3f rtB %.3f numcopy %.2f prec_freq %s sources %d stable %d stable_prec %s gain_all %s' % (
         st, key[1], len(R), row['rt_ho_A'], row['rt_ho_B'], row['numcopy'], row.get('prec_freq'), len(tg), len(stable),
-        row.get('stable_prec'), row['gain_mean_all']))
+        row.get('stable_prec'), row['gain_mean_all']), 'stable&gain>0.1 prec', row.get('stable_gain_prec'), 'profile_prec', row.get('profile_prec'))
     for x in row['stable'][:25]:
         print('    ', x)
 json.dump(out, open(os.path.join(CK, 'sum_%s.json' % TAG), 'w'), indent=0)
