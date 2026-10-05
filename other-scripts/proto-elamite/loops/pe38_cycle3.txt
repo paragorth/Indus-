@@ -1,0 +1,11 @@
+# PE-38 cycle 3: are forced roles stable on held-out tablets, beyond a null, and does stability mean correctness?
+# tools/pe38_c3.py, pe38_report.py c3; checkpoints data/pe38_ckpt/c3_<kind>_<split>_<half>.json (git-ignored).
+# 4 random tablet splits of PE into halves; the cycle-1 system (rules + type-checker, 12 chains x 500k, forced = same role in
+# >= 90% of the best third of chains) is run on each half separately. Held-out agreement = share of signs forced in one half
+# (>= 3 tokens in the other) that are forced to the SAME role in the other half, both directions.
+# Null: PE with signs shuffled across entry slots (headers and totals kept), split the same way (4 splits).
+# Control: proto-cuneiform at 2x PE size split into PE-size halves (2 splits), scored on its known roles.
+| PE-38.3a | PE held-out agreement, 4 splits x 2 directions. | Forced per half 2-131 (very unstable). Agreement 0.243 (0.02-0.50); non-NAM 0.263. Same role in both halves: |M327+M342| HDR (3 of 4 splits), |M327+X| HDR (1), M049, M109, M251, |M131+M388| QUA (1 each). No sign forced VRB or TOT in any half. | Low and noisy. |
+| PE-38.3b | Null: entry-shuffled PE, same splits. | Agreement 0.246 (0-0.70); non-NAM 0.161. Same role in both halves: 71 sign-NAM pairs, M014 QUA (2), two compounds QUA (1). |M327+M342| is the modal role HDR in 6 of 8 null halves and forced HDR in 4 of 8. | PE agreement = null (0.243 vs 0.246). The header compound keeps its role because its header position is kept, not because of type inference. |
+| PE-38.3c | Control: proto-cuneiform halves, scored on known roles. | Agreement 0.64 (0.54-0.78), all of it NAM (76 sign-NAM pairs, non-NAM 0.00); strict accuracy of forced labelled types 0.00 in all 4 halves. | Stability is not correctness: the most stable assignments in the control are all wrong. |
+| PE-38.3 | Cycle verdict | Forced roles do not replicate on held-out PE tablets beyond an entry-shuffled null, and in the control the replicating roles are wrong. The one stable non-default role (|M327+M342| as header/office) restates the known header slot (FINDINGS d; pe34 M342 lead) and is equally stable when entry signs are shuffled. No sign is forced into a transaction-verb or total role in any half. | Negative (calibrated). |
