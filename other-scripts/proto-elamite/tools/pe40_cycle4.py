@@ -16,7 +16,7 @@ from pe40_eval import BW, KS
 def spec_angle(W):
     d = W.sum(1) + 1e-9; Dm = 1 / np.sqrt(d)
     L = np.eye(len(W)) - (Dm[:, None] * W * Dm[None, :])
-    ev, V = small_eig(L, 3)
+    ev, V = small_eig(L, 4)
     x, y = V[:, 1] * Dm, V[:, 2] * Dm
     return np.arctan2(y, x), np.hypot(x, y), V[:, 1] * Dm, ev
 
@@ -83,8 +83,11 @@ if __name__ == '__main__':
     rng = np.random.default_rng(9)
     for i in range(10):
         jobs.append((f'NULL{i}', curveball(X, rng), None, None, 200 + i))
+    out = []
     with Pool(2) as pool:
-        out = pool.map(run, jobs)
+        for o in pool.imap(run, jobs):
+            out.append(o)
+            print('ROW', json.dumps({k: (round(v, 4) if isinstance(v, float) else v) for k, v in o.items() if k not in ('ang', 'g')}), flush=True)
     # calendar vs museum number
     pe = [o for o in out if o['name'] == 'PE'][0]
     cat = json.load(open(os.path.join(HERE, '..', 'data', 'pe17_ckpt', 'pe_cat.json')))

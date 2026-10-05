@@ -466,3 +466,6 @@ Controls passed: planted errors were recovered, and real proto-cuneiform errors 
 - **B (negative):** Proto-Elamite mismatches do not look like human slips. Digit slips are at chance, and there are no carry or eye-skip errors. Most mismatches come from our value model.
 - **C:** tablets with M388 are read in capacity (family-wise p 0.047; weak on held-out). Would support: new M388 tablets closing in capacity. Would kill: an M388 tablet that closes only as a count.
 - No class of sign-marked entries is left out of totals, which repeats pe30.
+
+## pe40 duty rota (5 Oct 2026)
+**B (negative): there is no rota.** About 10,000 random rotas were fitted to 244 rare name signs on 724 Susa tablets. Their held-out scores (1.05–1.16) match planted teams (1.05–1.13), not a planted rota. The ring order does not beat a straight-line order, and shared names never return in shifted order. The only excess is identical order, the habitual order already found in pe13. There is no internal calendar. The Ur III month control also failed, so this is not a calibrated negative for time order. C: a weak rota hidden under the tablet name pools cannot be ruled out at this corpus size.

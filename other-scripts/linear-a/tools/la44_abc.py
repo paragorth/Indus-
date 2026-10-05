@@ -14,6 +14,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 bank, n, tag = sys.argv[1], int(sys.argv[2]), sys.argv[3]
 mode = sys.argv[4] if len(sys.argv) > 4 else 'all'
 nj = int(sys.argv[5]) if len(sys.argv) > 5 else 2
+excl = set(int(x) for x in sys.argv[6].split(',')) if len(sys.argv) > 6 and sys.argv[6] else set()   # morph classes left out
 # modes: all = raw panel; vf = value-free raw; delta = panel minus the panel of a global sign shuffle of the same
 # list (only statistics that a shuffle can change); both = raw + delta; vfdelta = value-free delta.
 INV = {'len2', 'len3', 'len4', 'len5p', 'H', 'zslope', 'nsign', 'mlen', 'sdlen'} | {k for k in A.panel_names() if k[:2] in ('v_', 's_')}
@@ -29,7 +30,7 @@ rows = []
 for fn in sorted(glob.glob(bank)):
     for l in open(fn):
         r = json.loads(l)
-        if r['f'] is not None: rows.append(r)
+        if r['f'] is not None and r['P']['morph'] not in excl: rows.append(r)
 X = np.array([feat(r['f'], r['fs']) for r in rows], float)
 X = np.nan_to_num(X)
 P = [r['P'] for r in rows]
@@ -70,15 +71,15 @@ rng = np.random.default_rng(0)
 res = {}
 for lab, y, ncls, cn in (('morph', ym, 6, A.MORPH), ('syl', ys, 3, A.SYL)):
     rf, oob, tp = proj_class(y, ncls)
-    acc = (oob.argmax(1) == y).mean()
+    acc = (rf.classes_[oob.argmax(1)] == y).mean()
     conf = np.zeros((ncls, ncls), int)
-    for a, b in zip(y, oob.argmax(1)): conf[a, b] += 1
+    for a, b in zip(y, rf.classes_[oob.argmax(1)]): conf[a, b] += 1
     # calibration: 400 held-out sims as pseudo-targets, rejection posterior in OOB-vote space
     cal = []
     for i in rng.choice(len(y), 400, replace=False):
         d = ((oob - oob[i]) ** 2).sum(1); d[i] = np.inf
         acc_i = np.argsort(d)[:K]; post = np.bincount(y[acc_i], minlength=ncls) / K
-        cal.append((post.max(), int(post.argmax() == y[i])))
+        cal.append((post.max(), int(post.argmax() == y[i])))  # labels are original class ids
     cal = np.array(cal)
     bins = [(lo, hi) for lo, hi in ((0, .3), (.3, .45), (.45, .6), (.6, .8), (.8, 1.01))]
     calt = [(lo, hi, int(((cal[:, 0] >= lo) & (cal[:, 0] < hi)).sum()),
@@ -90,8 +91,8 @@ for lab, y, ncls, cn in (('morph', ym, 6, A.MORPH), ('syl', ys, 3, A.SYL)):
     for j, tn in enumerate(T):
         d = ((oob - tp[j]) ** 2).sum(1); acc_i = np.argsort(d)[:K]
         post = np.bincount(y[acc_i], minlength=ncls) / K
-        H = -sum(p * math.log(p) for p in post if p > 0) / math.log(ncls)
-        out['targets'].setdefault(tn, {})[lab] = {'votes': dict(zip(cn, tp[j].round(3).tolist())),
+        H = -sum(p * math.log(p) for p in post if p > 0) / math.log(ncls - (len(excl) if lab == 'morph' else 0))
+        out['targets'].setdefault(tn, {})[lab] = {'votes': dict(zip([cn[c] for c in rf.classes_], tp[j].round(3).tolist())),
                                                   'post': dict(zip(cn, post.round(3).tolist())), 'Hnorm': round(H, 3),
                                                   'dist_k': float(np.sqrt(d[acc_i[-1]]))}
 for j, tn in enumerate(T):

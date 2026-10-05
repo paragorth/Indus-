@@ -35,6 +35,8 @@ A_all = numeral_tokens(A_all, mode)
 B_all = numeral_tokens(B_all, mode)
 if SET.endswith('SHUF'):
     A_all = shuffle_numerals(A_all, seed=1000 + SEED)
+elif 'SHUFX' in SET:          # one fixed shuffle shared by all seeds (fair null for seed agreement)
+    A_all = shuffle_numerals(A_all, seed=5000 + int(SET[-1]))
 A_tr, A_ho = tablet_split(A_all, seed=0)
 B_tr, B_ho = tablet_split(B_all, seed=0)
 V = Vocab({La: A_tr, Lb: B_tr})

@@ -3,7 +3,7 @@ selectors; tools/v50_search.c build_rand, seed 50). Discovery on EVEN pages (REA
 LS1-4), test of the top 300 on ODD pages; null = LS4 as pseudo-real through the same pipeline. Positive controls:
 Latin letters (PR1) / German code words (PR2) hidden along a random path of the same family, in Markov filler and
 in the real pages; each must be top-ranked on even pages and hold out on odd pages. Second score: cross-page
-trigram recurrence (R3) excess, same z machinery."""
+trigram recurrence (R3) excess, same z machinery. Real pages = REAL_FW (margin chain removed, see cycle 1)."""
 import os, sys, json, gzip, math
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -45,13 +45,13 @@ def main():
     sp = lambda i: ' '.join(R[i][1:])
     plants = json.load(open(os.path.join(L.CK, 'c3_plants.json')))
     res = {}
-    x = L.load('REAL', 'reven'); reps = [L.load(f'REAL_LS{k}', 'reven') for k in (1, 2, 3, 4)]
-    LSr = [f'REAL_LS{k}' for k in (1, 2, 3)]
+    x = L.load('REAL_FW', 'reven'); reps = [L.load(f'REAL_FW_LS{k}', 'reven') for k in (1, 2, 3, 4)]
+    LSr = [f'REAL_FW_LS{k}' for k in (1, 2, 3)]
     for key in ('D', 'r3'):
         z, z0, sd = zfull(x, reps, groups, key)
         top = np.argsort(-np.nan_to_num(z, nan=-1e9))[:300]; top0 = np.argsort(-np.nan_to_num(z0, nan=-1e9))[:300]
-        zo = zsub('REAL', LSr, top, sd[top], f'c3o{key}', 'odd', key)
-        zo0 = zsub('REAL_LS4', LSr, top0, sd[top0], f'c3o0{key}', 'odd', key)
+        zo = zsub('REAL_FW', LSr, top, sd[top], f'c3o{key}', 'odd', key)
+        zo0 = zsub('REAL_FW_LS4', LSr, top0, sd[top0], f'c3o0{key}', 'odd', key)
         Th = max(3.0, float(np.nanmax(zo0)))
         hold = [(int(i), float(z[i]), float(a)) for i, a in zip(top, zo) if a > Th]
         res[key] = {'even_max_z': float(np.nanmax(z)), 'even_max_z_null': float(np.nanmax(z0)),
