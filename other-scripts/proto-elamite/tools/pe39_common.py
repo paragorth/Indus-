@@ -343,7 +343,7 @@ def train(cfg, data, V, log=None):
     seed = cfg['seed']
     torch.manual_seed(seed)
     rng = random.Random(seed)
-    Arch = {'gru': GRUAttn, 'tf': TinyTF, 'prof': GRUProf}[cfg.get('arch', 'gru')]
+    Arch = {'gru': GRUAttn, 'gru96': GRUAttn, 'tf': TinyTF, 'prof': GRUProf}[cfg.get('arch', 'gru')]
     model = Arch(len(V.itos), **cfg.get('akw', {}))
     opt = torch.optim.Adam(model.parameters(), lr=cfg.get('lr', 2e-3))
     (La, Sa), (Lb, Sb) = data['A'], data['B']

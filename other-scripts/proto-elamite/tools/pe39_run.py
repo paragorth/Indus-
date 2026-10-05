@@ -43,7 +43,7 @@ Ha = [V.enc(La, l) for l in A_ho]; Hb = [V.enc(Lb, l) for l in B_ho]
 P = numeral_profiles(V, {La: A_tr, Lb: B_tr})
 plex = profile_lexicon(V, P, La, Lb)
 cfg = {'seed': SEED, 'arch': ARCH, 'steps': STEPS, 'ae_steps': STEPS // 4,
-       'akw': {'prof': P} if ARCH == 'prof' else {}}
+       'akw': {'prof': P, 'emb': 48, 'hid': 96} if ARCH == 'prof' else ({'emb': 48, 'hid': 96} if ARCH == 'gru96' else {})}
 model = train(cfg, {'A': (La, Sa), 'B': (Lb, Sb)}, V)
 res = {'set': SET, 'seed': SEED, 'arch': ARCH, 'steps': STEPS, 'mode': mode,
        'nA': len(A_all), 'nB': len(B_all), 'V': len(V.itos)}
