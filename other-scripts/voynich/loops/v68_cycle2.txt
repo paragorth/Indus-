@@ -1,0 +1,15 @@
+v68 cycle 2 (5 Oct 2026): is the word-to-word coupling a one-dimensional pitch line?
+Idea: a melody written one syllable per word makes the junction between words a function of the pitch STEP (entry note of the next
+word minus exit note of this one), mostly small. Fit, blind, an entry class s(w) and exit class e(w) on a line of K = 9 positions for
+every word type (count >= 4; rare words by first / last glyph), with three junction models: FREE (any 9 x 9 table), TOEPLITZ (depends
+only on the step), SMOOTH (Gaussian step with drift: 2 parameters, i.e. 'mostly stepwise'). Exchange algorithm, random restarts,
+correspondence-analysis and Fiedler-seriation starts, iterated local search; fitted on half the folios, scored on the other half
+(bits per bigram over unigram). Controls: GregoBase chant in an opaque glyph code (entry/exit pitches known), Latin herbal and German
+herbal words in an opaque code, within-line word shuffles of each. Tools: tools/v68_c2.py, tools/v68_c2b.py; data/v68_ckpt/c2*.
+| row | method and control | result | verdict |
+|---|---|---|---|
+| V-68.2.1 | Calibration: chant written in an opaque code; blind fit must recover the pitches and a step kernel peaked at 0 | Held-out gain free 0.63, smooth 0.61 (R 0.96). Blind entry pitch recovered rho 0.89, exit 0.80; kernel peaked at step 0 and falling off over 2-3 steps; within-line shuffle drops the gain to 0.07-0.09 | PASS: the method finds a hidden melody line from word junctions alone |
+| V-68.2.2 | Voynich ZL and IT2a, same fits | Gain free 0.03 / 0.04, Toeplitz 0.08 / 0.07, smooth 0.11 / 0.11; within-line shuffle -0.04 / -0.03 (so adjacency is real, ~0.15 bit). Full Toeplitz kernel: IT peaked at step 0, ZL peaked at the two extremes (pairing of end classes) -- the shape does not replicate across transcriptions | The Voynich coupling is weak at class level: about 1/5 of chant's, and smaller than German's |
+| V-68.2.3 | Language controls, same fits | Latin coded words: smooth 0.04 (free -0.03); German coded words: smooth 0.44, free 0.53 (R 0.83), Toeplitz kernel peaked at the extremes like ZL | A 1-D line with a stepwise kernel fits LANGUAGE junctions too (German beats the Voynich by 4x). 'One-dimensional' is not a melody signature at this power |
+| V-68.2.4 | Out-of-fit prediction: a word's OWN entry and exit classes should lie close on the line (a neume spans few steps); weighted corr vs permutation null. Null: same on within-line shuffles | Chant 0.80; German 0.33; Voynich ZL 0.21, IT 0.18; Latin -0.08. But within-line shuffles give 0.50-0.83 (line-likeness alone produces it) | Confounded by line-likeness (v62); the Voynich sits between the two languages, far below chant. No neume span |
+| V-68.2.5 | Cycle verdict | Melody line recovered in chant (rho 0.89); Voynich coupling small, 1-D shape not stable between transcriptions, within the language range | B (negative): no pitch line under the word junctions |

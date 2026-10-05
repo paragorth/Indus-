@@ -822,3 +822,6 @@ About 164,000 evolved writing programs were run on 9 real plaintexts. **A (metho
 
 ## v69 writing care (5 Oct 2026)
 Eight measures of writing care were taken on 11,576 Voynich words and 9,409 Latin control words. **B (method fails its control):** Latin copyists also show no extra care for rare words, keywords or first mentions, so the result does not count against meaning. B (upper bound): extra care for Voynich rare words is below about 0.15 SD, and for first mentions below 0.1 SD. Paragraph-first lines are written with less care. The "repeats look alike" lead was killed once line distance was matched.
+
+## v68 the text as a melody (5 Oct 2026)
+**B (negative):** no musical reading. Real chant, written through 3,200 random codes, is the worst of 8 sources at producing Voynich-like text. It has too many adjacent repeats and has phrase finals, and **no source under any code reproduces the Voynich's line-initial pool**. A blind hidden-pitch fit recovers coded chant (rho 0.89), but the Voynich's word-to-word coupling is weak (0.11 bits against 0.61 for chant and 0.44 for German). There are no finals or modes on held-out folios. B (measurement): Currier B sections couple neighbouring words 2–4× more than herbal A and pharma A.

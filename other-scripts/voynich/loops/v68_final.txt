@@ -1,0 +1,32 @@
+# v68 final -- THE TEXT IS A MELODY (5 Oct 2026). 3 cycles, 16 rows: loops/v68_cycle1-3.txt.
+# Tools: tools/v68_lib.py, v68_c1.py, v68_c1_report.py, v68_c2.py, v68_c2b.py, v68_c3.py. Checkpoints: data/v68_ckpt/ (git-ignored).
+# Data: GregoBase chant, dump 2019-10-24 (github.com/bacor/gregobasecorpus, commit ad5060fe, CC0), 5,840 deduplicated pieces,
+#   768k syllables, modes 1-8 (parsed in v5, data/derived/v5_chant.json.gz). ZL3b and IT2a. Latin / Italian / German herbal texts (v53).
+# Novelty: glyph = note scored against chant was already done in v5 (negative); web: forum talk only (voynich.ninja 3968, 5724).
+#   So the idea was turned round: (1) melody as the PLAINTEXT, written through 3,200 random codes; (2) a blind pitch line under the
+#   word junctions; (3) finals and modes read from that line on held-out folios.
+
+## Plain answer
+No surviving mapping. The calibrated pipeline finds a hidden melody in chant written in an opaque glyph code (source type identified,
+pitch line recovered rho 0.89, finals z 35, modes z 66). The Voynich behaves like coded language on every musical property:
+| property | chant (opaque code) | Voynich ZL / IT | coded Latin / German |
+|---|---|---|---|
+| best match as plaintext source (v53 distance, lower = closer) | 1.22 (worst of 8 sources) | target | 1.04-1.18 |
+| adjacent repeats | always >= 2x Voynich | 0.009 | reached by 16-24% of codes |
+| line-initial pool (MI 0.114) | 0 of 400 codes (max 0.03) | target | 0 of 1,600 (max 0.04) |
+| junction gain on a 1-D line (bits/bigram, held-out) | 0.61 | 0.11 / 0.11 | 0.04 / 0.44 |
+| step preference vs within-line shuffle | +0.83 | +0.38 / +0.45 | +0.48 / +0.76 |
+| line final agrees with paragraph-mates (last vs mid) | 0.50 vs 0.33 | 0.18 vs 0.20 / 0.16 vs 0.19 | 0.15 vs 0.15 / 0.20 vs 0.17 |
+| section/mode info in final vs mid word | 0.85 vs 0.41 | 0.28 vs 0.36 / 0.23 vs 0.34 | - |
+
+## Grades
+- A (method): chant vs language is identifiable from surface statistics through random codes (planted targets matched by their own
+  source); a blind pitch line, finals and modes are recoverable from opaque-coded chant.
+- B (negative): melody-as-plaintext does not explain the Voynich: chant repeats too much, has finals the Voynich lacks and no
+  line-initial pool. The Voynich line-START pool stays unexplained by any plaintext under any of 3,200 simple codes.
+- B (negative): no pitch line, no finals, no modes. Voynich line ends carry less paragraph and section information than mid-line words.
+- B (measurement): Currier B sections (bio, stars-recipes, herbal B) couple neighbouring words 2-4x more than herbal A and pharma A.
+- C (open, not supported): a melody written with whole formulas per word (centonization codebook) is not excluded by the
+  syllable-per-word codes used here. Would support: Voynich paragraphs sharing word n-grams at fixed line positions the way chant
+  pieces of one mode share cadence formulas. Would kill: the same position-locked sharing in a line-aware Voynich generator.
+Not cracked; no section behaves like chant; no mode can be named.

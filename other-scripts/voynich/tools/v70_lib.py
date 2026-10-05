@@ -132,7 +132,7 @@ def patch(c, m, a, b):
 def extract_words(con, words, s, thetas, T=0.15):
     """words: list of dicts with x0,x1,y and (li,k). Returns per theta: patches, widths,
     word index per unit, position in word."""
-    res = {th: {'P': [], 'w': [], 'wid': [], 'pos': []} for th in thetas}
+    res = {th: {'P': [], 'w': [], 'wid': [], 'pos': [], 'ab': []} for th in thetas}
     bylines = collections.defaultdict(list)
     for i, w in enumerate(words):
         bylines[w['li']].append(i)
@@ -156,6 +156,7 @@ def extract_words(con, words, s, thetas, T=0.15):
                     res[th]['w'].append((b - a) / s)
                     res[th]['wid'].append(i)
                     res[th]['pos'].append(p)
+                    res[th]['ab'].append((a, b))
     return res
 
 
