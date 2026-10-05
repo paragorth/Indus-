@@ -44,12 +44,11 @@ def plant_pe(rng, frac=0.25, p=0.5, alter=True):
         last = None
         for i, r in enumerate(recs):
             den = DEN[r['sys']]
-            if rng.random() >= p:
-                lab[(t, i)] = 0
-                continue
             v = r['val']
             hi = max(k for k, d in enumerate(den) if d <= v)
             if hi == 0:
+                continue          # small values cannot be rounded: excluded from both sides
+            if rng.random() >= p:
                 lab[(t, i)] = 0
                 continue
             if alter:
@@ -105,6 +104,7 @@ def worker(args):
         if n:
             pos += list(rng.choice(P, n, replace=False)); neg += list(rng.choice(N, n, replace=False))
     a_cap = auc(pp[pos], pp[neg])
+    a_cap_or = max(auc(R[pos, c], R[neg, c]) for c in range(K))   # best class, chosen with the labels (oracle)
     a_def = auc(pp[kb == 'DEFICIT'], pp[(kb == 'COUNTED') | (kb == 'MEASURED')])
     # PE planted
     Xp, lab = PE_PLANT
@@ -118,7 +118,7 @@ def worker(args):
     Rn, _ = posterior(mn, Xn)
     a_null = auc(Rn[PN_POS, pcn], Rn[PN_NEG, pcn])
     return {'seed': seed, 'cols': [FEATS[c] for c in cols], 'K': K, 'nmi': nmi, 'nmi0': nmi0,
-            'auc_raw': a_raw, 'auc_sm': a_sm, 'auc_cap': a_cap, 'auc_def': a_def, 'auc_plant': a_pl, 'auc_plant_null': a_null}
+            'auc_raw': a_raw, 'auc_sm': a_sm, 'auc_cap': a_cap, 'auc_cap_oracle': a_cap_or, 'auc_def': a_def, 'auc_plant': a_pl, 'auc_plant_null': a_null}
 
 
 def init():
@@ -139,8 +139,11 @@ def init():
 if __name__ == '__main__':
     M = int(sys.argv[1]) if len(sys.argv) > 1 else 2000
     out = os.path.join(CK, 'c1_models.jsonl')
-    with Pool(2, initializer=init) as pool, open(out, 'w') as f:
-        for i, r in enumerate(pool.imap_unordered(worker, [(s,) for s in range(M)], chunksize=10)):
+    done = {json.loads(l)['seed'] for l in open(out)} if os.path.exists(out) else set()
+    todo = [(s,) for s in range(M) if s not in done]
+    with Pool(2, initializer=init) as pool, open(out, 'a') as f:
+        for i, r in enumerate(pool.imap_unordered(worker, todo, chunksize=2)):
+            f.flush()
             f.write(json.dumps(r) + '\n')
             if i % 200 == 0:
                 print(i, r, flush=True)

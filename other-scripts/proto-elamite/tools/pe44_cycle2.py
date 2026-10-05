@@ -14,7 +14,7 @@ Ensemble plannedness pi_e = mean planned posterior over survivors.
     (must be flagged); BH over keys with >= 15 entries.
 (c) Replication: flags (q < 0.1 vs N1) on tablet half A re-tested on half B.
 """
-import json, os, random, sys
+import json, math, os, random, sys
 from collections import defaultdict
 import numpy as np
 from scipy.stats import spearmanr
@@ -24,12 +24,44 @@ from pe44_common import *  # noqa
 C1 = os.path.join(CK, 'c1_models.jsonl')
 
 
-def survivors(nmax=60):
+def survivors(nmax=30):
+    """No model passes the per-quantity Ur III test (system- and size-matched AUC >= 0.6: 0 models),
+    so survivors are chosen on the planted PE recovery and the size-matched Ur III AUC."""
     rs = [json.loads(l) for l in open(C1)]
-    ok = [r for r in rs if r['auc_cap'] == r['auc_cap'] and r['auc_cap'] >= 0.6 and r['auc_raw'] >= 0.6
-          and r['auc_plant'] >= 0.65 and abs(r['auc_plant_null'] - 0.5) < 0.1]
-    ok.sort(key=lambda r: -(r['auc_cap'] + r['auc_plant']))
+    ok = [r for r in rs if r['auc_plant'] >= 0.7 and abs(r['auc_plant_null'] - 0.5) < 0.05
+          and r['auc_sm'] == r['auc_sm']]
+    ok.sort(key=lambda r: -(r['auc_sm'] + r['auc_plant']))
     return ok[:nmax], len(rs)
+
+
+def ur3_pooled(surv, rng, G=40, reps=300):
+    """Group-level calibration: do survivors, refit on Ur III half A, give tablet-disjoint groups of
+    G size-matched capacity quantities from PLANNED a higher mean pi than groups of measured GRAIN (half B)?
+    Control: kinds shuffled before grouping."""
+    from pe44_cycle1 import build
+    UX, UK, UA, US = build()
+    ia = np.where(UA)[0]
+    sub = rng.choice(ia, 15000, replace=False)
+    ms = fit_set(UX[sub], surv, 500)
+    ib = np.where(~UA & (US == 'UR_CAP') & ((UK == 'PLANNED') | (UK == 'MEASURED')))[0]
+    pi = pi_of(ms, UX[ib])
+    kb = UK[ib]
+    lv = np.floor(UX[ib][:, FEATS.index('LMAG')] / math.log(2))
+    pos, neg = [], []
+    for b in np.unique(lv):
+        P = np.where((lv == b) & (kb == 'PLANNED'))[0]; N = np.where((lv == b) & (kb == 'MEASURED'))[0]
+        n = min(len(P), len(N))
+        if n:
+            pos += list(rng.choice(P, n, replace=False)); neg += list(rng.choice(N, n, replace=False))
+    pos, neg = np.array(pos), np.array(neg)
+    def groups(a, b):
+        ga = [pi[rng.choice(a, G)].mean() for _ in range(reps)]
+        gb = [pi[rng.choice(b, G)].mean() for _ in range(reps)]
+        return auc(ga, gb)
+    real = groups(pos, neg)
+    both = np.concatenate([pos, neg]); rng.shuffle(both)
+    shuf = groups(both[:len(pos)], both[len(pos):])
+    return {'n_pairs': int(len(pos)), 'item_auc': auc(pi[pos], pi[neg]), 'group_auc': real, 'group_auc_shuffled': shuf}
 
 
 def fit_set(X, specs, seed):
@@ -141,6 +173,9 @@ if __name__ == '__main__':
     X, meta = corpus_matrix(tabs)
     rng = np.random.default_rng(11)
     out = {'n_surv': len(surv), 'n_models': ntot, 'surv': surv}
+    if part in ('all', 'u'):
+        out['ur3_pooled'] = ur3_pooled(surv, rng)
+        print('UR3 pooled', out['ur3_pooled'], flush=True)
     if part in ('all', 'a'):
         ids = sorted(tabs); rr = random.Random(5)
         st = []

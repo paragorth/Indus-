@@ -44,7 +44,7 @@ def voynich(name='ZL3b', ltypes=('P', 'L', 'R', 'C')):
         ws = [w for w in ws if re.fullmatch(r'[a-zA-Z]+', w)]
         if not ws: continue
         f = r['folio']
-        p = pages.setdefault(f, dict(id=f, sec=r['illus'], quire=r['quire'], folio=int(re.match(r'f(\d+)', f).group(1)),
+        p = pages.setdefault(f, dict(id=f, sec=r['illus'], quire=r['quire'], folio=int(re.match(r'f(\d+)', f).group(1)) if re.match(r'f\d', f) else 86,
                                      lang=r['lang'] or '-', hand=r['hand'], lines=[], lflags=[]))
         p['lines'].append(ws); p['lflags'].append((bool(r['para_start']), r['ltype']))
     return dict(pages=list(pages.values()), skel=skel_voy, name=name)
@@ -237,16 +237,16 @@ def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3):
             if rng.random() < 0.4: w += 'q'
             for x, dd in enumerate(ds):
                 w += digits[dd]
-                if x == 0 and rng.random() < 0.5: w += 'k'
                 if rng.random() < 0.3: w += 'C' if rng.random() < 0.5 else 'S'
-            w += rng.choice(['', 'dy', 'edy', 'eey', 'y'])
+                if rng.random() < 0.2: w += 'e'
+            w += rng.choice(['', 'd', 'ed', 'eed', 's'])
             p['lines'][li][k] = w
             truth.append((pi, li, k, t))
     return dict(C, pages=P, name=C['name'] + '_planted', truth=truth, digits=digits)
 
 
 # ------------------------------------------------------------------ residual affinity
-def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 7, 16, 41), order=None):
+def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 6, 11, 21, 41), near=2, order=None):
     """tokens + residual affinity matrices. order: optional list of page indices giving an alternative binding
     order (address space); default = given order."""
     pages = C['pages']
@@ -302,16 +302,22 @@ def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 7, 16, 41), o
         S = rows @ PM.T / pnorm[None, :]                      # (n, N)
         # residual vs same (band, section) group, excluding own page
         g = bandid[pi] * 100 + sarr
-        g[pi] = -1
+        g[max(0, pi - near):pi + near + 1] = -1        # own page and its +-near neighbours carry no score
         Rr = np.zeros_like(S)
         for gv in np.unique(g):
             if gv < 0: continue
             m = g == gv
             Rr[:, m] = S[:, m] - S[:, m].mean(1, keepdims=True)
-        Rr[:, pi] = 0.0
+        Rr[:, max(0, pi - near):pi + near + 1] = 0.0
         sd = Rr.std(1, keepdims=True) + 1e-6
         Rr = Rr / sd
         R[idxs] = Rr
+    # column centring: a hub page that everything resembles must not reward rules that send many tokens to it
+    tp_all = np.array([t[0] for t in toks])
+    for t in range(N):
+        m = np.abs(tp_all - t) > near
+        R[m, t] -= R[m, t].mean()
+        R[~m, t] = 0.0
     # aggregate to folios and quires (own unit excluded)
     fol = [p['folio'] for p in pages]; ufol = sorted(set(fol), key=lambda x: fol.index(x))
     qu = [p['quire'] for p in pages]; uqu = sorted(set(qu), key=lambda x: qu.index(x))
@@ -426,8 +432,8 @@ def Rspace(E, space):
 
 def score_many(coef, sel_idx, D, mode, E):
     """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> z (K,)."""
-    c = coef[sel_idx]                              # (n, G)
-    addr = c @ D                                   # (n, K)
+    c = coef[sel_idx].astype(np.float64)           # (n, G)
+    addr = np.rint(c @ D.astype(np.float64)).astype(np.int64)   # (n, K)
     tp = E['tok_page'][sel_idx]
     t, v = targets(addr, tp, mode, E)
     RS = Rspace(E, mode[0])
@@ -454,12 +460,117 @@ def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None
         changed = False
         for g in order:
             b0 = base - c[:, g] * d[g]
-            addr = b0[:, None] + c[:, g][:, None] * vals_range[None, :]
-            t, v = targets(addr, tp, mode, E)
-            z = (RS[np.arange(n)[:, None] * 0 + sel_idx[:, None], t] * v).sum(0) / sq
+            h = np.where(c[:, g] > 0)[0]
+            addr = b0[h][:, None] + c[h, g][:, None] * vals_range[None, :]
+            t, v = targets(addr, tp[h], mode, E)
+            z = (RS[sel_idx[h][:, None], t] * v).sum(0)
+            hb = np.setdiff1d(np.arange(n), h)
+            if len(hb):
+                t0, v0 = targets(b0[hb], tp[hb], mode, E)
+                z = z + float((RS[sel_idx[hb], t0] * v0).sum())
+            z = z / sq
             k = int(np.argmax(z))
             if k != d[g]: changed = True
             d[g] = k; base = b0 + c[:, g] * k; best = float(z[k])
         if not changed: break
     if best is None: best = score_one(coef, sel_idx, d, mode, E)
     return d, best
+
+
+# ------------------------------------------------------------------ search driver
+def split_pages(E, seed=0):
+    rng = random.Random(seed)
+    by = collections.defaultdict(list)
+    for pi, p in enumerate(E['pages']): by[p['sec']].append(pi)
+    train = set()
+    for s, v in sorted(by.items()):
+        v = list(v); rng.shuffle(v); train |= set(v[:len(v) // 2 + (len(v) % 2) * rng.randint(0, 1)])
+    return np.array([pi in train for pi in range(E['N'])])
+
+
+SPACES = ['page', 'page', 'page', 'folio', 'quire']
+KINDS = ['abs_mod', 'abs_clip', 'abs_clip', 'rel_fwd', 'rel_back']
+
+
+def random_config(TT, E, rng, poscache):
+    sel, sdesc = random_selector(TT, rng)
+    use_skel = rng.random() < 0.6
+    if rng.random() < 0.5:
+        feat = ('count', use_skel); coef = TT['cnt_skel'] if use_skel else TT['cnt_full']
+        space = rng.choice(SPACES); vmax = {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
+        vmax = min(vmax, 120) if rng.random() < 0.5 else vmax
+    else:
+        B = rng.randint(2, 12); fr = rng.random() < 0.7
+        feat = ('pos', use_skel, B, fr)
+        if feat not in poscache: poscache[feat] = pos_weights(TT, use_skel, B, fr)
+        coef = poscache[feat]; space = rng.choice(SPACES); vmax = B
+    kind = rng.choice(KINDS); off = rng.choice([-1, 0, 0, 1])
+    if kind.startswith('rel'): off = rng.choice([0, 1])
+    return sel, sdesc, feat, coef, (space, kind, off), vmax
+
+
+def subset_mask(TT, S):
+    G = TT['glyphs']
+    notS = [TT['gi'][g] for g in G if g not in S]
+    if 'pres' not in TT: TT['pres'] = TT['cnt_full'] > 0
+    return ~TT['pres'][:, notS].any(1) if notS else np.ones(len(TT['words']), bool)
+
+
+def search(C, n_cfg=300, n_rand=500, n_ascend=2, seed=0, log=None, time_budget=None, E=None, p_subset=0.4):
+    import time
+    t0 = time.time()
+    if E is None: E = build_R(C)
+    TT = token_table(C, E)
+    tr_page = split_pages(E, seed)
+    tok_tr = tr_page[E['tok_page']]
+    rng = random.Random(seed + 11); nrng = np.random.default_rng(seed + 12)
+    poscache = {}
+    rows = []; n_eval = 0
+    G_all = TT['glyphs']
+    for ci in range(n_cfg):
+        if time_budget and time.time() - t0 > time_budget: break
+        sel, sdesc, feat, coef, mode, vmax = random_config(TT, E, rng, poscache)
+        S = None
+        if rng.random() < p_subset:
+            S = set(rng.sample(G_all, rng.randint(3, min(12, len(G_all)))))
+            sel = subset_mask(TT, S); sdesc = 'subset'
+        itr = np.where(sel & tok_tr)[0]; ite = np.where(sel & ~tok_tr)[0]
+        if len(itr) < 30 or len(ite) < 30: continue
+        G = coef.shape[1]
+        D = nrng.integers(0, vmax, size=(G, n_rand))
+        z = score_many(coef, itr, D, mode, E); n_eval += n_rand
+        for k in np.argsort(-z)[:n_ascend]:
+            d, ztr = ascent(coef, itr, D[:, k].astype(np.int64), mode, E, vmax, sweeps=3, rng=rng)
+            n_eval += 3 * G * vmax
+            if S is not None:
+                for rnd in range(2):
+                    for g in rng.sample(G_all, len(G_all)):
+                        S2 = set(S) ^ {g}
+                        if len(S2) < 2: continue
+                        m2 = subset_mask(TT, S2); i2 = np.where(m2 & tok_tr)[0]
+                        if len(i2) < 30: continue
+                        z2 = score_one(coef, i2, d, mode, E); n_eval += 1
+                        if z2 > ztr: S, ztr, itr = S2, z2, i2
+                    d, ztr = ascent(coef, itr, d, mode, E, vmax, sweeps=2, rng=rng)
+                    n_eval += 2 * G * vmax
+                sel = subset_mask(TT, S); ite = np.where(sel & ~tok_tr)[0]
+                sdesc = 'only{' + ''.join(sorted(S)) + '}'
+                if len(ite) < 10: continue
+            zte = score_one(coef, ite, d, mode, E)
+            rows.append(dict(sel=sdesc, feat=list(feat), mode=list(mode), vmax=vmax, ntr=len(itr), nte=len(ite),
+                             z_rand=float(z[k]), z_tr=ztr, z_te=zte,
+                             d={TT['glyphs'][g]: int(d[g]) for g in range(G) if d[g] and coef[itr, g].sum() > 0}))
+        if log and ci % 50 == 0:
+            print('%s cfg %d evals %.2e best_tr %.2f best_te %.2f elapsed %.0fs' % (C['name'], ci, n_eval,
+                  max([r['z_tr'] for r in rows] or [0]), max([r['z_te'] for r in rows] or [0]), time.time() - t0),
+                  file=log, flush=True)
+    return rows, E, TT, n_eval
+
+
+def summarise(rows, top=20):
+    rs = sorted(rows, key=lambda r: -r['z_tr'])[:top]
+    zte = np.array([r['z_te'] for r in rs]) if rs else np.zeros(1)
+    allte = np.array([r['z_te'] for r in rows]) if rows else np.zeros(1)
+    return dict(n=len(rows), top_tr_mean=float(np.mean([r['z_tr'] for r in rs])) if rs else 0,
+                top_te_mean=float(zte.mean()), top_te_max=float(zte.max()), all_te_mean=float(allte.mean()),
+                all_te_sd=float(allte.std()), n_te_gt3=int((allte > 3).sum()), best=rs[:3])

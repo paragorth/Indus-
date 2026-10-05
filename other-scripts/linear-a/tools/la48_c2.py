@@ -55,17 +55,19 @@ def dir_metrics(docs, d, rs, nperm=2000):
     io = [(i, 1 if g == 'IN' else -1) for i, g in lab if g in ('IN', 'OUT') and d[i] != 0]
     out = {}
     if len(io) >= 6:
-        def acc(pairs):
-            a = np.mean([1.0 if d[i] == t else 0.0 for i, t in pairs])
-            return max(a, 1 - a)
-        a0 = acc(io)
+        def phi(pairs):
+            a = np.array([d[i] for i, _ in pairs], float); b = np.array([t for _, t in pairs], float)
+            if a.std() == 0 or b.std() == 0:
+                return 0.0
+            return abs(float(np.corrcoef(a, b)[0, 1]))
+        a0 = phi(io)
         ts = [t for _, t in io]
         ge = 0
         for _ in range(nperm):
             rs.shuffle(ts)
-            if acc([(i, t) for (i, _), t in zip(io, ts)]) >= a0 - 1e-12:
+            if phi([(i, t) for (i, _), t in zip(io, ts)]) >= a0 - 1e-12:
                 ge += 1
-        out['dir_acc'] = round(float(a0), 3); out['dir_P'] = (ge + 1) / (nperm + 1); out['dir_n'] = len(io)
+        out['dir_phi'] = round(float(a0), 3); out['dir_P'] = (ge + 1) / (nperm + 1); out['dir_n'] = len(io)
     st = [i for i, g in lab if g == 'STOCK']
     if st:
         out['stock_recall'] = round(float(np.mean([d[i] == 0 for i in st])), 3)

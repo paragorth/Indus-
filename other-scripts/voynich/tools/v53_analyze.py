@@ -140,7 +140,7 @@ def decoded_words(m, lines):
     return out, cov
 
 
-def inverse_test(p, nshuf=10, seed=0):
+def inverse_test(p, nshuf=5, seed=0):
     m = build(p, envB)
     key = (p['corpus'], p['abbr'])
     if key not in LMC:
