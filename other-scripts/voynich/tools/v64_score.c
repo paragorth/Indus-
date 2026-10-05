@@ -44,7 +44,14 @@ static HE* hget(int k, const char *s, int n, int create){
 }
 static double gunif[256]; static double NG=0;
 
+static int GAPMODE = 1; /* 1: spelled gaps (length x per-kind glyph unigram); 0: categorical strings */
+static double lenc[3][17], glc[3][256], lsum[3], gsum[3];
 static double gapprob(int k, const char *s, int n){
+  if(GAPMODE==1){
+    double p = (lenc[k][n>16?16:n]+0.5)/(lsum[k]+0.5*17);
+    for(int i=0;i<n;i++) p *= (glc[k][(unsigned char)s[i]]+0.5)/(gsum[k]+0.5*64);
+    return p;
+  }
   HE *e = hget(k,s,n,0);
   double alpha = HTYPES[k] + 1.0;
   double denom = HN[k] + alpha;
@@ -56,6 +63,7 @@ static double gapprob(int k, const char *s, int n){
 }
 
 int main(int argc, char **argv){
+  if(argc>2) GAPMODE = atoi(argv[2]);
   FILE *f = fopen(argv[1], "r"); if(!f){perror("corpus"); return 1;}
   char buf[512];
   while(fgets(buf, sizeof buf, f)){
@@ -85,7 +93,8 @@ int main(int argc, char **argv){
     if(K == 0){ printf("NA\n"); fflush(stdout); continue; }
     int ord[MAXK]; for(int i=0;i<K;i++) ord[i]=i;
     for(int i=0;i<K;i++) for(int j=i+1;j<K;j++) if(clen[ord[j]] > clen[ord[i]]){int t=ord[i];ord[i]=ord[j];ord[j]=t;}
-    for(int k=0;k<3;k++){ memset(H[k],0,sizeof(H[k])); HN[k]=0; HTYPES[k]=0; }
+    for(int k=0;k<3;k++){ if(GAPMODE==0){ memset(H[k],0,sizeof(H[k])); } HN[k]=0; HTYPES[k]=0;
+      memset(lenc[k],0,sizeof lenc[k]); memset(glc[k],0,sizeof glc[k]); lsum[k]=0; gsum[k]=0; }
     double covg=0, totg=0, cnt[MAXK]; memset(cnt,0,sizeof cnt);
     static double prec[MAXK][MAXK]; memset(prec,0,sizeof prec);
     double mcount[MAXM+1]; memset(mcount,0,sizeof mcount);
@@ -107,7 +116,9 @@ int main(int argc, char **argv){
         for(int i=0;i<m;i++){ cnt[seqs[t][i]] += c;
           for(int j=i+1;j<m;j++) if(seqs[t][i]!=seqs[t][j]) prec[seqs[t][i]][seqs[t][j]] += c; }
         for(int g=0; g<=m; g++){ int kind = (g==0)?0:((g==m)?2:1); if(m==0) kind=0;
-          HE *e = hget(kind, w+gst[t][g], gen_[t][g]-gst[t][g], 1); e->c += c; HN[kind]+=c; }
+          int gl = gen_[t][g]-gst[t][g];
+          if(GAPMODE==0){ HE *e = hget(kind, w+gst[t][g], gl, 1); e->c += c; HN[kind]+=c; }
+          else { lenc[kind][gl>16?16:gl]+=c; lsum[kind]+=c; for(int q=0;q<gl;q++){ glc[kind][(unsigned char)w[gst[t][g]+q]]+=c; gsum[kind]+=c; } } }
       }
     }
     double score[MAXK]; int rank[MAXK];

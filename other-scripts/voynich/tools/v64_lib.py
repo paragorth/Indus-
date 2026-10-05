@@ -272,10 +272,10 @@ def sample_alphabet(pool, rng, kmin=6, kmax=20):
     return sorted(chosen)
 
 
-def score(corpus_path, alphabets):
+def score(corpus_path, alphabets, gapmode=1):
     build_scorer()
     inp = '\n'.join(' '.join(a) for a in alphabets) + '\n'
-    r = subprocess.run([SCORER, corpus_path], input=inp, capture_output=True, text=True, check=True)
+    r = subprocess.run([SCORER, corpus_path, str(gapmode)], input=inp, capture_output=True, text=True, check=True)
     out = []
     for line in r.stdout.strip().split('\n'):
         v = line.split()

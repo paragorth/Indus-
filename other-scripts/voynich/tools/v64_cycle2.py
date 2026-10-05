@@ -1,10 +1,14 @@
-"""v64 cycle 2: survivors of the random search are hill-climbed on the selection split
+"""v64 cycle 2: padding re-modelled (gap strings spelled glyph by glyph, so an alphabet
+cannot hide words in memorised padding; the categorical gap model of cycle 1 let the
+climber collapse coverage). Fresh random search (10,000 alphabets per corpus, spelled
+gaps, ranked by sel Gfree); the survivors are hill-climbed on the selection split
 and then re-tested on the held split; the climbed alphabet's section profile is
 compared with random alphabets of the same size (topic test).
 
 Hill climb (objective OBJ = Gfree, the Lullian free-combination model; cycle-1
 calibration: true alphabets give Gfree ars +0.18, med -0.56, Latin -3.68):
-start from the 6 best random alphabets (by sel OBJ); 20 rounds, each
+start from the 6 best random alphabets (by sel OBJ) plus the 20 commonest single
+glyphs; 20 rounds, each
 proposing 60 neighbours (add / drop / swap one n-gram from the 200-n-gram pool,
 extend or trim one concept by a glyph); keep the best if it improves sel OBJ.
 Topic test: I(concept; section) - and the ratio to I(glyph; section) - for the
@@ -12,12 +16,13 @@ climbed alphabet vs 200 random alphabets of the same size from the same pool, on
 whole corpus; and a folio-level section-label permutation null (100 permutations).
 """
 import sys, json, random, os, time
+from collections import Counter
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v64_lib as V
 
 OBJ = 'Gfree'
-CORP = ['ars', 'med', 'lat', 'voy', 'voyit', 'voy_mk2', 'voy_gshuf', 'voy_sc']
+CORP = ['ars', 'med', 'voy', 'lat', 'voyit', 'voy_mk2', 'voy_gshuf', 'voy_sc', 'ars_mk2']
 
 
 def neighbours(al, pool, rng, n):
@@ -50,11 +55,18 @@ def climb(k):
     if os.path.exists(out):
         return k
     D = V.all_corpora(); C = D['corpora'][k]
-    c1 = json.load(open(os.path.join(V.CK, 'c1_%s.json' % k)))
     ps, ph = os.path.join(V.CK, 'c_%s_sel.txt' % k), os.path.join(V.CK, 'c_%s_held.txt' % k)
     tr, _ = V.type_counts(C, 'sel'); pool = V.ngram_pool(tr)
     rng = random.Random(sum(map(ord, k)))
-    starts = [c1['al'][i] for i in c1['topf'][:6]]
+    ral = [V.sample_alphabet(pool, rng) for _ in range(10000)]
+    rs = V.score(ps, ral)
+    order = sorted(range(len(ral)), key=lambda i: -rs[i][OBJ])
+    rand_held = V.score(ph, [ral[i] for i in order[:20]])
+    gl = Counter()
+    for w, n in tr.items():
+        for c in w:
+            gl[c] += n
+    starts = [ral[i] for i in order[:6]] + [sorted(g for g, _ in gl.most_common(20))]
     finals = []
     for al in starts:
         cur = sorted(al); cs = V.score(ps, [cur])[0]
@@ -100,12 +112,17 @@ def climb(k):
             continue
         lr = {alpha[u]: round(((c[u] + .5) / n) / ((tot[u] + .5) / N), 2) for u in tot}
         prof[s] = sorted(lr.items(), key=lambda x: -x[1])[:4] + sorted(lr.items(), key=lambda x: x[1])[:2]
-    res = {'finals': finals, 'held': held, 'best': best, 'alpha': alpha,
+    res = {'rand_sel_best': rs[order[0]], 'rand_held_top20': rand_held,
+           'rand_sel_q': [rs[order[q]][OBJ] for q in (0, 10, 100, 1000, 5000)],
+           'finals': finals, 'held': held, 'best': best, 'alpha': alpha,
            'Ic': Ic, 'Ig': Ig, 'rand': rand, 'perm': perm, 'prof': prof}
     for name, codes in D['codes'].items():
         if k == name:
             res['jacc'] = V.jaccard(alpha, codes.values())
             res['jacc_start'] = [V.jaccard(a, codes.values()) for a in starts]
+        res['truth_sel'] = V.score(ps, [sorted(codes.values())])[0]
+        res['truth_held'] = V.score(ph, [sorted(codes.values())])[0]
+        res['jacc_finals'] = [V.jaccard(a, codes.values()) for a, _ in finals]
     json.dump(res, open(out, 'w'))
     return k
 

@@ -211,12 +211,12 @@ def binding_order(quires):
     return [s for s in seq if s != GAP]
 
 
-def pour(template, words_or_entries, mode, seed, quires, encode=True):
+def pour(template, words_or_entries, mode, seed, quires, encode=True, order=None):
     """Fill the template's page layout (lines x words per line, in binding order) with a
     control text. mode 'flow': one continuous text; 'entry': one entry per page (truncated,
     or the page cut short if the entry is shorter)."""
     enc = opaque_encoder(seed) if encode else (lambda w: w)
-    order = [k for k in binding_order(quires) if k in template]
+    order = [k for k in (order or binding_order(quires)) if k in template]
     pages = {}
     if mode == 'flow':
         ws = words_or_entries; i = 0
