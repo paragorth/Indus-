@@ -19,4 +19,5 @@ for k in ['ars', 'med', 'lat', 'voy', 'voyit', 'voy_mk2', 'voy_gshuf', 'voy_sc',
           ('| J truth %.2f (starts %s)' % (r['jacc'], [round(x, 2) for x in r['jacc_start']]) if 'jacc' in r else ''))
     print('          rand sel quantiles', [round(x, 2) for x in r['rand_sel_q']], 'rand held best Gfree %.2f' % max(x['Gfree'] for x in r['rand_held_top20']),
           ('| truth held Gfree %.2f Gm1 %.2f | J finals %s' % (r['truth_held']['Gfree'], r['truth_held']['Gm1'], [round(x, 2) for x in r['jacc_finals']]) if 'truth_held' in r else ''))
+    print('          glyph-alphabet held Gm1 %.2f Gfree %.2f | DELTA (climbed Gfree - glyph Gm1) %.2f' % (r['glyph_held']['Gm1'], r['glyph_held']['Gfree'], h['Gfree'] - r['glyph_held']['Gm1']))
     print('          profiles', json.dumps(r['prof'])[:600])

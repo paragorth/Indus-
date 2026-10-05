@@ -1,0 +1,66 @@
+la55 final (5 Oct 2026): WORDS GROW LIKE CITIES
+Cycles: loops/la55_cycle1.txt, la55_cycle2.txt, la55_cycle3.txt. Tools: tools/la55_common.py, la55_c1.py, la55_c2.py,
+la55_c2b.py, la55_c3.py, la55_c3b.py, la55_c3c.py. Checkpoints: data/la55_ckpt/ (git-ignored).
+
+Idea: archives might grow like cities. Administrative function words would saturate (each office needs them once),
+names would grow in proportion to the number of documents, and specialised goods would appear only above a size
+threshold. For every word and sign, a scaling exponent was fitted across archives (35 Linear A deposits, 103
+Linear B find areas, 277 Ur III site-year archives). The fits were compared with documents re-dealt to archives:
+free (N1), within genre (N3), and within genre x length (N4), 300-1,000 times each. Further tests: bootstrap (N2),
+a planted class, Heaps growth per independent class, leave-one-archive-out prediction, inverse estimation of
+archive size, and settlement hectares from open sources.
+Novelty: urban scaling of words exists for Twitter by city (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6837183/).
+No one has done it for ancient archives. la5 fitted only one corpus-wide Heaps exponent.
+
+VERDICT: NOT CRACKED. The urban-scaling frame is KILLED by its controls.
+
+Grades
+- A (method, calibrated negative): the expected scaling classes do not appear in any of the known administrations.
+  - Function words do not saturate relative to names in Linear B (full size or Linear A size) or Ur III.
+    - Beta AUC 0.39-0.59.
+    - Occupancy AUC 0.27-0.39.
+    - Permutation p >= 0.18 under every null.
+  - Ur III function words are as often superlinear as saturating.
+  - 'Names grow in proportion' holds only in full Linear B under N3 (p 0.037).
+    - It weakens under N4 (p 0.056).
+    - It disappears at Linear A size (p 0.23-0.60) and in Ur III (p 0.70-0.87).
+  - Scaling-based predictions fail on held-out archives in the controls.
+    - Saturating-word presence: LB -0.032 and LBS -0.056 bits against proportional sampling, worse than the shuffled data.
+    - Archive size from a fragment: Spearman -0.08 in LB and LBS.
+  - Planted classes are recovered for saturation (15/15) and linearity (11-14/15).
+  - Planted superlinear words are not separable from threshold words at Linear A size (1-5/15).
+    - The reason is that Linear A has only two archives above 100 documents (HT Villa R13 and Khania).
+- B (calibrated negative): Linear A scaling exponents do not predict what a held-out Linear A archive contains.
+  - All words: -0.008 bits against N3 +0.013.
+  - Predicted-saturating words: -0.054 against N3 -0.026.
+  - Fragments do not reveal archive size (rho 0.06, p 0.30).
+  - Linear A archives show no lexical closure (all-word Heaps 0.788 against 0.797 re-dealt, p 0.38).
+    - Linear B find areas re-use their own names and goods, and this is detectable at Linear A size (PERSON p 0.007, COMM p 0.003).
+- B (descriptive, robust under N3 and N4): Linear A words in each scaling class.
+  - SATURATING (higher per-document rate in small archives): GRA, OLIV, HIDE, the single signs KI, TI, *188 and *131B, *86-RO and TE-RI.
+  - THRESHOLD (found only in the larger archives): CYP, MI, QA2, *411-VS, the single signs *164, *306 and O, and DI-NA-U.
+    - *164, *306 and *411-VS occur only at Khania and HT R13, so here 'threshold' cannot be told from a regional or deposit habit.
+  - SUPERLINEAR (N4): *401, NI, *131C, KU-PA3-NU.
+  - Everything else is LINEAR (115-117 of 141 types).
+  - Unstable between nulls (not graded): VIN, SA-RA2, KU-RO. KU-RO is saturating under N3 and threshold under N4.
+- Killed: Linear A signs saturating (37/98 under N3) was document length; it falls to 7/98 under N4.
+- C: la45 commodities lean to saturation and headers to threshold (chi-square p 0.018 under N3, 0.10 under N4).
+  - Would support: p < 0.05 under N4 once more small archives are published.
+  - Would kill: commodities spread proportionally in new small deposits.
+- C: bigger towns left more documents and more kinds of logogram, sublinearly (exponent 0.42-0.51; logogram types rho 0.81, p 0.042; documents rho 0.70, p 0.067; 6 sites).
+  - Type richness is fully explained by document count (rho -0.17).
+  - Would support: the same ordering at Zakros, Khania and HT once open size estimates exist.
+  - Would kill: a large town with a small, poor archive.
+  - The site sizes come from:
+    - Whitelaw, UCL Discovery 10071377: Knossos ~100 ha; Malia and Phaistos 50-60; Palaikastro 15-20.
+    - news.gtp.gr: Akrotiri ~20.
+    - Wikipedia: Gournia 1.68.
+
+Size-based predictions (recorded but NOT graded, because LA-55.3c fails held-out): a new archive of 20 documents
+should hold about 25 word/logogram types (proportional sampling gives 19), with GRA 0.83, VIN 0.79, KU-RO 0.57,
+SA-RA2 0.42 and OLIV 0.42 (proportional 0.55, 0.49, 0.31, 0.21, 0.20). For 1,000 documents it should hold about 111
+types (proportional 133).
+
+What this rules out: a Linear A word's distribution across archives does not mark it as a function word, a name or
+a specialised good. Archive size carries no recoverable lexical structure at this corpus size, and Linear B and
+Ur III do not carry it either.

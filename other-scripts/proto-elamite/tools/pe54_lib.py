@@ -41,6 +41,7 @@ os.makedirs(CK, exist_ok=True)
 sys.path.insert(0, HERE)
 
 EPS = 0.5
+ZERO_MISSING = False     # True: a class written as 0 / not written is treated as unobserved
 KAPPAS = (2.0, 6.0, 20.0)
 DTS = (0, 1, 2, 3)
 NROLE = 7          # 0 X ; 1 F0 2 M0 3 Y0 ; 4 F1 5 M1 6 Y1
@@ -117,7 +118,12 @@ class Corpus:
                 v = self.X[:, c]
                 L = nb_logpmf(v[:, None], v[None, :], k)     # target x, source v
                 np.fill_diagonal(L, -np.inf)
-                B[:, c] = logsumexp(L, 1) - np.log(self.n - 1)
+                if ZERO_MISSING:
+                    nz = v > 0
+                    L[:, ~nz] = -np.inf
+                    B[:, c] = logsumexp(L, 1) - np.log(max(nz.sum() - 1, 1))
+                else:
+                    B[:, c] = logsumexp(L, 1) - np.log(self.n - 1)
             self.bg[k] = B
 
 
@@ -133,9 +139,16 @@ def pair_scores(C, roles, th, dts=DTS, Xsrc=None, src_bg=None):
     Ls = []
     for dt in dts:
         P = project(X, roles, th, dt)[:, mask]        # n_s, m
-        L = nb_logpmf(xt[None, :, :], P[:, None, :], k).sum(2)    # n_s, n_t
+        if ZERO_MISSING:
+            obs = (X[:, mask] > 0)[:, None, :] & (xt > 0)[None, :, :]
+            ll = nb_logpmf(xt[None, :, :], P[:, None, :], k) - C.bg[k][:, mask][None, :, :]
+            L = np.where(obs, ll, 0.0).sum(2)
+        else:
+            L = nb_logpmf(xt[None, :, :], P[:, None, :], k).sum(2)    # n_s, n_t
         Ls.append(L)
     L = logsumexp(np.stack(Ls), 0) - np.log(len(dts))
+    if ZERO_MISSING:
+        return L
     return L - bg[None, :]
 
 
@@ -234,7 +247,7 @@ def synthetic_unrelated(X, rng):
     return Y
 
 
-def plant_archive(rng, n_flocks=150, years=8, K=8, survive=1.0, obs_classes=(2, 8), roles=None, th=None):
+def plant_archive(rng, n_flocks=150, years=8, K=8, survive=1.0, obs_classes=(2, 8), roles=None, th=None, het=5.0):
     """Evolving flocks with true roles; returns X, tab, owner string, year, roles, truth rates."""
     if roles is None:
         roles = np.array([1, 2, 3, 0, 4, 5, 6, 0])[:K]
@@ -247,8 +260,8 @@ def plant_archive(rng, n_flocks=150, years=8, K=8, survive=1.0, obs_classes=(2, 
         st = {}
         for s in (0, 1):
             w = rng.uniform(0.2, 1.0) if s == 1 else 1.0
-            st[s] = np.array([0.55, 0.15, 0.30]) * size * w
-        split = {c: rng.dirichlet(np.ones(int((roles == c).sum())) * 5) for c in range(1, 7) if (roles == c).any()}
+            st[s] = rng.dirichlet(np.array([0.55, 0.15, 0.30]) * het * 3) * size * w
+        split = {c: rng.dirichlet(np.ones(int((roles == c).sum())) * het) for c in range(1, 7) if (roles == c).any()}
         xvals = rng.uniform(1, 15, size=K)
         for y in range(years):
             # each flock-year has its own rates noise (good and bad years)
@@ -389,3 +402,44 @@ def ur3_corpus():
     d = json.load(open(os.path.join(CK, 'ur3_sightings.json')))
     X = np.array([o['v'] for o in d], float)
     return d, X, np.array([o['id'] for o in d]), [o['herd'] for o in d], [o['year'] for o in d]
+
+
+def retrieval(S, strings, forbid, sizes=None):
+    """For each entry with a same-string partner: rank of the nearest true partner among all
+    allowed candidates (1 = best) by symmetric score. Returns mean reciprocal rank, hits@1, n, chance MRR."""
+    Ssym = np.maximum(S, S.T)
+    n = len(strings)
+    rr, h1, ch = [], 0, []
+    for i in range(n):
+        cand = [j for j in range(n) if not forbid[i, j]]
+        pos = [j for j in cand if strings[j] == strings[i]]
+        if not pos:
+            continue
+        sc = np.array([Ssym[i, j] for j in cand])
+        best = max(Ssym[i, j] for j in pos)
+        rank = 1 + np.sum(sc > best)
+        rr.append(1.0 / rank)
+        h1 += rank == 1
+        m = len(cand)
+        ch.append(np.mean([1.0 / r for r in range(1, m + 1)]) if len(pos) == 1 else min(1, len(pos) / m * 2))
+    return dict(mrr=float(np.mean(rr)) if rr else float('nan'), hit1=int(h1), n=len(rr),
+                mrr_chance=float(np.mean(ch)) if ch else float('nan'))
+
+
+def size_scores(C):
+    t = np.log1p(C.X.sum(1))
+    return -np.abs(t[:, None] - t[None, :])
+
+
+def order_eval(S, strings, years, forbid):
+    ok, n = 0, 0
+    for i in range(len(strings)):
+        for j in range(i + 1, len(strings)):
+            if forbid[i, j] or strings[i] != strings[j]:
+                continue
+            if years[i] is None or years[j] is None or years[i] == years[j]:
+                continue
+            pred_i_first = S[i, j] > S[j, i]
+            ok += pred_i_first == (years[i] < years[j])
+            n += 1
+    return ok, n

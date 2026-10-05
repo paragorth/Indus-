@@ -137,8 +137,12 @@ def skel_labels(pages, f):
     for pg in pages:
         starts.append(len(lab))
         for l in pg:
-            v = tuple(f(w) for w in l)
-            lab.append(vocab.setdefault(v, len(vocab)) if len(l) >= 3 else -1)
+            # skeleton of the first three and last two words (independent of word count per line)
+            if len(l) >= 5 and not any(str(w[0]).startswith('?') for w in l):
+                v = tuple(f(w) for w in (l[0], l[1], l[2], l[-2], l[-1]))
+                lab.append(vocab.setdefault(v, len(vocab)))
+            else:
+                lab.append(-1)
         ends.append(len(lab))
     return np.array(lab, np.int64), np.array(starts, np.int64), np.array(ends, np.int64)
 
