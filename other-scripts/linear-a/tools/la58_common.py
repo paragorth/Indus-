@@ -208,7 +208,8 @@ def stats(docs, K):
     return out
 
 
-def simulate(K, nk, nworld, sd, force_type=-1, force_theta=None):
+def simulate(K, nk, nworld, sd, force_type=-1, force_theta=None, tabonly=0):
+    lib().la58_set_tabonly(ctypes.c_int(tabonly))
     """Run nworld random worlds; returns (stats [nworld, nstat], theta [nworld, ntheta])."""
     nk = np.ascontiguousarray(np.array(nk, dtype=np.int32))
     S = np.zeros((nworld, nstat(K)), dtype=np.float64)

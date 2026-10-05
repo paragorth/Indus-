@@ -18,6 +18,7 @@ NNULL = int(sys.argv[2]) if len(sys.argv) > 2 else 20
 THR = float(sys.argv[3]) if len(sys.argv) > 3 else 0.6
 TAG = sys.argv[4] if len(sys.argv) > 4 else 'c1'
 CHUNK = 1000
+TOPK = 200
 OUT = os.path.join(C.CK, TAG)
 os.makedirs(OUT, exist_ok=True)
 LOG = os.path.join(OUT, 'log.txt')
@@ -112,35 +113,39 @@ def main():
         # universal on real labels
         realA = np.array([A[k][0] for k in elig])
         univ = np.where((realA >= THR).all(0))[0]
-        # LOSO
+        # LOSO (one system out) and LOCO (one civilisation out: cuneiform / Aegean / Andes)
         fold = {}
-        for h in elig:
-            tr = [k for k in elig if k != h]
-            rows_h, Ys_h = L[h]
-            yh = Ys_h[0]
-            Xh = sysd[h]['X'][rows_h]
-            out = []
-            for rep in range(NNULL + 1):
-                At = np.array([A[k][rep] for k in tr])
-                sel = np.where((At >= THR).all(0))[0]
-                if len(sel) > 2000:
-                    sel = sel[np.argsort(-At[:, sel].min(0))[:2000]]
-                if len(sel) == 0:
-                    out.append((0, float('nan'), float('nan')))
-                    continue
-                S = score(Xh, [H[i] for i in sel])
-                ens = rankdata(S, axis=0).mean(1)
-                out.append((len(sel), C.auc(ens, yh), float(np.mean(A[h][0][sel] >= THR))))
-            real = out[0]
-            nulls = [o[1] for o in out[1:] if o[0] > 0]
-            nn0 = sum(1 for o in out[1:] if o[0] == 0)
-            p = (1 + sum(1 for v in nulls if not np.isnan(real[1]) and v >= real[1])) / (1 + len(nulls)) if nulls else float('nan')
-            fold[h] = dict(nsel=real[0], auc=real[1], transfer=real[2], null_auc_med=float(np.median(nulls)) if nulls else None,
-                           null_auc_max=float(max(nulls)) if nulls else None, null_nsel_med=float(np.median([o[0] for o in out[1:]])),
-                           null_empty=nn0, p=p)
-            log('%s held-out %-4s survivors %5d  ens AUC %.3f  share>=thr %.2f | null: n_sel med %.0f empty %d, AUC med %s max %s | P %.3f' % (
-                role, h, real[0], real[1], real[2], fold[h]['null_nsel_med'], nn0,
-                '%.3f' % fold[h]['null_auc_med'] if nulls else '-', '%.3f' % fold[h]['null_auc_max'] if nulls else '-', p))
+        units = [(h, [h]) for h in elig]
+        civs = sorted({C.CIV2[k] for k in elig})
+        if len(civs) >= 2:
+            units += [('CIV:' + c, [k for k in elig if C.CIV2[k] == c]) for c in civs]
+        for name, hold in units:
+            tr = [k for k in elig if k not in hold]
+            if not tr:
+                continue
+            for h in hold:
+                rows_h, Ys_h = L[h]
+                yh = Ys_h[0]
+                Xh = sysd[h]['X'][rows_h]
+                out = []
+                for rep in range(NNULL + 1):
+                    At = np.array([A[k][rep] for k in tr])
+                    mn = At.min(0)
+                    npass = int((mn >= THR).sum())
+                    sel = np.argsort(-mn)[:TOPK]
+                    S = score(Xh, [H[i] for i in sel])
+                    ens = rankdata(S, axis=0).mean(1)
+                    out.append((npass, C.auc(ens, yh), float(np.mean(A[h][0][sel] >= THR)), float(mn[sel].mean())))
+                real = out[0]
+                nulls = np.array([o[1] for o in out[1:]])
+                p = (1 + int((nulls >= real[1]).sum())) / (1 + len(nulls))
+                key = name if name == h else name + '>' + h
+                fold[key] = dict(ntrain=len(tr), npass=real[0], auc=real[1], transfer=real[2], train_min=real[3],
+                                 null_npass_med=float(np.median([o[0] for o in out[1:]])),
+                                 null_auc_med=float(np.median(nulls)), null_auc_q95=float(np.quantile(nulls, 0.95)), p=p)
+                log('%s held-out %-12s train %d sys | pass %5d (null med %5.0f) | top%d ens AUC %.3f (null med %.3f q95 %.3f) P %.3f | share>=thr %.2f' % (
+                    role, key, len(tr), real[0], fold[key]['null_npass_med'], TOPK, real[1], fold[key]['null_auc_med'],
+                    fold[key]['null_auc_q95'], p, real[2]))
         # universal survivors under the null (count only)
         nuniv = [int(((np.array([A[k][rep] for k in elig]) >= THR).all(0)).sum()) for rep in range(1, NNULL + 1)]
         log('%s universal scorers: %d of %d (null median %.0f, max %d) systems %s' % (role, len(univ), M, np.median(nuniv), max(nuniv), elig))

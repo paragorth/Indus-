@@ -24,6 +24,7 @@ PE = os.path.join(HERE, '..', '..', 'proto-elamite')
 KHDB = os.path.join(SCRATCH, 'codelib', 'open-khipu-repository-2.1.0', 'data', 'khipu.db')
 ROLES = ['COM', 'TOT', 'PER', 'PLA', 'TRA', 'HDR', 'UNI']
 KNOWN = ['PC', 'UR3', 'OB', 'EB', 'OA', 'LB', 'KH']
+CIV2 = {'PC': 'CUN', 'UR3': 'CUN', 'OB': 'CUN', 'EB': 'CUN', 'OA': 'CUN', 'LB': 'AEG', 'KH': 'AND'}
 CIV = {'PC': 'MESO', 'UR3': 'MESO', 'OB': 'MESO', 'EB': 'SYRIA', 'OA': 'ASSUR', 'LB': 'AEGEAN', 'KH': 'ANDES'}
 
 
