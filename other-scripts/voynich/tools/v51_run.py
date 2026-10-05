@@ -51,7 +51,11 @@ for m in MIDS:
             xs.append(V.render(V.clip_words(w, rng), M, RI[k], srng, seconds=secs)); meta.append((k, j))
     res = []
     for i in range(0, len(xs), 8):
-        r, _ = S.score(xs[i:i + 8]); res += r
+        r, pl = S.score(xs[i:i + 8])
+        if os.environ.get('V51_SAVE_LID'):
+            for rr, p in zip(r, pl):
+                rr['lid'] = [round(float(v), 5) for v in np.log(p + 1e-9)]
+        res += r
     for (k, j), r in zip(meta, res):
         r.update(m=m, corpus=k, clip=j, pv=M['pv'], stress=M['pros']['stress'])
         f.write(json.dumps(r) + '\n')

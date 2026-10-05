@@ -17,7 +17,7 @@ import v51_lib as V
 from v51_analyze import load
 
 MET = sys.argv[3].split(',') if len(sys.argv) > 3 else V.METRICS
-CORP = ['V-ZL', 'la', 'de', 'he', 'G-selfcit', 'G-mk2']
+CORP = ['V-ZL', 'la', 'de', 'cs', 'eo', 'he', 'G-selfcit', 'G-mk2']
 K = 15
 
 def speech_table(rows, ref=None):
@@ -92,7 +92,25 @@ def test(tagd, tagh):
         out.append(line)
     return '\n'.join(out)
 
+def profile(tag):
+    """Pre-registered replication of V-51.1.6 on fresh mappings: per-metric paired z, corpus vs own shuffle."""
+    rows = load(tag)
+    T = defaultdict(dict)
+    for r in rows:
+        T[(r['corpus'].split('@')[0], r['m'])] = r
+    out = []
+    for c in CORP:
+        ms = sorted(m for (cc, m) in T if cc == c and (c + '~shuf', m) in T)
+        z = []
+        for k in V.METRICS:
+            d = np.array([V.SIGN[k] * (T[(c, m)][k] - T[(c + '~shuf', m)][k]) for m in ms])
+            z.append(d.mean() / (d.std(ddof=1) / np.sqrt(len(d))))
+        out.append(f'{c} (n={len(ms)}): ' + ' '.join(f'{k}:{v:+.1f}' for k, v in zip(V.METRICS, z)))
+    return '\n'.join(out)
+
 if __name__ == '__main__':
+    if sys.argv[1] == 'profile':
+        print(profile(sys.argv[2])); sys.exit()
     if sys.argv[1] == 'pick':
         pick(sys.argv[2])
     else:

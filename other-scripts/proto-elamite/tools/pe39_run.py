@@ -40,8 +40,10 @@ B_tr, B_ho = tablet_split(B_all, seed=0)
 V = Vocab({La: A_tr, Lb: B_tr})
 Sa = [V.enc(La, l) for l in A_tr]; Sb = [V.enc(Lb, l) for l in B_tr]
 Ha = [V.enc(La, l) for l in A_ho]; Hb = [V.enc(Lb, l) for l in B_ho]
+P = numeral_profiles(V, {La: A_tr, Lb: B_tr})
+plex = profile_lexicon(V, P, La, Lb)
 cfg = {'seed': SEED, 'arch': ARCH, 'steps': STEPS, 'ae_steps': STEPS // 4,
-       'akw': {} if ARCH == 'gru' else {}}
+       'akw': {'prof': P} if ARCH == 'prof' else {}}
 model = train(cfg, {'A': (La, Sa), 'B': (Lb, Sb)}, V)
 res = {'set': SET, 'seed': SEED, 'arch': ARCH, 'steps': STEPS, 'mode': mode,
        'nA': len(A_all), 'nB': len(B_all), 'V': len(V.itos)}
@@ -53,7 +55,7 @@ outA = translate(model, V, allA, Lb)
 outB = translate(model, V, allB, La)
 lexAB = lexicon(V, allA, outA)
 lexBA = lexicon(V, allB, outB)
-res['lexAB'] = lexAB; res['lexBA'] = lexBA
+res['lexAB'] = lexAB; res['plex'] = plex; res['lexBA'] = lexBA
 # share of translated tokens that are numerals copied exactly
 def numcopy(src, out):
     k = n = 0
@@ -82,6 +84,9 @@ if gold is not None:
             sc2.append((s, t[0], c))
     res['prec_BA'] = sum(c for _, _, c in sc2) / max(len(sc2), 1)
     res['n_known'] = len(sc); res['n_known_BA'] = len(sc2)
+    nsA = {s: t[4] for s, t in lexAB.items()}
+    pk = [(s, t, correct(s, t), nsA.get(s, 0)) for s, t in plex.items() if correct(s, t) is not None]
+    res['profile_known'] = pk
 # held-out pair gains for the 30 most frequent source signs
 fB = collections.Counter(V.itos[i] for s in Sb for i in s if V.is_sign(i))
 rng = random.Random(SEED)

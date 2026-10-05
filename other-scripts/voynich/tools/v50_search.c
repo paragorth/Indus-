@@ -53,7 +53,7 @@ static void readset(const char *fn) {
 }
 
 /* ---------- stream generation ---------- */
-static int *BUF; static int BN, BCAP;   /* units; -1 = segment break; -2 = page break */
+static int *BUF; static int BN, BCAP; static int POSMODE = 0, CURP = 0;   /* units; -1 = segment break; -2 = page break */
 static void emit(int u) { if (BN >= BCAP) { BCAP *= 2; BUF = realloc(BUF, sizeof(int) * BCAP); } BUF[BN++] = u; }
 
 static inline int rowlen(const Spec *s, Line *L) { return s->unit == 0 ? L->nw : L->nc; }
@@ -85,7 +85,7 @@ static void walk(const Spec *s, Page *pg, int i0, int iend, int within_line) {
         int col = -1;
         if (s->mode == 0) { col = ((j % len) + len) % len; }
         else if (j >= 0 && j < len) col = j;
-        if (col >= 0) { int u = cell(s, L, physcol(s, i, col, len)); if (u >= 0) emit(u); }
+        if (col >= 0) { int pc = physcol(s, i, col, len); int u = cell(s, L, pc); if (u >= 0) { emit(u); if (POSMODE) printf("%d %d %d\n", CURP, i, pc); } }
         int a = s->a[k], b = s->b[k]; k = (k + 1) % s->m;
         if (within_line) { j += b; if (j < 0 || j >= len) return; continue; }
         i += a; if (i >= iend) return;
@@ -106,7 +106,7 @@ static void make_stream(const Spec *s) {
         if (BN >= CAP) break;
         if (MASK == 1 && (p & 1)) continue;
         if (MASK == 2 && !(p & 1)) continue;
-        Page *pg = &P[p];
+        Page *pg = &P[p]; CURP = p;
         if (s->start == 0) walk(s, pg, 0, pg->nl, 0);
         else if (s->start == 1) { for (int i = 0; i < pg->nl; i++) { walk(s, pg, i, i + 1, 1); emit(-1); } }
         else {
@@ -233,6 +233,7 @@ int main(int argc, char **argv) {
             for (int k = 0; k < s->m; k++) printf("(%d,%d)", s->a[k], s->b[k]); printf("\n"); }
         return 0; }
     if (sub) { Spec *T = malloc(sizeof(Spec) * nsub); for (int q = 0; q < nsub; q++) T[q] = SP[sub[q]]; SP = T; NS = nsub; }
+    if (!strcmp(argv[2], "POS")) { POSMODE = 1; CAP = 1 << 30; for (int q = 0; q < NS; q++) { printf("# %d\n", sub ? sub[q] : q); make_stream(&SP[q]); } return 0; }
     if (!strcmp(argv[2], "STREAM")) { /* print each listed path's unit stream (-1 segment, -2 page break) */
         for (int q = 0; q < NS; q++) { make_stream(&SP[q]); printf("%d", sub ? sub[q] : q);
             for (int t = 0; t < BN; t++) printf(" %d", BUF[t]); printf("\n"); }

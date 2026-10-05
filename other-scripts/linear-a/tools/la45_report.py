@@ -10,7 +10,7 @@ TAG = sys.argv[1]
 names = sys.argv[2:] or ['PLANT', 'UR3', 'LB', 'LA', 'LA_S1', 'LA_S2']
 sys.argv = [sys.argv[0], '40', '6', TAG]
 import importlib
-J = importlib.import_module('la45_c3' if TAG.startswith('c3') else 'la45_c2' if TAG.startswith('c2') else 'la45_c1')
+J = importlib.import_module('la45_c4' if TAG.startswith('c4') else 'la45_c3' if TAG.startswith('c3') else 'la45_c2' if TAG.startswith('c2') else 'la45_c1')
 
 out = {}
 for n in names:

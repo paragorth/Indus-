@@ -343,7 +343,7 @@ def train(cfg, data, V, log=None):
     seed = cfg['seed']
     torch.manual_seed(seed)
     rng = random.Random(seed)
-    Arch = {'gru': GRUAttn, 'tf': TinyTF}[cfg.get('arch', 'gru')]
+    Arch = {'gru': GRUAttn, 'tf': TinyTF, 'prof': GRUProf}[cfg.get('arch', 'gru')]
     model = Arch(len(V.itos), **cfg.get('akw', {}))
     opt = torch.optim.Adam(model.parameters(), lr=cfg.get('lr', 2e-3))
     (La, Sa), (Lb, Sb) = data['A'], data['B']
@@ -436,3 +436,69 @@ def pair_gain(model, V, ho, L1, L2, src_tok, tgt_tok, freq_tgt, rng, nrand=3):
 def jdump(o, fn):
     with open(fn, 'w') as f:
         json.dump(o, f)
+
+
+# ---------------------------------------------------------------- cycle 2: numbers as the embedding
+def numeral_profiles(V, langs_lines):
+    """Row per vocab item: distribution of the numeral tokens on the lines where
+    the item occurs (numeral tokens get a one-hot row).  Shared numeral columns
+    are the only thing that makes rows comparable across scripts."""
+    nn_ = len(V.itos) - V.num_start
+    P = np.zeros((len(V.itos), nn_ + 3), np.float32)
+    for L, lines in langs_lines.items():
+        for l in lines:
+            ids = V.enc(L, l)
+            nums = [i - V.num_start for i in ids if i >= V.num_start]
+            pos = [i for i in ids if i < V.num_start]
+            for k, i in enumerate(pos):
+                for j in nums:
+                    P[i, j] += 1
+                P[i, nn_ + min(k, 2)] += 0.5   # crude slot position
+    for j in range(nn_):
+        P[V.num_start + j, j] = 1
+    P = P / np.maximum(P.sum(1, keepdims=True), 1e-9)
+    return np.sqrt(P)   # Hellinger geometry
+
+
+class GRUProf(GRUAttn):
+    """GRU seq2seq whose embeddings are W . numeral_profile + small free part;
+    output layer tied to the same embeddings."""
+
+    def __init__(self, V, prof=None, emb=64, hid=128, drop=0.1, free=0.1):
+        super().__init__(V, emb, hid, drop)
+        self.register_buffer('prof', torch.tensor(prof))
+        self.Wp = nn.Linear(self.prof.size(1), emb, bias=False)
+        self.free = free
+        self.oproj = nn.Linear(hid + 2 * hid, emb)
+        self.obias = nn.Parameter(torch.zeros(V))
+        self.emb.weight.data *= free
+
+    def E(self):
+        return self.emb.weight + self.Wp(self.prof)
+
+    def embed(self, x):
+        return F.embedding(x, self.E())
+
+    def encode(self, x):
+        e = self.drop(self.embed(x))
+        h, _ = self.enc(e)
+        m = (x != 0)
+        hm = (h * m.unsqueeze(-1)).sum(1) / m.sum(1, keepdim=True).clamp(min=1)
+        return h, m, torch.tanh(self.bridge(hm)).unsqueeze(0)
+
+    def step(self, y_prev, s, H, M, ctx):
+        e = self.drop(self.embed(y_prev))
+        o, s = self.dec(torch.cat([e, ctx], -1).unsqueeze(1), s)
+        o = o.squeeze(1)
+        sc = torch.bmm(H, self.att(o).unsqueeze(-1)).squeeze(-1).masked_fill(~M, -1e9)
+        a = F.softmax(sc, -1)
+        ctx = torch.bmm(a.unsqueeze(1), H).squeeze(1)
+        return self.oproj(torch.cat([o, ctx], -1)) @ self.E().t() + self.obias, s, ctx
+
+
+def profile_lexicon(V, P, La, Lb, min_sup_ids=None):
+    """No-learning baseline: nearest Lb sign by Hellinger profile."""
+    A = [i for i in range(len(V.itos)) if V.itos[i].startswith(La + '|') and V.is_sign(i)]
+    B = [i for i in range(len(V.itos)) if V.itos[i].startswith(Lb + '|') and V.is_sign(i)]
+    S = P[A] @ P[B].T
+    return {V.itos[a]: V.itos[B[int(S[k].argmax())]] for k, a in enumerate(A)}
