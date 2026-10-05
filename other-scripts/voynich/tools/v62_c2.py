@@ -77,6 +77,7 @@ class Corpus:
             for i in idx: U[t, i] += 1
             for a, b in zip(idx[:-1], idx[1:]): B[t, a * Aa + b] += 1
         self.types, self.U, self.B = types, U, B
+        self._lay = {}
 
     def word_weights(self, Wb, mode):
         if mode == 'runs':
@@ -84,22 +85,35 @@ class Corpus:
             return self.U @ Wb - self.B @ pair
         return self.U @ Wb
 
-    def lines_matrix(self, pages, wt):
-        """per line: total weight (rows), glyph count, and boundary positions from start / end."""
-        tot, glen, bs, be, keep = [], [], [], [], []
+    def layout(self, pages):
+        """precomputed flat arrays for a line partition."""
+        key = id(pages)
+        if key in self._lay: return self._lay[key]
+        ids, ls, le, glen, keep, bpos, bline = [], [], [], [], [], [], []
         for pg in pages:
             med = np.median([len(l) for l in pg])
             for li, l in enumerate(pg):
-                ids = [self.types[w] for w in l]
-                X = wt[ids]                    # words x W
-                c = np.cumsum(X, axis=0)
-                tot.append(c[-1]); glen.append(sum(len(w) for w in l))
+                s0 = len(ids)
+                ids += [self.types[w] for w in l]
                 ok = (li < len(pg) - 1) and len(l) >= 0.6 * med and len(l) >= 3
-                keep.append(ok)
+                ls.append(s0); le.append(len(ids)); glen.append(sum(len(w) for w in l)); keep.append(ok)
                 if ok:
-                    bs.append(c[:-1]); be.append(c[-1][None, :] - c[:-1])
-        tot = np.array(tot); glen = np.array(glen, float); keep = np.array(keep)
-        return tot[keep], glen[keep], np.vstack(bs), np.vstack(be)
+                    for b in range(s0 + 1, len(ids)):
+                        bpos.append(b); bline.append(len(ls) - 1)
+        lay = dict(ids=np.array(ids), ls=np.array(ls), le=np.array(le), glen=np.array(glen, float),
+                   keep=np.array(keep), bpos=np.array(bpos), bline=np.array(bline))
+        self._lay[key] = (pages, lay)
+        return self._lay[key]
+
+    def lines_matrix(self, pages, wt):
+        lay = self.layout(pages)[1]
+        X = wt[lay['ids']]
+        C = np.vstack([np.zeros((1, X.shape[1])), np.cumsum(X, axis=0)])
+        tot = C[lay['le']] - C[lay['ls']]
+        bs = C[lay['bpos']] - C[lay['ls'][lay['bline']]]
+        be = C[lay['le'][lay['bline']]] - C[lay['bpos']]
+        k = lay['keep']
+        return tot[k], lay['glen'][k], bs, be
 
 
 def resvar(tot, glen):
@@ -118,14 +132,23 @@ def simpson(pos):
     return out
 
 
-def score(pages, Wb, mode, rng, corp=None):
-    corp = corp or Corpus(pages, Wb_alpha[0])
+_RF = {}
+
+
+def reflows(pages, seed):
+    key = (id(pages), seed)
+    if key not in _RF:
+        rng = random.Random(seed)
+        _RF[key] = [width_reflow(pages, rng) for _ in range(K)]
+    return _RF[key]
+
+
+def score(pages, Wb, mode, rng, corp):
     wt = corp.word_weights(Wb, mode)
     t, g, bs, be = corp.lines_matrix(pages, wt)
     rv = resvar(t, g); ss = simpson(bs); se = simpson(be)
     nrv, nss, nse = 0, 0, 0
-    for k in range(K):
-        q = width_reflow(pages, rng)
+    for q in reflows(pages, 1234):
         t2, g2, bs2, be2 = corp.lines_matrix(q, wt)
         nrv += resvar(t2, g2) / K; nss += simpson(bs2) / K; nse += simpson(be2) / K
     return dict(metre=np.log(nrv / rv), caes=np.log(ss / nss), cad=np.log(se / nse))
@@ -149,46 +172,79 @@ def split(name):
     return pg[:h], pg[h:]
 
 
+def climb(tr, w0, mode, stat, corp, steps=8):
+    """greedy hill-climb from w0: evaluate every single-glyph change in one batch, keep the best."""
+    w = w0.copy(); cur = score(tr, w[:, None], mode, None, corp)[stat][0]
+    levels = [0.0, 1.0] if mode != 'int' else [0.0, 1.0, 2.0, 3.0]
+    for _ in range(steps):
+        cands = []
+        for a in range(len(w)):
+            for v in levels:
+                if v != w[a]:
+                    c = w.copy(); c[a] = v; cands.append(c)
+        C = np.array(cands).T
+        sc = score(tr, C, mode, None, corp)[stat]
+        i = int(np.argmax(sc))
+        if sc[i] <= cur + 1e-4: break
+        w, cur = C[:, i].copy(), float(sc[i])
+    return w, cur
+
+
 def run_search(tag, tr, te_list, seed):
     alpha = L.alphabet(tr + sum([t for _, t in te_list], []))
     rng = np.random.default_rng(seed)
     corp = Corpus(tr + sum([t for _, t in te_list], []), alpha)
     out = {}
-    for mode in ('bin', 'int', 'runs'):
+    for mode in ('bin', 'runs'):
         Wb = weights(alpha, mode, NW, rng)
-        s = score(tr, Wb, mode, random.Random(seed), corp)
+        s = score(tr, Wb, mode, None, corp)
         r = {}
         for stat in ('metre', 'caes', 'cad'):
             v = s[stat]; i = int(np.argmax(v))
             row = dict(max=round(float(v.max()), 4), mean=round(float(v.mean()), 4),
                        p99=round(float(np.percentile(v, 99)), 4))
             for tn, te in te_list:
-                st = score(te, Wb[:, [i]], mode, random.Random(seed + 1), corp)[stat]
+                st = score(te, Wb[:, [i]], mode, None, corp)[stat]
                 row['test_' + tn] = round(float(st[0]), 4)
-                # held-out reference: mean of random weights on test
-                if stat == 'metre' and mode == 'bin':
-                    pass
+                rnd = score(te, Wb[:, :100], mode, None, corp)[stat]
+                row['test_rand_mean_' + tn] = round(float(rnd.mean()), 4)
+            # hill-climb the top 3 random starts on training, test the climbed weights
+            cl = []
+            for j in np.argsort(-v)[:2]:
+                w, c = climb(tr, Wb[:, j], mode, stat, corp)
+                cl.append((c, w))
+            c, w = max(cl, key=lambda x: x[0])
+            row['climb_train'] = round(c, 4)
+            for tn, te in te_list:
+                row['climb_test_' + tn] = round(float(score(te, w[:, None], mode, None, corp)[stat][0]), 4)
             r[stat] = row
         out[mode] = r
     print(tag, json.dumps(out), flush=True)
     return out
 
 
+def _task(a):
+    return a[0], run_search(*a)
+
+
 def main():
     t0 = time.time()
-    res = {}
+    from multiprocessing import Pool
     zl_tr, zl_te = split('V-ZL3b'); it_tr, it_te = split('V-IT2a')
-    res['ZL'] = run_search('ZL', zl_tr, [('zl', zl_te), ('it', it_te)], 1)
-    res['null-markov'] = run_search('null-markov', L.markov_line_generator(zl_tr, random.Random(9)),
-                                    [('zl', L.markov_line_generator(zl_te, random.Random(10)))], 1)
-    res['null-reflowV'] = run_search('null-reflowV', L.reflow_page(zl_tr, random.Random(9)),
-                                     [('zl', L.reflow_page(zl_te, random.Random(10)))], 1)
     A['Hildegard-justified'] = dict(pages=justified('Hildegard(prose herbal)'), kind='prose')
     A['Caesar-justified'] = dict(pages=justified('Caesar(prose)'), kind='prose')
-    for name in ['Regimen(verse,rhymed)', 'Macer(verse,hexam)', 'Dante(verse,terza)', 'Litany(refrain)',
+    tasks = [('ZL', zl_tr, [('zl', zl_te), ('it', it_te)], 1),
+             ('null-markov', L.markov_line_generator(zl_tr, random.Random(9)), [('zl', L.markov_line_generator(zl_te, random.Random(10)))], 1),
+             ('null-reflowV', L.reflow_page(zl_tr, random.Random(9)), [('zl', L.reflow_page(zl_te, random.Random(10)))], 1)]
+    for name in ['Dante(verse,terza)', 'Macer(verse,hexam)', 'Regimen(verse,rhymed)', 'Litany(refrain)',
                  'Hildegard(prose herbal)', 'Caesar(prose)', 'Hildegard-justified', 'Caesar-justified', 'Dante-reflowed']:
         tr, te = split(name)
-        res[name] = run_search(name, tr, [('half2', te)], 2)
+        tasks.append((name, tr, [('half2', te)], 2))
+    res = {}
+    with Pool(2) as pool:
+        for tag, r in pool.imap_unordered(_task, tasks):
+            res[tag] = r
+            json.dump(res, open(os.path.join(L.CK, 'cycle2.json'), 'w'), indent=1)
     res['secs'] = round(time.time() - t0)
     json.dump(res, open(os.path.join(L.CK, 'cycle2.json'), 'w'), indent=1)
 

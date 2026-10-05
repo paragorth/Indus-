@@ -92,7 +92,7 @@ def compare(a, b, name, nperm=5000, seed=7):
 
 
 if __name__ == '__main__':
-    for a, b, name in [('LBA', 'LBB', 'LB'), ('LAA', 'LAB', 'LA')]:
+    for a, b, name in [('LBA', 'LBB', 'LB'), ('LAA', 'LAB', 'LA'), ('URA', 'URB', 'UR')]:
         try:
             compare(a, b, name)
         except (FileNotFoundError, KeyError, IndexError) as e:

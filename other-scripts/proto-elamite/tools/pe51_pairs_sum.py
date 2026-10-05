@@ -17,7 +17,9 @@ def D(acc, c, k):
 
 
 def analyse(name):
-    F = sorted(glob.glob(os.path.join(L.CK, 'pair_%s_*.json' % name)))
+    import re
+    F = sorted(f for f in glob.glob(os.path.join(L.CK, 'pair_%s_*.json' % name))
+               if re.match(r'^pair_%s_\d+\.json$' % re.escape(name), os.path.basename(f)))
     P = collections.defaultdict(lambda: collections.defaultdict(lambda: [[], []]))
     for f in F:
         d = json.load(open(f))
@@ -43,6 +45,8 @@ def analyse(name):
             sd = np.std(nl) + 1e-4
             e = float(np.mean(ex))
             z = e / (sd / math.sqrt(len(ex)))
+            if len(ex) >= 3 and sum(1 for v in ex if (v > 0) == (e > 0)) < len(ex) - 1:
+                z = 0.0   # sign must agree in all but one model
             out.append((pr, k, e, z, len(ex)))
     return out, len(F)
 

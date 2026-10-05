@@ -73,18 +73,18 @@ out = dict(rho=rho, N1=n1, N3=n3, p1=p1, p3=p3, est=est, tru=tru)
 if corpus == 'LA':
     # Linear A small sites / deposits: estimate the size of the archive each surviving set came from
     K, N = data.counts()
-    ok = K.sum(1) >= 3
-    a, b = fit_ab(K[ok], N)
     sites = collections.defaultdict(list)
-    for i, d in enumerate(data.docs): sites[data.units[data.u[i]]].append(i)
+    for i, d in enumerate(data.docs): sites[data.u[i]].append(i)
     rows = []
-    for un, ix in sorted(sites.items(), key=lambda x: -len(x[1])):
+    for A, ix in sorted(sites.items(), key=lambda x: -len(x[1])):
+        m = np.ones(data.A, bool); m[A] = False          # scaling fitted WITHOUT this archive
+        ok = K[:, m].sum(1) >= 3
+        a, b = fit_ab(K[ok][:, m], N[m])
         k = np.asarray(data.X[ix].sum(0)).ravel()[ok]
         e = estimate(k, len(ix), a, b)
-        # bootstrap interval over the unit's documents
         bs = [estimate(np.asarray(data.X[rng.choice(ix, len(ix))].sum(0)).ravel()[ok], len(ix), a, b) for _ in range(200)]
-        rows.append((un, len(ix), int(e), int(np.percentile(bs, 10)), int(np.percentile(bs, 90))))
-    print('   LA unit, surviving docs, estimated archive size (80% bootstrap):')
+        rows.append((data.units[A], len(ix), int(e), int(np.percentile(bs, 10)), int(np.percentile(bs, 90))))
+    print('   LA unit, surviving docs, estimated archive size, scaling fitted without it (80% bootstrap):')
     for r in rows: print('     ', r)
     out['la_units'] = rows
 jdump(out, 'c3b_%s.json' % corpus)

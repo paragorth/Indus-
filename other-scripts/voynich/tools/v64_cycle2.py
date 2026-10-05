@@ -2,9 +2,11 @@
 and then re-tested on the held split; the climbed alphabet's section profile is
 compared with random alphabets of the same size (topic test).
 
-Hill climb: start from the 4 best random alphabets (by sel Gm1); 12 rounds, each
+Hill climb (objective OBJ = Gfree, the Lullian free-combination model; cycle-1
+calibration: true alphabets give Gfree ars +0.18, med -0.56, Latin -3.68):
+start from the 6 best random alphabets (by sel OBJ); 20 rounds, each
 proposing 60 neighbours (add / drop / swap one n-gram from the 200-n-gram pool,
-extend or trim one concept by a glyph); keep the best if it improves sel Gm1.
+extend or trim one concept by a glyph); keep the best if it improves sel OBJ.
 Topic test: I(concept; section) - and the ratio to I(glyph; section) - for the
 climbed alphabet vs 200 random alphabets of the same size from the same pool, on the
 whole corpus; and a folio-level section-label permutation null (100 permutations).
@@ -14,6 +16,7 @@ from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v64_lib as V
 
+OBJ = 'Gfree'
 CORP = ['ars', 'med', 'lat', 'voy', 'voyit', 'voy_mk2', 'voy_gshuf', 'voy_sc']
 
 
@@ -51,19 +54,19 @@ def climb(k):
     ps, ph = os.path.join(V.CK, 'c_%s_sel.txt' % k), os.path.join(V.CK, 'c_%s_held.txt' % k)
     tr, _ = V.type_counts(C, 'sel'); pool = V.ngram_pool(tr)
     rng = random.Random(sum(map(ord, k)))
-    starts = [c1['al'][i] for i in c1['top'][:4]]
+    starts = [c1['al'][i] for i in c1['topf'][:6]]
     finals = []
     for al in starts:
         cur = sorted(al); cs = V.score(ps, [cur])[0]
-        for rnd in range(12):
+        for rnd in range(20):
             nb = neighbours(cur, pool, rng, 60)
             r = V.score(ps, nb)
-            b = max(range(len(nb)), key=lambda i: r[i]['Gm1'])
-            if r[b]['Gm1'] > cs['Gm1']:
+            b = max(range(len(nb)), key=lambda i: r[i][OBJ])
+            if r[b][OBJ] > cs[OBJ]:
                 cur, cs = nb[b], r[b]
         finals.append((cur, cs))
     held = V.score(ph, [a for a, _ in finals])
-    best = max(range(len(finals)), key=lambda i: finals[i][1]['Gm1'])
+    best = max(range(len(finals)), key=lambda i: finals[i][1][OBJ])
     alpha = finals[best][0]
     # topic test on whole corpus
     parse = V.make_parser(alpha)

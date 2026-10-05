@@ -8,7 +8,7 @@ gives the calibrated null of t. Class = largest task group with t above the thre
 <= 5% of pseudo-signs through; signs with no group above it are SILENT (the 'name' class).
 Groups: NUM = SYS or MAG, TOT, HEAD, ENT.
 """
-import glob, json, math, os, sys, collections
+import glob, json, math, os, re, sys, collections
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe51_lib as L
@@ -24,7 +24,8 @@ FLOOR = 0.02  # nats per target
 
 
 def load(name, models=None):
-    F = sorted(glob.glob(os.path.join(L.CK, 'del_%s_*.json' % name)))
+    F = sorted(f for f in glob.glob(os.path.join(L.CK, 'del_%s_*.json' % name))
+               if re.match(r'^del_%s_\d+\.json$' % re.escape(name), os.path.basename(f)))
     D = [json.load(open(f)) for f in F]
     if models is not None:
         D = [d for d in D if d['m'] in models]

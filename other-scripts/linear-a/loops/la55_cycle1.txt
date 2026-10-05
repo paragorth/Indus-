@@ -1,0 +1,34 @@
+la55 cycle 1 (5 Oct 2026): WORDS GROW LIKE CITIES - scaling classes of every word across archives
+Tools: tools/la55_common.py, tools/la55_c1.py, tools/la55_c2b.py. Checkpoints: data/la55_ckpt/c1_*.json, c1*_w*.out.
+
+Idea. In cities, infrastructure grows sublinearly with population and social output superlinearly. If archives
+behave the same way, administrative function words saturate (every office needs them once), names grow in
+proportion to the number of documents, and specialised goods appear only above a size threshold.
+Novelty check: web search finds urban scaling of word use in Twitter by city (R. Soc. Open Sci. 2019,
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6837183/ ; https://arxiv.org/abs/1903.04329) and Heaps/Herdan scaling in general corpora; nothing on
+ancient archives, Linear A or any script. LITERATURE.md, FINDINGS.md and STRATEGIES.md: la5 measured one Heaps
+exponent for the whole corpus (LA-5.2a); nobody fitted per-word scaling across archives.
+
+Units ("archives"): Linear A = la51 deposits (35 units >= 3 documents; HT Villa R13 863, Khania Kastelli 219, HT
+Villa magazines 72, Knossos 53, sanctuaries 44, Zakros palace 31 ... down to 3); two-sided objects merged.
+Linear B = DAMOS find areas at KN, PY, TH, MY, TI, KH (103 units, 3,028 docs); LBS = whole LB units drawn to
+Linear A size (59 units, 1,699 docs). Ur III = site x year name (first 3 tokens after 'mu'; year line removed),
+12,000-document subset (units >= 3 docs). Words opaque; logograms by their first element.
+Per type w (>= 3 documents; Ur III >= 5): beta_w from Poisson log mu_wa = alpha_w + beta_w log N_a (zeros
+included); threshold gain (absent below T, proportional above, best T) over proportional; occupancy (units with w).
+Each z-scored against 1,000 re-dealings of documents to units (sizes kept): N1 free; N3 within genre (LA support
+type, LB site:series letter, Ur III site). N2 = 300 bootstraps of documents inside units (beta intervals).
+Fixed class rule (set before Linear A was read): SATURATING beta below null (p<0.05) or occupancy above null;
+SUPERLINEAR beta above null; THRESHOLD threshold gain above null; LINEAR otherwise.
+
+| LA-55.1a | Planted control: 60 words planted in the LA documents, 15 each saturating (a random archive regardless of size), linear (random document), superlinear (archive weight N^1.6), threshold (archives N >= 30 only); 6-25 documents each | N1: SAT 15/15, LIN 13/15, THR 14/15, SUP 5/15 (9 read as THR). N3: SAT 15/15, LIN 14/15, THR 7/15, SUP 2/15 | Saturation and linearity are recoverable at LA size; threshold only under N1; superlinear is NOT separable from threshold in LA (only two archives above 100 documents: HT R13 and Khania). |
+| LA-55.1b | Linear B control, known classes (FUNC = totals, deficits, transaction verbs; COMM = logograms; PERSON = opener of person-headed series; PLACE = la45 list). Prediction: FUNC saturates (lower beta, higher occupancy than PERSON). AUC vs 2,000 label permutations | Full LB (771 types): FUNC<PERSON beta AUC 0.59 (N1, perm p 0.18) / 0.39 (N3, p 0.89); FUNC>PERSON occupancy 0.33 / 0.27 (p 0.97 / 0.99). LBS: 0.27 / 0.34 (p 0.98 / 0.93). COMM>PERSON threshold gain: LB 0.54 (p 0.27) / 0.57 (p 0.16); LBS 0.66 (p 0.04) / 0.65 (p 0.07) | KILLED in the control: Greek administrative function words do NOT saturate; they are series-bound and concentrate in the archives that keep those series (threshold/superlinear as often as saturating). Commodities lean to threshold only weakly. |
+| LA-55.1c | Ur III control (site x year archives), same tests | see la55_cycle2.txt row LA-55.2u (run finished after this log) | - |
+| LA-55.1d | 'Names grow in proportion' (tools/la55_c2b.py): share of types deviating from LINEAR, PERSON vs FUNC+COMM, labels permuted within frequency quartiles (rarer names must not win by low power), 20,000 permutations | LB N3: PERSON 0.05 (n 44) vs FUNC+COMM 0.50 (n 46), p 0.037; PLACE 0.12 vs 0.50, p 0.0075. LB N1: p 0.93. LBS (LA size) N3: 0.00 (n 15) vs 0.49, p 0.23. LA (la45 ENTRY+RARE vs HEADER+COMMODITY) N3: 0.11 vs 0.32, p 0.53 | At full LB size and within-genre null, names and places grow in proportion while function words and goods deviate (weak, p 0.04 / 0.008). At Linear A size the control loses it (p 0.23), so LA cannot be read this way. |
+| LA-55.1e | Linear A words (141 types), classes under N3 (fair null; N1 is dominated by the HT R13 nodule dump, which makes 93/141 'saturating') | N3: LINEAR 117, SATURATING 13 (GRA, VIN, KU-RO, SA-RA2, OLIV, KI, TI, *188, *22F, HIDE, *131B, *86-RO, TE-RI), THRESHOLD 9 (CYP, MI, QA2, *301 logogram, *411-VS, *164, *306, O, DI-NA-U), SUPERLINEAR 2 (*401, JE). Threshold T: *301, *164, *306, *411-VS only at Khania/HT R13 (T 219); MI, QA2 T 72; CYP T 9 | Staple goods and the total word KU-RO are 'infrastructure': every small archive has them at a higher per-document rate than the big ones. The 'threshold' words are the Khania / HT R13 nodule signs: with two big archives a size threshold cannot be told from a regional or deposit habit. |
+| LA-55.1f | Signs (syllabograms inside words) as types: LA 98 signs, LB 100 signs | N3: LA SATURATING 37, LINEAR 53, THRESHOLD 7; LB SATURATING 2, LINEAR 82, SUPERLINEAR 16 | LA signs saturate where LB signs do not. Suspected confound: documents in small LA archives (libation vessels, tablets) are longer. Re-tested with a length-stratified null in cycle 2. |
+| LA-55.1g | Leave-one-archive-out held-out prediction (Poisson bits per word-archive, scaling vs proportional) | LA -86 bits (N1 -7.4, N3 -1.8); LB -0.080 (N1 -0.013, N3 -0.067); LBS -0.185 (N1 -0.031, N3 -0.145); whole-site LA -466 | Extrapolating word counts to an archive outside the fitted size range is worse than proportional sampling everywhere, real worse than shuffled: per-word scaling laws do not transfer (Linear B included). |
+
+Cycle verdict: method passes planted saturation/linearity, fails planted superlinearity; the urban-scaling class
+prediction fails its Linear B control (function words do not saturate). Linear A's only robust non-linear words
+are staples + KU-RO (saturating) and Khania/HT nodule signs (threshold = locality).

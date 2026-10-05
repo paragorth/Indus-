@@ -84,12 +84,13 @@ res['N2_beta_lo'] = np.percentile(bs, 2.5, 0); res['N2_beta_hi'] = np.percentile
 
 # held-out leave-one-unit-out: scaling vs proportional, real vs N1 shuffles
 g_real, nwu = louo_gain(K, N)
+NL = 0 if os.environ.get('LA55_N4') else min(NREP, 100)
 g_null = []
-for _ in range(min(NREP, 100)):
+for _ in range(NL):
     Kn, _ = data.counts(data.shuffle(rng))
     g_null.append(louo_gain(Kn, N)[0])
 g_null3 = []
-for _ in range(min(NREP, 100)):
+for _ in range(NL):
     Kn, _ = data.counts(data.shuffle(rng, True))
     g_null3.append(louo_gain(Kn, N)[0])
 res['louo'] = {'real': g_real, 'n': nwu, 'N1': g_null, 'N3': g_null3}

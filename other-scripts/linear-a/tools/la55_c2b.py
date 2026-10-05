@@ -49,7 +49,7 @@ def test(types, K, cls, lab, A, B, nperm=20000):
 
 out = {}
 for corpus in ('LB', 'LBS', 'UR', 'LA'):
-    fn = os.path.join(CK, 'c1_%s.json' % corpus)
+    fn = os.path.join(CK, (sys.argv[1] if len(sys.argv) > 1 else 'c1') + '_%s.json' % corpus)
     if not os.path.exists(fn):
         continue
     r = json.load(open(fn))
@@ -60,7 +60,7 @@ for corpus in ('LB', 'LBS', 'UR', 'LA'):
     else:
         tr = ur_truth_classes(ur_units(max_docs=12000)); A = {'PERSON'}; B = {'FUNC', 'COMM'}
     lab = [tr.get(t) for t in r['types']]
-    for key in ('N1', 'N3'):
+    for key in ('N1', 'N3', 'N4'):
         if key not in r: continue
         res = test(r['types'], r['Ktot'], r[key]['cls'], lab, A, B)
         out['%s_%s' % (corpus, key)] = res
@@ -71,4 +71,4 @@ for corpus in ('LB', 'LBS', 'UR', 'LA'):
             out['%s_%s_place' % (corpus, key)] = res2
             print('   PLACE vs FUNC+COMM: %.2f (n %d) vs %.2f (n %d), p %.4f' % (res2['devA'], res2['nA'], res2['devB'],
                                                                           res2['nB'], res2['p']))
-jdump(out, 'c2b.json')
+jdump(out, (sys.argv[1] if len(sys.argv) > 1 else 'c1') + '_c2b.json')

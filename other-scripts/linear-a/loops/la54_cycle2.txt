@@ -1,0 +1,185 @@
+LA-54 cycle 2: FILL IN THE UNWRITTEN COMMODITY ACROSS THE ARCHIVE
+Date 5 Oct 2026. Scripts: tools/la54_c2.py (nested random search + imputation), tools/la54_c2_report.py
+(calibration, imputations, word links). Checkpoints: data/la54_ckpt/c2_*.json, imputed.tsv (git-ignored).
+Two models. FULL: all feature groups. BLIND: no word features (numbers, fractions, rounding, site, support, layout),
+so that any word -> commodity link read off its imputations cannot come from the word itself. Each seed: 400 random
+configs; nested 5-fold out-of-fold predictions for calibration (selection redone inside each fold), then selection on
+all 227 labelled documents and prediction of the 166 unlabelled ones (top 25 pooled). FULL 3 seeds, BLIND 6 seeds
+(~9 x 400 x 6 searches x 4 folds = ~86,000 fits).
+
+| LA-54.2a | Calibration of confidences: out-of-fold predictions on the 227 labelled docs, binned by pooled max probability. | BLIND oof acc 0.449 (FULL 0.436; majority 0.30). Conf <0.4: acc 0.33-0.40 (n=135); 0.4-0.5: 0.48 (29); 0.5-0.6: 0.61 (38); 0.6-0.7: 0.65 (23). Per class recall: CYP 0.82, OTH 0.62, GRA 0.57, VIN 0.10, OLE 0.03, VIR 0.00, OLIV 0.00. Seed stability of argmax 0.90-0.92. | Confidences are roughly calibrated. Only CYP, GRA and 'other' can be read back; wine, oil, people and olives are invisible once their sign is deleted. |
+| LA-54.2b | Imputation of the 166 documents that write numbers but no commodity sign. | BLIND: GRA 62, OTH 71, CYP 20, OLE 8, VIN 5. FULL: GRA 53, OTH 81, CYP 21, OLE 5, VIN 6. FULL and BLIND agree on 0.89. Agreement with 'the commonest written commodity at that site': 0.72 (BLIND) / 0.75 (FULL). Khania -> CYP 20/21; Zakros -> GRA 20-23/24; Phaistos -> OTH 13/13; Arkhalkhori -> GRA 6/6; Malia -> OTH 4/4; Hagia Triada splits GRA 23-30 / OTH 44-52. | The fill-in is mostly the site's habit. The only within-site choice is HT grain vs 'other' (tested in cycle 3) and Zakros grain over wine. |
+| LA-54.2c | New word -> commodity links: for each word on >= 3 unlabelled docs (37 words, 259 word x class tests), summed BLIND imputed probability vs 10^4 permutations of the imputed vectors among unlabelled docs of the same site; BH correction. | p < 0.05: 12 of 259 (13.0 expected by chance); smallest q 0.86. Top: DI -> OLIV (z 2.8, n=5), KI -> VIR, E -> VIN, TA -> CYP, KU-RO -> GRA (z 1.8). | KILLED: filling in the gaps creates no word-commodity link beyond chance. |
+| LA-54.2d | Consistency check (not a test): the two GRA-tied words of FINDINGS (KU-NI-SU, DA-ME; GRA on 3 labelled tablets each) on unlabelled docs, read with the word-blind model. | HT95b (KU-NI-SU, DA-ME, A-DU) -> GRA (0.55 BLIND); HT10a (KU-NI-SU) -> OTH. 1 of 2. KU-RO on 10 unlabelled HT docs -> GRA 6, OTH 4; NI (single sign) on 12 -> GRA 6, OTH 5, CYP 3 (the 3 CYP are Khania). | Grade C only: HT95b is a grain document. Would support: HT95b joined to, or re-read with, a GRA sign. Would kill: a non-grain commodity sign on HT95b. |
+| LA-54.2e | Which documents turn out to be about one commodity? Docs with BLIND confidence >= 0.6 (calibrated acc ~0.65). | 13 docs: MA2a/b/c, MA9 (OTH 0.66-0.76), ARKH1b/2/4a/4b (GRA 0.60-0.64), KH17, KH87 (CYP 0.60-0.61), PH13c (OTH 0.62), HTWa1023/1024 (OTH 0.60). Each is its site's commonest written commodity class (HTWa nodules: support). | No document is confidently assigned against its site or support. Grade B (negative): the confident fill-ins are priors, not readings. |
+| LA-54.2 verdict | Cycle 2 summary. | Imputation for all 166 docs is in data/la54_ckpt/imputed.tsv and below. 72-75 % equal the site's commonest commodity; no new word links (12/259 at p<0.05 vs 13 expected); calibrated confidence never above ~0.65. | B (negative): reading the unwritten commodity mainly returns the site. The table is a site-prior map, not a decipherment. |
+
+Imputed commodity for the 166 documents without a commodity sign (BLIND = no word features; calibrated acc = out-of-fold
+accuracy of BLIND predictions in the same confidence bin). Classes: GRA, CYP, OLE, VIN, OTH (= any other commodity).
+id	site	n_numbers	FULL argmax p	BLIND argmax p	BLIND calibrated acc
+ARKH4b	Arkhalkhori	5	GRA 0.48	GRA 0.64	0.65
+ARKH1b	Arkhalkhori	2	GRA 0.46	GRA 0.61	0.65
+ARKH2	Arkhalkhori	4	GRA 0.58	GRA 0.60	0.65
+ARKH4a	Arkhalkhori	3	GRA 0.46	GRA 0.60	0.61
+ARKH7	Arkhalkhori	1	GRA 0.53	GRA 0.59	0.61
+ARKH1a	Arkhalkhori	1	GRA 0.52	GRA 0.57	0.61
+GO2r	Gournia	3	OTH 0.31	OTH 0.36	0.33
+GO2v	Gournia	2	OTH 0.34	OTH 0.33	0.33
+GOWc1b	Gournia	1	VIN 0.27	VIN 0.32	0.33
+HTWa1023	Haghia Triada	1	OTH 0.56	OTH 0.60	0.61
+HTWa1024	Haghia Triada	1	OTH 0.56	OTH 0.60	0.61
+HTZg163	Haghia Triada	1	OTH 0.49	OTH 0.47	0.48
+HT67	Haghia Triada	2	GRA 0.44	GRA 0.47	0.48
+HT146	Haghia Triada	4	GRA 0.39	GRA 0.47	0.48
+HT74	Haghia Triada	1	GRA 0.38	GRA 0.46	0.48
+HT5	Haghia Triada	2	GRA 0.39	GRA 0.45	0.48
+HTZd157+156	Haghia Triada	5	OTH 0.46	OTH 0.45	0.48
+HT95b	Haghia Triada	6	GRA 0.55	GRA 0.45	0.48
+HT51b	Haghia Triada	2	OTH 0.41	OTH 0.41	0.48
+HT41a	Haghia Triada	4	GRA 0.39	GRA 0.41	0.48
+HT11b	Haghia Triada	6	GRA 0.34	GRA 0.40	0.33
+HT45a	Haghia Triada	3	OTH 0.40	OTH 0.38	0.33
+HT1	Haghia Triada	5	GRA 0.34	GRA 0.38	0.33
+HT136a	Haghia Triada	2	GRA 0.41	GRA 0.38	0.33
+HT31	Haghia Triada	9	OTH 0.41	OTH 0.37	0.33
+HT57a	Haghia Triada	2	OTH 0.48	OTH 0.37	0.33
+HT111b	Haghia Triada	4	OTH 0.42	OTH 0.36	0.33
+HT94b	Haghia Triada	8	OTH 0.32	OTH 0.34	0.33
+HT113	Haghia Triada	2	GRA 0.36	GRA 0.34	0.33
+HT57b	Haghia Triada	1	OTH 0.32	GRA 0.34	0.33
+HT63	Haghia Triada	3	OTH 0.43	OTH 0.34	0.33
+HT135a	Haghia Triada	3	OTH 0.34	GRA 0.34	0.33
+HT87	Haghia Triada	6	OTH 0.37	OTH 0.33	0.33
+HT6b	Haghia Triada	7	OTH 0.37	OTH 0.33	0.33
+HT117b	Haghia Triada	2	OTH 0.34	OTH 0.33	0.33
+HTWc3001	Haghia Triada	1	GRA 0.32	GRA 0.33	0.33
+HT24a	Haghia Triada	4	GRA 0.33	GRA 0.33	0.33
+HT147	Haghia Triada	2	CYP 0.29	OTH 0.33	0.33
+HT154e	Haghia Triada	2	OTH 0.28	OTH 0.32	0.33
+HT70	Haghia Triada	3	GRA 0.41	GRA 0.32	0.33
+HT55b	Haghia Triada	2	OTH 0.30	OTH 0.32	0.33
+HT126a	Haghia Triada	6	OTH 0.44	OTH 0.32	0.33
+HT53b	Haghia Triada	1	GRA 0.33	GRA 0.31	0.33
+HT98a	Haghia Triada	7	OTH 0.32	OTH 0.31	0.33
+HT55a	Haghia Triada	4	OTH 0.33	OTH 0.31	0.33
+HT132	Haghia Triada	3	OTH 0.44	OTH 0.31	0.33
+HT118	Haghia Triada	9	GRA 0.30	GRA 0.31	0.33
+HT7b	Haghia Triada	2	OTH 0.33	OTH 0.31	0.33
+HTWc3019	Haghia Triada	1	OTH 0.33	GRA 0.31	0.33
+HT93b	Haghia Triada	1	GRA 0.28	GRA 0.30	0.33
+HT29	Haghia Triada	8	OTH 0.36	OTH 0.30	0.33
+HT107	Haghia Triada	3	OTH 0.31	OTH 0.30	0.33
+HT3	Haghia Triada	8	OTH 0.28	OTH 0.30	0.33
+HT109	Haghia Triada	4	OTH 0.26	GRA 0.30	0.40
+HT69	Haghia Triada	4	OTH 0.34	OTH 0.30	0.40
+HT79+83	Haghia Triada	3	OTH 0.33	OTH 0.29	0.40
+HT111a	Haghia Triada	3	GRA 0.32	GRA 0.29	0.40
+HT25a	Haghia Triada	8	OTH 0.30	OTH 0.29	0.40
+HT10a	Haghia Triada	8	GRA 0.35	OTH 0.29	0.40
+HT4	Haghia Triada	2	OTH 0.33	OTH 0.29	0.40
+HT154.	Haghia Triada	3	GRA 0.32	GRA 0.29	0.40
+HT10b	Haghia Triada	6	OTH 0.27	OTH 0.29	0.40
+HT85b	Haghia Triada	11	OTH 0.29	OTH 0.28	0.40
+HT46a	Haghia Triada	2	OTH 0.31	OTH 0.28	0.40
+HT51a	Haghia Triada	2	GRA 0.36	GRA 0.28	0.40
+HT126b	Haghia Triada	4	OTH 0.37	OTH 0.28	0.40
+HT64	Haghia Triada	3	OTH 0.42	OTH 0.28	0.40
+HT122a	Haghia Triada	18	OTH 0.33	OTH 0.28	0.40
+HT103	Haghia Triada	6	OTH 0.27	OTH 0.28	0.40
+HT136b	Haghia Triada	1	GRA 0.30	GRA 0.28	0.40
+HT56a	Haghia Triada	1	VIN 0.29	GRA 0.28	0.40
+HT46b	Haghia Triada	3	OTH 0.31	OTH 0.27	0.40
+HT141	Haghia Triada	1	OTH 0.29	OLE 0.27	0.40
+HT154n	Haghia Triada	1	GRA 0.27	GRA 0.27	0.40
+HT123+124b	Haghia Triada	10	OTH 0.24	OTH 0.27	0.40
+HT154k	Haghia Triada	1	OTH 0.30	OTH 0.26	0.40
+HT154l	Haghia Triada	1	OTH 0.30	OTH 0.26	0.40
+HT52a	Haghia Triada	1	GRA 0.32	GRA 0.26	0.40
+HT49a	Haghia Triada	14	OTH 0.25	OTH 0.26	0.40
+HT135b	Haghia Triada	1	OTH 0.29	OTH 0.26	0.40
+HT117a	Haghia Triada	16	OTH 0.25	GRA 0.25	0.40
+HT54b	Haghia Triada	1	GRA 0.27	GRA 0.24	0.40
+HT113ter	Haghia Triada	1	OTH 0.33	GRA 0.24	0.40
+HT154c	Haghia Triada	1	OTH 0.28	OTH 0.23	0.40
+HT154g	Haghia Triada	1	OTH 0.23	OLE 0.22	0.40
+KEWc2	Kea	2	OLE 0.23	OLE 0.23	0.40
+KH17	Khania	2	CYP 0.61	CYP 0.61	0.65
+KH87	Khania	3	CYP 0.59	CYP 0.60	0.61
+KH67	Khania	1	CYP 0.52	CYP 0.59	0.61
+KH50	Khania	3	CYP 0.50	CYP 0.57	0.61
+KH51	Khania	2	CYP 0.56	CYP 0.55	0.61
+KH47	Khania	1	CYP 0.61	CYP 0.54	0.61
+KH3	Khania	1	CYP 0.49	CYP 0.54	0.61
+KH30	Khania	2	CYP 0.50	CYP 0.53	0.61
+KH24	Khania	2	CYP 0.45	CYP 0.53	0.61
+KH59	Khania	3	CYP 0.47	CYP 0.53	0.61
+KH56	Khania	1	CYP 0.44	CYP 0.50	0.48
+KH32	Khania	1	CYP 0.46	CYP 0.50	0.48
+KH41	Khania	1	CYP 0.46	CYP 0.49	0.48
+KH95	Khania	1	CYP 0.46	CYP 0.49	0.48
+KH96	Khania	1	CYP 0.45	CYP 0.48	0.48
+KH94	Khania	1	CYP 0.41	CYP 0.42	0.48
+KHWa1019	Khania	1	OTH 0.40	OTH 0.41	0.48
+KH88	Khania	2	CYP 0.43	CYP 0.40	0.48
+KH92	Khania	2	CYP 0.39	CYP 0.39	0.33
+KH66	Khania	1	CYP 0.37	CYP 0.36	0.33
+KH78	Khania	1	CYP 0.37	CYP 0.36	0.33
+KN54	Knossos	1	OTH 0.51	OTH 0.49	0.48
+KN49	Knossos	1	OTH 0.42	OTH 0.41	0.48
+KN1a	Knossos	1	GRA 0.34	GRA 0.40	0.33
+KN1b	Knossos	1	OTH 0.42	GRA 0.32	0.33
+KN22b	Knossos	1	GRA 0.30	GRA 0.30	0.40
+KN22a	Knossos	1	GRA 0.28	OTH 0.28	0.40
+MA2b	Malia	3	OTH 0.70	OTH 0.76	1.00
+MA2c	Malia	2	OTH 0.69	OTH 0.76	1.00
+MA2a	Malia	1	OTH 0.70	OTH 0.74	1.00
+MA9	Malia	1	OTH 0.64	OTH 0.66	0.65
+PKZb?	Palaikastro	1	VIN 0.29	VIN 0.32	0.33
+PK1	Palaikastro	13	OLE 0.26	OLE 0.27	0.40
+PK3	Palaikastro	7	OTH 0.26	OLE 0.26	0.40
+PA1	Papourou	1	OTH 0.26	OTH 0.24	0.40
+PEZb7	Petras	1	OLE 0.35	OLE 0.39	0.33
+PE2	Petras	7	OLE 0.31	OLE 0.36	0.33
+PH13c	Phaistos	1	OTH 0.57	OTH 0.62	0.65
+PH1b	Phaistos	2	OTH 0.57	OTH 0.58	0.61
+PH(?)31b	Phaistos	7	OTH 0.60	OTH 0.58	0.61
+PH30	Phaistos	1	OTH 0.55	OTH 0.58	0.61
+PH7b	Phaistos	3	OTH 0.53	OTH 0.57	0.61
+PH26	Phaistos	1	OTH 0.54	OTH 0.57	0.61
+PH9a	Phaistos	1	OTH 0.52	OTH 0.56	0.61
+PH12b	Phaistos	2	OTH 0.52	OTH 0.52	0.61
+PH3a	Phaistos	6	OTH 0.44	OTH 0.47	0.48
+PH15a	Phaistos	1	OTH 0.45	OTH 0.45	0.48
+PH28b	Phaistos	4	OTH 0.45	OTH 0.42	0.48
+PH22a	Phaistos	1	OTH 0.37	OTH 0.40	0.33
+PH2	Phaistos	4	OTH 0.37	OTH 0.37	0.33
+PYR2	Pyrgos	1	OTH 0.22	OTH 0.24	0.40
+SAMWa1	Samothrace	1	OTH 0.44	OTH 0.44	0.48
+THEZb15	Thera	1	VIN 0.32	VIN 0.36	0.33
+THEZg5	Thera	5	VIN 0.22	VIN 0.26	0.40
+THEtab.6	Thera	2	OLE 0.26	OLE 0.26	0.40
+ZA29	Zakros	1	GRA 0.47	GRA 0.49	0.48
+ZA26a	Zakros	1	GRA 0.43	GRA 0.45	0.48
+ZA5b	Zakros	3	GRA 0.42	GRA 0.45	0.48
+ZA33	Zakros	1	GRA 0.37	GRA 0.44	0.48
+ZAZg34	Zakros	1	GRA 0.38	GRA 0.43	0.48
+ZA12b	Zakros	4	GRA 0.41	GRA 0.42	0.48
+ZA10a	Zakros	8	GRA 0.35	GRA 0.42	0.48
+ZA27	Zakros	1	GRA 0.38	GRA 0.42	0.48
+ZA21b	Zakros	1	GRA 0.37	GRA 0.42	0.48
+ZA21a	Zakros	5	GRA 0.37	GRA 0.41	0.48
+ZA31	Zakros	1	GRA 0.42	GRA 0.41	0.48
+ZA12a	Zakros	4	GRA 0.40	GRA 0.40	0.48
+ZA16	Zakros	2	GRA 0.32	GRA 0.40	0.48
+ZA26b	Zakros	1	GRA 0.40	GRA 0.40	0.33
+ZA7a	Zakros	2	GRA 0.35	GRA 0.39	0.33
+ZA14	Zakros	7	GRA 0.32	GRA 0.37	0.33
+ZA1a	Zakros	2	GRA 0.43	GRA 0.37	0.33
+ZA7b	Zakros	1	OTH 0.43	OTH 0.36	0.33
+ZA30	Zakros	1	GRA 0.30	GRA 0.35	0.33
+ZA4a	Zakros	10	OTH 0.33	GRA 0.34	0.33
+ZA22	Zakros	5	OTH 0.38	GRA 0.33	0.33
+ZA8	Zakros	7	GRA 0.30	GRA 0.33	0.33
+ZA10b	Zakros	13	GRA 0.33	GRA 0.33	0.33
+ZA18b	Zakros	1	OTH 0.33	GRA 0.29	0.40
+ZO1	Zominthos	1	VIN 0.25	VIN 0.23	0.40

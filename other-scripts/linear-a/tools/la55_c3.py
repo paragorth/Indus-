@@ -104,7 +104,7 @@ if corpus == 'LA':
 
 if corpus == 'LA':
     # ---- site size covariate (Neopalatial settlement extent, ha; open sources, see la55_final.txt)
-    HA = {'Knossos': 100, 'Malia': 55, 'Phaistos': 55, 'Palaikastro': 17.5, 'Thera': 20, 'Gournia': 4}
+    HA = {'Knossos': 100, 'Malia': 55, 'Phaistos': 55, 'Palaikastro': 17.5, 'Thera': 20, 'Gournia': 1.7}
     sd = la_units(level='site')
     by = collections.defaultdict(list)
     for d in sd: by[d['site']].append(d)

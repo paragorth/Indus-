@@ -50,6 +50,7 @@ def run(name, m, topn=30):
     if name == 'plant':
         signs = ['d%d' % i for i in range(4)] + ['h%d_%d' % (i, j) for i in range(4) for j in range(3)] + \
             ['t0', 't1'] + ['u%d' % i for i in range(4)] + ['c%d' % i for i in range(6)] + ['n%d' % i for i in range(4)]
+    signs = [w for w in signs if w in V.stoi]
     ids = {w: V.stoi[w] for w in signs}
     rng = random.Random(m)
     res = {}

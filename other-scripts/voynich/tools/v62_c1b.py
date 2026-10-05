@@ -63,8 +63,8 @@ def main():
     for tr in ('ZL3b', 'IT2a'):
         pg, meta = A['V-' + tr]['pages'], A['V-' + tr]['meta']
         for key in ('illus', 'lang'):
-            for v in sorted(set(m[key] for m in meta)):
-                sub = [p for p, m in zip(pg, meta) if m[key] == v]
+            for v in sorted(set(str(m[key]) for m in meta)):
+                sub = [p for p, m in zip(pg, meta) if str(m[key]) == v]
                 if sum(len(p) for p in sub) >= 150: groups[f'{tr}:{key}={v}'] = sub
         groups[f'{tr}:all'] = pg
     for name in A:
