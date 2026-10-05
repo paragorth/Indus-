@@ -121,12 +121,16 @@ LB_NAME_RULES = [
     (r'throne|shrine|cult|lustral|sanctuary|room of niche|pillar room|stone lamp|stone basin', {'RIT', 'PAL'}),
     (r'megaron|bath|domestic|hall of colonnades|jewel fresco|corridor|passage|entrance', {'PAL'}),
     (r'little palace', {'PAL', 'RIT'}),
+    (r'pelopidou', {'DOM', 'ANIM'}),
+    (r'chasm', {'ADMIN'}),
+    (r'petsas', {'DOM', 'FINE'}),
     (r'house|oikonomou|pelopidou|oedipodos|epaminondou|kordatzi|soteriadou|ioakim', {'DOM'}),
     (r'oil merchant', {'STOR', 'DOM'}),
     (r'sphinx', {'DOM', 'FINE'}),
     (r'shields', {'DOM'}),
     (r'west house', {'DOM'}),
-    (r'citadel|cult cent', {'RIT'}),
+    (r'citadel house|cult cent', {'RIT'}),
+    (r'ti, .*citadel', {'PAL'}),
 ]
 # Pylos rooms (Blegen & Rawson room numbers, contents from the excavation report summaries).
 PY_ROOMS = {
@@ -144,7 +148,7 @@ PY_ROOMS = {
 
 def lb_classes(rec):
     site = (rec.get('heading') or '')[:2]
-    name = (rec.get('find_area_name') or '').lower()
+    name = ((rec.get('find_area_name') or '') + ' ' + (rec.get('find_area') or '')).lower()
     area = (rec.get('find_area') or '')
     cls = set()
     if site == 'PY':

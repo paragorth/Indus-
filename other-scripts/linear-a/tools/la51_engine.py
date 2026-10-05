@@ -31,6 +31,8 @@ def random_preds(rng, n):
     nc = len(L.CLASSES)
     out, names, seen = [], [], set()
     tries = 0
+    for c in range(nc):                      # every single class is always in the hypothesis set
+        key = (0, (c,), (0,), 0); seen.add(key); out.append(key); names.append(L.CLASSES[c])
     while len(out) < n and tries < n * 10:
         tries += 1
         kind = rng.integers(4)
@@ -81,7 +83,7 @@ def cmh_z(X, D, strata, docmask):
     return z, kk
 
 
-def run(M, n_preds=2000, splits=40, seed=0, dep_of=None, C=None, X=None, track=None):
+def run(M, n_preds=2000, splits=40, seed=0, dep_of=None, C=None, X=None, track=None, probes=None):
     rng = np.random.default_rng(seed)
     dep_of = M['dep_of'] if dep_of is None else dep_of
     C = M['C'] if C is None else C
@@ -123,6 +125,22 @@ def run(M, n_preds=2000, splits=40, seed=0, dep_of=None, C=None, X=None, track=N
     for r in rows:
         if r[0] not in best or (r[3], r[2]) > (best[r[0]][3], best[r[0]][2]): best[r[0]] = r
     res['best'] = sorted(best.values(), key=lambda r: (-r[3], -r[2]))
+    if probes:
+        # single-class probes: replication rate across splits + full-data z
+        Cs = C[dep_of]
+        zfull, kfull = cmh_z(X, Cs, strata, np.ones(len(dep_of), bool))
+        single = {}
+        for j, kk in enumerate(keys):
+            if kk[0] == 0 and len(kk[1]) == 1: single[kk[1][0]] = j
+        res['probes'] = {}
+        for (t, c) in probes:
+            if t not in M['terms']: continue
+            ti = M['terms'].index(t); ci = L.CLASSES.index(c); j = single.get(ci)
+            res['probes'][f'{t}~{c}'] = dict(z=float(zfull[ti, ci]), k=int(kfull[ti, ci]),
+                                              n=int(X[:, ti].sum()),
+                                              tests=int(tests[ti, j]) if j is not None else 0,
+                                              rate=float(rate[ti, j]) if j is not None else None,
+                                              surv=bool(surv[ti, j]) if j is not None else False)
     if track:
         ti = M['terms'].index(track[0]) if track[0] in M['terms'] else None
         if ti is not None:
