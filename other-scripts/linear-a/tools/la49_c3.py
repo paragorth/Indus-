@@ -21,7 +21,7 @@ from sklearn.decomposition import FastICA
 torch.set_num_threads(1)
 SRC, CORP = sys.argv[1], sys.argv[2]
 K = int(sys.argv[3]) if len(sys.argv) > 3 else 12
-RMIN, FRAC = 0.7, 0.6
+RMIN, FRAC = float(os.environ.get('LA49_RMIN', '0.5')), float(os.environ.get('LA49_FRAC', '0.5'))
 
 
 def load_models():
@@ -63,6 +63,7 @@ def main():
     n = len(comps)
     # universality
     uni = []
+    best_all = []
     for a in range(n):
         Sa = (comps[a] - comps[a].mean(0)) / (comps[a].std(0) + 1e-9)
         hits = np.zeros(Sa.shape[1])
@@ -72,11 +73,16 @@ def main():
             Sb = (comps[b] - comps[b].mean(0)) / (comps[b].std(0) + 1e-9)
             R = np.abs(Sa.T @ Sb) / len(Sa)
             hits += (R.max(1) >= RMIN)
+            best_all.append(R.max(1))
         for c in range(Sa.shape[1]):
             uni.append((a, c, hits[c] / (n - 1)))
     universal = [(a, c, f) for a, c, f in uni if f >= FRAC]
-    res = {'corpus': CORP, 'n_models': n, 'K': K, 'n_comp': len(uni), 'n_universal': len(universal),
-           'frac_universal': len(universal) / max(1, len(uni))}
+    B = np.concatenate(best_all) if best_all else np.zeros(1)
+    res = {'best_match_mean': float(B.mean()), 'best_match_q90': float(np.quantile(B, 0.9)),
+           'frac_best_ge_0.7': float(np.mean(B >= 0.7)), 'frac_best_ge_0.5': float(np.mean(B >= 0.5)),
+           'RMIN': RMIN, 'FRAC': FRAC}
+    res.update({'corpus': CORP, 'n_models': n, 'K': K, 'n_comp': len(uni), 'n_universal': len(universal),
+           'frac_universal': len(universal) / max(1, len(uni))})
     # describe universal features: sign so that the top 2 % tail is positive
     cnt = collections.Counter(t[1] if t[0] == 'T' else 'NUM' for t in toks)
     feats = []

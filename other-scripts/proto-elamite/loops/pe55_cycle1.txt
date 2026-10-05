@@ -1,0 +1,31 @@
+pe55 cycle 1: THE NUMBERS MUST OBEY AGRONOMY AND PHYSIOLOGY, calibration (5 Oct 2026)
+Scripts tools/pe55_lib.py, tools/pe55_cycle1.py; checkpoints data/pe55_ckpt/ (git-ignored).
+Prior art: web search (5 Oct 2026) found no joint physical-window test of PE count/capacity pairs over
+several activities. pe16 used human ration needs only (one ruler, latent period); pe27/pe28 scanned exact
+rates without physics. This loop adds fodder (small and large stock), sowing and yield per area, random
+unit sizes and per-sign activity labels, scored by held-out tablets.
+Physical windows (litres of hulled barley per unit per issue; 0.6-0.7 kg/l, ~3.5 kcal/g):
+  person-day 1.2 l (0.5-2.5; FAO/WHO/UNU 2004 energy 2,000-3,200 kcal/d); small stock-day 0.8 l (0.3-2.1;
+  barley supplements 150-750 g/head/day, CSIRO Anim. Prod. Sci. EA9930403, EA9890029; grain fattening to
+  ~1.3 kg/d); large stock-day 4.5 l (1.7-12; working oxen 10 g/kg body weight concentrate, Edinburgh
+  draught-ox theses, DFID R5198 reports); each x30 (month) and x360 (year); sowing 120 l/ha (45-280;
+  30-180 kg/ha traditional, 120-200 kg/ha drilled rainfed trials in Iran, FAO AGRIS 1977-78 season);
+  yield 1,500 l/ha (450-4,500; Iran rainfed mean 2.1 t/ha). Beer is a grain-equivalent of person-day
+  rations here; wool has no capacity pairing (PE has no weight system).
+Data: a pair = a count line and a capacity line on neighbouring lines. PE 390 pairs on 221 tablets
+  (a-priori capacity values, N39C = 1). Ur III 2,266 pairs (pe27 extraction), nouns made opaque (U###),
+  sila hidden as 'base unit' (truth about 1 l). Ur III field texts: 188 tablets, 257 area/capacity pairs.
+Hypothesis: u (l per base capacity unit, prior 0.01-100), A (ha per area count unit, 0.01-10), one
+  activity label per key sign. Score: each pair is either the activity or junk (robust mixture, junk =
+  log-normal on the key's own median, so junk is unit-free). 3,000-6,000 random (u, A) draws; labels both
+  random (pure guessing) and best-per-key. Held out: fit on half the tablets, score the other half.
+  Nulls: capacity values shuffled across lines (whole pipeline re-run), random units with frozen labels,
+  labels permuted among signs.
+
+| PE-55.1a | Ur III opaque, 2,261 pairs, 18 keys; first scorer (pure windows, no junk term) | 16/18 keys 'none'; any one stray pair kills a key | scorer too brittle; replaced by the robust mixture (not a result) |
+| PE-55.1b | Ur III opaque, robust scorer; truth u about 1 l per sila | u = 0.73 l (top-1% hypotheses 0.54-4.5 l, median 0.79). Gurusz -> person-month (452 pairs; correct), sila4 -> small-stock-day, ab2 and one other large-animal noun -> large-stock-day (correct); udu (905) -> person-day (2.4 sila per sheep per day: inside the human window, fattening ration). Area labels are taken by person/stock keys (no area keys present) | PASS on scale (within x1.4) and on the main ration and fodder classes; area labels act as a free wildcard |
+| PE-55.1c | Ur III held out (6 splits): frozen fit vs (1) shuffled numbers, (2) 200 random units, (3) 200 label permutations | u 0.60-0.82 l in 4/6 splits, 3.7 and 24 l (period aliases) in 2; gain +51 to +109; p_units 0-0.015; p_labels 0; p_shuf 0.14 in 6/6 (floor with 6 shuffles: every shuffle scored below real) | PASS all three nulls |
+| PE-55.1d | Ur III thinned to PE size (10 x 220 tablets, 340-430 pairs) | u 0.45-0.76 l in 6/10, 3.1-12 l in 4/10 (alias x6-17); coarse class right 30-80% of labelled pairs (median 57%); held out p_units < 0.05 in 19/30 splits, p_labels < 0.05 in 25/30 | PASS with limits: at PE size the scale is right or off by a period alias about 1 time in 2.5, and reads about x1.5-2 low |
+| PE-55.1e | Ur III field texts (GAN2 area next to capacity), truth 1 iku = 0.36 ha | the area key is labelled 'none': neighbouring capacity lines run 17-13,500 sila per iku (they are wages, totals, rents, not seed) | FAIL for area: neighbour pairing does not isolate sowing in Ur III, so the sowing/yield arm cannot be calibrated; area labels on PE are uninterpretable |
+| PE-55.1f | Planted PE-shaped archive (12 plants): PE keys and counts, 80% of keys given a random activity, true u 0.05-20 l, A 0.05-5 ha, 30% of each key's pairs left as real junk, rounded to whole N39C | u within x1.2 of truth in 4/12 and x1.9 in 6/12; in the other 6 it sits on a period alias (x1/18 to x35; within x1.9 of the alias in 5); exact labels 0-16 of 29 (median 5.5), coarse class 12-67% of pairs | PARTIAL: the scale is recovered up to the period alias; labels are weak at PE size |
+| PE-55.1 | Cycle verdict | The physics ruler recovers the Ur III base unit blind (0.73 l vs about 1 l; held out on 3 nulls) and the man-month and stock-day classes. Limits: x30 period alias about 1 time in 2.5 at PE size; area/sowing cannot be calibrated (Ur III neighbour pairs are not seed) | Instrument usable for scale and for person vs stock, not for sowing. Next: PE run and the random-ruler test (does real physics beat nonsense windows?) |

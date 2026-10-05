@@ -37,7 +37,7 @@ LA_SITES = ['Haghia Triada', 'Khania', 'Phaistos', 'Knossos', 'Zakros', 'Palaika
 LA_ABBR = ['HT', 'KH', 'PH', 'KN', 'ZA', 'PK', 'MA', 'THE', 'IO', 'AR', 'PE', 'SY']
 
 
-def _la_dtype(s):
+def la_dtype(s):
     s = s.lower()
     if s.startswith('tablet') or s.startswith('lames') or 'bar' in s:
         return 0
@@ -62,7 +62,7 @@ def la_docs(sites=LA_SITES, horizon=None):
                 words.append('-'.join(t['s']))
             elif t['t'] == 'num':
                 nums.append(float(t['v']))
-        out.append(dict(id=d['id'], site=sites.index(d['site']), dtype=_la_dtype(d['support']),
+        out.append(dict(id=d['id'], site=sites.index(d['site']), dtype=la_dtype(d['support']),
                         words=words, nums=nums, scribe=d.get('scribe', '')))
     return out
 

@@ -743,7 +743,7 @@ def grid_configs(focused=False):
     return feats, modes
 
 
-def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed', hitk=None, focused=False):
+def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed', hitk=None, focused=False, pos_only=False, pos_starts=None):
     import time
     t0 = time.time()
     if E is None: E = build_R(C)
@@ -753,6 +753,7 @@ def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=N
     sels = {'fixed': lambda: fixed_selectors(TT), 'marker': lambda: marker_selectors(TT),
             'both': lambda: fixed_selectors(TT) + marker_selectors(TT, top=25)}[sel_kind]()
     feats, modes = grid_configs(focused)
+    if pos_only: feats = [f for f in feats if f[0] == 'pos']
     cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
             if mode_filter is None or modes[m][1] in mode_filter]
     rng = random.Random(1234); rng.shuffle(cfgs)          # same visiting order for every corpus
@@ -783,7 +784,8 @@ def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=N
         else:
             D = nrng.integers(0, vmax, size=(G, n_rand))
         z = score_many(coef, itr, D, mode0, E); n_eval += n_rand
-        st = list(np.argsort(-z)[:2]) + list(nrng.integers(0, n_rand, size=max(0, starts - 2)))
+        ns = pos_starts if (pos_starts and feat[0] == 'pos') else starts
+        st = list(np.argsort(-z)[:2]) + list(nrng.integers(0, n_rand, size=max(0, ns - 2)))
         best = None
         for k in st:
             mode = mode0; itr_k = itr; S_k = S

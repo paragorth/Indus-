@@ -14,10 +14,11 @@ from pe55_lib import *
 mode = sys.argv[1]
 rng = np.random.default_rng(552)
 t0 = time.time()
+AREA = os.environ.get('PE55_AREA', '1') == '1'
 
 
 def fit(D, n_hyp=3000):
-    R = random_search(D, rng, n_hyp, True, n_rand_lab=1000)
+    R = random_search(D, rng, n_hyp, AREA, n_rand_lab=1000)
     o = np.argsort(-R['s_best'])
     b = o[0]
     return dict(logu=float(R['logu'][b]), loga=float(R['loga'][b]), lab=R['lab_best'][b].tolist(),
@@ -29,7 +30,7 @@ def profile(D, n=400):
     best = np.full(n, -1e9)
     for la in np.linspace(*LOGA, 12):
         G = gains(D, lu, np.full(n, la))
-        s, _ = best_labels(G)
+        s, _ = best_labels(G, AREA)
         best = np.maximum(best, s)
     return lu, best
 
@@ -75,7 +76,7 @@ if mode == 'pe':
                rand_lab_q99=float(np.quantile(R['s_rand'], 0.99)))
     print('fit', F['logu'], math.exp(F['logu']), F['score'], 'shuf prof max', profs, flush=True)
     res['heldout'] = heldout(D)
-    fn = f'c2_pe_{capset}_{key}.json'
+    fn = f'c2_pe_{capset}_{key}' + ('' if AREA else '_noarea') + '.json'
 elif mode == 'rulers':
     src = sys.argv[2]
     if src == 'ur3':
@@ -108,7 +109,7 @@ elif mode == 'rulers':
             print(j, real, np.quantile(rr, [0.5, 0.95]), flush=True)
     L.MU[:] = MU0
     res = dict(src=src, real=real, real_u=real_u, rand=rr, rank=float(np.mean(np.array(rr) >= real)))
-    fn = f'c2_rulers_{src}.json'
+    fn = f'c2_rulers_{src}' + ('' if AREA else '_noarea') + '.json'
 res['secs'] = time.time() - t0
 json.dump(res, open(os.path.join(CK, fn), 'w'), default=lambda o: o.tolist() if hasattr(o, 'tolist') else str(o))
 print('done', fn, res['secs'])

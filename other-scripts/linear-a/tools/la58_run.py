@@ -27,6 +27,8 @@ def corpus(name):
         present = [k for k in present if sum(1 for x in d if x['site'] == k) >= 5]
         m = {k: i for i, k in enumerate(present)}
         return [dict(x, site=m[x['site']]) for x in d if x['site'] in m], len(present), [LA_ABBR[k] for k in present], 0
+    if name.startswith('LADEP'):   # deposits as units, two sides of one object merged
+        return la_deposit_docs(shuffle=name[5:] or None)
     if name == 'LB':
         d = lb_docs_all(); rng = random.Random(seed('la58-lb'))
         return thin(d, NTARGET, rng, len(LB_SITES)), len(LB_SITES), LB_SITES, 0
@@ -34,6 +36,40 @@ def corpus(name):
         d = ur_docs_all(); rng = random.Random(seed('la58-ur'))
         return thin(d, NTARGET, rng, len(UR_SITES)), len(UR_SITES), ['UMMA', 'PD', 'GIRSU', 'UR', 'NIPPUR', 'GARSANA', 'IRISAGRIG'], 1
     raise ValueError(name)
+
+
+DEP_UNITS = [('HT_VILLA_R13',), ('KH_KASTELLI',), ('HT_VILLA_MAG',), ('KN_PAL',), ('PH_MMII', 'PH_OTHER'),
+             ('ZA_PALACE', 'ZA_HOUSEA'), ('HT_CASA7',), ('HT_CDL',), ('HT_ROUNDELS',), ('SANCT',),
+             ('PK_PETSOFAS', 'PK_TOWN'), ('THE_AKRO',), ('HT_CASA9',), ('PE_PAL',), ('MA_PAL',)]
+DEP_ABBR = ['HT-R13', 'KH', 'HT-MAG', 'KN', 'PH', 'ZA', 'HT-C7', 'HT-CDL', 'HT-ROU', 'SANCT', 'PK', 'THE', 'HT-C9', 'PE', 'MA']
+
+
+def la_deposit_docs(shuffle=None):
+    import re as _re
+    from la51_common import load_la
+    dep = {d['id']: d['deposit'] for d in load_la()}
+    C = json.load(open(os.path.join(D, 'corpus.json')))
+    unit = {}
+    for i, u in enumerate(DEP_UNITS):
+        for x in u:
+            unit[x] = i
+    merged = collections.OrderedDict()
+    for d in C:
+        k = _re.sub(r'(?<=[0-9>])[a-f]$', '', d['id'])
+        dp = dep.get(k, dep.get(d['id']))
+        if dp not in unit:
+            continue
+        words = ['-'.join(t['s']) for t in d['tokens'] if t['t'] == 'word']
+        nums = [float(t['v']) for t in d['tokens'] if t['t'] == 'num']
+        if k in merged:
+            merged[k]['words'] += words; merged[k]['nums'] += nums
+        else:
+            merged[k] = dict(id=k, site=unit[dp], dtype=la_dtype(d['support']), words=words, nums=nums)
+    out = list(merged.values())
+    if shuffle:
+        rng = random.Random(seed('la58-dep-' + shuffle)); s = [x['site'] for x in out]; rng.shuffle(s)
+        out = [dict(x, site=q) for x, q in zip(out, s)]
+    return out, len(DEP_UNITS), DEP_ABBR, 0
 
 
 def nk_of(docs, K):

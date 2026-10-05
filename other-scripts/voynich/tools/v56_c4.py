@@ -65,7 +65,8 @@ def job(arg):
     E = L.build_R(C, order=order)
     Co = dict(C, pages=E['pages'])
     rows, E, TT, ne, cov = L.search_grid(Co, seed=0, time_budget=BUDGET, E=E, max_cfg=NCFG, mode_filter=('abs_clip',),
-                                         sel_kind='fixed', starts=6, hitk=10, focused=True)
+                                         sel_kind='fixed', starts=6, hitk=10, focused=True,
+                                         pos_only=True, pos_starts=16)
     S = L.summarise(rows)
     out = dict(name=name, kind=kind, k=k, n_eval=ne, summary=S, coverage=cov, digits=C.get('digits'), rows=rows,
                top=sorted(rows, key=lambda r: -r['z_tr'])[:10])
