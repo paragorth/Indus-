@@ -15,25 +15,25 @@ OUT = os.path.join(L.CK, 'cycle1.json')
 NNULL = int(os.environ.get('NNULL', 60))
 
 PAIRS = [('celsus_lat', 'celsus_eng'), ('apicius_lat', 'apicius_eng'), ('psalms_he', 'psalms_en'),
-         ]  # pliny run separately (slow)
+         ('pliny_nh_lat', 'pliny_nh_eng')]
 NEG = {'celsus_lat': 'apicius_eng', 'apicius_lat': 'celsus_eng', 'psalms_he': 'forme_of_cury', 'pliny_nh_lat': 'culpeper'}
 SIZES = [44, 87, 128, 292]
-SETTINGS = {'s0.30': dict(lam=1.0, s=0.30, pm=0.30, g=0.5), 's0.20': dict(lam=1.0, s=0.20, pm=0.30, g=0.5),
-            's0.45': dict(lam=1.0, s=0.45, pm=0.30, g=0.5)}
+SETTINGS = {'s0.30': dict(lam=1.0, s=0.30, pm=0.30, g=0.5), 's0.20': dict(lam=1.0, s=0.20, pm=0.30, g=0.5)}
 
 def test(x, y, par, rng):
     obs, c = L.align(x, y, par)
     nx = [L.align(rng.sample(x, len(x)), y, par)[0] for _ in range(NNULL)]
     ny = [L.align(x, rng.sample(y, len(y)), par)[0] for _ in range(NNULL // 2)]
-    zx, px = L.zp(obs, nx); zy, py = L.zp(obs, ny)
-    return dict(obs=round(obs, 2), c=c, zx=round(zx, 2), px=round(px, 4), zy=round(zy, 2), py=round(py, 4))
+    nb = [L.align(L.block_shuffle(x, rng), y, par)[0] for _ in range(NNULL)]
+    zx, px = L.zp(obs, nx); zy, py = L.zp(obs, ny); zb, pb = L.zp(obs, nb)
+    return dict(obs=round(obs, 2), c=c, zx=round(float(zx), 2), zy=round(float(zy), 2), zb=round(float(zb), 2), pb=round(float(pb), 4))
 
 def main():
     rng = random.Random(58)
     res = json.load(open(OUT)) if os.path.exists(OUT) else {}
     for a, b in PAIRS:
         ua = T[a]['units']; ub = [u['w'] for u in T[b]['units']]
-        for n in SIZES:
+        for n in (SIZES if a != 'pliny_nh_lat' else [128, 292]):
             for sk, par in SETTINGS.items():
                 for rep in range(2):
                     key = '%s|%s|%d|%s|%d' % (a, b, n, sk, rep)
@@ -45,7 +45,7 @@ def main():
                     pos = test(enc, ub, par, rng)
                     neg = test(enc, [u['w'] for u in T[NEG[a]]['units']], par, rng)
                     res[key] = dict(pos=pos, neg=neg, n=len(enc))
-                    print(key, 'POS', pos, 'NEG', neg, '%.0fs' % (time.time() - t0), flush=True)
+                    print(key, 'POS', pos, '\n    NEG', neg, '%.0fs' % (time.time() - t0), flush=True)
                     json.dump(res, open(OUT, 'w'))
 
 if __name__ == '__main__':

@@ -114,3 +114,11 @@ def zp(obs, null):
     null = np.asarray(null, float)
     sd = null.std(ddof=1) if len(null) > 1 else 0
     return ((obs - null.mean()) / sd if sd > 0 else 0.0), (1 + (null >= obs).sum()) / (1 + len(null))
+
+def block_shuffle(x, rng, b=8):
+    """shuffle blocks of b consecutive units (keeps short-range autocorrelation), random phase."""
+    off = rng.randrange(b)
+    blocks = [x[:off]] + [x[i:i + b] for i in range(off, len(x), b)]
+    blocks = [bl for bl in blocks if bl]
+    rng.shuffle(blocks)
+    return [v for bl in blocks for v in bl]
