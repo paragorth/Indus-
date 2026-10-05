@@ -338,19 +338,25 @@ def prep_positions(pages, minw=3):
 
 def lag_kappa(seqs, maxlag=4):
     """seqs: list per page of list of hashable-or-None labels. Returns array of kappa at lags 1..maxlag,
-    kappa = (obs - exp) / (1 - exp), exp = within-page random pair match rate (exact shuffle expectation)."""
+    kappa = (obs - exp) / (1 - exp), exp = within-page random pair match rate (exact shuffle expectation).
+    Vectorised."""
+    vocab = {}
+    lab, pid = [], []
+    for p, s in enumerate(seqs):
+        for x in s:
+            lab.append(-1 if x is None else vocab.setdefault(x, len(vocab))); pid.append(p)
+    lab = np.array(lab, np.int64); pid = np.array(pid, np.int64)
+    ok = lab >= 0
+    V = len(vocab) + 1
+    uk, cnt = np.unique(pid[ok] * V + lab[ok], return_counts=True)
+    num = np.bincount(uk // V, weights=cnt * (cnt - 1.0), minlength=len(seqs))
+    n = np.bincount(pid[ok], minlength=len(seqs)).astype(float)
+    pe = np.where(n > 1, num / np.maximum(n * (n - 1), 1), 0.0)
     obs = np.zeros(maxlag); npair = np.zeros(maxlag); expn = np.zeros(maxlag)
-    for s in seqs:
-        lab = [x for x in s if x is not None]
-        n = len(lab)
-        if n < 2: continue
-        c = Counter(lab)
-        pe = sum(v * (v - 1) for v in c.values()) / (n * (n - 1))
-        for d in range(1, maxlag + 1):
-            for i in range(len(s) - d):
-                a, b = s[i], s[i + d]
-                if a is None or b is None: continue
-                npair[d - 1] += 1; obs[d - 1] += (a == b); expn[d - 1] += pe
+    for d in range(1, maxlag + 1):
+        a, b = lab[:-d], lab[d:]
+        m = (pid[:-d] == pid[d:]) & (a >= 0) & (b >= 0)
+        npair[d - 1] = m.sum(); obs[d - 1] = (a[m] == b[m]).sum(); expn[d - 1] = pe[pid[:-d][m]].sum()
     o = obs / np.maximum(npair, 1); e = expn / np.maximum(npair, 1)
     return (o - e) / np.maximum(1 - e, 1e-9), o, e, npair
 
