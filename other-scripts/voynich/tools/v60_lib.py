@@ -633,29 +633,26 @@ def decode_item(ents, item, k=4):
     return [w for w, _ in c.most_common(k)]
 
 
-def hyp_detail(M, bounds, keep_idx, w=3):
-    """For one hypothesis (item indices a, b, c, d into M's columns): per entry the cell of the first event and its
-    relative position. Returns (cells list (-1 none, -2 several), positions list)."""
-    a, b, c, d = keep_idx
+def hyp_detail(M, bounds, keep, idx4, w=3):
+    """One hypothesis (column indices a, b, c, d of M): per entry the cell of its first event (-1 none, -2 several
+    different cells) and the event's relative position in the entry."""
+    a, b, c, d = idx4
+    st = {(x, y): same_token_ok(keep[x], keep[y]) for x in (a, b) for y in (c, d)}
     cells, poss = [], []
     for e in range(len(bounds) - 1):
         Me = M[bounds[e]:bounds[e + 1]]
         L_ = Me.shape[0]
         found = {}
-        for t in range(L_):
+        for t in np.nonzero(Me[:, a] + Me[:, b])[0]:
             for q1, x in ((0, a), (1, b)):
                 if not Me[t, x]: continue
-                rng_ = [t] if same_token_ok(KEEP_HINT.get(x, ''), '') else []
                 for k in range(0, w + 1):
                     if t + k >= L_: break
                     for q2, y in ((0, c), (1, d)):
-                        if Me[t + k, y] and (k > 0 or KEEP_ST.get((x, y), False)):
-                            found.setdefault(q1 * 2 + q2, t / max(1, L_ - 1))
+                        if Me[t + k, y] and (k > 0 or st[(x, y)]):
+                            found.setdefault(q1 * 2 + q2, float(t) / max(1, L_ - 1))
         if not found: cells.append(-1); poss.append(None)
         elif len(found) > 1: cells.append(-2); poss.append(min(found.values()))
         else:
             k_ = list(found)[0]; cells.append(k_); poss.append(found[k_])
     return cells, poss
-
-
-KEEP_HINT, KEEP_ST = {}, {}
