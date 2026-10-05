@@ -243,7 +243,10 @@ class Data:
                 j = vi.get(t)
                 if j is not None:
                     self.Y[i, j] = True; self.C[i, j] += 1
-        self.L = np.array([max(1, len(d['toks'])) for d in docs], float)
+        L0 = np.array([max(1, len(d['toks'])) for d in docs], float)
+        # lengths coarsened to a geometric grid (ratio 1.15) so tablets group by (site, length) in the fit
+        self.L = np.round(np.exp(np.round(np.log(L0) / np.log(1.15)) * np.log(1.15)), 3)
+        self._gcache = {}
         self.site = np.array([si[d['site']] for d in docs])
         self.docs = docs
         self.Dm = dist_mats(self.sites, corpus)
@@ -280,13 +283,21 @@ def _ll(Y, rate):
 
 def _groups(dat, mask, Y):
     """Group docs of mask by (site, length): returns site, length, count, presence sums (G, S)."""
+    ck = (hash(mask.tobytes()), id(Y), hash(dat.site.tobytes()))
+    if ck in dat._gcache:
+        return dat._gcache[ck]
     idx = np.where(mask)[0]
-    key = dat.site[idx] * 100000 + dat.L[idx].astype(int)
+    ul, li = np.unique(dat.L, return_inverse=True)
+    key = dat.site[idx] * 100000 + li[idx]
     uk, inv = np.unique(key, return_inverse=True)
     n = np.bincount(inv).astype(float)
     K = np.zeros((len(uk), Y.shape[1]))
     np.add.at(K, inv, Y[idx].astype(float))
-    return (uk // 100000).astype(int), (uk % 100000).astype(float), n, K, inv
+    out = ((uk // 100000).astype(int), ul[uk % 100000], n, K, inv)
+    if len(dat._gcache) > 64:
+        dat._gcache.clear()
+    dat._gcache[ck] = out
+    return out
 
 
 def _llg(n, K, rate):

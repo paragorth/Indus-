@@ -275,6 +275,7 @@ def main():
         ('hildegard_physica', 'la', 'herbal', 'Augustana hil_phy1-9', hildegard),
         ('regimen_salern', 'la', 'regimen', 'Augustana reg_sana', regimen),
         ('konrad_bdn', 'de', 'encycl', 'Augustana kon_*', konrad),
+        ('konrad_plants', 'de', 'herbal', 'Augustana kon_4*, kon_5* (trees, herbs)', lambda: [u for u in konrad() if u['t'][:5] in ('kon_4', 'kon_5')]),
         ('apicius_lat', 'la', 'recipe', 'Latin Library apicius1-5', apicius_lat),
         ('apicius_eng', 'en', 'recipe', 'Gutenberg 29728 (Vehling)', apicius_eng),
         ('forme_of_cury', 'enm', 'recipe', 'Gutenberg 8102', forme_of_cury),
