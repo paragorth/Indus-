@@ -82,6 +82,16 @@ def bpe(words, m):
     return [tuple(w) for w in words], merges
 
 
+def bpe_snaps(words, ms):
+    out = {0: (words, [])}
+    cur, merges, done = words, [], 0
+    for m in sorted(x for x in ms if x):
+        cur, mm = bpe(cur, m - done)
+        merges = merges + mm; done = m
+        out[m] = (cur, list(merges))
+    return out
+
+
 def halves(D, words):
     pg = np.array([r['pg'] for r in D['recs']])
     A = [w for w, p in zip(words, pg) if p % 2 == 0 and w]
@@ -119,8 +129,9 @@ def run(name):
                             rec['lig_recall'] = collections.Counter(lab[i] for i in lig)[cl] / len(lig)
                             rec['lig_prec'] = collections.Counter(lab[i] for i in lig)[cl] / max(1, incl)
                     W0 = words_from(lab, U, nrec)
+                    snaps = bpe_snaps(W0, MERGES)
                     for m in MERGES:
-                        W, merges = bpe(W0, m) if m else (W0, [])
+                        W, merges = snaps[m]
                         A, B = halves(D, W)
                         r = dict(rec); r['m'] = m
                         r['A'] = battery(A); r['B'] = battery(B)

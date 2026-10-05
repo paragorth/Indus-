@@ -19,7 +19,7 @@ def jobs():
             J.append(('ref__%s__%d' % (k, i), {'kind': 'ref', 'text': k, 'genre': R[k]['genre'], 'coarse': R[k]['coarse']}, ch))
     gen_src = ['forme_of_cury', 'culpeper', 'caesar', 'apicius_index', 'circa_fr', 'celsus_lat']
     for k in gen_src:
-        ch = [j for j in J if j[1]['text'] == k][0][2]
+        ch = [j for j in J if j[1].get('text') == k][0][2]
         for g, fn in [('selfcit', L.gen_selfcit), ('grille', L.gen_grille), ('markov', L.gen_markov)]:
             J.append(('gen__%s_%s__0' % (g, k), {'kind': 'gen', 'gen': g, 'src': k}, fn(ch, 7)))
     for tr in ('ZL3b', 'IT2a'):
