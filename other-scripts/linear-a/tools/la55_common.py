@@ -145,6 +145,22 @@ def ur_truth_classes(docs):
     return out
 
 
+def build_corpus(corpus):
+    if corpus == 'LA': return la_units(), 3
+    if corpus == 'LAG': return la_units(signs=True), 3
+    if corpus == 'LB': return lb_units(), 3
+    if corpus == 'LBS':
+        docs = lb_units(); cnt = collections.Counter(d['unit'] for d in docs)
+        us = sorted(u for u in cnt if cnt[u] >= 3); r = random.Random(seed('la55-lbs')); r.shuffle(us)
+        keep, n = set(), 0
+        for u in us:
+            if n >= 1574: break
+            keep.add(u); n += cnt[u]
+        return [d for d in docs if d['unit'] in keep], 3
+    if corpus == 'UR': return ur_units(max_docs=12000), 5
+
+
+
 # =================================================================== matrices
 class Data:
     def __init__(self, docs, min_unit=3, min_k=5):

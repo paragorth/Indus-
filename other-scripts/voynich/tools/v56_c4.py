@@ -11,9 +11,9 @@ import v56_lib as L
 from multiprocessing import Pool
 
 TAG = sys.argv[1] if len(sys.argv) > 1 else 'c4'
-NCFG = int(sys.argv[2]) if len(sys.argv) > 2 else 500
-BUDGET = float(sys.argv[3]) if len(sys.argv) > 3 else 700
-K = int(sys.argv[4]) if len(sys.argv) > 4 else 5
+NCFG = int(sys.argv[2]) if len(sys.argv) > 2 else 100000
+BUDGET = float(sys.argv[3]) if len(sys.argv) > 3 else 2400
+K = int(sys.argv[4]) if len(sys.argv) > 4 else 3
 
 
 def bifolio_order(C, seed):
@@ -48,7 +48,7 @@ def plant_in_order(Z, order, seed=11):
     inv = {k: j for j, k in enumerate(order)}
     back = [None] * len(order)
     for j, k in enumerate(order): back[k] = P['pages'][j]
-    return dict(Z, pages=back, name=Z['name'] + '_plantedhidden')
+    return dict(Z, pages=back, name=Z['name'] + '_plantedhidden', digits=P['digits'])
 
 
 def job(arg):
@@ -64,9 +64,10 @@ def job(arg):
         order = list(range(len(C['pages']))); random.Random(500 + k).shuffle(order)
     E = L.build_R(C, order=order)
     Co = dict(C, pages=E['pages'])
-    rows, E, TT, ne, cov = L.search_grid(Co, seed=0, time_budget=BUDGET, E=E, max_cfg=NCFG, mode_filter=('abs_clip',))
+    rows, E, TT, ne, cov = L.search_grid(Co, seed=0, time_budget=BUDGET, E=E, max_cfg=NCFG, mode_filter=('abs_clip',),
+                                         sel_kind='fixed', starts=6, hitk=10, focused=True)
     S = L.summarise(rows)
-    out = dict(name=name, kind=kind, k=k, n_eval=ne, summary=S, coverage=cov,
+    out = dict(name=name, kind=kind, k=k, n_eval=ne, summary=S, coverage=cov, digits=C.get('digits'), rows=rows,
                top=sorted(rows, key=lambda r: -r['z_tr'])[:10])
     json.dump(out, open(os.path.join(L.CK, '%s_%s_%s_%d.json' % (TAG, name, kind, k)), 'w'))
     return '%s %s %d top_te %.2f max %.2f' % (name, kind, k, S['top_te_mean'], S['top_te_max'])

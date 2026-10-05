@@ -123,7 +123,7 @@ def voynich_lines(tr='ZL3b'):
     for r in vlib.load_voynich(tr):
         ws = [tuple(vlib.glyphs(w)) for w in r['words']]
         out.append(dict(folio=r['folio'], lang=r['lang'], illus=r['illus'], quire=r['quire'], hand=r['hand'],
-                        words=ws, unc=r['uncertain']))
+                        words=ws, unc=r['uncertain'], ps=r['para_start'], pe=r['para_end']))
     return out
 
 
@@ -161,3 +161,60 @@ class GlyphLM:
         for i in range(2, len(s)):
             lp += math.log((self.c3[s[i - 2:i + 1]] + self.k) / (self.c2[s[i - 2:i]] + self.k * self.V))
         return lp / (len(w) + 1)
+
+
+def voynich_paras(tr='ZL3b', keep_lines=False):
+    """paragraph streams of glyph tuples (words with '?' dropped); optional line-index per token."""
+    paras, cur, li, curl, curf = [], [], [], [], None
+    for k, r in enumerate(voynich_lines(tr)):
+        if (r['ps'] or r['folio'] != curf) and cur:
+            paras.append(dict(folio=curf, words=cur, line=curl)); cur, curl = [], []
+        curf = r['folio']
+        for j, w in enumerate(r['words']):
+            if '?' in w or '*' in w:
+                continue
+            cur.append(w); curl.append((k, j, len(r['words'])))
+    if cur:
+        paras.append(dict(folio=curf, words=cur, line=curl))
+    return paras
+
+
+def plaoul_streams(mode='after'):
+    """paragraph streams of letter tuples. mode 'after' = corrected text; 'before' = as first written
+    (whole-word deletions kept, additions dropped)."""
+    out = []
+    for p in plaoul_witnesses():
+        ws = []
+        for t in p['toks']:
+            if mode == 'after' and t['st'] == 'd': continue
+            if mode == 'before' and t['st'] == 'a': continue
+            w = t[mode]
+            if w: ws.append(tuple(w))
+        if len(ws) >= 3:
+            out.append(dict(folio=p['file'], words=ws))
+    return out
+
+
+VS_ALPHA = list('ABCDEFGHIJKLMNOPQR')
+
+
+def verbose_table(seed=7):
+    rng = random.Random(seed)
+    tab, used = {}, set()
+    for ch in 'abcdefghijklmnopqrstuvwxyz':
+        while True:
+            k = rng.choice([1, 2, 2, 3])
+            g = tuple(rng.choice(VS_ALPHA) for _ in range(k))
+            if g not in used:
+                used.add(g); tab[ch] = g; break
+    return tab
+
+
+def encode_streams(streams, seed=7):
+    tab = verbose_table(seed)
+    out = []
+    for s in streams:
+        ws = [tuple(x for c in w for x in tab.get(c, ())) for w in s['words']]
+        ws = [w for w in ws if w]
+        out.append(dict(s, words=ws))
+    return out

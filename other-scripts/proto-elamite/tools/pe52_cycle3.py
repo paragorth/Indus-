@@ -22,6 +22,9 @@ def sub(C, tabs):
     return [r for r in C if r['tab'] in tabs]
 
 
+NH = 1   # halvings (PE tab none / qtab ran with 2; later jobs 1 because the machine was shared)
+
+
 def main(cname, mode, null):
     out = os.path.join(L.CK, f'c3_{cname}_{mode}_{null}.json')
     if os.path.exists(out):
@@ -31,7 +34,7 @@ def main(cname, mode, null):
     freq = Counter(tuple(sorted(set(r['w']))) for r in C)
     tabs = sorted({r['tab'] for r in C})
     res = []
-    for h in range(2):
+    for h in range(NH):
         rng = random.Random(500 + h); t2 = tabs[:]; rng.shuffle(t2)
         halves = [set(t2[:len(t2) // 2]), set(t2[len(t2) // 2:])]
         for d in range(2):
