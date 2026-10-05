@@ -16,7 +16,7 @@ def D(acc, c, k):
     return a[0] / a[1] if a and a[1] else None
 
 
-def analyse(name):
+def analyse(name, pseudo=False, minM=4):
     import re
     F = sorted(f for f in glob.glob(os.path.join(L.CK, 'pair_%s_*.json' % name))
                if re.match(r'^pair_%s_\d+\.json$' % re.escape(name), os.path.basename(f)))
@@ -31,7 +31,14 @@ def analyse(name):
                     continue
                 I = dab - da - db
                 nul = []
-                for q in range(4):
+                qs = range(4)
+                if pseudo:
+                    dq0, daq0 = D(acc, 'q0', k), D(acc, 'aq0', k)
+                    if dq0 is None or daq0 is None:
+                        continue
+                    I = daq0 - da - dq0
+                    qs = range(1, 4)
+                for q in qs:
                     dq, daq = D(acc, 'q%d' % q, k), D(acc, 'aq%d' % q, k)
                     if dq is not None and daq is not None:
                         nul.append(daq - da - dq)
@@ -42,6 +49,8 @@ def analyse(name):
     out = []
     for pr, kk in P.items():
         for k, (ex, nl) in kk.items():
+            if len(ex) < minM:
+                continue
             sd = np.std(nl) + 1e-4
             e = float(np.mean(ex))
             z = e / (sd / math.sqrt(len(ex)))
@@ -60,6 +69,9 @@ if __name__ == '__main__':
         print('  redundant (z>3, excess>=0.01): %d; overlapping (z<-3): %d' % (len(red), len(sub)))
         by = collections.Counter(o[1] for o in red)
         print('  redundant by task', dict(by))
+        po, _ = analyse(name, pseudo=True)
+        print('  PSEUDO pairs (a, random tokens) with the same criteria: cells %d, redundant %d, overlapping %d' % (
+            len(po), sum(1 for o in po if o[2] >= 0.01 and o[3] > 3), sum(1 for o in po if o[2] <= -0.01 and o[3] < -3)))
         for o in sorted(red, key=lambda o: -o[3])[:25]:
             print('   + %-22s %-4s excess %+.3f z %.1f (models %d)' % o)
         for o in sorted(sub, key=lambda o: o[3])[:10]:

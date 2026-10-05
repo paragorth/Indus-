@@ -1,0 +1,30 @@
+LA-54 final: READ WHAT WAS NOT WRITTEN (5 Oct 2026)
+Scripts: tools/la54_common.py, la54_engine.py, la54_c1.py, la54_c1_report.py, la54_c2.py, la54_c2_report.py, la54_c3.py.
+Rows: loops/la54_cycle1.txt, la54_cycle2.txt (with the full imputation table for 166 documents), la54_cycle3.txt.
+Checkpoints: data/la54_ckpt/ (git-ignored). About 20,000 random classifiers (4 families x random feature groups x random
+hyper-parameters) were scored, ~250,000 fits in all.
+
+Idea: 166 Linear A documents write numbers but no commodity sign. Train on the 227 documents that show their commodity,
+with every commodity sign deleted, and infer the unwritten commodity from what remains (number size, fraction signs,
+rounding, words, site, support, layout). Then fill in the archive and look for new word-commodity links.
+
+| LA-54 | Masked-commodity inference, random classifier search, nested holdouts. Nulls: labels shuffled (10), numbers shuffled (6), labels shuffled within site (8), HT-only shuffles (6), transfer shuffles (6). Controls: Linear B and Ur III with commodity signs/words deleted at LA size; planted commodity (number-scale only x2, x5; with a word on half the docs; no signature). | LA acc 0.458 / 0.33 bits vs label shuffle max 0.308 / 0.005; site alone 0.413; within-site shuffle 0.371 / 0.175 bits; numbers alone 0.328 / 0.09 bits. LB 0.53-0.60 / 0.39-0.96 bits, Ur III 0.64-0.68 / 0.77-0.89 bits (both pass, LB also within site). Planted: word-borne recovered (recall 0.33, precision 0.72), number-scale-only not (0.04-0.08). Imputation: 72-75 % = the site's commonest commodity. Word links on imputed docs 12/259 at p<0.05 (13 expected). | B (calibrated negative). The unwritten commodity can be read back only as the site's habit plus a small residual; numbers do not carry it; filling in the gaps creates no word-commodity link. |
+
+Grades
+- A: none.
+- B (negative): reading the unwritten commodity mostly returns the site. Khania -> CYP, Zakros and Arkhalkhori -> GRA,
+  Phaistos and Malia -> 'other'. Linear B controls show 4x more within-document information (0.6 vs 0.16 bits/doc).
+- B (method): at LA size the search finds a hidden commodity carried by a word, not one carried by number scale
+  (even x5). Number sizes vary too much within each commodity.
+- B (negative): no new word-commodity links (12/259 at p < 0.05 vs 13 expected; min q 0.86).
+- C: Linear A documents carry ~0.16 bits/doc about their commodity beyond the site (P 1/9 vs within-site shuffles).
+  Would support: P < 0.01 with 100 within-site shuffles. Would kill: P > 0.2.
+- C: HT95b (KU-NI-SU, DA-ME, A-DU) is a grain document (word-blind model: GRA 0.55; the two words occur only with GRA
+  on labelled tablets). Would support: a GRA sign on HT95b in a join or re-reading. Would kill: a non-grain sign there.
+  HT10a (KU-NI-SU) is called 'other', so this holds for 1 of 2 documents.
+- Wine, oil, people and olives cannot be recovered once their sign is deleted (recall 0.00-0.10). For these classes
+  the imputation says nothing.
+
+Limits: P values are bounded by the number of null runs (6-10), because the CPU was shared (load ~30 on 4 cores).
+'OTH' merges every commodity class other than GRA, CYP, OLE, OLIV, VIN and VIR. Single-sign words such as NI were
+kept as words.
