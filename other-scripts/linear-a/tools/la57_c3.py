@@ -92,8 +92,7 @@ def init(g):
 
 def main():
     t0 = time.time()
-    import la57_c1 as P1
-    F, sysd = P1.load()
+    F, sysd = C.load()
     sysd['KH']['kh'] = True
     rng = np.random.default_rng(C.seed('la57-' + TAG))
     g = dict(X={}, Y={}, F=F, rows={})
@@ -109,7 +108,7 @@ def main():
             labs = sysd[k]['labs']
             if sum(1 for l in labs if l == role) >= 30 and sum(1 for l in labs if l is not None and l != role) >= 30:
                 elig[role].append(k)
-                g['Y'][role][k] = P1.label_sets(sysd[k], role, NNULL, rng)[1]
+                g['Y'][role][k] = C.label_sets(sysd[k], role, NNULL, rng)[1]
     tasks = [(role, s, rep) for role in C.ROLES if len(elig[role]) >= 3 for s in elig[role] for rep in range(NNULL + 1)]
     log('tasks', len(tasks))
     V = {}

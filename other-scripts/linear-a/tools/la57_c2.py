@@ -12,7 +12,6 @@ import numpy as np
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import la57_common as C
-import la57_c1 as P1
 from la57_read import readout
 warnings.filterwarnings('ignore')
 from sklearn.linear_model import LogisticRegression
@@ -93,7 +92,7 @@ def init(g):
 
 def main():
     t0 = time.time()
-    F, sysd = P1.load()
+    F, sysd = C.load()
     sysd['KH']['kh'] = True
     rng = np.random.default_rng(C.seed('la57-' + TAG))
     g = dict(X={}, Y={}, elig={})
@@ -111,7 +110,7 @@ def main():
             npos = sum(1 for l in labs if l == role); nneg = sum(1 for l in labs if l is not None and l != role)
             if npos >= 30 and nneg >= 30:
                 g['elig'][role].append(k)
-                _, Ys = P1.label_sets(sysd[k], role, NNULL, rng)
+                _, Ys = C.label_sets(sysd[k], role, NNULL, rng)
                 g['Y'][role][k] = Ys
     tasks, specs = [], {}
     for role in ROLESEL:

@@ -10,7 +10,7 @@ UNI unit.  Khipus: TOT = top cords (a physical attachment class, not an arithmet
 Systems: PC proto-cuneiform (Uruk IV-III), UR3 Ur III admin, OB Old Babylonian admin, EB Ebla admin (Syria), OA Old Assyrian
 admin (CDLI), LB Linear B KN+PY (DAMOS), KH Inca khipus (Open Khipu Repository), PLANT (made-up, test only).
 """
-import os, re, sys, json, math, random, hashlib, collections, csv, sqlite3, unicodedata
+import os, re, sys, json, math, random, hashlib, collections, csv, sqlite3, unicodedata, pickle
 from fractions import Fraction as Fr
 import numpy as np
 
@@ -607,3 +607,39 @@ def auc_matrix(S, y):
 def wlog(path, row):
     with open(path, 'a') as f:
         f.write(row.rstrip() + '\n')
+
+
+# =============================================================== pooled draws and label sets
+def load():
+    F = pickle.load(open(os.path.join(CK, 'feats.pkl'), 'rb'))
+    sysd = {}
+    for k in KNOWN:
+        Xs, labs, types = [], [], []
+        for j in range(4):
+            f = F[(k, j)]
+            Xs.append(f['X']); labs += f['labs']; types += [(j, t) for t in f['types']]
+        sysd[k] = dict(X=np.vstack(Xs), labs=labs, types=types)
+    return F, sysd
+
+
+def label_sets(s, role, nnull, rng):
+    """rows used for role (labelled rows), real y and nnull permuted y (type-level within corpus)."""
+    labs = s['labs']
+    rows = np.array([i for i, l in enumerate(labs) if l is not None])
+    y = np.array([labs[i] == role for i in rows])
+    Ys = [y]
+    if s.get('kh'):
+        for _ in range(nnull):
+            Ys.append(rng.permutation(y))
+    else:
+        tl = sorted({s['types'][i][1] for i in rows})
+        tr = {}
+        for i in rows:
+            tr[s['types'][i][1]] = labs[i]
+        for _ in range(nnull):
+            perm = rng.permutation(len(tl))
+            m = {tl[a]: tr[tl[b]] for a, b in zip(range(len(tl)), perm)}
+            Ys.append(np.array([m[s['types'][i][1]] == role for i in rows]))
+    return rows, np.array(Ys)
+
+
