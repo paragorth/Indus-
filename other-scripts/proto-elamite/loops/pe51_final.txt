@@ -1,0 +1,53 @@
+pe51 FINAL (5 Oct 2026): WHAT WOULD THE CLERK MISS? (cycles: pe51_cycle1.txt, pe51_cycle2.txt, pe51_cycle3.txt)
+Tools: tools/pe51_lib.py (corpora, models, deletion views), pe51_run.py (single-sign game),
+pe51_sum.py (profiles, classes, stability), pe51_cycle2.py (nulls), pe51_pairs.py and
+pe51_pairs_sum.py (pair game). Checkpoints: data/pe51_ckpt/ (git-ignored).
+
+Method. 64 small random models (transformer or bi-GRU) fill in masked tablets: every numeral (system,
+magnitude, total line), half of the header tokens, whole entry lines. On held-out tablets each
+frequent sign (and, in cycle 3, each pair of the 30 most frequent) is erased everywhere and the
+damage to every other prediction is measured, against erasing as many random tokens in the same
+tablets. Corpora: PE (1,175 tablets), a planted corpus with known roles, Ur III (1,500 Drehem/Umma
+tablets, words as opaque tokens), proto-cuneiform (2,948), and two PE nulls (signs shuffled within
+lines; signs re-dealt across lines).
+
+Calibration (what the game can and cannot see)
+- A (method): it finds number carriers. Planted commodities 11/11 and units 4/4 classed NUM-L;
+  Ur III goods+units ranked with AUC 0.82 (gurusz, ma-na, gur, sila3, gin2, sar, sze at the top);
+  proto-cuneiform SZE first (t 5.0), then GAN2, UDU, GAR. Names are always silent: planted 60/60,
+  Ur III 7/7, proto-cuneiform titles 5/5.
+- A (method limit): it is blind to total markers and document-type markers. Planted ones rank first
+  but never pass; Ur III szu-nigin2 and ba-zi / mu-kux / i3-dab5 / kiszib3 are not found (AUC
+  0.48-0.52); the planted doc-marker redundancy is not found by the pair game either (0/60). A
+  sign whose information the rest of the tablet repeats is never missed. So 'silent' = 'name OR
+  redundant marker', and the planned TOT and HEAD loss classes cannot be filled.
+
+Proto-Elamite loss classes
+- Grade B: almost every frequent PE sign is SILENT (137 of 141). Erasing it changes nothing but its
+  own slot beyond what erasing random tokens does. The null corpora give as many classed signs as
+  real PE (3-4 vs 3 at equal models) and the summed number damage falls only 10-15% when lines are
+  shuffled, so most of what a PE sign is worth to these models is which tablet it is on, not which
+  line it is in (agrees with pe46 'bag of signs').
+- Grade B: NUM-L class (number carriers) = M297 and M376 (classed in every model set, t 3.9-7.3),
+  with M367 and M288 at the edge. M297 is tablet-level (survives both nulls: it marks a capacity
+  tablet; 191/292 of its lines are capacity). M376 is line-level (its effect halves when lines are
+  re-dealt; never capacity, 44/147 lines with fractions).
+- Grade B-: the capacity triangle M387, M036, M297 (with M288|M305 on magnitude) shares one piece of
+  number-system information inside lines: erasing two of them hurts more than the two losses added
+  (M387|M036 z 15.6 at 10 models; replicated 5 -> 10 models; gone when lines are re-dealt; 13 joint
+  cells vs 5 false calls). The same game on Ur III returns unit+goods groups (gur|sze, sila3|kasz,
+  udu|sila4). This is the third independent method that isolates this core of the earlier C-grade
+  capacity twig. Would kill: new tablets where M387 or M036 lines carry counting numerals as often
+  as capacity ones.
+- Grade C: count-side joint pairs M346|M367 and M054|M003 / M009|M003 (never-capacity, BARE-COUNT
+  sets); M054|M003 is tablet-level. HEAD candidates M317, |M136+M365|, M220 do not replicate (C-,
+  and the controls say this class is unreadable anyway).
+- Earlier C-grade groups: the pe45 name-frame elements (M056, M010, M001, M157, M210) are all
+  SILENT and form no replicating joint pair: they behave as names would (consistent, not a test of
+  pe45, because names and redundant markers look the same here). The header twig shows no header
+  information that the body lacks (HEAD AUC 0.19).
+
+Verdict: not cracked, nothing read. The deletion game is a calibrated detector of number-bearing
+signs and nothing more; on PE it confirms the capacity / never-capacity split and the capacity core
+M387-M036-M297, and says the rest of the frequent signs are interchangeable for every prediction
+these models can make.

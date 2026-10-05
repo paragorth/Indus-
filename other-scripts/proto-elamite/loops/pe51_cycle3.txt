@@ -1,0 +1,13 @@
+pe51 cycle 3 (5 Oct 2026): PAIR deletion. Which signs share their information?
+(tools/pe51_pairs.py, pe51_pairs_sum.py). Fresh random model per fold; for the 30 most frequent
+signs, every pair sharing held-out tablets is erased singly and together. Interaction
+I = D_ab - D_a - D_b per task (own slots of a and b never scored). Null: a erased with as many random
+other tokens as b has (4 draws); excess = I - mean(I_null). JOINT pair = excess >= 0.01 nats,
+z > 3, sign agreeing in all but one model, >= 4 models. Pseudo-pairs (a + random tokens scored as a
+pair) give the false-call count under the same rule.
+
+| PE-51.3a | PLANT (planted: doc marker + its 3 header companions carry the same information; unit x commodity jointly set the magnitude), 5 models | 18 joint cells vs 5 pseudo. Unit x commodity found (u0-u3 x c1 on MAG, excess +0.06, z 24-41); doc marker x own companion 0 of 60 cells | PARTIAL: joint number carriers PASS; the planted header redundancy is invisible (as in cycle 1: the body already tells the model the document type) |
+| PE-51.3b | Ur III control, 2 models (34 min each on this machine) | 42 joint cells vs 4 pseudo. Top: udu|sila4, udu|masz2, udu|gu4, niga|gu4 (counted animals); gur|sze (+0.52 SYS), sila3|gur (+0.34), sila3|kasz, sila3|ninda, gin2|ninda, gin2|naga (capacity/weight units with their goods); szu-nigin2|gur | PASS (2 models only): joint pairs are measure-system groups, i.e. a unit with the goods measured in it, and animals with animals |
+| PE-51.3c | PE real, 10 models | 13 joint cells vs 5 pseudo. Replicated between the first 5 and all 10 models: M387|M036 SYS (+0.033, z 15.6), M387|M297 / M297|M036 SYS (+0.025 / +0.039), M288|M305 MAG (+0.020), M346|M367 (ENT, SYS at 5 models), M009|M003 / M054|M003 SYS. Others at 4-6 models only: M388|M367, M387|M354, M054|M354, M263|M376, M376|M032 | ~8 joint cells above the false-call rate |
+| PE-51.3d | PE null: signs re-dealt across the lines of each tablet (pe_nx), 5 models | 6 joint cells vs 2 pseudo, mostly HEAD (M387|M346, M288|M001, M297|M371) and M297|M004 ENT; of the real pairs only M054|M003 SYS survives | the capacity triangle {M387, M036, M297} and M288|M305 are LINE-level (lost when lines are re-dealt); M054|M003 is tablet-level |
+| PE-51.3e | Overlap with earlier C-grade groups | capacity triangle M387, M036, M297 = the core of the pe43 capacity twig {M387, M297, M036, M260, M111, M264, M265, M002}; M346|M367 and M054|M003 sit in the never-capacity / BARE-COUNT sets; no pe45 name-frame sign (M056, M010, M001, M157, M210) forms a joint pair that replicates | the capacity core is now seen by a third, independent method (form tree, offices, deletion) |
