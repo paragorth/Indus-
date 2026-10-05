@@ -9,10 +9,11 @@ how many pairs land in physical windows at once; survivors are tested on held-ou
 Physical constants (litres of hulled barley; bulk density 0.6-0.7 kg/l, energy ~3.5 kcal/g):
   person-day      1.2 l   (0.5-2.5)  FAO/WHO/UNU 2004 energy needs 2,000-3,200 kcal/d adult,
                                     children less; 2,600 kcal / (3,520 kcal/kg x 0.65 kg/l) = 1.14 l
-  smallstock-day  0.5 l   (0.2-1.2)  barley supplements to sheep 150-750 g/head/day
-                                    (CSIRO EA9930403, EA9890029; 500 g optimum for lambs, Anim. Sci.)
-  largestock-day  3.5 l   (1.5-8)    working ox / donkey concentrate 1-5 kg/d (10 g/kg body weight on
-                                    250-400 kg oxen, Edinburgh draught-ox studies; R5198 DFID reports)
+  smallstock-day  0.8 l   (0.3-2.1)  barley to sheep 150-750 g/head/day as supplement (CSIRO EA9930403,
+                                    EA9890029; ~500 g optimum for lambs) up to ~1.3 kg/d grain-fattening
+  largestock-day  4.5 l   (1.7-12)   working ox / donkey concentrate 1-5 kg/d (10 g/kg body weight on
+                                    250-400 kg oxen, Edinburgh draught-ox studies; R5198 DFID reports),
+                                    up to ~7 kg/d when grain-fattened
   x30 (month) and x360 (year) issue periods for each of the above
   area-seed       120 l/ha (45-280)  barley seed 30-180 kg/ha traditional, 120-200 kg/ha drilled rainfed
                                     trials in Iran (ICARDA/FAO AGRIS 1977-78 season; Shiraz and Razi
@@ -34,7 +35,7 @@ sys.path.insert(0, HERE)
 
 # activity: (median litres per unit [per ha for area], log-sd, kind)
 ACT = {}
-for nm, med, sd in [('person', 1.2, 0.40), ('small', 0.5, 0.45), ('large', 3.5, 0.45)]:
+for nm, med, sd in [('person', 1.2, 0.40), ('small', 0.8, 0.6), ('large', 4.5, 0.6)]:
     for per, f in [('d', 1), ('m', 30), ('y', 360)]:
         ACT[f'{nm}-{per}'] = (med * f, sd, 'head')
 ACT['area-seed'] = (120.0, 0.45, 'area')
@@ -44,6 +45,7 @@ NA = len(ACTS)
 MU = np.log(np.array([ACT[a][0] for a in ACTS]))
 SD = np.array([ACT[a][1] for a in ACTS])
 ISAREA = np.array([ACT[a][2] == 'area' for a in ACTS])
+ROBUST = True
 BG_SD = 2.0          # background: log-normal centred on the key's own median, sd 2 (unit-free)
 LOGU = (math.log(0.01), math.log(100.0))     # prior on litres per base capacity unit
 LOGA = (math.log(0.01), math.log(10.0))      # prior on hectares per area count unit
@@ -113,6 +115,13 @@ def gains(D, logu, loga, med=None):
     lf = -0.5 * ((x - MU[None, None, :]) / SD[None, None, :]) ** 2 - np.log(SD)[None, None, :]
     lb = -0.5 * ((lr - med[k]) / BG_SD) ** 2 - math.log(BG_SD)
     g = lf - lb[None, :, None]
+    if ROBUST:
+        # each pair is activity (prob w) or junk (background); best of a small w grid per key
+        rho = np.exp(np.clip(g, -50, 50))
+        oh = np.zeros((len(lr), K))
+        oh[np.arange(len(lr)), k] = 1
+        Gs = [np.einsum('hpa,pk->hka', np.log(w * rho + 1 - w), oh) for w in (0.3, 0.6, 0.9)]
+        return np.maximum(np.maximum(Gs[0], Gs[1]), Gs[2])
     oh = np.zeros((len(lr), K))
     oh[np.arange(len(lr)), k] = 1
     G = np.einsum('hpa,pk->hka', g, oh)

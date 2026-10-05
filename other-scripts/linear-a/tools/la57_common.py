@@ -7,7 +7,7 @@ Administrative corpora from unrelated record-keeping systems are reduced to one 
 Role truth (controls only, never used for Linear A) comes from conventional meanings of the
 known systems:  COM commodity, TOT total, PER person, PLA place, TRA transaction, HDR office/header,
 UNI unit.  Khipus: TOT = top cords (a physical attachment class, not an arithmetic one).
-Systems: PC proto-cuneiform (Uruk IV-III), UR3 Ur III admin, OB Old Babylonian admin, NB Neo-Babylonian
+Systems: PC proto-cuneiform (Uruk IV-III), UR3 Ur III admin, OB Old Babylonian admin, EB Ebla admin (Syria), OA Old Assyrian
 admin (CDLI), LB Linear B KN+PY (DAMOS), KH Inca khipus (Open Khipu Repository), PLANT (made-up, test only).
 """
 import os, re, sys, json, math, random, hashlib, collections, csv, sqlite3, unicodedata
@@ -23,8 +23,8 @@ SCRATCH = '/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/
 PE = os.path.join(HERE, '..', '..', 'proto-elamite')
 KHDB = os.path.join(SCRATCH, 'codelib', 'open-khipu-repository-2.1.0', 'data', 'khipu.db')
 ROLES = ['COM', 'TOT', 'PER', 'PLA', 'TRA', 'HDR', 'UNI']
-KNOWN = ['PC', 'UR3', 'OB', 'NB', 'LB', 'KH']
-CIV = {'PC': 'MESO', 'UR3': 'MESO', 'OB': 'MESO', 'NB': 'MESO', 'LB': 'AEGEAN', 'KH': 'ANDES'}
+KNOWN = ['PC', 'UR3', 'OB', 'EB', 'OA', 'LB', 'KH']
+CIV = {'PC': 'MESO', 'UR3': 'MESO', 'OB': 'MESO', 'EB': 'SYRIA', 'OA': 'ASSUR', 'LB': 'AEGEAN', 'KH': 'ANDES'}
 
 
 def seed(name):
@@ -143,11 +143,11 @@ def lb_truth(docs):
     return out
 
 
-# =============================================================== CDLI (UR3, OB, NB)
+# =============================================================== CDLI (UR3, OB, EB, OA)
 UR_INT = {'disz': 1, 'asz': 1, 'u': 10, 'gesz2': 60, "gesz'u": 600, 'szar2': 3600, "szar'u": 36000,
           'diš': 1, 'aš': 1}
 UR_CAPU = {'barig': 60, 'ban2': 10}
-NUMRE = re.compile(r"^(\d+(?:/\d+)?)\(([a-z']+\d?)\)$")
+NUMRE = re.compile(r"^(\d+(?:/\d+)?)\(([a-z']+\d?)(?:@[a-z0-9]+)*\)$")
 
 
 def _cdli(period_pred, nmax, tag):
@@ -225,9 +225,12 @@ def ob_docs():
                                            p.startswith('Early Old Babylonian'), 5000, 'OB'))
 
 
-def nb_docs():
-    return _cache('nb_docs', lambda: _cdli(lambda p: p.startswith('Neo-Babylonian') or
-                                           p.startswith('Achaemenid'), 5000, 'NB'))
+def eb_docs():
+    return _cache('eb_docs', lambda: _cdli(lambda p: p.startswith('Ebla'), 5000, 'EB'))
+
+
+def oa_docs():
+    return _cache('oa_docs', lambda: _cdli(lambda p: p.startswith('Old Assyrian'), 5000, 'OA'))
 
 
 MESO_W = {
@@ -404,7 +407,7 @@ def plant_docs(n_tok, rng):
 
 
 LOADERS = {'PC': (pc_docs, pc_truth), 'UR3': (ur3_docs, meso_truth), 'OB': (ob_docs, meso_truth),
-           'NB': (nb_docs, meso_truth), 'LB': (lb_docs, lb_truth), 'KH': (kh_docs, None)}
+           'EB': (eb_docs, meso_truth), 'OA': (oa_docs, meso_truth), 'LB': (lb_docs, lb_truth), 'KH': (kh_docs, None)}
 
 
 def ntok(docs):

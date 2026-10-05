@@ -118,8 +118,8 @@ elif part == 'plant':
         for p in P:
             p = dict(p)
             a = truth.get(p['kc'], 'none')
-            if a == 'none':
-                p['q'] = p['q']  # keep real (unstructured w.r.t. physics)
+            if a == 'none' or rng.random() < 0.3:
+                p['q'] = p['q']  # keep real (junk w.r.t. physics): none-keys and 30% of each key
             else:
                 j = ACTS.index(a)
                 lit = p['c'] * math.exp(rng.normal(MU[j], SD[j])) * (math.exp(ta) if ISAREA[j] else 1)
