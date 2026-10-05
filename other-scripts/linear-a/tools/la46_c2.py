@@ -14,6 +14,7 @@ from la46_c1 import build
 N_SPLIT = int(os.environ.get('LA46_NSPLIT', '6'))
 N_A = int(os.environ.get('LA46_NA', '40'))
 N_B = int(os.environ.get('LA46_NB', '30'))
+MODE = os.environ.get('LA46_MODE', 'mean')
 PTH = float(os.environ.get('LA46_PTH', '0.01'))
 
 
@@ -40,12 +41,12 @@ def score(doc, W):
 
 def main():
     for name in sys.argv[1:]:
-        fn = os.path.join(CK, 'c2_%s.json' % name)
+        fn = os.path.join(CK, 'c2_%s_%s.json' % (MODE, name))
         if os.path.exists(fn):
             continue
         t0 = time.time()
         docs, truth = build(name)
-        logf = open(os.path.join(CK, 'c2_%s.log' % name), 'w')
+        logf = open(os.path.join(CK, 'c2_%s_%s.log' % (MODE, name)), 'w')
 
         def log(s):
             logf.write(s + '\n'); logf.flush()
@@ -56,7 +57,7 @@ def main():
             A = [docs[i] for i in idx[:len(docs) // 2]]
             B = [docs[i] for i in idx[len(docs) // 2:]]
             real, gE, _, _ = contest(A, N_A, rng)
-            res = residues(real, gE)
+            res = residues_mean(real, gE, contest.last_gn) if MODE == 'mean' else residues(real, gE)
             W = {}
             fam_ct = collections.Counter()
             for k, R, M, m, p in res:

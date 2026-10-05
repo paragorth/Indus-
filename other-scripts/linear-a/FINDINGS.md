@@ -387,3 +387,12 @@ Caveats: 65% of the data is from Hagia Triada. Absences are upper bounds only. T
 - Grade A (method, calibrated negative): the type checker cannot name word roles from structure. In Linear B at Linear A size forced roles match known classes no better than shuffled words or the majority class (TO-SO is never typed as a total, even on all of KN+PY), and rule systems learned on Knossos score at chance on Pylos (0.176 vs permuted-label search 0.174). No Linear A word class is established this way. Its 27 'forced' non-default roles (KU-RO, PO-TO-KU-RO total; TE, SA, *307 qualifier; A, A-DU, MA, JA, KU-RE, U heading) echo the rules, and KU-RO keeps 'total' in only 3 of 12 half-corpora.
 - Grade B (calibrated, relative): role partitions are reproducible across disjoint halves in Pylos (ARI 0.22-0.33 at matched size) and much less in Linear A (0.10-0.14; shuffled ~0). LA word types carry position/role identity at about 0.4x Linear B strength, in line with la8's flat two-open-class grammar.
 - Grade C: KU-RE, U, A, DA, KA-NA are heading-type words (first on the tablet, no count; same role in 3-5 of 4-6 held-out halves). Would support: these words opening new tablets without a number; would kill: them as counted entry heads on new tablets.
+
+## la45 adversarial self-play (5 Oct 2026)
+Proposer and critic machines argued over value-free meanings for about 1.4 billion candidates. The controls (planted system, Ur III, Linear B) passed.
+- **B:** VIN, OLE, OLIV, VIR, GRA, NI and the single signs KI, DI, RE, TI and MA settle into one counted-commodity meaning. This comes from the type of document they appear in, not from word order.
+- **B:** single-sign nodule words (*301, KA, KU, SI, RO, ZE) form a heading class.
+- **B (negative):** Linear A tablets carry at most about 0.2 bits of role signal in word order, against at least 1 bit in Linear B and Ur III. Meanings learned at Hagia Triada predict other sites worse than having no meanings.
+- **C:** OLE+U, OLE+MI and OLE+DI act as entries rather than commodities. Would support: they appear with personal-name-like words in new finds. Would kill: they appear in commodity slots after a word.
+
+Open question: if word order carries so little, where does Linear A put its structure? la47 tests the physical layout.

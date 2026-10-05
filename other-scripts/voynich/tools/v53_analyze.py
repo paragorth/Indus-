@@ -109,7 +109,12 @@ def lm_train(c, abbr):
     for i in range(2, len(s)):
         tri[s[i - 2:i + 1]] += 1; bi[s[i - 2:i]] += 1
     alpha = set(s)
-    return {'tri': tri, 'bi': bi, 'A': len(alpha), 'lex': set(aw), 'V': V}
+    return {'tri': tri, 'bi': bi, 'A': len(alpha), 'lex': set(aw), 'V': V, 'wbi': set(zip(aw, aw[1:]))}
+
+
+def bihit(words, lm):
+    pr = list(zip(words, words[1:]))
+    return sum(p in lm['wbi'] for p in pr) / max(1, len(pr))
 
 
 LMC = {}
@@ -143,17 +148,28 @@ def inverse_test(p, nshuf=10, seed=0):
     lm = LMC[key]
     words, cov = decoded_words(m, B)
     real = {'hit': sum(x in lm['lex'] for x in words) / max(1, len(words)), 'bits': lm_score(words, lm), 'cov': cov,
-            'n': len(words), 'sample': ' '.join(words[:25])}
+            'n': len(words), 'sample': ' '.join(words[:25]), 'bihit': bihit(words, lm)}
     rng = random.Random(seed)
     sh = []
     for k in range(nshuf):
         Bs = [[''.join(rng.sample(x, len(x))) for x in l] for l in B]
         ws2, cov2 = decoded_words(m, Bs)
         sh.append({'hit': sum(x in lm['lex'] for x in ws2) / max(1, len(ws2)), 'bits': lm_score(ws2, lm), 'cov': cov2})
+    # word-order null: target words shuffled within the half (keeps every word, kills sequence)
+    allw = [x for l in B for x in l]
+    wsh = []
+    for k in range(nshuf):
+        rng.shuffle(allw)
+        it = iter(allw)
+        Bw = [[next(it) for _ in l] for l in B]
+        ws3, _ = decoded_words(m, Bw)
+        wsh.append(bihit(ws3, lm))
+    mu = sum(wsh) / len(wsh); sd = (sum((x - mu) ** 2 for x in wsh) / (len(wsh) - 1)) ** 0.5 or 1e-6
+    real['bihit_wshuf'] = mu; real['z_bihit'] = (real['bihit'] - mu) / sd
     # positive: the program's own plaintext output decoded
     own, _, _, _ = encode(m, max_tokens=4000)
     wo, covo = decoded_words(m, own)
-    pos = {'hit': sum(x in lm['lex'] for x in wo) / max(1, len(wo)), 'bits': lm_score(wo, lm), 'cov': covo}
+    pos = {'hit': sum(x in lm['lex'] for x in wo) / max(1, len(wo)), 'bits': lm_score(wo, lm), 'cov': covo, 'bihit': bihit(wo, lm)}
 
     def z(key, sign):
         v = [s[key] for s in sh]; mu = sum(v) / len(v); sd = (sum((x - mu) ** 2 for x in v) / (len(v) - 1)) ** 0.5 or 1e-6
@@ -224,7 +240,7 @@ for f, p, r, c, s in pick:
     except Exception as e:
         P('inverse fail', c, e); continue
     inv.append({'corpus': c, 'seed': s, 'heldout_fit': f, 'motif': list(map(str, motif_key(p))), **it})
-    P(f'  inverse {c:9s} fit {f:.3f} cov {it["real"]["cov"]:.2f} hit {it["real"]["hit"]:.3f} (shuf {it["shuf_hit"]:.3f}, z {it["z_hit"]:+.1f}; own {it["own"]["hit"]:.2f}) bits {it["real"]["bits"]:.2f} (shuf {it["shuf_bits"]:.2f}, z {it["z_bits"]:+.1f}; own {it["own"]["bits"]:.2f}) | {it["real"]["sample"][:90]}')
+    P(f'  inverse {c:9s} fit {f:.3f} cov {it["real"]["cov"]:.2f} hit {it["real"]["hit"]:.3f} (shuf {it["shuf_hit"]:.3f}, z {it["z_hit"]:+.1f}; own {it["own"]["hit"]:.2f}) bits {it["real"]["bits"]:.2f} (shuf {it["shuf_bits"]:.2f}, z {it["z_bits"]:+.1f}; own {it["own"]["bits"]:.2f}) bigram-hit {it["real"]["bihit"]:.3f} (word-shuf {it["real"]["bihit_wshuf"]:.3f}, z {it["real"]["z_bihit"]:+.1f}; own {it["own"]["bihit"]:.2f}) | {it["real"]["sample"][:90]}')
 OUT['inverse'] = inv
 
 # payload positions: consensus over the 10 best programs

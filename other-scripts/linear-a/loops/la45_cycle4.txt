@@ -1,0 +1,14 @@
+# LA-45 cycle 4: do the meanings predict NEW FINDS? (time split)
+# tools/la45_c4.py, la45_report.py; checkpoints data/la45_ckpt/c4_*.json, c4.log, c4_report.txt
+# Linear A: Proposers train on GORILA vols 1-3 (1976-79; 4,319 tokens); Critic vault = documents with no publication link (535 tokens);
+# final test = GORILA 4-5 (1982-85) and post-1985 papers (391 tokens, mostly Knossos, Khania, Palaikastro, Thera, Iouktas).
+# Controls at the same sizes: LB (train KN+PY, final = Thebes, a later find), Ur III (train Umma + Puzrish-Dagan + Girsu, final = Ur + Nippur),
+# planted (random), LA_TIME_S1. Same game; 6 populations each; 330 M evaluations.
+| LA-<n>.<cycle> | method and control | result | verdict |
+|---|---|---|---|
+| LA-45.4a | PLANTED (random 'later' documents) | gain +2.33..+2.89 bits/occ; NMI 0.74 vs null 0.05 +- 0.01; TOTAL 1/1, COMMODITY 9/9 | PASS |
+| LA-45.4b | LINEAR B, KN+PY -> Thebes (50 scorable occurrences) | gain -0.41..+0.45 (mean -0.05), contradictions 6-8% | Real controls do NOT transfer to a different archive at this tiny size (power floor) |
+| LA-45.4c | UR III, Umma/Puzrish-Dagan/Girsu -> Ur + Nippur (196 occurrences) | gain -0.14..+0.11 (mean +0.01), contradictions 3-9% | Same: about zero |
+| LA-45.4d | LINEAR A, GORILA 1-3 -> later publications (73 scorable occurrences) | gain -2.22..-2.79 bits/occ in 6/6 populations (mean -2.57); one-meaning model -0.01 | Meanings fitted on the early (mostly Hagia Triada) corpus actively mispredict the new finds, ~2.5 bits below both real controls |
+| LA-45.4e | LA_TIME_S1 (type-shuffled LA, same split) | gain -0.26..+0.29 | As the real controls |
+| LA-45.4 verdict | | Real controls fall to ~0 on another archive at this size; Linear A falls to -2.6 bits. | GRADE B (calibrated, replicates cycle 2): the usage that settles at Hagia Triada contradicts usage in the newer, non-HT finds; whatever the HT meanings are, they are local. No prediction outside the corpus succeeds. NOT CRACKED. |

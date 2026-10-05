@@ -449,6 +449,7 @@ def contest(docs, n_arch, rng, folds=5, reps=3, arch_list=None, log=None):
     for g in grp_E:
         for key in grp_E[g]:
             grp_E[g][key] /= grp_n[g]
+    contest.last_gn = dict(grp_n)
     return real, grp_E, len(docs), archs
 
 
@@ -485,6 +486,18 @@ def residues(real, grp_E, min_real=3):
         Es = [grp_E[g].get(key, 0.0) for g in groups]
         M = max(Es)
         out.append((key, R, M, min(Es), pois_sf(R, M)))
+    return out
+
+
+def residues_mean(real, grp_E, gn, min_real=3):
+    """Per relation: real count R vs the ensemble mean expectation over all architectures."""
+    tot = sum(gn.values())
+    out = []
+    for key, R in real.items():
+        if R < min_real:
+            continue
+        E = sum(grp_E[g].get(key, 0.0) * gn[g] for g in grp_E) / tot
+        out.append((key, R, E, E, pois_sf(R, E)))
     return out
 
 
