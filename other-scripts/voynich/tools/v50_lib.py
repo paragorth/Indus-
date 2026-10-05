@@ -48,7 +48,10 @@ def noise_scale(Ds, n, groups):
     for k in np.unique(key):
         ix = key == k
         sd[ix] = math.sqrt(max(np.mean(V[ix]), 1e-12))
-    return np.maximum(sd, np.sqrt(V))   # conservative: never below the path's own replicate spread
+    # conservative: never below the path's own spread across the reference replicates (all but the last one,
+    # which plays the pseudo-real in the null and so must not enter its own scale)
+    Vr = np.var(np.stack(Ds[:-1]), axis=0, ddof=1)
+    return np.maximum(sd, np.sqrt(Vr))
 
 
 def zscores(x, reps, groups, minn=300):

@@ -729,3 +729,10 @@ The generator-like statistics that earlier pointed at "meaningless" (v31, v33) d
 
 ## v52 the book as a database (5 Oct 2026)
 Voynich words do not behave like record keys with attribute fields (grade B, negative). Of about 16,000 random slot schemas, none beats a field-free null on held-out pages (0.19–0.20 against 0.20). Controls passed: a planted catalogue, Linear A catalogue numbers and abbreviated Unicode names. Grade A, measurement: the best schema re-finds known effects: initial a- tracks the previous word, q/p/gallows track line position, the ending tracks Currier language, and the long middle tracks nothing external. Grade C: only word edges act like fields, and they point to the neighbouring word. Would kill: the effect goes away if r/s+a- and y+q- are read as misplaced spaces. If meaning is carried anywhere, the word middles are the candidate payload.
+
+## Let a speech model listen (v51, 5 Oct 2026; `loops/v51_final.txt`)
+- Text rendered as audio under 565 random phone mappings (formant synthesiser, random durations, pitch and stress rules) and scored by a multilingual speech recogniser trained only on human speech (18,000 clips).
+- The listener hears unit-transition structure only: languages beat their own shuffles weakly and unstably (z -0.3 to +3.7), Markov-1 resyntheses do about as well, and Voynich-fitted generators (self-citation, Markov-2) pass while gibberish and a table grille fail. Voynich ZL +1.3 to +2.0, inside both bands (Grade B, negative).
+- No mapping found on one half of the Voynich stays speech-like on the other half (p 0.52); the same search cannot recover the vowels of German or Esperanto, so no glyph-class reading is offered (Grade B).
+- Sections: stars/recipes > biological > herbal > pharma nominally (stars - pharma z +2.0), but the ranking does not reproduce across mapping halves (rho 0.18). The listener's language guess does not track the source language even for the controls. Not cracked.
+

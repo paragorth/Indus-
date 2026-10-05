@@ -27,6 +27,18 @@ def main():
     res['REAL_top'] = [{'i': int(i), 'z': float(z[i]), 'D': float(x['D'][i]), 'Dls': float(np.mean([r['D'][i] for r in reps[:3]])),
                         'n': int(x['n'][i]), 'spec': L.spec_str(i, S)} for i in order[:40]]
     res['REAL_n_above_T'] = int(np.sum(z > T))
+    from collections import Counter
+    surv = np.where(z > T)[0]
+    res['REAL_above_T_by_family'] = [[f'unit{a} sel{b} start{c}', n] for (a, b, c), n in
+                                     Counter((int(unit[i]), int(sel[i]), int(start[i])) for i in surv).most_common()]
+    # known-effect control: line-initial words permuted within each page (kills the v6 margin chain)
+    if len(surv):
+        fw = L.run_sub('REAL_FW', surv, 'c1_fw')
+        fwr = [L.run_sub(f'REAL_FW_LS{k}', surv, f'c1_fw_LS{k}') for k in (1, 2, 3)]
+        zfw = (fw['D'] - np.mean([r['D'] for r in fwr], axis=0)) / (sd[surv] * np.sqrt(1 + 1 / 3))
+        res['survivors'] = [{'i': int(i), 'z': float(z[i]), 'z_FW': float(a), 'D': float(x['D'][i]), 'n': int(x['n'][i]),
+                             'spec': L.spec_str(int(i), S)} for i, a in sorted(zip(surv, zfw), key=lambda t: -z[t[0]])]
+        res['n_surv_FW_above_T'] = int(np.sum(zfw > T)); res['n_surv_FW_above_3'] = int(np.sum(zfw > 3))
     xm, rm, zm, z0m, sdm = base['MK']
     om = np.argsort(-np.nan_to_num(zm, nan=-1e9))
     res['MK_top'] = [{'i': int(i), 'z': float(zm[i]), 'spec': L.spec_str(i, S)} for i in om[:5]]

@@ -1,0 +1,10 @@
+pe41 cycle 3 -- let a script we can read choose which machine societies to trust (tools/pe41_calib.py; numbers
+data/pe41_c3_calib.json; uses the 974 cycle-2 populations). Each population is scored by balanced accuracy of its own
+alignment labels on the pre-registered known proto-cuneiform signs (47 commodity, 6 title, 9 place, 5 action).
+Cross-validation: 50 stratified half-splits of the known signs; choose the best q of populations on half 1, pool their votes,
+score on half 2; nulls: the unselected pool and 20 random pools of the same size per split.
+
+| PE-41.3a | CV, q = 5 / 10 / 20% | held-out balanced accuracy 0.18 / 0.17 / 0.16 vs unselected 0.09 / 0.08 / 0.08 (selected beats unselected in 88-94% of splits) vs random pools 0.13-0.14 (mean p 0.32-0.41); chance 0.25. Per-population score transfer between halves r 0.40 | FAIL: selection helps relative to the anti-calibrated full pool but stays BELOW chance and not better than random pools. Some populations are consistently better on PC, yet none is good enough |
+| PE-41.3b | PC-selected pool (10%, 20%) votes on PE with the half-split control | PE agreement 0.41-0.42 vs perm 0.19-0.21; shuffled PE 0.19-0.21 (p 0.18-0.67); 32-45 replicated votes; list the same as 2e (M218, M288, M370, M004 NAME; M157, M157~a, |M327+M342|, |M327+X|, |M136+M365|, M005~a ACTION; M297~b, M149~a, M260 TOTAL) | the PE vote list is robust to the calibration choice, which only means it is driven by PE's structure, not by a meaning check |
+| PE-41.3c | Economy of PC-calibrated societies (10%) | more tablets (1224 vs 1060), bigger budget K (244 vs 171, z 4.7), names written more (0.82 vs 0.68), actions written in header and entries (0.53/0.31 vs 0.41/0.21), lower sign cost | the societies that read PC least badly are the ones that write MORE redundantly; motivates cycle 4 |
+| PE-41.3V | Cycle verdict | A real script cannot rescue the simulator: even the best-calibrated machine societies label PC's grain/animal/worker signs worse than chance | KILLED (labels); the PE vote list stays C at best |

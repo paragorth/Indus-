@@ -31,7 +31,7 @@ def zfull(x, reps, groups, key):
     sd = np.zeros_like(V)
     for k in np.unique(kk):
         ix = kk == k; sd[ix] = math.sqrt(max(np.mean(V[ix]), 1e-12))
-    sd = np.maximum(sd, np.sqrt(V))
+    sd = np.maximum(sd, np.sqrt(np.var(np.stack(Ds[:-1]), axis=0, ddof=1)))
     ref = np.mean(Ds[:-1], axis=0); c = math.sqrt(1 + 1 / (len(Ds) - 1))
     z = (x[key] - ref) / (sd * c); z0 = (Ds[-1] - ref) / (sd * c)
     bad = (x['n'] < 150) | (reps[0]['n'] < 150); z[bad] = np.nan; z0[bad] = np.nan

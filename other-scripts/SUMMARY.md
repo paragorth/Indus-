@@ -135,6 +135,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 The cheap data-only attacks on these three scripts are largely spent:
 - Residual test (v45): the word choices the Voynich rules leave open repeat within bifolios and quires but track no drawing or section; they behave like rule misfit plus drift, and the free vocabulary concentrates on paragraph-first lines (`voynich/loops/v45_final.txt`).
 - Opening-line rule-breakers (v49): they do not act like subject terms or borrowed names and form no second language layer. Calibrated against a real Italian-Latin herbal through a planted code, they are body vocabulary written with the opening-line gallows habit (`voynich/loops/v49_final.txt`).
+- Let a speech model listen (v51): Voynich text rendered as audio under 565 random phone mappings and scored by a multilingual speech recogniser sounds slightly more speech-like than its own shuffle, but so do Markov chains and Voynich-fitted generators, and the languages pass only weakly. No mapping, section or heard-language signal survives held-out tests (`voynich/loops/v51_final.txt`).
 - **Voynich:** the field is saturated. What we found replicates published work.
 - **Proto-Elamite and Linear A:** the limit is clean data (few balancing totals, small corpora), not method.
 
